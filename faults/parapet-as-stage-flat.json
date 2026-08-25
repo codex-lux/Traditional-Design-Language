@@ -198,7 +198,7 @@
    "units": "deg",
    "measurable_from": "photograph",
    "threshold": 0.5,
-   "note": "PUEBLO REVIVAL ONLY, and inverted: the parapet top is deliberately NOT level. A dead-straight parapet indicates a Territorial or commercial building rather than Pueblo Revival, which is the style node's own tell. SCOPED 24 Aug 2026 (OQ 41): this note begins 'PUEBLO REVIVAL ONLY, and inverted'. It is the only test in the corpus that fails a house for being level, so applied universally it failed every correctly-built Territorial, Mediterranean and commercial parapet there is.",
+   "note": "PUEBLO REVIVAL ONLY, and inverted: the parapet top is deliberately NOT level. A dead-straight parapet indicates a Territorial or commercial building rather than Pueblo Revival, which is the style node's own tell. SCOPED 24 Aug 2026 (OQ 63): this note begins 'PUEBLO REVIVAL ONLY, and inverted'. It is the only test in the corpus that fails a house for being level, so applied universally it failed every correctly-built Territorial, Mediterranean and commercial parapet there is.",
    "applies_to_styles": [
     "pueblo-revival"
    ]

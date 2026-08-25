@@ -120,7 +120,7 @@
     "eatin",
     "kitchen"
    ],
-   "note": "OQ 37: doored to the kitchen directly. family-room's own hard rule is must_adjoin kitchen, relation visible-from, and the eat-in area between them does not satisfy it -- the validator counts a hop only through CIRCULATION, and an eat-in area is a dining room. The tripartite ranch's whole point is that the family room, the eat-in area and the kitchen are one open zone, so the door is the diagram saying what it always meant."
+   "note": "OQ 59: doored to the kitchen directly. family-room's own hard rule is must_adjoin kitchen, relation visible-from, and the eat-in area between them does not satisfy it -- the validator counts a hop only through CIRCULATION, and an eat-in area is a dining room. The tripartite ranch's whole point is that the family room, the eat-in area and the kitchen are one open zone, so the door is the diagram saying what it always meant."
   },
   {
    "id": "kitchen",

@@ -1,0 +1,70 @@
+name: CI
+
+# Two jobs because they fail for different reasons and at different speeds. The corpus
+# suite is the slow, authoritative one (~3 min); the workbench job is fast feedback on
+# the things a deploy can break. Railway's "Wait for CI" gate watches both.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  corpus:
+    name: corpus — check_all.py
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        # The corpus itself has no dependencies; these are the checkers' own.
+        run: pip install jsonschema pytest
+      - name: check_all.py
+        # Reports the workbench suite as SKIP here — fastapi is deliberately not
+        # installed in this job, and the workbench job below runs it properly.
+        run: python3 build/check_all.py
+
+  workbench:
+    name: workbench — server tests + app build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The app is built FIRST, on purpose. test_example_plan_no_traversal asserts that a
+      # traversal URL lands on the SPA catch-all and gets index.html — and app.py only
+      # mounts that catch-all when workbench/app/dist exists. Run pytest against an
+      # unbuilt tree and that test fails for a reason that has nothing to do with the
+      # change under test.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: workbench/app/package-lock.json
+      - name: Install app deps
+        run: npm ci
+        working-directory: workbench/app
+      - name: Build app
+        # The Dockerfile runs this same build; a break here is a break in the image.
+        run: npm run build
+        working-directory: workbench/app
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install server deps
+        run: pip install -r workbench/requirements.txt
+      - name: Server tests
+        run: python3 -m pytest workbench/server/tests -q
+
+      - name: Smoke — HTTP results match the CLI's own
+        run: bash workbench/scripts/smoke.sh
+
+  image:
+    name: docker build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        # Proves the two-stage build still works before Railway attempts it.
+        run: docker build -t tdl-workbench .

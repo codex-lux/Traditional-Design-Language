@@ -1,4 +1,4 @@
-"""OQ 33 -- reserved voids.
+"""OQ 55 -- reserved voids.
 
 Ruled 24 Aug 2026: both placement engines carry outdoor rooms as placed, dimensioned voids,
 excluded from the area budget and the heated envelope, drawn open. Before the ruling every
@@ -231,56 +231,58 @@ def test_the_drawing_shows_the_court_open(geometry_module, court_plan, tmp_path)
 # ---------------------------------------------------------------- the constraint solver
 
 
-def test_the_solver_states_the_open_void_as_a_constraint_not_a_preference():
-    """geometry.py charges 40 points and can still buy its way out; solver.py cannot. A room
-    over a court is not a preference the optimiser may trade against anything."""
-    pytest.importorskip("ortools")
+def test_the_heuristic_still_charges_for_a_room_over_an_unroofed_void():
+    """The surviving half of OQ 55's guarantee, pinned on the engine that still holds it.
+
+    This replaces three tests that exercised `build/solver.py::unmet_requirements`. Two
+    sessions built WP-2.3 in parallel; `build/geometry_cp.py` is the engine that survived the
+    25 Aug merge and `solver.py` was deleted, so those three asserted a guarantee that no
+    longer has an implementation. Deleting them quietly would have removed the record that the
+    guarantee LAPSED on the CP path, so this pins what is actually true today, in both
+    directions: the heuristic charges 40 points for a room over an unroofed void and does not
+    charge for one over a roofed void (a Charleston single's upper piazza sits on its lower
+    one, correctly). The CP engine's silence is pinned by the test below it, not hidden."""
     import sys
     sys.path.insert(0, os.path.join(ROOT, "build"))
-    import solver
-    prep = {0: [{"id": "court", "type": "courtyard", "name": "Patio", "_area": 400,
-                 "_void": {"within_footprint": True, "roofed": False}}],
-            1: [{"id": "chamber", "type": "bedroom", "name": "Chamber", "_area": 200,
-                 "_void": False}]}
-    ground = {"court": (0.0, 0.0, 20.0, 20.0)}
-    upper = {"chamber": (2.0, 2.0, 14.0, 14.0)}
-    unmet = solver.unmet_requirements(ground, upper, prep, {"levels": []}, 40.0, 20.0)
-    assert "open-void:chamber~court" in unmet
-    clear = solver.unmet_requirements(ground, {"chamber": (22.0, 2.0, 14.0, 14.0)},
-                                      prep, {"levels": []}, 40.0, 20.0)
-    assert not any(u.startswith("open-void") for u in clear)
+    import modcache
+    geo = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    # vertical_score(ground_rects, upper_rects, ground_rooms, upper_rooms, plan); the room
+    # arguments are LISTS of room dicts, which the function indexes by id itself.
+    ground = [{"id": "court", "type": "courtyard",
+               "_void": {"within_footprint": True, "roofed": False}},
+              {"id": "solid", "type": "parlor", "_void": False}]
+    upper = [{"id": "chamber", "type": "bedroom", "_void": False}]
+    g = {"court": (0.0, 0.0, 20.0, 20.0), "solid": (20.0, 0.0, 20.0, 20.0)}
+    over = geo.vertical_score(g, {"chamber": (2.0, 2.0, 14.0, 14.0)}, ground, upper,
+                              {"levels": []})
+    clear = geo.vertical_score(g, {"chamber": (22.0, 2.0, 14.0, 14.0)}, ground, upper,
+                               {"levels": []})
+    assert over[0] >= clear[0] + 40, (over[0], clear[0])
+
+    roofed_ground = [{"id": "court", "type": "courtyard",
+                      "_void": {"within_footprint": True, "roofed": True}},
+                     {"id": "solid", "type": "parlor", "_void": False}]
+    roofed = geo.vertical_score(g, {"chamber": (2.0, 2.0, 14.0, 14.0)}, roofed_ground, upper,
+                                {"levels": []})
+    assert roofed[0] < over[0], "a roofed void must not be charged — that is the piazza case"
 
 
-def test_the_conflict_prose_can_say_what_an_open_void_requirement_means():
-    """Making a rule executable adds a test; it does not replace the statement."""
-    import sys
-    sys.path.insert(0, os.path.join(ROOT, "build"))
-    import solver
-    assert "open-void" in solver._KIND_PROSE
-    assert "open to the sky" in solver._KIND_PROSE["open-void"]
+def test_the_cp_engine_does_not_yet_enforce_the_open_void_and_that_is_stated():
+    """UNJUDGED IS NOT PASSED, applied to a capability rather than a measurement.
 
-
-def test_both_engines_report_the_reservation_the_same_way(geometry_module):
-    """The drawing is a render of the data, and two engines describing one court two different
-    ways would put that guarantee back in doubt -- so the report is built once and shared."""
-    import sys
-    sys.path.insert(0, os.path.join(ROOT, "build"))
-    import solver
-    # Not an identity check: build/ loads siblings by path through modcache, so solver.GEO and
-    # a plain `import geometry` are two module objects of the same file. What matters is that
-    # solver.py holds no second implementation and calls geometry.py's.
-    assert not hasattr(solver, "voids_report")
-    src = open(os.path.join(ROOT, "build", "solver.py")).read()
-    assert "def voids_report" not in src
-    assert "GEO.voids_report(" in src
-    assert solver.GEO.voids_report.__code__.co_filename == geometry_module.voids_report.__code__.co_filename
-    empty = geometry_module.voids_report({0: {}}, {0: []})
-    assert empty["count"] == 0 and empty["ring_layout"] is None
-
-
-# ---------------------------------------------------------------- OQ 39, the portal ring
-
-
+    `build/geometry_cp.py` carries no open-void constraint: the ring is stated as a guillotine
+    tree in `courtyard_slice()`, which is the heuristic's, and the CP engine reads no `_void`
+    fact at all. That is a real gap opened by the 25 Aug merge — the deleted `solver.py` DID
+    state it as a hard constraint — and it is recorded in OQ 55 rather than left for someone to
+    discover from a drawing. This test fails the day somebody teaches the CP engine about
+    voids, which is exactly when OQ 55's note should be rewritten."""
+    src = open(os.path.join(ROOT, "build", "geometry_cp.py")).read()
+    assert "_void" not in src, (
+        "geometry_cp.py now reads a void fact — good, but OQ 55 and this test both say it "
+        "does not. Update them together.")
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "the CP engine does not yet lay out a courtyard RING" in oq or \
+           "geometry_cp.py" in oq, "the lapse must be stated in the register, not only here"
 def test_the_portal_is_four_records_one_per_range():
     """A continuous roofed walk around four sides of a court cannot be one rectangle. It was
     one, so the engines placed it along one side and the other three ranges were entered from
@@ -379,7 +381,7 @@ def test_the_briefs_target_is_heated_area_not_the_block():
 
 
 def test_the_walk_is_laid_against_the_court_side_of_its_band(geometry_module, court_plan):
-    """OQ 40's consequence, and the reason it is stated rather than searched for. Once the four
+    """OQ 62's consequence, and the reason it is stated rather than searched for. Once the four
     walks carried real declared sizes, a walk small relative to its band was pushed off the court
     by the rooms beside it -- and a corredor that does not touch the void is not a corredor, it
     is a corridor with a view of one. The search is good at slicing a range and has no way to

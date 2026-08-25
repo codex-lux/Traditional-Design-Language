@@ -1,4 +1,4 @@
-"""OQ 40 -- `area_weight` was read as a boolean and never as a share.
+"""OQ 62 -- `area_weight` was read as a boolean and never as a share.
 
 `instantiate()` nudged a room 10% if it carried a weight AT ALL and then reached the target with
 one global factor, so the number itself decided nothing. A parti's weights read as a considered
@@ -82,7 +82,7 @@ def test_a_weight_is_not_renegotiated_by_the_global_factor():
     """A real share is not a starting suggestion. The weighted rooms are frozen before the
     scaling loop runs, which is the whole of what this ruling changes."""
     src = open(os.path.join(ROOT, "build", "compose.py")).read()
-    i = src.index("OQ 40, ruled 24 Aug 2026")
+    i = src.index("OQ 62, ruled 24 Aug 2026")
     j = src.index("for _ in range(4):", i)
     assert "frozen.add(r[\"id\"])" in src[i:j]
 
@@ -133,7 +133,7 @@ def test_a_weight_its_own_band_cannot_honour_is_reported_not_split_quietly():
 
 def test_a_void_is_weighted_against_the_brief_and_not_against_the_block():
     """The court is 0.18 of the house the brief asked for. That the house also has a court is
-    what makes the block bigger than the brief (OQ 33); sizing the court against the block would
+    what makes the block bigger than the brief (OQ 55); sizing the court against the block would
     be circular."""
     c, plan, log, parti, rooms = sized("courtyard-and-portal", "spanish-colonial-revival", 3000)
     court = rooms["court"]

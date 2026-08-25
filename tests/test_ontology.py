@@ -69,7 +69,7 @@ def test_new_wall_thickness_slots_exist_on_every_kit():
     reached everything and check_kits.py has something to validate no
     matter which kits have been authored yet."""
     import glob
-    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for path in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         kit = json.load(open(path))
         for sid in ("wall_thickness_masonry", "wall_thickness_frame"):
             assert sid in kit["slots"], (path, sid)
@@ -238,7 +238,7 @@ def test_the_corpus_itself_passes_the_family_check():
                for g in d["groups"] for s in g["slots"]
                if s.get("derives_from_module")}
     errs = []
-    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for path in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         nid = os.path.basename(path)[: -len(".kit.json")]
         ck.check_derived_module_family(errs, nid, json.load(open(path)), derives)
     assert errs == [], errs
@@ -262,7 +262,7 @@ def test_the_arch_slot_exists_and_states_its_boundary_with_the_window_head():
 
 def test_every_kit_carries_the_new_slot():
     import glob
-    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for path in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         kit = json.load(open(path))
         assert "arch" in kit["slots"], path
         assert "expressed_frame" in kit["slots"], path
@@ -287,10 +287,10 @@ def test_only_the_bindings_that_were_about_an_arch_moved():
     """The 22 was a KEYWORD count, and most of the 22 are genuinely window-head statements that
     mention an arch -- a stone lintel with a hood mould, a flat gauged arch as a head, a plain
     band. Migrating on the keyword would have been the keyword deciding rather than the content,
-    which is the same mistake OQ 41's sweep had to avoid."""
+    which is the same mistake OQ 63's sweep had to avoid."""
     import glob
     moved = 0
-    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for path in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         if json.load(open(path))["slots"]["arch"].get("binding") == "specified": moved += 1
     assert moved == 8, moved      # six whole + two split
 
@@ -315,7 +315,7 @@ def test_the_moorish_pack_now_targets_the_slot_it_wanted():
     """The pack that found the gap. Its arch rules pointed at window_head_masonry and said so in
     their own notes; they point at `arch` now."""
     import glob
-    p = next(x for x in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))
+    p = next(x for x in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")))
              if json.load(open(x))["id"] == "moorish-arch")
     d = json.load(open(p))
     targets = {r["target_slot"] for r in d["derived_rules"]}

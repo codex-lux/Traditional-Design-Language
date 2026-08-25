@@ -110,7 +110,7 @@ Hard constraints are what stop a generator from producing incoherent houses. The
 Since WP-1.1 (23 Aug 2026), a constraint can additionally carry a formal `test` — the fault corpus's own `expression`/`threshold`/`direction` pattern, extended with a `one-of` direction and a `scope` field — so the statement above is no longer only prose a person reads; it can be an expression the validator, composer or geometry solver evaluates directly, with the same "unjudged, not passed" honesty as everything else in this corpus when the sources don't determine a number. See **`docs/constraints.md`** for the full rule language, and note that this is a migration in progress, not a completed conversion: as of this writing 140 of the corpus's 660 constraints (the `english-classical` and `american-colonial` families, as a worked example) have been migrated to carry `id`/`scope`/`test`; the rest are still the prose-with-kind-and-severity shape described above, which remains a perfectly valid record — migration adds fields, it does not invalidate what came before it.
 
 
-## Scoping an edge to the slots it was drawn for (OQ 36)
+## Scoping an edge to the slots it was drawn for (OQ 58)
 
 A lineage edge may carry a `slots` list. When it does, that edge transmits those slots and
 nothing else. When it does not — which is almost every edge — it transmits the ancestor's whole

@@ -381,7 +381,7 @@
   },
   "void": {
    "type": "object",
-   "description": "Only meaningful on a room whose `function_class` is `outdoor`. OQ 33, ruled 24 Aug 2026: the placement engines carry outdoor rooms as reserved voids -- placed and dimensioned, excluded from the area budget and from the heated envelope, drawn open. To place one you have to know two facts about it that no field carried, and they are independent: whether the void sits INSIDE the block outline (a courtyard, a Charleston piazza) or is appended to it at grade (a terrace), and whether it is ROOFED (a loggia is; a courtyard is not). The first decides whether it takes a rectangle in the footprint; the second decides whether anything may sit above it. Absent, a room is treated as `within_footprint: false` -- the behaviour before this ruling, which is to leave it out of placement entirely. This is not the `void` function_class the ruling rejected as option (b): function_class is untouched, nothing is re-typed, and the field is descriptive rather than a second classification axis.",
+   "description": "Only meaningful on a room whose `function_class` is `outdoor`. OQ 55, ruled 24 Aug 2026: the placement engines carry outdoor rooms as reserved voids -- placed and dimensioned, excluded from the area budget and from the heated envelope, drawn open. To place one you have to know two facts about it that no field carried, and they are independent: whether the void sits INSIDE the block outline (a courtyard, a Charleston piazza) or is appended to it at grade (a terrace), and whether it is ROOFED (a loggia is; a courtyard is not). The first decides whether it takes a rectangle in the footprint; the second decides whether anything may sit above it. Absent, a room is treated as `within_footprint: false` -- the behaviour before this ruling, which is to leave it out of placement entirely. This is not the `void` function_class the ruling rejected as option (b): function_class is untouched, nothing is re-typed, and the field is descriptive rather than a second classification axis.",
    "additionalProperties": false,
    "required": [
     "within_footprint",
@@ -428,7 +428,7 @@
       "open-to-below",
       "open-to-above"
      ],
-     "description": "How the two rooms are related. `open-to-below` and `open-to-above` are VERTICAL and were added by OQ 35: a room may be open to a double-height volume on the storey beneath it, which is the whole of what an overlook is, and no arrangement within one level can satisfy that. plan_check.py evaluates them across levels."
+     "description": "How the two rooms are related. `open-to-below` and `open-to-above` are VERTICAL and were added by OQ 57: a room may be open to a double-height volume on the storey beneath it, which is the whole of what an overlook is, and no arrangement within one level can satisfy that. plan_check.py evaluates them across levels."
     },
     "strength": {
      "enum": [
@@ -453,7 +453,7 @@
     },
     "vertical_ok": {
      "type": "boolean",
-     "description": "Whether a normally horizontal rule is ALSO satisfied by the target sitting directly above or below. Added by OQ 35 for the case the corpus could not express: a great chamber over the parlour is a drawing room, and drawing-room's hard rule that it must reach a dining room is a GROUND-FLOOR rule -- an upper-floor state room can satisfy it only vertically, and without this it trips a fatal for the one arrangement the type is famous for. Defaults to false, so no existing rule changes meaning."
+     "description": "Whether a normally horizontal rule is ALSO satisfied by the target sitting directly above or below. Added by OQ 57 for the case the corpus could not express: a great chamber over the parlour is a drawing room, and drawing-room's hard rule that it must reach a dining room is a GROUND-FLOOR rule -- an upper-floor state room can satisfy it only vertically, and without this it trips a fatal for the one arrangement the type is famous for. Defaults to false, so no existing rule changes meaning."
     }
    }
   }

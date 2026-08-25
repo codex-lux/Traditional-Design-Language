@@ -78,7 +78,7 @@ def render(plan, path, scale=7.0):
              f'.win{{stroke:{PAL["brass"]};stroke-width:2.6;fill:none}}'
              f'.dr{{stroke:{PAL["verd"]};stroke-width:1.5;fill:none}}'
              f'</style>')
-    # OQ 33: the hatch a reserved void that is open to the sky is filled with.
+    # OQ 55: the hatch a reserved void that is open to the sky is filled with.
     s.append(f'<defs><pattern id="openvoid" width="9" height="9" patternUnits="userSpaceOnUse" '
              f'patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="9" '
              f'stroke="{PAL["rule"]}" stroke-width="0.9" opacity="0.7"/></pattern></defs>')
@@ -92,6 +92,14 @@ def render(plan, path, scale=7.0):
         s.append(f'<text class="lb" x="{pad}" y="70" fill="{PAL["copper"] if rl.get("count") else PAL["verd"]}">'
                  f'{rl.get("count",0)} CUT(S) OFF THE BAY LINE'
                  + (f", WORST {rl.get('max_off_grid_ft')} FT" if rl.get("count") else "") + '</text>')
+        # WP-2.3: a proven-infeasible plan is drawn as the labelled least-bad
+        # relaxation, never as if it were fine — the label is data, not decoration
+        inf = gr.get("infeasible")
+        if inf:
+            n = len(inf.get("conflicts", []))
+            s.append(f'<text class="lb" x="{pad}" y="84" fill="{PAL["iron"]}">'
+                     f'INFEASIBLE AS DECLARED — {n} CONFLICT(S) PROVEN; THIS DRAWING IS THE '
+                     f'LEAST-BAD RELAXATION (SEE GEOMETRY_REPORT.INFEASIBLE)</text>')
 
     for i, lv in enumerate(levels):
         ox = pad + i*(panel_w+gap) + extra_left; oy = top + extra_top
@@ -125,7 +133,7 @@ def render(plan, path, scale=7.0):
             if not g: continue
             fc = FILL.get(C["rooms"].get(r["type"], {}).get("function_class"), "#16303F")
             x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
-            # OQ 33: a reserved void is drawn OPEN -- the ground colour, not a room fill, so a
+            # OQ 55: a reserved void is drawn OPEN -- the ground colour, not a room fill, so a
             # court reads as the outside it is rather than as a dark room. A roofed void keeps a
             # faint fill, because a loggia is covered and a patio is not, and the drawing is
             # supposed to be able to tell you which.

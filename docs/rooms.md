@@ -42,8 +42,8 @@ They are independent, and both are needed to place one. Current values: `courtya
 carries a `note` deriving the answer from the room's own description.
 
 A room with no `void` block is treated as `within_footprint: false` and stays out of placement.
-That default is deliberate: it is the behaviour before OQ 33, and a room nobody has judged must
+That default is deliberate: it is the behaviour before OQ 55, and a room nobody has judged must
 not be silently promoted into the footprint.
 
-This is **not** a second classification axis and it is not the `void` function_class OQ 33
+This is **not** a second classification axis and it is not the `void` function_class OQ 55
 rejected. `function_class` is untouched; the block is descriptive.

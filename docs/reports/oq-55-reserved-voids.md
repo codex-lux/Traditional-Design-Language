@@ -1,4 +1,4 @@
-# OQ 33 — reserved voids in both placement engines
+# OQ 55 — reserved voids in both placement engines
 
 *24 Aug 2026. Ruled by Lucas: option (a) — "both engines carry outdoor rooms as placed,
 dimensioned voids, excluded from the area budget and the heated envelope, drawn as open."*
@@ -93,11 +93,11 @@ rather than a fallback dressed as one.
 ## Deliberately not done
 
 - **The roof over a court is stated, not derived.** Ranges, four eaves, valleys, and the
-  inward-falling pitch that drains to the court are not modelled. Raised as **OQ 38**.
+  inward-falling pitch that drains to the court are not modelled. Raised as **OQ 60**.
 - **The portal range is one rectangle and cannot be.** A continuous roofed walk around four sides
   of a court is one room record, so it is placed along one side and the other three ranges are
   entered from nothing. The validator does not see it because it never reads `room.geometry`.
-  Raised as **OQ 39** rather than fixed, because the obvious fix changes what a room *is*.
+  Raised as **OQ 61** rather than fixed, because the obvious fix changes what a room *is*.
 - **Terraces stay out of placement**, which for a terrace is the right answer, not a limitation.
 
 ## Found in passing, unrelated
@@ -105,7 +105,7 @@ rather than a fallback dressed as one.
 Five of twenty-one partis carry **fatal** findings against their own native style
 (`cape-central-chimney` 4, `five-part-palladian` 4, `charleston-single-piazza` 2,
 `creole-gallery` 2, `ranch-tripartite` 1), so the composer will not recommend them for the styles
-they were written for. Verified pre-existing against the tree before this work. Raised as **OQ 37**.
+they were written for. Verified pre-existing against the tree before this work. Raised as **OQ 59**.
 
 ## Verification
 

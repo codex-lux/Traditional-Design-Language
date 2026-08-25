@@ -13,7 +13,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
 nodes = {}
-for f in glob.glob("styles/*.json"):
+for f in sorted(glob.glob("styles/*.json")):
     n = json.load(open(f)); nodes[n["id"]] = n
 slots_doc = json.load(open("elements/slots.json"))
 KIT_VERSION = json.load(open("schema/kit.schema.json")).get("version", "0.2.1")
@@ -51,7 +51,7 @@ for i, n in nodes.items():
     json.dump(kit, open(path, "w"), indent=2, ensure_ascii=False); made += 1
 
 # ---------- 2. cascade ----------
-# OQ 36: ancestor -> the slots that ancestor is allowed to contribute, where an edge said so.
+# OQ 58: ancestor -> the slots that ancestor is allowed to contribute, where an edge said so.
 # Keyed by (descendant, ancestor) because the same ancestor may be reached narrowly from one node
 # and wholly from another. Absent means "everything", which is the historical behaviour.
 EDGE_SCOPE = {}

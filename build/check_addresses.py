@@ -48,10 +48,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def load():
     packs = {}
-    for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
         d = json.load(open(f))
         packs[d["id"]] = d
-    nodes = [json.load(open(f)) for f in glob.glob(os.path.join(ROOT, "styles", "*.json"))]
+    nodes = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json")))]
     return packs, nodes
 
 

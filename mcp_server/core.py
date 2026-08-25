@@ -33,10 +33,10 @@ def _load_engine():
 @functools.lru_cache(maxsize=1)
 def _data():
     styles = {}
-    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         n = json.load(open(f)); styles[n["id"]] = n
     faults = {}
-    for f in glob.glob(os.path.join(ROOT, "faults", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
         n = json.load(open(f)); faults[n["id"]] = n
     slots, groups = {}, []
     sd = json.load(open(os.path.join(ROOT, "elements", "slots.json")))
@@ -47,12 +47,12 @@ def _data():
     try: assets = json.load(open(os.path.join(ROOT, "assets", "manifest.json")))["assets"]
     except Exception: assets = []
     kits = {}
-    for f in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         k = json.load(open(f)); kits[k["style"]] = k
     rooms, groupings = {}, {}
-    for f in glob.glob(os.path.join(ROOT, "rooms", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))):
         r = json.load(open(f)); rooms[r["id"]] = r
-    for f in glob.glob(os.path.join(ROOT, "groupings", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))):
         g = json.load(open(f)); groupings[g["id"]] = g
     return {"styles": styles, "faults": faults, "slots": slots, "groups": groups,
             "massings": massings, "assets": assets, "kits": kits,
@@ -354,7 +354,7 @@ def _fault_card(f, style_id=None):
 
 def _style_chain(style_id, D):
     """A style and everything it inherits from, as a set. Extracted from _applies so a TEST can
-    be scoped to a style the same way a FAULT is (OQ 41)."""
+    be scoped to a style the same way a FAULT is (OQ 63)."""
     chain = set([style_id] + _cascade(style_id))
     cur = D["styles"].get(style_id)
     for _ in range(6):
@@ -364,7 +364,7 @@ def _style_chain(style_id, D):
 
 
 def _test_applies(t, style_id, D):
-    """Whether one TEST of a fault is written for this style (OQ 41).
+    """Whether one TEST of a fault is written for this style (OQ 63).
 
     `applies_to_styles` absent means every style the fault applies to, which is the behaviour
     before the field existed. Present, it is matched against the style AND its inheritance
@@ -439,14 +439,22 @@ def _eval_test(t, measurements):
     except Exception as e:
         return {"status": "error", "detail": str(e)}
     d, th, up = t.get("direction"), t.get("threshold"), t.get("upper")
+    # The comparison below used to sit outside any guard: a test expression returning a
+    # value that will not compare against the threshold raised straight out of
+    # check_measurements, through check_plan, and became a 500 from /api/plan/evaluate.
+    # An uncomparable result is something this evaluator COULD NOT judge, which is a
+    # state the corpus already has a word for.
     # 'one-of' exists only on the constraint schema (schema/constraint.schema.json), not the
     # fault schema -- a fault test always fails this lookup harmlessly, since no fault ever
     # sets direction: one-of. Kept in the same shared evaluator rather than forked so faults
     # and style constraints (build/plan_check.py) share one safety-checked eval path.
-    ok = {"at-least": lambda: val >= th, "at-most": lambda: val <= th,
-          "equals": lambda: abs(val - th) < 1e-6,
-          "between": lambda: th <= val <= (up if up is not None else th),
-          "one-of": lambda: str(val) in (t.get("set") or [])}.get(d, lambda: None)()
+    try:
+        ok = {"at-least": lambda: val >= th, "at-most": lambda: val <= th,
+              "equals": lambda: abs(val - th) < 1e-6,
+              "between": lambda: th <= val <= (up if up is not None else th),
+              "one-of": lambda: str(val) in (t.get("set") or [])}.get(d, lambda: None)()
+    except Exception as e:
+        return {"status": "error", "detail": f"{val!r} does not compare: {e}"}
     required = f"one-of {t.get('set')}" if d == "one-of" else (
         f"{d} {th}" + (f" and {up}" if d == "between" and up is not None else ""))
     return {"status": "evaluated", "value": round(val, 4) if isinstance(val, float) else val,
@@ -512,7 +520,7 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         tests = [f.get("test")] + list(f.get("secondary_tests") or [])
         exc = next((e for e in f.get("exceptions", []) if style and e["style"] == style), None)
         if exc and exc.get("bounds_test"): tests = [exc["bounds_test"]] + tests[1:]
-        # OQ 41: a test scoped to another style is not run at all. Not run is not the same as
+        # OQ 63: a test scoped to another style is not run at all. Not run is not the same as
         # passed -- a test that is not for this house says nothing about this house, and the
         # fault's judgement rests on the tests that ARE for it.
         tests = [t for t in tests if t and _test_applies(t, style, D)]
@@ -520,9 +528,18 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         ev = [r for r in results if r["status"] == "evaluated"]
         if not ev:
             miss = sorted({m for r in results if r["status"] == "need_measurements" for m in r["missing"]})
-            if include_needed and miss:
-                needed.append({"fault": f["id"], "name": f["name"], "needs": miss,
-                               "measurable_from": f.get("test", {}).get("measurable_from")})
+            errs = sorted({r["detail"] for r in results if r["status"] == "error"})
+            # `errs` is why this branch exists in this shape. A fault whose every test
+            # ERRORED produced no `ev` and no `miss`, so it was appended to nothing: not
+            # present, not clear, not unjudged, and absent from the summary counts — a
+            # fault that silently vanished, which reads to a caller exactly like clear.
+            # That is the one collapse this corpus forbids above all others.
+            if include_needed and (miss or errs):
+                row = {"fault": f["id"], "name": f["name"], "needs": miss,
+                       "measurable_from": f.get("test", {}).get("measurable_from")}
+                if errs:
+                    row["errors"] = errs
+                needed.append(row)
             continue
         failing = [r for r in ev if r["passes"] is False]
         row = {"fault": f["id"], "name": f["name"], "severity": next(
@@ -546,7 +563,12 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
     present.sort(key=lambda r: SEV.index(r["severity"]) if r["severity"] in SEV else 3)
     return {"style": style, "measurements_given": sorted(measurements),
             "faults_present": present, "faults_clear": clear[:limit],
-            "could_not_judge": needed[:limit],
+            "faults_clear_truncated": max(0, len(clear) - limit),
+            # NOT truncated. "unjudged is not passed" degrades into "the first forty
+            # unjudged are not passed" the moment this list is cut — build/plan_check.py
+            # already worked around it by passing limit=10**6; the tool should not need
+            # the workaround.
+            "could_not_judge": needed,
             "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed)},
             "note": "A fault only counts as present when a test actually failed. Anything under could_not_judge is unknown, not passed."}
 
@@ -706,6 +728,13 @@ def check_plan(plan, strict=False):
     pc = _load_plan_checker()
     try:
         import jsonschema
+    except ImportError:
+        # An absent validator is an environment fact, not a verdict about the plan.
+        # Collapsing it into "does not match the schema" was OQ 35's exact complaint:
+        # a dependency problem laundered as a data judgment.
+        return {"error": "could not validate: the jsonschema package is not installed",
+                "detail": "pip install jsonschema", "unvalidated": True}
+    try:
         jsonschema.validate(plan, json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))))
     except Exception as e:
         return {"error": "plan does not match the plan schema", "detail": str(e)[:400],
@@ -717,7 +746,7 @@ def _load_plan_checker():
 
 def plan_schema():
     return {"schema": json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))),
-            "examples": [os.path.basename(f) for f in glob.glob(os.path.join(ROOT, "plans", "*.json"))],
+            "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "plans", "*.json")))],
             "hint": ("A plan is a topology plus approximate dimensions — enough to check, not enough to build. "
                      "Doors imply adjacency in both directions; the validator derives the graph from them. "
                      "Give width_ft as the SHORT dimension and window_head_ft wherever you can, because "
@@ -763,7 +792,7 @@ def list_partis(style=None, massing=None):
 
 def brief_schema():
     return {"schema": json.load(open(os.path.join(ROOT, "schema", "brief.schema.json"))),
-            "examples": [os.path.basename(f) for f in glob.glob(os.path.join(ROOT, "briefs", "*.json"))],
+            "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "briefs", "*.json")))],
             "hint": ("Only style and target_area_sf are required. Everything absent is decided by the "
                      "composer and reported in the decision log as an assumption, not smuggled in as a fact. "
                      "Put the household in `household` — it is the thing that decides whether the dining room "
@@ -771,29 +800,23 @@ def brief_schema():
 
 
 # ----------------------------------------------------------------- geometry
-def place_plan(plan, parti=None, candidates=250, svg_path=None, solver="heuristic",
-               time_budget_s=60.0):
+def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     """Place room rectangles in a footprint. Both levels are solved together.
-
-    `solver` selects the engine: "heuristic" (the randomised search in build/geometry.py, the
-    default and the historical behaviour) or "cp" / "both" (the constraint solver of WP-2.3,
-    which enforces the room minimums rather than scoring them and returns a named conflict set
-    when a brief cannot be housed). The CP path needs OR-Tools; without it the solver falls back
-    to the heuristic and says so in geometry_report.solver."""
+    engine: "auto" (CP-SAT when available — WP-2.3's real solver, with named
+    conflict sets), "cp", or "heuristic" (the fast hill-climb; what the
+    workbench uses per edit gesture, where a ~25 s proof per wall drag would
+    make the surface unusable — proving is an explicit act there)."""
     geo = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     pt = None
     if parti:
         f = os.path.join(ROOT, "partis", f"{parti}.json")
         if os.path.exists(f): pt = json.load(open(f))
-    if solver == "heuristic":
-        out = geo.solve(copy_json(plan), pt, candidates)
-    else:
-        sv = _mod("solver", os.path.join(ROOT, "build", "solver.py"))
-        # OQ 44: the MCP tool takes the reproducible default deliberately and does not expose a
-        # way to turn it off. Everything that arrives here is a plan somebody will read, keep or
-        # compare against another one, and a record that cannot be re-derived is worth less than
-        # the seconds it saves.
-        out = sv.solve(copy_json(plan), pt, time_budget_s=time_budget_s, mode=solver)
+    # OQ 44: the MCP tool takes the reproducible default deliberately and does not expose a way
+    # to turn it off. Everything arriving here is a plan somebody will read, keep or compare
+    # against another one, and a record that cannot be re-derived is worth less than the seconds
+    # it saves. (The ruling was made against the WP-2.3 solver that did not survive the 25 Aug
+    # merge; it is about determinism, not about which engine, so it carries over unchanged.)
+    out = geo.solve(copy_json(plan), pt, candidates, engine=engine)
     if "error" in out: return out
     if svg_path:
         rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
@@ -804,7 +827,10 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, solver="heuristi
                       for lv in out["levels"] for r in lv["rooms"] if r.get("geometry")],
             "svg": out.get("svg"),
             "note": ("Coordinates are in feet with the origin at the south-west corner, x east and y north. "
-                     "Read geometry_report.relaxations before anything else: each cut taken off the bay line "
-                     "is a joist run that does not land on a bearing wall and a window bay that will not centre.")}
+                     "If geometry_report.infeasible is present, read its conflicts FIRST — CP-SAT proved the "
+                     "record's declared facts cannot all hold and this placement is the labelled least-bad "
+                     "relaxation (WP-2.3). Then read geometry_report.relaxations: each cut taken off the bay "
+                     "line is a joist run that does not land on a bearing wall and a window bay that will not "
+                     "centre. geometry_report.solver names which engine placed this and why.")}
 
 def copy_json(o): return json.loads(json.dumps(o))

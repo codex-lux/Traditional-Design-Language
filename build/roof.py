@@ -176,7 +176,7 @@ def main_roof(plan, section, style):
 
 
 def _roof_openings(plan):
-    """Reserved voids that are open to the sky, as holes in the roof volume above (OQ 33).
+    """Reserved voids that are open to the sky, as holes in the roof volume above (OQ 55).
 
     Stated, not modelled -- and the distinction is the point. This file computes ONE ridge over
     one rectangle; a court cuts that volume into ranges with their own eaves, valleys and
@@ -205,7 +205,7 @@ def _roof_openings(plan):
                      "valleys, and in the Spanish and Mediterranean cases falling inward to drain "
                      "to the court. That geometry is not derived by this file. The opening's own "
                      "dimensions are recorded so nobody reads the single-ridge numbers as a "
-                     "complete description of the roof (OQ 33).")}
+                     "complete description of the roof (OQ 55).")}
 
 def _hip_lines(W, D, axis, ridge_from, ridge_to):
     """Four diagonal hip lines, each running from a footprint corner to the nearest ridge

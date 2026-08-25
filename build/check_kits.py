@@ -289,7 +289,7 @@ def main():
                 ont_fields[_sl["id"]] = _sl["fields"]
     rule_slots = {k: v for k, v in ont_kinds.items() if v == "rule"}
     rooms = {}
-    for rp in glob.glob(os.path.join(ROOT, "rooms", "*.json")):
+    for rp in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))):
         r = json.load(open(rp)); rooms[r["id"]] = r
     ont_set = set(ont_slots)
     g = graph()

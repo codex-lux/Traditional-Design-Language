@@ -33,7 +33,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def computed():
     """Every figure the prose is allowed to quote, computed from the data."""
     v = {}
-    packs = [json.load(open(f)) for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))]
+    packs = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")))]
     v["packs"] = len(packs)
     v["pack_conflicts"] = sum(len(p.get("conflicts", [])) for p in packs)
 
@@ -41,7 +41,7 @@ def computed():
     v["slots"] = sum(len(g["slots"]) for g in slots_doc["groups"])
     v["ontology"] = slots_doc.get("version", "?")
 
-    nodes = [json.load(open(f)) for f in glob.glob(os.path.join(ROOT, "styles", "*.json"))]
+    nodes = [json.load(open(f)) for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json")))]
     buildable = [n for n in nodes if n.get("rank") in ("style", "variant")]
     v["nodes"] = len(nodes)
     v["buildable"] = len(buildable)
@@ -51,10 +51,10 @@ def computed():
             1 for n in buildable
             if not any(e["role"] == role for e in n.get("proportion_packs") or [])
         )
-    v["rooms"] = len(glob.glob(os.path.join(ROOT, "rooms", "*.json")))
-    v["groupings"] = len(glob.glob(os.path.join(ROOT, "groupings", "*.json")))
-    v["partis"] = len(glob.glob(os.path.join(ROOT, "partis", "*.json")))
-    v["faults"] = len(glob.glob(os.path.join(ROOT, "faults", "*.json")))
+    v["rooms"] = len(sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))))
+    v["groupings"] = len(sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))))
+    v["partis"] = len(sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))))
+    v["faults"] = len(sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))))
     v["massings"] = len(json.load(open(os.path.join(ROOT, "massings", "catalog.json"))))
     return v
 

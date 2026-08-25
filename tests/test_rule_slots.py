@@ -127,7 +127,7 @@ def test_a_suppression_is_declared_on_every_sibling_because_it_does_not_travel_s
     would claim the cabinet-and-loggia range for traditions that do not have it."""
     import glob
     have = set()
-    for p in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for p in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         d = json.load(open(p))
         for r in ((d["slots"].get("room_adjacency_overrides") or {}).get("rules") or []):
             if r.get("effect") == "suppresses" and r["suppresses"]["room"] == "closet":

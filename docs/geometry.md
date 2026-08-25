@@ -37,11 +37,28 @@ Footprint depth comes from the **massing's own pile** — single-pile 22 ft, dou
 
 `build/render_plan.py` emits SVG from the coordinates: rooms, walls, bay lines, windows on exterior walls, door marks where two rooms share an edge, dimensions, a scale bar. Nothing is drawn that is not in the plan record, so the drawing and the data cannot disagree — the same discipline as the order tool.
 
+## The real solver (WP-2.3)
+
+`geometry.solve()` now dispatches to **CP-SAT** (`build/geometry_cp.py`, OR-Tools) by default, with the randomised slicing kept as the fallback and cross-check the package text asked for. The division of labour, per the 25 Aug rulings:
+
+**HARD — satisfiable or refused, never traded:** no-overlap, containment, near-total coverage; declared doors imply geometrically touching rooms (a shared run at least the pair's programme-scaled door overlap — all four interval bounds, since two end-gap inequalities alone admit a sliver narrower than the door); a threshold room with an exterior door is the entry and must reach the entrance front; each room at roughly its program size; each room's declared exterior walls. The absorb pass that tiles the ≤3% coverage void is capped at each room's own size band — residual void stays honest empty floor rather than a closet drawn at 3x its proof.
+
+**Wall pins carry a stated refinement**, because `exterior_walls` speaks *exposure in the fully-massed house* — porches protrude, wings hold their own corners — which one flat rectangle cannot always hold (10 of 12 partis double-claim a corner on some level):
+
+- a **protruding** room (3+ walls, or a non-circulation opposite pair) and a room in a **contested corner** harden to "reach at least one declared wall", the rest scored at the heuristic's own 14 points;
+- any other wall pin stays fully hard **unless the solver proves a set of pins cannot co-hold** — exactly those pins downgrade the same way, and every downgrade is stated in `geometry_report.solver.refinements`. Doors, program sizes, the entrance and capacity **never** downgrade: they are what infeasibility is for. Because a solver core is *sufficient, not minimal*, a **reinstatement pass** then restores each downgraded pin alone at the footprint actually drawn: a pin that holds returns to being a hard fact, a pin that provably cannot keeps its downgrade with an individual proof, and a pin the budget could not re-prove says "carried, not proven" in its refinement note — never "(proven)".
+
+**SOFT — the WP-2.2 compositional terms**, now weighted objectives rather than search preferences: bay snapping (relaxations stay counted, never forbidden), zoning, ceremonial depth, wet-over-wet stacking, symmetry-adjacent nudges, plus the level-score terms (area error, aspect sanity) mirrored term for term.
+
+**On infeasibility** the caller gets both halves of the ruling: a **plain-language minimal conflict set** (CP-SAT's assumption cores, iterated to a fixpoint then greedily minimized within a budget — a set that ran out of minimization budget says so) *and* the heuristic's least-bad drawing, labelled `INFEASIBLE AS DECLARED` on the sheet itself. The footprint grows a bay before any requirement is blamed. A non-planar door graph — five rooms all pairwise doored — is the canonical true refusal: no arrangement of touching rectangles can realize K5, and the conflict set names the door pairs.
+
+Solving is two-phase: a hard-only pass finds or refutes a placement fast, then the weighted objective polishes it, hinted both by the full heuristic search (soft-optimized, hard-repairable) and by the hard-only placement; every hard-valid result is scored with the heuristic's own scorers and the best is kept, the status saying which. Determinism: one worker, fixed seed — the same record yields the same drawing (exact reproducibility holds when the solve reaches OPTIMAL; a wall-clock-limited polish can land differently under different machine load, and the status says when that is the case).
+
+**The workbench runs the heuristic per edit gesture, deliberately** — a proof takes seconds and the bench re-scores on a 400 ms debounce — and carries a *prove placement (CP-SAT)* control for the explicit act, which surfaces the conflict panel. The CLI, MCP `tdl_place_plan` and everything non-interactive default to the real solver.
+
 ## What this does not yet do, stated plainly
 
 It produces **valid, dimensioned, drawable plans with every compromise reported**. It does not yet produce plans an architect would sign.
-
-- ~~**Search is shallow.**~~ **Fixed in WP-2.3** — see "The solver" below. `build/geometry.py`'s own search is still a hill-climb and is still the default engine; `build/solver.py` states the same problem to CP-SAT, enforces the room minimums instead of scoring them, and returns a named conflict set when a brief cannot be housed. It beats the best of 800 heuristic candidates by 10–24% on both shipped plans and both briefs.
 - **No wall thickness, no structural grid, no roof.** Rooms are clear dimensions. Turning them into a framed building is WP-3.1.
 - **Doors are centred on the shared wall and now drawn with a swing arc**, but door position is still not placed *by rule* in the fuller sense PLAN-OF-ACTION.md's WP-2.2 brief describes — never in a window bay, never visible from a lavatory. See "What was deliberately not done" below.
 - **`room-harmonic` proportions are not checked.** A style that binds that proportion pack does not yet have its principal rooms scored against it — that is a materially separate integration (reading a resolved proportion pack's ratio into a placement score) and is deferred, not silently skipped without a record.
@@ -68,189 +85,8 @@ The acceptance example's third clause — *"the drawing room and dining room fla
 - **`room-harmonic` proportion checking.** Reading a resolved proportion pack's ratio into a placement score is a materially separate integration from the scoring terms above and was not attempted this pass.
 - **Door placement beyond centring.** Doors are still centred on the shared wall (unchanged) and now drawn with a swing arc, but "never visible from the lavatory" and "never in the bay a window occupies" are not checked — both need the elevation-scale bay/window layout WP-3.2 (the elevation generator) actually produces; attempting them against clear-dimension room rectangles alone would be guessing at a bay grid that does not exist yet at this layer.
 - **`ceremonial_score` is scoped to direct, rank-increasing door hops**, not an arbitrary-length path search across the whole plan for "no backtracking anywhere." A full graph traversal is a reasonable next step but a distinctly separate piece of work from the direct porch→hall→principal-room case PLAN-OF-ACTION.md's own acceptance example names.
-- **This remains a heuristic hill-climb**, per "what this does not yet do" above — the compositional terms are strongly-weighted preferences a 250-candidate random search converges toward, not hard constraints a solver enforces or proves infeasible. That is WP-2.3, and it is now built: see below.
-
----
-
-## The solver (WP-2.3)
-
-```
-python3 build/solver.py plans/tidewater-georgian-careful.json --time 60 --svg dist/plans/out.svg
-python3 build/geometry.py plans/<id>.json --solver cp          # same thing through the old CLI
-```
-
-`build/solver.py` states the placement problem to CP-SAT over the same bay grid. The heuristic
-above is kept and is still the default engine; the solver runs it first and uses it three ways —
-as the hint it opens on, as the cross-check that decides which layout is really better, and as
-the fallback when OR-Tools is not installed.
-
-### Two questions, two tiers
-
-**Does this brief fit at all?** Only the room minimums are asserted, every placement
-requirement is soft, and no objective is attached, because feasibility is what is being asked.
-An infeasibility here means the rooms asked for do not fit at the sizes that keep them the
-rooms they are named as — and CP-SAT's assumption core names which ones. The set is then
-minimised by deletion, and where a drop cannot be decided in time it is kept and the report
-says the set is minimal *up to the time budget*.
-
-**Where do the walls go?** The heuristic proposes a slicing topology; CP-SAT places every cut
-in it to proven optimality. Up to six topologies from different seeds are tried and the best by
-this file's own scoring wins.
-
-### Why the obvious model does not work
-
-Loose rectangles that may not overlap, with areas summing to the footprint, *is* a tiling — and
-it is unusable. It needs `sum(w*h) == W*H` over a dozen nonlinear products, and on the spec
-Colonial CP-SAT could not decide it in 240 s with four workers **while holding a hint that was
-itself a valid tiling**. Not solved badly: could not tell whether a solution existed, with one
-in hand.
-
-Reading the slicing structure removes the problem instead of solving it. This file's slicer
-produces guillotine layouts by construction, so the tree can be read back off a finished layout
-— `guillotine_tree()` — without touching the slicer or changing a number it computes. A tree of
-cuts tiles whatever it covers at *any* cut position, so the tiling constraint disappears, and
-what remains — where each cut goes — is linear and solves in well under a second. The heuristic
-proposes the topology; the solver proves the geometry.
-
-### What is a constraint and what is a weight
-
-Room minimums, the entrance front, and the spanning passage are **constraints**. Exterior walls,
-doors and wet stacks are **weights**, at exactly the weights this file already charged.
-
-That split is a finding, not a preference. Asserting every declared exterior wall makes the
-Tidewater plan infeasible outright: `passage`, `backhall` and `kitchen` each declare walls on
-opposite sides, so each must run the full depth, while `porch` declares both E and W and so must
-run the full width across the front. A plan record's `exterior_walls` means "this room has
-exposure on these sides" — which a real plan delivers with an ell or a bay — and read literally
-as rectangle edges they are wishes. The 14-point preference was always the right reading.
-
-### Disclosures
-
-- **The footprint's depth is bounded** by the massing's own pile times 1.18. Without that
-  bound, a lot-capped footprint grows deeper without limit and the overstuffed brief comes back
-  as a "feasible" 20 × 75 ft single-pile house, which is a different massing wearing the name.
-  The bound is also what makes an infeasible brief reachable at all: while the footprint is
-  derived from the rooms it holds, the rooms always fit and no conflict could ever be reported.
-- **Coordinates are quarter-foot integers**, and the footprint depth is written back at the
-  quarter foot the solver worked in, so the rooms tile the outline exactly rather than leaving
-  an inch of nothing along the back wall.
-- **Relaxations are recounted** from the finished layout as distinct off-grid wall lines, where
-  this file counts them per cut during generation. The two are close, not equal, by
-  construction.
-- **The CP objective is never the reported score.** Both layouts are re-scored by this file's
-  own scoring functions and the better one is kept, so the comparison is one metric rather than
-  two engines grading themselves. The objective uses linear proxies where CP-SAT needs one
-  (notably for aspect ratio), which is precisely why it is not trusted as the score.
-- **Optimality is per topology.** The solver proves the best cut positions for the topologies
-  it is given; it does not prove those are the best topologies. Six is a sampling, not a search.
-- **The fallback is always reported** in `geometry_report.solver` — engine, status, and a
-  stated reason. A plan placed by a different engine than the caller believes is a lie about
-  the drawing.
-
-### Measured
-
-Default 60 s budget, one worker, seed 7, against the best of 800 heuristic candidates:
-
-| case | heuristic | cp-sat | better by |
-|---|---|---|---|
-| `tidewater-georgian-careful` | 540.4 | **469.8** | 13.1% |
-| `spec-builder-colonial` | 509.2 | **433.8** | 14.8% |
-| brief `bungalow-small` | 502.5 | **383.7** | 23.6% |
-| brief `family-georgian` | 350.7 | **316.8** | 9.7% |
-
-On the Tidewater plan the transfer-beam count fell from 16 to 7.
+- ~~**This remains a heuristic hill-climb.**~~ No longer — WP-2.3 built the CP-SAT engine (see "The real solver" above); the slicing search remains as the fallback and cross-check, and as the interactive engine the workbench re-scores with per edit gesture.
 
 ## Next
 
-`compose.py` still ranks candidates on its own footprint estimate and does not call the solver;
-putting a 20–55 s solve inside candidate ranking would make composition cost minutes. Whether
-the heuristic should refuse to place a room below its band the way the solver does — it puts the
-spec Colonial's dining room at 91 sf against a 122 sf minimum, on every seed — is OQ 32.
-
-
-## Reserved voids (OQ 33, 24 Aug 2026)
-
-An outdoor room whose own record says it sits within the block — a courtyard, a piazza, a
-loggia — is **placed and dimensioned like any other room**, and excluded from the heated
-envelope rather than from the drawing. `rooms/<id>.json`'s `void` block carries the two facts
-placement needs: `within_footprint` (does it take a rectangle?) and `roofed` (may anything sit
-above it?). A room with no `void` block stays out of placement, which is the behaviour before
-the ruling and is the right answer for a terrace.
-
-`footprint.area_sf` keeps its meaning: the gross block, what the roof spans and the lot must
-hold. `heated_area_sf` and `void_area_sf` state the split, and are derived from each other so
-the three numbers add up.
-
-**Nothing sits over an unroofed void.** `vertical_score` charges 40 and names it; `solver.py`
-states it as a hard constraint. A roofed void is exempt on purpose — a Charleston single's upper
-piazza sits on its lower one.
-
-**Courtyard massings are laid out, not searched.** `courtyard_slice()` states the ring as a
-guillotine tree (cut at the court's south and north edges for three bands; cut the middle band
-at its west and east) because the ordinary search cannot find one: four thousand candidates put
-the court in the block's corner every time. The ranges are still sliced by the ordinary search.
-`ring_depth()` solves the range depth from the court's own declared area against the block and
-returns `None` — the ordinary slicer, and a report that says the court is a notch — when the
-block cannot hold it with ranges deep enough to be rooms.
-
-Two things about a ring massing that the ordinary footprint arithmetic gets wrong, and which
-`derive_footprint` now handles: `depth_rooms` on `courtyard-full` / `courtyard-u` describes the
-**range**, not the block (feeding the court's area into a 22 ft target made a 121 × 24.6 ft
-strip), and the growth loops optimise the block when what matters is the **court's** proportion
-(they made it 16 × 40, outside `rooms/courtyard.json`'s own 1.0–2.2 band). The bay count is
-re-chosen against that band.
-
-### The band order, and why it is a convention rather than a schema field
-
-`courtyard_slice()` lays a ring out in the order **S, W, E, N** — the street range first,
-because this file's coordinate convention puts the street at `y = 0`. When a parti gives its
-covered walk one record per range (OQ 39), the i-th walk takes the i-th band, so a parti listing
-`walk-s, walk-w, walk-e, walk-n` gets its entry passage on the street. Every other room is
-assigned to the band of the walk it has a door to, and a room with no walk door follows the room
-it does open off — which is how a larder reaches its kitchen's range and a primary bathroom its
-bedroom's. That ordering is the only thing about the four-record portal that would have needed a
-schema field, so it is stated here instead.
-
-A parti whose walk is still one record falls back to filling the bands by area in the order the
-parti wrote its rooms.
-
-## Reproducibility, and the trade it costs (OQ 44, 24 Aug 2026)
-
-`build/solver.py`'s topology loop stops starting new topologies once the next one could not
-finish inside the budget, and that check reads the **wall clock**. So a loaded machine tries
-fewer topologies than an idle one and a different layout wins — the same seed, the same plan, a
-different house. Nothing hid it (`topologies_tried` has always been in the record) and nothing
-said it either, and it passed whenever anyone checked, because checking one test is exactly when
-the machine is quiet. It was found by this file's own determinism test failing intermittently
-under a docstring that reads *"a suite that cannot reproduce a layout cannot pin one either."*
-
-`solve(..., deterministic=True)` runs every topology, bounds each phase by CP-SAT's own
-deterministic time — work done rather than seconds elapsed — and keeps the wall-clock limit only
-as a tenfold outer guard that the call returns at all. The answer is then a function of the
-inputs.
-
-**Reproducible is the default as of OQ 44 (24 Aug 2026).** Measured before the flip, on both
-reference plans at a 20 s budget: the deterministic run costs between 0 and 33% more wall time
-(17.5 s against 18.1 s on one plan, 22.9 s against 17.1 s on the other), returns the **same
-score**, and on the busier plan explores **more** topologies (6 against 4) because it is not cut
-off part-way. On an idle machine the old default already reproduced — which is exactly why the
-defect passed every time anyone checked it.
-
-Wall-clock mode remains for when a person is waiting: `deterministic=False`, or `--wall-clock` on
-`build/geometry.py`. `geometry_report.solver` carries `deterministic` and a sentence saying which
-trade was taken. The MCP tool does not expose a way to turn it off — everything arriving there is
-a plan somebody will keep or compare, and a record that cannot be re-derived is worth less than
-the seconds it saves.
-
-`DET_UNITS_PER_SECOND` is a **calibration, not a conversion**: how much wall time one
-deterministic unit buys depends on the machine, which is the point. It needs to be fixed, not
-accurate.
-
-### The walk is stated against the court, not searched for
-
-`courtyard_slice()` lays a band's roofed void along the band's court-facing edge before slicing
-the rest of that band. A corredor is by definition the edge between the ranges and the void —
-that is what makes it the circulation — and once OQ 40 gave the four walks real declared sizes, a
-walk small relative to its band was pushed off the court by the rooms beside it. Same reasoning
-as stating the ring itself: the ordinary search is good at slicing a range and has no way to know
-which of that range's four edges is the one that matters.
+WP-2.3 landed (see "The real solver" above and `docs/reports/wp-2.3-the-real-solver.md`). What the solver still does not model — wings and ells as real geometry (OQ 40), door position by rule, `room-harmonic` proportions — is stated in that report's "deliberately not done".

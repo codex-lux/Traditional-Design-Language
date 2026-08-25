@@ -640,7 +640,7 @@
             "key": "must_adjoin",
             "target": "bedroom"
           },
-          "why": "The Creole cabinet-and-loggia range is the type's rear elevation: two small rooms either side of an open loggia, reached from the loggia. rooms/closet.json's universal rule wants a direct door to a bedroom, which is right for a clothes closet in an Anglo-American house and is not what a cabinet is. Suppressed rather than worked around by retyping the cabinet, which is the workaround OQ 35 had to undo elsewhere."
+          "why": "The Creole cabinet-and-loggia range is the type's rear elevation: two small rooms either side of an open loggia, reached from the loggia. rooms/closet.json's universal rule wants a direct door to a bedroom, which is right for a clothes closet in an Anglo-American house and is not what a cabinet is. Suppressed rather than worked around by retyping the cabinet, which is the workaround OQ 57 had to undo elsewhere."
         }
       ]
     },

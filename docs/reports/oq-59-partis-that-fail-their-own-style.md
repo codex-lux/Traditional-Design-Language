@@ -1,4 +1,4 @@
-# OQ 37 — five partis that could not be recommended for the styles they were written for
+# OQ 59 — five partis that could not be recommended for the styles they were written for
 
 *24 Aug 2026. Ruled by Lucas: "Fix all five + add the check."*
 
@@ -61,7 +61,7 @@ Each is a rule asking a correct plan for something it structurally cannot have.
 
 - **`landing` → `stair-hall` is now `vertical_ok`.** A landing is the top of a stair and the
   stair hall is a storey *below* it. Read as a same-floor rule, only a house with a second stair
-  hall upstairs could satisfy it. OQ 35 built this mechanism in the last package; nothing had
+  hall upstairs could satisfy it. OQ 57 built this mechanism in the last package; nothing had
   used it.
 - **`butlers-pantry` → `kitchen` gains `via: [back-hall, gallery-corridor]`.** Where the kitchen
   is in a dependency, the pantry is in the block and the kitchen is in another building. Without
@@ -104,7 +104,7 @@ than quietly tuned.
 
 ## Raised, not fixed
 
-- **OQ 41** — a fault's secondary tests are written for one style and applied to every style.
+- **OQ 63** — a fault's secondary tests are written for one style and applied to every style.
   `chimney-omitted`'s two secondaries name their own scope in their notes ("The Tudor Revival
   rule", "The Prairie test") and are being run against a Cape. That is why `cape-cod-colonial`
   cannot currently return a clean plan under any diagram, and the reason is not in its own data.

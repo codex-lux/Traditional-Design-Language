@@ -21,7 +21,7 @@ pe = importlib.util.module_from_spec(spec); spec.loader.exec_module(pe)
 SLOTS = {}
 for g in json.load(open("elements/slots.json"))["groups"]:
     for s in g["slots"]: SLOTS[s["id"]] = {**s, "group": g["id"], "group_name": g["name"]}
-STYLES = {json.load(open(f))["id"]: json.load(open(f)) for f in glob.glob("styles/*.json")}
+STYLES = {json.load(open(f))["id"]: json.load(open(f)) for f in sorted(glob.glob("styles/*.json"))}
 
 HIGH_VALUE_GROUPS = {"openings", "envelope", "massing-and-roof", "threshold"}
 

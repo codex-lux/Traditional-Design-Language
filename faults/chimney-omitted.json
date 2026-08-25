@@ -115,7 +115,7 @@
    "direction": "at-least",
    "units": "ratio",
    "measurable_from": "photograph",
-   "note": "The Tudor Revival rule - chimney breadth at least one sixth of the elevation it stands on. Absent or under a sixth is the fault on that style. SCOPED 24 Aug 2026 (OQ 41): this test's own first words are 'The Tudor Revival rule', and check_measurements reports a fault present when ANY of its tests fails -- so a Cape Cod colonial with two chimneys was failed for not having a Tudor one, and the finding it produced was reported against a parti named cape-central-chimney.",
+   "note": "The Tudor Revival rule - chimney breadth at least one sixth of the elevation it stands on. Absent or under a sixth is the fault on that style. SCOPED 24 Aug 2026 (OQ 63): this test's own first words are 'The Tudor Revival rule', and check_measurements reports a fault present when ANY of its tests fails -- so a Cape Cod colonial with two chimneys was failed for not having a Tudor one, and the finding it produced was reported against a parti named cape-central-chimney.",
    "applies_to_styles": [
     "tudor-revival"
    ]
@@ -126,7 +126,7 @@
    "direction": "equals",
    "units": "count",
    "measurable_from": "photograph",
-   "note": "The Prairie test. If the chimney is not the visually heaviest object present, the composition has been inverted. SCOPED 24 Aug 2026 (OQ 41): 'The Prairie test', as this note already said. A chimney that is not the visually heaviest object in the composition is the fault on a Prairie house and is the normal condition on every other style this fault applies to.",
+   "note": "The Prairie test. If the chimney is not the visually heaviest object present, the composition has been inverted. SCOPED 24 Aug 2026 (OQ 63): 'The Prairie test', as this note already said. A chimney that is not the visually heaviest object in the composition is the fault on a Prairie house and is the normal condition on every other style this fault applies to.",
    "applies_to_styles": [
     "prairie-school"
    ]

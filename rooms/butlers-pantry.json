@@ -113,7 +113,7 @@
    },
    {
     "room": "kitchen",
-    "why": "On the other side, and with the doors OFFSET. See critical_dimension. VIA added 24 Aug 2026 (OQ 37): in a plan whose kitchen is in a dependency -- a five-part Palladian, a Tidewater plantation house, any arrangement with a detached or hyphenated service wing -- the pantry is in the block and the kitchen is in another building, and the connecting gallery is the connection. Read without this, the rule asked the pantry to be in two buildings at once. It is the same principle this room already embodies for the OTHER end of the run: a named intermediary is the connection, not a failure to connect.",
+    "why": "On the other side, and with the doors OFFSET. See critical_dimension. VIA added 24 Aug 2026 (OQ 59): in a plan whose kitchen is in a dependency -- a five-part Palladian, a Tidewater plantation house, any arrangement with a detached or hyphenated service wing -- the pantry is in the block and the kitchen is in another building, and the connecting gallery is the connection. Read without this, the rule asked the pantry to be in two buildings at once. It is the same principle this room already embodies for the OTHER end of the run: a named intermediary is the connection, not a failure to connect.",
     "relation": "direct-door",
     "strength": "hard",
     "via": [

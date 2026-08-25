@@ -341,7 +341,7 @@
      "items": {
       "type": "string"
      },
-     "description": "Style ids this test is written for. **Absent means every style the fault applies to**, which is the behaviour before this field existed and keeps every fault already in the corpus valid. OQ 41, ruled 24 Aug 2026: `check_measurements` runs every test in `[test] + secondary_tests` and reports the fault present if ANY of them fails, so a secondary test written for one style was failing houses of every other. `chimney-omitted` carries a Tudor Revival chimney-breadth ratio and a Prairie visual-mass test, and both were firing on a Cape Cod colonial -- which is why a parti named `cape-central-chimney` was reported as having no chimney. Matched against the style AND its inheritance chain, so a test scoped to a parent still applies to its descendants."
+     "description": "Style ids this test is written for. **Absent means every style the fault applies to**, which is the behaviour before this field existed and keeps every fault already in the corpus valid. OQ 63, ruled 24 Aug 2026: `check_measurements` runs every test in `[test] + secondary_tests` and reports the fault present if ANY of them fails, so a secondary test written for one style was failing houses of every other. `chimney-omitted` carries a Tudor Revival chimney-breadth ratio and a Prairie visual-mass test, and both were firing on a Cape Cod colonial -- which is why a parti named `cape-central-chimney` was reported as having no chimney. Matched against the style AND its inheritance chain, so a test scoped to a parent still applies to its descendants."
     }
    }
   },

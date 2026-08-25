@@ -752,7 +752,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "roof_eave_to_ridge_height_in": round((ridge_ft - grade_to_eave_ft) * 12, 2) if ridge_ft else None,
         "wall_height_grade_to_eave_in": round((grade_to_eave_ft - ground["grade_to_floor_ft"]) * 12, 2),
         "grade_to_ridge_in": round(ridge_ft * 12, 2) if ridge_ft else None,
-        # OQ 37: None, not 0, when the roof pass did not PLACE chimneys as opposed to placing
+        # OQ 59: None, not 0, when the roof pass did not PLACE chimneys as opposed to placing
         # none. roof.py models gable-end stacks only and says so in its own note -- a
         # central-stack massing (cape-cod-massing, saltbox, garrison-block) comes back with an
         # empty positions list meaning "not modelled here", and reporting that as a count of

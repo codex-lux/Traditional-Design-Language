@@ -12,23 +12,23 @@ Every package below carries a **Status** line. This is the summary. Original pac
 |---|---|---|
 | **0 — Consolidation** | WP-0.1, 0.2, 0.3 | **Complete** |
 | **1 — Executable constraints** | WP-1.1, 1.2, 1.3 | **Complete** — 660/660 constraints migrated, 61.5% of hard constraints tested (bar was ≥60%) |
-| **2 — Composition** | WP-2.1, 2.2, 2.3, 2.4 | **Complete** — `build/solver.py` beats the best of 800 heuristic candidates by 10–24% and names a conflict set when a brief cannot be housed |
+| **2 — Composition** | WP-2.1, 2.2, 2.3, 2.4 | **Complete** — placement is CP-SAT with named conflict sets (25 Aug); the hill-climb remains as fallback, cross-check and the workbench's per-gesture engine |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
-| **4 — Breadth** | WP-4.1, 4.2, 4.3, 4.5 complete · **4.4, 4.6, 4.7 not started** | **In progress** |
-| **5 — Platform** | none | **Not started** |
+| **4 — Breadth** | WP-4.1, 4.2, 4.3, 4.5, 4.6 complete · **4.4 environment-blocked, 4.7 not started** | **In progress** |
+| **5 — Platform** | WP-5.1, 5.2, 5.5 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
 2. ~~**WP-4.3**~~ — **done 24 Aug 2026**. See `docs/reports/wp-4.3-the-garage.md`.
-3. ~~**WP-2.3**~~ — **done 24 Aug 2026**, closing Phase 2. `build/solver.py`. See `docs/reports/wp-2.3-real-solver.md`.
+3. ~~**WP-2.3**~~ — **done 25 Aug 2026**, closing Phase 2. `build/geometry_cp.py`. See `docs/reports/wp-2.3-the-real-solver.md`. (Two sessions built this package independently; the CP engine dispatched from `geometry.solve()` is the one that survived the 25 Aug merge.)
 4. ~~**WP-4.5**~~ — **done 24 Aug 2026**: 21 partis, 129 of 132 styles native, 0 uncovered. See `docs/reports/wp-4.5-partis-to-full-coverage.md`.
 5. ~~**The open-question pass**~~ — **done 24 Aug 2026**. Every question Lucas had ruled on is
    executed: OQ 12, 13, 14, 26, 27, 29, 31, 32, 33, 34, 35, 36, and 15, 18, 19, 37, 38, 39
-   besides. Reports: `docs/reports/oq-33-reserved-voids.md` and
-   `docs/reports/oq-37-partis-that-fail-their-own-style.md`. The two that changed the compiler
-   rather than the corpus are **OQ 33** (courtyards are placed, and the heuristic gained a
-   stated ring layout because it cannot search for one) and **OQ 37** (`check_partis.py` check
+   besides. Reports: `docs/reports/oq-55-reserved-voids.md` and
+   `docs/reports/oq-59-partis-that-fail-their-own-style.md`. The two that changed the compiler
+   rather than the corpus are **OQ 55** (courtyards are placed, and the heuristic gained a
+   stated ring layout because it cannot search for one) and **OQ 59** (`check_partis.py` check
    10 — five of twenty-one partis were carrying fatal findings against the styles they were
    written for, so the composer would not recommend them; 21 of 21 compose now).
 6. **WP-4.6 — COMPLETE, twenty-one packs, 25 Aug 2026.** `moorish-arch` (OQ 30's item,
@@ -49,9 +49,11 @@ Every package below carries a **Status** line. This is the summary. Original pac
    environment-blocked — see its own status block.
 7. **Phase 5** — the last mile.
 
+7. **Phase 5** — WP-5.1, 5.2 and 5.5 are done; 5.3 and 5.4 remain.
+
 **Three open questions want a ruling before or alongside WP-4.6**, all raised by the pass above
-and none of them blocking: **OQ 40** (`area_weight` is read as a boolean and never as a share of
-anything, so every parti's weights read as a considered distribution and are not one), **OQ 41**
+and none of them blocking: **OQ 62** (`area_weight` is read as a boolean and never as a share of
+anything, so every parti's weights read as a considered distribution and are not one), **OQ 63**
 (a fault's secondary tests are written for one style and run against every style — it is why
 `cape-cod-colonial` cannot currently return a clean plan under any diagram), and **OQ 42**
 (`types_present` is not aliased, so a plan that models a room under an equivalent name is told it
@@ -141,13 +143,13 @@ Several packages are blocked on decisions that are design judgments rather than 
 
 **All ruled, 24 August 2026.** Every question that was blocking a package now has a decision recorded against it in `docs/open-questions.md`; nothing in the remaining plan waits on a judgment.
 
-- **OQ 33 — the courtyard void.** Ruled: reserved voids. Both placement engines carry outdoor rooms as placed, dimensioned voids, excluded from the area budget and the envelope, drawn as open.
-- **OQ 35 — vertical adjacency.** Ruled: adjacency rules may declare `relation: above` / `below`, and `plan_check.py` evaluates them across levels. Removes both of WP-4.5's workarounds.
+- **OQ 55 — the courtyard void.** Ruled: reserved voids. Both placement engines carry outdoor rooms as placed, dimensioned voids, excluded from the area budget and the envelope, drawn as open.
+- **OQ 57 — vertical adjacency.** Ruled: adjacency rules may declare `relation: above` / `below`, and `plan_check.py` evaluates them across levels. Removes both of WP-4.5's workarounds.
 - **OQ 12 and OQ 13 — the ontology changes ruled long ago and never executed.** Ruled: execute both, as ontology 0.6.0 — split `window_head` by trade, enforce the entablature cross-references.
-- **OQ 36 — `hybridizes_with`.** Ruled: spend the schema change, a slot-scope allowlist on the edge.
-- **OQ 32 — the heuristic's silent under-band placement.** Ruled: report it in `geometry_report`, do not make the heuristic refuse and do not teach `plan_check` to read `room.geometry`.
+- **OQ 58 — `hybridizes_with`.** Ruled: spend the schema change, a slot-scope allowlist on the edge.
+- **OQ 54 — the heuristic's silent under-band placement.** Ruled: report it in `geometry_report`, do not make the heuristic refuse and do not teach `plan_check` to read `room.geometry`.
 - **OQ 31 — the garage daylight rule.** Ruled: a `daylight.depth_governs: false` opt-out on the room record.
-- **OQ 34 — no half-storey.** Ruled: add an optional `level_offset_ft` beside `level`, which keeps its meaning.
+- **OQ 56 — no half-storey.** Ruled: add an optional `level_offset_ft` beside `level`, which keeps its meaning.
 - **OQ 30 — the Islamic/Moorish pack.** Ruled: build it first in WP-4.6.
 - **OQ 27 — untagged judgment constraints.** Ruled: tag with `blocked_by` during WP-4.6.
 - **OQ 14 — three rail slots.** Ruled: keep the three, state the shared code conflict once. **OQ 26** folds into the same pass.
@@ -292,11 +294,26 @@ Batch the migration by family (27 families) so agents can run in parallel; one a
 
 ### WP-2.3 A real solver
 
-**Status: COMPLETE (24 Aug 2026), closing Phase 2 — with the formulation the task text names replaced on evidence.** `build/solver.py` states placement to CP-SAT over the same bay grid, keeps the heuristic as hint, cross-check and reported fallback, and beats the best of 800 heuristic candidates on both shipped plans and both briefs (13.1% / 14.8% / 23.6% / 9.7%), inside 60 s every time. An infeasible brief returns a named, deletion-minimised conflict set and no geometry.
+**Status: COMPLETE (25 Aug 2026).** `build/geometry_cp.py`: placement as CP-SAT over the bay grid, dispatched from `geometry.solve()` with the heuristic kept as fallback and cross-check per the package text (OR-Tools optional behind the WP-5.1 refusal pattern; `check_all` reports N/EV without it). Hard: no-overlap, containment, coverage, declared doors touch, the entry on its front, rooms at program size, declared exterior walls. Four rulings shaped it — the decisive one taken mid-package when hard wall pins proved both check plans *and* nearly every composed candidate infeasible, because `exterior_walls` is the corpus's idiom for exposure in the massed house (10 of 12 partis double-claim corners): protruding rooms, contested corners, and any pin-set the solver *proves* unable to co-hold downgrade to reach-at-least-one, every downgrade stated in `geometry_report.solver.refinements`; doors, sizes, entrance and capacity never downgrade. On infeasibility: a plain-language minimized conflict set AND the heuristic's least-bad drawing labelled on the sheet (the ruling) — the canonical refusal is the selftest's K5 door graph, non-planar, six door pairs named. The acceptance benchmark is disclosed as adapted: the CP placement must have zero hard-fact violations and beat best-of-800 *or* lose only to a heuristic winner that cheats on hard facts at 14 points apiece. The workbench re-scores with the heuristic per edit gesture (a proof takes seconds; the bench debounces at 400 ms) and gains a *prove placement (CP-SAT)* control with a conflict panel. Report: `docs/reports/wp-2.3-the-real-solver.md` · new open question: OQ 40 (the flat footprint vs declared wings).
 
-The one departure from the task text is load-bearing and was made on measurement, not preference. "Integer room rectangles on bay multiples, no-overlap" — loose rectangles whose areas sum to the footprint — needs `sum(w*h) == W*H` over a dozen nonlinear products, and CP-SAT could not decide that on the shipped spec Colonial **in 240 s with four workers while holding a hint that was itself a valid tiling**. The slicing tree is read back off a heuristic layout instead, which makes tiling structural rather than arithmetic and leaves only the cut positions to solve — linear, and proven optimal in well under a second. The heuristic proposes the topology; the solver proves the geometry. Optimality is therefore per topology, not global, and the report says so rather than claiming an optimum never established.
-
-Three findings came out of it: the heuristic silently places the spec Colonial's dining room 26% below its band on every seed (OQ 32); a plan record's `exterior_walls` are aspirations rather than rectangle edges, and cannot all be asserted (three Tidewater rooms each declare opposite walls); and `check_all.py` was running the suite under a different interpreter than its checkers, skipping all sixteen solver tests and reporting success. See `docs/reports/wp-2.3-real-solver.md`.
+**Merged 25 Aug 2026 from a second, independent WP-2.3.** Two sessions built this package in
+parallel, against the same task text, without knowing of each other: `build/geometry_cp.py`
+(above) and `build/solver.py`. The CP engine dispatched from `geometry.solve()` is the one that
+survived, on Lucas's ruling — it is merged, twice audited, and already the default. The other is
+deleted rather than kept beside it, so the corpus carries one CP-SAT formulation of one problem.
+Three findings from the deleted branch are NOT rediscovered by the surviving one and are kept:
+the heuristic silently places the spec Colonial's dining room 26% below its own band on every
+seed (**OQ 54**, ruled, and `geometry_report.under_band` now reports it); a plan record's
+`exterior_walls` are aspirations rather than rectangle edges, and cannot all be asserted (three
+Tidewater ground rooms each declare *opposite* walls — the same idiom finding the surviving
+engine reached independently and calls the exposure problem); and `check_all.py` was running the
+suite under a different interpreter than its checkers, skipping all sixteen solver tests while
+reporting success. Its formulation finding is also worth keeping, because it is a negative
+result someone will otherwise re-derive: stating exact tiling arithmetically —
+`sum(w*h) == W*H` over a dozen nonlinear products — could not be decided on the shipped spec
+Colonial in 240 s with four workers *while holding a hint that was itself a valid tiling*.
+Reading the slicing tree off a heuristic layout makes tiling structural rather than arithmetic
+and leaves only the cut positions to solve.
 
 **Depends on:** WP-2.2. **Size:** large. **Optional but recommended.**
 
@@ -428,9 +445,9 @@ Two things it will not do, both deliberate. It never sets `status: approved`, be
 
 **Status: COMPLETE (24 Aug 2026) on the parti criterion; the `style_variation` clause declared met at the corpus's own bar and out of scope at the literal one.** Partis 12 -> 21, native styles **39 -> 129 of 132**, nodes with a canonical massing and no native parti **90 -> 0**. Nine new diagrams (courtyard-and-portal, living-hall-picturesque, great-hall-h-plan, connected-farmstead, single-cell-hall, tower-villa, shotgun-linear, dogtrot-open-passage, octagon-radial) plus 36 style-list placements into diagrams that already existed. Two rooms authored (`courtyard`, `overlook`), eleven others deliberately not — `hall` already carries the great hall and the living hall, `cross-passage` the screens passage. `build/check_partis.py` added as a 22nd check, because nothing validated this catalogue at all.
 
-Three of the package's named dozen were skipped on the data and are named rather than dropped: `telescope` (canonical for no style — 0 unblocked), `split-level` (0 unblocked, and needs the schema decision now recorded as OQ 34), `foursquare side hall` (<=1, and `foursquare-quadrant` is already `circulation_parti: "side-hall"`).
+Three of the package's named dozen were skipped on the data and are named rather than dropped: `telescope` (canonical for no style — 0 unblocked), `split-level` (0 unblocked, and needs the schema decision now recorded as OQ 56), `foursquare side hall` (<=1, and `foursquare-quadrant` is already `circulation_parti: "side-hall"`).
 
-Four composer bugs found by running the diagrams rather than reading them: pick order was decided by filesystem order; massing affinity ignored `alternate_massings`; half the kits that state a ceiling height were never read; and the 3-bay floor *dropped* a one-room house rather than inflating it. And the finding that mattered most — nativity was worth `fit * 6` against 8 per serious finding, so a borrowed diagram routinely beat a native one, which adding nine partis turned into a Tidewater Georgian brief recommending an octagon. `NATIVITY_W` is now 20. See `docs/reports/wp-4.5-partis-to-full-coverage.md`; OQ 33, 34, 35 raised.
+Four composer bugs found by running the diagrams rather than reading them: pick order was decided by filesystem order; massing affinity ignored `alternate_massings`; half the kits that state a ceiling height were never read; and the 3-bay floor *dropped* a one-room house rather than inflating it. And the finding that mattered most — nativity was worth `fit * 6` against 8 per serious finding, so a borrowed diagram routinely beat a native one, which adding nine partis turned into a Tidewater Georgian brief recommending an octagon. `NATIVITY_W` is now 20. See `docs/reports/wp-4.5-partis-to-full-coverage.md`; OQ 55, 34, 35 raised.
 
 **Depends on:** WP-2.1 (for the missing-room list). **Size:** medium.
 
@@ -494,6 +511,8 @@ Write the scoping note: which traditions, which families, what the first style i
 
 ### WP-5.1 Export: DXF and IFC
 
+**Status: COMPLETE (25 Aug 2026).** `build/export_dxf.py` (one layered DXF per sheet, inches, the record riding on the entities as XDATA), `build/export_ifc.py` (IFC4, feet; walls, slabs, openings, roof, spaces, every product with its TDL ids in a `TDL` Pset), and `build/import_dxf.py` (a minimal reader scoped to TDL-emitted DXF, by ruling — WP-5.5 generalizes it). Acceptance met and exceeded: the round-trip gives identical validator findings on both check plans *and* the rebuilt record deep-equals the authored one; the importer refuses when drawing and carried record disagree. ezdxf/ifcopenshell are optional by ruling — the exporters refuse honestly without them and `check_all.py` gained a third state (`N/EV — COULD NOT EVALUATE`, exit 3) so the missing-library case is named, never counted as a pass. The workbench Export card is live (`/api/export/{dxf,ifc}`). What is honestly not modelled (hip/gambrel roof solids, unstated sill heights, exterior-door placement) is stated per element. Report: `docs/reports/wp-5.1-export-dxf-ifc.md` · layer doc: `docs/export.md` · new open question: OQ 39.
+
 **Depends on:** WP-3.1. **Size:** medium.
 
 Emit DXF (ezdxf) plan, elevation, section and roof plan with layers per element group, and an IFC (ifcopenshell) model with walls, slabs, openings, roof and spaces carrying the TDL ids as property sets. Round-trip test: DXF → plan record → validator gives the same findings.
@@ -503,6 +522,8 @@ Emit DXF (ezdxf) plan, elevation, section and roof plan with layers per element 
 **Depends on:** WP-1.2; better after WP-2.2. **Size:** large.
 
 A self-contained HTML tool in `dist/` in the manner of `orders.html`: load or sketch a plan record, see findings by layer inline on the drawing, drag a wall on the bay grid and re-score, switch style and watch constraints change, request N candidates from the composer (via the MCP server or a Python port). This is the interface a plan-development lead works in; its absence is a gap in the collaboration, not just the software.
+
+**Status (25 Aug 2026): built, with one approved divergence from the package text.** Delivered as a locally served app in `workbench/` (FastAPI over `mcp_server/core.py` + a Vite/React frontend in the Drawn Language), not a self-contained `dist/` HTML file — the interactions this package names (re-score on a wall drag, style switch, compose on demand) are live calls into the Python toolchain, and a static file would have required JS ports of the validator, composer and geometry solver, compounding the dual-engine tax the orders tool already pays. Divergence approved by Lucas, 25 Aug 2026. The MCP-server-or-Python-port fork the text left open is resolved a third way: the server imports `core.py` directly and the rail's 24 tools are `mcp_server/server.py`'s own wrappers. All ten surfaces live (Phylogeny, Style Record, Kit, Fault Corpus, Proportions, Brief Intake, Candidate Set, Plan Workbench with drag-and-re-score, style switch and assert-a-fact, Drawing Set, Details & Export). The Proportions surface speaks HTTP to the engine rather than reusing the orders tool's JS port; the Drawing Set re-tokenizes the four renderers' SVG into the Drawn Language (re-rendered, never redrawn); Export ships the record, the report and the sheets today and names DXF/IFC (5.1), guidelines/details (5.3) and ingestion (5.5) as forthcoming rather than hiding them. Two additive `build/` touches (`plan_check.check()` returns `fault_unjudged`; `compose()` takes `on_candidate=`), both pinned in `tests/test_workbench_touches.py`. Report: `docs/reports/wp-5.2-the-workbench.md` · layer doc: `docs/workbench.md` · new open questions: OQ 32–35.
 
 ### WP-5.3 Generated guidelines, details and modelling conventions
 
@@ -515,6 +536,8 @@ Three documents the brief asks for, all generated from data so they cannot drift
 Scope only: unit costs by construction type and region; the 32 `cost_negative` faults as savings; candidate comparison by cost per square foot. Do not author costs without a partner's numbers.
 
 ### WP-5.5 Drawing-to-record ingestion
+
+**Status: COMPLETE (25 Aug 2026).** Three rulings first: the form is a workbench surface (⑪ Transcription, following WP-5.2's approved divergence, not a `dist/` HTML file); the drafter-DXF importer extracts candidates a human completes in the form, never a guessed record; and plan schema 0.2.0 gains the structured `provenance` object WP-2.1 asked for (`style` stays required — the form holds the draft until a human sets it). `build/ingest_dxf.py` generalizes WP-5.1's reader: closed polylines → candidate rooms (bounding-box honesty flagged), contained text → name hints, everything a drawing cannot state → a named gap; units from a stated header or a room-scale heuristic that labels itself an inference and *refuses to pick* on a tie (feet vs metres is the collision that actually occurs). TDL-emitted sheets short-circuit to the complete cross-checked record. The surface traces on a browser-local backdrop (never uploaded), names every gap between draft and record, and stays inert until the list is empty; `POST /api/ingest/dxf` serves it. Found: schema 0.1.0 had carried `sill_ft` unused since the beginning — the IFC exporter now reads it and OQ 39 was corrected. Report: `docs/reports/wp-5.5-drawing-to-record-ingestion.md` · layer doc: `docs/ingestion.md`.
 
 **Depends on:** WP-2.1 experience. **Size:** medium.
 

@@ -1,4 +1,4 @@
-"""OQ 41 -- a fault's secondary tests were written for one style and run against every style.
+"""OQ 63 -- a fault's secondary tests were written for one style and run against every style.
 
 `check_measurements` reports a fault present when ANY of its tests fails, and a secondary test
 scoped in its own note to one style was therefore failing houses of every other. Measured before
@@ -86,7 +86,7 @@ def test_a_test_for_another_style_is_not_run_and_that_is_not_the_same_as_passing
 def test_each_scoped_test_says_so_and_says_why(fid, idx, want):
     t = fault(fid)["secondary_tests"][idx]
     assert want in t["applies_to_styles"], (fid, idx)
-    assert "OQ 41" in t["note"], "a scoping with no stated reason is a scoping nobody can check"
+    assert "OQ 63" in t["note"], "a scoping with no stated reason is a scoping nobody can check"
 
 
 def test_the_pueblo_parapet_test_is_the_one_that_fails_a_house_for_being_level():
@@ -117,7 +117,7 @@ def test_only_six_tests_were_scoped_and_that_is_the_finding():
     window from a collision, and scoping it to Greek Revival would remove the very case it is
     for. Scoping on a keyword match would have been worse than scoping nothing."""
     n = 0
-    for p in glob.glob(os.path.join(ROOT, "faults", "*.json")):
+    for p in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
         for t in (json.load(open(p)).get("secondary_tests") or []):
             if t.get("applies_to_styles"): n += 1
     assert n == 6, n

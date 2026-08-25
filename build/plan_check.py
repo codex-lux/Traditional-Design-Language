@@ -57,7 +57,7 @@ SUBSTITUTES = {
     # family is genuinely mutual: whichever of these a plan calls its entry sequence, the front
     # door opens into it and the principal rooms open off it, which is the definition the group
     # holds. gallery-corridor was added by WP-4.5 on the reference corpus's evidence (good-01
-    # and good-05 use a Gallery as exactly that room) and centre-passage by OQ 37.
+    # and good-05 use a Gallery as exactly that room) and centre-passage by OQ 59.
     "landing": {"stair-hall"},
     "stair-hall": {"entrance-hall"},
     "vestibule": {"entrance-hall"},
@@ -159,11 +159,11 @@ def _alias(t):
 
 def load_corpus():
     C = {"rooms": {}, "groupings": {}, "styles": {}, "faults": {}, "massings": {}, "slots": {}, "kits": {}}
-    for f in glob.glob(f"{ROOT}/rooms/*.json"): r = json.load(open(f)); C["rooms"][r["id"]] = r
-    for f in glob.glob(f"{ROOT}/groupings/*.json"): g = json.load(open(f)); C["groupings"][g["id"]] = g
-    for f in glob.glob(f"{ROOT}/styles/*.json"): s = json.load(open(f)); C["styles"][s["id"]] = s
-    for f in glob.glob(f"{ROOT}/faults/*.json"): x = json.load(open(f)); C["faults"][x["id"]] = x
-    for f in glob.glob(f"{ROOT}/kits/*.kit.json"): k = json.load(open(f)); C["kits"][k["style"]] = k
+    for f in sorted(glob.glob(f"{ROOT}/rooms/*.json")): r = json.load(open(f)); C["rooms"][r["id"]] = r
+    for f in sorted(glob.glob(f"{ROOT}/groupings/*.json")): g = json.load(open(f)); C["groupings"][g["id"]] = g
+    for f in sorted(glob.glob(f"{ROOT}/styles/*.json")): s = json.load(open(f)); C["styles"][s["id"]] = s
+    for f in sorted(glob.glob(f"{ROOT}/faults/*.json")): x = json.load(open(f)); C["faults"][x["id"]] = x
+    for f in sorted(glob.glob(f"{ROOT}/kits/*.kit.json")): k = json.load(open(f)); C["kits"][k["style"]] = k
     C["massings"] = {m["id"]: m for m in json.load(open(f"{ROOT}/massings/catalog.json"))}
     for g in json.load(open(f"{ROOT}/elements/slots.json"))["groups"]:
         for s in g["slots"]: C["slots"][s["id"]] = s
@@ -284,10 +284,19 @@ def check(plan, C=None, strict=False):
                 continue
             adj[rid].add(t); adj[t].add(rid)
             rel[(rid, t)] = rel[(t, rid)] = "direct-door"
+    # Declared relations are kept beside the door-derived ones, not merged under
+    # them: a pair can legitimately be joined by a door AND declared
+    # not-visible-from (the door sits around a jog). The must-not-adjoin skip
+    # below consults both; entered_from keeps reading the door-derived map only.
+    # Before this, rel.setdefault meant a direct-door pair could NEVER satisfy
+    # "record the relation as 'not-visible-from' if the separation is real" --
+    # the exact interaction the finding's own fix text promises.
+    declared_rel = {}
     for a in plan.get("adjacencies", []):
         if a["a"] in rooms and a["b"] in rooms:
             adj[a["a"]].add(a["b"]); adj[a["b"]].add(a["a"])
             rel.setdefault((a["a"], a["b"]), a["relation"]); rel.setdefault((a["b"], a["a"]), a["relation"])
+            declared_rel[(a["a"], a["b"])] = declared_rel[(a["b"], a["a"])] = a["relation"]
     types_present = {r["type"] for r in rooms.values()}
     # OQ 42, ruled 24 Aug 2026. Every adjacency target already runs through `_alias()` when the
     # question is what a room is NEXT TO; the question of whether the plan CONTAINS the room at
@@ -341,7 +350,7 @@ def check(plan, C=None, strict=False):
         return False
 
     def types_on_level(delta_from):
-        """Room types on a given level. The vertical half of adjacency (OQ 35)."""
+        """Room types on a given level. The vertical half of adjacency (OQ 57)."""
         out = {}
         for x, rr in rooms.items():
             out.setdefault(level_of.get(x, 0), set()).update(serves(rr["type"]))
@@ -352,7 +361,7 @@ def check(plan, C=None, strict=False):
     def types_vertically_from(rid, direction):
         """Types on the storey directly above or below this room.
 
-        OQ 35, ruled 24 Aug 2026. Adjacency was evaluated within a level only, which made two
+        OQ 57, ruled 24 Aug 2026. Adjacency was evaluated within a level only, which made two
         real arrangements unstateable: an overlook is open to the hall BELOW it, and a great
         chamber over the parlour is a drawing room whose dining room is a storey down. Both were
         being worked around -- one rule softened so a right answer was not called a defect, one
@@ -484,7 +493,7 @@ def check(plan, C=None, strict=False):
                 if excepted(rule, chain): continue
                 if (r["type"], key, rule["room"]) in suppressed: continue
                 relation = rule.get("relation")
-                # --- vertical relations (OQ 35). A rule that IS vertical is satisfied only
+                # --- vertical relations (OQ 57). A rule that IS vertical is satisfied only
                 # vertically; a horizontal rule marked vertical_ok may be satisfied either way.
                 if relation in ("open-to-below", "open-to-above"):
                     d = "below" if relation == "open-to-below" else "above"
@@ -552,7 +561,9 @@ def check(plan, C=None, strict=False):
             relation = rule.get("relation", "")
             for other in adj[rid]:
                 if rooms[other]["type"] != rule["room"]: continue
-                if relation in ("acoustically-separated", "not-visible-from") and rel.get((rid, other)) == relation:
+                if relation in ("acoustically-separated", "not-visible-from") and (
+                        rel.get((rid, other)) == relation
+                        or declared_rel.get((rid, other)) == relation):
                     continue
                 pair = tuple(sorted((rid, other)))
                 if pair in seen_pairs: continue          # a mutual prohibition is one finding, not two
@@ -752,12 +763,15 @@ def check(plan, C=None, strict=False):
                 # must not enter the measurements dict at all: a key present with a None value
                 # is a measurement the fault evaluator will try to compare, and the only reason
                 # that did not already produce nonsense is that it threw and was swallowed.
-                # Absent is what "unjudged" looks like here (OQ 37).
+                # Absent is what "unjudged" looks like here (OQ 59).
                 if v is None: continue
                 meas.setdefault(k, v)
     except Exception:
         pass
-    fr = core.check_measurements(meas, style=style) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
+    # limit lifted from the API default of 40: faults_present was never truncated, and the
+    # could_not_judge list (surfaced as fault_unjudged below) has to be the whole list or
+    # "unjudged is not passed" degrades into "the first forty unjudged are not passed".
+    fr = core.check_measurements(meas, style=style, limit=10**6) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
     for x in fr.get("faults_present", []):
         # Quote the test that FAILED, not the first one that ran. A fault carrying secondary
         # tests can have its primary pass and a secondary fail; reading results[0] then printed
@@ -774,6 +788,10 @@ def check(plan, C=None, strict=False):
     for f in F.items: counts[f["severity"]] = counts.get(f["severity"], 0) + 1
     return {"plan": plan["id"], "style": style, "rooms": len(rooms),
             "counts": counts, "fault_summary": fr.get("summary"), "constraint_summary": constraint_summary,
+            # The could-not-judge detail, not just its count. fault_summary already counts
+            # unjudged; without the list itself a caller cannot say WHICH faults were
+            # beyond evaluation, and unjudged-is-not-passed needs the which. Additive.
+            "fault_unjudged": fr.get("could_not_judge", []),
             "findings": F.sorted(),
             "note": ("Style exceptions are honoured throughout — a rule a style legitimately breaks is not reported. "
                      "Code findings are advisory. Anything the fault corpus could not judge is unknown, not passed.")}

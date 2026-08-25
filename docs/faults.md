@@ -80,7 +80,7 @@ period rail meets a modern dimension:**
 The corresponding faults are `guard-height-against-the-period-rail`, `baluster-spacing-as-fence`,
 `baluster-too-thin`, `newel-too-thin` and `rail-without-a-bottom-rail`.
 
-## Scoping a test to the styles it was written for (OQ 41, 24 Aug 2026)
+## Scoping a test to the styles it was written for (OQ 63, 24 Aug 2026)
 
 A test — primary or secondary — may carry `applies_to_styles`. **Absent means every style the
 fault applies to**, which is the behaviour before the field existed. Present, it is matched

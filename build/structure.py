@@ -134,7 +134,7 @@ def wall_lines(level_rooms, W, H):
             key = (seg[0], round(seg[1], 1), round(seg[2], 1), round(seg[3], 1))
             if key in seen: continue
             seen.add(key)
-            # OQ 33: a wall between a room and a reserved void that is open to the sky is an
+            # OQ 55: a wall between a room and a reserved void that is open to the sky is an
             # EXTERIOR wall. It is weather-facing, it is on the thermal envelope, and it is
             # bearing -- which is the whole structural point of a courtyard house and was
             # invisible while the court was not placed at all. Calling it an interior partition
@@ -375,9 +375,17 @@ def stair_geometry(plan, geometry_result, storeys):
     }
 
 # ---------------------------------------------------------------- orchestration
-def build_section(plan, parti=None, geometry_result=None):
+def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
+    # engine defaults to the HEURISTIC deliberately (WP-2.3): this function is
+    # the derivation step inside plan_check's elevation layer and the composer's
+    # scoring loop, where a CP-SAT proof per candidate made the critic crawl —
+    # measured, not guessed. Placement as a PRODUCT is proven: geometry.solve(),
+    # core.place_plan and the workbench's prove control all default to CP-SAT;
+    # a caller who wants this section built over the proven placement passes
+    # geometry_result=solve(plan) or engine="auto". The placement's own
+    # geometry_report.solver names which engine ran, so nothing is silent.
     if geometry_result is None:
-        geometry_result = GEOM.solve(json.loads(json.dumps(plan)), parti)
+        geometry_result = GEOM.solve(json.loads(json.dumps(plan)), parti, engine=engine)
     if "error" in geometry_result:
         return {"error": geometry_result["error"]}
     construction = load_construction()

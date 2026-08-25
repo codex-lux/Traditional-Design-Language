@@ -52,7 +52,7 @@
   "must_adjoin": [
    {
     "room": "stair-hall",
-    "why": "By definition. VERTICAL_OK added 24 Aug 2026 (OQ 37, using OQ 35's mechanism): a landing is the top of a stair, and the stair hall it belongs to is on the storey BELOW it. Read as a same-floor rule this could only be satisfied by a house with a second stair hall upstairs, so every two-storey parti with a landing failed it -- which is the rule asking for the one thing a landing structurally cannot have.",
+    "why": "By definition. VERTICAL_OK added 24 Aug 2026 (OQ 59, using OQ 57's mechanism): a landing is the top of a stair, and the stair hall it belongs to is on the storey BELOW it. Read as a same-floor rule this could only be satisfied by a house with a second stair hall upstairs, so every two-storey parti with a landing failed it -- which is the rule asking for the one thing a landing structurally cannot have.",
     "relation": "direct-door",
     "strength": "hard",
     "vertical_ok": true

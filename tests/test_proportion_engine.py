@@ -30,7 +30,7 @@ class TestProportionEngineSelftest:
         pack lands teaches the next author to edit tests rather than to read them. What is pinned
         is the invariant -- every pack resolves, none has a problem."""
         import glob
-        n = len(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")))
+        n = len(sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))))
         # Pinned at the achieved count, not a stale floor of 38 -- nineteen packs could vanish
         # under a floor that low without the suite noticing. Raise it when packs are added.
         assert n == 57, n

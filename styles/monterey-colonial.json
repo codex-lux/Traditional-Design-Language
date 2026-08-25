@@ -56,7 +56,7 @@
       "type": "hybridizes_with",
       "weight": 0.5,
       "inherits_kit": true,
-      "note": "The Anglo half: braced-frame carpentry, a wood-shingled hip roof, milled architrave trim, double-hung six-over-six sash, an interior stair and an interior corridor — all brought by New England shipmasters and carpenters into a province that had none of them. SCOPED (OQ 36, 24 Aug 2026) to the list this note already enumerates - the carpentry, the trim, the sash, the stair and the corridor. Unscoped it also carried `chimney`, which the note does not claim and which is wrong: a Monterey chimney is the Hispanic adobe half of the house, not the Anglo half the shipmasters brought.",
+      "note": "The Anglo half: braced-frame carpentry, a wood-shingled hip roof, milled architrave trim, double-hung six-over-six sash, an interior stair and an interior corridor — all brought by New England shipmasters and carpenters into a province that had none of them. SCOPED (OQ 58, 24 Aug 2026) to the list this note already enumerates - the carpentry, the trim, the sash, the stair and the corridor. Unscoped it also carried `chimney`, which the note does not claim and which is wrong: a Monterey chimney is the Hispanic adobe half of the house, not the Anglo half the shipmasters brought.",
       "slots": [
         "stair_position",
         "stair_type",

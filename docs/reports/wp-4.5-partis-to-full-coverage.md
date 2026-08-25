@@ -128,7 +128,7 @@ said so. `scaling.min_bay_count` added to the parti schema, defaulting to 3.
   package about that.
 - **Three of the package's own named dozen.** `telescope` unblocks nobody — `telescope-house` is
   canonical for no style at all, which is the exact inverse of the gap this package addresses.
-  `split-level` unblocks nobody and needs a schema decision (OQ 34). `foursquare side hall`
+  `split-level` unblocks nobody and needs a schema decision (OQ 56). `foursquare side hall`
   unblocks at most one node and `foursquare-quadrant` is *already*
   `circulation_parti: "side-hall"`. Named here rather than quietly dropped.
 - **"Complete `style_variation` for every room across every buildable style."** The package text
@@ -143,18 +143,18 @@ said so. `scaling.min_bay_count` added to the parti schema, defaulting to 3.
 
 ## Open questions raised
 
-**OQ 33 — the courtyard is a void the geometry engine cannot draw.** `geometry.py` and `solver.py`
+**OQ 55 — the courtyard is a void the geometry engine cannot draw.** `geometry.py` and `solver.py`
 both drop every `function_class: outdoor` room before placement, so the courtyard partis compose,
 score and render as a *solid* block with no void in it. Pre-existing (the Charleston piazza has the
 same problem today) but WP-4.5 makes it the dominant case, for 19 nodes whose canonical massing
 *is* the void.
 
-**OQ 34 — no half-storey.** `rooms[].level` is an integer and every consumer reads it as a level
+**OQ 56 — no half-storey.** `rooms[].level` is an integer and every consumer reads it as a level
 index, so a split-level cannot be expressed. It unblocks zero nodes, so no schema change was spent
 on it; the concrete proposal for whoever rules is that `level` stays integer and an optional
 `level_offset_ft` is added beside it.
 
-**OQ 35 — no vertical adjacency, and no upper-floor state room.** Two findings with one cause: the
+**OQ 57 — no vertical adjacency, and no upper-floor state room.** Two findings with one cause: the
 plan record cannot say "open to the room below" (the overlook) and every reception room in the
 catalogue carries a ground-floor adjacency rule (the great chamber). Both are currently worked
 around by weakening a rule or retyping a room, and both would be answered properly by letting

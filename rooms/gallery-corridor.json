@@ -88,7 +88,7 @@
   "must_adjoin": [
    {
     "room": "stair-hall",
-    "why": "a gallery or corridor has to be entered at a point, and on an upper floor that point is the stair head; a corridor reached only through a room is not circulation VIA added 24 Aug 2026 (OQ 43): a gallery reaches the stair through the entrance sequence, and requiring it to SHARE A DOOR with the stair hall is stricter than this room's own record, whose `entered_from` is stair-hall, entrance-hall, great-chamber, landing -- four ways in, of which the rule accepted one. It bit hardest on the five-part Palladian's hyphens, which OQ 37 had just retyped to this room to escape `back-hall`'s kitchen rule: a hyphen opens off the passage and the stair is off the passage too, which is the plan working.",
+    "why": "a gallery or corridor has to be entered at a point, and on an upper floor that point is the stair head; a corridor reached only through a room is not circulation VIA added 24 Aug 2026 (OQ 43): a gallery reaches the stair through the entrance sequence, and requiring it to SHARE A DOOR with the stair hall is stricter than this room's own record, whose `entered_from` is stair-hall, entrance-hall, great-chamber, landing -- four ways in, of which the rule accepted one. It bit hardest on the five-part Palladian's hyphens, which OQ 59 had just retyped to this room to escape `back-hall`'s kitchen rule: a hyphen opens off the passage and the stair is off the passage too, which is the plan working.",
     "relation": "direct-door",
     "strength": "hard",
     "via": [

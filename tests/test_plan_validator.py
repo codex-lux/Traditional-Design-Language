@@ -29,11 +29,11 @@ class TestShippedPlans:
         result = plan_check_module.check(plan, corpus)
         assert result["counts"]["fatal"] == 4
         assert result["counts"]["serious"] == 70
-        # 59 -> 57 on 24 Aug 2026 (OQ 37): centre-passage joined the entrance-hall EQUIVALENT
+        # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
         # and serious are unmoved, which is what says this removed noise and not signal.
-        # 57 -> 56 the same day (OQ 41): one more finding came from a secondary test written
+        # 57 -> 56 the same day (OQ 63): one more finding came from a secondary test written
         # for another style, and is no longer run against this one.
         # 56 -> 59 (OQ 43): substitution became directional, so a room the plan models under an
         # equivalent name now produces a real adjacency finding at the rule's own severity
@@ -58,12 +58,12 @@ class TestShippedPlans:
         plan = load_plan("tidewater-georgian-careful")
         result = plan_check_module.check(plan, corpus)
         assert result["counts"].get("fatal", 0) == 0
-        # 39 -> 38 on 24 Aug 2026 (OQ 41): a secondary test written for another style is no
+        # 39 -> 38 on 24 Aug 2026 (OQ 63): a secondary test written for another style is no
         # longer run against this one. A test that is not for this house says nothing about it.
         # 38 -> 40 (OQ 43): two findings that were held at minor while substitution was
         # symmetric are now reported at the severity their own rule carries. Fatal stays 0.
         assert result["counts"]["serious"] == 40
-        # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 37).
+        # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the
         # absence they are, or promoted to the severity their rule carries. Fatal stays 0.
@@ -107,7 +107,7 @@ class TestAdjacencyMechanics:
             {"id": "pr", "type": "powder-room", "name": "Powder Room",
              "width_ft": 4, "length_ft": 6, "exterior_walls": [], "windows": [],
              "doors": [{"to": "cp", "width_ft": 2.5}]},
-            # RE-PINNED 24 Aug 2026 (OQ 37): this was a centre-passage, chosen as a room that
+            # RE-PINNED 24 Aug 2026 (OQ 59): this was a centre-passage, chosen as a room that
             # is emphatically not an entrance hall. It is one -- the front door opens into it
             # and every principal room opens off it -- and it joined plan_check's EQUIVALENT
             # group, so the fixture stopped testing what it was written to test. A back hall is
@@ -136,7 +136,7 @@ class TestAdjacencyMechanics:
             {"id": "pr", "type": "powder-room", "name": "Powder Room",
              "width_ft": 4, "length_ft": 6, "exterior_walls": [], "windows": [],
              "doors": [{"to": "cp", "width_ft": 2.5}]},
-            # RE-PINNED 24 Aug 2026 (OQ 37): this was a centre-passage, chosen as a room that
+            # RE-PINNED 24 Aug 2026 (OQ 59): this was a centre-passage, chosen as a room that
             # is emphatically not an entrance hall. It is one -- the front door opens into it
             # and every principal room opens off it -- and it joined plan_check's EQUIVALENT
             # group, so the fixture stopped testing what it was written to test. A back hall is
@@ -380,7 +380,7 @@ class TestConstraintEvaluation:
 
 
 class TestVerticalAdjacency:
-    """OQ 35, ruled 24 Aug 2026. Adjacency was evaluated within a level only, which made two real
+    """OQ 57, ruled 24 Aug 2026. Adjacency was evaluated within a level only, which made two real
     arrangements unstateable and forced two workarounds that this change removes."""
 
     def _two_level(self, plan_check_module, upper_type, lower_type, relation_room):

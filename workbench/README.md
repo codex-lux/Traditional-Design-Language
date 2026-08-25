@@ -1,0 +1,79 @@
+# The Workbench
+
+The human interface to the Traditional Design Language (WP-5.2): a local web app —
+the drawing with the critique on it — over the same corpus and toolchain the CLI and
+MCP server drive. All eleven surfaces are live (⑪ Transcription, WP-5.5). Export ships the plan record, brief, check report and
+the five SVG sheets today; DXF/IFC (WP-5.1), the guidelines book and details
+library (WP-5.3) and drawing ingestion (WP-5.5) are named as forthcoming on the
+Export surface rather than hidden.
+
+## Run it
+
+```
+pip install -r workbench/requirements.txt
+cd workbench/app && npm install && npm run build && cd ../..
+make workbench          # → http://127.0.0.1:8177
+```
+
+Dev mode (`make workbench-dev` prints this): `uvicorn workbench.server.app:app
+--reload --port 8177` in one terminal, `npm run dev` in `workbench/app` in another —
+vite proxies `/api`, so there is no CORS anywhere.
+
+The AI rail needs `ANTHROPIC_API_KEY` in the environment. Without it the server runs
+and the rail says plainly that it is off — the three-state discipline applies to the
+rail's own availability.
+
+## Deploying it
+
+`docs/deployment.md` is the account; the short version is that there is a `Dockerfile`
+at the repo root and the only things a container must set are `WORKBENCH_HOST=0.0.0.0`
+(the image does), `WORKBENCH_PASSWORD` and `WORKBENCH_SECRET` for the gate, and
+`ANTHROPIC_API_KEY` for the rail. `PORT` is read in preference to `WORKBENCH_PORT`, so a
+platform that injects it needs no configuration.
+
+The same process also serves the MCP server's 24 tools at `/mcp`, gated by the same bearer
+token — `mcp_server/README.md` has the client command. Its transport has to recognise its
+own hostname, which is discovered from the platform's own environment variables; set
+`WORKBENCH_ALLOWED_HOSTS` only for a custom domain, or if `/api/health` shows the host
+missing from `mcp.allowed_hosts`.
+
+Two things not to get wrong: **replicas must stay at 1** (the compose job registry is in
+process memory — OQ 36), and the rail's caps are not a spend cap. The only ceiling in
+dollars is the budget on the key itself.
+
+Locally none of this applies. With no `WORKBENCH_PASSWORD` set the server is open, as it
+has always been, and says so at startup and in `/api/health`.
+
+## What it will not claim
+
+The interface renders the system's honest states rather than hiding them: unjudged is
+never collapsed into passed; the solver is named as a hill-climb (re-solve is explicit,
+candidate count exposed); an infeasible brief is never presented as proof of anything
+(the conflict-set panel is designed and marked forthcoming until WP-2.3); the code
+layer is advisory, never compliance; no candidate is ever crowned; and no plan is ever
+called good.
+
+## Architecture, one paragraph
+
+`server/` is a thin FastAPI skin over `mcp_server/core.py` — pure pass-through routes,
+two small aggregations (`/api/phylogeny`, kit cascade rows), one combined
+`/api/plan/evaluate` (validator + placement per edit gesture), an in-memory compose
+job registry with SSE progress, and the rail: an Anthropic tool loop over the same 24
+tools the MCP server exposes (loaded from `server.py` itself via a stub, so they
+cannot drift), with every citation validated against live corpus ids before it is
+streamed. `app/` is Vite + React, ported from the design mockup: the Drawn Language
+tokens verbatim, the 19-component design system, and a plan Sheet drawn only from the
+record and its placement. The plan record is a document the browser owns; the server
+is stateless except the job registry. Corpus edits during dev are picked up via
+`POST /api/dev/reload` (explicit by design — see OQ 28).
+
+See `docs/workbench.md` for the layer doc and `docs/reports/wp-5.2-the-workbench.md`
+for what was built, found, and deliberately not done.
+
+## Verify
+
+```
+make workbench-test         # server suites: endpoints, CLI parity, rail loop, citations
+bash workbench/scripts/smoke.sh   # live server: health, parity diff vs CLI, one compose job
+cd workbench/app && node e2e/walk.mjs  # browser walk of every surface + screenshots
+```

@@ -220,7 +220,7 @@
    ],
    "stacks_over": "parlour",
    "area_weight": 0.13,
-   "note": "The best room in the house, over the parlour at the high end. In the sixteenth century it is where the household dined in state once the hall had stopped being used for it. Typed drawing-room, which is what it is. It was typed `library` when this parti was written, purely to dodge drawing-room's hard rule that it must reach a dining room — a ground-floor rule an upper-floor state room can never satisfy, which cost a FATAL for the one arrangement this type is famous for. OQ 35 fixed the rule instead: it is now also satisfied by the dining room sitting a storey below, which is where it actually is."
+   "note": "The best room in the house, over the parlour at the high end. In the sixteenth century it is where the household dined in state once the hall had stopped being used for it. Typed drawing-room, which is what it is. It was typed `library` when this parti was written, purely to dodge drawing-room's hard rule that it must reach a dining room — a ground-floor rule an upper-floor state room can never satisfy, which cost a FATAL for the one arrangement this type is famous for. OQ 57 fixed the rule instead: it is now also satisfied by the dining room sitting a storey below, which is where it actually is."
   },
   {
    "id": "gallery",

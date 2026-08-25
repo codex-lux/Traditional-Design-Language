@@ -258,7 +258,7 @@ class TestCheckKitsCatchesDanglingReplace:
 
 
 class TestScopedLineageEdges:
-    """OQ 36, ruled 24 Aug 2026. A `hybridizes_with` edge drawn to carry one narrow aspect of a
+    """OQ 58, ruled 24 Aug 2026. A `hybridizes_with` edge drawn to carry one narrow aspect of a
     donor's practice transmitted that donor's ENTIRE kit, because the cascade could not partition
     a donor's bindings by which aspect the edge was drawn for. An edge may now name the slots it
     carries; an edge that names none carries everything, as it always did."""

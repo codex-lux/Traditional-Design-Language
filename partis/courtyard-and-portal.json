@@ -66,7 +66,7 @@
     "comedor"
    ],
    "area_weight": 0.07,
-   "note": "OQ 39, ruled 24 Aug 2026. The corredor was one room record, and a continuous roofed walk around four sides of a court cannot be one rectangle: the engines placed it along one side and the other three ranges were entered from nothing. It is now four records, one per range, doored to each other so the ring is continuous and to the rooms each range serves. What is lost is the true statement that it is ONE room; what is gained is a diagram whose circulation reaches its own rooms. The alternative -- letting a room carry several rectangles -- would have changed what a room is in this corpus. The four are listed here in the ring order the placement engine reads them in -- S, W, E, N, matching build/geometry.py's own band order -- so the range holding the zaguan is the one on the street. That ordering is a convention stated in docs/geometry.md rather than a schema field, because it is the only thing that would have needed one. The four ranges are NOT equal: a full courtyard's street and rear ranges run the block's whole width while the side ranges run only the court's depth, so they hold roughly twice the area. The rooms are distributed against that rather than evenly -- four rooms in a side range made the corredor there swell to 385 sf to fill a band its rooms could not. The four weights sum to 0.22, not the 0.12 the single record carried. A corredor that actually rings the court is its perimeter times its depth -- about 4*sqrt(0.18*G)*7 for a house of gross area G, which is 0.21 to 0.22 of G across this parti's whole area range. The old 0.12 was the weight of a walk along ONE side, and carrying it forward would have undersized the block by the difference: the ring geometry gives the corredor the band area its rooms do not fill whether the record asks for it or not, so understating it does not make it smaller, it makes every room in the ranges smaller."
+   "note": "OQ 61, ruled 24 Aug 2026. The corredor was one room record, and a continuous roofed walk around four sides of a court cannot be one rectangle: the engines placed it along one side and the other three ranges were entered from nothing. It is now four records, one per range, doored to each other so the ring is continuous and to the rooms each range serves. What is lost is the true statement that it is ONE room; what is gained is a diagram whose circulation reaches its own rooms. The alternative -- letting a room carry several rectangles -- would have changed what a room is in this corpus. The four are listed here in the ring order the placement engine reads them in -- S, W, E, N, matching build/geometry.py's own band order -- so the range holding the zaguan is the one on the street. That ordering is a convention stated in docs/geometry.md rather than a schema field, because it is the only thing that would have needed one. The four ranges are NOT equal: a full courtyard's street and rear ranges run the block's whole width while the side ranges run only the court's depth, so they hold roughly twice the area. The rooms are distributed against that rather than evenly -- four rooms in a side range made the corredor there swell to 385 sf to fill a band its rooms could not. The four weights sum to 0.22, not the 0.12 the single record carried. A corredor that actually rings the court is its perimeter times its depth -- about 4*sqrt(0.18*G)*7 for a house of gross area G, which is 0.21 to 0.22 of G across this parti's whole area range. The old 0.12 was the weight of a walk along ONE side, and carrying it forward would have undersized the block by the difference: the ring geometry gives the corredor the band area its rooms do not fill whether the record asks for it or not, so understating it does not make it smaller, it makes every room in the ranges smaller."
   },
   {
    "id": "walk-w",
@@ -80,7 +80,7 @@
     "kitchen"
    ],
    "area_weight": 0.04,
-   "note": "One of the four ranges of the covered walk; see walk-s's note (OQ 39)."
+   "note": "One of the four ranges of the covered walk; see walk-s's note (OQ 61)."
   },
   {
    "id": "walk-e",
@@ -95,7 +95,7 @@
     "chamber3"
    ],
    "area_weight": 0.04,
-   "note": "One of the four ranges of the covered walk; see walk-s's note (OQ 39)."
+   "note": "One of the four ranges of the covered walk; see walk-s's note (OQ 61)."
   },
   {
    "id": "walk-n",
@@ -112,7 +112,7 @@
     "study"
    ],
    "area_weight": 0.07,
-   "note": "One of the four ranges of the covered walk; see walk-s's note (OQ 39)."
+   "note": "One of the four ranges of the covered walk; see walk-s's note (OQ 61)."
   },
   {
    "id": "zaguan",

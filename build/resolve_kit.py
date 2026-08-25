@@ -75,7 +75,7 @@ def chain_for(graph, style_id):
 
 
 def scope_for(graph, style_id):
-    """Which ancestors in this node's chain may contribute only SOME slots (OQ 36).
+    """Which ancestors in this node's chain may contribute only SOME slots (OQ 58).
 
     Absent for almost every ancestor, and absent entirely for a node with no scoped edge, which
     is the historical behaviour: an edge with no `slots` list carries the donor's whole kit. An
@@ -190,7 +190,7 @@ def resolve_slots(graph, chain, scope=None):
     for sid, group, name in slot_order(graph):
         deltas, rec, src = [], None, None
         for nid in chain:
-            # OQ 36: an ancestor reached by a scoped edge contributes only the slots that edge
+            # OQ 58: an ancestor reached by a scoped edge contributes only the slots that edge
             # was drawn for. Skipping it here rather than filtering its kit means the walk
             # simply continues past it to the next ancestor, which is exactly what "this edge
             # does not carry that slot" should mean.

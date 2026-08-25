@@ -26,7 +26,7 @@ def load(path):
 
 
 def count_glob(pattern):
-    return len(glob.glob(str(ROOT / pattern), recursive=True))
+    return len(sorted(glob.glob(str(ROOT / pattern), recursive=True)))
 
 
 def compute_counts():
@@ -55,14 +55,14 @@ def compute_counts():
     c["schema_files"] = count_glob("schema/*.json")
 
     kits_populated = 0
-    for f in glob.glob(str(ROOT / "kits/*.json")):
+    for f in sorted(glob.glob(str(ROOT / "kits/*.json"))):
         d = json.load(open(f))
         if any(s.get("binding") != "open" for s in d["slots"].values()):
             kits_populated += 1
     c["kits_populated"] = kits_populated
     c["kits_empty"] = c["kits"] - kits_populated
 
-    style_docs = [json.load(open(f)) for f in glob.glob(str(ROOT / "styles/*.json"))]
+    style_docs = [json.load(open(f)) for f in sorted(glob.glob(str(ROOT / "styles/*.json")))]
     c["styles_total"] = len(style_docs)
     by_rank = {}
     for d in style_docs:
@@ -78,13 +78,13 @@ def compute_counts():
     c["massing_affinities"] = sum(len(d.get("massing_affinities", [])) for d in style_docs)
     c["styles_with_pack_bindings"] = sum(1 for d in style_docs if d.get("proportion_packs"))
 
-    faults_docs = [json.load(open(f)) for f in glob.glob(str(ROOT / "faults/*.json"))]
+    faults_docs = [json.load(open(f)) for f in sorted(glob.glob(str(ROOT / "faults/*.json")))]
     c["fault_exceptions"] = sum(len(d.get("exceptions", [])) for d in faults_docs)
     c["fault_exceptions_numeric"] = sum(
         1 for d in faults_docs for e in d.get("exceptions", []) if e.get("bounds_test")
     )
 
-    rooms_docs = [json.load(open(f)) for f in glob.glob(str(ROOT / "rooms/*.json"))]
+    rooms_docs = [json.load(open(f)) for f in sorted(glob.glob(str(ROOT / "rooms/*.json")))]
     c["room_style_variation_entries"] = sum(len(d.get("style_variation", [])) for d in rooms_docs)
 
     manifest = load("assets/manifest.json")
@@ -94,7 +94,7 @@ def compute_counts():
     server_src = (ROOT / "mcp_server/server.py").read_text()
     c["mcp_tools"] = len(re.findall(r"@mcp\.tool\(\)", server_src))
 
-    partis_docs = [json.load(open(f)) for f in glob.glob(str(ROOT / "partis/*.json"))]
+    partis_docs = [json.load(open(f)) for f in sorted(glob.glob(str(ROOT / "partis/*.json")))]
     native_styles = set()
     for d in partis_docs:
         native_styles.update(d.get("styles", []))

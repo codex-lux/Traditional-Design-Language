@@ -159,7 +159,7 @@
      },
      "level_offset_ft": {
       "type": "number",
-      "description": "Half-storey offset from this room's level, in feet. Defaults to 0. `level` keeps its meaning and continues to drive stacking, vertical alignment and storey heights; this is read only by the section and the stair check, so a split-level can be expressed without every consumer of `level` changing. Ruled as OQ 34."
+      "description": "Half-storey offset from this room's level, in feet. Defaults to 0. `level` keeps its meaning and continues to drive stacking, vertical alignment and storey heights; this is read only by the section and the stair check, so a split-level can be expressed without every consumer of `level` changing. Ruled as OQ 56."
      }
     }
    }

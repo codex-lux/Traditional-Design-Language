@@ -22,7 +22,7 @@ Checks, in order:
   8. level sanity, and that a parti declaring storeys > 1 actually places rooms above
   9. circulation_parti agrees with the groupings it names (a grouping carries an
      ARRAY of acceptable values; a parti carries one scalar - they must intersect)
- 10. COMPOSABILITY (OQ 37): every parti is instantiated against the first style in its
+ 10. COMPOSABILITY (OQ 59): every parti is instantiated against the first style in its
      own `styles` array and run through plan_check. A FATAL finding is an error here.
      Everything above this line checks that a parti is well FORMED; this checks that the
      diagram works - that it satisfies the room catalogue's own hard adjacency rules,
@@ -79,15 +79,15 @@ def build_universe():
     u = {}
     u["massings"] = {m["id"] for m in load(os.path.join(ROOT, "massings", "catalog.json"))}
     u["rooms"] = {os.path.basename(p)[:-5]
-                  for p in glob.glob(os.path.join(ROOT, "rooms", "*.json"))}
+                  for p in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json")))}
     # the full records too, for check 11 (OQ 45), which needs each room's catalogue band
     u["room_records"] = {}
-    for p in glob.glob(os.path.join(ROOT, "rooms", "*.json")):
+    for p in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))):
         r = load(p); u["room_records"][r["id"]] = r
     u["groupings"] = {os.path.basename(p)[:-5]
-                      for p in glob.glob(os.path.join(ROOT, "groupings", "*.json"))}
+                      for p in sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json")))}
     styles, buildable, canonical = {}, set(), {}
-    for p in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for p in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         d = load(p)
         styles[d["id"]] = d
         if d.get("rank") in ("style", "variant"):
@@ -101,7 +101,7 @@ def build_universe():
     u["canonical"] = canonical
     # a grouping's circulation_parti is an ARRAY of acceptable values; a parti's is one
     u["grouping_circulation"] = {}
-    for p in glob.glob(os.path.join(ROOT, "groupings", "*.json")):
+    for p in sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))):
         d = load(p)
         cp = d.get("circulation_parti")
         if cp:
@@ -265,7 +265,7 @@ def check_area_range_is_reachable(rep, partis, rooms):
 def check_composability(rep, partis):
     """Instantiate each parti against its own first native style and run plan_check on it.
 
-    OQ 37. Everything else in this file checks that a parti is well FORMED. This checks that
+    OQ 59. Everything else in this file checks that a parti is well FORMED. This checks that
     the diagram WORKS: that it satisfies the room catalogue's own hard adjacency rules, which
     is what plan_check holds any plan built from it to. Five of twenty-one partis were carrying
     fatal findings against the styles they were written for, and the composer -- correctly, on

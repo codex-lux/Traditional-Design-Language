@@ -52,7 +52,7 @@ RATCHET = {"role_gaps": 294, "inherited_packs": 3367, "unendorsed": 233}
 def applies_to_index():
     """pack id -> the set of nodes its own applies_to vouches for."""
     out = {}
-    for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
         d = json.load(open(f))
         out[d["id"]] = set(d.get("applies_to") or ())
     return out

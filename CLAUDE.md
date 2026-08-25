@@ -9,6 +9,7 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 
 1. **`STATE-OF-THE-PROJECT.md`** — what exists, what is half-built, what is unstarted.
    Revised 24 Aug 2026 against verified counts. Part III is the honest list of gaps.
+   Predates WP-5.2 — where it calls the workbench unbuilt, this file is the current word.
 2. **`PLAN-OF-ACTION.md`** — the progress board at the top, then §1 "Operating rules for
    every agent" (non-negotiable), then the work package you are doing. Every WP carries a
    **Status** line. Original package text is left as written even where the work is done,
@@ -37,7 +38,11 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 
 ```
 python3 -m pip install -r requirements.txt   # ortools, jsonschema, pytest
-python3 build/check_all.py     # 26 checks incl. the full pytest suite. ~8 min. Must be green.
+python3 build/check_all.py     # every checker, then tests/ AND workbench/server/tests. Must be green.
+                               # (the two CAD-export selftests report N/EV -- COULD NOT
+                               #  EVALUATE -- without the optional ezdxf/ifcopenshell, and the
+                               #  workbench suite the same without fastapi/httpx; that is a
+                               #  named unjudged state, never a pass)
 ```
 
 The data and every checker run on the standard library alone, deliberately — `requirements.txt`
@@ -60,11 +65,15 @@ usually right -- a menu within one pack, or two packs meaning the same quantity,
 precedence is for. Two packs meaning DIFFERENT quantities is a silent corruption and the fix is a
 named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful while authoring:
 `python3 build/resolve_kit.py <style-id> --verbose` shows a kit's full provenance chain, and
-`python3 build/solver.py <plan> --time 60` places a plan by constraint rather than by search.
+`python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
+(`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
 ## Where the work stands (25 Aug 2026)
 
-Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6. Phase 5 not started.
+Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6; WP-4.4 is
+environment-blocked. **Phase 5 is part-built** — WP-5.1 (DXF/IFC export), WP-5.2 (the workbench
+in `workbench/`) and WP-5.5 (drawing-to-record ingestion) all shipped on the trunk while this
+branch was working Phase 4; WP-5.3 and WP-5.4 remain.
 
 164 nodes · 97 slots (ontology 0.7.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
@@ -72,7 +81,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **26 checks, 750 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **30 checks, 762 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
@@ -131,7 +140,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   caches by realpath and every local `_mod`/`_load` delegates to it. **Do not reinstate a
   local loader**; `tests/test_modcache.py` counts module executions to catch it.
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
-  donor's whole kit (OQ 36 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
+  donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
   is **OQ 51** and is the one with 3,367 instances. Read it before trusting "132 of 132 bound".
   OQ 51 is now RULED -- adjudicate the 233 unjudged gaps first, flip inheritance to opt-in after --
@@ -146,7 +155,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   room below the floor of its own band and say nothing — the spec Colonial's dining room comes
   out 26% short on every seed — because `level_score` charges a flat 12 points and a candidate
   can win while paying it. The plan record still reads 12 x 12 and `plan_check.py` never reads
-  `room.geometry`, so no layer of the critic sees it. That is OQ 32, unruled.
+  `room.geometry`, so no layer of the critic sees it. That is OQ 54, unruled.
 - **A plan's `exterior_walls` are aspirations, not rectangle edges.** Three Tidewater ground
   rooms each declare *opposite* walls, so each would have to span the full depth of the house.
   They are weights, at the 14 points `exterior_score` charges. Do not promote them to
@@ -157,7 +166,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   routinely outranks a native one — at 6, five serious findings outweighed being the right
   diagram, and a Tidewater Georgian brief came back recommending an octagon. The hard refusal
   still exists only in `core.py`'s `list_partis`.
-- **Reserved voids, and the two things they break.** OQ 33 is built: an outdoor room whose own
+- **Reserved voids, and the two things they break.** OQ 55 is built: an outdoor room whose own
   record says it sits within the block (courtyard, piazza, loggia) is placed and dimensioned,
   excluded from the heated envelope, and drawn open. Two traps came with it. On a courtyard
   massing `depth_rooms` describes the RANGE, not the block, so the block's depth target is
@@ -179,17 +188,19 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   quoted `results[0]`, printing a PASSING measurement as the evidence for a failure. When a
   generator did not model something, the measurement must be **absent**, not zero.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **53 entries, of which 8 are open**
-  (7, 8, 9, 10, 11, 18, 52, 53). Six of the eight are environment-blocked; **52 and 53 were raised
-  on 25 Aug by an adversarial audit of this session's own work and need a ruling** -- 52 is the
-  elevation generator inventing measurements the fault corpus then convicts houses on, 53 is
-  `check_addresses.py` comparing `quantity` without `units`, which has two live wrong dimensions.
-  OQ 48, 50 and 51 closed on 25 Aug, and so did **OQ 16**, which had said IN PROGRESS for two days
-  after the code it was waiting for shipped: `resolve_kit.py` honours `rule_append` with
-  provenance, on both live instances. The list is now DERIVED from the file by a test rather than
-  asserted against a literal, which is how that rot was found. OQ 32, 40, 41, 42 and 43 were all
-  ruled or closed on 24 Aug and this file went on describing them as open; the authority is the
-  file, not this summary, and `python3 build/check_counts.py` does not police prose about rulings.
+  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 18 are open**
+  (7, 8, 9, 10, 11, 18, 32, 33, 34, 36, 37, 38, 39, 40, 41, 52, 53, 55). **Ids 32-41 mean something
+  different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
+  main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
+  were reissued as **54-63**, with a conversion table at the foot of the register. A commit message
+  or report written before the merge still carries the old number. OQ 48, 50, 51 and 16 closed on
+  25 Aug; **52 and 53 were raised the same day by an adversarial audit of this session's own work
+  and need a ruling** -- 52 is the elevation generator inventing measurements the fault corpus then
+  convicts houses on, 53 is `check_addresses.py` comparing `quantity` without `units`, which has two
+  live wrong dimensions. The list is DERIVED from the file by a test rather than asserted against a
+  literal, and an unrecognised status word now fails that test rather than counting as settled. **OQ 55 reopened at the merge**: it had closed with the open-void guarantee stated in BOTH
+  engines, and the engine that stated it as a hard constraint is the one that did not survive —
+  the heuristic's 40-point charge is all that is left, and a candidate can buy its way out.
   - **Environment-blocked, not unstarted: OQ 7, 8, 9, 10, 11**, and the source half of **OQ 18**.
     Every one needs a legible facsimile. `loc.gov`, `archive.org` and `hathitrust` all fail to
     connect from here. **None may be closed from a secondary source or a modern redrawing** —

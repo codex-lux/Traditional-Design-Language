@@ -97,7 +97,7 @@
   "must_adjoin": [
    {
     "room": "entrance-hall",
-    "why": "the passage IS the hall in most plans that have one; where they are separate, the hall is the passage's front bay VERTICAL_OK added 24 Aug 2026 (OQ 43, using OQ 35's mechanism, and the same shape as the fix `landing` needed under OQ 37): an UPPER centre passage sits directly over the lower one and is reached by the stair between them. Read as a same-floor rule it could only be satisfied by a house with a second entrance hall upstairs, so every two-storey parti with a passage on both floors failed it -- 23 findings across five diagrams, which is the rule asking for the one thing an upper passage structurally cannot have.",
+    "why": "the passage IS the hall in most plans that have one; where they are separate, the hall is the passage's front bay VERTICAL_OK added 24 Aug 2026 (OQ 43, using OQ 57's mechanism, and the same shape as the fix `landing` needed under OQ 59): an UPPER centre passage sits directly over the lower one and is reached by the stair between them. Read as a same-floor rule it could only be satisfied by a house with a second entrance hall upstairs, so every two-storey parti with a passage on both floors failed it -- 23 findings across five diagrams, which is the rule asking for the one thing an upper passage structurally cannot have.",
     "relation": "direct-door",
     "strength": "hard",
     "vertical_ok": true

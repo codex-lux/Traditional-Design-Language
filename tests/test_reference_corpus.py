@@ -19,7 +19,7 @@ from conftest import ROOT, load_reference_plan
 
 REFERENCE_DIR = os.path.join(ROOT, "plans", "reference")
 REFERENCE_IDS = sorted(
-    os.path.splitext(os.path.basename(f))[0] for f in glob.glob(os.path.join(REFERENCE_DIR, "*.json"))
+    os.path.splitext(os.path.basename(f))[0] for f in sorted(glob.glob(os.path.join(REFERENCE_DIR, "*.json")))
 )
 
 

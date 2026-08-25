@@ -21,7 +21,7 @@ def _partis():
 
 def _styles():
     out = {}
-    for p in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for p in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         d = json.load(open(p))
         out[d["id"]] = d
     return out

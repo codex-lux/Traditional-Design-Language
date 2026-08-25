@@ -73,37 +73,50 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import threading
 
 _CACHE: dict[str, object] = {}
+
+# One process-wide RLock. Every CLI user of this cache is single-threaded, but the
+# workbench server (WP-5.2) calls the same loads from FastAPI's threadpool, and the
+# register-before-exec convention below means an unlocked reader in a SECOND thread
+# could be handed a module whose exec is still running in the first -- an
+# AttributeError on whatever name isn't defined yet. An RLock keeps the deliberate
+# same-thread re-entrancy (the cycle guard) while making cross-thread cold loads
+# wait for a fully-executed module. Warm hits pay one uncontended acquire.
+_LOCK = threading.RLock()
 
 
 def load(name: str, path: str):
     """Return the module at `path`, loading it at most once per process.
 
     Signature-compatible with the local `_mod`/`_load` helpers it replaces.
+    Thread-safe: concurrent cold loads serialize; the same thread may re-enter
+    (a load cycle) and receives the partially-initialised module, as before.
     """
     key = os.path.realpath(path)
-    hit = _CACHE.get(key)
-    if hit is not None:
-        return hit
+    with _LOCK:
+        hit = _CACHE.get(key)
+        if hit is not None:
+            return hit
 
-    spec = importlib.util.spec_from_file_location(name, path)
-    if spec is None or spec.loader is None:
-        raise ImportError(f"cannot load {name} from {path}")
-    module = importlib.util.module_from_spec(spec)
+        spec = importlib.util.spec_from_file_location(name, path)
+        if spec is None or spec.loader is None:
+            raise ImportError(f"cannot load {name} from {path}")
+        module = importlib.util.module_from_spec(spec)
 
-    # Registered before exec so a re-entrant load of the same path gets the
-    # partially-initialised module instead of recursing forever -- the same
-    # thing CPython does with sys.modules. See the note above.
-    _CACHE[key] = module
-    try:
-        spec.loader.exec_module(module)
-    except BaseException:
-        # A module that failed to execute must not stay cached, or every later
-        # caller inherits a half-built object and the real traceback is lost.
-        _CACHE.pop(key, None)
-        raise
-    return module
+        # Registered before exec so a re-entrant load of the same path gets the
+        # partially-initialised module instead of recursing forever -- the same
+        # thing CPython does with sys.modules. See the note above.
+        _CACHE[key] = module
+        try:
+            spec.loader.exec_module(module)
+        except BaseException:
+            # A module that failed to execute must not stay cached, or every later
+            # caller inherits a half-built object and the real traceback is lost.
+            _CACHE.pop(key, None)
+            raise
+        return module
 
 
 def invalidate(path: str | None = None) -> None:

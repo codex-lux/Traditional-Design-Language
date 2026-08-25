@@ -104,7 +104,7 @@ def _pe():
 
 def _all_pack_ids():
     ids = {}
-    for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
         d = json.load(open(f))
         ids[d["id"]] = d
     return ids
@@ -112,7 +112,7 @@ def _all_pack_ids():
 
 def _load_nodes():
     nodes = {}
-    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         d = json.load(open(f))
         nodes[d["id"]] = d
     return nodes

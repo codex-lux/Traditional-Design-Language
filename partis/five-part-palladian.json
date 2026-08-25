@@ -165,7 +165,7 @@
     "butlers",
     "kitchen"
    ],
-   "note": "OQ 37: retyped from `back-hall` to `gallery-corridor`, and the service rooms regrouped into one dependency. A hyphen is a connecting gallery between the block and a wing; a back hall is the service corridor beside a kitchen, and its own hard rule is must_adjoin kitchen by direct door. Typed as back-halls, BOTH hyphens demanded a kitchen at their own end and only one wing has one -- an unsatisfiable requirement produced by naming the room wrongly rather than by drawing it wrongly. The east dependency now holds the library and the west the whole service block, which is what a five-part house does: one wing works and one wing is quiet."
+   "note": "OQ 59: retyped from `back-hall` to `gallery-corridor`, and the service rooms regrouped into one dependency. A hyphen is a connecting gallery between the block and a wing; a back hall is the service corridor beside a kitchen, and its own hard rule is must_adjoin kitchen by direct door. Typed as back-halls, BOTH hyphens demanded a kitchen at their own end and only one wing has one -- an unsatisfiable requirement produced by naming the room wrongly rather than by drawing it wrongly. The east dependency now holds the library and the west the whole service block, which is what a five-part house does: one wing works and one wing is quiet."
   },
   {
    "id": "butlers",
@@ -185,7 +185,7 @@
    "fixtures": [
     "sink"
    ],
-   "note": "OQ 37: moved into the main block beside the dining room, which is where a butler's pantry is once it exists at all -- it is the room that keeps the dining room from touching the kitchen, and in a five-part house the kitchen is a separate building. It reaches the kitchen through the hyphen, which is the same principle the corpus already states about the butler's pantry itself: the named intermediary is the connection, not a failure to connect."
+   "note": "OQ 59: moved into the main block beside the dining room, which is where a butler's pantry is once it exists at all -- it is the room that keeps the dining room from touching the kitchen, and in a five-part house the kitchen is a separate building. It reaches the kitchen through the hyphen, which is the same principle the corpus already states about the butler's pantry itself: the named intermediary is the connection, not a failure to connect."
   },
   {
    "id": "kitchen",
@@ -279,7 +279,7 @@
     "passage",
     "library"
    ],
-   "note": "See the west hyphen's note (OQ 37)."
+   "note": "See the west hyphen's note (OQ 59)."
   },
   {
    "id": "mud",
@@ -298,7 +298,7 @@
     "garage",
     "laundry"
    ],
-   "note": "OQ 37: opens straight off the kitchen. The mudroom, laundry and garage are in the service dependency with the kitchen, not in the other wing -- across the block, through two hyphens and the passage, it reached no kitchen at all."
+   "note": "OQ 59: opens straight off the kitchen. The mudroom, laundry and garage are in the service dependency with the kitchen, not in the other wing -- across the block, through two hyphens and the passage, it reached no kitchen at all."
   },
   {
    "id": "laundry",

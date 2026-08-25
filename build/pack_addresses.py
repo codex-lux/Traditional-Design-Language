@@ -47,11 +47,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def load():
     packs = {}
-    for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
         d = json.load(open(f))
         packs[d["id"]] = d
     nodes = []
-    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         d = json.load(open(f))
         if d.get("rank") in ("style", "variant"):
             nodes.append(d)

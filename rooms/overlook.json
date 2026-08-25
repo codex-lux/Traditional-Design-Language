@@ -86,7 +86,7 @@
     "should_adjoin": [
       {
         "room": "hall",
-        "why": "the room it overlooks. In the living-hall types this is the whole point — the upper corridor is a balcony onto the house's principal room, and a 'gallery' with nothing open beneath it is just a corridor. OQ 35, ruled 24 Aug 2026: this is a VERTICAL relation and the corpus can now say so. It was held at 'preferred' with an apology attached because adjacency was evaluated within a level only, so the rule could never pass on a correct plan; it is back at 'strong' and means what it says.",
+        "why": "the room it overlooks. In the living-hall types this is the whole point — the upper corridor is a balcony onto the house's principal room, and a 'gallery' with nothing open beneath it is just a corridor. OQ 57, ruled 24 Aug 2026: this is a VERTICAL relation and the corpus can now say so. It was held at 'preferred' with an apology attached because adjacency was evaluated within a level only, so the rule could never pass on a correct plan; it is back at 'strong' and means what it says.",
         "relation": "open-to-below",
         "strength": "strong"
       },

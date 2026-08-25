@@ -83,7 +83,7 @@ def _pe_mod():
 
 
 def pack(pid):
-    hits = [p for p in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))
+    hits = [p for p in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")))
             if json.load(open(p))["id"] == pid]
     assert len(hits) == 1, (pid, hits)
     return json.load(open(hits[0]))
@@ -939,7 +939,7 @@ def test_multiple_primary_bindings_are_an_established_pattern_not_an_accident():
     package, so the pattern is the corpus's and not a new invention."""
     import glob as _glob
     multi = []
-    for f in _glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(_glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         d = json.load(open(f))
         if len([e for e in d.get("proportion_packs") or [] if e["role"] == "primary"]) > 1:
             multi.append(d["id"])
@@ -1312,7 +1312,7 @@ def test_no_binding_anywhere_outranks_a_primary_one():
     total order and never for agreeing with role, so the two fields could say opposite things and
     the build stayed green. check_pack_bindings.py now errors on it; this pins the data."""
     import glob as _glob
-    for f in _glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(_glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         d = json.load(open(f))
         es = d.get("proportion_packs") or []
         prims = [e for e in es if e["role"] == "primary"]
@@ -2021,7 +2021,7 @@ def test_the_pack_binds_to_eight_nodes_and_leads_the_two_that_had_no_facade_syst
     where they go. Both now lead with this pack."""
     import glob as _glob
     bound = []
-    for f in _glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(_glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         d = json.load(open(f))
         if any(e["pack"] == "facade-pavilion" for e in d.get("proportion_packs", [])):
             bound.append(d)
@@ -2847,7 +2847,7 @@ def test_the_oq47_evidence_was_inflated_and_the_corrected_set_is_seven_rules_in_
     bracket -- and `facade-portada`'s estipite is a genuine pilaster. Neither was a compromise."""
     import glob
     routed = {}
-    for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
         d = json.load(open(f))
         for r in d.get("derived_rules", []):
             if r["target_slot"] in ("corner_board", "pilaster"):
@@ -2939,7 +2939,7 @@ def test_fourteen_kits_bind_it_and_five_of_them_forbid_the_member():
     built at 0.6.0. Five styles define themselves partly by refusing it."""
     import glob
     bound = {}
-    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for path in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         k = json.load(open(path))
         e = k["slots"]["expressed_frame"]
         if e.get("binding") in ("specified", "forbidden"):
@@ -2956,7 +2956,7 @@ def test_three_sibling_revivals_take_three_positions_on_one_member():
     english-medieval-timber-frame has the real thing. That is what the field is for."""
     import glob
     st = {}
-    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for path in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         k = json.load(open(path))
         e = k["slots"]["expressed_frame"]
         if e.get("variants"):
@@ -2975,7 +2975,7 @@ def test_member_status_is_a_variant_not_a_parameter_because_it_carries_no_unit()
     """The kit checker insists every dimensional parameter carries a unit and is right to. A
     categorical belongs in `variants`, where `construction_type` already puts one."""
     import glob
-    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for path in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         e = json.load(open(path))["slots"]["expressed_frame"]
         assert "parameters" not in e, path
 
@@ -3034,7 +3034,7 @@ def test_every_buildable_node_now_carries_a_binding_and_the_allowlist_is_empty()
     assert "DELIBERATELY_UNBOUND = set()" in src
     assert "EMPTIED 25 Aug 2026 by OQ 49" in src
     import glob
-    unbound = [json.load(open(f))["id"] for f in glob.glob(os.path.join(ROOT, "styles", "*.json"))
+    unbound = [json.load(open(f))["id"] for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json")))
                if json.load(open(f)).get("rank") in ("style", "variant")
                and not json.load(open(f)).get("proportion_packs")]
     assert unbound == []
@@ -3250,7 +3250,7 @@ def test_the_worst_addresses_are_annotated_and_their_quantities_differ():
     def qs(slot, dim):
         out = set()
         import glob
-        for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+        for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
             for r in json.load(open(f)).get("derived_rules", []):
                 if r["target_slot"] == slot and r["dimension"] == dim and r.get("quantity"):
                     out.add(r["quantity"])
@@ -3260,7 +3260,7 @@ def test_the_worst_addresses_are_annotated_and_their_quantities_differ():
     def slot_qs(slot):
         out = set()
         import glob
-        for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+        for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
             for r in json.load(open(f)).get("derived_rules", []):
                 if r["target_slot"] == slot and r.get("quantity"):
                     out.add(r["quantity"])
@@ -3282,7 +3282,7 @@ def test_no_node_in_the_corpus_requires_ornament_to_be_evenly_distributed():
     NEG = re.compile(r"(distribut\w*|evenly|uniformly)[^.]{0,90}ornament"
                      r"|ornament[^.]{0,90}(evenly|uniformly|distribut)", re.I)
     condemn = set()
-    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         d = json.load(open(f))
         if d.get("rank") not in ("style", "variant"):
             continue
@@ -3323,7 +3323,7 @@ def test_oq_50_states_what_it_does_not_claim():
 
 
 def test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal():
-    """CLAUDE.md described five closed questions as open for a day: OQ 32, 40, 41, 42 and 43 were
+    """CLAUDE.md described five closed questions as open for a day: OQ 54, 40, 41, 42 and 43 were
     ruled or closed on 24 Aug and the summary went on listing three of them as needing a ruling.
     `check_counts.py` polices NUMBERS in prose and has no view on claims about rulings, so this is
     the guard for that class -- both the list and the count in front of it."""
@@ -3370,9 +3370,14 @@ def test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_agai
     assert listed == live, f"CLAUDE.md says {sorted(listed)}, the file says {sorted(live)}"
     n_claimed = int(re.search(r"of which (\d+) are open", md).group(1))
     assert n_claimed == len(live), f"CLAUDE.md counts {n_claimed}, the file has {len(live)}"
-    # and the ones it used to mis-describe are gone from the open list
-    for n in ("32", "40", "41", "42", "43"):
-        assert n not in listed
+    # And the five CLAUDE.md used to mis-describe as open are still absent. Re-pinned at the
+    # 25 Aug merge: this read ("32", "40", "41", "42", "43") when those ids were this branch's
+    # rulings. Both branches had issued 32-41, so this branch's block was reissued as 54-63 and
+    # main's ten -- which ARE genuinely open -- now hold 32-41. Pinning the old numbers here would
+    # have asserted that main's open questions are closed, which is the failure this test exists
+    # to catch, committed by the test itself.
+    for n in ("54", "62", "63", "42", "43"):
+        assert n not in listed, f"OQ {n} is ruled/closed and must not be listed as open"
     assert "was stale for a day" in md
 
 
@@ -3470,7 +3475,7 @@ def test_no_editorial_parameter_is_silent_any_more():
     not one was given a source it does not have."""
     import glob
     silent = sourced = 0
-    for f in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         for sid, v in (json.load(open(f)).get("slots") or {}).items():
             for pn, p in ((v.get("parameters") or {}).items()):
                 if not isinstance(p, dict) or p.get("kind") != "editorial":
@@ -3492,7 +3497,7 @@ def test_the_notes_say_they_are_not_citations():
     that explained the figure without saying it is unsourced would be a smaller version of it."""
     import glob
     checked = 0
-    for f in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         for sid, v in (json.load(open(f)).get("slots") or {}).items():
             for pn, p in ((v.get("parameters") or {}).items()):
                 if not isinstance(p, dict) or p.get("kind") != "editorial":
@@ -3511,7 +3516,7 @@ def test_the_57_that_looked_like_placeholders_were_correct_records():
     a `range` and 2 a `set`. Reading them is the only reason they survived."""
     import glob
     banded = 0
-    for f in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         for sid, v in (json.load(open(f)).get("slots") or {}).items():
             for pn, p in ((v.get("parameters") or {}).items()):
                 if not isinstance(p, dict) or p.get("kind") != "editorial":

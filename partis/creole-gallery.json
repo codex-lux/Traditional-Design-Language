@@ -233,7 +233,7 @@
    "doors": [
     "loggia"
    ],
-   "note": "OQ 37: renamed from `chamber`. compose.py generates a repeating room's extra copies as id + 1, 2, 3..., which produced `chamber1` and `chamber2` -- the ids of the two chambers this parti already names. Every brief for more than two bedrooms therefore built a plan with duplicate room ids, which is fatal, and no Creole brief could be composed at all."
+   "note": "OQ 59: renamed from `chamber`. compose.py generates a repeating room's extra copies as id + 1, 2, 3..., which produced `chamber1` and `chamber2` -- the ids of the two chambers this parti already names. Every brief for more than two bedrooms therefore built a plan with duplicate room ids, which is fatal, and no Creole brief could be composed at all."
   }
  ],
  "scaling": {

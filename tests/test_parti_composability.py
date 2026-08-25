@@ -1,4 +1,4 @@
-"""OQ 37 -- every parti must work for the style it was written for.
+"""OQ 59 -- every parti must work for the style it was written for.
 
 Measured 24 Aug 2026: five of twenty-one partis carried FATAL findings against their own first
 native style, so the composer would not recommend them for those styles. A Charleston-single-
@@ -108,7 +108,7 @@ def test_the_creole_repeating_chamber_no_longer_collides():
 def test_the_charleston_upper_hall_reaches_the_stair_hall_below_it():
     """A landing is the top of a stair and the stair hall is on the storey BELOW. Read as a
     same-floor rule it could only be satisfied by a house with a second stair hall upstairs, so
-    every two-storey parti with a landing failed it. OQ 35 built the mechanism; this uses it."""
+    every two-storey parti with a landing failed it. OQ 57 built the mechanism; this uses it."""
     d = json.load(open(os.path.join(ROOT, "rooms", "landing.json")))
     rule = next(r for r in d["adjacency"]["must_adjoin"] if r["room"] == "stair-hall")
     assert rule.get("vertical_ok") is True
