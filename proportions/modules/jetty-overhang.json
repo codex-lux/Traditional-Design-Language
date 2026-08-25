@@ -257,7 +257,7 @@
       "judgment": true
     },
     {
-      "target_slot": "corner_board",
+      "target_slot": "expressed_frame",
       "dimension": "return_depth",
       "expression": "module * 1.85",
       "units": "in",
@@ -266,11 +266,11 @@
         24.0
       ],
       "authority_note": "`styles/garrison-revival.json`: 'where the overhang returns onto a gable end it must continue for the full depth of that elevation and terminate in a drop; a partial return is forbidden'. `styles/garrison-colonial.json`: 'the gable-end overhang, where present, sits at the attic floor line rather than the second-floor line'.",
-      "note": "THE RETURN IS THE SAME DEPTH AS THE FRONT, and it either goes the whole way or it does not happen. A partial return -- an overhang that turns the corner and dies six feet along the flank -- is the single commonest reproduction error, because it is what you get if you frame the jetty as a decorative box rather than as a floor. And note the second record's trap: on the original, a gable-end overhang usually sits at the ATTIC floor line and not the second-floor line, so a return that continues the front's datum around the corner may be at the wrong height even when it is the right depth.",
+      "note": "THE RETURN IS THE SAME DEPTH AS THE FRONT, and it either goes the whole way or it does not happen. A partial return -- an overhang that turns the corner and dies six feet along the flank -- is the single commonest reproduction error, because it is what you get if you frame the jetty as a decorative box rather than as a floor. And note the second record's trap: on the original, a gable-end overhang usually sits at the ATTIC floor line and not the second-floor line, so a return that continues the front's datum around the corner may be at the wrong height even when it is the right depth.  MIGRATED to `expressed_frame` at ontology 0.7.0 (OQ 47, ruled 25 Aug 2026). It sat on `corner_board` -- a board at a corner -- because the ontology had no slot for a structural member expressed on a wall face, and the compromise was recorded rather than hidden. It has one now, and the slot's `member_status` field carries the distinction this pack most needed and could not state: whether the member is structural, structural-and-expressed, or applied.",
       "judgment": false
     },
     {
-      "target_slot": "corner_board",
+      "target_slot": "expressed_frame",
       "dimension": "dragon_length",
       "expression": "module * 1.85 * sqrt(2)",
       "units": "in",
@@ -279,7 +279,7 @@
         34.0
       ],
       "authority_note": "`styles/english-medieval-timber-frame.json`: 'a jetty that returns around a corner with a dragon beam set diagonally at 45 degrees -- a detail that cannot be faked convincingly and is absent from all applied half-timbering'.",
-      "note": "THE DRAGON BEAM'S OWN LENGTH, 23.55 in, which is the projection times root two -- because the beam bisects a right angle and the two jetties it serves are equal. Stating it as a length rather than as an angle is deliberate: the angle is forced by the geometry and tells a compiler nothing, and the length is the member somebody has to cut. The dragon beam is the diagonal at a corner taking the ends of the joists running in BOTH directions, and it exists because two jetties at right angles are two cantilevers whose joists cannot both run the way they need to. `styles/english-medieval-timber-frame.json` gives the critic's use of it: it 'cannot be faked convincingly and is absent from all applied half-timbering', so its absence on a building that jetties two faces is conclusive.",
+      "note": "THE DRAGON BEAM'S OWN LENGTH, 23.55 in, which is the projection times root two -- because the beam bisects a right angle and the two jetties it serves are equal. Stating it as a length rather than as an angle is deliberate: the angle is forced by the geometry and tells a compiler nothing, and the length is the member somebody has to cut. The dragon beam is the diagonal at a corner taking the ends of the joists running in BOTH directions, and it exists because two jetties at right angles are two cantilevers whose joists cannot both run the way they need to. `styles/english-medieval-timber-frame.json` gives the critic's use of it: it 'cannot be faked convincingly and is absent from all applied half-timbering', so its absence on a building that jetties two faces is conclusive.  MIGRATED to `expressed_frame` at ontology 0.7.0 (OQ 47, ruled 25 Aug 2026). It sat on `corner_board` -- a board at a corner -- because the ontology had no slot for a structural member expressed on a wall face, and the compromise was recorded rather than hidden. It has one now, and the slot's `member_status` field carries the distinction this pack most needed and could not state: whether the member is structural, structural-and-expressed, or applied.",
       "judgment": false
     },
     {

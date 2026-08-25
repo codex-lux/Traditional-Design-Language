@@ -1,7 +1,7 @@
 {
   "style": "mission-revival",
   "style_name": "Mission Revival",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -221,6 +221,21 @@
       "variants": [],
       "parameters": {},
       "status": "empty"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The counterpart to the entry above: 'eave overhang 24-42 in. on exposed rafter tails where the eave is expressed at all.' Bound `structural-and-expressed` because the tails are real rafters and are also the only ornament the style permits itself.",
+      "variants": [
+        {
+          "id": "structural-and-expressed",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Categorical, so it is a variant rather than a parameter -- it carries no unit and the kit checker is right to insist that a parameter does."
+        }
+      ]
     },
     "reveal_masonry": {
       "group": "envelope",

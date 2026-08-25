@@ -15,15 +15,15 @@ def load_slots():
     return json.load(open(os.path.join(ROOT, "elements", "slots.json")))
 
 
-def test_ontology_is_96_slots_at_0_6_0():
-    """0.5.0/95 -> 0.6.0/96 on 24 Aug 2026: `arch` joined the openings group (OQ 46). The count
-    is pinned deliberately rather than read off the file -- a slot appearing without anyone
-    noticing is exactly the drift this test exists to catch."""
+def test_ontology_is_97_slots_at_0_7_0():
+    """0.5.0/95 -> 0.6.0/96 (`arch`, OQ 46) -> 0.7.0/97 on 25 Aug 2026 (`expressed_frame`, OQ 47).
+    The count is pinned deliberately rather than read off the file -- a slot appearing without
+    anyone noticing is exactly the drift this test exists to catch."""
     d = load_slots()
-    assert d["version"] == "0.6.0"
+    assert d["version"] == "0.7.0"
     ids = [s["id"] for g in d["groups"] for s in g["slots"]]
-    assert len(ids) == 96
-    assert len(set(ids)) == 96  # no duplicate ids introduced
+    assert len(ids) == 97
+    assert len(set(ids)) == 97  # no duplicate ids introduced
 
 
 def test_wall_thickness_split_by_trade():
@@ -265,7 +265,8 @@ def test_every_kit_carries_the_new_slot():
     for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
         kit = json.load(open(path))
         assert "arch" in kit["slots"], path
-        assert kit["ontology_version"] == "0.6.0", path
+        assert "expressed_frame" in kit["slots"], path
+        assert kit["ontology_version"] == "0.7.0", path
 
 
 def test_the_six_whole_migrations_moved_and_left_nothing_behind():

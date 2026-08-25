@@ -108,7 +108,8 @@ class TestFamilyCascade:
         assert kit["style"] == "american-colonial"
         assert kit["ontology_version"] and kit["kit_version"]
         # 95 -> 96 on 24 Aug 2026 (OQ 46): `arch` joined the openings group at ontology 0.6.0.
-        assert len(kit["slots"]) == 96
+        # 96 -> 97 on 25 Aug 2026 (OQ 47): `expressed_frame` joined the envelope group at 0.7.0.
+        assert len(kit["slots"]) == 97
 
 
 class TestRuleAppend:

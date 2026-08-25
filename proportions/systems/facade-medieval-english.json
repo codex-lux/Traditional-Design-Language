@@ -258,7 +258,7 @@
       "judgment": false
     },
     {
-      "target_slot": "pilaster",
+      "target_slot": "expressed_frame",
       "dimension": "buttress_projection",
       "expression": "0.375",
       "units": "ratio",
@@ -267,7 +267,7 @@
         0.5
       ],
       "authority_note": "`styles/english-gothic.json`: 'buttress projection 1/4 to 1/2 of its own width at the base, diminishing by weathered offsets'.",
-      "note": "THREE EIGHTHS OF ITS OWN WIDTH, DIMINISHING UPWARD. Measured against ITSELF and not against the wall, exactly as `facade-pavilion` found the French pavilion to be -- two unrelated traditions stating a projection the same way, and both for the same reason, which is that the element is a mass in its own right rather than a modulation of the wall. The diminution is the important half: a buttress is a diagram of a force that gets smaller as it rises, and a revival buttress of constant projection is a pilaster with a slope on top. THE SLOT IS A COMPROMISE and is OQ 47's territory -- a buttress is a structural member expressed on a wall face, the ontology has no place for one, and `pilaster` is the nearest thing. Seven rules in three packs have now routed such a member through a slot written for something else -- this one, `timber-panel`'s four and `jetty-overhang`'s two. An earlier draft of this note said FIVE PACKS and was wrong: `trim-sawn`'s brackets are on `modillion_dentil`, which is the right slot because a modillion is a bracket, and `facade-portada`'s estipite is a genuine pilaster. The figure was a keyword count and reading it corrected it, which is the sixth time in this work package and the only one where the over-count inflated the case for a change.",
+      "note": "THREE EIGHTHS OF ITS OWN WIDTH, DIMINISHING UPWARD. Measured against ITSELF and not against the wall, exactly as `facade-pavilion` found the French pavilion to be -- two unrelated traditions stating a projection the same way, and both for the same reason, which is that the element is a mass in its own right rather than a modulation of the wall. The diminution is the important half: a buttress is a diagram of a force that gets smaller as it rises, and a revival buttress of constant projection is a pilaster with a slope on top. The figure was a keyword count and reading it corrected it, which is the sixth time in this work package and the only one where the over-count inflated the case for a change.  MIGRATED to `expressed_frame` at ontology 0.7.0 (OQ 47, ruled 25 Aug 2026). It sat on `pilaster` -- because the ontology had no slot for a structural member expressed on a wall face, and the compromise was recorded rather than hidden. It has one now, and the slot's `member_status` field carries the distinction this pack most needed and could not state: whether the member is structural, structural-and-expressed, or applied.",
       "judgment": false
     },
     {

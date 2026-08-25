@@ -1,7 +1,7 @@
 {
   "style": "federal-style",
   "style_name": "Federal",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -206,6 +206,11 @@
       "rule_append": "Where a masonry corner is executed in applied board (flat fluted pilaster or a scored 'quoin'), the board does not exceed 1-1/4 in in thickness and the whole assembly is painted a single light colour -- exposed wood grain or a contrasting trim colour destroys the masonry illusion the style depends on.",
       "status": "drafted",
       "confidence": "high"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "reveal_masonry": {
       "group": "envelope",

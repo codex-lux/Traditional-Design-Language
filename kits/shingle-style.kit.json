@@ -1,7 +1,7 @@
 {
   "style": "shingle-style",
   "style_name": "Shingle Style",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -275,6 +275,21 @@
         "styles/shingle-style.json constraints c01, diagnostic_tells"
       ],
       "group": "envelope"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "'Eave overhang shall not exceed 12 in and rake overhang shall not exceed 10 in, and both shall be closed tight to the wall plane with no exposed bracke[ts].' The style's whole argument is a continuous skin, and an expressed member would interrupt it -- which is why it is forbidden here and required by its Stick Style predecessor.",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Categorical, so it is a variant rather than a parameter -- it carries no unit and the kit checker is right to insist that a parameter does."
+        }
+      ]
     },
     "reveal_masonry": {
       "group": "envelope",

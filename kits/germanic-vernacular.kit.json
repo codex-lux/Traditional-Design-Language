@@ -1,7 +1,7 @@
 {
   "style": "germanic-vernacular",
   "style_name": "Germanic Vernacular",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -226,6 +226,11 @@
           "confidence": "high"
         }
       }
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "reveal_masonry": {
       "group": "envelope",

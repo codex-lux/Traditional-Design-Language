@@ -1,7 +1,7 @@
 {
   "style": "german-fachwerk",
   "style_name": "German Fachwerk",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -233,6 +233,21 @@
       "variants": [],
       "parameters": {},
       "status": "empty"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The same, with a stricter joint rule the node states itself: 'every infill panel must be framed on all four sides by timber, and every brace must terminate in a joint at both ends. A timber that dies into a panel' is not permitted. The German post is HALF the English one and there are more of them, which `timber-panel` records as a real difference rather than a regional accent.",
+      "variants": [
+        {
+          "id": "structural",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Categorical, so it is a variant rather than a parameter -- it carries no unit and the kit checker is right to insist that a parameter does."
+        }
+      ]
     },
     "reveal_masonry": {
       "group": "envelope",

@@ -1,7 +1,7 @@
 {
   "style": "arts-and-crafts-british",
   "style_name": "Arts and Crafts (British)",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -177,6 +177,21 @@
       "variants": [],
       "parameters": {},
       "status": "empty"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The node whose c01 is this field's authority: 'every visible material must be doing the job it appears to do. Applied half-timbering, veneer stone, false beams and imitation finishes are forbidden.' That is a rule requiring `structural` and prohibiting `applied` in one sentence. Bound `structural-and-expressed` because the members here are also SHAPED to be read -- a chamfered tie, a stopped bead on a beam -- which is the movement's whole argument about honesty being a positive quality rather than merely the absence of a lie.",
+      "variants": [
+        {
+          "id": "structural-and-expressed",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Categorical, so it is a variant rather than a parameter -- it carries no unit and the kit checker is right to insist that a parameter does."
+        }
+      ]
     },
     "reveal_masonry": {
       "group": "envelope",

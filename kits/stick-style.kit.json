@@ -1,7 +1,7 @@
 {
   "style": "stick-style",
   "style_name": "Stick Style",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -316,6 +316,21 @@
         "styles/stick-style.json constraints c01, c02"
       ],
       "group": "envelope"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "APPLIED, AND THAT IS NOT AN ACCUSATION. This node's c01 requires the stickwork to be continuous -- 'a horizontal band at every floor line and at the eave, vertical members at every corner and at each side of every opening' -- which is a rule about a DIAGRAM of a frame, not a frame. The sticks represent a structure the balloon frame behind them does not have in that arrangement, the style knows it, and the honest record says `applied` rather than pretending otherwise or marking the style down for it.",
+      "variants": [
+        {
+          "id": "applied",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Categorical, so it is a variant rather than a parameter -- it carries no unit and the kit checker is right to insist that a parameter does."
+        }
+      ]
     },
     "reveal_masonry": {
       "group": "envelope",

@@ -1,7 +1,7 @@
 {
   "style": "american-farmhouse-vernacular",
   "style_name": "American Farmhouse Vernacular",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -274,6 +274,11 @@
       "status": "drafted",
       "note": "CASCADE FIX. Before this binding, the slot resolved corner-boards/corner-pilasters/brick-quoins as co-permitted alternatives inherited from federal-style + greek-revival-american, which is exactly the confusion own diagnostic_tells calls out as the single test distinguishing this node from its Greek Revival ancestor.",
       "group": "envelope"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "reveal_masonry": {
       "group": "envelope",

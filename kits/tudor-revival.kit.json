@@ -1,7 +1,7 @@
 {
   "style": "tudor-revival",
   "style_name": "Tudor Revival",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -314,6 +314,21 @@
       "variants": [],
       "parameters": {},
       "status": "empty"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Applied, and the node is routinely criticised for it -- CLAUDE.md's own note about veneering brick over a wood frame names this style. The record is better for saying so: a Tudor Revival elevation's timbering is a pattern on a stud wall, `french-normandy-revival` states the same thing about itself, and `styles/jacobethan-revival.json` defines itself by forbidding it. Three sibling nodes taking three different positions on one member is exactly what the field is for.",
+      "variants": [
+        {
+          "id": "applied",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Categorical, so it is a variant rather than a parameter -- it carries no unit and the kit checker is right to insist that a parameter does."
+        }
+      ]
     },
     "reveal_masonry": {
       "group": "envelope",

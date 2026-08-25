@@ -62,7 +62,7 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6. Phase 5 not started.
 
-164 nodes · 96 slots (ontology 0.6.0) · 40 massings · 60 rooms · 17 groupings ·
+164 nodes · 97 slots (ontology 0.7.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
 style** · **57 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
@@ -74,8 +74,10 @@ parameters (74.6% measured, 10.4% editorial with neither source nor note — tha
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
 one that stays open on purpose: 162 kit parameters are editorial with neither a source nor a
 note, 156 of them on the Georgian kit, and closing it needs real sources rather than more code.
-WP-4.6 raised **OQ 47, 48 and 49**, all still open, and one finding nobody has raised as a
-question yet: five unrelated traditions say ornament works by being BOUNDED, and it wants testing
+WP-4.6 raised **OQ 47, 48 and 49**. **OQ 47 is CLOSED** — `expressed_frame` at ontology
+0.7.0, with a `member_status` field taking structural / structural-and-expressed / applied / none,
+bound on 14 kits of which five FORBID the member. 48 and 49 are ruled and in progress. And one
+finding nobody has raised as a question yet: five unrelated traditions say ornament works by being BOUNDED, and it wants testing
 against the whole style graph. All four are in that report's closing section.
 
 **WP-4.6 is COMPLETE** — twenty-one packs, and **every item of WP-4.1's list that this corpus can
@@ -162,10 +164,7 @@ fit `egyptian-revival` exactly while thirteen do not. THREE instances in three c
 and the third one means the ruling would bind the corpus's LAST unbound node), **OQ 48** (1,922 rule-address collisions
 measured, of which the dangerous kind is two packs meaning DIFFERENT quantities at one address --
 four found and fixed, the rest unknown; no checker shipped because a naive one would flag 1,710
-correct rules), **OQ 47** (no slot for an exposed
-structural member on a wall face -- 7 rules in 3 packs route one through `corner_board`, the figure
-corrected downward from a keyword count of "four packs", which is this package's sixth over-count
-and the only one that inflated the case for a change),
+correct rules),
 **OQ 41** (a fault's
   secondary tests are written for one style and run against every style — why
   `cape-cod-colonial` cannot currently return a clean plan under any diagram), **OQ 42**

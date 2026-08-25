@@ -1,7 +1,7 @@
 {
   "style": "tidewater-georgian",
   "style_name": "Tidewater Georgian",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -426,6 +426,11 @@
       "note": "The parent's out-of-calibration warning on facade-classical's 18 in corner width is inherited along with the pack block, which is the right outcome: the pack is wrong for a corner board and irrelevant here, and neither fact needed restating. MIGRATED 0.3.0 from 'corner_treatment', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to corner_board.",
       "status": "drafted",
       "confidence": "low"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "reveal_masonry": {
       "group": "envelope",

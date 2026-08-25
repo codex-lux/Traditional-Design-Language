@@ -1,7 +1,7 @@
 {
   "style": "spanish-colonial-american",
   "style_name": "Spanish Colonial American",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -350,6 +350,11 @@
       "parameters": {},
       "status": "drafted",
       "rule": "No corner board. The mass wall has no frame corner to trim, and the plastered corner is deliberately soft rather than sharp."
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "reveal_masonry": {
       "group": "envelope",

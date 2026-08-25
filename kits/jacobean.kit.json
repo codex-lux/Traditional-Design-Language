@@ -1,7 +1,7 @@
 {
   "style": "jacobean",
   "style_name": "Jacobean",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -284,6 +284,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
       "status": "empty"
     },
     "reveal_masonry": {

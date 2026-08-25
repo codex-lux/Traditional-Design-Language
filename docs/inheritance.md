@@ -199,3 +199,34 @@ slot names it in `determined_by` rather than restating the rise.
 
 There is no `arcade` slot. `moorish-arch` puts its impost block on `porch_support`, because an
 arcade carrying a loggia is what that slot is for, and says so in its own notes.
+
+## `expressed_frame` and the three slots around it (OQ 47, ontology 0.7.0)
+
+A member that **is, or represents, structure, shown on the outside of a wall**: a close stud, a
+principal post, a diagonal brace, an exposed rafter tail, a bressumer, a Stick Style band. Its face
+width, its spacing, how far it stands proud of the cladding plane, and — the field the slot was added
+for — its `member_status`.
+
+`member_status` takes `structural`, `structural-and-expressed`, `applied` or `none`. It is the only
+field in the ontology that records whether a thing is doing the job it appears to do, and two records
+state it as a hard rule in nearly the same words: *"every visible material must be doing the job it
+appears to do. Applied half-timbering, veneer stone, false beams and imitation finishes are
+forbidden"* (`arts-and-crafts-british`), and *"exposed rafter tails must correspond to actual rafters
+… decorative tails applied"* are not permitted (`arts-and-crafts-american`).
+
+`applied` is a **legitimate position, not an accusation**. Stick Style applies its sticks on purpose
+and its own constraint requires them to be continuous; Tudor Revival and French Normandy Revival do
+the same and the latter requires the picture to describe a *plausible* frame. What the corpus could
+not do before was tell any of them apart from a real frame.
+
+The three neighbours, because a keyword search will not find these boundaries either:
+
+| slot | what it holds |
+|---|---|
+| `primary_cladding` | the **panel between** the members — wattle-and-daub, brick nogging, render |
+| `construction_type` | the **categorical** (braced-timber-frame, balloon-frame); no dimension |
+| `modillion_dentil` | a **bracket**, which has its own classical descent — `trim-sawn`'s brackets were correctly there all along |
+
+`corner_board` is a board at a corner, and is what this slot was standing in for. Five styles bind
+`expressed_frame` as `forbidden`/`none` — a rule *about* the member stating that there is none, which
+is the same argument that got `arch` built one version earlier.

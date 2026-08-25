@@ -10,7 +10,7 @@
       "style": 90,
       "variant": 42
     },
-    "slots": 96,
+    "slots": 97,
     "massings": 40
   },
   "edge_semantics": {
@@ -317,6 +317,51 @@
         "none"
       ],
       "note": "Split in 0.3.0. The predecessor slot conflated two assemblies made by different trades, at different times, in different materials, with different failure modes. Discriminate with construction_type. A corner board is TRIM, measured at 6-10 in on surviving frame work, and sized by the clapboard it terminates rather than by any module.",
+      "group": "envelope",
+      "group_name": "Envelope & Wall"
+    },
+    {
+      "id": "expressed_frame",
+      "name": "Expressed structural frame",
+      "cardinality": "many",
+      "value_type": "assembly",
+      "units": "in",
+      "note": "Added in 0.7.0 (docs/open-questions.md #47). A MEMBER THAT IS, OR REPRESENTS, STRUCTURE, SHOWN ON THE OUTSIDE OF A WALL: its face width, its spacing, how far it stands proud of the cladding plane, the geometry of a diagonal brace, and -- the field that does the most work -- whether the member is `structural`, `structural-and-expressed`, or `applied`. Everything else in the envelope group describes a surface or a board; this describes a stick with a job.\n\nTHE STRUCTURAL/EXPRESSED/APPLIED FIELD IS THE REASON THE SLOT EXISTS, and two records state it as a hard rule in almost the same words. `styles/arts-and-crafts-british.json` c01: 'every visible material must be doing the job it appears to do. Applied half-timbering, veneer stone, false beams and imitation finishes are forbidden.' `styles/arts-and-crafts-american.json` c01: 'exposed rafter tails must correspond to actual rafters at 16 to 24 in on centre... decorative tails applied' are not permitted. Without this field the corpus cannot tell a frame from a picture of one, which is the single distinction `styles/stick-style.json` and `styles/tudor-revival.json` both turn on -- one applies its sticks to a wall on purpose and says so, and the other is criticised for doing the same thing by accident.\n\nMANY OF ITS RULES ARE PROHIBITIONS, which is the same argument that got `arch` built at 0.6.0: a rule ABOUT the member which states that there is none had nowhere to live. `styles/jacobethan-revival.json`: 'applied half-timbering is forbidden. The variant is defined by its absence; a single timbered panel returns the building to tudor-revival.' `styles/prairie-school.json`: 'exposed rafter tails, knee braces, applied brackets... are forbidden.' `styles/shingle-style.json`, `styles/mediterranean-revival.json` and `styles/spanish-colonial-revival.json` each forbid an exposed member their neighbours require.\n\nNOT the same slot as three neighbours, and the boundaries are worth stating because a keyword search will not find them. `primary_cladding` is the PANEL BETWEEN the members -- wattle-and-daub, brick nogging, render -- which is the other half of the same wall and stays where it is. `construction_type` is the categorical (braced-timber-frame, balloon-frame) and holds no dimension. `modillion_dentil` is a BRACKET, which is a different member with its own classical descent, and `trim-sawn`'s brackets were correctly there all along. `corner_board` is a board at a corner and is what this slot was standing in for.\n\nMEASURED BEFORE IT WAS ADDED, and the measurement had to be read rather than counted, which is the discipline this work package learned the hard way. 25 style constraints across 20 of 132 nodes are about such a member, and reading all 25 confirms the class: roughly half REQUIRE the member and half FORBID it, and the two halves are the same rule seen from either side. 7 rules in 3 proportion packs currently route through `corner_board` (`timber-panel` 4, `jetty-overhang` 2, `facade-medieval-english` 1) and migrate here. THE KIT LAYER CARRIES NONE OF IT: a keyword sweep proposed 102 bindings across 32 slots, and reading a sample found essentially all of them correctly placed -- `primary_cladding` describing the infill, `construction_type` naming the frame. The dimensional content is not misfiled in the kits; it DOES NOT EXIST there, because there was nowhere to put it. That is a stronger argument for the slot than a migration would have been, and it means the 159 kits gain an empty slot rather than a moved one.",
+      "fields": [
+        {
+          "id": "member_status",
+          "value_type": "enum",
+          "required": true,
+          "examples": [
+            "structural",
+            "structural-and-expressed",
+            "applied",
+            "none"
+          ],
+          "note": "THE FIELD THE SLOT WAS ADDED FOR. `structural` is a member doing its job and visible because it is there (a Fachwerk post). `structural-and-expressed` is a member doing its job AND detailed to be read as doing it (an Arts and Crafts rafter tail, cut to a profile). `applied` is a member that represents structure it does not perform (Stick Style's bands, Tudor Revival's timbering) -- which is a legitimate tradition and not an accusation, provided the record says so. `none` is a style that forbids the member, which several do, and is why the field has a fourth value rather than the slot simply being left open."
+        },
+        {
+          "id": "face_width",
+          "value_type": "parametric",
+          "units": "in"
+        },
+        {
+          "id": "spacing",
+          "value_type": "parametric",
+          "units": "in"
+        },
+        {
+          "id": "projection",
+          "value_type": "parametric",
+          "units": "in",
+          "note": "Proud of the cladding plane. The dimension that most reliably separates a real frame from an applied one: a structural member is as proud as its own thickness less the panel's, and an applied one is as proud as a board."
+        },
+        {
+          "id": "brace_geometry",
+          "value_type": "parametric",
+          "units": "ratio"
+        }
+      ],
       "group": "envelope",
       "group_name": "Envelope & Wall"
     },

@@ -1404,7 +1404,7 @@ def test_the_projection_rule_is_what_separates_applied_work_from_stripes():
     """`french-normandy-revival` states it as a minimum rather than a figure: members 'projecting at
     least 1 in. from the stucco plane'. Without it there is no shadow and no reason for the timber."""
     r = next(x for x in pack("timber-panel")["derived_rules"]
-             if x["target_slot"] == "corner_board" and x["dimension"] == "projection")
+             if x["target_slot"] == "expressed_frame" and x["dimension"] == "projection")
     assert r["range"][0] >= 0.75
     assert "projecting at least 1 in. from the stucco plane" in json.dumps(node("french-normandy-revival"))
 
@@ -1455,17 +1455,19 @@ def test_stick_style_is_bound_with_the_caveat_that_it_is_not_infill():
     assert "brace length 0.3 to 0.5 of post height" in json.dumps(node("stick-style"))
 
 
-def test_the_missing_slot_is_raised_as_an_open_question_not_worked_around():
-    """Four rules route the exposed timber through `corner_board`, a board at a corner, because the
-    ontology has no slot for an exposed structural member on a wall face. Same class as OQ 46."""
+def test_the_missing_slot_was_raised_as_an_open_question_and_is_now_closed():
+    """RE-PINNED. Four of this pack's rules routed the exposed timber through `corner_board` -- a
+    board at a corner -- because the ontology had no slot for a structural member expressed on a
+    wall face, and the compromise was RAISED rather than worked around. It was ruled on 25 Aug 2026
+    and the four rules moved. What the test still protects is the thing that mattered: the gap was
+    stated in the data, not hidden, and it is the statement that got it closed."""
     p = pack("timber-panel")
-    routed = [r for r in p["derived_rules"] if r["target_slot"] == "corner_board"]
+    routed = [r for r in p["derived_rules"] if r["target_slot"] == "expressed_frame"]
     assert len(routed) == 4
-    assert "no slot for AN EXPOSED STRUCTURAL MEMBER ON THE WALL FACE" in \
-        next(r for r in routed if r["dimension"] == "spacing")["note"]
+    assert not any(r["target_slot"] == "corner_board" for r in p["derived_rules"])
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
-    assert "47. **OPEN — the ontology has no slot for an exposed structural member" in oq
-    assert "expressed_frame" in oq
+    assert "47. **CLOSED 25 Aug 2026 — `expressed_frame` added at ontology 0.7.0" in oq
+    assert "**OPEN — the ontology has no slot for an exposed structural member" in oq  # kept, superseded
 
 
 def test_the_pack_says_the_exposed_frame_is_substantially_a_victorian_taste():
@@ -2807,12 +2809,14 @@ def test_the_oq47_evidence_was_inflated_and_the_corrected_set_is_seven_rules_in_
         for r in d.get("derived_rules", []):
             if r["target_slot"] in ("corner_board", "pilaster"):
                 routed.setdefault(d["id"], []).append(r["dimension"])
-    # the three that are genuinely compromised
-    assert sorted(routed["timber-panel"]) == ["projection", "ratio", "spacing", "width"]
-    assert sorted(routed["jetty-overhang"]) == ["dragon_length", "return_depth"]
-    assert routed["facade-medieval-english"] == ["buttress_projection"]
+    # the three that were genuinely compromised (dimensions as they were before the migration)
+    # RE-PINNED after the migration: the seven now sit on `expressed_frame`, and what the test
+    # still protects is that facade-portada and trim-sawn were never part of the set.
     compromised = {"timber-panel", "jetty-overhang", "facade-medieval-english"}
-    assert sum(len(routed[k]) for k in compromised) == 7
+    moved = {pid: [r["dimension"] for r in pack(pid)["derived_rules"]
+                   if r["target_slot"] == "expressed_frame"] for pid in compromised}
+    assert sum(len(v) for v in moved.values()) == 7
+    assert not any(k in routed for k in compromised)
     # and the two that were miscounted are on the right slots
     assert set(routed["facade-portada"]) == {"slenderness", "base_ratio"}     # a real pilaster
     assert "trim-sawn" not in routed
@@ -2838,3 +2842,96 @@ def test_oq_7_through_11_are_environment_blocked_with_the_probe_recorded():
     assert "7 through 11 are ENVIRONMENT-BLOCKED, not unstarted" in oq
     assert "babel.hathitrust.org" in oq
     assert "Do not close any of them from a\nsecondary source or a modern redrawing" in oq
+
+
+# --- OQ 47 closed: expressed_frame at ontology 0.7.0 -------------------------------------------
+
+
+def _slot(sid):
+    d = json.load(open(os.path.join(ROOT, "elements", "slots.json")))
+    return next(s for g in d["groups"] for s in g["slots"] if s["id"] == sid)
+
+
+def test_the_slot_exists_in_the_envelope_group_beside_the_one_it_stood_in_for():
+    d = json.load(open(os.path.join(ROOT, "elements", "slots.json")))
+    env = next(g for g in d["groups"] if g["id"] == "envelope")
+    ids = [s["id"] for s in env["slots"]]
+    assert ids.index("expressed_frame") == ids.index("corner_board") + 1
+    assert d["version"] == "0.7.0"
+
+
+def test_member_status_is_the_field_the_slot_was_added_for():
+    """`structural`, `structural-and-expressed`, `applied`, `none`. Without it the corpus cannot
+    tell a frame from a picture of one."""
+    f = next(x for x in _slot("expressed_frame")["fields"] if x["id"] == "member_status")
+    assert f["required"] is True
+    assert set(f["examples"]) == {"structural", "structural-and-expressed", "applied", "none"}
+    assert "THE FIELD THE SLOT WAS ADDED FOR" in f["note"]
+    assert "legitimate tradition and not an accusation" in f["note"]
+
+
+def test_the_seven_rules_moved_and_left_nothing_behind():
+    """timber-panel 4, jetty-overhang 2, facade-medieval-english 1. Nothing of that class is left
+    on corner_board, and the migration is recorded in each rule's own note."""
+    moved = {}
+    for pid in ("timber-panel", "jetty-overhang", "facade-medieval-english"):
+        p = pack(pid)
+        moved[pid] = [r["dimension"] for r in p["derived_rules"]
+                      if r["target_slot"] == "expressed_frame"]
+        assert not any(r["target_slot"] == "corner_board" for r in p["derived_rules"]), pid
+        for r in p["derived_rules"]:
+            if r["target_slot"] == "expressed_frame":
+                assert "MIGRATED to `expressed_frame` at ontology 0.7.0" in r["note"], (pid, r)
+    assert sorted(moved["timber-panel"]) == ["brace_ratio", "face_width", "projection", "spacing"]
+    assert sorted(moved["jetty-overhang"]) == ["dragon_length", "return_depth"]
+    assert moved["facade-medieval-english"] == ["buttress_projection"]
+    # and facade-portada's estipite stayed on pilaster, where it was always right
+    assert all(r["target_slot"] == "pilaster"
+               for r in pack("facade-portada")["derived_rules"]
+               if r["dimension"] in ("slenderness", "base_ratio"))
+
+
+def test_fourteen_kits_bind_it_and_five_of_them_forbid_the_member():
+    """A rule ABOUT the member which states that there is none is the same argument that got `arch`
+    built at 0.6.0. Five styles define themselves partly by refusing it."""
+    import glob
+    bound = {}
+    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        k = json.load(open(path))
+        e = k["slots"]["expressed_frame"]
+        if e.get("binding") in ("specified", "forbidden"):
+            bound[k["style"]] = (e["binding"], e["variants"][0]["id"])
+    assert len(bound) == 14
+    forbidden = {n for n, (b, _) in bound.items() if b == "forbidden"}
+    assert forbidden == {"jacobethan-revival", "prairie-school", "shingle-style",
+                         "mediterranean-revival", "spanish-colonial-revival"}
+    assert all(bound[n][1] == "none" for n in forbidden)
+
+
+def test_three_sibling_revivals_take_three_positions_on_one_member():
+    """tudor-revival applies it, jacobethan-revival forbids it and is DEFINED by the absence, and
+    english-medieval-timber-frame has the real thing. That is what the field is for."""
+    import glob
+    st = {}
+    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        k = json.load(open(path))
+        e = k["slots"]["expressed_frame"]
+        if e.get("variants"):
+            st[k["style"]] = e["variants"][0]["id"]
+    assert st["english-medieval-timber-frame"] == "structural"
+    assert st["tudor-revival"] == "applied"
+    assert st["jacobethan-revival"] == "none"
+    assert "defined by its absence" in json.dumps(node("jacobethan-revival"))
+    # and the Spanish revival family is told apart at the eave by this field
+    assert st["mission-revival"] == "structural-and-expressed"
+    assert st["spanish-colonial-revival"] == "none"
+    assert st["mediterranean-revival"] == "none"
+
+
+def test_member_status_is_a_variant_not_a_parameter_because_it_carries_no_unit():
+    """The kit checker insists every dimensional parameter carries a unit and is right to. A
+    categorical belongs in `variants`, where `construction_type` already puts one."""
+    import glob
+    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        e = json.load(open(path))["slots"]["expressed_frame"]
+        assert "parameters" not in e, path

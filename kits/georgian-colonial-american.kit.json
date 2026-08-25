@@ -1,7 +1,7 @@
 {
   "style": "georgian-colonial-american",
   "style_name": "Georgian Colonial American",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -1981,6 +1981,11 @@
       "status": "drafted",
       "confidence": "low",
       "note": "CONFLICT WORTH RECORDING: facade-classical derives a corner width of module/6 = 18 in at a 9 ft bay, and the measured New England corner board is 6-10 in with the pilaster at 10-16 in. The pack is right about a stone quoin and wrong about a wood corner board by a factor of two. Prefer the measured figures for wood; the pack figure is a masonry rule leaking into a frame condition. MIGRATED 0.3.0 from 'corner_treatment', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to corner_board."
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "reveal_masonry": {
       "group": "envelope",

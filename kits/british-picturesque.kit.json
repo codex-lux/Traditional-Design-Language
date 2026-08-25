@@ -1,7 +1,7 @@
 {
   "style": "british-picturesque",
   "style_name": "British Picturesque & Revival",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -182,6 +182,11 @@
       "status": "empty"
     },
     "corner_board": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
+    "expressed_frame": {
       "group": "envelope",
       "binding": "open",
       "status": "empty"

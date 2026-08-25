@@ -1,7 +1,7 @@
 {
   "style": "american-arts-and-crafts",
   "style_name": "American Arts and Crafts",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -226,6 +226,11 @@
       "judgment": true,
       "status": "drafted",
       "note": "Inferred from the family's repeated 'wide flat trim' diagnostic (arts-and-crafts-american, craftsman-bungalow) rather than a slot the members discuss by name."
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "reveal_masonry": {
       "group": "envelope",

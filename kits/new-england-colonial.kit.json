@@ -1,7 +1,7 @@
 {
   "style": "new-england-colonial",
   "style_name": "New England Colonial",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -491,6 +491,11 @@
       "judgment": true,
       "confidence": "low",
       "note": "Editorial inference from the style's stated absence of moulding before 1700, not a directly quoted corner-board source."
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
     },
     "reveal_masonry": {
       "group": "envelope",

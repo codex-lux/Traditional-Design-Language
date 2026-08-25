@@ -1,7 +1,7 @@
 {
   "style": "english-medieval-timber-frame",
   "style_name": "English Medieval Timber Frame",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -272,6 +272,21 @@
       "variants": [],
       "parameters": {},
       "status": "empty"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The frame IS the wall: 'the frame carries all vertical and lateral load' and the panel is infill. Post 200-300 mm square at 3.0-5.0 m centres, proud of the panel by its own thickness less the daub's. Nothing here is expressed for effect -- it is visible because it is there, which is what `structural` means as against `structural-and-expressed`.",
+      "variants": [
+        {
+          "id": "structural",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Categorical, so it is a variant rather than a parameter -- it carries no unit and the kit checker is right to insist that a parameter does."
+        }
+      ]
     },
     "reveal_masonry": {
       "group": "envelope",

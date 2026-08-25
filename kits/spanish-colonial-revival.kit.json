@@ -1,7 +1,7 @@
 {
   "style": "spanish-colonial-revival",
   "style_name": "Spanish Colonial Revival",
-  "ontology_version": "0.6.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -284,6 +284,21 @@
       "variants": [],
       "parameters": {},
       "status": "empty"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "'Eave overhang not exceeding 12 in. and no exposed dimensional rafter tails.' The third member of the same argument, and the reason the field is worth having on all three: the Spanish revival family is separated at the eave by whether a rafter shows.",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Categorical, so it is a variant rather than a parameter -- it carries no unit and the kit checker is right to insist that a parameter does."
+        }
+      ]
     },
     "reveal_masonry": {
       "group": "envelope",
