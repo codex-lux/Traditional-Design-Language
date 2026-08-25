@@ -41,6 +41,7 @@ CHECKS = [
 
 def main():
     results = []
+    skipped = []
     for script, args in CHECKS:
         label = f"{script} {' '.join(args)}".strip()
         print(f"\n=== {label} " + "=" * max(0, 60 - len(label)))
@@ -48,21 +49,54 @@ def main():
             [sys.executable, str(ROOT / "build" / script)] + args,
             cwd=str(ROOT),
         )
-        results.append((label, proc.returncode == 0))
+        # Exit 3 is the checkers' "could not evaluate" — a missing dependency, not a
+        # data verdict. Recorded as SKIP so it is never counted as a pass, and never
+        # reported as a failure of the corpus.
+        if proc.returncode == 3:
+            skipped.append((label, "could not evaluate — see the checker's own message"))
+        else:
+            results.append((label, proc.returncode == 0))
 
     print("\n=== pytest tests/ " + "=" * 42)
-    pytest_proc = subprocess.run(["pytest", "tests/"], cwd=str(ROOT))
+    # sys.executable -m pytest, not a bare `pytest`: the one on PATH can belong to a
+    # different environment, which is how a missing dependency became a failing check.
+    pytest_proc = subprocess.run([sys.executable, "-m", "pytest", "tests/"], cwd=str(ROOT))
     results.append(("pytest tests/", pytest_proc.returncode == 0))
+
+    # The workbench suite needs fastapi and httpx, which the corpus itself does not.
+    # A missing dependency makes this check UNEVALUATED, and it is reported that way —
+    # rolling it into the pass count would be the same error the corpus refuses to make
+    # about its own constraints.
+    print("\n=== pytest workbench/server/tests " + "=" * 26)
+    # Probe and run in the SAME interpreter. A bare `pytest` on PATH can belong to a
+    # different environment than sys.executable — probing here and running there reports
+    # a missing dependency as a failure, which is the one thing this check must not do.
+    probe = subprocess.run(
+        [sys.executable, "-c", "import fastapi, httpx, pytest"],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    if probe.returncode != 0:
+        why = probe.stderr.strip().splitlines()[-1] if probe.stderr.strip() else "not importable"
+        print(f"SKIPPED — {why}")
+        print("    pip install -r workbench/requirements.txt")
+        skipped.append(("pytest workbench/server/tests", why))
+    else:
+        wb_proc = subprocess.run(
+            [sys.executable, "-m", "pytest", "workbench/server/tests", "-q"], cwd=str(ROOT))
+        results.append(("pytest workbench/server/tests", wb_proc.returncode == 0))
 
     print("\n" + "=" * 60)
     print("SUMMARY")
     failed = [label for label, ok in results if not ok]
     for label, ok in results:
         print(f"  {'OK  ' if ok else 'FAIL'}  {label}")
+    for label, why in skipped:
+        print(f"  SKIP  {label} — {why}")
     if failed:
         print(f"\n{len(failed)} of {len(results)} checks failed.")
         sys.exit(1)
-    print(f"\nAll {len(results)} checks passed.")
+    tail = f" ({len(skipped)} skipped, not run)" if skipped else ""
+    print(f"\nAll {len(results)} checks passed{tail}.")
 
 
 if __name__ == "__main__":

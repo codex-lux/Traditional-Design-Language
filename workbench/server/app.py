@@ -4,19 +4,87 @@ Read routes are pass-throughs returning core's JSON shapes unchanged (the fronte
 types mirror core.py, not the other way round). The server is stateless except the
 compose job registry; the plan record is a document the browser owns.
 
-Binds 127.0.0.1 only. No auth, no network beyond the Anthropic API for the rail.
+Binds 127.0.0.1 by default; set WORKBENCH_HOST=0.0.0.0 to face a platform proxy. The
+only network call it makes is to the Anthropic API, for the rail.
+
+Auth is a shared password (`auth.py`) and is *optional* — unset WORKBENCH_PASSWORD and
+the server is open, exactly as it was before it could be deployed, with /api/health
+saying so. Only /api/* is gated: the static shell has to load in order to draw the
+password screen, and it carries no corpus data.
 """
 import os
+from contextlib import asynccontextmanager
 
 from fastapi import Body, FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import corpus, evaluate, jobs
+from . import auth, corpus, evaluate, jobs, limits, mcp_mount
 
 core = corpus.core
 
-app = FastAPI(title="TDL Workbench", docs_url=None, redoc_url=None, openapi_url=None)
+# Built BEFORE the FastAPI instance, because the session manager is created lazily inside
+# streamable_http_app() and the lifespan below has to be able to reach it.
+MCP_APP, MCP_STATE = mcp_mount.build()
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    """A mounted sub-application's own lifespan never runs, so the session manager has to
+    be started here or every /mcp call raises 'Task group is not initialized'."""
+    if MCP_APP is None:
+        yield
+        return
+    from mcp_server import server as tdl_mcp
+    async with tdl_mcp.mcp.session_manager.run():
+        yield
+
+
+app = FastAPI(title="TDL Workbench", docs_url=None, redoc_url=None, openapi_url=None,
+              lifespan=lifespan)
+
+
+@app.middleware("http")
+async def gate(request: Request, call_next):
+    path = request.url.path
+    # Starlette's Mount("/mcp") compiles to ^/mcp(?P<path>/.*)$ — it does not match a bare
+    # "/mcp", which would fall through to the SPA catch-all and answer 405 to a POST.
+    # Clients are handed ".../mcp" without a slash, so normalise here, before routing.
+    if path == "/mcp" and MCP_APP is not None:
+        request.scope["path"] = path = "/mcp/"
+    # /mcp is gated exactly like /api — auth.authorised already accepts a bearer token,
+    # which is what an agent client sends via `claude mcp add --header`.
+    gated = path.startswith("/api/") or path == "/mcp" or path.startswith("/mcp/")
+    if gated and path not in auth.OPEN_PATHS:
+        if not auth.authorised(request):
+            return JSONResponse(status_code=401,
+                                content={"detail": {"error": "a password is required",
+                                                    "auth": auth.state()}})
+    return await call_next(request)
+
+
+@app.post("/api/login")
+async def login(request: Request, body: dict = Body(...)):
+    if not auth.required():
+        return {"ok": True, "note": "this server has no password set"}
+    ok, retry = auth.login_allowed(request)
+    if not ok:
+        raise HTTPException(status_code=429,
+                            detail={"error": "too many attempts — wait and try again",
+                                    "retry_after_s": retry})
+    if not auth.check_password(body.get("password")):
+        raise HTTPException(status_code=401, detail={"error": "wrong password"})
+    response = JSONResponse(content={"ok": True})
+    response.set_cookie(auth.COOKIE, auth.mint(), max_age=auth.TTL_S, httponly=True,
+                        samesite="lax", secure=request.url.scheme == "https")
+    return response
+
+
+def _heavy(request):
+    """Gate a compute-heavy endpoint, or raise 429 with an honest reason."""
+    reason = limits.check_heavy(auth.identity(request))
+    if reason:
+        raise HTTPException(status_code=429, detail={"error": reason, "limited": True})
 
 
 def _ok(result):
@@ -29,7 +97,7 @@ def _ok(result):
 
 # ----------------------------------------------------------------- health
 @app.get("/api/health")
-def health():
+def health(request: Request):
     try:
         import jsonschema  # noqa: F401 — without it every check "fails schema"
         schema_ok = True
@@ -38,6 +106,14 @@ def health():
     counts = core.overview()["counts"]
     return {"ok": schema_ok, "jsonschema": schema_ok, "counts": counts,
             "rail": bool(os.environ.get("ANTHROPIC_API_KEY")),
+            "auth": auth.state(), "limits": limits.state(),
+            # /api/health is deliberately ungated (the platform healthcheck has no
+            # credentials), so it must not enumerate hostnames. allowed_hosts can carry
+            # internal service names, so the list is shown only to an authorised caller;
+            # everyone else gets the yes/no an operator actually needs.
+            "mcp": (MCP_STATE if auth.authorised(request)
+                    else {k: v for k, v in MCP_STATE.items() if k != "allowed_hosts"}
+                         | {"platform_host_detected": bool(mcp_mount._platform_hosts())}),
             "note": None if schema_ok else
             "jsonschema is not installed — plan checks and compose will fail. "
             "pip install -r workbench/requirements.txt"}
@@ -231,7 +307,8 @@ def example_plan(name: str):
 
 # ----------------------------------------------------------------- the workbench loop
 @app.post("/api/plan/evaluate")
-def plan_evaluate(body: dict = Body(...)):
+def plan_evaluate(request: Request, body: dict = Body(...)):
+    _heavy(request)
     plan = body.get("plan")
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
@@ -244,7 +321,8 @@ def plan_evaluate(body: dict = Body(...)):
 
 # ----------------------------------------------------------------- compose jobs
 @app.post("/api/compose")
-def compose(body: dict = Body(...)):
+def compose(request: Request, body: dict = Body(...)):
+    _heavy(request)
     brief = body.get("brief")
     if not brief:
         raise HTTPException(status_code=422, detail={"error": "body.brief is required"})
@@ -264,7 +342,10 @@ def job(job_id: str):
 
 @app.get("/api/jobs/{job_id}/events")
 def job_events(job_id: str):
-    return StreamingResponse(jobs.events(job_id), media_type="text/event-stream")
+    # Proxies buffer by default, which would hold compose progress until the job ended.
+    return StreamingResponse(jobs.events(job_id), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache",
+                                      "X-Accel-Buffering": "no"})
 
 
 @app.get("/api/jobs/{job_id}/candidates/{n}/plan")
@@ -277,7 +358,8 @@ def job_candidate_plan(job_id: str, n: int):
 
 # ----------------------------------------------------------------- drawings
 @app.post("/api/drawings/{kind}")
-def drawings(kind: str, body: dict = Body(...)):
+def drawings(kind: str, request: Request, body: dict = Body(...)):
+    _heavy(request)
     plan = body.get("plan")
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
@@ -293,13 +375,25 @@ def drawings(kind: str, body: dict = Body(...)):
 async def rail_messages(request: Request):
     from . import rail
     body = await request.json()
-    return StreamingResponse(rail.stream_turn(body), media_type="text/event-stream")
+    # Identity, not the session cookie itself: a Cloudflare Access email outranks it, and
+    # a caller with neither still gets a stable-enough key. See auth.identity.
+    stream = rail.stream_turn(body, identity=auth.identity(request))
+    return StreamingResponse(stream, media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache",
+                                      "X-Accel-Buffering": "no"})
 
 
 # ----------------------------------------------------------------- dev
 @app.post("/api/dev/reload")
 def dev_reload():
     return corpus.invalidate()
+
+
+# ----------------------------------------------------------------- MCP over HTTP
+# Mounted BEFORE the SPA catch-all below: Starlette matches routes in registration order,
+# and "/{path:path}" would otherwise swallow every request to /mcp.
+if MCP_APP is not None:
+    app.mount("/mcp", MCP_APP, name="mcp")
 
 
 # ----------------------------------------------------------------- static app
@@ -311,7 +405,16 @@ if os.path.isdir(APP_DIST):
 
     @app.get("/{path:path}")
     def spa(path: str):
-        candidate = os.path.join(APP_DIST, path)
-        if path and os.path.isfile(candidate):
-            return FileResponse(candidate)
+        # os.path.join(APP_DIST, "../../../etc/passwd") escapes APP_DIST, os.path.isfile
+        # agrees, and FileResponse serves it — an unauthenticated arbitrary file read,
+        # because this catch-all is deliberately outside the gate so the password screen
+        # can load. Harmless while the server bound 127.0.0.1; a hole the moment it binds
+        # 0.0.0.0. Resolve the path and require it to stay inside APP_DIST. realpath, not
+        # normpath: a symlink inside dist/ would otherwise still lead out.
+        if path:
+            candidate = os.path.realpath(os.path.join(APP_DIST, path))
+            root = os.path.realpath(APP_DIST)
+            if (candidate == root or candidate.startswith(root + os.sep)) \
+                    and os.path.isfile(candidate):
+                return FileResponse(candidate)
         return FileResponse(os.path.join(APP_DIST, "index.html"))

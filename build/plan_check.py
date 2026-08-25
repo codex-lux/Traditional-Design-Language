@@ -55,11 +55,11 @@ def _alias(t):
 
 def load_corpus():
     C = {"rooms": {}, "groupings": {}, "styles": {}, "faults": {}, "massings": {}, "slots": {}, "kits": {}}
-    for f in glob.glob(f"{ROOT}/rooms/*.json"): r = json.load(open(f)); C["rooms"][r["id"]] = r
-    for f in glob.glob(f"{ROOT}/groupings/*.json"): g = json.load(open(f)); C["groupings"][g["id"]] = g
-    for f in glob.glob(f"{ROOT}/styles/*.json"): s = json.load(open(f)); C["styles"][s["id"]] = s
-    for f in glob.glob(f"{ROOT}/faults/*.json"): x = json.load(open(f)); C["faults"][x["id"]] = x
-    for f in glob.glob(f"{ROOT}/kits/*.kit.json"): k = json.load(open(f)); C["kits"][k["style"]] = k
+    for f in sorted(glob.glob(f"{ROOT}/rooms/*.json")): r = json.load(open(f)); C["rooms"][r["id"]] = r
+    for f in sorted(glob.glob(f"{ROOT}/groupings/*.json")): g = json.load(open(f)); C["groupings"][g["id"]] = g
+    for f in sorted(glob.glob(f"{ROOT}/styles/*.json")): s = json.load(open(f)); C["styles"][s["id"]] = s
+    for f in sorted(glob.glob(f"{ROOT}/faults/*.json")): x = json.load(open(f)); C["faults"][x["id"]] = x
+    for f in sorted(glob.glob(f"{ROOT}/kits/*.kit.json")): k = json.load(open(f)); C["kits"][k["style"]] = k
     C["massings"] = {m["id"]: m for m in json.load(open(f"{ROOT}/massings/catalog.json"))}
     for g in json.load(open(f"{ROOT}/elements/slots.json"))["groups"]:
         for s in g["slots"]: C["slots"][s["id"]] = s

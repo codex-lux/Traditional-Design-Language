@@ -32,10 +32,15 @@ def _mod(name, path):
 PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
 C = PC.load_corpus()
 PARTIS = {}
-for f in glob.glob(f"{ROOT}/partis/*.json"):
+for f in sorted(glob.glob(f"{ROOT}/partis/*.json")):
     p = json.load(open(f)); PARTIS[p["id"]] = p
 
 SEV_W = {"fatal": 100, "serious": 8, "minor": 1, "advisory": 0.5, "info": 0}
+
+# How many diagrams past `limit` a tie at the cut may add. Small on purpose — see
+# pick_partis. Enough to keep a genuine near-tie whole; not enough to let a style whose
+# fit function discriminated nothing double the composer's work.
+MAX_TIE_EXPANSION = 3
 
 # ---------------------------------------------------------------- selection
 def pick_partis(brief, limit=6):
@@ -67,8 +72,35 @@ def pick_partis(brief, limit=6):
         else: fit -= 1.5; why.append(f"{area:.0f} sf is outside the diagram's range of {ar[0]:.0f}-{ar[1]:.0f}")
         gset = set(p.get("groupings", []))
         out.append({"parti": p["id"], "fit": round(fit, 2), "why": why, "groupings": sorted(gset)})
-    out.sort(key=lambda x: -x["fit"])
-    return out[:limit]
+
+    # Tie-break by id so the order is the same on every machine. Without it the sort is
+    # stable over PARTIS insertion order, which is directory order, which differs by
+    # filesystem — and the cut below then kept different diagrams on different machines.
+    out.sort(key=lambda x: (-x["fit"], x["parti"]))
+
+    if limit <= 0:
+        return []          # out[limit-1] would index from the END and return everything
+    if len(out) <= limit:
+        return out
+
+    # Never cut THROUGH a narrow tie. Diagrams that fit equally well are, by this
+    # function's own measure, indistinguishable; dropping some at an arbitrary index lets
+    # the slice decide what the score is supposed to decide. For a Georgian family house
+    # four diagrams tie at 2.00 and which one "wins" was previously settled by readdir.
+    #
+    # But the expansion is bounded, because a WIDE tie is a different thing. A style with
+    # no native parti and no massing affinity — the majority of the corpus — leaves every
+    # diagram on the same score, and returning all of them doubles compose time (each pick
+    # is instantiated, repaired and plan-checked before the final cut) while adding no
+    # information the fit function actually has. Past the margin, take the deterministic
+    # cut: the id tie-break above means it is reproducible, not arbitrary-by-filesystem.
+    edge = out[limit - 1]["fit"]
+    above = [x for x in out if x["fit"] > edge]
+    tied = [x for x in out if x["fit"] == edge]
+    room = limit - len(above)
+    if len(tied) - room <= MAX_TIE_EXPANSION:
+        return above + tied
+    return above + tied[:room]
 
 # ---------------------------------------------------------------- instantiation
 def room_default_dims(room_type):
@@ -595,7 +627,12 @@ def compose(brief, candidates=4, on_candidate=None):
             "plan": plan})
         if on_candidate:
             on_candidate({k: v for k, v in out[-1].items() if k != "plan"})
-    out.sort(key=lambda c: (c["counts"].get("fatal", 0), c["score"]))
+    # Tie-break by parti id for the same reason pick_partis does: score is rounded to 1dp
+    # and is a weighted sum of integer counts, so collisions are reachable — especially
+    # between two diagrams from the same fit tie group, which share the -fit*6 term. A
+    # stable sort would then fall back to insertion order, and the slice below would be
+    # deciding again. Determinism here must not be borrowed from the previous stage.
+    out.sort(key=lambda c: (c["counts"].get("fatal", 0), c["score"], c.get("parti") or ""))
     result = {"brief": brief.get("id") or brief.get("name"), "style": brief["style"],
             "target_area_sf": brief["target_area_sf"], "bedrooms": brief.get("bedrooms", 3),
             "candidates": out[:candidates],

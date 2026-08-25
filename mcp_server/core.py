@@ -33,10 +33,10 @@ def _load_engine():
 @functools.lru_cache(maxsize=1)
 def _data():
     styles = {}
-    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         n = json.load(open(f)); styles[n["id"]] = n
     faults = {}
-    for f in glob.glob(os.path.join(ROOT, "faults", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
         n = json.load(open(f)); faults[n["id"]] = n
     slots, groups = {}, []
     sd = json.load(open(os.path.join(ROOT, "elements", "slots.json")))
@@ -47,12 +47,12 @@ def _data():
     try: assets = json.load(open(os.path.join(ROOT, "assets", "manifest.json")))["assets"]
     except Exception: assets = []
     kits = {}
-    for f in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         k = json.load(open(f)); kits[k["style"]] = k
     rooms, groupings = {}, {}
-    for f in glob.glob(os.path.join(ROOT, "rooms", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))):
         r = json.load(open(f)); rooms[r["id"]] = r
-    for f in glob.glob(os.path.join(ROOT, "groupings", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))):
         g = json.load(open(f)); groupings[g["id"]] = g
     return {"styles": styles, "faults": faults, "slots": slots, "groups": groups,
             "massings": massings, "assets": assets, "kits": kits,
@@ -410,14 +410,22 @@ def _eval_test(t, measurements):
     except Exception as e:
         return {"status": "error", "detail": str(e)}
     d, th, up = t.get("direction"), t.get("threshold"), t.get("upper")
+    # The comparison below used to sit outside any guard: a test expression returning a
+    # value that will not compare against the threshold raised straight out of
+    # check_measurements, through check_plan, and became a 500 from /api/plan/evaluate.
+    # An uncomparable result is something this evaluator COULD NOT judge, which is a
+    # state the corpus already has a word for.
     # 'one-of' exists only on the constraint schema (schema/constraint.schema.json), not the
     # fault schema -- a fault test always fails this lookup harmlessly, since no fault ever
     # sets direction: one-of. Kept in the same shared evaluator rather than forked so faults
     # and style constraints (build/plan_check.py) share one safety-checked eval path.
-    ok = {"at-least": lambda: val >= th, "at-most": lambda: val <= th,
-          "equals": lambda: abs(val - th) < 1e-6,
-          "between": lambda: th <= val <= (up if up is not None else th),
-          "one-of": lambda: str(val) in (t.get("set") or [])}.get(d, lambda: None)()
+    try:
+        ok = {"at-least": lambda: val >= th, "at-most": lambda: val <= th,
+              "equals": lambda: abs(val - th) < 1e-6,
+              "between": lambda: th <= val <= (up if up is not None else th),
+              "one-of": lambda: str(val) in (t.get("set") or [])}.get(d, lambda: None)()
+    except Exception as e:
+        return {"status": "error", "detail": f"{val!r} does not compare: {e}"}
     required = f"one-of {t.get('set')}" if d == "one-of" else (
         f"{d} {th}" + (f" and {up}" if d == "between" and up is not None else ""))
     return {"status": "evaluated", "value": round(val, 4) if isinstance(val, float) else val,
@@ -487,9 +495,18 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         ev = [r for r in results if r["status"] == "evaluated"]
         if not ev:
             miss = sorted({m for r in results if r["status"] == "need_measurements" for m in r["missing"]})
-            if include_needed and miss:
-                needed.append({"fault": f["id"], "name": f["name"], "needs": miss,
-                               "measurable_from": f.get("test", {}).get("measurable_from")})
+            errs = sorted({r["detail"] for r in results if r["status"] == "error"})
+            # `errs` is why this branch exists in this shape. A fault whose every test
+            # ERRORED produced no `ev` and no `miss`, so it was appended to nothing: not
+            # present, not clear, not unjudged, and absent from the summary counts — a
+            # fault that silently vanished, which reads to a caller exactly like clear.
+            # That is the one collapse this corpus forbids above all others.
+            if include_needed and (miss or errs):
+                row = {"fault": f["id"], "name": f["name"], "needs": miss,
+                       "measurable_from": f.get("test", {}).get("measurable_from")}
+                if errs:
+                    row["errors"] = errs
+                needed.append(row)
             continue
         failing = [r for r in ev if r["passes"] is False]
         row = {"fault": f["id"], "name": f["name"], "severity": next(
@@ -506,7 +523,12 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
     present.sort(key=lambda r: SEV.index(r["severity"]) if r["severity"] in SEV else 3)
     return {"style": style, "measurements_given": sorted(measurements),
             "faults_present": present, "faults_clear": clear[:limit],
-            "could_not_judge": needed[:limit],
+            "faults_clear_truncated": max(0, len(clear) - limit),
+            # NOT truncated. "unjudged is not passed" degrades into "the first forty
+            # unjudged are not passed" the moment this list is cut — build/plan_check.py
+            # already worked around it by passing limit=10**6; the tool should not need
+            # the workaround.
+            "could_not_judge": needed,
             "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed)},
             "note": "A fault only counts as present when a test actually failed. Anything under could_not_judge is unknown, not passed."}
 
@@ -684,7 +706,7 @@ def _load_plan_checker():
 
 def plan_schema():
     return {"schema": json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))),
-            "examples": [os.path.basename(f) for f in glob.glob(os.path.join(ROOT, "plans", "*.json"))],
+            "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "plans", "*.json")))],
             "hint": ("A plan is a topology plus approximate dimensions — enough to check, not enough to build. "
                      "Doors imply adjacency in both directions; the validator derives the graph from them. "
                      "Give width_ft as the SHORT dimension and window_head_ft wherever you can, because "
@@ -730,7 +752,7 @@ def list_partis(style=None, massing=None):
 
 def brief_schema():
     return {"schema": json.load(open(os.path.join(ROOT, "schema", "brief.schema.json"))),
-            "examples": [os.path.basename(f) for f in glob.glob(os.path.join(ROOT, "briefs", "*.json"))],
+            "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "briefs", "*.json")))],
             "hint": ("Only style and target_area_sf are required. Everything absent is decided by the "
                      "composer and reported in the decision log as an assumption, not smuggled in as a fact. "
                      "Put the household in `household` — it is the thing that decides whether the dining room "

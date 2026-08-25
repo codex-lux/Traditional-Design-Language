@@ -52,7 +52,7 @@ def slot_index():
 def style_ids():
     return {
         f[:-5]
-        for f in os.listdir(STYLES)
+        for f in sorted(os.listdir(STYLES))
         if f.endswith(".json")
     }
 

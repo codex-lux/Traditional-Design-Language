@@ -66,7 +66,7 @@ def test_new_wall_thickness_slots_exist_on_every_kit():
     reached everything and check_kits.py has something to validate no
     matter which kits have been authored yet."""
     import glob
-    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for path in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         kit = json.load(open(path))
         for sid in ("wall_thickness_masonry", "wall_thickness_frame"):
             assert sid in kit["slots"], (path, sid)

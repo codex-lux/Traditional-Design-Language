@@ -495,8 +495,14 @@ def solve(plan, parti=None, candidates=250, seed=7):
         else: su = 0.0
         vs, vnotes = vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
         tot = sg + su + vs + 1.5 * len(grelax + urelax)
-        if best is None or tot < best["score"]:
-            best = {"score": round(tot, 1), "ground": gr, "upper": ur, "vnotes": vnotes,
+        # Compare raw against raw. "score" is stored rounded to 1dp, so comparing an
+        # unrounded challenger against it let a strictly WORSE candidate win whenever
+        # rounding nudged the incumbent up: 40.06 stores as 40.1, and a 40.08 challenger
+        # satisfies 40.08 < 40.1. The error is bounded at 0.05, but it meant a
+        # 250-candidate search did not reliably return its own argmin.
+        if best is None or tot < best["_raw"]:
+            best = {"_raw": tot,
+                    "score": round(tot, 1), "ground": gr, "upper": ur, "vnotes": vnotes,
                     "relaxations": grelax + urelax, "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1)}
 
     # --- write coordinates back into the plan

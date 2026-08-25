@@ -23,7 +23,7 @@ ENGINE_VERSION = "0.1.0"
 # ---------------------------------------------------------------- load
 def load_all():
     packs = {}
-    for f in glob.glob(os.path.join(ROOT, "proportions", "**", "*.json"), recursive=True):
+    for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "**", "*.json"), recursive=True)):
         p = json.load(open(f))
         p["_file"] = os.path.relpath(f, ROOT)
         packs[p["id"]] = p
