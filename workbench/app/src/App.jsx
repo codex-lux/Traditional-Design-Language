@@ -2,10 +2,11 @@
    WP-5.5). The AI rail is persistent across all of them. A citation anywhere routes
    through citations.js and navigates this shell. */
 import React from 'react';
-import { api } from './api/client.js';
+import { api, setUnauthorizedHandler } from './api/client.js';
 import { routeCite } from './citations.js';
 import { planDoc } from './state/planDoc.js';
 import { Masthead, LeftRail } from './Chrome.jsx';
+import { Gate } from './Gate.jsx';
 import { RailHost } from './rail/RailHost.jsx';
 import { PlanWorkbench } from './surfaces/PlanWorkbench.jsx';
 import { CandidateSet } from './surfaces/CandidateSet.jsx';
@@ -25,11 +26,31 @@ export default function App() {
   const [overview, setOverview] = React.useState(null);
   const [health, setHealth] = React.useState(null);
   const [lastEval, setLastEval] = React.useState(null);
+  // null while unknown — rendering the shell before we know would flash it at a locked
+  // visitor, and rendering the gate before we know would flash it at an open server.
+  const [locked, setLocked] = React.useState(null);
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
 
+  const boot = React.useCallback(() => {
+    // /api/health is never gated, so it answers either way and tells us which way.
+    api.health().then((h) => {
+      setHealth(h);
+      if (!h.auth?.required) { setLocked(false); }
+      // A password is set, but this browser may already hold a session. One real
+      // request is the only way to find out.
+      return api.overview()
+        .then((o) => { setOverview(o); setLocked(false); })
+        .catch((e) => { if (e.status === 401) setLocked(true); });
+    }).catch(() => setHealth({ ok: false }));
+  }, []);
+
+  React.useEffect(boot, [boot]);
+
+  // Any 401 after boot means the session went away — a redeploy, or an expiry. Show the
+  // gate again rather than letting every surface render an error.
   React.useEffect(() => {
-    api.overview().then(setOverview).catch(() => {});
-    api.health().then(setHealth).catch(() => setHealth({ ok: false }));
+    setUnauthorizedHandler(() => setLocked(true));
+    return () => setUnauthorizedHandler(null);
   }, []);
 
   function cite(ref) {
@@ -55,6 +76,9 @@ export default function App() {
   };
 
   const unjudged = lastEval?.check?.constraint_summary?.unjudged;
+
+  if (locked === null) return null;                 // one frame, before we know which
+  if (locked) return <Gate onUnlocked={boot} auth={health?.auth} />;
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>

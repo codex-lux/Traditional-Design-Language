@@ -4,11 +4,21 @@
 
 const cache = new Map();
 
+/* A session can expire mid-visit — and does on every redeploy when WORKBENCH_SECRET is
+   unset, since the signing key is then per-process. Without this every surface just threw
+   and the user saw panels erroring instead of the password screen. */
+let onUnauthorized = null;
+export function setUnauthorizedHandler(fn) { onUnauthorized = fn; }
+function noteUnauthorized(status) {
+  if (status === 401 && onUnauthorized) onUnauthorized();
+}
+
 async function getJSON(url, { fresh = false } = {}) {
   if (!fresh && cache.has(url)) return cache.get(url);
   const r = await fetch(url);
   if (!r.ok) {
     const body = await r.json().catch(() => ({}));
+    noteUnauthorized(r.status);
     throw Object.assign(new Error(`GET ${url} → ${r.status}`), { status: r.status, body });
   }
   const j = await r.json();
@@ -24,6 +34,7 @@ async function postJSON(url, body) {
   });
   if (!r.ok) {
     const b = await r.json().catch(() => ({}));
+    if (!url.endsWith('/api/login')) noteUnauthorized(r.status);
     throw Object.assign(new Error(`POST ${url} → ${r.status}`), { status: r.status, body: b });
   }
   return r.json();
@@ -36,6 +47,9 @@ const qs = (params) => {
 
 export const api = {
   health: () => getJSON('/api/health', { fresh: true }),
+  /* Sets an httpOnly session cookie; nothing is stored client-side. Throws with
+     .status 401 on a wrong password, 429 when attempts are being throttled. */
+  login: (password) => postJSON('/api/login', { password }),
   overview: () => getJSON('/api/overview'),
   phylogeny: () => getJSON('/api/phylogeny'),
   styles: (params) => getJSON('/api/styles' + qs(params)),

@@ -7,14 +7,44 @@ tools an agent can call while advising a human on a real house.
 Run:  python3 mcp_server/server.py            (stdio)
 Register with Claude Code:
       claude mcp add tdl -- python3 /abs/path/to/mcp_server/server.py
+
+The same 24 tools are also served over HTTP when the workbench mounts this module at
+/mcp — see docs/deployment.md. Nothing here knows which transport it is answering on.
 """
 import json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import core
-from mcp.server.fastmcp import FastMCP
+from mcp.server import MCPServer
 
-mcp = FastMCP("traditional-design-language")
+mcp = MCPServer("traditional-design-language")
 J = lambda o: json.dumps(o, ensure_ascii=False, indent=1)
+
+# ---------------------------------------------------------------- metering hook
+# Three of the 24 tools reach heavy core functions; the rest are corpus lookups. Served
+# over HTTP those three want a cap, and over stdio they do not — one local agent driving
+# the CLI is not a shared resource. So the limiter is INJECTED rather than imported:
+# mcp_server must not depend on anything in workbench/, and the default of None keeps
+# stdio and the tests unmetered. Same seam as rail.set_client_factory.
+_limiter = None
+
+
+def set_limiter(fn):
+    """fn(tool_name) -> None to allow, or a string reason to refuse."""
+    global _limiter
+    _limiter = fn
+
+
+def _metered(tool_name):
+    """Returns a refusal JSON string when the caller is over its cap, else None."""
+    if _limiter is None:
+        return None
+    reason = _limiter(tool_name)
+    if not reason:
+        return None
+    # A refusal is content, at the same weight as a result — the corpus's own discipline.
+    return J({"refused": True, "tool": tool_name, "reason": reason,
+              "note": "This is a rate limit on this deployment, not a judgment about the "
+                      "plan or the corpus. Nothing was evaluated."})
 
 @mcp.tool()
 def tdl_overview() -> str:
@@ -212,7 +242,8 @@ def tdl_check_plan(plan: dict, strict: bool = False) -> str:
     not model closets is coarse, not wrong; pass strict to treat absence as a failure.
 
     This is also the fitness function a plan composer needs, which is why it exists before one."""
-    return J(core.check_plan(plan, strict))
+    refused = _metered("tdl_check_plan")
+    return refused or J(core.check_plan(plan, strict))
 
 @mcp.tool()
 def tdl_brief_schema() -> str:
@@ -243,7 +274,8 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False) -
     A plan with no fatal findings is not therefore good. The corpus can say what is wrong; it cannot
     say what is alive, and that judgement belongs to the human. Pass include_plans to get the full
     records for tdl_check_plan."""
-    return J(core.compose(brief, candidates, include_plans))
+    refused = _metered("tdl_compose")
+    return refused or J(core.compose(brief, candidates, include_plans))
 
 @mcp.tool()
 def tdl_place_plan(plan: dict, parti: str = "", candidates: int = 250, svg_path: str = "",
@@ -264,7 +296,8 @@ def tdl_place_plan(plan: dict, parti: str = "", candidates: int = 250, svg_path:
 
     engine: "auto" (CP-SAT proof when OR-Tools is available, heuristic fallback stated),
     "cp" (prove or refuse — a ~25s solve), or "heuristic" (the fast hill-climb)."""
-    return J(core.place_plan(plan, parti or None, candidates, svg_path or None, engine=engine))
+    refused = _metered("tdl_place_plan")
+    return refused or J(core.place_plan(plan, parti or None, candidates, svg_path or None, engine=engine))
 
 if __name__ == "__main__":
     mcp.run()

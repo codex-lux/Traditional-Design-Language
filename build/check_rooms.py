@@ -146,10 +146,10 @@ def build_universe():
     u["slots"] = {s["id"] for g in slots["groups"] for s in g["slots"]}
 
     u["styles"] = {
-        os.path.basename(p)[:-5] for p in glob.glob(os.path.join(ROOT, "styles", "*.json"))
+        os.path.basename(p)[:-5] for p in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json")))
     }
     u["faults"] = {
-        os.path.basename(p)[:-5] for p in glob.glob(os.path.join(ROOT, "faults", "*.json"))
+        os.path.basename(p)[:-5] for p in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json")))
     }
     return u
 
@@ -393,7 +393,7 @@ def main():
         groupings.append((p, doc))
 
     # ids present across the WHOLE catalogue, not only the --only subset
-    all_room_ids = {os.path.basename(p)[:-5] for p in glob.glob(os.path.join(ROOT, "rooms", "*.json"))}
+    all_room_ids = {os.path.basename(p)[:-5] for p in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json")))}
     dupes = [k for k, v in Counter(d.get("id") for _, d in rooms).items() if v > 1]
     for dpe in dupes:
         rep.err("<catalogue>", f"duplicate room id '{dpe}'")

@@ -1,0 +1,17 @@
+# Nothing here is read at runtime. Sizes are why each line is worth having.
+
+.git/                       # 16M of history the container will never consult
+Plan Examples/              # 6.9M of reference screenshots, an authoring input only
+dist/                       # 5.7M of build artifacts; corpus.py calls taxonomy.json
+                            # "a build artifact" and nothing loads it at runtime
+
+workbench/app/node_modules/ # stage 1 runs its own npm ci
+workbench/app/dist/         # stage 1 builds this; copying a stale local one would win
+workbench/.venv/
+
+__pycache__/
+*.pyc
+.pytest_cache/
+workbench/app/e2e/shots/
+
+.github/

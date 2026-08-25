@@ -13,10 +13,42 @@ import json
 import os
 import re
 
-from . import citations, corpus, tools
+from . import citations, corpus, limits, tools
 
-MODEL = os.environ.get("WORKBENCH_MODEL", "claude-sonnet-4-5")
-MAX_TOOL_ROUNDS = 8
+def _env(name, default):
+    """Read lazily. A module-level os.environ.get freezes at import — invisible to
+    anything setting it afterwards, and untestable — which is the same trap auth.py's
+    login-attempt cap fell into. docs/deployment.md lists all four of these as tunable."""
+    return os.environ.get(name) or default
+
+
+def model():
+    return _env("WORKBENCH_MODEL", "claude-sonnet-5")
+
+
+def effort():
+    return _env("WORKBENCH_EFFORT", "medium")
+
+
+def max_tokens():
+    try:
+        return int(_env("WORKBENCH_MAX_TOKENS", "8000"))
+    except ValueError:
+        return 8000
+
+
+def max_tool_rounds():
+    try:
+        return int(_env("RAIL_MAX_TOOL_ROUNDS", "8"))
+    except ValueError:
+        return 8
+
+
+# On this model family thinking runs adaptively unless told otherwise, and those tokens
+# count against max_tokens — a 2000 ceiling (what this rail carried against the older
+# model) risks truncating a turn mid-answer. effort() trades depth for spend; medium
+# suits a rail that mostly dispatches tools and answers briefly. Each tool round is a
+# separate billed request, so max_tool_rounds() is the per-turn cost multiplier.
 MAX_RESULT_BYTES = 20_000
 
 _client_factory = None  # test seam: rail tests inject a fake transport
@@ -146,12 +178,28 @@ def _emit_text(buf, ctx):
     return events
 
 
-def stream_turn(body):
+def stream_turn(body, identity=None):
     """Generator of SSE lines for one rail turn. The client owns conversation state
-    and replays prior turns; we run the tool loop to completion server-side."""
+    and replays prior turns; we run the tool loop to completion server-side.
+
+    Every refusal below leaves by the same door as the missing-key case: one `error`
+    event carrying honest:true, which the client already treats as terminal. A rail that
+    will not answer says why, in the same voice it uses for everything else it cannot do.
+
+    `identity` is the rate-limit subject. None means unmetered — the CLI and the tests —
+    but the shape checks apply either way, because those bound one request's cost rather
+    than one caller's rate.
+    """
     if not (os.environ.get("ANTHROPIC_API_KEY") or _client_factory):
         yield _sse("error", {"error": "no ANTHROPIC_API_KEY attached — the rail is off",
                              "honest": True})
+        return
+
+    refusal = limits.check_shape(body)
+    if refusal is None and identity is not None:
+        refusal = limits.check_rail(identity)
+    if refusal:
+        yield _sse("error", {"error": refusal, "honest": True, "limited": True})
         return
 
     ctx = body.get("context") or {}
@@ -166,12 +214,14 @@ def stream_turn(body):
     system = SYSTEM + json.dumps(corpus.core.overview(), ensure_ascii=False)
     tool_defs = tools.tool_definitions()
     client = _client()
-    yield _sse("turn_start", {"model": MODEL})
+    yield _sse("turn_start", {"model": model()})
 
     try:
-        for _round in range(MAX_TOOL_ROUNDS + 1):
+        rounds = max_tool_rounds()
+        for _round in range(rounds + 1):
             resp = client.messages.create(
-                model=MODEL, max_tokens=2000, system=system,
+                model=model(), max_tokens=max_tokens(), system=system,
+                output_config={"effort": effort()},
                 messages=messages, tools=tool_defs)
             text_parts, tool_uses = [], []
             for block in resp.content:
@@ -180,7 +230,7 @@ def stream_turn(body):
                 elif block.type == "tool_use":
                     tool_uses.append(block)
 
-            if resp.stop_reason == "tool_use" and _round < MAX_TOOL_ROUNDS:
+            if resp.stop_reason == "tool_use" and _round < rounds:
                 results = []
                 for tu in tool_uses:
                     args_summary = ", ".join(f"{k}={v}" for k, v in list((tu.input or {}).items())[:3])

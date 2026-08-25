@@ -16,18 +16,25 @@ _REGISTRY = {}
 _LOAD_LOCK = __import__("threading").Lock()
 
 
-class _StubFastMCP:
-    def __init__(self, name):
+class _StubMCPServer:
+    """Stands in for mcp.server.MCPServer when the SDK is not installed.
+
+    Tracks the real class's surface only as far as server.py uses it: the `tool()`
+    decorator, which must return the function unchanged so the module-level names stay
+    callable. Renamed from _StubFastMCP when the SDK's v2.0.0 renamed the real class and
+    removed mcp.server.fastmcp outright.
+    """
+    def __init__(self, name=None, **kw):
         self.name = name
 
-    def tool(self):
+    def tool(self, *a, **kw):
         def deco(fn):
             _REGISTRY[fn.__name__] = fn
             return fn
         return deco
 
-    def run(self):  # server.py only calls this under __main__, but be safe
-        raise RuntimeError("stub FastMCP cannot run")
+    def run(self, *a, **kw):  # server.py only calls this under __main__, but be safe
+        raise RuntimeError("stub MCPServer cannot run")
 
 
 def _load_server_tools():
@@ -38,22 +45,39 @@ def _load_server_tools():
 
 
 def _load_server_tools_locked():
-    # Two concurrent first rail turns would otherwise both mutate sys.modules and
-    # race each other's finally-restore — one can ImportError mid-exec, or leave
-    # the stub mcp resident. The lock makes the one-time load atomic.
     if _REGISTRY:
         return _REGISTRY
+
+    # The SDK is a workbench dependency now (it serves the same tools over HTTP), so the
+    # ordinary import is the right path and the only one that shares a module instance
+    # with the mounted server. It also avoids the stub's real hazard: putting a fake `mcp`
+    # into sys.modules poisons the genuine package for everything that imports it later
+    # in the same process — which is exactly what the MCP HTTP tests hit.
+    try:
+        from mcp_server import server as mod
+    except ImportError:
+        return _load_via_stub()
+
+    for name, fn in vars(mod).items():
+        if name.startswith("tdl_") and callable(fn):
+            _REGISTRY[name] = fn
+    return _REGISTRY
+
+
+def _load_via_stub():
+    """Fallback for an environment without the SDK — the rail still works there.
+
+    Two concurrent first rail turns would otherwise both mutate sys.modules and race
+    each other's finally-restore, so the caller holds a lock and this runs once.
+    """
     stub_pkg = types.ModuleType("mcp")
     stub_server = types.ModuleType("mcp.server")
-    stub_fastmcp = types.ModuleType("mcp.server.fastmcp")
-    stub_fastmcp.FastMCP = _StubFastMCP
+    stub_server.MCPServer = _StubMCPServer
     stub_pkg.server = stub_server
-    stub_server.fastmcp = stub_fastmcp
     already = "mcp" in sys.modules
-    saved = {k: sys.modules.get(k) for k in ("mcp", "mcp.server", "mcp.server.fastmcp")}
+    saved = {k: sys.modules.get(k) for k in ("mcp", "mcp.server")}
     sys.modules["mcp"] = stub_pkg
     sys.modules["mcp.server"] = stub_server
-    sys.modules["mcp.server.fastmcp"] = stub_fastmcp
     try:
         path = os.path.join(corpus.ROOT, "mcp_server", "server.py")
         spec = importlib.util.spec_from_file_location("tdl_mcp_server_tools", path)

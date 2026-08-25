@@ -31,7 +31,16 @@ import os
 import re
 import sys
 
-import jsonschema
+try:
+    import jsonschema
+except ImportError:
+    import sys as _sys
+    print("SKIPPED — jsonschema is not installed, so nothing here was checked.")
+    print("    pip install jsonschema")
+    # Exit 3, the convention build/check_all.py reads as "could not evaluate". Exiting 1
+    # would report a missing dependency as a failed data check, which is the collapse
+    # this corpus forbids everywhere else.
+    _sys.exit(3)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -51,7 +60,7 @@ def load_slot_ids(path):
 
 
 def load_style_ids(styles_dir):
-    return {os.path.basename(p)[:-5] for p in glob.glob(os.path.join(styles_dir, "*.json"))}
+    return {os.path.basename(p)[:-5] for p in sorted(glob.glob(os.path.join(styles_dir, "*.json")))}
 
 
 def load_massing_ids(path):

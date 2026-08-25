@@ -90,7 +90,7 @@ double-pile solvable at ~45 s feasibility + polish.
   all "infeasible". The contested-corners ruling, generalized to
   proven-unable-to-co-hold pins, is what makes the field's idiom and the flat
   model coexist — every softening stated, never silent. The deeper fix is a
-  massing-aware footprint (wings, ells) — **OQ 37**.
+  massing-aware footprint (wings, ells) — **OQ 40**.
 - **The colonial's stoop is a true conflict.** Entrance N + stoop needing the
   N front + dining/study/foyer crowding the same band around a foyer with only
   two free sides: proven infeasible before downgrades — a real stoop
@@ -127,7 +127,7 @@ double-pile solvable at ~45 s feasibility + polish.
 
 ## What was deliberately not done
 
-- **Wings and ells as geometry.** The flat rectangle stays; OQ 37 records the
+- **Wings and ells as geometry.** The flat rectangle stays; OQ 40 records the
   massing-aware footprint as the structural fix the exposure findings point at.
 - **`centre_hall_symmetry` and per-edge transfer-beam terms in the
   objective** — both are scored post-hoc (the acceptance comparison includes
@@ -197,12 +197,12 @@ always names which engine drew it.
 
 ## Open questions
 
-- **OQ 37** (new): the flat footprint versus declared wings. The exposure
+- **OQ 40** (new): the flat footprint versus declared wings. The exposure
   idiom is corpus-wide and the solver now bridges it by stated downgrade —
   but the honest model is a footprint that can grow an ell. Should massings
   carry footprint composition (main block + dependencies) the solver can
   place rooms into, and should `exterior_walls` be re-read against that?
-- **OQ 38** (new): the solver's programme-scaled door floor (2 ft for a
+- **OQ 41** (new): the solver's programme-scaled door floor (2 ft for a
   closet pair) sits below the renderers' 3.2 ft draw test — in the 2–3.2 ft
   band a door HOLDS as a fact and is not drawn (the DXF sheet and result now
   state such doors). Should the renderers learn narrow doors, or the floor

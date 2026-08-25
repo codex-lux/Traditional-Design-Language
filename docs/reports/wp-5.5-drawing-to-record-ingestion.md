@@ -54,7 +54,7 @@ until a human sets it, so "unknown style" needs no schema blessing.*
   ever used it.** No plan in the corpus sets it; no build code read it. Found
   while wiring the window editor; WP-5.1's IFC exporter (a day old) was
   already defaulting a sill it could have read. The exporter now prefers
-  `sill_ft`, the form offers it, and OQ 36 was corrected — it had claimed
+  `sill_ft`, the form offers it, and OQ 39 was corrected — it had claimed
   "no sill anywhere in the record," which was wrong about the schema and
   right about the corpus.
 - **The units-ambiguity refusal case is real, not theoretical.** The first
@@ -91,5 +91,5 @@ until a human sets it, so "unknown style" needs no schema blessing.*
 
 ## Open questions
 
-None new. OQ 36 (vertical opening data) was corrected rather than extended —
+None new. OQ 39 (vertical opening data) was corrected rather than extended —
 see "What was found."

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Single entry point for the whole check suite: every data checker, then the
-behaviour-test suite (tests/, pytest).
+behaviour-test suite (tests/, pytest), then the workbench server suite.
 
     python3 build/check_all.py
     make check          # same thing
@@ -75,17 +75,24 @@ def main():
     results.append(("pytest tests/", 0 if pytest_proc.returncode == 0 else 1))
 
     # the workbench server suite is part of "must be green", not a side suite —
-    # a broken /api/export or /api/ingest fails THIS gate. Its deps (fastapi)
-    # are optional the same way the CAD libs are: absent → N/EV, stated.
+    # a broken /api/export or /api/ingest fails THIS gate. Its deps (fastapi,
+    # httpx) are optional the same way the CAD libs are: absent → N/EV, stated.
+    # Probe and run in the SAME interpreter (a bare `pytest` on PATH can belong
+    # to a different environment; probing here and running there would report
+    # a missing dependency as a failure — the one thing this must not do).
     print("\n=== pytest workbench/server/tests " + "=" * 26)
-    try:
-        import fastapi  # noqa: F401 — presence check only
-    except ImportError:
-        print("fastapi is not installed — the workbench suite COULD NOT be evaluated")
+    probe = subprocess.run(
+        [sys.executable, "-c", "import fastapi, httpx, pytest"],
+        capture_output=True, text=True, cwd=str(ROOT),
+    )
+    if probe.returncode != 0:
+        why = probe.stderr.strip().splitlines()[-1] if probe.stderr.strip() else "not importable"
+        print(f"COULD NOT EVALUATE — {why}")
+        print("    pip install -r workbench/requirements.txt")
         results.append(("pytest workbench/server/tests", COULD_NOT_EVALUATE))
     else:
-        wb_proc = subprocess.run([sys.executable, "-m", "pytest", "workbench/server/tests"],
-                                 cwd=str(ROOT))
+        wb_proc = subprocess.run(
+            [sys.executable, "-m", "pytest", "workbench/server/tests", "-q"], cwd=str(ROOT))
         results.append(("pytest workbench/server/tests", 0 if wb_proc.returncode == 0 else 1))
 
     print("\n" + "=" * 60)

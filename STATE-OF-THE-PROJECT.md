@@ -140,7 +140,7 @@ The shape of the project has changed since the last review, and the change is wo
 
 What is left divides cleanly into three kinds of work, and they are not equally urgent.
 
-**The rigour gap.** ~~The solver composes by preference, not by proof.~~ *(Closed 25 Aug 2026 — WP-2.3.)* Placement is now CP-SAT: the record's declared facts are hard constraints, an infeasible plan returns a named conflict set beside the labelled least-bad drawing, and the one place the model softens — wall pins the flat footprint provably cannot co-hold, because `exterior_walls` speaks exposure in the massed house — is stated per pin in the result, never silent (OQ 37 records the massing-aware footprint as the structural fix). The system can now tell a builder *early* that a brief cannot be built in a parti, and why — the claim this paragraph said it could not make.
+**The rigour gap.** ~~The solver composes by preference, not by proof.~~ *(Closed 25 Aug 2026 — WP-2.3.)* Placement is now CP-SAT: the record's declared facts are hard constraints, an infeasible plan returns a named conflict set beside the labelled least-bad drawing, and the one place the model softens — wall pins the flat footprint provably cannot co-hold, because `exterior_walls` speaks exposure in the massed house — is stated per pin in the result, never silent (OQ 40 records the massing-aware footprint as the structural fix). The system can now tell a builder *early* that a brief cannot be built in a parti, and why — the claim this paragraph said it could not make.
 
 **The breadth gap.** Partis at 39 of 132 now gate the composer harder than kits ever did; missing packs (WP-4.6) and unsourced images (WP-4.4) are real but less blocking. The garage (WP-4.3) is a small closing task with a named acceptance test, worth finishing while the kit work is fresh.
 
@@ -179,4 +179,4 @@ That order keeps faith with the project's own founding discipline — validator 
 | Evidence | `assets/manifest.json` | 322 wanted, **0 sourced** | Records only — WP-4.4 |
 | Governance | `docs/open-questions.md` | 37 items | OQ 27, 29, 30, 31, 32–34, 36, 37 + `hybridizes_with` live |
 | Checks | `build/check_all.py` | 25 checks (CAD + solver selftests may report COULD NOT EVALUATE; the workbench server suite is the 25th) | All pass |
-| Checks | `tests/` | **340 tests, 20 files** | All pass; no CI |
+| Checks | `tests/` | **346 tests, 21 files** | All pass; no CI |

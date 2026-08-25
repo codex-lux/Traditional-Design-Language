@@ -89,4 +89,4 @@ The acceptance example's third clause — *"the drawing room and dining room fla
 
 ## Next
 
-WP-2.3 landed (see "The real solver" above and `docs/reports/wp-2.3-the-real-solver.md`). What the solver still does not model — wings and ells as real geometry (OQ 37), door position by rule, `room-harmonic` proportions — is stated in that report's "deliberately not done".
+WP-2.3 landed (see "The real solver" above and `docs/reports/wp-2.3-the-real-solver.md`). What the solver still does not model — wings and ells as real geometry (OQ 40), door position by rule, `room-harmonic` proportions — is stated in that report's "deliberately not done".

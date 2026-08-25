@@ -66,7 +66,7 @@ behind honest refusals; DXF in inches.*
 - **The record has almost no vertical opening data.** Window sills and door
   leaf heights exist nowhere outside the classical elevation generator's
   scope; the IFC uses editorial defaults named as editorial in each Pset.
-  Recorded as **OQ 36**.
+  Recorded as **OQ 39**.
 - **README's "What is deliberately not here yet" was three-quarters stale** —
   it still said compositional constraints were unread (WP-2.2 built them),
   129 kits were skeletons (WP-4.2 filled them), and date-conditional
@@ -98,7 +98,7 @@ behind honest refusals; DXF in inches.*
 
 ## Open questions
 
-- **OQ 36** (new): the record carries no vertical opening data — should
+- **OQ 39** (new): the record carries no vertical opening data — should
   `window_sill_ft` / door leaf heights join the plan schema, or stay the
   elevation layer's judgment? Until ruled, the IFC's editorial defaults are
   named as editorial in every Pset they touch.
