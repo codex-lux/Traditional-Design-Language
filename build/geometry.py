@@ -228,8 +228,31 @@ def courtyard_slice(rooms, W, H, module, tol, rng, out, relax, sides=4):
                 if remaining_bands and len(queue) - i <= remaining_bands: break
         for r in queue[i:]: groups[caps[-1][0]].append(r)
     if any(not groups[c[0]] for c in caps): return False
+    # OQ 39 + OQ 40: the walk is laid against the COURT side of its own band, not left to the
+    # ordinary slicer to place somewhere in it. A corredor is by definition the edge between the
+    # ranges and the void -- that is what makes it the circulation -- and once OQ 40 gave the
+    # four walks real declared sizes, a walk small relative to its band was pushed off the court
+    # by the rooms beside it. Stating the strip is the same move as stating the ring: the search
+    # is good at slicing a range and has no way to know which of its edges matters.
+    INNER = {"S": "N", "N": "S", "W": "E", "E": "W"}
     for (k, x, y, w, h, _a) in caps:
-        slice_rect(copy.deepcopy(groups[k]), x, y, w, h, module, tol, rng, out, relax)
+        grp = groups[k]
+        walk = next((r for r in grp if isinstance(r.get("_void"), dict)
+                     and r["_void"].get("roofed")), None)
+        rest = [r for r in grp if walk is None or r["id"] != walk["id"]]
+        if walk is None or not rest:
+            slice_rect(copy.deepcopy(grp), x, y, w, h, module, tol, rng, out, relax)
+            continue
+        along = w if k in ("S", "N") else h            # the band's length along the court
+        strip = max(module * 0.55, min((h if k in ("S", "N") else w) * 0.6,
+                                       walk["_area"] / max(along, 1.0)))
+        side = INNER[k]
+        if side == "N":     wx, wy, ww, wh = x, y + h - strip, w, strip; rx, ry, rw, rh = x, y, w, h - strip
+        elif side == "S":   wx, wy, ww, wh = x, y, w, strip;             rx, ry, rw, rh = x, y + strip, w, h - strip
+        elif side == "E":   wx, wy, ww, wh = x + w - strip, y, strip, h; rx, ry, rw, rh = x, y, w - strip, h
+        else:               wx, wy, ww, wh = x, y, strip, h;             rx, ry, rw, rh = x + strip, y, w - strip, h
+        out[walk["id"]] = (round(wx, 2), round(wy, 2), round(ww, 2), round(wh, 2))
+        slice_rect(copy.deepcopy(rest), rx, ry, rw, rh, module, tol, rng, out, relax)
     return True
 
 

@@ -170,7 +170,6 @@ def instantiate(parti_id, brief):
     dims = {}
     for r in rooms:
         w, l = room_default_dims(r["type"])
-        if r.get("area_weight"): w, l = w * 1.1, l * 1.1
         dims[r["id"]] = [w, l]
     target = brief["target_area_sf"]
     tol = brief.get("area_tolerance", 0.12)
@@ -195,7 +194,53 @@ def instantiate(parti_id, brief):
     # weight and catalogue give it, and the ranges around it are scaled to the brief.
     voids = {r["id"] for r in rooms
              if C["rooms"].get(r["type"], {}).get("function_class") == "outdoor"}
+
+    # OQ 40, ruled 24 Aug 2026: `area_weight` is a SHARE OF THE BRIEF'S TARGET, and until now it
+    # was read as a boolean -- "nudge this room 10% if it has a weight at all" -- after which one
+    # global factor reached the target and the number itself decided nothing. So a parti's
+    # weights read as a considered distribution and were not one, and tuning them (the courtyard
+    # corredor, in the package before this) had to be done by measuring the output.
+    #
+    # PARTIAL COVERAGE IS ALLOWED, and is the normal case: only the ten partis WP-4.5 authored
+    # carry weights at all, and their sums run from 0.35 to 1.13. A room WITH a weight takes that
+    # share and is frozen -- a real share is not renegotiated by a global factor, which is the
+    # whole of what the ruling changes. Rooms WITHOUT one split whatever is left by the loop
+    # below, exactly as they did before, so the eleven partis that state no weights behave
+    # identically to yesterday.
+    #
+    # A void's weight is a share of the same number, not of a gross the brief never states. The
+    # court is 0.18 of the house the brief asked for; that the house also has a court is what
+    # makes the block bigger than the brief (OQ 33), and sizing the court against the block would
+    # be circular.
     frozen = set()
+    clamped_up, clamped_down = [], []
+    for r in rooms:
+        w = r.get("area_weight")
+        if not w: continue
+        want = w * target
+        lo, hi = band(r["id"], r["type"])
+        if want < lo:
+            clamped_down.append((r.get("name") or r["id"], want, lo)); want = lo
+        elif want > hi:
+            clamped_up.append((r.get("name") or r["id"], want, hi)); want = hi
+        ratio = (dims[r["id"]][1] / dims[r["id"]][0]) if dims[r["id"]][0] else 1.3
+        side = math.sqrt(want / ratio)
+        dims[r["id"]] = [round(side, 1), round(side * ratio, 1)]
+        frozen.add(r["id"])
+    # A weight the room's own catalogue band cannot honour is the diagram and the brief
+    # disagreeing, and it is the composer's job to say which -- not to split the difference
+    # quietly and report a target it missed for reasons nobody can see. The area miss that
+    # follows is then an explained number rather than a mysterious one.
+    for label, rows, sense in (("larger", clamped_up, "than its catalogue band allows"),
+                               ("smaller", clamped_down, "than its catalogue band allows")):
+        if not rows: continue
+        bits = ", ".join(f"{n} wants {a:.0f} sf, band gives {b:.0f}" for n, a, b in rows[:4])
+        log.append(
+            f"JUDGMENT: at a {target:.0f} sf target this diagram's own area weights make "
+            f"{len(rows)} room(s) {label} {sense} — {bits}. Held at the band and the "
+            f"difference left to the rooms the diagram does not weight. If the shortfall below "
+            f"is large, the brief is asking this diagram for a house it does not grow into by "
+            f"making its rooms bigger; it grows by having more of them.")
     for _ in range(4):
         total = sum(w * l for rid, (w, l) in dims.items() if rid not in voids)
         free = sum(dims[r][0] * dims[r][1] for r in dims if r not in frozen and r not in voids)

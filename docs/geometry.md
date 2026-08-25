@@ -238,3 +238,12 @@ or re-derived.
 `DET_UNITS_PER_SECOND` is a **calibration, not a conversion**: how much wall time one
 deterministic unit buys depends on the machine, which is the point. It needs to be fixed, not
 accurate.
+
+### The walk is stated against the court, not searched for
+
+`courtyard_slice()` lays a band's roofed void along the band's court-facing edge before slicing
+the rest of that band. A corredor is by definition the edge between the ranges and the void —
+that is what makes it the circulation — and once OQ 40 gave the four walks real declared sizes, a
+walk small relative to its band was pushed off the court by the rooms beside it. Same reasoning
+as stating the ring itself: the ordinary search is good at slicing a range and has no way to know
+which of that range's four edges is the one that matters.

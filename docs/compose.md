@@ -77,3 +77,23 @@ This exists because five of twenty-one partis were carrying fatal findings again
 native styles, and a fatal is 100 points against at most 140 for nativity — so the composer,
 working exactly as designed, would not recommend them. A Charleston-single-house brief came back
 with a centre-passage single pile. See `docs/reports/oq-37-partis-that-fail-their-own-style.md`.
+
+## `area_weight` is a share of the brief's target (OQ 40, 24 Aug 2026)
+
+A room carrying an `area_weight` takes that fraction of `target_area_sf`, clamped to its own
+catalogue band, and is **frozen before the scaling loop** — a real share is not renegotiated by a
+global factor. Rooms without a weight split whatever is left.
+
+**Partial coverage is normal.** Only the ten partis WP-4.5 authored carry weights at all, and
+their sums run from 0.35 to 1.13; the eleven that carry none behave exactly as they did before
+this ruling. A sum below 1.0 is meaningful rather than accidental: it says how much of the house
+the diagram is deliberately sizing.
+
+A **void**'s weight is a share of the same number, not of a gross the brief never states. The
+court is 0.18 of the house that was asked for; that the house also has a court is what makes the
+block larger than the brief (OQ 33).
+
+Where a weight is larger or smaller than the room's own band allows, the composer logs a
+JUDGMENT naming the room, what the weight asked for and what the band gives, so the area miss
+that follows is an explained number. If that shortfall is large, the brief is asking the diagram
+for a house it does not grow into by making its rooms bigger — see **OQ 45**.

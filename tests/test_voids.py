@@ -376,3 +376,21 @@ def test_the_briefs_target_is_heated_area_not_the_block():
     void = sum(r["width_ft"] * r["length_ft"] for lv in plan["levels"] for r in lv["rooms"]
                if compose.C["rooms"].get(r["type"], {}).get("function_class") == "outdoor")
     assert void > 0, "the voids should still be sized, just not out of the brief's budget"
+
+
+def test_the_walk_is_laid_against_the_court_side_of_its_band(geometry_module, court_plan):
+    """OQ 40's consequence, and the reason it is stated rather than searched for. Once the four
+    walks carried real declared sizes, a walk small relative to its band was pushed off the court
+    by the rooms beside it -- and a corredor that does not touch the void is not a corredor, it
+    is a corridor with a view of one. The search is good at slicing a range and has no way to
+    know which of that range's four edges is the one that matters."""
+    out = geometry_module.solve(copy.deepcopy(court_plan),
+                                json.load(open(os.path.join(ROOT, "partis", "courtyard-and-portal.json"))))
+    rects = {r["id"]: r["geometry"] for r in out["levels"][0]["rooms"] if r.get("geometry")}
+    court = rects["court"]
+    for wid in ("walk-s", "walk-w", "walk-e", "walk-n"):
+        w = rects[wid]
+        ox = min(w["x_ft"] + w["width_ft"], court["x_ft"] + court["width_ft"]) - max(w["x_ft"], court["x_ft"])
+        oy = min(w["y_ft"] + w["depth_ft"], court["y_ft"] + court["depth_ft"]) - max(w["y_ft"], court["y_ft"])
+        # sharing an edge with the court means touching on one axis and overlapping on the other
+        assert min(ox, oy) > -0.6 and max(ox, oy) > 1.0, (wid, ox, oy)
