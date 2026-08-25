@@ -169,23 +169,26 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   corpus failed a parti named `cape-central-chimney` for having no chimney; and a fault finding
   quoted `results[0]`, printing a PASSING measurement as the evidence for a failure. When a
   generator did not model something, the measurement must be **absent**, not zero.
-- **Open questions are live.** `docs/open-questions.md` (49, of which 8 are open). Everything
-  Lucas ruled on 24 Aug is executed. Still open and needing a ruling: **OQ 49** (a node can need one
-rule of a pack without being an instance of its type -- `french-normandy-revival` states
-`jetty-overhang`'s material-change rule verbatim and has no jetty; `mission-revival` carries a rule
-about `facade-portada`'s subject stating that there is none; and two of `facade-peristyle`'s rules
-fit `egyptian-revival` exactly while thirteen do not. THREE instances in three consecutive packs,
-and the third one means the ruling would bind the corpus's LAST unbound node), **OQ 48** (1,922 rule-address collisions
-measured, of which the dangerous kind is two packs meaning DIFFERENT quantities at one address --
-four found and fixed, the rest unknown; no checker shipped because a naive one would flag 1,710
-correct rules),
-**OQ 41** (a fault's
-  secondary tests are written for one style and run against every style — why
-  `cape-cod-colonial` cannot currently return a clean plan under any diagram), **OQ 42**
-  (`types_present` is not aliased), **OQ 40** (`area_weight` is read as a boolean, never as a
-  share). **OQ 18** stays open on purpose: 164 parameters are editorial with neither a source
-  nor a note, 156 of them on the Georgian kit, and closing it needs real sources rather than
-  more code.
+- **Open questions are live**, and this line was stale for a day, which is worth knowing before
+  trusting any list of them. `docs/open-questions.md` holds **51 entries, of which 8 are open**
+  (7, 8, 9, 10, 11, 18, 50, 51) and one is partly closed (48). OQ 32, 40, 41, 42 and 43 were all
+  ruled or closed on 24 Aug and this file went on describing them as open; the authority is the
+  file, not this summary, and `python3 build/check_counts.py` does not police prose about rulings.
+  - **Environment-blocked, not unstarted: OQ 7, 8, 9, 10, 11**, and the source half of **OQ 18**.
+    Every one needs a legible facsimile. `loc.gov`, `archive.org` and `hathitrust` all fail to
+    connect from here. **None may be closed from a secondary source or a modern redrawing** —
+    that is how a guess gets laundered as `measured`.
+  - **OQ 18** — 162 kit parameters editorial with neither source nor note, 154 of them on the
+    Georgian kit. The NOTE half needs no network and is being written; the source half is blocked.
+  - **OQ 48 (partly closed)** — 139 addresses where two co-binding packs measure different
+    quantities. Mechanism built, count pinned, migration outstanding.
+  - **OQ 50** — ornament is rationed and not distributed, in 26 nodes across nine traditions, with
+    `italian-renaissance` as the one control case. Ruled 25 Aug to stop at the principle
+    (`docs/model.md`); a fault would need the elevation layer to model ornament ZONES, which it
+    does not.
+  - **OQ 51** — the lineage cascade delivers packs nobody bound. **The largest thing open.**
+    127 of 132 nodes receive a pack purely by descent; `ranch-style` has 68 of its 78 dimensioned
+    slots governed by packs it never bound. Read it before trusting "132 of 132".
 
 ## Conventions
 

@@ -3166,7 +3166,28 @@ def test_oq_50_states_what_it_does_not_claim():
     """26 of 132 is not most of the corpus, and the other 106 are silent rather than disagreeing.
     A conditional claim stated as a universal one is how a finding becomes folklore."""
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
-    assert "50. **OPEN" in oq
+    # RE-PINNED: OQ 50 was ruled on 25 Aug to stop at the principle. It stays open on one point
+    # only -- if the elevation layer ever models ornament zones, the fault should be written.
+    assert "50. **RULED 25 Aug 2026" in oq
+    assert "**OPEN — ornament works by being bounded" in oq
     assert "**What is NOT claimed.**" in oq
     assert "has not voted" in oq
     assert "reading disposed of 14 of them" in oq
+
+
+def test_claude_md_no_longer_describes_five_closed_questions_as_open():
+    """It did, for a day. OQ 32, 40, 41, 42 and 43 were ruled or closed on 24 Aug and the summary
+    went on listing three of them as needing a ruling. `check_counts.py` polices NUMBERS in prose
+    and has no view on claims about rulings, so this is the guard for that class."""
+    import re
+    md = open(os.path.join(ROOT, "CLAUDE.md")).read()
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    live = set(re.findall(r"^(\d+)\. \*\*(?:OPEN|STILL OPEN|PARTLY|RULED)", oq, re.M))
+    claimed = set(re.findall(r"of which 8 are open\*\*\s*\n?\s*\(([\d, ]+)\)", md))
+    assert claimed, md[md.index("Open questions are live"):][:300]
+    listed = {x.strip() for x in list(claimed)[0].split(",") if x.strip()}
+    assert listed == {"7", "8", "9", "10", "11", "18", "50", "51"}, listed
+    # and the ones it used to mis-describe are gone from the open list
+    for n in ("32", "40", "41", "42", "43"):
+        assert n not in listed
+    assert "was stale for a day" in md
