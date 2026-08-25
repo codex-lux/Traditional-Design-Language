@@ -2,7 +2,7 @@
 
 *Originally written 23 August 2026 against v0.6. **Revised 24 August 2026**, after Phases 0–3 closed and Phase 4 ran through WP-4.2. Everything below was verified by running the toolchain, not by reading the docs — every checker, the proportion engine selftest, both plan validations, both composer briefs, the geometry solver, and the full 291-test suite were executed, and the numbers here are what they returned. Where a figure has moved since the 23 August review, the old figure is named so the direction of travel is visible.*
 
-*Now maintained as a **living document** (Lucas's ruling, 25 Aug 2026) — updated as work lands rather than re-issued as dated snapshots. **Updated 25 August 2026** after WP-4.3 (the garage), OQ 28 (the module cache), WP-5.2 (the workbench, in `workbench/`), WP-5.1 (DXF/IFC export with a proven round-trip) and WP-5.5 (drawing-to-record ingestion: the Transcription surface, the drafter-DXF extractor, plan schema 0.2.0's `provenance`). The appendix carries the current verified counts; prose below that describes a pre-workbench state is corrected in place where it would now mislead.*
+*Now maintained as a **living document** (Lucas's ruling, 25 Aug 2026) — updated as work lands rather than re-issued as dated snapshots. **Updated 25 August 2026** after WP-4.3 (the garage), OQ 28 (the module cache), WP-5.2 (the workbench, in `workbench/`), WP-5.1 (DXF/IFC export with a proven round-trip), WP-5.5 (drawing-to-record ingestion: the Transcription surface, the drafter-DXF extractor, plan schema 0.2.0's `provenance`) and WP-2.3 (the real solver — placement as CP-SAT with named conflict sets). The appendix carries the current verified counts; prose below that describes a pre-workbench state is corrected in place where it would now mislead.*
 
 ---
 
@@ -140,13 +140,13 @@ The shape of the project has changed since the last review, and the change is wo
 
 What is left divides cleanly into three kinds of work, and they are not equally urgent.
 
-**The rigour gap.** The solver composes by preference, not by proof. This is the one place where the system's own documentation says it is weaker than it looks, and it undercuts a claim the project needs to be able to make: that it can tell a builder *early* that a brief cannot be built in a parti, and why. WP-2.3 is the fix. The small enabler underneath it — OQ 28's caching bug — should go first, because it makes every verification pass afterward cheaper, and the solver work will involve many of them.
+**The rigour gap.** ~~The solver composes by preference, not by proof.~~ *(Closed 25 Aug 2026 — WP-2.3.)* Placement is now CP-SAT: the record's declared facts are hard constraints, an infeasible plan returns a named conflict set beside the labelled least-bad drawing, and the one place the model softens — wall pins the flat footprint provably cannot co-hold, because `exterior_walls` speaks exposure in the massed house — is stated per pin in the result, never silent (OQ 37 records the massing-aware footprint as the structural fix). The system can now tell a builder *early* that a brief cannot be built in a parti, and why — the claim this paragraph said it could not make.
 
 **The breadth gap.** Partis at 39 of 132 now gate the composer harder than kits ever did; missing packs (WP-4.6) and unsourced images (WP-4.4) are real but less blocking. The garage (WP-4.3) is a small closing task with a named acceptance test, worth finishing while the kit work is fresh.
 
 **The last mile.** Details, guidelines, export, a workbench, ingestion. These turn a correct internal representation into something a builder and a plan-development lead can actually hold — and they are what the partnership, when it exists, will judge the system by. *(25 Aug: the workbench, the export and ingestion are done — WP-5.2, WP-5.1, WP-5.5; guidelines and cost remain.)*
 
-So the sequence: ~~fix **OQ 28**~~ (done 24 Aug); ~~close **WP-4.3**~~ (done 24 Aug); build **WP-2.3**, the real solver, which is the deepest remaining structural gap and the last thing standing between Phase 2 and finished; then take breadth — **WP-4.5** partis first since they gate composition, then **WP-4.6** packs and **WP-4.4** images (which now have an ingestion pipeline waiting for them); then **WP-5.3** guidelines, after the breadth they render from.
+So the sequence: ~~fix **OQ 28**~~ (done 24 Aug); ~~close **WP-4.3**~~ (done 24 Aug); ~~build **WP-2.3**~~ (done 25 Aug — Phase 2 is finished); then take breadth — **WP-4.5** partis first since they gate composition, then **WP-4.6** packs and **WP-4.4** images (which now have an ingestion pipeline waiting for them); then **WP-5.3** guidelines, after the breadth they render from.
 
 That order keeps faith with the project's own founding discipline — validator before composer, spine before breadth, the drawing as a render of the data — and it means that at each step the system produces something more *like a house* rather than merely more data about houses. The aim was never a taxonomy. It was a language fluent enough that a production builder could speak it, and a house built in it would feel, to the people who live there, like it belongs. The grammar for that is written, and now it is bound to its vocabulary. The work now is to make the compiler prove what it composes.
 
@@ -168,7 +168,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Critic | `plan_check.py` | 7 layers incl. constraints + elevation | Functional; code advisory only |
 | Critic | `plans/reference/` | 14 transcribed (7 good, 7 bad) | Complete |
 | Generator | `compose.py`, 2 briefs | 4 candidates per brief, lot-aware | Functional |
-| Geometry | `geometry.py`, `render_plan.py` | coordinates + SVG, compositional terms | **Functional but a hill-climb — WP-2.3** |
+| Geometry | `geometry.py`, `geometry_cp.py`, `render_plan.py` | CP-SAT placement, named conflict sets, stated downgrades; hill-climb as fallback | **Real solver (WP-2.3)**; ortools optional, refusal honest |
 | Back-end | `structure.py`, `roof.py`, `elevation.py` | walls, section, roof plan, front elevation | Functional; elevation evaluates 83 faults |
 | Site | `site` on plan/brief schemas | lot, setbacks, bearing, slope | Functional |
 | Interface | `mcp_server/` | 24 tools | Functional |
@@ -177,6 +177,6 @@ That order keeps faith with the project's own founding discipline — validator 
 | Export | `export_dxf.py`, `export_ifc.py`, `import_dxf.py` | 4 DXF sheets + IFC4, TDL ids as Psets | Round-trip proven (WP-5.1); ezdxf/ifcopenshell optional, refusals honest |
 | Ingestion | `ingest_dxf.py`, Transcription surface, `provenance` (schema 0.2.0) | drawing → candidates → record, every gap named | Complete (WP-5.5); wall topology and OCR deliberately out |
 | Evidence | `assets/manifest.json` | 322 wanted, **0 sourced** | Records only — WP-4.4 |
-| Governance | `docs/open-questions.md` | 36 items | OQ 27, 29, 30, 31, 32–34, 36 + `hybridizes_with` live |
-| Checks | `build/check_all.py` | 23 checks (2 CAD selftests may report COULD NOT EVALUATE) | All pass |
+| Governance | `docs/open-questions.md` | 37 items | OQ 27, 29, 30, 31, 32–34, 36, 37 + `hybridizes_with` live |
+| Checks | `build/check_all.py` | 24 checks (CAD + solver selftests may report COULD NOT EVALUATE) | All pass |
 | Checks | `tests/` | **330 tests, 19 files** | All pass; one run, ~2.5 min (OQ 28 fixed); no CI |

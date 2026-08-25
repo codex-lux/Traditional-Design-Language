@@ -41,6 +41,10 @@ CHECKS = [
     # EVALUATE: a named unjudged state, never collapsed into a pass.
     ("export_dxf.py", ["selftest"]),
     ("export_ifc.py", ["selftest"]),
+    # WP-2.3: the CP-SAT solver's fixtures. ortools is OPTIONAL like the CAD
+    # libs — without it this exits 3 (COULD NOT EVALUATE) and geometry.solve()
+    # falls back to the hill-climb, saying so in geometry_report.solver.
+    ("geometry_cp.py", ["selftest"]),
 ]
 
 # exit code 3 from a check means "could not evaluate" (e.g. an optional

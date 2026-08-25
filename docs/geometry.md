@@ -37,11 +37,28 @@ Footprint depth comes from the **massing's own pile** — single-pile 22 ft, dou
 
 `build/render_plan.py` emits SVG from the coordinates: rooms, walls, bay lines, windows on exterior walls, door marks where two rooms share an edge, dimensions, a scale bar. Nothing is drawn that is not in the plan record, so the drawing and the data cannot disagree — the same discipline as the order tool.
 
+## The real solver (WP-2.3)
+
+`geometry.solve()` now dispatches to **CP-SAT** (`build/geometry_cp.py`, OR-Tools) by default, with the randomised slicing kept as the fallback and cross-check the package text asked for. The division of labour, per the 25 Aug rulings:
+
+**HARD — satisfiable or refused, never traded:** no-overlap, containment, near-total coverage; declared doors imply geometrically touching rooms; a threshold room with an exterior door is the entry and must reach the entrance front; each room at roughly its program size; each room's declared exterior walls.
+
+**Wall pins carry a stated refinement**, because `exterior_walls` speaks *exposure in the fully-massed house* — porches protrude, wings hold their own corners — which one flat rectangle cannot always hold (10 of 12 partis double-claim a corner on some level):
+
+- a **protruding** room (3+ walls, or a non-circulation opposite pair) and a room in a **contested corner** harden to "reach at least one declared wall", the rest scored at the heuristic's own 14 points;
+- any other wall pin stays fully hard **unless the solver proves a set of pins cannot co-hold** — exactly those pins downgrade the same way, and every downgrade is stated in `geometry_report.solver.refinements`. Doors, program sizes, the entrance and capacity **never** downgrade: they are what infeasibility is for.
+
+**SOFT — the WP-2.2 compositional terms**, now weighted objectives rather than search preferences: bay snapping (relaxations stay counted, never forbidden), zoning, ceremonial depth, wet-over-wet stacking, symmetry-adjacent nudges, plus the level-score terms (area error, aspect sanity) mirrored term for term.
+
+**On infeasibility** the caller gets both halves of the ruling: a **plain-language minimal conflict set** (CP-SAT's assumption cores, iterated to a fixpoint then greedily minimized within a budget — a set that ran out of minimization budget says so) *and* the heuristic's least-bad drawing, labelled `INFEASIBLE AS DECLARED` on the sheet itself. The footprint grows a bay before any requirement is blamed. A non-planar door graph — five rooms all pairwise doored — is the canonical true refusal: no arrangement of touching rectangles can realize K5, and the conflict set names the door pairs.
+
+Solving is two-phase: a hard-only pass finds or refutes a placement fast, then the weighted objective polishes it, hinted both by the full heuristic search (soft-optimized, hard-repairable) and by the hard-only placement; every hard-valid result is scored with the heuristic's own scorers and the best is kept, the status saying which. Determinism: one worker, fixed seed — the same record yields the same drawing (exact reproducibility holds when the solve reaches OPTIMAL; a wall-clock-limited polish can land differently under different machine load, and the status says when that is the case).
+
+**The workbench runs the heuristic per edit gesture, deliberately** — a proof takes seconds and the bench re-scores on a 400 ms debounce — and carries a *prove placement (CP-SAT)* control for the explicit act, which surfaces the conflict panel. The CLI, MCP `tdl_place_plan` and everything non-interactive default to the real solver.
+
 ## What this does not yet do, stated plainly
 
 It produces **valid, dimensioned, drawable plans with every compromise reported**. It does not yet produce plans an architect would sign.
-
-- **Search is shallow.** Randomised slicing improves with more candidates (537 → 489 → 463 from 40 to 800) but it is hill-climbing over a heuristic, not a real optimiser. WP-2.3 (a real solver, CP-SAT) is the fix, and is still not built — the compositional terms below are scored, weighted heavily where they matter, but they are still preferences a search hill-climbs toward, not hard constraints a solver enforces.
 - **No wall thickness, no structural grid, no roof.** Rooms are clear dimensions. Turning them into a framed building is WP-3.1.
 - **Doors are centred on the shared wall and now drawn with a swing arc**, but door position is still not placed *by rule* in the fuller sense PLAN-OF-ACTION.md's WP-2.2 brief describes — never in a window bay, never visible from a lavatory. See "What was deliberately not done" below.
 - **`room-harmonic` proportions are not checked.** A style that binds that proportion pack does not yet have its principal rooms scored against it — that is a materially separate integration (reading a resolved proportion pack's ratio into a placement score) and is deferred, not silently skipped without a record.
@@ -68,8 +85,8 @@ The acceptance example's third clause — *"the drawing room and dining room fla
 - **`room-harmonic` proportion checking.** Reading a resolved proportion pack's ratio into a placement score is a materially separate integration from the scoring terms above and was not attempted this pass.
 - **Door placement beyond centring.** Doors are still centred on the shared wall (unchanged) and now drawn with a swing arc, but "never visible from the lavatory" and "never in the bay a window occupies" are not checked — both need the elevation-scale bay/window layout WP-3.2 (the elevation generator) actually produces; attempting them against clear-dimension room rectangles alone would be guessing at a bay grid that does not exist yet at this layer.
 - **`ceremonial_score` is scoped to direct, rank-increasing door hops**, not an arbitrary-length path search across the whole plan for "no backtracking anywhere." A full graph traversal is a reasonable next step but a distinctly separate piece of work from the direct porch→hall→principal-room case PLAN-OF-ACTION.md's own acceptance example names.
-- **This remains a heuristic hill-climb**, per "what this does not yet do" above — the compositional terms are strongly-weighted preferences a 250-candidate random search converges toward, not hard constraints a solver enforces or proves infeasible. That is WP-2.3.
+- ~~**This remains a heuristic hill-climb.**~~ No longer — WP-2.3 built the CP-SAT engine (see "The real solver" above); the slicing search remains as the fallback and cross-check, and as the interactive engine the workbench re-scores with per edit gesture.
 
 ## Next
 
-WP-2.3: replace the randomised slicing with a real solver (CP-SAT is the obvious choice) over the same bay grid, encoding this package's compositional terms as hard or heavily-weighted constraints instead of search preferences, and returning a minimal infeasible subset on failure rather than the best of a fixed candidate pool. WP-3.1 (walls, structure, storeys) is the other unblocked next step now that this package has landed.
+WP-2.3 landed (see "The real solver" above and `docs/reports/wp-2.3-the-real-solver.md`). What the solver still does not model — wings and ells as real geometry (OQ 37), door position by rule, `room-harmonic` proportions — is stated in that report's "deliberately not done".

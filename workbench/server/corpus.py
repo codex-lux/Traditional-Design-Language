@@ -177,7 +177,9 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
     try:
         if kind == "plan":
             geo = core._mod("geometry", f"{B}/geometry.py")
-            solved = geo.solve(plan, pt, candidates)
+            # heuristic here: the Drawing Set regenerates per request behind the
+            # UI; proving is the bench's explicit act (WP-2.3)
+            solved = geo.solve(plan, pt, candidates, engine="heuristic")
             if "error" in solved:
                 return {"error": solved["error"]}
             rp = core._mod("render_plan", f"{B}/render_plan.py")

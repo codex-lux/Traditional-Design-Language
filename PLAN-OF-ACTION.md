@@ -12,7 +12,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 |---|---|---|
 | **0 — Consolidation** | WP-0.1, 0.2, 0.3 | **Complete** |
 | **1 — Executable constraints** | WP-1.1, 1.2, 1.3 | **Complete** — 660/660 constraints migrated, 61.5% of hard constraints tested (bar was ≥60%) |
-| **2 — Composition** | WP-2.1, 2.2, 2.4 complete · **WP-2.3 not started** | **Incomplete** — the solver is still a hill-climb, not an optimiser |
+| **2 — Composition** | WP-2.1, 2.2, 2.3, 2.4 | **Complete** — placement is CP-SAT with named conflict sets (25 Aug); the hill-climb remains as fallback, cross-check and the workbench's per-gesture engine |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3 complete · **4.4, 4.5, 4.6, 4.7 not started** | **In progress** |
 | **5 — Platform** | WP-5.1, 5.2, 5.5 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
@@ -21,7 +21,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
 2. ~~**WP-4.3**~~ — **done 24 Aug 2026**. See `docs/reports/wp-4.3-the-garage.md`.
-3. **WP-2.3** — the real solver. The deepest remaining structural gap and the last thing between Phase 2 and finished.
+3. ~~**WP-2.3**~~ — **done 25 Aug 2026**: the real solver. See `docs/reports/wp-2.3-the-real-solver.md`.
 4. **WP-4.5** — partis (39 of 132) now gate the composer's reach harder than kits ever did.
 5. **WP-4.6**, then **WP-4.4** — packs (list ready from WP-4.1/OQ 30), then images.
 6. **Phase 5** — the last mile.
@@ -253,7 +253,7 @@ Batch the migration by family (27 families) so agents can run in parallel; one a
 
 ### WP-2.3 A real solver
 
-**Status: NOT STARTED — the largest remaining structural gap.** Next substantial package after OQ 28 and WP-4.3.
+**Status: COMPLETE (25 Aug 2026).** `build/geometry_cp.py`: placement as CP-SAT over the bay grid, dispatched from `geometry.solve()` with the heuristic kept as fallback and cross-check per the package text (OR-Tools optional behind the WP-5.1 refusal pattern; `check_all` reports N/EV without it). Hard: no-overlap, containment, coverage, declared doors touch, the entry on its front, rooms at program size, declared exterior walls. Four rulings shaped it — the decisive one taken mid-package when hard wall pins proved both check plans *and* nearly every composed candidate infeasible, because `exterior_walls` is the corpus's idiom for exposure in the massed house (10 of 12 partis double-claim corners): protruding rooms, contested corners, and any pin-set the solver *proves* unable to co-hold downgrade to reach-at-least-one, every downgrade stated in `geometry_report.solver.refinements`; doors, sizes, entrance and capacity never downgrade. On infeasibility: a plain-language minimized conflict set AND the heuristic's least-bad drawing labelled on the sheet (the ruling) — the canonical refusal is the selftest's K5 door graph, non-planar, six door pairs named. The acceptance benchmark is disclosed as adapted: the CP placement must have zero hard-fact violations and beat best-of-800 *or* lose only to a heuristic winner that cheats on hard facts at 14 points apiece. The workbench re-scores with the heuristic per edit gesture (a proof takes seconds; the bench debounces at 400 ms) and gains a *prove placement (CP-SAT)* control with a conflict panel. Report: `docs/reports/wp-2.3-the-real-solver.md` · new open question: OQ 37 (the flat footprint vs declared wings).
 
 **Depends on:** WP-2.2. **Size:** large. **Optional but recommended.**
 

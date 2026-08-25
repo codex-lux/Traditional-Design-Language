@@ -13,7 +13,12 @@ from . import corpus
 core = corpus.core
 
 
-def evaluate(plan, strict=False, place=True, parti=None, candidates=250):
+def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
+             engine="heuristic"):
+    # engine defaults to the HEURISTIC here, deliberately: this endpoint runs
+    # on a 400 ms debounce behind every wall drag, and a CP-SAT proof takes
+    # seconds. Proving is an explicit act on the bench (engine="cp"), which
+    # returns WP-2.3's conflict set / stated refinements in the placement.
     t0 = time.perf_counter()
     check = core.check_plan(plan, strict=strict)
     t1 = time.perf_counter()
@@ -43,7 +48,8 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250):
         t2 = time.perf_counter()
         # place_plan deep-copies its input itself (geo.solve(copy_json(plan), …));
         # copying here too would serialize the record twice for nothing.
-        placement = core.place_plan(plan, parti=parti, candidates=candidates)
+        placement = core.place_plan(plan, parti=parti, candidates=candidates,
+                                    engine=engine)
         out["timing_ms"]["place"] = round((time.perf_counter() - t2) * 1000)
         if "error" in placement:
             out["placement_error"] = placement["error"]

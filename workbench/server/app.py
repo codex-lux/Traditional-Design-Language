@@ -239,7 +239,8 @@ def plan_evaluate(body: dict = Body(...)):
                              strict=bool(body.get("strict", False)),
                              place=bool(body.get("place", True)),
                              parti=body.get("parti"),
-                             candidates=int(body.get("candidates", 250)))
+                             candidates=int(body.get("candidates", 250)),
+                             engine=body.get("engine", "heuristic"))
 
 
 # ----------------------------------------------------------------- compose jobs

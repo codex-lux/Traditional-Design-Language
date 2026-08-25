@@ -37,7 +37,7 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 ## Verifying
 
 ```
-python3 build/check_all.py     # 23 checks incl. the full pytest suite. ~3 min. Must be green.
+python3 build/check_all.py     # 24 checks incl. the full pytest suite. Must be green.
                                # (the two CAD-export selftests report N/EV — COULD NOT
                                #  EVALUATE — without the optional ezdxf/ifcopenshell;
                                #  that is a named unjudged state, never a pass)
@@ -51,7 +51,11 @@ Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_cons
 
 ## Where the work stands (25 Aug 2026)
 
-Phases 0, 1, 3 complete. Phase 2 complete **except WP-2.3**. Phase 4 complete through WP-4.3.
+Phases 0, 1, 2, 3 complete — **WP-2.3 landed 25 Aug**: `geometry.solve()` is CP-SAT
+(`build/geometry_cp.py`, OR-Tools optional behind an honest fallback), the record's declared
+facts are hard constraints, an infeasible plan returns a named conflict set plus the labelled
+least-bad drawing, and every wall pin the flat footprint provably cannot hold is downgraded
+*stated* (`solver.refinements`) — the exposure idiom finding is OQ 37. Phase 4 complete through WP-4.3.
 Phase 5 started out of order: **WP-5.2 complete** — the workbench is live in `workbench/`
 (FastAPI over `mcp_server/core.py` + a Vite/React frontend; an approved divergence from
 the package text's self-contained `dist/` HTML file). **WP-5.1 complete (25 Aug)** —
@@ -71,11 +75,8 @@ populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tool
 **Next — two tracks that can run in parallel:**
 
 *The main line, in order:*
-1. **WP-2.3 — a real solver.** The largest remaining structural gap. `docs/geometry.md`
-   says it plainly: the compositional terms from WP-2.2 are *strongly-weighted preferences
-   a 250-candidate random search converges toward, not hard constraints a solver enforces*.
-   An infeasible brief returns the least-bad plan rather than a named conflict set, which is
-   the thing a plan-development partner most needs to hear early. CP-SAT over the same bay grid.
+1. ~~**WP-2.3 — a real solver.**~~ **Done 25 Aug 2026** — see the status paragraph above
+   and `docs/geometry.md`'s "The real solver".
 2. **WP-4.5 — partis.** 39 of 132 now gates the composer's reach harder than kits ever did;
    a style with a canonical massing but no native parti cannot be composed for at all. Note
    the package text is stale on rooms — all 58 already carry `style_variation`.
@@ -106,7 +107,7 @@ Phases 1–3, all complete):*
 - **The composer refuses on purpose.** It will not invent a room the parti has no place for,
   will not present an assumption as fact, and will not call a plan good. Refusals belong in
   the decision log, stated. Do not "fix" a refusal into a guess.
-- **Open questions are live.** `docs/open-questions.md` (36). OQ 27, 29, 30, 31, 32–34, 36 and
+- **Open questions are live.** `docs/open-questions.md` (37). OQ 27, 29, 30, 31, 32–34, 36, 37 and
   the `hybridizes_with` problem await Lucas's ruling. OQ 31 is a new category the corpus has
   no vocabulary for: not "unjudged", but *judged where the judgment does not apply*. OQ 32–34
   are the workbench's findings: validator findings carry no stable id, geometry relaxations

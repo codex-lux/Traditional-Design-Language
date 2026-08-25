@@ -88,6 +88,14 @@ def render(plan, path, scale=7.0):
         s.append(f'<text class="lb" x="{pad}" y="70" fill="{PAL["copper"] if rl.get("count") else PAL["verd"]}">'
                  f'{rl.get("count",0)} CUT(S) OFF THE BAY LINE'
                  + (f", WORST {rl.get('max_off_grid_ft')} FT" if rl.get("count") else "") + '</text>')
+        # WP-2.3: a proven-infeasible plan is drawn as the labelled least-bad
+        # relaxation, never as if it were fine — the label is data, not decoration
+        inf = gr.get("infeasible")
+        if inf:
+            n = len(inf.get("conflicts", []))
+            s.append(f'<text class="lb" x="{pad}" y="84" fill="{PAL["iron"]}">'
+                     f'INFEASIBLE AS DECLARED — {n} CONFLICT(S) PROVEN; THIS DRAWING IS THE '
+                     f'LEAST-BAD RELAXATION (SEE GEOMETRY_REPORT.INFEASIBLE)</text>')
 
     for i, lv in enumerate(levels):
         ox = pad + i*(panel_w+gap) + extra_left; oy = top + extra_top
