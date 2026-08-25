@@ -291,14 +291,35 @@ def choose_pack(rec, rows, ctx):
     """
     declared = rec.get("packs") or []
     if declared:
-        ranked = sorted(declared, key=lambda p: (p.get("precedence") if p.get("precedence") is not None else 99))
+        # Tie-break by pack id so `ranked` is the same on every machine — the sort was
+        # stable over JSON array position, which is authoring order.
+        ranked = sorted(declared, key=lambda p: (
+            p.get("precedence") if p.get("precedence") is not None else 99,
+            p.get("pack") or ""))
         live = [p for p in ranked if p.get("in_calibration") is not False]
-        chosen = live[0] if live else None
         stale = (abs(ctx.get("ceiling_height", AUTHORING_CEILING) - AUTHORING_CEILING) > 0.01
                  and any(p.get("in_calibration") is False for p in ranked))
-        return {"how": "slot.packs", "chosen": chosen,
-                "rejected": [p for p in ranked if p.get("in_calibration") is False],
-                "ranked": ranked, "stale_calibration": stale}
+        rejected = [p for p in ranked if p.get("in_calibration") is False]
+
+        # Equal precedence is NOT a ruling. Two packs at the same precedence used to be
+        # settled by position in the JSON array, and the result was labelled
+        # "slot.packs" — "the author said so" — when the author had said nothing. That
+        # decides real dimensions: four slots in georgian-colonial-american resolve a
+        # window head or surround this way. The style-level branch below already returns
+        # "unresolved" for exactly this disagreement; the slot branch now matches it, so
+        # the tie surfaces as a question instead of a silent pick. (OQ 38, ruled 25 Aug.)
+        if len(live) > 1 and live[0].get("precedence") == live[1].get("precedence"):
+            return {"how": "unresolved", "chosen": None, "rejected": rejected,
+                    "ranked": ranked, "stale_calibration": stale,
+                    "why_unresolved": (
+                        f"{len(live)} packs are declared at the same precedence "
+                        f"({live[0].get('precedence')}): "
+                        + ", ".join(p.get("pack") or "?" for p in live)
+                        + ". Equal precedence records that no ruling was made between "
+                          "them, so this slot is open until one is given a lower number.")}
+
+        return {"how": "slot.packs", "chosen": live[0] if live else None,
+                "rejected": rejected, "ranked": ranked, "stale_calibration": stale}
     if rows:
         prec = [r for r in rows if r.get("style_precedence") is not None]
         if prec:

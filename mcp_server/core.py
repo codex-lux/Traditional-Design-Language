@@ -378,9 +378,42 @@ def find_faults(style=None, slot=None, group=None, severity=None, frequency=None
         for inv in f.get("inverted_by", []):
             if style and inv["style"] == style: card["INVERTED_FOR_THIS_STYLE"] = inv["statement"]
         out.append(card)
-    out.sort(key=lambda c: (SEV.index(c["severity"]) if c["severity"] in SEV else 3,
-                            ["endemic","common","occasional","rare"].index(c["frequency"]) if c.get("frequency") else 4))
+    # Ranking key, widened after an audit found the cut landing inside a tie group of 104
+    # for queen-anne-american — keeping one fault and dropping 103 the ranking itself calls
+    # equally important. severity and frequency alone are two coarse enums over 209 faults.
+    #
+    # `severity_in_use` is the corpus's second axis (how a fault LIVES, against how it
+    # READS) and is honest signal, but it is set on only 33 of 209 records, so it breaks
+    # far fewer ties than its existence suggests. The discriminator that actually bites on
+    # a style-filtered query is whether the corpus has said anything about this fault FOR
+    # this style — an exception, an inversion, or a severity override. That is relevance,
+    # not severity, and it is why it sits below both severity axes and above the id.
+    FREQ = ["endemic", "common", "occasional", "rare"]
+
+    def _rank(c):
+        return (SEV.index(c["severity"]) if c["severity"] in SEV else 3,
+                SEV.index(c["severity_in_use"]) if c.get("severity_in_use") in SEV else 3,
+                FREQ.index(c["frequency"]) if c.get("frequency") in FREQ else 4,
+                0 if ("EXCEPTION_FOR_THIS_STYLE" in c or "INVERTED_FOR_THIS_STYLE" in c
+                      or c.get("severity_differs_for_style")) else 1,
+                c["id"])              # total, so the cut is reproducible to the last place
+
+    out.sort(key=_rank)
+
+    # What the cut actually did. A caller can already see `matches`, which says truncation
+    # happened; it could not see that the boundary fell inside a group the ranking cannot
+    # order, so the remainder read as less important when it is merely unranked.
+    dropped_at_edge = 0
+    if len(out) > limit > 0:
+        edge = _rank(out[limit - 1])[:-1]          # the tie group, ignoring the id
+        dropped_at_edge = sum(1 for c in out[limit:] if _rank(c)[:-1] == edge)
+
     return {"matches": len(out), "returned": min(limit, len(out)), "faults": out[:limit],
+            "truncated_within_tie": dropped_at_edge,
+            "truncation_note": (
+                f"{dropped_at_edge} further fault(s) rank IDENTICALLY to the last one "
+                f"returned and were cut by the limit, not by importance. Raise limit to "
+                f"see them." if dropped_at_edge else None),
             "note": ("Faults are element-first: most are universal, and style is a facet. Check "
                      "EXCEPTION_FOR_THIS_STYLE and INVERTED_FOR_THIS_STYLE before repeating a rule at "
                      "a client — a five-foot Georgian portico is a fault by Craftsman standards and correct by its own."),

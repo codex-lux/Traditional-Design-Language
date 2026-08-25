@@ -29,6 +29,14 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
   `deprecated_in_favour_of`.
 - **Prose stays beside the test.** Making a rule executable adds a `test`; it does not
   replace the human-readable `statement`.
+- **A passing test is not evidence until you have watched it fail.** Before trusting a test
+  you just wrote, revert the line it defends and confirm it goes red. This is not
+  ceremony: an audit on 25 Aug found three tests in one session that passed either way —
+  one asserted an ordering the sorted globs already guaranteed, one compared a literal
+  against the same literal, and one drew its parametrized cases *from the set under test*,
+  so shrinking that set shrank the cases and left nothing to fail. All three read as
+  thorough. Watch it fail, then trust it.
+
 - **Findings matter as much as code.** Finish a work package with a report in
   `docs/reports/<wp-id>-<slug>.md`: what was built, what was found, what was deliberately
   not done, and any new open question appended to `docs/open-questions.md`.
