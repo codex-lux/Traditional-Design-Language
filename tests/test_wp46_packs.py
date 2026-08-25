@@ -2184,3 +2184,152 @@ def test_three_nodes_are_refused_and_each_refusal_has_a_stated_reason():
                        for e in node(nid).get("proportion_packs", [])), nid
     assert "no jetty, no display" in json.dumps(node("english-cottage-vernacular"))
     assert "49." in open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+
+
+# --- facade-portada: the panel as module, and a rationing rule stated as a count ---------------
+
+
+def test_the_node_that_named_this_pack_by_name():
+    """Sixth time the corpus wrote the gap down itself, and this one is explicit: Plateresque's
+    `moorish-arch` binding note ends 'WP-4.1's own portada/retablo gap is the pack Plateresque
+    actually needs and it is still missing.'"""
+    notes = " ".join(e.get("note", "") for e in node("spanish-plateresque")["proportion_packs"])
+    assert "portada/retablo gap is the pack Plateresque actually needs" in notes
+    assert "no order pack in the library should be forced onto" in notes
+    assert any(e["pack"] == "facade-portada"
+               for e in node("spanish-plateresque")["proportion_packs"])
+
+
+def test_the_module_is_the_panel_which_makes_it_the_only_top_down_pack_here():
+    """Every other pack in the library derives from something small and real -- a diameter, a brick,
+    an adobe, a joist, a light, a board. This one derives from the whole, because the corpus says
+    so: a column inside a portada has not been proportioned, it has been FITTED."""
+    m = pack("facade-portada")["module"]
+    assert "THE MODULE IS THE PANEL AND NOT A MEMBER" in m["note"]
+    assert "dimensioned to fill their register rather than to any canonical ratio" in \
+        json.dumps(node("spanish-plateresque"))
+    assert m["default_size_in"] / m["parts"] == 12.0
+
+
+def test_the_two_parent_styles_disagree_about_the_module_and_that_is_the_difference():
+    """Plateresque says the module is the panel. Churrigueresque says the estipite is 'the only
+    continuous dimension in the design' -- a member module, bottom-up, of exactly the kind
+    Plateresque abolished. The later, wilder style is in this one respect the more regular."""
+    assert "the module is the ornamental panel and its frame" in \
+        json.dumps(node("spanish-plateresque")).lower()
+    assert "the only continuous dimension in the design is the estipite itself" in \
+        json.dumps(node("churrigueresque"))
+    assert "the more regular of the two" in pack("facade-portada")["notes"]
+
+
+def test_the_rationing_rule_is_a_count_and_it_is_what_separates_the_styles():
+    """Nine records state it and four state it as a count. The corpus itself calls mission-revival
+    and spanish-colonial-revival 'the single most frequently confused pair in American
+    architecture', and the difference between them is an integer."""
+    r = next(x for x in pack("facade-portada")["derived_rules"]
+             if x["dimension"] == "event_count")
+    assert r["range"] == [0.0, 2.0] and r["judgment"] is True
+    for phrase, nid in [
+        ("permitted at exactly one location per building", "spanish-colonial-american"),
+        ("Not more than one elaborated ornamental event per elevation", "andalusian-spanish-revival"),
+        ("Not more than two elevations may carry worked ornament", "spanish-colonial-revival"),
+        ("No ornament at the entrance", "mission-revival"),
+    ]:
+        assert phrase in json.dumps(node(nid)), (phrase, nid)
+    assert "most frequently confused pair in American architecture" in json.dumps(node("mission-revival"))
+
+
+def test_one_rule_gives_absence_a_minimum_size():
+    """Twelve feet of unornamented wall on each side. The only rule in the corpus that dimensions
+    the silence rather than the ornament -- and the effect of the whole system is contrast, so the
+    plain wall is a designed element with a minimum, exactly as the panel is."""
+    r = next(x for x in pack("facade-portada")["derived_rules"] if x["dimension"] == "plain_run")
+    assert r["range"][0] == 144.0
+    assert "minimum 12'0" in json.dumps(node("spanish-colonial-revival"))
+    assert "run of unornamented wall on each side" in json.dumps(node("spanish-colonial-revival"))
+
+
+def test_the_entablature_rule_is_the_exact_inverse_of_facade_pavilions_cornice_rule():
+    """Same quantity, opposite extremes, both single-valued because neither has a partial version.
+    A French cornice runs unbroken and the lucarne passes through it; a retablo facade's entablature
+    is broken at every vertical and a continuous one converts the building into something else."""
+    mine = next(r for r in pack("facade-portada")["derived_rules"]
+                if r["target_slot"] == "entablature" and r["dimension"] == "continuity")
+    theirs = next(r for r in pack("facade-pavilion")["derived_rules"]
+                  if r["target_slot"] == "cornice" and r["dimension"] == "continuity")
+    assert float(mine["expression"]) == 0.0 and mine["range"] == [0.0, 0.0]
+    assert float(theirs["expression"]) == 1.0 and theirs["range"] == [1.0, 1.0]
+    assert "become Italian Renaissance or Herreran" in mine["authority_note"]
+
+
+def test_three_packs_in_this_tranche_now_write_to_window_grouping_rule_and_two_deny_alignment():
+    """`facade-pavilion` requires the elevation's systems to coincide exactly; `jetty-overhang` and
+    this one require them to stay apart. The library could previously state neither."""
+    addrs = {pid: {(r["target_slot"], r["dimension"]) for r in pack(pid)["derived_rules"]}
+             for pid in ("facade-pavilion", "jetty-overhang", "facade-portada")}
+    assert ("window_grouping_rule", "alignment") in addrs["facade-pavilion"]
+    assert ("window_grouping_rule", "post_independence") in addrs["jetty-overhang"]
+    assert ("window_grouping_rule", "portada_independence") in addrs["facade-portada"]
+    r = next(x for x in pack("facade-portada")["derived_rules"]
+             if x["dimension"] == "portada_independence")
+    assert r["range"] == [1.0, 1.0] and r["judgment"] is True
+    # three records state it, and one declines to treat the mismatch as a problem at all
+    assert "the conflict is not resolved" in r["authority_note"]
+
+
+def test_the_estipite_is_definitional_and_its_arithmetic_is_recomputed_not_asserted():
+    """Slenderness 1:8 to 1:11, pyramidal base 0.25-0.35 of shaft. Computed off the assembly's own
+    members, so the encoded figures have to agree with the bands the record gives."""
+    p = pack("facade-portada")
+    est = p["assemblies"]["estipite"]
+    shaft = sum(m["height_parts"] for m in est["members"])
+    assert abs(shaft - est["height_modules"] * p["module"]["parts"]) < 1e-6
+    assert 8.0 <= shaft <= 11.0                                    # one part wide
+    base = next(m for m in est["members"] if m["id"] == "pyramid_base")["height_parts"]
+    assert 0.25 <= base / shaft <= 0.35
+    assert "not Churrigueresque" in json.dumps(node("churrigueresque"))
+
+
+def test_the_panel_aspect_and_the_register_count_come_from_the_records():
+    """1:2 to 1:3 in two to five registers, and the two parent records' register bands differ at the
+    top because a Churrigueresque register is set by an estipite and is taller."""
+    p = pack("facade-portada")
+    assert 2.0 <= p["assemblies"]["retablo_registers"]["height_modules"] <= 3.0
+    assert "Portada width to height roughly 1:2 to 1:3" in json.dumps(node("spanish-plateresque"))
+    r = next(x for x in p["derived_rules"] if x["dimension"] == "register_count")
+    assert r["range"] == [2.0, 5.0]
+    assert "two to five stacked horizontal registers" in json.dumps(node("spanish-plateresque"))
+    assert "height two to four registers" in json.dumps(node("churrigueresque"))
+
+
+def test_the_thinnest_node_in_the_family_had_one_pack_and_its_own_note_doubted_it():
+    """`churrigueresque` carried only `room-harmonic`, bound as a judgment 'with real doubt' and
+    explicitly NOT for the portada. It now leads with the pack that is."""
+    entries = sorted(node("churrigueresque")["proportion_packs"], key=lambda e: e["precedence"])
+    assert entries[0]["pack"] == "facade-portada" and entries[0]["role"] == "facade"
+    assert len(entries) == 2
+    assert "real doubt" in entries[1]["note"]
+
+
+def test_mission_revival_is_refused_and_it_is_oq_49_for_the_second_time_in_two_packs():
+    """Its record carries a rule about this pack's subject stating that there is none -- the shape
+    OQ 46 described for egyptian-revival's arch rule. Binding for that one rule would hand the node
+    fourteen others including an estipite slenderness."""
+    n = pack("facade-portada")["notes"]
+    assert "NOT BOUND: `mission-revival`" in n
+    assert "second instance of OQ 49 in two packs" in n
+    assert not any(e["pack"] == "facade-portada"
+                   for e in node("mission-revival").get("proportion_packs", []))
+    assert "Churrigueresque relief are forbidden" in json.dumps(node("mission-revival"))
+
+
+def test_every_node_the_pack_binds_states_a_rationing_rule_of_its_own():
+    """The pack's claim is that this family is defined by where ornament is NOT. Checked against all
+    eight records rather than asserted -- if one of them says nothing about concentration, the
+    binding is doing something other than what the pack says it does."""
+    import re
+    for nid in pack("facade-portada")["applies_to"]:
+        blob = json.dumps(node(nid)).lower()
+        assert re.search(r"ornament (is )?(confined|concentrated|rationed|permitted|almost wholly"
+                         r" absent)|ornament budget|otherwise (blank|plain)|budget at the portada",
+                         blob), nid

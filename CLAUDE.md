@@ -64,11 +64,11 @@ Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 
 
 164 nodes · 96 slots (ontology 0.6.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **53 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
-and 56 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
+style** · **54 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
+and 53 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 667 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 679 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
@@ -79,18 +79,18 @@ done are missing packs, which are work rather than rulings, and they are in the 
 in `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 **Next, in order:**
-1. **WP-4.6** — missing proportion packs. **Seventeen of thirty-odd done** (`moorish-arch`,
+1. **WP-4.6** — missing proportion packs. **Eighteen of thirty-odd done** (`moorish-arch`,
    `greek-doric`, `adobe-module`, `opening-pointed`, `opening-craftsman`, `trim-prairie`,
    `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade`, `timber-panel`,
-   `opening-mullioned`, `facade-gable`, `trim-sawn`, `octagon-geometry`, `facade-pavilion`, `jetty-overhang`),
+   `opening-mullioned`, `facade-gable`, `trim-sawn`, `octagon-geometry`, `facade-pavilion`, `jetty-overhang`, `facade-portada`),
    chosen by measuring leverage rather than by list order; the measurement and what remains are in
    `docs/reports/wp-4.6-missing-proportion-packs.md`. Several list items collapsed into each other
    once measured, which is the tranches' recurring finding: the four-centred Tudor arch and the
    leaded casement turned out to be one window (`opening-mullioned`), four ornament items turned
    out to be one machine (`trim-sawn`), and the French travée facade and the mansard/dormer module
    turned out to be one system (`facade-pavilion`). Remaining by the same measurement: a
-   **portada/retablo panel**, a **peripteral/arcuated Greek-Roman system**, and **Mudejar brick
-   corbelling**. Items the report
+   **peripteral/arcuated Greek-Roman system**, **Mudejar brick corbelling**, and a
+   **medieval/pre-Palladian English facade system**. Items the report
    now names as NOT SUPPORTABLE from this corpus, with the reason stated rather than left silent:
    the Baroque curved/undulating wall (no figure in any of 22 matching nodes), strapwork and
    linenfold, the Romanesque foliate capital, Prairie rectilinear art glass, Alpine carved timber.
@@ -158,8 +158,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Open questions are live.** `docs/open-questions.md` (49, of which 8 are open). Everything
   Lucas ruled on 24 Aug is executed. Still open and needing a ruling: **OQ 49** (a node can need one
 rule of a pack without being an instance of its type -- `french-normandy-revival` states
-`jetty-overhang`'s material-change rule verbatim and has no jetty, and a binding cannot be scoped to
-one slot), **OQ 48** (1,922 rule-address collisions
+`jetty-overhang`'s material-change rule verbatim and has no jetty; `mission-revival` carries a rule
+about `facade-portada`'s subject stating that there is none. Two independent instances found one
+pack apart, and a binding cannot be scoped to one slot), **OQ 48** (1,922 rule-address collisions
 measured, of which the dangerous kind is two packs meaning DIFFERENT quantities at one address --
 four found and fixed, the rest unknown; no checker shipped because a naive one would flag 1,710
 correct rules), **OQ 47** (no slot for an exposed

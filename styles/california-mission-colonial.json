@@ -239,12 +239,6 @@
   ],
   "proportion_packs": [
     {
-      "pack": "facade-arcade",
-      "role": "facade",
-      "note": "The node whose binding note asked for this pack. Its `room-vernacular` entry says in terms that 'an arcade/portal system' is missing from the corpus, alongside the mass-wall gap that `adobe-module` closed. This is that pack. The record supplies the springing height rule outright -- 'arch springing 7-9 ft above the corredor floor' -- and the corredor depth at 10-14 ft, and it is one of the four records that say the arcade is the circulation: 'arcaded corredor 10-14 ft deep on square masonry piers carrying semicircular arches, serving as all circulation'.",
-      "precedence": 3
-    },
-    {
       "pack": "adobe-module",
       "role": "primary",
       "note": "Bound primary, and this node contributed the pack's most useful disagreement. Its own defining_characteristics say 'buttresses or thickened piers wherever wall height exceeds roughly eight times wall thickness', where the New Mexico code family says ten. The pack records that as a BAND of 8-10 rather than averaging it away, because both are right for their own case: the code figure assumes a continuous reinforced bond beam tying the wall head and the mission builders had none, and answered the difference with the buttresses this record names. The 24-36 in ranges are two adobes; the 3-5 ft church wall is three. vignola-ionic stays optional and unaffected -- it governs the church front's applied order, which is a different building from the ranges behind it.",
@@ -262,6 +256,18 @@
       "authority": "vignola-ionic",
       "note": "Bound only for the named exception this node itself records, not for the type: Mission Santa Barbara's church front (built 1815-20 by master mason Jose Antonio Ramirez) carries engaged Ionic columns and a neoclassical temple pediment in local sandstone -- 'a Vitruvian composition executed by people with no Vitruvian training,' in this node's own words. Vignola rather than a named overlay (Gibbs, Palladio, Chambers, Benjamin) because there is no documentary evidence connecting a specific pattern book to Ramirez's work, so the base order is the honest choice rather than inventing a source. This entry governs a single church facade among dozens of mission buildings and should not be read as describing the type.",
       "precedence": 2
+    },
+    {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "The node whose binding note asked for this pack. Its `room-vernacular` entry says in terms that 'an arcade/portal system' is missing from the corpus, alongside the mass-wall gap that `adobe-module` closed. This is that pack. The record supplies the springing height rule outright -- 'arch springing 7-9 ft above the corredor floor' -- and the corredor depth at 10-14 ft, and it is one of the four records that say the arcade is the circulation: 'arcaded corredor 10-14 ft deep on square masonry piers carrying semicircular arches, serving as all circulation'.",
+      "precedence": 3
+    },
+    {
+      "pack": "facade-portada",
+      "role": "facade",
+      "note": "'Carved or moulded ornament permitted only at the church portada and the campanario. Distributing ornament across the ranges converts the complex into Spanish Colonial Revival.' The same ration as `spanish-colonial-american`, stated for a complex rather than a building, and with the same consequence named. Bound behind `adobe-module`, which owns the walls, and `facade-arcade`, which owns the corredor: this pack owns only the two places where the whitewash stops. Worth reading the pack's cost conflict against this node in particular, since the missions were built by an unskilled coerced labour force under friars who were not architects, and concentrating the entire ornament budget at one panel is what made any ornament possible at all.",
+      "precedence": 4
     }
   ]
 }

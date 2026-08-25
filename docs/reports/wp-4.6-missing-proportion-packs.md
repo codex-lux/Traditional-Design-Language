@@ -1064,9 +1064,144 @@ One address collision, found and renamed: `belt_course`/`projection` is `facade-
 band at 2¼ in — one course of brick, or a 5/4 board — and co-binds on `garrison-revival`. Both are
 horizontals at a floor line and they differ by a factor of seven. Renamed to `jetty_projection`.
 
+### `proportions/systems/facade-portada.json` — the only top-down pack in the library
+
+The sixth gap this package found already written into the corpus, and this one **names the pack by
+name**. `styles/spanish-plateresque.json`'s `moorish-arch` binding note ends: "WP-4.1's own
+portada/retablo gap is the pack Plateresque actually needs and it is still missing." Two of its
+other bindings decline the work explicitly — `vignola-tuscan` is bound "NOT for the ornamental
+panel, which no order pack in the library should be forced onto", and `room-harmonic` on
+`churrigueresque` is bound as a judgment "with real doubt" because that style's record "states
+flatly that there is no classical module". Three notes on two nodes, all saying the same thing: the
+order packs cannot do this, and the pack that can does not exist.
+
+`churrigueresque` had **one** binding — that doubted `room-harmonic` — and it is the style whose
+entire subject is an ornamental panel.
+
+#### The module is the panel, not a member
+
+Every other pack in this library derives from something small and real: a column's lower diameter, a
+brick, an adobe, a joist, a light, a stock board. This one derives from the whole, and it does so
+because the corpus instructs it to, in as many words:
+
+> Retablo, not order. The module is the ornamental panel and its frame: total portada width sets the
+> register heights, and the columns or balusters within it are dimensioned to fill their register
+> rather than to any canonical ratio of diameter to height.
+
+A column inside a portada has not been proportioned; it has been **fitted**. That single sentence is
+why no order pack in this library can be forced onto the style, and why two existing bindings had
+already worked that out and said so.
+
+#### The two parent styles disagree about the module, and the disagreement *is* the difference
+
+Plateresque says the module is the panel. Churrigueresque says the opposite: "the only continuous
+dimension in the design is the estipite itself… its width sets the bay of the portada and the count
+of blocks in its shaft sets the register heights." That is a **member module, bottom-up**, of
+exactly the kind Plateresque abolished — so the later, wilder, more dissolved style turns out, in
+this one respect, to be the more regular of the two, having re-introduced a generating member after
+its parent threw one away. The pack carries both and keys them by node: the estipite rules bind
+where the records name the member and nowhere else.
+
+#### The rationing rule is what actually separates these styles, and it is an integer
+
+Nine records state it. **Four state it as a count:**
+
+| record | its ration |
+|---|---|
+| `spanish-colonial-american` | "permitted at exactly one location per building" |
+| `andalusian-spanish-revival` | "not more than one elaborated ornamental event per elevation" |
+| `spanish-colonial-revival` | "not more than two elevations may carry worked ornament" |
+| `mission-revival` | "no ornament at the entrance" — carved surrounds forbidden outright |
+
+The corpus itself calls `mission-revival` and `spanish-colonial-revival` "the single most frequently
+confused pair in American architecture", and **the difference between them is an integer.** Nothing
+else in this library reduces a style distinction to a count. It is why this pack is a rationing
+system as much as a proportioning one, and why `ornament_vocabulary`/`event_count` is marked
+`judgment: true`: what the designer must decide is not the panel's dimensions but whether the
+building gets one at all.
+
+One rule dimensions the **silence**: a minimum 12 ft run of unornamented wall on each side of the
+panel, from `styles/spanish-colonial-revival.json`. It is the only rule in the corpus that gives
+absence a minimum size, and it follows from what the effect actually is —
+`styles/spanish-plateresque.json` puts it physically: "a very large area of absolutely plain golden
+ashlar against which a very small area of hallucinatory carving detonates." Shortening the plain run
+to fit a panel onto a narrower frontage does not compromise the composition; it inverts it.
+
+#### A pair of rules that bracket a question the library could not previously ask
+
+`facade-pavilion` states `cornice`/`continuity` = **1.0**: a French cornice runs unbroken and the
+lucarne passes through it. This pack states `entablature`/`continuity` = **0.0**: a retablo facade's
+entablature is broken and returned at every vertical, and a single continuous one converts the
+building into Italian Renaissance or Herreran — which `styles/spanish-plateresque.json` says in
+those words. Both single-valued, both categorical, opposite extremes of one quantity, authored two
+packs apart. Between them they bracket what a horizontal is allowed to do on a facade.
+
+The countable version of the same rule is `cornice`/`return_count`, 3–4 returns across a single
+portada, which is `styles/churrigueresque.json`'s own figure — a broken entablature is a claim and a
+count of returns is a check.
+
+And a third rule extends a pattern now visible across three consecutive packs in this tranche.
+`window_grouping_rule` has been written by all three: `facade-pavilion`/`alignment` requires the
+elevation's systems to coincide **exactly**; `jetty-overhang`/`post_independence` and
+`facade-portada`/`portada_independence` require them to stay **apart**. Three records state the
+portada version independently, and one of them goes further than the others by declining to treat
+the mismatch as a problem at all — "the window rhythm of the building is independent of it and
+frequently in conflict with it, **and the conflict is not resolved**." A designer trained on
+Anglo-Italian elevations will reach for the portada's axis and pull the windows onto it, and every
+record here says not to.
+
+#### Bindings, and one refusal that is OQ 49 again
+
+Bound to eight: `churrigueresque` (leading, and doubling its total binding count from one to two),
+`spanish-plateresque`, `mexican-colonial`, `spanish-colonial-american`,
+`california-mission-colonial`, `spanish-colonial-revival`, `andalusian-spanish-revival` and
+`mexican-hacienda`. A test checks that **every one of the eight states a rationing rule of its own**,
+rather than taking the pack's word for what the family is about.
+
+`mission-revival` is **refused**, and the refusal is the second instance of **OQ 49 in two packs**.
+Its record carries a rule about this pack's subject stating that there is none — exactly the shape
+OQ 46 described for `egyptian-revival`'s arch rule, and the argument that got the `arch` slot built.
+But binding the pack for that one rule would hand the node fourteen others, including an estipite
+slenderness and a retablo aspect ratio. So the rule stays in the node, unserved by the pack that
+ought to own it. Two independent instances found one pack apart materially raises that question's
+priority: it is no longer a curiosity of one binding.
+
+**Measured movement: nodes with no facade-role pack 56 → 53.** Nodes with two packs or fewer:
+unchanged at 12 — `churrigueresque` went from one pack to two and is still in the count, which is
+worth saying rather than rounding away.
+
 ## What is NOT done, with the measurement
 
-Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
+**REVISED 25 Aug 2026, after seven tranches.** The list this paragraph originally carried has been
+overtaken: the octagon module, the portada panel, the four-centred Tudor arch and the
+leaded-casement system are all built, and the last two turned out to be one pack. What genuinely
+remains, with each item's measured leverage:
+
+- a **peripteral/arcuated Greek-Roman system** — `greek-classical`'s flank-to-front column rule
+  (n_flank = 2·n_front + 1), the Parthenon's 4:9, the stylobate curvature at 1:500–1:650, and Rome's
+  Vitruvian intercolumniations. Three nodes with real figures.
+- a **Mudejar brick corbelling module** (7 nodes, 7 thinly bound) — course-plus-joint at 60–70 mm
+  and ornamental bands 3–9 courses deep.
+- a **medieval/pre-Palladian English facade system** — new only in that two existing list items turn
+  out to be one pack, seen from two sides.
+
+And the items now judged **not supportable from this corpus**, with the reason stated rather than
+left silent — which is the project's own rule about unjudged not being passed, applied to a list
+item rather than to a parameter:
+
+- **the Baroque curved/undulating wall.** Not one of the twenty-two Baroque-matching nodes gives a
+  figure for an undulating or concave elevation. `facade-pavilion` built the avant-corps half of
+  that item and states the refusal in its own notes.
+- **strapwork and linenfold.** A motif repertoire, not a proportional system; the same judgment that
+  kept muqarnas out of `moorish-arch`.
+- **the Romanesque foliate capital**, for the same reason — the unit cell varies by workshop and
+  there is no figure here worth defending.
+- **Prairie rectilinear art glass**, which `trim-prairie` declined to invent figures for.
+- **Alpine carved timber**, and the ornament half of the cast-iron item, both of which are pattern
+  repertoires that a proportion pack would have to fabricate numbers for.
+- **the symmetrical centreless multi-door facade**, which no record dimensions.
+
+*Original paragraph follows, superseded.* Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
 still missing: an **octagon/polygonal plan module** (17 nodes, 11 thinly bound), a
 **portada/retablo ornament panel** (8/7), a **Mudejar brick corbelling module** (7/7), a
 **strapwork/Jacobethan ornament** item (7/7), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
@@ -1099,7 +1234,9 @@ system** and the **mansard/dormer massing module**, which were one system and ar
 **avant-corps half** of the Baroque item — whose curved-wall half is refused above with a reason,
 not left silent. Struck off by the sixth: the **jetty module**, which the list scoped at 13 nodes
 and which binds 5 — the five that carry figures — with three refused for stated reasons, one of
-them raising OQ 49.
+them raising OQ 49. Struck off by the seventh: the **portada/retablo ornament panel**, which the
+list scoped at 8 nodes and which binds 8, with `mission-revival` refused and OQ 49 earning its
+second independent instance.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -1112,7 +1249,7 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **53 packs**, 0 errors from `check_orders.py`,
+Later tranches: 23 checks green. **54 packs**, 0 errors from `check_orders.py`,
 `check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the thirteen new
 packs bind 121 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
@@ -1121,7 +1258,7 @@ a threshold system seven nodes had nothing for, a walling system twelve nodes ha
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 12 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **198 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **210 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

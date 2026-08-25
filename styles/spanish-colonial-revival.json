@@ -273,10 +273,16 @@
       "precedence": 1
     },
     {
+      "pack": "facade-portada",
+      "role": "facade",
+      "note": "The node the whole American strand descends from, and the one that gives the pack its two domestic figures: the surround 5-8 ft wide for a 3'0\" leaf, and the minimum 12 ft run of unornamented wall each side. That second is the only rule in the corpus that gives ABSENCE a dimension. Its own record diagnoses the type's characteristic failure -- 'the revival puts church-scale ornament on a house' -- and `door_surround`/`leaf_ratio` is the correction: a portada at a house door is a doorcase twice the width of its leaf, not a cathedral front reduced. Bound ahead of `room-vernacular` and behind `facade-picturesque`, which owns the massing this style composes by.",
+      "precedence": 2
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "Bound for the daylight-depth rule, on the same reasoning as andalusian-spanish-revival: the courtyard-organized plan, with its single-pile ranges opening onto a patio, is exactly the condition the pack's daylight physics describes, and that physics is period-agnostic by the pack's own account. Do not carry over the hearth-reach, joist-span or frontage-driven room-count rules -- none of the three physical constraints those rules recover from Anglo-American vernacular fabric (span, hearth, and the folk-house catalogue built from tiling a frontage with rooms) describes a stucco courtyard house organized around a patio rather than a passage.",
-      "precedence": 2
+      "precedence": 3
     }
   ]
 }

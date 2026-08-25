@@ -1,0 +1,364 @@
+{
+  "id": "facade-portada",
+  "name": "The Portada: a Retablo Against a Plain Wall",
+  "aka": [
+    "the retablo facade",
+    "the ornamental panel",
+    "the estipite portada",
+    "the rationed elevation"
+  ],
+  "kind": "facade-system",
+  "authority": {
+    "source": "This corpus's own records, nine of which state the rationing rule and four of which give the panel's proportions in figures; against George Kubler and Martin Soria's Art and Architecture in Spain and Portugal and their American Dominions for the Plateresque and Churrigueresque phases, and Manuel Toussaint's Arte colonial en Mexico for the New Spain transmission",
+    "author": "no named author; the retablo carvers' method, transferred to a wall",
+    "year": 1520,
+    "strength": "reconstructed",
+    "note": "RECONSTRUCTED. The retablo facade has no treatise. What it has is a very large number of buildings doing the same thing and two records in this corpus that name the method as a method -- `styles/spanish-plateresque.json`'s 'retablo, not order' and `styles/churrigueresque.json`'s 'there is no classical module' -- which is a strong enough statement of intent to build on and is not the same as a published rule. The panel's figures come from those two records; the rationing rule comes from nine."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The portada: the width of the ornamental panel itself, border to border",
+    "parts": 12,
+    "default_size_in": 144.0,
+    "note": "The part is one foot and the panel is twelve of them, which is the middle of what 15 to 30 per cent of an ordinary Spanish colonial street front comes to.\n\nTHE MODULE IS THE PANEL AND NOT A MEMBER, WHICH MAKES THIS THE ONLY TOP-DOWN PACK IN THE LIBRARY. Every other pack here derives details from something small and real: a column's lower diameter, a brick, an adobe, a joist, a light, a stock board. This one derives them from the whole, and it does so because the corpus says to in as many words. `styles/spanish-plateresque.json`: 'Retablo, not order. The module is the ornamental panel and its frame: total portada width sets the register heights, and the columns or balusters within it are dimensioned to fill their register rather than to any canonical ratio of diameter to height.' A column inside a portada is not a column that has been proportioned; it is a column that has been FITTED. That single sentence is why no order pack in this library can be forced onto this style, and why two existing bindings say so in their own notes and decline."
+  },
+  "assemblies": {
+    "retablo_registers": {
+      "height_modules": 2.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "plinth_register",
+          "name": "The plinth: the panel's base, below the door's springing",
+          "height_parts": 4.0,
+          "projection_parts": 1.5,
+          "profile": "plinth",
+          "note": "4 ft. The one part of the panel that is usually plain, because it is the part that gets touched, rained on and leaned against -- and because the frame has to start from something before it can begin to dissolve. It is also where the hard vertical border `styles/spanish-plateresque.json` requires is thickest.",
+          "confidence": "medium"
+        },
+        {
+          "id": "door_register",
+          "name": "The door register: the opening and its flanking members",
+          "height_parts": 10.0,
+          "projection_parts": 1.5,
+          "profile": "flat",
+          "note": "10 ft, and the tallest of the four -- the door is the only functional thing in the whole composition and the register that holds it is sized to it rather than to the panel's arithmetic. This is where the estipites stand in a Churrigueresque portada and where the paired columns or balusters stand in a Plateresque one.",
+          "confidence": "medium"
+        },
+        {
+          "id": "niche_register",
+          "name": "The niche register: the principal statue or medallion field",
+          "height_parts": 9.0,
+          "projection_parts": 1.5,
+          "profile": "flat",
+          "note": "9 ft. `styles/spanish-plateresque.json` gives its repeating units directly -- 'scallop-shell niches and roundel portrait medallions used as repeating units within a register' -- and the word REPEATING is the point: within one register the units are equal, and between registers nothing is. The composition is regular horizontally and free vertically, which is the exact inverse of a classical elevation.",
+          "confidence": "medium"
+        },
+        {
+          "id": "heraldic_register",
+          "name": "The heraldic register: the arms, anchoring the top",
+          "height_parts": 7.0,
+          "projection_parts": 1.5,
+          "profile": "flat",
+          "note": "7 ft, and it is not decoration. `styles/spanish-plateresque.json`: 'heraldry is required and must anchor the composition, normally in the upper register. A Plateresque portada with no arms is missing the reason it was paid for.' A retablo facade is a statement of who paid, and the arms are the sentence; everything below them is the typography.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "estipite": {
+      "height_modules": 0.8,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "pyramid_base",
+          "name": "The truncated pyramid, point downward",
+          "height_parts": 2.9,
+          "projection_parts": 1.0,
+          "profile": "bevel",
+          "note": "2.9 ft, which is 0.302 of the shaft -- the middle of the 0.25-0.35 `styles/churrigueresque.json` gives. An inverted obelisk standing on its small end is the whole joke and the whole argument: a support that visibly cannot support, at the exact place where a column would have been. It is not incompetence and it is not whimsy. The classical apparatus is quoted precisely in order to be seen collapsing, which that record states directly.",
+          "confidence": "high"
+        },
+        {
+          "id": "cube_block",
+          "name": "The cube",
+          "height_parts": 1.4,
+          "projection_parts": 1.0,
+          "profile": "plinth",
+          "note": "1.4 ft. The pause between the pyramid and the baluster, and the block whose COUNT is the style's real module -- `styles/churrigueresque.json`: 'the count of blocks in its shaft sets the register heights'. Add a block and the register grows; that is the nearest thing this tradition has to a proportional rule of the kind the rest of this library is built on.",
+          "confidence": "medium"
+        },
+        {
+          "id": "baluster",
+          "name": "The baluster stage",
+          "height_parts": 3.6,
+          "projection_parts": 1.0,
+          "profile": "torus",
+          "note": "3.6 ft, the tallest stage. A turned baluster used as a column shaft, which is a category error committed on purpose: a baluster is a small thing repeated in a rail and here it is one large thing carrying an entablature that is itself broken.",
+          "confidence": "medium"
+        },
+        {
+          "id": "capital",
+          "name": "The capital, usually Corinthianising and usually engulfed",
+          "height_parts": 1.7,
+          "projection_parts": 1.3,
+          "profile": "acanthus",
+          "note": "1.7 ft. It is the one member of the estipite that still admits what it descends from, and by the late phase it is so overgrown with foliage, cherubs and drapery that the abacus cannot be found. The pack keeps it as a member with a height because the composition still needs the interval, even where nothing legible occupies it.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one foot.",
+      "expression": "module.default_size_in / module.parts == 12.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The panel stands between twice and three times as tall as it is wide.",
+      "expression": "assemblies.retablo_registers.height_modules <= 3.0",
+      "tolerance": 0.0,
+      "note": "2.5 encoded, against `styles/spanish-plateresque.json`'s 'portada width to height roughly 1:2 to 1:3'. A panel squarer than 1:2 stops reading as an altarpiece and starts reading as a frontispiece, which is a different and classical thing; taller than 1:3 it becomes a strip and cannot hold registers wide enough to carry the ornament."
+    },
+    {
+      "statement": "The estipite is between eight and eleven times as tall as it is wide.",
+      "expression": "assemblies.estipite.height_modules * module.parts <= 11.0",
+      "tolerance": 0.0,
+      "note": "9.6 parts tall on a shaft one part wide, against `styles/churrigueresque.json`'s 'estipite slenderness roughly 1:8 to 1:11 overall'. That the estipite happens to be exactly one twelfth of the panel is a consequence of the encoded figures and not a claim: what the corpus states is the slenderness, and the width follows."
+    },
+    {
+      "statement": "The pyramidal base is between a quarter and a third of the shaft.",
+      "expression": "assemblies.estipite.members.pyramid_base.height_parts / (assemblies.estipite.height_modules * module.parts) >= 0.25",
+      "tolerance": 0.0,
+      "note": "0.302, against 'the pyramidal base block 0.25-0.35 of shaft height'. Below a quarter the inversion stops registering and the member reads as an ordinary tapered pilaster; above a third it becomes top-heavy in the literal sense and the eye stops reading it as a support at all, which is further than even this style wants to go."
+    },
+    {
+      "statement": "The door register is the tallest of the four.",
+      "expression": "assemblies.retablo_registers.members.door_register.height_parts > assemblies.retablo_registers.members.niche_register.height_parts",
+      "tolerance": 0.0,
+      "note": "10 against 9, 7 and 4. The only functional element in the composition is the door, and the register holding it is sized to the door rather than to the panel's arithmetic -- which is the one place where this top-down system is forced to work bottom-up, and it is worth an invariant because a design that lets the registers divide evenly will have made the door register too short."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "event_count",
+      "expression": "1",
+      "units": "count",
+      "range": [0.0, 2.0],
+      "authority_note": "`styles/spanish-colonial-american.json`: 'carved, moulded or coloured ornament is permitted at exactly one location per building'. `styles/andalusian-spanish-revival.json`: 'not more than one elaborated ornamental event per elevation'. `styles/spanish-colonial-revival.json`: 'not more than two elevations may carry worked ornament'. `styles/mission-revival.json`: 'no ornament at the entrance', with carved surrounds forbidden outright.",
+      "note": "THE RATIONING RULE, AND IT IS THE ONE THAT ACTUALLY SEPARATES THESE STYLES. Nine records in this corpus state it and four of them state it as a COUNT -- which means the difference between styles that share a vocabulary, a plan and a material is an integer. `mission-revival` and `spanish-colonial-revival` are called 'the single most frequently confused pair in American architecture' by the corpus itself, and the difference between them is that one has a count of 0 and the other of 1 or 2. Nothing else in this library reduces a style distinction to a count, and it is the reason this pack is a rationing system as much as a proportioning one. Judgment, because what a designer must decide is not the panel's dimensions but whether the building gets one at all, and where.",
+      "judgment": true
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "plain_run",
+      "expression": "module",
+      "units": "in",
+      "range": [144.0, 480.0],
+      "authority_note": "`styles/spanish-colonial-revival.json`: 'the principal entrance surround must be the single most elaborate element on the building, with a minimum 12'0\" run of unornamented wall on each side of it'.",
+      "note": "TWELVE FEET OF SILENCE ON EACH SIDE, and it is the only figure in the corpus that dimensions the ABSENCE of ornament rather than its presence. The whole effect of this system is contrast, so the plain wall is a designed element with a minimum size, exactly as the panel is -- `styles/spanish-plateresque.json` puts it as a physical fact, 'a very large area of absolutely plain golden ashlar against which a very small area of hallucinatory carving detonates'. A designer who shortens the plain run to fit the panel on a narrower frontage has not compromised the composition, they have inverted it.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "facade_share",
+      "expression": "0.22",
+      "units": "ratio",
+      "range": [0.15, 0.30],
+      "authority_note": "`styles/churrigueresque.json`: 'portada width 15-30 percent of facade width', and its hard rule that the panel must occupy 'no more than about a quarter of the elevation'.",
+      "note": "TWENTY-TWO PER CENT OF THE FRONT. The hard rule and the typical ratio disagree slightly and the record means both -- a quarter is the ceiling on AREA and thirty per cent the ceiling on WIDTH, which are compatible because a panel narrower than a third of the front is taller than it is wide and does not fill its own share of the elevation. Extending the ornament across the whole facade destroys the contrast the style is built on, which that record says in those words and which is the commonest single failure in twentieth-century work in this manner.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "portada_width",
+      "expression": "module",
+      "units": "in",
+      "range": [86.0, 300.0],
+      "authority_note": "The module: 15 to 30 per cent of an ordinary Spanish colonial street front, which the corpus's own examples put between about 24 and 60 ft.",
+      "note": "TWELVE FEET, and the band is wide because the quantity is a share and not a dimension -- a mission church's portada and a Santa Fe doorway's are the same composition at four times the size. Read the node's own frontage and take the share; this figure is a default for a compiler with nothing else to go on.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "aspect",
+      "expression": "2.5",
+      "units": "ratio",
+      "range": [2.0, 3.0],
+      "authority_note": "`styles/spanish-plateresque.json`: 'portada width to height roughly 1:2 to 1:3, in two to five registers'.",
+      "note": "HEIGHT OVER WIDTH, 2.5. It is the proportion of an altarpiece and not of a doorcase, and that is the point: the device is a retablo lifted off the sanctuary wall and set on the outside of the building, at the same proportion and with the same internal logic. Squarer than 1:2 it becomes a classical frontispiece; taller than 1:3 it cannot hold registers wide enough for the ornament to work.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "bay_count",
+      "expression": "3",
+      "units": "count",
+      "range": [3.0, 5.0],
+      "authority_note": "`styles/churrigueresque.json`: 'three to five vertical divisions within the portada set by the estipites, with the central bay widest and holding the door and the principal niche. The rhythm exists only inside the frame; outside it there is none.'",
+      "note": "THREE TO FIVE BAYS, AND ONLY INSIDE THE FRAME. That last clause is the sentence a compiler most needs, because every other facade pack in this library assumes the bay rhythm is the elevation's. Here it belongs to a panel occupying a fifth of the front, and the wall on either side has no rhythm at all -- its openings are placed by the rooms behind them, which `styles/spanish-plateresque.json` states outright.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "central_bay_ratio",
+      "expression": "1.5",
+      "units": "ratio",
+      "range": [1.2, 1.9],
+      "authority_note": "Read off the canonical portadas rather than stated by a record: `styles/churrigueresque.json` requires the central bay to be widest and holding the door and the principal niche, and gives no figure.",
+      "note": "A READING, AND SAID TO BE ONE. Half again as wide as its neighbours, which is what the Sagrario Metropolitano and the Hospicio de San Fernando come to. The corpus gives the rule (central bay widest) and not the amount, so this rule carries the amount as a judgment and the note carries the confession. What is NOT a judgment is the direction: a portada whose bays are equal has lost the door, because the door is the only thing in the composition that has to be a particular size and the bay holding it therefore cannot be one of a set.",
+      "judgment": true
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "register_count",
+      "expression": "3",
+      "units": "count",
+      "range": [2.0, 5.0],
+      "authority_note": "`styles/spanish-plateresque.json`: 'the ornamental panel divided into two to five stacked horizontal registers by cornices and framed by a hard vertical border'. `styles/churrigueresque.json`: 'height two to four registers'.",
+      "note": "THREE REGISTERS, and the two records' bands differ at the top for a reason -- Plateresque allows five and Churrigueresque stops at four, because a Churrigueresque register is taller: it is set by the count of blocks in an estipite's shaft rather than by a cornice line, and an estipite is a nine-foot member. The register is the unit of composition in both, and the framing that divides them is what Churrigueresque then proceeds to break.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "heraldry_count",
+      "expression": "1",
+      "units": "count",
+      "range": [1.0, 2.0],
+      "authority_note": "`styles/spanish-plateresque.json`: 'heraldry is required and must anchor the composition, normally in the upper register. A Plateresque portada with no arms is missing the reason it was paid for.'",
+      "note": "AT LEAST ONE COAT OF ARMS, IN THE TOP REGISTER. The range's upper end is a reading rather than a rule: royal arms and founder's arms together are ordinary on a colegio or a convento, and three is a crowd. The requirement itself is not a reading -- the record states it as a hard rule and gives the reason, which is that a retablo facade is a statement of who paid for the building and the arms are that statement. An unheraldic reproduction has kept the composition and thrown away the argument.",
+      "judgment": false
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "register_ratio",
+      "expression": "0.83",
+      "units": "ratio",
+      "range": [0.6, 1.1],
+      "authority_note": "`styles/spanish-plateresque.json`: 'total portada width sets the register heights'.",
+      "note": "A REGISTER IS ABOUT FIVE SIXTHS OF THE PANEL'S WIDTH, which is the top-down derivation stated as arithmetic. This is the rule that most distinguishes the pack from everything else in the library: the register is not a number of column diameters or a course count, it is a fraction of the whole, and the members inside it are then cut to fill it. Note that the registers are NOT equal -- the door register is tallest and the plinth shortest -- so this figure is the mean and the assembly carries the distribution.",
+      "judgment": false
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "slenderness",
+      "expression": "9.6",
+      "units": "ratio",
+      "range": [8.0, 11.0],
+      "authority_note": "`styles/churrigueresque.json`: 'estipite slenderness roughly 1:8 to 1:11 overall'.",
+      "note": "THE ESTIPITE, AND IT IS DEFINITIONAL RATHER THAN CHARACTERISTIC. That record's own first hard rule says so: 'a facade of this ornamental density using a normal column or a solomonic (barley-sugar) shaft is Salomonico Baroque, an earlier and different phase, not Churrigueresque.' So this is one of the few rules in this library whose failure changes what the building IS rather than how good it is. Bound only on the nodes whose records name the member; `spanish-plateresque` never uses it and its own record says as much.",
+      "judgment": false
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "base_ratio",
+      "expression": "0.302",
+      "units": "ratio",
+      "range": [0.25, 0.35],
+      "authority_note": "`styles/churrigueresque.json`: 'the pyramidal base block 0.25-0.35 of shaft height'.",
+      "note": "THE INVERTED OBELISK, THREE TENTHS OF THE SHAFT. It is the single most legible thing in a style whose whole programme is illegibility, and it is worth stating why the figure has a floor as well as a ceiling: below a quarter the inversion stops registering and the member reads as an ordinary tapered pilaster, at which point the building has quietly become conventional Baroque while still costing what Churrigueresque costs.",
+      "judgment": false
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "applied_depth",
+      "expression": "module * 0.125",
+      "units": "in",
+      "range": [11.8, 23.6],
+      "authority_note": "`styles/spanish-plateresque.json`: 'the portada is applied dressed stone carried on the wall behind, typically 300-600 mm deep. It is not a structural frontispiece and must not be modelled as one.' `styles/churrigueresque.json` gives 'rarely more than 600 mm deep'.",
+      "note": "EIGHTEEN INCHES, AND IT IS APPLIED. Two records state this independently and both go out of their way to say what it is not: the portada is a skin of dressed stone or moulded plaster hung on the wall behind, and the wall behind is doing the structure. That matters to a compiler because the panel's depth must not be added to the wall's thickness, and it matters to a builder because the fixing of an eighteen-inch stone skin over a rubble or adobe wall is the detail on which the whole thing survives or does not.",
+      "judgment": false
+    },
+    {
+      "target_slot": "door_surround",
+      "dimension": "leaf_ratio",
+      "expression": "2.1",
+      "units": "ratio",
+      "range": [1.67, 2.67],
+      "authority_note": "`styles/spanish-colonial-revival.json`: 'entrance surround 5-8 ft wide overall for a 3'0\" x 7'0\" leaf'.",
+      "note": "THE SURROUND IS TWICE THE DOOR, which is the domestic scale of the device and the figure that makes it buildable on a house. It is worth having beside the ecclesiastical figures because the revival's whole problem is stated by that record in one sentence -- 'the revival puts church-scale ornament on a house' -- and this ratio is the correction: a portada at a house door is a doorcase twice the width of its leaf, not a cathedral front reduced.",
+      "judgment": false
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "continuity",
+      "expression": "0.0",
+      "units": "ratio",
+      "range": [0.0, 0.0],
+      "authority_note": "`styles/churrigueresque.json`: 'no straight uninterrupted entablature or cornice may cross the portada. Every horizontal is broken and returned at each vertical member.' `styles/spanish-plateresque.json`: columns and pilasters 'must not carry a continuous entablature across the facade. If a real order regulates the whole wall, the building has become Italian Renaissance or Herreran, not Plateresque.'",
+      "note": "ZERO CONTINUITY, AND IT IS THE EXACT INVERSE OF `facade-pavilion`'s CORNICE RULE. That pack states `cornice`/`continuity` = 1.0 because a French elevation's cornice runs unbroken and the lucarne passes through it; this one states 0.0 because a Spanish retablo facade's entablature is broken at every vertical and a single continuous one converts the building into something else -- both records say so, and the second names what it converts into. Two systems, one quantity, opposite extremes, both stated with a single permitted value because neither has a partial version. Between them they bracket what a horizontal can do on a facade, which is a thing this library could not previously say.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "return_count",
+      "expression": "3",
+      "units": "count",
+      "range": [3.0, 4.0],
+      "authority_note": "`styles/churrigueresque.json`: 'a cornice that returns on itself three or four times across a single portada'.",
+      "note": "THREE OR FOUR RETURNS ACROSS TWELVE FEET, which is the previous rule made countable. A broken entablature is a claim; a count of returns is a check. And the count is bounded above as well as below for a reason worth stating: a cornice that returns at every one of five bays and again at each estipite has stopped being a horizontal that is being broken and become a moulding that wanders, at which point the drama of the interruption is gone because there is nothing left to interrupt.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "portada_independence",
+      "expression": "1.0",
+      "units": "ratio",
+      "range": [1.0, 1.0],
+      "authority_note": "`styles/spanish-plateresque.json`: 'the window rhythm of the building is independent of it and frequently in conflict with it, and the conflict is not resolved.' `styles/mexican-colonial.json`: 'the portada does not relate to the fenestration and is not expected to.' `styles/churrigueresque.json`: 'the rhythm exists only inside the frame; outside it there is none.'",
+      "note": "THREE RECORDS, INDEPENDENTLY, AND ONE OF THEM SAYS THE CONFLICT IS NOT RESOLVED -- which is the strongest statement of this kind in the corpus, because it does not merely permit the mismatch, it declines to treat it as a problem. A designer trained on Anglo-Italian elevations will reach for the portada's axis and pull the windows onto it, and every record here says not to. Stated with a single permitted value because independence has no partial version: either the panel is a bounded field with its own rhythm or it has become the centrepiece of a composed elevation, which is a different tradition. Judgment, because what has to be decided is whether the designer will accept an unresolved elevation, and many will not.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "The panel is an applied stone or plaster skin up to 600 mm deep and several storeys tall, hung on a wall that is doing all the structure, and it is heaviest at the top where the heraldry and the crowning register are. In seismic country -- which is most of where this tradition built -- that is a mass in exactly the wrong place, and `styles/churrigueresque.json` records the historic answer as a hard rule: 'in seismic regions the field wall must be buttressed and the church kept low; ornament is not permitted to drive the structure.' The failure mode is not the wall going over; it is the skin coming off the wall, in pieces, from the top.",
+      "resolution": "Design the fixing before the carving. Stainless dowels and cramps into the backing wall at every course, sized for the panel's own weight in a horizontal direction rather than a vertical one, with the upper registers tied more heavily than the lower; a shelf angle or corbel course at each register break so no single dowel run carries more than one register. And take the record's instruction literally where it applies: buttress the field wall and keep the height down rather than lightening the ornament, because the ornament is the building's reason and the wall is not.",
+      "severity": "blocking"
+    },
+    {
+      "with": "cost",
+      "statement": "The entire ornament budget of the building is spent in one place, and the place is carved by hand. `styles/churrigueresque.json` records the historic arrangement without comment -- 'urban palaces in Madrid and Mexico City sit in continuous blocks with the whole budget at the portada' -- and it is a strategy rather than an extravagance: concentrating means the rest of the building can be as plain as it likes, which is cheaper than distributing the same money thinly. The modern failure is the opposite one. A cast or moulded 'Churrigueresque' surround bought as a unit costs a fraction of a carved one and is then affordable in several places, so it appears in several places, and the composition dies of it.",
+      "resolution": "Take the historic strategy on purpose: buy ONE ornamental event and make it as good as the budget allows, then spend nothing at all on the rest. That is what the rationing rules in nine of this corpus's records are describing, and it is a rare case where the authentic answer and the economical answer are the same. If the budget will not carry one good panel, the correct answer is a plain building -- `mission-revival` is exactly that decision made into a style, and it is not a lesser one.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "Relief 'so deeply undercut that at midday the portada reads black' is a system of upward-facing ledges, re-entrant corners and undercuts, in numbers, on the wettest and most-washed part of a wall. Every horizontal surface holds water; every undercut holds it longer; every joint between the applied panel and the wall behind is a path. In a wet climate the panel grows biological staining within a decade and the carving reads as mud; in a freezing one the retained water opens the stone along the undercuts, which is where the carving is thinnest.",
+      "resolution": "Do not build this system in a freezing wet climate in soft stone, and say so at the brief stage rather than after. Where it must be built: choose a stone with low porosity and detail every horizontal with a fall and a throat, accepting that the falls will be visible and that the historic ones are visible too; keep the panel under a projecting cornice or a porch where the tradition allows one; and design the panel-to-wall joint as a drained cavity rather than a bedded one. Cast stone and moulded plaster are more vulnerable than dressed stone, not less, which is the reverse of what most specifiers assume.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The composition is a bounded field against a plain wall, so the BORDER is the only straight line in the design and it is being read against a large, empty, uniform surface. Any deviation in it shows -- and unlike a classical elevation there is no second line anywhere near it to disguise the error. The interior of the panel has the opposite problem: nothing inside it is straight, repeated or square, so nothing inside can be set out by measurement from anything else, and a carver working from a print (as the New Spain workshops did) is composing at full size on the wall.",
+      "resolution": "Set the border out as a single frame, plumbed and levelled as one piece, and let the ornament inside it be located from the border rather than from the wall. Accept and design for the fact that the panel's interior is a craft product with craft tolerances: it wants a maker with authority to compose in place, not a shop drawing with dimensions on it. Where the work is cast, cast the border separately and to a tighter tolerance than the field.",
+      "severity": "material"
+    },
+    {
+      "with": "material-availability",
+      "statement": "This system needs carvers, and the number of people who can cut an estipite or a Plateresque register is small and shrinking. The historic tradition solved the same shortage in a way that is worth knowing rather than repeating uncritically: in New Spain the work was executed 'by Spanish masters and by indigenous carvers working from prints', producing what `styles/mexican-colonial.json` calls the tequitqui manner, in which European motifs are cut with pre-Hispanic relief conventions. That is not a degraded version of the European original; it is the thing itself in its American form, and the flattened, frontal, high-contrast relief it produces is why a Mexican portada does not look like a Spanish one.",
+      "resolution": "Decide which tradition is being built before choosing the fabrication route. For the Iberian version there is no substitute for a carver and the budget must say so. For the American version, flatter and more frontal relief is CORRECT rather than cheap, and it is far more achievable -- moulded plaster and cast stone suit it, because the manner was already a translation. What is not defensible is buying an Iberian design and executing it flat because that is what the supplier does; the result reads as a failed copy rather than as either tradition.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "churrigueresque",
+    "spanish-plateresque",
+    "mexican-colonial",
+    "spanish-colonial-american",
+    "california-mission-colonial",
+    "spanish-colonial-revival",
+    "andalusian-spanish-revival",
+    "mexican-hacienda"
+  ],
+  "sources": [
+    "George Kubler and Martin Soria, Art and Architecture in Spain and Portugal and their American Dominions 1500-1800, Penguin, Harmondsworth, 1959",
+    "Manuel Toussaint, Arte colonial en Mexico, Universidad Nacional Autonoma de Mexico, 1948",
+    "Fernando Chueca Goitia, Historia de la arquitectura espanola: Edad Moderna, Madrid, 1965",
+    "Robert C. Smith, 'The Colonial Architecture of Minas Gerais' and the wider retablo-facade literature, for the transfer of altarpiece composition to the exterior"
+  ],
+  "confidence": "medium",
+  "notes": "THE SIXTH GAP IN THIS PACKAGE THE CORPUS HAD ALREADY WRITTEN DOWN ITSELF, and this one names the pack by name. `styles/spanish-plateresque.json`'s binding note to `moorish-arch` ends: 'WP-4.1's own portada/retablo gap is the pack Plateresque actually needs and it is still missing.' Two of its other bindings decline the work explicitly -- `vignola-tuscan` is bound 'NOT for the ornamental panel, which no order pack in the library should be forced onto', and `room-harmonic` on `churrigueresque` is bound with the note that the style's own record 'states flatly that there is no classical module'. Three notes on two nodes, all saying the same thing: the order packs cannot do this and the pack that can does not exist.\n\nTHE MODULE IS THE PANEL, WHICH MAKES THIS THE ONLY TOP-DOWN PACK IN THE LIBRARY. Everything else here derives from something small and real -- a column's lower diameter, a brick, an adobe, a joist, a light, a stock board. `styles/spanish-plateresque.json` states the inversion outright: 'the module is the ornamental panel and its frame: total portada width sets the register heights, and the columns or balusters within it are dimensioned to fill their register rather than to any canonical ratio of diameter to height.' A column inside a portada has not been proportioned; it has been FITTED. That is why no order pack fits and why two bindings already say so.\n\nAND THE TWO PARENT STYLES DISAGREE ABOUT IT, IN A WAY THAT IS THE DIFFERENCE BETWEEN THEM. Plateresque says the module is the panel. Churrigueresque says 'the only continuous dimension in the design is the estipite itself... its width sets the bay of the portada and the count of blocks in its shaft sets the register heights' -- which is a MEMBER module, bottom-up, of exactly the kind Plateresque abolished. So the later, wilder, more dissolved style is in this one respect the more regular of the two, having re-introduced a generating member after its parent threw one away. The pack carries both and keys them by node: the estipite rules bind where the records name the member and nowhere else.\n\nTHE RATIONING RULE IS THE ONE THAT SEPARATES THE STYLES, AND NINE RECORDS STATE IT. Four of them state it as a count -- `spanish-colonial-american` 'exactly one location per building', `andalusian-spanish-revival` 'not more than one elaborated ornamental event per elevation', `spanish-colonial-revival` 'not more than two elevations', `mission-revival` none at all. The corpus itself calls `mission-revival` and `spanish-colonial-revival` 'the single most frequently confused pair in American architecture', and the difference between them is an integer. One figure dimensions the silence: twelve feet of unornamented wall on each side of the panel, which is the only rule in the corpus that gives ABSENCE a minimum size.\n\nONE RULE HERE IS THE EXACT INVERSE OF ONE IN `facade-pavilion`, AND THE PAIR BRACKETS THE QUESTION. That pack states `cornice`/`continuity` = 1.0: a French cornice runs unbroken and the lucarne passes through it. This one states `entablature`/`continuity` = 0.0: a retablo facade's entablature is broken at every vertical, and a continuous one converts the building into Italian Renaissance or Herreran, which `styles/spanish-plateresque.json` says in those words. Both single-valued, both categorical, opposite extremes of one quantity. A third rule here, `window_grouping_rule`/`portada_independence`, is the same shape as `jetty-overhang`'s `post_independence` and the opposite of `facade-pavilion`'s `alignment` -- so three consecutive packs in this tranche have now written to that slot, two requiring the elevation's systems to be independent and one requiring them to coincide. The library previously could not state either.\n\nNOT BOUND: `mission-revival`, and the refusal is the second instance of OQ 49 in two packs. Its record carries a rule about this pack's subject which states that there is none -- 'no ornament at the entrance. If there is a carved or cast surround around the front door, the building is Spanish Colonial Revival, not Mission Revival' -- which is exactly the shape OQ 46 described for `egyptian-revival`'s arch rule, and the argument that got the `arch` slot built. But binding the pack for one rule would hand the node fourteen others including an estipite slenderness and a retablo aspect ratio, and the binding model has no way to scope a binding to one slot. So the rule stays in the node, unserved by the pack that ought to own it, and OQ 49 now has two independent instances found one pack apart."
+}
