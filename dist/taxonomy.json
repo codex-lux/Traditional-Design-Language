@@ -6511,6 +6511,13 @@
           "role": "room",
           "note": "Bound for rooms that are 'taller than Federal rooms and much plainer' but still formally proportioned by a pattern-book carpenter rather than accumulated by habit -- the style's own description language. Benjamin-corinthian and benjamin-tuscan were both considered for a third bound order (the style names a Tower-of-the-Winds Corinthian as a legitimate third Greek order) and deliberately not bound at this parent level, to keep the same primary/secondary discipline georgian-colonial-american uses; the Corinthian is promoted instead on greek-revival-southern-plantation, where the style text and the corpus's own applies_to cross-reference both name it explicitly.",
           "precedence": 8
+        },
+        {
+          "pack": "greek-doric",
+          "role": "secondary",
+          "precedence": 9,
+          "authority": "greek-doric",
+          "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
         }
       ],
       "_cascade": [
@@ -9834,9 +9841,9 @@
       "proportion_packs": [
         {
           "pack": "benjamin-doric",
-          "role": "primary",
+          "role": "secondary",
           "authority": "benjamin-doric",
-          "note": "The only order-system in the library that is actually baseless, which matters here because c02 makes a moulded Doric base a hard error and Vignola's Doric (and every overlay built on it) has one. Benjamin's own applies_to list names greek-classical directly, and his 1830 preface states the reason in his own words: the Doric is 'the one order' where Greek and Roman 'differ essentially,' and what is encoded here is drawn from Stuart and Revett's measured Temple of Theseus rather than from Vignola. That said, it is not a scholarly Attic encoding: Benjamin's own recommended Example No. 3 is a nineteenth-century American wood-construction compromise, not the archaeological figures. Column height is 7 diameters including the capital against this style's own stated Doric range of 4 to 6.5 diameters (Parthenon 5.48); entasis begins at the foot rather than at the lower third this style's c04 specifies; the annulets are changed to 'Roman character' because Benjamin judged the Greek ones 'too small and indistinct'; mutules are halved from one-per-metope-and-triglyph to one-per-triglyph-only. It is the closest thing in the library to a baseless Greek Doric, and it is still a Federal-Boston-carpentry object standing in for a fifth-century-BC Athenian one.",
+          "note": "The only order-system in the library that is actually baseless, which matters here because c02 makes a moulded Doric base a hard error and Vignola's Doric (and every overlay built on it) has one. Benjamin's own applies_to list names greek-classical directly, and his 1830 preface states the reason in his own words: the Doric is 'the one order' where Greek and Roman 'differ essentially,' and what is encoded here is drawn from Stuart and Revett's measured Temple of Theseus rather than from Vignola. That said, it is not a scholarly Attic encoding: Benjamin's own recommended Example No. 3 is a nineteenth-century American wood-construction compromise, not the archaeological figures. Column height is 7 diameters including the capital against this style's own stated Doric range of 4 to 6.5 diameters (Parthenon 5.48); entasis begins at the foot rather than at the lower third this style's c04 specifies; the annulets are changed to 'Roman character' because Benjamin judged the Greek ones 'too small and indistinct'; mutules are halved from one-per-metope-and-triglyph to one-per-triglyph-only. It is the closest thing in the library to a baseless Greek Doric, and it is still a Federal-Boston-carpentry object standing in for a fifth-century-BC Athenian one. DEMOTED TO SECONDARY by WP-4.6: greek-doric now carries the primary role on this node, for the four reasons this note already listed. Kept because American Greek Revival buildings were built from these plates and a plan checked against the Parthenon alone would fail them for being what they are.",
           "precedence": 1
         },
         {
@@ -9845,6 +9852,13 @@
           "authority": "vignola-ionic",
           "note": "Judgment binding: greek-classical is not in vignola-ionic's own applies_to. Bound anyway because this style's own proportional_system states Ionic column height as 9 to 9.5 diameters, and Vignola's Ionic (later codified from Roman practice but tracking a genuinely Ionic lineage) sits at almost exactly 9 diameters -- the two figures were not reconciled on purpose, they simply agree. Unlike Doric, a moulded base is not a Greek/Roman fault line for Ionic -- the Erechtheion's own columns are based -- so vignola-ionic's base does not trip a hard constraint the way vignola-doric would. It remains a Roman-transmitted reading (Vignola 1562) rather than a direct encoding of the Erechtheion or the Temple of Apollo Epikourios, and no pack in the library encodes either building specifically.",
           "precedence": 2
+        },
+        {
+          "pack": "greek-doric",
+          "role": "primary",
+          "precedence": 0,
+          "authority": "greek-doric",
+          "note": "WP-4.6: this replaces `benjamin-doric` as the primary order. WP-4.1's own binding note called Benjamin 'the least-bad available approximation' and listed the four defects precisely -- column height 7 diameters against this style's own stated 4-to-6.5 range, entasis at the foot rather than the lower third c04 specifies, annulets in 'Roman character', mutules halved to one per triglyph. All four are Benjamin's nineteenth-century wood-shop departures, honestly labelled as such in his own pack, and all four are corrected here against Stuart and Revett's measured Parthenon. Benjamin is kept bound at lower precedence, because a real American Greek Revival building WAS built from his plates and this style's revival descendants need him."
         }
       ],
       "_cascade": [
@@ -12606,6 +12620,13 @@
           "authority": "room-vernacular",
           "note": "The node's own governing_logic states 'Nothing here is compositional - the whole proportional system is a shading calculation and a joist span,' with room depth set to 3.5-5 m clear by the timber joist. That is room-vernacular's own generative logic (span, hearth-reach and single-sided daylight intersecting in roughly the same neighbourhood) rather than a proportioned or harmonic one, and the node is named directly in the pack's applies_to. No facade or order pack is bound: the street elevation 'has no rhythm worth the name and is not meant to,' and the only columns in the type are the plain, unornamented court arcade - there is no entablature and no classical order to invoke.",
           "precedence": 1
+        },
+        {
+          "pack": "moorish-arch",
+          "role": "primary",
+          "precedence": 0,
+          "authority": "moorish-arch",
+          "note": "The vernacular the Alhambra's domestic work is the grand end of: the same arcade around the same court, in plaster rather than in stone. Primary because the arcade IS this type's structure and its composition at once."
         }
       ],
       "_cascade": [
@@ -13314,6 +13335,13 @@
           "role": "room",
           "note": "Judgment binding, same reasoning and same doubt as the equivalent binding on churrigueresque. Not in room-harmonic's own applies_to, but its parent family 'spanish-classical' is. This style's own text gives slightly more support than churrigueresque's does: the proportional_system states outright that the plain wall's 'openings are placed by the rooms behind them,' i.e. the building genuinely has ordinary rooms following an ordinary logic independent of the portada -- this pack is offered as the best available (not a good) account of what that ordinary logic might be, for a style contemporary with the early Italian Renaissance whose vocabulary it explicitly imports (lineage edge to italian-renaissance, weight 0.4).",
           "precedence": 2
+        },
+        {
+          "pack": "moorish-arch",
+          "role": "secondary",
+          "precedence": 3,
+          "authority": "moorish-arch",
+          "note": "Judgment binding, and a narrow one. Plateresque is a classical-order style with Mudejar survivals in it; the order packs already bound govern its apparatus. This pack is bound secondary for the alfiz and the polylobed arch where they appear, and for nothing else. WP-4.1's own portada/retablo gap is the pack Plateresque actually needs and it is still missing."
         }
       ],
       "_cascade": [
@@ -15487,6 +15515,13 @@
           "role": "room",
           "note": "Listed directly in this pack's applies_to cross-reference. Bound for rooms that are 'enormous, plainly trimmed' but still composed to the 11-14 ft ceiling heights and passage proportions the style states as hard constraints, not accumulated vernacular space.",
           "precedence": 8
+        },
+        {
+          "pack": "greek-doric",
+          "role": "secondary",
+          "precedence": 9,
+          "authority": "greek-doric",
+          "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
         }
       ],
       "_cascade": [
@@ -16899,6 +16934,13 @@
           "role": "room",
           "note": "Not in the pack's own applies_to list, and bound here on general rather than documented grounds: the daylight-depth rule is stated by the pack itself as physics rather than period custom, and it governs the plain, minimally glazed rooms behind this style's arcaded porch (solid:void 5:1 or greater, 'the wall is meant to dominate') the same way it governs any single-loaded room. Bind narrowly for that rule; the hearth-count and frontage arithmetic do not describe a foursquare hipped stucco cube with an arcaded porch and no chimney-driven plan logic.",
           "precedence": 2
+        },
+        {
+          "pack": "moorish-arch",
+          "role": "optional",
+          "precedence": 4,
+          "authority": "moorish-arch",
+          "note": "Optional and low precedence. The Mission Revival's arcade is round-arched on piers far more often than horseshoe, so this pack is available for the buildings that reach for the Moorish and is not asserted over the ones that do not. An optional binding is the honest shape for a vocabulary a style sometimes uses."
         }
       ],
       "_cascade": [
@@ -17542,6 +17584,13 @@
           "role": "opening",
           "note": "This style's own governing_logic states plainly that 'a nominal classical order appears only at the entrance surround' and that proportion is otherwise 'governed by the arcade module' -- which no pack in this corpus models; none of the 36 available packs derives an arcade's pier-to-span ratio or its arch-springing height (see the WP-4.1 report). Bound at low precedence and scoped narrowly to the punched window rectangles above the arcade, never the arcade itself, on the strength of this style's two inherits_kit=true lineage edges: descends_from italian-renaissance-revival at weight 0.9 (itself bound to this same pack) and descends_from beaux-arts-american at weight 0.8, whose 'ecole-derived planning by axis and enfilade... is what holds an apparently rambling plan together.' Use the pack's single-head-datum rule and its 5/6 per-storey window diminution for the upper-storey openings only, and defer entirely to this style's own reveal-depth (6-18in), roof-plane height-differential and solid:void (4:1-6:1) rules wherever the two conflict -- those are this style's genuinely sourced numbers, and this binding is a lineage-based judgment call rather than a documented Mediterranean Revival window-proportion source.",
           "precedence": 2
+        },
+        {
+          "pack": "moorish-arch",
+          "role": "optional",
+          "precedence": 4,
+          "authority": "moorish-arch",
+          "note": "Optional, same reasoning as mission-revival: available where the building reaches for the Moorish arch and silent where it does not."
         }
       ],
       "_cascade": [
@@ -21167,7 +21216,15 @@
         "tile",
         "hot-dry"
       ],
-      "proportion_packs": [],
+      "proportion_packs": [
+        {
+          "pack": "moorish-arch",
+          "role": "primary",
+          "precedence": 1,
+          "authority": "moorish-arch",
+          "note": "The node's own governing_logic reads 'no order and no absolute module... geometric generation from a square, compass-and-straightedge', which is why WP-4.1 left it with NO BINDING AT ALL rather than force a Vignola order onto it -- and why this pack exists. moorish-arch is that logic encoded: the module is the generating square's side, there is no column block because the shafts are spolia brought to a common springing by the impost block, and the arch is dimensioned by its return below the springing rather than by a diameter. This is the node the pack was written for."
+        }
+      ],
       "_cascade": [
         "iberian-islamic",
         "roman-classical",
@@ -24915,7 +24972,15 @@
         "islamic-craft",
         "christian-patronage"
       ],
-      "proportion_packs": [],
+      "proportion_packs": [
+        {
+          "pack": "moorish-arch",
+          "role": "primary",
+          "precedence": 1,
+          "authority": "moorish-arch",
+          "note": "Left unbound by WP-4.1 for the same reason and with a second one: 'almost entirely ornament and structural technique rather than room- or facade-level proportion'. This pack reaches the arch-and-impost layer, which is the half of that Mudejar shares with its Andalusian parent -- the horseshoe and polylobed arch, the impost, the alfiz. It does NOT reach the whole-brick corbelling or the par y nudillo roof carpentry, which WP-4.1 named as a separate gap and this pack's own notes say it does not fill."
+        }
+      ],
       "_cascade": [
         "iberian-islamic",
         "moorish-andalusian",
@@ -37262,6 +37327,13 @@
           "role": "room",
           "note": "Not listed in this pack's own applies_to cross-reference (which names greek-revival-american and greek-revival-southern-plantation but not this variant), and bound here anyway on architectural grounds stated plainly: this variant's interiors are pattern-book carpenter work off Lafever's and Benjamin's plates -- 'heavy symmetrical door architraves and corner blocks' -- not the accumulated, undesigned rooms room-vernacular covers, which is reserved here for greek-revival-upland-vernacular where the plan genuinely predates the style.",
           "precedence": 8
+        },
+        {
+          "pack": "greek-doric",
+          "role": "secondary",
+          "precedence": 9,
+          "authority": "greek-doric",
+          "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
         }
       ],
       "_cascade": [
@@ -37560,6 +37632,13 @@
           "role": "room",
           "note": "Bound for the daylight-depth rule alone, which the pack itself calls 'physics rather than custom... true in 1650, true now.' This style's defining single-pile ranges 'wrapping the court, lit and ventilated from two sides' are exactly the condition the rule describes (max depth ~2 to 2.25x window head height from one window wall), doubled by having a window wall on each side; the style's own courtyard-width rule (>=1.5x the height of the tallest enclosing range, so winter sun reaches the floor at 34 degrees latitude) is the same kind of physically-derived constraint the pack specializes in, applied to the court instead of the room. Do not carry over the pack's hearth-reach or joist-span derivations, or its room-count-from-frontage arithmetic -- this is a masonry/stucco courtyard house with no chimney-count logic and no timber bay to tile against.",
           "precedence": 2
+        },
+        {
+          "pack": "moorish-arch",
+          "role": "secondary",
+          "precedence": 3,
+          "authority": "moorish-arch",
+          "note": "Secondary, not primary: the revival composes picturesquely (facade-picturesque is already bound as its facade pack) and reaches for the Moorish arch as vocabulary rather than as the system the whole building is generated from. Binding it primary would claim a geometric discipline the revival does not actually keep."
         }
       ],
       "_cascade": [
@@ -43445,6 +43524,13 @@
           "authority": "brick-course",
           "note": "The structural module survives entirely hidden: 'almost everything structural is inherited -- the brick carcass... but... the brick is covered in stucco, ruled and lined to imitate ashlar.' The coursing this pack governs is real and still sets the wall's dimensions; it is simply never seen.",
           "precedence": 8
+        },
+        {
+          "pack": "greek-doric",
+          "role": "secondary",
+          "precedence": 9,
+          "authority": "greek-doric",
+          "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding. Regency's Greek Doric is the diagnostic order WP-4.1's PB-2 batch flagged as having no true pack; this is it."
         }
       ],
       "_cascade": [

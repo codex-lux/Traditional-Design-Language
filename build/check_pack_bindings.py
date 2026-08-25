@@ -58,7 +58,18 @@ VALID_ROLES = {
 # regression), but tolerates exactly these three as a known, documented,
 # permanent-until-WP-4.6 exception rather than papering over the difference
 # between "not done yet" and "correctly refused."
-DELIBERATELY_UNBOUND = {"egyptian-revival", "moorish-andalusian", "mudejar"}
+# WP-4.6, 24 Aug 2026: `moorish-andalusian` and `mudejar` come OFF this list. They were on it
+# because no pack in the library encoded a horseshoe arch, an impost block or an alfiz, and
+# WP-4.1 was right to leave them unbound rather than force a Vignola order onto a node whose own
+# text says "no order and no absolute module". `proportions/orders/moorish-arch.json` is that
+# pack, so the reason has gone and the allowlist entry with it. Retiring an allowlist entry when
+# the thing it excused is fixed is the point of having one; leaving it would let the next real
+# gap hide behind it.
+#
+# `egyptian-revival` stays, and its reason is untouched: trabeated, archaeological, copied from
+# Denon's plates, explicitly not module-derived, and almost never a house -- so neither the order
+# packs nor the domestic room packs reach it.
+DELIBERATELY_UNBOUND = {"egyptian-revival"}
 
 
 def _all_pack_ids():

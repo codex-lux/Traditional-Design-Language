@@ -1,0 +1,224 @@
+{
+ "id": "greek-doric",
+ "name": "Greek Doric Order (Stuart and Revett)",
+ "aka": [
+  "Grecian Doric",
+  "the Attic Doric",
+  "the baseless Doric",
+  "Parthenon Doric"
+ ],
+ "kind": "order-system",
+ "authority": {
+  "source": "James Stuart and Nicholas Revett, The Antiquities of Athens, London 1762-1816, on the Parthenon and the Hephaisteion; Minard Lafever, The Beauties of Modern Architecture, New York 1835, for the American transmission",
+  "author": "Stuart and Revett; Lafever",
+  "year": 1762,
+  "strength": "reconstructed",
+  "url": "https://archive.org/details/antiquitiesofath01stua",
+  "note": "RECONSTRUCTED rather than canonical, and the distinction is the reason this pack exists. There is no Greek Regola: the Doric was not codified by its builders and the temples differ from one another by more than a treatise would allow. What Stuart and Revett did was MEASURE, and what every later Greek Revival pattern book did was transmit those measurements with alterations. So the figures here are the fabric's, banded where the buildings disagree, and every place a nineteenth-century pattern book departed from them is recorded as a departure rather than encoded as the rule."
+ },
+ "overlay_of": null,
+ "module": {
+  "name": "semidiameter of the column at its base",
+  "parts": 30,
+  "default_size_in": 12.0,
+  "note": "The semidiameter, divided into thirty minutes, following the convention Benjamin and Lafever both use so this pack and the Benjamin overlays can be read against each other minute for minute. Default 12 in gives a 24 in column, which is the ordinary size of an American Greek Revival portico of real ambition; the Parthenon's is 75 in and its own figures are what the bands below are drawn from.",
+  "diameters": 0.5
+ },
+ "column": {
+  "height_modules": 11.0,
+  "shaft_height_modules": 10.0,
+  "diminution": 0.75,
+  "entasis_begins_at": 0.3333333333333333,
+  "fluting": {
+   "count": 20,
+   "profile": "twenty flutes meeting in a sharp arris, no fillet between them; elliptical in section in stone. The arris is the diagnostic: a Doric flute has no flat between it and its neighbour, and a wood column with fillets is an Ionic shaft wearing a Doric capital.",
+   "fillet": false
+  }
+ },
+ "assemblies": {
+  "capital": {
+   "height_modules": 1.0,
+   "sums_check": true,
+   "members": [
+    {
+     "id": "annulets",
+     "name": "Annulets - the three rings under the echinus",
+     "height_parts": 4.0,
+     "projection_parts": 1.0,
+     "profile": "fillet",
+     "enrichment": "none; the Greek Doric capital carries no carved enrichment at all",
+     "note": "Three, small, and sharply cut. Benjamin's 1830 Doric changes them to what he calls 'Roman character' because he judged the Greek ones 'too small and indistinct' - a nineteenth-century wood-shop judgment, recorded here as the departure it is. The count is the tell.",
+     "confidence": "high"
+    },
+    {
+     "id": "echinus",
+     "name": "Echinus - the flaring cushion",
+     "height_parts": 12.0,
+     "projection_parts": 7.0,
+     "profile": "echinus",
+     "note": "The single most date-diagnostic member in Greek architecture: the archaic echinus flares wide and low, the classical one is tauter and more nearly straight in profile, the Hellenistic one is nearly a cone. The Parthenon's is the taut classical form and is what this pack encodes. A drawn Doric capital with a quarter-round echinus is Roman.",
+     "confidence": "high"
+    },
+    {
+     "id": "abacus",
+     "name": "Abacus - the square slab",
+     "height_parts": 14.0,
+     "projection_parts": 9.0,
+     "profile": "abacus",
+     "note": "Plain, square in plan, unmoulded on its face. The Roman Doric abacus carries a moulding at its top edge and the Greek one does not.",
+     "confidence": "high"
+    }
+   ]
+  },
+  "entablature": {
+   "height_modules": 3.5,
+   "sums_check": true,
+   "members": [
+    {
+     "id": "architrave",
+     "name": "Architrave - one unmoulded face",
+     "height_parts": 30.0,
+     "projection_parts": 0.0,
+     "profile": "fascia",
+     "enrichment": "the regula and its six guttae under each triglyph, and nothing else",
+     "note": "ONE fascia, not the two or three of the Ionic and Corinthian. The Greek Doric architrave is a single plain face, and the only thing on it is the regula - a short flat band under each triglyph, with six guttae hanging from it. Its plainness is what makes the frieze above read.",
+     "confidence": "high"
+    },
+    {
+     "id": "frieze",
+     "name": "Frieze - triglyphs and metopes",
+     "height_parts": 30.0,
+     "projection_parts": 0.5,
+     "profile": "triglyph",
+     "enrichment": "sculpted metopes on temple work; plain metopes are correct and ordinary on everything else",
+     "note": "The triglyph is about half its own height in width and the metope is about square, which is what makes the corner conflict inescapable - see `conflicts`. A frieze of triglyphs at even centres with square metopes cannot also put a triglyph on the corner, and every Greek Doric building visibly does something about it.",
+     "confidence": "high"
+    },
+    {
+     "id": "cornice",
+     "name": "Cornice, with mutules over both triglyph and metope",
+     "height_parts": 45.0,
+     "projection_parts": 30.0,
+     "profile": "corona",
+     "enrichment": "eighteen guttae under each mutule",
+     "note": "The mutule is the sloping plate on the soffit of the corona, and the count is diagnostic: Greek work carries one over EVERY triglyph AND every metope, so the soffit is nearly continuous plate. Benjamin's 1830 Doric halves them to one per triglyph, which is the American simplification and reads immediately as one. The corona's projection is large - the shadow it throws is doing the work the order has no ornament to do.",
+     "confidence": "medium"
+    }
+   ]
+  }
+ },
+ "invariants": [
+  {
+   "statement": "There is no base. The shaft stands on the stylobate.",
+   "expression": "column.height_modules == column.shaft_height_modules + assemblies.capital.height_modules",
+   "tolerance": 0.001,
+   "note": "The whole column is shaft plus capital and nothing else. This is the invariant that separates this pack from every Vignola-derived Doric in the library, all of which have a moulded base, and it is why `greek-classical`'s own c02 makes a moulded Doric base a hard error."
+  },
+  {
+   "statement": "The column is between 5.4 and 6.0 lower diameters tall, capital included.",
+   "expression": "column.height_modules / 2 >= 5.4",
+   "tolerance": 0.02,
+   "note": "5.5 on the encoded figures. The Parthenon is 5.48; the buildings run from about 4 in archaic work to about 6.5 in late, and `styles/greek-classical.json` records that whole 4-to-6.5 range. The band here is the mature Attic one, which is what a revival building is imitating. Benjamin's Doric is 7 and is therefore outside the style's own stated range at its own recommended example - the specific defect that made binding greek-classical to it 'the least-bad available approximation' in WP-4.1."
+  },
+  {
+   "statement": "The entablature is between a third and a quarter of the column height - heavier than any Roman order.",
+   "expression": "assemblies.entablature.height_modules / column.height_modules >= 0.30",
+   "tolerance": 0.02,
+   "note": "0.318 on the encoded figures, against the Parthenon's measured ratio of about 0.315. Vignola's universal rule is one QUARTER; the Greek Doric entablature is nearer one third, and that extra weight above a shorter column is most of what makes a Greek portico look Greek."
+  },
+  {
+   "statement": "Twenty flutes, meeting in an arris with no fillet.",
+   "expression": "column.fluting.count == 20",
+   "tolerance": 0.0
+  }
+ ],
+ "derived_rules": [
+  {
+   "target_slot": "column",
+   "dimension": "height",
+   "expression": "module * 11",
+   "units": "in",
+   "range": [
+    64.8,
+    180.0
+   ],
+   "authority_note": "Stuart and Revett's measured Parthenon: 5.48 lower diameters including the capital.",
+   "note": "5.5 diameters. Set the column from the diameter you can actually get - a 24 in wood column is a real object with a real cost - and let the height follow, rather than setting a storey height and asking for whatever diameter divides into it.",
+   "judgment": false
+  },
+  {
+   "target_slot": "entablature",
+   "dimension": "height",
+   "expression": "column_height * 0.318",
+   "units": "in",
+   "range": [
+    0.3,
+    0.34
+   ],
+   "authority_note": "The Parthenon's measured ratio, about 0.315.",
+   "note": "The number that most reliably separates a Greek Revival portico from a Roman one, and the number a builder most reliably shaves. An entablature at Vignola's quarter on a 5.5-diameter column is neither order.",
+   "judgment": false
+  },
+  {
+   "target_slot": "modillion_dentil",
+   "dimension": "count",
+   "expression": "2",
+   "units": "count",
+   "range": [
+    1.0,
+    2.0
+   ],
+   "authority_note": "Stuart and Revett: mutules over triglyph AND metope alike.",
+   "note": "Two mutules per triglyph interval - one over the triglyph, one over the metope. The range's floor of 1 is Benjamin's American halving, recorded because it is what most surviving American Greek Revival work actually has, and it is a departure rather than an alternative. MARKED judgment: true, and the judgment is the RANGE and not the count. Two per triglyph interval is Stuart and Revett's measurement and is not in doubt. Letting the range reach down to 1 so that a building honestly built from Benjamin's plates passes this pack rather than failing it is an editorial decision about how to serve two true things at once, and it is mine rather than either source's.",
+   "judgment": true
+  },
+  {
+   "target_slot": "ornament_vocabulary",
+   "dimension": "count",
+   "expression": "0",
+   "units": "count",
+   "range": [
+    0.0,
+    0.0
+   ],
+   "authority_note": "The order carries no carved enrichment on any member except the metopes of temple work.",
+   "note": "STATED AS ZERO ON PURPOSE, because absence is this order's most-broken rule. There is no egg-and-dart, no bead-and-reel, no acanthus, no dentil anywhere in a Greek Doric. Every enrichment that turns up on one has come from another order, and the range of [0, 0] is the pack refusing to leave room for it.",
+   "judgment": false
+  }
+ ],
+ "conflicts": [
+  {
+   "with": "construction-tolerance",
+   "statement": "THE DORIC CORNER CONFLICT, and it has no solution - it is the one place a classical order is provably inconsistent with itself. A triglyph must sit on the centre of every column and on the centre of every intercolumniation, and a triglyph must also sit on the corner of the frieze, because a frieze cannot end on half a metope. Those three requirements cannot all hold: the corner triglyph has to move off its column centre, or the corner intercolumniation has to contract, or the corner metope has to widen.",
+   "resolution": "The Greeks contracted the corner intercolumniation, which is why the corner columns of the Parthenon are closer to their neighbours than any other pair - a deliberate, measurable irregularity in the most regular building there is. Do the same, and tell the framer it is intended. The alternative answers - widening the corner metope, or letting the corner triglyph sit off-centre - are both attested and both read as errors to anyone fluent. What is NOT available is drawing it at even centres and hoping: the discrepancy is about half a triglyph and it lands on the most visible part of the elevation.",
+   "severity": "material"
+  },
+  {
+   "with": "cost",
+   "statement": "This order has no ornament to hide anything behind. Every member is a plain surface meeting another plain surface at a sharp arris, so every joint, every scarf and every out-of-true is visible from the street. It is the cheapest order to specify and the most expensive to build well.",
+   "resolution": "Spend the money on the arrises and the entasis and nothing else. A Greek Doric with crisp flutes and a true taper on plain painted wood is right; the same order with applied dentils and a moulded base costs more and is wrong.",
+   "severity": "material"
+  },
+  {
+   "with": "material-availability",
+   "statement": "A 5.5-diameter column at any real portico size is short and very thick - a 24 in diameter column is only 11 ft tall - and clear stock at that diameter is neither cheap nor standard.",
+   "resolution": "Built-up staved columns are the historical American answer and are correct rather than a compromise; that is how almost every surviving Greek Revival portico is made. What does not work is stretching the column to suit a stock length, because the 5.5 ratio is the order.",
+   "severity": "material"
+  },
+  {
+   "with": "structural",
+   "statement": "The entablature at a third of the column height is a deep, heavy beam, and on a real portico it spans between columns with nothing above it to help.",
+   "resolution": "The historical answer is a shallow architrave stone spanning short intercolumniations - which is why Greek Doric intercolumniation is tight. A modern portico usually hangs a hollow entablature off a concealed steel beam, which is legitimate as long as the depth is not reduced to suit the steel: the depth IS the order.",
+   "severity": "minor"
+  }
+ ],
+ "applies_to": [
+  "greek-classical",
+  "greek-revival-american",
+  "greek-revival-northern",
+  "greek-revival-southern-plantation",
+  "regency"
+ ],
+ "confidence": "medium",
+ "notes": "AUTHORED FOR WP-4.6. WP-4.1 bound `greek-classical` to `benjamin-doric` and its own binding note called that 'the least-bad available approximation', listing exactly what was wrong with it: column height 7 diameters against this style's own stated 4-to-6.5 range, entasis beginning at the foot rather than the lower third its c04 specifies, annulets changed to 'Roman character', and mutules halved to one per triglyph. All four are Benjamin's own nineteenth-century wood-shop departures from the Greek, honestly labelled as such in that pack, and all four are corrected here against Stuart and Revett.\n\n`benjamin-doric` STAYS AND IS NOT DEPRECATED. It is the right pack for American Greek Revival work built from Benjamin's plates, which is most of it; this pack is the archaeological order those buildings were imitating. Both are true and they are not the same thing, which is why the bindings below put this one primary on `greek-classical` and leave Benjamin primary where a builder actually worked from him.\n\nWhat this pack does NOT have: the Greek Ionic and Corinthian, which are separate orders with separate measured sources and are a separate gap; the peripteral colonnade FACADE system WP-4.1 named (this pack dimensions the order, not the temple front's bay rhythm); and any figure for the stylobate's curvature or the columns' inward lean, which are real, measured, and belong to a temple rather than to a house."
+}

@@ -1,269 +1,276 @@
 {
-  "id": "mission-revival",
-  "name": "Mission Revival",
-  "aka": [
-    "Mission Style",
-    "California Mission Revival",
-    "Mission Revival Style"
+ "id": "mission-revival",
+ "name": "Mission Revival",
+ "aka": [
+  "Mission Style",
+  "California Mission Revival",
+  "Mission Revival Style"
+ ],
+ "rank": "style",
+ "member_of": "eclectic-revivals",
+ "status": "revival",
+ "period": {
+  "origin": 1887,
+  "floruit_start": 1893,
+  "floruit_end": 1920,
+  "decline_end": 1930,
+  "circa": true,
+  "revival_periods": []
+ },
+ "geography": {
+  "regions": [
+   "United States"
   ],
-  "rank": "style",
-  "member_of": "eclectic-revivals",
-  "status": "revival",
-  "period": {
-    "origin": 1887,
-    "floruit_start": 1893,
-    "floruit_end": 1920,
-    "decline_end": 1930,
-    "circa": true,
-    "revival_periods": []
-  },
-  "geography": {
-    "regions": [
-      "United States"
-    ],
-    "hearth": "California; disseminated nationally by the Santa Fe and Southern Pacific railroads",
-    "climate_zones": [
-      "3B",
-      "3C",
-      "2B",
-      "4B"
-    ]
-  },
-  "lineage": [
-    {
-      "target": "california-mission-colonial",
-      "type": "references",
-      "weight": 1.0,
-      "note": "The claimed ancestor. In 1890 the Franciscan missions were roofless ruins; the revival quotes a silhouette from photographs of buildings nobody had maintained for fifty years."
-    },
-    {
-      "target": "spanish-colonial-american",
-      "type": "references",
-      "weight": 0.6,
-      "note": "The broader colonial Hispanic reference invoked rhetorically, though Mission Revival takes very little from it beyond adobe massing."
-    },
-    {
-      "target": "richardsonian-romanesque",
-      "type": "descends_from",
-      "weight": 0.6,
-      "inherits_kit": true,
-      "note": "Real transmission. The arcade as a compositional element, the massive unornamented wall and the round arch reach California through Richardson's followers, including A. Page Brown's own office training at McKim, Mead & White."
-    },
-    {
-      "target": "beaux-arts-french",
-      "type": "descends_from",
-      "weight": 0.5,
-      "inherits_kit": true,
-      "note": "Professional training and the exposition-building apparatus that produced the California Building at Chicago in 1893."
-    },
-    {
-      "target": "shingle-style",
-      "type": "descends_from",
-      "weight": 0.4,
-      "inherits_kit": true,
-      "note": "The habit of a continuous unbroken skin over a simplified mass, transferred from shingle to stucco."
-    },
-    {
-      "target": "queen-anne-american",
-      "type": "reacts_against",
-      "weight": 0.8,
-      "note": "Explicitly a regionalist revolt against imported Eastern wooden eclecticism, argued as such in the Californian press of the 1890s."
-    },
-    {
-      "target": "california-mission-colonial",
-      "type": "revives",
-      "weight": 0.9,
-      "inherits_kit": false,
-      "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
-    }
-  ],
-  "description": {
-    "short": "California's first self-consciously regional style, built c. 1890-1920 from the silhouette of the ruined Franciscan missions: smooth stucco, a curvilinear shaped parapet, an arcaded porch, and almost no ornament at all.",
-    "long": "Mission Revival is defined by subtraction. Its necessary elements are a smooth unbroken stucco or plaster wall; a curvilinear or stepped shaped parapet, the espadana, rising above the roof line at the entrance or the gable end; a red clay tile roof of low pitch, often with wide overhanging eaves on exposed rafters; a porch or veranda carried on large square piers with round arches between them; and a near-total absence of applied ornament. Where the missions had a bell wall, the revival gives itself a bell wall; where the missions had a quatrefoil window, the revival puts one over the door. That is the entire vocabulary, and its poverty is deliberate - the style was an argument that California should stop importing Eastern spindlework.\n\nThe catalyst was A. Page Brown's California Building at the 1893 World's Columbian Exposition in Chicago, which assembled domed bell towers, scalloped parapets, tile roofs and stucco walls into a state pavilion that read instantly as Californian to a national audience of over twenty million. Within two years the vocabulary was official policy for two organisations that mattered enormously: the Santa Fe and Southern Pacific railroads, which built depots, hotels and Harvey Houses in it from Los Angeles to Kansas, and the California school and municipal building programmes. The railroads are the reason Mission Revival is found in Illinois and Texas, and they are also why it is remembered as a public style; the residential examples are numerous but modest.\n\nThe claim being made was regional identity, and it was made by people mostly uninterested in the actual Hispanic and Indigenous history of the buildings they were quoting. Charles Fletcher Lummis and the mission-restoration movement, the promotional campaigns built on Helen Hunt Jackson's 1884 novel Ramona, and the Southern California tourist economy together produced a sanitised Franciscan pastoral in which the missions were picturesque, benign and safely past. Mission Revival is the architectural form of that story. Understanding it as a marketing programme as much as a design movement explains its otherwise puzzling thinness: it needed to be recognisable at forty miles an hour from a train window, not to be inhabited thoughtfully.\n\nA good Mission Revival building is bright, plain, and slightly severe. The wall is one uninterrupted pale surface with no belt courses, no quoins, no cornice, and windows cut simply into it. The parapet curves up over the entrance like a gesture and then stops. Under the arcade the light is sharp and the shadows are black, and the piers are heavy enough that walking through them feels like passing through a wall rather than a colonnade. There is nothing to look at closely, which is the difference between this and everything that follows it. After 1915 that plainness stopped being read as authentic and started being read as crude, and the style was largely displaced within five years by the far richer Spanish Colonial Revival."
-  },
-  "defining_characteristics": [
-    "Smooth stucco or plaster wall surface, unbroken by belt course, quoin, or cornice",
-    "Curvilinear, scalloped, or stepped shaped parapet (espadana) rising above the roof line, usually over the entrance or at a gable end",
-    "Low-pitched red clay tile roof, frequently with wide overhanging eaves and exposed rafter tails",
-    "Arcaded porch or veranda on heavy square or rectangular piers with round arches between them",
-    "Minimal to absent applied ornament; where ornament occurs it is a single quatrefoil window, a small bell tower, or a tile-capped parapet coping",
-    "Simple, blocky, largely rectilinear massing with openings cut plainly into the wall"
-  ],
-  "diagnostic_tells": [
-    "The shaped parapet is the whole diagnosis. A curvilinear or stepped parapet on smooth stucco is Mission Revival and almost nothing else.",
-    "No ornament at the entrance. If there is a carved or cast surround around the front door, the building is Spanish Colonial Revival, not Mission Revival.",
-    "Wide overhanging eaves with exposed rafter tails - Spanish Colonial Revival usually has minimal overhang and closed eaves.",
-    "Composition is symmetrical or simply rectilinear; Spanish Colonial Revival breaks into asymmetrical masses at varied heights.",
-    "Compared with the actual missions: the revival has thin stucco over frame rather than 3-5 ft adobe, machine tile rather than hand-formed, glazed windows in quantity, and parapets whose curves are smoother and shallower than any Franciscan mason ever produced."
-  ],
-  "distinguished_from": [
-    {
-      "node": "spanish-colonial-revival",
-      "difference": "The single most frequently confused pair in American architecture. Mission Revival (c. 1890-1920) is earlier, plainer, symmetrical, defined by the curvilinear parapet and the arcade, with almost no ornament, and quotes only the California missions. Spanish Colonial Revival (c. 1915-1940) is later, asymmetrical, ornamented at the entrance with carved or cast Churrigueresque detail, uses wrought iron and decorative tile freely, and draws on the whole Spanish and Latin American repertoire. Mission Revival was largely displaced by it after the 1915 San Diego exposition."
-    },
-    {
-      "node": "california-mission-colonial",
-      "difference": "The original is adobe or rubble masonry 3-5 ft thick, built 1769-1834 by Indigenous labour under Franciscan direction, with hand-formed tile, tiny openings and no glazing. The revival is stucco over wood frame with normal fenestration; it takes the silhouette and nothing else."
-    },
-    {
-      "node": "pueblo-revival",
-      "difference": "Pueblo Revival has flat roofs, battered earth-coloured walls, projecting vigas and stepped massing, and takes New Mexican rather than Californian sources. Mission Revival has a pitched tile roof and a curvilinear parapet."
-    }
-  ],
-  "proportional_system": {
-    "governing_logic": "Silhouette and wall plane. There is no order and no module; proportion is set by the arcade bay and by the parapet profile, which is drawn as a freehand curve rather than constructed geometrically.",
-    "typical_ratios": [
-      "Arcade piers 18-30 in. wide with clear spans 6-9 ft, giving a pier-to-span ratio near 1:3.5",
-      "Shaped parapet rises 3-8 ft above the adjacent eave and spans 1/3 to the full width of the elevation it caps",
-      "Roof pitch 3:12 to 5:12; eave overhang 24-42 in. with rafter tails at 24-32 in. on centre",
-      "Wall openings 1:1.6 to 1:2.2, cut plainly with a 3-6 in. reveal and no applied casing",
-      "Solid to void ratio 5:1 or greater; the wall is meant to dominate"
-    ],
-    "bay_rhythm": "Even and repetitive under the arcade, arbitrary above it. The arcade sets a regular rhythm at the ground; upper openings are placed by convenience and rarely align, because the wall is conceived as a continuous mass.",
-    "symmetry": "near-symmetrical"
-  },
-  "massing_affinities": [
-    {
-      "massing": "four-over-four",
-      "affinity": "common",
-      "note": "The two-storey residential version - a simple double-pile block with a parapet over the entry and an arcaded porch."
-    },
-    {
-      "massing": "foursquare",
-      "affinity": "canonical",
-      "note": "The most common Mission Revival house form: a hipped stucco cube with a tile roof, an arcaded porch and a shaped parapet."
-    },
-    {
-      "massing": "courtyard-u",
-      "affinity": "common",
-      "note": "Institutional, hotel and school examples where an arcade wraps a patio."
-    },
-    {
-      "massing": "gallery-house",
-      "affinity": "possible",
-      "note": "Where a continuous arcaded gallery runs the length of the building, as at railway depots."
-    },
-    {
-      "massing": "courtyard-full",
-      "affinity": "possible",
-      "note": "Large hotel and civic examples; the mission quadrangle taken literally."
-    }
-  ],
-  "constraints": [
-    {
-      "kind": "co-occurrence",
-      "severity": "hard",
-      "statement": "At least one curvilinear, scalloped, or stepped parapet must rise a minimum of 3'0\" above the adjacent eave or roof line, capped with tile or a shaped coping. Without it the building is not Mission Revival.",
-      "id": "mission-revival.c01",
-      "scope": "elevation",
-      "test": {
-        "expression": "parapet_height_in",
-        "direction": "at-least",
-        "threshold": 36,
-        "units": "in",
-        "measurable_from": "elevation",
-        "note": "Parapet shape (curvilinear, scalloped, or stepped) and coping material are categorical/qualitative and stay prose."
-      }
-    },
-    {
-      "kind": "co-occurrence",
-      "severity": "hard",
-      "statement": "Applied ornament is limited to: parapet coping, one quatrefoil or circular window, tile vents, and a simple moulded string at the parapet base. Carved or cast entrance surrounds, twisted columns, and Churrigueresque relief are forbidden - they convert the building to spanish-colonial-revival.",
-      "id": "mission-revival.c02",
-      "scope": "judgment"
-    },
-    {
-      "kind": "proportional",
-      "severity": "hard",
-      "statement": "Arcade piers 18-30 in. wide with clear spans of 6'0\"-9'0\" and semicircular arches springing at not less than 7'0\" above the porch floor. Slender turned or classical columns are forbidden; the arcade must read as wall pierced, not as posts.",
-      "id": "mission-revival.c03",
-      "scope": "elevation",
-      "test": {
-        "expression": "pier_width_in",
-        "direction": "between",
-        "threshold": 18,
-        "upper": 30,
-        "units": "in",
-        "measurable_from": "elevation",
-        "note": "Clear span (6'0\"-9'0\", no matching vocabulary variable -- an arcade-clear-span variable distinct from room_clear_span_ft is missing) and springing height (>=7'0\") stay prose."
-      }
-    },
-    {
-      "kind": "structural",
-      "severity": "soft",
-      "statement": "Stucco must run in one continuous plane from grade to parapet with no belt course, quoin, water table, or cornice. Any horizontal articulation of the wall breaks the style.",
-      "id": "mission-revival.c04",
-      "scope": "judgment"
-    },
-    {
-      "kind": "co-occurrence",
-      "severity": "soft",
-      "statement": "Roof pitch 3:12 to 5:12 in clay tile, with eave overhang 24-42 in. on exposed rafter tails where the eave is expressed at all. Asphalt shingle is forbidden.",
-      "id": "mission-revival.c05",
-      "scope": "elevation",
-      "test": {
-        "expression": "roof_pitch_rise_per_12",
-        "direction": "between",
-        "threshold": 3,
-        "upper": 5,
-        "units": "rise_in_12",
-        "measurable_from": "elevation",
-        "note": "Eave overhang (24-42in, matching eave_projection_in but not tested here) and the asphalt-shingle prohibition stay prose -- one test per constraint."
-      }
-    }
-  ],
-  "exemplars": [
-    {
-      "name": "California Building, World's Columbian Exposition",
-      "location": "Chicago, Illinois",
-      "year": 1893,
-      "note": "A. Page Brown. The founding building of the style; domed bell towers, scalloped parapets, tile roofs, stucco walls. Temporary, demolished."
-    },
-    {
-      "name": "Mission Inn, Mission Wing",
-      "location": "Riverside, California",
-      "year": 1903,
-      "note": "Arthur Burnett Benton, 1902-03, with arcaded walls added 1908. The purest large Mission Revival composition before the hotel's later wings drift into other idioms."
-    },
-    {
-      "name": "Santa Fe Depot",
-      "location": "San Diego, California",
-      "year": 1915,
-      "note": "Bakewell & Brown. Built for the Panama-California Exposition year; the railroad case at full scale, twin domed towers and a long arcaded front."
-    },
-    {
-      "name": "Powers House",
-      "location": "1345 Alvarado Terrace, Los Angeles, California",
-      "year": 1904,
-      "note": "Arthur L. Haley. A documented residential example of the type, in the SurveyLA Mediterranean and Indigenous Revival context."
-    }
-  ],
-  "sources": [
-    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
-    "Karen J. Weitze, California's Mission Revival (1984)",
-    "David Gebhard and Robert Winter, An Architectural Guidebook to Los Angeles (rev. eds.)",
-    "City of Los Angeles, SurveyLA Citywide Historic Context Statement: Mediterranean and Indigenous Revival Architecture, 1893-1948"
-  ],
-  "confidence": "high",
-  "tags": [
-    "revival",
-    "regionalist",
-    "california",
-    "railroad",
-    "stucco"
-  ],
-  "proportion_packs": [
-    {
-      "pack": "trim-craftsman",
-      "role": "interior",
-      "note": "Anticipated in the pack's own applies_to list, which already names mission-revival directly. This style's floruit (1893-1920) fully overlaps the Craftsman movement's, the two shared clients, carpenters and mail-order catalogues on the West Coast, and this style's own governing_logic ('no order and no module') rules out any trim family derived from a classical entablature -- which is exactly what distinguishes trim-craftsman from trim-classical in the first place. Bind for interior door and window casing, base and picture-rail logic only. This style's exterior is explicitly 'stucco... unbroken by belt course, quoin, or cornice' (c04), so nothing in this pack's exterior-adjacent members should be read as licensing applied exterior trim of any kind.",
-      "precedence": 1
-    },
-    {
-      "pack": "room-vernacular",
-      "role": "room",
-      "note": "Not in the pack's own applies_to list, and bound here on general rather than documented grounds: the daylight-depth rule is stated by the pack itself as physics rather than period custom, and it governs the plain, minimally glazed rooms behind this style's arcaded porch (solid:void 5:1 or greater, 'the wall is meant to dominate') the same way it governs any single-loaded room. Bind narrowly for that rule; the hearth-count and frontage arithmetic do not describe a foursquare hipped stucco cube with an arcaded porch and no chimney-driven plan logic.",
-      "precedence": 2
-    }
+  "hearth": "California; disseminated nationally by the Santa Fe and Southern Pacific railroads",
+  "climate_zones": [
+   "3B",
+   "3C",
+   "2B",
+   "4B"
   ]
+ },
+ "lineage": [
+  {
+   "target": "california-mission-colonial",
+   "type": "references",
+   "weight": 1.0,
+   "note": "The claimed ancestor. In 1890 the Franciscan missions were roofless ruins; the revival quotes a silhouette from photographs of buildings nobody had maintained for fifty years."
+  },
+  {
+   "target": "spanish-colonial-american",
+   "type": "references",
+   "weight": 0.6,
+   "note": "The broader colonial Hispanic reference invoked rhetorically, though Mission Revival takes very little from it beyond adobe massing."
+  },
+  {
+   "target": "richardsonian-romanesque",
+   "type": "descends_from",
+   "weight": 0.6,
+   "inherits_kit": true,
+   "note": "Real transmission. The arcade as a compositional element, the massive unornamented wall and the round arch reach California through Richardson's followers, including A. Page Brown's own office training at McKim, Mead & White."
+  },
+  {
+   "target": "beaux-arts-french",
+   "type": "descends_from",
+   "weight": 0.5,
+   "inherits_kit": true,
+   "note": "Professional training and the exposition-building apparatus that produced the California Building at Chicago in 1893."
+  },
+  {
+   "target": "shingle-style",
+   "type": "descends_from",
+   "weight": 0.4,
+   "inherits_kit": true,
+   "note": "The habit of a continuous unbroken skin over a simplified mass, transferred from shingle to stucco."
+  },
+  {
+   "target": "queen-anne-american",
+   "type": "reacts_against",
+   "weight": 0.8,
+   "note": "Explicitly a regionalist revolt against imported Eastern wooden eclecticism, argued as such in the Californian press of the 1890s."
+  },
+  {
+   "target": "california-mission-colonial",
+   "type": "revives",
+   "weight": 0.9,
+   "inherits_kit": false,
+   "note": "Deliberate resurrection after a gap. Recorded separately from the reference edge so revival relationships are queryable across the graph."
+  }
+ ],
+ "description": {
+  "short": "California's first self-consciously regional style, built c. 1890-1920 from the silhouette of the ruined Franciscan missions: smooth stucco, a curvilinear shaped parapet, an arcaded porch, and almost no ornament at all.",
+  "long": "Mission Revival is defined by subtraction. Its necessary elements are a smooth unbroken stucco or plaster wall; a curvilinear or stepped shaped parapet, the espadana, rising above the roof line at the entrance or the gable end; a red clay tile roof of low pitch, often with wide overhanging eaves on exposed rafters; a porch or veranda carried on large square piers with round arches between them; and a near-total absence of applied ornament. Where the missions had a bell wall, the revival gives itself a bell wall; where the missions had a quatrefoil window, the revival puts one over the door. That is the entire vocabulary, and its poverty is deliberate - the style was an argument that California should stop importing Eastern spindlework.\n\nThe catalyst was A. Page Brown's California Building at the 1893 World's Columbian Exposition in Chicago, which assembled domed bell towers, scalloped parapets, tile roofs and stucco walls into a state pavilion that read instantly as Californian to a national audience of over twenty million. Within two years the vocabulary was official policy for two organisations that mattered enormously: the Santa Fe and Southern Pacific railroads, which built depots, hotels and Harvey Houses in it from Los Angeles to Kansas, and the California school and municipal building programmes. The railroads are the reason Mission Revival is found in Illinois and Texas, and they are also why it is remembered as a public style; the residential examples are numerous but modest.\n\nThe claim being made was regional identity, and it was made by people mostly uninterested in the actual Hispanic and Indigenous history of the buildings they were quoting. Charles Fletcher Lummis and the mission-restoration movement, the promotional campaigns built on Helen Hunt Jackson's 1884 novel Ramona, and the Southern California tourist economy together produced a sanitised Franciscan pastoral in which the missions were picturesque, benign and safely past. Mission Revival is the architectural form of that story. Understanding it as a marketing programme as much as a design movement explains its otherwise puzzling thinness: it needed to be recognisable at forty miles an hour from a train window, not to be inhabited thoughtfully.\n\nA good Mission Revival building is bright, plain, and slightly severe. The wall is one uninterrupted pale surface with no belt courses, no quoins, no cornice, and windows cut simply into it. The parapet curves up over the entrance like a gesture and then stops. Under the arcade the light is sharp and the shadows are black, and the piers are heavy enough that walking through them feels like passing through a wall rather than a colonnade. There is nothing to look at closely, which is the difference between this and everything that follows it. After 1915 that plainness stopped being read as authentic and started being read as crude, and the style was largely displaced within five years by the far richer Spanish Colonial Revival."
+ },
+ "defining_characteristics": [
+  "Smooth stucco or plaster wall surface, unbroken by belt course, quoin, or cornice",
+  "Curvilinear, scalloped, or stepped shaped parapet (espadana) rising above the roof line, usually over the entrance or at a gable end",
+  "Low-pitched red clay tile roof, frequently with wide overhanging eaves and exposed rafter tails",
+  "Arcaded porch or veranda on heavy square or rectangular piers with round arches between them",
+  "Minimal to absent applied ornament; where ornament occurs it is a single quatrefoil window, a small bell tower, or a tile-capped parapet coping",
+  "Simple, blocky, largely rectilinear massing with openings cut plainly into the wall"
+ ],
+ "diagnostic_tells": [
+  "The shaped parapet is the whole diagnosis. A curvilinear or stepped parapet on smooth stucco is Mission Revival and almost nothing else.",
+  "No ornament at the entrance. If there is a carved or cast surround around the front door, the building is Spanish Colonial Revival, not Mission Revival.",
+  "Wide overhanging eaves with exposed rafter tails - Spanish Colonial Revival usually has minimal overhang and closed eaves.",
+  "Composition is symmetrical or simply rectilinear; Spanish Colonial Revival breaks into asymmetrical masses at varied heights.",
+  "Compared with the actual missions: the revival has thin stucco over frame rather than 3-5 ft adobe, machine tile rather than hand-formed, glazed windows in quantity, and parapets whose curves are smoother and shallower than any Franciscan mason ever produced."
+ ],
+ "distinguished_from": [
+  {
+   "node": "spanish-colonial-revival",
+   "difference": "The single most frequently confused pair in American architecture. Mission Revival (c. 1890-1920) is earlier, plainer, symmetrical, defined by the curvilinear parapet and the arcade, with almost no ornament, and quotes only the California missions. Spanish Colonial Revival (c. 1915-1940) is later, asymmetrical, ornamented at the entrance with carved or cast Churrigueresque detail, uses wrought iron and decorative tile freely, and draws on the whole Spanish and Latin American repertoire. Mission Revival was largely displaced by it after the 1915 San Diego exposition."
+  },
+  {
+   "node": "california-mission-colonial",
+   "difference": "The original is adobe or rubble masonry 3-5 ft thick, built 1769-1834 by Indigenous labour under Franciscan direction, with hand-formed tile, tiny openings and no glazing. The revival is stucco over wood frame with normal fenestration; it takes the silhouette and nothing else."
+  },
+  {
+   "node": "pueblo-revival",
+   "difference": "Pueblo Revival has flat roofs, battered earth-coloured walls, projecting vigas and stepped massing, and takes New Mexican rather than Californian sources. Mission Revival has a pitched tile roof and a curvilinear parapet."
+  }
+ ],
+ "proportional_system": {
+  "governing_logic": "Silhouette and wall plane. There is no order and no module; proportion is set by the arcade bay and by the parapet profile, which is drawn as a freehand curve rather than constructed geometrically.",
+  "typical_ratios": [
+   "Arcade piers 18-30 in. wide with clear spans 6-9 ft, giving a pier-to-span ratio near 1:3.5",
+   "Shaped parapet rises 3-8 ft above the adjacent eave and spans 1/3 to the full width of the elevation it caps",
+   "Roof pitch 3:12 to 5:12; eave overhang 24-42 in. with rafter tails at 24-32 in. on centre",
+   "Wall openings 1:1.6 to 1:2.2, cut plainly with a 3-6 in. reveal and no applied casing",
+   "Solid to void ratio 5:1 or greater; the wall is meant to dominate"
+  ],
+  "bay_rhythm": "Even and repetitive under the arcade, arbitrary above it. The arcade sets a regular rhythm at the ground; upper openings are placed by convenience and rarely align, because the wall is conceived as a continuous mass.",
+  "symmetry": "near-symmetrical"
+ },
+ "massing_affinities": [
+  {
+   "massing": "four-over-four",
+   "affinity": "common",
+   "note": "The two-storey residential version - a simple double-pile block with a parapet over the entry and an arcaded porch."
+  },
+  {
+   "massing": "foursquare",
+   "affinity": "canonical",
+   "note": "The most common Mission Revival house form: a hipped stucco cube with a tile roof, an arcaded porch and a shaped parapet."
+  },
+  {
+   "massing": "courtyard-u",
+   "affinity": "common",
+   "note": "Institutional, hotel and school examples where an arcade wraps a patio."
+  },
+  {
+   "massing": "gallery-house",
+   "affinity": "possible",
+   "note": "Where a continuous arcaded gallery runs the length of the building, as at railway depots."
+  },
+  {
+   "massing": "courtyard-full",
+   "affinity": "possible",
+   "note": "Large hotel and civic examples; the mission quadrangle taken literally."
+  }
+ ],
+ "constraints": [
+  {
+   "kind": "co-occurrence",
+   "severity": "hard",
+   "statement": "At least one curvilinear, scalloped, or stepped parapet must rise a minimum of 3'0\" above the adjacent eave or roof line, capped with tile or a shaped coping. Without it the building is not Mission Revival.",
+   "id": "mission-revival.c01",
+   "scope": "elevation",
+   "test": {
+    "expression": "parapet_height_in",
+    "direction": "at-least",
+    "threshold": 36,
+    "units": "in",
+    "measurable_from": "elevation",
+    "note": "Parapet shape (curvilinear, scalloped, or stepped) and coping material are categorical/qualitative and stay prose."
+   }
+  },
+  {
+   "kind": "co-occurrence",
+   "severity": "hard",
+   "statement": "Applied ornament is limited to: parapet coping, one quatrefoil or circular window, tile vents, and a simple moulded string at the parapet base. Carved or cast entrance surrounds, twisted columns, and Churrigueresque relief are forbidden - they convert the building to spanish-colonial-revival.",
+   "id": "mission-revival.c02",
+   "scope": "judgment"
+  },
+  {
+   "kind": "proportional",
+   "severity": "hard",
+   "statement": "Arcade piers 18-30 in. wide with clear spans of 6'0\"-9'0\" and semicircular arches springing at not less than 7'0\" above the porch floor. Slender turned or classical columns are forbidden; the arcade must read as wall pierced, not as posts.",
+   "id": "mission-revival.c03",
+   "scope": "elevation",
+   "test": {
+    "expression": "pier_width_in",
+    "direction": "between",
+    "threshold": 18,
+    "upper": 30,
+    "units": "in",
+    "measurable_from": "elevation",
+    "note": "Clear span (6'0\"-9'0\", no matching vocabulary variable -- an arcade-clear-span variable distinct from room_clear_span_ft is missing) and springing height (>=7'0\") stay prose."
+   }
+  },
+  {
+   "kind": "structural",
+   "severity": "soft",
+   "statement": "Stucco must run in one continuous plane from grade to parapet with no belt course, quoin, water table, or cornice. Any horizontal articulation of the wall breaks the style.",
+   "id": "mission-revival.c04",
+   "scope": "judgment"
+  },
+  {
+   "kind": "co-occurrence",
+   "severity": "soft",
+   "statement": "Roof pitch 3:12 to 5:12 in clay tile, with eave overhang 24-42 in. on exposed rafter tails where the eave is expressed at all. Asphalt shingle is forbidden.",
+   "id": "mission-revival.c05",
+   "scope": "elevation",
+   "test": {
+    "expression": "roof_pitch_rise_per_12",
+    "direction": "between",
+    "threshold": 3,
+    "upper": 5,
+    "units": "rise_in_12",
+    "measurable_from": "elevation",
+    "note": "Eave overhang (24-42in, matching eave_projection_in but not tested here) and the asphalt-shingle prohibition stay prose -- one test per constraint."
+   }
+  }
+ ],
+ "exemplars": [
+  {
+   "name": "California Building, World's Columbian Exposition",
+   "location": "Chicago, Illinois",
+   "year": 1893,
+   "note": "A. Page Brown. The founding building of the style; domed bell towers, scalloped parapets, tile roofs, stucco walls. Temporary, demolished."
+  },
+  {
+   "name": "Mission Inn, Mission Wing",
+   "location": "Riverside, California",
+   "year": 1903,
+   "note": "Arthur Burnett Benton, 1902-03, with arcaded walls added 1908. The purest large Mission Revival composition before the hotel's later wings drift into other idioms."
+  },
+  {
+   "name": "Santa Fe Depot",
+   "location": "San Diego, California",
+   "year": 1915,
+   "note": "Bakewell & Brown. Built for the Panama-California Exposition year; the railroad case at full scale, twin domed towers and a long arcaded front."
+  },
+  {
+   "name": "Powers House",
+   "location": "1345 Alvarado Terrace, Los Angeles, California",
+   "year": 1904,
+   "note": "Arthur L. Haley. A documented residential example of the type, in the SurveyLA Mediterranean and Indigenous Revival context."
+  }
+ ],
+ "sources": [
+  "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+  "Karen J. Weitze, California's Mission Revival (1984)",
+  "David Gebhard and Robert Winter, An Architectural Guidebook to Los Angeles (rev. eds.)",
+  "City of Los Angeles, SurveyLA Citywide Historic Context Statement: Mediterranean and Indigenous Revival Architecture, 1893-1948"
+ ],
+ "confidence": "high",
+ "tags": [
+  "revival",
+  "regionalist",
+  "california",
+  "railroad",
+  "stucco"
+ ],
+ "proportion_packs": [
+  {
+   "pack": "trim-craftsman",
+   "role": "interior",
+   "note": "Anticipated in the pack's own applies_to list, which already names mission-revival directly. This style's floruit (1893-1920) fully overlaps the Craftsman movement's, the two shared clients, carpenters and mail-order catalogues on the West Coast, and this style's own governing_logic ('no order and no module') rules out any trim family derived from a classical entablature -- which is exactly what distinguishes trim-craftsman from trim-classical in the first place. Bind for interior door and window casing, base and picture-rail logic only. This style's exterior is explicitly 'stucco... unbroken by belt course, quoin, or cornice' (c04), so nothing in this pack's exterior-adjacent members should be read as licensing applied exterior trim of any kind.",
+   "precedence": 1
+  },
+  {
+   "pack": "room-vernacular",
+   "role": "room",
+   "note": "Not in the pack's own applies_to list, and bound here on general rather than documented grounds: the daylight-depth rule is stated by the pack itself as physics rather than period custom, and it governs the plain, minimally glazed rooms behind this style's arcaded porch (solid:void 5:1 or greater, 'the wall is meant to dominate') the same way it governs any single-loaded room. Bind narrowly for that rule; the hearth-count and frontage arithmetic do not describe a foursquare hipped stucco cube with an arcaded porch and no chimney-driven plan logic.",
+   "precedence": 2
+  },
+  {
+   "pack": "moorish-arch",
+   "role": "optional",
+   "precedence": 4,
+   "authority": "moorish-arch",
+   "note": "Optional and low precedence. The Mission Revival's arcade is round-arched on piers far more often than horseshoe, so this pack is available for the buildings that reach for the Moorish and is not asserted over the ones that do not. An optional binding is the honest shape for a vocabulary a style sometimes uses."
+  }
+ ]
 }

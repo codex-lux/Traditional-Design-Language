@@ -1,6 +1,6 @@
 """Pins the proportion engine's selftest and cross-checker results — see
-docs/proportion.md. `selftest` must keep resolving and dimensioning all 36
-packs with zero problems; the individual checkers (orders, modules, systems)
+docs/proportion.md. `selftest` must keep resolving and dimensioning every
+pack with zero problems; the individual checkers (orders, modules, systems)
 must stay green. These are invoked as subprocesses because that's the
 documented, supported entry point (`build/proportion_engine.py selftest`) and
 the checkers are argv-driven scripts, not library functions.
@@ -24,10 +24,17 @@ def _run(*args):
 
 
 class TestProportionEngineSelftest:
-    def test_selftest_resolves_all_36_packs_with_zero_problems(self):
+    def test_selftest_resolves_every_pack_with_zero_problems(self):
+        """The count is read off the library rather than hard-coded: it was 36 and is 38 after
+        WP-4.6 added greek-doric and moorish-arch, and a test that has to be edited every time a
+        pack lands teaches the next author to edit tests rather than to read them. What is pinned
+        is the invariant -- every pack resolves, none has a problem."""
+        import glob
+        n = len(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")))
+        assert n >= 38, n
         proc = _run("proportion_engine.py", "selftest")
         assert proc.returncode == 0, proc.stdout + proc.stderr
-        assert "36 packs resolved and dimensioned, 0 problem(s)" in proc.stdout
+        assert "%d packs resolved and dimensioned, 0 problem(s)" % n in proc.stdout
 
 
 class TestCheckers:

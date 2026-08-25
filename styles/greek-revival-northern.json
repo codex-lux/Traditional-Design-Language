@@ -1,277 +1,284 @@
 {
-  "id": "greek-revival-northern",
-  "name": "Northern Greek Revival",
-  "aka": [
-    "Yankee Greek Revival",
-    "Western Reserve Greek Revival",
-    "Erie Canal Greek Revival"
-  ],
-  "rank": "variant",
-  "member_of": "greek-revival-american",
-  "status": "historical",
-  "period": {
-    "origin": 1825,
-    "floruit_start": 1830,
-    "floruit_end": 1860,
-    "decline_end": 1875,
-    "circa": true,
-    "revival_periods": [
-      {
-        "start": 1900,
-        "end": 1950,
-        "revival_node": "colonial-revival",
-        "note": "The gable-front-with-returns and the pilastered doorway are absorbed into the generic 'Colonial' kit and detached from their proportional rules."
-      }
-    ]
-  },
-  "geography": {
-    "regions": [
-      "New England",
-      "Upstate New York",
-      "Western Reserve",
-      "Great Lakes",
-      "Upper Midwest",
-      "Mid-Atlantic"
-    ],
-    "hearth": "the Erie Canal corridor, upstate New York",
-    "climate_zones": [
-      "5A",
-      "6A",
-      "4A"
-    ]
-  },
-  "lineage": [
-    {
-      "target": "greek-revival-american",
-      "type": "regional_of",
-      "weight": 1,
-      "inherits_kit": true
-    },
-    {
-      "target": "new-england-federal",
-      "type": "descends_from",
-      "weight": 0.6,
-      "inherits_kit": true,
-      "note": "The same white-painted clapboard carpentry culture, retooled. Asher Benjamin's audience did not change between 1806 and 1830; only his plates did."
-    }
-  ],
-  "description": {
-    "short": "The Greek Revival as a settlement architecture: white clapboard temple fronts and gable-front cottages built by New England carpenters along the Erie Canal and across the Western Reserve, at a density that makes it the default historic house of the northern countryside.",
-    "long": "Northern Greek Revival is the largest single deposit of any one style in American domestic building, and it is almost entirely wooden. Its ingredients are simple: a rectangular block turned so its gable faces the road, corner pilasters carrying a deep entablature, a frieze board a foot or more tall with small windows cut into it, cornice returns clipped across the gable base to imply a pediment, and a doorway of rectangular transom and sidelights inside a heavy pilastered surround. On the better houses the pediment becomes real and a portico of two, four or six columns stands in front of it, with a lower wing or two set back at the sides. On the ordinary ones the whole classical apparatus reduces to trim boards and a doorway, and it still reads as Greek Revival at three hundred yards because the proportions are right: the roof is low, the eave is heavy, the trim is broad and flat.\n\nThe conditions were migration, water transport and cheap sawn pine, arriving together in one decade. The Erie Canal opened in 1825; between then and 1850 the Yankee population moved west along it in enormous numbers into upstate New York, the Western Reserve of Ohio, and then Michigan, northern Indiana and Illinois. They arrived in a landscape with no building traditions they were obliged to respect, carrying a New England carpentry culture and, very often, a copy of Asher Benjamin or Minard Lafever in the tool chest. The water-powered sash and blind mills of the Mohawk and Genesee valleys supplied millwork by canal boat; machine-cut nails and, after the 1830s, balloon framing made a broad flat-trimmed wooden building fast to raise with a small crew. The result is astonishing uniformity across a thousand miles: a farmhouse in Ann Arbor and one near Rochester will share a frieze detail because they share a handbook and a millwork supplier. This is the first time in American history that a style spreads by infrastructure rather than by apprenticeship, and it is the direct ancestor of the mail-order house sixty years later.\n\nWhat it reacted against was the Federal that its own carpenters had been building. Federal had thinned everything; the Greek generation wanted mass, and in a wooden building mass has to be faked by width of board. The corner pilaster is a twelve-inch plank. The entablature is three boards. The column, where there is one, is built up of staves like a barrel and hollow inside. The whole enterprise is a carpenter's illusion of stone, painted white lead to complete the deception - and the North took the deception further than the South, because in a climate that demands tight walls, small windows and a heated compact plan, the classical body could only ever be a costume over a very practical box.\n\nStanding in front of one on a January afternoon the pleasure is in how the snow explains it. The low roof holds a foot of it and the deep entablature throws a hard blue shadow along the whole flank; the white walls disappear into the field behind and only the shadow line survives, which is why the style photographs so well in winter. Up close the illusion falls apart pleasantly - the flutes on the columns are gouged into pine, the capital is a stack of boards, the marble is paint. Inside, the rooms are taller and plainer than their Federal predecessors, with heavy symmetrical door architraves and corner blocks, deep plain baseboards, and a black-painted or actual marble mantel of two square piers and a slab. The house is colder than the colonial ones it replaced and everybody knew it, which is why so many of them acquired a stove, a wing, and eventually a furnace."
-  },
-  "defining_characteristics": [
-    "Gable turned to the road, with the gable end treated as a pediment by cornice returns or by a full portico",
-    "Corner pilasters carrying a continuous deep entablature (frieze board plus cornice) around the building",
-    "Frieze-band attic windows where the upper half-storey is habitable",
-    "Rectangular-transom entrance with sidelights inside a broad pilastered surround, normally in the end bay (side-hall plan)",
-    "Painted white clapboard over braced or balloon frame as the dominant construction, brick in the towns",
-    "Low roof pitch (4:12 to 6:12) with no dormers on the principal slope",
-    "Subordinate wing or wings set back from the temple block's front plane, holding kitchen and chambers"
-  ],
-  "diagnostic_tells": [
-    "Clipped cornice returns on a gable-front white clapboard house - the cheapest possible pediment and the most common Greek Revival gesture in North America",
-    "Frieze-band windows under the eave in place of dormers",
-    "Side-hall doorway pushed to the end bay of a gable front, its asymmetry accepted because the pediment supplies the symmetry",
-    "Corner pilaster boards 10-14 inches wide where a Federal house of the same size had a 4-inch corner board",
-    "Wing ridge set below the main ridge and its front plane recessed behind the temple block, producing the classic 'upright and wing' silhouette"
-  ],
-  "distinguished_from": [
-    {
-      "node": "greek-revival-southern-plantation",
-      "difference": "The North builds a temple front, a compact heated plan and small windows; the South builds a peripteral or full-width colonnade shading a single-pile plan with 12-foot ceilings and floor-length openings. The Northern portico is a facade; the Southern colonnade is a climate device."
-    },
-    {
-      "node": "new-england-federal",
-      "difference": "Same carpenters, same clapboard, same paint. Federal thins - 7/8-inch muntins, 4-inch cornice, elliptical fanlight. Northern Greek Revival thickens - 12-inch pilasters, 15-inch frieze, rectangular transom. The transom shape alone settles most cases."
-    },
-    {
-      "node": "colonial-revival",
-      "difference": "The revival's two-storey entry portico is one storey short of the block or is applied to a facade whose eave is thin; its columns are round mill-turned shafts with Roman bases, and its sash is 6/1 or 8/1. Greek Revival columns are built-up staves without bases under a Doric order."
-    }
-  ],
-  "proportional_system": {
-    "governing_logic": "Greek orders from Benjamin's and Lafever's plates, executed in dimensional pine so that the order's proportions survive but its material logic does not; where no order is used, the same proportions are carried by trim board widths.",
-    "typical_ratios": [
-      "Gable pitch 4:12 to 6:12; pediment height 1/4.5 to 1/5.5 of span",
-      "Entablature depth 1/4 to 1/5 of column height where columns exist; 18-30 inches total on a two-storey house without them",
-      "Frieze board 10-20 inches; corner pilaster 10-14 inches wide with a projection of 1-1.5 inches",
-      "Doric columns 6-7 diameters, Ionic 8.5-9.5",
-      "Wing ridge 3-6 feet below main ridge; wing front plane set back 2-6 feet",
-      "Clapboard exposure 4-5 inches"
-    ],
-    "bay_rhythm": "Two or three bays to the gable front with the door in an end bay; three to five bays along the flank at even spacing. The portico, where present, is tetrastyle or hexastyle at 2.25-2.75 diameters intercolumniation and sets the bay module for the wall behind it.",
-    "symmetry": "strict-bilateral"
-  },
-  "massing_affinities": [
-    {
-      "massing": "gable-front",
-      "affinity": "canonical",
-      "note": "The style's demographic bulk: rotate the house, get a pediment for nothing."
-    },
-    {
-      "massing": "gable-front-and-wing",
-      "affinity": "canonical",
-      "note": "The upright-and-wing, arguably the most-built American house form of the nineteenth century, is Greek Revival in origin before it becomes style-neutral."
-    },
-    {
-      "massing": "temple-front-with-wings",
-      "affinity": "common",
-      "note": "The full-dress version for the prosperous farm or the village lawyer."
-    },
-    {
-      "massing": "side-hall-double-pile",
-      "affinity": "common"
-    },
-    {
-      "massing": "townhouse-row",
-      "affinity": "common",
-      "note": "New York, Brooklyn Heights and Philadelphia rows of the 1830s-40s with heavy Grecian door enframements."
-    }
-  ],
-  "constraints": [
-    {
-      "kind": "proportional",
-      "statement": "Portico column height must equal the full facade height of the block, and the entablature it carries must be 1/4 to 1/5 of column height. On a house without columns, the corner pilaster and entablature must still run continuously: total eave assembly depth of at least 18 inches on a two-storey house.",
-      "severity": "hard",
-      "id": "greek-revival-northern.c01",
-      "scope": "elevation",
-      "test": {
-        "expression": "entablature_depth_ratio",
-        "direction": "between",
-        "threshold": 0.2,
-        "upper": 0.25,
-        "units": "ratio",
-        "measurable_from": "elevation",
-        "note": "1/4 to 1/5 of column height. The column-height-equals-facade-height clause and the columnless corner-pilaster alternative stay prose."
-      }
-    },
-    {
-      "kind": "co-occurrence",
-      "statement": "Frieze-band attic windows and roof dormers must never occur on the same elevation. Where a half-storey is habitable it is lit through the frieze, at a height no greater than one third of the frieze depth.",
-      "severity": "hard",
-      "id": "greek-revival-northern.c02",
-      "scope": "judgment"
-    },
-    {
-      "kind": "proportional",
-      "statement": "Wing ridge must sit 3-6 feet below the main ridge and the wing's front plane must be recessed at least 2 feet behind the temple block. A wing flush with the temple front destroys the hierarchy and produces a two-fronted house with no entry logic.",
-      "severity": "hard",
-      "id": "greek-revival-northern.c03",
-      "scope": "judgment"
-    },
-    {
-      "kind": "climatic",
-      "statement": "Roof pitch 4:12 to 6:12. In IECC zones 5A-6A this is the practical floor for snow shedding on a wood-shingled or standing-seam roof; below 4:12 the pediment reads correctly and the roof does not work.",
-      "severity": "soft",
-      "id": "greek-revival-northern.c04",
-      "scope": "elevation",
-      "test": {
-        "expression": "roof_pitch_rise_per_12",
-        "direction": "between",
-        "threshold": 4,
-        "upper": 6,
-        "units": "rise_in_12",
-        "measurable_from": "elevation"
-      }
-    },
-    {
-      "kind": "structural",
-      "statement": "Where columns are built up of staves, shaft entasis must be carried through the joint and the column must be ventilated at cap and base; flutes are gouged not applied. Solid round mill-turned shafts with Roman bases are out of period.",
-      "severity": "advisory",
-      "id": "greek-revival-northern.c05",
-      "scope": "judgment"
-    }
-  ],
-  "exemplars": [
-    {
-      "name": "Rose Hill Mansion",
-      "location": "Geneva (town of Fayette), Seneca County, New York",
-      "year": 1837,
-      "note": "Hexastyle Ionic portico with a fully pedimented gable and Ionic colonnades on single-storey flanking wings; builders working from Lafever's plates. National Historic Landmark."
-    },
-    {
-      "name": "Merchant's House Museum (Seabury Tredwell House)",
-      "location": "29 East Fourth Street, Manhattan, New York",
-      "year": 1832,
-      "note": "Built 1831-32 by Joseph Brewster. Late-Federal brick street front over a thoroughly Greek Revival interior - double parlours with 14-foot ceilings, Ionic columns and Lafever-derived joinery. The only nineteenth-century Manhattan house with both exterior and interior intact."
-    },
-    {
-      "name": "Andalusia",
-      "location": "Bensalem Township, Bucks County, Pennsylvania",
-      "year": 1834,
-      "note": "Thomas Ustick Walter's Doric temple front on the river elevation; the professional high-style pole of the Northern variant, against which the carpenter version should be measured."
-    },
-    {
-      "name": "Seeley Farmhouse",
-      "location": "2 Freeman's Bridge Road, Glenville, Schenectady County, New York",
-      "year": 1850,
-      "note": "A two-storey pedimented centre pavilion with one-and-a-half-storey flanking wings - the farm-scale, carpenter-built end of the variant, listed on the National Register in 1978."
-    }
-  ],
-  "sources": [
-    "Talbot Hamlin, Greek Revival Architecture in America (1944)",
-    "Asher Benjamin, The Architect, or Practical House Carpenter (1830)",
-    "Minard Lafever, The Modern Builder's Guide (1833)",
-    "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
-    "Roger G. Kennedy, Greek Revival America (1989)"
-  ],
-  "confidence": "high",
-  "tags": [
-    "early-republic",
-    "regional",
-    "northern",
-    "settlement-architecture",
-    "carpenter-classical"
-  ],
-  "proportion_packs": [
-    {
-      "pack": "benjamin-doric",
-      "role": "primary",
-      "authority": "benjamin-doric",
-      "note": "Same choice and same reasoning as the parent style: Benjamin's Practical House Carpenter (1830) Grecian Doric, encoded standalone because Benjamin's own preface names the Doric as the one order where Greek and Roman practice cannot be reconciled by delta. Andalusia -- Thomas Ustick Walter's Doric temple front, this variant's own exemplar -- is the professional high-style pole against which the carpenter-built version is explicitly measured in the style's own exemplar note.",
-      "precedence": 1
-    },
-    {
-      "pack": "vignola-ionic",
-      "role": "secondary",
-      "note": "Bound for the same reason as on the parent style -- no dedicated Greek Ionic pack exists in this corpus, so plain Vignola (9 diameters, inside the style's stated 8.5-9.5 Greek Ionic range) stands in honestly rather than inventing a Grecian citation. Directly supported by this variant's own named exemplar: Rose Hill Mansion's hexastyle Ionic portico, 'builders working directly from Lafever's plates.'",
-      "precedence": 2
-    },
-    {
-      "pack": "trim-classical",
-      "role": "interior",
-      "note": "The wall_section_greek_revival / casing_greek_revival family, run in dimensional pine rather than the plaster or masonry the numbers were worked out against -- consistent with this variant's own governing_logic, which states the order's proportions 'survive but its material logic does not' when executed in built-up staved columns.",
-      "precedence": 3
-    },
-    {
-      "pack": "opening-proportion",
-      "role": "opening",
-      "note": "Governs the rectangular-transom entrance in its pilastered surround (constraint c02, the frieze/dormer exclusion) -- ranked ahead of sash-light for the same reason as the parent style: the diagnostic weight sits on transom shape and frieze windows, not muntin count.",
-      "precedence": 4
-    },
-    {
-      "pack": "sash-light",
-      "role": "opening",
-      "note": "The window-glazing module, demoted below opening-proportion for the same reason it is on the parent style -- this variant's diagnostic_tells list clipped cornice returns, frieze-band windows and pilaster board widths, never sash pattern.",
-      "precedence": 5
-    },
-    {
-      "pack": "facade-classical",
-      "role": "facade",
-      "note": "Governs the temple-front and gable-front composition and the portico's bay-setting intercolumniation (2.25-2.75 diameters). Where columns are absent, the pack's composed-elevation logic still applies to the continuous corner-pilaster-and-entablature assembly the style requires to run unbroken around the building (constraint c01's columnless alternative: total eave assembly at least 18 in on a two-storey house).",
-      "precedence": 6
-    },
-    {
-      "pack": "storey-graduation",
-      "role": "massing",
-      "note": "Bound chiefly for the ceiling-height figure and the frieze-window habitable-attic case, as on the parent style; ordinary window-height diminution between floors is not this variant's mechanism. The pack does not model the wing-versus-main-block ridge offset this variant's own constraint (c03: wing ridge 3-6 ft below the main ridge, front plane recessed at least 2 ft) requires for the upright-and-wing silhouette -- that hierarchy is a massing/plan relationship, not a storey relationship, and no pack among the 36 covers it. A genuine, acknowledged gap.",
-      "precedence": 7
-    },
-    {
-      "pack": "room-harmonic",
-      "role": "room",
-      "note": "Not listed in this pack's own applies_to cross-reference (which names greek-revival-american and greek-revival-southern-plantation but not this variant), and bound here anyway on architectural grounds stated plainly: this variant's interiors are pattern-book carpenter work off Lafever's and Benjamin's plates -- 'heavy symmetrical door architraves and corner blocks' -- not the accumulated, undesigned rooms room-vernacular covers, which is reserved here for greek-revival-upland-vernacular where the plan genuinely predates the style.",
-      "precedence": 8
-    }
+ "id": "greek-revival-northern",
+ "name": "Northern Greek Revival",
+ "aka": [
+  "Yankee Greek Revival",
+  "Western Reserve Greek Revival",
+  "Erie Canal Greek Revival"
+ ],
+ "rank": "variant",
+ "member_of": "greek-revival-american",
+ "status": "historical",
+ "period": {
+  "origin": 1825,
+  "floruit_start": 1830,
+  "floruit_end": 1860,
+  "decline_end": 1875,
+  "circa": true,
+  "revival_periods": [
+   {
+    "start": 1900,
+    "end": 1950,
+    "revival_node": "colonial-revival",
+    "note": "The gable-front-with-returns and the pilastered doorway are absorbed into the generic 'Colonial' kit and detached from their proportional rules."
+   }
   ]
+ },
+ "geography": {
+  "regions": [
+   "New England",
+   "Upstate New York",
+   "Western Reserve",
+   "Great Lakes",
+   "Upper Midwest",
+   "Mid-Atlantic"
+  ],
+  "hearth": "the Erie Canal corridor, upstate New York",
+  "climate_zones": [
+   "5A",
+   "6A",
+   "4A"
+  ]
+ },
+ "lineage": [
+  {
+   "target": "greek-revival-american",
+   "type": "regional_of",
+   "weight": 1,
+   "inherits_kit": true
+  },
+  {
+   "target": "new-england-federal",
+   "type": "descends_from",
+   "weight": 0.6,
+   "inherits_kit": true,
+   "note": "The same white-painted clapboard carpentry culture, retooled. Asher Benjamin's audience did not change between 1806 and 1830; only his plates did."
+  }
+ ],
+ "description": {
+  "short": "The Greek Revival as a settlement architecture: white clapboard temple fronts and gable-front cottages built by New England carpenters along the Erie Canal and across the Western Reserve, at a density that makes it the default historic house of the northern countryside.",
+  "long": "Northern Greek Revival is the largest single deposit of any one style in American domestic building, and it is almost entirely wooden. Its ingredients are simple: a rectangular block turned so its gable faces the road, corner pilasters carrying a deep entablature, a frieze board a foot or more tall with small windows cut into it, cornice returns clipped across the gable base to imply a pediment, and a doorway of rectangular transom and sidelights inside a heavy pilastered surround. On the better houses the pediment becomes real and a portico of two, four or six columns stands in front of it, with a lower wing or two set back at the sides. On the ordinary ones the whole classical apparatus reduces to trim boards and a doorway, and it still reads as Greek Revival at three hundred yards because the proportions are right: the roof is low, the eave is heavy, the trim is broad and flat.\n\nThe conditions were migration, water transport and cheap sawn pine, arriving together in one decade. The Erie Canal opened in 1825; between then and 1850 the Yankee population moved west along it in enormous numbers into upstate New York, the Western Reserve of Ohio, and then Michigan, northern Indiana and Illinois. They arrived in a landscape with no building traditions they were obliged to respect, carrying a New England carpentry culture and, very often, a copy of Asher Benjamin or Minard Lafever in the tool chest. The water-powered sash and blind mills of the Mohawk and Genesee valleys supplied millwork by canal boat; machine-cut nails and, after the 1830s, balloon framing made a broad flat-trimmed wooden building fast to raise with a small crew. The result is astonishing uniformity across a thousand miles: a farmhouse in Ann Arbor and one near Rochester will share a frieze detail because they share a handbook and a millwork supplier. This is the first time in American history that a style spreads by infrastructure rather than by apprenticeship, and it is the direct ancestor of the mail-order house sixty years later.\n\nWhat it reacted against was the Federal that its own carpenters had been building. Federal had thinned everything; the Greek generation wanted mass, and in a wooden building mass has to be faked by width of board. The corner pilaster is a twelve-inch plank. The entablature is three boards. The column, where there is one, is built up of staves like a barrel and hollow inside. The whole enterprise is a carpenter's illusion of stone, painted white lead to complete the deception - and the North took the deception further than the South, because in a climate that demands tight walls, small windows and a heated compact plan, the classical body could only ever be a costume over a very practical box.\n\nStanding in front of one on a January afternoon the pleasure is in how the snow explains it. The low roof holds a foot of it and the deep entablature throws a hard blue shadow along the whole flank; the white walls disappear into the field behind and only the shadow line survives, which is why the style photographs so well in winter. Up close the illusion falls apart pleasantly - the flutes on the columns are gouged into pine, the capital is a stack of boards, the marble is paint. Inside, the rooms are taller and plainer than their Federal predecessors, with heavy symmetrical door architraves and corner blocks, deep plain baseboards, and a black-painted or actual marble mantel of two square piers and a slab. The house is colder than the colonial ones it replaced and everybody knew it, which is why so many of them acquired a stove, a wing, and eventually a furnace."
+ },
+ "defining_characteristics": [
+  "Gable turned to the road, with the gable end treated as a pediment by cornice returns or by a full portico",
+  "Corner pilasters carrying a continuous deep entablature (frieze board plus cornice) around the building",
+  "Frieze-band attic windows where the upper half-storey is habitable",
+  "Rectangular-transom entrance with sidelights inside a broad pilastered surround, normally in the end bay (side-hall plan)",
+  "Painted white clapboard over braced or balloon frame as the dominant construction, brick in the towns",
+  "Low roof pitch (4:12 to 6:12) with no dormers on the principal slope",
+  "Subordinate wing or wings set back from the temple block's front plane, holding kitchen and chambers"
+ ],
+ "diagnostic_tells": [
+  "Clipped cornice returns on a gable-front white clapboard house - the cheapest possible pediment and the most common Greek Revival gesture in North America",
+  "Frieze-band windows under the eave in place of dormers",
+  "Side-hall doorway pushed to the end bay of a gable front, its asymmetry accepted because the pediment supplies the symmetry",
+  "Corner pilaster boards 10-14 inches wide where a Federal house of the same size had a 4-inch corner board",
+  "Wing ridge set below the main ridge and its front plane recessed behind the temple block, producing the classic 'upright and wing' silhouette"
+ ],
+ "distinguished_from": [
+  {
+   "node": "greek-revival-southern-plantation",
+   "difference": "The North builds a temple front, a compact heated plan and small windows; the South builds a peripteral or full-width colonnade shading a single-pile plan with 12-foot ceilings and floor-length openings. The Northern portico is a facade; the Southern colonnade is a climate device."
+  },
+  {
+   "node": "new-england-federal",
+   "difference": "Same carpenters, same clapboard, same paint. Federal thins - 7/8-inch muntins, 4-inch cornice, elliptical fanlight. Northern Greek Revival thickens - 12-inch pilasters, 15-inch frieze, rectangular transom. The transom shape alone settles most cases."
+  },
+  {
+   "node": "colonial-revival",
+   "difference": "The revival's two-storey entry portico is one storey short of the block or is applied to a facade whose eave is thin; its columns are round mill-turned shafts with Roman bases, and its sash is 6/1 or 8/1. Greek Revival columns are built-up staves without bases under a Doric order."
+  }
+ ],
+ "proportional_system": {
+  "governing_logic": "Greek orders from Benjamin's and Lafever's plates, executed in dimensional pine so that the order's proportions survive but its material logic does not; where no order is used, the same proportions are carried by trim board widths.",
+  "typical_ratios": [
+   "Gable pitch 4:12 to 6:12; pediment height 1/4.5 to 1/5.5 of span",
+   "Entablature depth 1/4 to 1/5 of column height where columns exist; 18-30 inches total on a two-storey house without them",
+   "Frieze board 10-20 inches; corner pilaster 10-14 inches wide with a projection of 1-1.5 inches",
+   "Doric columns 6-7 diameters, Ionic 8.5-9.5",
+   "Wing ridge 3-6 feet below main ridge; wing front plane set back 2-6 feet",
+   "Clapboard exposure 4-5 inches"
+  ],
+  "bay_rhythm": "Two or three bays to the gable front with the door in an end bay; three to five bays along the flank at even spacing. The portico, where present, is tetrastyle or hexastyle at 2.25-2.75 diameters intercolumniation and sets the bay module for the wall behind it.",
+  "symmetry": "strict-bilateral"
+ },
+ "massing_affinities": [
+  {
+   "massing": "gable-front",
+   "affinity": "canonical",
+   "note": "The style's demographic bulk: rotate the house, get a pediment for nothing."
+  },
+  {
+   "massing": "gable-front-and-wing",
+   "affinity": "canonical",
+   "note": "The upright-and-wing, arguably the most-built American house form of the nineteenth century, is Greek Revival in origin before it becomes style-neutral."
+  },
+  {
+   "massing": "temple-front-with-wings",
+   "affinity": "common",
+   "note": "The full-dress version for the prosperous farm or the village lawyer."
+  },
+  {
+   "massing": "side-hall-double-pile",
+   "affinity": "common"
+  },
+  {
+   "massing": "townhouse-row",
+   "affinity": "common",
+   "note": "New York, Brooklyn Heights and Philadelphia rows of the 1830s-40s with heavy Grecian door enframements."
+  }
+ ],
+ "constraints": [
+  {
+   "kind": "proportional",
+   "statement": "Portico column height must equal the full facade height of the block, and the entablature it carries must be 1/4 to 1/5 of column height. On a house without columns, the corner pilaster and entablature must still run continuously: total eave assembly depth of at least 18 inches on a two-storey house.",
+   "severity": "hard",
+   "id": "greek-revival-northern.c01",
+   "scope": "elevation",
+   "test": {
+    "expression": "entablature_depth_ratio",
+    "direction": "between",
+    "threshold": 0.2,
+    "upper": 0.25,
+    "units": "ratio",
+    "measurable_from": "elevation",
+    "note": "1/4 to 1/5 of column height. The column-height-equals-facade-height clause and the columnless corner-pilaster alternative stay prose."
+   }
+  },
+  {
+   "kind": "co-occurrence",
+   "statement": "Frieze-band attic windows and roof dormers must never occur on the same elevation. Where a half-storey is habitable it is lit through the frieze, at a height no greater than one third of the frieze depth.",
+   "severity": "hard",
+   "id": "greek-revival-northern.c02",
+   "scope": "judgment"
+  },
+  {
+   "kind": "proportional",
+   "statement": "Wing ridge must sit 3-6 feet below the main ridge and the wing's front plane must be recessed at least 2 feet behind the temple block. A wing flush with the temple front destroys the hierarchy and produces a two-fronted house with no entry logic.",
+   "severity": "hard",
+   "id": "greek-revival-northern.c03",
+   "scope": "judgment"
+  },
+  {
+   "kind": "climatic",
+   "statement": "Roof pitch 4:12 to 6:12. In IECC zones 5A-6A this is the practical floor for snow shedding on a wood-shingled or standing-seam roof; below 4:12 the pediment reads correctly and the roof does not work.",
+   "severity": "soft",
+   "id": "greek-revival-northern.c04",
+   "scope": "elevation",
+   "test": {
+    "expression": "roof_pitch_rise_per_12",
+    "direction": "between",
+    "threshold": 4,
+    "upper": 6,
+    "units": "rise_in_12",
+    "measurable_from": "elevation"
+   }
+  },
+  {
+   "kind": "structural",
+   "statement": "Where columns are built up of staves, shaft entasis must be carried through the joint and the column must be ventilated at cap and base; flutes are gouged not applied. Solid round mill-turned shafts with Roman bases are out of period.",
+   "severity": "advisory",
+   "id": "greek-revival-northern.c05",
+   "scope": "judgment"
+  }
+ ],
+ "exemplars": [
+  {
+   "name": "Rose Hill Mansion",
+   "location": "Geneva (town of Fayette), Seneca County, New York",
+   "year": 1837,
+   "note": "Hexastyle Ionic portico with a fully pedimented gable and Ionic colonnades on single-storey flanking wings; builders working from Lafever's plates. National Historic Landmark."
+  },
+  {
+   "name": "Merchant's House Museum (Seabury Tredwell House)",
+   "location": "29 East Fourth Street, Manhattan, New York",
+   "year": 1832,
+   "note": "Built 1831-32 by Joseph Brewster. Late-Federal brick street front over a thoroughly Greek Revival interior - double parlours with 14-foot ceilings, Ionic columns and Lafever-derived joinery. The only nineteenth-century Manhattan house with both exterior and interior intact."
+  },
+  {
+   "name": "Andalusia",
+   "location": "Bensalem Township, Bucks County, Pennsylvania",
+   "year": 1834,
+   "note": "Thomas Ustick Walter's Doric temple front on the river elevation; the professional high-style pole of the Northern variant, against which the carpenter version should be measured."
+  },
+  {
+   "name": "Seeley Farmhouse",
+   "location": "2 Freeman's Bridge Road, Glenville, Schenectady County, New York",
+   "year": 1850,
+   "note": "A two-storey pedimented centre pavilion with one-and-a-half-storey flanking wings - the farm-scale, carpenter-built end of the variant, listed on the National Register in 1978."
+  }
+ ],
+ "sources": [
+  "Talbot Hamlin, Greek Revival Architecture in America (1944)",
+  "Asher Benjamin, The Architect, or Practical House Carpenter (1830)",
+  "Minard Lafever, The Modern Builder's Guide (1833)",
+  "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+  "Roger G. Kennedy, Greek Revival America (1989)"
+ ],
+ "confidence": "high",
+ "tags": [
+  "early-republic",
+  "regional",
+  "northern",
+  "settlement-architecture",
+  "carpenter-classical"
+ ],
+ "proportion_packs": [
+  {
+   "pack": "benjamin-doric",
+   "role": "primary",
+   "authority": "benjamin-doric",
+   "note": "Same choice and same reasoning as the parent style: Benjamin's Practical House Carpenter (1830) Grecian Doric, encoded standalone because Benjamin's own preface names the Doric as the one order where Greek and Roman practice cannot be reconciled by delta. Andalusia -- Thomas Ustick Walter's Doric temple front, this variant's own exemplar -- is the professional high-style pole against which the carpenter-built version is explicitly measured in the style's own exemplar note.",
+   "precedence": 1
+  },
+  {
+   "pack": "vignola-ionic",
+   "role": "secondary",
+   "note": "Bound for the same reason as on the parent style -- no dedicated Greek Ionic pack exists in this corpus, so plain Vignola (9 diameters, inside the style's stated 8.5-9.5 Greek Ionic range) stands in honestly rather than inventing a Grecian citation. Directly supported by this variant's own named exemplar: Rose Hill Mansion's hexastyle Ionic portico, 'builders working directly from Lafever's plates.'",
+   "precedence": 2
+  },
+  {
+   "pack": "trim-classical",
+   "role": "interior",
+   "note": "The wall_section_greek_revival / casing_greek_revival family, run in dimensional pine rather than the plaster or masonry the numbers were worked out against -- consistent with this variant's own governing_logic, which states the order's proportions 'survive but its material logic does not' when executed in built-up staved columns.",
+   "precedence": 3
+  },
+  {
+   "pack": "opening-proportion",
+   "role": "opening",
+   "note": "Governs the rectangular-transom entrance in its pilastered surround (constraint c02, the frieze/dormer exclusion) -- ranked ahead of sash-light for the same reason as the parent style: the diagnostic weight sits on transom shape and frieze windows, not muntin count.",
+   "precedence": 4
+  },
+  {
+   "pack": "sash-light",
+   "role": "opening",
+   "note": "The window-glazing module, demoted below opening-proportion for the same reason it is on the parent style -- this variant's diagnostic_tells list clipped cornice returns, frieze-band windows and pilaster board widths, never sash pattern.",
+   "precedence": 5
+  },
+  {
+   "pack": "facade-classical",
+   "role": "facade",
+   "note": "Governs the temple-front and gable-front composition and the portico's bay-setting intercolumniation (2.25-2.75 diameters). Where columns are absent, the pack's composed-elevation logic still applies to the continuous corner-pilaster-and-entablature assembly the style requires to run unbroken around the building (constraint c01's columnless alternative: total eave assembly at least 18 in on a two-storey house).",
+   "precedence": 6
+  },
+  {
+   "pack": "storey-graduation",
+   "role": "massing",
+   "note": "Bound chiefly for the ceiling-height figure and the frieze-window habitable-attic case, as on the parent style; ordinary window-height diminution between floors is not this variant's mechanism. The pack does not model the wing-versus-main-block ridge offset this variant's own constraint (c03: wing ridge 3-6 ft below the main ridge, front plane recessed at least 2 ft) requires for the upright-and-wing silhouette -- that hierarchy is a massing/plan relationship, not a storey relationship, and no pack among the 36 covers it. A genuine, acknowledged gap.",
+   "precedence": 7
+  },
+  {
+   "pack": "room-harmonic",
+   "role": "room",
+   "note": "Not listed in this pack's own applies_to cross-reference (which names greek-revival-american and greek-revival-southern-plantation but not this variant), and bound here anyway on architectural grounds stated plainly: this variant's interiors are pattern-book carpenter work off Lafever's and Benjamin's plates -- 'heavy symmetrical door architraves and corner blocks' -- not the accumulated, undesigned rooms room-vernacular covers, which is reserved here for greek-revival-upland-vernacular where the plan genuinely predates the style.",
+   "precedence": 8
+  },
+  {
+   "pack": "greek-doric",
+   "role": "secondary",
+   "precedence": 9,
+   "authority": "greek-doric",
+   "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
+  }
+ ]
 }
