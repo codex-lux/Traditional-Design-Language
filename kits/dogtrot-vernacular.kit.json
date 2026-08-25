@@ -607,10 +607,25 @@
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "rule": "The porch opens into the TROT -- the open passage between the two pens -- and the trot is the entrance sequence, the circulation and the summer room at once.",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "suppresses",
+          "statement": "The porch opens into the TROT -- the open passage between the two pens -- and the trot is the entrance sequence, the circulation and the summer room at once.",
+          "suppresses": {
+            "room": "entry-porch",
+            "key": "must_adjoin",
+            "target": "entrance-hall"
+          },
+          "why": "A dogtrot has no entrance hall and cannot have one: the space between the pens is open to the weather at both ends, which is the whole type. Not solved by making a breezeway substitute for an entrance hall universally, because a breezeway between a house and its garage is not an entry sequence -- the fact is about this tradition, which is where it is declared."
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",

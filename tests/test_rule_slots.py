@@ -87,19 +87,53 @@ def test_every_populated_override_slot_is_classified():
         for r in s["rules"]:
             assert r["kind"] and r["effect"] and r["statement"]
             assert r.get("why"), "a rule with no reason is a rule nobody can check"
-    assert n == 8, n
+    # 8 -> 15 on 24 Aug 2026: OQ 43 made the substitution table directional, which surfaced six
+    # traditions whose entry sequence or storage habit the universal room rules were never
+    # written for, and each declared a suppression rather than being worked around.
+    assert n == 15, n
 
 
-def test_no_style_declares_a_suppression_yet_and_that_is_stated_not_assumed():
-    """The mechanism exists; the data does not use it. Declaring that a style switches a
-    universal rule off is a sourced claim about that style, and none of the eight prose
-    statements in the corpus makes one -- they restrict and they add. Inventing one to
-    exercise the code would be exactly the thing this corpus forbids."""
+def test_the_suppressions_are_declared_where_the_fact_is_and_say_why():
+    """OQ 15 built this mechanism and nothing used it -- the entry said so, and said that
+    inventing a suppression to exercise the code would be exactly what this corpus forbids.
+    OQ 43 gave it something real to carry: making substitution directional made six traditions'
+    universal rules fire, each of them a rule the type structurally cannot satisfy.
+
+    A Charleston single's street door opens onto the PIAZZA; a bungalow's opens into the LIVING
+    ROOM, which is the hall the type abolished; a dogtrot's opens into the trot, which is open to
+    the weather at both ends; a Creole cabinet is entered from the loggia and never from a
+    chamber."""
     import glob
+    found = {}
+    for p in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
+        d = json.load(open(p))
+        for r in ((d["slots"].get("room_adjacency_overrides") or {}).get("rules") or []):
+            if r["effect"] != "suppresses": continue
+            sup = r["suppresses"]
+            found.setdefault(d["style"], []).append((sup["room"], sup["key"], sup["target"]))
+            assert r.get("why"), (d["style"], "a suppression with no reason is unreviewable")
+            assert len(r["why"]) > 120, (d["style"], "and the reason has to be an argument")
+    assert len(found) >= 7, sorted(found)
+    # the four shapes, each on the tradition it belongs to
+    assert ("entry-porch", "must_adjoin", "entrance-hall") in found["american-arts-and-crafts"]
+    assert ("entry-porch", "must_adjoin", "entrance-hall") in found["dogtrot-vernacular"]
+    assert ("piazza", "must_adjoin", "entrance-hall") in found["charleston-single-house"]
+    assert ("closet", "must_adjoin", "bedroom") in found["creole-cottage-vernacular"]
+
+
+def test_a_suppression_is_declared_on_every_sibling_because_it_does_not_travel_sideways():
+    """The Creole cabinet fact holds for four sibling traditions, and a suppression is inherited
+    DOWN a chain. Stating it four times is the honest cost; hoisting it to a shared ancestor
+    would claim the cabinet-and-loggia range for traditions that do not have it."""
+    import glob
+    have = set()
     for p in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
-        s = (json.load(open(p))["slots"].get("room_adjacency_overrides") or {})
-        for r in (s.get("rules") or []):
-            assert r["effect"] != "suppresses", (p, r)
+        d = json.load(open(p))
+        for r in ((d["slots"].get("room_adjacency_overrides") or {}).get("rules") or []):
+            if r.get("effect") == "suppresses" and r["suppresses"]["room"] == "closet":
+                have.add(d["style"])
+    assert {"creole-cottage-vernacular", "french-colonial-american",
+            "monterey-colonial", "monterey-revival"} <= have, sorted(have)
 
 
 # ---------------------------------------------------------------- the executable half

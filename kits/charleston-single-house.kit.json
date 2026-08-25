@@ -592,10 +592,47 @@
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "rule": "The street door opens onto the PIAZZA, not into the house. There is no entrance hall to reach, and the piazza is the entrance sequence.",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "suppresses",
+          "statement": "The street door opens onto the PIAZZA, not into the house. There is no entrance hall to reach, and the piazza is the entrance sequence.",
+          "suppresses": {
+            "room": "entry-porch",
+            "key": "must_adjoin",
+            "target": "entrance-hall"
+          },
+          "why": "rooms/piazza.json states it as the type's defining move -- 'entered from the street through a door in a screen that is not the house's door' -- and rooms/entry-porch.json's universal rule requires an entrance hall through a direct door. A single house has neither the hall nor the door the rule assumes. This is the first suppression declared in the corpus; the mechanism was built under OQ 15 and had nothing to carry until OQ 43 made the rule fire."
+        },
+        {
+          "kind": "topology",
+          "effect": "suppresses",
+          "statement": "The street door opens onto the PIAZZA, not into the house. There is no entrance hall to reach, and the piazza is the entrance sequence.",
+          "suppresses": {
+            "room": "entry-porch",
+            "key": "must_adjoin",
+            "target": "entrance-hall"
+          },
+          "why": "rooms/piazza.json states it as the type's defining move -- 'entered from the street through a door in a screen that is not the house's door' -- and rooms/entry-porch.json's universal rule requires an entrance hall through a direct door. A single house has neither the hall nor the door the rule assumes. This is the first suppression declared in the corpus: the mechanism was built under OQ 15 and had nothing to carry until OQ 43 made the rule fire."
+        },
+        {
+          "kind": "topology",
+          "effect": "suppresses",
+          "statement": "The piazza is the entrance sequence at BOTH levels. The upper piazza is reached from the stair and serves the chambers off it; there is no upper entrance hall and there is none below either.",
+          "suppresses": {
+            "room": "piazza",
+            "key": "must_adjoin",
+            "target": "entrance-hall"
+          },
+          "why": "The suppression already declared on this node covers the street door (entry-porch). The upper piazza fails the same universal assumption through rooms/piazza.json's own rule, and for the same reason: this type's entrance sequence is a covered outdoor room, not a hall."
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",

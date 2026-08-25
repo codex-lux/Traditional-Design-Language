@@ -649,8 +649,23 @@
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "medium",
+      "rule": "The front door opens into the LIVING ROOM. There is no entrance hall and there is not meant to be one -- the hall is the thing this type abolished.",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "suppresses",
+          "statement": "The front door opens into the LIVING ROOM. There is no entrance hall and there is not meant to be one -- the hall is the thing this type abolished.",
+          "suppresses": {
+            "room": "entry-porch",
+            "key": "must_adjoin",
+            "target": "entrance-hall"
+          },
+          "why": "This kit's own room_adjacency_overrides already says it in prose: 'Rooms open into one another around the hearth rather than each opening independently off a passage; the living room is the circulation hub the Georgian passage would otherwise be.' rooms/entry-porch.json's universal rule wants an entrance hall through a direct door, which is the Georgian assumption the bungalow was a reaction against. Declared on the family so california-bungalow and craftsman-bungalow inherit it, which is what a suppression being a fact about a TRADITION means (OQ 15)."
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",

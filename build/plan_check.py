@@ -33,39 +33,129 @@ def _load(name, path):
     import modcache as _mc
     return _mc.load(name, path)
 
-# Genuinely interchangeable room types. A landing IS the stair hall at the head of the stair;
-# a walk-in closet satisfies a rule written for a closet. Without this the validator flags
-# correct plans for using the better of two words.
-EQUIVALENT = [
-    {"stair-hall", "landing"},
-    {"closet", "walk-in-closet", "linen-press"},
-    {"bathroom", "primary-bathroom"},
-    {"dining-room", "eat-in-kitchen-area", "breakfast-room"},
-    {"parlor", "living-room", "sitting-room", "family-room", "great-room", "drawing-room", "best-parlor"},
-    # gallery-corridor added by WP-4.5, on WP-2.1's evidence: two of the reference
-    # corpus's good examples (good-01, good-05) use a Gallery as the room the front
-    # door and every principal room open off, which is functionally what an entrance
-    # hall IS. Without it, a grand house whose entrance sequence is a gallery rather
-    # than a discrete "hall" failed a rule that exists to catch an entry porch
-    # leading nowhere -- when it led exactly where it should.
-    # centre-passage added 24 Aug 2026 (OQ 37), on the same evidence and the same reasoning
-    # that added gallery-corridor: in an Anglo-American plan the centre passage IS the entrance
-    # hall -- the front door opens into it and every principal room opens off it, which is the
-    # definition this group holds. Without it a hyphen or gallery landing on the passage failed
-    # gallery-corridor's own must_adjoin stair-hall, and the five-part Palladian -- a diagram
-    # whose whole structure is a passage with wings off it -- could not be composed for its own
-    # style. The rule exists to catch a corridor that leads nowhere; a centre passage is the
-    # opposite of that.
-    {"entrance-hall", "vestibule", "stair-hall", "gallery-corridor", "centre-passage"},
-    {"kitchen", "scullery"},
-    {"pantry", "butlers-pantry", "larder"},
-    {"bedroom", "bedchamber", "primary-bedroom"},
-]
+# SUBSTITUTION, and it runs in one direction (OQ 43, ruled 24 Aug 2026).
+#
+# This was a list of flat sets and `_alias` treated membership as mutual: if a primary bathroom
+# counted as a bathroom then a bathroom counted as a primary bathroom. That is right for some
+# pairings and wrong for exactly the ones that matter. A primary bedroom's rule to adjoin a
+# PRIMARY bathroom is not satisfied by the hall bath being somewhere in the house; a parlor's
+# rule to adjoin an entrance hall IS satisfied by a centre passage.
+#
+# Each entry names the SPECIFIC room and the general requests it can stand in for. Read it as
+# "a walk-in closet will do where a closet was asked for, and a closet will not do where a
+# walk-in closet was asked for." Where two rooms genuinely substitute both ways, both directions
+# are listed and the comment says why.
+#
+# Measured across all 129 composable styles before the change: of 542 findings where the plan
+# modelled an equivalent of the room a rule wanted, 214 were legitimate substitutions and 294
+# were the reverse -- a general room offered where a specific one was asked for, reported as
+# though the plan had the room. Making it directional returns those 294 to honest absence and
+# promotes the 214 to real adjacency findings, 115 of them fatal across 67 styles. Those 115 are
+# genuine: the plan has the room and the rule's subject does not reach it.
+SUBSTITUTES = {
+    # circulation. A landing IS the stair hall at the head of the stair, and the entrance-hall
+    # family is genuinely mutual: whichever of these a plan calls its entry sequence, the front
+    # door opens into it and the principal rooms open off it, which is the definition the group
+    # holds. gallery-corridor was added by WP-4.5 on the reference corpus's evidence (good-01
+    # and good-05 use a Gallery as exactly that room) and centre-passage by OQ 37.
+    "landing": {"stair-hall"},
+    "stair-hall": {"entrance-hall"},
+    "vestibule": {"entrance-hall"},
+    "gallery-corridor": {"entrance-hall"},
+    "centre-passage": {"entrance-hall"},
+    "entrance-hall": {"stair-hall", "vestibule", "gallery-corridor", "centre-passage",
+                      "cross-passage"},
+    # `hall` in the Anglo-American vernacular sense -- the undivided room the front door opens
+    # into, not a corridor. Added when making this table directional showed 24 findings of the
+    # shape "Parlor does not reach an entrance hall" on hall-and-parlor and living-hall
+    # diagrams, where the parlor is entered from the hall and that is exactly right for the
+    # type. The room's own record states it: `entered_from` is cross-passage, entry-porch,
+    # exterior, breezeway -- i.e. the outside -- and its own aka list carries "living hall". It
+    # substitutes in ONE direction: a hall does the entrance hall's job, and an entrance hall is
+    # not a hall, which is a room you eat and sleep in.
+    "hall": {"entrance-hall"},
+    # the screens passage. Its own record: "a passage running ACROSS the building FROM THE FRONT
+    # DOOR to the back door... with the service rooms opening off one side and the hall off the
+    # other", entered from the exterior and the entry porch. That is the entrance sequence of a
+    # medieval and Tudor plan, and it is what an H-plan manor's porch opens into.
+    "cross-passage": {"entrance-hall"},
+
+    # storage. A walk-in closet or a linen press will do where a closet was asked for; a plain
+    # closet will not do where a rule specifically wants a walk-in.
+    "walk-in-closet": {"closet"},
+    "linen-press": {"closet"},
+
+    # sanitary. The asymmetry this ruling exists for: a primary bathroom satisfies a request for
+    # a bathroom, and a hall bath does not satisfy a primary bedroom's request for a primary
+    # bathroom -- which is the difference between a suite and a house with a bathroom in it.
+    "primary-bathroom": {"bathroom"},
+
+    # dining. A breakfast room or an eat-in area will serve where a rule wants somewhere to eat;
+    # neither is a dining room where one is specifically required.
+    "breakfast-room": {"dining-room"},
+    "eat-in-kitchen-area": {"dining-room"},
+
+    # the parlor family. All of these are the principal sitting room under different names and
+    # different centuries, and a rule that names one will take another -- with the exception of
+    # best-parlor and drawing-room, which are the FORMAL room in a house that also has an
+    # everyday one, so they satisfy a request for a parlor and a request for one of them is not
+    # satisfied by the family room.
+    "parlor": {"living-room", "sitting-room"},
+    "living-room": {"parlor", "sitting-room"},
+    "sitting-room": {"parlor", "living-room"},
+    "family-room": {"living-room", "parlor", "sitting-room"},
+    "great-room": {"living-room", "parlor", "sitting-room"},
+    "best-parlor": {"parlor", "living-room", "sitting-room"},
+    "drawing-room": {"parlor", "living-room", "sitting-room"},
+
+    # service.
+    "scullery": {"kitchen"},
+    "butlers-pantry": {"pantry"},
+    "larder": {"pantry"},
+
+    # sleeping. A bedchamber is a bedroom in an older word and substitutes freely; a primary
+    # bedroom satisfies a request for a bedroom and the reverse is the same error as the
+    # bathroom case above.
+    "bedchamber": {"bedroom"},
+    "bedroom": {"bedchamber"},
+    "primary-bedroom": {"bedroom", "bedchamber"},
+    # A garret chamber is a bedroom inside the roof -- its own record: "a sleeping room inside
+    # the roof, with sloping ceilings on two sides and a knee wall" -- and it is what a Cape
+    # sleeps in. Without this, a Cape's closets fail `closet must_adjoin bedroom` while doored
+    # to exactly the room they serve. A bedroom is not a garret chamber, which is why it runs
+    # one way. `nursery` and `sleeping-porch` are also function_class `sleeping` and are NOT
+    # here: a nursery is a room for a child too young to have a bedroom and a sleeping porch is
+    # seasonal, so neither answers a rule that wants the household's bedroom.
+    "garret-chamber": {"bedroom", "bedchamber"},
+}
+
+
+def satisfies(have, want):
+    """Can a room of type `have` stand in where a rule asked for `want`? (OQ 43)"""
+    return have == want or want in SUBSTITUTES.get(have, ())
+
+
+def satisfied_by(want):
+    """Every room type that would SATISFY a rule asking for `want`.
+
+    Ask this when the question is "the rule wants a `want`; would anything the plan HAS do?"
+    """
+    return {want} | {have for have, wants in SUBSTITUTES.items() if want in wants}
+
+
+def serves(have):
+    """Every request a room of type `have` can answer -- itself, and what it substitutes for.
+
+    Ask this when the question is "this room is next to me; which rules does its presence
+    satisfy?" It is the other direction from `satisfied_by`, and before OQ 43 the two were one
+    function, which is precisely the bug."""
+    return {have} | set(SUBSTITUTES.get(have, ()))
+
+
 def _alias(t):
-    out = {t}
-    for grp in EQUIVALENT:
-        if t in grp: out |= grp
-    return out
+    """Kept as the name the rest of this file and the tests already use, and it means
+    `satisfied_by`. The other direction is `serves`."""
+    return satisfied_by(t)
 
 def load_corpus():
     C = {"rooms": {}, "groupings": {}, "styles": {}, "faults": {}, "massings": {}, "slots": {}, "kits": {}}
@@ -223,11 +313,11 @@ def check(plan, C=None, strict=False):
         out = set()
         for x, rr in rooms.items():
             if x == rid: continue
-            out |= _alias(rr["type"])
+            out |= serves(rr["type"])
         return out
     def types_adjacent(rid):
         out = set()
-        for x in adj[rid]: out |= _alias(rooms[x]["type"])
+        for x in adj[rid]: out |= serves(rooms[x]["type"])
         return out
 
     def circulation(x):
@@ -254,7 +344,7 @@ def check(plan, C=None, strict=False):
         """Room types on a given level. The vertical half of adjacency (OQ 35)."""
         out = {}
         for x, rr in rooms.items():
-            out.setdefault(level_of.get(x, 0), set()).update(_alias(rr["type"]))
+            out.setdefault(level_of.get(x, 0), set()).update(serves(rr["type"]))
         return out
 
     _by_level = None
@@ -288,7 +378,7 @@ def check(plan, C=None, strict=False):
         for mid in adj[rid]:
             if circulation(mid):
                 for x in adj[mid]:
-                    if x != rid: out |= _alias(rooms[x]["type"])
+                    if x != rid: out |= serves(rooms[x]["type"])
         return out
 
     # ============================================================ ROOM LAYER
@@ -432,25 +522,28 @@ def check(plan, C=None, strict=False):
                           f"{label} wants to adjoin a {rule['room'].replace('-', ' ')} and the plan models none.",
                           room=rid, rule=rule["why"],
                           fix="Either the plan is missing the room, or the record simply does not model it. Run with --strict to treat absence as a failure.")
-                elif rule["room"] not in types_present:
-                    # The plan models the room under a name the catalogue treats as equivalent.
-                    # Neither of the two sentences above is true of it: it is not absent, and
-                    # saying it "does not reach" the room asserts an equivalence in a direction
-                    # nobody has ruled on (OQ 42, OQ 43). So it says what it can actually see.
-                    _eq = sorted(_alias(rule["room"]) & {rooms[x]["type"] for x in rooms if x != rid})
-                    F.add("minor" if not strict else sev, "completeness",
-                          f"{label} wants to adjoin a {rule['room'].replace('-', ' ')}; the plan models "
-                          f"{' and '.join(x.replace('-', ' ') for x in _eq)} instead, which the catalogue "
-                          f"treats as equivalent, and does not reach {'it' if len(_eq) == 1 else 'any of them'}.",
-                          room=rid, rule=rule["why"],
-                          fix=("Either put a door to it, or the equivalence is wrong for this rule and the "
-                               "room catalogue should say so. Reported at this severity rather than the "
-                               "rule's own because the EQUIVALENT groups do not yet state which direction "
-                               "they satisfy in \u2014 see OQ 43."))
                 else:
+                    # OQ 43: the plan models a room that WOULD satisfy this rule -- itself, or
+                    # something that substitutes for it in the right direction -- and the subject
+                    # does not reach it. That is an adjacency failure and it lands at the rule's
+                    # own severity, which is what "make it directional and report them" means.
+                    #
+                    # Before the direction existed, 542 findings of this shape were held at
+                    # `minor` because 294 of them were the substitution running backwards -- a
+                    # general room offered where a specific one was asked for -- and promoting
+                    # those would have been reporting a room the plan does not have. Those 294
+                    # now fall to the branch above and say the true thing. The 214 that remain
+                    # are real, and 115 of them are fatal across 67 styles.
+                    _eq = sorted(satisfied_by(rule["room"]) & {rooms[x]["type"] for x in rooms if x != rid}
+                                 - {rule["room"]})
+                    under = ""
+                    if _eq:
+                        under = (" The plan models it as "
+                                 + " and ".join(x.replace("-", " ") for x in _eq) + ".")
                     F.add(sev, "adjacency",
                           f"{label} does not reach a {rule['room'].replace('-', ' ')}"
-                          + (" through a direct door." if rule.get("relation") == "direct-door" else " directly or across a hall."),
+                          + (" through a direct door." if rule.get("relation") == "direct-door"
+                             else " directly or across a hall.") + under,
                           room=rid, rule=rule["why"])
         for rule in rt["adjacency"].get("must_not_adjoin", []):
             if excepted(rule, chain): continue

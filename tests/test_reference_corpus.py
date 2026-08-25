@@ -86,8 +86,9 @@ class TestValidatorGapsTheReportFoundAreClosed:
         """A grand house whose entrance sequence is a gallery rather than a discrete hall is no
         longer penalised for not also having a hall. WP-2.1 found this on good-01 and good-05
         independently."""
-        assert any("gallery-corridor" in grp and "entrance-hall" in grp
-                   for grp in plan_check_module.EQUIVALENT)
+        # OQ 43 renamed the flat groups to a directed map; the claim is unchanged and is now
+        # checkable in the direction that matters: a gallery stands in for an entrance hall.
+        assert plan_check_module.satisfies("gallery-corridor", "entrance-hall")
 
     def test_primary_bathroom_via_list_admits_a_dressing_room(self, corpus):
         """good-05 and good-07 both draw a dressing room between the primary bedroom and its

@@ -1,253 +1,254 @@
 {
-  "id": "centre-passage",
-  "name": "Centre Passage",
-  "aka": [
-    "center hall",
-    "central passage",
-    "the passage",
-    "breezeway hall",
-    "dogtrot (when open at both ends)"
+ "id": "centre-passage",
+ "name": "Centre Passage",
+ "aka": [
+  "center hall",
+  "central passage",
+  "the passage",
+  "breezeway hall",
+  "dogtrot (when open at both ends)"
+ ],
+ "function_class": "circulation",
+ "description": "A room-width corridor running the full depth of the house from the front door to a rear door, with the principal rooms opening off it left and right. It is the most consequential single move in Anglo-American planning and it is not primarily a circulation device. It is a social filter: it lets a household receive anyone at all without letting anyone into a room. In the Chesapeake summer it is also the coolest place in the house and was furnished and lived in, which is why southern passages are wide enough to sit in and northern ones are not.",
+ "history": {
+  "appears": 1710,
+  "declines": 1930,
+  "replaced": "the hall-and-parlor plan, where the front door opened directly into the working hall and every caller stood in the room",
+  "replaced_by": "the open plan, which removed the filter and gave the job back to the front door",
+  "note": "THE PASSAGE IS A SOCIAL DEVICE AND THE EVIDENCE IS IN WHO USED IT. Dell Upton's 1982 study of eighteenth-century Virginia showed that the passage appears in the Chesapeake between about 1710 and 1750, at exactly the period when planter households were becoming both more stratified and more crowded with people the family did not wish to receive - overseers, tradesmen, poorer neighbours, and enslaved people moving through the house on errands. Those callers were dealt with IN the passage. The rooms either side got locks. The passage is therefore not a corridor that happened to become grand; it is a barrier that had to be a room, and its width is a measure of how much of the household's traffic it was expected to absorb. This also explains its geography: it is deepest and widest in the plantation South, narrower in the middle colonies, and in New England it arrives late and stays tight because the central-chimney lobby was already doing part of the job."
+ },
+ "dimensions": {
+  "area_sf": [
+   130,
+   400
   ],
-  "function_class": "circulation",
-  "description": "A room-width corridor running the full depth of the house from the front door to a rear door, with the principal rooms opening off it left and right. It is the most consequential single move in Anglo-American planning and it is not primarily a circulation device. It is a social filter: it lets a household receive anyone at all without letting anyone into a room. In the Chesapeake summer it is also the coolest place in the house and was furnished and lived in, which is why southern passages are wide enough to sit in and northern ones are not.",
-  "history": {
-    "appears": 1710,
-    "declines": 1930,
-    "replaced": "the hall-and-parlor plan, where the front door opened directly into the working hall and every caller stood in the room",
-    "replaced_by": "the open plan, which removed the filter and gave the job back to the front door",
-    "note": "THE PASSAGE IS A SOCIAL DEVICE AND THE EVIDENCE IS IN WHO USED IT. Dell Upton's 1982 study of eighteenth-century Virginia showed that the passage appears in the Chesapeake between about 1710 and 1750, at exactly the period when planter households were becoming both more stratified and more crowded with people the family did not wish to receive - overseers, tradesmen, poorer neighbours, and enslaved people moving through the house on errands. Those callers were dealt with IN the passage. The rooms either side got locks. The passage is therefore not a corridor that happened to become grand; it is a barrier that had to be a room, and its width is a measure of how much of the household's traffic it was expected to absorb. This also explains its geography: it is deepest and widest in the plantation South, narrower in the middle colonies, and in New England it arrives late and stays tight because the central-chimney lobby was already doing part of the job."
+  "width_ft": [
+   6,
+   14
+  ],
+  "length_ft": [
+   20,
+   40
+  ],
+  "proportion": [
+   2.0,
+   5.0
+  ],
+  "ceiling_min_ft": 9,
+  "critical_dimension": "WIDTH, and there are two right answers and no compromise between them. SIX TO SEVEN FEET is a passage that circulates: two people pass, a stair fits against one wall, doors swing. TEN TO TWELVE FEET is a passage that is a room: it takes chairs down one side, a table, a settee, and people sit in it. The dead zone is 8 to 9 ft, which is too wide to be economical and too narrow to furnish - a 9 ft passage with 20 in chairs down one wall leaves 6 ft 4 in of route, which is right, but nobody puts chairs in a 9 ft passage because it does not read as a room. Decide which of the two it is, because the answer changes the plan's whole width. SECOND NUMBER: 5 ft 6 in is the floor. Below that two people cannot pass while a door is open, and the room has become the fault passage-that-is-a-corridor."
+ },
+ "furniture": [
+  {
+   "item": "hall chairs in a row down one side",
+   "footprint_in": [
+    20,
+    20
+   ],
+   "clearance_in": 36,
+   "note": "the southern passage's characteristic furnishing, and it needs 20 + 36 = 56 in before the route even starts"
   },
-  "dimensions": {
-    "area_sf": [
-      130,
-      400
-    ],
-    "width_ft": [
-      6,
-      14
-    ],
-    "length_ft": [
-      20,
-      40
-    ],
-    "proportion": [
-      2.0,
-      5.0
-    ],
-    "ceiling_min_ft": 9,
-    "critical_dimension": "WIDTH, and there are two right answers and no compromise between them. SIX TO SEVEN FEET is a passage that circulates: two people pass, a stair fits against one wall, doors swing. TEN TO TWELVE FEET is a passage that is a room: it takes chairs down one side, a table, a settee, and people sit in it. The dead zone is 8 to 9 ft, which is too wide to be economical and too narrow to furnish - a 9 ft passage with 20 in chairs down one wall leaves 6 ft 4 in of route, which is right, but nobody puts chairs in a 9 ft passage because it does not read as a room. Decide which of the two it is, because the answer changes the plan's whole width. SECOND NUMBER: 5 ft 6 in is the floor. Below that two people cannot pass while a door is open, and the room has become the fault passage-that-is-a-corridor."
+  {
+   "item": "settee or bench",
+   "footprint_in": [
+    60,
+    24
+   ],
+   "clearance_in": 36,
+   "essential": false
   },
-  "furniture": [
-    {
-      "item": "hall chairs in a row down one side",
-      "footprint_in": [
-        20,
-        20
-      ],
-      "clearance_in": 36,
-      "note": "the southern passage's characteristic furnishing, and it needs 20 + 36 = 56 in before the route even starts"
-    },
-    {
-      "item": "settee or bench",
-      "footprint_in": [
-        60,
-        24
-      ],
-      "clearance_in": 36,
-      "essential": false
-    },
-    {
-      "item": "side table between the room doors",
-      "footprint_in": [
-        36,
-        16
-      ],
-      "clearance_in": 30
-    },
-    {
-      "item": "tall case clock",
-      "footprint_in": [
-        22,
-        12
-      ],
-      "clearance_in": 0,
-      "essential": false
-    },
-    {
-      "item": "clear passing route",
-      "footprint_in": [
-        42,
-        240
-      ],
-      "clearance_in": null,
-      "note": "42 in is two people passing without either turning sideways; 36 in is one person and a door swing"
-    }
-  ],
-  "daylight": {
-    "depth_multiplier": 2.25,
-    "sides_lit": 2,
-    "orientation": "The passage runs whatever way the house faces, but the type wants the two ends on OPPOSITE PRESSURE FACES - which in the Chesapeake and the Deep South means the long axis across the prevailing summer breeze, not along it.",
-    "glazing_fraction": [
-      0.08,
-      0.2
-    ],
-    "note": "A centre passage is the one deep interior space in a traditional plan that is properly daylit, and it is daylit because it is glazed at BOTH ENDS. Light from a fanlight and sidelights at the front reaches about 16 ft; the same at the rear reaches back the other 16; the two overlap in the middle and the passage is lit end to end. Block one end and the far half goes dark at once, which is the visible symptom of the fault centre-passage-blocked-at-one-end and the reason a blocked passage reads as gloomy long before anyone works out why. The transoms over the two exterior doors are the working part: they are what lights the middle of the passage when both doors are shut, and they are the first thing removed in a remodel."
+  {
+   "item": "side table between the room doors",
+   "footprint_in": [
+    36,
+    16
+   ],
+   "clearance_in": 30
   },
-  "adjacency": {
-    "must_adjoin": [
-      {
-        "room": "entrance-hall",
-        "why": "the passage IS the hall in most plans that have one; where they are separate, the hall is the passage's front bay",
-        "relation": "direct-door",
-        "strength": "hard"
-      },
-      {
-        "room": "stair-hall",
-        "why": "the stair belongs on the passage - if it does not, the house has a passage and a separate vertical circulation and is paying for both",
-        "relation": "same-floor",
-        "strength": "strong"
-      }
-    ],
-    "should_adjoin": [
-      {
-        "room": "parlor",
-        "why": "the passage's whole point is to serve the principal rooms symmetrically; parlor one side, dining room the other, is the canonical arrangement",
-        "relation": "direct-door",
-        "strength": "strong"
-      },
-      {
-        "room": "dining-room",
-        "why": "as above, and it keeps the service route to the dining room off the passage's front half",
-        "relation": "direct-door",
-        "strength": "strong"
-      },
-      {
-        "room": "back-hall",
-        "why": "where the plan is double-pile the passage's rear third becomes the service crossing, and the back stair should land there rather than on the front half",
-        "relation": "same-floor",
-        "strength": "preferred"
-      }
-    ],
-    "must_not_adjoin": [
-      {
-        "room": "kitchen",
-        "why": "a kitchen door onto the front half of the passage puts the service route across the arrival route, which is the fault service-route-through-the-formal-plan. The kitchen belongs on the rear third or in an ell.",
-        "relation": "not-visible-from",
-        "strength": "strong",
-        "exceptions": [
-          "american-farmhouse-vernacular and dogtrot-vernacular, where the kitchen is one of the two flanking rooms because there are only two rooms and no service class to hide"
-        ]
-      }
-    ],
-    "entered_from": [
-      "entry-porch",
-      "vestibule",
-      "exterior",
-      "piazza"
-    ],
-    "never_a_through_room": false
+  {
+   "item": "tall case clock",
+   "footprint_in": [
+    22,
+    12
+   ],
+   "clearance_in": 0,
+   "essential": false
   },
-  "privacy_rank": 1,
-  "servicing": {
-    "plumbing": "none",
-    "ventilation": "THIS IS THE ROOM'S OTHER JOB. A passage with an opening at each end on opposite faces of the building is a cross-ventilation device: the pressure difference across a house in a 5 mph breeze is small but the passage's cross-section is large, and the flow it produces is the one reliable cooling mechanism a pre-mechanical house has. One door at one end moves no air at all, whatever its size, because there is no outlet. Transoms over the interior room doors let the flanking rooms borrow the flow. NOTE ON PLUMBING: none, and the rear axis must be kept clear of the powder room, which is the single most common thing put on it.",
-    "heat": "Historically none. The passage is the unheated buffer between two heated rooms and that is part of why it stayed a passage.",
-    "electrical": "Two fixtures on a 30 to 40 ft passage, not one - a single central pendant leaves both ends dark and makes the room read as a tunnel.",
-    "stack_proximity_ft": null
+  {
+   "item": "clear passing route",
+   "footprint_in": [
+    42,
+    240
+   ],
+   "clearance_in": null,
+   "note": "42 in is two people passing without either turning sideways; 36 in is one person and a door swing"
+  }
+ ],
+ "daylight": {
+  "depth_multiplier": 2.25,
+  "sides_lit": 2,
+  "orientation": "The passage runs whatever way the house faces, but the type wants the two ends on OPPOSITE PRESSURE FACES - which in the Chesapeake and the Deep South means the long axis across the prevailing summer breeze, not along it.",
+  "glazing_fraction": [
+   0.08,
+   0.2
+  ],
+  "note": "A centre passage is the one deep interior space in a traditional plan that is properly daylit, and it is daylit because it is glazed at BOTH ENDS. Light from a fanlight and sidelights at the front reaches about 16 ft; the same at the rear reaches back the other 16; the two overlap in the middle and the passage is lit end to end. Block one end and the far half goes dark at once, which is the visible symptom of the fault centre-passage-blocked-at-one-end and the reason a blocked passage reads as gloomy long before anyone works out why. The transoms over the two exterior doors are the working part: they are what lights the middle of the passage when both doors are shut, and they are the first thing removed in a remodel."
+ },
+ "adjacency": {
+  "must_adjoin": [
+   {
+    "room": "entrance-hall",
+    "why": "the passage IS the hall in most plans that have one; where they are separate, the hall is the passage's front bay VERTICAL_OK added 24 Aug 2026 (OQ 43, using OQ 35's mechanism, and the same shape as the fix `landing` needed under OQ 37): an UPPER centre passage sits directly over the lower one and is reached by the stair between them. Read as a same-floor rule it could only be satisfied by a house with a second entrance hall upstairs, so every two-storey parti with a passage on both floors failed it -- 23 findings across five diagrams, which is the rule asking for the one thing an upper passage structurally cannot have.",
+    "relation": "direct-door",
+    "strength": "hard",
+    "vertical_ok": true
+   },
+   {
+    "room": "stair-hall",
+    "why": "the stair belongs on the passage - if it does not, the house has a passage and a separate vertical circulation and is paying for both",
+    "relation": "same-floor",
+    "strength": "strong"
+   }
+  ],
+  "should_adjoin": [
+   {
+    "room": "parlor",
+    "why": "the passage's whole point is to serve the principal rooms symmetrically; parlor one side, dining room the other, is the canonical arrangement",
+    "relation": "direct-door",
+    "strength": "strong"
+   },
+   {
+    "room": "dining-room",
+    "why": "as above, and it keeps the service route to the dining room off the passage's front half",
+    "relation": "direct-door",
+    "strength": "strong"
+   },
+   {
+    "room": "back-hall",
+    "why": "where the plan is double-pile the passage's rear third becomes the service crossing, and the back stair should land there rather than on the front half",
+    "relation": "same-floor",
+    "strength": "preferred"
+   }
+  ],
+  "must_not_adjoin": [
+   {
+    "room": "kitchen",
+    "why": "a kitchen door onto the front half of the passage puts the service route across the arrival route, which is the fault service-route-through-the-formal-plan. The kitchen belongs on the rear third or in an ell.",
+    "relation": "not-visible-from",
+    "strength": "strong",
+    "exceptions": [
+     "american-farmhouse-vernacular and dogtrot-vernacular, where the kitchen is one of the two flanking rooms because there are only two rooms and no service class to hide"
+    ]
+   }
+  ],
+  "entered_from": [
+   "entry-porch",
+   "vestibule",
+   "exterior",
+   "piazza"
+  ],
+  "never_a_through_room": false
+ },
+ "privacy_rank": 1,
+ "servicing": {
+  "plumbing": "none",
+  "ventilation": "THIS IS THE ROOM'S OTHER JOB. A passage with an opening at each end on opposite faces of the building is a cross-ventilation device: the pressure difference across a house in a 5 mph breeze is small but the passage's cross-section is large, and the flow it produces is the one reliable cooling mechanism a pre-mechanical house has. One door at one end moves no air at all, whatever its size, because there is no outlet. Transoms over the interior room doors let the flanking rooms borrow the flow. NOTE ON PLUMBING: none, and the rear axis must be kept clear of the powder room, which is the single most common thing put on it.",
+  "heat": "Historically none. The passage is the unheated buffer between two heated rooms and that is part of why it stayed a passage.",
+  "electrical": "Two fixtures on a 30 to 40 ft passage, not one - a single central pendant leaves both ends dark and makes the room read as a tunnel.",
+  "stack_proximity_ft": null
+ },
+ "style_variation": [
+  {
+   "style": "tidewater-georgian",
+   "trim_grade": "highest",
+   "note": "12 to 14 ft wide, furnished, with an arch on consoles partway down dividing the reception half from the stair half, and a rear door to the garden as important as the front door to the road. This is the type at its fullest."
   },
-  "style_variation": [
-    {
-      "style": "tidewater-georgian",
-      "trim_grade": "highest",
-      "note": "12 to 14 ft wide, furnished, with an arch on consoles partway down dividing the reception half from the stair half, and a rear door to the garden as important as the front door to the road. This is the type at its fullest."
-    },
-    {
-      "style": "new-england-georgian",
-      "trim_grade": "highest",
-      "note": "8 to 10 ft, tighter, arriving later and competing with the central-chimney lobby it displaced. The New England passage is circulation and does not pretend otherwise."
-    },
-    {
-      "style": "greek-revival-southern-plantation",
-      "trim_grade": "highest",
-      "note": "Widest of all - 12 to 16 ft - with the full-height door surrounds the style is known for, and often with a second passage above doing the same work for the chambers."
-    },
-    {
-      "style": "dogtrot-vernacular",
-      "name_in_style": "dogtrot, breezeway, possum trot",
-      "trim_grade": "none",
-      "note": "The passage is OPEN at both ends and unroofed at the sides: two pens under one roof with the gap between them. Enclosing either end converts the building to a centre-passage house and it must be recorded as a different type. See breezeway."
-    },
-    {
-      "style": "creole-cottage-vernacular",
-      "present": false,
-      "note": "Absent by hard constraint and by design. The four-room square plan is deliberately hall-less; ventilation comes from paired French casement doors on the gallery front and the recessed rear loggia, room by room, which works better than a single line of flow. Rules written for a centre-passage plan produce nonsense here."
-    },
-    {
-      "style": "shotgun-house",
-      "present": false,
-      "note": "Absent. The rooms themselves are the passage: doors align front to back within a few inches and the enfilade does the ventilation the passage would have done, at the cost of every room being a through room."
-    },
-    {
-      "style": "charleston-single-house",
-      "present": false,
-      "note": "Replaced by a SIDE passage plus the piazza. Cross-flow runs across the single pile from piazza to rear windows, not along the passage, so the passage may legitimately close at its far end - a real exception to the both-ends-open rule, and one that only holds if the piazza and the single pile are both present."
-    },
-    {
-      "style": "italianate-townhouse",
-      "present": false,
-      "note": "A side hall on a party-wall lot, which cannot have two exterior long walls and therefore cannot ventilate across. The through-view is carried by the aligned parlour doors instead."
-    },
-    {
-      "style": "ranch-style",
-      "present": false,
-      "note": "The type replaces the passage with a bedroom corridor at the back and an open public zone at the front, so the filter is gone and the corridor is pure circulation. This is the single largest change in American plan logic in three centuries and it is rarely stated as one."
-    }
-  ],
-  "code": [
-    {
-      "requirement": "Hallways not less than 36 in wide.",
-      "ref": "IRC R311.6",
-      "conflict": "36 in is a corridor dimension and has nothing to do with this room. A passage at 36 in is not a small centre passage; it is a different room type wearing the name."
-    }
-  ],
-  "massing_fit": [
-    "center-passage-single-pile",
-    "i-house",
-    "four-over-four",
-    "five-part-palladian",
-    "garrison-block",
-    "dogtrot",
-    "raised-cottage",
-    "gallery-house",
-    "double-pen",
-    "telescope-house",
-    "h-plan-manor",
-    "foursquare"
-  ],
-  "slots": [
-    "circulation_parti",
-    "public_private_gradient",
-    "daylight_strategy",
-    "room_adjacency_overrides",
-    "depth_and_pile",
-    "stair_position",
-    "entry_sequence",
-    "transom_sidelight"
-  ],
-  "faults": [
-    "centre-passage-blocked-at-one-end",
-    "passage-that-is-a-corridor",
-    "stair-with-no-passage",
-    "service-route-through-the-formal-plan",
-    "interior-transom-removed",
-    "single-pile-type-built-double-pile",
-    "plan-flipped-without-the-sun"
-  ],
-  "sources": [
-    "Dell Upton, 'Vernacular Domestic Architecture in Eighteenth-Century Virginia', Winterthur Portfolio 17 (1982), 95-119",
-    "Henry Glassie, Folk Housing in Middle Virginia (1975)",
-    "faults/centre-passage-blocked-at-one-end.json",
-    "proportions/systems/room-vernacular.json, circulation_parti derived rule: 6 ft north, 8-12 ft south"
-  ],
-  "confidence": "high"
+  {
+   "style": "new-england-georgian",
+   "trim_grade": "highest",
+   "note": "8 to 10 ft, tighter, arriving later and competing with the central-chimney lobby it displaced. The New England passage is circulation and does not pretend otherwise."
+  },
+  {
+   "style": "greek-revival-southern-plantation",
+   "trim_grade": "highest",
+   "note": "Widest of all - 12 to 16 ft - with the full-height door surrounds the style is known for, and often with a second passage above doing the same work for the chambers."
+  },
+  {
+   "style": "dogtrot-vernacular",
+   "name_in_style": "dogtrot, breezeway, possum trot",
+   "trim_grade": "none",
+   "note": "The passage is OPEN at both ends and unroofed at the sides: two pens under one roof with the gap between them. Enclosing either end converts the building to a centre-passage house and it must be recorded as a different type. See breezeway."
+  },
+  {
+   "style": "creole-cottage-vernacular",
+   "present": false,
+   "note": "Absent by hard constraint and by design. The four-room square plan is deliberately hall-less; ventilation comes from paired French casement doors on the gallery front and the recessed rear loggia, room by room, which works better than a single line of flow. Rules written for a centre-passage plan produce nonsense here."
+  },
+  {
+   "style": "shotgun-house",
+   "present": false,
+   "note": "Absent. The rooms themselves are the passage: doors align front to back within a few inches and the enfilade does the ventilation the passage would have done, at the cost of every room being a through room."
+  },
+  {
+   "style": "charleston-single-house",
+   "present": false,
+   "note": "Replaced by a SIDE passage plus the piazza. Cross-flow runs across the single pile from piazza to rear windows, not along the passage, so the passage may legitimately close at its far end - a real exception to the both-ends-open rule, and one that only holds if the piazza and the single pile are both present."
+  },
+  {
+   "style": "italianate-townhouse",
+   "present": false,
+   "note": "A side hall on a party-wall lot, which cannot have two exterior long walls and therefore cannot ventilate across. The through-view is carried by the aligned parlour doors instead."
+  },
+  {
+   "style": "ranch-style",
+   "present": false,
+   "note": "The type replaces the passage with a bedroom corridor at the back and an open public zone at the front, so the filter is gone and the corridor is pure circulation. This is the single largest change in American plan logic in three centuries and it is rarely stated as one."
+  }
+ ],
+ "code": [
+  {
+   "requirement": "Hallways not less than 36 in wide.",
+   "ref": "IRC R311.6",
+   "conflict": "36 in is a corridor dimension and has nothing to do with this room. A passage at 36 in is not a small centre passage; it is a different room type wearing the name."
+  }
+ ],
+ "massing_fit": [
+  "center-passage-single-pile",
+  "i-house",
+  "four-over-four",
+  "five-part-palladian",
+  "garrison-block",
+  "dogtrot",
+  "raised-cottage",
+  "gallery-house",
+  "double-pen",
+  "telescope-house",
+  "h-plan-manor",
+  "foursquare"
+ ],
+ "slots": [
+  "circulation_parti",
+  "public_private_gradient",
+  "daylight_strategy",
+  "room_adjacency_overrides",
+  "depth_and_pile",
+  "stair_position",
+  "entry_sequence",
+  "transom_sidelight"
+ ],
+ "faults": [
+  "centre-passage-blocked-at-one-end",
+  "passage-that-is-a-corridor",
+  "stair-with-no-passage",
+  "service-route-through-the-formal-plan",
+  "interior-transom-removed",
+  "single-pile-type-built-double-pile",
+  "plan-flipped-without-the-sun"
+ ],
+ "sources": [
+  "Dell Upton, 'Vernacular Domestic Architecture in Eighteenth-Century Virginia', Winterthur Portfolio 17 (1982), 95-119",
+  "Henry Glassie, Folk Housing in Middle Virginia (1975)",
+  "faults/centre-passage-blocked-at-one-end.json",
+  "proportions/systems/room-vernacular.json, circulation_parti derived rule: 6 ft north, 8-12 ft south"
+ ],
+ "confidence": "high"
 }

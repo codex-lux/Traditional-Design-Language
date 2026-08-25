@@ -35,7 +35,10 @@ class TestShippedPlans:
         # and serious are unmoved, which is what says this removed noise and not signal.
         # 57 -> 56 the same day (OQ 41): one more finding came from a secondary test written
         # for another style, and is no longer run against this one.
-        assert result["counts"]["minor"] == 56
+        # 56 -> 59 (OQ 43): substitution became directional, so a room the plan models under an
+        # equivalent name now produces a real adjacency finding at the rule's own severity
+        # instead of one minor "treats as equivalent" note. Fatal is unmoved at 4.
+        assert result["counts"]["minor"] == 59
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -57,9 +60,14 @@ class TestShippedPlans:
         assert result["counts"].get("fatal", 0) == 0
         # 39 -> 38 on 24 Aug 2026 (OQ 41): a secondary test written for another style is no
         # longer run against this one. A test that is not for this house says nothing about it.
-        assert result["counts"]["serious"] == 38
+        # 38 -> 40 (OQ 43): two findings that were held at minor while substitution was
+        # symmetric are now reported at the severity their own rule carries. Fatal stays 0.
+        assert result["counts"]["serious"] == 40
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 37).
-        assert result["counts"]["minor"] == 64
+        # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
+        # general room offered where a specific one was asked for -- and are now reported as the
+        # absence they are, or promoted to the severity their rule carries. Fatal stays 0.
+        assert result["counts"]["minor"] == 62
 
 
 class TestAdjacencyMechanics:
@@ -422,20 +430,22 @@ class TestVerticalAdjacency:
 
 
 class TestTheAliasGroupsAreDocumented:
-    """OQ 26, ruled 24 Aug 2026. `EQUIVALENT` is validator data in the same sense a fault is —
-    it changes results, and WP-0.3 found a fixture passing for the wrong reason through it — but
-    it existed only as an unexplained list in the source. It is documented in docs/plans.md now,
-    and this pins the documentation to the code so the table cannot quietly go stale."""
+    """OQ 26, ruled 24 Aug 2026. The substitution table is validator data in the same sense a
+    fault is — it changes results, and WP-0.3 found a fixture passing for the wrong reason
+    through it — but it existed only as an unexplained list in the source. It is documented in
+    docs/plans.md now, and this pins the documentation to the code so the table cannot quietly
+    go stale. Renamed from EQUIVALENT to SUBSTITUTES by OQ 43, when it stopped being a set of
+    flat groups and became a directed map."""
 
-    def test_every_alias_group_in_the_code_appears_in_the_docs(self, plan_check_module):
+    def test_every_room_in_the_substitution_table_appears_in_the_docs(self, plan_check_module):
         import os
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         doc = open(os.path.join(root, "docs", "plans.md")).read()
-        assert "`EQUIVALENT`" in doc, "docs/plans.md should describe the alias groups"
-        for grp in plan_check_module.EQUIVALENT:
-            for room_type in grp:
+        assert "`SUBSTITUTES`" in doc, "docs/plans.md should describe the substitution table"
+        for have, wants in plan_check_module.SUBSTITUTES.items():
+            for room_type in {have} | set(wants):
                 assert f"`{room_type}`" in doc, (
-                    f"{room_type} is aliased in plan_check.EQUIVALENT but appears nowhere in "
+                    f"{room_type} is in plan_check.SUBSTITUTES but appears nowhere in "
                     f"docs/plans.md's table")
 
     def test_gallery_corridor_is_documented_as_an_entrance_hall_alias(self, plan_check_module):
@@ -446,17 +456,14 @@ class TestTheAliasGroupsAreDocumented:
 
 
 class TestEquivalentRoomIsNotAbsent:
-    """OQ 42, ruled 24 Aug 2026. Every adjacency target already ran through _alias() when the
-    question was what a room is NEXT TO; whether the plan CONTAINED the room at all was asked
-    against raw types, so a plan with a centre passage was told it models no entrance hall.
-    774 of 3,219 completeness findings across the catalogue were false in exactly that way.
+    """OQ 42 then OQ 43. OQ 42 corrected the SENTENCE and held the severity, because a symmetric
+    substitution table would have turned 170 of these fatal across 87 styles. OQ 43 gave each
+    pairing a direction, which is what made promoting them safe: of 542 such findings, 294 were
+    the substitution running backwards -- a general room offered where a specific one was asked
+    for -- and those return to honest absence. The 214 that remain are real, and they now land
+    at the severity their own rule carries."""
 
-    The ruling was to correct the SENTENCE and not the severity. Re-routing these into the
-    adjacency branch at the rule's own strength is the obvious-looking fix and is worse:
-    measured, it turns 170 of them FATAL across 87 styles, because EQUIVALENT is asymmetric in
-    practice and no pairing states which direction it satisfies (OQ 43)."""
-
-    def test_an_equivalent_room_the_plan_models_is_not_reported_as_absent(self, plan_check_module, corpus):
+    def test_an_equivalent_room_the_plan_models_is_reported_as_not_reached(self, plan_check_module, corpus):
         rooms = [
             {"id": "pr", "type": "powder-room", "name": "Powder Room",
              "width_ft": 4, "length_ft": 6, "exterior_walls": [], "windows": [],
@@ -473,28 +480,41 @@ class TestEquivalentRoomIsNotAbsent:
                 if f.get("room") == "pr" and "entrance hall" in f["statement"].lower()]
         assert len(hits) == 1
         assert "the plan models none" not in hits[0]["statement"], hits[0]["statement"]
-        assert "treats as equivalent" in hits[0]["statement"]
-        assert "centre passage" in hits[0]["statement"]
+        assert hits[0]["layer"] == "adjacency"
+        assert "models it as centre passage" in hits[0]["statement"], hits[0]["statement"]
 
-    def test_it_stays_minor_and_stays_completeness(self, plan_check_module, corpus):
-        """Trading 774 false minors for 170 false fatals is not a fix."""
+    def test_the_substitution_running_backwards_is_absence_again(self, plan_check_module, corpus):
+        """The half of OQ 43 that REMOVES findings. A plan with a plain bathroom does not model a
+        primary bathroom, and telling a primary bedroom it fails to reach one it has is worse
+        than telling it none is modelled."""
         rooms = [
-            {"id": "pr", "type": "powder-room", "name": "Powder Room",
-             "width_ft": 4, "length_ft": 6, "exterior_walls": [], "windows": [],
-             "doors": [{"to": "bh", "width_ft": 2.5}]},
-            {"id": "bh", "type": "back-hall", "name": "Back Hall",
-             "width_ft": 6, "length_ft": 12, "exterior_walls": [], "windows": [],
-             "doors": [{"to": "pr", "width_ft": 2.5}]},
-            {"id": "cp", "type": "centre-passage", "name": "Centre Passage",
-             "width_ft": 10, "length_ft": 20, "exterior_walls": ["S"],
-             "windows": [{"wall": "S", "width_ft": 3, "height_ft": 5, "count": 1}],
-             "doors": [{"to": "exterior", "width_ft": 3.5}]},
+            {"id": "pb", "type": "primary-bedroom", "name": "Primary Bedroom",
+             "width_ft": 14, "length_ft": 16, "exterior_walls": ["N"],
+             "windows": [{"wall": "N", "width_ft": 3, "height_ft": 5, "count": 2}],
+             "doors": [{"to": "lg", "width_ft": 3}]},
+            {"id": "ba", "type": "bathroom", "name": "Hall Bath",
+             "width_ft": 6, "length_ft": 9, "exterior_walls": [], "windows": [],
+             "doors": [{"to": "lg", "width_ft": 2.5}]},
+            {"id": "lg", "type": "landing", "name": "Landing",
+             "width_ft": 6, "length_ft": 10, "exterior_walls": [], "windows": [],
+             "doors": [{"to": "pb", "width_ft": 3}, {"to": "ba", "width_ft": 2.5}]},
         ]
-        hit = next(f for f in plan_check_module.check(minimal_plan(rooms), corpus)["findings"]
-                   if f.get("room") == "pr" and "entrance hall" in f["statement"].lower())
-        assert hit["severity"] == "minor"
-        assert hit["layer"] == "completeness"
-        assert "OQ 43" in hit["fix"]
+        hits = [f for f in plan_check_module.check(minimal_plan(rooms), corpus)["findings"]
+                if f.get("room") == "pb" and "primary bathroom" in f["statement"].lower()]
+        assert hits, "the rule should still fire"
+        assert "the plan models none" in hits[0]["statement"], hits[0]["statement"]
+        assert hits[0]["layer"] == "completeness"
+
+    def test_substitution_runs_one_way_and_the_table_says_which(self, plan_check_module):
+        m = plan_check_module
+        assert m.satisfies("primary-bathroom", "bathroom")
+        assert not m.satisfies("bathroom", "primary-bathroom")
+        assert m.satisfies("walk-in-closet", "closet")
+        assert not m.satisfies("closet", "walk-in-closet")
+        # and the entrance-hall family is mutual on purpose, because whichever of them a plan
+        # calls its entry, the front door opens into it
+        assert m.satisfies("centre-passage", "entrance-hall")
+        assert m.satisfies("entrance-hall", "centre-passage")
 
     def test_a_room_cannot_satisfy_its_own_rule_through_its_own_alias_group(self, plan_check_module, corpus):
         """Without this the kitchen's rule to adjoin a scullery was answered by the kitchen

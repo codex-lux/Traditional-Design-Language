@@ -725,10 +725,25 @@
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "rule": "The cabinets flank the rear loggia and are entered from IT, never from a chamber.",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "suppresses",
+          "statement": "The cabinets flank the rear loggia and are entered from IT, never from a chamber.",
+          "suppresses": {
+            "room": "closet",
+            "key": "must_adjoin",
+            "target": "bedroom"
+          },
+          "why": "Same fact as on creole-cottage-vernacular and french-colonial-american, declared again because these are SIBLING traditions rather than descendants -- a suppression is inherited down a chain and does not travel sideways. The Monterey house takes the Creole cabinet-and-loggia range with the rest of its Gulf inheritance; the cabinets are entered from the loggia, which is what the range is."
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",
