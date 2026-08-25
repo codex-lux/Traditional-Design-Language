@@ -152,6 +152,39 @@ def test_heavy_tools_are_capped_and_refuse_honestly(live, monkeypatch):
     assert "Nothing was evaluated" in second["note"]
 
 
+# The minimum each metered tool needs to get PAST argument validation. The SDK validates
+# required arguments before the tool body runs, so an empty {} never reaches the limiter —
+# correct behaviour, and the reason these are not simply {}.
+_METERED_MIN_ARGS = {"tdl_check_plan": {"plan": {}},
+                     "tdl_compose": {"brief": {}},
+                     "tdl_place_plan": {"plan": {}}}
+
+
+def test_the_metered_set_is_exactly_what_this_file_checks():
+    """Pins METERED against an independent literal.
+
+    Without this the parametrized test below was theatre in a way worth naming: it drew
+    its cases FROM mcp_mount.METERED, so shrinking that set shrank the test cases with it
+    and there was nothing left to fail. A test whose inputs come from the thing under test
+    cannot detect the thing under test getting smaller.
+    """
+    assert set(_METERED_MIN_ARGS) == mcp_mount.METERED
+
+
+@pytest.mark.parametrize("tool", sorted(_METERED_MIN_ARGS))
+def test_every_metered_tool_actually_refuses(live, monkeypatch, tool):
+    """Only tdl_check_plan was ever exercised, so dropping either of the other two from
+    METERED left the suite green. The bucket is spent first, so none of the three does any
+    real work here — reaching the refusal is the whole point."""
+    monkeypatch.setenv("MCP_HEAVY_CALLS_PER_HOUR", "1")
+    limits.reset()
+    limits.take("mcp:heavy", limit=1, window_s=3600)      # spend it
+    h = _session(live)
+    out = _call(live, h, tool, _METERED_MIN_ARGS[tool], 40)
+    assert out.get("refused") is True, f"{tool} is in METERED but did not refuse"
+    assert "Nothing was evaluated" in out["note"]
+
+
 def test_read_only_tools_are_never_capped(live, monkeypatch):
     monkeypatch.setenv("MCP_HEAVY_CALLS_PER_HOUR", "1")
     limits.reset()

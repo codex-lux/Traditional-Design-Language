@@ -251,8 +251,14 @@ def test_rate_limited_turn_never_reaches_the_transport(monkeypatch):
     assert events[0]["data"]["limited"] is True
 
 
-def test_no_identity_means_unmetered_but_still_shape_checked(monkeypatch):
-    """The CLI and the tests pass no identity; the size cap still applies to them."""
+def test_shape_check_applies_even_without_an_identity(monkeypatch):
+    """The size cap binds the CLI and the tests too, which pass no identity.
+
+    Renamed: it used to claim it also proved "no identity means unmetered", and it did
+    not — its own setup sends an oversized body, so check_shape short-circuits and
+    check_rail is never consulted. Metering everyone would have passed it. That half is
+    now test_unmetered_when_no_identity_is_given, which reaches it.
+    """
     monkeypatch.setenv("RAIL_TURNS_PER_HOUR", "1")
     monkeypatch.setenv("RAIL_MAX_MESSAGES", "2")
     fake = _RecordingClient()
