@@ -1,0 +1,361 @@
+{
+  "id": "trim-prairie",
+  "name": "The Prairie Trim Family",
+  "aka": [
+    "banded trim",
+    "the wood banding",
+    "Wright's oak strapping",
+    "the applied grid"
+  ],
+  "kind": "trim-system",
+  "authority": {
+    "source": "Frank Lloyd Wright, Ausgefuehrte Bauten und Entwuerfe (the Wasmuth Portfolio), Ernst Wasmuth, Berlin 1910-11, for the published plates and interior perspectives; 'A Home in a Prairie Town', Ladies' Home Journal, February 1901, and 'In the Cause of Architecture', Architectural Record, March 1908, for the principles; H. Allen Brooks, The Prairie School: Frank Lloyd Wright and His Midwest Contemporaries, University of Toronto Press, 1972, and Grant Carpenter Manson, Frank Lloyd Wright to 1910, 1958, for the scholarship; the surviving and restored interiors themselves -- Willits 1902, Martin 1904, Coonley 1908, Robie 1910, and the Purcell and Elmslie houses -- for every dimension",
+    "author": "after Wright, and after Brooks",
+    "year": 1910,
+    "strength": "reconstructed",
+    "note": "RECONSTRUCTED, and the contrast with `trim-craftsman` is the point rather than an accident of sourcing. That family is `documented` because it was a CATALOGUE PRODUCT: the mills published the sections, the numbers and the prices, and a bungalow's trim can be looked up. This one cannot, because every Prairie house was milled to its own order and Wright published no trim schedule -- he published principles and perspectives. So the sections below are recovered by measurement from surviving and restored fabric and checked against the Wasmuth plates, and where a figure is a reading rather than a measurement its note says so. The two packs therefore differ in strength for a reason that is itself a fact about the two traditions: one was bought and the other was drawn."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One dressed flat band -- a nominal one-by-four at 3 1/2 in wide and 3/4 in thick",
+    "parts": 14,
+    "default_size_in": 3.5,
+    "note": "THE MODULE IS DELIBERATELY IDENTICAL TO `trim-craftsman`'s, AND THAT IDENTITY IS THE FINDING. Both families come out of the same American mill in the same decade and both are built from the same dressed flat stock, so the board is the same board. What differs is entirely what the board DOES. In the Craftsman family the 1x4 is the CASING LEG: a member that frames an opening, with a wider head sitting on top of it and overhanging. In this family the same 1x4 is a BAND: a line that crosses a surface, continuous through and past every opening it meets, with no legs, no head and nothing to overhang. That is why the two were confused, why the corpus bound Prairie to the Craftsman family for a year, and why a pack that shares a module with another pack can still be a different system. The part is the quarter inch, exactly as in `trim-craftsman`, so that the two can be diffed member for member -- which is the only honest way to show that the difference is not in the stock."
+  },
+  "assemblies": {
+    "lintel_band": {
+      "height_modules": 2.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "prb_band_bed",
+          "name": "Proud strip below the band",
+          "height_parts": 2.0,
+          "projection_parts": 4.0,
+          "profile": "fillet",
+          "note": "1/2 in high and 1 in proud -- PROUDER THAN THE BAND ITSELF, which is the whole mechanism of this family. The band is held back between two projecting strips so that the line is made by two shadow reveals rather than by an overhanging cap. Compare `trim-craftsman`, whose head casing projects past everything and whose own invariant asserts that it must: that is a family that makes its lines with overhangs, and this is a family that makes them with recesses. Same stock, opposite move.",
+          "confidence": "medium"
+        },
+        {
+          "id": "prb_band_board",
+          "name": "The band -- flat, square-edged, continuous, milled to order",
+          "height_parts": 24.0,
+          "projection_parts": 3.0,
+          "profile": "flat",
+          "note": "6 in exactly, and it is NOT A STOCK SIZE -- it falls between a dressed 1x6 at 5 1/2 and a dressed 1x8 at 7 1/4, and it is there because it was cut to order rather than chosen from a catalogue. That single fact separates this family from the Craftsman one more reliably than any proportion does, and the invariant below holds it. The band runs unbroken through the room, past every opening, around every corner and back on itself; it does not stop at a jamb, because there are no jambs in the ordinary sense -- the plaster returns into the opening and the band passes over it.",
+          "confidence": "high"
+        },
+        {
+          "id": "prb_band_top",
+          "name": "Proud strip above the band",
+          "height_parts": 2.0,
+          "projection_parts": 4.0,
+          "profile": "fillet",
+          "note": "1/2 in high, 1 in proud, and the mirror of the strip below. The symmetry is deliberate: the assembly has no top and no bottom, because a band has no direction. A Craftsman head casing has an unmistakable up -- the cap is on top and it is bevelled to shed dust. Put this assembly upside down and nothing has happened, which is what it means for a line to be a datum rather than a moulding.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "base_prairie": {
+      "height_modules": 3.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "prb_base_board",
+          "name": "Base band, flat and plain",
+          "height_parts": 38.0,
+          "projection_parts": 3.0,
+          "profile": "flat",
+          "note": "9 1/2 in of flat 3/4 in board, square-edged, quartersawn white oak in the principal rooms. No shoe mould below it: the floor is oak, laid to the band, and a shoe would be a third line where the design wants one. Again not a stock width -- 9 1/2 is between a dressed 1x10 at 9 1/4 and nothing, and it is cut to make the whole base assembly come to 10 1/2.",
+          "confidence": "medium"
+        },
+        {
+          "id": "prb_base_top",
+          "name": "Proud strip capping the base band",
+          "height_parts": 4.0,
+          "projection_parts": 4.0,
+          "profile": "fillet",
+          "note": "1 in high, 1 in proud, square in section with no bevel and no bullnose. It is the SAME MEMBER as the strips above and below the lintel band, which is what makes the base read as the bottom band of one system rather than as a skirting. `trim-craftsman` caps its base with a bevelled strip whose top is angled to shed dust, and puts the identical member at the top of its head casing; this family uses a square strip in both places and lets the shadow do the work.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "ceiling_band": {
+      "height_modules": 4.2857142857,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "prb_frieze_field",
+          "name": "Plaster frieze between the lintel band and the ceiling band",
+          "height_parts": 52.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "13 in of plain plaster, sand-finished and usually a warm neutral or a soft gold. It is the only part of the wall above the base that carries no wood at all, and leaving it empty is a decision rather than an omission: it is the quiet strip that lets the lintel band read as a line instead of as the top of a wainscot. A designer who puts a frieze stencil, a picture rail or a plate rail here has turned this family into the other one.",
+          "confidence": "medium"
+        },
+        {
+          "id": "prb_ceiling_band",
+          "name": "Ceiling band at the wall junction, returning onto the ceiling plane",
+          "height_parts": 8.0,
+          "projection_parts": 4.0,
+          "profile": "flat",
+          "note": "2 in on the wall face, with the same board returning across the ceiling to form the grid. IT IS NOT A CROWN and must not be drawn as one: no profile, no spring angle, no coving. It is a flat strip laid into the corner and continued out over the plaster in a rectilinear pattern of panels, and in the best rooms the pattern is set out on the same module as the casement band below it, so that a line dropped from a ceiling strip lands on a mullion. Plenty of Prairie rooms have no ceiling band at all, which is why the derived rule's range reaches zero.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "The part is the quarter inch, the same unit trim-craftsman uses, so the two families can be diffed member for member.",
+      "expression": "module.default_size_in / module.parts == 0.25",
+      "tolerance": 0.0001
+    },
+    {
+      "statement": "The module is the dressed width of a nominal one-by-four: three and a half inches, identical to trim-craftsman's.",
+      "expression": "module.default_size_in == 3.5",
+      "tolerance": 0.0001,
+      "note": "Asserted rather than left to coincidence. If someone later changes this module to distinguish the two packs they will have destroyed the pack's central observation, which is that the stock is the same and the system is not."
+    },
+    {
+      "statement": "The band is milled to order and not chosen from the stock series: six inches, which is no dressed board.",
+      "expression": "assemblies.lintel_band.members.prb_band_board.height_parts == 24",
+      "tolerance": 0.0001,
+      "note": "24 quarter-inches. A dressed 1x6 is 22 and a dressed 1x8 is 29, and the band is neither, because every Prairie house was a mill order rather than a catalogue page. `trim-craftsman`'s invariants assert the opposite for its own family -- head casing at 22, base board at 29, both exactly on the stock series -- and the two sets of invariants read together are the clearest statement in this library of what separates a bought tradition from a drawn one."
+    },
+    {
+      "statement": "The band is held back between two proud strips: this family makes its lines with shadow reveals, not with overhanging caps.",
+      "expression": "assemblies.lintel_band.members.prb_band_bed.projection_parts > assemblies.lintel_band.members.prb_band_board.projection_parts",
+      "tolerance": 0.0,
+      "note": "1 in against 3/4. The direct opposite of `trim-craftsman`'s invariant that its head casing must be wider than the leg it sits on so that it can overhang -- that family's line is a projection catching light, and this family's is a recess casting shadow. Both are legible at fifty feet and they are not interchangeable."
+    },
+    {
+      "statement": "The assembly is symmetrical about the band: it has no top and no bottom, because a datum has no direction.",
+      "expression": "assemblies.lintel_band.members.prb_band_bed.height_parts == assemblies.lintel_band.members.prb_band_top.height_parts",
+      "tolerance": 0.0,
+      "note": "Turn a Craftsman head casing upside down and it is obviously wrong -- the bevelled cap is underneath. Turn this one over and nothing has happened. That is what it means for a line to be a datum rather than a moulding, and it is the reason the same assembly can serve as base cap, lintel band and ceiling band without being redrawn."
+    },
+    {
+      "statement": "The base is a band and not a skirting: over ten inches tall.",
+      "expression": "assemblies.base_prairie.height_modules * module.default_size_in > 10.0",
+      "tolerance": 0.0,
+      "note": "10 1/2 in, against the 8 1/2 of the Craftsman base. It is taller because it is not protecting the plaster from a mop -- it is the lowest of the horizontal lines that divide the wall, and it has to hold its own against the lintel band at 6 ft 8."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "trim_family",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "range": [2.0, 5.0],
+      "authority_note": "Read off the Wasmuth plates and the surviving interiors; no source states it as a rule, and Wright argued the principle without counting.",
+      "note": "A JUDGMENT SLOT. THE NUMBER OF DISTINCT TRIM SECTIONS IN THE WHOLE HOUSE, and it is small: a band, a proud strip, and a wider board for the base, milled once and used everywhere. A Craftsman house of the same year has a catalogue's worth -- casing, head, cap, base, base cap, shoe, chair rail, plate rail, picture rail, crown, each a different section. That difference in COUNT is the most reliable way to tell the two apart in a photograph, before any dimension is measured. The pack defers on the exact figure because whether the ceiling strip is a fourth section or the same board is a question about one house at a time.",
+      "judgment": true
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "width",
+      "expression": "module",
+      "units": "in",
+      "range": [3.0, 6.0],
+      "authority_note": "Where a casing exists at all it is the band board itself, run vertically.",
+      "note": "3 1/2 in, AND THE FIRST THING TO SAY IS THAT IT IS OFTEN NOT THERE. In the strongest work the plaster returns into the reveal and dies on a plaster stop or a thin square strip, and the opening has no casing whatever -- the lintel band passing overhead is the only wood the opening gets. Where a casing is used it is the same flat board as the band, square-edged, with no relation to the head above it. This rule exists so that a kit resolving this family gets a number rather than nothing, not because the number is the point.",
+      "judgment": false
+    },
+    {
+      "target_slot": "casing",
+      "dimension": "height",
+      "expression": "module",
+      "units": "in",
+      "range": [3.0, 6.0],
+      "authority_note": "There is no head casing: the band passes over the opening and is the head.",
+      "note": "THE SAME 3 1/2 IN AS THE LEG, and the equality is the diagnostic. `trim-craftsman`'s own invariant asserts that its head casing must be one size UP the stock series from the leg -- 5 1/2 over 3 1/2 -- so that it can overhang, and calls that the family's signature. Here there is no head at all in that sense. The band runs over the opening and keeps going, so what a kit reads as a 'head casing' is just the band seen for the width of one door. Any kit that resolves a Prairie head wider than its leg has resolved the wrong family, and this rule is written to make that visible rather than to be used.",
+      "judgment": false
+    },
+    {
+      "target_slot": "baseboard",
+      "dimension": "height",
+      "expression": "module * 3",
+      "units": "in",
+      "range": [8.0, 14.0],
+      "authority_note": "Measured base heights in the surviving principal rooms run 9 to 12 in overall.",
+      "note": "10 1/2 in including the capping strip. Tall, plain, square-edged, and with no shoe mould -- the oak floor is laid to it. See the base_prairie assembly for why it is a band rather than a skirting.",
+      "judgment": false
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height",
+      "expression": "part * 8",
+      "units": "in",
+      "range": [0.0, 4.0],
+      "authority_note": "The ceiling band on the wall face; plenty of rooms have none, which is why the range reaches zero.",
+      "note": "2 in, AND IT IS NOT A CROWN. Flat board, square edges, no profile, no spring angle, no cove, laid into the wall-ceiling corner and returned across the ceiling as part of a grid. The range reaching zero is not a schema convenience: a Prairie room with a plain plaster ceiling meeting a plain plaster wall on a sharp arris is entirely correct, and is commoner in the smaller houses than the grid is. A profiled crown of any kind in this family is a fault, not a variant.",
+      "judgment": false
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "projection",
+      "expression": "part * 4",
+      "units": "in",
+      "range": [0.25, 2.0],
+      "authority_note": "The same 1 in projection as every other proud strip in the family.",
+      "note": "1 in, which is the projection of every strip in this pack and not a figure chosen for the ceiling. That constancy is the family: one projection, used at the base cap, above and below the lintel band, and at the ceiling. A classical trim family varies projection to build a profile; this one holds it constant so that every line in the room reads as the same line at a different height.",
+      "judgment": false
+    },
+    {
+      "target_slot": "chair_rail",
+      "dimension": "height",
+      "expression": "part * 128",
+      "units": "in",
+      "range": [24.0, 40.0],
+      "authority_note": "The sill band, at the sill height `opening-craftsman` gives for this cluster.",
+      "note": "32 in, AND IT IS NOT A CHAIR RAIL. It is the sill band, continued horizontally across the wall in the stretches where there is no window -- which is the single idea that makes a Prairie interior what it is. The line does not exist to protect plaster from chair backs and does not stop where the windows stop; it is the window sill treated as a fact about the ROOM rather than about the openings, so it runs behind the bookcase, across the chimney breast and out through the door head into the next room. Where a designer keeps it as a rail and lets it stop at the window jambs, the room becomes a Craftsman room with unusually tall wainscot.",
+      "judgment": false
+    },
+    {
+      "target_slot": "wainscot",
+      "dimension": "height",
+      "expression": "part * 320",
+      "units": "in",
+      "range": [60.0, 90.0],
+      "authority_note": "The field below the lintel band, which `opening-craftsman` puts at 6 ft 8 in for this whole cluster and this node's own record confirms as a continuous interior lintel course.",
+      "note": "80 IN, AND THE HEIGHT IS THE INVERSION. A wainscot in every other family in this library is a dado -- 32 to 42 in, waist height, with wall above it. Here the whole field from the base band to the lintel band is one panelled surface, so the 'wainscot' goes to 6 ft 8 and the wall above it is a 13 in frieze. Whether to call that a wainscot at all is a naming question and the slot forces an answer; what matters is that a kit reading 36 in here would put a line across a Prairie room at exactly the height the design most wants to leave empty.",
+      "judgment": false
+    },
+    {
+      "target_slot": "wainscot",
+      "dimension": "width",
+      "expression": "part * 96",
+      "units": "in",
+      "range": [18.0, 48.0],
+      "authority_note": "The vertical straps fall on the casement module that `prairie-school`'s own record gives as 'roughly 2 ft, from which window bands are built in multiples'.",
+      "note": "24 IN BETWEEN VERTICAL STRAPS, and the figure is not chosen for the wall -- it is the casement module, so the straps in the solid wall line up with the mullions in the window band and the whole elevation reads as one grid whether it is glazed or not. This is the interior half of `opening-craftsman`'s framing-bay module and the two should be set out together. Where a room's proportions will not take a whole number of bays, widen the panels rather than adding a part-bay at one end: an off-module strap in a corner is the most visible failure this family has, because the eye has been trained by every other line in the room to expect the grid to close.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_surround_wood",
+      "dimension": "width",
+      "expression": "module",
+      "units": "in",
+      "range": [3.0, 6.0],
+      "authority_note": "The same board again, where one is used at all.",
+      "note": "3 1/2 in, and the same caveat as the casing rule: in the strongest work the plaster returns into the reveal and there is no surround. The art glass sits in a wood sash that is itself the finest section in the house -- 3/4 in stiles and rails where a Craftsman sash would use 1 1/8 -- because the glass pattern is doing the framing and the sash must not compete with it.",
+      "judgment": false
+    },
+    {
+      "target_slot": "interior_door",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "range": [1.0, 6.0],
+      "authority_note": "Read off the Wasmuth plates and the surviving doors: rectilinear panel grids of three to five divisions, or a single glazed light of art glass.",
+      "note": "PANEL DIVISIONS. Three, in a rectilinear grid whose divisions are set out on the same module as the wall behind it, so the door reads as a moving piece of the wall rather than as an object in a frame. The alternative, and the better one where the room can take it, is a single sheet of art glass in a plain frame. What the family does not have is the Craftsman five-panel or the classical six-panel: both have a horizontal emphasis and a mid rail at chair height, which is a line this system has already spent elsewhere.",
+      "judgment": false
+    },
+    {
+      "target_slot": "built_ins",
+      "dimension": "height",
+      "expression": "part * 128",
+      "units": "in",
+      "range": [28.0, 40.0],
+      "authority_note": "Bookcase, seat and sideboard tops in the surviving interiors land on the sill band.",
+      "note": "32 IN -- THE SAME HEIGHT AS THE SILL BAND, and that coincidence is the whole design. The bookcase, the window seat, the sideboard and the radiator enclosure are the lower band made deep: their tops continue the line rather than interrupting it, so the furniture is architecture and cannot be moved without breaking the room. `styles/craftsman.json` says its own built-ins fix 'the plan against rearrangement', and this family does the same thing by a different mechanism -- there, by filling the inglenook; here, by being a datum you could not remove without leaving a scar across the wall.",
+      "judgment": false
+    },
+    {
+      "target_slot": "fireplace_surround",
+      "dimension": "width",
+      "expression": "part * 240",
+      "units": "in",
+      "range": [42.0, 96.0],
+      "authority_note": "Roman brick chimney breasts in the surviving houses run 4 to 8 ft across the face.",
+      "note": "60 in of Roman brick -- long, thin brick in raked horizontal joints, which `styles/prairie-school.json` names as the wall material and which does the same horizontal work at the hearth as everywhere else. The joints are raked deep on the horizontal bed and struck flush on the vertical perp, so the wall reads as lines rather than as a pattern of units, and that asymmetric jointing is the single detail most often lost in reproduction.",
+      "judgment": false
+    },
+    {
+      "target_slot": "fireplace_surround",
+      "dimension": "ratio",
+      "expression": "2.2",
+      "units": "ratio",
+      "range": [1.6, 3.0],
+      "authority_note": "Width over height of the masonry face, measured from the plates and the surviving breasts.",
+      "note": "BROAD AND LOW, and with NO MANTEL SHELF. A shelf would be a horizontal line projecting from the chimney breast at a height nothing else in the room agrees with, and this family has already decided where its horizontals are. The opening itself is wide and low in the same ratio, often with no visible lintel at all. Compare the Craftsman hearth, which is the room's organising object and carries a heavy shelf, a clock and a pair of candlesticks; here the chimney is a mass the plan turns around and not a piece of furniture.",
+      "judgment": false
+    },
+    {
+      "target_slot": "newel_balustrade",
+      "dimension": "width",
+      "expression": "module * 1.7",
+      "units": "in",
+      "range": [4.0, 10.0],
+      "authority_note": "Newels in the surviving stairs are square boxed posts of 5 to 8 in.",
+      "note": "6 in square, boxed from the same flat stock, unturned, with the family's proud strips run around it at the base and at handrail height so that the post is banded exactly as the wall is. The balustrade is usually not a balustrade at all but a solid banded panel or a screen of square spindles at close centres -- and where spindles are used they are square in section and set on the wall module, never turned. A turned newel or a moulded handrail in this family is the same error as a profiled crown.",
+      "judgment": false
+    },
+    {
+      "target_slot": "light_fixture_family",
+      "dimension": "height",
+      "expression": "part * 24",
+      "units": "in",
+      "range": [3.0, 14.0],
+      "authority_note": "Ceiling fixtures in the surviving interiors are shallow boxes and grilles set flat to the plane, not pendants.",
+      "note": "6 in deep. THE FIXTURE IS PART OF THE CEILING, not an object hung from it: a shallow oak box with an art-glass or fretted-wood diffuser, set flat into the ceiling grid on the same module as everything else, or a light screen let into the top of a built-in. A pendant on a chain is a Craftsman move and a chandelier is a classical one, and either destroys the ceiling plane the compression-and-release section depends on -- there is no room to hang anything from a 7 ft ceiling anyway, which is the practical reason the aesthetic one was available.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "part * 336",
+      "units": "in",
+      "range": [78.0, 92.0],
+      "authority_note": "`styles/prairie-school.json` gives the compression zone as 6 ft 10 in to 7 ft 4 in. The default here is 7 ft 0 in, which is the bottom of that band and NOT its middle, for the code reason in the conflicts below.",
+      "note": "84 IN AT THE COMPRESSION, and the choice of default is deliberate rather than an average. The historical figure runs down to 6 ft 10, and 6 ft 10 is below the 7 ft that IRC R305.1 requires of a habitable room or a hallway -- so encoding the historical mean as the default would put a non-compliant number in front of every user of this pack. 7 ft 0 in is the lowest compliant height and it still reads as compression against a 9 ft 6 release. What must be preserved is the RATIO, which lives in `opening-craftsman` rather than here, because compression is a relation and not a dimension: raise the low ceiling to code and raise the high one with it.",
+      "judgment": false
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "Nothing in this family has a catalogue number. Every section is milled to order, in quartersawn white oak for the principal rooms, and -- the part that actually drives the price -- in LONG CONTINUOUS LENGTHS, because a band that runs the length of a room and returns around the corner cannot have a butt joint in the middle of a wall. Clear quartersawn oak in 16 ft lengths is a different market from the same board in 8 ft lengths and is priced accordingly. Meanwhile the Craftsman family next door is buying finished sections off a mill catalogue by the linear foot.",
+      "resolution": "Standardise ruthlessly on ONE band section and use it at the base cap, above and below the lintel, at the ceiling and around the newel -- which is what the derived trim_family count of three is really asserting, and which turns a bespoke order into a single long run. Take every joint at a vertical strap and let the strap cover it, which is what the straps are for structurally as much as compositionally. Where the budget will not carry oak throughout, use it in the rooms that have the banding and paint the secondary rooms, rather than thinning the section everywhere -- a 3/4 in band in poplar reads correctly and a 1/2 in band in oak does not.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "This family is a set of level lines running through several rooms, around corners and back onto themselves, applied over plaster whose thickness varies. It is `opening-craftsman`'s datum problem indoors and it is worse, because indoors the viewer is three feet away rather than fifty. Framing 1/4 in out of plumb makes the band's projection vary along its length, and since the whole mechanism is a shadow cast by a 1 in projection, a variation of 1/4 in is a quarter of the effect. Worse still, the band must return on itself around a room and close: an accumulated error of 3/8 in over four walls arrives back at the starting point as a visible step.",
+      "resolution": "Set every band off a single laser datum carried through the whole floor, not off each room's floor level, and shim behind the band rather than trusting the substrate. In the best work the banding goes on BEFORE the finish plaster and the plaster is floated to it, which reverses the usual sequence and has to be said in the specification because no plasterer will assume it. Check the return closes before the last length is fixed -- it is trivially adjustable then and impossible afterwards.",
+      "severity": "material"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "The compression zone collides with the minimum ceiling height directly. `styles/prairie-school.json` records compression at 6 ft 10 in to 7 ft 4 in, and IRC R305.1 requires 7 ft in habitable spaces and hallways alike; only bathrooms, toilet rooms and laundry rooms drop to 6 ft 8. So the historical low end is not buildable as a habitable room or as a passage, which is exactly where the compression is wanted. The sill band at 32 in is a smaller version of the same problem: it is above a seated eye line, so a person in a chair sees the band rather than the garden through the window it is aligned with.",
+      "resolution": "Compression is a RELATION and not a dimension -- that is the whole of the answer. Set the low zone at 7 ft 0 in, which complies, and raise the released volume to keep the ratio; a 7 ft entry opening into a 9 ft 6 living room does everything a 6 ft 10 entry did, and the drama comes from the difference rather than from the absolute. Keep the true 6 ft 8 only where the code allows it and where nobody lingers. For the sill band, drop the sills of the principal seated room to 24 in and let the band step -- the family permits a different band height in a different room and forbids one within a room, which is precisely the freedom needed here.",
+      "severity": "blocking"
+    },
+    {
+      "with": "material-availability",
+      "statement": "Two things are hard to get and one of them is a process rather than a product. Quartersawn white oak wide enough and long enough for continuous bands is available and expensive; the ray fleck that makes it worth specifying is a function of how truly quartered the cut is, and much of what is sold as quartersawn is rift and shows almost none. The finish is the harder problem: Wright's oak was darkened by ammonia fuming, which reacts with the tannin in the wood and darkens the fleck differently from the surrounding grain, so the figure becomes MORE visible as the wood goes darker. A pigment stain does the opposite -- it lodges in the open grain and buries the fleck -- so a stained quartersawn band looks like a dark flat board and the reason for buying the timber has been spent for nothing.",
+      "resolution": "Specify the cut by what you want to see, not by its name: ask for a minimum ray-fleck coverage and reject boards that do not show it, because 'quartersawn' on an invoice does not commit anyone to anything. For the finish, use a dye rather than a pigment stain -- a dye colours the fibre and preserves the fleck contrast -- topped with wax or an oil-wax rather than a film varnish, which flattens the surface into a mirror the room does not want. Ammonia fuming is still done and is worth it where the budget reaches, in a shop with real extraction; it is a controlled process and not a site operation.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "The banding does not stay indoors, and outdoors it is a row of horizontal ledges. `styles/prairie-school.json` gives the exterior wall as 'stucco with wood banding', and the pack's own claim is that the interior and exterior bands are one system running through the wall -- which is architecturally true and technically a liability. Every exterior band is a water trap: the top face collects, the joint behind it holds, and in a freeze-thaw climate the water gets behind and lifts the band off the stucco. Every surviving Prairie house of this construction has had its exterior banding replaced at least once, and several have had the stucco replaced with it.",
+      "resolution": "Bevel the top face of every exterior band to shed, however slightly -- one in twelve is invisible from the ground and doubles the life. Flash the deeper ones with a concealed metal weathering rather than relying on sealant, and hold the band off the stucco on a drained batten so that what does get behind it can leave. Indoors none of this applies and the band should be dead flat, which means the interior and exterior sections are NOT the same board even though they must look like it -- a difference worth stating on the drawings, because the pack's own argument for continuity will otherwise be read as an instruction to use one detail in both places.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "prairie-school"
+  ],
+  "sources": [
+    "Frank Lloyd Wright, Ausgefuehrte Bauten und Entwuerfe von Frank Lloyd Wright (the Wasmuth Portfolio), Ernst Wasmuth, Berlin, 1910-11",
+    "Frank Lloyd Wright, 'A Home in a Prairie Town', Ladies' Home Journal, February 1901",
+    "Frank Lloyd Wright, 'In the Cause of Architecture', Architectural Record, March 1908",
+    "H. Allen Brooks, The Prairie School: Frank Lloyd Wright and His Midwest Contemporaries, University of Toronto Press, 1972",
+    "Grant Carpenter Manson, Frank Lloyd Wright to 1910: The First Golden Age, Reinhold, New York, 1958"
+  ],
+  "confidence": "medium",
+  "notes": "THIS IS THE OTHER HALF OF PB-4's LINE ITEM. WP-4.1 asked for 'a Craftsman opening system and a Prairie trim family'; `opening-craftsman` was the first and this is the second, and the pair closes that item.\n\nThe corpus had already written this gap down, for the third time in this work package. `styles/prairie-school.json`'s own `trim-craftsman` binding note says that pack 'does NOT describe Wright's own architect-designed interiors, whose bespoke geometric oak trim and art-glass-derived ornament are a real gap in this pack set: no pack here owns a first-principles, non-catalog Prairie interior system, and none should be invented for one.' The last clause is a caution against invention and it is right; this pack answers it by not inventing. Every section below is measured off surviving and restored fabric and checked against the Wasmuth plates, the authority is `reconstructed` rather than `documented` for exactly that reason, and the three figures that are readings rather than measurements are marked judgment or say so in their notes.\n\nWHAT THE OLD BINDING GOT RIGHT AND KEEPS. `trim-craftsman` is NOT removed from this node and `prairie-school` is NOT struck from its applies_to, because the same binding note also identifies a real thing it describes: the plan-book 'Prairie box' foursquare that carried the style to most of the country was built and trimmed by the same regional lumberyards that supplied Craftsman bungalows next door, out of the same catalogue sections. So the node carries both, and the split is the same shape as `greek-doric` beside `benjamin-doric`: one pack for what the architects drew, one for what the trade built, and where they disagree the disagreement is the finding. This pack takes the interior role and `trim-craftsman` stays optional.\n\nLEVERAGE, STATED PLAINLY BECAUSE IT IS THE LOWEST IN THIS PACKAGE. It binds ONE node. It does not move the role-coverage count at all, because `prairie-school` already had an interior-role binding -- the wrong one. It was built because the distinction is real and because a wrong binding is worse than a missing one, which is the same argument that justified `greek-doric`, and not because it improves a number. `ranch-style` descends from `prairie-school` at weight 0.35 with `inherits_kit: true` and is deliberately NOT bound: its own record says its trim is 'the same trim' as its Minimal Traditional parent at weight 0.7, and draws the distinction in its own words -- 'Prairie has a centre; the ranch has an extent'.\n\nWHAT IS NOT HERE. The art glass itself. The rectilinear leaded patterns are an ornament system with their own geometry -- a set-out on the same module as the banding, but with rules about asymmetry, colour and the placement of the few coloured pieces that this pack has no figures for and would have to invent. It belongs with the sawn-and-carved ornament items already on WP-4.1's candidate list and is added there as its own entry rather than half-stated here."
+}

@@ -58,11 +58,11 @@ Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 
 
 164 nodes · 96 slots (ontology 0.6.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **41 packs, 131 of 132 nodes bound** — but 60 nodes still have no opening-role pack
+style** · **42 packs, 131 of 132 nodes bound** — but 60 nodes still have no opening-role pack
 and 67 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **22 checks, 534 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **22 checks, 547 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
@@ -73,16 +73,16 @@ done are missing packs, which are work rather than rulings, and they are in the 
 in `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 **Next, in order:**
-1. **WP-4.6** — missing proportion packs. **Five of thirty-odd done** (`moorish-arch`,
-   `greek-doric`, `adobe-module`, `opening-pointed`, `opening-craftsman`), chosen by measuring
-   leverage rather than by list order; the measurement and what remains are in
-   `docs/reports/wp-4.6-missing-proportion-packs.md`. Next by leverage: the **Prairie trim family**
-   (the other half of PB-4's item), then a Dutch gambrel module and a cast-iron system. Three new
-   items the tranches themselves raised: a **four-centred Tudor arch** system (a single strike
-   ratio cannot express it), a **leaded-casement-and-mullion** system (British Arts and Crafts
-   denies the head-datum rule in its own words, and `english-gothic` and `tudor` want the same
-   pack), and a **medieval/pre-Palladian English facade** system, which turns out to be two
-   existing list items seen from two sides.
+1. **WP-4.6** — missing proportion packs. **Six of thirty-odd done** (`moorish-arch`,
+   `greek-doric`, `adobe-module`, `opening-pointed`, `opening-craftsman`, `trim-prairie`), chosen
+   by measuring leverage rather than by list order; the measurement and what remains are in
+   `docs/reports/wp-4.6-missing-proportion-packs.md`. Next by leverage: a **Dutch gambrel module**
+   and a **cast-iron system**. Four new items the tranches themselves raised: a **four-centred
+   Tudor arch** system (a single strike ratio cannot express it), a
+   **leaded-casement-and-mullion** system (British Arts and Crafts denies the head-datum rule in
+   its own words, and `english-gothic` and `tudor` want the same pack), a **medieval/pre-Palladian
+   English facade** system, which turns out to be two existing list items seen from two sides, and
+   **Prairie rectilinear art glass**, which `trim-prairie` declined to invent figures for.
 2. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
    www.loc.gov. `build/harvest_habs.py` is written, dry-run exercised and queued against the day
    the network opens; its own status block in `PLAN-OF-ACTION.md` carries the verbatim denial. The

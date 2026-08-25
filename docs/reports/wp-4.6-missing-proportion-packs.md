@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: five packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: six packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -255,6 +255,63 @@ alignment rule against a node's explicit denial of one. What it wants is a **lea
 mullion system**, which is a new candidate item — and one that would also serve the parts of
 `english-gothic` and `tudor` that `opening-pointed` deliberately left alone.
 
+### `proportions/systems/trim-prairie.json` — the other half, and a wrong binding corrected
+
+PB-4's line item was two things. `opening-craftsman` was the first; this is the second, and it
+closes the item.
+
+**The corpus had written this gap down too — the third time in this package.**
+`prairie-school`'s own `trim-craftsman` binding note says that pack "does NOT describe Wright's own
+architect-designed interiors, whose bespoke geometric oak trim and art-glass-derived ornament are a
+real gap in this pack set: no pack here owns a first-principles, non-catalog Prairie interior
+system, **and none should be invented for one**." The last clause is a caution against invention and
+it is right. This pack answers it by not inventing: every section is measured off surviving and
+restored fabric and checked against the Wasmuth plates.
+
+**The two trim families share a module on purpose, and that is the finding.** Both come out of the
+same American mill in the same decade and both are built from the same dressed 1×4 at the same
+quarter-inch part, so the packs can be diffed member for member. What differs is entirely what the
+board *does*:
+
+| | `trim-craftsman` | `trim-prairie` |
+|---|---|---|
+| the 1×4 is | a **casing leg**, framing an opening | a **band**, crossing a surface |
+| the line is made by | a head casing that **overhangs** | a board **held back** between two proud strips |
+| at an opening | the head is one size up the stock series | there is no head — the band runs over and keeps going |
+| section widths | 22 and 29 quarter-inches — **exactly** the dressed stock series | 24 — **neither** 1×6 nor 1×8, because it was milled to order |
+| authority | `documented` — the mills published the sections | `reconstructed` — Wright published no trim schedule |
+
+That last row is the cleanest statement in this library of what separates **a bought tradition from
+a drawn one**, and both packs' invariants assert their own half so the pair can be read side by side.
+
+Two more inversions the pack records: the "wainscot" goes to **6 ft 8**, not waist height, because
+the whole field below the lintel band is one surface — a kit reading 36 in would put a line across a
+Prairie room at exactly the height the design most wants empty. And the chair rail is **not a chair
+rail**: it is the sill band continued across the wall where there is no window, running behind the
+bookcase and out through the door head into the next room.
+
+**A code figure chosen over a historical one, deliberately.** The compression zone's historical band
+is 6 ft 10 to 7 ft 4; IRC R305.1 requires 7 ft in habitable rooms and hallways alike. Encoding the
+historical mean as the default would put a non-compliant number in front of every user, so the
+default is **7 ft 0 in** — the lowest compliant height — and the note says why. What must be
+preserved is the *ratio*, which lives in `opening-craftsman`, because compression is a relation and
+not a dimension.
+
+**The old binding is kept, not struck.** `trim-craftsman` stays bound (optional) and `prairie-school`
+stays in its `applies_to`, because the same note identifies something real that it *does* describe:
+the plan-book "Prairie box" foursquare, built and trimmed by the same regional lumberyards that
+supplied the bungalow next door. Same shape as `greek-doric` beside `benjamin-doric` — one pack for
+what the architects drew, one for what the trade built, and where they disagree the disagreement is
+the finding.
+
+**Its leverage is the lowest in the package and the report says so.** It binds **one** node and moves
+the role-coverage count by **zero**, because `prairie-school` already had an interior-role binding —
+the wrong one. It was built because a wrong binding is worse than a missing one, which is the same
+argument that justified `greek-doric`, and not because it improves a number. `ranch-style`, which
+descends from `prairie-school` at weight 0.35 with `inherits_kit: true`, is deliberately **not**
+bound: its own record says its trim is "the same trim" as its Minimal Traditional parent at 0.7, and
+draws the distinction in its own words — "Prairie has a centre; the ranch has an extent".
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -268,20 +325,22 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing after the second tranche: a **Prairie trim family** (the other half of PB-4's item),
-a **Dutch gambrel roof module** (3 nodes), a **cast-iron system** (3 nodes), a **four-centred Tudor
-arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
+still missing after the second tranche: a **Dutch gambrel roof module** (3 nodes), a **cast-iron
+system** (3 nodes), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
 also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
 **medieval/pre-Palladian English facade system** (new only in that two existing list items turn out
-to be one pack). **60 nodes still have no opening-role pack**, down from 68, and **67 no
+to be one pack). One more added by this tranche: **Prairie rectilinear art glass**, a set-out with rules about
+asymmetry, colour and the placement of the few coloured pieces that `trim-prairie` has no figures
+for and declined to invent. **60 nodes still have no opening-role pack**, down from 68, and **67 no
 facade-role pack**, unchanged — because the facade halves of both two-part items were measured and
 found already served.
 
 Struck off by the second tranche: the **adobe/rammed-earth module** (5 nodes on the list, and it
 reached 9), the **opening half** of the Gothic Revival item (5 nodes, 3 of them previously with no
-opening-role pack at all), and the **opening half** of the Craftsman item (5 of the 7 nodes that
-had no opening-role pack; the other 2 were refused for stated reasons).
+opening-role pack at all), and **both halves** of the Craftsman item — the opening system for 5 of the 7 nodes that had no
+opening-role pack (the other 2 refused for stated reasons), and the Prairie trim family, which
+binds one node and corrects a wrong binding rather than filling an empty role.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -294,11 +353,12 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Second tranche: 22 checks green again. **41 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the three new
-packs bind 19 nodes but every one of them was already bound, so the count does not move and should
+Second tranche: 22 checks green again. **42 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the four new
+packs bind 20 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
-pack). `tests/test_wp46_packs.py` is now **71 tests**, and the suite as a whole 534. The pinned pack count in
+pack, plus one wrong interior binding corrected, which moves no count at all).
+`tests/test_wp46_packs.py` is now **84 tests**, and the suite as a whole 547. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

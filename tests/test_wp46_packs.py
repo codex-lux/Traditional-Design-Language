@@ -27,6 +27,11 @@ exactly one node, `english-gothic`, and for a different reason -- see the pack's
 `opening-craftsman` (second tranche) -- the opening half of WP-4.1's "Craftsman opening system and
 Prairie trim family", confirmed by PB-4. The measured gap was SEVEN nodes with no opening-role
 pack, not the five the list estimated; this binds five and refuses two for stated reasons.
+
+`trim-prairie` (second tranche) -- the OTHER half of that item, and the third gap in this package
+the corpus had already written into a binding note of its own. It binds one node, which is the
+lowest leverage of anything here; it was built because a wrong binding is worse than a missing one,
+which is the argument that justified `greek-doric` too.
 """
 import glob
 import json
@@ -601,3 +606,146 @@ def test_neither_new_opening_pack_displaced_a_facade_pack(pid):
         assert len(opening) == 1 and opening[0]["role"] == "opening", nid
         precs = [e["precedence"] for e in entries]
         assert len(precs) == len(set(precs)), nid
+
+
+# ---------------------------------------------------------------- trim-prairie
+
+
+def test_the_corpus_had_written_this_gap_down_too():
+    """`prairie-school`'s own trim-craftsman note said no pack owned a first-principles, non-catalog
+    Prairie interior system. Third time in this work package that the gap was named by the data
+    before anyone went looking for it -- and, like the other two, the sentence is superseded in
+    place rather than deleted."""
+    b = binding("prairie-school", "trim-craftsman")
+    assert b is not None
+    assert "no pack here owns a first-principles, non-catalog Prairie interior system" in b["note"]
+    assert "SUPERSEDED IN PART" in b["note"]
+
+
+def test_the_two_trim_families_share_a_module_on_purpose():
+    """The finding, not a collision. Both come out of the same American mill in the same decade and
+    both are built from the same dressed 1x4 at the same quarter-inch part, so the two packs can be
+    diffed member for member. What differs is what the board does."""
+    a, c = pack("trim-prairie"), pack("trim-craftsman")
+    assert a["module"]["default_size_in"] == c["module"]["default_size_in"] == 3.5
+    assert a["module"]["parts"] == c["module"]["parts"] == 14
+    assert "IDENTICAL TO `trim-craftsman`" in a["module"]["note"]
+
+
+def test_one_family_overhangs_and_the_other_recesses():
+    """Craftsman makes its lines with a head casing that projects past everything; Prairie makes
+    them with a band held back between two proud strips. Both packs assert their own half as an
+    invariant, and the pair read together is the whole distinction."""
+    a = pack("trim-prairie")
+    band = {m["id"]: m for m in a["assemblies"]["lintel_band"]["members"]}
+    assert band["prb_band_bed"]["projection_parts"] > band["prb_band_board"]["projection_parts"]
+    assert any("shadow reveals" in i["statement"] for i in a["invariants"])
+    c = pack("trim-craftsman")
+    assert any("overhang" in i["statement"] for i in c["invariants"])
+
+
+def test_the_prairie_band_is_off_the_stock_series_and_the_craftsman_members_are_on_it():
+    """A dressed 1x6 is 22 quarter-inches and a 1x8 is 29. Craftsman's head casing is 22 and its
+    base board 29, exactly on the series, because that family was bought from a catalogue. The
+    Prairie band is 24 -- neither -- because every Prairie house was a mill order. That is the
+    cleanest separation between a bought tradition and a drawn one that this library has."""
+    a = pack("trim-prairie")
+    c = pack("trim-craftsman")
+    band = next(m for m in a["assemblies"]["lintel_band"]["members"] if m["id"] == "prb_band_board")
+    assert band["height_parts"] == 24.0
+    head = next(m for m in c["assemblies"]["door_trim_head"]["members"] if m["id"] == "crf_head_board")
+    base = next(m for m in c["assemblies"]["base_craftsman"]["members"] if m["id"] == "crf_base_board")
+    assert head["height_parts"] == 22.0 and base["height_parts"] == 29.0
+    assert a["authority"]["strength"] == "reconstructed"
+    assert c["authority"]["strength"] == "documented"
+
+
+def test_the_band_assembly_is_symmetrical_because_a_datum_has_no_direction():
+    """Turn a Craftsman head casing over and it is obviously wrong -- the bevelled cap is
+    underneath. Turn this one over and nothing has happened."""
+    a = pack("trim-prairie")
+    m = {x["id"]: x for x in a["assemblies"]["lintel_band"]["members"]}
+    assert m["prb_band_bed"]["height_parts"] == m["prb_band_top"]["height_parts"]
+    assert m["prb_band_bed"]["projection_parts"] == m["prb_band_top"]["projection_parts"]
+    assert all(x["profile"] != "bevel" for x in a["assemblies"]["lintel_band"]["members"])
+
+
+def test_the_head_casing_equals_the_leg_where_craftsman_insists_it_must_not():
+    """There is no head: the band runs over the opening and keeps going. Any kit that resolves a
+    Prairie head wider than its leg has resolved the wrong family, and the rule exists to make that
+    visible rather than to be used."""
+    rules = {(r["target_slot"], r["dimension"]): r for r in pack("trim-prairie")["derived_rules"]}
+    assert rules[("casing", "width")]["expression"] == rules[("casing", "height")]["expression"]
+    craft = {(r["target_slot"], r["dimension"]): r for r in pack("trim-craftsman")["derived_rules"]}
+    assert craft[("casing", "width")]["expression"] != craft[("casing", "height")]["expression"]
+
+
+def test_the_wainscot_goes_to_the_lintel_band_and_not_to_waist_height():
+    """The inversion. A wainscot everywhere else in this library is a dado at 32-42 in; here the
+    whole field from base band to lintel band is one surface, so it goes to 6 ft 8 and the wall
+    above it is a 13 in frieze. A kit reading 36 in would put a line across a Prairie room at
+    exactly the height the design most wants to leave empty."""
+    r = next(x for x in pack("trim-prairie")["derived_rules"]
+             if x["target_slot"] == "wainscot" and x["dimension"] == "height")
+    assert r["range"][0] >= 60.0
+    assert "INVERSION" in r["note"]
+
+
+def test_the_strap_spacing_is_the_casement_module_from_the_opening_pack():
+    """The interior half of `opening-craftsman`'s framing bay: straps in the solid wall line up with
+    mullions in the window band, so the elevation reads as one grid whether it is glazed or not."""
+    strap = next(x for x in pack("trim-prairie")["derived_rules"]
+                 if x["target_slot"] == "wainscot" and x["dimension"] == "width")
+    p = pack("trim-prairie")
+    part_in = p["module"]["default_size_in"] / p["module"]["parts"]
+    assert 96 * part_in == 24.0 == pack("opening-craftsman")["module"]["default_size_in"]
+    assert "casement module" in strap["authority_note"]
+
+
+def test_the_compression_default_is_the_lowest_compliant_height_not_the_historical_mean():
+    """The historical figure runs to 6 ft 10, which is below IRC R305.1's 7 ft for a habitable room
+    or a hallway. Encoding the historical mean as the default would put a non-compliant number in
+    front of every user of the pack, so the default is 7 ft 0 in and the note says why."""
+    r = next(x for x in pack("trim-prairie")["derived_rules"]
+             if x["target_slot"] == "ceiling_height_rule")
+    p = pack("trim-prairie")
+    part_in = p["module"]["default_size_in"] / p["module"]["parts"]
+    assert 336 * part_in == 84.0
+    assert "6 ft 10 in to 7 ft 4 in" in json.dumps(node("prairie-school"))
+    c = next(x for x in p["conflicts"] if x["with"] == "accessibility-code")
+    assert c["severity"] == "blocking" and "R305.1" in c["statement"]
+
+
+def test_the_old_pack_is_kept_rather_than_struck_because_it_describes_a_real_house():
+    """Same shape as greek-doric beside benjamin-doric: one pack for what the architects drew, one
+    for what the trade built. The plan-book 'Prairie box' really was trimmed out of the same
+    regional catalogue sections as the bungalow next door."""
+    assert "prairie-school" in pack("trim-craftsman")["applies_to"]
+    assert binding("prairie-school", "trim-craftsman")["role"] == "optional"
+    assert binding("prairie-school", "trim-prairie")["role"] == "interior"
+    assert "benjamin-doric" in pack("trim-prairie")["notes"]
+
+
+def test_the_ranch_is_refused_and_its_own_record_gives_the_reason():
+    """`ranch-style` descends from prairie-school at 0.35 with inherits_kit true, but its own record
+    says its trim is the same as its Minimal Traditional parent at 0.7 and draws the distinction in
+    its own words: 'Prairie has a centre; the ranch has an extent'."""
+    assert "ranch-style" not in pack("trim-prairie")["applies_to"]
+    assert binding("ranch-style", "trim-prairie") is None
+    assert "Prairie has a centre; the ranch has an extent" in json.dumps(node("ranch-style"))
+
+
+def test_the_pack_states_its_own_leverage_as_the_lowest_in_the_package():
+    """One node, and no movement in role coverage at all, because prairie-school already had an
+    interior-role binding -- the wrong one. Saying so is what stops a one-node pack from being
+    presented as coverage."""
+    n = pack("trim-prairie")["notes"]
+    assert "LEVERAGE, STATED PLAINLY" in n
+    assert "It binds ONE node" in n
+    assert len(pack("trim-prairie")["applies_to"]) == 1
+
+
+def test_the_art_glass_is_left_out_and_handed_to_the_candidate_list():
+    """A set-out with rules about asymmetry, colour and the placement of the few coloured pieces
+    that this pack has no figures for and would have to invent."""
+    assert "art glass itself" in pack("trim-prairie")["notes"]
