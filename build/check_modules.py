@@ -227,9 +227,15 @@ def main():
                           f"non-finite result {v!r} on {b}")
                         break
                     if rng and not (rng[0] <= v <= rng[1]):
-                        W(f"derived_rules[{i}] ({r['target_slot']}): "
-                          f"{v:g} outside declared range {rng} at opening_width="
-                          f"{b['opening_width', 'opening_height']:g}, storey_height={b['storey_height']:g}")
+                        # `b['opening_width', 'opening_height']` was a TUPLE KEY, not a fallback --
+                        # a KeyError every time it ran. Which means it never ran: this warning path
+                        # is only reached when a rule lands outside its own declared range, and no
+                        # module pack had done that until WP-4.6 wrote one. So --eval has been
+                        # checking ranges and been unable to report a violation for as long as it
+                        # has existed. Found 25 Aug 2026 by a rule that was genuinely out of band.
+                        ctx = ", ".join(f"{k}={b[k]:g}" for k in sorted(b))
+                        W(f"derived_rules[{i}] ({r['target_slot']}/{r.get('dimension')}): "
+                          f"{v:g} outside declared range {rng} at {ctx}")
 
         confs = pack.get("conflicts", [])
         if not (CONFLICT_BAND[0] <= len(confs) <= CONFLICT_BAND[1]):

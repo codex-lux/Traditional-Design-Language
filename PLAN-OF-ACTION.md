@@ -31,19 +31,19 @@ Every package below carries a **Status** line. This is the summary. Original pac
    stated ring layout because it cannot search for one) and **OQ 37** (`check_partis.py` check
    10 — five of twenty-one partis were carrying fatal findings against the styles they were
    written for, so the composer would not recommend them; 21 of 21 compose now).
-6. **WP-4.6 — IN PROGRESS, fourteen packs of thirty-odd, 25 Aug 2026.** `moorish-arch` (OQ 30's item,
+6. **WP-4.6 — IN PROGRESS, fifteen packs of thirty-odd, 25 Aug 2026.** `moorish-arch` (OQ 30's item,
    and the only gap that unblocked a node with no binding at all — `DELIBERATELY_UNBOUND` is down
    from three nodes to one), `greek-doric` (which replaced a binding WP-4.1's own note called
    "the least-bad available approximation"), `adobe-module` (the gap four style nodes had already
    written down in their own binding notes; bound to 9), `opening-pointed` (the opening half of the
    Gothic item — the facade half was measured and found already served), and `opening-craftsman`
-   with `trim-prairie`, which are both halves of PB-4's item, `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade`, `timber-panel`, `opening-mullioned`, `facade-gable` and `trim-sawn`. **All six packs this work package's own task
+   with `trim-prairie`, which are both halves of PB-4's item, `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade`, `timber-panel`, `opening-mullioned`, `facade-gable`, `trim-sawn` and `octagon-geometry`. **All six packs this work package's own task
    text names as likely candidates are built, plus the largest item the rest of the list held when it
    was measured.** 131 of 132 nodes bound; nodes with
    **no opening-role pack 68 → 60**, which is where the movement now is, plus one wrong interior
    binding corrected, which moves no count at all. The remaining list, with each item's measured
-   leverage, is in `docs/reports/wp-4.6-missing-proportion-packs.md`; next by the same measurement is an octagon/polygonal
-   plan module (17 nodes) and a Baroque curved-facade system (16), then the Iberian ornament pair. Then **WP-4.4** (images), which is currently
+   leverage, is in `docs/reports/wp-4.6-missing-proportion-packs.md`; next is a Baroque curved-facade system, then the
+   Iberian ornament pair. Then **WP-4.4** (images), which is currently
    environment-blocked — see its own status block.
 7. **Phase 5** — the last mile.
 
@@ -436,7 +436,7 @@ Four composer bugs found by running the diagrams rather than reading them: pick 
 
 ### WP-4.6 Missing proportion packs
 
-**Status: IN PROGRESS, 14 of ~30 packs, 25 Aug 2026. All six packs this work package's own task text names as likely candidates are built, plus the largest item the remaining list held when it was measured.** Chosen by measured leverage rather than by the order of the list; the measurement and what remains are in `docs/reports/wp-4.6-missing-proportion-packs.md`.
+**Status: IN PROGRESS, 15 of ~30 packs, 25 Aug 2026. All six packs this work package's own task text names as likely candidates are built, plus the largest item the remaining list held when it was measured.** Chosen by measured leverage rather than by the order of the list; the measurement and what remains are in `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 *First tranche, 24 Aug.* `proportions/orders/moorish-arch.json` — OQ 30's item, the most-corroborated gap WP-4.1 found and the only one that unblocked a node with no binding at all; `moorish-andalusian` and `mudejar` come off `DELIBERATELY_UNBOUND`, which is now one node rather than three. `proportions/orders/greek-doric.json` — the gap WP-4.1 had already recorded as a WRONG binding rather than a missing one, `greek-classical` having been bound to `benjamin-doric` under a note calling it "the least-bad available approximation"; Benjamin is demoted and kept, because American Greek Revival buildings really were built from those plates. Raised on the way: **OQ 46**, the ontology has no arch slot — since built, at ontology 0.6.0.
 

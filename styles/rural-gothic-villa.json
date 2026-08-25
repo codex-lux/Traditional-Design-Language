@@ -259,6 +259,12 @@
       "role": "interior",
       "note": "Bound for the bargeboard and the porch, behind `facade-gable` and `opening-pointed`. Worth reading here with this node's own hierarchy rule from the gable pack: the ornament goes where the gables do, and since 'no two gables are the same width', neither should the bargeboards be equally elaborate -- the dominant gable carries the pierced work and the subordinate ones a simpler repeat, which is both the composition and the budget.",
       "precedence": 4
+    },
+    {
+      "pack": "octagon-geometry",
+      "role": "optional",
+      "note": "Optional. This record's 'oriel or bay windows on the principal rooms, with label mouldings and tracery heads' takes the pack's projection rule, and `opening-mullioned` and `opening-pointed` between them hold what the bay's windows are. The octagonal chimney shafts this node also has are NOT this pack: an octagonal flue is a section rather than a plan geometry, and it was one of the keyword matches that made this item look larger than it is.",
+      "precedence": 5
     }
   ]
 }

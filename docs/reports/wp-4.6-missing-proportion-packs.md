@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: fourteen packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: fifteen packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -760,6 +760,44 @@ check whether style files had been deleted. The note is now in `check_pack_bindi
 reading a pile of "target does not exist" errors for nodes that plainly exist, look at the top of
 the list for a schema error first.
 
+### `proportions/modules/octagon-geometry.json` — and a measurement of mine that was wrong again
+
+WP-4.1 asks for "a polygonal/octagonal plan-geometry module (Octagon House's triangular corner
+residues, unaddressed by `room-harmonic`)". A keyword sweep put it at **17 nodes, 11 thinly bound**,
+which would have made it the largest remaining item. Reading those seventeen: the octagon *as a
+plan* is **one** node, and most of the rest match on an octagonal chimney shaft, an octagonal ceiling
+panel or an octagonal window in a list of window shapes. **The fourth time in this work package that
+a keyword measurement of mine over-counted its own work list** — after the 24 style-scoped tests that
+were 6, the 22 arch bindings that were 8, and the 115 predicted fatals that were 0. A regex proposes
+and reading disposes.
+
+Built anyway, and it is two things. **Fowler's octagon** is a whole building: `octagon-house`'s own
+record states the entire system in five ratios because the type is *closed-form* — fix the side and
+the diameter, area, perimeter, storey, veranda, cupola and roof are all determined. **Jefferson's
+octagon** is a *room*, made by cutting a square's corners back by a third of their side, and it
+reaches most of the corpus in that form as a canted bay on a building with no octagonal plan at all.
+
+**The finding worth carrying is that Fowler's arithmetic was right and his conclusion was wrong.**
+An octagon really does enclose its floor for **nine per cent less wall** than a square — computable
+from the geometry, and exactly the argument his 1848 book makes. What he did not count is corners:
+eight instead of four, all at 45°, sixteen cornice mitres per storey, a roof with eight hips and no
+ridge, and no repeated framing bay anywhere. The labour rises faster than the material falls. That is
+why the type is a fad with a date rather than a tradition — and a useful corrective to an assumption
+easy to fall into across this whole package, that a traditional form is always the economical answer
+to something.
+
+### A third checker defect: a warning path that had never executed
+
+`check_modules.py --eval` warns when a derived rule lands outside its own declared range. That path
+read `b['opening_width', 'opening_height']` — a **tuple key**, not a fallback — so it raised
+`KeyError` every time it ran. Which means it *never* ran: the branch is only reached when a rule is
+out of band, and no module pack had been until this one. So `--eval` has been checking ranges and
+been unable to report a violation for as long as it has existed.
+
+It caught a real authoring error the first time it could: `part * 102` with a one-foot part gives
+**1,224 inches**, not 102. Three checker defects now in this package, all of the same shape — a
+check that looked green because it had never been asked the question it exists to answer.
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -813,16 +851,16 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **50 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the twelve new
-packs bind 113 nodes but every one of them was already bound, so the count does not move and should
+Later tranches: 23 checks green. **51 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the thirteen new
+packs bind 121 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
 pack, plus one wrong interior binding corrected, a roof system six nodes previously had nothing for,
 a threshold system seven nodes had nothing for, a walling system twelve nodes had nothing for, and an arcade system sixteen
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 28 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **165 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **172 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

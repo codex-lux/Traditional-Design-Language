@@ -18861,6 +18861,12 @@
           "authority": "palladio-ionic",
           "note": "The Palladian residue this node names as making it 'closer to the Palladian source than the town house ever is': the Venetian window on the stair landing or side elevation, the persisting piano-nobile echo in a house entered at grade. Bound low and optional -- this is a surviving motif inherited from english-palladian, not the governing order of the main elevation, which stays Gibbs's.",
           "precedence": 10
+        },
+        {
+          "pack": "octagon-geometry",
+          "role": "optional",
+          "note": "Optional, and the English source of the canted bay that reaches America through Jefferson. This record names it in an exemplar -- a compact three-storey villa of near-cubic proportion with canted bays, 'Taylor's characteristic reduction' -- which is the villa type Jefferson knew from the pattern books. Bound for the corner rule and the bay projection alone.",
+          "precedence": 11
         }
       ],
       "_cascade": [
@@ -20598,6 +20604,12 @@
           "authority": "brick-course",
           "note": "The material palette is fixed rather than optional at the level of the building (constraint c05: red brick in Flemish bond with white-painted or stuccoed trim; painted brick, stone facing or contrasting trim colours fall outside the style), but the pack itself is bound at the same optional role the rest of this batch uses for masonry modules, consistent with the corpus's own applies_to cross-reference for this node.",
           "precedence": 10
+        },
+        {
+          "pack": "octagon-geometry",
+          "role": "secondary",
+          "note": "THE OTHER OCTAGON ENTIRELY, and the node that states its rule: 'octagonal rooms generated on a square, canted corners at 1/3 of the side', with 'plan geometry built from octagons, cubes, and their halves rather than from the rectangular Georgian room grid'. This is a ROOM and not a building -- take a square, cut each corner back a third, and the result sits comfortably inside a rectangular plan. That record also gives the elevation consequence the pack's bay rule is about: 'octagonal or semi-octagonal room projections in plan, visible as canted bays on the elevation'. Take the canted-corner rule and the bay rule here; leave every rule that begins from a regular octagon's side, because this house has none.",
+          "precedence": 11
         }
       ],
       "_cascade": [
@@ -21877,6 +21889,12 @@
           "role": "interior",
           "note": "Bound for the bargeboard and the porch, behind `facade-gable` and `opening-pointed`. Worth reading here with this node's own hierarchy rule from the gable pack: the ornament goes where the gables do, and since 'no two gables are the same width', neither should the bargeboards be equally elaborate -- the dominant gable carries the pierced work and the subordinate ones a simpler repeat, which is both the composition and the budget.",
           "precedence": 4
+        },
+        {
+          "pack": "octagon-geometry",
+          "role": "optional",
+          "note": "Optional. This record's 'oriel or bay windows on the principal rooms, with label mouldings and tracery heads' takes the pack's projection rule, and `opening-mullioned` and `opening-pointed` between them hold what the bay's windows are. The octagonal chimney shafts this node also has are NOT this pack: an octagonal flue is a section rather than a plan geometry, and it was one of the keyword matches that made this item look larger than it is.",
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -26991,6 +27009,12 @@
           "role": "optional",
           "note": "The vernacular frame equivalent, per the style's own wording -- demoted below brick-course for this variant specifically, the inverse of new-england-federal's ranking. Present chiefly on the Piedmont farmer's I-house version, where the style's own massing_affinities note 'Federal trim at the door only.'",
           "precedence": 9
+        },
+        {
+          "pack": "octagon-geometry",
+          "role": "optional",
+          "note": "Optional, and bound for the canted bay it inherits. This record measures its own distance from the source: 'there is no sharp line between a Piedmont Federal house with a canted bay and a minor Jeffersonian one'. So the corner rule applies where the bay appears and nothing else in the pack does.",
+          "precedence": 10
         }
       ],
       "_cascade": [
@@ -33071,6 +33095,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "octagon-geometry",
+          "role": "primary",
+          "note": "The type, and the node whose own record states the entire system in five ratios -- side 12-20 ft, inscribed diameter 29-48, wall height 1.0-1.4 times the side, cupola 0.25-0.35 of the diameter, veranda 7-10 ft uniform, pitch 4:12 to 7:12 on all eight hips. Primary, and the reason is in that record's own governing logic: 'purely geometric, and uniquely so in this branch: a regular octagon, with everything else derived from the side length. The design is closed-form, which is both its appeal and its limitation.' No other pack can hold this because no other pack's module generates a building rather than a system. `facade-picturesque` stays in the facade role and `room-harmonic` in the room role, and neither addresses the triangular residues -- which WP-4.1's list names and this pack gives a width and a purpose to without pretending to solve.",
+          "precedence": 0
+        },
+        {
           "pack": "room-harmonic",
           "role": "room",
           "note": "Confirmed in the pack's own applies_to, and the one pack in the whole library that shares this style's actual intellectual method: both are closed-form geometric arguments rather than accumulated custom. Fowler's octagon and Palladio's seven room shapes are both derived from a single module by rule rather than measured from what building stock happens to contain, which is exactly the property the node's own text singles out ('the design is closed-form, which is both its appeal and its limitation'). Governs the individual room, with the important caveat the node's own text states plainly: the eight-sided plan delivers its saved area as triangular residues in the corners that neither this pack nor any rectangular room-shape system models.",
@@ -36733,6 +36763,12 @@
           "role": "interior",
           "note": "The node that states the family's other boundary as a decision procedure: 'compared with Stick Style: curves are present. Turned posts, spindles, round towers, and arched porch openings all say Queen Anne.' Read that against `styles/stick-style.json`'s mirror-image refusal -- 'if the applied woodwork curves, turns, or scrolls, the building has moved to Queen Anne or Eastlake' -- and the two records between them draw the sharpest line in this part of the corpus, from opposite sides, using the same test.",
           "precedence": 4
+        },
+        {
+          "pack": "octagon-geometry",
+          "role": "optional",
+          "note": "Optional, and the node that supplies the pack's projection band: 'bay or oriel projection 18 to 42 in from the wall plane'. The same band holds the Federal shallow bay and this one, and what changes between them is the wall behind it -- there a modulation of a flat elevation, here a projecting mass among several. Note this node also carries `trim-sawn`, and the two describe the same porch-and-bay elevation from different trades.",
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -38935,6 +38971,12 @@
           "role": "interior",
           "note": "The same bracket rules at villa scale: eave 24-36 in with brackets at 24-48 on centre, and a veranda with 'chamfered or turned posts and a pierced valance'. Note that this record has the valance without the spindle frieze's Queen Anne elaboration, which is the family in its middle period -- the pierced board doing what turned spindles would do twenty years later, and cheaper.",
           "precedence": 7
+        },
+        {
+          "pack": "octagon-geometry",
+          "role": "optional",
+          "note": "Optional, for the canted bay under the tower. Thinly justified and bound anyway because the bay is a real and frequent element of the type, but nothing in the octagon's closed-form geometry reaches this node -- read the corner rule and the projection rule and stop.",
+          "precedence": 8
         }
       ],
       "_cascade": [
@@ -41892,6 +41934,12 @@
           "role": "optional",
           "note": "Bound optional and low for the same reason as on georgian-colonial-american: a Federal house is designed from a drawing, not from a frame, so the bay no longer sets the plan. It is promoted above brick-course on new-england-federal, where the frame clapboard house is the majority fabric.",
           "precedence": 10
+        },
+        {
+          "pack": "octagon-geometry",
+          "role": "optional",
+          "note": "Optional. This record gives the shallow end of the bay band with a word that does the work: 'a shallow curved or polygonal bay pushing out of an otherwise flat rear or garden elevation'. On a Federal house the bay is a modulation of a flat wall rather than a projecting mass, and it is on the GARDEN front rather than the street -- which is a compositional rule the pack's projection band cannot carry and this note can.",
+          "precedence": 11
         }
       ],
       "_cascade": [

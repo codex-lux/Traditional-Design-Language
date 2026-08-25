@@ -64,11 +64,11 @@ Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 
 
 164 nodes · 96 slots (ontology 0.6.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **50 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
+style** · **51 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
 and 58 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 634 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 641 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the

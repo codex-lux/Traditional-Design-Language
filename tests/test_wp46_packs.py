@@ -1783,3 +1783,80 @@ def test_the_collision_rate_is_recorded_honestly_in_oq_48():
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
     assert "about **five per cent**" in oq
     assert "deliberately not built; an authoring aid was" in oq
+
+
+# ------------------------------------------------------------ octagon-geometry
+
+
+def test_the_keyword_measurement_overcounted_this_item_for_the_fourth_time():
+    """A regex put it at 17 nodes and 11 thinly bound, which would have made it the largest
+    remaining item. Reading them, the octagon AS A PLAN is one node and most of the rest match on an
+    octagonal chimney shaft, ceiling panel or window shape. Fourth time in this package that a
+    keyword measurement of mine over-counted its own work list."""
+    n = pack("octagon-geometry")["notes"]
+    assert "THE MEASUREMENT THAT PICKED THIS ITEM WAS WRONG" in n
+    assert "fourth time" in n.lower()
+    assert "a regex proposes and reading disposes" in n
+
+
+def test_the_pack_carries_two_different_uses_of_one_geometry():
+    """Fowler's octagon is a whole building generated from its side. Jefferson's is a ROOM, made by
+    cutting a square's corners back by a third, and it reaches most of the corpus as a canted bay on
+    a building with no octagonal plan whatever."""
+    rules = {(r["target_slot"], r["dimension"]) for r in pack("octagon-geometry")["derived_rules"]}
+    assert ("depth_and_pile", "width") in rules              # Fowler: inscribed diameter
+    assert ("wing_strategy", "canted_corner") in rules       # Jefferson: the corner cut
+    assert "canted corners at 1/3 of the side" in json.dumps(node("jeffersonian-classicism"))
+    assert "closed-form" in json.dumps(node("octagon-house"))
+
+
+def test_the_inscribed_diameter_is_the_geometry_and_the_record_agrees():
+    """1 + root 2 = 2.4142. A 12 ft side gives 29 ft and a 20 ft side gives 48, exactly as the
+    record states -- so the multiplier is checkable rather than asserted."""
+    import math
+    r = next(x for x in pack("octagon-geometry")["derived_rules"]
+             if x["target_slot"] == "depth_and_pile" and x["dimension"] == "width")
+    k = float(r["expression"].split("*")[1])
+    assert abs(k - (1 + math.sqrt(2))) < 0.001
+    assert abs(12 * k - 29) < 0.5 and abs(20 * k - 48.3) < 0.5
+    assert "29 to 48 ft" in json.dumps(node("octagon-house"))
+
+
+def test_fowlers_arithmetic_was_right_and_his_conclusion_was_wrong():
+    """An octagon really does enclose its floor for nine per cent less wall than a square -- the
+    pack computes it -- and the type still failed, because the labour in eight 45-degree corners
+    rises faster than the material falls. A useful corrective to the assumption that a traditional
+    form is always the economical answer to something."""
+    import math
+    r = next(x for x in pack("octagon-geometry")["derived_rules"]
+             if x["target_slot"] == "depth_and_pile" and x["dimension"] == "ratio")
+    # regular octagon: A = 2(1+root2)s^2, P = 8s. square of equal area: P = 4 root A.
+    ratio = 8 / (4 * math.sqrt(2 * (1 + math.sqrt(2))))
+    assert abs(float(r["expression"]) - ratio) < 0.01
+    c = next(x for x in pack("octagon-geometry")["conflicts"] if x["with"] == "cost")
+    assert "Fowler's arithmetic was right and his conclusion was wrong" in c["statement"]
+
+
+def test_an_octagon_cannot_be_added_to_and_the_count_says_zero():
+    """Same kind of statement greek-doric makes about ornament and dutch-gambrel about the colonial
+    shed dormer. Every face is part of the rhythm and there is no back -- an octagon has eight
+    fronts."""
+    r = next(x for x in pack("octagon-geometry")["derived_rules"]
+             if x["target_slot"] == "wing_strategy" and x["dimension"] == "count")
+    assert r["expression"] == "0"
+    assert "eight fronts" in r["note"]
+
+
+def test_the_never_executed_warning_path_caught_a_real_error_the_first_time_it_could():
+    """check_modules --eval warns when a rule lands outside its own declared range, and that path
+    used a tuple key -- b['opening_width', 'opening_height'] -- so it raised KeyError every time it
+    ran. Which means it never ran, because no module pack had been out of band until this one wrote
+    `part * 102` with a one-foot part and got 1,224 inches."""
+    src = open(os.path.join(ROOT, "build", "check_modules.py")).read()
+    assert "was a TUPLE KEY, not a fallback" in src
+    assert "b['opening_width', 'opening_height']" not in src.split("# `b[")[0].split("W(f\"derived_rules")[-1]
+    r = next(x for x in pack("octagon-geometry")["derived_rules"]
+             if x["target_slot"] == "porch_depth")
+    p = pack("octagon-geometry")
+    part = p["module"]["default_size_in"] / p["module"]["parts"]
+    assert 84.0 <= eval(r["expression"], {"part": part}) <= 120.0
