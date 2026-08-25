@@ -272,6 +272,12 @@
       "role": "room",
       "note": "Judgment binding: not in the pack's own applies_to. The style spans a carpenter's cottage and an architect's villa, but its own interior description reads as ordinary and constrained rather than harmonically proportioned in either register - 'the rooms are low, small-windowed by later standards, and dim.' Bound at the parent because both children (carpenter-gothic and rural-gothic-villa) independently resolve to the same pack rather than to room-harmonic; see their own notes for the reasoning specific to each.",
       "precedence": 3
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "The node that supplies the pack's organising rule as a decision procedure: 'bargeboard on the rake with no bracket under the eave: Gothic Revival. Brackets under a wide eave with no bargeboard: Italianate.' That single sentence is why this pack's central rule is a COUNT of members rather than a dimension of any one of them. It also gives the verge overhang at 12-24 in with the reason attached -- 'deep enough to shadow the bargeboard' -- which is what turns a pierced board into tracery.",
+      "precedence": 4
     }
   ]
 }

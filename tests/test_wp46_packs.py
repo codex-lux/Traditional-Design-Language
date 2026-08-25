@@ -1674,3 +1674,112 @@ def test_the_flush_faced_dormer_decides_which_pack_applies():
     assert "faces flush with the wall below" in json.dumps(node("cotswold-vernacular"))
     r = next(x for x in pack("facade-gable")["derived_rules"] if x["target_slot"] == "dormer")
     assert "FLUSH FACE" in r["note"]
+
+
+# ------------------------------------------------------------------- trim-sawn
+
+
+def test_four_list_items_are_one_family_because_of_two_machines():
+    """The list separately asks for sawn Gothic ornament, sawn-bracket Victorian trim, turned Queen
+    Anne millwork and Alpine carved timber. The first three are the scroll saw and the lathe, steam-
+    powered from the 1840s, producing three members ordered from the same catalogue."""
+    n = pack("trim-sawn")["notes"]
+    assert "FOUR ITEMS ON WP-4.1'S CANDIDATE LIST, BUILT AS ONE PACK" in n
+    assert "scroll saw and the lathe" in pack("trim-sawn")["module"]["note"]
+
+
+def test_the_style_is_decided_by_which_members_are_present():
+    """The corpus states the discrimination as a decision procedure, not a description."""
+    assert ("bargeboard on the rake with no bracket under the eave: Gothic Revival"
+            in json.dumps(node("gothic-revival-american")))
+    r = next(x for x in pack("trim-sawn")["derived_rules"]
+             if x["dimension"] == "member_count")
+    assert r["range"] == [1.0, 3.0]
+    assert "WHAT DECIDES THE STYLE" in r["note"]
+
+
+def test_three_records_refuse_the_pack_and_one_gives_a_decision_procedure_for_it():
+    """stick-style: 'if the applied woodwork curves, turns, or scrolls, the building has moved to
+    Queen Anne or Eastlake.' Two Queen Anne subtypes refuse the ornament their own siblings are named
+    for, which is a sharper distinction than any dimension could draw."""
+    p = pack("trim-sawn")
+    for nid in ("stick-style", "queen-anne-free-classic", "queen-anne-patterned-masonry"):
+        assert nid not in p["applies_to"], nid
+        assert binding(nid, "trim-sawn") is None, nid
+    assert "no turned spindles, no scrolled brackets" in json.dumps(node("stick-style"))
+    assert "Absence of turned spindlework" in json.dumps(node("queen-anne-free-classic"))
+    assert "no porch spindlework" in json.dumps(node("queen-anne-patterned-masonry"))
+
+
+def test_the_alpine_item_is_not_merged_and_the_reason_is_the_machine():
+    """swiss-chalet is bound for its SAWN balustrades and bargeboards only. Carving is a hand craft
+    with a gouge and this pack is about machines, so the Alpine carved-timber item stays on the list."""
+    b = binding("swiss-chalet", "trim-sawn")
+    assert b["role"] == "optional"
+    assert "AND FOR HALF OF WHAT THIS NODE HAS" in b["note"]
+    assert "carving is a hand craft" in b["note"] or "carving is a hand craft" in pack("trim-sawn")["notes"]
+
+
+def test_the_bracket_is_square_because_the_saw_cuts_a_square_blank():
+    """A fact about the machine rather than the design, and why brackets across four styles and fifty
+    years sit at 45 degrees."""
+    p = pack("trim-sawn")
+    b = next(m for m in p["assemblies"]["porch_head"]["members"] if m["id"] == "bracket_zone")
+    assert b["projection_parts"] == b["height_parts"]
+    assert any("square blank" in i["statement"] for i in p["invariants"])
+    assert "on the diagonal" in json.dumps(node("queen-anne-spindled"))
+
+
+def test_the_authoring_aid_exists_and_the_pack_shares_only_same_quantity_addresses():
+    """build/pack_addresses.py was written after this package hand-ran the same query three times.
+    Four of trim-sawn's addresses were renamed after it reported them -- frieze/height meant a
+    classical entablature frieze AND a suspended spindle valance, and eave_condition/height meant an
+    eave's height above ground AND a verge's overhang, the latter on ten nodes."""
+    assert os.path.exists(os.path.join(ROOT, "build", "pack_addresses.py"))
+    mine = {(r["target_slot"], r["dimension"]) for r in pack("trim-sawn")["derived_rules"]}
+    for named in (("frieze", "valance_depth"), ("eave_condition", "verge_overhang"),
+                  ("cornice", "eave_projection"), ("rake_condition", "stock_thickness"),
+                  ("ornament_vocabulary", "member_count")):
+        assert named in mine, named
+    assert ("frieze", "height") not in mine and ("eave_condition", "height") not in mine
+
+
+def test_the_two_role_lists_agree_and_nothing_uses_a_role_the_schema_forbids():
+    """Found by binding trim-sawn with role 'trim': check_pack_bindings.VALID_ROLES allowed it and
+    schema/style-node.schema.json's own enum did not, so the binding passed --strict and failed
+    validate.py. The schema is the authority; the checker's list is now identical to it.
+
+    The cascade is the part worth pinning. A node failing schema validation is DROPPED from
+    validate.py's node set, so every lineage reference pointing at it reports 'target does not
+    exist'. Nine nodes with an illegal role produced FORTY-SEVEN errors, thirty-eight of which named
+    entirely innocent nodes and none of which mentioned a role."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "_cpb", os.path.join(ROOT, "build", "check_pack_bindings.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    schema = json.load(open(os.path.join(ROOT, "schema", "style-node.schema.json")))
+    enum = None
+    def walk(o):
+        nonlocal enum
+        if isinstance(o, dict):
+            if o.get("enum") and set(o["enum"]) & {"primary", "secondary", "facade"}:
+                enum = set(o["enum"])
+            for v in o.values():
+                walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+    walk(schema)
+    assert enum is not None, "could not find the role enum in the style-node schema"
+    assert m.VALID_ROLES == enum, (sorted(m.VALID_ROLES ^ enum))
+    src = open(os.path.join(ROOT, "build", "check_pack_bindings.py")).read()
+    assert "look at the top of the list for a SCHEMA error first" in src
+
+
+def test_the_collision_rate_is_recorded_honestly_in_oq_48():
+    """144 WP-4.6 pairs adjudicated, eight were real -- about five per cent. The first measurement's
+    1,922 was mostly menus, and saying so is what stops the next person 'fixing' 1,710 correct rules."""
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "about **five per cent**" in oq
+    assert "deliberately not built; an authoring aid was" in oq

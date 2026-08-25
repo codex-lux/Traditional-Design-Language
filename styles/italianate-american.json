@@ -295,6 +295,12 @@
       "role": "room",
       "note": "Judgment binding, chosen over room-harmonic for the same reason trim-classical is bound at its plainest register above: the style's own lineage record states the Renaissance proportional system was not carried over, and its own interior description (via the villa child's text) is of loose, generous, additive space - 'the plan is generous and slightly loose' - rather than rooms set out to Palladian ratios.",
       "precedence": 7
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "The bracket half of the family, and three of the pack's rules come from here: eave 18-36 in 'carried on paired or single sawn brackets', bracket spacing 24-48 in on centre 'with paired brackets at corners and at the ends of each bay', and porch posts 'with chamfered or turned shafts and scrolled brackets at the head, never classical columns with entasis'. That last clause is what keeps this family separate from every order pack in the library. `balcony-gallery` is also bound here and the two write the same porch-support addresses meaning the same quantities -- a support's width and its spacing -- which is what precedence is for.",
+      "precedence": 8
     }
   ]
 }

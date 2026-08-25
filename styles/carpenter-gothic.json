@@ -240,6 +240,12 @@
       "role": "room",
       "note": "Judgment binding: not in the pack's own applies_to. The style's own description could not be plainer about it - 'the rooms are the ordinary rooms of an ordinary farmhouse,' low-ceilinged and small-windowed by later standards. This is exactly the reconstructed 14 ft joist-span room the pack records, not a treatise-derived harmonic shape; room-harmonic would misdescribe a style whose whole point is that the ornament is bought and the house underneath it is unchanged.",
       "precedence": 3
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "The node that gives the pack its bargeboard dimensions and its module: depth 10-18 in, cut from 1-1.5 in stock, pattern repeat 12-24 in, with sawn brackets 12-20 in on the diagonal and 'turned or chamfered porch posts with sawn brackets and a pierced valance'. This record also states the member the type cannot do without -- 'pierced and cusped bargeboard applied to the rake, the single indispensable element' -- which is the member_count rule seen from one style's side. `opening-pointed` also writes the bargeboard's depth on this node and means the same quantity; precedence resolves it, and both packs' notes say so.",
+      "precedence": 4
     }
   ]
 }

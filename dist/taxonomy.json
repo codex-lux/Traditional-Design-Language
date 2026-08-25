@@ -3179,6 +3179,12 @@
           "role": "optional",
           "note": "Bound narrowly, for one thing only: the type's hard constraint that every interior door carries an operable transom (c03) is exactly the ventilation-transom device this pack's window-head notes describe, and its transom_sidelight rule -- that a transom must take the same light module as the windows it is glazed with, 'because they came out of the same box of glass and the same joiner's shop' -- is a free internal-consistency check across the street gable's one or two openings and the interior transom run. Not bound for light-count dating: the type's ornamental era (Italianate and Eastlake catalog millwork, mostly 1880s-1890s) is already carried by the node's own description and constraints, and forcing a divided-light pattern onto what were commonly large 1/1 or 2/2 panes by that date would misdate the building.",
           "precedence": 2
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "optional",
+          "note": "Optional. The shotgun's full-width front porch takes turned posts, brackets and a valance from the same catalogues as everything else in this family, and this node is thinly bound. What the pack cannot say here is anything about how much: the same house appears with a full spindled porch and with four plain posts, and the difference is the owner's money in the year it was built rather than a rule.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -9060,6 +9066,12 @@
           "role": "room",
           "note": "JUDGMENT BINDING, for the same reasoning given on the parent queen-anne-american node: balloon-framed, un-treatised rooms governed by span and daylight rather than by proportion. No change from the parent's reasoning is needed since spindlework versus classical trim is a porch and gable question and has no bearing on room shape.",
           "precedence": 3
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "interior",
+          "note": "The fullest expression of the family and the source of most of its porch figures: posts 5-8 in at the swell spaced 6-9 ft, spindle frieze 10-18 in deep with spindles 1.5-2.5 in at 3-5 in on centre, and a bracket or knee brace 12-24 in on the diagonal at every post head. This record also gives the rule that makes the frieze read: it is 'suspended beneath the porch head, running the full length of the porch', so a valance that stops and restarts at each post is a series of panels and a weaker thing.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -12507,6 +12519,12 @@
           "role": "room",
           "note": "Judgment binding: not in the pack's own applies_to. The style's own description could not be plainer about it - 'the rooms are the ordinary rooms of an ordinary farmhouse,' low-ceilinged and small-windowed by later standards. This is exactly the reconstructed 14 ft joist-span room the pack records, not a treatise-derived harmonic shape; room-harmonic would misdescribe a style whose whole point is that the ornament is bought and the house underneath it is unchanged.",
           "precedence": 3
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "interior",
+          "note": "The node that gives the pack its bargeboard dimensions and its module: depth 10-18 in, cut from 1-1.5 in stock, pattern repeat 12-24 in, with sawn brackets 12-20 in on the diagonal and 'turned or chamfered porch posts with sawn brackets and a pierced valance'. This record also states the member the type cannot do without -- 'pierced and cusped bargeboard applied to the rake, the single indispensable element' -- which is the member_count rule seen from one style's side. `opening-pointed` also writes the bargeboard's depth on this node and means the same quantity; precedence resolves it, and both packs' notes say so.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -14128,6 +14146,12 @@
           "authority": "benjamin-doric",
           "note": "JUDGMENT BINDING, though the pack's own applies_to already lists folk-victorian. Bound optional and last because it covers only the minority of Folk Victorian porches whose posts are chamfered rather than turned — a chamfered square post is a simplified, carpenter-built stand-in for a Doric column, and Benjamin's 1816 Companion is the American pattern book that vernacular builders of this generation actually had in hand. It does not cover the majority spindled-and-bracketed porch, which has no order at all and no dedicated pack in this library (see report gaps).",
           "precedence": 6
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "interior",
+          "note": "The type the pack's economics are about. Posts 4x4 to 6x6 turned with a swell of 5-7 in, spindle frieze 8-16 in with spindles 1.25-2 in at 3-5 in on centre -- consistently a quarter to two inches lighter than the Queen Anne figures at both ends, which is exactly what a cheaper house buys from the same catalogue. This node is the reason the pack exists in the form it does: Folk Victorian is not a style with an ornament vocabulary, it is a plain vernacular house with catalogue millwork applied, and the member_count rule is what describes it.",
+          "precedence": 7
         }
       ],
       "_cascade": [
@@ -21847,6 +21871,12 @@
           "role": "secondary",
           "note": "The node that states the hierarchy rule and states it as a prohibition, which is rare in this corpus: 'dominant gable width 1.4 to 2.2 times the next largest gable; equal widths are a failure', and separately 'no two gables are the same width; equal gables indicate a builder's composition'. That last phrase is the argument -- a picturesque silhouette works by having a subject, and three gables at 1, 1 and 1 give the eye nothing to look at first. Read against `styles/jacobean.json`, which ranges its gables symmetrically on purpose: same count, opposite instruction, and the pack's rules say which applies where.",
           "precedence": 3
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "interior",
+          "note": "Bound for the bargeboard and the porch, behind `facade-gable` and `opening-pointed`. Worth reading here with this node's own hierarchy rule from the gable pack: the ornament goes where the gables do, and since 'no two gables are the same width', neither should the bargeboards be equally elaborate -- the dominant gable carries the pierced work and the subordinate ones a simpler repeat, which is both the composition and the budget.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -24030,6 +24060,12 @@
           "role": "room",
           "note": "Judgment binding, chosen over room-harmonic for the same reason trim-classical is bound at its plainest register above: the style's own lineage record states the Renaissance proportional system was not carried over, and its own interior description (via the villa child's text) is of loose, generous, additive space - 'the plan is generous and slightly loose' - rather than rooms set out to Palladian ratios.",
           "precedence": 7
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "interior",
+          "note": "The bracket half of the family, and three of the pack's rules come from here: eave 18-36 in 'carried on paired or single sawn brackets', bracket spacing 24-48 in on centre 'with paired brackets at corners and at the ends of each bay', and porch posts 'with chamfered or turned shafts and scrolled brackets at the head, never classical columns with entasis'. That last clause is what keeps this family separate from every order pack in the library. `balcony-gallery` is also bound here and the two write the same porch-support addresses meaning the same quantities -- a support's width and its spacing -- which is what precedence is for.",
+          "precedence": 8
         }
       ],
       "_cascade": [
@@ -28906,6 +28942,12 @@
           "authority": "trim-craftsman",
           "note": "Bound optional and only for the type's late tail (c. 1900-1920), where the same rural lumberyards and mail-order catalogs that supplied Craftsman bungalow trim also supplied farmhouse trim packages, and the flat-stock, indifferent-to-opening-size logic genuinely describes a plain 4-5 in farmhouse window casing about as well as it describes a bungalow one. It does NOT describe the type's more central and much longer-lived trim logic -- a Greek Revival entablature thinned to a fascia and pilasters shrunk to corner boards -- which the node's own hard constraint (c02) states as a budget rather than a system. No pack in this set owns that thinning-of-an-order-until-only-the-budget-survives logic; it is a real gap, worth naming for WP-4.6.",
           "precedence": 5
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "optional",
+          "note": "Optional, and bound for one sentence that is worth the binding on its own: 'exactly one piece of ornament on an otherwise plain building: a jigsawn gable bracket, a pointed window, a run of turned posts'. That is the pack's member_count rule at its floor and its cost conflict's whole argument -- one member well done is both period-correct and affordable, and this record shows it was the commonest real practice rather than a compromise.",
+          "precedence": 6
         }
       ],
       "_cascade": [
@@ -31837,6 +31879,12 @@
           "role": "room",
           "note": "Judgment binding: not in the pack's own applies_to. The double parlour is a long fixed-width room set by the party wall rather than a room chosen to a harmonic shape, and the node's own governing_logic is explicit that 'lot width is fixed by the party wall, so the design problem is entirely vertical' - a measured, constraint-derived room in exactly the sense this pack (rather than room-harmonic's chosen ratios) records.",
           "precedence": 7
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "interior",
+          "note": "Bound for the bracketed cornice, which on a townhouse is the whole of the family that survives: no porch, no valance, and the brackets carrying a heavy eave over a flat front. A useful check on the pack's member_count rule at its floor, since this is a building with exactly one of the three members and it is unambiguously Italianate for that reason.",
+          "precedence": 8
         }
       ],
       "_cascade": [
@@ -32253,6 +32301,12 @@
           "role": "room",
           "note": "Judgment binding: not in the pack's own applies_to. The style spans a carpenter's cottage and an architect's villa, but its own interior description reads as ordinary and constrained rather than harmonically proportioned in either register - 'the rooms are low, small-windowed by later standards, and dim.' Bound at the parent because both children (carpenter-gothic and rural-gothic-villa) independently resolve to the same pack rather than to room-harmonic; see their own notes for the reasoning specific to each.",
           "precedence": 3
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "interior",
+          "note": "The node that supplies the pack's organising rule as a decision procedure: 'bargeboard on the rake with no bracket under the eave: Gothic Revival. Brackets under a wide eave with no bargeboard: Italianate.' That single sentence is why this pack's central rule is a COUNT of members rather than a dimension of any one of them. It also gives the verge overhang at 12-24 in with the reason attached -- 'deep enough to shadow the bargeboard' -- which is what turns a pierced board into tracery.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -36673,6 +36727,12 @@
           "role": "room",
           "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound because American Queen Anne is balloon-framed, and balloon framing still faces the same joist-span and daylight physics room-vernacular reconstructs — no treatise governs these rooms, and the node explicitly says the composition is 'checked in silhouette and texture, never in module,' which rules out room-harmonic's Palladian ratios as squarely as it rules out a bay system on the elevation. The fit is imperfect at the top end: the living hall, described as the style's organising innovation, is often larger than the pack's 14-18 ft measured band and closer to its noted 'halls in houses of pretension' outlier case, which the pack allows for but does not centrally describe. Ordinary parlours and chambers fit the band comfortably.",
           "precedence": 3
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "interior",
+          "note": "The node that states the family's other boundary as a decision procedure: 'compared with Stick Style: curves are present. Turned posts, spindles, round towers, and arched porch openings all say Queen Anne.' Read that against `styles/stick-style.json`'s mirror-image refusal -- 'if the applied woodwork curves, turns, or scrolls, the building has moved to Queen Anne or Eastlake' -- and the two records between them draw the sharpest line in this part of the corpus, from opposite sides, using the same test.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -38869,6 +38929,12 @@
           "role": "room",
           "note": "Judgment binding: not in the pack's own applies_to. The node's own interior description - 'the plan is generous and slightly loose... double doors between the front and back parlours to make one long room for occasions' - is additive and practical rather than harmonically proportioned, and the parent style's lineage record states outright that the Renaissance proportional system was not carried over into any Italianate register.",
           "precedence": 6
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "interior",
+          "note": "The same bracket rules at villa scale: eave 24-36 in with brackets at 24-48 on centre, and a veranda with 'chamfered or turned posts and a pierced valance'. Note that this record has the valance without the spindle frieze's Queen Anne elaboration, which is the family in its middle period -- the pierced board doing what turned spindles would do twenty years later, and cheaper.",
+          "precedence": 7
         }
       ],
       "_cascade": [
@@ -46080,6 +46146,12 @@
           "role": "room",
           "note": "Judgment bind: this node is not individually listed in room-vernacular's applies_to, but its family container nordic-alpine-vernacular is, and the Stube — small, low-ceilinged (under 2.5 m), lit from one banded wall of small ganged windows, warmed by one masonry stove — is squarely the span/hearth/daylight-limited room this pack models. Note that the elaborate bracket, gallery-balustrade and stepped-purlin-end ornament vocabulary this node describes as the building's whole decorative content is not captured by this or any of the 36 packs (see gaps).",
           "precedence": 3
+        },
+        {
+          "pack": "trim-sawn",
+          "role": "optional",
+          "note": "Optional, AND FOR HALF OF WHAT THIS NODE HAS. Its 'galleries (Lauben) running the full width of the gable face under the overhang, with SAWN or turned balustrades' are this family -- the same machines, the same members. Its 'carved and inscribed facade band' is not, and neither is the carved bargeboard: carving is a hand craft with a gouge and this whole pack is about machines. WP-4.1 lists Alpine bracket and carved-timber ornament as its own item and it stays there; binding this node for the sawn work and refusing it for the carved work is the honest split, and the pack's notes say so.",
+          "precedence": 4
         }
       ],
       "_cascade": [

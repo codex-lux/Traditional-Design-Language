@@ -253,6 +253,12 @@
       "role": "secondary",
       "note": "The node that states the hierarchy rule and states it as a prohibition, which is rare in this corpus: 'dominant gable width 1.4 to 2.2 times the next largest gable; equal widths are a failure', and separately 'no two gables are the same width; equal gables indicate a builder's composition'. That last phrase is the argument -- a picturesque silhouette works by having a subject, and three gables at 1, 1 and 1 give the eye nothing to look at first. Read against `styles/jacobean.json`, which ranges its gables symmetrically on purpose: same count, opposite instruction, and the pack's rules say which applies where.",
       "precedence": 3
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "Bound for the bargeboard and the porch, behind `facade-gable` and `opening-pointed`. Worth reading here with this node's own hierarchy rule from the gable pack: the ornament goes where the gables do, and since 'no two gables are the same width', neither should the bargeboards be equally elaborate -- the dominant gable carries the pierced work and the subordinate ones a simpler repeat, which is both the composition and the budget.",
+      "precedence": 4
     }
   ]
 }

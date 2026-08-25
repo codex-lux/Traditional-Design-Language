@@ -40,10 +40,23 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 REQUIRED_ENTRY_FIELDS = {"pack", "role", "note"}
+# WP-4.6 (25 Aug 2026) found this set and schema/style-node.schema.json's own role
+# enum disagreeing: "trim" was legal here and illegal there. A new pack bound with
+# role "trim" passed --strict and then failed validate.py, and the failure did not
+# look like a role problem at all -- see the note on the cascade below. The schema
+# is the authority and nothing in the corpus used "trim", so it comes out of here.
+# The two lists are now identical and a test pins that they stay so.
 VALID_ROLES = {
     "primary", "secondary", "facade", "opening", "interior", "massing",
-    "room", "optional", "trim",
+    "room", "optional",
 }
+# The cascade is worth recording because the diagnostic was badly misleading. A node
+# that fails schema validation is DROPPED from validate.py's node set, so every
+# lineage and distinguished_from reference pointing AT it then reports "target does
+# not exist". Nine nodes with an illegal role produced forty-seven errors, thirty-eight
+# of which named entirely innocent nodes and none of which mentioned a role. If you
+# are ever reading a pile of "target does not exist" errors for nodes that plainly
+# exist, look at the top of the list for a SCHEMA error first.
 
 # WP-4.1 (23 Aug 2026, wave 2 merge) bound 129 of the 132 buildable nodes. The
 # remaining 3 were deliberately left unbound rather than forced onto a pack

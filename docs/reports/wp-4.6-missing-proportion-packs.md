@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: thirteen packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: fourteen packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -698,6 +698,68 @@ Raised as **OQ 48** with both concrete proposals: a `quantity` field so the real
 `(slot, dimension, quantity)`, or accept named dimensions as the convention this package fell into
 and require any shared address to be declared. Coverage moved: **facade-role 61 → 58.**
 
+### `proportions/systems/trim-sawn.json` — four list items, one machine
+
+WP-4.1 separately asks for **sawn Gothic ornament**, **sawn-bracket Victorian trim**, **turned
+Queen Anne millwork** and **Alpine bracket/carved-timber**. The first three are one family, and the
+thing that unifies them is not a period or a country but **two machines** — the scroll saw and the
+lathe, steam-powered from the 1840s, which put carved ornament into pine at a fraction of hand
+carving. A bargeboard of 1845, a bracket of 1870 and a spindle frieze of 1890 were stocked in the
+same catalogue and cut on the same bench. Measured, it was the largest remaining item: **27 nodes,
+16 thinly bound.**
+
+**Which members a building has *is* its style, and the corpus says so as a decision procedure:**
+`gothic-revival-american` — "bargeboard on the rake with no bracket under the eave: Gothic Revival.
+Brackets under a wide eave with no bargeboard: Italianate." That is why the pack's central rule is a
+**count of members** rather than a dimension of any of them.
+
+**The fourth item is deliberately not merged.** `swiss-chalet` is bound for its *sawn* balustrades
+and bargeboards only; its "carved and inscribed facade band" stays on the list, because carving is a
+hand craft with a gouge and this pack is about machines.
+
+**Three records refuse the pack in their own words** — and one gives a decision procedure for the
+refusal. `stick-style`: "if the applied woodwork curves, turns, or scrolls, the building has moved
+to Queen Anne or Eastlake." `queen-anne-free-classic` is defined by the "absence of turned
+spindlework"; `queen-anne-patterned-masonry` by "there is no porch spindlework". Two Queen Anne
+subtypes refusing the ornament their own siblings are named for is a sharper distinction than any
+dimension could draw.
+
+### The address collision, resolved into a proportion — and a tool instead of a checker
+
+The gable pack's measurement (1,922 instances) had raised an alarm. This pack forced the
+adjudication: **all 144 cross-pack pairs involving a WP-4.6 pack were read by hand, and eight were
+genuinely two packs meaning different quantities — about five per cent.** The rest is the mechanism
+working: two packs both giving a room's ceiling height, a window's proportion or an arch's rise are
+alternatives, and precedence is exactly what chooses between them.
+
+The eight include `frieze`/`height` meaning a classical entablature frieze *and* a suspended spindle
+valance, and `eave_condition`/`height` meaning an eave's height above ground *and* a verge's overhang
+depth — **the latter on ten nodes**, and the one that would most easily have shipped silently.
+
+**A checker was considered and deliberately not built.** Only a human can tell an alternative from a
+corruption, because the difference is what the rule *means*, and a build check carrying a 144-entry
+allowlist re-adjudicated on every new pack is a great deal of ceremony for a five per cent hit rate.
+Instead `build/pack_addresses.py` — an authoring aid that lists the addresses a pack shares with its
+neighbours and prints both notes side by side. It was written after this package hand-ran the same
+query three times, and it caught six of the eight. `CLAUDE.md` now names it as an authoring step.
+
+### A second checker defect, and a badly misleading diagnostic
+
+Binding `trim-sawn` with role `trim` — a role `check_pack_bindings.py`'s `VALID_ROLES` has always
+listed — passed `--strict` and then **failed `validate.py`**, because `schema/style-node.schema.json`'s
+own role enum does not contain it. Two validators disagreeing about the legal role set, the same
+class as the `check_orders`/`check_modules` expression-language divergence this package found
+earlier. The schema is the authority and nothing in the corpus used `trim`, so it comes out of
+`VALID_ROLES`; a test now pins the two lists identical.
+
+**The diagnostic was the worse half.** A node that fails schema validation is *dropped* from
+`validate.py`'s node set — so every `lineage` and `distinguished_from` reference pointing at it then
+reports "target does not exist". Nine nodes with an illegal role produced **47 errors, 38 of which
+named entirely innocent nodes**, and not one of which mentioned a role. The first thing I did was
+check whether style files had been deleted. The note is now in `check_pack_bindings.py`: if you are
+reading a pile of "target does not exist" errors for nodes that plainly exist, look at the top of
+the list for a schema error first.
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -711,7 +773,7 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing: an **octagon/polygonal plan module** (16 nodes, 9 thinly bound), a
+still missing: an **octagon/polygonal plan module** (17 nodes, 11 thinly bound), a
 **portada/retablo ornament panel** (8/7), a **Mudejar brick corbelling module** (7/7), a
 **strapwork/Jacobethan ornament** item (7/7), a **jetty module** (13/7), a **mansard module** (17/4) (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
 10 thinly bound, and entirely missing from the library), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
@@ -737,7 +799,8 @@ bound to 12 of the 34 thinly-bound stone nodes on a stated criterion. Struck off
 **half-timber infill panel** (29 nodes, 21 thinly bound), **both** the four-centred Tudor arch and
 the leaded-casement-and-mullion items, which turned out to be one window, and the **gable geometry**
 item, which the list said the library had none of and which absorbed the crow-step and holbol items
-with it.
+with it, and **four ornament items at once** — sawn Gothic, sawn-bracket Victorian, turned Queen Anne
+millwork and the pierced valance — which turned out to be one machine.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -750,16 +813,16 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **49 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the eleven new
-packs bind 101 nodes but every one of them was already bound, so the count does not move and should
+Later tranches: 23 checks green. **50 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the twelve new
+packs bind 113 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
 pack, plus one wrong interior binding corrected, a roof system six nodes previously had nothing for,
 a threshold system seven nodes had nothing for, a walling system twelve nodes had nothing for, and an arcade system sixteen
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 28 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **158 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **165 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.
