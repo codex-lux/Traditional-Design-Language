@@ -233,7 +233,7 @@
         {
           "id": "structural-and-expressed",
           "status": "canonical",
-          "note": "`member_status` at ontology 0.7.0 (OQ 47). Categorical, so it is a variant rather than a parameter -- it carries no unit and the kit checker is right to insist that a parameter does."
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Modelled as a variant rather than a parameter because a variant can be FORBIDDEN -- `status: forbidden` is how five of these fourteen kits say the member must not appear, and a parameter has no way to say that. (The reason first recorded here was that a categorical carries no unit and the checker insists a parameter has one. That is false: this corpus holds 236 categorical parameters whose unit is `none` and `check_kits.py` passes every one. Corrected 25 Aug 2026 by audit -- the modelling call stands, its stated reason did not.)"
         }
       ]
     },

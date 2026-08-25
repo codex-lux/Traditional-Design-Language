@@ -82,7 +82,7 @@ def test_a_garage_number_is_invented_and_not_editorial():
             if pn in INVENTED and isinstance(pv, dict):
                 assert pv.get("kind") != "editorial", (p, pn)
                 n += 1
-    assert n >= 11, n
+    assert n == 14, n   # pinned at the achieved count; `>= 11` left three units of slack
 
 
 def test_the_editorial_parameters_carried_forward_are_still_the_known_number():

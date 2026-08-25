@@ -337,9 +337,16 @@ def main():
                     E(f"derived_rules[{i}] ({r['target_slot']}): non-finite result {v!r}")
                     break
                 if rng and not (rng[0] <= v <= rng[1]):
-                    W(f"derived_rules[{i}] ({r['target_slot']}): {v:g} outside declared "
-                      f"range {rng} at ceiling_height={b['ceiling_height']:g}, "
-                      f"opening_width={b['opening_width', 'opening_height']:g}, span={b['span']:g}")
+                    # `b['opening_width', 'opening_height']` was a TUPLE KEY, not a fallback -- a
+                    # KeyError every time it ran, which means it never ran: this path is reached
+                    # only when a rule lands outside its own declared range. check_modules.py had
+                    # the identical line and it was fixed on 25 Aug when a module pack finally went
+                    # out of band; its sibling -- the checker covering the 18 SYSTEM packs, which is
+                    # most of what WP-4.6 wrote -- was left with the bug. Found by audit the same
+                    # day. Second occurrence of a bug fixed once is this codebase's standing pattern.
+                    ctx = ", ".join(f"{k}={b[k]:g}" for k in sorted(b))
+                    W(f"derived_rules[{i}] ({r['target_slot']}/{r.get('dimension')}): "
+                      f"{v:g} outside declared range {rng} at {ctx}")
                 elif args.verbose:
                     print(f"    ok  {base}.rule[{i}] {r['target_slot']} -> {v:g}")
         if rules and n_judgment == 0:

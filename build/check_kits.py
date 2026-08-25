@@ -236,6 +236,45 @@ def check_derived_module_family(errs, nid, kit, derives):
                         seen.setdefault(ck, (cv, f"{sid}.{pname}"))
 
 
+def check_slot_fields(errs, warns, nid, kit, ont_fields):
+    """A slot may DECLARE fields in elements/slots.json (`fields[]`, with `required` and, for an
+    enum, the permitted values under `examples`). `expressed_frame` is the only slot that does, and
+    OQ 47 added it precisely because `member_status` -- structural / structural-and-expressed /
+    applied / none -- is the field the slot exists for. NOTHING READ THAT DECLARATION: an audit on
+    25 Aug 2026 found that a kit could take a position on the slot without stating the status, and
+    that `"aplied"` would validate, because the kit schema types a variant id as a free string. A
+    required field that nobody enforces is a comment.
+
+    The categorical is carried by the VARIANT ID -- `{"id": "applied", ...}` -- because a variant
+    can be FORBIDDEN and a parameter cannot. So the enum is checked against variant ids, which is
+    where the data actually puts it, not against a parameter named after the field.
+
+    `binding: open` means the style has not taken a position yet and is not required to: 145 of the
+    159 kits are seeded and unbound. The requirement bites once a kit says `specified` or
+    `forbidden`, which is the point at which it IS making a claim.
+    """
+    for sid, decl in ont_fields.items():
+        rec = (kit.get("slots") or {}).get(sid)
+        if not isinstance(rec, dict):
+            continue
+        binding = rec.get("binding")
+        variants = [v for v in (rec.get("variants") or []) if isinstance(v, dict)]
+        for fld in decl:
+            allowed = fld.get("examples") if fld.get("value_type") == "enum" else None
+            if not allowed:
+                continue
+            ids = [v.get("id") for v in variants]
+            if fld.get("required") and binding in ("specified", "forbidden") and not ids:
+                errs.append("%s: slot '%s' is %s but states no '%s' -- elements/slots.json marks "
+                            "it required, and it is the field the slot exists for"
+                            % (nid, sid, binding, fld["id"]))
+            for got in ids:
+                if got not in allowed:
+                    errs.append("%s: slot '%s' variant id %r is not a permitted '%s' -- "
+                                "elements/slots.json allows %s"
+                                % (nid, sid, got, fld["id"], allowed))
+
+
 def main():
     ap = argparse.ArgumentParser(description="Validate the kit corpus")
     ap.add_argument("style", nargs="?", help="check one kit only")
@@ -243,6 +282,11 @@ def main():
     a = ap.parse_args()
 
     ont_version, ont_slots, ont_groups, ont_derives, ont_kinds = ontology()
+    ont_fields = {}
+    for _g in json.load(open(os.path.join(ROOT, "elements", "slots.json")))["groups"]:
+        for _sl in _g["slots"]:
+            if _sl.get("fields"):
+                ont_fields[_sl["id"]] = _sl["fields"]
     rule_slots = {k: v for k, v in ont_kinds.items() if v == "rule"}
     rooms = {}
     for rp in glob.glob(os.path.join(ROOT, "rooms", "*.json")):
@@ -285,6 +329,7 @@ def main():
         check_derived_module_family(errs, base, kit, ont_derives)
         check_rule_blocks(errs, warns, base, kit, rule_slots, rooms)
         check_determined_by(errs, warns, base, kit, ont_set)
+        check_slot_fields(errs, warns, base, kit, ont_fields)
         for _s in (kit.get("slots") or {}).values():
             for _pv in (_s.get("parameters") or {}).values():
                 if not isinstance(_pv, dict): continue

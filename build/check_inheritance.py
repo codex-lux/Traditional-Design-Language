@@ -37,6 +37,17 @@ import argparse, collections, glob, json, os, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "room")
 
+# THE RATCHET, in one place. tests/test_wp46_packs.py imports THIS dict rather than restating the
+# numbers, because a threshold duplicated in two files drifts apart and a ratchet that has drifted
+# is slack. It was already slack once: this file compared (gaps, packs) as a TUPLE -- lexicographic,
+# so inherited_packs could double unnoticed while role_gaps fell by one -- against a role_gaps
+# threshold of 329 when the real figure was 294. Thirty-five units of silence.
+#
+# The test asserts EQUALITY, not `<=`, deliberately. Working the OQ 51 backlog LOWERS these; the
+# equality assert forces whoever lowers them to come here and say so, which keeps the ratchet tight
+# instead of letting slack accumulate underneath it as the numbers fall.
+RATCHET = {"role_gaps": 294, "inherited_packs": 3367, "unendorsed": 233}
+
 
 def applies_to_index():
     """pack id -> the set of nodes its own applies_to vouches for."""
@@ -102,7 +113,15 @@ def main():
         packs = rk.resolve_packs(g, chain)
         own = {e["pack"] for e in (g["nodes"][a.slots].get("proportion_packs") or [])}
         by_slot, _ = rk.eval_packs(packs, CTX, None)
-        kit = rk.load_kit(a.slots)
+        # The CASCADE-RESOLVED slot record, not `load_kit(node)`. `choose_pack` consults the
+        # record's own `packs` block -- a person's explicit ruling -- before precedence, and that
+        # block is frequently inherited rather than restated on the node. Reading the node's own
+        # kit file therefore takes a different branch on any slot whose ruling came from an
+        # ancestor, and reports a different governing pack. Found by audit 25 Aug 2026: it made
+        # ranch-style read 68 of 78 where the resolver's own semantics give 69, and pueblo-revival
+        # 52 where they give 53. Both wrong numbers had been published. `resolve_kit.main` uses
+        # `resolve_slots`, so this must too or the diagnostic measures a corpus nobody resolves.
+        kit, _savings = rk.resolve_slots(g, chain, rk.scope_for(g, a.slots))
         foreign = []
         for sid, rows in sorted(by_slot.items()):
             ch = rk.choose_pack(kit.get(sid) or {}, rows, CTX)
@@ -116,11 +135,18 @@ def main():
     if a.unendorsed:
         by_pack = collections.Counter(pid for _, _, _, pid in unendorsed)
         print(f"{len(unendorsed)} of {len(gaps)} role gaps are endorsed by nobody.")
-        print("Leverage order — adjudicating one pack settles every node under it:\n")
+        print("Leverage order — adjudicating one pack settles every node under it.")
+        print("NODES is the leverage (one judgment per node); GAPS is how many role gaps close.")
+        print("They differ where a node reaches the same pack in two roles.\n")
+        print(f"  {'pack':24s} {'NODES':>5} {'GAPS':>5}")
         for pid, c in by_pack.most_common():
-            # de-duplicated: one node can reach the same pack in two roles and is one judgment, not two
+            # One node reaching the same pack in two roles is ONE judgment, not two. The header
+            # count is (node, role) pairs; the leverage is DISTINCT NODES. Printing a deduped list
+            # under a pair count made the two disagree for facade-picturesque (7 gaps, 6 nodes),
+            # which is a count whose label meant something other than the number. Both, labelled.
             nodes = sorted({n for n, _, _, p in unendorsed if p == pid})
-            print(f"  {pid:24s} {c:3d}  {', '.join(nodes[:6])}{' …' if len(nodes) > 6 else ''}")
+            print(f"  {pid:24s} {len(nodes):5d} {c:5d}  "
+                  f"{', '.join(nodes[:5])}{' …' if len(nodes) > 5 else ''}")
         return
 
     if a.roles:
@@ -141,12 +167,17 @@ def main():
     print(f"  unendorsed      {len(unendorsed):4d}  of those role gaps, the ones no pack's applies_to vouches for")
     print(f"      endorsed    {len(gaps) - len(unendorsed):3d}  an author DID judge these; the cascade delivered what was intended")
     print("\nOQ 51 is RULED: adjudicate the unendorsed first, flip pack inheritance to opt-in after.")
-    print("`--unendorsed` prints the work list in leverage order. All three numbers are pinned in")
-    print("tests/test_wp46_packs.py and none of them fails the build.")
-    # Compared one at a time, deliberately. A tuple comparison here is lexicographic: it would let
-    # inherited_packs double unnoticed as long as role_gaps had fallen by one. Each is its own ratchet.
-    if a.strict and (len(gaps) > 294 or len(inherited) > 3367 or len(unendorsed) > 233):
-        sys.exit(1)
+    print("`--unendorsed` prints the work list in leverage order.")
+
+    # Compared one at a time against RATCHET, deliberately. A tuple comparison here is
+    # lexicographic: it would let inherited_packs double unnoticed as long as role_gaps had fallen
+    # by one. Each number is its own ratchet and names itself when it grows.
+    now = {"role_gaps": len(gaps), "inherited_packs": len(inherited), "unendorsed": len(unendorsed)}
+    grown = [f"{k}: {RATCHET[k]} -> {v}" for k, v in now.items() if v > RATCHET[k]]
+    if grown:
+        print("\nRATCHET BROKEN — the inheritance backlog grew: " + "; ".join(grown))
+    if a.strict:
+        sys.exit(1 if grown else 0)
 
 
 if __name__ == "__main__":

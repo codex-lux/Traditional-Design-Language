@@ -358,12 +358,40 @@ def choose_pack(rec, rows, ctx):
                 by_dim.setdefault(dim, []).append((q, rs))
             others = []
             for dim, qs in by_dim.items():
-                if len(qs) > 1:
-                    keep = qs[0][0]
-                    for q, rs in qs[1:]:
-                        others.append({"quantity": "%s: %s set aside in favour of %s" % (
-                            dim, q or "unstated", keep or "unstated"),
-                            "packs": sorted({x["pack"] for x in rs})})
+                if len(qs) < 2:
+                    continue
+                keep = qs[0][0]
+                # Three things this must not do, all found by audit on 25 Aug 2026.
+                #
+                # (1) UNJUDGED IS NOT PASSED, and it is not DECIDED either. A rule with no
+                #     `quantity` cannot be compared -- 268 of 751 have none -- so saying it was
+                #     "set aside in favour of" something is a decision nobody made. It is reported
+                #     as could-not-judge, in the schema's own words for the same case.
+                # (2) "in favour of X" was false whenever this dimension is not the CHOSEN one:
+                #     only one group is delivered, so at any other dimension BOTH quantities were
+                #     dropped and neither prevailed. Say dropped, not set aside.
+                # (3) A menu inside ONE pack is case (i), authored deliberately -- room-harmonic
+                #     writes one address ten times and every one is right. Reporting those buried
+                #     the cross-pack cases at a 68% false-alarm rate. Flag which kind it is.
+                chosen_dim = (dim == win_q[0])
+                for q, rs in qs[1:]:
+                    packs_here = sorted({x["pack"] for x in rs})
+                    keep_packs = sorted({x["pack"] for x in qs[0][1]})
+                    cross = bool(set(packs_here) ^ set(keep_packs))
+                    if q is None or keep is None:
+                        verdict = ("%s: '%s' and '%s' COULD NOT BE JUDGED -- one carries no "
+                                   "`quantity`, so it is unknown whether they measure the same "
+                                   "thing" % (dim, q or "unstated", keep or "unstated"))
+                        kind = "could-not-judge"
+                    elif chosen_dim:
+                        verdict = "%s: %s set aside in favour of %s" % (dim, q, keep)
+                        kind = "set-aside"
+                    else:
+                        verdict = ("%s: %s and %s both dropped -- this slot resolved at "
+                                   "dimension '%s'" % (dim, q, keep, win_q[0]))
+                        kind = "both-dropped"
+                    others.append({"quantity": verdict, "kind": kind,
+                                   "cross_pack": cross, "packs": packs_here})
             return {"how": "style.proportion_packs", "chosen": {"pack": winners[0]["pack"],
                     "expression": winners[0]["expression"], "quantity": win_q[1],
                     "dimension": win_q[0]},
@@ -697,17 +725,23 @@ def main():
     # OQ 48: where two packs at one address MEASURE DIFFERENT THINGS, precedence picks a winner and
     # the other quantity is set aside. It used to be discarded with nothing said; now it is named,
     # because a rule that was silently dropped is unjudged and unjudged must not read as absent.
-    aside = []
+    aside, kinds = [], collections.Counter()
     for s in covered:
         ch = choose_pack(slots[s], pack_slots[s], ctx) or {}
         for o in ch.get("other_quantities") or []:
+            kinds[o.get("kind", "set-aside")] += 1
             aside.append("%s (%s, from %s)" % (s, o["quantity"] or "unstated", "/".join(o["packs"])))
     if aside:
-        print("  ! %d other quantity/ies set aside at an address precedence could not decide:" % len(aside))
-        for a in aside[:8]:
-            print("      " + a)
+        # Broken down by kind. The single word "set aside" was applied to all three cases,
+        # including the ones nobody judged -- which is the cardinal rule broken in the summary
+        # line rather than in the data. `--slot <id>` shows any one of them in full.
+        summary = ", ".join("%d %s" % (n, k) for k, n in kinds.most_common())
+        print("  ! %d competing quantity/ies at an address (%s):" % (len(aside), summary))
+        for line in aside[:8]:            # not `a`: that is the argparse Namespace
+            print("      " + line)
         if len(aside) > 8:
-            print("      ... and %d more (build/check_addresses.py lists them all)" % (len(aside) - 8))
+            print("      ... and %d more" % (len(aside) - 8))
+        print("      (`check_addresses.py --scope cascade --report` measures this corpus-wide)")
     if unruled_slots:
         print("  unresolved: " + ", ".join(unruled_slots))
     stale = [s for s in covered if (choose_pack(slots[s], pack_slots[s], ctx) or {}).get("stale_calibration")]

@@ -269,7 +269,8 @@ class TestScopedLineageEdges:
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         graph = json.load(open(os.path.join(root, "dist", "taxonomy.json")))
         scoped = [nid for nid, n in graph["nodes"].items() if n.get("_cascade_scope")]
-        assert len(scoped) < 10, "scoping is deliberately incremental; most edges carry everything"
+        # Pinned at 2, not `< 10`. Seven units of slack in a number that is deliberately small.
+        assert len(scoped) == 2, "scoping is deliberately incremental; most edges carry everything"
 
     def test_the_octagon_no_longer_takes_its_roof_from_italianate_dress(self, resolve_kit_module):
         """The worked case. `octagon-house hybridizes_with italianate-american` says in its own

@@ -37,7 +37,7 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 
 ```
 python3 -m pip install -r requirements.txt   # ortools, jsonschema, pytest
-python3 build/check_all.py     # 25 checks incl. the full pytest suite. ~8 min. Must be green.
+python3 build/check_all.py     # 26 checks incl. the full pytest suite. ~8 min. Must be green.
 ```
 
 The data and every checker run on the standard library alone, deliberately — `requirements.txt`
@@ -72,7 +72,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **25 checks, 748 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **26 checks, 750 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
@@ -84,12 +84,15 @@ WP-4.6 raised **OQ 47, 48 and 49**. **OQ 47 and 49 are CLOSED** — `expressed_f
 on 14 kits of which five FORBID the member; and a `slots` scope on bindings, which took the corpus
 to 132 of 132 by binding `egyptian-revival` to the two `facade-peristyle` rules that fit and
 excluding the six that do not. **Closing 49 opened OQ 51, which is larger than either**: the lineage
-cascade delivers proportion packs nobody bound, and `ranch-style` has 68 of its 78 dimensioned slots
+cascade delivers proportion packs nobody bound, and `ranch-style` has 69 of its 78 dimensioned slots
 governed by packs it never bound -- `opening-pointed`, a Gothic arch pack, governing 15 of them.
-**OQ 48 is CLOSED**: rules now carry a `quantity` naming what they measure, `build/check_addresses.py`
-compares meanings between co-binding packs, and the 139 real corruptions it found were renamed --
-minimally, so that at each conflicted address the dominant quantity keeps the dimension and only
-the 74 minority rules move. It reports **0** collisions and 14 could-not-judge. **OQ 50 is CLOSED**
+**OQ 48 is CLOSED AT OWN-BINDING SCOPE, AND THAT QUALIFIER IS THE POINT**: rules carry a
+`quantity` naming what they measure, and the 139 corruptions found were renamed minimally -- at
+each conflicted address the dominant quantity keeps the dimension and only the 74 minority rules
+move. But `check_addresses.py` was measuring each node's OWN bindings while `resolve_packs` walks
+the whole cascade, so the published "0 collisions" described a corpus nobody resolves. It now
+measures both: **own 442 pairs, 0 collisions, 14 unjudged; cascade 1,264 pairs, 9 collisions, 111
+unjudged**, both ratcheted. The 9 are OQ 51's surface, not a regression. **OQ 50 is CLOSED**
 at the principle: ornament is rationed and not distributed, stated once in `docs/model.md`; a fault
 would need the elevation layer to model ornament zones first, and it does not.
 
@@ -176,8 +179,11 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   quoted `results[0]`, printing a PASSING measurement as the evidence for a failure. When a
   generator did not model something, the measurement must be **absent**, not zero.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **51 entries, of which 6 are open**
-  (7, 8, 9, 10, 11, 18) -- and every one of the six is environment-blocked, not awaiting judgment.
+  trusting any list of them. `docs/open-questions.md` holds **53 entries, of which 8 are open**
+  (7, 8, 9, 10, 11, 18, 52, 53). Six of the eight are environment-blocked; **52 and 53 were raised
+  on 25 Aug by an adversarial audit of this session's own work and need a ruling** -- 52 is the
+  elevation generator inventing measurements the fault corpus then convicts houses on, 53 is
+  `check_addresses.py` comparing `quantity` without `units`, which has two live wrong dimensions.
   OQ 48, 50 and 51 closed on 25 Aug, and so did **OQ 16**, which had said IN PROGRESS for two days
   after the code it was waiting for shipped: `resolve_kit.py` honours `rule_append` with
   provenance, on both live instances. The list is now DERIVED from the file by a test rather than
@@ -190,9 +196,14 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     that is how a guess gets laundered as `measured`.
   - **OQ 18 (half closed)** — the note half is done: **0** editorial parameters are silent now,
     all 162 say plainly that no source is recorded and quote the basis their slot states. The
-    SOURCE half is blocked with 7-11. Of the 162: 82 are a bare single figure with no band (the
-    weakest form in the corpus and where a person with library access should start), 57 a band or
-    set, 21 restating the style record, 2 that carried their authority inside the value string.
+    SOURCE half is blocked with 7-11. **The breakdown was reclassified on 25 Aug after an audit and
+    the earlier one was wrong**: it read "has a `value` key" as "is a figure" and called 82 records
+    bare figures when 72 of them are categorical prose ("bay-or-building", "plain, or pulvinated in
+    the Gibbsian manner") that no citation would ever sharpen into a number. True shape of the 162:
+    **23 a bare single figure** (the weakest form, and where library access should start -- not 82),
+    **82 a categorical call** needing a source that the tradition makes this choice, **55 a band**,
+    **2 a set**. The quoted basis was also cut at a hard 150 characters, mid-word 148 times; it now
+    cuts at a sentence or clause and marks every elision.
   - **OQ 50** — ornament is rationed and not distributed, in 26 nodes across nine traditions, with
     `italian-renaissance` as the one control case. Ruled 25 Aug to stop at the principle
     (`docs/model.md`); a fault would need the elevation layer to model ornament ZONES, which it
@@ -214,7 +225,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     `opening-proportion` 23, `trim-classical` 16, `chambers-ionic` 15 (on `carpenter-gothic` and
     both Gothic Revivals), `facade-gable` 14, `sash-light` 12, `brick-course` 11.
     **The accepted risk, stated because it is real:** wrong dimensions keep arriving while the
-    backlog is worked. `--slots ranch-style` shows 68 of 78 dimensioned slots governed by packs it
+    backlog is worked. `--slots ranch-style` shows 69 of 78 dimensioned slots governed by packs it
     never bound. That is tolerable only because it is counted.
 
 ## Conventions

@@ -65,6 +65,23 @@ import pytest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def _rk():
+    """resolve_kit, through modcache -- never a local by-path loader (CLAUDE.md's standing trap).
+    Behavioural tests need the real module: asserting on its SOURCE protects the comment, not the
+    code, which an audit demonstrated by neutering the scope filter and passing 366 tests."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache
+    return modcache.load("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+
+
+def _pe_mod():
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache
+    return modcache.load("proportion_engine", os.path.join(ROOT, "build", "proportion_engine.py"))
+
+
 def pack(pid):
     hits = [p for p in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))
             if json.load(open(p))["id"] == pid]
@@ -1365,10 +1382,17 @@ def test_it_moved_the_facade_role_count_for_the_first_time_in_the_package():
     untouched at 67. This one is a facade-system and binds nine nodes in the facade role."""
     facade_bound = [nid for nid in pack("facade-arcade")["applies_to"]
                     if binding(nid, "facade-arcade")["role"] == "facade"]
-    assert len(facade_bound) >= 8
+    assert len(facade_bound) == 9, "the docstring says nine; pin the achieved value, not a floor"
     src = open(os.path.join(ROOT, "README.md")).read()
     m = re.search(r"(\d+) no facade-role pack", src)
-    assert m and int(m.group(1)) < 67
+    # TIGHT, not `< 67`. 67 was the PRE-package baseline and the achieved figure is 46, so this
+    # ratchet carried 21 units of silence: twenty-one nodes could lose their facade-role pack and
+    # it stayed green. That is the same defect as check_inheritance's 329-against-294 threshold,
+    # in the test that is supposed to be the headline movement's own guard. Found by audit.
+    assert m, "README no longer states the facade-role figure -- the guard has rotted"
+    assert int(m.group(1)) == 46, (
+        f"facade-role gap is {m.group(1)}, pinned at 46. It should only go DOWN; if it did, "
+        f"lower the pin here deliberately rather than leaving slack under it.")
 
 
 # ---------------------------------------------------------------- timber-panel
@@ -3017,12 +3041,53 @@ def test_every_buildable_node_now_carries_a_binding_and_the_allowlist_is_empty()
 
 
 def test_the_resolver_filters_on_the_scope_and_it_is_the_only_place_it_can():
-    """Everything downstream reads `by_slot` and cannot tell where a rule came from, which is
-    exactly how `role: optional` plus a note in prose failed to scope anything."""
-    src = open(os.path.join(ROOT, "build", "resolve_kit.py")).read()
-    assert 'scope = binding.get("slots")' in src
-    assert 'if scope is not None and not (' in src
-    assert "the one place a scoped binding" in src
+    """BEHAVIOURAL, deliberately. This test used to assert that three strings appeared in
+    resolve_kit.py's source. An audit on 25 Aug 2026 neutered the filter (`scope = None`) while
+    leaving every asserted string in place and ran the suite: 366 tests passed, and in that mutant
+    `egyptian-revival` received all 17 facade-peristyle rules including the entasis its own c04
+    forbids. A source-string assert protects the comment, not the behaviour. So: call eval_packs.
+    """
+    rk = _rk()
+    pk_rules = _pe_mod().resolve("facade-peristyle")["derived_rules"]
+    ctx = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_width": 36.0,
+           "opening_height": 80.0, "span": 540.0, "wall_thickness": 13.5}
+
+    unscoped = {"facade-peristyle": {"role": "facade", "_source": "t", "precedence": 1}}
+    wide, _ = rk.eval_packs(unscoped, ctx, None)
+    n_wide = sum(len(v) for v in wide.values())
+    assert n_wide > 2, "an unscoped binding must still deliver the whole pack"
+
+    target = pk_rules[0]["target_slot"]
+    scoped = {"facade-peristyle": {"role": "facade", "_source": "t", "precedence": 1,
+                                   "slots": [target]}}
+    narrow, _ = rk.eval_packs(scoped, ctx, None)
+    assert set(narrow) == {target}, f"scope admitted {sorted(narrow)}, not just {target}"
+    assert sum(len(v) for v in narrow.values()) < n_wide
+
+    # A scope naming something the pack does not write admits NOTHING -- it must never fall back
+    # to delivering everything, which is the direction that would be silent and wrong.
+    bogus = {"facade-peristyle": {"role": "facade", "_source": "t", "precedence": 1,
+                                  "slots": ["no_such_slot_exists"]}}
+    empty, _ = rk.eval_packs(bogus, ctx, None)
+    assert sum(len(v) for v in empty.values()) == 0
+
+
+def test_the_scope_actually_keeps_the_entasis_off_egyptian_revival():
+    """The finding that produced OQ 49, asserted end to end on the shipped corpus rather than on
+    a comment: the node's binding is scoped to two rules, and the rule its own c04 forbids is not
+    among what it receives."""
+    rk = _rk()
+    g = rk.load_graph()
+    ctx = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_width": 36.0,
+           "opening_height": 80.0, "span": 540.0, "wall_thickness": 13.5}
+    packs = rk.resolve_packs(g, rk.chain_for(g, "egyptian-revival"))
+    by_slot, _ = rk.eval_packs(packs, ctx, None)
+    delivered = [(sid, r["dimension"], r.get("quantity"))
+                 for sid, rows in by_slot.items() for r in rows
+                 if r["pack"] == "facade-peristyle"]
+    assert delivered, "the scoped binding must still deliver its two rules"
+    assert len(delivered) == 2, delivered
+    assert not [d for d in delivered if "entasis" in str(d)], delivered
 
 
 # --- OQ 51, found while closing OQ 49 ----------------------------------------------------------
@@ -3101,14 +3166,73 @@ def test_the_checker_reports_by_default_and_only_fails_under_strict():
 
 
 def test_the_resolver_names_what_it_sets_aside_instead_of_discarding_it():
-    """Precedence decides which of two accounts of ONE quantity to believe; it cannot decide
-    between two quantities, and the loser used to vanish with nothing said."""
-    src = open(os.path.join(ROOT, "build", "resolve_kit.py")).read()
-    assert "other_quantities" in src
-    assert "a rule that was silently dropped is unjudged" in src
-    # and the grouping is by (dimension, quantity), because by_slot is keyed on the slot alone
-    assert "Grouped by (dimension, quantity), not by quantity alone" in src
-    assert "A `count` rule is not an alternative account of a" in src
+    """BEHAVIOURAL. Precedence decides which of two accounts of ONE quantity to believe; it cannot
+    decide between two quantities, and the loser used to vanish with nothing said. Feed choose_pack
+    two packs meaning different things at one address and require it to say so."""
+    rk = _rk()
+    ctx = {"ceiling_height": 108.0}
+    rows = [
+        {"pack": "pack-a", "role": "facade", "from": "x", "style_precedence": 1,
+         "dimension": "height", "quantity": "plinth_block_height", "expression": "1",
+         "value": 1.0, "units": "in", "judgment": False, "calibrated_for": None},
+        {"pack": "pack-b", "role": "facade", "from": "y", "style_precedence": 2,
+         "dimension": "height", "quantity": "head_casing_height", "expression": "2",
+         "value": 2.0, "units": "in", "judgment": False, "calibrated_for": None},
+    ]
+    ch = rk.choose_pack({}, rows, ctx)
+    others = ch.get("other_quantities") or []
+    assert len(others) == 1, others
+    assert others[0]["kind"] == "set-aside"
+    assert others[0]["cross_pack"] is True
+    assert "head_casing_height" in others[0]["quantity"]
+
+    # UNJUDGED IS NOT DECIDED. A rule with no `quantity` cannot be compared, so it must never be
+    # reported as having lost to something -- 268 of 751 rules have none, and the schema's own
+    # text calls this could-not-evaluate.
+    rows[1] = dict(rows[1], quantity=None)
+    ch2 = rk.choose_pack({}, rows, ctx)
+    o2 = (ch2.get("other_quantities") or [])[0]
+    assert o2["kind"] == "could-not-judge", o2
+    assert "COULD NOT BE JUDGED" in o2["quantity"]
+    assert "set aside in favour of" not in o2["quantity"]
+
+    # Two quantities at a dimension that is NOT the one delivered were BOTH dropped; claiming one
+    # prevailed over the other is a decision that did not happen.
+    rows2 = rows[:1] + [dict(rows[0], pack="pack-c", dimension="width",
+                             quantity="casing_face_width", style_precedence=3),
+                        dict(rows[0], pack="pack-d", dimension="width",
+                             quantity="muntin_width", style_precedence=4)]
+    ch3 = rk.choose_pack({}, rows2, ctx)
+    kinds = {o["kind"] for o in (ch3.get("other_quantities") or [])}
+    assert "both-dropped" in kinds, ch3.get("other_quantities")
+
+
+def test_quantity_survives_the_proportion_engine():
+    """BEHAVIOURAL, and generalised to every schema field. `quantity` did not survive `evaluate`
+    at first and the grouping silently did nothing. The same bug was still live for
+    `calibrated_for` -- which resolve_kit READS, so `stale_calibration` was permanently False --
+    and for `diagnostic`. A row rebuilt key-by-key drops whatever nobody re-listed, so assert the
+    whole schema rather than one field."""
+    pe = _pe_mod()
+    declared = set(json.load(open(os.path.join(ROOT, "schema", "proportion-pack.schema.json")))
+                   ["properties"]["derived_rules"]["items"]["properties"])
+    ctx = {"ceiling_height": 108.0, "opening_width": 36.0, "opening_height": 80.0,
+           "span": 540.0, "wall_thickness": 13.5, "storey_height": 120.0}
+    missing = {}
+    for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
+        pid = json.load(open(f))["id"]
+        rows = pe.evaluate(pe.resolve(pid), None, ctx)["rules"]
+        if not rows:
+            continue
+        gap = declared - set(rows[0])
+        if gap:
+            missing[pid] = sorted(gap)
+    assert not missing, f"schema fields dropped by evaluate(): {missing}"
+
+    # and the values actually arrive, not just the keys
+    live = [r for r in pe.evaluate(pe.resolve("trim-classical"), None, ctx)["rules"]
+            if r.get("calibrated_for")]
+    assert live, "trim-classical states a calibration band; it must reach the row"
 
 
 def test_quantity_survives_the_proportion_engine():
@@ -3215,9 +3339,31 @@ def test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_agai
     # somebody having decided. HALF CLOSED and IN PROGRESS count as open because half of one is
     # still waiting on a person. Deriving it this way is what caught OQ 16: it had said IN
     # PROGRESS for two days after the code it was waiting for shipped.
+    #
+    # THE STATUS WORD IS PARSED PERMISSIVELY AND THEN MATCHED STRICTLY, and an unrecognised one is
+    # a FAILURE rather than a default. The first version captured `[A-Z ]+`, which stops at the
+    # first lowercase or hyphen, and then treated anything unmatched as settled -- so `**Open —`,
+    # `**HALF-CLOSED` and `**Still open` all entered the corpus as closed questions and this test
+    # stayed green. A guard whose unknown case is "assume fine" is not a guard; defaulting the
+    # other way would be a nuisance, so neither: an unknown word stops the build and gets classed.
+    SETTLED_WORDS = ("CLOSED", "RESOLVED", "RULED", "FIXED", "CONFIRMED", "ANSWERED",
+                     "LEFT AS A STANDING DISCLOSURE", "SUPERSEDED", "WITHDRAWN")
     OPEN_WORDS = ("OPEN", "STILL OPEN", "HALF CLOSED", "PARTLY", "IN PROGRESS")
-    live = {n for n, st in re.findall(r"^(\d+)\. \*\*([A-Z ]+)", oq, re.M)
-            if st.strip().startswith(OPEN_WORDS)}
+
+    def _norm(raw):
+        head = re.split(r"[—.:*(]", raw, 1)[0]
+        return re.sub(r"[\s\-]+", " ", head).strip().upper()
+
+    live, unknown = set(), []
+    for n, raw in re.findall(r"^(\d+)\. \*\*([^\n]{0,80})", oq, re.M):
+        st = _norm(raw)
+        if st.startswith(OPEN_WORDS):
+            live.add(n)
+        elif not st.startswith(SETTLED_WORDS):
+            unknown.append((n, st))
+    assert not unknown, (
+        f"unrecognised open-question status word(s): {unknown}. Add the word to SETTLED_WORDS or "
+        f"OPEN_WORDS -- an unclassified entry must never silently count as settled.")
     claimed = set(re.findall(r"of which \d+ are open\*\*\s*\n?\s*\(([\d, ]+)\)", md))
     assert claimed, md[md.index("Open questions are live"):][:300]
     listed = {x.strip() for x in list(claimed)[0].split(",") if x.strip()}
@@ -3237,10 +3383,14 @@ def _inheritance():
     import subprocess, re
     out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_inheritance.py")],
                          capture_output=True, text=True, cwd=ROOT).stdout
-    g = int(re.search(r"role_gaps\s+(\d+)", out).group(1))
-    p = int(re.search(r"inherited_packs\s+(\d+)", out).group(1))
-    u = int(re.search(r"unendorsed\s+(\d+)", out).group(1))
-    return g, p, u
+    # Anchored to line starts. Unanchored, a prose line elsewhere in the output containing
+    # "unendorsed <number>" would be matched instead of the table row, silently returning the
+    # wrong number to a test whose whole job is to pin numbers.
+    def n(label):
+        m = re.search(r"^\s*%s\s+(\d+)" % label, out, re.M)
+        assert m, f"{label} row missing from check_inheritance output"
+        return int(m.group(1))
+    return n("role_gaps"), n("inherited_packs"), n("unendorsed"), n("endorsed")
 
 
 def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
@@ -3249,7 +3399,7 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     subset of gaps no pack's own applies_to vouches for. None fails the build -- this is a measured
     backlog, not a regression -- and the pin is what protects it. All three should go DOWN as the
     corpus is worked; a rise means the cascade papered over something new."""
-    gaps, packs, unendorsed = _inheritance()
+    gaps, packs, unendorsed, _endorsed = _inheritance()
     assert (gaps, packs, unendorsed) == (294, 3367, 233)
 
 
@@ -3259,10 +3409,30 @@ def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault()
     inheritance to opt-in once unendorsed approaches zero. That only works if the two halves are
     told apart -- a gap the pack author vouched for is the cascade delivering what was INTENDED,
     and counting it as a fault would make the meter unreadable and the work list wrong."""
-    gaps, _, unendorsed = _inheritance()
-    endorsed = gaps - unendorsed
-    assert endorsed == 61, "61 of the 294 gaps are endorsed by the pack's own applies_to"
-    assert unendorsed < gaps, "if every gap were unendorsed the split would be measuring nothing"
+    gaps, _, unendorsed, endorsed_printed = _inheritance()
+    # Two INDEPENDENT computations, not one restated. Deriving `endorsed` as `gaps - unendorsed`
+    # here reproduces the checker's own arithmetic, so the printed line was never read and could
+    # not be contradicted -- break the endorsement predicate's reporting and this could not notice.
+    assert endorsed_printed == gaps - unendorsed, "the checker's own two numbers disagree"
+    assert endorsed_printed == 61, "61 of the 294 gaps are endorsed by the pack's own applies_to"
+
+    # And the predicate means what it says: a named gap whose pack `applies_to` lists the node is
+    # endorsed, and one whose pack does not is not. `assert unendorsed < gaps` was vacuous --
+    # unendorsed is a subset filter of gaps, so it could only fail if literally nothing were
+    # endorsed. Check the actual relation instead, on real records.
+    import importlib.util as _il
+    spec = _il.spec_from_file_location("ci", os.path.join(ROOT, "build", "check_inheritance.py"))
+    ci = _il.module_from_spec(spec); spec.loader.exec_module(ci)
+    applies = ci.applies_to_index()
+    _, all_gaps, _ = ci.measure(ci.load())
+    end = [t for t in all_gaps if t[0] in applies.get(t[3], ())]
+    une = [t for t in all_gaps if t[0] not in applies.get(t[3], ())]
+    assert len(end) == endorsed_printed and len(une) == unendorsed
+    assert end and une, "both sides must be non-empty or the split measures nothing"
+    nid, _role, _anc, pid = end[0]
+    assert nid in applies[pid], "an endorsed gap's pack must name the node in applies_to"
+    nid2, _r2, _a2, pid2 = une[0]
+    assert nid2 not in applies.get(pid2, ()), "an unendorsed gap's pack must NOT name the node"
 
 
 def test_the_diagnostic_names_the_ancestor_because_that_is_the_actionable_part():
@@ -3276,12 +3446,12 @@ def test_the_diagnostic_names_the_ancestor_because_that_is_the_actionable_part()
 
 
 def test_a_ranch_is_dimensioned_by_a_gothic_arch_pack_and_the_slot_report_says_so():
-    """The finding at its sharpest. 68 of `ranch-style`'s 78 dimensioned slots are governed by
+    """The finding at its sharpest. 69 of `ranch-style`'s 78 dimensioned slots are governed by
     packs it never bound, and the report names the pack AND the ancestor it was bound on."""
     import subprocess
     out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_inheritance.py"),
                           "--slots", "ranch-style"], capture_output=True, text=True, cwd=ROOT).stdout
-    assert "78 slot(s) dimensioned, 68 by a pack it never bound" in out
+    assert "78 slot(s) dimensioned, 69 by a pack it never bound" in out
     assert "opening-pointed" in out and "gothic-revival-british" in out
     assert "gibbs-ionic" in out
 
@@ -3353,3 +3523,33 @@ def test_the_57_that_looked_like_placeholders_were_correct_records():
     assert banded == 57
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
     assert "ninth" in oq and "would have DAMAGED correct records" in oq
+
+
+# --- the build artefact, and the seventeen tests that trusted it -------------------------------
+
+
+def test_dist_taxonomy_is_fresh_because_seventeen_tests_read_it_as_if_it_were_source():
+    """`dist/taxonomy.json` is a BUILD ARTEFACT, git-tracked, and 17 tests read it -- including
+    every OQ 51 pin. Nothing in the pytest path regenerated it. An audit on 25 Aug 2026 emptied
+    `proportion_packs` on 20 style records WITHOUT rebuilding: the ratchet still read
+    294 / 3367 / 233 and all three pins stayed green. After `build.py` the true figures were
+    369 / 3390 / 265. So the meter for the largest open question in the corpus could be pointed at
+    a graph that no longer existed, and nothing said so.
+
+    `check_all.py` now runs `build.py` FIRST rather than last, which fixes `make check`. This test
+    is the other half, for a bare `pytest tests/`: rebuild, and require the artefact not to move.
+    It is deliberately self-healing -- if it fails, the tree is left correct and the next run is
+    green -- because the failure it reports is "you forgot to rebuild", not "the data is wrong".
+    """
+    import subprocess
+    import sys as _sys
+    p = os.path.join(ROOT, "dist", "taxonomy.json")
+    before = open(p, "rb").read()
+    r = subprocess.run([_sys.executable, os.path.join(ROOT, "build", "build.py")],
+                       capture_output=True, text=True, cwd=ROOT)
+    assert r.returncode == 0, r.stderr[-2000:]
+    after = open(p, "rb").read()
+    assert before == after, (
+        "dist/taxonomy.json was STALE -- a source file changed and the artefact was not rebuilt. "
+        "It has now been regenerated, so this test will pass on the next run; commit the artefact "
+        "with the change that caused it. 17 tests read this file, including every OQ 51 pin.")

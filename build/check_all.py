@@ -16,6 +16,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 CHECKS = [
+    # build.py FIRST, not last. It writes dist/taxonomy.json, and check_kits.py,
+    # check_addresses.py and check_inheritance.py all READ that artefact. With build.py last,
+    # every one of them validated the PREVIOUS run's graph: edit a lineage edge or a binding, and
+    # the run that introduced the change measured the corpus as it was before it. The OQ 51 meter
+    # -- whose whole purpose is to catch the cascade papering over something new -- was the worst
+    # placed of the three. Only pytest caught it, and only because pytest happens to run after.
+    # Found by audit 25 Aug 2026. It still runs at the end too, so a checker that mutates nothing
+    # is proved not to have, and the artefact committed to git is the one the run just verified.
+    ("build.py", []),
     ("validate.py", []),
     ("check_orders.py", []),
     ("check_modules.py", ["--eval"]),
@@ -27,8 +36,12 @@ CHECKS = [
     ("check_rooms.py", []),
     ("check_partis.py", []),
     ("check_counts.py", []),
-    ("check_addresses.py", []),
-    ("check_inheritance.py", []),
+    # --strict on both, added 25 Aug 2026 after an audit found neither could fail the build.
+    # check_addresses was default-off deliberately while OQ 48 carried 139 collisions; that
+    # question closed at 0, so the ratchet that stops a 1st new one is now the whole point.
+    # check_inheritance guards OQ 51's three numbers, which the ruling says must only go down.
+    ("check_addresses.py", ["--strict"]),
+    ("check_inheritance.py", ["--strict"]),
     ("proportion_engine.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
     ("plan_check.py", ["plans/tidewater-georgian-careful.json"]),

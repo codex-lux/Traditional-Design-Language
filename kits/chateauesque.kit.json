@@ -286,7 +286,7 @@
           "value": "a continuous ashlar plinth or watertable in the same stone as the wall above; no exposed timber sill",
           "unit": "none",
           "kind": "editorial",
-          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A masonry plinth in the wall's own stone. The inherited value (a timber-frame Sockel clear of grade, from germanic-vernacular) presupposes a light fra\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A masonry plinth in the wall's own stone. The inherited value (a timber-frame Sockel clear of grade, from germanic-vernacular) presupposes a light frame this style does not have and is corrected here.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "status": "drafted",
@@ -652,7 +652,7 @@
           "value": "door and window surrounds only; there is no continuous classical entablature run at the eaves",
           "unit": "none",
           "kind": "editorial",
-          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"No running eaves entablature. The style's own proportional_system states plainly that 'there is no governing module; proportion is set by the roof' — \" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"No running eaves entablature. The style's own proportional_system states plainly that 'there is no governing module…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "status": "drafted",

@@ -95,6 +95,13 @@ VALID_ROLES = {
 DELIBERATELY_UNBOUND = set()
 
 
+def _pe():
+    """proportion_engine, through modcache -- never a local by-path loader (see CLAUDE.md)."""
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache
+    return modcache.load("proportion_engine", os.path.join(ROOT, "build", "proportion_engine.py"))
+
+
 def _all_pack_ids():
     ids = {}
     for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
@@ -145,9 +152,19 @@ def check_node(node, packs, errors, warnings, strict):
         # failure this field was added to prevent, so it must not be reintroduced by the field.
         scope = e.get("slots")
         if scope is not None:
-            written = {r["target_slot"] for r in packs[pack_id].get("derived_rules", [])}
-            written |= {f"{r['target_slot']}/{r.get('dimension')}"
-                        for r in packs[pack_id].get("derived_rules", [])}
+            # OVERLAY-MERGED rules, via pe.resolve -- not the pack file's own derived_rules. The
+            # enforcer (resolve_kit.eval_packs) filters against the resolved pack, and 18 of the 57
+            # packs are overlays that inherit most of their rules from a base: gibbs-ionic writes 8
+            # in its own file and 18 once resolved. Validating against the raw file would reject a
+            # legitimate scope naming any of the 10 inherited ones -- rejecting good data with the
+            # words "the scope admits nothing", which is worse than the no-op it exists to catch.
+            # Found by audit 25 Aug 2026; latent, because no scope currently targets an overlay.
+            try:
+                resolved_rules = _pe().resolve(pack_id).get("derived_rules", [])
+            except Exception:
+                resolved_rules = packs[pack_id].get("derived_rules", [])
+            written = {r["target_slot"] for r in resolved_rules}
+            written |= {f"{r['target_slot']}/{r.get('dimension')}" for r in resolved_rules}
             for entry in scope:
                 if entry not in written:
                     errors.append(

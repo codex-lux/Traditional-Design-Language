@@ -302,8 +302,14 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
            "invariants": pe.check_invariants(pk)}
     if include_rules:
         ev = pe.evaluate(pk, mod, {"ceiling_height": ceiling_height, "opening_width": opening_width})
-        out["derived_rules"] = [{k: r.get(k) for k in ("target_slot","dimension","expression","value","units","judgment","range","in_range","note")}
-                                for r in ev["rules"]]
+        # `quantity` (OQ 48) names what the rule MEASURES, which is what makes (slot, dimension)
+        # not the real address. Omitting it here left every MCP consumer seeing two rules that the
+        # corpus deliberately distinguishes as if they were the same address. `calibrated_for`
+        # carries a rule's own statement that it is out of band. Both were dropped by a fixed key
+        # list -- the same bug as proportion_engine's, found in the same audit, 25 Aug 2026.
+        RULE_KEYS = ("target_slot", "dimension", "quantity", "expression", "value", "units",
+                     "judgment", "range", "in_range", "note", "calibrated_for")
+        out["derived_rules"] = [{k: r.get(k) for k in RULE_KEYS} for r in ev["rules"]]
         out["judgment_rules"] = [r["target_slot"] for r in ev["rules"] if r.get("judgment")]
     out["conflicts"] = pk.get("conflicts", [])
     if not assembly: out["hint"] = "pass assembly='cornice' (or capital, base, entablature, pedestal) for member-by-member dimensions"

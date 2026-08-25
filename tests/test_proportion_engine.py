@@ -31,7 +31,9 @@ class TestProportionEngineSelftest:
         is the invariant -- every pack resolves, none has a problem."""
         import glob
         n = len(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")))
-        assert n >= 38, n
+        # Pinned at the achieved count, not a stale floor of 38 -- nineteen packs could vanish
+        # under a floor that low without the suite noticing. Raise it when packs are added.
+        assert n == 57, n
         proc = _run("proportion_engine.py", "selftest")
         assert proc.returncode == 0, proc.stdout + proc.stderr
         assert "%d packs resolved and dimensioned, 0 problem(s)" % n in proc.stdout

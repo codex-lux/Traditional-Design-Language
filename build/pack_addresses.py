@@ -110,18 +110,41 @@ def main():
     me = packs[args.pack]
     mine = addresses(me)
     shared = collections.defaultdict(set)
+    binders, co_packs, unknown = set(), set(), set()
     for n in nodes:
         ids = [e["pack"] for e in n.get("proportion_packs") or []]
         if args.pack not in ids:
             continue
+        binders.add(n["id"])
         for other in ids:
             if other == args.pack:
                 continue
-            for a in mine & addresses(packs.get(other, {})):
+            # An id with no pack file is NOT a pack with no rules. Treating it as one made an
+            # unresolvable binding look like a clean comparison.
+            if other not in packs:
+                unknown.add(other)
+                continue
+            co_packs.add(other)
+            for a in mine & addresses(packs[other]):
                 shared[(other,) + a].add(n["id"])
 
+    for u in sorted(unknown):
+        print(f"! co-bound pack id '{u}' has no pack file -- it could NOT be compared")
+
     if not shared:
-        print(f"{args.pack}: shares no rule address with any pack it co-binds with.")
+        # UNJUDGED IS NOT PASSED, in the authoring aid too. "Shares no address" and "there was
+        # nothing to compare" printed the same sentence, and the second is the state a pack is in
+        # while you are still writing it -- exactly when you run this. Say which.
+        if not binders:
+            print(f"{args.pack}: NOT BOUND BY ANY NODE — nothing was compared. This is not a "
+                  f"clean result; bind it, or pass a bound pack.")
+            return 0
+        if not co_packs:
+            print(f"{args.pack}: bound on {len(binders)} node(s), but no node binds it ALONGSIDE "
+                  f"another pack — nothing was compared.")
+            return 0
+        print(f"{args.pack}: compared against {len(co_packs)} co-binding pack(s) across "
+              f"{len(binders)} node(s) — shares no rule address with any of them.")
         return 0
 
     print(f"{args.pack} shares {len(shared)} address(es) with packs it co-binds with.")
