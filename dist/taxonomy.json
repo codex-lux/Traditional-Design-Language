@@ -4887,6 +4887,12 @@
           "role": "secondary",
           "note": "Explicitly listed in the pack's applies_to, but applies only to the eastern (Limburg, Kempen, Maasland) vakwerk half of the region, which this node's own lineage entry describes as 'structurally continuous with Rhenish Fachwerk' — the western solid-brick half has no frame for this pack to govern. Bound secondary and narrow in scope for that reason.",
           "precedence": 3
+        },
+        {
+          "pack": "timber-panel",
+          "role": "secondary",
+          "note": "Secondary, and bound for half the region by the record's own account: 'timber-framed with brick nogging in the eastern (Limburg, Kempen, Maasland) half of the region; solid brick in the west'. Where it is framed this pack governs the panel; where it is solid brick, `brick-course` does and this one says nothing. A binding that applies to half a node's geography is unusual and is stated here rather than left for someone to discover from a plan that will not work.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -7217,6 +7223,12 @@
           "role": "room",
           "note": "Applies only to the Flett end of the hall — the heated living space with its built-in beds — where the daylight- and hearth-reach logic this pack encodes is genuinely at work. The Diele (threshing floor) and Kubbungen (byre aisles) are not rooms in this pack's sense and are governed instead by this node's own agricultural-process constraints; the binding is deliberately scoped to the one part of the building the pack actually describes.",
           "precedence": 2
+        },
+        {
+          "pack": "timber-panel",
+          "role": "secondary",
+          "note": "Secondary behind `timber-bay`, which owns this node's defining dimension -- the Fach at 2.2-2.8 m on centre, which is a structural bay and not a panel. What this pack adds is what fills it. Worth noting that on this type the frame is doing something the others are not: the aisle posts at 3.5-4.5 m carry a hall rather than a wall, so the panels between them are screens in a barn's structure and are correspondingly plainer than a town Fachwerk's.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -7528,6 +7540,12 @@
           "role": "room",
           "note": "Judgment binding (not in applies_to). Scoped to the smaller, domestic-scale Tudor house — the hall-and-parlor type this style's own massing_affinities record as common 'after the hall is floored over and a lobby-entry stack inserted' — not to the courtyard great houses (Hampton Court, Compton Wynyates), whose halls and state rooms remain governed by the style's own figured ratios and lie well outside the pack's ordinary-room scale.",
           "precedence": 2
+        },
+        {
+          "pack": "timber-panel",
+          "role": "secondary",
+          "note": "Secondary behind `timber-bay`. The panel figures apply, and one thing about this node should be read from `timber-bay` rather than here: its storey heights are 'nearly equal; no graduated diminution, which is what most clearly separates Tudor from Georgian at a glance'. That is a direct contradiction of `styles/german-fachwerk.json`'s storeys 'diminishing upward by roughly 10-15 percent' -- two half-timbering traditions doing opposite things with the same construction -- and it belongs to the frame pack rather than to the panel pack, which is why this one does not carry a diminution rule at all.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -9310,12 +9328,6 @@
       ],
       "proportion_packs": [
         {
-          "pack": "balcony-gallery",
-          "role": "secondary",
-          "note": "The deepest of the three carrying regimes and the node that defines it. This record gives the galerie at 8-12 ft, up to 14 on the raised plantation house, carried on 'light colonnettes or masonry piers' -- and, crucially, that there is 'no interior corridor: rooms open directly into one another and onto the galerie through full-height French casement doors'. That is why the posted gallery's depth has no structural ceiling and a wide band: it is circulation as well as shade, so its depth is a corridor's plus a room's worth of shadow, and the record's 'at least eight feet' is a floor rather than an average. This node also supplies the pack's roof rule, which is a break-position finding of the same class as `dutch-gambrel`'s: 'main roof 40-50 degrees; galerie slope 20-30 degrees; break at the outer wall plane'. The break's POSITION is the rule, and a gallery roof carried down from the ridge at one pitch is a different building.",
-          "precedence": 3
-        },
-        {
           "pack": "room-vernacular",
           "role": "primary",
           "note": "This is the style's own governing_logic in the pack's own words: 'the room as an independent, cross-ventilated cell — dimensioned by the reach of a breeze and the length of a hewn cypress beam, not by a facade module' is close to a paraphrase of room-vernacular's own module description ('dimensioned by... the depth daylight will carry from one window wall'). french-colonial-american is named directly in the pack's own applies_to. Its daylight_strategy rule (room depth capped at about 2 to 2.25 times the window head height, falling to about 1.8x behind a porch) is the direct mechanism behind this style's hard no-corridor, cross-ventilation constraint, and its own conflict note — that 'an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth,' answered historically by raising the storey — is a sourced explanation of why this style's ceilings run 11-14 ft rather than the 8 ft of a northern vernacular room.",
@@ -9326,6 +9338,18 @@
           "role": "opening",
           "note": "French doors here run 5'6\"-7'0\" wide overall, at or above the 40 in threshold opening-proportion's own entry_door rule names as the point where its canonical 2:1 door proportion 'belongs and is magnificent' — Palladio's ratio was derived for wide leaves, not the narrow 3 ft leaf that forces most Anglo-American doors away from it. Bound in preference to sash-light, whose apparatus (light count from glass-market supply, muntin dating) is built for double-hung sash windows and has no purchase on a full-height glazed French casement door; opening-proportion's door-from-storey and single-head-datum logic transfers cleanly instead.",
           "precedence": 2
+        },
+        {
+          "pack": "balcony-gallery",
+          "role": "secondary",
+          "note": "The deepest of the three carrying regimes and the node that defines it. This record gives the galerie at 8-12 ft, up to 14 on the raised plantation house, carried on 'light colonnettes or masonry piers' -- and, crucially, that there is 'no interior corridor: rooms open directly into one another and onto the galerie through full-height French casement doors'. That is why the posted gallery's depth has no structural ceiling and a wide band: it is circulation as well as shade, so its depth is a corridor's plus a room's worth of shadow, and the record's 'at least eight feet' is a floor rather than an average. This node also supplies the pack's roof rule, which is a break-position finding of the same class as `dutch-gambrel`'s: 'main roof 40-50 degrees; galerie slope 20-30 degrees; break at the outer wall plane'. The break's POSITION is the rule, and a gallery roof carried down from the ridge at one pitch is a different building.",
+          "precedence": 3
+        },
+        {
+          "pack": "timber-panel",
+          "role": "secondary",
+          "note": "Bound for the same colombage, and this record supplies the pack's plinth rule with its own vocabulary attached: poteaux-EN-TERRE giving way to poteaux-SUR-SOL, posts set in the earth giving way to posts on a sill on a plinth. That is the same lesson learned in Louisiana that had been learned in England four centuries earlier, and it is the single most consequential detail in timber framing -- a sill in contact with the ground rots, and a frame with a rotten sill has lost its foundation.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -10213,12 +10237,6 @@
       ],
       "proportion_packs": [
         {
-          "pack": "balcony-gallery",
-          "role": "secondary",
-          "note": "The gallery at its fullest -- two tiers, wrapping, up to 14 ft deep. `storey-graduation` holds primary here and the two packs meet at one member: the upper standard is usually a few inches shorter than the lower, which is storey graduation applied to a porch, and the pack's support-height rule says to read the two together on this node specifically. Bound secondary rather than primary because on this record the raising itself -- the whole ground storey given over to service and the piano nobile lifted clear of the flood -- is the governing move, and the gallery is what that move produces rather than what generates it.",
-          "precedence": 3
-        },
-        {
           "pack": "storey-graduation",
           "role": "primary",
           "note": "raised-creole-plantation is named directly in storey-graduation's own applies_to, and the pack's own 'GROUND STOREY UNDER A PIANO NOBILE' rule names 'raised Creole and raised cottage types' by name as one of its three worked cases — the single most directly-attested binding in this whole batch. The rule's inversion (ground storey markedly lower than the principal floor above it, ratio about 0.72) is exactly this variant's own section: an 8-10 ft masonry service storey under a 12-14 ft principal floor, reached by an exterior stair rather than an internal one.",
@@ -10229,6 +10247,18 @@
           "role": "opening",
           "note": "raised-creole-plantation is named directly in the pack's own applies_to. Every opening is a French door, 'all the way round' per the style's own diagnostic tells, at full ceiling height less 12-18 in on a 12-14 ft ceiling — again within the wide-leaf band where the pack's 2:1 canonical ratio applies without adjustment, unlike a narrow Anglo-American door.",
           "precedence": 2
+        },
+        {
+          "pack": "balcony-gallery",
+          "role": "secondary",
+          "note": "The gallery at its fullest -- two tiers, wrapping, up to 14 ft deep. `storey-graduation` holds primary here and the two packs meet at one member: the upper standard is usually a few inches shorter than the lower, which is storey graduation applied to a porch, and the pack's support-height rule says to read the two together on this node specifically. Bound secondary rather than primary because on this record the raising itself -- the whole ground storey given over to service and the piano nobile lifted clear of the flood -- is the governing move, and the gallery is what that move produces rather than what generates it.",
+          "precedence": 3
+        },
+        {
+          "pack": "timber-panel",
+          "role": "secondary",
+          "note": "'Upper walls of colombage with bousillage or briquette-entre-poteaux infill' over a masonry ground storey -- which is the storey-count rule in a colonial rather than a revival setting, and is worth noticing: this node arrives at masonry-below-and-frame-above for the flood and the damp, and Tudor Revival arrives at the same elevation four thousand miles and three centuries away for the wear and the look. Same rule, unrelated reasons.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -23586,6 +23616,12 @@
           "role": "room",
           "note": "The Stube and chamber rooms of a Fachwerk house are exactly the daylight- and span-limited vernacular room this pack models: small, low, lit from a panel wall that 'wants small openings.' The pack's hearth_position and daylight_strategy rules match this node's own account of a masonry-stove-heated Stube reached off a smoke-free passage.",
           "precedence": 2
+        },
+        {
+          "pack": "timber-panel",
+          "role": "primary",
+          "note": "The most precisely dimensioned panel record in the corpus: 'panel width 0.9-1.3 m; panel height 0.8-1.6 m; panel proportion roughly 1:1 to 2:3', with timber at 120-200 mm square and the jetty at 200-400 mm per storey. Primary. Two things to read against the English nodes rather than alongside them: the German post is HALF the English one and there are more of them, which is a real difference in framing culture and not a discrepancy; and the brace here goes up in compression, often symmetrically, where the English brace goes down in tension -- the pack states brace LENGTH and declines direction, because direction is a regional grammar with no number in it.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -26129,6 +26165,12 @@
           "role": "interior",
           "note": "The lineage record carries real weight here: 'arts-and-crafts-british, descends_from, weight 0.6 - informal planning and the deliberate composition of irregular groups' and a hybridizes_with edge to tudor-revival at weight 0.7, which is itself bound to trim-craftsman in this corpus (see tudor-revival's own applies_to entry on that pack). Chosen over trim-classical because nothing in this variant's defining characteristics, diagnostic tells or constraints calls for a classical order or an entablature-derived interior - the register is rustic timber and stone throughout, at both the Chestnut Hill (restrained) and Berkeley (theatrical) ends the style's own description names.",
           "precedence": 3
+        },
+        {
+          "pack": "timber-panel",
+          "role": "secondary",
+          "note": "The node that states the pack's most important applied-work rule, and states it as a minimum rather than a figure: half-timber members '5-8 in. face width, spaced 16-30 in. clear, projecting at least 1 in. from the stucco plane'. That inch is what separates honest applied half-timbering from painted-on stripes -- without it there is no shadow, no depth and no reason for the timber to be there. Read it with the pack's projection rule and its construction-tolerance conflict, which is about the same problem from the other end: applied boards CAN be set dead true and usually are, which is why applied work so often reads as a printed pattern.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -30456,6 +30498,12 @@
           "role": "room",
           "note": "JUDGMENT BINDING: storybook-style is not in this pack's applies_to list. Bound on the strength of the node's own description quoted above -- an ordinary plan and ceiling height behind the theatrical surface -- which is squarely this pack's 'what rooms actually measure' domain rather than room-harmonic's designed Palladian one. Bound at low precedence and deliberately thin: the node's own text is explicit that the room is not where this style's claim is made, and no proportional system should be dressed up as governing what the node itself calls ordinary.",
           "precedence": 3
+        },
+        {
+          "pack": "timber-panel",
+          "role": "optional",
+          "note": "Optional, and the pack should be read here as a description of what is being caricatured rather than as a specification. Storybook work exaggerates every figure the pack states -- deeper jetties than a joist could carry, timbers curved where a frame's are straight, panels of no consistent proportion -- and does it deliberately. What the pack can usefully say is which exaggerations are which, so that a designer working this idiom is distorting the system knowingly rather than getting it wrong.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -31377,6 +31425,12 @@
           "role": "massing",
           "note": "english-cottage-vernacular is named directly in timber-bay's applies_to. Bound higher than the equivalent binding on cotswold-vernacular because this tradition genuinely is a timber-frame wall system in most of its range ('timber frame with daub panels everywhere there was oak'), not a masonry one — the bay module sets both the frame and, through the room-vernacular deduction, the room it encloses. Where the wall is cob, clay lump or flint rather than frame, this pack governs only the roof carpentry, as at cotswold-vernacular.",
           "precedence": 2
+        },
+        {
+          "pack": "timber-panel",
+          "role": "secondary",
+          "note": "Secondary, and the node that gives the pack its most useful single comparison. This record measures three wall types in one sentence -- 'wall thickness 450-600 mm in cob, 350-500 mm in rubble, 150 mm in a daub-panelled frame' -- and the framed wall is a QUARTER the thickness of the others. Every consequence follows: no reveal, no thermal mass, and a wall that can be pierced anywhere between two studs without touching structure, which is why framed buildings have more and larger openings than their masonry contemporaries and were so readily altered.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -33526,6 +33580,12 @@
           "role": "room",
           "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound for the same reasoning as shingle-style and stick-style's other Victorian siblings: the node states plainly that 'the exterior linear obsession barely enters the rooms' and the plan behind the stickwork is 'a conventional picturesque one with a hall, parlours, and a stair' — an ordinary balloon-framed plan governed by span and daylight, not by a proportional treatise.",
           "precedence": 4
+        },
+        {
+          "pack": "timber-panel",
+          "role": "optional",
+          "note": "Optional, and the binding needs its caveat stated first: THIS IS NOT INFILL. Stick Style applies flat boards to the surface of a clapboarded or shingled balloon-framed wall, and the boards express a frame that is not there -- which is the type's own argument rather than a deception, since what they express is the balloon frame behind them, a real structure with no exterior expression of its own. The pack is bound because one figure travels exactly: this record's 'panel field 3 to 6 ft square between stick bands' is the square-panel proportion, and its 'diagonal braces at 45 degrees, brace length 0.3 to 0.5 of post height' is the only brace figure anywhere in the corpus and is what the pack's brace rule quotes.",
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -34166,6 +34226,12 @@
           "role": "room",
           "note": "JUDGMENT BINDING: tudor-revival is not in this pack's applies_to list, but two of its strongest lineage references are -- english-medieval-timber-frame (weight 0.9, 'the half-timbered wall is quoted from genuine box-frame construction') and cotswold-vernacular (weight 0.6) -- and the node's own description of compression-and-release planning inherited from British Arts and Crafts practice (Shaw, Voysey, Lutyens, Baillie Scott) matches this pack's constrained, daylight-and-hearth-limited room far better than room-harmonic's Palladian one, which no source cited on this node ever invokes.",
           "precedence": 3
+        },
+        {
+          "pack": "timber-panel",
+          "role": "secondary",
+          "note": "The revival, and the node that supplies two of the pack's revival rules. Its jetty ceiling -- '8-16 in., never more than the depth of a plausible joist' -- disagrees with the medieval figure of about four thirds of the joist depth, and the pack holds both in one band because both are warning against the same thing from opposite directions; the revival's is stricter because a revival jetty usually carries no joist at all, so 'a plausible joist' is a fiction that has to be kept plausible. And its 'multi-material wall with a horizontal change of material between storeys, most often masonry below and stuccoed half-timbering above' is the storey-count rule: a revival shows the frame on ONE storey where a medieval building shows it on all.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -34485,6 +34551,12 @@
         "structural-expression"
       ],
       "proportion_packs": [
+        {
+          "pack": "timber-panel",
+          "role": "primary",
+          "note": "The node that states this pack's central rule for it, in one sentence holding both families: 'wall panel roughly square in the south-east (1.0-1.4 m), and 1:3 to 1:4 vertical in East Anglian close studding'. Primary, and it also supplies the post section at 200-300 mm, the tie beam at 250-350, the jetty at 350-600, and the sentence the whole pack rests on -- the frame carries 'all vertical and lateral load, with wall panels as non-structural infill'. `timber-bay` stays bound and is not displaced: it owns the frame -- bay, storey, depth, pitch -- and this pack owns what fills it, and neither restates the other.",
+          "precedence": 0
+        },
         {
           "pack": "timber-bay",
           "role": "massing",
@@ -37316,6 +37388,12 @@
           "role": "room",
           "note": "Explicitly listed in the pack's applies_to. The logis is the single-pile, two-face-lit, hearth-limited room this pack describes almost verbatim, and its dispersed-farmstead growth (colombier, pressoir and etables as separate single-purpose buildings around a hedged enclosure) is the same generative logic — 'a household that needs more room builds another building' — the pack states as the mechanism behind the whole Anglo-American folk-house catalogue, extended here to the Norman farm.",
           "precedence": 2
+        },
+        {
+          "pack": "timber-panel",
+          "role": "primary",
+          "note": "Close studding at its tightest: 'stud spacing 0.5-0.8 m; panel proportion roughly 1:2 to 1:4 (tall and narrow)', with 'close-studded oak frame with posts at roughly 0.5-0.8 m centres, exposed inside and out'. Primary, and the node where the pack's economic explanation is most visible -- close studding uses about twice the oak for the same wall, so it is a display of timber wealth, and this is a rich wood-poor region. The infill note here is the pack's best single source on materials: 'panels of torchis (clay and chopped straw over riven laths), or from the 17th century brick nogging laid in herringbone or chequer'.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -39213,12 +39291,6 @@
       ],
       "proportion_packs": [
         {
-          "pack": "balcony-gallery",
-          "role": "secondary",
-          "note": "The node that shows both of the pack's lighter regimes side by side in one sentence: 'either a posted galerie 6-10 ft deep with a pitch break at the wall plane, or an abat-vent projecting 30-48 in on iron rods or brackets with no posts.' Those are two of the pack's three depth rules stated as alternatives on one building type, which is the clearest evidence in the corpus that depth follows carrying strategy rather than taste. The abat-vent band it gives is the same one `styles/regency.json` gives for its cast-iron balconette, independently.",
-          "precedence": 3
-        },
-        {
           "pack": "room-vernacular",
           "role": "primary",
           "note": "creole-cottage-vernacular is named directly in the pack's own applies_to. The four-room square plan — no corridor, every room cross-ventilated, size set by breeze reach rather than ratio — is exactly this pack's own subject; its 'THE SQUARE CELL' rule (module by module, a base unit added and extended rather than proportioned, after Glassie's structural analysis of Virginia folk housing) describes this cottage's own room-by-room additive logic closely, even though Glassie's own fieldwork was Virginia rather than Louisiana.",
@@ -39229,6 +39301,18 @@
           "role": "opening",
           "note": "As with the parent style: French casement doors 5'6\"-6'6\" wide sit within opening-proportion's wide-leaf band where its 2:1 ratio is native rather than forced, and the pack's door-from-storey rule (storey/3.5) is a reasonable proportional starting point for an 11-13 ft ceiling. Preferred over sash-light for the same reason as the parent style: these are doors, not sash windows, and sash-light's glass-supply arithmetic has nothing to derive from here.",
           "precedence": 2
+        },
+        {
+          "pack": "balcony-gallery",
+          "role": "secondary",
+          "note": "The node that shows both of the pack's lighter regimes side by side in one sentence: 'either a posted galerie 6-10 ft deep with a pitch break at the wall plane, or an abat-vent projecting 30-48 in on iron rods or brackets with no posts.' Those are two of the pack's three depth rules stated as alternatives on one building type, which is the clearest evidence in the corpus that depth follows carrying strategy rather than taste. The abat-vent band it gives is the same one `styles/regency.json` gives for its cast-iron balconette, independently.",
+          "precedence": 3
+        },
+        {
+          "pack": "timber-panel",
+          "role": "secondary",
+          "note": "Colombage with 'briquette-entre-poteaux or bousillage infill, stuccoed or weatherboarded' -- the same system in a fourth language, and the node that makes the pack's climate conflict concrete. The infill here is named for what fills it (little bricks between posts; mud-and-moss) and the wall is then COVERED, which is the historical norm the pack argues for and which revival work reverses. `balcony-gallery` and `room-vernacular` hold this node's other systems and neither touches the wall.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -39499,6 +39583,12 @@
           "role": "facade",
           "note": "Judgment bind: french-manoir itself is not listed, but its two direct architectural descendants — chateauesque and french-normandy-revival, both named in this node's own revival_periods — are, and this node states outright that its symmetry is 'balanced-asymmetrical' with the stair turret 'placed by circulation, not by composition,' the identical dominant-mass-plus-subordinate-accent logic the pack's dominance and lever-arm rules formalise. Used narrowly for that compositional logic; the pack's own numeric dominance ratio and datum-band figures are calibrated to 19th-century American eclectic fronts and should be treated as a diagnostic to check a drawing against, not a historical rule for this medieval type.",
           "precedence": 2
+        },
+        {
+          "pack": "timber-panel",
+          "role": "optional",
+          "note": "Optional, and narrowly. The manoir is a stone building whose framed work is confined to upper storeys, gables and outbuildings, and `stone-course` holds the walling. Bind the panel rules where the frame appears and leave the rest; nothing here should be read as asserting that this is a timber-framed type, because it is not.",
+          "precedence": 3
         }
       ],
       "_cascade": [

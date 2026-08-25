@@ -31,20 +31,20 @@ Every package below carries a **Status** line. This is the summary. Original pac
    stated ring layout because it cannot search for one) and **OQ 37** (`check_partis.py` check
    10 — five of twenty-one partis were carrying fatal findings against the styles they were
    written for, so the composer would not recommend them; 21 of 21 compose now).
-6. **WP-4.6 — IN PROGRESS, ten packs of thirty-odd, 25 Aug 2026.** `moorish-arch` (OQ 30's item,
+6. **WP-4.6 — IN PROGRESS, eleven packs of thirty-odd, 25 Aug 2026.** `moorish-arch` (OQ 30's item,
    and the only gap that unblocked a node with no binding at all — `DELIBERATELY_UNBOUND` is down
    from three nodes to one), `greek-doric` (which replaced a binding WP-4.1's own note called
    "the least-bad available approximation"), `adobe-module` (the gap four style nodes had already
    written down in their own binding notes; bound to 9), `opening-pointed` (the opening half of the
    Gothic item — the facade half was measured and found already served), and `opening-craftsman`
-   with `trim-prairie`, which are both halves of PB-4's item, `dutch-gambrel`, `balcony-gallery`, `stone-course` and `facade-arcade`. **All six packs this work package's own task
+   with `trim-prairie`, which are both halves of PB-4's item, `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade` and `timber-panel`. **All six packs this work package's own task
    text names as likely candidates are built, plus the largest item the rest of the list held when it
    was measured.** 131 of 132 nodes bound; nodes with
    **no opening-role pack 68 → 60**, which is where the movement now is, plus one wrong interior
    binding corrected, which moves no count at all. The remaining list, with each item's measured
-   leverage, is in `docs/reports/wp-4.6-missing-proportion-packs.md`; next by the same measurement are a half-timber
-   infill panel module (29 nodes) and a gable geometry system (12 nodes, entirely missing), after
-   which the tail is mostly ORNAMENT rather than proportion. Then **WP-4.4** (images), which is currently
+   leverage, is in `docs/reports/wp-4.6-missing-proportion-packs.md`; next by the same measurement is a gable
+   geometry system (12 nodes, entirely missing), after which the tail is mostly ORNAMENT rather than
+   proportion. Then **WP-4.4** (images), which is currently
    environment-blocked — see its own status block.
 7. **Phase 5** — the last mile.
 
@@ -437,7 +437,7 @@ Four composer bugs found by running the diagrams rather than reading them: pick 
 
 ### WP-4.6 Missing proportion packs
 
-**Status: IN PROGRESS, 10 of ~30 packs, 25 Aug 2026. All six packs this work package's own task text names as likely candidates are built, plus the largest item the remaining list held when it was measured.** Chosen by measured leverage rather than by the order of the list; the measurement and what remains are in `docs/reports/wp-4.6-missing-proportion-packs.md`.
+**Status: IN PROGRESS, 11 of ~30 packs, 25 Aug 2026. All six packs this work package's own task text names as likely candidates are built, plus the largest item the remaining list held when it was measured.** Chosen by measured leverage rather than by the order of the list; the measurement and what remains are in `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 *First tranche, 24 Aug.* `proportions/orders/moorish-arch.json` — OQ 30's item, the most-corroborated gap WP-4.1 found and the only one that unblocked a node with no binding at all; `moorish-andalusian` and `mudejar` come off `DELIBERATELY_UNBOUND`, which is now one node rather than three. `proportions/orders/greek-doric.json` — the gap WP-4.1 had already recorded as a WRONG binding rather than a missing one, `greek-classical` having been bound to `benjamin-doric` under a note calling it "the least-bad available approximation"; Benjamin is demoted and kept, because American Greek Revival buildings really were built from those plates. Raised on the way: **OQ 46**, the ontology has no arch slot — since built, at ontology 0.6.0.
 
@@ -448,6 +448,8 @@ Four composer bugs found by running the diagrams rather than reading them: pick 
 With the six named candidates done, the rest of WP-4.1's list was MEASURED rather than worked in order, and stone coursing was the largest item by a wide margin: 60 buildable nodes describe stone walling and 34 carried three packs or fewer, against 31 and 23 for the next-largest (the half-timber panel). `proportions/modules/stone-course.json` is that pack. It cannot use `brick-course`'s module -- a brick wall has a gauge rod and a rubble wall has no gauge at all -- so the module is a course of the DRESSING, the only stone with a dimension before it is laid. Its central rule is stated twice by the corpus independently and in nearly the same words, `cotswold-vernacular` and `norman-romanesque-english` both saying ashlar is RESERVED for quoins, jambs, lintels and the rest. It is bound to 12 of the 34 on a stated criterion -- whether the stone wall governs or merely occurs -- with the Iberian nodes left to `adobe-module`, the ashlar Georgian fronts to their orders, and the timber-framed nodes to the half-timber panel module still on the list. Nodes carrying two packs or fewer: 36 to 28. Next by the same measurement: the half-timber panel, then a gable geometry system, which the list records as entirely missing.
 
 *Fourth tranche, 25 Aug.* `proportions/systems/facade-arcade.json`, WHICH THE CANDIDATE LIST NEVER CONTAINED. Three packs in this work package asked for it anyway, two of them under the mistaken impression it was already listed. Measured it was the largest remaining item at 33 nodes and 24 thinly bound, and it is the only pack in the package claiming `confidence: high` -- nine unrelated records give its pier-to-span ratio as one third to one half, five countries and six centuries apart. The arch's SHAPE is deliberately not in it, which is what lets it compose with `moorish-arch` and `opening-pointed`. First movement in the facade-role count: 67 to 61.
+
+`proportions/modules/timber-panel.json` is WP-4.1's half-timber panel item, and the list's own phrase 'distinct from `timber-bay`' did more work than it looks: six of the sixteen rules planned for it were already that pack's, and it is bound to seven of the same nodes. So this pack restates none of them and holds only what FILLS the frame. Its central rule is REGIONAL rather than universal -- the panel proportion runs 1:1 German, 1.2 English south-east, 1:3 to 1:4 East Anglian and Norman close studding, and `english-medieval-timber-frame` holds two of those in one sentence -- so there is no correct value, only a correct value for a place. Two nodes refuse themselves in their own words ('no half-timbering', 'without applied half-timbering'). It raised **OQ 47**: the ontology has no slot for an exposed structural member on a wall face, so four rules route through `corner_board`, and four packs in this package have now done the same thing.
 
 Two defects its own tests found, both introduced by this package. A SILENT SLOT-ADDRESS COLLISION: `facade-arcade` and `moorish-arch` were both writing to `porch_support`/`height` meaning different quantities -- the impost block's height against the springing line above the floor -- on three nodes that bind both. Two packs putting different quantities into one address is a corruption rather than a conflict, because whichever resolves last wins and nothing reports it, and precedence cannot help. And PRECEDENCE CONTRADICTING ROLE sixteen times across fourteen nodes, twelve of them mine, because every new binding was inserted at the first unused precedence and 0 is nearly always free; `check_pack_bindings.py` checked precedence for being a total order and never for agreeing with role. Both fixed, and the checker now errors on the narrow rule -- measured, `secondary` ahead of a role pack is the corpus's own convention in 253 places across 59 nodes, so only 'nothing outranks a primary' is enforced and the rest is warned.
 

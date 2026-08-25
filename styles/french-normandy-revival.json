@@ -257,6 +257,12 @@
       "role": "interior",
       "note": "The lineage record carries real weight here: 'arts-and-crafts-british, descends_from, weight 0.6 - informal planning and the deliberate composition of irregular groups' and a hybridizes_with edge to tudor-revival at weight 0.7, which is itself bound to trim-craftsman in this corpus (see tudor-revival's own applies_to entry on that pack). Chosen over trim-classical because nothing in this variant's defining characteristics, diagnostic tells or constraints calls for a classical order or an entablature-derived interior - the register is rustic timber and stone throughout, at both the Chestnut Hill (restrained) and Berkeley (theatrical) ends the style's own description names.",
       "precedence": 3
+    },
+    {
+      "pack": "timber-panel",
+      "role": "secondary",
+      "note": "The node that states the pack's most important applied-work rule, and states it as a minimum rather than a figure: half-timber members '5-8 in. face width, spaced 16-30 in. clear, projecting at least 1 in. from the stucco plane'. That inch is what separates honest applied half-timbering from painted-on stripes -- without it there is no shadow, no depth and no reason for the timber to be there. Read it with the pack's projection rule and its construction-tolerance conflict, which is about the same problem from the other end: applied boards CAN be set dead true and usually are, which is why applied work so often reads as a printed pattern.",
+      "precedence": 4
     }
   ]
 }

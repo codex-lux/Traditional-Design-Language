@@ -277,6 +277,12 @@
       "role": "room",
       "note": "JUDGMENT BINDING: tudor-revival is not in this pack's applies_to list, but two of its strongest lineage references are -- english-medieval-timber-frame (weight 0.9, 'the half-timbered wall is quoted from genuine box-frame construction') and cotswold-vernacular (weight 0.6) -- and the node's own description of compression-and-release planning inherited from British Arts and Crafts practice (Shaw, Voysey, Lutyens, Baillie Scott) matches this pack's constrained, daylight-and-hearth-limited room far better than room-harmonic's Palladian one, which no source cited on this node ever invokes.",
       "precedence": 3
+    },
+    {
+      "pack": "timber-panel",
+      "role": "secondary",
+      "note": "The revival, and the node that supplies two of the pack's revival rules. Its jetty ceiling -- '8-16 in., never more than the depth of a plausible joist' -- disagrees with the medieval figure of about four thirds of the joist depth, and the pack holds both in one band because both are warning against the same thing from opposite directions; the revival's is stricter because a revival jetty usually carries no joist at all, so 'a plausible joist' is a fiction that has to be kept plausible. And its 'multi-material wall with a horizontal change of material between storeys, most often masonry below and stuccoed half-timbering above' is the storey-count rule: a revival shows the frame on ONE storey where a medieval building shows it on all.",
+      "precedence": 4
     }
   ]
 }

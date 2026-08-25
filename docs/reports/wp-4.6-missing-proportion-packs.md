@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: ten packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: eleven packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -548,6 +548,56 @@ sits ahead of a role pack in **40 places across 23 nodes**, untidy and mostly ol
 package. Both are warned about once per node rather than enforced; churning 59 nodes to satisfy a
 tidier rule nobody had agreed to would have been the wrong trade.
 
+### `proportions/modules/timber-panel.json` — and what the list's phrase "distinct from" was hiding
+
+WP-4.1 asks for "a half-timber infill/nogging panel module, **distinct from `timber-bay`'s** larger
+structural framing bay". That qualifier did more work than it looks. Setting out to write the pack,
+**six of sixteen planned rules were already `timber-bay`'s** — the structural bay, the storey height,
+the range depth, the storey diminution, the roof pitch and the frame reveal — and that pack is
+already bound to seven of the fifteen nodes this one binds. So this pack restates none of them and
+holds only what *fills* the frame: the panel, the studding, the timber's own section and projection,
+the jetty, the plinth and the infill material. A test asserts the two share no slot address.
+
+**Its central rule is regional rather than universal, which is unusual here and is why no source
+states it.** The panel's height-over-width runs 1:1 in a German or Alpine *Gefach*, about 1:1.2 in
+the English south-east, and 1:3 to 1:4 in East Anglian and Norman close studding —
+`english-medieval-timber-frame` holds two of those in a single sentence. There is no correct value,
+only a correct value for a place, and a building with the wrong one is competently detailed and from
+nowhere. The reason is economic: close studding uses roughly twice the oak, so it is a display of
+timber wealth and clusters in the rich, wood-poor east.
+
+Three more findings:
+
+- **One record measures three walls in one sentence** — `english-cottage-vernacular`'s "450–600 mm
+  in cob, 350–500 mm in rubble, **150 mm in a daub-panelled frame**". The framed wall is a quarter
+  the thickness. No reveal, no thermal mass, and a wall that can be pierced anywhere between two
+  studs without touching structure — which is why framed buildings have more and larger openings
+  than their masonry contemporaries and were so readily altered.
+- **Two records disagree about the jetty and the band holds both.**
+  `english-medieval-timber-frame` puts it at about four-thirds of the joist depth, "**never** the
+  exaggerated overhang of revival work"; `tudor-revival` caps it at one, "**never** more than the
+  depth of a plausible joist". Both warn against the same thing from opposite directions, and the
+  revival's is stricter because a revival jetty usually carries no joist at all.
+- **Two refusals the records make themselves.** `jacobethan-revival` is "masonry… with **no**
+  half-timbering" and `cotswold-cottage-revival` is stone or stucco "**without** applied
+  half-timbering". Both are found by a regex sweep for half-timbering and both are explicit
+  negatives — a good reminder that a node mentioning a thing is not a node having it.
+
+And one thing the pack states that its own tradition finds uncomfortable: **the exposed black-and-
+white frame is substantially a Victorian taste.** Four records here describe the frame being
+*covered* — tile-hung, weatherboarded, stuccoed, limewashed — and the climate conflict says plainly
+that covering it is what the buildings did rather than a modern compromise.
+
+**It raised OQ 47.** The ontology has no slot for an exposed structural member on a wall face, so the
+stud spacing, the timber's face width, its projection and the brace are all routed through
+`corner_board` — a board at a corner — and all four read wrong. Same class as OQ 46, and not only a
+half-timbering problem: Stick Style's applied bands, the chalet's purlin ends, `opening-craftsman`'s
+rafter tail and Tudor Revival's applied timber are the same member. Four packs in this package have
+now routed it through a slot written for something else. The proposal is an `expressed_frame` slot
+whose most useful field would be *structural / structural-and-expressed / applied* — the distinction
+`stick-style` and `tudor-revival` both turn on, and which no slot records, so the corpus cannot
+presently tell a frame from a picture of one.
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -561,8 +611,7 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing: a **half-timber infill panel module** (29 nodes, 21 thinly bound — now the largest
-remaining), a **gable geometry system** (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
+still missing: a **gable geometry system** (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
 10 thinly bound, and entirely missing from the library), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
 also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
@@ -582,7 +631,8 @@ third: the **Dutch gambrel roof module**, which the list scoped at 3 nodes and r
 **dimensional half** of the cast-iron item, which reached 7 — its ornament half stays on the list —
 and the **stone-coursing equivalent of `brick-course`**, the largest item on the list when measured,
 bound to 12 of the 34 thinly-bound stone nodes on a stated criterion. Struck off by the fourth: the
-**arcade**, which was never on the list at all and which three packs in this package asked for.
+**arcade**, which was never on the list at all and which three packs in this package asked for, and
+the **half-timber infill panel**, whose leverage was 29 nodes and 21 thinly bound.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -595,16 +645,16 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **46 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the eight new
-packs bind 61 nodes but every one of them was already bound, so the count does not move and should
+Later tranches: 23 checks green. **47 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the nine new
+packs bind 76 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
 pack, plus one wrong interior binding corrected, a roof system six nodes previously had nothing for,
 a threshold system seven nodes had nothing for, a walling system twelve nodes had nothing for, and an arcade system sixteen
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 28 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **132 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **141 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

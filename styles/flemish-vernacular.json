@@ -237,6 +237,12 @@
       "role": "secondary",
       "note": "Explicitly listed in the pack's applies_to, but applies only to the eastern (Limburg, Kempen, Maasland) vakwerk half of the region, which this node's own lineage entry describes as 'structurally continuous with Rhenish Fachwerk' — the western solid-brick half has no frame for this pack to govern. Bound secondary and narrow in scope for that reason.",
       "precedence": 3
+    },
+    {
+      "pack": "timber-panel",
+      "role": "secondary",
+      "note": "Secondary, and bound for half the region by the record's own account: 'timber-framed with brick nogging in the eastern (Limburg, Kempen, Maasland) half of the region; solid brick in the west'. Where it is framed this pack governs the panel; where it is solid brick, `brick-course` does and this one says nothing. A binding that applies to half a node's geography is unusual and is stated here rather than left for someone to discover from a plan that will not work.",
+      "precedence": 4
     }
   ]
 }

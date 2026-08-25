@@ -1365,3 +1365,111 @@ def test_it_moved_the_facade_role_count_for_the_first_time_in_the_package():
     src = open(os.path.join(ROOT, "README.md")).read()
     m = re.search(r"(\d+) no facade-role pack", src)
     assert m and int(m.group(1)) < 67
+
+
+# ---------------------------------------------------------------- timber-panel
+
+
+def test_the_panel_pack_restates_nothing_that_timber_bay_already_owns():
+    """WP-4.1's item asks for a panel module 'distinct from timber-bay's larger structural framing
+    bay'. Setting out to write it, six of sixteen planned rules were already that pack's -- the bay,
+    the storey height, the range depth, the storey diminution, the roof pitch and the frame reveal --
+    and timber-bay is already bound to seven of the fifteen nodes this one binds. Two packs asserting
+    one number is how a corpus starts disagreeing with itself."""
+    panel = {(r["target_slot"], r["dimension"]) for r in pack("timber-panel")["derived_rules"]}
+    bay = {(r["target_slot"], r["dimension"]) for r in pack("timber-bay")["derived_rules"]}
+    assert not (panel & bay), sorted(panel & bay)
+    shared = [nid for nid in pack("timber-panel")["applies_to"]
+              if nid in pack("timber-bay")["applies_to"]]
+    assert len(shared) == 7, shared        # measured, not estimated
+
+
+def test_the_panel_proportion_is_regional_and_one_record_holds_two_regions():
+    """The pack's central rule, and unusual in this library for having no correct value -- only a
+    correct value for a place. 1:1 is German, 1.2 English south-east, 2 to 4 East Anglian or Norman."""
+    r = next(x for x in pack("timber-panel")["derived_rules"]
+             if x["target_slot"] == "primary_cladding" and x["dimension"] == "ratio")
+    assert r["range"] == [1.0, 4.0]
+    assert "roughly square in the south-east" in json.dumps(node("english-medieval-timber-frame"))
+    assert "1:3 to 1:4 vertical in East Anglian close studding" in json.dumps(node("english-medieval-timber-frame"))
+    assert "1:1 to 2:3" in json.dumps(node("german-fachwerk"))
+    assert "1:2 to 1:4" in json.dumps(node("norman-vernacular"))
+    assert "from nowhere" in r["note"]
+
+
+def test_the_projection_rule_is_what_separates_applied_work_from_stripes():
+    """`french-normandy-revival` states it as a minimum rather than a figure: members 'projecting at
+    least 1 in. from the stucco plane'. Without it there is no shadow and no reason for the timber."""
+    r = next(x for x in pack("timber-panel")["derived_rules"]
+             if x["target_slot"] == "corner_board" and x["dimension"] == "projection")
+    assert r["range"][0] >= 0.75
+    assert "projecting at least 1 in. from the stucco plane" in json.dumps(node("french-normandy-revival"))
+
+
+def test_the_jetty_rule_holds_two_records_that_disagree():
+    """`english-medieval-timber-frame` puts the jetty at about four thirds of the joist depth;
+    `tudor-revival` caps it at one. Both are warning against the same thing from opposite
+    directions, and both use the word 'never', which is rare in this corpus."""
+    r = next(x for x in pack("timber-panel")["derived_rules"]
+             if x["target_slot"] == "material_change_rule" and x["dimension"] == "ratio")
+    assert r["range"] == [0.8, 2.0]
+    assert "never the exaggerated overhang of revival work" in json.dumps(node("english-medieval-timber-frame"))
+    assert "never more than the depth of a plausible joist" in json.dumps(node("tudor-revival"))
+    assert "TWO RECORDS DISAGREE" in r["authority_note"]
+
+
+def test_the_two_refusals_are_explicit_negatives_in_the_records():
+    """A node mentioning a thing is not a node having it. Both of these are found by a regex sweep
+    for half-timbering and both say in their own words that they have none."""
+    p = pack("timber-panel")
+    for nid in ("jacobethan-revival", "cotswold-cottage-revival"):
+        assert nid not in p["applies_to"], nid
+        assert binding(nid, "timber-panel") is None, nid
+    assert "no half-timbering" in json.dumps(node("jacobethan-revival"))
+    assert "without applied half-timbering" in json.dumps(node("cotswold-cottage-revival"))
+    count = next(x for x in p["derived_rules"]
+                 if x["target_slot"] == "material_change_rule" and x["dimension"] == "count")
+    assert count["range"][0] == 0.0
+
+
+def test_the_framed_wall_is_a_quarter_the_thickness_of_its_masonry_contemporaries():
+    """One record measures cob, rubble and frame in a single sentence. Every consequence follows: no
+    reveal, no thermal mass, and a wall that can be pierced anywhere between two studs."""
+    t = json.dumps(node("english-cottage-vernacular"))
+    assert "450-600 mm in cob" in t and "150 mm in a daub-panelled frame" in t
+    r = next(x for x in pack("timber-panel")["derived_rules"]
+             if x["target_slot"] == "wall_thickness_frame")
+    assert r["range"] == [4.0, 10.0]
+
+
+def test_stick_style_is_bound_with_the_caveat_that_it_is_not_infill():
+    """It applies boards to a clapboarded balloon-framed wall and the boards express a frame that is
+    not there -- which is the type's own argument, since what they express is the balloon frame
+    behind them. It supplies the corpus's only brace figure."""
+    b = binding("stick-style", "timber-panel")
+    assert b["role"] == "optional"
+    assert "THIS IS NOT INFILL" in b["note"]
+    assert "brace length 0.3 to 0.5 of post height" in json.dumps(node("stick-style"))
+
+
+def test_the_missing_slot_is_raised_as_an_open_question_not_worked_around():
+    """Four rules route the exposed timber through `corner_board`, a board at a corner, because the
+    ontology has no slot for an exposed structural member on a wall face. Same class as OQ 46."""
+    p = pack("timber-panel")
+    routed = [r for r in p["derived_rules"] if r["target_slot"] == "corner_board"]
+    assert len(routed) == 4
+    assert "no slot for AN EXPOSED STRUCTURAL MEMBER ON THE WALL FACE" in \
+        next(r for r in routed if r["dimension"] == "spacing")["note"]
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "47. **OPEN — the ontology has no slot for an exposed structural member" in oq
+    assert "expressed_frame" in oq
+
+
+def test_the_pack_says_the_exposed_frame_is_substantially_a_victorian_taste():
+    """Four records in the corpus describe the frame being covered -- tile-hung, weatherboarded,
+    stuccoed, limewashed. The climate conflict says plainly that covering it is what the buildings
+    did rather than a modern compromise."""
+    c = next(x for x in pack("timber-panel")["conflicts"] if x["with"] == "climate")
+    assert "THE TRADITIONS THEMSELVES CONCLUDED THAT THIS WALL SHOULD BE COVERED" in c["statement"]
+    assert "tile-hung upper storey" in json.dumps(node("queen-anne-british"))
+    assert "stuccoed or weatherboarded" in json.dumps(node("creole-cottage-vernacular"))

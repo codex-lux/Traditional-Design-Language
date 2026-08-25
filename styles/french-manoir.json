@@ -246,6 +246,12 @@
       "role": "facade",
       "note": "Judgment bind: french-manoir itself is not listed, but its two direct architectural descendants — chateauesque and french-normandy-revival, both named in this node's own revival_periods — are, and this node states outright that its symmetry is 'balanced-asymmetrical' with the stair turret 'placed by circulation, not by composition,' the identical dominant-mass-plus-subordinate-accent logic the pack's dominance and lever-arm rules formalise. Used narrowly for that compositional logic; the pack's own numeric dominance ratio and datum-band figures are calibrated to 19th-century American eclectic fronts and should be treated as a diagnostic to check a drawing against, not a historical rule for this medieval type.",
       "precedence": 2
+    },
+    {
+      "pack": "timber-panel",
+      "role": "optional",
+      "note": "Optional, and narrowly. The manoir is a stone building whose framed work is confined to upper storeys, gables and outbuildings, and `stone-course` holds the walling. Bind the panel rules where the frame appears and leave the rest; nothing here should be read as asserting that this is a timber-framed type, because it is not.",
+      "precedence": 3
     }
   ]
 }

@@ -268,6 +268,12 @@
       "role": "massing",
       "note": "english-cottage-vernacular is named directly in timber-bay's applies_to. Bound higher than the equivalent binding on cotswold-vernacular because this tradition genuinely is a timber-frame wall system in most of its range ('timber frame with daub panels everywhere there was oak'), not a masonry one — the bay module sets both the frame and, through the room-vernacular deduction, the room it encloses. Where the wall is cob, clay lump or flint rather than frame, this pack governs only the roof carpentry, as at cotswold-vernacular.",
       "precedence": 2
+    },
+    {
+      "pack": "timber-panel",
+      "role": "secondary",
+      "note": "Secondary, and the node that gives the pack its most useful single comparison. This record measures three wall types in one sentence -- 'wall thickness 450-600 mm in cob, 350-500 mm in rubble, 150 mm in a daub-panelled frame' -- and the framed wall is a QUARTER the thickness of the others. Every consequence follows: no reveal, no thermal mass, and a wall that can be pierced anywhere between two studs without touching structure, which is why framed buildings have more and larger openings than their masonry contemporaries and were so readily altered.",
+      "precedence": 3
     }
   ]
 }

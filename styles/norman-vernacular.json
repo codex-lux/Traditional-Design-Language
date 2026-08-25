@@ -237,6 +237,12 @@
       "role": "room",
       "note": "Explicitly listed in the pack's applies_to. The logis is the single-pile, two-face-lit, hearth-limited room this pack describes almost verbatim, and its dispersed-farmstead growth (colombier, pressoir and etables as separate single-purpose buildings around a hedged enclosure) is the same generative logic — 'a household that needs more room builds another building' — the pack states as the mechanism behind the whole Anglo-American folk-house catalogue, extended here to the Norman farm.",
       "precedence": 2
+    },
+    {
+      "pack": "timber-panel",
+      "role": "primary",
+      "note": "Close studding at its tightest: 'stud spacing 0.5-0.8 m; panel proportion roughly 1:2 to 1:4 (tall and narrow)', with 'close-studded oak frame with posts at roughly 0.5-0.8 m centres, exposed inside and out'. Primary, and the node where the pack's economic explanation is most visible -- close studding uses about twice the oak for the same wall, so it is a display of timber wealth, and this is a rich wood-poor region. The infill note here is the pack's best single source on materials: 'panels of torchis (clay and chopped straw over riven laths), or from the 17th century brick nogging laid in herringbone or chequer'.",
+      "precedence": 3
     }
   ]
 }

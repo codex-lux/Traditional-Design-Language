@@ -240,6 +240,12 @@
       "role": "room",
       "note": "Judgment binding (not in applies_to). Scoped to the smaller, domestic-scale Tudor house — the hall-and-parlor type this style's own massing_affinities record as common 'after the hall is floored over and a lobby-entry stack inserted' — not to the courtyard great houses (Hampton Court, Compton Wynyates), whose halls and state rooms remain governed by the style's own figured ratios and lie well outside the pack's ordinary-room scale.",
       "precedence": 2
+    },
+    {
+      "pack": "timber-panel",
+      "role": "secondary",
+      "note": "Secondary behind `timber-bay`. The panel figures apply, and one thing about this node should be read from `timber-bay` rather than here: its storey heights are 'nearly equal; no graduated diminution, which is what most clearly separates Tudor from Georgian at a glance'. That is a direct contradiction of `styles/german-fachwerk.json`'s storeys 'diminishing upward by roughly 10-15 percent' -- two half-timbering traditions doing opposite things with the same construction -- and it belongs to the frame pack rather than to the panel pack, which is why this one does not carry a diminution rule at all.",
+      "precedence": 3
     }
   ]
 }
