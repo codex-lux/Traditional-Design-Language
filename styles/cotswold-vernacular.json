@@ -257,6 +257,12 @@
       "role": "opening",
       "note": "The vernacular survival, and the node that shows the system outliving its own period: 'ovolo-moulded stone mullions with a hood mould above, still in use on buildings of 1680 and later -- a Perpendicular detail running two centuries past its own period'. Its lights are the smallest of the structural traditions at 300-450 mm, which is a cottage rather than a hall, and its window overall at 1.5:1 to 2:1 is correspondingly less horizontal than the Tudor 2:1 to 4:1. `stone-course` holds this node's walling and the two packs meet at the opening: that one dresses it, this one fills it, and both carry the same cill-and-label relation with the same invariant.",
       "precedence": 3
+    },
+    {
+      "pack": "facade-gable",
+      "role": "secondary",
+      "note": "Secondary, behind `stone-course` and `opening-mullioned`, and bound for the gable edge rather than the gable's shape: 'gables finished with kneelers at the foot and a coping raised above the roof plane, frequently with a ball, ogee or finial at the apex' is the pack's whole `gable_edge` assembly in one sentence. This node also supplies the dormer rule and the distinction that makes it worth having -- 'gabled dormers rising through the eaves with their faces FLUSH with the wall below, so that they read as gables of the wall rather than as boxes on the roof'. A flush-faced dormer takes everything in this pack; a dormer set back on the slope takes none of it.",
+      "precedence": 4
     }
   ]
 }

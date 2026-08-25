@@ -234,6 +234,12 @@
       "role": "room",
       "note": "Judgment bind: this node is not itself listed in room-vernacular's applies_to, but its family container low-countries-vernacular is, and this node's own text describes a genuinely daylight- and span-limited room type — a shallow bright front room, a dark middle lit by nothing, a stair pinned against one party wall — that the pack's depth-and-pile and second-rank borrowed-light room rules describe directly.",
       "precedence": 2
+    },
+    {
+      "pack": "facade-gable",
+      "role": "facade",
+      "note": "One of the thinnest-bound nodes in the corpus, and the one that most needed a facade pack: 'the gable end turned to the street or canal; the short elevation is the ONLY DESIGNED FACE'. Its facade at 3:1 to 4:1 height to width is the pack's most extreme proportion and is what a canal house is -- a gable with a building behind it. Two things this record adds that the pack carries into its structural conflict: the composition 'resolving on a single vertical axis at the apex', which is what the finial is for, and the vlucht, a facade built deliberately leaning forward so hoisted goods clear the wall, which is a permanent eccentric load on an already slender wall.",
+      "precedence": 3
     }
   ]
 }

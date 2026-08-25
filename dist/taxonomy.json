@@ -2865,6 +2865,12 @@
           "role": "room",
           "note": "Judgment binding: gothic-revival-british is not in room-vernacular's applies_to, and its rooms — vicarage studies, High Victorian drawing rooms — sit above the anonymous vernacular median in scale. No better fit exists in the library: room-harmonic is a Palladian ratio system, and c05 forbids classical apparatus throughout, so applying a treatise proportioned from the orders would contradict the style's own founding argument against classicism. Bound instead for the pack's most transferable content, the daylight-depth relationship (a room lit from one side reads dark past about 2 to 2.5 times its window-head height), which is physics rather than period style and which Pugin's own principle — nothing admitted that is not necessary to convenience, construction or propriety — is a moral restatement of. Scoped to ordinary chambers and service rooms, not to the double-height hall or stair, which the style's own massing affinities (villa-tower, h-plan-manor) already govern.",
           "precedence": 2
+        },
+        {
+          "pack": "facade-gable",
+          "role": "secondary",
+          "note": "Secondary behind `facade-picturesque` and `opening-pointed`, and bound for one figure it states independently -- 'gable width to apex height roughly 1:0.7 to 1:1' -- which agrees with Tudor Revival and Jacobean to within a tenth from a completely different tradition. Three unrelated records landing that close on a proportion nobody wrote down is the strongest evidence the pack has for it. The roof pitch is deliberately NOT taken from this pack: `opening-pointed` already writes `roof_pitch`/`ratio` on this node, and its claim there -- that the gable and the window head are the same equilateral figure -- is a larger statement than anything this pack would add.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -4899,6 +4905,12 @@
           "role": "secondary",
           "note": "Secondary, and bound for half the region by the record's own account: 'timber-framed with brick nogging in the eastern (Limburg, Kempen, Maasland) half of the region; solid brick in the west'. Where it is framed this pack governs the panel; where it is solid brick, `brick-course` does and this one says nothing. A binding that applies to half a node's geography is unusual and is stated here rather than left for someone to discover from a plan that will not work.",
           "precedence": 4
+        },
+        {
+          "pack": "facade-gable",
+          "role": "facade",
+          "note": "The node that disagrees with Scotland, and the disagreement is the pack's most useful finding on the crow-step: 'gable step rise to tread roughly 1:1, three to seven steps per side' against the Scottish 1.5:1. A Flemish step is SQUARE and reads as serrated; a Scottish one is broader than high and reads as a flight of steps. This record also states the pack's central distinction more clearly than any other, and states it as a point of pride: the steps sit 'on a gable that is genuinely the end of a roof rather than a screen in front of one'.",
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -6937,6 +6949,12 @@
           "role": "opening",
           "note": "Gives the pack three figures no other record does: mullions at 4-6 in, transoms at 1/2 and 3/4 of opening height, and glazing at '35-55 percent - far higher than any other revival in this branch'. It also states the compositional consequence in its own words -- 'windows are mullioned bands rather than punched openings; the glass area on a principal elevation may exceed the stone' -- which is the pack's overall-proportion rule and its glazing rule arriving at the same sentence. `stone-course` is deliberately not bound on this node and this record says why: its walls are 'masonry - ashlar, or brick with stone dressings - with no half-timbering', so the dressings are its own and the walling is ashlar rather than rubble.",
           "precedence": 3
+        },
+        {
+          "pack": "facade-gable",
+          "role": "facade",
+          "note": "The record that states the pack's parapet case and the contrast that defines it: 'the wall carries up past the roof plane and is capped with coping stones. Tudor Revival gables end at the rake with a barge or a bargeboard.' Two packs' worth of nodes are separated by that one sentence. It also gives the pack its only coping thickness -- 6-9 in -- its parapet height at 12-24 in above the roof plane, and the shaped profile as '2-4 ogee or quadrant curves terminating in a semicircular or triangular cap', which is the curve count.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -11875,6 +11893,12 @@
           "role": "opening",
           "note": "The vernacular survival, and the node that shows the system outliving its own period: 'ovolo-moulded stone mullions with a hood mould above, still in use on buildings of 1680 and later -- a Perpendicular detail running two centuries past its own period'. Its lights are the smallest of the structural traditions at 300-450 mm, which is a cottage rather than a hall, and its window overall at 1.5:1 to 2:1 is correspondingly less horizontal than the Tudor 2:1 to 4:1. `stone-course` holds this node's walling and the two packs meet at the opening: that one dresses it, this one fills it, and both carry the same cill-and-label relation with the same invariant.",
           "precedence": 3
+        },
+        {
+          "pack": "facade-gable",
+          "role": "secondary",
+          "note": "Secondary, behind `stone-course` and `opening-mullioned`, and bound for the gable edge rather than the gable's shape: 'gables finished with kneelers at the foot and a coping raised above the roof plane, frequently with a ball, ogee or finial at the apex' is the pack's whole `gable_edge` assembly in one sentence. This node also supplies the dormer rule and the distinction that makes it worth having -- 'gabled dormers rising through the eaves with their faces FLUSH with the wall below, so that they read as gables of the wall rather than as boxes on the roof'. A flush-faced dormer takes everything in this pack; a dormer set back on the slope takes none of it.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -16437,6 +16461,12 @@
           "role": "optional",
           "note": "Governs only the Anglicized late phase the style's own text names directly: 'By 1750 a Bergen County house has a Dutch frame, a Dutch eave, and a Georgian five-bay front with a centre door.' Bound optional and low because most of the period this node covers (1625-1750) is explicitly additive-vernacular with an off-centre door, and the pack's odd-bay/single-entrance-hierarchy invariants only start to hold once English fashion has taken over the elevation while the Dutch section underneath is unchanged.",
           "precedence": 5
+        },
+        {
+          "pack": "facade-gable",
+          "role": "optional",
+          "note": "Optional, and narrowly. This is the seventeenth-century half of the node -- 'steep straight gable (45-55 degrees)' with 'wrought-iron beam anchors on masonry gables' -- which is a roof-end gable in masonry and takes the pack's edge rules. It is NOT the gambrel half, which `dutch-gambrel` holds primary and which this pack has nothing to say about. Worth binding because this node is the closest American descendant of the Low Countries gable grammar and its own record measures the distance: the descendant 'loses the gable almost immediately' and imports the word Dutch 'without the gable grammar'.",
+          "precedence": 6
         }
       ],
       "_cascade": [
@@ -19823,6 +19853,12 @@
           "role": "opening",
           "note": "The retreat, and the record frames it as one: glazing 'reduced from Elizabethan extremes to roughly 30-45 percent of the elevation'. Read the three glazing figures in this pack as a history rather than a range -- Elizabethan 45-60, Jacobean 30-45, and the revival choosing the Elizabethan end again at 35-55 because glass was cheap by 1910. This node also gives 'windows of two to five lights with one or two transoms', and its two-transom case is why the pack's transom rule has a ceiling at three quarters rather than stopping at two thirds.",
           "precedence": 5
+        },
+        {
+          "pack": "facade-gable",
+          "role": "facade",
+          "note": "The shaped gable, and the node that gives the pack its dating tell: 'Elizabethan gables are straight-sided and finialled; Jacobean gables CURVE'. Its 'concave and convex scrolls stepping up to a pediment' are the Netherlandish holbol arriving in England, and its gables are ranged SYMMETRICALLY along a front -- which is the opposite of what the picturesque traditions do with the same count, and is why the pack's hierarchy rule explicitly does not apply here. Gable width 3.5-5.5 m with the apex at 0.6-0.8 of the width.",
+          "precedence": 6
         }
       ],
       "_cascade": [
@@ -21805,6 +21841,12 @@
           "role": "room",
           "note": "Judgment binding, and the least comfortable one in this batch: this is an architect-designed, real-budget villa, not a farmer's cottage, so room-vernacular's own authority note (measured from ordinary surviving vernacular building) is a stretch. Bound anyway, over room-harmonic, because the style's own text describes the actual room experience in ordinary rather than treatise terms - 'the rooms are low, small-windowed by later standards, and dim... a general sense of being pleasantly and deliberately enclosed' - with no harmonic ratio or musical-mean language anywhere in the node, and the node's own proportional_system states that elevations (and by extension rooms) 'are resolved afterwards, and are permitted to disagree with one another,' the opposite of a Palladian room-shape discipline. Flagged rather than asserted as confident.",
           "precedence": 2
+        },
+        {
+          "pack": "facade-gable",
+          "role": "secondary",
+          "note": "The node that states the hierarchy rule and states it as a prohibition, which is rare in this corpus: 'dominant gable width 1.4 to 2.2 times the next largest gable; equal widths are a failure', and separately 'no two gables are the same width; equal gables indicate a builder's composition'. That last phrase is the argument -- a picturesque silhouette works by having a subject, and three gables at 1, 1 and 1 give the eye nothing to look at first. Read against `styles/jacobean.json`, which ranges its gables symmetrically on purpose: same count, opposite instruction, and the pack's rules say which applies where.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -24635,6 +24677,12 @@
           "role": "room",
           "note": "Judgment binding: not in room-vernacular's applies_to, and the text is explicit that behind the tower-house costume the rooms are 'large, square, well-lit, plastered and comfortable, laid out with a Victorian sense of circulation' — larger and more regular than the anonymous vernacular median this pack reconstructs. Bound anyway because governing_logic rules out any classical room system ('None classical') and no closer fit exists in the library; treat the module and ratio figures as a loose floor rather than a governing target for a Bryce-scale house.",
           "precedence": 2
+        },
+        {
+          "pack": "facade-gable",
+          "role": "facade",
+          "note": "The node `stone-course` was keeping the figures for. That pack declined the crow-step and the bartizan as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers into its own notes so they would not be lost; this is where they were being kept. Crow-step tread 300-450 mm and rise 200-300 mm, cut in squared stone, with 'no barge board' -- the crow-step IS the verge treatment and adding a barge is two solutions to one problem. What this pack still does not carry is the bartizan, at 1.2-2.0 m diameter corbelled 450-750 mm out on a 55-65 degree conical roof: that is a turret and not a gable, and it remains on the list.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -34286,6 +34334,12 @@
           "role": "opening",
           "note": "The revival, and the node whose figures are given in inches rather than millimetres because it is an American record: 'casement leaves 16-22 in. wide by 40-56 in. high, proportion between 1:2.2 and 1:2.8, grouped in 2, 3, or 4'. That proportion band is the tightest statement of the single light anywhere in the corpus and the pack's default sits inside it. Note what the revival does with the arch: it is used at the ENTRANCE and rarely at the windows, which this record says -- 'entrance under a Tudor (four-centred) arch... usually recessed and often placed in a projecting gabled bay' -- where the Tudor original used the same head for doorways, fireplaces and windows alike.",
           "precedence": 5
+        },
+        {
+          "pack": "facade-gable",
+          "role": "facade",
+          "note": "Gives the pack its apex ratio and, better, the perceptual statement behind it: 'gable width to eave-to-ridge height approximately 1:0.7 - the triangle reads taller than half its base'. That is the difference between a gable that reads as a roof and one that reads as a gable, and a 6:12 cross-gable on a house of this type is the commonest single failure of it. Note this node is the pack's ROOF-END case, explicitly: `styles/jacobethan-revival.json` names it as the contrast, gables ending 'at the rake with a barge or a bargeboard', so the parapet and coping rules do not apply here at all.",
+          "precedence": 6
         }
       ],
       "_cascade": [
@@ -39096,6 +39150,12 @@
           "role": "room",
           "note": "Judgment bind: this node is not itself listed in room-vernacular's applies_to, but its family container low-countries-vernacular is, and this node's own text describes a genuinely daylight- and span-limited room type — a shallow bright front room, a dark middle lit by nothing, a stair pinned against one party wall — that the pack's depth-and-pile and second-rank borrowed-light room rules describe directly.",
           "precedence": 2
+        },
+        {
+          "pack": "facade-gable",
+          "role": "facade",
+          "note": "One of the thinnest-bound nodes in the corpus, and the one that most needed a facade pack: 'the gable end turned to the street or canal; the short elevation is the ONLY DESIGNED FACE'. Its facade at 3:1 to 4:1 height to width is the pack's most extreme proportion and is what a canal house is -- a gable with a building behind it. Two things this record adds that the pack carries into its structural conflict: the composition 'resolving on a single vertical axis at the apex', which is what the finial is for, and the vlucht, a facade built deliberately leaning forward so hoisted goods clear the wall, which is a permanent eccentric load on an already slender wall.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -42831,6 +42891,12 @@
           "role": "opening",
           "note": "The extreme end of the pack's glazing band and the reason that rule is a judgment slot: 'glazed to solid ratio on a principal elevation 45-60 percent, and higher at Hardwick', with 'more window than wall on a principal elevation' given as the single quickest identification of the style. At that ratio the mullions have stopped being window frames and become the building's structure, which is the pack's first and blocking conflict -- Hardwick is a structural stunt as much as a compositional one. Light at 400-550 mm and transom divisions giving panels of 1:1.2 to 1:1.5.",
           "precedence": 3
+        },
+        {
+          "pack": "facade-gable",
+          "role": "secondary",
+          "note": "Bound secondary and largely for what it does NOT have. `styles/jacobean.json` draws the line: 'Elizabethan gables are straight-sided and finialled; Jacobean gables curve.' So the pack's shaped-gable curve count is ZERO here, which is the bottom of its range and a real value rather than an absence -- a straight-sided finialled gable is a complete answer and not an unshaped one. The apex ratio, the coping, the kneeler and the apex stone all apply unchanged.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -43131,6 +43197,12 @@
           "role": "massing",
           "note": "Judgment bind, though this node id is itself listed in the pack's applies_to. Cape Dutch walls are masonry, not a timber frame, so the pack does not govern wall construction here — but its depth_and_pile rule (single-pile depth 192-264 in / 16-22 ft) matches this node's own stated range depth of 5.5-6.5 m (18-21 ft) closely, because both are the same underlying constraint restated: a room cannot be deeper than the span an available roof member will carry without an interior bearing wall. Bound narrowly for that depth-governing logic, not for framing. brick-course was checked and rejected: Cape Dutch walls are lime-plastered and limewashed sun-dried brick or rubble, and the coursing brick-course models (exposed bond, moulded water-table courses, gauged arches) is invisible under a plastered finish and does not apply.",
           "precedence": 2
+        },
+        {
+          "pack": "facade-gable",
+          "role": "facade",
+          "note": "The screen gable in its purest form, and the case that forced the pack's three-way distinction. This gable is not the end of a roof at all: it stands 'clear of a thatched roof' on the LONG elevation, centred on the front door, moulded in plaster and dated in relief -- a piece of architecture applied to a farmhouse, which is why it is the only modelled thing on an otherwise plain building. Its own figures are the pack's screen rules: gable width to front elevation length roughly 1:3, gable height above eave 2.5-4 m. It also states the hierarchy the pack generalises, in one clause: 'a second, plainer gable over the rear or wing door, always subordinate to the front one'. The holbol curve itself the pack does not carry -- see its notes.",
+          "precedence": 3
         }
       ],
       "_cascade": [

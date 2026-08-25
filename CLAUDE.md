@@ -59,11 +59,11 @@ Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 
 
 164 nodes · 96 slots (ontology 0.6.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **48 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
-and 61 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
+style** · **49 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
+and 58 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 618 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 627 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
@@ -153,7 +153,10 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   quoted `results[0]`, printing a PASSING measurement as the evidence for a failure. When a
   generator did not model something, the measurement must be **absent**, not zero.
 - **Open questions are live.** `docs/open-questions.md` (42, of which 8 are open). Everything
-  Lucas ruled on 24 Aug is executed. Still open and needing a ruling: **OQ 47** (no slot for an exposed
+  Lucas ruled on 24 Aug is executed. Still open and needing a ruling: **OQ 48** (1,922 rule-address collisions
+measured, of which the dangerous kind is two packs meaning DIFFERENT quantities at one address --
+four found and fixed, the rest unknown; no checker shipped because a naive one would flag 1,710
+correct rules), **OQ 47** (no slot for an exposed
 structural member on a wall face -- four packs in WP-4.6 route one through `corner_board`),
 **OQ 41** (a fault's
   secondary tests are written for one style and run against every style — why

@@ -253,6 +253,12 @@
       "role": "room",
       "note": "Judgment binding: gothic-revival-british is not in room-vernacular's applies_to, and its rooms — vicarage studies, High Victorian drawing rooms — sit above the anonymous vernacular median in scale. No better fit exists in the library: room-harmonic is a Palladian ratio system, and c05 forbids classical apparatus throughout, so applying a treatise proportioned from the orders would contradict the style's own founding argument against classicism. Bound instead for the pack's most transferable content, the daylight-depth relationship (a room lit from one side reads dark past about 2 to 2.5 times its window-head height), which is physics rather than period style and which Pugin's own principle — nothing admitted that is not necessary to convenience, construction or propriety — is a moral restatement of. Scoped to ordinary chambers and service rooms, not to the double-height hall or stair, which the style's own massing affinities (villa-tower, h-plan-manor) already govern.",
       "precedence": 2
+    },
+    {
+      "pack": "facade-gable",
+      "role": "secondary",
+      "note": "Secondary behind `facade-picturesque` and `opening-pointed`, and bound for one figure it states independently -- 'gable width to apex height roughly 1:0.7 to 1:1' -- which agrees with Tudor Revival and Jacobean to within a tenth from a completely different tradition. Three unrelated records landing that close on a proportion nobody wrote down is the strongest evidence the pack has for it. The roof pitch is deliberately NOT taken from this pack: `opening-pointed` already writes `roof_pitch`/`ratio` on this node, and its claim there -- that the gable and the window head are the same equilateral figure -- is a larger statement than anything this pack would add.",
+      "precedence": 3
     }
   ]
 }

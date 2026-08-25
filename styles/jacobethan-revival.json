@@ -257,6 +257,12 @@
       "role": "opening",
       "note": "Gives the pack three figures no other record does: mullions at 4-6 in, transoms at 1/2 and 3/4 of opening height, and glazing at '35-55 percent - far higher than any other revival in this branch'. It also states the compositional consequence in its own words -- 'windows are mullioned bands rather than punched openings; the glass area on a principal elevation may exceed the stone' -- which is the pack's overall-proportion rule and its glazing rule arriving at the same sentence. `stone-course` is deliberately not bound on this node and this record says why: its walls are 'masonry - ashlar, or brick with stone dressings - with no half-timbering', so the dressings are its own and the walling is ashlar rather than rubble.",
       "precedence": 3
+    },
+    {
+      "pack": "facade-gable",
+      "role": "facade",
+      "note": "The record that states the pack's parapet case and the contrast that defines it: 'the wall carries up past the roof plane and is capped with coping stones. Tudor Revival gables end at the rake with a barge or a bargeboard.' Two packs' worth of nodes are separated by that one sentence. It also gives the pack its only coping thickness -- 6-9 in -- its parapet height at 12-24 in above the roof plane, and the shaped profile as '2-4 ogee or quadrant curves terminating in a semicircular or triangular cap', which is the curve count.",
+      "precedence": 4
     }
   ]
 }

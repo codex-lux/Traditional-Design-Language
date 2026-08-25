@@ -31,20 +31,19 @@ Every package below carries a **Status** line. This is the summary. Original pac
    stated ring layout because it cannot search for one) and **OQ 37** (`check_partis.py` check
    10 — five of twenty-one partis were carrying fatal findings against the styles they were
    written for, so the composer would not recommend them; 21 of 21 compose now).
-6. **WP-4.6 — IN PROGRESS, twelve packs of thirty-odd, 25 Aug 2026.** `moorish-arch` (OQ 30's item,
+6. **WP-4.6 — IN PROGRESS, thirteen packs of thirty-odd, 25 Aug 2026.** `moorish-arch` (OQ 30's item,
    and the only gap that unblocked a node with no binding at all — `DELIBERATELY_UNBOUND` is down
    from three nodes to one), `greek-doric` (which replaced a binding WP-4.1's own note called
    "the least-bad available approximation"), `adobe-module` (the gap four style nodes had already
    written down in their own binding notes; bound to 9), `opening-pointed` (the opening half of the
    Gothic item — the facade half was measured and found already served), and `opening-craftsman`
-   with `trim-prairie`, which are both halves of PB-4's item, `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade`, `timber-panel` and `opening-mullioned`. **All six packs this work package's own task
+   with `trim-prairie`, which are both halves of PB-4's item, `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade`, `timber-panel`, `opening-mullioned` and `facade-gable`. **All six packs this work package's own task
    text names as likely candidates are built, plus the largest item the rest of the list held when it
    was measured.** 131 of 132 nodes bound; nodes with
    **no opening-role pack 68 → 60**, which is where the movement now is, plus one wrong interior
    binding corrected, which moves no count at all. The remaining list, with each item's measured
-   leverage, is in `docs/reports/wp-4.6-missing-proportion-packs.md`; next by the same measurement is a gable
-   geometry system (12 nodes, entirely missing), after which the tail is mostly ORNAMENT rather than
-   proportion. Then **WP-4.4** (images), which is currently
+   leverage, is in `docs/reports/wp-4.6-missing-proportion-packs.md`; next by the same measurement is an octagon/polygonal
+   plan module (16 nodes), after which the tail is mostly ORNAMENT rather than proportion. Then **WP-4.4** (images), which is currently
    environment-blocked — see its own status block.
 7. **Phase 5** — the last mile.
 
@@ -437,7 +436,7 @@ Four composer bugs found by running the diagrams rather than reading them: pick 
 
 ### WP-4.6 Missing proportion packs
 
-**Status: IN PROGRESS, 12 of ~30 packs, 25 Aug 2026. All six packs this work package's own task text names as likely candidates are built, plus the largest item the remaining list held when it was measured.** Chosen by measured leverage rather than by the order of the list; the measurement and what remains are in `docs/reports/wp-4.6-missing-proportion-packs.md`.
+**Status: IN PROGRESS, 13 of ~30 packs, 25 Aug 2026. All six packs this work package's own task text names as likely candidates are built, plus the largest item the remaining list held when it was measured.** Chosen by measured leverage rather than by the order of the list; the measurement and what remains are in `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 *First tranche, 24 Aug.* `proportions/orders/moorish-arch.json` — OQ 30's item, the most-corroborated gap WP-4.1 found and the only one that unblocked a node with no binding at all; `moorish-andalusian` and `mudejar` come off `DELIBERATELY_UNBOUND`, which is now one node rather than three. `proportions/orders/greek-doric.json` — the gap WP-4.1 had already recorded as a WRONG binding rather than a missing one, `greek-classical` having been bound to `benjamin-doric` under a note calling it "the least-bad available approximation"; Benjamin is demoted and kept, because American Greek Revival buildings really were built from those plates. Raised on the way: **OQ 46**, the ontology has no arch slot — since built, at ontology 0.6.0.
 
@@ -452,6 +451,10 @@ With the six named candidates done, the rest of WP-4.1's list was MEASURED rathe
 `proportions/modules/timber-panel.json` is WP-4.1's half-timber panel item, and the list's own phrase 'distinct from `timber-bay`' did more work than it looks: six of the sixteen rules planned for it were already that pack's, and it is bound to seven of the same nodes. So this pack restates none of them and holds only what FILLS the frame. Its central rule is REGIONAL rather than universal -- the panel proportion runs 1:1 German, 1.2 English south-east, 1:3 to 1:4 East Anglian and Norman close studding, and `english-medieval-timber-frame` holds two of those in one sentence -- so there is no correct value, only a correct value for a place. Two nodes refuse themselves in their own words ('no half-timbering', 'without applied half-timbering'). It raised **OQ 47**: the ontology has no slot for an exposed structural member on a wall face, so four rules route through `corner_board`, and four packs in this package have now done the same thing.
 
 `proportions/systems/opening-mullioned.json` closes TWO list items at once -- the four-centred Tudor arch and the leaded-casement-and-mullion system -- because they turn out to be one window, and both had been raised again from inside this package by `opening-pointed`'s own boundary and `opening-craftsman`'s refusal of `arts-and-crafts-british`. Its central rule is that THE WINDOW IS COUNTED AND NOT MEASURED: `styles/tudor.json`'s 'window width is a whole number of lights', so widths are quantised at the light and eight records converge on that light at 400-550 mm. Three cross-pack echoes: the tall unit in a wide band, which is `opening-craftsman`'s inversion four centuries earlier; both traditional opening packs failing IRC R310 on the MULLION rather than the head, which is a fact about the code as much as about the windows; and a glazing ratio that is a history rather than a range, Elizabethan 45-60 and higher at Hardwick, Jacobean explicitly a retreat to 30-45, the revival back at 35-55. Opening-role coverage 60 to 50; nodes carrying two packs or fewer, 36 to 14.
+
+`proportions/systems/facade-gable.json` fills a class the list says the library has NONE of, and absorbs three of its items -- the Cape Dutch holbol, the Low Countries stepped/bell/neck gables and the Scottish crow-step -- because the useful distinction runs across the list's division rather than along it: a gable is either the END OF A ROOF, a PARAPET carried past it, or a SCREEN standing free of it, and four records distinguish those three without any of them talking about the others. Facade-role coverage 61 to 58.
+
+It also forced a proper measurement of the ADDRESS COLLISION `facade-arcade` had found once: 1,922 instances corpus-wide, 75 addresses, 622 pack-pairs. The measurement was MISLEADING and reading it changed the question -- the largest entries are packs colliding with themselves, and those are deliberate MENUS ('SHAPE 1 OF 7', 'METHOD 1 OF 3'), so a naive uniqueness check would have flagged 1,710 correct rules. Only two packs meaning DIFFERENT quantities at one address is a corruption; four were found and fixed. **OQ 48** carries the measurement and both proposals, and NO CHECKER SHIPPED, which is itself the finding.
 
 Two defects its own tests found, both introduced by this package. A SILENT SLOT-ADDRESS COLLISION: `facade-arcade` and `moorish-arch` were both writing to `porch_support`/`height` meaning different quantities -- the impost block's height against the springing line above the floor -- on three nodes that bind both. Two packs putting different quantities into one address is a corruption rather than a conflict, because whichever resolves last wins and nothing reports it, and precedence cannot help. And PRECEDENCE CONTRADICTING ROLE sixteen times across fourteen nodes, twelve of them mine, because every new binding was inserted at the first unused precedence and 0 is nearly always free; `check_pack_bindings.py` checked precedence for being a total order and never for agreeing with role. Both fixed, and the checker now errors on the narrow rule -- measured, `secondary` ahead of a role pack is the corpus's own convention in 253 places across 59 nodes, so only 'nothing outranks a primary' is enforced and the rest is warned.
 

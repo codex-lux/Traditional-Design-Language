@@ -1563,3 +1563,114 @@ def test_english_gothic_now_has_both_halves_of_its_window():
     assert binding("english-gothic", "opening-pointed")["role"] == "opening"
     assert binding("english-gothic", "opening-mullioned")["role"] == "secondary"
     assert "mullions running unbroken from sill to arch head" in json.dumps(node("english-gothic"))
+
+
+# ----------------------------------------------------------------- facade-gable
+
+
+def test_the_library_had_no_gable_geometry_of_any_kind_and_two_packs_said_so():
+    """WP-4.1 records this gap in the strongest terms it uses anywhere. dutch-gambrel says plainly it
+    does NOT reduce the item -- 'a gable profile is an elevation outline and a gambrel is a roof
+    section' -- and stone-course quoted the Scottish crow-step figures into its own notes purely so
+    they would not be lost."""
+    assert "does NOT reduce it" in pack("dutch-gambrel")["notes"]
+    assert "crow-step" in pack("stone-course")["notes"]
+    assert "NO GABLE GEOMETRY SYSTEM OF ANY KIND" in pack("facade-gable")["notes"]
+
+
+def test_a_gable_is_three_different_objects_and_four_records_distinguish_them():
+    """Roof end, parapet, or screen -- and deciding which is prior to any dimension in the pack. None
+    of the four records is talking about the others."""
+    assert "genuinely the end of a roof rather than a screen in front of one" in json.dumps(node("flemish-vernacular"))
+    assert "the wall carries up past the roof plane" in json.dumps(node("jacobethan-revival"))
+    assert "standing free above the eave line" in json.dumps(node("cape-dutch"))
+    assert "gable screen" in json.dumps(node("dutch-urban-gable-house"))
+    m = pack("facade-gable")["module"]["note"]
+    assert "THREE DIFFERENT OBJECTS" in m and "prior to any dimension" in m
+
+
+def test_the_crow_step_ratio_disagreement_is_kept_as_a_band():
+    """Flemish steps are square and Scottish ones broader than high. The two read quite differently
+    and neither record has heard of the other."""
+    r = next(x for x in pack("facade-gable")["derived_rules"]
+             if x["target_slot"] == "rake_condition" and x["dimension"] == "ratio")
+    assert r["range"] == [1.0, 2.25]
+    assert "rise to tread roughly 1:1" in json.dumps(node("flemish-vernacular"))
+    assert "tread 300" in json.dumps(node("scottish-baronial")).replace("\u2013", "-")
+    assert "TWO RECORDS DISAGREE" in r["authority_note"]
+
+
+def test_three_unrelated_records_agree_on_the_apex_ratio():
+    """Tudor Revival, British Gothic Revival and Jacobean land within a tenth of each other on a
+    proportion nobody wrote down."""
+    r = next(x for x in pack("facade-gable")["derived_rules"]
+             if x["target_slot"] == "gable_treatment" and x["dimension"] == "ratio")
+    assert 0.55 <= float(r["expression"]) <= 1.05
+    assert "the triangle reads taller than half its base" in json.dumps(node("tudor-revival"))
+    assert "1:0.7 to 1:1" in json.dumps(node("gothic-revival-british"))
+    assert "0.6-0.8 of the gable width" in json.dumps(node("jacobean"))
+
+
+def test_the_same_gable_count_carries_opposite_instructions():
+    """Jacobean ranges its gables symmetrically; the Gothic villa says equal widths are a failure and
+    calls them 'a builder's composition'. Same number, opposite compositional rule."""
+    hier = next(x for x in pack("facade-gable")["derived_rules"]
+                if x["target_slot"] == "wing_strategy")
+    assert hier["range"] == [1.4, 2.2]
+    assert "equal gables indicate a builder's composition" in json.dumps(node("rural-gothic-villa"))
+    assert "ranged symmetrically along a front" in json.dumps(node("jacobean"))
+    count = next(x for x in pack("facade-gable")["derived_rules"]
+                 if x["target_slot"] == "gable_treatment" and x["dimension"] == "count")
+    assert "opposite compositional rule" in count["note"]
+
+
+def test_the_third_self_refusal_in_the_package():
+    """arts-and-crafts-british: 'no classical order, no pointed arch, no shaped gable, no period
+    quotation of any kind: the absence of quotation is itself the tell.' After jacobethan-revival and
+    cotswold-cottage-revival refused half-timbering in their own words."""
+    assert "arts-and-crafts-british" not in pack("facade-gable")["applies_to"]
+    assert binding("arts-and-crafts-british", "facade-gable") is None
+    assert "no shaped gable" in json.dumps(node("arts-and-crafts-british"))
+
+
+def test_the_gable_pack_shares_no_address_meaning_a_different_quantity():
+    """Writing this test found four collisions with packs facade-gable co-binds with, and three were
+    DIFFERENT quantities at one address: opening-pointed writes gable_treatment/height for a FINIAL,
+    dutch-gambrel writes it for the gable-end SILHOUETTE, opening-pointed writes
+    ornament_vocabulary/count for a cusped motif set and rake_condition/height for a BARGEBOARD.
+    Three packs meaning three things at one address is the corruption facade-arcade found, and
+    precedence cannot settle it. All three are renamed to named dimensions.
+
+    dormer/width is left shared on purpose: both packs mean the dormer's width, which is the same
+    quantity with different values by tradition, and that is exactly what precedence is for."""
+    gable = {(r["target_slot"], r["dimension"]) for r in pack("facade-gable")["derived_rules"]}
+    for other in ("timber-bay", "opening-pointed", "stone-course", "dutch-gambrel"):
+        shared = gable & {(r["target_slot"], r["dimension"]) for r in pack(other)["derived_rules"]}
+        assert shared <= {("dormer", "width")}, (other, sorted(shared))
+    for named in (("gable_treatment", "facade_ratio"), ("gable_treatment", "parapet_height"),
+                  ("ornament_vocabulary", "curve_count"), ("rake_condition", "step_rise")):
+        assert named in gable, named
+
+
+def test_the_intra_pack_duplicate_addresses_are_menus_and_must_not_be_fixed():
+    """Measuring the collisions corpus-wide found 1,922 instances, and the largest entries are packs
+    colliding with THEMSELVES -- room-harmonic writing room_adjacency_overrides/width ten times. Those
+    are not defects: they are a MENU at one address, authored deliberately and labelled as such
+    ('SHAPE 1 OF 7', 'METHOD 1 OF 3'). A naive uniqueness check would flag 1,710 correct rules, which
+    is why this package raised OQ 48 instead of shipping one."""
+    rh = pack("room-harmonic")["derived_rules"]
+    shapes = [r for r in rh if (r["target_slot"], r["dimension"]) == ("room_adjacency_overrides", "width")]
+    assert len(shapes) >= 7
+    assert any("1 OF 7" in r["note"] for r in shapes)
+    heights = [r for r in rh if (r["target_slot"], r["dimension"]) == ("ceiling_height_rule", "height")]
+    assert any("METHOD 1 OF 3" in r["note"] for r in heights)
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "48. **OPEN" in oq and "menu" in oq
+
+
+def test_the_flush_faced_dormer_decides_which_pack_applies():
+    """A dormer whose front is in the plane of the wall below is a gable of the wall; one set back on
+    the roof slope is a box with a roof on it. One record states the distinction."""
+    assert "faces flush with the wall below" in json.dumps(node("cotswold-vernacular"))
+    r = next(x for x in pack("facade-gable")["derived_rules"] if x["target_slot"] == "dormer")
+    assert "FLUSH FACE" in r["note"]

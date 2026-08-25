@@ -234,6 +234,12 @@
       "role": "room",
       "note": "Judgment binding: not in room-vernacular's applies_to, and the text is explicit that behind the tower-house costume the rooms are 'large, square, well-lit, plastered and comfortable, laid out with a Victorian sense of circulation' — larger and more regular than the anonymous vernacular median this pack reconstructs. Bound anyway because governing_logic rules out any classical room system ('None classical') and no closer fit exists in the library; treat the module and ratio figures as a loose floor rather than a governing target for a Bryce-scale house.",
       "precedence": 2
+    },
+    {
+      "pack": "facade-gable",
+      "role": "facade",
+      "note": "The node `stone-course` was keeping the figures for. That pack declined the crow-step and the bartizan as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers into its own notes so they would not be lost; this is where they were being kept. Crow-step tread 300-450 mm and rise 200-300 mm, cut in squared stone, with 'no barge board' -- the crow-step IS the verge treatment and adding a barge is two solutions to one problem. What this pack still does not carry is the bartizan, at 1.2-2.0 m diameter corbelled 450-750 mm out on a 55-65 degree conical roof: that is a turret and not a gable, and it remains on the list.",
+      "precedence": 3
     }
   ]
 }

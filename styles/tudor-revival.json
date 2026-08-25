@@ -289,6 +289,12 @@
       "role": "opening",
       "note": "The revival, and the node whose figures are given in inches rather than millimetres because it is an American record: 'casement leaves 16-22 in. wide by 40-56 in. high, proportion between 1:2.2 and 1:2.8, grouped in 2, 3, or 4'. That proportion band is the tightest statement of the single light anywhere in the corpus and the pack's default sits inside it. Note what the revival does with the arch: it is used at the ENTRANCE and rarely at the windows, which this record says -- 'entrance under a Tudor (four-centred) arch... usually recessed and often placed in a projecting gabled bay' -- where the Tudor original used the same head for doorways, fireplaces and windows alike.",
       "precedence": 5
+    },
+    {
+      "pack": "facade-gable",
+      "role": "facade",
+      "note": "Gives the pack its apex ratio and, better, the perceptual statement behind it: 'gable width to eave-to-ridge height approximately 1:0.7 - the triangle reads taller than half its base'. That is the difference between a gable that reads as a roof and one that reads as a gable, and a 6:12 cross-gable on a house of this type is the commonest single failure of it. Note this node is the pack's ROOF-END case, explicitly: `styles/jacobethan-revival.json` names it as the contrast, gables ending 'at the rake with a barge or a bargeboard', so the parapet and coping rules do not apply here at all.",
+      "precedence": 6
     }
   ]
 }

@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: twelve packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: thirteen packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -643,6 +643,61 @@ quarter to a third. A test asserts the two bands do not overlap.
 Coverage moved twice: **opening-role 60 → 50**, and nodes carrying two packs or fewer **36 → 14**
 across the four packs since the counts guard landed.
 
+### `proportions/systems/facade-gable.json` — a class the library had none of
+
+WP-4.1 records this gap in the strongest terms it uses anywhere: "no gable geometry system of any
+kind currently exists in the library." Two packs in this work package added to it independently —
+`dutch-gambrel` says plainly it does *not* reduce the item ("a gable profile is an elevation outline
+and a gambrel is a roof section"), and `stone-course` quoted the Scottish crow-step figures into its
+own notes purely so they would not be lost.
+
+**It is one pack rather than the two the list asks for, because the useful distinction runs across
+the list's division rather than along it.** A gable is one of three different objects, and the corpus
+distinguishes them in four records none of which is talking about the others:
+
+| | who says it |
+|---|---|
+| the **end of a roof** | `flemish-vernacular`: crow-steps sit on "a gable that is genuinely the end of a roof rather than a screen in front of one" |
+| a **parapet** carried past it | `jacobethan-revival`: "the wall carries up past the roof plane and is capped with coping stones. Tudor Revival gables end at the rake with a barge" |
+| a **screen** standing free of it | `cape-dutch`: a gable "standing free above the eave line of a thatched roof", on the *long* elevation where there is no roof end at all |
+
+Deciding which is being drawn is prior to any dimension in the pack, and the module note says so
+before it says anything else. Two more findings: the crow-step is **square in Flanders and broader
+than high in Scotland** (1:1 against 1.5:1, two records, neither aware of the other), and the same
+gable *count* carries **opposite instructions** — Jacobean ranges them symmetrically, while
+`rural-gothic-villa` says equal widths are "a failure" and indicate "a builder's composition".
+
+**A third self-refusal.** `arts-and-crafts-british`: "no classical order, no pointed arch, **no shaped
+gable**, no period quotation of any kind: the absence of quotation is itself the tell." After
+`jacobethan-revival` and `cotswold-cottage-revival` refused half-timbering in their own words, this is
+the third node in the package to refuse a pack itself — and the reason a regex sweep is a starting
+point and not an answer.
+
+### The address collision, measured properly — and why no checker shipped
+
+`facade-arcade` found one instance of two packs writing different quantities to one
+`(slot, dimension)` address. This pack's tests found four more, so the whole corpus was measured:
+**1,922 collision instances, 75 distinct addresses, 622 distinct pack-pairs.**
+
+**The measurement was misleading and reading it changed the question.** The largest entries are packs
+colliding with *themselves* — `room-harmonic` writes `room_adjacency_overrides`/`width` **ten times**
+and `ceiling_height_rule`/`height` seven times; `storey-graduation` writes `height_proportion`/`ratio`
+four times. Those are not defects. They are a **menu** at one address, deliberate and labelled as
+such in their own notes: "SHAPE 1 OF 7 — THE ROUND ROOM", "METHOD 1 OF 3 — THE ARITHMETIC MEAN". **A
+naive uniqueness check would have flagged 1,710 correct rules.**
+
+So there are three cases and only one is wrong: several rules at one address *within* a pack is a
+menu; two packs meaning the *same* quantity is what precedence exists for; two packs meaning
+*different* quantities is the corruption. Four of the third kind were found and fixed here —
+`porch_support`/`height` meaning both an impost block and a springing line, and
+`gable_treatment`/`height` meaning a finial, a parapet and a gable-end silhouette in three packs.
+
+**No checker shipped, and that is the finding.** Distinguishing the cases needs semantics a checker
+does not have, and shipping one that cries wolf over 1,710 correct rules would be worse than none.
+Raised as **OQ 48** with both concrete proposals: a `quantity` field so the real address is
+`(slot, dimension, quantity)`, or accept named dimensions as the convention this package fell into
+and require any shared address to be declared. Coverage moved: **facade-role 61 → 58.**
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -656,7 +711,9 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing: a **gable geometry system** (now the largest remaining) (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
+still missing: an **octagon/polygonal plan module** (16 nodes, 9 thinly bound), a
+**portada/retablo ornament panel** (8/7), a **Mudejar brick corbelling module** (7/7), a
+**strapwork/Jacobethan ornament** item (7/7), a **jetty module** (13/7), a **mansard module** (17/4) (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
 10 thinly bound, and entirely missing from the library), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
 also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
@@ -677,8 +734,10 @@ third: the **Dutch gambrel roof module**, which the list scoped at 3 nodes and r
 and the **stone-coursing equivalent of `brick-course`**, the largest item on the list when measured,
 bound to 12 of the 34 thinly-bound stone nodes on a stated criterion. Struck off by the fourth: the
 **arcade**, which was never on the list at all and which three packs in this package asked for, the
-**half-timber infill panel** (29 nodes, 21 thinly bound), and **both** the four-centred Tudor arch and
-the leaded-casement-and-mullion items, which turned out to be one window.
+**half-timber infill panel** (29 nodes, 21 thinly bound), **both** the four-centred Tudor arch and
+the leaded-casement-and-mullion items, which turned out to be one window, and the **gable geometry**
+item, which the list said the library had none of and which absorbed the crow-step and holbol items
+with it.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -691,16 +750,16 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **48 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the ten new
-packs bind 89 nodes but every one of them was already bound, so the count does not move and should
+Later tranches: 23 checks green. **49 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the eleven new
+packs bind 101 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
 pack, plus one wrong interior binding corrected, a roof system six nodes previously had nothing for,
 a threshold system seven nodes had nothing for, a walling system twelve nodes had nothing for, and an arcade system sixteen
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 28 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **149 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **158 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

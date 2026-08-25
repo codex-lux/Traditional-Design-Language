@@ -267,6 +267,12 @@
       "role": "massing",
       "note": "Judgment bind, though this node id is itself listed in the pack's applies_to. Cape Dutch walls are masonry, not a timber frame, so the pack does not govern wall construction here — but its depth_and_pile rule (single-pile depth 192-264 in / 16-22 ft) matches this node's own stated range depth of 5.5-6.5 m (18-21 ft) closely, because both are the same underlying constraint restated: a room cannot be deeper than the span an available roof member will carry without an interior bearing wall. Bound narrowly for that depth-governing logic, not for framing. brick-course was checked and rejected: Cape Dutch walls are lime-plastered and limewashed sun-dried brick or rubble, and the coursing brick-course models (exposed bond, moulded water-table courses, gauged arches) is invisible under a plastered finish and does not apply.",
       "precedence": 2
+    },
+    {
+      "pack": "facade-gable",
+      "role": "facade",
+      "note": "The screen gable in its purest form, and the case that forced the pack's three-way distinction. This gable is not the end of a roof at all: it stands 'clear of a thatched roof' on the LONG elevation, centred on the front door, moulded in plaster and dated in relief -- a piece of architecture applied to a farmhouse, which is why it is the only modelled thing on an otherwise plain building. Its own figures are the pack's screen rules: gable width to front elevation length roughly 1:3, gable height above eave 2.5-4 m. It also states the hierarchy the pack generalises, in one clause: 'a second, plainer gable over the rear or wing door, always subordinate to the front one'. The holbol curve itself the pack does not carry -- see its notes.",
+      "precedence": 3
     }
   ]
 }

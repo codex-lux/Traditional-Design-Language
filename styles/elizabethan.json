@@ -229,6 +229,12 @@
       "role": "opening",
       "note": "The extreme end of the pack's glazing band and the reason that rule is a judgment slot: 'glazed to solid ratio on a principal elevation 45-60 percent, and higher at Hardwick', with 'more window than wall on a principal elevation' given as the single quickest identification of the style. At that ratio the mullions have stopped being window frames and become the building's structure, which is the pack's first and blocking conflict -- Hardwick is a structural stunt as much as a compositional one. Light at 400-550 mm and transom divisions giving panels of 1:1.2 to 1:1.5.",
       "precedence": 3
+    },
+    {
+      "pack": "facade-gable",
+      "role": "secondary",
+      "note": "Bound secondary and largely for what it does NOT have. `styles/jacobean.json` draws the line: 'Elizabethan gables are straight-sided and finialled; Jacobean gables curve.' So the pack's shaped-gable curve count is ZERO here, which is the bottom of its range and a real value rather than an absence -- a straight-sided finialled gable is a complete answer and not an unshaped one. The apex ratio, the coping, the kneeler and the apex stone all apply unchanged.",
+      "precedence": 4
     }
   ]
 }
