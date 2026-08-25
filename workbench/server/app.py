@@ -269,6 +269,19 @@ def job_candidate_plan(job_id: str, n: int):
     return plan
 
 
+# ----------------------------------------------------------------- drawings
+@app.post("/api/drawings/{kind}")
+def drawings(kind: str, body: dict = Body(...)):
+    plan = body.get("plan")
+    if not plan:
+        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    res = corpus.drawing(kind, plan, parti=body.get("parti"), face=body.get("face"),
+                         candidates=int(body.get("candidates", 250)))
+    if "error" in res:
+        raise HTTPException(status_code=422, detail=res)
+    return res
+
+
 # ----------------------------------------------------------------- the AI rail
 @app.post("/api/rail/messages")
 async def rail_messages(request: Request):

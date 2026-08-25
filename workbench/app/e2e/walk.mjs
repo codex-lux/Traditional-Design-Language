@@ -24,7 +24,7 @@ const overview = await (await fetch(BASE + '/api/overview')).json();
 await page.waitForSelector('nav', { timeout: 15000 });
 const railText = await page.locator('nav').innerText();
 check('left rail shows live style count', railText.includes(String(overview.counts.styles)));
-check('forthcoming surfaces listed, not hidden', railText.includes('forthcoming'));
+check('all ten surfaces in the rail', /Drawing Set/.test(railText) && /Details & Export/.test(railText));
 
 // ⑦ Plan Workbench: load an example, wait for evaluation
 await page.getByRole('button', { name: /Plan Workbench/ }).click();
@@ -97,6 +97,24 @@ await page.screenshot({ path: SHOTS + 'brief.png' });
 await page.getByRole('button', { name: /Candidate Set/ }).click();
 await page.waitForTimeout(500);
 await page.screenshot({ path: SHOTS + 'candidates.png' });
+
+// (8) Drawing Set - the elevation with its disclosure
+await page.getByRole('button', { name: /Drawing Set/ }).click();
+await page.waitForSelector('text=83 of', { timeout: 40000 });
+const ds = await page.locator('main').innerText();
+check('drawing set: WP-3.2 disclosure on-sheet', /83 of its named 100/i.test(ds));
+await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
+await page.getByRole('button', { name: 'bearing lines' }).click();
+await page.waitForTimeout(3000);
+await page.screenshot({ path: SHOTS + 'drawing-bearing.png' });
+
+// (8b) Details & Export - forthcoming, never hidden
+await page.getByRole('button', { name: /Details & Export/ }).click();
+await page.waitForSelector('text=forthcoming', { timeout: 15000 });
+const ex = await page.locator('main').innerText();
+check('export: unbuilt work named with its WP', /WP-5\.1 is not built/.test(ex));
+check('export: no costing engine implied', /No costing engine exists/i.test(ex));
+await page.screenshot({ path: SHOTS + 'export.png' });
 
 // the rail's honest no-key state
 const rail = await page.locator('aside').last().innerText();

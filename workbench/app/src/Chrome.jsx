@@ -20,8 +20,8 @@ export function surfaces(counts) {
       { id: 'brief', n: '⑤', label: 'Brief Intake', meta: '' },
       { id: 'candidates', n: '⑥', label: 'Candidate Set', meta: '' },
       { id: 'workbench', n: '⑦', label: 'Plan Workbench', meta: '' },
-      { id: 'drawings', n: '⑧', label: 'Drawing Set', meta: 'forthcoming', off: true },
-      { id: 'export', n: '⑧', label: 'Details & Export', meta: 'forthcoming', off: true },
+      { id: 'drawings', n: '⑧', label: 'Drawing Set', meta: '5 sheets' },
+      { id: 'export', n: '⑧', label: 'Details & Export', meta: 'JSON · SVG' },
     ] },
   ];
 }

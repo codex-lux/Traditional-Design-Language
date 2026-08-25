@@ -15,6 +15,8 @@ import { Phylogeny } from './surfaces/Phylogeny.jsx';
 import { BriefIntake } from './surfaces/BriefIntake.jsx';
 import { StyleRecord } from './surfaces/StyleRecord.jsx';
 import { Proportions } from './surfaces/Proportions.jsx';
+import { DrawingSet } from './surfaces/DrawingSet.jsx';
+import { ExportDetails } from './surfaces/ExportDetails.jsx';
 
 export default function App() {
   const [surface, setSurface] = React.useState('workbench');
@@ -46,6 +48,8 @@ export default function App() {
     brief: <BriefIntake {...shared} />,
     style: <StyleRecord {...shared} />,
     proportions: <Proportions {...shared} />,
+    drawings: <DrawingSet {...shared} />,
+    export: <ExportDetails {...shared} />,
   };
 
   const unjudged = lastEval?.check?.constraint_summary?.unjudged;

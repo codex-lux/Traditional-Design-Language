@@ -149,6 +149,83 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     return out
 
 
+def drawing(kind, plan, parti=None, face=None, candidates=250):
+    """Run the build/ pipeline for one drawing and return its SVG, re-tokenized to
+    the Drawn Language. Everything is generated from the record — the same modules
+    the CLI drives, to a tempfile, read back, recoloured, never redrawn."""
+    import json as _json
+    import os as _os
+    import tempfile
+
+    from . import svg_theme
+
+    B = _os.path.join(ROOT, "build")
+    plan = core.copy_json(plan)
+    pt = None
+    if parti:
+        f = _os.path.join(ROOT, "partis", f"{parti}.json")
+        if _os.path.exists(f):
+            pt = _json.load(open(f))
+
+    def _tmp():
+        fd, p = tempfile.mkstemp(suffix=".svg")
+        _os.close(fd)
+        return p
+
+    out_path = _tmp()
+    meta = {}
+    try:
+        if kind == "plan":
+            geo = core._mod("geometry", f"{B}/geometry.py")
+            solved = geo.solve(plan, pt, candidates)
+            if "error" in solved:
+                return {"error": solved["error"]}
+            rp = core._mod("render_plan", f"{B}/render_plan.py")
+            rp.render(solved, out_path)
+            meta = {"relaxations": solved["geometry_report"].get("relaxations")}
+        elif kind == "elevation":
+            EL = core._mod("elevation", f"{B}/elevation.py")
+            elev = EL.build_elevation(plan, pt)
+            if "error" in elev:
+                return {"error": elev["error"]}
+            re_ = core._mod("render_elevation", f"{B}/render_elevation.py")
+            re_.render_elevation(elev, out_path, face=face)
+            meta = {"entrance_face": elev.get("entrance_face"),
+                    "date_of_representation": elev.get("date_of_representation"),
+                    "glass_module_in": elev.get("glass_module_in")}
+        elif kind in ("section", "bearing"):
+            st = core._mod("structure", f"{B}/structure.py")
+            section = st.build_section(plan, pt)
+            if "error" in section:
+                return {"error": section["error"]}
+            rs = core._mod("render_section", f"{B}/render_section.py")
+            if kind == "section":
+                rs.render_section(section, out_path)
+            else:
+                rs.render_bearing_diagram(section, out_path)
+        elif kind == "roof":
+            rf = core._mod("roof", f"{B}/roof.py")
+            roof = rf.build_roof(plan, pt)
+            if "error" in roof:
+                return {"error": roof["error"]}
+            rr = core._mod("render_roof", f"{B}/render_roof.py")
+            rr.render_roof(roof, out_path)
+        else:
+            return {"error": f"unknown drawing kind '{kind}'",
+                    "kinds": ["plan", "elevation", "section", "bearing", "roof"]}
+        svg = open(out_path).read()
+    except SystemExit as e:  # render_plan raises SystemExit on an unsolved plan
+        return {"error": str(e)}
+    except Exception as e:
+        return {"error": f"{type(e).__name__}: {str(e)[:300]}"}
+    finally:
+        try:
+            _os.unlink(out_path)
+        except OSError:
+            pass
+    return {"kind": kind, "svg": svg_theme.retokenize(svg), **meta}
+
+
 def invalidate():
     """Drop every cache so on-disk corpus edits are seen. Explicit by design:
     auto-invalidation per request would reintroduce the OQ-28 tax."""

@@ -154,7 +154,38 @@ to evaluation against a plan, and the record page shows capability, not verdicts
 Five new pytest tests pin the M2 endpoints, including a cross-check that the HTTP
 members and totals are byte-equal to `proportion_engine.dimension()`'s own.
 
-## 6. Open questions raised
+## 6. Milestone 3 — Drawing Set ⑧ and Details & Export (25 Aug 2026)
+
+All ten surfaces are now live.
+
+**⑧ Drawing Set.** `POST /api/drawings/{kind}` runs the same generators the CLI
+drives — `geometry.solve` + `render_plan`, `build_elevation` + `render_elevation`,
+`build_section` + `render_section`/`render_bearing_diagram`, `build_roof` +
+`render_roof` — to a tempfile, reads the SVG back, and passes it through
+`workbench/server/svg_theme.py`: a value-by-value hex map from each renderer's dark
+palette to Graphic Standard № 1's tokens (glazing to coal, verdigris to green-deep,
+iron to brick, the room fills to pale warm washes), fonts included. Re-rendered,
+never redrawn — the two-registers rule applied to a whole pipeline, with zero
+`build/` edits; a proper `palette=` parameter upstream stays noted as future work.
+The elevation sheet carries WP-3.2's disclosure permanently and on-sheet ("83 of its
+named 100 photograph-measurable faults; the remainder have no model at this layer
+yet"). A generator that refuses (a record without what it needs) renders as a
+refusal card, not an error. A test pins the mapping as *total* over the four
+renderers' palettes, so a new renderer colour cannot ship half-dark.
+
+**Details & Export.** What leaves the system today leaves plainly: the plan record,
+the brief, the validator's full report (could-not-judge list included) and all five
+SVG sheets, re-generated at download, never screen-snapshotted. What is not built is
+present, disabled, and named with its work package — DXF/IFC (WP-5.1), the
+guidelines book and details library (WP-5.3), drawing ingestion (WP-5.5) — over the
+hatched forthcoming treatment. The closing line states that no costing engine
+exists and that code findings are advisory, always.
+
+The left rail now lists no forthcoming surfaces; the honesty moved into the Export
+surface's cards, and the e2e walk's assertion moved with it (20 checks green;
+30 server tests green).
+
+## 7. Open questions raised
 
 Appended to `docs/open-questions.md` as OQ 32–35: stable finding ids; relaxation
 positions in `geometry.solve()`; structured composer decisions; and
