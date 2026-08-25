@@ -17,9 +17,11 @@ conventions — and so it EXTRACTS CANDIDATES rather than producing a record
 A TDL-emitted file (it carries the TDL-META marker) short-circuits to
 `import_dxf.read_plan_dxf` and comes back a complete record.
 
-Units: $INSUNITS is trusted when it is stated and plausible; when the header
-is silent or implausible the room-scale heuristic below scores each hypothesis
-by how many candidate sides land in a plausible room range, and REFUSES to
+Units: a stated $INSUNITS is TRUSTED even when implausible — the file's own
+header is a declared fact, and overriding it would be a guess; a low
+plausibility score is noted beside it with the --units override named. Only a
+SILENT header goes to the room-scale heuristic, which scores each hypothesis
+by how many candidate sides land in a plausible room range and REFUSES to
 pick when no hypothesis clearly wins — pass --units to state it. An inference
 is always reported as an inference.
 
@@ -43,7 +45,9 @@ def _mod(n, p):
 
 REFUSAL = {"error": "could not ingest: the ezdxf package is not installed "
                     "(pip install ezdxf).",
-           "unimported": True}
+           # "refusal" = COULD NOT EVALUATE (missing dep); an unreadable file
+           # or an ambiguity is a stated failure, not this
+           "unimported": True, "refusal": True}
 
 # $INSUNITS -> (name, factor to feet). Only units a building drawing plausibly uses.
 INSUNITS = {1: ("in", 1 / 12.0), 2: ("ft", 1.0), 4: ("mm", 1 / 304.8),
@@ -101,8 +105,8 @@ def _score_units(polys, factor):
 
 
 def _resolve_units(doc, polys, declared):
-    """(factor_to_ft, report). Stated units are trusted when plausible; a silent
-    or implausible header goes to the heuristic; ambiguity is a refusal to pick."""
+    """(factor_to_ft, report). A stated header is trusted, with implausibility
+    noted; only a silent header goes to the heuristic; ambiguity refuses."""
     if declared:
         if declared not in UNIT_FACTORS:
             return None, {"error": f"unknown --units '{declared}' (know: {sorted(UNIT_FACTORS)})"}
@@ -248,7 +252,7 @@ def main():
         print(f"  ! {res['error']}")
         if res.get("units", {}).get("scores"):
             print(f"    heuristic scores: {res['units']['scores']}")
-        sys.exit(3 if res.get("unimported") and "ezdxf" in res.get("error", "") else 1)
+        sys.exit(3 if res.get("refusal") else 1)
     if res.get("complete"):
         p = res["record"]
         print(f"\n  TDL-emitted sheet: complete record '{p.get('id')}' "

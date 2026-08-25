@@ -49,7 +49,8 @@ def _mod(n, p):
 
 REFUSAL = {"error": "could not export: the ifcopenshell package is not installed "
                     "(pip install ifcopenshell). Nothing was written.",
-           "unexported": True}
+           # "refusal" = COULD NOT EVALUATE (missing dep), never a real failure
+           "unexported": True, "refusal": True}
 
 GABLE_FORMS = ("gable", "side-gable", "front-gable")
 
@@ -489,7 +490,7 @@ def main():
     res = export_ifc(plan, out, parti)
     if "error" in res:
         print(f"  ! {res['error']}")
-        sys.exit(3 if res.get("unexported") else 1)
+        sys.exit(3 if res.get("refusal") else 1)
     c = res["counts"]
     print(f"\n  {plan.get('name', plan.get('id'))}")
     print(f"  wrote {res['path']} ({res['schema']}, lengths in {res['units']})")

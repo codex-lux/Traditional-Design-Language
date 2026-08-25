@@ -74,6 +74,20 @@ def main():
     # could-not-evaluate protocol — only the build/ checks speak that code
     results.append(("pytest tests/", 0 if pytest_proc.returncode == 0 else 1))
 
+    # the workbench server suite is part of "must be green", not a side suite —
+    # a broken /api/export or /api/ingest fails THIS gate. Its deps (fastapi)
+    # are optional the same way the CAD libs are: absent → N/EV, stated.
+    print("\n=== pytest workbench/server/tests " + "=" * 26)
+    try:
+        import fastapi  # noqa: F401 — presence check only
+    except ImportError:
+        print("fastapi is not installed — the workbench suite COULD NOT be evaluated")
+        results.append(("pytest workbench/server/tests", COULD_NOT_EVALUATE))
+    else:
+        wb_proc = subprocess.run([sys.executable, "-m", "pytest", "workbench/server/tests"],
+                                 cwd=str(ROOT))
+        results.append(("pytest workbench/server/tests", 0 if wb_proc.returncode == 0 else 1))
+
     print("\n" + "=" * 60)
     print("SUMMARY")
     failed = [label for label, rc in results if rc not in (0, COULD_NOT_EVALUATE)]

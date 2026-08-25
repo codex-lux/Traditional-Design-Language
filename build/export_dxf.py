@@ -68,7 +68,10 @@ TITLE_H = 14.0
 
 REFUSAL = {"error": "could not export: the ezdxf package is not installed "
                     "(pip install ezdxf). Nothing was written.",
-           "unexported": True}
+           # "refusal" marks COULD-NOT-EVALUATE (missing optional dep) apart
+           # from a real failure — only this earns exit 3 / HTTP 501; a plan
+           # the solver could not place is a FAILURE and must say so
+           "unexported": True, "refusal": True}
 
 
 def _ezdxf():
@@ -125,7 +128,10 @@ def _solved_copy(plan, parti=None, candidates=250):
     if has_geometry:
         return plan, plan
     GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
-    solved = GEO.solve(copy.deepcopy(plan), parti, candidates)
+    # the sheet is a DERIVATION of the record, drawn the same way the workbench
+    # draws it — the heuristic. Proving a placement is an explicit act
+    # (geometry.solve engine="cp"); an export must match the drawing it ships.
+    solved = GEO.solve(copy.deepcopy(plan), parti, candidates, engine="heuristic")
     if "error" in solved:
         return plan, solved
     return plan, solved
@@ -179,6 +185,14 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
           f"{rl.get('count', 0)} CUT(S) OFF THE BAY LINE"
           + (f", WORST {rl.get('max_off_grid_ft')} FT" if rl.get("count") else ""),
           0, H + 1.2 * TITLE_H, h=TEXT_H)
+    inf = gr.get("infeasible")
+    if inf:
+        # the SVG carries this header; the drafter-facing sheet must too — a
+        # least-bad relaxation exported without the label reads as measured
+        _text(msp, title_layer,
+              f"INFEASIBLE AS DECLARED — {len(inf.get('conflicts', []))} CONFLICT(S) "
+              f"PROVEN; THIS DRAWING IS THE LEAST-BAD RELAXATION",
+              0, H + 5.5 * TITLE_H, h=TEXT_H)
 
     # site: lot + buildable envelope (same fallbacks as render_plan.py)
     site = solved.get("site") or {}
@@ -210,6 +224,7 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
         b += bm
 
     levels = [lv for lv in solved["levels"] if any("geometry" in r for r in lv["rooms"])]
+    doors_not_drawn = []
     for lv in levels:
         n = lv.get("index", 0)
         wall_layer = _layer(doc, f"TDL-L{n}-WALL", color=7)
@@ -285,6 +300,10 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
                 drawn.add(key)
                 seg = RP._shared(a, idx[to])
                 if not seg:
+                    # a declared door with no drawable shared wall (the solver's
+                    # programme-scaled floor can accept a run narrower than the
+                    # 3.2 ft draw test) — stated, never silently omitted
+                    doors_not_drawn.append(f"L{n} {r['id']}-{to}")
                     continue
                 (px, py), horiz = seg
                 dw = (d.get("width_ft") or 3.0) * IN / 2
@@ -297,10 +316,17 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
                     msp.add_arc((px, py - dw), 2 * dw, 0, 90, dxfattribs={"layer": door_layer})
                 _xdata(line, f"TDL::door::L{n}::{r['id']}::{di}")
 
+    if doors_not_drawn:
+        _text(msp, _layer(doc, "TDL-TITLE", color=7),
+              f"{len(doors_not_drawn)} DECLARED DOOR(S) WITHOUT A DRAWABLE SHARED WALL — "
+              f"IN THE RECORD, NOT THE LINEWORK", 0, -3 * TITLE_H, h=TEXT_H)
     doc.saveas(path)
     fpr = solved.get("footprint", {})
-    return {"path": path, "sheets": "plan", "levels": len(levels),
-            "footprint_ft": [fpr.get("width_ft"), fpr.get("depth_ft")]}
+    out = {"path": path, "sheets": "plan", "levels": len(levels),
+           "footprint_ft": [fpr.get("width_ft"), fpr.get("depth_ft")]}
+    if doors_not_drawn:
+        out["doors_not_drawn"] = doors_not_drawn
+    return out
 
 
 # --------------------------------------------------------------- section sheet
@@ -577,7 +603,7 @@ def main():
     out = export_all(plan, a.outdir, parti, a.candidates, a.face)
     if "error" in out:
         print(f"  ! {out['error']}")
-        sys.exit(3 if out.get("unexported") else 1)
+        sys.exit(3 if out.get("refusal") else 1)
     print(f"\n  {plan.get('name', plan.get('id'))}")
     for kind, res in out["sheets"].items():
         if "error" in res:

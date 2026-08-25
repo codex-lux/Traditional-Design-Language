@@ -79,10 +79,12 @@ traces back to the record.
   a test pins that.
 - **Vertical opening data the record does not state.** A window without
   `height_ft` is an `IfcWindow` carrying its record and the reason it has no
-  body. Where geometry is emitted, the sill is `window_head_ft − height_ft`
-  when the record states a head, else an editorial 2.5 ft default *named as
-  editorial in the Pset* — same for the 6 ft 8 in door leaf. OQ 36 asks
-  whether the plan schema should carry these.
+  body. Where geometry is emitted, the sill preference chain is: the record's
+  own `sill_ft` first (the schema has carried it since 0.1.0 — OQ 36 was
+  corrected on exactly this point),
+  else `window_head_ft − height_ft` when the record states a head, else an
+  editorial 2.5 ft default *named as editorial in the Pset* — same for the
+  6 ft 8 in door leaf.
 - **The elevation DXF inherits WP-3.2's scope gate.** A style outside the
   classical-front family gets the generator's own stated refusal, rendered as
   a refusal — never a guessed facade.

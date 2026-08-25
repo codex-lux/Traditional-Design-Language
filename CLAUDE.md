@@ -37,7 +37,7 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 ## Verifying
 
 ```
-python3 build/check_all.py     # 24 checks incl. the full pytest suite. Must be green.
+python3 build/check_all.py     # 25 checks incl. tests/ AND workbench/server/tests. Must be green.
                                # (the two CAD-export selftests report N/EV — COULD NOT
                                #  EVALUATE — without the optional ezdxf/ifcopenshell;
                                #  that is a named unjudged state, never a pass)
@@ -55,7 +55,10 @@ Phases 0, 1, 2, 3 complete — **WP-2.3 landed 25 Aug**: `geometry.solve()` is C
 (`build/geometry_cp.py`, OR-Tools optional behind an honest fallback), the record's declared
 facts are hard constraints, an infeasible plan returns a named conflict set plus the labelled
 least-bad drawing, and every wall pin the flat footprint provably cannot hold is downgraded
-*stated* (`solver.refinements`) — the exposure idiom finding is OQ 37. Phase 4 complete through WP-4.3.
+*stated* (`solver.refinements`) — the exposure idiom finding is OQ 37. A same-day adversarial
+audit (four independent auditors; findings + fixes in the WP-2.3 report's audit section)
+closed a door-constraint hole, over-broad downgrades, and a set of protocol-honesty gaps.
+Phase 4 complete through WP-4.3.
 Phase 5 started out of order: **WP-5.2 complete** — the workbench is live in `workbench/`
 (FastAPI over `mcp_server/core.py` + a Vite/React frontend; an approved divergence from
 the package text's self-contained `dist/` HTML file). **WP-5.1 complete (25 Aug)** —
@@ -70,7 +73,7 @@ Phase 4 breadth by choice); WP-5.4 deferred until the plan-development partnersh
 **12 partis naming only 39 of 132 styles** · 36 packs (129 of 132 nodes bound) ·
 660 constraints migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits
 populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools ·
-330 tests · 39 workbench server tests (separate suite, `workbench/server/tests/`).
+340 tests · 39 workbench server tests (in `workbench/server/tests/`, now run by check_all too).
 
 **Next — two tracks that can run in parallel:**
 
@@ -107,7 +110,7 @@ Phases 1–3, all complete):*
 - **The composer refuses on purpose.** It will not invent a room the parti has no place for,
   will not present an assumption as fact, and will not call a plan good. Refusals belong in
   the decision log, stated. Do not "fix" a refusal into a guess.
-- **Open questions are live.** `docs/open-questions.md` (37). OQ 27, 29, 30, 31, 32–34, 36, 37 and
+- **Open questions are live.** `docs/open-questions.md` (38). OQ 27, 29, 30, 31, 32–34, 36, 37, 38 and
   the `hybridizes_with` problem await Lucas's ruling. OQ 31 is a new category the corpus has
   no vocabulary for: not "unjudged", but *judged where the judgment does not apply*. OQ 32–34
   are the workbench's findings: validator findings carry no stable id, geometry relaxations

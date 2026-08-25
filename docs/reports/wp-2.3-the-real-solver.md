@@ -141,6 +141,60 @@ double-pile solvable at ~45 s feasibility + polish.
   does not yet call the solver per candidate (it never called geometry at
   all); wiring `compose --prove` is a natural follow-up, not started.
 
+## The adversarial audit (25 Aug, same day)
+
+Four independent read-only auditors were set on the landed work — solver core
+and every caller; test meaningfulness (would each test fail if its fix were
+reverted?); second-order risk; second occurrences of each bug pattern already
+found once. What they found, and what was done:
+
+- **The door constraint hole** (the sliver — see What was found above) was the
+  one placement-correctness break; the benchmark's own counter caught it.
+- **Ten pre-existing tests had silently switched to the CP engine**
+  (test_site, test_composition) — including the `relax == 11` pin, which
+  passed on this machine *only because* CP timed out at the default budget
+  and fell back. Machine-speed-dependent green. All ten now pin
+  `engine="heuristic"`; `export_dxf`'s internal solve too (the sheet is a
+  derivation and must match the drawing it ships).
+- **The solve cache keyed the parti by id, not content** — an id-less parti
+  stub returned another parti's placement, proven. The content now keys it.
+- **Downgrades over-blamed.** The round loop softened every wall pin in the
+  solver's *sufficient* core (both walls of one room rode in one core — 17
+  pins on the Tidewater plan where far fewer are truly impossible), and the
+  "(proven)" label predated any per-pin proof at the drawn footprint. The
+  reinstatement pass now restores each downgraded pin alone at that footprint:
+  holds → hard fact again; provably cannot → its own proof; budget out →
+  "carried, not proven", stated in the note. Downgrade counts are pinned in
+  the tests now.
+- **Forced `engine="cp"` could ship an unproven heuristic drawing** on a
+  timeout, labelled only in a reason string. It now refuses, stated — the
+  workbench "prove" chip shows the refusal instead of a placement that proves
+  nothing.
+- **The absorb pass stretched a 2.8 sf linen press to 8 sf** after the model
+  proved "rooms at program size" — capped at each room's own size band now;
+  residual void stays honest empty floor.
+- **Protocol honesty**: a real export failure exited 3 (COULD NOT EVALUATE) on
+  the CLI and 501 on the workbench — the missing-library refusal now carries
+  an explicit `refusal` mark and is the only thing that earns either;
+  `check_all` runs the workbench server suite as its 25th check; MODEL_INVALID
+  can no longer masquerade as an infeasibility proof; an UNKNOWN keep clears
+  the conflict set's `minimized` flag; conflict extraction is seeded.
+- **Smaller honesty debts**: `hard_fact_violations` now reads downgrade lists
+  on the infeasible path, judges both engines against the same facts in the
+  benchmark, parses spaced room ids, and has its own non-benchmark unit test;
+  the `tdl_place_plan` MCP tool exposes `engine`; the evaluate endpoint
+  rejects unknown engines and caps `candidates`; the SPA catch-all normalizes
+  paths; the ingest module docstring now states the actual units policy
+  (a stated header is trusted, implausibility noted — only silence infers).
+
+Deferred, stated: the DXF round-trip does not verify linework coverage (the
+record rides as XDATA and is exact; a dropped window *leaf* would not fail the
+round-trip — the cross-checks count only what was drawn); levels beyond
+ground+upper stay silently unplaced (pre-existing, the heuristic always did
+this); wall-clock budgets still mean engine identity near the budget edge is
+load-dependent — the tests buy determinism with larger budgets, and the record
+always names which engine drew it.
+
 ## Open questions
 
 - **OQ 37** (new): the flat footprint versus declared wings. The exposure
@@ -148,3 +202,8 @@ double-pile solvable at ~45 s feasibility + polish.
   but the honest model is a footprint that can grow an ell. Should massings
   carry footprint composition (main block + dependencies) the solver can
   place rooms into, and should `exterior_walls` be re-read against that?
+- **OQ 38** (new): the solver's programme-scaled door floor (2 ft for a
+  closet pair) sits below the renderers' 3.2 ft draw test — in the 2–3.2 ft
+  band a door HOLDS as a fact and is not drawn (the DXF sheet and result now
+  state such doors). Should the renderers learn narrow doors, or the floor
+  rise to the draw test?

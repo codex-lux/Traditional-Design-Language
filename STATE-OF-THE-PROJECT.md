@@ -178,5 +178,5 @@ That order keeps faith with the project's own founding discipline — validator 
 | Ingestion | `ingest_dxf.py`, Transcription surface, `provenance` (schema 0.2.0) | drawing → candidates → record, every gap named | Complete (WP-5.5); wall topology and OCR deliberately out |
 | Evidence | `assets/manifest.json` | 322 wanted, **0 sourced** | Records only — WP-4.4 |
 | Governance | `docs/open-questions.md` | 37 items | OQ 27, 29, 30, 31, 32–34, 36, 37 + `hybridizes_with` live |
-| Checks | `build/check_all.py` | 24 checks (CAD + solver selftests may report COULD NOT EVALUATE) | All pass |
-| Checks | `tests/` | **330 tests, 19 files** | All pass; one run, ~2.5 min (OQ 28 fixed); no CI |
+| Checks | `build/check_all.py` | 25 checks (CAD + solver selftests may report COULD NOT EVALUATE; the workbench server suite is the 25th) | All pass |
+| Checks | `tests/` | **340 tests, 20 files** | All pass; no CI |

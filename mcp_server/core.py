@@ -742,7 +742,7 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     """Place room rectangles in a footprint. Both levels are solved together.
     engine: "auto" (CP-SAT when available — WP-2.3's real solver, with named
     conflict sets), "cp", or "heuristic" (the fast hill-climb; what the
-    workbench uses per edit gesture, where a 15 s proof per wall drag would
+    workbench uses per edit gesture, where a ~25 s proof per wall drag would
     make the surface unusable — proving is an explicit act there)."""
     geo = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     pt = None

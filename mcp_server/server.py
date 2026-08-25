@@ -246,7 +246,8 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False) -
     return J(core.compose(brief, candidates, include_plans))
 
 @mcp.tool()
-def tdl_place_plan(plan: dict, parti: str = "", candidates: int = 250, svg_path: str = "") -> str:
+def tdl_place_plan(plan: dict, parti: str = "", candidates: int = 250, svg_path: str = "",
+                   engine: str = "auto") -> str:
     """Place room rectangles in a footprint and return coordinates, both levels solved together.
 
     Bay-grid slicing: rooms snap to the parti's structural bay module, because traditional houses
@@ -259,8 +260,11 @@ def tdl_place_plan(plan: dict, parti: str = "", candidates: int = 250, svg_path:
     unsupported. When rooms will not fit, the footprint grows a bay before any room is compromised.
 
     Pass svg_path to also write a drawing. The drawing is a render of the coordinates, never the
-    source of them. Returns coordinates in feet, origin at the south-west corner."""
-    return J(core.place_plan(plan, parti or None, candidates, svg_path or None))
+    source of them. Returns coordinates in feet, origin at the south-west corner.
+
+    engine: "auto" (CP-SAT proof when OR-Tools is available, heuristic fallback stated),
+    "cp" (prove or refuse — a ~25s solve), or "heuristic" (the fast hill-climb)."""
+    return J(core.place_plan(plan, parti or None, candidates, svg_path or None, engine=engine))
 
 if __name__ == "__main__":
     mcp.run()

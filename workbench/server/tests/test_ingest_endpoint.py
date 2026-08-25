@@ -63,4 +63,6 @@ def test_tdl_sheet_returns_the_complete_record(client):
 def test_unreadable_dxf_is_a_stated_422(client):
     r = client.post("/api/ingest/dxf", json={"dxf": "this is not a dxf"})
     assert r.status_code == 422
-    assert "error" in r.json()["detail"]
+    # THE unreadable-file message, not any 422 (the ambiguous-units refusal
+    # would otherwise satisfy this test)
+    assert "could not read DXF" in r.json()["detail"]["error"]

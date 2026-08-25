@@ -62,8 +62,10 @@ def test_dxf_export_writes_the_named_sheets(dxf_sets):
             assert "error" not in sheet, (rel, kind, sheet)
             assert os.path.exists(sheet["path"])
         # the elevation may be a stated refusal for a style outside the
-        # classical-front family — but never a silent absence
+        # classical-front family — but never a silent absence. BOTH check
+        # plans are classical fronts, so for them a refusal is a regression
         assert "elevation" in res["sheets"]
+        assert "error" not in res["sheets"]["elevation"], (rel, res["sheets"]["elevation"])
 
 
 def test_dxf_round_trip_record_is_exact(dxf_sets):
@@ -176,6 +178,14 @@ def test_ifc_spaces_are_the_placed_rooms(ifc_models):
         space_ids = {(uel.get_psets(s).get("TDL") or {}).get("tdl_id")
                      for s in g.by_type("IfcSpace")}
         assert space_ids and space_ids <= room_ids
+        # equality with the PLACED set, not mere subset — an exporter that
+        # drops all but one space would otherwise pass. The exporter's own
+        # placement is the deterministic (and cached) heuristic solve.
+        GEO = mc.load("geometry", os.path.join(BUILD, "geometry.py"))
+        solved = GEO.solve(copy.deepcopy(plan), engine="heuristic")
+        placed_ids = {r["id"] for lv in solved["levels"]
+                      for r in lv["rooms"] if r.get("geometry")}
+        assert space_ids == placed_ids, (rel, placed_ids ^ space_ids)
 
 
 def test_ifc_unjudged_pitch_is_a_note_not_a_solid(ifc_models):

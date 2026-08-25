@@ -557,7 +557,10 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
 
 _SOLVE_CACHE = {}
 
-def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=15.0):
+def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=25.0):
+    # 25 s default, not 15: both reference plans need ~20-30 s of CP — a budget
+    # that can never finish them makes "auto" a tax that always ships the
+    # heuristic anyway (found in the WP-2.3 audit)
     """The placement entry point every consumer calls (WP-2.3 dispatcher).
 
     engine="auto" (default): the CP-SAT engine (build/geometry_cp.py) when
@@ -574,9 +577,21 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=
     Results are memoized per process (deep-copied out) because the
     structure→roof→elevation chain and the test suite solve the same record
     many times over, and a CP solve is not free the way the slicer was.
+    Read the RETURNED record — on a cache hit the argument is left untouched,
+    so the old solve-then-read-the-argument idiom is unreliable now.
+
+    time_limit_s is a target, not a hard wall: the CP phases carry small
+    minimum budgets so a retry is never starved, and a 15 s limit can take
+    ~20 s of wall clock on a hard record before falling back.
     """
+    if engine not in ("auto", "cp", "heuristic"):
+        return {"error": f"unknown engine {engine!r} — one of auto, cp, heuristic",
+                "unsolved": True}
+    # the parti's CONTENT keys the cache, not its id: an id-less parti stub
+    # (tests build them) or two partis sharing an id must never collide
     key = (json.dumps(plan, sort_keys=True, default=str),
-           (parti or {}).get("id"), candidates, seed, engine, time_limit_s)
+           json.dumps(parti, sort_keys=True, default=str) if parti else None,
+           candidates, seed, engine, time_limit_s)
     hit = _SOLVE_CACHE.get(key)
     if hit is not None:
         return copy.deepcopy(hit)
@@ -595,7 +610,10 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
         return out
 
     try:
-        import ortools  # noqa: F401 — availability probe only
+        # probe the exact import the engine needs — a broken or partial
+        # install where `import ortools` succeeds but the sat module is
+        # missing must take the honest fallback, not crash mid-solve
+        from ortools.sat.python import cp_model  # noqa: F401 — probe only
         cp_available = True
     except ImportError:
         cp_available = False
@@ -629,6 +647,13 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
         out["geometry_report"]["infeasible"] = res["infeasible"]
         return out
     if res.get("unsolved"):
+        if engine == "cp":
+            # forced-cp means PROVE or refuse — quietly shipping the heuristic
+            # placement would let the "prove" button return an unproven drawing
+            return {"error": f"could not solve with CP-SAT in {time_limit_s:.0f}s "
+                             f"({res.get('status', '?')}) — no placement was proven; "
+                             f"engine=\"auto\" falls back to the heuristic and says so",
+                    "unsolved": True, "status": res.get("status")}
         out = solve_heuristic(plan, parti, candidates, seed)
         if "error" not in out:
             out["geometry_report"]["solver"] = {

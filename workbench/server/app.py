@@ -229,18 +229,33 @@ def example_plan(name: str):
                                     "detail": str(e)[:200]})
 
 
+def _candidates(body, default=250, cap=2000):
+    """Clamp the search width: it multiplies a full placement loop, so an
+    unbounded value is a self-inflicted denial of service on a local tool."""
+    try:
+        return max(1, min(cap, int(body.get("candidates", default))))
+    except (TypeError, ValueError):
+        return default
+
+
 # ----------------------------------------------------------------- the workbench loop
 @app.post("/api/plan/evaluate")
 def plan_evaluate(body: dict = Body(...)):
     plan = body.get("plan")
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    engine = body.get("engine", "heuristic")
+    if engine not in ("heuristic", "cp", "auto"):
+        # anything unrecognized would silently take the auto->CP branch and
+        # burn a 15s+ solve on a typo — refuse it, stated
+        raise HTTPException(status_code=422, detail={
+            "error": f"unknown engine {engine!r} — one of heuristic, cp, auto"})
     return evaluate.evaluate(plan,
                              strict=bool(body.get("strict", False)),
                              place=bool(body.get("place", True)),
                              parti=body.get("parti"),
-                             candidates=int(body.get("candidates", 250)),
-                             engine=body.get("engine", "heuristic"))
+                             candidates=_candidates(body),
+                             engine=engine)
 
 
 # ----------------------------------------------------------------- compose jobs
@@ -283,7 +298,7 @@ def drawings(kind: str, body: dict = Body(...)):
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
     res = corpus.drawing(kind, plan, parti=body.get("parti"), face=body.get("face"),
-                         candidates=int(body.get("candidates", 250)))
+                         candidates=_candidates(body))
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
     return res
@@ -296,11 +311,11 @@ def export_cad(fmt: str, body: dict = Body(...)):
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
     res = corpus.export_cad(fmt, plan, kind=body.get("kind"), parti=body.get("parti"),
-                            face=body.get("face"), candidates=int(body.get("candidates", 250)))
+                            face=body.get("face"), candidates=_candidates(body))
     if "error" in res:
-        # 501 for the honest missing-library refusal, 422 for everything else —
-        # the client shows the stated reason either way
-        raise HTTPException(status_code=501 if res.get("unexported") else 422, detail=res)
+        # 501 ONLY for the honest missing-library refusal ("refusal" marks it);
+        # a plan the solver refused is a 422 failure, not a missing capability
+        raise HTTPException(status_code=501 if res.get("refusal") else 422, detail=res)
     return res
 
 
@@ -312,9 +327,10 @@ def ingest_dxf(body: dict = Body(...)):
         raise HTTPException(status_code=422, detail={"error": "body.dxf (the file's text) is required"})
     res = corpus.ingest_dxf(dxf, units=body.get("units"))
     if "error" in res:
-        # 501 for the missing-library refusal; 422 for an unreadable file or
-        # ambiguous units — either way the reason is stated, not swallowed
-        code = 501 if "not installed" in res.get("error", "") else 422
+        # 501 for the missing-library refusal (marked "refusal" by the
+        # extractor); 422 for an unreadable file or ambiguous units — either
+        # way the reason is stated, not swallowed
+        code = 501 if res.get("refusal") else 422
         raise HTTPException(status_code=code, detail=res)
     return res
 
@@ -342,7 +358,10 @@ if os.path.isdir(APP_DIST):
 
     @app.get("/{path:path}")
     def spa(path: str):
-        candidate = os.path.join(APP_DIST, path)
-        if path and os.path.isfile(candidate):
+        # realpath containment: browsers normalize ../ but a raw client does
+        # not — without this the catch-all serves any file on disk
+        candidate = os.path.realpath(os.path.join(APP_DIST, path))
+        root = os.path.realpath(APP_DIST)
+        if path and candidate.startswith(root + os.sep) and os.path.isfile(candidate):
             return FileResponse(candidate)
         return FileResponse(os.path.join(APP_DIST, "index.html"))

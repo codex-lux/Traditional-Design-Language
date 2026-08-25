@@ -50,6 +50,9 @@ def _load(rel):
 def test_solved_fixture_hard_facts_hold_exactly():
     res = GC.solve_cp(GC._feasible_fixture(), time_limit_s=25)
     assert "best" in res, res
+    assert res["solver"]["downgraded_wall_pins"] == [], \
+        "the fixture's declared walls are satisfiable — a downgrade here means " \
+        "the solver is softening without proof"
     g = res["best"]["ground"]
     H = res["fpd"]["H"]
     px, py, pw, ph = g["porch"]
@@ -88,14 +91,26 @@ def test_k5_door_graph_is_a_named_proven_conflict():
 def test_check_plans_solve_with_stated_downgrades():
     """The corpus's exposure idiom: both check plans solve, and every wall pin
     the solver had to read as massing is STATED in refinements — never silent."""
-    for rel in ("plans/tidewater-georgian-careful.json",
-                "plans/spec-builder-colonial.json"):
-        out = GEO.solve(_load(rel), time_limit_s=30)
+    for rel, max_downgrades in (("plans/tidewater-georgian-careful.json", 8),
+                                ("plans/spec-builder-colonial.json", 8)):
+        # 60s: engine identity near the budget edge is wall-clock-dependent
+        # (a loaded machine turns a 30s OPTIMAL into UNKNOWN → heuristic
+        # fallback) — the budget here buys the assertion its determinism
+        out = GEO.solve(_load(rel), time_limit_s=60)
         gr = out["geometry_report"]
         assert gr["solver"]["engine"] == "cp-sat", (rel, gr["solver"])
         assert not gr.get("infeasible"), rel
         assert gr["solver"]["refinements"], \
             f"{rel}: the wing-massing walls must be stated, not silently softened"
+        pins = gr["solver"]["downgraded_wall_pins"]
+        assert pins, f"{rel}: these plans NEED downgrades to solve — zero means " \
+                     f"the model stopped enforcing walls at all"
+        assert len(pins) <= max_downgrades, \
+            f"{rel}: {len(pins)} downgrades — more than the proven conflicts " \
+            f"require; downgrade-without-proof is the failure this pin exists for"
+        assert gr["relaxations"]["count"] > 0, \
+            f"{rel}: the CP path must still COUNT its off-bay cuts (decision: " \
+            f"relaxations are counted, never silently absorbed)"
 
 
 def test_dispatcher_infeasible_returns_conflicts_plus_labelled_drawing():
@@ -123,12 +138,57 @@ def test_without_ortools_the_fallback_says_so(monkeypatch):
 
     monkeypatch.setattr(builtins, "__import__", block)
     GEO._SOLVE_CACHE.clear()
-    out = GEO.solve(_load("plans/tidewater-georgian-careful.json"))
-    assert out["geometry_report"]["solver"]["engine"] == "heuristic"
-    assert "ortools is not installed" in out["geometry_report"]["solver"]["reason"]
-    ref = GEO.solve(_load("plans/tidewater-georgian-careful.json"), engine="cp")
-    assert ref.get("unsolved") and "could not solve" in ref["error"]
-    GEO._SOLVE_CACHE.clear()
+    try:
+        out = GEO.solve(_load("plans/tidewater-georgian-careful.json"))
+        assert out["geometry_report"]["solver"]["engine"] == "heuristic"
+        assert "ortools is not installed" in out["geometry_report"]["solver"]["reason"]
+        ref = GEO.solve(_load("plans/tidewater-georgian-careful.json"), engine="cp")
+        assert ref.get("unsolved") and "could not solve" in ref["error"]
+    finally:
+        # not just tidy-up: a heuristic-labelled result cached under the
+        # DEFAULT key would poison every later test file that solves this plan
+        GEO._SOLVE_CACHE.clear()
+
+
+def test_hard_fact_violations_counts_known_breaks():
+    """The benchmark's arbiter needs its own coverage: a hand-built placement
+    with one unreached declared wall, one door pair with no shared wall, and
+    the entry off its front must count exactly 3 — and 0 once the wall pin is
+    in the downgrade list and the placement otherwise repaired."""
+    plan = {"id": "hfv", "name": "HFV", "style": "tidewater-georgian",
+            "context": {"entrance_faces": "S"},
+            "levels": [{"id": "g", "index": 0, "rooms": [
+                {"id": "hall", "type": "entrance-hall", "width_ft": 8, "length_ft": 10,
+                 "exterior_walls": ["S"], "doors": [{"to": "exterior"}, {"to": "parlor"}]},
+                {"id": "parlor", "type": "parlor", "width_ft": 14, "length_ft": 16,
+                 "exterior_walls": ["W"], "doors": [{"to": "hall"}]},
+            ]}]}
+
+    def out_with(hall, parlor, pins=()):
+        return {"footprint": {"width_ft": 30.0, "depth_ft": 20.0},
+                "geometry_report": {"solver": {"downgraded_wall_pins": list(pins)}},
+                "levels": [{"index": 0, "rooms": [
+                    {"id": "hall", "geometry": dict(zip(("x_ft", "y_ft", "width_ft", "depth_ft"), hall))},
+                    {"id": "parlor", "geometry": dict(zip(("x_ft", "y_ft", "width_ft", "depth_ft"), parlor))},
+                ]}]}
+
+    # hall off the S front (entry violation + its S wall unreached), parlor off
+    # its W wall, and the two nowhere near sharing a wall: 4 violations
+    bad = out_with((10.0, 8.0, 8.0, 10.0), (20.0, 0.0, 10.0, 6.0))
+    assert GC.hard_fact_violations(plan, bad) == 4
+    # a placement honouring everything: hall on S at the W corner, parlor beside
+    # it sharing the full 10 ft edge, parlor's W wall via the hall? no — parlor
+    # needs W: put parlor at the W corner instead, hall to its E, still on S
+    good = out_with((14.0, 0.0, 8.0, 10.0), (0.0, 0.0, 14.0, 16.0))
+    assert GC.hard_fact_violations(plan, good) == 0
+    # the same bad wall pins, PROVEN downgraded, stop counting — but the door
+    # and entry breaks never do
+    assert GC.hard_fact_violations(plan, out_with(
+        (10.0, 8.0, 8.0, 10.0), (20.0, 0.0, 10.0, 6.0),
+        pins=("L0 hall S", "L0 parlor W"))) == 2
+    # extra_downgraded judges another engine's record against the same facts
+    assert GC.hard_fact_violations(plan, bad,
+                                   extra_downgraded=["L0 hall S", "L0 parlor W"]) == 2
 
 
 def test_same_record_same_drawing():
@@ -162,22 +222,23 @@ def test_cp_beats_or_out_honests_best_of_800_on_the_briefs(brief_rel):
     CO = mc.load("compose", os.path.join(BUILD, "compose.py"))
     brief = _load(brief_rel)
     res = CO.compose(copy.deepcopy(brief), candidates=4)
-    assert res["candidates"], brief_rel
-    placed = 0
+    assert len(res["candidates"]) == 4, brief_rel
+    placed = unsolved = 0
     for i, cand in enumerate(res["candidates"]):
         plan = cand["plan"]
         t0 = time.time()
         cp = GEO.solve(copy.deepcopy(plan), engine="cp", time_limit_s=58, candidates=800)
         elapsed = time.time() - t0
         assert elapsed < 75, f"{brief_rel} c{i}: {elapsed:.0f}s far past the 60s acceptance"
-        gr = cp.get("geometry_report", {})
-        if not (gr and gr.get("solver", {}).get("engine") == "cp-sat"):
-            # a candidate the engine could not place in budget fell back with
-            # the reason named — tolerated for at most one candidate per brief
-            # (the 25-room double-pile sits at the 60s edge on a loaded
-            # machine), never silently
-            assert gr and "reason" in gr.get("solver", {}), str(cp)[:200]
+        if cp.get("unsolved"):
+            # forced-cp refuses honestly when it cannot decide in budget —
+            # tolerated for AT MOST ONE candidate per brief (the 25-room
+            # double-pile sits at the 60s edge on a loaded machine)
+            unsolved += 1
+            assert unsolved <= 1, f"{brief_rel}: {unsolved} candidates undecided in budget"
             continue
+        gr = cp["geometry_report"]
+        assert gr["solver"]["engine"] == "cp-sat", (brief_rel, i, gr["solver"])
         placed += 1
         assert not gr.get("infeasible"), \
             f"{brief_rel} c{i} ({cand['parti']}): composed candidate proven infeasible: " \
@@ -187,7 +248,11 @@ def test_cp_beats_or_out_honests_best_of_800_on_the_briefs(brief_rel):
         heur = GEO.solve(copy.deepcopy(plan), engine="heuristic", candidates=800)
         hs = heur["geometry_report"]["score"]
         if gr["score"] > hs + 0.001:
-            hv = GC.hard_fact_violations(plan, heur)
+            # same facts for both engines: pins the CP engine PROVED impossible
+            # do not count against the heuristic either
+            hv = GC.hard_fact_violations(
+                plan, heur,
+                extra_downgraded=gr["solver"].get("downgraded_wall_pins"))
             assert hv > 0, \
                 f"{brief_rel} c{i} ({cand['parti']}): CP {gr['score']} vs best-of-800 {hs} " \
                 f"and the heuristic winner violates nothing — a real loss"

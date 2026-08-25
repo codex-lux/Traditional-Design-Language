@@ -65,6 +65,10 @@ C = GEO.C
 
 U = 1                     # 1-ft integer grid (coarse on purpose: domains half the size)
 MIN_DOOR_OVERLAP = 4      # 4 ft shared edge, above render_plan's 3.2 ft door test
+                          # (the programme-scaled branch can floor at 2 ft for a
+                          # closet pair — those doors hold as facts but fall
+                          # under the draw test; exporters state them, stated
+                          # in the WP-2.3 report)
 SCALE = 10                # objective weights are WP-2.2's, x10 into integers
 COVERAGE = 0.97           # hard floor; the absorb pass grows rooms into the rest
 
@@ -127,7 +131,8 @@ class _Reqs:
         return b
 
 
-def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True):
+def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
+           unproven=frozenset()):
     from ortools.sat.python import cp_model
     m = cp_model.CpModel()
     reqs = _Reqs(m)
@@ -226,11 +231,16 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True):
                 for wl in diag_ok:
                     key = (lvl, r["id"], wl)
                     if key in downgraded:
-                        # PROVEN unable to co-hold with the other declared facts —
-                        # exposure read as massing (a wing); scored, not forced
+                        # downgraded pins carry their proof status honestly:
+                        # "proven" only after the reinstatement pass tested THIS
+                        # pin alone at THIS footprint; a pin the budget never
+                        # re-proved says it was carried, never that it was proven
+                        how = ("carried from the conflict core — not individually "
+                               "re-proven in budget" if key in unproven else
+                               "proven — restored alone, no placement exists")
                         reqs.notes.append(
                             f"{r.get('name') or r['id']}'s declared {wl} wall could not "
-                            f"co-hold with the other declared facts (proven) — read as "
+                            f"co-hold with the other declared facts ({how}) — read as "
                             f"exposure in the massing, scored, not forced")
                         if objective:
                             b = m.NewBoolVar("")
@@ -506,39 +516,53 @@ def _hint_values(model, rooms, values):
         model.AddHint(v["h"], h)
 
 
-def _absorb(rects, W, H):
+def _absorb(rects, W, H, caps=None):
     """Grow rooms into the void the coverage floor allows, edges moving outward
     only — a pinned boundary edge is already at its boundary, and a shared edge
-    stops exactly at its neighbour, so nothing hard can break."""
+    stops exactly at its neighbour, so nothing hard can break. `caps` bounds
+    each room at the model's own size band (max area, sf): the solve PROVED
+    "rooms at program size", and un-capped absorption was found stretching a
+    2.8 sf linen press to 8 sf — a drawing quietly violating its own proof.
+    A cap can leave residual void; honest empty floor beats an inflated room."""
     ids = list(rects)
+    caps = caps or {}
     for _ in range(8):
         moved = False
         for rid in ids:
             x, y, w, h = rects[rid]
+            cap = caps.get(rid, float("inf"))
             lim = W
             for o, (ox, oy, ow, oh) in rects.items():
                 if o != rid and oy < y + h - 0.01 and y < oy + oh - 0.01 and ox >= x + w - 0.01:
                     lim = min(lim, ox)
             if lim - (x + w) > 0.01:
-                w = lim - x; moved = True
+                nw = min(lim - x, max(w, cap / max(h, 0.01)))
+                if nw - w > 0.01:
+                    w = nw; moved = True
             lim = H
             for o, (ox, oy, ow, oh) in rects.items():
                 if o != rid and ox < x + w - 0.01 and x < ox + ow - 0.01 and oy >= y + h - 0.01:
                     lim = min(lim, oy)
             if lim - (y + h) > 0.01:
-                h = lim - y; moved = True
+                nh = min(lim - y, max(h, cap / max(w, 0.01)))
+                if nh - h > 0.01:
+                    h = nh; moved = True
             lim = 0.0
             for o, (ox, oy, ow, oh) in rects.items():
                 if o != rid and oy < y + h - 0.01 and y < oy + oh - 0.01 and ox + ow <= x + 0.01:
                     lim = max(lim, ox + ow)
             if x - lim > 0.01:
-                w += x - lim; x = lim; moved = True
+                nw = min(w + (x - lim), max(w, cap / max(h, 0.01)))
+                if nw - w > 0.01:
+                    x -= nw - w; w = nw; moved = True
             lim = 0.0
             for o, (ox, oy, ow, oh) in rects.items():
                 if o != rid and ox < x + w - 0.01 and x < ox + ow - 0.01 and oy + oh <= y + 0.01:
                     lim = max(lim, oy + oh)
             if y - lim > 0.01:
-                h += y - lim; y = lim; moved = True
+                nh = min(h + (y - lim), max(h, cap / max(w, 0.01)))
+                if nh - h > 0.01:
+                    y -= nh - h; h = nh; moved = True
             rects[rid] = (round(x, 2), round(y, 2), round(w, 2), round(h, 2))
         if not moved:
             break
@@ -599,7 +623,8 @@ def _values(solver, rooms):
             for key, v in rooms.items()}
 
 
-def _solve_assuming(plan, prep, fpd, ewalls, texts, time_s, downgraded=frozenset()):
+def _solve_assuming(plan, prep, fpd, ewalls, texts, time_s, downgraded=frozenset(),
+                    seed=7):
     """One fresh hard-only model asserting only the named requirements;
     returns (status, sufficient-core-texts-or-None)."""
     from ortools.sat.python import cp_model
@@ -610,6 +635,7 @@ def _solve_assuming(plan, prep, fpd, ewalls, texts, time_s, downgraded=frozenset
     s = cp_model.CpSolver()
     s.parameters.max_time_in_seconds = time_s
     s.parameters.num_search_workers = 1
+    s.parameters.random_seed = seed  # the same infeasible record names the same conflicts
     st = s.Solve(model)
     core = None
     if st == cp_model.INFEASIBLE:
@@ -642,6 +668,7 @@ def _extract_conflicts(plan, prep, fpd, ewalls, budget_s=20.0, seed_core=None,
         s = cp_model.CpSolver()
         s.parameters.max_time_in_seconds = max(2.0, budget_s / 3)
         s.parameters.num_search_workers = 1
+        s.parameters.random_seed = 7
         if s.Solve(model) != cp_model.INFEASIBLE:
             return None, False
         idx = set(s.SufficientAssumptionsForInfeasibility())
@@ -666,12 +693,15 @@ def _extract_conflicts(plan, prep, fpd, ewalls, budget_s=20.0, seed_core=None,
         if len(kept) <= 1:
             break
         # 1.5s cap: a drop that stays infeasible usually proves fast; a keep
-        # unproven in time simply stays kept (the safe direction)
+        # unproven in time simply stays kept (the safe direction) — but an
+        # UNKNOWN keep is not a PROVEN keep, so it clears the minimized flag
         st, _ = _solve_assuming(plan, prep, fpd, ewalls, set(kept) - {t},
                                 min(1.5, max(0.5, deadline - time.monotonic())),
                                 downgraded)
         if st == cp_model.INFEASIBLE:
             kept.remove(t)
+        elif st == cp_model.UNKNOWN:
+            minimized = False
     conflicts = kept or \
         ["the rooms cannot tile any footprint this parti and lot allow, even with "
          "every declared requirement dropped — the programme is too large for the diagram"]
@@ -697,6 +727,11 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
     if "error" in fpd0:
         return {"error": fpd0["error"]}
     fpd0 = _snap_fpd(fpd0)
+    if fpd0["H"] < 1 or fpd0["W"] < 1:
+        # a sub-1-ft dimension rounds to an empty integer model, whose
+        # "infeasible" would be a statement about the rounding, not the plan
+        return {"error": f"footprint degenerate at {fpd0['W']} x {fpd0['H']} ft — "
+                         f"too small to model on the 1 ft grid", "unsolved": True}
     ewalls = GEO.entrance_walls(plan)
     started = time.monotonic()
 
@@ -717,12 +752,49 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         attempts.append((tag, "A:" + solver.StatusName(status)))
         return status, solver, rooms, reqs
 
+    def _reinstate(fpd, vals):
+        """A solver core is SUFFICIENT, not minimal — the round loop downgrades
+        every wall pin the core names, which over-softens (both walls of one
+        room have ridden in one core). So: restore each downgraded pin ALONE,
+        at the footprint actually being drawn. Feasible → the downgrade was
+        never needed; the pin returns to being a hard fact. INFEASIBLE → that
+        is the pin's own proof, at this footprint. UNKNOWN or budget out →
+        the downgrade stays but is stated as carried, never as proven."""
+        unproven = set()
+        pending = sorted(downgraded)
+        for i, key in enumerate(pending):
+            remaining = time_limit_s - (time.monotonic() - started)
+            if remaining < 2.5:
+                unproven.update(k for k in pending[i:] if k in downgraded)
+                break
+            trial = frozenset(downgraded - {key})
+            model, rooms, _reqs2 = _build(plan, prep, fpd, ewalls, trial,
+                                          objective=False)
+            _hint_values(model, rooms, vals)
+            s = cp_model.CpSolver()
+            s.parameters.max_time_in_seconds = min(2.0, remaining - 0.5)
+            s.parameters.num_search_workers = 1
+            s.parameters.random_seed = seed
+            st = s.Solve(model)
+            attempts.append((f"restore L{key[0]} {key[1]} {key[2]}",
+                             "R:" + s.StatusName(st)))
+            if st in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+                downgraded.discard(key)
+                vals = _values(s, rooms)
+            elif st != cp_model.INFEASIBLE:
+                unproven.add(key)
+        return vals, unproven
+
     def _rects_scored(fpd, vals):
         rects_by_level = {}
         for (lvl, rid), (x, y, w, h) in vals.items():
             rects_by_level.setdefault(lvl, {})[rid] = (x / U, y / U, w / U, h / U)
         for lvl in rects_by_level:
-            rects_by_level[lvl] = _absorb(rects_by_level[lvl], fpd["W"], fpd["H"])
+            rs = prep.get(lvl) or []
+            fill = (fpd["W"] * fpd["H"]) / max(1.0, sum(r["_area"] for r in rs))
+            caps = {r["id"]: max(1.20, fill * 1.22) * r["_area"] for r in rs}
+            rects_by_level[lvl] = _absorb(rects_by_level[lvl], fpd["W"], fpd["H"],
+                                          caps=caps)
         relax = _count_relaxations(rects_by_level, fpd["W"], fpd["H"],
                                    fpd["bay"], fpd["tol"])
         sc = _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax)
@@ -751,6 +823,11 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         own placement (hard-clean). Every hard-valid placement is scored with
         the heuristic's own scorers and the BEST one is returned; the status
         says which. On a fully timed-out polish, A stands, scored post-hoc."""
+        unproven = set()
+        if downgraded:
+            # minimal, individually-proven downgrades at the footprint being
+            # drawn — the round loop's cores over-blame (see _reinstate)
+            valsA, unproven = _reinstate(fpd, valsA)
         remaining = time_limit_s - (time.monotonic() - started)
         candidates_out = [("hard-only phase A", valsA, statusA_name + " (hard-only)", None)]
         vals1, st1, obj1 = _polish(fpd, "heuristic", remaining * 0.55, "polish-h")
@@ -771,7 +848,7 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         best = {"ground": rects_by_level.get(0, {}), "upper": rects_by_level.get(1, {}),
                 "relaxations": relax, **sc}
         _, _, reqs_notes = _build(plan, prep, fpd, ewalls, frozenset(downgraded),
-                                  objective=False)
+                                  objective=False, unproven=frozenset(unproven))
         return {"best": best, "fpd": fpd, "levels": levels,
                 "solver": {"engine": "cp-sat", "status": status_name,
                            "objective": objective,
@@ -804,6 +881,11 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
             return _finish_feasible(fpd0, _values(solver, rooms),
                                     solver.StatusName(status))
         if status == cp_model.UNKNOWN:
+            return {"unsolved": True, "status": solver.StatusName(status),
+                    "attempts": attempts}
+        if status != cp_model.INFEASIBLE:
+            # MODEL_INVALID or anything else unexpected: an empty core from it
+            # would masquerade as a proof — refuse, stated, instead
             return {"unsolved": True, "status": solver.StatusName(status),
                     "attempts": attempts}
         idx = set(solver.SufficientAssumptionsForInfeasibility())
@@ -850,7 +932,7 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         "attempts": attempts}}
 
 
-def hard_fact_violations(plan, out):
+def hard_fact_violations(plan, out, extra_downgraded=None):
     """Count the hard facts a PLACEMENT violates: same-level declared doors with
     no drawable shared wall (render_plan's own 3.2 ft test), non-protruding
     declared walls unreached, the entry off its front. The heuristic trades
@@ -859,13 +941,23 @@ def hard_fact_violations(plan, out):
     cheaper score actually bought. `out` is a solved plan record. Wall pins the
     solver PROVED unable to co-hold (out's own downgraded_wall_pins, stated
     per the ruling) are not violations — they are the model's stated reading
-    of exposure-as-massing, and both engines leave them unreached alike."""
+    of exposure-as-massing, and both engines leave them unreached alike.
+    `extra_downgraded` takes another record's downgraded_wall_pins list so two
+    engines' placements of the SAME plan are judged against the SAME facts —
+    a heuristic record carries no downgrade list of its own, and charging it
+    for pins the CP engine PROVED impossible would rig the comparison."""
+    gr = out.get("geometry_report") or {}
+    pin_strings = list(((gr.get("solver") or {}).get("downgraded_wall_pins") or []))
+    # the proven-infeasible path carries its pins under infeasible, not solver
+    pin_strings += list(((gr.get("infeasible") or {}).get("downgraded_wall_pins") or []))
+    pin_strings += list(extra_downgraded or [])
     downgraded_keys = set()
-    for s in ((out.get("geometry_report") or {}).get("solver") or {}).get(
-            "downgraded_wall_pins", []):
+    for s in pin_strings:
+        # "L{level} {room-id} {wall}" — split from BOTH ends, because the
+        # schema puts no pattern on room ids and an ingested id may hold spaces
         parts = s.split(" ")
-        if len(parts) == 3 and parts[0].startswith("L"):
-            downgraded_keys.add((int(parts[0][1:]), parts[1], parts[2]))
+        if len(parts) >= 3 and parts[0].startswith("L"):
+            downgraded_keys.add((int(parts[0][1:]), " ".join(parts[1:-1]), parts[-1]))
     levels, prep = GEO.prep_rooms(plan)
     W = out["footprint"]["width_ft"]; H = out["footprint"]["depth_ft"]
     ewalls = GEO.entrance_walls(plan)
@@ -895,7 +987,9 @@ def hard_fact_violations(plan, out):
                         continue
                     at = {"S": y <= 0.6, "N": y + h >= H - 0.6,
                           "W": x <= 0.6, "E": x + w >= W - 0.6}.get(wl)
-                    if at is False:
+                    # not `is False`: an np.bool_ False from upstream floats
+                    # would silently uncount (the ezdxf lesson, WP-5.1)
+                    if at is not None and not at:
                         v += 1
             for d in (r.get("doors") or []):
                 to = d["to"]
