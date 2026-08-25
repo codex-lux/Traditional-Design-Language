@@ -243,6 +243,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "The gallery at its fullest -- two tiers, wrapping, up to 14 ft deep. `storey-graduation` holds primary here and the two packs meet at one member: the upper standard is usually a few inches shorter than the lower, which is storey graduation applied to a porch, and the pack's support-height rule says to read the two together on this node specifically. Bound secondary rather than primary because on this record the raising itself -- the whole ground storey given over to service and the piano nobile lifted clear of the flood -- is the governing move, and the gallery is what that move produces rather than what generates it.",
+      "precedence": 0
+    },
+    {
       "pack": "storey-graduation",
       "role": "primary",
       "note": "raised-creole-plantation is named directly in storey-graduation's own applies_to, and the pack's own 'GROUND STOREY UNDER A PIANO NOBILE' rule names 'raised Creole and raised cottage types' by name as one of its three worked cases — the single most directly-attested binding in this whole batch. The rule's inversion (ground storey markedly lower than the principal floor above it, ratio about 0.72) is exactly this variant's own section: an 8-10 ft masonry service storey under a 12-14 ft principal floor, reached by an exterior stair rather than an internal one.",

@@ -1,313 +1,319 @@
 {
- "id": "regency",
- "name": "Regency",
- "aka": [
-  "Late Georgian",
-  "Regency Classical",
-  "Nash style"
- ],
- "rank": "style",
- "member_of": "english-classical",
- "status": "historical",
- "period": {
-  "origin": 1790,
-  "floruit_start": 1800,
-  "floruit_end": 1837,
-  "decline_end": 1850,
-  "circa": true,
-  "revival_periods": [
-   {
-    "start": 1920,
-    "end": 1960,
-    "revival_node": null,
-    "note": "Regency Revival — the stuccoed, iron-balconied seaside and suburban manner of the interwar years, and the source of the American 'Regency Moderne' of the 1930s."
-   }
-  ]
- },
- "geography": {
-  "regions": [
-   "England",
-   "Scotland",
-   "Ireland",
-   "Wales"
+  "id": "regency",
+  "name": "Regency",
+  "aka": [
+    "Late Georgian",
+    "Regency Classical",
+    "Nash style"
   ],
-  "hearth": "Nash's London — Regent Street and the Regent's Park terraces — and the new resort towns of Brighton, Cheltenham, Leamington and Hove",
-  "climate_zones": [
-   "4C",
-   "5A"
-  ]
- },
- "lineage": [
-  {
-   "target": "english-georgian",
-   "type": "descends_from",
-   "weight": 0.8,
-   "inherits_kit": true,
-   "note": "Unbroken. The plan, the sash, the terrace, the leasehold building system and the trades are Georgian; Regency changes the surface, the roof line and the relation to the garden."
+  "rank": "style",
+  "member_of": "english-classical",
+  "status": "historical",
+  "period": {
+    "origin": 1790,
+    "floruit_start": 1800,
+    "floruit_end": 1837,
+    "decline_end": 1850,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1920,
+        "end": 1960,
+        "revival_node": null,
+        "note": "Regency Revival — the stuccoed, iron-balconied seaside and suburban manner of the interwar years, and the source of the American 'Regency Moderne' of the 1930s."
+      }
+    ]
   },
-  {
-   "target": "adam-style",
-   "type": "descends_from",
-   "weight": 0.6,
-   "inherits_kit": true,
-   "note": "The thinning of every profile, the attenuated order and the taste for shaped rooms carry straight through from the Adam office into the Regency generation."
+  "geography": {
+    "regions": [
+      "England",
+      "Scotland",
+      "Ireland",
+      "Wales"
+    ],
+    "hearth": "Nash's London — Regent Street and the Regent's Park terraces — and the new resort towns of Brighton, Cheltenham, Leamington and Hove",
+    "climate_zones": [
+      "4C",
+      "5A"
+    ]
   },
-  {
-   "target": "adam-style",
-   "type": "reacts_against",
-   "weight": 0.4,
-   "inherits_kit": false,
-   "note": "By the 1790s Adam's manner was being attacked as frippery and confectionery. The Greek turn is explicitly a demand for severity, mass and correctness against Adam's decorative delicacy."
-  },
-  {
-   "target": "greek-classical",
-   "type": "references",
-   "weight": 0.7,
-   "inherits_kit": false,
-   "note": "Quoted from measured drawings, not descended from. Stuart and Revett's Antiquities of Athens, from 1762 onward, made the baseless Greek Doric column and the anthemion available to men who had never been to Greece, and Regency uses them as motifs on wholly English plans."
-  },
-  {
-   "target": "french-neoclassical",
-   "type": "hybridizes_with",
-   "weight": 0.4,
-   "inherits_kit": false,
-   "note": "Directoire and Empire taste crosses the Channel through emigres, through Percier and Fontaine's plates, and through Thomas Hope's Household Furniture and Interior Decoration (1807). Regency interiors are as French as they are Greek."
-  }
- ],
- "description": {
-  "short": "Georgian construction rendered in stucco and opened to the garden: bow fronts, floor-length windows, cast-iron balconies under tented canopies, wide bracketed eaves, and Greek detail applied with a light hand.",
-  "long": "Regency is the moment the English house stops facing the street and starts facing the view. Almost everything structural is inherited — the brick carcass, the double-pile plan, the sash window, the terrace — but the priorities have shifted. Windows on the principal floor are taken down to the floor and turned into casements or long sashes opening onto a balcony, so that the drawing room and the garden become continuous; the front bows outward to catch a sea view or an oblique light; the roof, once hidden behind a parapet, comes out over the wall on brackets in a wide shallow overhang of Welsh slate. Underneath it all the brick is covered in stucco, ruled and lined to imitate ashlar and painted a pale stone colour. That last decision is the one everything else follows from: stucco is cheap, fast, moulds into any profile, and hides the fact that a magnificent terrace is a row of thin speculative shells.\n\nThe conditions are war, boom and leisure. The French wars cut off the Grand Tour and turned English travel inward, which built Brighton, Cheltenham, Leamington and Weymouth; peace and agricultural wealth after 1815 built the Regent's Park terraces; and the Prince Regent's own extravagance gave the period its name and its most conspicuous building. John Nash is the central figure not because he was the best architect of the period — Soane was, and knew it — but because he understood development. Regent Street, cut through London between 1811 and 1825, is simultaneously a piece of speculative real estate, a social boundary and a picturesque composition, and the Regent's Park terraces behind it dress rows of ordinary houses as single vast stuccoed palaces with giant orders and pediments. The trick is entirely scenographic and completely successful.\n\nWhat Regency reacted against was Adam's prettiness, and what it reached for was severity — the baseless Greek Doric column, the plain incised anthemion, the unmoulded architrave. But it reached for a great deal else at the same time. The same decades produce the Royal Pavilion at Brighton, which is Indian outside and Chinese inside; the cottage orne with its thatch, tree-trunk verandas and diamond casements; Egyptian, Etruscan and Gothic rooms in the same house. Regency is where British classicism stops being a system and becomes a menu, and the eclecticism of the whole Victorian century starts here.\n\nStanding in a Regency room is the first recognisably modern domestic experience in Britain. The window comes to the floor and the light is horizontal and abundant; you can walk out onto a balcony with a curved iron rail and a striped copper awning above it; the ceiling is plain or very lightly enriched; the walls are painted a strong flat colour; the furniture is light enough to be moved around the room rather than lined up against the walls. Outside, the stucco terrace works as a single wall of pale, softly modelled surface — bows, balconies and canopies casting shallow shadows — and it looks, correctly, like scenery. Nash was criticised in his own lifetime for building in lath and plaster; the buildings are still there, and still lovely, and still require repainting every few years."
- },
- "defining_characteristics": [
-  "Stuccoed walls, ruled and lined to imitate ashlar, painted in pale stone or cream, over a brick carcass",
-  "Bow, bay or canted fronts giving oblique views and modelling the terrace wall in shallow curves",
-  "Floor-length windows on the principal storey opening onto a cast-iron balcony, frequently under a tented copper canopy",
-  "Cast and wrought iron used as the principal ornament: balconies, verandas, railings, porches, in anthemion, lyre, heart and trellis patterns",
-  "Low-pitched hipped roofs of Welsh slate with wide overhanging eaves on plain or scrolled brackets, or alternatively a very shallow parapet",
-  "Greek rather than Roman detail, sparingly used: baseless Doric columns, incised anthemion and Greek key, unmoulded flat architraves",
-  "Very thin glazing bars, often with margin lights and occasionally coloured glass, and glazing patterns of 6-over-6, 3-over-6 or margin-light arrangements"
- ],
- "diagnostic_tells": [
-  "A cast-iron balcony with an ogee-tented copper hood over a floor-length window — the single most reliable Regency signature and one that appears in no earlier style",
-  "Stucco scored with ruled joints at the ground floor and left smooth above, so that a rendered wall imitates a rusticated base under ashlar",
-  "Wide eaves projecting 450-750 mm on brackets over a shallow slate roof, where Georgian would have a parapet or a modillion cornice tight to the wall",
-  "Glazing bars of 12-18 mm, thinner than anything before, sometimes with a narrow margin light framing the main panes",
-  "A Greek Doric porch with baseless, unfluted or partly fluted columns and a plain entablature, against the Roman Doric or Ionic doorcase of Georgian work"
- ],
- "distinguished_from": [
-  {
-   "node": "english-georgian",
-   "difference": "Material honesty is the dividing line. Georgian shows brick or ashlar and keeps its windows in the wall plane's discipline; Regency renders everything in stucco, bows the front, brings the windows to the floor, hangs ironwork on the facade and lets the eaves overhang. Georgian faces the street; Regency faces the garden."
-  },
-  {
-   "node": "adam-style",
-   "difference": "Adam is Roman, floral, polychrome and interior-driven; Regency is Greek, linear, pale and exterior-driven. Adam thins the Georgian moulding; Regency deletes it — a Regency architrave is often a plain flat band with a single incised line."
-  },
-  {
-   "node": "greek-revival-american",
-   "difference": "The American cousin takes the Greek quotation far more literally, with full temple fronts, heavy pedimented gables and columns of structural scale, usually in painted wood. Regency uses Greek detail as light incident on a stuccoed box and rarely builds a full portico."
-  }
- ],
- "proportional_system": {
-  "governing_logic": "Georgian proportional habits, loosened and lightened, with Greek orders used as motifs rather than as a generative module. Composition is increasingly scenographic — the terrace or the villa is designed for how it reads from a moving viewpoint in a landscape.",
-  "typical_ratios": [
-   "Ground-floor window 2:1 to 2.4:1 height to width, taken down to floor level; upper windows 1.6:1 to 1.8:1",
-   "Storey graduation retained: ground floor exceeds first by 10-15 percent, second floor 0.65-0.75 of the first",
-   "Eaves overhang 450-750 mm; roof pitch 22-30 degrees in slate",
-   "Bow front radius 3.5-6.0 m, projecting 0.6-1.2 m from the wall plane",
-   "Balcony depth 900-1200 mm, rail height 900-1050 mm",
-   "Greek Doric column height 6-7 diameters, baseless, with a plain unmoulded abacus"
+  "lineage": [
+    {
+      "target": "english-georgian",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Unbroken. The plan, the sash, the terrace, the leasehold building system and the trades are Georgian; Regency changes the surface, the roof line and the relation to the garden."
+    },
+    {
+      "target": "adam-style",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The thinning of every profile, the attenuated order and the taste for shaped rooms carry straight through from the Adam office into the Regency generation."
+    },
+    {
+      "target": "adam-style",
+      "type": "reacts_against",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "By the 1790s Adam's manner was being attacked as frippery and confectionery. The Greek turn is explicitly a demand for severity, mass and correctness against Adam's decorative delicacy."
+    },
+    {
+      "target": "greek-classical",
+      "type": "references",
+      "weight": 0.7,
+      "inherits_kit": false,
+      "note": "Quoted from measured drawings, not descended from. Stuart and Revett's Antiquities of Athens, from 1762 onward, made the baseless Greek Doric column and the anthemion available to men who had never been to Greece, and Regency uses them as motifs on wholly English plans."
+    },
+    {
+      "target": "french-neoclassical",
+      "type": "hybridizes_with",
+      "weight": 0.4,
+      "inherits_kit": false,
+      "note": "Directoire and Empire taste crosses the Channel through emigres, through Percier and Fontaine's plates, and through Thomas Hope's Household Furniture and Interior Decoration (1807). Regency interiors are as French as they are Greek."
+    }
   ],
-  "bay_rhythm": "Even Georgian spacing, interrupted by the bow, which usually occupies the centre of a villa front or one end of a terrace unit. At the largest scale — Nash's Regent's Park terraces — a whole row is composed as a palace with a giant-order centre and end pavilions, and the individual house disappears entirely.",
-  "symmetry": "near-symmetrical"
- },
- "massing_affinities": [
-  {
-   "massing": "townhouse-row",
-   "affinity": "canonical",
-   "note": "The stuccoed terrace, palace-fronted or bow-fronted, is the style's defining urban form."
+  "description": {
+    "short": "Georgian construction rendered in stucco and opened to the garden: bow fronts, floor-length windows, cast-iron balconies under tented canopies, wide bracketed eaves, and Greek detail applied with a light hand.",
+    "long": "Regency is the moment the English house stops facing the street and starts facing the view. Almost everything structural is inherited — the brick carcass, the double-pile plan, the sash window, the terrace — but the priorities have shifted. Windows on the principal floor are taken down to the floor and turned into casements or long sashes opening onto a balcony, so that the drawing room and the garden become continuous; the front bows outward to catch a sea view or an oblique light; the roof, once hidden behind a parapet, comes out over the wall on brackets in a wide shallow overhang of Welsh slate. Underneath it all the brick is covered in stucco, ruled and lined to imitate ashlar and painted a pale stone colour. That last decision is the one everything else follows from: stucco is cheap, fast, moulds into any profile, and hides the fact that a magnificent terrace is a row of thin speculative shells.\n\nThe conditions are war, boom and leisure. The French wars cut off the Grand Tour and turned English travel inward, which built Brighton, Cheltenham, Leamington and Weymouth; peace and agricultural wealth after 1815 built the Regent's Park terraces; and the Prince Regent's own extravagance gave the period its name and its most conspicuous building. John Nash is the central figure not because he was the best architect of the period — Soane was, and knew it — but because he understood development. Regent Street, cut through London between 1811 and 1825, is simultaneously a piece of speculative real estate, a social boundary and a picturesque composition, and the Regent's Park terraces behind it dress rows of ordinary houses as single vast stuccoed palaces with giant orders and pediments. The trick is entirely scenographic and completely successful.\n\nWhat Regency reacted against was Adam's prettiness, and what it reached for was severity — the baseless Greek Doric column, the plain incised anthemion, the unmoulded architrave. But it reached for a great deal else at the same time. The same decades produce the Royal Pavilion at Brighton, which is Indian outside and Chinese inside; the cottage orne with its thatch, tree-trunk verandas and diamond casements; Egyptian, Etruscan and Gothic rooms in the same house. Regency is where British classicism stops being a system and becomes a menu, and the eclecticism of the whole Victorian century starts here.\n\nStanding in a Regency room is the first recognisably modern domestic experience in Britain. The window comes to the floor and the light is horizontal and abundant; you can walk out onto a balcony with a curved iron rail and a striped copper awning above it; the ceiling is plain or very lightly enriched; the walls are painted a strong flat colour; the furniture is light enough to be moved around the room rather than lined up against the walls. Outside, the stucco terrace works as a single wall of pale, softly modelled surface — bows, balconies and canopies casting shallow shadows — and it looks, correctly, like scenery. Nash was criticised in his own lifetime for building in lath and plaster; the buildings are still there, and still lovely, and still require repainting every few years."
   },
-  {
-   "massing": "four-over-four",
-   "affinity": "canonical",
-   "note": "The Regency villa: a compact double-pile block with a hipped slate roof, wide eaves and a veranda, standing free in a small landscaped plot."
+  "defining_characteristics": [
+    "Stuccoed walls, ruled and lined to imitate ashlar, painted in pale stone or cream, over a brick carcass",
+    "Bow, bay or canted fronts giving oblique views and modelling the terrace wall in shallow curves",
+    "Floor-length windows on the principal storey opening onto a cast-iron balcony, frequently under a tented copper canopy",
+    "Cast and wrought iron used as the principal ornament: balconies, verandas, railings, porches, in anthemion, lyre, heart and trellis patterns",
+    "Low-pitched hipped roofs of Welsh slate with wide overhanging eaves on plain or scrolled brackets, or alternatively a very shallow parapet",
+    "Greek rather than Roman detail, sparingly used: baseless Doric columns, incised anthemion and Greek key, unmoulded flat architraves",
+    "Very thin glazing bars, often with margin lights and occasionally coloured glass, and glazing patterns of 6-over-6, 3-over-6 or margin-light arrangements"
+  ],
+  "diagnostic_tells": [
+    "A cast-iron balcony with an ogee-tented copper hood over a floor-length window — the single most reliable Regency signature and one that appears in no earlier style",
+    "Stucco scored with ruled joints at the ground floor and left smooth above, so that a rendered wall imitates a rusticated base under ashlar",
+    "Wide eaves projecting 450-750 mm on brackets over a shallow slate roof, where Georgian would have a parapet or a modillion cornice tight to the wall",
+    "Glazing bars of 12-18 mm, thinner than anything before, sometimes with a narrow margin light framing the main panes",
+    "A Greek Doric porch with baseless, unfluted or partly fluted columns and a plain entablature, against the Roman Doric or Ionic doorcase of Georgian work"
+  ],
+  "distinguished_from": [
+    {
+      "node": "english-georgian",
+      "difference": "Material honesty is the dividing line. Georgian shows brick or ashlar and keeps its windows in the wall plane's discipline; Regency renders everything in stucco, bows the front, brings the windows to the floor, hangs ironwork on the facade and lets the eaves overhang. Georgian faces the street; Regency faces the garden."
+    },
+    {
+      "node": "adam-style",
+      "difference": "Adam is Roman, floral, polychrome and interior-driven; Regency is Greek, linear, pale and exterior-driven. Adam thins the Georgian moulding; Regency deletes it — a Regency architrave is often a plain flat band with a single incised line."
+    },
+    {
+      "node": "greek-revival-american",
+      "difference": "The American cousin takes the Greek quotation far more literally, with full temple fronts, heavy pedimented gables and columns of structural scale, usually in painted wood. Regency uses Greek detail as light incident on a stuccoed box and rarely builds a full portico."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Georgian proportional habits, loosened and lightened, with Greek orders used as motifs rather than as a generative module. Composition is increasingly scenographic — the terrace or the villa is designed for how it reads from a moving viewpoint in a landscape.",
+    "typical_ratios": [
+      "Ground-floor window 2:1 to 2.4:1 height to width, taken down to floor level; upper windows 1.6:1 to 1.8:1",
+      "Storey graduation retained: ground floor exceeds first by 10-15 percent, second floor 0.65-0.75 of the first",
+      "Eaves overhang 450-750 mm; roof pitch 22-30 degrees in slate",
+      "Bow front radius 3.5-6.0 m, projecting 0.6-1.2 m from the wall plane",
+      "Balcony depth 900-1200 mm, rail height 900-1050 mm",
+      "Greek Doric column height 6-7 diameters, baseless, with a plain unmoulded abacus"
+    ],
+    "bay_rhythm": "Even Georgian spacing, interrupted by the bow, which usually occupies the centre of a villa front or one end of a terrace unit. At the largest scale — Nash's Regent's Park terraces — a whole row is composed as a palace with a giant-order centre and end pavilions, and the individual house disappears entirely.",
+    "symmetry": "near-symmetrical"
   },
-  {
-   "massing": "side-hall-double-pile",
-   "affinity": "common",
-   "note": "The standard terrace plan, unchanged from Georgian practice."
-  },
-  {
-   "massing": "gallery-house",
-   "affinity": "possible",
-   "note": "The full-width iron veranda, exported to and reimported from India and the colonies, makes the Regency villa a genuine gallery type in warm climates."
-  },
-  {
-   "massing": "massed-picturesque",
-   "affinity": "possible",
-   "note": "The castellated and Italianate villas of Nash and his contemporaries — Luscombe, Cronkhill — begin the picturesque asymmetrical house within an otherwise classical practice."
-  }
- ],
- "constraints": [
-  {
-   "kind": "co-occurrence",
-   "statement": "Stucco must be continuous over all visible elevations of a rendered mass, with ruled ashlar lining confined to the ground storey where a rusticated base is intended. Stucco on the front with bare brick returns is forbidden.",
-   "severity": "hard",
-   "id": "regency.c01",
-   "scope": "judgment"
-  },
-  {
-   "kind": "proportional",
-   "statement": "Principal-floor windows extend to within 150 mm of the finished floor and open onto a balcony or veranda not less than 900 mm deep. A floor-length window with no balcony is a hazard and a period error.",
-   "severity": "hard",
-   "id": "regency.c02",
-   "scope": "elevation",
-   "test": {
-    "expression": "balcony_depth_ft",
-    "direction": "at-least",
-    "threshold": 900,
-    "units": "mm",
-    "measurable_from": "elevation",
-    "note": "Tests the balcony/veranda depth clause. The window-to-floor gap (within 150mm) is the same statement's other numeric claim and stays prose."
-   }
-  },
-  {
-   "kind": "proportional",
-   "statement": "Glazing bars 12-18 mm. Heavier bars date the work to before 1780; the thin bar is what makes a Regency window read as a sheet of light.",
-   "severity": "hard",
-   "id": "regency.c03",
-   "scope": "elevation",
-   "test": {
-    "expression": "glazing_bar_width_in",
-    "direction": "between",
-    "threshold": 12,
-    "upper": 18,
-    "units": "mm",
-    "measurable_from": "elevation"
-   }
-  },
-  {
-   "kind": "structural",
-   "statement": "Where wide eaves are used they project 450-750 mm on visible brackets or a plain soffit, and the roof pitch stays between 22 and 30 degrees in slate. A steep roof under wide eaves belongs to the Italianate, forty years later.",
-   "severity": "soft",
-   "id": "regency.c04",
-   "scope": "elevation",
-   "test": {
-    "expression": "roof_slope_deg",
-    "direction": "between",
-    "threshold": 22,
-    "upper": 30,
-    "units": "deg",
-    "measurable_from": "elevation",
-    "note": "The eave-projection figure (450-750mm) stated in the same clause applies only 'where wide eaves are used' and is conditional, so it stays prose rather than being folded into this test."
-   }
-  },
-  {
-   "kind": "co-occurrence",
-   "statement": "Greek and Roman detail may not be mixed on one elevation. Exotic modes — Indian, Egyptian, Chinese, Gothic — are permitted but must be complete within a room or a whole building, never blended.",
-   "severity": "soft",
-   "id": "regency.c05",
-   "scope": "judgment"
-  }
- ],
- "exemplars": [
-  {
-   "name": "Cumberland Terrace",
-   "location": "Regent's Park, London, England",
-   "year": 1826,
-   "note": "Designed by John Nash and executed by James Thomson. A row of ordinary houses fronted as a single stuccoed palace with a giant Ionic order and a sculptured pediment — the scenographic method at full strength."
-  },
-  {
-   "name": "Royal Pavilion",
-   "location": "Brighton, England",
-   "year": 1823,
-   "note": "Remodelled by Nash 1815-23 for the Prince Regent from Henry Holland's earlier villa. Indian outside, Chinese inside, and structurally a cast-iron frame — the period's eclecticism and its technology in one building."
-  },
-  {
-   "name": "Park Crescent",
-   "location": "Marylebone, London, England",
-   "year": 1821,
-   "note": "Built 1806-21 by Nash. A semicircular stuccoed crescent with a continuous paired Ionic colonnade at ground level, and the hinge between Portland Place and Regent's Park."
-  },
-  {
-   "name": "Sir John Soane's Museum, 12-14 Lincoln's Inn Fields",
-   "location": "London, England",
-   "year": 1824,
-   "note": "Built and rebuilt by Soane for himself 1792-1824. The period's other pole: incised linear ornament, top-lit spaces, mirrors and shallow domes, and a classicism reduced almost to abstraction."
-  }
- ],
- "sources": [
-  "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
-  "John Summerson, The Life and Work of John Nash, Architect (1980)",
-  "Dan Cruickshank and Peter Wyld, Georgian Buildings of Britain and Ireland (1975)",
-  "Thomas Hope, Household Furniture and Interior Decoration (1807)",
-  "Nikolaus Pevsner et al., The Buildings of England (county volumes)"
- ],
- "confidence": "high",
- "tags": [
-  "stucco",
-  "greek-revival",
-  "ironwork",
-  "resort",
-  "picturesque-classical"
- ],
- "proportion_packs": [
-  {
-   "pack": "facade-classical",
-   "role": "facade",
-   "note": "Bound as the top-governing pack in place of an order, because this node's own governing_logic says so directly: 'Georgian proportional habits, loosened and lightened, with Greek orders used as motifs rather than as a generative module.' No order pack is bound primary or secondary on this node -- see the chambers-doric entry below for why. What actually generates a Regency elevation is the composition itself: the retained Georgian bay and pier discipline, now loosened to admit a bow or a canted front at the centre of a villa or the end of a terrace, and at the largest scale (Nash's Regent's Park terraces) a whole row composed as one palace-fronted scenographic object.",
-   "precedence": 1
-  },
-  {
-   "pack": "opening-proportion",
-   "role": "opening",
-   "note": "Governs the diagnostic proportion this node's own hard constraint c02 tests: principal-floor windows extending to within 150 mm of the finished floor, opening onto a balcony or veranda not less than 900 mm deep. A floor-length window with no balcony is, in this node's own words, 'a hazard and a period error' -- the constraint the pack exists to catch here.",
-   "precedence": 2
-  },
-  {
-   "pack": "sash-light",
-   "role": "opening",
-   "note": "Carries the thinnest glazing bars anywhere in this trunk -- 12-18 mm, against Adam's 16-20 and core Georgian's 25-32 -- per this node's own hard constraint c03, sometimes with margin lights and occasionally coloured glass at the edges of the main panes.",
-   "precedence": 3
-  },
-  {
-   "pack": "storey-graduation",
-   "role": "massing",
-   "note": "Retained but loosened from the trunk style's own figures: ground floor exceeds first by 10-15 percent here against Georgian's 10-20, second floor at 0.65-0.75 of the first against Georgian's 0.7-0.8 -- a shallower diminution consistent with a style that is softening every Georgian rule rather than replacing it.",
-   "precedence": 4
-  },
-  {
-   "pack": "trim-classical",
-   "role": "interior",
-   "note": "Governs the family the node's own distinguished_from entry describes as reduced nearly to a diagram: 'a Regency architrave is often a plain flat band with a single incised line' -- Adam thins the Georgian moulding, Regency deletes most of what is left of it, but it is still this family and not a different one; there is no separate Greek-linear trim pack in this corpus.",
-   "precedence": 5
-  },
-  {
-   "pack": "chambers-doric",
-   "role": "optional",
-   "authority": "chambers-doric",
-   "note": "NOT the style's real order, and bound only as the nearest available analogue -- flagged as a genuine gap. This node's own typical_ratios give exactly one order-specific figure, 'Greek Doric column height 6-7 diameters, baseless,' and its diagnostic_tells name 'a Greek Doric porch with baseless, unfluted or partly fluted columns and a plain entablature' as the single most reliable signature next to the iron balcony. That is Stuart and Revett's Grecian Doric after the Antiquities of Athens (1762), which this node's own lineage cites directly -- a different order-family entirely from the five Roman orders Vignola, Chambers, Gibbs and Palladio all overlay in this corpus. None of the 36 available packs encodes a Greek order. Chambers's Roman Doric is bound at low precedence and optional role only as the nearest available Roman-tradition cornice/proportion reference where a Regency design needs one; it should not be read as the porch order itself.",
-   "precedence": 6
-  },
-  {
-   "pack": "room-harmonic",
-   "role": "room",
-   "note": "The ratio system is retained, but this node's own long description states plainly what changes: 'the drawing room and the garden become continuous' through the floor-length window, so the room's proportion is increasingly negotiated against the opening onto the balcony rather than resolved as a closed box the way the Georgian trunk states it.",
-   "precedence": 7
-  },
-  {
-   "pack": "brick-course",
-   "role": "optional",
-   "authority": "brick-course",
-   "note": "The structural module survives entirely hidden: 'almost everything structural is inherited -- the brick carcass... but... the brick is covered in stucco, ruled and lined to imitate ashlar.' The coursing this pack governs is real and still sets the wall's dimensions; it is simply never seen.",
-   "precedence": 8
-  },
-  {
-   "pack": "greek-doric",
-   "role": "secondary",
-   "precedence": 9,
-   "authority": "greek-doric",
-   "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding. Regency's Greek Doric is the diagnostic order WP-4.1's PB-2 batch flagged as having no true pack; this is it."
-  }
- ]
+  "massing_affinities": [
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "The stuccoed terrace, palace-fronted or bow-fronted, is the style's defining urban form."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The Regency villa: a compact double-pile block with a hipped slate roof, wide eaves and a veranda, standing free in a small landscaped plot."
+    },
+    {
+      "massing": "side-hall-double-pile",
+      "affinity": "common",
+      "note": "The standard terrace plan, unchanged from Georgian practice."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "The full-width iron veranda, exported to and reimported from India and the colonies, makes the Regency villa a genuine gallery type in warm climates."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "possible",
+      "note": "The castellated and Italianate villas of Nash and his contemporaries — Luscombe, Cronkhill — begin the picturesque asymmetrical house within an otherwise classical practice."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "co-occurrence",
+      "statement": "Stucco must be continuous over all visible elevations of a rendered mass, with ruled ashlar lining confined to the ground storey where a rusticated base is intended. Stucco on the front with bare brick returns is forbidden.",
+      "severity": "hard",
+      "id": "regency.c01",
+      "scope": "judgment"
+    },
+    {
+      "kind": "proportional",
+      "statement": "Principal-floor windows extend to within 150 mm of the finished floor and open onto a balcony or veranda not less than 900 mm deep. A floor-length window with no balcony is a hazard and a period error.",
+      "severity": "hard",
+      "id": "regency.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "balcony_depth_ft",
+        "direction": "at-least",
+        "threshold": 900,
+        "units": "mm",
+        "measurable_from": "elevation",
+        "note": "Tests the balcony/veranda depth clause. The window-to-floor gap (within 150mm) is the same statement's other numeric claim and stays prose."
+      }
+    },
+    {
+      "kind": "proportional",
+      "statement": "Glazing bars 12-18 mm. Heavier bars date the work to before 1780; the thin bar is what makes a Regency window read as a sheet of light.",
+      "severity": "hard",
+      "id": "regency.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazing_bar_width_in",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 18,
+        "units": "mm",
+        "measurable_from": "elevation"
+      }
+    },
+    {
+      "kind": "structural",
+      "statement": "Where wide eaves are used they project 450-750 mm on visible brackets or a plain soffit, and the roof pitch stays between 22 and 30 degrees in slate. A steep roof under wide eaves belongs to the Italianate, forty years later.",
+      "severity": "soft",
+      "id": "regency.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "between",
+        "threshold": 22,
+        "upper": 30,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "The eave-projection figure (450-750mm) stated in the same clause applies only 'where wide eaves are used' and is conditional, so it stays prose rather than being folded into this test."
+      }
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Greek and Roman detail may not be mixed on one elevation. Exotic modes — Indian, Egyptian, Chinese, Gothic — are permitted but must be complete within a room or a whole building, never blended.",
+      "severity": "soft",
+      "id": "regency.c05",
+      "scope": "judgment"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Cumberland Terrace",
+      "location": "Regent's Park, London, England",
+      "year": 1826,
+      "note": "Designed by John Nash and executed by James Thomson. A row of ordinary houses fronted as a single stuccoed palace with a giant Ionic order and a sculptured pediment — the scenographic method at full strength."
+    },
+    {
+      "name": "Royal Pavilion",
+      "location": "Brighton, England",
+      "year": 1823,
+      "note": "Remodelled by Nash 1815-23 for the Prince Regent from Henry Holland's earlier villa. Indian outside, Chinese inside, and structurally a cast-iron frame — the period's eclecticism and its technology in one building."
+    },
+    {
+      "name": "Park Crescent",
+      "location": "Marylebone, London, England",
+      "year": 1821,
+      "note": "Built 1806-21 by Nash. A semicircular stuccoed crescent with a continuous paired Ionic colonnade at ground level, and the hinge between Portland Place and Regent's Park."
+    },
+    {
+      "name": "Sir John Soane's Museum, 12-14 Lincoln's Inn Fields",
+      "location": "London, England",
+      "year": 1824,
+      "note": "Built and rebuilt by Soane for himself 1792-1824. The period's other pole: incised linear ornament, top-lit spaces, mirrors and shallow domes, and a classicism reduced almost to abstraction."
+    }
+  ],
+  "sources": [
+    "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+    "John Summerson, The Life and Work of John Nash, Architect (1980)",
+    "Dan Cruickshank and Peter Wyld, Georgian Buildings of Britain and Ireland (1975)",
+    "Thomas Hope, Household Furniture and Interior Decoration (1807)",
+    "Nikolaus Pevsner et al., The Buildings of England (county volumes)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "stucco",
+    "greek-revival",
+    "ironwork",
+    "resort",
+    "picturesque-classical"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "Secondary. This record calls the cast-iron balcony under an ogee-tented copper hood 'the single most reliable Regency signature and one that appears in no earlier style', and pairs it with the floor-length window that makes it usable -- both are rules here. The finding this node contributes is that its balcony at 900-1200 mm deep is structurally the SAME THING as the Louisiana abat-vent at 30-48 in: both hung off a wall on rods or brackets with nothing under them, both landing in the same band, and neither record aware of the other. What the pack does not carry is the iron's pattern vocabulary -- the anthemion, lyre, heart and trellis this record names -- which is an ornament repertoire rather than a proportional system and stays on WP-4.1's candidate list. Nor the tented copper hood, which is a roof form and has no figures here.",
+      "precedence": 0
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Bound as the top-governing pack in place of an order, because this node's own governing_logic says so directly: 'Georgian proportional habits, loosened and lightened, with Greek orders used as motifs rather than as a generative module.' No order pack is bound primary or secondary on this node -- see the chambers-doric entry below for why. What actually generates a Regency elevation is the composition itself: the retained Georgian bay and pier discipline, now loosened to admit a bow or a canted front at the centre of a villa or the end of a terrace, and at the largest scale (Nash's Regent's Park terraces) a whole row composed as one palace-fronted scenographic object.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the diagnostic proportion this node's own hard constraint c02 tests: principal-floor windows extending to within 150 mm of the finished floor, opening onto a balcony or veranda not less than 900 mm deep. A floor-length window with no balcony is, in this node's own words, 'a hazard and a period error' -- the constraint the pack exists to catch here.",
+      "precedence": 2
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Carries the thinnest glazing bars anywhere in this trunk -- 12-18 mm, against Adam's 16-20 and core Georgian's 25-32 -- per this node's own hard constraint c03, sometimes with margin lights and occasionally coloured glass at the edges of the main panes.",
+      "precedence": 3
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Retained but loosened from the trunk style's own figures: ground floor exceeds first by 10-15 percent here against Georgian's 10-20, second floor at 0.65-0.75 of the first against Georgian's 0.7-0.8 -- a shallower diminution consistent with a style that is softening every Georgian rule rather than replacing it.",
+      "precedence": 4
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "Governs the family the node's own distinguished_from entry describes as reduced nearly to a diagram: 'a Regency architrave is often a plain flat band with a single incised line' -- Adam thins the Georgian moulding, Regency deletes most of what is left of it, but it is still this family and not a different one; there is no separate Greek-linear trim pack in this corpus.",
+      "precedence": 5
+    },
+    {
+      "pack": "chambers-doric",
+      "role": "optional",
+      "authority": "chambers-doric",
+      "note": "NOT the style's real order, and bound only as the nearest available analogue -- flagged as a genuine gap. This node's own typical_ratios give exactly one order-specific figure, 'Greek Doric column height 6-7 diameters, baseless,' and its diagnostic_tells name 'a Greek Doric porch with baseless, unfluted or partly fluted columns and a plain entablature' as the single most reliable signature next to the iron balcony. That is Stuart and Revett's Grecian Doric after the Antiquities of Athens (1762), which this node's own lineage cites directly -- a different order-family entirely from the five Roman orders Vignola, Chambers, Gibbs and Palladio all overlay in this corpus. None of the 36 available packs encodes a Greek order. Chambers's Roman Doric is bound at low precedence and optional role only as the nearest available Roman-tradition cornice/proportion reference where a Regency design needs one; it should not be read as the porch order itself.",
+      "precedence": 6
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "The ratio system is retained, but this node's own long description states plainly what changes: 'the drawing room and the garden become continuous' through the floor-length window, so the room's proportion is increasingly negotiated against the opening onto the balcony rather than resolved as a closed box the way the Georgian trunk states it.",
+      "precedence": 7
+    },
+    {
+      "pack": "brick-course",
+      "role": "optional",
+      "authority": "brick-course",
+      "note": "The structural module survives entirely hidden: 'almost everything structural is inherited -- the brick carcass... but... the brick is covered in stucco, ruled and lined to imitate ashlar.' The coursing this pack governs is real and still sets the wall's dimensions; it is simply never seen.",
+      "precedence": 8
+    },
+    {
+      "pack": "greek-doric",
+      "role": "secondary",
+      "precedence": 9,
+      "authority": "greek-doric",
+      "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding. Regency's Greek Doric is the diagnostic order WP-4.1's PB-2 batch flagged as having no true pack; this is it."
+    }
+  ]
 }

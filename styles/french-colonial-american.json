@@ -249,6 +249,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "The deepest of the three carrying regimes and the node that defines it. This record gives the galerie at 8-12 ft, up to 14 on the raised plantation house, carried on 'light colonnettes or masonry piers' -- and, crucially, that there is 'no interior corridor: rooms open directly into one another and onto the galerie through full-height French casement doors'. That is why the posted gallery's depth has no structural ceiling and a wide band: it is circulation as well as shade, so its depth is a corridor's plus a room's worth of shadow, and the record's 'at least eight feet' is a floor rather than an average. This node also supplies the pack's roof rule, which is a break-position finding of the same class as `dutch-gambrel`'s: 'main roof 40-50 degrees; galerie slope 20-30 degrees; break at the outer wall plane'. The break's POSITION is the rule, and a gallery roof carried down from the ridge at one pitch is a different building.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "primary",
       "note": "This is the style's own governing_logic in the pack's own words: 'the room as an independent, cross-ventilated cell — dimensioned by the reach of a breeze and the length of a hewn cypress beam, not by a facade module' is close to a paraphrase of room-vernacular's own module description ('dimensioned by... the depth daylight will carry from one window wall'). french-colonial-american is named directly in the pack's own applies_to. Its daylight_strategy rule (room depth capped at about 2 to 2.25 times the window head height, falling to about 1.8x behind a porch) is the direct mechanism behind this style's hard no-corridor, cross-ventilation constraint, and its own conflict note — that 'an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth,' answered historically by raising the storey — is a sourced explanation of why this style's ceilings run 11-14 ft rather than the 8 ft of a northern vernacular room.",

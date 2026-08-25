@@ -37,6 +37,11 @@ which is the argument that justified `greek-doric` too.
 (break point, slope ratio, eave kick)", confirmed by PB-1a and PB-6c. It carries TWO devices, not
 one, because the corpus's own records show they are independent -- and its central finding is that
 three style records give the break point three different ways and none of them says from where.
+
+`balcony-gallery` (third tranche) -- WP-4.1's "cast-iron/ironwork system", and the measurement said
+cast iron is not the system. The three nodes whose records talk about ironwork most are two Monterey
+variants and Regency, and the Monterey balcony is WOOD. What they share with the Creole galerie and
+the Italianate porch is a horizontal deck applied to a wall, carried one of three ways, with a rail.
 """
 import glob
 import json
@@ -904,3 +909,152 @@ def test_multiple_primary_bindings_are_an_established_pattern_not_an_accident():
             multi.append(d["id"])
     assert "charleston-georgian" in multi
     assert {"dutch-colonial-american", "new-jersey-dutch-gambrel"} <= set(multi)
+
+
+# ------------------------------------------------------------- balcony-gallery
+
+
+def test_the_system_is_the_balcony_and_not_the_iron():
+    """The measurement. Ranked by how much their records talk about ironwork the corpus puts two
+    Monterey variants and Regency at the top -- and the Monterey balcony is wood. So the pack is
+    named for the deck, not the material, and iron is one of the materials it is made in."""
+    p = pack("balcony-gallery")
+    assert "balcony" in p["name"].lower() and "iron" not in p["name"].lower()
+    assert "cast iron is not the system" in p["notes"]
+    mont = json.dumps(node("monterey-revival"))
+    assert "iron or turned-wood balcony rail" in mont
+
+
+def test_depth_follows_carrying_strategy_and_gets_three_rules_not_one():
+    """The central claim. Hung on brackets: 30-48 in. Cantilevered on the floor joists: 5-8 ft.
+    Posted to grade: 6-14 ft. The three bands barely overlap, and a designer who wants an 8 ft
+    Monterey balcony has to add posts and has thereby changed the style."""
+    rules = {(r["target_slot"], r["dimension"]): r for r in pack("balcony-gallery")["derived_rules"]}
+    bracket = rules[("eave_condition", "projection")]["range"]
+    cantilever = rules[("porch_depth", "projection")]["range"]
+    posted = rules[("porch_depth", "width")]["range"]
+    assert bracket == [30.0, 48.0]
+    assert cantilever == [60.0, 96.0]
+    assert posted[1] > cantilever[1] and posted[0] < cantilever[1]
+    assert bracket[1] < cantilever[0]          # the bracket regime does not reach the cantilever one
+
+
+def test_the_cantilever_ratio_is_a_structural_rule_the_corpus_states_as_a_proportion():
+    """`monterey-colonial` gives the balcony as 'roughly one-fifth to one-quarter of the building
+    depth'. That is the cantilever-to-backspan limit found by feel: the joists run the depth of the
+    house, so the balcony's backspan is the building, and one third is where uplift starts."""
+    r = next(x for x in pack("balcony-gallery")["derived_rules"]
+             if x["target_slot"] == "porch_depth" and x["dimension"] == "ratio")
+    assert r["range"] == [0.18, 0.33]
+    assert 0.20 <= float(r["expression"]) <= 0.25       # inside the corpus's own one-fifth to one-quarter
+    assert "one-fifth to one-quarter of the building depth" in json.dumps(node("monterey-colonial"))
+
+
+def test_two_traditions_give_the_bracket_regime_the_same_band_independently():
+    """A Louisiana abat-vent on iron rods and a Brighton cast-iron balconette look nothing alike and
+    are the same structure at the same depth. Neither record mentions the other."""
+    creole = json.dumps(node("creole-cottage-vernacular"))
+    regency = json.dumps(node("regency"))
+    assert "abat-vent projecting 30" in creole and "with no posts" in creole
+    assert "900-1200 mm" in regency or "900\u20131200" in regency
+    r = next(x for x in pack("balcony-gallery")["derived_rules"]
+             if x["target_slot"] == "eave_condition")
+    assert r["range"][0] <= 35.4 and r["range"][1] >= 47.2   # holds the metric Regency band too
+
+
+def test_the_floating_deck_is_held_as_a_ratio_so_thickening_it_costs_something():
+    """'The balcony floats' as a number: the deck projects more than ten times its own depth. A
+    designer who thickens the edge to hide a waterproof build-up and an insulated soffit watches
+    that fall toward four to one, and the style's diagnostic tell goes with it."""
+    p = pack("balcony-gallery")
+    j = next(m for m in p["assemblies"]["cantilever_edge"]["members"] if m["id"] == "joist_end")
+    assert j["projection_parts"] >= j["height_parts"] * 6
+    assert any("thin for its reach" in i["statement"] for i in p["invariants"])
+    assert "the balcony floats" in json.dumps(node("monterey-colonial"))
+
+
+def test_the_guard_conflict_gives_both_numbers_and_both_failures():
+    """The rail is too low AND the panel has holes in it, and the two need different answers. Square
+    pickets at a 4 in pitch pass the sphere rule; a cast anthemion panel does not, and the pack
+    refuses to redesign the pattern to make it."""
+    c = next(x for x in pack("balcony-gallery")["conflicts"] if x["with"] == "egress-code")
+    assert c["severity"] == "blocking"
+    assert "36 in" in c["statement"] and "4 in sphere" in c["statement"]
+    assert "never redesign the pattern" in c["resolution"].lower()
+    pitch = next(x for x in pack("balcony-gallery")["derived_rules"]
+                 if x["target_slot"] == "porch_rail" and x["dimension"] == "spacing")
+    width = next(x for x in pack("balcony-gallery")["derived_rules"]
+                 if x["target_slot"] == "porch_rail" and x["dimension"] == "width")
+    p = pack("balcony-gallery")
+    part_in = p["module"]["default_size_in"] / p["module"]["parts"]
+    gap = 1 * part_in - 0.44 * part_in                  # pitch less baluster section
+    assert gap < 4.0                                    # the historical picket railing already passes
+
+
+def test_the_galerie_roof_break_is_a_position_rule_like_the_gambrels():
+    """'Main roof 40-50 degrees; galerie slope 20-30 degrees; break at the outer wall plane.' The
+    break's POSITION is the rule, and a gallery roof carried down from the ridge at one pitch is a
+    different building -- the same class of finding as dutch-gambrel's."""
+    import math
+    r = next(x for x in pack("balcony-gallery")["derived_rules"]
+             if x["target_slot"] == "roof_pitch")
+    assert 20.0 <= math.degrees(math.atan(float(r["expression"]))) <= 30.0
+    assert "break at the outer wall plane" in json.dumps(node("french-colonial-american"))
+    assert "break at the outer wall plane" in r["authority_note"]
+
+
+def test_the_floor_length_window_is_stated_by_two_unrelated_traditions():
+    """It is what the balcony is for. Regency's sash goes to the floor so a person can walk out onto
+    the iron; the Creole casement pair does the same onto the galerie, and neither has heard of the
+    other."""
+    r = next(x for x in pack("balcony-gallery")["derived_rules"]
+             if x["target_slot"] == "special_window")
+    assert "Floor-length windows" in json.dumps(node("regency")) \
+        or "floor-length windows" in json.dumps(node("regency"))
+    assert "full-height French casement doors" in json.dumps(node("french-colonial-american"))
+    assert r["range"][0] >= 72.0
+
+
+def test_the_ornament_half_of_the_item_is_left_open():
+    """WP-4.1 asked for a cast-iron/ironwork system. This closes the dimensional half. The anthemion,
+    lyre, heart and trellis patterns, the New Orleans foliate panels and PB-6a's wrought grilles are
+    a pattern repertoire, not a proportional system -- left on the list on the same principle that
+    kept muqarnas out of moorish-arch."""
+    n = pack("balcony-gallery")["notes"]
+    assert "WHAT IS NOT CLOSED" in n
+    assert "anthemion" in n and "moorish-arch" in n
+    assert "muqarnas" in pack("moorish-arch")["notes"]
+
+
+def test_the_two_refusals_name_what_governs_instead():
+    """A Greek Revival plantation's two-tier gallery is a colonnade with entasis, which
+    benjamin-doric already governs and which italianate-american's own diagnostic explicitly
+    excludes. A Swiss chalet's Lauben is a real gallery and its own candidate item."""
+    p = pack("balcony-gallery")
+    for nid in ("greek-revival-southern-plantation", "swiss-chalet"):
+        assert nid not in p["applies_to"]
+        assert binding(nid, "balcony-gallery") is None, nid
+    assert "never classical columns with entasis" in json.dumps(node("italianate-american"))
+    assert binding("greek-revival-southern-plantation", "benjamin-doric") is not None
+
+
+def test_the_head_bracket_carries_the_same_warning_as_the_zapata():
+    """Both shorten a beam's span and turn a corner, and both survive into imitation as pure
+    decoration applied under a beam they are not carrying. Both packs hold them with an invariant."""
+    b = pack("balcony-gallery")
+    a = pack("adobe-module")
+    assert any("head bracket reaches" in i["statement"] for i in b["invariants"])
+    assert any("zapata" in i["expression"] for i in a["invariants"])
+    br = next(m for m in b["assemblies"]["standard"]["members"] if m["id"] == "head_bracket")
+    assert br["projection_parts"] >= 2.0
+
+
+def test_every_new_pack_in_this_package_binds_only_nodes_that_already_had_bindings():
+    """A coverage claim that would be false if any of these packs had been used to paper over an
+    unbound node. The count of bound nodes has not moved since WP-4.1's 131 for exactly that reason,
+    and the reports say so rather than presenting role coverage as node coverage."""
+    for pid in ("adobe-module", "opening-pointed", "opening-craftsman", "trim-prairie",
+                "dutch-gambrel", "balcony-gallery"):
+        for nid in pack(pid)["applies_to"]:
+            others = [e for e in node(nid)["proportion_packs"] if e["pack"] != pid]
+            assert others, (pid, nid)

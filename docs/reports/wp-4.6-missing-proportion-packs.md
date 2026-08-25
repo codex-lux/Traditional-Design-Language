@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: seven packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: eight packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -380,6 +380,63 @@ The **Low Countries gable grammar** — stepped, bell, neck, and the Cape Dutch 
 reduced by this pack and the notes say so: a gable profile is an elevation outline and a gambrel is a
 roof section, and nothing here helps with a holbol curve or a bell gable's shoulders.
 
+### `proportions/modules/balcony-gallery.json` — the measurement said cast iron is not the system
+
+WP-4.1 asks for "a cast-iron/ironwork system", named in the plan of action, with PB-6a additionally
+flagging wrought iron for the Spanish and Mediterranean revivals. **The measurement disagreed with
+the item's name.** Ranked by how much their own records talk about ironwork, the corpus puts
+`monterey-revival` (31 mentions), `monterey-colonial` (25) and `regency` (24) at the top — and **the
+Monterey balcony is wood.** What those three share with the Creole galerie and the Italianate porch
+is not a material: it is a horizontal deck applied to a wall, carried one of three ways, with a rail.
+So the pack is named for the deck and iron is one of the materials it is made in.
+
+**The central claim is that depth follows carrying strategy**, which is why the pack has three depth
+rules rather than one:
+
+| carried by | depth | who says so |
+|---|---|---|
+| rods or brackets, nothing beneath | **30–48 in** | `creole-cottage-vernacular`'s abat-vent and `regency`'s cast-iron balconette — the same band, stated independently, neither record aware of the other |
+| the floor joists, cantilevered | **5–8 ft** | `monterey-colonial` 5–7 ft, `monterey-revival` 6–8 ft |
+| posts to grade | **6–14 ft** | `french-colonial-american` 8–12 ft (14 on the raised house), `creole-cottage-vernacular` 6–10 ft |
+
+The bands barely overlap and the bracket regime does not reach the cantilever one at all. A designer
+who wants an eight-foot Monterey balcony has to add posts and has thereby changed the style — which
+both Monterey records say, one by insisting on "no posts, no brackets to the ground" and the other by
+recording that the revival added them.
+
+**A stylistic proportion that turns out to be a structural rule.** `monterey-colonial` gives the
+balcony as "roughly one-fifth to one-quarter of the building depth". The joists run the depth of the
+house and project past the wall, so the balcony's backspan *is* the building — and past about a third
+of a backspan, a cantilever is an uplift problem at the far support. The corpus's own ratio is that
+limit, found by feel and written down as a proportion. The pack states it as a ratio rule with the
+structural ceiling as the band's top.
+
+Two more findings: the **galerie roof break** is a position rule of the same class as
+`dutch-gambrel`'s — "main roof 40–50 degrees; galerie slope 20–30 degrees; **break at the outer wall
+plane**", so the gallery reads as a separate plane pinned to the building. And the **floor-length
+window** is stated independently by Regency (a sash to the floor, to walk out onto the iron) and by
+French Colonial (full-height casement pairs onto the galerie) — it is what the balcony is *for*, and
+a balcony served by a 30 in sill is a thing to look at from the street.
+
+**The guard conflict has two halves needing different answers.** IRC R312 wants 36 in and no 4 in
+opening; the historical rail is 30–34 in (Monterey) or 900–1050 mm (Regency, straddling the line).
+The square-picket railings already pass the sphere rule at a 4 in pitch — but a cast anthemion, lyre
+or trellis panel does not, almost anywhere in its pattern. The pack refuses to redesign the pattern
+to pass and says to back it with a secondary screen instead, because the pattern is the thing being
+reproduced.
+
+**Half the item is deliberately left open.** Cast iron as an **ornament vocabulary** — the anthemion,
+lyre, heart and trellis patterns `regency` names, the New Orleans foundries' foliate panels, and the
+wrought grilles and rejas PB-6a flagged — is a pattern repertoire and not a proportional system, and
+this pack has no figures for any of it beyond the panel's overall proportion. It stays on the
+candidate list with the other ornament items, on the same principle that kept muqarnas out of
+`moorish-arch`.
+
+**Two nodes considered and refused.** `greek-revival-southern-plantation`'s two-tier gallery is a
+colonnade with entasis, which `benjamin-doric` already governs and which `italianate-american`'s own
+diagnostic explicitly excludes ("never classical columns with entasis"). `swiss-chalet`'s Lauben
+balcony is a real gallery and a genuinely different system, already its own item on WP-4.1's list.
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -393,7 +450,7 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing: a **cast-iron system** (3 nodes), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
+still missing: a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
 also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
 **medieval/pre-Palladian English facade system** (new only in that two existing list items turn out
@@ -408,7 +465,8 @@ reached 9), the **opening half** of the Gothic Revival item (5 nodes, 3 of them 
 opening-role pack at all), and **both halves** of the Craftsman item — the opening system for 5 of the 7 nodes that had no
 opening-role pack (the other 2 refused for stated reasons), and the Prairie trim family, which
 binds one node and corrects a wrong binding rather than filling an empty role. Struck off by the
-third: the **Dutch gambrel roof module**, which the list scoped at 3 nodes and which reached 6.
+third: the **Dutch gambrel roof module**, which the list scoped at 3 nodes and reached 6, and the
+**dimensional half** of the cast-iron item, which reached 7 — its ornament half stays on the list.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -421,13 +479,15 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Second and third tranches: 22 checks green again. **43 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the five new
-packs bind 26 nodes but every one of them was already bound, so the count does not move and should
+Second and third tranches: 22 checks green again. **44 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the six new
+packs bind 33 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
-pack, plus one wrong interior binding corrected and a roof system that six nodes previously had
-nothing for, neither of which moves any count).
-`tests/test_wp46_packs.py` is now **96 tests**, and the suite as a whole 559. The pinned pack count in
+pack, plus one wrong interior binding corrected, a roof system six nodes previously had nothing for,
+and a threshold system seven nodes had nothing for, none of which moves any count). A test now pins
+that claim from the other direction: every node these six packs bind already had a binding, so none
+of them can have been used to paper over an unbound node.
+`tests/test_wp46_packs.py` is now **108 tests**, and the suite as a whole 571. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

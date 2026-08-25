@@ -3520,6 +3520,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "balcony-gallery",
+          "role": "primary",
+          "note": "Primary, because on this node the balcony is not a feature of the design -- it is the design. This record says the balcony 'runs the entire elevation without interruption' and that 'a partial or centred balcony is a different and lesser thing', gives the depth as 6-8 ft with the note that below six feet it 'fails as usable space and reads as trim', and places the balcony line so the lower mass reads as the heavier at roughly 55:45, with the material changing from stucco to siding exactly at the balcony floor line. All four are rules in this pack. The one thing to carry across from the parent is the difference this record itself names: 'a slender, almost thin balcony rail and posts, quite unlike the heavy iron of the parent style' -- a revival lighter than its parent, because it was building in wood on a coast where the parent imported iron, and the pack's support-width band spans both materials and must not be averaged.",
+          "precedence": 0
+        },
+        {
           "pack": "opening-proportion",
           "role": "opening",
           "note": "This style's own defining_characteristics list 'double-hung sash with operable shutters, panelled entry door, and trim drawn from Anglo-American rather than Spanish practice' outright, and its lineage records hybridizes_with colonial-revival at weight 0.6 with inherits_kit true. Bound for the door and window rectangle logic on that explicit, in-file textual basis -- this is the one node in the cluster where an Anglo classical-derived opening system is not a stretch but the style's own stated borrowing. Governs the sash and door proportions only; the balcony itself, which is this style's real governing datum, is not modeled by this or any pack in the corpus.",
@@ -9292,6 +9298,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "balcony-gallery",
+          "role": "secondary",
+          "note": "The deepest of the three carrying regimes and the node that defines it. This record gives the galerie at 8-12 ft, up to 14 on the raised plantation house, carried on 'light colonnettes or masonry piers' -- and, crucially, that there is 'no interior corridor: rooms open directly into one another and onto the galerie through full-height French casement doors'. That is why the posted gallery's depth has no structural ceiling and a wide band: it is circulation as well as shade, so its depth is a corridor's plus a room's worth of shadow, and the record's 'at least eight feet' is a floor rather than an average. This node also supplies the pack's roof rule, which is a break-position finding of the same class as `dutch-gambrel`'s: 'main roof 40-50 degrees; galerie slope 20-30 degrees; break at the outer wall plane'. The break's POSITION is the rule, and a gallery roof carried down from the ridge at one pitch is a different building.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "primary",
           "note": "This is the style's own governing_logic in the pack's own words: 'the room as an independent, cross-ventilated cell — dimensioned by the reach of a breeze and the length of a hewn cypress beam, not by a facade module' is close to a paraphrase of room-vernacular's own module description ('dimensioned by... the depth daylight will carry from one window wall'). french-colonial-american is named directly in the pack's own applies_to. Its daylight_strategy rule (room depth capped at about 2 to 2.25 times the window head height, falling to about 1.8x behind a porch) is the direct mechanism behind this style's hard no-corridor, cross-ventilation constraint, and its own conflict note — that 'an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth,' answered historically by raising the storey — is a sourced explanation of why this style's ceilings run 11-14 ft rather than the 8 ft of a northern vernacular room.",
@@ -9592,6 +9604,12 @@
         "mexican-california"
       ],
       "proportion_packs": [
+        {
+          "pack": "balcony-gallery",
+          "role": "secondary",
+          "note": "The balcony is this hybrid's other half, and it is the half `facade-classical` cannot reach. That pack holds primary and governs the Anglo upper storey's composition; `adobe-module` holds the ground storey's wall; this pack holds the thing pinned to the front of both. It supplies the figures this record already states -- balcony 5-7 ft deep at roughly one-fifth to one-quarter of the building depth, rail 30-34 in, baluster 1 1/2 to 2 in square at 4-5 in on centre -- and adds why they are those figures: the depth ratio is the cantilever-to-backspan limit found by feel, because the joists run the depth of the house and project past the wall. Read this node's own insistence that 'the balcony floats: no posts, no brackets to the ground' together with the pack's structural conflict, which says the same thing from the engineer's side and warns against the modern substitution of a bolted ledger.",
+          "precedence": 5
+        },
         {
           "pack": "adobe-module",
           "role": "secondary",
@@ -10182,6 +10200,12 @@
         "flood-adapted"
       ],
       "proportion_packs": [
+        {
+          "pack": "balcony-gallery",
+          "role": "secondary",
+          "note": "The gallery at its fullest -- two tiers, wrapping, up to 14 ft deep. `storey-graduation` holds primary here and the two packs meet at one member: the upper standard is usually a few inches shorter than the lower, which is storey graduation applied to a porch, and the pack's support-height rule says to read the two together on this node specifically. Bound secondary rather than primary because on this record the raising itself -- the whole ground storey given over to service and the piano nobile lifted clear of the flood -- is the governing move, and the gallery is what that move produces rather than what generates it.",
+          "precedence": 0
+        },
         {
           "pack": "storey-graduation",
           "role": "primary",
@@ -23778,6 +23802,12 @@
         "most-built"
       ],
       "proportion_packs": [
+        {
+          "pack": "balcony-gallery",
+          "role": "secondary",
+          "note": "Bound for the porch rather than for a balcony, and it is the node that supplies the pack's head-bracket rules. This record's own diagnostic is 'cast-iron or wooden porch posts with chamfered or turned shafts and scrolled brackets at the head, never classical columns with entasis' -- which is precisely the distinction that keeps this pack separate from every order pack in the library, and the reason `greek-revival-southern-plantation` was considered for this pack and refused: its two-tier gallery is a colonnade with entasis and `benjamin-doric` already governs it. This record also gives the bracket spacing at 24-48 in on centre 'with paired brackets at corners and at the ends of each bay', which is the corner problem solved by doubling rather than by contraction -- the opposite of what `greek-doric` records for the Doric triglyph.",
+          "precedence": 0
+        },
         {
           "pack": "facade-picturesque",
           "role": "facade",
@@ -39057,6 +39087,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "balcony-gallery",
+          "role": "secondary",
+          "note": "The node that shows both of the pack's lighter regimes side by side in one sentence: 'either a posted galerie 6-10 ft deep with a pitch break at the wall plane, or an abat-vent projecting 30-48 in on iron rods or brackets with no posts.' Those are two of the pack's three depth rules stated as alternatives on one building type, which is the clearest evidence in the corpus that depth follows carrying strategy rather than taste. The abat-vent band it gives is the same one `styles/regency.json` gives for its cast-iron balconette, independently.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "primary",
           "note": "creole-cottage-vernacular is named directly in the pack's own applies_to. The four-room square plan — no corridor, every room cross-ventilated, size set by breeze reach rather than ratio — is exactly this pack's own subject; its 'THE SQUARE CELL' rule (module by module, a base unit added and extended rather than proportioned, after Glassie's structural analysis of Virginia folk housing) describes this cottage's own room-by-room additive logic closely, even though Glassie's own fieldwork was Virginia rather than Louisiana.",
@@ -43641,6 +43677,12 @@
         "picturesque-classical"
       ],
       "proportion_packs": [
+        {
+          "pack": "balcony-gallery",
+          "role": "secondary",
+          "note": "Secondary. This record calls the cast-iron balcony under an ogee-tented copper hood 'the single most reliable Regency signature and one that appears in no earlier style', and pairs it with the floor-length window that makes it usable -- both are rules here. The finding this node contributes is that its balcony at 900-1200 mm deep is structurally the SAME THING as the Louisiana abat-vent at 30-48 in: both hung off a wall on rods or brackets with nothing under them, both landing in the same band, and neither record aware of the other. What the pack does not carry is the iron's pattern vocabulary -- the anthemion, lyre, heart and trellis this record names -- which is an ornament repertoire rather than a proportional system and stays on WP-4.1's candidate list. Nor the tented copper hood, which is a roof form and has no figures here.",
+          "precedence": 0
+        },
         {
           "pack": "facade-classical",
           "role": "facade",

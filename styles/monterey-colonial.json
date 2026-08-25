@@ -253,6 +253,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "The balcony is this hybrid's other half, and it is the half `facade-classical` cannot reach. That pack holds primary and governs the Anglo upper storey's composition; `adobe-module` holds the ground storey's wall; this pack holds the thing pinned to the front of both. It supplies the figures this record already states -- balcony 5-7 ft deep at roughly one-fifth to one-quarter of the building depth, rail 30-34 in, baluster 1 1/2 to 2 in square at 4-5 in on centre -- and adds why they are those figures: the depth ratio is the cantilever-to-backspan limit found by feel, because the joists run the depth of the house and project past the wall. Read this node's own insistence that 'the balcony floats: no posts, no brackets to the ground' together with the pack's structural conflict, which says the same thing from the engineer's side and warns against the modern substitution of a bolted ledger.",
+      "precedence": 5
+    },
+    {
       "pack": "adobe-module",
       "role": "secondary",
       "note": "Secondary, not primary, and the split is the whole point of this node. facade-classical governs the upper storey and the veranda, and stays primary: the Anglo-American frame floor really is composed to a classical module and its own record says so. This pack governs the storey underneath it -- the 24-30 in adobe ground floor whose deep undivided reveals this node's facade-classical binding note explicitly excludes from that module, referring the reader to 'the mass-wall gap noted on the parent spanish-colonial-american node.' That gap is now filled and the reference resolves. The two packs meet at the step-in of the wall plane at the second-floor line, which this record gives as 6-12 in and which is simply the difference between a 29 in adobe wall and a frame one sitting on it -- a joint between two proportioning systems made visible, and the reason this hybrid reads as a hybrid.",

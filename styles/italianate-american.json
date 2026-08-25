@@ -248,6 +248,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "Bound for the porch rather than for a balcony, and it is the node that supplies the pack's head-bracket rules. This record's own diagnostic is 'cast-iron or wooden porch posts with chamfered or turned shafts and scrolled brackets at the head, never classical columns with entasis' -- which is precisely the distinction that keeps this pack separate from every order pack in the library, and the reason `greek-revival-southern-plantation` was considered for this pack and refused: its two-tier gallery is a colonnade with entasis and `benjamin-doric` already governs it. This record also gives the bracket spacing at 24-48 in on centre 'with paired brackets at corners and at the ends of each bay', which is the corner problem solved by doubling rather than by contraction -- the opposite of what `greek-doric` records for the Doric triglyph.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Judgment binding: the pack's own applies_to names the italianate-villa child directly but not this parent style. Bound anyway because the parent's own proportional_system states its symmetry as 'balanced-asymmetrical' and its bay_rhythm as 'a constant bracket rhythm laid over a possibly irregular plan' - this pack's dominant-mass-with-subordinate-accents method, with the bracket line standing in for the accent hierarchy. The style's other child, italianate-townhouse, instead binds facade-classical directly, since the party wall forces the symmetrical half of what this parent's own text says the style 'works... as readily' on either register of.",
