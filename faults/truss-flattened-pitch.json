@@ -1,236 +1,241 @@
 {
-  "id": "truss-flattened-pitch",
-  "name": "The Truss Default",
-  "aka": [
-    "4:12 everything",
-    "the lid roof"
-  ],
-  "slots": [
-    "roof_pitch",
-    "roof_form"
-  ],
-  "severity": "fatal",
-  "severity_by_style": [
-    {
-      "style": "georgian-colonial-american",
-      "severity": "fatal",
-      "why": "The cornice loses its relation to the roof and no quality of trim recovers it."
-    },
-    {
-      "style": "cape-cod-colonial",
-      "severity": "fatal",
-      "why": "Below 8:12 the loft is unusable and the type ceases to exist."
-    },
-    {
-      "style": "tudor-revival",
-      "severity": "fatal",
-      "why": "10:12 to 16:12 is the style's structural argument; flattened, it is a stucco ranch."
-    },
-    {
-      "style": "colonial-revival",
-      "severity": "serious",
-      "why": "The revival was always looser about pitch than the original, but 4:12 is outside even its range."
-    },
-    {
-      "style": "greek-revival-american",
-      "severity": "not-applicable",
-      "why": "4:12 to 6:12 is the style's own band and its whole point."
-    },
-    {
-      "style": "craftsman",
-      "severity": "not-applicable",
-      "why": "3:12 to 6:12 is definitional."
-    },
-    {
-      "style": "prairie-school",
-      "severity": "not-applicable",
-      "why": "3:12 to 4:12 hipped is a hard constraint of the node."
-    },
-    {
-      "style": "italianate-american",
-      "severity": "not-applicable",
-      "why": "3:12 to 5:12, and the roof is meant to be invisible."
-    }
-  ],
-  "frequency": "endemic",
-  "category": "proportion",
-  "symptom": "Every roof on the house is 4:12 or 6:12 whatever the style asks for. The roof reads as a lid laid on top of the walls rather than as a mass the walls hold up. On a two-storey five-bay front the roof occupies a fifth of the elevation height where it should occupy a third, and the cornice loses its relation to the roof entirely.",
-  "cause": {
-    "driver": "cost",
-    "explanation": "Pitch is priced by the truss plant, not chosen by the designer. A fink truss at 4:12 spans 28 ft in 2x4 chords; at 9:12 the same span wants deeper chords, more plate area, a taller shipping envelope and craned setting, and above roughly a 30 ft span at 10:12 it stops fitting under the 13 ft 6 in over-the-road height limit and has to be piggybacked, which is a second truss and a field splice. Roofers then add a steep-slope labour surcharge above 6:12 or 7:12 for staging and roof jacks, and shingle waste rises. Nobody ever decides to flatten the roof; three separate quotes make it cheaper and the elevation is redrawn to suit.",
-    "cost_saved": "Roughly $1.50-4.00 per sf of roof area between a 4:12 truss package and a 10:12 one, i.e. $3,000-9,000 on a 2,400 sf house, plus a roofing labour surcharge of 15-30 per cent above 7:12."
+ "id": "truss-flattened-pitch",
+ "name": "The Truss Default",
+ "aka": [
+  "4:12 everything",
+  "the lid roof"
+ ],
+ "slots": [
+  "roof_pitch",
+  "roof_form"
+ ],
+ "severity": "fatal",
+ "severity_by_style": [
+  {
+   "style": "georgian-colonial-american",
+   "severity": "fatal",
+   "why": "The cornice loses its relation to the roof and no quality of trim recovers it."
   },
-  "rule_violated": [
-    {
-      "kind": "kit-variant",
-      "ref": "georgian-colonial-american / roof_pitch",
-      "statement": "pitch_min 8:12, pitch_max 10:12, typical 9:12; below 7:12 the cornice loses its relation to the roof and the house reads Federal or later."
-    },
-    {
-      "kind": "style-constraint",
-      "ref": "cape-cod-colonial",
-      "statement": "Roof pitch 9:12 to 12:12. Below 8:12 the loft is unusable and the house reads as minimal-traditional."
-    },
-    {
-      "kind": "first-principle",
-      "ref": "pitch is a style parameter with a narrow band, not a free variable",
-      "statement": "Roof pitch is the highest-signal, lowest-cost style tell there is: it costs nothing to specify, is invisible in plan, and cannot be recovered by any quality of trim once built."
-    }
-  ],
-  "correct_practice": "Fix the pitch from the style before the truss package is priced, and hold it as a hard number. Working bands: Georgian 8:12-10:12 (New England 9-11:12, Chesapeake and Low Country 7-9:12); Cape Cod 9:12-12:12; First Period and Tudor Revival 10:12-16:12; Federal 7:12-9:12; Greek Revival 4:12-6:12 deliberately; Italianate 3:12-5:12; Craftsman 3:12-6:12; Prairie 3:12-4:12 hipped; Spanish Colonial Revival and Mission 3:12-5:12; Second Empire mansard 65-80 degrees over a 2:12-4:12 deck. The band is narrow on purpose. A single pitch governs the whole house.",
-  "fixes": {
-    "right": "Dimension the pitch on the elevation and repeat it in the truss specification with a note that it is not value-engineerable. Where headroom inside the roof is wanted, use attic trusses or stick framing rather than flattening; where span drives the truss depth, add a bearing wall or a structural ridge and take the pitch back.",
-    "cheap": "If the pitch genuinely cannot move, change styles honestly. A 4:12 side gable with a 24 in overhang, exposed tails and grouped windows is a legitimate Craftsman or minimal-traditional house and costs nothing extra. The same 4:12 with a dentil cornice, shutters and a pedimented door is neither one thing nor the other. Choosing the style that fits the pitch is free; the reverse is not.",
-    "dishonest": "A steeper decorative gable over the entrance while the main roof stays flat, or a raised false parapet at the gable end to fake roof height. Both leave the actual roof plane visible in oblique view, which is how a house is seen from a moving car, and the disagreement between the two pitches is more conspicuous than the flat roof was."
+  {
+   "style": "cape-cod-colonial",
+   "severity": "fatal",
+   "why": "Below 8:12 the loft is unusable and the type ceases to exist."
   },
-  "test": {
-    "expression": "roof_height_eave_to_ridge / wall_height_grade_to_eave",
-    "threshold": 0.45,
-    "direction": "at-least",
+  {
+   "style": "tudor-revival",
+   "severity": "fatal",
+   "why": "10:12 to 16:12 is the style's structural argument; flattened, it is a stucco ranch."
+  },
+  {
+   "style": "colonial-revival",
+   "severity": "serious",
+   "why": "The revival was always looser about pitch than the original, but 4:12 is outside even its range."
+  },
+  {
+   "style": "greek-revival-american",
+   "severity": "not-applicable",
+   "why": "4:12 to 6:12 is the style's own band and its whole point."
+  },
+  {
+   "style": "craftsman",
+   "severity": "not-applicable",
+   "why": "3:12 to 6:12 is definitional."
+  },
+  {
+   "style": "prairie-school",
+   "severity": "not-applicable",
+   "why": "3:12 to 4:12 hipped is a hard constraint of the node."
+  },
+  {
+   "style": "italianate-american",
+   "severity": "not-applicable",
+   "why": "3:12 to 5:12, and the roof is meant to be invisible."
+  }
+ ],
+ "frequency": "endemic",
+ "category": "proportion",
+ "symptom": "Every roof on the house is 4:12 or 6:12 whatever the style asks for. The roof reads as a lid laid on top of the walls rather than as a mass the walls hold up. On a two-storey five-bay front the roof occupies a fifth of the elevation height where it should occupy a third, and the cornice loses its relation to the roof entirely.",
+ "cause": {
+  "driver": "cost",
+  "explanation": "Pitch is priced by the truss plant, not chosen by the designer. A fink truss at 4:12 spans 28 ft in 2x4 chords; at 9:12 the same span wants deeper chords, more plate area, a taller shipping envelope and craned setting, and above roughly a 30 ft span at 10:12 it stops fitting under the 13 ft 6 in over-the-road height limit and has to be piggybacked, which is a second truss and a field splice. Roofers then add a steep-slope labour surcharge above 6:12 or 7:12 for staging and roof jacks, and shingle waste rises. Nobody ever decides to flatten the roof; three separate quotes make it cheaper and the elevation is redrawn to suit.",
+  "cost_saved": "Roughly $1.50-4.00 per sf of roof area between a 4:12 truss package and a 10:12 one, i.e. $3,000-9,000 on a 2,400 sf house, plus a roofing labour surcharge of 15-30 per cent above 7:12."
+ },
+ "rule_violated": [
+  {
+   "kind": "kit-variant",
+   "ref": "georgian-colonial-american / roof_pitch",
+   "statement": "pitch_min 8:12, pitch_max 10:12, typical 9:12; below 7:12 the cornice loses its relation to the roof and the house reads Federal or later."
+  },
+  {
+   "kind": "style-constraint",
+   "ref": "cape-cod-colonial",
+   "statement": "Roof pitch 9:12 to 12:12. Below 8:12 the loft is unusable and the house reads as minimal-traditional."
+  },
+  {
+   "kind": "first-principle",
+   "ref": "pitch is a style parameter with a narrow band, not a free variable",
+   "statement": "Roof pitch is the highest-signal, lowest-cost style tell there is: it costs nothing to specify, is invisible in plan, and cannot be recovered by any quality of trim once built."
+  }
+ ],
+ "correct_practice": "Fix the pitch from the style before the truss package is priced, and hold it as a hard number. Working bands: Georgian 8:12-10:12 (New England 9-11:12, Chesapeake and Low Country 7-9:12); Cape Cod 9:12-12:12; First Period and Tudor Revival 10:12-16:12; Federal 7:12-9:12; Greek Revival 4:12-6:12 deliberately; Italianate 3:12-5:12; Craftsman 3:12-6:12; Prairie 3:12-4:12 hipped; Spanish Colonial Revival and Mission 3:12-5:12; Second Empire mansard 65-80 degrees over a 2:12-4:12 deck. The band is narrow on purpose. A single pitch governs the whole house.",
+ "fixes": {
+  "right": "Dimension the pitch on the elevation and repeat it in the truss specification with a note that it is not value-engineerable. Where headroom inside the roof is wanted, use attic trusses or stick framing rather than flattening; where span drives the truss depth, add a bearing wall or a structural ridge and take the pitch back.",
+  "cheap": "If the pitch genuinely cannot move, change styles honestly. A 4:12 side gable with a 24 in overhang, exposed tails and grouped windows is a legitimate Craftsman or minimal-traditional house and costs nothing extra. The same 4:12 with a dentil cornice, shutters and a pedimented door is neither one thing nor the other. Choosing the style that fits the pitch is free; the reverse is not.",
+  "dishonest": "A steeper decorative gable over the entrance while the main roof stays flat, or a raised false parapet at the gable end to fake roof height. Both leave the actual roof plane visible in oblique view, which is how a house is seen from a moving car, and the disagreement between the two pitches is more conspicuous than the flat roof was."
+ },
+ "test": {
+  "expression": "roof_height_eave_to_ridge / wall_height_grade_to_eave",
+  "threshold": 0.45,
+  "direction": "at-least",
+  "units": "ratio",
+  "measurable_from": "photograph",
+  "note": "Traditional side-gable work runs 0.5-0.8; a truss-default roof runs 0.25-0.35. This is the style-independent form, and it is what a model can get off an oblique street photograph without knowing the style."
+ },
+ "secondary_tests": [
+  {
+   "expression": "roof_slope_angle_deg",
+   "threshold": 33.7,
+   "direction": "between",
+   "units": "deg",
+   "measurable_from": "photograph",
+   "upper": 39.8,
+   "note": "The Georgian band, 8:12 to 10:12. Substitute the style's own band: Cape 36.9-45, Tudor Revival 39.8-53.1, Greek Revival 18.4-26.6, Craftsman 14-26.6, Prairie 14-18.4. SCOPED 24 Aug 2026 (OQ 41), and the single largest cause of the problem: this test carries the Georgian band and its own note says 'Substitute the style's own band: Cape 36.9-45, Tudor Revival 39.8-53.1, Greek Revival 18.4-26.6, Craftsman 14-26.6'. Nothing performed that substitution, so every one of those styles was failed for having its own correct pitch -- 9 of the 17 styles that could not return a clean plan. Scoping it to the Georgian family stops the false failures; it does NOT build the per-style table the note asks for, so those styles are now UNJUDGED on pitch by this test rather than wrongly failed. That table is the remaining work and is recorded in docs/open-questions.md #41.",
+   "applies_to_styles": [
+    "georgian-colonial-american",
+    "english-georgian",
+    "georgian-revival"
+   ]
+  },
+  {
+   "expression": "count_of_distinct_roof_slope_angles_on_the_building",
+   "threshold": 2,
+   "direction": "at-most",
+   "units": "count",
+   "measurable_from": "photograph",
+   "note": "A house flattened to one truss pitch usually passes this and fails the first test; a house that fails both has been assembled rather than designed."
+  }
+ ],
+ "detection": "In a straight-on photograph of the gable end, measure rise over half-span: 4:12 gives 0.33, 9:12 gives 0.75, 12:12 gives 1.0. Georgian sits at 0.67-0.83. From an oblique view, compare roof height (eave to ridge) against wall height (grade to eave): traditional side-gable work runs 0.5-0.8 of wall height and a truss-default roof runs 0.25-0.35. A third quick check on a photograph with no clean gable: the angle the rake makes with the horizontal - 18.4 degrees is 4:12, 36.9 is 9:12, 45 is 12:12.",
+ "applies_to": [
+  "universal"
+ ],
+ "exceptions": [
+  {
+   "style": "greek-revival-american",
+   "why": "4:12 to 6:12 is correct and is the style's argument: the gable had to flatten far enough to read as a pediment rather than as a roof. The flattening is deliberate and dated.",
+   "bounds": "The low pitch has to be paid for with a deep entablature, one quarter to one fifth of the column height, and either a full cornice returning across the gable base or a genuine pediment. A 4:12 gable with a thin trim board is not Greek Revival; it is a truss.",
+   "bounds_test": {
+    "expression": "entablature_depth_in / column_or_pilaster_height_in",
+    "threshold": 0.2,
+    "direction": "between",
     "units": "ratio",
     "measurable_from": "photograph",
-    "note": "Traditional side-gable work runs 0.5-0.8; a truss-default roof runs 0.25-0.35. This is the style-independent form, and it is what a model can get off an oblique street photograph without knowing the style."
+    "upper": 0.25,
+    "note": "One quarter to one fifth of the column height. The low pitch is only licensed where the entablature is paying for it."
+   }
   },
-  "secondary_tests": [
-    {
-      "expression": "roof_slope_angle_deg",
-      "threshold": 33.7,
-      "direction": "between",
-      "units": "deg",
-      "measurable_from": "photograph",
-      "upper": 39.8,
-      "note": "The Georgian band, 8:12 to 10:12. Substitute the style's own band: Cape 36.9-45, Tudor Revival 39.8-53.1, Greek Revival 18.4-26.6, Craftsman 14-26.6, Prairie 14-18.4."
-    },
-    {
-      "expression": "count_of_distinct_roof_slope_angles_on_the_building",
-      "threshold": 2,
-      "direction": "at-most",
-      "units": "count",
-      "measurable_from": "photograph",
-      "note": "A house flattened to one truss pitch usually passes this and fails the first test; a house that fails both has been assembled rather than designed."
-    }
-  ],
-  "detection": "In a straight-on photograph of the gable end, measure rise over half-span: 4:12 gives 0.33, 9:12 gives 0.75, 12:12 gives 1.0. Georgian sits at 0.67-0.83. From an oblique view, compare roof height (eave to ridge) against wall height (grade to eave): traditional side-gable work runs 0.5-0.8 of wall height and a truss-default roof runs 0.25-0.35. A third quick check on a photograph with no clean gable: the angle the rake makes with the horizontal - 18.4 degrees is 4:12, 36.9 is 9:12, 45 is 12:12.",
-  "applies_to": [
-    "universal"
-  ],
-  "exceptions": [
-    {
-      "style": "greek-revival-american",
-      "why": "4:12 to 6:12 is correct and is the style's argument: the gable had to flatten far enough to read as a pediment rather than as a roof. The flattening is deliberate and dated.",
-      "bounds": "The low pitch has to be paid for with a deep entablature, one quarter to one fifth of the column height, and either a full cornice returning across the gable base or a genuine pediment. A 4:12 gable with a thin trim board is not Greek Revival; it is a truss.",
-      "bounds_test": {
-        "expression": "entablature_depth_in / column_or_pilaster_height_in",
-        "threshold": 0.2,
-        "direction": "between",
-        "units": "ratio",
-        "measurable_from": "photograph",
-        "upper": 0.25,
-        "note": "One quarter to one fifth of the column height. The low pitch is only licensed where the entablature is paying for it."
-      }
-    },
-    {
-      "style": "craftsman",
-      "why": "3:12 to 6:12 with 24-36 in of overhang on all four sides is definitional.",
-      "bounds": "The low pitch is only correct in company with the deep overhang, exposed structure and the porch under the main roof. A 4:12 roof with a 12 in eave is not a Craftsman roof.",
-      "bounds_test": {
-        "expression": "eave_and_rake_overhang_in",
-        "threshold": 24,
-        "direction": "between",
-        "units": "in",
-        "measurable_from": "photograph",
-        "upper": 36,
-        "note": "Equal on all four sides. Below 18 in the low pitch has no argument."
-      }
-    },
-    {
-      "style": "prairie-school",
-      "why": "3:12 to 4:12 hipped, with 30-48 in of eave, is the node's hard constraint; the roof is meant to read as a floating horizontal plane.",
-      "bounds": "Overhang not less than 30 in on every side; a gabled principal roof or an overhang under 24 in disqualifies the identification.",
-      "bounds_test": {
-        "expression": "eave_overhang_in",
-        "threshold": 30,
-        "direction": "at-least",
-        "units": "in",
-        "measurable_from": "photograph",
-        "note": "Uniform on every side; below 24 in the identification fails."
-      }
-    },
-    {
-      "style": "italianate-american",
-      "why": "3:12 to 5:12, because the roof is meant to be nearly invisible from the street behind a bracketed cornice.",
-      "bounds": "Only valid where the eave projects 18-36 in with brackets at 24-48 in on centre. If you can read the roof shape from the sidewalk the cornice is not doing its job.",
-      "bounds_test": {
-        "expression": "eave_projection_in",
-        "threshold": 18,
-        "direction": "between",
-        "units": "in",
-        "measurable_from": "photograph",
-        "upper": 36,
-        "note": "With brackets at 24-48 in on centre."
-      }
-    },
-    {
-      "style": "spanish-colonial-revival",
-      "why": "3:12 to 5:12 in barrel tile, with minimal eave and a plastered edge.",
-      "bounds": "Only with a pan-and-cover tile; the low pitch is licensed by the tile's own channel, not by the style label.",
-      "bounds_test": {
-        "expression": "eave_overhang_in",
-        "threshold": 12,
-        "direction": "at-most",
-        "units": "in",
-        "measurable_from": "photograph",
-        "note": "Minimal overhang with a plastered or tile edge is what licenses the low pitch."
-      },
-      "applies_when": {
-        "construction": [
-          "barrel-tile-roof",
-          "mission-tile-roof"
-        ],
-        "note": "The licence is the tile's channel, not the style label. Flat or interlocking tile does not carry it."
-      }
-    }
-  ],
-  "inverted_by": [
-    {
-      "style": "prairie-school",
-      "statement": "A steep roof is the fault. A gabled principal roof, or any pitch over 4:12, disqualifies the identification outright."
-    },
-    {
-      "style": "greek-revival-american",
-      "statement": "A pitch over 6:12 is the fault, because above it the gable stops reading as a pediment and becomes a roof again."
-    },
-    {
-      "style": "italianate-american",
-      "statement": "A visible roof is the fault. If you can read the roof shape from the sidewalk the cornice has failed."
-    }
-  ],
-  "confused_with": [
-    {
-      "fault": "pitch-below-material-shed-limit",
-      "difference": "That fault is about physics - a lapped material at a slope it cannot shed at. This one is about style - a legal, watertight roof at the wrong angle for the building it is on."
-    },
-    {
-      "fault": "wing-pitch-drift",
-      "difference": "Here every pitch is the same and all of them are wrong. There, the pitches differ from each other with no hierarchy behind the difference."
-    }
-  ],
-  "co_occurs_with": [
-    "wing-pitch-drift",
-    "ungraduated-storeys",
-    "dormer-wall"
-  ],
-  "sources": [
-    "IRC R802 and R802.10 (wood roof framing and trusses)",
-    "TPI/WTCA truss design standards and shipping-envelope practice",
-    "project style nodes: georgian-colonial-american, cape-cod-colonial, greek-revival-american, craftsman, prairie-school",
-    "kits/georgian-colonial-american.kit.json roof_pitch"
-  ],
-  "confidence": "high",
-  "tags": [
-    "roof",
-    "pitch",
-    "massing",
-    "highest-leverage"
-  ]
+  {
+   "style": "craftsman",
+   "why": "3:12 to 6:12 with 24-36 in of overhang on all four sides is definitional.",
+   "bounds": "The low pitch is only correct in company with the deep overhang, exposed structure and the porch under the main roof. A 4:12 roof with a 12 in eave is not a Craftsman roof.",
+   "bounds_test": {
+    "expression": "eave_and_rake_overhang_in",
+    "threshold": 24,
+    "direction": "between",
+    "units": "in",
+    "measurable_from": "photograph",
+    "upper": 36,
+    "note": "Equal on all four sides. Below 18 in the low pitch has no argument."
+   }
+  },
+  {
+   "style": "prairie-school",
+   "why": "3:12 to 4:12 hipped, with 30-48 in of eave, is the node's hard constraint; the roof is meant to read as a floating horizontal plane.",
+   "bounds": "Overhang not less than 30 in on every side; a gabled principal roof or an overhang under 24 in disqualifies the identification.",
+   "bounds_test": {
+    "expression": "eave_overhang_in",
+    "threshold": 30,
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Uniform on every side; below 24 in the identification fails."
+   }
+  },
+  {
+   "style": "italianate-american",
+   "why": "3:12 to 5:12, because the roof is meant to be nearly invisible from the street behind a bracketed cornice.",
+   "bounds": "Only valid where the eave projects 18-36 in with brackets at 24-48 in on centre. If you can read the roof shape from the sidewalk the cornice is not doing its job.",
+   "bounds_test": {
+    "expression": "eave_projection_in",
+    "threshold": 18,
+    "direction": "between",
+    "units": "in",
+    "measurable_from": "photograph",
+    "upper": 36,
+    "note": "With brackets at 24-48 in on centre."
+   }
+  },
+  {
+   "style": "spanish-colonial-revival",
+   "why": "3:12 to 5:12 in barrel tile, with minimal eave and a plastered edge.",
+   "bounds": "Only with a pan-and-cover tile; the low pitch is licensed by the tile's own channel, not by the style label.",
+   "bounds_test": {
+    "expression": "eave_overhang_in",
+    "threshold": 12,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "Minimal overhang with a plastered or tile edge is what licenses the low pitch."
+   },
+   "applies_when": {
+    "construction": [
+     "barrel-tile-roof",
+     "mission-tile-roof"
+    ],
+    "note": "The licence is the tile's channel, not the style label. Flat or interlocking tile does not carry it."
+   }
+  }
+ ],
+ "inverted_by": [
+  {
+   "style": "prairie-school",
+   "statement": "A steep roof is the fault. A gabled principal roof, or any pitch over 4:12, disqualifies the identification outright."
+  },
+  {
+   "style": "greek-revival-american",
+   "statement": "A pitch over 6:12 is the fault, because above it the gable stops reading as a pediment and becomes a roof again."
+  },
+  {
+   "style": "italianate-american",
+   "statement": "A visible roof is the fault. If you can read the roof shape from the sidewalk the cornice has failed."
+  }
+ ],
+ "confused_with": [
+  {
+   "fault": "pitch-below-material-shed-limit",
+   "difference": "That fault is about physics - a lapped material at a slope it cannot shed at. This one is about style - a legal, watertight roof at the wrong angle for the building it is on."
+  },
+  {
+   "fault": "wing-pitch-drift",
+   "difference": "Here every pitch is the same and all of them are wrong. There, the pitches differ from each other with no hierarchy behind the difference."
+  }
+ ],
+ "co_occurs_with": [
+  "wing-pitch-drift",
+  "ungraduated-storeys",
+  "dormer-wall"
+ ],
+ "sources": [
+  "IRC R802 and R802.10 (wood roof framing and trusses)",
+  "TPI/WTCA truss design standards and shipping-envelope practice",
+  "project style nodes: georgian-colonial-american, cape-cod-colonial, greek-revival-american, craftsman, prairie-school",
+  "kits/georgian-colonial-american.kit.json roof_pitch"
+ ],
+ "confidence": "high",
+ "tags": [
+  "roof",
+  "pitch",
+  "massing",
+  "highest-leverage"
+ ]
 }

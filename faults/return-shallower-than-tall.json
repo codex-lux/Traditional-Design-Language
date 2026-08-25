@@ -1,154 +1,159 @@
 {
-  "id": "return-shallower-than-tall",
-  "name": "The Stunted Return",
-  "aka": [
-    "the bracket return",
-    "the shelf return"
-  ],
-  "slots": [
-    "cornice_return"
-  ],
-  "severity": "serious",
-  "severity_by_style": [
-    {
-      "style": "georgian-colonial-american",
-      "severity": "serious",
-      "why": "On a modillioned cornice the fractional block at the end is visible from the street."
-    },
-    {
-      "style": "colonial-revival",
-      "severity": "minor",
-      "why": "Where the cornice is plain there is nothing to cut through and only the proportion is at stake."
-    },
-    {
-      "style": "cape-cod-colonial",
-      "severity": "not-applicable",
-      "why": "A plain 6-12 in return is correct, and it still passes the ratio because the Cape's cornice is only 3-5 in tall."
-    }
-  ],
-  "frequency": "common",
-  "category": "proportion",
-  "symptom": "The return is real and carries the whole profile, but it is a stub: it projects 4-6 in from the gable wall while the cornice it carries stands 10-12 in tall, so it reads as a bracket rather than as a piece of entablature. The failure also occurs the other way - a 24 in return under a 6 in cornice reads as a shelf - and on a modillioned house it shows up as a return cut through the middle of a modillion.",
-  "cause": {
-    "driver": "drafting-convention",
-    "explanation": "The return's length is almost never dimensioned on a drawing. It appears in elevation as a small step and in no section at all, so the carpenter returns it as far as the last full member happens to reach, which is a function of what stock is left on the saw horse. Nobody decided 5 in; nobody decided anything.",
-    "cost_saved": "Negligible - about $20 a corner in material. This is a dimensioning failure, not an economy, which is why it appears on expensive houses."
+ "id": "return-shallower-than-tall",
+ "name": "The Stunted Return",
+ "aka": [
+  "the bracket return",
+  "the shelf return"
+ ],
+ "slots": [
+  "cornice_return"
+ ],
+ "severity": "serious",
+ "severity_by_style": [
+  {
+   "style": "georgian-colonial-american",
+   "severity": "serious",
+   "why": "On a modillioned cornice the fractional block at the end is visible from the street."
   },
-  "rule_violated": [
-    {
-      "kind": "kit-variant",
-      "ref": "georgian-colonial-american / cornice_return / return_depth_in",
-      "statement": "12-24 in of return depth, carrying bed mould, modillions or dentils, corona and crown."
-    },
-    {
-      "kind": "pack-rule",
-      "ref": "gibbs-ionic -> eave_condition.cornice_height_in",
-      "statement": "11.67 in of cornice at a 10 ft storey, which sets the floor for the return's depth."
-    },
-    {
-      "kind": "first-principle",
-      "ref": "a return must contain a whole number of whatever repeats in the cornice",
-      "statement": "A modillion or dentil band cut through mid-member at the end of a return is visible from the street and cannot be unseen."
-    }
-  ],
-  "correct_practice": "Two rules, and they compete, which is why the answer needs stating. First, the return must be at least as deep from the wall as the cornice is tall, and preferably 1.25 to 2.0 times as deep, so that it reads as a horizontal member rather than as a bracket: at the Gibbs Ionic cornice height of 11.7 in on a 10 ft storey, that is the 12-24 in band. Second - and this is the rule that gets missed - the return must be long enough to contain a whole number of whatever repeats in the cornice. A modillion cornice must return with at least two full modillions plus the end spacing, a dentil cornice on a whole dentil. This is why returns on modillioned houses are longer than returns on plain ones, and why copying the 12 in figure from a plain house onto an ornamented one produces a fractional modillion at the end.",
-  "fixes": {
-    "right": "Dimension the return on the drawing, set out from the modillion or dentil spacing, and let the length follow the repeat rather than the round number.",
-    "cheap": "Set the return depth equal to the cornice height plus one member, measured off the section that already exists. It costs a sentence in a drawing note and a longer piece of crown.",
-    "dishonest": "Stretching the last modillion spacing to make the repeat come out. It is visible: the eye reads a rhythm's irregularity at the point where the rhythm ends, which is exactly where the return is."
+  {
+   "style": "colonial-revival",
+   "severity": "minor",
+   "why": "Where the cornice is plain there is nothing to cut through and only the proportion is at stake."
   },
-  "test": {
+  {
+   "style": "cape-cod-colonial",
+   "severity": "not-applicable",
+   "why": "A plain 6-12 in return is correct, and it still passes the ratio because the Cape's cornice is only 3-5 in tall."
+  }
+ ],
+ "frequency": "common",
+ "category": "proportion",
+ "symptom": "The return is real and carries the whole profile, but it is a stub: it projects 4-6 in from the gable wall while the cornice it carries stands 10-12 in tall, so it reads as a bracket rather than as a piece of entablature. The failure also occurs the other way - a 24 in return under a 6 in cornice reads as a shelf - and on a modillioned house it shows up as a return cut through the middle of a modillion.",
+ "cause": {
+  "driver": "drafting-convention",
+  "explanation": "The return's length is almost never dimensioned on a drawing. It appears in elevation as a small step and in no section at all, so the carpenter returns it as far as the last full member happens to reach, which is a function of what stock is left on the saw horse. Nobody decided 5 in; nobody decided anything.",
+  "cost_saved": "Negligible - about $20 a corner in material. This is a dimensioning failure, not an economy, which is why it appears on expensive houses."
+ },
+ "rule_violated": [
+  {
+   "kind": "kit-variant",
+   "ref": "georgian-colonial-american / cornice_return / return_depth_in",
+   "statement": "12-24 in of return depth, carrying bed mould, modillions or dentils, corona and crown."
+  },
+  {
+   "kind": "pack-rule",
+   "ref": "gibbs-ionic -> eave_condition.cornice_height_in",
+   "statement": "11.67 in of cornice at a 10 ft storey, which sets the floor for the return's depth."
+  },
+  {
+   "kind": "first-principle",
+   "ref": "a return must contain a whole number of whatever repeats in the cornice",
+   "statement": "A modillion or dentil band cut through mid-member at the end of a return is visible from the street and cannot be unseen."
+  }
+ ],
+ "correct_practice": "Two rules, and they compete, which is why the answer needs stating. First, the return must be at least as deep from the wall as the cornice is tall, and preferably 1.25 to 2.0 times as deep, so that it reads as a horizontal member rather than as a bracket: at the Gibbs Ionic cornice height of 11.7 in on a 10 ft storey, that is the 12-24 in band. Second - and this is the rule that gets missed - the return must be long enough to contain a whole number of whatever repeats in the cornice. A modillion cornice must return with at least two full modillions plus the end spacing, a dentil cornice on a whole dentil. This is why returns on modillioned houses are longer than returns on plain ones, and why copying the 12 in figure from a plain house onto an ornamented one produces a fractional modillion at the end.",
+ "fixes": {
+  "right": "Dimension the return on the drawing, set out from the modillion or dentil spacing, and let the length follow the repeat rather than the round number.",
+  "cheap": "Set the return depth equal to the cornice height plus one member, measured off the section that already exists. It costs a sentence in a drawing note and a longer piece of crown.",
+  "dishonest": "Stretching the last modillion spacing to make the repeat come out. It is visible: the eye reads a rhythm's irregularity at the point where the rhythm ends, which is exactly where the return is."
+ },
+ "test": {
+  "expression": "return_projection_from_wall_in / cornice_height_in",
+  "threshold": 1.0,
+  "direction": "between",
+  "units": "ratio",
+  "measurable_from": "photograph",
+  "upper": 3.0,
+  "note": "Two failure directions. Under 1.0 the return reads as a bracket; over about 3.0 it reads as a shelf. Preferred band is 1.25-2.0, which at the Gibbs Ionic cornice height of 11.7 in on a 10 ft storey gives the documented 12-24 in."
+ },
+ "secondary_tests": [
+  {
+   "expression": "count_of_fractional_modillions_or_dentils_at_the_end_of_the_return",
+   "threshold": 0,
+   "direction": "at-most",
+   "units": "count",
+   "measurable_from": "photograph",
+   "note": "The rule that gets missed, and the one that is legible in a photograph long before the proportion is. A return must contain a whole number of whatever repeats in the cornice - at least two full modillions plus the end spacing - which is why returns on modillioned houses are longer than returns on plain ones."
+  },
+  {
+   "expression": "return_length_along_gable_wall_in",
+   "threshold": 12,
+   "direction": "between",
+   "units": "in",
+   "measurable_from": "photograph",
+   "upper": 24,
+   "note": "The documented band for a New England Georgian cornice return. SCOPED 24 Aug 2026 (OQ 41): 'The documented band for a New England Georgian cornice return', in this note's own words, and it was being applied to every style's cornice return.",
+   "applies_to_styles": [
+    "georgian-colonial-american",
+    "english-georgian",
+    "georgian-revival"
+   ]
+  }
+ ],
+ "detection": "In a straight-on photograph of the gable end, measure the horizontal length of the return and the vertical height of the eave cornice. Ratio under 1.0 is stunted; over about 3.0 is a shelf. Then count the modillions or dentils on the return itself, and look at the last one: a fractional block at the end is the diagnostic, and it is legible in a photograph long before the proportion is.",
+ "applies_to": [
+  "universal"
+ ],
+ "exceptions": [
+  {
+   "style": "cape-cod-colonial",
+   "why": "A plain 6-12 in return at the corner is the correct Cape answer, not a full modillion return - but the ratio rule still holds, because the Cape's rake trim is only 4-6 in and its cornice only 3-5 in tall, so a 6 in return is still deeper than the cornice is high.",
+   "bounds": "The return must still be deeper than the cornice is tall. Short is fine; shallower than tall is not.",
+   "bounds_test": {
     "expression": "return_projection_from_wall_in / cornice_height_in",
     "threshold": 1.0,
-    "direction": "between",
+    "direction": "at-least",
     "units": "ratio",
     "measurable_from": "photograph",
-    "upper": 3.0,
-    "note": "Two failure directions. Under 1.0 the return reads as a bracket; over about 3.0 it reads as a shelf. Preferred band is 1.25-2.0, which at the Gibbs Ionic cornice height of 11.7 in on a 10 ft storey gives the documented 12-24 in."
+    "note": "Short is fine; shallower than tall is not. A Cape's cornice is 3-5 in tall and its rake trim 4-6 in, so a 6 in return still passes."
+   }
   },
-  "secondary_tests": [
-    {
-      "expression": "count_of_fractional_modillions_or_dentils_at_the_end_of_the_return",
-      "threshold": 0,
-      "direction": "at-most",
-      "units": "count",
-      "measurable_from": "photograph",
-      "note": "The rule that gets missed, and the one that is legible in a photograph long before the proportion is. A return must contain a whole number of whatever repeats in the cornice - at least two full modillions plus the end spacing - which is why returns on modillioned houses are longer than returns on plain ones."
-    },
-    {
-      "expression": "return_length_along_gable_wall_in",
-      "threshold": 12,
-      "direction": "between",
-      "units": "in",
-      "measurable_from": "photograph",
-      "upper": 24,
-      "note": "The documented band for a New England Georgian cornice return."
-    }
-  ],
-  "detection": "In a straight-on photograph of the gable end, measure the horizontal length of the return and the vertical height of the eave cornice. Ratio under 1.0 is stunted; over about 3.0 is a shelf. Then count the modillions or dentils on the return itself, and look at the last one: a fractional block at the end is the diagnostic, and it is legible in a photograph long before the proportion is.",
-  "applies_to": [
-    "universal"
-  ],
-  "exceptions": [
-    {
-      "style": "cape-cod-colonial",
-      "why": "A plain 6-12 in return at the corner is the correct Cape answer, not a full modillion return - but the ratio rule still holds, because the Cape's rake trim is only 4-6 in and its cornice only 3-5 in tall, so a 6 in return is still deeper than the cornice is high.",
-      "bounds": "The return must still be deeper than the cornice is tall. Short is fine; shallower than tall is not.",
-      "bounds_test": {
-        "expression": "return_projection_from_wall_in / cornice_height_in",
-        "threshold": 1.0,
-        "direction": "at-least",
-        "units": "ratio",
-        "measurable_from": "photograph",
-        "note": "Short is fine; shallower than tall is not. A Cape's cornice is 3-5 in tall and its rake trim 4-6 in, so a 6 in return still passes."
-      }
-    },
-    {
-      "style": "greek-revival-upland-vernacular",
-      "why": "The deliberately clipped vernacular return is short by intention.",
-      "bounds": "It must still be at least as deep as the corner pilaster is wide, and must carry the frieze board's full depth.",
-      "bounds_test": {
-        "expression": "return_projection_from_wall_in / corner_pilaster_width_in",
-        "threshold": 1.0,
-        "direction": "at-least",
-        "units": "ratio",
-        "measurable_from": "photograph",
-        "note": "It must still carry the frieze board's full depth."
-      }
-    },
-    {
-      "style": "second-empire",
-      "why": "The curb cornice returns are governed by the bracket spacing rather than by the cornice height, and brackets at 24-48 in on centre force longer returns.",
-      "bounds": "The return must land on a bracket, not between two.",
-      "bounds_test": {
-        "expression": "bracket_spacing_in",
-        "threshold": 24,
-        "direction": "between",
-        "units": "in",
-        "measurable_from": "photograph",
-        "upper": 48,
-        "note": "The return must land ON a bracket, not between two, which is what forces the longer return here."
-      }
-    }
-  ],
-  "confused_with": [
-    {
-      "fault": "pork-chop-return",
-      "difference": "A pork chop carries no profile at all. A stunted return carries the whole profile and is merely too short to read as an entablature."
-    }
-  ],
-  "co_occurs_with": [
-    "pork-chop-return"
-  ],
-  "sources": [
-    "kits/georgian-colonial-american.kit.json cornice_return",
-    "proportions/overlays/gibbs-ionic.json",
-    "HABS measured drawings of New England Georgian cornices"
-  ],
-  "confidence": "medium",
-  "tags": [
-    "cornice-return",
-    "proportion",
-    "modillion"
-  ]
+  {
+   "style": "greek-revival-upland-vernacular",
+   "why": "The deliberately clipped vernacular return is short by intention.",
+   "bounds": "It must still be at least as deep as the corner pilaster is wide, and must carry the frieze board's full depth.",
+   "bounds_test": {
+    "expression": "return_projection_from_wall_in / corner_pilaster_width_in",
+    "threshold": 1.0,
+    "direction": "at-least",
+    "units": "ratio",
+    "measurable_from": "photograph",
+    "note": "It must still carry the frieze board's full depth."
+   }
+  },
+  {
+   "style": "second-empire",
+   "why": "The curb cornice returns are governed by the bracket spacing rather than by the cornice height, and brackets at 24-48 in on centre force longer returns.",
+   "bounds": "The return must land on a bracket, not between two.",
+   "bounds_test": {
+    "expression": "bracket_spacing_in",
+    "threshold": 24,
+    "direction": "between",
+    "units": "in",
+    "measurable_from": "photograph",
+    "upper": 48,
+    "note": "The return must land ON a bracket, not between two, which is what forces the longer return here."
+   }
+  }
+ ],
+ "confused_with": [
+  {
+   "fault": "pork-chop-return",
+   "difference": "A pork chop carries no profile at all. A stunted return carries the whole profile and is merely too short to read as an entablature."
+  }
+ ],
+ "co_occurs_with": [
+  "pork-chop-return"
+ ],
+ "sources": [
+  "kits/georgian-colonial-american.kit.json cornice_return",
+  "proportions/overlays/gibbs-ionic.json",
+  "HABS measured drawings of New England Georgian cornices"
+ ],
+ "confidence": "medium",
+ "tags": [
+  "cornice-return",
+  "proportion",
+  "modillion"
+ ]
 }

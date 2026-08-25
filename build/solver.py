@@ -885,9 +885,32 @@ def conflict_prose(core, prep, fp, plan):
 
 
 # ---------------------------------------------------------------- the solve
-def _phase(cp_model, model, seed, workers, limit, assume=True):
+# CP-SAT's own "deterministic time" counts work done rather than seconds elapsed, so a run
+# bounded by it returns the SAME answer on a loaded machine and an idle one. This converts a
+# caller's wall-clock budget into a work budget of roughly comparable size.
+#
+# It is a CALIBRATION, not a conversion: how much wall time one deterministic unit buys depends
+# on the machine, which is exactly the point -- a deterministic budget is a promise about work
+# and a wall budget is a promise about seconds, and they cannot both be kept. The figure below
+# was measured against this corpus's own plans on this container, where a budget of 1.0 per
+# phase ran for roughly ten wall seconds. It does not need to be accurate anywhere else; it
+# needs to be FIXED, so that two runs of the same plan do the same amount of work wherever they
+# run.
+DET_UNITS_PER_SECOND = 0.1
+
+
+def _phase(cp_model, model, seed, workers, limit, assume=True, deterministic=False):
     solver = cp_model.CpSolver()
-    solver.parameters.max_time_in_seconds = float(limit)
+    solver.parameters.max_time_in_seconds = float(limit) * (10.0 if deterministic else 1.0)
+    # Found 24 Aug 2026: tests/test_solver.py's own determinism test failed intermittently, and
+    # its docstring says "a suite that cannot reproduce a layout cannot pin one either". It was
+    # right and the solver was wrong. A run bounded ONLY by wall clock stops at whatever point
+    # the machine's load reached, so two identical calls with the same seed returned different
+    # layouts under load and identical ones idle -- the worst kind of defect, because it passes
+    # whenever anyone checks. At one worker a deterministic bound makes the answer reproducible;
+    # the wall-clock limit stays as the outer guarantee that a call returns at all.
+    if deterministic or int(workers) == 1:
+        solver.parameters.max_deterministic_time = float(limit) * DET_UNITS_PER_SECOND
     solver.parameters.num_search_workers = int(workers)
     solver.parameters.random_seed = int(seed)
     if assume and model.lits:
@@ -957,9 +980,25 @@ TOPOLOGIES = 6            # distinct slicing topologies whose cuts the solver op
 
 
 def solve(plan, parti=None, seed=7, time_budget_s=60.0, mode="cp",
-          heuristic_candidates=800, workers=1):
+          heuristic_candidates=800, workers=1, deterministic=False):
     """Place the plan's rooms. Returns the plan record, or {'error', 'conflict'} when the
-    requirements cannot all hold and the ones that cannot are not relaxable."""
+    requirements cannot all hold and the ones that cannot are not relaxable.
+
+    `deterministic` trades the wall-time promise for a reproducible answer, and the two really
+    are a trade. Found 24 Aug 2026 by an intermittent failure in this file's own determinism
+    test, whose docstring reads "a suite that cannot reproduce a layout cannot pin one either":
+    the test was right and the solver was wrong. The topology loop below stops starting new
+    topologies once the next one could not finish inside the budget, and that check reads the
+    WALL CLOCK -- so a loaded machine tries fewer topologies than an idle one and a different
+    layout wins. The same seed, the same plan, and a different house. Nothing hid it (the record
+    carries `topologies_tried`) and nothing said it either, and it passed whenever anyone
+    checked, because checking one test is exactly when the machine is quiet.
+
+    With `deterministic=True` the loop runs every topology, each phase is bounded by CP-SAT's
+    own deterministic time -- work done rather than seconds elapsed -- and the wall-clock limit
+    stays only as a tenfold outer guard that the call returns at all. The answer is then a
+    function of the inputs. Use it for anything whose result is going to be pinned, compared or
+    re-derived; leave it off when a person is waiting."""
     t_start = time.time()
     if mode == "heuristic":
         out = GEO.solve(plan, parti, heuristic_candidates, seed)
@@ -1034,7 +1073,7 @@ def solve(plan, parti=None, seed=7, time_budget_s=60.0, mode="cp",
         base_model = _Model(cp_model, plan, prep, levels, fp,
                             soft_kinds=SOFT_ALWAYS | HARD_GEOMETRIC, objective=False)
         base_model.hint(hint_g, hint_u)
-        base_solver, status = _phase(cp_model, base_model, seed, workers, budget_1)
+        base_solver, status = _phase(cp_model, base_model, seed, workers, budget_1, deterministic=deterministic)
         if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
             proved_fits = True
             break
@@ -1088,7 +1127,7 @@ def solve(plan, parti=None, seed=7, time_budget_s=60.0, mode="cp",
         # Stop starting new topologies once the next one could not finish inside the budget.
         # The budget is a promise about wall time, and a solve already begun runs to its own
         # limit, so the check has to be made before starting, not after.
-        if time.time() - t_start + budget_2 > time_budget_s * 0.97: break
+        if not deterministic and time.time() - t_start + budget_2 > time_budget_s * 0.97: break
         src = (hint_g, hint_u) if extra == 0 else _layout_of(
             GEO.solve(copy.deepcopy(plan), parti, heuristic_candidates, hint_seed + 100 * extra))
         if not src[0]: continue
@@ -1101,7 +1140,8 @@ def solve(plan, parti=None, seed=7, time_budget_s=60.0, mode="cp",
         local, rnd = set(demoted), 0
         for rnd in range(1, MAX_DEMOTION_ROUNDS + 1):
             m = _Model(cp_model, plan, prep, levels, fp, local, soft_kinds=SOFT_ALWAYS, trees=trees)
-            s, status = _phase(cp_model, m, seed, workers, budget_2)
+            s, status = _phase(cp_model, m, seed, workers, budget_2,
+                               deterministic=deterministic)
             if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
                 g, u = m.extract(s)
                 sc = score_layout(g, u, prep, levels, plan, fp["W"], fp["H"], fp["bay"])
@@ -1159,6 +1199,14 @@ def solve(plan, parti=None, seed=7, time_budget_s=60.0, mode="cp",
                     "unsupported."),
         "solver": {
             "engine": engine, "status": status_name,
+            "deterministic": deterministic,
+            "deterministic_note": (
+                "Bounded by work done rather than by wall clock, and every topology was tried, so "
+                "this layout is a function of the inputs and nothing else." if deterministic else
+                "Bounded by wall clock: how many topologies were tried depends on how fast this "
+                "machine was, so re-running on a busier or quieter machine can return a different "
+                "layout from the same seed. Pass deterministic=True where the answer will be "
+                "pinned, compared or re-derived."),
             "wall_time_s": round(time.time() - t_start, 2),
             "relaxed_requirements": sorted(demoted),
             "unmet_requirements": unmet,

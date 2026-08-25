@@ -199,6 +199,32 @@ def check(plan, C=None, strict=False):
             adj[a["a"]].add(a["b"]); adj[a["b"]].add(a["a"])
             rel.setdefault((a["a"], a["b"]), a["relation"]); rel.setdefault((a["b"], a["a"]), a["relation"])
     types_present = {r["type"] for r in rooms.values()}
+    # OQ 42, ruled 24 Aug 2026. Every adjacency target already runs through `_alias()` when the
+    # question is what a room is NEXT TO; the question of whether the plan CONTAINS the room at
+    # all was asked against raw types, so a plan with a centre passage was told it models no
+    # entrance hall and a plan with a living room that it models no parlor. 774 of 3,219
+    # completeness findings across the catalogue were false in exactly that way.
+    #
+    # `types_modelled` is the aliased set and is used ONLY to decide whether the claim "and the
+    # plan models none" is true. It deliberately does NOT re-route these findings into the
+    # adjacency branch at the rule's own severity, which is the obvious-looking fix and is
+    # worse: measured, it turns 170 of the 774 FATAL across 87 styles. The cause is that
+    # EQUIVALENT is asymmetric in practice -- a primary bathroom satisfies a request for a
+    # bathroom, and a hall bathroom does not satisfy a primary bedroom's request for a primary
+    # bathroom -- and until each pairing states which direction it satisfies, promoting these is
+    # trading 774 false minors for 170 false fatals. So the severity is unchanged and only the
+    # sentence is corrected. The directional question stays open as OQ 43.
+    def types_modelled(rid):
+        """The aliased types the plan models, NOT counting the room doing the asking.
+
+        A room cannot satisfy its own adjacency rule. Without this the kitchen's rule to adjoin
+        a scullery was answered by the kitchen being a kitchen, which is true of the alias group
+        and nonsense as a statement about the plan."""
+        out = set()
+        for x, rr in rooms.items():
+            if x == rid: continue
+            out |= _alias(rr["type"])
+        return out
     def types_adjacent(rid):
         out = set()
         for x in adj[rid]: out |= _alias(rooms[x]["type"])
@@ -397,7 +423,8 @@ def check(plan, C=None, strict=False):
                     if ok: continue
                 sev = STRENGTH_SEV.get(rule.get("strength", "strong"), "serious")
                 if key == "should_adjoin": sev = "minor" if sev == "fatal" else sev
-                if rule["room"] not in types_present:
+                _modelled = types_modelled(rid)
+                if rule["room"] not in _modelled:
                     # Absence is a different claim from non-adjacency. A plan record that does not
                     # model closets is coarse, not wrong, and reporting that at the same severity as
                     # a genuine adjacency failure buries the findings that matter.
@@ -405,6 +432,21 @@ def check(plan, C=None, strict=False):
                           f"{label} wants to adjoin a {rule['room'].replace('-', ' ')} and the plan models none.",
                           room=rid, rule=rule["why"],
                           fix="Either the plan is missing the room, or the record simply does not model it. Run with --strict to treat absence as a failure.")
+                elif rule["room"] not in types_present:
+                    # The plan models the room under a name the catalogue treats as equivalent.
+                    # Neither of the two sentences above is true of it: it is not absent, and
+                    # saying it "does not reach" the room asserts an equivalence in a direction
+                    # nobody has ruled on (OQ 42, OQ 43). So it says what it can actually see.
+                    _eq = sorted(_alias(rule["room"]) & {rooms[x]["type"] for x in rooms if x != rid})
+                    F.add("minor" if not strict else sev, "completeness",
+                          f"{label} wants to adjoin a {rule['room'].replace('-', ' ')}; the plan models "
+                          f"{' and '.join(x.replace('-', ' ') for x in _eq)} instead, which the catalogue "
+                          f"treats as equivalent, and does not reach {'it' if len(_eq) == 1 else 'any of them'}.",
+                          room=rid, rule=rule["why"],
+                          fix=("Either put a door to it, or the equivalence is wrong for this rule and the "
+                               "room catalogue should say so. Reported at this severity rather than the "
+                               "rule's own because the EQUIVALENT groups do not yet state which direction "
+                               "they satisfy in \u2014 see OQ 43."))
                 else:
                     F.add(sev, "adjacency",
                           f"{label} does not reach a {rule['room'].replace('-', ' ')}"

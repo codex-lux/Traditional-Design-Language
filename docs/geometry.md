@@ -213,3 +213,28 @@ schema field, so it is stated here instead.
 
 A parti whose walk is still one record falls back to filling the bands by area in the order the
 parti wrote its rooms.
+
+## Reproducibility, and the trade it costs (OQ 44, 24 Aug 2026)
+
+`build/solver.py`'s topology loop stops starting new topologies once the next one could not
+finish inside the budget, and that check reads the **wall clock**. So a loaded machine tries
+fewer topologies than an idle one and a different layout wins — the same seed, the same plan, a
+different house. Nothing hid it (`topologies_tried` has always been in the record) and nothing
+said it either, and it passed whenever anyone checked, because checking one test is exactly when
+the machine is quiet. It was found by this file's own determinism test failing intermittently
+under a docstring that reads *"a suite that cannot reproduce a layout cannot pin one either."*
+
+`solve(..., deterministic=True)` runs every topology, bounds each phase by CP-SAT's own
+deterministic time — work done rather than seconds elapsed — and keeps the wall-clock limit only
+as a tenfold outer guard that the call returns at all. The answer is then a function of the
+inputs.
+
+**The default is unchanged**, because a person waiting for a plan wants the promise about time
+kept, and the two promises genuinely compete. What changed is that `geometry_report.solver` now
+carries `deterministic` and a sentence saying which trade was taken, instead of letting a reader
+assume the seed was enough. Use `deterministic=True` for anything that will be pinned, compared
+or re-derived.
+
+`DET_UNITS_PER_SECOND` is a **calibration, not a conversion**: how much wall time one
+deterministic unit buys depends on the machine, which is the point. It needs to be fixed, not
+accurate.

@@ -1,225 +1,228 @@
 {
-  "id": "parapet-as-stage-flat",
-  "name": "The parapet with a roof behind it",
-  "aka": [
-    "the false front",
-    "the applied espadaña",
-    "the shingle behind the parapet"
-  ],
-  "slots": [
-    "parapet"
-  ],
-  "severity": "serious",
-  "frequency": "common",
-  "category": "composition",
-  "symptom": "A shaped or straight parapet on the entrance elevation only, with a pitched composition-shingle roof clearly visible behind and above it from any oblique view, and the parapet's back face left unfinished — bare sheathing, house wrap, or a different colour. The parapet has no coping, or a coping so thin it reads as a metal cap, and the returns at each end stop after 12-18 in.",
-  "cause": {
-    "driver": "cost",
-    "explanation": "A real flat or low-slope roof behind a parapet needs a membrane, internal or scupper drainage, overflow provision and a parapet built as a wall with a cap flashing — a different roofing trade with different warranties. A shingled roof with an applied parapet across the front keeps the whole roof in one cheap system and puts the style on the elevation where it will be photographed. It is the Western false-front logic applied to a suburban house.",
-    "cost_saved": "A genuine low-slope roof with parapets, coping and scuppers runs $16-$30/sf against $5-$9/sf for asphalt shingles on a pitched deck. On a 1,400 sf footprint, $15,000-$30,000."
+ "id": "parapet-as-stage-flat",
+ "name": "The parapet with a roof behind it",
+ "aka": [
+  "the false front",
+  "the applied espadaña",
+  "the shingle behind the parapet"
+ ],
+ "slots": [
+  "parapet"
+ ],
+ "severity": "serious",
+ "frequency": "common",
+ "category": "composition",
+ "symptom": "A shaped or straight parapet on the entrance elevation only, with a pitched composition-shingle roof clearly visible behind and above it from any oblique view, and the parapet's back face left unfinished — bare sheathing, house wrap, or a different colour. The parapet has no coping, or a coping so thin it reads as a metal cap, and the returns at each end stop after 12-18 in.",
+ "cause": {
+  "driver": "cost",
+  "explanation": "A real flat or low-slope roof behind a parapet needs a membrane, internal or scupper drainage, overflow provision and a parapet built as a wall with a cap flashing — a different roofing trade with different warranties. A shingled roof with an applied parapet across the front keeps the whole roof in one cheap system and puts the style on the elevation where it will be photographed. It is the Western false-front logic applied to a suburban house.",
+  "cost_saved": "A genuine low-slope roof with parapets, coping and scuppers runs $16-$30/sf against $5-$9/sf for asphalt shingles on a pitched deck. On a 1,400 sf footprint, $15,000-$30,000."
+ },
+ "rule_violated": [
+  {
+   "kind": "kit-variant",
+   "ref": "georgian-colonial-american / parapet (binding: forbidden)",
+   "statement": "The wall terminates in the cornice and the roof is shown; there is no parapet concealing it. Qualified only for urban party-wall fire walls in Charleston and Philadelphia."
   },
-  "rule_violated": [
-    {
-      "kind": "kit-variant",
-      "ref": "georgian-colonial-american / parapet (binding: forbidden)",
-      "statement": "The wall terminates in the cornice and the roof is shown; there is no parapet concealing it. Qualified only for urban party-wall fire walls in Charleston and Philadelphia."
-    },
-    {
-      "kind": "first-principle",
-      "ref": "a parapet is the top of a wall, so it must have a section and a cap",
-      "statement": "A parapet is a wall that continues past the roof. It therefore has two faces, a thickness of 8-16 in, and a coping that sheds water off both sides. A parapet with one face and no thickness is a screen."
-    }
-  ],
-  "correct_practice": "Either build the roof the parapet implies, or do not build the parapet. Where a parapet is right — Mission Revival, Spanish Colonial Revival, Pueblo Revival, Territorial, Italianate commercial, and urban party-wall fire walls — it is a real wall 8-16 in thick, finished on both faces, carried the full way round the volume or terminating at a return of at least 24 in with a finished end, and capped with a coping that projects 1-2 in past each face with a drip and a positive cross-fall. Behind it is a low-slope roof draining through canales, scuppers or an internal drain, with an overflow at 2 in above the primary. In Pueblo Revival the parapet top is deliberately NOT level — a dead-straight parapet indicates a Territorial or commercial building — and canales project through it. In Mission Revival the shaped gable parapet may crown one elevation, but it stands on a wall of the same thickness and is finished behind.",
-  "fixes": {
-    "right": "Build the low-slope roof and the real parapet, with a proper coping and scuppers with overflows.",
-    "cheap": "Delete the parapet and let the roof be a roof. Where the client wants the silhouette, confine the parapet to a genuine single element that can be built solid all the way through — an entrance bay, a chimney mass, a garden wall running off the house — so it is a thick wall with two faces and a coping, standing in front of the roof rather than pretending the roof is not there. This costs less than the false version because it is smaller.",
-    "dishonest": "Roofing the visible slope behind the parapet in a dark colour so the shingles read as shadow. It works in one photograph from one angle and fails from every other, and it commits the building to a permanent lie the owner has to maintain. Also dishonest: a thin coping of bent metal in a colour matched to the wall, which is what happens when someone is told the parapet needs a cap — a coping is a member with a projection and a drip, not a flashing."
+  {
+   "kind": "first-principle",
+   "ref": "a parapet is the top of a wall, so it must have a section and a cap",
+   "statement": "A parapet is a wall that continues past the roof. It therefore has two faces, a thickness of 8-16 in, and a coping that sheds water off both sides. A parapet with one face and no thickness is a screen."
+  }
+ ],
+ "correct_practice": "Either build the roof the parapet implies, or do not build the parapet. Where a parapet is right — Mission Revival, Spanish Colonial Revival, Pueblo Revival, Territorial, Italianate commercial, and urban party-wall fire walls — it is a real wall 8-16 in thick, finished on both faces, carried the full way round the volume or terminating at a return of at least 24 in with a finished end, and capped with a coping that projects 1-2 in past each face with a drip and a positive cross-fall. Behind it is a low-slope roof draining through canales, scuppers or an internal drain, with an overflow at 2 in above the primary. In Pueblo Revival the parapet top is deliberately NOT level — a dead-straight parapet indicates a Territorial or commercial building — and canales project through it. In Mission Revival the shaped gable parapet may crown one elevation, but it stands on a wall of the same thickness and is finished behind.",
+ "fixes": {
+  "right": "Build the low-slope roof and the real parapet, with a proper coping and scuppers with overflows.",
+  "cheap": "Delete the parapet and let the roof be a roof. Where the client wants the silhouette, confine the parapet to a genuine single element that can be built solid all the way through — an entrance bay, a chimney mass, a garden wall running off the house — so it is a thick wall with two faces and a coping, standing in front of the roof rather than pretending the roof is not there. This costs less than the false version because it is smaller.",
+  "dishonest": "Roofing the visible slope behind the parapet in a dark colour so the shingles read as shadow. It works in one photograph from one angle and fails from every other, and it commits the building to a permanent lie the owner has to maintain. Also dishonest: a thin coping of bent metal in a colour matched to the wall, which is what happens when someone is told the parapet needs a cap — a coping is a member with a projection and a drip, not a flashing."
+ },
+ "detection": "Look for the roof. In any oblique or aerial view, a pitched roof plane rising above or immediately behind a parapet settles it. In a straight-on view, three tells: (1) the parapet's return at the ends — a real parapet returns as a thick wall with a visible end face and coping, a false one stops in a mitred corner or dies into the roof edge; (2) the coping — measure its projection past the wall face, which should be 1-2 in with a visible drip shadow; a flush metal cap is a flashing; (3) the thickness at any opening or scupper through the parapet, which shows the section directly. And in Pueblo Revival specifically, a dead-level parapet line is itself diagnostic of the wrong type.",
+ "applies_to": [
+  "universal"
+ ],
+ "exceptions": [
+  {
+   "style": "charleston-georgian",
+   "why": "Urban party-wall conditions in Charleston and Philadelphia do carry brick end parapets with coping, and those are FIRE walls rather than compositional devices. The kit records this as the one clean case for overriding the Georgian slot-level prohibition.",
+   "bounds": "Only at a party wall or a zero-lot-line flank, only in masonry, only carried above the roof by the height a fire wall requires (30 in in most historic practice), and always with a real coping. It is a code element, not a style element, and it appears at the gable ends rather than across the front.",
+   "bounds_test": {
+    "expression": "parapet_height_above_roof_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 30,
+    "note": "A fire wall carried above the roof by the height fire separation requires, in masonry, always with a real coping. It is a code element rather than a style element, and it appears at the gable ends rather than across the front."
+   },
+   "applies_when": {
+    "construction": [
+     "solid-masonry-two-wythe",
+     "solid-masonry-three-wythe"
+    ],
+    "regions": [
+     "Charleston",
+     "Philadelphia"
+    ],
+    "slots": [
+     "parapet",
+     "wing_strategy"
+    ],
+    "note": "Party-wall or zero-lot-line flank only. This is the one clean case for overriding the Georgian slot-level prohibition."
+   }
   },
-  "detection": "Look for the roof. In any oblique or aerial view, a pitched roof plane rising above or immediately behind a parapet settles it. In a straight-on view, three tells: (1) the parapet's return at the ends — a real parapet returns as a thick wall with a visible end face and coping, a false one stops in a mitred corner or dies into the roof edge; (2) the coping — measure its projection past the wall face, which should be 1-2 in with a visible drip shadow; a flush metal cap is a flashing; (3) the thickness at any opening or scupper through the parapet, which shows the section directly. And in Pueblo Revival specifically, a dead-level parapet line is itself diagnostic of the wrong type.",
-  "applies_to": [
-    "universal"
-  ],
-  "exceptions": [
-    {
-      "style": "charleston-georgian",
-      "why": "Urban party-wall conditions in Charleston and Philadelphia do carry brick end parapets with coping, and those are FIRE walls rather than compositional devices. The kit records this as the one clean case for overriding the Georgian slot-level prohibition.",
-      "bounds": "Only at a party wall or a zero-lot-line flank, only in masonry, only carried above the roof by the height a fire wall requires (30 in in most historic practice), and always with a real coping. It is a code element, not a style element, and it appears at the gable ends rather than across the front.",
-      "bounds_test": {
-        "expression": "parapet_height_above_roof_in",
-        "direction": "at-least",
-        "units": "in",
-        "measurable_from": "photograph",
-        "threshold": 30,
-        "note": "A fire wall carried above the roof by the height fire separation requires, in masonry, always with a real coping. It is a code element rather than a style element, and it appears at the gable ends rather than across the front."
-      },
-      "applies_when": {
-        "construction": [
-          "solid-masonry-two-wythe",
-          "solid-masonry-three-wythe"
-        ],
-        "regions": [
-          "Charleston",
-          "Philadelphia"
-        ],
-        "slots": [
-          "parapet",
-          "wing_strategy"
-        ],
-        "note": "Party-wall or zero-lot-line flank only. This is the one clean case for overriding the Georgian slot-level prohibition."
-      }
-    },
-    {
-      "style": "mission-revival",
-      "why": "The shaped espadaña or curvilinear gable parapet is the style's central gesture and legitimately crowns one elevation.",
-      "bounds": "It must be a real thick wall with both faces finished and a tile or plaster coping, and the roof behind it must be a genuine low-slope or tiled roof detailed to work with it. A shaped board screen on a truss roof is the fault.",
-      "bounds_test": {
-        "expression": "parapet_thickness_in",
-        "direction": "at-least",
-        "units": "in",
-        "measurable_from": "photograph",
-        "threshold": 8,
-        "note": "A real thick wall with both faces finished and a tile or plaster coping, over a genuine low-slope or tiled roof. A shaped board screen on a truss roof is the fault."
-      },
-      "applies_when": {
-        "slots": [
-          "parapet",
-          "roof_form",
-          "roof_material"
-        ]
-      }
-    },
-    {
-      "style": "pueblo-revival",
-      "why": "The parapet IS the roof edge and there is no eave, fascia or gutter anywhere; drainage is by projecting canales.",
-      "bounds": "Requires a genuine flat roof, canales that actually discharge, and an irregular, gently undulating parapet line. A level parapet with no canales is Territorial or commercial, not Pueblo.",
-      "bounds_test": {
-        "expression": "canale_projection_past_wall_face_in",
-        "direction": "at-least",
-        "units": "in",
-        "measurable_from": "photograph",
-        "threshold": 12,
-        "note": "Canales must actually discharge and must project 12-24 in, or they stain the wall permanently. A level parapet with no canales is Territorial or commercial, not Pueblo."
-      },
-      "applies_when": {
-        "slots": [
-          "parapet",
-          "roof_form",
-          "rainwater"
-        ],
-        "construction": [
-          "adobe",
-          "rammed-earth"
-        ]
-      }
-    },
-    {
-      "style": "italianate-townhouse",
-      "why": "An urban block with a parapet above a bracketed cornice concealing a low-slope roof is entirely correct and was the normal construction.",
-      "bounds": "Requires the real low-slope roof and internal or rear drainage; the parapet is continuous across the block.",
-      "bounds_test": {
-        "expression": "roof_pitch_rise_per_12",
-        "direction": "at-most",
-        "units": "count",
-        "measurable_from": "photograph",
-        "threshold": 2,
-        "note": "Requires the real low-slope roof and internal or rear drainage; the parapet is continuous across the block."
-      }
-    },
-    {
-      "style": "monterey-colonial",
-      "why": "Flat-roofed adobe with parapet is within the type's range.",
-      "bounds": "Real flat roof, real parapet thickness.",
-      "bounds_test": {
-        "expression": "parapet_thickness_in",
-        "direction": "at-least",
-        "units": "in",
-        "measurable_from": "photograph",
-        "threshold": 8,
-        "note": "Real flat roof, real parapet thickness."
-      }
-    }
-  ],
-  "confused_with": [
-    {
-      "fault": "brick-front-vinyl-return",
-      "difference": "Both are front-elevation-only gestures. This one operates in section rather than in plan, and it is often the same house."
-    }
-  ],
-  "sources": [
-    "kits/georgian-colonial-american.kit.json, parapet (forbidden, with the Charleston qualification)",
-    "styles/pueblo-revival.json and styles/mission-revival.json",
-    "NPS Preservation Brief 4: Roofing for Historic Buildings",
-    "International Building Code / IRC provisions for parapet fire walls and roof drainage overflow"
-  ],
-  "confidence": "medium",
-  "tags": [
-    "parapet",
-    "composition",
-    "material-honesty",
-    "roof"
-  ],
-  "test": {
+  {
+   "style": "mission-revival",
+   "why": "The shaped espadaña or curvilinear gable parapet is the style's central gesture and legitimately crowns one elevation.",
+   "bounds": "It must be a real thick wall with both faces finished and a tile or plaster coping, and the roof behind it must be a genuine low-slope or tiled roof detailed to work with it. A shaped board screen on a truss roof is the fault.",
+   "bounds_test": {
     "expression": "parapet_thickness_in",
     "direction": "at-least",
     "units": "in",
     "measurable_from": "photograph",
     "threshold": 8,
-    "note": "A parapet is a wall that continues past the roof, so it has two faces and a thickness of 8-16 in. A screen has one face and no thickness. Measurable directly at any opening, scupper or canale through the parapet, and at the end of a return, where the section is visible in elevation."
+    "note": "A real thick wall with both faces finished and a tile or plaster coping, over a genuine low-slope or tiled roof. A shaped board screen on a truss roof is the fault."
+   },
+   "applies_when": {
+    "slots": [
+     "parapet",
+     "roof_form",
+     "roof_material"
+    ]
+   }
   },
-  "secondary_tests": [
-    {
-      "expression": "coping_projection_past_wall_face_in",
-      "direction": "at-least",
-      "units": "in",
-      "measurable_from": "photograph",
-      "threshold": 1.0,
-      "note": "A coping sheds water off BOTH faces and projects 1-2 in past each with a drip and a positive cross-fall. A flush bent-metal cap in a colour matched to the wall is a flashing, not a coping, and is what appears when someone is told the parapet needs a cap."
-    },
-    {
-      "expression": "parapet_return_length_in",
-      "direction": "at-least",
-      "units": "in",
-      "measurable_from": "photograph",
-      "threshold": 24,
-      "note": "Where the parapet does not run the full way round the volume, it must terminate in a return of at least 24 in with a finished end face. A mitred corner that dies into the roof edge after 12-18 in is the false-front signature."
-    },
-    {
-      "expression": "visible_pitched_roof_area_above_parapet_line",
-      "direction": "at-most",
-      "units": "count",
-      "measurable_from": "photograph",
-      "threshold": 0,
-      "note": "The decisive test and the easiest: any pitched roof plane rising above or immediately behind the parapet in an oblique or aerial view settles it. Satellite imagery resolves this in seconds."
-    },
-    {
-      "expression": "parapet_top_deviation_from_horizontal_deg",
-      "direction": "at-least",
-      "units": "deg",
-      "measurable_from": "photograph",
-      "threshold": 0.5,
-      "note": "PUEBLO REVIVAL ONLY, and inverted: the parapet top is deliberately NOT level. A dead-straight parapet indicates a Territorial or commercial building rather than Pueblo Revival, which is the style node's own tell."
-    }
-  ],
-  "co_occurs_with": [
-    "stucco-with-no-arris",
-    "brick-front-vinyl-return"
-  ],
-  "severity_by_style": [
-    {
-      "style": "mission-revival",
-      "severity": "fatal",
-      "why": "The shaped espadana is the style's central gesture; executed as a board screen there is nothing else holding the identification."
-    },
-    {
-      "style": "pueblo-revival",
-      "severity": "fatal",
-      "why": "The parapet IS the roof edge and the canales are the drainage; a pitched roof behind it contradicts the whole section."
-    },
-    {
-      "style": "georgian-colonial-american",
-      "severity": "serious",
-      "why": "The kit binds parapet to 'forbidden' at slot level — the wall terminates in the cornice and the roof is shown — so the fault here is the parapet's presence rather than its construction."
-    }
-  ]
+  {
+   "style": "pueblo-revival",
+   "why": "The parapet IS the roof edge and there is no eave, fascia or gutter anywhere; drainage is by projecting canales.",
+   "bounds": "Requires a genuine flat roof, canales that actually discharge, and an irregular, gently undulating parapet line. A level parapet with no canales is Territorial or commercial, not Pueblo.",
+   "bounds_test": {
+    "expression": "canale_projection_past_wall_face_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 12,
+    "note": "Canales must actually discharge and must project 12-24 in, or they stain the wall permanently. A level parapet with no canales is Territorial or commercial, not Pueblo."
+   },
+   "applies_when": {
+    "slots": [
+     "parapet",
+     "roof_form",
+     "rainwater"
+    ],
+    "construction": [
+     "adobe",
+     "rammed-earth"
+    ]
+   }
+  },
+  {
+   "style": "italianate-townhouse",
+   "why": "An urban block with a parapet above a bracketed cornice concealing a low-slope roof is entirely correct and was the normal construction.",
+   "bounds": "Requires the real low-slope roof and internal or rear drainage; the parapet is continuous across the block.",
+   "bounds_test": {
+    "expression": "roof_pitch_rise_per_12",
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "photograph",
+    "threshold": 2,
+    "note": "Requires the real low-slope roof and internal or rear drainage; the parapet is continuous across the block."
+   }
+  },
+  {
+   "style": "monterey-colonial",
+   "why": "Flat-roofed adobe with parapet is within the type's range.",
+   "bounds": "Real flat roof, real parapet thickness.",
+   "bounds_test": {
+    "expression": "parapet_thickness_in",
+    "direction": "at-least",
+    "units": "in",
+    "measurable_from": "photograph",
+    "threshold": 8,
+    "note": "Real flat roof, real parapet thickness."
+   }
+  }
+ ],
+ "confused_with": [
+  {
+   "fault": "brick-front-vinyl-return",
+   "difference": "Both are front-elevation-only gestures. This one operates in section rather than in plan, and it is often the same house."
+  }
+ ],
+ "sources": [
+  "kits/georgian-colonial-american.kit.json, parapet (forbidden, with the Charleston qualification)",
+  "styles/pueblo-revival.json and styles/mission-revival.json",
+  "NPS Preservation Brief 4: Roofing for Historic Buildings",
+  "International Building Code / IRC provisions for parapet fire walls and roof drainage overflow"
+ ],
+ "confidence": "medium",
+ "tags": [
+  "parapet",
+  "composition",
+  "material-honesty",
+  "roof"
+ ],
+ "test": {
+  "expression": "parapet_thickness_in",
+  "direction": "at-least",
+  "units": "in",
+  "measurable_from": "photograph",
+  "threshold": 8,
+  "note": "A parapet is a wall that continues past the roof, so it has two faces and a thickness of 8-16 in. A screen has one face and no thickness. Measurable directly at any opening, scupper or canale through the parapet, and at the end of a return, where the section is visible in elevation."
+ },
+ "secondary_tests": [
+  {
+   "expression": "coping_projection_past_wall_face_in",
+   "direction": "at-least",
+   "units": "in",
+   "measurable_from": "photograph",
+   "threshold": 1.0,
+   "note": "A coping sheds water off BOTH faces and projects 1-2 in past each with a drip and a positive cross-fall. A flush bent-metal cap in a colour matched to the wall is a flashing, not a coping, and is what appears when someone is told the parapet needs a cap."
+  },
+  {
+   "expression": "parapet_return_length_in",
+   "direction": "at-least",
+   "units": "in",
+   "measurable_from": "photograph",
+   "threshold": 24,
+   "note": "Where the parapet does not run the full way round the volume, it must terminate in a return of at least 24 in with a finished end face. A mitred corner that dies into the roof edge after 12-18 in is the false-front signature."
+  },
+  {
+   "expression": "visible_pitched_roof_area_above_parapet_line",
+   "direction": "at-most",
+   "units": "count",
+   "measurable_from": "photograph",
+   "threshold": 0,
+   "note": "The decisive test and the easiest: any pitched roof plane rising above or immediately behind the parapet in an oblique or aerial view settles it. Satellite imagery resolves this in seconds."
+  },
+  {
+   "expression": "parapet_top_deviation_from_horizontal_deg",
+   "direction": "at-least",
+   "units": "deg",
+   "measurable_from": "photograph",
+   "threshold": 0.5,
+   "note": "PUEBLO REVIVAL ONLY, and inverted: the parapet top is deliberately NOT level. A dead-straight parapet indicates a Territorial or commercial building rather than Pueblo Revival, which is the style node's own tell. SCOPED 24 Aug 2026 (OQ 41): this note begins 'PUEBLO REVIVAL ONLY, and inverted'. It is the only test in the corpus that fails a house for being level, so applied universally it failed every correctly-built Territorial, Mediterranean and commercial parapet there is.",
+   "applies_to_styles": [
+    "pueblo-revival"
+   ]
+  }
+ ],
+ "co_occurs_with": [
+  "stucco-with-no-arris",
+  "brick-front-vinyl-return"
+ ],
+ "severity_by_style": [
+  {
+   "style": "mission-revival",
+   "severity": "fatal",
+   "why": "The shaped espadana is the style's central gesture; executed as a board screen there is nothing else holding the identification."
+  },
+  {
+   "style": "pueblo-revival",
+   "severity": "fatal",
+   "why": "The parapet IS the roof edge and the canales are the drainage; a pitched roof behind it contradicts the whole section."
+  },
+  {
+   "style": "georgian-colonial-american",
+   "severity": "serious",
+   "why": "The kit binds parapet to 'forbidden' at slot level — the wall terminates in the cornice and the roof is shown — so the fault here is the parapet's presence rather than its construction."
+  }
+ ]
 }

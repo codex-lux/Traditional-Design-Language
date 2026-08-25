@@ -250,11 +250,34 @@ class TestDeterminism:
         # A short budget on purpose: determinism is about reproducing a layout, not about
         # producing a good one, and two full-budget solves would cost the suite half a minute
         # to prove something a short one proves just as well.
+        #
+        # `deterministic=True` added 24 Aug 2026, after this test failed intermittently. It was
+        # right and the solver was wrong: the topology loop stopped starting new topologies by
+        # reading the WALL CLOCK, so a loaded machine tried fewer than an idle one and a
+        # different layout won -- the same seed, the same plan, a different house. It passed
+        # whenever anyone checked, because checking one test is exactly when the machine is
+        # quiet. See TestWallClockModeSaysSoAboutItself below for the other half.
         a = solver_module.solve(load_plan("tidewater-georgian-careful"), None,
-                                seed=7, time_budget_s=8.0, workers=1)
+                                seed=7, time_budget_s=8.0, workers=1, deterministic=True)
         b = solver_module.solve(load_plan("tidewater-georgian-careful"), None,
-                                seed=7, time_budget_s=8.0, workers=1)
+                                seed=7, time_budget_s=8.0, workers=1, deterministic=True)
         assert _layout(a) == _layout(b)
+        assert a["geometry_report"]["solver"]["deterministic"] is True
+
+
+class TestWallClockModeSaysSoAboutItself:
+    """The default is still wall-clock bounded, because a person waiting for a plan wants the
+    promise about time kept. What changed is that the record now says which trade was taken,
+    instead of letting a reader assume the seed was enough."""
+
+    def test_the_default_declares_that_its_layout_is_machine_dependent(self, solver_module):
+        pytest.importorskip("ortools")
+        out = solver_module.solve(load_plan("tidewater-georgian-careful"), None,
+                                  seed=7, time_budget_s=8.0, workers=1)
+        sv = out["geometry_report"]["solver"]
+        assert sv["deterministic"] is False
+        assert "depends on how fast this machine was" in sv["deterministic_note"]
+        assert "deterministic=True" in sv["deterministic_note"]
 
 
 class TestRelaxationRecount:

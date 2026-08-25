@@ -33,7 +33,9 @@ class TestShippedPlans:
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
         # and serious are unmoved, which is what says this removed noise and not signal.
-        assert result["counts"]["minor"] == 57
+        # 57 -> 56 the same day (OQ 41): one more finding came from a secondary test written
+        # for another style, and is no longer run against this one.
+        assert result["counts"]["minor"] == 56
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -53,7 +55,9 @@ class TestShippedPlans:
         plan = load_plan("tidewater-georgian-careful")
         result = plan_check_module.check(plan, corpus)
         assert result["counts"].get("fatal", 0) == 0
-        assert result["counts"]["serious"] == 39
+        # 39 -> 38 on 24 Aug 2026 (OQ 41): a secondary test written for another style is no
+        # longer run against this one. A test that is not for this house says nothing about it.
+        assert result["counts"]["serious"] == 38
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 37).
         assert result["counts"]["minor"] == 64
 
@@ -439,3 +443,83 @@ class TestTheAliasGroupsAreDocumented:
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         doc = open(os.path.join(root, "docs", "plans.md")).read()
         assert "gallery-corridor" in doc and "entrance hall" in doc.lower()
+
+
+class TestEquivalentRoomIsNotAbsent:
+    """OQ 42, ruled 24 Aug 2026. Every adjacency target already ran through _alias() when the
+    question was what a room is NEXT TO; whether the plan CONTAINED the room at all was asked
+    against raw types, so a plan with a centre passage was told it models no entrance hall.
+    774 of 3,219 completeness findings across the catalogue were false in exactly that way.
+
+    The ruling was to correct the SENTENCE and not the severity. Re-routing these into the
+    adjacency branch at the rule's own strength is the obvious-looking fix and is worse:
+    measured, it turns 170 of them FATAL across 87 styles, because EQUIVALENT is asymmetric in
+    practice and no pairing states which direction it satisfies (OQ 43)."""
+
+    def test_an_equivalent_room_the_plan_models_is_not_reported_as_absent(self, plan_check_module, corpus):
+        rooms = [
+            {"id": "pr", "type": "powder-room", "name": "Powder Room",
+             "width_ft": 4, "length_ft": 6, "exterior_walls": [], "windows": [],
+             "doors": [{"to": "bh", "width_ft": 2.5}]},
+            {"id": "bh", "type": "back-hall", "name": "Back Hall",
+             "width_ft": 6, "length_ft": 12, "exterior_walls": [], "windows": [],
+             "doors": [{"to": "pr", "width_ft": 2.5}]},
+            {"id": "cp", "type": "centre-passage", "name": "Centre Passage",
+             "width_ft": 10, "length_ft": 20, "exterior_walls": ["S"],
+             "windows": [{"wall": "S", "width_ft": 3, "height_ft": 5, "count": 1}],
+             "doors": [{"to": "exterior", "width_ft": 3.5}]},
+        ]
+        hits = [f for f in plan_check_module.check(minimal_plan(rooms), corpus)["findings"]
+                if f.get("room") == "pr" and "entrance hall" in f["statement"].lower()]
+        assert len(hits) == 1
+        assert "the plan models none" not in hits[0]["statement"], hits[0]["statement"]
+        assert "treats as equivalent" in hits[0]["statement"]
+        assert "centre passage" in hits[0]["statement"]
+
+    def test_it_stays_minor_and_stays_completeness(self, plan_check_module, corpus):
+        """Trading 774 false minors for 170 false fatals is not a fix."""
+        rooms = [
+            {"id": "pr", "type": "powder-room", "name": "Powder Room",
+             "width_ft": 4, "length_ft": 6, "exterior_walls": [], "windows": [],
+             "doors": [{"to": "bh", "width_ft": 2.5}]},
+            {"id": "bh", "type": "back-hall", "name": "Back Hall",
+             "width_ft": 6, "length_ft": 12, "exterior_walls": [], "windows": [],
+             "doors": [{"to": "pr", "width_ft": 2.5}]},
+            {"id": "cp", "type": "centre-passage", "name": "Centre Passage",
+             "width_ft": 10, "length_ft": 20, "exterior_walls": ["S"],
+             "windows": [{"wall": "S", "width_ft": 3, "height_ft": 5, "count": 1}],
+             "doors": [{"to": "exterior", "width_ft": 3.5}]},
+        ]
+        hit = next(f for f in plan_check_module.check(minimal_plan(rooms), corpus)["findings"]
+                   if f.get("room") == "pr" and "entrance hall" in f["statement"].lower())
+        assert hit["severity"] == "minor"
+        assert hit["layer"] == "completeness"
+        assert "OQ 43" in hit["fix"]
+
+    def test_a_room_cannot_satisfy_its_own_rule_through_its_own_alias_group(self, plan_check_module, corpus):
+        """Without this the kitchen's rule to adjoin a scullery was answered by the kitchen
+        being a kitchen -- true of the alias group, nonsense as a statement about the plan."""
+        rooms = [
+            {"id": "k", "type": "kitchen", "name": "Kitchen",
+             "width_ft": 12, "length_ft": 14, "exterior_walls": ["N"],
+             "windows": [{"wall": "N", "width_ft": 3, "height_ft": 4, "count": 1}],
+             "doors": [{"to": "exterior", "width_ft": 3}]},
+        ]
+        hits = [f for f in plan_check_module.check(minimal_plan(rooms), corpus)["findings"]
+                if f.get("room") == "k" and "scullery" in f["statement"].lower()]
+        if hits:
+            assert "the plan models none" in hits[0]["statement"], hits[0]["statement"]
+
+    def test_a_genuinely_absent_room_still_says_so(self, plan_check_module, corpus):
+        rooms = [
+            {"id": "pr", "type": "powder-room", "name": "Powder Room",
+             "width_ft": 4, "length_ft": 6, "exterior_walls": [], "windows": [],
+             "doors": [{"to": "bh", "width_ft": 2.5}]},
+            {"id": "bh", "type": "back-hall", "name": "Back Hall",
+             "width_ft": 6, "length_ft": 12, "exterior_walls": ["S"],
+             "windows": [{"wall": "S", "width_ft": 3, "height_ft": 5, "count": 1}],
+             "doors": [{"to": "pr", "width_ft": 2.5}, {"to": "exterior", "width_ft": 3.5}]},
+        ]
+        hit = next(f for f in plan_check_module.check(minimal_plan(rooms), corpus)["findings"]
+                   if f.get("room") == "pr" and "entrance hall" in f["statement"].lower())
+        assert "the plan models none" in hit["statement"]

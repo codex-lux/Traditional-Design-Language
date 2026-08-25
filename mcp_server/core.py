@@ -346,16 +346,39 @@ def _fault_card(f, style_id=None):
             "test": f.get("test", {}).get("expression"),
             "measurable_from": f.get("test", {}).get("measurable_from")}
 
-def _applies(f, style_id, D):
-    if "universal" in f["applies_to"]: return True
-    if style_id in f["applies_to"]: return True
+def _style_chain(style_id, D):
+    """A style and everything it inherits from, as a set. Extracted from _applies so a TEST can
+    be scoped to a style the same way a FAULT is (OQ 41)."""
     chain = set([style_id] + _cascade(style_id))
-    n = D["styles"].get(style_id)
-    cur = n
+    cur = D["styles"].get(style_id)
     for _ in range(6):
         if not cur: break
         chain.add(cur["id"]); cur = D["styles"].get(cur.get("member_of") or "")
-    return bool(chain & set(f["applies_to"]))
+    return chain
+
+
+def _test_applies(t, style_id, D):
+    """Whether one TEST of a fault is written for this style (OQ 41).
+
+    `applies_to_styles` absent means every style the fault applies to, which is the behaviour
+    before the field existed. Present, it is matched against the style AND its inheritance
+    chain, so a test scoped to a parent still applies to its descendants.
+
+    This exists because `check_measurements` reports a fault present when ANY of its tests
+    fails, and a secondary test written for one style was therefore failing houses of every
+    other. `faults/chimney-omitted.json` carries a Tudor Revival chimney-breadth ratio and a
+    Prairie visual-mass test whose own notes say so, and both fired on a Cape Cod colonial --
+    which is why a parti named `cape-central-chimney` was reported as having no chimney."""
+    want = t.get("applies_to_styles")
+    if not want: return True
+    if not style_id: return False
+    return bool(_style_chain(style_id, D) & set(want))
+
+
+def _applies(f, style_id, D):
+    if "universal" in f["applies_to"]: return True
+    if style_id in f["applies_to"]: return True
+    return bool(_style_chain(style_id, D) & set(f["applies_to"]))
 
 def find_faults(style=None, slot=None, group=None, severity=None, frequency=None,
                 measurable_from=None, query=None, limit=25):
@@ -483,7 +506,11 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         tests = [f.get("test")] + list(f.get("secondary_tests") or [])
         exc = next((e for e in f.get("exceptions", []) if style and e["style"] == style), None)
         if exc and exc.get("bounds_test"): tests = [exc["bounds_test"]] + tests[1:]
-        results = [r for r in (_eval_test(t, measurements) for t in tests if t) if r]
+        # OQ 41: a test scoped to another style is not run at all. Not run is not the same as
+        # passed -- a test that is not for this house says nothing about this house, and the
+        # fault's judgement rests on the tests that ARE for it.
+        tests = [t for t in tests if t and _test_applies(t, style, D)]
+        results = [r for r in (_eval_test(t, measurements) for t in tests) if r]
         ev = [r for r in results if r["status"] == "evaluated"]
         if not ev:
             miss = sorted({m for r in results if r["status"] == "need_measurements" for m in r["missing"]})

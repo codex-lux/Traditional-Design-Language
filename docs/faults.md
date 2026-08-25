@@ -79,3 +79,26 @@ period rail meets a modern dimension:**
 
 The corresponding faults are `guard-height-against-the-period-rail`, `baluster-spacing-as-fence`,
 `baluster-too-thin`, `newel-too-thin` and `rail-without-a-bottom-rail`.
+
+## Scoping a test to the styles it was written for (OQ 41, 24 Aug 2026)
+
+A test — primary or secondary — may carry `applies_to_styles`. **Absent means every style the
+fault applies to**, which is the behaviour before the field existed. Present, it is matched
+against the style *and its inheritance chain*, so a test scoped to a parent still applies to its
+variants.
+
+It exists because `check_measurements` reports a fault present when **any** of its tests fails.
+A secondary test written for one style was therefore failing houses of every other:
+`chimney-omitted` carries a Tudor Revival chimney-breadth ratio and a Prairie visual-mass test,
+and both fired on a Cape Cod colonial — which is how a parti named `cape-central-chimney` came to
+be reported as having no chimney. Before the fix, **17 of 129 styles could not return a clean
+plan under their own native diagram**.
+
+A test that is not for this style is **not run**, and that is not the same as passing. It does
+not appear in the evaluated results in either direction.
+
+**Scope on what a note SAYS, not on what it mentions.** Twenty-four of 273 secondary tests name a
+style in their note and only six name it as a scope. The rest name one as context, as a reference
+band, or as the very case the test exists to discriminate — `frieze-as-fascia-board` separates a
+genuine Greek Revival frieze-band window from a collision, and scoping it to Greek Revival would
+remove the case it is for.
