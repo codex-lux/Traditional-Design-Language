@@ -249,6 +249,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "dutch-gambrel",
+      "role": "primary",
+      "note": "The parent of both branches, and the node that states the two regimes this pack has to hold apart. Its record gives the colonial figures -- plate 7 to 9 ft, the gambrel arriving c. 1720 as 'an eighteenth-century arrival that lets you get a full upper floor', spring eave 18-36 in -- and also names, in its own words, what the revival did to them: it 'fixed on the gambrel roof and the full-width shed dormer -- a combination that almost never occurs in the colonial original'. That sentence is the authority for this pack's dormer count of zero, which is the same move `greek-doric` makes with its ornament count and for the same reason: absence is the form's most-broken rule.",
+      "precedence": 0
+    },
+    {
       "pack": "timber-bay",
       "role": "primary",
       "note": "Supplies the base module of the whole rural tradition. The style's own governing_logic names it directly: the H-bent frame bay repeated along the ridge at 8-12 ft on centre. Even after the frame retreats into masonry on the Hudson Valley stone houses, the bent-spacing rhythm survives as the room module (18-22 ft), which is why the pack is bound here rather than replaced by a masonry-only system. Bound at the style's own 8-12 ft bay rather than the pack's documented 16-20 ft English box-frame band; no source explains why the Dutch H-bent runs shorter than the English bay, and that gap is worth stating rather than silently reconciling. dutch-colonial-american is named directly in timber-bay's own applies_to.",

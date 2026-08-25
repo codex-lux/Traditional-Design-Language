@@ -228,6 +228,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "dutch-gambrel",
+      "role": "primary",
+      "note": "The type this pack was written from, and the node that supplies most of its numbers: the lower slope at 60-72 degrees, the upper at 18-30, the break at 55-70 percent of the half-span, the plate at 7 ft 6 in to 9 ft, the sweep at a 4-8 ft radius projecting 24-36 in, and the ridge 20-24 ft above grade. Bound primary because on this node the roof IS the design -- this record's own governing_logic says so in one sentence, 'the gambrel geometry: the break point is chosen so that the upper floor gains full headroom at the knee wall without raising the masonry', which is a statement that the section generates the building. timber-bay stays and is not displaced: it owns the H-bent frame bay, this pack owns the roof, and the one place they meet -- the house depth, which is the bent span and also the roof's generator -- is flagged in this pack's own depth rule as two constraints that are usually discussed separately and are the same constraint.",
+      "precedence": 0
+    },
+    {
       "pack": "timber-bay",
       "role": "primary",
       "note": "Bound on inheritance from the parent dutch-colonial-american rather than on this variant's own text, which foregrounds the gambrel roof geometry (the break point set so the upper floor gains full headroom without raising the masonry) rather than the framing bay as its stated governing_logic — no pack among the 36 models gambrel break-point geometry or the curvature of a sprung eave, and that gap is reported rather than papered over. The plan module this variant records — 22-30 ft deep, one or two rooms — is consistent with the wider Dutch H-bent bay rhythm, but new-jersey-dutch-gambrel is not itself named in timber-bay's own applies_to (unlike the parent and the Hudson Valley variant), so this binding is an extension of the family's logic rather than a separately attested one.",

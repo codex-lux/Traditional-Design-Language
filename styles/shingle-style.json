@@ -253,6 +253,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "dutch-gambrel",
+      "role": "optional",
+      "note": "Optional. This node takes the gambrel deliberately and by publication rather than by descent -- its own record lists 'the gambrel, the lean-to, the massive central chimney' among what the 1877 measured drawings brought back, and names the gambrel again among what it takes from the emerging Colonial Revival. So the section rules apply where a Shingle Style design uses the form. Two cautions the record itself supports: the Shingle gambrel is usually swept into the wall as one continuous shingled surface with no eave line at all, which is the opposite of this pack's sprung eave and means the sprung_eave assembly should be left alone here; and this style will break the break -- the whole point of its roofs is that they bend, flare and merge, so the two clean slopes this pack states are a starting geometry rather than a rule on this node.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "primary",
       "note": "Explicit in this pack's applies_to. The node's own proportional_system says plainly 'there is no module and no bay system... the design is controlled by keeping one material unbroken over an irregular volume,' which is close to a paraphrase of this pack's own self-description of itself as a system of constraints and starting points rather than a computed module. The pack's belt_course datum-count rule (at least two continuous horizontals) is the formal version of the node's own hard constraint (c01) that the shingle field itself must run continuous across every storey line and corner — in Shingle Style the shingle field largely replaces the trim-based datums the pack otherwise describes.",

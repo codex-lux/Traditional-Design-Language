@@ -245,6 +245,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "dutch-gambrel",
+      "role": "secondary",
+      "note": "BOUND FOR THE EAVE AND NOT FOR THE GAMBREL, and the distinction is this pack's opening finding. This node has a sprung eave -- 18-24 in projection on a 5-9 ft sweep radius -- over a STRAIGHT gable at 12:12 to 17:12, and its own distinguished_from entry says it outright: 'the Jersey branch uses a gambrel roof... a pronounced concave spring eave... the Hudson branch uses a steep straight gable.' So the two devices the pack carries are independent, which is why it names both in its title rather than calling itself 'the Dutch roof'. Read the eave rules here -- projection, flare start, sweep radius -- and leave the gambrel_section assembly, the break point and the two slope ratios alone; the straight-gable pitch this node gives is its own and is not in this pack.",
+      "precedence": 0
+    },
+    {
       "pack": "timber-bay",
       "role": "primary",
       "note": "The bent-spacing rhythm is explicitly what survives the shift from frame to masonry, per the style's own long description: 'What survives from the frame is the room — a bent-spacing rhythm of eighteen to twenty-two feet — and the anchor beams themselves, which continue to be built into stone houses purely as floor framing.' hudson-valley-dutch is named directly in timber-bay's own applies_to. The historic 18-22 ft room sits close enough to the pack's documented 16-20 ft English depth_and_pile band to use its rule directly, even though the framing culture it derives from (English box framing) is not the one that produced this variant's anchor-beam bents.",

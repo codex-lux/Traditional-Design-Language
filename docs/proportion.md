@@ -13,12 +13,12 @@ python3 build/proportion_engine.py compare vignola-doric gibbs-doric benjamin-do
 python3 build/proportion_engine.py selftest
 ```
 
-42 packs, in four kinds:
+43 packs, in four kinds:
 
 | Kind | Packs | Module |
 |---|---|---|
 | `order-system` | 5 Vignola orders, 19 authority overlays, Greek Doric, the Moorish arch system | the column semidiameter — or, for Palladio, the whole diameter; for the Moorish system, the generating square's side, because that system has no column proportion at all |
-| `module-system` | brick course, timber bay, sash light, storey graduation, log, adobe | a material unit — for adobe, one brick laid as a header, which is why a mass wall's thickness comes in whole bricks |
+| `module-system` | brick course, timber bay, sash light, storey graduation, log, adobe, Dutch gambrel | a material unit — for adobe, one brick laid as a header, which is why a mass wall's thickness comes in whole bricks; for the gambrel, the half-span, which is the one module in the set you cannot hold |
 | `facade-system` | classical, picturesque | the bay |
 | `room-system` / `trim-system` / `opening-system` | harmonic, vernacular, classical trim, Craftsman trim, Prairie trim, opening proportion, the pointed opening, the Craftsman head datum | the room breadth, the ceiling, the door leaf — for the pointed opening, the span, because a Gothic head's height is a consequence and not a dimension; for the Craftsman system, the framing bay, and the opening's height is not proportioned at all but taken off a single datum |
 

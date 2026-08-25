@@ -225,6 +225,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "dutch-gambrel",
+      "role": "primary",
+      "note": "The revival, and the pack carries it as a genuinely different building rather than as a degraded version of one -- the same relation `greek-doric` has to `benjamin-doric`. Three rules are the revival's alone and say so: the shed dormer's length as a fraction of the roof, its setback from the wall plane, and its face height. Two more sit at the opposite end of their bands from the colonial: the plate at 9-12 ft rather than 7-9, because this record's own text says the revival 'makes it a full second storey, which the originals never did', and the lower slope near 60 degrees rather than 72, because it is roofing that full storey. The one figure to watch is the break point: this record states it as a percentage of roof HEIGHT where the colonial records state it as a percentage of the half-span, and neither says from where -- the pack's break rule reconciles the two and gives the conversions, and the records are left as they are because the ambiguity is theirs and the pack's job is to be where it gets resolved.",
+      "precedence": 0
+    },
+    {
       "pack": "gibbs-ionic",
       "role": "primary",
       "authority": "gibbs-ionic",

@@ -6150,6 +6150,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "dutch-gambrel",
+          "role": "optional",
+          "note": "Optional, and narrowly. This record lists the gambrel as one of three roof options -- 'side-gable, gambrel or hipped' at a 9:12 to 11:12 pitch -- and adds that 'gambrel-roofed Georgian houses are frequent in Rhode Island and coastal Massachusetts.' Where that option is taken, the section rules here apply and the pack is the only thing in the library that can dimension the break. What does NOT apply is the eave: a New England Georgian gambrel has a boxed modillion or dentil cornice, which this record names, and a sprung eave would be a Dutch import onto an English house. Take the gambrel_section assembly and the two slope ratios; leave the sprung_eave assembly entirely.",
+          "precedence": 0
+        },
+        {
           "pack": "timber-bay",
           "role": "massing",
           "note": "PROMOTED from optional. The Northern house is a box frame before it is a composition, and the 16 ft bay is why the double-pile depth lands at 32–38 ft rather than the 40 ft the Mid-Atlantic reaches in masonry. Corner post, chimney girt and summer beam still set out the plan under the plaster.",
@@ -8042,6 +8048,12 @@
         "steep-gable"
       ],
       "proportion_packs": [
+        {
+          "pack": "dutch-gambrel",
+          "role": "secondary",
+          "note": "BOUND FOR THE EAVE AND NOT FOR THE GAMBREL, and the distinction is this pack's opening finding. This node has a sprung eave -- 18-24 in projection on a 5-9 ft sweep radius -- over a STRAIGHT gable at 12:12 to 17:12, and its own distinguished_from entry says it outright: 'the Jersey branch uses a gambrel roof... a pronounced concave spring eave... the Hudson branch uses a steep straight gable.' So the two devices the pack carries are independent, which is why it names both in its title rather than calling itself 'the Dutch roof'. Read the eave rules here -- projection, flare start, sweep radius -- and leave the gambrel_section assembly, the break point and the two slope ratios alone; the straight-gable pitch this node gives is its own and is not in this pack.",
+          "precedence": 0
+        },
         {
           "pack": "timber-bay",
           "role": "primary",
@@ -14900,6 +14912,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "dutch-gambrel",
+          "role": "primary",
+          "note": "The type this pack was written from, and the node that supplies most of its numbers: the lower slope at 60-72 degrees, the upper at 18-30, the break at 55-70 percent of the half-span, the plate at 7 ft 6 in to 9 ft, the sweep at a 4-8 ft radius projecting 24-36 in, and the ridge 20-24 ft above grade. Bound primary because on this node the roof IS the design -- this record's own governing_logic says so in one sentence, 'the gambrel geometry: the break point is chosen so that the upper floor gains full headroom at the knee wall without raising the masonry', which is a statement that the section generates the building. timber-bay stays and is not displaced: it owns the H-bent frame bay, this pack owns the roof, and the one place they meet -- the house depth, which is the bent span and also the roof's generator -- is flagged in this pack's own depth rule as two constraints that are usually discussed separately and are the same constraint.",
+          "precedence": 0
+        },
+        {
           "pack": "timber-bay",
           "role": "primary",
           "note": "Bound on inheritance from the parent dutch-colonial-american rather than on this variant's own text, which foregrounds the gambrel roof geometry (the break point set so the upper floor gains full headroom without raising the masonry) rather than the framing bay as its stated governing_logic — no pack among the 36 models gambrel break-point geometry or the curvature of a sprung eave, and that gap is reported rather than papered over. The plan module this variant records — 22-30 ft deep, one or two rooms — is consistent with the wider Dutch H-bent bay rhythm, but new-jersey-dutch-gambrel is not itself named in timber-bay's own applies_to (unlike the parent and the Hudson Valley variant), so this binding is an extension of the family's logic rather than a separately attested one.",
@@ -15156,6 +15174,12 @@
         "suburban"
       ],
       "proportion_packs": [
+        {
+          "pack": "dutch-gambrel",
+          "role": "primary",
+          "note": "The revival, and the pack carries it as a genuinely different building rather than as a degraded version of one -- the same relation `greek-doric` has to `benjamin-doric`. Three rules are the revival's alone and say so: the shed dormer's length as a fraction of the roof, its setback from the wall plane, and its face height. Two more sit at the opposite end of their bands from the colonial: the plate at 9-12 ft rather than 7-9, because this record's own text says the revival 'makes it a full second storey, which the originals never did', and the lower slope near 60 degrees rather than 72, because it is roofing that full storey. The one figure to watch is the break point: this record states it as a percentage of roof HEIGHT where the colonial records state it as a percentage of the half-span, and neither says from where -- the pack's break rule reconciles the two and gives the conversions, and the records are left as they are because the ambiguity is theirs and the pack's job is to be where it gets resolved.",
+          "precedence": 0
+        },
         {
           "pack": "gibbs-ionic",
           "role": "primary",
@@ -16263,6 +16287,12 @@
         "new-netherland"
       ],
       "proportion_packs": [
+        {
+          "pack": "dutch-gambrel",
+          "role": "primary",
+          "note": "The parent of both branches, and the node that states the two regimes this pack has to hold apart. Its record gives the colonial figures -- plate 7 to 9 ft, the gambrel arriving c. 1720 as 'an eighteenth-century arrival that lets you get a full upper floor', spring eave 18-36 in -- and also names, in its own words, what the revival did to them: it 'fixed on the gambrel roof and the full-width shed dormer -- a combination that almost never occurs in the colonial original'. That sentence is the authority for this pack's dormer count of zero, which is the same move `greek-doric` makes with its ornament count and for the same reason: absence is the form's most-broken rule.",
+          "precedence": 0
+        },
         {
           "pack": "timber-bay",
           "role": "primary",
@@ -29626,6 +29656,12 @@
         "still-built"
       ],
       "proportion_packs": [
+        {
+          "pack": "dutch-gambrel",
+          "role": "optional",
+          "note": "Optional. This node takes the gambrel deliberately and by publication rather than by descent -- its own record lists 'the gambrel, the lean-to, the massive central chimney' among what the 1877 measured drawings brought back, and names the gambrel again among what it takes from the emerging Colonial Revival. So the section rules apply where a Shingle Style design uses the form. Two cautions the record itself supports: the Shingle gambrel is usually swept into the wall as one continuous shingled surface with no eave line at all, which is the opposite of this pack's sprung eave and means the sprung_eave assembly should be left alone here; and this style will break the break -- the whole point of its roofs is that they bend, flare and merge, so the two clean slopes this pack states are a starting geometry rather than a rule on this node.",
+          "precedence": 0
+        },
         {
           "pack": "facade-picturesque",
           "role": "primary",

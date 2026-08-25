@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: six packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: seven packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -312,6 +312,74 @@ descends from `prairie-school` at weight 0.35 with `inherits_kit: true`, is deli
 bound: its own record says its trim is "the same trim" as its Minimal Traditional parent at 0.7, and
 draws the distinction in its own words — "Prairie has a centre; the ranch has an extent".
 
+### `proportions/modules/dutch-gambrel.json` — two devices, and a datum nobody stated
+
+WP-4.1's item is "a Dutch gambrel roof geometry system (break point, slope ratio, eave kick)",
+confirmed by PB-1a and PB-6c. This is unusual among the packs in this package in one respect: **the
+corpus's own style records supply almost every number**, and for this type they are better authority
+than anything I could add. The slope bands, the break, the plate heights, the eave projections and
+the sweep radii are all quoted from `dutch-colonial-american`, `new-jersey-dutch-gambrel`,
+`hudson-valley-dutch` and `dutch-colonial-revival`.
+
+**It carries two devices, not one, because the records show they are independent.**
+`hudson-valley-dutch` has a sprung eave — 18–24 in projection on a 5–9 ft sweep radius — over a
+*straight* 12:12-to-17:12 gable and no gambrel at all; its own `distinguished_from` entry says so.
+Plenty of New England gambrels have the break with no sweep. Calling the pack "the Dutch roof" would
+have hidden that, so it names both, every rule says which device it belongs to, and
+`hudson-valley-dutch` is bound **for the eave rules only**, with its note saying to leave the
+section alone.
+
+**The finding worth carrying forward is the break point's datum.** Three records give the break and
+**none of them says from where**:
+
+| record | what it says |
+|---|---|
+| `dutch-colonial-american` | "break at 55–70% of the half-span" |
+| `new-jersey-dutch-gambrel` | "break at 55–70% of the half-span" |
+| `dutch-colonial-revival` | "break point at 55–65 percent of the total roof height above the eave" |
+
+Those are two different measurements of one joint. Read naively as *from the eave*, the first is
+wrong by nearly a factor of two — it produces a roof whose upper slope is a quarter of what it
+should be and whose ridge is half again too high. Reconciled against the slope bands the same three
+records give, the colonial figure is consistent **only** as a fraction measured *from the ridge*
+(0.55–0.70 from the ridge = 0.30–0.45 from the eave), and the revival's height fraction comes out at
+0.34 horizontally on those slopes. Both then agree. The pack states **one canonical datum** —
+horizontal, from the outside face of the wall — and writes out the conversion to both of the
+corpus's forms. **The style records are not edited:** they quote their sources correctly, the
+ambiguity is theirs to keep, and the pack's job is to be the one place it gets resolved.
+
+The test does not assert that reconciliation from the pack's prose — it recomputes it, and fails if
+the encoded defaults cannot satisfy the colonial band, the revival band and both slope bands at
+once.
+
+Three smaller things:
+
+- **`height_modules` is the roof's own proportion.** Because the module is the half-span, the
+  section's height in modules *is* roof-height-over-half-span (0.9375), so nothing else has to be
+  stated to know how tall the roof is. On a Dutch house that ratio is very near one, which is why
+  `dutch-colonial-american` says "the roof is most of what you see".
+- **The colonial has no shed dormer, and the count says zero** — the same move `greek-doric` makes
+  with ornament, on the authority of `dutch-colonial-american`'s own sentence that the full-width
+  shed dormer is "a combination that almost never occurs in the colonial original". The three rules
+  that *do* dimension the revival's dormer each begin "REVIVAL RULE", so the two regimes can never
+  be taken for one another.
+- **A named dimension rather than a new slot.** A gambrel has two pitches and the ontology has one
+  `roof_pitch`; the upper slope is carried as `dimension: "upper_ratio"`, following the precedent
+  `moorish-arch` set with `return`. A consumer reading only `ratio` gets the lower slope, which is
+  the right default — it is the one that shows.
+
+Two nodes are bound **optional** and narrowly: `new-england-georgian`, where the record lists gambrel
+as one of three roof options and the eave rules must *not* apply (it has a boxed modillion cornice, and
+a sprung eave would be a Dutch import onto an English house), and `shingle-style`, which takes the
+gambrel by publication and then breaks it — its roofs bend and merge, so the two clean slopes are a
+starting geometry rather than a rule. The H-bent frame bay is left to `timber-bay`, which stays
+primary on both colonial nodes; two packs asserting one number is how a corpus starts disagreeing
+with itself.
+
+The **Low Countries gable grammar** — stepped, bell, neck, and the Cape Dutch holbol curve — is *not*
+reduced by this pack and the notes say so: a gable profile is an elevation outline and a gambrel is a
+roof section, and nothing here helps with a holbol curve or a bell gable's shoulders.
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -325,8 +393,7 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing after the second tranche: a **Dutch gambrel roof module** (3 nodes), a **cast-iron
-system** (3 nodes), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
+still missing: a **cast-iron system** (3 nodes), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
 also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
 **medieval/pre-Palladian English facade system** (new only in that two existing list items turn out
@@ -340,7 +407,8 @@ Struck off by the second tranche: the **adobe/rammed-earth module** (5 nodes on 
 reached 9), the **opening half** of the Gothic Revival item (5 nodes, 3 of them previously with no
 opening-role pack at all), and **both halves** of the Craftsman item — the opening system for 5 of the 7 nodes that had no
 opening-role pack (the other 2 refused for stated reasons), and the Prairie trim family, which
-binds one node and corrects a wrong binding rather than filling an empty role.
+binds one node and corrects a wrong binding rather than filling an empty role. Struck off by the
+third: the **Dutch gambrel roof module**, which the list scoped at 3 nodes and which reached 6.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -353,12 +421,13 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Second tranche: 22 checks green again. **42 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the four new
-packs bind 20 nodes but every one of them was already bound, so the count does not move and should
+Second and third tranches: 22 checks green again. **43 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the five new
+packs bind 26 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
-pack, plus one wrong interior binding corrected, which moves no count at all).
-`tests/test_wp46_packs.py` is now **84 tests**, and the suite as a whole 547. The pinned pack count in
+pack, plus one wrong interior binding corrected and a roof system that six nodes previously had
+nothing for, neither of which moves any count).
+`tests/test_wp46_packs.py` is now **96 tests**, and the suite as a whole 559. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

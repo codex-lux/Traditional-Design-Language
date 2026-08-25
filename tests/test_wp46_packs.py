@@ -32,6 +32,11 @@ pack, not the five the list estimated; this binds five and refuses two for state
 the corpus had already written into a binding note of its own. It binds one node, which is the
 lowest leverage of anything here; it was built because a wrong binding is worse than a missing one,
 which is the argument that justified `greek-doric` too.
+
+`dutch-gambrel` (third tranche, 25 Aug 2026) -- WP-4.1's "Dutch gambrel roof geometry system
+(break point, slope ratio, eave kick)", confirmed by PB-1a and PB-6c. It carries TWO devices, not
+one, because the corpus's own records show they are independent -- and its central finding is that
+three style records give the break point three different ways and none of them says from where.
 """
 import glob
 import json
@@ -749,3 +754,153 @@ def test_the_art_glass_is_left_out_and_handed_to_the_candidate_list():
     """A set-out with rules about asymmetry, colour and the placement of the few coloured pieces
     that this pack has no figures for and would have to invent."""
     assert "art glass itself" in pack("trim-prairie")["notes"]
+
+
+# --------------------------------------------------------------- dutch-gambrel
+
+
+def test_the_gambrel_and_the_sprung_eave_are_carried_as_two_independent_devices():
+    """`hudson-valley-dutch` has a sprung eave over a STRAIGHT gable and no gambrel; the Jersey
+    branch has both. Treating them as one thing called 'the Dutch roof' would have hidden that, so
+    the pack names both and every rule says which device it belongs to."""
+    p = pack("dutch-gambrel")
+    assert "gambrel_section" in p["assemblies"] and "sprung_eave" in p["assemblies"]
+    hv = json.dumps(node("hudson-valley-dutch"))
+    assert "the Hudson branch uses a steep straight gable" in hv
+    assert "spring eave" in hv or "sweep radius" in hv
+    b = binding("hudson-valley-dutch", "dutch-gambrel")
+    assert b["role"] == "secondary"
+    assert "BOUND FOR THE EAVE AND NOT FOR THE GAMBREL" in b["note"]
+
+
+def test_the_break_point_states_a_datum_because_the_corpus_does_not():
+    """The pack's central finding. Two records say 'break at 55-70 percent of the half-span' and one
+    says '55-65 percent of the total roof height'; neither says from where. Read naively as
+    from-the-eave the first is wrong by nearly a factor of two."""
+    r = next(x for x in pack("dutch-gambrel")["derived_rules"]
+             if x["target_slot"] == "roof_form" and x["dimension"] == "width")
+    assert "MEASURED HORIZONTALLY FROM THE OUTSIDE FACE OF THE WALL" in r["note"]
+    for nid in ("dutch-colonial-american", "new-jersey-dutch-gambrel"):
+        assert "break at 55\u201370% of the half-span" in json.dumps(node(nid)) \
+            or "55–70% of the half-span" in json.dumps(node(nid), ensure_ascii=False), nid
+    assert "55-65 percent of the total roof height" in json.dumps(node("dutch-colonial-revival"))
+
+
+def test_the_reconciled_break_satisfies_every_band_all_three_records_give():
+    """Not asserted from the pack's prose -- recomputed. At the encoded defaults the break must land
+    inside the colonial 55-70% (measured from the ridge) AND the revival's 55-65% of roof height,
+    with both slopes inside every stated band. If those cannot all hold at once the reconciliation
+    is wrong and the pack is guessing."""
+    import math
+    p = pack("dutch-gambrel")
+    S = p["module"]["default_size_in"]
+    rules = {(r["target_slot"], r["dimension"]): r for r in p["derived_rules"]}
+    f = 0.35                                             # module * 0.35, from the eave
+    tan_lo = float(rules[("roof_pitch", "ratio")]["expression"])
+    tan_up = float(rules[("roof_pitch", "upper_ratio")]["expression"])
+    h_break = f * S * tan_lo
+    H = h_break + (1 - f) * S * tan_up
+    assert 0.55 <= (1 - f) <= 0.70                       # colonial band, measured from the ridge
+    assert 0.55 <= h_break / H <= 0.65                   # revival band, as a height fraction
+    assert 60.0 <= math.degrees(math.atan(tan_lo)) <= 72.0
+    assert 18.0 <= math.degrees(math.atan(tan_up)) <= 30.0
+    assert 0.75 <= H / S <= 1.20                         # and the roof-height-to-half-span band
+
+
+def test_height_modules_is_the_roof_proportion_itself():
+    """Because the module is the half-span, the section's height in modules is not an arbitrary
+    number -- it IS roof height over half-span, so nothing else has to be stated to know how tall
+    the roof is."""
+    import math
+    p = pack("dutch-gambrel")
+    sec = p["assemblies"]["gambrel_section"]
+    total = sum(m["height_parts"] for m in sec["members"])
+    assert abs(total / p["module"]["parts"] - sec["height_modules"]) < 1e-9
+    ratio = next(x for x in p["derived_rules"]
+                 if x["target_slot"] == "height_proportion" and x["dimension"] == "ratio")
+    assert float(ratio["expression"]) == sec["height_modules"]
+
+
+def test_the_colonial_has_no_shed_dormer_and_the_count_says_zero():
+    """`dutch-colonial-american`'s own words: the revival 'fixed on the gambrel roof and the
+    full-width shed dormer -- a combination that almost never occurs in the colonial original'. Same
+    move greek-doric makes with ornament, and for the same reason: absence is the broken rule."""
+    r = next(x for x in pack("dutch-gambrel")["derived_rules"]
+             if x["target_slot"] == "dormer" and x["dimension"] == "count")
+    assert r["expression"] == "0" and r["range"][0] == 0.0
+    assert "almost never occurs in the colonial original" in json.dumps(node("dutch-colonial-american"))
+
+
+def test_every_revival_only_rule_is_labelled_as_one():
+    """The pack carries two regimes and must never let a consumer take one for the other. Each of
+    the three shed-dormer rules is the revival's alone."""
+    revival = [x for x in pack("dutch-gambrel")["derived_rules"]
+               if x["target_slot"] == "dormer" and x["dimension"] != "count"]
+    assert len(revival) == 3
+    assert all(r["note"].startswith("REVIVAL RULE") for r in revival)
+
+
+def test_the_two_regimes_split_the_plate_height_band():
+    """Colonial 7-9 ft against revival 9-12 ft, and the band holds both rather than averaging them.
+    The plate is the single change that separates a one-and-a-half-storey house from a two-storey
+    one wearing the same roof."""
+    r = next(x for x in pack("dutch-gambrel")["derived_rules"]
+             if x["target_slot"] == "height_proportion" and x["dimension"] == "height")
+    assert r["range"] == [84.0, 144.0]
+    assert "makes it a full second storey, which the originals never did" in \
+        json.dumps(node("dutch-colonial-revival"))
+
+
+def test_the_upper_slope_gets_a_named_dimension_with_a_precedent():
+    """A gambrel has two pitches and the ontology has one roof_pitch slot. Naming the dimension is
+    better than inventing a second slot for the second half of one roof, and moorish-arch set the
+    precedent with `return`. A consumer reading only `ratio` gets the lower slope, which is the
+    right default because it is the one that shows."""
+    p = pack("dutch-gambrel")
+    dims = {r["dimension"] for r in p["derived_rules"] if r["target_slot"] == "roof_pitch"}
+    assert dims == {"ratio", "upper_ratio"}
+    assert any(r["dimension"] == "return" for r in pack("moorish-arch")["derived_rules"])
+
+
+def test_the_sweep_must_start_below_the_plate_or_it_is_an_ogee():
+    """A sweep beginning at the plate curves the entire lower slope and gives a roof from a
+    different tradition. Held by an invariant because it is hard to see on a drawing and obvious on
+    a building."""
+    p = pack("dutch-gambrel")
+    inv = next(i for i in p["invariants"] if "begins below the plate" in i["statement"])
+    tail = next(m for m in p["assemblies"]["sprung_eave"]["members"] if m["id"] == "tail_straight")
+    assert tail["height_parts"] >= 1.5
+    assert "ogee" in inv["note"]
+
+
+def test_the_h_bent_is_left_to_timber_bay():
+    """Two packs asserting one number is how a corpus starts disagreeing with itself. timber-bay
+    owns the 8-12 ft bent spacing and stays bound primary on both colonial nodes."""
+    p = pack("dutch-gambrel")
+    assert not any(r["target_slot"] == "wing_strategy" for r in p["derived_rules"])
+    assert "`timber-bay` owns it" in p["notes"]
+    for nid in ("dutch-colonial-american", "hudson-valley-dutch"):
+        assert binding(nid, "timber-bay") is not None, nid
+
+
+def test_the_gable_grammar_item_is_not_reduced_by_this_pack():
+    """A gable profile is an elevation outline and a gambrel is a roof section. Nothing here helps
+    with a holbol curve or a bell gable's shoulders, and saying so stops the candidate-list item
+    from looking closed."""
+    p = pack("dutch-gambrel")
+    assert "does NOT reduce it" in p["notes"]
+    assert binding("dutch-urban-gable-house", "dutch-gambrel") is None
+
+
+def test_multiple_primary_bindings_are_an_established_pattern_not_an_accident():
+    """Two of the Dutch nodes now carry this pack primary beside timber-bay -- the roof and the
+    frame. That is deliberate, and `charleston-georgian` carried three primaries long before this
+    package, so the pattern is the corpus's and not a new invention."""
+    import glob as _glob
+    multi = []
+    for f in _glob.glob(os.path.join(ROOT, "styles", "*.json")):
+        d = json.load(open(f))
+        if len([e for e in d.get("proportion_packs") or [] if e["role"] == "primary"]) > 1:
+            multi.append(d["id"])
+    assert "charleston-georgian" in multi
+    assert {"dutch-colonial-american", "new-jersey-dutch-gambrel"} <= set(multi)

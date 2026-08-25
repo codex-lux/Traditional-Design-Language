@@ -1,0 +1,366 @@
+{
+  "id": "dutch-gambrel",
+  "name": "The Dutch Gambrel and Sprung Eave",
+  "aka": [
+    "the gambrel break",
+    "the spring eave",
+    "the Bergen County sweep",
+    "the two-pitch roof"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "Rosalie Fellows Bailey, Pre-Revolutionary Dutch Houses and Families in Northern New Jersey and Southern New York, New York 1936, for the measured survey of the Bergen County and Hudson Valley houses; Helen Wilkinson Reynolds, Dutch Houses in the Hudson Valley before 1776, New York 1929; the Historic American Buildings Survey drawings for both regions; and, for the revival, the plan-book and shelter-magazine literature of 1900-1940 that made the gambrel a national type",
+    "author": "after Bailey and Reynolds",
+    "year": 1936,
+    "strength": "reconstructed",
+    "note": "RECONSTRUCTED. No Dutch-American carpenter wrote this down and there is no treatise; what exists is two measured surveys made in the 1920s and 1930s, when a great many of the houses were still standing, and the HABS drawings that followed. The geometric setting-out below -- the semicircle method -- is a carpenter's rule of thumb that appears in later English-language framing manuals and is offered here as ONE member of the family rather than as the rule, because the surviving Dutch fabric does not sit on it: a half-octagon gambrel struck from a semicircle gives 67.5 and 22.5 degrees, and the measured houses run flatter. Where a figure below comes from the corpus's own style records rather than from a source, its authority_note says which record, because on this pack the style nodes are unusually well supplied with numbers and are the better authority."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The half-span: the horizontal run from the outside face of the wall to the ridge",
+    "parts": 12,
+    "default_size_in": 144.0,
+    "note": "The part is the foot, as in `log-module`, and for the same kind of reason: this is a framing dimension that carpenters laid out in whole feet on a tie beam. The module is THE HALF-SPAN and not the depth, because every figure in a gambrel is measured from the wall to the ridge and doubling it once at the start avoids halving it everywhere afterwards. Twelve feet gives a house twenty-four feet deep, which sits in the 22-30 ft band `styles/new-jersey-dutch-gambrel.json` gives and just above the 20-24 ft `styles/hudson-valley-dutch.json` gives for the Hudson branch. THE MODULE IS NOT A MATERIAL UNIT, which makes this pack unusual among the modules -- brick course, log, timber bay and sash light are all things you can hold, and this one is a distance on a drawing. It is a module-system all the same, because the whole roof is generated from it and nothing in the roof is chosen independently."
+  },
+  "assemblies": {
+    "gambrel_section": {
+      "height_modules": 0.9375,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "lower_slope_rise",
+          "name": "Rise of the lower slope, eave line to the break",
+          "height_parts": 7.275,
+          "projection_parts": 4.2,
+          "profile": "flat",
+          "note": "87 1/4 in of rise over 50 2/5 in of run -- sixty degrees, or very nearly 21 in 12. This is the slope that does the work: it is not really a roof at all but the WALL OF THE UPPER STOREY leaning in, which is the whole reason the form exists and the reason every one of its problems is a wall problem wearing a roof's detail. The projection_parts figure here is the horizontal run rather than a projection past a datum, which is a departure from how the other packs use the field and is noted because a reader will otherwise take it for an overhang.",
+          "confidence": "high"
+        },
+        {
+          "id": "upper_slope_rise",
+          "name": "Rise of the upper slope, break to the ridge",
+          "height_parts": 3.975,
+          "projection_parts": 7.8,
+          "profile": "flat",
+          "note": "47 3/4 in of rise over 93 3/5 in of run -- twenty-seven degrees, about 6 in 12. Shallow, and it has to be: the upper slope's only job is to close the section over the headroom the lower slope has just bought, and every degree added to it raises the ridge without adding a usable square foot. `styles/dutch-colonial-revival.json` puts it exactly: the break is placed 'to keep the upper slope shallow enough to look like a barn rather than a house.'",
+          "confidence": "high"
+        }
+      ]
+    },
+    "sprung_eave": {
+      "height_modules": 0.3333333333,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "eave_edge",
+          "name": "The eave's lowest edge -- fascia and drip",
+          "height_parts": 0.5,
+          "projection_parts": 3.0,
+          "profile": "fillet",
+          "note": "6 in deep, and standing 36 in clear of the wall face at its furthest, which is the top of the 18-36 in band `styles/dutch-colonial-american.json` gives and the top of the 24-36 in `styles/new-jersey-dutch-gambrel.json` gives for the Jersey houses. By this point the roof plane has turned to something near horizontal, so the underside of the eave is a soffit you can stand under -- which is how the sweep becomes a porch, and `styles/new-jersey-dutch-gambrel.json` says it does exactly that: the slope 'sweeps out past the wall on a concave curve, shading the front and eventually becoming a porch.'",
+          "confidence": "high"
+        },
+        {
+          "id": "sweep",
+          "name": "The concave sweep",
+          "height_parts": 1.5,
+          "projection_parts": 2.0,
+          "profile": "cavetto",
+          "note": "18 in of vertical fall through the curve, on a sweep radius of 4-9 ft depending on the branch. THE DIAGNOSTIC MEMBER, and the one that is faked. It is a genuine concave curve struck on a radius, made historically by a naturally curved rafter tail or a built-up one, and its whole effect is that the roof's shadow line CURVES. A straight tail with a bent fascia nailed on it reads immediately, because the shadow stays straight while the fascia does not.",
+          "confidence": "high"
+        },
+        {
+          "id": "tail_straight",
+          "name": "The straight run of the tail below the plate, before the sweep begins",
+          "height_parts": 2.0,
+          "projection_parts": 0.5,
+          "profile": "flat",
+          "note": "24 in measured up the slope from where the curve starts, inside the 18-30 in `styles/dutch-colonial-revival.json` gives for where the flare begins. The straight length matters: a sweep that starts at the plate turns the whole lower slope into a curve and gives an ogee, which is a different and later roof. The curve must begin BELOW the plate, so that the steep straight slope reads as straight for its whole visible length and then lets go.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one foot.",
+      "expression": "module.default_size_in / module.parts == 12.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The section's height in modules IS the roof-height-to-half-span ratio, and it sits inside the band the style records give.",
+      "expression": "assemblies.gambrel_section.height_modules >= 0.75 and assemblies.gambrel_section.height_modules <= 1.2",
+      "tolerance": 0.0,
+      "note": "0.9375 on the encoded figures -- 11 ft 3 in of roof over a 12 ft half-span. Because the module is the half-span, the assembly's height_modules is not an arbitrary number but the roof's own defining proportion, which is a small piece of luck worth pointing out: nothing else has to be stated to know how tall the roof is. `styles/new-jersey-dutch-gambrel.json` gives a ridge 20-24 ft above grade over a plate at 7 ft 6 in to 9 ft, so 11-16 ft of roof over an 11-15 ft half-span, which is the band above."
+    },
+    {
+      "statement": "The lower slope contributes more rise than the upper.",
+      "expression": "assemblies.gambrel_section.members.lower_slope_rise.height_parts > assemblies.gambrel_section.members.upper_slope_rise.height_parts",
+      "tolerance": 0.0,
+      "note": "7.275 against 3.975. Worth being precise about what this does and does not prove: it does NOT by itself prove the lower slope is steeper, because rise depends on run as well as on angle, and the invariant expression cannot see the runs -- the schema's members carry no run field, so the horizontal runs are recorded in projection_parts and in the members' notes instead. What it does catch is the commonest way a drawn gambrel goes wrong, which is a break placed so high that the upper slope becomes most of the roof and the silhouette reads as a clipped gable."
+    },
+    {
+      "statement": "The sweep is a real curve and not a fascia detail: at least a foot of fall through it.",
+      "expression": "assemblies.sprung_eave.members.sweep.height_parts >= 1.0",
+      "tolerance": 0.0,
+      "note": "18 in encoded. Below about a foot the curve cannot be seen from the ground at any distance the house is looked at from, and what is left is a bent board."
+    },
+    {
+      "statement": "The eave stands at least a foot and a half clear of the wall.",
+      "expression": "assemblies.sprung_eave.members.eave_edge.projection_parts >= 1.5",
+      "tolerance": 0.0,
+      "note": "3 parts encoded, against the 18 in floor that `styles/dutch-colonial-american.json` and `styles/hudson-valley-dutch.json` both give. The projection is not decoration: it is what shades the wall and, at the Jersey end of the range, what the porch is."
+    },
+    {
+      "statement": "The curve begins below the plate, so the straight slope reads straight for its whole visible length.",
+      "expression": "assemblies.sprung_eave.members.tail_straight.height_parts >= 1.5",
+      "tolerance": 0.0,
+      "note": "2 parts, 24 in. A sweep that starts at the plate curves the entire lower slope and produces an ogee roof, which belongs to a different and later tradition. The invariant exists because this is a hard thing to see on a drawing and an obvious one on a building."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "roof_pitch",
+      "dimension": "ratio",
+      "expression": "1.7321",
+      "units": "ratio",
+      "range": [
+        1.66,
+        3.08
+      ],
+      "authority_note": "`styles/dutch-colonial-american.json` and `styles/new-jersey-dutch-gambrel.json` both give 'lower slope 60-72 degrees'; `styles/dutch-colonial-revival.json` gives 20:12 to 24:12, which is 59.0 to 63.4 degrees.",
+      "note": "THE LOWER SLOPE, as rise over run: 1.7321 is sixty degrees (tan 60 is 1.7320508, and the fourth decimal is carried so the figure sits just inside the band rather than a ten-thousandth below it), or 20.8 in 12. The band's floor is the revival's 20:12 and its ceiling the colonial's 72 degrees, and the two traditions genuinely differ -- the colonial reaches much steeper because it is roofing a half storey and the revival stays near sixty because it is roofing a full one. Note what this slope IS: the wall of the upper storey, leaning. Every problem this pack has a conflict for follows from that one fact.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_pitch",
+      "dimension": "upper_ratio",
+      "expression": "0.5095",
+      "units": "ratio",
+      "range": [
+        0.325,
+        0.75
+      ],
+      "authority_note": "`styles/dutch-colonial-american.json` and `styles/new-jersey-dutch-gambrel.json` give 'upper 18-30 degrees'; `styles/dutch-colonial-revival.json` gives 6:12 to 9:12, which is 26.6 to 36.9 degrees.",
+      "note": "THE UPPER SLOPE: 0.5095 is twenty-seven degrees, about 6.1 in 12. The dimension is named `upper_ratio` rather than `ratio` because a gambrel has two pitches and the ontology has one `roof_pitch` slot, and inventing a second slot for the second half of one roof would be worse than naming the dimension. There is precedent: `moorish-arch` carries a `return` dimension on its arch for the same reason. A consumer that reads only `ratio` therefore gets the lower slope, which is the right default -- it is the one that shows.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_form",
+      "dimension": "width",
+      "expression": "module * 0.35",
+      "units": "in",
+      "range": [
+        43.2,
+        64.8
+      ],
+      "authority_note": "Derived by reconciling the style records rather than taken from one, because they disagree about the datum -- see the note.",
+      "note": "THE BREAK POINT, MEASURED HORIZONTALLY FROM THE OUTSIDE FACE OF THE WALL, and stating the datum is the whole value of this rule. 50 2/5 in on the default: 0.35 of the half-span. The corpus's own records give the break two different ways and NEITHER SAYS FROM WHERE. `dutch-colonial-american` and `new-jersey-dutch-gambrel` both say 'break at 55-70 percent of the half-span'; `dutch-colonial-revival` says 'break point at 55-65 percent of the total roof height above the eave'. Those are two different measurements of the same joint, and a kit reading either as '0.6 of the half-span from the eave' places the break at nearly twice its true distance and produces a roof whose upper slope is a quarter of what it should be. Reconciled against the slope bands all three records give, the consistent reading is that the colonial figure is measured FROM THE RIDGE -- 0.55-0.70 from the ridge is 0.30-0.45 from the eave, which is this rule's range -- and the revival figure is a height ratio, which on these slopes comes out at 0.34 horizontally. Both then agree. The conversions are: from-the-eave fraction = 1 minus the colonial figure; and the revival's height fraction h/H relates to it by h/H = f*tanL / (f*tanL + (1-f)*tanU).",
+      "judgment": false
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "ratio",
+      "expression": "0.9375",
+      "units": "ratio",
+      "range": [
+        0.75,
+        1.2
+      ],
+      "authority_note": "`styles/new-jersey-dutch-gambrel.json`: ridge 20-24 ft above grade on a plate of 7 ft 6 in to 9 ft, over a 11-15 ft half-span. `styles/dutch-colonial-revival.json`: roof height eave to ridge 12-16 ft.",
+      "note": "ROOF HEIGHT OVER HALF-SPAN, and it is very close to one. That is the fact about this roof that a photograph shows and a plan does not: on a Dutch house the roof is as tall as the house is half-deep, so from the front it is most of what you see -- `styles/dutch-colonial-american.json` says exactly that, 'the roof is most of what you see'. Get this ratio wrong in either direction and no amount of correct detail recovers it: below about 0.75 the house reads as a bungalow with an odd roof, and above 1.2 as a barn.",
+      "judgment": false
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "height",
+      "expression": "part * 8",
+      "units": "in",
+      "range": [
+        84.0,
+        144.0
+      ],
+      "authority_note": "`styles/dutch-colonial-american.json`: 'wall plate 7 ft 0 in - 9 ft 0 in above the floor'. `styles/new-jersey-dutch-gambrel.json`: 'plate 7 ft 6 in - 9 ft 0 in'. `styles/dutch-colonial-revival.json`: 'wall height to eave 9-12 ft (one storey plus knee wall)'.",
+      "note": "PLATE HEIGHT ABOVE THE GROUND FLOOR, and the band is wide because it holds two regimes rather than one spread. The colonial original sits at 7-9 ft and is a one-and-a-half-storey house: the roof springs off a low plate and the upper floor lives inside it. The revival sits at 9-12 ft because it has quietly inserted a full storey or a knee wall under the same roof shape -- `styles/dutch-colonial-revival.json` says the revival 'makes it a full second storey, which the originals never did'. Eight feet is the colonial default. A designer working the revival should take the upper half of the band deliberately and know that it is the single change that separates the two.",
+      "judgment": false
+    },
+    {
+      "target_slot": "eave_condition",
+      "dimension": "projection",
+      "expression": "part * 3",
+      "units": "in",
+      "range": [
+        18.0,
+        36.0
+      ],
+      "authority_note": "`styles/dutch-colonial-american.json`: 'spring eave projection 18-36 in beyond the wall face'. `styles/hudson-valley-dutch.json`: 18-24 in. `styles/new-jersey-dutch-gambrel.json`: 24-36 in.",
+      "note": "HOW FAR THE SWEEP STANDS CLEAR OF THE WALL. Three feet at the Jersey end, a foot and a half at the Hudson end, and the difference between the two branches is real and worth keeping -- the Jersey eave is on its way to being a porch and the Hudson eave is shading a wall. Below 18 in the device stops working: the wall is not shaded, the water is not thrown clear of a soft sandstone or lime-mortared face, and the curve has no room to develop.",
+      "judgment": false
+    },
+    {
+      "target_slot": "eave_condition",
+      "dimension": "height",
+      "expression": "part * 2",
+      "units": "in",
+      "range": [
+        18.0,
+        30.0
+      ],
+      "authority_note": "`styles/dutch-colonial-revival.json`: 'the flare beginning 18-30 in. up the slope'.",
+      "note": "WHERE THE CURVE STARTS, measured up the slope from the eave edge. Two feet. See the tail_straight member: the sweep must begin below the plate so that the steep slope reads straight for its whole visible length and then lets go. A flare that starts at the plate gives an ogee, which is a different roof from a different tradition.",
+      "judgment": false
+    },
+    {
+      "target_slot": "eave_condition",
+      "dimension": "width",
+      "expression": "part * 6",
+      "units": "in",
+      "range": [
+        48.0,
+        108.0
+      ],
+      "authority_note": "`styles/new-jersey-dutch-gambrel.json`: 'sweep radius 4-8 ft'. `styles/hudson-valley-dutch.json`: 'a sweep radius of 5-9 ft'.",
+      "note": "THE RADIUS THE CURVE IS STRUCK ON. Six feet. It is a single radius and not a compound curve or a spline: the historical tail was one sawn piece, so the curve it could take was one arc, and drawing a subtle multi-centred sweep is a later refinement the buildings do not have. A tight radius under four feet turns the eave into a cove and reads as Victorian; past nine feet the curve is too lazy to see and the eave might as well be straight.",
+      "judgment": false
+    },
+    {
+      "target_slot": "dormer",
+      "dimension": "count",
+      "expression": "0",
+      "units": "count",
+      "range": [
+        0.0,
+        3.0
+      ],
+      "authority_note": "`styles/dutch-colonial-american.json`, in its own words: the revival 'fixed on the gambrel roof and the full-width shed dormer -- a combination that almost never occurs in the colonial original'.",
+      "note": "THE COLONIAL ORIGINAL HAS NO SHED DORMER, and the count is zero for the same reason `greek-doric` gives an ornament count of zero: absence is this form's most-broken rule, and a range that left room for it would be the pack declining to say so. Where a pre-Revolutionary Dutch house has dormers at all they are small individual gabled ones added later, which is why the range reaches three rather than stopping at zero. The three rules that follow describe the REVIVAL's dormer, which is a real and well-attested thing that this pack must be able to dimension -- but it is a nineteenth- and twentieth-century thing, and a design that wants the colonial house should read this rule and stop.",
+      "judgment": false
+    },
+    {
+      "target_slot": "dormer",
+      "dimension": "ratio",
+      "expression": "0.62",
+      "units": "ratio",
+      "range": [
+        0.5,
+        0.75
+      ],
+      "authority_note": "`styles/dutch-colonial-revival.json`: the shed dormer runs '50-75 percent of the roof length'.",
+      "note": "REVIVAL RULE. The shed dormer's length as a fraction of the roof's. Sixty-two per cent, and the fraction matters more than the dimension: a dormer running the full length has eaten the roof and left a two-storey wall with a hat on it, which is the commonest failure of the type and is what most speculative Dutch Colonial Revival houses actually are. Leaving a quarter to a half of the roof plane uncut on each side is what keeps the gambrel legible from the street.",
+      "judgment": false
+    },
+    {
+      "target_slot": "dormer",
+      "dimension": "projection",
+      "expression": "part * 2",
+      "units": "in",
+      "range": [
+        18.0,
+        36.0
+      ],
+      "authority_note": "`styles/dutch-colonial-revival.json`: 'shed dormer face set back 18-36 in. from the wall plane'.",
+      "note": "REVIVAL RULE, and it is the one that decides whether the dormer reads as a dormer. Set back two feet from the wall plane below, so that a strip of the lower slope survives in front of it and the roof still turns a corner at the eave. Bring the dormer face flush with the wall and the lower slope disappears behind it for the dormer's whole length -- at which point the building has a full second storey and a decorative roof above it, whatever the drawing calls it.",
+      "judgment": false
+    },
+    {
+      "target_slot": "dormer",
+      "dimension": "height",
+      "expression": "part * 6.5",
+      "units": "in",
+      "range": [
+        66.0,
+        90.0
+      ],
+      "authority_note": "Read off surviving revival work rather than stated by any record; the corpus gives the dormer's length and setback but not its face height.",
+      "note": "REVIVAL RULE, and a reading rather than a measurement. Six and a half feet of dormer face, which is what a 7 ft ceiling behind it needs once the roof of the dormer and the head trim are taken off. The band runs from 5 ft 6 in, where the dormer windows have to be short and the room behind is cramped at the wall, to 7 ft 6 in, at which point the dormer is a storey and the argument for calling the roof a gambrel is over.",
+      "judgment": true
+    },
+    {
+      "target_slot": "depth_and_pile",
+      "dimension": "width",
+      "expression": "module * 2",
+      "units": "in",
+      "range": [
+        264.0,
+        360.0
+      ],
+      "authority_note": "`styles/new-jersey-dutch-gambrel.json`: 'overall 30-46 ft x 22-30 ft'. `styles/hudson-valley-dutch.json`: '30-46 ft long x 20-24 ft deep'. `styles/dutch-colonial-american.json`: 'room depth 18-22 ft (one bent span)'.",
+      "note": "THE HOUSE DEPTH, which is twice the module by definition. Twenty-four feet. It is not a free choice: the depth is set by the H-bent span, which `styles/dutch-colonial-american.json` gives as 18-22 ft of room depth, plus the wall thicknesses -- and the bent is a timber-framing constraint that `timber-bay` owns and this pack does not restate. What this pack adds is that the depth is ALSO the roof's generator, so a designer who deepens the house to gain a room has raised the ridge by the same proportion and made the roof taller than the tradition ever built it. The two constraints are usually discussed separately and are the same constraint.",
+      "judgment": false
+    },
+    {
+      "target_slot": "gable_treatment",
+      "dimension": "height",
+      "expression": "module * 0.9375",
+      "units": "in",
+      "range": [
+        108.0,
+        192.0
+      ],
+      "authority_note": "The section's own height, seen end-on.",
+      "note": "THE GABLE-END SILHOUETTE, 11 ft 3 in from eave line to ridge. The gable end is where a gambrel is diagnosed, because it is the only elevation on which the break shows, and it is the elevation the tradition treats most plainly: a Dutch gambrel end is a flat wall with the roof's outline cut across it, usually with one or two small openings and nothing else. Any composition here -- a Palladian window, a fanlight, a decorated verge -- is a later import, and on the revival houses it is the single clearest tell.",
+      "judgment": false
+    },
+    {
+      "target_slot": "rake_condition",
+      "dimension": "projection",
+      "expression": "part * 0.5",
+      "units": "in",
+      "range": [
+        2.0,
+        18.0
+      ],
+      "authority_note": "Read off the measured surveys and the HABS drawings; the corpus's records give the eave projection but say nothing about the rake.",
+      "note": "A READING, AND THE ASYMMETRY IS THE POINT. Six inches, against three feet at the eave. The rake at the gable end is TIGHT -- often the roofing simply stops on a barge board against the masonry -- while the eave on the long elevation flies out on a curve, and that contrast between a flying eave and a clipped rake is a large part of what makes the form look the way it does. It is also the first thing lost in reproduction, because a modern framer will detail all four edges the same way and produce a house with a two-foot overhang on every side, which reads as a bungalow.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "The break is a hinge. The steep lower slope pushes outward at its foot with a large horizontal component -- at sixty degrees the thrust is most of the load -- and at the break the direction changes, so a purlin line has to take the difference. The historical answer is the H-bent: `styles/dutch-colonial-american.json`'s own governing logic names it, 'a pair of posts with an anchor beam', and the anchor beam is the tie that stops the frame spreading. A modern gambrel drawn as two pairs of rafters meeting at a purlin, with no tie and no structural ridge, has no load path for that thrust at all, and the classic failure is the knee wall bowing outward with the break sagging behind it. The revival makes it worse by putting a floor in the upper storey, which loads the break line with the thing it is least able to carry.",
+      "resolution": "Tie it. Either the historical way -- a real tie at the plate, which on a one-and-a-half-storey house is the second-floor joists doing double duty and is free -- or the modern way, an engineered gambrel truss where the break is a designed panel point. What does not work is a collar tie halfway up the upper slope, which is where a framer will put one by habit: it is above the break and therefore above the thrust it is meant to resist. Where the upper storey must be open to the roof, the answer is a structural ridge beam plus a tie at the plate, and the ridge beam then wants a bearing at each gable end, which is a plan consequence and needs deciding early.",
+      "severity": "blocking"
+    },
+    {
+      "with": "energy-code",
+      "statement": "The lower slope is the upper storey's wall, and it is detailed as a roof. That means the entire envelope of the second floor is built at rafter depth: a 2x8 at sixty degrees gives seven inches of cavity to do a wall's job at a roof's exposure, with no room for the depth a code-minimum roof assembly wants and no cavity left for ventilation if it is vented. Compounding it, the section has three junctions in a row -- knee wall, sloped ceiling, flat ceiling -- and the triangle behind the knee wall is the single most reliable thermal bypass in American house construction: it is inside the insulation, outside the air barrier, vented to the soffit, and open to the floor cavity below.",
+      "resolution": "Insulate on the outside, over the sheathing, and make the whole roof plane one continuous unvented assembly from eave to ridge. That thickens the roof, which is visible at the eave and at the rake and has to be detailed rather than discovered -- and on this roof there is somewhere to put it, because the sprung eave is already a thick, curved, built-up edge and will absorb an extra two inches without anyone noticing. Seal the knee-wall triangle whatever else is done: air-seal the floor cavity at the knee wall, and either bring the triangle inside the envelope or treat its wall, floor and ceiling as three insulated, air-sealed surfaces rather than one. Half-measures here undo the rest of the building.",
+      "severity": "blocking"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "The gambrel exists to solve a headroom problem and can be drawn so that it does not. IRC R305 requires 7 ft of clear height in a habitable room, and for a sloped ceiling requires that at least half the required floor area have it, with nothing under 5 ft counting toward the area at all. `styles/dutch-colonial-revival.json`'s own governing logic states the design rule that follows: 'the lower slope must be steep enough to give 7 ft 0 in headroom at 3 ft 0 in in from the wall.' At sixty degrees, three feet in from the wall buys 5 ft 2 in of rise, so the plate must already stand about 22 in above the upper floor for that rule to hold -- which is the knee wall, and it is not optional. Flatten the lower slope for looks and the arithmetic fails fast: at 45 degrees the same three feet buys only 3 ft.",
+      "resolution": "Check the headroom before the elevation, not after -- this is the one dimension in the pack that a design must satisfy rather than choose. Set the plate and the lower slope together from the 7 ft at 3 ft rule and let the break point follow, which is the order `dutch-colonial-revival`'s own record states and the reverse of how a gambrel is usually drawn. Where the knee wall must stay low for the sake of the colonial one-and-a-half-storey proportion, accept that the upper floor is not full habitable space and plan it as bedchambers under the slope with the required area concentrated at the centre -- which is what the original houses did, and is why they are one-and-a-half storeys and not two.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Three separate carpentry problems, none of them stock. The break needs a purlin line and a change of plane that every trade has to be told about. The sprung eave is a curved rafter tail, which historically was sawn from a naturally curved piece and today has to be laminated or bandsawn from a wide blank, one per rafter, on a 16 or 24 in spacing -- so a forty-foot elevation is thirty of them, each finished on its underside because it is a visible soffit. And the tight rake is a detail nobody's standard details cover, so it will be drawn as a two-foot overhang unless it is drawn otherwise.",
+      "resolution": "Make the tails a shop item off one template, cut and finished before they reach the site, and hang them on a ledger rather than making each one part of a rafter -- this is one of the rare cases where the applied version is structurally better as well as cheaper, because the curve is then not carrying anything. Do NOT substitute a straight tail with a curved fascia nailed to it: the fascia curves and the shadow line does not, and the fault is visible from the street on a sunny afternoon. If the budget will not carry the sweep, build a straight eave with a generous projection and call the house what it then is -- a gambrel without a spring eave is a perfectly real building, and `styles/hudson-valley-dutch.json` is the reminder that the reverse exists too.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "The break is an ice dam waiting for a cold winter, and it is in the worst possible place. Snow slides off the shallow upper slope and stops at the change of pitch, so the load and the meltwater both concentrate on the break line -- which is also, on any sloped-ceiling assembly, where the insulation is thinnest and the venting most obstructed. Water then backs up the shallow slope above the dam, where the covering's lap is least able to resist it: at 6 in 12 the upper slope is at or near the minimum pitch for asphalt shingles and below the minimum for several traditional coverings. The eave has the same problem in a milder form, and the sprung eave makes it milder still, because the near-horizontal edge means the last two feet of roof are barely draining at all.",
+      "resolution": "Run the ice-and-water membrane ACROSS THE BREAK, not merely at the eave where every standard detail puts it, and carry it a good three feet up the shallow slope. Check the upper slope's pitch against the covering's own minimum before choosing either, and where the covering wants more pitch than the composition will give, change the covering rather than the roof -- the break's position is doing headroom work and is not available. Make the assembly unvented if it can be, which removes the mechanism entirely; if it must be vented, the vent path has to be continuous THROUGH the break, which means a purlin detailed with a gap rather than a solid blocking line, and that is a thing to draw rather than to assume.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "dutch-colonial-american",
+    "new-jersey-dutch-gambrel",
+    "hudson-valley-dutch",
+    "dutch-colonial-revival",
+    "new-england-georgian",
+    "shingle-style"
+  ],
+  "sources": [
+    "Rosalie Fellows Bailey, Pre-Revolutionary Dutch Houses and Families in Northern New Jersey and Southern New York, William Morrow, New York, 1936",
+    "Helen Wilkinson Reynolds, Dutch Houses in the Hudson Valley before 1776, Payson and Clarke, New York, 1929",
+    "Historic American Buildings Survey, measured drawings of Bergen County and Hudson Valley Dutch houses (HABS NJ, HABS NY)",
+    "Hugh Morrison, Early American Architecture, Oxford University Press, New York, 1952, for the regional survey"
+  ],
+  "confidence": "medium",
+  "notes": "WP-4.1's candidate list asks for 'a Dutch gambrel roof geometry system (break point, slope ratio, eave kick)', confirmed by PB-1a and PB-6c. This is that pack, and it carries TWO DEVICES rather than one, because the corpus's own records show they are independent: `styles/hudson-valley-dutch.json` has a sprung eave with a straight 12:12-to-17:12 gable and NO gambrel, and plenty of New England gambrels have the break with no sweep at all. Treating them as one thing called 'the Dutch roof' would have hidden that, so the pack names both in its title and every rule says which device it belongs to. It is also why `hudson-valley-dutch` is in `applies_to` despite not having a gambrel: it takes the eave rules and leaves the section rules alone, and its binding note says so.\n\nTHE FINDING WORTH CARRYING FORWARD IS THE BREAK POINT'S DATUM. Three style records give the break and none of them says from where. `dutch-colonial-american` and `new-jersey-dutch-gambrel` both say 'break at 55-70 percent of the half-span'; `dutch-colonial-revival` says '55-65 percent of the total roof height above the eave'. Those are two different measurements of one joint, and read naively as 'from the eave' the first is wrong by nearly a factor of two -- it produces a roof whose upper slope is a quarter of what it should be and whose ridge is half again too high. Reconciled against the slope bands the same three records give, the colonial figure is consistent only as a fraction measured FROM THE RIDGE, and the revival figure is a height ratio that comes out at 0.34 horizontally on those slopes; both then agree, and this pack states one canonical datum -- horizontal, from the outside face of the wall -- with the conversions to both of the corpus's forms written out in the rule's note. The style records are NOT edited: they are quoted correctly and the ambiguity is theirs to keep, because it is what the sources say and the pack's job is to be the place where it is resolved once.\n\nWhat this pack does not carry. The H-bent frame bay -- `timber-bay` owns it, `dutch-colonial-american` and `hudson-valley-dutch` already bind that pack primary, and restating the 8-12 ft bent spacing here would be two packs asserting one number. The Dutch stoop, door hardware and split door, which are kit matters rather than proportional ones. And the whole street-gable grammar of the Low Countries urban house -- the stepped, bell and neck gables -- which `styles/dutch-urban-gable-house.json` carries and which is a separate item on WP-4.1's candidate list ('no gable geometry system of any kind currently exists in the library'). That item stays open, and it is worth saying that this pack does NOT reduce it: a gable profile is an elevation outline and a gambrel is a roof section, and nothing here helps with a holbol curve or a bell gable's shoulders.\n\nConfidence is medium. The slope bands, the break, the plate heights, the eave projections and the sweep radii all come from the corpus's own style records, which for this type are unusually well supplied with numbers and are better authority than anything I could add. The two figures marked judgment -- the rake projection and the revival dormer's face height -- are readings off surveys and surviving work, and are marked because no record states them."
+}
