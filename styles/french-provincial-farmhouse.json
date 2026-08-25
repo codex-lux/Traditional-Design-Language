@@ -236,6 +236,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "primary",
+      "note": "Primary, and the node that gives the pack three of its plan rules and its bluntest sentence. Openings are 'sized by the lintel or relieving arch available' -- which is the pack's central plan consequence stated by the corpus rather than derived by me. The range depth at 5.5-7 m clear and the structural bay at 4.5-5.5 m between cross-walls give the pack its two plan dimensions, and together they mean the room sizes are settled before the brief is. And the aperture rule here is the one that made the daylight slot a judgment: '8-15 percent on the sun face, under 5 percent on the mistral face' is a rule about ELEVATIONS rather than about buildings, three times as much glass on one side as the other in a single house, and the schema has no place to put it.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "Explicitly listed in the pack's applies_to. This node's own text is close to a restatement of the pack's central finding: rooms are shaped by orientation, storage function and 'the room it lights' rather than by composition, and the ground floor is explicitly given to production (cave, cuverie, byre) rather than living — matching the pack's service_zone_strategy rule almost exactly.",

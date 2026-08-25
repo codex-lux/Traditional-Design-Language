@@ -230,6 +230,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "secondary",
+      "note": "Bound for the walling and the dressings. This record's croisee -- 'a cross of one vertical mullion and one transom, moulded, with the transom set high' at roughly 2:3 with the transom at about two-thirds of the opening height -- is the same answer to the same problem the Cotswold mullion gives: you cannot widen a stone lintel, so you subdivide the opening instead, and the pack's window-proportion rule says so. Read this node's own transom figure rather than the pack's default, which is a two-light band and not a croisee. The corbelled string courses and the defensive vocabulary retained as ornament are this record's own observation and are exactly what the pack's belt-course note describes: a weathering that survives once its reason has gone.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "Judgment bind: french-manoir is not itself listed in room-vernacular's applies_to, but its family container french-vernacular is. The salle and the single-pile rooms strung off the stair turret are span-limited exactly as the pack describes — 'every principal room lit and ventilated from two faces' because a single-pile section cannot be built any deeper — and this node's own constraint (french-manoir.c01, depth not exceeding 7 m) is the same joist/roof-span ceiling the pack's depth_and_pile rule encodes.",

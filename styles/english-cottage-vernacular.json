@@ -252,6 +252,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "secondary",
+      "note": "Secondary, because this node covers a wide range of walling and stone is one of them rather than the definition. Where the wall is stone the pack applies whole; where it is cob, brick or timber frame it does not, and nothing here should be read as asserting the material. What travels regardless of material is the opening rule -- few, small, deeply set, sized by what will span them -- and the plinth, and both are worth reading here for that reason.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "english-cottage-vernacular is named directly in room-vernacular's applies_to, and the fit is close to definitive: governing_logic states 'None applied. Dimensions come from material limits,' which is precisely room-vernacular's reconstruction method, and the style's own low ceiling figures (2.0-2.2 m) and small, irregular openings track the pack's daylight-limited room closely. This is one of the source vernacular traditions the pack itself was reconstructed from.",

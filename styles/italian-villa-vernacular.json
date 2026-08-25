@@ -249,6 +249,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "secondary",
+      "note": "Secondary. The walling is this pack's and the composition is not: `facade-picturesque` holds the facade role here and should keep it. Worth reading together with `tuscan-vernacular`, which is where the numbers come from -- this node and that one describe the same wall at different social levels, and the pack does not distinguish them because the masonry does not.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "authority": "facade-picturesque",

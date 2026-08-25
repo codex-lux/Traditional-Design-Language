@@ -42,6 +42,12 @@ three style records give the break point three different ways and none of them s
 cast iron is not the system. The three nodes whose records talk about ironwork most are two Monterey
 variants and Regency, and the Monterey balcony is WOOD. What they share with the Creole galerie and
 the Italianate porch is a horizontal deck applied to a wall, carried one of three ways, with a rail.
+
+`stone-course` (third tranche) -- WP-4.1's "stone-coursing equivalent of brick-course", and by a
+wide margin the largest item left on the list when it was measured: 60 buildable nodes describe
+stone walling and 34 carry three packs or fewer, against 31 and 23 for the next-largest. It cannot
+have brick-course's module, and its central rule is stated twice in the corpus, independently, in
+nearly the same words.
 """
 import glob
 import json
@@ -1058,3 +1064,142 @@ def test_every_new_pack_in_this_package_binds_only_nodes_that_already_had_bindin
         for nid in pack(pid)["applies_to"]:
             others = [e for e in node(nid)["proportion_packs"] if e["pack"] != pid]
             assert others, (pid, nid)
+
+
+# ---------------------------------------------------------------- stone-course
+
+
+def test_the_module_cannot_be_a_course_of_the_wall_and_the_pack_says_why():
+    """A brick wall has a gauge rod and every course is the same height. A rubble wall has no gauge
+    at all, because the stone arrives as the quarry bed gives it -- so the module is a course of the
+    DRESSING, the only stone in the building with a dimension before it is laid."""
+    st, br = pack("stone-course"), pack("brick-course")
+    assert "gauge rod" in br["module"]["note"]
+    assert "no gauge" in st["module"]["note"]
+    assert "dressed stone" in st["module"]["name"].lower()
+    assert st["module"]["default_size_in"] != br["module"]["default_size_in"]
+
+
+def test_the_central_rule_is_stated_twice_independently_by_the_corpus():
+    """Two records, four centuries and two building types apart, giving the same rule with the same
+    word -- RESERVED -- and neither aware of the other. That agreement is the pack's authority for
+    its whole dressed/field division, so the test checks the corpus rather than the pack's prose."""
+    cots = json.dumps(node("cotswold-vernacular"))
+    norm = json.dumps(node("norman-romanesque-english"))
+    assert "dressed ashlar reserved for mullions, jambs, lintels, quoins" in cots
+    assert "ashlar reserved for quoins, jambs, voussoirs, string courses" in norm
+    assert "RESERVED" in pack("stone-course")["notes"]
+
+
+def test_the_reveal_is_not_the_wall_which_is_the_opposite_of_adobe():
+    """adobe-module states reveal and wall thickness with the SAME expression because they are the
+    same number. Here the jamb is dressed and rebated, so the reveal is about two-thirds of the
+    wall -- and that difference is what makes internal lining tolerable here and fatal there."""
+    st = {(r["target_slot"], r["dimension"]): r for r in pack("stone-course")["derived_rules"]}
+    ad = {(r["target_slot"], r["dimension"]): r for r in pack("adobe-module")["derived_rules"]}
+    assert ad[("reveal_masonry", "width")]["expression"] == ad[("wall_thickness_masonry", "width")]["expression"]
+    assert st[("reveal_masonry", "width")]["expression"] != st[("wall_thickness_masonry", "width")]["expression"]
+    assert "THE REVEAL IS NOT THE WALL" in st[("reveal_masonry", "width")]["note"]
+
+
+def test_the_two_packs_give_opposite_energy_advice_and_both_say_why():
+    """adobe-module says exterior insulation destroys the building and internal throws away the
+    mass. stone-course says line it internally. The reason is the reveal rule, and a corpus whose
+    two mass-wall packs disagreed without explaining themselves would be worse than one pack."""
+    st = next(c for c in pack("stone-course")["conflicts"] if c["with"] == "energy-code")
+    ad = next(c for c in pack("adobe-module")["conflicts"] if c["with"] == "energy-code")
+    assert "OPPOSITE of the advice in `adobe-module`" in st["resolution"]
+    assert "reveal" in st["resolution"]
+    assert st["severity"] == ad["severity"] == "blocking"
+
+
+def test_the_opening_is_capped_by_what_a_lintel_will_span():
+    """`french-provincial-farmhouse` says it outright: openings are 'sized by the lintel or
+    relieving arch available'. Everything about the elevation follows -- few openings, wide piers,
+    a mullion instead of a wider head, and no picture window."""
+    r = next(x for x in pack("stone-course")["derived_rules"]
+             if x["target_slot"] == "window_head_masonry" and x["dimension"] == "width")
+    assert "sized by the lintel or relieving arch available" in json.dumps(node("french-provincial-farmhouse"))
+    assert "CENTRAL PLAN CONSEQUENCE" in r["note"]
+
+
+def test_the_lintel_depth_is_tied_to_the_span_by_an_invariant():
+    """Widening the opening deepens the head, which raises the wall above it. Held as an invariant
+    so that anyone who widens the opening finds out, rather than discovering it on site."""
+    p = pack("stone-course")
+    lintel = next(m for m in p["assemblies"]["dressed_opening"]["members"] if m["id"] == "lintel")
+    span_modules = 5.0                                    # module * 5, the head rule
+    assert abs(lintel["height_parts"] * 6 - span_modules * p["module"]["parts"]) < 1.0
+    assert any("sixth of its span" in i["statement"] for i in p["invariants"])
+
+
+def test_the_quoin_alternates_and_the_invariant_holds_equal_beds():
+    """Equal beds, unequal faces. A run where every stone shows the same face is a corner cladding
+    and says at fifty yards that the stones were ordered from a list rather than cut for the job."""
+    p = pack("stone-course")
+    m = {x["id"]: x for x in p["assemblies"]["quoin_run"]["members"]}
+    assert m["quoin_long"]["height_parts"] == m["quoin_short"]["height_parts"]
+    assert m["quoin_long"]["projection_parts"] > m["quoin_short"]["projection_parts"]
+    ratio = next(r for r in p["derived_rules"]
+                 if r["target_slot"] == "corner_quoin" and r["dimension"] == "ratio")
+    assert ratio["judgment"] is True
+
+
+def test_twelve_nodes_bound_not_thirty_four_and_the_criterion_is_stated():
+    """The measurement found 34 thinly-bound stone nodes. Binding all of them would have raised a
+    number and told the corpus something false about eleven. The criterion is whether the stone wall
+    GOVERNS or merely occurs, and the notes name where each excluded group went instead."""
+    p = pack("stone-course")
+    assert len(p["applies_to"]) == 12
+    assert "WHY TWELVE NODES AND NOT THIRTY-FOUR" in p["notes"]
+    for nid in ("mexican-hacienda", "spanish-colonial-american", "greek-classical",
+                "mid-atlantic-georgian", "tudor", "english-medieval-timber-frame"):
+        assert nid not in p["applies_to"], nid
+    for nid in ("mexican-hacienda", "spanish-colonial-american"):
+        assert binding(nid, "adobe-module") is not None, nid   # where they went instead
+    assert binding("greek-classical", "greek-doric") is not None
+
+
+def test_the_three_systems_it_declines_are_named_with_their_figures():
+    """The moulded sections, the Scottish crow-step and bartizan, and the Tuscan loggia arcade. Each
+    has real numbers in a style record and none of them is walling; quoting them in the notes is how
+    the next author finds them instead of rediscovering them."""
+    n = pack("stone-course")["notes"]
+    for phrase in ("ovolo", "crow-step", "0.4-0.6 of the clear opening"):
+        assert phrase in n
+    assert "crow-step tread 300" in json.dumps(node("scottish-baronial")).replace("\u2013", "-") \
+        or "Crow-step tread 300" in json.dumps(node("scottish-baronial"), ensure_ascii=False)
+
+
+def test_the_wall_thickness_band_is_three_records_agreeing():
+    """500-700 mm given independently by a Cotswold cottage, a Tuscan farmhouse and a Provencal one.
+    Three unrelated records in three countries is a stronger agreement than any single source, which
+    is why the figure carries no hedge."""
+    r = next(x for x in pack("stone-course")["derived_rules"]
+             if x["target_slot"] == "wall_thickness_masonry" and x["dimension"] == "width")
+    for nid in ("cotswold-vernacular", "tuscan-vernacular", "french-provincial-farmhouse"):
+        t = json.dumps(node(nid), ensure_ascii=False)
+        assert "500" in t and "700 mm" in t, nid
+    assert r["range"][0] < 500 / 25.4 and r["range"][1] > 700 / 25.4
+
+
+def test_lime_not_cement_is_stated_as_the_blocking_structural_rule():
+    """A cement mortar is stronger and less permeable than the stone, so water leaves through the
+    stone's face instead and the face spalls. Still routinely specified, so the pack says it in
+    capitals in a blocking conflict rather than in a note."""
+    c = next(x for x in pack("stone-course")["conflicts"] if x["with"] == "structural")
+    assert c["severity"] == "blocking"
+    assert "NEVER POINT OR BED IN CEMENT" in c["resolution"]
+    assert "through-stone" in c["statement"].lower() or "through-stones" in c["resolution"]
+
+
+def test_the_module_carries_its_own_warning_about_the_local_stone():
+    """Nine inches is oolitic limestone and most sandstones. A granite or thin-flagstone tradition
+    wants a different number with every figure in the pack moving behind it -- which is the one
+    thing a reader most needs told, so it is in the module note, the availability conflict and the
+    closing notes alike."""
+    p = pack("stone-course")
+    assert "granite" in p["module"]["note"]
+    c = next(x for x in p["conflicts"] if x["with"] == "material-availability")
+    assert "change the module" in c["resolution"]
+    assert "nine inches is oolitic limestone" in p["notes"]

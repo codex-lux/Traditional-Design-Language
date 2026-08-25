@@ -235,6 +235,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "primary",
+      "note": "The node the pack was written from and the one it was checked against first. Its record supplies the wall at 500-700 mm, the reveals at 250-450, the two-to-five-light stone mullion with its ovolo or cavetto moulding and its hood, the graded stone slate from 550-600 mm at the eaves to 150 at the ridge, and -- the sentence the whole pack turns on -- 'dressed ashlar reserved for mullions, jambs, lintels, quoins, kneelers and copings'. Primary, because on this node nothing else generates: the openings are sized by the lintels, the corners exist in dressed stone because rubble cannot turn one, and the composition is the contrast between the two. Note the one figure the pack takes from here and treats as roofing rather than walling: the diminishing course, which is this tradition's most recognisable and most expensive feature and which no other node in the corpus states.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "cotswold-vernacular is named directly in room-vernacular's applies_to. governing_logic states plainly that dimensions here come from 'material logic, not applied proportion,' which is exactly what room-vernacular reconstructs from measured Anglo-American and British vernacular fabric rather than from a treatise: room breadth capped by joist span, area by hearth reach, depth by daylight. The daylight-depth cap is especially apt here given the deep-set windows the pack's own text describes ('windows sit in deep reveals and rooms are dim near the walls').",

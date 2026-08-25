@@ -231,6 +231,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "primary",
+      "note": "Primary, and the node that supplies the pack's diminution rule outright: 'wall thickness 500-700 mm at ground, reducing to 400-500 mm above'. The reduction is taken on the inside, so the outer face stays in one plane and the ledge carries the upper floor's joists -- which is why in these buildings the floor structure and the wall's thinning are one decision. This record also gives the aperture band at 5-10 per cent, the reveals at 400-600 mm, and the window at 1:1.3 to 1:1.8. Two figures in it are deliberately NOT in the pack: the genoise eave of two to four corbelled tile courses, which is a cornice in tile and belongs with `brick-course`'s family rather than with dressed stone; and the loggia at 'pier width 0.4-0.6 of the clear opening', which is an arcade rule and a third missing pack -- quoted in this pack's notes so it is not lost.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "authority": "room-vernacular",

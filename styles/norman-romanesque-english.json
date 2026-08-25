@@ -203,6 +203,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "primary",
+      "note": "The node that states the pack's central rule for the second time and independently: 'coursed rubble field walling with ashlar reserved for quoins, jambs, voussoirs, string courses and shafts'. Four centuries and a building type away from the Cotswold cottage, with the same word -- reserved -- and no awareness of the other. It also supplies the pack's one scaling rule, wall thickness at 1/8 to 1/5 of the clear span, which is how a mason building at every scale from a chapel to a cathedral actually thought, and which gives a heavier wall than the domestic records do because it is describing vaulted and towered work. Read that rule here and leave it alone on the cottages. What the pack does NOT carry for this node is the ornament: the chevron, billet, beakhead and cable that this record describes as 'cut into the stone's arris rather than applied to its face' are a repertoire and stay on WP-4.1's candidate list.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "Judgment binding, and a narrow one: norman-romanesque-english is not in room-vernacular's applies_to, and almost none of the pack's module transfers — this is single-cell, vertically stacked, vaulted masonry construction (undercroft 2.4-3.0 m, hall above 4.5-6.0 m) with no joist-span or hearth-reach logic resembling the pack's 14 ft timber room at all. What does transfer is the one rule the pack itself calls 'physics rather than custom': the daylight-depth relationship. This style's own text confirms the same constraint by observation ('openings small in relation to wall area... splayed inward to gather what light they can'), so the daylight rule is bound as the sole governing content of this pack for this node; the module, hearth and span figures should be disregarded here. No dedicated masonry-mass room or facade system exists in the library for this style — see gaps.",

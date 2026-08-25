@@ -11793,6 +11793,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "stone-course",
+          "role": "primary",
+          "note": "The node the pack was written from and the one it was checked against first. Its record supplies the wall at 500-700 mm, the reveals at 250-450, the two-to-five-light stone mullion with its ovolo or cavetto moulding and its hood, the graded stone slate from 550-600 mm at the eaves to 150 at the ridge, and -- the sentence the whole pack turns on -- 'dressed ashlar reserved for mullions, jambs, lintels, quoins, kneelers and copings'. Primary, because on this node nothing else generates: the openings are sized by the lintels, the corners exist in dressed stone because rubble cannot turn one, and the composition is the contrast between the two. Note the one figure the pack takes from here and treats as roofing rather than walling: the diminishing course, which is this tradition's most recognisable and most expensive feature and which no other node in the corpus states.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "cotswold-vernacular is named directly in room-vernacular's applies_to. governing_logic states plainly that dimensions here come from 'material logic, not applied proportion,' which is exactly what room-vernacular reconstructs from measured Anglo-American and British vernacular fabric rather than from a treatise: room breadth capped by joist span, area by hearth reach, depth by daylight. The daylight-depth cap is especially apt here given the deep-set windows the pack's own text describes ('windows sit in deep reveals and rooms are dim near the walls').",
@@ -18015,6 +18021,12 @@
         "additive"
       ],
       "proportion_packs": [
+        {
+          "pack": "stone-course",
+          "role": "primary",
+          "note": "Primary, and the node that supplies the pack's diminution rule outright: 'wall thickness 500-700 mm at ground, reducing to 400-500 mm above'. The reduction is taken on the inside, so the outer face stays in one plane and the ledge carries the upper floor's joists -- which is why in these buildings the floor structure and the wall's thinning are one decision. This record also gives the aperture band at 5-10 per cent, the reveals at 400-600 mm, and the window at 1:1.3 to 1:1.8. Two figures in it are deliberately NOT in the pack: the genoise eave of two to four corbelled tile courses, which is a cornice in tile and belongs with `brick-course`'s family rather than with dressed stone; and the loggia at 'pier width 0.4-0.6 of the clear opening', which is an arcade rule and a third missing pack -- quoted in this pack's notes so it is not lost.",
+          "precedence": 0
+        },
         {
           "pack": "room-vernacular",
           "role": "room",
@@ -24481,6 +24493,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "stone-course",
+          "role": "secondary",
+          "note": "Secondary, and the split needs saying. The walling is squarely this pack's -- squared rubble, granite ashlar or harled rubble, reveals at 300-450 mm, glazed area at 10-16 per cent, 'plain and unornamented through the lower storeys' -- and the granite work sits at the top of the pack's quoin and module bands, which is what a granite tradition does. What is NOT here is everything above the wall head: the crow-stepped gable at 300-450 mm tread and 200-300 mm rise, and the corbelled bartizan at 1.2-2.0 m diameter on a 55-65 degree conical roof. Those are real numbers in this node's own record and they belong to a gable-and-turret geometry that WP-4.1 lists as entirely missing from the library. The pack quotes them in its notes so the next author finds them and does not restate them as walling.",
+          "precedence": 0
+        },
+        {
           "pack": "facade-picturesque",
           "role": "facade",
           "note": "scottish-baronial is named directly in facade-picturesque's applies_to. governing_logic states 'None classical. Composition is picturesque — balance of masses read obliquely, with a dominant vertical accent' and symmetry is recorded as 'picturesque-asymmetrical,' which is exactly the pack's dominant-mass, oblique-reading logic. The one addition this style makes that the generic pack does not encode is the concentration of all ornament at the wall head over plain lower storeys (c02) — a vertical distribution rule with no equivalent slot in the pack, noted as a gap below.",
@@ -25392,6 +25410,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "stone-course",
+          "role": "primary",
+          "note": "Primary, and the node that gives the pack three of its plan rules and its bluntest sentence. Openings are 'sized by the lintel or relieving arch available' -- which is the pack's central plan consequence stated by the corpus rather than derived by me. The range depth at 5.5-7 m clear and the structural bay at 4.5-5.5 m between cross-walls give the pack its two plan dimensions, and together they mean the room sizes are settled before the brief is. And the aperture rule here is the one that made the daylight slot a judgment: '8-15 percent on the sun face, under 5 percent on the mistral face' is a rule about ELEVATIONS rather than about buildings, three times as much glass on one side as the other in a single house, and the schema has no place to put it.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "Explicitly listed in the pack's applies_to. This node's own text is close to a restatement of the pack's central finding: rooms are shaped by orientation, storage function and 'the room it lights' rather than by composition, and the ground floor is explicitly given to production (cave, cuverie, byre) rather than living — matching the pack's service_zone_strategy rule almost exactly.",
@@ -26022,6 +26046,12 @@
         "interwar"
       ],
       "proportion_packs": [
+        {
+          "pack": "stone-course",
+          "role": "secondary",
+          "note": "Secondary. The revival works in stone and half-timber together, and this pack holds only the first half -- the rubble field, the dressed quoins and jambs, the plinth. The timber-framed panels want the half-timber infill module that is still on WP-4.1's list, and until it exists this node's framed walling has no pack, which is worth stating rather than letting the stone binding imply coverage it does not have.",
+          "precedence": 0
+        },
         {
           "pack": "facade-picturesque",
           "role": "facade",
@@ -31259,6 +31289,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "stone-course",
+          "role": "secondary",
+          "note": "Secondary, because this node covers a wide range of walling and stone is one of them rather than the definition. Where the wall is stone the pack applies whole; where it is cob, brick or timber frame it does not, and nothing here should be read as asserting the material. What travels regardless of material is the opening rule -- few, small, deeply set, sized by what will span them -- and the plinth, and both are worth reading here for that reason.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "english-cottage-vernacular is named directly in room-vernacular's applies_to, and the fit is close to definitive: governing_logic states 'None applied. Dimensions come from material limits,' which is precisely room-vernacular's reconstruction method, and the style's own low ceiling figures (2.0-2.2 m) and small, irregular openings track the pack's daylight-limited room closely. This is one of the source vernacular traditions the pack itself was reconstructed from.",
@@ -33724,6 +33760,12 @@
         "bracketed-eave"
       ],
       "proportion_packs": [
+        {
+          "pack": "stone-course",
+          "role": "secondary",
+          "note": "Secondary. The walling is this pack's and the composition is not: `facade-picturesque` holds the facade role here and should keep it. Worth reading together with `tuscan-vernacular`, which is where the numbers come from -- this node and that one describe the same wall at different social levels, and the pack does not distinguish them because the masonry does not.",
+          "precedence": 0
+        },
         {
           "pack": "facade-picturesque",
           "role": "facade",
@@ -39357,6 +39399,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "stone-course",
+          "role": "secondary",
+          "note": "Bound for the walling and the dressings. This record's croisee -- 'a cross of one vertical mullion and one transom, moulded, with the transom set high' at roughly 2:3 with the transom at about two-thirds of the opening height -- is the same answer to the same problem the Cotswold mullion gives: you cannot widen a stone lintel, so you subdivide the opening instead, and the pack's window-proportion rule says so. Read this node's own transom figure rather than the pack's default, which is a two-light band and not a croisee. The corbelled string courses and the defensive vocabulary retained as ornament are this record's own observation and are exactly what the pack's belt-course note describes: a weathering that survives once its reason has gone.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "Judgment bind: french-manoir is not itself listed in room-vernacular's applies_to, but its family container french-vernacular is. The salle and the single-pile rooms strung off the stair turret are span-limited exactly as the pack describes — 'every principal room lit and ventilated from two faces' because a single-pile section cannot be built any deeper — and this node's own constraint (french-manoir.c01, depth not exceeding 7 m) is the same joist/roof-span ceiling the pack's depth_and_pile rule encodes.",
@@ -40304,6 +40352,12 @@
         "defensive"
       ],
       "proportion_packs": [
+        {
+          "pack": "stone-course",
+          "role": "primary",
+          "note": "The node that states the pack's central rule for the second time and independently: 'coursed rubble field walling with ashlar reserved for quoins, jambs, voussoirs, string courses and shafts'. Four centuries and a building type away from the Cotswold cottage, with the same word -- reserved -- and no awareness of the other. It also supplies the pack's one scaling rule, wall thickness at 1/8 to 1/5 of the clear span, which is how a mason building at every scale from a chapel to a cathedral actually thought, and which gives a heavier wall than the domestic records do because it is describing vaulted and towered work. Read that rule here and leave it alone on the cottages. What the pack does NOT carry for this node is the ornament: the chevron, billet, beakhead and cable that this record describes as 'cut into the stone's arris rather than applied to its face' are a repertoire and stay on WP-4.1's candidate list.",
+          "precedence": 0
+        },
         {
           "pack": "room-vernacular",
           "role": "room",
@@ -42797,6 +42851,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "stone-course",
+          "role": "secondary",
+          "note": "Secondary, and honestly qualified: this record gives the walls as 'thick sun-dried brick OR rubble, lime-plastered and limewashed white', so half the time the wall is adobe and `adobe-module` is the better pack for it. What is unambiguous, and why the binding is worth making, is the plan rule: 'single-pile ranges only, room depth fixed by the span of undressed imported or local rafters', with the range at 5.5-6.5 m clear -- which is this pack's range-depth rule with its reason attached, and the same reason `adobe-module`'s viga span and `log-module`'s pen give. What this pack has nothing for is the thing this node is most known for: the curvilinear holbol gable, which WP-4.1 lists as its own missing item alongside the stepped, bell and neck gables of the Low Countries, and which is a gable profile rather than a wall.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "Explicitly listed in the pack's applies_to. The voorkamer — one room deep, lit through thick lime-plastered reveals, roofed by a brandsolder fire-floor over exposed beams — is the daylight- and span-limited vernacular room this pack describes, and its single-pile constraint (cape-dutch.c01, depth not exceeding 6.5 m) is the same physical limit — what an undressed rafter will carry — that generates the pack's own depth_and_pile rule.",
@@ -44011,6 +44071,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "stone-course",
+          "role": "secondary",
+          "note": "Secondary, behind `brick-course`, and the pair on this node is the useful thing rather than either alone. A bank house is built into a slope with a masonry ground storey and a lighter one above, and the two packs divide on that line: this one holds the heavy stone below, `brick-course` the work above where it is brick. The pack's plinth rule is doing unusual work here, because on a bank house the lower wall is a retaining wall for part of its length and the splash line the plinth answers is on one elevation and not the others.",
+          "precedence": 0
+        },
+        {
           "pack": "brick-course",
           "role": "primary",
           "authority": "brick-course",
@@ -44641,6 +44707,12 @@
         "picturesque"
       ],
       "proportion_packs": [
+        {
+          "pack": "stone-course",
+          "role": "secondary",
+          "note": "The revival, bound secondary, and the pack is most useful here as a checklist of what the revival tends to lose. Three things in particular: reconstituted dressings, whose arris is too sharp and which weather flat instead of wearing; a rubble face built to a string line and therefore dead flat, which the pack's tolerance conflict is written against; and a stone slate roof laid in one course size, which is not this roof whatever the stone. Where the revival is building in real local stone with cut dressings the pack applies unchanged -- that is the point of a revival that works.",
+          "precedence": 0
+        },
         {
           "pack": "facade-picturesque",
           "role": "facade",

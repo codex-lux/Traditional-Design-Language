@@ -235,6 +235,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "secondary",
+      "note": "Secondary. The revival works in stone and half-timber together, and this pack holds only the first half -- the rubble field, the dressed quoins and jambs, the plinth. The timber-framed panels want the half-timber infill module that is still on WP-4.1's list, and until it exists this node's framed walling has no pack, which is worth stating rather than letting the stone binding imply coverage it does not have.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Confirmed in the pack's own applies_to. The style's own proportional_system names the tower explicitly as 'the compositional pivot: its diameter and height set the scale against which the two wings are judged' - a textbook statement of the picturesque dominant-mass logic, and the tower's conical roof at 18:12-24:12 against a main roof of 12:12-16:12 is close kin to facade-picturesque's own gable_treatment and roof_form derived_rules. No classical order anywhere in the defining characteristics or constraints; unlike chateauesque and beaux-arts-american, this variant's own lineage carries no Beaux-Arts weight (its Ecole descent is inherited only at second hand through the french-eclectic parent) and no order is bound here for that reason.",

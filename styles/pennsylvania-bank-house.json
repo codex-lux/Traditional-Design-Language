@@ -219,6 +219,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "secondary",
+      "note": "Secondary, behind `brick-course`, and the pair on this node is the useful thing rather than either alone. A bank house is built into a slope with a masonry ground storey and a lighter one above, and the two packs divide on that line: this one holds the heavy stone below, `brick-course` the work above where it is brick. The pack's plinth rule is doing unusual work here, because on a bank house the lower wall is a retaining wall for part of its length and the splash line the plinth answers is on one elevation and not the others.",
+      "precedence": 0
+    },
+    {
       "pack": "brick-course",
       "role": "primary",
       "authority": "brick-course",

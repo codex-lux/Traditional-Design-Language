@@ -218,6 +218,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "secondary",
+      "note": "Secondary, and the split needs saying. The walling is squarely this pack's -- squared rubble, granite ashlar or harled rubble, reveals at 300-450 mm, glazed area at 10-16 per cent, 'plain and unornamented through the lower storeys' -- and the granite work sits at the top of the pack's quoin and module bands, which is what a granite tradition does. What is NOT here is everything above the wall head: the crow-stepped gable at 300-450 mm tread and 200-300 mm rise, and the corbelled bartizan at 1.2-2.0 m diameter on a 55-65 degree conical roof. Those are real numbers in this node's own record and they belong to a gable-and-turret geometry that WP-4.1 lists as entirely missing from the library. The pack quotes them in its notes so the next author finds them and does not restate them as walling.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "scottish-baronial is named directly in facade-picturesque's applies_to. governing_logic states 'None classical. Composition is picturesque — balance of masses read obliquely, with a dominant vertical accent' and symmetry is recorded as 'picturesque-asymmetrical,' which is exactly the pack's dominant-mass, oblique-reading logic. The one addition this style makes that the generic pack does not encode is the concentration of all ornament at the wall head over plain lower storeys (c02) — a vertical distribution rule with no equivalent slot in the pack, noted as a gap below.",

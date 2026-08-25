@@ -13,12 +13,12 @@ python3 build/proportion_engine.py compare vignola-doric gibbs-doric benjamin-do
 python3 build/proportion_engine.py selftest
 ```
 
-44 packs, in four kinds:
+45 packs, in four kinds:
 
 | Kind | Packs | Module |
 |---|---|---|
 | `order-system` | 5 Vignola orders, 19 authority overlays, Greek Doric, the Moorish arch system | the column semidiameter — or, for Palladio, the whole diameter; for the Moorish system, the generating square's side, because that system has no column proportion at all |
-| `module-system` | brick course, timber bay, sash light, storey graduation, log, adobe, Dutch gambrel, the applied balcony | a material unit — for adobe, one brick laid as a header, which is why a mass wall's thickness comes in whole bricks; for the gambrel, the half-span, which is the one module in the set you cannot hold; for the balcony, the rail bay, and the deck's DEPTH is deliberately not derived from it, because depth follows how the deck is carried |
+| `module-system` | brick course, timber bay, sash light, storey graduation, log, adobe, Dutch gambrel, the applied balcony, stone course | a material unit — for adobe, one brick laid as a header, which is why a mass wall's thickness comes in whole bricks; for the gambrel, the half-span, which is the one module in the set you cannot hold; for the balcony, the rail bay, and the deck's DEPTH is deliberately not derived from it, because depth follows how the deck is carried; for stone, one DRESSED stone, because a rubble wall has no gauge and only the quoins, jambs and lintels have a dimension before they are laid |
 | `facade-system` | classical, picturesque | the bay |
 | `room-system` / `trim-system` / `opening-system` | harmonic, vernacular, classical trim, Craftsman trim, Prairie trim, opening proportion, the pointed opening, the Craftsman head datum | the room breadth, the ceiling, the door leaf — for the pointed opening, the span, because a Gothic head's height is a consequence and not a dimension; for the Craftsman system, the framing bay, and the opening's height is not proportioned at all but taken off a single datum |
 

@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: eight packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: nine packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -437,6 +437,64 @@ colonnade with entasis, which `benjamin-doric` already governs and which `italia
 diagnostic explicitly excludes ("never classical columns with entasis"). `swiss-chalet`'s Lauben
 balcony is a real gallery and a genuinely different system, already its own item on WP-4.1's list.
 
+### `proportions/modules/stone-course.json` — the largest item left, measured
+
+With all six of the plan's named candidates built, the remaining list was measured rather than
+worked in order. **Stone coursing was the largest item by a wide margin:**
+
+| candidate item | nodes describing it | of which thinly bound (≤3 packs) |
+|---|---|---|
+| **stone coursing** | **60** | **34** |
+| half-timber infill panel | 31 | 23 |
+| gable geometry (crow-step, bell, holbol) | 12 | 10 |
+| mansard/dormer module | 17 | 4 |
+| turned Queen Anne millwork | 15 | 5 |
+| sawn Victorian bracket | 13 | 3 |
+
+**The pack's first observation is about itself: it cannot have `brick-course`'s module.** A brick
+wall has a gauge rod and every course in it is the same height. A rubble wall has no gauge at all,
+because the stone arrives as the quarry bed gives it. So the module is not a course of the wall but
+a course of the **dressing** — the quoin, jamb, lintel, mullion, kneeler and coping, the only stone
+in the building with a dimension before it is laid. The pack therefore proportions the dressings and
+treats the field as what is left over, which is also how these buildings were priced and built.
+
+**The central rule is stated twice in the corpus, independently, in nearly the same words.**
+`cotswold-vernacular`: "dressed ashlar **reserved** for mullions, jambs, lintels, quoins, kneelers
+and copings." `norman-romanesque-english`: "coursed rubble field walling with ashlar **reserved** for
+quoins, jambs, voussoirs, string courses and shafts." Four centuries and two building types apart,
+same word, neither aware of the other. Rubble cannot make a corner, an edge or an opening — so every
+corner, edge and opening is dressed stone, and the composition *is* the contrast between the two.
+
+**The reveal is not the wall, which is the opposite of `adobe-module`** — and the two packs then give
+opposite energy advice, each explaining why. In adobe the reveal *is* the wall thickness (both stated
+with the same expression), so internal lining destroys the building's central diagnostic. Here the
+jamb is dressed and rebated, so the reveal is about two-thirds of the wall, an internal lining can be
+brought up to the jamb and the external shadow survives intact. Two mass-wall packs disagreeing
+without explaining themselves would be worse than one pack; both conflicts name the other.
+
+Other findings: **the opening is capped by what a lintel will span** —
+`french-provincial-farmhouse`'s own "sized by the lintel or relieving arch available" — which is why
+these elevations have few small openings with wide piers and reach for a mullion rather than a wider
+head; an invariant ties the lintel's depth to that span so widening the opening visibly costs
+something. And **lime, not cement**, stated in capitals inside a blocking conflict rather than in a
+note, because a cement mortar is stronger and less permeable than the stone, so water leaves through
+the stone's face and the face spalls — and it is still routinely specified.
+
+**Twelve nodes bound, not thirty-four, and the criterion is stated.** The test is whether the stone
+wall *governs* or merely *occurs*. The Iberian and Mexican nodes go to `adobe-module`, which already
+holds their mass-wall behaviour with the right module; `greek-classical` and `mid-atlantic-georgian`
+stay with their orders, because an ashlar Georgian front is proportioned by the order and the stone
+is a material choice below it; `jacobean`, `tudor` and `english-medieval-timber-frame` wait for the
+half-timber panel module, because their walls are frames with infill and the stone is a plinth.
+Binding all thirty-four would have raised a number and told the corpus something false about eleven
+of them.
+
+Three systems declined **with their figures quoted in the notes**, so the next author finds them
+rather than rediscovering them: the moulded sections (ovolo and cavetto mullions, the Norman chevron
+"cut into the stone's arris rather than applied to its face"); the Scottish crow-step at 300–450 mm
+tread and the bartizan at 1.2–2.0 m; and `tuscan-vernacular`'s loggia arcade at "pier width 0.4–0.6
+of the clear opening", which is a third missing item.
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -450,7 +508,9 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing: a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
+still missing: a **half-timber infill panel module** (31 nodes, 23 thinly bound — now the largest
+remaining), a **gable geometry system** (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
+10 thinly bound, and entirely missing from the library), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
 also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
 **medieval/pre-Palladian English facade system** (new only in that two existing list items turn out
@@ -465,8 +525,10 @@ reached 9), the **opening half** of the Gothic Revival item (5 nodes, 3 of them 
 opening-role pack at all), and **both halves** of the Craftsman item — the opening system for 5 of the 7 nodes that had no
 opening-role pack (the other 2 refused for stated reasons), and the Prairie trim family, which
 binds one node and corrects a wrong binding rather than filling an empty role. Struck off by the
-third: the **Dutch gambrel roof module**, which the list scoped at 3 nodes and reached 6, and the
-**dimensional half** of the cast-iron item, which reached 7 — its ornament half stays on the list.
+third: the **Dutch gambrel roof module**, which the list scoped at 3 nodes and reached 6, the
+**dimensional half** of the cast-iron item, which reached 7 — its ornament half stays on the list —
+and the **stone-coursing equivalent of `brick-course`**, the largest item on the list when measured,
+bound to 12 of the 34 thinly-bound stone nodes on a stated criterion.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -479,15 +541,16 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Second and third tranches: 22 checks green again. **44 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the six new
-packs bind 33 nodes but every one of them was already bound, so the count does not move and should
+Second and third tranches: 22 checks green again. **45 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the seven new
+packs bind 45 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
 pack, plus one wrong interior binding corrected, a roof system six nodes previously had nothing for,
-and a threshold system seven nodes had nothing for, none of which moves any count). A test now pins
-that claim from the other direction: every node these six packs bind already had a binding, so none
-of them can have been used to paper over an unbound node.
-`tests/test_wp46_packs.py` is now **108 tests**, and the suite as a whole 571. The pinned pack count in
+a threshold system seven nodes had nothing for, and a walling system twelve nodes had nothing for,
+none of which moves any count). A test pins that claim from the other direction: every node these
+packs bind already had a binding, so none of them can have been used to paper over an unbound node.
+Nodes carrying two packs or fewer: 36 → 28 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
+`tests/test_wp46_packs.py` is now **120 tests**, and the suite as a whole 583. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.
