@@ -43,8 +43,10 @@ Two differences from stdio, both deliberate:
   The other 21 are corpus lookups and are never capped — progressive disclosure, which
   `tdl_overview` tells agents to use, must stay free. Over stdio nothing is capped at all.
 
-The deployment must also list its own hostname in `WORKBENCH_ALLOWED_HOSTS`, or the
-transport's DNS-rebinding protection answers `421 Misdirected Request` to everything.
+The deployment must recognise its own hostname or the transport's DNS-rebinding protection
+answers `421 Misdirected Request` to everything. It discovers that from the platform's own
+environment variables, so a generated domain needs no configuration; set
+`WORKBENCH_ALLOWED_HOSTS` for a custom domain.
 
 ## The tools
 

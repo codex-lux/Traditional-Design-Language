@@ -31,12 +31,66 @@ The default path is `/mcp`, so mounting at `/mcp` would serve `/mcp/mcp` —
 import os
 
 
+# Names seen in the wild for "the public hostname of this service". The scan below also
+# matches by shape, so this list is a floor rather than the whole net.
+PLATFORM_DOMAIN_VARS = {
+    "RAILWAY_PUBLIC_DOMAIN", "RAILWAY_STATIC_URL", "RAILWAY_SERVICE_DOMAIN",
+    "RENDER_EXTERNAL_HOSTNAME", "RENDER_EXTERNAL_URL", "FLY_APP_NAME",
+    "PUBLIC_DOMAIN", "PUBLIC_URL",
+}
+
+
+def _hostname(value):
+    """A bare hostname from whatever the platform put in the variable.
+
+    Platforms are inconsistent about this — some export a bare host, some a full URL —
+    and the Host header never carries a scheme, so an unparsed 'https://x/' would simply
+    never match and the endpoint would 421 with nothing obviously wrong. Same trap a
+    person hits pasting a URL into WORKBENCH_ALLOWED_HOSTS.
+    """
+    v = (value or "").strip()
+    if not v:
+        return ""
+    v = v.split("://", 1)[-1]          # drop any scheme
+    v = v.split("/", 1)[0]             # drop any path
+    return v.strip().rstrip(".")
+
+
+def _platform_hosts():
+    """Hostnames the platform advertises for this service, discovered from the env.
+
+    Deliberately a pattern scan rather than one variable name: this was written without
+    access to the platform's docs (egress-blocked), so guessing a single name would be a
+    coin flip that fails silently. Anything RAILWAY_*DOMAIN / RAILWAY_*URL — and the
+    equivalents for a couple of other hosts — is treated as a candidate. A wrong guess
+    costs one harmless extra entry in the allowlist; a missed one costs a 421 on every
+    MCP call, so the asymmetry says scan wide.
+    """
+    found = []
+    for key, value in os.environ.items():
+        k = key.upper()
+        if k in PLATFORM_DOMAIN_VARS or (
+                k.startswith(("RAILWAY_", "RENDER_", "FLY_")) and
+                (k.endswith("_DOMAIN") or k.endswith("_URL") or k.endswith("_HOSTNAME"))):
+            h = _hostname(value)
+            if h and "." in h:         # a hostname, not a service id or a bare word
+                found.append(h)
+    return found
+
+
 def allowed_hosts():
-    """Hosts this deployment answers to. Localhost always; deployment hosts by env."""
+    """Hosts this deployment answers to.
+
+    Localhost always, so local development never needs configuring; then whatever the
+    platform advertises; then anything stated by hand. The platform scan means
+    WORKBENCH_ALLOWED_HOSTS is a fallback rather than a required step — and it dissolves
+    the ordering trap, where the hostname only exists after the first deploy but the
+    variable had to be set before it.
+    """
     hosts = ["127.0.0.1", "127.0.0.1:*", "localhost", "localhost:*", "[::1]", "[::1]:*"]
-    for h in (os.environ.get("WORKBENCH_ALLOWED_HOSTS") or "").split(","):
-        h = h.strip()
-        if not h:
+    stated = (os.environ.get("WORKBENCH_ALLOWED_HOSTS") or "").split(",")
+    for h in _platform_hosts() + [_hostname(s) for s in stated]:
+        if not h or h in hosts:
             continue
         hosts.append(h)
         if ":" not in h:

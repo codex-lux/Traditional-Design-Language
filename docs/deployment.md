@@ -91,6 +91,17 @@ audience now has an address. `mcp_server/server.py` is unchanged in what it does
 stdio works exactly as before. Mounting rather than running a second service gives one
 process, one origin, one auth boundary, and one copy of the corpus in memory.
 
+The transport's DNS-rebinding protection has to know its own hostname, and that hostname
+does not exist until the platform generates a domain — after the first deploy. Rather than
+leave an ordering trap (set a variable you cannot know yet, or get 421 on everything),
+`allowed_hosts()` discovers it from the environment: any `RAILWAY_*_DOMAIN` / `*_URL` and
+the equivalents for other hosts, matched by shape as well as by name because this was
+written without access to the platform's documentation. A wrong guess costs one unused
+allowlist entry; a missed one costs a dead endpoint, and the asymmetry says scan wide.
+`WORKBENCH_ALLOWED_HOSTS` remains for custom domains, and accepts a pasted URL as readily
+as a bare host — the Host header carries no scheme, so an unparsed URL would match nothing
+and fail exactly as silently.
+
 Auth needed no new code: `auth.authorised()` already accepted a bearer token, so the gate's
 path match simply widened. Clients connect with
 `claude mcp add --transport http tdl https://<host>/mcp --header "Authorization: Bearer ..."`.
@@ -206,15 +217,25 @@ Everything below is done once, by hand, in the named service's own UI.
    - `ANTHROPIC_API_KEY` — the dedicated key from step 1.
    - `WORKBENCH_API_TOKEN` — the bearer token for non-browser callers. Required if you
      want the `/mcp` endpoint reachable; agents authenticate with nothing else.
-   - `WORKBENCH_ALLOWED_HOSTS` — **required for `/mcp`**: the deployment's own hostname,
-     e.g. `tdl.up.railway.app`. Without it the MCP transport answers `421` to every
-     request. Comma-separate several. The workbench's own routes do not need it.
+   - `WORKBENCH_ALLOWED_HOSTS` — *usually unnecessary*. `mcp_mount` scans the environment
+     for the hostname the platform advertises (`RAILWAY_*_DOMAIN`, `*_URL`, and the
+     equivalents for other hosts) and allowlists it automatically, so `/mcp` works on a
+     generated domain with nothing configured. Set this only for a custom domain, or if
+     `/api/health` shows the platform's own host missing from `mcp.allowed_hosts`.
+     A bare hostname or a full URL both work — it is normalised either way.
+   - `PORT` — **set it explicitly**, and use the same number when the platform asks which
+     port to route the domain to. Railway's "Generate Domain" dialog asks for a target
+     port, and stating the number on both sides removes any dependence on the platform
+     auto-injecting `PORT` or auto-detecting the listener. `8080` is a fine choice; the
+     app falls back to 8177 only when nothing is set.
    - Optional tuning: `RAIL_TURNS_PER_HOUR`, `RAIL_TURNS_PER_DAY`, `RAIL_MAX_MESSAGES`,
      `RAIL_MAX_CHARS`, `RAIL_MAX_TOOL_ROUNDS`, `WORKBENCH_MODEL`, `WORKBENCH_EFFORT`.
-   - **Do not set `PORT`** — Railway injects it, and `__main__` prefers it.
 4. **Railway → Settings → Deploy** — healthcheck path `/api/health`; **replicas 1**, for
    the reason under "what was found".
-5. **Railway → Settings → Networking** — Generate Domain.
+5. **Railway → Settings → Networking** — Generate Domain. It asks which port to route
+   to: give it the same number as `PORT` above. No public domain exists until this step,
+   which is why the hostname cannot be known in advance — and why the allowlist is
+   discovered from the environment rather than configured ahead of it.
 6. **Railway → Settings** — enable "Wait for CI" so a deploy only fires on green.
 7. **GitHub → Settings → Branches** — require the `corpus`, `workbench` and `image` checks
    on `main`.

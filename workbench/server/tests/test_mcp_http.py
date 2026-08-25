@@ -164,6 +164,39 @@ def test_allowed_hosts_includes_env_and_any_port(monkeypatch):
     assert "127.0.0.1" in hosts, "localhost must keep working for local dev"
 
 
+def test_a_pasted_url_is_normalised_to_a_hostname(monkeypatch):
+    """The Host header carries no scheme, so an unparsed URL would never match and the
+    endpoint would 421 with nothing obviously wrong."""
+    monkeypatch.setenv("WORKBENCH_ALLOWED_HOSTS", "https://tdl.example.com/")
+    assert "tdl.example.com" in mcp_mount.allowed_hosts()
+
+
+@pytest.mark.parametrize("var", ["RAILWAY_PUBLIC_DOMAIN", "RAILWAY_STATIC_URL",
+                                 "RAILWAY_SOMETHING_NEW_DOMAIN", "RENDER_EXTERNAL_URL"])
+def test_platform_domain_is_discovered_without_configuration(monkeypatch, var):
+    """Written without access to the platform's docs, so the scan matches by shape as
+    well as by name — a variable this code has never heard of still has to work."""
+    monkeypatch.delenv("WORKBENCH_ALLOWED_HOSTS", raising=False)
+    monkeypatch.setenv(var, "tdl-production.up.railway.app")
+    assert "tdl-production.up.railway.app" in mcp_mount.allowed_hosts()
+
+
+def test_platform_scan_ignores_values_that_are_not_hostnames(monkeypatch):
+    """FLY_APP_NAME is a service name, not a host. Adding it would be noise at best."""
+    monkeypatch.delenv("WORKBENCH_ALLOWED_HOSTS", raising=False)
+    monkeypatch.setenv("FLY_APP_NAME", "my-app")
+    assert "my-app" not in mcp_mount.allowed_hosts()
+
+
+def test_local_dev_needs_no_configuration(monkeypatch):
+    monkeypatch.delenv("WORKBENCH_ALLOWED_HOSTS", raising=False)
+    for k in list(__import__("os").environ):
+        if k.startswith(("RAILWAY_", "RENDER_", "FLY_")):
+            monkeypatch.delenv(k, raising=False)
+    assert mcp_mount.allowed_hosts() == ["127.0.0.1", "127.0.0.1:*", "localhost",
+                                         "localhost:*", "[::1]", "[::1]:*"]
+
+
 def test_host_header_is_enforced(live):
     """DNS-rebinding protection is armed; a host we never allowlisted is refused."""
     h = dict(HDRS, authorization="Bearer tok", host="evil.example.com")
