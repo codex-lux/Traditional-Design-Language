@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CHECKS = [
     ("validate.py", []),
     ("check_orders.py", []),
-    ("check_modules.py", []),
+    ("check_modules.py", ["--eval"]),
     ("check_systems.py", []),
     ("check_kits.py", []),
     ("check_constraints.py", []),
@@ -26,6 +26,7 @@ CHECKS = [
     ("check_faults.py", []),
     ("check_rooms.py", []),
     ("check_partis.py", []),
+    ("check_counts.py", []),
     ("proportion_engine.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
     ("plan_check.py", ["plans/tidewater-georgian-careful.json"]),
