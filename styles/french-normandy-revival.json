@@ -263,6 +263,15 @@
       "role": "secondary",
       "note": "The node that states the pack's most important applied-work rule, and states it as a minimum rather than a figure: half-timber members '5-8 in. face width, spaced 16-30 in. clear, projecting at least 1 in. from the stucco plane'. That inch is what separates honest applied half-timbering from painted-on stripes -- without it there is no shadow, no depth and no reason for the timber to be there. Read it with the pack's projection rule and its construction-tolerance conflict, which is about the same problem from the other end: applied boards CAN be set dead true and usually are, which is why applied work so often reads as a printed pattern.",
       "precedence": 4
+    },
+    {
+      "pack": "jetty-overhang",
+      "role": "optional",
+      "note": "SCOPED BINDING (OQ 49, ruled 25 Aug 2026), and the first one authored. This node states `jetty-overhang`'s material-change rule almost verbatim -- 'vertical material changes must occur at a floor line, a water table, or a jetty, with a minimum 4 in. horizontal offset' -- and it has NO JETTY of its own. It names one as a permitted datum for something else, which makes it a CONSUMER of one rule and not an instance of the type. Before the `slots` field the only choices were to bind the whole pack, which would have made the corpus assert a framed overhang on a style that has none, or to leave the rule restated in the node, which is the duplication this library exists to remove. Scoped to `material_change_rule`, which the pack writes exactly once, so the node gets the offset rule and none of the fourteen about a cantilever it does not have.",
+      "precedence": 5,
+      "slots": [
+        "material_change_rule"
+      ]
     }
   ]
 }

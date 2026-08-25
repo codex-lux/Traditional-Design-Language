@@ -86,7 +86,13 @@ VALID_ROLES = {
 # `egyptian-revival` stays, and its reason is untouched: trabeated, archaeological, copied from
 # Denon's plates, explicitly not module-derived, and almost never a house -- so neither the order
 # packs nor the domestic room packs reach it.
-DELIBERATELY_UNBOUND = {"egyptian-revival"}
+# EMPTIED 25 Aug 2026 by OQ 49. `egyptian-revival` was the last member and the only one that had
+# survived WP-4.6: it is now bound to `facade-peristyle` SCOPED to the two rules that fit, with the
+# thirteen that do not -- including an entasis its own c04 forbids -- excluded by the `slots` field
+# rather than by a note nobody reads. The set is kept rather than deleted because the mechanism it
+# names is still the right answer for a node that genuinely fits nothing, and because emptying it is
+# the measurement: 132 of 132 buildable nodes now carry a binding.
+DELIBERATELY_UNBOUND = set()
 
 
 def _all_pack_ids():
@@ -131,6 +137,24 @@ def check_node(node, packs, errors, warnings, strict):
         role = e["role"]
         if role not in VALID_ROLES:
             warnings.append(f"{nid}: entry {i} ('{pack_id}') has unrecognised role '{role}'")
+
+        # OQ 49: a SCOPED binding names the target slots (or slot/dimension pairs) it may
+        # contribute. The failure worth catching is not a malformed scope but a scope that names
+        # something the pack does not write: it is then a silent no-op, the node gets nothing, and
+        # the binding still reads as though it delivered a rule. That is precisely the shape of
+        # failure this field was added to prevent, so it must not be reintroduced by the field.
+        scope = e.get("slots")
+        if scope is not None:
+            written = {r["target_slot"] for r in packs[pack_id].get("derived_rules", [])}
+            written |= {f"{r['target_slot']}/{r.get('dimension')}"
+                        for r in packs[pack_id].get("derived_rules", [])}
+            for entry in scope:
+                if entry not in written:
+                    errors.append(
+                        f"{nid}: entry {i} ('{pack_id}') is scoped to '{entry}', which that pack "
+                        f"does not write -- the scope admits nothing and the binding is a no-op")
+            if not scope:
+                errors.append(f"{nid}: entry {i} ('{pack_id}') has an empty `slots` scope")
         prec = e.get("precedence")
         if prec is None:
             errors.append(f"{nid}: entry {i} ('{pack_id}') has no precedence")

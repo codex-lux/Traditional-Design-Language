@@ -277,6 +277,15 @@
       "precedence": 4,
       "authority": "moorish-arch",
       "note": "Optional and low precedence. The Mission Revival's arcade is round-arched on piers far more often than horseshoe, so this pack is available for the buildings that reach for the Moorish and is not asserted over the ones that do not. An optional binding is the honest shape for a vocabulary a style sometimes uses."
+    },
+    {
+      "pack": "facade-portada",
+      "role": "optional",
+      "note": "SCOPED BINDING (OQ 49). This node carries a rule ABOUT `facade-portada`'s subject which states that there is none: 'no ornament at the entrance. If there is a carved or cast surround around the front door, the building is Spanish Colonial Revival, not Mission Revival.' That is `ornament_vocabulary`/`event_count` at zero, the floor of the pack's own band, and it is the same shape as `egyptian-revival`'s arch rule that got the `arch` slot built at 0.6.0. Scoped to ONE DIMENSION rather than to the slot, because the pack writes `ornament_vocabulary` four times and the other three -- register count, heraldry, the plain run beside a panel -- describe a retablo this style does not have. A scope that admitted them would be a smaller version of the problem the field was added to solve.",
+      "precedence": 5,
+      "slots": [
+        "ornament_vocabulary/event_count"
+      ]
     }
   ]
 }

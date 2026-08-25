@@ -283,8 +283,22 @@ def eval_packs(packs, ctx, module_override=None):
         except Exception as e:
             errors.append("%s: %s" % (pid, e))
             continue
+        # OQ 49: a binding may be SCOPED to named target slots. Absent means the whole pack, which
+        # is the historical behaviour and stays the default. This is the one place a scoped binding
+        # can be enforced -- everything downstream reads `by_slot` and cannot tell where a rule came
+        # from, which is exactly how `role: optional` plus a note in prose failed to scope anything.
+        # An entry is either a bare slot id (every rule the pack writes there) or `slot/dimension`
+        # (exactly one rule). Both are needed: `jetty-overhang` writes material_change_rule once,
+        # but `facade-portada` writes ornament_vocabulary four times and only one of them applies
+        # to the node being scoped.
+        scope = binding.get("slots")
         for r in ev["rules"]:
             if "error" in r:
+                continue
+            if scope is not None and not (
+                r["target_slot"] in scope
+                or "%s/%s" % (r["target_slot"], r.get("dimension")) in scope
+            ):
                 continue
             by_slot[r["target_slot"]].append({
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],

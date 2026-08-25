@@ -163,7 +163,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Alphabet | `elements/slots.json` | 95 slots / 8 groups (ontology 0.5.0) | Complete |
 | Alphabet | `massings/catalog.json` | 40, all with expansion logic | Complete |
 | Alphabet | `rooms/` | **60**, all with `style_variation` | Complete (+`courtyard`, `overlook` in WP-4.5) |
-| Grammar | `proportions/` | 57 packs, 262 conflicts | **Bound to 131 of 132** — but 50 nodes have no opening-role pack, 46 no facade-role pack (WP-4.6) |
+| Grammar | `proportions/` | 57 packs, 262 conflicts | **Bound to 132 of 132** (but see OQ 51) — but 50 nodes have no opening-role pack, 46 no facade-role pack (WP-4.6) |
 | Vocabulary | `styles/` | 164 nodes, 476 edges, 660 constraints, 624 affinities, 482 exemplars | Complete; **constraints executable** |
 | Vocabulary | constraints | 660 migrated, 365 tested, **61.5% of hard** | Clears the ≥60% bar |
 | Bindings | `kits/` | **159 files, 159 populated** | Complete (was 3 of 132) |

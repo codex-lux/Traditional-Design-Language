@@ -17338,6 +17338,15 @@
           "precedence": 4,
           "authority": "moorish-arch",
           "note": "Optional and low precedence. The Mission Revival's arcade is round-arched on piers far more often than horseshoe, so this pack is available for the buildings that reach for the Moorish and is not asserted over the ones that do not. An optional binding is the honest shape for a vocabulary a style sometimes uses."
+        },
+        {
+          "pack": "facade-portada",
+          "role": "optional",
+          "note": "SCOPED BINDING (OQ 49). This node carries a rule ABOUT `facade-portada`'s subject which states that there is none: 'no ornament at the entrance. If there is a carved or cast surround around the front door, the building is Spanish Colonial Revival, not Mission Revival.' That is `ornament_vocabulary`/`event_count` at zero, the floor of the pack's own band, and it is the same shape as `egyptian-revival`'s arch rule that got the `arch` slot built at 0.6.0. Scoped to ONE DIMENSION rather than to the slot, because the pack writes `ornament_vocabulary` four times and the other three -- register count, heraldry, the plain run beside a panel -- describe a retablo this style does not have. A scope that admitted them would be a smaller version of the problem the field was added to solve.",
+          "precedence": 5,
+          "slots": [
+            "ornament_vocabulary/event_count"
+          ]
         }
       ],
       "_cascade": [
@@ -22318,6 +22327,18 @@
         "funerary",
         "rare"
       ],
+      "proportion_packs": [
+        {
+          "pack": "facade-peristyle",
+          "role": "optional",
+          "note": "SCOPED BINDING (OQ 49), AND IT TAKES THE CORPUS TO 132 OF 132. This was the one deliberately unbound buildable node: WP-4.1 held it out because nothing fitted its trabeated order and recorded that naming the gap beat forcing a pack onto it, and WP-4.6 confirmed the judgment from the other side -- two of `facade-peristyle`'s rules fit exactly and thirteen do not.\n\nThe distinction from the thing WP-4.1 refused matters and is not a technicality. Binding the whole pack would have handed this node a peristyle count it has no peristyle for, a Vitruvian column-height function, a stylobate curvature, a corner contraction and an ENTASIS -- which its own c04 forbids outright, 'shafts shall be reed-bundle or palm form and shall never carry classical fluting or entasis'. The scope admits two rules and excludes those, including the one the node prohibits.\n\n`column/front_count`: distyle in antis is 2, the floor of the pack's 2-to-8 band, and the node's own bay rhythm is 'A-B-A, never a repeating march of equal bays', which is why the peristyle rules are excluded rather than merely unused. `column/intercolumniation_roman`: the node gives 1.5 to 2.5 diameters, 'notably tight', which sits inside the pack's 1.5-to-4.0 band. THE DIMENSION IS NAMED `roman` BECAUSE ROME GENERATED THE BAND, not because this is Roman work, and the pack supplies the quantity and its units while the node's own narrower figure governs. What is NOT claimed: no column height, because the pack's only height rule is Vitruvius's function and this node's 4-to-5.5 diameters is archaeological rather than derived -- and squatter than anything in the pack except Archaic Doric at 4.3, which its own record does not notice.",
+          "precedence": 0,
+          "slots": [
+            "column/front_count",
+            "column/intercolumniation_roman"
+          ]
+        }
+      ],
       "_cascade": [
         "romantic-revivals",
         "greek-revival-american",
@@ -26516,6 +26537,15 @@
           "role": "secondary",
           "note": "The node that states the pack's most important applied-work rule, and states it as a minimum rather than a figure: half-timber members '5-8 in. face width, spaced 16-30 in. clear, projecting at least 1 in. from the stucco plane'. That inch is what separates honest applied half-timbering from painted-on stripes -- without it there is no shadow, no depth and no reason for the timber to be there. Read it with the pack's projection rule and its construction-tolerance conflict, which is about the same problem from the other end: applied boards CAN be set dead true and usually are, which is why applied work so often reads as a printed pattern.",
           "precedence": 4
+        },
+        {
+          "pack": "jetty-overhang",
+          "role": "optional",
+          "note": "SCOPED BINDING (OQ 49, ruled 25 Aug 2026), and the first one authored. This node states `jetty-overhang`'s material-change rule almost verbatim -- 'vertical material changes must occur at a floor line, a water table, or a jetty, with a minimum 4 in. horizontal offset' -- and it has NO JETTY of its own. It names one as a permitted datum for something else, which makes it a CONSUMER of one rule and not an instance of the type. Before the `slots` field the only choices were to bind the whole pack, which would have made the corpus assert a framed overhang on a style that has none, or to leave the rule restated in the node, which is the duplication this library exists to remove. Scoped to `material_change_rule`, which the pack writes exactly once, so the node gets the offset rule and none of the fourteen about a cantilever it does not have.",
+          "precedence": 5,
+          "slots": [
+            "material_change_rule"
+          ]
         }
       ],
       "_cascade": [

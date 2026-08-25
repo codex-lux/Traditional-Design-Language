@@ -93,14 +93,15 @@ def test_the_two_nodes_that_had_no_binding_at_all_now_have_one():
         assert node(nid)["proportion_packs"], nid
 
 
-def test_the_allowlist_shrank_to_the_one_node_that_still_earns_it():
+def test_the_allowlist_shrank_to_one_node_and_then_to_none():
     """Retiring an allowlist entry when the thing it excused is fixed is the point of having one.
-    Leaving it would let the next real gap hide behind it."""
+    Leaving it would let the next real gap hide behind it. `moorish-arch` retired two of the three;
+    OQ 49's scoped binding retired the last, so the set is now empty -- and it is KEPT rather than
+    deleted, because the mechanism it names is still the right answer for a node that genuinely
+    fits nothing."""
     src = open(os.path.join(ROOT, "build", "check_pack_bindings.py")).read()
-    i = src.index("DELIBERATELY_UNBOUND = {")
-    line = src[i:src.index("\n", i)]
-    assert "egyptian-revival" in line
-    assert "moorish-andalusian" not in line and "mudejar" not in line
+    assert "DELIBERATELY_UNBOUND = set()" in src
+    assert "EMPTIED 25 Aug 2026 by OQ 49" in src
 
 
 def test_the_moorish_pack_asserts_no_column_proportion_and_says_why():
@@ -2185,8 +2186,14 @@ def test_three_nodes_are_refused_and_each_refusal_has_a_stated_reason():
     assert "NOT BOUND, with reasons rather than silence" in n
     for nid in ("french-normandy-revival", "new-england-colonial", "english-cottage-vernacular"):
         assert nid in n, nid
+    # RE-PINNED: OQ 49 was ruled and `french-normandy-revival` is now bound SCOPED to the one rule
+    # it states -- which is what the refusal asked for. The other two stay refused.
+    for nid in ("new-england-colonial", "english-cottage-vernacular"):
         assert not any(e["pack"] == "jetty-overhang"
                        for e in node(nid).get("proportion_packs", [])), nid
+    fnr = next(e for e in node("french-normandy-revival")["proportion_packs"]
+               if e["pack"] == "jetty-overhang")
+    assert fnr["slots"] == ["material_change_rule"]
     assert "no jetty, no display" in json.dumps(node("english-cottage-vernacular"))
     assert "49." in open(os.path.join(ROOT, "docs", "open-questions.md")).read()
 
@@ -2323,8 +2330,10 @@ def test_mission_revival_is_refused_and_it_is_oq_49_for_the_second_time_in_two_p
     n = pack("facade-portada")["notes"]
     assert "NOT BOUND: `mission-revival`" in n
     assert "second instance of OQ 49 in two packs" in n
-    assert not any(e["pack"] == "facade-portada"
-                   for e in node("mission-revival").get("proportion_packs", []))
+    # RE-PINNED: ruled 25 Aug 2026. Bound scoped to the single rule it carries.
+    mr = next(e for e in node("mission-revival")["proportion_packs"]
+              if e["pack"] == "facade-portada")
+    assert mr["slots"] == ["ornament_vocabulary/event_count"]
     assert "Churrigueresque relief are forbidden" in json.dumps(node("mission-revival"))
 
 
@@ -2483,7 +2492,11 @@ def test_egyptian_revival_stays_unbound_and_it_is_oq_49_for_the_third_time():
     deliberately unbound buildable node, and OQ 49's proposal would bind the last one."""
     n = pack("facade-peristyle")["notes"]
     assert "THIRD INSTANCE OF OQ 49 IN THREE PACKS" in n
-    assert not node("egyptian-revival").get("proportion_packs")
+    # RE-PINNED: the ruling landed and the pack's own prediction came true -- the corpus's last
+    # unbound node is bound, scoped to the two rules that fit.
+    er = next(e for e in node("egyptian-revival")["proportion_packs"]
+              if e["pack"] == "facade-peristyle")
+    assert er["slots"] == ["column/front_count", "column/intercolumniation_roman"]
     assert "Column height 4 to 5.5 shaft diameters" in json.dumps(node("egyptian-revival"))
     assert "never a repeating march of equal bays" in json.dumps(node("egyptian-revival"))
     # and the overlap the pack claims is real: Archaic Doric is squatter than the "squattest revival"
@@ -2935,3 +2948,93 @@ def test_member_status_is_a_variant_not_a_parameter_because_it_carries_no_unit()
     for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
         e = json.load(open(path))["slots"]["expressed_frame"]
         assert "parameters" not in e, path
+
+
+# --- OQ 49 closed: scoped bindings, and 132 of 132 --------------------------------------------
+
+
+def test_a_binding_can_be_scoped_to_slots_or_to_single_rules():
+    """Slot-level alone was too coarse for two of the three cases that motivated the field, so an
+    entry is either a bare slot id or `slot/dimension`."""
+    s = json.load(open(os.path.join(ROOT, "schema", "style-node.schema.json")))
+    f = s["properties"]["proportion_packs"]["items"]["properties"]["slots"]
+    assert f["items"]["pattern"] == "^[a-z_]+(/[a-z_]+)?$"
+    assert "BOTH GRANULARITIES ARE NEEDED" in f["description"]
+
+
+def test_the_three_scoped_bindings_name_only_rules_their_packs_actually_write():
+    """A scope naming something the pack does not write is a silent no-op -- the node gets nothing
+    and the binding still reads as though it delivered a rule, which is a smaller version of the
+    problem the field was added to solve. check_pack_bindings errors on it; this pins the data."""
+    for nid, pid, scope in [
+        ("french-normandy-revival", "jetty-overhang", ["material_change_rule"]),
+        ("mission-revival", "facade-portada", ["ornament_vocabulary/event_count"]),
+        ("egyptian-revival", "facade-peristyle",
+         ["column/front_count", "column/intercolumniation_roman"]),
+    ]:
+        e = next(b for b in node(nid)["proportion_packs"] if b["pack"] == pid)
+        assert e["slots"] == scope, nid
+        written = {r["target_slot"] for r in pack(pid)["derived_rules"]}
+        written |= {f"{r['target_slot']}/{r['dimension']}" for r in pack(pid)["derived_rules"]}
+        for entry in scope:
+            assert entry in written, (nid, entry)
+
+
+def test_the_scope_excludes_the_rule_the_node_forbids():
+    """`egyptian-revival` c04: shafts 'shall never carry classical fluting or entasis'. Binding the
+    whole pack would have handed it `column/entasis_swell`. The scope excludes it, along with a
+    peristyle count it has no peristyle for and a Vitruvian column-height function."""
+    e = next(b for b in node("egyptian-revival")["proportion_packs"]
+             if b["pack"] == "facade-peristyle")
+    admitted = set(e["slots"])
+    all_column = {f"column/{r['dimension']}" for r in pack("facade-peristyle")["derived_rules"]
+                  if r["target_slot"] == "column"}
+    assert "column/entasis_swell" in all_column
+    assert "column/entasis_swell" not in admitted
+    assert "column/flank_count" not in admitted
+    assert "column/height_by_spacing" not in admitted
+    assert len(all_column - admitted) == 6
+    assert "never carry classical fluting or entasis" in json.dumps(node("egyptian-revival"))
+
+
+def test_every_buildable_node_now_carries_a_binding_and_the_allowlist_is_empty():
+    """132 of 132. The set is kept rather than deleted because the mechanism it names is still the
+    right answer for a node that genuinely fits nothing."""
+    src = open(os.path.join(ROOT, "build", "check_pack_bindings.py")).read()
+    assert "DELIBERATELY_UNBOUND = set()" in src
+    assert "EMPTIED 25 Aug 2026 by OQ 49" in src
+    import glob
+    unbound = [json.load(open(f))["id"] for f in glob.glob(os.path.join(ROOT, "styles", "*.json"))
+               if json.load(open(f)).get("rank") in ("style", "variant")
+               and not json.load(open(f)).get("proportion_packs")]
+    assert unbound == []
+
+
+def test_the_resolver_filters_on_the_scope_and_it_is_the_only_place_it_can():
+    """Everything downstream reads `by_slot` and cannot tell where a rule came from, which is
+    exactly how `role: optional` plus a note in prose failed to scope anything."""
+    src = open(os.path.join(ROOT, "build", "resolve_kit.py")).read()
+    assert 'scope = binding.get("slots")' in src
+    assert 'if scope is not None and not (' in src
+    assert "the one place a scoped binding" in src
+
+
+# --- OQ 51, found while closing OQ 49 ----------------------------------------------------------
+
+
+def test_the_cascade_delivers_packs_nobody_bound_and_it_is_raised_not_papered_over():
+    """`egyptian-revival` was held out of DELIBERATELY_UNBOUND on the reasoning that nothing fitted
+    its trabeated order -- while the lineage cascade was handing it `facade-peristyle` unscoped from
+    five ancestors, entasis rule included. The refusal was cosmetic, and the same mechanism reaches
+    every node in the corpus."""
+    g = json.load(open(os.path.join(ROOT, "dist", "taxonomy.json")))
+    n = g["nodes"]["egyptian-revival"]
+    chain = [b for b in n.get("_cascade", [])]
+    binders = [a for a in chain
+               if any(pb["pack"] == "facade-peristyle"
+                      for pb in (g["nodes"][a].get("proportion_packs") or []))]
+    assert len(binders) == 5, binders
+    assert all((next(pb for pb in g["nodes"][a]["proportion_packs"]
+                     if pb["pack"] == "facade-peristyle").get("slots") is None) for a in binders)
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "51. **OPEN" in oq

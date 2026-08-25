@@ -64,7 +64,7 @@ Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6. 
 
 164 nodes · 97 slots (ontology 0.7.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **57 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
+style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before trusting that number -- it counts a node's OWN bindings and the lineage cascade delivers packs nobody bound) — but 50 nodes still have no opening-role pack
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
@@ -74,9 +74,14 @@ parameters (74.6% measured, 10.4% editorial with neither source nor note — tha
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
 one that stays open on purpose: 162 kit parameters are editorial with neither a source nor a
 note, 156 of them on the Georgian kit, and closing it needs real sources rather than more code.
-WP-4.6 raised **OQ 47, 48 and 49**. **OQ 47 is CLOSED** — `expressed_frame` at ontology
-0.7.0, with a `member_status` field taking structural / structural-and-expressed / applied / none,
-bound on 14 kits of which five FORBID the member. 48 and 49 are ruled and in progress. And one
+WP-4.6 raised **OQ 47, 48 and 49**. **OQ 47 and 49 are CLOSED** — `expressed_frame` at ontology
+0.7.0 with a `member_status` field (structural / structural-and-expressed / applied / none), bound
+on 14 kits of which five FORBID the member; and a `slots` scope on bindings, which took the corpus
+to 132 of 132 by binding `egyptian-revival` to the two `facade-peristyle` rules that fit and
+excluding the six that do not. **Closing 49 opened OQ 51, which is larger than either**: the lineage
+cascade delivers proportion packs nobody bound, and `ranch-style` has 68 of its 78 dimensioned slots
+governed by packs it never bound -- `opening-pointed`, a Gothic arch pack, governing 15 of them.
+OQ 48 is ruled and in progress. And one
 finding nobody has raised as a question yet: five unrelated traditions say ornament works by being BOUNDED, and it wants testing
 against the whole style graph. All four are in that report's closing section.
 
@@ -114,6 +119,10 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   nest — one `check()` used to execute plan_check 16x, geometry 8x. `build/modcache.py` now
   caches by realpath and every local `_mod`/`_load` delegates to it. **Do not reinstate a
   local loader**; `tests/test_modcache.py` counts module executions to catch it.
+- **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
+  donor's whole kit (OQ 36 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
+  scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
+  is **OQ 51** and is the one with 3,367 instances. Read it before trusting "132 of 132 bound".
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
