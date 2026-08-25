@@ -820,7 +820,7 @@ def test_the_reconciled_break_satisfies_every_band_all_three_records_give():
     S = p["module"]["default_size_in"]
     rules = {(r["target_slot"], r["dimension"]): r for r in p["derived_rules"]}
     f = 0.35                                             # module * 0.35, from the eave
-    tan_lo = float(rules[("roof_pitch", "ratio")]["expression"])
+    tan_lo = float(rules[("roof_pitch", "gambrel_lower_slope")]["expression"])
     tan_up = float(rules[("roof_pitch", "upper_ratio")]["expression"])
     h_break = f * S * tan_lo
     H = h_break + (1 - f) * S * tan_up
@@ -841,7 +841,7 @@ def test_height_modules_is_the_roof_proportion_itself():
     total = sum(m["height_parts"] for m in sec["members"])
     assert abs(total / p["module"]["parts"] - sec["height_modules"]) < 1e-9
     ratio = next(x for x in p["derived_rules"]
-                 if x["target_slot"] == "height_proportion" and x["dimension"] == "ratio")
+                 if x["target_slot"] == "height_proportion" and x["dimension"] == "roof_height_over_half_span")
     assert float(ratio["expression"]) == sec["height_modules"]
 
 
@@ -882,7 +882,7 @@ def test_the_upper_slope_gets_a_named_dimension_with_a_precedent():
     right default because it is the one that shows."""
     p = pack("dutch-gambrel")
     dims = {r["dimension"] for r in p["derived_rules"] if r["target_slot"] == "roof_pitch"}
-    assert dims == {"ratio", "upper_ratio"}
+    assert dims == {"gambrel_lower_slope", "upper_ratio"}   # `ratio` renamed by OQ 48
     assert any(r["dimension"] == "return" for r in pack("moorish-arch")["derived_rules"])
 
 
@@ -1502,7 +1502,7 @@ def test_the_window_is_counted_and_not_measured():
     one has a COUNT, so its width is quantised at the light and there is nothing in between."""
     assert "window width is a whole number of lights" in json.dumps(node("tudor"))
     r = next(x for x in pack("opening-mullioned")["derived_rules"]
-             if x["target_slot"] == "window_grouping_rule" and x["dimension"] == "count")
+             if x["target_slot"] == "window_grouping_rule" and x["dimension"] == "lights_per_window")
     assert r["range"][0] == 2.0, "a single-light mullioned window is a contradiction"
     assert "COUNTED RATHER THAN MEASURED" in r["note"]
 
@@ -1668,7 +1668,9 @@ def test_the_intra_pack_duplicate_addresses_are_menus_and_must_not_be_fixed():
     shapes = [r for r in rh if (r["target_slot"], r["dimension"]) == ("room_adjacency_overrides", "width")]
     assert len(shapes) >= 7
     assert any("1 OF 7" in r["note"] for r in shapes)
-    heights = [r for r in rh if (r["target_slot"], r["dimension"]) == ("ceiling_height_rule", "height")]
+    # OQ 48's migration moved room-harmonic's vaulted menu to its own dimension, which is the fix
+    # working: the MENU is intact and now sits at an address nothing else writes to.
+    heights = [r for r in rh if r["target_slot"] == "ceiling_height_rule"]
     assert any("METHOD 1 OF 3" in r["note"] for r in heights)
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
     # RE-PINNED: OQ 48 is now partly closed -- the menu reading is what kept a naive uniqueness
@@ -1812,7 +1814,7 @@ def test_the_pack_carries_two_different_uses_of_one_geometry():
     cutting a square's corners back by a third, and it reaches most of the corpus as a canted bay on
     a building with no octagonal plan whatever."""
     rules = {(r["target_slot"], r["dimension"]) for r in pack("octagon-geometry")["derived_rules"]}
-    assert ("depth_and_pile", "width") in rules              # Fowler: inscribed diameter
+    assert ("depth_and_pile", "inscribed_diameter") in rules   # Fowler; renamed by OQ 48
     assert ("wing_strategy", "canted_corner") in rules       # Jefferson: the corner cut
     assert "canted corners at 1/3 of the side" in json.dumps(node("jeffersonian-classicism"))
     assert "closed-form" in json.dumps(node("octagon-house"))
@@ -1823,7 +1825,7 @@ def test_the_inscribed_diameter_is_the_geometry_and_the_record_agrees():
     record states -- so the multiplier is checkable rather than asserted."""
     import math
     r = next(x for x in pack("octagon-geometry")["derived_rules"]
-             if x["target_slot"] == "depth_and_pile" and x["dimension"] == "width")
+             if x["target_slot"] == "depth_and_pile" and x["dimension"] == "inscribed_diameter")
     k = float(r["expression"].split("*")[1])
     assert abs(k - (1 + math.sqrt(2))) < 0.001
     assert abs(12 * k - 29) < 0.5 and abs(20 * k - 48.3) < 0.5
@@ -1935,7 +1937,7 @@ def test_the_two_slopes_land_in_the_degrees_the_record_gives():
     what a compiler can use, so the check is the trigonometry both ways."""
     import math
     rules = {(r["target_slot"], r["dimension"]): r for r in pack("facade-pavilion")["derived_rules"]}
-    low = math.degrees(math.atan(float(rules[("roof_pitch", "ratio")]["expression"])))
+    low = math.degrees(math.atan(float(rules[("roof_pitch", "mansard_lower_slope")]["expression"])))
     up = math.degrees(math.atan(float(rules[("roof_pitch", "upper_ratio")]["expression"])))
     assert 65.0 <= low <= 75.0, low
     assert 20.0 <= up <= 30.0, up
@@ -3060,7 +3062,11 @@ def test_the_real_collision_count_is_pinned_and_cannot_grow_silently():
     a measurement was wrong once it was read. Fixing them is a migration and is not done here; the
     pinned count is what protects the corpus meanwhile, because a new pack adding a 140th fails."""
     pairs, real, unjudged = _addresses()
-    assert (pairs, real, unjudged) == (442, 139, 19)
+    # RE-PINNED after the migration: 139 -> 0. The 74 minority rules at the 27 genuinely
+    # conflicted addresses took their `quantity` as their `dimension`, so both meanings survive
+    # instead of one being set aside. What the pin protects now is that it STAYS zero.
+    assert (pairs, real) == (442, 0)
+    assert unjudged == 14
 
 
 def test_unjudged_is_reported_separately_and_never_as_agreement():
@@ -3085,7 +3091,7 @@ def test_the_checker_reports_by_default_and_only_fails_under_strict():
     assert p.returncode == 0
     q = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_addresses.py"),
                         "--strict"], capture_output=True, text=True, cwd=ROOT)
-    assert q.returncode == 1
+    assert q.returncode == 0        # nothing left for --strict to fail on, which is the point
 
 
 def test_the_resolver_names_what_it_sets_aside_instead_of_discarding_it():
@@ -3119,10 +3125,21 @@ def test_the_worst_addresses_are_annotated_and_their_quantities_differ():
                 if r["target_slot"] == slot and r["dimension"] == dim and r.get("quantity"):
                     out.add(r["quantity"])
         return out
-    assert len(qs("window_head_masonry", "height")) >= 5
-    assert len(qs("height_proportion", "ratio")) >= 6
-    assert "head_height_above_floor" in qs("window_head_masonry", "height")
-    assert "lintel_or_arch_depth" in qs("window_head_masonry", "height")
+    # RE-PINNED after the migration. The quantities did not go away -- they moved out of one
+    # address into their own, which is the fix. Check the SLOT rather than the old address.
+    def slot_qs(slot):
+        out = set()
+        import glob
+        for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+            for r in json.load(open(f)).get("derived_rules", []):
+                if r["target_slot"] == slot and r.get("quantity"):
+                    out.add(r["quantity"])
+        return out
+    assert len(slot_qs("window_head_masonry")) >= 5
+    assert len(slot_qs("height_proportion")) >= 6
+    assert "head_height_above_floor" in slot_qs("window_head_masonry")
+    assert "lintel_or_arch_depth" in slot_qs("window_head_masonry")
+    assert qs("window_head_masonry", "height") == {"lintel_or_arch_depth"}   # one meaning left
 
 
 # --- OQ 50: the rationing pattern, measured ----------------------------------------------------
@@ -3183,10 +3200,10 @@ def test_claude_md_no_longer_describes_five_closed_questions_as_open():
     md = open(os.path.join(ROOT, "CLAUDE.md")).read()
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
     live = set(re.findall(r"^(\d+)\. \*\*(?:OPEN|STILL OPEN|PARTLY|RULED)", oq, re.M))
-    claimed = set(re.findall(r"of which 8 are open\*\*\s*\n?\s*\(([\d, ]+)\)", md))
+    claimed = set(re.findall(r"of which \d+ are open\*\*\s*\n?\s*\(([\d, ]+)\)", md))
     assert claimed, md[md.index("Open questions are live"):][:300]
     listed = {x.strip() for x in list(claimed)[0].split(",") if x.strip()}
-    assert listed == {"7", "8", "9", "10", "11", "18", "50", "51"}, listed
+    assert listed == {"7", "8", "9", "10", "11", "18", "51"}, listed
     # and the ones it used to mis-describe are gone from the open list
     for n in ("32", "40", "41", "42", "43"):
         assert n not in listed

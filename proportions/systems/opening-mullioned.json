@@ -114,7 +114,7 @@
   "derived_rules": [
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "count",
+      "dimension": "lights_per_window",
       "expression": "3",
       "units": "count",
       "range": [
@@ -128,7 +128,7 @@
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "width",
+      "dimension": "window_overall_width",
       "expression": "module * 3 + part * 10",
       "units": "in",
       "range": [
@@ -237,7 +237,7 @@
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "hood_mould_depth",
       "expression": "part * 4",
       "units": "in",
       "range": [

@@ -134,7 +134,7 @@
     },
     {
       "target_slot": "corner_quoin",
-      "dimension": "height",
+      "dimension": "notch_depth",
       "expression": "part * 0.55 * 0.4",
       "units": "in",
       "range": [
@@ -183,7 +183,7 @@
     },
     {
       "target_slot": "room_adjacency_overrides",
-      "dimension": "width",
+      "dimension": "double_pen_overall_width",
       "expression": "module * 2 + part * 0.55",
       "units": "in",
       "range": [

@@ -130,7 +130,7 @@
   "derived_rules": [
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "count",
+      "dimension": "bay_count_on_front",
       "expression": "max(3, floor((span / module - 1) / 2) * 2 + 1)",
       "units": "count",
       "range": [
@@ -143,7 +143,7 @@
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "width",
+      "dimension": "pier_width",
       "expression": "module - opening_width",
       "units": "in",
       "range": [
@@ -156,7 +156,7 @@
     },
     {
       "target_slot": "window_proportion",
-      "dimension": "ratio",
+      "dimension": "solid_to_void_across_width",
       "expression": "(module - opening_width) / module",
       "units": "ratio",
       "range": [
@@ -182,7 +182,7 @@
     },
     {
       "target_slot": "entry_door",
-      "dimension": "width",
+      "dimension": "centre_bay_width",
       "expression": "module * 1.15",
       "units": "in",
       "range": [
@@ -196,7 +196,7 @@
     },
     {
       "target_slot": "door_surround",
-      "dimension": "width",
+      "dimension": "entrance_composition_total_width",
       "expression": "module * 0.8",
       "units": "in",
       "range": [
@@ -209,7 +209,7 @@
     },
     {
       "target_slot": "belt_course",
-      "dimension": "height",
+      "dimension": "belt_band_own_depth",
       "expression": "part * 1.0",
       "units": "in",
       "range": [
@@ -274,7 +274,7 @@
     },
     {
       "target_slot": "pilaster",
-      "dimension": "width",
+      "dimension": "pilaster_face_width",
       "expression": "module / 8",
       "units": "in",
       "range": [
@@ -301,7 +301,7 @@
     },
     {
       "target_slot": "height_proportion",
-      "dimension": "ratio",
+      "dimension": "elevation_height_over_width",
       "expression": "2.5 / max(3, floor((span / module - 1) / 2) * 2 + 1)",
       "units": "ratio",
       "range": [
@@ -314,7 +314,7 @@
     },
     {
       "target_slot": "frieze",
-      "dimension": "height",
+      "dimension": "elevation_frieze_band_height",
       "expression": "part * 1",
       "units": "in",
       "range": [

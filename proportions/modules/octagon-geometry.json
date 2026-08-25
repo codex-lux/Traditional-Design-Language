@@ -79,7 +79,7 @@
   "derived_rules": [
     {
       "target_slot": "depth_and_pile",
-      "dimension": "width",
+      "dimension": "inscribed_diameter",
       "expression": "module * 2.4142",
       "units": "in",
       "range": [

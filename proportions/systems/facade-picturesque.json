@@ -146,7 +146,7 @@
     },
     {
       "target_slot": "height_proportion",
-      "dimension": "ratio",
+      "dimension": "asymmetry_lever_arm",
       "expression": "2.0",
       "units": "ratio",
       "range": [
@@ -197,7 +197,7 @@
     },
     {
       "target_slot": "wing_strategy",
-      "dimension": "width",
+      "dimension": "subordinate_mass_width",
       "expression": "module * 0.55",
       "units": "in",
       "range": [
@@ -308,7 +308,7 @@
     },
     {
       "target_slot": "special_window",
-      "dimension": "count",
+      "dimension": "feature_windows_per_elevation",
       "expression": "1",
       "units": "count",
       "range": [
@@ -344,7 +344,7 @@
     },
     {
       "target_slot": "eave_condition",
-      "dimension": "height",
+      "dimension": "eave_height_above_grade",
       "expression": "storey_height * 2 * 0.96",
       "units": "in",
       "range": [

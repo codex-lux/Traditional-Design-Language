@@ -123,7 +123,7 @@
     },
     {
       "target_slot": "porch_support",
-      "dimension": "width",
+      "dimension": "support_shaft_width",
       "expression": "module * 0.4",
       "units": "in",
       "range": [
@@ -231,7 +231,7 @@
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "archivolt_depth",
       "expression": "module / 7",
       "units": "in",
       "range": [
@@ -258,7 +258,7 @@
     },
     {
       "target_slot": "column",
-      "dimension": "width",
+      "dimension": "shaft_lower_diameter",
       "expression": "part * 1.7",
       "units": "in",
       "range": [
@@ -313,7 +313,7 @@
     },
     {
       "target_slot": "daylight_strategy",
-      "dimension": "ratio",
+      "dimension": "arcade_open_area_fraction",
       "expression": "0.35",
       "units": "ratio",
       "range": [

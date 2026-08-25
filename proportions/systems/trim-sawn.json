@@ -201,7 +201,7 @@
     },
     {
       "target_slot": "porch_support",
-      "dimension": "width",
+      "dimension": "support_shaft_width",
       "expression": "part * 6.5",
       "units": "in",
       "range": [

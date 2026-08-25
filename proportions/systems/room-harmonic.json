@@ -208,7 +208,7 @@
     },
     {
       "target_slot": "ceiling_height_rule",
-      "dimension": "height",
+      "dimension": "upper_storey_ceiling_height",
       "expression": "module * 5 / 6",
       "units": "in",
       "range": [
@@ -221,7 +221,7 @@
     },
     {
       "target_slot": "ceiling_height_rule",
-      "dimension": "height",
+      "dimension": "vaulted_ceiling_height",
       "expression": "module * 4 / 3",
       "units": "in",
       "range": [
@@ -234,7 +234,7 @@
     },
     {
       "target_slot": "ceiling_height_rule",
-      "dimension": "height",
+      "dimension": "vaulted_ceiling_height",
       "expression": "(room_length + room_width) / 2",
       "units": "in",
       "range": [
@@ -247,7 +247,7 @@
     },
     {
       "target_slot": "ceiling_height_rule",
-      "dimension": "height",
+      "dimension": "vaulted_ceiling_height",
       "expression": "sqrt(room_length * room_width)",
       "units": "in",
       "range": [
@@ -260,7 +260,7 @@
     },
     {
       "target_slot": "ceiling_height_rule",
-      "dimension": "height",
+      "dimension": "vaulted_ceiling_height",
       "expression": "2 * room_length * room_width / (room_length + room_width)",
       "units": "in",
       "range": [
@@ -273,7 +273,7 @@
     },
     {
       "target_slot": "ceiling_height_rule",
-      "dimension": "height",
+      "dimension": "vaulted_ceiling_height",
       "expression": "module * 1.15",
       "units": "in",
       "range": [

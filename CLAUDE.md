@@ -47,8 +47,8 @@ sixteen tests were skipping while the run reported success.
 
 Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_constraints.py`,
 `build/check_pack_bindings.py --strict`, `build/check_rooms.py`, `build/check_partis.py`,
-`build/check_faults.py`, `build/check_addresses.py` reports the 139 addresses where two co-binding packs measure DIFFERENT
-things (OQ 48; it reports rather than fails -- the pinned count in the tests is the ratchet).
+`build/check_faults.py`, `build/check_addresses.py` compares what two co-binding packs MEAN at one address, using each rule's
+`quantity` (OQ 48, closed at 0 collisions -- run it after adding any rule).
 `build/check_counts.py` (fails the build when a number in this
 file, in `STATE-OF-THE-PROJECT.md`, in `README.md` or in `docs/` disagrees with the data -- run it
 with `--fix` to rewrite them), `build/proportion_engine.py selftest`. **When authoring or binding a pack, run
@@ -170,8 +170,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   quoted `results[0]`, printing a PASSING measurement as the evidence for a failure. When a
   generator did not model something, the measurement must be **absent**, not zero.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **51 entries, of which 8 are open**
-  (7, 8, 9, 10, 11, 18, 50, 51) and one is partly closed (48). OQ 32, 40, 41, 42 and 43 were all
+  trusting any list of them. `docs/open-questions.md` holds **51 entries, of which 7 are open**
+  (7, 8, 9, 10, 11, 18, 51). OQ 48 and 50 closed on 25 Aug. OQ 32, 40, 41, 42 and 43 were all
   ruled or closed on 24 Aug and this file went on describing them as open; the authority is the
   file, not this summary, and `python3 build/check_counts.py` does not police prose about rulings.
   - **Environment-blocked, not unstarted: OQ 7, 8, 9, 10, 11**, and the source half of **OQ 18**.
@@ -180,8 +180,6 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     that is how a guess gets laundered as `measured`.
   - **OQ 18** — 162 kit parameters editorial with neither source nor note, 154 of them on the
     Georgian kit. The NOTE half needs no network and is being written; the source half is blocked.
-  - **OQ 48 (partly closed)** — 139 addresses where two co-binding packs measure different
-    quantities. Mechanism built, count pinned, migration outstanding.
   - **OQ 50** — ornament is rationed and not distributed, in 26 nodes across nine traditions, with
     `italian-renaissance` as the one control case. Ruled 25 Aug to stop at the principle
     (`docs/model.md`); a fault would need the elevation layer to model ornament ZONES, which it

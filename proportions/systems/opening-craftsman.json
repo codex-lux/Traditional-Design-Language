@@ -155,7 +155,7 @@
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "count",
+      "dimension": "units_per_group",
       "expression": "3",
       "units": "count",
       "range": [
@@ -291,7 +291,7 @@
     },
     {
       "target_slot": "porch_support",
-      "dimension": "width",
+      "dimension": "support_shaft_width",
       "expression": "module * 1.25",
       "units": "in",
       "range": [

@@ -395,7 +395,7 @@
     },
     {
       "target_slot": "pilaster",
-      "dimension": "width",
+      "dimension": "pilaster_face_width",
       "expression": "opening_width / 3",
       "units": "in",
       "range": [

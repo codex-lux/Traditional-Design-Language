@@ -822,7 +822,7 @@
     },
     {
       "target_slot": "wainscot",
-      "dimension": "height",
+      "dimension": "dado_panel_field_height",
       "expression": "ceiling_height * 1.92 / 19",
       "units": "in",
       "range": [

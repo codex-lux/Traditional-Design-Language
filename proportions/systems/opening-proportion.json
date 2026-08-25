@@ -134,7 +134,7 @@
     },
     {
       "target_slot": "window_proportion",
-      "dimension": "ratio",
+      "dimension": "window_height_diminution_by_storey",
       "expression": "5 / 6",
       "units": "ratio",
       "range": [
@@ -246,7 +246,7 @@
     },
     {
       "target_slot": "window_surround_wood",
-      "dimension": "height",
+      "dimension": "exterior_head_assembly_height",
       "expression": "opening_width / 5.5 * 2.6",
       "units": "in",
       "range": [

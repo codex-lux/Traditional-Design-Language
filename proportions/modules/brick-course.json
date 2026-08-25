@@ -150,7 +150,7 @@
     },
     {
       "target_slot": "belt_course",
-      "dimension": "height",
+      "dimension": "belt_band_own_depth",
       "expression": "part * 2",
       "units": "in",
       "range": [
@@ -163,7 +163,7 @@
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "head_height_above_floor",
       "expression": "round(opening_width * 2.05 / part) * part",
       "units": "in",
       "range": [
@@ -188,7 +188,7 @@
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "flat_arch_camber",
       "expression": "opening_width / 96",
       "units": "in",
       "range": [
@@ -214,7 +214,7 @@
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "segmental_arch_rise",
       "expression": "opening_width / 8",
       "units": "in",
       "range": [

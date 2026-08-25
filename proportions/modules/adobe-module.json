@@ -215,7 +215,7 @@
     },
     {
       "target_slot": "height_proportion",
-      "dimension": "ratio",
+      "dimension": "wall_height_over_thickness",
       "expression": "9.0",
       "units": "ratio",
       "range": [
@@ -381,7 +381,7 @@
     },
     {
       "target_slot": "porch_support",
-      "dimension": "width",
+      "dimension": "support_shaft_width",
       "expression": "part * 7",
       "units": "in",
       "range": [

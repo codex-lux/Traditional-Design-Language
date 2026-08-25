@@ -183,7 +183,7 @@
   "derived_rules": [
     {
       "target_slot": "porch_support",
-      "dimension": "width",
+      "dimension": "support_shaft_width",
       "expression": "column_height / 8",
       "units": "in",
       "range": [

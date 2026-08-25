@@ -102,7 +102,7 @@
     },
     {
       "target_slot": "window_proportion",
-      "dimension": "height",
+      "dimension": "window_height_from_storey",
       "expression": "storey_height * 0.55",
       "units": "in",
       "range": [
@@ -128,7 +128,7 @@
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "head_height_above_floor",
       "expression": "storey_height * 0.78",
       "units": "in",
       "range": [
@@ -165,7 +165,7 @@
     },
     {
       "target_slot": "frieze",
-      "dimension": "height",
+      "dimension": "elevation_frieze_band_height",
       "expression": "module / 12",
       "units": "in",
       "range": [

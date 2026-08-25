@@ -177,7 +177,12 @@ def _storey_window(op_pack, sash_pack, storey, bay_module_in, glass_module_in):
 # ---------------------------------------------------------------- bay layout
 def _bay_count(facade_pack, span_ft):
     module_in = facade_pack["module"]["default_size_in"]
-    count, _ = _val(facade_pack, "window_grouping_rule", {"span": span_ft * 12.0}, note_substr="bay count", dimension="count", clip=False)
+    # OQ 48: `window_grouping_rule`/`count` held five quantities across the packs that write it --
+    # openings per bay, units per group, lights per window, windows on a principal wall, and the bay
+    # count of a composed front. The dimension is now the quantity, so this asks for the one it
+    # always meant instead of asking for "count" and relying on a note substring to disambiguate.
+    count, _ = _val(facade_pack, "window_grouping_rule", {"span": span_ft * 12.0},
+                    dimension="bay_count_on_front", clip=False)
     return max(3, int(round(count))), module_in
 
 def _face_bays(facade_pack, span_ft, has_entrance):
@@ -213,7 +218,11 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
 
     with_sidelights_in = door_w + 2 * sidelight_w + 2 * casing_w
     without_sidelights_in = door_w + 2 * casing_w
-    comp_cap_in, _ = _val(facade_pack, "door_surround", {"module": facade_pack["module"]["default_size_in"]}, dimension="width")
+    # OQ 48: `door_surround`/`width` held two quantities -- an architrave's own face width and the
+    # MAXIMUM WIDTH OF THE WHOLE ENTRANCE COMPOSITION, which is what this cap has always meant.
+    comp_cap_in, _ = _val(facade_pack, "door_surround",
+                          {"module": facade_pack["module"]["default_size_in"]},
+                          dimension="entrance_composition_total_width")
     use_sidelights = with_sidelights_in <= comp_cap_in
     composition_w = with_sidelights_in if use_sidelights else without_sidelights_in
 
@@ -295,7 +304,10 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     # stock 9 ft assumption regardless of how tall the actual building is.
     module_in = module_in or facade_pack["module"]["default_size_in"]
     part_in = module_in / facade_pack["module"]["parts"]
-    frieze_h, _ = _val(facade_pack, "frieze", {"part": part_in}, dimension="height")
+    # OQ 48: the classical packs' `frieze`/`height` is a member of an entablature; this one is the
+    # BAND between the top-storey window heads and the cornice bed, which is a different quantity.
+    frieze_h, _ = _val(facade_pack, "frieze", {"part": part_in},
+                       dimension="elevation_frieze_band_height")
     cornice_h_stated = 2.0 * part_in   # facade-classical's own elevation.cornice member: height_parts 2.0
     cornice_proj, _ = _val(facade_pack, "cornice", {"module": module_in}, dimension="projection")
 
@@ -327,13 +339,17 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
         brick_module_in = brick_pack["module"]["default_size_in"]
         wt_h, _ = _val(brick_pack, "water_table", {"module": brick_module_in}, dimension="height")
         wt_proj, _ = _val(brick_pack, "water_table", {"part": brick_module_in / brick_pack["module"]["parts"]}, dimension="projection")
+        # OQ 48: `belt_course`/`height` held the band's height ABOVE THE FLOOR and the band's own
+        # DEPTH. This has always wanted the depth -- it is reported beside the projection as a
+        # board -- and the note_substr was doing the disambiguating that a dimension now does.
         belt_h, _ = _val(brick_pack, "belt_course", {"part": brick_module_in / brick_pack["module"]["parts"]},
-                          note_substr="ordinary case", dimension="height")
+                          dimension="belt_band_own_depth")
         source = "brick-course.json (construction is masonry)"
     else:
         wt_h = 3.0 * facade_part_in + 0.75 * facade_part_in   # facade-classical's own foundation + water_table members, summed
         wt_proj = 0.35 * facade_part_in   # facade-classical's own water_table member: projection_parts 0.35 (no separate derived_rule for this dimension)
-        belt_h, _ = _val(facade_pack, "belt_course", {"part": facade_part_in}, dimension="height")
+        belt_h, _ = _val(facade_pack, "belt_course", {"part": facade_part_in},
+                         dimension="belt_band_own_depth")
         source = "facade-classical.json (construction is not masonry -- no brick coursing to read)"
     belt_proj = None
     if is_masonry:

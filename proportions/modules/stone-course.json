@@ -329,7 +329,7 @@
     },
     {
       "target_slot": "height_proportion",
-      "dimension": "ratio",
+      "dimension": "wall_thickness_over_span",
       "expression": "0.16",
       "units": "ratio",
       "range": [

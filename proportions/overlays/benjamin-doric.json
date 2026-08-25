@@ -342,7 +342,7 @@
     },
     {
       "target_slot": "pilaster",
-      "dimension": "width",
+      "dimension": "pilaster_face_width",
       "expression": "column_height * 54 / 420",
       "units": "in",
       "range": [

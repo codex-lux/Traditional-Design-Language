@@ -196,7 +196,7 @@
     },
     {
       "target_slot": "roof_pitch",
-      "dimension": "ratio",
+      "dimension": "mansard_lower_slope",
       "expression": "2.75",
       "units": "ratio",
       "range": [

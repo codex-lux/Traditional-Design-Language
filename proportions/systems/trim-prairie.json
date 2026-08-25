@@ -201,7 +201,7 @@
     },
     {
       "target_slot": "crown",
-      "dimension": "height",
+      "dimension": "ceiling_edge_strip_height",
       "expression": "part * 8",
       "units": "in",
       "range": [
@@ -229,7 +229,7 @@
     },
     {
       "target_slot": "chair_rail",
-      "dimension": "height",
+      "dimension": "sill_band_height_above_floor",
       "expression": "part * 128",
       "units": "in",
       "range": [
@@ -363,7 +363,7 @@
     },
     {
       "target_slot": "ceiling_height_rule",
-      "dimension": "height",
+      "dimension": "vaulted_ceiling_height",
       "expression": "part * 336",
       "units": "in",
       "range": [

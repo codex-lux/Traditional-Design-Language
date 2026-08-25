@@ -260,7 +260,7 @@
     },
     {
       "target_slot": "porch_support",
-      "dimension": "width",
+      "dimension": "support_shaft_width",
       "expression": "part * 1.5",
       "units": "in",
       "range": [
@@ -326,7 +326,7 @@
     },
     {
       "target_slot": "roof_pitch",
-      "dimension": "ratio",
+      "dimension": "gallery_roof_pitch",
       "expression": "0.4663",
       "units": "ratio",
       "range": [
@@ -353,7 +353,7 @@
     },
     {
       "target_slot": "height_proportion",
-      "dimension": "ratio",
+      "dimension": "balcony_split_of_elevation",
       "expression": "0.55",
       "units": "ratio",
       "range": [

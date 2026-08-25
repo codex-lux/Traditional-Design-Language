@@ -137,7 +137,7 @@
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "hood_mould_depth",
       "expression": "part * 1.5",
       "units": "in",
       "range": [
@@ -193,7 +193,7 @@
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "width",
+      "dimension": "mullion_width",
       "expression": "part * 1.2",
       "units": "in",
       "range": [
@@ -318,7 +318,7 @@
     },
     {
       "target_slot": "porch_support",
-      "dimension": "width",
+      "dimension": "support_shaft_width",
       "expression": "part * 1.6",
       "units": "in",
       "range": [

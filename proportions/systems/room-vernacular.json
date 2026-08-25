@@ -73,7 +73,7 @@
     },
     {
       "target_slot": "depth_and_pile",
-      "dimension": "width",
+      "dimension": "room_depth_from_window_wall",
       "expression": "storey_height * 0.78 * 2.25",
       "units": "in",
       "range": [
@@ -86,7 +86,7 @@
     },
     {
       "target_slot": "daylight_strategy",
-      "dimension": "ratio",
+      "dimension": "daylight_depth_multiplier",
       "expression": "2.25",
       "units": "ratio",
       "range": [
@@ -125,7 +125,7 @@
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "count",
+      "dimension": "windows_on_principal_wall",
       "expression": "max(1, floor(module / 60))",
       "units": "count",
       "range": [
@@ -199,7 +199,7 @@
     },
     {
       "target_slot": "ceiling_height_rule",
-      "dimension": "height",
+      "dimension": "upper_storey_ceiling_height",
       "expression": "part * 7.5",
       "units": "in",
       "range": [
@@ -211,7 +211,7 @@
     },
     {
       "target_slot": "reveal_masonry",
-      "dimension": "width",
+      "dimension": "interior_partition_thickness",
       "expression": "part * 0.4",
       "units": "in",
       "range": [
@@ -235,7 +235,7 @@
     },
     {
       "target_slot": "depth_and_pile",
-      "dimension": "width",
+      "dimension": "room_depth_from_window_wall",
       "expression": "storey_height * 0.78 * 1.2",
       "units": "in",
       "range": [

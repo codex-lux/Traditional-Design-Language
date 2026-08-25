@@ -318,7 +318,7 @@
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "head_height_above_floor",
       "expression": "storey_height * 0.78",
       "units": "in",
       "range": [
@@ -330,7 +330,7 @@
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "width",
+      "dimension": "minimum_solid_between_openings",
       "expression": "opening_width * 1.4",
       "units": "in",
       "range": [

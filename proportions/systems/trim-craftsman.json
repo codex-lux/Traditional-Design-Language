@@ -242,7 +242,7 @@
     },
     {
       "target_slot": "wainscot",
-      "dimension": "height",
+      "dimension": "wainscot_cap_height",
       "expression": "ceiling_height * 0.36",
       "units": "in",
       "range": [
@@ -254,7 +254,7 @@
     },
     {
       "target_slot": "chair_rail",
-      "dimension": "height",
+      "dimension": "plate_rail_height_above_floor",
       "expression": "ceiling_height * 0.58",
       "units": "in",
       "range": [

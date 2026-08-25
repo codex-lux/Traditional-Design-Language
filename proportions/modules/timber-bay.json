@@ -124,7 +124,7 @@
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "width",
+      "dimension": "minimum_solid_between_openings",
       "expression": "part * 1.25",
       "units": "in",
       "range": [
@@ -175,7 +175,7 @@
     },
     {
       "target_slot": "wing_strategy",
-      "dimension": "width",
+      "dimension": "subordinate_mass_width",
       "expression": "module * 0.8",
       "units": "in",
       "range": [
@@ -187,7 +187,7 @@
     },
     {
       "target_slot": "daylight_strategy",
-      "dimension": "ratio",
+      "dimension": "exterior_walls_per_room",
       "expression": "2.0",
       "units": "ratio",
       "note": "Two exterior walls per room. Because the bay caps the depth at one span, every room in a single-pile house is lit and cross-ventilated from two sides. Everything the Chesapeake did with air — the through passage, the aligned doors, the tall ceilings — depends on this and disappears the moment the plan goes double-pile. When you widen the bay with engineered lumber you get a deeper house and you silently lose the daylight strategy that the type existed to provide.",
