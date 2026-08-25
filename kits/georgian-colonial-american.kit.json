@@ -541,7 +541,8 @@
         "soffit": {
           "value": "closed, plastered or boarded, level (not raked)",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The eave is a classical entablature, not a trim board: the wall terminates in architrave, frieze and cornice derived from the bound order, boxed, with\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The eave is a classical entablature, not a trim board: the wall terminates in architrave, frieze and cornice derived from the bound order, boxed, with a level closed soffit and the corona projecting far enough to cast a shadow across the frieze.",
@@ -636,7 +637,8 @@
             24
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The cornice returns across the full depth of the gable end carrying its complete profile, including the modillion or dentil band, for 12 to 24 in befo\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "return_carries": {
           "set": [
@@ -646,7 +648,8 @@
             "crown"
           ],
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The cornice returns across the full depth of the gable end carrying its complete profile, including the modillion or dentil band, for 12 to 24 in befo\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "The cornice returns across the full depth of the gable end carrying its complete profile, including the modillion or dentil band, for 12 to 24 in before dying into the wall.",
@@ -727,7 +730,8 @@
         "pediment_rise_ratio": {
           "value": "1 : 5 of the span (facade-classical); Palladian practice runs 1:4.5 to 1:5.5",
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The gable end is a plain wall terminated by the cornice return; a pediment appears only where a centre pavilion or a portico breaks forward, and its r\" -- which is the reasoning, not a citation. The value carried its own authority inline; it belongs in this note rather than inside the value string, where nothing can read it."
         },
         "pavilion_projection_in": {
           "range": [
@@ -735,7 +739,8 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The gable end is a plain wall terminated by the cornice return; a pediment appears only where a centre pavilion or a portico breaks forward, and its r\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "The gable end is a plain wall terminated by the cornice return; a pediment appears only where a centre pavilion or a portico breaks forward, and its rise is one fifth of its span.",
@@ -796,7 +801,8 @@
         "count_parity": {
           "value": "odd",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Dormers align exactly on the bays below, are odd in number, carry the same order as the house at reduced scale, and never break the eave line.\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "alignment_rule": {
           "value": "each dormer centred on a window of the storey below",
@@ -875,12 +881,14 @@
             120
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Chimneys are paired and symmetrically disposed — never a single central stack, which is the First Period signature — and their plan dimensions are who\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "count": {
           "value": 2,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Chimneys are paired and symmetrically disposed — never a single central stack, which is the First Period signature — and their plan dimensions are who\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "cap_courses": {
           "range": [
@@ -983,7 +991,8 @@
         "window_height_second_over_first": {
           "value": "0.82 to 0.88 measured (style node); 5/6 = 0.833 by Palladio's rule, compounding by storey",
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Each storey is 0.85 of the one below it, storey to storey, and the window heights follow at 0.82-0.88; the graduation is what makes the front sit on t\" -- which is the reasoning, not a citation. The value carried its own authority inline; it belongs in this note rather than inside the value string, where nothing can read it."
         },
         "front_height_over_width": {
           "expr": "2.5 / max(3, floor((span / module - 1) / 2) * 2 + 1)",
@@ -1056,7 +1065,8 @@
             20
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A wing is subordinate in every dimension — lower ridge, shallower depth, set back from the main facade plane — and where wings are symmetrical they mu\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "dependency_height_ratio": {
           "range": [
@@ -1064,7 +1074,8 @@
             0.75
           ],
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A wing is subordinate in every dimension — lower ridge, shallower depth, set back from the main facade plane — and where wings are symmetrical they mu\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "wing_setback_in": {
           "range": [
@@ -1072,7 +1083,8 @@
             48
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A wing is subordinate in every dimension — lower ridge, shallower depth, set back from the main facade plane — and where wings are symmetrical they mu\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "wing_ridge_rule": {
           "value": "always below the main ridge",
@@ -1467,7 +1479,8 @@
         "min_plane_change_at_joint": {
           "value": 12,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Material may change only where the building changes volume or where a projecting horizontal course runs the full way round; it may never change at an \" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         }
       },
       "rule": "Material may change only where the building changes volume or where a projecting horizontal course runs the full way round; it may never change at an unreturned corner, never at a storey line that is not expressed by a real projection, and never on the entrance elevation alone.",
@@ -1525,7 +1538,8 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The foundation shows for 18 to 24 in below the water table, in a material and bond coarser than the wall above, and it is the same height all the way \" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "The foundation shows for 18 to 24 in below the water table, in a material and bond coarser than the wall above, and it is the same height all the way round the volume even where the grade falls.",
@@ -1627,7 +1641,8 @@
         "must_return": {
           "value": true,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A moulded or bevelled water table runs 24 to 36 in above finished grade — ten brick courses where the wall is brick — projects about 2 in, and returns\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "A moulded or bevelled water table runs 24 to 36 in above finished grade — ten brick courses where the wall is brick — projects about 2 in, and returns fully round every elevation of the volume including the rear.",
@@ -1745,7 +1760,8 @@
             9
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Where a belt course occurs it sits at the second-floor structure, not at the second-floor finish, runs the full width of every elevation, and projects\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "Where a belt course occurs it sits at the second-floor structure, not at the second-floor finish, runs the full width of every elevation, and projects about 2 in.",
@@ -1820,7 +1836,8 @@
             10
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The corner is expressed by a member of the bound order — a board, a pilaster or a quoin — whose width is constant for the full height of the volume, a\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "corner_pilaster_width_in": {
           "range": [
@@ -1828,7 +1845,8 @@
             16
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The corner is expressed by a member of the bound order — a board, a pilaster or a quoin — whose width is constant for the full height of the volume, a\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "quoin_course_height_in": {
           "expr": "part * 2",
@@ -1924,7 +1942,8 @@
             10
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The corner is expressed by a member of the bound order — a board, a pilaster or a quoin — whose width is constant for the full height of the volume, a\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "corner_pilaster_width_in": {
           "range": [
@@ -1932,7 +1951,8 @@
             16
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The corner is expressed by a member of the bound order — a board, a pilaster or a quoin — whose width is constant for the full height of the volume, a\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "quoin_course_height_in": {
           "expr": "part * 2",
@@ -2188,7 +2208,8 @@
         "treatment": {
           "value": "plain, or pulvinated (cushioned) in the Gibbsian manner on the richest work",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The frieze is a plain band equal in height to the architrave, uninterrupted between the top-storey window heads and the bed of the cornice; where a wi\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The frieze is a plain band equal in height to the architrave, uninterrupted between the top-storey window heads and the bed of the cornice; where a window head assembly collides with it, the frieze is dropped and the architrave runs straight into the cornice.",
@@ -2269,7 +2290,8 @@
         "leader_position": {
           "value": "at the corners of the volume, never on the entrance elevation",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Rainwater is taken off the roof without altering the cornice profile: no gutter at all where the projection and the grade allow it, otherwise a half-r\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "leader_section": {
           "value": "round",
@@ -2387,7 +2409,8 @@
         "sheen": {
           "value": "flat to low lustre on the body; higher lustre permitted on the door and shutters",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Trim is the same colour as the body or lighter, never darker; the entrance is accented by its order and not by its colour; shutters and the door are t\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Trim is the same colour as the body or lighter, never darker; the entrance is accented by its order and not by its colour; shutters and the door are the only elements permitted to be darker than the wall.",
@@ -2499,12 +2522,14 @@
             2.0
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Every window in the building is a wood double-hung sash with true divided lights and a muntin of about 7/8 in; the upper sash may be fixed on early wo\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "glass": {
           "value": "cylinder or crown glass; restoration glass as the modern substitute",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Every window in the building is a wood double-hung sash with true divided lights and a muntin of about 7/8 in; the upper sash may be fixed on early wo\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Every window in the building is a wood double-hung sash with true divided lights and a muntin of about 7/8 in; the upper sash may be fixed on early work and both are operable after about 1750.",
@@ -2556,7 +2581,8 @@
             2.1
           ],
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Sash opening height to width between 1.9 and 2.1 to one on the principal floor, diminishing in height by 5/6 at each storey above while the width stay\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "diminution_by_storey": {
           "expr": "5 / 6",
@@ -3120,7 +3146,8 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Every window and every door on a given storey shares one head datum, on every elevation without exception, and the head assembly is masonry where the \" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "keystone_width_in": {
           "range": [
@@ -3128,7 +3155,8 @@
             9
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Every window and every door on a given storey shares one head datum, on every elevation without exception, and the head assembly is masonry where the \" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "gibbs_rule_head_height_in": {
           "expr": "opening_width / 8",
@@ -3208,7 +3236,8 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"On a frame wall the window has a flat architrave of 5 to 6 in with a crown moulding; on a masonry wall it has no surround at all and its expression is\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "pack_width_in": {
           "expr": "module * 0.55",
@@ -3333,7 +3362,8 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"On a frame wall the window has a flat architrave of 5 to 6 in with a crown moulding; on a masonry wall it has no surround at all and its expression is\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "pack_width_in": {
           "expr": "module * 0.55",
@@ -3471,7 +3501,8 @@
         "slope": {
           "value": "1 in 6, roughly 10 degrees",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The sill sits at a constant 30 in above the finished floor on the principal storey and does not move between rooms; it projects past the wall face wit\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "sill_height_above_floor_in": {
           "expr": "part * 3.0",
@@ -3609,7 +3640,8 @@
             1.0
           ],
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Windows appear as singles, evenly spaced, in an odd number of bays with the entrance in the centre bay; upper windows align exactly over lower ones; t\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "pier_alt_in": {
           "expr": "opening_width * 1.4",
@@ -3711,7 +3743,8 @@
         "leaf_height": {
           "value": "equal to the full sash height",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Shutter leaves are half the clear opening width less the meeting clearance and the full height of the sash, hung on real pintles with real holdbacks, \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "panel_count_per_leaf": {
           "expr": "max(ceil((opening_width * 2.1 / 2 - 5.0 + 0.875) / (module * 0.75 + 0.875)), 2) - 1",
@@ -3728,12 +3761,14 @@
         "hardware": {
           "value": "strap or pintle hinges, and a holdback (shutter dog) at each leaf",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Shutter leaves are half the clear opening width less the meeting clearance and the full height of the sash, hung on real pintles with real holdbacks, \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "louver_date": {
           "value": "louvered shutters are a Southern device and appear from the mid eighteenth century; panelled is the earlier and Northern answer",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Shutter leaves are half the clear opening width less the meeting clearance and the full height of the sash, hung on real pintles with real holdbacks, \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Shutter leaves are half the clear opening width less the meeting clearance and the full height of the sash, hung on real pintles with real holdbacks, so that a closed pair exactly covers the window.",
@@ -3823,17 +3858,20 @@
         "venetian_centre_light_share": {
           "value": "the centre light is arched and about twice the width of each flanking light; its springing sits at the head datum of the flanking lights",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"At most one special window per elevation, always on the centre axis, always over the entrance or in a pediment; its width is capped at 0.72 of the bay\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "placement": {
           "value": "centre bay of the second storey, over the entrance, or in a pediment",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"At most one special window per elevation, always on the centre axis, always over the entrance or in a pediment; its width is capped at 0.72 of the bay\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "count_per_elevation": {
           "value": 1,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"At most one special window per elevation, always on the centre axis, always over the entrance or in a pediment; its width is capped at 0.72 of the bay\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         }
       },
       "rule": "At most one special window per elevation, always on the centre axis, always over the entrance or in a pediment; its width is capped at 0.72 of the bay.",
@@ -3906,7 +3944,8 @@
             44
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fi\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "measured_height_in": {
           "range": [
@@ -3914,7 +3953,8 @@
             90
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fi\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "leaf_thickness_in": {
           "range": [
@@ -3922,12 +3962,14 @@
             2.25
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fi\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "panel_arrangement": {
           "value": "six panels: two short over two tall over two short, raised and fielded on the outer face",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fi\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fielded panels.",
@@ -4205,12 +4247,14 @@
         "rear_door_treatment": {
           "value": "the same order as the front, reduced by one step — architrave and crown without the pediment",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The rear door sits on the passage axis directly opposite the front door and is treated as an elevation in its own right; service and dependency doors \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "graduation_rule": {
           "value": "principal 84 in, secondary 80 in, service 78 in",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The rear door sits on the passage axis directly opposite the front door and is treated as an elevation in its own right; service and dependency doors \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The rear door sits on the passage axis directly opposite the front door and is treated as an elevation in its own right; service and dependency doors are graduated down from it by about six per cent.",
@@ -4471,7 +4515,8 @@
         "column_height_diameters": {
           "value": 9,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"One order governs the whole building and every moulding in it is derived from that order's module; where two orders are superimposed the heavier goes \" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "entablature_over_column": {
           "expr": "column_height / 5",
@@ -4532,37 +4577,44 @@
         "height_diameters": {
           "value": 9,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is \" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "diminution": {
           "value": 0.8333,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "entasis": {
           "value": "beginning at one third of the shaft height, not at the base",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "column_height_in_at_10in_diameter": {
           "value": 90,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "upper_diameter_in_at_10in_diameter": {
           "value": 8.3125,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "base": {
           "value": "attic base: plinth, lower torus, scotia between fillets, upper torus",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "flutes": {
           "value": "24 in the Ionic where fluted; commonly plain in American work",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard.",
@@ -4628,12 +4680,14 @@
         "internal_ratio": {
           "value": "architrave = frieze, cornice = 4/3 of either (Gibbs invariant, engine-checked)",
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The entablature is one fifth of the column, divided so that architrave and frieze are equal and the cornice is four thirds of either; it may be reduce\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "architrave_fasciae": {
           "value": 3,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The entablature is one fifth of the column, divided so that architrave and frieze are equal and the cornice is four thirds of either; it may be reduce\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         }
       },
       "rule": "The entablature is one fifth of the column, divided so that architrave and frieze are equal and the cornice is four thirds of either; it may be reduced by omitting enrichment but not by changing those ratios.",
@@ -4696,17 +4750,20 @@
         "palladian_band": {
           "value": "1:4.5 to 1:5.5 of the span",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A pediment's rise is one fifth of its span, its raking cornice carries the same profile as the level one, and a broken or scrolled pediment appears on\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "raking_cornice": {
           "value": "the full cornice profile raked, with the corona level and the bed mould raked",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A pediment's rise is one fifth of its span, its raking cornice carries the same profile as the level one, and a broken or scrolled pediment appears on\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "tympanum": {
           "value": "plain, or with a single oculus on the richest work",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A pediment's rise is one fifth of its span, its raking cornice carries the same profile as the level one, and a broken or scrolled pediment appears on\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "A pediment's rise is one fifth of its span, its raking cornice carries the same profile as the level one, and a broken or scrolled pediment appears only over a doorway — never on a roof.",
@@ -4759,12 +4816,14 @@
         "capital": {
           "value": "the same capital as the column of the bound order, in flat relief",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A pilaster is the column of the bound order in flat relief, of the same height and diminution, projecting about a sixth of its width; it appears at th\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "diminution": {
           "value": "pilasters diminish with the same 0.833 ratio as the columns they answer",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A pilaster is the column of the bound order in flat relief, of the same height and diminution, projecting about a sixth of its width; it appears at th\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "A pilaster is the column of the bound order in flat relief, of the same height and diminution, projecting about a sixth of its width; it appears at the corners of the volume, flanking the entrance, and framing a centre pavilion.",
@@ -4879,7 +4938,8 @@
             33
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and ter\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "baluster_spacing_in": {
           "range": [
@@ -4887,17 +4947,20 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and ter\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "pedestal_at_each_end": {
           "value": true,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and ter\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "roof_deck_condition": {
           "value": "only on a hipped roof with a flat deck, set back from the eave so it reads against the sky",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and ter\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         }
       },
       "rule": "A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and terminates in a pedestal at each end rather than in a post.",
@@ -5014,12 +5077,14 @@
         "relief": {
           "value": "bold and deep, cut rather than applied; the relief is what separates Georgian from Federal more reliably than the motif does",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Ornament is carved in bold relief, belongs to the bound order, and is concentrated at the entrance and the chimney breast; it does not appear on the r\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "concentration": {
           "value": "the entrance, the chimney breast of the best room, and the stair; almost nothing elsewhere",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Ornament is carved in bold relief, belongs to the bound order, and is concentrated at the entrance and the chimney breast; it does not appear on the r\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Ornament is carved in bold relief, belongs to the bound order, and is concentrated at the entrance and the chimney breast; it does not appear on the rear or the ends.",
@@ -5075,17 +5140,20 @@
         "canonical": {
           "value": "stoop-only",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The threshold is a raised stoop under a worked door surround; where a portico occurs it is one bay wide, centred, and carries the bound order.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "portico_bays": {
           "value": 1,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The threshold is a raised stoop under a worked door surround; where a portico occurs it is one bay wide, centred, and carries the bound order.\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "two_tier_condition": {
           "value": "only on the grandest houses, structurally integral with the wall, superimposed orders",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The threshold is a raised stoop under a worked door surround; where a portico occurs it is one bay wide, centred, and carries the bound order.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The threshold is a raised stoop under a worked door surround; where a portico occurs it is one bay wide, centred, and carries the bound order.",
@@ -5103,7 +5171,8 @@
             8
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the or\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "stoop_depth_ft": {
           "range": [
@@ -5111,12 +5180,14 @@
             6
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the or\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "stoop_min_depth_in": {
           "value": 48,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the or\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "two_tier_portico_depth_ft": {
           "range": [
@@ -5124,7 +5195,8 @@
             12
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the or\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the order, not by use.",
@@ -5186,17 +5258,20 @@
         "column_height_diameters": {
           "value": 9,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Porch supports are columns of the bound order at full nine-diameter proportion, each answered by a pilaster on the wall behind, and spaced by the orde\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "engaged_pilaster": {
           "value": "each free column answered by a pilaster on the wall behind it",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Porch supports are columns of the bound order at full nine-diameter proportion, each answered by a pilaster on the wall behind, and spaced by the orde\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "spacing": {
           "value": "set by the intercolumniation of the bound order, not by the width of the steps",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Porch supports are columns of the bound order at full nine-diameter proportion, each answered by a pilaster on the wall behind, and spaced by the orde\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Porch supports are columns of the bound order at full nine-diameter proportion, each answered by a pilaster on the wall behind, and spaced by the order's intercolumniation.",
@@ -5231,12 +5306,14 @@
             33
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "code_required_height_in": {
           "value": 36,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "baluster_spacing_in": {
           "range": [
@@ -5244,17 +5321,20 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "code_max_baluster_gap_in": {
           "value": 4,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "rail_profile": {
           "value": "moulded handrail with a fillet and cyma, on a moulded shoe",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         }
       },
       "rule": "Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel or pedestal rather than in a post.",
@@ -5333,7 +5413,8 @@
             14
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "platform_width_in": {
           "expr": "module * 0.8 + part * 4",
@@ -5354,12 +5435,14 @@
             60
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "material": {
           "value": "stone or brick, laid solid; never a wood-framed deck",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with treads of 12 to 14 in.",
@@ -5374,7 +5457,8 @@
         "threshold_count": {
           "value": 3,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Three thresholds are crossed between the street and the hall — the gate on axis, the raised platform under the door surround, and the door — and at th\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "thresholds": {
           "set": [
@@ -5563,7 +5647,8 @@
         "wall_division": {
           "value": "pedestal 4 : wall field 12 : entablature 3, in nineteen parts",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"One profile family governs every internal moulding in the house — the Georgian section of trim-classical and no other — and the trim is graded down ro\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "full_entablature_height_in": {
           "expr": "ceiling_height * 3 / 19",
@@ -5607,7 +5692,8 @@
         "grading_within_the_house": {
           "value": "the best cornice in the parlour, a lesser one in the chamber, none in the garret",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"One profile family governs every internal moulding in the house — the Georgian section of trim-classical and no other — and the trim is graded down ro\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "One profile family governs every internal moulding in the house — the Georgian section of trim-classical and no other — and the trim is graded down room by room by omitting members, never by changing family.",
@@ -5670,7 +5756,8 @@
         "profile": {
           "value": "square plinth board with a cyma reversa cap and fillet",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The base is a real plinth — a square board 8 to 9 in high at a 9 ft ceiling, capped with a cyma reversa — and it must be thicker than the casing that \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The base is a real plinth — a square board 8 to 9 in high at a 9 ft ceiling, capped with a cyma reversa — and it must be thicker than the casing that dies into it.",
@@ -5763,7 +5850,8 @@
         "profile": {
           "value": "two or three fasciae with an astragal between and a cyma reversa cap, with a backband",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Casing width is one sixth of the opening it trims — 6 in on a 36 in door — with a backband projecting about 1 in, dying into a plinth block 1 in talle\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Casing width is one sixth of the opening it trims — 6 in on a 36 in door — with a backband projecting about 1 in, dying into a plinth block 1 in taller than the base.",
@@ -5880,7 +5968,8 @@
         "profile": {
           "value": "astragal, cyma reversa, corona and listel — the corona is the member a chair back actually hits",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The chair rail sits at 30 to 32 in above the finished floor, on the same datum as the window sill, and its corona must project further than the base c\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "height": {
           "range": [
@@ -6020,12 +6109,14 @@
         "min_clear_field_in": {
           "value": 9,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The dado is raised and fielded panelling whose panels run wider than tall at 1.5 to 1.8 to 1, set out from the centre of the wall or the centre of the\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "full_height_panelling": {
           "value": "the chimney wall of the best room only; the other three walls plastered above the dado",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The dado is raised and fielded panelling whose panels run wider than tall at 1.5 to 1.8 to 1, set out from the centre of the wall or the centre of the\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The dado is raised and fielded panelling whose panels run wider than tall at 1.5 to 1.8 to 1, set out from the centre of the wall or the centre of the chimney breast so that no panel is a fragment and the panels flanking an opening are equal.",
@@ -6096,7 +6187,8 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Interior doors are six-panel raised and fielded in principal rooms, sized so that the leaf is about 0.7 of the ceiling height, and graduated down to f\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "thickness_in": {
           "range": [
@@ -6104,12 +6196,14 @@
             1.75
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Interior doors are six-panel raised and fielded in principal rooms, sized so that the leaf is about 0.7 of the ceiling height, and graduated down to f\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "graduation": {
           "value": "principal rooms six-panel, chambers six or four, service two-panel or batten",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Interior doors are six-panel raised and fielded in principal rooms, sized so that the leaf is about 0.7 of the ceiling height, and graduated down to f\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Interior doors are six-panel raised and fielded in principal rooms, sized so that the leaf is about 0.7 of the ceiling height, and graduated down to four panels and then to batten as the rooms lose rank.",
@@ -6172,12 +6266,14 @@
             48
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The principal stair rises in the passage in two or three runs against one side wall, open-string with carved and applied bracket ends on the best work\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "landing_position": {
           "value": "the stair rises in the passage against one side wall and turns at a landing lit by a window on the rear or side elevation",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The principal stair rises in the passage in two or three runs against one side wall, open-string with carved and applied bracket ends on the best work\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "riser_height": {
           "range": [
@@ -6196,7 +6292,8 @@
           ],
           "unit": "in",
           "kind": "editorial",
-          "confidence": "low"
+          "confidence": "low",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The principal stair rises in the passage in two or three runs against one side wall, open-string with carved and applied bracket ends on the best work\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "The principal stair rises in the passage in two or three runs against one side wall, open-string with carved and applied bracket ends on the best work, turning at a landing that is lit by its own window.",
@@ -6239,17 +6336,20 @@
         "baluster_pattern": {
           "value": "where three per tread, commonly twisted, fluted and plain in rotation",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Three balusters to a tread in the best work and two in ordinary work, carrying a moulded handrail that ramps and eases into a turned column newel; the\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "handrail": {
           "value": "moulded, ramped and eased into the newel rather than butted to it",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Three balusters to a tread in the best work and two in ordinary work, carrying a moulded handrail that ramps and eases into a turned column newel; the\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "step_end_brackets": {
           "value": "carved and applied to the open string, one per tread",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Three balusters to a tread in the best work and two in ordinary work, carrying a moulded handrail that ramps and eases into a turned column newel; the\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "handrail_height": {
           "range": [
@@ -6356,7 +6456,8 @@
             56
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled o\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "firebox_width_in": {
           "range": [
@@ -6364,7 +6465,8 @@
             60
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled o\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "firebox_height_in": {
           "range": [
@@ -6372,7 +6474,8 @@
             40
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled o\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "surround_width_in": {
           "range": [
@@ -6380,17 +6483,20 @@
             9
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled o\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "overmantel": {
           "value": "panelled to the cornice on the chimney wall of the best room",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled o\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "hearth": {
           "value": "stone or brick, projecting 18-24 in into the room",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled o\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled overmantel carried to the cornice.",
@@ -6437,7 +6543,8 @@
         "corner_cupboard_shell_radius": {
           "value": "the shell head is a half dome, its radius half the cupboard width",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Built-ins are architectural rather than joinery afterthoughts: a shell-top corner cupboard in the best room, closets flanking the chimney breast where\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "closet_depth_in": {
           "range": [
@@ -6445,12 +6552,14 @@
             30
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Built-ins are architectural rather than joinery afterthoughts: a shell-top corner cupboard in the best room, closets flanking the chimney breast where\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "window_seat_condition": {
           "value": "masonry walls only, where the reveal is 4-8 in and the wall is 13.5 in or more",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Built-ins are architectural rather than joinery afterthoughts: a shell-top corner cupboard in the best room, closets flanking the chimney breast where\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Built-ins are architectural rather than joinery afterthoughts: a shell-top corner cupboard in the best room, closets flanking the chimney breast where the stack allows, and window seats only where the wall is thick enough to make one.",
@@ -6502,12 +6611,14 @@
             14
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and \" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "plank_laying": {
           "value": "random width, running the long dimension of the room, face-nailed with cut or rose-head nails",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "board_thickness_in": {
           "range": [
@@ -6515,12 +6626,14 @@
             1.25
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and \" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "brick_paving_location": {
           "value": "passage, cellar, kitchen and dependency floors",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and in service spaces.",
@@ -6614,7 +6727,8 @@
         "finish": {
           "value": "wrought and blackened iron in ordinary rooms; brass box locks and knobs in principal rooms",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Hinges are surface-mounted wrought iron before about 1775 and the door hardware is graded with the room — brass box locks in the principal rooms, iron\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "hinge_count_per_door": {
           "value": 2,
@@ -6624,7 +6738,8 @@
         "shutter_hardware": {
           "value": "pintles set into the jamb, with a shutter dog at each leaf",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Hinges are surface-mounted wrought iron before about 1775 and the door hardware is graded with the room — brass box locks in the principal rooms, iron\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "butt_hinge_earliest_date": {
           "value": 1775,
@@ -6689,22 +6804,26 @@
             14
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "passage_share_of_facade": {
           "value": "roughly one third on a five-bay front; one fifth to one quarter on a seven-bay",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "passage_runs": {
           "value": "front to back, full depth, with an exterior door at each end",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "side_hall_condition": {
           "value": "urban lots only, three bays wide",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room opening off it and no room entered through another.",
@@ -6743,7 +6862,8 @@
         "count": {
           "value": 2,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Hearths are paired and symmetrical about the passage axis, never a single central stack, and their position on the gable-to-ridge axis is a climate de\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "fireplaces_per_stack": {
           "range": [
@@ -6751,7 +6871,8 @@
             4
           ],
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Hearths are paired and symmetrical about the passage axis, never a single central stack, and their position on the gable-to-ridge axis is a climate de\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "position_new_england": {
           "value": "interior, 5-12 ft in from the gable ends, flanking the ridge",
@@ -6829,17 +6950,20 @@
             12
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The principal stair stands in the passage against one side wall, starting far enough back from the front door that the passage reads as a room before \" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "landing_window": {
           "value": "required, on the rear or side elevation",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The principal stair stands in the passage against one side wall, starting far enough back from the front door that the passage reads as a room before \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "service_stair": {
           "value": "a second, narrower, enclosed stair serving the service end where the house has one",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The principal stair stands in the passage against one side wall, starting far enough back from the front door that the passage reads as a room before \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The principal stair stands in the passage against one side wall, starting far enough back from the front door that the passage reads as a room before it reads as a stair, and it turns at a landing lit by its own window.",
@@ -6930,7 +7054,8 @@
         "detached_min_distance_ft": {
           "value": 25,
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Service is removed from the main block — detached, hyphenated or in the basement — and it has its own circulation which does not cross the formal plan\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "hyphen_length_ft": {
           "range": [
@@ -6938,7 +7063,8 @@
             20
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Service is removed from the main block — detached, hyphenated or in the basement — and it has its own circulation which does not cross the formal plan\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "dependency_height_ratio": {
           "range": [
@@ -6946,7 +7072,8 @@
             0.75
           ],
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Service is removed from the main block — detached, hyphenated or in the basement — and it has its own circulation which does not cross the formal plan\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "strategy_new_england": {
           "value": "rear ell or lean-to, attached",
@@ -7008,7 +7135,8 @@
             40
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Double-pile at 32 to 40 ft deep is the Northern and Mid-Atlantic norm; single-pile at 18 to 22 ft is the Chesapeake answer and it is a ventilation dec\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "single_pile_depth_ft": {
           "range": [
@@ -7016,7 +7144,8 @@
             22
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Double-pile at 32 to 40 ft deep is the Northern and Mid-Atlantic norm; single-pile at 18 to 22 ft is the Chesapeake answer and it is a ventilation dec\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "facade_width_ft": {
           "range": [
@@ -7024,7 +7153,8 @@
             72
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Double-pile at 32 to 40 ft deep is the Northern and Mid-Atlantic norm; single-pile at 18 to 22 ft is the Chesapeake answer and it is a ventilation dec\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "bay_count": {
           "set": [
@@ -7033,7 +7163,8 @@
             7
           ],
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Double-pile at 32 to 40 ft deep is the Northern and Mid-Atlantic norm; single-pile at 18 to 22 ft is the Chesapeake answer and it is a ventilation dec\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "frame_bay_ft": {
           "expr": "module",
@@ -7086,17 +7217,20 @@
         "windows_per_principal_room": {
           "value": 2,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Every principal room is lit from two walls, the passage is lit at both ends, and the total glazing runs around a tenth of the floor area — which is da\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "walls_lit_per_principal_room": {
           "value": 2,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Every principal room is lit from two walls, the passage is lit at both ends, and the total glazing runs around a tenth of the floor area — which is da\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         },
         "passage_lit": {
           "value": "at both ends, through the front and rear doors and their transoms",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Every principal room is lit from two walls, the passage is lit at both ends, and the total glazing runs around a tenth of the floor area — which is da\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Every principal room is lit from two walls, the passage is lit at both ends, and the total glazing runs around a tenth of the floor area — which is dark by modern standards and is what the rooms were designed for.",
@@ -7339,17 +7473,20 @@
         "approach": {
           "value": "on the entrance axis, so the front is met square-on",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The house presents a composed front square-on to its approach, and where it has two approaches it has two fully composed fronts; it is never seen obli\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "two_front_condition": {
           "value": "plantation houses with a land front and a river front, both fully composed",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The house presents a composed front square-on to its approach, and where it has two approaches it has two fully composed fronts; it is never seen obli\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "urban_condition": {
           "value": "the front wall on the street line, entrance directly on the pavement with a stoop of 3-5 risers",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The house presents a composed front square-on to its approach, and where it has two approaches it has two fully composed fronts; it is never seen obli\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The house presents a composed front square-on to its approach, and where it has two approaches it has two fully composed fronts; it is never seen obliquely as a picturesque object.",
@@ -7371,17 +7508,20 @@
         "governing_factor": {
           "value": "the approach and the composition, not the sun",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The house is oriented to its approach and to symmetry; the entrance faces the road or the water and everything else follows from that.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "chimney_axis": {
           "value": "the ridge runs across the approach axis so the chimneys are seen against the sky from the front",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The house is oriented to its approach and to symmetry; the entrance faces the road or the water and everything else follows from that.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "passage_axis": {
           "value": "front to back on the approach axis, which sets the cross-ventilation axis whether or not it suits the prevailing wind",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The house is oriented to its approach and to symmetry; the entrance faces the road or the water and everything else follows from that.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The house is oriented to its approach and to symmetry; the entrance faces the road or the water and everything else follows from that.",
@@ -7446,7 +7586,8 @@
         "arrangement": {
           "value": "symmetrically disposed about the entrance axis where they are visible from the approach; informally grouped in the service yard where they are not",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Outbuildings that are visible from the approach are composed symmetrically about the axis and subordinated in height; outbuildings in the service yard\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "dependency_height_ratio": {
           "range": [
@@ -7454,7 +7595,8 @@
             0.75
           ],
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Outbuildings that are visible from the approach are composed symmetrically about the axis and subordinated in height; outbuildings in the service yard\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "detached_kitchen_distance_ft": {
           "range": [
@@ -7462,7 +7604,8 @@
             80
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Outbuildings that are visible from the approach are composed symmetrically about the axis and subordinated in height; outbuildings in the service yard\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "Outbuildings that are visible from the approach are composed symmetrically about the axis and subordinated in height; outbuildings in the service yard are not composed at all.",
@@ -7502,12 +7645,14 @@
             54
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "picket_spacing": {
           "value": "picket width to picket gap roughly 1:1",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "brick_wall_height_in": {
           "range": [
@@ -7515,17 +7660,20 @@
             96
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail\" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "wall_coping": {
           "value": "moulded or bevelled brick, or stone",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "gate_position": {
           "value": "on the entrance axis, always",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail\" -- which is the reasoning, not a citation. The same figure appears in the style record, which is where it came from -- but a node record is this corpus restating itself, not a source, so OQ 18 stands."
         }
       },
       "rule": "The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail.",
@@ -7583,17 +7731,20 @@
         "geometry": {
           "value": "rectilinear, axial, symmetrical about the entrance axis",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The landscape near the house is geometric and axial — forecourt, terraces, allee, walled garden in quarters — and it is composed with the elevation ra\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "planting": {
           "value": "clipped and architectural near the house; the picturesque begins beyond the ha-ha if at all",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The landscape near the house is geometric and axial — forecourt, terraces, allee, walled garden in quarters — and it is composed with the elevation ra\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "terrace_falls": {
           "value": "the falls at Middleton Place and the Chesapeake terraced gardens are the canonical case",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The landscape near the house is geometric and axial — forecourt, terraces, allee, walled garden in quarters — and it is composed with the elevation ra\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The landscape near the house is geometric and axial — forecourt, terraces, allee, walled garden in quarters — and it is composed with the elevation rather than around it.",
@@ -7629,7 +7780,8 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The house sits on a plinth: the water table stands 24 to 36 in above finished grade on every elevation, and the grade falls away from the wall rather \" -- which is the reasoning, not a citation. Stated as a band rather than a figure, which is the honest form for a judgment: the width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "exposed_foundation_in": {
           "expr": "part * 2",
@@ -7646,12 +7798,14 @@
         "grade_fall_away_from_wall": {
           "value": "not less than 6 in in the first 10 ft",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The house sits on a plinth: the water table stands 24 to 36 in above finished grade on every elevation, and the grade falls away from the wall rather \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "raised_basement_condition": {
           "value": "Charleston and urban Mid-Atlantic; the principal floor a full storey above grade with the entry stair rising to it",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"The house sits on a plinth: the water table stands 24 to 36 in above finished grade on every elevation, and the grade falls away from the wall rather \" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The house sits on a plinth: the water table stands 24 to 36 in above finished grade on every elevation, and the grade falls away from the wall rather than being banked against it.",

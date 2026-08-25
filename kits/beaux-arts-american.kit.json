@@ -572,7 +572,8 @@
         "presence": {
           "value": "present wherever the entablature is bound; scaled to the monumental cornice, not the domestic one",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"A full modillion or dentil course runs with the deep, heavily projecting cornice defining_characteristics describes -- this is the entablature's own m\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "status": "drafted",

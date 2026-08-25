@@ -3258,3 +3258,66 @@ def test_the_checker_says_what_the_binding_count_never_measured():
     src = open(os.path.join(ROOT, "build", "check_inheritance.py")).read()
     assert '"132 of 132 bound" counts a node\'s own array' in src
     assert "it has never measured what a node RECEIVES" in src
+
+
+# --- OQ 18: every editorial parameter now says it is one ---------------------------------------
+
+
+def test_no_editorial_parameter_is_silent_any_more():
+    """162 carried neither a source nor a note. The count of silent editorial values is now 0, and
+    not one was given a source it does not have."""
+    import glob
+    silent = sourced = 0
+    for f in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        for sid, v in (json.load(open(f)).get("slots") or {}).items():
+            for pn, p in ((v.get("parameters") or {}).items()):
+                if not isinstance(p, dict) or p.get("kind") != "editorial":
+                    continue
+                if not p.get("source") and not p.get("note"):
+                    silent += 1
+                if "OQ 18, annotated" in (p.get("note") or "") and p.get("source"):
+                    sourced += 1     # an annotated one must NOT have gained a source
+    assert silent == 0
+    # and the note must not have quietly become a source: the source half is still blocked
+    assert sourced == 0
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "The source half is ENVIRONMENT-BLOCKED" in oq
+    assert "may be given a source from a secondary work" in oq
+
+
+def test_the_notes_say_they_are_not_citations():
+    """The failure mode this whole entry is about is a judgment reading as a measurement. A note
+    that explained the figure without saying it is unsourced would be a smaller version of it."""
+    import glob
+    checked = 0
+    for f in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        for sid, v in (json.load(open(f)).get("slots") or {}).items():
+            for pn, p in ((v.get("parameters") or {}).items()):
+                if not isinstance(p, dict) or p.get("kind") != "editorial":
+                    continue
+                n = p.get("note") or ""
+                if "OQ 18, annotated" in n:
+                    assert "NO SOURCE IS RECORDED" in n, (f, sid, pn)
+                    assert "which is the reasoning, not a citation" in n, (f, sid, pn)
+                    checked += 1
+    assert checked == 162
+
+
+def test_the_57_that_looked_like_placeholders_were_correct_records():
+    """The ninth over-count of this work package, and the first that would have damaged good data:
+    a script looked only at `value`, found null, and reported 57 mis-tagged placeholders. 55 carry
+    a `range` and 2 a `set`. Reading them is the only reason they survived."""
+    import glob
+    banded = 0
+    for f in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        for sid, v in (json.load(open(f)).get("slots") or {}).items():
+            for pn, p in ((v.get("parameters") or {}).items()):
+                if not isinstance(p, dict) or p.get("kind") != "editorial":
+                    continue
+                if "OQ 18, annotated" not in (p.get("note") or ""):
+                    continue
+                if p.get("value") is None and (p.get("range") or p.get("set")):
+                    banded += 1
+    assert banded == 57
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "ninth" in oq and "would have DAMAGED correct records" in oq

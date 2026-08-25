@@ -74,7 +74,8 @@
           "value": "bay-or-building",
           "unit": "none",
           "kind": "editorial",
-          "confidence": "high"
+          "confidence": "high",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026). The basis stated for this slot is: \"Growth is by adding a separate volume, range, bay or ancillary building, never by enlarging one room or range. All three members converge on this inde\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "judgment": false,

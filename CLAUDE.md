@@ -70,13 +70,14 @@ Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6. 
 style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before trusting that number -- it counts a node's OWN bindings and the lineage cascade delivers packs nobody bound) — but 50 nodes still have no opening-role pack
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
-parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
+parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 715 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
-19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
-one that stays open on purpose: 162 kit parameters are editorial with neither a source nor a
-note, 156 of them on the Georgian kit, and closing it needs real sources rather than more code.
+19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
+parameters now say they are editorial and quote the basis their slot states, so the count of
+unexplained numbers is 0; the SOURCE half is environment-blocked and none of the 162 may be given
+a source from a secondary work.
 WP-4.6 raised **OQ 47, 48 and 49**. **OQ 47 and 49 are CLOSED** — `expressed_frame` at ontology
 0.7.0 with a `member_status` field (structural / structural-and-expressed / applied / none), bound
 on 14 kits of which five FORBID the member; and a `slots` scope on bindings, which took the corpus
@@ -179,8 +180,11 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     Every one needs a legible facsimile. `loc.gov`, `archive.org` and `hathitrust` all fail to
     connect from here. **None may be closed from a secondary source or a modern redrawing** —
     that is how a guess gets laundered as `measured`.
-  - **OQ 18** — 162 kit parameters editorial with neither source nor note, 154 of them on the
-    Georgian kit. The NOTE half needs no network and is being written; the source half is blocked.
+  - **OQ 18 (half closed)** — the note half is done: **0** editorial parameters are silent now,
+    all 162 say plainly that no source is recorded and quote the basis their slot states. The
+    SOURCE half is blocked with 7-11. Of the 162: 82 are a bare single figure with no band (the
+    weakest form in the corpus and where a person with library access should start), 57 a band or
+    set, 21 restating the style record, 2 that carried their authority inside the value string.
   - **OQ 50** — ornament is rationed and not distributed, in 26 nodes across nine traditions, with
     `italian-renaissance` as the one control case. Ruled 25 Aug to stop at the principle
     (`docs/model.md`); a fault would need the elevation layer to model ornament ZONES, which it

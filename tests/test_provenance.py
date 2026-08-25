@@ -95,4 +95,9 @@ def test_the_editorial_parameters_carried_forward_are_still_the_known_number():
     # against the new `arch` slot put those two slots under OQ 19's determined_by check, which
     # requires a note on an editorial number sitting where a determination should be. Two got
     # one. That is the ratchet working -- a rule added for one reason tightening another.
-    assert c["bare"] == 162, c["bare"]
+    # 162 -> 0 on 25 Aug 2026 (OQ 18, half closed). Every one of the 162 gained a note saying that
+    # no source is recorded, quoting the basis its SLOT states, and naming which of four forms the
+    # figure takes. NOT ONE GAINED A SOURCE -- that half is environment-blocked with OQ 7-11, and a
+    # note is not a citation. The pin is now zero and should stay there: a new editorial parameter
+    # with neither a source nor a note is an author skipping the corpus's own rule.
+    assert c.get("bare", 0) == 0, c.get("bare")
