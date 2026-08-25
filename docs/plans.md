@@ -4,7 +4,7 @@ The critic, built before the composer — because a composer needs a fitness fun
 
 ## What it reads
 
-`schema/plan.schema.json`: a topology plus approximate dimensions. Rooms with a type, a width and length, a window head, doors, fixtures. Doors imply adjacency in both directions and the validator derives the graph from them. Deliberately hand-authorable — you should be able to type a sketch into it in five minutes and find out whether the rules are right.
+`schema/plan.schema.json`: a topology plus approximate dimensions. Rooms with a type, a width and length, a window head, doors, fixtures. Doors imply adjacency in both directions and the validator derives the graph from them. Deliberately hand-authorable — you should be able to type a sketch into it in five minutes and find out whether the rules are right. Since 0.2.0 (WP-5.5) a record may also carry `provenance` — where it came from, how it was transcribed, how much to trust it, and why its style was called what it was; see `docs/ingestion.md`.
 
 ```
 python3 build/plan_check.py plans/spec-builder-colonial.json --min-severity serious

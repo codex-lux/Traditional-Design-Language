@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.",
   "type": "object",
   "required": ["id", "name", "style", "levels"],
@@ -97,6 +97,21 @@
       "description": "Any additional numbers for the fault corpus to test — elevation dimensions, trim sizes, ratios. Keys must match the fault corpus vocabulary; see tdl_measurement_vocabulary." },
     "declared": { "type": "object",
       "description": "Design choices the plan asserts, keyed by element slot id, for checking against the style's forbidden variants. e.g. {\"roof_form\": \"gambrel\", \"shutter\": \"none\"}." },
-    "note": { "type": "string" }
+    "note": { "type": "string" },
+    "provenance": { "type": "object",
+      "description": "Where this record came from and how much to trust it — the structured provenance WP-2.1 asked for after carrying source_image, confidence and the style reasoning as prose in `note`. Optional: an authored record needs none; an ingested one (traced from a drawing, imported from a drafter's DXF) should say so. Added in 0.2.0 (WP-5.5).",
+      "additionalProperties": false,
+      "properties": {
+        "source": { "type": "string", "description": "The drawing, image file, HABS sheet or DXF this record was produced from." },
+        "method": { "enum": ["authored","traced","dxf-import","multimodal-reading"],
+          "description": "authored: written directly against the schema. traced: transcribed by tracing a drawing (the WP-5.5 form). dxf-import: extracted from a drafter's DXF and completed by a human. multimodal-reading: read off an image by a model (the WP-2.1 batch)." },
+        "transcription_confidence": { "enum": ["high","medium","low"],
+          "description": "Overall confidence of the transcription. Where it varies by field, use field_confidence as well." },
+        "field_confidence": { "type": "object", "additionalProperties": { "enum": ["high","medium","low"] },
+          "description": "Per-field confidence where it differs from the overall call, keyed by a dotted field path (e.g. \"levels.0.rooms.kitchen.windows\")." },
+        "style_reasoning": { "type": "string", "description": "Why the style id was chosen — a traced record's style is a judgment; the reasoning rides with it, never silently." },
+        "traced_by": { "type": "string", "description": "Who or what performed the transcription." }
+      }
+    }
   }
 }

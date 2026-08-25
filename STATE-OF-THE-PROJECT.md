@@ -2,7 +2,7 @@
 
 *Originally written 23 August 2026 against v0.6. **Revised 24 August 2026**, after Phases 0–3 closed and Phase 4 ran through WP-4.2. Everything below was verified by running the toolchain, not by reading the docs — every checker, the proportion engine selftest, both plan validations, both composer briefs, the geometry solver, and the full 291-test suite were executed, and the numbers here are what they returned. Where a figure has moved since the 23 August review, the old figure is named so the direction of travel is visible.*
 
-*Now maintained as a **living document** (Lucas's ruling, 25 Aug 2026) — updated as work lands rather than re-issued as dated snapshots. **Updated 25 August 2026** after WP-4.3 (the garage), OQ 28 (the module cache), WP-5.2 (the workbench, in `workbench/`) and WP-5.1 (DXF/IFC export with a proven round-trip). The appendix carries the current verified counts; prose below that describes a pre-workbench state is corrected in place where it would now mislead.*
+*Now maintained as a **living document** (Lucas's ruling, 25 Aug 2026) — updated as work lands rather than re-issued as dated snapshots. **Updated 25 August 2026** after WP-4.3 (the garage), OQ 28 (the module cache), WP-5.2 (the workbench, in `workbench/`), WP-5.1 (DXF/IFC export with a proven round-trip) and WP-5.5 (drawing-to-record ingestion: the Transcription surface, the drafter-DXF extractor, plan schema 0.2.0's `provenance`). The appendix carries the current verified counts; prose below that describes a pre-workbench state is corrected in place where it would now mislead.*
 
 ---
 
@@ -44,7 +44,7 @@ Put the layers in motion and the intended flow is:
 
 > **Brief** (area, bedrooms, lot, style) → **Style** resolves to a **kit** and its **constraints** and **packs** → native **partis** seed candidate **plans** assembled from **groupings** of **rooms** on a **massing** → the **validator** scores each against rooms, adjacency, faults, code, style constraints and the elevation → the **composer** repairs and ranks → **geometry** places and dimensions → **structure, roof and elevation** give it walls, a covering and a composed front → *[details, export — not yet built]* → **documents** a builder can price and permit.
 
-The compiler metaphor is exact. The schemas are the language specification. The checkers are the linters. The validator is the type checker. The composer and geometry pass are the compiler front-end. As of the Phase 3 work, the first passes of the back-end exist too — the IR is now framed, roofed and given a front elevation. As of 25 August the last mile is part-built: the workbench a human can move a wall in is live (`workbench/`, WP-5.2), and the drawings leave in the formats a drafter and a BIM tool open (DXF/IFC, WP-5.1, round-trip proven). What remains of it: generated guidelines and details (WP-5.3), drawing-to-record ingestion (WP-5.5), and the deferred cost layer. The MCP server is the runtime through which a human or agent drives the whole thing.
+The compiler metaphor is exact. The schemas are the language specification. The checkers are the linters. The validator is the type checker. The composer and geometry pass are the compiler front-end. As of the Phase 3 work, the first passes of the back-end exist too — the IR is now framed, roofed and given a front elevation. As of 25 August the last mile is mostly built: the workbench a human can move a wall in is live (`workbench/`, WP-5.2), the drawings leave in the formats a drafter and a BIM tool open (DXF/IFC, WP-5.1, round-trip proven), and drawings flow back in through the Transcription surface and the drafter-DXF extractor (WP-5.5). What remains of it: generated guidelines and details (WP-5.3, waiting on Phase 4 breadth by choice), and the deferred cost layer. The MCP server is the runtime through which a human or agent drives the whole thing.
 
 That is the shape of the vision. The rest of this document is about how much of it is standing.
 
@@ -144,9 +144,9 @@ What is left divides cleanly into three kinds of work, and they are not equally 
 
 **The breadth gap.** Partis at 39 of 132 now gate the composer harder than kits ever did; missing packs (WP-4.6) and unsourced images (WP-4.4) are real but less blocking. The garage (WP-4.3) is a small closing task with a named acceptance test, worth finishing while the kit work is fresh.
 
-**The last mile.** Details, guidelines, export, a workbench, ingestion. These turn a correct internal representation into something a builder and a plan-development lead can actually hold — and they are what the partnership, when it exists, will judge the system by. *(25 Aug: the workbench and the export are done — WP-5.2 and WP-5.1; guidelines, ingestion and cost remain.)*
+**The last mile.** Details, guidelines, export, a workbench, ingestion. These turn a correct internal representation into something a builder and a plan-development lead can actually hold — and they are what the partnership, when it exists, will judge the system by. *(25 Aug: the workbench, the export and ingestion are done — WP-5.2, WP-5.1, WP-5.5; guidelines and cost remain.)*
 
-So the sequence: ~~fix **OQ 28**~~ (done 24 Aug); ~~close **WP-4.3**~~ (done 24 Aug); build **WP-2.3**, the real solver, which is the deepest remaining structural gap and the last thing standing between Phase 2 and finished; then take breadth — **WP-4.5** partis first since they gate composition, then **WP-4.6** packs and **WP-4.4** images; then what remains of Phase 5 (**WP-5.3** guidelines after the breadth it renders from, **WP-5.5** ingestion — its DXF half now has a starting point in `build/import_dxf.py`).
+So the sequence: ~~fix **OQ 28**~~ (done 24 Aug); ~~close **WP-4.3**~~ (done 24 Aug); build **WP-2.3**, the real solver, which is the deepest remaining structural gap and the last thing standing between Phase 2 and finished; then take breadth — **WP-4.5** partis first since they gate composition, then **WP-4.6** packs and **WP-4.4** images (which now have an ingestion pipeline waiting for them); then **WP-5.3** guidelines, after the breadth they render from.
 
 That order keeps faith with the project's own founding discipline — validator before composer, spine before breadth, the drawing as a render of the data — and it means that at each step the system produces something more *like a house* rather than merely more data about houses. The aim was never a taxonomy. It was a language fluent enough that a production builder could speak it, and a house built in it would feel, to the people who live there, like it belongs. The grammar for that is written, and now it is bound to its vocabulary. The work now is to make the compiler prove what it composes.
 
@@ -172,10 +172,11 @@ That order keeps faith with the project's own founding discipline — validator 
 | Back-end | `structure.py`, `roof.py`, `elevation.py` | walls, section, roof plan, front elevation | Functional; elevation evaluates 83 faults |
 | Site | `site` on plan/brief schemas | lot, setbacks, bearing, slope | Functional |
 | Interface | `mcp_server/` | 24 tools | Functional |
-| Interface | `workbench/` | 10 surfaces + AI rail, 35 server tests | Live (WP-5.2) |
+| Interface | `workbench/` | 11 surfaces + AI rail, 39 server tests | Live (WP-5.2, ⑪ added by WP-5.5) |
 | Interface | `dist/` | html × 2, json, agent.md | Current |
 | Export | `export_dxf.py`, `export_ifc.py`, `import_dxf.py` | 4 DXF sheets + IFC4, TDL ids as Psets | Round-trip proven (WP-5.1); ezdxf/ifcopenshell optional, refusals honest |
+| Ingestion | `ingest_dxf.py`, Transcription surface, `provenance` (schema 0.2.0) | drawing → candidates → record, every gap named | Complete (WP-5.5); wall topology and OCR deliberately out |
 | Evidence | `assets/manifest.json` | 322 wanted, **0 sourced** | Records only — WP-4.4 |
 | Governance | `docs/open-questions.md` | 36 items | OQ 27, 29, 30, 31, 32–34, 36 + `hybridizes_with` live |
 | Checks | `build/check_all.py` | 23 checks (2 CAD selftests may report COULD NOT EVALUATE) | All pass |
-| Checks | `tests/` | **322 tests, 18 files** | All pass; one run, ~2.5 min (OQ 28 fixed); no CI |
+| Checks | `tests/` | **330 tests, 19 files** | All pass; one run, ~2.5 min (OQ 28 fixed); no CI |

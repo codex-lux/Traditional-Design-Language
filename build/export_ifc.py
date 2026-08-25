@@ -266,8 +266,15 @@ def export_ifc(plan, path, parti=None):
                             cx = 0.0 if wall_letter == "W" else W
                             cy = g["y_ft"] + g["depth_ft"] * t_frac
                             w_, d_ = host[5], w_ft
-                        sill = (head_ft - h_ft) if head_ft else 2.5
-                        sill_src = "window_head_ft - height_ft" if head_ft else "editorial default 2.5 ft"
+                        # the record's own sill_ft first (schema has carried it
+                        # since 0.1.0, unused until WP-5.5 noticed), then the
+                        # head-minus-height derivation, then an editorial default
+                        if win.get("sill_ft") is not None:
+                            sill, sill_src = win["sill_ft"], "record sill_ft"
+                        elif head_ft:
+                            sill, sill_src = head_ft - h_ft, "window_head_ft - height_ft"
+                        else:
+                            sill, sill_src = 2.5, "editorial default 2.5 ft"
                         opening = _run("root.create_entity", f, ifc_class="IfcOpeningElement",
                                        name=f"{r['id']} opening {wi}.{k}")
                         _box(f, body, opening, w_, d_, h_ft)

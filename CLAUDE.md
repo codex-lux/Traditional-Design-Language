@@ -57,13 +57,16 @@ Phase 5 started out of order: **WP-5.2 complete** — the workbench is live in `
 the package text's self-contained `dist/` HTML file). **WP-5.1 complete (25 Aug)** —
 DXF/IFC export with a proven round-trip (DXF → record → identical findings), optional
 deps behind honest refusals, live in the workbench's Export card (`docs/export.md`).
-WP-5.3 and 5.5 not started; WP-5.4 deferred until the plan-development partnership exists.
+**WP-5.5 complete (25 Aug)** — drawing-to-record ingestion: the Transcription surface
+(⑪), the drafter-DXF extractor (candidates + named gaps, never guesses), plan schema
+0.2.0's `provenance` object (`docs/ingestion.md`). WP-5.3 not started (waiting on
+Phase 4 breadth by choice); WP-5.4 deferred until the plan-development partnership exists.
 
 164 nodes · 95 slots (ontology 0.5.0) · 40 massings · 58 rooms · 16 groupings ·
 **12 partis naming only 39 of 132 styles** · 36 packs (129 of 132 nodes bound) ·
 660 constraints migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits
 populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools ·
-322 tests · 35 workbench server tests (separate suite, `workbench/server/tests/`).
+330 tests · 39 workbench server tests (separate suite, `workbench/server/tests/`).
 
 **Next — two tracks that can run in parallel:**
 
@@ -82,10 +85,9 @@ populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tool
 *The platform track — unblocked now, no Phase 4 coupling (§6 hangs Phase 5 off
 Phases 1–3, all complete):*
 - ~~**WP-5.1 — DXF/IFC export.**~~ **Done 25 Aug 2026** — see the status paragraph above.
-- **WP-5.5 — drawing-to-record ingestion.** Feeds back into breadth: it is the pipeline
-  that lets HABS drawings and a builder's back catalogue become records. WP-5.1 built its
-  starting point — `build/import_dxf.py` reads TDL-emitted DXF and refuses foreign files
-  by name; 5.5 generalizes it to a drafter's drawing.
+- ~~**WP-5.5 — drawing-to-record ingestion.**~~ **Done 25 Aug 2026** — the pipeline that
+  lets HABS drawings and a builder's back catalogue become records now exists; WP-4.4's
+  image sourcing can feed it.
 - **WP-5.3 — generated guidelines** waits for WP-4.4/4.6 by choice, not dependency: it is
   generated from data, so regeneration is free, and a book generated today is mostly
   `wanted` images and unjudged calls. **WP-4.7** stays scope-only by design.

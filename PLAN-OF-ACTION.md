@@ -15,7 +15,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **2 — Composition** | WP-2.1, 2.2, 2.4 complete · **WP-2.3 not started** | **Incomplete** — the solver is still a hill-climb, not an optimiser |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3 complete · **4.4, 4.5, 4.6, 4.7 not started** | **In progress** |
-| **5 — Platform** | WP-5.1, 5.2 complete · **5.3, 5.4, 5.5 not started** | **In progress** — the workbench is live in `workbench/` and DXF/IFC export ships with a proven round-trip; guidelines, cost and ingestion remain |
+| **5 — Platform** | WP-5.1, 5.2, 5.5 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -424,6 +424,8 @@ Three documents the brief asks for, all generated from data so they cannot drift
 Scope only: unit costs by construction type and region; the 32 `cost_negative` faults as savings; candidate comparison by cost per square foot. Do not author costs without a partner's numbers.
 
 ### WP-5.5 Drawing-to-record ingestion
+
+**Status: COMPLETE (25 Aug 2026).** Three rulings first: the form is a workbench surface (⑪ Transcription, following WP-5.2's approved divergence, not a `dist/` HTML file); the drafter-DXF importer extracts candidates a human completes in the form, never a guessed record; and plan schema 0.2.0 gains the structured `provenance` object WP-2.1 asked for (`style` stays required — the form holds the draft until a human sets it). `build/ingest_dxf.py` generalizes WP-5.1's reader: closed polylines → candidate rooms (bounding-box honesty flagged), contained text → name hints, everything a drawing cannot state → a named gap; units from a stated header or a room-scale heuristic that labels itself an inference and *refuses to pick* on a tie (feet vs metres is the collision that actually occurs). TDL-emitted sheets short-circuit to the complete cross-checked record. The surface traces on a browser-local backdrop (never uploaded), names every gap between draft and record, and stays inert until the list is empty; `POST /api/ingest/dxf` serves it. Found: schema 0.1.0 had carried `sill_ft` unused since the beginning — the IFC exporter now reads it and OQ 36 was corrected. Report: `docs/reports/wp-5.5-drawing-to-record-ingestion.md` · layer doc: `docs/ingestion.md`.
 
 **Depends on:** WP-2.1 experience. **Size:** medium.
 

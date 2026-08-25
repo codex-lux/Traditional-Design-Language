@@ -1,6 +1,6 @@
-/* The Workbench shell. Six of the ten surfaces are live; the rest are listed in the
-   rail as forthcoming rather than hidden. The AI rail is persistent across all of them.
-   A citation anywhere routes through citations.js and navigates this shell. */
+/* The Workbench shell. All eleven surfaces are live (⑪ Transcription joined in
+   WP-5.5). The AI rail is persistent across all of them. A citation anywhere routes
+   through citations.js and navigates this shell. */
 import React from 'react';
 import { api } from './api/client.js';
 import { routeCite } from './citations.js';
@@ -17,6 +17,7 @@ import { StyleRecord } from './surfaces/StyleRecord.jsx';
 import { Proportions } from './surfaces/Proportions.jsx';
 import { DrawingSet } from './surfaces/DrawingSet.jsx';
 import { ExportDetails } from './surfaces/ExportDetails.jsx';
+import { Transcription } from './surfaces/Transcription.jsx';
 
 export default function App() {
   const [surface, setSurface] = React.useState('workbench');
@@ -50,6 +51,7 @@ export default function App() {
     proportions: <Proportions {...shared} />,
     drawings: <DrawingSet {...shared} />,
     export: <ExportDetails {...shared} />,
+    transcription: <Transcription {...shared} />,
   };
 
   const unjudged = lastEval?.check?.constraint_summary?.unjudged;

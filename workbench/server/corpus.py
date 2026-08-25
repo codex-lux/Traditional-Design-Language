@@ -286,6 +286,29 @@ def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
         return {"error": f"{type(e).__name__}: {str(e)[:300]}"}
 
 
+def ingest_dxf(dxf_text, units=None):
+    """WP-5.5: a drafter's DXF (sent as text) -> room candidates + named gaps
+    for the Transcription surface to complete; a TDL-emitted sheet comes back
+    a complete record. All the judgment lives in build/ingest_dxf.py."""
+    import os as _os
+    import tempfile
+
+    B = _os.path.join(ROOT, "build")
+    ING = core._mod("ingest_dxf", f"{B}/ingest_dxf.py")
+    fd, p = tempfile.mkstemp(suffix=".dxf")
+    try:
+        with _os.fdopen(fd, "w") as f:
+            f.write(dxf_text)
+        return ING.extract(p, units)
+    except Exception as e:
+        return {"error": f"{type(e).__name__}: {str(e)[:300]}"}
+    finally:
+        try:
+            _os.unlink(p)
+        except OSError:
+            pass
+
+
 def invalidate():
     """Drop every cache so on-disk corpus edits are seen. Explicit by design:
     auto-invalidation per request would reintroduce the OQ-28 tax."""

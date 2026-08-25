@@ -20,7 +20,8 @@ One doc per layer, in stack order — bottom (the alphabet) to top (the platform
 | 14 | Evidence — images | [`assets.md`](assets.md) | Records authored before files exist; `license` never `unknown`; good/bad pairs. |
 | 15 | Platform — workbench | [`workbench.md`](workbench.md) | The ten-surface app in `workbench/` (WP-5.2): FastAPI over `mcp_server/core.py`, the Drawn Language frontend, the AI rail, drag-and-re-score. |
 | 16 | Platform — export | [`export.md`](export.md) | DXF per sheet (inches, the record riding as XDATA, round-trip proven) and IFC4 (TDL ids as property sets); honest refusals without the optional CAD libraries (WP-5.1). |
-| 17 | Governance | [`open-questions.md`](open-questions.md) | Numbered judgement calls, each RESOLVED (with the ruling and where it landed) or OPEN. |
+| 17 | Platform — ingestion | [`ingestion.md`](ingestion.md) | Drawing → record (WP-5.5): the Transcription surface (trace over a browser-local backdrop, every gap named), the drafter-DXF extractor (candidates, never guesses; units refusal on a tie), and plan schema 0.2.0's `provenance`. |
+| 18 | Governance | [`open-questions.md`](open-questions.md) | Numbered judgement calls, each RESOLVED (with the ruling and where it landed) or OPEN. |
 | — | Reports | [`reports/`](reports/) | One file per completed work package from the Plan of Action — `reports/<wp-id>-<slug>.md` — what was built, what was found, what was deliberately not done, and any new open question it raised. |
 
 ## Regenerating things instead of hand-editing them

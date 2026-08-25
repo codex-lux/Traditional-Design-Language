@@ -303,6 +303,21 @@ def export_cad(fmt: str, body: dict = Body(...)):
     return res
 
 
+# ----------------------------------------------------------------- ingest (WP-5.5)
+@app.post("/api/ingest/dxf")
+def ingest_dxf(body: dict = Body(...)):
+    dxf = body.get("dxf")
+    if not dxf or not isinstance(dxf, str):
+        raise HTTPException(status_code=422, detail={"error": "body.dxf (the file's text) is required"})
+    res = corpus.ingest_dxf(dxf, units=body.get("units"))
+    if "error" in res:
+        # 501 for the missing-library refusal; 422 for an unreadable file or
+        # ambiguous units — either way the reason is stated, not swallowed
+        code = 501 if "not installed" in res.get("error", "") else 422
+        raise HTTPException(status_code=code, detail=res)
+    return res
+
+
 # ----------------------------------------------------------------- the AI rail
 @app.post("/api/rail/messages")
 async def rail_messages(request: Request):
