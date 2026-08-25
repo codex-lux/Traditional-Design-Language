@@ -112,6 +112,43 @@ def slot_detail(style_id, slot_id):
     return out
 
 
+def pack_list():
+    """Every proportion pack, for the Proportions surface's navigation. The
+    non-classical packs are equal citizens — most traditional buildings were
+    proportioned from a material module, not a column — so the list leads with the
+    system and module packs and the kind is first-class, not an afterthought."""
+    packs = core._data()["engine"].PACKS
+    out = []
+    for pid, p in packs.items():
+        out.append({"id": pid, "name": p.get("name", pid), "kind": p.get("kind"),
+                    "authority": p.get("authority"),
+                    "overlay_on": p.get("overlay_on")})
+    kind_rank = {"module-system": 0, "trim-system": 1, "opening-system": 2,
+                 "room-system": 3, "facade-system": 4, "order-system": 5}
+    out.sort(key=lambda r: (kind_rank.get(r["kind"], 9), r["id"]))
+    return {"count": len(out), "packs": out,
+            "note": ("Order packs are <authority>-<order> and compare at a common column "
+                     "DIAMETER, never a common module — authorities do not share one.")}
+
+
+def proportions_with_members(pack_id, column_diameter=None, module=None,
+                             ceiling_height=108.0, opening_width=36.0):
+    """core.get_proportions plus full member lists for EVERY assembly — the plate
+    drawing needs the whole stack at once, and the API's one-assembly-at-a-time
+    shape (right for an agent's context budget) would cost seven round-trips."""
+    out = core.get_proportions(pack_id, column_diameter=column_diameter, module=module,
+                               ceiling_height=ceiling_height, opening_width=opening_width)
+    if "error" in out:
+        return out
+    pe = core._data()["engine"]
+    pk = pe.resolve(pack_id)
+    d = pe.dimension(pk, out["module_in"], None)
+    members = {a["id"]: a["members"] for a in d["assemblies"]}
+    for a in out["assemblies"]:
+        a["members"] = members.get(a["id"], [])
+    return out
+
+
 def invalidate():
     """Drop every cache so on-disk corpus edits are seen. Explicit by design:
     auto-invalidation per request would reintroduce the OQ-28 tax."""

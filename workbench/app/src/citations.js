@@ -13,7 +13,9 @@ export function routeCite(ref) {
   const c = parseCite(ref);
   if (!c) return null;
   switch (c.kind) {
-    case 'style': return { surface: 'phylogeny', selection: { style: c.id } };
+    // the full record beats the graph panel now that surface ③ exists;
+    // the phylogeny stays one rail-click away and links back
+    case 'style': return { surface: 'style', selection: { style: c.id } };
     case 'kit': return { surface: 'kit', selection: { style: c.id, slot: c.fragment } };
     case 'slot': return { surface: 'kit', selection: { slot: c.id } };
     case 'fault': return { surface: 'faults', selection: { fault: c.id } };

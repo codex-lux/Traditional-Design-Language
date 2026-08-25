@@ -171,7 +171,7 @@ export function Phylogeny({ onCite, selection }) {
               const left = tScale(r.from) * 100, right = tScale(Math.min(r.to, 2026)) * 100;
               return (
                 <div key={r.id} style={{ position: 'absolute', left: 0, right: 0, top: i * ROW + PAD, height: ROW }}>
-                  <button type="button" onClick={(ev) => { pick(ev, r.id); if (!ev.shiftKey && onCite) onCite('style:' + r.id); }}
+                  <button type="button" onClick={(ev) => pick(ev, r.id)}
                     style={{ position: 'absolute', left: RANK_INDENT[r.rank] || 0,
                       width: 200 - (RANK_INDENT[r.rank] || 0),
                       textAlign: 'left', height: ROW, display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -310,6 +310,11 @@ export function Phylogeny({ onCite, selection }) {
                 )}
               </div>
 
+              <button type="button" onClick={() => onCite && onCite('style:' + sel)}
+                style={{ marginTop: 16, marginRight: 16, font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
+                  borderBottom: '1px solid var(--link-underline)' }}>
+                full record →
+              </button>
               <button type="button" onClick={() => onCite && onCite('kit:' + sel)}
                 style={{ marginTop: 16, font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
                   borderBottom: '1px solid var(--link-underline)' }}>

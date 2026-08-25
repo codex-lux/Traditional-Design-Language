@@ -13,6 +13,8 @@ import { FaultCorpus } from './surfaces/FaultCorpus.jsx';
 import { KitSurface } from './surfaces/KitSurface.jsx';
 import { Phylogeny } from './surfaces/Phylogeny.jsx';
 import { BriefIntake } from './surfaces/BriefIntake.jsx';
+import { StyleRecord } from './surfaces/StyleRecord.jsx';
+import { Proportions } from './surfaces/Proportions.jsx';
 
 export default function App() {
   const [surface, setSurface] = React.useState('workbench');
@@ -42,6 +44,8 @@ export default function App() {
     kit: <KitSurface {...shared} />,
     phylogeny: <Phylogeny {...shared} />,
     brief: <BriefIntake {...shared} />,
+    style: <StyleRecord {...shared} />,
+    proportions: <Proportions {...shared} />,
   };
 
   const unjudged = lastEval?.check?.constraint_summary?.unjudged;

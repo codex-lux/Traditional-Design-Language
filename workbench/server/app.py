@@ -98,10 +98,19 @@ def kit(style_id: str, group: str = None, slot: str = None,
 
 
 # ----------------------------------------------------------------- proportion
+@app.get("/api/proportions")
+def proportions_list():
+    return corpus.pack_list()
+
+
 @app.get("/api/proportions/{pack_id}")
 def proportions(pack_id: str, column_diameter: float = None, module: float = None,
-                ceiling_height: float = 108.0, opening_width: float = None,
-                assembly: str = None):
+                ceiling_height: float = 108.0, opening_width: float = 36.0,
+                assembly: str = None, members: bool = False):
+    if members:
+        return _ok(corpus.proportions_with_members(
+            pack_id, column_diameter=column_diameter, module=module,
+            ceiling_height=ceiling_height, opening_width=opening_width))
     return _ok(core.get_proportions(pack_id, column_diameter=column_diameter,
                                     module=module, ceiling_height=ceiling_height,
                                     opening_width=opening_width, assembly=assembly))

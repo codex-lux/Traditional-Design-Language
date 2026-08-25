@@ -32,6 +32,8 @@ the frontend's types mirror `core.py`, never the other way round. Beyond those:
 | `GET /api/phylogeny` | the whole graph flattened: taxa with period fields, edges with `inherits_kit` (no core function returns the full graph) |
 | `GET /api/kit/{style}/cascade` | row-per-ancestor binding counts — `resolve_kit`'s provenance dict has composite keys and is not decomposable client-side |
 | `GET /api/kit/{style}/slot/{slot}` | one slot with the FULL variant ladder from the kit file that binds it (`resolve_kit` summarises variants to canonical/forbidden id lists; permitted and atypical only exist in the kit records) |
+| `GET /api/proportions` | the pack list for surface ⑩'s navigation, material modules leading (no core function returns it) |
+| `GET /api/proportions/{pack}?members=true` | full member lists for every assembly at once — the plate drawing needs the whole stack; the one-assembly API shape is for agents' context budgets |
 | `POST /api/plan/evaluate` | `check()` + `place_plan()` in one round-trip, plus `fault_unjudged` (see below) and `rooms_meta` (per-room-type privacy rank, plumbing, daylight multiplier for the overlays) |
 | `POST /api/compose` → `GET /api/jobs/{id}[/events]` | compose as a job with SSE progress (`stage` / `candidate` / `done` / `error`); results held in memory 30 min; `/candidates/{n}/plan` hands one record to the workbench |
 | `POST /api/rail/messages` | the rail turn (SSE, below) |

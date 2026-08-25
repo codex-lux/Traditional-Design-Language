@@ -118,7 +118,43 @@ package did. `dist/taxonomy.html` and `dist/orders.html` are untouched.
   elsewhere) are omitted from the sheet rather than invented — the drawing stays a
   render of the record.
 
-## 5. Open questions raised
+## 5. Milestone 2 — Style Record ③ and Proportions ⑩ (25 Aug 2026)
+
+Two more surfaces live, bringing the count to eight of ten.
+
+**③ Style Record.** All nine sections of `get_style` on one page, with the room given
+to what the job actually needs: diagnostic tells and `distinguished_from` outrank the
+description, `massing:`-prefixed neighbours are labelled as a separate namespace, and
+the constraint table renders the three states without inventing verdicts — an
+executable test is marked *executable* (not "passing": nothing was evaluated), a
+statement awaiting a test says so, and a `scope: judgment` row takes the hatched mark
+with the corpus's refusal stated. The three deliberately unbound nodes
+(`egyptian-revival`, `moorish-andalusian`, `mudejar`) render their OQ-29 exception as
+a position, not a hole. `style:` citations now land here (the full record beats the
+graph panel); the Phylogeny keeps its own selection behaviour and links across.
+
+**⑩ Proportions.** The JS engine port is deliberately **not** reused: the surface
+speaks HTTP to `proportion_engine.py`, ending the dual-engine tax for this surface
+(`dist/orders.html` is untouched and remains the place for full moulded profiles —
+the workbench plate draws the engine's member stack plainly, every band a member
+`dimension()` emitted, hover for its note). The non-classical packs lead the
+navigation as equal citizens; authorities compare at a common column diameter with
+the never-a-common-module rule printed on the strip; invariants render proved
+(`holds`) against the data; `judgment: true` rules take the hatch and say "yours to
+decide"; and the pack conflicts render with their `resolution` prose whole. Server
+additions: `GET /api/proportions` (the pack list — no core function returned it) and
+a `members=true` variant of the pack route (the plate needs every assembly's members
+at once; the API's one-assembly shape is right for an agent's context budget, wrong
+for a drawing).
+
+Found in M2: nothing that changes the corpus — the one modelling note worth recording
+is that `get_style`'s constraint rows distinguish tested from judgment cleanly, but a
+*tested* constraint on this surface must not borrow the pass mark: pass/fail belongs
+to evaluation against a plan, and the record page shows capability, not verdicts.
+Five new pytest tests pin the M2 endpoints, including a cross-check that the HTTP
+members and totals are byte-equal to `proportion_engine.dimension()`'s own.
+
+## 6. Open questions raised
 
 Appended to `docs/open-questions.md` as OQ 32–35: stable finding ids; relaxation
 positions in `geometry.solve()`; structured composer decisions; and

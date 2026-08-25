@@ -60,6 +60,22 @@ const kit = await page.locator('main').innerText();
 check('kit shows thin-kit-is-correct note', /thin kit is correct/i.test(kit));
 await page.screenshot({ path: SHOTS + 'kit.png' });
 
+// ③ Style Record
+await page.getByRole('button', { name: /Style Record/ }).click();
+await page.waitForSelector('text=diagnostic tells', { timeout: 15000 });
+const record = await page.locator('main').innerText();
+check('style record: tells get the room', /diagnostic tells/i.test(record));
+check('style record: judgment rows offered back', /refuses to invent/i.test(record));
+await page.screenshot({ path: SHOTS + 'style-record.png' });
+
+// ⑩ Proportions
+await page.getByRole('button', { name: /Proportions/ }).click();
+await page.waitForSelector('text=five authorities', { timeout: 20000 });
+const prop = await page.locator('main').innerText();
+check('proportions: material modules lead', /material modules/i.test(prop));
+check('proportions: conflicts with building today', /conflicts with building today/i.test(prop));
+await page.screenshot({ path: SHOTS + 'proportions-order.png' });
+
 // ⑨ Fault Corpus
 await page.getByRole('button', { name: /Fault Corpus/ }).click();
 await page.waitForSelector('text=solecisms', { timeout: 15000 });

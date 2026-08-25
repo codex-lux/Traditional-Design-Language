@@ -2,9 +2,9 @@
 
 The human interface to the Traditional Design Language (WP-5.2): a local web app —
 the drawing with the critique on it — over the same corpus and toolchain the CLI and
-MCP server drive. Six surfaces are live (Phylogeny, Kit, Fault Corpus, Brief Intake,
-Candidate Set, Plan Workbench); four are listed as forthcoming rather than hidden
-(Style Record, Proportions, Drawing Set, Details & Export).
+MCP server drive. Eight surfaces are live (Phylogeny, Style Record, Kit, Fault Corpus, Proportions,
+Brief Intake, Candidate Set, Plan Workbench); two are listed as forthcoming rather
+than hidden (Drawing Set, Details & Export).
 
 ## Run it
 
