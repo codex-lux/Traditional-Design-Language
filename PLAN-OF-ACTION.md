@@ -396,7 +396,19 @@ The Georgian binding in `styles/georgian-colonial-american.json` is the template
 
 ### WP-4.4 Images from HABS
 
-**Status: NOT STARTED** — all 322 asset records still `wanted`, none sourced.
+**Status: BLOCKED BY THE ENVIRONMENT, 24 Aug 2026 — the harvester is written and queued.** All 322 asset records are still `wanted` and none can be sourced from here: this container's network policy denies the Library of Congress at the proxy.
+
+```
+curl https://www.loc.gov/pictures/collection/hh/?fo=json
+curl: (56) CONNECT tunnel failed, response 403
+gateway answered 403 to CONNECT (policy denial or upstream failure)  host www.loc.gov:443
+```
+
+`archive.org` is denied identically, so neither the HABS collection nor a scan mirror is reachable. **What would unblock it:** an environment whose network policy permits `www.loc.gov` (and `tile.loc.gov` for the image derivatives, if files are ever to be carried rather than cited).
+
+`build/harvest_habs.py` is committed against that day. It searches the loc.gov HABS collection for the building each record names, and writes back the provenance a `sourced` record needs. **It has never been run against the live API** and says so in its own docstring — the request shape is written from the API's documented behaviour and every field is parsed defensively. `--dry-run` is the DEFAULT and prints the URLs it would request without touching the network or the corpus; `--write` refuses without `--live`.
+
+Two things it will not do, both deliberate. It never sets `status: approved`, because the asset schema defines that as a human having looked at the image. And it refuses to `--write` while any selected record would be searched on its style name alone — **found by running the dry run**, which showed the first four records all producing `?q=english+georgian` because none carries a `provenance.building`. Sourcing those automatically would give one photograph cited by many records, which is worse than none. **Giving the 322 records their building names is real work that does not need the network, and is the right next step on this package.**
 
 **Depends on:** nothing (can run any time). **Size:** medium, repetitive.
 
