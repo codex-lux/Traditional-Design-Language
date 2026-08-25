@@ -3043,7 +3043,11 @@ def test_the_cascade_delivers_packs_nobody_bound_and_it_is_raised_not_papered_ov
     assert all((next(pb for pb in g["nodes"][a]["proportion_packs"]
                      if pb["pack"] == "facade-peristyle").get("slots") is None) for a in binders)
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
-    assert "51. **OPEN" in oq
+    # Re-pinned 25 Aug 2026: OQ 51 was ruled that day, so "still OPEN" is no longer the right guard.
+    # What must not regress is that the entry is still there and still says the MECHANISM is
+    # unchanged -- a ruling is not a fix, and the cascade delivers exactly what it delivered before.
+    assert "51. **RULED" in oq
+    assert "adjudicate first" in oq
 
 
 # --- OQ 48: quantity, and the ratchet ----------------------------------------------------------
@@ -3194,18 +3198,32 @@ def test_oq_50_states_what_it_does_not_claim():
     assert "reading disposed of 14 of them" in oq
 
 
-def test_claude_md_no_longer_describes_five_closed_questions_as_open():
-    """It did, for a day. OQ 32, 40, 41, 42 and 43 were ruled or closed on 24 Aug and the summary
-    went on listing three of them as needing a ruling. `check_counts.py` polices NUMBERS in prose
-    and has no view on claims about rulings, so this is the guard for that class."""
+def test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal():
+    """CLAUDE.md described five closed questions as open for a day: OQ 32, 40, 41, 42 and 43 were
+    ruled or closed on 24 Aug and the summary went on listing three of them as needing a ruling.
+    `check_counts.py` polices NUMBERS in prose and has no view on claims about rulings, so this is
+    the guard for that class -- both the list and the count in front of it."""
     import re
     md = open(os.path.join(ROOT, "CLAUDE.md")).read()
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
-    live = set(re.findall(r"^(\d+)\. \*\*(?:OPEN|STILL OPEN|PARTLY|RULED)", oq, re.M))
+    # DERIVED, not hardcoded. The first version of this test computed the true set from the file
+    # and then asserted against a literal list anyway, so it went red on the next ruling rather
+    # than on the next piece of drift -- which is the opposite of what it is for. An entry counts
+    # as open unless its status word says somebody settled it.
+    # An entry is OPEN only if its status word says so. Everything else in the vocabulary --
+    # CLOSED, RESOLVED, RULED, FIXED, CONFIRMED, ANSWERED, LEFT AS A STANDING DISCLOSURE -- is
+    # somebody having decided. HALF CLOSED and IN PROGRESS count as open because half of one is
+    # still waiting on a person. Deriving it this way is what caught OQ 16: it had said IN
+    # PROGRESS for two days after the code it was waiting for shipped.
+    OPEN_WORDS = ("OPEN", "STILL OPEN", "HALF CLOSED", "PARTLY", "IN PROGRESS")
+    live = {n for n, st in re.findall(r"^(\d+)\. \*\*([A-Z ]+)", oq, re.M)
+            if st.strip().startswith(OPEN_WORDS)}
     claimed = set(re.findall(r"of which \d+ are open\*\*\s*\n?\s*\(([\d, ]+)\)", md))
     assert claimed, md[md.index("Open questions are live"):][:300]
     listed = {x.strip() for x in list(claimed)[0].split(",") if x.strip()}
-    assert listed == {"7", "8", "9", "10", "11", "18", "51"}, listed
+    assert listed == live, f"CLAUDE.md says {sorted(listed)}, the file says {sorted(live)}"
+    n_claimed = int(re.search(r"of which (\d+) are open", md).group(1))
+    assert n_claimed == len(live), f"CLAUDE.md counts {n_claimed}, the file has {len(live)}"
     # and the ones it used to mis-describe are gone from the open list
     for n in ("32", "40", "41", "42", "43"):
         assert n not in listed
@@ -3221,16 +3239,30 @@ def _inheritance():
                          capture_output=True, text=True, cwd=ROOT).stdout
     g = int(re.search(r"role_gaps\s+(\d+)", out).group(1))
     p = int(re.search(r"inherited_packs\s+(\d+)", out).group(1))
-    return g, p
+    u = int(re.search(r"unendorsed\s+(\d+)", out).group(1))
+    return g, p, u
 
 
 def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
-    """OQ 51's two numbers. `role_gaps` is (node, role) pairs where an ancestor fills a role the
-    node never bound; `inherited_packs` is packs arriving purely by descent. Neither fails the
-    build -- this is a measured backlog, not a regression -- and the pin is what protects it.
-    They should go DOWN as nodes are authored; a rise means the cascade papered over something new."""
-    gaps, packs = _inheritance()
-    assert (gaps, packs) == (294, 3367)
+    """OQ 51's three numbers. `role_gaps` is (node, role) pairs where an ancestor fills a role the
+    node never bound; `inherited_packs` is packs arriving purely by descent; `unendorsed` is the
+    subset of gaps no pack's own applies_to vouches for. None fails the build -- this is a measured
+    backlog, not a regression -- and the pin is what protects it. All three should go DOWN as the
+    corpus is worked; a rise means the cascade papered over something new."""
+    gaps, packs, unendorsed = _inheritance()
+    assert (gaps, packs, unendorsed) == (294, 3367, 233)
+
+
+def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault():
+    """OQ 51 was ruled adjudicate-first: work the unendorsed gaps, adding a node to the inherited
+    pack's `applies_to` where the pack is right and binding or scoping where it is wrong, then flip
+    inheritance to opt-in once unendorsed approaches zero. That only works if the two halves are
+    told apart -- a gap the pack author vouched for is the cascade delivering what was INTENDED,
+    and counting it as a fault would make the meter unreadable and the work list wrong."""
+    gaps, _, unendorsed = _inheritance()
+    endorsed = gaps - unendorsed
+    assert endorsed == 61, "61 of the 294 gaps are endorsed by the pack's own applies_to"
+    assert unendorsed < gaps, "if every gap were unendorsed the split would be measuring nothing"
 
 
 def test_the_diagnostic_names_the_ancestor_because_that_is_the_actionable_part():

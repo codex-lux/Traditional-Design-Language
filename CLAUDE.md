@@ -37,7 +37,7 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 
 ```
 python3 -m pip install -r requirements.txt   # ortools, jsonschema, pytest
-python3 build/check_all.py     # 23 checks incl. the full pytest suite. ~7 min. Must be green.
+python3 build/check_all.py     # 25 checks incl. the full pytest suite. ~8 min. Must be green.
 ```
 
 The data and every checker run on the standard library alone, deliberately — `requirements.txt`
@@ -49,7 +49,8 @@ Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_cons
 `build/check_pack_bindings.py --strict`, `build/check_rooms.py`, `build/check_partis.py`,
 `build/check_faults.py`, `build/check_addresses.py` compares what two co-binding packs MEAN at one address, using each rule's
 `quantity` (OQ 48, closed at 0 collisions -- run it after adding any rule). `build/check_inheritance.py`
-reports what the cascade delivers that nobody bound (OQ 51; `--roles`, `--slots <node>`).
+reports what the cascade delivers that nobody bound (OQ 51; `--roles`, `--slots <node>`, and
+`--unendorsed` for the ruled work list in leverage order).
 `build/check_counts.py` (fails the build when a number in this
 file, in `STATE-OF-THE-PROJECT.md`, in `README.md` or in `docs/` disagrees with the data -- run it
 with `--fix` to rewrite them), `build/proportion_engine.py selftest`. **When authoring or binding a pack, run
@@ -71,7 +72,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 715 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **25 checks, 748 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
@@ -85,12 +86,12 @@ to 132 of 132 by binding `egyptian-revival` to the two `facade-peristyle` rules 
 excluding the six that do not. **Closing 49 opened OQ 51, which is larger than either**: the lineage
 cascade delivers proportion packs nobody bound, and `ranch-style` has 68 of its 78 dimensioned slots
 governed by packs it never bound -- `opening-pointed`, a Gothic arch pack, governing 15 of them.
-**OQ 48 is PARTLY CLOSED**: rules now carry a `quantity` naming what they measure, all 74
-colliding addresses were read and 483 of 490 rules annotated, and `build/check_addresses.py`
-compares meanings. It found **139** real corruptions against the ~20 a 5% rate predicted -- fixing
-them is a migration and is NOT done; the count is pinned so it cannot grow. And one
-finding nobody has raised as a question yet: five unrelated traditions say ornament works by being BOUNDED, and it wants testing
-against the whole style graph. All four are in that report's closing section.
+**OQ 48 is CLOSED**: rules now carry a `quantity` naming what they measure, `build/check_addresses.py`
+compares meanings between co-binding packs, and the 139 real corruptions it found were renamed --
+minimally, so that at each conflicted address the dominant quantity keeps the dimension and only
+the 74 minority rules move. It reports **0** collisions and 14 could-not-judge. **OQ 50 is CLOSED**
+at the principle: ornament is rationed and not distributed, stated once in `docs/model.md`; a fault
+would need the elevation layer to model ornament zones first, and it does not.
 
 **WP-4.6 is COMPLETE** — twenty-one packs, and **every item of WP-4.1's list that this corpus can
 support is built** (`moorish-arch`, `greek-doric`, `adobe-module`, `opening-pointed`,
@@ -130,6 +131,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   donor's whole kit (OQ 36 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
   is **OQ 51** and is the one with 3,367 instances. Read it before trusting "132 of 132 bound".
+  OQ 51 is now RULED -- adjudicate the 233 unjudged gaps first, flip inheritance to opt-in after --
+  so this trap is a work list rather than an unanswered question. It is still live until that list
+  is worked; nothing about the mechanism has changed yet.
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
@@ -172,8 +176,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   quoted `results[0]`, printing a PASSING measurement as the evidence for a failure. When a
   generator did not model something, the measurement must be **absent**, not zero.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **51 entries, of which 7 are open**
-  (7, 8, 9, 10, 11, 18, 51). OQ 48 and 50 closed on 25 Aug. OQ 32, 40, 41, 42 and 43 were all
+  trusting any list of them. `docs/open-questions.md` holds **51 entries, of which 6 are open**
+  (7, 8, 9, 10, 11, 18) -- and every one of the six is environment-blocked, not awaiting judgment.
+  OQ 48, 50 and 51 closed on 25 Aug, and so did **OQ 16**, which had said IN PROGRESS for two days
+  after the code it was waiting for shipped: `resolve_kit.py` honours `rule_append` with
+  provenance, on both live instances. The list is now DERIVED from the file by a test rather than
+  asserted against a literal, which is how that rot was found. OQ 32, 40, 41, 42 and 43 were all
   ruled or closed on 24 Aug and this file went on describing them as open; the authority is the
   file, not this summary, and `python3 build/check_counts.py` does not police prose about rulings.
   - **Environment-blocked, not unstarted: OQ 7, 8, 9, 10, 11**, and the source half of **OQ 18**.
@@ -189,13 +197,25 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     `italian-renaissance` as the one control case. Ruled 25 Aug to stop at the principle
     (`docs/model.md`); a fault would need the elevation layer to model ornament ZONES, which it
     does not.
-  - **OQ 51** — the lineage cascade delivers packs nobody bound. **The largest thing open**, and
-    now measured and ratcheted rather than fixed: `build/check_inheritance.py` reports it and pins
-    **294 role_gaps** and **3,367 inherited_packs**, which should only ever go down. 127 of 132
-    nodes receive a pack purely by descent; `ranch-style` has 68 of its 78 dimensioned slots
-    governed by packs it never bound (`--slots ranch-style` names each one and the ancestor that
-    decided it). Read it before trusting "132 of 132". The three real fixes are all packages and
-    the entry costs each.
+  - **OQ 51 (RULED 25 Aug, and the largest thing outstanding — this is the next work)** — the
+    lineage cascade delivers packs nobody bound. **Ruling: adjudicate first, flip second.** Work the
+    gaps nobody has judged, in leverage order; where the inherited pack is right for the node, add
+    the node to that pack's `applies_to` — that IS the adjudication, and it moves the gap from
+    unendorsed to endorsed; where it is wrong, bind the right pack or scope the edge. When
+    `unendorsed` approaches zero, add `inherits_packs` and make inheritance opt-in, at which point
+    it is a safety net rather than a cliff that strands 294 gaps in one commit. Doing it the other
+    way round was costed and refused: opt-in now is a morning of mechanism and a corpus-wide
+    stranding.
+    **The meter.** `build/check_inheritance.py` pins three numbers that may only go down: **294
+    role_gaps**, **3,367 inherited_packs**, **233 unendorsed**. The split matters — a gap whose
+    pack `applies_to` already names the node is the cascade delivering what an author INTENDED, and
+    counting those 61 as faults would make the work list wrong. `--unendorsed` prints the list by
+    pack, because adjudicating one pack settles every node under it: `storey-graduation` 38,
+    `opening-proportion` 23, `trim-classical` 16, `chambers-ionic` 15 (on `carpenter-gothic` and
+    both Gothic Revivals), `facade-gable` 14, `sash-light` 12, `brick-course` 11.
+    **The accepted risk, stated because it is real:** wrong dimensions keep arriving while the
+    backlog is worked. `--slots ranch-style` shows 68 of 78 dimensioned slots governed by packs it
+    never bound. That is tolerable only because it is counted.
 
 ## Conventions
 

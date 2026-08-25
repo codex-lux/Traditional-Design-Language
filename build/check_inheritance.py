@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Report what the lineage cascade delivers that nobody bound — OQ 51.
 
-    python3 build/check_inheritance.py              # the two ratchet numbers
+    python3 build/check_inheritance.py              # the three ratchet numbers
     python3 build/check_inheritance.py --roles      # per node, roles filled only by an ancestor
     python3 build/check_inheritance.py --slots ID   # per slot, who governs it and from where
-    python3 build/check_inheritance.py --strict     # exit nonzero if either ratchet has grown
+    python3 build/check_inheritance.py --unendorsed # the work list, in leverage order (OQ 51's ruling)
+    python3 build/check_inheritance.py --strict     # exit nonzero if any ratchet has grown
 
 WHAT THIS IS ABOUT. `proportion_packs` being empty on a node means the NODE'S OWN array is empty.
 `build/resolve_kit.py::resolve_packs` walks the whole `_cascade` and takes the nearest binder of
@@ -15,20 +16,35 @@ The finding that produced this checker: `egyptian-revival` was the corpus's one 
 unbound node, held out because nothing fitted its trabeated order — while `facade-peristyle` was
 reaching it from five ancestors, unscoped, carrying an entasis rule its own c04 forbids.
 
-TWO NUMBERS, AND THE SECOND IS THE ONE THAT MATTERS. `role_gaps` counts (node, role) pairs where a
-node has no binding of its own in that role — inheritance is filling it, and nobody chose that.
-`foreign_slots` counts slots whose governing rule comes from a pack the node never bound, summed
-over the corpus, which is the number that says how much of a house is being dimensioned by
-somebody else's decision.
+THREE NUMBERS, AND THE THIRD IS THE WORK LIST. `role_gaps` counts (node, role) pairs where a node
+has no binding of its own in that role — inheritance is filling it. `inherited_packs` counts pack
+arrivals purely by descent, which is the scale of the mechanism rather than a fault count. But a
+gap is not automatically wrong: if the inherited pack's own `applies_to` names the node, somebody
+DID judge that this pack belongs there, and the cascade merely delivered what an author intended.
+So `unendorsed` splits the gaps into the ones a pack author vouched for and the ones nobody has
+ever judged. That third number is the backlog OQ 51's ruling says to work.
 
-Neither fails the build by default. This is a measured, documented backlog, not a regression, and
-the thing that protects the corpus is that the numbers are pinned in tests/test_wp46_packs.py and
-cannot grow without a test going red.
+Adding a node to a pack's `applies_to` is therefore not bookkeeping — it is the adjudication, and
+it moves a gap from unendorsed to endorsed. `unendorsed` should fall as the corpus is worked;
+when it approaches zero, opt-in pack inheritance becomes a safety net rather than a cliff.
+
+None of the three fails the build by default. This is a measured, documented backlog, not a
+regression, and what protects the corpus is that the numbers are pinned in
+tests/test_wp46_packs.py and cannot grow without a test going red.
 """
-import argparse, collections, json, os, sys
+import argparse, collections, glob, json, os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "room")
+
+
+def applies_to_index():
+    """pack id -> the set of nodes its own applies_to vouches for."""
+    out = {}
+    for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+        d = json.load(open(f))
+        out[d["id"]] = set(d.get("applies_to") or ())
+    return out
 
 
 def load():
@@ -69,9 +85,13 @@ def main():
     ap.add_argument("--roles", action="store_true")
     ap.add_argument("--slots", metavar="NODE")
     ap.add_argument("--strict", action="store_true")
+    ap.add_argument("--unendorsed", action="store_true",
+                    help="list the gaps no pack author has vouched for — OQ 51's work list")
     a = ap.parse_args()
     g = load()
     build, gaps, inherited = measure(g)
+    applies = applies_to_index()
+    unendorsed = [t for t in gaps if t[0] not in applies.get(t[3], ())]
 
     if a.slots:
         sys.path.insert(0, os.path.join(ROOT, "build"))
@@ -93,6 +113,16 @@ def main():
             print(f"   {sid:28s} <- {pid:22s} bound on {src}")
         return
 
+    if a.unendorsed:
+        by_pack = collections.Counter(pid for _, _, _, pid in unendorsed)
+        print(f"{len(unendorsed)} of {len(gaps)} role gaps are endorsed by nobody.")
+        print("Leverage order — adjudicating one pack settles every node under it:\n")
+        for pid, c in by_pack.most_common():
+            # de-duplicated: one node can reach the same pack in two roles and is one judgment, not two
+            nodes = sorted({n for n, _, _, p in unendorsed if p == pid})
+            print(f"  {pid:24s} {c:3d}  {', '.join(nodes[:6])}{' …' if len(nodes) > 6 else ''}")
+        return
+
     if a.roles:
         by_node = collections.defaultdict(list)
         for nid, role, anc, pid in gaps:
@@ -108,8 +138,14 @@ def main():
     for r, c in by_role.most_common():
         print(f"      {r:10s} {c:3d}")
     print(f"  inherited_packs {len(inherited):4d}  (node, pack) arrivals purely by descent")
-    print("\nOQ 51. Neither number fails the build; both are pinned in tests/test_wp46_packs.py.")
-    if a.strict and (len(gaps), len(inherited)) > (329, 3367):
+    print(f"  unendorsed      {len(unendorsed):4d}  of those role gaps, the ones no pack's applies_to vouches for")
+    print(f"      endorsed    {len(gaps) - len(unendorsed):3d}  an author DID judge these; the cascade delivered what was intended")
+    print("\nOQ 51 is RULED: adjudicate the unendorsed first, flip pack inheritance to opt-in after.")
+    print("`--unendorsed` prints the work list in leverage order. All three numbers are pinned in")
+    print("tests/test_wp46_packs.py and none of them fails the build.")
+    # Compared one at a time, deliberately. A tuple comparison here is lexicographic: it would let
+    # inherited_packs double unnoticed as long as role_gaps had fallen by one. Each is its own ratchet.
+    if a.strict and (len(gaps) > 294 or len(inherited) > 3367 or len(unendorsed) > 233):
         sys.exit(1)
 
 

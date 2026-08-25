@@ -13,7 +13,7 @@ built; the items it cannot support are named in the report with a reason apiece 
 silent. **Ontology 0.7.0, 97 slots** (was 0.6.0/96, was 0.5.0/95): `arch` joined at 0.6.0 and
 `expressed_frame` at 0.7.0. **132 of 132 buildable nodes bound** — `DELIBERATELY_UNBOUND` is empty
 for the first time — **but read OQ 51 before trusting that number.** 57 packs, 262 pack conflicts,
-751 derived rules, **25 checks and 747 tests across 27 files** (was 22 and 419 across 22).
+751 derived rules, **25 checks and 748 tests across 27 files** (was 22 and 419 across 22).
 **51 open questions, 7 of them open**, and five of those seven are blocked on a network this
 container does not have rather than on anyone's judgment.*
 
@@ -24,8 +24,10 @@ parameters as mis-tagged placeholders when 55 carry a `range` and 2 a `set`. A r
 reading disposes; verify a sample before accepting any number in this document. The second:
 **"132 of 132 bound" counts a node's OWN bindings and has never measured what a node RECEIVES.**
 The lineage cascade hands every node its ancestors' packs, and `ranch-style` has 68 of its 78
-dimensioned slots governed by packs it never bound. That is OQ 51, it is the largest thing open,
-and it is measured and ratcheted rather than fixed.*
+dimensioned slots governed by packs it never bound. That is OQ 51. It was **ruled on 25 August —
+adjudicate the 233 unjudged gaps first, flip pack inheritance to opt-in once they approach zero** —
+and it is measured and ratcheted rather than fixed. The ruling makes it the next package, not a
+question. Every open question that remains is blocked on the network, not on a judgment.*
 
 ---
 
@@ -85,7 +87,7 @@ The following layers run clean, are schema-checked, and do what their documentat
 
 **Proportion packs bound to the vocabulary — 132 of 132 buildable nodes**, and `DELIBERATELY_UNBOUND` is empty for the first time (was 5 at the last review, 129 after WP-4.1, 131 after WP-4.6). WP-4.1 held out three nodes where no pack honestly fitted; `moorish-arch` took two of them, and OQ 49's **scoped binding** took the last. `egyptian-revival` is now bound to `facade-peristyle` **scoped to the two `column` rules that fit** — a distyle-in-antis front count and an intercolumniation band its own 1.5–2.5 sits inside — and excluded from the six that do not, including an entasis its own c04 forbids in so many words. That distinction is the whole reason the binding is defensible rather than a way of reaching 132.
 
-**BUT READ OQ 51 BEFORE USING THIS NUMBER.** It counts a node's OWN `proportion_packs` array. `resolve_kit.resolve_packs` walks the entire `_cascade`, so a node also receives every pack its ancestors bound, judged for the ancestor and never for it. Measured: **294 (node, role) pairs** where an ancestor fills a role the node never bound, of which **233 involve a pack whose own `applies_to` does not name that node**; and **3,367** pack-arrivals purely by descent. `shotgun-house` takes its facade from `facade-peristyle` bound on `roman-classical`; `ranch-style` has 68 of 78 dimensioned slots governed by packs it never bound. `build/check_inheritance.py` reports it, names the ancestor that decided each one, and pins both numbers.
+**BUT READ OQ 51 BEFORE USING THIS NUMBER.** It counts a node's OWN `proportion_packs` array. `resolve_kit.resolve_packs` walks the entire `_cascade`, so a node also receives every pack its ancestors bound, judged for the ancestor and never for it. Measured: **294 (node, role) pairs** where an ancestor fills a role the node never bound, of which **233 involve a pack whose own `applies_to` does not name that node**; and **3,367** pack-arrivals purely by descent. `shotgun-house` takes its facade from `facade-peristyle` bound on `roman-classical`; `ranch-style` has 68 of 78 dimensioned slots governed by packs it never bound. `build/check_inheritance.py` reports it, names the ancestor that decided each one, and pins all three numbers. **RULED 25 Aug: adjudicate the 233 first, flip to opt-in inheritance after** — see Part III and Part V.
 
 **The kit mechanism, and now the kits themselves — 159 of 159 populated** (was 3 of 132). WP-4.2 built the missing half of the mechanism first: family nodes had no kit files at all and carry no lineage edges, so a family could never appear in any cascade, and the plan's own instruction to "extend against the family" had nothing behind it. `build/build.py` now generates a kit for every family node and splices a style's own family into the chain via `member_of`, additively, without reordering any real lineage ancestor. Then all 129 remaining style/variant kits were filled in two sub-waves. Corpus-wide: 1,556 `specified`, 330 `extends`, 223 `forbidden` bindings. A variant now resolves through a chain in which every ancestor carries real content — `appalachian-log-house` reaches 34 populated levels.
 
@@ -111,7 +113,7 @@ The following layers run clean, are schema-checked, and do what their documentat
 
 **The reference corpus (WP-2.1).** 14 of the Plan Examples transcribed into schema-valid plan records — 7 good, 7 bad — and scored. This was the experiment that tested whether the validator agrees with Lucas's eye.
 
-**A real regression suite.** **747 tests across 27 files**, each named for the finding it protects (was 304 across 16, 291 across 14). `make check` runs **25 checkers** then the suite, in one run of about eight minutes. Three of the checkers are newer than the last review and each exists because a class of silent corruption was found: `check_counts.py` fails the build when a number in the prose disagrees with the data; `check_addresses.py` compares what two co-binding packs MEAN at one address; `check_inheritance.py` reports what the lineage cascade delivers that nobody bound.
+**A real regression suite.** **748 tests across 27 files**, each named for the finding it protects (was 304 across 16, 291 across 14). `make check` runs **25 checkers** then the suite, in one run of about eight minutes. Three of the checkers are newer than the last review and each exists because a class of silent corruption was found: `check_counts.py` fails the build when a number in the prose disagrees with the data; `check_addresses.py` compares what two co-binding packs MEAN at one address; `check_inheritance.py` reports what the lineage cascade delivers that nobody bound.
 
 **The MCP server.** 24 tools registered, imports cleanly, `core.py` callable directly.
 
@@ -123,7 +125,8 @@ Taken together: **Phases 0, 1, 2 and 3 are complete, and Phase 4 is complete thr
 
 ## Part III — What is begun but needs to be fleshed out
 
-**THE LARGEST OPEN ITEM: the lineage cascade delivers proportion packs nobody bound (OQ 51).**
+**THE LARGEST OUTSTANDING ITEM, NOW RULED AND THEREFORE THE NEXT PACKAGE: the lineage cascade
+delivers proportion packs nobody bound (OQ 51).**
 Found on 25 August while closing OQ 49, and the way it was found is the point. `egyptian-revival`
 was the corpus's one deliberately unbound node, held out under a note saying nothing in the library
 fitted its trabeated order — and `facade-peristyle` was already reaching it from **five ancestors**,
@@ -143,8 +146,22 @@ It is the third place inheritance has been found transmitting more than anyone b
 `hybridizes_with` transmitted a donor's whole kit (OQ 36 scoped it); a BINDING transmitted a pack's
 whole rule set (OQ 49 scoped it); `descends_from` still transmits an ancestor's whole set of packs,
 and it is the one with 3,367 instances. `build/check_inheritance.py --roles` and `--slots <node>`
-report it and name the ancestor that decided each case; both numbers are pinned so the backlog
-cannot grow silently. **The fix is a ruling away and all four options are costed in the entry.**
+report it and name the ancestor that decided each case; all three numbers are pinned so the backlog
+cannot grow silently.
+
+**RULED 25 August: adjudicate first, flip second.** Of the four costed options, opt-in inheritance
+(`inherits_packs`, mirroring what `inherits_kit` already does for the kit cascade) is the
+destination, and going there first was refused: the mechanism is a morning and the fallout is 294
+role gaps stranded in a single commit. So the sequence is the other way round. Work the **233**
+unendorsed gaps in leverage order; where the inherited pack is right for the node, add the node to
+that pack's `applies_to` — that is the adjudication, and it moves the gap from unendorsed to
+endorsed; where it is wrong, bind the right pack on the node or scope the edge. When `unendorsed`
+approaches zero, flip to opt-in, by which point it is a safety net rather than a cliff.
+`check_inheritance.py --unendorsed` prints the work list grouped by pack, because adjudicating one
+pack settles every node under it: `storey-graduation` **38**, `opening-proportion` **23**,
+`trim-classical` **16**, `chambers-ionic` **15** (on `carpenter-gothic` and both Gothic Revivals),
+`facade-gable` **14**, `sash-light` **12**, `brick-course` **11**. The accepted cost is that wrong
+dimensions keep arriving while the list is worked — tolerable only because they are counted.
 
 **The address collision, closed but worth knowing about (OQ 48).** A `(slot, dimension)` address
 could hold two packs measuring different quantities — `window_head_masonry/height` held six, at
@@ -210,11 +227,11 @@ So the sequence: ~~fix **OQ 28**~~ (done); ~~close **WP-4.3**~~ (done); ~~build 
 
 **What a new session should pick up, in order.**
 
-1. **Rule OQ 51, then work its backlog.** It is the only open question that needs a judgment rather than a library, and it is the one that decides whether the compiler's output can be trusted. The entry costs four options. The authoring work — adjudicating the **233** role gaps whose pack never named the node — is required under three of the four, so it can begin before the mechanism is chosen; where the inherited pack is right, adding the node to that pack's `applies_to` makes the endorsement explicit and checkable.
+1. **Work OQ 51's backlog — it is ruled, so this is authoring rather than deliberation.** The ruling of 25 August is *adjudicate first, flip second*: work the **233** role gaps whose pack's own `applies_to` does not name the node; where the inherited pack is right for that node, add the node to the pack's `applies_to`, which is the adjudication and moves the gap from unendorsed to endorsed; where it is wrong, bind the right pack on the node or scope the edge. When `unendorsed` approaches zero, add `inherits_packs` and make pack inheritance opt-in — at which point it is a safety net rather than a cliff that strands 294 gaps at once. `python3 build/check_inheritance.py --unendorsed` prints the work list grouped by pack, because adjudicating one pack settles every node under it: `storey-graduation` **38**, `opening-proportion` **23**, `trim-classical` **16**, `chambers-ionic` **15** (on `carpenter-gothic` and both Gothic Revivals), `facade-gable` **14**, `sash-light` **12**, `brick-course` **11**. The accepted risk, stated rather than buried: wrong dimensions keep arriving while the backlog is worked, and that is tolerable only because all three numbers are pinned and cannot grow silently.
 2. **WP-4.4's offline half.** Giving the 322 asset records their `provenance.building` names needs no network and is the step the package itself names as next; without it every harvest query degrades to a style-name search and one photograph ends up cited by many records.
 3. **Phase 5, the last mile.** Export (DXF/IFC), the plan workbench, generated guidelines and details, drawing ingestion. This is what a builder or a plan-development lead would actually judge the system by, and none of it exists.
 
-**Blocked on the environment, not on judgment:** OQ 7, 8, 9, 10 and 11 (order figures needing legible facsimiles), OQ 18's source half (162 editorial parameters — the note half is done and none is silent any more), and WP-4.4's harvest. `loc.gov`, `archive.org` and `hathitrust` all fail to connect from this container. **None of them may be closed from a secondary source or a modern redrawing**, which is how a guess gets laundered as `measured`.
+**Blocked on the environment, not on judgment — and after OQ 51's ruling this is now ALL of them:** OQ 7, 8, 9, 10 and 11 (order figures needing legible facsimiles), OQ 18's source half (162 editorial parameters — the note half is done and none is silent any more), and WP-4.4's harvest. `loc.gov`, `archive.org` and `hathitrust` all fail to connect from this container. **None of them may be closed from a secondary source or a modern redrawing**, which is how a guess gets laundered as `measured`.
 
 That order keeps faith with the project's own founding discipline — validator before composer, spine before breadth, the drawing as a render of the data — and it means that at each step the system produces something more *like a house* rather than merely more data about houses. The aim was never a taxonomy. It was a language fluent enough that a production builder could speak it, and a house built in it would feel, to the people who live there, like it belongs. The grammar for that is written, and now it is bound to its vocabulary. The work now is breadth: the compiler proves what it composes, and the next thing it needs is more sentences it knows how to say.
 
@@ -234,7 +251,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Vocabulary | `styles/` | 164 nodes, 660 constraints | Complete; constraints executable |
 | Vocabulary | constraints | 660 migrated, 61.5% of hard ones tested | Clears the ≥60% bar |
 | Bindings | `kits/` | 159 files, 159 populated, **1,556 parameters** | Complete; **0 editorial parameters are silent** (OQ 18 note half) |
-| Bindings | inheritance | **294 role gaps, 3,367 packs by descent** | **OQ 51 — measured and ratcheted, NOT fixed** |
+| Bindings | inheritance | **294 role gaps (61 endorsed, 233 not), 3,367 packs by descent** | **OQ 51 — RULED 25 Aug; measured and ratcheted, NOT fixed** |
 | Solecisms | `faults/` | 209, all tested | Complete |
 | Phrases | `groupings/`, `partis/` | 17 / 21 (129 of 132 native, 0 uncovered) | Complete — WP-4.5 |
 | Critic | `plan_check.py` | 7 layers incl. constraints + elevation | Functional; code advisory only |
@@ -247,9 +264,10 @@ That order keeps faith with the project's own founding discipline — validator 
 | Interface | `mcp_server/` | 24 tools | Functional |
 | Evidence | `assets/manifest.json` | **322 wanted, 0 sourced** | Records only — WP-4.4, environment-blocked |
 | Back-end | `construction/` | 2 catalogs | Complete — WP-3.1's data side |
-| Governance | `docs/open-questions.md` | **51 entries, 7 open** | 5 of the 7 are network-blocked; **OQ 51 is the one needing a ruling** |
+| Governance | `docs/open-questions.md` | **51 entries, 6 open** | **all six are network-blocked**; nothing now waits on a judgment |
+| Provenance | `rule_append` | honoured, with the contributing ancestor recorded | **OQ 16 closed 25 Aug** — the code had shipped; only the label was open |
 | Governance | `docs/reports/` | **22 package reports** | One per completed WP |
 | Checks | `build/*.py` | **25 checkers** | All pass; incl. `check_counts`, `check_addresses`, `check_inheritance` |
-| Checks | `tests/` | **747 tests, 27 files** | All pass; one run, ~8 min; no CI |
+| Checks | `tests/` | **748 tests, 27 files** | All pass; one run, ~8 min; no CI |
 
 *The four numbers a new session should not trust without re-reading them: **132 of 132 bound** (counts a node's own array, not what it receives — OQ 51); **0 silent editorial parameters** (the notes say no source is recorded, which is not the same as sourced — OQ 18); **61.5% of hard constraints tested** (unchanged since 24 Aug and not re-verified here); and **322 wanted, 0 sourced** (the harvester is written but has never run against a reachable host).*
