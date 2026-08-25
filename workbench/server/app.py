@@ -13,22 +13,49 @@ saying so. Only /api/* is gated: the static shell has to load in order to draw t
 password screen, and it carries no corpus data.
 """
 import os
+from contextlib import asynccontextmanager
 
 from fastapi import Body, FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import auth, corpus, evaluate, jobs, limits
+from . import auth, corpus, evaluate, jobs, limits, mcp_mount
 
 core = corpus.core
 
-app = FastAPI(title="TDL Workbench", docs_url=None, redoc_url=None, openapi_url=None)
+# Built BEFORE the FastAPI instance, because the session manager is created lazily inside
+# streamable_http_app() and the lifespan below has to be able to reach it.
+MCP_APP, MCP_STATE = mcp_mount.build()
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    """A mounted sub-application's own lifespan never runs, so the session manager has to
+    be started here or every /mcp call raises 'Task group is not initialized'."""
+    if MCP_APP is None:
+        yield
+        return
+    from mcp_server import server as tdl_mcp
+    async with tdl_mcp.mcp.session_manager.run():
+        yield
+
+
+app = FastAPI(title="TDL Workbench", docs_url=None, redoc_url=None, openapi_url=None,
+              lifespan=lifespan)
 
 
 @app.middleware("http")
 async def gate(request: Request, call_next):
     path = request.url.path
-    if path.startswith("/api/") and path not in auth.OPEN_PATHS:
+    # Starlette's Mount("/mcp") compiles to ^/mcp(?P<path>/.*)$ — it does not match a bare
+    # "/mcp", which would fall through to the SPA catch-all and answer 405 to a POST.
+    # Clients are handed ".../mcp" without a slash, so normalise here, before routing.
+    if path == "/mcp" and MCP_APP is not None:
+        request.scope["path"] = path = "/mcp/"
+    # /mcp is gated exactly like /api — auth.authorised already accepts a bearer token,
+    # which is what an agent client sends via `claude mcp add --header`.
+    gated = path.startswith("/api/") or path == "/mcp" or path.startswith("/mcp/")
+    if gated and path not in auth.OPEN_PATHS:
         if not auth.authorised(request):
             return JSONResponse(status_code=401,
                                 content={"detail": {"error": "a password is required",
@@ -72,7 +99,7 @@ def health():
     counts = core.overview()["counts"]
     return {"ok": schema_ok, "jsonschema": schema_ok, "counts": counts,
             "rail": bool(os.environ.get("ANTHROPIC_API_KEY")),
-            "auth": auth.state(), "limits": limits.state(),
+            "auth": auth.state(), "limits": limits.state(), "mcp": MCP_STATE,
             "note": None if schema_ok else
             "jsonschema is not installed — plan checks and compose will fail. "
             "pip install -r workbench/requirements.txt"}
@@ -343,6 +370,13 @@ async def rail_messages(request: Request):
 @app.post("/api/dev/reload")
 def dev_reload():
     return corpus.invalidate()
+
+
+# ----------------------------------------------------------------- MCP over HTTP
+# Mounted BEFORE the SPA catch-all below: Starlette matches routes in registration order,
+# and "/{path:path}" would otherwise swallow every request to /mcp.
+if MCP_APP is not None:
+    app.mount("/mcp", MCP_APP, name="mcp")
 
 
 # ----------------------------------------------------------------- static app

@@ -5,9 +5,14 @@
 ## Install
 
 ```bash
-pip install "mcp[cli]" jsonschema
+pip install "mcp>=2.1,<3" jsonschema
 claude mcp add tdl -- python3 /absolute/path/to/mcp_server/server.py
 ```
+
+**Pin the version.** SDK v2.0.0 renamed `FastMCP` to `MCPServer` and removed
+`mcp.server.fastmcp` outright, so an unpinned `pip install "mcp[cli]"` gets a release this
+server cannot import. The decorator API is unchanged — all 24 tools are exactly as they
+were — but the import is not.
 
 Or add to any MCP client's config:
 
@@ -17,6 +22,29 @@ Or add to any MCP client's config:
 ```
 
 No auth, no network. It reads the repository beside it.
+
+## Over HTTP, against a deployment
+
+The same 24 tools are served at `/mcp` by the workbench, from the same process and the
+same `core.py` — see `docs/deployment.md`. Nothing in this module knows which transport it
+is answering on.
+
+```bash
+claude mcp add --transport http tdl https://<your-host>/mcp \
+  --header "Authorization: Bearer $WORKBENCH_API_TOKEN"
+```
+
+Two differences from stdio, both deliberate:
+
+- **A bearer token is required.** The deployment gates `/mcp` exactly as it gates `/api`.
+- **Three tools are rate-limited.** `tdl_check_plan`, `tdl_compose` and `tdl_place_plan`
+  reach heavy `core` functions and share one compose worker, so a deployment caps them
+  (`MCP_HEAVY_CALLS_PER_HOUR`, default 60) and returns a refusal object naming the cap.
+  The other 21 are corpus lookups and are never capped — progressive disclosure, which
+  `tdl_overview` tells agents to use, must stay free. Over stdio nothing is capped at all.
+
+The deployment must also list its own hostname in `WORKBENCH_ALLOWED_HOSTS`, or the
+transport's DNS-rebinding protection answers `421 Misdirected Request` to everything.
 
 ## The tools
 

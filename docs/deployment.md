@@ -85,6 +85,27 @@ frontend change was needed to render any of it.
 `medium`, `WORKBENCH_EFFORT`) and `max_tokens` raised from 2000 to 8000. See the finding
 below — this is the one change in the package that its tests do not cover.
 
+**The MCP server, over HTTP, at `/mcp`** (`workbench/server/mcp_mount.py`). §IX's other
+audience now has an address. `mcp_server/server.py` is unchanged in what it does — the same
+24 tools over the same `core.py` — and does not know which transport it is answering on;
+stdio works exactly as before. Mounting rather than running a second service gives one
+process, one origin, one auth boundary, and one copy of the corpus in memory.
+
+Auth needed no new code: `auth.authorised()` already accepted a bearer token, so the gate's
+path match simply widened. Clients connect with
+`claude mcp add --transport http tdl https://<host>/mcp --header "Authorization: Bearer ..."`.
+
+Three tools are metered — `tdl_check_plan`, `tdl_compose`, `tdl_place_plan`, the only ones
+reaching heavy `core` functions and the single compose worker. The other 21 are corpus
+lookups and stay free, because capping them would throttle exactly the progressive
+disclosure `tdl_overview` instructs agents to perform. The limiter is *injected* into
+`mcp_server` (`set_limiter`, the same seam as `rail.set_client_factory`) rather than
+imported, so `mcp_server` keeps depending on nothing in `workbench/`, and stdio stays
+unmetered. Its honest limitation: the cap is a shared bucket, not per-caller — the MCP
+transport does not hand a tool function its request. That bounds total load on the worker
+actually at risk, which is the thing worth bounding, and it is not per-user however much
+the word "limit" might imply otherwise.
+
 **CI** (`.github/workflows/ci.yml`), where there was no `.github/` at all: the corpus suite,
 the workbench suite behind a real frontend build, the smoke script, and a `docker build`.
 `build/check_all.py` now runs the workbench tests too, and reports them **SKIP** when the
@@ -136,6 +157,31 @@ truncate through a tie group. The validator now ranks the whole tie, which is wh
 for. `tests/test_determinism.py` pins both halves. Worth stating plainly: this had nothing
 to do with deployment, and nothing but CI would have found it.
 
+**Four SDK behaviours that each ship a broken endpoint if missed.** Recorded because none
+is discoverable from a stack trace after the fact. (1) `session_manager` does not exist
+until `streamable_http_app()` has been called — it is created lazily — which fixes the
+order the app must be built in. (2) A mounted sub-application's lifespan never runs, so the
+*host* app has to enter `session_manager.run()`; without it every call raises "Task group
+is not initialized". (3) It may be entered only once per instance, which is why the tests'
+client fixture is module-scoped and why `build()` must not be called twice — a second call
+makes a second manager while the mounted app still holds the first. (4) DNS-rebinding
+protection is armed at localhost by default, so a real hostname answers `421 Misdirected
+Request` to everything until `WORKBENCH_ALLOWED_HOSTS` names it — and passing a
+non-localhost `host=` does *not* allowlist it, it merely disarms the protection and accepts
+every Host and Origin, so that argument is never used here.
+
+**Starlette's `Mount` does not match a bare prefix.** `Mount("/mcp")` compiles to
+`^/mcp(?P<path>/.*)$`, so a POST to `/mcp` — the URL clients are given — fell through to
+the SPA catch-all and answered `405 allow=GET`. The gate middleware normalises the path
+before routing.
+
+**The rail's tool loader was stubbing out the `mcp` package.** `workbench/server/tools.py`
+faked `mcp.server.fastmcp` in `sys.modules` so it could read the 24 tool functions without
+the SDK installed. With the SDK now a real dependency that stub was both unnecessary and
+harmful — a fake `mcp` left in `sys.modules` poisons the genuine package for everything
+importing it later in the same process. It now imports normally and keeps the stub only as
+a fallback for an SDK-less environment.
+
 **The compose job registry pins the service to one replica.** `jobs.py` holds `_JOBS = {}`
 in process memory with a 30-minute TTL, and its pool is `ThreadPoolExecutor(max_workers=1)`.
 Two consequences that are fine at this scale but must be known: a second replica cannot see
@@ -158,7 +204,11 @@ Everything below is done once, by hand, in the named service's own UI.
      print(secrets.token_urlsafe(32))"`). Without it sessions still work but are signed
      with a per-process key, so everyone is logged out on every restart.
    - `ANTHROPIC_API_KEY` — the dedicated key from step 1.
-   - `WORKBENCH_API_TOKEN` — optional; a bearer token for non-browser callers.
+   - `WORKBENCH_API_TOKEN` — the bearer token for non-browser callers. Required if you
+     want the `/mcp` endpoint reachable; agents authenticate with nothing else.
+   - `WORKBENCH_ALLOWED_HOSTS` — **required for `/mcp`**: the deployment's own hostname,
+     e.g. `tdl.up.railway.app`. Without it the MCP transport answers `421` to every
+     request. Comma-separate several. The workbench's own routes do not need it.
    - Optional tuning: `RAIL_TURNS_PER_HOUR`, `RAIL_TURNS_PER_DAY`, `RAIL_MAX_MESSAGES`,
      `RAIL_MAX_CHARS`, `RAIL_MAX_TOOL_ROUNDS`, `WORKBENCH_MODEL`, `WORKBENCH_EFFORT`.
    - **Do not set `PORT`** — Railway injects it, and `__main__` prefers it.
@@ -169,17 +219,16 @@ Everything below is done once, by hand, in the named service's own UI.
 7. **GitHub → Settings → Branches** — require the `corpus`, `workbench` and `image` checks
    on `main`.
 8. Send the URL and the password. A visitor needs nothing installed.
+9. For agents, hand out the token instead:
+   ```
+   claude mcp add --transport http tdl https://<host>/mcp \
+     --header "Authorization: Bearer $WORKBENCH_API_TOKEN"
+   ```
 
 Locally nothing has changed: `make workbench` still serves `http://127.0.0.1:8177` with no
 password, and prints a note saying the server is open when none is set.
 
 ## Deliberately not done
-
-**Remote MCP over HTTP.** `mcp_server/server.py` is still `mcp.run()` — stdio — so agents
-connect locally exactly as they did. This deployment serves the human half of §IX only. The
-next step is `transport="streamable-http"` plus the same bearer token `auth.py` already
-accepts, and it is a small change; it was left out because it is a second protocol facing
-the internet and deserves its own package rather than a corner of this one.
 
 **Regenerating `dist/*.html` in CI.** `check_all.py` runs `build.py` (which rebuilds
 `dist/taxonomy.json`) but not `render_html.py` or `render_orders.py`, so the committed

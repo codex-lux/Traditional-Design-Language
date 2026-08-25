@@ -31,6 +31,10 @@ at the repo root and the only things a container must set are `WORKBENCH_HOST=0.
 `ANTHROPIC_API_KEY` for the rail. `PORT` is read in preference to `WORKBENCH_PORT`, so a
 platform that injects it needs no configuration.
 
+The same process also serves the MCP server's 24 tools at `/mcp`, gated by the same bearer
+token — `mcp_server/README.md` has the client command. Set `WORKBENCH_ALLOWED_HOSTS` to the
+deployment's hostname or that endpoint answers `421` to everything.
+
 Two things not to get wrong: **replicas must stay at 1** (the compose job registry is in
 process memory — OQ 36), and the rail's caps are not a spend cap. The only ceiling in
 dollars is the budget on the key itself.
