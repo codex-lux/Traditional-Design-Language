@@ -228,28 +228,34 @@
       "precedence": 1
     },
     {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Judgment binding (not in applies_to). A somewhat better fit than at elizabethan: this style's own text records a shift toward 'a proliferation of smaller private rooms and closets' as the great chamber and gallery stop being the whole of social life, which tracks room-vernacular's ordinary-room band more closely than Elizabethan's state-room scale does. Still scoped away from the hall, gallery and great chamber, which remain governed by this style's own figured ratios.",
+      "precedence": 2
+    },
+    {
       "pack": "vignola-tuscan",
       "role": "optional",
       "authority": "vignola-tuscan",
       "note": "A cautious, low-precedence judgment binding, and the one order-pack binding in this entire British-traditions batch. jacobean sits at the genuine cusp: unlike elizabethan and tudor, this style's porch is real Renaissance ornament with real structural presence (c02: projects at least 1.2 m and carries a room above), not a flat applied frontispiece or an inset roundel, and its own text records real (if approximate) column proportions — 'porch column height 6 to 8 diameters.' Vignola's Tuscan, the plainest of the five canonical orders at seven diameters, is the nearest canonical reference point to that range and is the order this pack's own notes call 'the American default... whatever the pattern book calls them.' The binding is deliberately weak: distinguished_from english-baroque states outright that 'Jacobean orders are approximated from engravings, stacked, and applied to a porch' and are NOT proportioned to a module the way a correct order is, and the style's own figure (6-8D) sits at or below Vignola's canonical minimum, confirming the mismatch. Use this pack only as a rough comparative check on porch column scale — never as a governing derivation for the entablature, capital or pedestal, which should be drawn from the style's own approximate, Serlio-and-de-Vries-derived figures instead.",
-      "precedence": 4
-    },
-    {
-      "pack": "room-vernacular",
-      "role": "room",
-      "note": "Judgment binding (not in applies_to). A somewhat better fit than at elizabethan: this style's own text records a shift toward 'a proliferation of smaller private rooms and closets' as the great chamber and gallery stop being the whole of social life, which tracks room-vernacular's ordinary-room band more closely than Elizabethan's state-room scale does. Still scoped away from the hall, gallery and great chamber, which remain governed by this style's own figured ratios.",
       "precedence": 3
     },
     {
       "pack": "opening-mullioned",
       "role": "opening",
       "note": "The retreat, and the record frames it as one: glazing 'reduced from Elizabethan extremes to roughly 30-45 percent of the elevation'. Read the three glazing figures in this pack as a history rather than a range -- Elizabethan 45-60, Jacobean 30-45, and the revival choosing the Elizabethan end again at 35-55 because glass was cheap by 1910. This node also gives 'windows of two to five lights with one or two transoms', and its two-transom case is why the pack's transom rule has a ceiling at three quarters rather than stopping at two thirds.",
-      "precedence": 5
+      "precedence": 4
     },
     {
       "pack": "facade-gable",
       "role": "facade",
       "note": "The shaped gable, and the node that gives the pack its dating tell: 'Elizabethan gables are straight-sided and finialled; Jacobean gables CURVE'. Its 'concave and convex scrolls stepping up to a pediment' are the Netherlandish holbol arriving in England, and its gables are ranged SYMMETRICALLY along a front -- which is the opposite of what the picturesque traditions do with the same count, and is why the pack's hierarchy rule explicitly does not apply here. Gable width 3.5-5.5 m with the apex at 0.6-0.8 of the width.",
+      "precedence": 5
+    },
+    {
+      "pack": "facade-medieval-english",
+      "role": "facade",
+      "note": "The end of the tradition, and the node whose own record supplies the pack's second `window_grouping_rule` entry: 'the shaped gables establish a second, slower rhythm above the eaves line which may or may not align with the window bays -- where it does not, the mismatch is characteristic rather than a fault.' `styles/neoclassical-revival.json` uses almost the same words two centuries later and in another country. It also gives the porch column at 6-8 diameters -- not any order, because the orders here are 'used approximately and by rule of thumb from Serlio and de Vries plates', so a correctly proportioned order on a Jacobean porch is an anachronism. Behind `facade-gable`, which owns the shaped gable itself.",
       "precedence": 6
     }
   ]

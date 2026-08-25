@@ -60,39 +60,39 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 
 ## Where the work stands (25 Aug 2026)
 
-Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 not started.
+Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6. Phase 5 not started.
 
 164 nodes · 96 slots (ontology 0.6.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **56 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
-and 51 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
+style** · **57 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
+and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 702 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 715 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
 one that stays open on purpose: 162 kit parameters are editorial with neither a source nor a
 note, 156 of them on the Georgian kit, and closing it needs real sources rather than more code.
-WP-4.6's second tranche raised **no new open question** — the two things it found that are not
-done are missing packs, which are work rather than rulings, and they are in the candidate list
-in `docs/reports/wp-4.6-missing-proportion-packs.md`.
+WP-4.6 raised **OQ 47, 48 and 49**, all still open, and one finding nobody has raised as a
+question yet: five unrelated traditions say ornament works by being BOUNDED, and it wants testing
+against the whole style graph. All four are in that report's closing section.
+
+**WP-4.6 is COMPLETE** — twenty-one packs, and **every item of WP-4.1's list that this corpus can
+support is built** (`moorish-arch`, `greek-doric`, `adobe-module`, `opening-pointed`,
+`opening-craftsman`, `trim-prairie`, `dutch-gambrel`, `balcony-gallery`, `stone-course`,
+`facade-arcade`, `timber-panel`, `opening-mullioned`, `facade-gable`, `trim-sawn`,
+`octagon-geometry`, `facade-pavilion`, `jetty-overhang`, `facade-portada`, `facade-peristyle`,
+`corbel-course`, `facade-medieval-english`). The items it cannot support are named in
+`docs/reports/wp-4.6-missing-proportion-packs.md` with a reason apiece rather than left silent — the
+Baroque curved wall first among them, where not one of 22 matching nodes gives a figure for an
+undulating elevation. **Read that report's closing section before touching this layer**: it carries
+the four things the package leaves open, chief among them a finding nobody has raised as a question
+yet — five unrelated traditions all say ornament works by being BOUNDED, and it should be tested
+against the whole style graph rather than noticed one pack at a time.
 
 **Next, in order:**
-1. **WP-4.6** — missing proportion packs. **Twenty of thirty-odd done** (`moorish-arch`,
-   `greek-doric`, `adobe-module`, `opening-pointed`, `opening-craftsman`, `trim-prairie`,
-   `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade`, `timber-panel`,
-   `opening-mullioned`, `facade-gable`, `trim-sawn`, `octagon-geometry`, `facade-pavilion`, `jetty-overhang`, `facade-portada`, `facade-peristyle`, `corbel-course`),
-   chosen by measuring leverage rather than by list order; the measurement and what remains are in
-   `docs/reports/wp-4.6-missing-proportion-packs.md`. Several list items collapsed into each other
-   once measured, which is the tranches' recurring finding: the four-centred Tudor arch and the
-   leaded casement turned out to be one window (`opening-mullioned`), four ornament items turned
-   out to be one machine (`trim-sawn`), and the French travée facade and the mansard/dormer module
-   turned out to be one system (`facade-pavilion`). One item remains: a **medieval/pre-Palladian English facade system**. Items the report
-   now names as NOT SUPPORTABLE from this corpus, with the reason stated rather than left silent:
-   the Baroque curved/undulating wall (no figure in any of 22 matching nodes), strapwork and
-   linenfold, the Romanesque foliate capital, Prairie rectilinear art glass, Alpine carved timber.
-2. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
+1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
    www.loc.gov. `build/harvest_habs.py` is written, dry-run exercised and queued against the day
    the network opens; its own status block in `PLAN-OF-ACTION.md` carries the verbatim denial. The
    network-free next step there is giving the 322 asset records their `provenance.building` names,

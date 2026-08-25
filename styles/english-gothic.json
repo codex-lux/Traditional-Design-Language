@@ -222,16 +222,22 @@
       "precedence": 0
     },
     {
+      "pack": "facade-medieval-english",
+      "role": "facade",
+      "note": "The node with the pack's central sentence in it -- 'openings sit centred in their bay; the bay, not the facade, is the unit of composition' -- and with NO FACADE-ROLE PACK before this, which `opening-pointed` recorded when it raised the item: the Gothic facade half was real 'for exactly one node... which is the medieval building rather than a revival of it'. This is that node. It supplies the bay, the bay count, both pier ratios and their comparison, the lancet and Perpendicular window proportions, the diminishing buttress, and the great hall's cubical section. `opening-pointed` keeps the arch and this keeps everything the arch stands in.",
+      "precedence": 1
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "Judgment binding: english-gothic is not in room-vernacular's applies_to, and its governing space — the great hall, 7.5-9.0 m wide, wall-plate height at least equal to that width — is a different order of scale from the pack's 14 ft (4.3 m) ordinary-room module entirely. Bound narrowly and scoped to the SUBSIDIARY spaces only (solar, chambers off the dais end, service rooms beyond the screens), which are genuinely closer to the pack's 9-14 ft chamber range; the hall itself remains governed by this style's own proportional_system (ad quadratum/ad triangulum setting-out and c04's wall-plate-to-span rule), which the library has no dedicated pack for. See gaps.",
-      "precedence": 1
+      "precedence": 2
     },
     {
       "pack": "opening-mullioned",
       "role": "secondary",
       "note": "Bound secondary behind `opening-pointed`, and the division between the two packs is exact rather than approximate. That pack holds the ARCH -- the equilateral head, the strike ratio, the hood mould -- and this one holds the MULLION GRID beneath it, which this record describes as the Perpendicular achievement: 'mullions running unbroken from sill to arch head and crossed by horizontal transoms, dividing the light into rectangular panels'. That grid is the direct ancestor of every Tudor and Jacobean window in this pack, and binding it here is what makes the descent legible. Neither pack carries the tracery, which both decline for the same reason.",
-      "precedence": 2
+      "precedence": 3
     }
   ]
 }

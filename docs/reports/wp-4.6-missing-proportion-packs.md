@@ -1380,17 +1380,130 @@ French-derived turret would be inventing a measurement.
 **Measured movement:** `mudejar` and `moorish-andalusian` — described in their own binding notes as
 "the two thinnest-bound nodes" — go from two packs to three.
 
+### `proportions/systems/facade-medieval-english.json` — the facade generated from behind
+
+The last item on WP-4.1's list, and it was "new" only in that two existing items turned out to be
+one pack seen from two sides. `opening-pointed` raised it from the Gothic end — recording that the
+Gothic *facade* half was real "for exactly one node… which is the medieval building rather than a
+revival of it" — and `opening-mullioned` raised it again from the Tudor end. **Five of the six nodes
+bound here had no facade-role pack.**
+
+#### The claim, and four records state it independently
+
+> "openings sit centred in their bay; **the bay, not the facade, is the unit of composition**" —
+> `english-gothic`
+> "window widths are dictated by the frame rather than the other way round" —
+> `english-medieval-timber-frame`
+> "windows do not establish a rhythm of their own; they sit where the wall can spare the material" —
+> `norman-romanesque-english`
+> "windows are placed where rooms need them" — `tudor`
+
+Every classical pack in this library composes an elevation and lets the plan follow.
+`facade-classical`'s module is literally "the centre-to-centre spacing of the vertical rank of
+openings on the principal elevation" — an elevation-first quantity. **Here the elevation is a
+result**, and that is the one thing a compiler built on classical assumptions gets wrong every time.
+The rule carries a single permitted value because it has no partial version: a designer who moves
+one window six inches to balance a front has stopped working in this tradition and started working
+in the other one.
+
+#### The English medieval bay is the length of a tree
+
+Four records, four centuries, four structural systems — groin vault, rib vault, oak box frame,
+Netherlandish shaped gable — and **one band, 3.0–5.5 m.** `english-medieval-timber-frame` says why:
+"the bay is set by the length of sound oak a carpenter could get, roughly 4.5 m at the limit." Even
+the stone vault's bay is a timber figure, because the centering it is turned on is timber.
+
+Set that beside `facade-peristyle`, where five revival records converge on 2.25 diameters because
+they were all reading Vitruvius. **Two mechanisms of convergence, one textual and one material**,
+found two packs apart. The material one is four centuries older and rather more reliable.
+
+#### The pointed arch halves the pier
+
+`english-gothic` states its own comparison: pier to bay of 1:4 to 1:6, "against 1:2 to 1:3 in Norman
+work". That single number is the entire structural dividend of Gothic, and everything else people
+admire about it follows — the bay can be glazed, the wall can be thin, and the buttress can go
+outside the building where it can be seen working. The Perpendicular window at 2:1 to 3:1, *half*
+the lancet's proportion three centuries later, is where the process ends: once the pier is thin the
+opening grows sideways until it fills the bay, and at that point the window has become the wall.
+
+Against it, `norman-romanesque-english`'s "arch rise to span exactly 1:2 — the defining and
+non-negotiable ratio", which is the pack's one single-valued rule that is a **definition rather than
+a judgment**. What makes it worth stating is the consequence the record draws: "span sets height
+throughout." In a Norman building you cannot choose an opening's width and its height separately, so
+the elevation is determined by the plan's spans — the same claim as the pack's first rule, arriving
+through geometry instead of through use.
+
+#### One rule runs backwards
+
+`elizabethan` gives storey heights **increasing** upward at Hardwick, 1 : 1.1 : 1.3, "to mark the
+ascent to the state rooms — the exact inverse of the Georgian rule." Nothing else in this library
+does that. Storey graduation is usually explained as an optical correction; here is a tradition
+doing the opposite for a ceremonial reason and not looking wrong, which is worth remembering the
+next time an optical explanation is offered for anything.
+
+Beside it, the rule that refuses graduation outright: `tudor`'s "storey heights nearly equal; no
+graduated diminution, **which is what most clearly separates Tudor from Georgian at a glance**."
+`storey-graduation` is that rule's opposite and the two must never be bound to one node. What makes
+it decisive rather than merely characteristic is that graduation is a consequence of a *theory* — the
+storeys diminish because the orders do — and a tradition with no theory has no reason to diminish
+anything.
+
+#### The fifth instance of the mismatch, and the second use of the word
+
+`jacobean`: "the shaped gables establish a second, slower rhythm above the eaves line which may or
+may not align with the window bays — where it does not, **the mismatch is characteristic rather than
+a fault**." `neoclassical-revival`, two centuries later and in another country: "the characteristic
+mismatch between screen and wall."
+
+**Five packs in this tranche now write to `window_grouping_rule`** about whether an elevation's
+systems must agree — France, New England, Spain, Greece and now England — and two of them use the
+same word for the disagreement. This pack writes the slot twice, which is OQ 48's case (i), a
+deliberate menu within one pack: `bay_primacy` is the openings against the frame and
+`gable_alignment` is the gables against the openings, two different pairs of systems on one wall.
+
+#### And the rationing pattern reaches five traditions
+
+`facade-portada` found nine Spanish records saying ornament works by being bounded and read it as an
+Iberian characteristic. `corbel-course` found three more, in Mudejar, Anglo-American and Scottish
+work, and called it possibly general. Here it is again in the Elizabethan **frontispiece** — the
+orders confined to a quarter or a third of one part of the elevation and absent everywhere else.
+
+Five traditions with nothing in common. It should now be treated as a property of this corpus and
+tested against the whole style graph, rather than noticed one pack at a time. That is a package of
+its own and it is named here so the next author does not rediscover it a sixth time.
+
+#### Two slots, one of them a compromise
+
+`pilaster`/`buttress_projection` is squarely **OQ 47's** territory: a buttress is a structural member
+expressed on a wall face, the ontology has no slot for one, and `pilaster` is the nearest thing.
+**Five packs in this work package have now routed such a member through a slot written for something
+else** — which is the strongest case yet for the `expressed_frame` slot that question proposes.
+
+One test was **re-pinned rather than deleted**: `opening-pointed`'s tranche asserted that
+`english-gothic` had no facade-role pack and that the gap had been stated rather than closed by
+binding the nearest available thing. Eight packs later the gap is closed by the pack that item
+became, and the half of the assertion that still matters — that the *wrong* pack was never bound —
+is what the test now pins.
+
+**Measured movement: nodes with no facade-role pack 51 → 46.** Nodes with two packs or fewer: 12 → 10.
+
 ## What is NOT done, with the measurement
 
-**REVISED 25 Aug 2026, after seven tranches.** The list this paragraph originally carried has been
-overtaken: the octagon module, the portada panel, the four-centred Tudor arch and the
-leaded-casement system are all built, and the last two turned out to be one pack. What genuinely
-remains, with each item's measured leverage:
+**REVISED AGAIN 25 Aug 2026, after ten tranches, and this is now the closing statement of the work
+package.** The list this paragraph originally carried has been entirely overtaken. **Every item of
+WP-4.1's list that this corpus can support is built.** What remains is not a work list; it is a list
+of things the corpus does not contain the evidence for, and the point of writing it down is that the
+next author should not spend a week rediscovering that.
 
-- a **medieval/pre-Palladian English facade system** — new only in that two existing list items turn
-  out to be one pack, seen from two sides.
+The tranches' recurring finding is worth stating once at the end, because it governs how the list
+should be read: **list items collapse into each other when measured.** The four-centred Tudor arch
+and the leaded casement were one window. Four ornament items were one machine. The French travée
+facade and the mansard/dormer module were one system. The Mudejar brick corbel was four traditions
+doing the same thing. The medieval English facade item was two existing items seen from two sides.
+Twenty-one packs closed roughly thirty list entries, and the reason is that WP-4.1 catalogued by
+*appearance* and the packs are organised by *what generates the dimension*.
 
-And the items now judged **not supportable from this corpus**, with the reason stated rather than
+The items now judged **not supportable from this corpus**, with the reason stated rather than
 left silent — which is the project's own rule about unjudged not being passed, applied to a list
 item rather than to a parameter:
 
@@ -1405,6 +1518,49 @@ item rather than to a parameter:
 - **Alpine carved timber**, and the ornament half of the cast-iron item, both of which are pattern
   repertoires that a proportion pack would have to fabricate numbers for.
 - **the symmetrical centreless multi-door facade**, which no record dimensions.
+
+### What this package leaves for someone else
+
+None of these blocks anything; all four are named so the next author inherits them rather than
+rediscovers them.
+
+1. **OQ 49 — a binding cannot be scoped to one slot.** Raised by `jetty-overhang` and hit again by
+   `facade-portada` and `facade-peristyle`: **three instances in three consecutive packs.** The
+   third is the sharpest, because `egyptian-revival` is the corpus's one deliberately unbound
+   buildable node and OQ 49's proposal would bind it — so the ruling is worth exactly one node of
+   coverage plus the three rules currently stranded in style records.
+2. **OQ 47 — no slot for a structural member expressed on a wall face.** **Five packs** in this
+   package have now routed one through `corner_board` or `pilaster`: `timber-panel`'s studs,
+   `opening-craftsman`'s rafter tail, `trim-sawn`'s brackets, `jetty-overhang`'s bressumer, and
+   `facade-medieval-english`'s buttress. The compromise is becoming the convention, which is what
+   that question warned about.
+3. **OQ 48 — one `(slot, dimension)` address, several meanings.** Adjudicated by hand for all
+   twenty-one packs here, with an authoring aid (`build/pack_addresses.py`) rather than a build check.
+   The 453 pre-existing pack pairs have never been read.
+4. **The rationing pattern, which is unraised and should be.** `facade-portada`, `corbel-course` and
+   `facade-medieval-english` each found records saying that ornament works by being *bounded* and
+   that the plain field is a designed element — nine Spanish records, then Mudejar, Anglo-American
+   and Scottish, then the Elizabethan frontispiece. **Five traditions with nothing in common.** It
+   was read as an Iberian characteristic one pack, as possibly general the next, and as a fifth
+   instance the one after. It should be tested against the whole style graph rather than noticed one
+   pack at a time — and if it holds, it belongs in the fault corpus as a rule about evenly
+   distributed ornament, not only in three packs' notes.
+
+Two things were also learned about *method* and are worth carrying:
+
+- **A regex proposes and reading disposes.** Five times in this package a keyword measurement
+  over-counted its own work list — 24 style-scoped tests became 6, 22 arch bindings became 8, 115
+  predicted fatals became 0, 17 octagon nodes became 1, and the pueblo *corbels* turned out to be a
+  homonym. Verify a sample before accepting a count.
+- **The corpus writes its own gaps down, and it is worth reading them.** Seven of the twenty-one packs
+  here were named, in advance, in a binding note or a constraint note by an author who could not
+  fill the gap: the four adobe nodes, `prairie-school`'s trim note, `greek-classical`'s "least-bad
+  available approximation", `rural-gothic-villa`'s empty opening role, `garrison-colonial`'s jetty,
+  `spanish-plateresque`'s portada (which names the missing pack outright), and `mudejar`'s corbel —
+  the last also recorded by `stone-course`, which declined the figures and kept them in its notes so
+  they would not be lost. A binding note that records what a pack *cannot* do is how a corpus tells
+  the next author where to work, and it earned its keep seven times.
+
 
 *Original paragraph follows, superseded.* Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
 still missing: an **octagon/polygonal plan module** (17 nodes, 11 thinly bound), a
@@ -1445,7 +1601,9 @@ second independent instance. Struck off by the eighth: the **peripteral/arcuated
 system**, which the list scoped at 3 nodes and which binds 9 — including the two antique sources of
 the entire classical corpus, neither of which had a facade-role pack. Struck off by the ninth: the
 **Mudejar brick corbelling module**, which turned out to be four traditions rather than one and
-binds 6, with three nodes refused — two of them for a homonym.
+binds 6, with three nodes refused — two of them for a homonym. Struck off by the tenth: the
+**medieval/pre-Palladian English facade system**, the last item on the list, binding 6 of which
+five had no facade-role pack.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -1458,7 +1616,7 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **56 packs**, 0 errors from `check_orders.py`,
+Later tranches: 23 checks green. **57 packs**, 0 errors from `check_orders.py`,
 `check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the thirteen new
 packs bind 121 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
@@ -1467,7 +1625,7 @@ a threshold system seven nodes had nothing for, a walling system twelve nodes ha
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 12 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **233 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **246 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

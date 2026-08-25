@@ -1,0 +1,392 @@
+{
+  "id": "facade-medieval-english",
+  "name": "The Facade Generated From Behind: English Building Before the Rule",
+  "aka": [
+    "the structural bay",
+    "the mullion grid",
+    "the frontispiece",
+    "pre-Palladian English composition"
+  ],
+  "kind": "facade-system",
+  "authority": {
+    "source": "This corpus's own records for six English styles running from the Conquest to about 1620, five of which state in their own words that the facade is not the unit of composition and all six of which give the bay in metres; against John Harvey and the medieval-mason literature for the tracing floor, Mark Girouard's Robert Smythson and the Elizabethan Country House for the prodigy phase, and Eric Mercer's English Vernacular Houses",
+    "author": "no named author, which is the point -- there is no treatise, and the first English building book of any kind postdates the last style here",
+    "year": 1600,
+    "strength": "reconstructed",
+    "note": "RECONSTRUCTED, and it could not be otherwise. `styles/english-medieval-timber-frame.json` puts it flatly: 'there is no applied proportional theory of any kind.' `styles/norman-romanesque-english.json`: 'there is no order, no entablature and no applied system of proportion.' `styles/tudor.json`: 'no governing system in the classical sense.' Three records deny that the thing this pack describes exists, and they are right about what they are denying -- there was no rule to follow. What there was, and what this pack recovers, is a set of constraints so tight that the elevations came out consistent anyway."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The structural bay: principal post to principal post, or vault respond to vault respond",
+    "parts": 13,
+    "default_size_in": 156.0,
+    "note": "The part is one foot and the bay is thirteen of them -- 3.96 m, the middle of a band four records give independently.\n\nTHE ENGLISH MEDIEVAL BAY IS THE LENGTH OF A TREE, AND THAT IS WHY FOUR CENTURIES AND FOUR STRUCTURAL SYSTEMS AGREE ABOUT IT. `styles/norman-romanesque-english.json` gives piers at 3.0-5.0 m, set 'by what a groin vault of the available mortar could be trusted to span'. `styles/english-gothic.json` gives 3.5-5.0 m in domestic work, set by roof trusses or vault ribs. `styles/english-medieval-timber-frame.json` gives 3.0-5.0 m and says why in so many words: 'the bay is set by the length of sound oak a carpenter could get, roughly 4.5 m at the limit'. `styles/jacobean.json` arrives at 3.5-5.5 m from the other end, as a gable width. A stone vault's bay is a timber figure too, because the centering it is turned on is timber. Compare `facade-peristyle`, where five revival records converge on 2.25 diameters because they were all reading the same book: here four records converge on the same four metres because they were all buying from the same forest. Two mechanisms of convergence, one textual and one material, and the material one is the older."
+  },
+  "assemblies": {
+    "structural_bay": {
+      "height_modules": 2.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "plinth",
+          "name": "Plinth or sill beam",
+          "height_parts": 2.0,
+          "projection_parts": 0.4,
+          "profile": "plinth",
+          "note": "2 ft of stone under a frame, or a weathered plinth course under a wall. It exists for damp rather than for composition, which is true of most of what is below eye level in this tradition.",
+          "confidence": "medium"
+        },
+        {
+          "id": "ground_panel",
+          "name": "Ground storey: the hall or the undercroft",
+          "height_parts": 11.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "11 ft, and it is the taller of the two -- which is the medieval arrangement and the exact opposite of what `styles/elizabethan.json` does at Hardwick, where the storeys INCREASE upward to mark the ascent to the state rooms. Both are in this pack because both are English and pre-Palladian, and the reversal is the moment the building stops being organised by use and starts being organised by ceremony.",
+          "confidence": "medium"
+        },
+        {
+          "id": "mid_rail",
+          "name": "Mid rail, bressumer or string course",
+          "height_parts": 1.0,
+          "projection_parts": 0.6,
+          "profile": "fascia",
+          "note": "One foot, and it is the only horizontal on the elevation. In a classical composition the horizontals are the composition; here there is one, it marks a floor, and it is there because a floor is there.",
+          "confidence": "medium"
+        },
+        {
+          "id": "upper_panel",
+          "name": "Upper storey: chamber or solar",
+          "height_parts": 10.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "10 ft. Slightly lower than the ground storey and not by a stated ratio -- `styles/tudor.json` gives 'storey heights nearly equal; no graduated diminution, which is what most clearly separates Tudor from Georgian at a glance'. That sentence is worth more than the dimension: the single most reliable way to date an English elevation at a distance is to ask whether its storeys diminish.",
+          "confidence": "high"
+        },
+        {
+          "id": "wall_plate",
+          "name": "Wall plate or eaves course",
+          "height_parts": 2.0,
+          "projection_parts": 0.8,
+          "profile": "corona",
+          "note": "2 ft, and it terminates nothing. There is no cornice in this tradition and no entablature; the wall stops where the roof starts, and what happens above that line -- gables, dormers, chimney shafts -- belongs to a different rhythm that this pack's second `window_grouping_rule` entry is about.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "buttress_stage": {
+      "height_modules": 2.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "base_stage",
+          "name": "Buttress, base stage",
+          "height_parts": 10.0,
+          "projection_parts": 2.0,
+          "profile": "flat",
+          "note": "Projecting 2 ft on a 4 ft width, which is the top of `styles/english-gothic.json`'s 'buttress projection 1/4 to 1/2 of its own width at the base'. A buttress is the only element in this tradition that is unambiguously composed rather than merely placed, and it is composed by the thrust it takes.",
+          "confidence": "high"
+        },
+        {
+          "id": "middle_stage",
+          "name": "Middle stage, above a weathered offset",
+          "height_parts": 9.0,
+          "projection_parts": 1.4,
+          "profile": "bevel",
+          "note": "Stepping back by a weathered offset, because the thrust it is resisting diminishes upward and the material follows it. `styles/english-gothic.json` gives the mechanism -- 'diminishing by weathered offsets' -- and it is the clearest case in the corpus of a form that is a diagram of a force.",
+          "confidence": "high"
+        },
+        {
+          "id": "upper_stage",
+          "name": "Upper stage",
+          "height_parts": 7.0,
+          "projection_parts": 0.8,
+          "profile": "bevel",
+          "note": "Down to 0.8 ft at the top, where there is almost nothing left to resist. A revival buttress of constant projection is the commonest single error in Gothic Revival work and is visible from the far side of a street.",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one foot.",
+      "expression": "module.default_size_in / module.parts == 12.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The bay is between three and five and a half metres.",
+      "expression": "module.default_size_in <= 217.0",
+      "tolerance": 0.0,
+      "note": "156 in is 3.96 m. Four records give the band independently and the ceiling is the one that has a physical cause: `styles/english-medieval-timber-frame.json` puts the limit at 'roughly 4.5 m', being the length of sound oak a carpenter could get, and a stone vault's bay is a timber figure too because the centering is timber."
+    },
+    {
+      "statement": "The storeys do not diminish upward by more than a tenth.",
+      "expression": "assemblies.structural_bay.members.ground_panel.height_parts / assemblies.structural_bay.members.upper_panel.height_parts <= 1.1",
+      "tolerance": 0.0,
+      "note": "11 over 10, which is 1.1 exactly. `styles/tudor.json`: 'storey heights nearly equal; no graduated diminution, which is what most clearly separates Tudor from Georgian at a glance.' `styles/jacobean.json` gives the same rule with the figure: 'ground floor exceeding first by no more than 10 percent.' It is an invariant rather than a mere rule because a diminishing storey does not make a bad medieval elevation, it makes a Georgian one."
+    },
+    {
+      "statement": "The buttress diminishes at every stage.",
+      "expression": "assemblies.buttress_stage.members.base_stage.projection_parts > assemblies.buttress_stage.members.upper_stage.projection_parts",
+      "tolerance": 0.0,
+      "note": "2.0 down to 0.8. The buttress is a diagram of a force and the force diminishes upward; a buttress of constant projection is a pilaster with a slope on top and is the commonest single error in revival work."
+    },
+    {
+      "statement": "The elevation has one horizontal and it is not a cornice.",
+      "expression": "assemblies.structural_bay.members.mid_rail.height_parts < assemblies.structural_bay.members.wall_plate.height_parts",
+      "tolerance": 0.0,
+      "note": "One part against two -- so the string marking the floor is SMALLER than the plate where the roof lands, which is the opposite of a classical elevation where the cornice is the largest horizontal and terminates the wall. `facade-classical`'s own rule is that the cornice must out-project every other horizontal. Here nothing terminates anything: the wall stops where the roof starts."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "bay_primacy",
+      "expression": "1.0",
+      "units": "ratio",
+      "range": [1.0, 1.0],
+      "authority_note": "`styles/english-gothic.json`: 'openings sit centred in their bay; the bay, not the facade, is the unit of composition.' `styles/english-medieval-timber-frame.json`: 'openings are cut within the panel field and never cross a principal post, so window widths are dictated by the frame rather than the other way round.' `styles/norman-romanesque-english.json`: 'windows do not establish a rhythm of their own; they sit where the wall can spare the material.' `styles/tudor.json`: 'windows are placed where rooms need them.'",
+      "note": "THE PACK'S WHOLE CLAIM, IN ONE VALUE, AND FOUR RECORDS STATE IT INDEPENDENTLY. Every classical pack in this library composes an elevation and lets the plan follow -- `facade-classical`'s module is literally 'the centre-to-centre spacing of the vertical rank of openings on the principal elevation', which is an elevation-first quantity. Here the elevation is a RESULT. The vault, the frame or the room decides where an opening goes, and the facade is what you get. Stated with a single permitted value because it has no partial version: a designer who moves one window six inches to balance a front has stopped working in this tradition and started working in the other one. Judgment, because deciding to accept an elevation you did not compose is the hardest thing this pack asks.",
+      "judgment": true
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "gable_alignment",
+      "expression": "0",
+      "units": "count",
+      "range": [0.0, 1.0],
+      "authority_note": "`styles/jacobean.json`: 'the shaped gables establish a second, slower rhythm above the eaves line which may or may not align with the window bays -- where it does not, the mismatch is characteristic rather than a fault.'",
+      "note": "A SECOND RHYTHM ABOVE THE EAVES, AND IT NEED NOT AGREE WITH THE FIRST. Zero means the gables and the window bays are independent; one means they coincide. The record's phrase is worth quoting exactly -- 'the mismatch is characteristic rather than a fault' -- because `styles/neoclassical-revival.json`, two centuries later and in another country, says 'the characteristic mismatch between screen and wall' about its own two rhythms. THIS IS THE FIFTH TRADITION IN THIS TRANCHE TO WRITE TO THIS SLOT ABOUT WHETHER AN ELEVATION'S SYSTEMS MUST AGREE, and the second to use the word CHARACTERISTIC for the disagreement. A pack offering two entries at one address is the deliberate menu OQ 48 describes, not a collision: the two rules are about different pairs of systems on one wall.",
+      "judgment": true
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "structural_bay",
+      "expression": "module",
+      "units": "in",
+      "range": [118.0, 217.0],
+      "authority_note": "`styles/norman-romanesque-english.json` 3.0-5.0 m; `styles/english-gothic.json` 3.5-5.0 m; `styles/english-medieval-timber-frame.json` 3.0-5.0 m ('the bay is set by the length of sound oak a carpenter could get, roughly 4.5 m at the limit'); `styles/jacobean.json` gives 3.5-5.5 m as a gable width.",
+      "note": "THIRTEEN FEET, AND FOUR CENTURIES AGREE. Four records, four structural systems -- groin vault, rib vault, oak box frame, shaped gable -- and one band, because all four are limited by the same thing: the length of a tree. Even the stone vault is, since its centering is timber. It is the corpus's clearest case of a proportional convergence with a MATERIAL cause rather than a textual one, and it is worth setting beside `facade-peristyle`'s five revival records converging on 2.25 diameters because they were all reading Vitruvius.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "bay_count",
+      "expression": "4",
+      "units": "count",
+      "range": [2.0, 5.0],
+      "authority_note": "`styles/english-gothic.json`: 'the hall usually of three or four bays plus a screens bay'. `styles/english-medieval-timber-frame.json`: 'hall of two bays, crosswings of one to two'.",
+      "note": "FOUR BAYS PLUS A SCREENS BAY. The count is not a compositional decision either -- it is how many bays of hall the household needed, and the screens bay is a functional partition between the hall and the service end rather than a terminal accent. A five-bay medieval hall front and a five-bay Georgian front are the same number arrived at by completely different reasoning, and only one of them would have been redrawn if the number had come out even.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "pier_ratio_gothic",
+      "expression": "0.2",
+      "units": "ratio",
+      "range": [0.167, 0.25],
+      "authority_note": "`styles/english-gothic.json`: 'pier width to bay span roughly 1:4 to 1:6, against 1:2 to 1:3 in Norman work'.",
+      "note": "A FIFTH OF THE BAY, AND THE RECORD STATES ITS OWN COMPARISON. One rule in four to six; the Norman one below is one in two to three. THE POINTED ARCH HALVES THE PIER, which is the entire structural dividend of Gothic stated as a number -- a pointed arch's thrust is more nearly vertical, so less of it has to be turned into wall. Everything else people admire about Gothic follows from that: the bay can be glazed, the wall can be thin, and the buttress can take what is left outside the building where it can be seen doing it.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "pier_ratio_norman",
+      "expression": "0.4",
+      "units": "ratio",
+      "range": [0.333, 0.5],
+      "authority_note": "`styles/norman-romanesque-english.json`: 'pier or respond width 1/3 to 1/2 of the opening it flanks'. `styles/english-gothic.json` gives the same band from outside as '1:2 to 1:3 in Norman work'.",
+      "note": "TWO FIFTHS OF THE BAY -- so at the extreme a Norman elevation is half pier and half opening, and the wall is the subject. Two records give this band independently, one of them from inside the tradition and one from the tradition that superseded it, which is as good a corroboration as this corpus offers. The consequence for a compiler is blunt: a Norman range cannot be asked for large openings, and a brief that wants them is asking for a Gothic building.",
+      "judgment": false
+    },
+    {
+      "target_slot": "arch",
+      "dimension": "norman_rise",
+      "expression": "0.5",
+      "units": "ratio",
+      "range": [0.5, 0.5],
+      "authority_note": "`styles/norman-romanesque-english.json`: 'arch rise to span exactly 1:2 -- the defining and non-negotiable ratio', and its governing logic, 'the arch's rise is fixed at half its span, so span sets height throughout'.",
+      "note": "A SINGLE PERMITTED VALUE THAT IS NOT A JUDGMENT BUT A DEFINITION. A semicircle has one rise and it is half the span. What makes it worth a rule is the consequence the record draws: 'span sets height throughout.' In a Norman building you cannot choose an opening's width and its height separately, so the whole elevation is determined by the plan's spans -- which is the same claim as this pack's first rule, arriving through geometry instead of through use. `opening-pointed` states the opposite from the other side: the pointed arch's 'freedom from a fixed rise:span ratio is what makes the whole system possible', which `styles/english-gothic.json` says in exactly those words.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "lancet_ratio",
+      "expression": "5.0",
+      "units": "ratio",
+      "range": [4.0, 6.0],
+      "authority_note": "`styles/english-gothic.json`: 'lancet openings 4:1 to 6:1 height to width'.",
+      "note": "FIVE TO ONE, WHICH IS TALLER THAN ANY OTHER OPENING IN THIS CORPUS BY A LONG WAY. The next tallest is the Elizabethan mullion light at about 3:1 and the classical sash sits near 2:1. A lancet is not a window that has been proportioned tall; it is the narrowest opening a wall can spare multiplied by the tallest an arch can reach, and its proportion is a residue of those two limits rather than a choice between them.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "perpendicular_ratio",
+      "expression": "2.5",
+      "units": "ratio",
+      "range": [2.0, 3.0],
+      "authority_note": "`styles/english-gothic.json`: 'Perpendicular windows 2:1 to 3:1 overall'.",
+      "note": "TWO AND A HALF TO ONE -- half the lancet's proportion, three centuries later, in the same tradition. The Perpendicular window is wide because the pier got thin: once the bay could be glazed, the opening grew sideways until it filled the bay, and at that point the window stops being an opening in a wall and becomes the wall. That is the endpoint of the process the two pier rules above describe, and it is why English Perpendicular has no continental parallel.",
+      "judgment": false
+    },
+    {
+      "target_slot": "pilaster",
+      "dimension": "buttress_projection",
+      "expression": "0.375",
+      "units": "ratio",
+      "range": [0.25, 0.5],
+      "authority_note": "`styles/english-gothic.json`: 'buttress projection 1/4 to 1/2 of its own width at the base, diminishing by weathered offsets'.",
+      "note": "THREE EIGHTHS OF ITS OWN WIDTH, DIMINISHING UPWARD. Measured against ITSELF and not against the wall, exactly as `facade-pavilion` found the French pavilion to be -- two unrelated traditions stating a projection the same way, and both for the same reason, which is that the element is a mass in its own right rather than a modulation of the wall. The diminution is the important half: a buttress is a diagram of a force that gets smaller as it rises, and a revival buttress of constant projection is a pilaster with a slope on top. THE SLOT IS A COMPROMISE and is OQ 47's territory -- a buttress is a structural member expressed on a wall face, the ontology has no place for one, and `pilaster` is the nearest thing. Five packs in this work package have now routed such a member through a slot written for something else.",
+      "judgment": false
+    },
+    {
+      "target_slot": "wall_thickness_masonry",
+      "dimension": "span_ratio",
+      "expression": "0.16",
+      "units": "ratio",
+      "range": [0.125, 0.2],
+      "authority_note": "`styles/norman-romanesque-english.json`: 'wall thickness 1/8 to 1/5 of the clear span it encloses', and its governing logic, 'wall thickness and the semicircle'.",
+      "note": "THE WALL IS SIZED BY WHAT IT SPANS, NOT BY WHAT IT CARRIES, which is the honest medieval answer to a calculation nobody could do. A 6 m Norman hall wants a 1 m wall by this rule, and that is roughly what survives. Note that it makes the wall thickness a function of the PLAN -- widen a room and the walls around it get thicker -- which is another instance of the facade being generated from behind, and another reason a Norman brief cannot be resized freely.",
+      "judgment": false
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "storey_equality",
+      "expression": "1.05",
+      "units": "ratio",
+      "range": [1.0, 1.1],
+      "authority_note": "`styles/tudor.json`: 'storey heights nearly equal; no graduated diminution, which is what most clearly separates Tudor from Georgian at a glance'. `styles/jacobean.json`: 'storey heights roughly equal, or ground floor exceeding first by no more than 10 percent'.",
+      "note": "THE GROUND STOREY EXCEEDS THE FIRST BY AT MOST A TENTH, and this is the single most useful dating rule in the pack. `storey-graduation` exists to model the Georgian diminution and is bound to twenty-odd nodes; this rule is its refusal, and the two must never be bound to one node. What makes it decisive rather than merely characteristic is that graduation is a consequence of a THEORY -- the storeys diminish because the orders do -- and a tradition with no theory has no reason to diminish anything.",
+      "judgment": false
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "ascent_ratio",
+      "expression": "1.3",
+      "units": "ratio",
+      "range": [1.0, 1.4],
+      "authority_note": "`styles/elizabethan.json`: 'storey heights increasing upward at Hardwick (roughly 1 : 1.1 : 1.3) to mark the ascent to the state rooms -- the exact inverse of the Georgian rule'.",
+      "note": "THE STOREYS GET TALLER AS THEY RISE, WHICH NOTHING ELSE IN THIS LIBRARY DOES. The record calls it 'the exact inverse of the Georgian rule' and gives the reason: the state rooms are at the top, so the ceremonial sequence runs upward and the section announces it. It is worth pausing on what that means about the whole enterprise -- storey graduation is usually explained as an optical correction, and here is a tradition doing the opposite for a social reason and not looking wrong. The band's floor is 1.0 because most Elizabethan houses are not Hardwick; only a house with state rooms at the top has an ascent to mark.",
+      "judgment": false
+    },
+    {
+      "target_slot": "daylight_strategy",
+      "dimension": "glazed_share",
+      "expression": "0.45",
+      "units": "ratio",
+      "range": [0.3, 0.6],
+      "authority_note": "`styles/elizabethan.json`: 'glazed to solid ratio on a principal elevation 45-60 percent, and higher at Hardwick'. `styles/jacobean.json`: 'glazed to solid ratio 30-45 percent of the principal elevation'.",
+      "note": "FORTY-FIVE PER CENT, WHERE THE TWO RECORDS MEET -- and the band is a HISTORY rather than a range. Elizabethan runs 45-60 and Jacobean 30-45, so the glazing RETREATS between the two, which `opening-mullioned` also found and recorded: the Jacobean figure is a deliberate step back from a fashion that had gone as far as it could go. 'Hardwick Hall, more glass than wall' was a jibe before it was a compliment, and the next generation heard it. A compiler given a Jacobean brief and an Elizabethan glazing ratio has built the previous generation's house.",
+      "judgment": false
+    },
+    {
+      "target_slot": "gable_treatment",
+      "dimension": "apex_ratio",
+      "expression": "0.7",
+      "units": "ratio",
+      "range": [0.6, 0.8],
+      "authority_note": "`styles/jacobean.json`: 'gable width 3.5-5.5 m, height to the pediment apex roughly 0.6-0.8 of the gable width'.",
+      "note": "SEVEN TENTHS OF THE GABLE'S WIDTH TO THE APEX. Note that the gable width band is the STRUCTURAL BAY BAND -- 3.5-5.5 m against the other records' 3.0-5.0 -- which is how the shaped gable, an imported Netherlandish device with no English structural logic behind it, ends up sized by an English structural constraint anyway. `facade-gable` owns the gable's own geometry and its silhouette; this rule is here only because it is the evidence that the second rhythm above the eaves is generated by the same bay as the first, even when the two do not line up.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "porch_slenderness",
+      "expression": "7.0",
+      "units": "ratio",
+      "range": [6.0, 8.0],
+      "authority_note": "`styles/jacobean.json`: 'porch column height 6 to 8 diameters -- noticeably stubbier than any canonical order, and a reliable sign of the period'.",
+      "note": "SEVEN DIAMETERS, WHICH IS NOT ANY ORDER. `facade-peristyle` puts the Roman range at 8 to 10 and the Greek Doric at 4 to 6.5; this sits between them and belongs to neither, because it is not derived from either. `styles/jacobean.json` says the orders here are 'used approximately and by rule of thumb from Serlio and de Vries plates', which is the honest description of what happens when a mason-architect works from an engraving without the text: the proportions come out wrong in a consistent direction, and the consistency is what makes them datable. A correctly proportioned order on a Jacobean porch is an anachronism.",
+      "judgment": false
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "frontispiece_share",
+      "expression": "0.29",
+      "units": "ratio",
+      "range": [0.25, 0.333],
+      "authority_note": "`styles/elizabethan.json`: 'frontispiece order height 1/4 to 1/3 of the elevation height, in three superimposed storeys'.",
+      "note": "THE ORDERS APPEAR ON ONE-THIRD OF ONE PART OF THE BUILDING AND NOWHERE ELSE, which is the transitional condition this pack exists to describe. `styles/elizabethan.json` limits them to 'the frontispiece only'; `styles/jacobean.json` puts them on the porch. Three superimposed storeys of order on a quarter of the elevation is the Colosseum's arrangement arriving in England through an engraving, applied as an ornament to a building whose composition owes it nothing -- and that is exactly the RATIONING pattern `facade-portada` and `corbel-course` found in four other traditions. This is the fifth: ornament works by being bounded, and the boundary here is the frontispiece.",
+      "judgment": false
+    },
+    {
+      "target_slot": "chimney",
+      "dimension": "shaft_ratio",
+      "expression": "2.2",
+      "units": "ratio",
+      "range": [1.5, 3.0],
+      "authority_note": "`styles/tudor.json`: 'chimney shaft height above ridge 1.5 to 3 times the stack's own width'.",
+      "note": "THE SHAFT STANDS TWO TIMES ITS OWN WIDTH ABOVE THE RIDGE, and it is one of the very few things in this tradition that IS composed for effect. A Tudor stack is taller than it needs to be, and moulded and twisted besides, at a period when the rest of the elevation is being placed by where the rooms are -- which tells you what the chimney meant. It was new, it was expensive, and it was the one part of the house the neighbours could see from a distance.",
+      "judgment": false
+    },
+    {
+      "target_slot": "depth_and_pile",
+      "dimension": "hall_ratio",
+      "expression": "1.75",
+      "units": "ratio",
+      "range": [1.5, 2.0],
+      "authority_note": "`styles/english-gothic.json`: 'great hall: width 7.5-9.0 m, length 1.5 to 2 times width, wall-plate height roughly equal to width'.",
+      "note": "SEVEN PARTS LONG TO FOUR WIDE. The width band, 7.5-9.0 m, is roughly TWICE the structural bay -- so a great hall is one room two bays wide and three or four bays long, and the width is set by the largest roof truss that could be raised rather than by any idea about proportion. `room-vernacular` owns the room; this rule is here because the hall's size is what the whole front elevation is a consequence of.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "hall_plate",
+      "expression": "1.0",
+      "units": "ratio",
+      "range": [0.9, 1.1],
+      "authority_note": "`styles/english-gothic.json`: 'wall-plate height roughly equal to width'.",
+      "note": "THE GREAT HALL IS AS HIGH TO THE WALL PLATE AS IT IS WIDE, WITH THE ROOF ON TOP OF THAT. Eight metres square in section, open to a carpented roof, and that is before the trusses. It is the single most striking dimension in this pack and it is arrived at without any theory of proportion whatever -- the hall is that high because it was heated by an open hearth in the middle of the floor and the smoke had to go somewhere. `room-harmonic` would derive a cubical room from the arithmetic mean; this one got there from a fire.",
+      "judgment": false
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "The bay is the length of a tree and modern timber is not that tree. The whole dimensional system rests on sound oak of 4.5 m in useful section -- `styles/english-medieval-timber-frame.json` states the limit outright -- and on stone vaults turned on timber centering of the same order. Sourcing a 250 by 350 mm oak tie beam five metres long is now a specialist purchase with a lead time, and the substitutes change the geometry: glue-laminated timber will span twice as far and therefore removes the reason the bay exists, while steel inside a timber case removes it and lies about it. The buttress has the mirror problem -- it is a diagram of a diminishing thrust, and a building with a modern roof structure has no such thrust to diagram.",
+      "resolution": "Keep the bay even where the material would allow more, because everything else in the elevation is a division of it and a wider bay produces a building that is medieval in detail and modern in rhythm -- which reads wrong in a way most people cannot name. Where longer spans are genuinely needed, add bays rather than stretch them, which is what the tradition itself did. And do not build a buttress that resists nothing: either let the roof thrust and take it properly, or leave the buttress out. A decorative buttress on a building with a ring beam is the Gothic equivalent of a bartizan on a hidden bracket.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "Two of the six traditions here are among the worst-performing envelopes in the corpus and for opposite reasons. A Norman wall at one-fifth of its span is a metre of rubble with a rubble core -- enormous thermal mass, no insulation value to speak of, and a moisture regime that depends on the whole thickness being able to dry in both directions. An Elizabethan elevation at 45 to 60 per cent glazing in leaded quarries is, in modern terms, a curtain wall with no thermal break, and `styles/elizabethan.json` records that Hardwick goes higher still. Insulating either destroys the thing: the rubble wall internally lined loses its drying path and its reveals, and the mullion grid double-glazed loses the light-and-shadow of a 400 mm leaded panel, which is the entire visual content of the elevation.",
+      "resolution": "Take the two problems separately because they have different answers. For the mass wall, insulate the ROOF and the floor hard, leave the wall alone, and argue the whole-building case rather than the element U-value -- most jurisdictions permit that and it is the only route that keeps the wall functioning. For the glazing, reduce the AREA rather than the performance: a 30-35 per cent glazed elevation is squarely inside the Jacobean band, is historically the more common condition, and lets each remaining window be a proper mullion-and-transom grid. Slim double glazing in leaded lights exists and is worth its cost on a principal elevation and nowhere else.",
+      "severity": "blocking"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Nothing here was set out by calculation and a good deal of it cannot be. `styles/english-gothic.json` describes the method exactly -- 'geometric setting-out from the square and its diagonal (ad quadratum) and from the equilateral triangle (ad triangulum), worked out full size on a tracing floor rather than calculated'. A four-centred Tudor arch is two small radii and two long ones and cannot be expressed as a single rise-to-span figure at all. A buttress's weathered offsets are struck, not dimensioned. Reduced to numbers on a drawing these become approximations, and the approximations are visible, because the eye reads a struck curve differently from a fitted one.",
+      "resolution": "Set out full size, which is now cheap in a way it has never been: draw the arch, the offsets and the mouldings at 1:1 in CAD, issue them as templates rather than as dimensions, and let the mason work from the template as they always did. Give radii and centres rather than rises and spans wherever the geometry is struck. And resist the urge to regularise -- an elevation whose openings sit where the rooms need them will not dimension tidily, and tidying it is the one move that converts this tradition into the other.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "The economics have inverted completely. Every element here was once the cheap answer: a timber frame because timber was the available structural material, a thick rubble wall because rubble was free and skill was not, a bay set by what one man could handle, small windows because glass was the expensive part. Now every one of them is the expensive answer -- structural oak, lime-bedded rubble, leaded lights, a carpented roof -- and the cheap answer is a stud wall with a plate window in it. A building in this tradition costs more per square metre than almost anything else in this corpus and it delivers the least floor area per metre of wall.",
+      "resolution": "Be honest at brief stage about which of the tradition's qualities is being bought, because they can be bought separately and the whole set rarely can. The BAY costs almost nothing -- it is a planning decision -- and it delivers most of the character. The mullion grid is moderate. The carpented roof, the thick wall and the great hall are each a large sum on their own. A house that gets the bay right, the storey heights equal, the openings placed by the rooms and the glazing at Jacobean rather than Elizabethan share will read correctly at a fraction of the cost of one that reproduces the fabric.",
+      "severity": "material"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "The great hall's own logic works against a level route. The floor sits above an undercroft in the Norman and many Gothic cases -- `styles/norman-romanesque-english.json` gives the undercroft 2.4-3.0 m of clear height with the hall above -- so the principal room is a full storey up, reached by an external stair, and the screens passage is a narrow bay by definition rather than by accident. The medieval plan also puts every level change at a threshold, because a threshold is where a sill beam or a plinth course lands.",
+      "resolution": "Solve it in the plan, which this tradition allows more readily than most: a medieval building grows by adding bays and ranges, so an accessible entrance can be a bay of its own on a flank rather than an intervention in a composed front -- and unlike a Roman temple front there is no composed front to violate, which is the one place where the facade being generated from behind is an advantage. Keep the screens passage narrow and put the accessible route elsewhere rather than widening it; a widened screens bay is immediately wrong and the tradition offers no precedent for one.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "norman-romanesque-english",
+    "english-gothic",
+    "english-medieval-timber-frame",
+    "tudor",
+    "elizabethan",
+    "jacobean"
+  ],
+  "sources": [
+    "John H. Harvey, The Medieval Architect, Wayland, London, 1972, for the tracing floor and ad quadratum setting-out",
+    "Eric Mercer, English Vernacular Houses, HMSO, London, 1975",
+    "Mark Girouard, Robert Smythson and the Elizabethan Country House, Yale University Press, New Haven, 1983",
+    "Mark Girouard, Life in the English Country House, Yale University Press, New Haven, 1978, for the hall and the ascent to the state rooms"
+  ],
+  "confidence": "medium",
+  "notes": "THE LAST ITEM ON WP-4.1'S LIST, AND IT WAS NEW ONLY IN THAT TWO EXISTING ITEMS TURNED OUT TO BE ONE PACK SEEN FROM TWO SIDES -- `opening-pointed` raised it from `english-gothic`'s end, noting that the Gothic facade half was real 'for exactly one node... which is the medieval building rather than a revival of it', and `opening-mullioned` raised it again from the Tudor end. Five of the six nodes bound here had NO FACADE-ROLE PACK.\n\nTHE PACK'S CLAIM IS THAT THE FACADE IS GENERATED FROM BEHIND, AND FOUR RECORDS STATE IT INDEPENDENTLY. `styles/english-gothic.json`: 'the bay, not the facade, is the unit of composition.' `styles/english-medieval-timber-frame.json`: 'window widths are dictated by the frame rather than the other way round.' `styles/norman-romanesque-english.json`: 'windows do not establish a rhythm of their own; they sit where the wall can spare the material.' `styles/tudor.json`: 'windows are placed where rooms need them.' Every classical pack in this library composes an elevation and lets the plan follow -- `facade-classical`'s module is literally the spacing of the openings on the principal elevation. Here the elevation is a RESULT, and that is the one thing a compiler built on classical assumptions will get wrong every time.\n\nTHE ENGLISH MEDIEVAL BAY IS THE LENGTH OF A TREE. Four records, four centuries and four structural systems -- groin vault, rib vault, oak box frame, Netherlandish shaped gable -- all give 3.0 to 5.5 m, and `styles/english-medieval-timber-frame.json` says why: 'the bay is set by the length of sound oak a carpenter could get, roughly 4.5 m at the limit.' A stone vault's bay is a timber figure too, because the centering is timber. Set that beside `facade-peristyle`, where five revival records converge on 2.25 diameters because they were all reading Vitruvius: TWO MECHANISMS OF CONVERGENCE, ONE TEXTUAL AND ONE MATERIAL, found two packs apart. The material one is four centuries older and rather more reliable.\n\nTHE POINTED ARCH HALVES THE PIER, and `styles/english-gothic.json` states its own comparison: pier to bay of 1:4 to 1:6 'against 1:2 to 1:3 in Norman work'. That single number is the whole structural dividend of Gothic, and everything else people admire about it follows -- the bay can be glazed, the wall can be thin, the buttress can go outside where it can be seen working. The Perpendicular window at 2:1 to 3:1, half the lancet's proportion three centuries later, is the endpoint of the same process: once the pier is thin the opening grows sideways until it fills the bay, and at that point the window has become the wall.\n\nONE RULE RUNS BACKWARDS AND NOTHING ELSE IN THIS LIBRARY DOES. `styles/elizabethan.json` gives storey heights INCREASING upward at Hardwick, 1 : 1.1 : 1.3, 'to mark the ascent to the state rooms -- the exact inverse of the Georgian rule'. Storey graduation is usually explained as an optical correction; here is a tradition doing the opposite for a ceremonial reason and not looking wrong, which is worth remembering the next time an optical explanation is offered for anything.\n\nAND THE RATIONING PATTERN APPEARS A FIFTH TIME. `facade-portada` found nine Spanish records saying ornament works by being bounded and read it as Iberian; `corbel-course` found three more in Mudejar, Anglo-American and Scottish work and called it possibly general. Here it is again in the Elizabethan frontispiece -- the orders confined to a quarter or a third of one part of the elevation and absent everywhere else. Five traditions with nothing in common. It should now be treated as a property of this corpus and tested against the whole style graph rather than noticed one pack at a time.\n\nA NOTE ON TWO SLOTS. The pack writes `window_grouping_rule` TWICE, which is the deliberate menu OQ 48 describes rather than a collision -- `bay_primacy` is about the openings against the frame and `gable_alignment` about the gables against the openings, two different pairs of systems on one wall. And `pilaster`/`buttress_projection` is a COMPROMISE, squarely in OQ 47's territory: a buttress is a structural member expressed on a wall face, the ontology has no slot for one, and `pilaster` is the nearest thing. Five packs in this work package have now routed such a member through a slot written for something else, which is the strongest case yet for the `expressed_frame` slot that question proposes."
+}

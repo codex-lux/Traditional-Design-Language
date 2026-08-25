@@ -469,13 +469,16 @@ def test_the_pack_is_the_opening_half_only_and_says_why_the_facade_half_was_not_
     assert "OPENING HALF ONLY" in pack("opening-pointed")["notes"]
 
 
-def test_english_gothic_is_the_one_node_whose_facade_gap_is_real_and_it_is_left_open():
-    """It is the medieval building, not the revival of it, so facade-picturesque's nineteenth-
-    century argument is an anachronism against it. Binding the nearest available thing to close a
-    count is what this corpus does not do; the gap is stated and handed to the candidate list."""
+def test_english_gothic_is_the_one_node_whose_facade_gap_was_real_and_it_is_now_closed():
+    """RE-PINNED. `opening-pointed` stated this gap and handed it to the candidate list rather than
+    binding the nearest available thing to close a count: `english-gothic` is the medieval building
+    and not a revival of it, so `facade-picturesque`'s nineteenth-century argument is an anachronism
+    against it. Eight packs later `facade-medieval-english` is the pack that item became, and the
+    part of the assertion that still matters -- that the WRONG pack was never bound -- holds."""
     assert binding("english-gothic", "facade-picturesque") is None
-    assert not any(b["role"] == "facade" for b in node("english-gothic")["proportion_packs"])
     assert "english-gothic" in pack("opening-pointed")["notes"]
+    facades = [b for b in node("english-gothic")["proportion_packs"] if b["role"] == "facade"]
+    assert [b["pack"] for b in facades] == ["facade-medieval-english"]
 
 
 def test_the_four_centred_tudor_arch_is_excluded_on_the_geometry_and_says_so():
@@ -2625,3 +2628,166 @@ def test_the_two_thinnest_bound_nodes_gain_a_pack():
         entries = node(nid)["proportion_packs"]
         assert len(entries) == 3, nid
         assert {e["pack"] for e in entries} == {"moorish-arch", "corbel-course", "facade-arcade"}, nid
+
+
+# --- facade-medieval-english: the facade generated from behind ---------------------------------
+
+
+def test_four_records_say_the_facade_is_not_the_unit_of_composition():
+    """Every classical pack here composes an elevation and lets the plan follow. This one says the
+    elevation is a RESULT -- and four records, spanning four centuries, say so independently."""
+    r = next(x for x in pack("facade-medieval-english")["derived_rules"]
+             if x["dimension"] == "bay_primacy")
+    assert r["range"] == [1.0, 1.0] and r["judgment"] is True
+    for phrase, nid in [
+        ("the bay, not the facade, is the unit of composition", "english-gothic"),
+        ("dictated by the frame rather than the other way round", "english-medieval-timber-frame"),
+        ("Windows do not establish a rhythm of their own", "norman-romanesque-english"),
+        ("Windows are placed where rooms need them", "tudor"),
+    ]:
+        assert phrase in json.dumps(node(nid)), (phrase, nid)
+    # and facade-classical's module really is an elevation-first quantity
+    assert "principal elevation" in pack("facade-classical")["module"]["name"]
+
+
+def test_the_english_medieval_bay_is_the_length_of_a_tree():
+    """Four records, four centuries, four structural systems -- groin vault, rib vault, oak box
+    frame, shaped gable -- and one band, because all four are limited by the same timber."""
+    m = pack("facade-medieval-english")["module"]
+    assert 118.0 <= m["default_size_in"] <= 217.0            # 3.0 - 5.5 m
+    assert "length of sound oak a carpenter could get, roughly 4.5 m at the limit" in \
+        json.dumps(node("english-medieval-timber-frame"))
+    for nid in ("norman-romanesque-english", "english-gothic", "english-medieval-timber-frame"):
+        assert "3.0-5.0 m" in json.dumps(node(nid)) or "3.5-5.0 m" in json.dumps(node(nid)), nid
+    assert "3.5-5.5 m" in json.dumps(node("jacobean"))       # arrived at as a gable width
+
+
+def test_two_mechanisms_of_convergence_one_textual_and_one_material():
+    """`facade-peristyle`'s five revival records converge on 2.25 diameters because they were all
+    reading Vitruvius. These four converge on four metres because they were all buying from the same
+    forest."""
+    assert "TWO MECHANISMS OF CONVERGENCE" in pack("facade-medieval-english")["notes"]
+    assert "learns from a text converges" in pack("facade-peristyle")["notes"]
+
+
+def test_the_pointed_arch_halves_the_pier_and_the_record_states_its_own_comparison():
+    """1:4 to 1:6 Gothic 'against 1:2 to 1:3 in Norman work'. The whole structural dividend of
+    Gothic as a number, and the Perpendicular window is where the process ends."""
+    rules = {r["dimension"]: r for r in pack("facade-medieval-english")["derived_rules"]}
+    g, n = rules["pier_ratio_gothic"], rules["pier_ratio_norman"]
+    assert g["range"][1] <= n["range"][0]                     # the bands do not overlap
+    assert abs(float(g["expression"]) * 2 - float(n["expression"])) < 1e-9   # exactly half
+    assert "against 1:2 to 1:3 in Norman work" in json.dumps(node("english-gothic"))
+    # and the two window proportions bracket the same three centuries
+    assert rules["lancet_ratio"]["range"] == [4.0, 6.0]
+    assert rules["perpendicular_ratio"]["range"] == [2.0, 3.0]
+
+
+def test_the_norman_rise_is_a_definition_not_a_judgment():
+    """A semicircle has one rise. What makes it a rule is the consequence: span sets height
+    throughout, so the elevation is determined by the plan's spans."""
+    r = next(x for x in pack("facade-medieval-english")["derived_rules"]
+             if x["dimension"] == "norman_rise")
+    assert float(r["expression"]) == 0.5 and r["range"] == [0.5, 0.5]
+    assert r["judgment"] is False
+    assert "the defining and non-negotiable ratio" in json.dumps(node("norman-romanesque-english"))
+    assert "freedom from a fixed rise:span ratio" in json.dumps(node("english-gothic"))
+
+
+def test_one_rule_runs_backwards_and_nothing_else_in_the_library_does():
+    """Elizabethan storeys increase upward to mark the ascent to the state rooms -- 'the exact
+    inverse of the Georgian rule'. Storey graduation is usually explained as an optical correction;
+    here is a tradition doing the opposite for a ceremonial reason."""
+    r = next(x for x in pack("facade-medieval-english")["derived_rules"]
+             if x["dimension"] == "ascent_ratio")
+    assert r["range"] == [1.0, 1.4] and float(r["expression"]) > 1.0
+    assert "the exact inverse of the Georgian rule" in json.dumps(node("elizabethan"))
+    # and the pack also carries the rule that refuses graduation outright
+    eq = next(x for x in pack("facade-medieval-english")["derived_rules"]
+              if x["dimension"] == "storey_equality")
+    assert eq["range"] == [1.0, 1.1]
+    assert "most clearly separates Tudor from Georgian at a glance" in json.dumps(node("tudor"))
+
+
+def test_the_glazing_band_is_a_history_and_the_retreat_is_deliberate():
+    """Elizabethan 45-60 and higher at Hardwick; Jacobean 30-45. The next generation heard the
+    jibe. `opening-mullioned` found the same retreat from the window's side."""
+    r = next(x for x in pack("facade-medieval-english")["derived_rules"]
+             if x["dimension"] == "glazed_share")
+    assert r["range"] == [0.3, 0.6]
+    assert "45-60 percent" in json.dumps(node("elizabethan"))
+    assert "30-45 percent" in json.dumps(node("jacobean"))
+
+
+def test_the_fifth_instance_of_the_mismatch_and_the_second_use_of_the_word_characteristic():
+    """Jacobean gables against window bays, and Neoclassical Revival's screen against its wall. Two
+    centuries and two countries apart, almost the same sentence."""
+    r = next(x for x in pack("facade-medieval-english")["derived_rules"]
+             if x["dimension"] == "gable_alignment")
+    assert r["judgment"] is True
+    assert "the mismatch is characteristic rather than a fault" in json.dumps(node("jacobean"))
+    assert "the characteristic mismatch between screen and wall" in \
+        json.dumps(node("neoclassical-revival"))
+    # five packs in this tranche now write to the slot
+    writers = [pid for pid in ("facade-pavilion", "jetty-overhang", "facade-portada",
+                               "facade-peristyle", "facade-medieval-english")
+               if any(x["target_slot"] == "window_grouping_rule"
+                      for x in pack(pid)["derived_rules"])]
+    assert len(writers) == 5
+
+
+def test_the_pack_writes_one_slot_twice_and_says_it_is_a_menu_not_a_collision():
+    """OQ 48's case (i): several rules at one address within one pack, deliberately, with the notes
+    saying so. Here they are about two different pairs of systems on one wall."""
+    dims = [r["dimension"] for r in pack("facade-medieval-english")["derived_rules"]
+            if r["target_slot"] == "window_grouping_rule"]
+    assert sorted(dims) == ["bay_primacy", "gable_alignment"]
+    assert "deliberate menu OQ 48 describes" in pack("facade-medieval-english")["notes"]
+
+
+def test_the_buttress_projection_is_measured_against_itself_like_the_french_pavilion():
+    """Two unrelated traditions stating a projection the same way, and for the same reason: the
+    element is a mass in its own right rather than a modulation of the wall."""
+    mine = next(x for x in pack("facade-medieval-english")["derived_rules"]
+                if x["dimension"] == "buttress_projection")
+    theirs = next(x for x in pack("facade-pavilion")["derived_rules"]
+                  if x["target_slot"] == "composition_parti" and x["dimension"] == "ratio")
+    assert "of its own width" in mine["authority_note"]
+    assert "of its own width" in theirs["authority_note"]
+    # and the buttress diminishes, which is the half that revival work gets wrong
+    m = {x["id"]: x["projection_parts"]
+         for x in pack("facade-medieval-english")["assemblies"]["buttress_stage"]["members"]}
+    assert m["base_stage"] > m["middle_stage"] > m["upper_stage"]
+
+
+def test_the_great_hall_is_as_high_as_it_is_wide_and_got_there_from_a_fire():
+    """`room-harmonic` would derive a cubical room from the arithmetic mean. This one is that shape
+    because it was heated by an open hearth in the middle of the floor."""
+    r = next(x for x in pack("facade-medieval-english")["derived_rules"]
+             if x["dimension"] == "hall_plate")
+    assert r["range"] == [0.9, 1.1]
+    assert "wall-plate height roughly equal to width" in json.dumps(node("english-gothic"))
+    assert "got there from a fire" in r["note"]
+
+
+def test_five_of_the_six_nodes_had_no_facade_role_pack():
+    """The last item on WP-4.1's list, and it was new only in that two existing items turned out to
+    be one pack seen from two sides."""
+    p = pack("facade-medieval-english")
+    assert len(p["applies_to"]) == 6
+    without = [nid for nid in p["applies_to"]
+               if not any(e["role"] == "facade" and e["pack"] != "facade-medieval-english"
+                          for e in node(nid)["proportion_packs"])]
+    assert len(without) == 5, without          # only jacobean already carried facade-gable
+    assert "LAST ITEM ON WP-4.1'S LIST" in p["notes"]
+
+
+def test_the_rationing_pattern_reaches_five_traditions():
+    """Nine Spanish records, then Mudejar, Queen Anne and Scottish Baronial, and now the Elizabethan
+    frontispiece. It should be treated as a property of this corpus and tested properly."""
+    r = next(x for x in pack("facade-medieval-english")["derived_rules"]
+             if x["dimension"] == "frontispiece_share")
+    assert r["range"] == [0.25, 0.333]
+    assert "frontispiece only" in json.dumps(node("elizabethan"))
+    assert "Five traditions with nothing in common" in pack("facade-medieval-english")["notes"]
+    assert "four traditions with nothing in common" in pack("corbel-course")["notes"]

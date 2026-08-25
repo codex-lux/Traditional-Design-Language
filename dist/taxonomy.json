@@ -7606,6 +7606,12 @@
           "role": "opening",
           "note": "The node this pack is named for and the one that states its central rule in five words: 'window width is a whole number of lights'. It also supplies the four-centred rise at 1:3 to 1:4, the light at 400-500 mm in leaded quarries of roughly 100 x 150, the overall band at 2:1 to 4:1 wide, and the diagnostic the pack's head assembly is built around -- 'the four-centred arch under a square label mould with carved or moulded spandrels, the single most reliable Tudor signature'. `opening-pointed` names this node in its own notes as one it could not serve, because a single strike ratio cannot express a four-centred head.",
           "precedence": 4
+        },
+        {
+          "pack": "facade-medieval-english",
+          "role": "facade",
+          "note": "'No governing system in the classical sense', and 'windows are placed where rooms need them' -- the pack's claim stated by a style four centuries after the Norman one. This node supplies the storey-equality rule, which is the single most useful dating rule in the pack: 'storey heights nearly equal; no graduated diminution, which is what most clearly separates Tudor from Georgian at a glance'. `storey-graduation` is that rule's opposite and the two must never be bound to one node. It also gives the chimney shaft at one and a half to three times its own width above the ridge -- one of the very few things in this tradition composed for effect rather than placed by use. `opening-mullioned` keeps the four-centred arch and the light.",
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -14492,16 +14498,22 @@
           "precedence": 0
         },
         {
+          "pack": "facade-medieval-english",
+          "role": "facade",
+          "note": "The node with the pack's central sentence in it -- 'openings sit centred in their bay; the bay, not the facade, is the unit of composition' -- and with NO FACADE-ROLE PACK before this, which `opening-pointed` recorded when it raised the item: the Gothic facade half was real 'for exactly one node... which is the medieval building rather than a revival of it'. This is that node. It supplies the bay, the bay count, both pier ratios and their comparison, the lancet and Perpendicular window proportions, the diminishing buttress, and the great hall's cubical section. `opening-pointed` keeps the arch and this keeps everything the arch stands in.",
+          "precedence": 1
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "Judgment binding: english-gothic is not in room-vernacular's applies_to, and its governing space — the great hall, 7.5-9.0 m wide, wall-plate height at least equal to that width — is a different order of scale from the pack's 14 ft (4.3 m) ordinary-room module entirely. Bound narrowly and scoped to the SUBSIDIARY spaces only (solar, chambers off the dais end, service rooms beyond the screens), which are genuinely closer to the pack's 9-14 ft chamber range; the hall itself remains governed by this style's own proportional_system (ad quadratum/ad triangulum setting-out and c04's wall-plate-to-span rule), which the library has no dedicated pack for. See gaps.",
-          "precedence": 1
+          "precedence": 2
         },
         {
           "pack": "opening-mullioned",
           "role": "secondary",
           "note": "Bound secondary behind `opening-pointed`, and the division between the two packs is exact rather than approximate. That pack holds the ARCH -- the equilateral head, the strike ratio, the hood mould -- and this one holds the MULLION GRID beneath it, which this record describes as the Perpendicular achievement: 'mullions running unbroken from sill to arch head and crossed by horizontal transoms, dividing the light into rectangular panels'. That grid is the direct ancestor of every Tudor and Jacobean window in this pack, and binding it here is what makes the descent legible. Neither pack carries the tracery, which both decline for the same reason.",
-          "precedence": 2
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -19944,28 +19956,34 @@
           "precedence": 1
         },
         {
+          "pack": "room-vernacular",
+          "role": "room",
+          "note": "Judgment binding (not in applies_to). A somewhat better fit than at elizabethan: this style's own text records a shift toward 'a proliferation of smaller private rooms and closets' as the great chamber and gallery stop being the whole of social life, which tracks room-vernacular's ordinary-room band more closely than Elizabethan's state-room scale does. Still scoped away from the hall, gallery and great chamber, which remain governed by this style's own figured ratios.",
+          "precedence": 2
+        },
+        {
           "pack": "vignola-tuscan",
           "role": "optional",
           "authority": "vignola-tuscan",
           "note": "A cautious, low-precedence judgment binding, and the one order-pack binding in this entire British-traditions batch. jacobean sits at the genuine cusp: unlike elizabethan and tudor, this style's porch is real Renaissance ornament with real structural presence (c02: projects at least 1.2 m and carries a room above), not a flat applied frontispiece or an inset roundel, and its own text records real (if approximate) column proportions — 'porch column height 6 to 8 diameters.' Vignola's Tuscan, the plainest of the five canonical orders at seven diameters, is the nearest canonical reference point to that range and is the order this pack's own notes call 'the American default... whatever the pattern book calls them.' The binding is deliberately weak: distinguished_from english-baroque states outright that 'Jacobean orders are approximated from engravings, stacked, and applied to a porch' and are NOT proportioned to a module the way a correct order is, and the style's own figure (6-8D) sits at or below Vignola's canonical minimum, confirming the mismatch. Use this pack only as a rough comparative check on porch column scale — never as a governing derivation for the entablature, capital or pedestal, which should be drawn from the style's own approximate, Serlio-and-de-Vries-derived figures instead.",
-          "precedence": 4
-        },
-        {
-          "pack": "room-vernacular",
-          "role": "room",
-          "note": "Judgment binding (not in applies_to). A somewhat better fit than at elizabethan: this style's own text records a shift toward 'a proliferation of smaller private rooms and closets' as the great chamber and gallery stop being the whole of social life, which tracks room-vernacular's ordinary-room band more closely than Elizabethan's state-room scale does. Still scoped away from the hall, gallery and great chamber, which remain governed by this style's own figured ratios.",
           "precedence": 3
         },
         {
           "pack": "opening-mullioned",
           "role": "opening",
           "note": "The retreat, and the record frames it as one: glazing 'reduced from Elizabethan extremes to roughly 30-45 percent of the elevation'. Read the three glazing figures in this pack as a history rather than a range -- Elizabethan 45-60, Jacobean 30-45, and the revival choosing the Elizabethan end again at 35-55 because glass was cheap by 1910. This node also gives 'windows of two to five lights with one or two transoms', and its two-transom case is why the pack's transom rule has a ceiling at three quarters rather than stopping at two thirds.",
-          "precedence": 5
+          "precedence": 4
         },
         {
           "pack": "facade-gable",
           "role": "facade",
           "note": "The shaped gable, and the node that gives the pack its dating tell: 'Elizabethan gables are straight-sided and finialled; Jacobean gables CURVE'. Its 'concave and convex scrolls stepping up to a pediment' are the Netherlandish holbol arriving in England, and its gables are ranged SYMMETRICALLY along a front -- which is the opposite of what the picturesque traditions do with the same count, and is why the pack's hierarchy rule explicitly does not apply here. Gable width 3.5-5.5 m with the apex at 0.6-0.8 of the width.",
+          "precedence": 5
+        },
+        {
+          "pack": "facade-medieval-english",
+          "role": "facade",
+          "note": "The end of the tradition, and the node whose own record supplies the pack's second `window_grouping_rule` entry: 'the shaped gables establish a second, slower rhythm above the eaves line which may or may not align with the window bays -- where it does not, the mismatch is characteristic rather than a fault.' `styles/neoclassical-revival.json` uses almost the same words two centuries later and in another country. It also gives the porch column at 6-8 diameters -- not any order, because the orders here are 'used approximately and by rule of thumb from Serlio and de Vries plates', so a correctly proportioned order on a Jacobean porch is an anachronism. Behind `facade-gable`, which owns the shaped gable itself.",
           "precedence": 6
         }
       ],
@@ -34924,16 +34942,22 @@
           "precedence": 2
         },
         {
+          "pack": "facade-medieval-english",
+          "role": "facade",
+          "note": "The node that says WHY the bay is what it is: 'the bay is set by the length of sound oak a carpenter could get, roughly 4.5 m at the limit', and 'there is no applied proportional theory of any kind'. Its statement of the pack's central claim is the most operational of the four -- 'openings are cut within the panel field and never cross a principal post, so window widths are dictated by the frame rather than the other way round'. Behind `timber-panel`, `timber-bay` and `jetty-overhang`, which own the frame, its infill and its overhang; this owns only what the frame does to the elevation.",
+          "precedence": 3
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "english-medieval-timber-frame is named directly in room-vernacular's applies_to. The two packs are complementary by design (room-vernacular's own module note explicitly distinguishes the room from the bay that contains it), and this style's hall-and-parlor and hall-single-cell massing affinities are literally room-vernacular's own worked examples.",
-          "precedence": 3
+          "precedence": 4
         },
         {
           "pack": "opening-mullioned",
           "role": "opening",
           "note": "Bound for the opening in a timber wall rather than a stone one, which changes the material and not the geometry: the mullion is oak, the light is the same width, the leaded panel is the same, and the label is a moulded timber head. `timber-panel` holds this node's wall and this pack its openings, and the two meet at a real constraint the pack should be read with -- a framed wall is 150 mm thick against a rubble wall's 500-700, so there is no deep reveal here and no window seat, and the openings sit almost flush. Everything the pack says about drainage and the reveal applies with less depth to work with.",
-          "precedence": 4
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -40977,12 +41001,6 @@
       ],
       "proportion_packs": [
         {
-          "pack": "facade-arcade",
-          "role": "secondary",
-          "note": "Bound secondary behind `stone-course`, and it is one of the nine records the pier ratio rests on: 'pier or respond width 1/3 to 1/2 of the opening it flanks'. It also gives the semicircular rise in the strongest terms any record uses -- 'arch rise to span exactly 1:2, the defining and non-negotiable ratio' -- which is why this pack's own rise default is semicircular and why that default is right here and overridden elsewhere. Read this node's arcade ratios beside the comparison its sibling record draws: `styles/english-gothic.json` gives 1:4 to 1:6 against Norman's 1:2 to 1:3, and that gap is the entire history of Gothic construction stated as two numbers.",
-          "precedence": 2
-        },
-        {
           "pack": "stone-course",
           "role": "primary",
           "note": "The node that states the pack's central rule for the second time and independently: 'coursed rubble field walling with ashlar reserved for quoins, jambs, voussoirs, string courses and shafts'. Four centuries and a building type away from the Cotswold cottage, with the same word -- reserved -- and no awareness of the other. It also supplies the pack's one scaling rule, wall thickness at 1/8 to 1/5 of the clear span, which is how a mason building at every scale from a chapel to a cathedral actually thought, and which gives a heavier wall than the domestic records do because it is describing vaulted and towered work. Read that rule here and leave it alone on the cottages. What the pack does NOT carry for this node is the ornament: the chevron, billet, beakhead and cable that this record describes as 'cut into the stone's arris rather than applied to its face' are a repertoire and stay on WP-4.1's candidate list.",
@@ -40993,6 +41011,18 @@
           "role": "room",
           "note": "Judgment binding, and a narrow one: norman-romanesque-english is not in room-vernacular's applies_to, and almost none of the pack's module transfers — this is single-cell, vertically stacked, vaulted masonry construction (undercroft 2.4-3.0 m, hall above 4.5-6.0 m) with no joist-span or hearth-reach logic resembling the pack's 14 ft timber room at all. What does transfer is the one rule the pack itself calls 'physics rather than custom': the daylight-depth relationship. This style's own text confirms the same constraint by observation ('openings small in relation to wall area... splayed inward to gather what light they can'), so the daylight rule is bound as the sole governing content of this pack for this node; the module, hearth and span figures should be disregarded here. No dedicated masonry-mass room or facade system exists in the library for this style — see gaps.",
           "precedence": 1
+        },
+        {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "Bound secondary behind `stone-course`, and it is one of the nine records the pier ratio rests on: 'pier or respond width 1/3 to 1/2 of the opening it flanks'. It also gives the semicircular rise in the strongest terms any record uses -- 'arch rise to span exactly 1:2, the defining and non-negotiable ratio' -- which is why this pack's own rise default is semicircular and why that default is right here and overridden elsewhere. Read this node's arcade ratios beside the comparison its sibling record draws: `styles/english-gothic.json` gives 1:4 to 1:6 against Norman's 1:2 to 1:3, and that gap is the entire history of Gothic construction stated as two numbers.",
+          "precedence": 2
+        },
+        {
+          "pack": "facade-medieval-english",
+          "role": "facade",
+          "note": "The tradition at its most determined: 'wall thickness and the semicircle'. This node supplies the pack's only rule with a single permitted value that is a DEFINITION rather than a judgment -- 'arch rise to span exactly 1:2, the defining and non-negotiable ratio' -- and the consequence it draws, that 'span sets height throughout'. It also gives the pier band at a third to a half of the opening, which `english-gothic` quotes back at it from outside as the figure the pointed arch halved, and the wall thickness stated as a fraction of the span it encloses. Bound behind `stone-course`, which owns the walling, and `facade-arcade`, which owns the arcade the semicircle sits in.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -43221,6 +43251,12 @@
           "role": "secondary",
           "note": "Bound secondary and largely for what it does NOT have. `styles/jacobean.json` draws the line: 'Elizabethan gables are straight-sided and finialled; Jacobean gables curve.' So the pack's shaped-gable curve count is ZERO here, which is the bottom of its range and a real value rather than an absence -- a straight-sided finialled gable is a complete answer and not an unshaped one. The apex ratio, the coping, the kneeler and the apex stone all apply unchanged.",
           "precedence": 4
+        },
+        {
+          "pack": "facade-medieval-english",
+          "role": "facade",
+          "note": "The transitional node, and the one that runs BACKWARDS: 'storey heights increasing upward at Hardwick (roughly 1 : 1.1 : 1.3) to mark the ascent to the state rooms -- the exact inverse of the Georgian rule'. Nothing else in this library does that. It also supplies the top of the glazing history (45-60 per cent, higher at Hardwick) against `jacobean`'s retreat to 30-45, and the frontispiece rule -- the orders confined to a quarter or a third of ONE PART of the elevation and absent everywhere else, which is the rationing pattern `facade-portada` and `corbel-course` found in four other traditions arriving in a fifth.",
+          "precedence": 5
         }
       ],
       "_cascade": [

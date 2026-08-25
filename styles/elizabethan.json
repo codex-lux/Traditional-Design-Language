@@ -235,6 +235,12 @@
       "role": "secondary",
       "note": "Bound secondary and largely for what it does NOT have. `styles/jacobean.json` draws the line: 'Elizabethan gables are straight-sided and finialled; Jacobean gables curve.' So the pack's shaped-gable curve count is ZERO here, which is the bottom of its range and a real value rather than an absence -- a straight-sided finialled gable is a complete answer and not an unshaped one. The apex ratio, the coping, the kneeler and the apex stone all apply unchanged.",
       "precedence": 4
+    },
+    {
+      "pack": "facade-medieval-english",
+      "role": "facade",
+      "note": "The transitional node, and the one that runs BACKWARDS: 'storey heights increasing upward at Hardwick (roughly 1 : 1.1 : 1.3) to mark the ascent to the state rooms -- the exact inverse of the Georgian rule'. Nothing else in this library does that. It also supplies the top of the glazing history (45-60 per cent, higher at Hardwick) against `jacobean`'s retreat to 30-45, and the frontispiece rule -- the orders confined to a quarter or a third of ONE PART of the elevation and absent everywhere else, which is the rationing pattern `facade-portada` and `corbel-course` found in four other traditions arriving in a fifth.",
+      "precedence": 5
     }
   ]
 }
