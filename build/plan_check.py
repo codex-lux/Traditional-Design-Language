@@ -503,7 +503,10 @@ def check(plan, C=None, strict=False):
                 meas.setdefault(k, v)
     except Exception:
         pass
-    fr = core.check_measurements(meas, style=style) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
+    # limit lifted from the API default of 40: faults_present was never truncated, and the
+    # could_not_judge list (surfaced as fault_unjudged below) has to be the whole list or
+    # "unjudged is not passed" degrades into "the first forty unjudged are not passed".
+    fr = core.check_measurements(meas, style=style, limit=10**6) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
     for x in fr.get("faults_present", []):
         F.add(x["severity"] if x["severity"] in SEV_ORDER else "serious", "fault",
               f"{x['name']}: {x['results'][0].get('value')} against {x['results'][0].get('required')}.",
@@ -513,6 +516,10 @@ def check(plan, C=None, strict=False):
     for f in F.items: counts[f["severity"]] = counts.get(f["severity"], 0) + 1
     return {"plan": plan["id"], "style": style, "rooms": len(rooms),
             "counts": counts, "fault_summary": fr.get("summary"), "constraint_summary": constraint_summary,
+            # The could-not-judge detail, not just its count. fault_summary already counts
+            # unjudged; without the list itself a caller cannot say WHICH faults were
+            # beyond evaluation, and unjudged-is-not-passed needs the which. Additive.
+            "fault_unjudged": fr.get("could_not_judge", []),
             "findings": F.sorted(),
             "note": ("Style exceptions are honoured throughout — a rule a style legitimately breaks is not reported. "
                      "Code findings are advisory. Anything the fault corpus could not judge is unknown, not passed.")}

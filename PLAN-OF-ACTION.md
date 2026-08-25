@@ -15,7 +15,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **2 — Composition** | WP-2.1, 2.2, 2.4 complete · **WP-2.3 not started** | **Incomplete** — the solver is still a hill-climb, not an optimiser |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3 complete · **4.4, 4.5, 4.6, 4.7 not started** | **In progress** |
-| **5 — Platform** | none | **Not started** |
+| **5 — Platform** | WP-5.2 complete · **5.1, 5.3, 5.4, 5.5 not started** | **In progress** — the workbench is live in `workbench/`; export, guidelines, cost and ingestion remain |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -408,6 +408,8 @@ Emit DXF (ezdxf) plan, elevation, section and roof plan with layers per element 
 **Depends on:** WP-1.2; better after WP-2.2. **Size:** large.
 
 A self-contained HTML tool in `dist/` in the manner of `orders.html`: load or sketch a plan record, see findings by layer inline on the drawing, drag a wall on the bay grid and re-score, switch style and watch constraints change, request N candidates from the composer (via the MCP server or a Python port). This is the interface a plan-development lead works in; its absence is a gap in the collaboration, not just the software.
+
+**Status (25 Aug 2026): built, with one approved divergence from the package text.** Delivered as a locally served app in `workbench/` (FastAPI over `mcp_server/core.py` + a Vite/React frontend in the Drawn Language), not a self-contained `dist/` HTML file — the interactions this package names (re-score on a wall drag, style switch, compose on demand) are live calls into the Python toolchain, and a static file would have required JS ports of the validator, composer and geometry solver, compounding the dual-engine tax the orders tool already pays. Divergence approved by Lucas, 25 Aug 2026. The MCP-server-or-Python-port fork the text left open is resolved a third way: the server imports `core.py` directly and the rail's 24 tools are `mcp_server/server.py`'s own wrappers. Six surfaces live (Phylogeny, Kit, Fault Corpus, Brief Intake, Candidate Set, Plan Workbench with drag-and-re-score, style switch, and assert-a-fact); Style Record, Proportions, Drawing Set and Export are listed as forthcoming in its rail. Two additive `build/` touches (`plan_check.check()` returns `fault_unjudged`; `compose()` takes `on_candidate=`), both pinned in `tests/test_workbench_touches.py`. Report: `docs/reports/wp-5.2-the-workbench.md` · layer doc: `docs/workbench.md` · new open questions: OQ 32–35.
 
 ### WP-5.3 Generated guidelines, details and modelling conventions
 
