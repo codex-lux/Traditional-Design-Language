@@ -282,34 +282,40 @@
       "precedence": 2
     },
     {
-      "pack": "facade-classical",
-      "role": "facade",
-      "note": "Explicitly listed. Governs the symmetrical rectangular block and cornice the node's own defining_characteristics describe as 'continuous... including the rear, which no Greek Revival or Colonial house bothers to do.'",
-      "precedence": 4
-    },
-    {
       "pack": "opening-proportion",
       "role": "opening",
       "note": "Explicitly listed. Governs the door, sidelight and Palladian/lunette window the node's own defining_characteristics name; the portico's colossal order and its own entasis, entablature-depth and intercolumniation are the node's own hard constraints (c01, c02, c04) and are not restated by this opening pack, which owns the wall openings rather than the freestanding order.",
       "precedence": 3
     },
     {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "The node that names the pack's central problem: 'the wall behind carries five or seven bays at a constant rhythm that ignores the columns, producing the characteristic mismatch between screen and wall.' That is `window_grouping_rule`/`screen_offset` and the reason it is marked judgment -- four columns over five bays and six over seven means the screen is even and the wall is odd, so they agree at the centre and nowhere else, and the record treats the mismatch as characteristic rather than as a fault. It also gives the centre-bay widening at 1.33, which is Vitruvius's eustyle factor arriving eighteen centuries later with the absolute figures changed and the ratio intact.",
+      "precedence": 4
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Explicitly listed. Governs the symmetrical rectangular block and cornice the node's own defining_characteristics describe as 'continuous... including the rear, which no Greek Revival or Colonial house bothers to do.'",
+      "precedence": 5
+    },
+    {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "Explicitly listed. Governs the wall behind the screen, where the node's own description notes 'the wall behind carries five or seven bays at a constant rhythm that ignores the columns' -- the storey graduation of that wall is independent of, and this pack's domain distinct from, the colossal order's own module.",
-      "precedence": 5
+      "precedence": 6
     },
     {
       "pack": "trim-classical",
       "role": "interior",
       "note": "Explicitly listed. The interior register behind the portico -- the node's own description states ceilings are high and rooms conventional, dressed in the same academic classical trim family as the parent Beaux-Arts-American lineage.",
-      "precedence": 6
+      "precedence": 7
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "Explicitly listed. Matches the academic, Ecole-trained design process the node's own lineage (beaux-arts-american, weight 1.0) describes directly.",
-      "precedence": 7
+      "precedence": 8
     }
   ]
 }

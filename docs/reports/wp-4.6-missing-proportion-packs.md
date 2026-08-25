@@ -1170,6 +1170,119 @@ priority: it is no longer a curiosity of one binding.
 unchanged at 12 — `churrigueresque` went from one pack to two and is still in the count, which is
 worth saying rather than rounding away.
 
+### `proportions/systems/facade-peristyle.json` — the orders are not the colonnade
+
+Eleven order packs in this library proportion a column, and **not one of them says how many columns
+there are, where they stand, what they stand on, or what the wall behind them is doing.** A
+peripteral Greek temple, a Roman arch order and a colossal revival portico answer those questions
+completely differently while using identical columns. `greek-classical` and `roman-classical` — the
+two antique sources of the whole classical half of this corpus — carried **no facade-role pack at
+all** before this.
+
+The module is the **axial intercolumniation**, not the diameter, and that choice is what lets one
+pack hold both traditions: the same twelve-foot bay carries a fat Doric column at 2.45 diameters or
+a slim Corinthian one at 3.25, so the pack does not have to pick a tradition in order to state a
+dimension.
+
+#### The central question is the screen and the wall, and the corpus gives four settlements
+
+A colonnade and the wall behind it are two systems. Which governs?
+
+| tradition | settlement |
+|---|---|
+| Greece | Nothing to reconcile — the peristyle *is* the building, the cella "subordinate and undecorated" |
+| Rome | The **wall** governs, because it is doing the structure: "the two systems are reconciled by choosing an intercolumniation that suits the required arch span" |
+| Southern plantation | The wall governs the other way: "column spacing is set by the bay of the house behind", and the wall "is bayed to match" |
+| Neoclassical Revival | **Neither** — "the characteristic mismatch between screen and wall" |
+
+The fourth is the interesting one and it is arithmetic. Four columns over five bays, six over seven:
+the screen is **even** (the entrance falls between the middle pair) and the wall is **odd** (the
+entrance falls on a centre bay), so the two rhythms agree at the centre and nowhere else. The pack
+encodes that offset of one, with zero meaning the two coincide, and marks the rule `judgment: true`
+because which settlement applies is the largest decision the pack asks anyone to make and no
+measurement can make it.
+
+Two American styles fifty years apart take opposite answers — `greek-revival-northern`'s portico
+"sets the bay module for the wall behind it", `neoclassical-revival`'s wall "ignores the columns" —
+which is the clearest demonstration in the corpus that the question is real rather than an artefact
+of how the records were written.
+
+**This is now the fourth pack in this tranche to write to `window_grouping_rule` about whether an
+elevation's systems must agree.** `facade-pavilion` requires exact vertical alignment;
+`jetty-overhang` and `facade-portada` require independence; this one says it is a design decision
+with four historical precedents. The library could state none of it a week ago, and that the axis
+surfaced four times in four consecutive packs — from France, New England, Spain and Greece — is a
+better argument that it is a real dimension of facade design than any one of them alone.
+
+#### Two rules unlike anything else in the corpus
+
+**The only closed-form count rule.** `column`/`flank_count` is `2 * n_front + 1` — 6×13, 8×17. The
+number of columns in a Greek peristyle is not chosen, it is *computed* from one integer, which means
+a Greek temple's plan proportion is a consequence of its front rather than a decision alongside it.
+Everything else in this library gives a band inside which a designer chooses; this gives an answer.
+The expression is written as `2 * 6 + 1` rather than as `13` so the formula lives in the data.
+
+**The only rule that is a function.** Vitruvius gives three points for column height against
+spacing — (1.5, 10), (2.25, 9.5), (4.0, 8) — and they fall almost exactly on a line. The pack states
+the line, `11.2 - 0.8 * spacing`, and **reports its residual rather than tuning it away**: at eustyle
+it returns 9.4 against the record's 9.5. The rule exists for an optical reason — columns spaced
+further apart look shorter, so they are made shorter — and the whole point of the five
+intercolumniations is that each has its own column to go with it. A designer taking a diastyle
+spacing with a pycnostyle column has built the one combination the system exists to prevent.
+
+#### One convergence, and it is counter-intuitive
+
+**Five records put the floor of their intercolumniation band at 2.25 diameters exactly:**
+`neoclassical-revival`, `english-palladian`, `greek-revival-american`, `greek-revival-northern` and
+`jeffersonian-classicism` — written independently, across two countries and a century and a half. It
+is the strongest agreement found anywhere in this work package.
+
+What it shows is not what one would expect. Greece runs 1.2–1.7 and Rome 1.5–4.0; **the revival is
+more uniform than either of its sources.** The reason is in the number: 2.25 is Vitruvius's eustyle,
+which he recommends as the best of the five, and the revival was working from the book while the
+ancients worked from the buildings. A tradition that learns from a text converges; one that learns
+from fabric does not.
+
+#### An unused conflict category, earned
+
+`accessibility-code` is the least-used conflict in the library (14 of 247 before this), and the
+Roman podium is a genuine instance rather than a box ticked. The temple front sits 2–4 m up, is
+approached by a stair at one end only, and has no other face — and `styles/roman-classical.json`
+identifies that frontality as exactly why the type became the standard elevation for courthouses,
+banks and capitols. An accessible route at the side puts the accessible entrance on the one
+elevation the composition declares to be the back. On a building whose entire argument is that it
+has one front, that is not a detailing compromise. The Greek all-round crepidoma has the opposite
+property and is easier, which is a rare case of the older form being the more accommodating one.
+
+#### Bindings, and the third instance of OQ 49
+
+Bound to nine, ahead of `facade-classical` on the seven that carry it — the two are complementary,
+`facade-classical` composing the wall and this the screen in front of it, and no address is shared
+between them.
+
+The pack states **no portico depth rule at all**, deliberately: that wall-face-to-column-centreline
+dimension is the same measurement `balcony-gallery` already owns as gallery depth, and
+`styles/neoclassical-revival.json`'s own constraint note says so in those words. A collision avoided
+by not writing the rule, which is the cleanest form of the fix and the first time this package has
+used it.
+
+`egyptian-revival` stays **unbound**, and this is **OQ 49's third instance in three packs**. It is
+the corpus's one deliberately unbound buildable node, held out by WP-4.1 on the reasoning that
+nothing fitted its trabeated order and that naming the gap beat forcing a pack onto it. Two of this
+pack's rules fit exactly — its columns are 4–5.5 diameters, which *overlaps Archaic Doric at 4.3*,
+and its intercolumniation of 1.5–2.5 is inside the Roman band — and its own record calls that "the
+squattest proportion in any Western revival" without noticing that Paestum is squatter still. But
+its bay rhythm is "A-B-A, never a repeating march of equal bays", which denies the peristyle rules
+outright, and it has no podium, no crepidoma, no entasis and no corner. Binding for two rules would
+hand it fifteen.
+
+So 131 of 132 stands — and the cost of OQ 49 is now precise: **its proposal would bind the last
+unbound node in the corpus.** That is a better argument for the ruling than the two abstract cases
+before it.
+
+**Measured movement: nodes with no facade-role pack 53 → 51.** `confidence: high`, the second pack in
+the package to claim it.
+
 ## What is NOT done, with the measurement
 
 **REVISED 25 Aug 2026, after seven tranches.** The list this paragraph originally carried has been
@@ -1177,9 +1290,6 @@ overtaken: the octagon module, the portada panel, the four-centred Tudor arch an
 leaded-casement system are all built, and the last two turned out to be one pack. What genuinely
 remains, with each item's measured leverage:
 
-- a **peripteral/arcuated Greek-Roman system** — `greek-classical`'s flank-to-front column rule
-  (n_flank = 2·n_front + 1), the Parthenon's 4:9, the stylobate curvature at 1:500–1:650, and Rome's
-  Vitruvian intercolumniations. Three nodes with real figures.
 - a **Mudejar brick corbelling module** (7 nodes, 7 thinly bound) — course-plus-joint at 60–70 mm
   and ornamental bands 3–9 courses deep.
 - a **medieval/pre-Palladian English facade system** — new only in that two existing list items turn
@@ -1236,7 +1346,9 @@ not left silent. Struck off by the sixth: the **jetty module**, which the list s
 and which binds 5 — the five that carry figures — with three refused for stated reasons, one of
 them raising OQ 49. Struck off by the seventh: the **portada/retablo ornament panel**, which the
 list scoped at 8 nodes and which binds 8, with `mission-revival` refused and OQ 49 earning its
-second independent instance.
+second independent instance. Struck off by the eighth: the **peripteral/arcuated Greek-Roman
+system**, which the list scoped at 3 nodes and which binds 9 — including the two antique sources of
+the entire classical corpus, neither of which had a facade-role pack.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -1249,7 +1361,7 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **54 packs**, 0 errors from `check_orders.py`,
+Later tranches: 23 checks green. **55 packs**, 0 errors from `check_orders.py`,
 `check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the thirteen new
 packs bind 121 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
@@ -1258,7 +1370,7 @@ a threshold system seven nodes had nothing for, a walling system twelve nodes ha
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 12 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **210 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **221 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

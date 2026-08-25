@@ -1,313 +1,319 @@
 {
- "id": "greek-revival-southern-plantation",
- "name": "Southern Plantation Greek Revival",
- "aka": [
-  "Antebellum Greek Revival",
-  "Southern Colonnaded",
-  "Plantation Classical"
- ],
- "rank": "variant",
- "member_of": "greek-revival-american",
- "status": "historical",
- "period": {
-  "origin": 1825,
-  "floruit_start": 1830,
-  "floruit_end": 1861,
-  "decline_end": 1875,
-  "circa": true,
-  "revival_periods": [
-   {
-    "start": 1900,
-    "end": 1945,
-    "revival_node": "neoclassical-revival",
-    "note": "The colossal-order colonnade returns as the standard dress of Southern banks, courthouses and the 'Gone With the Wind' image of the plantation house - an image largely constructed after 1900 and substantially inaccurate to what most plantations looked like."
-   },
-   {
-    "start": 1920,
-    "end": 2026,
-    "revival_node": "colonial-revival",
-    "note": "Two-storey columned porticoes on suburban houses throughout the South, at a fraction of the original ceiling heights and none of the ventilation logic."
-   }
-  ]
- },
- "geography": {
-  "regions": [
-   "Deep South",
-   "Gulf South",
-   "Lower Mississippi Valley",
-   "Black Belt",
-   "Upland South",
-   "Chesapeake"
+  "id": "greek-revival-southern-plantation",
+  "name": "Southern Plantation Greek Revival",
+  "aka": [
+    "Antebellum Greek Revival",
+    "Southern Colonnaded",
+    "Plantation Classical"
   ],
-  "hearth": "the Lower Mississippi Valley and the Alabama Black Belt",
-  "climate_zones": [
-   "2A",
-   "3A",
-   "4A"
-  ]
- },
- "lineage": [
-  {
-   "target": "greek-revival-american",
-   "type": "regional_of",
-   "weight": 1,
-   "inherits_kit": true
+  "rank": "variant",
+  "member_of": "greek-revival-american",
+  "status": "historical",
+  "period": {
+    "origin": 1825,
+    "floruit_start": 1830,
+    "floruit_end": 1861,
+    "decline_end": 1875,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1900,
+        "end": 1945,
+        "revival_node": "neoclassical-revival",
+        "note": "The colossal-order colonnade returns as the standard dress of Southern banks, courthouses and the 'Gone With the Wind' image of the plantation house - an image largely constructed after 1900 and substantially inaccurate to what most plantations looked like."
+      },
+      {
+        "start": 1920,
+        "end": 2026,
+        "revival_node": "colonial-revival",
+        "note": "Two-storey columned porticoes on suburban houses throughout the South, at a fraction of the original ceiling heights and none of the ventilation logic."
+      }
+    ]
   },
-  {
-   "target": "southern-federal",
-   "type": "descends_from",
-   "weight": 0.6,
-   "inherits_kit": true,
-   "note": "The plan discipline - through-passage, single-pile where possible, tall ceilings, detached kitchen - comes from here unchanged; only the trim and the porch scale up."
+  "geography": {
+    "regions": [
+      "Deep South",
+      "Gulf South",
+      "Lower Mississippi Valley",
+      "Black Belt",
+      "Upland South",
+      "Chesapeake"
+    ],
+    "hearth": "the Lower Mississippi Valley and the Alabama Black Belt",
+    "climate_zones": [
+      "2A",
+      "3A",
+      "4A"
+    ]
   },
-  {
-   "target": "french-colonial-american",
-   "type": "hybridizes_with",
-   "weight": 0.45,
-   "inherits_kit": false,
-   "note": "In Louisiana and the Gulf the colonnade is grafted onto the Creole raised plantation house with its peripheral gallery, giving the peripteral colonnade that has no precedent in Greek or Anglo practice. Oak Alley is a gallery house wearing a temple."
-  },
-  {
-   "target": "regency",
-   "type": "descends_from",
-   "weight": 0.3,
-   "inherits_kit": true,
-   "note": "Through professional architects - Nichols in North Carolina and Alabama, Gallier and Dakin in New Orleans, Walter's pupils - who carried British Greek Revival practice south."
-  }
- ],
- "description": {
-  "short": "The colossal colonnade as a shading machine: Greek orders wrapped around a Southern single-pile plan with twelve-foot ceilings and floor-length openings, built on cotton and sugar wealth and on the labour of enslaved people between 1830 and the Civil War.",
-  "long": "The Southern plantation Greek Revival is the version of the style in which the columns are doing real work. A Northern temple front is a facade; here the colonnade runs the full width of the house and frequently all the way around it, standing eight to twelve feet clear of the wall, two storeys tall, shading every opening on every elevation for most of the day. Behind it the plan is Southern rather than Greek: a central through-passage open at both ends, rooms one deep so they ventilate across, ceilings of eleven to fourteen feet, and windows carried down to the floor so they can be used as doors onto the gallery. The Greek apparatus - baseless Doric or Ionic shafts, deep entablature, low pedimented or hipped roof - is laid over a diagram that the Gulf had already worked out in the Creole raised plantation house and the Anglo South had worked out in the passage plan. The most spectacular examples are hybrids: Oak Alley's twenty-eight stuccoed brick columns on all four sides is a peripteral Greek temple in silhouette and a Caribbean gallery house in function, and neither reading is the whole truth.\n\nThe conditions were cotton, sugar, and slavery, in that order and inseparably. The 1793 cotton gin, the opening of the Black Belt and the Mississippi Delta to plantation agriculture in the 1820s and 1830s after Indian removal, and the sugar boom in south Louisiana produced a concentration of agricultural capital that had no equivalent in the North, and it arrived in exactly the decades when the Greek Revival was the available fashion. These houses were built by enslaved carpenters, brickmakers and plasterers - Gaineswood's owner explicitly used enslaved craftsmen, Oak Alley's brick was made and laid on site by enslaved people - and the columns were made possible by that labour in the same direct sense that a Roman temple was made possible by its own. A kit-of-parts system that reproduces this variant is reproducing a form whose scale was set by unpaid labour, and the honest way to handle that is to say so in the record rather than to launder it into 'Southern charm'. The professional channel ran through architects who moved south with the money: William Nichols, James Gallier, Charles and James Dakin, Minard Lafever's plates in every builder's hands.\n\nWhat it reacted against was the Southern Federal house of its parents - not a rejection of the plan, which it kept almost intact, but of the plan's modesty of display. Where a Federal Virginia house put a slim one-storey portico at its door, this variant puts six two-storey columns across the whole front, and where the Federal house was one storey plus attic in the Gulf, this one is raised and doubled. The competitive display is explicit in the period record. So is the discomfort about it: the colonnade also solved a genuine problem, and the fact that it worked is why the type outlived the fashion by fifty years in the Gulf.\n\nStanding under the gallery of one of these at four in the afternoon in August is the clearest possible argument for the type. The temperature under the colonnade is measurably lower than in the sun; the floor-length windows on both sides of the passage are open, and the air moves through the house continuously; the ceiling is fourteen feet up so the heat that does accumulate is above you. From a distance the house reads as a white block with a dark colonnade cut into it, and the strongest visual fact is the depth of shadow - Southern Greek Revival is a style about shade in the way that Northern Greek Revival is a style about snow-shadow on white boards. Inside, the rooms are enormous, plainly trimmed, and dark by design, with plaster ceiling medallions and heavy Grecian architraves as the only ornament, and the whole house is arranged so that the servants who made it work moved along back stairs and detached dependencies out of sight."
- },
- "defining_characteristics": [
-  "Colossal two-storey colonnade running the full width of the principal facade, and frequently peripteral (all four sides)",
-  "Colonnade set 8-12 feet clear of the wall so that it functions as a gallery and shades every opening behind it",
-  "Central through-passage open at both ends, with rooms one deep wherever the plan permits",
-  "Ceiling heights of 11-14 feet on the principal floor, with windows carried to the floor to serve as doors onto the gallery",
-  "Greek orders only - baseless Doric, Greek Ionic, Tower-of-the-Winds Corinthian - executed in stuccoed brick, built-up wood, or plastered timber",
-  "Low hipped or shallow-pedimented roof, often with a belvedere or roof monitor for stack ventilation",
-  "Detached kitchen and service dependencies; no service function in the main block"
- ],
- "diagnostic_tells": [
-  "Columns on more than one elevation - a Northern Greek Revival house never wraps its colonnade",
-  "Floor-length windows (triple-hung or jib) opening onto a gallery, unmistakable from outside by the sill line running down to the deck",
-  "Stuccoed and whitewashed brick columns rather than built-up wood staves, particularly in the Gulf",
-  "Belvedere, cupola or roof monitor over the stair, present for ventilation rather than for view",
-  "Gallery depth of 8 feet or more, which reads in shadow: the facade behind the columns is in darkness at midday"
- ],
- "distinguished_from": [
-  {
-   "node": "greek-revival-northern",
-   "difference": "The Northern portico is a frontal composition on a compact heated plan with small windows; the Southern colonnade is a peripheral shading device on a thin, tall, cross-ventilated plan with floor-length openings. Depth of gallery and ceiling height separate them before ornament does."
-  },
-  {
-   "node": "raised-creole-plantation",
-   "difference": "The Creole raised plantation house has a peripheral gallery, a hall-less plan entered directly from the gallery, and a masonry base under a lighter upper storey. When a Greek colonnade is applied to that diagram the result belongs here; when there is no Greek order and no interior hall, it is Creole."
-  },
-  {
-   "node": "neoclassical-revival",
-   "difference": "The 1893-1940 revival reproduces the colonnade at institutional scale with steel behind it, plate glass, Roman as often as Greek orders, and 9-foot ceilings. If the columns are colossal but the windows are ordinary in height, it is a revival."
-  }
- ],
- "proportional_system": {
-  "governing_logic": "Greek orders sized by module as in the parent style, but with overall dimensions governed by the gallery: column spacing is set by the bay of the house behind, and gallery depth by the shading angle required at the site's latitude in summer.",
-  "typical_ratios": [
-   "Doric columns 6-7 lower diameters, Ionic 8.5-9.5; two full storeys, commonly 20-26 feet tall",
-   "Entablature depth 1/4 to 1/5 of column height",
-   "Gallery depth 8-14 feet; column spacing 9-14 feet on centre",
-   "Principal-floor ceiling 12-14 feet, upper floor 11-13 feet",
-   "Window opening 1:2.8 to 1:3.5 width to height where floor-length",
-   "Roof pitch 3:12 to 5:12, hipped or low-pedimented"
+  "lineage": [
+    {
+      "target": "greek-revival-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true
+    },
+    {
+      "target": "southern-federal",
+      "type": "descends_from",
+      "weight": 0.6,
+      "inherits_kit": true,
+      "note": "The plan discipline - through-passage, single-pile where possible, tall ceilings, detached kitchen - comes from here unchanged; only the trim and the porch scale up."
+    },
+    {
+      "target": "french-colonial-american",
+      "type": "hybridizes_with",
+      "weight": 0.45,
+      "inherits_kit": false,
+      "note": "In Louisiana and the Gulf the colonnade is grafted onto the Creole raised plantation house with its peripheral gallery, giving the peripteral colonnade that has no precedent in Greek or Anglo practice. Oak Alley is a gallery house wearing a temple."
+    },
+    {
+      "target": "regency",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "Through professional architects - Nichols in North Carolina and Alabama, Gallier and Dakin in New Orleans, Walter's pupils - who carried British Greek Revival practice south."
+    }
   ],
-  "bay_rhythm": "Even hexastyle or octastyle colonnade across the front, continuing at the same spacing around the flanks in peripteral examples; the wall behind is bayed to match, and the entrance occupies the centre bay with a rectangular transom and sidelights.",
-  "symmetry": "strict-bilateral"
- },
- "massing_affinities": [
-  {
-   "massing": "temple-front-with-wings",
-   "affinity": "canonical"
+  "description": {
+    "short": "The colossal colonnade as a shading machine: Greek orders wrapped around a Southern single-pile plan with twelve-foot ceilings and floor-length openings, built on cotton and sugar wealth and on the labour of enslaved people between 1830 and the Civil War.",
+    "long": "The Southern plantation Greek Revival is the version of the style in which the columns are doing real work. A Northern temple front is a facade; here the colonnade runs the full width of the house and frequently all the way around it, standing eight to twelve feet clear of the wall, two storeys tall, shading every opening on every elevation for most of the day. Behind it the plan is Southern rather than Greek: a central through-passage open at both ends, rooms one deep so they ventilate across, ceilings of eleven to fourteen feet, and windows carried down to the floor so they can be used as doors onto the gallery. The Greek apparatus - baseless Doric or Ionic shafts, deep entablature, low pedimented or hipped roof - is laid over a diagram that the Gulf had already worked out in the Creole raised plantation house and the Anglo South had worked out in the passage plan. The most spectacular examples are hybrids: Oak Alley's twenty-eight stuccoed brick columns on all four sides is a peripteral Greek temple in silhouette and a Caribbean gallery house in function, and neither reading is the whole truth.\n\nThe conditions were cotton, sugar, and slavery, in that order and inseparably. The 1793 cotton gin, the opening of the Black Belt and the Mississippi Delta to plantation agriculture in the 1820s and 1830s after Indian removal, and the sugar boom in south Louisiana produced a concentration of agricultural capital that had no equivalent in the North, and it arrived in exactly the decades when the Greek Revival was the available fashion. These houses were built by enslaved carpenters, brickmakers and plasterers - Gaineswood's owner explicitly used enslaved craftsmen, Oak Alley's brick was made and laid on site by enslaved people - and the columns were made possible by that labour in the same direct sense that a Roman temple was made possible by its own. A kit-of-parts system that reproduces this variant is reproducing a form whose scale was set by unpaid labour, and the honest way to handle that is to say so in the record rather than to launder it into 'Southern charm'. The professional channel ran through architects who moved south with the money: William Nichols, James Gallier, Charles and James Dakin, Minard Lafever's plates in every builder's hands.\n\nWhat it reacted against was the Southern Federal house of its parents - not a rejection of the plan, which it kept almost intact, but of the plan's modesty of display. Where a Federal Virginia house put a slim one-storey portico at its door, this variant puts six two-storey columns across the whole front, and where the Federal house was one storey plus attic in the Gulf, this one is raised and doubled. The competitive display is explicit in the period record. So is the discomfort about it: the colonnade also solved a genuine problem, and the fact that it worked is why the type outlived the fashion by fifty years in the Gulf.\n\nStanding under the gallery of one of these at four in the afternoon in August is the clearest possible argument for the type. The temperature under the colonnade is measurably lower than in the sun; the floor-length windows on both sides of the passage are open, and the air moves through the house continuously; the ceiling is fourteen feet up so the heat that does accumulate is above you. From a distance the house reads as a white block with a dark colonnade cut into it, and the strongest visual fact is the depth of shadow - Southern Greek Revival is a style about shade in the way that Northern Greek Revival is a style about snow-shadow on white boards. Inside, the rooms are enormous, plainly trimmed, and dark by design, with plaster ceiling medallions and heavy Grecian architraves as the only ornament, and the whole house is arranged so that the servants who made it work moved along back stairs and detached dependencies out of sight."
   },
-  {
-   "massing": "four-over-four",
-   "affinity": "canonical",
-   "note": "The main block behind the colonnade, though frequently thinned to single-pile for ventilation."
+  "defining_characteristics": [
+    "Colossal two-storey colonnade running the full width of the principal facade, and frequently peripteral (all four sides)",
+    "Colonnade set 8-12 feet clear of the wall so that it functions as a gallery and shades every opening behind it",
+    "Central through-passage open at both ends, with rooms one deep wherever the plan permits",
+    "Ceiling heights of 11-14 feet on the principal floor, with windows carried to the floor to serve as doors onto the gallery",
+    "Greek orders only - baseless Doric, Greek Ionic, Tower-of-the-Winds Corinthian - executed in stuccoed brick, built-up wood, or plastered timber",
+    "Low hipped or shallow-pedimented roof, often with a belvedere or roof monitor for stack ventilation",
+    "Detached kitchen and service dependencies; no service function in the main block"
+  ],
+  "diagnostic_tells": [
+    "Columns on more than one elevation - a Northern Greek Revival house never wraps its colonnade",
+    "Floor-length windows (triple-hung or jib) opening onto a gallery, unmistakable from outside by the sill line running down to the deck",
+    "Stuccoed and whitewashed brick columns rather than built-up wood staves, particularly in the Gulf",
+    "Belvedere, cupola or roof monitor over the stair, present for ventilation rather than for view",
+    "Gallery depth of 8 feet or more, which reads in shadow: the facade behind the columns is in darkness at midday"
+  ],
+  "distinguished_from": [
+    {
+      "node": "greek-revival-northern",
+      "difference": "The Northern portico is a frontal composition on a compact heated plan with small windows; the Southern colonnade is a peripheral shading device on a thin, tall, cross-ventilated plan with floor-length openings. Depth of gallery and ceiling height separate them before ornament does."
+    },
+    {
+      "node": "raised-creole-plantation",
+      "difference": "The Creole raised plantation house has a peripheral gallery, a hall-less plan entered directly from the gallery, and a masonry base under a lighter upper storey. When a Greek colonnade is applied to that diagram the result belongs here; when there is no Greek order and no interior hall, it is Creole."
+    },
+    {
+      "node": "neoclassical-revival",
+      "difference": "The 1893-1940 revival reproduces the colonnade at institutional scale with steel behind it, plate glass, Roman as often as Greek orders, and 9-foot ceilings. If the columns are colossal but the windows are ordinary in height, it is a revival."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Greek orders sized by module as in the parent style, but with overall dimensions governed by the gallery: column spacing is set by the bay of the house behind, and gallery depth by the shading angle required at the site's latitude in summer.",
+    "typical_ratios": [
+      "Doric columns 6-7 lower diameters, Ionic 8.5-9.5; two full storeys, commonly 20-26 feet tall",
+      "Entablature depth 1/4 to 1/5 of column height",
+      "Gallery depth 8-14 feet; column spacing 9-14 feet on centre",
+      "Principal-floor ceiling 12-14 feet, upper floor 11-13 feet",
+      "Window opening 1:2.8 to 1:3.5 width to height where floor-length",
+      "Roof pitch 3:12 to 5:12, hipped or low-pedimented"
+    ],
+    "bay_rhythm": "Even hexastyle or octastyle colonnade across the front, continuing at the same spacing around the flanks in peripteral examples; the wall behind is bayed to match, and the entrance occupies the centre bay with a rectangular transom and sidelights.",
+    "symmetry": "strict-bilateral"
   },
-  {
-   "massing": "gallery-house",
-   "affinity": "common",
-   "note": "The Gulf hybrid, in which the colonnade is the gallery and the house is a core inserted into it."
-  },
-  {
-   "massing": "raised-cottage",
-   "affinity": "common",
-   "note": "In the lower Mississippi, the colonnade sits on a raised masonry base for flood and damp."
-  },
-  {
-   "massing": "five-part-palladian",
-   "affinity": "possible",
-   "note": "Berry Hill, where the dependencies get their own tetrastyle Doric porticoes."
-  }
- ],
- "constraints": [
-  {
-   "kind": "proportional",
-   "statement": "Colonnade columns must run the full height of the block (both storeys), 6-7 diameters for Doric and 8.5-9.5 for Ionic, carrying an entablature 1/4 to 1/5 of column height. A one-storey porch on a two-storey house is a different and lesser type.",
-   "severity": "hard",
-   "id": "greek-revival-southern-plantation.c01",
-   "scope": "elevation",
-   "test": {
-    "expression": "entablature_depth_ratio",
-    "direction": "between",
-    "threshold": 0.2,
-    "upper": 0.25,
-    "units": "ratio",
-    "measurable_from": "elevation",
-    "note": "1/4 to 1/5 of column height, order-independent. The order-specific column-diameter ranges (6-7 for Doric, 8.5-9.5 for Ionic) stay prose since which order applies isn't itself a tested variable."
-   }
-  },
-  {
-   "kind": "climatic",
-   "statement": "Gallery depth minimum 8 feet (10-12 typical), sufficient to shade the full window height on the principal facade at the summer solstice for the building's latitude. A colonnade shallower than 8 feet is ornament, not a climate device, and the plan behind it must then be re-justified.",
-   "severity": "hard",
-   "id": "greek-revival-southern-plantation.c02",
-   "scope": "plan",
-   "test": {
-    "expression": "gallery_depth_ft",
-    "direction": "at-least",
-    "threshold": 8,
-    "units": "ft",
-    "measurable_from": "plan",
-    "note": "Tests the 8ft minimum gallery depth. The solstice-shading sufficiency claim (which depends on latitude and sun angle) and the 'ornament vs climate device' re-justification clause are left as prose."
-   }
-  },
-  {
-   "kind": "climatic",
-   "statement": "Principal-floor ceiling height minimum 12 feet, with openings on two opposite walls of every principal room and a through-passage operable at both ends. Windows on the gallery elevations must be floor-length or triple-hung so they function as doors.",
-   "severity": "hard",
-   "id": "greek-revival-southern-plantation.c03",
-   "scope": "section",
-   "test": {
-    "expression": "ceiling_height_ground_in",
-    "direction": "at-least",
-    "threshold": 144,
-    "units": "in",
-    "measurable_from": "section",
-    "note": "Tests the 12ft principal-floor ceiling-height minimum. The cross-ventilation clause (openings on two opposite walls), the operable through-passage, and the floor-length/triple-hung window requirement on gallery elevations are left as prose -- no vocabulary variable captures per-room opening placement or sash type."
-   }
-  },
-  {
-   "kind": "co-occurrence",
-   "statement": "Greek vocabulary is exclusive: no arches, no domes, no bases under Doric columns, no elliptical fanlights. A belvedere or monitor is permitted and should be detailed with the same entablature profile as the main order.",
-   "severity": "soft",
-   "id": "greek-revival-southern-plantation.c04",
-   "scope": "judgment"
-  },
-  {
-   "kind": "cultural",
-   "statement": "Kitchen and service functions belong in detached dependencies or a rear ell, never in the main block. Any contemporary reconstruction of this variant should record in its documentation that the type's scale was made possible by enslaved labour; the historical record is part of the kit.",
-   "severity": "advisory",
-   "id": "greek-revival-southern-plantation.c05",
-   "scope": "judgment"
-  }
- ],
- "exemplars": [
-  {
-   "name": "Oak Alley",
-   "location": "Vacherie, St. James Parish, Louisiana",
-   "year": 1839,
-   "note": "Begun 1837, probably designed by Joseph Pilie; a free-standing colonnade of 28 stuccoed brick Doric columns on all four sides, 16-inch walls, brick made and laid on site by enslaved people."
-  },
-  {
-   "name": "Rosedown",
-   "location": "St. Francisville, West Feliciana Parish, Louisiana",
-   "year": 1835,
-   "note": "Built November 1834 to May 1835 of cypress and cedar milled on site; five-bay two-storey gallery on smooth Doric columns, with Doric-porticoed brick wings added 1845. Transitional Federal-to-Greek and useful for dating the shift precisely."
-  },
-  {
-   "name": "Berry Hill",
-   "location": "3105 River Road, Halifax County, Virginia",
-   "year": 1844,
-   "note": "Begun 1842; John Evans Johnson, architect. Octastyle Doric portico with a six-and-a-half-foot entablature correctly detailed with triglyphs, metopes and guttae, and matching tetrastyle Doric dependencies."
-  },
-  {
-   "name": "Gaineswood",
-   "location": "Demopolis, Marengo County, Alabama",
-   "year": 1861,
-   "note": "Built 1843-1861 by Nathan Bryan Whitfield, who grew the house outward from an existing dogtrot log house using enslaved craftsmen and Lafever's plates. National Historic Landmark; the most elaborately Grecian interior in the South. Built in campaigns 1843-1861."
-  }
- ],
- "sources": [
-  "Talbot Hamlin, Greek Revival Architecture in America (1944)",
-  "Roger G. Kennedy, Greek Revival America (1989)",
-  "Minard Lafever, The Beauties of Modern Architecture (1835)",
-  "Mills Lane, Architecture of the Old South (series, 1984-96)",
-  "Jay D. Edwards, 'The Complex Origins of the American Domestic Piazza-Veranda-Gallery', Material Culture 21 (1989)"
- ],
- "confidence": "high",
- "tags": [
-  "early-republic",
-  "regional",
-  "deep-south",
-  "colonnade",
-  "climate-driven",
-  "slavery"
- ],
- "proportion_packs": [
-  {
-   "pack": "benjamin-doric",
-   "role": "primary",
-   "authority": "benjamin-doric",
-   "note": "Berry Hill's octastyle portico is 'correctly detailed with triglyphs, metopes and guttae' at 7-diameter proportions per this pack, and Oak Alley's 28 stuccoed brick columns are the same order at plantation scale -- both named exemplars of this variant. Standalone Greek Doric per Benjamin's own 1830 preface, encoded outside the Vignola-overlay system for the reason docs/open-questions.md item 11 gives: the Doric is the one order Benjamin says Greek and Roman practice cannot reconcile.",
-   "precedence": 1
-  },
-  {
-   "pack": "vignola-ionic",
-   "role": "secondary",
-   "note": "This is the one Greek Revival node in the batch where the corpus's own applies_to cross-reference names vignola-ionic directly, not just an architectural inference -- Greek Ionic is one of this variant's three named orders (defining_characteristics: 'baseless Doric, Greek Ionic, Tower-of-the-Winds Corinthian'). No dedicated Benjamin/Greek Ionic pack exists in this corpus, so plain Vignola stands in; its 9-diameter column sits inside the style's own stated 8.5-9.5 range.",
-   "precedence": 2
-  },
-  {
-   "pack": "vignola-corinthian",
-   "role": "secondary",
-   "note": "The third named order -- 'Tower-of-the-Winds Corinthian about 10' diameters per the parent style's typical_ratios -- and, like vignola-ionic, this is the one Greek Revival variant whose applies_to cross-reference actually lists it. Bound here rather than at the parent or the Northern variant because this is the only one of the three Greek Revival nodes in this batch where the style's own text names all three Greek orders explicitly rather than defaulting to Doric-with-occasional-Ionic.",
-   "precedence": 3
-  },
-  {
-   "pack": "trim-classical",
-   "role": "interior",
-   "note": "The wall_section_greek_revival / casing_greek_revival family, for the 'plainly trimmed... heavy Grecian architraves' interiors behind the colonnade -- the same family as the rest of the Greek Revival cluster, executed here in stuccoed brick, built-up wood or plastered timber per the style's own material list.",
-   "precedence": 4
-  },
-  {
-   "pack": "opening-proportion",
-   "role": "opening",
-   "note": "Governs the width:height ratio the style states directly (1:2.8 to 1:3.5 for floor-length openings) and the rectangular-transom entrance (constraint c04). It does NOT capture the triple-hung or jib mechanism that lets these openings 'function as doors' onto the gallery (constraint c03) -- no vocabulary in any of the 36 packs expresses sash-as-door operability, which is a genuine gap distinct from the ordinary opening-proportion coverage.",
-   "precedence": 5
-  },
-  {
-   "pack": "facade-classical",
-   "role": "facade",
-   "note": "Governs the colossal colonnade's composition and the bay spacing it sets for the wall behind (9-14 ft on centre, per the style's own ratios), continuing at the same spacing around the flanks in peripteral examples like Oak Alley. The pack does not model gallery depth as a shading function of solar geometry (constraint c02's 8 ft minimum, sized to the site's latitude) -- that is a climatic calculation outside any of the 36 packs' scope, carried as prose in the style file's own test.",
-   "precedence": 6
-  },
-  {
-   "pack": "storey-graduation",
-   "role": "massing",
-   "note": "Genuinely useful here where it is not for the other two Greek Revival nodes: this variant's own ratios (principal floor 12-14 ft, upper floor 11-13 ft) are a real diminishing pair, roughly 0.85-0.93, close to this pack's core 0.85 second-storey rule -- unlike the Northern and parent nodes, where the entablature runs level across an undifferentiated block.",
-   "precedence": 7
-  },
-  {
-   "pack": "room-harmonic",
-   "role": "room",
-   "note": "Listed directly in this pack's applies_to cross-reference. Bound for rooms that are 'enormous, plainly trimmed' but still composed to the 11-14 ft ceiling heights and passage proportions the style states as hard constraints, not accumulated vernacular space.",
-   "precedence": 8
-  },
-  {
-   "pack": "greek-doric",
-   "role": "secondary",
-   "precedence": 9,
-   "authority": "greek-doric",
-   "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
-  }
- ]
+  "massing_affinities": [
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "canonical"
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "canonical",
+      "note": "The main block behind the colonnade, though frequently thinned to single-pile for ventilation."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "common",
+      "note": "The Gulf hybrid, in which the colonnade is the gallery and the house is a core inserted into it."
+    },
+    {
+      "massing": "raised-cottage",
+      "affinity": "common",
+      "note": "In the lower Mississippi, the colonnade sits on a raised masonry base for flood and damp."
+    },
+    {
+      "massing": "five-part-palladian",
+      "affinity": "possible",
+      "note": "Berry Hill, where the dependencies get their own tetrastyle Doric porticoes."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Colonnade columns must run the full height of the block (both storeys), 6-7 diameters for Doric and 8.5-9.5 for Ionic, carrying an entablature 1/4 to 1/5 of column height. A one-storey porch on a two-storey house is a different and lesser type.",
+      "severity": "hard",
+      "id": "greek-revival-southern-plantation.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "entablature_depth_ratio",
+        "direction": "between",
+        "threshold": 0.2,
+        "upper": 0.25,
+        "units": "ratio",
+        "measurable_from": "elevation",
+        "note": "1/4 to 1/5 of column height, order-independent. The order-specific column-diameter ranges (6-7 for Doric, 8.5-9.5 for Ionic) stay prose since which order applies isn't itself a tested variable."
+      }
+    },
+    {
+      "kind": "climatic",
+      "statement": "Gallery depth minimum 8 feet (10-12 typical), sufficient to shade the full window height on the principal facade at the summer solstice for the building's latitude. A colonnade shallower than 8 feet is ornament, not a climate device, and the plan behind it must then be re-justified.",
+      "severity": "hard",
+      "id": "greek-revival-southern-plantation.c02",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the 8ft minimum gallery depth. The solstice-shading sufficiency claim (which depends on latitude and sun angle) and the 'ornament vs climate device' re-justification clause are left as prose."
+      }
+    },
+    {
+      "kind": "climatic",
+      "statement": "Principal-floor ceiling height minimum 12 feet, with openings on two opposite walls of every principal room and a through-passage operable at both ends. Windows on the gallery elevations must be floor-length or triple-hung so they function as doors.",
+      "severity": "hard",
+      "id": "greek-revival-southern-plantation.c03",
+      "scope": "section",
+      "test": {
+        "expression": "ceiling_height_ground_in",
+        "direction": "at-least",
+        "threshold": 144,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Tests the 12ft principal-floor ceiling-height minimum. The cross-ventilation clause (openings on two opposite walls), the operable through-passage, and the floor-length/triple-hung window requirement on gallery elevations are left as prose -- no vocabulary variable captures per-room opening placement or sash type."
+      }
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Greek vocabulary is exclusive: no arches, no domes, no bases under Doric columns, no elliptical fanlights. A belvedere or monitor is permitted and should be detailed with the same entablature profile as the main order.",
+      "severity": "soft",
+      "id": "greek-revival-southern-plantation.c04",
+      "scope": "judgment"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Kitchen and service functions belong in detached dependencies or a rear ell, never in the main block. Any contemporary reconstruction of this variant should record in its documentation that the type's scale was made possible by enslaved labour; the historical record is part of the kit.",
+      "severity": "advisory",
+      "id": "greek-revival-southern-plantation.c05",
+      "scope": "judgment"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Oak Alley",
+      "location": "Vacherie, St. James Parish, Louisiana",
+      "year": 1839,
+      "note": "Begun 1837, probably designed by Joseph Pilie; a free-standing colonnade of 28 stuccoed brick Doric columns on all four sides, 16-inch walls, brick made and laid on site by enslaved people."
+    },
+    {
+      "name": "Rosedown",
+      "location": "St. Francisville, West Feliciana Parish, Louisiana",
+      "year": 1835,
+      "note": "Built November 1834 to May 1835 of cypress and cedar milled on site; five-bay two-storey gallery on smooth Doric columns, with Doric-porticoed brick wings added 1845. Transitional Federal-to-Greek and useful for dating the shift precisely."
+    },
+    {
+      "name": "Berry Hill",
+      "location": "3105 River Road, Halifax County, Virginia",
+      "year": 1844,
+      "note": "Begun 1842; John Evans Johnson, architect. Octastyle Doric portico with a six-and-a-half-foot entablature correctly detailed with triglyphs, metopes and guttae, and matching tetrastyle Doric dependencies."
+    },
+    {
+      "name": "Gaineswood",
+      "location": "Demopolis, Marengo County, Alabama",
+      "year": 1861,
+      "note": "Built 1843-1861 by Nathan Bryan Whitfield, who grew the house outward from an existing dogtrot log house using enslaved craftsmen and Lafever's plates. National Historic Landmark; the most elaborately Grecian interior in the South. Built in campaigns 1843-1861."
+    }
+  ],
+  "sources": [
+    "Talbot Hamlin, Greek Revival Architecture in America (1944)",
+    "Roger G. Kennedy, Greek Revival America (1989)",
+    "Minard Lafever, The Beauties of Modern Architecture (1835)",
+    "Mills Lane, Architecture of the Old South (series, 1984-96)",
+    "Jay D. Edwards, 'The Complex Origins of the American Domestic Piazza-Veranda-Gallery', Material Culture 21 (1989)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "early-republic",
+    "regional",
+    "deep-south",
+    "colonnade",
+    "climate-driven",
+    "slavery"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "benjamin-doric",
+      "role": "primary",
+      "authority": "benjamin-doric",
+      "note": "Berry Hill's octastyle portico is 'correctly detailed with triglyphs, metopes and guttae' at 7-diameter proportions per this pack, and Oak Alley's 28 stuccoed brick columns are the same order at plantation scale -- both named exemplars of this variant. Standalone Greek Doric per Benjamin's own 1830 preface, encoded outside the Vignola-overlay system for the reason docs/open-questions.md item 11 gives: the Doric is the one order Benjamin says Greek and Roman practice cannot reconcile.",
+      "precedence": 1
+    },
+    {
+      "pack": "vignola-ionic",
+      "role": "secondary",
+      "note": "This is the one Greek Revival node in the batch where the corpus's own applies_to cross-reference names vignola-ionic directly, not just an architectural inference -- Greek Ionic is one of this variant's three named orders (defining_characteristics: 'baseless Doric, Greek Ionic, Tower-of-the-Winds Corinthian'). No dedicated Benjamin/Greek Ionic pack exists in this corpus, so plain Vignola stands in; its 9-diameter column sits inside the style's own stated 8.5-9.5 range.",
+      "precedence": 2
+    },
+    {
+      "pack": "vignola-corinthian",
+      "role": "secondary",
+      "note": "The third named order -- 'Tower-of-the-Winds Corinthian about 10' diameters per the parent style's typical_ratios -- and, like vignola-ionic, this is the one Greek Revival variant whose applies_to cross-reference actually lists it. Bound here rather than at the parent or the Northern variant because this is the only one of the three Greek Revival nodes in this batch where the style's own text names all three Greek orders explicitly rather than defaulting to Doric-with-occasional-Ionic.",
+      "precedence": 3
+    },
+    {
+      "pack": "trim-classical",
+      "role": "interior",
+      "note": "The wall_section_greek_revival / casing_greek_revival family, for the 'plainly trimmed... heavy Grecian architraves' interiors behind the colonnade -- the same family as the rest of the Greek Revival cluster, executed here in stuccoed brick, built-up wood or plastered timber per the style's own material list.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "Governs the width:height ratio the style states directly (1:2.8 to 1:3.5 for floor-length openings) and the rectangular-transom entrance (constraint c04). It does NOT capture the triple-hung or jib mechanism that lets these openings 'function as doors' onto the gallery (constraint c03) -- no vocabulary in any of the 36 packs expresses sash-as-door operability, which is a genuine gap distinct from the ordinary opening-proportion coverage.",
+      "precedence": 5
+    },
+    {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "The colonnade rather than the portico, and the distinction is this pack's `portico_share` rule: at a half to three fifths of the block a colonnade is an event on an elevation, and at the full width it is the elevation. This node goes further still and wraps all four sides -- and its own record is careful that the peripteral colonnade here 'has no precedent in Greek or Anglo practice', being a Creole gallery with a Greek order on it: 'Oak Alley is a gallery house wearing a temple.' It supplies the pack's climate conflict entire, including the only latitude-dependent rule in the corpus. NOTE: the pack states NO portico depth rule, because that wall-face-to-column-centreline dimension is `balcony-gallery`'s gallery depth and this node's own constraint note says so.",
+      "precedence": 6
+    },
+    {
+      "pack": "facade-classical",
+      "role": "facade",
+      "note": "Governs the colossal colonnade's composition and the bay spacing it sets for the wall behind (9-14 ft on centre, per the style's own ratios), continuing at the same spacing around the flanks in peripteral examples like Oak Alley. The pack does not model gallery depth as a shading function of solar geometry (constraint c02's 8 ft minimum, sized to the site's latitude) -- that is a climatic calculation outside any of the 36 packs' scope, carried as prose in the style file's own test.",
+      "precedence": 7
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Genuinely useful here where it is not for the other two Greek Revival nodes: this variant's own ratios (principal floor 12-14 ft, upper floor 11-13 ft) are a real diminishing pair, roughly 0.85-0.93, close to this pack's core 0.85 second-storey rule -- unlike the Northern and parent nodes, where the entablature runs level across an undifferentiated block.",
+      "precedence": 8
+    },
+    {
+      "pack": "room-harmonic",
+      "role": "room",
+      "note": "Listed directly in this pack's applies_to cross-reference. Bound for rooms that are 'enormous, plainly trimmed' but still composed to the 11-14 ft ceiling heights and passage proportions the style states as hard constraints, not accumulated vernacular space.",
+      "precedence": 9
+    },
+    {
+      "pack": "greek-doric",
+      "role": "secondary",
+      "precedence": 10,
+      "authority": "greek-doric",
+      "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
+    }
+  ]
 }

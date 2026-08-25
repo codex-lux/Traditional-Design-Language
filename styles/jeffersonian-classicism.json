@@ -290,35 +290,41 @@
       "precedence": 6
     },
     {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "Rome taken directly rather than through England, which is what makes this node's figures worth having: 'Roman Doric 8 diameters, Ionic 9, Corinthian 10' and an intercolumniation of 2.25-2.5, the tightest of the five revival records and the closest to Vitruvius's own eustyle. Its own lineage note says the difference from Federal in one line -- 'Federal takes Adam's London fashion and thins the orders; Jefferson takes Rome directly and keeps them at antique weight' -- and the pack's entablature band is where that shows. Bound behind the three Palladio order packs and ahead of `facade-classical`, on the same reasoning as the Greek Revival nodes.",
+      "precedence": 7
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Governs the temple-front portico and the bay rhythm its intercolumniation sets for the wall behind (2.25-2.5 diameters, Palladian eustyle, per the style's own proportional_system) -- and this is arguably the single most apt use of this pack in the whole batch, since georgian-colonial-american's own binding of it cites 'Palladio Book I chs. XXI-XXVI' as its authority, and here that authority is not once-removed through Gibbs but the building's actual named source.",
-      "precedence": 7
+      "precedence": 8
     },
     {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "Governs the literal floor-to-floor ratios but does not model Jefferson's real trick -- the suppressed second storey, mezzanine windows tucked directly under the entablature so a demonstrably two-storey house 'reads as one storey' from outside (the style's own leading diagnostic tell). That is visual concealment, not proportional diminution, and no pack among the 36 addresses it; a genuine gap distinct from the ordinary storey-height coverage this pack does provide.",
-      "precedence": 8
+      "precedence": 9
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "Bound for the cubic and near-cubic rooms the style states directly -- Poplar Forest's dining room is 20 x 20 x 20 ft -- which is exactly this pack's harmonic-ratio domain. It does NOT model the octagon-on-a-square construction that is Jefferson's own specific and most distinctive room-generating figure (Poplar Forest's plan, the Rotunda's flanking rooms); no pack among the 36 encodes octagonal room geometry by name, so the general harmonic-ratio machinery is the closest available fit and the octagon itself stays prose. A genuine, acknowledged gap.",
-      "precedence": 9
+      "precedence": 10
     },
     {
       "pack": "brick-course",
       "role": "optional",
       "authority": "brick-course",
       "note": "The material palette is fixed rather than optional at the level of the building (constraint c05: red brick in Flemish bond with white-painted or stuccoed trim; painted brick, stone facing or contrasting trim colours fall outside the style), but the pack itself is bound at the same optional role the rest of this batch uses for masonry modules, consistent with the corpus's own applies_to cross-reference for this node.",
-      "precedence": 10
+      "precedence": 11
     },
     {
       "pack": "octagon-geometry",
       "role": "secondary",
       "note": "THE OTHER OCTAGON ENTIRELY, and the node that states its rule: 'octagonal rooms generated on a square, canted corners at 1/3 of the side', with 'plan geometry built from octagons, cubes, and their halves rather than from the rectangular Georgian room grid'. This is a ROOM and not a building -- take a square, cut each corner back a third, and the result sits comfortably inside a rectangular plan. That record also gives the elevation consequence the pack's bay rule is about: 'octagonal or semi-octagonal room projections in plan, visible as canted bays on the elevation'. Take the canted-corner rule and the bay rule here; leave every rule that begins from a regular octagon's side, because this house has none.",
-      "precedence": 11
+      "precedence": 12
     }
   ]
 }

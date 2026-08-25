@@ -1,235 +1,241 @@
 {
- "id": "greek-classical",
- "name": "Greek Classical",
- "aka": [
-  "Hellenic",
-  "Greek Doric/Ionic/Corinthian",
-  "Antique Greek"
- ],
- "rank": "style",
- "member_of": "antique-classical",
- "status": "historical",
- "period": {
-  "origin": -700,
-  "floruit_start": -600,
-  "floruit_end": -100,
-  "decline_end": 200,
-  "circa": true,
-  "revival_periods": [
-   {
-    "start": 1750,
-    "end": 1830,
-    "revival_node": null,
-    "note": "The Grecian taste in Britain, France and Germany, made possible by Le Roy (1758) and Stuart & Revett's Antiquities of Athens (1762-1816). The first time since antiquity that European architects had measured drawings of actual Greek buildings."
-   },
-   {
-    "start": 1820,
-    "end": 1860,
-    "revival_node": "greek-revival-american",
-    "note": "The American Greek Revival, transmitted by carpenters' handbooks rather than by archaeology, and applied overwhelmingly to houses - a building type the Greeks never gave the temple front."
-   }
-  ]
- },
- "geography": {
-  "regions": [
-   "Greece",
-   "Aegean",
-   "Ionia (western Anatolia)",
-   "Magna Graecia (southern Italy and Sicily)",
-   "Mediterranean basin"
+  "id": "greek-classical",
+  "name": "Greek Classical",
+  "aka": [
+    "Hellenic",
+    "Greek Doric/Ionic/Corinthian",
+    "Antique Greek"
   ],
-  "hearth": "The Peloponnese and Attica",
-  "climate_zones": [
-   "3A",
-   "3B",
-   "3C",
-   "4A"
-  ]
- },
- "lineage": [],
- "description": {
-  "short": "The first Western architecture to treat proportion as an explicit, written, transmissible system, worked out in trabeated stone at the scale of a single civic building.",
-  "long": "Greek classical architecture is a very small vocabulary used with extraordinary discipline. There is essentially one building type that matters - a rectangular cella surrounded or fronted by columns, carrying a low-pitched gabled roof - and three graduated treatments of the column and the beam it carries. Everything else is refinement within that frame. What makes it the trunk of the entire Western classical tradition is not the shapes but the method: a module is chosen, conventionally the diameter of the column at its base, and every other dimension in the building is stated as a ratio to it. This is the moment architecture becomes a system that can be written down, argued about, and carried across a sea.\n\nThe conditions that produced it are unusually legible. Sixth-century Greek cities had surplus from colonisation, silver and trade, no monarch to spend it on a palace, and a civic religion whose buildings were treasuries and votive offerings rather than dwellings for a priesthood - so the money went into the outside of the building, which everybody could see, and almost none into the inside, which almost nobody entered. The technical substrate is equally specific: iron tools and quarry technique good enough to cut and finish marble, drums set with wooden dowels and no mortar at all, and no arch and no vault. Without arcuated construction the maximum practical stone lintel span is around five to six metres, which forces a dense colonnade, which in turn makes the colonnade the architectural subject. The Doric order is a carpentry system petrified: the triglyph is a beam end, the mutule is a rafter tail, the guttae are pegs. Nobody designed that; it fossilised.\n\nIt was reacting, in the loose way an emerging tradition reacts, against the Egyptian and Near Eastern monumental manner it had certainly seen - architecture as sheer mass, awe by weight, an interior of forests of columns in darkness. The Greek inversion is total. The temple is an exterior object, sited in the open, meant to be walked around and seen against sky and landscape. Its scale is calibrated to the human body rather than to a god's; a Doric column is tall enough to dominate you and short enough that you can read its whole height at a glance. Within the tradition itself the drift from Archaic to Classical is a steady loss of weight - the squat Paestum columns at roughly four diameters give way to the Parthenon's five and a half, and the flaring Archaic capital tightens to a taut, almost straight profile.\n\nStanding in front of a good one, the thing that registers first is that nothing is straight. The stylobate crowns upward by six centimetres across thirty metres so it does not read as sagging. The columns lean inward by about one part in a hundred and fifty, so the building gathers rather than splays. Each shaft swells slightly in its lower half so it looks loaded rather than slack. The corner columns are thicker and set closer, because against bright sky a column is optically eaten away. None of these corrections is visible as a correction; what you perceive is simply that the building looks alert. Then the flutes do their work - twenty shallow channels with sharp arrises catching a moving line of light, so that a column reads as a cylinder of graded shadow rather than as a stone post, and the whole colonnade changes character between morning and afternoon. The marble is warm and faintly translucent at the surface. The interior, when you finally get inside, is dark, plain and beside the point."
- },
- "defining_characteristics": [
-  "Trabeated construction only - post and lintel in dressed stone, with no arch, no vault, and no mortar in the primary structure",
-  "All dimensions derived from a single module, conventionally the lower column diameter, so the building is a propagated ratio rather than a set of measurements",
-  "The order as a complete graduated system: shaft, capital and entablature vary together, and choosing Doric or Ionic determines a hundred subordinate dimensions",
-  "The exterior colonnade as the architectural subject, with the enclosed room subordinate and undecorated",
-  "Optical refinements as standard practice, not as virtuosity - stylobate curvature, entasis, column inclination, corner contraction",
-  "A low-pitched gable producing a triangular pediment whose height is roughly one ninth of its span",
-  "Frieze and pediment sculpture integrated into the structural members rather than applied to a blank field"
- ],
- "diagnostic_tells": [
-  "Doric columns stand directly on the stylobate with no base - if there is a moulded base under a Doric column, it is Roman or later, not Greek",
-  "The Doric frieze alternates triglyphs and metopes, and the triglyphs at the corner are pushed to the very edge of the frieze with the last two bays visibly contracted",
-  "The pediment is shallow: roughly 12 to 16 degrees, so the gable looks almost flat compared with any post-medieval revival",
-  "Column shafts are fluted with sharp arrises and no fillet between flutes in Doric (twenty flutes); Ionic has twenty-four flutes separated by flat fillets",
-  "The whole building sits on a stepped crepidoma with risers too tall to climb comfortably - it is a plinth, not a stair"
- ],
- "distinguished_from": [
-  {
-   "node": "roman-classical",
-   "difference": "Rome adds the arch, the vault and concrete, which frees the wall from the colonnade; Roman temples therefore stand on a high podium with a frontal stair and a deep single-ended porch, while Greek temples sit on an all-round stepped base and are peripteral. Roman Doric acquires a base and a smoother, more standardised profile; Greek Doric never has one."
+  "rank": "style",
+  "member_of": "antique-classical",
+  "status": "historical",
+  "period": {
+    "origin": -700,
+    "floruit_start": -600,
+    "floruit_end": -100,
+    "decline_end": 200,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1750,
+        "end": 1830,
+        "revival_node": null,
+        "note": "The Grecian taste in Britain, France and Germany, made possible by Le Roy (1758) and Stuart & Revett's Antiquities of Athens (1762-1816). The first time since antiquity that European architects had measured drawings of actual Greek buildings."
+      },
+      {
+        "start": 1820,
+        "end": 1860,
+        "revival_node": "greek-revival-american",
+        "note": "The American Greek Revival, transmitted by carpenters' handbooks rather than by archaeology, and applied overwhelmingly to houses - a building type the Greeks never gave the temple front."
+      }
+    ]
   },
-  {
-   "node": "greek-revival-american",
-   "difference": "The American revival applies the temple front to a dwelling, uses timber and stucco to imitate marble, flattens the entablature to a workable board dimension, and almost never contracts the corner bay or curves the stylobate. It is the silhouette of Greek architecture without the refinements that were the point."
-  }
- ],
- "proportional_system": {
-  "governing_logic": "Module = lower column diameter. Every plan and elevation dimension is stated as a multiple or fraction of it; in Doric the practical working unit on site is the triglyph-plus-metope, since the frieze must resolve exactly over the colonnade.",
-  "typical_ratios": [
-   "Doric column height 4 to 6.5 lower diameters (Archaic Paestum ~4.3; Parthenon 5.48; late Hellenistic ~6.5) - the tradition steadily lightens",
-   "Ionic column height 9 to 9.5 diameters; Corinthian about 10",
-   "Doric entablature approximately 1/3 of column height; Ionic approximately 1/5",
-   "Peristyle count follows n_flank = 2 x n_front + 1 (6x13, 8x17) - the Parthenon's 8x17 is a deliberate enlargement of the 6x13 norm",
-   "Parthenon governing ratio 4:9, holding simultaneously for stylobate width:length, column diameter:axial spacing, and facade height:width",
-   "Tympanum height approximately 1/9 of the span measured across the cornice (the rule Vitruvius later records)",
-   "Stylobate upward curvature of roughly 1:500 to 1:650 of the span",
-   "Column inclination toward the centre of about 1:150"
+  "geography": {
+    "regions": [
+      "Greece",
+      "Aegean",
+      "Ionia (western Anatolia)",
+      "Magna Graecia (southern Italy and Sicily)",
+      "Mediterranean basin"
+    ],
+    "hearth": "The Peloponnese and Attica",
+    "climate_zones": [
+      "3A",
+      "3B",
+      "3C",
+      "4A"
+    ]
+  },
+  "lineage": [],
+  "description": {
+    "short": "The first Western architecture to treat proportion as an explicit, written, transmissible system, worked out in trabeated stone at the scale of a single civic building.",
+    "long": "Greek classical architecture is a very small vocabulary used with extraordinary discipline. There is essentially one building type that matters - a rectangular cella surrounded or fronted by columns, carrying a low-pitched gabled roof - and three graduated treatments of the column and the beam it carries. Everything else is refinement within that frame. What makes it the trunk of the entire Western classical tradition is not the shapes but the method: a module is chosen, conventionally the diameter of the column at its base, and every other dimension in the building is stated as a ratio to it. This is the moment architecture becomes a system that can be written down, argued about, and carried across a sea.\n\nThe conditions that produced it are unusually legible. Sixth-century Greek cities had surplus from colonisation, silver and trade, no monarch to spend it on a palace, and a civic religion whose buildings were treasuries and votive offerings rather than dwellings for a priesthood - so the money went into the outside of the building, which everybody could see, and almost none into the inside, which almost nobody entered. The technical substrate is equally specific: iron tools and quarry technique good enough to cut and finish marble, drums set with wooden dowels and no mortar at all, and no arch and no vault. Without arcuated construction the maximum practical stone lintel span is around five to six metres, which forces a dense colonnade, which in turn makes the colonnade the architectural subject. The Doric order is a carpentry system petrified: the triglyph is a beam end, the mutule is a rafter tail, the guttae are pegs. Nobody designed that; it fossilised.\n\nIt was reacting, in the loose way an emerging tradition reacts, against the Egyptian and Near Eastern monumental manner it had certainly seen - architecture as sheer mass, awe by weight, an interior of forests of columns in darkness. The Greek inversion is total. The temple is an exterior object, sited in the open, meant to be walked around and seen against sky and landscape. Its scale is calibrated to the human body rather than to a god's; a Doric column is tall enough to dominate you and short enough that you can read its whole height at a glance. Within the tradition itself the drift from Archaic to Classical is a steady loss of weight - the squat Paestum columns at roughly four diameters give way to the Parthenon's five and a half, and the flaring Archaic capital tightens to a taut, almost straight profile.\n\nStanding in front of a good one, the thing that registers first is that nothing is straight. The stylobate crowns upward by six centimetres across thirty metres so it does not read as sagging. The columns lean inward by about one part in a hundred and fifty, so the building gathers rather than splays. Each shaft swells slightly in its lower half so it looks loaded rather than slack. The corner columns are thicker and set closer, because against bright sky a column is optically eaten away. None of these corrections is visible as a correction; what you perceive is simply that the building looks alert. Then the flutes do their work - twenty shallow channels with sharp arrises catching a moving line of light, so that a column reads as a cylinder of graded shadow rather than as a stone post, and the whole colonnade changes character between morning and afternoon. The marble is warm and faintly translucent at the surface. The interior, when you finally get inside, is dark, plain and beside the point."
+  },
+  "defining_characteristics": [
+    "Trabeated construction only - post and lintel in dressed stone, with no arch, no vault, and no mortar in the primary structure",
+    "All dimensions derived from a single module, conventionally the lower column diameter, so the building is a propagated ratio rather than a set of measurements",
+    "The order as a complete graduated system: shaft, capital and entablature vary together, and choosing Doric or Ionic determines a hundred subordinate dimensions",
+    "The exterior colonnade as the architectural subject, with the enclosed room subordinate and undecorated",
+    "Optical refinements as standard practice, not as virtuosity - stylobate curvature, entasis, column inclination, corner contraction",
+    "A low-pitched gable producing a triangular pediment whose height is roughly one ninth of its span",
+    "Frieze and pediment sculpture integrated into the structural members rather than applied to a blank field"
   ],
-  "bay_rhythm": "Uniform intercolumniation with corner contraction. In Doric the frieze must place a triglyph over every column axis AND terminate with a triglyph flush at the corner, which is geometrically impossible at constant spacing, so the final one or two bays narrow by roughly half a triglyph width each. That contraction is the single most reliable proof of authentic Doric grammar.",
-  "symmetry": "strict-bilateral"
- },
- "massing_affinities": [
-  {
-   "massing": "courtyard-full",
-   "affinity": "canonical",
-   "note": "The Greek oikos is an inward-turning court house presenting a nearly blind wall to the street; the domestic architecture and the temple architecture share almost nothing."
+  "diagnostic_tells": [
+    "Doric columns stand directly on the stylobate with no base - if there is a moulded base under a Doric column, it is Roman or later, not Greek",
+    "The Doric frieze alternates triglyphs and metopes, and the triglyphs at the corner are pushed to the very edge of the frieze with the last two bays visibly contracted",
+    "The pediment is shallow: roughly 12 to 16 degrees, so the gable looks almost flat compared with any post-medieval revival",
+    "Column shafts are fluted with sharp arrises and no fillet between flutes in Doric (twenty flutes); Ionic has twenty-four flutes separated by flat fillets",
+    "The whole building sits on a stepped crepidoma with risers too tall to climb comfortably - it is a plinth, not a stair"
+  ],
+  "distinguished_from": [
+    {
+      "node": "roman-classical",
+      "difference": "Rome adds the arch, the vault and concrete, which frees the wall from the colonnade; Roman temples therefore stand on a high podium with a frontal stair and a deep single-ended porch, while Greek temples sit on an all-round stepped base and are peripteral. Roman Doric acquires a base and a smoother, more standardised profile; Greek Doric never has one."
+    },
+    {
+      "node": "greek-revival-american",
+      "difference": "The American revival applies the temple front to a dwelling, uses timber and stucco to imitate marble, flattens the entablature to a workable board dimension, and almost never contracts the corner bay or curves the stylobate. It is the silhouette of Greek architecture without the refinements that were the point."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Module = lower column diameter. Every plan and elevation dimension is stated as a multiple or fraction of it; in Doric the practical working unit on site is the triglyph-plus-metope, since the frieze must resolve exactly over the colonnade.",
+    "typical_ratios": [
+      "Doric column height 4 to 6.5 lower diameters (Archaic Paestum ~4.3; Parthenon 5.48; late Hellenistic ~6.5) - the tradition steadily lightens",
+      "Ionic column height 9 to 9.5 diameters; Corinthian about 10",
+      "Doric entablature approximately 1/3 of column height; Ionic approximately 1/5",
+      "Peristyle count follows n_flank = 2 x n_front + 1 (6x13, 8x17) - the Parthenon's 8x17 is a deliberate enlargement of the 6x13 norm",
+      "Parthenon governing ratio 4:9, holding simultaneously for stylobate width:length, column diameter:axial spacing, and facade height:width",
+      "Tympanum height approximately 1/9 of the span measured across the cornice (the rule Vitruvius later records)",
+      "Stylobate upward curvature of roughly 1:500 to 1:650 of the span",
+      "Column inclination toward the centre of about 1:150"
+    ],
+    "bay_rhythm": "Uniform intercolumniation with corner contraction. In Doric the frieze must place a triglyph over every column axis AND terminate with a triglyph flush at the corner, which is geometrically impossible at constant spacing, so the final one or two bays narrow by roughly half a triglyph width each. That contraction is the single most reliable proof of authentic Doric grammar.",
+    "symmetry": "strict-bilateral"
   },
-  {
-   "massing": "hall-single-cell",
-   "affinity": "common",
-   "note": "The megaron - a single room with a porch - is the ancestor of the cella and survives as the irreducible unit."
-  },
-  {
-   "massing": "townhouse-row",
-   "affinity": "common",
-   "note": "Orthogonally planned colonies such as Olynthos and Priene built party-wall house blocks on a strict grid."
-  },
-  {
-   "massing": "temple-front-with-wings",
-   "affinity": "atypical",
-   "note": "The pedimented colonnaded front is a public and religious type in Greek practice. Its use as the face of a dwelling is a nineteenth-century invention and should not be attributed to Greek precedent."
-  }
- ],
- "constraints": [
-  {
-   "kind": "proportional",
-   "statement": "Pediment slope must fall between 12 and 17 degrees (tympanum height 1/7 to 1/9 of span). Above 20 degrees the profile reads Roman or Renaissance; above 30 degrees it reads as a domestic gable with a pediment drawn on it.",
-   "severity": "hard",
-   "id": "greek-classical.c01",
-   "scope": "elevation",
-   "test": {
-    "expression": "roof_slope_deg",
-    "direction": "between",
-    "threshold": 12,
-    "upper": 17,
-    "units": "deg",
-    "measurable_from": "elevation",
-    "note": "A Greek pediment's rake continues the roof's own pitch, so roof_slope_deg tests it directly. The parenthetical tympanum-height-to-span ratio is a restatement of the same slope in a different form, not additional information, and the descriptive thresholds above 20 and 30 degrees are commentary rather than a separate rule."
-   }
-  },
-  {
-   "kind": "co-occurrence",
-   "statement": "A Doric column may not be given a moulded base. Doric shaft meets stylobate directly; if a base is required by the design, the order must change to Ionic or the reference must change to Roman.",
-   "severity": "hard",
-   "id": "greek-classical.c02",
-   "scope": "judgment"
-  },
-  {
-   "kind": "structural",
-   "statement": "Clear span between column axes must not exceed roughly 6 m without introducing an arch, which is outside the style. Intercolumniation between 1.2 and 1.7 lower diameters of clear space.",
-   "severity": "hard",
-   "id": "greek-classical.c03",
-   "scope": "elevation",
-   "test": {
-    "expression": "intercolumniation_diameters",
-    "direction": "between",
-    "threshold": 1.2,
-    "upper": 1.7,
-    "units": "diameters",
-    "measurable_from": "elevation",
-    "note": "Tests the intercolumniation clause. The 'clear span must not exceed roughly 6 m without an arch' clause stays prose (a conditional construction-method rule, not a bound on a single variable)."
-   }
-  },
-  {
-   "kind": "proportional",
-   "statement": "Entasis: the shaft diminishes only above roughly the lower third of its height, with total diminution of 1/6 to 1/5 of the lower diameter and a maximum swell of 1.5 to 2 percent over the straight-line taper.",
-   "severity": "soft",
-   "id": "greek-classical.c04",
-   "scope": "judgment"
-  },
-  {
-   "kind": "co-occurrence",
-   "statement": "If a Doric frieze is used, corner contraction is mandatory; an uncontracted corner with a half-metope is a revivalist error, not a Greek option.",
-   "severity": "hard",
-   "id": "greek-classical.c05",
-   "scope": "judgment"
-  }
- ],
- "exemplars": [
-  {
-   "name": "Parthenon",
-   "location": "Acropolis, Athens, Greece",
-   "year": -447,
-   "note": "Built 447-432 BC, Iktinos and Kallikrates. Doric octastyle peripteral, 8x17. The densest concentration of optical refinements anywhere in the tradition."
-  },
-  {
-   "name": "Temple of Hephaestus (Hephaisteion)",
-   "location": "Agora, Athens, Greece",
-   "year": -449,
-   "note": "c. 449-415 BC. The most completely preserved Doric temple standing; the reference specimen for entablature detail."
-  },
-  {
-   "name": "Erechtheion",
-   "location": "Acropolis, Athens, Greece",
-   "year": -421,
-   "note": "421-406 BC. The canonical Attic Ionic capital and the caryatid porch; also the clearest demonstration that Greek symmetry is per-elevation, not per-building."
-  },
-  {
-   "name": "Temple of Apollo Epikourios",
-   "location": "Bassae, Arcadia, Greece",
-   "year": -429,
-   "note": "c. 429-400 BC, attributed to Iktinos. Contains the earliest known Corinthian capital."
-  }
- ],
- "sources": [
-  "Vitruvius, De architectura, Books III-IV",
-  "William Bell Dinsmoor, The Architecture of Ancient Greece (1950)",
-  "A. W. Lawrence, Greek Architecture, Pelican History of Art",
-  "J. J. Coulton, Ancient Greek Architects at Work (1977)",
-  "John Summerson, The Classical Language of Architecture (1963)"
- ],
- "confidence": "high",
- "tags": [
-  "classical",
-  "trabeated",
-  "orders",
-  "antique"
- ],
- "proportion_packs": [
-  {
-   "pack": "benjamin-doric",
-   "role": "secondary",
-   "authority": "benjamin-doric",
-   "note": "The only order-system in the library that is actually baseless, which matters here because c02 makes a moulded Doric base a hard error and Vignola's Doric (and every overlay built on it) has one. Benjamin's own applies_to list names greek-classical directly, and his 1830 preface states the reason in his own words: the Doric is 'the one order' where Greek and Roman 'differ essentially,' and what is encoded here is drawn from Stuart and Revett's measured Temple of Theseus rather than from Vignola. That said, it is not a scholarly Attic encoding: Benjamin's own recommended Example No. 3 is a nineteenth-century American wood-construction compromise, not the archaeological figures. Column height is 7 diameters including the capital against this style's own stated Doric range of 4 to 6.5 diameters (Parthenon 5.48); entasis begins at the foot rather than at the lower third this style's c04 specifies; the annulets are changed to 'Roman character' because Benjamin judged the Greek ones 'too small and indistinct'; mutules are halved from one-per-metope-and-triglyph to one-per-triglyph-only. It is the closest thing in the library to a baseless Greek Doric, and it is still a Federal-Boston-carpentry object standing in for a fifth-century-BC Athenian one. DEMOTED TO SECONDARY by WP-4.6: greek-doric now carries the primary role on this node, for the four reasons this note already listed. Kept because American Greek Revival buildings were built from these plates and a plan checked against the Parthenon alone would fail them for being what they are.",
-   "precedence": 1
-  },
-  {
-   "pack": "vignola-ionic",
-   "role": "secondary",
-   "authority": "vignola-ionic",
-   "note": "Judgment binding: greek-classical is not in vignola-ionic's own applies_to. Bound anyway because this style's own proportional_system states Ionic column height as 9 to 9.5 diameters, and Vignola's Ionic (later codified from Roman practice but tracking a genuinely Ionic lineage) sits at almost exactly 9 diameters -- the two figures were not reconciled on purpose, they simply agree. Unlike Doric, a moulded base is not a Greek/Roman fault line for Ionic -- the Erechtheion's own columns are based -- so vignola-ionic's base does not trip a hard constraint the way vignola-doric would. It remains a Roman-transmitted reading (Vignola 1562) rather than a direct encoding of the Erechtheion or the Temple of Apollo Epikourios, and no pack in the library encodes either building specifically.",
-   "precedence": 2
-  },
-  {
-   "pack": "greek-doric",
-   "role": "primary",
-   "precedence": 0,
-   "authority": "greek-doric",
-   "note": "WP-4.6: this replaces `benjamin-doric` as the primary order. WP-4.1's own binding note called Benjamin 'the least-bad available approximation' and listed the four defects precisely -- column height 7 diameters against this style's own stated 4-to-6.5 range, entasis at the foot rather than the lower third c04 specifies, annulets in 'Roman character', mutules halved to one per triglyph. All four are Benjamin's nineteenth-century wood-shop departures, honestly labelled as such in his own pack, and all four are corrected here against Stuart and Revett's measured Parthenon. Benjamin is kept bound at lower precedence, because a real American Greek Revival building WAS built from his plates and this style's revival descendants need him."
-  }
- ]
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The Greek oikos is an inward-turning court house presenting a nearly blind wall to the street; the domestic architecture and the temple architecture share almost nothing."
+    },
+    {
+      "massing": "hall-single-cell",
+      "affinity": "common",
+      "note": "The megaron - a single room with a porch - is the ancestor of the cella and survives as the irreducible unit."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "common",
+      "note": "Orthogonally planned colonies such as Olynthos and Priene built party-wall house blocks on a strict grid."
+    },
+    {
+      "massing": "temple-front-with-wings",
+      "affinity": "atypical",
+      "note": "The pedimented colonnaded front is a public and religious type in Greek practice. Its use as the face of a dwelling is a nineteenth-century invention and should not be attributed to Greek precedent."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "proportional",
+      "statement": "Pediment slope must fall between 12 and 17 degrees (tympanum height 1/7 to 1/9 of span). Above 20 degrees the profile reads Roman or Renaissance; above 30 degrees it reads as a domestic gable with a pediment drawn on it.",
+      "severity": "hard",
+      "id": "greek-classical.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_slope_deg",
+        "direction": "between",
+        "threshold": 12,
+        "upper": 17,
+        "units": "deg",
+        "measurable_from": "elevation",
+        "note": "A Greek pediment's rake continues the roof's own pitch, so roof_slope_deg tests it directly. The parenthetical tympanum-height-to-span ratio is a restatement of the same slope in a different form, not additional information, and the descriptive thresholds above 20 and 30 degrees are commentary rather than a separate rule."
+      }
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "A Doric column may not be given a moulded base. Doric shaft meets stylobate directly; if a base is required by the design, the order must change to Ionic or the reference must change to Roman.",
+      "severity": "hard",
+      "id": "greek-classical.c02",
+      "scope": "judgment"
+    },
+    {
+      "kind": "structural",
+      "statement": "Clear span between column axes must not exceed roughly 6 m without introducing an arch, which is outside the style. Intercolumniation between 1.2 and 1.7 lower diameters of clear space.",
+      "severity": "hard",
+      "id": "greek-classical.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "intercolumniation_diameters",
+        "direction": "between",
+        "threshold": 1.2,
+        "upper": 1.7,
+        "units": "diameters",
+        "measurable_from": "elevation",
+        "note": "Tests the intercolumniation clause. The 'clear span must not exceed roughly 6 m without an arch' clause stays prose (a conditional construction-method rule, not a bound on a single variable)."
+      }
+    },
+    {
+      "kind": "proportional",
+      "statement": "Entasis: the shaft diminishes only above roughly the lower third of its height, with total diminution of 1/6 to 1/5 of the lower diameter and a maximum swell of 1.5 to 2 percent over the straight-line taper.",
+      "severity": "soft",
+      "id": "greek-classical.c04",
+      "scope": "judgment"
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "If a Doric frieze is used, corner contraction is mandatory; an uncontracted corner with a half-metope is a revivalist error, not a Greek option.",
+      "severity": "hard",
+      "id": "greek-classical.c05",
+      "scope": "judgment"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Parthenon",
+      "location": "Acropolis, Athens, Greece",
+      "year": -447,
+      "note": "Built 447-432 BC, Iktinos and Kallikrates. Doric octastyle peripteral, 8x17. The densest concentration of optical refinements anywhere in the tradition."
+    },
+    {
+      "name": "Temple of Hephaestus (Hephaisteion)",
+      "location": "Agora, Athens, Greece",
+      "year": -449,
+      "note": "c. 449-415 BC. The most completely preserved Doric temple standing; the reference specimen for entablature detail."
+    },
+    {
+      "name": "Erechtheion",
+      "location": "Acropolis, Athens, Greece",
+      "year": -421,
+      "note": "421-406 BC. The canonical Attic Ionic capital and the caryatid porch; also the clearest demonstration that Greek symmetry is per-elevation, not per-building."
+    },
+    {
+      "name": "Temple of Apollo Epikourios",
+      "location": "Bassae, Arcadia, Greece",
+      "year": -429,
+      "note": "c. 429-400 BC, attributed to Iktinos. Contains the earliest known Corinthian capital."
+    }
+  ],
+  "sources": [
+    "Vitruvius, De architectura, Books III-IV",
+    "William Bell Dinsmoor, The Architecture of Ancient Greece (1950)",
+    "A. W. Lawrence, Greek Architecture, Pelican History of Art",
+    "J. J. Coulton, Ancient Greek Architects at Work (1977)",
+    "John Summerson, The Classical Language of Architecture (1963)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "classical",
+    "trabeated",
+    "orders",
+    "antique"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "greek-doric",
+      "role": "primary",
+      "precedence": 0,
+      "authority": "greek-doric",
+      "note": "WP-4.6: this replaces `benjamin-doric` as the primary order. WP-4.1's own binding note called Benjamin 'the least-bad available approximation' and listed the four defects precisely -- column height 7 diameters against this style's own stated 4-to-6.5 range, entasis at the foot rather than the lower third c04 specifies, annulets in 'Roman character', mutules halved to one per triglyph. All four are Benjamin's nineteenth-century wood-shop departures, honestly labelled as such in his own pack, and all four are corrected here against Stuart and Revett's measured Parthenon. Benjamin is kept bound at lower precedence, because a real American Greek Revival building WAS built from his plates and this style's revival descendants need him."
+    },
+    {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "THE ANTIQUE SOURCE OF HALF THIS CORPUS, AND IT HAD NO FACADE-ROLE PACK. Three order bindings and nothing saying how many columns there are or where they stand. This node supplies the pack's two most unusual rules: `n_flank = 2 x n_front + 1`, the only closed-form count rule in the library, and the corner contraction, which is forced by the Doric frieze rather than chosen and which the record calls 'the single most reliable proof of authentic Doric grammar'. It also supplies all three optical refinements -- stylobate curvature at 1:500 to 1:650, column inclination at 1:150, entasis above the lower third -- which this node's own text insists are 'standard practice, not virtuosity'. `greek-doric` keeps the order and this keeps its disposition; the division is the reason both packs exist.",
+      "precedence": 1
+    },
+    {
+      "pack": "benjamin-doric",
+      "role": "secondary",
+      "authority": "benjamin-doric",
+      "note": "The only order-system in the library that is actually baseless, which matters here because c02 makes a moulded Doric base a hard error and Vignola's Doric (and every overlay built on it) has one. Benjamin's own applies_to list names greek-classical directly, and his 1830 preface states the reason in his own words: the Doric is 'the one order' where Greek and Roman 'differ essentially,' and what is encoded here is drawn from Stuart and Revett's measured Temple of Theseus rather than from Vignola. That said, it is not a scholarly Attic encoding: Benjamin's own recommended Example No. 3 is a nineteenth-century American wood-construction compromise, not the archaeological figures. Column height is 7 diameters including the capital against this style's own stated Doric range of 4 to 6.5 diameters (Parthenon 5.48); entasis begins at the foot rather than at the lower third this style's c04 specifies; the annulets are changed to 'Roman character' because Benjamin judged the Greek ones 'too small and indistinct'; mutules are halved from one-per-metope-and-triglyph to one-per-triglyph-only. It is the closest thing in the library to a baseless Greek Doric, and it is still a Federal-Boston-carpentry object standing in for a fifth-century-BC Athenian one. DEMOTED TO SECONDARY by WP-4.6: greek-doric now carries the primary role on this node, for the four reasons this note already listed. Kept because American Greek Revival buildings were built from these plates and a plan checked against the Parthenon alone would fail them for being what they are.",
+      "precedence": 2
+    },
+    {
+      "pack": "vignola-ionic",
+      "role": "secondary",
+      "authority": "vignola-ionic",
+      "note": "Judgment binding: greek-classical is not in vignola-ionic's own applies_to. Bound anyway because this style's own proportional_system states Ionic column height as 9 to 9.5 diameters, and Vignola's Ionic (later codified from Roman practice but tracking a genuinely Ionic lineage) sits at almost exactly 9 diameters -- the two figures were not reconciled on purpose, they simply agree. Unlike Doric, a moulded base is not a Greek/Roman fault line for Ionic -- the Erechtheion's own columns are based -- so vignola-ionic's base does not trip a hard constraint the way vignola-doric would. It remains a Roman-transmitted reading (Vignola 1562) rather than a direct encoding of the Erechtheion or the Temple of Apollo Epikourios, and no pack in the library encodes either building specifically.",
+      "precedence": 3
+    }
+  ]
 }

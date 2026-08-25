@@ -264,6 +264,12 @@
       "role": "room",
       "note": "Judgment binding, bound with real caveats. room-harmonic's own authority note credits Wittkower's demonstration that the seven room ratios recover 'the Greek theory of proportion' as transmitted through Vitruvius -- so the system's own intellectual lineage runs back through this style, even though the pack itself was written by Palladio in 1570. It covers the atrium-and-peristyle domus and the insula at best, at the scale of an ordinary room; it does not reach, and makes no claim to reach, the engineered interiors that are this style's real invention -- the Pantheon's sphere-in-a-cylinder or the great vaulted baths, which no pack in this library models.",
       "precedence": 7
+    },
+    {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "The other antique source, also with no facade-role pack: five order bindings, an opening pack and a room pack, and nothing for the arch order that this node's own record calls 'the single most consequential invention in the history of Western facade design'. It supplies the Vitruvian intercolumniations, the podium band, the porch ranks and -- alone in the corpus -- a rule that is a FUNCTION: 'column height varies inversely with spacing: about 10 diameters at pycnostyle, 9.5 at eustyle, 8 at araeostyle', three points that fall on a line. It also states the reconciliation the whole pack turns on, that a Roman elevation's intercolumniation is chosen 'to suit the required arch span' because the wall is doing the work.",
+      "precedence": 8
     }
   ]
 }

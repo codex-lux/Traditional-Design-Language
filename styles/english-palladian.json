@@ -236,34 +236,40 @@
       "precedence": 2
     },
     {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "One of the five records converging on 2.25 diameters, and the one whose bay_rhythm states the opposite discipline to the centre-bay widening rule: 'bay widths are equal; the centre is distinguished by ornament and projection, never by wider spacing.' That is a genuine disagreement with `roman-classical` and `neoclassical-revival` about how a centre is made, and the pack records it rather than resolving it -- the widening rule's band runs down to 1.0 for exactly this case, where the correct value is no widening at all.",
+      "precedence": 3
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Governs the even metronome of equal bays with a three- or five-bay pedimented centrepiece this node's own bay_rhythm states, and the licensed-ornament-only rule its hard constraint c02 tests: the giant order, banded rustication and broken pediment Baroque permitted are here forbidden outright.",
-      "precedence": 3
+      "precedence": 4
     },
     {
       "pack": "opening-proportion",
       "role": "opening",
       "note": "Governs the window aedicule this node's hard constraint c03 restricts to the piano nobile alone -- ornamenting a basement or attic window 'inverts the hierarchy and destroys the composition' -- and the Venetian and Diocletian window types this node names as its two licensed exotic openings.",
-      "precedence": 4
+      "precedence": 5
     },
     {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "RE-ANCHORED around the piano nobile rather than the ground floor, the one structural fact that separates this node from every other in the trunk: a rusticated basement (2.7-3.5 m) carries a piano nobile of state rooms (4.5-6.0 m) reached by an external stair, with the attic roughly 0.6 of the piano nobile above it. This is a three-tier hierarchy of RANK -- service, state, subordinate -- not the Georgian four-tier hierarchy of gradually diminishing ordinary storeys, and the datum the pack's default assumes (ground floor tallest) does not hold here at all.",
-      "precedence": 5
+      "precedence": 6
     },
     {
       "pack": "trim-classical",
       "role": "interior",
       "note": "Governs the enfilade of rooms this node describes -- doors aligned so 'you can see through four rooms at once, the alignment is the ornament' -- at the heavy, deeply coffered, rectangular-box register this node's own distinguished_from entry contrasts explicitly against Adam's later thinning.",
-      "precedence": 6
+      "precedence": 7
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "The room-ratio doctrine's own point of origin in this trunk: this node's hard constraint c01 requires every room plan to conform to one of Palladio's approved ratios (1:1, 1:1.33, 1:1.5, 1:1.67, 1:2, the square's diagonal) within 3 percent, with ceiling height set as a stated mean of length and breadth -- a harder and more literal reading of this pack than any of its Gibbs-mediated descendants apply.",
-      "precedence": 7
+      "precedence": 8
     }
   ]
 }

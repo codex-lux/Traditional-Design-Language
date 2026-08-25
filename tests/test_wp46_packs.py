@@ -2333,3 +2333,154 @@ def test_every_node_the_pack_binds_states_a_rationing_rule_of_its_own():
         assert re.search(r"ornament (is )?(confined|concentrated|rationed|permitted|almost wholly"
                          r" absent)|ornament budget|otherwise (blank|plain)|budget at the portada",
                          blob), nid
+
+
+# --- facade-peristyle: the screen and the wall ------------------------------------------------
+
+
+def test_the_two_antique_sources_had_no_facade_pack_at_all():
+    """Eleven order packs proportion a column and not one says how many columns there are, where
+    they stand, what they stand on, or what the wall behind them is doing."""
+    for nid in ("greek-classical", "roman-classical"):
+        entries = node(nid)["proportion_packs"]
+        assert any(e["pack"] == "facade-peristyle" and e["role"] == "facade" for e in entries), nid
+        others = [e for e in entries if e["pack"] != "facade-peristyle"]
+        assert not any(e["role"] == "facade" for e in others), nid
+
+
+def test_the_only_closed_form_count_rule_in_the_corpus():
+    """n_flank = 2 x n_front + 1. A Greek peristyle's plan proportion is computed from one integer
+    rather than chosen, and the expression keeps the formula visible in the data."""
+    r = next(x for x in pack("facade-peristyle")["derived_rules"]
+             if x["dimension"] == "flank_count")
+    assert r["expression"] == "2 * 6 + 1"
+    assert eval(r["expression"]) == 13
+    for front, flank in [(6, 13), (8, 17)]:                      # both pairs the record gives
+        assert 2 * front + 1 == flank
+        assert r["range"][0] <= flank <= r["range"][1]
+    assert "n_flank = 2 x n_front + 1 (6x13, 8x17)" in json.dumps(node("greek-classical"))
+
+
+def test_the_only_rule_that_is_a_function_and_its_residual_is_reported_not_tuned_away():
+    """Vitruvius gives three points -- (1.5,10), (2.25,9.5), (4.0,8) -- and they fall on a line. The
+    pack states the line and returns 9.4 at eustyle against a recorded 9.5."""
+    r = next(x for x in pack("facade-peristyle")["derived_rules"]
+             if x["dimension"] == "height_by_spacing")
+    f = lambda d: 11.2 - 0.8 * d
+    assert abs(f(1.5) - 10.0) <= 0.1 and abs(f(4.0) - 8.0) <= 0.1
+    assert abs(f(2.25) - 9.5) <= 0.15                            # the residual, stated in the note
+    assert abs(eval(r["expression"]) - f(2.25)) < 1e-9
+    assert "9.4 against the record's 9.5" in r["note"]
+    assert "pycnostyle, 9.5 at eustyle, 8 at araeostyle" in json.dumps(node("roman-classical"))
+
+
+def test_five_independent_records_put_the_intercolumniation_floor_at_2_point_25_exactly():
+    """The strongest agreement found in this work package, and it shows the revival is more uniform
+    than either of its sources -- because 2.25 is Vitruvius's eustyle and the revival worked from
+    the book while the ancients worked from the buildings."""
+    r = next(x for x in pack("facade-peristyle")["derived_rules"]
+             if x["dimension"] == "intercolumniation_revival")
+    assert r["range"] == [2.25, 3.0]
+    for nid in ("neoclassical-revival", "english-palladian", "greek-revival-american",
+                "greek-revival-northern", "jeffersonian-classicism"):
+        assert "2.25" in json.dumps(node(nid)), nid
+    greek = next(x for x in pack("facade-peristyle")["derived_rules"]
+                 if x["dimension"] == "intercolumniation_greek")
+    roman = next(x for x in pack("facade-peristyle")["derived_rules"]
+                 if x["dimension"] == "intercolumniation_roman")
+    # narrower than either source
+    assert (r["range"][1] - r["range"][0]) < (greek["range"][1] - greek["range"][0]) + 0.3
+    assert (r["range"][1] - r["range"][0]) < (roman["range"][1] - roman["range"][0])
+
+
+def test_the_screen_and_the_wall_has_four_settlements_and_the_corpus_gives_all_four():
+    """Greece: nothing to reconcile. Rome: the wall governs. The Southern plantation: the wall
+    governs the other way. Neoclassical Revival: neither, and the mismatch is characteristic."""
+    r = next(x for x in pack("facade-peristyle")["derived_rules"]
+             if x["dimension"] == "screen_offset")
+    assert r["judgment"] is True and r["range"] == [0.0, 2.0]
+    assert "characteristic mismatch between screen and wall" in json.dumps(node("neoclassical-revival"))
+    assert "reconciled by choosing an intercolumniation that suits the required arch span" in \
+        json.dumps(node("roman-classical"))
+    assert "column spacing is set by the bay of the house behind" in \
+        json.dumps(node("greek-revival-southern-plantation"))
+    assert "sets the bay module for the wall behind it" in json.dumps(node("greek-revival-northern"))
+    # four columns over five bays, six over seven: the offset is one in both cases
+    for cols, bays in [(4, 5), (6, 7)]:
+        assert bays - cols == 1
+
+
+def test_four_packs_in_this_tranche_now_write_to_window_grouping_rule():
+    """One requires exact alignment, two require independence, and this one says the answer is a
+    design decision with four historical precedents."""
+    dims = {pid: {r["dimension"] for r in pack(pid)["derived_rules"]
+                  if r["target_slot"] == "window_grouping_rule"}
+            for pid in ("facade-pavilion", "jetty-overhang", "facade-portada", "facade-peristyle")}
+    assert dims["facade-pavilion"] == {"alignment"}
+    assert dims["jetty-overhang"] == {"post_independence"}
+    assert dims["facade-portada"] == {"portada_independence"}
+    assert dims["facade-peristyle"] == {"screen_offset"}
+
+
+def test_the_corner_contraction_is_forced_rather_than_chosen():
+    """A triglyph over every axis AND a triglyph flush at the corner are geometrically incompatible
+    at constant spacing. Nobody decided it; it fell out -- which is why its absence dates a
+    building at a glance."""
+    r = next(x for x in pack("facade-peristyle")["derived_rules"]
+             if x["dimension"] == "corner_contraction")
+    assert "geometrically impossible at constant spacing" in json.dumps(node("greek-classical"))
+    assert "single most reliable proof of authentic Doric grammar" in r["authority_note"]
+    assert "almost never contract" in json.dumps(node("greek-classical"))
+
+
+def test_the_greek_assembly_reproduces_the_parthenon_and_the_roman_one_vitruvius():
+    """Recomputed from the members, not asserted: 5.48 diameters and a third of the column for
+    Greece, 9.5 diameters and a quarter for Rome."""
+    p = pack("facade-peristyle")
+    g = {m["id"]: m["height_parts"] for m in p["assemblies"]["peristyle_bay"]["members"]}
+    col = g["shaft"] + g["capital"]
+    ent = g["architrave"] + g["frieze"] + g["cornice"]
+    assert abs(col / p["module"]["parts"] * 2.45 - 5.48) < 0.02      # Parthenon Doric
+    assert 0.30 <= ent / col <= 0.34                                  # about one third
+    r = {m["id"]: m["height_parts"] for m in p["assemblies"]["arch_order_bay"]["members"]}
+    rcol = r["engaged_shaft"] + r["engaged_capital"]
+    assert abs(rcol / p["module"]["parts"] * 3.25 - 9.5) < 0.02       # eustyle
+    assert 0.24 <= r["entablature"] / rcol <= 0.26                    # about one quarter
+    assert 0.20 <= r["podium"] / rcol <= 0.333                        # the podium band
+
+
+def test_the_pack_states_no_portico_depth_rule_and_says_why():
+    """That wall-face-to-column-centreline dimension is `balcony-gallery`'s gallery depth, and
+    neoclassical-revival's own constraint note already says so. A collision avoided by not writing
+    the rule at all, which is the cleanest form of the fix."""
+    dims = {(r["target_slot"], r["dimension"]) for r in pack("facade-peristyle")["derived_rules"]}
+    assert not any(s == "porch_depth" for s, _ in dims)
+    c = next(x for x in pack("facade-peristyle")["conflicts"] if x["with"] == "climate")
+    assert "balcony-gallery" in c["resolution"]
+    assert "gallery_depth_ft applies" in json.dumps(node("neoclassical-revival"))
+
+
+def test_the_podium_is_the_argument_and_the_accessibility_conflict_follows_from_it():
+    """One face is what made the Roman temple front adaptable as a courthouse and the Greek one not
+    -- and it is also why the accessible entrance lands on the elevation the composition calls the
+    back."""
+    r = next(x for x in pack("facade-peristyle")["derived_rules"]
+             if x["dimension"] == "podium_ratio")
+    assert r["range"] == [0.2, 0.333]
+    assert "loses the frontality that distinguishes it from Greek work" in r["authority_note"]
+    c = next(x for x in pack("facade-peristyle")["conflicts"] if x["with"] == "accessibility-code")
+    assert c["severity"] == "blocking"
+    assert "adaptable as a facade for a courthouse or a bank" in json.dumps(node("roman-classical"))
+
+
+def test_egyptian_revival_stays_unbound_and_it_is_oq_49_for_the_third_time():
+    """Two of the pack's rules fit it exactly and thirteen do not. It is the corpus's one
+    deliberately unbound buildable node, and OQ 49's proposal would bind the last one."""
+    n = pack("facade-peristyle")["notes"]
+    assert "THIRD INSTANCE OF OQ 49 IN THREE PACKS" in n
+    assert not node("egyptian-revival").get("proportion_packs")
+    assert "Column height 4 to 5.5 shaft diameters" in json.dumps(node("egyptian-revival"))
+    assert "never a repeating march of equal bays" in json.dumps(node("egyptian-revival"))
+    # and the overlap the pack claims is real: Archaic Doric is squatter than the "squattest revival"
+    assert "Archaic Paestum ~4.3" in json.dumps(node("greek-classical"))
+    assert 4.3 < 4.5
