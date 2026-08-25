@@ -257,6 +257,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "Supplies the bay rule -- 'patio arcade bay 2.5-3.5 m' -- and the slenderness band, 'column slenderness 7-10 diameters', and states the circulation rule in the bluntest form any record uses: 'arcaded corredor on the patio carrying circulation and social life; rooms entered from it, not from corridors'. That last clause is the sentence the pack's circulation rule is built on and the one that leads to the energy conflict, because a range of rooms entered from a corredor has an exterior door per room.",
+      "precedence": 2
+    },
+    {
       "pack": "adobe-module",
       "role": "primary",
       "note": "Massive adobe, rubble or tezontle walls at 600-1000 mm -- two to three adobes on this pack's module, or the shuttered equivalent in tapia. Primary because the single-pile ranges around the court that this record names are a direct consequence of the pack's two governing rules: the viga span keeps a range one room deep, and the bracing length caps a range at about 24 ft between cross walls, so a court is what you get when you keep adding them and turning the corner. Note what this pack does NOT reach on this node: the portada, the retablo-fronted doorway and the carved surround are a bounded-panel ornament system that WP-4.1 listed as its own missing pack, and nothing here speaks to them.",

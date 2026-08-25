@@ -241,6 +241,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "The source of the type for every other node this pack binds, and the record that states its geometry most exactly: 'arcade: arch rise exactly 1/2 the span (semicircular); pier width 1/3 to 1/2 the clear span', with the arcaded cortile named as 'the organising void of the urban palace'. Bound in the facade role because on a palazzo the cortile arcade IS an elevation -- the most designed one in the building -- and because the pack's closed-loop observation matters most here: four runs meeting at four corners buttress each other and have no ends, which is why a courtyard arcade is structurally easier than a straight one and why this tradition builds them in courts.",
+      "precedence": 7
+    },
+    {
       "pack": "palladio-tuscan",
       "role": "primary",
       "authority": "palladio-tuscan",

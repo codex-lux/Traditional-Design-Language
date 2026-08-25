@@ -263,6 +263,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "Takes the geometry from its parent and states it in the same terms -- 'arcade piers 1/3 to 1/2 of the clear arch span; arch springing at 2/3 of opening height' -- which is one of the three records the springing rule rests on. Bound facade: this record puts the arcaded loggia at the ground storey with rectangular openings above, so the arcade is the base of the elevation rather than a courtyard, and `storey-graduation`, already bound here, governs what sits on it.",
+      "precedence": 8
+    },
+    {
       "pack": "vignola-corinthian",
       "role": "primary",
       "authority": "vignola-corinthian",

@@ -230,7 +230,7 @@
       "pack": "balcony-gallery",
       "role": "secondary",
       "note": "The node that shows both of the pack's lighter regimes side by side in one sentence: 'either a posted galerie 6-10 ft deep with a pitch break at the wall plane, or an abat-vent projecting 30-48 in on iron rods or brackets with no posts.' Those are two of the pack's three depth rules stated as alternatives on one building type, which is the clearest evidence in the corpus that depth follows carrying strategy rather than taste. The abat-vent band it gives is the same one `styles/regency.json` gives for its cast-iron balconette, independently.",
-      "precedence": 0
+      "precedence": 3
     },
     {
       "pack": "room-vernacular",

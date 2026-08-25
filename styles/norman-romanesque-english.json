@@ -203,6 +203,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "secondary",
+      "note": "Bound secondary behind `stone-course`, and it is one of the nine records the pier ratio rests on: 'pier or respond width 1/3 to 1/2 of the opening it flanks'. It also gives the semicircular rise in the strongest terms any record uses -- 'arch rise to span exactly 1:2, the defining and non-negotiable ratio' -- which is why this pack's own rise default is semicircular and why that default is right here and overridden elsewhere. Read this node's arcade ratios beside the comparison its sibling record draws: `styles/english-gothic.json` gives 1:4 to 1:6 against Norman's 1:2 to 1:3, and that gap is the entire history of Gothic construction stated as two numbers.",
+      "precedence": 2
+    },
+    {
       "pack": "stone-course",
       "role": "primary",
       "note": "The node that states the pack's central rule for the second time and independently: 'coursed rubble field walling with ashlar reserved for quoins, jambs, voussoirs, string courses and shafts'. Four centuries and a building type away from the Cotswold cottage, with the same word -- reserved -- and no awareness of the other. It also supplies the pack's one scaling rule, wall thickness at 1/8 to 1/5 of the clear span, which is how a mason building at every scale from a chapel to a cathedral actually thought, and which gives a heavier wall than the domestic records do because it is describing vaulted and towered work. Read that rule here and leave it alone on the cottages. What the pack does NOT carry for this node is the ornament: the chevron, billet, beakhead and cable that this record describes as 'cut into the stone's arris rather than applied to its face' are a repertoire and stay on WP-4.1's candidate list.",

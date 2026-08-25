@@ -248,7 +248,7 @@
       "pack": "dutch-gambrel",
       "role": "secondary",
       "note": "BOUND FOR THE EAVE AND NOT FOR THE GAMBREL, and the distinction is this pack's opening finding. This node has a sprung eave -- 18-24 in projection on a 5-9 ft sweep radius -- over a STRAIGHT gable at 12:12 to 17:12, and its own distinguished_from entry says it outright: 'the Jersey branch uses a gambrel roof... a pronounced concave spring eave... the Hudson branch uses a steep straight gable.' So the two devices the pack carries are independent, which is why it names both in its title rather than calling itself 'the Dutch roof'. Read the eave rules here -- projection, flare start, sweep radius -- and leave the gambrel_section assembly, the break point and the two slope ratios alone; the straight-gable pitch this node gives is its own and is not in this pack.",
-      "precedence": 0
+      "precedence": 6
     },
     {
       "pack": "timber-bay",

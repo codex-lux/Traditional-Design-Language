@@ -251,7 +251,7 @@
       "pack": "dutch-gambrel",
       "role": "optional",
       "note": "Optional, and narrowly. This record lists the gambrel as one of three roof options -- 'side-gable, gambrel or hipped' at a 9:12 to 11:12 pitch -- and adds that 'gambrel-roofed Georgian houses are frequent in Rhode Island and coastal Massachusetts.' Where that option is taken, the section rules here apply and the pack is the only thing in the library that can dimension the break. What does NOT apply is the eave: a New England Georgian gambrel has a boxed modillion or dentil cornice, which this record names, and a sprung eave would be a Dutch import onto an English house. Take the gambrel_section assembly and the two slope ratios; leave the sprung_eave assembly entirely.",
-      "precedence": 0
+      "precedence": 10
     },
     {
       "pack": "timber-bay",

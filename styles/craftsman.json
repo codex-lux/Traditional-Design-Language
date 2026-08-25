@@ -256,7 +256,7 @@
       "pack": "opening-craftsman",
       "role": "opening",
       "note": "The node this pack's central assertion is quoted from. Its own governing_logic states the whole system -- 'the porch beam sets a low datum, the aligned window and door heads set a high datum, and the exposed rafters declare the framing bay at 16 or 24 inches on centre' -- and adds the sentence that explains why the pack is written in absolute lengths rather than ratios: 'the system is dimensional rather than ratio-derived... which is why the plan-book trade could transmit it without transmitting any theory.' Bound in the opening role; facade-picturesque stays primary and governs the massing, and the two do not overlap, because this pack says nothing about composition and everything about the two lines it hangs on.",
-      "precedence": 0
+      "precedence": 3
     },
     {
       "pack": "facade-picturesque",

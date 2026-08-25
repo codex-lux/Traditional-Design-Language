@@ -246,7 +246,7 @@
       "pack": "balcony-gallery",
       "role": "secondary",
       "note": "The gallery at its fullest -- two tiers, wrapping, up to 14 ft deep. `storey-graduation` holds primary here and the two packs meet at one member: the upper standard is usually a few inches shorter than the lower, which is storey graduation applied to a porch, and the pack's support-height rule says to read the two together on this node specifically. Bound secondary rather than primary because on this record the raising itself -- the whole ground storey given over to service and the piano nobile lifted clear of the flood -- is the governing move, and the gallery is what that move produces rather than what generates it.",
-      "precedence": 0
+      "precedence": 3
     },
     {
       "pack": "storey-graduation",

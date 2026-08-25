@@ -60,7 +60,7 @@ The following layers run clean, are schema-checked, and do what their documentat
 
 **The element ontology and massing catalog.** 95 slots across 8 groups at ontology 0.5.0 (was 93 at 0.4.0 — WP-1.3 split `wall_thickness_expression` by trade), all 40 massings carrying expansion logic, both consumed correctly by every downstream layer.
 
-**The proportion engine.** `selftest` resolves and dimensions all 45 packs with zero problems; `check_orders`, `check_modules` and `check_systems` pass with only explained warnings. Invariants are proved against the data, and the data encodes what the authorities *drew*, not what they said — Vignola's pedestal at 0.35 in Corinthian and Composite is the proof that the engine is honest.
+**The proportion engine.** `selftest` resolves and dimensions all 46 packs with zero problems; `check_orders`, `check_modules` and `check_systems` pass with only explained warnings. Invariants are proved against the data, and the data encodes what the authorities *drew*, not what they said — Vignola's pedestal at 0.35 in Corinthian and Composite is the proof that the engine is honest.
 
 **Proportion packs bound to the vocabulary — 131 of 132 buildable nodes** (was 5 at the last review, 129 after WP-4.1). WP-4.1 bound every style and variant except three where no pack in the library honestly fitted: `egyptian-revival` (trabeated, no arch), `moorish-andalusian` and `mudejar` (Islamic geometric setting-out). WP-4.6 built `moorish-arch` and the last two came off the named `DELIBERATELY_UNBOUND` allowlist in `check_pack_bindings.py --strict`, which is now one node — retiring an allowlist entry when the thing it excused is fixed is the point of having one. `egyptian-revival` stays, its reason untouched. The gap was recorded as OQ 29 rather than gamed, and the ~30 missing packs the exercise identified feed WP-4.6.
 
@@ -163,7 +163,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Alphabet | `elements/slots.json` | 95 slots / 8 groups (ontology 0.5.0) | Complete |
 | Alphabet | `massings/catalog.json` | 40, all with expansion logic | Complete |
 | Alphabet | `rooms/` | **60**, all with `style_variation` | Complete (+`courtyard`, `overlook` in WP-4.5) |
-| Grammar | `proportions/` | 45 packs, 202 conflicts | **Bound to 131 of 132** — but 60 nodes have no opening-role pack, 67 no facade-role pack (WP-4.6) |
+| Grammar | `proportions/` | 46 packs, 207 conflicts | **Bound to 131 of 132** — but 60 nodes have no opening-role pack, 61 no facade-role pack (WP-4.6) |
 | Vocabulary | `styles/` | 164 nodes, 476 edges, 660 constraints, 624 affinities, 482 exemplars | Complete; **constraints executable** |
 | Vocabulary | constraints | 660 migrated, 365 tested, **61.5% of hard** | Clears the ≥60% bar |
 | Bindings | `kits/` | **159 files, 159 populated** | Complete (was 3 of 132) |

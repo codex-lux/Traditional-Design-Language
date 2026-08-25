@@ -1,270 +1,276 @@
 {
- "id": "mediterranean-revival",
- "name": "Mediterranean Revival",
- "aka": [
-  "Mediterranean",
-  "Italian Mediterranean",
-  "Florida Mediterranean",
-  "Mizner Style"
- ],
- "rank": "style",
- "member_of": "eclectic-revivals",
- "status": "revival",
- "period": {
-  "origin": 1900,
-  "floruit_start": 1918,
-  "floruit_end": 1942,
-  "decline_end": null,
-  "circa": true,
-  "revival_periods": []
- },
- "geography": {
-  "regions": [
-   "United States"
+  "id": "mediterranean-revival",
+  "name": "Mediterranean Revival",
+  "aka": [
+    "Mediterranean",
+    "Italian Mediterranean",
+    "Florida Mediterranean",
+    "Mizner Style"
   ],
-  "hearth": "Palm Beach and Miami, Florida; Santa Barbara, California",
-  "climate_zones": [
-   "1A",
-   "2A",
-   "2B",
-   "3B",
-   "3A"
+  "rank": "style",
+  "member_of": "eclectic-revivals",
+  "status": "revival",
+  "period": {
+    "origin": 1900,
+    "floruit_start": 1918,
+    "floruit_end": 1942,
+    "decline_end": null,
+    "circa": true,
+    "revival_periods": []
+  },
+  "geography": {
+    "regions": [
+      "United States"
+    ],
+    "hearth": "Palm Beach and Miami, Florida; Santa Barbara, California",
+    "climate_zones": [
+      "1A",
+      "2A",
+      "2B",
+      "3B",
+      "3A"
+    ]
+  },
+  "lineage": [
+    {
+      "target": "italian-villa-vernacular",
+      "type": "references",
+      "weight": 1.0,
+      "note": "The claimed ancestor: the Tuscan and Ligurian villa with loggia, terrace and tile roof, known through photographs and Italian garden books."
+    },
+    {
+      "target": "andalusian-courtyard-vernacular",
+      "type": "references",
+      "weight": 0.8,
+      "note": "The Spanish half of the mix - patio, reja, tiled fountain - which Mizner in particular collected in person."
+    },
+    {
+      "target": "moorish-andalusian",
+      "type": "references",
+      "weight": 0.5,
+      "note": "Horseshoe arches, azulejo tilework and pierced screens as an occasional exotic register."
+    },
+    {
+      "target": "italian-renaissance-revival",
+      "type": "descends_from",
+      "weight": 0.9,
+      "inherits_kit": true,
+      "note": "The direct professional parent. Same cornice, same tile roof, same arcaded ground floor - loosened, warmed, and turned outward to a garden."
+    },
+    {
+      "target": "beaux-arts-american",
+      "type": "descends_from",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Ecole-derived planning by axis and enfilade, which is what holds an apparently rambling Mediterranean Revival plan together."
+    },
+    {
+      "target": "spanish-colonial-revival",
+      "type": "hybridizes_with",
+      "weight": 0.8,
+      "inherits_kit": true,
+      "note": "Contemporary and reticulate. On the West Coast the same buildings are called Spanish Colonial Revival; on the Gulf and in Florida, Mediterranean Revival. The difference is real but it is one of formality and reference breadth, not of chronology."
+    }
+  ],
+  "description": {
+    "short": "The resort and estate style of the American subtropics, in which a symmetrical or lightly asymmetrical stuccoed block with a low tile roof opens through loggias and arcades onto terraces and courtyards, mixing Italian villa formality with Spanish and Moorish detail.",
+    "long": "Mediterranean Revival is what happens when the American palazzo moves to a warm climate and discovers the outdoor room. Its necessary features are stucco walls of expressed thickness, a low-pitched clay tile roof of consistent hipped geometry, round-arched openings gathered into loggias and arcades, and an organisation in which the terrace, the courtyard and the covered gallery are treated as rooms rather than as leftovers. Ornament concentrates at the entrance, at window surrounds, and at balconies; the rest of the wall is left blank and hot. Where Italian Renaissance Revival treats the wall as a plane to be composed, Mediterranean Revival treats it as a thick mass to be cut through.\n\nThe conditions were the Florida and California land booms. Between 1918 and 1926 Palm Beach, Boca Raton, Coral Gables, Sarasota and Miami were developed at extraordinary speed by promoters who needed an architectural identity that would sell a subtropical location to Northern money. Addison Mizner - untrained, well-travelled, and a genuine collector of Spanish and Italian fragments - supplied it at the Everglades Club in 1919 and then repeated it across Palm Beach for a decade, importing tile, ironwork and doors by the shipload and, when supply ran out, manufacturing them himself at his own Boca Raton works. The same demand in California produced Santa Barbara's post-earthquake rebuilding after 1925. In both places the style was as much a real-estate instrument as an architectural one; George Merrick's Coral Gables and the Mizner Development Corporation both wrote it into their deed restrictions.\n\nWhat the style claimed was leisure and antiquity at once. A Northern industrialist wintering in Florida did not want a house that reminded him of Cleveland; he wanted one that said his money had been in the family long enough to have a villa. The Mediterranean reference did that work without the pretension of a chateau and, crucially, without the Anglo-Protestant severity of Colonial Revival. It also worked climatically in a way none of the Northern revivals did: thick shaded walls, deep loggias, cross-ventilated rooms and vaulted porches are functional responses to heat, and the style is the first American revival whose imagery and performance point the same direction.\n\nStanding in one, the memorable thing is the sequence of light. You approach a blank, glaring, pale wall with a single elaborated door in it; you pass through into a cool, dark, thick-walled vestibule; and then the house opens sideways into a loggia and a courtyard where the light comes down filtered through arches and planting onto tile and water. The interior stays dim, the exterior stays bright, and the loggia is the room where the two are negotiated. This is a genuinely Mediterranean spatial idea, correctly imported, and it is the reason the style still performs well in Florida and Southern California ninety years later."
+  },
+  "defining_characteristics": [
+    "Stucco wall of expressed mass, with openings cut deep into it rather than set flush in it",
+    "Low-pitched hipped roof, 3:12 to 5:12, in barrel or pan-and-cover clay tile, with a shallow overhang or none",
+    "Loggias, arcades and covered galleries treated as primary rooms, opening the plan to terrace and courtyard",
+    "Round-arched openings, usually arcaded in threes or fives, with the arch springing well above head height",
+    "Ornament concentrated at the entrance and at selected windows and balconies, against otherwise blank stucco",
+    "Iron - grilles, balconettes, gates, railings - as the principal secondary material, with glazed tile as the third"
+  ],
+  "diagnostic_tells": [
+    "Wall reveals are deep: 6 in. minimum and often 12-18 in., so every window sits in a visible shadow box. This single measurement separates a real example from a stucco-clad frame house at fifty feet.",
+    "The roof is hipped, low, and continuous around the whole building; Spanish Colonial Revival breaks its roof into varied planes at varied heights and often uses gables.",
+    "Composition is broadly symmetrical or axial even when the plan rambles - the entrance sits on an axis that continues through the house to a garden feature.",
+    "Cornices and eaves are minimal or absent; where present they are a simple moulded band, never the modillioned overhang of Italian Renaissance Revival.",
+    "Look for the loggia. A Mediterranean Revival house without a covered outdoor room of at least 200 sq ft is a stucco box with tile on it."
+  ],
+  "distinguished_from": [
+    {
+      "node": "italian-renaissance-revival",
+      "difference": "Italian Renaissance Revival is a formal symmetrical block with diminishing storeys and a heavy modillioned cornice, composed as a plane. Mediterranean Revival lowers the cornice to nothing, thickens the wall, breaks the plan open to courtyards, and admits Spanish and Moorish ornament."
+    },
+    {
+      "node": "spanish-colonial-revival",
+      "difference": "Spanish Colonial Revival is more asymmetrical, more picturesque, more consciously Spanish and Latin American in its sources, and freely varies roof heights and planes. Mediterranean Revival is more formal, more Italian, keeps a uniform roof line and a near-axial plan, and tends to larger and grander programmes."
+    },
+    {
+      "node": "mission-revival",
+      "difference": "Mission Revival is spare, uses curvilinear parapets and almost no applied ornament, and quotes California mission churches specifically. Mediterranean Revival is ornamented, has no parapets of that kind, and quotes the Italian and Spanish villa."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Wall mass and the arcade. Proportion is governed by the arcade module - pier width to clear span - and by expressed wall thickness; a nominal classical order appears only at the entrance surround.",
+    "typical_ratios": [
+      "Arcade clear span 6-9 ft with piers 1/3 to 1/2 of the span in width; arch springing at 2/3 of total opening height",
+      "Loggia depth 10-16 ft, never less than 8 ft",
+      "Wall reveal 6-18 in.; window jamb splayed or returned in stucco with no applied casing",
+      "Roof pitch 3:12 to 5:12; eave overhang 0-18 in.",
+      "Solid to void ratio on principal elevations between 4:1 and 6:1 - the wall dominates"
+    ],
+    "bay_rhythm": "Arcade-driven. Openings gather into arcaded groups of three or five with wide plain wall between groups; upper-storey openings are fewer and smaller than lower and need not align, since the wall is understood as mass rather than as frame.",
+    "symmetry": "near-symmetrical"
+  },
+  "massing_affinities": [
+    {
+      "massing": "courtyard-u",
+      "affinity": "canonical",
+      "note": "The defining skeleton: a main range with wings enclosing a patio open on one side."
+    },
+    {
+      "massing": "courtyard-full",
+      "affinity": "common",
+      "note": "Large estate and hotel examples with a fully enclosed cortile."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The compact suburban version - a symmetrical stuccoed block with an arcaded entrance loggia."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "Where a continuous two-storey gallery replaces the courtyard, common on narrow Florida lots."
+    },
+    {
+      "massing": "massed-picturesque",
+      "affinity": "possible",
+      "note": "Rambling seaside examples; as this dominates, the building shades into spanish-colonial-revival."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Wall thickness must be expressed at every opening with a minimum 6 in. reveal from the outer stucco face to the window or door frame, achieved by a returned or splayed jamb. Windows set flush to a thin stucco skin void the style regardless of any other detail.",
+      "id": "mediterranean-revival.c01",
+      "scope": "section",
+      "test": {
+        "expression": "reveal_depth_in",
+        "direction": "at-least",
+        "threshold": 6,
+        "units": "in",
+        "measurable_from": "section",
+        "note": "Jamb construction method (returned or splayed) is qualitative and stays prose."
+      }
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Roof pitch 3:12 to 5:12 in clay tile, hipped, with eave overhang not exceeding 18 in. and no exposed dimensional rafter tails. Gables facing a principal elevation are forbidden; that move belongs to spanish-colonial-revival.",
+      "id": "mediterranean-revival.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 3,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "Tests the roof pitch range. Eave overhang (<=18in, matching eave_projection_in but not tested here), hipped form, exposed-rafter-tail prohibition, and the front-gable prohibition stay prose -- one test per constraint."
+      }
+    },
+    {
+      "kind": "proportional",
+      "severity": "hard",
+      "statement": "At least one covered outdoor room - loggia, arcade, or gallery - of not less than 200 sq ft and not less than 8'0\" clear depth must open off a principal interior room. A Mediterranean Revival house without one is incomplete.",
+      "id": "mediterranean-revival.c03",
+      "scope": "plan",
+      "test": {
+        "expression": "gallery_depth_ft",
+        "direction": "at-least",
+        "threshold": 8,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "Tests the clear depth minimum. The 200 sq ft area minimum (no matching vocabulary variable -- the corpus has no building- or room-area variable at all) and 'must open off a principal interior room' stay prose."
+      }
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Arcade piers between 1/3 and 1/2 of the clear span in width; arches semicircular or segmental with the springing not below 2/3 of the total opening height. Flattened arches spanning more than 9 ft read as commercial.",
+      "id": "mediterranean-revival.c04",
+      "scope": "judgment"
+    },
+    {
+      "kind": "climatic",
+      "severity": "soft",
+      "statement": "Native to IECC zones 1-3. Above zone 4, unvented low-slope tile roofs and uninsulated mass-wall reveals fail; either build the mass genuinely or do not use the style.",
+      "id": "mediterranean-revival.c05",
+      "scope": "judgment"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Vizcaya",
+      "location": "Miami, Florida",
+      "year": 1916,
+      "note": "F. Burrall Hoffman with Paul Chalfin and Diego Suarez. Veneto villa parti around a cortile with sea-facing terraces; the earliest fully achieved American example."
+    },
+    {
+      "name": "Everglades Club",
+      "location": "Palm Beach, Florida",
+      "year": 1919,
+      "note": "Addison Mizner for Paris Singer. The building that established Palm Beach's identity and Mizner's career; 1918-19."
+    },
+    {
+      "name": "Ca' d'Zan",
+      "location": "Sarasota, Florida",
+      "year": 1926,
+      "note": "Dwight James Baum for John and Mable Ringling, 1924-26. Venetian Gothic, Italian Renaissance, Moorish and Spanish elements over a bayfront terrace."
+    },
+    {
+      "name": "Greenacres (Harold Lloyd Estate)",
+      "location": "Beverly Hills, California",
+      "year": 1928,
+      "note": "Sumner Spaulding. The California case: uniform hipped tile roof lines, near-axial symmetry, formal gardens extending from the house."
+    }
+  ],
+  "sources": [
+    "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
+    "David Gebhard, George Washington Smith 1876-1930: The Spanish Colonial Revival in California (1964)",
+    "Donald W. Curl, Mizner's Florida: American Resort Architecture (1984)",
+    "City of Los Angeles, SurveyLA Citywide Historic Context Statement: Mediterranean and Indigenous Revival Architecture, 1893-1948"
+  ],
+  "confidence": "high",
+  "tags": [
+    "revival",
+    "subtropical",
+    "resort",
+    "courtyard",
+    "land-boom"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "One of the three records the springing rule rests on -- 'arch springing at 2/3 of total opening height' -- and the one that gives the loggia's depth a floor with a reason: '10-16 ft, never less than 8 ft'. That floor is the same kind of statement as `monterey-revival`'s six-foot balcony, and the pack quotes it: below it the thing stops being a space and becomes a detail. This record also states the compositional rule the bay-count carries, 'arcaded in threes or fives', and the plan rule the circulation rule carries, 'loggias, arcades and covered galleries treated as primary rooms'.",
+      "precedence": 0
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "The required loggia (min. 8 ft clear depth, >=200 sq ft, opening off a principal room) is a covered outdoor room read on the same daylight logic as an interior one: at the pack's lower 1.8x multiplier -- used 'wherever there is a porch, a deep eave, a verandah... because all four lower the effective head' -- an 8-9 ft head loggia caps the interior room it opens off at a shallower daylit depth than an unshaded wall would, which is exactly the mechanism this style's arcade-and-terrace sequence depends on. Bind for that daylight-depth logic and for the general two-sided-lighting argument on courtyard-facing ranges; the pack's hearth-count and joist-span derivations do not describe a stucco or tile-floored house with no dogtrot or hall-and-parlor ancestry.",
+      "precedence": 1
+    },
+    {
+      "pack": "opening-proportion",
+      "role": "opening",
+      "note": "This style's own governing_logic states plainly that 'a nominal classical order appears only at the entrance surround' and that proportion is otherwise 'governed by the arcade module' -- which no pack in this corpus models; none of the 36 available packs derives an arcade's pier-to-span ratio or its arch-springing height (see the WP-4.1 report). Bound at low precedence and scoped narrowly to the punched window rectangles above the arcade, never the arcade itself, on the strength of this style's two inherits_kit=true lineage edges: descends_from italian-renaissance-revival at weight 0.9 (itself bound to this same pack) and descends_from beaux-arts-american at weight 0.8, whose 'ecole-derived planning by axis and enfilade... is what holds an apparently rambling plan together.' Use the pack's single-head-datum rule and its 5/6 per-storey window diminution for the upper-storey openings only, and defer entirely to this style's own reveal-depth (6-18in), roof-plane height-differential and solid:void (4:1-6:1) rules wherever the two conflict -- those are this style's genuinely sourced numbers, and this binding is a lineage-based judgment call rather than a documented Mediterranean Revival window-proportion source.",
+      "precedence": 2
+    },
+    {
+      "pack": "moorish-arch",
+      "role": "optional",
+      "precedence": 4,
+      "authority": "moorish-arch",
+      "note": "Optional, same reasoning as mission-revival: available where the building reaches for the Moorish arch and silent where it does not."
+    }
   ]
- },
- "lineage": [
-  {
-   "target": "italian-villa-vernacular",
-   "type": "references",
-   "weight": 1.0,
-   "note": "The claimed ancestor: the Tuscan and Ligurian villa with loggia, terrace and tile roof, known through photographs and Italian garden books."
-  },
-  {
-   "target": "andalusian-courtyard-vernacular",
-   "type": "references",
-   "weight": 0.8,
-   "note": "The Spanish half of the mix - patio, reja, tiled fountain - which Mizner in particular collected in person."
-  },
-  {
-   "target": "moorish-andalusian",
-   "type": "references",
-   "weight": 0.5,
-   "note": "Horseshoe arches, azulejo tilework and pierced screens as an occasional exotic register."
-  },
-  {
-   "target": "italian-renaissance-revival",
-   "type": "descends_from",
-   "weight": 0.9,
-   "inherits_kit": true,
-   "note": "The direct professional parent. Same cornice, same tile roof, same arcaded ground floor - loosened, warmed, and turned outward to a garden."
-  },
-  {
-   "target": "beaux-arts-american",
-   "type": "descends_from",
-   "weight": 0.8,
-   "inherits_kit": true,
-   "note": "Ecole-derived planning by axis and enfilade, which is what holds an apparently rambling Mediterranean Revival plan together."
-  },
-  {
-   "target": "spanish-colonial-revival",
-   "type": "hybridizes_with",
-   "weight": 0.8,
-   "inherits_kit": true,
-   "note": "Contemporary and reticulate. On the West Coast the same buildings are called Spanish Colonial Revival; on the Gulf and in Florida, Mediterranean Revival. The difference is real but it is one of formality and reference breadth, not of chronology."
-  }
- ],
- "description": {
-  "short": "The resort and estate style of the American subtropics, in which a symmetrical or lightly asymmetrical stuccoed block with a low tile roof opens through loggias and arcades onto terraces and courtyards, mixing Italian villa formality with Spanish and Moorish detail.",
-  "long": "Mediterranean Revival is what happens when the American palazzo moves to a warm climate and discovers the outdoor room. Its necessary features are stucco walls of expressed thickness, a low-pitched clay tile roof of consistent hipped geometry, round-arched openings gathered into loggias and arcades, and an organisation in which the terrace, the courtyard and the covered gallery are treated as rooms rather than as leftovers. Ornament concentrates at the entrance, at window surrounds, and at balconies; the rest of the wall is left blank and hot. Where Italian Renaissance Revival treats the wall as a plane to be composed, Mediterranean Revival treats it as a thick mass to be cut through.\n\nThe conditions were the Florida and California land booms. Between 1918 and 1926 Palm Beach, Boca Raton, Coral Gables, Sarasota and Miami were developed at extraordinary speed by promoters who needed an architectural identity that would sell a subtropical location to Northern money. Addison Mizner - untrained, well-travelled, and a genuine collector of Spanish and Italian fragments - supplied it at the Everglades Club in 1919 and then repeated it across Palm Beach for a decade, importing tile, ironwork and doors by the shipload and, when supply ran out, manufacturing them himself at his own Boca Raton works. The same demand in California produced Santa Barbara's post-earthquake rebuilding after 1925. In both places the style was as much a real-estate instrument as an architectural one; George Merrick's Coral Gables and the Mizner Development Corporation both wrote it into their deed restrictions.\n\nWhat the style claimed was leisure and antiquity at once. A Northern industrialist wintering in Florida did not want a house that reminded him of Cleveland; he wanted one that said his money had been in the family long enough to have a villa. The Mediterranean reference did that work without the pretension of a chateau and, crucially, without the Anglo-Protestant severity of Colonial Revival. It also worked climatically in a way none of the Northern revivals did: thick shaded walls, deep loggias, cross-ventilated rooms and vaulted porches are functional responses to heat, and the style is the first American revival whose imagery and performance point the same direction.\n\nStanding in one, the memorable thing is the sequence of light. You approach a blank, glaring, pale wall with a single elaborated door in it; you pass through into a cool, dark, thick-walled vestibule; and then the house opens sideways into a loggia and a courtyard where the light comes down filtered through arches and planting onto tile and water. The interior stays dim, the exterior stays bright, and the loggia is the room where the two are negotiated. This is a genuinely Mediterranean spatial idea, correctly imported, and it is the reason the style still performs well in Florida and Southern California ninety years later."
- },
- "defining_characteristics": [
-  "Stucco wall of expressed mass, with openings cut deep into it rather than set flush in it",
-  "Low-pitched hipped roof, 3:12 to 5:12, in barrel or pan-and-cover clay tile, with a shallow overhang or none",
-  "Loggias, arcades and covered galleries treated as primary rooms, opening the plan to terrace and courtyard",
-  "Round-arched openings, usually arcaded in threes or fives, with the arch springing well above head height",
-  "Ornament concentrated at the entrance and at selected windows and balconies, against otherwise blank stucco",
-  "Iron - grilles, balconettes, gates, railings - as the principal secondary material, with glazed tile as the third"
- ],
- "diagnostic_tells": [
-  "Wall reveals are deep: 6 in. minimum and often 12-18 in., so every window sits in a visible shadow box. This single measurement separates a real example from a stucco-clad frame house at fifty feet.",
-  "The roof is hipped, low, and continuous around the whole building; Spanish Colonial Revival breaks its roof into varied planes at varied heights and often uses gables.",
-  "Composition is broadly symmetrical or axial even when the plan rambles - the entrance sits on an axis that continues through the house to a garden feature.",
-  "Cornices and eaves are minimal or absent; where present they are a simple moulded band, never the modillioned overhang of Italian Renaissance Revival.",
-  "Look for the loggia. A Mediterranean Revival house without a covered outdoor room of at least 200 sq ft is a stucco box with tile on it."
- ],
- "distinguished_from": [
-  {
-   "node": "italian-renaissance-revival",
-   "difference": "Italian Renaissance Revival is a formal symmetrical block with diminishing storeys and a heavy modillioned cornice, composed as a plane. Mediterranean Revival lowers the cornice to nothing, thickens the wall, breaks the plan open to courtyards, and admits Spanish and Moorish ornament."
-  },
-  {
-   "node": "spanish-colonial-revival",
-   "difference": "Spanish Colonial Revival is more asymmetrical, more picturesque, more consciously Spanish and Latin American in its sources, and freely varies roof heights and planes. Mediterranean Revival is more formal, more Italian, keeps a uniform roof line and a near-axial plan, and tends to larger and grander programmes."
-  },
-  {
-   "node": "mission-revival",
-   "difference": "Mission Revival is spare, uses curvilinear parapets and almost no applied ornament, and quotes California mission churches specifically. Mediterranean Revival is ornamented, has no parapets of that kind, and quotes the Italian and Spanish villa."
-  }
- ],
- "proportional_system": {
-  "governing_logic": "Wall mass and the arcade. Proportion is governed by the arcade module - pier width to clear span - and by expressed wall thickness; a nominal classical order appears only at the entrance surround.",
-  "typical_ratios": [
-   "Arcade clear span 6-9 ft with piers 1/3 to 1/2 of the span in width; arch springing at 2/3 of total opening height",
-   "Loggia depth 10-16 ft, never less than 8 ft",
-   "Wall reveal 6-18 in.; window jamb splayed or returned in stucco with no applied casing",
-   "Roof pitch 3:12 to 5:12; eave overhang 0-18 in.",
-   "Solid to void ratio on principal elevations between 4:1 and 6:1 - the wall dominates"
-  ],
-  "bay_rhythm": "Arcade-driven. Openings gather into arcaded groups of three or five with wide plain wall between groups; upper-storey openings are fewer and smaller than lower and need not align, since the wall is understood as mass rather than as frame.",
-  "symmetry": "near-symmetrical"
- },
- "massing_affinities": [
-  {
-   "massing": "courtyard-u",
-   "affinity": "canonical",
-   "note": "The defining skeleton: a main range with wings enclosing a patio open on one side."
-  },
-  {
-   "massing": "courtyard-full",
-   "affinity": "common",
-   "note": "Large estate and hotel examples with a fully enclosed cortile."
-  },
-  {
-   "massing": "four-over-four",
-   "affinity": "common",
-   "note": "The compact suburban version - a symmetrical stuccoed block with an arcaded entrance loggia."
-  },
-  {
-   "massing": "gallery-house",
-   "affinity": "possible",
-   "note": "Where a continuous two-storey gallery replaces the courtyard, common on narrow Florida lots."
-  },
-  {
-   "massing": "massed-picturesque",
-   "affinity": "possible",
-   "note": "Rambling seaside examples; as this dominates, the building shades into spanish-colonial-revival."
-  }
- ],
- "constraints": [
-  {
-   "kind": "structural",
-   "severity": "hard",
-   "statement": "Wall thickness must be expressed at every opening with a minimum 6 in. reveal from the outer stucco face to the window or door frame, achieved by a returned or splayed jamb. Windows set flush to a thin stucco skin void the style regardless of any other detail.",
-   "id": "mediterranean-revival.c01",
-   "scope": "section",
-   "test": {
-    "expression": "reveal_depth_in",
-    "direction": "at-least",
-    "threshold": 6,
-    "units": "in",
-    "measurable_from": "section",
-    "note": "Jamb construction method (returned or splayed) is qualitative and stays prose."
-   }
-  },
-  {
-   "kind": "co-occurrence",
-   "severity": "hard",
-   "statement": "Roof pitch 3:12 to 5:12 in clay tile, hipped, with eave overhang not exceeding 18 in. and no exposed dimensional rafter tails. Gables facing a principal elevation are forbidden; that move belongs to spanish-colonial-revival.",
-   "id": "mediterranean-revival.c02",
-   "scope": "elevation",
-   "test": {
-    "expression": "roof_pitch_rise_per_12",
-    "direction": "between",
-    "threshold": 3,
-    "upper": 5,
-    "units": "rise_in_12",
-    "measurable_from": "elevation",
-    "note": "Tests the roof pitch range. Eave overhang (<=18in, matching eave_projection_in but not tested here), hipped form, exposed-rafter-tail prohibition, and the front-gable prohibition stay prose -- one test per constraint."
-   }
-  },
-  {
-   "kind": "proportional",
-   "severity": "hard",
-   "statement": "At least one covered outdoor room - loggia, arcade, or gallery - of not less than 200 sq ft and not less than 8'0\" clear depth must open off a principal interior room. A Mediterranean Revival house without one is incomplete.",
-   "id": "mediterranean-revival.c03",
-   "scope": "plan",
-   "test": {
-    "expression": "gallery_depth_ft",
-    "direction": "at-least",
-    "threshold": 8,
-    "units": "ft",
-    "measurable_from": "plan",
-    "note": "Tests the clear depth minimum. The 200 sq ft area minimum (no matching vocabulary variable -- the corpus has no building- or room-area variable at all) and 'must open off a principal interior room' stay prose."
-   }
-  },
-  {
-   "kind": "proportional",
-   "severity": "soft",
-   "statement": "Arcade piers between 1/3 and 1/2 of the clear span in width; arches semicircular or segmental with the springing not below 2/3 of the total opening height. Flattened arches spanning more than 9 ft read as commercial.",
-   "id": "mediterranean-revival.c04",
-   "scope": "judgment"
-  },
-  {
-   "kind": "climatic",
-   "severity": "soft",
-   "statement": "Native to IECC zones 1-3. Above zone 4, unvented low-slope tile roofs and uninsulated mass-wall reveals fail; either build the mass genuinely or do not use the style.",
-   "id": "mediterranean-revival.c05",
-   "scope": "judgment"
-  }
- ],
- "exemplars": [
-  {
-   "name": "Vizcaya",
-   "location": "Miami, Florida",
-   "year": 1916,
-   "note": "F. Burrall Hoffman with Paul Chalfin and Diego Suarez. Veneto villa parti around a cortile with sea-facing terraces; the earliest fully achieved American example."
-  },
-  {
-   "name": "Everglades Club",
-   "location": "Palm Beach, Florida",
-   "year": 1919,
-   "note": "Addison Mizner for Paris Singer. The building that established Palm Beach's identity and Mizner's career; 1918-19."
-  },
-  {
-   "name": "Ca' d'Zan",
-   "location": "Sarasota, Florida",
-   "year": 1926,
-   "note": "Dwight James Baum for John and Mable Ringling, 1924-26. Venetian Gothic, Italian Renaissance, Moorish and Spanish elements over a bayfront terrace."
-  },
-  {
-   "name": "Greenacres (Harold Lloyd Estate)",
-   "location": "Beverly Hills, California",
-   "year": 1928,
-   "note": "Sumner Spaulding. The California case: uniform hipped tile roof lines, near-axial symmetry, formal gardens extending from the house."
-  }
- ],
- "sources": [
-  "Virginia Savage McAlester, A Field Guide to American Houses, rev. ed. (2013)",
-  "David Gebhard, George Washington Smith 1876-1930: The Spanish Colonial Revival in California (1964)",
-  "Donald W. Curl, Mizner's Florida: American Resort Architecture (1984)",
-  "City of Los Angeles, SurveyLA Citywide Historic Context Statement: Mediterranean and Indigenous Revival Architecture, 1893-1948"
- ],
- "confidence": "high",
- "tags": [
-  "revival",
-  "subtropical",
-  "resort",
-  "courtyard",
-  "land-boom"
- ],
- "proportion_packs": [
-  {
-   "pack": "room-vernacular",
-   "role": "room",
-   "note": "The required loggia (min. 8 ft clear depth, >=200 sq ft, opening off a principal room) is a covered outdoor room read on the same daylight logic as an interior one: at the pack's lower 1.8x multiplier -- used 'wherever there is a porch, a deep eave, a verandah... because all four lower the effective head' -- an 8-9 ft head loggia caps the interior room it opens off at a shallower daylit depth than an unshaded wall would, which is exactly the mechanism this style's arcade-and-terrace sequence depends on. Bind for that daylight-depth logic and for the general two-sided-lighting argument on courtyard-facing ranges; the pack's hearth-count and joist-span derivations do not describe a stucco or tile-floored house with no dogtrot or hall-and-parlor ancestry.",
-   "precedence": 1
-  },
-  {
-   "pack": "opening-proportion",
-   "role": "opening",
-   "note": "This style's own governing_logic states plainly that 'a nominal classical order appears only at the entrance surround' and that proportion is otherwise 'governed by the arcade module' -- which no pack in this corpus models; none of the 36 available packs derives an arcade's pier-to-span ratio or its arch-springing height (see the WP-4.1 report). Bound at low precedence and scoped narrowly to the punched window rectangles above the arcade, never the arcade itself, on the strength of this style's two inherits_kit=true lineage edges: descends_from italian-renaissance-revival at weight 0.9 (itself bound to this same pack) and descends_from beaux-arts-american at weight 0.8, whose 'ecole-derived planning by axis and enfilade... is what holds an apparently rambling plan together.' Use the pack's single-head-datum rule and its 5/6 per-storey window diminution for the upper-storey openings only, and defer entirely to this style's own reveal-depth (6-18in), roof-plane height-differential and solid:void (4:1-6:1) rules wherever the two conflict -- those are this style's genuinely sourced numbers, and this binding is a lineage-based judgment call rather than a documented Mediterranean Revival window-proportion source.",
-   "precedence": 2
-  },
-  {
-   "pack": "moorish-arch",
-   "role": "optional",
-   "precedence": 4,
-   "authority": "moorish-arch",
-   "note": "Optional, same reasoning as mission-revival: available where the building reaches for the Moorish arch and silent where it does not."
-  }
- ]
 }

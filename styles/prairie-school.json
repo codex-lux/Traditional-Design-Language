@@ -234,7 +234,7 @@
       "pack": "opening-craftsman",
       "role": "opening",
       "note": "The other half of the pack, and the node that supplies its module from the opposite end. Where craftsman names the framing bay at 16 or 24 in on centre, this record names 'the standard casement width of roughly 2 ft, from which window bands are built in multiples' -- the same 24 inches seen from the opening rather than from the structure, and they coincide because the mullion lands on a stud. Two rules belong to this node alone and the pack says so: the band at 3-8 units rather than Craftsman's 2-3, and the compression-and-release ceiling ratio, which is this idiom's only vertical proportioning rule and which a bungalow should not be given. What this pack does NOT carry for this node is the four continuous datum lines as a facade system -- water table, sill band, lintel band, fascia -- which is a facade-role question; facade-picturesque holds that role here and is a loose fit for a style whose whole argument is continuity rather than incident, and that is worth someone's attention rather than mine in this package.",
-      "precedence": 0
+      "precedence": 4
     },
     {
       "pack": "facade-picturesque",

@@ -20,6 +20,10 @@ Checks:
   * `precedence` values on one node's proportion_packs are a total order --
     unique integers, no ties, no gaps required (gaps are fine; a duplicate
     or missing precedence is not)
+  * precedence does not CONTRADICT role: nothing that is not itself primary may
+    sit ahead of a primary binding. Added WP-4.6, after that package introduced
+    the fault twelve times by inserting each new binding at the first unused
+    precedence, which is nearly always 0
   * every entry has `pack`, `role`, `note`; `authority` is optional (only
     order-system packs and material modules with more than one attested
     written/documented authority tend to carry one)
@@ -130,6 +134,41 @@ def check_node(node, packs, errors, warnings, strict):
 
     if {"trim-classical", "trim-craftsman"} <= trim_primary:
         errors.append(f"{nid}: binds both trim-classical and trim-craftsman as primary/trim")
+
+    # Precedence must not contradict role. WP-4.6 (25 Aug 2026) found sixteen nodes where a
+    # secondary, optional or role-scoped binding sat at a LOWER precedence than a primary one --
+    # twelve of them introduced by that package itself, because every new binding was inserted at
+    # the first unused precedence and 0 is usually free. Nothing caught it: `precedence` was checked
+    # for being a total order and never for agreeing with `role`, so the two fields could say
+    # opposite things and the build stayed green.
+    #
+    # Only the narrow rule is an ERROR, because it is the only one the corpus actually holds to.
+    # A measurement over all 132 buildable nodes found `secondary` sitting ahead of `facade`,
+    # `opening`, `interior`, `room` and `massing` in 253 places across 59 nodes -- which is not a
+    # bug but the corpus's own convention: the ORDER packs come first, then the role packs. And
+    # `optional` sits ahead of a role pack in 40 places across 23 nodes, which is untidy, is mostly
+    # older than this package, and is not worth churning the corpus over. Both are warned about,
+    # once per node, so the observation is visible without failing anyone's build.
+    prims = [e for e in entries if e.get("role") == "primary" and e.get("precedence") is not None]
+    if prims:
+        lo = min(e["precedence"] for e in prims)
+        ahead = [e for e in entries
+                 if e.get("role") not in ("primary", None)
+                 and e.get("precedence") is not None and e["precedence"] < lo]
+        for e in ahead:
+            errors.append(
+                f"{nid}: '{e['pack']}' is {e['role']} at precedence {e['precedence']} but sits "
+                f"ahead of a primary at {lo} -- precedence and role disagree"
+            )
+    opts = [e for e in entries if e.get("role") == "optional" and e.get("precedence") is not None]
+    if opts:
+        others = [e for e in entries
+                  if e.get("role") not in ("optional", None) and e.get("precedence") is not None]
+        if others and min(o["precedence"] for o in opts) < max(x["precedence"] for x in others):
+            warnings.append(
+                f"{nid}: an optional binding sits ahead of a non-optional one -- untidy rather "
+                f"than wrong, and mostly older than WP-4.6; see the note in this file"
+            )
 
 
 def main():

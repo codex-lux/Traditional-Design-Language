@@ -262,7 +262,7 @@
       "pack": "adobe-module",
       "role": "secondary",
       "note": "Secondary, not primary, and the split is the whole point of this node. facade-classical governs the upper storey and the veranda, and stays primary: the Anglo-American frame floor really is composed to a classical module and its own record says so. This pack governs the storey underneath it -- the 24-30 in adobe ground floor whose deep undivided reveals this node's facade-classical binding note explicitly excludes from that module, referring the reader to 'the mass-wall gap noted on the parent spanish-colonial-american node.' That gap is now filled and the reference resolves. The two packs meet at the step-in of the wall plane at the second-floor line, which this record gives as 6-12 in and which is simply the difference between a 29 in adobe wall and a frame one sitting on it -- a joint between two proportioning systems made visible, and the reason this hybrid reads as a hybrid.",
-      "precedence": 0
+      "precedence": 6
     },
     {
       "pack": "facade-classical",

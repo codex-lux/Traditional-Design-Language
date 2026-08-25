@@ -256,7 +256,7 @@
       "pack": "dutch-gambrel",
       "role": "optional",
       "note": "Optional. This node takes the gambrel deliberately and by publication rather than by descent -- its own record lists 'the gambrel, the lean-to, the massive central chimney' among what the 1877 measured drawings brought back, and names the gambrel again among what it takes from the emerging Colonial Revival. So the section rules apply where a Shingle Style design uses the form. Two cautions the record itself supports: the Shingle gambrel is usually swept into the wall as one continuous shingled surface with no eave line at all, which is the opposite of this pack's sprung eave and means the sprung_eave assembly should be left alone here; and this style will break the break -- the whole point of its roofs is that they bend, flare and merge, so the two clean slopes this pack states are a starting geometry rather than a rule on this node.",
-      "precedence": 0
+      "precedence": 5
     },
     {
       "pack": "facade-picturesque",

@@ -4561,6 +4561,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "Bound with a caution its own record supplies. The pack takes one figure from here and it is the only one of its kind in the corpus -- 'voussoir depth 1/8 to 1/6 of the span' -- which governs archivolt depth for every node the pack binds. What sits OUTSIDE the pack's band deliberately is this node's own signature: an 'entrance arch span 8 to 16 ft', which is one great arch used as an event and not a rhythm, and which this pack's span rule explicitly declines to proportion. Use the voussoir rule here and the bay rules only where there is a genuine arcade rather than a single arch.",
+          "precedence": 5
+        },
+        {
           "pack": "facade-picturesque",
           "role": "primary",
           "note": "Explicit in this pack's applies_to, but its governing role is narrower here than on the wooden Victorian styles: the node's own proportional_system says the elevation is 'governed by mass and by the arch,' with hierarchy made by grouped-vs-blank wall (A-BBB-A) rather than by the pack's dominant-mass-vs-subordinate-mass logic in the usual sense. What transfers cleanly is the datum discipline (the pack's continuous-horizontal rule, which matches this node's wall material running unbroken water-table to eave) and the one-feature-window logic. The dominance ratio and wing-strategy rules are a poor fit for a single-block masonry mass and should be read loosely if at all.",
@@ -6159,7 +6165,7 @@
           "pack": "dutch-gambrel",
           "role": "optional",
           "note": "Optional, and narrowly. This record lists the gambrel as one of three roof options -- 'side-gable, gambrel or hipped' at a 9:12 to 11:12 pitch -- and adds that 'gambrel-roofed Georgian houses are frequent in Rhode Island and coastal Massachusetts.' Where that option is taken, the section rules here apply and the pack is the only thing in the library that can dimension the break. What does NOT apply is the eave: a New England Georgian gambrel has a boxed modillion or dentil cornice, which this record names, and a sprung eave would be a Dutch import onto an English house. Take the gambrel_section assembly and the two slope ratios; leave the sprung_eave assembly entirely.",
-          "precedence": 0
+          "precedence": 10
         },
         {
           "pack": "timber-bay",
@@ -8058,7 +8064,7 @@
           "pack": "dutch-gambrel",
           "role": "secondary",
           "note": "BOUND FOR THE EAVE AND NOT FOR THE GAMBREL, and the distinction is this pack's opening finding. This node has a sprung eave -- 18-24 in projection on a 5-9 ft sweep radius -- over a STRAIGHT gable at 12:12 to 17:12, and its own distinguished_from entry says it outright: 'the Jersey branch uses a gambrel roof... a pronounced concave spring eave... the Hudson branch uses a steep straight gable.' So the two devices the pack carries are independent, which is why it names both in its title rather than calling itself 'the Dutch roof'. Read the eave rules here -- projection, flare start, sweep radius -- and leave the gambrel_section assembly, the break point and the two slope ratios alone; the straight-gable pitch this node gives is its own and is not in this pack.",
-          "precedence": 0
+          "precedence": 6
         },
         {
           "pack": "timber-bay",
@@ -8631,6 +8637,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-arcade",
+          "role": "facade",
+          "note": "The node whose binding note asked for this pack. Its `room-vernacular` entry says in terms that 'an arcade/portal system' is missing from the corpus, alongside the mass-wall gap that `adobe-module` closed. This is that pack. The record supplies the springing height rule outright -- 'arch springing 7-9 ft above the corredor floor' -- and the corredor depth at 10-14 ft, and it is one of the four records that say the arcade is the circulation: 'arcaded corredor 10-14 ft deep on square masonry piers carrying semicircular arches, serving as all circulation'.",
+          "precedence": 3
+        },
+        {
           "pack": "adobe-module",
           "role": "primary",
           "note": "Bound primary, and this node contributed the pack's most useful disagreement. Its own defining_characteristics say 'buttresses or thickened piers wherever wall height exceeds roughly eight times wall thickness', where the New Mexico code family says ten. The pack records that as a BAND of 8-10 rather than averaging it away, because both are right for their own case: the code figure assumes a continuous reinforced bond beam tying the wall head and the mission builders had none, and answered the difference with the buttresses this record names. The 24-36 in ranges are two adobes; the 3-5 ft church wall is three. vignola-ionic stays optional and unaffected -- it governs the church front's applied order, which is a different building from the ranges behind it.",
@@ -8639,7 +8651,7 @@
         {
           "pack": "room-vernacular",
           "role": "room",
-          "note": "Applies to the range rooms only (workshops, granaries, cells -- 15-20 ft deep, single-loaded, per this node's own record), not to the church nave, which the pack's measured band (11-18 ft) does not reach and which this node records separately (25-35 ft clear). Within that scope the fit is real: room depth here is capped by the same beam-span physics room-vernacular reconstructs from Anglo-American evidence, even though the beam is a different species and the wall behind it is adobe or rubble rather than framed. As with the parent spanish-colonial-american node, no pack in this corpus governs the mass wall itself or the arcade -- see this node's own arcade geometry constraint (c01), which states real numbers (pier 2 ft 6 in - 4 ft, arch clear opening 1.5-2.5x pier) that exist in this node's own text because no proportion pack here derives them. SUPERSEDED 25 Aug 2026: the mass-wall/adobe module this sentence asked for is `adobe-module`, bound primary on this node. The arcade system is still missing and is still in WP-4.1's candidate list -- adobe-module carries the post-and-zapata portal and not the arched range.",
+          "note": "Applies to the range rooms only (workshops, granaries, cells -- 15-20 ft deep, single-loaded, per this node's own record), not to the church nave, which the pack's measured band (11-18 ft) does not reach and which this node records separately (25-35 ft clear). Within that scope the fit is real: room depth here is capped by the same beam-span physics room-vernacular reconstructs from Anglo-American evidence, even though the beam is a different species and the wall behind it is adobe or rubble rather than framed. As with the parent spanish-colonial-american node, no pack in this corpus governs the mass wall itself or the arcade [SUPERSEDED 25 Aug 2026: both are now governed -- `adobe-module` holds the mass wall and `facade-arcade` holds the arcade, and the c01 numbers quoted below are two of the nine records that pack's central ratio rests on] -- see this node's own arcade geometry constraint (c01), which states real numbers (pier 2 ft 6 in - 4 ft, arch clear opening 1.5-2.5x pier) that exist in this node's own text because no proportion pack here derives them. SUPERSEDED 25 Aug 2026: the mass-wall/adobe module this sentence asked for is `adobe-module`, bound primary on this node. The arcade system is still missing and is still in WP-4.1's candidate list -- adobe-module carries the post-and-zapata portal and not the arched range.",
           "precedence": 1
         },
         {
@@ -9301,7 +9313,7 @@
           "pack": "balcony-gallery",
           "role": "secondary",
           "note": "The deepest of the three carrying regimes and the node that defines it. This record gives the galerie at 8-12 ft, up to 14 on the raised plantation house, carried on 'light colonnettes or masonry piers' -- and, crucially, that there is 'no interior corridor: rooms open directly into one another and onto the galerie through full-height French casement doors'. That is why the posted gallery's depth has no structural ceiling and a wide band: it is circulation as well as shade, so its depth is a corridor's plus a room's worth of shadow, and the record's 'at least eight feet' is a floor rather than an average. This node also supplies the pack's roof rule, which is a break-position finding of the same class as `dutch-gambrel`'s: 'main roof 40-50 degrees; galerie slope 20-30 degrees; break at the outer wall plane'. The break's POSITION is the rule, and a gallery roof carried down from the ridge at one pitch is a different building.",
-          "precedence": 0
+          "precedence": 3
         },
         {
           "pack": "room-vernacular",
@@ -9614,7 +9626,7 @@
           "pack": "adobe-module",
           "role": "secondary",
           "note": "Secondary, not primary, and the split is the whole point of this node. facade-classical governs the upper storey and the veranda, and stays primary: the Anglo-American frame floor really is composed to a classical module and its own record says so. This pack governs the storey underneath it -- the 24-30 in adobe ground floor whose deep undivided reveals this node's facade-classical binding note explicitly excludes from that module, referring the reader to 'the mass-wall gap noted on the parent spanish-colonial-american node.' That gap is now filled and the reference resolves. The two packs meet at the step-in of the wall plane at the second-floor line, which this record gives as 6-12 in and which is simply the difference between a 29 in adobe wall and a frame one sitting on it -- a joint between two proportioning systems made visible, and the reason this hybrid reads as a hybrid.",
-          "precedence": 0
+          "precedence": 6
         },
         {
           "pack": "facade-classical",
@@ -10204,7 +10216,7 @@
           "pack": "balcony-gallery",
           "role": "secondary",
           "note": "The gallery at its fullest -- two tiers, wrapping, up to 14 ft deep. `storey-graduation` holds primary here and the two packs meet at one member: the upper standard is usually a few inches shorter than the lower, which is storey graduation applied to a porch, and the pack's support-height rule says to read the two together on this node specifically. Bound secondary rather than primary because on this record the raising itself -- the whole ground storey given over to service and the piano nobile lifted clear of the flood -- is the governing move, and the gallery is what that move produces rather than what generates it.",
-          "precedence": 0
+          "precedence": 3
         },
         {
           "pack": "storey-graduation",
@@ -11455,7 +11467,7 @@
           "pack": "opening-craftsman",
           "role": "opening",
           "note": "The node this pack's central assertion is quoted from. Its own governing_logic states the whole system -- 'the porch beam sets a low datum, the aligned window and door heads set a high datum, and the exposed rafters declare the framing bay at 16 or 24 inches on centre' -- and adds the sentence that explains why the pack is written in absolute lengths rather than ratios: 'the system is dimensional rather than ratio-derived... which is why the plan-book trade could transmit it without transmitting any theory.' Bound in the opening role; facade-picturesque stays primary and governs the massing, and the two do not overlap, because this pack says nothing about composition and everything about the two lines it hangs on.",
-          "precedence": 0
+          "precedence": 3
         },
         {
           "pack": "facade-picturesque",
@@ -12703,6 +12715,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-arcade",
+          "role": "facade",
+          "note": "The courtyard arcade in its plainest form, and the node where this pack and `moorish-arch` meet most directly. `moorish-arch` holds primary and governs the arch -- the horseshoe, the impost block, the alfiz -- and this pack governs the rhythm the arches sit in: bay, pier, springing line, run length, the depth of the walk. The two packs share the impost and each makes it a diagnostic member, which is not a collision but the same joint described from two traditions; neither restates the other's figures.",
+          "precedence": 3
+        },
+        {
           "pack": "adobe-module",
           "role": "secondary",
           "note": "Secondary, behind moorish-arch. The pack reaches this node through its rammed-earth half rather than its adobe half: this record gives 'massive walls of brick, rubble or tapia, 500-700 mm', and tapia is formed between shutters at whatever thickness they are set to, so the whole-brick argument that makes the New Mexico wall come in 14 in steps does not apply and the thickness genuinely is continuous here. What does apply, and is why the binding is worth making, is everything that follows from mass rather than from the brick: the reveal equals the wall, the bracing length caps the range, the openings are isolated events with a pier of at least a wall's thickness between them, and the wall fails at its base. The roof is the pack's stated climate conflict resolved the other way -- a tiled pitched roof with an oversailing eave on the same mass wall, which the pack names as fully authentic rather than as a compromise.",
@@ -13417,6 +13435,12 @@
         "portada"
       ],
       "proportion_packs": [
+        {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "Secondary. The arcade here is a patio arcade on slender columns -- 'column slenderness 7-9 diameters' with 'basket or Corinthianising capitals, and a carved or wrought balustrade above' -- so the pack's column rules govern rather than its pier rules. What this pack does NOT carry is what this record is actually about: 'ornament confined to a bounded field -- portada, window surround, patio arcade, cresting -- with the great majority of the wall left plain ashlar'. That bounded-panel ornament logic is its own item on WP-4.1's candidate list and is untouched here.",
+          "precedence": 0
+        },
         {
           "pack": "vignola-tuscan",
           "role": "optional",
@@ -17054,6 +17078,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-arcade",
+          "role": "facade",
+          "note": "Gives the pack its tightest pier figure -- 'arcade piers 18-30 in. wide with clear spans 6-9 ft, giving a pier-to-span ratio near 1:3.5' -- which is at the thin end of the nine-record band and is a revival working in reinforced construction rather than in mass masonry. Worth reading against `california-mission-colonial`, whose piers are 2 ft 6 in to 4 ft for the same span: the revival's arcade is a third thinner than the thing it revives, which is a real and measurable difference and one of the clearest cases in the corpus of a revival being lighter than its parent.",
+          "precedence": 0
+        },
+        {
           "pack": "trim-craftsman",
           "role": "interior",
           "note": "Anticipated in the pack's own applies_to list, which already names mission-revival directly. This style's floruit (1893-1920) fully overlaps the Craftsman movement's, the two shared clients, carpenters and mail-order catalogues on the West Coast, and this style's own governing_logic ('no order and no module') rules out any trim family derived from a classical entablature -- which is exactly what distinguishes trim-craftsman from trim-classical in the first place. Bind for interior door and window casing, base and picture-rail logic only. This style's exterior is explicitly 'stucco... unbroken by belt course, quoin, or cornice' (c04), so nothing in this pack's exterior-adjacent members should be read as licensing applied exterior trim of any kind.",
@@ -17704,6 +17734,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-arcade",
+          "role": "facade",
+          "note": "One of the three records the springing rule rests on -- 'arch springing at 2/3 of total opening height' -- and the one that gives the loggia's depth a floor with a reason: '10-16 ft, never less than 8 ft'. That floor is the same kind of statement as `monterey-revival`'s six-foot balcony, and the pack quotes it: below it the thing stops being a space and becomes a detail. This record also states the compositional rule the bay-count carries, 'arcaded in threes or fives', and the plan rule the circulation rule carries, 'loggias, arcades and covered galleries treated as primary rooms'.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "The required loggia (min. 8 ft clear depth, >=200 sq ft, opening off a principal room) is a covered outdoor room read on the same daylight logic as an interior one: at the pack's lower 1.8x multiplier -- used 'wherever there is a porch, a deep eave, a verandah... because all four lower the effective head' -- an 8-9 ft head loggia caps the interior room it opens off at a shallower daylit depth than an unshaded wall would, which is exactly the mechanism this style's arcade-and-terrace sequence depends on. Bind for that daylight-depth logic and for the general two-sided-lighting argument on courtyard-facing ranges; the pack's hearth-count and joist-span derivations do not describe a stucco or tile-floored house with no dogtrot or hall-and-parlor ancestry.",
@@ -18021,6 +18057,12 @@
         "additive"
       ],
       "proportion_packs": [
+        {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "Secondary, behind `stone-course`. The loggia figure this record carries -- 'two to four arches with pier width 0.4-0.6 of the clear opening' -- was quoted in `stone-course`'s notes precisely so it would not be lost when that pack declined to carry it, and this is the pack it was being kept for. Note the pier ratio here is the widest in the corpus and the record says why by implication: this is rubble and mixed stone-and-brick rather than dressed masonry, and a rubble pier has to be fatter to do the same work.",
+          "precedence": 2
+        },
         {
           "pack": "stone-course",
           "role": "primary",
@@ -21354,6 +21396,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "One of the two thinnest-bound nodes in the corpus, carrying only `moorish-arch` until now. This record says the arcade is the point rather than the arch: the horseshoe and later cusped arches spring 'on slender columns and carried in ARCADES rather than as isolated openings' -- so a pack that gives the arch and not the rhythm was describing half of it. The column slenderness here, 8-12 diameters, is the top of this pack's band and `moorish-arch` explains why in its own notes: the shafts are spolia of whatever length came to hand and the impost block takes up the difference.",
+          "precedence": 2
+        },
+        {
           "pack": "moorish-arch",
           "role": "primary",
           "precedence": 1,
@@ -22246,6 +22294,12 @@
         "seismic"
       ],
       "proportion_packs": [
+        {
+          "pack": "facade-arcade",
+          "role": "facade",
+          "note": "Supplies the bay rule -- 'patio arcade bay 2.5-3.5 m' -- and the slenderness band, 'column slenderness 7-10 diameters', and states the circulation rule in the bluntest form any record uses: 'arcaded corredor on the patio carrying circulation and social life; rooms entered from it, not from corridors'. That last clause is the sentence the pack's circulation rule is built on and the one that leads to the energy conflict, because a range of rooms entered from a corredor has an exterior door per room.",
+          "precedence": 2
+        },
         {
           "pack": "adobe-module",
           "role": "primary",
@@ -25134,6 +25188,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "The other of the two thinnest-bound nodes, and bound here for the same reason as its neighbour: `moorish-arch` gives it an arch and this pack gives the arcade the arch sits in. What neither pack carries is the thing this node is most distinctive for -- the whole-brick corbelling and offsetting that WP-4.1 lists as its own missing module, with a coursing dimension unlike `brick-course`'s American logic. That item is untouched and stays on the list.",
+          "precedence": 2
+        },
+        {
           "pack": "moorish-arch",
           "role": "primary",
           "precedence": 1,
@@ -26374,7 +26434,7 @@
           "pack": "opening-craftsman",
           "role": "opening",
           "note": "The other half of the pack, and the node that supplies its module from the opposite end. Where craftsman names the framing bay at 16 or 24 in on centre, this record names 'the standard casement width of roughly 2 ft, from which window bands are built in multiples' -- the same 24 inches seen from the opening rather than from the structure, and they coincide because the mullion lands on a stud. Two rules belong to this node alone and the pack says so: the band at 3-8 units rather than Craftsman's 2-3, and the compression-and-release ceiling ratio, which is this idiom's only vertical proportioning rule and which a bungalow should not be given. What this pack does NOT carry for this node is the four continuous datum lines as a facade system -- water table, sill band, lintel band, fascia -- which is a facade-role question; facade-picturesque holds that role here and is a loose fit for a style whose whole argument is continuity rather than incident, and that is worth someone's attention rather than mine in this package.",
-          "precedence": 0
+          "precedence": 4
         },
         {
           "pack": "facade-picturesque",
@@ -27059,6 +27119,12 @@
         "treatise"
       ],
       "proportion_packs": [
+        {
+          "pack": "facade-arcade",
+          "role": "facade",
+          "note": "The source of the type for every other node this pack binds, and the record that states its geometry most exactly: 'arcade: arch rise exactly 1/2 the span (semicircular); pier width 1/3 to 1/2 the clear span', with the arcaded cortile named as 'the organising void of the urban palace'. Bound in the facade role because on a palazzo the cortile arcade IS an elevation -- the most designed one in the building -- and because the pack's closed-loop observation matters most here: four runs meeting at four corners buttress each other and have no ends, which is why a courtyard arcade is structurally easier than a straight one and why this tradition builds them in courts.",
+          "precedence": 7
+        },
         {
           "pack": "palladio-tuscan",
           "role": "primary",
@@ -28317,6 +28383,12 @@
         "mexico"
       ],
       "proportion_packs": [
+        {
+          "pack": "facade-arcade",
+          "role": "facade",
+          "note": "The record whose own binding note named the gap, and the one that shows the corredor at its longest: 'continuous arcaded corredores, three to four metres deep and running eight to twenty bays'. That run length is the top of the pack's bay-count band and is what separates a corredor from a loggia -- at twenty bays evenness or oddness means nothing and the run simply turns the corner and keeps going. This record also gives the pack a social reading it does not otherwise have: 'the casa grande distinguished by height and arcade order rather than by decoration', which says the arcade is where hierarchy is expressed in a tradition that does not ornament.",
+          "precedence": 2
+        },
         {
           "pack": "adobe-module",
           "role": "primary",
@@ -29720,7 +29792,7 @@
           "pack": "dutch-gambrel",
           "role": "optional",
           "note": "Optional. This node takes the gambrel deliberately and by publication rather than by descent -- its own record lists 'the gambrel, the lean-to, the massive central chimney' among what the 1877 measured drawings brought back, and names the gambrel again among what it takes from the emerging Colonial Revival. So the section rules apply where a Shingle Style design uses the form. Two cautions the record itself supports: the Shingle gambrel is usually swept into the wall as one continuous shingled surface with no eave line at all, which is the opposite of this pack's sprung eave and means the sprung_eave assembly should be left alone here; and this style will break the break -- the whole point of its roofs is that they bend, flare and merge, so the two clean slopes this pack states are a starting geometry rather than a rule on this node.",
-          "precedence": 0
+          "precedence": 5
         },
         {
           "pack": "facade-picturesque",
@@ -33760,6 +33832,12 @@
         "bracketed-eave"
       ],
       "proportion_packs": [
+        {
+          "pack": "facade-arcade",
+          "role": "facade",
+          "note": "The most precise loggia record in the corpus and the one the pack checked itself against: 'loggia arcade of three to five equal semicircular arches; clear span 2.0-3.0 m; pier width 0.35-0.5 of the clear span; impost height 0.55-0.65 of the total arch'. All four figures are rules here. It also supplies the distinction between a loggia and a corredor that the bay-count rule turns on -- three to five, an odd number, because a loggia is a bounded element on an elevation and wants to centre, where a corredor's count is whatever the court is long.",
+          "precedence": 3
+        },
         {
           "pack": "stone-course",
           "role": "secondary",
@@ -38213,6 +38291,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-arcade",
+          "role": "facade",
+          "note": "Takes the geometry from its parent and states it in the same terms -- 'arcade piers 1/3 to 1/2 of the clear arch span; arch springing at 2/3 of opening height' -- which is one of the three records the springing rule rests on. Bound facade: this record puts the arcaded loggia at the ground storey with rectangular openings above, so the arcade is the base of the elevation rather than a courtyard, and `storey-graduation`, already bound here, governs what sits on it.",
+          "precedence": 8
+        },
+        {
           "pack": "vignola-corinthian",
           "role": "primary",
           "authority": "vignola-corinthian",
@@ -39132,7 +39216,7 @@
           "pack": "balcony-gallery",
           "role": "secondary",
           "note": "The node that shows both of the pack's lighter regimes side by side in one sentence: 'either a posted galerie 6-10 ft deep with a pitch break at the wall plane, or an abat-vent projecting 30-48 in on iron rods or brackets with no posts.' Those are two of the pack's three depth rules stated as alternatives on one building type, which is the clearest evidence in the corpus that depth follows carrying strategy rather than taste. The abat-vent band it gives is the same one `styles/regency.json` gives for its cast-iron balconette, independently.",
-          "precedence": 0
+          "precedence": 3
         },
         {
           "pack": "room-vernacular",
@@ -39982,6 +40066,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "Secondary, and the role is the honest one. This record's covered walk is 'a portal or corredor -- a posted OR arcaded covered walk 8-14 ft deep', so the arcade is one of two ways this tradition builds the same element and the other is `adobe-module`'s post-and-zapata portal. Where it is arcaded, this pack governs; where it is posted, that one does. Both are bound and the notes on each say which case it is for. This is also one of the four records stating that the walk serves as the building's circulation, and the one that adds the plan consequence the others leave implicit: the principal rooms and the loggia face a placita, and the exterior street wall is substantially closed.",
+          "precedence": 2
+        },
+        {
           "pack": "adobe-module",
           "role": "primary",
           "note": "THE PACK THIS NODE'S OWN BINDING NOTE ASKED FOR. Until WP-4.6 this node carried room-vernacular alone, under a note saying in so many words that 'a dedicated mass-wall/adobe module and a portal/arcade system are both missing from the corpus' and that the load-bearing earth wall is not the physics of brick coursing, log notching, sawn framing or a treatise proportion. adobe-module is that pack. It is primary rather than secondary because on this node the wall is not one system among several -- it is the only generative system there is: this record's own 18 in to 5 ft mass wall sets the reveal, the opening width, the pier between openings, the bracing length that makes the plan a chain of ranges, and the viga span that keeps every range single-pile. room-vernacular stays and is not demoted, because it is a ROOM system and this is a WALL system and they govern different things; where they touch, on span-limited room width, they agree to within the difference between a peeled viga and a sawn joist. The portal/arcade half of the gap this node named is only partly closed: adobe-module carries the portal as an assembly with real post, zapata and beam figures, but a general arcade system for the mission and hacienda ranges is still missing and is still listed in WP-4.1's candidate list.",
@@ -40352,6 +40442,12 @@
         "defensive"
       ],
       "proportion_packs": [
+        {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "Bound secondary behind `stone-course`, and it is one of the nine records the pier ratio rests on: 'pier or respond width 1/3 to 1/2 of the opening it flanks'. It also gives the semicircular rise in the strongest terms any record uses -- 'arch rise to span exactly 1:2, the defining and non-negotiable ratio' -- which is why this pack's own rise default is semicircular and why that default is right here and overridden elsewhere. Read this node's arcade ratios beside the comparison its sibling record draws: `styles/english-gothic.json` gives 1:4 to 1:6 against Norman's 1:2 to 1:3, and that gap is the entire history of Gothic construction stated as two numbers.",
+          "precedence": 2
+        },
         {
           "pack": "stone-course",
           "role": "primary",
@@ -44074,7 +44170,7 @@
           "pack": "stone-course",
           "role": "secondary",
           "note": "Secondary, behind `brick-course`, and the pair on this node is the useful thing rather than either alone. A bank house is built into a slope with a masonry ground storey and a lighter one above, and the two packs divide on that line: this one holds the heavy stone below, `brick-course` the work above where it is brick. The pack's plinth rule is doing unusual work here, because on a bank house the lower wall is a retaining wall for part of its length and the splash line the plinth answers is on one elevation and not the others.",
-          "precedence": 0
+          "precedence": 4
         },
         {
           "pack": "brick-course",

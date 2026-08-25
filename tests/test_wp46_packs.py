@@ -48,10 +48,17 @@ wide margin the largest item left on the list when it was measured: 60 buildable
 stone walling and 34 carry three packs or fewer, against 31 and 23 for the next-largest. It cannot
 have brick-course's module, and its central rule is stated twice in the corpus, independently, in
 nearly the same words.
+
+`facade-arcade` (fourth tranche, 25 Aug 2026) -- NOT on WP-4.1's candidate list, and that is the
+finding it opens with: three packs in this work package asked for it independently, two of them
+under the mistaken impression it was already listed. Measured, it was the largest remaining item at
+33 nodes and 24 thinly bound. It is the only pack in this package claiming `confidence: high`,
+because nine unrelated records converge on its central ratio.
 """
 import glob
 import json
 import os
+import re
 
 import pytest
 
@@ -217,8 +224,10 @@ def test_no_node_still_says_the_module_is_missing_from_the_corpus(nid):
             continue
         note = b["note"]
         if "missing from the corpus" in note or "mass-wall gap" in note:
-            assert ("SUPERSEDED" in note or "CLOSED as of" in note
-                    or "AMENDED" in note), (nid, b["pack"])
+            # A note that QUOTES the old claim while announcing it closed is not stale -- that is
+            # the supersede-in-place convention working. What must not survive is an unmarked claim.
+            assert ("SUPERSEDED" in note or "CLOSED as of" in note or "AMENDED" in note
+                    or "This is that pack." in note), (nid, b["pack"])
 
 
 def test_the_reveal_equals_the_wall_and_that_is_the_whole_point():
@@ -1203,3 +1212,156 @@ def test_the_module_carries_its_own_warning_about_the_local_stone():
     c = next(x for x in p["conflicts"] if x["with"] == "material-availability")
     assert "change the module" in c["resolution"]
     assert "nine inches is oolitic limestone" in p["notes"]
+
+
+# --------------------------------------------------------------- facade-arcade
+
+
+def test_three_packs_in_this_package_asked_for_the_arcade_independently():
+    """Two of them said it was 'still in WP-4.1's candidate list', which was wrong -- it was never on
+    it. A gap that three separate pieces of work reach for and that the list does not name is worth
+    recording as a fact about the list."""
+    for nid in ("spanish-colonial-american", "california-mission-colonial"):
+        assert any("arcade" in e["note"] for e in node(nid)["proportion_packs"]), nid
+    assert "portal/arcade system are both missing" in json.dumps(node("spanish-colonial-american"))
+    assert "0.4-0.6 of the clear opening" in pack("stone-course")["notes"]
+    assert "THREE PACKS IN THIS WORK PACKAGE ASKED FOR IT INDEPENDENTLY" in pack("facade-arcade")["notes"]
+
+
+def test_nine_unrelated_records_give_the_same_pier_to_span_ratio():
+    """Five countries, six centuries, no route by which any could have got it from the others. The
+    test checks the corpus rather than the pack's claim about the corpus."""
+    r = next(x for x in pack("facade-arcade")["derived_rules"]
+             if x["target_slot"] == "porch_support" and x["dimension"] == "ratio")
+    assert r["range"] == [0.25, 0.60]
+    thirds = 0
+    for nid in ("italian-renaissance", "italian-renaissance-revival", "mediterranean-revival",
+                "norman-romanesque-english"):
+        assert "1/3 to 1/2" in json.dumps(node(nid)), nid
+        thirds += 1
+    assert thirds == 4
+    assert "0.35-0.5" in json.dumps(node("italian-villa-vernacular"))
+    assert "0.4-0.6" in json.dumps(node("tuscan-vernacular"))
+    assert "1:3.5" in json.dumps(node("mission-revival"))
+
+
+def test_it_is_the_only_pack_in_the_package_claiming_high_confidence():
+    """And the reason is the agreement rather than the sources. When the corpus agrees with itself
+    that strongly the pack is reporting rather than reconstructing, and the strength should say so."""
+    assert pack("facade-arcade")["confidence"] == "high"
+    for pid in ("adobe-module", "opening-pointed", "opening-craftsman", "trim-prairie",
+                "dutch-gambrel", "balcony-gallery", "stone-course"):
+        assert pack(pid)["confidence"] == "medium", pid
+
+
+def test_the_arch_shape_is_deliberately_not_in_this_pack():
+    """What makes it composable. Bay, pier, springing and rhythm are identical whether the arch is
+    semicircular, equilateral, four-centred or horseshoe -- so the rise rule says to take its figure
+    from whichever arch pack the node binds."""
+    r = next(x for x in pack("facade-arcade")["derived_rules"]
+             if x["target_slot"] == "arch" and x["dimension"] == "height")
+    assert "ANOTHER PACK SHOULD OVERRIDE" in r["note"]
+    assert "opening-pointed" in r["note"] and "moorish-arch" in r["note"]
+    for nid in ("moorish-andalusian", "mudejar", "andalusian-courtyard-vernacular"):
+        assert binding(nid, "moorish-arch") and binding(nid, "facade-arcade"), nid
+
+
+def test_the_two_packs_that_share_the_impost_collide_on_the_rise_and_nothing_else():
+    """facade-arcade and moorish-arch both make the impost their diagnostic member, and three nodes
+    bind both. Writing this test found a real corruption: both packs were writing to
+    porch_support/height, but moorish-arch meant the impost BLOCK's own height (about 6 in) and
+    facade-arcade meant the springing LINE above the floor (84 in). Two packs putting different
+    quantities into one address is silent -- whichever resolves last wins and nothing reports it --
+    so the arcade's rule was renamed to the `springing` dimension.
+
+    What they may still share is arch/height, and that one is correct: both mean the arch's rise,
+    the same quantity with different values by tradition, which is exactly what precedence is for."""
+    arc_slots = {(r["target_slot"], r["dimension"]) for r in pack("facade-arcade")["derived_rules"]}
+    moor_slots = {(r["target_slot"], r["dimension"]) for r in pack("moorish-arch")["derived_rules"]}
+    assert arc_slots & moor_slots == {("arch", "height")}
+    assert ("porch_support", "springing") in arc_slots
+    assert ("porch_support", "height") in moor_slots
+    for nid in ("moorish-andalusian", "mudejar", "andalusian-courtyard-vernacular"):
+        assert binding(nid, "moorish-arch") and binding(nid, "facade-arcade"), nid
+
+
+def test_no_binding_anywhere_outranks_a_primary_one():
+    """WP-4.6 introduced this fault twelve times by inserting every new binding at the first unused
+    precedence, which is nearly always 0. Nothing caught it: precedence was checked for being a
+    total order and never for agreeing with role, so the two fields could say opposite things and
+    the build stayed green. check_pack_bindings.py now errors on it; this pins the data."""
+    import glob as _glob
+    for f in _glob.glob(os.path.join(ROOT, "styles", "*.json")):
+        d = json.load(open(f))
+        es = d.get("proportion_packs") or []
+        prims = [e for e in es if e["role"] == "primary"]
+        if not prims:
+            continue
+        lo = min(e["precedence"] for e in prims)
+        ahead = [e for e in es if e["role"] != "primary" and e["precedence"] < lo]
+        assert not ahead, (d["id"], [(e["pack"], e["role"], e["precedence"]) for e in ahead])
+
+
+def test_the_narrow_rule_is_enforced_and_the_wide_one_only_warned():
+    """Measured over all 132 buildable nodes, `secondary` sits ahead of a role pack in 253 places
+    across 59 nodes -- which is the corpus's own convention (order packs first, then role packs),
+    not a bug. Enforcing a tidier ordering would have meant churning 59 nodes to satisfy a rule
+    nobody had agreed to. The checker errors only on the rule the corpus actually holds."""
+    src = open(os.path.join(ROOT, "build", "check_pack_bindings.py")).read()
+    i = src.index("Precedence must not contradict role")
+    block = src[i:i + 4000]
+    assert "errors.append" in block and "warnings.append" in block
+    assert "253 places across 59 nodes" in block
+
+
+def test_four_records_say_the_arcade_is_the_circulation():
+    """The pack's largest plan consequence, and none of the four treats it as remarkable."""
+    r = next(x for x in pack("facade-arcade")["derived_rules"]
+             if x["target_slot"] == "circulation_parti")
+    assert "serving as all circulation" in json.dumps(node("california-mission-colonial"))
+    assert "not from corridors" in json.dumps(node("mexican-colonial"))
+    assert "circulation, shade and social space" in json.dumps(node("mexican-hacienda"))
+    assert "serving as the building's circulation" in json.dumps(node("spanish-colonial-american"))
+    assert "LARGEST PLAN CONSEQUENCE" in r["note"]
+
+
+def test_the_end_pier_rule_exists_because_an_arcade_is_not_in_equilibrium_at_its_ends():
+    """The one thing an arcade drawn in CAD always gets wrong. Intermediate piers take two thrusts
+    that cancel; the end pier takes one. A run of identical piers ending in air has never been built."""
+    r = next(x for x in pack("facade-arcade")["derived_rules"]
+             if x["dimension"] == "end_ratio")
+    assert r["judgment"] is True and r["range"] == [1.0, 2.0]
+    c = next(x for x in pack("facade-arcade")["conflicts"] if x["with"] == "structural")
+    assert c["severity"] == "blocking"
+    assert "equilibrium in the middle and not at the ends" in c["statement"]
+
+
+def test_english_gothic_is_refused_and_its_own_record_gives_the_number():
+    """It has the best-stated arcade ratios in the corpus and states them to say how DIFFERENT they
+    are: 1:4 to 1:6 pier to bay against Norman's 1:2 to 1:3. A Gothic arcade sends its thrust to a
+    buttress rather than into the pier, so proportioning one here would produce a building that
+    cannot stand in a way this pack cannot detect."""
+    assert "english-gothic" not in pack("facade-arcade")["applies_to"]
+    assert binding("english-gothic", "facade-arcade") is None
+    assert "1:4 to 1:6" in json.dumps(node("english-gothic"))
+    assert "cannot stand up in a way this pack cannot detect" in pack("facade-arcade")["notes"]
+
+
+def test_the_energy_conflict_names_the_consequence_of_having_no_corridor():
+    """Every room's door is an exterior door. A range of eight rooms entered from a corredor has
+    eight exterior doors on one elevation and no lobby anywhere -- a problem no other type in the
+    library has at this scale, and one that follows directly from the circulation rule."""
+    c = next(x for x in pack("facade-arcade")["conflicts"] if x["with"] == "energy-code")
+    assert "Every room's door is an exterior door" in c["statement"]
+    assert "changes the type" in c["resolution"]
+
+
+def test_it_moved_the_facade_role_count_for_the_first_time_in_the_package():
+    """Six packs before it closed opening, interior and threshold gaps and left the facade role
+    untouched at 67. This one is a facade-system and binds nine nodes in the facade role."""
+    facade_bound = [nid for nid in pack("facade-arcade")["applies_to"]
+                    if binding(nid, "facade-arcade")["role"] == "facade"]
+    assert len(facade_bound) >= 8
+    src = open(os.path.join(ROOT, "README.md")).read()
+    m = re.search(r"(\d+) no facade-role pack", src)
+    assert m and int(m.group(1)) < 67

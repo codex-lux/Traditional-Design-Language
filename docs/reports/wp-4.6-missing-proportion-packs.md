@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: nine packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: ten packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -495,6 +495,59 @@ rather than rediscovering them: the moulded sections (ovolo and cavetto mullions
 tread and the bartizan at 1.2–2.0 m; and `tuscan-vernacular`'s loggia arcade at "pier width 0.4–0.6
 of the clear opening", which is a third missing item.
 
+### `proportions/systems/facade-arcade.json` — a pack the list never named, asked for three times
+
+**WP-4.1's candidate list does not contain this item.** Three packs in this work package asked for
+it anyway: `adobe-module`'s binding notes on `spanish-colonial-american` and
+`california-mission-colonial` both say "a portal/arcade system is still missing and is still in
+WP-4.1's candidate list" — which was *wrong*, it was never on it — and `stone-course` quoted
+`tuscan-vernacular`'s loggia ratio in its notes purely so the figure would not be lost. A gap that
+three separate pieces of work reach for and the list does not name is a fact about the list.
+Measured, it was the largest remaining item: **33 nodes, 24 thinly bound.**
+
+**It is the only pack in this package claiming `confidence: high`, and the reason is agreement
+rather than sources.** Nine unrelated records give the pier as one third to one half of the clear
+span — Italian Renaissance and its American revival, the Italian villa vernacular, the Tuscan
+farmhouse, the Mediterranean Revival, Mission Revival, the Californian mission, Norman Romanesque
+and the Mexican patio. Five countries, six centuries, no route by which any could have got it from
+the others. Three more give the springing at two-thirds of the opening's height; **four say the
+arcade *is* the circulation** ("rooms entered from it, not from corridors"). When the corpus agrees
+with itself that strongly the pack is reporting rather than reconstructing.
+
+**The arch's shape is deliberately not in the pack, and that is what makes it composable.** Bay,
+pier, springing and rhythm are identical whether the arch above is semicircular, equilateral,
+four-centred or horseshoe — so the rise rule says to take its figure from whichever arch pack the
+node binds. Three nodes bind this pack *and* `moorish-arch`.
+
+It also **moved the facade-role count for the first time in the package: 67 → 61.** Six earlier
+packs closed opening, interior and threshold gaps and left the facade role untouched.
+
+### Two defects this pack's own tests found, both mine
+
+**A silent slot-address collision.** `facade-arcade` and `moorish-arch` were both writing to
+`porch_support`/`height` — but one meant the impost *block's* height (about 6 in) and the other the
+springing *line* above the floor (84 in), and three nodes bind both packs. Two packs putting
+**different quantities into one address** is not a conflict, it is a corruption: whichever resolves
+last wins and nothing reports it. Precedence cannot help, because precedence decides which of two
+accounts of the *same* quantity to believe. The arcade's rule was renamed to a `springing` dimension,
+and a test now asserts the two packs share exactly one address — `arch`/`height`, where they really
+do mean the same thing and precedence is the right answer.
+
+**Precedence contradicting role, sixteen times.** A test on the new bindings found `facade-arcade`
+sitting at precedence 0 ahead of a `primary` pack. Investigating found sixteen such inversions
+across fourteen nodes — **twelve of them introduced by this work package**, because every new
+binding was inserted at the first unused precedence and 0 is nearly always free. Nothing caught it:
+`check_pack_bindings.py` checked `precedence` for being a total order and never for agreeing with
+`role`, so the two fields could say opposite things and the build stayed green.
+
+Fixed in the data, and the checker now errors on it. But **only on the narrow rule**, because that
+is the only one the corpus holds to. Measured across all 132 buildable nodes: `secondary` sits ahead
+of `facade`, `opening`, `interior`, `room` or `massing` in **253 places across 59 nodes** — which is
+not a bug but the corpus's own convention, order packs first and role packs after. And `optional`
+sits ahead of a role pack in **40 places across 23 nodes**, untidy and mostly older than this
+package. Both are warned about once per node rather than enforced; churning 59 nodes to satisfy a
+tidier rule nobody had agreed to would have been the wrong trade.
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -508,7 +561,7 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing: a **half-timber infill panel module** (31 nodes, 23 thinly bound — now the largest
+still missing: a **half-timber infill panel module** (29 nodes, 21 thinly bound — now the largest
 remaining), a **gable geometry system** (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
 10 thinly bound, and entirely missing from the library), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
@@ -528,7 +581,8 @@ binds one node and corrects a wrong binding rather than filling an empty role. S
 third: the **Dutch gambrel roof module**, which the list scoped at 3 nodes and reached 6, the
 **dimensional half** of the cast-iron item, which reached 7 — its ornament half stays on the list —
 and the **stone-coursing equivalent of `brick-course`**, the largest item on the list when measured,
-bound to 12 of the 34 thinly-bound stone nodes on a stated criterion.
+bound to 12 of the 34 thinly-bound stone nodes on a stated criterion. Struck off by the fourth: the
+**arcade**, which was never on the list at all and which three packs in this package asked for.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -541,16 +595,16 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Second and third tranches: 22 checks green again. **45 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the seven new
-packs bind 45 nodes but every one of them was already bound, so the count does not move and should
+Later tranches: 23 checks green. **46 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the eight new
+packs bind 61 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
 pack, plus one wrong interior binding corrected, a roof system six nodes previously had nothing for,
-a threshold system seven nodes had nothing for, and a walling system twelve nodes had nothing for,
-none of which moves any count). A test pins that claim from the other direction: every node these
+a threshold system seven nodes had nothing for, a walling system twelve nodes had nothing for, and an arcade system sixteen
+had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 28 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **120 tests**, and the suite as a whole 583. The pinned pack count in
+`tests/test_wp46_packs.py` is now **132 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

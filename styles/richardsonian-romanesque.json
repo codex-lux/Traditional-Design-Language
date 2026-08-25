@@ -225,6 +225,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "secondary",
+      "note": "Bound with a caution its own record supplies. The pack takes one figure from here and it is the only one of its kind in the corpus -- 'voussoir depth 1/8 to 1/6 of the span' -- which governs archivolt depth for every node the pack binds. What sits OUTSIDE the pack's band deliberately is this node's own signature: an 'entrance arch span 8 to 16 ft', which is one great arch used as an event and not a rhythm, and which this pack's span rule explicitly declines to proportion. Use the voussoir rule here and the bay rules only where there is a genuine arcade rather than a single arch.",
+      "precedence": 5
+    },
+    {
       "pack": "facade-picturesque",
       "role": "primary",
       "note": "Explicit in this pack's applies_to, but its governing role is narrower here than on the wooden Victorian styles: the node's own proportional_system says the elevation is 'governed by mass and by the arch,' with hierarchy made by grouped-vs-blank wall (A-BBB-A) rather than by the pack's dominant-mass-vs-subordinate-mass logic in the usual sense. What transfers cleanly is the datum discipline (the pack's continuous-horizontal rule, which matches this node's wall material running unbroken water-table to eave) and the one-feature-window logic. The dominance ratio and wing-strategy rules are a poor fit for a single-block masonry mass and should be read loosely if at all.",

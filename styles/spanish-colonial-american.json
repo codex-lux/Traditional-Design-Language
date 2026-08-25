@@ -261,6 +261,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "secondary",
+      "note": "Secondary, and the role is the honest one. This record's covered walk is 'a portal or corredor -- a posted OR arcaded covered walk 8-14 ft deep', so the arcade is one of two ways this tradition builds the same element and the other is `adobe-module`'s post-and-zapata portal. Where it is arcaded, this pack governs; where it is posted, that one does. Both are bound and the notes on each say which case it is for. This is also one of the four records stating that the walk serves as the building's circulation, and the one that adds the plan consequence the others leave implicit: the principal rooms and the loggia face a placita, and the exterior street wall is substantially closed.",
+      "precedence": 2
+    },
+    {
       "pack": "adobe-module",
       "role": "primary",
       "note": "THE PACK THIS NODE'S OWN BINDING NOTE ASKED FOR. Until WP-4.6 this node carried room-vernacular alone, under a note saying in so many words that 'a dedicated mass-wall/adobe module and a portal/arcade system are both missing from the corpus' and that the load-bearing earth wall is not the physics of brick coursing, log notching, sawn framing or a treatise proportion. adobe-module is that pack. It is primary rather than secondary because on this node the wall is not one system among several -- it is the only generative system there is: this record's own 18 in to 5 ft mass wall sets the reveal, the opening width, the pier between openings, the bracing length that makes the plan a chain of ranges, and the viga span that keeps every range single-pile. room-vernacular stays and is not demoted, because it is a ROOM system and this is a WALL system and they govern different things; where they touch, on span-limited room width, they agree to within the difference between a peeled viga and a sawn joist. The portal/arcade half of the gap this node named is only partly closed: adobe-module carries the portal as an assembly with real post, zapata and beam figures, but a general arcade system for the mission and hacienda ranges is still missing and is still listed in WP-4.1's candidate list.",

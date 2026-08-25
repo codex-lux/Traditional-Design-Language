@@ -1,234 +1,240 @@
 {
- "id": "moorish-andalusian",
- "name": "Moorish Andalusian",
- "aka": [
-  "Hispano-Moresque",
-  "al-Andalus architecture",
-  "Nasrid and Umayyad Spain",
-  "Moorish"
- ],
- "rank": "style",
- "member_of": "iberian-islamic",
- "status": "historical",
- "period": {
-  "origin": 756,
-  "floruit_start": 785,
-  "floruit_end": 1492,
-  "decline_end": 1492,
-  "circa": true,
-  "revival_periods": [
-   {
-    "start": 1850,
-    "end": 1930,
-    "revival_node": null,
-    "note": "Neo-Mudejar in Spain and Moorish Revival across Europe and America — bullrings, synagogues, railway stations, casinos and pavilions. A costume revival with no craft continuity."
-   },
-   {
-    "start": 1915,
-    "end": 1940,
-    "revival_node": "spanish-colonial-revival",
-    "note": "Arrives in American practice at two removes, via Mexico and via Andalusian folk architecture: the patio with a fountain, the azulejo dado, the horseshoe and cusped arch, the mirador."
-   },
-   {
-    "start": 1918,
-    "end": 1940,
-    "revival_node": "mediterranean-revival",
-    "note": "The Mediterranean Revival's tile, arcade and inward court are Andalusian at their root."
-   }
-  ]
- },
- "geography": {
-  "regions": [
-   "Spain",
-   "Portugal",
-   "North Africa"
+  "id": "moorish-andalusian",
+  "name": "Moorish Andalusian",
+  "aka": [
+    "Hispano-Moresque",
+    "al-Andalus architecture",
+    "Nasrid and Umayyad Spain",
+    "Moorish"
   ],
-  "hearth": "Cordoba, Seville and Granada",
-  "climate_zones": [
-   "3B",
-   "3C",
-   "2B"
-  ]
- },
- "lineage": [
-  {
-   "target": "roman-classical",
-   "type": "descends_from",
-   "weight": 0.35,
-   "inherits_kit": true,
-   "note": "Umayyad Cordoba is built literally out of Rome: the Great Mosque's arcades stand on reused Roman and Visigothic columns and capitals, its two-tier arch is a solution to the fact that those shafts were too short, and the horseshoe arch itself is Visigothic in Iberia before it is Islamic. The Roman peristyle house is the direct ancestor of the Andalusian patio."
-  }
- ],
- "description": {
-  "short": "The architecture of eight centuries of Islamic Iberia: an inward-turned world of courtyards, water, arcades and stratified geometric surface built behind walls that give the street nothing.",
-  "long": "Moorish Andalusian architecture is the one major European tradition organised around a void rather than a mass. A Roman temple, a Gothic cathedral and a Georgian house are all objects to be seen; an Andalusian palace or house is a sequence of enclosed outdoor rooms with buildings around their edges, and the thing being designed is the court, the water in it, and the way light moves across it during the day. This reverses almost every habit an Anglo-European designer has. There is no facade in the ordinary sense: the exterior wall is high, blind, and made of rammed earth (tapia) or brick, and the entrance is a single door, often set off-axis and reached through a bent passage so that no one on the street can see in. Everything the building has to offer begins on the far side of that door.\n\nThe climate produced the diagram and the diagram is extremely good. Cordoba reaches forty-five degrees in July; the courtyard, deep in relation to its width, is in shade for most of the summer day, and the ranges around it are one room deep so that every room draws air across from the shaded court to the cooler back. Water is not decoration: a still sheet in a long basin cools by evaporation and doubles the perceived size of the court by reflection, and a moving thread in a channel does the same audibly. The Court of the Myrtles at the Alhambra is a slab of water thirty-four metres long with a hall at each end looking down its length — an air-conditioning device that also happens to be one of the most beautiful spaces in Europe. Wall thickness of six hundred to nine hundred millimetres in earth or brick gives a twelve-hour thermal lag, so the fabric is coolest in the afternoon.\n\nThe ornament follows a rule that is nearly always missed: it is stratified by height and by material, and the strata never blur. From the floor to about head height the wall is tile — alicatado, cut glazed mosaic in the Nasrid period, later flat azulejo — because that is the zone that gets touched, splashed and scrubbed, and because tile is cool. Above it, to the ceiling, is carved and moulded plaster, yeseria, worked wet and painted, which can be extraordinarily fine because it does not need to be durable at that height. Above that is wood: coffered and strapworked timber ceilings, artesonado, in cedar and pine. Three materials, three heights, three degrees of durability, three completely different kinds of pattern, and a horizontal band — usually an epigraphic frieze in Kufic or cursive Arabic — marking each transition. Once you see it, you cannot look at an Andalusian interior any other way.\n\nWhat it is like to stand inside is difficult to overstate and easy to misdescribe as merely lush. It is dark, and cool, and the darkness is the point: the eye adjusts, and then the very fine plaster and the tile and the epigraphy resolve out of the gloom, and beyond the arcade the court is a rectangle of unbearable white light with water in it. Sound is water and birds. The geometry is never resolvable — the lacería interlace is generated from a repeating star polygon and continues past every frame, so the wall reads as a cut-out from an infinite pattern rather than a bounded composition, which is a theological position as much as a decorative one. And the whole thing is made of clay, plaster and cheap wood. There is almost no stone in the Alhambra. It is a poor building made unimaginably rich by labour."
- },
- "defining_characteristics": [
-  "Inward organisation around one or more courts; the exterior street wall is high, near-blind, and undesigned",
-  "A single controlled entry, often through a bent or dog-leg passage so the court is never visible from the street",
-  "Water as a required architectural element on the principal axis — still basin, channel, or fountain",
-  "Massive walls of tapia (rammed earth) or brick, 600-900 mm, giving a long thermal lag",
-  "Single-pile ranges around the court, cross-ventilated, reached from the court rather than from internal corridors",
-  "Ornament stratified by height and material: tile dado, carved plaster above, timber ceiling on top, with an epigraphic band at each transition",
-  "The horseshoe and later the cusped and muqarnas arch, springing on slender columns and carried in arcades rather than as isolated openings",
-  "Geometric interlace (laceria) generated from a repeating star polygon and cut by its frame rather than composed within it"
- ],
- "diagnostic_tells": [
-  "An arch whose curve continues below its springing line by a quarter to a third of the radius — the true horseshoe",
-  "A rectangular moulded frame (alfiz) enclosing an arch, so the arch never floats free on a wall",
-  "A hard horizontal line at 1.5-2.0 m where tile stops and carved plaster begins, on every wall in the room",
-  "Muqarnas — stalactite vaulting in plaster — filling the transition from a square room to a dome",
-  "Arcade columns of extreme slenderness (shaft height 8-12 diameters) carrying brick or plaster arches, not stone entablatures"
- ],
- "distinguished_from": [
-  {
-   "node": "mudejar",
-   "difference": "Mudejar is this same craft continuing under Christian patronage after the reconquest of a given city. The buildings can be technically indistinguishable; the difference is who paid and what the building was for. A church tower built by Muslim masons in Teruel in 1315 is Mudejar; the Alhambra is not."
+  "rank": "style",
+  "member_of": "iberian-islamic",
+  "status": "historical",
+  "period": {
+    "origin": 756,
+    "floruit_start": 785,
+    "floruit_end": 1492,
+    "decline_end": 1492,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1850,
+        "end": 1930,
+        "revival_node": null,
+        "note": "Neo-Mudejar in Spain and Moorish Revival across Europe and America — bullrings, synagogues, railway stations, casinos and pavilions. A costume revival with no craft continuity."
+      },
+      {
+        "start": 1915,
+        "end": 1940,
+        "revival_node": "spanish-colonial-revival",
+        "note": "Arrives in American practice at two removes, via Mexico and via Andalusian folk architecture: the patio with a fountain, the azulejo dado, the horseshoe and cusped arch, the mirador."
+      },
+      {
+        "start": 1918,
+        "end": 1940,
+        "revival_node": "mediterranean-revival",
+        "note": "The Mediterranean Revival's tile, arcade and inward court are Andalusian at their root."
+      }
+    ]
   },
-  {
-   "node": "andalusian-courtyard-vernacular",
-   "difference": "The vernacular casa-patio is the domestic residue of this tradition, continuously inhabited and rebuilt for five centuries after 1492. It keeps the court, the water, the whitewash and the blind street wall, and loses the epigraphy, the muqarnas and the stratified surface programme."
+  "geography": {
+    "regions": [
+      "Spain",
+      "Portugal",
+      "North Africa"
+    ],
+    "hearth": "Cordoba, Seville and Granada",
+    "climate_zones": [
+      "3B",
+      "3C",
+      "2B"
+    ]
   },
-  {
-   "node": "mediterranean-revival",
-   "difference": "The 20th-century revival takes the arcade, the tile and the fountain and applies them to buildings that are outward-facing, double-pile and corridor-planned. It reverses the one thing that mattered."
-  }
- ],
- "proportional_system": {
-  "governing_logic": "Geometric generation from a square. Plan and surface alike are set out by rotating a square to produce root-2 and root-3 rectangles, and by subdividing an eight- or sixteen-pointed star into a repeating cell. There is no order and no absolute module: the setting-out is a compass-and-straightedge procedure, which is why a Nasrid pattern can be executed at any scale from a tile to a courtyard without any change in method.",
-  "typical_ratios": [
-   "Court length to width roughly 1:1.5 to 1:2, with the principal hall at a short end on the long axis",
-   "Court width 0.6-1.0 times the height of the enclosing ranges at 37 degrees north",
-   "Column shaft slenderness 8-12 diameters",
-   "Horseshoe arch: curve continued 0.25-0.33 of the radius below the springing",
-   "Tile dado 1.5-2.0 m high"
+  "lineage": [
+    {
+      "target": "roman-classical",
+      "type": "descends_from",
+      "weight": 0.35,
+      "inherits_kit": true,
+      "note": "Umayyad Cordoba is built literally out of Rome: the Great Mosque's arcades stand on reused Roman and Visigothic columns and capitals, its two-tier arch is a solution to the fact that those shafts were too short, and the horseshoe arch itself is Visigothic in Iberia before it is Islamic. The Roman peristyle house is the direct ancestor of the Andalusian patio."
+    }
   ],
-  "bay_rhythm": "Arcades of odd bay counts with a wider central bay marking the entry axis; on the short ends of a court, a portico of three or five bays with the centre emphasised by a taller arch or a projecting mirador.",
-  "symmetry": "strict-bilateral"
- },
- "massing_affinities": [
-  {
-   "massing": "courtyard-full",
-   "affinity": "canonical",
-   "note": "The court enclosed on all four sides, with a blind exterior — the fundamental diagram of the whole tradition."
+  "description": {
+    "short": "The architecture of eight centuries of Islamic Iberia: an inward-turned world of courtyards, water, arcades and stratified geometric surface built behind walls that give the street nothing.",
+    "long": "Moorish Andalusian architecture is the one major European tradition organised around a void rather than a mass. A Roman temple, a Gothic cathedral and a Georgian house are all objects to be seen; an Andalusian palace or house is a sequence of enclosed outdoor rooms with buildings around their edges, and the thing being designed is the court, the water in it, and the way light moves across it during the day. This reverses almost every habit an Anglo-European designer has. There is no facade in the ordinary sense: the exterior wall is high, blind, and made of rammed earth (tapia) or brick, and the entrance is a single door, often set off-axis and reached through a bent passage so that no one on the street can see in. Everything the building has to offer begins on the far side of that door.\n\nThe climate produced the diagram and the diagram is extremely good. Cordoba reaches forty-five degrees in July; the courtyard, deep in relation to its width, is in shade for most of the summer day, and the ranges around it are one room deep so that every room draws air across from the shaded court to the cooler back. Water is not decoration: a still sheet in a long basin cools by evaporation and doubles the perceived size of the court by reflection, and a moving thread in a channel does the same audibly. The Court of the Myrtles at the Alhambra is a slab of water thirty-four metres long with a hall at each end looking down its length — an air-conditioning device that also happens to be one of the most beautiful spaces in Europe. Wall thickness of six hundred to nine hundred millimetres in earth or brick gives a twelve-hour thermal lag, so the fabric is coolest in the afternoon.\n\nThe ornament follows a rule that is nearly always missed: it is stratified by height and by material, and the strata never blur. From the floor to about head height the wall is tile — alicatado, cut glazed mosaic in the Nasrid period, later flat azulejo — because that is the zone that gets touched, splashed and scrubbed, and because tile is cool. Above it, to the ceiling, is carved and moulded plaster, yeseria, worked wet and painted, which can be extraordinarily fine because it does not need to be durable at that height. Above that is wood: coffered and strapworked timber ceilings, artesonado, in cedar and pine. Three materials, three heights, three degrees of durability, three completely different kinds of pattern, and a horizontal band — usually an epigraphic frieze in Kufic or cursive Arabic — marking each transition. Once you see it, you cannot look at an Andalusian interior any other way.\n\nWhat it is like to stand inside is difficult to overstate and easy to misdescribe as merely lush. It is dark, and cool, and the darkness is the point: the eye adjusts, and then the very fine plaster and the tile and the epigraphy resolve out of the gloom, and beyond the arcade the court is a rectangle of unbearable white light with water in it. Sound is water and birds. The geometry is never resolvable — the lacería interlace is generated from a repeating star polygon and continues past every frame, so the wall reads as a cut-out from an infinite pattern rather than a bounded composition, which is a theological position as much as a decorative one. And the whole thing is made of clay, plaster and cheap wood. There is almost no stone in the Alhambra. It is a poor building made unimaginably rich by labour."
   },
-  {
-   "massing": "courtyard-u",
-   "affinity": "common",
-   "note": "Three ranges with the fourth side held by a wall, a portico or a garden edge; usual at smaller scale and on sloping sites."
+  "defining_characteristics": [
+    "Inward organisation around one or more courts; the exterior street wall is high, near-blind, and undesigned",
+    "A single controlled entry, often through a bent or dog-leg passage so the court is never visible from the street",
+    "Water as a required architectural element on the principal axis — still basin, channel, or fountain",
+    "Massive walls of tapia (rammed earth) or brick, 600-900 mm, giving a long thermal lag",
+    "Single-pile ranges around the court, cross-ventilated, reached from the court rather than from internal corridors",
+    "Ornament stratified by height and material: tile dado, carved plaster above, timber ceiling on top, with an epigraphic band at each transition",
+    "The horseshoe and later the cusped and muqarnas arch, springing on slender columns and carried in arcades rather than as isolated openings",
+    "Geometric interlace (laceria) generated from a repeating star polygon and cut by its frame rather than composed within it"
+  ],
+  "diagnostic_tells": [
+    "An arch whose curve continues below its springing line by a quarter to a third of the radius — the true horseshoe",
+    "A rectangular moulded frame (alfiz) enclosing an arch, so the arch never floats free on a wall",
+    "A hard horizontal line at 1.5-2.0 m where tile stops and carved plaster begins, on every wall in the room",
+    "Muqarnas — stalactite vaulting in plaster — filling the transition from a square room to a dome",
+    "Arcade columns of extreme slenderness (shaft height 8-12 diameters) carrying brick or plaster arches, not stone entablatures"
+  ],
+  "distinguished_from": [
+    {
+      "node": "mudejar",
+      "difference": "Mudejar is this same craft continuing under Christian patronage after the reconquest of a given city. The buildings can be technically indistinguishable; the difference is who paid and what the building was for. A church tower built by Muslim masons in Teruel in 1315 is Mudejar; the Alhambra is not."
+    },
+    {
+      "node": "andalusian-courtyard-vernacular",
+      "difference": "The vernacular casa-patio is the domestic residue of this tradition, continuously inhabited and rebuilt for five centuries after 1492. It keeps the court, the water, the whitewash and the blind street wall, and loses the epigraphy, the muqarnas and the stratified surface programme."
+    },
+    {
+      "node": "mediterranean-revival",
+      "difference": "The 20th-century revival takes the arcade, the tile and the fountain and applies them to buildings that are outward-facing, double-pile and corridor-planned. It reverses the one thing that mattered."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "Geometric generation from a square. Plan and surface alike are set out by rotating a square to produce root-2 and root-3 rectangles, and by subdividing an eight- or sixteen-pointed star into a repeating cell. There is no order and no absolute module: the setting-out is a compass-and-straightedge procedure, which is why a Nasrid pattern can be executed at any scale from a tile to a courtyard without any change in method.",
+    "typical_ratios": [
+      "Court length to width roughly 1:1.5 to 1:2, with the principal hall at a short end on the long axis",
+      "Court width 0.6-1.0 times the height of the enclosing ranges at 37 degrees north",
+      "Column shaft slenderness 8-12 diameters",
+      "Horseshoe arch: curve continued 0.25-0.33 of the radius below the springing",
+      "Tile dado 1.5-2.0 m high"
+    ],
+    "bay_rhythm": "Arcades of odd bay counts with a wider central bay marking the entry axis; on the short ends of a court, a portico of three or five bays with the centre emphasised by a taller arch or a projecting mirador.",
+    "symmetry": "strict-bilateral"
   },
-  {
-   "massing": "gallery-house",
-   "affinity": "possible",
-   "note": "The portico along the long sides of a court performs the gallery's function of shade, circulation and social space, though it faces inward rather than out."
-  },
-  {
-   "massing": "townhouse-row",
-   "affinity": "possible",
-   "note": "The dense medina fabric of Cordoba, Seville and Granada is party-walled courtyard houses in continuous blocks."
-  }
- ],
- "constraints": [
-  {
-   "kind": "climatic",
-   "statement": "At 36-38 degrees north, court width must be between 0.6 and 1.0 times the height of the enclosing ranges. Wider and the court floor bakes through the afternoon; narrower and it becomes a lightwell that admits no winter sun.",
-   "severity": "hard",
-   "id": "moorish-andalusian.c01",
-   "scope": "plan",
-   "test": {
-    "expression": "court_width_ft / facade_height_ft",
-    "direction": "between",
-    "threshold": 0.6,
-    "upper": 1.0,
-    "units": "ratio",
-    "measurable_from": "plan",
-    "note": "Reuses facade_height_ft as a stand-in for 'height of the enclosing ranges' -- the height of the walls that face onto the court is the same wall height the elevation record already states for this building, flagged here as a reuse rather than a purpose-built variable."
-   }
-  },
-  {
-   "kind": "climatic",
-   "statement": "External walls of tapia or brick, 600-900 mm minimum. Openings in the outer street wall not to exceed 5 percent of its area and to be set high, above head height from the street.",
-   "severity": "hard",
-   "id": "moorish-andalusian.c02",
-   "scope": "elevation",
-   "test": {
-    "expression": "glazed_area_pct_wall",
-    "direction": "at-most",
-    "threshold": 5,
-    "units": "percent",
-    "measurable_from": "elevation",
-    "note": "Tests the street-wall opening-area ceiling. Wall thickness (600-900 mm minimum, maps to wall_thickness_in) and the opening-height requirement ('set high, above head height') are further facts in the same sentence, left as prose for the single-test limit."
-   }
-  },
-  {
-   "kind": "co-occurrence",
-   "statement": "Surface ornament must be stratified: tile below roughly 2 m, carved plaster above, timber ceiling, with a horizontal band at each transition. A single material or pattern running floor to ceiling is prohibited.",
-   "severity": "hard",
-   "id": "moorish-andalusian.c03",
-   "scope": "judgment"
-  },
-  {
-   "kind": "structural",
-   "statement": "The horseshoe arch must continue its curve below the springing line by a quarter to a third of its radius. Less than that and it is a round arch with a stylistic pretension.",
-   "severity": "hard",
-   "id": "moorish-andalusian.c04",
-   "scope": "judgment"
-  },
-  {
-   "kind": "cultural",
-   "statement": "Water is required on the principal axis of any court of consequence, still or moving. A dry court is a yard.",
-   "severity": "hard",
-   "id": "moorish-andalusian.c05",
-   "scope": "judgment"
-  }
- ],
- "exemplars": [
-  {
-   "name": "Great Mosque of Cordoba",
-   "location": "Cordoba, Spain",
-   "year": 785,
-   "note": "Begun 785 under Abd al-Rahman I on reused Roman and Visigothic material; extended 833-988. The two-tier horseshoe arcade is the founding move of the tradition."
-  },
-  {
-   "name": "Madinat al-Zahra",
-   "location": "near Cordoba, Spain",
-   "year": 936,
-   "note": "Caliphal palace city begun 936 and destroyed c. 1010; excavated and partly reconstructed. The clearest evidence of the terraced palace-and-court diagram."
-  },
-  {
-   "name": "Aljaferia",
-   "location": "Zaragoza, Spain",
-   "year": 1065,
-   "note": "Built 1065-1081 for the Banu Hud; the surviving Taifa palace, and the direct bridge to Aragonese Mudejar."
-  },
-  {
-   "name": "Alhambra, Palacio de Comares and Palacio de los Leones",
-   "location": "Granada, Spain",
-   "year": 1391,
-   "note": "Built 1333-1391 under Yusuf I and Muhammad V; the fully developed Nasrid court sequence with the Court of the Myrtles and the Court of the Lions."
-  }
- ],
- "sources": [
-  "Barrucand & Bednorz, Moorish Architecture in Andalusia",
-  "Dodds (ed.), Al-Andalus: The Art of Islamic Spain",
-  "Grabar, The Alhambra",
-  "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World"
- ],
- "confidence": "high",
- "tags": [
-  "courtyard",
-  "islamic",
-  "water",
-  "tile",
-  "hot-dry"
- ],
- "proportion_packs": [
-  {
-   "pack": "moorish-arch",
-   "role": "primary",
-   "precedence": 1,
-   "authority": "moorish-arch",
-   "note": "The node's own governing_logic reads 'no order and no absolute module... geometric generation from a square, compass-and-straightedge', which is why WP-4.1 left it with NO BINDING AT ALL rather than force a Vignola order onto it -- and why this pack exists. moorish-arch is that logic encoded: the module is the generating square's side, there is no column block because the shafts are spolia brought to a common springing by the impost block, and the arch is dimensioned by its return below the springing rather than by a diameter. This is the node the pack was written for."
-  }
- ]
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "The court enclosed on all four sides, with a blind exterior — the fundamental diagram of the whole tradition."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Three ranges with the fourth side held by a wall, a portico or a garden edge; usual at smaller scale and on sloping sites."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "The portico along the long sides of a court performs the gallery's function of shade, circulation and social space, though it faces inward rather than out."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "possible",
+      "note": "The dense medina fabric of Cordoba, Seville and Granada is party-walled courtyard houses in continuous blocks."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "statement": "At 36-38 degrees north, court width must be between 0.6 and 1.0 times the height of the enclosing ranges. Wider and the court floor bakes through the afternoon; narrower and it becomes a lightwell that admits no winter sun.",
+      "severity": "hard",
+      "id": "moorish-andalusian.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "court_width_ft / facade_height_ft",
+        "direction": "between",
+        "threshold": 0.6,
+        "upper": 1.0,
+        "units": "ratio",
+        "measurable_from": "plan",
+        "note": "Reuses facade_height_ft as a stand-in for 'height of the enclosing ranges' -- the height of the walls that face onto the court is the same wall height the elevation record already states for this building, flagged here as a reuse rather than a purpose-built variable."
+      }
+    },
+    {
+      "kind": "climatic",
+      "statement": "External walls of tapia or brick, 600-900 mm minimum. Openings in the outer street wall not to exceed 5 percent of its area and to be set high, above head height from the street.",
+      "severity": "hard",
+      "id": "moorish-andalusian.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "glazed_area_pct_wall",
+        "direction": "at-most",
+        "threshold": 5,
+        "units": "percent",
+        "measurable_from": "elevation",
+        "note": "Tests the street-wall opening-area ceiling. Wall thickness (600-900 mm minimum, maps to wall_thickness_in) and the opening-height requirement ('set high, above head height') are further facts in the same sentence, left as prose for the single-test limit."
+      }
+    },
+    {
+      "kind": "co-occurrence",
+      "statement": "Surface ornament must be stratified: tile below roughly 2 m, carved plaster above, timber ceiling, with a horizontal band at each transition. A single material or pattern running floor to ceiling is prohibited.",
+      "severity": "hard",
+      "id": "moorish-andalusian.c03",
+      "scope": "judgment"
+    },
+    {
+      "kind": "structural",
+      "statement": "The horseshoe arch must continue its curve below the springing line by a quarter to a third of its radius. Less than that and it is a round arch with a stylistic pretension.",
+      "severity": "hard",
+      "id": "moorish-andalusian.c04",
+      "scope": "judgment"
+    },
+    {
+      "kind": "cultural",
+      "statement": "Water is required on the principal axis of any court of consequence, still or moving. A dry court is a yard.",
+      "severity": "hard",
+      "id": "moorish-andalusian.c05",
+      "scope": "judgment"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Great Mosque of Cordoba",
+      "location": "Cordoba, Spain",
+      "year": 785,
+      "note": "Begun 785 under Abd al-Rahman I on reused Roman and Visigothic material; extended 833-988. The two-tier horseshoe arcade is the founding move of the tradition."
+    },
+    {
+      "name": "Madinat al-Zahra",
+      "location": "near Cordoba, Spain",
+      "year": 936,
+      "note": "Caliphal palace city begun 936 and destroyed c. 1010; excavated and partly reconstructed. The clearest evidence of the terraced palace-and-court diagram."
+    },
+    {
+      "name": "Aljaferia",
+      "location": "Zaragoza, Spain",
+      "year": 1065,
+      "note": "Built 1065-1081 for the Banu Hud; the surviving Taifa palace, and the direct bridge to Aragonese Mudejar."
+    },
+    {
+      "name": "Alhambra, Palacio de Comares and Palacio de los Leones",
+      "location": "Granada, Spain",
+      "year": 1391,
+      "note": "Built 1333-1391 under Yusuf I and Muhammad V; the fully developed Nasrid court sequence with the Court of the Myrtles and the Court of the Lions."
+    }
+  ],
+  "sources": [
+    "Barrucand & Bednorz, Moorish Architecture in Andalusia",
+    "Dodds (ed.), Al-Andalus: The Art of Islamic Spain",
+    "Grabar, The Alhambra",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World"
+  ],
+  "confidence": "high",
+  "tags": [
+    "courtyard",
+    "islamic",
+    "water",
+    "tile",
+    "hot-dry"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "facade-arcade",
+      "role": "secondary",
+      "note": "One of the two thinnest-bound nodes in the corpus, carrying only `moorish-arch` until now. This record says the arcade is the point rather than the arch: the horseshoe and later cusped arches spring 'on slender columns and carried in ARCADES rather than as isolated openings' -- so a pack that gives the arch and not the rhythm was describing half of it. The column slenderness here, 8-12 diameters, is the top of this pack's band and `moorish-arch` explains why in its own notes: the shafts are spolia of whatever length came to hand and the impost block takes up the difference.",
+      "precedence": 2
+    },
+    {
+      "pack": "moorish-arch",
+      "role": "primary",
+      "precedence": 1,
+      "authority": "moorish-arch",
+      "note": "The node's own governing_logic reads 'no order and no absolute module... geometric generation from a square, compass-and-straightedge', which is why WP-4.1 left it with NO BINDING AT ALL rather than force a Vignola order onto it -- and why this pack exists. moorish-arch is that logic encoded: the module is the generating square's side, there is no column block because the shafts are spolia brought to a common springing by the impost block, and the arch is dimensioned by its return below the springing rather than by a diameter. This is the node the pack was written for."
+    }
+  ]
 }

@@ -251,6 +251,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "The record whose own binding note named the gap, and the one that shows the corredor at its longest: 'continuous arcaded corredores, three to four metres deep and running eight to twenty bays'. That run length is the top of the pack's bay-count band and is what separates a corredor from a loggia -- at twenty bays evenness or oddness means nothing and the run simply turns the corner and keeps going. This record also gives the pack a social reading it does not otherwise have: 'the casa grande distinguished by height and arcade order rather than by decoration', which says the arcade is where hierarchy is expressed in a tradition that does not ornament.",
+      "precedence": 2
+    },
+    {
       "pack": "adobe-module",
       "role": "primary",
       "note": "Adobe, rubble or cut stone at 700-1000 mm on a raised stone or brick socle. Primary. This node is where the pack's foundation_expression rule earns its note: New Mexico buries the footing and mud-plasters over it so the wall appears to grow out of the ground, while the hacienda states the socle as a band and often contrasts its material -- the same member doing the same job and expressed opposite ways, which is a kit decision and not a pack one. The arcaded patio ranges want an arcade system this library still does not have; the portal assembly here covers the post-and-zapata case and not the arched one.",

@@ -249,6 +249,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "The most precise loggia record in the corpus and the one the pack checked itself against: 'loggia arcade of three to five equal semicircular arches; clear span 2.0-3.0 m; pier width 0.35-0.5 of the clear span; impost height 0.55-0.65 of the total arch'. All four figures are rules here. It also supplies the distinction between a loggia and a corredor that the bay-count rule turns on -- three to five, an odd number, because a loggia is a bounded element on an elevation and wants to centre, where a corredor's count is whatever the court is long.",
+      "precedence": 3
+    },
+    {
       "pack": "stone-course",
       "role": "secondary",
       "note": "Secondary. The walling is this pack's and the composition is not: `facade-picturesque` holds the facade role here and should keep it. Worth reading together with `tuscan-vernacular`, which is where the numbers come from -- this node and that one describe the same wall at different social levels, and the pack does not distinguish them because the masonry does not.",

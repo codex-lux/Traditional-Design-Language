@@ -13,7 +13,7 @@ python3 build/proportion_engine.py compare vignola-doric gibbs-doric benjamin-do
 python3 build/proportion_engine.py selftest
 ```
 
-45 packs, in four kinds:
+46 packs, in four kinds:
 
 | Kind | Packs | Module |
 |---|---|---|
