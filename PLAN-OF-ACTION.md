@@ -31,14 +31,17 @@ Every package below carries a **Status** line. This is the summary. Original pac
    stated ring layout because it cannot search for one) and **OQ 37** (`check_partis.py` check
    10 — five of twenty-one partis were carrying fatal findings against the styles they were
    written for, so the composer would not recommend them; 21 of 21 compose now).
-6. **WP-4.6 — STARTED 24 Aug 2026, two packs of thirty-odd.** `moorish-arch` (OQ 30's item, and
-   the only gap that unblocked a node with no binding at all — `DELIBERATELY_UNBOUND` is down
-   from three nodes to one) and `greek-doric` (which replaced a binding WP-4.1's own note called
-   "the least-bad available approximation"). 131 of 132 nodes bound, up from 129. The remaining
-   list, with each item's measured leverage, is in
-   `docs/reports/wp-4.6-missing-proportion-packs.md`; the next by leverage are the adobe module,
-   a Gothic Revival facade-and-opening system, and a Craftsman opening system. Then **WP-4.4**
-   (images).
+6. **WP-4.6 — IN PROGRESS, four packs of thirty-odd, 25 Aug 2026.** `moorish-arch` (OQ 30's item,
+   and the only gap that unblocked a node with no binding at all — `DELIBERATELY_UNBOUND` is down
+   from three nodes to one), `greek-doric` (which replaced a binding WP-4.1's own note called
+   "the least-bad available approximation"), `adobe-module` (the gap four style nodes had already
+   written down in their own binding notes; bound to 9) and `opening-pointed` (the opening half of
+   the Gothic item — the facade half was measured and found already served by `facade-picturesque`
+   on all four revival nodes). 131 of 132 nodes bound; nodes with **no opening-role pack 68 → 65**,
+   which is where the movement now is. The remaining list, with each item's measured leverage, is in
+   `docs/reports/wp-4.6-missing-proportion-packs.md`; the next by leverage is a Craftsman opening
+   system and Prairie trim family. Then **WP-4.4** (images), which is currently
+   environment-blocked — see its own status block.
 7. **Phase 5** — the last mile.
 
 **Three open questions want a ruling before or alongside WP-4.6**, all raised by the pass above
@@ -430,7 +433,13 @@ Four composer bugs found by running the diagrams rather than reading them: pick 
 
 ### WP-4.6 Missing proportion packs
 
-**Status: IN PROGRESS, 2 of ~30 packs, 24 Aug 2026.** `proportions/orders/moorish-arch.json` — OQ 30's item, the most-corroborated gap WP-4.1 found and the only one that unblocked a node with no binding at all; `moorish-andalusian` and `mudejar` come off `DELIBERATELY_UNBOUND`, which is now one node rather than three. `proportions/orders/greek-doric.json` — the gap WP-4.1 had already recorded as a WRONG binding rather than a missing one, `greek-classical` having been bound to `benjamin-doric` under a note calling it "the least-bad available approximation"; Benjamin is demoted and kept, because American Greek Revival buildings really were built from those plates. 131 of 132 nodes bound. The packs were chosen by measured leverage rather than by the order of the list, and the remaining items with their leverage are in `docs/reports/wp-4.6-missing-proportion-packs.md`. Raised on the way: **OQ 46**, the ontology has no arch slot, so an arch system has to route through window heads and porch supports — which every arched tradition still on the list will hit again.
+**Status: IN PROGRESS, 4 of ~30 packs, 25 Aug 2026.** Chosen by measured leverage rather than by the order of the list; the measurement and what remains are in `docs/reports/wp-4.6-missing-proportion-packs.md`.
+
+*First tranche, 24 Aug.* `proportions/orders/moorish-arch.json` — OQ 30's item, the most-corroborated gap WP-4.1 found and the only one that unblocked a node with no binding at all; `moorish-andalusian` and `mudejar` come off `DELIBERATELY_UNBOUND`, which is now one node rather than three. `proportions/orders/greek-doric.json` — the gap WP-4.1 had already recorded as a WRONG binding rather than a missing one, `greek-classical` having been bound to `benjamin-doric` under a note calling it "the least-bad available approximation"; Benjamin is demoted and kept, because American Greek Revival buildings really were built from those plates. Raised on the way: **OQ 46**, the ontology has no arch slot — since built, at ontology 0.6.0.
+
+*Second tranche, 25 Aug.* `proportions/modules/adobe-module.json` — the gap **four style nodes had already written down in their own binding notes** before anyone went looking, confirmed by three WP-4.1 batches besides. The module is one adobe laid as a header, so wall thickness comes in whole bricks; the bracing length (≈10× thickness, ≈24 ft) is what makes an adobe plan a chain of ranges, the exact analogue of the log pen's sixteen feet; and the slenderness limit turns out to be a **ceiling and not a generator**, carried as an 8–10 band because 14.7.4 NMAC says ten and `california-mission-colonial`'s own record says eight and both are right. Bound to 9 nodes, and five stale "missing from the corpus" sentences superseded in place. `proportions/systems/opening-pointed.json` — the **opening half** of WP-4.1's "Gothic Revival facade and opening system", built as the strike ratio (radius ÷ span) that is Rickman's arch families in one number. The facade half was **measured before it was built and mostly does not exist**: all four revival nodes already carry `facade-picturesque` and it fits them. It is real for exactly one node, `english-gothic`, which is the medieval building rather than a revival of it — and that turns out to be the same missing pack as the candidate list's pre-Palladian English facade item, seen from the other side. `rural-gothic-villa`, which PB-7a left with **no opening-role pack at all**, has one. Nodes with no opening-role pack: 68 → 65.
+
+Two findings worth carrying forward. **A checker defect:** `check_orders.py` addressed assembly members by `id` and `check_modules.py` did not, so the same invariant expression was legal in an order pack and a `NameError` in a module pack — fixed, and pinned. **An overstated conflict, caught by computing it:** `opening-pointed`'s first draft said the pointed head fails IRC R310. It does not; the **mullion** does. A 36 in equilateral head still leaves about 10 sq ft of clear rectangle, and two lights leave ~13 in clear each against a 20 in minimum. The test now recomputes both figures rather than asserting the sentence.
 
 **Depends on:** WP-4.1's list. **Size:** medium per pack.
 

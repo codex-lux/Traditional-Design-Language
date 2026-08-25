@@ -2849,6 +2849,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "opening-pointed",
+          "role": "opening",
+          "note": "The stone branch. Where the pack gives two figures for one member -- the mullion at 4-6 in rather than 2 1/2-4, the moulded jamb rather than an applied architrave -- this node takes the stone one, and the pack's own note on window_surround_wood says in terms that applying the timber figure to a stone or stuccoed elevation invents a member the tradition does not have. Also the node where the strike ratio is most likely to leave the equilateral: British domestic Gothic reaches for the acute head far more readily than the American branch does, so read the arch rule's band rather than its default here.",
+          "precedence": 0
+        },
+        {
           "pack": "facade-picturesque",
           "role": "facade",
           "note": "This style is named directly in facade-picturesque's own applies_to list, and the fit is more than nominal: c04 (roof pitch not less than 45 degrees, entrance never centred on a symmetrical front) and c05 (no classical apparatus) are the same design logic the pack reconstructs from measured Victorian Gothic and Queen Anne fabric — a dominant mass, at least two unbroken horizontal datums, and a hierarchy made by massing and projection rather than by axis. The pack's own sources (Robinson, Curtis, Downing) postdate this style but describe the composition method Pugin's plan-driven asymmetry actually produced a generation earlier.",
@@ -8601,9 +8607,15 @@
       ],
       "proportion_packs": [
         {
+          "pack": "adobe-module",
+          "role": "primary",
+          "note": "Bound primary, and this node contributed the pack's most useful disagreement. Its own defining_characteristics say 'buttresses or thickened piers wherever wall height exceeds roughly eight times wall thickness', where the New Mexico code family says ten. The pack records that as a BAND of 8-10 rather than averaging it away, because both are right for their own case: the code figure assumes a continuous reinforced bond beam tying the wall head and the mission builders had none, and answered the difference with the buttresses this record names. The 24-36 in ranges are two adobes; the 3-5 ft church wall is three. vignola-ionic stays optional and unaffected -- it governs the church front's applied order, which is a different building from the ranges behind it.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
-          "note": "Applies to the range rooms only (workshops, granaries, cells -- 15-20 ft deep, single-loaded, per this node's own record), not to the church nave, which the pack's measured band (11-18 ft) does not reach and which this node records separately (25-35 ft clear). Within that scope the fit is real: room depth here is capped by the same beam-span physics room-vernacular reconstructs from Anglo-American evidence, even though the beam is a different species and the wall behind it is adobe or rubble rather than framed. As with the parent spanish-colonial-american node, no pack in this corpus governs the mass wall itself or the arcade -- see this node's own arcade geometry constraint (c01), which states real numbers (pier 2 ft 6 in - 4 ft, arch clear opening 1.5-2.5x pier) that exist in this node's own text because no proportion pack here derives them. A dedicated mass-wall/adobe module and an arcade/portal system are both missing from the corpus.",
+          "note": "Applies to the range rooms only (workshops, granaries, cells -- 15-20 ft deep, single-loaded, per this node's own record), not to the church nave, which the pack's measured band (11-18 ft) does not reach and which this node records separately (25-35 ft clear). Within that scope the fit is real: room depth here is capped by the same beam-span physics room-vernacular reconstructs from Anglo-American evidence, even though the beam is a different species and the wall behind it is adobe or rubble rather than framed. As with the parent spanish-colonial-american node, no pack in this corpus governs the mass wall itself or the arcade -- see this node's own arcade geometry constraint (c01), which states real numbers (pier 2 ft 6 in - 4 ft, arch clear opening 1.5-2.5x pier) that exist in this node's own text because no proportion pack here derives them. SUPERSEDED 25 Aug 2026: the mass-wall/adobe module this sentence asked for is `adobe-module`, bound primary on this node. The arcade system is still missing and is still in WP-4.1's candidate list -- adobe-module carries the post-and-zapata portal and not the arched range.",
           "precedence": 1
         },
         {
@@ -9563,9 +9575,15 @@
       ],
       "proportion_packs": [
         {
+          "pack": "adobe-module",
+          "role": "secondary",
+          "note": "Secondary, not primary, and the split is the whole point of this node. facade-classical governs the upper storey and the veranda, and stays primary: the Anglo-American frame floor really is composed to a classical module and its own record says so. This pack governs the storey underneath it -- the 24-30 in adobe ground floor whose deep undivided reveals this node's facade-classical binding note explicitly excludes from that module, referring the reader to 'the mass-wall gap noted on the parent spanish-colonial-american node.' That gap is now filled and the reference resolves. The two packs meet at the step-in of the wall plane at the second-floor line, which this record gives as 6-12 in and which is simply the difference between a 29 in adobe wall and a frame one sitting on it -- a joint between two proportioning systems made visible, and the reason this hybrid reads as a hybrid.",
+          "precedence": 0
+        },
+        {
           "pack": "facade-classical",
           "role": "primary",
-          "note": "This node's own bay_rhythm record states the case directly: 'five to seven regularly spaced openings on the balcony elevation, essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred.' That is facade-classical's own domain -- a designed, module-divided, roughly-symmetrical front -- arriving here by direct transmission (the Yankee ship carpenters who built these houses came from a New England Georgian building culture) rather than through a pattern book. Bound at the balcony/upper-storey rank only: the ground-floor adobe wall, with its deep undivided reveals, is not composed to this or any module in the corpus -- see the mass-wall gap noted on the parent spanish-colonial-american node, which still governs the lower storey here.",
+          "note": "This node's own bay_rhythm record states the case directly: 'five to seven regularly spaced openings on the balcony elevation, essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred.' That is facade-classical's own domain -- a designed, module-divided, roughly-symmetrical front -- arriving here by direct transmission (the Yankee ship carpenters who built these houses came from a New England Georgian building culture) rather than through a pattern book. Bound at the balcony/upper-storey rank only: the ground-floor adobe wall, with its deep undivided reveals, is not composed to this or any module in the corpus -- see the mass-wall gap noted on the parent spanish-colonial-american node, which still governs the lower storey here -- and which is CLOSED as of 25 Aug 2026: `adobe-module` is bound secondary on this node and is what proportions that ground storey.",
           "precedence": 1
         },
         {
@@ -9577,7 +9595,7 @@
         {
           "pack": "storey-graduation",
           "role": "massing",
-          "note": "Governs the Anglo half of the hybrid: storey heights of 9-11 ft ground over 8-10 ft upper are a ratio of roughly 0.85-0.95, inside this pack's own 0.78-0.92 measured band for graduated Anglo-American work. What it does NOT derive is the wall-plane step itself (24-30 in adobe below, 6-10 in frame above) -- that is a material change, not a storey-height ratio, and no pack in this corpus owns it; it is the same mass-wall gap noted on the parent node, here meeting a pack that does apply to the storey above it. This node is not in storey-graduation's applies_to list either, for the same likely reason as sash-light: the hybrid is narrow enough (sixteen years, 1834-1850) that the general applies_to sweep may simply have missed it.",
+          "note": "Governs the Anglo half of the hybrid: storey heights of 9-11 ft ground over 8-10 ft upper are a ratio of roughly 0.85-0.95, inside this pack's own 0.78-0.92 measured band for graduated Anglo-American work. What it does NOT derive is the wall-plane step itself (24-30 in adobe below, 6-10 in frame above) -- that is a material change, not a storey-height ratio, and no pack in this corpus owns it; it is the same mass-wall gap noted on the parent node, here meeting a pack that does apply to the storey above it. AMENDED 25 Aug 2026: half of that is no longer true. `adobe-module` is bound secondary on this node and derives the 24-30 in figure below the step from the adobe itself. The STEP is still owned by no single pack and cannot be, because it is not a dimension -- it is the joint between two proportioning systems, and its size is just the difference between what each of them says the wall is. That is the honest shape of it and it should not be given to either pack to derive. This node is not in storey-graduation's applies_to list either, for the same likely reason as sash-light: the hybrid is narrow enough (sixteen years, 1834-1850) that the general applies_to sweep may simply have missed it.",
           "precedence": 3
         },
         {
@@ -12323,6 +12341,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "opening-pointed",
+          "role": "opening",
+          "note": "The branch this pack's timber figures were written for: the bargeboard at 10 in and pierced rather than scalloped, the nailed architrave that substitutes for a stone dressing, the narrow timber mullion, the chamfered veranda post. The pack is explicit that the American surround is a SUBSTITUTION for the stone jamb rather than an equivalent, which matters most here, where every member of the system has been translated into pine by a scroll saw and the translation is the style rather than a corruption of it. sash-light stays for the square-headed sash this type also uses.",
+          "precedence": 0
+        },
+        {
           "pack": "facade-picturesque",
           "role": "facade",
           "note": "Confirmed in the pack's own applies_to. Governs the composed elevation as a hierarchy of masses even though Carpenter Gothic is usually a builder's symmetrical box rather than a genuinely irregular villa plan: the two-storey gable-front body is the single dominant mass, and the central gable rising through the eave line (the style's own commonest American composition, per its diagnostic tells) is the one subordinate accent the pack's mass hierarchy needs to register. Read this pack's numbers at the plain end of its range - the composition here is a builder's box wearing ornament, not an architect's irregular massing.",
@@ -12624,6 +12648,12 @@
         "urban-vernacular"
       ],
       "proportion_packs": [
+        {
+          "pack": "adobe-module",
+          "role": "secondary",
+          "note": "Secondary, behind moorish-arch. The pack reaches this node through its rammed-earth half rather than its adobe half: this record gives 'massive walls of brick, rubble or tapia, 500-700 mm', and tapia is formed between shutters at whatever thickness they are set to, so the whole-brick argument that makes the New Mexico wall come in 14 in steps does not apply and the thickness genuinely is continuous here. What does apply, and is why the binding is worth making, is everything that follows from mass rather than from the brick: the reveal equals the wall, the bracing length caps the range, the openings are isolated events with a pier of at least a wall's thickness between them, and the wall fails at its base. The roof is the pack's stated climate conflict resolved the other way -- a tiled pitched roof with an oversailing eave on the same mass wall, which the pack names as fully authentic rather than as a compromise.",
+          "precedence": 2
+        },
         {
           "pack": "room-vernacular",
           "role": "room",
@@ -14227,6 +14257,12 @@
         "great-hall"
       ],
       "proportion_packs": [
+        {
+          "pack": "opening-pointed",
+          "role": "opening",
+          "note": "The medieval building rather than the revival of it, and the binding needs a caveat that the other four do not. The arch geometry is Rickman's discrimination of THIS fabric, so it applies here more directly than anywhere else -- the revivals inherited it from these buildings. What does not apply is the domestic-revival half of the pack: the bargeboard, the veranda post, the low window seat sill and the composition of gable-and-dormer are nineteenth-century figures read off Downing's and Davis's plates, and this node should take the arch, the hood mould, the mullion and the lights and leave those alone. Note also what this node still has no pack for: a facade system. facade-picturesque is not bound here and should not be, because picturesque asymmetry is a nineteenth-century argument and running it against a medieval building is an anachronism; that gap is stated in this pack's own notes and added to WP-4.1's candidate list rather than papered over by binding the nearest thing.",
+          "precedence": 0
+        },
         {
           "pack": "room-vernacular",
           "role": "room",
@@ -16578,6 +16614,12 @@
         "courtyard"
       ],
       "proportion_packs": [
+        {
+          "pack": "adobe-module",
+          "role": "optional",
+          "note": "Optional, which is the weakest binding this corpus offers and the right one. Spanish Colonial Revival is a stucco-on-frame idiom from the start -- it was never a mass-wall tradition and does not claim to be -- so the pack cannot govern its construction and should not pretend to. It is bound optional because a designer working this node routinely reaches for one or two moves that only make sense in the mass wall it descends from: a deep reveal, a small high window, a canale, a thick-walled entry. Where those moves are made, this pack says what they cost and what they have to be to work. Where they are not, nothing here applies, and facade-picturesque governs alone.",
+          "precedence": 0
+        },
         {
           "pack": "facade-picturesque",
           "role": "facade",
@@ -21549,6 +21591,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "opening-pointed",
+          "role": "opening",
+          "note": "THE NODE PB-7a NAMED. WP-4.1 recorded that this node was left with NO OPENING-ROLE PACK AT ALL as a direct consequence of the library having nothing that encoded a pointed head, and that is the gap this fills. The villa is the type Downing and Davis wrote the plates for, so every figure in the pack was checked against it first: the two-light casement under a hood mould, the sill low enough for a window seat, the bargeboarded gable repeated in the dormer, the tall clustered stack. facade-picturesque stays in the facade role and is not displaced -- the two packs divide cleanly, one saying where the incident goes and the other what the opening in it is.",
+          "precedence": 0
+        },
+        {
           "pack": "facade-picturesque",
           "role": "facade",
           "note": "Confirmed in the pack's own applies_to, and the best-fitting node in the whole branch for it: the style's own governing_logic is silhouette hierarchy - 'the design is fixed in outline first, against a horizon: one dominant gable, subordinate gables at distinct widths, tower or chimney group completing the profile' - which is this pack's dominant-mass method stated almost verbatim. Constraint c01 (dominant gable at least 1.4x the next largest, equal gables forbidden) is this pack's subordination rule with the style's own numbers attached.",
@@ -22114,6 +22162,12 @@
         "seismic"
       ],
       "proportion_packs": [
+        {
+          "pack": "adobe-module",
+          "role": "primary",
+          "note": "Massive adobe, rubble or tezontle walls at 600-1000 mm -- two to three adobes on this pack's module, or the shuttered equivalent in tapia. Primary because the single-pile ranges around the court that this record names are a direct consequence of the pack's two governing rules: the viga span keeps a range one room deep, and the bracing length caps a range at about 24 ft between cross walls, so a court is what you get when you keep adding them and turning the corner. Note what this pack does NOT reach on this node: the portada, the retablo-fronted doorway and the carved surround are a bounded-panel ornament system that WP-4.1 listed as its own missing pack, and nothing here speaks to them.",
+          "precedence": 0
+        },
         {
           "pack": "room-vernacular",
           "role": "room",
@@ -28144,6 +28198,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "adobe-module",
+          "role": "primary",
+          "note": "Adobe, rubble or cut stone at 700-1000 mm on a raised stone or brick socle. Primary. This node is where the pack's foundation_expression rule earns its note: New Mexico buries the footing and mud-plasters over it so the wall appears to grow out of the ground, while the hacienda states the socle as a band and often contrasts its material -- the same member doing the same job and expressed opposite ways, which is a kit decision and not a pack one. The arcaded patio ranges want an arcade system this library still does not have; the portal assembly here covers the post-and-zapata case and not the arched one.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "authority": "room-vernacular",
@@ -29895,9 +29955,15 @@
       ],
       "proportion_packs": [
         {
+          "pack": "adobe-module",
+          "role": "primary",
+          "note": "The node that states this system most completely, and the one every figure in the pack was checked against. Its own proportional_system block already carried the wall thickness, the ten-to-one height limit, the ceiling to the underside of the vigas, the 12-16 ft viga span, the 6-12 per cent glazed area, the 12-24 in parapet, the quarter-inch-per-foot fall to the canales, the 8-12 ft portal and the 6-9 ft post spacing -- as numbers in prose with, in its own words, 'no proportion pack behind any of them.' They have one now, and the pack derives them from a single module rather than listing them, which is the difference between a table and a grammar. Primary; room-vernacular stays as the room system.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
-          "note": "Explicitly listed in this pack's own applies_to, and the fit is close: viga span limits room clear width to 12-16 ft here, against the pack's reconstructed 14-18 ft band, and the resulting long, narrow, strung-rather-than-stacked room is exactly what the pack's span/hearth/daylight logic predicts for a beam-limited vernacular tradition, even though the beam is a peeled ponderosa viga rather than a sawn joist and the wall behind it is adobe rather than frame. As on the parent spanish-colonial-american node, nothing else in this corpus governs: the wall itself (24-36 in thick, height not more than 10x thickness), the corner fogon, the portal on posts with carved zapatas, and the canale-drained parapet are all real, numbered constraints in this node's own record with no proportion pack behind any of them. A dedicated mass-wall/adobe module is missing from the corpus.",
+          "note": "Explicitly listed in this pack's own applies_to, and the fit is close: viga span limits room clear width to 12-16 ft here, against the pack's reconstructed 14-18 ft band, and the resulting long, narrow, strung-rather-than-stacked room is exactly what the pack's span/hearth/daylight logic predicts for a beam-limited vernacular tradition, even though the beam is a peeled ponderosa viga rather than a sawn joist and the wall behind it is adobe rather than frame. As on the parent spanish-colonial-american node, nothing else in this corpus governs: the wall itself (24-36 in thick, height not more than 10x thickness), the corner fogon, the portal on posts with carved zapatas, and the canale-drained parapet are all real, numbered constraints in this node's own record with no proportion pack behind any of them. SUPERSEDED 25 Aug 2026: the mass-wall/adobe module this sentence asked for is `adobe-module`, bound primary on this node, and every one of the numbered constraints listed above now has a pack behind it.",
           "precedence": 1
         }
       ],
@@ -31810,6 +31876,12 @@
         "downing"
       ],
       "proportion_packs": [
+        {
+          "pack": "opening-pointed",
+          "role": "opening",
+          "note": "Bound in the opening role beside sash-light, and the pair needs explaining rather than resolving. American Gothic Revival really does use both: a double-hung sash in the ordinary rooms, whose lights this node already takes from sash-light, and a pointed casement at the hall, the stair and the principal gable, which had nowhere to come from until now. They are not competing accounts of the same window, they are two window types in one house, and a node that carried only one of them was describing half the elevation. Precedence puts this pack first because the pointed opening is the diagnostic one -- it is what makes the house Gothic -- and sash-light second because it governs more of the openings by count.",
+          "precedence": 0
+        },
         {
           "pack": "facade-picturesque",
           "role": "facade",
@@ -36702,6 +36774,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "adobe-module",
+          "role": "secondary",
+          "note": "Secondary, and the note has to be honest about what is being bound. A Pueblo Revival wall is usually not earth: it is frame or block with cement stucco, shaped and rounded to imitate one. Binding this pack does not assert otherwise. It is bound because the pack states the proportions the revival is imitating, and because those proportions are exactly what the revival gets wrong -- the reveal at 5 1/2 in instead of 29, the dead-plumb wall with sharp arrises, the base course with nothing to protect, the canale that is a decoy with a downspout behind it, the openings that grew because the wall no longer had the mass that kept them small. Read here, the pack is a checklist of what a good Pueblo Revival building has to do deliberately and at cost, and its material-availability conflict is written for precisely this case: furred jambs that give a genuinely deep reveal, real canales that throw clear, and a wall that is allowed not to be straight.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "The strongest fit in this whole binding pass. This style's own proportional_system states that 'the practical clear span of a peeled log - 14 to 18 ft - set room sizes', against room-vernacular's own module of a 14 ft joist-span-limited room breadth in an 11-18 ft measured range -- the same physical constraint (a beam's practical span) recovered independently by two different routes. This style's symmetry is recorded as 'additive-vernacular', and room-vernacular's own notes single out Glassie's finding that the vernacular builder 'worked from a square base unit and generated the house by adding, halving and extending it' -- the identical generative logic behind the placita house's single-file room ranges. The direct ancestor new-mexico-adobe is itself listed in the pack's own applies_to. Bind for the module, the daylight-depth rule, and the additive room-count logic; do not carry over the hearth-width rule, since a corner fireplace heats a Pueblo Revival room differently than the cooking-hearth-reach logic that shaped the Anglo-American vernacular record this pack is built from.",
@@ -39754,9 +39832,15 @@
       ],
       "proportion_packs": [
         {
+          "pack": "adobe-module",
+          "role": "primary",
+          "note": "THE PACK THIS NODE'S OWN BINDING NOTE ASKED FOR. Until WP-4.6 this node carried room-vernacular alone, under a note saying in so many words that 'a dedicated mass-wall/adobe module and a portal/arcade system are both missing from the corpus' and that the load-bearing earth wall is not the physics of brick coursing, log notching, sawn framing or a treatise proportion. adobe-module is that pack. It is primary rather than secondary because on this node the wall is not one system among several -- it is the only generative system there is: this record's own 18 in to 5 ft mass wall sets the reveal, the opening width, the pier between openings, the bracing length that makes the plan a chain of ranges, and the viga span that keeps every range single-pile. room-vernacular stays and is not demoted, because it is a ROOM system and this is a WALL system and they govern different things; where they touch, on span-limited room width, they agree to within the difference between a peeled viga and a sawn joist. The portal/arcade half of the gap this node named is only partly closed: adobe-module carries the portal as an assembly with real post, zapata and beam figures, but a general arcade system for the mission and hacienda ranges is still missing and is still listed in WP-4.1's candidate list.",
+          "precedence": 0
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
-          "note": "The one pack in this corpus whose physical logic actually matches this tradition: its span constraint -- room breadth capped by the available beam, 14-18 ft in the pack's own measured band -- is very nearly a restatement of this node's own governing_logic ('the clear span of the available roof beam sets room width absolutely'), and its 12-18 ft room clear span constraint (c02) sits inside the pack's band almost exactly. The pack's hearth and daylight constraints fit less precisely -- there is no single central hearth heating the house the way there is in New England, and the small deep-set opening here limits light by depth of reveal rather than by the pack's single-window-wall model -- but the outcome the pack predicts (narrow, elongated, span-limited rooms strung rather than stacked) is exactly this node's own recorded room shape. Nothing else in this corpus binds. No pack in this corpus governs the load-bearing mass wall itself -- its height-to-thickness ratio (this node's own hard constraint c01, 1:8 to 1:10), the portal or corredor's post-and-beam proportion, or the small, deep-set, barred-rather-than-glazed opening. That is a genuine absence, not an oversight in this binding: none of the 36 available packs -- the two facade systems, the material modules (brick-course, log-module, sash-light, storey-graduation, timber-bay) or the two opening systems -- was built against fired-brick coursing, log-cabin notching, sawn-timber framing or a Palladian treatise proportion, and none of those is the physics of a load-bearing earth or rubble wall. A dedicated mass-wall/adobe module and a portal/arcade system are both missing from the corpus.",
+          "note": "The one pack in this corpus whose physical logic actually matches this tradition: its span constraint -- room breadth capped by the available beam, 14-18 ft in the pack's own measured band -- is very nearly a restatement of this node's own governing_logic ('the clear span of the available roof beam sets room width absolutely'), and its 12-18 ft room clear span constraint (c02) sits inside the pack's band almost exactly. The pack's hearth and daylight constraints fit less precisely -- there is no single central hearth heating the house the way there is in New England, and the small deep-set opening here limits light by depth of reveal rather than by the pack's single-window-wall model -- but the outcome the pack predicts (narrow, elongated, span-limited rooms strung rather than stacked) is exactly this node's own recorded room shape. Nothing else in this corpus binds. No pack in this corpus governs the load-bearing mass wall itself -- its height-to-thickness ratio (this node's own hard constraint c01, 1:8 to 1:10), the portal or corredor's post-and-beam proportion, or the small, deep-set, barred-rather-than-glazed opening. That is a genuine absence, not an oversight in this binding: none of the 36 available packs -- the two facade systems, the material modules (brick-course, log-module, sash-light, storey-graduation, timber-bay) or the two opening systems -- was built against fired-brick coursing, log-cabin notching, sawn-timber framing or a Palladian treatise proportion, and none of those is the physics of a load-bearing earth or rubble wall. SUPERSEDED 25 Aug 2026: the mass-wall/adobe module this sentence asked for is `adobe-module`, bound primary on this node. The portal half is carried there as an assembly; a general arcade system is still missing and is still in WP-4.1's candidate list.",
           "precedence": 1
         }
       ],

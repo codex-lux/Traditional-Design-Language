@@ -274,6 +274,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "adobe-module",
+      "role": "secondary",
+      "note": "Secondary, and the note has to be honest about what is being bound. A Pueblo Revival wall is usually not earth: it is frame or block with cement stucco, shaped and rounded to imitate one. Binding this pack does not assert otherwise. It is bound because the pack states the proportions the revival is imitating, and because those proportions are exactly what the revival gets wrong -- the reveal at 5 1/2 in instead of 29, the dead-plumb wall with sharp arrises, the base course with nothing to protect, the canale that is a decoy with a downspout behind it, the openings that grew because the wall no longer had the mass that kept them small. Read here, the pack is a checklist of what a good Pueblo Revival building has to do deliberately and at cost, and its material-availability conflict is written for precisely this case: furred jambs that give a genuinely deep reveal, real canales that throw clear, and a wall that is allowed not to be straight.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "The strongest fit in this whole binding pass. This style's own proportional_system states that 'the practical clear span of a peeled log - 14 to 18 ft - set room sizes', against room-vernacular's own module of a 14 ft joist-span-limited room breadth in an 11-18 ft measured range -- the same physical constraint (a beam's practical span) recovered independently by two different routes. This style's symmetry is recorded as 'additive-vernacular', and room-vernacular's own notes single out Glassie's finding that the vernacular builder 'worked from a square base unit and generated the house by adding, halving and extending it' -- the identical generative logic behind the placita house's single-file room ranges. The direct ancestor new-mexico-adobe is itself listed in the pack's own applies_to. Bind for the module, the daylight-depth rule, and the additive room-count logic; do not carry over the hearth-width rule, since a corner fireplace heats a Pueblo Revival room differently than the cooking-hearth-reach logic that shaped the Anglo-American vernacular record this pack is built from.",

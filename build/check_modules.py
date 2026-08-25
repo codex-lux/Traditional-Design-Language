@@ -60,17 +60,33 @@ def load_massing_ids(path):
 
 class Ref:
     """Attribute/item access over the pack dict, so invariant expressions can be written
-    as 'module.default_size_in' or 'assemblies.water_table.height_modules'."""
+    as 'module.default_size_in' or 'assemblies.water_table.height_modules'.
+
+    A LIST of dicts is addressed by its members' `id`, so that
+    'assemblies.wall_section.members.base_course.height_parts' resolves. This is not a
+    convenience: check_orders.py's SafeEval has always done it, and until WP-4.6 this
+    Ref did not, so the same invariant expression was legal in an order pack and a
+    NameError in a module pack. Two checkers over one schema field disagreeing about
+    the expression language is the kind of drift that makes an author write the weaker
+    of two true statements, and the weaker statement is the one that does not name the
+    member it is about.
+    """
 
     def __init__(self, data):
         self._d = data
 
     def __getattr__(self, name):
+        d = self._d
+        if isinstance(d, list):
+            match = [x for x in d if isinstance(x, dict) and x.get("id") == name]
+            if len(match) != 1:
+                raise AttributeError(name)
+            return Ref(match[0])
         try:
-            v = self._d[name]
+            v = d[name]
         except (KeyError, TypeError):
             raise AttributeError(name)
-        return Ref(v) if isinstance(v, dict) else v
+        return Ref(v) if isinstance(v, (dict, list)) else v
 
     def __repr__(self):
         return f"Ref({self._d!r})"

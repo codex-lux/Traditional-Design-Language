@@ -3,7 +3,7 @@
 An evolutionary taxonomy of traditional architecture, built as a machine-readable graph rather than a document — and designed so that selecting a style resolves to a kit of parts.
 
 <!-- COUNTS:START -->
-**164 taxa · 476 lineage edges · 96 element slots · 40 massings · 60 rooms · 17 groupings · 38 executable proportion packs · 209 named faults · 322 specified images · 21 partis native to 129 of 132 buildable styles · 24 MCP tools**
+**164 taxa · 476 lineage edges · 96 element slots · 40 massings · 60 rooms · 17 groupings · 40 executable proportion packs · 209 named faults · 322 specified images · 21 partis native to 129 of 132 buildable styles · 24 MCP tools**
 
 **700 BC – AD 2026**
 <!-- COUNTS:END -->
@@ -28,7 +28,7 @@ Nodes relate to each other in two independent ways, and the separation is the po
 95 universal slots in 8 groups, plus 40 style-independent volumetric skeletons, every one carrying `expansion_logic` — how the type grows without breaking. These are orthogonal to the style graph. A style does not *own* a cornice; it *specifies* one. Adding a style should never require adding a slot — if it does, the ontology was incomplete, not the style exotic.
 
 **3. The grammar** (`proportions/`, `build/proportion_engine.py`) — see `docs/proportion.md`
-Element slots are the alphabet; a proportion pack is the syntax. 36 packs, and they are **functions, not tables**: give one a module and a context and it emits a fully dimensioned assembly, member by member, with profiles. Vignola's five orders are the spine; Palladio, Gibbs, Chambers and Benjamin are overlays carrying only their deltas. Brick course, timber bay, sash light, storey graduation and log are the non-classical equivalents, because most traditional buildings were proportioned from a material module and not from a column. As of WP-4.1, 129 of the 132 buildable style/variant nodes carry a `proportion_packs` binding — which packs govern that node's facade, opening, room, trim and massing, at what precedence, and why (`build/check_pack_bindings.py` is the checker). The other 3 are deliberately unbound: no combination of the 36 packs fits Egyptian Revival's trabeated order or the Moorish/Mudejar cluster's Islamic geometric setting-out, named rather than forced — see `docs/reports/wp-4.1-proportion-pack-bindings.md`.
+Element slots are the alphabet; a proportion pack is the syntax. 40 packs, and they are **functions, not tables**: give one a module and a context and it emits a fully dimensioned assembly, member by member, with profiles. Vignola's five orders are the spine; Palladio, Gibbs, Chambers and Benjamin are overlays carrying only their deltas. Brick course, timber bay, sash light, storey graduation and log are the non-classical equivalents, because most traditional buildings were proportioned from a material module and not from a column. 131 of the 132 buildable style/variant nodes carry a `proportion_packs` binding — which packs govern that node's facade, opening, room, trim and massing, at what precedence, and why (`build/check_pack_bindings.py` is the checker). One is deliberately unbound: nothing here fits Egyptian Revival's trabeated order, named rather than forced. The count worth watching now is not nodes bound but roles filled — 65 nodes still have no opening-role pack and 67 no facade-role pack, which is what WP-4.6 is working through; see `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 ```
 python3 build/proportion_engine.py compare vignola-doric gibbs-doric benjamin-doric --diameter 12

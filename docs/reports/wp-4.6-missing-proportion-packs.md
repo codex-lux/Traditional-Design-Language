@@ -1,7 +1,8 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026. **Partially delivered: two packs of a list of thirty-odd**, chosen by
-measured leverage. What remains is listed at the end with the measurement, not left implied.*
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: four packs of a list of
+thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
+measurement, not left implied.*
 
 ## The work list, and how the first two were chosen
 
@@ -96,15 +97,137 @@ both are recorded in the pack as the compromises they are. Not only a Moorish pr
 Revival pack, the Romanesque order, Rome's arcuated bay rhythm and the Italianate round-arched
 window all want to say something the corpus has no place to put.
 
+## Second tranche, 25 Aug 2026
+
+### `proportions/modules/adobe-module.json` — the gap the corpus had already written down
+
+This one did not have to be found. **Four style nodes name it in their own binding notes**, in so
+many words — `spanish-colonial-american`, `new-mexico-adobe`, `california-mission-colonial` and
+`monterey-colonial` each say a dedicated mass-wall/adobe module is missing and that their real,
+numbered wall constraints have no pack behind any of them. WP-4.1 confirmed it independently from
+three batches besides. Until now those nodes carried `room-vernacular` alone, which is a
+beam-limited *room* system, genuinely close on the one dimension it shares (span-limited room
+width) and silent about walls.
+
+`strength: reconstructed`, from Bunting's measured New Mexico survey (1976), McHenry on the wall
+physics (1984), and 14.7.4 NMAC for the ratios. **The code citation is the dangerous one and the
+authority note says so**: a code figure looks like a historical measurement and is not — 14.7.4
+NMAC stands to adobe practice roughly as Vignola stands to Roman work.
+
+The module is **one adobe laid as a header**, 14 in, part = one inch. That is the pack's one real
+idea: a mass wall's thickness comes in whole bricks and cannot come in anything else, which is why
+every survey reports 24–36 in and none reports 20. One module is the thinnest bearing wall; two is
+a house; three is a church.
+
+Three things it found:
+
+- **The slenderness rule is a ceiling, not a generator, and the band is a disagreement.** 14.7.4
+  NMAC says wall height ≤ 10 × thickness; `california-mission-colonial`'s *own record* says 8
+  ("buttresses or thickened piers wherever wall height exceeds roughly eight times wall
+  thickness"). Both are right — the code assumes a reinforced bond beam the mission builders did
+  not have — so the rule carries 8–10 as a range rather than an average. And for a two-adobe house
+  wall it never binds at all: nothing about a house's height comes from it. What sets house wall
+  height is the viga and the ceiling.
+- **The bracing length is what makes the plan a chain**, and it is the exact analogue of the log
+  pen's sixteen feet. An unbraced earth wall fails out of plane past ~10 × its thickness, i.e.
+  ~24 ft for a two-adobe wall — which is why an adobe building is a chain of ~24 ft ranges whose
+  party walls are structure, why there is no large room, and why the placita is what you get from
+  adding ranges and turning the corner.
+- **The reveal is the one figure that cannot be faked**, so the pack states it with the *same
+  expression* as the wall thickness rather than two figures that happen to agree. Stucco on frame
+  gives 5½ in against 29, and no other move on the elevation recovers it.
+
+Bound to **9 nodes**: primary on the five where the wall is the only generative system there is,
+secondary on `monterey-colonial` (whose *upper* storey is genuinely classical and keeps
+`facade-classical` primary) and `andalusian-courtyard-vernacular` (reached through tapia rather
+than adobe, where the whole-brick argument does not apply and the pack says so), and secondary or
+optional on the two revivals — where the note is explicit that the wall is stucco on frame and the
+pack is a statement of what is being imitated, not a claim about construction.
+
+**Five stale sentences retired.** The four nodes' "missing from the corpus" claims, and a fifth on
+`monterey-colonial`'s `storey-graduation` binding that said no pack owns the wall-plane step. Each
+was superseded *in place* rather than deleted, so what was asked for stays legible beside what was
+delivered. The fifth is only half-retired and honestly so: `adobe-module` now derives the 24–30 in
+below the step, but the **step itself** is owned by no pack and cannot be — it is not a dimension,
+it is the joint between two proportioning systems, and its size is just the difference between what
+each says the wall is.
+
+### `proportions/systems/opening-pointed.json` — the opening half, and why only the half
+
+WP-4.1 asks for "a Gothic Revival facade **and** opening system", confirmed by PB-7a and PB-8, with
+PB-7a recording that `rural-gothic-villa` came out of WP-4.1 with **no opening-role pack at all**.
+
+**The facade half was measured before it was built, and mostly does not exist.** All four Gothic
+Revival nodes already carry `facade-picturesque` in the facade role and it fits them — asymmetry,
+incident over rhythm, the gable as the compositional event. A second facade pack for those four
+would have been duplication dressed as coverage. So this pack is `kind: opening-system`, and the
+narrowing is stated rather than quiet.
+
+**The facade gap is real for exactly one node and for a different reason than the list gives.**
+`english-gothic` is not a revival — it is the medieval building, and `facade-picturesque`'s
+nineteenth-century picturesque argument is an anachronism against it, which is why that node
+carries no facade pack and should not be given this one. What it wants is a *medieval English*
+facade system, which is the same missing pack as the pre-Palladian English facade gap the candidate
+list already records (Elizabethan, Tudor, Jacobean, falling between `facade-classical` and
+`facade-picturesque`). **Those two list items are one pack seen from two sides**, and merging them
+is this tranche's contribution to the candidate list.
+
+The system is **the strike ratio**: radius ÷ span, which is Rickman's discrimination of the English
+arch families compressed into one number. 0.75 the drop arch, 1.0 the equilateral, 1.5 acute, 2.0 a
+true lancet; past 2.0 the opening is ecclesiastical and a house wearing one looks like a chapel.
+The module is **the span**, not the height — a pointed opening's height is a *consequence*, and a
+designer who fixes the height first lands between the families, which is what builder-Gothic looks
+like.
+
+`strength: **documented**`, alone among this package's four packs, and the distinction is worth
+keeping: Rickman, Pugin, Downing and Davis wrote this system down without reducing it to a
+parametric table. Moorish and adobe were never written down at all. None is `canonical`.
+
+Two things it found:
+
+- **The light zone is a remainder, not a dimension.** A pointed opening is set out head-first —
+  span, strike ratio, mouldings — and the vertical light is what is left. 17.108 parts, an untidy
+  number the pack refuses to round, held by its own invariant so the next editor finds out
+  immediately that it is not theirs to choose.
+- **The egress conflict blames the wrong member if you take the obvious answer.** The first draft
+  of this pack said the pointed head fails IRC R310. It does not: run the arithmetic on the pack's
+  own default and a 36 in equilateral head narrows to 20 in clear at 22½ in above the springing, so
+  the top 8½ in of the rise is lost — and the surviving rectangle still measures **about 10 sq ft**
+  against a 5.7 requirement. **The mullion is what is fatal.** Two lights in a 36 in span leave
+  ~13 in clear each against a 20 in minimum, and no amount of height recovers a rectangle that is
+  too narrow. The threshold where the arch alone does bite is a span of about **24 in**. The
+  overstated version was caught by computing it rather than by rereading it, and the test now
+  recomputes both figures rather than asserting the sentence.
+
+The pack also states what it cannot carry: the **four-centred Tudor arch** is struck from four
+centres with two radii, so a single strike ratio cannot express it — which is why `tudor` and
+`tudor-revival` are absent from `applies_to` despite being the obvious neighbours, and it is a real
+missing pack rather than a boundary of convenience.
+
+### One checker defect, found by authoring against it
+
+`check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
+order pack can write `assemblies.impost.members.impost_block.height_parts`. `check_modules.py`'s
+`Ref` did not, so **the same invariant expression was legal in an order pack and a `NameError` in a
+module pack.** Two checkers over one schema field disagreeing about the expression language does
+not produce an error message — it produces an author who writes the weaker of two true statements,
+and the weaker one is the one that does not name the member it is about. `Ref` now resolves lists
+by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
+
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing: an **adobe/rammed-earth module** (5 nodes, named in the plan, independently
-confirmed by three batches), a **Gothic Revival facade and opening system** (4 nodes, and PB-7a
-left Rural Gothic Villa with no opening-role pack at all as a direct result), a **Craftsman opening
-system and Prairie trim family** (5 nodes, named in the plan), a **Dutch gambrel roof module**
-(3 nodes), a **cast-iron system** (3 nodes). Sixty-eight nodes still have no opening-role pack and
-sixty-seven no facade-role pack.
+still missing after the second tranche: a **Craftsman opening system and Prairie trim family**
+(5 nodes, named in the plan), a **Dutch gambrel roof module** (3 nodes), a **cast-iron system**
+(3 nodes), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary),
+and a **medieval/pre-Palladian English facade system** (new only in that two existing list items
+turn out to be one pack). **65 nodes still have no opening-role pack**, down from 68, and **67 no
+facade-role pack**, unchanged — because the facade half of the Gothic item was measured and found
+already served.
+
+Struck off by the second tranche: the **adobe/rammed-earth module** (5 nodes, and it reached 9) and
+the **opening half** of the Gothic Revival item (5 nodes, 3 of them previously with no opening-role
+pack at all).
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -113,9 +236,15 @@ is no figure here worth defending. A plausible number would have been worse than
 
 ## Verification
 
-`python3 build/check_all.py` — 22 checks, 461 tests. 38 packs resolve with 0 problems;
-`check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes bound**,
-up from 129. `tests/test_wp46_packs.py` is new (15 tests). The pinned pack count in
+First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs resolve with 0
+problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
+bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
+
+Second tranche: 22 checks green again. **40 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the two new
+packs bind 14 nodes but every one of them was already bound, so the count does not move and should
+not be read as no progress — the movement is in ROLE coverage, 68 → 65 nodes with no opening-role
+pack). `tests/test_wp46_packs.py` is now **53 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

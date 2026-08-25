@@ -52,29 +52,40 @@ Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_cons
 `python3 build/resolve_kit.py <style-id> --verbose` shows a kit's full provenance chain, and
 `python3 build/solver.py <plan> --time 60` places a plan by constraint rather than by search.
 
-## Where the work stands (24 Aug 2026)
+## Where the work stands (25 Aug 2026)
 
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 not started.
 
-164 nodes · 95 slots (ontology 0.5.0) · 40 massings · 60 rooms · 17 groupings ·
+164 nodes · 96 slots (ontology 0.6.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · 36 packs (129 of 132 nodes bound) · 660 constraints migrated, 61.5% of hard ones
-tested · 209 faults · **159 of 159 kits populated** · 1,556 kit parameters (74.6% measured,
-10.5% editorial with neither source nor note) · 322 image records, 0 sourced · 14 reference
-plans · 24 MCP tools · **22 checks, 419 tests**.
+style** · **40 packs, 131 of 132 nodes bound** — but 65 nodes still have no opening-role pack
+and 67 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
+migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
+parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **22 checks, 516 tests**.
 
-**Every open question Lucas had ruled on is executed** as of 24 Aug 2026 — OQ 12, 13, 14, 26,
-27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 15 and 19 besides. Seven remain open and
-three of them are new and want a ruling: **OQ 40** (`area_weight` never read as a share),
-**OQ 41** (a fault's secondary tests applied to every style), **OQ 42** (`types_present` not
-aliased). **OQ 18** is open on purpose and needs sources, not code.
+**Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
+19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
+one that stays open on purpose: 162 kit parameters are editorial with neither a source nor a
+note, 156 of them on the Georgian kit, and closing it needs real sources rather than more code.
+WP-4.6's second tranche raised **no new open question** — the two things it found that are not
+done are missing packs, which are work rather than rulings, and they are in the candidate list
+in `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 **Next, in order:**
-1. **WP-4.6** — missing proportion packs. List ready from WP-4.1; OQ 30 names the
-   Islamic/Moorish arch-and-ornament system as the most-corroborated gap, and WP-4.5 has
-   added a courtyard parti for the styles that want it — which OQ 33 and 39 have since made
-   draw correctly, so the packs land on a diagram that works.
-2. **WP-4.4** (HABS images), then Phase 5.
+1. **WP-4.6** — missing proportion packs. **Four of thirty-odd done** (`moorish-arch`,
+   `greek-doric`, `adobe-module`, `opening-pointed`), chosen by measuring leverage rather than by
+   list order; the measurement and what remains are in
+   `docs/reports/wp-4.6-missing-proportion-packs.md`. Next by leverage: a **Craftsman opening
+   system and Prairie trim family** (5 nodes, named in the plan), then a Dutch gambrel module and
+   a cast-iron system. Two new items the tranches themselves raised: a **four-centred Tudor arch**
+   system (a single strike ratio cannot express it) and a **medieval/pre-Palladian English facade**
+   system, which turns out to be two existing list items seen from two sides.
+2. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
+   www.loc.gov. `build/harvest_habs.py` is written, dry-run exercised and queued against the day
+   the network opens; its own status block in `PLAN-OF-ACTION.md` carries the verbatim denial. The
+   network-free next step there is giving the 322 asset records their `provenance.building` names,
+   without which every harvest query degrades to a style-name search. Then Phase 5.
 
 WP-2.3 closed Phase 2 on 24 Aug 2026: `build/solver.py` states placement to CP-SAT, enforces
 room minimums instead of scoring them, and returns a named conflict set when a brief cannot be

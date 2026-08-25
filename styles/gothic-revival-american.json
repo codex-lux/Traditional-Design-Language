@@ -250,6 +250,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "opening-pointed",
+      "role": "opening",
+      "note": "Bound in the opening role beside sash-light, and the pair needs explaining rather than resolving. American Gothic Revival really does use both: a double-hung sash in the ordinary rooms, whose lights this node already takes from sash-light, and a pointed casement at the hall, the stair and the principal gable, which had nowhere to come from until now. They are not competing accounts of the same window, they are two window types in one house, and a node that carried only one of them was describing half the elevation. Precedence puts this pack first because the pointed opening is the diagnostic one -- it is what makes the house Gothic -- and sash-light second because it governs more of the openings by count.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Confirmed in the pack's own applies_to. This is the style whose own governing_logic states plainly that it is 'not proportional' but governed by silhouette hierarchy - a dominant gable, subordinate gables of unequal width, a chimney group completing the outline - which is exactly this pack's dominant-mass-and-subordinate-accents method, read at the picturesque end of its range rather than the near-symmetrical end that governs its Italianate sibling.",

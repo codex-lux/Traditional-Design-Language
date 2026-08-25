@@ -239,9 +239,15 @@
   ],
   "proportion_packs": [
     {
+      "pack": "adobe-module",
+      "role": "primary",
+      "note": "Bound primary, and this node contributed the pack's most useful disagreement. Its own defining_characteristics say 'buttresses or thickened piers wherever wall height exceeds roughly eight times wall thickness', where the New Mexico code family says ten. The pack records that as a BAND of 8-10 rather than averaging it away, because both are right for their own case: the code figure assumes a continuous reinforced bond beam tying the wall head and the mission builders had none, and answered the difference with the buttresses this record names. The 24-36 in ranges are two adobes; the 3-5 ft church wall is three. vignola-ionic stays optional and unaffected -- it governs the church front's applied order, which is a different building from the ranges behind it.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
-      "note": "Applies to the range rooms only (workshops, granaries, cells -- 15-20 ft deep, single-loaded, per this node's own record), not to the church nave, which the pack's measured band (11-18 ft) does not reach and which this node records separately (25-35 ft clear). Within that scope the fit is real: room depth here is capped by the same beam-span physics room-vernacular reconstructs from Anglo-American evidence, even though the beam is a different species and the wall behind it is adobe or rubble rather than framed. As with the parent spanish-colonial-american node, no pack in this corpus governs the mass wall itself or the arcade -- see this node's own arcade geometry constraint (c01), which states real numbers (pier 2 ft 6 in - 4 ft, arch clear opening 1.5-2.5x pier) that exist in this node's own text because no proportion pack here derives them. A dedicated mass-wall/adobe module and an arcade/portal system are both missing from the corpus.",
+      "note": "Applies to the range rooms only (workshops, granaries, cells -- 15-20 ft deep, single-loaded, per this node's own record), not to the church nave, which the pack's measured band (11-18 ft) does not reach and which this node records separately (25-35 ft clear). Within that scope the fit is real: room depth here is capped by the same beam-span physics room-vernacular reconstructs from Anglo-American evidence, even though the beam is a different species and the wall behind it is adobe or rubble rather than framed. As with the parent spanish-colonial-american node, no pack in this corpus governs the mass wall itself or the arcade -- see this node's own arcade geometry constraint (c01), which states real numbers (pier 2 ft 6 in - 4 ft, arch clear opening 1.5-2.5x pier) that exist in this node's own text because no proportion pack here derives them. SUPERSEDED 25 Aug 2026: the mass-wall/adobe module this sentence asked for is `adobe-module`, bound primary on this node. The arcade system is still missing and is still in WP-4.1's candidate list -- adobe-module carries the post-and-zapata portal and not the arched range.",
       "precedence": 1
     },
     {

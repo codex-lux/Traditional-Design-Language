@@ -237,6 +237,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "opening-pointed",
+      "role": "opening",
+      "note": "The stone branch. Where the pack gives two figures for one member -- the mullion at 4-6 in rather than 2 1/2-4, the moulded jamb rather than an applied architrave -- this node takes the stone one, and the pack's own note on window_surround_wood says in terms that applying the timber figure to a stone or stuccoed elevation invents a member the tradition does not have. Also the node where the strike ratio is most likely to leave the equilateral: British domestic Gothic reaches for the acute head far more readily than the American branch does, so read the arch rule's band rather than its default here.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "This style is named directly in facade-picturesque's own applies_to list, and the fit is more than nominal: c04 (roof pitch not less than 45 degrees, entrance never centred on a symmetrical front) and c05 (no classical apparatus) are the same design logic the pack reconstructs from measured Victorian Gothic and Queen Anne fabric — a dominant mass, at least two unbroken horizontal datums, and a hierarchy made by massing and projection rather than by axis. The pack's own sources (Robinson, Curtis, Downing) postdate this style but describe the composition method Pugin's plan-driven asymmetry actually produced a generation earlier.",

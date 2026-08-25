@@ -1,257 +1,263 @@
 {
- "id": "andalusian-courtyard-vernacular",
- "name": "Andalusian Courtyard Vernacular",
- "aka": [
-  "casa-patio",
-  "patio cordobes",
-  "casa andaluza",
-  "corral de vecinos"
- ],
- "rank": "style",
- "member_of": "iberian-vernacular",
- "status": "living",
- "period": {
-  "origin": 900,
-  "floruit_start": 1500,
-  "floruit_end": 1900,
-  "decline_end": 1950,
-  "circa": true,
-  "revival_periods": [
-   {
-    "start": 1915,
-    "end": 1942,
-    "revival_node": "andalusian-spanish-revival",
-    "note": "The Andalusian strain of American Spanish revival — George Washington Smith in Santa Barbara, Addison Mizner in Palm Beach — drawn directly from Byne and Stapley's photographs of Cordoban and Sevillian patios."
-   },
-   {
-    "start": 1918,
-    "end": 1940,
-    "revival_node": "mediterranean-revival",
-    "note": "Supplies the arcaded patio, the tile stair, the wrought grille and the fountain."
-   },
-   {
-    "start": 1915,
-    "end": 1940,
-    "revival_node": "spanish-colonial-revival",
-    "note": "The domestic half of the revival is Andalusian vernacular rather than Spanish monumental architecture."
-   }
-  ]
- },
- "geography": {
-  "regions": [
-   "Spain",
-   "Andalusia",
-   "Portugal",
-   "North Africa"
+  "id": "andalusian-courtyard-vernacular",
+  "name": "Andalusian Courtyard Vernacular",
+  "aka": [
+    "casa-patio",
+    "patio cordobes",
+    "casa andaluza",
+    "corral de vecinos"
   ],
-  "hearth": "Cordoba and Seville",
-  "climate_zones": [
-   "3B",
-   "3C",
-   "2B"
-  ]
- },
- "lineage": [
-  {
-   "target": "moorish-andalusian",
-   "type": "descends_from",
-   "weight": 0.5,
-   "inherits_kit": true,
-   "note": "Direct and continuous: the casa-patio of Cordoba is the domestic architecture of al-Andalus, inhabited and rebuilt without interruption after 1236. The court, the zaguan, the water, the whitewash and the blind street wall are not quotations; the houses were never abandoned."
+  "rank": "style",
+  "member_of": "iberian-vernacular",
+  "status": "living",
+  "period": {
+    "origin": 900,
+    "floruit_start": 1500,
+    "floruit_end": 1900,
+    "decline_end": 1950,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1915,
+        "end": 1942,
+        "revival_node": "andalusian-spanish-revival",
+        "note": "The Andalusian strain of American Spanish revival — George Washington Smith in Santa Barbara, Addison Mizner in Palm Beach — drawn directly from Byne and Stapley's photographs of Cordoban and Sevillian patios."
+      },
+      {
+        "start": 1918,
+        "end": 1940,
+        "revival_node": "mediterranean-revival",
+        "note": "Supplies the arcaded patio, the tile stair, the wrought grille and the fountain."
+      },
+      {
+        "start": 1915,
+        "end": 1940,
+        "revival_node": "spanish-colonial-revival",
+        "note": "The domestic half of the revival is Andalusian vernacular rather than Spanish monumental architecture."
+      }
+    ]
   },
-  {
-   "target": "roman-classical",
-   "type": "descends_from",
-   "weight": 0.3,
-   "inherits_kit": true,
-   "note": "The Roman peristyle house at Italica and Corduba is the same diagram, and southern Spain is the one part of Europe where it never stopped being built. The Islamic court house is a development of the Roman one on the same ground, not a replacement of it."
+  "geography": {
+    "regions": [
+      "Spain",
+      "Andalusia",
+      "Portugal",
+      "North Africa"
+    ],
+    "hearth": "Cordoba and Seville",
+    "climate_zones": [
+      "3B",
+      "3C",
+      "2B"
+    ]
   },
-  {
-   "target": "mudejar",
-   "type": "hybridizes_with",
-   "weight": 0.2,
-   "inherits_kit": true,
-   "note": "The tile dado, the brick arcade, the carved plaster over the zaguan arch and the timber gallery ceilings are Mudejar work, and the trades that produced them served both palaces and ordinary houses."
-  }
- ],
- "description": {
-  "short": "The whitewashed, plant-filled patio house of Cordoba and Seville: a blind street wall, one controlled entry, and an entire domestic life turned inward around a court that is the household's principal room for eight months of the year.",
-  "long": "The Andalusian casa-patio is the longest continuously inhabited house diagram in Europe, and its logic is entirely climatic. Cordoba is one of the hottest cities in Europe: forty degrees is a normal July afternoon and forty-five is not rare. A house here has three problems — to keep the sun off the fabric, to hold the night's coolness through the day, and to move air after dark — and the courtyard solves all three simultaneously. Deep in proportion to its width, it is in shade for most of the day, so the ranges around it are looking into cool air rather than at a hot wall. Its floor and its planting are watered daily, so evaporation drops the temperature within it by several degrees below the street. And at night, when the air above the city cools faster than the fabric, the court fills with cold air that sinks and sits, providing a reservoir the house draws on all morning. This is a passive-cooling machine that predates the word by two thousand years and outperforms most contemporary attempts at one.\n\nThe consequences run all the way through the building. Wall thickness of five to seven hundred millimetres in brick, rubble or tapia gives the thermal lag. The whitewash — cal, lime, renewed by every household every spring — is a performance layer before it is an aesthetic: it reflects roughly eighty per cent of incident solar radiation, it is vapour-open so the wall can dry, and it is mildly antiseptic. The ranges are one room deep so that every room can be cross-ventilated between court and street window. The street wall is nearly blind, and what openings it has are small, high, and grilled with wrought-iron rejas that project from the face so a person can lean out without opening anything. And the entry is a zaguan: a covered passage from the street to the court, closed at the street by a heavy door and at the court by a cancela, a light iron gate. The cancela is one of the great small devices in domestic architecture. Through it, from the street, a passerby can see the whole patio — the plants, the well-head, the tiled floor — and cannot enter. The house shows itself and stays shut.\n\nThe social range of the type is very wide and it is worth insisting on. The same diagram produces the palace of a Cordoban noble with a dozen courts, the two-storey house of a merchant, the single-court house of an artisan, and the corral de vecinos, in which twenty families each occupy one or two rooms around a shared patio with a communal well, sink and privy. The corral is the courtyard house as tenement, and it is where the tradition of the patio as a collectively made and collectively watered social space — the thing celebrated every May in the Fiesta de los Patios in Cordoba, inscribed by UNESCO in 2012 — actually comes from. It is not a rich person's amenity that trickled down; it is a poor person's shared room.\n\nWalking through a zaguan in August is one of the great architectural experiences available anywhere. The street is white, glaring, and about thirty-eight degrees. You step into a dark, cool, vaulted passage two metres wide; the temperature drops five or six degrees in two paces and the sound of the street cuts off. At the far end is a rectangle of green and blue: geraniums and jasmine in painted pots hung ten deep on the walls, a stone well-head, wet tiled paving, a fig or an orange tree, and light coming down from above and bouncing off whitewash so that the whole space is filled with a soft glare with no visible source. Then you notice that all the rooms of the house open onto it and that there is no corridor anywhere in the building."
- },
- "defining_characteristics": [
-  "One or more courts as the organising void; the house is entered from the court, not from internal corridors",
-  "Blind or near-blind street elevation with small, high, iron-grilled (reja) openings",
-  "A zaguan — covered entry passage — with a heavy street door and a light iron cancela at the court end",
-  "Massive walls of brick, rubble or tapia, 500-700 mm, lime-rendered and annually limewashed",
-  "Single-pile ranges around the court, cross-ventilated between court and street",
-  "Water and planting required in the court: a well-head, fountain or pila, and potted plants hung on the walls",
-  "Court floor and gallery in glazed or unglazed tile, with a tiled dado on the surrounding walls",
-  "Curved canal tile roof at a low pitch, or a flat azotea terrace; no deep eaves, because the court does the shading"
- ],
- "diagnostic_tells": [
-  "A patio fully visible from the street through an iron gate, and completely inaccessible",
-  "Whitewash carried over every surface including the wall base, with a coloured (usually ochre or blue) skirting band 800-1000 mm high",
-  "Wrought-iron window grilles that bow outward from the wall face rather than sitting flush",
-  "Plant pots fixed to the courtyard walls in banks, at heights that require a watering cane",
-  "Rooms with a door to the court and a small high window to the street, and no other openings"
- ],
- "distinguished_from": [
-  {
-   "node": "moorish-andalusian",
-   "difference": "The palace tradition has epigraphy, muqarnas, stratified surface programmes and a designed sequence of courts. The vernacular casa-patio keeps the diagram and the climate logic and drops the entire ornamental apparatus, replacing it with whitewash, tile and plants."
-  },
-  {
-   "node": "french-provincial-farmhouse",
-   "difference": "The mas is outward-facing, orientation-driven and rural, with a working yard rather than a domestic court. Both are thick-walled Mediterranean masonry; the plan diagrams are opposites."
-  },
-  {
-   "node": "mexican-hacienda",
-   "difference": "The hacienda uses the same court but at agricultural scale and with a continuous arcaded corredor as the circulation. The Andalusian house is urban, party-walled, and its gallery is usually only on one or two sides."
-  }
- ],
- "proportional_system": {
-  "governing_logic": "The patio, dimensioned for shade at latitude 37 degrees north. Court width is set between 0.8 and 1.2 times the height of the enclosing ranges; room depth is set by the span of a timber joist, 3.5-5 m; storey height by what a masonry wall of that thickness carries comfortably. Nothing here is compositional — the whole proportional system is a shading calculation and a joist span.",
-  "typical_ratios": [
-   "Patio 3.5-7 m across; width 0.8-1.2 times enclosing wall height",
-   "Court plan roughly 1:1 to 1:1.4",
-   "Room depth 3.5-5 m clear; wall thickness 500-700 mm",
-   "Roof pitch 20-30 degrees in canal tile, or flat azotea",
-   "Street openings under 8 percent of street wall area"
+  "lineage": [
+    {
+      "target": "moorish-andalusian",
+      "type": "descends_from",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Direct and continuous: the casa-patio of Cordoba is the domestic architecture of al-Andalus, inhabited and rebuilt without interruption after 1236. The court, the zaguan, the water, the whitewash and the blind street wall are not quotations; the houses were never abandoned."
+    },
+    {
+      "target": "roman-classical",
+      "type": "descends_from",
+      "weight": 0.3,
+      "inherits_kit": true,
+      "note": "The Roman peristyle house at Italica and Corduba is the same diagram, and southern Spain is the one part of Europe where it never stopped being built. The Islamic court house is a development of the Roman one on the same ground, not a replacement of it."
+    },
+    {
+      "target": "mudejar",
+      "type": "hybridizes_with",
+      "weight": 0.2,
+      "inherits_kit": true,
+      "note": "The tile dado, the brick arcade, the carved plaster over the zaguan arch and the timber gallery ceilings are Mudejar work, and the trades that produced them served both palaces and ordinary houses."
+    }
   ],
-  "bay_rhythm": "Court arcades of three to five bays a side on marble, stone or brick columns, evenly spaced. The street elevation has no rhythm worth the name and is not meant to.",
-  "symmetry": "near-symmetrical"
- },
- "massing_affinities": [
-  {
-   "massing": "courtyard-full",
-   "affinity": "canonical",
-   "note": "Four ranges around a court with a blind exterior — the type itself."
+  "description": {
+    "short": "The whitewashed, plant-filled patio house of Cordoba and Seville: a blind street wall, one controlled entry, and an entire domestic life turned inward around a court that is the household's principal room for eight months of the year.",
+    "long": "The Andalusian casa-patio is the longest continuously inhabited house diagram in Europe, and its logic is entirely climatic. Cordoba is one of the hottest cities in Europe: forty degrees is a normal July afternoon and forty-five is not rare. A house here has three problems — to keep the sun off the fabric, to hold the night's coolness through the day, and to move air after dark — and the courtyard solves all three simultaneously. Deep in proportion to its width, it is in shade for most of the day, so the ranges around it are looking into cool air rather than at a hot wall. Its floor and its planting are watered daily, so evaporation drops the temperature within it by several degrees below the street. And at night, when the air above the city cools faster than the fabric, the court fills with cold air that sinks and sits, providing a reservoir the house draws on all morning. This is a passive-cooling machine that predates the word by two thousand years and outperforms most contemporary attempts at one.\n\nThe consequences run all the way through the building. Wall thickness of five to seven hundred millimetres in brick, rubble or tapia gives the thermal lag. The whitewash — cal, lime, renewed by every household every spring — is a performance layer before it is an aesthetic: it reflects roughly eighty per cent of incident solar radiation, it is vapour-open so the wall can dry, and it is mildly antiseptic. The ranges are one room deep so that every room can be cross-ventilated between court and street window. The street wall is nearly blind, and what openings it has are small, high, and grilled with wrought-iron rejas that project from the face so a person can lean out without opening anything. And the entry is a zaguan: a covered passage from the street to the court, closed at the street by a heavy door and at the court by a cancela, a light iron gate. The cancela is one of the great small devices in domestic architecture. Through it, from the street, a passerby can see the whole patio — the plants, the well-head, the tiled floor — and cannot enter. The house shows itself and stays shut.\n\nThe social range of the type is very wide and it is worth insisting on. The same diagram produces the palace of a Cordoban noble with a dozen courts, the two-storey house of a merchant, the single-court house of an artisan, and the corral de vecinos, in which twenty families each occupy one or two rooms around a shared patio with a communal well, sink and privy. The corral is the courtyard house as tenement, and it is where the tradition of the patio as a collectively made and collectively watered social space — the thing celebrated every May in the Fiesta de los Patios in Cordoba, inscribed by UNESCO in 2012 — actually comes from. It is not a rich person's amenity that trickled down; it is a poor person's shared room.\n\nWalking through a zaguan in August is one of the great architectural experiences available anywhere. The street is white, glaring, and about thirty-eight degrees. You step into a dark, cool, vaulted passage two metres wide; the temperature drops five or six degrees in two paces and the sound of the street cuts off. At the far end is a rectangle of green and blue: geraniums and jasmine in painted pots hung ten deep on the walls, a stone well-head, wet tiled paving, a fig or an orange tree, and light coming down from above and bouncing off whitewash so that the whole space is filled with a soft glare with no visible source. Then you notice that all the rooms of the house open onto it and that there is no corridor anywhere in the building."
   },
-  {
-   "massing": "townhouse-row",
-   "affinity": "canonical",
-   "note": "These are party-walled urban houses in continuous blocks; the block, not the house, is the unit of the street."
+  "defining_characteristics": [
+    "One or more courts as the organising void; the house is entered from the court, not from internal corridors",
+    "Blind or near-blind street elevation with small, high, iron-grilled (reja) openings",
+    "A zaguan — covered entry passage — with a heavy street door and a light iron cancela at the court end",
+    "Massive walls of brick, rubble or tapia, 500-700 mm, lime-rendered and annually limewashed",
+    "Single-pile ranges around the court, cross-ventilated between court and street",
+    "Water and planting required in the court: a well-head, fountain or pila, and potted plants hung on the walls",
+    "Court floor and gallery in glazed or unglazed tile, with a tiled dado on the surrounding walls",
+    "Curved canal tile roof at a low pitch, or a flat azotea terrace; no deep eaves, because the court does the shading"
+  ],
+  "diagnostic_tells": [
+    "A patio fully visible from the street through an iron gate, and completely inaccessible",
+    "Whitewash carried over every surface including the wall base, with a coloured (usually ochre or blue) skirting band 800-1000 mm high",
+    "Wrought-iron window grilles that bow outward from the wall face rather than sitting flush",
+    "Plant pots fixed to the courtyard walls in banks, at heights that require a watering cane",
+    "Rooms with a door to the court and a small high window to the street, and no other openings"
+  ],
+  "distinguished_from": [
+    {
+      "node": "moorish-andalusian",
+      "difference": "The palace tradition has epigraphy, muqarnas, stratified surface programmes and a designed sequence of courts. The vernacular casa-patio keeps the diagram and the climate logic and drops the entire ornamental apparatus, replacing it with whitewash, tile and plants."
+    },
+    {
+      "node": "french-provincial-farmhouse",
+      "difference": "The mas is outward-facing, orientation-driven and rural, with a working yard rather than a domestic court. Both are thick-walled Mediterranean masonry; the plan diagrams are opposites."
+    },
+    {
+      "node": "mexican-hacienda",
+      "difference": "The hacienda uses the same court but at agricultural scale and with a continuous arcaded corredor as the circulation. The Andalusian house is urban, party-walled, and its gallery is usually only on one or two sides."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The patio, dimensioned for shade at latitude 37 degrees north. Court width is set between 0.8 and 1.2 times the height of the enclosing ranges; room depth is set by the span of a timber joist, 3.5-5 m; storey height by what a masonry wall of that thickness carries comfortably. Nothing here is compositional — the whole proportional system is a shading calculation and a joist span.",
+    "typical_ratios": [
+      "Patio 3.5-7 m across; width 0.8-1.2 times enclosing wall height",
+      "Court plan roughly 1:1 to 1:1.4",
+      "Room depth 3.5-5 m clear; wall thickness 500-700 mm",
+      "Roof pitch 20-30 degrees in canal tile, or flat azotea",
+      "Street openings under 8 percent of street wall area"
+    ],
+    "bay_rhythm": "Court arcades of three to five bays a side on marble, stone or brick columns, evenly spaced. The street elevation has no rhythm worth the name and is not meant to.",
+    "symmetry": "near-symmetrical"
   },
-  {
-   "massing": "courtyard-u",
-   "affinity": "common",
-   "note": "Three ranges with the fourth held by a wall, common on irregular medieval plots."
-  },
-  {
-   "massing": "gallery-house",
-   "affinity": "possible",
-   "note": "In the corral de vecinos an open gallery runs the full upper storey around the court and serves as the access to every dwelling."
-  }
- ],
- "constraints": [
-  {
-   "kind": "climatic",
-   "statement": "Patio width between 0.8 and 1.2 times the height of the enclosing ranges, and between 3.5 and 7 m across, at 36-38 degrees north. Outside that band it stops working: wider and it is an unshaded yard, narrower and it is a lightwell with no usable floor.",
-   "severity": "hard",
-   "id": "andalusian-courtyard-vernacular.c01",
-   "scope": "plan",
-   "test": {
-    "expression": "court_width_ft",
-    "direction": "between",
-    "threshold": 11.5,
-    "upper": 23.0,
-    "units": "ft",
-    "measurable_from": "plan",
-    "note": "3.5-7 m converted to 11.5-23 ft. The 0.8-1.2x-enclosing-range-height ratio clause stays prose (no enclosing-range-height variable exists independent of facade_height_ft, which would be a stretch for a courtyard's own surrounding walls)."
-   }
-  },
-  {
-   "kind": "climatic",
-   "statement": "Walls 500-700 mm of brick, rubble or tapia, lime-rendered and limewashed. Cement render is prohibited — it traps moisture in a mass wall and destroys both the wall and the vapour-open behaviour the whitewash provides.",
-   "severity": "hard",
-   "id": "andalusian-courtyard-vernacular.c02",
-   "scope": "section",
-   "test": {
-    "expression": "wall_thickness_in",
-    "direction": "between",
-    "threshold": 500,
-    "upper": 700,
-    "units": "mm",
-    "measurable_from": "section",
-    "note": "Tests the wall-thickness range. The material specification (brick, rubble or tapia), the lime-render/limewash finish, and the cement-render prohibition are categorical and stay prose."
-   }
-  },
-  {
-   "kind": "structural",
-   "statement": "One controlled entry only, through a zaguan, with a heavy door at the street and a cancela at the court. A second street entrance, or a court entered directly off the pavement, breaks the type.",
-   "severity": "hard",
-   "id": "andalusian-courtyard-vernacular.c03",
-   "scope": "judgment"
-  },
-  {
-   "kind": "climatic",
-   "statement": "Roofs are canal tile at 20-30 degrees or flat azotea. Deep projecting eaves are not used and should not be added; shading is done by the court, not by the roof.",
-   "severity": "soft",
-   "id": "andalusian-courtyard-vernacular.c04",
-   "scope": "judgment"
-  },
-  {
-   "kind": "cultural",
-   "statement": "The court must carry planting and water. A paved, unplanted, dry patio is a lightwell, and the difference is not decorative — the evaporative cooling is a functional requirement of the type.",
-   "severity": "hard",
-   "id": "andalusian-courtyard-vernacular.c05",
-   "scope": "judgment"
-  }
- ],
- "exemplars": [
-  {
-   "name": "Palacio de Viana",
-   "location": "Cordoba, Spain",
-   "year": null,
-   "note": "14th-century origins, largely 16th-19th century; twelve courts of successive dates in one property, effectively a museum of the type at every social level."
-  },
-  {
-   "name": "Corral del Conde",
-   "location": "Seville, Spain",
-   "year": null,
-   "note": "16th century; the best-preserved corral de vecinos in Seville — communal courtyard housing showing the diagram at its poorest and most collective."
-  },
-  {
-   "name": "Patios of the Barrio de San Basilio (Alcazar Viejo)",
-   "location": "Cordoba, Spain",
-   "year": null,
-   "note": "16th-19th century houses, still inhabited and still watered daily; the core of the Fiesta de los Patios, inscribed on the UNESCO Representative List of Intangible Cultural Heritage in 2012."
-  },
-  {
-   "name": "Casa de Pilatos",
-   "location": "Seville, Spain",
-   "year": 1539,
-   "note": "Begun 1483, largely 1519-1539; the aristocratic upper limit of the type, where the vernacular patio meets Mudejar tile and Italian marble."
-  }
- ],
- "sources": [
-  "Byne & Stapley, Spanish Gardens and Patios (1924)",
-  "Chueca Goitia, Invariantes castizos de la arquitectura espanola",
-  "Rudofsky, Architecture Without Architects",
-  "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World"
- ],
- "confidence": "medium",
- "tags": [
-  "courtyard",
-  "whitewash",
-  "hot-dry",
-  "passive-cooling",
-  "urban-vernacular"
- ],
- "proportion_packs": [
-  {
-   "pack": "room-vernacular",
-   "role": "room",
-   "authority": "room-vernacular",
-   "note": "The node's own governing_logic states 'Nothing here is compositional - the whole proportional system is a shading calculation and a joist span,' with room depth set to 3.5-5 m clear by the timber joist. That is room-vernacular's own generative logic (span, hearth-reach and single-sided daylight intersecting in roughly the same neighbourhood) rather than a proportioned or harmonic one, and the node is named directly in the pack's applies_to. No facade or order pack is bound: the street elevation 'has no rhythm worth the name and is not meant to,' and the only columns in the type are the plain, unornamented court arcade - there is no entablature and no classical order to invoke.",
-   "precedence": 1
-  },
-  {
-   "pack": "moorish-arch",
-   "role": "primary",
-   "precedence": 0,
-   "authority": "moorish-arch",
-   "note": "The vernacular the Alhambra's domestic work is the grand end of: the same arcade around the same court, in plaster rather than in stone. Primary because the arcade IS this type's structure and its composition at once."
-  }
- ]
+  "massing_affinities": [
+    {
+      "massing": "courtyard-full",
+      "affinity": "canonical",
+      "note": "Four ranges around a court with a blind exterior — the type itself."
+    },
+    {
+      "massing": "townhouse-row",
+      "affinity": "canonical",
+      "note": "These are party-walled urban houses in continuous blocks; the block, not the house, is the unit of the street."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "common",
+      "note": "Three ranges with the fourth held by a wall, common on irregular medieval plots."
+    },
+    {
+      "massing": "gallery-house",
+      "affinity": "possible",
+      "note": "In the corral de vecinos an open gallery runs the full upper storey around the court and serves as the access to every dwelling."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "climatic",
+      "statement": "Patio width between 0.8 and 1.2 times the height of the enclosing ranges, and between 3.5 and 7 m across, at 36-38 degrees north. Outside that band it stops working: wider and it is an unshaded yard, narrower and it is a lightwell with no usable floor.",
+      "severity": "hard",
+      "id": "andalusian-courtyard-vernacular.c01",
+      "scope": "plan",
+      "test": {
+        "expression": "court_width_ft",
+        "direction": "between",
+        "threshold": 11.5,
+        "upper": 23.0,
+        "units": "ft",
+        "measurable_from": "plan",
+        "note": "3.5-7 m converted to 11.5-23 ft. The 0.8-1.2x-enclosing-range-height ratio clause stays prose (no enclosing-range-height variable exists independent of facade_height_ft, which would be a stretch for a courtyard's own surrounding walls)."
+      }
+    },
+    {
+      "kind": "climatic",
+      "statement": "Walls 500-700 mm of brick, rubble or tapia, lime-rendered and limewashed. Cement render is prohibited — it traps moisture in a mass wall and destroys both the wall and the vapour-open behaviour the whitewash provides.",
+      "severity": "hard",
+      "id": "andalusian-courtyard-vernacular.c02",
+      "scope": "section",
+      "test": {
+        "expression": "wall_thickness_in",
+        "direction": "between",
+        "threshold": 500,
+        "upper": 700,
+        "units": "mm",
+        "measurable_from": "section",
+        "note": "Tests the wall-thickness range. The material specification (brick, rubble or tapia), the lime-render/limewash finish, and the cement-render prohibition are categorical and stay prose."
+      }
+    },
+    {
+      "kind": "structural",
+      "statement": "One controlled entry only, through a zaguan, with a heavy door at the street and a cancela at the court. A second street entrance, or a court entered directly off the pavement, breaks the type.",
+      "severity": "hard",
+      "id": "andalusian-courtyard-vernacular.c03",
+      "scope": "judgment"
+    },
+    {
+      "kind": "climatic",
+      "statement": "Roofs are canal tile at 20-30 degrees or flat azotea. Deep projecting eaves are not used and should not be added; shading is done by the court, not by the roof.",
+      "severity": "soft",
+      "id": "andalusian-courtyard-vernacular.c04",
+      "scope": "judgment"
+    },
+    {
+      "kind": "cultural",
+      "statement": "The court must carry planting and water. A paved, unplanted, dry patio is a lightwell, and the difference is not decorative — the evaporative cooling is a functional requirement of the type.",
+      "severity": "hard",
+      "id": "andalusian-courtyard-vernacular.c05",
+      "scope": "judgment"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Palacio de Viana",
+      "location": "Cordoba, Spain",
+      "year": null,
+      "note": "14th-century origins, largely 16th-19th century; twelve courts of successive dates in one property, effectively a museum of the type at every social level."
+    },
+    {
+      "name": "Corral del Conde",
+      "location": "Seville, Spain",
+      "year": null,
+      "note": "16th century; the best-preserved corral de vecinos in Seville — communal courtyard housing showing the diagram at its poorest and most collective."
+    },
+    {
+      "name": "Patios of the Barrio de San Basilio (Alcazar Viejo)",
+      "location": "Cordoba, Spain",
+      "year": null,
+      "note": "16th-19th century houses, still inhabited and still watered daily; the core of the Fiesta de los Patios, inscribed on the UNESCO Representative List of Intangible Cultural Heritage in 2012."
+    },
+    {
+      "name": "Casa de Pilatos",
+      "location": "Seville, Spain",
+      "year": 1539,
+      "note": "Begun 1483, largely 1519-1539; the aristocratic upper limit of the type, where the vernacular patio meets Mudejar tile and Italian marble."
+    }
+  ],
+  "sources": [
+    "Byne & Stapley, Spanish Gardens and Patios (1924)",
+    "Chueca Goitia, Invariantes castizos de la arquitectura espanola",
+    "Rudofsky, Architecture Without Architects",
+    "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World"
+  ],
+  "confidence": "medium",
+  "tags": [
+    "courtyard",
+    "whitewash",
+    "hot-dry",
+    "passive-cooling",
+    "urban-vernacular"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "adobe-module",
+      "role": "secondary",
+      "note": "Secondary, behind moorish-arch. The pack reaches this node through its rammed-earth half rather than its adobe half: this record gives 'massive walls of brick, rubble or tapia, 500-700 mm', and tapia is formed between shutters at whatever thickness they are set to, so the whole-brick argument that makes the New Mexico wall come in 14 in steps does not apply and the thickness genuinely is continuous here. What does apply, and is why the binding is worth making, is everything that follows from mass rather than from the brick: the reveal equals the wall, the bracing length caps the range, the openings are isolated events with a pier of at least a wall's thickness between them, and the wall fails at its base. The roof is the pack's stated climate conflict resolved the other way -- a tiled pitched roof with an oversailing eave on the same mass wall, which the pack names as fully authentic rather than as a compromise.",
+      "precedence": 2
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "authority": "room-vernacular",
+      "note": "The node's own governing_logic states 'Nothing here is compositional - the whole proportional system is a shading calculation and a joist span,' with room depth set to 3.5-5 m clear by the timber joist. That is room-vernacular's own generative logic (span, hearth-reach and single-sided daylight intersecting in roughly the same neighbourhood) rather than a proportioned or harmonic one, and the node is named directly in the pack's applies_to. No facade or order pack is bound: the street elevation 'has no rhythm worth the name and is not meant to,' and the only columns in the type are the plain, unornamented court arcade - there is no entablature and no classical order to invoke.",
+      "precedence": 1
+    },
+    {
+      "pack": "moorish-arch",
+      "role": "primary",
+      "precedence": 0,
+      "authority": "moorish-arch",
+      "note": "The vernacular the Alhambra's domestic work is the grand end of: the same arcade around the same court, in plaster rather than in stone. Primary because the arcade IS this type's structure and its composition at once."
+    }
+  ]
 }

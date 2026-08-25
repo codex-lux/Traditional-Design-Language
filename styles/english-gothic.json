@@ -216,6 +216,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "opening-pointed",
+      "role": "opening",
+      "note": "The medieval building rather than the revival of it, and the binding needs a caveat that the other four do not. The arch geometry is Rickman's discrimination of THIS fabric, so it applies here more directly than anywhere else -- the revivals inherited it from these buildings. What does not apply is the domestic-revival half of the pack: the bargeboard, the veranda post, the low window seat sill and the composition of gable-and-dormer are nineteenth-century figures read off Downing's and Davis's plates, and this node should take the arch, the hood mould, the mullion and the lights and leave those alone. Note also what this node still has no pack for: a facade system. facade-picturesque is not bound here and should not be, because picturesque asymmetry is a nineteenth-century argument and running it against a medieval building is an anachronism; that gap is stated in this pack's own notes and added to WP-4.1's candidate list rather than papered over by binding the nearest thing.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "Judgment binding: english-gothic is not in room-vernacular's applies_to, and its governing space — the great hall, 7.5-9.0 m wide, wall-plate height at least equal to that width — is a different order of scale from the pack's 14 ft (4.3 m) ordinary-room module entirely. Bound narrowly and scoped to the SUBSIDIARY spaces only (solar, chambers off the dais end, service rooms beyond the screens), which are genuinely closer to the pack's 9-14 ft chamber range; the hall itself remains governed by this style's own proportional_system (ad quadratum/ad triangulum setting-out and c04's wall-plate-to-span rule), which the library has no dedicated pack for. See gaps.",

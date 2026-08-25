@@ -251,6 +251,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "adobe-module",
+      "role": "primary",
+      "note": "Adobe, rubble or cut stone at 700-1000 mm on a raised stone or brick socle. Primary. This node is where the pack's foundation_expression rule earns its note: New Mexico buries the footing and mud-plasters over it so the wall appears to grow out of the ground, while the hacienda states the socle as a band and often contrasts its material -- the same member doing the same job and expressed opposite ways, which is a kit decision and not a pack one. The arcaded patio ranges want an arcade system this library still does not have; the portal assembly here covers the post-and-zapata case and not the arched one.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "authority": "room-vernacular",

@@ -1,280 +1,286 @@
 {
- "id": "monterey-colonial",
- "name": "Monterey Colonial",
- "aka": [
-  "Monterey style",
-  "Monterey adobe"
- ],
- "rank": "variant",
- "member_of": "spanish-colonial-american",
- "status": "historical",
- "period": {
-  "origin": 1834,
-  "floruit_start": 1835,
-  "floruit_end": 1850,
-  "decline_end": 1870,
-  "circa": true,
-  "revival_periods": [
-   {
-    "start": 1925,
-    "end": 1942,
-    "revival_node": "monterey-revival",
-    "note": "A distinct and well-documented California revival of the interwar years, usually executed in stucco over frame with a tile or shingle gable roof and a posted rather than cantilevered balcony."
-   }
-  ]
- },
- "geography": {
-  "regions": [
-   "Monterey and the Salinas Valley, California",
-   "San Francisco Bay Area",
-   "Sonoma and Petaluma",
-   "Los Angeles and Santa Barbara"
+  "id": "monterey-colonial",
+  "name": "Monterey Colonial",
+  "aka": [
+    "Monterey style",
+    "Monterey adobe"
   ],
-  "hearth": "Monterey, capital of Mexican Alta California, 1834–1846, in the decade when New England merchant capital and Yankee carpenters arrived by ship",
-  "climate_zones": [
-   "3B",
-   "3C"
-  ]
- },
- "lineage": [
-  {
-   "target": "spanish-colonial-american",
-   "type": "regional_of",
-   "weight": 1,
-   "inherits_kit": true,
-   "note": "Containment and kit inheritance: the ground storey, the wall thickness and the plaster finish are Hispano-Californian."
+  "rank": "variant",
+  "member_of": "spanish-colonial-american",
+  "status": "historical",
+  "period": {
+    "origin": 1834,
+    "floruit_start": 1835,
+    "floruit_end": 1850,
+    "decline_end": 1870,
+    "circa": true,
+    "revival_periods": [
+      {
+        "start": 1925,
+        "end": 1942,
+        "revival_node": "monterey-revival",
+        "note": "A distinct and well-documented California revival of the interwar years, usually executed in stucco over frame with a tile or shingle gable roof and a posted rather than cantilevered balcony."
+      }
+    ]
   },
-  {
-   "target": "spanish-colonial-american",
-   "type": "hybridizes_with",
-   "weight": 0.5,
-   "inherits_kit": true,
-   "note": "Recorded as a co-parent of equal weight as well as a containment parent, because Monterey is a genuine hybrid rather than a regional inflection: the adobe wall, the lime plaster and the shaded exterior circulation are the Hispanic half of the parentage."
+  "geography": {
+    "regions": [
+      "Monterey and the Salinas Valley, California",
+      "San Francisco Bay Area",
+      "Sonoma and Petaluma",
+      "Los Angeles and Santa Barbara"
+    ],
+    "hearth": "Monterey, capital of Mexican Alta California, 1834–1846, in the decade when New England merchant capital and Yankee carpenters arrived by ship",
+    "climate_zones": [
+      "3B",
+      "3C"
+    ]
   },
-  {
-   "target": "new-england-colonial",
-   "type": "hybridizes_with",
-   "weight": 0.5,
-   "inherits_kit": true,
-   "note": "The Anglo half: braced-frame carpentry, a wood-shingled hip roof, milled architrave trim, double-hung six-over-six sash, an interior stair and an interior corridor — all brought by New England shipmasters and carpenters into a province that had none of them. SCOPED (OQ 36, 24 Aug 2026) to the list this note already enumerates - the carpentry, the trim, the sash, the stair and the corridor. Unscoped it also carried `chimney`, which the note does not claim and which is wrong: a Monterey chimney is the Hispanic adobe half of the house, not the Anglo half the shipmasters brought.",
-   "slots": [
-    "stair_position",
-    "stair_type",
-    "chair_rail",
-    "crown",
-    "cornice_return",
-    "gable_treatment",
-    "transom_sidelight",
-    "architrave",
-    "sash_pattern"
-   ]
-  }
- ],
- "description": {
-  "short": "A genuine two-culture hybrid of Mexican and early American California — Hispanic adobe walls below, New England frame carpentry above, and a two-storey cantilevered wooden balcony running the length of the facade.",
-  "long": "Monterey Colonial has one of the narrowest windows in this entire taxonomy — roughly 1834 to 1850 — and it exists because of a specific commercial situation. After Mexican independence and the opening of the hide-and-tallow trade, New England merchants settled at Monterey, the capital of Alta California. They married into Californio families, they imported lumber, milled sash and hardware in the same ships that took hides east, and they brought house carpenters with them. What those carpenters built was not a New England house and not a Californio adobe. It was both, stacked.\n\nThe ground storey is Hispanic: adobe brick, twenty-four to thirty inches thick, lime-plastered and whitewashed, sitting on a stone footing, with the deep reveals and small openings the material demands. The upper storey is Anglo: a light braced timber frame, sometimes over a second course of adobe, sheathed and plastered or clapboarded, with walls perhaps six to eight inches thick. Because the upper wall is so much thinner, the wall plane visibly steps in at the second floor, and that step is a permanent record of the two building cultures meeting.\n\nThe defining element is the balcony, and its structure is the point. It is cantilevered — the second-floor joists simply run out past the wall five to seven feet and carry a deck and a plain square-baluster rail, with no posts reaching the ground. This is Anglo carpentry doing something the adobe tradition could not do, and it is the fastest and most reliable identification of the type. Where a two-storey California adobe has posts under its upper gallery, it belongs to the Hispanic tradition or to the twentieth-century revival; where the balcony floats, it is Monterey.\n\nThe roof follows the same logic: a low hip, four to five in twelve, covered not in clay tile but in redwood shingle, which arrived with the same ships and the same sawmills. Windows are double-hung six-over-six sash — the first in California — set in milled New England architraves four to five inches wide, punched into an adobe wall whose reveal is two feet deep. Inside, the Anglo half wins outright: an interior stair, an interior corridor, and rooms that are entered rather than passed through.\n\nThomas Oliver Larkin, the American consul, built the first of them at Monterey in 1835, though Casa Amesti of 1834 is at least contemporary and the priority is not entirely settled. The type spread quickly to Petaluma, Milpitas, Salinas and Los Angeles and then stopped almost as quickly, because the Gold Rush brought balloon framing, milled lumber in quantity and an Anglo population large enough to build whatever it liked. Standing under a Monterey balcony one sees, quite literally, two building cultures in section: two feet of mud below, three inches of Massachusetts pine above."
- },
- "defining_characteristics": [
-  "Two full storeys — the ground storey of 24–30 in adobe, the upper of light Anglo-American braced frame or thinner adobe",
-  "A continuous cantilevered balcony 5–7 ft deep on the long facade, carried on the projecting second-floor joists with no posts to grade",
-  "Plain square wooden balusters and a simple top rail, without turning or classical profile",
-  "Low hipped roof, 4:12 to 5:12, covered in redwood shingle rather than clay tile",
-  "Double-hung six-over-six sash in milled New England architrave trim, set in deep adobe reveals on the ground floor",
-  "A visible step-in of the wall plane at the second-floor line, 6–12 in, where the thin frame wall sits on the thick adobe one",
-  "Interior stair and an interior corridor — Anglo circulation grafted onto a Hispanic envelope"
- ],
- "diagnostic_tells": [
-  "The balcony floats: no posts, no brackets to the ground, the deck simply projecting from the wall",
-  "Shingle, not tile, on a low hip roof over an adobe building",
-  "Sash windows in a wall two feet thick — an unmistakable collision of two building cultures at every opening",
-  "The wall plane steps back at the second floor; sight up the corner and it is obvious",
-  "Milled American trim profiles on an adobe house of the 1830s"
- ],
- "distinguished_from": [
-  {
-   "node": "monterey-revival",
-   "difference": "The 1925–55 revival is stucco over wood frame throughout, usually with a gable rather than a hip roof, clay tile rather than shingle, a balcony that is frequently posted or bracketed rather than cantilevered, and often only a partial balcony over the entrance. Wall thickness at the ground-floor reveal and the presence or absence of posts under the balcony settle it."
-  },
-  {
-   "node": "california-mission-colonial",
-   "difference": "Mission work is single-storey, institutional, arcaded on square piers, tile-roofed and organized around a quadrangle. Monterey is domestic, two-storey, balconied, shingle-roofed and organized around an interior stair."
-  },
-  {
-   "node": "new-england-colonial",
-   "difference": "It shares the framing, the sash and the trim, but the ground storey is two feet of adobe, the roof is a 4:12 hip rather than a 12:12 gable, there is no central chimney, and the balcony is a device New England never built."
-  }
- ],
- "proportional_system": {
-  "governing_logic": "The cantilever capacity of a second-floor joist sets the balcony depth; the adobe wall below sets everything else.",
-  "typical_ratios": [
-   "Balcony depth 5 ft 0 in – 7 ft 0 in, i.e. roughly one-fifth to one-quarter of the building depth",
-   "Ground-storey wall 24–30 in; upper-storey wall 6–10 in; wall plane step-in 6–12 in",
-   "Storey heights 9–11 ft ground, 8–10 ft upper",
-   "Roof rise:run 4:12 to 5:12, hipped, eave 12–24 in",
-   "Baluster 1.5–2 in square at 4–5 in on centre; rail 30–34 in above the deck",
-   "Sash 6/6, opening 2 ft 8 in – 3 ft 2 in × 5 ft – 5 ft 8 in, architrave 4–5 in wide"
+  "lineage": [
+    {
+      "target": "spanish-colonial-american",
+      "type": "regional_of",
+      "weight": 1,
+      "inherits_kit": true,
+      "note": "Containment and kit inheritance: the ground storey, the wall thickness and the plaster finish are Hispano-Californian."
+    },
+    {
+      "target": "spanish-colonial-american",
+      "type": "hybridizes_with",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "Recorded as a co-parent of equal weight as well as a containment parent, because Monterey is a genuine hybrid rather than a regional inflection: the adobe wall, the lime plaster and the shaded exterior circulation are the Hispanic half of the parentage."
+    },
+    {
+      "target": "new-england-colonial",
+      "type": "hybridizes_with",
+      "weight": 0.5,
+      "inherits_kit": true,
+      "note": "The Anglo half: braced-frame carpentry, a wood-shingled hip roof, milled architrave trim, double-hung six-over-six sash, an interior stair and an interior corridor — all brought by New England shipmasters and carpenters into a province that had none of them. SCOPED (OQ 36, 24 Aug 2026) to the list this note already enumerates - the carpentry, the trim, the sash, the stair and the corridor. Unscoped it also carried `chimney`, which the note does not claim and which is wrong: a Monterey chimney is the Hispanic adobe half of the house, not the Anglo half the shipmasters brought.",
+      "slots": [
+        "stair_position",
+        "stair_type",
+        "chair_rail",
+        "crown",
+        "cornice_return",
+        "gable_treatment",
+        "transom_sidelight",
+        "architrave",
+        "sash_pattern"
+      ]
+    }
   ],
-  "bay_rhythm": "Five to seven regularly spaced openings on the balcony elevation, essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred.",
-  "symmetry": "near-symmetrical"
- },
- "massing_affinities": [
-  {
-   "massing": "gallery-house",
-   "affinity": "canonical",
-   "note": "A linear block with a continuous upper gallery — the Monterey diagram."
+  "description": {
+    "short": "A genuine two-culture hybrid of Mexican and early American California — Hispanic adobe walls below, New England frame carpentry above, and a two-storey cantilevered wooden balcony running the length of the facade.",
+    "long": "Monterey Colonial has one of the narrowest windows in this entire taxonomy — roughly 1834 to 1850 — and it exists because of a specific commercial situation. After Mexican independence and the opening of the hide-and-tallow trade, New England merchants settled at Monterey, the capital of Alta California. They married into Californio families, they imported lumber, milled sash and hardware in the same ships that took hides east, and they brought house carpenters with them. What those carpenters built was not a New England house and not a Californio adobe. It was both, stacked.\n\nThe ground storey is Hispanic: adobe brick, twenty-four to thirty inches thick, lime-plastered and whitewashed, sitting on a stone footing, with the deep reveals and small openings the material demands. The upper storey is Anglo: a light braced timber frame, sometimes over a second course of adobe, sheathed and plastered or clapboarded, with walls perhaps six to eight inches thick. Because the upper wall is so much thinner, the wall plane visibly steps in at the second floor, and that step is a permanent record of the two building cultures meeting.\n\nThe defining element is the balcony, and its structure is the point. It is cantilevered — the second-floor joists simply run out past the wall five to seven feet and carry a deck and a plain square-baluster rail, with no posts reaching the ground. This is Anglo carpentry doing something the adobe tradition could not do, and it is the fastest and most reliable identification of the type. Where a two-storey California adobe has posts under its upper gallery, it belongs to the Hispanic tradition or to the twentieth-century revival; where the balcony floats, it is Monterey.\n\nThe roof follows the same logic: a low hip, four to five in twelve, covered not in clay tile but in redwood shingle, which arrived with the same ships and the same sawmills. Windows are double-hung six-over-six sash — the first in California — set in milled New England architraves four to five inches wide, punched into an adobe wall whose reveal is two feet deep. Inside, the Anglo half wins outright: an interior stair, an interior corridor, and rooms that are entered rather than passed through.\n\nThomas Oliver Larkin, the American consul, built the first of them at Monterey in 1835, though Casa Amesti of 1834 is at least contemporary and the priority is not entirely settled. The type spread quickly to Petaluma, Milpitas, Salinas and Los Angeles and then stopped almost as quickly, because the Gold Rush brought balloon framing, milled lumber in quantity and an Anglo population large enough to build whatever it liked. Standing under a Monterey balcony one sees, quite literally, two building cultures in section: two feet of mud below, three inches of Massachusetts pine above."
   },
-  {
-   "massing": "four-over-four",
-   "affinity": "common",
-   "note": "The Anglo double-pile plan behind the balcony on the larger houses."
+  "defining_characteristics": [
+    "Two full storeys — the ground storey of 24–30 in adobe, the upper of light Anglo-American braced frame or thinner adobe",
+    "A continuous cantilevered balcony 5–7 ft deep on the long facade, carried on the projecting second-floor joists with no posts to grade",
+    "Plain square wooden balusters and a simple top rail, without turning or classical profile",
+    "Low hipped roof, 4:12 to 5:12, covered in redwood shingle rather than clay tile",
+    "Double-hung six-over-six sash in milled New England architrave trim, set in deep adobe reveals on the ground floor",
+    "A visible step-in of the wall plane at the second-floor line, 6–12 in, where the thin frame wall sits on the thick adobe one",
+    "Interior stair and an interior corridor — Anglo circulation grafted onto a Hispanic envelope"
+  ],
+  "diagnostic_tells": [
+    "The balcony floats: no posts, no brackets to the ground, the deck simply projecting from the wall",
+    "Shingle, not tile, on a low hip roof over an adobe building",
+    "Sash windows in a wall two feet thick — an unmistakable collision of two building cultures at every opening",
+    "The wall plane steps back at the second floor; sight up the corner and it is obvious",
+    "Milled American trim profiles on an adobe house of the 1830s"
+  ],
+  "distinguished_from": [
+    {
+      "node": "monterey-revival",
+      "difference": "The 1925–55 revival is stucco over wood frame throughout, usually with a gable rather than a hip roof, clay tile rather than shingle, a balcony that is frequently posted or bracketed rather than cantilevered, and often only a partial balcony over the entrance. Wall thickness at the ground-floor reveal and the presence or absence of posts under the balcony settle it."
+    },
+    {
+      "node": "california-mission-colonial",
+      "difference": "Mission work is single-storey, institutional, arcaded on square piers, tile-roofed and organized around a quadrangle. Monterey is domestic, two-storey, balconied, shingle-roofed and organized around an interior stair."
+    },
+    {
+      "node": "new-england-colonial",
+      "difference": "It shares the framing, the sash and the trim, but the ground storey is two feet of adobe, the roof is a 4:12 hip rather than a 12:12 gable, there is no central chimney, and the balcony is a device New England never built."
+    }
+  ],
+  "proportional_system": {
+    "governing_logic": "The cantilever capacity of a second-floor joist sets the balcony depth; the adobe wall below sets everything else.",
+    "typical_ratios": [
+      "Balcony depth 5 ft 0 in – 7 ft 0 in, i.e. roughly one-fifth to one-quarter of the building depth",
+      "Ground-storey wall 24–30 in; upper-storey wall 6–10 in; wall plane step-in 6–12 in",
+      "Storey heights 9–11 ft ground, 8–10 ft upper",
+      "Roof rise:run 4:12 to 5:12, hipped, eave 12–24 in",
+      "Baluster 1.5–2 in square at 4–5 in on centre; rail 30–34 in above the deck",
+      "Sash 6/6, opening 2 ft 8 in – 3 ft 2 in × 5 ft – 5 ft 8 in, architrave 4–5 in wide"
+    ],
+    "bay_rhythm": "Five to seven regularly spaced openings on the balcony elevation, essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred.",
+    "symmetry": "near-symmetrical"
   },
-  {
-   "massing": "center-passage-single-pile",
-   "affinity": "possible",
-   "note": "The corridor arrives with the Yankee carpenters."
-  },
-  {
-   "massing": "courtyard-u",
-   "affinity": "possible",
-   "note": "Where an older Californio adobe wing survives and the Monterey block is added to it."
-  }
- ],
- "constraints": [
-  {
-   "kind": "structural",
-   "severity": "hard",
-   "statement": "The balcony must cantilever from the second-floor framing with no posts or columns reaching grade, at a depth of 5–7 ft. A posted upper gallery is either Hispanic-tradition or revival, and in either case is not this type.",
-   "id": "monterey-colonial.c01",
-   "scope": "elevation",
-   "test": {
-    "expression": "balcony_depth_ft",
-    "direction": "between",
-    "threshold": 5,
-    "upper": 7,
-    "units": "ft",
-    "measurable_from": "elevation",
-    "note": "The no-posts-to-grade clause is categorical and stays prose."
-   }
-  },
-  {
-   "kind": "structural",
-   "severity": "hard",
-   "statement": "Ground-storey wall not less than 24 in of adobe or equivalent mass masonry, with the upper-storey wall plane set back 6–12 in. Uniform wall thickness top to bottom removes the hybrid and produces a revival.",
-   "id": "monterey-colonial.c02",
-   "scope": "elevation",
-   "test": {
-    "expression": "wall_setback_upper_storey_in",
-    "direction": "between",
-    "threshold": 6,
-    "upper": 12,
-    "units": "in",
-    "measurable_from": "elevation",
-    "note": "Ground-storey wall thickness (not less than 24in adobe) is the statement's other numeric claim and stays prose."
-   }
-  },
-  {
-   "kind": "co-occurrence",
-   "severity": "hard",
-   "statement": "Roof is a hip at 4:12 to 5:12 in wood shingle. Clay tile is a twentieth-century revival substitution; gable roofs belong to the revival, not to the 1830s original.",
-   "id": "monterey-colonial.c03",
-   "scope": "elevation",
-   "test": {
-    "expression": "roof_pitch_rise_per_12",
-    "direction": "between",
-    "threshold": 4,
-    "upper": 5,
-    "units": "rise_in_12",
-    "measurable_from": "elevation",
-    "note": "The hip-not-gable and wood-shingle-not-clay-tile clauses are categorical and stay prose."
-   }
-  },
-  {
-   "kind": "co-occurrence",
-   "severity": "soft",
-   "statement": "Openings are double-hung six-over-six sash in milled architrave trim 4–5 in wide, punched through a reveal expressing the full adobe wall depth. Casements and grilles belong to the earlier Hispanic layer.",
-   "id": "monterey-colonial.c04",
-   "scope": "elevation",
-   "test": {
-    "expression": "window_head_width_in",
-    "direction": "between",
-    "threshold": 4,
-    "upper": 5,
-    "units": "in",
-    "measurable_from": "elevation"
-   }
-  },
-  {
-   "kind": "proportional",
-   "severity": "soft",
-   "statement": "Balcony rail of plain square balusters 1.5–2 in at 4–5 in on centre, 30–34 in high, with no turning, scrollwork or classical profile. Turned balusters are a revival marker.",
-   "id": "monterey-colonial.c05",
-   "scope": "judgment"
-  }
- ],
- "exemplars": [
-  {
-   "name": "Larkin House",
-   "location": "464 Calle Principal, Monterey, California",
-   "year": 1835,
-   "note": "Built by Thomas Oliver Larkin, United States consul; generally identified as the first house of the type and its clearest statement — adobe below, New England frame above, cantilevered balcony on two sides, shingle hip roof. National Historic Landmark."
-  },
-  {
-   "name": "Casa Amesti",
-   "location": "516 Polk Street, Monterey, California",
-   "year": 1834,
-   "note": "Contemporary with or slightly earlier than the Larkin House; the question of priority between the two is not fully settled and the type is better dated c. 1834–35 than to a single building."
-  },
-  {
-   "name": "Cooper-Molera Adobe",
-   "location": "Polk and Munras, Monterey, California",
-   "year": 1827,
-   "note": "Begun 1827 for Captain John Rogers Cooper, a New England shipmaster, and enlarged through the 1830s and 40s; shows the transition from Californio adobe to the Monterey type within one building."
-  },
-  {
-   "name": "Rancho Petaluma Adobe",
-   "location": "Petaluma, Sonoma County, California",
-   "year": 1836,
-   "note": "Mariano Vallejo's ranch headquarters, the largest surviving Monterey-type building — a two-storey adobe with a continuous upper balcony around a courtyard."
-  }
- ],
- "sources": [
-  "Harold Kirker, California's Architectural Frontier: Style and Tradition in the Nineteenth Century (1960)",
-  "Rexford Newcomb, Spanish-Colonial Architecture in the United States (1937)",
-  "David Gebhard, 'The Monterey Tradition: History Reordered', New Mexico Studies in the Fine Arts 7 (1982)",
-  "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
- ],
- "confidence": "high",
- "tags": [
-  "hybrid",
-  "cantilevered-balcony",
-  "adobe",
-  "anglo-frame",
-  "mexican-california"
- ],
- "proportion_packs": [
-  {
-   "pack": "facade-classical",
-   "role": "primary",
-   "note": "This node's own bay_rhythm record states the case directly: 'five to seven regularly spaced openings on the balcony elevation, essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred.' That is facade-classical's own domain -- a designed, module-divided, roughly-symmetrical front -- arriving here by direct transmission (the Yankee ship carpenters who built these houses came from a New England Georgian building culture) rather than through a pattern book. Bound at the balcony/upper-storey rank only: the ground-floor adobe wall, with its deep undivided reveals, is not composed to this or any module in the corpus -- see the mass-wall gap noted on the parent spanish-colonial-american node, which still governs the lower storey here.",
-   "precedence": 1
-  },
-  {
-   "pack": "sash-light",
-   "role": "opening",
-   "note": "Directly attested: this node records double-hung six-over-six sash -- 'the first in California' -- in 'milled New England architrave trim 4-5 in wide,' which is sash-light's own window_surround_wood figure (module x 0.55, about 5 in) almost exactly, and 6/6 sash is exactly what this pack's dating rule predicts for glazing done in the 1830s-40s ('do not put 6/6 on one before about 1780'). This node is not in the pack's applies_to list, which is very likely an oversight given how precisely the internal evidence matches -- the Larkin House (1835) is the type's own name-giving exemplar for exactly this glazing.",
-   "precedence": 2
-  },
-  {
-   "pack": "storey-graduation",
-   "role": "massing",
-   "note": "Governs the Anglo half of the hybrid: storey heights of 9-11 ft ground over 8-10 ft upper are a ratio of roughly 0.85-0.95, inside this pack's own 0.78-0.92 measured band for graduated Anglo-American work. What it does NOT derive is the wall-plane step itself (24-30 in adobe below, 6-10 in frame above) -- that is a material change, not a storey-height ratio, and no pack in this corpus owns it; it is the same mass-wall gap noted on the parent node, here meeting a pack that does apply to the storey above it. This node is not in storey-graduation's applies_to list either, for the same likely reason as sash-light: the hybrid is narrow enough (sixteen years, 1834-1850) that the general applies_to sweep may simply have missed it.",
-   "precedence": 3
-  },
-  {
-   "pack": "room-vernacular",
-   "role": "room",
-   "note": "Explicitly listed in this pack's own applies_to. Governs the Anglo-planned rooms behind the balcony -- 'an interior stair, an interior corridor, and rooms that are entered rather than passed through,' in this node's own words, which is exactly the framed-room logic room-vernacular reconstructs, as against the beam-strung Hispanic room logic still governing wherever an older Californio wing survives within the same building.",
-   "precedence": 4
-  }
- ]
+  "massing_affinities": [
+    {
+      "massing": "gallery-house",
+      "affinity": "canonical",
+      "note": "A linear block with a continuous upper gallery — the Monterey diagram."
+    },
+    {
+      "massing": "four-over-four",
+      "affinity": "common",
+      "note": "The Anglo double-pile plan behind the balcony on the larger houses."
+    },
+    {
+      "massing": "center-passage-single-pile",
+      "affinity": "possible",
+      "note": "The corridor arrives with the Yankee carpenters."
+    },
+    {
+      "massing": "courtyard-u",
+      "affinity": "possible",
+      "note": "Where an older Californio adobe wing survives and the Monterey block is added to it."
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "The balcony must cantilever from the second-floor framing with no posts or columns reaching grade, at a depth of 5–7 ft. A posted upper gallery is either Hispanic-tradition or revival, and in either case is not this type.",
+      "id": "monterey-colonial.c01",
+      "scope": "elevation",
+      "test": {
+        "expression": "balcony_depth_ft",
+        "direction": "between",
+        "threshold": 5,
+        "upper": 7,
+        "units": "ft",
+        "measurable_from": "elevation",
+        "note": "The no-posts-to-grade clause is categorical and stays prose."
+      }
+    },
+    {
+      "kind": "structural",
+      "severity": "hard",
+      "statement": "Ground-storey wall not less than 24 in of adobe or equivalent mass masonry, with the upper-storey wall plane set back 6–12 in. Uniform wall thickness top to bottom removes the hybrid and produces a revival.",
+      "id": "monterey-colonial.c02",
+      "scope": "elevation",
+      "test": {
+        "expression": "wall_setback_upper_storey_in",
+        "direction": "between",
+        "threshold": 6,
+        "upper": 12,
+        "units": "in",
+        "measurable_from": "elevation",
+        "note": "Ground-storey wall thickness (not less than 24in adobe) is the statement's other numeric claim and stays prose."
+      }
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "hard",
+      "statement": "Roof is a hip at 4:12 to 5:12 in wood shingle. Clay tile is a twentieth-century revival substitution; gable roofs belong to the revival, not to the 1830s original.",
+      "id": "monterey-colonial.c03",
+      "scope": "elevation",
+      "test": {
+        "expression": "roof_pitch_rise_per_12",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 5,
+        "units": "rise_in_12",
+        "measurable_from": "elevation",
+        "note": "The hip-not-gable and wood-shingle-not-clay-tile clauses are categorical and stay prose."
+      }
+    },
+    {
+      "kind": "co-occurrence",
+      "severity": "soft",
+      "statement": "Openings are double-hung six-over-six sash in milled architrave trim 4–5 in wide, punched through a reveal expressing the full adobe wall depth. Casements and grilles belong to the earlier Hispanic layer.",
+      "id": "monterey-colonial.c04",
+      "scope": "elevation",
+      "test": {
+        "expression": "window_head_width_in",
+        "direction": "between",
+        "threshold": 4,
+        "upper": 5,
+        "units": "in",
+        "measurable_from": "elevation"
+      }
+    },
+    {
+      "kind": "proportional",
+      "severity": "soft",
+      "statement": "Balcony rail of plain square balusters 1.5–2 in at 4–5 in on centre, 30–34 in high, with no turning, scrollwork or classical profile. Turned balusters are a revival marker.",
+      "id": "monterey-colonial.c05",
+      "scope": "judgment"
+    }
+  ],
+  "exemplars": [
+    {
+      "name": "Larkin House",
+      "location": "464 Calle Principal, Monterey, California",
+      "year": 1835,
+      "note": "Built by Thomas Oliver Larkin, United States consul; generally identified as the first house of the type and its clearest statement — adobe below, New England frame above, cantilevered balcony on two sides, shingle hip roof. National Historic Landmark."
+    },
+    {
+      "name": "Casa Amesti",
+      "location": "516 Polk Street, Monterey, California",
+      "year": 1834,
+      "note": "Contemporary with or slightly earlier than the Larkin House; the question of priority between the two is not fully settled and the type is better dated c. 1834–35 than to a single building."
+    },
+    {
+      "name": "Cooper-Molera Adobe",
+      "location": "Polk and Munras, Monterey, California",
+      "year": 1827,
+      "note": "Begun 1827 for Captain John Rogers Cooper, a New England shipmaster, and enlarged through the 1830s and 40s; shows the transition from Californio adobe to the Monterey type within one building."
+    },
+    {
+      "name": "Rancho Petaluma Adobe",
+      "location": "Petaluma, Sonoma County, California",
+      "year": 1836,
+      "note": "Mariano Vallejo's ranch headquarters, the largest surviving Monterey-type building — a two-storey adobe with a continuous upper balcony around a courtyard."
+    }
+  ],
+  "sources": [
+    "Harold Kirker, California's Architectural Frontier: Style and Tradition in the Nineteenth Century (1960)",
+    "Rexford Newcomb, Spanish-Colonial Architecture in the United States (1937)",
+    "David Gebhard, 'The Monterey Tradition: History Reordered', New Mexico Studies in the Fine Arts 7 (1982)",
+    "Virginia Savage McAlester, A Field Guide to American Houses (2nd ed., 2013)"
+  ],
+  "confidence": "high",
+  "tags": [
+    "hybrid",
+    "cantilevered-balcony",
+    "adobe",
+    "anglo-frame",
+    "mexican-california"
+  ],
+  "proportion_packs": [
+    {
+      "pack": "adobe-module",
+      "role": "secondary",
+      "note": "Secondary, not primary, and the split is the whole point of this node. facade-classical governs the upper storey and the veranda, and stays primary: the Anglo-American frame floor really is composed to a classical module and its own record says so. This pack governs the storey underneath it -- the 24-30 in adobe ground floor whose deep undivided reveals this node's facade-classical binding note explicitly excludes from that module, referring the reader to 'the mass-wall gap noted on the parent spanish-colonial-american node.' That gap is now filled and the reference resolves. The two packs meet at the step-in of the wall plane at the second-floor line, which this record gives as 6-12 in and which is simply the difference between a 29 in adobe wall and a frame one sitting on it -- a joint between two proportioning systems made visible, and the reason this hybrid reads as a hybrid.",
+      "precedence": 0
+    },
+    {
+      "pack": "facade-classical",
+      "role": "primary",
+      "note": "This node's own bay_rhythm record states the case directly: 'five to seven regularly spaced openings on the balcony elevation, essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred.' That is facade-classical's own domain -- a designed, module-divided, roughly-symmetrical front -- arriving here by direct transmission (the Yankee ship carpenters who built these houses came from a New England Georgian building culture) rather than through a pattern book. Bound at the balcony/upper-storey rank only: the ground-floor adobe wall, with its deep undivided reveals, is not composed to this or any module in the corpus -- see the mass-wall gap noted on the parent spanish-colonial-american node, which still governs the lower storey here -- and which is CLOSED as of 25 Aug 2026: `adobe-module` is bound secondary on this node and is what proportions that ground storey.",
+      "precedence": 1
+    },
+    {
+      "pack": "sash-light",
+      "role": "opening",
+      "note": "Directly attested: this node records double-hung six-over-six sash -- 'the first in California' -- in 'milled New England architrave trim 4-5 in wide,' which is sash-light's own window_surround_wood figure (module x 0.55, about 5 in) almost exactly, and 6/6 sash is exactly what this pack's dating rule predicts for glazing done in the 1830s-40s ('do not put 6/6 on one before about 1780'). This node is not in the pack's applies_to list, which is very likely an oversight given how precisely the internal evidence matches -- the Larkin House (1835) is the type's own name-giving exemplar for exactly this glazing.",
+      "precedence": 2
+    },
+    {
+      "pack": "storey-graduation",
+      "role": "massing",
+      "note": "Governs the Anglo half of the hybrid: storey heights of 9-11 ft ground over 8-10 ft upper are a ratio of roughly 0.85-0.95, inside this pack's own 0.78-0.92 measured band for graduated Anglo-American work. What it does NOT derive is the wall-plane step itself (24-30 in adobe below, 6-10 in frame above) -- that is a material change, not a storey-height ratio, and no pack in this corpus owns it; it is the same mass-wall gap noted on the parent node, here meeting a pack that does apply to the storey above it. AMENDED 25 Aug 2026: half of that is no longer true. `adobe-module` is bound secondary on this node and derives the 24-30 in figure below the step from the adobe itself. The STEP is still owned by no single pack and cannot be, because it is not a dimension -- it is the joint between two proportioning systems, and its size is just the difference between what each of them says the wall is. That is the honest shape of it and it should not be given to either pack to derive. This node is not in storey-graduation's applies_to list either, for the same likely reason as sash-light: the hybrid is narrow enough (sixteen years, 1834-1850) that the general applies_to sweep may simply have missed it.",
+      "precedence": 3
+    },
+    {
+      "pack": "room-vernacular",
+      "role": "room",
+      "note": "Explicitly listed in this pack's own applies_to. Governs the Anglo-planned rooms behind the balcony -- 'an interior stair, an interior corridor, and rooms that are entered rather than passed through,' in this node's own words, which is exactly the framed-room logic room-vernacular reconstructs, as against the beam-strung Hispanic room logic still governing wherever an older Californio wing survives within the same building.",
+      "precedence": 4
+    }
+  ]
 }
