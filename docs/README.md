@@ -18,7 +18,9 @@ One doc per layer, in stack order — bottom (the alphabet) to top (the platform
 | 12 | Generator — structure | [`structure.md`](structure.md) | Wall thickness and bearing lines from a new `construction/` catalog, outside-to-outside footprint, span checking, storey heights inverted from the ceiling rule, eave/ridge heights against the style's pitch constraint, stair rise/run/landing; roof form, pitch, chimney placement and per-face silhouettes (WP-3.3, in its own "Roof geometry" section). |
 | 13 | Generator — elevation | [`elevation.md`](elevation.md) | Bay layout, window sizing (head-first-sill-second-width-third), the entrance composition and its doorcase order, the eave cornice as "the style's entablature reduction," water table and belt course, and a scope gate keeping this Palladian system off styles it was never sourced for. |
 | 14 | Evidence — images | [`assets.md`](assets.md) | Records authored before files exist; `license` never `unknown`; good/bad pairs. |
-| 15 | Governance | [`open-questions.md`](open-questions.md) | 27 numbered judgement calls, each RESOLVED (with the ruling and where it landed) or OPEN. |
+| 15 | Platform — workbench | [`workbench.md`](workbench.md) | The ten-surface app in `workbench/` (WP-5.2): FastAPI over `mcp_server/core.py`, the Drawn Language frontend, the AI rail, drag-and-re-score. |
+| 16 | Platform — export | [`export.md`](export.md) | DXF per sheet (inches, the record riding as XDATA, round-trip proven) and IFC4 (TDL ids as property sets); honest refusals without the optional CAD libraries (WP-5.1). |
+| 17 | Governance | [`open-questions.md`](open-questions.md) | Numbered judgement calls, each RESOLVED (with the ruling and where it landed) or OPEN. |
 | — | Reports | [`reports/`](reports/) | One file per completed work package from the Plan of Action — `reports/<wp-id>-<slug>.md` — what was built, what was found, what was deliberately not done, and any new open question it raised. |
 
 ## Regenerating things instead of hand-editing them

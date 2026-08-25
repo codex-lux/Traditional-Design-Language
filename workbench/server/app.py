@@ -288,6 +288,21 @@ def drawings(kind: str, body: dict = Body(...)):
     return res
 
 
+# ----------------------------------------------------------------- export (WP-5.1)
+@app.post("/api/export/{fmt}")
+def export_cad(fmt: str, body: dict = Body(...)):
+    plan = body.get("plan")
+    if not plan:
+        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    res = corpus.export_cad(fmt, plan, kind=body.get("kind"), parti=body.get("parti"),
+                            face=body.get("face"), candidates=int(body.get("candidates", 250)))
+    if "error" in res:
+        # 501 for the honest missing-library refusal, 422 for everything else —
+        # the client shows the stated reason either way
+        raise HTTPException(status_code=501 if res.get("unexported") else 422, detail=res)
+    return res
+
+
 # ----------------------------------------------------------------- the AI rail
 @app.post("/api/rail/messages")
 async def rail_messages(request: Request):

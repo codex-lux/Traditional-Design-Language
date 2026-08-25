@@ -226,6 +226,66 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
     return {"kind": kind, "svg": svg_theme.retokenize(svg), **meta}
 
 
+def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
+    """WP-5.1: run build/export_dxf.py or build/export_ifc.py for one plan and
+    return the file's text (DXF and IFC-SPF are both text formats). Refusals —
+    a missing optional library, an elevation outside the classical-front
+    family — come back stated with `unexported`/`refusal`, never collapsed
+    into an empty file."""
+    import json as _json
+    import os as _os
+    import tempfile
+
+    B = _os.path.join(ROOT, "build")
+    plan = core.copy_json(plan)
+    pt = None
+    if parti:
+        f = _os.path.join(ROOT, "partis", f"{parti}.json")
+        if _os.path.exists(f):
+            pt = _json.load(open(f))
+    pid = plan.get("id", "plan")
+
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            if fmt == "ifc":
+                EI = core._mod("export_ifc", f"{B}/export_ifc.py")
+                p = _os.path.join(td, "out.ifc")
+                res = EI.export_ifc(plan, p, pt)
+                if "error" in res:
+                    return res
+                return {"format": "ifc", "filename": f"{pid}.ifc", "text": open(p).read(),
+                        "counts": res["counts"], "units": res["units"], "schema": res["schema"]}
+            if fmt == "dxf":
+                EX = core._mod("export_dxf", f"{B}/export_dxf.py")
+                kind = kind or "plan"
+                p = _os.path.join(td, "out.dxf")
+                if kind == "plan":
+                    res = EX.export_plan_dxf(plan, p, pt, candidates)
+                elif kind == "section":
+                    st = core._mod("structure", f"{B}/structure.py")
+                    section = st.build_section(plan, pt)
+                    res = section if "error" in section else EX.export_section_dxf(section, p)
+                elif kind == "roof":
+                    rf = core._mod("roof", f"{B}/roof.py")
+                    roof = rf.build_roof(plan, pt)
+                    res = roof if "error" in roof else EX.export_roof_dxf(roof, p)
+                elif kind == "elevation":
+                    EL = core._mod("elevation", f"{B}/elevation.py")
+                    elev = EL.build_elevation(plan, pt)
+                    res = elev if "error" in elev else EX.export_elevation_dxf(elev, p, face)
+                else:
+                    return {"error": f"unknown DXF sheet kind '{kind}'",
+                            "kinds": ["plan", "section", "roof", "elevation"]}
+                if "error" in res:
+                    return res
+                suffix = res.get("sheets", kind)
+                return {"format": "dxf", "kind": kind,
+                        "filename": f"{pid}-{suffix}.dxf", "text": open(p).read()}
+            return {"error": f"unknown export format '{fmt}'", "formats": ["dxf", "ifc"]}
+    except Exception as e:
+        return {"error": f"{type(e).__name__}: {str(e)[:300]}"}
+
+
 def invalidate():
     """Drop every cache so on-disk corpus edits are seen. Explicit by design:
     auto-invalidation per request would reintroduce the OQ-28 tax."""

@@ -37,12 +37,16 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
 ## Verifying
 
 ```
-python3 build/check_all.py     # 21 checks incl. the full pytest suite. ~3 min. Must be green.
+python3 build/check_all.py     # 23 checks incl. the full pytest suite. ~3 min. Must be green.
+                               # (the two CAD-export selftests report N/EV — COULD NOT
+                               #  EVALUATE — without the optional ezdxf/ifcopenshell;
+                               #  that is a named unjudged state, never a pass)
 ```
 
 Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_constraints.py`,
 `build/check_pack_bindings.py --strict`, `build/check_rooms.py`, `build/check_faults.py`,
-`build/proportion_engine.py selftest`. Useful while authoring:
+`build/proportion_engine.py selftest`, `build/export_dxf.py selftest`,
+`build/export_ifc.py selftest`. Useful while authoring:
 `python3 build/resolve_kit.py <style-id> --verbose` shows a kit's full provenance chain.
 
 ## Where the work stands (25 Aug 2026)
@@ -50,14 +54,16 @@ Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_cons
 Phases 0, 1, 3 complete. Phase 2 complete **except WP-2.3**. Phase 4 complete through WP-4.3.
 Phase 5 started out of order: **WP-5.2 complete** — the workbench is live in `workbench/`
 (FastAPI over `mcp_server/core.py` + a Vite/React frontend; an approved divergence from
-the package text's self-contained `dist/` HTML file). WP-5.1, 5.3 and 5.5 not started;
-WP-5.4 deferred until the plan-development partnership exists.
+the package text's self-contained `dist/` HTML file). **WP-5.1 complete (25 Aug)** —
+DXF/IFC export with a proven round-trip (DXF → record → identical findings), optional
+deps behind honest refusals, live in the workbench's Export card (`docs/export.md`).
+WP-5.3 and 5.5 not started; WP-5.4 deferred until the plan-development partnership exists.
 
 164 nodes · 95 slots (ontology 0.5.0) · 40 massings · 58 rooms · 16 groupings ·
 **12 partis naming only 39 of 132 styles** · 36 packs (129 of 132 nodes bound) ·
 660 constraints migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits
 populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools ·
-309 tests · 30 workbench server tests (separate suite, `workbench/server/tests/`).
+322 tests · 35 workbench server tests (separate suite, `workbench/server/tests/`).
 
 **Next — two tracks that can run in parallel:**
 
@@ -75,11 +81,11 @@ populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tool
 
 *The platform track — unblocked now, no Phase 4 coupling (§6 hangs Phase 5 off
 Phases 1–3, all complete):*
-- **WP-5.1 — DXF/IFC export.** Closes the loudest disabled card in the workbench's
-  Export surface; its round-trip acceptance (DXF → plan record → same findings) is an
-  independent check on the WP-3.1 geometry stack.
+- ~~**WP-5.1 — DXF/IFC export.**~~ **Done 25 Aug 2026** — see the status paragraph above.
 - **WP-5.5 — drawing-to-record ingestion.** Feeds back into breadth: it is the pipeline
-  that lets HABS drawings and a builder's back catalogue become records.
+  that lets HABS drawings and a builder's back catalogue become records. WP-5.1 built its
+  starting point — `build/import_dxf.py` reads TDL-emitted DXF and refuses foreign files
+  by name; 5.5 generalizes it to a drafter's drawing.
 - **WP-5.3 — generated guidelines** waits for WP-4.4/4.6 by choice, not dependency: it is
   generated from data, so regeneration is free, and a book generated today is mostly
   `wanted` images and unjudged calls. **WP-4.7** stays scope-only by design.
@@ -98,7 +104,7 @@ Phases 1–3, all complete):*
 - **The composer refuses on purpose.** It will not invent a room the parti has no place for,
   will not present an assumption as fact, and will not call a plan good. Refusals belong in
   the decision log, stated. Do not "fix" a refusal into a guess.
-- **Open questions are live.** `docs/open-questions.md` (35). OQ 27, 29, 30, 31, 32–34 and
+- **Open questions are live.** `docs/open-questions.md` (36). OQ 27, 29, 30, 31, 32–34, 36 and
   the `hybridizes_with` problem await Lucas's ruling. OQ 31 is a new category the corpus has
   no vocabulary for: not "unjudged", but *judged where the judgment does not apply*. OQ 32–34
   are the workbench's findings: validator findings carry no stable id, geometry relaxations

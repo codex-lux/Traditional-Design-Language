@@ -15,7 +15,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **2 — Composition** | WP-2.1, 2.2, 2.4 complete · **WP-2.3 not started** | **Incomplete** — the solver is still a hill-climb, not an optimiser |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3 complete · **4.4, 4.5, 4.6, 4.7 not started** | **In progress** |
-| **5 — Platform** | WP-5.2 complete · **5.1, 5.3, 5.4, 5.5 not started** | **In progress** — the workbench is live in `workbench/`; export, guidelines, cost and ingestion remain |
+| **5 — Platform** | WP-5.1, 5.2 complete · **5.3, 5.4, 5.5 not started** | **In progress** — the workbench is live in `workbench/` and DXF/IFC export ships with a proven round-trip; guidelines, cost and ingestion remain |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -398,6 +398,8 @@ Write the scoping note: which traditions, which families, what the first style i
 *Goal: the IR leaves the system in forms builders, drafters and plan-development leads can use.*
 
 ### WP-5.1 Export: DXF and IFC
+
+**Status: COMPLETE (25 Aug 2026).** `build/export_dxf.py` (one layered DXF per sheet, inches, the record riding on the entities as XDATA), `build/export_ifc.py` (IFC4, feet; walls, slabs, openings, roof, spaces, every product with its TDL ids in a `TDL` Pset), and `build/import_dxf.py` (a minimal reader scoped to TDL-emitted DXF, by ruling — WP-5.5 generalizes it). Acceptance met and exceeded: the round-trip gives identical validator findings on both check plans *and* the rebuilt record deep-equals the authored one; the importer refuses when drawing and carried record disagree. ezdxf/ifcopenshell are optional by ruling — the exporters refuse honestly without them and `check_all.py` gained a third state (`N/EV — COULD NOT EVALUATE`, exit 3) so the missing-library case is named, never counted as a pass. The workbench Export card is live (`/api/export/{dxf,ifc}`). What is honestly not modelled (hip/gambrel roof solids, unstated sill heights, exterior-door placement) is stated per element. Report: `docs/reports/wp-5.1-export-dxf-ifc.md` · layer doc: `docs/export.md` · new open question: OQ 36.
 
 **Depends on:** WP-3.1. **Size:** medium.
 

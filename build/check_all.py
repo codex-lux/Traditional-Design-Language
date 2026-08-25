@@ -36,7 +36,17 @@ CHECKS = [
     ("elevation.py", ["plans/tidewater-georgian-careful.json"]),
     ("compose.py", ["briefs/family-georgian.json"]),
     ("build.py", []),
+    # WP-5.1: the exporters' selftests. ezdxf/ifcopenshell are OPTIONAL
+    # dependencies — without them these exit 3, reported below as COULD NOT
+    # EVALUATE: a named unjudged state, never collapsed into a pass.
+    ("export_dxf.py", ["selftest"]),
+    ("export_ifc.py", ["selftest"]),
 ]
+
+# exit code 3 from a check means "could not evaluate" (e.g. an optional
+# dependency is absent). It is reported distinctly and does not fail the
+# suite, but it is never printed as OK — unjudged is not passed.
+COULD_NOT_EVALUATE = 3
 
 
 def main():
@@ -48,21 +58,34 @@ def main():
             [sys.executable, str(ROOT / "build" / script)] + args,
             cwd=str(ROOT),
         )
-        results.append((label, proc.returncode == 0))
+        results.append((label, proc.returncode))
 
     print("\n=== pytest tests/ " + "=" * 42)
-    pytest_proc = subprocess.run(["pytest", "tests/"], cwd=str(ROOT))
-    results.append(("pytest tests/", pytest_proc.returncode == 0))
+    # same interpreter as every check above — a standalone `pytest` on PATH can
+    # be a different environment entirely (found the hard way: an isolated
+    # pytest without the optional CAD libs silently skipped the export tests
+    # while the selftests two lines up ran them)
+    pytest_proc = subprocess.run([sys.executable, "-m", "pytest", "tests/"], cwd=str(ROOT))
+    # normalized: pytest's own exit 3 means "internal error", not our
+    # could-not-evaluate protocol — only the build/ checks speak that code
+    results.append(("pytest tests/", 0 if pytest_proc.returncode == 0 else 1))
 
     print("\n" + "=" * 60)
     print("SUMMARY")
-    failed = [label for label, ok in results if not ok]
-    for label, ok in results:
-        print(f"  {'OK  ' if ok else 'FAIL'}  {label}")
+    failed = [label for label, rc in results if rc not in (0, COULD_NOT_EVALUATE)]
+    unjudged = [label for label, rc in results if rc == COULD_NOT_EVALUATE]
+    for label, rc in results:
+        state = "OK  " if rc == 0 else ("N/EV" if rc == COULD_NOT_EVALUATE else "FAIL")
+        print(f"  {state}  {label}")
     if failed:
         print(f"\n{len(failed)} of {len(results)} checks failed.")
         sys.exit(1)
-    print(f"\nAll {len(results)} checks passed.")
+    passed = len(results) - len(unjudged)
+    if unjudged:
+        print(f"\n{passed} of {len(results)} checks passed; {len(unjudged)} COULD NOT "
+              f"EVALUATE (not a pass): {', '.join(unjudged)}")
+    else:
+        print(f"\nAll {len(results)} checks passed.")
 
 
 if __name__ == "__main__":
