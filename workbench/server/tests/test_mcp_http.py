@@ -36,15 +36,16 @@ def _body(r):
     return json.loads(text)
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def live():
     """A client whose lifespan has actually run, with the bearer token configured.
 
-    MODULE-scoped, and it has to be: `session_manager.run()` raises if entered twice on
-    the same instance, so the lifespan may be entered exactly once per process. That is
-    also true of the deployed server — one process, one lifespan — but it means these
-    tests share a client and must not depend on ordering. Env is set directly rather than
-    through monkeypatch because that fixture is function-scoped.
+    SESSION-scoped, and it has to be: `session_manager.run()` raises if entered twice on
+    the same instance, so the lifespan may be entered exactly once per process. Module
+    scope was not enough — a runner that interleaves modules (pytest-randomly, -xdist, a
+    cross-file -k) tears the fixture down when it leaves this file and cannot re-enter it,
+    turning seven tests into spurious errors. Session scope survives that. Env is set
+    directly rather than through monkeypatch because that fixture is function-scoped.
     """
     import os
     from fastapi.testclient import TestClient
@@ -99,8 +100,13 @@ def test_mcp_is_mounted():
     raises 'Task group is not initialized'. Build once per process."""
     from workbench.server.app import MCP_STATE
     assert MCP_STATE["mounted"] is True
-    assert MCP_STATE["tools"] == 24
-    assert set(MCP_STATE["metered"]) == mcp_mount.METERED
+    # Counted from the module the mount serves, so this fails if a tool disappears.
+    # Asserting against mcp_mount's own literal would have been a constant compared with
+    # itself — which is exactly what it was until the count was derived.
+    from mcp_server import server as tdl_mcp
+    live_tools = [n for n, v in vars(tdl_mcp).items()
+                  if n.startswith("tdl_") and callable(v)]
+    assert MCP_STATE["tools"] == len(live_tools) == 24
 
 
 def test_bearer_is_required(live):
@@ -179,6 +185,51 @@ def test_platform_domain_is_discovered_without_configuration(monkeypatch, var):
     monkeypatch.delenv("WORKBENCH_ALLOWED_HOSTS", raising=False)
     monkeypatch.setenv(var, "tdl-production.up.railway.app")
     assert "tdl-production.up.railway.app" in mcp_mount.allowed_hosts()
+
+
+def test_connection_strings_never_reach_the_allowlist(monkeypatch):
+    """Regression for a credential leak introduced by scanning the environment wide.
+
+    RAILWAY_DATABASE_URL=postgres://admin:hunter2@db.internal:5432/tdl parsed to the
+    "hostname" admin:hunter2@db.internal:5432 — password included — which then went into
+    the allowlist and out through /api/health, an ungated endpoint. Two independent
+    defences, tested independently: the key is skipped, and the userinfo is stripped even
+    if a key ever slips through.
+    """
+    monkeypatch.delenv("WORKBENCH_ALLOWED_HOSTS", raising=False)
+    for var, val in [("RAILWAY_DATABASE_URL", "postgres://admin:hunter2@db.internal:5432/tdl"),
+                     ("RAILWAY_REDIS_URL", "redis://default:pw@redis.internal:6379"),
+                     ("RAILWAY_SECRET_URL", "https://user:pw@secret.example.com")]:
+        monkeypatch.setenv(var, val)
+    hosts = mcp_mount.allowed_hosts()
+    joined = " ".join(hosts)
+    assert "hunter2" not in joined and "@" not in joined, hosts
+    assert not any("db.internal" in h or "redis.internal" in h for h in hosts), hosts
+
+
+def test_userinfo_is_stripped_even_if_a_key_slips_through():
+    """The second defence, exercised directly rather than through the key filter."""
+    assert mcp_mount._hostname("postgres://admin:hunter2@db.internal:5432/tdl") \
+        == "db.internal:5432"
+    assert mcp_mount._hostname("https://tdl.up.railway.app/path?q=1") \
+        == "tdl.up.railway.app"
+
+
+def test_ungated_health_does_not_enumerate_hosts(live, monkeypatch):
+    """/api/health is deliberately reachable without credentials, so it must not list
+    hostnames — which can be internal service names."""
+    import os
+    saved = os.environ.get("WORKBENCH_PASSWORD")
+    os.environ["WORKBENCH_PASSWORD"] = "pw"
+    try:
+        body = live.get("/api/health").json()
+        assert "allowed_hosts" not in body["mcp"], body["mcp"]
+        assert body["mcp"]["platform_host_detected"] in (True, False)
+    finally:
+        if saved is None:
+            os.environ.pop("WORKBENCH_PASSWORD", None)
+        else:
+            os.environ["WORKBENCH_PASSWORD"] = saved
 
 
 def test_platform_scan_ignores_values_that_are_not_hostnames(monkeypatch):

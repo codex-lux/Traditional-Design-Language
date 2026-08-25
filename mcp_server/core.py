@@ -410,14 +410,22 @@ def _eval_test(t, measurements):
     except Exception as e:
         return {"status": "error", "detail": str(e)}
     d, th, up = t.get("direction"), t.get("threshold"), t.get("upper")
+    # The comparison below used to sit outside any guard: a test expression returning a
+    # value that will not compare against the threshold raised straight out of
+    # check_measurements, through check_plan, and became a 500 from /api/plan/evaluate.
+    # An uncomparable result is something this evaluator COULD NOT judge, which is a
+    # state the corpus already has a word for.
     # 'one-of' exists only on the constraint schema (schema/constraint.schema.json), not the
     # fault schema -- a fault test always fails this lookup harmlessly, since no fault ever
     # sets direction: one-of. Kept in the same shared evaluator rather than forked so faults
     # and style constraints (build/plan_check.py) share one safety-checked eval path.
-    ok = {"at-least": lambda: val >= th, "at-most": lambda: val <= th,
-          "equals": lambda: abs(val - th) < 1e-6,
-          "between": lambda: th <= val <= (up if up is not None else th),
-          "one-of": lambda: str(val) in (t.get("set") or [])}.get(d, lambda: None)()
+    try:
+        ok = {"at-least": lambda: val >= th, "at-most": lambda: val <= th,
+              "equals": lambda: abs(val - th) < 1e-6,
+              "between": lambda: th <= val <= (up if up is not None else th),
+              "one-of": lambda: str(val) in (t.get("set") or [])}.get(d, lambda: None)()
+    except Exception as e:
+        return {"status": "error", "detail": f"{val!r} does not compare: {e}"}
     required = f"one-of {t.get('set')}" if d == "one-of" else (
         f"{d} {th}" + (f" and {up}" if d == "between" and up is not None else ""))
     return {"status": "evaluated", "value": round(val, 4) if isinstance(val, float) else val,
@@ -487,9 +495,18 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         ev = [r for r in results if r["status"] == "evaluated"]
         if not ev:
             miss = sorted({m for r in results if r["status"] == "need_measurements" for m in r["missing"]})
-            if include_needed and miss:
-                needed.append({"fault": f["id"], "name": f["name"], "needs": miss,
-                               "measurable_from": f.get("test", {}).get("measurable_from")})
+            errs = sorted({r["detail"] for r in results if r["status"] == "error"})
+            # `errs` is why this branch exists in this shape. A fault whose every test
+            # ERRORED produced no `ev` and no `miss`, so it was appended to nothing: not
+            # present, not clear, not unjudged, and absent from the summary counts — a
+            # fault that silently vanished, which reads to a caller exactly like clear.
+            # That is the one collapse this corpus forbids above all others.
+            if include_needed and (miss or errs):
+                row = {"fault": f["id"], "name": f["name"], "needs": miss,
+                       "measurable_from": f.get("test", {}).get("measurable_from")}
+                if errs:
+                    row["errors"] = errs
+                needed.append(row)
             continue
         failing = [r for r in ev if r["passes"] is False]
         row = {"fault": f["id"], "name": f["name"], "severity": next(
@@ -506,7 +523,12 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
     present.sort(key=lambda r: SEV.index(r["severity"]) if r["severity"] in SEV else 3)
     return {"style": style, "measurements_given": sorted(measurements),
             "faults_present": present, "faults_clear": clear[:limit],
-            "could_not_judge": needed[:limit],
+            "faults_clear_truncated": max(0, len(clear) - limit),
+            # NOT truncated. "unjudged is not passed" degrades into "the first forty
+            # unjudged are not passed" the moment this list is cut — build/plan_check.py
+            # already worked around it by passing limit=10**6; the tool should not need
+            # the workaround.
+            "could_not_judge": needed,
             "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed)},
             "note": "A fault only counts as present when a test actually failed. Anything under could_not_judge is unknown, not passed."}
 

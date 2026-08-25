@@ -28,7 +28,14 @@ version rather than taken from memory:
 The default path is `/mcp`, so mounting at `/mcp` would serve `/mcp/mcp` —
 `streamable_http_path="/"` puts it back where clients expect it.
 """
+import contextvars
 import os
+
+# Set only while an HTTP /mcp request is in flight. tools.py now imports the SAME module
+# object the mount serves, so a limiter installed on it also fired for the browser rail's
+# tool calls — one shared bucket, and an agent exhausting it made the UI refuse. The cap
+# is meant for the remote transport, so it asks whether it IS the remote transport.
+_IN_MCP = contextvars.ContextVar("tdl_in_mcp", default=False)
 
 
 # Names seen in the wild for "the public hostname of this service". The scan below also
@@ -47,13 +54,30 @@ def _hostname(value):
     and the Host header never carries a scheme, so an unparsed 'https://x/' would simply
     never match and the endpoint would 421 with nothing obviously wrong. Same trap a
     person hits pasting a URL into WORKBENCH_ALLOWED_HOSTS.
+
+    The userinfo strip is not cosmetic. A connection string like
+    `postgres://admin:hunter2@db.internal:5432/tdl` otherwise yields the "hostname"
+    `admin:hunter2@db.internal:5432`, password and all, which then travels into the
+    allowlist and out again through whatever reports it.
     """
     v = (value or "").strip()
     if not v:
         return ""
     v = v.split("://", 1)[-1]          # drop any scheme
     v = v.split("/", 1)[0]             # drop any path
+    v = v.split("?", 1)[0]             # drop any query
+    if "@" in v:                       # drop any user:password@ — see the note above
+        v = v.rsplit("@", 1)[1]
     return v.strip().rstrip(".")
+
+
+# Variables whose values are connection strings or secrets rather than public hostnames.
+# Matched as substrings of the KEY, so RAILWAY_DATABASE_URL and DATABASE_PRIVATE_URL both
+# go. Scanning wide for the public host was the right call; scanning wide into datastore
+# credentials was not, and the userinfo strip above is the second line of that defence.
+_NEVER_SCAN = ("DATABASE", "POSTGRES", "PGDATA", "MYSQL", "MONGO", "REDIS", "AMQP",
+               "RABBIT", "KAFKA", "ELASTIC", "S3", "SMTP", "SECRET", "PASSWORD",
+               "PASSWD", "TOKEN", "APIKEY", "API_KEY", "PRIVATE", "CREDENTIAL", "DSN")
 
 
 def _platform_hosts():
@@ -69,11 +93,15 @@ def _platform_hosts():
     found = []
     for key, value in os.environ.items():
         k = key.upper()
+        if any(bad in k for bad in _NEVER_SCAN):
+            continue
         if k in PLATFORM_DOMAIN_VARS or (
                 k.startswith(("RAILWAY_", "RENDER_", "FLY_")) and
                 (k.endswith("_DOMAIN") or k.endswith("_URL") or k.endswith("_HOSTNAME"))):
             h = _hostname(value)
-            if h and "." in h:         # a hostname, not a service id or a bare word
+            # A hostname, not a service id or a bare word — and never something still
+            # carrying credentials or whitespace after parsing.
+            if h and "." in h and "@" not in h and not any(c.isspace() for c in h):
                 found.append(h)
     return found
 
@@ -118,13 +146,34 @@ def build():
                       "note": f"mcp_server failed to import: {type(e).__name__}: {e}"}
 
     hosts = allowed_hosts()
-    security = TransportSecuritySettings(allowed_hosts=hosts, allowed_origins=hosts)
+    # allowed_origins takes ORIGINS, which carry a scheme; allowed_hosts takes Host
+    # headers, which never do. Passing the host list to both meant every request with an
+    # Origin header was refused 403 — invisible to `claude mcp add`, which sends none,
+    # and fatal to any browser-based MCP client.
+    origins = [f"{scheme}://{h}" for h in hosts for scheme in ("https", "http")]
+    security = TransportSecuritySettings(allowed_hosts=hosts, allowed_origins=origins)
     # NB: no host= argument. See point 4 in the module docstring.
     asgi = tdl_mcp.mcp.streamable_http_app(streamable_http_path="/",
                                            transport_security=security)
     tdl_mcp.set_limiter(_limiter)
-    return asgi, {"mounted": True, "path": "/mcp", "tools": 24,
-                  "allowed_hosts": hosts, "metered": sorted(METERED)}
+    # Counted from the server, never written down. As a literal it was a constant the
+    # test compared against itself: removing a tool from server.py left it reading 24.
+    tool_count = sum(1 for n, v in vars(tdl_mcp).items()
+                     if n.startswith("tdl_") and callable(v))
+    return _mark_mcp(asgi), {"mounted": True, "path": "/mcp", "tools": tool_count,
+                             "allowed_hosts": hosts, "allowed_origins": origins,
+                             "metered": sorted(METERED)}
+
+
+def _mark_mcp(asgi):
+    """Flag the request as arriving over the remote transport, for _limiter."""
+    async def wrapper(scope, receive, send):
+        token = _IN_MCP.set(True)
+        try:
+            await asgi(scope, receive, send)
+        finally:
+            _IN_MCP.reset(token)
+    return wrapper
 
 
 # The only three tools that reach heavy core functions. tdl_place_plan runs a
@@ -144,6 +193,11 @@ def _limiter(tool_name):
     risk. Named as a limitation in docs/deployment.md rather than dressed up as per-user.
     """
     if tool_name not in METERED:
+        return None
+    if not _IN_MCP.get():
+        # The browser rail calling the same function object. It has its own per-identity
+        # caps (limits.check_rail) and its own cost profile; charging it to the remote
+        # transport's bucket let either side starve the other.
         return None
     from . import limits
     per_hour = limits._env_int("MCP_HEAVY_CALLS_PER_HOUR", 60)

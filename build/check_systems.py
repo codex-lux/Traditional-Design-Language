@@ -42,7 +42,16 @@ import os
 import re
 import sys
 
-import jsonschema
+try:
+    import jsonschema
+except ImportError:
+    import sys as _sys
+    print("SKIPPED — jsonschema is not installed, so nothing here was checked.")
+    print("    pip install jsonschema")
+    # Exit 3, the convention build/check_all.py reads as "could not evaluate". Exiting 1
+    # would report a missing dependency as a failed data check, which is the collapse
+    # this corpus forbids everywhere else.
+    _sys.exit(3)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

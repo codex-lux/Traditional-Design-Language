@@ -51,13 +51,26 @@ def rail_max_chars():
     return _env_int("RAIL_MAX_CHARS", 200_000)
 
 
+MAX_KEYS = 50_000
+
+
 def _reap(now):
-    """Drop windows that have fully elapsed, so the table cannot grow without bound."""
-    if now - _LAST_REAP[0] < REAP_EVERY_S:
+    """Drop windows that have fully elapsed, so the table cannot grow without bound.
+
+    The predicate is each entry's OWN window. An earlier version kept everything for two
+    days while every window is an hour, so entries outlived their usefulness by 47 hours
+    — and the keys are caller-influenced (addr:…, session:…), so a caller varying its
+    address minted one near-permanent entry per request. MAX_KEYS is the backstop for the
+    case where reaping cannot keep up: drop the oldest rather than grow without limit.
+    """
+    if now - _LAST_REAP[0] < REAP_EVERY_S and len(_WINDOWS) < MAX_KEYS:
         return
     _LAST_REAP[0] = now
-    for key in [k for k, (start, _) in _WINDOWS.items() if now - start > 86_400 * 2]:
+    for key in [k for k, (start, _, window) in _WINDOWS.items() if now - start >= window]:
         del _WINDOWS[key]
+    if len(_WINDOWS) > MAX_KEYS:
+        for key in sorted(_WINDOWS, key=lambda k: _WINDOWS[k][0])[:len(_WINDOWS) - MAX_KEYS]:
+            del _WINDOWS[key]
 
 
 def take(key, limit, window_s):
@@ -70,19 +83,19 @@ def take(key, limit, window_s):
     now = time.time()
     with _LOCK:
         _reap(now)
-        start, count = _WINDOWS.get(key, (now, 0))
+        start, count, _ = _WINDOWS.get(key, (now, 0, window_s))
         if now - start >= window_s:
             start, count = now, 0
         if count >= limit:
             return False, max(1, int(window_s - (now - start)))
-        _WINDOWS[key] = (start, count + 1)
+        _WINDOWS[key] = (start, count + 1, window_s)
         return True, 0
 
 
 def peek(key):
     """Current (count, window_start) for `key`, for tests and diagnostics."""
     with _LOCK:
-        start, count = _WINDOWS.get(key, (0.0, 0))
+        start, count = _WINDOWS.get(key, (0.0, 0, 0))[:2]
         return count, start
 
 
@@ -91,6 +104,27 @@ def reset():
     with _LOCK:
         _WINDOWS.clear()
         _LAST_REAP[0] = 0.0
+
+
+def heavy_calls_per_hour():
+    return _env_int("HEAVY_CALLS_PER_HOUR", 60)
+
+
+def check_heavy(identity):
+    """Rate-check one call to a compute-heavy REST endpoint. Reason, or None.
+
+    /api/compose, /api/plan/evaluate and /api/drawings all drive the 250-candidate
+    solver, and compose queues onto the single worker jobs.py serialises on. They were
+    unmetered while the rail and the MCP heavy tools were capped — the same expensive
+    machinery reachable by a cheaper door. Per identity, so one caller cannot starve the
+    worker for everyone.
+    """
+    ok, retry = take(f"heavy:{identity}", heavy_calls_per_hour(), 3600)
+    if ok:
+        return None
+    return (f"this deployment allows {heavy_calls_per_hour()} composing/checking calls an "
+            f"hour per user, and that is reached; about {retry // 60 + 1} minutes until it "
+            f"resets. Reading the corpus is unaffected.")
 
 
 def check_shape(body):
@@ -104,7 +138,12 @@ def check_shape(body):
     max_chars = rail_max_chars()
     if max_chars > 0:
         try:
-            size = len(json.dumps(messages))
+            # `context` is measured too. It rides into the prompt on EVERY billed round
+            # (up to MAX_TOOL_ROUNDS + 1), and rail._context_block truncates `plan` and
+            # `candidate_summaries` but not `last_eval` — so counting only `messages`
+            # left a multi-megabyte context as an uncounted cost amplifier straight
+            # through this cap.
+            size = len(json.dumps(messages)) + len(json.dumps(body.get("context") or {}))
         except (TypeError, ValueError):
             return "this conversation could not be measured, so the rail will not send it"
         if size > max_chars:

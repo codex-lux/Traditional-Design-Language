@@ -42,25 +42,84 @@ def test_corpus_globs_are_sorted():
     nothing to call once it is absent, and the next unsorted glob someone adds is exactly
     the regression this file exists to catch.
     """
+    # Every way this codebase can read a directory. The first version of this test
+    # matched only the literal "glob.glob(", which would have missed the next unsorted
+    # read spelled any other way — and two really did survive it, in tests/ itself,
+    # which is where the original cross-machine failure actually surfaced.
+    readers = ("glob.glob(", "iglob(", "os.listdir(", "os.scandir(", "os.walk(",
+               ".iterdir(", ".rglob(")
     offenders = []
-    for sub in ("build", "mcp_server", "workbench"):
+    for sub in ("build", "mcp_server", "workbench", "tests"):
         for path in sorted(glob_module.glob(os.path.join(ROOT, sub, "**", "*.py"),
                                             recursive=True)):
+            if os.path.basename(path) == os.path.basename(__file__):
+                continue          # this file names the readers in order to look for them
             with open(path) as f:
                 for n, line in enumerate(f, 1):
-                    if "glob.glob(" in line and "sorted(glob.glob(" not in line:
+                    for r in readers:
+                        i = line.find(r)
+                        if i == -1:
+                            continue
+                        # Guarded when a sorted( opens before the read — which covers
+                        # sorted(os.listdir(x)) and also sorted(f for f in os.listdir(x)),
+                        # the comprehension form a literal "sorted(os.listdir(" match
+                        # flagged as an offender when it was already correct.
+                        s = line.find("sorted(")
+                        if s != -1 and s < i:
+                            continue
                         rel = os.path.relpath(path, ROOT)
                         offenders.append(f"{rel}:{n}: {line.strip()}")
     assert not offenders, (
-        "unsorted glob.glob — directory order is machine-specific:\n  "
+        "unsorted directory read — the order is machine-specific:\n  "
         + "\n  ".join(offenders))
 
 
+def test_pick_partis_expansion_is_bounded(compose_mod):
+    """A narrow tie is kept whole; a wide one is not, because expanding it costs compose
+    time proportional to the pool and adds nothing the fit function actually knows.
+
+    adam-style has no native parti and no massing affinity — the majority case in this
+    corpus — so ten diagrams tie at the cut. Before the bound, limit=6 returned all 12
+    and doubled the composer's work."""
+    wide = compose_mod.pick_partis(
+        {"style": "adam-style", "target_area_sf": 6000, "bedrooms": 3}, limit=6)
+    assert len(wide) == 6, f"wide tie must take the deterministic cut, got {len(wide)}"
+
+    narrow = compose_mod.pick_partis(_brief("family-georgian"), limit=6)
+    assert 6 < len(narrow) <= 6 + compose_mod.MAX_TIE_EXPANSION
+
+
+def test_pick_partis_rejects_a_nonpositive_limit(compose_mod):
+    """out[limit-1] with limit=0 indexes from the END and returned the whole corpus."""
+    assert compose_mod.pick_partis(_brief("family-georgian"), limit=0) == []
+    assert compose_mod.pick_partis(_brief("family-georgian"), limit=-3) == []
+
+
 def test_pick_partis_is_totally_ordered(compose_mod):
-    """Sorted by fit descending, then by id — no reliance on insertion order."""
-    picked = compose_mod.pick_partis(_brief("family-georgian"), limit=99)
+    """Sorted by fit descending, then by id — with NO reliance on insertion order.
+
+    The first version of this test asserted the output was sorted by (-fit, id) and was
+    theatre: every file in partis/ is named <id>.json, so sorted(glob(...)) already gives
+    id order, Python's sort is stable, and the output is id-ordered whether or not the
+    tie-break key exists. Reverting the key alone left the whole file green.
+
+    So the premise is attacked instead: PARTIS is reordered to the WORST case — reverse id
+    order — and the result must still come back in id order. That can only hold if the key
+    is really in the sort.
+    """
+    original = dict(compose_mod.PARTIS)
+    hostile = dict(reversed(list(original.items())))
+    compose_mod.PARTIS.clear()
+    compose_mod.PARTIS.update(hostile)
+    try:
+        picked = compose_mod.pick_partis(_brief("family-georgian"), limit=99)
+    finally:
+        compose_mod.PARTIS.clear()
+        compose_mod.PARTIS.update(original)
+
     keys = [(-p["fit"], p["parti"]) for p in picked]
-    assert keys == sorted(keys), "pick_partis has no deterministic tie-break"
+    assert keys == sorted(keys), (
+        "pick_partis fell back to insertion order — the tie-break key is missing")
 
 
 def test_pick_partis_never_cuts_through_a_tie(compose_mod):

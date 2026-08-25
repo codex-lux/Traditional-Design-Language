@@ -8,7 +8,7 @@ import React from 'react';
 import { api } from './api/client.js';
 import { Eyebrow } from './components/Eyebrow.jsx';
 
-export function Gate({ onUnlocked }) {
+export function Gate({ onUnlocked, auth }) {
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
@@ -52,7 +52,10 @@ export function Gate({ onUnlocked }) {
           font: 'var(--type-aside)', color: 'var(--ink-3)', margin: '0 0 22px',
           lineHeight: 1.5,
         }}>
-          A shared password, not an account — everyone who has it sees the same corpus.
+          {auth && auth.required && auth.password === false
+            ? 'This deployment has no password set — it accepts an API token only, so '
+              + 'there is nothing to type here. Set WORKBENCH_PASSWORD to allow browser access.'
+            : 'A shared password, not an account — everyone who has it sees the same corpus.'}
         </p>
 
         <label htmlFor="wb-password" style={{ display: 'block' }}>

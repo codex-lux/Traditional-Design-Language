@@ -80,6 +80,13 @@ async def login(request: Request, body: dict = Body(...)):
     return response
 
 
+def _heavy(request):
+    """Gate a compute-heavy endpoint, or raise 429 with an honest reason."""
+    reason = limits.check_heavy(auth.identity(request))
+    if reason:
+        raise HTTPException(status_code=429, detail={"error": reason, "limited": True})
+
+
 def _ok(result):
     """core returns {"error": ...} dicts rather than raising; map them to 404s so the
     client can tell a missing id from a server fault."""
@@ -90,7 +97,7 @@ def _ok(result):
 
 # ----------------------------------------------------------------- health
 @app.get("/api/health")
-def health():
+def health(request: Request):
     try:
         import jsonschema  # noqa: F401 — without it every check "fails schema"
         schema_ok = True
@@ -99,7 +106,14 @@ def health():
     counts = core.overview()["counts"]
     return {"ok": schema_ok, "jsonschema": schema_ok, "counts": counts,
             "rail": bool(os.environ.get("ANTHROPIC_API_KEY")),
-            "auth": auth.state(), "limits": limits.state(), "mcp": MCP_STATE,
+            "auth": auth.state(), "limits": limits.state(),
+            # /api/health is deliberately ungated (the platform healthcheck has no
+            # credentials), so it must not enumerate hostnames. allowed_hosts can carry
+            # internal service names, so the list is shown only to an authorised caller;
+            # everyone else gets the yes/no an operator actually needs.
+            "mcp": (MCP_STATE if auth.authorised(request)
+                    else {k: v for k, v in MCP_STATE.items() if k != "allowed_hosts"}
+                         | {"platform_host_detected": bool(mcp_mount._platform_hosts())}),
             "note": None if schema_ok else
             "jsonschema is not installed — plan checks and compose will fail. "
             "pip install -r workbench/requirements.txt"}
@@ -293,7 +307,8 @@ def example_plan(name: str):
 
 # ----------------------------------------------------------------- the workbench loop
 @app.post("/api/plan/evaluate")
-def plan_evaluate(body: dict = Body(...)):
+def plan_evaluate(request: Request, body: dict = Body(...)):
+    _heavy(request)
     plan = body.get("plan")
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
@@ -306,7 +321,8 @@ def plan_evaluate(body: dict = Body(...)):
 
 # ----------------------------------------------------------------- compose jobs
 @app.post("/api/compose")
-def compose(body: dict = Body(...)):
+def compose(request: Request, body: dict = Body(...)):
+    _heavy(request)
     brief = body.get("brief")
     if not brief:
         raise HTTPException(status_code=422, detail={"error": "body.brief is required"})
@@ -342,7 +358,8 @@ def job_candidate_plan(job_id: str, n: int):
 
 # ----------------------------------------------------------------- drawings
 @app.post("/api/drawings/{kind}")
-def drawings(kind: str, body: dict = Body(...)):
+def drawings(kind: str, request: Request, body: dict = Body(...)):
+    _heavy(request)
     plan = body.get("plan")
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
@@ -388,7 +405,16 @@ if os.path.isdir(APP_DIST):
 
     @app.get("/{path:path}")
     def spa(path: str):
-        candidate = os.path.join(APP_DIST, path)
-        if path and os.path.isfile(candidate):
-            return FileResponse(candidate)
+        # os.path.join(APP_DIST, "../../../etc/passwd") escapes APP_DIST, os.path.isfile
+        # agrees, and FileResponse serves it — an unauthenticated arbitrary file read,
+        # because this catch-all is deliberately outside the gate so the password screen
+        # can load. Harmless while the server bound 127.0.0.1; a hole the moment it binds
+        # 0.0.0.0. Resolve the path and require it to stay inside APP_DIST. realpath, not
+        # normpath: a symlink inside dist/ would otherwise still lead out.
+        if path:
+            candidate = os.path.realpath(os.path.join(APP_DIST, path))
+            root = os.path.realpath(APP_DIST)
+            if (candidate == root or candidate.startswith(root + os.sep)) \
+                    and os.path.isfile(candidate):
+                return FileResponse(candidate)
         return FileResponse(os.path.join(APP_DIST, "index.html"))

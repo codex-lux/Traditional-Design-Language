@@ -56,9 +56,10 @@ screen, and it carries no corpus data.
 Identity is answered in the same module because the rate limiter needs a stable per-caller
 string. A shared password gives no real identity, so each successful login mints a random
 subject — two people who typed the same password still get separate budgets. A
-`Cf-Access-Authenticated-User-Email` header, if one is ever present, outranks everything
-else: that is a verified email, strictly better than anything minted here. Putting
-Cloudflare Access in front later is therefore configuration, not a rewrite.
+`Cf-Access-Authenticated-User-Email` header outranks that, but only when
+`WORKBENCH_TRUST_PROXY_AUTH` says a proxy which sets it is genuinely in front — see the
+audit below for why that flag exists. Putting Cloudflare Access in front later is
+therefore configuration, not a rewrite.
 
 **Caps on the rail** (`workbench/server/limits.py`). Two different things needed bounding
 and only one of them is a rate.
@@ -199,6 +200,78 @@ Two consequences that are fine at this scale but must be known: a second replica
 the first's jobs, so **replicas must stay at 1**; and compose runs serialize across all
 users, so a second person waits behind the first. Recorded as OQ 36.
 
+## What the adversarial audit found
+
+Four independent auditors were run over the finished diff — edge cases and callers, test
+meaningfulness, second-order risk, and repeats of each pattern elsewhere — with a brief to
+find what was wrong rather than confirm what was right. Everything below was reproduced
+before it was fixed, and re-verified after.
+
+**Three ways in, none of which needed the password.**
+
+*Path traversal, unauthenticated.* The SPA catch-all did
+`FileResponse(os.path.join(APP_DIST, path))`, and `../../../../etc/passwd` escapes
+`APP_DIST` while `os.path.isfile` agrees. The catch-all sits outside the gate on purpose —
+the password screen has to load — so this served any file the process could read, to
+anyone. The code is older than this package; binding `0.0.0.0` is what turned a local
+curiosity into a remote hole, which is the whole lesson: *exposure changes the severity of
+code you did not touch.* Now resolved against `realpath` and confined.
+
+*A forged proxy header.* `authorised()` believed
+`Cf-Access-Authenticated-User-Email` unconditionally. That header means something only
+when Cloudflare Access is in front, because Access overwrites whatever the caller sent;
+with nothing in front it is a string the caller chose. `curl -H 'Cf-Access-…: anyone'`
+returned the whole corpus and all 24 tools. Now behind `WORKBENCH_TRUST_PROXY_AUTH`,
+default off.
+
+*Database credentials, served to the internet.* The environment scan added for hostname
+discovery read `RAILWAY_DATABASE_URL=postgres://admin:hunter2@db.internal:5432/tdl` as the
+"hostname" `admin:hunter2@db.internal:5432` — and `/api/health`, deliberately ungated for
+the platform healthcheck, printed the allowlist. The scan-wide argument had a cost the
+argument itself did not account for. Now: datastore keys skipped, userinfo stripped, and
+the host list shown only to an authorised caller.
+
+**And several ways to break it without malice.** A non-ASCII password returned 500 rather
+than 401, because `hmac.compare_digest` refuses non-ASCII `str` — an accented password made
+the deployment unenterable while the login screen said "not accepted". `/mcp` answered 403
+to any request carrying an `Origin` header, because the SDK's origin list wants origins and
+was handed hostnames; `claude mcp add` sends none, so the documented client worked and every
+browser-based one was dead. The rail's env knobs crashed the module on an empty string. The
+compose worker, the plan validator and the drawing endpoints were unmetered while the rail
+and the MCP tools were capped — the same expensive machinery through a cheaper door.
+
+**The one that only shows up when two changes meet.** Loading the tool functions by real
+import instead of the old `sys.modules` stub meant the rail and the `/mcp` mount now share
+one module object — so the limiter installed for the remote transport also fired for the
+browser rail, on one shared bucket. An agent exhausting its hour made the UI refuse. The
+cap now asks whether it *is* the remote transport.
+
+**And a regression from the determinism fix itself.** Returning the whole tie group was
+right for a narrow tie and wrong for a wide one: a style with no native parti leaves every
+diagram on the same score, and taking all of them doubled compose time while adding nothing
+the fit function knew. Measured at 10.4 s against 5.2 s. The expansion is now bounded, and
+`pick_partis(limit=0)` no longer indexes from the end and returns the entire corpus.
+
+**A corpus bug the audit found on the way past.** `core.check_measurements` dropped any
+fault whose every test *errored* — not present, not clear, not unjudged, absent from the
+summary counts. A fault that silently vanishes reads to a caller exactly like a fault that
+passed, which is the one collapse this project forbids above all others. Errors now land in
+`could_not_judge` carrying their reason, and that list is no longer truncated —
+`build/plan_check.py` had already worked around the truncation by passing `limit=10**6`.
+
+**And one the audit found by simply typing `pytest`.** `tests/conftest.py` and
+`workbench/server/tests/conftest.py` both claimed the top-level module name `conftest`, so
+collecting the two suites in one invocation gave nine collection errors — `from conftest
+import ROOT` reaching the wrong file. Pre-existing, reproduces on `main`, and invisible to
+everything that checks this repo, because `check_all.py` and CI both run the suites as
+separate processes. A package marker fixes it; 393 tests now pass in one run.
+
+**What the audit did NOT change**, with reasons, is in `docs/open-questions.md` 37 and 38:
+`find_faults` cutting through tie groups up to 104 wide, and `resolve_kit.choose_pack`
+reporting an unranked precedence tie as the author's ruling. Both are real; both are
+product decisions about what a ranking means rather than patches, and taking either
+unilaterally would be deciding something the corpus is supposed to put to a human.
+
 ## Running it, in order
 
 Everything below is done once, by hand, in the named service's own UI.
@@ -229,7 +302,13 @@ Everything below is done once, by hand, in the named service's own UI.
      auto-injecting `PORT` or auto-detecting the listener. `8080` is a fine choice; the
      app falls back to 8177 only when nothing is set.
    - Optional tuning: `RAIL_TURNS_PER_HOUR`, `RAIL_TURNS_PER_DAY`, `RAIL_MAX_MESSAGES`,
-     `RAIL_MAX_CHARS`, `RAIL_MAX_TOOL_ROUNDS`, `WORKBENCH_MODEL`, `WORKBENCH_EFFORT`.
+     `RAIL_MAX_CHARS`, `RAIL_MAX_TOOL_ROUNDS`, `WORKBENCH_MODEL`, `WORKBENCH_EFFORT`,
+     `HEAVY_CALLS_PER_HOUR` (compose/evaluate/drawings, per user, default 60),
+     `MCP_HEAVY_CALLS_PER_HOUR` (the three heavy MCP tools, default 60).
+   - `WORKBENCH_TRUST_PROXY_AUTH` — **leave unset.** Setting it makes the server believe
+     `Cf-Access-Authenticated-User-Email`, which is only an identity when a proxy that
+     overwrites the header is guaranteed to sit in front of every request. On a bare
+     platform deployment, setting this is an open door: anyone can send that header.
 4. **Railway → Settings → Deploy** — healthcheck path `/api/health`; **replicas 1**, for
    the reason under "what was found".
 5. **Railway → Settings → Networking** — Generate Domain. It asks which port to route

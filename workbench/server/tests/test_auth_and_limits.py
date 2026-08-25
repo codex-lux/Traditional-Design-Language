@@ -50,7 +50,7 @@ def test_health_is_never_gated(fresh_client, monkeypatch):
     monkeypatch.setenv("WORKBENCH_PASSWORD", "hunter2")
     r = fresh_client.get("/api/health")
     assert r.status_code == 200
-    assert r.json()["auth"] == {"required": True, "bearer": False}
+    assert r.json()["auth"]["required"] is True
 
 
 def test_login_then_through(fresh_client, monkeypatch):
@@ -69,11 +69,76 @@ def test_bearer_token_for_non_browsers(fresh_client, monkeypatch):
     assert r.status_code == 200
 
 
-def test_access_header_is_accepted(fresh_client, monkeypatch):
+def test_forged_access_header_does_not_bypass_the_password(fresh_client, monkeypatch):
+    """THE regression test for this module's worst bug.
+
+    The first version trusted `Cf-Access-Authenticated-User-Email` unconditionally. On a
+    bare deployment nothing strips it, so `curl -H 'Cf-Access-Authenticated-User-Email:
+    anything'` walked straight past the password and returned the whole corpus. It is
+    only an identity when a proxy is guaranteed to have overwritten whatever the caller
+    sent — hence the explicit opt-in, and hence this test.
+    """
     monkeypatch.setenv("WORKBENCH_PASSWORD", "hunter2")
+    monkeypatch.delenv("WORKBENCH_TRUST_PROXY_AUTH", raising=False)
+    r = fresh_client.get("/api/styles",
+                         headers={"cf-access-authenticated-user-email": "attacker@evil.com"})
+    assert r.status_code == 401, "a forged proxy header must not authenticate"
+
+
+def test_forged_access_header_does_not_bypass_the_gate_on_mcp(fresh_client, monkeypatch):
+    """The same forgery against the agent endpoint, which the same middleware guards."""
+    monkeypatch.setenv("WORKBENCH_PASSWORD", "hunter2")
+    monkeypatch.delenv("WORKBENCH_TRUST_PROXY_AUTH", raising=False)
+    r = fresh_client.post("/mcp", json={},
+                          headers={"cf-access-authenticated-user-email": "attacker@evil.com"})
+    assert r.status_code == 401
+
+
+def test_access_header_is_accepted_when_a_proxy_is_declared(fresh_client, monkeypatch):
+    monkeypatch.setenv("WORKBENCH_PASSWORD", "hunter2")
+    monkeypatch.setenv("WORKBENCH_TRUST_PROXY_AUTH", "1")
     r = fresh_client.get("/api/styles",
                          headers={"cf-access-authenticated-user-email": "a@b.com"})
     assert r.status_code == 200
+
+
+def test_health_reports_whether_the_proxy_header_is_trusted(fresh_client, monkeypatch):
+    """An operator must be able to see which mode they are in without reading the code."""
+    monkeypatch.setenv("WORKBENCH_PASSWORD", "hunter2")
+    monkeypatch.delenv("WORKBENCH_TRUST_PROXY_AUTH", raising=False)
+    assert fresh_client.get("/api/health").json()["auth"]["trusts_proxy_header"] is False
+    monkeypatch.setenv("WORKBENCH_TRUST_PROXY_AUTH", "true")
+    assert fresh_client.get("/api/health").json()["auth"]["trusts_proxy_header"] is True
+
+
+def test_identity_ignores_a_forged_access_header(monkeypatch):
+    """Untrusted, the header must not mint rate-limit identities either."""
+    monkeypatch.delenv("WORKBENCH_TRUST_PROXY_AUTH", raising=False)
+
+    class _Req:
+        headers = {"cf-access-authenticated-user-email": "a@b.com",
+                   "x-forwarded-for": "9.9.9.9, 203.0.113.7"}
+        cookies = {}
+        client = None
+    assert auth.identity(_Req()) == "addr:203.0.113.7"
+
+
+def test_rate_limit_identity_uses_the_last_forwarded_hop(monkeypatch):
+    """Each proxy APPENDS, so the last entry is the one our proxy wrote and the earlier
+    ones are whatever the caller sent. Taking the first — which is what uvicorn's
+    always-trust path does — would let a caller mint a new bucket per request by varying
+    the header, and the rate limit would bound nothing."""
+    monkeypatch.delenv("WORKBENCH_TRUST_PROXY_AUTH", raising=False)
+
+    def addr(xff):
+        class _Req:
+            headers = {"x-forwarded-for": xff}
+            client = None
+        return auth.source_address(_Req())
+
+    assert addr("9.9.9.9, 203.0.113.7") == "203.0.113.7"
+    assert addr("9.9.9.9, 203.0.113.7") == addr("1.1.1.1, 203.0.113.7"), (
+        "varying the client-supplied prefix must not change the bucket")
 
 
 def test_login_attempts_are_throttled(fresh_client, monkeypatch):
@@ -92,7 +157,11 @@ def test_tampered_cookie_is_rejected():
     assert auth.verify("garbage") is None
 
 
-def test_identity_prefers_access_email_over_address():
+def test_identity_prefers_access_email_over_address(monkeypatch):
+    """Only once a proxy is declared — see test_identity_ignores_a_forged_access_header
+    for the untrusted case, which is the one that matters for security."""
+    monkeypatch.setenv("WORKBENCH_TRUST_PROXY_AUTH", "1")
+
     class _Req:
         headers = {"cf-access-authenticated-user-email": "a@b.com",
                    "x-forwarded-for": "9.9.9.9"}
@@ -194,3 +263,154 @@ def test_no_identity_means_unmetered_but_still_shape_checked(monkeypatch):
         rail.set_client_factory(None)
     assert events[0]["data"]["limited"] is True
     assert fake.calls == []
+
+
+# ------------------------------------------------ gaps an audit proved were uncovered
+#
+# Each test below was written after checking that removing the production line it defends
+# left the whole suite green. They are here because "the tests pass" was not evidence.
+
+def test_the_http_route_supplies_the_rail_identity(fresh_client, monkeypatch):
+    """app.py must pass identity= into stream_turn, or the DEPLOYED rail is unmetered.
+
+    The other rail tests call stream_turn directly and hand it an identity themselves, so
+    deleting `identity=auth.identity(request)` from the route left every one of them
+    passing while the live endpoint lost its per-caller cap entirely.
+    """
+    monkeypatch.delenv("WORKBENCH_PASSWORD", raising=False)
+    monkeypatch.delenv("WORKBENCH_API_TOKEN", raising=False)
+    monkeypatch.setenv("RAIL_TURNS_PER_HOUR", "1")
+    limits.reset()
+
+    seen = []
+    real = rail.stream_turn
+
+    def spy(body, identity=None):
+        seen.append(identity)
+        return real(body, identity=identity)
+
+    monkeypatch.setattr(rail, "stream_turn", spy)
+    fake = _RecordingClient()
+    rail.set_client_factory(lambda: fake)
+    try:
+        fresh_client.post("/api/rail/messages",
+                          json={"messages": [{"role": "user", "content": "hi"}]})
+    finally:
+        rail.set_client_factory(None)
+
+    assert seen, "the route never called stream_turn"
+    assert seen[0] is not None, "the route passed no identity — the rail is unmetered"
+    assert seen[0].startswith(("addr:", "session:", "token:", "access:")), seen[0]
+
+
+def test_rail_sends_the_model_and_effort_it_claims(monkeypatch):
+    """The fake transport records create() kwargs and nothing asserted on them, so the
+    model id, max_tokens and output_config could all be changed or deleted with the suite
+    still green. On this model family thinking runs adaptively against max_tokens, so the
+    effort setting is not cosmetic."""
+    monkeypatch.delenv("WORKBENCH_MODEL", raising=False)
+    monkeypatch.delenv("WORKBENCH_EFFORT", raising=False)
+    monkeypatch.delenv("WORKBENCH_MAX_TOKENS", raising=False)
+
+    class _Resp:
+        content, stop_reason = [], "end_turn"
+
+    class _Fake:
+        def __init__(self):
+            self.calls = []
+            outer = self
+
+            class _M:
+                def create(self, **kw):
+                    outer.calls.append(kw)
+                    return _Resp()
+            self.messages = _M()
+
+    fake = _Fake()
+    rail.set_client_factory(lambda: fake)
+    try:
+        list(rail.stream_turn({"messages": [{"role": "user", "content": "hi"}]}))
+    finally:
+        rail.set_client_factory(None)
+
+    assert fake.calls, "no request was made"
+    kw = fake.calls[0]
+    assert kw["model"] == "claude-sonnet-5"
+    assert kw["max_tokens"] == 8000
+    assert kw["output_config"] == {"effort": "medium"}
+
+
+def test_rail_env_overrides_reach_the_request(monkeypatch):
+    """And they must be read lazily — a constant bound at import ignores them."""
+    monkeypatch.setenv("WORKBENCH_EFFORT", "low")
+    monkeypatch.setenv("WORKBENCH_MAX_TOKENS", "1234")
+    assert rail.effort() == "low" and rail.max_tokens() == 1234
+
+
+def test_rail_env_survives_an_empty_string(monkeypatch):
+    """A blank field in a platform UI exports X="" — int("") used to raise at import and
+    turn every rail turn into a 500 rather than an honest error event."""
+    monkeypatch.setenv("WORKBENCH_MAX_TOKENS", "")
+    monkeypatch.setenv("RAIL_MAX_TOOL_ROUNDS", "")
+    monkeypatch.setenv("WORKBENCH_EFFORT", "")
+    assert rail.max_tokens() == 8000
+    assert rail.max_tool_rounds() == 8
+    assert rail.effort() == "medium"
+
+
+def test_char_cap_refuses_a_single_huge_message():
+    """Only the message-COUNT branch was covered; the size branch could be deleted."""
+    body = {"messages": [{"role": "user", "content": "x" * 300_000}]}
+    reason = limits.check_shape(body)
+    assert reason and "characters" in reason
+
+
+def test_char_cap_counts_the_context_not_just_the_messages():
+    """context rides into the prompt on every billed round and was uncounted."""
+    body = {"messages": [{"role": "user", "content": "hi"}],
+            "context": {"last_eval": {"blob": "y" * 300_000}}}
+    reason = limits.check_shape(body)
+    assert reason and "characters" in reason
+
+
+def test_the_daily_backstop_is_real(monkeypatch):
+    """rail:__all__ could be replaced with (True, 0) and nothing noticed."""
+    monkeypatch.setenv("RAIL_TURNS_PER_HOUR", "0")     # per-identity cap off
+    monkeypatch.setenv("RAIL_TURNS_PER_DAY", "2")
+    limits.reset()
+    assert limits.check_rail("a") is None
+    assert limits.check_rail("b") is None
+    reason = limits.check_rail("c")                     # a THIRD, different identity
+    assert reason and "daily ceiling" in reason
+
+
+def test_identity_distinguishes_a_bearer_caller(monkeypatch):
+    """Without the token branch every API caller collapses into one addr: bucket."""
+    monkeypatch.setenv("WORKBENCH_API_TOKEN", "tok")
+    monkeypatch.delenv("WORKBENCH_TRUST_PROXY_AUTH", raising=False)
+
+    class _Req:
+        headers = {"authorization": "Bearer tok", "x-forwarded-for": "203.0.113.7"}
+        cookies = {}
+        client = None
+    assert auth.identity(_Req()) == "token:api"
+
+
+def test_unmetered_when_no_identity_is_given(monkeypatch):
+    """The 'identity is None means unmetered' half, on its own.
+
+    The original test bundled this with an oversized body, so check_shape short-circuited
+    and check_rail was never consulted — metering everyone would have passed it.
+    """
+    monkeypatch.setenv("RAIL_TURNS_PER_HOUR", "1")
+    monkeypatch.setenv("RAIL_MAX_MESSAGES", "50")
+    limits.reset()
+    fake = _RecordingClient()
+    rail.set_client_factory(lambda: fake)
+    body = {"messages": [{"role": "user", "content": "hi"}]}
+    try:
+        for _ in range(3):
+            events = _drain(body)                       # no identity: never rate-limited
+            assert not any(e["data"].get("limited") for e in events if e["event"] == "error")
+    finally:
+        rail.set_client_factory(None)

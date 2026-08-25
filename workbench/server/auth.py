@@ -14,8 +14,14 @@ Identity is a separate question from authorisation, and this module answers both
 the rail's rate limiter needs a stable per-caller string. A shared password gives no real
 user identity, so each successful login mints a random subject: two people who typed the
 same password still get separate rate-limit budgets, and one person's browser keeps its
-budget across reloads. If a Cloudflare Access header is ever present it wins outright —
-that is a verified email, which is strictly better than anything minted here.
+budget across reloads.
+
+A Cloudflare Access header outranks all of that — but ONLY when `WORKBENCH_TRUST_PROXY_AUTH`
+says a proxy that sets it is really in front. That flag exists because the first version of
+this module trusted the header unconditionally, which on a bare deployment with nothing in
+front is not an identity at all: it is a string the caller chose, and sending one walked
+straight past the password. A header is only evidence of who someone is when something
+upstream is guaranteed to have overwritten whatever they sent.
 """
 import hmac
 import os
@@ -82,11 +88,17 @@ def verify(token):
 
 
 def check_password(candidate):
-    """Constant-time comparison against the configured password."""
+    """Constant-time comparison against the configured password.
+
+    Encoded first: hmac.compare_digest raises TypeError on str containing non-ASCII, so
+    comparing raw strings turned an accented password — typed by a user, or configured by
+    the operator — into a 500 that the login screen rendered as "not accepted".
+    """
     configured = password()
     if not configured:
         return False
-    return hmac.compare_digest(str(candidate or ""), configured)
+    return hmac.compare_digest(str(candidate or "").encode("utf-8"),
+                               configured.encode("utf-8"))
 
 
 def bearer(request):
@@ -95,17 +107,56 @@ def bearer(request):
 
 
 def check_bearer(request):
+    """Same encoding rule as check_password — and it matters more here, because this runs
+    inside the gate middleware, so a non-ASCII byte in an Authorization header would turn
+    every /api/* request into a 500 rather than a 401."""
     configured = api_token()
     if not configured:
         return False
-    return hmac.compare_digest(bearer(request), configured)
+    return hmac.compare_digest(bearer(request).encode("utf-8"),
+                               configured.encode("utf-8"))
+
+
+def trust_proxy_auth():
+    """Whether an upstream proxy's identity header may be believed.
+
+    OFF by default, and that default is the security property. `Cf-Access-…` headers
+    are only meaningful when Cloudflare Access actually fronts the app, because Access
+    strips any copy a client sent and sets its own. With nothing in front — a bare
+    platform deployment, which is the default here — the header is just a string the
+    caller chose, and trusting it unconditionally let anyone past the password by
+    sending one. Turn this on ONLY when a proxy that overwrites the header is
+    guaranteed to be in front of every request.
+    """
+    return (os.environ.get("WORKBENCH_TRUST_PROXY_AUTH") or "").strip().lower() in (
+        "1", "true", "yes", "on")
+
+
+def access_email(request):
+    """The proxy-asserted user, or "" when there is no reason to believe it."""
+    if not trust_proxy_auth():
+        return ""
+    return (request.headers.get("cf-access-authenticated-user-email") or "").strip()
 
 
 def source_address(request):
-    """The caller's address, honouring the proxy hop uvicorn was told to trust."""
+    """The caller's address as reported by the LAST proxy hop.
+
+    Deliberately the last entry, not the first. Each proxy appends the address it saw,
+    so the final entry is the one our own proxy wrote and the earlier ones are whatever
+    the client sent. uvicorn runs with forwarded_allow_ips="*" (the platform's proxy
+    address is not knowable in advance), and its always-trust path takes entry [0] —
+    which a caller controls. Reading the last hop ourselves means a caller cannot mint a
+    fresh rate-limit identity per request by varying the header.
+
+    This bounds abuse; it is not an authentication boundary and nothing here treats it
+    as one. Everyone behind one NAT still shares a bucket, which is the accepted cost.
+    """
     fwd = request.headers.get("x-forwarded-for") or ""
     if fwd:
-        return fwd.split(",")[0].strip()
+        hops = [h.strip() for h in fwd.split(",") if h.strip()]
+        if hops:
+            return hops[-1]
     return getattr(getattr(request, "client", None), "host", "") or "unknown"
 
 
@@ -116,7 +167,7 @@ def identity(request):
     everything; a session subject is per-browser; an address is the last resort and is
     shared by everyone behind one NAT, which is why it is not relied on alone.
     """
-    email = request.headers.get("cf-access-authenticated-user-email")
+    email = access_email(request)
     if email:
         return f"access:{email}"
     sub = verify(request.cookies.get(COOKIE))
@@ -131,7 +182,7 @@ def authorised(request):
     """Is this request allowed past the gate?"""
     if not required():
         return True  # open by configuration, and /api/health reports it
-    if request.headers.get("cf-access-authenticated-user-email"):
+    if access_email(request):
         return True
     if verify(request.cookies.get(COOKIE)):
         return True
@@ -159,4 +210,8 @@ def state():
         return {"required": False,
                 "note": "no WORKBENCH_PASSWORD is set — this server is open to anyone "
                         "who can reach it"}
-    return {"required": True, "bearer": bool(api_token())}
+    # `password` is reported separately from `required` because WORKBENCH_API_TOKEN alone
+    # also makes required() true — and then the browser is gated by something no password
+    # can satisfy. Without this the Gate showed a box that could never succeed.
+    return {"required": True, "password": bool(password()),
+            "bearer": bool(api_token()), "trusts_proxy_header": trust_proxy_auth()}

@@ -2,7 +2,7 @@
    rail as forthcoming rather than hidden. The AI rail is persistent across all of them.
    A citation anywhere routes through citations.js and navigates this shell. */
 import React from 'react';
-import { api } from './api/client.js';
+import { api, setUnauthorizedHandler } from './api/client.js';
 import { routeCite } from './citations.js';
 import { planDoc } from './state/planDoc.js';
 import { Masthead, LeftRail } from './Chrome.jsx';
@@ -45,6 +45,13 @@ export default function App() {
 
   React.useEffect(boot, [boot]);
 
+  // Any 401 after boot means the session went away — a redeploy, or an expiry. Show the
+  // gate again rather than letting every surface render an error.
+  React.useEffect(() => {
+    setUnauthorizedHandler(() => setLocked(true));
+    return () => setUnauthorizedHandler(null);
+  }, []);
+
   function cite(ref) {
     const target = routeCite(ref);
     if (!target) return;
@@ -69,7 +76,7 @@ export default function App() {
   const unjudged = lastEval?.check?.constraint_summary?.unjudged;
 
   if (locked === null) return null;                 // one frame, before we know which
-  if (locked) return <Gate onUnlocked={boot} />;
+  if (locked) return <Gate onUnlocked={boot} auth={health?.auth} />;
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>

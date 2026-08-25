@@ -41,6 +41,7 @@ CHECKS = [
 
 def main():
     results = []
+    skipped = []
     for script, args in CHECKS:
         label = f"{script} {' '.join(args)}".strip()
         print(f"\n=== {label} " + "=" * max(0, 60 - len(label)))
@@ -48,17 +49,24 @@ def main():
             [sys.executable, str(ROOT / "build" / script)] + args,
             cwd=str(ROOT),
         )
-        results.append((label, proc.returncode == 0))
+        # Exit 3 is the checkers' "could not evaluate" — a missing dependency, not a
+        # data verdict. Recorded as SKIP so it is never counted as a pass, and never
+        # reported as a failure of the corpus.
+        if proc.returncode == 3:
+            skipped.append((label, "could not evaluate — see the checker's own message"))
+        else:
+            results.append((label, proc.returncode == 0))
 
     print("\n=== pytest tests/ " + "=" * 42)
-    pytest_proc = subprocess.run(["pytest", "tests/"], cwd=str(ROOT))
+    # sys.executable -m pytest, not a bare `pytest`: the one on PATH can belong to a
+    # different environment, which is how a missing dependency became a failing check.
+    pytest_proc = subprocess.run([sys.executable, "-m", "pytest", "tests/"], cwd=str(ROOT))
     results.append(("pytest tests/", pytest_proc.returncode == 0))
 
     # The workbench suite needs fastapi and httpx, which the corpus itself does not.
     # A missing dependency makes this check UNEVALUATED, and it is reported that way —
     # rolling it into the pass count would be the same error the corpus refuses to make
     # about its own constraints.
-    skipped = []
     print("\n=== pytest workbench/server/tests " + "=" * 26)
     # Probe and run in the SAME interpreter. A bare `pytest` on PATH can belong to a
     # different environment than sys.executable — probing here and running there reports

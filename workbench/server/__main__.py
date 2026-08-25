@@ -32,7 +32,10 @@ def main():
     except OSError as e:
         print(f"Cannot bind {HOST}:{PORT} — {e.strerror or e}.")
         print("Something else is using the port. Stop it, or pick another:")
-        print(f"    WORKBENCH_PORT={PORT + 1} python3 -m workbench.server")
+        # Name the variable that actually wins, or the advice is a no-op in exactly the
+        # case where it is given: PORT outranks WORKBENCH_PORT.
+        var = "PORT" if os.environ.get("PORT") else "WORKBENCH_PORT"
+        print(f"    {var}={PORT + 1} python3 -m workbench.server")
         sys.exit(1)
     finally:
         probe.close()

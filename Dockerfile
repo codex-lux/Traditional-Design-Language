@@ -36,6 +36,12 @@ COPY . .
 # The built app, from stage 1. app.py mounts it only if the directory exists.
 COPY --from=frontend /build/dist ./workbench/app/dist
 
+# Nothing here writes to the image, and the corpus is read-only at runtime, so there is
+# no reason to run as root. It also bounds what any future file-serving mistake can
+# reach — the SPA catch-all was an unauthenticated arbitrary file read until this pass.
+RUN useradd --create-home --uid 10001 workbench && chown -R workbench:workbench /app
+USER workbench
+
 # PORT is injected by the platform; __main__ prefers it over WORKBENCH_PORT.
 EXPOSE 8177
 CMD ["python3", "-m", "workbench.server"]
