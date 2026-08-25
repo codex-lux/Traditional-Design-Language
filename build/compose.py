@@ -557,7 +557,10 @@ def footprint(plan, parti):
             "footprint_ft": [width, depth], "notes": notes, "lot_infeasible": lot_infeasible}
 
 # ---------------------------------------------------------------- compose
-def compose(brief, candidates=4):
+def compose(brief, candidates=4, on_candidate=None):
+    # on_candidate: optional callable invoked once per completed (kept) candidate with its
+    # summary dict, plan excluded. Added for the workbench's compose progress stream;
+    # None leaves behaviour identical and the CLI never passes it.
     picks = pick_partis(brief, limit=max(candidates + 2, 6))
     out, dropped_lot = [], []
     for pick in picks:
@@ -590,6 +593,8 @@ def compose(brief, candidates=4):
             "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
                       for f in res["findings"] if f["severity"] in ("fatal", "serious")][:8],
             "plan": plan})
+        if on_candidate:
+            on_candidate({k: v for k, v in out[-1].items() if k != "plan"})
     out.sort(key=lambda c: (c["counts"].get("fatal", 0), c["score"]))
     result = {"brief": brief.get("id") or brief.get("name"), "style": brief["style"],
             "target_area_sf": brief["target_area_sf"], "bedrooms": brief.get("bedrooms", 3),

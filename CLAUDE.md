@@ -52,7 +52,7 @@ Phase 5 not started.
 164 nodes · 95 slots (ontology 0.5.0) · 40 massings · 58 rooms · 16 groupings ·
 **12 partis naming only 39 of 132 styles** · 36 packs (129 of 132 nodes bound) ·
 660 constraints migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits
-populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools · 304 tests.
+populated** · 322 image records, 0 sourced · 14 reference plans · 24 MCP tools · 307 tests.
 
 **Next, in order:**
 1. **WP-2.3 — a real solver.** The largest remaining structural gap. `docs/geometry.md`

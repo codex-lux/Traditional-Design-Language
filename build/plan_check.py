@@ -155,10 +155,19 @@ def check(plan, C=None, strict=False):
                 continue
             adj[rid].add(t); adj[t].add(rid)
             rel[(rid, t)] = rel[(t, rid)] = "direct-door"
+    # Declared relations are kept beside the door-derived ones, not merged under
+    # them: a pair can legitimately be joined by a door AND declared
+    # not-visible-from (the door sits around a jog). The must-not-adjoin skip
+    # below consults both; entered_from keeps reading the door-derived map only.
+    # Before this, rel.setdefault meant a direct-door pair could NEVER satisfy
+    # "record the relation as 'not-visible-from' if the separation is real" --
+    # the exact interaction the finding's own fix text promises.
+    declared_rel = {}
     for a in plan.get("adjacencies", []):
         if a["a"] in rooms and a["b"] in rooms:
             adj[a["a"]].add(a["b"]); adj[a["b"]].add(a["a"])
             rel.setdefault((a["a"], a["b"]), a["relation"]); rel.setdefault((a["b"], a["a"]), a["relation"])
+            declared_rel[(a["a"], a["b"])] = declared_rel[(a["b"], a["a"])] = a["relation"]
     types_present = {r["type"] for r in rooms.values()}
     def types_adjacent(rid):
         out = set()
@@ -304,7 +313,9 @@ def check(plan, C=None, strict=False):
             relation = rule.get("relation", "")
             for other in adj[rid]:
                 if rooms[other]["type"] != rule["room"]: continue
-                if relation in ("acoustically-separated", "not-visible-from") and rel.get((rid, other)) == relation:
+                if relation in ("acoustically-separated", "not-visible-from") and (
+                        rel.get((rid, other)) == relation
+                        or declared_rel.get((rid, other)) == relation):
                     continue
                 pair = tuple(sorted((rid, other)))
                 if pair in seen_pairs: continue          # a mutual prohibition is one finding, not two
@@ -503,7 +514,10 @@ def check(plan, C=None, strict=False):
                 meas.setdefault(k, v)
     except Exception:
         pass
-    fr = core.check_measurements(meas, style=style) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
+    # limit lifted from the API default of 40: faults_present was never truncated, and the
+    # could_not_judge list (surfaced as fault_unjudged below) has to be the whole list or
+    # "unjudged is not passed" degrades into "the first forty unjudged are not passed".
+    fr = core.check_measurements(meas, style=style, limit=10**6) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
     for x in fr.get("faults_present", []):
         F.add(x["severity"] if x["severity"] in SEV_ORDER else "serious", "fault",
               f"{x['name']}: {x['results'][0].get('value')} against {x['results'][0].get('required')}.",
@@ -513,6 +527,10 @@ def check(plan, C=None, strict=False):
     for f in F.items: counts[f["severity"]] = counts.get(f["severity"], 0) + 1
     return {"plan": plan["id"], "style": style, "rooms": len(rooms),
             "counts": counts, "fault_summary": fr.get("summary"), "constraint_summary": constraint_summary,
+            # The could-not-judge detail, not just its count. fault_summary already counts
+            # unjudged; without the list itself a caller cannot say WHICH faults were
+            # beyond evaluation, and unjudged-is-not-passed needs the which. Additive.
+            "fault_unjudged": fr.get("could_not_judge", []),
             "findings": F.sorted(),
             "note": ("Style exceptions are honoured throughout — a rule a style legitimately breaks is not reported. "
                      "Code findings are advisory. Anything the fault corpus could not judge is unknown, not passed.")}

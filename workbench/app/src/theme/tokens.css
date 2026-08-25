@@ -1,0 +1,443 @@
+/* The Drawn Language — instrument tokens, lifted verbatim from the Workbench
+   mockup (Graphic Standard No. 1 applied to the whole instrument). Fonts load
+   from Google Fonts via index.html; everything else is byte-identical to the
+   mockup, compat aliases included, and prunes wait for a deliberate pass. */
+
+/* The Drawn Language webfaces — one serif voice, one mono hand.
+   EB Garamond   — every letter the product sets: titles in letterspaced capitals,
+                   prose, room labels, and the italic aside.
+   Courier Prime — token names, hex values, counts, ids: the typewritten margin of the sheet.
+   No binaries were supplied; both faces load from Google's CDN and match the standard
+   (uploads/VISUAL-LANGUAGE.html) exactly. */
+/* cyrillic-ext */
+/* cyrillic */
+/* greek-ext */
+/* greek */
+/* cyrillic-ext */
+/* cyrillic */
+/* greek-ext */
+/* greek */
+/* cyrillic-ext */
+/* cyrillic */
+/* greek-ext */
+/* greek */
+/* cyrillic-ext */
+/* cyrillic */
+/* greek-ext */
+/* greek */
+/* cyrillic-ext */
+/* cyrillic */
+/* greek-ext */
+/* greek */
+/* ── TDL colour — THE DRAWN LANGUAGE ────────────────────────────────────────
+   A single committed world: cream vellum, graphite ink, and a few quiet colors.
+   Values are lifted verbatim from Graphic Standard № 1 (guidelines/the-drawn-language.html;
+   source: uploads/VISUAL-LANGUAGE.html). Single-theme by design — no dark mode, no white.
+
+   Duties are exclusive: green never means anything but growth, blue never anything but
+   water, salmon never anything but cut construction. Color names things; it never
+   outlines them. This palette SUPERSEDES the dark drawing-office tokens of UISPEC §10,
+   at the user's direction (readme.md §1).
+   ─────────────────────────────────────────────────────────────────────────── */
+:root{
+  /* The ground. No pure white anywhere — highlights are reserved vellum. */
+  --paper:#F1EBDB;               /* the sheet itself */
+  --paper-deep:#E8DEC7;          /* the mat: poche interiors, panels, figure margins */
+  --paper-mat:#ECE4CF;           /* half-step: alternating rows, hatch tile fields */
+  --paper-lit:#F7F2E4;           /* derived: a reserved highlight, one step off white */
+
+  /* The ink ladder — warm graphite, four steps. The line does the thinking. */
+  --coal:#221F1A;                /* cut line, glazing, small-scale poche */
+  --heavy:#2E2A23;               /* profile — where mass meets air */
+  --ink:#3F3A31;                 /* the working dark: medium line, lettering */
+  --ink-2:#6C6557;               /* graphite: fine line, hatching, asides */
+  --ink-3:#8C8371;               /* derived half-step: tertiary labels */
+  --ink-4:#A69D89;               /* hairline: construction, grids, disabled */
+  --graphite:#6C6557; --hair:#A69D89;   /* the standard's own names for the same inks */
+
+  /* Rules. Hairline separation everywhere, after the spec tables of the standard. */
+  --rule:#A69D89;                /* framed edges, borders */
+  --rule-soft:#DCD3BD;           /* derived: row rules inside a panel */
+
+  /* The five duties. Pigment settled into paper, never ink from a screen. */
+  --salmon:#DBA28B;              /* cut masonry — the warm flesh of the wall */
+  --salmon-deep:#C08066;         /* poche in the presentation register */
+  --sepia:#B3946A;               /* timber & age: wood, masonry hatch, warm wash */
+  --sepia-pale:#E6D9BD;          /* partition poche, pale warm fields */
+  --green:#8FA07F;               /* growth: lawn, canopy, hedge */
+  --green-deep:#6B7C5C;          /* stipple, canopy shade, green edges */
+  --green-pale:#DDE0C9;
+  --blue:#8CA4AA;                /* water */
+  --blue-deep:#64828B;           /* ruled water lines, shorelines */
+  --blue-pale:#D8DFD8;
+
+  /* The reserve bench — presentation register only, one duty each. */
+  --brick:#AF6B50;               /* brickwork, terracotta — and the UI's fatal */
+  --violet:#837D91;              /* deep atmospheric shadow, distance */
+  --gilt:#AF8D49;                /* bronze, gilding — the one struck highlight */
+  --gilt-deep:#8A6D33;           /* derived: gilt legible as text on vellum */
+
+  /* Washes. Translucent graphite and pigment, laid in glazes. */
+  --wash:rgba(63,58,49,.16);     /* the standard's shadow wash */
+  --wash-2:rgba(63,58,49,.24);   /* layered — darkest inside openings */
+  --wash-salmon-1:rgba(219,162,139,.22); --wash-salmon-2:rgba(192,128,102,.30);
+  --wash-blue-1:rgba(140,164,170,.20);   --wash-blue-2:rgba(100,130,139,.30);
+  --wash-green-1:rgba(143,160,127,.20);  --wash-green-2:rgba(107,124,92,.30);
+  --wash-sepia-1:rgba(179,148,106,.16);  --wash-sepia-2:rgba(179,148,106,.30);
+  --wash-graphite-1:rgba(63,58,49,.07);  --wash-graphite-2:rgba(63,58,49,.14);
+
+  /* Five traditions, reseated from the quiet colors. Stable mapping. */
+  --t0:#B3946A; --t1:#8FA07F; --t2:#8CA4AA; --t3:#AF6B50; --t4:#837D91;
+}
+
+/* ── TDL typography — THE LETTER ────────────────────────────────────────────
+   The sheets speak in letterspaced roman capitals, quietly. One serif family at four
+   pitches — never bold beyond 600, never condensed, never slanted. Emphasis is achieved
+   by spacing and size, as on a carved frieze. Italic exists only for the aside. Courier
+   for token names, hex values, counts and ids — the typewritten margin.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root{
+  --serif:"EB Garamond","Iowan Old Style",Georgia,serif; /* @kind font */
+  --mono:"Courier Prime","Courier New",monospace; /* @kind font */
+  /* compat aliases — every role resolves to the one voice */
+  --display:"EB Garamond","Iowan Old Style",Georgia,serif; /* @kind font */
+  --body:"EB Garamond","Iowan Old Style",Georgia,serif; /* @kind font */
+  --hand:"EB Garamond","Iowan Old Style",Georgia,serif; /* @kind font */
+
+  /* Sizes. Garamond carries a small x-height; the ladder sits a step above the old one. */
+  --fs-eyebrow:10.5px; --fs-micro:12px; --fs-mono-s:11.5px; --fs-mono:12.5px;
+  --fs-body-s:14px; --fs-body:15px; --fs-body-l:16.5px; --fs-lede:18px;
+  --fs-d4:20px; --fs-d3:25px; --fs-d2:33px; --fs-d1:46px; --fs-d0:62px;
+
+  --lh-tight:1.08; /* @kind font */
+  --lh-title:1.2; /* @kind font */
+  --lh-snug:1.4; /* @kind font */
+  --lh-body:1.55; /* @kind font */
+  --lh-prose:1.62; /* @kind font */
+
+  --fw-reg:400; /* @kind font */
+  --fw-med:500; /* @kind font */
+  --fw-semi:600; /* @kind font */
+
+  /* The four pitches: spacing widens as size falls. */
+  --tr-title:.18em; /* @kind font */
+  --tr-drawing:.42em; /* @kind font */
+  --tr-room:.3em; /* @kind font */
+  --tr-eyebrow:.24em; /* @kind font */
+  --tr-caps:.22em; /* @kind font */
+  --tr-mono:.02em; /* @kind font */
+  --tr-display:.01em; /* @kind font */
+
+  /* Named roles */
+  --type-eyebrow:var(--fw-semi) var(--fs-eyebrow)/1.25 var(--serif); /* @kind font */
+  --type-body:var(--fw-reg) var(--fs-body)/var(--lh-body) var(--serif); /* @kind font */
+  --type-prose:var(--fw-reg) var(--fs-body-l)/var(--lh-prose) var(--serif); /* @kind font */
+  --type-aside:italic var(--fw-reg) var(--fs-body)/var(--lh-snug) var(--serif); /* @kind font */
+  --type-data:var(--fw-reg) var(--fs-mono)/1.5 var(--mono); /* @kind font */
+  --type-data-s:var(--fw-reg) var(--fs-mono-s)/1.45 var(--mono); /* @kind font */
+  --type-title:var(--fw-med) var(--fs-d2)/var(--lh-title) var(--serif); /* @kind font */
+  --type-name:var(--fw-med) var(--fs-d4)/var(--lh-title) var(--serif); /* @kind font */
+
+  /* Legacy axis tokens — EB Garamond carries no optical axis; kept so older markup is inert. */
+  --opsz-title:0; /* @kind font */
+  --opsz-text:0; /* @kind font */
+}
+
+/* ── TDL space & layout ─────────────────────────────────────────────────────
+   A 4px base, and three fixed measures the shipped tools already use. Density is a
+   hard requirement, not a preference: one ordinary plan returns 130 findings, one kit
+   has 95 slots, one cascade runs 34 levels deep. Rows are 26–30px, not 44px.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root{
+  --sp-1:2px; --sp-2:4px; --sp-3:6px; --sp-4:8px; --sp-5:12px; --sp-6:16px;
+  --sp-7:20px; --sp-8:28px; --sp-9:40px; --sp-10:56px; --sp-11:80px;
+
+  --rail-left:236px;             /* shipped convention */
+  --rail-ai:344px;               /* the AI rail — beside the canvas, never a modal */
+  --topbar-h:52px;
+  --substrip-h:34px;             /* vocabulary filter strip under the topbar */
+  --panel-pad:16px;
+  --gutter:20px;
+
+  --row-h:26px;                  /* finding row, slot row, cascade level */
+  --row-h-l:34px;                /* expanded finding, kit slot with parameters */
+  --hit:22px;                    /* desktop instrument: 22px controls are correct here */
+
+  --measure-prose:64ch; /* @kind spacing */
+  --measure-note:46ch; /* @kind spacing */
+}
+
+/* ── TDL surfaces & rules — THE SHEET IS AN OBJECT ──────────────────────────
+   Nothing sits flush to the sheet edge: the drawing lives inside a ruled border, and the
+   border inside a margin. Panels are mounted like plates — a graphite rule, a vellum mat,
+   a hairline around the mat, and the faintest lift off the page. No gradients as
+   decoration; the only gradation is an atmospheric wash. Radii are 0.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root{
+  --hair-w:1px;
+  --rule-hair:1px solid var(--rule); /* @kind other */
+  --rule-hair-soft:1px solid var(--rule-soft); /* @kind other */
+  --rule-ink:1px solid var(--ink); /* @kind other */
+  --rule-heavy:2px solid var(--heavy); /* @kind other */
+  --radius:0px; --radius-0:0px;
+
+  --shadow-none:none; /* @kind shadow */
+  /* The plate mount: mat, hairline, and a breath of lift. Verbatim from the standard. */
+  --shadow-plate:0 0 0 3px var(--paper),0 0 0 4px var(--rule),0 1px 14px rgba(34,31,26,.10); /* @kind shadow */
+  --shadow-title:0 0 0 4px var(--paper),0 0 0 5px var(--rule); /* @kind shadow */
+
+  /* The ground's one permissible gradation — light pooling at the head of the sheet. */
+  --laid-paper:radial-gradient(ellipse 120% 80% at 50% 0%,rgba(255,252,240,.55),rgba(255,252,240,0) 60%); /* @kind other */
+  --tracing-paper:linear-gradient(180deg,rgba(247,242,228,.9),rgba(232,222,199,.82)); /* @kind other */
+  --paper-vignette:inset 0 0 0 1px var(--rule-soft); /* @kind shadow */
+
+  /* ── Hatches. Drawn, not textured — the same weighted lines as the drawing. ── */
+  --hatch-45:repeating-linear-gradient(45deg,currentColor 0 1px,transparent 1px 6px); /* @kind other */
+  --hatch-135:repeating-linear-gradient(-45deg,currentColor 0 1px,transparent 1px 6px); /* @kind other */
+  --hatch-cross:repeating-linear-gradient(45deg,currentColor 0 1px,transparent 1px 5px),repeating-linear-gradient(-45deg,currentColor 0 1px,transparent 1px 5px); /* @kind other */
+  --hatch-masonry:repeating-linear-gradient(45deg,var(--sepia) 0 1px,var(--sepia-pale) 1px 7px); /* @kind other */
+  --hatch-crosshatch:repeating-linear-gradient(45deg,var(--ink-2) 0 1px,transparent 1px 6px),repeating-linear-gradient(-45deg,var(--ink-2) 0 .6px,transparent .6px 6px); /* @kind other */
+  --hatch-unjudged:repeating-linear-gradient(45deg,var(--ink-3) 0 1px,transparent 1px 5px); /* @kind other */
+  --hatch-forbidden:repeating-linear-gradient(-45deg,currentColor 0 1.2px,transparent 1.2px 4.5px); /* @kind other */
+  --hatch-forthcoming:repeating-linear-gradient(90deg,var(--ink-4) 0 1px,transparent 1px 7px); /* @kind other */
+  --hatch-water:repeating-linear-gradient(0deg,var(--blue-deep) 0 1px,var(--blue-pale) 1px 7px); /* @kind other */
+  --stipple-lawn:radial-gradient(circle at 3px 5px,var(--green-deep) 1px,transparent 1.4px),radial-gradient(circle at 14px 12px,var(--green-deep) .9px,transparent 1.3px),radial-gradient(circle at 8px 19px,var(--green) .8px,transparent 1.2px),var(--green-pale); /* @kind other */
+
+  /* Instrument fields */
+  --field:var(--paper-mat);
+  --field-rule:1px solid var(--rule-soft); /* @kind other */
+  --blur-veil:none; /* @kind other */
+}
+
+/* ── TDL drawing conventions — THE LINE ─────────────────────────────────────
+   Five weights, each with a name, a duty, and a pen. On screen, weight and tone fall
+   together — a lighter line is drawn lighter in tone as well as width, the way graphite
+   actually behaves. Values verbatim from Plate III of the standard.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root{
+  /* name            screen      pen        tone */
+  --lw-construction:.7px;   /* 0.13 mm — grids, extensions, guides: left visible */
+  --lw-fine:1.05px;         /* 0.18 mm — furniture, fixtures, hatching, stairs */
+  --lw-medium:1.6px;        /* 0.25 mm — openings, trim, unseen edges */
+  --lw-heavy:2.4px;         /* 0.35 mm — profile: where mass meets air */
+  --lw-cut:3px;             /* 0.50 mm — the knife of plan & section; bounds all poche */
+  /* compat aliases for older markup */
+  --lw-profile:2.4px; --lw-seen:1.6px; --lw-hidden:1.05px; --lw-dim:.7px;
+  --lw-grid:.7px; --lw-hair:.7px;
+
+  --dash-overhead:7 4; /* @kind other */
+  --dash-hidden:7 4; /* @kind other */
+  --dash-centre:14 4 2.5 4; /* @kind other */
+  --dash-extent:1.5 5; /* @kind other */
+  --dash-grid:none; /* @kind other */
+  --dash-forthcoming:3 4; /* @kind other */
+
+  /* Dimensioning: ticks, old convention — feet with a prime, inches a double prime. */
+  --tick-len:7px;
+  --tick-angle:45deg; /* @kind other */
+  --dim-gap:3px; --dim-offset:22px;
+  --dim-text:var(--fw-med) 11px/1 var(--serif); /* @kind font */
+
+  --px-per-ft:13; /* @kind other */
+  --bay-ft:12; /* @kind other */
+  --storey-ft:11; /* @kind other */
+
+  /* Ink assignments: weight and tone fall together */
+  --draw-cut:var(--coal); --draw-profile:var(--heavy); --draw-seen:var(--ink);
+  --draw-fine:var(--ink-2); --draw-hidden:var(--ink-2); --draw-grid:var(--hair);
+  --draw-dim:var(--ink-2); --draw-note:var(--ink-2);
+
+  /* Poche — the wall is a body: coal skin, salmon flesh. */
+  --poche-masonry:var(--salmon);         /* bearing walls at working scale */
+  --poche-masonry-deep:var(--salmon-deep); /* presentation register */
+  --poche-partition:var(--sepia-pale);   /* non-bearing walls, casework */
+  --poche-figure:var(--coal);            /* footprints at site scale; the parti */
+
+  /* One sun: 45°, upper left, every sheet in a set. Shadow depth = projection depth. */
+  --shadow-angle:45deg; /* @kind other */
+  --shadow-working:rgba(63,58,49,.15);
+  --shadow-presentation:rgba(63,58,49,.12);
+
+  /* Analytic overlays, one duty each */
+  --overlay-daylight:var(--wash-green-1); /* @kind color */
+  --overlay-wet:var(--wash-blue-1); /* @kind color */
+  --overlay-privacy:var(--wash-sepia-1); /* @kind color */
+  --overlay-poche:var(--salmon); /* @kind color */
+}
+
+/* ── TDL motion ─────────────────────────────────────────────────────────────
+   Ink settles; it does not bounce. Nothing in this system overshoots — an overshoot
+   reads as an opinion, and this instrument is careful not to have opinions it cannot
+   source. Two exceptions to "instant": findings appearing/clearing after a re-score
+   (the feedback loop that teaches fluency) and a wash blooming onto the sheet.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root{
+  --ease-ink:cubic-bezier(.2,.7,.2,1); /* @kind other */
+  --ease-rule:cubic-bezier(.4,0,.2,1); /* @kind other */
+  --ease-wash:cubic-bezier(.35,.1,.25,1); /* @kind other */
+
+  --dur-1:90ms; /* @kind other */
+  --dur-2:170ms; /* @kind other */
+  --dur-3:280ms; /* @kind other */
+  --dur-4:520ms; /* @kind other */
+  --dur-draw:900ms; /* @kind other */
+
+  --t-hover:color var(--dur-1) var(--ease-ink),background-color var(--dur-1) var(--ease-ink),border-color var(--dur-1) var(--ease-ink); /* @kind other */
+  --t-panel:transform var(--dur-2) var(--ease-ink),opacity var(--dur-2) var(--ease-ink); /* @kind other */
+  --t-finding:opacity var(--dur-3) var(--ease-ink),transform var(--dur-3) var(--ease-ink),background-color var(--dur-3) var(--ease-ink); /* @kind other */
+  --t-wash:opacity var(--dur-4) var(--ease-wash); /* @kind other */
+}
+@media (prefers-reduced-motion:reduce){
+  :root{
+    --dur-1:0ms; /* @kind other */
+    --dur-2:0ms; /* @kind other */
+    --dur-3:0ms; /* @kind other */
+    --dur-4:0ms; /* @kind other */
+    --dur-draw:0ms; /* @kind other */
+  }
+}
+
+/* ── TDL semantic aliases — duties, not decoration ──────────────────────────
+   Every alias binds a corpus vocabulary to the quiet palette. A new color is a ruling,
+   not a tweak: it needs a name, a duty, and a register before it needs a value.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root{
+  /* Surfaces — one ground, mounted plates, matted wells */
+  --surface-app:var(--paper);
+  --surface-panel:var(--paper);
+  --surface-raised:var(--paper-deep);
+  --surface-well:var(--paper-mat);
+  --surface-card:var(--paper);
+  --surface-paper:var(--paper);
+  --surface-paper-lit:var(--paper-lit);
+  --surface-tracing:var(--paper-mat);
+
+  /* Text */
+  --text-body:var(--ink);
+  --text-secondary:var(--ink-2);
+  --text-tertiary:var(--ink-3);
+  --text-disabled:var(--ink-4);
+  --text-accent:var(--gilt-deep);
+  --text-on-paper:var(--ink);
+  --text-on-paper-2:var(--ink-2);
+  --text-on-paper-3:var(--ink-3);
+
+  /* Borders */
+  --border-hairline:var(--rule);
+  --border-soft:var(--rule-soft);
+  --border-paper:var(--rule);
+  --border-focus:var(--gilt-deep);
+
+  /* Links — gilt struck into the page; hairline underline, never blue. */
+  --link:var(--gilt-deep);
+  --link-hover:var(--gilt);
+  --link-on-paper:var(--gilt-deep);
+  --link-underline:rgba(175,141,73,.45);
+
+  /* ── Finding severity: fatal · serious · minor · advisory · info ──────────
+     brick → salmon-deep → gilt-deep, then two graphites for the non-verdicts. */
+  --sev-fatal:var(--brick);
+  --sev-serious:var(--salmon-deep);
+  --sev-minor:var(--gilt-deep);
+  --sev-advisory:var(--ink-2);
+  --sev-info:var(--ink-3);
+  --sev-cleared:var(--green-deep);
+  --sev-fatal-field:rgba(175,107,80,.12);
+  --sev-serious-field:rgba(192,128,102,.12);
+  --sev-minor-field:rgba(175,141,73,.11);
+  --sev-cleared-field:rgba(107,124,92,.12);
+
+  /* ── Judgment, three states. Unjudged is a FORM — an open square hatched in
+     neutral graphite, the same size and weight as the verdicts. Never a colour. */
+  --judge-pass:var(--green-deep);
+  --judge-fail:var(--brick);
+  --judge-unjudged:var(--ink-3);
+  --judge-unjudged-fill:var(--hatch-unjudged); /* @kind other */
+
+  /* ── Kit slot binding: specified · extends · forbidden · open ────────────── */
+  --bind-specified:var(--ink);
+  --bind-extends:var(--green-deep);
+  --bind-forbidden:var(--brick);
+  --bind-forbidden-field:rgba(175,107,80,.10);
+  --bind-open:var(--ink-4);
+
+  /* ── Variant status ladder ──────────────────────────────────────────────── */
+  --var-canonical:var(--gilt-deep);
+  --var-permitted:var(--ink-2);
+  --var-atypical:var(--ink-3);
+  --var-forbidden:var(--brick);
+
+  /* ── Massing affinity ───────────────────────────────────────────────────── */
+  --aff-canonical:var(--gilt-deep); --aff-common:var(--green-deep); --aff-possible:var(--ink-2);
+  --aff-atypical:var(--ink-3); --aff-forbidden:var(--brick);
+
+  /* ── Parameter kind. invented (14 of 1,569) is the only one that shouts. ── */
+  --kind-measured:var(--ink);
+  --kind-editorial:var(--gilt-deep);
+  --kind-derived:var(--ink-2);
+  --kind-invented:var(--brick);
+  --kind-invented-field:rgba(175,107,80,.14);
+  --kind-code:var(--blue-deep);
+
+  /* ── Lineage edges: weight, not just hue. ───────────────────────────────── */
+  --edge-carries:var(--ink);
+  --edge-carries-w:1.9px;
+  --edge-claims:var(--ink-4);
+  --edge-claims-w:.8px;
+  --edge-claims-dash:3 3; /* @kind other */
+
+  /* Confidence */
+  --conf-high:var(--ink); --conf-medium:var(--ink-2); --conf-low:var(--ink-3);
+
+  /* Fix tiers — right · cheap · dishonest */
+  --fix-right:var(--green-deep); --fix-cheap:var(--gilt-deep); --fix-dishonest:var(--salmon-deep);
+
+  /* States that are not verdicts */
+  --forthcoming:var(--ink-4);
+  --unsourced:var(--ink-3);
+  --refusal:var(--violet);
+  --receipt:var(--ink-2);
+
+  /* Retired names (the dark-instrument system), kept as compat aliases so older markup
+     and previously-compiled bundles keep rendering. New work uses the names above. */
+  --brass:var(--gilt-deep); --brass-lit:var(--gilt); --iron:var(--brick);
+  --copper:var(--salmon-deep); --verdigris:var(--green-deep);
+  --sanguine:var(--salmon-deep); --indigo:var(--blue-deep); --olive:var(--green);
+  --umber:var(--sepia);
+  --ground:var(--paper); --ground-2:var(--paper); --ground-3:var(--paper-deep); --ground-0:var(--paper-mat);
+  --bistre:var(--coal); --bistre-2:var(--ink); --bistre-3:var(--ink-2); --bistre-4:var(--hair);
+  --vellum-lit:var(--paper-lit); --vellum-tone:var(--paper-mat); --vellum-edge:var(--rule); --vellum:var(--paper);
+  --wash-sanguine-1:var(--wash-salmon-1); --wash-indigo-2:var(--wash-blue-2); --wash-olive-2:var(--wash-green-2); --wash-umber-2:var(--wash-sepia-2);
+  --shadow-board:var(--shadow-plate); /* @kind shadow */
+}
+
+/* ── TDL base — element defaults on the one ground ──────────────────────────
+   Component styling lives with the components.
+   ─────────────────────────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);background-image:var(--laid-paper);color:var(--ink);
+  font:var(--type-body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:var(--fw-med);letter-spacing:var(--tr-display);
+  line-height:var(--lh-title);margin:0}
+h1{font-size:var(--fs-d1)}h2{font-size:var(--fs-d2)}h3{font-size:var(--fs-d3)}h4{font-size:var(--fs-d4)}
+p{margin:0 0 .7em;text-wrap:pretty}
+p:last-child{margin-bottom:0}
+em,i{font-style:italic}
+strong{font-weight:var(--fw-semi)}
+a{color:var(--link);text-decoration:none;border-bottom:1px solid var(--link-underline);transition:var(--t-hover)}
+a:hover{color:var(--link-hover);border-bottom-color:var(--link-hover)}
+a:focus-visible{outline:1px solid var(--border-focus);outline-offset:2px}
+code,kbd,samp,pre{font-family:var(--mono);font-size:var(--fs-mono-s)}
+pre{margin:0;white-space:pre}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer;font-family:var(--serif)}
+table{border-collapse:collapse}
+hr{border:0;border-top:var(--rule-hair);margin:var(--sp-6) 0}
+::selection{background:var(--salmon);color:var(--coal)}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:var(--paper-mat)}
+::-webkit-scrollbar-thumb{background:var(--rule);border:2px solid var(--paper-mat)}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-3)}
+
+html,body{height:100%}body{overflow:auto}#root{height:100%;min-width:1380px}input[type=range]{height:14px}

@@ -1,0 +1,235 @@
+"""Adapter over mcp_server/core.py, plus the two aggregations no core function returns.
+
+core.py is pure functions with no protocol dependency — the whole server leans on that.
+Everything here is read-only over core._data(); nothing writes to the corpus, and nothing
+here may ever invoke build/build.py (it rewrites kits/).
+"""
+import os
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+for p in (ROOT, os.path.join(ROOT, "mcp_server"), os.path.join(ROOT, "build")):
+    if p not in sys.path:
+        sys.path.insert(0, p)
+
+import core  # noqa: E402  (mcp_server/core.py)
+
+CASCADE_EDGES = ("descends_from", "regional_of")
+
+
+def phylogeny():
+    """The whole style graph, flattened for the Phylogeny surface.
+
+    dist/taxonomy.json proves the shape is derivable, but it is a build artifact;
+    this derives live from the same styles/ files so the picture cannot go stale.
+    """
+    D = core._data()
+    taxa, edges = [], []
+    for n in D["styles"].values():
+        p = n.get("period") or {}
+        taxa.append({
+            "id": n["id"], "name": n["name"], "rank": n["rank"],
+            "member_of": n.get("member_of"), "status": n.get("status"),
+            "confidence": n.get("confidence"),
+            "origin": p.get("origin"),
+            "floruit_start": p.get("floruit_start"), "floruit_end": p.get("floruit_end"),
+            "decline_end": p.get("decline_end"), "circa": p.get("circa", False),
+            "regions": (n.get("geography") or {}).get("regions", [])[:3],
+            "short": (n.get("description") or {}).get("short"),
+        })
+        for e in n.get("lineage") or []:
+            edges.append({
+                "from": n["id"], "to": e["target"], "type": e["type"],
+                "weight": e.get("weight"),
+                "inherits_kit": bool(e.get("inherits_kit")) or e["type"] in CASCADE_EDGES,
+            })
+    return {"taxa": taxa, "edges": edges,
+            "edge_types": {"cascade_carrying": list(CASCADE_EDGES),
+                           "claimed_only": ["references", "reacts_against", "revives"],
+                           "reticulate": ["hybridizes_with"]}}
+
+
+def kit_cascade(style_id):
+    """Per-ancestor rows for the Kit surface's cascade display.
+
+    resolve_kit()'s provenance is a source→count dict with composite
+    "a + b (extends)" keys — honest but not decomposable into the row-per-ancestor
+    display the cascade deserves. This walks the same chain and counts each kit
+    file's own bindings, so 'a thin kit is correct, not incomplete' stays visible.
+    """
+    D = core._data()
+    if style_id not in D["styles"]:
+        return {"error": f"unknown style '{style_id}'"}
+    chain = [style_id] + core._cascade(style_id)  # _cascade returns ancestors only
+    rows = []
+    for dist, sid in enumerate(chain):
+        kit = D["kits"].get(sid)
+        counts = {"specified": 0, "extends": 0, "forbidden": 0, "open": 0}
+        if kit:
+            for s in (kit.get("slots") or {}).values():
+                b = s.get("binding", "open")
+                counts[b] = counts.get(b, 0) + 1
+        node = D["styles"].get(sid) or {}
+        rows.append({"distance": dist, "id": sid, "name": node.get("name", sid),
+                     "rank": node.get("rank"), "has_kit": kit is not None, **counts})
+    return {"style": style_id, "levels": len(rows), "cascade": rows,
+            "note": ("Nearest first. A thin kit is correct, not incomplete — "
+                     "a style states only what the cascade does not already give it.")}
+
+
+def slot_detail(style_id, slot_id):
+    """One slot, resolved: core.resolve_kit's row plus the FULL variant ladder from the
+    kit file that actually binds it. resolve_kit summarises variants to canonical[] and
+    forbidden[] — the permitted and atypical rungs (a four-rank ladder, not a binary)
+    only exist in the kit records, so this walks the cascade to the binding kit."""
+    row = core.resolve_kit(style_id, slot=slot_id, only_specified=False)
+    if "error" in row:
+        return row
+    slot_row = (row.get("slots") or [None])[0]
+    if not slot_row:
+        return {"error": f"slot '{slot_id}' not found for '{style_id}'"}
+    D = core._data()
+    chain = [style_id] + core._cascade(style_id)
+    variants, note, bound_by = None, None, None
+    for sid in chain:
+        kit = D["kits"].get(sid)
+        s = (kit or {}).get("slots", {}).get(slot_id)
+        if s and s.get("binding") in ("specified", "extends", "forbidden"):
+            if variants is None and s.get("variants"):
+                variants = s["variants"]
+                bound_by = sid
+            if note is None and s.get("note"):
+                note = s["note"]
+            if variants is not None and note is not None:
+                break
+    out = dict(slot_row)
+    if variants is not None:
+        out["variants"] = variants
+        out["variants_from"] = bound_by
+    if note is not None:
+        out["note"] = note
+    out["cascade_distance"] = {sid: i for i, sid in enumerate(chain)}
+    return out
+
+
+def pack_list():
+    """Every proportion pack, for the Proportions surface's navigation. The
+    non-classical packs are equal citizens — most traditional buildings were
+    proportioned from a material module, not a column — so the list leads with the
+    system and module packs and the kind is first-class, not an afterthought."""
+    packs = core._data()["engine"].PACKS
+    out = []
+    for pid, p in packs.items():
+        out.append({"id": pid, "name": p.get("name", pid), "kind": p.get("kind"),
+                    "authority": p.get("authority"),
+                    "overlay_on": p.get("overlay_on")})
+    kind_rank = {"module-system": 0, "trim-system": 1, "opening-system": 2,
+                 "room-system": 3, "facade-system": 4, "order-system": 5}
+    out.sort(key=lambda r: (kind_rank.get(r["kind"], 9), r["id"]))
+    return {"count": len(out), "packs": out,
+            "note": ("Order packs are <authority>-<order> and compare at a common column "
+                     "DIAMETER, never a common module — authorities do not share one.")}
+
+
+def proportions_with_members(pack_id, column_diameter=None, module=None,
+                             ceiling_height=108.0, opening_width=36.0):
+    """core.get_proportions plus full member lists for EVERY assembly — the plate
+    drawing needs the whole stack at once, and the API's one-assembly-at-a-time
+    shape (right for an agent's context budget) would cost seven round-trips."""
+    out = core.get_proportions(pack_id, column_diameter=column_diameter, module=module,
+                               ceiling_height=ceiling_height, opening_width=opening_width)
+    if "error" in out:
+        return out
+    pe = core._data()["engine"]
+    pk = pe.resolve(pack_id)
+    d = pe.dimension(pk, out["module_in"], None)
+    members = {a["id"]: a["members"] for a in d["assemblies"]}
+    for a in out["assemblies"]:
+        a["members"] = members.get(a["id"], [])
+    return out
+
+
+def drawing(kind, plan, parti=None, face=None, candidates=250):
+    """Run the build/ pipeline for one drawing and return its SVG, re-tokenized to
+    the Drawn Language. Everything is generated from the record — the same modules
+    the CLI drives, to a tempfile, read back, recoloured, never redrawn."""
+    import json as _json
+    import os as _os
+    import tempfile
+
+    from . import svg_theme
+
+    B = _os.path.join(ROOT, "build")
+    plan = core.copy_json(plan)
+    pt = None
+    if parti:
+        f = _os.path.join(ROOT, "partis", f"{parti}.json")
+        if _os.path.exists(f):
+            pt = _json.load(open(f))
+
+    def _tmp():
+        fd, p = tempfile.mkstemp(suffix=".svg")
+        _os.close(fd)
+        return p
+
+    out_path = _tmp()
+    meta = {}
+    try:
+        if kind == "plan":
+            geo = core._mod("geometry", f"{B}/geometry.py")
+            solved = geo.solve(plan, pt, candidates)
+            if "error" in solved:
+                return {"error": solved["error"]}
+            rp = core._mod("render_plan", f"{B}/render_plan.py")
+            rp.render(solved, out_path)
+            meta = {"relaxations": solved["geometry_report"].get("relaxations")}
+        elif kind == "elevation":
+            EL = core._mod("elevation", f"{B}/elevation.py")
+            elev = EL.build_elevation(plan, pt)
+            if "error" in elev:
+                return {"error": elev["error"]}
+            re_ = core._mod("render_elevation", f"{B}/render_elevation.py")
+            re_.render_elevation(elev, out_path, face=face)
+            meta = {"entrance_face": elev.get("entrance_face"),
+                    "date_of_representation": elev.get("date_of_representation"),
+                    "glass_module_in": elev.get("glass_module_in")}
+        elif kind in ("section", "bearing"):
+            st = core._mod("structure", f"{B}/structure.py")
+            section = st.build_section(plan, pt)
+            if "error" in section:
+                return {"error": section["error"]}
+            rs = core._mod("render_section", f"{B}/render_section.py")
+            if kind == "section":
+                rs.render_section(section, out_path)
+            else:
+                rs.render_bearing_diagram(section, out_path)
+        elif kind == "roof":
+            rf = core._mod("roof", f"{B}/roof.py")
+            roof = rf.build_roof(plan, pt)
+            if "error" in roof:
+                return {"error": roof["error"]}
+            rr = core._mod("render_roof", f"{B}/render_roof.py")
+            rr.render_roof(roof, out_path)
+        else:
+            return {"error": f"unknown drawing kind '{kind}'",
+                    "kinds": ["plan", "elevation", "section", "bearing", "roof"]}
+        svg = open(out_path).read()
+    except SystemExit as e:  # render_plan raises SystemExit on an unsolved plan
+        return {"error": str(e)}
+    except Exception as e:
+        return {"error": f"{type(e).__name__}: {str(e)[:300]}"}
+    finally:
+        try:
+            _os.unlink(out_path)
+        except OSError:
+            pass
+    return {"kind": kind, "svg": svg_theme.retokenize(svg), **meta}
+
+
+def invalidate():
+    """Drop every cache so on-disk corpus edits are seen. Explicit by design:
+    auto-invalidation per request would reintroduce the OQ-28 tax."""
+    import modcache
+    modcache.invalidate()
+    core._data.cache_clear()
+    return {"reloaded": True}
