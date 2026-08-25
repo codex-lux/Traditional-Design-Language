@@ -3210,3 +3210,51 @@ def test_claude_md_no_longer_describes_five_closed_questions_as_open():
     for n in ("32", "40", "41", "42", "43"):
         assert n not in listed
     assert "was stale for a day" in md
+
+
+# --- OQ 51: the inheritance ratchet ------------------------------------------------------------
+
+
+def _inheritance():
+    import subprocess, re
+    out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_inheritance.py")],
+                         capture_output=True, text=True, cwd=ROOT).stdout
+    g = int(re.search(r"role_gaps\s+(\d+)", out).group(1))
+    p = int(re.search(r"inherited_packs\s+(\d+)", out).group(1))
+    return g, p
+
+
+def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
+    """OQ 51's two numbers. `role_gaps` is (node, role) pairs where an ancestor fills a role the
+    node never bound; `inherited_packs` is packs arriving purely by descent. Neither fails the
+    build -- this is a measured backlog, not a regression -- and the pin is what protects it.
+    They should go DOWN as nodes are authored; a rise means the cascade papered over something new."""
+    gaps, packs = _inheritance()
+    assert (gaps, packs) == (294, 3367)
+
+
+def test_the_diagnostic_names_the_ancestor_because_that_is_the_actionable_part():
+    """Knowing a role is inherited is half of it; knowing WHICH ancestor decided it is what lets
+    somebody either bind the node or scope the edge."""
+    import subprocess
+    out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_inheritance.py"),
+                          "--roles"], capture_output=True, text=True, cwd=ROOT).stdout
+    assert "egyptian-revival" in out
+    assert "<-greek-revival-american" in out
+
+
+def test_a_ranch_is_dimensioned_by_a_gothic_arch_pack_and_the_slot_report_says_so():
+    """The finding at its sharpest. 68 of `ranch-style`'s 78 dimensioned slots are governed by
+    packs it never bound, and the report names the pack AND the ancestor it was bound on."""
+    import subprocess
+    out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_inheritance.py"),
+                          "--slots", "ranch-style"], capture_output=True, text=True, cwd=ROOT).stdout
+    assert "78 slot(s) dimensioned, 68 by a pack it never bound" in out
+    assert "opening-pointed" in out and "gothic-revival-british" in out
+    assert "gibbs-ionic" in out
+
+
+def test_the_checker_says_what_the_binding_count_never_measured():
+    src = open(os.path.join(ROOT, "build", "check_inheritance.py")).read()
+    assert '"132 of 132 bound" counts a node\'s own array' in src
+    assert "it has never measured what a node RECEIVES" in src

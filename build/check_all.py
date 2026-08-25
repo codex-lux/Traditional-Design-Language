@@ -28,6 +28,7 @@ CHECKS = [
     ("check_partis.py", []),
     ("check_counts.py", []),
     ("check_addresses.py", []),
+    ("check_inheritance.py", []),
     ("proportion_engine.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
     ("plan_check.py", ["plans/tidewater-georgian-careful.json"]),

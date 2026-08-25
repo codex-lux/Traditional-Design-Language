@@ -48,7 +48,8 @@ sixteen tests were skipping while the run reported success.
 Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_constraints.py`,
 `build/check_pack_bindings.py --strict`, `build/check_rooms.py`, `build/check_partis.py`,
 `build/check_faults.py`, `build/check_addresses.py` compares what two co-binding packs MEAN at one address, using each rule's
-`quantity` (OQ 48, closed at 0 collisions -- run it after adding any rule).
+`quantity` (OQ 48, closed at 0 collisions -- run it after adding any rule). `build/check_inheritance.py`
+reports what the cascade delivers that nobody bound (OQ 51; `--roles`, `--slots <node>`).
 `build/check_counts.py` (fails the build when a number in this
 file, in `STATE-OF-THE-PROJECT.md`, in `README.md` or in `docs/` disagrees with the data -- run it
 with `--fix` to rewrite them), `build/proportion_engine.py selftest`. **When authoring or binding a pack, run
@@ -184,9 +185,13 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     `italian-renaissance` as the one control case. Ruled 25 Aug to stop at the principle
     (`docs/model.md`); a fault would need the elevation layer to model ornament ZONES, which it
     does not.
-  - **OQ 51** — the lineage cascade delivers packs nobody bound. **The largest thing open.**
-    127 of 132 nodes receive a pack purely by descent; `ranch-style` has 68 of its 78 dimensioned
-    slots governed by packs it never bound. Read it before trusting "132 of 132".
+  - **OQ 51** — the lineage cascade delivers packs nobody bound. **The largest thing open**, and
+    now measured and ratcheted rather than fixed: `build/check_inheritance.py` reports it and pins
+    **294 role_gaps** and **3,367 inherited_packs**, which should only ever go down. 127 of 132
+    nodes receive a pack purely by descent; `ranch-style` has 68 of its 78 dimensioned slots
+    governed by packs it never bound (`--slots ranch-style` names each one and the ancestor that
+    decided it). Read it before trusting "132 of 132". The three real fixes are all packages and
+    the entry costs each.
 
 ## Conventions
 
