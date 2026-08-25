@@ -1860,3 +1860,151 @@ def test_the_never_executed_warning_path_caught_a_real_error_the_first_time_it_c
     p = pack("octagon-geometry")
     part = p["module"]["default_size_in"] / p["module"]["parts"]
     assert 84.0 <= eval(r["expression"], {"part": part}) <= 120.0
+
+
+# --- facade-pavilion: the travee, the pavilion and the mansard --------------------------------
+# Three items of WP-4.1's list in one pack, because they turned out to be one system: the mansard's
+# dormer is proportioned against the travee, and the pavilion is what breaks the travee's repetition.
+
+
+def test_the_travee_is_a_vertical_unit_and_that_is_the_whole_claim():
+    """`facade-classical` composes in horizontal layers and the bays fall between them. This system
+    composes in vertical strips running from the ground to the finial of a lucarne. The pack says so
+    in its module note, because everything else in it follows from the direction."""
+    m = pack("facade-pavilion")["module"]
+    assert "THE TRAVEE IS A VERTICAL UNIT" in m["note"]
+    assert "horizontal, Anglo/Italian-derived logic" in m["note"]   # WP-4.1's own words
+    assert m["default_size_in"] / m["parts"] == 16.0
+
+
+def test_two_rules_carry_a_single_permitted_value_because_they_have_no_partial_version():
+    """Unusual in this library and deliberate. Every opening in a travee shares ONE axis, and the
+    cornice is continuous with the lucarne passing through it. An elevation an inch out of alignment
+    has not slightly broken the system, it has abandoned it -- so the band is [1.0, 1.0]."""
+    rules = {(r["target_slot"], r["dimension"]): r for r in pack("facade-pavilion")["derived_rules"]}
+    for addr in [("window_grouping_rule", "alignment"), ("cornice", "continuity")]:
+        r = rules[addr]
+        assert r["range"] == [1.0, 1.0], addr
+        assert float(r["expression"]) == 1.0, addr
+    assert rules[("window_grouping_rule", "alignment")]["judgment"] is True
+
+
+def test_one_lucarne_per_travee_and_the_count_says_exactly_one():
+    """The commonest way a modern French-styled elevation goes wrong: dormers get placed by what the
+    attic plan wants rather than by what the facade requires. Stated as a single value because there
+    is no second correct answer."""
+    r = next(x for x in pack("facade-pavilion")["derived_rules"]
+             if x["target_slot"] == "dormer" and x["dimension"] == "count")
+    assert r["expression"] == "1" and r["range"] == [1.0, 1.0]
+    assert "roof light behind the ridge, not a second dormer" in r["note"]
+
+
+def test_the_mansard_and_the_gambrel_differ_entirely_in_the_break_and_in_its_datum():
+    """The same idea in two countries. `dutch-gambrel` had to reconcile three records that gave the
+    break three different ways with none saying from where; `styles/french-baroque.json` says 'of
+    total roof height' in those words. That is why a mansard reads as a storey wearing a hat."""
+    brk = next(x for x in pack("facade-pavilion")["derived_rules"]
+               if x["target_slot"] == "roof_form" and x["dimension"] == "break_ratio")
+    assert brk["range"] == [0.6, 0.7]
+    assert "of total roof height" in brk["authority_note"]
+    assert "break point at 0.6 to 0.7 of total roof height" in json.dumps(node("french-baroque"))
+    # and both packs name the shallow slope the same thing, so the two are comparable
+    for pid in ("facade-pavilion", "dutch-gambrel"):
+        assert any(x["dimension"] == "upper_ratio" for x in pack(pid)["derived_rules"]), pid
+
+
+def test_the_break_the_pack_encodes_is_inside_the_band_it_declares():
+    """7.2 and 3.6 parts of rise. Computed rather than asserted -- the members are the evidence for
+    the invariant, and if either moves the ratio must still land in 0.6-0.7."""
+    a = pack("facade-pavilion")["assemblies"]["mansard_section"]["members"]
+    lo = next(m for m in a if m["id"] == "lower_slope")["height_parts"]
+    up = next(m for m in a if m["id"] == "upper_slope")["height_parts"]
+    assert 0.6 <= lo / (lo + up) <= 0.7
+
+
+def test_the_two_slopes_land_in_the_degrees_the_record_gives():
+    """65-75 for the lower and 20-30 for the upper. The pack states them as rise-over-run, which is
+    what a compiler can use, so the check is the trigonometry both ways."""
+    import math
+    rules = {(r["target_slot"], r["dimension"]): r for r in pack("facade-pavilion")["derived_rules"]}
+    low = math.degrees(math.atan(float(rules[("roof_pitch", "ratio")]["expression"])))
+    up = math.degrees(math.atan(float(rules[("roof_pitch", "upper_ratio")]["expression"])))
+    assert 65.0 <= low <= 75.0, low
+    assert 20.0 <= up <= 30.0, up
+    assert "lower slope 65 to 75 degrees" in json.dumps(node("french-baroque"))
+
+
+def test_the_avant_corps_is_the_shallower_projection_and_the_pavilion_also_rises():
+    """A French front commonly has both, and giving them the same projection flattens the hierarchy
+    the composition depends on. The pavilion's extra one to two metres of height is a separate rule
+    precisely so the two cannot be conflated."""
+    rules = {(r["target_slot"], r["dimension"]): r for r in pack("facade-pavilion")["derived_rules"]}
+    assert ("composition_parti", "projection") in rules      # avant-corps, 1/8 to 1/6 of its width
+    assert ("composition_parti", "ratio") in rules           # pavilion, 1/4 to 1/3 of its width
+    h = rules[("wing_strategy", "pavilion_height")]
+    assert "1 to 2 m of additional height" in h["authority_note"]
+    assert 39.0 <= h["range"][0] and h["range"][1] <= 79.0   # one to two metres, in inches
+
+
+def test_the_pavilion_is_measured_against_itself_and_not_against_the_range():
+    """Worth noticing, because it is the French system's way of stating a projection: a wide pavilion
+    projects further and stays in proportion. The corpus states it that way too."""
+    r = next(x for x in pack("facade-pavilion")["derived_rules"]
+             if x["target_slot"] == "composition_parti" and x["dimension"] == "ratio")
+    assert "of its own width" in r["authority_note"]
+    assert "1/4 to 1/3 of its own width" in json.dumps(node("french-renaissance-chateau"))
+
+
+def test_the_baroque_curved_wall_is_not_attempted_and_the_pack_says_why():
+    """WP-4.1 asks for 'a facade system for Baroque's curved-wall, accelerating bay rhythm'. Not one
+    of the twenty-two Baroque-matching nodes gives a figure for an undulating elevation. The pack
+    builds the avant-corps half of that item and leaves the curve on the list with a stated reason
+    -- which is the project's rule about unjudged not being passed, applied to a whole list item."""
+    n = pack("facade-pavilion")["notes"]
+    assert "THE CURVED WALL IS NOT SUPPORTABLE FROM THIS CORPUS" in n
+    assert "stays on the list, unbuilt and now with a stated reason" in n
+
+
+def test_two_dimension_names_were_renamed_off_collisions_the_authoring_aid_found():
+    """`roof_form`/`ratio` is `facade-picturesque`'s fraction of the elevation's width under the
+    dominant roof, and `dormer`/`height` is `storey-graduation`'s dormer WINDOW. Both co-bind with
+    this pack on three nodes apiece. Precedence would have resolved each silently in favour of
+    whichever bound second, which is not a proportioning decision."""
+    dims = {(r["target_slot"], r["dimension"]) for r in pack("facade-pavilion")["derived_rules"]}
+    assert ("roof_form", "break_ratio") in dims and ("roof_form", "ratio") not in dims
+    assert ("dormer", "lucarne_height") in dims and ("dormer", "height") not in dims
+    assert ("roof_form", "ratio") in {(r["target_slot"], r["dimension"])
+                                      for r in pack("facade-picturesque")["derived_rules"]}
+    assert ("dormer", "height") in {(r["target_slot"], r["dimension"])
+                                    for r in pack("storey-graduation")["derived_rules"]}
+
+
+def test_the_pack_binds_to_eight_nodes_and_leads_the_two_that_had_no_facade_system():
+    """`french-renaissance-chateau` had no facade pack at all -- WP-4.1's list said so -- and
+    `french-eclectic` had `facade-picturesque` and two optionals, so its dormers had nothing saying
+    where they go. Both now lead with this pack."""
+    import glob as _glob
+    bound = []
+    for f in _glob.glob(os.path.join(ROOT, "styles", "*.json")):
+        d = json.load(open(f))
+        if any(e["pack"] == "facade-pavilion" for e in d.get("proportion_packs", [])):
+            bound.append(d)
+    assert len(bound) == 8
+    assert set(pack("facade-pavilion")["applies_to"]) == {n["id"] for n in bound}
+    for nid in ("french-renaissance-chateau", "french-eclectic", "chateauesque", "french-manoir"):
+        entries = sorted(node(nid)["proportion_packs"], key=lambda e: e["precedence"])
+        first_facade = next(e for e in entries if e["role"] == "facade")
+        assert first_facade["pack"] == "facade-pavilion", nid
+
+
+def test_second_empire_keeps_its_classical_primary_and_gains_the_roof_it_was_missing():
+    """The American Second Empire front really is composed in classical layers. What
+    `facade-classical` cannot express is a storey INSIDE the roof: its logic terminates the elevation
+    at the cornice, and here the building continues for another sixty per cent of a storey above it."""
+    entries = sorted(node("second-empire")["proportion_packs"], key=lambda e: e["precedence"])
+    assert entries[0]["pack"] == "facade-classical" and entries[0]["role"] == "primary"
+    assert entries[1]["pack"] == "facade-pavilion"
+    assert "terminates the elevation at the cornice" in entries[1]["note"]
+    attic = next(x for x in pack("facade-pavilion")["derived_rules"]
+                 if x["target_slot"] == "height_proportion" and x["dimension"] == "attic_ratio")
+    assert attic["range"] == [0.5, 0.7]

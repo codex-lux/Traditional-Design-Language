@@ -13833,16 +13833,22 @@
           "precedence": 3
         },
         {
+          "pack": "facade-pavilion",
+          "role": "facade",
+          "note": "The avant-corps and the end pavilion, which this node dimensions precisely -- 1/8 to 1/6 of its own width for the centrepiece, the same again plus one to two metres of height for the corner mass -- and the mansard's two slopes and its break, which no other record in the corpus states with a datum. Sits AHEAD of `facade-classical` because on a French Baroque front the vertical strip is the composition and the horizontal layering is the ornament of it; where the two disagree about where an opening goes, the travee wins. The giant order stays with `vignola-corinthian` at the head of the list, which this pack does not touch. NOT bound for the curved wall: that half of WP-4.1's Baroque item is unsupported by this corpus and is stated as unbuilt in the pack's own notes.",
+          "precedence": 4
+        },
+        {
           "pack": "facade-classical",
           "role": "facade",
           "note": "Judgment binding: not in facade-classical's own applies_to. Bound narrowly for the 'plain recessed curtain bays of uniform spacing' this style's own bay_rhythm names between the projecting pavilions -- not for the pavilion projection itself, which is a stepped-mass composition (c01, c02) that no pack in this library models; the order packs and this style's own constraints carry that part.",
-          "precedence": 4
+          "precedence": 5
         },
         {
           "pack": "opening-proportion",
           "role": "opening",
           "note": "Judgment binding: not in this pack's own applies_to. Bound narrowly for the enfilade door -- this style's own typical_ratios give doors '0.9 to 1.2 m wide,' which brackets Palladio's own 3 ft (0.91 m) default almost exactly. Does NOT cover the style's tall floor-length French window (fenetre a la francaise, sill line suppressed on the piano nobile), which is a genuine local departure this pack's sill-datum assumptions do not model -- flagged rather than forced.",
-          "precedence": 5
+          "precedence": 6
         }
       ],
       "_cascade": [
@@ -14752,34 +14758,40 @@
           "precedence": 1
         },
         {
+          "pack": "facade-pavilion",
+          "role": "facade",
+          "note": "The style the mansard is named for, and WP-4.1's list names it: 'Second Empire has no fit among the 5 existing modules'. Bound at second place, immediately behind the node's existing primary `facade-classical`, rather than displacing it -- the American Second Empire front really is composed in classical layers, with a proper base, cornice and entablature, and the pack that this node was missing is the one for the ROOF that sits on top of them. What `facade-classical` cannot express is a storey inside the roof: its logic terminates the elevation at the cornice, and here the building continues for another 60 per cent of a storey above it.",
+          "precedence": 2
+        },
+        {
           "pack": "storey-graduation",
           "role": "massing",
           "note": "Explicit in this pack's applies_to, and the node states its own mansard-storey-height rule (0.8-1.0 of the storey below) as a direct extension of this pack's general diminution logic — the mansard is read as one more graduated storey in the stack, not as an unrelated roof form. Governs the ordinary storey diminution below the mansard and the sill/head datum discipline the dormers must key into.",
-          "precedence": 2
+          "precedence": 3
         },
         {
           "pack": "opening-proportion",
           "role": "opening",
           "note": "Explicit in this pack's applies_to. Governs the rectangle of each opening and, critically, the single-head-datum-per-storey rule that the node's own hard constraint (c03) depends on: dormers must centre on the openings of the storey below within 6 in, which presumes the storey already has one disciplined head line for the dormers to agree with.",
-          "precedence": 3
+          "precedence": 4
         },
         {
           "pack": "sash-light",
           "role": "opening",
           "note": "Explicit in this pack's applies_to, and its window_proportion authority_note names Second Empire directly (2.2-2.6 height:width, the tall end of the Anglo-American range) alongside Italianate. Governs light count and muntin section for the tall narrow paired sash the node's defining_characteristics call for.",
-          "precedence": 4
+          "precedence": 5
         },
         {
           "pack": "trim-classical",
           "role": "interior",
           "note": "Explicit in this pack's applies_to. Governs interior baseboard, cornice and casing; the node's Italianate-derived body and academic civic ambitions (city halls, hotels) place it with the formal classical interior tradition rather than a carpenter's trim family, and storey-graduation's own ceiling-height notes record 10-14 ft Italianate ceilings, which is inside this pack's well-calibrated 11-13 ft band rather than its low-ceiling failure zone.",
-          "precedence": 5
+          "precedence": 6
         },
         {
           "pack": "room-harmonic",
           "role": "room",
           "note": "JUDGMENT BINDING. Not in this pack's applies_to, but Second Empire's placement in facade-classical, trim-classical, opening-proportion, sash-light and storey-graduation together — the same set of formal-classical packs bound to georgian-colonial-american and colonial-revival — argues for a designed, treatise-adjacent room over room-vernacular's span-constrained folk room. Second Empire houses were civic and upper-class buildings (city halls, hotels, 'houses of the newly rich'), not vernacular construction, and the style's tall Italianate-derived ceilings (10-14 ft) are squarely in room-harmonic's working range rather than room-vernacular's 7-9 ft band.",
-          "precedence": 6
+          "precedence": 7
         }
       ],
       "_cascade": [
@@ -18487,22 +18499,28 @@
           "precedence": 4
         },
         {
+          "pack": "facade-pavilion",
+          "role": "facade",
+          "note": "Bound for the mansard and the pavilion, not for the travee, and placed behind the orders and the trim accordingly. The American Beaux-Arts house takes the French roof and the projecting end pavilion and composes the wall between them by Vignola, which is why this node carries `vignola-composite` as primary and keeps it: the pack contributes the roof section, the attic_ratio and the pavilion's extra height, and defers on the wall. The zoning conflict is the live one here -- an American ordinance measuring height to the ridge or to a mean gives the mansard nothing back, and the form has to be bought for its own sake.",
+          "precedence": 5
+        },
+        {
           "pack": "facade-classical",
           "role": "facade",
           "note": "Confirmed in the pack's own applies_to. Governs the elevation as a composition, but a Beaux-Arts front pushes every one of its numbers to the permissive edge of the band: the centre bay is not merely widened but advanced as a full pavilion (constraint c03, 18 in minimum), the cornice is not the boxed domestic member the pack's default describes but a full entablature-derived cornice at monumental scale, and the composition typically adds a balustraded attic the pack does not itself model (constraint c04). Bind it for the bay-count and solid-to-void discipline and let the order packs and the style's own constraints carry what it understates.",
-          "precedence": 5
+          "precedence": 6
         },
         {
           "pack": "storey-graduation",
           "role": "massing",
           "note": "Confirmed in the pack's own applies_to. Governs the vertical diminution the style's proportional_system states directly - base:principal storey:attic roughly 1:2:0.7 - which is steeper than the pack's own domestic default (0.85 then 0.80 compounding) and closer to its outer range; a Beaux-Arts attic storey is genuinely subordinate, not merely shorter.",
-          "precedence": 6
+          "precedence": 7
         },
         {
           "pack": "room-harmonic",
           "role": "room",
           "note": "Confirmed in the pack's own applies_to. The Ecole plan method is Palladian room-shape discipline turned into a whole-building organising principle - axis, hierarchy, poche, marche - so this pack governs the individual rooms (16-22 ft principal-room clear height per the style's own proportional_system) while the plan-level hierarchy itself is outside what any proportion pack in this corpus models.",
-          "precedence": 7
+          "precedence": 8
         }
       ],
       "_cascade": [
@@ -20912,34 +20930,40 @@
           "precedence": 2
         },
         {
+          "pack": "facade-pavilion",
+          "role": "facade",
+          "note": "Bound for the mansard storey rather than for the travee. This node gives 'attic or mansard storey 0.5 to 0.7 of the principal storey height', which is the pack's height_proportion/attic_ratio rule and the reason that rule exists; `storey-graduation` already writes height_proportion/ratio for diminution generally, so the two dimensions are named apart deliberately and both apply. Sits ahead of `facade-classical` by one place only: a Beaux-Arts front is genuinely layered as well as stripped, and this is the one node in the eight where the two systems are close to equals.",
+          "precedence": 3
+        },
+        {
           "pack": "facade-classical",
           "role": "facade",
           "note": "Confirmed in the pack's own applies_to. Governs bay division and solid-to-void, though this style pushes every one of the pack's own defaults to its permissive edge: c01's hard requirement that base, shaft and attic resolve with distinct terminations goes well beyond what facade-classical assumes for a domestic front, and the order packs and this style's own constraints carry what the system pack understates.",
-          "precedence": 3
+          "precedence": 4
         },
         {
           "pack": "opening-proportion",
           "role": "opening",
           "note": "Confirmed in the pack's own applies_to. Governs the void before the surround; a Beaux-Arts opening is often a full aedicule or arched Roman opening rather than the pack's default plain rectangle, so treat its derived ratios as the starting rectangle the surround is built onto.",
-          "precedence": 4
+          "precedence": 5
         },
         {
           "pack": "room-harmonic",
           "role": "room",
           "note": "Confirmed in the pack's own applies_to. Governs the individual room within the Ecole's axial hierarchy of parti and marche, which is itself outside anything a room-proportion pack models.",
-          "precedence": 5
+          "precedence": 6
         },
         {
           "pack": "storey-graduation",
           "role": "massing",
           "note": "Judgment binding: beaux-arts-french is not in storey-graduation's own applies_to (beaux-arts-american is, and carries the identical binding). Bound because this style's own proportional_system states the vertical division directly -- base:shaft:attic approximately 1:2:0.5 -- which is the same diminishing-upward logic the pack encodes, only steeper than its domestic default.",
-          "precedence": 6
+          "precedence": 7
         },
         {
           "pack": "trim-classical",
           "role": "interior",
           "note": "Judgment binding: beaux-arts-french is not in trim-classical's own applies_to (beaux-arts-american is). Bound for the same reason the American branch is: the pedestal:field:entablature wall division is the correct proportional grammar even though real Beaux-Arts interiors ran marble, bronze and run-in-place plaster rather than the pack's default painted joinery -- bind the discipline and expect it executed richer than the pack assumes.",
-          "precedence": 7
+          "precedence": 8
         }
       ],
       "_cascade": [
@@ -25944,23 +25968,29 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-pavilion",
+          "role": "facade",
+          "note": "The twentieth-century American reading of the manoir, and the node most likely to be asked for by a real brief. It had no module or system pack at all before this -- `facade-picturesque` and two optionals -- so the elevation had nothing saying where a dormer goes. That is the failure this pack is for: French Eclectic dormers get placed by what the attic plan wants, and the dormer/count rule (exactly one per travee, on the bay's axis) is the corrective, stated as a single value because there is no second correct answer.",
+          "precedence": 1
+        },
+        {
           "pack": "facade-picturesque",
           "role": "facade",
           "note": "Confirmed in the pack's own applies_to. The style's own proportional_system calls itself 'roof-dominant' with 'no classical module except in the formal symmetrical subtype', which is exactly the picturesque system's governing logic - a dominant mass (here, the hipped roof itself rather than a gable) that every other element is subordinate to. Applies across both the symmetrical and informal subtypes described in massing_affinities; even the 'near-symmetrical' formal subtype is a calm massed composition rather than a bay-rhythm classical front, and facade-classical's own applies_to list does not extend to this node.",
-          "precedence": 1
+          "precedence": 2
         },
         {
           "pack": "vignola-ionic",
           "role": "optional",
           "authority": "vignola-ionic",
           "note": "JUDGMENT BINDING, held at low precedence and marked optional deliberately. The style's own proportional_system states 'a nominal French order governs the entrance' in the formal symmetrical subtype only - Nemours and the Louis XVI-derived estate end of the style. No order-system pack's applies_to names french-eclectic, so this is general typological reasoning rather than a documented fit: Ionic is chosen over Corinthian or Composite because the style's own description insists the entrance stays modest ('sometimes only a stone surround and an arched door'), and Ionic is the order the corpus elsewhere treats as the restrained, non-triumphal choice. Do not apply to the informal subtype, which the style explicitly describes as having 'almost no carved ornament'.",
-          "precedence": 2
+          "precedence": 3
         },
         {
           "pack": "trim-classical",
           "role": "optional",
           "note": "JUDGMENT BINDING for the formal symmetrical subtype only, paired with the order accent above. The lineage record gives this style a direct, weight-1.0 descent from beaux-arts-american ('Delano & Aldrich, Carrere & Hastings, Trumbauer, Mellor Meigs & Howe - Ecole-derived offices with French plate books on the shelf'), which is the strongest lineage weight in the whole node and stronger than the arts-and-crafts-british edge (weight 0.5) that would argue for trim-craftsman instead. Deliberately not bound as primary or as the sole trim pack: the informal subtype, hybridized with tudor-revival (weight 0.6) and descended from arts-and-crafts-british, plausibly wants trim-craftsman, and asserting one trim family as THE answer for a style with two named subtypes would overstate what the sources settle. Both are left at 'optional' rather than one being forced to 'interior'.",
-          "precedence": 3
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -35718,6 +35748,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-pavilion",
+          "role": "facade",
+          "note": "THE PACK'S HOME STYLE, and the node whose own record supplies most of its arithmetic: the 4.0-6.0 m travee spacing, the pavilion projecting a quarter to a third of its own width, the dormer at 0.6-0.9 of the travee and 0.5-0.8 of the storey below all come from here. Bound at the head of the node's list because until now this style had NO facade pack at all -- WP-4.1's list said so in those words -- and was composing its elevation off `opening-mullioned` and whatever `vignola-composite` contributed as an optional. The croisee stays with `opening-mullioned`, which proportions the light; this pack proportions the strip the lights stand in.",
+          "precedence": 0
+        },
+        {
           "pack": "vignola-composite",
           "role": "optional",
           "authority": "vignola-composite",
@@ -39813,22 +39849,28 @@
           "precedence": 1
         },
         {
+          "pack": "facade-pavilion",
+          "role": "facade",
+          "note": "'Stone or timber lucarnes rising through the cornice' is this node's phrase, and it is the authority for the pack's cornice/continuity rule -- the one rule here stated with a single permitted value because it has no partial version. Bound ahead of `facade-picturesque` for the same reason as on `chateauesque`. Note that this node's lucarnes may be TIMBER, which the structural conflict's instruction covers explicitly: a framed lucarne must still transfer its load to the wall beneath, not to the roof, however it is built.",
+          "precedence": 2
+        },
+        {
           "pack": "facade-picturesque",
           "role": "facade",
           "note": "Judgment bind: french-manoir itself is not listed, but its two direct architectural descendants — chateauesque and french-normandy-revival, both named in this node's own revival_periods — are, and this node states outright that its symmetry is 'balanced-asymmetrical' with the stair turret 'placed by circulation, not by composition,' the identical dominant-mass-plus-subordinate-accent logic the pack's dominance and lever-arm rules formalise. Used narrowly for that compositional logic; the pack's own numeric dominance ratio and datum-band figures are calibrated to 19th-century American eclectic fronts and should be treated as a diagnostic to check a drawing against, not a historical rule for this medieval type.",
-          "precedence": 2
+          "precedence": 3
         },
         {
           "pack": "timber-panel",
           "role": "optional",
           "note": "Optional, and narrowly. The manoir is a stone building whose framed work is confined to upper storeys, gables and outbuildings, and `stone-course` holds the walling. Bind the panel rules where the frame appears and leave the rest; nothing here should be read as asserting that this is a timber-framed type, because it is not.",
-          "precedence": 3
+          "precedence": 4
         },
         {
           "pack": "opening-mullioned",
           "role": "opening",
           "note": "The croisee, and the node that states the transom rule most precisely -- twice. 'Croisee opening roughly 2:3, transom at about two-thirds of opening height', and separately 'cross-mullioned windows with the transom well above centre, roughly two-thirds up the opening'. The pack's transom rule rests on this record and on its Renaissance sibling, and it is worth noticing that the corpus states this rule more exactly in French than in English: the croisee and the English mullion-and-transom window are the same device under two names, and the French records give the position and the English ones give the count.",
-          "precedence": 4
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -41060,29 +41102,35 @@
       ],
       "proportion_packs": [
         {
+          "pack": "facade-pavilion",
+          "role": "facade",
+          "note": "The lucarne style. This node gives 'wall dormer width 6-10 ft, projecting above the cornice by 1/2 to 1 full storey height', which is the pack's dormer/height rule said from the cornice's side and pushed further than the chateau record pushes it -- a Chateauesque dormer is allowed to be a whole storey above the cornice it cuts through. Placed ahead of `facade-picturesque`, which was doing the work and is the wrong instrument: picturesque composition is about massing irregularity and this style's irregularity is disciplined, a uniform travee broken by pavilions and towers rather than a silhouette assembled freely.",
+          "precedence": 1
+        },
+        {
           "pack": "facade-picturesque",
           "role": "facade",
           "note": "The style's own proportional_system says so directly: 'There is no governing module; proportion is set by the roof' and symmetry is 'balanced-asymmetrical'. Confirmed in the pack's own applies_to. The dominant mass is the roof-and-tower assembly rather than any single wall plane, and the dominance rule (one mass must exceed the next by at least 1.35x in elevation area) is exactly the discipline that separates a genuine Biltmore-scale composition from 'Queen Anne with a turret', which is the style's own stated failure mode at reduced scale.",
-          "precedence": 1
+          "precedence": 2
         },
         {
           "pack": "vignola-composite",
           "role": "secondary",
           "authority": "vignola-composite",
           "note": "Confirmed directly in the pack's own applies_to, which names chateauesque explicitly alongside beaux-arts-american and second-empire. This is the honest way to bind the collision the style's diagnostic tells describe outright: 'Ornament is late Gothic in vocabulary - crockets, finials, tracery - but the openings underneath are Renaissance and round-arched. That specific collision dates the reference to about 1520.' Composite is the order whose capital genuinely fuses two registers (Ionic volute over Corinthian acanthus), which is a defensible formal echo of a style built at the exact historical seam between Gothic structure and Renaissance ornament. Bind it only at the round-arched, pilastered and pedimented stone door and window surrounds the defining_characteristics call out - never at the roof, the dormers, the turrets or any crocketed or finialed member, which are Gothic vocabulary this order does not touch and which no pack in this corpus models.",
-          "precedence": 2
+          "precedence": 3
         },
         {
           "pack": "room-harmonic",
           "role": "room",
           "note": "The style's own distinguished_from entry against french-renaissance-chateau states the plan directly: 'The revival is a single-campaign house with a Beaux-Arts axial plan, plumbing, and an American service wing behind a French face.' Hunt's training was Ecole des Beaux-Arts (lineage edge to beaux-arts-french, weight 1.0), and room-harmonic is that same Ecole-adjacent classical room discipline. It governs the principal reception rooms behind the French face, not the towers, stair turrets or service ranges, which the plan explicitly treats as a separate, un-composed American wing.",
-          "precedence": 3
+          "precedence": 4
         },
         {
           "pack": "trim-classical",
           "role": "interior",
           "note": "Bound narrowly and at low precedence. It reaches only the formally planned principal rooms implied by the Beaux-Arts axial plan noted above - the great hall, the stair, the salon - and it says nothing about the Gothic register that dominates the exterior (crockets, finials, tracery) or the room-harmonic pack does not already cover. This is the honest ceiling of what a classical trim family can claim on a building whose ornamental vocabulary is genuinely bifurcated; no pack in this corpus encodes the late-Gothic half.",
-          "precedence": 4
+          "precedence": 5
         }
       ],
       "_cascade": [

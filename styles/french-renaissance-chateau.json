@@ -232,6 +232,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-pavilion",
+      "role": "facade",
+      "note": "THE PACK'S HOME STYLE, and the node whose own record supplies most of its arithmetic: the 4.0-6.0 m travee spacing, the pavilion projecting a quarter to a third of its own width, the dormer at 0.6-0.9 of the travee and 0.5-0.8 of the storey below all come from here. Bound at the head of the node's list because until now this style had NO facade pack at all -- WP-4.1's list said so in those words -- and was composing its elevation off `opening-mullioned` and whatever `vignola-composite` contributed as an optional. The croisee stays with `opening-mullioned`, which proportions the light; this pack proportions the strip the lights stand in.",
+      "precedence": 0
+    },
+    {
       "pack": "vignola-composite",
       "role": "optional",
       "authority": "vignola-composite",

@@ -242,22 +242,28 @@
       "precedence": 1
     },
     {
+      "pack": "facade-pavilion",
+      "role": "facade",
+      "note": "'Stone or timber lucarnes rising through the cornice' is this node's phrase, and it is the authority for the pack's cornice/continuity rule -- the one rule here stated with a single permitted value because it has no partial version. Bound ahead of `facade-picturesque` for the same reason as on `chateauesque`. Note that this node's lucarnes may be TIMBER, which the structural conflict's instruction covers explicitly: a framed lucarne must still transfer its load to the wall beneath, not to the roof, however it is built.",
+      "precedence": 2
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Judgment bind: french-manoir itself is not listed, but its two direct architectural descendants — chateauesque and french-normandy-revival, both named in this node's own revival_periods — are, and this node states outright that its symmetry is 'balanced-asymmetrical' with the stair turret 'placed by circulation, not by composition,' the identical dominant-mass-plus-subordinate-accent logic the pack's dominance and lever-arm rules formalise. Used narrowly for that compositional logic; the pack's own numeric dominance ratio and datum-band figures are calibrated to 19th-century American eclectic fronts and should be treated as a diagnostic to check a drawing against, not a historical rule for this medieval type.",
-      "precedence": 2
+      "precedence": 3
     },
     {
       "pack": "timber-panel",
       "role": "optional",
       "note": "Optional, and narrowly. The manoir is a stone building whose framed work is confined to upper storeys, gables and outbuildings, and `stone-course` holds the walling. Bind the panel rules where the frame appears and leave the rest; nothing here should be read as asserting that this is a timber-framed type, because it is not.",
-      "precedence": 3
+      "precedence": 4
     },
     {
       "pack": "opening-mullioned",
       "role": "opening",
       "note": "The croisee, and the node that states the transom rule most precisely -- twice. 'Croisee opening roughly 2:3, transom at about two-thirds of opening height', and separately 'cross-mullioned windows with the transom well above centre, roughly two-thirds up the opening'. The pack's transom rule rests on this record and on its Renaissance sibling, and it is worth noticing that the corpus states this rule more exactly in French than in English: the croisee and the English mullion-and-transom window are the same device under two names, and the French records give the position and the English ones give the count.",
-      "precedence": 4
+      "precedence": 5
     }
   ]
 }

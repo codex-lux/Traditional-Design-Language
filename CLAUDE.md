@@ -64,11 +64,11 @@ Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 
 
 164 nodes · 96 slots (ontology 0.6.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **51 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
-and 58 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
+style** · **52 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
+and 56 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 641 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 653 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
@@ -79,23 +79,21 @@ done are missing packs, which are work rather than rulings, and they are in the 
 in `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 **Next, in order:**
-1. **WP-4.6** — missing proportion packs. **Eight of thirty-odd done** (`moorish-arch`,
+1. **WP-4.6** — missing proportion packs. **Sixteen of thirty-odd done** (`moorish-arch`,
    `greek-doric`, `adobe-module`, `opening-pointed`, `opening-craftsman`, `trim-prairie`,
-   `dutch-gambrel`, `balcony-gallery`, `stone-course`), chosen by measuring leverage rather than by
-   list order; the measurement and what remains are in
-   `docs/reports/wp-4.6-missing-proportion-packs.md`. **All six packs the plan of action named as
-   likely candidates are built, plus the largest item the remaining list held when it was
-   measured** — stone coursing, at 60 nodes describing it and 34 thinly bound. Next by the same
-   measurement: a **half-timber infill panel module** (31 nodes, 23 thinly bound) and a **gable
-   geometry system** (crow-step, bell, neck, holbol — 12 nodes and entirely missing). After those
-   the tail is mostly ORNAMENT rather than proportion — sawn Gothic, turned Queen Anne millwork,
-   cast-iron pattern, Alpine carved timber, Mudejar brick corbelling, the portada/retablo panel —
-   plus the facade systems (French travee, Baroque, medieval English). Four new items the tranches themselves raised: a **four-centred
-   Tudor arch** system (a single strike ratio cannot express it), a
-   **leaded-casement-and-mullion** system (British Arts and Crafts denies the head-datum rule in
-   its own words, and `english-gothic` and `tudor` want the same pack), a **medieval/pre-Palladian
-   English facade** system, which turns out to be two existing list items seen from two sides, and
-   **Prairie rectilinear art glass**, which `trim-prairie` declined to invent figures for.
+   `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade`, `timber-panel`,
+   `opening-mullioned`, `facade-gable`, `trim-sawn`, `octagon-geometry`, `facade-pavilion`),
+   chosen by measuring leverage rather than by list order; the measurement and what remains are in
+   `docs/reports/wp-4.6-missing-proportion-packs.md`. Several list items collapsed into each other
+   once measured, which is the tranches' recurring finding: the four-centred Tudor arch and the
+   leaded casement turned out to be one window (`opening-mullioned`), four ornament items turned
+   out to be one machine (`trim-sawn`), and the French travée facade and the mansard/dormer module
+   turned out to be one system (`facade-pavilion`). Remaining by the same measurement: a
+   **jetty/overhang module** (5 nodes carrying real figures), a **portada/retablo panel**, a
+   **peripteral/arcuated Greek-Roman system**, and **Mudejar brick corbelling**. Items the report
+   now names as NOT SUPPORTABLE from this corpus, with the reason stated rather than left silent:
+   the Baroque curved/undulating wall (no figure in any of 22 matching nodes), strapwork and
+   linenfold, the Romanesque foliate capital, Prairie rectilinear art glass, Alpine carved timber.
 2. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
    www.loc.gov. `build/harvest_habs.py` is written, dry-run exercised and queued against the day
    the network opens; its own status block in `PLAN-OF-ACTION.md` carries the verbatim denial. The

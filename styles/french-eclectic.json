@@ -251,23 +251,29 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-pavilion",
+      "role": "facade",
+      "note": "The twentieth-century American reading of the manoir, and the node most likely to be asked for by a real brief. It had no module or system pack at all before this -- `facade-picturesque` and two optionals -- so the elevation had nothing saying where a dormer goes. That is the failure this pack is for: French Eclectic dormers get placed by what the attic plan wants, and the dormer/count rule (exactly one per travee, on the bay's axis) is the corrective, stated as a single value because there is no second correct answer.",
+      "precedence": 1
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Confirmed in the pack's own applies_to. The style's own proportional_system calls itself 'roof-dominant' with 'no classical module except in the formal symmetrical subtype', which is exactly the picturesque system's governing logic - a dominant mass (here, the hipped roof itself rather than a gable) that every other element is subordinate to. Applies across both the symmetrical and informal subtypes described in massing_affinities; even the 'near-symmetrical' formal subtype is a calm massed composition rather than a bay-rhythm classical front, and facade-classical's own applies_to list does not extend to this node.",
-      "precedence": 1
+      "precedence": 2
     },
     {
       "pack": "vignola-ionic",
       "role": "optional",
       "authority": "vignola-ionic",
       "note": "JUDGMENT BINDING, held at low precedence and marked optional deliberately. The style's own proportional_system states 'a nominal French order governs the entrance' in the formal symmetrical subtype only - Nemours and the Louis XVI-derived estate end of the style. No order-system pack's applies_to names french-eclectic, so this is general typological reasoning rather than a documented fit: Ionic is chosen over Corinthian or Composite because the style's own description insists the entrance stays modest ('sometimes only a stone surround and an arched door'), and Ionic is the order the corpus elsewhere treats as the restrained, non-triumphal choice. Do not apply to the informal subtype, which the style explicitly describes as having 'almost no carved ornament'.",
-      "precedence": 2
+      "precedence": 3
     },
     {
       "pack": "trim-classical",
       "role": "optional",
       "note": "JUDGMENT BINDING for the formal symmetrical subtype only, paired with the order accent above. The lineage record gives this style a direct, weight-1.0 descent from beaux-arts-american ('Delano & Aldrich, Carrere & Hastings, Trumbauer, Mellor Meigs & Howe - Ecole-derived offices with French plate books on the shelf'), which is the strongest lineage weight in the whole node and stronger than the arts-and-crafts-british edge (weight 0.5) that would argue for trim-craftsman instead. Deliberately not bound as primary or as the sole trim pack: the informal subtype, hybridized with tudor-revival (weight 0.6) and descended from arts-and-crafts-british, plausibly wants trim-craftsman, and asserting one trim family as THE answer for a style with two named subtypes would overstate what the sources settle. Both are left at 'optional' rather than one being forced to 'interior'.",
-      "precedence": 3
+      "precedence": 4
     }
   ]
 }

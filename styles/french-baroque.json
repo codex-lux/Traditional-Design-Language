@@ -250,16 +250,22 @@
       "precedence": 3
     },
     {
+      "pack": "facade-pavilion",
+      "role": "facade",
+      "note": "The avant-corps and the end pavilion, which this node dimensions precisely -- 1/8 to 1/6 of its own width for the centrepiece, the same again plus one to two metres of height for the corner mass -- and the mansard's two slopes and its break, which no other record in the corpus states with a datum. Sits AHEAD of `facade-classical` because on a French Baroque front the vertical strip is the composition and the horizontal layering is the ornament of it; where the two disagree about where an opening goes, the travee wins. The giant order stays with `vignola-corinthian` at the head of the list, which this pack does not touch. NOT bound for the curved wall: that half of WP-4.1's Baroque item is unsupported by this corpus and is stated as unbuilt in the pack's own notes.",
+      "precedence": 4
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Judgment binding: not in facade-classical's own applies_to. Bound narrowly for the 'plain recessed curtain bays of uniform spacing' this style's own bay_rhythm names between the projecting pavilions -- not for the pavilion projection itself, which is a stepped-mass composition (c01, c02) that no pack in this library models; the order packs and this style's own constraints carry that part.",
-      "precedence": 4
+      "precedence": 5
     },
     {
       "pack": "opening-proportion",
       "role": "opening",
       "note": "Judgment binding: not in this pack's own applies_to. Bound narrowly for the enfilade door -- this style's own typical_ratios give doors '0.9 to 1.2 m wide,' which brackets Palladio's own 3 ft (0.91 m) default almost exactly. Does NOT cover the style's tall floor-length French window (fenetre a la francaise, sill line suppressed on the piano nobile), which is a genuine local departure this pack's sill-datum assumptions do not model -- flagged rather than forced.",
-      "precedence": 5
+      "precedence": 6
     }
   ]
 }

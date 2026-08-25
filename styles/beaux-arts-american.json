@@ -272,22 +272,28 @@
       "precedence": 4
     },
     {
+      "pack": "facade-pavilion",
+      "role": "facade",
+      "note": "Bound for the mansard and the pavilion, not for the travee, and placed behind the orders and the trim accordingly. The American Beaux-Arts house takes the French roof and the projecting end pavilion and composes the wall between them by Vignola, which is why this node carries `vignola-composite` as primary and keeps it: the pack contributes the roof section, the attic_ratio and the pavilion's extra height, and defers on the wall. The zoning conflict is the live one here -- an American ordinance measuring height to the ridge or to a mean gives the mansard nothing back, and the form has to be bought for its own sake.",
+      "precedence": 5
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Confirmed in the pack's own applies_to. Governs the elevation as a composition, but a Beaux-Arts front pushes every one of its numbers to the permissive edge of the band: the centre bay is not merely widened but advanced as a full pavilion (constraint c03, 18 in minimum), the cornice is not the boxed domestic member the pack's default describes but a full entablature-derived cornice at monumental scale, and the composition typically adds a balustraded attic the pack does not itself model (constraint c04). Bind it for the bay-count and solid-to-void discipline and let the order packs and the style's own constraints carry what it understates.",
-      "precedence": 5
+      "precedence": 6
     },
     {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "Confirmed in the pack's own applies_to. Governs the vertical diminution the style's proportional_system states directly - base:principal storey:attic roughly 1:2:0.7 - which is steeper than the pack's own domestic default (0.85 then 0.80 compounding) and closer to its outer range; a Beaux-Arts attic storey is genuinely subordinate, not merely shorter.",
-      "precedence": 6
+      "precedence": 7
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "Confirmed in the pack's own applies_to. The Ecole plan method is Palladian room-shape discipline turned into a whole-building organising principle - axis, hierarchy, poche, marche - so this pack governs the individual rooms (16-22 ft principal-room clear height per the style's own proportional_system) while the plan-level hierarchy itself is outside what any proportion pack in this corpus models.",
-      "precedence": 7
+      "precedence": 8
     }
   ]
 }

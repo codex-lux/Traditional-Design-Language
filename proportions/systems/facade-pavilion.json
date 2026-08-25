@@ -1,0 +1,352 @@
+{
+  "id": "facade-pavilion",
+  "name": "The Travee, the Pavilion and the Mansard",
+  "aka": [
+    "the French vertical bay",
+    "avant-corps and end pavilion",
+    "the curb roof",
+    "the lucarne"
+  ],
+  "kind": "facade-system",
+  "authority": {
+    "source": "Jacques-Francois Blondel, Cours d'architecture, Paris 1771-77, and Architecture francoise, 1752-56, for the travee and the pavilion as the French composition's units; Pierre Le Muet and Francois Mansart's built work for the roof that carries Mansart's name; Charles Normand and the nineteenth-century French handbooks for the transmission into Second Empire and Beaux-Arts practice; and this corpus's own records, four of which give the figures precisely",
+    "author": "after Blondel; and after Mansart",
+    "year": 1771,
+    "strength": "documented",
+    "note": "DOCUMENTED. Blondel taught the French system as a system and published it, which is more than can be said for most of what this library reconstructs -- the travee, the avant-corps and the pavilion are named units of composition in a curriculum, not habits recovered from fabric. What Blondel does not give in the form a compiler needs is the arithmetic, and for that this pack leans on the corpus: `styles/french-renaissance-chateau.json` gives the travee spacing and the pavilion projection, `styles/french-baroque.json` gives the mansard's two slopes and its break, and both give the dormer against the travee it sits over."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The travee: one vertical bay, from the centre of one window to the centre of the next",
+    "parts": 12,
+    "default_size_in": 192.0,
+    "note": "The part is sixteen inches. Sixteen feet is the middle of the 4.0-6.0 m `styles/french-renaissance-chateau.json` gives for 'travee spacing 4.0 to 6.0 m on centre, uniform along a range'.\n\nTHE TRAVEE IS A VERTICAL UNIT AND THAT IS THE WHOLE DIFFERENCE FROM `facade-classical`. An Anglo-Italian facade is composed in horizontal layers -- a base, a piano nobile, an attic, each with its own storey height and its own window proportion, and the bays are what is left over between them. A French facade is composed in vertical STRIPS: window over window over dormer, all on one axis, from the ground to the roof, and the strip is the thing that repeats. That is why a French elevation can carry a dormer rising through the cornice without it reading as an interruption -- the dormer is the top of a travee that was always going to end somewhere -- and why an English elevation cannot. WP-4.1's list names this: 'every current facade/opening pack encodes a horizontal, Anglo/Italian-derived logic; French Renaissance Chateau has no fit at all.'"
+  },
+  "assemblies": {
+    "travee_stack": {
+      "height_modules": 3.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "ground_window",
+          "name": "Ground-storey opening in the travee",
+          "height_parts": 13.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "17 ft 4 in of storey, carrying one opening on the travee's axis. In the chateau work this is the croisee that `opening-mullioned` proportions; here it is only its place in the strip.",
+          "confidence": "medium"
+        },
+        {
+          "id": "first_window",
+          "name": "First-floor opening, on the same axis",
+          "height_parts": 12.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "16 ft. Slightly shorter than the ground storey and directly above it -- the ALIGNMENT is the rule, not the diminution. A French elevation tolerates a good deal of variation in storey height and none at all in the vertical axis.",
+          "confidence": "medium"
+        },
+        {
+          "id": "cornice_band",
+          "name": "Cornice, which the dormer rises through",
+          "height_parts": 3.0,
+          "projection_parts": 2.5,
+          "profile": "cyma-recta",
+          "note": "4 ft. The cornice is continuous and the dormer CUTS THROUGH it, which is the move that most distinguishes this system: `styles/french-manoir.json` gives 'stone or timber lucarnes rising through the cornice'. In an Anglo-Italian composition the cornice is the top of the wall and nothing crosses it; here it is one horizontal in a vertical system and the travee wins.",
+          "confidence": "high"
+        },
+        {
+          "id": "dormer_zone",
+          "name": "The lucarne, on the travee's axis",
+          "height_parts": 14.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "18 ft 8 in to the finial -- 0.7 of the storey below, the middle of the 0.5-0.8 `styles/french-renaissance-chateau.json` gives. A lucarne is not a dormer in the English sense: it is a masonry or framed gabled structure standing on the wall plane and finished with its own pediment or finial, and it is the top of the travee rather than an object on the roof.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "mansard_section": {
+      "height_modules": 0.9,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "lower_slope",
+          "name": "The steep lower slope",
+          "height_parts": 7.2,
+          "projection_parts": 2.3,
+          "profile": "flat",
+          "note": "9 ft 7 in of rise -- two thirds of the roof's height, at about 70 degrees, which is the middle of the 65-75 `styles/french-baroque.json` gives. Nearly vertical, and like `dutch-gambrel`'s lower slope it is really the wall of the storey inside it. The projection_parts figure is the horizontal run, not an overhang.",
+          "confidence": "high"
+        },
+        {
+          "id": "upper_slope",
+          "name": "The shallow upper slope",
+          "height_parts": 3.6,
+          "projection_parts": 6.5,
+          "profile": "flat",
+          "note": "4 ft 10 in of rise at about 25 degrees. Its only job is to close the section over the headroom the lower slope has bought -- the same relation `dutch-gambrel` describes, and the two roofs are the same idea in two countries. What differs is the BREAK: a gambrel's is at about a third of the half-span horizontally and a mansard's is stated as a fraction of the roof's HEIGHT, 0.6 to 0.7, which is much higher and is why a mansard reads as a storey with a hat and a gambrel as a roof.",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is sixteen inches.",
+      "expression": "module.default_size_in / module.parts == 16.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The mansard's break sits between three fifths and seven tenths of the roof's height.",
+      "expression": "assemblies.mansard_section.members.lower_slope.height_parts / (assemblies.mansard_section.members.lower_slope.height_parts + assemblies.mansard_section.members.upper_slope.height_parts) >= 0.6",
+      "tolerance": 0.0,
+      "note": "0.667 encoded, against `styles/french-baroque.json`'s 'break point at 0.6 to 0.7 of total roof height'. Note the DATUM, because `dutch-gambrel` found three records giving a gambrel's break three different ways and none saying from where: this one says 'of total roof height' explicitly, so it is a height fraction and not a horizontal one, and the two roofs' break rules are not interchangeable."
+    },
+    {
+      "statement": "The lucarne is most of a storey: at least half the floor below it.",
+      "expression": "assemblies.travee_stack.members.dormer_zone.height_parts >= assemblies.travee_stack.members.first_window.height_parts * 0.5",
+      "tolerance": 0.0,
+      "note": "14 against a floor of 6. `styles/french-renaissance-chateau.json` gives 0.5 to 0.8 of the storey below, which makes the lucarne a major element rather than a roof light. A dormer at a fifth of the storey below is an English dormer and belongs to a different composition."
+    },
+    {
+      "statement": "The dormer stands on the travee's axis: it is as wide as most of the bay.",
+      "expression": "assemblies.travee_stack.members.dormer_zone.height_parts > assemblies.travee_stack.members.cornice_band.height_parts",
+      "tolerance": 0.0,
+      "note": "The invariant is weaker than the rule it guards, because the schema's members carry heights and not widths -- the width rule is in the derived rules at 0.6 to 0.9 of the travee. What this catches is the case where the lucarne has shrunk below the cornice it is supposed to rise through, at which point the vertical system has collapsed back into a horizontal one."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "composition_parti",
+      "dimension": "spacing",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        157.0,
+        236.0
+      ],
+      "authority_note": "`styles/french-renaissance-chateau.json`: 'travee spacing 4.0 to 6.0 m on centre, uniform along a range'.",
+      "note": "THE TRAVEE, 16 ft on centre and UNIFORM ALONG A RANGE. Uniformity is the rule rather than the dimension: a French range does not graduate its bays or widen a centre one, it repeats a strip and then breaks the repetition with a pavilion. That is a different way of getting emphasis from the classical one, which widens the central intercolumniation, and the two should not be mixed on one elevation.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "ratio",
+      "expression": "0.28",
+      "units": "ratio",
+      "range": [
+        0.25,
+        0.34
+      ],
+      "authority_note": "`styles/french-renaissance-chateau.json`: 'corner pavilion or tower projecting 1/4 to 1/3 of its own width from the range face'.",
+      "note": "THE PAVILION'S PROJECTION AS A FRACTION OF ITS OWN WIDTH, which is the French system's way of stating a projection and is worth noticing: the pavilion is measured against ITSELF and not against the range, so a wide pavilion projects further and stays in proportion. About 28 per cent. Below a quarter the pavilion reads as a pilaster strip; above a third it reads as a separate wing and the range behind it becomes a link.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "projection",
+      "expression": "module * 0.146",
+      "units": "in",
+      "range": [
+        18.0,
+        60.0
+      ],
+      "authority_note": "`styles/french-baroque.json`: 'avant-corps projection 1/8 to 1/6 of its own width; end pavilion projection similar, plus 1 to 2 m of additional height'.",
+      "note": "THE AVANT-CORPS, 2 ft 4 in on a travee-wide centrepiece. It is the SHALLOWER of the two projections and the distinction matters: an avant-corps is the centre of a range stepping forward a little, and a pavilion is a corner mass stepping forward a lot and rising higher as well -- that record gives the pavilion an extra one to two metres of height on top of its projection. A French front commonly has both, and giving them the same projection flattens the hierarchy the composition depends on.",
+      "judgment": false
+    },
+    {
+      "target_slot": "dormer",
+      "dimension": "ratio",
+      "expression": "0.75",
+      "units": "ratio",
+      "range": [
+        0.6,
+        0.9
+      ],
+      "authority_note": "`styles/french-renaissance-chateau.json`: 'dormer width 0.6 to 0.9 of the travee width'.",
+      "note": "THE LUCARNE'S WIDTH AGAINST ITS TRAVEE, and it is the rule that makes the vertical system visible. At three quarters of the bay the dormer is unmistakably the top of the strip below it; at a third it is an object sitting on a roof and the elevation has become English. This is measured against the TRAVEE and not against the window, which is the pack's whole point -- the dormer belongs to the bay rather than to the opening.",
+      "judgment": false
+    },
+    {
+      "target_slot": "dormer",
+      "dimension": "lucarne_height",
+      "expression": "module * 0.7",
+      "units": "in",
+      "range": [
+        96.0,
+        240.0
+      ],
+      "authority_note": "`styles/french-renaissance-chateau.json`: 'the dormer's own height (to its finial) 0.5 to 0.8 of the storey below'. `styles/chateauesque.json`: 'wall dormer width 6-10 ft, projecting above the cornice by 1/2 to 1 full storey height'.",
+      "note": "THE LUCARNE'S HEIGHT TO ITS FINIAL, 11 ft 2 in -- most of a storey. `styles/chateauesque.json` states the same thing from the cornice's side and goes further, up to a full storey above it. A dormer of this size is a piece of architecture with its own pediment, finial and often its own moulded surround, and it is masonry rather than lead-and-timber. The word the records use is LUCARNE and it should be kept: an English dormer and a French lucarne are different objects and calling both a dormer loses the distinction. Named `lucarne_height` rather than `height` because `storey-graduation` co-binds on three of these nodes and writes `dormer`/`height` for the dormer WINDOW, following the attic storey. A lucarne is not a dormer window: the window is one element of a masonry structure that also has cheeks, a pediment and a finial, and this rule measures the structure. Keeping both is right -- a lucarne has a window in it and that window has its own height -- so the two rules coexist rather than one displacing the other.",
+      "judgment": false
+    },
+    {
+      "target_slot": "dormer",
+      "dimension": "count",
+      "expression": "1",
+      "units": "count",
+      "range": [
+        1.0,
+        1.0
+      ],
+      "authority_note": "The consequence of the travee: one dormer per bay, on the bay's axis.",
+      "note": "ONE LUCARNE PER TRAVEE, and the range is a single value because there is no other correct answer in this system. Two dormers over one bay, or a dormer between two bays, breaks the vertical alignment that is the whole composition -- and it is the commonest way a modern French-styled elevation goes wrong, because dormers get placed by what the attic plan wants rather than by what the facade requires. Where the attic needs more light than the travees allow, the answer is a wider lucarne or a roof light behind the ridge, not a second dormer.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_pitch",
+      "dimension": "ratio",
+      "expression": "2.75",
+      "units": "ratio",
+      "range": [
+        2.14,
+        3.73
+      ],
+      "authority_note": "`styles/french-baroque.json`: 'mansard roof: lower slope 65 to 75 degrees'.",
+      "note": "THE MANSARD'S LOWER SLOPE, 70 degrees -- rise over run of 2.75, or 33 in 12. Nearly vertical, and like `dutch-gambrel`'s lower slope it is really the WALL of the storey inside rather than a roof. The band is steep enough that the two packs' bands do not overlap: a gambrel's lower slope is 60-72 degrees and a mansard's 65-75, which sounds close and is not, because at the top of the mansard band the slope is within fifteen degrees of vertical and is detailed as a wall with slates on it.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_pitch",
+      "dimension": "upper_ratio",
+      "expression": "0.47",
+      "units": "ratio",
+      "range": [
+        0.36,
+        0.58
+      ],
+      "authority_note": "`styles/french-baroque.json`: 'upper slope 20 to 30 degrees'.",
+      "note": "THE UPPER SLOPE, 25 degrees. The dimension is named `upper_ratio` because `dutch-gambrel` established it for the same reason on the same kind of roof, and using the same name for the same quantity across two packs is what makes them comparable. On a true mansard the upper slope is often invisible from the ground, which is the point: the roof reads as a vertical storey with a flat top.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_form",
+      "dimension": "break_ratio",
+      "expression": "0.667",
+      "units": "ratio",
+      "range": [
+        0.6,
+        0.7
+      ],
+      "authority_note": "`styles/french-baroque.json`: 'break point at 0.6 to 0.7 of total roof height'.",
+      "note": "THE BREAK, AND ITS DATUM IS STATED, WHICH IS WHY THIS RULE IS EASY AND `dutch-gambrel`'S WAS NOT. That pack found three records giving a gambrel's break three different ways with none of them saying from where, and had to reconcile them. Here one record says 'of total roof height' in so many words, so the break is a HEIGHT fraction: two thirds of the way up. The consequence is the visible difference between the two roofs -- a mansard breaks high and reads as a storey with a hat, a gambrel breaks low and reads as a roof. The dimension is named `break_ratio` and not `ratio` because `facade-picturesque` co-binds on three of this pack's eight nodes and already writes `roof_form`/`ratio` for a quite different quantity -- the fraction of the elevation's WIDTH that the dominant roof covers. Two rules at one address would have been resolved silently by precedence, and the loser would have been whichever pack bound second, which is not a proportioning decision.",
+      "judgment": false
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "attic_ratio",
+      "expression": "0.6",
+      "units": "ratio",
+      "range": [
+        0.5,
+        0.7
+      ],
+      "authority_note": "`styles/beaux-arts-french.json`: 'attic or mansard storey 0.5 to 0.7 of the principal storey height'.",
+      "note": "THE MANSARD STOREY AGAINST THE PRINCIPAL ONE. Sixty per cent -- a real storey, inhabited and windowed, and not an attic in the English sense. That is the whole economic argument for the form: a mansard buys a full floor of habitable space inside what the roof would have occupied anyway, and in nineteenth-century Paris it bought one that did not count against the height limit. The dimension is named `attic_ratio` because `storey-graduation` writes `height_proportion`/`ratio` for storey diminution generally and the two packs co-bind.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "alignment",
+      "expression": "1.0",
+      "units": "ratio",
+      "range": [
+        1.0,
+        1.0
+      ],
+      "authority_note": "The travee's defining property: window over window over dormer, all on one axis.",
+      "note": "A JUDGMENT SLOT WITH ONE PERMITTED VALUE, which is unusual and deliberate. The rule is that every opening in a travee shares one vertical axis, exactly, from the ground storey to the finial of the lucarne -- and it is stated as a rule rather than a tolerance because there is no partial version of it. An elevation with its first-floor windows an inch off its ground-floor ones has not slightly broken the system, it has abandoned it, because the strip is the only thing holding the composition together. It is marked judgment because what a designer must decide is not the value but whether this system is being used at all: `facade-classical` would happily let the storeys have their own rhythms, and choosing between the two is the decision this rule makes visible.",
+      "judgment": true
+    },
+    {
+      "target_slot": "wing_strategy",
+      "dimension": "pavilion_height",
+      "expression": "module * 0.25",
+      "units": "in",
+      "range": [
+        39.0,
+        79.0
+      ],
+      "authority_note": "`styles/french-baroque.json`: end pavilion projection 'plus 1 to 2 m of additional height'.",
+      "note": "THE PAVILION'S EXTRA HEIGHT, 4 ft above the range's own eave -- one to two metres. A French pavilion does not only step forward, it steps UP, and the two together are what make it read as a distinct mass rather than as a projection. It usually gets its own roof as well, steeper and separately hipped, which is why a chateau silhouette is a series of roofs rather than one.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "continuity",
+      "expression": "1.0",
+      "units": "ratio",
+      "range": [
+        1.0,
+        1.0
+      ],
+      "authority_note": "`styles/french-manoir.json`: 'stone or timber lucarnes rising through the cornice'.",
+      "note": "THE CORNICE IS CONTINUOUS AND THE DORMER CUTS THROUGH IT, stated as a rule with one value for the same reason the alignment rule is. In an Anglo-Italian composition the cornice is the top of the wall and nothing crosses it -- `facade-classical`'s own rule is that the cornice must out-project every other horizontal, which is a statement that it terminates the elevation. Here it does not terminate anything: it is one horizontal in a vertical system, and the travee passes through it. A design that stops the lucarne at the cornice and starts a dormer above it has produced an English elevation with French detailing.",
+      "judgment": false
+    },
+    {
+      "target_slot": "chimney",
+      "dimension": "spacing",
+      "expression": "module * 4",
+      "units": "in",
+      "range": [
+        472.0,
+        944.0
+      ],
+      "authority_note": "Read off the chateau elevations rather than stated by a record: stacks land on the party walls between apartments, which fall at every third or fourth travee.",
+      "note": "A READING. Stacks at about every fourth travee, 64 ft. They are massive, individually detailed and part of the silhouette rather than incidents on it -- which is a consequence of the plan rather than of the elevation, since a French range is divided by cross walls into apartments and the stacks go in the cross walls. The pack states it because a chateau roofline without stacks at travee multiples looks subtly arbitrary, and because it is one of the few rules here that comes from the plan.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "A mansard's lower slope at 65 to 75 degrees is a wall pretending to be a roof, and it is framed as neither. Too steep to be a rafter in the ordinary sense -- the load is nearly axial and the slates are effectively hung on a vertical face -- and too sloped to be a stud wall, so it wants a purlin at the break taking a genuine change of direction, exactly as `dutch-gambrel`'s break does. The break is higher here, at two thirds of the roof's height rather than a third of the half-span, so more of the load arrives at it. And the lucarnes make it worse: each one is a masonry or framed structure standing on the wall plane and rising through the cornice, which means it is carried by the wall below and not by the roof, and it interrupts the eave at every travee.",
+      "resolution": "Frame the break as a designed panel point with a purlin and a tie, not as two rafter pairs meeting. Carry each lucarne on the wall beneath it rather than off the roof structure -- the historic ones are masonry continuing up past the cornice, and a timber-framed reproduction should still transfer its load to the wall. And detail the eave as an interrupted member: it is going to be cut at every bay, so make the interruption a designed junction rather than a series of site decisions.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "The system is a collection of junctions in the wettest places. A lucarne rising through a cornice creates a re-entrant angle where the roof, the cornice and a vertical masonry face all meet, once per travee, and that junction sits under the whole roof's catchment. The mansard break is a second continuous line where two very different slopes meet and where snow and ice sit. And the near-vertical lower slope drives water onto the break rather than off the eave, so the eave is not doing the work its detail assumes.",
+      "resolution": "Flash the lucarne junctions as a designed assembly with soakers and a cover flashing, and design them once rather than per bay -- the repetition is a gift here, because one detail solves twelve. Carry an ice-and-water membrane across the break and well up the upper slope, which is the same instruction `dutch-gambrel`'s climate conflict gives and for the same reason. And check the covering against the UPPER slope's pitch, which at 20 to 25 degrees is at or below the minimum for several traditional coverings -- the lower slope's steepness is irrelevant to that check and is what makes the mistake easy.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "The mansard storey is inhabited space inside a roof, so its entire envelope is roof construction at 70 degrees, and there is no cavity to speak of behind a slated near-vertical face. The lucarnes then puncture that envelope once per travee, each with a head, two cheeks and a sill in a different plane from the surface around it -- five surfaces and eight junctions per dormer, all of them thermal bridges and air-leakage paths. A twelve-travee range has twelve of them.",
+      "resolution": "Insulate above the structure, on the outside of the slope, and let the slate battens sit on the insulation -- which thickens the roof and shows at the eave and the break, and must therefore be decided before the elevation is agreed rather than after. Build the lucarnes as prefabricated boxes, insulated and air-sealed in a shop, and set them as units: the repetition that makes this system a maintenance problem also makes it a manufacturing opportunity, and it is one of the few places in this library where the traditional form suits modern construction better than it suited its own.",
+      "severity": "blocking"
+    },
+    {
+      "with": "cost",
+      "statement": "Everything repeats and nothing is simple. Each travee wants two aligned openings, a cornice crossing, and a lucarne with its own pediment, cheeks, finial and flashing; each pavilion wants its own roof; the mansard wants a purlin at the break and two coverings. The count is what drives the cost -- a twelve-bay range is twelve lucarnes -- and the historic economies came from repetition rather than from simplicity.",
+      "resolution": "Take the repetition seriously and design ONE of everything properly. One lucarne detail, one cornice crossing, one break condition, repeated, is far cheaper than a range where each bay has been adjusted. This also happens to be what the system wants aesthetically, since the travee's whole argument is uniformity along a range broken only by the pavilions -- so the cheap answer and the correct answer coincide, which is rare in this library and worth taking when it happens.",
+      "severity": "material"
+    },
+    {
+      "with": "zoning",
+      "statement": "The mansard exists partly because of a height limit and modern height limits do not work the same way. Nineteenth-century Parisian regulation measured to the cornice, which is why the roof became a storey; most modern ordinances measure to the ridge or to a mean between eave and ridge, so a mansard buys nothing and costs the difference between a roof and a wall. Where the limit is measured to the eave the form still works and is worth the money; where it is measured to the ridge it is a very expensive way to build a top floor.",
+      "resolution": "Read the ordinance's definition of height before choosing the roof, which sounds obvious and is skipped constantly. Where the mansard is bought for its own sake rather than for the floor, be honest about that in the cost plan. And where the limit is measured to a mean, note that a mansard's mean sits high because the break is at two thirds -- so it is penalised more than a gable of the same ridge height, which is a genuinely counter-intuitive result and has surprised people.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "french-renaissance-chateau",
+    "french-baroque",
+    "chateauesque",
+    "beaux-arts-french",
+    "french-manoir",
+    "french-eclectic",
+    "second-empire",
+    "beaux-arts-american"
+  ],
+  "sources": [
+    "Jacques-Francois Blondel, Cours d'architecture, Paris, 1771-1777",
+    "Jacques-Francois Blondel, Architecture francoise, Paris, 1752-1756",
+    "Charles Normand, Nouveau parallele des ordres d'architecture, Paris, 1819",
+    "Andrew Saint and the Second Empire literature for the transmission into Britain and America"
+  ],
+  "confidence": "medium",
+  "notes": "THREE ITEMS OF WP-4.1'S LIST IN ONE PACK, and the merge is the finding rather than a convenience. The list asks separately for 'a French vertical travee facade system (window-over-window-over-dormer as the structural bay) -- every current facade/opening pack encodes a horizontal, Anglo/Italian-derived logic; French Renaissance Chateau has no fit at all', and for 'a mansard/dormer massing module (slope geometry, dormer-to-bay proportion, pavilion projection) -- Second Empire has no fit among the 5 existing modules'. Read together those are one system: the mansard's dormer is proportioned AGAINST THE TRAVEE, the pavilion is what breaks the travee's repetition, and the list's own parenthesis for the second item -- 'dormer-to-bay proportion' -- is the first item's unit. Building them separately would have produced two packs each needing the other's module.\n\nThe third item folded in is the Baroque one, and only partly. WP-4.1 asks for 'a facade system for Baroque's curved-wall, accelerating bay rhythm'. THE CURVED WALL IS NOT SUPPORTABLE FROM THIS CORPUS and is not attempted: reading all twenty-two Baroque-matching nodes, not one gives a figure for an undulating or concave elevation, and the only usable ratios they carry are giant-order figures that `vignola-*` and the overlay packs already own. What IS here is the avant-corps and the end pavilion, which `styles/french-baroque.json` dimensions precisely, and those are the Baroque facade's other move. The curved wall stays on the list, unbuilt and now with a stated reason.\n\nTHE PACK'S CENTRAL CLAIM IS ABOUT DIRECTION. `facade-classical` composes in horizontal layers -- base, piano nobile, attic -- and the bays are what falls between them. This system composes in vertical STRIPS, and the strip runs from the ground to the finial of a lucarne that cuts through the cornice on its way. Two rules are therefore stated with a single permitted value rather than a band, which is unusual in this library and deliberate: the openings in a travee share ONE axis exactly, and the cornice is continuous with the dormer passing through it. Neither has a partial version -- an elevation whose storeys are an inch out of alignment has not slightly broken the system, it has abandoned it.\n\nOne cross-pack agreement worth recording. This pack and `dutch-gambrel` describe the same idea in two countries -- a steep lower slope that is really a wall, a shallow upper slope that only closes the section, and a break between them -- and the difference is entirely in the BREAK. A gambrel's is at about a third of the half-span measured horizontally, and `dutch-gambrel` had to reconcile three records that gave it three different ways with none saying from where. A mansard's is at 0.6 to 0.7 of the roof's HEIGHT, and `styles/french-baroque.json` says so in those words. That is why a mansard reads as a storey wearing a hat and a gambrel reads as a roof, and it is why the two packs' break rules must not be treated as interchangeable. The upper slope carries the same named dimension, `upper_ratio`, in both."
+}

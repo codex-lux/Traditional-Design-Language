@@ -251,34 +251,40 @@
       "precedence": 2
     },
     {
+      "pack": "facade-pavilion",
+      "role": "facade",
+      "note": "Bound for the mansard storey rather than for the travee. This node gives 'attic or mansard storey 0.5 to 0.7 of the principal storey height', which is the pack's height_proportion/attic_ratio rule and the reason that rule exists; `storey-graduation` already writes height_proportion/ratio for diminution generally, so the two dimensions are named apart deliberately and both apply. Sits ahead of `facade-classical` by one place only: a Beaux-Arts front is genuinely layered as well as stripped, and this is the one node in the eight where the two systems are close to equals.",
+      "precedence": 3
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Confirmed in the pack's own applies_to. Governs bay division and solid-to-void, though this style pushes every one of the pack's own defaults to its permissive edge: c01's hard requirement that base, shaft and attic resolve with distinct terminations goes well beyond what facade-classical assumes for a domestic front, and the order packs and this style's own constraints carry what the system pack understates.",
-      "precedence": 3
+      "precedence": 4
     },
     {
       "pack": "opening-proportion",
       "role": "opening",
       "note": "Confirmed in the pack's own applies_to. Governs the void before the surround; a Beaux-Arts opening is often a full aedicule or arched Roman opening rather than the pack's default plain rectangle, so treat its derived ratios as the starting rectangle the surround is built onto.",
-      "precedence": 4
+      "precedence": 5
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "Confirmed in the pack's own applies_to. Governs the individual room within the Ecole's axial hierarchy of parti and marche, which is itself outside anything a room-proportion pack models.",
-      "precedence": 5
+      "precedence": 6
     },
     {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "Judgment binding: beaux-arts-french is not in storey-graduation's own applies_to (beaux-arts-american is, and carries the identical binding). Bound because this style's own proportional_system states the vertical division directly -- base:shaft:attic approximately 1:2:0.5 -- which is the same diminishing-upward logic the pack encodes, only steeper than its domestic default.",
-      "precedence": 6
+      "precedence": 7
     },
     {
       "pack": "trim-classical",
       "role": "interior",
       "note": "Judgment binding: beaux-arts-french is not in trim-classical's own applies_to (beaux-arts-american is). Bound for the same reason the American branch is: the pedestal:field:entablature wall division is the correct proportional grammar even though real Beaux-Arts interiors ran marble, bronze and run-in-place plaster rather than the pack's default painted joinery -- bind the discipline and expect it executed richer than the pack assumes.",
-      "precedence": 7
+      "precedence": 8
     }
   ]
 }

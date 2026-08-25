@@ -808,21 +808,143 @@ not produce an error message — it produces an author who writes the weaker of 
 and the weaker one is the one that does not name the member it is about. `Ref` now resolves lists
 by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 
+### `proportions/systems/facade-pavilion.json` — three list items that were one system
+
+WP-4.1 asks separately for three things:
+
+- *"a French vertical travée facade system (window-over-window-over-dormer as the structural bay) —
+  every current facade/opening pack encodes a horizontal, Anglo/Italian-derived logic; French
+  Renaissance Chateau has no fit at all"*;
+- *"a mansard/dormer massing module (slope geometry, dormer-to-bay proportion, pavilion projection)
+  — Second Empire has no fit among the 5 existing modules"*;
+- *"a facade system for Baroque's curved-wall, accelerating bay rhythm"*.
+
+Read together, **the first two are one pack** and the list says so without noticing: the second
+item's own parenthesis, "dormer-to-bay proportion", names the first item's unit. A mansard's dormer
+is proportioned against the travée; the pavilion is what breaks the travée's repetition. Building
+them separately would have produced two packs each needing the other's module, and the second one
+would have had to restate the first's arithmetic to be usable.
+
+The module is the **travée**: one vertical bay, centre of window to centre of window, 192 in in 12
+parts of 16 in — the middle of the 4.0–6.0 m `styles/french-renaissance-chateau.json` gives for
+"travée spacing 4.0 to 6.0 m on centre, uniform along a range".
+
+**The pack's claim is about direction.** `facade-classical` composes in horizontal layers — a base,
+a piano nobile, an attic, each with its own storey height and window proportion — and the bays are
+what falls between them. This system composes in vertical **strips**, and the strip runs from the
+ground storey to the finial of a lucarne that cuts through the cornice on its way up. That is why a
+French elevation carries a dormer through its cornice without the dormer reading as an interruption,
+and why an English one cannot: there the cornice terminates the wall and here it is one horizontal
+in a vertical system.
+
+Two rules are therefore stated **with a single permitted value rather than a band**, which is
+unusual in this library and deliberate — `window_grouping_rule`/`alignment` = 1.0 and
+`cornice`/`continuity` = 1.0. Neither has a partial version. An elevation whose first-floor windows
+sit an inch off its ground-floor ones has not slightly broken the system; it has abandoned it,
+because the strip is the only thing holding the composition together. A third,
+`dormer`/`count` = exactly 1 per travée, is stated the same way for the same reason, and it is the
+corrective for the commonest modern failure: dormers placed by what the attic plan wants rather than
+by what the facade requires.
+
+Fourteen derived rules, five conflicts, `confidence: medium`, `strength: documented` — Blondel
+taught the travée, the avant-corps and the pavilion as named units in a published curriculum, which
+is more than most of what this library reconstructs, but he does not give the arithmetic in the form
+a compiler needs, and four corpus records do.
+
+**One distinction the pack insists on, because the corpus does.** An avant-corps projects 1/8 to
+1/6 of its own width; an end pavilion projects a quarter to a third of its own width *and rises one
+to two metres higher as well*. `styles/french-baroque.json` gives both. A French front commonly has
+both, and giving them the same projection flattens the hierarchy the composition depends on — so the
+pavilion's extra height is a separate rule (`wing_strategy`/`pavilion_height`) precisely so the two
+cannot be conflated. Note also that both projections are measured **against the element itself**,
+not against the range: a wide pavilion projects further and stays in proportion. That is the French
+way of stating a projection and it is not the classical way.
+
+#### The cross-pack finding: the mansard and the gambrel differ entirely in the break
+
+This pack and `dutch-gambrel` describe the same idea in two countries — a steep lower slope that is
+really the wall of the storey inside it, a shallow upper slope whose only job is to close the
+section, and a break between them. The difference is **the break, and its datum**.
+
+`dutch-gambrel`'s central finding was that three style records give a gambrel's break three
+different ways and **not one of them says from where**, and that pack had to reconcile them into
+about a third of the half-span, measured horizontally. Here `styles/french-baroque.json` says
+"break point at 0.6 to 0.7 of total roof height" in those words. So a mansard's break is a **height**
+fraction, two thirds of the way up, and a gambrel's is a horizontal one about a third of the way
+across. That is the whole visible difference between the two roofs — a mansard reads as a storey
+wearing a hat, a gambrel reads as a roof — and **the two packs' break rules must never be treated as
+interchangeable.** The shallow slope carries the same dimension name, `upper_ratio`, in both packs,
+which is what makes them comparable at all.
+
+The bands nearly touch and do not overlap in effect: a gambrel's lower slope is 60–72°, a mansard's
+65–75°, which sounds close and is not, because at the top of the mansard band the slope is within
+fifteen degrees of vertical and is detailed as a wall with slates on it.
+
+#### The Baroque item, half built and half refused
+
+The third list item is folded in **only partly, and the refusal is stated in the pack**. Reading all
+twenty-two Baroque-matching nodes, **not one gives a figure for an undulating or concave elevation**;
+the only usable ratios they carry are giant-order figures that `vignola-*` and the overlay packs
+already own. So the curved wall is not attempted. What *is* built is the avant-corps and the end
+pavilion, which `styles/french-baroque.json` dimensions precisely, and which are the Baroque
+facade's other move.
+
+This is the project's own rule — unjudged is not passed, and a plausible number is worse than none —
+applied to a whole list item rather than to a parameter. The curve stays on the list, unbuilt, now
+with a reason beside it.
+
+#### Two address collisions, both real, both renamed
+
+`build/pack_addresses.py` reported two, and both were genuinely different quantities sharing an
+address with a pack that co-binds:
+
+- **`roof_form`/`ratio`** — mine is the mansard's break; `facade-picturesque`'s is *the fraction of
+  the elevation's width covered by the dominant roof*. They co-bind on `chateauesque`,
+  `french-eclectic` and `french-manoir`. Renamed to **`break_ratio`**.
+- **`dormer`/`height`** — mine is the lucarne's height to its finial, the whole masonry structure;
+  `storey-graduation`'s is the dormer **window**'s height, following the attic storey. They co-bind
+  on `beaux-arts-american`, `beaux-arts-french` and `second-empire`. Renamed to
+  **`lucarne_height`** — and both rules are right, because a lucarne has a window in it and that
+  window has its own height.
+
+In each case precedence would have resolved the clash silently in favour of whichever pack bound
+second, which is not a proportioning decision. Two out of fourteen rules is close to the 5% rate the
+tranche measured across all 144 WP-4.6 pairs, and it is why that measurement produced an authoring
+aid rather than a build check.
+
+#### Bindings
+
+Eight nodes. It leads the facade role on `french-renaissance-chateau` (which had **no facade pack at
+all**, exactly as WP-4.1 said), `chateauesque`, `french-manoir` and `french-eclectic` — displacing
+`facade-picturesque` on the last three, which was the wrong instrument: picturesque composition is
+about massing irregularity, and this style family's irregularity is disciplined, a uniform travée
+broken by pavilions and towers rather than a silhouette assembled freely.
+
+It sits **behind** the existing primary on `second-empire`, `french-baroque`, `beaux-arts-french`
+and `beaux-arts-american`, and the reason is worth stating: those elevations really are composed in
+classical layers, and what they were missing is not a different wall system but **a storey inside the
+roof**, which `facade-classical`'s logic cannot express because that logic terminates the elevation
+at the cornice. `second-empire` had `facade-classical` bound as *primary* and nothing in the
+facade role at all; it keeps the primary and gains the roof.
+
+**Measured movement: nodes with no facade-role pack 58 → 56** — `french-renaissance-chateau` and
+`second-empire`. Nodes with two packs or fewer: unchanged at 12, because all eight of these already
+carried three or more. The value here is not coverage arithmetic; it is that the eight most French
+nodes in the corpus stop composing their elevations by an Anglo-Italian rule.
+
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
 still missing: an **octagon/polygonal plan module** (17 nodes, 11 thinly bound), a
 **portada/retablo ornament panel** (8/7), a **Mudejar brick corbelling module** (7/7), a
-**strapwork/Jacobethan ornament** item (7/7), a **jetty module** (13/7), a **mansard module** (17/4) (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
-10 thinly bound, and entirely missing from the library), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
+**strapwork/Jacobethan ornament** item (7/7), a **jetty module** (13/7), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
 also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
 **medieval/pre-Palladian English facade system** (new only in that two existing list items turn out
 to be one pack). One more added by this tranche: **Prairie rectilinear art glass**, a set-out with rules about
 asymmetry, colour and the placement of the few coloured pieces that `trim-prairie` has no figures
-for and declined to invent. **60 nodes still have no opening-role pack**, down from 68, and **67 no
-facade-role pack**, unchanged — because the facade halves of both two-part items were measured and
-found already served.
+for and declined to invent. **50 nodes still have no opening-role pack**, down from 68, and **56 no
+facade-role pack**, down from 67.
 
 Struck off by the second tranche: the **adobe/rammed-earth module** (5 nodes on the list, and it
 reached 9), the **opening half** of the Gothic Revival item (5 nodes, 3 of them previously with no
@@ -838,7 +960,12 @@ bound to 12 of the 34 thinly-bound stone nodes on a stated criterion. Struck off
 the leaded-casement-and-mullion items, which turned out to be one window, and the **gable geometry**
 item, which the list said the library had none of and which absorbed the crow-step and holbol items
 with it, and **four ornament items at once** — sawn Gothic, sawn-bracket Victorian, turned Queen Anne
-millwork and the pierced valance — which turned out to be one machine.
+millwork and the pierced valance — which turned out to be one machine. Struck off by the fifth: the
+**octagon/polygonal plan module**, the largest single item left when the tranche began and much the
+smallest when measured (17 nodes on the list, 1 in fact); the **French vertical travée facade
+system** and the **mansard/dormer massing module**, which were one system and are one pack; and the
+**avant-corps half** of the Baroque item — whose curved-wall half is refused above with a reason,
+not left silent.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -851,7 +978,7 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **51 packs**, 0 errors from `check_orders.py`,
+Later tranches: 23 checks green. **52 packs**, 0 errors from `check_orders.py`,
 `check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the thirteen new
 packs bind 121 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
@@ -859,8 +986,8 @@ pack, plus one wrong interior binding corrected, a roof system six nodes previou
 a threshold system seven nodes had nothing for, a walling system twelve nodes had nothing for, and an arcade system sixteen
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
-Nodes carrying two packs or fewer: 36 → 28 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **172 tests**. The pinned pack count in
+Nodes carrying two packs or fewer: 36 → 12 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
+`tests/test_wp46_packs.py` is now **184 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.
