@@ -277,15 +277,23 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True):
                                kind="door")
                 configs = []
                 for a1, b1_ in ((v1, v2), (v2, v1)):
+                    # overlap >= ovr needs all FOUR bounds: the two end-gap
+                    # inequalities alone admit a side narrower than ovr sitting
+                    # strictly inside the neighbour's span (a 2 ft landing
+                    # against a 34 ft passage passes both and shares 2 ft)
                     b = m.NewBoolVar("")
                     m.Add(a1["x"] + a1["w"] == b1_["x"]).OnlyEnforceIf(b)
                     m.Add(a1["y"] <= b1_["y"] + b1_["h"] - ovr).OnlyEnforceIf(b)
                     m.Add(b1_["y"] <= a1["y"] + a1["h"] - ovr).OnlyEnforceIf(b)
+                    m.Add(a1["h"] >= ovr).OnlyEnforceIf(b)
+                    m.Add(b1_["h"] >= ovr).OnlyEnforceIf(b)
                     configs.append(b)
                     b2 = m.NewBoolVar("")
                     m.Add(a1["y"] + a1["h"] == b1_["y"]).OnlyEnforceIf(b2)
                     m.Add(a1["x"] <= b1_["x"] + b1_["w"] - ovr).OnlyEnforceIf(b2)
                     m.Add(b1_["x"] <= a1["x"] + a1["w"] - ovr).OnlyEnforceIf(b2)
+                    m.Add(a1["w"] >= ovr).OnlyEnforceIf(b2)
+                    m.Add(b1_["w"] >= ovr).OnlyEnforceIf(b2)
                     configs.append(b2)
                 m.AddBoolOr(configs).OnlyEnforceIf(lit)
 

@@ -113,6 +113,17 @@ double-pile solvable at ~45 s feasibility + polish.
   solve deterministic when it reaches OPTIMAL; a time-limited polish can land
   differently under machine load, and the status says when that is the case.
   Tests pin invariants (hard facts), not timed placements.
+- **The door constraint was under-constrained — caught by the benchmark's own
+  counter, post-landing.** The model encoded shared-wall overlap ≥ ovr as the
+  two end-gap inequalities (`aEnd − bStart ≥ ovr`, `bEnd − aStart ≥ ovr`),
+  which a side *narrower than ovr* sitting strictly inside its neighbour's
+  span satisfies while sharing only its own width: a 2 ft landing against a
+  34 ft passage "had a door" through a 2 ft wall. `hard_fact_violations()`
+  computes the true overlap, disagreed with the model on the 25-room
+  double-pile, and the disagreement was the bug report. Fixed by also
+  requiring both cross-axis sides ≥ ovr in each door configuration — the
+  complete four-bound form. The counter and the model must never share a
+  formulation, or they cannot check each other.
 
 ## What was deliberately not done
 
