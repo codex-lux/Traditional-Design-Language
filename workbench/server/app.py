@@ -4,7 +4,13 @@ Read routes are pass-throughs returning core's JSON shapes unchanged (the fronte
 types mirror core.py, not the other way round). The server is stateless except the
 compose job registry; the plan record is a document the browser owns.
 
-Binds 127.0.0.1 only. No auth, no network beyond the Anthropic API for the rail.
+Binds 127.0.0.1 by default; set WORKBENCH_HOST=0.0.0.0 to face a platform proxy. The
+only network call it makes is to the Anthropic API, for the rail.
+
+Auth is a shared password (`auth.py`) and is *optional* — unset WORKBENCH_PASSWORD and
+the server is open, exactly as it was before it could be deployed, with /api/health
+saying so. Only /api/* is gated: the static shell has to load in order to draw the
+password screen, and it carries no corpus data.
 """
 import os
 
@@ -12,11 +18,39 @@ from fastapi import Body, FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import corpus, evaluate, jobs
+from . import auth, corpus, evaluate, jobs, limits
 
 core = corpus.core
 
 app = FastAPI(title="TDL Workbench", docs_url=None, redoc_url=None, openapi_url=None)
+
+
+@app.middleware("http")
+async def gate(request: Request, call_next):
+    path = request.url.path
+    if path.startswith("/api/") and path not in auth.OPEN_PATHS:
+        if not auth.authorised(request):
+            return JSONResponse(status_code=401,
+                                content={"detail": {"error": "a password is required",
+                                                    "auth": auth.state()}})
+    return await call_next(request)
+
+
+@app.post("/api/login")
+async def login(request: Request, body: dict = Body(...)):
+    if not auth.required():
+        return {"ok": True, "note": "this server has no password set"}
+    ok, retry = auth.login_allowed(request)
+    if not ok:
+        raise HTTPException(status_code=429,
+                            detail={"error": "too many attempts — wait and try again",
+                                    "retry_after_s": retry})
+    if not auth.check_password(body.get("password")):
+        raise HTTPException(status_code=401, detail={"error": "wrong password"})
+    response = JSONResponse(content={"ok": True})
+    response.set_cookie(auth.COOKIE, auth.mint(), max_age=auth.TTL_S, httponly=True,
+                        samesite="lax", secure=request.url.scheme == "https")
+    return response
 
 
 def _ok(result):
@@ -38,6 +72,7 @@ def health():
     counts = core.overview()["counts"]
     return {"ok": schema_ok, "jsonschema": schema_ok, "counts": counts,
             "rail": bool(os.environ.get("ANTHROPIC_API_KEY")),
+            "auth": auth.state(), "limits": limits.state(),
             "note": None if schema_ok else
             "jsonschema is not installed — plan checks and compose will fail. "
             "pip install -r workbench/requirements.txt"}
@@ -264,7 +299,10 @@ def job(job_id: str):
 
 @app.get("/api/jobs/{job_id}/events")
 def job_events(job_id: str):
-    return StreamingResponse(jobs.events(job_id), media_type="text/event-stream")
+    # Proxies buffer by default, which would hold compose progress until the job ended.
+    return StreamingResponse(jobs.events(job_id), media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache",
+                                      "X-Accel-Buffering": "no"})
 
 
 @app.get("/api/jobs/{job_id}/candidates/{n}/plan")
@@ -293,7 +331,12 @@ def drawings(kind: str, body: dict = Body(...)):
 async def rail_messages(request: Request):
     from . import rail
     body = await request.json()
-    return StreamingResponse(rail.stream_turn(body), media_type="text/event-stream")
+    # Identity, not the session cookie itself: a Cloudflare Access email outranks it, and
+    # a caller with neither still gets a stable-enough key. See auth.identity.
+    stream = rail.stream_turn(body, identity=auth.identity(request))
+    return StreamingResponse(stream, media_type="text/event-stream",
+                             headers={"Cache-Control": "no-cache",
+                                      "X-Accel-Buffering": "no"})
 
 
 # ----------------------------------------------------------------- dev

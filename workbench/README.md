@@ -23,6 +23,21 @@ The AI rail needs `ANTHROPIC_API_KEY` in the environment. Without it the server 
 and the rail says plainly that it is off — the three-state discipline applies to the
 rail's own availability.
 
+## Deploying it
+
+`docs/deployment.md` is the account; the short version is that there is a `Dockerfile`
+at the repo root and the only things a container must set are `WORKBENCH_HOST=0.0.0.0`
+(the image does), `WORKBENCH_PASSWORD` and `WORKBENCH_SECRET` for the gate, and
+`ANTHROPIC_API_KEY` for the rail. `PORT` is read in preference to `WORKBENCH_PORT`, so a
+platform that injects it needs no configuration.
+
+Two things not to get wrong: **replicas must stay at 1** (the compose job registry is in
+process memory — OQ 36), and the rail's caps are not a spend cap. The only ceiling in
+dollars is the budget on the key itself.
+
+Locally none of this applies. With no `WORKBENCH_PASSWORD` set the server is open, as it
+has always been, and says so at startup and in `/api/health`.
+
 ## What it will not claim
 
 The interface renders the system's honest states rather than hiding them: unjudged is

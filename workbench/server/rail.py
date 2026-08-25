@@ -13,10 +13,19 @@ import json
 import os
 import re
 
-from . import citations, corpus, tools
+from . import citations, corpus, limits, tools
 
-MODEL = os.environ.get("WORKBENCH_MODEL", "claude-sonnet-4-5")
-MAX_TOOL_ROUNDS = 8
+MODEL = os.environ.get("WORKBENCH_MODEL", "claude-sonnet-5")
+
+# On this model family thinking runs adaptively unless told otherwise, and those tokens
+# count against max_tokens — a 2000 ceiling (what this rail carried against the older
+# model) risks truncating a turn mid-answer. effort is the knob that trades depth for
+# spend; medium suits a rail that mostly dispatches tools and answers briefly.
+EFFORT = os.environ.get("WORKBENCH_EFFORT", "medium")
+MAX_TOKENS = int(os.environ.get("WORKBENCH_MAX_TOKENS", "8000"))
+
+# Each round is a separate billed request, so this is the per-turn cost multiplier.
+MAX_TOOL_ROUNDS = int(os.environ.get("RAIL_MAX_TOOL_ROUNDS", "8"))
 MAX_RESULT_BYTES = 20_000
 
 _client_factory = None  # test seam: rail tests inject a fake transport
@@ -146,12 +155,28 @@ def _emit_text(buf, ctx):
     return events
 
 
-def stream_turn(body):
+def stream_turn(body, identity=None):
     """Generator of SSE lines for one rail turn. The client owns conversation state
-    and replays prior turns; we run the tool loop to completion server-side."""
+    and replays prior turns; we run the tool loop to completion server-side.
+
+    Every refusal below leaves by the same door as the missing-key case: one `error`
+    event carrying honest:true, which the client already treats as terminal. A rail that
+    will not answer says why, in the same voice it uses for everything else it cannot do.
+
+    `identity` is the rate-limit subject. None means unmetered — the CLI and the tests —
+    but the shape checks apply either way, because those bound one request's cost rather
+    than one caller's rate.
+    """
     if not (os.environ.get("ANTHROPIC_API_KEY") or _client_factory):
         yield _sse("error", {"error": "no ANTHROPIC_API_KEY attached — the rail is off",
                              "honest": True})
+        return
+
+    refusal = limits.check_shape(body)
+    if refusal is None and identity is not None:
+        refusal = limits.check_rail(identity)
+    if refusal:
+        yield _sse("error", {"error": refusal, "honest": True, "limited": True})
         return
 
     ctx = body.get("context") or {}
@@ -171,7 +196,8 @@ def stream_turn(body):
     try:
         for _round in range(MAX_TOOL_ROUNDS + 1):
             resp = client.messages.create(
-                model=MODEL, max_tokens=2000, system=system,
+                model=MODEL, max_tokens=MAX_TOKENS, system=system,
+                output_config={"effort": EFFORT},
                 messages=messages, tools=tool_defs)
             text_parts, tool_uses = [], []
             for block in resp.content:

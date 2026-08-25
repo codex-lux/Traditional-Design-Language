@@ -36,6 +36,9 @@ const qs = (params) => {
 
 export const api = {
   health: () => getJSON('/api/health', { fresh: true }),
+  /* Sets an httpOnly session cookie; nothing is stored client-side. Throws with
+     .status 401 on a wrong password, 429 when attempts are being throttled. */
+  login: (password) => postJSON('/api/login', { password }),
   overview: () => getJSON('/api/overview'),
   phylogeny: () => getJSON('/api/phylogeny'),
   styles: (params) => getJSON('/api/styles' + qs(params)),
