@@ -124,6 +124,9 @@ python3 build/check_rooms.py         # rooms and groupings: adjacency, privacy g
 python3 build/plan_check.py plans/spec-builder-colonial.json
 python3 build/compose.py briefs/family-georgian.json
 python3 build/render_orders.py       # dist/orders.html
+python3 build/export_dxf.py <plan>   # layered DXF set; `selftest` runs the round-trip
+python3 build/export_ifc.py <plan>   # IFC4 model, TDL ids as property sets
+python3 build/ingest_dxf.py <dxf>    # drafter's DXF -> room candidates + named gaps
 ```
 
 To add a taxon: write `styles/<id>.json` against the schema, add the id to `build/registry.json`, run `validate.py` until clean, then `build.py`. The validator enforces that lineage targets resolve, that the `member_of` hierarchy is well-formed and acyclic, that inheritance edges form a DAG, that massing references exist, and that a node does not begin materially before an ancestor it descends from.
@@ -134,9 +137,12 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
 
 ## What is deliberately not here yet
 
-- **Compositional constraints in the geometry solver.** It satisfies adjacency; it does not compose an elevation. The entrance is not reliably on the entrance front and the ceremonial sequence is not yet a constraint — both are already stated in `composition_parti` and the style constraints, and neither is read.
-- **The remaining 129 kits.** Georgian Colonial, Tidewater Georgian and English Georgian are filled; everything else is a real, versioned skeleton with every slot at `binding: "open"`. The point of doing one properly first was to break the schema before filling 129 files against a broken one, and it worked — the exercise produced kit schema 0.2.1 and seven new slots.
-- **Date-conditional resolution.** `applies_when.date_range` exists and is populated; nothing selects on it yet.
+*(Revised 25 Aug 2026 — the previous version of this list predated WP-1.3, WP-2.2 and WP-4.2, all of which closed items it still named. See `docs/reports/wp-5.1-export-dxf-ifc.md`, "What was found".)*
+
+- **A real solver.** The geometry pass composes by strongly-weighted preference over a 250-candidate search, not by proof — an infeasible brief returns the least-bad plan rather than a named conflict set. WP-2.3 (CP-SAT over the same bay grid) is the fix and the largest remaining structural gap.
+- **Partis for 93 of 132 styles.** 12 partis name 39 styles; a style with a canonical massing but no native parti cannot be composed for at all (WP-4.5).
+- **~25 proportion packs** the WP-4.1 binding pass found missing, the Islamic/Moorish arch-and-ornament system first among them (WP-4.6, OQ 30) — and the images: all 322 asset records are still `wanted`, none sourced (WP-4.4).
+- **Generated guidelines and details, and costs** (WP-5.3, WP-5.4) — the workbench, the DXF/IFC export and drawing-to-record ingestion shipped; these two are what remain of the platform phase.
 - **Non-Western traditions.** Five traditions are modelled, deep on the North American lineage and its European roots. Japanese, Islamic, South Asian, and African traditions would each be a peer trunk, and the schema extends to them without modification. Cape Dutch already carries an acknowledged gap: its Cape and Indonesian strand has no node to point at.
 
 ---

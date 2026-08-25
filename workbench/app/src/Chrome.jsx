@@ -1,7 +1,8 @@
 /* The instrument's fixed frame: masthead, the 236px left rail, the vocabulary filter
    strip. Ported from the mockup; the counts stop being literals and come from
-   /api/overview. All ten surfaces are live — the forthcoming-not-hidden treatment now
-   lives on the Export surface's cards, where the unbuilt work packages are named. */
+   /api/overview. All eleven surfaces are live (⑪ Transcription joined in WP-5.5) — the
+   forthcoming-not-hidden treatment lives on the Export surface's cards, where the
+   unbuilt work packages are named. */
 import React from 'react';
 import { Eyebrow } from './components/Eyebrow.jsx';
 import { Icon } from './components/Icon.jsx';
@@ -21,7 +22,8 @@ export function surfaces(counts) {
       { id: 'candidates', n: '⑥', label: 'Candidate Set', meta: '' },
       { id: 'workbench', n: '⑦', label: 'Plan Workbench', meta: '' },
       { id: 'drawings', n: '⑧', label: 'Drawing Set', meta: '5 sheets' },
-      { id: 'export', n: '⑧', label: 'Details & Export', meta: 'JSON · SVG' },
+      { id: 'export', n: '⑧', label: 'Details & Export', meta: 'JSON · SVG · DXF · IFC' },
+      { id: 'transcription', n: '⑪', label: 'Transcription', meta: 'drawing → record' },
     ] },
   ];
 }

@@ -41,6 +41,11 @@ class TestSolveSmoke:
         state-of-project review's narrative number of 10 had already drifted
         by one; this test protects the number that's actually live, and a
         deliberate change to the solver should update it in the same commit).
+        WP-2.3 was that deliberate change: solve() now dispatches to the
+        CP-SAT engine by default, so the 11 is pinned against the HEURISTIC
+        engine explicitly — it is the slicer's own number, and the heuristic
+        remains the labelled fallback and cross-check. tests/test_solver.py
+        covers the CP engine's own properties.
         Both levels are solved and scored TOGETHER (decision #11) — this is
         what 'vertical_score' being present and nonzero-capable proves; an
         upper floor solved independently could not know about walls below."""
@@ -48,7 +53,7 @@ class TestSolveSmoke:
         import os
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
-        result = geometry_module.solve(plan)
+        result = geometry_module.solve(plan, engine="heuristic")
         report = result["geometry_report"]
         assert report["relaxations"]["count"] == 11
         assert "vertical_score" in report, "both levels must be scored together, not independently"

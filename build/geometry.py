@@ -409,30 +409,10 @@ def lot_usable_width_ft(plan):
     side = site.get("setback_side_ft") or 0
     return max(0.0, lot_width - 2 * side)
 
-def solve(plan, parti=None, candidates=250, seed=7):
-    rng = random.Random(seed)
-    bay = ((parti or {}).get("scaling") or {}).get("bay_module_ft") or 10.0
-    catalog_maxbay = ((parti or {}).get("scaling") or {}).get("max_bay_count") or 7
-    maxbay = catalog_maxbay
-    # WP-2.4: compose.py's own footprint() estimate already caps candidate selection by lot
-    # width, but this solver derives its own bay count independently (from the massing's pile
-    # depth, not from compose.py's estimate) and is the placement that actually gets rendered
-    # -- so it needs the same cap, or a plan that "fit the lot" in compose.py's estimate can
-    # still be solved wider than its own lot right here, and the SVG lot line would be a lie
-    # about the building drawn inside it. Unlike the parti's own catalogue max_bay_count --
-    # which the growth loop below is already allowed to exceed by up to 3 bays rather than
-    # leave a room too deep -- the lot is a physical fact, not a diagram convention, so it
-    # bounds that growth loop too (see growth_ceiling below), not just the starting guess.
-    lot_usable = lot_usable_width_ft(plan)
-    lot_maxbay = None
-    if lot_usable is not None:
-        lot_maxbay = max(1, int(lot_usable // bay))
-        maxbay = min(maxbay, lot_maxbay)
-        if lot_maxbay < 2:
-            return {"error": f"lot too narrow: {lot_usable:.0f} ft usable width after side setbacks "
-                              f"cannot hold even this diagram's minimum 2 bays ({2*bay:.0f} ft) at its "
-                              f"{bay:.0f} ft bay module."}
-    tol = bay * 0.28                                    # the relaxation allowance
+def prep_rooms(plan):
+    """Indoor rooms per level index, each carrying its program area. Shared by the
+    heuristic search below and the CP-SAT engine (WP-2.3, build/geometry_cp.py)
+    so the two engines place exactly the same room set."""
     levels = {lv.get("index", i): lv for i, lv in enumerate(plan["levels"])}
     prep = {}
     for idx, lv in levels.items():
@@ -442,34 +422,70 @@ def solve(plan, parti=None, candidates=250, seed=7):
             q = dict(r); q["_area"] = (r.get("width_ft") or 10) * (r.get("length_ft") or 12)
             rs.append(q)
         prep[idx] = rs
-    if 0 not in prep: return {"error": "no ground level"}
+    return levels, prep
+
+
+def derive_footprint(plan, parti=None, prep=None):
+    """The footprint derivation extracted verbatim from solve() (WP-2.3) so the
+    CP-SAT engine solves inside exactly the footprint the heuristic would have:
+    bay module and catalogue max from the parti, depth from the massing's own
+    pile, the lot cap (WP-2.4), and the grow-before-compromising loop. Returns
+    {"error": …} on the same conditions solve() always refused on."""
+    bay = ((parti or {}).get("scaling") or {}).get("bay_module_ft") or 10.0
+    catalog_maxbay = ((parti or {}).get("scaling") or {}).get("max_bay_count") or 7
+    maxbay = catalog_maxbay
+    lot_usable = lot_usable_width_ft(plan)
+    lot_maxbay = None
+    if lot_usable is not None:
+        lot_maxbay = max(1, int(lot_usable // bay))
+        maxbay = min(maxbay, lot_maxbay)
+        if lot_maxbay < 2:
+            return {"error": f"lot too narrow: {lot_usable:.0f} ft usable width after side setbacks "
+                              f"cannot hold even this diagram's minimum 2 bays ({2*bay:.0f} ft) at its "
+                              f"{bay:.0f} ft bay module."}
+    tol = bay * 0.28
+    if prep is None:
+        _, prep = prep_rooms(plan)
+    if 0 not in prep or not prep[0]:
+        return {"error": "no ground level"}
     a0 = sum(r["_area"] for r in prep[0])
     au = sum(r["_area"] for r in prep.get(1, []))
-
-    # --- footprint depth from the MASSING's own pile: a single-pile house is one room deep
-    # and a double-pile two, and inventing an aspect ratio instead produces a house that is
-    # the right area and the wrong shape.
     PILE = {"single-pile": 22.0, "one-and-a-half-pile": 28.0, "double-pile": 36.0,
             "triple-pile": 46.0, "variable": 32.0}
     m = C["massings"].get(plan.get("massing") or "", {})
     target_depth = PILE.get(m.get("depth_rooms"), 32.0)
     need = max(a0, au)
     grown, bays = [], max(2, min(maxbay, round((need / target_depth) / bay)))
-    # growth_ceiling: the catalogue allows growing 3 bays past its own stated max before this
-    # loop gives up and lets a room go deep instead; the lot (when stated) still bounds that,
-    # since it can allow fewer bays than the catalogue max, not more.
     growth_ceiling = catalog_maxbay + 3
     if lot_maxbay is not None: growth_ceiling = min(growth_ceiling, lot_maxbay)
     while True:
         W = bays * bay
         H = need / W
-        # grow the footprint before compromising a room — the stated infeasibility ordering
         if H <= target_depth * 1.18 or bays >= growth_ceiling: break
         bays += 1; grown.append(bays)
     while bays > 2 and need / ((bays - 1) * bay) <= target_depth * 1.18:
         bays -= 1
     W = round(bays * bay, 2); H = round(need / W, 2)
     slack = (W * H) - max(a0, au)
+    return {"bay": bay, "tol": tol, "W": W, "H": H, "bays": bays, "grown": grown,
+            "slack": slack, "catalog_maxbay": catalog_maxbay, "lot_maxbay": lot_maxbay,
+            "lot_usable": lot_usable, "growth_ceiling": growth_ceiling,
+            "target_depth": target_depth, "need": need}
+
+
+def solve_heuristic(plan, parti=None, candidates=250, seed=7):
+    rng = random.Random(seed)
+    # Footprint derivation and room prep live in derive_footprint()/prep_rooms()
+    # above (extracted verbatim in WP-2.3 so the CP-SAT engine shares them; the
+    # WP-2.4 lot-cap reasoning is documented on derive_footprint).
+    levels, prep = prep_rooms(plan)
+    fpd = derive_footprint(plan, parti, prep)
+    if "error" in fpd:
+        return {"error": fpd["error"]}
+    bay, tol = fpd["bay"], fpd["tol"]
+    W, H, bays = fpd["W"], fpd["H"], fpd["bays"]
+    grown, slack = fpd["grown"], fpd["slack"]
+    catalog_maxbay, lot_maxbay, lot_usable = fpd["catalog_maxbay"], fpd["lot_maxbay"], fpd["lot_usable"]
 
     # WP-2.2: composition_parti (the style's kit) and entrance_faces (the plan's own context)
     # feed the compositional scoring terms below. composition_parti is read for completeness
@@ -505,7 +521,16 @@ def solve(plan, parti=None, candidates=250, seed=7):
                     "score": round(tot, 1), "ground": gr, "upper": ur, "vnotes": vnotes,
                     "relaxations": grelax + urelax, "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1)}
 
-    # --- write coordinates back into the plan
+    return _finish(plan, best, fpd, levels)
+
+
+def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
+    """Write a placement back into the plan record — extracted from the heuristic
+    tail (WP-2.3) so both engines emit exactly the same record and report shape.
+    `solver` names which engine produced this placement and why; `infeasible`
+    carries the CP engine's named conflict set when the declared facts cannot
+    all hold and this drawing is the labelled least-bad relaxation."""
+    W, H, bays, bay = fpd["W"], fpd["H"], fpd["bays"], fpd["bay"]
     for idx, lv in levels.items():
         src = best["ground"] if idx == 0 else (best["upper"] if idx == 1 else {})
         for r in lv["rooms"]:
@@ -514,14 +539,14 @@ def solve(plan, parti=None, candidates=250, seed=7):
                 r["geometry"] = {"x_ft": x, "y_ft": y, "width_ft": round(w, 2), "depth_ft": round(h, 2),
                                  "area_sf": round(w * h)}
     plan["footprint"] = {"width_ft": W, "depth_ft": H, "bays": bays, "bay_module_ft": bay,
-                         "area_sf": round(W * H), "slack_sf": round(slack)}
-    if lot_usable is not None:
-        plan["footprint"]["lot_usable_width_ft"] = round(lot_usable, 1)
+                         "area_sf": round(W * H), "slack_sf": round(fpd["slack"])}
+    if fpd["lot_usable"] is not None:
+        plan["footprint"]["lot_usable_width_ft"] = round(fpd["lot_usable"], 1)
     rel = best["relaxations"]
     plan["geometry_report"] = {
         "score": best["score"], "ground_score": best["sg"], "upper_score": best["su"], "vertical_score": best["sv"],
-        "bays_grown": grown,
-        "lot_capped": (lot_maxbay is not None and lot_maxbay < catalog_maxbay),
+        "bays_grown": fpd["grown"],
+        "lot_capped": (fpd["lot_maxbay"] is not None and fpd["lot_maxbay"] < fpd["catalog_maxbay"]),
         "relaxations": {"count": len(rel), "max_off_grid_ft": round(max(rel), 2) if rel else 0,
                         "note": ("Cuts taken off the bay line to make a room fit. Each one is a joist run that "
                                  "does not land on a bearing line and a window bay that will not centre." if rel
@@ -529,7 +554,120 @@ def solve(plan, parti=None, candidates=250, seed=7):
         "vertical": best["vnotes"] or ["Every upper wall continues to a wall below and every stack lands."],
         "reading": ("Ground and upper were solved together and scored as a pair, so an upper layout that would "
                     "score better alone is rejected when it leaves walls unsupported.")}
+    if solver:
+        plan["geometry_report"]["solver"] = solver
+    if infeasible:
+        plan["geometry_report"]["infeasible"] = infeasible
     return plan
+
+
+_SOLVE_CACHE = {}
+
+def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=25.0):
+    # 25 s default, not 15: both reference plans need ~20-30 s of CP — a budget
+    # that can never finish them makes "auto" a tax that always ships the
+    # heuristic anyway (found in the WP-2.3 audit)
+    """The placement entry point every consumer calls (WP-2.3 dispatcher).
+
+    engine="auto" (default): the CP-SAT engine (build/geometry_cp.py) when
+    OR-Tools is available — hard constraints on the record's own declared
+    facts, a named conflict set on infeasibility — falling back to the
+    heuristic search when the library is absent or the solver runs out of
+    time, with the reason named in geometry_report.solver either way.
+    engine="cp" | "heuristic" force one engine.
+
+    On a proven-infeasible plan (per the 25 Aug ruling): geometry_report
+    carries the named conflict set AND the heuristic's least-bad placement,
+    clearly labelled — the partner hears the refusal and still sees a drawing.
+
+    Results are memoized per process (deep-copied out) because the
+    structure→roof→elevation chain and the test suite solve the same record
+    many times over, and a CP solve is not free the way the slicer was.
+    Read the RETURNED record — on a cache hit the argument is left untouched,
+    so the old solve-then-read-the-argument idiom is unreliable now.
+
+    time_limit_s is a target, not a hard wall: the CP phases carry small
+    minimum budgets so a retry is never starved, and a 15 s limit can take
+    ~20 s of wall clock on a hard record before falling back.
+    """
+    if engine not in ("auto", "cp", "heuristic"):
+        return {"error": f"unknown engine {engine!r} — one of auto, cp, heuristic",
+                "unsolved": True}
+    # the parti's CONTENT keys the cache, not its id: an id-less parti stub
+    # (tests build them) or two partis sharing an id must never collide
+    key = (json.dumps(plan, sort_keys=True, default=str),
+           json.dumps(parti, sort_keys=True, default=str) if parti else None,
+           candidates, seed, engine, time_limit_s)
+    hit = _SOLVE_CACHE.get(key)
+    if hit is not None:
+        return copy.deepcopy(hit)
+    out = _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s)
+    if len(_SOLVE_CACHE) > 64:
+        _SOLVE_CACHE.clear()
+    _SOLVE_CACHE[key] = copy.deepcopy(out)
+    return out
+
+
+def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
+    if engine == "heuristic":
+        out = solve_heuristic(plan, parti, candidates, seed)
+        if "error" not in out:
+            out["geometry_report"]["solver"] = {"engine": "heuristic", "reason": "requested"}
+        return out
+
+    try:
+        # probe the exact import the engine needs — a broken or partial
+        # install where `import ortools` succeeds but the sat module is
+        # missing must take the honest fallback, not crash mid-solve
+        from ortools.sat.python import cp_model  # noqa: F401 — probe only
+        cp_available = True
+    except ImportError:
+        cp_available = False
+    if not cp_available:
+        if engine == "cp":
+            return {"error": "could not solve with CP-SAT: the ortools package is not installed "
+                             "(pip install ortools).", "unsolved": True}
+        out = solve_heuristic(plan, parti, candidates, seed)
+        if "error" not in out:
+            out["geometry_report"]["solver"] = {
+                "engine": "heuristic",
+                "reason": "ortools is not installed — the CP-SAT engine (WP-2.3) is the real "
+                          "solver; this placement is the 250-candidate hill-climb and its "
+                          "compositional terms are preferences, not proven constraints"}
+        return out
+
+    GC = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py")
+    res = GC.solve_cp(plan, parti, seed=seed, time_limit_s=time_limit_s, candidates=candidates)
+    if "error" in res:
+        return res
+    if res.get("infeasible"):
+        # the ruling: named conflict set + the least-bad drawing, clearly labelled
+        out = solve_heuristic(plan, parti, candidates, seed)
+        if "error" in out:
+            out["infeasible"] = res["infeasible"]
+            return out
+        out["geometry_report"]["solver"] = {
+            "engine": "heuristic (least-bad, labelled)",
+            "reason": "CP-SAT proved the declared facts cannot all hold; this drawing is the "
+                      "heuristic's least-bad relaxation and the conflicts below say what it relaxes"}
+        out["geometry_report"]["infeasible"] = res["infeasible"]
+        return out
+    if res.get("unsolved"):
+        if engine == "cp":
+            # forced-cp means PROVE or refuse — quietly shipping the heuristic
+            # placement would let the "prove" button return an unproven drawing
+            return {"error": f"could not solve with CP-SAT in {time_limit_s:.0f}s "
+                             f"({res.get('status', '?')}) — no placement was proven; "
+                             f"engine=\"auto\" falls back to the heuristic and says so",
+                    "unsolved": True, "status": res.get("status")}
+        out = solve_heuristic(plan, parti, candidates, seed)
+        if "error" not in out:
+            out["geometry_report"]["solver"] = {
+                "engine": "heuristic",
+                "reason": f"CP-SAT returned no solution in {time_limit_s:.0f}s "
+                          f"({res.get('status', '?')}); fell back to the hill-climb"}
+        return out
+    return _finish(plan, res["best"], res["fpd"], res["levels"], solver=res["solver"])
 
 # ---------------------------------------------------------------- cli
 def main():

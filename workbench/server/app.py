@@ -305,6 +305,15 @@ def example_plan(name: str):
                                     "detail": str(e)[:200]})
 
 
+def _candidates(body, default=250, cap=2000):
+    """Clamp the search width: it multiplies a full placement loop, so an
+    unbounded value is a self-inflicted denial of service on a local tool."""
+    try:
+        return max(1, min(cap, int(body.get("candidates", default))))
+    except (TypeError, ValueError):
+        return default
+
+
 # ----------------------------------------------------------------- the workbench loop
 @app.post("/api/plan/evaluate")
 def plan_evaluate(request: Request, body: dict = Body(...)):
@@ -312,11 +321,18 @@ def plan_evaluate(request: Request, body: dict = Body(...)):
     plan = body.get("plan")
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    engine = body.get("engine", "heuristic")
+    if engine not in ("heuristic", "cp", "auto"):
+        # anything unrecognized would silently take the auto->CP branch and
+        # burn a 15s+ solve on a typo — refuse it, stated
+        raise HTTPException(status_code=422, detail={
+            "error": f"unknown engine {engine!r} — one of heuristic, cp, auto"})
     return evaluate.evaluate(plan,
                              strict=bool(body.get("strict", False)),
                              place=bool(body.get("place", True)),
                              parti=body.get("parti"),
-                             candidates=int(body.get("candidates", 250)))
+                             candidates=_candidates(body),
+                             engine=engine)
 
 
 # ----------------------------------------------------------------- compose jobs
@@ -364,9 +380,42 @@ def drawings(kind: str, request: Request, body: dict = Body(...)):
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
     res = corpus.drawing(kind, plan, parti=body.get("parti"), face=body.get("face"),
-                         candidates=int(body.get("candidates", 250)))
+                         candidates=_candidates(body))
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
+    return res
+
+
+# ----------------------------------------------------------------- export (WP-5.1)
+@app.post("/api/export/{fmt}")
+def export_cad(fmt: str, request: Request, body: dict = Body(...)):
+    _heavy(request)  # an export solves the plan first — same class as /drawings
+    plan = body.get("plan")
+    if not plan:
+        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    res = corpus.export_cad(fmt, plan, kind=body.get("kind"), parti=body.get("parti"),
+                            face=body.get("face"), candidates=_candidates(body))
+    if "error" in res:
+        # 501 ONLY for the honest missing-library refusal ("refusal" marks it);
+        # a plan the solver refused is a 422 failure, not a missing capability
+        raise HTTPException(status_code=501 if res.get("refusal") else 422, detail=res)
+    return res
+
+
+# ----------------------------------------------------------------- ingest (WP-5.5)
+@app.post("/api/ingest/dxf")
+def ingest_dxf(request: Request, body: dict = Body(...)):
+    _heavy(request)  # ezdxf's tolerant parse over an uploaded body is unbounded work
+    dxf = body.get("dxf")
+    if not dxf or not isinstance(dxf, str):
+        raise HTTPException(status_code=422, detail={"error": "body.dxf (the file's text) is required"})
+    res = corpus.ingest_dxf(dxf, units=body.get("units"))
+    if "error" in res:
+        # 501 for the missing-library refusal (marked "refusal" by the
+        # extractor); 422 for an unreadable file or ambiguous units — either
+        # way the reason is stated, not swallowed
+        code = 501 if res.get("refusal") else 422
+        raise HTTPException(status_code=code, detail=res)
     return res
 
 
@@ -411,6 +460,7 @@ if os.path.isdir(APP_DIST):
         # can load. Harmless while the server bound 127.0.0.1; a hole the moment it binds
         # 0.0.0.0. Resolve the path and require it to stay inside APP_DIST. realpath, not
         # normpath: a symlink inside dist/ would otherwise still lead out.
+        # (Both 25 Aug sessions' audits found this independently; one fix kept.)
         if path:
             candidate = os.path.realpath(os.path.join(APP_DIST, path))
             root = os.path.realpath(APP_DIST)

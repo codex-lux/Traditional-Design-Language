@@ -226,7 +226,7 @@ class TestGeometrySolverHonoursLotWidth:
         result = compose_module.compose(brief, candidates=8)
         townhouse = next(c for c in result["candidates"] if c["parti"] == "side-hall-townhouse")
         parti = compose_module.PARTIS["side-hall-townhouse"]
-        out = geometry_module.solve(townhouse["plan"], parti, candidates=40)
+        out = geometry_module.solve(townhouse["plan"], parti, candidates=40, engine="heuristic")
         assert "error" not in out
         assert out["footprint"]["width_ft"] <= 30 + 1e-6
 
@@ -237,7 +237,10 @@ class TestGeometrySolverHonoursLotWidth:
         package (test_geometry.py's own relaxation-count pin depends on this)."""
         plan = load_plan("tidewater-georgian-careful")
         assert plan.get("site") is None
-        result = geometry_module.solve(plan)
+        # engine pinned: these are the slicer's own numbers (the 11-relaxation
+        # pin below) — on hardware fast enough for CP-SAT to finish inside the
+        # default budget, the default engine would return CP's different count
+        result = geometry_module.solve(plan, engine="heuristic")
         assert result["geometry_report"]["lot_capped"] is False
         assert result["geometry_report"]["relaxations"]["count"] == 11
 
@@ -249,7 +252,7 @@ class TestGeometrySolverHonoursLotWidth:
                 {"id": "lr", "type": "living-room", "width_ft": 14, "length_ft": 16}]}],
         }
         parti = {"scaling": {"bay_module_ft": 10, "max_bay_count": 5}}
-        out = geometry_module.solve(plan, parti)
+        out = geometry_module.solve(plan, parti, engine="heuristic")
         assert "error" in out and "too narrow" in out["error"]
 
 
@@ -263,7 +266,7 @@ class TestRenderShowsTheLot:
         result = compose_module.compose(brief, candidates=8)
         townhouse = next(c for c in result["candidates"] if c["parti"] == "side-hall-townhouse")
         parti = compose_module.PARTIS["side-hall-townhouse"]
-        out = geometry_module.solve(townhouse["plan"], parti, candidates=40)
+        out = geometry_module.solve(townhouse["plan"], parti, candidates=40, engine="heuristic")
         import importlib.util
         spec = importlib.util.spec_from_file_location("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
         rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
@@ -276,7 +279,7 @@ class TestRenderShowsTheLot:
         """Backward compatibility: a plan with no lot data renders exactly as it did before
         this package -- no lot rectangle, no street-bearing caption."""
         plan = load_plan("tidewater-georgian-careful")
-        out = geometry_module.solve(plan)
+        out = geometry_module.solve(plan, engine="heuristic")
         import importlib.util
         spec = importlib.util.spec_from_file_location("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
         rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)

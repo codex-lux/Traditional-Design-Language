@@ -24,7 +24,7 @@ const overview = await (await fetch(BASE + '/api/overview')).json();
 await page.waitForSelector('nav', { timeout: 15000 });
 const railText = await page.locator('nav').innerText();
 check('left rail shows live style count', railText.includes(String(overview.counts.styles)));
-check('all ten surfaces in the rail', /Drawing Set/.test(railText) && /Details & Export/.test(railText));
+check('all eleven surfaces in the rail', /Drawing Set/.test(railText) && /Details & Export/.test(railText) && /Transcription/.test(railText));
 
 // ⑦ Plan Workbench: load an example, wait for evaluation
 await page.getByRole('button', { name: /Plan Workbench/ }).click();
@@ -112,10 +112,30 @@ await page.screenshot({ path: SHOTS + 'drawing-bearing.png' });
 await page.getByRole('button', { name: /Details & Export/ }).click();
 await page.waitForSelector('text=forthcoming', { timeout: 15000 });
 const ex = await page.locator('main').innerText();
-check('export: unbuilt work named with its WP', /WP-5\.1 is not built/.test(ex));
+check('export: DXF/IFC live (WP-5.1)', /plan dxf/.test(ex) && /ifc model/.test(ex));
+check('export: unbuilt work named with its WP', /WP-5\.3 is not built/.test(ex));
 check('export: no costing engine implied', /No costing engine exists/i.test(ex));
 check('export: conflict count is the recorded 158', /158 recorded pack conflicts/.test(ex));
 await page.screenshot({ path: SHOTS + 'export.png' });
+
+// (11) Transcription - a drawing goes in, a record comes out, gaps named
+await page.getByRole('button', { name: /Transcription/ }).click();
+await page.getByRole('button', { name: 'start a draft' }).click();
+const tr = await page.locator('main').innerText();
+check('transcription: gaps named before it is a record', /not yet a record/i.test(tr));
+check('transcription: style stays a recorded judgment', /style is unset — a judgment/i.test(tr));
+check('transcription: backdrop never uploaded', /stays in this browser — never uploaded/i.test(tr));
+// actually trace a room: drag on the canvas, then the draft should hold one
+// untyped room and the completeness panel should name its missing type
+const svg = await page.locator('main svg').first().boundingBox();
+await page.mouse.move(svg.x + svg.width * 0.3, svg.y + svg.height * 0.3);
+await page.mouse.down();
+await page.mouse.move(svg.x + svg.width * 0.55, svg.y + svg.height * 0.55, { steps: 5 });
+await page.mouse.up();
+const tr2 = await page.locator('main').innerText();
+check('transcription: a drag traces a room', /type unset/.test(tr2));
+check('transcription: the untyped room is a named gap', /has no type from the catalog/.test(tr2));
+await page.screenshot({ path: SHOTS + 'transcription.png' });
 
 // the rail's honest no-key state
 const rail = await page.locator('aside').last().innerText();

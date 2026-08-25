@@ -70,7 +70,8 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
     if (!p) return;
     const seq = ++evalRef.current;
     setBusy(true);
-    api.evaluate(p, { strict, place: true, candidates: opts.candidates ?? seeds })
+    api.evaluate(p, { strict, place: true, candidates: opts.candidates ?? seeds,
+      engine: opts.engine })
       .then((res) => {
         if (seq !== evalRef.current) return;
         // updaters stay pure: the previous run's keys live in a ref, and both
@@ -182,6 +183,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
         <Chip on={ov.privacy} tone="var(--sepia)" onClick={() => setOv({ ...ov, privacy: !ov.privacy })}>privacy gradient</Chip>
         <Chip on={strict} onClick={() => setStrict(!strict)}
           title="the completeness layer: treat absent room types as failures (--strict)">strict</Chip>
+        <Chip onClick={() => runEvaluate(plan, { engine: 'cp' })}
+          title="WP-2.3: prove the placement with CP-SAT — hard constraints on the record's declared facts, a named conflict set if they cannot all hold. Takes seconds; per-drag re-scores stay on the fast search.">
+          prove placement (CP-SAT)</Chip>
       </FilterStrip>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
@@ -316,6 +320,34 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
             )}
           </div>
 
+          {/* WP-2.3: the solver's named conflict set. When CP-SAT proves the
+              record's declared facts cannot all hold, the drawing below is the
+              labelled least-bad relaxation and this panel says exactly which
+              requirements conflict — the thing a plan-development partner most
+              needs to hear early, stated, never silently softened. */}
+          {placement?.geometry_report?.infeasible && (
+            <div style={{ maxWidth: 1000, border: '1px solid var(--sev-serious)',
+              padding: '10px 14px', margin: '0 0 14px' }}>
+              <Eyebrow tone="secondary">
+                infeasible as declared — proven ({placement.geometry_report.infeasible.conflicts.length} conflict{placement.geometry_report.infeasible.conflicts.length === 1 ? '' : 's'})
+              </Eyebrow>
+              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
+                margin: '6px 0 0', paddingLeft: 18 }}>
+                {placement.geometry_report.infeasible.conflicts.map((c, i) => <li key={i}>{c}</li>)}
+              </ul>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '8px 0 0' }}>
+                {placement.geometry_report.infeasible.note} The drawing below is the
+                heuristic's least-bad relaxation, labelled — not a solution.
+              </p>
+            </div>
+          )}
+          {placement?.geometry_report?.solver?.refinements?.length > 0 && (
+            <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '0 0 10px' }}>
+              solver refinements ({placement.geometry_report.solver.refinements.length}):{' '}
+              {placement.geometry_report.solver.refinements.slice(0, 2).join(' · ')}
+              {placement.geometry_report.solver.refinements.length > 2 ? ' · …' : ''}
+            </p>
+          )}
           {placement && (
             <div style={{ maxWidth: 1000, opacity: busy ? 0.45 : 1, transition: 'opacity .3s' }}>
               <Sheet plan={plan} placement={placement} levelIndex={level}

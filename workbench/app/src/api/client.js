@@ -74,6 +74,7 @@ export const api = {
   examplePlan: (name) => getJSON(`/api/plans/examples/${name}`, { fresh: true }),
 
   evaluate: (plan, opts = {}) => postJSON('/api/plan/evaluate', { plan, ...opts }),
+  ingestDxf: (dxf, units) => postJSON('/api/ingest/dxf', { dxf, units }),
   compose: (brief, candidates = 4) => postJSON('/api/compose', { brief, candidates }),
   job: (id) => getJSON(`/api/jobs/${id}`, { fresh: true }),
   candidatePlan: (jobId, n) => getJSON(`/api/jobs/${jobId}/candidates/${n}/plan`, { fresh: true }),

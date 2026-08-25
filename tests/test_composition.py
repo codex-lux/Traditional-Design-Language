@@ -167,14 +167,14 @@ class TestSolveIntegration:
     def test_entrance_portico_lands_on_the_entrance_wall(self, geometry_module):
         plan = load_plan("tidewater-georgian-careful")
         assert plan["context"]["entrance_faces"] == "S"
-        result = geometry_module.solve(plan)
+        result = geometry_module.solve(plan, engine="heuristic")
         fp = result["footprint"]
         porch = next(r for lv in result["levels"] for r in lv["rooms"] if r["id"] == "porch")
         assert porch["geometry"]["y_ft"] <= 0.6, "the entry porch must land on the S (entrance) wall"
 
     def test_service_rooms_land_toward_the_rear(self, geometry_module):
         plan = load_plan("tidewater-georgian-careful")
-        result = geometry_module.solve(plan)
+        result = geometry_module.solve(plan, engine="heuristic")
         fp = result["footprint"]
         H = fp["depth_ft"]
         rooms_by_id = {r["id"]: r for lv in result["levels"] for r in lv["rooms"]}
@@ -186,7 +186,7 @@ class TestSolveIntegration:
         """PLAN-OF-ACTION.md's own acceptance wording. The pre-WP-2.2 baseline (also
         test_geometry.py's own pin) is 11."""
         plan = load_plan("tidewater-georgian-careful")
-        result = geometry_module.solve(plan)
+        result = geometry_module.solve(plan, engine="heuristic")
         assert result["geometry_report"]["relaxations"]["count"] <= 11 + 2
 
     def test_dining_room_front_claim_is_a_documented_data_conflict_not_silently_forced(self, geometry_module):
@@ -208,7 +208,7 @@ class TestSolveIntegration:
         plan = load_plan("tidewater-georgian-careful")
         dining = next(r for lv in plan["levels"] for r in lv["rooms"] if r["id"] == "dining")
         assert set(dining.get("exterior_walls") or []) == {"N", "W"}
-        result = geometry_module.solve(plan)
+        result = geometry_module.solve(plan, engine="heuristic")
         rooms_by_id = {r["id"]: r for lv in result["levels"] for r in lv["rooms"]}
         g = rooms_by_id["dining"]["geometry"]
         H = result["footprint"]["depth_ft"]
@@ -220,7 +220,7 @@ class TestDoorSwingsRender:
     def test_svg_includes_arc_paths_for_doors(self, geometry_module):
         import importlib.util
         plan = load_plan("tidewater-georgian-careful")
-        result = geometry_module.solve(plan)
+        result = geometry_module.solve(plan, engine="heuristic")
         spec = importlib.util.spec_from_file_location("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
         rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
         path = rp.render(result, "/tmp/wp22_door_swing_test.svg")

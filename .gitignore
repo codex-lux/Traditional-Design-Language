@@ -6,3 +6,5 @@ workbench/app/node_modules/
 workbench/app/dist/
 workbench/.venv/
 workbench/app/e2e/shots/
+dist/dxf/
+dist/ifc/

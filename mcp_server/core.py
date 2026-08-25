@@ -760,14 +760,18 @@ def brief_schema():
 
 
 # ----------------------------------------------------------------- geometry
-def place_plan(plan, parti=None, candidates=250, svg_path=None):
-    """Place room rectangles in a footprint. Both levels are solved together."""
+def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
+    """Place room rectangles in a footprint. Both levels are solved together.
+    engine: "auto" (CP-SAT when available — WP-2.3's real solver, with named
+    conflict sets), "cp", or "heuristic" (the fast hill-climb; what the
+    workbench uses per edit gesture, where a ~25 s proof per wall drag would
+    make the surface unusable — proving is an explicit act there)."""
     geo = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     pt = None
     if parti:
         f = os.path.join(ROOT, "partis", f"{parti}.json")
         if os.path.exists(f): pt = json.load(open(f))
-    out = geo.solve(copy_json(plan), pt, candidates)
+    out = geo.solve(copy_json(plan), pt, candidates, engine=engine)
     if "error" in out: return out
     if svg_path:
         rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
@@ -778,7 +782,10 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None):
                       for lv in out["levels"] for r in lv["rooms"] if r.get("geometry")],
             "svg": out.get("svg"),
             "note": ("Coordinates are in feet with the origin at the south-west corner, x east and y north. "
-                     "Read geometry_report.relaxations before anything else: each cut taken off the bay line "
-                     "is a joist run that does not land on a bearing wall and a window bay that will not centre.")}
+                     "If geometry_report.infeasible is present, read its conflicts FIRST — CP-SAT proved the "
+                     "record's declared facts cannot all hold and this placement is the labelled least-bad "
+                     "relaxation (WP-2.3). Then read geometry_report.relaxations: each cut taken off the bay "
+                     "line is a joist run that does not land on a bearing wall and a window bay that will not "
+                     "centre. geometry_report.solver names which engine placed this and why.")}
 
 def copy_json(o): return json.loads(json.dumps(o))
