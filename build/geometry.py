@@ -950,6 +950,11 @@ def main():
                     help="heuristic (this file's search, the default and the historical "
                          "behaviour) or cp / both (build/solver.py's constraint solver, WP-2.3)")
     ap.add_argument("--time", type=float, default=60.0, help="solver time budget, seconds")
+    ap.add_argument("--wall-clock", action="store_true",
+                    help="bound the constraint solver by the clock rather than by work done. "
+                         "Faster to return and NOT reproducible: how many topologies it tries "
+                         "depends on how busy the machine is, so the same seed can give a "
+                         "different house (OQ 44). Use it when a person is waiting.")
     a = ap.parse_args()
     plan = json.load(open(a.plan))
     parti = json.load(open(f"{ROOT}/partis/{a.parti}.json")) if a.parti else None
@@ -959,7 +964,8 @@ def main():
         # Loaded lazily: solver.py imports OR-Tools, and nothing else in this toolchain should
         # need it installed to run.
         sv = _mod("solver", f"{ROOT}/build/solver.py")
-        out = sv.solve(plan, parti, time_budget_s=a.time, mode=a.solver)
+        out = sv.solve(plan, parti, time_budget_s=a.time, mode=a.solver,
+                       deterministic=not a.wall_clock)
     if "error" in out:
         print(out["error"])
         for r in (out.get("conflict") or {}).get("requirements", []): print(f"    · {r}")

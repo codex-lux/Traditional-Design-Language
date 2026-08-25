@@ -229,11 +229,18 @@ deterministic time — work done rather than seconds elapsed — and keeps the w
 as a tenfold outer guard that the call returns at all. The answer is then a function of the
 inputs.
 
-**The default is unchanged**, because a person waiting for a plan wants the promise about time
-kept, and the two promises genuinely compete. What changed is that `geometry_report.solver` now
-carries `deterministic` and a sentence saying which trade was taken, instead of letting a reader
-assume the seed was enough. Use `deterministic=True` for anything that will be pinned, compared
-or re-derived.
+**Reproducible is the default as of OQ 44 (24 Aug 2026).** Measured before the flip, on both
+reference plans at a 20 s budget: the deterministic run costs between 0 and 33% more wall time
+(17.5 s against 18.1 s on one plan, 22.9 s against 17.1 s on the other), returns the **same
+score**, and on the busier plan explores **more** topologies (6 against 4) because it is not cut
+off part-way. On an idle machine the old default already reproduced — which is exactly why the
+defect passed every time anyone checked it.
+
+Wall-clock mode remains for when a person is waiting: `deterministic=False`, or `--wall-clock` on
+`build/geometry.py`. `geometry_report.solver` carries `deterministic` and a sentence saying which
+trade was taken. The MCP tool does not expose a way to turn it off — everything arriving there is
+a plan somebody will keep or compare, and a record that cannot be re-derived is worth less than
+the seconds it saves.
 
 `DET_UNITS_PER_SECOND` is a **calibration, not a conversion**: how much wall time one
 deterministic unit buys depends on the machine, which is the point. It needs to be fixed, not

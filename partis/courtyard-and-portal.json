@@ -8,7 +8,7 @@
   "peristyle plan",
   "placita plan"
  ],
- "description": "Rooms in single-pile ranges around an open court, entered from a covered walk on the court rather than from any interior corridor. The house turns a nearly blind face to the street and opens entirely inward through one controlled passage. This is the oldest domestic diagram still in use and the most durable hot-climate house there is, and its logic is the exact inverse of the Anglo-American plan: there is no hall, no central stair, and no principal facade in the Georgian sense - the court is the hall, the walk is the corridor, and the composed face is the one nobody outside can see. Because every room is one room deep and opens on the court, every room is cross-ventilated and lit from two sides; because the ranges enclose the court, the court holds the night's cold air through the afternoon. Take either half away and the diagram stops working.",
+ "description": "Rooms in single-pile ranges around an open court, entered from a covered walk on the court rather than from any interior corridor. The house turns a nearly blind face to the street and opens entirely inward through one controlled passage. This is the oldest domestic diagram still in use and the most durable hot-climate house there is, and its logic is the exact inverse of the Anglo-American plan: there is no hall, no central stair, and no principal facade in the Georgian sense - the court is the hall, the walk is the corridor, and the composed face is the one nobody outside can see. Because every room is one room deep and opens on the court, every room is cross-ventilated and lit from two sides; because the ranges enclose the court, the court holds the night's cold air through the afternoon. Take either half away and the diagram stops working. A real hacienda or Andalusian casa de patio runs to 9,000 sf and beyond -- the great Mexican haciendas reach several times that -- and it gets there by having MORE ROOMS and a SECOND COURT, not by making these seventeen rooms larger. The range above is what this authored room list can actually be built at with every room at the top of its own catalogue band; it was 9,000, which the composer could reach 43% of and then reported as a 41% miss nobody could act on (OQ 45).",
  "massing": "courtyard-full",
  "alternate_massings": [
   "courtyard-u",
@@ -45,7 +45,7 @@
  "storeys": 1,
  "area_range_sf": [
   1800,
-  9000
+  3800
  ],
  "bedroom_range": [
   2,

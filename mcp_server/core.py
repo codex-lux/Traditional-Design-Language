@@ -783,6 +783,10 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, solver="heuristi
         out = geo.solve(copy_json(plan), pt, candidates)
     else:
         sv = _mod("solver", os.path.join(ROOT, "build", "solver.py"))
+        # OQ 44: the MCP tool takes the reproducible default deliberately and does not expose a
+        # way to turn it off. Everything that arrives here is a plan somebody will read, keep or
+        # compare against another one, and a record that cannot be re-derived is worth less than
+        # the seconds it saves.
         out = sv.solve(copy_json(plan), pt, time_budget_s=time_budget_s, mode=solver)
     if "error" in out: return out
     if svg_path:

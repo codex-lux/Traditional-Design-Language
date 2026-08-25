@@ -27,9 +27,12 @@ Checks, in order:
      Everything above this line checks that a parti is well FORMED; this checks that the
      diagram works - that it satisfies the room catalogue's own hard adjacency rules,
      which is what plan_check will hold any plan built from it to.
- 11. coverage: which buildable nodes with a canonical massing no parti names
+ 11. `area_range_sf` is a size this parti's own room list can be built at (OQ 45), with the
+     ceiling computed the way compose.instantiate actually builds -- repeating rooms counted
+     once per bedroom at the top of the parti's own bedroom_range
+ 12. coverage: which buildable nodes with a canonical massing no parti names
 
-Check 11 is the one WP-4.5 exists to move, so it is reported as a count and a list
+Check 12 is the one WP-4.5 exists to move, so it is reported as a count and a list
 rather than an error - a partial catalogue is a state of the project, not a defect.
 
 Check 10 was added after five of twenty-one partis were found carrying fatal findings
@@ -77,6 +80,10 @@ def build_universe():
     u["massings"] = {m["id"] for m in load(os.path.join(ROOT, "massings", "catalog.json"))}
     u["rooms"] = {os.path.basename(p)[:-5]
                   for p in glob.glob(os.path.join(ROOT, "rooms", "*.json"))}
+    # the full records too, for check 11 (OQ 45), which needs each room's catalogue band
+    u["room_records"] = {}
+    for p in glob.glob(os.path.join(ROOT, "rooms", "*.json")):
+        r = load(p); u["room_records"][r["id"]] = r
     u["groupings"] = {os.path.basename(p)[:-5]
                       for p in glob.glob(os.path.join(ROOT, "groupings", "*.json"))}
     styles, buildable, canonical = {}, set(), {}
@@ -207,6 +214,54 @@ def check_parti(rep, path, p, u):
         rep.err(where, f"bedroom_range {br} is not ascending")
 
 
+def check_area_range_is_reachable(rep, partis, rooms):
+    """A parti's `area_range_sf` must be a size its own room list can actually be built at.
+
+    OQ 45, ruled 24 Aug 2026. The field described the TYPE and the composer instantiates a fixed
+    room list, so the top of the range was unreachable by the only mechanism the composer has
+    for growing a house -- making the same rooms bigger until each hits its catalogue band.
+    Measured across the catalogue, seventeen of twenty-one partis reached their own stated
+    maximum comfortably and four could not: `courtyard-and-portal` reached 43% of its stated
+    9,000 sf, `great-hall-h-plan` 82% of 12,000, and two more at 96 and 97%. A brief at the top
+    of such a range came back missing by 40% under a decision log correctly saying the diagram
+    grows by having more rooms -- with no way to act on it.
+
+    The ceiling is the sum of every non-outdoor room's catalogue band TOP, with rooms marked
+    `repeats_with_bedrooms` counted once per bedroom at the top of the parti's own
+    `bedroom_range` -- because that is what `compose.instantiate` actually builds, and a bound
+    computed against a room list the composer never instantiates would be measuring the wrong
+    house."""
+    for p in partis:
+        rng = p.get("area_range_sf")
+        if not rng: continue
+        lo, hi = rng
+        beds_max = (p.get("bedroom_range") or [0, 1])[1]
+        ceiling = 0.0
+        for r in p.get("rooms", []):
+            rt = rooms.get(r.get("type"))
+            if rt is None or rt.get("function_class") == "outdoor": continue
+            band = (rt.get("dimensions", {}) or {}).get("area_sf") or [0, 0]
+            # compose.py keeps the stated room AND adds one copy per extra bedroom, so a
+            # repeating room appears (beds_max - beds_stated + 1) times at the top of the range.
+            n = 1
+            if r.get("repeats_with_bedrooms"):
+                stated = sum(1 for x in p["rooms"] if x.get("repeats_with_bedrooms")
+                             and x.get("type") == r.get("type"))
+                n = max(1, beds_max - stated + 1)
+            ceiling += band[1] * n
+        if ceiling <= 0: continue
+        if hi > ceiling * 1.02:
+            rep.err("parti:%s" % p.get("id"),
+                    "area_range_sf tops at %d sf and this room list reaches %d at every room's "
+                    "band top (%d%%). The range must be what the AUTHORED rooms can be built at; "
+                    "the type's true size belongs in the description (OQ 45)."
+                    % (hi, ceiling, round(100 * ceiling / hi)))
+        elif lo < ceiling * 0.05:
+            rep.warn("parti:%s" % p.get("id"),
+                     "area_range_sf starts at %d sf against a %d sf ceiling -- a range that wide "
+                     "says very little" % (lo, ceiling))
+
+
 def check_composability(rep, partis):
     """Instantiate each parti against its own first native style and run plan_check on it.
 
@@ -331,6 +386,7 @@ def main():
     for dup in [k for k, n in Counter(p.get("id") for p in partis).items() if n > 1]:
         rep.err("<catalogue>", f"duplicate parti id '{dup}'")
 
+    check_area_range_is_reachable(rep, partis, u["room_records"])
     fatals = None if args.no_compose else check_composability(rep, partis)
 
     named, uncovered = coverage(partis, u)

@@ -149,3 +149,50 @@ def test_every_authored_weight_is_between_zero_and_one():
             w = r.get("area_weight")
             if w is None: continue
             assert 0.0 < w < 1.0, (p, r["id"], w)
+
+
+# ---------------------------------------------------------------- OQ 45
+
+
+def test_no_parti_declares_an_area_range_its_own_rooms_cannot_reach():
+    """The field described the TYPE and the composer instantiates a fixed room list, so the top
+    of the range was unreachable by the only mechanism the composer has for growing a house.
+    Four of twenty-one could not reach their own stated maximum -- courtyard-and-portal at 43%
+    of a stated 9,000 sf -- and a brief at the top came back missing by 40% under a decision log
+    correctly saying the diagram grows by having more rooms, with no way to act on it."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import check_partis
+    u = check_partis.build_universe()
+    rep = check_partis.Report()
+    partis = [json.load(open(p)) for p in
+              sorted(glob.glob(os.path.join(ROOT, "partis", "*.json")))]
+    check_partis.check_area_range_is_reachable(rep, partis, u["room_records"])
+    assert rep.errors == [], rep.errors
+
+
+@pytest.mark.parametrize("pid,top,was", [
+    ("courtyard-and-portal", 3800, "9,000"),
+    ("great-hall-h-plan", 9800, "12,000"),
+    ("living-hall-picturesque", 6700, "7,000"),
+    ("tower-villa", 5300, "5,500"),
+])
+def test_the_four_corrected_ranges_keep_the_type_s_true_size_in_prose(pid, top, was):
+    """Correcting the number must not delete the fact. A real hacienda DOES run to 9,000 sf --
+    it gets there by having more rooms and a second court, which is what the description now
+    says and what the range never could. Each description also names the figure it replaced, so
+    the correction records what it corrected rather than quietly overwriting it."""
+    d = json.load(open(os.path.join(ROOT, "partis", "%s.json" % pid)))
+    assert d["area_range_sf"][1] == top
+    assert "OQ 45" in d["description"]
+    assert was in d["description"], "the old top must still be named in the prose"
+
+
+def test_the_ceiling_counts_rooms_that_repeat_with_the_bedroom_count():
+    """A bound computed against a room list the composer never instantiates would be measuring
+    the wrong house: compose.py keeps the stated room AND adds one copy per extra bedroom."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import check_partis, inspect
+    src = inspect.getsource(check_partis.check_area_range_is_reachable)
+    assert "repeats_with_bedrooms" in src and "bedroom_range" in src

@@ -980,21 +980,29 @@ TOPOLOGIES = 6            # distinct slicing topologies whose cuts the solver op
 
 
 def solve(plan, parti=None, seed=7, time_budget_s=60.0, mode="cp",
-          heuristic_candidates=800, workers=1, deterministic=False):
+          heuristic_candidates=800, workers=1, deterministic=True):
     """Place the plan's rooms. Returns the plan record, or {'error', 'conflict'} when the
     requirements cannot all hold and the ones that cannot are not relaxable.
 
-    `deterministic` trades the wall-time promise for a reproducible answer, and the two really
-    are a trade. Found 24 Aug 2026 by an intermittent failure in this file's own determinism
-    test, whose docstring reads "a suite that cannot reproduce a layout cannot pin one either":
-    the test was right and the solver was wrong. The topology loop below stops starting new
+    `deterministic` DEFAULTS TO TRUE as of 24 Aug 2026 (OQ 44), and it trades the wall-time
+    promise for a reproducible answer. Found by an intermittent failure in this file's own
+    determinism test, whose docstring reads "a suite that cannot reproduce a layout cannot pin
+    one either": the test was right and the solver was wrong.
+
+    Measured before the default was flipped, on both reference plans at a 20 s budget: the
+    deterministic run costs between 0 and 33% more wall time (17.5 s against 18.1 s on one plan,
+    22.9 s against 17.1 s on the other), returns the SAME score, and on the busier plan explores
+    MORE topologies (6 against 4) because it is not cut off part-way. On an idle machine the old
+    default already reproduced -- which is exactly why the defect passed every time anyone
+    checked it. Pass `deterministic=False` where a person is waiting and the seconds matter more
+    than re-derivability. The topology loop below stops starting new
     topologies once the next one could not finish inside the budget, and that check reads the
     WALL CLOCK -- so a loaded machine tries fewer topologies than an idle one and a different
     layout wins. The same seed, the same plan, and a different house. Nothing hid it (the record
     carries `topologies_tried`) and nothing said it either, and it passed whenever anyone
     checked, because checking one test is exactly when the machine is quiet.
 
-    With `deterministic=True` the loop runs every topology, each phase is bounded by CP-SAT's
+    In deterministic mode the loop runs every topology, each phase is bounded by CP-SAT's
     own deterministic time -- work done rather than seconds elapsed -- and the wall-clock limit
     stays only as a tenfold outer guard that the call returns at all. The answer is then a
     function of the inputs. Use it for anything whose result is going to be pinned, compared or
@@ -1205,8 +1213,8 @@ def solve(plan, parti=None, seed=7, time_budget_s=60.0, mode="cp",
                 "this layout is a function of the inputs and nothing else." if deterministic else
                 "Bounded by wall clock: how many topologies were tried depends on how fast this "
                 "machine was, so re-running on a busier or quieter machine can return a different "
-                "layout from the same seed. Pass deterministic=True where the answer will be "
-                "pinned, compared or re-derived."),
+                "layout from the same seed. This is NOT the default (OQ 44) -- something asked "
+                "for it, so something is waiting on the clock rather than on the answer."),
             "wall_time_s": round(time.time() - t_start, 2),
             "relaxed_requirements": sorted(demoted),
             "unmet_requirements": unmet,

@@ -266,18 +266,38 @@ class TestDeterminism:
 
 
 class TestWallClockModeSaysSoAboutItself:
-    """The default is still wall-clock bounded, because a person waiting for a plan wants the
-    promise about time kept. What changed is that the record now says which trade was taken,
-    instead of letting a reader assume the seed was enough."""
+    """OQ 44, ruled 24 Aug 2026: reproducible is now the DEFAULT. Measured before the flip, on
+    both reference plans at a 20 s budget, the deterministic run costs 0-33% more wall time,
+    returns the same score, and on the busier plan explores MORE topologies (6 against 4)
+    because it is not cut off part-way. On an idle machine the old default already reproduced,
+    which is exactly why the defect passed every time anyone checked it.
 
-    def test_the_default_declares_that_its_layout_is_machine_dependent(self, solver_module):
+    Wall-clock mode remains, for when a person is waiting, and it still says what it is."""
+
+    def test_the_default_is_reproducible_and_says_so(self, solver_module):
         pytest.importorskip("ortools")
         out = solver_module.solve(load_plan("tidewater-georgian-careful"), None,
                                   seed=7, time_budget_s=8.0, workers=1)
         sv = out["geometry_report"]["solver"]
+        assert sv["deterministic"] is True
+        assert "a function of the inputs and nothing else" in sv["deterministic_note"]
+
+    def test_wall_clock_mode_still_exists_and_declares_what_it_costs(self, solver_module):
+        pytest.importorskip("ortools")
+        out = solver_module.solve(load_plan("tidewater-georgian-careful"), None,
+                                  seed=7, time_budget_s=8.0, workers=1, deterministic=False)
+        sv = out["geometry_report"]["solver"]
         assert sv["deterministic"] is False
         assert "depends on how fast this machine was" in sv["deterministic_note"]
-        assert "deterministic=True" in sv["deterministic_note"]
+        assert "NOT the default" in sv["deterministic_note"]
+
+    def test_the_mcp_tool_does_not_expose_a_way_to_turn_reproducibility_off(self):
+        """Everything arriving there is a plan somebody will keep or compare, and a record that
+        cannot be re-derived is worth less than the seconds it saves."""
+        import os
+        src = open(os.path.join(ROOT, "mcp_server", "core.py")).read()
+        i = src.index("out = sv.solve(copy_json(plan)")
+        assert "deterministic" not in src[i:src.index("\n", i)]
 
 
 class TestRelaxationRecount:

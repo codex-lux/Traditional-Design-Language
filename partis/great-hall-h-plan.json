@@ -1,353 +1,353 @@
 {
-  "id": "great-hall-h-plan",
-  "name": "Great Hall, H-Plan",
-  "aka": [
-    "the hall-and-cross-wings plan",
-    "screens-passage plan",
-    "E-plan (with a porch)"
-  ],
-  "description": "A hall in the middle with a cross-wing at each end, entered at one end of the hall through a screens passage. The plan is a hierarchy laid out in a line and it reads in one direction only: service at the low end beyond the screens, the hall itself in the middle, the family's chambers at the high end beyond the dais. Everything about the type follows from that gradient - which end the door is at, which end the best window is at, which wing gets the chimney stack, and why the two wings are never interchangeable however symmetrical the elevation looks. The H is what remains when the fourth range of a courtyard is left off and the two remaining ends grow forward.",
-  "massing": "h-plan-manor",
-  "alternate_massings": [
-    "hall-single-cell"
-  ],
-  "styles": [
-    "tudor",
-    "elizabethan",
-    "jacobean",
-    "english-gothic",
-    "english-medieval-timber-frame",
-    "jacobethan-revival",
-    "french-manoir",
-    "cape-dutch"
-  ],
-  "groupings": [
-    "kitchen-work-core",
-    "primary-suite",
-    "secondary-bedroom-cluster",
-    "stair-and-landing-core"
-  ],
-  "circulation_parti": "enfilade",
-  "storeys": 2,
-  "area_range_sf": [
-    2800,
-    12000
-  ],
-  "bedroom_range": [
-    3,
-    7
-  ],
-  "rooms": [
-    {
-      "id": "porch",
-      "type": "entry-porch",
-      "level": 0,
-      "name": "Porch",
-      "required": false,
-      "exterior_walls": [
-        "S"
-      ],
-      "doors": [
-        "exterior",
-        "screens"
-      ],
-      "note": "Often a projecting two-storey porch tower, which is what turns an H into an E in plan. It lands on the screens passage, never on the hall - the whole point is that a visitor is admitted to the passage and only then to the room."
-    },
-    {
-      "id": "screens",
-      "type": "cross-passage",
-      "level": 0,
-      "name": "Screens Passage",
-      "exterior_walls": [
-        "S",
-        "N"
-      ],
-      "doors": [
-        "porch",
-        "exterior",
-        "hall",
-        "buttery",
-        "kitchen"
-      ],
-      "note": "Runs right through the building, front door to back, with the hall on one side behind a screen and the service doors on the other. It is the type's threshold and its service spine at once, and it is why this parti's circulation is an enfilade rather than a corridor."
-    },
-    {
-      "id": "hall",
-      "type": "hall",
-      "level": 0,
-      "name": "Great Hall",
-      "exterior_walls": [
-        "S",
-        "N"
-      ],
-      "lit_from": [
-        "S",
-        "N"
-      ],
-      "doors": [
-        "screens",
-        "parlour",
-        "stair"
-      ],
-      "area_weight": 0.22,
-      "note": "Open to the roof in the earlier examples and floored over in the later ones, which is the single biggest change in the type's history and the thing that turns a medieval hall house into a Jacobean one."
-    },
-    {
-      "id": "buttery",
-      "type": "larder",
-      "level": 0,
-      "name": "Buttery",
-      "required": false,
-      "exterior_walls": [
-        "N"
-      ],
-      "doors": [
-        "screens"
-      ],
-      "note": "Typed larder, which is what it is: the cool store off the service end of the passage. The historic pair of buttery and pantry either side of a central kitchen door is the arrangement, and the catalogue's larder and pantry carry it."
-    },
-    {
-      "id": "kitchen",
-      "type": "kitchen",
-      "level": 0,
-      "name": "Kitchen",
-      "exterior_walls": [
-        "N",
-        "W"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "screens",
-        "pantry",
-        "dining"
-      ],
-      "fixtures": [
-        "sink",
-        "range"
-      ],
-      "area_weight": 0.11,
-      "note": "In the low-end cross-wing, beyond the screens. In the earliest houses it is a detached building for fear of fire; the catalogue has no detached-kitchen room, so this parti puts it in the wing, which is where it ended up in every surviving example anyway."
-    },
-    {
-      "id": "pantry",
-      "type": "pantry",
-      "level": 0,
-      "name": "Pantry",
-      "required": false,
-      "doors": [
-        "kitchen"
-      ]
-    },
-    {
-      "id": "dining",
-      "type": "dining-room",
-      "level": 0,
-      "name": "Dining Parlour",
-      "exterior_walls": [
-        "W"
-      ],
-      "lit_from": [
-        "W"
-      ],
-      "doors": [
-        "kitchen",
-        "parlour"
-      ],
-      "area_weight": 0.11,
-      "note": "A later insertion historically - the hall was where everyone ate - but a brief will not accept a house with no dining room, and by the Jacobean period the type had one."
-    },
-    {
-      "id": "parlour",
-      "type": "parlor",
-      "level": 0,
-      "name": "Parlour",
-      "exterior_walls": [
-        "E",
-        "S"
-      ],
-      "lit_from": [
-        "S"
-      ],
-      "doors": [
-        "hall",
-        "dining"
-      ],
-      "area_weight": 0.12,
-      "note": "At the HIGH end, beyond the dais, in the other cross-wing. Its position is not a preference: it is the private room the family withdrew to from the hall, and putting it at the service end inverts the whole plan."
-    },
-    {
-      "id": "stair",
-      "type": "stair-hall",
-      "level": 0,
-      "name": "Stair",
-      "doors": [
-        "hall",
-        "landing"
-      ],
-      "area_weight": 0.05,
-      "note": "In the high-end wing, serving the great chamber above the parlour. A newel stair in the earlier houses, a broad framed one by the Jacobean period."
-    },
-    {
-      "id": "landing",
-      "type": "landing",
-      "level": 1,
-      "name": "Landing",
-      "doors": [
-        "stair",
-        "greatchamber",
-        "gallery"
-      ],
-      "stacks_over": "stair"
-    },
-    {
-      "id": "greatchamber",
-      "type": "drawing-room",
-      "level": 1,
-      "name": "Great Chamber",
-      "exterior_walls": [
-        "E",
-        "S"
-      ],
-      "lit_from": [
-        "S",
-        "E"
-      ],
-      "doors": [
-        "landing",
-        "primary"
-      ],
-      "stacks_over": "parlour",
-      "area_weight": 0.13,
-      "note": "The best room in the house, over the parlour at the high end. In the sixteenth century it is where the household dined in state once the hall had stopped being used for it. Typed drawing-room, which is what it is. It was typed `library` when this parti was written, purely to dodge drawing-room's hard rule that it must reach a dining room — a ground-floor rule an upper-floor state room can never satisfy, which cost a FATAL for the one arrangement this type is famous for. OQ 35 fixed the rule instead: it is now also satisfied by the dining room sitting a storey below, which is where it actually is."
-    },
-    {
-      "id": "gallery",
-      "type": "gallery-corridor",
-      "level": 1,
-      "name": "Long Gallery",
-      "required": false,
-      "exterior_walls": [
-        "N"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "landing",
-        "chamber1",
-        "chamber2"
-      ],
-      "area_weight": 0.08,
-      "note": "The Elizabethan addition that gives the upper floor a spine and, in the great houses, runs the whole length of one range. Optional because the medieval version of this type has none."
-    },
-    {
-      "id": "primary",
-      "type": "primary-bedroom",
-      "level": 1,
-      "name": "Best Chamber",
-      "exterior_walls": [
-        "E"
-      ],
-      "lit_from": [
-        "E"
-      ],
-      "doors": [
-        "greatchamber",
-        "primarybath"
-      ],
-      "area_weight": 0.11
-    },
-    {
-      "id": "primarybath",
-      "type": "primary-bathroom",
-      "level": 1,
-      "name": "Bath",
-      "required": false,
-      "doors": [
-        "primary"
-      ],
-      "fixtures": [
-        "wc",
-        "lavatory",
-        "tub",
-        "shower"
-      ]
-    },
-    {
-      "id": "chamber1",
-      "type": "bedchamber",
-      "level": 1,
-      "name": "Chamber",
-      "repeats_with_bedrooms": true,
-      "exterior_walls": [
-        "N"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "gallery"
-      ],
-      "area_weight": 0.09
-    },
-    {
-      "id": "chamber2",
-      "type": "bedchamber",
-      "level": 1,
-      "name": "Chamber",
-      "required": false,
-      "exterior_walls": [
-        "W"
-      ],
-      "lit_from": [
-        "W"
-      ],
-      "doors": [
-        "gallery"
-      ],
-      "area_weight": 0.08
-    },
-    {
-      "id": "hallbath",
-      "type": "bathroom",
-      "level": 1,
-      "name": "Bath",
-      "required": false,
-      "doors": [
-        "gallery"
-      ],
-      "fixtures": [
-        "wc",
-        "lavatory",
-        "tub"
-      ]
-    }
-  ],
-  "scaling": {
-    "grows_by": [
-      "deepening",
-      "adding-a-link"
-    ],
-    "bay_module_ft": 10,
-    "min_bay_count": 3,
-    "max_bay_count": 8,
-    "note": "Grows by lengthening the cross-wings forward, which deepens the H, and at the top of the range by closing the fourth side into a courtyard - the massing catalogue's own note that the H is a courtyard with one range left off runs in both directions. It does NOT grow by adding bays to the hall: a hall much longer than about twice its width stops being a room and becomes a corridor with a fire in it."
+ "id": "great-hall-h-plan",
+ "name": "Great Hall, H-Plan",
+ "aka": [
+  "the hall-and-cross-wings plan",
+  "screens-passage plan",
+  "E-plan (with a porch)"
+ ],
+ "description": "A hall in the middle with a cross-wing at each end, entered at one end of the hall through a screens passage. The plan is a hierarchy laid out in a line and it reads in one direction only: service at the low end beyond the screens, the hall itself in the middle, the family's chambers at the high end beyond the dais. Everything about the type follows from that gradient - which end the door is at, which end the best window is at, which wing gets the chimney stack, and why the two wings are never interchangeable however symmetrical the elevation looks. The H is what remains when the fourth range of a courtyard is left off and the two remaining ends grow forward. An English H-plan manor of the first rank runs to 12,000 sf and past it, and it does so with a long gallery, a chapel, a second service court and lodgings this room list does not name. The range above is what these rooms reach at the top of their own bands; it was 12,000, of which the composer could reach 82% (OQ 45).",
+ "massing": "h-plan-manor",
+ "alternate_massings": [
+  "hall-single-cell"
+ ],
+ "styles": [
+  "tudor",
+  "elizabethan",
+  "jacobean",
+  "english-gothic",
+  "english-medieval-timber-frame",
+  "jacobethan-revival",
+  "french-manoir",
+  "cape-dutch"
+ ],
+ "groupings": [
+  "kitchen-work-core",
+  "primary-suite",
+  "secondary-bedroom-cluster",
+  "stair-and-landing-core"
+ ],
+ "circulation_parti": "enfilade",
+ "storeys": 2,
+ "area_range_sf": [
+  2800,
+  9800
+ ],
+ "bedroom_range": [
+  3,
+  7
+ ],
+ "rooms": [
+  {
+   "id": "porch",
+   "type": "entry-porch",
+   "level": 0,
+   "name": "Porch",
+   "required": false,
+   "exterior_walls": [
+    "S"
+   ],
+   "doors": [
+    "exterior",
+    "screens"
+   ],
+   "note": "Often a projecting two-storey porch tower, which is what turns an H into an E in plan. It lands on the screens passage, never on the hall - the whole point is that a visitor is admitted to the passage and only then to the room."
   },
-  "trades_away": "Compactness and heat. An H-plan has an enormous ratio of external wall to floor area, three separate roof masses to keep watertight at two valleys, and a hall that is expensive to warm in any version and impossible in the open-roofed one. It trades away the corridor: circulation is through rooms, so the parlour is a route to the stair and privacy at ground level is poor by any modern reading. And it trades away flexibility about where the front door goes - the screens passage position is fixed by the hierarchy, and moving the entrance to the middle of the hall for the sake of a symmetrical elevation destroys the plan while leaving the massing intact, which is exactly what most Jacobethan Revival houses did.",
-  "exemplars": [
-    "Little Moreton Hall, Cheshire, from about 1504 - the timber-framed version",
-    "Compton Wynyates, Warwickshire, from about 1481",
-    "Montacute House, Somerset, 1598 - the Elizabethan version with the long gallery",
-    "Groot Constantia, Cape Town, from 1685 - the Cape Dutch reading of the same diagram",
-    "Manoir d'Ango, Varengeville-sur-Mer, from 1533"
+  {
+   "id": "screens",
+   "type": "cross-passage",
+   "level": 0,
+   "name": "Screens Passage",
+   "exterior_walls": [
+    "S",
+    "N"
+   ],
+   "doors": [
+    "porch",
+    "exterior",
+    "hall",
+    "buttery",
+    "kitchen"
+   ],
+   "note": "Runs right through the building, front door to back, with the hall on one side behind a screen and the service doors on the other. It is the type's threshold and its service spine at once, and it is why this parti's circulation is an enfilade rather than a corridor."
+  },
+  {
+   "id": "hall",
+   "type": "hall",
+   "level": 0,
+   "name": "Great Hall",
+   "exterior_walls": [
+    "S",
+    "N"
+   ],
+   "lit_from": [
+    "S",
+    "N"
+   ],
+   "doors": [
+    "screens",
+    "parlour",
+    "stair"
+   ],
+   "area_weight": 0.22,
+   "note": "Open to the roof in the earlier examples and floored over in the later ones, which is the single biggest change in the type's history and the thing that turns a medieval hall house into a Jacobean one."
+  },
+  {
+   "id": "buttery",
+   "type": "larder",
+   "level": 0,
+   "name": "Buttery",
+   "required": false,
+   "exterior_walls": [
+    "N"
+   ],
+   "doors": [
+    "screens"
+   ],
+   "note": "Typed larder, which is what it is: the cool store off the service end of the passage. The historic pair of buttery and pantry either side of a central kitchen door is the arrangement, and the catalogue's larder and pantry carry it."
+  },
+  {
+   "id": "kitchen",
+   "type": "kitchen",
+   "level": 0,
+   "name": "Kitchen",
+   "exterior_walls": [
+    "N",
+    "W"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "screens",
+    "pantry",
+    "dining"
+   ],
+   "fixtures": [
+    "sink",
+    "range"
+   ],
+   "area_weight": 0.11,
+   "note": "In the low-end cross-wing, beyond the screens. In the earliest houses it is a detached building for fear of fire; the catalogue has no detached-kitchen room, so this parti puts it in the wing, which is where it ended up in every surviving example anyway."
+  },
+  {
+   "id": "pantry",
+   "type": "pantry",
+   "level": 0,
+   "name": "Pantry",
+   "required": false,
+   "doors": [
+    "kitchen"
+   ]
+  },
+  {
+   "id": "dining",
+   "type": "dining-room",
+   "level": 0,
+   "name": "Dining Parlour",
+   "exterior_walls": [
+    "W"
+   ],
+   "lit_from": [
+    "W"
+   ],
+   "doors": [
+    "kitchen",
+    "parlour"
+   ],
+   "area_weight": 0.11,
+   "note": "A later insertion historically - the hall was where everyone ate - but a brief will not accept a house with no dining room, and by the Jacobean period the type had one."
+  },
+  {
+   "id": "parlour",
+   "type": "parlor",
+   "level": 0,
+   "name": "Parlour",
+   "exterior_walls": [
+    "E",
+    "S"
+   ],
+   "lit_from": [
+    "S"
+   ],
+   "doors": [
+    "hall",
+    "dining"
+   ],
+   "area_weight": 0.12,
+   "note": "At the HIGH end, beyond the dais, in the other cross-wing. Its position is not a preference: it is the private room the family withdrew to from the hall, and putting it at the service end inverts the whole plan."
+  },
+  {
+   "id": "stair",
+   "type": "stair-hall",
+   "level": 0,
+   "name": "Stair",
+   "doors": [
+    "hall",
+    "landing"
+   ],
+   "area_weight": 0.05,
+   "note": "In the high-end wing, serving the great chamber above the parlour. A newel stair in the earlier houses, a broad framed one by the Jacobean period."
+  },
+  {
+   "id": "landing",
+   "type": "landing",
+   "level": 1,
+   "name": "Landing",
+   "doors": [
+    "stair",
+    "greatchamber",
+    "gallery"
+   ],
+   "stacks_over": "stair"
+  },
+  {
+   "id": "greatchamber",
+   "type": "drawing-room",
+   "level": 1,
+   "name": "Great Chamber",
+   "exterior_walls": [
+    "E",
+    "S"
+   ],
+   "lit_from": [
+    "S",
+    "E"
+   ],
+   "doors": [
+    "landing",
+    "primary"
+   ],
+   "stacks_over": "parlour",
+   "area_weight": 0.13,
+   "note": "The best room in the house, over the parlour at the high end. In the sixteenth century it is where the household dined in state once the hall had stopped being used for it. Typed drawing-room, which is what it is. It was typed `library` when this parti was written, purely to dodge drawing-room's hard rule that it must reach a dining room — a ground-floor rule an upper-floor state room can never satisfy, which cost a FATAL for the one arrangement this type is famous for. OQ 35 fixed the rule instead: it is now also satisfied by the dining room sitting a storey below, which is where it actually is."
+  },
+  {
+   "id": "gallery",
+   "type": "gallery-corridor",
+   "level": 1,
+   "name": "Long Gallery",
+   "required": false,
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "landing",
+    "chamber1",
+    "chamber2"
+   ],
+   "area_weight": 0.08,
+   "note": "The Elizabethan addition that gives the upper floor a spine and, in the great houses, runs the whole length of one range. Optional because the medieval version of this type has none."
+  },
+  {
+   "id": "primary",
+   "type": "primary-bedroom",
+   "level": 1,
+   "name": "Best Chamber",
+   "exterior_walls": [
+    "E"
+   ],
+   "lit_from": [
+    "E"
+   ],
+   "doors": [
+    "greatchamber",
+    "primarybath"
+   ],
+   "area_weight": 0.11
+  },
+  {
+   "id": "primarybath",
+   "type": "primary-bathroom",
+   "level": 1,
+   "name": "Bath",
+   "required": false,
+   "doors": [
+    "primary"
+   ],
+   "fixtures": [
+    "wc",
+    "lavatory",
+    "tub",
+    "shower"
+   ]
+  },
+  {
+   "id": "chamber1",
+   "type": "bedchamber",
+   "level": 1,
+   "name": "Chamber",
+   "repeats_with_bedrooms": true,
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "gallery"
+   ],
+   "area_weight": 0.09
+  },
+  {
+   "id": "chamber2",
+   "type": "bedchamber",
+   "level": 1,
+   "name": "Chamber",
+   "required": false,
+   "exterior_walls": [
+    "W"
+   ],
+   "lit_from": [
+    "W"
+   ],
+   "doors": [
+    "gallery"
+   ],
+   "area_weight": 0.08
+  },
+  {
+   "id": "hallbath",
+   "type": "bathroom",
+   "level": 1,
+   "name": "Bath",
+   "required": false,
+   "doors": [
+    "gallery"
+   ],
+   "fixtures": [
+    "wc",
+    "lavatory",
+    "tub"
+   ]
+  }
+ ],
+ "scaling": {
+  "grows_by": [
+   "deepening",
+   "adding-a-link"
   ],
-  "sources": [
-    "massings/catalog.json: h-plan-manor",
-    "rooms/hall.json and rooms/cross-passage.json, which carry the great hall and the screens passage",
-    "styles/tudor.json, styles/elizabethan.json, styles/jacobean.json",
-    "editorial: the room list is a composable reduction; the buttery, pantry and great chamber are typed to existing catalogue rooms rather than given files of their own, and the reasoning is on each"
-  ],
-  "confidence": "high"
+  "bay_module_ft": 10,
+  "min_bay_count": 3,
+  "max_bay_count": 8,
+  "note": "Grows by lengthening the cross-wings forward, which deepens the H, and at the top of the range by closing the fourth side into a courtyard - the massing catalogue's own note that the H is a courtyard with one range left off runs in both directions. It does NOT grow by adding bays to the hall: a hall much longer than about twice its width stops being a room and becomes a corridor with a fire in it."
+ },
+ "trades_away": "Compactness and heat. An H-plan has an enormous ratio of external wall to floor area, three separate roof masses to keep watertight at two valleys, and a hall that is expensive to warm in any version and impossible in the open-roofed one. It trades away the corridor: circulation is through rooms, so the parlour is a route to the stair and privacy at ground level is poor by any modern reading. And it trades away flexibility about where the front door goes - the screens passage position is fixed by the hierarchy, and moving the entrance to the middle of the hall for the sake of a symmetrical elevation destroys the plan while leaving the massing intact, which is exactly what most Jacobethan Revival houses did.",
+ "exemplars": [
+  "Little Moreton Hall, Cheshire, from about 1504 - the timber-framed version",
+  "Compton Wynyates, Warwickshire, from about 1481",
+  "Montacute House, Somerset, 1598 - the Elizabethan version with the long gallery",
+  "Groot Constantia, Cape Town, from 1685 - the Cape Dutch reading of the same diagram",
+  "Manoir d'Ango, Varengeville-sur-Mer, from 1533"
+ ],
+ "sources": [
+  "massings/catalog.json: h-plan-manor",
+  "rooms/hall.json and rooms/cross-passage.json, which carry the great hall and the screens passage",
+  "styles/tudor.json, styles/elizabethan.json, styles/jacobean.json",
+  "editorial: the room list is a composable reduction; the buttery, pantry and great chamber are typed to existing catalogue rooms rather than given files of their own, and the reasoning is on each"
+ ],
+ "confidence": "high"
 }
