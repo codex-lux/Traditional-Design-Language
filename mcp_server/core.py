@@ -33,10 +33,10 @@ def _load_engine():
 @functools.lru_cache(maxsize=1)
 def _data():
     styles = {}
-    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         n = json.load(open(f)); styles[n["id"]] = n
     faults = {}
-    for f in glob.glob(os.path.join(ROOT, "faults", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
         n = json.load(open(f)); faults[n["id"]] = n
     slots, groups = {}, []
     sd = json.load(open(os.path.join(ROOT, "elements", "slots.json")))
@@ -47,12 +47,12 @@ def _data():
     try: assets = json.load(open(os.path.join(ROOT, "assets", "manifest.json")))["assets"]
     except Exception: assets = []
     kits = {}
-    for f in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         k = json.load(open(f)); kits[k["style"]] = k
     rooms, groupings = {}, {}
-    for f in glob.glob(os.path.join(ROOT, "rooms", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))):
         r = json.load(open(f)); rooms[r["id"]] = r
-    for f in glob.glob(os.path.join(ROOT, "groupings", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))):
         g = json.load(open(f)); groupings[g["id"]] = g
     return {"styles": styles, "faults": faults, "slots": slots, "groups": groups,
             "massings": massings, "assets": assets, "kits": kits,
@@ -684,7 +684,7 @@ def _load_plan_checker():
 
 def plan_schema():
     return {"schema": json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))),
-            "examples": [os.path.basename(f) for f in glob.glob(os.path.join(ROOT, "plans", "*.json"))],
+            "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "plans", "*.json")))],
             "hint": ("A plan is a topology plus approximate dimensions — enough to check, not enough to build. "
                      "Doors imply adjacency in both directions; the validator derives the graph from them. "
                      "Give width_ft as the SHORT dimension and window_head_ft wherever you can, because "
@@ -730,7 +730,7 @@ def list_partis(style=None, massing=None):
 
 def brief_schema():
     return {"schema": json.load(open(os.path.join(ROOT, "schema", "brief.schema.json"))),
-            "examples": [os.path.basename(f) for f in glob.glob(os.path.join(ROOT, "briefs", "*.json"))],
+            "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "briefs", "*.json")))],
             "hint": ("Only style and target_area_sf are required. Everything absent is decided by the "
                      "composer and reported in the decision log as an assumption, not smuggled in as a fact. "
                      "Put the household in `household` — it is the thing that decides whether the dining room "

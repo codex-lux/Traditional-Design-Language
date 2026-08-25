@@ -123,6 +123,19 @@ fastapi. The result was a missing dependency reported as a failing check: precis
 collapse the corpus forbids everywhere else. It now probes and runs through
 `sys.executable`.
 
+**The first CI run found a nondeterminism the corpus has carried since the composer was
+written.** Two composer tests passed here and failed on the runner. Not randomness —
+`geometry.solve` is seeded at 7 and `compose.py` imports no RNG — but the corpus loaded
+through unsorted `glob.glob`, which returns directory order, and `pick_partis` sorted on
+`fit` alone. Python's sort being stable, ties fell back to insertion order, and `out[:limit]`
+cut through the middle of one: for `briefs/family-georgian.json` four diagrams tie at fit
+2.00 and only three survived, so *which diagram was never scored at all* was decided by
+readdir. Fixed in two places, because either alone leaves the other half live — 33 corpus
+globs wrapped in `sorted()`, and `pick_partis` given an id tie-break plus a rule never to
+truncate through a tie group. The validator now ranks the whole tie, which is what it is
+for. `tests/test_determinism.py` pins both halves. Worth stating plainly: this had nothing
+to do with deployment, and nothing but CI would have found it.
+
 **The compose job registry pins the service to one replica.** `jobs.py` holds `_JOBS = {}`
 in process memory with a 30-minute TTL, and its pool is `ThreadPoolExecutor(max_workers=1)`.
 Two consequences that are fine at this scale but must be known: a second replica cannot see

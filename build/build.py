@@ -13,7 +13,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
 nodes = {}
-for f in glob.glob("styles/*.json"):
+for f in sorted(glob.glob("styles/*.json")):
     n = json.load(open(f)); nodes[n["id"]] = n
 slots_doc = json.load(open("elements/slots.json"))
 KIT_VERSION = json.load(open("schema/kit.schema.json")).get("version", "0.2.1")

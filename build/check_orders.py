@@ -359,7 +359,7 @@ def main():
                 slot_ids.add(s["id"])
 
     style_ids = set()
-    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         style_ids.add(os.path.basename(f)[:-5])
 
     packs = sorted(glob.glob(PACK_GLOB, recursive=True))

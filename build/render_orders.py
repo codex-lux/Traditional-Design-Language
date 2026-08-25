@@ -51,7 +51,7 @@ for pid, p in pe.PACKS.items():
 
 style_names = {}
 import glob
-for f in glob.glob("styles/*.json"):
+for f in sorted(glob.glob("styles/*.json")):
     n = json.load(open(f)); style_names[n["id"]] = n["name"]
 
 DATA = {"packs": packs, "systems": systems, "orders": ORDERS,

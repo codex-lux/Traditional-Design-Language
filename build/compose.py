@@ -32,7 +32,7 @@ def _mod(name, path):
 PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
 C = PC.load_corpus()
 PARTIS = {}
-for f in glob.glob(f"{ROOT}/partis/*.json"):
+for f in sorted(glob.glob(f"{ROOT}/partis/*.json")):
     p = json.load(open(f)); PARTIS[p["id"]] = p
 
 SEV_W = {"fatal": 100, "serious": 8, "minor": 1, "advisory": 0.5, "info": 0}
@@ -67,8 +67,22 @@ def pick_partis(brief, limit=6):
         else: fit -= 1.5; why.append(f"{area:.0f} sf is outside the diagram's range of {ar[0]:.0f}-{ar[1]:.0f}")
         gset = set(p.get("groupings", []))
         out.append({"parti": p["id"], "fit": round(fit, 2), "why": why, "groupings": sorted(gset)})
-    out.sort(key=lambda x: -x["fit"])
-    return out[:limit]
+
+    # Tie-break by id so the order is the same on every machine. Without it the sort is
+    # stable over PARTIS insertion order, which is directory order, which differs by
+    # filesystem — and the cut below then kept different diagrams on different machines.
+    out.sort(key=lambda x: (-x["fit"], x["parti"]))
+
+    # Never cut THROUGH a tie. Diagrams that fit equally well are, by this function's own
+    # measure, indistinguishable; dropping some of them at an arbitrary index lets the
+    # slice decide what the score is supposed to decide. Take the whole tie group and let
+    # the validator rank them — for a Georgian family house four diagrams tie at 2.00, and
+    # which of them "wins" was previously settled by readdir order.
+    if len(out) > limit:
+        edge = out[limit - 1]["fit"]
+        keep = [x for x in out if x["fit"] >= edge]
+        return keep
+    return out
 
 # ---------------------------------------------------------------- instantiation
 def room_default_dims(room_type):

@@ -42,7 +42,7 @@ def _known_ids(kind):
 @functools.lru_cache(maxsize=1)
 def _parti_ids():
     out = set()
-    for f in glob.glob(os.path.join(corpus.ROOT, "partis", "*.json")):
+    for f in sorted(glob.glob(os.path.join(corpus.ROOT, "partis", "*.json"))):
         try:
             out.add(json.load(open(f))["id"])
         except Exception:
