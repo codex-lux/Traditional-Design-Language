@@ -1,7 +1,7 @@
 {
   "style": "cape-dutch",
   "style_name": "Cape Dutch",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -355,6 +355,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {

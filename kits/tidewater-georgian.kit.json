@@ -1,7 +1,7 @@
 {
   "style": "tidewater-georgian",
   "style_name": "Tidewater Georgian",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -518,6 +518,52 @@
       "binding": "open",
       "status": "empty"
     },
+    "arch": {
+      "group": "openings",
+      "binding": "specified",
+      "parameters": {
+        "segmental_rise": {
+          "expr": "opening_width / 8",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 4.5
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "flat_arch_camber": {
+          "expr": "opening_width / 96",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 0.375
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "arch_depth": {
+          "expr": "module",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 11.0
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        }
+      },
+      "rule": "Segmental with a rise of one eighth of the opening before about 1750, flat and cambered after -- the date of the house is readable off the rise.",
+      "status": "drafted",
+      "confidence": "low",
+      "note": "Moved here from `window_head_masonry` 24 Aug 2026 (OQ 46). SPLIT 24 Aug 2026 (OQ 46). This slot carried two different claims at once: how the top of a masonry window is BUILT -- gauged and rubbed brick, one head datum a storey, an architrave, a keystone or its absence -- and the GEOMETRY of the arch doing the spanning. The second has moved to the `arch` slot and this slot names it in `determined_by`, which is the mechanism OQ 19 built for exactly this: a slot decided by another names it rather than restating its numbers."
+    },
     "window_head_masonry": {
       "group": "openings",
       "binding": "specified",
@@ -565,49 +611,13 @@
         }
       ],
       "parameters": {
-        "segmental_rise": {
-          "expr": "opening_width / 8",
-          "computed_at": {
-            "ceiling_height_in": 132.0,
-            "storey_height_in": 144.0,
-            "opening_width_in": 36.0,
-            "value": 4.5
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course"
-        },
-        "flat_arch_camber": {
-          "expr": "opening_width / 96",
-          "computed_at": {
-            "ceiling_height_in": 132.0,
-            "storey_height_in": 144.0,
-            "opening_width_in": 36.0,
-            "value": 0.375
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course"
-        },
-        "arch_depth": {
-          "expr": "module",
-          "computed_at": {
-            "ceiling_height_in": 132.0,
-            "storey_height_in": 144.0,
-            "opening_width_in": 36.0,
-            "value": 11.0
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course"
-        },
         "keystone": {
           "value": "none",
           "unit": "none",
           "kind": "measured"
         }
       },
-      "rule": "Window heads are gauged and rubbed brick arches — segmental with a rise of one eighth of the opening before about 1750, flat and cambered after — and they never carry a keystone.",
+      "rule": "Window heads are gauged and rubbed brick, and they never carry a keystone. The arch geometry itself is stated on the `arch` slot, which this slot is determined by.",
       "packs": [
         {
           "pack": "brick-course",
@@ -617,8 +627,11 @@
         }
       ],
       "confidence": "low",
-      "note": "Specified rather than extends because the parent's five variants become two canonical, two forbidden and one atypical — at that point a merge is less legible than a restatement, and the parent's frame-versus-masonry applies_when scoping no longer applies since only one construction is canonical. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_masonry.",
-      "status": "drafted"
+      "note": "Specified rather than extends because the parent's five variants become two canonical, two forbidden and one atypical — at that point a merge is less legible than a restatement, and the parent's frame-versus-masonry applies_when scoping no longer applies since only one construction is canonical. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_masonry. SPLIT 24 Aug 2026 (OQ 46). This slot carried two different claims at once: how the top of a masonry window is BUILT -- gauged and rubbed brick, one head datum a storey, an architrave, a keystone or its absence -- and the GEOMETRY of the arch doing the spanning. The second has moved to the `arch` slot and this slot names it in `determined_by`, which is the mechanism OQ 19 built for exactly this: a slot decided by another names it rather than restating its numbers.",
+      "status": "drafted",
+      "determined_by": [
+        "arch"
+      ]
     },
     "window_head_wood": {
       "group": "openings",

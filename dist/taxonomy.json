@@ -10,7 +10,7 @@
       "style": 90,
       "variant": 42
     },
-    "slots": 95,
+    "slots": 96,
     "massings": 40
   },
   "edge_semantics": {
@@ -428,6 +428,16 @@
         "diamond-leaded",
         "queen-anne-margin"
       ],
+      "group": "openings",
+      "group_name": "Openings"
+    },
+    {
+      "id": "arch",
+      "name": "Arch",
+      "cardinality": "many",
+      "value_type": "rule",
+      "units": "ratio",
+      "note": "Added in 0.6.0 (docs/open-questions.md #46). THE ARCH AS A SPANNING MEMBER: its form (round, segmental, pointed, four-centred, horseshoe, elliptical, flat), its rise against its span, what it springs from, whether it is structural or applied, and -- for the styles that say so -- whether an arch is permitted at all. Egyptian Revival's c03 is a rule ABOUT arches which states that there are none, and it had nowhere to live.\n\nNOT the same slot as `window_head_masonry`, and the boundary is worth stating because a keyword search will not find it. A gauged brick jack arch over a sash window is a WINDOW HEAD: it is how the top of that opening is built, along with the head datum, the keystone and the architrave. The arcade of an Italian Renaissance loggia is an ARCH: round-headed, springing from an impost, rise exactly half the span, and it has no window in it. Where one slot's content is decided by the other -- a Tidewater window head whose geometry IS a segmental arch's -- the head slot names this one in `determined_by` rather than restating the rise, which is the mechanism OQ 19 built for exactly this.\n\nMeasured before it was added: 53 style constraints across 44 of 132 styles are about an arch, 162 kit slot bindings carry arch content across 46 different slots, 8 faults are about arches and 29 of 38 proportion packs mention one. The corpus was full of arch content with nowhere central to put it, and `proportions/orders/moorish-arch.json` had to target a horseshoe's return at `window_head_masonry` and its impost block at `porch_support`.",
       "group": "openings",
       "group_name": "Openings"
     },

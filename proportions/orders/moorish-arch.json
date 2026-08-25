@@ -117,7 +117,7 @@
  ],
  "derived_rules": [
   {
-   "target_slot": "window_head_masonry",
+   "target_slot": "arch",
    "dimension": "height",
    "expression": "module * 1.5",
    "units": "in",
@@ -126,11 +126,11 @@
     72.0
    ],
    "authority_note": "Creswell on Cordoba; Jones and Goury at the Alhambra.",
-   "note": "The rise from the springing line to the crown, before the return is added below it. TARGETED AT `window_head_masonry` BECAUSE THE ONTOLOGY HAS NO ARCH SLOT -- there is no `arch` or `arcade` id in elements/slots.json, so an arch system has to be expressed through the head of an opening and the support of a porch. That is a real limitation and it is OQ 46, not a modelling choice made here. The opening's total clear height is this plus the impost assembly, and its narrowest width is at the impost -- which is what a door schedule has to be told, because the widest point of a horseshoe opening is not where the door is.",
+   "note": "The rise from the springing line to the crown, before the return is added below it. RETARGETED 24 Aug 2026: this rule was written against `window_head_masonry` because the ontology had no arch slot, which was raised as OQ 46 in this pack's own notes and is now built -- `arch` joined the openings group at ontology 0.6.0 and this rule says what it means. The opening's total clear height is this plus the impost assembly, and its narrowest width is at the impost -- which is what a door schedule has to be told, because the widest point of a horseshoe opening is not where the door is.",
    "judgment": false
   },
   {
-   "target_slot": "window_head_masonry",
+   "target_slot": "arch",
    "dimension": "return",
    "expression": "module * 0.375",
    "units": "in",
@@ -219,5 +219,5 @@
   "spanish-colonial-revival"
  ],
  "confidence": "medium",
- "notes": "AUTHORED FOR WP-4.6 as the gap OQ 30 named: three separate WP-4.1 batches, working on unrelated file lists, independently reported that no pack in the 36-pack library encoded a horseshoe arch, an impost block, an alfiz or a geometric setting-out. It is the one gap that surfaced three times without any batch being told to look for it, and it is the only one that unblocks a node with no binding at all - `moorish-andalusian` and `mudejar` both had none.\n\nWHAT THIS PACK DOES NOT DO, stated so nobody reads its silence as coverage. It does not encode muqarnas: the unit-cell geometry is real and recoverable from Necipoglu's Topkapi Scroll, but the cell's proportions vary by regional school and I have no measured figure I would defend, so there is no muqarnas assembly rather than a plausible one. It does not encode the tile/plaster/timber stratification - the rule that the lower wall is tile, the middle carved plaster and the ceiling timber, each with its own scale of ornament - which is a real and diagnostic system and belongs in a trim-system pack of its own, not folded in here. It does not encode the Mudejar whole-brick corbelling that WP-4.1 named separately, and it does not touch room or facade proportion, because this system's plan logic is the courtyard and that is already in the massing catalogue and in `courtyard-and-portal`.\n\nkind is `order-system` because this IS the system of support and springing, which is what an order is, and the enum has no arch-system. The `column` block being empty is the honest consequence and is explained there."
+ "notes": "AUTHORED FOR WP-4.6 as the gap OQ 30 named: three separate WP-4.1 batches, working on unrelated file lists, independently reported that no pack in the 36-pack library encoded a horseshoe arch, an impost block, an alfiz or a geometric setting-out. It is the one gap that surfaced three times without any batch being told to look for it, and it is the only one that unblocks a node with no binding at all - `moorish-andalusian` and `mudejar` both had none.\n\nWHAT THIS PACK DOES NOT DO, stated so nobody reads its silence as coverage. It does not encode muqarnas: the unit-cell geometry is real and recoverable from Necipoglu's Topkapi Scroll, but the cell's proportions vary by regional school and I have no measured figure I would defend, so there is no muqarnas assembly rather than a plausible one. It does not encode the tile/plaster/timber stratification - the rule that the lower wall is tile, the middle carved plaster and the ceiling timber, each with its own scale of ornament - which is a real and diagnostic system and belongs in a trim-system pack of its own, not folded in here. It does not encode the Mudejar whole-brick corbelling that WP-4.1 named separately, and it does not touch room or facade proportion, because this system's plan logic is the courtyard and that is already in the massing catalogue and in `courtyard-and-portal`.\n\nkind is `order-system` because this IS the system of support and springing, which is what an order is, and the enum has no arch-system. The arch RULES now target the `arch` slot, added at ontology 0.6.0 on this pack's own finding (OQ 46); the impost block still targets `porch_support`, because an arcade carrying a loggia is what that slot is for and the corpus has no `arcade` id. The `column` block being empty is the honest consequence and is explained there."
 }

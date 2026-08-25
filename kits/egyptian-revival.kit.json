@@ -1,7 +1,7 @@
 {
   "style": "egyptian-revival",
   "style_name": "Egyptian Revival",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -330,7 +330,7 @@
       "parameters": {},
       "status": "empty"
     },
-    "window_head_masonry": {
+    "arch": {
       "group": "openings",
       "binding": "specified",
       "variants": [
@@ -359,7 +359,14 @@
       },
       "rule": "All openings shall be spanned by lintels. No arches. A single round or pointed arch voids the identification (c03).",
       "confidence": "high",
-      "status": "drafted"
+      "status": "drafted",
+      "note": "MIGRATED FROM `window_head_masonry` 24 Aug 2026 (OQ 46), when the `arch` slot was added. A rule ABOUT arches which states that there are none -- 'All openings shall be spanned by lintels. No arches.' It had nowhere to live: a prohibition on arches is not a statement about a window head. The old slot is left `open`/`empty` on this kit rather than carrying a pointer, because the same fact in two places is what this migration exists to prevent."
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty",
+      "note": "Emptied 24 Aug 2026 (OQ 46): everything this slot carried was about the ARCH as a spanning member and has moved to the `arch` slot. This kit states nothing about how a masonry window head is built, and saying so is different from saying it has none."
     },
     "window_head_wood": {
       "group": "openings",

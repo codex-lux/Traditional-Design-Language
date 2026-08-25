@@ -3,7 +3,7 @@
 An evolutionary taxonomy of traditional architecture, built as a machine-readable graph rather than a document — and designed so that selecting a style resolves to a kit of parts.
 
 <!-- COUNTS:START -->
-**164 taxa · 476 lineage edges · 95 element slots · 40 massings · 60 rooms · 17 groupings · 38 executable proportion packs · 209 named faults · 322 specified images · 21 partis native to 129 of 132 buildable styles · 24 MCP tools**
+**164 taxa · 476 lineage edges · 96 element slots · 40 massings · 60 rooms · 17 groupings · 38 executable proportion packs · 209 named faults · 322 specified images · 21 partis native to 129 of 132 buildable styles · 24 MCP tools**
 
 **700 BC – AD 2026**
 <!-- COUNTS:END -->

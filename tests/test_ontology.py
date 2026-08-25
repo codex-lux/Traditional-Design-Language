@@ -15,12 +15,15 @@ def load_slots():
     return json.load(open(os.path.join(ROOT, "elements", "slots.json")))
 
 
-def test_ontology_is_95_slots_at_0_5_0():
+def test_ontology_is_96_slots_at_0_6_0():
+    """0.5.0/95 -> 0.6.0/96 on 24 Aug 2026: `arch` joined the openings group (OQ 46). The count
+    is pinned deliberately rather than read off the file -- a slot appearing without anyone
+    noticing is exactly the drift this test exists to catch."""
     d = load_slots()
-    assert d["version"] == "0.5.0"
+    assert d["version"] == "0.6.0"
     ids = [s["id"] for g in d["groups"] for s in g["slots"]]
-    assert len(ids) == 95
-    assert len(set(ids)) == 95  # no duplicate ids introduced
+    assert len(ids) == 96
+    assert len(set(ids)) == 96  # no duplicate ids introduced
 
 
 def test_wall_thickness_split_by_trade():
@@ -239,3 +242,84 @@ def test_the_corpus_itself_passes_the_family_check():
         nid = os.path.basename(path)[: -len(".kit.json")]
         ck.check_derived_module_family(errs, nid, json.load(open(path)), derives)
     assert errs == [], errs
+
+
+# --- OQ 46: the arch slot -----------------------------------------------------
+
+
+def test_the_arch_slot_exists_and_states_its_boundary_with_the_window_head():
+    """The boundary is the whole difficulty and a keyword search will not find it: a gauged
+    brick jack arch over a sash window is a WINDOW HEAD, and the arcade of an Italian Renaissance
+    loggia is an ARCH. The slot's own note has to say so or the next author will guess."""
+    d = load_slots()
+    by_id = {s["id"]: s for g in d["groups"] for s in g["slots"]}
+    a = by_id["arch"]
+    assert a["value_type"] == "rule"
+    note = a["note"]
+    assert "window_head_masonry" in note
+    assert "determined_by" in note, "and it has to say how the two are joined when both apply"
+
+
+def test_every_kit_carries_the_new_slot():
+    import glob
+    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        kit = json.load(open(path))
+        assert "arch" in kit["slots"], path
+        assert kit["ontology_version"] == "0.6.0", path
+
+
+def test_the_six_whole_migrations_moved_and_left_nothing_behind():
+    """Six kits' window_head_masonry was arch-as-form from end to end. The old slot is left
+    empty rather than carrying a pointer, because the same fact in two places is what this
+    migration exists to prevent."""
+    for nid in ("italian-renaissance", "norman-romanesque-english", "roman-classical",
+                "gothic-revival-british", "egyptian-revival", "italianate-townhouse"):
+        k = json.load(open(os.path.join(ROOT, "kits", "%s.kit.json" % nid)))
+        assert k["slots"]["arch"]["binding"] == "specified", nid
+        assert k["slots"]["arch"].get("rule"), nid
+        head = k["slots"]["window_head_masonry"]
+        assert head["binding"] == "open" and head["status"] == "empty", nid
+        assert "OQ 46" in head["note"], nid
+
+
+def test_only_the_bindings_that_were_about_an_arch_moved():
+    """The 22 was a KEYWORD count, and most of the 22 are genuinely window-head statements that
+    mention an arch -- a stone lintel with a hood mould, a flat gauged arch as a head, a plain
+    band. Migrating on the keyword would have been the keyword deciding rather than the content,
+    which is the same mistake OQ 41's sweep had to avoid."""
+    import glob
+    moved = 0
+    for path in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        if json.load(open(path))["slots"]["arch"].get("binding") == "specified": moved += 1
+    assert moved == 8, moved      # six whole + two split
+
+
+def test_the_two_split_kits_name_the_arch_rather_than_restating_its_numbers():
+    """A Tidewater window head's geometry IS a segmental arch's. The rise moves to the arch and
+    the head names it in determined_by -- the mechanism OQ 19 built for exactly this."""
+    for nid, gone in (("georgian-colonial-american", "segmental_arch_rise_in"),
+                      ("tidewater-georgian", "segmental_rise")):
+        k = json.load(open(os.path.join(ROOT, "kits", "%s.kit.json" % nid)))
+        head = k["slots"]["window_head_masonry"]
+        assert gone not in (head.get("parameters") or {}), nid
+        assert gone in k["slots"]["arch"]["parameters"], nid
+        assert "arch" in head["determined_by"], nid
+        # and what stays is genuinely the head's, with a note saying why it is independent
+        for pn, pv in (head.get("parameters") or {}).items():
+            if pv.get("kind") == "editorial" and not pv.get("source"):
+                assert pv.get("note"), (nid, pn)
+
+
+def test_the_moorish_pack_now_targets_the_slot_it_wanted():
+    """The pack that found the gap. Its arch rules pointed at window_head_masonry and said so in
+    their own notes; they point at `arch` now."""
+    import glob
+    p = next(x for x in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))
+             if json.load(open(x))["id"] == "moorish-arch")
+    d = json.load(open(p))
+    targets = {r["target_slot"] for r in d["derived_rules"]}
+    assert "arch" in targets
+    assert "window_head_masonry" not in targets
+    # the impost block honestly stays on porch_support, and the pack says why
+    assert "porch_support" in targets
+    assert "no `arcade` id" in d["notes"]

@@ -1,7 +1,7 @@
 {
   "style": "georgian-colonial-american",
   "style_name": "Georgian Colonial American",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -2770,6 +2770,54 @@
       "confidence": "high",
       "note": "This slot is the one that most rewards being told the date. A house presented as 1740 with 6/6 sash is twenty-five years ahead of its glass supply, and a house presented as 1775 with 12/12 is a museum piece. Note that the pattern must also step down with the storey: a 9/6 principal floor takes 6/6 above and 6/4 in the dormers. The date conditionality that had to live in a by_date object in 0.1.0 is now on the variant records, which is the single most useful thing 0.2.0 gave this kit: a generator told the house is 1740 can now select the sash itself."
     },
+    "arch": {
+      "group": "openings",
+      "binding": "specified",
+      "parameters": {
+        "flat_arch_camber_in": {
+          "expr": "opening_width / 96",
+          "computed_at": {
+            "ceiling_height_in": 108.0,
+            "storey_height_in": 120.0,
+            "opening_width_in": 36.0,
+            "value": 0.375
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course",
+          "note": "a flat arch is not flat: it is cambered so it does not read as sagging"
+        },
+        "segmental_arch_rise_in": {
+          "expr": "opening_width / 8",
+          "computed_at": {
+            "ceiling_height_in": 108.0,
+            "storey_height_in": 120.0,
+            "opening_width_in": 36.0,
+            "value": 4.5
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "arch_depth_in": {
+          "expr": "module",
+          "computed_at": {
+            "ceiling_height_in": 108.0,
+            "storey_height_in": 120.0,
+            "opening_width_in": 36.0,
+            "value": 11.0
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course",
+          "note": "the depth of the arch itself: four courses"
+        }
+      },
+      "rule": "A gauged brick head is a real arch: segmental with a rise of one eighth of the opening, or flat and cambered by the opening over ninety-six, and either way cut to a depth of one module.",
+      "status": "drafted",
+      "confidence": "low",
+      "note": "Moved here from `window_head_masonry` 24 Aug 2026 (OQ 46). SPLIT 24 Aug 2026 (OQ 46). This slot carried two different claims at once: how the top of a masonry window is BUILT -- gauged and rubbed brick, one head datum a storey, an architrave, a keystone or its absence -- and the GEOMETRY of the arch doing the spanning. The second has moved to the `arch` slot and this slot names it in `determined_by`, which is the mechanism OQ 19 built for exactly this: a slot decided by another names it rather than restating its numbers."
+    },
     "window_head_masonry": {
       "group": "openings",
       "binding": "specified",
@@ -2841,44 +2889,6 @@
         }
       ],
       "parameters": {
-        "flat_arch_camber_in": {
-          "expr": "opening_width / 96",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 0.375
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course",
-          "note": "a flat arch is not flat: it is cambered so it does not read as sagging"
-        },
-        "segmental_arch_rise_in": {
-          "expr": "opening_width / 8",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 4.5
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course"
-        },
-        "arch_depth_in": {
-          "expr": "module",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 11.0
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course",
-          "note": "the depth of the arch itself: four courses"
-        },
         "head_height_above_floor_in": {
           "expr": "storey_height * 0.78",
           "computed_at": {
@@ -2910,7 +2920,8 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19/46: independent of the `arch` this slot is now determined_by, and necessarily so -- an architrave is the joinery around the opening and the arch is the masonry spanning it. They meet at the head and neither sets the other's dimension. Editorial because no source in this corpus states a Georgian architrave width; 5 to 6 in is the surviving-fabric range this kit's own authors worked to."
         },
         "keystone_width_in": {
           "range": [
@@ -2918,7 +2929,8 @@
             9
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19/46: independent of the `arch`. A keystone's width is a matter of what the mason cuts to show, not of the arch's rise -- the same segmental arch takes a keystone or, in the Tidewater, takes none at all, and that variant states exactly that. Editorial for the same reason as the architrave beside it."
         },
         "gibbs_rule_head_height_in": {
           "expr": "opening_width / 8",
@@ -2958,7 +2970,10 @@
       ],
       "status": "drafted",
       "confidence": "low",
-      "note": "THIS SLOT SHOULD BE SPLIT. A gauged brick jack arch is a structural element made by the mason, cambered, four courses deep, laid up on a centre; a moulded wood cap is a piece of joinery nailed on by the carpenter after the wall is closed. They are made by different trades at different times out of different materials, they fail differently, and they have no dimension in common except the opening they sit over. Forcing them into one 'assembly' slot means the variants list is really two lists and the parameters object is really two objects, and nothing in the schema records which parameters belong to which variant. 0.2.0 lets the two trades be told apart by applies_when.construction, which is most of what I asked for. It still does not let the PARAMETERS be scoped that way — the camber and the arch depth are masonry-only and the architrave width is frame-only, and they sit in one flat object. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_masonry."
+      "note": "THIS SLOT SHOULD BE SPLIT. A gauged brick jack arch is a structural element made by the mason, cambered, four courses deep, laid up on a centre; a moulded wood cap is a piece of joinery nailed on by the carpenter after the wall is closed. They are made by different trades at different times out of different materials, they fail differently, and they have no dimension in common except the opening they sit over. Forcing them into one 'assembly' slot means the variants list is really two lists and the parameters object is really two objects, and nothing in the schema records which parameters belong to which variant. 0.2.0 lets the two trades be told apart by applies_when.construction, which is most of what I asked for. It still does not let the PARAMETERS be scoped that way — the camber and the arch depth are masonry-only and the architrave width is frame-only, and they sit in one flat object. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_masonry. SPLIT 24 Aug 2026 (OQ 46). This slot carried two different claims at once: how the top of a masonry window is BUILT -- gauged and rubbed brick, one head datum a storey, an architrave, a keystone or its absence -- and the GEOMETRY of the arch doing the spanning. The second has moved to the `arch` slot and this slot names it in `determined_by`, which is the mechanism OQ 19 built for exactly this: a slot decided by another names it rather than restating its numbers.",
+      "determined_by": [
+        "arch"
+      ]
     },
     "window_head_wood": {
       "group": "openings",

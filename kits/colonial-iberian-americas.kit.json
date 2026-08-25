@@ -1,7 +1,7 @@
 {
   "style": "colonial-iberian-americas",
   "style_name": "Colonial Iberian Americas",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -310,6 +310,11 @@
       "status": "empty"
     },
     "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "arch": {
       "group": "openings",
       "binding": "open",
       "status": "empty"

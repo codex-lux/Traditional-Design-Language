@@ -91,4 +91,8 @@ def test_the_editorial_parameters_carried_forward_are_still_the_known_number():
     with the reason, the way every other count in this suite is updated."""
     c = census()
     assert c["editorial"] == 199, c["editorial"]
-    assert c["bare"] == 164, c["bare"]
+    # 164 -> 162 on 24 Aug 2026 (OQ 46): splitting the Georgian and Tidewater window heads
+    # against the new `arch` slot put those two slots under OQ 19's determined_by check, which
+    # requires a note on an editorial number sitting where a determination should be. Two got
+    # one. That is the ratchet working -- a rule added for one reason tightening another.
+    assert c["bare"] == 162, c["bare"]

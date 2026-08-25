@@ -107,7 +107,8 @@ class TestFamilyCascade:
         kit = json.load(open(path))
         assert kit["style"] == "american-colonial"
         assert kit["ontology_version"] and kit["kit_version"]
-        assert len(kit["slots"]) == 95
+        # 95 -> 96 on 24 Aug 2026 (OQ 46): `arch` joined the openings group at ontology 0.6.0.
+        assert len(kit["slots"]) == 96
 
 
 class TestRuleAppend:

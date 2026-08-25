@@ -1,7 +1,7 @@
 {
   "style": "prairie-school",
   "style_name": "Prairie School",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -336,6 +336,11 @@
       "status": "drafted",
       "note": "Overrides the parent's 'multi-light-over-single-light' double-hung pattern, which does not apply to a casement band.",
       "group": "openings"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",

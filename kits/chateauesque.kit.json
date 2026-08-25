@@ -1,7 +1,7 @@
 {
   "style": "chateauesque",
   "style_name": "Chateauesque",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -466,6 +466,11 @@
       "rule": "Small rectangular lights in a leaded or muntined casement, not the Georgian sash ladder.",
       "confidence": "medium",
       "judgment": true
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",

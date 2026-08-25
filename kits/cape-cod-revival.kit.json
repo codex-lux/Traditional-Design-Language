@@ -1,7 +1,7 @@
 {
   "style": "cape-cod-revival",
   "style_name": "Cape Cod Revival",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -416,6 +416,11 @@
       "rule": "6/6 or 8/12 sash, 24-36 lights total, small relative to the wall.",
       "confidence": "high",
       "judgment": false
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",

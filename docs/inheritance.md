@@ -184,3 +184,18 @@ says it should not.
 
 A clause whose kind is not `topology` or `sequence` does not belong on
 `room_adjacency_overrides` at all and belongs on the slot that owns that species.
+
+## `arch` and `window_head_masonry` are different slots (OQ 46, ontology 0.6.0)
+
+A gauged brick jack arch over a sash window is a **window head**: it is how the top of that
+opening is built, along with the head datum, the keystone and the architrave. The arcade of an
+Italian Renaissance loggia is an **arch**: round-headed, springing from an impost, rise exactly
+half the span, and there is no window in it.
+
+The boundary matters because a keyword search will not find it — twenty-two kits' window heads
+mention an arch and only six of them are *about* one. Where a head's geometry genuinely IS an
+arch's, as in the Tidewater's segmental gauged head, the geometry lives on `arch` and the head
+slot names it in `determined_by` rather than restating the rise.
+
+There is no `arcade` slot. `moorish-arch` puts its impost block on `porch_support`, because an
+arcade carrying a loggia is what that slot is for, and says so in its own notes.

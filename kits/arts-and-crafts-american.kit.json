@@ -1,7 +1,7 @@
 {
   "style": "arts-and-crafts-american",
   "style_name": "American Arts and Crafts",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -418,6 +418,11 @@
       "status": "drafted",
       "note": "Restated directly (not merely inherited from shingle-style, where it resolved correctly by coincidence) because craftsman's own diagnostic_tells state this exact pattern as the family's single fastest identifying detail.",
       "group": "openings"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",

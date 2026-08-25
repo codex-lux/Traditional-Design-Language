@@ -1,7 +1,7 @@
 {
   "style": "italian-renaissance",
   "style_name": "Italian Renaissance",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -327,7 +327,7 @@
       "parameters": {},
       "status": "empty"
     },
-    "window_head_masonry": {
+    "arch": {
       "binding": "specified",
       "status": "drafted",
       "confidence": "high",
@@ -358,7 +358,14 @@
       "sources": [
         "italian-renaissance.json constraints (italian-renaissance.c02), diagnostic_tells"
       ],
-      "group": "openings"
+      "group": "openings",
+      "note": "MIGRATED FROM `window_head_masonry` 24 Aug 2026 (OQ 46), when the `arch` slot was added. Round-headed arches springing from an impost, with the rise exactly half the span. Every word of it is about an arch as a spanning member and none about how a window's head is built. The old slot is left `open`/`empty` on this kit rather than carrying a pointer, because the same fact in two places is what this migration exists to prevent."
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty",
+      "note": "Emptied 24 Aug 2026 (OQ 46): everything this slot carried was about the ARCH as a spanning member and has moved to the `arch` slot. This kit states nothing about how a masonry window head is built, and saying so is different from saying it has none."
     },
     "window_head_wood": {
       "group": "openings",

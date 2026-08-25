@@ -1,7 +1,7 @@
 {
   "style": "american-farmhouse-vernacular",
   "style_name": "American Farmhouse Vernacular",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -390,6 +390,11 @@
       "status": "drafted",
       "note": "Directly restates own c05, which the pre-fix cascade's 12/12-to-6/9 Georgian pattern did not carry.",
       "group": "openings"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",

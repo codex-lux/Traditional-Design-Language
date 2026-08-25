@@ -1,7 +1,7 @@
 {
   "style": "georgian-revival",
   "style_name": "Georgian Revival",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.6.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -378,6 +378,11 @@
       "rule": "9/9 or 12/12 on principal elevations, muntins 5/8-7/8 in, true divided or full-depth simulated with an interior spacer -- c03, a hard constraint. diagnostic_tells: 'this variant is where the revival actually tries to match the original's glazing.' Overrides the inherited queen-anne-american binding with this variant's own, narrower, documented set.",
       "confidence": "high",
       "judgment": false
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",
