@@ -163,7 +163,9 @@ and the third one means the ruling would bind the corpus's LAST unbound node), *
 measured, of which the dangerous kind is two packs meaning DIFFERENT quantities at one address --
 four found and fixed, the rest unknown; no checker shipped because a naive one would flag 1,710
 correct rules), **OQ 47** (no slot for an exposed
-structural member on a wall face -- four packs in WP-4.6 route one through `corner_board`),
+structural member on a wall face -- 7 rules in 3 packs route one through `corner_board`, the figure
+corrected downward from a keyword count of "four packs", which is this package's sixth over-count
+and the only one that inflated the case for a change),
 **OQ 41** (a fault's
   secondary tests are written for one style and run against every style — why
   `cape-cod-colonial` cannot currently return a clean plan under any diagram), **OQ 42**

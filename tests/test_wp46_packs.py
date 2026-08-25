@@ -2791,3 +2791,50 @@ def test_the_rationing_pattern_reaches_five_traditions():
     assert "frontispiece only" in json.dumps(node("elizabethan"))
     assert "Five traditions with nothing in common" in pack("facade-medieval-english")["notes"]
     assert "four traditions with nothing in common" in pack("corbel-course")["notes"]
+
+
+# --- the sixth over-count, corrected -----------------------------------------------------------
+
+
+def test_the_oq47_evidence_was_inflated_and_the_corrected_set_is_seven_rules_in_three_packs():
+    """The worst of this package's six keyword over-counts, because it happened inside the sentence
+    arguing FOR a ruling. `trim-sawn`'s brackets are on `modillion_dentil` -- a modillion IS a
+    bracket -- and `facade-portada`'s estipite is a genuine pilaster. Neither was a compromise."""
+    import glob
+    routed = {}
+    for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+        d = json.load(open(f))
+        for r in d.get("derived_rules", []):
+            if r["target_slot"] in ("corner_board", "pilaster"):
+                routed.setdefault(d["id"], []).append(r["dimension"])
+    # the three that are genuinely compromised
+    assert sorted(routed["timber-panel"]) == ["projection", "ratio", "spacing", "width"]
+    assert sorted(routed["jetty-overhang"]) == ["dragon_length", "return_depth"]
+    assert routed["facade-medieval-english"] == ["buttress_projection"]
+    compromised = {"timber-panel", "jetty-overhang", "facade-medieval-english"}
+    assert sum(len(routed[k]) for k in compromised) == 7
+    # and the two that were miscounted are on the right slots
+    assert set(routed["facade-portada"]) == {"slenderness", "base_ratio"}     # a real pilaster
+    assert "trim-sawn" not in routed
+    brackets = [r["target_slot"] for r in pack("trim-sawn")["derived_rules"]
+                if "bracket" in r["note"].lower()]
+    assert "modillion_dentil" in brackets
+
+
+def test_the_correction_is_recorded_where_the_wrong_number_was_stated():
+    """Prose stays beside the test, and a superseded claim is corrected in place rather than
+    deleted, so what was believed stays legible beside what is true."""
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "CORRECTED 25 Aug 2026, and the correction is the point" in oq
+    assert "7 rules in 3 packs" in oq
+    assert "An earlier draft of this note said FIVE PACKS and was wrong" in \
+        json.dumps(pack("facade-medieval-english"))
+
+
+def test_oq_7_through_11_are_environment_blocked_with_the_probe_recorded():
+    """All five need a legible facsimile, not code. Recording the probe stops them reading as
+    unstarted work, and the warning against closing them from a secondary source is the point."""
+    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "7 through 11 are ENVIRONMENT-BLOCKED, not unstarted" in oq
+    assert "babel.hathitrust.org" in oq
+    assert "Do not close any of them from a\nsecondary source or a modern redrawing" in oq

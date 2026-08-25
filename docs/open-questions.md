@@ -20,6 +20,25 @@ Status legend: **OPEN** — awaiting a ruling. **RESOLVED** — ruled, with the 
 
 ## From the proportion layer
 
+**7 through 11 are ENVIRONMENT-BLOCKED, not unstarted (recorded 25 Aug 2026).** Every one of them is
+the same shape: the text does not give the figure, or the plate numerals are illegible, and closing
+it needs a better facsimile rather than more code or more thought. They are therefore blocked on
+exactly what WP-4.4 is blocked on. Probed on 25 Aug 2026 from this environment:
+
+```
+https://www.loc.gov            -> connection failed (000)
+https://archive.org            -> connection failed (000)
+https://babel.hathitrust.org   -> connection failed (000)
+```
+
+Not a 403 from the proxy as WP-4.4 gets, but a failure to connect at all. Until outbound HTTPS to a
+facsimile host is available these five cannot move, and the correct handling of each is what has
+already been done: the figure is carried as a judgment rule with a range, or inherited from a source
+that does state it, and marked unverified rather than assumed. **Do not close any of them from a
+secondary source or a modern redrawing** -- that is precisely how a guess gets laundered as
+`measured`, which this corpus forbids. Each entry below says what specifically to look for, so a
+person with library access can close them in an afternoon.
+
 7. **OPEN — Palladio's Tuscan entablature is not dimensioned in the text** and the plate numerals are illegible in every reachable scan. Carried as a judgment rule with a range rather than invented members.
 
 8. **OPEN — Chambers's individual mouldings for Ionic, Corinthian and Composite** are engraved minute figures that every OCR renders as noise. They inherit from Vignola rather than being guessed. First thing to correct against a good facsimile.
@@ -157,7 +176,19 @@ Status legend: **OPEN** — awaiting a ruling. **RESOLVED** — ruled, with the 
     `proportions/orders/moorish-arch.json`, the pack that found the gap, now targets `arch` instead of `window_head_masonry`. Its impost block honestly stays on `porch_support`: an arcade carrying a loggia is what that slot is for and the corpus has no `arcade` id, which was the third option on this question and is not built. *Original entry follows.*<br><br>**The ontology has no arch slot.** Found while authoring `moorish-arch` for WP-4.6. `elements/slots.json` has 95 slots and none of them is an arch, an arcade or an opening head as a *structural* member: `window_head_masonry` is the nearest and is written for a lintel or a jack arch over a window, `porch_support` for what holds a porch up. So a system whose entire content is the geometry of an arch and its springing had to target the return of a horseshoe at `window_head_masonry` and the impost block at `porch_support`, and both bindings are recorded in that pack's own notes as the compromises they are. It is not only a Moorish problem: the Gothic Revival facade-and-opening pack WP-4.1 named, the Romanesque foliate order, Rome's arcuated pier-arch-pier bay rhythm and the Italianate round-arched window all want to say something about an arch that the corpus currently has no place to put. The question is whether to add an `arch` slot to the openings group (and possibly an `arcade` to the classical apparatus), which is a small ontology change with a large surface — every pack, kit and constraint that currently routes arch content through a window head would want revisiting, and doing it badly would leave the same fact in two places. Raised now because WP-4.6 will hit it again with every arched tradition it reaches.
 
 47. **OPEN — the ontology has no slot for an exposed structural member on a wall face.** Found while authoring `timber-panel` for WP-4.6, and it is the same shape as OQ 46 one layer out. A half-timbered wall is made of nothing but exposed structural members: the stud, its face width, how far it stands proud of the infill, and the diagonal brace are the four things that distinguish an English close-studded wall from a German Fachwerk from an applied Normandy Revival elevation, and the corpus has nowhere to put any of them. The envelope group's nearest slot is `corner_board` — a board at a corner — so all four rules in that pack are routed through it and all four read slightly wrong. `construction_type` is a categorical and holds no dimension; `primary_cladding` is the panel BETWEEN the members, which the pack does use and which is the other half of the same wall.
-    **It is not only a half-timbering problem, which is what makes it worth a ruling rather than a workaround.** `styles/stick-style.json`'s applied stick bands, the Swiss chalet's exposed purlin ends and carved bargeboards, `opening-craftsman`'s exposed rafter tail — already noted in that pack as the member whose structure-or-trim status has to be decided on the drawings — and the Tudor Revival's applied timber are all the same class: a member that is (or represents) structure, shown on the outside of a wall, with a face width and a projection that are the whole of its effect. Four packs in this work package have now routed such a member through a slot written for something else.
+    **It is not only a half-timbering problem, which is what makes it worth a ruling rather than a workaround.** `styles/stick-style.json`'s applied stick bands, the Swiss chalet's exposed purlin ends and carved bargeboards, `opening-craftsman`'s exposed rafter tail — already noted in that pack as the member whose structure-or-trim status has to be decided on the drawings — and the Tudor Revival's applied timber are all the same class: a member that is (or represents) structure, shown on the outside of a wall, with a face width and a projection that are the whole of its effect. **CORRECTED 25 Aug 2026, and the correction is the point.** This entry originally said "four packs
+in this work package have now routed such a member through a slot written for something else", and
+`facade-medieval-english`'s notes later raised that to five. Both are wrong. Measured by READING the
+rules rather than by counting keyword hits, the true set is **7 rules in 3 packs**: `timber-panel`
+(stud spacing, stud face width, projection proud of the panel, brace ratio), `jetty-overhang` (the
+corner return and the dragon beam) and `facade-medieval-english` (the buttress). `trim-sawn`'s
+brackets sit on `modillion_dentil`, which is the RIGHT slot -- a modillion is a bracket -- and
+`facade-portada`'s estipite is a genuine pilaster, so neither was ever a compromise.
+    That is the **sixth** time in this work package that a keyword measurement over-counted its own
+work list, and it is the worst of the six, because it happened inside the sentence arguing FOR a
+ruling. Inflating the evidence for a change one wants is a different and more dangerous error than
+the other five, all of which merely made a job look bigger than it was. The ruling was taken on the
+corrected figure.
     The concrete proposal, so the next person does not re-derive it: add `expressed_frame` to the envelope group, holding face width, spacing, projection from the cladding plane, brace geometry, and — the field that would do the most work — whether the member is structural, structural-and-expressed, or applied. That last is the distinction `styles/stick-style.json` and `styles/tudor-revival.json` both turn on and that no slot currently records, so the corpus cannot presently tell a frame from a picture of one. Cost is an ontology bump and a migration of four packs' bindings; the alternative is that every future timber tradition on WP-4.1's list — the Alpine bracket work, the jetty module, the Fachwerk ornament — routes through `corner_board` too and the compromise becomes the convention.
 
 48. **OPEN — a `(slot, dimension)` address can hold several rules, and nothing distinguishes a deliberate menu from a silent corruption.** Found by `facade-arcade` and then measured properly by `facade-gable`, both in WP-4.6. **1,922 collision instances across the corpus**, on 75 distinct addresses, in 622 distinct pack-pairs.
