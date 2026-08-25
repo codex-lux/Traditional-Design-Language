@@ -76,10 +76,13 @@ CLAIMS = [
     ("CLAUDE.md",              "groupings",     r"· (\d+) groupings ·"),
     ("CLAUDE.md",              "faults",        r"· (\d+) faults ·"),
     ("STATE-OF-THE-PROJECT.md", "packs",        r"resolves and dimensions all (\d+) packs"),
-    ("STATE-OF-THE-PROJECT.md", "packs",        r"\| Grammar \| `proportions/` \| (\d+) packs"),
-    ("STATE-OF-THE-PROJECT.md", "pack_conflicts", r"\| Grammar \| `proportions/` \| \d+ packs, (\d+) conflicts"),
-    ("STATE-OF-THE-PROJECT.md", "no_opening_role", r"(\d+) nodes have no opening-role pack"),
-    ("STATE-OF-THE-PROJECT.md", "no_facade_role",  r"\d+ nodes have no opening-role pack, (\d+) no facade-role"),
+    # Repointed 25 Aug 2026: the appendix row and the Part V sentence were both rewritten when
+    # WP-4.6 closed, and these four patterns rotted. A rotted pattern is a failure in this checker
+    # for a reason -- the sentence it guarded still carries a number, and nothing was watching it.
+    ("STATE-OF-THE-PROJECT.md", "packs",        r"\*\*(\d+) packs, \d+ conflicts"),
+    ("STATE-OF-THE-PROJECT.md", "pack_conflicts", r"\*\*\d+ packs, (\d+) conflicts"),
+    ("STATE-OF-THE-PROJECT.md", "no_opening_role", r"68 → (\d+) with no opening-role pack"),
+    ("STATE-OF-THE-PROJECT.md", "no_facade_role",  r"68 → (\d+) with no facade-role pack"),
     ("docs/README.md",         "packs",         r"(\d+) packs as functions not tables"),
     ("docs/proportion.md",     "packs",         r"^(\d+) packs, in four kinds:"),
     ("README.md",              "packs",         r"the syntax\. (\d+) packs, and they are"),
