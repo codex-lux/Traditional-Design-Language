@@ -1675,7 +1675,9 @@ def test_the_intra_pack_duplicate_addresses_are_menus_and_must_not_be_fixed():
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
     # RE-PINNED: OQ 48 is now partly closed -- the menu reading is what kept a naive uniqueness
     # check from being shipped, and it is still the reason `check_addresses.py` compares MEANINGS.
-    assert "48. **PARTLY CLOSED" in oq and "menu" in oq
+    # RE-PINNED: OQ 48 is now fully closed. The menu reading is still what kept a naive uniqueness
+    # check from shipping, and it is why `check_addresses.py` compares MEANINGS rather than counting.
+    assert "48. **CLOSED 25 Aug 2026 — 139 to 0" in oq and "menu" in oq
 
 
 def test_the_flush_faced_dormer_decides_which_pack_applies():
