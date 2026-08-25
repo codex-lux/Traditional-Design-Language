@@ -2502,41 +2502,47 @@
       ],
       "proportion_packs": [
         {
+          "pack": "jetty-overhang",
+          "role": "primary",
+          "note": "PRIMARY, because the node says itself that nothing else distinguishes it: 'this is the parent style with a jettied second storey. Remove the overhang and the drops and nothing distinguishes it.' A variant whose whole definition is one device should be led by the pack that dimensions that device. Its own governing logic -- 'the jetty depth against the storey height' -- is this pack's `belt_course`/`storey_ratio` rule and the only place in the corpus that names the ratio rather than the inches. Read the `joist_multiple` rule's judgment flag here above all: this jetty carries nothing, so the limit is the eye's and `styles/tudor-revival.json`'s stricter ceiling of one joist depth is the safer figure, not the two the originals allow.",
+          "precedence": 1
+        },
+        {
           "pack": "timber-bay",
           "role": "massing",
           "note": "The pack this variant most directly needs, and explicitly listed in its applies_to. The node's own hard constraint c01 states the overhang 'must read as a plausible joist cantilever' at 8-18 in.; the pack does not carry a jetty-specific rule (its scope is the structural bay generally: post spacing, window-to-post clearance, wing depth against the main frame), but that general framing discipline -- what a real cantilevered second-floor joist can plausibly do -- is the standard the node's own constraint is invoking, and the pack's window-clearance rule (about 15 in. clear of a post) is the same logic the jetty depends on for its drops to land on real corner posts.",
-          "precedence": 1
+          "precedence": 2
         },
         {
           "pack": "opening-proportion",
           "role": "opening",
           "note": "Explicitly listed in this pack's applies_to. Governs the door and window rectangle and the single-head-datum rule across the jettied storey break, which the node's own defining_characteristics require ('aligned vertically between storeys').",
-          "precedence": 2
+          "precedence": 3
+        },
+        {
+          "pack": "facade-classical",
+          "role": "facade",
+          "note": "JUDGMENT BINDING, inherited: the node's lineage states 'kit, openings and entry are the parent style's,' and the front is symmetrical or near-symmetrical five-bay per the node's own defining_characteristics, matching this pack's bay arithmetic directly.",
+          "precedence": 4
         },
         {
           "pack": "gibbs-doric",
           "role": "secondary",
           "authority": "gibbs-doric",
           "note": "JUDGMENT BINDING: garrison-revival is not in gibbs-doric's own applies_to list. Bound at the everyday, plainer order only -- no Ionic frontispiece -- because the node's own hard constraint c05 caps the entry at 'a pilastered surround or a small pedimented hood not exceeding 6'0\" in width' and states flatly that 'a two-storey portico is incompatible with a jettied elevation.' Doric is the order the parent style uses for its plainer, secondary doorways, and this variant is a builder type through and through, per its own description.",
-          "precedence": 4
-        },
-        {
-          "pack": "facade-classical",
-          "role": "facade",
-          "note": "JUDGMENT BINDING, inherited: the node's lineage states 'kit, openings and entry are the parent style's,' and the front is symmetrical or near-symmetrical five-bay per the node's own defining_characteristics, matching this pack's bay arithmetic directly.",
-          "precedence": 3
+          "precedence": 5
         },
         {
           "pack": "trim-classical",
           "role": "interior",
           "note": "Explicitly listed in this pack's applies_to. The interior below the jetty is ordinary Colonial Revival trim, inherited from the parent per the node's own lineage note.",
-          "precedence": 5
+          "precedence": 6
         },
         {
           "pack": "room-vernacular",
           "role": "room",
           "note": "JUDGMENT BINDING: not in this pack's applies_to list, but the node's own typical_ratios state storey heights of 8'6\"-9'0\" for both floors, explicitly 'lower than high-style Colonial Revival, because this is a builder type,' and the whole node reads as an economical mid-century production plan -- 'one move' done cheaply or well, in the node's own words. That register is closer to this pack's daylight-and-span-constrained ordinary room than to room-harmonic's designed Palladian one, which the node's own text never invokes.",
-          "precedence": 6
+          "precedence": 7
         }
       ],
       "_cascade": [
@@ -23772,6 +23778,12 @@
           "role": "primary",
           "note": "The most precisely dimensioned panel record in the corpus: 'panel width 0.9-1.3 m; panel height 0.8-1.6 m; panel proportion roughly 1:1 to 2:3', with timber at 120-200 mm square and the jetty at 200-400 mm per storey. Primary. Two things to read against the English nodes rather than alongside them: the German post is HALF the English one and there are more of them, which is a real difference in framing culture and not a discrepancy; and the brace here goes up in compression, often symmetrically, where the English brace goes down in tension -- the pack states brace LENGTH and declines direction, because direction is a regional grammar with no number in it.",
           "precedence": 3
+        },
+        {
+          "pack": "jetty-overhang",
+          "role": "secondary",
+          "note": "The multi-storey case, and the only record in the corpus that says what to do when the cantilever runs out: 'a jetty greater than about 400 mm requires a bracket (Knagge) at every beam end.' That threshold is `belt_course`/`bracket_threshold`, and it is also the explanation for a difference nobody states directly -- German towns jetty on three and four storeys and English work rarely jetties above one, because the Knagge converts a cantilever into a strut-and-tie and the English tradition did not use it that way. This node's jetty band, 200-400 mm, is the shallowest in the corpus and its bressumer the most elaborate: the carved and inscribed Schwelle carrying name, date and text.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -34444,16 +34456,22 @@
           "precedence": 4
         },
         {
+          "pack": "jetty-overhang",
+          "role": "secondary",
+          "note": "The revival ceiling, and the node whose figure disagrees with the medieval one -- '8-16 in., never more than the depth of a plausible joist', which is 1.0x against english-medieval's 1.33x and the garrisons' 2x. Its own `timber-panel` binding note had already spotted the disagreement and left it standing; this pack resolves it by finding that the three multiples measure three different failures, and marks the rule judgment rather than picking one. Bound for the `material_change_rule` too: this node states the four-inch offset rule that makes a jetty the correct place for a vertical change of material, and it states it in almost the same words as `french-normandy-revival`.",
+          "precedence": 5
+        },
+        {
           "pack": "opening-mullioned",
           "role": "opening",
           "note": "The revival, and the node whose figures are given in inches rather than millimetres because it is an American record: 'casement leaves 16-22 in. wide by 40-56 in. high, proportion between 1:2.2 and 1:2.8, grouped in 2, 3, or 4'. That proportion band is the tightest statement of the single light anywhere in the corpus and the pack's default sits inside it. Note what the revival does with the arch: it is used at the ENTRANCE and rarely at the windows, which this record says -- 'entrance under a Tudor (four-centred) arch... usually recessed and often placed in a projecting gabled bay' -- where the Tudor original used the same head for doorways, fireplaces and windows alike.",
-          "precedence": 5
+          "precedence": 6
         },
         {
           "pack": "facade-gable",
           "role": "facade",
           "note": "Gives the pack its apex ratio and, better, the perceptual statement behind it: 'gable width to eave-to-ridge height approximately 1:0.7 - the triangle reads taller than half its base'. That is the difference between a gable that reads as a roof and one that reads as a gable, and a 6:12 cross-gable on a house of this type is the commonest single failure of it. Note this node is the pack's ROOF-END case, explicitly: `styles/jacobethan-revival.json` names it as the contrast, gables ending 'at the rake with a barge or a bargeboard', so the parapet and coping rules do not apply here at all.",
-          "precedence": 6
+          "precedence": 7
         }
       ],
       "_cascade": [
@@ -34786,16 +34804,22 @@
           "precedence": 1
         },
         {
+          "pack": "jetty-overhang",
+          "role": "secondary",
+          "note": "The ancestor, and the node the pack's structural reasoning comes from -- this is the jetty that carries a whole storey of wall on the joist ends, which is why its multiple is four thirds of the joist depth and not the garrisons' two. Its own record notes the descent: 'the jetty is precisely the ancestor of the American garrison overhang, which survived across the Atlantic as a decorative memory after the structural reason had gone.' It also supplies the dragon beam, the one detail in the pack that `english-medieval-timber-frame` says cannot be faked. Behind `timber-panel` and `timber-bay`, which own the frame and its infill; this owns only what happens where a floor leaves the wall.",
+          "precedence": 2
+        },
+        {
           "pack": "room-vernacular",
           "role": "room",
           "note": "english-medieval-timber-frame is named directly in room-vernacular's applies_to. The two packs are complementary by design (room-vernacular's own module note explicitly distinguishes the room from the bay that contains it), and this style's hall-and-parlor and hall-single-cell massing affinities are literally room-vernacular's own worked examples.",
-          "precedence": 2
+          "precedence": 3
         },
         {
           "pack": "opening-mullioned",
           "role": "opening",
           "note": "Bound for the opening in a timber wall rather than a stone one, which changes the material and not the geometry: the mullion is oak, the light is the same width, the leaded panel is the same, and the label is a moulded timber head. `timber-panel` holds this node's wall and this pack its openings, and the two meet at a real constraint the pack should be read with -- a framed wall is 150 mm thick against a rubble wall's 500-700, so there is no deep reveal here and no window seat, and the openings sit almost flush. Everything the pack says about drainage and the reveal applies with less depth to work with.",
-          "precedence": 3
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -43617,28 +43641,34 @@
           "precedence": 1
         },
         {
+          "pack": "jetty-overhang",
+          "role": "secondary",
+          "note": "THE PACK THIS NODE'S OWN BINDING NOTE ASKED FOR. Its `timber-bay` entry says in terms that the bay does not derive the jetty -- 'no pack in this corpus dimensions a framed overhang, and the 14-20 in framed / 2-6 in hewn figures in this node's own record are not recoverable from any of the 36 packs available.' They are now, because the pack is dimensioned off the JOIST rather than the bay, which is what all four of the corpus's rules of thumb do. Bound secondary and behind `timber-bay`, which keeps the plan: the bay generates the rooms and the jetty generates the elevation, and they are genuinely different systems on one frame. This node supplies both devices -- the framed overhang and the hewn one -- and the identification advice that distinguishes them.",
+          "precedence": 2
+        },
+        {
           "pack": "timber-bay",
           "role": "massing",
           "note": "The best-fitting single number in this whole cluster. This pack's height_proportion rule for a box frame -- second-floor post shorter than the ground-floor post, ratio 0.88, explicitly marked judgment -- lands almost exactly inside this node's own hard-adjacent constraint (c04): second-floor window height 80-90% of first-floor. Roof pitch (12:12-17:12) and the near-flush eave follow the same framing logic as new-england-colonial.",
-          "precedence": 2
+          "precedence": 3
         },
         {
           "pack": "sash-light",
           "role": "opening",
           "note": "Same date sequence as new-england-colonial -- casement to c. 1700, then progressively larger-paned sash -- governing the window openings on both floors.",
-          "precedence": 3
+          "precedence": 4
         },
         {
           "pack": "opening-proportion",
           "role": "opening",
           "note": "Bound for the single head-datum rule only, as on new-england-colonial; not for its 13:6 window ratio, which the recorded openings here do not follow.",
-          "precedence": 4
+          "precedence": 5
         },
         {
           "pack": "room-vernacular",
           "role": "room",
           "note": "The plan under the jetty is the ordinary First Period hall-and-parlor two-room plan; room breadth, hearth reach and Glassie's generative square-cell logic apply exactly as on new-england-colonial.",
-          "precedence": 5
+          "precedence": 6
         }
       ],
       "_cascade": [

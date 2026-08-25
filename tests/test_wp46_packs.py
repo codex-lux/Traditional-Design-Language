@@ -2008,3 +2008,179 @@ def test_second_empire_keeps_its_classical_primary_and_gains_the_roof_it_was_mis
     attic = next(x for x in pack("facade-pavilion")["derived_rules"]
                  if x["target_slot"] == "height_proportion" and x["dimension"] == "attic_ratio")
     assert attic["range"] == [0.5, 0.7]
+
+
+# --- jetty-overhang: the framed overhang, and four rules of thumb that disagree ----------------
+
+
+def test_the_corpus_wrote_this_gap_down_itself_before_anyone_went_looking():
+    """Fifth time in this package. `garrison-colonial`'s own binding note to `timber-bay` says no
+    pack in the corpus dimensions a framed overhang and that its own figures are not recoverable
+    from any of the 36 packs then available."""
+    notes = " ".join(e.get("note", "") for e in node("garrison-colonial")["proportion_packs"])
+    assert "no pack in this corpus dimensions a framed overhang" in notes
+    assert "not recoverable from any of the 36 packs available" in notes
+    assert any(e["pack"] == "jetty-overhang" for e in node("garrison-colonial")["proportion_packs"])
+
+
+def test_the_module_is_the_joist_and_not_the_bay():
+    """A jetty is not a division of a bay -- it is a cantilever, and a cantilever is dimensioned by
+    the member cantilevering. Every record that gives a RULE rather than a number says so."""
+    m = pack("jetty-overhang")["module"]
+    assert m["default_size_in"] / m["parts"] == 1.0
+    assert "THE MODULE IS THE JOIST AND NOT THE BAY" in m["note"]
+    # and the pack declares the module as a rule, so a node can override it
+    r = next(x for x in pack("jetty-overhang")["derived_rules"]
+             if x["target_slot"] == "wall_thickness_frame")
+    assert r["expression"] == "module" and r["range"] == [7.0, 18.0]
+
+
+def test_four_records_give_four_multiples_and_the_pack_does_not_average_them():
+    """2x from both garrisons, 1.33x from the English medieval frame, 1.0x from Tudor Revival. The
+    reconciliation is that the three multiples measure three DIFFERENT failures -- sag, load, and
+    plausibility -- so the rule is a band and it is marked judgment."""
+    r = next(x for x in pack("jetty-overhang")["derived_rules"]
+             if x["dimension"] == "joist_multiple")
+    assert r["range"] == [1.0, 2.2] and r["judgment"] is True
+    assert "THE THREE MULTIPLES MEASURE THREE DIFFERENT FAILURES" in r["note"]
+    # each rule of thumb is checked against the record that states it, not against my summary
+    for phrase, nid in [
+        ("without a visible sag", "garrison-colonial"),
+        ("one third of the joist depth times its span-to-depth allowance", "garrison-revival"),
+        ("one third of the floor joist depth times four", "english-medieval-timber-frame"),
+        ("never more than the depth of a plausible joist", "tudor-revival"),
+    ]:
+        assert phrase in json.dumps(node(nid)), (phrase, nid)
+        assert phrase in json.dumps(pack("jetty-overhang")), phrase
+
+
+def test_each_of_the_four_multiples_is_recomputed_from_its_own_records_figures():
+    """Not asserted from the pack's prose -- derived from the style records themselves, so the
+    reconciliation stands or falls on the corpus rather than on my summary of it."""
+    # garrison-colonial: 14-20 in off a 7-9 in joist
+    assert "Framed overhang 14–20 in" in json.dumps(node("garrison-colonial"), ensure_ascii=False)
+    assert 1.5 <= 14 / 9 and 20 / 9 <= 2.3          # the band straddles 2x
+    # english-medieval: 350-600 mm at a stated four thirds -> a 260-450 mm joist
+    assert "350-600 mm" in json.dumps(node("english-medieval-timber-frame"))
+    joist_mm_lo, joist_mm_hi = 350 / (4 / 3), 600 / (4 / 3)
+    assert 250 <= joist_mm_lo and joist_mm_hi <= 460
+    # and that is TWICE the colonial joist, which is why the longer jetty is the smaller multiple
+    assert (joist_mm_lo / 25.4) > 9.0
+
+
+def test_the_absolute_ceiling_of_two_feet_is_stated_twice_independently():
+    """`garrison-colonial` 'never more than 24 in'; `garrison-revival` 'over 24 in. is implausible
+    as joist cantilever'. Two authors, two centuries of subject matter, one number."""
+    r = next(x for x in pack("jetty-overhang")["derived_rules"]
+             if x["dimension"] == "jetty_projection")
+    assert r["range"][1] == 24.0
+    assert "never more than 24 in" in json.dumps(node("garrison-colonial"))
+    assert "over 24 in. is implausible as joist cantilever" in json.dumps(node("garrison-revival"))
+
+
+def test_the_floor_is_stated_twice_and_the_two_disagree_by_a_factor_of_two():
+    """6 in (the detail stops reading as a soffit) against 300 mm (the shadow stops registering).
+    Different walls, different tests; the band holds both rather than choosing."""
+    r = next(x for x in pack("jetty-overhang")["derived_rules"]
+             if x["dimension"] == "jetty_minimum")
+    assert r["range"] == [6.0, 12.0]
+    assert 300 / 25.4 <= r["range"][1]
+    assert "reads as a siding error" in r["authority_note"]
+    assert "the shadow line fails to register" in r["authority_note"]
+
+
+def test_two_devices_and_the_second_one_is_not_a_cantilever_at_all():
+    """The hewn overhang is a chamfer cut out of a single continuous post: no cantilever, no
+    bressumer, and nothing for a drop to be the bottom of. Same shape of finding as
+    `dutch-gambrel`'s two devices."""
+    p = pack("jetty-overhang")
+    assert set(p["assemblies"]) == {"framed_jetty", "hewn_overhang"}
+    framed = next(m for m in p["assemblies"]["framed_jetty"]["members"] if m["id"] == "bressumer")
+    hewn = next(m for m in p["assemblies"]["hewn_overhang"]["members"] if m["id"] == "post_shoulder")
+    assert framed["projection_parts"] >= hewn["projection_parts"] * 3
+    assert "look for the shadow, then measure" in json.dumps(p).lower().replace("--", "--")
+
+
+def test_the_pendant_is_the_post_and_not_an_ornament_on_the_soffit():
+    """Which is why 'applied plastic or foam drops void the variant' is a structural statement. The
+    two records agree on the LENGTH exactly, three centuries apart, and differ on the diameter."""
+    rules = {r["dimension"]: r for r in pack("jetty-overhang")["derived_rules"]}
+    assert rules["pendant_length"]["range"] == [8.0, 14.0]
+    assert rules["pendant_diameter"]["range"] == [4.0, 8.0]
+    assert "8-14 in, diameter 4-6 in" in rules["pendant_length"]["authority_note"]
+    assert "8-14 in. long" in rules["pendant_length"]["authority_note"]
+    drop = next(m for m in pack("jetty-overhang")["assemblies"]["framed_jetty"]["members"]
+                if m["id"] == "drop_pendant")
+    assert "the carved lower end of the upper-storey post" in drop["name"]
+
+
+def test_one_rule_is_the_exact_inverse_of_facade_pavilions_and_both_carry_one_value():
+    """Same slot, same machinery, opposite instruction. There every opening must share one vertical
+    axis; here the pendant rhythm and the window rhythm must NOT be reconciled, because one is the
+    frame and the other is the fenestration."""
+    mine = next(r for r in pack("jetty-overhang")["derived_rules"]
+                if r["target_slot"] == "window_grouping_rule")
+    theirs = next(r for r in pack("facade-pavilion")["derived_rules"]
+                  if r["target_slot"] == "window_grouping_rule")
+    assert mine["dimension"] == "post_independence" and theirs["dimension"] == "alignment"
+    assert mine["range"] == theirs["range"] == [1.0, 1.0]
+    assert mine["judgment"] is True and theirs["judgment"] is True
+    assert "do not coincide with the window rhythm" in mine["authority_note"]
+
+
+def test_the_dragon_beam_is_stated_as_a_length_because_the_angle_tells_a_compiler_nothing():
+    """Root two times the projection. The beam bisects a right angle and the two jetties it serves
+    are equal, so the arithmetic carries the 45 degrees and somebody gets a member to cut."""
+    import math
+    r = next(x for x in pack("jetty-overhang")["derived_rules"] if x["dimension"] == "dragon_length")
+    p = pack("jetty-overhang")
+    part = p["module"]["default_size_in"] / p["module"]["parts"]
+    val = eval(r["expression"], {"module": p["module"]["default_size_in"], "part": part,
+                                 "sqrt": math.sqrt})
+    proj = next(x for x in p["derived_rules"] if x["dimension"] == "jetty_projection")
+    projval = eval(proj["expression"], {"module": p["module"]["default_size_in"], "part": part})
+    assert abs(val - projval * math.sqrt(2)) < 0.01
+    assert r["range"][0] <= val <= r["range"][1]
+
+
+def test_you_cannot_jetty_four_faces_because_the_joists_run_one_way():
+    """Each corner turned costs a dragon beam. Which is why the town house jetties the street front
+    and one flank, and the garrison jetties the front and returns at the ATTIC floor line, where a
+    separate floor makes the other direction available again."""
+    r = next(x for x in pack("jetty-overhang")["derived_rules"] if x["dimension"] == "jetty_faces")
+    assert r["expression"] == "2" and r["judgment"] is True
+    assert "every corner turned costs a dragon beam" in r["note"].lower()
+    assert "sits at the attic floor line rather than the second-floor line" in \
+        json.dumps(node("garrison-colonial"))
+
+
+def test_the_projection_is_renamed_off_facade_classicals_string_band():
+    """A belt course and a jetty are both horizontals at a floor line and they differ by a factor of
+    seven. `facade-classical` co-binds on `garrison-revival`."""
+    dims = {(r["target_slot"], r["dimension"]) for r in pack("jetty-overhang")["derived_rules"]}
+    assert ("belt_course", "jetty_projection") in dims
+    assert ("belt_course", "projection") not in dims
+    assert ("belt_course", "projection") in {(r["target_slot"], r["dimension"])
+                                             for r in pack("facade-classical")["derived_rules"]}
+
+
+def test_the_revival_is_led_by_the_pack_because_nothing_else_defines_it():
+    """'This is the parent style with a jettied second storey. Remove the overhang and the drops and
+    nothing distinguishes it.' A variant defined by one device is led by that device's pack."""
+    entries = sorted(node("garrison-revival")["proportion_packs"], key=lambda e: e["precedence"])
+    assert entries[0]["pack"] == "jetty-overhang" and entries[0]["role"] == "primary"
+    assert "nothing distinguishes it" in json.dumps(node("garrison-revival"))
+
+
+def test_three_nodes_are_refused_and_each_refusal_has_a_stated_reason():
+    """`french-normandy-revival` consumes one rule without being an instance of the type -- which is
+    OQ 49. `new-england-colonial` has a jetty in one example record and not in the type.
+    `english-cottage-vernacular` refuses itself in its own words."""
+    n = pack("jetty-overhang")["notes"]
+    assert "NOT BOUND, with reasons rather than silence" in n
+    for nid in ("french-normandy-revival", "new-england-colonial", "english-cottage-vernacular"):
+        assert nid in n, nid
+        assert not any(e["pack"] == "jetty-overhang"
+                       for e in node(nid).get("proportion_packs", [])), nid
+    assert "no jetty, no display" in json.dumps(node("english-cottage-vernacular"))
+    assert "49." in open(os.path.join(ROOT, "docs", "open-questions.md")).read()

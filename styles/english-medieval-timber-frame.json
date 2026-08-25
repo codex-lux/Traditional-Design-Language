@@ -227,16 +227,22 @@
       "precedence": 1
     },
     {
+      "pack": "jetty-overhang",
+      "role": "secondary",
+      "note": "The ancestor, and the node the pack's structural reasoning comes from -- this is the jetty that carries a whole storey of wall on the joist ends, which is why its multiple is four thirds of the joist depth and not the garrisons' two. Its own record notes the descent: 'the jetty is precisely the ancestor of the American garrison overhang, which survived across the Atlantic as a decorative memory after the structural reason had gone.' It also supplies the dragon beam, the one detail in the pack that `english-medieval-timber-frame` says cannot be faked. Behind `timber-panel` and `timber-bay`, which own the frame and its infill; this owns only what happens where a floor leaves the wall.",
+      "precedence": 2
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "english-medieval-timber-frame is named directly in room-vernacular's applies_to. The two packs are complementary by design (room-vernacular's own module note explicitly distinguishes the room from the bay that contains it), and this style's hall-and-parlor and hall-single-cell massing affinities are literally room-vernacular's own worked examples.",
-      "precedence": 2
+      "precedence": 3
     },
     {
       "pack": "opening-mullioned",
       "role": "opening",
       "note": "Bound for the opening in a timber wall rather than a stone one, which changes the material and not the geometry: the mullion is oak, the light is the same width, the leaded panel is the same, and the label is a moulded timber head. `timber-panel` holds this node's wall and this pack its openings, and the two meet at a real constraint the pack should be read with -- a framed wall is 150 mm thick against a rubble wall's 500-700, so there is no deep reveal here and no window seat, and the openings sit almost flush. Everything the pack says about drainage and the reveal applies with less depth to work with.",
-      "precedence": 3
+      "precedence": 4
     }
   ]
 }

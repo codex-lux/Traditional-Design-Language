@@ -932,12 +932,144 @@ facade role at all; it keeps the primary and gains the roof.
 carried three or more. The value here is not coverage arithmetic; it is that the eight most French
 nodes in the corpus stop composing their elevations by an Anglo-Italian rule.
 
+### `proportions/modules/jetty-overhang.json` — the fifth gap the corpus wrote down itself
+
+Before anyone went looking, `styles/garrison-colonial.json`'s binding note to `timber-bay` said:
+
+> what this pack does NOT derive is the jetty itself — the 8–20 in cantilever of the second-floor
+> girt past the wall below is a real gap in this binding: **no pack in this corpus dimensions a
+> framed overhang**, and the 14–20 in framed / 2–6 in hewn figures in this node's own record are not
+> recoverable from any of the 36 packs available.
+
+That is the fifth time in this work package that the gap was already written into the corpus by an
+author who had no way to fill it (after the four adobe nodes, `prairie-school`'s trim note,
+`greek-classical`'s "least-bad available approximation", and `rural-gothic-villa`'s empty opening
+role). It is worth saying once more that this keeps happening, because it is the strongest argument
+for the practice: a binding note that records what a pack *cannot* do is how a corpus tells the next
+author where to work.
+
+#### The module is the joist, not the bay
+
+`timber-bay` genuinely cannot generate a jetty, and the reason is not an oversight — **a jetty is not
+a division of a bay.** It is a cantilever, and a cantilever is dimensioned by the member doing the
+cantilevering. Every record in the corpus that gives a *rule* rather than a number says so: four of
+them state the projection as a multiple of the joist's **depth**, and not one mentions the bay. So
+the module is the floor joist, 9 in in 9 parts of 1 in.
+
+#### Four rules of thumb, and they disagree — which is the finding
+
+| record | its rule | multiple |
+|---|---|---|
+| `garrison-colonial` | "how far a 7–9 in joist can project without a visible sag" | ≈ 2× |
+| `garrison-revival` | "one third of the joist depth times its span-to-depth allowance", capping near 18 in | ≈ 2× |
+| `english-medieval-timber-frame` | "roughly one third of the floor joist depth times four" | 1.33× |
+| `tudor-revival` | "never more than the depth of a plausible joist" | 1.0× |
+
+The pack does not average them. **The three multiples measure three different failures:**
+
+- At **2×** the joist runs the full depth of the house, so the backspan holds the cantilever down
+  easily and nothing much lands on the tip. What fails first is the *look* — and the record says so
+  in those words, "without a visible sag".
+- At **1.33×** the medieval joist is far deeper *and* the jetty carries a whole storey of wall,
+  because the upper storey's posts land on the joist ends. What governs is the **load** at the tip,
+  not the deflection.
+- At **1.0×** the revival jetty carries nothing at all. Its only test is **plausibility** — whether
+  the eye believes a joist of that depth could have done it — and the eye is stricter than the
+  structure. That is why the revival's ceiling is *lower* than the medieval one, which reads
+  backwards until you know why.
+
+`styles/tudor-revival.json`'s own binding note had already noticed the disagreement and left it
+standing. The rule is a band of 1.0–2.2 marked `judgment: true`, because what the designer must
+decide is which of the three failures is in front of them.
+
+#### The reconciliation settles a second apparent contradiction
+
+**The medieval joist is twice the colonial one.** So the English jetty is *longer* in absolute
+inches (350–600 mm against 14–20 in) while being a *smaller* multiple of its joist (1.33× against
+2×). Both records are right, about different timber. A compiler handed the multiple and the joist
+gets both buildings right; a compiler handed only the inches gets one of them wrong — which is the
+argument for dimensioning the pack off the joist, restated as a consequence rather than as a
+preference. `tests/test_wp46_packs.py` recomputes the medieval joist depth from the record's own
+figures rather than asserting the sentence.
+
+#### Two devices, and one of them is not a cantilever
+
+Same shape as `dutch-gambrel`. The **framed jetty** is a cantilever at 8–24 in with a bressumer, a
+soffit and drops that are the cut-off ends of the posts above. The **hewn overhang** is a chamfer at
+2–6 in cut out of a single continuous post — no cantilever, no bressumer, and nothing for a drop to
+be the bottom of, which is why `styles/garrison-colonial.json` can say that "pendants on a hewn
+overhang, or spaced to suit the windows, are decoration without structure." That record also gives
+the identification advice that matters and that a checker could never give: *look for the shadow,
+then measure.*
+
+Two ceilings and two floors, each stated twice by independent records: 24 in ("never more than 24
+in" / "over 24 in. is implausible as joist cantilever") and 6 in against 300 mm — where the two
+floors disagree by a factor of two for a reason worth keeping, the revival's being about the
+*detail* ceasing to read as a soffit and the medieval one about the *shadow* ceasing to register on
+a wall already busy with exposed timber.
+
+#### One rule is the exact inverse of a rule in `facade-pavilion`
+
+Worth reading together, because they are the same slot and the same machinery pointing opposite
+ways. There, `window_grouping_rule`/`alignment` = 1.0 says every opening in a travée shares one
+vertical axis exactly. Here, `window_grouping_rule`/`post_independence` = 1.0 says the pendant
+rhythm and the window rhythm **must not** be reconciled — one is the frame and the other is the
+fenestration, and `styles/garrison-colonial.json` states it directly: "the pendants mark the post
+lines and therefore do not coincide with the window rhythm." A designer who nudges the drops onto
+the window centres has produced an elevation that looks tidier and is telling a lie about how the
+building is built.
+
+Both are stated with a single permitted value because neither has a partial version. That is now the
+third pack in this package to use that device, and it has settled into a convention worth naming:
+**a band says how much latitude there is, and a single value says the rule is categorical.**
+
+#### The dragon beam, stated as a length
+
+`units` has no `deg`, and that turned out to be the right constraint. The angle of a dragon beam is
+forced — it bisects a right angle — so stating it tells a compiler nothing. The pack states the
+beam's **length** instead, √2 × the projection, which is the member somebody has to cut. The
+critic's use of it comes from `styles/english-medieval-timber-frame.json`: it "cannot be faked
+convincingly and is absent from all applied half-timbering", so its absence on a building that
+jetties two faces is conclusive.
+
+Which leads to a fact that surprised me and is now a rule (`depth_and_pile`/`jetty_faces`): **you
+cannot jetty four faces of one storey.** The joists of one floor run one way. A jetty on the two
+faces they run towards is free; the other two require the joists to run the other way, which they
+cannot also do — so every corner where two jetties meet costs a dragon beam. That is why English
+town houses jetty the street front and one flank, why the Wealden jetties its two cross-wings and
+not its hall, and why the New England garrison jetties the front and returns onto the gables *at the
+attic floor line*, where a separate floor makes the other direction available again.
+
+#### Bindings, and three refusals
+
+Bound to five: `garrison-colonial` (secondary, behind `timber-bay`, which keeps the plan — the bay
+generates the rooms and the jetty generates the elevation), `garrison-revival` (**primary**, because
+the node says of itself that "remove the overhang and the drops and nothing distinguishes it"),
+`english-medieval-timber-frame`, `german-fachwerk` and `tudor-revival`.
+
+Three nodes **refused with stated reasons**:
+
+- `french-normandy-revival` states this pack's `material_change_rule` almost verbatim but has no
+  jetty of its own — it names one as a permitted *datum* for a change of material. It is a consumer
+  of one rule, not an instance of the type, and binding the pack would make the corpus assert a
+  framed overhang on a style that has none. **This is OQ 49**, and the workaround available today is
+  worse than the gap: `role: optional` still says the pack applies, and a note scoping it is prose
+  no resolver reads.
+- `new-england-colonial` carries a jetty in one example record — a two-phase Ipswich house whose
+  later block has one — and not in the type.
+- `english-cottage-vernacular` refuses itself in its own words: "the cottage uses the same joints
+  with a quarter of the timber, no jetty, no display."
+
+One address collision, found and renamed: `belt_course`/`projection` is `facade-classical`'s string
+band at 2¼ in — one course of brick, or a 5/4 board — and co-binds on `garrison-revival`. Both are
+horizontals at a floor line and they differ by a factor of seven. Renamed to `jetty_projection`.
+
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
 still missing: an **octagon/polygonal plan module** (17 nodes, 11 thinly bound), a
 **portada/retablo ornament panel** (8/7), a **Mudejar brick corbelling module** (7/7), a
-**strapwork/Jacobethan ornament** item (7/7), a **jetty module** (13/7), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
+**strapwork/Jacobethan ornament** item (7/7), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
 also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
 **medieval/pre-Palladian English facade system** (new only in that two existing list items turn out
@@ -965,7 +1097,9 @@ millwork and the pierced valance — which turned out to be one machine. Struck 
 smallest when measured (17 nodes on the list, 1 in fact); the **French vertical travée facade
 system** and the **mansard/dormer massing module**, which were one system and are one pack; and the
 **avant-corps half** of the Baroque item — whose curved-wall half is refused above with a reason,
-not left silent.
+not left silent. Struck off by the sixth: the **jetty module**, which the list scoped at 13 nodes
+and which binds 5 — the five that carry figures — with three refused for stated reasons, one of
+them raising OQ 49.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -978,7 +1112,7 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **52 packs**, 0 errors from `check_orders.py`,
+Later tranches: 23 checks green. **53 packs**, 0 errors from `check_orders.py`,
 `check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the thirteen new
 packs bind 121 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
@@ -987,7 +1121,7 @@ a threshold system seven nodes had nothing for, a walling system twelve nodes ha
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 12 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **184 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **198 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

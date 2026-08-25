@@ -1,0 +1,360 @@
+{
+  "id": "jetty-overhang",
+  "name": "The Jetty: a Framed Overhang and its Drops",
+  "aka": [
+    "the framed overhang",
+    "the garrison overhang",
+    "der Vorkragung",
+    "the bressumer line"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "Reconstructed by measurement from the corpus's own records, five of which give the projection in figures and four of which give a rule of thumb relating it to the joist that makes it; against Cecil Hewett's carpentry studies and Richard Harris's Discovering Timber-Framed Buildings for the English practice, and the Historic Ipswich First Period survey for its American survival",
+    "author": "no named author; the rule of thumb is a carpenter's, recorded rather than published",
+    "year": 1500,
+    "strength": "reconstructed",
+    "note": "RECONSTRUCTED, and the word is exact. Nobody published a jetty rule. What the corpus holds is four carpenters' rules of thumb written down by four different authors of this library, each relating the projection to the depth of the joist that cantilevers it -- and they do not agree, which is this pack's central finding and is treated below rather than averaged away. `styles/garrison-colonial.json` gives 'how far a 7-9 in joist can project without a visible sag'; `styles/garrison-revival.json` gives 'roughly one third of the joist depth times its span-to-depth allowance'; `styles/english-medieval-timber-frame.json` gives 'roughly one third of the floor joist depth times four'; `styles/tudor-revival.json` gives 'never more than the depth of a plausible joist'."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The floor joist: the depth of the second-floor joist whose cantilever is the jetty",
+    "parts": 9,
+    "default_size_in": 9.0,
+    "note": "The part is one inch, and the module is nine of them because `styles/garrison-colonial.json` says the overhang 'is set by how far a 7-9 in joist can project without a visible sag' and nine is the top of that band.\n\nTHE MODULE IS THE JOIST AND NOT THE BAY, which is the decision this pack turns on. `timber-bay` already owns the frame's bay, and `garrison-colonial`'s binding note to it says in terms that the bay does NOT derive the jetty -- 'the 8-20 in cantilever of the second-floor girt past the wall below is a real gap in this binding: no pack in this corpus dimensions a framed overhang.' The gap is real because a jetty is not a division of the bay at all. It is a cantilever, and a cantilever is dimensioned by the member doing the cantilevering. Every record that gives a rule rather than a number says so: all four state the projection as a multiple of the joist's DEPTH, and none of them mentions the bay."
+  },
+  "assemblies": {
+    "framed_jetty": {
+      "height_modules": 2.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "bressumer",
+          "name": "The bressumer: the beam across the joist ends carrying the wall above",
+          "height_parts": 7.0,
+          "projection_parts": 16.65,
+          "profile": "ogee",
+          "note": "7 in deep. It is the member that makes a jetty a piece of architecture rather than a framing accident: the upper storey's posts land on it, so it is carrying a whole wall on the tips of cantilevers, and because it is the one face of the assembly at eye level it is the one that gets moulded. `styles/english-medieval-timber-frame.json` gives 'the jetty bressumer moulded and the joist ends exposed or boarded', and `styles/german-fachwerk.json` gives it as the carved and inscribed Schwelle carrying name, date and text -- the same member, doing the same structural job, and used as the building's title page.",
+          "confidence": "high"
+        },
+        {
+          "id": "joist_end_soffit",
+          "name": "The soffit: joist ends exposed, or boarded over",
+          "height_parts": 3.0,
+          "projection_parts": 16.65,
+          "profile": "flat",
+          "note": "3 in, and it is a soffit rather than a siding transition -- `styles/garrison-revival.json` states that distinction as a hard rule and it is the single detail that most often gives away a reproduction. The soffit is where the two traditions part: English and German work leaves the joist ends showing and makes a rhythm of them, New England boards them over and lets the pendants do the counting.",
+          "confidence": "high"
+        },
+        {
+          "id": "drop_pendant",
+          "name": "The drop: the carved lower end of the upper-storey post",
+          "height_parts": 8.0,
+          "projection_parts": 0.0,
+          "profile": "torus",
+          "note": "8 in long, hanging below the soffit and projecting past nothing -- it is not an applied ornament on an original but the bottom of a continuous post, cut off below the bressumer and turned. That is why `styles/garrison-revival.json` can say 'applied plastic or foam drops void the variant' and mean it as a structural statement: on the original the drop is the post, and on the revival it is a plug in a soffit.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "hewn_overhang": {
+      "height_modules": 1.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "post_shoulder",
+          "name": "The shoulder cut out of the post's own thickness",
+          "height_parts": 6.0,
+          "projection_parts": 4.0,
+          "profile": "bevel",
+          "note": "Six inches of height for four of projection, and THIS IS NOT A CANTILEVER. The whole projection is hewn out of a single continuous post -- the post is thicker at the top than at the bottom and the step between is the overhang -- so nothing projects past anything and the framing above and below is one member. `styles/garrison-colonial.json` distinguishes the two devices and gives the tell: 'where the overhang is hewn rather than framed, the projection is only 2-6 in -- look for the shadow, then measure.'",
+          "confidence": "medium"
+        },
+        {
+          "id": "weather_fillet",
+          "name": "The weathered top of the shoulder",
+          "height_parts": 3.0,
+          "projection_parts": 4.0,
+          "profile": "bevel",
+          "note": "3 in of slope, so the horizontal face the step creates sheds rather than holds. On a framed jetty the same job is done by the bressumer's own weathering and by the cladding lapping over it; here there is no separate member to do it with, only the post's own timber.",
+          "confidence": "low"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one inch.",
+      "expression": "module.default_size_in / module.parts == 1.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The framed jetty projects between one and two and a fifth times the depth of the joist that makes it.",
+      "expression": "assemblies.framed_jetty.members.bressumer.projection_parts / module.parts <= 2.2",
+      "tolerance": 0.0,
+      "note": "1.85 encoded, against a band of 1.0 to 2.2 reconciled from four disagreeing rules of thumb -- see the derived rule at `belt_course`/`joist_multiple`, which is where the disagreement is stated rather than resolved. The invariant guards only the ceiling, because that is the end the corpus agrees on: two records independently forbid more than 24 in."
+    },
+    {
+      "statement": "The hewn overhang is a different device and at least three times shallower.",
+      "expression": "assemblies.framed_jetty.members.bressumer.projection_parts >= assemblies.hewn_overhang.members.post_shoulder.projection_parts * 3.0",
+      "tolerance": 0.0,
+      "note": "16.65 against 4. The two assemblies exist to be told apart: one is a cantilever and one is a chamfer, and they carry different loads, want different details and take different ornament. `styles/garrison-colonial.json` states the second rule that follows from it -- 'pendants on a hewn overhang, or spaced to suit the windows, are decoration without structure' -- because a hewn overhang has no post end to be the bottom of."
+    },
+    {
+      "statement": "The drop is longer than it is thick.",
+      "expression": "assemblies.framed_jetty.members.drop_pendant.height_parts > 5.58",
+      "tolerance": 0.0,
+      "note": "8 in long against 5.58 in through. Both records' bands satisfy it -- 8-14 by 4-6 in `styles/garrison-colonial.json`, 8-14 by 5-8 in `styles/garrison-revival.json` -- and a drop that fails it is a boss and not a drop. Worth an invariant because the failure is common in reproduction: a short fat pendant is cheaper to turn and reads immediately as wrong without most people being able to say why."
+    },
+    {
+      "statement": "The bressumer is at least three quarters of the joist's own depth, because it is bearing the joists' load.",
+      "expression": "assemblies.framed_jetty.members.bressumer.height_parts >= module.parts * 0.75",
+      "tolerance": 0.0,
+      "note": "7 parts against 6.75. A bressumer shallower than the joists it sits on is the commonest structural mistake in reproduction framing, because the member is chosen for how it looks from the street rather than for what lands on it -- and what lands on it is the entire upper wall."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "belt_course",
+      "dimension": "jetty_projection",
+      "expression": "module * 1.85",
+      "units": "in",
+      "range": [
+        8.0,
+        24.0
+      ],
+      "authority_note": "`styles/garrison-colonial.json`: 'framed overhang 14-20 in; hewn overhang 2-6 in; never more than 24 in'. `styles/garrison-revival.json`: 'overhang 8-18 in., most commonly 9-12 in.', with under 6 and over 24 forbidden. `styles/english-medieval-timber-frame.json`: 'jetty projection 350-600 mm'. `styles/german-fachwerk.json`: 'jetty projection 200-400 mm per storey'. `styles/tudor-revival.json`: '8-16 in., never more than the depth of a plausible joist'.",
+      "note": "THE PROJECTION, 16.65 in, and the band is the union of five records rather than an average of them -- 8 in at the bottom is the German and revival figure and 24 in at the top is a ceiling two records state independently and in the same words, 'never more than 24 in' and 'over 24 in. is implausible as joist cantilever'. The union is honest and the individual figures are not interchangeable: a German jetty at 200 mm and a medieval English one at 600 mm are three times apart and both correct for their place. Bind the node and read its own band; the pack's job is the RULE that generates them, which is the next rule down. The dimension is named `jetty_projection` and not `projection` because `facade-classical` co-binds on `garrison-revival` and writes `belt_course`/`projection` for a string band 2.25 in deep -- one course of brick, or a 5/4 board. Both are horizontals at a floor line and they differ by a factor of seven, so one address for both would have been resolved silently by precedence in favour of whichever bound second.",
+      "judgment": false
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "joist_multiple",
+      "expression": "1.85",
+      "units": "ratio",
+      "range": [
+        1.0,
+        2.2
+      ],
+      "authority_note": "Four rules of thumb, in four records, which do not agree: `styles/garrison-colonial.json` implies about 2x (14-20 in off a 7-9 in joist); `styles/garrison-revival.json` 'one third of the joist depth times its span-to-depth allowance', capping near 18 in, which is also about 2x; `styles/english-medieval-timber-frame.json` 'roughly one third of the floor joist depth times four', which is 1.33x; `styles/tudor-revival.json` 'never more than the depth of a plausible joist', which is 1.0x.",
+      "note": "THE CENTRAL RULE, AND THE FOUR RECORDS DISAGREE. The reconciliation is not an average: THE THREE MULTIPLES MEASURE THREE DIFFERENT FAILURES. At 2x (the two garrisons) the joist runs the full depth of the house, so the backspan holds the cantilever down easily and what fails first is the LOOK of the tip -- the record says so, 'without a visible sag'. At 1.33x (English medieval) the joist is far deeper and the jetty carries a whole storey of wall, because the upper posts land on the joist ends, so what governs is the LOAD at the tip rather than the deflection. At 1.0x (Tudor Revival) the jetty carries nothing at all, and the limit is PLAUSIBILITY -- the eye's judgment of whether a joist of that depth could have done it -- which is stricter than the structure, and is why a revival ceiling is lower than a medieval one. `styles/tudor-revival.json`'s own binding note had already noticed the disagreement without resolving it. Judgment, because the designer must decide which of the three failures is the one in front of them.",
+      "judgment": true
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "jetty_minimum",
+      "expression": "module * 0.7",
+      "units": "in",
+      "range": [
+        6.0,
+        12.0
+      ],
+      "authority_note": "`styles/garrison-revival.json`: 'overhangs under 6 in. or over 24 in. are forbidden; neither reads as a joist cantilever' and '4-6 in. reads as a siding error'. `styles/english-medieval-timber-frame.json`: 'below 300 mm the shadow line fails to register'.",
+      "note": "THE FLOOR, 6.3 in -- and the two records that state one disagree by a factor of two, for a reason worth keeping. The revival's floor of 6 in is about the DETAIL: below it the overhang stops reading as a framed soffit and reads as a mistake in the siding. The medieval floor of 300 mm (11.8 in) is about the SHADOW: the projection has to be deep enough to throw a dark line across a wall that is already busy with exposed timber. Different walls, different tests, and the band holds both rather than choosing.",
+      "judgment": false
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "hewn_projection",
+      "expression": "module * 0.44",
+      "units": "in",
+      "range": [
+        2.0,
+        6.0
+      ],
+      "authority_note": "`styles/garrison-colonial.json`: 'where the overhang is hewn rather than framed, the projection is only 2-6 in -- look for the shadow, then measure'.",
+      "note": "THE SECOND DEVICE, 3.96 in, and it is not a jetty at all. The projection is cut out of a single continuous post, thicker above than below, so there is no cantilever, no bressumer and nothing for a pendant to be the bottom of. The corpus's identification advice is the practical point and is worth repeating: look for the shadow, then MEASURE, because from the street the two devices look like the same idea done more or less boldly and they are not the same idea.",
+      "judgment": false
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "bracket_threshold",
+      "expression": "module * 1.75",
+      "units": "in",
+      "range": [
+        14.0,
+        17.0
+      ],
+      "authority_note": "`styles/german-fachwerk.json`: 'a jetty greater than about 400 mm requires a bracket (Knagge) at every beam end'.",
+      "note": "15.75 in, which is 400 mm, and it is the only place in the corpus where a record says what to do when the cantilever runs out rather than simply forbidding it. The Knagge is a curved brace from the post below to the underside of the projecting beam, and it converts the cantilever into a strut-and-tie -- which is why German work can jetty on three or four storeys and English work rarely jetties above one. The threshold is therefore also an explanation: 400 mm is roughly where a beam end stops being able to carry a storey unaided.",
+      "judgment": false
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "storey_ratio",
+      "expression": "module * 1.85 / storey_height",
+      "units": "ratio",
+      "range": [
+        0.08,
+        0.2
+      ],
+      "authority_note": "`styles/garrison-revival.json`'s governing logic, in its own words: 'the jetty depth against the storey height'.",
+      "note": "THE PROJECTION AS A FRACTION OF THE STOREY, 0.12 to 0.15 over ordinary storey heights, and it is the check that catches a jetty which is correct in inches and wrong on the building. A 16 in overhang under a 9 ft storey is the type; the same 16 in under a 12 ft storey has become a string course, and the same 16 in under a 7 ft cottage storey has become a canopy. The one record that names a governing logic for the whole style names this ratio and not the absolute figure.",
+      "judgment": false
+    },
+    {
+      "target_slot": "wall_thickness_frame",
+      "dimension": "joist_depth",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        7.0,
+        18.0
+      ],
+      "authority_note": "`styles/garrison-colonial.json`: a '7-9 in joist'. `styles/english-medieval-timber-frame.json` implies 260-450 mm, being 350-600 mm of jetty at its stated four-thirds.",
+      "note": "THE MODULE ITSELF, DECLARED AS A RULE so that a node can override it, which is the whole reason this pack is dimensioned off the joist. THE MEDIEVAL JOIST IS TWICE THE COLONIAL ONE. That single fact resolves what otherwise looks like a contradiction between the records: the English medieval jetty is LONGER in absolute inches (350-600 mm against 14-20 in) while being a SMALLER multiple of its joist (1.33x against 2x). Both are true at once and neither record is wrong; they are describing different timber. A compiler given the multiple and the joist gets both right, and a compiler given only the inches gets one of them wrong.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "pendant_length",
+      "expression": "module * 1.15",
+      "units": "in",
+      "range": [
+        8.0,
+        14.0
+      ],
+      "authority_note": "`styles/garrison-colonial.json`: 'drop pendant length 8-14 in, diameter 4-6 in, at post positions only'. `styles/garrison-revival.json`: 'drops 5-8 in. in diameter and 8-14 in. long'.",
+      "note": "10.35 in, and the two records agree on the length EXACTLY, three centuries and one continent apart, while disagreeing on the diameter. That is a real signal rather than a coincidence of authorship: the length is set by what the post end gives you once it is cut off below the bressumer, which does not change, and the diameter is set by the post's own section, which grew leaner as framing got lighter and then grew fat again when the revival made it a solid turning with nothing inside it.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "pendant_diameter",
+      "expression": "module * 0.62",
+      "units": "in",
+      "range": [
+        4.0,
+        8.0
+      ],
+      "authority_note": "`styles/garrison-colonial.json`: 4-6 in. `styles/garrison-revival.json`: 5-8 in.",
+      "note": "5.58 in. The revival band sits an inch or two above the original's for a structural reason that no longer applies: an original drop is the surviving stub of a post and is limited by the post's section, and a revival drop is a lathe-turned solid glued to a soffit and is limited by nothing. Which is exactly why the revival ones look heavy, and why the corpus's rule that they must be turned wood rather than applied plastic is about more than material.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "pendant_count",
+      "expression": "4",
+      "units": "count",
+      "range": [
+        2.0,
+        6.0
+      ],
+      "authority_note": "`styles/garrison-colonial.json`: 'carved drop pendants at the exposed post ends beneath the overhang, normally four across the front' and 'at post positions only'. `styles/garrison-revival.json`: 'at the corners and sometimes at 1/3 points'.",
+      "note": "FOUR ACROSS A FRONT, and the count is not a decorating choice: it is however many posts there are. The two records diverge in a way that is itself diagnostic -- the original counts POSTS and the revival counts THIRDS, because the revival has no posts to count. A drop at a third point of a five-bay front lands wherever it lands, which is the honest confession of an ornament that has outlived its structure. Judgment, because the correct count on any given building is read off its frame and not off this rule.",
+      "judgment": true
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "post_independence",
+      "expression": "1.0",
+      "units": "ratio",
+      "range": [
+        1.0,
+        1.0
+      ],
+      "authority_note": "`styles/garrison-colonial.json`: 'the pendants mark the post lines and therefore do not coincide with the window rhythm'.",
+      "note": "A SINGLE PERMITTED VALUE, AND IT ASSERTS INDEPENDENCE RATHER THAN ALIGNMENT -- which is worth saying beside `facade-pavilion`, whose corresponding rule asserts the opposite with the same machinery. There the whole composition is one vertical axis and the openings must share it exactly; here two rhythms run across one elevation and MUST NOT be reconciled, because one is the frame and the other is the fenestration and they answer to different things. A designer who nudges the pendants onto the window centres has produced an elevation that looks tidier and is telling a lie about how the building is built. It is stated as a rule with one value because there is no partial version: either the drops are on the posts or they are not.",
+      "judgment": true
+    },
+    {
+      "target_slot": "corner_board",
+      "dimension": "return_depth",
+      "expression": "module * 1.85",
+      "units": "in",
+      "range": [
+        8.0,
+        24.0
+      ],
+      "authority_note": "`styles/garrison-revival.json`: 'where the overhang returns onto a gable end it must continue for the full depth of that elevation and terminate in a drop; a partial return is forbidden'. `styles/garrison-colonial.json`: 'the gable-end overhang, where present, sits at the attic floor line rather than the second-floor line'.",
+      "note": "THE RETURN IS THE SAME DEPTH AS THE FRONT, and it either goes the whole way or it does not happen. A partial return -- an overhang that turns the corner and dies six feet along the flank -- is the single commonest reproduction error, because it is what you get if you frame the jetty as a decorative box rather than as a floor. And note the second record's trap: on the original, a gable-end overhang usually sits at the ATTIC floor line and not the second-floor line, so a return that continues the front's datum around the corner may be at the wrong height even when it is the right depth.",
+      "judgment": false
+    },
+    {
+      "target_slot": "corner_board",
+      "dimension": "dragon_length",
+      "expression": "module * 1.85 * sqrt(2)",
+      "units": "in",
+      "range": [
+        11.0,
+        34.0
+      ],
+      "authority_note": "`styles/english-medieval-timber-frame.json`: 'a jetty that returns around a corner with a dragon beam set diagonally at 45 degrees -- a detail that cannot be faked convincingly and is absent from all applied half-timbering'.",
+      "note": "THE DRAGON BEAM'S OWN LENGTH, 23.55 in, which is the projection times root two -- because the beam bisects a right angle and the two jetties it serves are equal. Stating it as a length rather than as an angle is deliberate: the angle is forced by the geometry and tells a compiler nothing, and the length is the member somebody has to cut. The dragon beam is the diagonal at a corner taking the ends of the joists running in BOTH directions, and it exists because two jetties at right angles are two cantilevers whose joists cannot both run the way they need to. `styles/english-medieval-timber-frame.json` gives the critic's use of it: it 'cannot be faked convincingly and is absent from all applied half-timbering', so its absence on a building that jetties two faces is conclusive.",
+      "judgment": false
+    },
+    {
+      "target_slot": "depth_and_pile",
+      "dimension": "jetty_faces",
+      "expression": "2",
+      "units": "count",
+      "range": [
+        1.0,
+        4.0
+      ],
+      "authority_note": "The consequence of the dragon beam, read off the two records that describe corner returns rather than stated by either.",
+      "note": "TWO FACES, AND EVERY CORNER TURNED COSTS A DRAGON BEAM. The joists of one floor run one way. A jetty on the two faces they run towards is free; a jetty on the other two faces requires the joists to run the other way, which they cannot also do -- so each corner where two jetties meet needs the diagonal beam above, and a four-square jetty needs four of them. That is why English town houses jetty the street front and one flank, why the Wealden jetties its two cross-wings and not its hall, and why the New England garrison jetties the front only and returns onto the gables at the attic line where a separate floor makes it possible again. Judgment, because the answer is read off the frame's direction and this rule only says what it costs.",
+      "judgment": true
+    },
+    {
+      "target_slot": "material_change_rule",
+      "dimension": "offset",
+      "expression": "module * 0.5",
+      "units": "in",
+      "range": [
+        4.0,
+        12.0
+      ],
+      "authority_note": "`styles/tudor-revival.json`: 'where masonry meets stucco on a wall plane, the material change must occur at a floor line or at a projecting jetty, with a minimum 4 in. horizontal offset or a water table'. `styles/french-normandy-revival.json` states the same rule in nearly the same words.",
+      "note": "4.5 in, and this is the rule that makes a jetty USEFUL to styles that have one incidentally rather than as their subject. A vertical change of material -- stone below, stucco and timber above -- needs a horizontal offset to throw water clear and to give the eye a reason for the change; a jetty is an offset of 8 to 24 in and therefore does the job several times over. Two nodes state the rule independently and in nearly identical language, which is the strongest kind of corroboration this corpus offers. Note the consequence, which is the actual design instruction: if the materials change, put the jetty there; if there is no jetty, the change wants a water table and cannot simply stop.",
+      "judgment": false
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "A jetty is a cantilever carrying a wall on its tips, and modern floor framing cannot do it. Sawn or hewn timber joists at 7-18 in deep, running the full depth of the house, have backspan to spare and take a point load at the free end without complaint -- which is what the upper storey's posts deliver. Engineered I-joists and open-web floor trusses have neither property: an I-joist's web will not take a concentrated load anywhere but at a stiffened bearing, and an open-web truss cannot be cut, cantilevered or loaded at the tip at all. So the detail that generated the form is unavailable in the framing system most likely to be specified under it, and the usual substitute -- a false soffit hung off the rim board with the real wall above sitting on the wall below -- is a box, not a jetty.",
+      "resolution": "Decide first whether the jetty is structural or scenic, and detail honestly for whichever it is. Structural: use sawn timber or LVL joists running perpendicular to the jettied face, with a backspan of at least three times the projection and a bressumer sized for the wall above rather than for its appearance from the street; the upper wall's posts land on the bressumer and the load path is real. Scenic: build it as a designed soffit and say so -- and then take `styles/tudor-revival.json`'s stricter ceiling of one joist depth rather than the medieval two, because the only test a scenic jetty has to pass is the eye's, and the eye is harsher than the structure.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "The jetty puts a cantilevered floor cassette outside the wall plane for 8 to 24 in, continuously, across the full width of the elevation -- and it does it at the floor line, which is where the wall's air barrier and its insulation both have to be interrupted anyway. Every joist crosses the thermal boundary. The soffit below is exposed to outdoor air on its underside and to the floor cavity on its top, so the cavity is either insulated (and the joists are thermal bridges through it, at 16 in centres, for the width of the house) or it is not (and the floor above is over ambient). This is the cantilevered-floor detail that fails in ordinary construction; a jetty is that detail made continuous and made the point of the elevation.",
+      "resolution": "Carry the air barrier and the insulation across the underside of the cantilever, not up at the wall line -- the projecting floor is then inside the envelope and the soffit is the outermost layer. Block solid between joists at the wall plane with insulation and a sealed membrane, and do it before the soffit closes, because it is unreachable afterwards. Where the framing is engineered and the jetty is therefore scenic anyway, the far better answer is to keep the floor entirely inside the wall and build the projection as an insulated, ventilated box outside the air barrier: it costs the same, performs correctly, and looks identical, and it is the one case in this pack where the reproduction detail beats the authentic one.",
+      "severity": "blocking"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The jetty's whole effect is a single horizontal shadow line running the full width of a facade at eye level. Nothing else on the elevation is as unforgiving: a bressumer 3/8 in out of level over 40 ft is invisible on a drawing and obvious from the street, because the shadow it throws varies with the sine of the error and the eye reads the shadow, not the timber. The same is true of the projection itself -- a jetty that comes out 15 in at one corner and 17 in at the other, well within any framing tolerance, produces a line that tapers.",
+      "resolution": "Set the bressumer as one member off one datum, not joist by joist. Cut the joist ends to a line after they are laid rather than to a measurement before, which is what the original carpenters did and why the survivals are straight. And on a scenic jetty, hang the soffit and fascia from a levelled ledger rather than off the framing, so the framing's tolerances never reach the line anyone looks at.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "The jetty buys nothing and costs a whole framing operation. On a medieval street front it bought upper-floor area over a lot taxed at its ground frontage, which is the real reason it existed and is the reason it stopped; on a suburban lot 16 in of overhang on a 26 ft depth is about five per cent of one floor, worth less than the framing that makes it. Against that: a second set of wall plates, cut joist ends, a moulded bressumer, a finished soffit, turned drops, flashing at a horizontal joint the full width of the house, and a wall above whose load path has to be drawn.",
+      "resolution": "Spend the money on the front and stop -- which is exactly what the American type did, and `styles/garrison-revival.json` records it as a defect ('the overhang appears on the front elevation only and stops at the corners') without noticing it is also an economy that the tradition itself arrived at. Where the budget will not carry a real jetty, prefer a well-detailed scenic one to a shallow real one: at 6 in nobody can tell it is structural and everybody can tell it is mean. Do not economise on the drops. They are a few hundred dollars of turning and they are the only part of the assembly anyone will look at closely.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "The assembly is a horizontal shelf under a wall, and every joint in it faces the wrong way. The bressumer's top face collects water running down the cladding above it; the junction between that cladding and the bressumer is a horizontal upward-facing joint the full width of the elevation; the soffit traps splash and, on a wall facing driving rain, is wetted from below as often as the wall above it. On original fabric the timber was oak, the joint was weathered and the whole thing was accepted as a maintenance item; on a modern wall with a drained cavity above and a cantilever below, the cavity's drainage plane arrives at the jetty and has nowhere to go.",
+      "resolution": "Take the cavity's drainage out at the jetty deliberately: a through-flashing on the bressumer's top face, weathered outward and past the fascia, with the cladding above lapping it and stop-ends at both corners. Weather the bressumer's top face itself -- the historic ones are cut with a fall and the reproductions are not. And accept the soffit as an exposed element: back-prime it, vent it if the cavity behind is vented, and detail its outer edge with a drip so the water leaves at the fascia rather than tracking back along the underside to the wall.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "garrison-colonial",
+    "garrison-revival",
+    "english-medieval-timber-frame",
+    "german-fachwerk",
+    "tudor-revival"
+  ],
+  "sources": [
+    "Cecil A. Hewett, English Historic Carpentry, Phillimore, Chichester, 1980",
+    "Richard Harris, Discovering Timber-Framed Buildings, Shire Publications, 3rd edn, 1993",
+    "Historic Ipswich / Historic Massachusetts, 'Jetties of the New England Post-Medieval Renaissance' (survey of Essex County First Period fabric)",
+    "Abbott Lowell Cummings, The Framed Houses of Massachusetts Bay 1625-1725, Harvard University Press, 1979",
+    "Manfred Gerner, Fachwerk: Entwicklung, Gefuege, Instandsetzung, Deutsche Verlags-Anstalt, Stuttgart, for the German jetty and the Knagge"
+  ],
+  "confidence": "medium",
+  "notes": "THE FIFTH GAP IN THIS PACKAGE THAT THE CORPUS HAD ALREADY WRITTEN DOWN ITSELF. `styles/garrison-colonial.json`'s binding note to `timber-bay` says, before anyone went looking: 'what this pack does NOT derive is the jetty itself -- the 8-20 in cantilever of the second-floor girt past the wall below is a real gap in this binding: no pack in this corpus dimensions a framed overhang, and the 14-20 in framed / 2-6 in hewn figures in this node's own record are not recoverable from any of the 36 packs available.' That is the whole justification for this pack, written by an author who had no way to fill it.\n\nTHE MODULE IS THE JOIST, NOT THE BAY, and that is the decision everything else follows from. `timber-bay` owns the frame's bay and cannot generate a jetty from it, because a jetty is not a division of a bay -- it is a cantilever, and a cantilever is dimensioned by the member cantilevering. Every record in the corpus that gives a RULE rather than a number says so: four of them state the projection as a multiple of the joist's depth, and not one mentions the bay.\n\nAND THE FOUR RULES DISAGREE, WHICH IS THE FINDING. Two garrison records give about twice the joist depth, the English medieval record gives four thirds of it, and Tudor Revival gives one times it and calls that a ceiling. This pack does not average them, because the three multiples turn out to measure three different failures: at 2x the limit is visible SAG on a cantilever with generous backspan and nothing much at the tip; at 1.33x the limit is the LOAD, because the medieval jetty carries a storey of wall on the joist ends; at 1.0x the limit is PLAUSIBILITY, because a revival jetty carries nothing and the only test it faces is whether the eye believes a joist that deep could have done it -- and the eye is stricter than the structure. `styles/tudor-revival.json`'s own binding note had already spotted the disagreement and left it standing. The band is 1.0 to 2.2 and the rule is marked judgment, because what the designer has to decide is which of the three failures is in front of them.\n\nThat resolution also settles what looks like a contradiction in the absolute figures. THE MEDIEVAL JOIST IS TWICE THE COLONIAL ONE, so the English jetty is LONGER in inches (350-600 mm against 14-20 in) while being a SMALLER multiple. Both records are right, about different timber. A compiler handed the multiple and the joist gets both buildings right; a compiler handed only the inches gets one of them wrong, which is the argument for dimensioning this pack the way it is dimensioned.\n\nTWO DEVICES, LIKE `dutch-gambrel`. The framed jetty is a cantilever at 8-24 in with a bressumer, a soffit and drops that are the cut-off ends of the posts above. The hewn overhang is a chamfer at 2-6 in cut out of a single continuous post, with no cantilever, no bressumer and nothing for a drop to be the bottom of -- and `styles/garrison-colonial.json` states both and gives the identification advice that matters: look for the shadow, then MEASURE. The two look like the same idea done boldly or timidly and they are not the same idea.\n\nONE RULE IS THE EXACT INVERSE OF A RULE IN `facade-pavilion`, and the pair is worth reading together. There, `window_grouping_rule`/`alignment` = 1.0 says every opening in a travee shares one vertical axis exactly. Here, `window_grouping_rule`/`post_independence` = 1.0 says the pendant rhythm and the window rhythm MUST NOT be reconciled, because one is the frame and the other is the fenestration. Same slot, same machinery, opposite instruction -- and both are stated with a single permitted value because neither has a partial version.\n\nNOT BOUND, with reasons rather than silence. `french-normandy-revival` states this pack's `material_change_rule` in nearly the same words as `tudor-revival` but has no jetty of its own -- it names one as a permitted datum for a change of material, which makes it a CONSUMER of the rule and not an instance of the type. Binding a jetty module to a style that does not jetty would be a false claim about the building. That the binding model has no way to express 'this node uses one rule of that pack' is a real limitation and is recorded as an open question rather than worked around. `new-england-colonial` carries a jetty only in one example record, a two-phase Ipswich house whose later block has one, and the type in general does not. And `english-cottage-vernacular` refuses itself in its own words -- 'the cottage uses the same joints with a quarter of the timber, no jetty, no display' -- which is the third time in this package a node has stated its own exclusion better than a checker could."
+}
