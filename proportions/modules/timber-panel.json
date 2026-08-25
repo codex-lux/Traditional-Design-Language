@@ -200,7 +200,8 @@
       ],
       "authority_note": "`styles/english-medieval-timber-frame.json`: 'jetty projection 350-600 mm'. `styles/german-fachwerk.json`: 'jetty projection 200-400 mm per storey'. `styles/tudor-revival.json`: 'second-storey overhang (jetty) where used: 8-16 in'.",
       "note": "THE JETTY, 18 in. The upper storey oversails the lower on the ends of its floor joists, and the reasons are argued about -- more floor area on a taxed frontage, a stiffer joist by counterbalance, protection of the wall below, or simply that it was how the frame went together. What is not argued about is the size, and the size is the tell: see the ratio rule below.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "material_change_height_above_floor"
     },
     {
       "target_slot": "material_change_rule",
@@ -239,7 +240,8 @@
       ],
       "authority_note": "A general practice across every tradition this pack covers rather than a figure from one record; `styles/french-colonial-american.json`'s poteaux-sur-sol names the alternative it replaced -- poteaux-en-terre, posts set directly in the ground -- and the whole history of the type is the move from one to the other.",
       "note": "THE PLINTH THE SILL BEAM STANDS ON, 18 in. The single most consequential detail in timber framing and the least visible: a sill in contact with the ground rots, and a frame with a rotten sill has lost its foundation. `styles/french-colonial-american.json` records the transition in its own vocabulary -- poteaux-EN-TERRE, posts in the earth, giving way to poteaux-SUR-SOL, posts on a sill on a plinth -- which is the same lesson learned in Louisiana that had been learned in England four centuries earlier. The same argument as `adobe-module`'s base course and `stone-course`'s plinth: solid walls of every material fail at the bottom.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "water_table_top_above_grade"
     },
     {
       "target_slot": "secondary_cladding",

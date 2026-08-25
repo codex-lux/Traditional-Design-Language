@@ -117,27 +117,38 @@
       "dimension": "count",
       "expression": "3",
       "units": "count",
-      "range": [2.0, 6.0],
+      "range": [
+        2.0,
+        6.0
+      ],
       "authority_note": "`styles/tudor.json` and `styles/cotswold-vernacular.json`: two to five lights. `styles/jacobean.json`: 'windows of two to five lights with one or two transoms'. `styles/tudor-revival.json`: casements 'grouped in 2, 3, or 4'.",
       "note": "LIGHTS PER WINDOW, AND THE WINDOW IS COUNTED RATHER THAN MEASURED. `styles/tudor.json` states it in five words -- 'window width is a whole number of lights' -- and it is the pack's central rule. You do not widen this window, you add a light, so its width is quantised at 18 in intervals and a brief asking for a 5 ft opening gets three lights or four and nothing between. A single-light mullioned window is a contradiction and does not appear in the range: one light has no mullion, and without a mullion this is a different opening system entirely.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "lights_per_window"
     },
     {
       "target_slot": "window_grouping_rule",
       "dimension": "width",
       "expression": "module * 3 + part * 10",
       "units": "in",
-      "range": [30.0, 160.0],
+      "range": [
+        30.0,
+        160.0
+      ],
       "authority_note": "Three lights of 18 in plus two mullions of 5 in.",
       "note": "64 in for a three-light window. The arithmetic is worth spelling out because it is what quantisation means in practice: n lights plus (n-1) mullions, so widths go 41, 64, 87, 110 in and there is nothing at 75. The band's ceiling of 160 in is the Elizabethan case, where a window becomes a glazed wall -- `styles/elizabethan.json` gives 45-60 per cent glazing on a principal elevation 'and higher at Hardwick', which is the point at which the mullions stop being window frames and become the structure.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "window_overall_width"
     },
     {
       "target_slot": "window_grouping_rule",
       "dimension": "ratio",
       "expression": "2.0",
       "units": "ratio",
-      "range": [1.4, 5.0],
+      "range": [
+        1.4,
+        5.0
+      ],
       "authority_note": "`styles/tudor.json`: '2:1 to 4:1 wide overall'. `styles/cotswold-vernacular.json`: 'a three-light window is typically 1.5:1 to 2:1 wide to high'. `styles/arts-and-crafts-british.json`: 'window band proportion horizontal overall (2:1 to 5:1 wide to high)'.",
       "note": "THE WINDOW OVERALL, WIDTH OVER HEIGHT, AND IT IS HORIZONTAL. Read this rule beside the window_proportion rule below, which gives the single light as 2.4 to 1 TALL, and the pair is the whole visual argument: a wide band built of narrow verticals. `styles/arts-and-crafts-british.json` names the contrast it makes -- 'the exact inverse of the Georgian vertical punched opening, and instantly readable at distance'.",
       "judgment": false
@@ -147,17 +158,24 @@
       "dimension": "ratio",
       "expression": "2.4",
       "units": "ratio",
-      "range": [1.5, 3.0],
+      "range": [
+        1.5,
+        3.0
+      ],
       "authority_note": "`styles/tudor.json`: '1:1.5 to 1:3 width to height per light'. `styles/tudor-revival.json`: 'proportion between 1:2.2 and 1:2.8'. `styles/cotswold-vernacular.json`: lights 300-450 mm wide by 600-900 mm high.",
       "note": "ONE LIGHT, HEIGHT OVER WIDTH. Tall and narrow, and the figure most often got backwards by a designer who has absorbed the band's horizontality. A squat light turns a mullioned window into a grid of squares, which is a twentieth-century steel-window idea and reads as one.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "opening_height_over_width"
     },
     {
       "target_slot": "window_grouping_rule",
       "dimension": "spacing",
       "expression": "part * 5",
       "units": "in",
-      "range": [3.0, 8.0],
+      "range": [
+        3.0,
+        8.0
+      ],
       "authority_note": "`styles/jacobethan-revival.json`: 'mullions 4-6 in.'. `styles/cotswold-vernacular.json` gives the section rather than the width: 'ovolo- or cavetto-moulded stone mullions'.",
       "note": "THE MULLION, 5 in on the face. It is a structural member and not a glazing bar: it carries the head over the opening and takes the wind load off the glass, which is why it is stone or oak and 5 in rather than lead and half an inch. Its MOULDING is the period tell and the pack states the profile rather than a dimension -- an ovolo section is late-Perpendicular into the seventeenth century, a cavetto or a plain chamfer earlier, and `styles/cotswold-vernacular.json` records the ovolo 'still in use on buildings of 1680 and later, a Perpendicular detail running two centuries past its own period'.",
       "judgment": false
@@ -167,17 +185,24 @@
       "dimension": "width",
       "expression": "part * 4",
       "units": "in",
-      "range": [3.5, 6.0],
+      "range": [
+        3.5,
+        6.0
+      ],
       "authority_note": "`styles/tudor.json` and `styles/cotswold-vernacular.json` both give 'leaded quarries of roughly 100 x 150 mm'. `styles/arts-and-crafts-british.json`: 'leaded quarries 100-150 mm across'.",
       "note": "THE LEADED QUARRY, 4 in across. The size is set by what a lead came will hold without sagging and by what a glazier could cut from a blown blank, which is why it is so consistent -- the same 4 by 6 in appears in `opening-pointed` for the Gothic Revival three centuries later, because the constraint never changed. Scaling the quarry up to suit a larger window is the commonest way this detail is got wrong and the leadwork sags to prove it.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "light_width"
     },
     {
       "target_slot": "window_lite_pattern",
       "dimension": "ratio",
       "expression": "1.5",
       "units": "ratio",
-      "range": [1.0, 1.8],
+      "range": [
+        1.0,
+        1.8
+      ],
       "authority_note": "100 x 150 mm is 1:1.5. `styles/arts-and-crafts-british.json`: quarries 'rectangular rather than diamond in the stricter work'.",
       "note": "THE QUARRY'S OWN PROPORTION, and the DIAMOND-OR-RECTANGLE question travels with it. A diamond quarry is set on the diagonal and is the commoner survival; a rectangular one is set square and is what the stricter Arts and Crafts work uses deliberately, because a diamond reads as decorative and a rectangle as structural. Both are period-correct for the Tudor and Jacobean work; only the rectangle is correct for a Voysey or a Lutyens, and that record says so.",
       "judgment": false
@@ -187,47 +212,66 @@
       "dimension": "ratio",
       "expression": "0.29",
       "units": "ratio",
-      "range": [0.22, 0.36],
+      "range": [
+        0.22,
+        0.36
+      ],
       "authority_note": "`styles/tudor.json`: 'four-centred arch rise to span roughly 1:3 to 1:4 -- much flatter than any earlier Gothic arch'.",
       "note": "THE FOUR-CENTRED ARCH'S RISE OVER ITS SPAN, and this rule is why the arch is here rather than in `opening-pointed`. That pack's system is the STRIKE RATIO of a two-centred arch and its band runs 0.75 to 2.0 of the span; the flattest arch it can express, the drop arch, still rises 0.707 of its span. A four-centred head rises a quarter to a third, which no single strike ratio reaches, because it is struck from FOUR centres with two different radii -- a short tight radius at each springing and a long flat one to the crown. `opening-pointed`'s own notes name this as the reason `tudor` and `tudor-revival` are absent from its applies_to, and call it 'a real missing pack rather than a boundary of convenience'. This is that pack.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "arch_rise_over_span"
     },
     {
       "target_slot": "arch",
       "dimension": "height",
       "expression": "module * 3 * 0.29",
       "units": "in",
-      "range": [8.0, 40.0],
+      "range": [
+        8.0,
+        40.0
+      ],
       "authority_note": "The rise over a three-light span at the default ratio.",
       "note": "15 2/3 in of rise over a 64 in opening. The four-centred head is FLAT, and its flatness is the whole period signature -- it is the arch of a culture that had run out of ambition for height and had a great deal of ambition for glass. What the rule cannot state is the setting-out, which needs two radii and two centres per side: the usual construction puts the springing centres on the springing line at a quarter of the span in from each side, and the crown centres well below the springing line on the vertical axis. Draw it as a single arc flattened in CAD and the shoulders are wrong, which is visible.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "arch_rise"
     },
     {
       "target_slot": "window_head_masonry",
       "dimension": "height",
       "expression": "part * 4",
       "units": "in",
-      "range": [2.5, 7.0],
+      "range": [
+        2.5,
+        7.0
+      ],
       "authority_note": "`styles/tudor.json`: the arch 'almost always set within a rectangular label mould'. `styles/cotswold-vernacular.json`: 'a hood mould or drip over the head'. `styles/jacobethan-revival.json`: 'label mouldings or drip stones over them'. `styles/english-gothic.json`: 'hood moulds and label stops shedding water clear of the reveal'.",
       "note": "THE LABEL MOULD, 4 in on the face, and FOUR RECORDS NAME IT. It is rectangular even where the head beneath it is not, and the triangle of stone left between the arch's shoulder and the label's corner is the SPANDREL -- carved with a rose or a shield in the grand work, and existing only because a curved head has been put inside a square frame. `styles/tudor.json` makes the combination rather than the arch its diagnostic, and it is right to: a four-centred arch without a label is a fireplace, and a flat head with a label is still unmistakably of this family.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "hood_mould_depth"
     },
     {
       "target_slot": "window_head_masonry",
       "dimension": "projection",
       "expression": "part * 3",
       "units": "in",
-      "range": [1.0, 4.0],
+      "range": [
+        1.0,
+        4.0
+      ],
       "authority_note": "Enough to throw water clear of the reveal below, which `styles/english-gothic.json` states as the label's function.",
       "note": "3 in. Held above the cill's projection by the pack's own invariant, and for the reason `stone-course` gives at the same joint: the label catches the whole sheet of water coming down the wall and the cill only sheds what falls on the opening. A label detailed at the cill's projection is a moulding rather than a drip.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "head_mould_projection"
     },
     {
       "target_slot": "transom_sidelight",
       "dimension": "ratio",
       "expression": "0.66",
       "units": "ratio",
-      "range": [0.5, 0.75],
+      "range": [
+        0.5,
+        0.75
+      ],
       "authority_note": "`styles/french-manoir.json`: 'transom at about two-thirds of opening height', stated twice. `styles/french-renaissance-chateau.json`: the croisee 'quartered by mullion and transom into four lights of roughly 2:3 each'. `styles/jacobethan-revival.json`: 'transoms at 1/2 and 3/4 of opening height'.",
       "note": "WHERE THE TRANSOM SITS, measured up the glazed opening. High -- two thirds -- so the larger pane is below, where a person looks out, and the smaller above, where the light comes in. Three records give it and two of them are French, which is worth noticing: the croisee and the English mullion-and-transom window are the same device with different names, and the corpus states the rule more precisely in French than in English. The band's ceiling holds `jacobethan-revival`'s two-transom case, where the upper sits at three quarters and the lower at half.",
       "judgment": false
@@ -237,7 +281,10 @@
       "dimension": "width",
       "expression": "part * 5",
       "units": "in",
-      "range": [3.0, 8.0],
+      "range": [
+        3.0,
+        8.0
+      ],
       "authority_note": "The transom is the same section as the mullion it crosses, and is cut from the same stone.",
       "note": "5 in, the same as the mullion. They are one grid rather than a frame with a bar across it, which is what `styles/elizabethan.json` means by 'a regular mullion-and-transom GRID' and `styles/jacobean.json` by 'flush grids'. Where the transom is lighter than the mullion the window reads as sashes stacked in a frame, which is a later idea.",
       "judgment": false
@@ -247,30 +294,42 @@
       "dimension": "ratio",
       "expression": "0.42",
       "units": "ratio",
-      "range": [0.25, 0.6],
+      "range": [
+        0.25,
+        0.6
+      ],
       "authority_note": "`styles/elizabethan.json`: 'glazed to solid ratio on a principal elevation 45-60 percent, and higher at Hardwick'. `styles/jacobean.json`: 'glazing ratio reduced from Elizabethan extremes to roughly 30-45 percent'. `styles/jacobethan-revival.json`: '35-55 percent - far higher than any other revival in this branch'.",
       "note": "A JUDGMENT SLOT, AND THE THREE FIGURES ARE A HISTORY. Elizabethan 45-60 per cent and higher at Hardwick, where the house is famously more glass than wall; Jacobean pulled back to 30-45, which that record explicitly frames as a RETREAT from Elizabethan extremes; the revival at 35-55, choosing the Elizabethan end deliberately because glass was cheap by 1910 and the effect was the point. A designer should pick a decade rather than a number, and should know that at the top of this band the mullions have become the building's structure -- which is the pack's first conflict and is why Hardwick was a stunt.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "glazed_to_wall_ratio"
     },
     {
       "target_slot": "window_sill",
       "dimension": "height",
       "expression": "part * 30",
       "units": "in",
-      "range": [18.0, 48.0],
+      "range": [
+        18.0,
+        48.0
+      ],
       "authority_note": "Read off surviving work; the records give window proportions and glazing ratios but not sill heights.",
       "note": "30 in, and a reading rather than a measurement. What is well attested is the DEEP SEAT the sill sits in rather than its height: `styles/arts-and-crafts-british.json` gives 'wall thickness 400-600 mm, giving window seats of 350-500 mm depth', and `styles/cotswold-vernacular.json` gives reveals of 250-450 mm on a 500-700 mm wall. The window seat is not a feature added to these openings, it is what a mullioned window in a thick wall unavoidably produces, and a design that lines the wall internally to modern insulation standards will lose it -- which is `stone-course`'s energy conflict arriving at the same window from the wall's side.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "sill_height_above_floor"
     },
     {
       "target_slot": "entry_door",
       "dimension": "ratio",
       "expression": "2.0",
       "units": "ratio",
-      "range": [1.6, 2.5],
+      "range": [
+        1.6,
+        2.5
+      ],
       "authority_note": "`styles/tudor.json`: the four-centred arch is used 'for doorways, fireplaces and window heads'. `styles/tudor-revival.json`: 'entrance under a Tudor (four-centred) arch... usually recessed and often placed in a projecting gabled bay'.",
       "note": "The doorway takes the same head and the same label as the windows, which is what makes this a system rather than a window type -- `styles/tudor.json` says the four-centred arch serves doorways, fireplaces and windows alike, and the fireplace is the case that proves it, since an interior opening with no weather to shed still gets the label. The door is squarer than a classical one at 2:1, because the arch's flatness eats the height a taller proportion would need.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "entry_door_height_over_width"
     }
   ],
   "conflicts": [

@@ -228,7 +228,8 @@
       ],
       "authority_note": "TWO SEVENTHS, AND THIS IS THE ONE MEMBER BENJAMIN MAKES HEAVIER THAN THE ROMANS. A 10 ft column takes a 34 1/4 in. entablature. Vignola on the same column would give 30 in. and Benjamin's own 1816 Roman Doric would give 24 7/8 in. The Greek Revival entablature is a deep, plain, boldly projecting box, and it is the element that carries the style - so much so that thousands of American houses are Greek Revival by entablature alone, with no columns anywhere on them.",
       "judgment": false,
-      "note": "That last observation is the practical one. If the budget carries one classical gesture, make it this entablature, run as a wide frieze board and a bold cornice at the eaves, and skip the order entirely. It is what the vernacular did and it works."
+      "note": "That last observation is the practical one. If the budget carries one classical gesture, make it this entablature, run as a wide frieze board and a bold cornice at the eaves, and skip the order entirely. It is what the vernacular did and it works.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "chair_rail",
@@ -241,7 +242,8 @@
       ],
       "authority_note": "THE CHAIR RAIL IS DELETED, AND BENJAMIN GIVES THREE REASONS - FASHION, COST AND HEAT LOSS. Practical House Carpenter, Plate XL: 'I have given these designs a place here, although the sur-base and dado seem at present to be quite out of fashion; nor, indeed, do I think it very desirable that they should be again received into favor. It is my opinion, that a room finished with a base only, presents a more chaste and pleasing appearance than when encumbered with a dado and sur-base. WHEN PLASTERING IS SUBSTITUTED FOR THE BOARDS OF THE DADO, IT IS LESS EXPENSIVE, AND A GREATER PREVENTIVE AGAINST THE COLD AIR.' A canonical author deleting a canonical member on grounds of cost and thermal performance, in 1830. Vignola's pedestal-at-one-third is not modified here; it is abolished.",
       "judgment": true,
-      "note": "JUDGMENT SLOT. Set to zero for a correct Greek Revival interior. If a chair rail is wanted anyway - and clients often want one - it is a Federal move on a Greek Revival house and should be acknowledged as such rather than defended as historical."
+      "note": "JUDGMENT SLOT. Set to zero for a correct Greek Revival interior. If a chair rail is wanted anyway - and clients often want one - it is a Federal move on a Greek Revival house and should be acknowledged as such rather than defended as historical.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "wainscot",
@@ -254,7 +256,8 @@
       ],
       "authority_note": "Same passage, same reasoning. The boarded dado is replaced by plaster to the floor. Note the second half of Benjamin's argument: the plaster is warmer than the boards. A boarded dado on a lath-and-plaster wall creates a ventilated cavity behind it; plaster carried to the baseboard does not. He is describing an air-sealing detail a hundred and fifty years before the term existed, and choosing performance over ornament.",
       "judgment": true,
-      "note": "JUDGMENT SLOT. The modern equivalent decision is exactly the same one: a boarded or panelled wainscot on an exterior wall is a thermal bypass unless it is detailed as part of the air barrier."
+      "note": "JUDGMENT SLOT. The modern equivalent decision is exactly the same one: a boarded or panelled wainscot on an exterior wall is a thermal bypass unless it is detailed as part of the air barrier.",
+      "quantity": "wainscot_top_height"
     },
     {
       "target_slot": "baseboard",
@@ -267,7 +270,8 @@
       ],
       "authority_note": "AND THE COMPENSATION, WHICH IS THE HALF PEOPLE FORGET. 'As a very good fashion seems now to prevail, of not using either dados or sur-bases, IT IS NECESSARY TO MAKE THE BASE SOMEWHAT LARGER than it was when these were in fashion. It will be proper to make the plinth to these designs for base mouldings about seven inches wide; in small, low rooms, their size may be somewhat reduced.' The baseboard grows from Benjamin's 1816 five-to-six inches to seven because the chair rail died and the wall now has only one horizontal to hold it down. THE MEMBERS OF A TRIM SYSTEM ARE NOT INDEPENDENT: delete one and the others must be resized.",
       "judgment": false,
-      "note": "Seven inches is the plinth alone; with a cap moulding the whole base runs eight to nine. That is the Greek Revival baseboard and it is noticeably taller than a Federal one in the same size of room."
+      "note": "Seven inches is the plinth alone; with a cap moulding the whole base runs eight to nine. That is the Greek Revival baseboard and it is noticeably taller than a Federal one in the same size of room.",
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "casing",
@@ -279,7 +283,8 @@
         8
       ],
       "authority_note": "BENJAMIN REVISED THIS BETWEEN HIS BOOKS AND EXPLAINS THE REVISION. 1830, Plates XLV-XLVII: 'Doors and windows in the same room are necessarily of different heights and widths, the windows always being considerably larger than the doors; but it would be highly improper to make two widths of architraves. It therefore becomes necessary to make a compromise between them. I have in practice generally divided the width of the door into six equal parts, and given one to the width of the architrave: say, if the door is three feet wide, one sixth would be six inches, which would be rather too wide for the door; but as the windows in the same room would be from ten to twelve inches wider than the door, six inches would be rather too narrow for the window, if its size only was to be considered; I therefore should make the architrave one sixth of the width of the door.' In 1816 he gave one EIGHTH. The Greek Revival casing is a quarter wider than the Federal one and that is a large part of why Greek Revival rooms feel bolder.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "casing",
@@ -305,7 +310,8 @@
       ],
       "authority_note": "BENJAMIN'S 1830 ROOM CORNICE IS SPECIFIED BY PROJECTION, NOT BY HEIGHT, AND HE EXPLAINS THE SWITCH: 'As stucco cornices occupy more space on the ceiling than on the vertical walls, I have thought it more proper to determine their projection than their height; AND MORE PARTICULARLY SO, AS, IN MANY SITUATIONS, A VERY SMALL HEIGHT ONLY CAN BE HAD. In such cases, the defect can in some degree be remedied by adding to the projection. As a general rule, give to the projection of the cornice five eighths of an inch for each foot in the height. If the room be ten feet in height, make the cornice project six and a quarter inches.' Five eighths of an inch per foot is ceiling_height * 5/96. A 10 ft room gets 6 1/4 in. of projection; an 8 ft room gets 5 in. THIS IS THE SINGLE MOST DIRECTLY APPLICABLE RULE IN ANY OF THESE NINE PACKS TO A CONTEMPORARY HOUSE WITH AN 8 OR 9 FOOT CEILING, because it is the only one written by someone who had already accepted that the height was not available.",
       "judgment": false,
-      "note": "Benjamin gives no companion height rule in 1830; his 1816 figures - one fortieth of the room height plain, one thirtieth enriched - remain the best available and give 3 in. and 4 in. in a 10 ft room against 6 1/4 in. of projection. A cornice that projects half again its height, or twice it, is the Greek Revival profile."
+      "note": "Benjamin gives no companion height rule in 1830; his 1816 figures - one fortieth of the room height plain, one thirtieth enriched - remain the best available and give 3 in. and 4 in. in a 10 ft room against 6 1/4 in. of projection. A cornice that projects half again its height, or twice it, is the Greek Revival profile.",
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "cornice",
@@ -318,7 +324,8 @@
       ],
       "authority_note": "THE EAVE CORNICE GETS BIGGER IN 1830. 'To proportion their height, divide the height of the building, on which A is to be used, into twenty-four equal parts, and make the height of the cornice on the wall equal to one of these parts. If B or D is to be used, divide the height of the building into twenty-five parts... If C is to be used, divide the height into thirty equal parts.' And for cornices with friezes: 'As a general proportion, give to the height of the cornice on the wall, without the frieze, from one twenty-fifth to one thirtieth of the height of the wall.' In 1816 the rule was one thirtieth. The Greek Revival cornice is a fifth larger than the Federal one on the same building, which is exactly what the eye reports. BIND storey_height TO THE FULL WALL HEIGHT.",
       "judgment": true,
-      "note": "JUDGMENT SLOT, and Benjamin makes it one: 'In determining their height and proportion, judgment is to be used. If a house have a front of forty or fifty feet, it will be necessary to make the cornice somewhat larger than if the front only occupy a space of twenty or twenty-five feet.'"
+      "note": "JUDGMENT SLOT, and Benjamin makes it one: 'In determining their height and proportion, judgment is to be used. If a house have a front of forty or fifty feet, it will be necessary to make the cornice somewhat larger than if the front only occupy a space of twenty or twenty-five feet.'",
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "interior_door",
@@ -344,7 +351,8 @@
       ],
       "authority_note": "A RULE BENJAMIN INVENTS AND NOBODY ELSE HAS. 'In the Roman and modern examples, a difficulty exists, where columns and undiminished pilasters were employed in supporting the same entablature, because there is given to the pilasters the same diameter as to the column, and the lower fascia of the architrave is situated in a vertical line with the neck of the column. It therefore happens that the neck of the pilaster projects beyond the face of the architrave; which defect they endeavor to avoid by diminishing the pilaster. But pilasters of the same diameter with the columns have the appearance of being larger than the columns, on account of their form being angular... I have, in this example, endeavored to avoid both defects, by making the diameter of the pilaster equal to that of the upper fillet of the capital, which, in this order, is fifty-four minutes; so that the lower fascia of the architrave is in a vertical line with the neck of the pilaster. What is here said with regard to the diameter of pilasters will apply to both the Tuscan and Ionic orders.' A PILASTER IS 54/60 OF A COLUMN DIAMETER, undiminished, and everything lines up. Expression is on a 420-minute (7-diameter) column.",
       "judgment": false,
-      "note": "This solves the commonest detailing failure in Greek Revival work - the corner pilaster that is fatter than the columns it stands beside - and it solves it by shrinking the pilaster rather than by tapering it. Undiminished pilasters can be run as flat stock; diminished ones cannot."
+      "note": "This solves the commonest detailing failure in Greek Revival work - the corner pilaster that is fatter than the columns it stands beside - and it solves it by shrinking the pilaster rather than by tapering it. Undiminished pilasters can be run as flat stock; diminished ones cannot.",
+      "quantity": "pilaster_face_width"
     }
   ],
   "conflicts": [

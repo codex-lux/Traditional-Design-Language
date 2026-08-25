@@ -254,7 +254,8 @@
       "expression": "column_height / 5",
       "units": "in",
       "note": "THE DELTA THAT MATTERS MOST. Vignola's one rule is a quarter for every order; Palladio gives a fifth in the Ionic, Corinthian and Composite and keeps the quarter only in the Doric. On a 20 ft column that is a 12 in difference in the depth of the eave. If a building is Palladian and its entablature is a quarter, it is wearing Vignola's clothes.",
-      "authority_note": "Ware 1738, Book I ch. XVI: 'a fifth part of the height of the column'."
+      "authority_note": "Ware 1738, Book I ch. XVI: 'a fifth part of the height of the column'.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "cornice",
@@ -262,7 +263,8 @@
       "expression": "column_height / 5 * (5 / 12)",
       "units": "in",
       "note": "The exterior cornice. Five twelfths of the entablature, which is one twelfth of the column - against Vignola's 7/18 of a quarter = 7/72. In absolute terms Palladio's Ionic cornice is 0.75 D and Vignola's is 0.875 D, so the Palladian cornice is lighter by an eighth of a diameter even though it takes a LARGER share of a smaller entablature.",
-      "authority_note": "Ware 1738, Book I ch. XVI."
+      "authority_note": "Ware 1738, Book I ch. XVI.",
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "modillion_dentil",
@@ -270,7 +272,8 @@
       "expression": "column_height / 5 * (2 / 7.75) * (5 / 12)",
       "units": "in",
       "note": "MODILLIONS, NOT DENTILS. Palladio's Ionic cornice gives two of its seven and three quarter parts to a modillion band. Vignola gives the Ionic a dentil band and reserves modillions for the Corinthian. An English Palladian Ionic eave with dentils is a Vignolesque eave on a Palladian order.",
-      "authority_note": "Ware 1738, Book I ch. XVI."
+      "authority_note": "Ware 1738, Book I ch. XVI.",
+      "quantity": "eave_member_face_height"
     },
     {
       "target_slot": "crown",
@@ -283,7 +286,8 @@
         0.08
       ],
       "note": "JUDGMENT SLOT. The room read as an order. Under Vignola the interior entablature is a fifth of the wall-plus-cornice and the crown is 7/18 of it. Under Palladio the entablature is a SIXTH (a fifth of the column, and the column is five sixths of the whole) and the crown is 5/12 of that. At a 9 ft ceiling: Palladio 7.5 in, Vignola 8.4 in. The Palladian room has a lighter cornice, and that is a real and visible difference between a Burlington interior and a Beaux-Arts one. The range is of ceiling height and is where judgement should live.",
-      "authority_note": "Derived from Ware 1738, Book I ch. XVI by the standard room-as-order analogy; the analogy itself is not Palladio's."
+      "authority_note": "Derived from Ware 1738, Book I ch. XVI by the standard room-as-order analogy; the analogy itself is not Palladio's.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "chair_rail",
@@ -296,7 +300,8 @@
         0.5
       ],
       "note": "JUDGMENT SLOT, and a genuinely different rule. Palladio does NOT proportion the Ionic pedestal to the column. Book I ch. XIX: 'the height of the pedestal is half the void of the arch.' The datum is the OPENING, not the order. In a room, the Palladian equivalent of a chair rail therefore takes its height from the window or door opening it runs into, at half the clear opening - which is why Palladian dados line through with window aprons and Vignolesque ones do not. The expression is a ratio of the arch or opening void, not of the storey.",
-      "authority_note": "Ware 1738, Book I ch. XIX."
+      "authority_note": "Ware 1738, Book I ch. XIX.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "height_proportion",
@@ -304,7 +309,8 @@
       "expression": "0.75",
       "units": "ratio",
       "note": "SUPERIMPOSITION. The Ionic over a Doric is a fourth less than the Doric; where Palladio wants a lighter step he uses a fifth less (Ware, Book II). Vignola states no rule for superimposition at all, and this is the rule that produces the Anglo-Palladian two-storey loggia.",
-      "authority_note": "Ware 1738, Book I ch. XII and Book II passim."
+      "authority_note": "Ware 1738, Book I ch. XII and Book II passim.",
+      "quantity": "superimposed_order_diminution"
     },
     {
       "target_slot": "porch_support",
@@ -312,7 +318,8 @@
       "expression": "column_height / 9 * 2.25",
       "units": "in",
       "note": "Clear span, eustyle. Under Palladio's rule the spacing and the order are the same decision: 2 1/4 diameters clear REQUIRES a nine-diameter column. If the bay must be wider, the column must get stouter, not merely further apart.",
-      "authority_note": "Ware 1738, Book I ch. XIII."
+      "authority_note": "Ware 1738, Book I ch. XIII.",
+      "quantity": "clear_span_between_supports"
     },
     {
       "target_slot": "column",
@@ -320,7 +327,8 @@
       "expression": "column_height / 9 * (5.5 / 6.5)",
       "units": "in",
       "note": "Upper diameter, for a column up to 15 ft. Palladio tabulates diminution against height (6 1/2 to 5 1/2 under 15 ft; 7 to 6 1/2 from 15 to 20; 8 to 7 from 20 to 30; taller in the same manner) where Vignola fixes 5/6 for everything. For most domestic work Palladio's figure is 0.846 and Vignola's is 0.833 - Palladio's column is very slightly less tapered.",
-      "authority_note": "Ware 1738, Book I ch. XIII."
+      "authority_note": "Ware 1738, Book I ch. XIII.",
+      "quantity": "shaft_upper_diameter"
     }
   ],
   "conflicts": [

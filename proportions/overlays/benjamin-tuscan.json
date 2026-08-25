@@ -192,7 +192,8 @@
       ],
       "authority_note": "THE ATTENUATION RULE AT PORCH SCALE, AND THE MOST USEFUL NUMBER IN THIS PACK. Vignola's Tuscan is seven diameters, so an 8 ft 6 in. porch column is 14 9/16 in. thick. Benjamin's is EIGHT diameters, so the same column is 12 3/4 in. An inch and three quarters of difference on every porch column in America, and it is the difference between a column that reads as Roman and one that reads as American. Benjamin's justification is explicitly about apparent load: a wooden porch roof weighs nothing compared with a stone entablature, and the column should show it.",
       "judgment": false,
-      "note": "The 1830 Practical House Carpenter reverts to seven diameters for the Tuscan while making the entablature heavier - column_height/7 with a two-diameter entablature. If the house is Greek Revival rather than Federal, use the 1830 figures."
+      "note": "The 1830 Practical House Carpenter reverts to seven diameters for the Tuscan while making the entablature heavier - column_height/7 with a two-diameter entablature. If the house is Greek Revival rather than Federal, use the 1830 figures.",
+      "quantity": "support_shaft_width"
     },
     {
       "target_slot": "entablature",
@@ -204,7 +205,8 @@
         60
       ],
       "authority_note": "One quarter has become one four-and-a-half-seventh. On a 10 ft column that is 26 1/4 in. against Vignola's 30 in. Benjamin's own gloss, from the 1830 book, is the honest engineering statement of it: 'in different situations, both column and entablature require different proportions. They should in all cases be proportioned according to the weight, or apparent weight, which they have to sustain.'",
-      "judgment": false
+      "judgment": false,
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "casing",
@@ -217,7 +219,8 @@
       ],
       "authority_note": "BENJAMIN'S 1816 CASING RULE, AND IT IS NOT VIGNOLA'S SIXTH. 'To proportion architraves to doors and windows, divide the door into eight parts, give one to the width of the architrave. If a door is three feet six inches wide, one eighth would be five and a quarter inches.' A 32 in. door gives 4 in. of casing under Benjamin and 5 5/16 in. under Vignola - a quarter narrower, and it is why Federal trim is finer than Georgian trim in the same house type. He caps it at the top end: 'if a door should be six feet wide, one eighth of it would be nine inches, which would be too large, and may be reduced to six and a half, or seven inches.' Hence the range.",
       "judgment": false,
-      "note": "By 1830 Benjamin had changed his mind and gone back to the sixth: 'I have in practice generally divided the width of the door into six equal parts, and given one to the width of the architrave.' The 1816 eighth is the Federal figure; the 1830 sixth is the Greek Revival one."
+      "note": "By 1830 Benjamin had changed his mind and gone back to the sixth: 'I have in practice generally divided the width of the door into six equal parts, and given one to the width of the architrave.' The 1816 eighth is the Federal figure; the 1830 sixth is the Greek Revival one.",
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "casing",
@@ -243,7 +246,8 @@
       ],
       "authority_note": "THE COLLAPSE OF THE ROOM CORNICE, DOCUMENTED. 'To proportion cornices for rooms, give the cornice one fortieth part of the height of the room. If a room is ten feet high, one fortieth will be three inches.' Vignola's Tuscan cornice at room scale is ceiling_height * (16/12)/14 = one tenth and a half of the ceiling - 11 3/8 in. in a 10 ft room. Benjamin gives THREE INCHES. This is a reduction of nearly four to one, and it is the clearest single measure of what happens when a stone order is handed to a carpenter running plaster and pine in a house rather than a temple.",
       "judgment": false,
-      "note": "For an enriched stucco cornice Benjamin allows one thirtieth: 'their height, when enriched with three ornaments, about a thirtieth part of the height of the room' - 4 in. in a 10 ft room. Even the enriched figure is a third of Vignola's."
+      "note": "For an enriched stucco cornice Benjamin allows one thirtieth: 'their height, when enriched with three ornaments, about a thirtieth part of the height of the room' - 4 in. in a 10 ft room. Even the enriched figure is a third of Vignola's.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "crown",
@@ -256,7 +260,8 @@
       ],
       "authority_note": "AND THE COMPENSATION, WHICH IS THE INTERESTING HALF. Vignola and Gibbs both make a cornice project exactly its height. Benjamin: 'The projection of cornices, for rooms, ought to be at least one fourth more than their height... Their projection may, in some cases, be double their height.' Having lost three quarters of the cornice's height he buys the shadow back with projection - and he says why: 'About half of the projections ought to be given to the plancere, which will prevent its looking bulky, and give it a light appearance.' A wide flat soffit and a small vertical face. That is the profile of a Federal cornice and the reason it reads as delicate rather than as stunted.",
       "judgment": false,
-      "note": "Range spans 1.25x to 2x the 1/40 height. The rest of the paragraph is the best short piece of moulding advice in the American literature: 'the parts should be as few as possible, and those well proportioned; not crowd in any moulding that cannot be seen... Their fillets ought not to be too small, give them a good projection before each moulding; at least as much as they rise. Their quirks ought to be large, as the principal beauty of plain cornices depends on the shadows of their quirks.'"
+      "note": "Range spans 1.25x to 2x the 1/40 height. The rest of the paragraph is the best short piece of moulding advice in the American literature: 'the parts should be as few as possible, and those well proportioned; not crowd in any moulding that cannot be seen... Their fillets ought not to be too small, give them a good projection before each moulding; at least as much as they rise. Their quirks ought to be large, as the principal beauty of plain cornices depends on the shadows of their quirks.'",
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "cornice",
@@ -269,7 +274,8 @@
       ],
       "authority_note": "THE EAVE CORNICE, SIZED FROM THE BUILDING AND NOT FROM ANY ORDER. 'To proportion cornices to the eaves of buildings, divide the whole height into thirty parts, give one part to the height of the cornice. For example, suppose a house to be thirty five feet high, divide thirty five feet into thirty parts, and one thirtieth will be fourteen inches.' No classical author gives this rule because no classical author had to design a cornice for a building with no order on it. BIND storey_height TO THE FULL HEIGHT OF THE WALL from grade to the top of the frieze, not to one storey.",
       "judgment": true,
-      "note": "JUDGMENT SLOT, and Benjamin makes it one himself, at length: 'It is sometimes necessary to vary the above proportion. If it be required to proportion a cornice to a basement story house of forty feet high, and twenty five feet front, unconnected with any other building, I would advise to divide the height into forty parts... Again, if a house be forty feet high, and from fifty to sixty feet front, or a block of buildings from seventy five to one hundred feet front, one thirtieth may not be too large... and if a house of two stories high, say twenty five feet whole height, and from fifty to sixty feet front, one thirtieth would be ten inches, which would not be large enough; in that case I would advise to make it eleven and a half or twelve inches.' TALL AND NARROW TAKES 1/40; LOW AND WIDE TAKES MORE THAN 1/30. He then gives a built check: the Thomas Amory house in Park Place, Boston, walls 62 ft high, cornice 20 in., 'which is about one thirty seventh part of the height.'"
+      "note": "JUDGMENT SLOT, and Benjamin makes it one himself, at length: 'It is sometimes necessary to vary the above proportion. If it be required to proportion a cornice to a basement story house of forty feet high, and twenty five feet front, unconnected with any other building, I would advise to divide the height into forty parts... Again, if a house be forty feet high, and from fifty to sixty feet front, or a block of buildings from seventy five to one hundred feet front, one thirtieth may not be too large... and if a house of two stories high, say twenty five feet whole height, and from fifty to sixty feet front, one thirtieth would be ten inches, which would not be large enough; in that case I would advise to make it eleven and a half or twelve inches.' TALL AND NARROW TAKES 1/40; LOW AND WIDE TAKES MORE THAN 1/30. He then gives a built check: the Thomas Amory house in Park Place, Boston, walls 62 ft high, cornice 20 in., 'which is about one thirty seventh part of the height.'",
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "chair_rail",
@@ -282,7 +288,8 @@
       ],
       "authority_note": "THE SURBASE, SIZED OFF THE DADO AND NOT OFF THE ORDER. 'To proportion base and surbase mouldings to the pedestal part of rooms, divide from the floor to the top of the surbase into ten parts, give one to the height of the surbase. Suppose the height from the floor to the top of the surbase to be two feet eight inches, one tenth would be three inches and one fifth of an inch, which divide into as many parts as are contained in the height of the surbase you make use of.' Note the worked example: Benjamin's own dado is 2 ft 8 in., which is exactly one third of an 8 ft ceiling - so he arrives at Vignola's chair rail height by a different route and then sizes the MOULDING at a tenth of it. Combining the two gives ceiling_height/30.",
       "judgment": false,
-      "note": "The top of the rail is still ceiling_height/3, as in the Vignola spine - that rule is not overridden. What Benjamin adds is the height of the rail ITSELF, which no classical source states, and the instruction that the base mouldings are drawn from the same scale: 'The same scale, or parts, will draw the base mouldings in proportion to the surbase.'"
+      "note": "The top of the rail is still ceiling_height/3, as in the Vignola spine - that rule is not overridden. What Benjamin adds is the height of the rail ITSELF, which no classical source states, and the instruction that the base mouldings are drawn from the same scale: 'The same scale, or parts, will draw the base mouldings in proportion to the surbase.'",
+      "quantity": "chair_rail_profile_height"
     },
     {
       "target_slot": "baseboard",
@@ -295,7 +302,8 @@
       ],
       "authority_note": "AN ABSOLUTE DIMENSION IN A BOOK OF PROPORTIONS, AND THAT IS THE POINT. 'Let the plinth be from five to six inches wide.' Not a fraction of the ceiling, not a module - a number, because a baseboard is made from a board and boards come in widths. Vignola's rule at room scale gives ceiling_height/14, which is 7 11/16 in. at a 9 ft ceiling and 8 9/16 in. at 10 ft; Benjamin says five to six inches in every room in the house. The moment the order stops governing and the material starts is visible in this one line.",
       "judgment": true,
-      "note": "JUDGMENT SLOT because Benjamin himself revised it. By 1830, with the dado abolished, he raises it: 'as a very good fashion seems now to prevail, of not using either dados or sur-bases, it is necessary to make the base somewhat larger than it was when these were in fashion. It will be proper to make the plinth to these designs for base mouldings about seven inches wide; in small, low rooms, their size may be somewhat reduced.' Federal room: 5-6 in. Greek Revival room: 7 in. The baseboard grows because the chair rail died."
+      "note": "JUDGMENT SLOT because Benjamin himself revised it. By 1830, with the dado abolished, he raises it: 'as a very good fashion seems now to prevail, of not using either dados or sur-bases, it is necessary to make the base somewhat larger than it was when these were in fashion. It will be proper to make the plinth to these designs for base mouldings about seven inches wide; in small, low rooms, their size may be somewhat reduced.' Federal room: 5-6 in. Greek Revival room: 7 in. The baseboard grows because the chair rail died.",
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "window_proportion",
@@ -308,7 +316,8 @@
       ],
       "authority_note": "CHAMBERS'S RULE AS BENJAMIN TRANSMITS AND DOUBTS IT. 'As to the proportion of windows to rooms, I do not believe any certain determined rule can be given for their height and breadth, although there are several European writers, who have given rules for their proportion. I think sir William Chambers has given the best proportion of any one I have seen, yet I do not find it to answer in all cases; he adds the depth and the height of the rooms on the principal floor together, and takes one eighth part thereof for the width of the window.' The expression assumes room depth equal to twice the ceiling height, the ordinary American case, giving (2h + h)/8. Where the depth is known, use (depth + ceiling_height)/8 directly.",
       "judgment": true,
-      "note": "JUDGMENT SLOT on the author's own authority. A 20 ft deep room 10 ft high gives a 45 in. window; the same room at 8 ft gives 42 in."
+      "note": "JUDGMENT SLOT on the author's own authority. A 20 ft deep room 10 ft high gives a 45 in. window; the same room at 8 ft gives 42 in.",
+      "quantity": "window_width_from_room"
     },
     {
       "target_slot": "interior_door",
@@ -321,7 +330,8 @@
       ],
       "authority_note": "BENJAMIN'S DOOR SIZES ARE FROM PRACTICE, NOT FROM PROPORTION, and he says so. 'The width and height of doors, depends on the size and height of rooms in some degree... In the course of my own practice, I have made doors for rooms of sixteen by eighteen or twenty feet, and ten feet high, three feet wide, and seven feet or seven feet two inches high. When rooms have been twenty by twenty three or twenty four feet, and twelve or fourteen feet high, I have made the doors three feet six or seven inches wide, and seven feet eight inches, or eight feet high; all the doors in the same room ought to be of the same size.' Folding doors between principal rooms are the exception: 'They ought to be made from eight to twelve inches higher than the other doors of the room, or they will, on account of their width, appear to be lower than the others.'",
       "judgment": true,
-      "note": "JUDGMENT SLOT. The mapping from room size to door size is a table of Benjamin's own jobs, not a rule. External doors: 3 ft 4 in. to 3 ft 6 in. for a narrow town house with sidelights, 3 ft 10 in. to 4 ft for a large house without them, 'and never less than two diameters high' - his one proportional constraint on a door."
+      "note": "JUDGMENT SLOT. The mapping from room size to door size is a table of Benjamin's own jobs, not a rule. External doors: 3 ft 4 in. to 3 ft 6 in. for a narrow town house with sidelights, 3 ft 10 in. to 4 ft for a large house without them, 'and never less than two diameters high' - his one proportional constraint on a door.",
+      "quantity": "interior_door_leaf_height"
     }
   ],
   "conflicts": [

@@ -155,7 +155,8 @@
       ],
       "judgment": true,
       "authority_note": "The steelyard or moment analogy is standard in the period composition literature but is always stated qualitatively. The multiplier here is derived by treating elevation area as weight and distance from the visual centre as lever arm, then calibrated against measured fronts.",
-      "note": "THE LEVER-ARM RULE, AND THE ONE THAT MAKES 'ASYMMETRICAL' MEAN SOMETHING. An asymmetrical elevation balances the way a steelyard balances, not the way a see-saw does: a small weight far out balances a large weight near in, and the products of area and distance must agree. Concretely, a subordinate mass of HALF the dominant's elevation area must stand about TWICE as far from the visual centre. A tower, a chimney or a porch gable placed close to the dominant mass has almost no compositional effect and reads as clutter; the same element pushed out to the end of the elevation holds the whole thing down. This is why picturesque houses are wide and why crowding the incidents toward the middle ruins them. THE PROCEDURE: outline every mass in elevation, compute area and centroid, take the area-weighted centroid of the whole - that is the visual centre - and check that no single element contributes more than about a third of the total moment on either side. MARKED JUDGMENT because the multiplier is calibrated, not sourced, and because area is a crude proxy for visual weight: dark masses, deep shadow, texture and glass all weigh more than their area, and no arithmetic captures that. The rule tells you when you are badly out. It does not tell you when you are right."
+      "note": "THE LEVER-ARM RULE, AND THE ONE THAT MAKES 'ASYMMETRICAL' MEAN SOMETHING. An asymmetrical elevation balances the way a steelyard balances, not the way a see-saw does: a small weight far out balances a large weight near in, and the products of area and distance must agree. Concretely, a subordinate mass of HALF the dominant's elevation area must stand about TWICE as far from the visual centre. A tower, a chimney or a porch gable placed close to the dominant mass has almost no compositional effect and reads as clutter; the same element pushed out to the end of the elevation holds the whole thing down. This is why picturesque houses are wide and why crowding the incidents toward the middle ruins them. THE PROCEDURE: outline every mass in elevation, compute area and centroid, take the area-weighted centroid of the whole - that is the visual centre - and check that no single element contributes more than about a third of the total moment on either side. MARKED JUDGMENT because the multiplier is calibrated, not sourced, and because area is a crude proxy for visual weight: dark masses, deep shadow, texture and glass all weigh more than their area, and no arithmetic captures that. The rule tells you when you are badly out. It does not tell you when you are right.",
+      "quantity": "asymmetry_lever_arm"
     },
     {
       "target_slot": "height_proportion",
@@ -191,7 +192,8 @@
         126.0
       ],
       "authority_note": "The head line sits lower as a fraction of the storey than in classical work (0.75-0.82 there) because the picturesque window is shorter and the band above it carries a cladding change.",
-      "note": "HEIGHT OF THE PRINCIPAL DATUM above the finished first floor - the line carrying window heads, door head and porch cornice together. Seventy-eight inches on a nine-foot storey, which is also a convenient door head. That convenience is not accidental: the datum is set by the door because the door cannot move, and everything else is brought to it."
+      "note": "HEIGHT OF THE PRINCIPAL DATUM above the finished first floor - the line carrying window heads, door head and porch cornice together. Seventy-eight inches on a nine-foot storey, which is also a convenient door head. That convenience is not accidental: the datum is set by the door because the door cannot move, and everything else is brought to it.",
+      "quantity": "belt_course_height_above_floor"
     },
     {
       "target_slot": "wing_strategy",
@@ -203,7 +205,8 @@
         252.0
       ],
       "judgment": true,
-      "note": "WIDTH OF THE PRINCIPAL SUBORDINATE MASS - the cross gable, the ell, the tower block. Thirteen feet two on the default. Marked judgment: the range is set by the dominance rule at one end and by habitability at the other, and anywhere inside it is defensible. What is NOT defensible is a subordinate mass within about ten per cent of the dominant's width, which produces two masses the eye cannot rank. If the plan insists on two rooms of equal width, differentiate them in the elevation by roof form, by height or by projection - one of the three, and preferably not all three at once."
+      "note": "WIDTH OF THE PRINCIPAL SUBORDINATE MASS - the cross gable, the ell, the tower block. Thirteen feet two on the default. Marked judgment: the range is set by the dominance rule at one end and by habitability at the other, and anywhere inside it is defensible. What is NOT defensible is a subordinate mass within about ten per cent of the dominant's width, which produces two masses the eye cannot rank. If the plan insists on two rooms of equal width, differentiate them in the elevation by roof form, by height or by projection - one of the three, and preferably not all three at once.",
+      "quantity": "subordinate_mass_width"
     },
     {
       "target_slot": "porch_type",
@@ -226,7 +229,8 @@
         48.0,
         168.0
       ],
-      "note": "EIGHT FEET, and this is close to a hard number rather than a soft one. Below about six feet a porch will not hold furniture and is a covered entry rather than a room, which changes what it is for and how it should be detailed. Above about twelve feet it darkens the rooms behind it beyond what any glazing will fix - see the daylight rule in the room-vernacular pack, which caps room depth at about 2 to 2.5 times the window head height and which a deep porch defeats directly by lowering the effective head. Eight to ten feet is the band in which a porch is both usable and survivable for the rooms behind."
+      "note": "EIGHT FEET, and this is close to a hard number rather than a soft one. Below about six feet a porch will not hold furniture and is a covered entry rather than a room, which changes what it is for and how it should be detailed. Above about twelve feet it darkens the rooms behind it beyond what any glazing will fix - see the daylight rule in the room-vernacular pack, which caps room depth at about 2 to 2.5 times the window head height and which a deep porch defeats directly by lowering the effective head. Eight to ten feet is the band in which a porch is both usable and survivable for the rooms behind.",
+      "quantity": "porch_depth"
     },
     {
       "target_slot": "gable_treatment",
@@ -238,7 +242,8 @@
         3.0
       ],
       "judgment": true,
-      "note": "GABLES FACING THE PRINCIPAL ELEVATION. Two - one dominant, one subordinate - is the default and the safest number. One is a gable-front house and is a different and simpler type. Three is possible and is what a large Queen Anne does, but it requires that the three be unmistakably ranked in size, and the third must be small enough to read as an incident rather than as a third competitor. Marked judgment: this is a compositional decision the sources do not constrain, and the count matters far less than the ranking."
+      "note": "GABLES FACING THE PRINCIPAL ELEVATION. Two - one dominant, one subordinate - is the default and the safest number. One is a gable-front house and is a different and simpler type. Three is possible and is what a large Queen Anne does, but it requires that the three be unmistakably ranked in size, and the third must be small enough to read as an incident rather than as a third competitor. Marked judgment: this is a compositional decision the sources do not constrain, and the count matters far less than the ranking.",
+      "quantity": "gables_on_principal_front"
     },
     {
       "target_slot": "roof_form",
@@ -261,7 +266,8 @@
         24.0,
         96.0
       ],
-      "note": "CHIMNEY ABOVE THE MAIN RIDGE. Three feet. The chimney is the picturesque elevation's only reliably vertical element and it is doing compositional work as a counterweight, so it must be tall enough to be seen against the sky and massive enough to be seen at all. Code minimums (2 ft above anything within 10 ft, 3 ft above the penetration) are a floor, not a design. A chimney that stops level with the ridge has no compositional value whatever and would have been thought a mistake by anyone building before 1920."
+      "note": "CHIMNEY ABOVE THE MAIN RIDGE. Three feet. The chimney is the picturesque elevation's only reliably vertical element and it is doing compositional work as a counterweight, so it must be tall enough to be seen against the sky and massive enough to be seen at all. Code minimums (2 ft above anything within 10 ft, 3 ft above the penetration) are a floor, not a design. A chimney that stops level with the ridge has no compositional value whatever and would have been thought a mistake by anyone building before 1920.",
+      "quantity": "chimney_height_above_ridge"
     },
     {
       "target_slot": "material_change_rule",
@@ -273,7 +279,8 @@
         228.0
       ],
       "authority_note": "Measured cladding changes on Queen Anne and Shingle Style fronts land at the second-floor structure or at the second-floor sill line far more often than anywhere else.",
-      "note": "HEIGHT OF THE CLADDING CHANGE - clapboard to shingle, shingle to half-timber, masonry to frame. One hundred thirty-eight inches on a nine-foot storey. THE RULE IS THAT THE CHANGE MUST LAND ON A DATUM OR ON A REAL CHANGE IN THE WALL, and there are only three honest places: the water table, the second-floor structure, and the second-floor sill line. A change anywhere else is a decorative stripe. This is the single most abused detail in modern picturesque work, where a band of shingles is applied to a gable for variety with no relation to anything behind it - and the tell is always the same, that the change line does not continue around the corner of the building."
+      "note": "HEIGHT OF THE CLADDING CHANGE - clapboard to shingle, shingle to half-timber, masonry to frame. One hundred thirty-eight inches on a nine-foot storey. THE RULE IS THAT THE CHANGE MUST LAND ON A DATUM OR ON A REAL CHANGE IN THE WALL, and there are only three honest places: the water table, the second-floor structure, and the second-floor sill line. A change anywhere else is a decorative stripe. This is the single most abused detail in modern picturesque work, where a band of shingles is applied to a gable for variety with no relation to anything behind it - and the tell is always the same, that the change line does not continue around the corner of the building.",
+      "quantity": "material_change_height_above_floor"
     },
     {
       "target_slot": "secondary_cladding",
@@ -308,7 +315,8 @@
         1.0,
         2.0
       ],
-      "note": "ONE FEATURE WINDOW PER ELEVATION - the Palladian in the gable, the oriel, the art-glass stair window, the eyebrow. Exactly one, and it belongs on or near the dominant mass, because a feature on a subordinate mass inverts the hierarchy the whole composition depends on. This is the most reliable single diagnostic of amateur picturesque design: the feature window placed for interior effect on whichever wall the stair happened to land against."
+      "note": "ONE FEATURE WINDOW PER ELEVATION - the Palladian in the gable, the oriel, the art-glass stair window, the eyebrow. Exactly one, and it belongs on or near the dominant mass, because a feature on a subordinate mass inverts the hierarchy the whole composition depends on. This is the most reliable single diagnostic of amateur picturesque design: the feature window placed for interior effect on whichever wall the stair happened to land against.",
+      "quantity": "feature_windows_per_elevation"
     },
     {
       "target_slot": "window_grouping_rule",
@@ -319,7 +327,8 @@
         1.0,
         7.0
       ],
-      "note": "OPENINGS THE DOMINANT MASS WILL CARRY at a pier of about 0.8 times the opening width - four or five on the default. Picturesque work piers its windows more tightly than classical work does, because the openings are grouped in pairs and triples with wide wall between the groups rather than spread evenly. THE GROUPING RULE: adjacent groups must differ in count. A front of 2 + 2 + 2 is a rhythm and therefore symmetrical in effect; 3 + 1 + 2 is a composition. This is the asymmetrical equivalent of the odd-bay rule and it is just as unforgiving."
+      "note": "OPENINGS THE DOMINANT MASS WILL CARRY at a pier of about 0.8 times the opening width - four or five on the default. Picturesque work piers its windows more tightly than classical work does, because the openings are grouped in pairs and triples with wide wall between the groups rather than spread evenly. THE GROUPING RULE: adjacent groups must differ in count. A front of 2 + 2 + 2 is a rhythm and therefore symmetrical in effect; 3 + 1 + 2 is a composition. This is the asymmetrical equivalent of the odd-bay rule and it is just as unforgiving.",
+      "quantity": "openings_per_bay"
     },
     {
       "target_slot": "entry_sequence",
@@ -343,7 +352,8 @@
         312.0
       ],
       "judgment": true,
-      "note": "THE COMMON EAVE HEIGHT - about two storeys less a little. At least two of the masses on the elevation should share an eave line; where all of them do the composition is calm and the interest has to come from projection and material, which is the Shingle Style answer, and where none of them do the composition is loud and requires a very strong dominant to survive, which is the Queen Anne answer. Both work. What does not work is eaves at three or four heights none of which agree and none of which are far enough apart to read as deliberate - the near-miss, which the eye reads as an error rather than as variety. Marked judgment: the number of shared eave lines is the central compositional dial on a picturesque front and there is no right setting, only settings that are honest about themselves."
+      "note": "THE COMMON EAVE HEIGHT - about two storeys less a little. At least two of the masses on the elevation should share an eave line; where all of them do the composition is calm and the interest has to come from projection and material, which is the Shingle Style answer, and where none of them do the composition is loud and requires a very strong dominant to survive, which is the Queen Anne answer. Both work. What does not work is eaves at three or four heights none of which agree and none of which are far enough apart to read as deliberate - the near-miss, which the eye reads as an error rather than as variety. Marked judgment: the number of shared eave lines is the central compositional dial on a picturesque front and there is no right setting, only settings that are honest about themselves.",
+      "quantity": "eave_height_above_grade"
     }
   ],
   "conflicts": [

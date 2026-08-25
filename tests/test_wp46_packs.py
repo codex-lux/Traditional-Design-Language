@@ -1671,7 +1671,9 @@ def test_the_intra_pack_duplicate_addresses_are_menus_and_must_not_be_fixed():
     heights = [r for r in rh if (r["target_slot"], r["dimension"]) == ("ceiling_height_rule", "height")]
     assert any("METHOD 1 OF 3" in r["note"] for r in heights)
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
-    assert "48. **OPEN" in oq and "menu" in oq
+    # RE-PINNED: OQ 48 is now partly closed -- the menu reading is what kept a naive uniqueness
+    # check from being shipped, and it is still the reason `check_addresses.py` compares MEANINGS.
+    assert "48. **PARTLY CLOSED" in oq and "menu" in oq
 
 
 def test_the_flush_faced_dormer_decides_which_pack_applies():
@@ -3038,3 +3040,86 @@ def test_the_cascade_delivers_packs_nobody_bound_and_it_is_raised_not_papered_ov
                      if pb["pack"] == "facade-peristyle").get("slots") is None) for a in binders)
     oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
     assert "51. **OPEN" in oq
+
+
+# --- OQ 48: quantity, and the ratchet ----------------------------------------------------------
+
+
+def _addresses():
+    import subprocess, re
+    out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_addresses.py")],
+                         capture_output=True, text=True, cwd=ROOT).stdout
+    m = re.search(r"(\d+) co-binding pack pair\(s\); (\d+) address\(es\)[^;]*; (\d+) could not", out)
+    assert m, out
+    return tuple(int(x) for x in m.groups())
+
+
+def test_the_real_collision_count_is_pinned_and_cannot_grow_silently():
+    """139 addresses where two co-binding packs measure DIFFERENT quantities, against the ~20 a 5%
+    rate over 453 predicted -- a seven-fold under-estimate, and the seventh time in this work that
+    a measurement was wrong once it was read. Fixing them is a migration and is not done here; the
+    pinned count is what protects the corpus meanwhile, because a new pack adding a 140th fails."""
+    pairs, real, unjudged = _addresses()
+    assert (pairs, real, unjudged) == (442, 139, 19)
+
+
+def test_unjudged_is_reported_separately_and_never_as_agreement():
+    """A rule with no `quantity` cannot be compared. The checker counts those apart from the
+    collisions, which is the discipline the whole corpus runs on."""
+    src = open(os.path.join(ROOT, "build", "check_addresses.py")).read()
+    assert "UNJUDGED IS NOT PASSED" in src
+    assert "could not be judged" in src
+    _, _, unjudged = _addresses()
+    assert unjudged > 0                       # and it is a real number, not an empty branch
+
+
+def test_the_checker_reports_by_default_and_only_fails_under_strict():
+    """A known, counted, documented backlog must not block all work. What protects the corpus is
+    the pinned count above, not a red build."""
+    src = open(os.path.join(ROOT, "build", "check_addresses.py")).read()
+    assert '"--strict"' in src
+    assert "OFF by default, deliberately" in src
+    import subprocess
+    p = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_addresses.py")],
+                       capture_output=True, text=True, cwd=ROOT)
+    assert p.returncode == 0
+    q = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_addresses.py"),
+                        "--strict"], capture_output=True, text=True, cwd=ROOT)
+    assert q.returncode == 1
+
+
+def test_the_resolver_names_what_it_sets_aside_instead_of_discarding_it():
+    """Precedence decides which of two accounts of ONE quantity to believe; it cannot decide
+    between two quantities, and the loser used to vanish with nothing said."""
+    src = open(os.path.join(ROOT, "build", "resolve_kit.py")).read()
+    assert "other_quantities" in src
+    assert "a rule that was silently dropped is unjudged" in src
+    # and the grouping is by (dimension, quantity), because by_slot is keyed on the slot alone
+    assert "Grouped by (dimension, quantity), not by quantity alone" in src
+    assert "A `count` rule is not an alternative account of a" in src
+
+
+def test_quantity_survives_the_proportion_engine():
+    """It is set on the rule and read at resolution, so it has to come through `evaluate`. It did
+    not, at first, and the grouping silently did nothing -- which is the same class of failure the
+    field exists to catch."""
+    src = open(os.path.join(ROOT, "build", "proportion_engine.py")).read()
+    assert '"quantity": r.get("quantity"),' in src
+
+
+def test_the_worst_addresses_are_annotated_and_their_quantities_differ():
+    """`window_head_masonry/height` held five quantities -- head height above floor, lintel depth,
+    flat-arch camber, segmental rise, hood mould depth -- and 44 nodes bind two or more of the
+    packs involved. `height_proportion/ratio` held seven."""
+    def qs(slot, dim):
+        out = set()
+        import glob
+        for f in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+            for r in json.load(open(f)).get("derived_rules", []):
+                if r["target_slot"] == slot and r["dimension"] == dim and r.get("quantity"):
+                    out.add(r["quantity"])
+        return out
+    assert len(qs("window_head_masonry", "height")) >= 5
+    assert len(qs("height_proportion", "ratio")) >= 6
+    assert "head_height_above_floor" in qs("window_head_masonry", "height")
+    assert "lintel_or_arch_depth" in qs("window_head_masonry", "height")

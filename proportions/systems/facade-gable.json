@@ -135,7 +135,8 @@
       ],
       "authority_note": "`styles/rural-gothic-villa.json`: 'three or more gables of unequal width forming a hierarchical silhouette against the sky'. `styles/jacobean.json`: shaped gables 'ranged symmetrically along a front or crowning end pavilions'.",
       "note": "GABLES ON A PRINCIPAL FRONT, and the two records that give a count want opposite things with it. The Jacobean front ranges them SYMMETRICALLY, so the count is odd or the gables pair about a centre. The Gothic villa ranges them HIERARCHICALLY and its own record says equality is a fault -- see the hierarchy rule. Same number, opposite compositional rule, and a designer needs to know which tradition is being worked in before the count means anything.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "gables_on_principal_front"
     },
     {
       "target_slot": "gable_treatment",
@@ -252,7 +253,8 @@
       ],
       "authority_note": "`styles/cotswold-vernacular.json`: 'gabled dormers rising through the eaves with their faces flush with the wall below, so that they read as gables of the wall rather than as boxes on the roof'.",
       "note": "THE GABLED DORMER AS A SMALL GABLE, 50 in. The rule that matters is not the width but the FLUSH FACE: a dormer whose front is in the plane of the wall below is a gable of the wall and takes everything in this pack -- kneelers, coping, apex stone, the same apex ratio. A dormer set back onto the roof slope is a box with a roof on it and takes none of it. One record states the distinction and it decides which pack applies.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "dormer_width"
     },
     {
       "target_slot": "ornament_vocabulary",

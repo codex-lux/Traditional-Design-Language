@@ -148,7 +148,8 @@
       "expression": "column_height / 5",
       "units": "in",
       "note": "A fifth, not a quarter. On a 24 in Composite column, 48 in of entablature against Vignola's 60. Combined with a pedestal that is nearly the same, this makes a Palladian Composite storey read as a taller column carrying a lighter load - which is precisely Palladio's argument for the order.",
-      "authority_note": "Ware 1738, Book I ch. XVIII."
+      "authority_note": "Ware 1738, Book I ch. XVIII.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "porch_support",
@@ -156,7 +157,8 @@
       "expression": "column_height / 10 * 1.5",
       "units": "in",
       "note": "Clear span, pycnostyle. One and a half diameters is the tightest spacing in the Palladian system and it is what the Composite is FOR: a dense, rich, close-set colonnade. Spacing a Composite at three diameters is not a Composite under Palladio's rule; it is a Doric wearing acanthus.",
-      "authority_note": "Ware 1738, Book I ch. XIII."
+      "authority_note": "Ware 1738, Book I ch. XIII.",
+      "quantity": "clear_span_between_supports"
     },
     {
       "target_slot": "chair_rail",
@@ -169,7 +171,8 @@
         0.33
       ],
       "note": "JUDGMENT SLOT. The pedestal cap lands at 0.217 of the whole order - about 24 in at a 9 ft ceiling. This is the ONE Palladian order whose pedestal datum agrees closely with Vignola's (0.21), and it is therefore the order to reach for when a room must satisfy both the classical dado and a client who expects a chair rail at furniture height. It still falls 8 to 12 in short of the modern 32 to 36 in expectation.",
-      "authority_note": "Ware 1738, Book I ch. XIX."
+      "authority_note": "Ware 1738, Book I ch. XIX.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "ornament_vocabulary",
@@ -186,7 +189,8 @@
       "expression": "0.75",
       "units": "ratio",
       "note": "SUPERIMPOSITION. The Composite is Palladio's uppermost order and each order is a fourth less than the one below. Where a front carries Doric, Ionic and Composite, this rule and not the elevation grid sets the storey heights.",
-      "authority_note": "Ware 1738, Book I ch. XII and Book II passim."
+      "authority_note": "Ware 1738, Book I ch. XII and Book II passim.",
+      "quantity": "superimposed_order_diminution"
     },
     {
       "target_slot": "crown",
@@ -199,7 +203,8 @@
         0.085
       ],
       "note": "JUDGMENT SLOT. The interior cornice on the Palladian reading - entablature a sixth of wall-plus-cornice, crown five twelfths of that: 7.5 in at 9 ft. The Composite is the order most likely to be used in a room that wants MORE cornice than this, and the upper end of the range is where a Composite saloon should sit.",
-      "authority_note": "Room-as-order analogy applied to Ware 1738, Book I ch. XVIII; the analogy is not Palladio's."
+      "authority_note": "Room-as-order analogy applied to Ware 1738, Book I ch. XVIII; the analogy is not Palladio's.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "column",
@@ -207,7 +212,8 @@
       "expression": "column_height / 10 * (7 / 8)",
       "units": "in",
       "note": "Upper diameter for a tall column. A Composite is normally the uppermost of a superimposed set and therefore short, but where it stands alone at 20 to 30 ft Palladio's table gives 8 parts below to 7 above - 0.875 - and not Vignola's fixed 0.833. On a 30 ft column that is a 2 in difference at the neck.",
-      "authority_note": "Ware 1738, Book I ch. XIII."
+      "authority_note": "Ware 1738, Book I ch. XIII.",
+      "quantity": "shaft_upper_diameter"
     }
   ],
   "conflicts": [

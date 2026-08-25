@@ -589,7 +589,8 @@
       "expression": "column_height / 4",
       "units": "in",
       "authority_note": "Vignola's first invariant. A 10 ft Doric column carries a 2 ft 6 in. entablature, of which 7 1/2 in. is architrave, 11 1/4 in. frieze and 11 1/4 in. cornice.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "column",
@@ -611,7 +612,8 @@
       ],
       "authority_note": "THE ACTUAL HISTORICAL DERIVATION, and it is the same in every order because the pedestal rule is the same: the pedestal is one third the column. Read the room as the order and the pedestal cap lands at one third the ceiling. In Doric the cap is a richer member than in Tuscan - cyma reversa, corona, fillet, half-ovolo, fillet - which is what a Doric chair rail should be: a small cornice, not a moulded board.",
       "judgment": false,
-      "note": "The wainscot below it IS the pedestal - base, die, cap - so its cap and the chair rail are one member, not two; a wainscot whose panelling stops at a different height from the rail reads as two systems fighting. The rail itself is the pedestal cap: ceiling_height * 6/168 in Tuscan, ceiling_height * 6/192 in Doric."
+      "note": "The wainscot below it IS the pedestal - base, die, cap - so its cap and the chair rail are one member, not two; a wainscot whose panelling stops at a different height from the rail reads as two systems fighting. The rail itself is the pedestal cap: ceiling_height * 6/168 in Tuscan, ceiling_height * 6/192 in Doric.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "baseboard",
@@ -623,7 +625,8 @@
         12
       ],
       "authority_note": "The base of the order at room scale: one module of a sixteen-module column. A 9 ft ceiling gives 6 3/4 in. - noticeably lighter than the Tuscan 7 11/16 in. from the same ceiling, because the Doric column is slenderer relative to its height. The plinth of the order is the logic: Vignola's Doric plinth is 4 parts of 12, so the baseboard's plinth block is one third of its height and the moulded cap two thirds.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "crown",
@@ -636,7 +639,8 @@
       ],
       "authority_note": "Room as an order at reduced module: the Doric cornice alone, 1 1/2 modules of a 16-module column. A 9 ft ceiling gives 10 1/8 in.",
       "judgment": false,
-      "note": "Run it as a real Doric cornice - cap of triglyph, ovolo, mutule band, corona, cyma recta - or do not call it Doric. A Doric room cornice without mutules is a Tuscan cornice with extra steps."
+      "note": "Run it as a real Doric cornice - cap of triglyph, ovolo, mutule band, corona, cyma recta - or do not call it Doric. A Doric room cornice without mutules is a Tuscan cornice with extra steps.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "crown",
@@ -648,7 +652,8 @@
         24
       ],
       "authority_note": "Doric is the exception Ware flags: the cornice projects MORE than its height - one full diameter, 2 modules, against 1 1/2 modules of height, a ratio of 4:3. A Doric crown run at equal projection and drop is wrong and reads as timid.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "modillion_dentil",
@@ -656,7 +661,8 @@
       "expression": "ceiling_height / (ceiling_height * 30 / 192)",
       "units": "count",
       "authority_note": "Mutules are spaced at 1 1/4 diameters - 30 parts of the 192-part column - one over each triglyph. At room scale that is one mutule every ceiling_height * 30/192, i.e. every 16 7/8 in. in a 9 ft room. Set them out from the centre of the principal wall or the fireplace axis, never from a corner.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "eave_members_per_bay"
     },
     {
       "target_slot": "casing",
@@ -669,7 +675,8 @@
       ],
       "authority_note": "The casing is the entablature architrave brought down to the opening. In Doric it takes the two-fascia form of Tavola XII - lower band one third, upper band one third, taenia and regula the top third - and where the door carries a full entablature the regula and its six guttae go under the taenia at every triglyph. One sixth of the opening width is the standard classical door-architrave rule.",
       "judgment": false,
-      "note": "The same rule governs the window surround; where a window takes a full entablature or a pediment above, that entablature is opening_width/2 deep for a 1:2 opening."
+      "note": "The same rule governs the window surround; where a window takes a full entablature or a pediment above, that entablature is opening_width/2 deep for a 1:2 opening.",
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "door_surround",
@@ -678,7 +685,8 @@
       "units": "in",
       "authority_note": "Treat the door height as the column height; the entablature over it is a quarter of that, and a 1:2 opening makes it half the opening width. Vignola's arched Doric opening is exactly two squares, 7 modules by 14.",
       "judgment": false,
-      "note": "A full Doric entablature over a 36 in. door is 18 in. deep and must accommodate whole triglyphs: 36 in. of opening at 1 1/4 D spacing forces the module, so the door width and the triglyph pitch have to be reconciled before anything else is drawn."
+      "note": "A full Doric entablature over a 36 in. door is 18 in. deep and must accommodate whole triglyphs: 36 in. of opening at 1 1/4 D spacing forces the module, so the door width and the triglyph pitch have to be reconciled before anything else is drawn.",
+      "quantity": "entablature_over_door_height"
     },
     {
       "target_slot": "porch_support",
@@ -702,7 +710,8 @@
         36
       ],
       "authority_note": "Building-scale main cornice from a real or implied Doric order. Its projection is column_height * 2/16, i.e. one third more than its height.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "frieze",
@@ -715,7 +724,8 @@
       ],
       "authority_note": "Where the elevation has no order, the frieze band is standing in for one, and the choice of datum - storey, wall, whole building - is not determined by any classical source. In Doric there is a second undetermined choice on top of it: whether to carry triglyphs at all on a wall that has no columns for them to sit over.",
       "judgment": true,
-      "note": "JUDGMENT SLOT, twice over. Triglyphs on a blank wall are defensible (they are all over Greek Revival) but they need a rational set-out - centred on window axes, or on the corners - or they read as wallpaper."
+      "note": "JUDGMENT SLOT, twice over. Triglyphs on a blank wall are defensible (they are all over Greek Revival) but they need a rational set-out - centred on window axes, or on the corners - or they read as wallpaper.",
+      "quantity": "entablature_frieze_height"
     },
     {
       "target_slot": "porch_depth",
@@ -728,7 +738,8 @@
       ],
       "authority_note": "No classical source gives a porch depth. Below about 7 ft a porch is decoration; above it, a room.",
       "judgment": true,
-      "note": "JUDGMENT SLOT. In Doric there is a real coupling: the depth sets the height, the height sets the module, and the module sets the triglyph pitch, which then quantises the bay. Fix the depth first and expect to iterate."
+      "note": "JUDGMENT SLOT. In Doric there is a real coupling: the depth sets the height, the height sets the module, and the module sets the triglyph pitch, which then quantises the bay. Fix the depth first and expect to iterate.",
+      "quantity": "porch_depth"
     },
     {
       "target_slot": "balustrade",
@@ -741,7 +752,8 @@
       ],
       "authority_note": "Ware is explicit: balustrades, like steps, are proportioned to the human figure, not to the order. 'A Balustrade, like a Parapet, is intended to lean upon, and should not be more than 3 or 4 feet high.'",
       "judgment": true,
-      "note": "JUDGMENT SLOT. Code, the hand and the sight line govern; the module does not. Ware's baluster proportions (cap one quarter, base one quarter, belly at one third the height) apply once the height is chosen."
+      "note": "JUDGMENT SLOT. Code, the hand and the sight line govern; the module does not. Ware's baluster proportions (cap one quarter, base one quarter, belly at one third the height) apply once the height is chosen.",
+      "quantity": "guard_height"
     }
   ],
   "conflicts": [

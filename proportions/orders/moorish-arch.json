@@ -1,223 +1,224 @@
 {
- "id": "moorish-arch",
- "name": "The Moorish Arch and Impost System",
- "aka": [
-  "the horseshoe arch system",
-  "arco de herradura",
-  "the Cordoban arcade",
-  "Hispano-Islamic arch order"
- ],
- "kind": "order-system",
- "authority": {
-  "source": "Owen Jones and Jules Goury, Plans, Elevations, Sections and Details of the Alhambra, London 1842-45; K. A. C. Creswell, Early Muslim Architecture, Oxford 1932-40, on the Great Mosque of Cordoba; Jules Bourgoin, Les Elements de l'art arabe: le trait des entrelacs, Paris 1879, for the geometric setting-out",
-  "author": "Jones and Goury; Creswell; Bourgoin",
-  "year": 1845,
-  "strength": "reconstructed",
-  "url": "https://archive.org/details/planselevationss00jone",
-  "note": "RECONSTRUCTED, and the word is exact. No treatise codified this system the way Vignola codified the orders: there is no Hispano-Islamic Regola, and the practice was transmitted by the compass, the square and the workshop. What survives is measured drawings of the buildings (Jones and Goury at the Alhambra; Creswell at Cordoba) and the geometric plate books that recovered the setting-out after the fact (Bourgoin). This pack is built from those, and every figure in it says which of the three it came from. Where nothing measured survives for a dimension, the parameter says so rather than carrying a plausible number."
- },
- "overlay_of": null,
- "module": {
-  "name": "the side of the generating square",
-  "parts": 8,
-  "default_size_in": 24.0,
-  "note": "THIS IS NOT A COLUMN DIAMETER, and that is the whole difference between this system and an order. `styles/moorish-andalusian.json`'s own governing_logic states it: 'no order and no absolute module... geometric generation from a square, compass-and-straightedge.' The generating figure is a square; everything else is struck from it with a compass. The module is that square's side and the part is an eighth of it, because eight is the count the system's own commonest figure turns on - the khatam, the eight-pointed star made by superimposing two squares at 45 degrees, from which the sixteen- and twelve-point families are generated in turn. The default of 24 in is a working size for a domestic arcade and carries no authority; change it and every figure below moves with it, which is the point of a generated system and the reason it can be encoded at all. What CANNOT be encoded here is a column proportion (see `column`). AND THERE IS NO `column` BLOCK AT ALL, which is the second half of the same statement and is the finding rather than an omission. At Cordoba the shafts are spolia - reused Roman and Visigothic columns of whatever length came to hand - and the arcade is brought to a common springing line by the IMPOST BLOCK above the capital, not by cutting the columns to a proportion. So the system has no column-height rule to state, and inventing one would be encoding a classical habit this architecture does not have. The impost assembly below is what actually governs, and it is the diagnostic member of the whole system. Every other order pack in this library carries a column block; this one cannot, and a reader who does not know that would take its absence for an authoring gap."
- },
- "assemblies": {
-  "impost": {
-   "height_modules": 0.5,
-   "sums_check": true,
-   "members": [
+  "id": "moorish-arch",
+  "name": "The Moorish Arch and Impost System",
+  "aka": [
+    "the horseshoe arch system",
+    "arco de herradura",
+    "the Cordoban arcade",
+    "Hispano-Islamic arch order"
+  ],
+  "kind": "order-system",
+  "authority": {
+    "source": "Owen Jones and Jules Goury, Plans, Elevations, Sections and Details of the Alhambra, London 1842-45; K. A. C. Creswell, Early Muslim Architecture, Oxford 1932-40, on the Great Mosque of Cordoba; Jules Bourgoin, Les Elements de l'art arabe: le trait des entrelacs, Paris 1879, for the geometric setting-out",
+    "author": "Jones and Goury; Creswell; Bourgoin",
+    "year": 1845,
+    "strength": "reconstructed",
+    "url": "https://archive.org/details/planselevationss00jone",
+    "note": "RECONSTRUCTED, and the word is exact. No treatise codified this system the way Vignola codified the orders: there is no Hispano-Islamic Regola, and the practice was transmitted by the compass, the square and the workshop. What survives is measured drawings of the buildings (Jones and Goury at the Alhambra; Creswell at Cordoba) and the geometric plate books that recovered the setting-out after the fact (Bourgoin). This pack is built from those, and every figure in it says which of the three it came from. Where nothing measured survives for a dimension, the parameter says so rather than carrying a plausible number."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "the side of the generating square",
+    "parts": 8,
+    "default_size_in": 24.0,
+    "note": "THIS IS NOT A COLUMN DIAMETER, and that is the whole difference between this system and an order. `styles/moorish-andalusian.json`'s own governing_logic states it: 'no order and no absolute module... geometric generation from a square, compass-and-straightedge.' The generating figure is a square; everything else is struck from it with a compass. The module is that square's side and the part is an eighth of it, because eight is the count the system's own commonest figure turns on - the khatam, the eight-pointed star made by superimposing two squares at 45 degrees, from which the sixteen- and twelve-point families are generated in turn. The default of 24 in is a working size for a domestic arcade and carries no authority; change it and every figure below moves with it, which is the point of a generated system and the reason it can be encoded at all. What CANNOT be encoded here is a column proportion (see `column`). AND THERE IS NO `column` BLOCK AT ALL, which is the second half of the same statement and is the finding rather than an omission. At Cordoba the shafts are spolia - reused Roman and Visigothic columns of whatever length came to hand - and the arcade is brought to a common springing line by the IMPOST BLOCK above the capital, not by cutting the columns to a proportion. So the system has no column-height rule to state, and inventing one would be encoding a classical habit this architecture does not have. The impost assembly below is what actually governs, and it is the diagnostic member of the whole system. Every other order pack in this library carries a column block; this one cannot, and a reader who does not know that would take its absence for an authoring gap."
+  },
+  "assemblies": {
+    "impost": {
+      "height_modules": 0.5,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "capital",
+          "name": "Capital (spolia, or a carved pseudo-Corinthian answering one)",
+          "height_parts": 2.0,
+          "projection_parts": 0.5,
+          "profile": "abacus",
+          "note": "Whatever the column brought with it. At Cordoba the capitals are a museum of reused Roman and Visigothic work with new carving among them; the system does not require them to match, and the visual field they make is the point rather than a defect. Height given as the ordinary Corinthianising proportion so the assembly sums; a real spolia capital is whatever it is.",
+          "confidence": "medium"
+        },
+        {
+          "id": "impost_block",
+          "name": "Impost block (cimacio) - the diagnostic member of this system",
+          "height_parts": 2.0,
+          "projection_parts": 0.75,
+          "profile": "flat",
+          "note": "A plain or shallowly-carved block set between capital and arch springing. It is what a classical order has no use for and this system cannot work without: it takes up the difference between columns of unequal length, it moves the springing line clear of the capital so the horseshoe's return has somewhere to go, and it is the surface the alternating voussoir courses start from. An arcade drawn with the arch springing straight off the capital is not this system, whatever the arch shape.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "arch": {
+      "height_modules": 1.5,
+      "sums_check": false,
+      "members": [
+        {
+          "id": "horseshoe_return",
+          "name": "The return - the part of the arc below the springing line",
+          "height_parts": 3.0,
+          "profile": "other",
+          "note": "The horseshoe. The centre of the arc sits ABOVE the springing line, so the curve continues downward past the semicircle before meeting the impost, and the opening is narrower at the impost than at its widest. Creswell's Cordoba figures and the Alhambra measured drawings put the return between one third and one half of the radius; the Visigothic precedent it comes from is nearer a third and the mature Cordoban work nearer a half. Encoded as a range in the invariants rather than as one number, because the range is what the fabric shows. sums_check is false because these two members are not a stack. The return is the part of the ONE arc that falls below the springing line and the voussoir course is the thickness of that same arc measured radially -- they describe the same curve in two directions, and adding their heights together would be adding a length to a depth.",
+          "confidence": "high"
+        },
+        {
+          "id": "voussoirs",
+          "name": "Alternating voussoir courses (ablaq)",
+          "height_parts": 1.0,
+          "profile": "other",
+          "enrichment": "alternating pale stone and red brick at Cordoba; carved and painted plaster in the domestic Alhambra work",
+          "note": "The alternation is structural in origin and compositional in effect: it counts the arc for the eye, so a horseshoe reads as a described curve rather than as a hole. Two materials, alternating one for one, is the Cordoban rule; the Alhambra's plaster equivalent alternates surface rather than material.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "alfiz": {
+      "height_modules": 2.0,
+      "sums_check": false,
+      "members": [
+        {
+          "id": "jamb_return",
+          "name": "The alfiz's vertical returns, dropping to the impost line",
+          "height_parts": 8.0,
+          "projection_parts": 0.5,
+          "profile": "fascia",
+          "note": "The alfiz is the rectangular frame around the arch, and it is the second thing that makes this system legible as a system: the arch is not a hole in a wall, it is a figure inside a stated rectangle. The returns drop to the impost line and no further - an alfiz carried to the ground is a later and different device. sums_check is false because the alfiz is a frame and not a stack: its vertical returns and its head are two sides of one rectangle, and the head sits above a crown whose height is stated in the `arch` assembly rather than in this one. The height_modules here is the frame's overall height, not the sum of its parts.",
+          "confidence": "high"
+        },
+        {
+          "id": "head",
+          "name": "The alfiz's head, above the crown of the arch",
+          "height_parts": 1.5,
+          "projection_parts": 0.5,
+          "profile": "fascia",
+          "note": "The clear distance between the crown of the arch and the underside of the alfiz head. Measured drawings show it small and never nothing - the frame must read as a frame, and a head that touches the crown reads as a mistake. Encoded at 1.5 parts as a working figure; the Alhambra range is wider and is not recorded here as a measurement because Jones's plates are not dimensioned to that precision.",
+          "confidence": "low"
+        }
+      ]
+    }
+  },
+  "invariants": [
     {
-     "id": "capital",
-     "name": "Capital (spolia, or a carved pseudo-Corinthian answering one)",
-     "height_parts": 2.0,
-     "projection_parts": 0.5,
-     "profile": "abacus",
-     "note": "Whatever the column brought with it. At Cordoba the capitals are a museum of reused Roman and Visigothic work with new carving among them; the system does not require them to match, and the visual field they make is the point rather than a defect. Height given as the ordinary Corinthianising proportion so the assembly sums; a real spolia capital is whatever it is.",
-     "confidence": "medium"
+      "statement": "The module is divided into eight parts, because eight is the count the khatam turns on.",
+      "expression": "module.parts == 8",
+      "tolerance": 0.0
     },
     {
-     "id": "impost_block",
-     "name": "Impost block (cimacio) - the diagnostic member of this system",
-     "height_parts": 2.0,
-     "projection_parts": 0.75,
-     "profile": "flat",
-     "note": "A plain or shallowly-carved block set between capital and arch springing. It is what a classical order has no use for and this system cannot work without: it takes up the difference between columns of unequal length, it moves the springing line clear of the capital so the horseshoe's return has somewhere to go, and it is the surface the alternating voussoir courses start from. An arcade drawn with the arch springing straight off the capital is not this system, whatever the arch shape.",
-     "confidence": "high"
-    }
-   ]
-  },
-  "arch": {
-   "height_modules": 1.5,
-   "sums_check": false,
-   "members": [
-    {
-     "id": "horseshoe_return",
-     "name": "The return - the part of the arc below the springing line",
-     "height_parts": 3.0,
-     "profile": "other",
-     "note": "The horseshoe. The centre of the arc sits ABOVE the springing line, so the curve continues downward past the semicircle before meeting the impost, and the opening is narrower at the impost than at its widest. Creswell's Cordoba figures and the Alhambra measured drawings put the return between one third and one half of the radius; the Visigothic precedent it comes from is nearer a third and the mature Cordoban work nearer a half. Encoded as a range in the invariants rather than as one number, because the range is what the fabric shows. sums_check is false because these two members are not a stack. The return is the part of the ONE arc that falls below the springing line and the voussoir course is the thickness of that same arc measured radially -- they describe the same curve in two directions, and adding their heights together would be adding a length to a depth.",
-     "confidence": "high"
+      "statement": "The arch returns below its springing line by between one third and one half of its radius.",
+      "expression": "assemblies.arch.members.horseshoe_return.height_parts / module.parts >= 0.33",
+      "tolerance": 0.1,
+      "note": "3/8 = 0.375, inside the 0.33-0.50 band that Creswell's Cordoba figures and the Alhambra drawings show. Stated as one number here because the schema's invariants take one expression; the BAND is the real claim and it is in the member's own note and in the derived rule below. The member id is `horseshoe_return` and not `return`, which is what it wants to be called: the invariant evaluator parses these as Python expressions and `return` is a keyword."
     },
     {
-     "id": "voussoirs",
-     "name": "Alternating voussoir courses (ablaq)",
-     "height_parts": 1.0,
-     "profile": "other",
-     "enrichment": "alternating pale stone and red brick at Cordoba; carved and painted plaster in the domestic Alhambra work",
-     "note": "The alternation is structural in origin and compositional in effect: it counts the arc for the eye, so a horseshoe reads as a described curve rather than as a hole. Two materials, alternating one for one, is the Cordoban rule; the Alhambra's plaster equivalent alternates surface rather than material.",
-     "confidence": "high"
+      "statement": "The impost block is a real member and not a moulding: it is at least a quarter of the impost assembly's height.",
+      "expression": "assemblies.impost.members.impost_block.height_parts >= assemblies.impost.height_modules * module.parts / 4",
+      "tolerance": 0.05,
+      "note": "0.5 on the encoded figures. The invariant exists because the impost block is the member most often lost when this system is imitated, and losing it turns the arcade into a classical one wearing a horseshoe."
     }
-   ]
-  },
-  "alfiz": {
-   "height_modules": 2.0,
-   "sums_check": false,
-   "members": [
+  ],
+  "derived_rules": [
     {
-     "id": "jamb_return",
-     "name": "The alfiz's vertical returns, dropping to the impost line",
-     "height_parts": 8.0,
-     "projection_parts": 0.5,
-     "profile": "fascia",
-     "note": "The alfiz is the rectangular frame around the arch, and it is the second thing that makes this system legible as a system: the arch is not a hole in a wall, it is a figure inside a stated rectangle. The returns drop to the impost line and no further - an alfiz carried to the ground is a later and different device. sums_check is false because the alfiz is a frame and not a stack: its vertical returns and its head are two sides of one rectangle, and the head sits above a crown whose height is stated in the `arch` assembly rather than in this one. The height_modules here is the frame's overall height, not the sum of its parts.",
-     "confidence": "high"
+      "target_slot": "arch",
+      "dimension": "height",
+      "expression": "module * 1.5",
+      "units": "in",
+      "range": [
+        18.0,
+        72.0
+      ],
+      "authority_note": "Creswell on Cordoba; Jones and Goury at the Alhambra.",
+      "note": "The rise from the springing line to the crown, before the return is added below it. RETARGETED 24 Aug 2026: this rule was written against `window_head_masonry` because the ontology had no arch slot, which was raised as OQ 46 in this pack's own notes and is now built -- `arch` joined the openings group at ontology 0.6.0 and this rule says what it means. The opening's total clear height is this plus the impost assembly, and its narrowest width is at the impost -- which is what a door schedule has to be told, because the widest point of a horseshoe opening is not where the door is.",
+      "judgment": false,
+      "quantity": "arch_rise"
     },
     {
-     "id": "head",
-     "name": "The alfiz's head, above the crown of the arch",
-     "height_parts": 1.5,
-     "projection_parts": 0.5,
-     "profile": "fascia",
-     "note": "The clear distance between the crown of the arch and the underside of the alfiz head. Measured drawings show it small and never nothing - the frame must read as a frame, and a head that touches the crown reads as a mistake. Encoded at 1.5 parts as a working figure; the Alhambra range is wider and is not recorded here as a measurement because Jones's plates are not dimensioned to that precision.",
-     "confidence": "low"
+      "target_slot": "arch",
+      "dimension": "return",
+      "expression": "module * 0.375",
+      "units": "in",
+      "range": [
+        0.33,
+        0.5
+      ],
+      "authority_note": "The return as a fraction of the radius. Visigothic precedent nearer a third; mature Cordoban work nearer a half.",
+      "note": "THE NUMBER THE WHOLE SYSTEM TURNS ON, and the one an imitation gets wrong. Below about a third the arch reads as a semicircle that has sagged; above about a half it reads as a keyhole and the opening becomes unusable, because the clear width at the impost falls below the clear width a person needs. The range is the claim; 0.375 is a default inside it and not a measurement of any one building.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "height",
+      "expression": "module * 0.25",
+      "units": "in",
+      "range": [
+        4.0,
+        18.0
+      ],
+      "authority_note": "Creswell on Cordoba: the impost block (cimacio) between capital and springing.",
+      "note": "The impost block, and it is targeted at `porch_support` because a Moorish arcade IS what carries the loggia -- the corpus's slot for what holds a porch up is the nearest true home for it. Two parts of the eight, a quarter of the module. Drop this member and the arcade becomes a classical one wearing a horseshoe, which is the single commonest way this system is got wrong.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_surround_masonry",
+      "dimension": "width",
+      "expression": "part * 0.5",
+      "units": "in",
+      "range": [
+        1.0,
+        4.0
+      ],
+      "authority_note": "The alfiz's projection at the Alhambra, from Jones and Goury's sections.",
+      "note": "The alfiz is this system's answer to the architrave, and it is a frame rather than a moulding: shallow projection, rectangular section, no profile. Encoding it against window_surround_masonry rather than inventing an alfiz slot is deliberate - the corpus has a slot for what frames an opening and this is what frames one here.",
+      "judgment": true
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "count",
+      "expression": "8",
+      "units": "count",
+      "range": [
+        8.0,
+        16.0
+      ],
+      "authority_note": "Bourgoin, Les Elements de l'art arabe, 1879, plates on the trait des entrelacs.",
+      "note": "The star family the ornament is set out from: eight-point (khatam, two squares at 45 degrees) as the domestic default, sixteen for major work. Twelve-point families exist and belong to the eastern rather than the western Islamic tradition, which is why the range stops at sixteen. This rule states WHICH GRID, not how dense - density is a matter of scale and budget and no source states it as a rule.",
+      "judgment": false
     }
-   ]
-  }
- },
- "invariants": [
-  {
-   "statement": "The module is divided into eight parts, because eight is the count the khatam turns on.",
-   "expression": "module.parts == 8",
-   "tolerance": 0.0
-  },
-  {
-   "statement": "The arch returns below its springing line by between one third and one half of its radius.",
-   "expression": "assemblies.arch.members.horseshoe_return.height_parts / module.parts >= 0.33",
-   "tolerance": 0.1,
-   "note": "3/8 = 0.375, inside the 0.33-0.50 band that Creswell's Cordoba figures and the Alhambra drawings show. Stated as one number here because the schema's invariants take one expression; the BAND is the real claim and it is in the member's own note and in the derived rule below. The member id is `horseshoe_return` and not `return`, which is what it wants to be called: the invariant evaluator parses these as Python expressions and `return` is a keyword."
-  },
-  {
-   "statement": "The impost block is a real member and not a moulding: it is at least a quarter of the impost assembly's height.",
-   "expression": "assemblies.impost.members.impost_block.height_parts >= assemblies.impost.height_modules * module.parts / 4",
-   "tolerance": 0.05,
-   "note": "0.5 on the encoded figures. The invariant exists because the impost block is the member most often lost when this system is imitated, and losing it turns the arcade into a classical one wearing a horseshoe."
-  }
- ],
- "derived_rules": [
-  {
-   "target_slot": "arch",
-   "dimension": "height",
-   "expression": "module * 1.5",
-   "units": "in",
-   "range": [
-    18.0,
-    72.0
-   ],
-   "authority_note": "Creswell on Cordoba; Jones and Goury at the Alhambra.",
-   "note": "The rise from the springing line to the crown, before the return is added below it. RETARGETED 24 Aug 2026: this rule was written against `window_head_masonry` because the ontology had no arch slot, which was raised as OQ 46 in this pack's own notes and is now built -- `arch` joined the openings group at ontology 0.6.0 and this rule says what it means. The opening's total clear height is this plus the impost assembly, and its narrowest width is at the impost -- which is what a door schedule has to be told, because the widest point of a horseshoe opening is not where the door is.",
-   "judgment": false
-  },
-  {
-   "target_slot": "arch",
-   "dimension": "return",
-   "expression": "module * 0.375",
-   "units": "in",
-   "range": [
-    0.33,
-    0.5
-   ],
-   "authority_note": "The return as a fraction of the radius. Visigothic precedent nearer a third; mature Cordoban work nearer a half.",
-   "note": "THE NUMBER THE WHOLE SYSTEM TURNS ON, and the one an imitation gets wrong. Below about a third the arch reads as a semicircle that has sagged; above about a half it reads as a keyhole and the opening becomes unusable, because the clear width at the impost falls below the clear width a person needs. The range is the claim; 0.375 is a default inside it and not a measurement of any one building.",
-   "judgment": false
-  },
-  {
-   "target_slot": "porch_support",
-   "dimension": "height",
-   "expression": "module * 0.25",
-   "units": "in",
-   "range": [
-    4.0,
-    18.0
-   ],
-   "authority_note": "Creswell on Cordoba: the impost block (cimacio) between capital and springing.",
-   "note": "The impost block, and it is targeted at `porch_support` because a Moorish arcade IS what carries the loggia -- the corpus's slot for what holds a porch up is the nearest true home for it. Two parts of the eight, a quarter of the module. Drop this member and the arcade becomes a classical one wearing a horseshoe, which is the single commonest way this system is got wrong.",
-   "judgment": false
-  },
-  {
-   "target_slot": "window_surround_masonry",
-   "dimension": "width",
-   "expression": "part * 0.5",
-   "units": "in",
-   "range": [
-    1.0,
-    4.0
-   ],
-   "authority_note": "The alfiz's projection at the Alhambra, from Jones and Goury's sections.",
-   "note": "The alfiz is this system's answer to the architrave, and it is a frame rather than a moulding: shallow projection, rectangular section, no profile. Encoding it against window_surround_masonry rather than inventing an alfiz slot is deliberate - the corpus has a slot for what frames an opening and this is what frames one here.",
-   "judgment": true
-  },
-  {
-   "target_slot": "ornament_vocabulary",
-   "dimension": "count",
-   "expression": "8",
-   "units": "count",
-   "range": [
-    8.0,
-    16.0
-   ],
-   "authority_note": "Bourgoin, Les Elements de l'art arabe, 1879, plates on the trait des entrelacs.",
-   "note": "The star family the ornament is set out from: eight-point (khatam, two squares at 45 degrees) as the domestic default, sixteen for major work. Twelve-point families exist and belong to the eastern rather than the western Islamic tradition, which is why the range stops at sixteen. This rule states WHICH GRID, not how dense - density is a matter of scale and budget and no source states it as a rule.",
-   "judgment": false
-  }
- ],
- "conflicts": [
-  {
-   "with": "egress-code",
-   "statement": "A horseshoe arch's clear width at the impost is narrower than its widest point, and it is the impost width that an egress door or a required means-of-egress corridor is measured at. A 36 in horseshoe opening measured at its widest gives about 32 in clear at the impost on a one-third return and about 27 in on a one-half return.",
-   "resolution": "Set the opening from the IMPOST width and let the arch be wider above it - which is what the buildings do, since the door leaf is rectangular and sits inside the return. Never size a horseshoe opening at its widest point and assume the door fits.",
-   "severity": "material"
-  },
-  {
-   "with": "structural",
-   "statement": "The return puts the arc's springing on a line where the thrust has an outward horizontal component the impost block must take in bearing and the wall above must resist. A horseshoe is not a semicircle with a decorative extension; it is a less stable arch.",
-   "resolution": "The buildings answer it with mass: deep walls, and at Cordoba a second tier of arches above that loads the piers. In a modern frame the arch is usually not structural at all and the honest thing is to say so rather than draw a masonry arch doing nothing.",
-   "severity": "material"
-  },
-  {
-   "with": "cost",
-   "statement": "Alternating voussoirs in two real materials means two trades cutting to one curve, and the alternation is the single most expensive thing on the elevation.",
-   "resolution": "The Alhambra's own answer is available and is not a cheat: alternate the SURFACE rather than the material, in plaster. What does not work is alternating painted colour on one material, which reads as stripes rather than as courses because the joints are in the wrong places.",
-   "severity": "material"
-  },
-  {
-   "with": "material-availability",
-   "statement": "The spolia this system's columns are made of are not available, and a matched set of new columns is a different building - the unmatched capitals at Cordoba are a historical accident that became a compositional fact.",
-   "resolution": "Either accept a matched arcade and lose that particular quality, or vary the capitals deliberately - which is an authored decision and should be recorded as one, not presented as authenticity.",
-   "severity": "minor"
-  }
- ],
- "applies_to": [
-  "moorish-andalusian",
-  "mudejar",
-  "andalusian-courtyard-vernacular",
-  "andalusian-spanish-revival",
-  "spanish-plateresque",
-  "mediterranean-revival",
-  "mission-revival",
-  "spanish-colonial-revival"
- ],
- "confidence": "medium",
- "notes": "AUTHORED FOR WP-4.6 as the gap OQ 30 named: three separate WP-4.1 batches, working on unrelated file lists, independently reported that no pack in the 36-pack library encoded a horseshoe arch, an impost block, an alfiz or a geometric setting-out. It is the one gap that surfaced three times without any batch being told to look for it, and it is the only one that unblocks a node with no binding at all - `moorish-andalusian` and `mudejar` both had none.\n\nWHAT THIS PACK DOES NOT DO, stated so nobody reads its silence as coverage. It does not encode muqarnas: the unit-cell geometry is real and recoverable from Necipoglu's Topkapi Scroll, but the cell's proportions vary by regional school and I have no measured figure I would defend, so there is no muqarnas assembly rather than a plausible one. It does not encode the tile/plaster/timber stratification - the rule that the lower wall is tile, the middle carved plaster and the ceiling timber, each with its own scale of ornament - which is a real and diagnostic system and belongs in a trim-system pack of its own, not folded in here. It does not encode the Mudejar whole-brick corbelling that WP-4.1 named separately, and it does not touch room or facade proportion, because this system's plan logic is the courtyard and that is already in the massing catalogue and in `courtyard-and-portal`.\n\nkind is `order-system` because this IS the system of support and springing, which is what an order is, and the enum has no arch-system. The arch RULES now target the `arch` slot, added at ontology 0.6.0 on this pack's own finding (OQ 46); the impost block still targets `porch_support`, because an arcade carrying a loggia is what that slot is for and the corpus has no `arcade` id. The `column` block being empty is the honest consequence and is explained there."
+  ],
+  "conflicts": [
+    {
+      "with": "egress-code",
+      "statement": "A horseshoe arch's clear width at the impost is narrower than its widest point, and it is the impost width that an egress door or a required means-of-egress corridor is measured at. A 36 in horseshoe opening measured at its widest gives about 32 in clear at the impost on a one-third return and about 27 in on a one-half return.",
+      "resolution": "Set the opening from the IMPOST width and let the arch be wider above it - which is what the buildings do, since the door leaf is rectangular and sits inside the return. Never size a horseshoe opening at its widest point and assume the door fits.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "The return puts the arc's springing on a line where the thrust has an outward horizontal component the impost block must take in bearing and the wall above must resist. A horseshoe is not a semicircle with a decorative extension; it is a less stable arch.",
+      "resolution": "The buildings answer it with mass: deep walls, and at Cordoba a second tier of arches above that loads the piers. In a modern frame the arch is usually not structural at all and the honest thing is to say so rather than draw a masonry arch doing nothing.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Alternating voussoirs in two real materials means two trades cutting to one curve, and the alternation is the single most expensive thing on the elevation.",
+      "resolution": "The Alhambra's own answer is available and is not a cheat: alternate the SURFACE rather than the material, in plaster. What does not work is alternating painted colour on one material, which reads as stripes rather than as courses because the joints are in the wrong places.",
+      "severity": "material"
+    },
+    {
+      "with": "material-availability",
+      "statement": "The spolia this system's columns are made of are not available, and a matched set of new columns is a different building - the unmatched capitals at Cordoba are a historical accident that became a compositional fact.",
+      "resolution": "Either accept a matched arcade and lose that particular quality, or vary the capitals deliberately - which is an authored decision and should be recorded as one, not presented as authenticity.",
+      "severity": "minor"
+    }
+  ],
+  "applies_to": [
+    "moorish-andalusian",
+    "mudejar",
+    "andalusian-courtyard-vernacular",
+    "andalusian-spanish-revival",
+    "spanish-plateresque",
+    "mediterranean-revival",
+    "mission-revival",
+    "spanish-colonial-revival"
+  ],
+  "confidence": "medium",
+  "notes": "AUTHORED FOR WP-4.6 as the gap OQ 30 named: three separate WP-4.1 batches, working on unrelated file lists, independently reported that no pack in the 36-pack library encoded a horseshoe arch, an impost block, an alfiz or a geometric setting-out. It is the one gap that surfaced three times without any batch being told to look for it, and it is the only one that unblocks a node with no binding at all - `moorish-andalusian` and `mudejar` both had none.\n\nWHAT THIS PACK DOES NOT DO, stated so nobody reads its silence as coverage. It does not encode muqarnas: the unit-cell geometry is real and recoverable from Necipoglu's Topkapi Scroll, but the cell's proportions vary by regional school and I have no measured figure I would defend, so there is no muqarnas assembly rather than a plausible one. It does not encode the tile/plaster/timber stratification - the rule that the lower wall is tile, the middle carved plaster and the ceiling timber, each with its own scale of ornament - which is a real and diagnostic system and belongs in a trim-system pack of its own, not folded in here. It does not encode the Mudejar whole-brick corbelling that WP-4.1 named separately, and it does not touch room or facade proportion, because this system's plan logic is the courtyard and that is already in the massing catalogue and in `courtyard-and-portal`.\n\nkind is `order-system` because this IS the system of support and springing, which is what an order is, and the enum has no arch-system. The arch RULES now target the `arch` slot, added at ontology 0.6.0 on this pack's own finding (OQ 46); the impost block still targets `porch_support`, because an arcade carrying a loggia is what that slot is for and the corpus has no `arcade` id. The `column` block being empty is the honest consequence and is explained there."
 }

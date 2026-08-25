@@ -159,7 +159,8 @@
         70
       ],
       "authority_note": "THE FEDERAL PORTICO IN ONE NUMBER. A 12 ft Ionic column takes a 25 1/5 in. entablature under Benjamin and a 36 in. one under Vignola - a difference of nearly a foot on the same column. When a Federal portico is compared with an Italian one and described as 'thin' or 'papery', this ratio is what is being seen, and it was a deliberate choice by the man who published the plates.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "porch_support",
@@ -184,7 +185,8 @@
       ],
       "authority_note": "MODILLIONS ON AN IONIC CORNICE, WHICH VIGNOLA DOES NOT ALLOW. Thirty-one minutes on centres on a column of 600 minutes, modillion face ten to eleven minutes: 'make the modillions ten, ten and one half, or eleven minutes in front; place them thirty one minutes from centre to centre; always the centre of a modillion exactly over the centre of each column.' The instruction to centre a modillion on every column axis is the one that governs the bay spacing of the whole elevation, and Benjamin repeats it for the Corinthian and Composite: 'The directions given for placing modillions, in the Ionic order, are to be strictly observed in this, and in the Composite order.'",
       "judgment": false,
-      "note": "Benjamin's own alternative, on Plate 21, is a dentil cornice at the same scale. Where the budget will not carry brackets, take the dentils rather than widening the modillion spacing - the spacing is tied to the columns and cannot be stretched without missing them."
+      "note": "Benjamin's own alternative, on Plate 21, is a dentil cornice at the same scale. Where the budget will not carry brackets, take the dentils rather than widening the modillion spacing - the spacing is tied to the columns and cannot be stretched without missing them.",
+      "quantity": "eave_member_spacing"
     },
     {
       "target_slot": "pilaster",
@@ -210,7 +212,8 @@
       ],
       "authority_note": "'To proportion cornices for rooms, give the cornice one fortieth part of the height of the room. If a room is ten feet high, one fortieth will be three inches.' Vignola's Ionic cornice at room scale is ceiling_height * 1.75/18 - 11 2/3 in. in a 10 ft room. Benjamin gives three. The room cornice is the single member on which the Roman order and the American house are furthest apart.",
       "judgment": false,
-      "note": "One thirtieth - 4 in. in a 10 ft room - when the cornice is stucco and enriched with three ornaments. 'Three embellishments are generally sufficient for any cornice, and one may be in the plancere.'"
+      "note": "One thirtieth - 4 in. in a 10 ft room - when the cornice is stucco and enriched with three ornaments. 'Three embellishments are generally sufficient for any cornice, and one may be in the plancere.'",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "crown",
@@ -222,7 +225,8 @@
         10
       ],
       "authority_note": "'The projection of cornices, for rooms, ought to be at least one fourth more than their height... About half of the projections ought to be given to the plancere, which will prevent its looking bulky, and give it a light appearance.' Vignola and Gibbs both make projection equal height; Benjamin makes it a quarter more, and up to double where the room is low. Height is what costs money in a room with an 8 ft ceiling; projection is nearly free and does the same optical work.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "casing",
@@ -234,7 +238,8 @@
         7
       ],
       "authority_note": "One eighth of the DOOR width, 1816. A 36 in. door gives 4 1/2 in. against Vignola's 6 in. Benjamin then caps and floors it by judgment: 9 in. on a 6 ft door 'would be too large, and may be reduced to six and a half, or seven inches', and the same width is carried to the windows of the room whatever their size. By 1830 he had revised to one sixth; use the sixth for Greek Revival and the eighth for Federal.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "chair_rail",
@@ -246,7 +251,8 @@
         4.5
       ],
       "authority_note": "'Divide from the floor to the top of the surbase into ten parts, give one to the height of the surbase' - the moulding is a tenth of the dado it caps. With the dado at a third of the ceiling, as in the Vignola spine, that is ceiling_height/30: a 3 1/5 in. surbase on a 2 ft 8 in. dado, which is Benjamin's own worked example. The base mouldings are drawn from the same scale of parts, so base and surbase are one family rather than two.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "chair_rail_profile_height"
     },
     {
       "target_slot": "cornice",
@@ -259,7 +265,8 @@
       ],
       "authority_note": "Eave cornice, one thirtieth of the whole height of the building. BIND storey_height TO THE FULL WALL HEIGHT. Tall and narrow takes one fortieth; low and wide takes more than one thirtieth. Benjamin's built check is the Thomas Amory house, Boston: walls 62 ft, cornice 20 in., about one thirty-seventh - and he notes that the drops at the foot of that cornice 'lie on the brick wall, so that the bricks in the interval between the drops are plainly seen, and ought not to be considered as a part of the cornice', which is a nice reminder to measure what you are measuring.",
       "judgment": true,
-      "note": "JUDGMENT SLOT, on Benjamin's own instruction: 'It is sometimes necessary to vary the above proportion.'"
+      "note": "JUDGMENT SLOT, on Benjamin's own instruction: 'It is sometimes necessary to vary the above proportion.'",
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "window_proportion",
@@ -271,7 +278,8 @@
         60
       ],
       "authority_note": "Chambers's rule as Benjamin reports and doubts it: add the depth and the height of the room on the principal floor and take one eighth for the window width. Expression assumes room depth equal to twice the ceiling height; where the depth is known use (depth + ceiling_height)/8. Benjamin: 'I do not believe any certain determined rule can be given for their height and breadth... yet I do not find it to answer in all cases.'",
-      "judgment": true
+      "judgment": true,
+      "quantity": "window_width_from_room"
     },
     {
       "target_slot": "fireplace_surround",

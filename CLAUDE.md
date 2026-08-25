@@ -47,7 +47,9 @@ sixteen tests were skipping while the run reported success.
 
 Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_constraints.py`,
 `build/check_pack_bindings.py --strict`, `build/check_rooms.py`, `build/check_partis.py`,
-`build/check_faults.py`, `build/check_counts.py` (fails the build when a number in this
+`build/check_faults.py`, `build/check_addresses.py` reports the 139 addresses where two co-binding packs measure DIFFERENT
+things (OQ 48; it reports rather than fails -- the pinned count in the tests is the ratchet).
+`build/check_counts.py` (fails the build when a number in this
 file, in `STATE-OF-THE-PROJECT.md`, in `README.md` or in `docs/` disagrees with the data -- run it
 with `--fix` to rewrite them), `build/proportion_engine.py selftest`. **When authoring or binding a pack, run
 `build/pack_addresses.py <pack-id>`**: it lists every `(slot, dimension)` address the pack shares
@@ -81,7 +83,10 @@ to 132 of 132 by binding `egyptian-revival` to the two `facade-peristyle` rules 
 excluding the six that do not. **Closing 49 opened OQ 51, which is larger than either**: the lineage
 cascade delivers proportion packs nobody bound, and `ranch-style` has 68 of its 78 dimensioned slots
 governed by packs it never bound -- `opening-pointed`, a Gothic arch pack, governing 15 of them.
-OQ 48 is ruled and in progress. And one
+**OQ 48 is PARTLY CLOSED**: rules now carry a `quantity` naming what they measure, all 74
+colliding addresses were read and 483 of 490 rules annotated, and `build/check_addresses.py`
+compares meanings. It found **139** real corruptions against the ~20 a 5% rate predicted -- fixing
+them is a migration and is NOT done; the count is pinned so it cannot grow. And one
 finding nobody has raised as a question yet: five unrelated traditions say ornament works by being BOUNDED, and it wants testing
 against the whole style graph. All four are in that report's closing section.
 

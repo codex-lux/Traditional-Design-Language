@@ -165,7 +165,10 @@
       "dimension": "width",
       "expression": "module * 2",
       "units": "in",
-      "range": [14.0, 60.0],
+      "range": [
+        14.0,
+        60.0
+      ],
       "authority_note": "Bunting's New Mexico survey and the HABS drawings give 24-36 in for houses; spanish-colonial-american's own record gives 18 in to 5 ft across the whole tradition; mexican-colonial gives 600-1000 mm and mexican-hacienda 700-1000 mm at the base; andalusian-courtyard-vernacular gives 500-700 mm of brick, rubble or tapia.",
       "note": "TWO ADOBES, 28 in before the joint and about 29 with it. The number is not continuous and should never be drawn as though it were: the wall comes in whole bricks, so the real choices are about 14, about 29 and about 44 in, and a 22 in adobe wall is not a thing. The band above is wide because it has to hold the church and the placita wall as well as the house, not because the house wall is uncertain. Rammed earth is the exception and is set by the shutters, so it genuinely is continuous -- and in a tapia tradition a 20 in wall is perfectly real.",
       "judgment": false
@@ -175,7 +178,10 @@
       "dimension": "ratio",
       "expression": "0.93",
       "units": "ratio",
-      "range": [0.88, 1.0],
+      "range": [
+        0.88,
+        1.0
+      ],
       "note": "BATTER: the thickness at the wall head as a fraction of the thickness at the base. About two inches lost over a storey. Every measured section shows some of it and no source states it as a rule, because it is not one -- it is partly deliberate (a battered wall sheds water and is more stable) and partly the accumulated consequence of laying mud on mud and plastering the result by hand. It is recorded here because its ABSENCE is diagnostic: a dead-plumb wall with sharp arrises reads as insulated render on frame from fifty feet away, and no amount of colour correction recovers it. The point figure is a default inside the band and is mine, not a measurement.",
       "judgment": true
     },
@@ -184,67 +190,94 @@
       "dimension": "width",
       "expression": "module * 2",
       "units": "in",
-      "range": [14.0, 60.0],
+      "range": [
+        14.0,
+        60.0
+      ],
       "authority_note": "The reveal is the wall. Any measured section of an adobe house states this rule without meaning to.",
       "note": "THE ONE NUMBER THAT CANNOT BE FAKED, and the reason this pack matters more than its figures suggest. The depth of the reveal equals the thickness of the wall, because the window is a hole in a solid and there is nothing else for the reveal to be. A stucco-on-frame revival building gives 5 1/2 in and every other move on the elevation can be got right and it will still not read: the shadow at every opening is a fifth of the depth it should be, the sun never leaves a reveal in shade all day, and the eye reads the wall as a surface rather than as a mass. If one figure from this pack is carried into a drawing, carry this one.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "wall_reveal_depth"
     },
     {
       "target_slot": "wing_strategy",
       "dimension": "width",
       "expression": "module * 20",
       "units": "in",
-      "range": [168.0, 360.0],
+      "range": [
+        168.0,
+        360.0
+      ],
       "authority_note": "Ten times the thickness of a two-adobe wall, which is 24 ft 2 in; 14.7.4 NMAC caps unbraced wall length by the same kind of ratio and lands at very nearly the same figure.",
       "note": "THE CENTRAL CONSEQUENCE OF THE WHOLE SYSTEM, and the exact analogue of the log pen's sixteen feet. An earth wall standing free for more than about ten times its own thickness will fail out of plane, so it must be braced -- by a cross wall, by a buttress, or by turning a corner. That is why an adobe building is a CHAIN: a range of rooms about 24 ft long apiece whose party walls are not partitions but structure, added end to end and turned at the corner to make the placita. It is why there is no large room, why the plan grows by accretion rather than by design, and why a great room in an adobe house is a contradiction that has to be answered with steel and then explained. The 20 in the expression is 10 x 2 modules and moves with wall thickness: a church wall of three adobes may run 36 ft, and california-mission-colonial's own record answers the same arithmetic with buttresses where it cannot.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "max_span_between_cross_walls"
     },
     {
       "target_slot": "height_proportion",
       "dimension": "ratio",
       "expression": "9.0",
       "units": "ratio",
-      "range": [8.0, 10.0],
+      "range": [
+        8.0,
+        10.0
+      ],
       "authority_note": "14.7.4 NMAC states 10 for unstabilised adobe. california-mission-colonial's own defining_characteristics states 8 -- 'buttresses or thickened piers wherever wall height exceeds roughly eight times wall thickness'.",
       "note": "MAXIMUM WALL HEIGHT AS A MULTIPLE OF WALL THICKNESS, and the band is a real disagreement rather than an averaging. The code says ten and the mission fabric says eight, and both are honest: the code is written for a wall with a modern bond beam tying its head, and the mission builders had no bond beam and answered the difference with buttresses. Where a design has a continuous reinforced bond beam, ten. Where it does not, eight, and buttress. This is a CEILING and not a generator, and the distinction is worth stating because it is the commonest way this rule is misread: for a house-scale wall of two adobes it is nowhere near binding -- a 29 in wall could stand 20 ft and the house is 11 -- so nothing about a house's height is derived from it. It binds for the single-adobe outbuilding, the placita wall, and the church. What actually sets a house's wall height is the viga and the ceiling, which is the ceiling_height_rule below.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "wall_height_over_thickness"
     },
     {
       "target_slot": "ceiling_height_rule",
       "dimension": "height",
       "expression": "part * 96",
       "units": "in",
-      "range": [90.0, 108.0],
+      "range": [
+        90.0,
+        108.0
+      ],
       "authority_note": "new-mexico-adobe's own record: 'Ceiling 7 ft 6 in - 9 ft 0 in to the underside of the vigas'.",
       "note": "Eight feet, measured TO THE UNDERSIDE OF THE VIGAS, and the qualification is the whole point: there is no ceiling plane above them. The vigas, the latillas between them and the earth on top are the ceiling, the floor above and the roof, all one construction, and the room's clear height is to the lowest of them. Anyone who draws a flat ceiling at 8 ft and vigas below it has drawn a house 9 ft 6 in tall with a decorative log stuck to the underside, and the elevation will not close.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "ground_storey_ceiling_height"
     },
     {
       "target_slot": "depth_and_pile",
       "dimension": "width",
       "expression": "part * 168",
       "units": "in",
-      "range": [144.0, 192.0],
+      "range": [
+        144.0,
+        192.0
+      ],
       "authority_note": "new-mexico-adobe: 'Room clear width 12-16 ft (viga span), length 1.5-2.5 times the width'. room-vernacular's reconstructed band for beam-limited vernacular traditions is 14-18 ft, and the two agree to within the difference between a peeled log and a sawn joist.",
       "note": "THE VIGA SPAN, and it governs the plan the way the log length governs a pen. Fourteen feet clear on the default. The consequence is that the house is SINGLE-PILE and stays single-pile: a second run of rooms behind the first needs a second bearing wall to carry a second run of vigas, which is why an adobe house grows in length and around a court rather than in depth, and why a double-pile adobe plan should be read as two ranges rather than as one deep block. The room's length then runs 1.5 to 2.5 times its width because that is what you get when the width is fixed and the only way to make a room bigger is to make it longer.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "block_depth"
     },
     {
       "target_slot": "roof_pitch",
       "dimension": "ratio",
       "expression": "0.0208",
       "units": "ratio",
-      "range": [0.0104, 0.0417],
+      "range": [
+        0.0104,
+        0.0417
+      ],
       "authority_note": "new-mexico-adobe: 'roof fall 1/4 in per ft to canales'.",
       "note": "A quarter inch to the foot, which is 1 in 48. The roof is not flat and was never flat; it is a shallow basin falling to chosen points. The band runs from an eighth to a half inch per foot -- below an eighth the earth roof ponds and a ponded earth roof is a dissolving one, and above a half the fall shows on the parapet line from the ground. Note that this is a fall and not a pitch in the sense the slot's other users mean: a plan that reads this figure as a roof slope and draws a 1-in-48 gable has made a nonsense, and the roof_form slot must say flat-with-parapet for this rule to mean anything.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "main_roof_pitch"
     },
     {
       "target_slot": "parapet",
       "dimension": "height",
       "expression": "part * 21",
       "units": "in",
-      "range": [12.0, 24.0],
+      "range": [
+        12.0,
+        24.0
+      ],
       "authority_note": "new-mexico-adobe: 'Parapet 12-24 in above roof'.",
       "note": "Twenty-one inches above the finished roof surface. The parapet is a drainage member before it is a compositional one -- see the wall_section assembly note. Compositionally it is also what gives these buildings their one hard horizontal line, and it is the line the eye uses to read the additive plan, because each added range brings its own parapet at its own height and the steps between them are the record of how the house grew.",
       "judgment": false
@@ -254,7 +287,10 @@
       "dimension": "projection",
       "expression": "module",
       "units": "in",
-      "range": [8.0, 24.0],
+      "range": [
+        8.0,
+        24.0
+      ],
       "authority_note": "Half the thickness of a two-adobe wall, from the surviving canales; the requirement it answers is McHenry's.",
       "note": "HOW FAR THE CANALE STICKS OUT, and it is the figure that decides whether the wall below it survives. A canale is a trough cut through the parapet, timber or sheet-lined, and its whole job is to throw the water clear of the plaster. A short one does not throw clear, the water runs back down the face, and the wall dissolves in a vertical stripe under every canale -- which is what you are looking at in most photographs of a decayed adobe. Fourteen inches on the default. Longer is better and looks worse, and that trade is real and should be made deliberately rather than by default.",
       "judgment": false
@@ -264,80 +300,112 @@
       "dimension": "height",
       "expression": "part * 12",
       "units": "in",
-      "range": [8.0, 24.0],
+      "range": [
+        8.0,
+        24.0
+      ],
       "authority_note": "new-mexico-adobe: adobe 'laid in moulded sun-dried brick on a stone footing'; mexican-hacienda: walls 'on a raised stone or brick socle'.",
       "note": "The stone or fired-brick base course, carried a foot above grade. See the base_course member for why it is not optional. Note that this is the one place where the mass-wall traditions differ visibly among themselves: New Mexico buries the footing and mud-plasters over it so the wall appears to grow out of the ground, while the Mexican hacienda and the Andalusian house express the socle as a stated, often contrasting band. Both are correct for their own node and the pack does not choose between them -- the expression slot is where a kit says which.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "exposed_foundation_height"
     },
     {
       "target_slot": "window_grouping_rule",
       "dimension": "width",
       "expression": "module * 2.5",
       "units": "in",
-      "range": [24.0, 48.0],
+      "range": [
+        24.0,
+        48.0
+      ],
       "authority_note": "new-mexico-adobe: 'Window opening 2 ft - 3 ft wide'. The pier rule is McHenry's and is the structural reading of the same fact.",
       "note": "MAXIMUM OPENING WIDTH, 35 in on the default, and less is better. Two rules travel with it and neither has a slot of its own. First, the pier of wall between two openings must be at least the wall's own thickness, so a two-adobe wall cannot carry openings closer than about 29 in apart -- which is why a run of windows, a corner window and a window turning a corner are all impossible here, and why the openings on an adobe elevation are isolated events rather than a rhythm. Second, an opening's lintel needs a bearing of at least the wall thickness at each end, so a 35 in opening consumes about 93 in of wall before anything else can happen in it.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "maximum_opening_width"
     },
     {
       "target_slot": "window_proportion",
       "dimension": "ratio",
       "expression": "1.4",
       "units": "ratio",
-      "range": [1.15, 1.7],
+      "range": [
+        1.15,
+        1.7
+      ],
       "authority_note": "new-mexico-adobe: 'Window opening 2 ft - 3 ft wide x 3 ft - 4 ft high'.",
       "note": "Height over width, and squarer than any Anglo-American norm -- 1.4 against the 1.6-1.8 a double-hung sash wants. The reason is the wall: width is capped by the pier rule and height by the sill, which sits high because the wall below it is working. The consequence for a revival design is that dropping a stock double-hung unit into an adobe opening produces either a window that is too tall for its wall or a wall that has been thinned to take it, and the second is usually what happened.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "opening_height_over_width"
     },
     {
       "target_slot": "window_head_masonry",
       "dimension": "height",
       "expression": "opening_width / 3.5",
       "units": "in",
-      "range": [5.0, 14.0],
+      "range": [
+        5.0,
+        14.0
+      ],
       "authority_note": "Hewn timber lintels in surviving New Mexico and Californian work run 6-10 in deep over domestic openings; the depth follows the span.",
       "note": "THE LINTEL, and it is timber in a masonry wall, which is why this rule is on window_head_masonry and reads slightly wrong there. The slot is the corpus's home for what closes the head of an opening in a mass wall, and in this tradition that is always a squared or hewn stick -- there is no arch, no relieving arch and no flat-arch gauged work anywhere in the domestic fabric, and drawing one is the single fastest way to turn an adobe house into a Mediterranean Revival one. Depth follows span at roughly one to three and a half, so 8 in over a 28 in opening. What the rule cannot say, and what matters as much, is the BEARING: at least the wall's thickness at each end, because a short-bearing lintel crushes the adobe beneath it, and crushed bearings under lintels are the commonest structural failure in a surviving adobe house.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "lintel_or_arch_depth"
     },
     {
       "target_slot": "daylight_strategy",
       "dimension": "ratio",
       "expression": "0.09",
       "units": "ratio",
-      "range": [0.06, 0.12],
+      "range": [
+        0.06,
+        0.12
+      ],
       "authority_note": "new-mexico-adobe: 'glazed area 6-12% of wall area'.",
       "note": "A JUDGMENT SLOT, and the one where this system and a contemporary brief collide hardest. Nine per cent of the wall as glass, against the 15-25 per cent a modern house takes for granted and the 8 per cent minimum that most residential codes require of a habitable room's floor area -- which is a different denominator and is worth checking separately, because a deep room behind a 6 per cent wall can fail it. Everything about the tradition pushes the number down: every opening weakens a bearing wall, glass was carried by wagon and was the most expensive thing in the building, and the whole thermal strategy is a heavy skin with small holes. Everything about a client pushes it up. The pack supplies 9 per cent and defers, because there is no defensible way to say from here which of those two arguments should win in a given house -- but a design that lands above 12 per cent should stop calling the result an adobe proportion and say what it is instead.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "glazed_to_wall_ratio"
     },
     {
       "target_slot": "porch_depth",
       "dimension": "width",
       "expression": "part * 120",
       "units": "in",
-      "range": [96.0, 144.0],
+      "range": [
+        96.0,
+        144.0
+      ],
       "authority_note": "new-mexico-adobe: 'Portal depth 8-12 ft'.",
       "note": "THE PORTAL, ten feet deep on the default. It is deep for a reason that is climatic rather than social: at these latitudes a ten-foot portal on the south shades the wall and the openings behind it completely through the summer and lets the winter sun onto them, and the wall it shades is the one storing the day's heat. A four-foot porch is decoration; a ten-foot portal is part of the environmental system, and shortening it is a thermal decision disguised as a compositional one. It is also the outdoor room the plan actually uses, which is why the placita is ringed by portales rather than open to the rooms.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "porch_depth"
     },
     {
       "target_slot": "porch_support",
       "dimension": "width",
       "expression": "part * 7",
       "units": "in",
-      "range": [6.0, 9.0],
+      "range": [
+        6.0,
+        9.0
+      ],
       "authority_note": "new-mexico-adobe: 'Portal depth 8-12 ft, posts at 6-9 ft on centre'. Post sections in surviving portales run 6-9 in square.",
       "note": "A seven-inch squared post, chamfered, on a stone pad, carrying a zapata. Posts are set 6-9 ft on centre and -- this is the part that a composition-minded designer will fight -- their spacing is NOT aligned with the openings in the wall behind them. new-mexico-adobe states it outright: 'the two systems are independent and the tradition never reconciles them.' The portal is a timber frame set to its own beam spans and the wall is a mass structure set to its own pier rule, and they were built by different logics at different times. Regularising them produces something that looks like this tradition and reads like a stage set, because the accidental relation between post and opening is one of the things the eye is actually using.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "support_shaft_width"
     },
     {
       "target_slot": "hearth_position",
       "dimension": "width",
       "expression": "part * 42",
       "units": "in",
-      "range": [30.0, 54.0],
+      "range": [
+        30.0,
+        54.0
+      ],
       "authority_note": "new-mexico-adobe records 'the corner fogon' as a defining element; the width band is read off surviving examples and no source states it as a rule.",
       "note": "THE CORNER FOGON, measured across the chord it cuts off the corner. Forty-two inches on the default. It is built of adobe with a shallow beehive hood and a small round or arched opening, it stands ACROSS the corner rather than against a wall, and it never has a chimney breast projecting into the room -- because a bearing earth wall cannot carry a flue through it and cannot carry a projecting mass hung off it either. That is the whole explanation of a detail that usually gets explained as a stylistic preference. It also means the fireplace does not organise the room the way an Anglo-American hearth wall does: it takes a corner, it heats by radiation from its own mass, and the room's furniture is arranged to the portal door and the window rather than to it. The figure is a default inside a band read off examples, and the pack defers on it.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "hearth_or_stack_width"
     }
   ],
   "conflicts": [

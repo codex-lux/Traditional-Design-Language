@@ -104,7 +104,8 @@
       ],
       "authority_note": "Rickman's discrimination of the English arch families, expressed as radius over span: the drop arch struck from centres inside the span, the equilateral struck from the opposite springing points, the acute or lancet struck from centres outside it.",
       "note": "THE GENERATING NUMBER OF THE WHOLE SYSTEM, and the one a builder-Gothic window has no value for. The head is struck as two arcs of equal radius; this is that radius divided by the span. At 1.0 the centres are the opposite springing points and the head is the equilateral arch -- the domestic revival's default and the family Downing's and Davis's plates almost always draw. Below 1.0 the centres move inside the span and the head flattens toward the drop arch, which is Decorated work and reads as heavier. Above 1.0 the centres move outside it and the head sharpens: 1.5 is an acute head, 2.0 a true Early English lancet, and above 2.0 the opening is ecclesiastical and a house wearing one looks like a chapel, which is why the band stops there. The number to avoid is no number at all -- a head drawn by eye lands between the families and is the single commonest fault in this idiom.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "arch_rise_over_span"
     },
     {
       "target_slot": "arch",
@@ -117,7 +118,8 @@
       ],
       "authority_note": "The geometry of the two-centred arch at a strike ratio of 1.0. For a general ratio r the rise is sqrt((r*span)^2 - (r*span - span/2)^2).",
       "note": "31 3/16 in on the default -- the rise from the springing line to the apex, at the equilateral. Stated at the equilateral because the schema's expression takes one formula and the strike ratio is carried by the rule above; the band holds the drop arch at 0.707 of the span and the acute at 1.118. NOTE WHAT THIS RULE IS NOT: it is not the opening's height. The opening's height is this plus the vertical light below the springing, and confusing the two is how a designer ends up with a window whose head is right and whose proportion is not.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "arch_rise"
     },
     {
       "target_slot": "window_proportion",
@@ -130,7 +132,8 @@
       ],
       "authority_note": "Downing's and Davis's plates for cottage and villa windows; the assembly above is drawn at 2.5 and the two agree by construction.",
       "note": "Overall height over span, head included, and it is TALL -- 2.5 against the 1.6-1.8 a Georgian sash wants. Verticality is the argument of the whole style and Pugin makes it explicitly: the pointed arch is not a shape, it is the visible consequence of building vertically. The practical consequence is that a Gothic Revival opening cannot be got by putting a pointed head on a window of ordinary proportion. Do that and the head reads as a hat.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "opening_height_over_width"
     },
     {
       "target_slot": "window_head_masonry",
@@ -143,7 +146,8 @@
       ],
       "authority_note": "Hood moulds in surviving domestic Gothic Revival work, stone and timber alike, run 3-6 in on the face.",
       "note": "The hood mould's depth on the face. See the hood_mould member for why it is not optional and why it stops rather than running out. In stone it is dressed with the jamb; in the timber versions it is a moulded board fixed over the head, and the two read the same at any distance because what the eye is reading is the shadow.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "hood_mould_depth"
     },
     {
       "target_slot": "window_head_masonry",
@@ -156,7 +160,8 @@
       ],
       "authority_note": "The projection is set by the job: enough to throw water clear of the reveal below.",
       "note": "2 1/4 in. The same argument as the adobe canale in a much smaller key -- a hood that does not project past the face of the opening does not hood anything, and the water runs down inside the reveal. This is the figure that is lost first when a hood mould is value-engineered into a flat applied band, and its loss is why the applied version reads as pasted on: no projection, no shadow, no reason for the moulding to exist.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "head_mould_projection"
     },
     {
       "target_slot": "window_lite_pattern",
@@ -169,7 +174,8 @@
       ],
       "authority_note": "Two-light and three-light mullioned casements are the domestic norm in both the British and American plates; a single-light Gothic domestic window is rare and a four-light one is a hall or stair window.",
       "note": "LIGHTS ACROSS THE OPENING, two on the default. A pointed head over a single undivided sheet of glass is a modern object and there is no period example of it, because there was no glass that size and because the whole vertical argument depends on the opening being subdivided vertically. This rule is the one that most often collides with a client's brief, and the collision is worth naming early rather than at the window schedule.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "lights_across"
     },
     {
       "target_slot": "window_lite_pattern",
@@ -182,7 +188,8 @@
       ],
       "authority_note": "Leaded diamond quarries in surviving domestic work run 3-6 in across the short diagonal.",
       "note": "THE DIAMOND QUARRY, 4 1/4 in on the default -- the leaded lozenge that fills the light. Its size is set by what a came will hold without sagging and by what a glazier could cut from a crown or cylinder blank, which is why it is remarkably consistent across four centuries and two continents. Scaling it up to suit a large window is the commonest way this detail is got wrong: a 9 in quarry is not a bigger version of a 4 in one, it is a different and later thing, and the leadwork will sag to prove it.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "light_width"
     },
     {
       "target_slot": "window_grouping_rule",
@@ -195,7 +202,8 @@
       ],
       "authority_note": "Stone mullions in domestic work run 4-6 in; the timber equivalents in American Carpenter Gothic run 2 1/2-4.",
       "note": "THE MULLION between two lights, 3 1/2 in on the default. It is a structural member in stone -- it carries the head -- and a joinery member in timber, and the difference in width between the two is one of the honest differences between the British and American branches of this style rather than a defect in either. What both share is that the mullion is NARROW: the lights read as one grouped opening divided, not as separate windows close together, and a mullion much past 6 in has crossed that line.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "mullion_width"
     },
     {
       "target_slot": "window_surround_wood",
@@ -208,7 +216,8 @@
       ],
       "authority_note": "American Carpenter Gothic architraves in surviving work; the British stone equivalent is a chamfered or moulded jamb dressed with the mullion rather than an applied surround.",
       "note": "3 1/4 in of moulded architrave, and this rule is written for the AMERICAN branch specifically. A stone Gothic opening has no surround: the jamb is chamfered or moulded out of the same stone as the mullion and there is nothing applied. The timber version substitutes a nailed architrave for that dressing, and the substitution is legitimate -- it is what the material can do -- but it is a substitution, and a designer who applies this figure to a stone or stuccoed elevation has invented a member the tradition does not have.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "window_casing_face_width"
     },
     {
       "target_slot": "window_sill",
@@ -221,7 +230,8 @@
       ],
       "authority_note": "Downing's cottage and villa plates; the low sill is a stated preference of his rather than a rule of the style.",
       "note": "27 in above the finished floor, which is low -- lower than the Georgian 30-32 in and much lower than the adobe 30 in that is doing structural work. Downing argues for it on the ground that a cottage window should give a seated person the view, and the deep window seat under it is a fixture of the plates. In the principal rooms it goes lower still and becomes a casement to the floor opening onto the veranda, which is the French door in Gothic dress. The band's floor of 12 in is that case.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "sill_height_above_floor"
     },
     {
       "target_slot": "roof_pitch",
@@ -234,7 +244,8 @@
       ],
       "authority_note": "Downing and Davis draw domestic gables at roughly 45 to 60 degrees; the upper bound is the equilateral gable, which is the arch's own triangle at building scale.",
       "note": "A JUDGMENT, and it is the pack's largest claim. 12 in 12 as the default, running to the equilateral 60 degrees. The claim is that THE GABLE AND THE WINDOW HEAD ARE THE SAME FIGURE -- both struck on an equilateral triangle over their own span -- and that this is why a Gothic Revival house with a shallow roof and pointed windows reads as wrong to someone who could not name the rule. Pugin argues the principle (the pointed form is the consequence of building vertically, not an applied shape) and Downing draws the result, but NEITHER STATES THE CORRESPONDENCE AS A RULE, so it is marked as judgment: it is a compositional reading of two sets of plates and not a figure either author gives. Treat it as a starting point that explains a great deal, and not as an authority.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "main_roof_pitch"
     },
     {
       "target_slot": "rake_condition",
@@ -247,7 +258,8 @@
       ],
       "authority_note": "Sawn bargeboards in surviving Carpenter Gothic and in Davis's plates run 8-20 in on the face, deepest at the principal gable.",
       "note": "THE BARGEBOARD, 10 1/2 in deep on the default. It is the American branch's signature and the reason 'Carpenter Gothic' is a useful name: the scroll saw made a stone tradition's cusped tracery available in pine, and the bargeboard is where it went. Two things about it are usually got wrong. It is DEEP -- a 4 in board is a fascia and reads as one. And it is pierced rather than merely shaped, so that the sky comes through it and it reads as tracery rather than as a cut edge; a solid board with a scalloped bottom is a different and much weaker thing.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "bargeboard_face_depth"
     },
     {
       "target_slot": "gable_treatment",
@@ -273,7 +285,8 @@
       ],
       "authority_note": "The gabled dormer in Davis's and Downing's plates carries the same window and the same bargeboard as the main gable at a smaller scale.",
       "note": "THE DORMER REPEATS THE GABLE, at the same pitch, with the same bargeboard and finial and the same pointed window inside it, at whatever scale its own span gives. That recursion is the style's compositional signature and it is the thing facade-picturesque cannot say, because it is not about asymmetry -- it is about self-similarity. A shed dormer, a hipped dormer or a dormer at a different pitch from the main gable breaks it, and the break is legible from the street even to someone who has never heard of Pugin.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "dormer_width"
     },
     {
       "target_slot": "chimney",
@@ -286,7 +299,8 @@
       ],
       "authority_note": "Downing argues at length for tall, clustered and moulded stacks as the mark of a well-composed house; the plates draw them 3-8 ft above the ridge.",
       "note": "54 in above the ridge, clustered, and often octagonal or moulded in brick. This is a compositional rule that survives into the twentieth century unattached to anything Gothic: the tall stack is what tells the eye the house is a house. Do not shorten it to what the code minimum requires -- the code figure is about draught and clearance and is a floor, not a target, and a stack that just clears the ridge reads as colonial. What must be done instead is to tie and reinforce it, which is this pack's structural conflict.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "chimney_height_above_ridge"
     },
     {
       "target_slot": "entry_door",
@@ -299,7 +313,8 @@
       ],
       "authority_note": "The door follows the window: same strike ratio, same hood mould, same proportion.",
       "note": "Height over width. The entrance in this idiom is not a distinct architectural event the way a classical doorcase is -- it is the largest of the pointed openings, with the same head, the same hood and the same board or plank leaf, and it is often less emphatic than the principal gable window above it. Designers coming from the classical side almost always over-dress it, because a Georgian front trains you to treat the door as the centre of the composition, and here the centre of the composition is the gable.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "entry_door_height_over_width"
     },
     {
       "target_slot": "porch_support",
@@ -312,7 +327,8 @@
       ],
       "authority_note": "Chamfered veranda posts in surviving American work run 4-6 in square with a chamfer and a stop.",
       "note": "A 4 3/4 in chamfered post with stopped chamfers, carrying a sawn bracket. The veranda is a real and constant part of the American branch -- Downing insists on it on climatic grounds and it is on nearly every plate -- and it is the one part of these houses whose members are SLENDER. A heavy turned post belongs to the Queen Anne generation twenty years later and reads immediately as it; a classical column on a Gothic cottage is a fault Downing himself complains about by name.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "support_shaft_width"
     },
     {
       "target_slot": "ornament_vocabulary",

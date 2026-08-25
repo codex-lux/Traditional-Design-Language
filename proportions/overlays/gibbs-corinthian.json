@@ -350,7 +350,8 @@
       "expression": "column_height / 5",
       "units": "in",
       "authority_note": "Palladio's ratio as Gibbs transmits it, for Ionic, Corinthian and Composite. Vignola holds a quarter for all five. This single number is the largest systematic difference between the Italian and the Anglo-American classical tradition, and it is why a Georgian portico of the same column height as an Italian one is nearly a foot shorter overall.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "modillion_dentil",
@@ -363,7 +364,8 @@
       ],
       "authority_note": "CORINTHIAN MODILLION PITCH, seven twelfths of a diameter = 1 1/6 modules on centres, against Vignola's 1 module. Expression is in modules. Gibbs's cross-check - twelve pitches in seven diameters - is the kind of arithmetic a builder can actually verify on a story pole, and it is why his book beat the more elegant ones in the shops.",
       "judgment": false,
-      "note": "Dentils in the same cornice run 2 : 1 dentil to space with a pitch of one seventh of a module; a modillion pitch is therefore a whole number of dentil pitches only by luck, and Gibbs does not attempt to make them coincide. Vignola does. If both bands are drawn, decide which one governs and let the other run through."
+      "note": "Dentils in the same cornice run 2 : 1 dentil to space with a pitch of one seventh of a module; a modillion pitch is therefore a whole number of dentil pitches only by luck, and Gibbs does not attempt to make them coincide. Vignola does. If both bands are drawn, decide which one governs and let the other run through.",
+      "quantity": "eave_member_spacing"
     },
     {
       "target_slot": "chair_rail",
@@ -375,7 +377,8 @@
         35
       ],
       "authority_note": "Gibbs's pedestal rule at room scale with the one-fifth entablature: pedestal = (column + column/5)/4 = 3/10 of the ceiling height. 32 2/5 in. at 9 ft against Vignola's 36. In a Corinthian room the cap of that dado is an ogee and a platband only - Gibbs strips Vignola's corona out of the pedestal cap in every order, so a Gibbsian chair rail is a two-member profile and a Vignolesque one is a four-member profile at the same height.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "crown",
@@ -387,7 +390,8 @@
         16
       ],
       "authority_note": "Room read as a Corinthian order at reduced module, cornice alone: 1 3/5 modules of a 20-module column. 8 5/8 in. at a 9 ft ceiling, against Vignola's Corinthian 10 4/5 in. Gibbs's six-member composition - reversed cima, dentils, ovolo, modillions, corona, cyma recta - is exactly what a Georgian drawing-room cornice is, and it is very nearly the maximum number of members that will read in 8 5/8 in.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "crown",
@@ -395,7 +399,8 @@
       "expression": "ceiling_height * 1.6 / 20",
       "units": "in",
       "authority_note": "'The projection of the Cornice [is] equal to its height.' True of every Gibbs cornice except the Doric. A Corinthian cornice that projects less than it drops has been value-engineered and will read as a picture rail.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "ornament_vocabulary",
@@ -420,7 +425,8 @@
         10
       ],
       "authority_note": "One sixth of the opening, agreeing with Vignola; three fasciae, also agreeing. The Corinthian door architrave is the one place in Gibbs where the profile as well as the ratio matches Vignola, and it is the safest thing in the book to copy.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "window_head_masonry",
@@ -433,7 +439,8 @@
       ],
       "authority_note": "Archivolt and impost, one eighth of the arch opening, 'whether the Arch be great or small'. The impost divides into three, one for its neck, two for its cap; 'The Impost resembles the form of a Capital because of its bearing' - Gibbs's one sentence of theory in a book that otherwise contains none.",
       "judgment": false,
-      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "lintel_or_arch_depth"
     },
     {
       "target_slot": "column",
@@ -446,7 +453,8 @@
       ],
       "authority_note": "SUPERIMPOSED ORDERS. 'The first or lowermost Order must give the bigness of the Diameter to the Order immediately over it, which being [five sixths] of the Diameter of the Dorick, the Diameter of the Ionick will be equal to the diminished part of the Dorick. In small Draughts divide six Diameters of the Dorick into seven parts, [six] will be the Diameter required for the Ionick. The same method is to be taken for finding the Diameter of the Corinthian over the Ionick.' The upper column starts where the lower one finished - the rule that makes a two-storey Georgian front cohere, and the one most often broken in modern work by choosing both columns from a catalogue.",
       "judgment": false,
-      "note": "Expression gives the diameter of the order ABOVE, from the height of the Corinthian column below it. Gibbs also warns that on such fronts 'here is a necessity to have [the Pedestal] less, otherwise the Breasts of the Windows would be too high.'"
+      "note": "Expression gives the diameter of the order ABOVE, from the height of the Corinthian column below it. Gibbs also warns that on such fronts 'here is a necessity to have [the Pedestal] less, otherwise the Breasts of the Windows would be too high.'",
+      "quantity": "shaft_upper_diameter"
     }
   ],
   "conflicts": [

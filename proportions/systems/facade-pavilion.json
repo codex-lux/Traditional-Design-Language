@@ -205,7 +205,8 @@
       ],
       "authority_note": "`styles/french-baroque.json`: 'mansard roof: lower slope 65 to 75 degrees'.",
       "note": "THE MANSARD'S LOWER SLOPE, 70 degrees -- rise over run of 2.75, or 33 in 12. Nearly vertical, and like `dutch-gambrel`'s lower slope it is really the WALL of the storey inside rather than a roof. The band is steep enough that the two packs' bands do not overlap: a gambrel's lower slope is 60-72 degrees and a mansard's 65-75, which sounds close and is not, because at the top of the mansard band the slope is within fifteen degrees of vertical and is detailed as a wall with slates on it.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "mansard_lower_slope"
     },
     {
       "target_slot": "roof_pitch",

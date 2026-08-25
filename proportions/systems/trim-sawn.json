@@ -102,7 +102,8 @@
       ],
       "authority_note": "`styles/carpenter-gothic.json`: 'bargeboard depth 10 to 18 in'.",
       "note": "THE BARGEBOARD, 13 in on the face. `opening-pointed` writes the same address with the same meaning -- that pack's Gothic Revival bargeboard at 10 1/2 in -- and the two packs co-bind on `carpenter-gothic` and `gothic-revival-american`. That collision is deliberate and correct: both mean the bargeboard's depth, the same quantity with different values by tradition, which is exactly what precedence is for. It is the OTHER kind of collision, two packs meaning different quantities, that OQ 48 is about, and this pack renames three dimensions to avoid it.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "bargeboard_face_depth"
     },
     {
       "target_slot": "rake_condition",
@@ -167,7 +168,8 @@
       ],
       "authority_note": "`styles/italianate-american.json`: 'bracket spacing 24 to 48 in on centre, with paired brackets at corners and at the ends of each bay'. `styles/italianate-villa.json`: 'brackets at 24 to 48 in on centre'. `styles/stick-style.json`: 'brackets or rafter tails at 24 to 48 in on centre'.",
       "note": "BRACKET CENTRES, 36 in, and three records give exactly the same band -- 24 to 48 -- which for a decorative member is a striking agreement and is explained by the framing behind it: brackets land on rafters or on blocking at rafter centres, so 24 and 48 are 16 in and 24 in framing doubled and tripled. The slot is `modillion_dentil` because a sawn bracket under a wide eave is the vernacular descendant of a modillion and occupies the same position in the same assembly; the ancestry is real and the two should not be given separate slots.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "eave_member_spacing"
     },
     {
       "target_slot": "modillion_dentil",
@@ -180,7 +182,8 @@
       ],
       "authority_note": "`styles/queen-anne-spindled.json`: 'bracket or knee brace 12 to 24 in on the diagonal at every post head'. `styles/carpenter-gothic.json`: 'sawn brackets 12 to 20 in on the diagonal'.",
       "note": "THE BRACKET, 18 in on the diagonal. Both records measure it that way and the pack's invariant says why: a scroll saw cuts a pattern from a square blank, so the bracket's two legs are equal and it sits at 45 degrees. The consistency across four styles and fifty years is a fact about the machine, not about the designers.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "eave_member_face_height"
     },
     {
       "target_slot": "modillion_dentil",
@@ -193,7 +196,8 @@
       ],
       "authority_note": "`styles/italianate-american.json`: 'paired or single sawn brackets', with 'paired brackets at corners and at the ends of each bay'.",
       "note": "SINGLE OR PAIRED, and the pairing is not decorative. Brackets double at the corners and at the ends of a bay for the same reason `facade-arcade`'s end pier is thicker: the run terminates there and the eye and the structure both want something heavier at a stop. It is also the corner problem the classical orders answer by contracting the intercolumniation -- `greek-doric` records the Doric triglyph conflict as having no solution -- and this family answers it by doubling, which is cruder and works.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "eave_members_per_bay"
     },
     {
       "target_slot": "porch_support",
@@ -206,7 +210,8 @@
       ],
       "authority_note": "`styles/folk-victorian.json`: 'porch post 4x4 to 6x6 nominal, turned with a swell of 5 to 7 in diameter'. `styles/queen-anne-spindled.json`: 'porch post 5 to 8 in diameter at the swell'.",
       "note": "THE TURNED POST AT ITS SWELL, 6 1/2 in. The SWELL is the measured dimension and not the stock, which matters: the post is turned from a 4x4 or a 6x6 and its widest point is most of that blank, so a turned post is always slightly narrower than the timber it came from and the taper above and below the swell is what the lathe was for. `balcony-gallery` writes this same address for its own supports and means the same quantity -- a support's width -- with different values, which is what precedence is for; the two packs co-bind on `italianate-american`.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "support_shaft_width"
     },
     {
       "target_slot": "porch_support",
@@ -219,7 +224,8 @@
       ],
       "authority_note": "`styles/queen-anne-spindled.json`: posts 'spaced 6 to 9 ft on centre'.",
       "note": "POST CENTRES, 7 ft 6 in. Wider than a masonry arcade's and much wider than a colonnette's, because a turned wooden post carrying a light porch beam can span it and because the spindle frieze between the posts wants a run long enough to read as a frieze rather than as a panel. Below about 6 ft the posts become a colonnade and the frieze becomes a series of infills.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "support_centres"
     },
     {
       "target_slot": "porch_rail",
@@ -232,7 +238,8 @@
       ],
       "authority_note": "`styles/folk-victorian.json` and `styles/queen-anne-spindled.json` BOTH give spindles 'at 3 to 5 in on centre', independently and identically.",
       "note": "SPINDLE PITCH, 4 in, and two records give the identical band. It is also the identical band `balcony-gallery` gives for a baluster pitch on a completely different continent and material, which is not a coincidence: 4 in is what a hand can pass and a head cannot, and it is the pitch every balustrade tradition in this library arrives at. The two packs write the same address with the same meaning and very nearly the same value.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "baluster_pitch"
     },
     {
       "target_slot": "porch_rail",
@@ -245,7 +252,8 @@
       ],
       "authority_note": "`styles/folk-victorian.json`: 'spindles 1.25 to 2 in diameter'. `styles/queen-anne-spindled.json`: '1.5 to 2.5 in diameter'.",
       "note": "SPINDLE DIAMETER, 2 in, and the two records differ by a quarter inch at each end -- the Queen Anne spindle is slightly fatter than the Folk Victorian one, which is what a more expensive house buys. At this diameter the spindle is turned from a 2x2 and every one is identical, which is the lathe's whole contribution: before it, a turned baluster was a joiner's day's work and after it a spindle cost pennies.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "baluster_section"
     },
     {
       "target_slot": "frieze",

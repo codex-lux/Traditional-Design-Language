@@ -613,14 +613,16 @@
       "expression": "column_height / 4",
       "units": "in",
       "note": "A quarter of the column, at any scale. The Composite carries the Corinthian's weight without the Corinthian's modillion discipline, which is exactly why it was the order of choice for triumphal arches and for anything whose bay was set by something other than the cornice.",
-      "authority_note": "Vignola, Regola; Esquie plate XXXIV: the proportions of this order are those of the Corinthian."
+      "authority_note": "Vignola, Regola; Esquie plate XXXIV: the proportions of this order are those of the Corinthian.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "crown",
       "dimension": "height",
       "expression": "ceiling_height / 5 * (4 / 10)",
       "units": "in",
-      "note": "The cornice member of the entablature, 4 of 10 parts. Same figure as the Corinthian; the difference is what is in it - dentils at 1/4 diameter on centres instead of modillions."
+      "note": "The cornice member of the entablature, 4 of 10 parts. Same figure as the Corinthian; the difference is what is in it - dentils at 1/4 diameter on centres instead of modillions.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "crown",
@@ -628,7 +630,8 @@
       "expression": "ceiling_height / 5 * (4 / 10)",
       "units": "in",
       "note": "Projection equal to height, on Ware's general rule. Vignola's own figure for the Composite cornice projection is not in any transcription consulted, unlike the Ionic (31 parts) and the Corinthian (2 modules 2 parts); this is the weakest number in the pack.",
-      "authority_note": "Ware's general rule, not Vignola's drawn figure. Treat as provisional."
+      "authority_note": "Ware's general rule, not Vignola's drawn figure. Treat as provisional.",
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "modillion_dentil",
@@ -636,7 +639,8 @@
       "expression": "module / 2",
       "units": "in",
       "note": "The Composite dentil is the big one: 1/6 D wide (6 parts) with a 1/12 D interdentil (3 parts), so 1/4 D = 9 parts on centres, and 1/5 D high. Half again the Ionic and Corinthian dentil. At the default 6 in module that is a 3 in spacing with a 2 in dentil - the only dentil in the five orders that is comfortable to run in stock millwork.",
-      "authority_note": "Ware, on the Composite cornice."
+      "authority_note": "Ware, on the Composite cornice.",
+      "quantity": "eave_member_spacing"
     },
     {
       "target_slot": "modillion_dentil",
@@ -644,7 +648,8 @@
       "expression": "storey_height / (module / 2)",
       "units": "count",
       "note": "Because there are no modillions and the dentils are large, the Composite dentil course need not resolve to the column axis. This is a real licence and the only one of its kind in the rich orders; it is why the Composite survives contemporary bay-setting when the Corinthian does not.",
-      "authority_note": "Esquie, plate XXXVIII: 'as the dentils are relatively small, they may be set out regardless of the axes of the columns.'"
+      "authority_note": "Esquie, plate XXXVIII: 'as the dentils are relatively small, they may be set out regardless of the axes of the columns.'",
+      "quantity": "eave_members_per_bay"
     },
     {
       "target_slot": "baseboard",
@@ -655,7 +660,8 @@
       "range": [
         0.0625,
         0.0909
-      ]
+      ],
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "chair_rail",
@@ -667,7 +673,8 @@
         0.219,
         0.32
       ],
-      "judgment": true
+      "judgment": true,
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "wainscot",
@@ -679,7 +686,8 @@
         0.219,
         0.36
       ],
-      "judgment": true
+      "judgment": true,
+      "quantity": "wainscot_top_height"
     },
     {
       "target_slot": "casing",
@@ -690,7 +698,8 @@
       "range": [
         0.1429,
         0.1667
-      ]
+      ],
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "door_surround",
@@ -698,7 +707,8 @@
       "expression": "opening_width / 2",
       "units": "in",
       "note": "Opening twice as high as wide, entablature a quarter of the door height.",
-      "authority_note": "Vignola, Regola, doorway plate."
+      "authority_note": "Vignola, Regola, doorway plate.",
+      "quantity": "entablature_over_door_height"
     },
     {
       "target_slot": "window_surround_wood",
@@ -709,21 +719,24 @@
       "range": [
         0.125,
         0.1667
-      ]
+      ],
+      "quantity": "window_casing_face_width"
     },
     {
       "target_slot": "cornice",
       "dimension": "height",
       "expression": "storey_height / 4 * (4 / 10)",
       "units": "in",
-      "note": "Envelope cornice. On a 12 ft storey, 14.4 in deep with a dentil course of 2 in dentils at 3 in on centres - a course that can be run in stock and mitred by a competent carpenter, which the Corinthian modillion course cannot."
+      "note": "Envelope cornice. On a 12 ft storey, 14.4 in deep with a dentil course of 2 in dentils at 3 in on centres - a course that can be run in stock and mitred by a competent carpenter, which the Corinthian modillion course cannot.",
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "frieze",
       "dimension": "height",
       "expression": "storey_height / 4 * (3 / 10)",
       "units": "in",
-      "note": "Envelope frieze, 3 of 10. Vignola's Composite frieze is the one he expected to be richly carved; left plain it will look underfed against the cornice above it."
+      "note": "Envelope frieze, 3 of 10. Vignola's Composite frieze is the one he expected to be richly carved; left plain it will look underfed against the cornice above it.",
+      "quantity": "entablature_frieze_height"
     },
     {
       "target_slot": "belt_course",
@@ -731,7 +744,8 @@
       "expression": "module / 2",
       "units": "in",
       "note": "Where the Composite is used over another order - the standard superimposition, as at the Arch of Titus and in every Renaissance cortile - the belt at the storey line should read as the pedestal plinth of the order above, not as an applied band. Half a module is the minimum that will do that.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "belt_course_height_above_floor"
     }
   ],
   "conflicts": [

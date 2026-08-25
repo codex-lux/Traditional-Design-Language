@@ -132,7 +132,8 @@
       ],
       "authority_note": "`styles/mission-revival.json`: piers 18-30 in. `styles/california-mission-colonial.json`: 2 ft 6 in to 4 ft. `styles/raised-creole-plantation.json`: masonry pier 16-24 in square.",
       "note": "38 2/5 in on an 8 ft span. The absolute figure is given as well as the ratio because the two fail differently: scale a correct ratio down to a 4 ft span and the pier is 19 in, which is buildable, but scale it down to a 3 ft span and the pier is 14 in, which in rubble or adobe is not a pier at all. Below about 18 in the support has to become a column and the slenderness rule takes over.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "support_shaft_width"
     },
     {
       "target_slot": "porch_support",
@@ -145,7 +146,8 @@
       ],
       "authority_note": "`styles/mexican-colonial.json`: 'patio arcade bay 2.5-3.5 m'. `styles/mexican-hacienda.json`: 'corredor bay 3-4 m'. `styles/italian-villa-vernacular.json`: clear span 2.0-3.0 m plus its pier.",
       "note": "BAY CENTRES, 134 in -- span plus pier. This is the figure the plan behind the arcade actually has to work with, because the rooms entered from a corredor take their door positions from the bays, and a room that wants to be three metres wide on a 3.4 m bay will have its door off-centre for ever. Set the bay first and the plan to it: that is the order these buildings were designed in and it is the reverse of how a modern plan reaches an elevation.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "support_centres"
     },
     {
       "target_slot": "porch_support",
@@ -197,7 +199,8 @@
       ],
       "authority_note": "Three records give it as two thirds: `styles/italian-renaissance-revival.json`, `styles/mediterranean-revival.json` and `styles/spanish-colonial-revival.json`. `styles/italian-villa-vernacular.json` gives the impost at 0.55-0.65 of the arch's total height.",
       "note": "THE SPRINGING AS A FRACTION OF THE OPENING'S TOTAL HEIGHT, which is the same rule as the height above the floor seen the other way round and is the form three records happen to state it in. Both are given because they fail differently: the absolute rule keeps the arcade walkable and this one keeps it looking right at any scale. Held by the pack's own invariant as well.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "springing_as_fraction_of_height"
     },
     {
       "target_slot": "arch",
@@ -223,7 +226,8 @@
       ],
       "authority_note": "The semicircular default. `styles/norman-romanesque-english.json`: 'arch rise to span exactly 1:2 -- the defining and non-negotiable ratio'. `styles/italian-renaissance.json`: 'arch rise exactly 1/2 the span'.",
       "note": "THE RISE, AND THIS IS THE ONE RULE IN THE PACK THAT ANOTHER PACK SHOULD OVERRIDE. The arcade's geometry -- bay, pier, springing, rhythm -- is the same whatever shape sits on top of it, which is why this pack composes with `moorish-arch`, with `opening-pointed`, and with the four-centred Tudor system still on WP-4.1's list. Where a node binds one of those, take the rise from it: equilateral is rise equals span, four-centred is 1:3 to 1:4, a horseshoe continues below the springing. Take this figure only where the node's arch is genuinely semicircular, which for the Italian, Spanish, Mexican and Romanesque traditions it is.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "arch_rise"
     },
     {
       "target_slot": "window_head_masonry",
@@ -236,7 +240,8 @@
       ],
       "authority_note": "`styles/richardsonian-romanesque.json`: 'voussoir depth 1/8 to 1/6 of the span'.",
       "note": "ARCHIVOLT OR VOUSSOIR DEPTH, 13 5/7 in on an 8 ft span, taken straight from the one record that states it. The depth is structural before it is visual: a shallow voussoir in a wide arch has too little bearing on its neighbours and the arch hinges. It is also the member that carries whatever ornament the tradition puts on an arch -- the Romanesque chevron, the Moorish alternating ablaq, the Renaissance moulded archivolt -- so getting the depth right is a precondition for the ornament packs still on the list.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "archivolt_depth"
     },
     {
       "target_slot": "column",
@@ -262,7 +267,8 @@
       ],
       "authority_note": "`styles/raised-creole-plantation.json`: 'colonnette diameter 6-9 in; masonry pier 16-24 in square -- a slenderness change of roughly 1:2.5'.",
       "note": "10 1/5 in of shaft diameter. The record quoted here is doing something useful that no other does: it puts the column and the pier side by side in one building and measures the jump between them at about one to two and a half. That is the real difference between the two supports and it is why substituting one for the other changes the elevation completely rather than slightly.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "shaft_lower_diameter"
     },
     {
       "target_slot": "porch_depth",
@@ -275,7 +281,8 @@
       ],
       "authority_note": "`styles/california-mission-colonial.json`: 'corredor depth 10-14 ft'. `styles/mediterranean-revival.json`: 'loggia depth 10-16 ft, never less than 8 ft'. `styles/mexican-hacienda.json`: 'corredor depth 2.5-4 m'.",
       "note": "TWELVE FEET DEEP, and deeper than any porch in the library except the Creole galerie. The reason is the next rule: this is not a porch, it is the building's corridor, and its depth has to hold circulation plus furniture plus the shade the wall behind it needs. `styles/mediterranean-revival.json`'s 'never less than 8 ft' is the same kind of floor as `styles/monterey-revival.json`'s six-foot balcony -- below it the thing stops being a space and becomes a detail.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "porch_depth"
     },
     {
       "target_slot": "circulation_parti",
@@ -288,7 +295,8 @@
       ],
       "authority_note": "FOUR records say the arcade IS the circulation, independently. `styles/california-mission-colonial.json`: 'serving as all circulation'. `styles/mexican-colonial.json`: 'rooms entered from it, not from corridors'. `styles/mexican-hacienda.json`: 'as the circulation, shade and social space'. `styles/spanish-colonial-american.json`: 'serving as the building's circulation'.",
       "note": "THE CLEAR WALKING WIDTH, 9 ft -- the arcade's depth less the pier. THIS IS THE PACK'S LARGEST PLAN CONSEQUENCE and four unrelated records state it without any of them treating it as remarkable: there is no interior corridor, every room opens onto the arcade, and the arcade is therefore the plan's whole circulation system. What follows is a chain of consequences a designer meets one at a time and should meet all at once -- every room's door is an exterior door (see the energy conflict), the arcade is a required means of egress (see the egress conflict), room adjacencies are set by bay positions rather than by preference, and a room can be added to the range at any time without touching anything else, which is why these buildings grow the way they do.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "passage_clear_width"
     },
     {
       "target_slot": "porch_ceiling",
@@ -314,7 +322,8 @@
       ],
       "authority_note": "Computed from the pack's own geometry -- an 8 ft void in a 11 ft 2 in bay, over a 13 ft storey -- rather than taken from a record.",
       "note": "A JUDGMENT SLOT. The open area of an arcade run as a fraction of its elevation: about a third. This is the number that makes an arcade an arcade rather than a wall with arched windows in it, and it inverts the usual solid-to-void rule -- `styles/english-georgian.json` insists that 'wall must dominate glass' at 1:1 to 1.5:1, and here the void is a third of the elevation and the wall behind it is barely seen at all. The judgment is where in the band to sit, because it depends on whether the run is a loggia read as an element or a corredor read as a colonnade, and no record states it.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "arcade_open_area_fraction"
     }
   ],
   "conflicts": [

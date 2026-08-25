@@ -313,6 +313,7 @@ def evaluate(pack, module_in=None, bindings=None):
     results = []
     for r in pack.get("derived_rules", []):
         row = {"target_slot": r["target_slot"], "dimension": r.get("dimension"),
+               "quantity": r.get("quantity"),          # OQ 48: what the rule MEASURES
                "expression": r["expression"], "units": r.get("units"),
                "judgment": bool(r.get("judgment")), "range": r.get("range"),
                "note": r.get("note"), "authority_note": r.get("authority_note")}

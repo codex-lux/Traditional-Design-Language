@@ -88,7 +88,8 @@
       ],
       "authority_note": "`styles/octagon-house.json`: 'side length 12 to 20 ft, giving an inscribed diameter of about 29 to 48 ft'. The multiplier is 1 + root 2, which is the geometry rather than a measurement.",
       "note": "THE INSCRIBED DIAMETER, 38 ft 8 in on a 16 ft side. This is the number the plan is actually laid out from and the record gives both, which is a small kindness: 1 + root 2 is 2.4142, so a 12 ft side gives 29 ft and a 20 ft side gives 48, exactly as stated. Note what it means for the brief -- the diameter moves two and a half feet for every foot of side, so the type has almost no fine adjustment: a house wanting 3,000 sq ft cannot be got by nudging, it is a 17 ft side or an 18 ft one and nothing between.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "inscribed_diameter"
     },
     {
       "target_slot": "depth_and_pile",
@@ -127,7 +128,8 @@
       ],
       "authority_note": "`styles/octagon-house.json`: 'roof pitch 4:12 to 7:12 on all eight hips'.",
       "note": "5 1/2 in 12, ON ALL EIGHT HIPS. The roof has no ridge -- eight hips converging on a point, or on the flat deck the cupola sits in -- which is a genuinely different structure from every other roof in this library and is why the pitch band is narrow. Steeper than 7:12 and the eight hips converge into an unbuildable spike; shallower than 4:12 and the deck swallows the roof.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "main_roof_pitch"
     },
     {
       "target_slot": "roof_penetration_rules",
@@ -153,7 +155,8 @@
       ],
       "authority_note": "`styles/octagon-house.json`: 'veranda depth 7 to 10 ft, uniform on every face it crosses'.",
       "note": "8 ft 6 in, AND UNIFORM ON EVERY FACE IT CROSSES. The uniformity is the rule rather than the depth: a veranda that deepens at the entrance or wraps only the sunny faces has broken the eightfold rhythm, which is the only rhythm the building has. `styles/octagon-house.json` says the veranda wraps 'a majority of the faces', so it is normal for it to stop -- but it stops at a face, never part-way along one.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "porch_depth"
     },
     {
       "target_slot": "window_grouping_rule",
@@ -166,7 +169,8 @@
       ],
       "authority_note": "`styles/octagon-house.json`: 'one or two openings per face, identically placed on every face, producing an eightfold rotational rhythm with a single break at the entry'.",
       "note": "OPENINGS PER FACE, AND THE RULE IS THE IDENTICAL PLACEMENT RATHER THAN THE NUMBER. Eight faces each with the same two windows in the same positions is an EIGHTFOLD ROTATIONAL rhythm, which no other building type in this library has -- everything else here is bilateral or additive. The record notes the single exception, 'a single break at the entry', and that break is the composition: it is the only thing on the elevation that says which way the house faces.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "openings_per_bay"
     },
     {
       "target_slot": "stair_position",
@@ -179,7 +183,8 @@
       ],
       "authority_note": "`styles/octagon-house.json`: 'a central vertical core, either a stair or a chimney stack, serving all eight sectors'.",
       "note": "THE CENTRAL CORE, 10 ft across. It is the plan's whole circulation and often its whole flue as well, and it is what makes the radial arrangement work -- eight sectors around one point, each reached from the middle. Move the stair off centre and the octagon becomes a rectangular plan wearing an eight-sided wall, which is what most surviving examples of the type actually are.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "stair_well_width"
     },
     {
       "target_slot": "storage_strategy",

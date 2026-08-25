@@ -128,7 +128,8 @@
         0.25
       ],
       "note": "THE MOST USEFUL RULE IN THE TREATISE, AND CHAMBERS'S CLEAREST LICENSED DEPARTURE. The Composite entablature is five modules on twenty - a quarter, as Vignola - but 'may be reduced to two ninths of the Column' (0.222) or 'to one fifth' (0.20) where the situation requires, and to keep the reduced figure on whole numbers he suggests taking the module at nine tenths of the semidiameter, which brings the entablature out at four and a half modules exactly. Note what this band contains: PALLADIO'S FIFTH sits at its lower limit. What Palladio makes the rule for his three upper orders, Chambers permits as a reduction on stated occasions. That is the precise distance between the two authorities.",
-      "authority_note": "Chambers, Treatise 1759, p. 68."
+      "authority_note": "Chambers, Treatise 1759, p. 68.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "modillion_dentil",
@@ -137,7 +138,8 @@
       "units": "in",
       "judgment": true,
       "note": "JUDGMENT SLOT. FLAT MODILLIONS, AFTER SCAMOZZI. Chambers on his Composite cornice: it 'is imitated from Scamozzi, and differs from the Corinthian only in the Modillions; which are flat'. Vignola's Composite cornice has DENTILS AND NO MODILLIONS AT ALL; Chambers's has flat modillions and dentils both. That is a member added against the spine and the single most conspicuous difference between the two Composites at the eave. He adds a detailing instruction that is pure craft: the soffit between the dentils 'must be hollowed upwards, behind the little Fillet in Front, as they are in most of the Antiques'. The dimension is a judgement because the band's depth is on the plate, not in the text; the substitution is not.",
-      "authority_note": "Chambers, Treatise 1759, p. 63."
+      "authority_note": "Chambers, Treatise 1759, p. 63.",
+      "quantity": "eave_member_face_height"
     },
     {
       "target_slot": "ornament_vocabulary",
@@ -154,7 +156,8 @@
       "expression": "column_height / 10 * (5 / 6)",
       "units": "in",
       "note": "The upper diameter, one sixth diminished, struck from the FOOT of the shaft by Blondel's instrument after the first conchoid of Nicomedes - a curve Chambers identifies in the Pantheon columns and calls 'the most perfect practice hitherto discovered', because a single stroke gives 'both the swelling and the diminution'. Vignola leaves the lower third cylindrical and tapers above it. Same fraction, different shaft.",
-      "authority_note": "Chambers, Treatise 1759, pp. 32-34."
+      "authority_note": "Chambers, Treatise 1759, pp. 32-34.",
+      "quantity": "shaft_upper_diameter"
     },
     {
       "target_slot": "pilaster",
@@ -162,7 +165,8 @@
       "expression": "5 / 6",
       "units": "ratio",
       "note": "Top width to bottom. Chambers insists on it and notes that pilasters executed without diminution, though found in the antique, forfeit 'one of the greatest beauties'. In a Composite pilaster order the capital must then be set out to the diminished width, with the foot of the leaves inside the top of the shaft.",
-      "authority_note": "Chambers, Treatise 1759, pp. 72-75."
+      "authority_note": "Chambers, Treatise 1759, pp. 72-75.",
+      "quantity": "pilaster_diminution_ratio"
     },
     {
       "target_slot": "chair_rail",
@@ -175,7 +179,8 @@
         0.33
       ],
       "note": "JUDGMENT SLOT. Pedestal 0.3, column 1.0, entablature 0.25: the cap lands at 0.194 of the whole, about 21 in at a 9 ft ceiling, against 0.215 and 23 in under Vignola. Where the entablature is taken at Chambers's reduced fifth the figure rises slightly, to 0.2, which is a reminder that the dado datum moves whenever the entablature does.",
-      "authority_note": "Chambers, Treatise 1759, pp. 83-84."
+      "authority_note": "Chambers, Treatise 1759, pp. 83-84.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "porch_support",
@@ -183,7 +188,8 @@
       "expression": "column_height / 10 * (7 / 3)",
       "units": "in",
       "note": "Clear span at Chambers's revised eustyle. Set this against Palladio's pycnostyle Composite at one and a half diameters: on a 20 ft column, 56 in of clear span against 36. The same order, the same column height, and a colonnade with half again as many columns in it.",
-      "authority_note": "Chambers, Treatise 1759, p. 89."
+      "authority_note": "Chambers, Treatise 1759, p. 89.",
+      "quantity": "clear_span_between_supports"
     }
   ],
   "conflicts": [

@@ -202,7 +202,8 @@
       ],
       "judgment": true,
       "note": "JUDGMENT SLOT, AND THE CLEAREST STATEMENT OF CHAMBERS'S METHOD: 'I have made the Height of the Doric Column sixteen Modules; which, in buildings where Majesty is required, is a good proportion: but in others it may be slenderer.' In private houses 'it may be 16 1/2, 16 3/4, or 16 7/8 Modules high; and in interior decorations even seventeen Modules'. And the crucial rider: the increase 'may be made entirely on the Shaft, as in the Tuscan Order, without changing either the Base or Capital. The Entablature may remain unaltered: for it will be sufficiently high.' Vignola gives sixteen and nothing else. Chambers gives a band, a criterion (majesty against domesticity) and an instruction on where to take the change.",
-      "authority_note": "Chambers, Treatise 1759, p. 52."
+      "authority_note": "Chambers, Treatise 1759, p. 52.",
+      "quantity": "column_height_in_diameters"
     },
     {
       "target_slot": "column",
@@ -210,7 +211,8 @@
       "expression": "column_height / 8 * (5 / 6)",
       "units": "in",
       "note": "The upper diameter. Chambers takes one sixth for all five orders - 'seldom less than one eighth of the inferior Diameter of the Column, nor more than one sixth of it' in the antiques, and Vitruvius's one sixth 'esteemed the most perfect'. The FRACTION agrees with Vignola. What does not agree is the origin of the curve: Chambers diminishes from the foot of the shaft by Blondel's conchoid instrument, where Vignola leaves the lower third cylindrical.",
-      "authority_note": "Chambers, Treatise 1759, pp. 32-34."
+      "authority_note": "Chambers, Treatise 1759, pp. 32-34.",
+      "quantity": "shaft_upper_diameter"
     },
     {
       "target_slot": "modillion_dentil",
@@ -219,7 +221,8 @@
       "units": "count",
       "judgment": true,
       "note": "JUDGMENT SLOT. Triglyphs in the bay at the ditriglyph interval. Chambers observes elsewhere that 'the distribution of the Dentil-Band will answer pretty nearly in all the regular Intercolumniations' - the point being that dentils forgive and triglyphs do not. The Doric bay must be set out from the triglyph and the fractional remainder taken in the metopes; no formula settles it.",
-      "authority_note": "Chambers, Treatise 1759, pp. 53 and 89."
+      "authority_note": "Chambers, Treatise 1759, pp. 53 and 89.",
+      "quantity": "eave_members_per_bay"
     },
     {
       "target_slot": "pilaster",
@@ -227,7 +230,8 @@
       "expression": "5 / 6",
       "units": "ratio",
       "note": "Top width to bottom width. Chambers insists pilasters diminish like columns and is scathing about the contrary opinion. In a Doric pilaster order this matters twice over, because the triglyph is centred on the pilaster and a parallel pilaster throws the triglyph off the axis at the top.",
-      "authority_note": "Chambers, Treatise 1759, pp. 72-75."
+      "authority_note": "Chambers, Treatise 1759, pp. 72-75.",
+      "quantity": "pilaster_diminution_ratio"
     },
     {
       "target_slot": "crown",
@@ -235,7 +239,8 @@
       "expression": "ceiling_height / 5 * (3 / 8)",
       "units": "in",
       "note": "The room as an order. Chambers's Doric entablature divides in eight as 2 : 3 : 3, so the cornice is three eighths; the entablature is a fifth of wall-plus-cornice. 8.1 in at a 9 ft ceiling. The ratio agrees with Vignola; the arithmetic runs in thirtieths, which is why the rule is restated rather than inherited.",
-      "authority_note": "Chambers, Treatise 1759, p. 44."
+      "authority_note": "Chambers, Treatise 1759, p. 44.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "frieze",
@@ -243,7 +248,8 @@
       "expression": "column_height / 4 * (3 / 8)",
       "units": "in",
       "note": "The Doric frieze at three eighths of the entablature, carrying triglyphs one module wide and square metopes. Chambers enriches them where Vignola leaves them plain: 'The Metope is enriched with a Bull's skull, adorned with a Garland of Beads; in imitation of those on the Temple of Jupiter Tonans', and the capital's necking 'is enriched with Husks and Roses, as in Palladio's Design, and as it has been executed by Sangallo at the Farnese'. Those enrichments are the visible signature of a Chambers Doric.",
-      "authority_note": "Chambers, Treatise 1759, p. 45."
+      "authority_note": "Chambers, Treatise 1759, p. 45.",
+      "quantity": "entablature_frieze_height"
     },
     {
       "target_slot": "porch_support",
@@ -251,7 +257,8 @@
       "expression": "column_height / 8 * 2.75",
       "units": "in",
       "note": "Clear span, ditriglyph. Chambers permits neither the araeostyle (weak) nor, except under necessity, the monotriglyph (mean), so the Doric bay is effectively fixed at this one interval.",
-      "authority_note": "Chambers, Treatise 1759, p. 89."
+      "authority_note": "Chambers, Treatise 1759, p. 89.",
+      "quantity": "clear_span_between_supports"
     }
   ],
   "conflicts": [

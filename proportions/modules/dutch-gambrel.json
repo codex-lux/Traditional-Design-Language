@@ -130,7 +130,8 @@
       ],
       "authority_note": "`styles/dutch-colonial-american.json` and `styles/new-jersey-dutch-gambrel.json` both give 'lower slope 60-72 degrees'; `styles/dutch-colonial-revival.json` gives 20:12 to 24:12, which is 59.0 to 63.4 degrees.",
       "note": "THE LOWER SLOPE, as rise over run: 1.7321 is sixty degrees (tan 60 is 1.7320508, and the fourth decimal is carried so the figure sits just inside the band rather than a ten-thousandth below it), or 20.8 in 12. The band's floor is the revival's 20:12 and its ceiling the colonial's 72 degrees, and the two traditions genuinely differ -- the colonial reaches much steeper because it is roofing a half storey and the revival stays near sixty because it is roofing a full one. Note what this slope IS: the wall of the upper storey, leaning. Every problem this pack has a conflict for follows from that one fact.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "gambrel_lower_slope"
     },
     {
       "target_slot": "roof_pitch",
@@ -169,7 +170,8 @@
       ],
       "authority_note": "`styles/new-jersey-dutch-gambrel.json`: ridge 20-24 ft above grade on a plate of 7 ft 6 in to 9 ft, over a 11-15 ft half-span. `styles/dutch-colonial-revival.json`: roof height eave to ridge 12-16 ft.",
       "note": "ROOF HEIGHT OVER HALF-SPAN, and it is very close to one. That is the fact about this roof that a photograph shows and a plan does not: on a Dutch house the roof is as tall as the house is half-deep, so from the front it is most of what you see -- `styles/dutch-colonial-american.json` says exactly that, 'the roof is most of what you see'. Get this ratio wrong in either direction and no amount of correct detail recovers it: below about 0.75 the house reads as a bungalow with an odd roof, and above 1.2 as a barn.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "roof_height_over_half_span"
     },
     {
       "target_slot": "height_proportion",
@@ -182,7 +184,8 @@
       ],
       "authority_note": "`styles/dutch-colonial-american.json`: 'wall plate 7 ft 0 in - 9 ft 0 in above the floor'. `styles/new-jersey-dutch-gambrel.json`: 'plate 7 ft 6 in - 9 ft 0 in'. `styles/dutch-colonial-revival.json`: 'wall height to eave 9-12 ft (one storey plus knee wall)'.",
       "note": "PLATE HEIGHT ABOVE THE GROUND FLOOR, and the band is wide because it holds two regimes rather than one spread. The colonial original sits at 7-9 ft and is a one-and-a-half-storey house: the roof springs off a low plate and the upper floor lives inside it. The revival sits at 9-12 ft because it has quietly inserted a full storey or a knee wall under the same roof shape -- `styles/dutch-colonial-revival.json` says the revival 'makes it a full second storey, which the originals never did'. Eight feet is the colonial default. A designer working the revival should take the upper half of the band deliberately and know that it is the single change that separates the two.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "plate_height_above_floor"
     },
     {
       "target_slot": "eave_condition",
@@ -195,7 +198,8 @@
       ],
       "authority_note": "`styles/dutch-colonial-american.json`: 'spring eave projection 18-36 in beyond the wall face'. `styles/hudson-valley-dutch.json`: 18-24 in. `styles/new-jersey-dutch-gambrel.json`: 24-36 in.",
       "note": "HOW FAR THE SWEEP STANDS CLEAR OF THE WALL. Three feet at the Jersey end, a foot and a half at the Hudson end, and the difference between the two branches is real and worth keeping -- the Jersey eave is on its way to being a porch and the Hudson eave is shading a wall. Below 18 in the device stops working: the wall is not shaded, the water is not thrown clear of a soft sandstone or lime-mortared face, and the curve has no room to develop.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "eave_projection_from_wall"
     },
     {
       "target_slot": "eave_condition",
@@ -208,7 +212,8 @@
       ],
       "authority_note": "`styles/dutch-colonial-revival.json`: 'the flare beginning 18-30 in. up the slope'.",
       "note": "WHERE THE CURVE STARTS, measured up the slope from the eave edge. Two feet. See the tail_straight member: the sweep must begin below the plate so that the steep slope reads straight for its whole visible length and then lets go. A flare that starts at the plate gives an ogee, which is a different roof from a different tradition.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "curve_start_up_slope"
     },
     {
       "target_slot": "eave_condition",
@@ -286,7 +291,8 @@
       ],
       "authority_note": "`styles/new-jersey-dutch-gambrel.json`: 'overall 30-46 ft x 22-30 ft'. `styles/hudson-valley-dutch.json`: '30-46 ft long x 20-24 ft deep'. `styles/dutch-colonial-american.json`: 'room depth 18-22 ft (one bent span)'.",
       "note": "THE HOUSE DEPTH, which is twice the module by definition. Twenty-four feet. It is not a free choice: the depth is set by the H-bent span, which `styles/dutch-colonial-american.json` gives as 18-22 ft of room depth, plus the wall thicknesses -- and the bent is a timber-framing constraint that `timber-bay` owns and this pack does not restate. What this pack adds is that the depth is ALSO the roof's generator, so a designer who deepens the house to gain a room has raised the ridge by the same proportion and made the roof taller than the tradition ever built it. The two constraints are usually discussed separately and are the same constraint.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "block_depth"
     },
     {
       "target_slot": "gable_treatment",

@@ -44,7 +44,8 @@
         0.92
       ],
       "authority_note": "Measured second-to-first storey ratios in Georgian, Federal and Greek Revival work cluster at 0.82-0.90; the tidewater-georgian node records 10-12 ft first floor over 9-11 ft second, which is 0.87-0.92.",
-      "note": "SECOND STOREY OVER FIRST. The core rule of the pack. A 10 ft first floor takes an 8 ft 6 in second. The reason is not decorum, it is perspective and use together: the upper storey is seen at a sharper angle from the street so it needs less height to read as equal, and it holds chambers rather than rooms of reception, which need less air and less ceremony. Set this ratio at 1.0 and the building stops being domestic — see the conflict."
+      "note": "SECOND STOREY OVER FIRST. The core rule of the pack. A 10 ft first floor takes an 8 ft 6 in second. The reason is not decorum, it is perspective and use together: the upper storey is seen at a sharper angle from the street so it needs less height to read as equal, and it holds chambers rather than rooms of reception, which need less air and less ceremony. Set this ratio at 1.0 and the building stops being domestic — see the conflict.",
+      "quantity": "storey_over_storey_diminution"
     },
     {
       "target_slot": "height_proportion",
@@ -56,7 +57,8 @@
         0.88
       ],
       "authority_note": "Third storeys in Georgian and Federal townhouses and in Second Empire and Italianate work run 7-9 ft against a 9-11 ft principal floor.",
-      "note": "THIRD STOREY OVER SECOND. The diminution accelerates: each storey takes a slightly larger cut than the one below, so the stack converges rather than stepping evenly. A three-storey house at 10 / 8 ft 6 / 6 ft 10 reads correctly; the same house at 10 / 9 / 8 reads as an apartment building. The compounding is the point — 0.85 then 0.80 gives a third storey at 0.68 of the first."
+      "note": "THIRD STOREY OVER SECOND. The diminution accelerates: each storey takes a slightly larger cut than the one below, so the stack converges rather than stepping evenly. A three-storey house at 10 / 8 ft 6 / 6 ft 10 reads correctly; the same house at 10 / 9 / 8 reads as an apartment building. The compounding is the point — 0.85 then 0.80 gives a third storey at 0.68 of the first.",
+      "quantity": "storey_over_storey_diminution"
     },
     {
       "target_slot": "height_proportion",
@@ -69,7 +71,8 @@
       ],
       "authority_note": "Half-storeys and attic storeys are the least regular dimension in the whole system: a Cape loft is 6 ft 0 in to 7 ft 0 in at the ridge against a 7 ft ground floor, a Georgian attic storey is 7-8 ft against 10-11, a mansard attic is nearly a full storey.",
       "note": "ATTIC OR HALF-STOREY OVER THE FLOOR BELOW. Marked judgment because the record genuinely does not converge. The attic height is set by the roof, by the dormer, and by whether the space is chambers or storage, and those three things vary independently. Take 0.62 as a starting point for a habitable attic under a gable and then draw the section, because in an attic the governing dimension is the head height at the knee wall, not the ratio.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "storey_over_storey_diminution"
     },
     {
       "target_slot": "height_proportion",
@@ -81,7 +84,8 @@
         0.85
       ],
       "authority_note": "Where a piano nobile is present — English Georgian townhouses, Charleston single houses, raised Creole and raised cottage types — the ground or basement storey is markedly lower than the floor above.",
-      "note": "GROUND STOREY UNDER A PIANO NOBILE. This is the one case where the graduation inverts at the bottom: the principal floor is the FIRST floor, not the ground floor, and the storey below it is a rusticated base of 7-9 ft holding service, storage, or in the Charleston and Creole cases flood-tolerant space. Cross-reference massing:charleston-single, massing:raised-cottage, massing:townhouse-row. Get this wrong — a full-height ground storey under a piano nobile — and the building has two principal floors and no hierarchy."
+      "note": "GROUND STOREY UNDER A PIANO NOBILE. This is the one case where the graduation inverts at the bottom: the principal floor is the FIRST floor, not the ground floor, and the storey below it is a rusticated base of 7-9 ft holding service, storage, or in the Charleston and Creole cases flood-tolerant space. Cross-reference massing:charleston-single, massing:raised-cottage, massing:townhouse-row. Get this wrong — a full-height ground storey under a piano nobile — and the building has two principal floors and no hierarchy.",
+      "quantity": "storey_over_storey_diminution"
     },
     {
       "target_slot": "ceiling_height_rule",
@@ -93,7 +97,8 @@
         156.0
       ],
       "authority_note": "Finished ceiling height by period and type: first-period New England 6 ft 8 in - 7 ft 6 in; Georgian colonial 8 ft 6 in - 10 ft 6 in; Tidewater Georgian 10-12 ft; Federal 9-11 ft; Greek Revival 10-12 ft; Italianate 10-14 ft; Queen Anne 9-11 ft; Craftsman 8 ft 6 in - 9 ft; Minimal Traditional and post-war 8 ft.",
-      "note": "Finished ceiling from storey height: subtract about 1 1/4 parts (a bit over 12 in on the default) for joist, subfloor, finish floor and ceiling. That deduction is where modern construction quietly steals a foot — deeper engineered joists, a service cavity and a levelling underlayment can eat 16-18 in, so a drawn 9 ft ceiling on an 8 ft stud arrives at 8 ft 2 in. Dimension the STOREY, not the ceiling, and make the framer hit it."
+      "note": "Finished ceiling from storey height: subtract about 1 1/4 parts (a bit over 12 in on the default) for joist, subfloor, finish floor and ceiling. That deduction is where modern construction quietly steals a foot — deeper engineered joists, a service cavity and a levelling underlayment can eat 16-18 in, so a drawn 9 ft ceiling on an 8 ft stud arrives at 8 ft 2 in. Dimension the STOREY, not the ceiling, and make the framer hit it.",
+      "quantity": "ground_storey_ceiling_height"
     },
     {
       "target_slot": "window_proportion",
@@ -105,7 +110,8 @@
         96.0
       ],
       "authority_note": "Window opening heights run 50-62 percent of the storey height across the Anglo-American range; the tall end is Italianate and Greek Revival, the short end is first-period and Craftsman.",
-      "note": "THE WINDOW FOLLOWS THE STOREY. This is the mechanism by which storey graduation becomes visible from the street. Nobody reads a floor-to-floor dimension on an elevation; everybody reads the windows. If the second-storey windows are the same height as the first-storey windows, the graduation is invisible and the facade reads flat regardless of what the section says. Shorten the upper windows with the storey, by removing a light course rather than by squashing the light."
+      "note": "THE WINDOW FOLLOWS THE STOREY. This is the mechanism by which storey graduation becomes visible from the street. Nobody reads a floor-to-floor dimension on an elevation; everybody reads the windows. If the second-storey windows are the same height as the first-storey windows, the graduation is invisible and the facade reads flat regardless of what the section says. Shorten the upper windows with the storey, by removing a light course rather than by squashing the light.",
+      "quantity": "window_height_from_storey"
     },
     {
       "target_slot": "window_sill",
@@ -117,7 +123,8 @@
         36.0
       ],
       "authority_note": "Sill heights above the finished floor are remarkably constant across periods and storeys: 28-34 in, set by furniture, by the human body at a window, and later by guard requirements.",
-      "note": "THE SILL DOES NOT MOVE. This is the quiet half of the graduation rule and the half that is usually got wrong. Sills stay at a constant 30 in above the floor on every storey, because that is set by a chair rail, a dado and a person leaning on a sill — none of which change from floor to floor. The HEAD is what follows the storey height. So the upper windows are shorter, and they are shorter from the top. Design an elevation the other way — heads aligned at a constant distance below the ceiling and sills raised on the upper floor — and you get windows that look chopped off at the bottom, which is the signature of a facade laid out in elevation rather than in section."
+      "note": "THE SILL DOES NOT MOVE. This is the quiet half of the graduation rule and the half that is usually got wrong. Sills stay at a constant 30 in above the floor on every storey, because that is set by a chair rail, a dado and a person leaning on a sill — none of which change from floor to floor. The HEAD is what follows the storey height. So the upper windows are shorter, and they are shorter from the top. Design an elevation the other way — heads aligned at a constant distance below the ceiling and sills raised on the upper floor — and you get windows that look chopped off at the bottom, which is the signature of a facade laid out in elevation rather than in section.",
+      "quantity": "sill_height_above_floor"
     },
     {
       "target_slot": "window_head_masonry",
@@ -128,7 +135,8 @@
         76.0,
         126.0
       ],
-      "note": "The head sits at about 0.75-0.82 of the storey, leaving 1 1/2 to 2 1/2 parts of frieze between the head and the ceiling — room for a cornice, a curtain box and the visual relief the eye needs. Below about 0.72 the wall above the window reads as a blank band; above about 0.85 the head crowds the cornice and there is nowhere for the crown to land. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "The head sits at about 0.75-0.82 of the storey, leaving 1 1/2 to 2 1/2 parts of frieze between the head and the ceiling — room for a cornice, a curtain box and the visual relief the eye needs. Below about 0.72 the wall above the window reads as a blank band; above about 0.85 the head crowds the cornice and there is nowhere for the crown to land. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "head_height_above_floor"
     },
     {
       "target_slot": "belt_course",
@@ -139,7 +147,8 @@
         102.0,
         168.0
       ],
-      "note": "The belt course sits at the second-floor STRUCTURE, not the second-floor finish — about six inches above the top of the first storey on the default, i.e. on the joist zone. That is where the wall changes thickness in masonry and where the frame changes in a box frame, so it is the only place a horizontal band has a reason to be. Where the pack is used with brick-course, the brick pack's rounding rule takes precedence: the belt lands on the course line nearest this number."
+      "note": "The belt course sits at the second-floor STRUCTURE, not the second-floor finish — about six inches above the top of the first storey on the default, i.e. on the joist zone. That is where the wall changes thickness in masonry and where the frame changes in a box frame, so it is the only place a horizontal band has a reason to be. Where the pack is used with brick-course, the brick pack's rounding rule takes precedence: the belt lands on the course line nearest this number.",
+      "quantity": "belt_course_height_above_floor"
     },
     {
       "target_slot": "cornice",
@@ -151,7 +160,8 @@
         30.0
       ],
       "authority_note": "Full entablature-derived cornices are about one-fifth of the storey; a domestic boxed cornice without frieze or architrave is about one-eighth to one-tenth.",
-      "note": "Fifteen inches on the default. The cornice is sized off the PRINCIPAL storey even though it sits at the top of the shortest one, which is why a graduated building's cornice always looks slightly generous for the storey it crowns — and it should. A cornice sized off the top storey looks mean, and a cornice sized off nothing at all looks like a gutter."
+      "note": "Fifteen inches on the default. The cornice is sized off the PRINCIPAL storey even though it sits at the top of the shortest one, which is why a graduated building's cornice always looks slightly generous for the storey it crowns — and it should. A cornice sized off the top storey looks mean, and a cornice sized off nothing at all looks like a gutter.",
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "frieze",
@@ -162,7 +172,8 @@
         6.0,
         20.0
       ],
-      "note": "One part. The frieze band between the top-storey window heads and the cornice bed. On a graduated building this band is what absorbs the accumulated error: if the storeys have come out slightly wrong, the frieze is where you take it up, because it is the one horizontal on the facade that nothing else has to align with."
+      "note": "One part. The frieze band between the top-storey window heads and the cornice bed. On a graduated building this band is what absorbs the accumulated error: if the storeys have come out slightly wrong, the frieze is where you take it up, because it is the one horizontal on the facade that nothing else has to align with.",
+      "quantity": "elevation_frieze_band_height"
     },
     {
       "target_slot": "baseboard",
@@ -174,7 +185,8 @@
         12.0
       ],
       "authority_note": "The trim tradition sizes the base at roughly one-fourteenth to one-sixteenth of the finished ceiling height, and the practice is common to Nicholson, Benjamin and the whole plan-book literature.",
-      "note": "The interior gets graduated too, and this is how. A 10 ft 6 in ceiling takes a 9 in base; an 8 ft 6 in ceiling above it takes a 7 in base. Using one base height throughout a graduated house is the most common interior error in traditional work — it makes the upper floors feel crude and the lower ones feel underdressed, and it costs nothing to fix because the millwork is being run to order anyway."
+      "note": "The interior gets graduated too, and this is how. A 10 ft 6 in ceiling takes a 9 in base; an 8 ft 6 in ceiling above it takes a 7 in base. Using one base height throughout a graduated house is the most common interior error in traditional work — it makes the upper floors feel crude and the lower ones feel underdressed, and it costs nothing to fix because the millwork is being run to order anyway.",
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "crown",
@@ -185,7 +197,8 @@
         2.5,
         7.0
       ],
-      "note": "Interior crown projection, about half the base height, on the same graduation. A room with a 12 ft ceiling and a 3 1/2 in crown reads as unfinished; a room with an 8 ft ceiling and a 7 in crown reads as a wedding cake. Both are everyday sights and both come from a single crown specified building-wide."
+      "note": "Interior crown projection, about half the base height, on the same graduation. A room with a 12 ft ceiling and a 3 1/2 in crown reads as unfinished; a room with an 8 ft ceiling and a 7 in crown reads as a wedding cake. Both are everyday sights and both come from a single crown specified building-wide.",
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "chair_rail",
@@ -196,7 +209,8 @@
         27.0,
         38.0
       ],
-      "note": "Chair rail at roughly a quarter to a third of the ceiling height, which lands at 30-33 in on ordinary rooms — the same datum as the window sill, which is not a coincidence and should not be allowed to become one. Rail and sill must agree, and where the ceiling rule and the sill rule disagree the SILL wins, because a rail that misses the sill by an inch and a half is visible from across the room. On very tall rooms the ratio rule runs away from the body and must be capped: nobody has ever wanted a 40 in chair rail."
+      "note": "Chair rail at roughly a quarter to a third of the ceiling height, which lands at 30-33 in on ordinary rooms — the same datum as the window sill, which is not a coincidence and should not be allowed to become one. Rail and sill must agree, and where the ceiling rule and the sill rule disagree the SILL wins, because a rail that misses the sill by an inch and a half is visible from across the room. On very tall rooms the ratio rule runs away from the body and must be capped: nobody has ever wanted a 40 in chair rail.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "foundation_expression",
@@ -208,7 +222,8 @@
         48.0
       ],
       "authority_note": "First floor above finished grade: 18-30 in is the Anglo-American norm, 36-60 in for raised and flood-adapted types, 8-12 in for post-war slab-on-grade.",
-      "note": "Two feet on the default. The graduation starts below the first floor: a visible base — water table, plinth, exposed foundation — is the bottom term of the series, and a house sitting directly on grade has lost the first term and looks like it is sinking. This is the single cheapest correction available on an otherwise good elevation."
+      "note": "Two feet on the default. The graduation starts below the first floor: a visible base — water table, plinth, exposed foundation — is the bottom term of the series, and a house sitting directly on grade has lost the first term and looks like it is sinking. This is the single cheapest correction available on an otherwise good elevation.",
+      "quantity": "exposed_foundation_height"
     },
     {
       "target_slot": "steps_and_stoop",

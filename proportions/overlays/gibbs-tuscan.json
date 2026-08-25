@@ -321,7 +321,8 @@
       ],
       "authority_note": "GIBBS'S CHAIR RAIL SITS LOWER THAN VIGNOLA'S. Read the room as the order with floor-to-ceiling as the column, as the Vignola pack does. Vignola's pedestal is one third of the column: ceiling/3, so 36 in. at 9 ft. Gibbs's pedestal is one quarter of column-plus-entablature, and his entablature is a quarter of the column, so the pedestal is (1 + 1/4)/4 = 5/16 of the ceiling height: 33 3/4 in. at 9 ft, 30 in. at 8 ft. Two to three inches lower, consistently, across every Georgian room. Measure to the TOP of the rail.",
       "judgment": false,
-      "note": "Gibbs's pedestal has a plinth that Vignola's has not, so the wainscot below the rail should read base-plinth, dado, cap rather than Vignola's zoccolo, dado, cap. The plinth is a quarter of the whole pedestal height: ceiling_height * 5/64, about 8 1/2 in. at 9 ft - which is why a Georgian wainscot has a tall skirting and a Vignolesque one does not."
+      "note": "Gibbs's pedestal has a plinth that Vignola's has not, so the wainscot below the rail should read base-plinth, dado, cap rather than Vignola's zoccolo, dado, cap. The plinth is a quarter of the whole pedestal height: ceiling_height * 5/64, about 8 1/2 in. at 9 ft - which is why a Georgian wainscot has a tall skirting and a Vignolesque one does not.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "ceiling_height_rule",
@@ -334,7 +335,8 @@
       ],
       "authority_note": "GIBBS IS THE ONLY AUTHORITY IN THIS SET WHO GIVES A ROOM-HEIGHT RULE, AND HE GIVES TWO. For coved or arched ceilings: 'let the length and breadth of them be added together, [half that] Sum is the height of the Room' - a 20 x 30 room is 25 ft high. For flat ceilings: 'if they are flat, their height will be agreeable if made equal to their breadth' - 20 ft. Then the admission that makes him useful: 'But in the common Buildings in England, we are forced to give Rooms a lower proportion in regard to the coldness of the Climate and the expence of building; so that the height is sometimes one fifth less than the breadth, as 20 feet broad by 16 feet high, and sometimes one fourth less, as 20 feet broad by 15 feet high, which is the lowest proportion they should have.' The expression is height as a fraction of ROOM BREADTH. 0.8 encodes the ordinary English reduction; 0.75 is Gibbs's own hard floor; 1.5 is the coved double-square case.",
       "judgment": true,
-      "note": "JUDGMENT SLOT. This is the oldest surviving statement in the literature of the trade-off this project exists to model: the ideal proportion, the cost-and-climate reduction, and an explicit floor below which the author will not go. A modern 8 ft ceiling in a 14 ft room is 0.57 - well under Gibbs's floor, which is why a modern room cannot carry a Georgian cornice at full size."
+      "note": "JUDGMENT SLOT. This is the oldest surviving statement in the literature of the trade-off this project exists to model: the ideal proportion, the cost-and-climate reduction, and an explicit floor below which the author will not go. A modern 8 ft ceiling in a 14 ft room is 0.57 - well under Gibbs's floor, which is why a modern room cannot carry a Georgian cornice at full size.",
+      "quantity": "ground_storey_ceiling_height"
     },
     {
       "target_slot": "crown",
@@ -346,7 +348,8 @@
         16
       ],
       "authority_note": "Room read as an order at reduced module, cornice alone: Gibbs's Tuscan cornice is 1 1/2 modules of a 14-module column, against Vignola's 1 module 4 parts. A 9 ft ceiling gives 11 9/16 in. where Vignola gives 10 1/4 in. Gibbs's crown is about an eighth bigger, and it is a cavetto-ovolo-corona-cyma profile rather than Vignola's cyma-corona-ovolo.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "frieze",
@@ -359,7 +362,8 @@
       ],
       "authority_note": "Gibbs's Tuscan frieze is exactly one module of a fourteen-module column, against Vignola's 1 module 2 parts. On a storey-height datum this is 8 1/2 in. at a 10 ft storey where Vignola gives 10 in.",
       "judgment": true,
-      "note": "JUDGMENT SLOT for the same reason as in the Vignola pack: the choice of what plays the part of the column is not determined by any classical source."
+      "note": "JUDGMENT SLOT for the same reason as in the Vignola pack: the choice of what plays the part of the column is not determined by any classical source.",
+      "quantity": "entablature_frieze_height"
     },
     {
       "target_slot": "door_surround",
@@ -372,7 +376,8 @@
       ],
       "authority_note": "THE CORNICE ALONE of a Gibbs door entablature. Plate XLV: the whole architrave-frieze-cornice over a door is half the breadth of the opening (which agrees with Vignola); 'that being divided into three parts, one goes to the Architrave; the other two being divided into seven, three go to the Frize, and four to the Cornice.' That is 7 : 6 : 8 of twenty-one - the architrave is one sixth of the opening, the frieze two sevenths of the remainder, the cornice four sevenths. Note that this is NOT the 2:2:3 of Gibbs's own Tuscan entablature: a door entablature and a building entablature are proportioned differently, and he is explicit about it.",
       "judgment": false,
-      "note": "Height of the crowning cornice over the door, not of the door. Full assembly = opening_width / 2."
+      "note": "Height of the crowning cornice over the door, not of the door. Full assembly = opening_width / 2.",
+      "quantity": "entablature_over_door_height"
     },
     {
       "target_slot": "window_head_masonry",
@@ -385,7 +390,8 @@
       ],
       "authority_note": "Gibbs's arch rule, and it governs every Georgian arched opening: 'The Architrave that goes round the Arch, as also the Impost, are each of them as [big] as the Pilaster, or one eighth of the Opening of the Arch' - he arrives at it mechanically by dividing the distance from column to column into ten, one for the pilaster, eight for the opening. He adds 'whether the Arch be great or small', which is the whole point: the archivolt does not scale with the building, only with the opening. The impost divides into three, one for the neck or frieze, two for the cap.",
       "judgment": false,
-      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "lintel_or_arch_depth"
     },
     {
       "target_slot": "pilaster",
@@ -398,7 +404,8 @@
       ],
       "authority_note": "Gibbs on arcades: 'let the Peers be no more than one half, nor less than one third of the Void.' A band, not a number, and the only place in the book where he gives one. The lower bound is encoded; anything below it and the arcade reads as a colonnade with the arches filled in.",
       "judgment": true,
-      "note": "JUDGMENT SLOT. Where the arcade carries an order the pier is fixed instead by the intercolumniation, and in Doric by the triglyphs - Gibbs: 'The Arches of each Order will not admit of any considerable variety, being confined to the divisions of Triglyphs and Modillions.'"
+      "note": "JUDGMENT SLOT. Where the arcade carries an order the pier is fixed instead by the intercolumniation, and in Doric by the triglyphs - Gibbs: 'The Arches of each Order will not admit of any considerable variety, being confined to the divisions of Triglyphs and Modillions.'",
+      "quantity": "pilaster_face_width"
     },
     {
       "target_slot": "balustrade",
@@ -424,7 +431,8 @@
       ],
       "authority_note": "Gibbs, Plate XLV, 'The Proportions of Windows for different heights of Rooms': two of two squares, one of a square and three quarters, one of a square and a half, one of a square and a quarter, and one square window. The rule is that WINDOW PROPORTION IS A FUNCTION OF ROOM HEIGHT, not of the elevation - the taller the room, the taller the window, down to a square in a garret. Expression is height as a multiple of width. He adds that 'the Breast, or Pedestal-part, of the Window is one third of the whole height', though that numeral is damaged in the scans consulted.",
       "judgment": true,
-      "note": "JUDGMENT SLOT. Gibbs gives the family, not the mapping from a given ceiling height to a given member of it."
+      "note": "JUDGMENT SLOT. Gibbs gives the family, not the mapping from a given ceiling height to a given member of it.",
+      "quantity": "sash_height_over_width"
     }
   ],
   "conflicts": [

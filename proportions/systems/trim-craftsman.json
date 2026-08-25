@@ -176,7 +176,8 @@
         6.5
       ],
       "authority_note": "Period millwork catalogues and surviving bungalows: 3 1/2 in legs are the standard, 4 1/4 to 4 1/2 in on entry and mull casings, 5 1/2 in on principal stain-grade openings.",
-      "note": "CASING LEG WIDTH. Three and a half inches of flat 3/4 in board with square edges and no profile of any kind. Note that this is NOT derived from the opening - it does not follow Palladio's one sixth of the void, it does not change when the door gets wider, and it is the same on a 30 in door and a 60 in cased opening. That indifference to the opening is the single clearest structural difference between this family and the classical one, and it is why Craftsman trim looks correct in rooms of wildly different sizes and why classical trim does not."
+      "note": "CASING LEG WIDTH. Three and a half inches of flat 3/4 in board with square edges and no profile of any kind. Note that this is NOT derived from the opening - it does not follow Palladio's one sixth of the void, it does not change when the door gets wider, and it is the same on a 30 in door and a 60 in cased opening. That indifference to the opening is the single clearest structural difference between this family and the classical one, and it is why Craftsman trim looks correct in rooms of wildly different sizes and why classical trim does not.",
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "casing",
@@ -188,7 +189,8 @@
         9.0
       ],
       "authority_note": "The next board up the stock series: 1x6 dressed to 5 1/2 in against a 1x4 leg dressed to 3 1/2 in.",
-      "note": "HEAD CASING HEIGHT. Five and a half inches. The head is always one size up from the leg, never the same and never two sizes up, and this is a lumber decision rather than a proportional one - the ratio happens to be 1.57, which is close enough to the golden section to have generated a great deal of nonsense in the literature and is in fact just what a 1x6 is next to a 1x4."
+      "note": "HEAD CASING HEIGHT. Five and a half inches. The head is always one size up from the leg, never the same and never two sizes up, and this is a lumber decision rather than a proportional one - the ratio happens to be 1.57, which is close enough to the golden section to have generated a great deal of nonsense in the literature and is in fact just what a 1x6 is next to a 1x4.",
+      "quantity": "head_casing_height"
     },
     {
       "target_slot": "casing",
@@ -212,7 +214,8 @@
         12.0
       ],
       "authority_note": "1x8 dressed to 7 1/4 in is the bungalow standard; 1x10 at 9 1/4 in on 9 ft ceilings and in better houses; 1x6 at 5 1/2 in in secondary rooms and in the smallest bungalows.",
-      "note": "BASE HEIGHT. Seven and a quarter inches - a plain board and nothing else. Compare the classical families in the same room: Georgian 9 in in three members, Federal 6 1/8 in in three, Greek Revival 10 1/4 in in two. The Craftsman base is closest to the Greek Revival one in both height and plainness, which is not a coincidence and is worth knowing: the two families are the only ones in this system that will sit happily in a low room, and they will sit happily beside each other, which is why so many 1910 bungalows in older neighbourhoods read as continuous with the Greek Revival houses around them."
+      "note": "BASE HEIGHT. Seven and a quarter inches - a plain board and nothing else. Compare the classical families in the same room: Georgian 9 in in three members, Federal 6 1/8 in in three, Greek Revival 10 1/4 in in two. The Craftsman base is closest to the Greek Revival one in both height and plainness, which is not a coincidence and is worth knowing: the two families are the only ones in this system that will sit happily in a low room, and they will sit happily beside each other, which is why so many 1910 bungalows in older neighbourhoods read as continuous with the Greek Revival houses around them.",
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "baseboard",
@@ -246,7 +249,8 @@
         26.0,
         56.0
       ],
-      "note": "WAINSCOT CAP HEIGHT where there is a low wainscot. Thirty-seven inches on an 8 ft 6 in ceiling. The Craftsman wainscot is boards and battens or plain vertical boards with a flat cap - not panels, not raised fields, and not a rail-and-stile frame, all three of which belong to the classical families. Its cap is a flat board projecting about an inch, with the same bevelled top edge as the base cap and the head casing cap. Note that this is a DIFFERENT and LOWER member than the plate rail below, and a room should have one or the other and never both."
+      "note": "WAINSCOT CAP HEIGHT where there is a low wainscot. Thirty-seven inches on an 8 ft 6 in ceiling. The Craftsman wainscot is boards and battens or plain vertical boards with a flat cap - not panels, not raised fields, and not a rail-and-stile frame, all three of which belong to the classical families. Its cap is a flat board projecting about an inch, with the same bevelled top edge as the base cap and the head casing cap. Note that this is a DIFFERENT and LOWER member than the plate rail below, and a room should have one or the other and never both.",
+      "quantity": "wainscot_cap_height"
     },
     {
       "target_slot": "chair_rail",
@@ -258,7 +262,8 @@
         88.0
       ],
       "judgment": true,
-      "note": "PLATE RAIL HEIGHT. Fifty-nine inches on an 8 ft 6 in ceiling. Marked judgment because the measured range is genuinely wide - 54 to 66 in - and because the height is set by what goes on the shelf and by the height of the sideboard or built-in below it, neither of which the ceiling knows anything about. The plate rail belongs in a dining room and almost nowhere else; putting one in a living room is the commonest anachronism in modern Craftsman work. Where the room has a plate rail, the wall above it is the frieze and the picture rail is usually omitted, because two shelves on one wall is one too many."
+      "note": "PLATE RAIL HEIGHT. Fifty-nine inches on an 8 ft 6 in ceiling. Marked judgment because the measured range is genuinely wide - 54 to 66 in - and because the height is set by what goes on the shelf and by the height of the sideboard or built-in below it, neither of which the ceiling knows anything about. The plate rail belongs in a dining room and almost nowhere else; putting one in a living room is the commonest anachronism in modern Craftsman work. Where the room has a plate rail, the wall above it is the frieze and the picture rail is usually omitted, because two shelves on one wall is one too many.",
+      "quantity": "plate_rail_height_above_floor"
     },
     {
       "target_slot": "wainscot",
@@ -281,7 +286,8 @@
         96.0
       ],
       "authority_note": "The 6 ft 8 in door is the stock height in every millwork catalogue of the period and is what the overwhelming majority of surviving bungalows have.",
-      "note": "SIX FEET EIGHT, AND IT IS A CONSTANT RATHER THAN A RATIO. This is the deepest difference between this family and the classical one. In a classical room the door height follows the ceiling, because the door is a member of an order; in a Craftsman room the door is a stock manufactured object of fixed height and the ROOM is arranged around it - the picture rail comes down to meet the head casing, and the frieze above absorbs whatever ceiling height is left over. That is why a Craftsman interior tolerates an 8 ft ceiling and an 9 ft 6 in ceiling equally well and why a classical interior does not. It is also why raising a bungalow's ceiling without raising its doors produces a room that looks wrong in a way the owner cannot locate: the datum has floated free of the thing that generated it."
+      "note": "SIX FEET EIGHT, AND IT IS A CONSTANT RATHER THAN A RATIO. This is the deepest difference between this family and the classical one. In a classical room the door height follows the ceiling, because the door is a member of an order; in a Craftsman room the door is a stock manufactured object of fixed height and the ROOM is arranged around it - the picture rail comes down to meet the head casing, and the frieze above absorbs whatever ceiling height is left over. That is why a Craftsman interior tolerates an 8 ft ceiling and an 9 ft 6 in ceiling equally well and why a classical interior does not. It is also why raising a bungalow's ceiling without raising its doors produces a room that looks wrong in a way the owner cannot locate: the datum has floated free of the thing that generated it.",
+      "quantity": "interior_door_leaf_height"
     },
     {
       "target_slot": "door_surround",
@@ -292,7 +298,8 @@
         5.0,
         14.0
       ],
-      "note": "TOTAL HEIGHT OF THE HEAD ASSEMBLY - head board, bed strip and cap together. Seven and a half inches, sitting on top of an 80 in door, so the top of the assembly is at 87 1/2 in. That number is the room's datum and everything else is set from it. Where the ceiling is 8 ft, the frieze above the datum is only 8 1/2 in and the room reads as one zone; where it is 9 ft 6 in, the frieze is 26 1/2 in and reads as a proper band. Both are period; the second is better."
+      "note": "TOTAL HEIGHT OF THE HEAD ASSEMBLY - head board, bed strip and cap together. Seven and a half inches, sitting on top of an 80 in door, so the top of the assembly is at 87 1/2 in. That number is the room's datum and everything else is set from it. Where the ceiling is 8 ft, the frieze above the datum is only 8 1/2 in and the room reads as one zone; where it is 9 ft 6 in, the frieze is 26 1/2 in and reads as a proper band. Both are period; the second is better.",
+      "quantity": "entablature_over_door_height"
     },
     {
       "target_slot": "crown",
@@ -304,7 +311,8 @@
         6.0
       ],
       "judgment": true,
-      "note": "NO CROWN. Zero is the correct default and it is not a saving, it is a position: the wall in this family meets the ceiling directly, or meets it through a picture rail set some distance below, and the transition is made by colour rather than by moulding. Marked judgment because there is a real minority practice - a plain square-edged 1x3 or 1x4 laid flat against the ceiling, sometimes with the frieze paper running up to it - which appears in better bungalows and in Prairie School interiors and is perfectly correct. What is never correct is a sprung classical crown, and it is the single most common thing done to bungalow interiors in renovation. If a room needs the wall-ceiling joint articulated, use a flat board, not a cyma."
+      "note": "NO CROWN. Zero is the correct default and it is not a saving, it is a position: the wall in this family meets the ceiling directly, or meets it through a picture rail set some distance below, and the transition is made by colour rather than by moulding. Marked judgment because there is a real minority practice - a plain square-edged 1x3 or 1x4 laid flat against the ceiling, sometimes with the frieze paper running up to it - which appears in better bungalows and in Prairie School interiors and is perfectly correct. What is never correct is a sprung classical crown, and it is the single most common thing done to bungalow interiors in renovation. If a room needs the wall-ceiling joint articulated, use a flat board, not a cyma.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "built_ins",
@@ -348,7 +356,8 @@
         1.0,
         3.0
       ],
-      "note": "BALUSTERS, one and a half inches square, set at about 3 1/2 in on centres - the module again - which gives a clear space of 2 in and satisfies the modern 4 in sphere rule comfortably. Square section, no taper, no turning. Where the stair has a solid panelled balustrade instead, which is equally period and often better, it is boards and battens to the same spacing as the wainscot."
+      "note": "BALUSTERS, one and a half inches square, set at about 3 1/2 in on centres - the module again - which gives a clear space of 2 in and satisfies the modern 4 in sphere rule comfortably. Square section, no taper, no turning. Where the stair has a solid panelled balustrade instead, which is equally period and often better, it is boards and battens to the same spacing as the wainscot.",
+      "quantity": "baluster_section"
     },
     {
       "target_slot": "window_surround_wood",
@@ -359,7 +368,8 @@
         2.5,
         7.0
       ],
-      "note": "APRON DEPTH BELOW THE STOOL - three and a half inches, the same board as the casing leg, running to the outer edges of the casings and cut square at both ends. The stool projects past the face of the casing by 3/4 in, the same overhang as everywhere else in the family. In much Craftsman work the apron is omitted entirely and the stool returns to the wall, which is cleaner and equally correct. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one."
+      "note": "APRON DEPTH BELOW THE STOOL - three and a half inches, the same board as the casing leg, running to the outer edges of the casings and cut square at both ends. The stool projects past the face of the casing by 3/4 in, the same overhang as everywhere else in the family. In much Craftsman work the apron is omitted entirely and the stool returns to the wall, which is cleaner and equally correct. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one.",
+      "quantity": "apron_depth_below_stool"
     },
     {
       "target_slot": "trim_family",
@@ -370,7 +380,8 @@
         2.0,
         5.0
       ],
-      "note": "MEMBERS IN THE HEAD ASSEMBLY: head board, bed strip, cap. Three, and in the plainest work two. Compare the classical cornices - Georgian 5, Federal 6, Greek Revival 4 - and note that the comparison is not really about count. A Craftsman assembly of three FLAT boards and a classical cornice of five CURVED sections are doing different things: one is stacking material and showing you that it is stacked, the other is modelling a single continuous shadow. Counting members across the two systems is a category error, and the reason to state the number here at all is to fix the shape of the silhouette."
+      "note": "MEMBERS IN THE HEAD ASSEMBLY: head board, bed strip, cap. Three, and in the plainest work two. Compare the classical cornices - Georgian 5, Federal 6, Greek Revival 4 - and note that the comparison is not really about count. A Craftsman assembly of three FLAT boards and a classical cornice of five CURVED sections are doing different things: one is stacking material and showing you that it is stacked, the other is modelling a single continuous shadow. Counting members across the two systems is a category error, and the reason to state the number here at all is to fix the shape of the silhouette.",
+      "quantity": "members_in_the_assembly"
     }
   ],
   "conflicts": [

@@ -283,7 +283,8 @@
       "expression": "column_height / 8 * (5.5 / 6.5)",
       "units": "in",
       "note": "The upper diameter for a column up to 15 ft. Palladio does NOT hold Vignola's single 5/6 for all columns: Book I ch. XIII tabulates diminution against height - up to 15 ft, 6 1/2 parts below to 5 1/2 above (0.846); 15 to 20 ft, 7 to 6 1/2 (0.929); 20 to 30 ft, 8 to 7 (0.875); taller columns 'in the same manner'. The taller the column the less it diminishes, because distance does the rest.",
-      "authority_note": "Ware 1738, Book I ch. XIII. The middle row is anomalous - 0.929 is LESS diminution than the row above it and the row below - and both transcriptions consulted read it the same way, so it is reported as the source has it rather than smoothed."
+      "authority_note": "Ware 1738, Book I ch. XIII. The middle row is anomalous - 0.929 is LESS diminution than the row above it and the row below - and both transcriptions consulted read it the same way, so it is reported as the source has it rather than smoothed.",
+      "quantity": "shaft_upper_diameter"
     },
     {
       "target_slot": "column",
@@ -296,7 +297,8 @@
       ],
       "judgment": true,
       "note": "JUDGMENT SLOT. Palladio gives three Doric columns, not one: 7 1/2 diameters (15 modules) and 8 (16) for a plain colonnade, and 8 2/3 (17 1/3) where the column engages a pier in an arcade. Vignola gives 8 and nothing else. The choice is the designer's and depends on whether the column stands free or against masonry.",
-      "authority_note": "Ware 1738, Book I ch. XV."
+      "authority_note": "Ware 1738, Book I ch. XV.",
+      "quantity": "column_height_in_diameters"
     },
     {
       "target_slot": "height_proportion",
@@ -304,7 +306,8 @@
       "expression": "0.75",
       "units": "ratio",
       "note": "SUPERIMPOSITION. The second order is a fourth less than the first. Palladio's Doric is normally the lower of a superimposed pair - 'the Doric must always be placed under the Ionic' (Book I ch. XII) - so this rule is what sizes the Ionic above it, and it is the rule that produces the Anglo-Palladian two-storey loggia front.",
-      "authority_note": "Ware 1738, Book I ch. XII and Book II passim."
+      "authority_note": "Ware 1738, Book I ch. XII and Book II passim.",
+      "quantity": "superimposed_order_diminution"
     },
     {
       "target_slot": "modillion_dentil",
@@ -313,7 +316,8 @@
       "units": "count",
       "judgment": true,
       "note": "JUDGMENT SLOT. Triglyphs in the bay. The triglyph pitch is 1 1/4 diameters (one module wide plus a square metope of one module and a half - so 2 1/2 modules on centres), and Palladio's diastyle bay is 3 diameters clear, 4 on centres. The arithmetic does not close on a whole triglyph, and Palladio's own instruction is to adjust the metope, not the spacing. A rules engine cannot settle this; a draughtsman must.",
-      "authority_note": "Ware 1738, Book I ch. XV."
+      "authority_note": "Ware 1738, Book I ch. XV.",
+      "quantity": "eave_members_per_bay"
     },
     {
       "target_slot": "chair_rail",
@@ -326,7 +330,8 @@
         0.33
       ],
       "note": "JUDGMENT SLOT. Palladio gives the Doric no antique pedestal - 'no pedestal is to be seen in antient buildings to this order, although there are in the modern' - and where one is required he makes the DIE SQUARE, which means the pedestal height follows from the width of the base plinth rather than from a fraction of the column. Vignola's fixed third does not apply. Reading the pedestal cap as a chair rail therefore requires a decision about the die, and the engine cannot make it. 0.2 is the figure a square die produces at ordinary Doric proportions.",
-      "authority_note": "Ware 1738, Book I ch. XV and ch. XIX."
+      "authority_note": "Ware 1738, Book I ch. XV and ch. XIX.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "crown",
@@ -334,7 +339,8 @@
       "expression": "ceiling_height / 5 * (3 / 8)",
       "units": "in",
       "note": "The room as an order: wall plus cornice is the whole, the entablature a fifth of it, and the cornice three eighths of that entablature - Palladio's Doric entablature divides 1 : 1 1/2 : 1 1/2, so the cornice is 3 of 8. At a 9 ft ceiling this gives 8.1 in. Vignola's Doric divides the same way, so the delta here is only in the module, not the ratio; the rule is carried because a Palladian room and a Vignolesque room reach it by different arithmetic and a reader needs to see that they agree.",
-      "authority_note": "Ware 1738, Book I ch. XV."
+      "authority_note": "Ware 1738, Book I ch. XV.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "porch_support",
@@ -342,7 +348,8 @@
       "expression": "column_height / 8 * 3",
       "units": "in",
       "note": "Clear span, diastyle. Palladio's Doric loggia is wider-spaced than Vignola's ditriglyph by a quarter diameter per bay, which over a five-bay front is more than a diameter of accumulated difference.",
-      "authority_note": "Ware 1738, Book I ch. XIII."
+      "authority_note": "Ware 1738, Book I ch. XIII.",
+      "quantity": "clear_span_between_supports"
     }
   ],
   "conflicts": [

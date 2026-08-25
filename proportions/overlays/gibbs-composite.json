@@ -344,7 +344,8 @@
       "expression": "column_height / 5",
       "units": "in",
       "authority_note": "Palladio's ratio for the three richer orders, as Gibbs transmits it. Vignola holds a quarter for all five.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "chair_rail",
@@ -357,7 +358,8 @@
       ],
       "authority_note": "Gibbs's pedestal rule at room scale with the one-fifth entablature: 3/10 of the ceiling height, 32 2/5 in. at 9 ft against Vignola's 36. The Composite is the order for state rooms and vestibules, where ceilings are highest and the absolute figure most nearly matches Vignola's anyway - at a 12 ft ceiling Gibbs gives 43 1/5 in. and Vignola 48, and both are above comfortable dado height, which is the point at which the room-as-order analogy stops being useful.",
       "judgment": false,
-      "note": "Above about a 10 ft ceiling, stop deriving the dado from the order and set it from the human figure - 32 to 36 in. - then treat the remaining wall as the shaft. Gibbs implicitly does this in his gallery designs."
+      "note": "Above about a 10 ft ceiling, stop deriving the dado from the order and set it from the human figure - 32 to 36 in. - then treat the remaining wall as the shaft. Gibbs implicitly does this in his gallery designs.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "modillion_dentil",
@@ -370,7 +372,8 @@
       ],
       "authority_note": "Composite modillion pitch, five eighths of a diameter = 1 1/4 modules on centres, against seven twelfths in Gibbs's Corinthian and one module in Vignola. Expression is in modules. The range spans the Corinthian and Composite readings because the Composite numeral is damaged in every scan reached; if the two orders are used together on one building, take the Corinthian pitch for both rather than trying to reconcile them.",
       "judgment": true,
-      "note": "JUDGMENT SLOT, forced by an illegible source. Gibbs's table of modillion spacings is the one passage in the book where the OCR of all consulted scans fails on every numeral in a row."
+      "note": "JUDGMENT SLOT, forced by an illegible source. Gibbs's table of modillion spacings is the one passage in the book where the OCR of all consulted scans fails on every numeral in a row.",
+      "quantity": "eave_member_spacing"
     },
     {
       "target_slot": "crown",
@@ -382,7 +385,8 @@
         18
       ],
       "authority_note": "Room read as a Composite order at reduced module, cornice alone: 1 3/5 modules of a 20-module column. 8 5/8 in. at a 9 ft ceiling, 11 1/2 in. at a 12 ft one - and the Composite cornice needs the 12 ft ceiling, because it carries seven members where Gibbs's Corinthian carries six.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "casing",
@@ -394,7 +398,8 @@
         12
       ],
       "authority_note": "One sixth of the opening, as in every Gibbs order, but the Composite architrave carries three fasciae where Vignola's carries two. On a 4 ft doorway - a Composite scale - that is 8 in. of casing divided into three bands rather than two, and the difference is legible from across a hall.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "door_surround",
@@ -407,7 +412,8 @@
       ],
       "authority_note": "Gibbs on doors with a full entablature: the architrave, frieze and cornice together are half the breadth of the opening. Of that, one third to the architrave and the remaining two thirds divided 3 : 4 between frieze and cornice. Note that this is a DIFFERENT subdivision from the 3 : 3 : 4 of his Composite building entablature - a door entablature is more architrave and less frieze, because it is read close up.",
       "judgment": false,
-      "note": "Doors: 'their height is twice their breadth; but the highest of them should not exceed two squares and one quarter.' The Composite door at four and a half diameters by ten and a half is 1 : 2.33 - Gibbs's own limit, slightly exceeded, which is what the Composite is for."
+      "note": "Doors: 'their height is twice their breadth; but the highest of them should not exceed two squares and one quarter.' The Composite door at four and a half diameters by ten and a half is 1 : 2.33 - Gibbs's own limit, slightly exceeded, which is what the Composite is for.",
+      "quantity": "door_leaf_height"
     },
     {
       "target_slot": "window_head_masonry",
@@ -420,7 +426,8 @@
       ],
       "authority_note": "Archivolt and impost each one eighth of the arch opening. 'But in the Ionick and Composite, the Imposts project [one third] and [one sixth] more of one of these parts' than in Tuscan and Doric - the richer the order, the bolder the impost.",
       "judgment": false,
-      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "lintel_or_arch_depth"
     },
     {
       "target_slot": "pediment",
@@ -433,7 +440,8 @@
       ],
       "authority_note": "Gibbs's circular construction for pediment height, given once on Plate XXXVIII and applied to all orders: describe a circle on the full extent of the cornice, then a second circle of the same radius from the bottom of the first, and take the segment. A fixed rise of about one fifteenth of the span, i.e. about 15 degrees. He also draws circular and broken pediments in the Composite, for which no rule is given at all.",
       "judgment": true,
-      "note": "JUDGMENT SLOT. The construction is on the span of the CORNICE, not on the opening; the coefficient assumes a cornice projecting a tenth of the opening on each side. Draw the construction when the cornice projection is known."
+      "note": "JUDGMENT SLOT. The construction is on the span of the CORNICE, not on the opening; the coefficient assumes a cornice projecting a tenth of the opening on each side. Draw the construction when the cornice projection is known.",
+      "quantity": "pediment_rise"
     }
   ],
   "conflicts": [

@@ -734,7 +734,8 @@
         18.0
       ],
       "authority_note": "The base is the plinth-and-base-mouldings portion of the pedestal: 1.5 of the pedestal's 4 parts. Independently, the trade rule of thumb puts the base at about 7 per cent of wall height (1.5/19 = 7.9 per cent), and the storey-graduation pack derives ceiling/14 (7.1 per cent) from the same tradition. Three routes, one number.",
-      "note": "BASE HEIGHT. Nine inches on a 9 ft 6 in ceiling, 7 1/2 in on an 8 ft ceiling, 11 3/8 in on a 12 ft ceiling. THE FAMILY MULTIPLIERS, which are the useful part: Georgian x 1.00, Federal x 0.85, Greek Revival x 1.27. A Greek Revival base is half again the Federal base in the same room, and getting that ranking right does more for the character of an interior than any amount of correct profile. If you specify one dimension in a trim schedule, specify this one, because everything else in the room is judged against it."
+      "note": "BASE HEIGHT. Nine inches on a 9 ft 6 in ceiling, 7 1/2 in on an 8 ft ceiling, 11 3/8 in on a 12 ft ceiling. THE FAMILY MULTIPLIERS, which are the useful part: Georgian x 1.00, Federal x 0.85, Greek Revival x 1.27. A Greek Revival base is half again the Federal base in the same room, and getting that ranking right does more for the character of an interior than any amount of correct profile. If you specify one dimension in a trim schedule, specify this one, because everything else in the room is judged against it.",
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "chair_rail",
@@ -754,7 +755,8 @@
           168
         ],
         "note": "Corrected 0.2.0. The pack previously claimed 11-13 ft; the derivation reaches the measured 30-32 in band only at 142.5 in, so it is out of calibration through the whole New England and Chesapeake range and comes good only in Charleston. Below that, set the rail from the window sill and re-derive base and cornice from the pedestal you actually used."
-      }
+      },
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "crown",
@@ -766,7 +768,8 @@
         16.0
       ],
       "authority_note": "The cornice member alone, which is 1.2 of the entablature's 3 parts - the same 4 : 10 division of the entablature that the Vignola order packs give for the Corinthian cornice.",
-      "note": "CROWN HEIGHT WHERE ONLY A CORNICE IS RUN, which is the ordinary case. Just over seven inches on the default - 7 3/16; 6 in on an 8 ft ceiling; 8 3/8 in on an 11 ft ceiling. This is the number to give a millworker when the room is getting a crown and not a full entablature, and it is measured on the FACE of the profile from its bed line to the ceiling, not as the vertical projection of a sprung moulding - a 7 1/4 in sprung crown at 45 degrees measures about 5 1/8 in on the wall and about the same on the ceiling, and confusing the two is the commonest ordering error in trim work."
+      "note": "CROWN HEIGHT WHERE ONLY A CORNICE IS RUN, which is the ordinary case. Just over seven inches on the default - 7 3/16; 6 in on an 8 ft ceiling; 8 3/8 in on an 11 ft ceiling. This is the number to give a millworker when the room is getting a crown and not a full entablature, and it is measured on the FACE of the profile from its bed line to the ceiling, not as the vertical projection of a sprung moulding - a 7 1/4 in sprung crown at 45 degrees measures about 5 1/8 in on the wall and about the same on the ceiling, and confusing the two is the commonest ordering error in trim work.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "trim_family",
@@ -790,7 +793,8 @@
         11.0
       ],
       "authority_note": "Palladio, Book I ch. XXVI, verbatim on the jambs of an opening: they 'ought not to be less thick than the sixth part of the breadth of the void, nor thicker than the fifth.' Vitruvius gives one twelfth to one fourteenth of the HEIGHT for temple doorways, which on a 1:2 opening is one sixth to one seventh of the width - the same answer by a different route.",
-      "note": "CASING WIDTH FROM THE OPENING. Six inches on a 36 in door, five on a 30 in one. THE SINGLE MOST USEFUL RULE IN THIS PACK, because it is exactly stated in a primary source, it is dimensionless, and it is almost universally got wrong in modern work, where a 2 1/4 in stock casing is applied to a 36 in door - one sixteenth of the void instead of one sixth. The band Palladio gives, 1/6 to 1/5, is 6 to 7 1/4 in on a 36 in door, and both ends of it are defensible: take 1/6 for doors and the wider 1/5 for windows, where the stool and apron add weight below and the casing needs to hold its own. Include the backband in the measured width; the reveal is additional."
+      "note": "CASING WIDTH FROM THE OPENING. Six inches on a 36 in door, five on a 30 in one. THE SINGLE MOST USEFUL RULE IN THIS PACK, because it is exactly stated in a primary source, it is dimensionless, and it is almost universally got wrong in modern work, where a 2 1/4 in stock casing is applied to a 36 in door - one sixteenth of the void instead of one sixth. The band Palladio gives, 1/6 to 1/5, is 6 to 7 1/4 in on a 36 in door, and both ends of it are defensible: take 1/6 for doors and the wider 1/5 for windows, where the stool and apron add weight below and the casing needs to hold its own. Include the backband in the measured width; the reveal is additional.",
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "casing",
@@ -813,7 +817,8 @@
         34.0
       ],
       "authority_note": "Palladio, Book I ch. XXVI: over the architrave the frieze is three quarters of the architrave and the cornice five quarters. 1 + 0.75 + 1.25 = 3 architraves.",
-      "note": "FULL ENTABLATURE OVER AN INTERIOR DOOR - eighteen inches on a 36 in door, and the arithmetic is a straight quotation. This is the doorhead of a principal room in Georgian and Federal work, and note what it means: the trim above the door is as tall as the casing is wide, three times over. Note also the alignment consequence, which is the real reason to compute it - the top of this assembly lands at about 98 in above the floor on a 6 ft 8 in door, and if the room's own entablature bed is at 96 in, the two collide. THE RESOLUTION IS TO SET THE DOOR HEAD FROM THE ENTABLATURE, not the entablature from the door: bring the door head down until its cornice tucks under the room's architrave, or - better and more period - let the door's cornice BE the room's architrave line, so the two run together around the room. That single alignment is what makes a fully trimmed Georgian room feel composed rather than assembled."
+      "note": "FULL ENTABLATURE OVER AN INTERIOR DOOR - eighteen inches on a 36 in door, and the arithmetic is a straight quotation. This is the doorhead of a principal room in Georgian and Federal work, and note what it means: the trim above the door is as tall as the casing is wide, three times over. Note also the alignment consequence, which is the real reason to compute it - the top of this assembly lands at about 98 in above the floor on a 6 ft 8 in door, and if the room's own entablature bed is at 96 in, the two collide. THE RESOLUTION IS TO SET THE DOOR HEAD FROM THE ENTABLATURE, not the entablature from the door: bring the door head down until its cornice tucks under the room's architrave, or - better and more period - let the door's cornice BE the room's architrave line, so the two run together around the room. That single alignment is what makes a fully trimmed Georgian room feel composed rather than assembled.",
+      "quantity": "entablature_over_door_height"
     },
     {
       "target_slot": "wainscot",
@@ -824,7 +829,8 @@
         6.0,
         24.0
       ],
-      "note": "DADO PANEL FIELD HEIGHT - the clear panel between the base cap and the surbase. Eleven and a half inches on the default. This is the dimension that gets squeezed to nothing when the pedestal rule is applied to a low ceiling: at 8 ft the pedestal is 20 in, the base takes 7 1/2 and the surbase 3, leaving 9 1/2 in of panel, which is a slot rather than a panel. Below about 9 in of clear field, abandon the panelled dado and use a flat one, or abandon the dado altogether and go to the Greek Revival family, which was invented for exactly this situation."
+      "note": "DADO PANEL FIELD HEIGHT - the clear panel between the base cap and the surbase. Eleven and a half inches on the default. This is the dimension that gets squeezed to nothing when the pedestal rule is applied to a low ceiling: at 8 ft the pedestal is 20 in, the base takes 7 1/2 and the surbase 3, leaving 9 1/2 in of panel, which is a slot rather than a panel. Below about 9 in of clear field, abandon the panelled dado and use a flat one, or abandon the dado altogether and go to the Greek Revival family, which was invented for exactly this situation.",
+      "quantity": "dado_panel_field_height"
     },
     {
       "target_slot": "wainscot",
@@ -870,7 +876,8 @@
         112.0
       ],
       "authority_note": "Palladio ch. XXV gives room doors 'not wider than three foot, and six and a half high; nor less than two foot in breadth, and five in height' - a height range of 60 to 78 in with proportions of 2.17 to 2.5. Measured Anglo-American interior doors run 6 ft 6 in to 7 ft 6 in in Georgian and Federal principal rooms.",
-      "note": "INTERIOR DOOR HEIGHT AS A FRACTION OF THE ROOM. Eighty inches on the default, 92 in on a 11 ft ceiling. The rule that matters is not the absolute height but the RATIO: a door should occupy about seven tenths of the wall, and a 6 ft 8 in door in a 12 ft room occupies 56 per cent and looks like a hatch. This is the most visible failure of applying stock joinery to a correctly proportioned room, and it is the one place where the extra cost is unavoidable - tall doors are a real expense and there is no substitute for them. Where the budget will not carry tall doors throughout, put them on the enfilade and the principal rooms and use stock elsewhere, which is what period houses did."
+      "note": "INTERIOR DOOR HEIGHT AS A FRACTION OF THE ROOM. Eighty inches on the default, 92 in on a 11 ft ceiling. The rule that matters is not the absolute height but the RATIO: a door should occupy about seven tenths of the wall, and a 6 ft 8 in door in a 12 ft room occupies 56 per cent and looks like a hatch. This is the most visible failure of applying stock joinery to a correctly proportioned room, and it is the one place where the extra cost is unavoidable - tall doors are a real expense and there is no substitute for them. Where the budget will not carry tall doors throughout, put them on the enfilade and the principal rooms and use stock elsewhere, which is what period houses did.",
+      "quantity": "interior_door_leaf_height"
     },
     {
       "target_slot": "baseboard",
@@ -892,7 +899,8 @@
         5.5,
         20.0
       ],
-      "note": "PLINTH BLOCK HEIGHT - one inch above the top of the base, so the base cap dies cleanly into the block's face instead of being mitred around it. Ten inches on the default. The plinth block must also be WIDER than the casing by about 1/4 in and THICKER than the base by about 1/8 in, so that everything dies into it and nothing has to be scribed to anything. It is the joint that makes a classical opening buildable in solid wood, it costs almost nothing, and its absence is why so many otherwise good reproductions have a mess at the floor."
+      "note": "PLINTH BLOCK HEIGHT - one inch above the top of the base, so the base cap dies cleanly into the block's face instead of being mitred around it. Ten inches on the default. The plinth block must also be WIDER than the casing by about 1/4 in and THICKER than the base by about 1/8 in, so that everything dies into it and nothing has to be scribed to anything. It is the joint that makes a classical opening buildable in solid wood, it costs almost nothing, and its absence is why so many otherwise good reproductions have a mess at the floor.",
+      "quantity": "plinth_block_height"
     },
     {
       "target_slot": "fireplace_surround",
@@ -915,7 +923,8 @@
         3.0,
         16.0
       ],
-      "note": "CORNICE PROJECTION ONTO THE CEILING, equal to its height on the wall. A cornice that projects as far as it is tall runs at 45 degrees and is the classical default; the Vignola order packs record the Corinthian projecting slightly more than its height and the Ionic slightly less, and either variation is defensible. What is not defensible is the modern stock crown, which projects about half its height and therefore reads as a moulding stuck to a wall rather than as a transition between wall and ceiling. If a room is getting one thing, give it projection."
+      "note": "CORNICE PROJECTION ONTO THE CEILING, equal to its height on the wall. A cornice that projects as far as it is tall runs at 45 degrees and is the classical default; the Vignola order packs record the Corinthian projecting slightly more than its height and the Ionic slightly less, and either variation is defensible. What is not defensible is the modern stock crown, which projects about half its height and therefore reads as a moulding stuck to a wall rather than as a transition between wall and ceiling. If a room is getting one thing, give it projection.",
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "window_surround_wood",
@@ -927,7 +936,8 @@
         12.0
       ],
       "authority_note": "The wider end of Palladio's 1/6 to 1/5 band.",
-      "note": "WINDOW CASING, WIDER THAN THE DOOR CASING IN THE SAME ROOM. Six and a half inches on a 36 in window. This asymmetry surprises people and it is well attested: the window casing carries a stool and apron below it, which add visual weight at the bottom, and it is seen against daylight, which eats about a quarter of its apparent width. A window casing the same width as the door casing beside it looks narrower than the door casing, every time. The stool projects past the casing by about the thickness of the casing, and the apron runs to the outer edge of the casing and no further. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one."
+      "note": "WINDOW CASING, WIDER THAN THE DOOR CASING IN THE SAME ROOM. Six and a half inches on a 36 in window. This asymmetry surprises people and it is well attested: the window casing carries a stool and apron below it, which add visual weight at the bottom, and it is seen against daylight, which eats about a quarter of its apparent width. A window casing the same width as the door casing beside it looks narrower than the door casing, every time. The stool projects past the casing by about the thickness of the casing, and the apron runs to the outer edge of the casing and no further. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one.",
+      "quantity": "window_casing_face_width"
     },
     {
       "target_slot": "trim_family",
@@ -939,7 +949,8 @@
         9.0
       ],
       "judgment": true,
-      "note": "MEMBERS IN THE CORNICE, BY FAMILY: Georgian 5 (bed ovolo, dentils, corona, cyma, fillet), Federal 6 (cavetto, small dentils, astragal, corona, cyma, fillet), Greek Revival 4 (cavetto, corona, ovolo, fillet). The default returned is the Georgian. Marked judgment because the count varies by room within a house - a period house grades its trim, with the best cornice in the parlor, a lesser one in the dining room and none at all in the chambers - and a single count applied throughout is itself the error. THE GRADING RULE, which is worth more than the count: reduce the number of MEMBERS from room to room, never the size of the room's base, because the base is what sets the scale and the cornice is what sets the rank."
+      "note": "MEMBERS IN THE CORNICE, BY FAMILY: Georgian 5 (bed ovolo, dentils, corona, cyma, fillet), Federal 6 (cavetto, small dentils, astragal, corona, cyma, fillet), Greek Revival 4 (cavetto, corona, ovolo, fillet). The default returned is the Georgian. Marked judgment because the count varies by room within a house - a period house grades its trim, with the best cornice in the parlor, a lesser one in the dining room and none at all in the chambers - and a single count applied throughout is itself the error. THE GRADING RULE, which is worth more than the count: reduce the number of MEMBERS from room to room, never the size of the room's base, because the base is what sets the scale and the cornice is what sets the rank.",
+      "quantity": "members_in_the_assembly"
     }
   ],
   "conflicts": [

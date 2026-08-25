@@ -303,7 +303,8 @@ def eval_packs(packs, ctx, module_override=None):
             by_slot[r["target_slot"]].append({
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],
                 "style_precedence": binding.get("precedence"),
-                "dimension": r.get("dimension"), "expression": r["expression"],
+                "dimension": r.get("dimension"), "quantity": r.get("quantity"),
+                "expression": r["expression"],
                 "value": r.get("value"), "units": r.get("units"),
                 "judgment": r.get("judgment"),
                 "calibrated_for": r.get("calibrated_for"),
@@ -335,9 +336,39 @@ def choose_pack(rec, rows, ctx):
         prec = [r for r in rows if r.get("style_precedence") is not None]
         if prec:
             ranked = sorted(prec, key=lambda r: r["style_precedence"])
-            return {"how": "style.proportion_packs", "chosen": {"pack": ranked[0]["pack"],
-                    "expression": ranked[0]["expression"]}, "rejected": [], "ranked": ranked,
-                    "stale_calibration": False}
+            # OQ 48: rows at one (slot, dimension) may MEASURE DIFFERENT THINGS. Precedence decides
+            # which of two accounts of ONE quantity to believe; it cannot decide between two
+            # quantities, and until now the loser was discarded with nothing said. Group by
+            # `quantity`, choose within the winning group, and REPORT the groups set aside -- the
+            # contract is unchanged for the single-quantity case, which is most of them.
+            # Grouped by (dimension, quantity), not by quantity alone: `by_slot` is keyed on the
+            # SLOT, so rows for different dimensions of one slot are already in this list and were
+            # being compared against each other. A `count` rule is not an alternative account of a
+            # `width` rule any more than two quantities are.
+            groups = collections.OrderedDict()
+            for r in ranked:
+                groups.setdefault((r.get("dimension"), r.get("quantity")), []).append(r)
+            win_q = next(iter(groups))
+            winners = groups[win_q]
+            # Only a SAME-DIMENSION, different-quantity group is the corruption OQ 48 is about.
+            # Different dimensions of one slot -- a count, a width, a spacing -- are a normal
+            # fan-out and were never in competition; reporting those would bury the real ones.
+            by_dim = collections.OrderedDict()
+            for (dim, q), rs in groups.items():
+                by_dim.setdefault(dim, []).append((q, rs))
+            others = []
+            for dim, qs in by_dim.items():
+                if len(qs) > 1:
+                    keep = qs[0][0]
+                    for q, rs in qs[1:]:
+                        others.append({"quantity": "%s: %s set aside in favour of %s" % (
+                            dim, q or "unstated", keep or "unstated"),
+                            "packs": sorted({x["pack"] for x in rs})})
+            return {"how": "style.proportion_packs", "chosen": {"pack": winners[0]["pack"],
+                    "expression": winners[0]["expression"], "quantity": win_q[1],
+                    "dimension": win_q[0]},
+                    "rejected": [], "ranked": ranked, "stale_calibration": False,
+                    "other_quantities": others}
         if len({r["pack"] for r in rows}) > 1:
             return {"how": "unresolved", "chosen": None, "rejected": [],
                     "ranked": rows, "stale_calibration": False}
@@ -663,6 +694,20 @@ def main():
             unruled_slots.append(s)
     print("\nPACK RESOLUTION  (%d of %d slots have a bound pack speaking to them)" % (len(covered), len(slots)))
     print("  %d resolved by an explicit ruling, %d still unresolved" % (ruled, unruled))
+    # OQ 48: where two packs at one address MEASURE DIFFERENT THINGS, precedence picks a winner and
+    # the other quantity is set aside. It used to be discarded with nothing said; now it is named,
+    # because a rule that was silently dropped is unjudged and unjudged must not read as absent.
+    aside = []
+    for s in covered:
+        ch = choose_pack(slots[s], pack_slots[s], ctx) or {}
+        for o in ch.get("other_quantities") or []:
+            aside.append("%s (%s, from %s)" % (s, o["quantity"] or "unstated", "/".join(o["packs"])))
+    if aside:
+        print("  ! %d other quantity/ies set aside at an address precedence could not decide:" % len(aside))
+        for a in aside[:8]:
+            print("      " + a)
+        if len(aside) > 8:
+            print("      ... and %d more (build/check_addresses.py lists them all)" % (len(aside) - 8))
     if unruled_slots:
         print("  unresolved: " + ", ".join(unruled_slots))
     stale = [s for s in covered if (choose_pack(slots[s], pack_slots[s], ctx) or {}).get("stale_calibration")]

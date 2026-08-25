@@ -193,7 +193,8 @@
         0.25
       ],
       "note": "JUDGMENT SLOT. Palladio's Tuscan chapter dimensions the column, base, capital and pedestal, but describes the entablature only as a timber construction - 'the architrave is made of wood, equal in height as in width, and not to exceed in width the shaft of the column at top' - and leaves the stone entablature to the plate, whose numerals are not legible in any scan reached. Vignola's quarter (3 1/2 semidiameter modules = 1 3/4 D) is retained as the starting point and is very close to what Palladio draws, but this pack does not assert a Palladian figure. The range is the ratio of entablature to column and is honest; the point within it is not.",
-      "authority_note": "Ware 1738, Book I ch. XIV. Palladio's other four orders are dimensioned at a fifth of the column, so a Tuscan entablature nearer 1/5 than 1/4 is defensible in Palladian company."
+      "authority_note": "Ware 1738, Book I ch. XIV. Palladio's other four orders are dimensioned at a fifth of the column, so a Tuscan entablature nearer 1/5 than 1/4 is defensible in Palladian company.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "column",
@@ -201,7 +202,8 @@
       "expression": "column_height / 7 * 0.75",
       "units": "in",
       "note": "The upper diameter. Palladio's Tuscan alone diminishes a quarter; the lower diameter is column_height/7 and the upper is three quarters of it. Vignola would give 5/6. On a 10 ft column this is a difference of 1 3/4 in on the upper diameter, which is visible from the ground.",
-      "authority_note": "Ware 1738, Book I ch. XIV."
+      "authority_note": "Ware 1738, Book I ch. XIV.",
+      "quantity": "shaft_upper_diameter"
     },
     {
       "target_slot": "porch_support",
@@ -209,7 +211,8 @@
       "expression": "column_height / 7 * 4",
       "units": "in",
       "note": "Clear span between Tuscan columns. Palladio's rule runs the other way from most: the spacing chooses the order, not the order the spacing. Wide spacing (over three diameters) requires the seven-diameter column. This is the rule that makes a Palladian Tuscan loggia read as it does and it is not in Vignola.",
-      "authority_note": "Ware 1738, Book I ch. XIII."
+      "authority_note": "Ware 1738, Book I ch. XIII.",
+      "quantity": "clear_span_between_supports"
     },
     {
       "target_slot": "height_proportion",
@@ -217,7 +220,8 @@
       "expression": "0.75",
       "units": "ratio",
       "note": "SUPERIMPOSITION. Palladio's rule for a second order over a first is that the upper columns are 'one fourth part less than those of the first' (Ware, Book II, repeatedly; at one villa he uses a fifth less). Vignola states no such rule. This is the number that governs storey graduation in every Anglo-Palladian front and it belongs to the order, not to the elevation.",
-      "authority_note": "Ware 1738, Book II, descriptions of the villa and palace fronts."
+      "authority_note": "Ware 1738, Book II, descriptions of the villa and palace fronts.",
+      "quantity": "superimposed_order_diminution"
     },
     {
       "target_slot": "chair_rail",
@@ -230,7 +234,8 @@
         0.33
       ],
       "note": "JUDGMENT SLOT, and a warning. The standing derivation of a chair rail is the cap of the pedestal brought to room scale. With Vignola's Tuscan that lands at 4 2/3 : 14 : 3 1/2, about 0.21 of the whole - already low. With Palladio's 1-diameter Tuscan pedestal it lands at 1 : 7 : 1.75, about 0.10, which at a 9 ft ceiling is 11 in off the floor. That is a skirting, not a chair rail. The honest conclusion is that Palladio's Tuscan pedestal is not a chair-rail datum at all and the room must take its dado from another order or from use. Do not run this rule blind.",
-      "authority_note": "Ware 1738, Book I ch. XIV; no classical source dimensions an interior chair rail."
+      "authority_note": "Ware 1738, Book I ch. XIV; no classical source dimensions an interior chair rail.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "baseboard",
@@ -243,7 +248,8 @@
       ],
       "judgment": true,
       "note": "Of ceiling height. Unchanged from the Vignola spine and repeated here only because the Tuscan plinth analogy is the one place a Palladian room and a Vignolesque room agree.",
-      "authority_note": "Not classical. The plinth analogy is the standing derivation in Anglo-American practice."
+      "authority_note": "Not classical. The plinth analogy is the standing derivation in Anglo-American practice.",
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "steps_and_stoop",

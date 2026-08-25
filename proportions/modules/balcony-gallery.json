@@ -154,7 +154,10 @@
       "dimension": "projection",
       "expression": "module * 1.5",
       "units": "in",
-      "range": [60.0, 96.0],
+      "range": [
+        60.0,
+        96.0
+      ],
       "authority_note": "`styles/monterey-colonial.json`: 'balcony depth 5 ft 0 in - 7 ft 0 in'. `styles/monterey-revival.json`: \"balcony depth 6'-8'; below 6' it fails as usable space and reads as trim\".",
       "note": "THE CANTILEVERED BALCONY: 6 ft, carried on projecting floor joists with nothing under it. This is the middle of the pack's three depth regimes and the one with the tightest band, because the structure sets both ends of it -- see the ratio rule below for the top end, and `styles/monterey-revival.json` for the bottom, which is a use limit rather than a structural one and is stated as such: below six feet the balcony 'fails as usable space and reads as trim'. A balcony you cannot put a chair on is a moulding.",
       "judgment": false
@@ -164,7 +167,10 @@
       "dimension": "ratio",
       "expression": "0.22",
       "units": "ratio",
-      "range": [0.18, 0.33],
+      "range": [
+        0.18,
+        0.33
+      ],
       "authority_note": "`styles/monterey-colonial.json` gives the balcony as 'roughly one-fifth to one-quarter of the building depth'; the structural ceiling is the ordinary cantilever-to-backspan limit of one third.",
       "note": "THE CANTILEVER AS A FRACTION OF THE BUILDING DEPTH, and this rule is why the balcony is the depth it is. The joists run the depth of the house and project past the wall, so the balcony is a cantilever whose backspan is the building -- and a cantilever past about a third of its backspan is not a beam problem but an uplift problem at the far support. The corpus's own one-fifth-to-one-quarter is therefore not a stylistic preference at all: it is a structural rule that a builder found by feel, sitting comfortably inside a limit an engineer would now calculate. The band's top is the structural ceiling and should be approached knowingly; the historical practice is the bottom half of it.",
       "judgment": false
@@ -174,27 +180,38 @@
       "dimension": "width",
       "expression": "module * 2.25",
       "units": "in",
-      "range": [72.0, 168.0],
+      "range": [
+        72.0,
+        168.0
+      ],
       "authority_note": "`styles/french-colonial-american.json`: 'galerie depth 8-12 ft; on the raised plantation house up to 14 ft'. `styles/creole-cottage-vernacular.json`: 'galerie depth 6-10 ft'.",
       "note": "THE POSTED GALLERY: 9 ft, and the band is wide because once a post reaches the ground there is no structural ceiling and the depth is set by use. That is the whole distinction between this rule and the two above it. `styles/french-colonial-american.json` says the galerie is 'at least eight feet deep' and that rooms open directly onto it through full-height French doors with no interior corridor -- so the galerie is the circulation, and its depth is a corridor's depth plus a room's worth of shade. Eight feet is a floor rather than an average for that reason.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "porch_depth"
     },
     {
       "target_slot": "eave_condition",
       "dimension": "projection",
       "expression": "module * 0.75",
       "units": "in",
-      "range": [30.0, 48.0],
+      "range": [
+        30.0,
+        48.0
+      ],
       "authority_note": "`styles/creole-cottage-vernacular.json`: 'an abat-vent projecting 30-48 in on iron rods or brackets with no posts'. `styles/regency.json`: 'balcony depth 900-1200 mm', which is 35 1/2 to 47 1/4 in.",
       "note": "THE BRACKET-ONLY BALCONY, 36 in, AND THE UNIFICATION IS THE FINDING. A Louisiana abat-vent hung on iron rods and a Brighton cast-iron balconette under a tented copper hood look nothing alike and are the same structure at the same depth, because both are hung off a wall on rods or brackets with nothing under them and three to four feet is what that will carry. The two records give the same band independently and neither mentions the other. It is the shallowest of the three regimes and the only one that can be added to an existing wall, which is also why it is the one most often found as a later addition on a building of any style.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "eave_projection_from_wall"
     },
     {
       "target_slot": "porch_rail",
       "dimension": "height",
       "expression": "part * 8",
       "units": "in",
-      "range": [30.0, 42.0],
+      "range": [
+        30.0,
+        42.0
+      ],
       "authority_note": "`styles/monterey-colonial.json`: 'rail 30-34 in above the deck'. `styles/regency.json`: 'rail height 900-1050 mm', which is 35 1/2 to 41 1/4 in.",
       "note": "32 in to the top of the rail, and the band holds two traditions that really do differ -- the American work low, the English work higher. Read the guard conflict below before using either figure: 32 in is six inches under the modern minimum, and the six inches are not a detail.",
       "judgment": false
@@ -204,47 +221,66 @@
       "dimension": "spacing",
       "expression": "part",
       "units": "in",
-      "range": [3.5, 5.0],
+      "range": [
+        3.5,
+        5.0
+      ],
       "authority_note": "`styles/monterey-colonial.json`: 'baluster 1.5-2 in square at 4-5 in on centre'.",
       "note": "BALUSTER PITCH, 4 in on centre, which is the pack's part. With a 1 3/4 in baluster that leaves a 2 1/4 in gap, so the historical American railing passes the modern four-inch-sphere rule without being changed -- which is worth knowing, because the cast panels of the iron traditions do not, and the difference decides how much of a reproduction can be authentic.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "baluster_pitch"
     },
     {
       "target_slot": "porch_rail",
       "dimension": "width",
       "expression": "part * 0.44",
       "units": "in",
-      "range": [1.0, 2.5],
+      "range": [
+        1.0,
+        2.5
+      ],
       "authority_note": "`styles/monterey-colonial.json`: 'baluster 1.5-2 in square'.",
       "note": "1 3/4 in square, and square rather than turned. `styles/monterey-revival.json` insists on the character it produces -- 'a slender, almost thin balcony rail and posts, quite unlike the heavy iron of the parent style' -- which is a rare case of a revival being LIGHTER than its parent, and the reason is that the revival was building in wood on a coast where the parent had been importing iron.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "baluster_section"
     },
     {
       "target_slot": "porch_support",
       "dimension": "spacing",
       "expression": "module",
       "units": "in",
-      "range": [36.0, 96.0],
+      "range": [
+        36.0,
+        96.0
+      ],
       "authority_note": "Iron standards on a cast railing run 3-6 ft apart; wooden colonnettes on a galerie 6-8 ft. `styles/italianate-american.json` gives its head brackets at '24 to 48 in on centre, with paired brackets at corners and at the ends of each bay'.",
       "note": "FOUR FEET BETWEEN STANDARDS, and the band's width is a material fact rather than a stylistic one: iron will carry the beam over a longer bay than wood at the same apparent slenderness, so an iron gallery has fewer, thinner supports and a wooden one more, thicker. Where the supports are brackets rather than standards -- the Italianate porch head -- they double at corners and at bay ends, which that record names and which is the compositional equivalent of the classical corner triglyph problem, solved by doubling rather than by contraction.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "support_centres"
     },
     {
       "target_slot": "porch_support",
       "dimension": "width",
       "expression": "part * 1.5",
       "units": "in",
-      "range": [3.5, 10.0],
+      "range": [
+        3.5,
+        10.0
+      ],
       "authority_note": "Cast-iron standards in the New Orleans and Regency work run 2 1/2 to 4 in; wooden colonnettes in the Creole work 5 to 8 in; Italianate chamfered posts 6 to 8 in.",
       "note": "6 in, which is a wooden colonnette. THE BAND SPANS TWO MATERIALS AND SHOULD NOT BE AVERAGED: a cast-iron standard doing the same job is a third of the section, so choosing the material chooses the number, and a 6 in iron post or a 3 in wooden one are both wrong in ways that are visible at fifty feet. `styles/french-colonial-american.json`'s 'light colonnettes' sit in the middle, which is where their date puts them.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "support_shaft_width"
     },
     {
       "target_slot": "porch_support",
       "dimension": "height",
       "expression": "part * 24",
       "units": "in",
-      "range": [84.0, 120.0],
+      "range": [
+        84.0,
+        120.0
+      ],
       "authority_note": "Deck to beam soffit in the surviving galleries; the head lands at 8 ft on the default.",
       "note": "8 ft from the deck to the underside of the beam, before the head bracket is taken off. On a two-tier gallery the upper standard is usually shorter than the lower by a few inches, which is storey graduation applied to a porch and is the one place `storey-graduation` and this pack meet -- `styles/raised-creole-plantation.json` binds that pack primary and the two should be read together there.",
       "judgment": false
@@ -254,7 +290,10 @@
       "dimension": "projection",
       "expression": "part * 3",
       "units": "in",
-      "range": [6.0, 24.0],
+      "range": [
+        6.0,
+        24.0
+      ],
       "authority_note": "Read off surviving brackets rather than stated by any record; the corpus gives bracket spacing but not reach.",
       "note": "A READING. 12 in of reach on the scrolled head bracket. It is a judgment because no record states it and because the right figure depends on what the bracket is made of -- a cast bracket can be deep and thin, a sawn wooden one must be thick to be deep, and the two look quite different at the same reach. What is not a judgment is that the bracket must reach far enough to shorten the beam's span, which the invariant holds.",
       "judgment": true
@@ -264,7 +303,10 @@
       "dimension": "ratio",
       "expression": "1.5",
       "units": "ratio",
-      "range": [1.1, 2.2],
+      "range": [
+        1.1,
+        2.2
+      ],
       "authority_note": "Width over height of one cast panel or one rail bay, read off surviving railings.",
       "note": "A READING, and a useful one for anyone commissioning reproduction iron: a cast panel is WIDER THAN IT IS TALL, about three to two, because that is the proportion a foundry pattern was made in and because a taller panel needs an intermediate standard. Modern reproductions are frequently made to whatever length the run happens to be and then the pattern is stretched, which is why they look subtly wrong at a distance where no individual element can be read -- the pattern's own proportion has changed even though every element in it is correct.",
       "judgment": true
@@ -274,7 +316,10 @@
       "dimension": "height",
       "expression": "part * 27",
       "units": "in",
-      "range": [90.0, 132.0],
+      "range": [
+        90.0,
+        132.0
+      ],
       "authority_note": "The beam soffit at 8 ft plus the beam; the galleries measure 7 ft 6 in to 11 ft clear at the wall, falling toward the outer edge with the roof.",
       "note": "9 ft at the wall. The gallery ceiling FALLS toward its outer edge, because the gallery roof is a shallower plane than the main roof -- see the roof rule below -- so this figure is the clear height at the wall and not a level plane. The soffit is boarded, and in the Creole traditions it is very often painted the pale blue-green that reads as sky, which is not a proportional matter but is the single most recognisable thing about standing under one.",
       "judgment": false
@@ -284,17 +329,24 @@
       "dimension": "ratio",
       "expression": "0.4663",
       "units": "ratio",
-      "range": [0.36, 0.58],
+      "range": [
+        0.36,
+        0.58
+      ],
       "authority_note": "`styles/french-colonial-american.json`: 'main roof 40-50 degrees; galerie slope 20-30 degrees; break at the outer wall plane'.",
       "note": "THE GALLERY ROOF, at 25 degrees against the main roof's 45, WITH THE BREAK AT THE OUTER WALL PLANE. The break's position is the diagnostic and it is stated by the record rather than by me: the roof changes pitch exactly where the wall is, so the gallery reads as a separate shallower plane pinned to the building rather than as a continuation of the main roof. `styles/creole-cottage-vernacular.json` gives the same rule for its posted galerie. A gallery roof carried down from the ridge at one pitch is a different and later building, and this is the same class of finding as `dutch-gambrel`'s break -- a change of plane whose POSITION is the rule.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "gallery_roof_pitch"
     },
     {
       "target_slot": "special_window",
       "dimension": "height",
       "expression": "part * 21",
       "units": "in",
-      "range": [72.0, 108.0],
+      "range": [
+        72.0,
+        108.0
+      ],
       "authority_note": "`styles/regency.json`: 'floor-length windows on the principal storey opening onto a cast-iron balcony'. `styles/french-colonial-american.json`: rooms open 'onto the galerie through full-height French casement doors'.",
       "note": "7 ft, THE FLOOR-LENGTH WINDOW, and it is not decoration -- it is what the balcony is for. Two of the four traditions here state it independently and neither has heard of the other: the Regency sash goes to the floor so a person can walk out onto the iron, and the Creole casement pair does the same onto the galerie. A balcony served by an ordinary window with a 30 in sill is a thing to look at from the street and not from inside, which is what most reproduction balconies are.",
       "judgment": false
@@ -304,10 +356,14 @@
       "dimension": "ratio",
       "expression": "0.55",
       "units": "ratio",
-      "range": [0.5, 0.62],
+      "range": [
+        0.5,
+        0.62
+      ],
       "authority_note": "`styles/monterey-revival.json`: 'balcony line placed so the lower mass reads as the heavier of the two, roughly 55:45'.",
       "note": "WHERE THE BALCONY CUTS THE ELEVATION: the lower mass takes 55 per cent of the height. A horizontal line across a two-storey front divides it whether the designer meant it to or not, and this rule says which way the division should fall -- the bottom heavier, so the building sits down. Fifty-fifty reads as indecision and anything above about 62 makes the upper storey an attic. `styles/monterey-revival.json` adds the detail that makes it visible: the material changes at that line, 'stucco below and wood siding above, with the material change occurring exactly at the balcony floor line'.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "balcony_split_of_elevation"
     }
   ],
   "conflicts": [
