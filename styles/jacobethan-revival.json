@@ -251,6 +251,12 @@
       "authority": "vignola-doric",
       "note": "JUDGMENT BINDING for the entrance porch only, following the style's own proportional_system directly: 'There is no classical order except at the entrance porch, where one is deliberately introduced as a quotation.' The lineage record supplies the reasoning for which order: the jacobean ancestor edge (weight 1.0) describes 'the heavy classical porch grafted onto a Gothic body', and Doric is the sturdy, plain order this corpus consistently assigns to load-bearing and entrance-porch work elsewhere (see the Georgian template's Doric-for-the-everyday-order note). Not confirmed in vignola-doric's own applies_to for this node - a general typological choice, held at low precedence and marked optional because the style's own text frames it as a single deliberate quotation, not a governing order for the building.",
       "precedence": 2
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "Gives the pack three figures no other record does: mullions at 4-6 in, transoms at 1/2 and 3/4 of opening height, and glazing at '35-55 percent - far higher than any other revival in this branch'. It also states the compositional consequence in its own words -- 'windows are mullioned bands rather than punched openings; the glass area on a principal elevation may exceed the stone' -- which is the pack's overall-proportion rule and its glazing rule arriving at the same sentence. `stone-course` is deliberately not bound on this node and this record says why: its walls are 'masonry - ashlar, or brick with stone dressings - with no half-timbering', so the dressings are its own and the walling is ashlar rather than rubble.",
+      "precedence": 3
     }
   ]
 }

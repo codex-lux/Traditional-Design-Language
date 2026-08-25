@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: eleven packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: twelve packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -598,6 +598,51 @@ whose most useful field would be *structural / structural-and-expressed / applie
 `stick-style` and `tudor-revival` both turn on, and which no slot records, so the corpus cannot
 presently tell a frame from a picture of one.
 
+### `proportions/systems/opening-mullioned.json` — two list items that turned out to be one window
+
+WP-4.1 lists the **four-centred Tudor arch** and a **leaded-casement-and-mullion system** separately,
+and **both were raised again from inside this work package**: `opening-pointed` records the
+four-centred arch as "a real missing pack rather than a boundary of convenience" and names it as why
+`tudor` and `tudor-revival` are absent from its own `applies_to`; `opening-craftsman` refuses
+`arts-and-crafts-british` because that node's own logic ("no applied system… no vertical alignment
+requirement") denies the head-datum rule outright, and says what it wants instead — almost exactly
+this pack, including that it "would also serve the parts of `english-gothic` and `tudor` that
+`opening-pointed` deliberately left alone."
+
+They are one system. A Tudor window *is* a four-centred head over a mullioned band of leaded lights,
+and separating the head from what hangs under it would have produced two packs neither of which
+described a window. The union was also the largest remaining item: **15 thinly-bound nodes** against
+10 for gable geometry.
+
+**The central rule is that the window is counted, not measured.** `tudor` states it in five words —
+"window width is a whole number of lights" — and it is a different *kind* of statement from anything
+in the classical opening systems, which give an opening a proportion. This one gives it a **count**:
+you do not widen the window, you add a light, so widths go 41, 64, 87, 110 in and there is nothing
+at 75. Eight records converge on the light itself at 400–550 mm, and the module is their middle.
+
+**Three cross-pack echoes, each worth more than the rule it sits in:**
+
+- **The tall unit in a wide band.** The single light is 2.4:1 *tall*; the window overall is 2:1 to
+  5:1 *wide*. That is the same inversion `opening-craftsman` found in the Craftsman band four
+  centuries later — two unrelated traditions building a horizontal band out of vertical units, both
+  got wrong the same way by designers who absorb the band and draw a squat unit.
+- **Both traditional opening packs fail IRC R310 on the mullion, not the head.** `opening-pointed`
+  found that a pointed head passes comfortably and the mullion is fatal; the same arithmetic holds
+  here. Two independent systems four centuries apart failing a modern code on the member *between*
+  the lights rather than the shape *above* them is a fact about the code as much as about the windows.
+- **The glazing ratio is a history, not a range.** Elizabethan 45–60% "and higher at Hardwick";
+  Jacobean explicitly "reduced from Elizabethan extremes" to 30–45%; the revival back at 35–55%
+  because glass was cheap by 1910. A designer should pick a decade rather than a number — and should
+  know that at the top of the band the mullions have become the structure, which is why Hardwick was
+  a stunt.
+
+The four-centred head is also **outside what `opening-pointed` can express**, and measurably so: that
+pack's flattest arch, the drop arch, still rises 0.707 of its span, and a four-centred head rises a
+quarter to a third. A test asserts the two bands do not overlap.
+
+Coverage moved twice: **opening-role 60 → 50**, and nodes carrying two packs or fewer **36 → 14**
+across the four packs since the counts guard landed.
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -611,7 +656,7 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing: a **gable geometry system** (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
+still missing: a **gable geometry system** (now the largest remaining) (crow-step, bell, neck and the Cape Dutch holbol; 12 nodes,
 10 thinly bound, and entirely missing from the library), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
 system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
 also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
@@ -631,8 +676,9 @@ third: the **Dutch gambrel roof module**, which the list scoped at 3 nodes and r
 **dimensional half** of the cast-iron item, which reached 7 — its ornament half stays on the list —
 and the **stone-coursing equivalent of `brick-course`**, the largest item on the list when measured,
 bound to 12 of the 34 thinly-bound stone nodes on a stated criterion. Struck off by the fourth: the
-**arcade**, which was never on the list at all and which three packs in this package asked for, and
-the **half-timber infill panel**, whose leverage was 29 nodes and 21 thinly bound.
+**arcade**, which was never on the list at all and which three packs in this package asked for, the
+**half-timber infill panel** (29 nodes, 21 thinly bound), and **both** the four-centred Tudor arch and
+the leaded-casement-and-mullion items, which turned out to be one window.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -645,16 +691,16 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **47 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the nine new
-packs bind 76 nodes but every one of them was already bound, so the count does not move and should
+Later tranches: 23 checks green. **48 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the ten new
+packs bind 89 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
 pack, plus one wrong interior binding corrected, a roof system six nodes previously had nothing for,
 a threshold system seven nodes had nothing for, a walling system twelve nodes had nothing for, and an arcade system sixteen
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 28 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **141 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **149 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

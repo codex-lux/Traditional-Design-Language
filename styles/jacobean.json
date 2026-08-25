@@ -239,6 +239,12 @@
       "role": "room",
       "note": "Judgment binding (not in applies_to). A somewhat better fit than at elizabethan: this style's own text records a shift toward 'a proliferation of smaller private rooms and closets' as the great chamber and gallery stop being the whole of social life, which tracks room-vernacular's ordinary-room band more closely than Elizabethan's state-room scale does. Still scoped away from the hall, gallery and great chamber, which remain governed by this style's own figured ratios.",
       "precedence": 3
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "The retreat, and the record frames it as one: glazing 'reduced from Elizabethan extremes to roughly 30-45 percent of the elevation'. Read the three glazing figures in this pack as a history rather than a range -- Elizabethan 45-60, Jacobean 30-45, and the revival choosing the Elizabethan end again at 35-55 because glass was cheap by 1910. This node also gives 'windows of two to five lights with one or two transoms', and its two-transom case is why the pack's transom rule has a ceiling at three quarters rather than stopping at two thirds.",
+      "precedence": 5
     }
   ]
 }

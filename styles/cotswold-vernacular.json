@@ -251,6 +251,12 @@
       "role": "optional",
       "note": "cotswold-vernacular is named directly in timber-bay's applies_to, which is worth flagging as slightly counter-intuitive: this is a masonry wall tradition (500-700 mm coursed limestone rubble), not a framed one, so the bay module does not set the wall the way it does at english-medieval-timber-frame. It is bound anyway, low and optional, because the roof and floor carpentry inside a Cotswold house — common rafters, floor joists — is still cut and spaced by the same oak-bay logic as its timber-framed neighbours, and the pack's own applies_to already reflects that. Wall material and coursing are governed by the style's own text, not by this pack.",
       "precedence": 2
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "The vernacular survival, and the node that shows the system outliving its own period: 'ovolo-moulded stone mullions with a hood mould above, still in use on buildings of 1680 and later -- a Perpendicular detail running two centuries past its own period'. Its lights are the smallest of the structural traditions at 300-450 mm, which is a cottage rather than a hall, and its window overall at 1.5:1 to 2:1 is correspondingly less horizontal than the Tudor 2:1 to 4:1. `stone-course` holds this node's walling and the two packs meet at the opening: that one dresses it, this one fills it, and both carry the same cill-and-label relation with the same invariant.",
+      "precedence": 3
     }
   ]
 }

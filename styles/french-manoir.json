@@ -252,6 +252,12 @@
       "role": "optional",
       "note": "Optional, and narrowly. The manoir is a stone building whose framed work is confined to upper storeys, gables and outbuildings, and `stone-course` holds the walling. Bind the panel rules where the frame appears and leave the rest; nothing here should be read as asserting that this is a timber-framed type, because it is not.",
       "precedence": 3
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "The croisee, and the node that states the transom rule most precisely -- twice. 'Croisee opening roughly 2:3, transom at about two-thirds of opening height', and separately 'cross-mullioned windows with the transom well above centre, roughly two-thirds up the opening'. The pack's transom rule rests on this record and on its Renaissance sibling, and it is worth noticing that the corpus states this rule more exactly in French than in English: the croisee and the English mullion-and-transom window are the same device under two names, and the French records give the position and the English ones give the count.",
+      "precedence": 4
     }
   ]
 }

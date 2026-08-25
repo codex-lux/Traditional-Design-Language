@@ -243,6 +243,12 @@
       "role": "room",
       "note": "Judgment binding, the weakest room fit in this whole batch and offered as such. Not in room-harmonic's own applies_to. This style's own text states plainly that 'the plan is still medieval -- a sequence of rooms without a corridor,' which argues against a harmonic-mean room system as much as for one. It is bound anyway, narrowly, for the exceptional Italianate-planned examples the style's own text names -- Chambord's centralised Greek-cross donjon and Ancy-le-Franc under Serlio's own hand, 'the moment Italian regularity briefly overrides French verticality' -- and should not be taken as describing the type's norm.",
       "precedence": 2
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "The croisee at its most formal: 'a large opening quartered by a stone mullion and transom, in light-coloured limestone or tufa against a plainer wall', at approximately 1:2 overall with four lights of roughly 2:3 each. Note that this node's window is TALL overall where the English band is wide -- 1:2 against 2:1 to 4:1 -- which is the one place the pack's overall-proportion rule does not describe a bound node, and the reason is that a croisee is a single quartered opening rather than a band of lights. Read the light rules and the transom rule here and take the overall proportion from this record instead.",
+      "precedence": 3
     }
   ]
 }

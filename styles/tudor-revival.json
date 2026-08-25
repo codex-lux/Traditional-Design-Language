@@ -283,6 +283,12 @@
       "role": "secondary",
       "note": "The revival, and the node that supplies two of the pack's revival rules. Its jetty ceiling -- '8-16 in., never more than the depth of a plausible joist' -- disagrees with the medieval figure of about four thirds of the joist depth, and the pack holds both in one band because both are warning against the same thing from opposite directions; the revival's is stricter because a revival jetty usually carries no joist at all, so 'a plausible joist' is a fiction that has to be kept plausible. And its 'multi-material wall with a horizontal change of material between storeys, most often masonry below and stuccoed half-timbering above' is the storey-count rule: a revival shows the frame on ONE storey where a medieval building shows it on all.",
       "precedence": 4
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "The revival, and the node whose figures are given in inches rather than millimetres because it is an American record: 'casement leaves 16-22 in. wide by 40-56 in. high, proportion between 1:2.2 and 1:2.8, grouped in 2, 3, or 4'. That proportion band is the tightest statement of the single light anywhere in the corpus and the pack's default sits inside it. Note what the revival does with the arch: it is used at the ENTRANCE and rarely at the windows, which this record says -- 'entrance under a Tudor (four-centred) arch... usually recessed and often placed in a projecting gabled bay' -- where the Tudor original used the same head for doorways, fireplaces and windows alike.",
+      "precedence": 5
     }
   ]
 }

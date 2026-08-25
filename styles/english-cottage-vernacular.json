@@ -274,6 +274,12 @@
       "role": "secondary",
       "note": "Secondary, and the node that gives the pack its most useful single comparison. This record measures three wall types in one sentence -- 'wall thickness 450-600 mm in cob, 350-500 mm in rubble, 150 mm in a daub-panelled frame' -- and the framed wall is a QUARTER the thickness of the others. Every consequence follows: no reveal, no thermal mass, and a wall that can be pierced anywhere between two studs without touching structure, which is why framed buildings have more and larger openings than their masonry contemporaries and were so readily altered.",
       "precedence": 3
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "secondary",
+      "note": "Secondary, because this node covers several walling traditions and the mullioned window belongs to some of them. Where the window is stone-mullioned with leaded lights the pack governs; where it is a small timber-lighted opening in a cob or daub wall it does not. This record gives 'window opening 600-1000 mm wide by 700-1200 mm high, in leaded quarries or small timber lights', and the smaller end of that is a single light with no mullion at all -- which the pack's count rule explicitly refuses to describe, because one light has no mullion and this is then a different opening system.",
+      "precedence": 4
     }
   ]
 }

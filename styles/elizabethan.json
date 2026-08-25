@@ -223,6 +223,12 @@
       "role": "room",
       "note": "Judgment binding (not in applies_to). Scoped narrowly to the subsidiary chambers off the state apartments, not to the great chamber, long gallery or hall — those are governed by this style's own figured ratios (storey heights increasing upward, gallery 1:6 to 1:8) and are far outside the pack's ordinary-room scale. The chamber-and-service-room band the pack records (9-14 ft) is a reasonable approximation for the smaller private rooms this style's own text notes were multiplying by the 1590s.",
       "precedence": 2
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "The extreme end of the pack's glazing band and the reason that rule is a judgment slot: 'glazed to solid ratio on a principal elevation 45-60 percent, and higher at Hardwick', with 'more window than wall on a principal elevation' given as the single quickest identification of the style. At that ratio the mullions have stopped being window frames and become the building's structure, which is the pack's first and blocking conflict -- Hardwick is a structural stunt as much as a compositional one. Light at 400-550 mm and transom divisions giving panels of 1:1.2 to 1:1.5.",
+      "precedence": 3
     }
   ]
 }

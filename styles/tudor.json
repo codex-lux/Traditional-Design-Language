@@ -246,6 +246,12 @@
       "role": "secondary",
       "note": "Secondary behind `timber-bay`. The panel figures apply, and one thing about this node should be read from `timber-bay` rather than here: its storey heights are 'nearly equal; no graduated diminution, which is what most clearly separates Tudor from Georgian at a glance'. That is a direct contradiction of `styles/german-fachwerk.json`'s storeys 'diminishing upward by roughly 10-15 percent' -- two half-timbering traditions doing opposite things with the same construction -- and it belongs to the frame pack rather than to the panel pack, which is why this one does not carry a diminution rule at all.",
       "precedence": 3
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "The node this pack is named for and the one that states its central rule in five words: 'window width is a whole number of lights'. It also supplies the four-centred rise at 1:3 to 1:4, the light at 400-500 mm in leaded quarries of roughly 100 x 150, the overall band at 2:1 to 4:1 wide, and the diagnostic the pack's head assembly is built around -- 'the four-centred arch under a square label mould with carved or moulded spandrels, the single most reliable Tudor signature'. `opening-pointed` names this node in its own notes as one it could not serve, because a single strike ratio cannot express a four-centred head.",
+      "precedence": 4
     }
   ]
 }

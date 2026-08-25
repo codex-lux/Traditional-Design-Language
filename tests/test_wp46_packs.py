@@ -1473,3 +1473,93 @@ def test_the_pack_says_the_exposed_frame_is_substantially_a_victorian_taste():
     assert "THE TRADITIONS THEMSELVES CONCLUDED THAT THIS WALL SHOULD BE COVERED" in c["statement"]
     assert "tile-hung upper storey" in json.dumps(node("queen-anne-british"))
     assert "stuccoed or weatherboarded" in json.dumps(node("creole-cottage-vernacular"))
+
+
+# ------------------------------------------------------------ opening-mullioned
+
+
+def test_the_two_list_items_turned_out_to_be_one_system():
+    """WP-4.1 lists the four-centred Tudor arch and a leaded-casement-and-mullion system separately,
+    and both were raised again from inside this work package -- by opening-pointed's own boundary and
+    by opening-craftsman's refusal of arts-and-crafts-british. A Tudor window IS a four-centred head
+    over a mullioned band of leaded lights, and separating them would have produced two packs neither
+    of which described a window."""
+    assert "FOUR-CENTRED TUDOR ARCH" in pack("opening-pointed")["notes"]
+    assert "leaded-casement-and-mullion system of its own" in pack("opening-craftsman")["notes"]
+    p = pack("opening-mullioned")
+    slots = {(r["target_slot"], r["dimension"]) for r in p["derived_rules"]}
+    assert ("arch", "ratio") in slots and ("window_lite_pattern", "width") in slots
+
+
+def test_the_window_is_counted_and_not_measured():
+    """The central rule, stated by the corpus in five words. A Georgian window has a proportion; this
+    one has a COUNT, so its width is quantised at the light and there is nothing in between."""
+    assert "window width is a whole number of lights" in json.dumps(node("tudor"))
+    r = next(x for x in pack("opening-mullioned")["derived_rules"]
+             if x["target_slot"] == "window_grouping_rule" and x["dimension"] == "count")
+    assert r["range"][0] == 2.0, "a single-light mullioned window is a contradiction"
+    assert "COUNTED RATHER THAN MEASURED" in r["note"]
+
+
+def test_eight_records_converge_on_the_light_and_the_module_is_their_middle():
+    p = pack("opening-mullioned")
+    assert p["module"]["default_size_in"] == 18.0
+    for nid, frag in (("tudor", "400-500 mm"), ("elizabethan", "400-550 mm"),
+                      ("jacobean", "450-550"), ("cotswold-vernacular", "300-450 mm"),
+                      ("arts-and-crafts-british", "350-450 mm"),
+                      ("jacobethan-revival", "18-24 in"), ("tudor-revival", "16-22 in")):
+        assert frag in json.dumps(node(nid)), (nid, frag)
+
+
+def test_the_four_centred_head_is_outside_what_a_strike_ratio_can_express():
+    """opening-pointed's flattest arch, the drop arch, still rises 0.707 of its span. A four-centred
+    head rises a quarter to a third, because it is struck from four centres with two radii."""
+    tudor_arch = next(x for x in pack("opening-mullioned")["derived_rules"]
+                      if x["target_slot"] == "arch" and x["dimension"] == "ratio")
+    pointed = next(x for x in pack("opening-pointed")["derived_rules"]
+                   if x["target_slot"] == "arch" and x["dimension"] == "ratio")
+    assert tudor_arch["range"][1] < 0.5 < pointed["range"][0]
+    assert "1:3 to 1:4" in json.dumps(node("tudor"))
+
+
+def test_the_tall_unit_in_a_wide_band_is_the_same_inversion_craftsman_found():
+    """Two unrelated traditions four centuries apart, both building a horizontal band out of vertical
+    units, and both got wrong the same way by designers who absorb the band and draw a squat unit."""
+    for pid in ("opening-mullioned", "opening-craftsman"):
+        unit = next(x for x in pack(pid)["derived_rules"] if x["target_slot"] == "window_proportion")
+        assert float(unit["expression"]) >= 1.5, pid
+    band = next(x for x in pack("opening-mullioned")["derived_rules"]
+                if x["target_slot"] == "window_grouping_rule" and x["dimension"] == "ratio")
+    assert band["range"][0] > 1.0                      # wide overall
+    assert "the exact inverse of the Georgian vertical punched opening" in \
+        json.dumps(node("arts-and-crafts-british"))
+
+
+def test_both_traditional_opening_packs_fail_r310_on_the_mullion_not_the_head():
+    """A fact about the code as much as about the windows, and worth stating as a pattern rather than
+    twice as a coincidence."""
+    for pid in ("opening-pointed", "opening-mullioned"):
+        c = next(x for x in pack(pid)["conflicts"] if x["with"] == "egress-code")
+        assert c["severity"] == "blocking", pid
+        assert "mullion" in c["statement"].lower(), pid
+    assert "four centuries apart" in \
+        next(x for x in pack("opening-mullioned")["conflicts"] if x["with"] == "egress-code")["statement"]
+
+
+def test_the_glazing_band_is_a_history_and_the_records_say_so():
+    """Elizabethan 45-60 and higher at Hardwick; Jacobean explicitly a retreat to 30-45; the revival
+    back at 35-55 because glass was cheap by 1910. A designer should pick a decade, not a number."""
+    r = next(x for x in pack("opening-mullioned")["derived_rules"]
+             if x["target_slot"] == "daylight_strategy")
+    assert r["judgment"] is True and r["range"] == [0.25, 0.6]
+    assert "higher at Hardwick" in json.dumps(node("elizabethan"))
+    assert "reduced from Elizabethan extremes" in json.dumps(node("jacobean"))
+    assert "far higher than any other revival" in json.dumps(node("jacobethan-revival"))
+
+
+def test_english_gothic_now_has_both_halves_of_its_window():
+    """opening-pointed holds the arch and this pack the Perpendicular mullion grid beneath it, which
+    is the direct ancestor of every Tudor and Jacobean window here."""
+    assert binding("english-gothic", "opening-pointed")["role"] == "opening"
+    assert binding("english-gothic", "opening-mullioned")["role"] == "secondary"
+    assert "mullions running unbroken from sill to arch head" in json.dumps(node("english-gothic"))

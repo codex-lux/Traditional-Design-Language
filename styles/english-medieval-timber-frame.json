@@ -231,6 +231,12 @@
       "role": "room",
       "note": "english-medieval-timber-frame is named directly in room-vernacular's applies_to. The two packs are complementary by design (room-vernacular's own module note explicitly distinguishes the room from the bay that contains it), and this style's hall-and-parlor and hall-single-cell massing affinities are literally room-vernacular's own worked examples.",
       "precedence": 2
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "Bound for the opening in a timber wall rather than a stone one, which changes the material and not the geometry: the mullion is oak, the light is the same width, the leaded panel is the same, and the label is a moulded timber head. `timber-panel` holds this node's wall and this pack its openings, and the two meet at a real constraint the pack should be read with -- a framed wall is 150 mm thick against a rubble wall's 500-700, so there is no deep reveal here and no window seat, and the openings sit almost flush. Everything the pack says about drainage and the reveal applies with less depth to work with.",
+      "precedence": 3
     }
   ]
 }

@@ -4264,6 +4264,12 @@
           "role": "room",
           "note": "Judgment binding (not in applies_to). Justified by direct lineage: this style descends_from english-cottage-vernacular (weight 0.7) and cotswold-vernacular (weight 0.6), both of which are room-vernacular's own source material, and Webb and Voysey are recorded as having 'measured and sketched Wealden and Surrey farmhouses' directly. The daylight-depth rule and the varied ceiling-height logic both suit a movement whose houses are 'designed in section as much as in elevation' — though the double-height hall, where present, exceeds the pack's ordinary-room scale and should be read against its own text instead.",
           "precedence": 3
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "THE NODE `opening-craftsman` REFUSED AND NAMED. That pack's notes say its head-datum rule is denied outright by this record's own governing logic -- 'no applied system... there is no repeating bay and no vertical alignment requirement' -- and say what this node wants instead: 'a leaded-casement-and-mullion system of its own'. This is that pack, and the fit is close: 'casement windows with leaded lights, grouped into horizontal bands under continuous stone or oak mullions and a shared lintel', with lights of 350-450 mm by 700-1100 and quarries at 100-150 mm 'rectangular rather than diamond in the stricter work'. This record also names the contrast the pack's overall-proportion rule is about, and names it better than the pack could: 'the exact inverse of the Georgian vertical punched opening, and instantly readable at distance'.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -6925,6 +6931,12 @@
           "authority": "vignola-doric",
           "note": "JUDGMENT BINDING for the entrance porch only, following the style's own proportional_system directly: 'There is no classical order except at the entrance porch, where one is deliberately introduced as a quotation.' The lineage record supplies the reasoning for which order: the jacobean ancestor edge (weight 1.0) describes 'the heavy classical porch grafted onto a Gothic body', and Doric is the sturdy, plain order this corpus consistently assigns to load-bearing and entrance-porch work elsewhere (see the Georgian template's Doric-for-the-everyday-order note). Not confirmed in vignola-doric's own applies_to for this node - a general typological choice, held at low precedence and marked optional because the style's own text frames it as a single deliberate quotation, not a governing order for the building.",
           "precedence": 2
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "Gives the pack three figures no other record does: mullions at 4-6 in, transoms at 1/2 and 3/4 of opening height, and glazing at '35-55 percent - far higher than any other revival in this branch'. It also states the compositional consequence in its own words -- 'windows are mullioned bands rather than punched openings; the glass area on a principal elevation may exceed the stone' -- which is the pack's overall-proportion rule and its glazing rule arriving at the same sentence. `stone-course` is deliberately not bound on this node and this record says why: its walls are 'masonry - ashlar, or brick with stone dressings - with no half-timbering', so the dressings are its own and the walling is ashlar rather than rubble.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -7546,6 +7558,12 @@
           "role": "secondary",
           "note": "Secondary behind `timber-bay`. The panel figures apply, and one thing about this node should be read from `timber-bay` rather than here: its storey heights are 'nearly equal; no graduated diminution, which is what most clearly separates Tudor from Georgian at a glance'. That is a direct contradiction of `styles/german-fachwerk.json`'s storeys 'diminishing upward by roughly 10-15 percent' -- two half-timbering traditions doing opposite things with the same construction -- and it belongs to the frame pack rather than to the panel pack, which is why this one does not carry a diminution rule at all.",
           "precedence": 3
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "The node this pack is named for and the one that states its central rule in five words: 'window width is a whole number of lights'. It also supplies the four-centred rise at 1:3 to 1:4, the light at 400-500 mm in leaded quarries of roughly 100 x 150, the overall band at 2:1 to 4:1 wide, and the diagnostic the pack's head assembly is built around -- 'the four-centred arch under a square label mould with carved or moulded spandrels, the single most reliable Tudor signature'. `opening-pointed` names this node in its own notes as one it could not serve, because a single strike ratio cannot express a four-centred head.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -11851,6 +11869,12 @@
           "role": "optional",
           "note": "cotswold-vernacular is named directly in timber-bay's applies_to, which is worth flagging as slightly counter-intuitive: this is a masonry wall tradition (500-700 mm coursed limestone rubble), not a framed one, so the bay module does not set the wall the way it does at english-medieval-timber-frame. It is bound anyway, low and optional, because the roof and floor carpentry inside a Cotswold house — common rafters, floor joists — is still cut and spaced by the same oak-bay logic as its timber-framed neighbours, and the pack's own applies_to already reflects that. Wall material and coursing are governed by the style's own text, not by this pack.",
           "precedence": 2
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "The vernacular survival, and the node that shows the system outliving its own period: 'ovolo-moulded stone mullions with a hood mould above, still in use on buildings of 1680 and later -- a Perpendicular detail running two centuries past its own period'. Its lights are the smallest of the structural traditions at 300-450 mm, which is a cottage rather than a hall, and its window overall at 1.5:1 to 2:1 is correspondingly less horizontal than the Tudor 2:1 to 4:1. `stone-course` holds this node's walling and the two packs meet at the opening: that one dresses it, this one fills it, and both carry the same cill-and-label relation with the same invariant.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -14376,6 +14400,12 @@
           "role": "room",
           "note": "Judgment binding: english-gothic is not in room-vernacular's applies_to, and its governing space — the great hall, 7.5-9.0 m wide, wall-plate height at least equal to that width — is a different order of scale from the pack's 14 ft (4.3 m) ordinary-room module entirely. Bound narrowly and scoped to the SUBSIDIARY spaces only (solar, chambers off the dais end, service rooms beyond the screens), which are genuinely closer to the pack's 9-14 ft chamber range; the hall itself remains governed by this style's own proportional_system (ad quadratum/ad triangulum setting-out and c04's wall-plate-to-span rule), which the library has no dedicated pack for. See gaps.",
           "precedence": 1
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "secondary",
+          "note": "Bound secondary behind `opening-pointed`, and the division between the two packs is exact rather than approximate. That pack holds the ARCH -- the equilateral head, the strike ratio, the hood mould -- and this one holds the MULLION GRID beneath it, which this record describes as the Perpendicular achievement: 'mullions running unbroken from sill to arch head and crossed by horizontal transoms, dividing the light into rectangular panels'. That grid is the direct ancestor of every Tudor and Jacobean window in this pack, and binding it here is what makes the descent legible. Neither pack carries the tracery, which both decline for the same reason.",
+          "precedence": 2
         }
       ],
       "_cascade": [
@@ -19787,6 +19817,12 @@
           "role": "room",
           "note": "Judgment binding (not in applies_to). A somewhat better fit than at elizabethan: this style's own text records a shift toward 'a proliferation of smaller private rooms and closets' as the great chamber and gallery stop being the whole of social life, which tracks room-vernacular's ordinary-room band more closely than Elizabethan's state-room scale does. Still scoped away from the hall, gallery and great chamber, which remain governed by this style's own figured ratios.",
           "precedence": 3
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "The retreat, and the record frames it as one: glazing 'reduced from Elizabethan extremes to roughly 30-45 percent of the elevation'. Read the three glazing figures in this pack as a history rather than a range -- Elizabethan 45-60, Jacobean 30-45, and the revival choosing the Elizabethan end again at 35-55 because glass was cheap by 1910. This node also gives 'windows of two to five lights with one or two transoms', and its two-transom case is why the pack's transom rule has a ceiling at three quarters rather than stopping at two thirds.",
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -30504,6 +30540,12 @@
           "role": "optional",
           "note": "Optional, and the pack should be read here as a description of what is being caricatured rather than as a specification. Storybook work exaggerates every figure the pack states -- deeper jetties than a joist could carry, timbers curved where a frame's are straight, panels of no consistent proportion -- and does it deliberately. What the pack can usefully say is which exaggerations are which, so that a designer working this idiom is distorting the system knowingly rather than getting it wrong.",
           "precedence": 4
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "optional",
+          "note": "Optional, and the pack should be read here as the thing being caricatured. This record's lights are 6 to 10 in wide in openings under 3 ft -- a third of the pack's module and well below anything the tradition built -- and they are 'placed by internal need and never aligned to a facade datum'. Both are deliberate distortions of rules this pack states, and what the pack can usefully offer is the undistorted version, so that a designer working this idiom is exaggerating knowingly.",
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -31431,6 +31473,12 @@
           "role": "secondary",
           "note": "Secondary, and the node that gives the pack its most useful single comparison. This record measures three wall types in one sentence -- 'wall thickness 450-600 mm in cob, 350-500 mm in rubble, 150 mm in a daub-panelled frame' -- and the framed wall is a QUARTER the thickness of the others. Every consequence follows: no reveal, no thermal mass, and a wall that can be pierced anywhere between two studs without touching structure, which is why framed buildings have more and larger openings than their masonry contemporaries and were so readily altered.",
           "precedence": 3
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "secondary",
+          "note": "Secondary, because this node covers several walling traditions and the mullioned window belongs to some of them. Where the window is stone-mullioned with leaded lights the pack governs; where it is a small timber-lighted opening in a cob or daub wall it does not. This record gives 'window opening 600-1000 mm wide by 700-1200 mm high, in leaded quarries or small timber lights', and the smaller end of that is a single light with no mullion at all -- which the pack's count rule explicitly refuses to describe, because one light has no mullion and this is then a different opening system.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -34232,6 +34280,12 @@
           "role": "secondary",
           "note": "The revival, and the node that supplies two of the pack's revival rules. Its jetty ceiling -- '8-16 in., never more than the depth of a plausible joist' -- disagrees with the medieval figure of about four thirds of the joist depth, and the pack holds both in one band because both are warning against the same thing from opposite directions; the revival's is stricter because a revival jetty usually carries no joist at all, so 'a plausible joist' is a fiction that has to be kept plausible. And its 'multi-material wall with a horizontal change of material between storeys, most often masonry below and stuccoed half-timbering above' is the storey-count rule: a revival shows the frame on ONE storey where a medieval building shows it on all.",
           "precedence": 4
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "The revival, and the node whose figures are given in inches rather than millimetres because it is an American record: 'casement leaves 16-22 in. wide by 40-56 in. high, proportion between 1:2.2 and 1:2.8, grouped in 2, 3, or 4'. That proportion band is the tightest statement of the single light anywhere in the corpus and the pack's default sits inside it. Note what the revival does with the arch: it is used at the ENTRANCE and rarely at the windows, which this record says -- 'entrance under a Tudor (four-centred) arch... usually recessed and often placed in a projecting gabled bay' -- where the Tudor original used the same head for doorways, fireplaces and windows alike.",
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -34568,6 +34622,12 @@
           "role": "room",
           "note": "english-medieval-timber-frame is named directly in room-vernacular's applies_to. The two packs are complementary by design (room-vernacular's own module note explicitly distinguishes the room from the bay that contains it), and this style's hall-and-parlor and hall-single-cell massing affinities are literally room-vernacular's own worked examples.",
           "precedence": 2
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "Bound for the opening in a timber wall rather than a stone one, which changes the material and not the geometry: the mullion is oak, the light is the same width, the leaded panel is the same, and the label is a moulded timber head. `timber-panel` holds this node's wall and this pack its openings, and the two meet at a real constraint the pack should be read with -- a framed wall is 150 mm thick against a rubble wall's 500-700, so there is no deep reveal here and no window seat, and the openings sit almost flush. Everything the pack says about drainage and the reveal applies with less depth to work with.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -35531,6 +35591,12 @@
           "role": "room",
           "note": "Judgment binding, the weakest room fit in this whole batch and offered as such. Not in room-harmonic's own applies_to. This style's own text states plainly that 'the plan is still medieval -- a sequence of rooms without a corridor,' which argues against a harmonic-mean room system as much as for one. It is bound anyway, narrowly, for the exceptional Italianate-planned examples the style's own text names -- Chambord's centralised Greek-cross donjon and Ancy-le-Franc under Serlio's own hand, 'the moment Italian regularity briefly overrides French verticality' -- and should not be taken as describing the type's norm.",
           "precedence": 2
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "The croisee at its most formal: 'a large opening quartered by a stone mullion and transom, in light-coloured limestone or tufa against a plainer wall', at approximately 1:2 overall with four lights of roughly 2:3 each. Note that this node's window is TALL overall where the English band is wide -- 1:2 against 2:1 to 4:1 -- which is the one place the pack's overall-proportion rule does not describe a bound node, and the reason is that a croisee is a single quartered opening rather than a band of lights. Read the light rules and the transom rule here and take the overall proportion from this record instead.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -39589,6 +39655,12 @@
           "role": "optional",
           "note": "Optional, and narrowly. The manoir is a stone building whose framed work is confined to upper storeys, gables and outbuildings, and `stone-course` holds the walling. Bind the panel rules where the frame appears and leave the rest; nothing here should be read as asserting that this is a timber-framed type, because it is not.",
           "precedence": 3
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "The croisee, and the node that states the transom rule most precisely -- twice. 'Croisee opening roughly 2:3, transom at about two-thirds of opening height', and separately 'cross-mullioned windows with the transom well above centre, roughly two-thirds up the opening'. The pack's transom rule rests on this record and on its Renaissance sibling, and it is worth noticing that the corpus states this rule more exactly in French than in English: the croisee and the English mullion-and-transom window are the same device under two names, and the French records give the position and the English ones give the count.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -42753,6 +42825,12 @@
           "role": "room",
           "note": "Judgment binding (not in applies_to). Scoped narrowly to the subsidiary chambers off the state apartments, not to the great chamber, long gallery or hall — those are governed by this style's own figured ratios (storey heights increasing upward, gallery 1:6 to 1:8) and are far outside the pack's ordinary-room scale. The chamber-and-service-room band the pack records (9-14 ft) is a reasonable approximation for the smaller private rooms this style's own text notes were multiplying by the 1590s.",
           "precedence": 2
+        },
+        {
+          "pack": "opening-mullioned",
+          "role": "opening",
+          "note": "The extreme end of the pack's glazing band and the reason that rule is a judgment slot: 'glazed to solid ratio on a principal elevation 45-60 percent, and higher at Hardwick', with 'more window than wall on a principal elevation' given as the single quickest identification of the style. At that ratio the mullions have stopped being window frames and become the building's structure, which is the pack's first and blocking conflict -- Hardwick is a structural stunt as much as a compositional one. Light at 400-550 mm and transom divisions giving panels of 1:1.2 to 1:1.5.",
+          "precedence": 3
         }
       ],
       "_cascade": [
