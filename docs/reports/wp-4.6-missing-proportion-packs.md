@@ -1283,6 +1283,103 @@ before it.
 **Measured movement: nodes with no facade-role pack 53 → 51.** `confidence: high`, the second pack in
 the package to claim it.
 
+### `proportions/modules/corbel-course.json` — the list named one instance of a class, again
+
+**Three records wrote this gap down**, in three traditions. `styles/mudejar.json`'s `facade-arcade`
+binding note: "what neither pack carries is the thing this node is most distinctive for — the
+whole-brick corbelling and offsetting that WP-4.1 list[ed]". `stone-course`'s own notes record that
+it *declined* the Scottish crow-step and bartizan as belonging to "a gable and turret geometry that
+WP-4.1 lists as entirely missing", and quoted the numbers into its notes so they would not be lost —
+this is where they were going. And `styles/queen-anne-patterned-masonry.json`'s constraint note says
+its corbelled cap's "3–6 in projection" has "no matching vocabulary variable… and stays prose."
+
+WP-4.1 asked for "a Mudejar brick corbelling module" at 7 nodes. Measured, the device is in **four
+unrelated traditions with figures**:
+
+| tradition | what is corbelled | the record's figures |
+|---|---|---|
+| Mudejar / Moorish Andalusian | ornamental bands | course 60–70 mm, bands 3–9 courses, whole units only |
+| Scottish Baronial | a bartizan | 1.2–2.0 m diameter, corbelled out 450–750 mm, conical roof 55–65° |
+| Queen Anne patterned masonry | a chimney cap | course 2.5–3 in, cap projecting 3–6 in |
+| Provençal *génoise* / Tuscan *gronda* | the eave | 300–600 mm on two to four tile courses |
+
+They share no vocabulary, no period and no country, and they are all the same move — because **a
+masonry wall has exactly one way to get an overhang, which is to step its courses out.**
+
+#### It is `jetty-overhang`'s sibling, and the pair is the point
+
+A timber wall gets its overhang by cantilevering a joist, and the limit is a multiple of the joist's
+depth: 1.0–2.2, with three different failures behind the three multiples. A masonry wall gets its
+overhang by stepping a course, and the limit is a multiple of the course's depth: **0.4–1.2.** Same
+problem, two materials, two packs — and the same shape of reconstruction in both, since no record in
+either family states the per-unit multiple. It has to be recovered by taking each record's total and
+its own count and dividing.
+
+Three of the four agree. The outlier is the Mediterranean tile eave at two to four course depths,
+and it is not a contradiction: **a tile corbel is limited by the unit's length, not its bed depth.**
+A canal tile is a long thin unit laid flat and lapped, so what resists the overturning is its tail
+under the tile above rather than the friction of a short deep unit bedded in mortar.
+`jetty-overhang` found the same class of explanation for its own outlier one pack earlier — which is
+now twice that a reconstruction of this shape has produced one anomaly with a material reason behind
+it rather than a bad record.
+
+The step ratio is marked `judgment: true` and its `authority_note` shows the division for all four
+traditions, including which course counts had to be **read** rather than quoted. Three of the four
+did.
+
+#### The module is `brick-course`'s part, exactly
+
+That pack's module is four courses on the mason's gauge rod, 11 in in 4 parts of 2.75. This pack's
+module is one of those parts. They interlock rather than compete: `brick-course` works in gauge-rod
+lengths and answers where an opening's head lands; this works in single courses and answers what
+happens when a course steps past the one below. A pack should be dimensioned in the unit its own
+rules are stated in, and every record here states corbelling in courses.
+
+#### One rule is arithmetic, and one is a social fact
+
+`ornament_vocabulary`/`dogtooth_projection` is **computed, not chosen**: a rectangular unit turned
+45° in plan projects (√2−1)/2 of its width past the face — 0.2071, which on a 140 mm ladrillo is
+29 mm. A designer cannot adjust it without changing the brick, which is precisely the property
+`styles/mudejar.json` describes when it says the character "depends on the ornament being an
+arrangement of a standard unit." It is stated as a rule because it is the dimension a drawing most
+often gets wrong: a dogtooth drawn at an arbitrary projection cannot be built from the brick it is
+drawn in.
+
+And `cornice`/`corbel_courses` carries the only quantity in this library stated as a **declaration
+of wealth**. `styles/french-provincial-farmhouse.json` on the génoise: "the number of courses was,
+quite literally, a statement of the owner's standing." Not structure, not material, not optics. It
+is kept in that form because a compiler asked for a modest *mas* and given a four-course génoise has
+said something about the client that nobody intended.
+
+#### A finding from the last pack turns out to be general
+
+`facade-portada` found nine Spanish records saying that ornament works by being **bounded**, and
+read it as an Iberian characteristic. Three of this pack's six bound records say it too, with
+nothing in common: Mudejar bands against plain brick; Queen Anne panels at "not more than 25 percent
+of any elevation… concentrated in frieze, spandrel, and gable positions"; Scottish Baronial ornament
+"confined to the wall head — the lower two storeys must remain plain walling."
+
+Four traditions, no shared vocabulary. **That looks like a general law of this corpus rather than a
+regional habit**, and it is now stated in two packs. Worth someone testing properly against the
+whole style graph rather than against the twelve nodes that happened to be in front of me.
+
+#### Refusals: a homonym, and a figure that would have had to be invented
+
+`pueblo-revival` and `new-mexico-adobe` use the word **corbel** for something else entirely — the
+*zapata*, a carved wooden bracket under a portal beam, 30–42 in long. A bracket, not a stepped
+course. It would have been caught by any keyword sweep, and `pueblo-revival` even gives figures, so
+a keyword-driven binding would have taken them. That is **the fifth time in this work package that a
+keyword measurement over-counted its own work list**, and the first time by *ambiguity* rather than
+by breadth.
+
+`chateauesque` has corbelled turrets and "massive corbelled chimneys treated as compositional
+elements" and gives **no figure for either**. It is left unbound rather than given the pack's
+defaults, because the Scottish bartizan's 450–750 mm is a Scottish figure and lending it to a
+French-derived turret would be inventing a measurement.
+
+**Measured movement:** `mudejar` and `moorish-andalusian` — described in their own binding notes as
+"the two thinnest-bound nodes" — go from two packs to three.
+
 ## What is NOT done, with the measurement
 
 **REVISED 25 Aug 2026, after seven tranches.** The list this paragraph originally carried has been
@@ -1290,8 +1387,6 @@ overtaken: the octagon module, the portada panel, the four-centred Tudor arch an
 leaded-casement system are all built, and the last two turned out to be one pack. What genuinely
 remains, with each item's measured leverage:
 
-- a **Mudejar brick corbelling module** (7 nodes, 7 thinly bound) — course-plus-joint at 60–70 mm
-  and ornamental bands 3–9 courses deep.
 - a **medieval/pre-Palladian English facade system** — new only in that two existing list items turn
   out to be one pack, seen from two sides.
 
@@ -1348,7 +1443,9 @@ them raising OQ 49. Struck off by the seventh: the **portada/retablo ornament pa
 list scoped at 8 nodes and which binds 8, with `mission-revival` refused and OQ 49 earning its
 second independent instance. Struck off by the eighth: the **peripteral/arcuated Greek-Roman
 system**, which the list scoped at 3 nodes and which binds 9 — including the two antique sources of
-the entire classical corpus, neither of which had a facade-role pack.
+the entire classical corpus, neither of which had a facade-role pack. Struck off by the ninth: the
+**Mudejar brick corbelling module**, which turned out to be four traditions rather than one and
+binds 6, with three nodes refused — two of them for a homonym.
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -1361,7 +1458,7 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Later tranches: 23 checks green. **55 packs**, 0 errors from `check_orders.py`,
+Later tranches: 23 checks green. **56 packs**, 0 errors from `check_orders.py`,
 `check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the thirteen new
 packs bind 121 nodes but every one of them was already bound, so the count does not move and should
 not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
@@ -1370,7 +1467,7 @@ a threshold system seven nodes had nothing for, a walling system twelve nodes ha
 had nothing for -- of which only the last moves a role count, facade 67 to 61). A test pins that claim from the other direction: every node these
 packs bind already had a binding, so none of them can have been used to paper over an unbound node.
 Nodes carrying two packs or fewer: 36 → 12 (measured, not estimated — eight of the twelve nodes `stone-course` binds were at two or fewer, and four already had three or more).
-`tests/test_wp46_packs.py` is now **221 tests**. The pinned pack count in
+`tests/test_wp46_packs.py` is now **233 tests**. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

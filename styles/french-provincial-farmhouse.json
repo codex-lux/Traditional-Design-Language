@@ -252,6 +252,12 @@
       "role": "massing",
       "note": "Judgment bind: this node is not listed in the pack's applies_to, and it covers several regional constructions of which only the Bressan and Alsatian variants are genuinely timber-framed. Bound narrowly for those: this node's own structural bay (4.5-5.5 m / 15-18 ft, fixed by a floor beam or purlin span between cross-walls) sits inside the pack's documented 16-20 ft bay band almost exactly, and the pack's wing_strategy rule (an ell narrower and lower than the main frame) matches the additive growth by bays and ells described here. Does not apply to the Provencal or Breton stone variants, which have no frame.",
       "precedence": 2
+    },
+    {
+      "pack": "corbel-course",
+      "role": "secondary",
+      "note": "The genoise, and the twin of the Tuscan gronda -- neither record mentions the other and both describe two to four courses of round tile corbelled out under the eave. This node supplies the clause that governs the construction: 'with no fascia, gutter or soffit board.' The corbel IS the eave detail, so a modern gutter bolted under it catches nothing, destroys the profile and leaves the wall a wet strip it did not have. And it supplies the only rule in this library stated as a declaration of wealth rather than as a consequence of structure or optics: 'the number of courses was, quite literally, a statement of the owner's standing.'",
+      "precedence": 3
     }
   ]
 }

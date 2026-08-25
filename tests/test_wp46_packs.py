@@ -2484,3 +2484,144 @@ def test_egyptian_revival_stays_unbound_and_it_is_oq_49_for_the_third_time():
     # and the overlap the pack claims is real: Archaic Doric is squatter than the "squattest revival"
     assert "Archaic Paestum ~4.3" in json.dumps(node("greek-classical"))
     assert 4.3 < 4.5
+
+
+# --- corbel-course: how a masonry wall gets an overhang ---------------------------------------
+
+
+def test_three_records_wrote_this_gap_down_and_one_kept_the_figures_for_it():
+    """`mudejar`'s own binding note, `queen-anne-patterned-masonry`'s constraint note, and
+    `stone-course`, which declined the Scottish bartizan and quoted its numbers into its own notes
+    so they would not be lost."""
+    assert "whole-brick corbelling and offsetting" in \
+        " ".join(e.get("note", "") for e in node("mudejar")["proportion_packs"])
+    assert "no chimney-cap-projection concept" in json.dumps(node("queen-anne-patterned-masonry"))
+    assert "entirely missing" in pack("stone-course")["notes"]
+    for nid in ("mudejar", "queen-anne-patterned-masonry", "scottish-baronial"):
+        assert any(e["pack"] == "corbel-course" for e in node(nid)["proportion_packs"]), nid
+
+
+def test_the_list_named_one_instance_of_a_class_again():
+    """WP-4.1 asked for 'a Mudejar brick corbelling module'. Measured, the device is in four
+    unrelated traditions with figures -- Spanish brick, Scottish stone, Anglo-American moulded
+    brick, and Mediterranean tile -- because a masonry wall has one way to get an overhang."""
+    p = pack("corbel-course")
+    assert set(p["applies_to"]) == {"mudejar", "moorish-andalusian", "scottish-baronial",
+                                    "queen-anne-patterned-masonry", "tuscan-vernacular",
+                                    "french-provincial-farmhouse"}
+    assert "THE LIST NAMED ONE INSTANCE OF A CLASS" in p["notes"]
+
+
+def test_this_packs_module_is_brick_courses_part_exactly():
+    """`brick-course`'s module is four courses on the mason's gauge rod, 11 in in 4 parts. This
+    pack's module is one of those parts. The two interlock rather than compete."""
+    mine = pack("corbel-course")["module"]
+    theirs = pack("brick-course")["module"]
+    assert abs(mine["default_size_in"] - theirs["default_size_in"] / theirs["parts"]) < 1e-9
+    assert mine["default_size_in"] / mine["parts"] == 0.25
+
+
+def test_it_is_jetty_overhangs_sibling_and_the_reconstruction_has_the_same_shape():
+    """A timber wall cantilevers a joist; a masonry wall steps a course. Both packs recover a
+    per-unit multiple by dividing each record's total by its own count, and both find three
+    traditions agreeing and one outlier explained by what is actually being resisted."""
+    mine = next(r for r in pack("corbel-course")["derived_rules"]
+                if r["dimension"] == "step_ratio")
+    theirs = next(r for r in pack("jetty-overhang")["derived_rules"]
+                  if r["dimension"] == "joist_multiple")
+    assert mine["judgment"] is True and theirs["judgment"] is True
+    assert mine["range"] == [0.4, 1.2] and theirs["range"] == [1.0, 2.2]
+    assert "A TILE CORBEL IS NOT LIMITED BY ITS BED DEPTH BUT BY ITS LENGTH" in mine["note"]
+    assert "`jetty-overhang`'S SIBLING" in pack("corbel-course")["notes"]
+
+
+def test_the_step_ratio_is_recomputed_from_each_records_own_figures():
+    """Queen Anne 3-6 in over 2-3 courses of 2.5-3 in; Tuscan 300-600 mm over 2-3 tile courses. The
+    first lands in the band and the second does not, which is the finding."""
+    r = next(x for x in pack("corbel-course")["derived_rules"] if x["dimension"] == "step_ratio")
+    lo, hi = r["range"]
+    # Queen Anne: the record's own two figures
+    assert "brick course height 2.5 to 3 in" in json.dumps(node("queen-anne-patterned-masonry"))
+    assert "projecting 3 to 6 in" in json.dumps(node("queen-anne-patterned-masonry"))
+    qa_lo, qa_hi = (3.0 / 3) / 3.0, (6.0 / 2) / 2.5          # 0.33 .. 1.2
+    assert qa_hi <= hi + 1e-9
+    # Tuscan: 300-600 mm over 2-3 courses of a ~40 mm canal tile -- far outside
+    assert "300-600 mm" in json.dumps(node("tuscan-vernacular"))
+    assert (300.0 / 3) / 40.0 > hi
+
+
+def test_the_dogtooth_projection_is_arithmetic_and_not_a_choice():
+    """A unit turned 45 degrees in plan projects (root2 - 1) / 2 of its width -- 0.2071. On a 140 mm
+    ladrillo that is 29 mm and a designer cannot adjust it without changing the brick."""
+    import math
+    k = (math.sqrt(2) - 1) / 2
+    assert abs(k - 0.2071) < 0.001
+    r = next(x for x in pack("corbel-course")["derived_rules"]
+             if x["dimension"] == "dogtooth_projection")
+    assert "0.2071" in r["authority_note"]
+    assert abs(140 * k - 29) < 1.0                            # the Mudejar ladrillo, in mm
+    p = pack("corbel-course")
+    part = p["module"]["default_size_in"] / p["module"]["parts"]
+    assert r["range"][0] <= eval(r["expression"], {"part": part}) <= r["range"][1]
+
+
+def test_two_traditions_forbid_the_moulded_unit_and_one_is_defined_by_it():
+    """A switch, not a scale, and the pack does not reconcile them. A Mudejar band built from
+    moulded specials has lost the argument it exists to make."""
+    r = next(x for x in pack("corbel-course")["derived_rules"]
+             if x["dimension"] == "moulded_units")
+    assert r["range"] == [0.0, 1.0] and r["judgment"] is True
+    assert "Carved, moulded or cast brick profiles are prohibited" in json.dumps(node("mudejar"))
+    assert "moulded brick panels set into a brick field" in \
+        json.dumps(node("queen-anne-patterned-masonry"))
+
+
+def test_one_rule_is_a_social_fact_and_is_kept_as_one():
+    """The genoise's course count. The only quantity in this library stated as a declaration of
+    wealth rather than as a consequence of structure, material or optics."""
+    r = next(x for x in pack("corbel-course")["derived_rules"]
+             if x["dimension"] == "corbel_courses")
+    assert "statement of the owner's standing" in r["note"]
+    assert "a statement of the owner's standing" in json.dumps(node("french-provincial-farmhouse"))
+    assert r["range"] == [2.0, 5.0]
+
+
+def test_the_rationing_finding_is_now_four_traditions_and_looks_general():
+    """`facade-portada` found nine Spanish records saying ornament works by being bounded and read
+    it as Iberian. Mudejar, Queen Anne and Scottish Baronial say it too, with nothing in common."""
+    n = pack("corbel-course")["notes"]
+    assert "It is not: four traditions with nothing in common" in n
+    assert "not more than 25 percent of any elevation" in json.dumps(node("queen-anne-patterned-masonry"))
+    assert "The lower two storeys must remain plain walling" in json.dumps(node("scottish-baronial"))
+    assert any(r["dimension"] == "wall_head_share" for r in pack("corbel-course")["derived_rules"])
+    assert any(r["dimension"] == "event_count" for r in pack("facade-portada")["derived_rules"])
+
+
+def test_the_word_corbel_names_two_things_and_the_pack_owns_one():
+    """`pueblo-revival` and `new-mexico-adobe` corbels are zapatas -- carved wooden brackets under a
+    portal beam, 30-42 in long. A bracket, not a stepped course. The fifth time in this package a
+    keyword measurement over-counted, and the first by ambiguity rather than by breadth."""
+    n = pack("corbel-course")["notes"]
+    assert "It is a homonym" in n
+    for nid in ("pueblo-revival", "new-mexico-adobe", "chateauesque"):
+        assert not any(e["pack"] == "corbel-course"
+                       for e in node(nid).get("proportion_packs", [])), nid
+    assert "corbels 30-42 in. long" in json.dumps(node("pueblo-revival"))
+    assert "corbelled turrets" in json.dumps(node("chateauesque"))
+
+
+def test_chateauesque_is_refused_because_lending_it_a_scottish_figure_would_invent_one():
+    """It has corbelled turrets and massive corbelled chimneys and gives no dimension for either."""
+    assert "lending it to a French-derived turret would be inventing a measurement" in \
+        pack("corbel-course")["notes"]
+    blob = json.dumps(node("chateauesque"))
+    import re
+    assert not re.search(r"corbel[^\".]{0,80}\d+\s*(mm|in\b|ft)", blob)
+
+
+def test_the_two_thinnest_bound_nodes_gain_a_pack():
+    """`mudejar` and `moorish-andalusian` carried two apiece and their own notes named this gap."""
+    for nid in ("mudejar", "moorish-andalusian"):
+        entries = node(nid)["proportion_packs"]
+        assert len(entries) == 3, nid
+        assert {e["pack"] for e in entries} == {"moorish-arch", "corbel-course", "facade-arcade"}, nid

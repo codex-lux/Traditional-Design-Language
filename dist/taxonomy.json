@@ -8412,16 +8412,22 @@
           "precedence": 2
         },
         {
+          "pack": "corbel-course",
+          "role": "secondary",
+          "note": "The node whose own constraint note says this figure had nowhere to live: the corbelled cap's '3-6 in projection' has 'no matching vocabulary variable (no chimney-cap-projection concept) and stays prose'. It has one now. This node also sets the pack's module -- 'brick course height 2.5 to 3 in' -- and supplies the second rationing rule, ornamental panels at not more than 25 per cent of any elevation, concentrated in frieze, spandrel and gable. It is the one bound node where the pack's `moulded_units` switch reads ONE rather than zero: moulded brick and terra cotta are this style's 'clearest single tell' and are exactly what Mudejar forbids, which is why the pack states that as a switch and does not reconcile it. `brick-course` keeps the gauge rod and the openings.",
+          "precedence": 3
+        },
+        {
           "pack": "sash-light",
           "role": "opening",
           "note": "JUDGMENT BINDING. Not in this pack's applies_to, but the node states an opening area of 35-50 percent of the elevation with deep reveals — real double-hung sash in real glass, on the same 1878-1908 timeline as the wooden Queen Anne subtypes, so the same late-cylinder/early-plate glass reasoning applies. The head-height rule is superseded here by brick-course's own window_head_masonry, which is why this binding is opening/secondary rather than primary.",
-          "precedence": 3
+          "precedence": 4
         },
         {
           "pack": "room-vernacular",
           "role": "room",
           "note": "JUDGMENT BINDING, for the reasoning given on the parent queen-anne-american node. A load-bearing brick townhouse still faces a joist-span limit on its floor framing, and this subtype is explicitly the urban, narrow-lot version of the style (townhouse-row is a common massing affinity), which if anything tightens room breadth toward this pack's measured band rather than loosening it.",
-          "precedence": 4
+          "precedence": 5
         }
       ],
       "_cascade": [
@@ -18232,12 +18238,6 @@
       ],
       "proportion_packs": [
         {
-          "pack": "facade-arcade",
-          "role": "secondary",
-          "note": "Secondary, behind `stone-course`. The loggia figure this record carries -- 'two to four arches with pier width 0.4-0.6 of the clear opening' -- was quoted in `stone-course`'s notes precisely so it would not be lost when that pack declined to carry it, and this is the pack it was being kept for. Note the pier ratio here is the widest in the corpus and the record says why by implication: this is rubble and mixed stone-and-brick rather than dressed masonry, and a rubble pier has to be fatter to do the same work.",
-          "precedence": 2
-        },
-        {
           "pack": "stone-course",
           "role": "primary",
           "note": "Primary, and the node that supplies the pack's diminution rule outright: 'wall thickness 500-700 mm at ground, reducing to 400-500 mm above'. The reduction is taken on the inside, so the outer face stays in one plane and the ledge carries the upper floor's joists -- which is why in these buildings the floor structure and the wall's thinning are one decision. This record also gives the aperture band at 5-10 per cent, the reveals at 400-600 mm, and the window at 1:1.3 to 1:1.8. Two figures in it are deliberately NOT in the pack: the genoise eave of two to four corbelled tile courses, which is a cornice in tile and belongs with `brick-course`'s family rather than with dressed stone; and the loggia at 'pier width 0.4-0.6 of the clear opening', which is an arcade rule and a third missing pack -- quoted in this pack's notes so it is not lost.",
@@ -18249,6 +18249,18 @@
           "authority": "room-vernacular",
           "note": "The node's own proportional_system could almost be this pack's abstract restated for Tuscany: 'None imposed. The generator is the clear span of a locally available chestnut or oak beam, which fixes the room width... Growth is by repetition of the cell, not by subdivision of a whole.' That is the exact intersection of span, hearth and daylight room-vernacular is built from, and tuscan-vernacular is named directly in its applies_to. No other pack in the library applies: massing_affinities explicitly marks massed-picturesque 'forbidden' ('the irregularity is a byproduct of accretion, never a composition'), the lineage note states the order system 'is not inherited at all', and the facade has, in the node's own words, 'no composed facade at all' - so no facade or order pack is bound.",
           "precedence": 1
+        },
+        {
+          "pack": "corbel-course",
+          "role": "secondary",
+          "note": "The gronda: 'eave overhang 300-600 mm on two or three corbelled courses of tile and brick'. It is the pack's outlier and the reason the step ratio is marked judgment -- at two to four times its own course depth a tile corbel is well outside the band the three masonry traditions share, and it is not a contradiction but a material fact: a canal tile is a long thin unit laid flat and lapped, so what resists the overturning is its LENGTH under the tile above and not the friction of a short deep unit. `stone-course` keeps the walling, including the diminution rule this node supplies it with.",
+          "precedence": 2
+        },
+        {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "Secondary, behind `stone-course`. The loggia figure this record carries -- 'two to four arches with pier width 0.4-0.6 of the clear opening' -- was quoted in `stone-course`'s notes precisely so it would not be lost when that pack declined to carry it, and this is the pack it was being kept for. Note the pier ratio here is the widest in the corpus and the record says why by implication: this is rubble and mixed stone-and-brick rather than dressed masonry, and a rubble pier has to be fatter to do the same work.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -21618,17 +21630,23 @@
       ],
       "proportion_packs": [
         {
-          "pack": "facade-arcade",
-          "role": "secondary",
-          "note": "One of the two thinnest-bound nodes in the corpus, carrying only `moorish-arch` until now. This record says the arcade is the point rather than the arch: the horseshoe and later cusped arches spring 'on slender columns and carried in ARCADES rather than as isolated openings' -- so a pack that gives the arch and not the rhythm was describing half of it. The column slenderness here, 8-12 diameters, is the top of this pack's band and `moorish-arch` explains why in its own notes: the shafts are spolia of whatever length came to hand and the impost block takes up the difference.",
-          "precedence": 2
-        },
-        {
           "pack": "moorish-arch",
           "role": "primary",
           "precedence": 1,
           "authority": "moorish-arch",
           "note": "The node's own governing_logic reads 'no order and no absolute module... geometric generation from a square, compass-and-straightedge', which is why WP-4.1 left it with NO BINDING AT ALL rather than force a Vignola order onto it -- and why this pack exists. moorish-arch is that logic encoded: the module is the generating square's side, there is no column block because the shafts are spolia brought to a common springing by the impost block, and the arch is dimensioned by its return below the springing rather than by a diameter. This is the node the pack was written for."
+        },
+        {
+          "pack": "corbel-course",
+          "role": "secondary",
+          "note": "The parent craft, bound for the same brick and the same bands under different patronage -- the two nodes' own records say the buildings can be technically indistinguishable and that the difference is who paid. Its walls run 600-900 mm against Mudejar's 500-700, and its ornament is stratified by height and material (tile dado, carved plaster above, timber ceiling on top), which this pack does NOT carry: `moorish-arch` recorded that stratification as absent for want of defensible figures and it stays absent. What this pack adds here is the brick band and the corbelled head, which the arch pack does not reach. The corpus's other thinnest-bound node.",
+          "precedence": 2
+        },
+        {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "One of the two thinnest-bound nodes in the corpus, carrying only `moorish-arch` until now. This record says the arcade is the point rather than the arch: the horseshoe and later cusped arches spring 'on slender columns and carried in ARCADES rather than as isolated openings' -- so a pack that gives the arch and not the rhythm was describing half of it. The column slenderness here, 8-12 diameters, is the top of this pack's band and `moorish-arch` explains why in its own notes: the shafts are spolia of whatever length came to hand and the impost block takes up the difference.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -24833,6 +24851,12 @@
           "role": "facade",
           "note": "The node `stone-course` was keeping the figures for. That pack declined the crow-step and the bartizan as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers into its own notes so they would not be lost; this is where they were being kept. Crow-step tread 300-450 mm and rise 200-300 mm, cut in squared stone, with 'no barge board' -- the crow-step IS the verge treatment and adding a barge is two solutions to one problem. What this pack still does not carry is the bartizan, at 1.2-2.0 m diameter corbelled 450-750 mm out on a 55-65 degree conical roof: that is a turret and not a gable, and it remains on the list.",
           "precedence": 3
+        },
+        {
+          "pack": "corbel-course",
+          "role": "secondary",
+          "note": "The largest corbel in the corpus, and the figures `stone-course` deliberately kept for a pack that did not exist -- its notes record that it declined the crow-step and the bartizan as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers so they would not be lost. This is where they were going. Bartizan diameter 1.2-2.0 m corbelled 450-750 mm from the wall face on a conical roof of 55-65 degrees, and the hard rule that matters more than any of them: the corbelling must be VISIBLE, because a turret 'sitting on a bracket, a cantilevered slab, or nothing at all is the commonest and most immediately visible failure of the style.' It also supplies the wall-head rationing rule. `facade-gable` keeps the crow-step, which is a different device.",
+          "precedence": 4
         }
       ],
       "_cascade": [
@@ -25464,17 +25488,23 @@
       ],
       "proportion_packs": [
         {
-          "pack": "facade-arcade",
-          "role": "secondary",
-          "note": "The other of the two thinnest-bound nodes, and bound here for the same reason as its neighbour: `moorish-arch` gives it an arch and this pack gives the arcade the arch sits in. What neither pack carries is the thing this node is most distinctive for -- the whole-brick corbelling and offsetting that WP-4.1 lists as its own missing module, with a coursing dimension unlike `brick-course`'s American logic. That item is untouched and stays on the list.",
-          "precedence": 2
-        },
-        {
           "pack": "moorish-arch",
           "role": "primary",
           "precedence": 1,
           "authority": "moorish-arch",
           "note": "Left unbound by WP-4.1 for the same reason and with a second one: 'almost entirely ornament and structural technique rather than room- or facade-level proportion'. This pack reaches the arch-and-impost layer, which is the half of that Mudejar shares with its Andalusian parent -- the horseshoe and polylobed arch, the impost, the alfiz. It does NOT reach the whole-brick corbelling or the par y nudillo roof carpentry, which WP-4.1 named as a separate gap and this pack's own notes say it does not fill."
+        },
+        {
+          "pack": "corbel-course",
+          "role": "secondary",
+          "note": "THE PACK THIS NODE'S OWN BINDING NOTE ASKED FOR. Its `facade-arcade` entry says 'what neither pack carries is the thing this node is most distinctive for -- the whole-brick corbelling and offsetting that WP-4.1 list[ed]'. It supplies the pack's ornament half entire: the 60-70 mm course, the 3-9 course band, the dogtooth and dentil and interlace made by turning and offsetting whole units, and the hard rule that carved, moulded or cast profiles are prohibited because 'the entire visual character depends on the ornament being an arrangement of a standard unit'. It also states the quantisation the pack's construction-tolerance conflict is about: 'nothing can be resized without redrawing.' One of the corpus's two thinnest-bound nodes, now at three.",
+          "precedence": 2
+        },
+        {
+          "pack": "facade-arcade",
+          "role": "secondary",
+          "note": "The other of the two thinnest-bound nodes, and bound here for the same reason as its neighbour: `moorish-arch` gives it an arch and this pack gives the arcade the arch sits in. What neither pack carries is the thing this node is most distinctive for -- the whole-brick corbelling and offsetting that WP-4.1 lists as its own missing module, with a coursing dimension unlike `brick-course`'s American logic. That item is untouched and stays on the list.",
+          "precedence": 3
         }
       ],
       "_cascade": [
@@ -25762,6 +25792,12 @@
           "role": "massing",
           "note": "Judgment bind: this node is not listed in the pack's applies_to, and it covers several regional constructions of which only the Bressan and Alsatian variants are genuinely timber-framed. Bound narrowly for those: this node's own structural bay (4.5-5.5 m / 15-18 ft, fixed by a floor beam or purlin span between cross-walls) sits inside the pack's documented 16-20 ft bay band almost exactly, and the pack's wing_strategy rule (an ell narrower and lower than the main frame) matches the additive growth by bays and ells described here. Does not apply to the Provencal or Breton stone variants, which have no frame.",
           "precedence": 2
+        },
+        {
+          "pack": "corbel-course",
+          "role": "secondary",
+          "note": "The genoise, and the twin of the Tuscan gronda -- neither record mentions the other and both describe two to four courses of round tile corbelled out under the eave. This node supplies the clause that governs the construction: 'with no fascia, gutter or soffit board.' The corbel IS the eave detail, so a modern gutter bolted under it catches nothing, destroys the profile and leaves the wall a wet strip it did not have. And it supplies the only rule in this library stated as a declaration of wealth rather than as a consequence of structure or optics: 'the number of courses was, quite literally, a statement of the owner's standing.'",
+          "precedence": 3
         }
       ],
       "_cascade": [

@@ -64,11 +64,11 @@ Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3 and WP-4.5. Phase 5 
 
 164 nodes · 96 slots (ontology 0.6.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **55 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
+style** · **56 packs, 131 of 132 nodes bound** — but 50 nodes still have no opening-role pack
 and 51 no facade-role pack, which is where WP-4.6's remaining leverage is · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 10.4% editorial with neither source nor note — that is OQ 18) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 690 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **23 checks, 702 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is the
@@ -79,17 +79,16 @@ done are missing packs, which are work rather than rulings, and they are in the 
 in `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 **Next, in order:**
-1. **WP-4.6** — missing proportion packs. **Nineteen of thirty-odd done** (`moorish-arch`,
+1. **WP-4.6** — missing proportion packs. **Twenty of thirty-odd done** (`moorish-arch`,
    `greek-doric`, `adobe-module`, `opening-pointed`, `opening-craftsman`, `trim-prairie`,
    `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade`, `timber-panel`,
-   `opening-mullioned`, `facade-gable`, `trim-sawn`, `octagon-geometry`, `facade-pavilion`, `jetty-overhang`, `facade-portada`, `facade-peristyle`),
+   `opening-mullioned`, `facade-gable`, `trim-sawn`, `octagon-geometry`, `facade-pavilion`, `jetty-overhang`, `facade-portada`, `facade-peristyle`, `corbel-course`),
    chosen by measuring leverage rather than by list order; the measurement and what remains are in
    `docs/reports/wp-4.6-missing-proportion-packs.md`. Several list items collapsed into each other
    once measured, which is the tranches' recurring finding: the four-centred Tudor arch and the
    leaded casement turned out to be one window (`opening-mullioned`), four ornament items turned
    out to be one machine (`trim-sawn`), and the French travée facade and the mansard/dormer module
-   turned out to be one system (`facade-pavilion`). Remaining by the same measurement: **Mudejar brick corbelling** and a
-   **medieval/pre-Palladian English facade system**. Items the report
+   turned out to be one system (`facade-pavilion`). One item remains: a **medieval/pre-Palladian English facade system**. Items the report
    now names as NOT SUPPORTABLE from this corpus, with the reason stated rather than left silent:
    the Baroque curved/undulating wall (no figure in any of 22 matching nodes), strapwork and
    linenfold, the Romanesque foliate capital, Prairie rectilinear art glass, Alpine carved timber.
