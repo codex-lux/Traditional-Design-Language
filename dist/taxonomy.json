@@ -5126,6 +5126,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "opening-craftsman",
+          "role": "opening",
+          "note": "The catalogue house, and the reason every figure in this pack is so consistent across a continent: the precut package standardised every member length, so a carpenter in Ohio and one in Pasadena built the same window because they were sent the same cut list. This node states the head datum at a single 6 ft 8 in rather than as a band, the ceiling at 8 ft 6 in, and the divided-upper-over-single-lower sash 'throughout' -- all three are the pack's encoded defaults, and they are defaults because this node is where the type was most tightly specified.",
+          "precedence": 0
+        },
+        {
           "pack": "facade-picturesque",
           "role": "facade",
           "note": "Same composer as the parent style, bounded harder here by the lot: this node's own governing_logic states that the body is 'capped at 24 to 28 ft' by the standard 40-50 ft lot, which is a real-world instance of this pack's dominant-mass module (18-22 ft for 'a bungalow or a cottage where the dominant mass is a single gable') at the small end of its documented range.",
@@ -11410,6 +11416,12 @@
       ],
       "proportion_packs": [
         {
+          "pack": "opening-craftsman",
+          "role": "opening",
+          "note": "The node this pack's central assertion is quoted from. Its own governing_logic states the whole system -- 'the porch beam sets a low datum, the aligned window and door heads set a high datum, and the exposed rafters declare the framing bay at 16 or 24 inches on centre' -- and adds the sentence that explains why the pack is written in absolute lengths rather than ratios: 'the system is dimensional rather than ratio-derived... which is why the plan-book trade could transmit it without transmitting any theory.' Bound in the opening role; facade-picturesque stays primary and governs the massing, and the two do not overlap, because this pack says nothing about composition and everything about the two lines it hangs on.",
+          "precedence": 0
+        },
+        {
           "pack": "facade-picturesque",
           "role": "primary",
           "note": "The exterior composer for a style whose own proportional_system is 'two horizontal datums and one structural rhythm' -- porch beam, aligned head height, exposed framing bay -- which is this pack's datum_stack assembly by another name, and whose roof_form rule (the dominant roof must cover at least half the elevation's width, or 'no roof is in charge') is the mechanism behind this node's own hard constraint that the porch roof must be framed under the primary roof rather than applied beneath the eave (c02). Given role 'primary' because, unlike the classical styles in this corpus, Craftsman's module really is compositional -- the low dominant roof, the eave shadow -- rather than a fixed board size; the board size is trim-craftsman's business and belongs to the interior.",
@@ -15855,6 +15867,12 @@
         "magazine-transmitted"
       ],
       "proportion_packs": [
+        {
+          "pack": "opening-craftsman",
+          "role": "opening",
+          "note": "States the system in almost the same words as craftsman -- 'two datums and one structural rhythm' -- and adds the sentence that gives the grouping rule its point: 'the group, not the sash, is the compositional unit.' It also supplies the one qualification the pack quotes verbatim in its porch rule, that the porch is 'deep enough to furnish', which is a functional dimension rather than a compositional one and is the honest reason a porch of this type is seven feet and not five.",
+          "precedence": 0
+        },
         {
           "pack": "trim-craftsman",
           "role": "interior",
@@ -26256,6 +26274,12 @@
         "chicago"
       ],
       "proportion_packs": [
+        {
+          "pack": "opening-craftsman",
+          "role": "opening",
+          "note": "The other half of the pack, and the node that supplies its module from the opposite end. Where craftsman names the framing bay at 16 or 24 in on centre, this record names 'the standard casement width of roughly 2 ft, from which window bands are built in multiples' -- the same 24 inches seen from the opening rather than from the structure, and they coincide because the mullion lands on a stud. Two rules belong to this node alone and the pack says so: the band at 3-8 units rather than Craftsman's 2-3, and the compression-and-release ceiling ratio, which is this idiom's only vertical proportioning rule and which a bungalow should not be given. What this pack does NOT carry for this node is the four continuous datum lines as a facade system -- water table, sill band, lintel band, fascia -- which is a facade-role question; facade-picturesque holds that role here and is a loose fit for a style whose whole argument is continuity rather than incident, and that is worth someone's attention rather than mine in this package.",
+          "precedence": 0
+        },
         {
           "pack": "facade-picturesque",
           "role": "primary",
@@ -41641,6 +41665,12 @@
         "california"
       ],
       "proportion_packs": [
+        {
+          "pack": "opening-craftsman",
+          "role": "opening",
+          "note": "The branch that designs the roof before the plan, which its own record calls out as inverting the usual sequence. Two of the pack's figures sit at the top of their bands here for stated reasons rather than by preference: the eave at 30-48 in, because its depth is set by the shadow wanted on the wall, and the ceiling at 8 ft 6 in to 9 ft 6 in for stack ventilation. Read the eave rule and the daylight rule together on this node -- a 48 in overhang buys glazing that a 24 in one does not, and this is the node where that trade was made deliberately.",
+          "precedence": 0
+        },
         {
           "pack": "facade-picturesque",
           "role": "facade",

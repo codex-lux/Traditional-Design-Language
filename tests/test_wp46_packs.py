@@ -23,6 +23,10 @@ opening system", confirmed by PB-7a and PB-8, with PB-7a recording that `rural-g
 left with NO OPENING-ROLE PACK AT ALL as a direct result. The facade half was measured and found
 already served by facade-picturesque on all four revival nodes; what remains of it is real for
 exactly one node, `english-gothic`, and for a different reason -- see the pack's own notes.
+
+`opening-craftsman` (second tranche) -- the opening half of WP-4.1's "Craftsman opening system and
+Prairie trim family", confirmed by PB-4. The measured gap was SEVEN nodes with no opening-role
+pack, not the five the list estimated; this binds five and refuses two for stated reasons.
 """
 import glob
 import json
@@ -461,3 +465,139 @@ def test_gothic_is_documented_where_the_other_two_are_reconstructed():
     assert pack("opening-pointed")["authority"]["strength"] == "documented"
     assert pack("moorish-arch")["authority"]["strength"] == "reconstructed"
     assert pack("adobe-module")["authority"]["strength"] == "reconstructed"
+
+
+# ----------------------------------------------------------- opening-craftsman
+
+
+CRAFTSMAN_NODES = ("craftsman", "craftsman-bungalow", "california-bungalow",
+                   "prairie-school", "arts-and-crafts-american")
+
+
+@pytest.mark.parametrize("nid", CRAFTSMAN_NODES)
+def test_every_bound_craftsman_node_gets_the_opening_role(nid):
+    b = binding(nid, "opening-craftsman")
+    assert b is not None and b["role"] == "opening", nid
+
+
+def test_the_module_is_the_framing_bay_and_two_nodes_name_it_from_opposite_ends():
+    """The pack's one real idea. `craftsman` names 16 or 24 in on centre from the structure;
+    `prairie-school` names a ~2 ft casement unit from the opening. They coincide because the
+    mullion lands on a stud, which is why a Prairie band of five casements is 10 ft exactly."""
+    m = pack("opening-craftsman")["module"]
+    assert m["default_size_in"] == 24.0
+    assert "framing bay" in m["name"].lower()
+    assert "16 or 24 inches on centre" in json.dumps(node("craftsman"))
+    assert "roughly 2 ft" in json.dumps(node("prairie-school"))
+
+
+def test_the_head_datum_is_an_absolute_length_and_not_a_ratio():
+    """Every other opening pack in the library gives an opening a proportion. This one sets one
+    horizontal line and every opening dies into it, so an opening's height is the datum minus its
+    sill. If this rule ever acquires a ratio, the pack has stopped being what it is."""
+    r = next(x for x in pack("opening-craftsman")["derived_rules"]
+             if x["target_slot"] == "window_grouping_rule" and x["dimension"] == "height")
+    assert r["units"] == "in" and r["range"] == [76.0, 84.0]
+    assert "THE HEAD DATUM" in r["note"]
+
+
+def test_three_style_records_state_the_head_datum_independently():
+    """The pack asserts the datum on the strength of the corpus agreeing with itself, so the
+    agreement is what the test checks -- not the pack's own sentence about it."""
+    for nid in ("craftsman", "craftsman-bungalow", "arts-and-crafts-american"):
+        assert "6 ft 8 in" in json.dumps(node(nid)), nid
+
+
+def test_the_assembly_puts_the_datum_where_the_records_do():
+    """Two inches to the part, forty parts to the datum: 6 ft 8 in. Held by the pack's own
+    invariant and recomputed here from the members rather than read off the invariant's text."""
+    p = pack("opening-craftsman")
+    by = {m["id"]: m["height_parts"] for m in p["assemblies"]["datum_stack"]["members"]}
+    part_in = p["module"]["default_size_in"] / p["module"]["parts"]
+    assert part_in == 2.0
+    datum = (by["wall_below_sill"] + by["sill_band"] + by["light_zone"]) * part_in
+    assert datum == 80.0
+    plate = sum(by.values()) * part_in
+    assert plate == 102.0                                   # 8 ft 6 in, craftsman-bungalow's figure
+
+
+def test_the_porch_and_the_wall_come_to_one_plate_line():
+    """Why a Craftsman porch reads as part of the house rather than attached to it: the two stacks
+    are the same height, so the eave crosses both without a step."""
+    p = pack("opening-craftsman")
+    a = p["assemblies"]
+    assert a["porch_pier"]["height_modules"] == a["datum_stack"]["height_modules"] == 4.25
+
+
+def test_the_pack_records_the_datum_disagreement_instead_of_overruling_a_style_record():
+    """`styles/craftsman.json` calls the porch beam the LOW datum and the heads the high one; a 7 ft
+    clear porch cannot have its beam at 6 ft 8. The invariant asserts only what both accounts agree
+    on -- that there are two lines and they are close -- and says why it declines to pick."""
+    inv = next(i for i in pack("opening-craftsman")["invariants"]
+               if "two lines" in i["statement"])
+    assert "declines to assert which is on top" in inv["note"]
+    assert "low datum" in json.dumps(node("craftsman"))
+
+
+def test_the_single_unit_is_tall_and_the_horizontality_is_in_the_grouping():
+    """The figure most often got backwards. One unit is 2:1 tall; three side by side under one head
+    and one sill make the band. A designer who reaches for a wide window produces a 1950s ranch
+    opening and loses the counter-rhythm."""
+    r = next(x for x in pack("opening-craftsman")["derived_rules"]
+             if x["target_slot"] == "window_proportion")
+    assert float(r["expression"]) >= 1.5
+    assert "TALL AND NARROW" in r["note"] and "grouping" in r["note"].lower()
+
+
+def test_the_two_refusals_are_stated_as_findings():
+    """`mission-revival` shares the interior trim and nothing about its openings. `arts-and-crafts-
+    british` looks like an obvious fit and denies this pack's central assertion in its own words --
+    'there is no repeating bay and no vertical alignment requirement' -- so binding it would have
+    meant asserting an alignment rule against the node's explicit denial of one."""
+    p = pack("opening-craftsman")
+    assert "mission-revival" not in p["applies_to"]
+    assert "arts-and-crafts-british" not in p["applies_to"]
+    assert binding("arts-and-crafts-british", "opening-craftsman") is None
+    assert "no vertical alignment requirement" in json.dumps(node("arts-and-crafts-british"))
+    assert "leaded-casement-and-mullion system of its own" in p["notes"]
+
+
+def test_the_prairie_only_rules_say_they_are_prairie_only():
+    """The band length and the compression-and-release ceiling ratio belong to one branch. A
+    bungalow has one ceiling height throughout and gets its shelter from the eave instead; giving
+    it Prairie's ratio would be the pack inventing a practice for a node that does not have one."""
+    r = next(x for x in pack("opening-craftsman")["derived_rules"]
+             if x["target_slot"] == "ceiling_height_rule" and x["dimension"] == "ratio")
+    assert "Prairie branch alone" in r["note"]
+    assert "should not be given it" in r["note"]
+    assert "compression" in json.dumps(node("prairie-school"))
+
+
+def test_the_rafter_tail_conflict_names_the_choice_rather_than_hiding_it():
+    """A true tail is the rafter run through the wall plane at every bay, so the air barrier is
+    interrupted forty times. Structure or trim is a real decision and the pack refuses to let it be
+    made by default -- including refusing the option of drawing one and building the other."""
+    c = next(x for x in pack("opening-craftsman")["conflicts"] if x["with"] == "energy-code")
+    assert c["severity"] == "blocking"
+    assert "structure or trim" in c["resolution"].lower()
+
+
+def test_the_prairie_trim_family_is_still_on_the_list():
+    """WP-4.1 asked for two things. This is one of them, and saying so is what keeps the other from
+    being quietly absorbed into a paragraph."""
+    n = pack("opening-craftsman")["notes"]
+    assert "THIS IS THE OPENING HALF" in n
+    assert "Prairie trim family is a separate item and remains on the list" in n
+
+
+@pytest.mark.parametrize("pid", ["opening-pointed", "opening-craftsman"])
+def test_neither_new_opening_pack_displaced_a_facade_pack(pid):
+    """Both packs were built as one half of a two-part line item, and in both cases the other half
+    was measured before being built. A node that lost its facade binding to one of these would mean
+    the measurement was wrong."""
+    for nid in pack(pid)["applies_to"]:
+        entries = node(nid)["proportion_packs"]
+        opening = [e for e in entries if e["pack"] == pid]
+        assert len(opening) == 1 and opening[0]["role"] == "opening", nid
+        precs = [e["precedence"] for e in entries]
+        assert len(precs) == len(set(precs)), nid

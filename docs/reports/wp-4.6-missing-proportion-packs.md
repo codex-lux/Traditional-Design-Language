@@ -1,6 +1,6 @@
 # WP-4.6 — the missing proportion packs
 
-*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: four packs of a list of
+*Started 24 Aug 2026, continued 25 Aug. **Partially delivered: five packs of a list of
 thirty-odd**, chosen by measured leverage. What remains is listed at the end with the
 measurement, not left implied.*
 
@@ -204,6 +204,57 @@ centres with two radii, so a single strike ratio cannot express it — which is 
 `tudor-revival` are absent from `applies_to` despite being the obvious neighbours, and it is a real
 missing pack rather than a boundary of convenience.
 
+### `proportions/systems/opening-craftsman.json` — a datum instead of a proportion
+
+WP-4.1 asks for "a Craftsman opening system **and** a Prairie trim family", confirmed by PB-4,
+which recorded the whole cluster as bound with no opening pack available. This is the opening half;
+the trim family stays on the list, because whether Prairie's banded oak and art glass is a distinct
+family or a dialect of Stickley's wants its own pack rather than a paragraph in this one.
+
+**The measured gap was larger than the list said** — seven nodes with no opening-role pack, not
+five. This binds five.
+
+**The pack's central assertion is that there is no proportion.** Every other opening pack in the
+library gives an opening a ratio, a strike, a module of its own. This one sets **one horizontal
+line** at 6 ft 8 in and every window, door, transom and garage opening on the elevation dies into
+it, so an opening's height is not a proportion — it is the datum minus that opening's sill. The
+consequence a brief will fight: a taller window means a *lower sill* and never a higher head, which
+is exactly what these houses do. `styles/craftsman.json` says why the system can be written this
+way at all — "the rules are all absolute lengths, which is why the plan-book trade could transmit
+it without transmitting any theory."
+
+The module is **the framing bay**, and two nodes name the same 24 inches from opposite ends:
+`craftsman` from the structure ("the exposed rafters declare the framing bay at 16 or 24 inches on
+centre") and `prairie-school` from the opening ("the standard casement width of roughly 2 ft, from
+which window bands are built in multiples"). They coincide because the mullion lands on a stud,
+which is why a Prairie band of five casements is 10 ft and not 9 ft 7.
+
+Three things it found:
+
+- **The porch and the wall come to one plate line.** Both assemblies work out at 4.25 modules —
+  8 ft 6 in — which is the structural fact behind the visual one: the porch roof and the house roof
+  are one structure at one level and the eave crosses both without a step. A porch beam below the
+  wall plate gives a stepped eave, which is a Queen Anne move and reads as one.
+- **A disagreement recorded rather than resolved.** `styles/craftsman.json` calls the porch beam
+  the *low* datum and the heads the *high* one; a 7 ft clear porch cannot have its beam at 6 ft 8.
+  In surviving bungalows the two lines are within a few inches either way and often coincide. The
+  invariant therefore asserts only what both accounts agree on — that there are two lines and they
+  are close — and declines to say which is on top, because resolving it would mean overruling a
+  style record on no evidence.
+- **The horizontality is in the grouping, not in the window.** A single unit is 2:1 *tall*; three
+  side by side under one head and one sill make the band. Designers who absorb the horizontal
+  impression and go looking for a wide window produce a squat 1950s opening and lose the vertical
+  counter-rhythm that made the band read as a band.
+
+**Two refusals, both findings rather than omissions.** `mission-revival` shares this cluster's
+interior trim and nothing about its openings, which are arched and already reach `moorish-arch`.
+`arts-and-crafts-british` looks like the obvious fit and is not: its own governing logic says "no
+applied system… there is no repeating bay and no vertical alignment requirement", which is a direct
+denial of this pack's central assertion. Binding it to close a count would have meant asserting an
+alignment rule against a node's explicit denial of one. What it wants is a **leaded-casement-and-
+mullion system**, which is a new candidate item — and one that would also serve the parts of
+`english-gothic` and `tudor` that `opening-pointed` deliberately left alone.
+
 ### One checker defect, found by authoring against it
 
 `check_orders.py`'s `SafeEval` has always addressed a list of dicts by its members' `id`, so an
@@ -217,17 +268,20 @@ by `id` like `SafeEval`, and `tests/test_wp46_packs.py` pins it.
 ## What is NOT done, with the measurement
 
 Twenty-eight or so items of WP-4.1's list remain. The ones with the leverage measured above and
-still missing after the second tranche: a **Craftsman opening system and Prairie trim family**
-(5 nodes, named in the plan), a **Dutch gambrel roof module** (3 nodes), a **cast-iron system**
-(3 nodes), a **four-centred Tudor arch system** (new, raised by `opening-pointed`'s own boundary),
-and a **medieval/pre-Palladian English facade system** (new only in that two existing list items
-turn out to be one pack). **65 nodes still have no opening-role pack**, down from 68, and **67 no
-facade-role pack**, unchanged — because the facade half of the Gothic item was measured and found
-already served.
+still missing after the second tranche: a **Prairie trim family** (the other half of PB-4's item),
+a **Dutch gambrel roof module** (3 nodes), a **cast-iron system** (3 nodes), a **four-centred Tudor
+arch system** (new, raised by `opening-pointed`'s own boundary), a **leaded-casement-and-mullion
+system** (new, raised by `opening-craftsman`'s refusal of `arts-and-crafts-british`, and it would
+also serve what `opening-pointed` left alone in `english-gothic` and `tudor`), and a
+**medieval/pre-Palladian English facade system** (new only in that two existing list items turn out
+to be one pack). **60 nodes still have no opening-role pack**, down from 68, and **67 no
+facade-role pack**, unchanged — because the facade halves of both two-part items were measured and
+found already served.
 
-Struck off by the second tranche: the **adobe/rammed-earth module** (5 nodes, and it reached 9) and
-the **opening half** of the Gothic Revival item (5 nodes, 3 of them previously with no opening-role
-pack at all).
+Struck off by the second tranche: the **adobe/rammed-earth module** (5 nodes on the list, and it
+reached 9), the **opening half** of the Gothic Revival item (5 nodes, 3 of them previously with no
+opening-role pack at all), and the **opening half** of the Craftsman item (5 of the 7 nodes that
+had no opening-role pack; the other 2 were refused for stated reasons).
 
 Two of the named seven were **not** attempted for a stated reason rather than left silent: the
 muqarnas geometry and the tile/plaster/timber stratification that belong with the Moorish system
@@ -240,11 +294,11 @@ First tranche: `python3 build/check_all.py` — 22 checks, 461 tests. 38 packs r
 problems; `check_orders.py` 0 errors; `check_pack_bindings.py --strict` green at **131 of 132 nodes
 bound**, up from 129. `tests/test_wp46_packs.py` was new (15 tests).
 
-Second tranche: 22 checks green again. **40 packs**, 0 errors from `check_orders.py`,
-`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the two new
-packs bind 14 nodes but every one of them was already bound, so the count does not move and should
-not be read as no progress — the movement is in ROLE coverage, 68 → 65 nodes with no opening-role
-pack). `tests/test_wp46_packs.py` is now **53 tests**. The pinned pack count in
+Second tranche: 22 checks green again. **41 packs**, 0 errors from `check_orders.py`,
+`check_modules.py --eval` and `check_systems.py` alike; bindings still 131 of 132 (the three new
+packs bind 19 nodes but every one of them was already bound, so the count does not move and should
+not be read as no progress — the movement is in ROLE coverage, 68 → 60 nodes with no opening-role
+pack). `tests/test_wp46_packs.py` is now **71 tests**, and the suite as a whole 534. The pinned pack count in
 `tests/test_proportion_engine.py` is now read off the library instead of hard-coded — a test that
 has to be edited every time a pack lands teaches the next author to edit tests rather than read
 them.

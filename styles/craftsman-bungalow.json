@@ -214,6 +214,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "opening-craftsman",
+      "role": "opening",
+      "note": "The catalogue house, and the reason every figure in this pack is so consistent across a continent: the precut package standardised every member length, so a carpenter in Ohio and one in Pasadena built the same window because they were sent the same cut list. This node states the head datum at a single 6 ft 8 in rather than as a band, the ceiling at 8 ft 6 in, and the divided-upper-over-single-lower sash 'throughout' -- all three are the pack's encoded defaults, and they are defaults because this node is where the type was most tightly specified.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Same composer as the parent style, bounded harder here by the lot: this node's own governing_logic states that the body is 'capped at 24 to 28 ft' by the standard 40-50 ft lot, which is a real-world instance of this pack's dominant-mass module (18-22 ft for 'a bungalow or a cottage where the dominant mass is a single gable') at the small end of its documented range.",
