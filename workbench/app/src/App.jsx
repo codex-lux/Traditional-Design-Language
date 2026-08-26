@@ -89,7 +89,8 @@ export default function App() {
           {surfaces[surface] || surfaces.workbench}
         </main>
         <RailHost onCite={cite} surface={surface} plan={plan} lastEval={lastEval}
-          railAvailable={health ? !!health.rail : null} />
+          railAvailable={health ? !!health.rail : null}
+          railNote={health?.rail_state?.note || null} />
       </div>
     </div>
   );

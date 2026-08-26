@@ -46,8 +46,14 @@ def main():
         print("note: no built app found at workbench/app/dist —")
         print("      cd workbench/app && npm install && npm run build")
         print("      (the JSON API will serve regardless)")
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("note: ANTHROPIC_API_KEY is not set — the AI rail will say so and stay off.")
+    # The same reader and the same reason the browser panel and /api/health show, so the
+    # three cannot disagree about why the rail is dark.
+    from . import rail
+    rail_state = rail.state(disclose=True)
+    if not rail_state["on"]:
+        print(f"note: the AI rail is off — {rail_state['note']}")
+    elif rail_state["note"]:
+        print(f"note: the AI rail is on, with a caveat — {rail_state['note']}")
     if not os.environ.get("WORKBENCH_PASSWORD"):
         print("note: WORKBENCH_PASSWORD is not set — the server is OPEN to anyone who "
               "can reach it.")

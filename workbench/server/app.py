@@ -15,7 +15,7 @@ password screen, and it carries no corpus data.
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import Body, FastAPI, HTTPException, Query, Request
+from fastapi import Body, FastAPI, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -97,15 +97,26 @@ def _ok(result):
 
 # ----------------------------------------------------------------- health
 @app.get("/api/health")
-def health(request: Request):
+def health(request: Request, response: Response):
     try:
         import jsonschema  # noqa: F401 — without it every check "fails schema"
         schema_ok = True
     except ImportError:
         schema_ok = False
     counts = core.overview()["counts"]
+    # Imported here rather than at module scope: the rail pulls in the 24-tool registry,
+    # and health has to answer even on a deployment where that is the broken thing.
+    from . import rail
+    # `rail_state` carries WHY the rail is off. `rail` stays a bare bool because the app's
+    # older builds and the e2e fixtures read it; it is now rail_state["on"], never a
+    # second reading of the environment that could disagree with the reason beside it.
+    rail_state = rail.state(disclose=auth.authorised(request))
+    # No-store, because this is the endpoint an operator refreshes to see whether the
+    # variable they just set took effect. A heuristically-cached 200 answers with the
+    # state before the fix and reads as "the fix did not work".
+    response.headers["Cache-Control"] = "no-store, max-age=0"
     return {"ok": schema_ok, "jsonschema": schema_ok, "counts": counts,
-            "rail": bool(os.environ.get("ANTHROPIC_API_KEY")),
+            "rail": rail_state["on"], "rail_state": rail_state,
             "auth": auth.state(), "limits": limits.state(),
             # /api/health is deliberately ungated (the platform healthcheck has no
             # credentials), so it must not enumerate hostnames. allowed_hosts can carry

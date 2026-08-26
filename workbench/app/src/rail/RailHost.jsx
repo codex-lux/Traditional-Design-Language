@@ -7,16 +7,22 @@ import { railTurn } from '../api/client.js';
 import { session } from '../state/session.js';
 import { AiRail } from '../components/AiRail.jsx';
 
-export function RailHost({ onCite, surface, plan, lastEval, railAvailable }) {
+export function RailHost({ onCite, surface, plan, lastEval, railAvailable, railNote }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
   const historyRef = React.useRef([]);   // API-shaped [{role, content: string}]
   const [busy, setBusy] = React.useState(false);
 
+  /* Off says WHY. The old copy asserted one cause — "no ANTHROPIC_API_KEY is attached" —
+     for every way the rail can be dark, and told an operator whose key WAS set to go and
+     set it, with nothing to do next. The server names the actual condition; this panel is
+     where it has to be legible. `railNote` is null on an older server, so the general
+     sentence stays as the floor rather than the usual case. */
+  const offNote = railNote ||
+    'no ANTHROPIC_API_KEY reached the server process. Check /api/health → rail_state.';
   const turns = s.railTurns.length ? s.railTurns : [{
     role: 'assistant',
     text: railAvailable === false
-      ? 'No ANTHROPIC_API_KEY is attached to the server, so the rail is off. Everything ' +
-        'else works without it — set the key and restart to turn the rail on.'
+      ? 'The rail is off: ' + offNote + ' Everything else on this canvas works without it.'
       : 'Ask the corpus. Every claim I make carries a citation that navigates this ' +
         'canvas, the tools I consult are shown as I use them, and I will say what I ' +
         'could not evaluate — unjudged is not passed.',
@@ -90,6 +96,6 @@ export function RailHost({ onCite, surface, plan, lastEval, railAvailable }) {
 
   return (
     <AiRail turns={turns} onCite={(ref) => onCite(ref.replace(/^«|»$/g, ''))} onSend={send}
-      placeholder={railAvailable === false ? 'the rail is off — no key attached' : 'Ask the corpus…'} />
+      placeholder={railAvailable === false ? 'the rail is off — the reason is above' : 'Ask the corpus…'} />
   );
 }
