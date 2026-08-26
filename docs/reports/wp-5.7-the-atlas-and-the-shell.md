@@ -339,6 +339,33 @@ binary floating point. The rounding looked like a fix and was not, and the test 
 supposed to prove it carried a 1e-9 tolerance against a 4e-16 error. Ticks are counted in
 multiples and multiplied out once now.
 
+### Found by CI, after the audit pass was pushed
+
+**The app's unit suite imported React, and the corpus job runs it with no `npm install`.**
+`build/check_all.py` runs `node --test workbench/app/src/*.test.mjs` deliberately without
+installing anything — its own comment reads *"the app suite needs no npm install; it
+imports no packages"* — and the corpus CI job depends on that. It was a comment and
+nothing else. The audit pass's `coastlines.test.mjs` imported `coastTiers.js`, which
+carried `import React from 'react'` for the one hook it held: **the whole suite passed
+locally, where node_modules happens to exist, and failed CI with `Cannot find package
+'react'`.** A green local run and a red remote one, from an invariant that lived only in
+prose — which is the same shape as everything else in this section.
+
+The hook moved to `useCoastline.js`; `coastTiers.js` now imports nothing outside the
+repository, the way `graticule.js` already did. **`src/no_bare_imports.test.mjs` walks the
+suite's whole static import graph and fails on any bare specifier**, so the next one is
+caught before it is pushed rather than in CI. It resolves the graph itself rather than
+asking node, because the failure IS a resolution failure — importing the offending module
+to inspect it is the very thing that throws. It deliberately does not follow `import()`:
+that edge is how the heavy coastline tiers are code-split, and following it would forbid
+the lazy-loading the map depends on. It proves its own detector on a file that really does
+import React, and asserts the walk reached something, because a walker that reaches
+nothing forbids nothing.
+
+Verified the way it will actually run: `node --test src/*.test.mjs` with `node_modules`
+moved aside — 49/49 — and the defect reintroduced, which fails with node_modules present
+and absent alike.
+
 ### Found while verifying the fixes, not by the auditors
 
 **A rate-limited walk failed as a broken sheet.** Running the e2e walk repeatedly against

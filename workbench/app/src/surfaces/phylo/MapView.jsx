@@ -32,7 +32,8 @@
    letting a facet pass for a shore. The graticule steps down with it. */
 import React from 'react';
 import { placeStyle, statesNoHearth } from '../../data/gazetteer.js';
-import { useCoastline, visibleRings } from './coastTiers.js';
+import { visibleRings } from './coastTiers.js';
+import { useCoastline } from './useCoastline.js';
 import { gridStep, ticks } from './graticule.js';
 import { Eyebrow } from '../../components/Eyebrow.jsx';
 import { ActionChip } from '../../Chrome.jsx';

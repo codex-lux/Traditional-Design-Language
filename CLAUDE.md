@@ -175,7 +175,12 @@ three FOLD (`[` and `]`, or the spine): `PANES.foldable` is the difference betwe
 subject, and a Fault Corpus with its fault list folded away is not a decluttered Fault Corpus. The atlas can take the whole
 window; `layout.full` is the one piece of layout state that is not persisted, which is what
 "temporarily" means. `--rail-left` and `--rail-ai` are gone from `tokens.css` on purpose -- do
-not reinstate them. **Four adversarial audits then found eleven of the package's forty-three new assertions
+not reinstate them. **The workbench app's `node --test` suite may not import anything from node_modules.**
+`check_all.py` runs it with no npm install, so a package import there is a green local run
+and a red CI one -- which is exactly what happened to WP-5.7's first audit pass, via
+`coastTiers.js` importing React for one hook. The hook lives in `useCoastline.js` now and
+`src/no_bare_imports.test.mjs` walks the suite's import graph to keep it that way.
+**Four adversarial audits then found eleven of the package's forty-three new assertions
 passing on the code they were written to guard** -- among them the fine coastline tier being
 replaceable wholesale by the coarse one with the suite green, and a documented keyboard
 control that was never wired to its element. Read the report's audit section before adding a

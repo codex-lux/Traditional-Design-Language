@@ -16,8 +16,16 @@
    finer tier is in flight, or if it failed to arrive, the map is drawing something
    coarser than the scale it is set to, and it says so rather than letting a facet pass
    for a coastline. `useCoastline` reports `drawn` (what is on the plate), `wanted` (what
-   the scale deserves) and `failed` separately, and MapView prints the difference. */
-import React from 'react';
+   the scale deserves) and `failed` separately, and MapView prints the difference.
+
+   THIS FILE IMPORTS NOTHING FROM node_modules, AND THAT IS LOAD-BEARING. The React hook
+   that consumes it lives in `useCoastline.js` next door. `build/check_all.py` runs the
+   app's `node --test` suite with no `npm install` — its own comment says "the app suite
+   needs no npm install; it imports no packages" — and the corpus CI job relies on that.
+   The first version of this file had `import React` at the top and the coastline test
+   imported it, so the whole suite failed in CI while passing locally where node_modules
+   happens to exist. `src/no_bare_imports.test.mjs` now walks the suite's import graph and
+   fails on any bare specifier, so the next one is caught here rather than in CI. */
 import { COAST_COARSE } from '../../data/coastlines.js';
 
 /* `upto` is the widest view, in degrees of longitude, at which the tier is the right one
@@ -43,17 +51,11 @@ export const TIERS = [
 ];
 
 /* Finest first, so `find` picks the best tier for a width. */
-const BY_DETAIL = TIERS.slice().reverse();
+export const BY_DETAIL = TIERS.slice().reverse();
 
 export function tierFor(width) {
   return BY_DETAIL.find((t) => width <= t.upto) || TIERS[0];
 }
-
-/* Module-scope, not component state: the fine tier is a megabyte and remounting the map
-   — every trip to the tree reading and back — must not fetch it again. */
-const loaded = new Map([['coarse', COAST_COARSE]]);
-const failed = new Map();
-const inflight = new Map();
 
 /* Visible rings only.
 
@@ -76,64 +78,16 @@ export function visibleRings(tier, view) {
   return out;
 }
 
-/* The tier the view deserves, the tier that is actually on the plate, and whether the
-   difference is a fetch in flight or a fetch that failed. Never conflates the two: a
-   coastline that could not be fetched is a stated gap, not a coarser drawing passed off
-   as the right one. */
-export function useCoastline(width) {
-  const wanted = tierFor(width);
-  const [, bump] = React.useReducer((n) => n + 1, 0);
-
-  React.useEffect(() => {
-    if (loaded.has(wanted.name) || failed.has(wanted.name)) return;
-    if (inflight.has(wanted.name)) return;
-    const p = wanted.load().then(
-      (tier) => { loaded.set(wanted.name, tier); inflight.delete(wanted.name); bump(); },
-      (err) => {
-        // Recorded, not retried in a loop: a chunk that will not load will not load on
-        // the next pointer move either, and a hundred failed fetches a second is worse
-        // than a coarse coastline.
-        failed.set(wanted.name, err && err.message ? err.message : String(err));
-        inflight.delete(wanted.name);
-        bump();
-      },
-    );
-    inflight.set(wanted.name, p);
-  }, [wanted.name]);
-
-  /* Best available means NEAREST TO WANTED on the ladder — not the coarsest that will do,
-     and not the finest in hand either. Both of those were tried and both were wrong.
-
-     The first version refused any tier finer than the scale asked for, so zooming past the
-     medium band and back out drew 110m facets while the 10m data sat in the module cache:
-     the legend reported the coarse tier as what the scale deserved, and it was not.
-     Correcting that to "finest in hand" over-corrected — the e2e walk caught it —
-     because once the fine tier is fetched, returning to a hemisphere view mounted 827
-     rings including the 25,000-point Afro-Eurasia path, for a drawing indistinguishable at
-     0.134 degrees per pixel from one with 42.
-
-     Nearest, with a tie going to the FINER tier, gives the right answer in both: at a
-     hemisphere the wanted tier is loaded and is used; at forty degrees, with medium not
-     fetched and fine in hand, fine is one rung away and coarse is one rung away, and the
-     finer of the two is the honest one to draw. */
-  const wantIdx = BY_DETAIL.indexOf(wanted);
-  const inHand = BY_DETAIL.filter((t) => loaded.has(t.name));
-  const drawn = inHand.slice().sort((a, b) => {
-    const da = Math.abs(BY_DETAIL.indexOf(a) - wantIdx);
-    const db = Math.abs(BY_DETAIL.indexOf(b) - wantIdx);
-    return da - db || BY_DETAIL.indexOf(a) - BY_DETAIL.indexOf(b);   // tie → the finer
-  })[0] || TIERS[0];
-  return {
-    wanted,
-    drawn: loaded.get(drawn.name) || COAST_COARSE,
-    drawnName: drawn.name,
-    pending: drawn.name !== wanted.name && !failed.has(wanted.name) && !loaded.has(wanted.name),
-    failed: failed.get(wanted.name) || null,
-    /* A failed fetch is recorded rather than retried in a loop, but it must not be a life
-       sentence: the chunk filename is content-hashed, so ANY redeploy 404s it for every
-       tab that is already open, and without this the map is stuck on a coarser outline
-       until the reader thinks to reload the whole page. The legend offers this; nothing
-       calls it on a timer. */
-    retry: () => { failed.delete(wanted.name); bump(); },
-  };
+/* Which loaded tier to draw for a given wanted tier: the NEAREST on the ladder, with a
+   tie going to the finer. Pure, and exported, because both neighbouring rules were tried
+   and both were wrong — see the note in `useCoastline` — and a rule that has been wrong
+   twice deserves a test that does not need a DOM. */
+export function chooseTier(wantedName, inHandNames) {
+  const wantIdx = BY_DETAIL.findIndex((t) => t.name === wantedName);
+  const order = BY_DETAIL.map((t) => t.name);
+  return inHandNames.slice().sort((a, b) => {
+    const da = Math.abs(order.indexOf(a) - wantIdx);
+    const db = Math.abs(order.indexOf(b) - wantIdx);
+    return da - db || order.indexOf(a) - order.indexOf(b);
+  })[0] || TIERS[0].name;
 }

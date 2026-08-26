@@ -16,7 +16,7 @@ import assert from 'node:assert/strict';
 import { COAST_COARSE, COASTLINES } from './data/coastlines.js';
 import { COAST_MEDIUM } from './data/coastlines-medium.js';
 import { COAST_FINE } from './data/coastlines-fine.js';
-import { TIERS, tierFor, visibleRings } from './surfaces/phylo/coastTiers.js';
+import { TIERS, tierFor, visibleRings, chooseTier } from './surfaces/phylo/coastTiers.js';
 
 const ALL = [COAST_COARSE, COAST_MEDIUM, COAST_FINE];
 
@@ -236,15 +236,11 @@ test('the tier drawn is the one nearest what the scale asked for', () => {
      to the finer, is right in both. This drives the same choice `useCoastline` makes,
      against an explicit set of tiers in hand, because the hook itself cannot be unit
      tested without a DOM. */
-  const order = ['fine', 'medium', 'coarse'];          // BY_DETAIL
-  const pick = (wantedName, inHandNames) => {
-    const wantIdx = order.indexOf(wantedName);
-    return inHandNames.slice().sort((a, b) => {
-      const da = Math.abs(order.indexOf(a) - wantIdx);
-      const db = Math.abs(order.indexOf(b) - wantIdx);
-      return da - db || order.indexOf(a) - order.indexOf(b);
-    })[0];
-  };
+  // THE REAL FUNCTION, not a copy of it. The first version of this test reimplemented the
+  // sort here, which would have gone on passing after the shipped rule changed — the
+  // second-copy trap this codebase keeps finding. `chooseTier` is exported for exactly
+  // this, and lives in the module that imports nothing from node_modules.
+  const pick = chooseTier;
   // a cold load: only the coarse tier exists
   assert.equal(pick('coarse', ['coarse']), 'coarse');
   assert.equal(pick('fine', ['coarse']), 'coarse', 'and it is honest about it');
