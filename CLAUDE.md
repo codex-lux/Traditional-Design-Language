@@ -292,7 +292,10 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
   trusting any list of them. `docs/open-questions.md` holds **74 entries, of which 19 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68). **69, 70 and 71 were raised AND
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 72, 73, 74). **72, 73 and 74 are
+  WP-5.7's, and are about the geometry layer: the entablature's datum, two sourced rules
+  disagreeing about the cornice's projection, and the front elevation that cannot draw its own
+  chimneys.** **69, 70 and 71 were raised AND
   ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
   and 66, colliding with main's block for the second parallel-session collision in two days;
   main keeps its numbers and these were reissued, with the conversion table at the foot of the
