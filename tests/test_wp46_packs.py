@@ -3415,7 +3415,11 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     backlog, not a regression -- and the pin is what protects it. All three should go DOWN as the
     corpus is worked; a rise means the cascade papered over something new."""
     gaps, packs, unendorsed, _endorsed = _inheritance()
-    assert (gaps, packs, unendorsed) == (294, 3367, 233)
+    # 233 -> 222 on 26 Aug 2026: the first adjudication pass against the ruling. Eleven
+    # storey-graduation gaps were judged against each node's own record and endorsed; the pack's
+    # applies_to now names them. gaps and packs do not move on an endorsement -- the cascade
+    # delivers what it always delivered, and what changed is that somebody read it.
+    assert (gaps, packs, unendorsed) == (294, 3367, 222)
 
 
 def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault():
@@ -3429,7 +3433,7 @@ def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault()
     # here reproduces the checker's own arithmetic, so the printed line was never read and could
     # not be contradicted -- break the endorsement predicate's reporting and this could not notice.
     assert endorsed_printed == gaps - unendorsed, "the checker's own two numbers disagree"
-    assert endorsed_printed == 61, "61 of the 294 gaps are endorsed by the pack's own applies_to"
+    assert endorsed_printed == 72, "72 of the 294 gaps are endorsed by the pack's own applies_to"
 
     # And the predicate means what it says: a named gap whose pack `applies_to` lists the node is
     # endorsed, and one whose pack does not is not. `assert unendorsed < gaps` was vacuous --
