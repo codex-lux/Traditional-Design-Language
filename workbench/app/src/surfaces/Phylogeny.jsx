@@ -7,7 +7,11 @@ import React from 'react';
 import { api } from '../api/client.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { EdgeGlyph } from '../components/EdgeGlyph.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { FilterStrip, Chip, ChipGroup } from '../Chrome.jsx';
+import { FilterInput } from '../components/FilterInput.jsx';
+import { useSurfaceFilters } from '../filters/useFilters.js';
+import { matches } from '../search/match.js';
+import { MapView } from './phylo/MapView.jsx';
 
 const BREAK_AT = 1600, BREAK_FRAC = 0.18;
 function tScale(y) {
@@ -25,14 +29,21 @@ const TRADITION_HUES = {
 };
 const yr = (v) => (v == null ? '?' : v < 0 ? Math.abs(v) + ' BC' : String(v));
 
-export function Phylogeny({ onCite, selection }) {
+const PHYLO_SPEC = { view: {}, rank: {}, q: { type: 'text' }, claims: { type: 'bool' } };
+
+export function Phylogeny({ onCite, selection, setSelection }) {
   const [graph, setGraph] = React.useState(null);
   const [sel, setSel] = React.useState(selection?.style || 'tidewater-georgian');
   const [compare, setCompare] = React.useState(null);
   const [cmpData, setCmpData] = React.useState(null);
   const [selInfo, setSelInfo] = React.useState(null);
-  const [showClaims, setShowClaims] = React.useState(true);
-  const [rankFilter, setRankFilter] = React.useState(null);
+
+  const filters = useSurfaceFilters(PHYLO_SPEC);
+  const isMap = filters.values.view === 'map';
+  const rankFilter = filters.values.rank;
+  const q = filters.values.q;
+  // Claimed ancestry shows by default; the URL carries the deliberate act of hiding it.
+  const showClaims = !filters.values.claims;
 
   React.useEffect(() => { api.phylogeny().then(setGraph).catch(() => {}); }, []);
   React.useEffect(() => { if (selection?.style) setSel(selection.style); }, [selection?.style]);
@@ -70,7 +81,12 @@ export function Phylogeny({ onCite, selection }) {
   }
 
   const { rows: allRows, index } = derived;
-  const rows = rankFilter ? allRows.filter((r) => r.rank === rankFilter || r.id === sel) : allRows;
+  const rows = allRows.filter((r) => (
+    (!rankFilter || r.rank === rankFilter || r.id === sel)
+    // The selected taxon always survives a filter: hiding the thing you are reading
+    // about, and its detail panel with it, is not filtering, it is losing your place.
+    && (r.id === sel || matches(r, q, ['name', 'id', 'rank', 'regions', 'short']))
+  ));
   const rowIndex = {};
   rows.forEach((r, i) => { rowIndex[r.id] = i; });
 
@@ -102,23 +118,41 @@ export function Phylogeny({ onCite, selection }) {
 
   const pick = (ev, id) => {
     if (ev.shiftKey) setCompare(id === compare ? null : id);
-    else setSel(id);
+    // Selecting writes the URL, so a taxon — in either reading — is a link.
+    else { setSel(id); setSelection && setSelection({ style: id }); }
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip right={
+      <FilterStrip filters={filters} right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <Chip on={showClaims} onClick={() => setShowClaims(!showClaims)}>show claimed ancestry</Chip>
+          <Chip on={showClaims} onClick={() => filters.set('claims', showClaims)}>
+            show claimed ancestry
+          </Chip>
           {compare
             ? <Chip on onClick={() => setCompare(null)}>comparing {compare} ×</Chip>
             : <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>shift-click a second taxon to compare</span>}
         </span>
       }>
-        <Eyebrow as="span">rank</Eyebrow>
-        {['tradition', 'family', 'style', 'variant'].map((r) => (
-          <Chip key={r} on={rankFilter === r} onClick={() => setRankFilter(rankFilter === r ? null : r)}>{r}</Chip>
-        ))}
+        {/* Two readings of one graph. Which one you are looking at is part of the
+            address, so a map view can be linked to. */}
+        <ChipGroup label="reading">
+          <Chip radio on={!isMap} onClick={() => filters.set('view', null)}
+            title="Descent against time">tree</Chip>
+          <Chip radio on={isMap} onClick={() => filters.set('view', 'map')}
+            title="Where each style arose, and where its lineage travelled">map</Chip>
+        </ChipGroup>
+        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={rows.length}
+          label="Filter the taxa by name, rank or region" placeholder="filter 164 taxa" width={165} />
+        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        <ChipGroup label="rank">
+          <Eyebrow as="span">rank</Eyebrow>
+          {['tradition', 'family', 'style', 'variant'].map((r) => (
+            <Chip key={r} radio on={rankFilter === r}
+              onClick={() => filters.toggle('rank', r)}>{r}</Chip>
+          ))}
+        </ChipGroup>
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
         <Eyebrow as="span">traditions</Eyebrow>
         {Object.entries(TRADITION_HUES).map(([id, hue]) => (
@@ -127,6 +161,14 @@ export function Phylogeny({ onCite, selection }) {
       </FilterStrip>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
+        {isMap ? (
+          /* The same edge set the tree draws — already narrowed by `showClaims` and lit to
+             the selection's ancestry and descent. Drawing all 476 at once would be a ball
+             of wool, and the two readings should agree about what is on screen. */
+          <MapView rows={rows} edges={edges} sel={sel} compare={compare} onPick={pick}
+            traditionHue={(r) => TRADITION_HUES[r.tradition] || 'var(--ink-4)'}
+            lit={lit} carries={CARRIES} showClaims={showClaims} rankFilter={rankFilter} />
+        ) : (
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '14px 18px 26px' }}>
           <div style={{ position: 'relative', height: 26, marginLeft: 210, marginBottom: 4 }}>
             {[-700, 1600, 1700, 1800, 1900, 2000].map((y) => (
@@ -209,6 +251,7 @@ export function Phylogeny({ onCite, selection }) {
             </div>
           </div>
         </div>
+        )}
 
         <div style={{ width: 320, flex: 'none', borderLeft: '1px solid var(--rule)', overflow: 'auto',
           minHeight: 0, padding: '16px 14px 24px', background: 'var(--paper)' }}>

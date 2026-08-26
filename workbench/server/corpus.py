@@ -34,7 +34,11 @@ def phylogeny():
             "origin": p.get("origin"),
             "floruit_start": p.get("floruit_start"), "floruit_end": p.get("floruit_end"),
             "decline_end": p.get("decline_end"), "circa": p.get("circa", False),
-            "regions": (n.get("geography") or {}).get("regions", [])[:3],
+            # The whole list, not the first three. The truncation was fine while this fed
+            # a caption; the map view places a style by the FINEST region it names, and 82
+            # of 164 styles carry more than three — so a cut here silently coarsened half
+            # the corpus, putting styles in the middle of a country that name a valley.
+            "regions": (n.get("geography") or {}).get("regions", []),
             "short": (n.get("description") or {}).get("short"),
         })
         for e in n.get("lineage") or []:

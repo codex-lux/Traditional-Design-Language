@@ -228,7 +228,42 @@ await page.keyboard.press('Enter');
 await page.waitForTimeout(900);
 check('the palette navigates to the cited place', /#\/style\/tidewater-georgian/.test(page.url()));
 
+// ── The phylogeny's map reading ────────────────────────────────────────────────
+await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'networkidle' });
+await page.waitForTimeout(2000);
+const mapSvg = page.locator('main svg[role="img"]');
+const mapLabel = await mapSvg.getAttribute('aria-label');
+check('the map reading is addressable', /view=map/.test(page.url()));
+check('hearths and arcs are drawn', /hearths carrying \d+ styles/.test(mapLabel || ''));
+const mapText = await page.locator('main').innerText();
+// The whole point of the precision tiers: a country is not a hearth, and the drawing
+// says so rather than planting a firm dot in the middle of a nation.
+check('placement precision is counted, not implied', /\d+ country/i.test(mapText)
+  && /the record names no hearth/i.test(mapText));
+check('the gazetteer is disclaimed as interface, not source',
+  /regions in prose, not coordinates/i.test(mapText) && /none of them is a source/i.test(mapText));
+// Every taxon must be either placed or named as unplaced — never dropped.
+{
+  const phyl = await (await fetch(BASE + '/api/phylogeny')).json();
+  const placedM = /(\d+) hearths carrying (\d+) styles/.exec(mapLabel || '');
+  const unlocated = /(\d+) styles? name no region the gazetteer knows/.exec(mapText);
+  const accounted = Number(placedM[2]) + (unlocated ? Number(unlocated[1]) : 0);
+  check('every taxon is placed or listed as unplaced, none dropped',
+    accounted === phyl.taxa.length);
+}
+check('edges inside one hearth are counted, not faked',
+  /share a hearth/i.test(mapText) || !/not drawn/i.test(mapText));
+await page.screenshot({ path: SHOTS + 'phylogeny-map.png' });
+
+// and the two readings are one graph: switching back keeps the taxon
+await page.locator('main').getByRole('radio', { name: 'tree' }).click();
+await page.waitForTimeout(900);
+check('switching back to the tree keeps the taxon and drops the param',
+  /#\/phylogeny\/tidewater-georgian$/.test(page.url()));
+
 // The keys card teaches the grammar the rail and the URL share.
+await page.goto(BASE + '/#/faults', { waitUntil: 'networkidle' });
+await page.waitForTimeout(600);
 await page.keyboard.press('?');
 await page.waitForTimeout(400);
 const card = await page.locator('[role="dialog"]').innerText();
