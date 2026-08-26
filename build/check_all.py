@@ -35,6 +35,10 @@ CHECKS = [
     ("check_pack_bindings.py", ["--strict"]),
     ("check_faults.py", []),
     ("check_rooms.py", []),
+    # WP-6.2. Not folded into check_rooms.py: that checker globs rooms/*.json against the
+    # room schema, and the opening grammar is a different document in a different directory
+    # for exactly that reason.
+    ("check_openings.py", []),
     ("check_partis.py", []),
     ("check_counts.py", []),
     # --strict on both, added 25 Aug 2026 after an audit found neither could fail the build.

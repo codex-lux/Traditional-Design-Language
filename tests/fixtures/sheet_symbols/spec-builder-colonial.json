@@ -9,7 +9,7 @@
     "exterior": [
      {
       "at_ft": 29.0,
-      "inferred_wall": true,
+      "inferred_wall": false,
       "inferred_width": true,
       "room": "porch",
       "type": "swing",
@@ -18,7 +18,7 @@
      },
      {
       "at_ft": 8.5,
-      "inferred_wall": true,
+      "inferred_wall": false,
       "inferred_width": false,
       "room": "garage",
       "type": "garage",
@@ -26,6 +26,7 @@
       "width_ft": 16
      }
     ],
+    "inferred_positions": 0,
     "inferred_widths": 1,
     "interior": [
      {
@@ -106,7 +107,7 @@
        "dining",
        "powder"
       ],
-      "pos_ft": 34.894999999999996,
+      "pos_ft": 34.895,
       "swing_positive": true,
       "to": "powder",
       "type": "swing",
@@ -201,13 +202,19 @@
     ],
     "windows": [
      {
-      "at_ft": 34.5,
+      "at_ft": 34.0,
       "room": "dining",
       "wall": "W",
       "width_ft": 3
      },
      {
-      "at_ft": 34.5,
+      "at_ft": 34.0,
+      "room": "study",
+      "wall": "N",
+      "width_ft": 3
+     },
+     {
+      "at_ft": 38.0,
       "room": "study",
       "wall": "N",
       "width_ft": 3
@@ -219,7 +226,7 @@
       "width_ft": 3
      }
     ],
-    "windows_crowded": 2,
+    "windows_crowded": 1,
     "windows_off_footprint": 4
    },
    "expected_divergence": [
@@ -240,11 +247,19 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 29.0,
+       "swing_into": "foyer",
        "to": "foyer",
+       "wall": "S",
        "width_ft": 3
       },
       {
-       "to": "exterior"
+       "hinge": "low",
+       "position_ft": 29.0,
+       "swing_into": "porch",
+       "to": "exterior",
+       "wall": "N"
       }
      ],
      "exterior_walls": [
@@ -268,30 +283,53 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 29.0,
+       "swing_into": "foyer",
        "to": "porch",
+       "wall": "N",
        "width_ft": 3
       },
       {
        "to": "dining",
        "type": "cased-opening",
+       "unplaced": {
+        "reason": "they share 4.0 ft; this leaf and its jambs need 5.7 ft"
+       },
        "width_ft": 5
       },
       {
+       "hinge": "low",
+       "position_ft": 29.0,
+       "swing_into": "study",
        "to": "study",
+       "wall": "E",
        "width_ft": 3
       },
       {
+       "hinge": "low",
+       "position_ft": 24.5,
+       "swing_into": "family",
        "to": "family",
        "type": "open",
+       "wall": "S",
        "width_ft": 6
       },
       {
+       "hinge": "low",
+       "position_ft": 24.5,
+       "swing_into": "powder",
        "to": "powder",
+       "wall": "N",
        "width_ft": 2.5
       },
       {
+       "hinge": "low",
+       "position_ft": 29.0,
+       "swing_into": "stair",
        "to": "stair",
        "type": "cased-opening",
+       "wall": "W",
        "width_ft": 5
       }
      ],
@@ -314,6 +352,10 @@
       {
        "count": 1,
        "height_ft": 5,
+       "unplaced": {
+        "declared_wall": "N",
+        "reason": "the placement puts this room on no such boundary wall"
+       },
        "wall": "N",
        "width_ft": 2
       }
@@ -324,15 +366,26 @@
       {
        "to": "foyer",
        "type": "cased-opening",
+       "unplaced": {
+        "reason": "they share 4.0 ft; this leaf and its jambs need 5.7 ft"
+       },
        "width_ft": 5
       },
       {
+       "hinge": "low",
+       "position_ft": 34.895,
+       "swing_into": "powder",
        "to": "powder",
+       "wall": "E",
        "width_ft": 2.5
       },
       {
+       "hinge": "low",
+       "position_ft": 3.5,
+       "swing_into": "kitchen",
        "to": "kitchen",
        "type": "cased-opening",
+       "wall": "S",
        "width_ft": 3
       }
      ],
@@ -356,6 +409,12 @@
       {
        "count": 2,
        "height_ft": 5,
+       "positions_ft": [
+        34.0
+       ],
+       "unplaced": {
+        "reason": "1 of 2 unit(s) had no clear run left on this wall"
+       },
        "wall": "W",
        "width_ft": 3
       }
@@ -364,11 +423,19 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 34.895,
+       "swing_into": "powder",
        "to": "dining",
+       "wall": "W",
        "width_ft": 2.5
       },
       {
+       "hinge": "low",
+       "position_ft": 24.5,
+       "swing_into": "powder",
        "to": "foyer",
+       "wall": "S",
        "width_ft": 2.5
       }
      ],
@@ -388,7 +455,11 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 29.0,
+       "swing_into": "study",
        "to": "foyer",
+       "wall": "W",
        "width_ft": 3
       }
      ],
@@ -412,6 +483,10 @@
       {
        "count": 2,
        "height_ft": 5,
+       "positions_ft": [
+        34.0,
+        38.0
+       ],
        "wall": "N",
        "width_ft": 3
       }
@@ -420,13 +495,20 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 24.5,
+       "swing_into": "family",
        "to": "foyer",
        "type": "open",
+       "wall": "N",
        "width_ft": 6
       },
       {
        "to": "kitchen",
        "type": "open",
+       "unplaced": {
+        "reason": "they share 9.0 ft; this leaf and its jambs need 10.7 ft"
+       },
        "width_ft": 10
       }
      ],
@@ -450,6 +532,10 @@
       {
        "count": 3,
        "height_ft": 5,
+       "unplaced": {
+        "declared_wall": "S",
+        "reason": "the placement puts this room on no such boundary wall"
+       },
        "wall": "S",
        "width_ft": 3
       }
@@ -460,15 +546,26 @@
       {
        "to": "family",
        "type": "open",
+       "unplaced": {
+        "reason": "they share 9.0 ft; this leaf and its jambs need 10.7 ft"
+       },
        "width_ft": 10
       },
       {
+       "hinge": "low",
+       "position_ft": 3.5,
+       "swing_into": "kitchen",
        "to": "dining",
        "type": "cased-opening",
+       "wall": "N",
        "width_ft": 3
       },
       {
+       "hinge": "low",
+       "position_ft": 13.0,
+       "swing_into": "mud",
        "to": "mud",
+       "wall": "E",
        "width_ft": 3
       }
      ],
@@ -491,6 +588,9 @@
       {
        "count": 1,
        "height_ft": 4,
+       "positions_ft": [
+        3.5
+       ],
        "wall": "S",
        "width_ft": 3
       }
@@ -499,15 +599,27 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 13.0,
+       "swing_into": "mud",
        "to": "kitchen",
+       "wall": "W",
        "width_ft": 3
       },
       {
+       "hinge": "low",
+       "position_ft": 13.0,
+       "swing_into": "garage",
        "to": "garage",
+       "wall": "E",
        "width_ft": 3
       },
       {
+       "hinge": "low",
+       "position_ft": 9.5,
+       "swing_into": "laundry",
        "to": "laundry",
+       "wall": "S",
        "width_ft": 2.5
       }
      ],
@@ -527,7 +639,11 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 9.5,
+       "swing_into": "laundry",
        "to": "mud",
+       "wall": "N",
        "width_ft": 2.5
       }
      ],
@@ -547,12 +663,20 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 13.0,
+       "swing_into": "garage",
        "to": "mud",
+       "wall": "W",
        "width_ft": 3
       },
       {
+       "hinge": "low",
+       "position_ft": 8.5,
+       "swing_into": "garage",
        "to": "exterior",
        "type": "garage",
+       "wall": "E",
        "width_ft": 16
       }
      ],
@@ -577,13 +701,21 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 29.0,
+       "swing_into": "stair",
        "to": "foyer",
        "type": "cased-opening",
+       "wall": "E",
        "width_ft": 5
       },
       {
+       "hinge": "low",
+       "position_ft": 12.5,
+       "swing_into": "family",
        "to": "family",
        "type": "open",
+       "wall": "S",
        "width_ft": 3
       }
      ],
@@ -606,6 +738,7 @@
   {
    "expected": {
     "exterior": [],
+    "inferred_positions": 0,
     "inferred_widths": 0,
     "interior": [
      {
@@ -714,7 +847,7 @@
        "bed2",
        "bed2cl"
       ],
-      "pos_ft": 22.505000000000003,
+      "pos_ft": 22.505,
       "swing_positive": false,
       "to": "bed2cl",
       "type": "swing",
@@ -738,7 +871,7 @@
     "undrawable": [
      {
       "from": "primary",
-      "reason": "the other room is not placed on this level",
+      "reason": "no room 'primarycl' on this level for this door to reach",
       "to": "primarycl",
       "type": "swing",
       "width_ft": 2.5
@@ -746,13 +879,13 @@
     ],
     "windows": [
      {
-      "at_ft": 9.5,
+      "at_ft": 9.0,
       "room": "primary",
       "wall": "S",
       "width_ft": 3
      },
      {
-      "at_ft": 17.5,
+      "at_ft": 18.0,
       "room": "primary",
       "wall": "S",
       "width_ft": 3
@@ -797,24 +930,44 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 10.0,
+       "swing_into": "primary",
        "to": "primary",
+       "wall": "W",
        "width_ft": 3
       },
       {
+       "hinge": "low",
+       "position_ft": 25.0,
+       "swing_into": "bed2",
        "to": "bed2",
+       "wall": "W",
        "width_ft": 2.7
       },
       {
+       "hinge": "low",
+       "position_ft": 30.5,
+       "swing_into": "bed3",
        "to": "bed3",
+       "wall": "N",
        "width_ft": 2.7
       },
       {
+       "hinge": "low",
+       "position_ft": 16.5,
+       "swing_into": "hallbath",
        "to": "hallbath",
+       "wall": "E",
        "width_ft": 2.5
       },
       {
+       "hinge": "low",
+       "position_ft": 5.0,
+       "swing_into": "upperstair",
        "to": "upperstair",
        "type": "open",
+       "wall": "E",
        "width_ft": 4
       }
      ],
@@ -834,19 +987,34 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 10.0,
+       "swing_into": "primary",
        "to": "upperhall",
+       "wall": "E",
        "width_ft": 3
       },
       {
+       "hinge": "low",
+       "position_ft": 6.0,
+       "swing_into": "primarybath",
        "to": "primarybath",
+       "wall": "N",
        "width_ft": 2.7
       },
       {
+       "hinge": "low",
+       "position_ft": 15.0,
+       "swing_into": "wic",
        "to": "wic",
+       "wall": "N",
        "width_ft": 2.5
       },
       {
        "to": "primarycl",
+       "unplaced": {
+        "reason": "no room 'primarycl' on this level for this door to reach"
+       },
        "width_ft": 2.5
       }
      ],
@@ -871,6 +1039,10 @@
        "count": 2,
        "egress": true,
        "height_ft": 5,
+       "positions_ft": [
+        9.0,
+        18.0
+       ],
        "wall": "S",
        "width_ft": 3
       }
@@ -879,7 +1051,11 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 6.0,
+       "swing_into": "primarybath",
        "to": "primary",
+       "wall": "S",
        "width_ft": 2.7
       }
      ],
@@ -902,6 +1078,9 @@
       {
        "count": 1,
        "height_ft": 3,
+       "positions_ft": [
+        29.0
+       ],
        "wall": "W",
        "width_ft": 2
       }
@@ -910,7 +1089,11 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 15.0,
+       "swing_into": "wic",
        "to": "primary",
+       "wall": "S",
        "width_ft": 2.5
       }
      ],
@@ -930,11 +1113,19 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 25.0,
+       "swing_into": "bed2",
        "to": "upperhall",
+       "wall": "E",
        "width_ft": 2.7
       },
       {
+       "hinge": "low",
+       "position_ft": 22.505,
+       "swing_into": "bed2cl",
        "to": "bed2cl",
+       "wall": "S",
        "width_ft": 2.5
       }
      ],
@@ -958,6 +1149,9 @@
        "count": 1,
        "egress": true,
        "height_ft": 4,
+       "positions_ft": [
+        22.5
+       ],
        "wall": "N",
        "width_ft": 3
       }
@@ -966,11 +1160,19 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 30.5,
+       "swing_into": "bed3",
        "to": "upperhall",
+       "wall": "S",
        "width_ft": 2.7
       },
       {
+       "hinge": "low",
+       "position_ft": 37.0,
+       "swing_into": "bed3cl",
        "to": "bed3cl",
+       "wall": "S",
        "width_ft": 2.5
       }
      ],
@@ -993,6 +1195,9 @@
       {
        "count": 1,
        "height_ft": 4,
+       "positions_ft": [
+        33.5
+       ],
        "wall": "N",
        "width_ft": 3
       }
@@ -1001,7 +1206,11 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 16.5,
+       "swing_into": "hallbath",
        "to": "upperhall",
+       "wall": "W",
        "width_ft": 2.5
       }
      ],
@@ -1021,8 +1230,12 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 5.0,
+       "swing_into": "upperstair",
        "to": "upperhall",
        "type": "open",
+       "wall": "W",
        "width_ft": 4
       }
      ],
@@ -1042,7 +1255,11 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 22.505,
+       "swing_into": "bed2cl",
        "to": "bed2",
+       "wall": "N",
        "width_ft": 2.5
       }
      ],
@@ -1062,7 +1279,11 @@
     {
      "doors": [
       {
+       "hinge": "low",
+       "position_ft": 37.0,
+       "swing_into": "bed3cl",
        "to": "bed3",
+       "wall": "N",
        "width_ft": 2.5
       }
      ],

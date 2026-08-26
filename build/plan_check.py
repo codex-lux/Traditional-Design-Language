@@ -293,6 +293,231 @@ class Findings:
                                                  f["layer"], f.get("room") or ""))
 
 # ---------------------------------------------------------------- the checker
+# ---------------------------------------------------------------- the drawn house
+HABITABLE = {"public", "living", "dining", "sleeping", "work", "circulation",
+             "threshold", "sanitary", "service"}
+
+
+def drawn_layer(plan, rooms, level_of, C, F):
+    """Judge the house that was PLACED, not the one that was declared.
+
+    Three states, like every other checker here: a plan with no placement returns
+    `{"evaluated": False, ...}` and one `info` finding saying so. It is never a pass. The
+    checks are the ones the reported defects needed and nothing had:
+
+      · REACHABILITY. Nothing in this system has ever checked that you can walk from the
+        front door to every room. A room with no doors at all produced no finding, and a
+        room whose declared doors the placement could not realise produced none either --
+        which is how a chamber bath with no way in shipped on a reference sheet.
+      · The drawn size against the declared one, in both directions.
+      · The landing over its own stair, which `stacks_over` has never been read for.
+      · Passage clear width against groupings/centre-passage-core.json's own band.
+      · Wet-room fixtures that will not fit together on real walls.
+    """
+    placed = {rid: r["geometry"] for rid, r in rooms.items() if r.get("geometry")}
+    if not placed:
+        F.add("info", "drawn",
+              "The drawn layer could not evaluate: this record carries no placement. "
+              "Run build/geometry.py to place it, then re-check.",
+              fix="python3 build/geometry.py <plan>")
+        return {"evaluated": False, "reason": "no placement on this record",
+                "rooms_placed": 0}
+
+    out = {"evaluated": True, "rooms_placed": len(placed), "unreachable": [],
+           "diverged": [], "unplaced_openings": 0}
+
+    # --- reachability over the openings that were actually PLACED
+    ok_edges = {rid: set() for rid in rooms}
+    outside = set()
+    unplaced_pairs = set()
+    for rid, r in rooms.items():
+        for d in (r.get("doors") or []):
+            if d.get("unplaced"):
+                # counted per PAIR: a door is one door, and it is written on both of its
+                # rooms, so counting records would report every one of them twice
+                unplaced_pairs.add(tuple(sorted((rid, d["to"]))))
+                continue
+            t = d["to"]
+            if t == "exterior":
+                outside.add(rid)
+                continue
+            if t in ok_edges:
+                ok_edges[rid].add(t)
+                ok_edges[t].add(rid)
+    out["unplaced_openings"] = len(unplaced_pairs)
+    # a stair connects its two levels: a landing over a stair is a way up, and without it
+    # every upper room reads as unreachable on a house whose only link between floors is
+    # the stair everybody uses
+    st = plan.get("stair")
+    if st and st.get("room") in ok_edges:
+        for rid, r in rooms.items():
+            if r.get("stacks_over") == st["room"]:
+                ok_edges[rid].add(st["room"])
+                ok_edges[st["room"]].add(rid)
+    for a in plan.get("adjacencies", []):
+        if a.get("relation") in ("above", "below") and a["a"] in ok_edges and a["b"] in ok_edges:
+            ok_edges[a["a"]].add(a["b"])
+            ok_edges[a["b"]].add(a["a"])
+
+    seen = set(outside)
+    stack = list(outside)
+    while stack:
+        cur = stack.pop()
+        for nxt in ok_edges.get(cur, ()):
+            if nxt not in seen:
+                seen.add(nxt)
+                stack.append(nxt)
+    if outside:
+        for rid, r in rooms.items():
+            if rid in seen or rid not in placed:
+                continue
+            fc = (C["rooms"].get(r["type"], {}) or {}).get("function_class")
+            if fc not in HABITABLE:
+                continue
+            name = r.get("name") or rid
+            declared = len([d for d in (r.get("doors") or [])])
+            out["unreachable"].append(rid)
+            F.add("fatal", "drawn",
+                  f"{name} cannot be reached from outside the house on the drawing. "
+                  + (f"The record declares {declared} door(s) to it and the placement "
+                     f"realised none of them."
+                     if declared else "The record declares no door to it at all."),
+                  room=rid,
+                  fix=("Place the plan again, or move the rooms so the declared doors have "
+                       "a wall to sit in — build/openings.py names each one it could not "
+                       "place and why."))
+    else:
+        F.add("info", "drawn",
+              "Reachability could not be evaluated: no exterior door on this plan is placed, "
+              "so there is no outside to walk in from.")
+
+    # A room the drawing joins to NOTHING INSIDE the house. It passes reachability whenever
+    # it has an exterior door of its own, and it is still wrong: this is the reported
+    # symptom in its exact form — "the door to the kitchen is only from the outside, and the
+    # kitchen is connected to no other rooms through doors or casement openings". The
+    # declared graph is fine, which is why every existing layer is silent about it.
+    out["cut_off"] = []
+    for rid, r in rooms.items():
+        if rid not in placed:
+            continue
+        interior_declared = [d for d in (r.get("doors") or []) if d["to"] != "exterior"]
+        if not interior_declared or ok_edges.get(rid):
+            continue
+        fc = (C["rooms"].get(r["type"], {}) or {}).get("function_class")
+        if fc == "outdoor":
+            continue
+        # a room already reported UNREACHABLE is not also reported cut off: that is one
+        # defect, and saying it twice would inflate the count of a plan's troubles with a
+        # restatement rather than a second fact
+        if rid not in seen:
+            continue
+        name = r.get("name") or rid
+        out["cut_off"].append(rid)
+        F.add("serious", "drawn",
+              f"{name} joins no other room on the drawing — the only way in is from outside. "
+              f"The record declares {len(interior_declared)} interior door(s) and the "
+              f"placement realised none of them.",
+              room=rid,
+              fix=("Place the plan again, or move these rooms so their declared doors have a "
+                   "wall to sit in — build/openings.py names each door it could not place "
+                   "and why."))
+
+    # --- drawn against declared
+    for rid, r in rooms.items():
+        g = placed.get(rid)
+        dw, dl = r.get("width_ft"), r.get("length_ft")
+        if not g or not dw or not dl:
+            continue
+        da, pa = dw * dl, g["width_ft"] * g["depth_ft"]
+        if da <= 0:
+            continue
+        pct = (pa - da) / da * 100.0
+        if abs(pct) < 10:
+            continue
+        name = r.get("name") or rid
+        out["diverged"].append({"room": rid, "pct": round(pct, 1)})
+        sev = "serious" if abs(pct) >= 25 else "minor"
+        F.add(sev, "drawn",
+              f"{name} is drawn at {round(pa)} sf against the {round(da)} sf the record "
+              f"declares ({pct:+.0f}%).",
+              room=rid,
+              fix=("Accept the drawn size into the record, or constrain the placement — "
+                   "the sheet prints the drawn figure, so the record and the drawing "
+                   "disagree until one of them moves."))
+
+    # --- the landing over its own stair. `stacks_over` is in the schema, the partis
+    # declare it, and until WP-6.3 NEITHER placement engine read it.
+    if st and st.get("well"):
+        w = st["well"]
+        for rid, r in rooms.items():
+            if r.get("stacks_over") != st.get("room"):
+                continue
+            g = placed.get(rid)
+            if not g:
+                continue
+            ox = min(g["x_ft"] + g["width_ft"], w["x_ft"] + w["width_ft"]) - max(g["x_ft"], w["x_ft"])
+            oy = min(g["y_ft"] + g["depth_ft"], w["y_ft"] + w["depth_ft"]) - max(g["y_ft"], w["y_ft"])
+            name = r.get("name") or rid
+            if ox <= 0 or oy <= 0:
+                F.add("serious", "drawn",
+                      f"{name} declares it stacks over '{st['room']}' and is drawn clear of "
+                      f"it entirely — the stair arrives where there is no landing.",
+                      room=rid,
+                      fix="Place the two together, or drop the stacks_over claim.")
+            elif ox * oy < (st.get("width_ft") or 3.0) ** 2:
+                F.add("minor", "drawn",
+                      f"{name} overlaps the stair well by only {ox * oy:.0f} sf; a landing "
+                      f"not less than the stair's own width is "
+                      f"groupings/stair-and-landing-core.json's hard rule.",
+                      room=rid)
+    if st and st.get("unplaced"):
+        F.add("serious", "drawn",
+              f"The stair is not drawn: {st['unplaced']['reason']}",
+              room=st.get("room"),
+              fix="Give the stair hall the run its own storey height needs.")
+
+    # --- the passage, against its own grouping's band
+    band = None
+    cp = (C["groupings"].get("centre-passage-core") or {})
+    for rule in (cp.get("rules") or []):
+        t = rule.get("test") or ""
+        if "passage_width_ft" in t and "between" in t:
+            band = rule
+            break
+    for rid, r in rooms.items():
+        if r["type"] not in ("centre-passage", "cross-passage"):
+            continue
+        g = placed.get(rid)
+        if not g:
+            continue
+        wft = min(g["width_ft"], g["depth_ft"])
+        name = r.get("name") or rid
+        if wft < 6.0:
+            F.add("serious", "drawn",
+                  f"{name} is drawn {wft:.1f} ft wide. rooms/centre-passage.json: "
+                  f"\"SIX TO SEVEN FEET is a passage that circulates\" — below that it does "
+                  f"not.", room=rid)
+        elif 8.0 <= wft <= 9.0:
+            F.add("minor", "drawn",
+                  f"{name} is drawn {wft:.1f} ft wide, in the dead zone its own record names: "
+                  f"\"too wide to be economical and too narrow to furnish\".", room=rid)
+
+    # --- fixtures that will not fit together
+    for rid, r in rooms.items():
+        for f in (r.get("fixture_layout") or []):
+            if not f.get("unplaced"):
+                continue
+            name = r.get("name") or rid
+            F.add("serious", "drawn",
+                  f"{name}: {f['item']} is not placed — {f['unplaced']['reason']}",
+                  room=rid,
+                  fix="Widen the room, or drop the fixture from the record.")
+
+    out["unreachable_count"] = len(out["unreachable"])
+    out["diverged_count"] = len(out["diverged"])
+    return out
+
+
 def check(plan, C=None, strict=False):
     C = C or load_corpus()
     core = _load("tdlcore", f"{ROOT}/mcp_server/core.py")
@@ -836,9 +1061,22 @@ def check(plan, C=None, strict=False):
               f"{x['name']}: {ev.get('value')} against {ev.get('required')}.",
               rule=x["fault"], fix=x.get("fix_cheap"))
 
+    # ---- the DRAWN layer (WP-6.2). Everything above this line judges the plan the record
+    # DECLARES. This layer judges the house that was actually placed, and it is the only
+    # layer permitted to read `geometry` — a separation kept deliberately, so that a plan
+    # nobody has placed is never failed for facts about a placement that does not exist.
+    #
+    # OQ 54 ruled in August that plan_check must NOT read room.geometry, and Lucas reopened
+    # that ruling for this package. The reason is in the report: the critic scored the
+    # declared house while the sheet drew the solved one, so a landing that misses its own
+    # stair, a room drawn at 63% of its declared area, and a bathroom no door reaches all
+    # produced no finding at all. Each of those is now a finding, and a record with no
+    # placement gets a single `info` saying the layer could not evaluate — never a pass.
+    drawn = drawn_layer(plan, rooms, level_of, C, F)
+
     counts = {}
     for f in F.items: counts[f["severity"]] = counts.get(f["severity"], 0) + 1
-    return {"plan": plan["id"], "style": style, "rooms": len(rooms),
+    return {"plan": plan["id"], "style": style, "rooms": len(rooms), "drawn_summary": drawn,
             "counts": counts, "fault_summary": fr.get("summary"), "constraint_summary": constraint_summary,
             # The could-not-judge detail, not just its count. fault_summary already counts
             # unjudged; without the list itself a caller cannot say WHICH faults were

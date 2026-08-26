@@ -139,12 +139,30 @@ def _solved_copy(plan, parti=None, candidates=250):
 
 # room-record keys that are solver output, never authored — stripped from what
 # the XDATA carries so the round-trip returns the authored record
-_SOLVED_ROOM_KEYS = ("geometry",)
-_SOLVED_PLAN_KEYS = ("footprint", "geometry_report")
+_SOLVED_ROOM_KEYS = ("geometry", "fixture_layout")
+_SOLVED_PLAN_KEYS = ("footprint", "geometry_report", "stair", "opening_report")
+# WP-6.2 put solver output INSIDE the openings for the first time. Until then everything the
+# placement wrote lived in keys of its own — `geometry` on a room, `footprint` on the plan —
+# and stripping the top level was enough. A door now carries the wall and the position the
+# placement gave it, or the reason it could not be placed, and those are as much solver
+# output as a rectangle is: leaving them in the XDATA made the round-trip return a record
+# the author never wrote. Caught by tests/test_export.py, which asserts the rebuilt record
+# deep-equals the authored one.
+# and the two are NOT the same list. A window has always declared its own `wall` — that is
+# an authored fact and stripping it lost it — while a door had no wall at all until 0.3.0,
+# so on a door `wall` is placement output. The distinction cost one round-trip failure to
+# find and is worth the two constants.
+_SOLVED_DOOR_KEYS = ("wall", "position_ft", "positions_ft", "hinge", "swing_into", "unplaced")
+_SOLVED_WINDOW_KEYS = ("position_ft", "positions_ft", "unplaced")
 
 
 def _room_record(room):
-    return {k: v for k, v in room.items() if k not in _SOLVED_ROOM_KEYS and not k.startswith("_")}
+    out = {k: v for k, v in room.items()
+           if k not in _SOLVED_ROOM_KEYS and not k.startswith("_")}
+    for key, drop in (("doors", _SOLVED_DOOR_KEYS), ("windows", _SOLVED_WINDOW_KEYS)):
+        if key in out:
+            out[key] = [{k: v for k, v in o.items() if k not in drop} for o in out[key]]
+    return out
 
 
 def _plan_meta(plan):

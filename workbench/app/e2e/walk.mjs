@@ -185,6 +185,20 @@ const flat = openings.titleText.replace(/[·​]/g, ' ').replace(/\s+/g, ' ').tr
 check(`the plate title is whole ("${flat.slice(0, 48)}")`,
   flat.includes('tidewater') && flat.includes('georgian'));
 
+// WP-6.2 — the stair and the fixtures, both drawn ONLY from the record. There has never
+// been a line of stair-drawing code in this system, and a stair hall was an empty rectangle
+// with lettering in it. Either the flights are on the sheet, or the sheet says why not:
+// what must never happen is an empty stair hall presented as a finished drawing.
+const built = await page.evaluate(() => ({
+  stair: document.querySelectorAll('[data-stair]').length,
+  refused: !!document.querySelector('[data-stair="refused"]'),
+  fixtures: [...document.querySelectorAll('svg rect')]
+    .filter((r) => (r.getAttribute('stroke-dasharray') || '').startsWith('1.4')).length,
+}));
+check(`the stair is drawn or its absence is stated (${built.stair} mark(s), refused=${built.refused})`,
+  built.stair > 0);
+check(`wet-room fixtures are drawn from the record (${built.fixtures})`, built.fixtures > 0);
+
 // the loupe's scroller, and one room's drawn dimensions, read the same way twice
 const scrollPos = () => page.evaluate(() => {
   const d = [...document.querySelectorAll('div')]

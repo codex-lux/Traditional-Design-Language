@@ -89,6 +89,7 @@ in the query string via `filters/useFilters.js` — do not reintroduce per-surfa
 `docs/reports/wp-5.6-navigation-overhaul.md`.
 
 164 nodes · 97 slots (ontology 0.7.0) · 40 massings · 60 rooms · 17 groupings ·
+**30 opening-grammar rules covering all 1,890 room pairs** (WP-6.2, editorial; every rule quotes the corpus prose it reads and `build/check_openings.py` verifies the quote against the record it names) ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
 style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before trusting that number -- it counts a node's OWN bindings and the lineage cascade delivers packs nobody bound) — but 50 nodes still have no opening-role pack
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
@@ -167,6 +168,33 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
+- **A door is a thing with a place now, and three files must agree about it (WP-6.2).**
+  Until 26 Aug a door was `{"to": id}` with an optional width — no wall, no position, no
+  rank — so each renderer invented a position and each invented it differently. Plan schema
+  **0.3.0** admits the PLACED plan as a record (`geometry`, `footprint`, `stair`,
+  `fixture_layout`, and per-opening `wall`/`position_ft`/`positions_ft`/`hinge`/`rank`), and
+  `build/openings.py` writes them from **one call site inside `geometry.solve()`** so both
+  engines produce the same kind of record. The rule that matters: **an opening the placement
+  cannot realise is marked `unplaced` with a reason and never deleted** — and a window's
+  DECLARED `count` is never overwritten with what was placed, because losing an author's
+  intent to a placement outcome is the silent overwrite this whole package removed. The
+  jamb allowance (0.35 ft) and the minimum solid (1.0 ft) are duplicated on purpose in
+  `render_plan.py`, `derive.js` and `openings.py`, and
+  `tests/fixtures/sheet_symbols/` holds all of them to one contract; change one and two
+  suites fail. **The DXF exporter strips placement output from its XDATA** so the round trip
+  still returns the AUTHORED record — and `wall` is authored on a WINDOW and solver output on
+  a DOOR, which cost one round-trip failure to discover.
+- **`openings/grammar.json` is editorial and its citations are CHECKED.** Every rule quotes
+  the room-record prose it reads, and `build/check_openings.py` verifies that the record
+  exists and that the sentence is really in it. An editorial call whose citation cannot be
+  checked is a guess wearing a citation. It also proves totality — all 1,890 room pairs
+  resolve to a named rule, the default included, so no opening is ever dimensioned from
+  nothing.
+- **`plan_check` has a `drawn` layer and it is the ONLY layer that may read placement.**
+  OQ 54 ruled the opposite in August and Lucas reversed it on 26 Aug. Every other layer
+  stays geometry-blind, which is what keeps the original ruling's real concern intact: an
+  unplaced record reports COULD NOT EVALUATE and takes no drawn finding at all. Do not read
+  `room.geometry` from any other layer.
 - **Two placement engines, and the default is the weaker one.** `build/geometry.py` searches
   and `build/geometry_cp.py` proves; every caller defaults to the search. The search will place a
   room below the floor of its own band and say nothing — the spec Colonial's dining room comes
@@ -261,8 +289,15 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **71 entries, of which 16 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68). **69, 70 and 71 were raised AND
+  trusting any list of them. `docs/open-questions.md` holds **75 entries, of which 20 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 72, 73, 74, 75).
+  **72-75 come from the plan-semantics program** (WP-6.1/6.2) and are what Lucas's review of two
+  rendered sheets turned up that the program did not settle: the per-opening window type and bay
+  windows, furniture arrangement beyond wet rooms, the door's hand, and a reference plan that
+  cannot satisfy its own style's hard rule about doors at both ends of a passage. **39 and 41 are
+  HALF CLOSED by the same program** — a door has a height now, and the renderers learned narrow
+  doors — and both stay open because their other halves do. **OQ 54 was RULED AGAIN**: the critic
+  reads the drawn house, in one layer and only one. **69, 70 and 71 were raised AND
   ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
   and 66, colliding with main's block for the second parallel-session collision in two days;
   main keeps its numbers and these were reissued, with the conversion table at the foot of the

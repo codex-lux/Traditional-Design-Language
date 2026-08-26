@@ -1,0 +1,265 @@
+{
+  "id": "opening-grammar",
+  "version": "0.1.0",
+  "name": "The opening grammar",
+  "description": "Which KIND of opening belongs between which two rooms, and how wide. The corpus has always known how to derive a door's dimensions -- proportions/systems/opening-proportion.json gives an entry leaf from the storey height, the kits give the graduation `principal 84 in, secondary 80 in, service 78 in` -- and has never had anywhere to say that the door between a drawing room and a dining room is a PAIR while the one into the butler's pantry is a single narrow leaf. So build/compose.py emitted every door as {\"to\": id} with no width and no type, and both renderers drew every opening as one hinged leaf. This file is the missing half.",
+  "kind": "editorial",
+  "judgment": true,
+  "note": "EDITORIAL THROUGHOUT, AND NO SOURCE IS RECORDED (the OQ 18 form). Every rule here is a reading of what this corpus's own room records already say in prose, quoted verbatim in each `basis`, plus the door-leaf arithmetic in proportions/systems/opening-proportion.json. Nothing was taken from a secondary work and nothing was measured. The bands were fitted against plans/tidewater-georgian-careful.json, whose 58 hand-authored doors are the only worked example of a graded door schedule in the corpus -- that is a fit to one author's judgment, not a measurement of a tradition. Sharpening any of this needs the facsimiles that OQ 7-11 and OQ 18's source half are blocked on; none of these numbers may be promoted to `measured` from a secondary source.",
+  "resolution": {
+    "order": ["exact type pair", "type against function class", "class pair", "default"],
+    "symmetry": "A `when` is UNORDERED: a door between a and b is one door, and matches whichever way round the two rooms are named.",
+    "note": "First match in the order above wins. The default is itself a named rule so that no opening is ever derived from nothing -- an opening whose pair matches nothing still has a rule id to cite."
+  },
+
+  "pair_rules": [
+    {
+      "id": "og-withdrawal-enfilade",
+      "when": { "a": { "type": "drawing-room" }, "b": { "type": "dining-room" } },
+      "opening": { "type": "double", "width_band_ft": [5.0, 6.0], "rank": "principal" },
+      "basis": "rooms/drawing-room.json adjacency.must_adjoin[dining-room].why: \"THE WITHDRAWAL. The whole company moves from one room to the other as a body, so the two rooms are adjacent and joined by a door - preferably a pair - that a group can pass through together.\"",
+      "note": "The one rule in this file the corpus states almost outright: 'preferably a pair'. proportions/systems/opening-proportion.json gives the reason a pair is needed at all -- 'past about 44 in a single leaf becomes unwieldy, so the storey's demand is met with two' -- so the band is two leaves of 30 to 36 in."
+    },
+    {
+      "id": "og-formal-enfilade",
+      "when": { "a": { "type": "drawing-room" }, "b": { "type": "library" } },
+      "opening": { "type": "double", "width_band_ft": [5.0, 6.0], "rank": "principal" },
+      "basis": "rooms/drawing-room.json adjacency.should_adjoin[library].why: \"in the country-house sequence the drawing room, library and dining room form an enfilade along the garden front\"",
+      "note": "An enfilade is a line of doors on one axis, and a door on that axis is a ceremonial door. Same band as the withdrawal for the same reason."
+    },
+    {
+      "id": "og-kitchen-to-breakfast",
+      "when": { "a": { "type": "kitchen" }, "b": { "type": "breakfast-room" } },
+      "opening": { "type": "cased-opening", "width_band_ft": [4.0, 5.0], "rank": "secondary" },
+      "basis": "rooms/breakfast-room.json adjacency.must_adjoin[kitchen].why: \"Direct and open. Any separation defeats the informality that is the room's purpose.\"",
+      "note": "'Open' is the whole claim: a leaf here would be the separation the room's own record forbids. A cased opening is an opening with a lining and no door, which is what the record describes."
+    },
+    {
+      "id": "og-kitchen-to-eat-in",
+      "when": { "a": { "type": "kitchen" }, "b": { "type": "eat-in-kitchen-area" } },
+      "opening": { "type": "open", "width_band_ft": [6.0, 10.0], "rank": "secondary" },
+      "basis": "rooms/eat-in-kitchen-area.json is by its own id a part of the kitchen rather than a room off it.",
+      "note": "Not a door at all. Named so the composer has something to cite rather than falling to the default and hanging a leaf in the middle of one room."
+    },
+    {
+      "id": "og-porch-into-the-house",
+      "when": { "a": { "type": "entry-porch" }, "b": { "any": true } },
+      "opening": { "type": "swing", "width_band_ft": [3.0, 3.7], "rank": "principal" },
+      "derive_width_from": { "pack": "opening-proportion", "quantity": "entry_door_leaf_width" },
+      "basis": "rooms/entry-porch.json adjacency.must_adjoin[entrance-hall].why: \"the porch's whole purpose is to be the outside of a door, and the door must lead somewhere that can receive a person\"; and its description: \"The roofed platform in front of the door, and the first room of the house even though it has no walls.\"",
+      "note": "A porch is outside the weather line, so the door out of it IS the front door and takes the entry-door band — not the cased opening that would otherwise govern one threshold running into another. Found by fitting against plans/tidewater-georgian-careful.json, where the hand-authored porch-to-passage door is 3.5 ft and an earlier version of this file resolved it to a 4-6 ft opening with no leaf."
+    },
+    {
+      "id": "og-to-walk-in-closet",
+      "when": { "a": { "any": true }, "b": { "type": "walk-in-closet" } },
+      "opening": { "type": "swing", "width_band_ft": [2.5, 3.0], "rank": "chamber" },
+      "basis": "rooms/walk-in-closet.json adjacency.must_adjoin[primary-bedroom].why: \"Entered from the bedroom, never from the passage and never from the bathroom alone.\"; and its description: \"A closet you stand inside.\"",
+      "note": "A closet you walk into is a room and takes a room's door. The reach-in closet's 2.0-2.5 ft band is derived from a 24 in clear depth and a leaf that must shut on a winter coat, which is an argument about a cupboard and not about a room."
+    },
+    {
+      "id": "og-service-circulation",
+      "when": { "a": { "type": "back-hall" }, "b": { "function_class": ["circulation", "threshold"] } },
+      "opening": { "type": "swing", "width_band_ft": [2.6, 3.2], "rank": "service" },
+      "basis": "rooms/back-hall.json description: \"The second circulation system. A back hall exists so that one set of people can move through the house without meeting another set\"; and its critical_dimension: \"WIDTH, and the honest number is 42 in rather than 36, because this is the corridor that carries LOADS\"",
+      "note": "Two circulation spaces usually run into one another and take an opening rather than a doorway — but a back hall is the SECOND circulation system, and the point of a second system is that it is separable from the first. A door, graded as service."
+    },
+    {
+      "id": "og-passage-to-stair",
+      "when": { "a": { "function_class": "circulation" }, "b": { "type": "stair-hall" } },
+      "opening": { "type": "open", "width_band_ft": [5.0, 6.5], "rank": "principal" },
+      "basis": "rooms/stair-hall.json adjacency.should_adjoin[centre-passage].why: \"the stair belongs on the passage, generally against the wall opposite the parlor door\"; and its must_adjoin[entrance-hall] is `visible-from`, strength hard: \"the principal stair must be visible from arrival\".",
+      "note": "A stair hall a visitor must open a door to reach cannot be visible from arrival, so the opening between circulation and stair is an opening and not a doorway. plans/tidewater-georgian-careful.json states exactly this by hand: passage to stair, 6 ft, type `open`."
+    },
+    {
+      "id": "og-pantry-offset-pair",
+      "when": { "a": { "type": "butlers-pantry" }, "b": { "function_class": ["service", "dining"] } },
+      "opening": { "type": "swing", "width_band_ft": [2.6, 3.0], "rank": "service" },
+      "placement": "offset",
+      "basis": "rooms/butlers-pantry.json dimensions.critical_dimension: \"THE DOORS MUST NOT ALIGN. This is the rule the room exists for and it is almost never written down: if the kitchen door and the dining-room door are on the same axis, then every time one of them is open the dining room can see straight into the kitchen and the lock has failed. Offset the two doors by at least the width of one door leaf - 32 in\"",
+      "note": "The `placement: offset` is read by build/openings.py, which is the point: this room's defining rule has sat in a prose field since the record was written, with nothing able to act on it."
+    },
+    {
+      "id": "og-service-to-service",
+      "when": { "a": { "function_class": "service" }, "b": { "function_class": ["service", "storage"] } },
+      "opening": { "type": "swing", "width_band_ft": [2.6, 3.0], "rank": "service" },
+      "basis": "kits/georgian-colonial-american.kit.json secondary_door.graduation_rule: \"principal 84 in, secondary 80 in, service 78 in\"; interior_door.graduation: \"principal rooms six-panel, chambers six or four, service two-panel or batten\".",
+      "note": "The kits have always graded the service door and nothing could act on it, because a door had no rank."
+    },
+    {
+      "id": "og-circulation-to-service",
+      "when": { "a": { "function_class": "circulation" }, "b": { "function_class": "service" } },
+      "opening": { "type": "swing", "width_band_ft": [2.8, 3.0], "rank": "secondary" },
+      "basis": "rooms/kitchen.json adjacency.must_adjoin[dining-room].why: \"Directly, or through one intervening service room. Food travels hot and the route must not cross the entry sequence or a public circulation\".",
+      "note": "A working door on a working route: wide enough to carry a tray through, graded below the principal rooms."
+    },
+    {
+      "id": "og-circulation-to-public",
+      "when": { "a": { "function_class": ["circulation", "threshold"] }, "b": { "function_class": ["public", "living", "dining"] } },
+      "opening": { "type": "swing", "width_band_ft": [3.0, 3.5], "rank": "principal" },
+      "basis": "rooms/dining-room.json adjacency.should_adjoin[entrance-hall].why: \"Guests reach it without passing through another room, which is what makes it a formal room rather than a back room.\"",
+      "note": "The commonest door in a formal plan and the one the Tidewater record writes at 3.5 ft six times over. Its rank is what makes `every-door-the-same-door` checkable at all."
+    },
+    {
+      "id": "og-garage-vehicle-door",
+      "when": { "a": { "type": "garage" }, "b": { "type": "exterior" } },
+      "opening": { "type": "garage", "width_band_ft": [8.0, 18.0], "rank": "service" },
+      "basis": "faults/one-wide-door-where-two-would-do.json test: garage_door_opening_width_ft at-most 9.0; build/compose.py::attach_garage already authors this door at 9.0 ft per bay.",
+      "note": "The car door, not the people door — og-garage-to-house is that one. The band's top admits the double-width opening the fault exists to argue against, because the grammar's job is to say what KIND of opening this is and the fault's job is to say when it is too wide. Two rules, two questions."
+    },
+    {
+      "id": "og-to-primary-bath",
+      "when": { "a": { "any": true }, "b": { "type": "primary-bathroom" } },
+      "opening": { "type": "swing", "width_band_ft": [2.5, 3.0], "rank": "chamber" },
+      "basis": "rooms/primary-bathroom.json is a distinct record from rooms/bathroom.json, at privacy_rank 5 against 4, and carries a double vanity, a freestanding tub and a compartmented water closet where the hall bath carries an alcove tub.",
+      "note": "The suite's own bathroom takes a chamber door rather than the hall bath's narrower one. Found by fitting: plans/spec-builder-colonial.json writes 2.7 ft here and the general sanitary band tops out at 2.6."
+    },
+    {
+      "id": "og-to-bath",
+      "when": { "a": { "any": true }, "b": { "function_class": "sanitary" } },
+      "opening": { "type": "swing", "width_band_ft": [2.3, 2.6], "rank": "chamber" },
+      "basis": "rooms/bathroom.json dimensions.critical_dimension: \"the water closet needs 30 in of clear width (15 in from its centreline to any wall or fixture, IRC P2705.1.5) and 21 in clear in front\"; and its furniture carries \"door swing\", footprint_in [28, 28].",
+      "note": "The room's own furniture list carries the door swing as an object 28 in across, which is the width this band is built on. Narrower than a chamber door and wider than a closet's."
+    },
+    {
+      "id": "og-to-closet",
+      "when": { "a": { "any": true }, "b": { "function_class": "storage" } },
+      "opening": { "type": "swing", "width_band_ft": [2.0, 2.5], "rank": "closet" },
+      "basis": "rooms/closet.json dimensions.critical_dimension: \"TWENTY-FOUR INCHES CLEAR, front face of the back wall to the back face of the door... Because the door casing and the jamb eat an inch and a half at the front\"",
+      "note": "The narrowest door in the house, and the one the renderers refused to draw at all until WP-6.1 raised the draw test off its flat 3.2 ft (OQ 41/63)."
+    },
+    {
+      "id": "og-to-sleeping",
+      "when": { "a": { "any": true }, "b": { "function_class": "sleeping" } },
+      "opening": { "type": "swing", "width_band_ft": [2.5, 3.0], "rank": "chamber" },
+      "basis": "kits/georgian-colonial-american.kit.json interior_door.graduation: \"principal rooms six-panel, chambers six or four, service two-panel or batten\" -- the chamber is a stated grade between the principal rooms and the service doors.",
+      "note": "The kit names three grades of leaf and the corpus could record none of them; `rank: chamber` is the middle one."
+    },
+    {
+      "id": "og-entry-door",
+      "when": { "a": { "function_class": ["threshold", "circulation"] }, "b": { "type": "exterior" } },
+      "opening": { "type": "swing", "width_band_ft": [3.0, 3.7], "rank": "principal" },
+      "derive_width_from": { "pack": "opening-proportion", "quantity": "entry_door_leaf_width" },
+      "basis": "proportions/systems/opening-proportion.json derived_rules[entry_door/entry_door_leaf_width]: expression `storey_height / 3.5`, range 24-60 in; kits/georgian-colonial-american.kit.json entry_door.measured_width_in [36, 44].",
+      "note": "The one door in the house whose width the corpus derives from the building rather than from a habit. Where the pack resolves, the pack wins and this band only clamps it; the pack's own note explains the pair: 'past about 44 in a single leaf becomes unwieldy, so the storey's demand is met with two'."
+    },
+    {
+      "id": "og-service-exterior",
+      "when": { "a": { "function_class": ["service", "storage", "work"] }, "b": { "type": "exterior" } },
+      "opening": { "type": "swing", "width_band_ft": [2.8, 3.2], "rank": "service" },
+      "basis": "proportions/systems/opening-proportion.json derived_rules[secondary_door]: expression `module * 2 * 0.94`, note \"in practice, where the principal door is 84 in the service door is 80 in... The graduation of doors by rank is a real and consistent feature of period building and it is almost entirely absent from modern work, where every door in the house is 6 ft 8 in.\"",
+      "note": "The back door. Its own pack calls the graduation a real and consistent feature; this is where the corpus finally records it."
+    },
+    {
+      "id": "og-any-exterior",
+      "when": { "a": { "any": true }, "b": { "type": "exterior" } },
+      "opening": { "type": "swing", "width_band_ft": [2.8, 3.5], "rank": "secondary" },
+      "basis": "proportions/systems/opening-proportion.json module: the door leaf itself, parts 12, default_size_in 36.0.",
+      "note": "Any other door to the outside. Distinct from the entry door and the service door, both of which the corpus grades explicitly."
+    },
+    {
+      "id": "og-to-study",
+      "when": { "a": { "any": true }, "b": { "type": "study" } },
+      "opening": { "type": "swing", "width_band_ft": [2.8, 3.2], "rank": "secondary" },
+      "basis": "rooms/study.json adjacency.must_adjoin[entrance-hall].why: \"in every historic version the study is reachable from the hall, because it is where business callers are taken\"",
+      "note": "A room a caller is shown into needs a door that shuts, and a door on the hall rather than a threshold. Graded below the principal rooms because the study is not one of them."
+    },
+    {
+      "id": "og-garage-to-house",
+      "when": { "a": { "type": "garage" }, "b": { "any": true } },
+      "opening": { "type": "swing", "width_band_ft": [2.8, 3.0], "rank": "service" },
+      "basis": "rooms/garage.json adjacency.must_adjoin[mudroom].why: \"The car-to-house transition needs a dirty room to land in, or the kitchen becomes it.\"",
+      "note": "The people door between garage and house, not the car door — build/compose.py::attach_garage already authors the 9 ft overhead door explicitly and states its own type, and this rule does not touch it."
+    },
+    {
+      "id": "og-workshop",
+      "when": { "a": { "any": true }, "b": { "type": "workshop" } },
+      "opening": { "type": "swing", "width_band_ft": [2.8, 3.2], "rank": "service" },
+      "basis": "rooms/workshop.json adjacency.should_adjoin[garage].why: \"Shares the wide door, the hard floor and the dust tolerance.\"",
+      "note": "A working room on the service side of the house."
+    },
+    {
+      "id": "og-threshold-to-service",
+      "when": { "a": { "function_class": "threshold" }, "b": { "function_class": ["service", "storage"] } },
+      "opening": { "type": "swing", "width_band_ft": [2.8, 3.2], "rank": "service" },
+      "basis": "rooms/kitchen.json adjacency.should_adjoin[mudroom].why: \"THE SHOPPING ROUTE. In every modern house the groceries come in from the drive, and the distance from that door to the refrigerator is walked twice a week with both hands full for the life of the buil\"",
+      "note": "The busiest door in a modern house and the one nothing in this corpus could dimension. Wide because it is walked with both hands full; a service leaf because that is what it is."
+    },
+    {
+      "id": "og-service-into-formal",
+      "when": { "a": { "function_class": ["service", "storage"] }, "b": { "function_class": ["public", "living", "dining"] } },
+      "opening": { "type": "swing", "width_band_ft": [2.6, 3.0], "rank": "service" },
+      "placement": "offset",
+      "basis": "rooms/kitchen.json adjacency.must_adjoin[dining-room].why: \"Directly, or through one intervening service room. Food travels hot and the route must not cross the entry sequence or a public circulation\"",
+      "note": "The jib door: a service door opening into a formal room is a service door, graded and placed as one, however grand the room on the other side of it. Offset for the butler's-pantry reason — a door on axis with another lets the formal room see into the working one."
+    },
+    {
+      "id": "og-to-outdoor-room",
+      "when": { "a": { "any": true }, "b": { "function_class": "outdoor" } },
+      "opening": { "type": "swing", "width_band_ft": [3.0, 3.5], "rank": "secondary" },
+      "basis": "rooms/drawing-room.json adjacency.should_adjoin[loggia].why: \"the drawing room opens to the terrace or the garden through full-height windows; this is the room that goes outside\"",
+      "note": "A door onto a porch, piazza, loggia or terrace. The record's own claim is about height rather than width, and height is what this corpus cannot yet check -- stated rather than guessed at."
+    }
+  ],
+
+  "class_defaults": [
+    {
+      "id": "og-public-to-public",
+      "when": { "a": { "function_class": ["public", "living", "dining"] }, "b": { "function_class": ["public", "living", "dining"] } },
+      "opening": { "type": "swing", "width_band_ft": [3.0, 3.5], "rank": "principal" },
+      "basis": "rooms/drawing-room.json adjacency.should_adjoin[music-room].why: \"where a separate music room exists it opens off the drawing room, because the audience is the drawing room's company\"",
+      "note": "Two principal rooms opening into each other, where no more specific rule applies."
+    },
+    {
+      "id": "og-circulation-to-circulation",
+      "when": { "a": { "function_class": ["circulation", "threshold"] }, "b": { "function_class": ["circulation", "threshold"] } },
+      "opening": { "type": "cased-opening", "width_band_ft": [4.0, 6.0], "rank": "principal" },
+      "basis": "rooms/centre-passage.json adjacency.must_adjoin[entrance-hall], relation direct-door, strength hard; and rooms/stair-hall.json must_adjoin[entrance-hall], relation `visible-from`, strength hard.",
+      "note": "One circulation space running into another is a continuation, not a threshold. A leaf between a vestibule and the passage it opens into is the exception (a vestibule is a thermal airlock and needs two doors, per groupings/entry-sequence.json) and is not modelled here -- stated rather than guessed."
+    },
+    {
+      "id": "og-circulation-to-sleeping",
+      "when": { "a": { "function_class": ["circulation", "threshold"] }, "b": { "function_class": "sleeping" } },
+      "opening": { "type": "swing", "width_band_ft": [2.6, 3.0], "rank": "chamber" },
+      "basis": "kits/georgian-colonial-american.kit.json interior_door.width_in [30, 36].",
+      "note": "The ordinary chamber door off a landing or passage."
+    }
+  ],
+
+  "default": {
+    "id": "og-default",
+    "opening": { "type": "swing", "width_band_ft": [2.6, 3.0], "rank": "secondary" },
+    "basis": "proportions/systems/opening-proportion.json module.note: \"Interior room doors run 24 to 36 in, closets 18 to 30.\"",
+    "note": "The rule of last resort, and a named one on purpose: an opening derived from no rule at all could not be cited, and a composer that cannot cite its reason for a dimension is the thing this corpus exists to prevent. A door resolving here is reported by build/check_openings.py so the gaps in this file stay counted."
+  },
+
+  "placement_rules": [
+    {
+      "id": "op-doors-must-not-align",
+      "applies_to": ["og-pantry-offset-pair"],
+      "rule": "Two doors of one room on opposite walls must be offset along that wall by at least one leaf width.",
+      "min_offset_ft": 2.67,
+      "basis": "rooms/butlers-pantry.json dimensions.critical_dimension: \"Offset the two doors by at least the width of one door leaf - 32 in - or better, put them on adjacent rather than opposite\"",
+      "note": "32 in is 2.67 ft. The record calls this \"the rule the room exists for\"."
+    },
+    {
+      "id": "op-passage-axis",
+      "applies_to": ["og-entry-door", "og-service-exterior"],
+      "rule": "Where a circulation room reaches the boundary at both ends, its two exterior doors sit on one axis, one at each end.",
+      "basis": "styles/tidewater-georgian.json c03, hard, plan: \"Centre passage 10-14 ft wide with exterior doors at both ends, aligned on axis and both operable. This is a ventilation device, not a hallway\"; groupings/centre-passage-core.json: \"Both ends of the passage have doors, and they are aligned.\"",
+      "note": "A hard style constraint and a hard grouping rule saying the same thing, and until WP-6.2 nothing could satisfy either: a door had no wall, so both renderers put every exterior door of a room on the FIRST wall it declared, and the passage's rear door was drawn on its front."
+    },
+    {
+      "id": "op-corner-clearance",
+      "rule": "A door's leaf edge stands clear of the corner it swings into by at least its own leaf width, so the leaf can open.",
+      "basis": "rooms/bathroom.json furniture carries \"door swing\" as an object with footprint_in [28, 28] and clearance -- the swing is a thing that occupies floor.",
+      "note": "Geometric, and the weakest rule here: a swing that fouls a corner is a defect the corpus can see, while a swing that fouls a fixture needs the fixture placed first, which is why build/openings.py places fixtures before it places the doors of a wet room."
+    },
+    {
+      "id": "op-stair-setback",
+      "rule": "The bottom riser stands back from the face of the front door.",
+      "min_setback_ft": 6.0,
+      "basis": "faults/stair-at-the-front-door.json test: first_riser_setback_from_door_face_ft at-least 6.0; kits/georgian-colonial-american.kit.json stair_position.start_setback_from_front_door_ft [6, 12]; rooms/stair-hall.json adjacency.should_adjoin[centre-passage].why: \"set back from the front door so the front door's swing and the bottom riser do not fight\".",
+      "note": "A fault, a kit parameter and a room record all state it. Nothing could evaluate it, because no plan record held a stair."
+    }
+  ]
+}

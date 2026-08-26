@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/opening-grammar.schema.json",
+  "title": "Opening grammar",
+  "version": "0.1.0",
+  "description": "Which kind of opening belongs between which two rooms. One file, openings/grammar.json, checked by build/check_openings.py. Every rule is editorial by ruling (26 Aug 2026) and must quote the corpus prose it reads — a rule with no basis is a guess, and a guess with a band on it is the laundering this corpus exists to prevent.",
+  "type": "object",
+  "required": ["id", "version", "kind", "note", "pair_rules", "class_defaults", "default"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "const": "opening-grammar" },
+    "version": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "kind": { "const": "editorial", "description": "There is no other value. The day a rule here is sourced, this becomes an enum and that rule says which source." },
+    "judgment": { "const": true },
+    "note": { "type": "string", "minLength": 200,
+      "description": "The file's own honesty note. Long on purpose: it has to say what was read, what was fitted, and what may not be promoted without the blocked facsimiles." },
+    "resolution": { "type": "object", "additionalProperties": false,
+      "properties": { "order": { "type": "array", "items": { "type": "string" } },
+        "symmetry": { "type": "string" }, "note": { "type": "string" } } },
+    "pair_rules": { "type": "array", "items": { "$ref": "#/$defs/rule" }, "minItems": 1 },
+    "class_defaults": { "type": "array", "items": { "$ref": "#/$defs/rule" } },
+    "default": { "$ref": "#/$defs/rule" },
+    "placement_rules": { "type": "array", "items": {
+      "type": "object", "required": ["id", "rule", "basis"], "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^op-[a-z0-9-]+$" },
+        "applies_to": { "type": "array", "items": { "type": "string" } },
+        "rule": { "type": "string", "minLength": 10 },
+        "min_offset_ft": { "type": "number" },
+        "min_setback_ft": { "type": "number" },
+        "basis": { "type": "string", "minLength": 10 },
+        "note": { "type": "string" }
+      } } }
+  },
+  "$defs": {
+    "side": {
+      "type": "object", "additionalProperties": false,
+      "description": "One end of an opening. `any` matches anything; `type` is a room-catalogue id or the literal 'exterior'; `function_class` is one or several.",
+      "properties": {
+        "any": { "const": true },
+        "type": { "type": "string" },
+        "function_class": { "oneOf": [ { "type": "string" },
+          { "type": "array", "items": { "type": "string" }, "minItems": 1 } ] }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "required": ["id", "opening", "basis"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^og-[a-z0-9-]+$" },
+        "when": { "type": "object", "required": ["a", "b"], "additionalProperties": false,
+          "properties": { "a": { "$ref": "#/$defs/side" }, "b": { "$ref": "#/$defs/side" } },
+          "description": "Unordered: a door between two rooms is one door and matches either way round. Absent only on the default rule, which matches everything left." },
+        "opening": {
+          "type": "object", "required": ["type", "width_band_ft", "rank"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "enum": ["swing", "double", "pocket", "cased-opening", "open", "garage", "bulkhead"],
+              "description": "Same enum as the plan schema's door.type — the grammar may not invent a kind of opening the record cannot hold." },
+            "width_band_ft": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+            "rank": { "enum": ["principal", "secondary", "service", "chamber", "closet"] },
+            "height_in": { "type": "number" }
+          } },
+        "derive_width_from": { "type": "object", "additionalProperties": false,
+          "description": "Where a proportion pack states this width, the pack wins and the band only clamps it. The corpus deriving its own dimension is always better than a band fitted here.",
+          "properties": { "pack": { "type": "string" }, "quantity": { "type": "string" } } },
+        "placement": { "enum": ["offset", "centred", "axis"] },
+        "basis": { "type": "string", "minLength": 40,
+          "description": "The corpus prose this rule reads, quoted verbatim with its record named. Not optional and not a paraphrase: an editorial call whose basis cannot be checked against the record it claims to read is indistinguishable from an invention." },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

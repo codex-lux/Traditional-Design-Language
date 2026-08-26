@@ -2,8 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.2.0",
-  "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.",
+  "version": "0.3.0",
+  "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.",
   "type": "object",
   "required": ["id", "name", "style", "levels"],
   "additionalProperties": false,
@@ -53,16 +53,36 @@
                   "properties": { "wall": { "type": "string" }, "width_ft": { "type": "number" },
                     "height_ft": { "type": "number" }, "count": { "type": "integer" },
                     "sill_ft": { "type": "number" }, "operable": { "type": "boolean", "default": true },
-                    "egress": { "type": "boolean" } } } },
+                    "egress": { "type": "boolean" },
+                    "positions_ft": { "type": "array", "items": { "type": "number" },
+                      "description": "0.3.0. One centreline per UNIT of this window group, along its wall, in the plan's own model coordinates (x for an N or S wall, y for E or W). An array rather than a single figure because a group of `count` windows is `count` physical openings, each seated in whatever run the doors left: giving one position and letting each renderer re-derive the spacing put the two renderers 0.7 in apart on the first plan it was tried on. Written by build/openings.py; absent on a hand-authored record, which the renderers then space by rule and say so." },
+                    "unit_type": { "type": "string", "description": "0.3.0. What KIND of window this is — double-hung, casement, fixed, bay. The ontology's `window_type` and `special_window` are whole-house slots; this is the per-opening call, and until 0.3.0 there was nowhere to make it." },
+                    "unplaced": { "$ref": "#/$defs/unplaced" } } } },
                 "doors": { "type": "array", "items": {
                   "type": "object", "required": ["to"], "additionalProperties": false,
                   "properties": { "to": { "type": "string", "description": "another room id, or 'exterior'" },
                     "width_ft": { "type": "number" }, "type": { "enum": ["swing","double","pocket","cased-opening","open","garage","bulkhead"] },
+                    "height_ft": { "type": "number", "description": "0.3.0. Leaf height. Three faults in the corpus — six-eight-door-in-a-tall-room, every-door-the-same-door, door-too-wide-for-its-surround — test a door height and could not be evaluated from a plan record at all, because there was no field to hold one. Partly closes OQ 39." },
+                    "rank": { "enum": ["principal","secondary","service","chamber","closet"],
+                      "description": "0.3.0. Where this door sits in the house's hierarchy. The kits have always stated the graduation (`principal 84 in, secondary 80 in, service 78 in`) and the fault `every-door-the-same-door` requires at least three distinct specifications per house; neither could be checked, because a door had no rank to check." },
+                    "wall": { "enum": ["N","E","S","W"], "description": "0.3.0. Which wall of the owning room the opening is in. An exterior door had NO wall in 0.2.0, so each renderer guessed one — and both guessed the first declared exterior wall, which is how a centre passage declaring doors at both ends had both drawn on its front." },
+                    "position_ft": { "type": "number", "description": "0.3.0. Centreline along that wall, in model coordinates. Absent means the renderers place it by rule, as they always have, and say so on the sheet." },
+                    "swing_into": { "type": "string", "description": "0.3.0. Room id the leaf opens into, or 'exterior'." },
+                    "hinge": { "enum": ["low","high"], "description": "0.3.0. Which jamb carries the hinges, low or high along the wall's own running axis." },
+                    "unplaced": { "$ref": "#/$defs/unplaced" },
                     "note": { "type": "string" } } },
                   "description": "Doors imply a direct-door adjacency in both directions; the validator derives the graph from them." },
                 "fixtures": { "type": "array", "items": { "type": "string" },
                   "description": "Plumbing and equipment present — wc, lavatory, tub, shower, sink, dishwasher, washer, water-heater, furnace. Drives the servicing checks." },
+                "fixture_layout": { "type": "array",
+                  "description": "0.3.0. Where the fixtures actually stand. `fixtures` has always been a list of strings and the room catalogue has always carried each item's `footprint_in` and `clearance_in`; the two vocabularies never met, so a bathroom could be checked for whether it COULD hold a tub and never for whether the tub, the WC and the door swing fit together. Written by build/openings.py.",
+                  "items": { "type": "object", "required": ["item"], "additionalProperties": false,
+                    "properties": { "item": { "type": "string" }, "wall": { "enum": ["N","E","S","W"] },
+                      "x_ft": { "type": "number" }, "y_ft": { "type": "number" },
+                      "width_ft": { "type": "number" }, "depth_ft": { "type": "number" },
+                      "unplaced": { "$ref": "#/$defs/unplaced" } } } },
                 "stacks_over": { "type": "string", "description": "room id on the level below, for plumbing and structure." },
+                "geometry": { "$ref": "#/$defs/geometry" },
                 "note": { "type": "string" }
               }
             }
@@ -97,6 +117,41 @@
       "description": "Any additional numbers for the fault corpus to test — elevation dimensions, trim sizes, ratios. Keys must match the fault corpus vocabulary; see tdl_measurement_vocabulary." },
     "declared": { "type": "object",
       "description": "Design choices the plan asserts, keyed by element slot id, for checking against the style's forbidden variants. e.g. {\"roof_form\": \"gambrel\", \"shutter\": \"none\"}." },
+    "footprint": { "type": "object",
+      "description": "0.3.0. The block the placement solved into, as build/geometry.py writes it. Held out of the schema until now, which meant a placed plan could not validate against its own contract.",
+      "properties": {
+        "width_ft": { "type": "number" }, "depth_ft": { "type": "number" },
+        "area_sf": { "type": "number" }, "bays": { "type": "integer" },
+        "bay_module_ft": { "type": "number" },
+        "heated_area_sf": { "type": "number" }, "void_area_sf": { "type": "number" } } },
+    "geometry_report": { "type": "object",
+      "description": "0.3.0. What the placement cost and what it could not honour — relaxations, under- and over-band rooms, severed doors, the solver's own account of itself. Shape is build/geometry.py's; kept open because it is a report, not a contract." },
+    "opening_report": { "type": "object",
+      "description": "0.3.0. What build/openings.py placed and what it could not: every unplaced door with its reason, the doors it offset for the butler's-pantry rule, the exterior doors it seated on a passage axis, and the fixture tallies. A report rather than a contract, so its shape is open — but the unplaced list is the load-bearing half, because an opening nobody could place must never read as an opening nobody declared." },
+    "stair": { "type": "object",
+      "description": "0.3.0. The stair as an object rather than as a room with a name on it. Until WP-6.2 nothing in the system drew a stair, and a 'Stair Hall' was an empty rectangle with lettering — while rooms/stair-hall.json has always carried the flight itself as furniture ([120, 78] in, dog-leg with a half landing) and build/structure.py has always computed the risers and treads, into a section report that no plan ever saw.",
+      "additionalProperties": false,
+      "properties": {
+        "room": { "type": "string", "description": "room id the flight sits in." },
+        "level": { "type": "integer", "description": "level index the stair rises FROM." },
+        "form": { "enum": ["straight", "dog-leg", "u-return", "l-return", "winder", "spiral"] },
+        "risers": { "type": "integer" }, "riser_in": { "type": "number" },
+        "treads": { "type": "integer" }, "tread_in": { "type": "number" },
+        "width_ft": { "type": "number", "description": "clear width of one flight." },
+        "run_ft": { "type": "number" }, "landing_depth_ft": { "type": "number" },
+        "up_direction": { "enum": ["N","E","S","W"], "description": "which way a person climbing is walking at the foot." },
+        "well": { "type": "object", "additionalProperties": false,
+          "description": "The rectangle the whole stair occupies in plan, in model coordinates — what an upper landing must sit over and what nothing else may be placed in.",
+          "properties": { "x_ft": { "type": "number" }, "y_ft": { "type": "number" },
+                          "width_ft": { "type": "number" }, "depth_ft": { "type": "number" } } },
+        "flights": { "type": "array",
+          "items": { "type": "object", "additionalProperties": false,
+            "properties": { "x_ft": { "type": "number" }, "y_ft": { "type": "number" },
+                            "width_ft": { "type": "number" }, "depth_ft": { "type": "number" },
+                            "treads": { "type": "integer" },
+                            "direction": { "enum": ["N","E","S","W"] } } } },
+        "unplaced": { "$ref": "#/$defs/unplaced" },
+        "note": { "type": "string" } } },
     "note": { "type": "string" },
     "provenance": { "type": "object",
       "description": "Where this record came from and how much to trust it — the structured provenance WP-2.1 asked for after carrying source_image, confidence and the style reasoning as prose in `note`. Optional: an authored record needs none; an ingested one (traced from a drawing, imported from a drafter's DXF) should say so. Added in 0.2.0 (WP-5.5).",
@@ -111,6 +166,32 @@
           "description": "Per-field confidence where it differs from the overall call, keyed by a dotted field path (e.g. \"levels.0.rooms.kitchen.windows\")." },
         "style_reasoning": { "type": "string", "description": "Why the style id was chosen — a traced record's style is a judgment; the reasoning rides with it, never silently." },
         "traced_by": { "type": "string", "description": "Who or what performed the transcription." }
+      }
+    }
+  },
+  "$defs": {
+    "geometry": {
+      "type": "object",
+      "description": "0.3.0. Where the placement actually put this room, in model feet — x east, y north, origin at the block's SW corner, the frame build/render_plan.py fixed. Written by build/geometry.py::write_record and, before 0.3.0, forbidden by this schema's own additionalProperties, so every placed plan was invalid against the contract it was placed from.",
+      "additionalProperties": false,
+      "properties": {
+        "x_ft": { "type": "number" }, "y_ft": { "type": "number" },
+        "width_ft": { "type": "number" }, "depth_ft": { "type": "number" },
+        "area_sf": { "type": "number" },
+        "void": { "type": "object", "additionalProperties": false,
+          "description": "OQ 55's reserved void: an outdoor room inside the block, excluded from the heated envelope and drawn open.",
+          "properties": { "roofed": { "type": "boolean" },
+                          "within_footprint": { "type": "boolean" } } }
+      }
+    },
+    "unplaced": {
+      "type": "object",
+      "required": ["reason"],
+      "additionalProperties": false,
+      "description": "0.3.0. This opening, fixture or stair is DECLARED and could not be placed, and here is why. The whole point is that it is not deleted: 'unjudged is not passed' applies to geometry as much as to a checker, and the failure this field exists to prevent is the one that shipped — an opening the placement could not realise was dropped in silence by both renderers, so a kitchen with five declared doors was drawn with none and read as a finished room.",
+      "properties": {
+        "reason": { "type": "string", "minLength": 1 },
+        "declared_wall": { "enum": ["N","E","S","W"] }
       }
     }
   }

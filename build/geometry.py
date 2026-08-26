@@ -1154,6 +1154,18 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=
     if hit is not None:
         return copy.deepcopy(hit)
     out = _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s)
+    # WP-6.2 — openings are placed HERE, in the one dispatcher both engines come through,
+    # so a CP placement and a heuristic placement carry the same kind of record and every
+    # consumer (the renderers, the exporters, the drawn-house layer of plan_check) reads
+    # positions rather than inventing them. Before this, a door had no wall and each
+    # consumer guessed its own.
+    if "error" not in out and not out.get("unsolved"):
+        try:
+            OP = _mod("openings", f"{ROOT}/build/openings.py")
+            OP.place(out, C)
+        except Exception as exc:                       # never lose a good placement to it
+            out.setdefault("geometry_report", {})["openings_error"] = (
+                f"could not place openings: {exc.__class__.__name__}: {exc}")
     if len(_SOLVE_CACHE) > 64:
         _SOLVE_CACHE.clear()
     _SOLVE_CACHE[key] = copy.deepcopy(out)

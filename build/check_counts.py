@@ -56,6 +56,14 @@ def computed():
     v["partis"] = len(sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))))
     v["faults"] = len(sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))))
     v["massings"] = len(json.load(open(os.path.join(ROOT, "massings", "catalog.json"))))
+
+    # WP-6.2. The opening grammar's size, so a sentence quoting it cannot drift from it.
+    gpath = os.path.join(ROOT, "openings", "grammar.json")
+    if os.path.exists(gpath):
+        g = json.load(open(gpath))
+        v["opening_rules"] = (len(g.get("pair_rules") or [])
+                              + len(g.get("class_defaults") or []) + 1)
+        v["opening_placement_rules"] = len(g.get("placement_rules") or [])
     return v
 
 
@@ -75,6 +83,9 @@ CLAIMS = [
     ("CLAUDE.md",              "rooms",         r"· (\d+) rooms ·"),
     ("CLAUDE.md",              "groupings",     r"· (\d+) groupings ·"),
     ("CLAUDE.md",              "faults",        r"· (\d+) faults ·"),
+    ("CLAUDE.md",              "opening_rules", r"(\d+) opening-grammar rules"),
+    ("docs/reports/wp-6.2-opening-semantics.md", "opening_rules",
+     r"\*\*`openings/grammar\.json`\*\* — (\d+) rules"),
     ("STATE-OF-THE-PROJECT.md", "packs",        r"resolves and dimensions all (\d+) packs"),
     # Repointed 25 Aug 2026: the appendix row and the Part V sentence were both rewritten when
     # WP-4.6 closed, and these four patterns rotted. A rotted pattern is a failure in this checker

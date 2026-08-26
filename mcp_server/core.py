@@ -864,10 +864,20 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     if svg_path:
         rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
         rp.render(out, svg_path); out["svg"] = svg_path
+    # WP-6.2: the PLACED openings ride with the placement, additively. A door only became a
+    # thing with a wall and a position in plan schema 0.3.0, and build/openings.py writes
+    # them onto the solved record — which this payload then dropped, so every consumer
+    # (the workbench sheet among them) went on inventing positions from the unplaced record
+    # it already held. The stair and the fixture layout are here for the same reason: they
+    # are placement facts, and there is nowhere else for a reader to get them.
     return {"footprint": out["footprint"], "geometry_report": out["geometry_report"],
             "rooms": [{"level": lv.get("index"), "id": r["id"], "name": r.get("name"),
-                       "geometry": r.get("geometry")}
+                       "geometry": r.get("geometry"),
+                       "doors": r.get("doors"), "windows": r.get("windows"),
+                       "fixture_layout": r.get("fixture_layout")}
                       for lv in out["levels"] for r in lv["rooms"] if r.get("geometry")],
+            "stair": out.get("stair"),
+            "opening_report": out.get("opening_report"),
             "svg": out.get("svg"),
             "note": ("Coordinates are in feet with the origin at the south-west corner, x east and y north. "
                      "If geometry_report.infeasible is present, read its conflicts FIRST — CP-SAT proved the "

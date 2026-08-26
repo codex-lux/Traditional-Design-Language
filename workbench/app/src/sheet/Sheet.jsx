@@ -303,6 +303,9 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   const diverged = divergence(rooms);
   const divergedIds = new Set(diverged.map((d) => d.id));
   const bays = bayLines(fp);
+  // plan schema 0.3.0 (WP-6.2): the stair is an object on the record, or it is absent —
+  // never an empty room presented as a finished one
+  const stair = placement?.stair || plan?.stair;
   const ghostRooms = ghost != null ? levelRooms(plan, placement, ghost) : [];
   const roomsMeta = ov.meta || {};
 
@@ -492,6 +495,65 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             wall: d.wall, swingUp: d.wall === 'S', swingRight: d.wall === 'W' }} />
         ))}
         {drs.interior.map((d, i) => <DoorMark key={'d' + i} d={d} />)}
+
+        {/* WP-6.2 — the stair, drawn from plan.stair and from nothing else. There has never
+            been a line of stair-drawing code in this system: a stair hall was an empty
+            rectangle with lettering in it, while rooms/stair-hall.json carried the flight
+            itself as furniture ([120, 78] in, "dog-leg with half landing") and
+            build/structure.py computed its risers into a section no plan ever saw. */}
+        {stair && (stair.level ?? 0) === levelIndex && (stair.flights || []).length > 0 && (
+          <g data-stair="">
+            {stair.flights.map((f, i) => {
+              const across = f.direction === 'E' || f.direction === 'W';
+              const n = Math.max(1, f.treads || 1);
+              const ticks = [];
+              for (let t = 1; t < n; t++) {
+                if (across) {
+                  const tx = f.x_ft + f.width_ft * (t / n);
+                  ticks.push(<line key={t} x1={tx} y1={-f.y_ft} x2={tx} y2={-f.y_ft - f.depth_ft}
+                    stroke="var(--ink-2)" strokeWidth=".6" vectorEffect="non-scaling-stroke" />);
+                } else {
+                  const ty = f.y_ft + f.depth_ft * (t / n);
+                  ticks.push(<line key={t} x1={f.x_ft} y1={-ty} x2={f.x_ft + f.width_ft} y2={-ty}
+                    stroke="var(--ink-2)" strokeWidth=".6" vectorEffect="non-scaling-stroke" />);
+                }
+              }
+              return (
+                <g key={'fl' + i}>
+                  <rect x={f.x_ft} y={-f.y_ft - f.depth_ft} width={f.width_ft} height={f.depth_ft}
+                    fill="none" stroke="var(--ink-2)" strokeWidth=".9" vectorEffect="non-scaling-stroke" />
+                  {ticks}
+                </g>
+              );
+            })}
+            <text x={stair.flights[0].x_ft + stair.flights[0].width_ft / 2}
+              y={-stair.flights[0].y_ft - stair.flights[0].depth_ft / 2}
+              fontSize="1" fontFamily="var(--serif)" letterSpacing=".18"
+              fill="var(--gilt-deep)" textAnchor="middle" dominantBaseline="middle">
+              UP {stair.risers}R
+            </text>
+          </g>
+        )}
+        {stair && (stair.level ?? 0) === levelIndex && stair.unplaced && stair.well && (
+          <text data-stair="refused" x={stair.well.x_ft + stair.well.width_ft / 2}
+            y={-stair.well.y_ft - stair.well.depth_ft / 2 + 1.6}
+            fontSize=".85" fontFamily="var(--serif)" fill="var(--gilt-deep)"
+            textAnchor="middle" dominantBaseline="middle">
+            <title>{stair.unplaced.reason}</title>
+            stair not drawn — see record
+          </text>
+        )}
+
+        {/* fixtures, from room.fixture_layout and from nothing else */}
+        {rooms.map((r) => (r.fixture_layout || [])
+          .filter((f) => !f.unplaced && f.x_ft != null)
+          .map((f, i) => (
+            <rect key={r.id + 'fx' + i} x={f.x_ft} y={-f.y_ft - f.depth_ft}
+              width={f.width_ft} height={f.depth_ft} fill="none" stroke="var(--ink-2)"
+              strokeWidth=".6" strokeDasharray="1.4 1" vectorEffect="non-scaling-stroke">
+              <title>{f.item}</title>
+            </rect>
+          )))}
 
         {/* dimensions — ticks, primes, never decimal feet */}
         <DimRun from={0} to={W} at={2.6} stops={[0, ...bays, W]} />

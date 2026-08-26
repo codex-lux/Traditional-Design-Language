@@ -45,15 +45,27 @@ export function requiredWallFt(widthFt) { return widthFt + 2 * JAMB_FT; }
 
 /* Rooms of one level as rects in model feet. */
 export function levelRooms(plan, placement, levelIndex) {
+  // The PLACED room record, where there is one. This is the distinction the sheet was
+  // missing: `plan` is the record the client holds and has never been placed, while the
+  // placement carries the same rooms with build/openings.py's walls, positions and fixture
+  // layouts written onto them. Reading openings off `plan` meant the workbench went on
+  // inventing every position from an unplaced record while the placement sat beside it
+  // holding the answer.
   const byId = new Map();
+  const placedRec = new Map();
   for (const r of placement?.rooms || []) {
-    if (r.level === levelIndex && r.geometry) byId.set(r.id, r.geometry);
+    if (r.level === levelIndex && r.geometry) {
+      byId.set(r.id, r.geometry);
+      placedRec.set(r.id, r);
+    }
   }
   // the placement may also arrive as the plan itself, with geometry written onto the
   // rooms in place (build/geometry.py::write_record does exactly that)
   for (const lv of placement?.levels || []) {
     if ((lv.index ?? 0) !== levelIndex) continue;
-    for (const r of lv.rooms || []) if (r.geometry) byId.set(r.id, r.geometry);
+    for (const r of lv.rooms || []) {
+      if (r.geometry) { byId.set(r.id, r.geometry); placedRec.set(r.id, r); }
+    }
   }
   const lv = (plan.levels || []).find((l) => (l.index ?? 0) === levelIndex);
   if (!lv) return [];
@@ -61,10 +73,13 @@ export function levelRooms(plan, placement, levelIndex) {
     .filter((r) => byId.has(r.id))
     .map((r) => {
       const g = byId.get(r.id);
+      const p = placedRec.get(r.id) || {};
       return {
         id: r.id, type: r.type, name: r.name || r.id,
         x: g.x_ft, y: g.y_ft, w: g.width_ft, h: g.depth_ft,
-        windows: r.windows || [], doors: r.doors || [],
+        windows: p.windows || r.windows || [],
+        doors: p.doors || r.doors || [],
+        fixture_layout: p.fixture_layout || r.fixture_layout || [],
         exterior_walls: r.exterior_walls || [],
         window_head_ft: r.window_head_ft,
         declared_width_ft: r.width_ft, declared_length_ft: r.length_ft,
@@ -175,6 +190,16 @@ function distribute(free, n, unitW) {
 
    Returns `undrawable` beside them: every declared door this placement gives no way to
    draw, with the reason, so the sheet can say so. It is never empty quietly. */
+/* Where the RECORD says an opening is. Since plan schema 0.3.0 (WP-6.2) build/openings.py
+   writes a wall and a centreline onto every opening it can place, and a renderer that reads
+   them draws the plan rather than guessing a plan of its own. Null means the record is
+   silent — a hand-authored 0.2.0 record — and the caller invents as it always did. */
+const WALLS = new Set(['N', 'E', 'S', 'W']);
+function placedAt(d) {
+  if (!WALLS.has(d.wall) || d.position_ft == null) return null;
+  return { wall: d.wall, pos: Number(d.position_ft) };
+}
+
 export function doors(rooms, W, H, tol = 0.6) {
   const idx = new Map(rooms.map((r) => [r.id, r]));
   const handled = new Set();
@@ -182,6 +207,7 @@ export function doors(rooms, W, H, tol = 0.6) {
   const exterior = [];
   const undrawable = [];
   let inferredWidths = 0;
+  let inferredPositions = 0;
   for (const r of rooms) {
     const usedWalls = new Set();
     for (const d of r.doors) {
@@ -190,6 +216,54 @@ export function doors(rooms, W, H, tol = 0.6) {
       const width = declaredW || (isExt ? DEFAULT_EXT_DOOR_FT : DEFAULT_DOOR_FT);
       if (declaredW == null) inferredWidths += 1;
       const type = d.type || 'swing';
+      // an opening the placement pass could not seat says so in the record, and the
+      // drawing repeats it rather than quietly leaving a wall blank
+      if (d.unplaced) {
+        const k = [r.id, d.to].sort().join('|');
+        if (!isExt) {
+          if (handled.has(k)) continue;
+          handled.add(k);
+        }
+        undrawable.push({ from: r.id, to: d.to, width_ft: width, type,
+          reason: d.unplaced.reason });
+        continue;
+      }
+      const seat = placedAt(d);
+      if (isExt && seat) {
+        usedWalls.add(seat.wall);
+        exterior.push({
+          wall: seat.wall, w: width, type, room: r.id, inferredWall: false,
+          inferredWidth: declaredW == null,
+          span: [seat.pos - width / 2, seat.pos + width / 2],
+          x: seat.wall === 'W' ? 0 : seat.wall === 'E' ? W : seat.pos,
+          y: seat.wall === 'S' ? 0 : seat.wall === 'N' ? H : seat.pos,
+        });
+        continue;
+      }
+      if (!isExt && seat) {
+        const k = [r.id, d.to].sort().join('|');
+        if (handled.has(k)) continue;
+        handled.add(k);
+        const to = idx.get(d.to);
+        if (!to) {
+          undrawable.push({ from: r.id, to: d.to, width_ft: width, type,
+            reason: 'the other room is not placed on this level' });
+          continue;
+        }
+        const horiz = seat.wall === 'N' || seat.wall === 'S';
+        const at = seat.wall === 'N' ? r.y + r.h
+          : seat.wall === 'S' ? r.y
+            : seat.wall === 'E' ? r.x + r.w : r.x;
+        if (horiz) {
+          interior.push({ x: seat.pos, y: at, w: width, type, horiz: true,
+            swingUp: (to.y + to.h / 2) > (r.y + r.h / 2), pair: [r.id, d.to] });
+        } else {
+          interior.push({ x: at, y: seat.pos, w: width, type, horiz: false,
+            swingRight: (to.x + to.w / 2) > (r.x + r.w / 2), pair: [r.id, d.to] });
+        }
+        continue;
+      }
+      inferredPositions += 1;
       if (isExt) {
         // the record does not say WHICH wall an exterior door is on (there is no field
         // for it until WP-6.2), so the wall is inferred: the first declared exterior
@@ -249,7 +323,7 @@ export function doors(rooms, W, H, tol = 0.6) {
       }
     }
   }
-  return { interior, exterior, undrawable, inferredWidths };
+  return { interior, exterior, undrawable, inferredWidths, inferredPositions };
 }
 
 /* Windows from the record, distributed along the room's exterior wall into the run the
@@ -272,9 +346,16 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = []) {
       const wallW = win.width_ft || 3;
       const seat = boundaryWall(r, win.wall, W, H, tol);
       if (!seat) { offFootprint += n; continue; }
-      const free = freeIntervals(seat.lo, seat.hi, blockedBy.get(`${r.id}|${win.wall}`) || []);
-      const pos = distribute(free, n, wallW);
-      crowded += n - pos.length;
+      let pos;
+      if (win.positions_ft && win.positions_ft.length) {
+        // the record carries one centreline per unit; read them, do not re-space them
+        pos = win.positions_ft.map(Number);
+        crowded += Math.max(0, n - pos.length);
+      } else {
+        const free = freeIntervals(seat.lo, seat.hi, blockedBy.get(`${r.id}|${win.wall}`) || []);
+        pos = distribute(free, n, wallW);
+        crowded += n - pos.length;
+      }
       for (const p of pos) {
         out.push({
           wall: seat.wall, w: wallW, room: r.id,

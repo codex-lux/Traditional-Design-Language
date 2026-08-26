@@ -408,6 +408,55 @@ def render(plan, path, scale=7.0):
             horiz = wl in ("S", "N")
             px, py = (p, 0.0 if wl == "S" else H) if horiz else (0.0 if wl == "W" else W, p)
             _door(px, py, horiz, d["width_ft"], d["type"], wl in ("S", "W"))
+
+        # WP-6.2 — the stair, drawn from plan["stair"] and from nothing else. There has
+        # never been a line of stair-drawing code in this system: a stair hall was an empty
+        # rectangle with lettering in it, while rooms/stair-hall.json carried the flight
+        # itself as a furniture item ([120, 78] in, "dog-leg with half landing") and
+        # build/structure.py computed its risers into a section report no plan ever saw.
+        st = plan.get("stair")
+        if st and (st.get("level") or 0) == i and st.get("flights"):
+            for fl in st["flights"]:
+                fx, fy = fl["x_ft"], fl["y_ft"]
+                fw, fd = fl["width_ft"], fl["depth_ft"]
+                s.append(f'<rect x="{X(fx):.1f}" y="{Y(fy+fd):.1f}" '
+                         f'width="{fw*scale:.1f}" height="{fd*scale:.1f}" fill="none" '
+                         f'stroke="{PAL["ink3"]}" stroke-width="0.8"/>')
+                n = max(1, fl.get("treads") or 1)
+                horiz_run = fl["direction"] in ("E", "W")
+                for t in range(1, n):
+                    if horiz_run:
+                        tx = fx + fw * (t / n)
+                        s.append(f'<line x1="{X(tx):.1f}" y1="{Y(fy):.1f}" '
+                                 f'x2="{X(tx):.1f}" y2="{Y(fy+fd):.1f}" '
+                                 f'stroke="{PAL["ink3"]}" stroke-width="0.5"/>')
+                    else:
+                        ty = fy + fd * (t / n)
+                        s.append(f'<line x1="{X(fx):.1f}" y1="{Y(ty):.1f}" '
+                                 f'x2="{X(fx+fw):.1f}" y2="{Y(ty):.1f}" '
+                                 f'stroke="{PAL["ink3"]}" stroke-width="0.5"/>')
+            # the UP arrow, along the first flight, because a stair without a direction is
+            # a set of parallel lines
+            f0 = st["flights"][0]
+            cx0 = X(f0["x_ft"] + f0["width_ft"] / 2)
+            cy0 = Y(f0["y_ft"] + f0["depth_ft"] / 2)
+            s.append(f'<text class="dm" x="{cx0:.1f}" y="{cy0:.1f}" text-anchor="middle" '
+                     f'style="fill:{PAL["brass"]}">UP {st["risers"]}R</text>')
+        elif st and (st.get("level") or 0) == i and st.get("unplaced"):
+            g0 = st.get("well") or {}
+            if g0:
+                s.append(f'<text class="dm" x="{X(g0["x_ft"] + g0["width_ft"]/2):.1f}" '
+                         f'y="{Y(g0["y_ft"] + g0["depth_ft"]/2) + 10:.1f}" text-anchor="middle" '
+                         f'style="fill:{PAL["copper"]}">STAIR NOT DRAWN — SEE RECORD</text>')
+
+        # fixtures, from room["fixture_layout"] and from nothing else
+        for r in lv["rooms"]:
+            for f in (r.get("fixture_layout") or []):
+                if f.get("unplaced") or f.get("x_ft") is None: continue
+                s.append(f'<rect x="{X(f["x_ft"]):.1f}" y="{Y(f["y_ft"]+f["depth_ft"]):.1f}" '
+                         f'width="{f["width_ft"]*scale:.1f}" height="{f["depth_ft"]*scale:.1f}" '
+                         f'fill="none" stroke="{PAL["ink3"]}" stroke-width="0.6" '
+                         f'stroke-dasharray="2 2"><title>{_esc(f["item"])}</title></rect>')
         # P7 -- a compromise is counted AND appears on the drawing, at its location (OQ 33).
         # The tally above this level's plate has always been honest; until 26 Aug 2026 the
         # solvers recorded a relaxation as a bare number, so neither this renderer nor the
@@ -559,6 +608,21 @@ def _distribute(free, n, unit_w):
         if not kept or p - kept[-1] >= unit_w + MIN_SOLID_FT - 1e-9: kept.append(p)
     return kept
 
+_WALL_AXIS = {"N": "x", "S": "x", "E": "y", "W": "y"}
+
+
+def _placed_at(d, r, W, H):
+    """Where the RECORD says this opening is, if it says. Since plan schema 0.3.0 (WP-6.2)
+    build/openings.py writes a wall and a centreline onto every opening it can place, and a
+    renderer that reads them is a renderer that draws the plan rather than one that guesses
+    a plan of its own. Returns None when the record is silent, and the caller falls back to
+    the old invention -- which is what a hand-authored 0.2.0 record still gets."""
+    wall, pos = d.get("wall"), d.get("position_ft")
+    if wall not in _WALL_AXIS or pos is None:
+        return None
+    return wall, float(pos)
+
+
 def derive_openings(rooms, W, H, tol=0.6):
     """Every opening of one level, resolved to where it is drawn -- and every declared
     opening that CANNOT be drawn, with the reason. The second half is the point: a door
@@ -566,10 +630,15 @@ def derive_openings(rooms, W, H, tol=0.6):
     and by the workbench's, so the Tidewater kitchen's five declared interior doors were
     drawn as none and the sheet said nothing. Only the DXF exporter has ever owned up.
 
+    Where the record carries a placed position (schema 0.3.0), it is READ. Where it does
+    not, the position is invented as it always was and `inferred_positions` counts it, so
+    the sheet can say which kind of drawing the reader is looking at.
+
     `rooms` is a list of the level's room records, each carrying `geometry`."""
     idx = {r["id"]: r for r in rooms if r.get("geometry")}
     interior, exterior, undrawable = [], [], []
     inferred_widths = 0
+    inferred_positions = 0
     handled = set()
     for r in rooms:
         a = r.get("geometry")
@@ -582,6 +651,47 @@ def derive_openings(rooms, W, H, tol=0.6):
             width = declared_w or (DEFAULT_EXT_DOOR_FT if is_ext else DEFAULT_DOOR_FT)
             if declared_w is None: inferred_widths += 1
             dtype = d.get("type") or "swing"
+            # an opening the placement pass could not seat says so in the record, and the
+            # drawing repeats it rather than quietly leaving a wall blank
+            if d.get("unplaced"):
+                key = tuple(sorted((r["id"], to)))
+                if not is_ext and key in handled: continue
+                if not is_ext: handled.add(key)
+                undrawable.append({"from": r["id"], "to": to, "width_ft": width,
+                                   "type": dtype, "reason": d["unplaced"]["reason"]})
+                continue
+            seat_rec = _placed_at(d, r, W, H)
+            if is_ext and seat_rec:
+                wall, pos = seat_rec
+                used_walls.add(wall)
+                exterior.append({"room": r["id"], "wall": wall, "width_ft": width,
+                                 "type": dtype, "at_ft": round(pos, 3),
+                                 "inferred_wall": False,
+                                 "inferred_width": declared_w is None})
+                continue
+            if (not is_ext) and seat_rec:
+                key = tuple(sorted((r["id"], to)))
+                if key in handled: continue
+                handled.add(key)
+                if to not in idx:
+                    undrawable.append({"from": r["id"], "to": to, "width_ft": width,
+                                       "type": dtype,
+                                       "reason": "the other room is not placed on this level"})
+                    continue
+                wall, pos = seat_rec
+                horiz = wall in ("N", "S")
+                b = idx[to]["geometry"]
+                at = (a["y_ft"] + a["depth_ft"]) if wall == "N" else \
+                     a["y_ft"] if wall == "S" else \
+                     (a["x_ft"] + a["width_ft"]) if wall == "E" else a["x_ft"]
+                swing = (b["y_ft"] + b["depth_ft"] / 2) > (a["y_ft"] + a["depth_ft"] / 2) if horiz \
+                    else (b["x_ft"] + b["width_ft"] / 2) > (a["x_ft"] + a["width_ft"] / 2)
+                interior.append({"pair": list(key), "from": r["id"], "to": to,
+                                 "width_ft": width, "type": dtype, "at_ft": at,
+                                 "pos_ft": round(pos, 3), "horiz": horiz,
+                                 "swing_positive": bool(swing)})
+                continue
+            inferred_positions += 1
             if is_ext:
                 # the record has no field saying WHICH wall an exterior door is on (until
                 # WP-6.2), so it is inferred: the first declared exterior wall this
@@ -643,15 +753,24 @@ def derive_openings(rooms, W, H, tol=0.6):
             ww = win.get("width_ft") or 3
             seat = _boundary_wall(a, win.get("wall"), W, H, tol)
             if not seat:
-                off_footprint += n; continue
+                off_footprint += n
+                continue
             wl, lo, hi = seat
-            pos = _distribute(_free_intervals(lo, hi, blocked.get((r["id"], wl), [])), n, ww)
-            crowded += n - len(pos)
+            # the record carries one centreline per unit; read them, do not re-space them
+            if win.get("positions_ft"):
+                pos = [float(p) for p in win["positions_ft"]]
+                crowded += max(0, n - len(pos))
+            else:
+                pos = _distribute(_free_intervals(lo, hi, blocked.get((r["id"], wl), [])), n, ww)
+                crowded += n - len(pos)
+                inferred_positions += len(pos)
             for p in pos:
-                windows.append({"room": r["id"], "wall": wl, "width_ft": ww, "at_ft": p})
+                windows.append({"room": r["id"], "wall": wl, "width_ft": ww,
+                                "at_ft": round(p, 3)})
     return {"interior": interior, "exterior": exterior, "undrawable": undrawable,
             "windows": windows, "windows_off_footprint": off_footprint,
-            "windows_crowded": crowded, "inferred_widths": inferred_widths}
+            "windows_crowded": crowded, "inferred_widths": inferred_widths,
+            "inferred_positions": inferred_positions}
 
 def declared_divergence(rooms, tol_ft=0.5):
     """Rooms DRAWN at a size their own record does not declare. The sheet prints the placed

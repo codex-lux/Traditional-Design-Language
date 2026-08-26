@@ -16,6 +16,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3, 4.5, 4.6 complete · **4.4 environment-blocked, 4.7 not started** | **In progress** |
 | **5 — Platform** | WP-5.1, 5.2, 5.5 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
+| **6 — Plan semantics** | WP-6.1, 6.2, 6.3 | **In progress (26 Aug 2026)** — raised by Lucas, not by the plan: the rendered sheets were "colorless green ideas sleeping furiously", every part well-formed and the whole meaningless. A door had no wall, no position and no rank; the renderers invented what the record could not say and dropped what it could; nothing checked that you could walk from the front door to a room |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -558,6 +559,69 @@ Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workben
 **Depends on:** WP-5.2. **Size:** large.
 
 A structured transcription form (HTML) that produces a plan record from a drawing by tracing, and a DXF importer that reads a drafter's plan into a record. This is what lets HABS drawings, the reference corpus, and a builder's back catalogue flow into the critic.
+
+---
+
+---
+
+## Phase 6 — Plan semantics
+
+*Goal: a plan that MEANS something. Raised by Lucas on 26 August 2026 against two rendered
+Tidewater sheets, in the project's own founding terms: "the Chomsky error of colorless green
+ideas sleeping furiously is still very much in play." A kitchen whose only door was to the
+outside; a stair hall with no stair; a rear door drawn as a window; door sizes with no rhyme
+or reason; triangular arrows pointing at everything; a chamber bath with no access; a passage
+grossly oversized; no furniture anywhere. Every part individually well-formed, the whole
+meaningless — which is the exact failure this corpus exists to catch in other people's work.*
+
+### WP-6.1 Drawing honesty
+
+**Status: COMPLETE (26 Aug 2026).** The sheet stops lying about the record it renders. Doors
+are drawn as the KIND of opening the record says they are (`type` was read by nothing, so a
+pair of leaves and a cased opening both drew as one giant hinged leaf); a door is measured
+against its own leaf and jambs rather than a flat 3.2 ft, so a closet door draws (the renderer
+half of OQ 41/63); `render_plan.py` draws exterior doors, which it never had; windows are laid
+into the run the doors leave, ending the collisions that drew the front and back doors as
+windows; every opening that cannot be drawn is NAMED with its reason on the sheet, in the DXF
+exporter's own words; the △ relaxation mark has a legend; a room drawn off its declaration is
+marked and counted; and the plate title stops folding into a different house's name. The
+durable half is `tests/fixtures/sheet_symbols/`, a frozen contract both renderers are held to
+by two suites at once. Three false claims in the tree were corrected in place — the stair term
+`geometry.py` and `docs/geometry.md` both advertised does not exist, and `check_partis.py`
+claimed a reachability check the validator did not have.
+Report: `docs/reports/wp-6.1-sheet-honesty.md`.
+
+### WP-6.2 Opening semantics
+
+**Status: COMPLETE (26 Aug 2026).** A door becomes a thing with a place. **Plan schema 0.3.0**
+admits the placed plan as a record — until then `additionalProperties: false` forbade
+`geometry` at the root, so a placed plan could not validate against its own schema and the
+placement travelled out-of-band, which is why nothing checked it. Openings gain a wall, a
+position, a hand, a leaf height and a rank; rooms gain a fixture layout; the plan gains a
+stair. **`openings/grammar.json`** (editorial by ruling, 30 rules, every one quoting the corpus
+prose it reads and every quote verified by `build/check_openings.py`) says which kind of
+opening belongs between which two rooms. **`build/openings.py`** places them, called once from
+`geometry.solve()` so both engines agree, and marks what it cannot place rather than deleting
+it. **`compose.py`** derives door widths, types, ranks and heights and window widths and counts
+from packs and kits that have always held them and were never read. **`plan_check` gains a
+`drawn` layer** — the only layer that reads placement, three-state throughout — which reopens
+OQ 54 on Lucas's ruling and turns every one of the reported symptoms into a finding.
+Report: `docs/reports/wp-6.2-opening-semantics.md` · new open questions: OQ 72–75.
+
+### WP-6.3 Geometry truth
+
+**Depends on:** WP-6.2. **Size:** medium.
+
+Make the placement honour what the record now says. The stair-stacking term that
+`vertical_score` never had, as a real charge in the heuristic and a hard constraint in the CP
+engine, reading the `stacks_over` neither engine has ever read. An over-size penalty and an
+`over_band` report to match `under_band`, because the slicer tiles exactly and has no
+over-size charge at all — the Tidewater upper passage is placed 63% over its declaration and
+the linen press 303% over, in silence. `under_band` compared against the DECLARATION as well
+as the catalogue floor, so a kitchen placed at 63% of its declared area is visible. The CP
+door floor made the per-pair figure from the record's real widths, closing OQ 41/63 from the
+solver side. And `_absorb` made unable to undo the guarantees the solve proved, per OQ 55's
+precedent that a guarantee which does not survive the post-pass is not a guarantee.
 
 ---
 
