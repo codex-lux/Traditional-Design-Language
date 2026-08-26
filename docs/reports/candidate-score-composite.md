@@ -316,3 +316,51 @@ floored at 3 and never capped, and reaches its declared ceiling of 11 with zero 
 does not exceed it on any input that could be constructed; and 47 parti/grouping pairs have no
 recorded massing fit, which becomes an `info` and is correctly counted as unjudged — visible,
 not silent, and a data package rather than a defect.
+
+## The third audit round, and what it says about the second
+
+The second round's headline claim — **"twelve of twelve mutants now die"** — reproduces, and
+is worth much less than it sounds. An independent auditor pointed out the obvious: those
+twelve were chosen by the person who wrote the tests. Against **35 mutants chosen by someone
+else the suite scored 48.6%**, and two of the twelve were killed only by a literal constant
+pin, which is a change-detector rather than a defence.
+
+Three of the survivors mattered.
+
+**Remapping one finding layer to the wrong axis changed the returned set and nothing
+noticed** — `grouping` moved from canon (5 points) to rooms (18), and `family-georgian` came
+back with `tower-villa` in place of `living-hall-picturesque`, whole suite green. That is
+verbatim the failure this report says was closed. `SCORE_LAYERS` is now pinned as a literal,
+exactly as the weights are, because a layer is worth a different number of points on a
+different axis and remapping one is a re-ranking of the corpus.
+
+**The determinism tests were vacuous in the order CI actually runs them.** Both snapshot
+`PARTIS` and compare, so if any earlier test in the session has composed a brief with a
+garage, the snapshot already contains the pollution and the diff is empty. With the `list()`
+removed, running the whole file passed 32 of 32. An autouse fixture restores the parti records
+around each of them now, and a third test asks the question that cannot be fooled by ordering:
+is the plan's `groupings` the SAME OBJECT as the parti's?
+
+**A genuine weight swap survives every behavioural test.** `rooms` 18 ↔ `connections` 16 moves
+every published score on both briefs and only the literal `EXPECTED` dict catches it. The
+docstring that claimed to be "the one that fails when a weight moves" is corrected to say
+which half it defends: fidelity's weight, and not the weighting.
+
+Eight more targeted tests followed the same auditor's map — the canon axis's `min`, its
+denominator's four terms, its `max()` on unjudged, a finding that names no room or rule, the
+area axis's division by the brief's own tolerance (invisible on both shipped briefs, where
+every returned candidate sits at miss 0), and the buildability clamp. Re-mutated: **eleven of
+twelve of the survivors now die.**
+
+**And three tests written in an earlier round had silently vanished.** They were added,
+passed, and were dropped by a later wholesale rewrite of the file — nothing noticed, because a
+test that vanishes does not fail. They are restored with that note attached, which is the
+honest place for it: the same class of defect this whole session is about, committed by the
+same author, against his own suite.
+
+Two data corrections came out of the same round. `garage-and-hyphen`'s `attaches_to` received
+`ranch-l` and `ranch-linear` and omitted `split-level` — the one ranch form where the attached
+garage is not merely recorded but definitional, the lower half-level under the bedroom wing
+being the type's whole organising move. And `tests/test_garage.py`'s second assertion used
+`&` where its own failure message described `<=`; with the predicate its message always
+claimed, it failed at once on exactly that gap.

@@ -195,9 +195,16 @@ def test_no_parti_declares_a_garage_room_without_the_grouping_that_governs_it():
             offenders.append(parti["id"])
             continue
         massings = {parti["massing"]} | set(parti.get("alternate_massings") or [])
-        assert massings & receives, (
-            f'{parti["id"]} declares garage-and-hyphen but the grouping receives none of its '
-            f'massings {sorted(massings)} — the grouping layer will report it on every plan')
+        # `<=`, not `&`. The message has always described `<=` — "the grouping layer will
+        # report it on every plan" is what happens for EACH massing the grouping has no
+        # recorded fit for, not only when it receives none of them. With `&` the assertion
+        # could not fail on either parti and never distinguished anything; with `<=` it
+        # failed at once on ranch-tripartite's `split-level`, which the grouping omitted while
+        # receiving ranch-l and ranch-linear. Found by an independent audit of this test.
+        assert massings <= receives, (
+            f'{parti["id"]} declares garage-and-hyphen and the grouping records no fit for '
+            f'{sorted(massings - receives)} — plan_check.py emits an info finding for each, '
+            f'on every plan built from this diagram')
     assert not offenders, (
         f"these partis carry a garage room that no grouping governs: {offenders}. "
         f"Add garage-and-hyphen to their groupings, or remove the room and let "

@@ -71,8 +71,13 @@ test('byScore is highest first, and deterministic when scores tie', () => {
 });
 
 test('a candidate with no score sorts last rather than as a zero', () => {
-  const list = [C('none', null), C('low', 1)];
-  assert.deepEqual(list.slice().sort(byScore).map((c) => c.parti), ['low', 'none']);
+  // The fixture has to be able to SEPARATE -Infinity from 0, and the first version could
+  // not: with only a null and a positive score, `a.score || 0` orders them identically. An
+  // independent mutation audit made exactly that substitution and this test passed under
+  // its own name. A candidate scoring zero is now in the list, between the two.
+  const list = [C('none', null), C('zero', 0), C('low', 1)];
+  assert.deepEqual(list.slice().sort(byScore).map((c) => c.parti), ['low', 'zero', 'none']);
+  assert.deepEqual(list.slice().reverse().sort(byScore).map((c) => c.parti), ['low', 'zero', 'none']);
 });
 
 test('EVERY ordering puts a disqualified candidate last, whatever it scores', () => {
@@ -99,6 +104,15 @@ test('the native ordering puts native diagrams first, then falls through to scor
 });
 
 test('every ordering names itself, because the column ordinal is a position not a verdict', () => {
+  // Length checks alone let an audit SWAP the score and native chip labels — the UI would
+  // have labelled the score ordering "native to the style" and nothing failed. Each chip and
+  // each sentence now has to be about its own ordering.
+  assert.match(ORDERS.score.chip, /score/i);
+  assert.match(ORDERS.native.chip, /native/i);
+  assert.match(ORDERS.fatal.chip, /fatal/i);
+  assert.match(ORDERS.score.says, /score, highest first/i);
+  assert.match(ORDERS.native.says, /native to the style/i);
+  assert.match(ORDERS.fatal.says, /fatal findings decide the order/i);
   for (const [name, o] of Object.entries(ORDERS)) {
     assert.ok(o.chip && o.chip.length > 3, `${name} has no chip label`);
     assert.ok(o.says && o.says.length > 30, `${name} does not say what it did`);
@@ -107,4 +121,19 @@ test('every ordering names itself, because the column ordinal is a position not 
   for (const k of ['score', 'native']) {
     assert.ok(/fatal/i.test(ORDERS[k].says), `${k} does not mention the disqualified rule`);
   }
+});
+
+test('the disqualified group is still ordered by the chosen ordering, not by fatal count', () => {
+  // order() must apply a BOOLEAN demotion. An audit replaced it with a numeric difference,
+  // which silently re-sorts the disqualified group by fatal count under every ordering —
+  // contradicting ORDERS.score.says, which promises the group is ordered by score. The
+  // earlier test used a single ringer, so a two-candidate disqualified group never existed.
+  const list = [C('dq-two-fatals-high-score', 90, 2), C('dq-one-fatal-low-score', 10, 1),
+                C('clean', 50)];
+  assert.deepEqual(list.slice().sort(order(ORDERS.score.cmp)).map((c) => c.parti),
+    ['clean', 'dq-two-fatals-high-score', 'dq-one-fatal-low-score'],
+    'under "highest score first" the disqualified group must be ordered by score');
+  assert.deepEqual(list.slice().sort(order(ORDERS.fatal.cmp)).map((c) => c.parti),
+    ['clean', 'dq-one-fatal-low-score', 'dq-two-fatals-high-score'],
+    'under "fatal first" the disqualified group must be ordered by fatal count');
 });

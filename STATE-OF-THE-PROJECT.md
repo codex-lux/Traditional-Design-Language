@@ -13,7 +13,7 @@ built; the items it cannot support are named in the report with a reason apiece 
 silent. **Ontology 0.7.0, 97 slots** (was 0.6.0/96, was 0.5.0/95): `arch` joined at 0.6.0 and
 `expressed_frame` at 0.7.0. **132 of 132 buildable nodes bound** — `DELIBERATELY_UNBOUND` is empty
 for the first time — **but read OQ 51 before trusting that number.** 57 packs, 262 pack conflicts,
-751 derived rules, **31 checks and 829 tests across 33 files** (was 22 and 419 across 22), plus the workbench app's own 10-case `node --test` suite.
+751 derived rules, **31 checks and 842 tests across 33 files** (was 22 and 419 across 22), plus the workbench app's own 10-case `node --test` suite.
 **51 open questions, 7 of them open**, and five of those seven are blocked on a network this
 container does not have rather than on anyone's judgment.*
 
@@ -115,7 +115,7 @@ The following layers run clean, are schema-checked, and do what their documentat
 
 **The reference corpus (WP-2.1).** 14 of the Plan Examples transcribed into schema-valid plan records — 7 good, 7 bad — and scored. This was the experiment that tested whether the validator agrees with Lucas's eye.
 
-**A real regression suite.** **829 tests across 33 files**, each named for the finding it protects (was 304 across 16, 291 across 14). `make check` runs **31 checkers** then the suite, in one run of about eight minutes. Three of the checkers are newer than the last review and each exists because a class of silent corruption was found: `check_counts.py` fails the build when a number in the prose disagrees with the data; `check_addresses.py` compares what two co-binding packs MEAN at one address; `check_inheritance.py` reports what the lineage cascade delivers that nobody bound.
+**A real regression suite.** **842 tests across 33 files**, each named for the finding it protects (was 304 across 16, 291 across 14). `make check` runs **31 checkers** then the suite, in one run of about eight minutes. Three of the checkers are newer than the last review and each exists because a class of silent corruption was found: `check_counts.py` fails the build when a number in the prose disagrees with the data; `check_addresses.py` compares what two co-binding packs MEAN at one address; `check_inheritance.py` reports what the lineage cascade delivers that nobody bound.
 
 **The MCP server.** 24 tools registered, imports cleanly, `core.py` callable directly.
 
@@ -207,7 +207,7 @@ The formulation the plan of action named had to be replaced on evidence, which i
 
 **Non-Western trunks (WP-4.7).** Five traditions are modelled. Japanese, Islamic, South Asian and African traditions would each be a peer trunk; the schema extends unchanged; `shotgun-house` and `cape-dutch` already point at ancestors the graph cannot name. Scope only, by design.
 
-~~**Continuous integration.** The 304 tests exist; nothing runs them automatically.~~ *(Done — `.github/workflows/ci.yml` runs `check_all.py` and the workbench suite on every push; the count is 829 collected in `tests/`, 91 in the workbench server suite and 10 in the workbench app suite as of 26 Aug 2026 — the 762 stated here until then was stale by 33, counted before the 25 Aug merge.)*
+~~**Continuous integration.** The 304 tests exist; nothing runs them automatically.~~ *(Done — `.github/workflows/ci.yml` runs `check_all.py` and the workbench suite on every push; the count is 842 collected in `tests/`, 91 in the workbench server suite and 10 in the workbench app suite as of 26 Aug 2026 — the 762 stated here until then was stale by 33, counted before the 25 Aug merge.)*
 
 ---
 
@@ -272,6 +272,6 @@ That order keeps faith with the project's own founding discipline — validator 
 | Provenance | `rule_append` | honoured, with the contributing ancestor recorded | **OQ 16 closed 25 Aug** — the code had shipped; only the label was open |
 | Governance | `docs/reports/` | **22 package reports** | One per completed WP |
 | Checks | `build/*.py` | **30 checkers** | All pass; incl. `check_counts`, `check_addresses`, `check_inheritance` |
-| Checks | `tests/` | **829 tests, 33 files** | One base-branch failure (see PR #4); one run, ~8 min; CI on GitHub Actions |
+| Checks | `tests/` | **842 tests, 33 files** | One base-branch failure (see PR #4); one run, ~8 min; CI on GitHub Actions |
 
 *The four numbers a new session should not trust without re-reading them: **132 of 132 bound** (counts a node's own array, not what it receives — OQ 51); **0 silent editorial parameters** (the notes say no source is recorded, which is not the same as sourced — OQ 18); **61.5% of hard constraints tested** (unchanged since 24 Aug and not re-verified here); and **322 wanted, 0 sourced** (the harvester is written but has never run against a reachable host).*

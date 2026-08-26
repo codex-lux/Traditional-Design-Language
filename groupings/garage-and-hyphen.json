@@ -140,6 +140,12 @@
       "position": "one end of the run, set back from the front plane"
     },
     {
+      "massing": "split-level",
+      "fit": "common",
+      "position": "the lower half-level, under the bedroom wing",
+      "note": "The split-level IS the attached-garage plan — the garage occupying the lower half-level under the bedrooms is the form's whole organising move, and is why the type exists. Added 26 Aug 2026: this list received ranch-l and ranch-linear and omitted the third ranch form, so every split-level plan declaring the grouping drew an unrecorded-fit note for a fit that is not merely recorded but definitional."
+    },
+    {
       "massing": "bungalow-linear",
       "fit": "possible",
       "position": "detached to the rear of the lot, on the lane where one exists",

@@ -18,6 +18,8 @@ supposed to kill. A test that cannot fail is worse than no test, because it is c
 import json
 import os
 
+import pytest
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -82,6 +84,26 @@ class TestTheWeightsAreDeliberate:
             "dressing-room and sleeping-porch share function_class 'sleeping' and are not "
             "bedrooms anybody counts")
 
+    LAYERS = {"fault": "solecisms",
+              "room": "rooms", "furniture": "rooms", "daylight": "rooms",
+              "servicing": "rooms", "plan": "rooms",
+              "adjacency": "connections", "circulation": "connections",
+              "privacy": "connections", "completeness": "connections",
+              "style": "canon", "grouping": "canon",
+              "code": None}
+
+    def test_every_layer_is_mapped_to_the_axis_it_is_mapped_to(self, compose_module):
+        """SCORE_LAYERS is as load-bearing as the weights and was not pinned at all. An
+        independent mutation audit moved `grouping` from canon to rooms and the composer
+        returned a DIFFERENT SET on family-georgian — tower-villa in place of
+        living-hall-picturesque — with the whole suite green. That is verbatim the failure
+        this file's own docstring says was closed. One layer is 5 to 34 points moving between
+        two axes of different weight, so remapping one is a re-ranking of the corpus."""
+        assert compose_module.SCORE_LAYERS == self.LAYERS, (
+            "SCORE_LAYERS moved. That re-ranks the corpus — a finding layer is worth a "
+            "different number of points on a different axis. Re-measure the returned sets "
+            "before re-pinning.")
+
     def test_exactly_one_layer_is_deliberately_unscored(self, compose_module):
         """The code layer, and only the code layer: plan_check.py's own note calls code
         findings advisory and jurisdictional. Any OTHER layer mapping to None would be a
@@ -132,6 +154,27 @@ class TestEachAxisActuallyMeasuresSomething:
               "tests_run": 2, "tests_failed": 0}
         assert compose_module._axis_buildability(fp)["share"] == 1.0
 
+    def test_the_area_axis_is_measured_against_the_brief_s_own_tolerance(self, compose_module):
+        """Invisible on both shipped briefs, where every returned candidate happens to sit at
+        miss == 0 — so an audit could delete the division by `tol` entirely and nothing moved.
+        The same miss must score differently under a different tolerance or the axis is not
+        measuring what it says."""
+        def area_share(miss, tol):
+            card = compose_module.score_candidate(
+                _res(rooms=1), _plan(), {"bedrooms": 0}, 0.0, FP_CLEAN, miss, tol)
+            return next(a for a in card["score_axes"] if a["axis"] == "area")["share"]
+        assert area_share(0.06, 0.12) == 0.5
+        assert area_share(0.06, 0.24) == 0.75, "a looser tolerance must forgive the same miss more"
+        assert area_share(0.12, 0.12) == 0.0, "at the tolerance the axis is spent"
+        assert area_share(0.0, 0.12) == 1.0
+
+    def test_buildability_clamps_before_it_publishes_not_only_after(self, compose_module):
+        """The central ceiling clamp catches an out-of-band SHARE, but `clean` and `flagged`
+        are published straight off the tally. An audit deleted the local clamp and got
+        `clean: -3, flagged: 5, share: 2.5` onto the record, with the score still legal."""
+        ax = compose_module._axis_buildability({"notes": [], "tests_run": 2, "tests_failed": 5})
+        assert ax["share"] == 0.0 and ax["clean"] == 0 and ax["flagged"] == 2, ax
+
     def test_fidelity_is_a_share_of_the_fit_function_s_own_maximum(self, compose_module):
         for fit, share in ((7.0, 1.0), (3.5, 0.5), (0.0, 0.0), (-7.5, 0.0), (99.0, 1.0)):
             card = compose_module.score_candidate(
@@ -155,6 +198,55 @@ class TestEachAxisActuallyMeasuresSomething:
             _plan(declared={"cornice": "boxed"}))
         assert ax["flagged"] == 0 and ax["unjudged"] >= 1
         assert ax["share"] == 1.0
+
+    def test_the_worst_finding_against_a_canon_rule_decides_it_not_the_best(self, compose_module):
+        """The rooms axis has this test (min over per-room credit) and the canon axis did not,
+        which an independent audit found by flipping `min` to `max` on `_axis_canon`'s
+        per_rule and watching the whole suite stay green while family-georgian's positions 3
+        and 4 swapped and every score moved."""
+        f = [{"layer": "style", "severity": "minor", "rule": "r1"},
+             {"layer": "style", "severity": "serious", "rule": "r1"}]
+        ax = compose_module._axis_canon(
+            _res(f, constraint={"present": 1, "clear": 3, "unjudged": 0}),
+            _plan(declared={"a": "b", "c": "d"}))
+        assert ax["clean"] == 5.0, (
+            f'a serious and a minor against the same rule must cost the rule outright, '
+            f'not credit it with the minor\'s half: clean={ax["clean"]}')
+
+    def test_a_finding_that_names_no_rule_becomes_its_own_opportunity(self, compose_module):
+        """`_axis_from_layers` and `_axis_canon` both promise, in comments, that a finding
+        naming no room or no rule "becomes its own opportunity, so nothing lands outside the
+        denominator". Neither promise had a test; removing `+ len(loose)` from either
+        denominator lets a plan-wide finding cost nothing at all."""
+        f = [{"layer": "room", "severity": "serious"}]          # no room key
+        ax = compose_module._axis_from_layers(_res(f, rooms=2), "rooms", 2)
+        assert ax["of"] == 3 and ax["share"] < 1.0, (
+            f'a plan-wide finding must widen the denominator and cost something: {ax}')
+        g = [{"layer": "grouping", "severity": "serious"}]      # no rule key
+        ax2 = compose_module._axis_canon(_res(g), _plan(declared={"a": "b"}))
+        assert ax2["of"] == 2 and ax2["share"] < 1.0, ax2
+
+    def test_the_canon_denominator_counts_the_massing_and_the_evaluated_constraints(self, compose_module):
+        """Pinned arithmetic, because the `of` expression carries four terms and an audit
+        found +1 on it, and the massing term dropped from it, both invisible."""
+        ax = compose_module._axis_canon(
+            _res(constraint={"present": 1, "clear": 2, "unjudged": 0}),
+            _plan(declared={"s1": "v", "s2": "v"}, groupings=["g1"], massing="four-over-four"))
+        assert ax["of"] == 2 + 1 + 3 + 1, f'2 slots + 1 grouping + 3 constraints + 1 massing: {ax["of"]}'
+        no_massing = compose_module._axis_canon(
+            _res(constraint={"present": 1, "clear": 2, "unjudged": 0}),
+            _plan(declared={"s1": "v", "s2": "v"}, groupings=["g1"], massing=None))
+        assert no_massing["of"] == ax["of"] - 1, "a plan with no massing has one fewer opportunity"
+
+    def test_unjudged_is_reported_at_the_larger_of_its_two_sources(self, compose_module):
+        """`max(cs.unjudged, info_findings)`, whose comment says it "keeps the number honest
+        if that invariant ever stops holding". Every existing test used inputs where the two
+        agree, so `min` passed just as well."""
+        ax = compose_module._axis_canon(
+            _res([{"layer": "style", "severity": "info", "rule": "r1"}],
+                 constraint={"present": 0, "clear": 1, "unjudged": 9}),
+            _plan(declared={"a": "b"}))
+        assert ax["unjudged"] == 9, f'must not under-report: {ax["unjudged"]}'
 
     def test_canon_counts_each_unjudged_constraint_once_not_twice(self, compose_module):
         """plan_check increments constraint_summary["unjudged"] AND emits an info finding for
@@ -253,6 +345,69 @@ class TestTheCeilingIsReal:
                     assert 0.0 <= a["share"] <= 1.0 and 0.0 <= a["points"] <= a["weight"], a
 
 
+class TestNoMalformedInputCanFailAWholeJob:
+    """compose() has NO per-candidate try/except: one raise inside score_candidate does not
+    spoil one candidate, it fails the job and returns four plans as a single error string.
+
+    THESE THREE TESTS WERE WRITTEN ONCE AND LOST. They were added in an earlier round of this
+    work, passed, and were then dropped by a later wholesale rewrite of this file — and
+    nothing noticed, because a test that vanishes does not fail. That is the same class as
+    everything else this file guards, committed by the same author against his own suite, and
+    it is why they carry this note rather than being quietly restored."""
+
+    R = {"rooms": 2, "counts": {}, "findings": [],
+         "fault_summary": {"present": 1, "clear": 1, "unjudged": 0},
+         "constraint_summary": {"present": 0, "clear": 1, "unjudged": 0}}
+
+    def test_no_malformed_input_can_fail_a_whole_compose_job(self, compose_module):
+        """Four of these raised when first measured: a finding with no severity, one with no
+        layer, and a None fit, tol or miss — `fit` was guarded in its division and not in the
+        label that rounds it. A string `bedrooms` is the fifth: the CLI does not schema-check
+        a brief passed to compose() as a library."""
+        FP = {"notes": [], "tests_run": 2, "tests_failed": 0}
+        R = self.R
+        cases = {
+            "finding with no severity": ({**R, "findings": [{"layer": "room", "room": "a"}]},
+                                         _plan(), {"bedrooms": 2}, 1.0, FP, 0.0, 0.12),
+            "finding with no layer": ({**R, "findings": [{"severity": "serious", "room": "a"}]},
+                                      _plan(), {"bedrooms": 2}, 1.0, FP, 0.0, 0.12),
+            "fit is None": (R, _plan(), {"bedrooms": 2}, None, FP, 0.0, 0.12),
+            "fit is NaN": (R, _plan(), {"bedrooms": 2}, float("nan"), FP, 0.0, 0.12),
+            "tol is None": (R, _plan(), {"bedrooms": 2}, 1.0, FP, 0.0, None),
+            "miss is None": (R, _plan(), {"bedrooms": 2}, 1.0, FP, None, 0.12),
+            "miss is inf": (R, _plan(), {"bedrooms": 2}, 1.0, FP, float("inf"), 0.12),
+            "bedrooms is a string": (R, _plan(), {"bedrooms": "4"}, 1.0, FP, 0.0, 0.12),
+            "bedrooms is None": (R, _plan(), {"bedrooms": None}, 1.0, FP, 0.0, 0.12),
+            "fp carries no tally": (R, _plan(), {"bedrooms": 2}, 1.0, {"notes": ["a"]}, 0.0, 0.12),
+            "fp carries nothing": (R, _plan(), {"bedrooms": 2}, 1.0, {}, 0.0, 0.12),
+            "tests_failed above tests_run": (R, _plan(), {"bedrooms": 2}, 1.0,
+                                             {"notes": [], "tests_run": 2, "tests_failed": 9}, 0.0, 0.12),
+        }
+        for name, args in cases.items():
+            card = compose_module.score_candidate(*args)
+            json.dumps(card)                       # and it must still serialise
+            assert card["score"] is None or 0 <= card["score"] <= 100, name
+            for a in card["score_axes"]:
+                assert a["share"] is None or 0.0 <= a["share"] <= 1.0, (name, a["axis"], a["share"])
+
+    def test_a_plan_record_with_no_levels_does_not_crash_the_scorer(self, compose_module):
+        """score_candidate reads plan["levels"] to count bedrooms. A record that omits it is
+        malformed, and the scorer must say it could not count them rather than raise."""
+        FP = {"notes": [], "tests_run": 2, "tests_failed": 0}
+        card = compose_module.score_candidate(self.R, {}, {"bedrooms": 4}, 7.0, FP, 0.0, 0.12)
+        ax = next(a for a in card["score_axes"] if a["axis"] == "bedrooms")
+        assert ax["share"] == 0.0 or ax["share"] is None
+
+    def test_an_out_of_band_fit_cannot_push_an_axis_past_its_weight(self, compose_module):
+        """pick_partis can return a NEGATIVE fit (a forbidden massing costs 4.0), and a future
+        term could push it past MAX_FIT; neither may leave the fidelity axis outside 0..25."""
+        FP = {"notes": [], "tests_run": 2, "tests_failed": 0}
+        for fit in (-7.5, 0.0, 7.0, 99.0):
+            card = compose_module.score_candidate(self.R, _plan(), {"bedrooms": 2}, fit, FP, 0.0, 0.12)
+            ax = next(a for a in card["score_axes"] if a["axis"] == "fidelity")
+            assert 0.0 <= ax["share"] <= 1.0 and 0.0 <= ax["points"] <= ax["weight"], (fit, ax)
+
+
 class TestNothingIsDroppedSilently:
     def test_every_layer_the_validator_emitted_is_classified(self, compose_module):
         result = compose_module.compose(_brief("family-georgian"))
@@ -278,6 +433,37 @@ class TestNothingIsDroppedSilently:
         assert all(a["what"] for a in model["axes"])
         for c in result["candidates"]:
             assert all("what" not in a for a in c["score_axes"])
+
+
+class TestADroppedCandidateSaysWhyItWasDropped:
+    """WP-2.4's guarantee is that a candidate which cannot fit the stated lot is DROPPED and
+    reported rather than silently outscored. The report was `fp["notes"][-1]`, and by the time
+    a candidate is dropped the last note is almost always "at N bays this diagram is at the
+    width it grows to" — an infeasible lot forces the bay count past the maximum, which fires
+    that test every time. Measured on a 30 ft lot before the fix: 4 of 4 dropped candidates
+    named a reason that was not why they were dropped, in the record the MCP tool and the
+    workbench both read."""
+
+    def test_the_reason_is_the_lot_not_whichever_note_landed_last(self, compose_module):
+        result = compose_module.compose(
+            {"style": "tidewater-georgian", "target_area_sf": 3400, "bedrooms": 4,
+             "context": {"lot_width_ft": 30}}, 4)
+        dropped = result.get("dropped_lot_infeasible") or []
+        assert dropped, "a 30 ft lot must drop candidates; if it no longer does, re-pick the lot"
+        for d in dropped:
+            assert "does not fit this lot" in d["why"], (
+                f'{d["parti"]} was dropped for the lot and reports: {d["why"]!r}')
+
+    def test_footprint_counts_its_tests_rather_than_its_notes(self, compose_module):
+        """The same defect's other half: `notes` holds two failed TESTS and two statements
+        about the lot, and the buildability axis charged for all four."""
+        brief = _brief("family-georgian")
+        _plan_, _log, parti = compose_module.instantiate("centre-passage-double-pile", brief)
+        plan, _l, _p = compose_module.instantiate("centre-passage-double-pile", brief)
+        fp = compose_module.footprint(plan, parti)
+        assert fp["tests_run"] == compose_module.FOOTPRINT_TESTS
+        assert 0 <= fp["tests_failed"] <= fp["tests_run"]
+        assert fp["tests_failed"] <= len(fp["notes"]), "a failed test must have said so in a note"
 
 
 class TestAFixedKeyListDoesNotDropWhatItDoesNotName:
@@ -389,7 +575,16 @@ class TestTheOrderIsWhatItSays:
                     f"{name}: candidates with {group} fatal(s) are not in descending score order")
 
     def test_the_returned_set_is_native_dominated_not_merely_tidy(self, compose_module):
-        """The behavioural guard on the weighting, and the one that fails when a weight moves.
+        """The behavioural guard on FIDELITY's weight specifically — not on the weighting.
+
+        An earlier version of this docstring called it "the one that fails when a weight
+        moves". That was half true and the independent audit measured which half: swapping
+        `solecisms` and `fidelity` does fail here, because fidelity is what this test is
+        about. Swapping `rooms` (18) and `connections` (16) does NOT — it moves every
+        published score on both briefs and every behavioural test stays green. Only the
+        literal EXPECTED dict in TestTheWeightsAreDeliberate catches that one, and a literal
+        pin is a change-detector rather than a defence. Said plainly here rather than left as
+        a claim the test cannot support.
         WP-4.5's ruling is that the right diagram wins unless another is genuinely much worse;
         at fidelity 18 this brief returned tower-villa and octagon-radial, both fit 2.0 and
         both borrowed, over the native side-hall town house. An octagon for a Tidewater
@@ -403,6 +598,22 @@ class TestTheOrderIsWhatItSays:
 
 
 class TestTheComposerIsDeterministic:
+    """ORDER INDEPENDENCE IS THE POINT OF THE FIXTURE BELOW. Both snapshot-and-compare tests
+    here are worthless without it, and an independent audit proved it: with the `list()`
+    removed from instantiate(), running this FILE passes 32/32, because a test earlier in it
+    composes the same brief first and the snapshot is taken of an already-polluted corpus. In
+    CI's order (`pytest tests/`, alphabetical) they could never fail. A deepcopy taken after
+    an unknown number of prior compose() calls in a session-scoped module proves nothing."""
+
+    @pytest.fixture(autouse=True)
+    def _pristine_partis(self, compose_module):
+        import copy
+        clean = copy.deepcopy(compose_module.PARTIS)
+        yield
+        compose_module.PARTIS.clear()
+        compose_module.PARTIS.update(clean)
+
+
     def test_composing_one_brief_does_not_change_another_s_result(self, compose_module):
         """A pre-existing leak found while calibrating this score, because calibration needs
         stable numbers and did not get them. The plan record took a REFERENCE to the parti's
@@ -424,3 +635,26 @@ class TestTheComposerIsDeterministic:
         compose_module.compose(_brief("family-georgian"))
         changed = [pid for pid in before if before[pid] != compose_module.PARTIS[pid]]
         assert not changed, f"compose() mutated the shared parti records: {changed}"
+
+    def test_a_plan_never_shares_a_list_object_with_the_parti_it_came_from(self, compose_module):
+        """The identity check, and it is the one that actually holds.
+
+        Both tests above are ORDER-DEPENDENT: they snapshot the corpus and compose, so if an
+        earlier test in the session has already polluted a parti the snapshot contains the
+        pollution and the diff is empty. Mutation-tested — remove the `list()` from
+        instantiate() and both of them still pass, because tests earlier in this file compose
+        the same brief first. This one cannot be fooled by ordering: it asks whether the plan
+        and the parti are looking at the SAME list, which is the defect itself rather than one
+        of its symptoms."""
+        brief = _brief("family-georgian")
+        for parti_id in ("centre-passage-double-pile", "five-part-palladian"):
+            plan, _log, _parti = compose_module.instantiate(parti_id, brief)
+            parti = compose_module.PARTIS[parti_id]
+            assert plan["groupings"] is not parti.get("groupings"), (
+                f"{parti_id}: the plan holds the parti's OWN groupings list. attach_garage() "
+                f"appends to it, so one brief asking for a garage would change every later "
+                f"brief in the process.")
+            n_before = len(parti.get("groupings") or [])
+            plan["groupings"].append("a-grouping-that-does-not-exist")
+            assert len(parti.get("groupings") or []) == n_before, (
+                f"{parti_id}: appending to the plan reached the corpus")
