@@ -8,7 +8,7 @@ so a Georgian five-foot portico is not reported as the four-foot-porch fault.
   python3 build/plan_check.py plans/<id>.json [--json] [--layer room] [--min-severity serious]
 """
 from __future__ import annotations
-import json, os, glob, re, sys, argparse, importlib.util
+import json, os, glob, re, sys, argparse, importlib.util, collections
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SEV_ORDER = ["fatal", "serious", "minor", "advisory", "info"]
@@ -247,9 +247,47 @@ def derive_constraint_vars(plan):
     return v
 
 class Findings:
-    def __init__(self): self.items = []
+    """The finding collector. Every finding is minted with a stable `id` (OQ 32).
+
+    WHY THE ID IS NOT A HASH OF THE SENTENCE. The workbench needed to diff findings across a
+    re-evaluation -- which rows opened, which cleared -- and to make one citable, and with no id
+    to hand it derived one client-side from `hash(layer|statement|room)`. That works exactly
+    until somebody improves the wording of a finding, at which point every open row, every
+    citation and every diff silently points at nothing, and the UI reports a finding cleared and
+    a new one opened when the only thing that changed was an adjective. A finding's identity is
+    WHAT IT IS ABOUT, not how it is currently phrased.
+
+    So the id is built from the durable parts: the layer, the room it is about, and the rule or
+    fault id where the finding has one. Where a layer produces several findings about one room
+    with no rule id to separate them, an ordinal disambiguates within that group -- stable for a
+    given plan and a given checker, which is what a diff between two evaluations of the same
+    record needs. It is deliberately NOT a global unique id: two different plans may produce the
+    same finding id for the same defect in the same room, and that is a feature, not a collision.
+    """
+
+    def __init__(self):
+        self.items = []
+        self._seq = collections.Counter()
+
+    # `rule` carries an id on some layers and a whole paragraph of prose on others (an
+    # adjacency rule's `rule` is its reasoning). Only an id-shaped value may enter the key --
+    # otherwise the id would embed the very prose it exists to be independent of, which is the
+    # bug with extra steps.
+    _ID_LIKE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$")
+
     def add(self, severity, layer, statement, **kw):
-        self.items.append({"severity": severity, "layer": layer, "statement": statement, **kw})
+        parts = [layer, str(kw.get("room") or "")]
+        for key in ("rule", "constraint", "fault"):
+            v = kw.get(key)
+            if isinstance(v, str) and self._ID_LIKE.match(v):
+                parts.append(v)
+                break
+        base = ":".join(p for p in parts if p)
+        n = self._seq[base]
+        self._seq[base] += 1
+        fid = base if not n else f"{base}#{n}"
+        self.items.append({"id": fid, "severity": severity, "layer": layer,
+                           "statement": statement, **kw})
     def sorted(self):
         return sorted(self.items, key=lambda f: (SEV_ORDER.index(f["severity"]) if f["severity"] in SEV_ORDER else 9,
                                                  f["layer"], f.get("room") or ""))

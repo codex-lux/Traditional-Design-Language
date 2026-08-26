@@ -14,8 +14,14 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Sheet } from '../sheet/Sheet.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
 
-/* Findings carry no ids; a stable client key makes rows diffable and citable. */
+/* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
+   or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
+   survives only as a fallback for a response from a server older than that change. It hashed the
+   STATEMENT, so improving the wording of a finding silently broke every open row, every citation
+   and every diff: the UI reported one finding cleared and another opened when nothing had changed
+   but an adjective. Prefer f.id; never reintroduce the hash as the primary. */
 function findingKey(f) {
+  if (f.id) return f.id;
   const s = `${f.layer}|${f.statement}|${f.room || ''}`;
   let h = 0;
   for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;

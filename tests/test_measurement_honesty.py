@@ -271,3 +271,51 @@ class TestTheDecisionLogCarriesItsStructureWithoutLosingItsProse:
         assert len(named) >= 0.8 * len(rows), (
             f"only {len(named)} of {len(rows)} lines matched the decision vocabulary — the "
             "composer's wording has drifted from _DECISION_PATTERNS")
+
+
+class TestFindingsCarryAStableServerMintedId:
+    """OQ 32. The workbench needed to diff findings across a re-evaluation and to cite one, and
+    with no id to hand it derived a key client-side from hash(layer|statement|room). That works
+    exactly until somebody improves the wording of a finding, at which point every open row,
+    every citation and every diff points at nothing, and the UI reports a finding cleared and a
+    new one opened when the only thing that changed was an adjective.
+
+    A finding's identity is what it is ABOUT, so the id is built from the layer, the room, and
+    the rule or fault id where one exists — never from the sentence.
+    """
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_every_finding_has_a_unique_id(self, plan_name, plan_check_module):
+        result = plan_check_module.check(_plan(plan_name))
+        ids = [f["id"] for f in result["findings"]]
+        assert all(ids), f"{plan_name}: a finding was minted with no id"
+        assert len(set(ids)) == len(ids), (
+            f"{plan_name}: {len(ids) - len(set(ids))} duplicate finding id(s) — a diff cannot "
+            "tell two rows apart")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_the_id_does_not_contain_the_statement(self, plan_name, plan_check_module):
+        """The whole point. An id that embeds the prose is the bug with extra steps — and it is
+        reachable, because `rule` carries an id on some layers and a paragraph of reasoning on
+        others, so only an id-shaped value is allowed into the key."""
+        result = plan_check_module.check(_plan(plan_name))
+        for f in result["findings"]:
+            assert len(f["id"]) <= 96, f"finding id looks like prose: {f['id'][:120]}"
+            assert f["statement"][:40] not in f["id"]
+
+    def test_the_id_survives_a_reworded_statement(self, plan_check_module):
+        """The regression this exists to prevent, stated as a test rather than as a hope."""
+        F = plan_check_module.Findings()
+        F.add("serious", "room", "Dining Room is too small.", room="dining", rule="area-floor")
+        first = F.items[0]["id"]
+        G = plan_check_module.Findings()
+        G.add("serious", "room", "The dining room falls below its catalogue band.",
+              room="dining", rule="area-floor")
+        assert G.items[0]["id"] == first, (
+            "rewording a finding changed its id — that is exactly the failure OQ 32 records")
+
+    def test_two_findings_in_one_room_and_layer_stay_distinct(self, plan_check_module):
+        F = plan_check_module.Findings()
+        F.add("minor", "adjacency", "one", room="hall")
+        F.add("minor", "adjacency", "two", room="hall")
+        assert F.items[0]["id"] != F.items[1]["id"]
