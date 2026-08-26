@@ -125,6 +125,13 @@ def overview():
     return core.overview()
 
 
+@app.get("/api/search/index")
+def search_index():
+    """Everything nameable, once, for the command palette. Fetched on first open and
+    matched in the browser — see corpus.search_index for what is and is not indexed."""
+    return corpus.search_index()
+
+
 # ----------------------------------------------------------------- styles
 @app.get("/api/styles")
 def styles(query: str = "", rank: str = None, region: str = None,

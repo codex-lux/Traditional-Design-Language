@@ -7,6 +7,9 @@ import React from 'react';
 import { api, setUnauthorizedHandler } from './api/client.js';
 import { planDoc } from './state/planDoc.js';
 import { nav } from './state/nav.js';
+import { useGlobalKeys, requestFilterFocus } from './keys.js';
+import { CommandPalette } from './palette/CommandPalette.jsx';
+import { ShortcutCard } from './palette/ShortcutCard.jsx';
 import { Masthead, LeftRail } from './Chrome.jsx';
 import { Gate } from './Gate.jsx';
 import { RailHost } from './rail/RailHost.jsx';
@@ -69,6 +72,19 @@ export default function App() {
     return () => setUnauthorizedHandler(null);
   }, []);
 
+  const [palette, setPalette] = React.useState(false);
+  const [helpCard, setHelpCard] = React.useState(false);
+
+  useGlobalKeys({
+    onPalette: () => { setHelpCard(false); setPalette((p) => !p); },
+    onHelp: () => { setPalette(false); setHelpCard(true); },
+    onSlash: () => { requestFilterFocus(); },
+    onEscape: () => {
+      if (palette) setPalette(false);
+      else if (helpCard) setHelpCard(false);
+    },
+  });
+
   const cite = React.useCallback((ref) => nav.cite(ref), []);
   const select = React.useCallback((patch) => nav.select(patch), []);
   const go = React.useCallback((s, sel) => nav.go(s, sel), []);
@@ -85,7 +101,7 @@ export default function App() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <Masthead plan={plan} judgment={unjudged} />
+      <Masthead plan={plan} judgment={unjudged} onSearch={() => setPalette(true)} />
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         <LeftRail current={surface} onGo={go} counts={overview?.counts} />
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
@@ -94,6 +110,9 @@ export default function App() {
         <RailHost onCite={cite} surface={surface} plan={plan} lastEval={lastEval}
           railAvailable={health ? !!health.rail : null} />
       </div>
+      <CommandPalette open={palette} onClose={() => setPalette(false)}
+        onAction={(run) => { if (run === 'help') setHelpCard(true); }} />
+      <ShortcutCard open={helpCard} onClose={() => setHelpCard(false)} />
     </div>
   );
 }

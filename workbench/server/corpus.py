@@ -112,6 +112,148 @@ def slot_detail(style_id, slot_id):
     return out
 
 
+def _hay(*parts):
+    """One lowercase haystack from whatever a record can offer. Lists are flattened,
+    dicts contribute their values, None is skipped, and everything is joined with a
+    space so a substring cannot straddle two fields and match nothing real."""
+    out = []
+
+    def add(v):
+        if v is None:
+            return
+        if isinstance(v, str):
+            out.append(v)
+        elif isinstance(v, (list, tuple, set)):
+            for x in v:
+                add(x)
+        elif isinstance(v, dict):
+            for x in v.values():
+                add(x)
+        elif isinstance(v, (int, float)):
+            out.append(str(v))
+
+    for p in parts:
+        add(p)
+    return " ".join(out).lower()
+
+
+def _author(authority):
+    """A pack's `authority` is {"source": "Asher Benjamin, The Practical House Carpenter
+    (Boston, 1830), 'Doric Order, Example No. 3', Plate VI…"} — a full bibliographic
+    citation, and the whole of it prose. The name is the part somebody types, so only the
+    first clause is indexed. Searching "bunting" still finds the adobe module; searching a
+    plate number no longer finds anything."""
+    if isinstance(authority, dict):
+        authority = authority.get("source")
+    if not isinstance(authority, str):
+        return None
+    return authority.split(",")[0].strip()[:60] or None
+
+
+def search_index():
+    """Every nameable thing in the corpus, as one flat list the palette can hold.
+
+    Sent once and matched in the browser: a round trip per keystroke would be slower than
+    the corpus is large. The scoring lives in the client (src/search/match.js); this only
+    says what exists and what it is called.
+
+    WHAT IS INDEXED, and why it is less than core.find_style searches: names, ids, akas
+    and the short categorical fields — the words somebody types when they are looking for
+    a thing. Not the prose. Indexing every fault's `cause` and `correct_practice` and
+    every style's `diagnostic_tells` took the payload from 130 KB to 855 KB, and bought
+    results nobody could account for: typing "brick" would surface a fault because the
+    word appears in the third paragraph of its remedy. Prose search already has two
+    better homes — `/api/styles?query=` searches the tells server-side, and the rail
+    reads the corpus properly. The palette finds things by name. That boundary is stated
+    in the response's own `indexes` field so a caller need not guess it.
+
+    Every entry carries a `cite` in the citation grammar rather than a surface name, so
+    the palette dispatches through exactly the router the rail already uses and cannot
+    reach a place a citation could not name. workbench/server/tests/test_search_index.py
+    holds that: each cite must parse and resolve.
+    """
+    import glob as _glob
+    import json as _json
+    import os as _os
+
+    D = core._data()
+    e = []
+
+    for s in D["styles"].values():
+        d = s.get("description") or {}
+        e.append({
+            "cite": "style:" + s["id"], "kind": "style", "id": s["id"], "name": s["name"],
+            "meta": s.get("rank"),
+            "hay": _hay(s["name"], s["id"], s.get("aka"),
+                        (s.get("geography") or {}).get("regions")),
+            "short": d.get("short"),
+        })
+
+    for s in D["slots"].values():
+        e.append({
+            "cite": "slot:" + s["id"], "kind": "slot", "id": s["id"], "name": s["name"],
+            "meta": s.get("group_name") or s.get("group"),
+            "hay": _hay(s["name"], s["id"], s.get("group"), s.get("group_name")),
+        })
+
+    for f in D["faults"].values():
+        e.append({
+            "cite": "fault:" + f["id"], "kind": "fault", "id": f["id"], "name": f["name"],
+            "meta": f.get("category"),
+            "hay": _hay(f["name"], f["id"], f.get("aka"), f.get("category")),
+        })
+
+    for pid, p in D["engine"].PACKS.items():
+        e.append({
+            "cite": "pack:" + pid, "kind": "pack", "id": pid, "name": p.get("name", pid),
+            "meta": p.get("kind"),
+            "hay": _hay(p.get("name"), pid, p.get("aka"), p.get("kind"), _author(p.get("authority"))),
+        })
+
+    for r in D["rooms"].values():
+        e.append({
+            "cite": "room:" + r["id"], "kind": "room", "id": r["id"], "name": r["name"],
+            "meta": r.get("function_class"),
+            "hay": _hay(r["name"], r["id"], r.get("aka"), r.get("function_class")),
+        })
+
+    for m in D["massings"].values():
+        e.append({
+            "cite": "massing:" + m["id"], "kind": "massing", "id": m["id"], "name": m["name"],
+            "meta": m.get("footprint"),
+            "hay": _hay(m["name"], m["id"], m.get("aka")),
+        })
+
+    for g in D["groupings"].values():
+        e.append({
+            "cite": "grouping:" + g["id"], "kind": "grouping", "id": g["id"], "name": g["name"],
+            "meta": g.get("scale"),
+            "hay": _hay(g["name"], g["id"], g.get("aka"), g.get("scale")),
+        })
+
+    for f in sorted(_glob.glob(_os.path.join(ROOT, "partis", "*.json"))):
+        try:
+            p = _json.load(open(f))
+        except Exception:
+            continue          # a parti that will not parse is check_partis.py's to report
+        e.append({
+            "cite": "parti:" + p["id"], "kind": "parti", "id": p["id"],
+            "name": p.get("name", p["id"]), "meta": p.get("circulation_parti"),
+            "hay": _hay(p.get("name"), p["id"], p.get("aka"), p.get("circulation_parti")),
+        })
+
+    return {
+        "count": len(e),
+        "entries": e,
+        "indexes": ["name", "id", "aka", "categorical fields (rank, group, category, "
+                    "kind, function_class, scale, circulation_parti)", "style regions"],
+        "does_not_index": ["prose bodies: diagnostic_tells, defining_characteristics, "
+                           "fault cause and correct_practice, slot notes, descriptions"],
+        "note": ("The palette finds things by name. For prose use /api/styles?query=, "
+                 "which searches the tells server-side, or ask the rail."),
+    }
+
+
 def pack_list():
     """Every proportion pack, for the Proportions surface's navigation. The
     non-classical packs are equal citizens — most traditional buildings were

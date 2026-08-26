@@ -21,18 +21,38 @@ function read() {
 
 function emit() { listeners.forEach((fn) => fn()); }
 
+/* `#/cite/style:craftsman` is an address a machine writes; `#/style/craftsman` is the
+   one the app lives at. Rewriting it in place — without a history entry — means a link
+   pasted from the rail, a commit message or a chat resolves and then stays resolved, so
+   copying the URL back out gives the same place rather than the redirect that reached it.
+
+   Only a citation that actually resolved is rewritten. A broken one is left standing in
+   the address bar: it did not navigate anywhere (nav.cite refuses), and quietly replacing
+   it with the default surface would disguise a dead link as a working one. */
+function canonicalize() {
+  if (typeof location === 'undefined' || typeof history === 'undefined') return;
+  const hash = location.hash || '';
+  if (!hash.startsWith('#/cite/')) return;
+  const ref = decodeURIComponent(hash.slice('#/cite/'.length).split('?')[0]);
+  if (!routeCite(ref)) return;
+  const want = formatHash(state.surface, state.selection, state.params);
+  if (want !== hash && history.replaceState) history.replaceState(null, '', want);
+}
+
 function sync() {
   const next = read();
   const same = next.surface === state.surface
     && JSON.stringify(next.selection) === JSON.stringify(state.selection)
     && JSON.stringify(next.params) === JSON.stringify(state.params);
-  if (same) return;
+  if (same) { canonicalize(); return; }
   state = next;
+  canonicalize();
   emit();
 }
 
 if (typeof window !== 'undefined') {
   window.addEventListener('hashchange', sync);
+  canonicalize();          // a cold load straight onto a #/cite/ link
 }
 
 /* push for a change of place (the back button should undo it); replace for a change of
