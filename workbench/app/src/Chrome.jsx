@@ -1,11 +1,17 @@
-/* The instrument's fixed frame: masthead, the 236px left rail, the vocabulary filter
-   strip. Ported from the mockup; the counts stop being literals and come from
-   /api/overview. All eleven surfaces are live (⑪ Transcription joined in WP-5.5) — the
-   forthcoming-not-hidden treatment lives on the Export surface's cards, where the
-   unbuilt work packages are named. */
+/* The instrument's frame: masthead, the left rail, the vocabulary filter strip. Ported
+   from the mockup; the counts stop being literals and come from /api/overview. All
+   eleven surfaces are live (⑪ Transcription joined in WP-5.5) — the forthcoming-not-hidden
+   treatment lives on the Export surface's cards, where the unbuilt work packages are
+   named.
+
+   It is no longer FIXED, which is the change WP-5.7 made here. The left rail was 236px
+   and the AI rail 344px at every window size and on every errand, which is 580px of
+   permanent furniture — a third of a laptop screen — held whether you were navigating or
+   reading a map. Both fold now, both pull, and `state/layout.js` owns the numbers. */
 import React from 'react';
 import { Eyebrow } from './components/Eyebrow.jsx';
 import { Icon } from './components/Icon.jsx';
+import { layout } from './state/layout.js';
 
 /* The rail, grouped by what you are trying to do rather than by the order the surfaces
    were built in.
@@ -93,10 +99,61 @@ export function Masthead({ plan, judgment, onSearch }) {
   );
 }
 
+/* A folded pane, drawn as a spine rather than removed.
+
+   Hiding a rail completely and hanging its opener off a floating button somewhere else
+   is how a fold becomes a trapdoor: the reader loses the pane and has to find out where
+   it went. A 26px spine costs almost nothing, keeps the shell's proportions legible, and
+   puts the way back exactly where the thing was. */
+export function PaneStub({ pane, label, spine, side }) {
+  const edge = side === 'left'
+    ? { borderRight: '1px solid var(--rule)' }
+    : { borderLeft: '1px solid var(--rule)' };
+  return (
+    <div style={{ width: 26, flex: 'none', background: 'var(--paper)', ...edge,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 0 }}>
+      <button type="button" onClick={() => layout.setCollapsed(pane, false)}
+        aria-expanded={false} aria-label={`show ${label}`} title={`show ${label}`}
+        style={{ width: 26, height: 30, flex: 'none', color: 'var(--ink-3)',
+          font: 'var(--type-data-s)', fontFamily: 'var(--mono)', cursor: 'pointer',
+          transition: 'var(--t-hover)' }}>
+        {side === 'left' ? '›' : '‹'}
+      </button>
+      {/* The name of what is folded, turned up the spine — the fold is legible without
+          hovering anything. It is the SHORT name: `label` is the accessible one and has
+          to say what pressing the chevron does ("show the surface list"), while the spine
+          has 26px and says what is folded ("surfaces"). They were one string, and the
+          screen-reader name was the one that suffered. */}
+      <span aria-hidden="true"
+        style={{ writingMode: 'vertical-rl', font: 'var(--type-eyebrow)',
+          letterSpacing: 'var(--tr-eyebrow)', textTransform: 'uppercase',
+          color: 'var(--ink-4)', marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden' }}>
+        {spine || label}
+      </span>
+    </div>
+  );
+}
+
+/* The control that folds a pane away, drawn small and quiet at the pane's own edge. */
+export function FoldControl({ pane, label, side }) {
+  return (
+    <button type="button" onClick={() => layout.setCollapsed(pane, true)}
+      aria-expanded aria-label={`hide ${label}`} title={`hide ${label}`}
+      style={{ font: 'var(--type-data-s)', fontFamily: 'var(--mono)', color: 'var(--ink-4)',
+        padding: '0 6px', cursor: 'pointer', flex: 'none', transition: 'var(--t-hover)' }}>
+      {side === 'left' ? '‹' : '›'}
+    </button>
+  );
+}
+
 export function LeftRail({ current, onGo, counts }) {
+  const open = React.useSyncExternalStore(layout.subscribe, () => layout.isOpen('nav'));
+  const width = React.useSyncExternalStore(layout.subscribe, () => layout.width('nav'));
+  if (!open) return <PaneStub pane="nav" label="the surface list" spine="surfaces" side="left" />;
+
   return (
     <nav aria-label="surfaces"
-      style={{ width: 'var(--rail-left)', flex: 'none', borderRight: '1px solid var(--rule)',
+      style={{ width, flex: 'none', borderRight: '1px solid var(--rule)',
         background: 'var(--paper)', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
       <div style={{ flex: 1, overflow: 'auto', padding: '14px 0 18px' }}>
         {surfaces(counts).map((g) => (
@@ -113,11 +170,16 @@ export function LeftRail({ current, onGo, counts }) {
                     borderLeft: on ? '2px solid var(--gilt-deep)' : '2px solid transparent',
                     transition: 'var(--t-hover)' }}>
                   <span style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)',
-                    color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 1, whiteSpace: 'nowrap' }}>
+                    color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 1, whiteSpace: 'nowrap',
+                    overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {it.label}
                   </span>
-                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', flex: 'none',
-                    whiteSpace: 'nowrap' }}>{it.meta}</span>
+                  {/* The meta column is the first thing to go when the rail is pulled
+                      narrow: it is orientation, and the label is the control. */}
+                  {width >= 200 && (
+                    <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', flex: 'none',
+                      whiteSpace: 'nowrap' }}>{it.meta}</span>
+                  )}
                 </button>
               );
             })}
@@ -126,7 +188,12 @@ export function LeftRail({ current, onGo, counts }) {
       </div>
       {/* The corpus inventory used to live here, on every surface, in a rail that is for
           navigating. It is orientation — read once — so it moved to the Overview, and the
-          rail got its foot back. */}
+          rail got its foot back. What is in the foot now is the fold, which belongs to
+          the rail rather than to any surface in it. */}
+      <div style={{ flex: 'none', height: 26, display: 'flex', alignItems: 'center',
+        justifyContent: 'flex-end', borderTop: '1px solid var(--rule)' }}>
+        <FoldControl pane="nav" label="the surface list" side="left" />
+      </div>
     </nav>
   );
 }

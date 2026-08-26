@@ -203,6 +203,112 @@ algorithm that reads it, which is the second-copy trap it cites, and an audit fo
 constant named on one side and hard-coded on the other. Without node it reports COULD NOT
 EVALUATE rather than passing.
 
+## Layout, and the atlas's resolution (WP-5.7)
+
+### The shell's proportions belong to the reader
+
+`app/src/state/layout.js` is the fifth external store, after `planDoc`, `session`,
+`draftDoc` and `nav`. It holds a width and a folded flag per pane and persists to
+**localStorage**, not to the URL.
+
+| pane | what it is | default | folds |
+|---|---|---|---|
+| `nav` | the surface list | 236 | yes |
+| `rail` | the AI rail | 344 | yes |
+| `phylo` | the Phylogeny's taxon record | 320 | yes |
+| `faults` | the fault list | 330 | no |
+| `kit` | the style's record | 340 | no |
+| `workbench` | the findings | 430 | no |
+| `proportions` | the pack list | 250 | no |
+| `transcription` | the record | 360 | no |
+
+**`foldable` is the difference between chrome and subject.** The three that fold are things
+a reader may not want on screen at all. A surface's own index *is* the surface — a Fault
+Corpus with the fault list folded away is not a decluttered Fault Corpus, it is a broken one
+— so a drag past the floor there stops at the floor. The refusal is stated in `setCollapsed`
+as well as in `dragTo`, because `toggle`, the key map and a hand-edited localStorage entry
+all reach the first without going through the second.
+
+`components/PullPane.jsx` mounts the splitter on the five index panels. Use it rather than a
+sixth hand-written copy: the handle belongs on the pane's **inner** edge, so it goes after a
+left-hand pane and before a right-hand one, and `grows` has to agree with which side it is
+on — which is the part that is easy to get backwards.
+
+That split is deliberate and is the rule to keep: **places live in the hash, filters live
+in the query string, preferences live in localStorage.** `#/kit/craftsman/cornice` is a
+citation, and a citation that also carried the sender's rail width would be handing the
+reader the sender's monitor.
+
+`PANES` is the single declaration of each pane's default, floor and ceiling, and the
+clamp runs on **read** as well as on write: a width stored on a 2560px display must not
+strand the nav off the side of a laptop, and a hand-edited localStorage entry must not be
+able to put a pane at 4000px. `layout.clampAll(window.innerWidth)` runs on mount and on
+every resize, and enforces two situational bounds the store cannot know on its own — no
+pane over a third of the window, and the two rails together never over half.
+
+- **Folding.** `[` and `]`, the fold control at the pane's own edge, or a drag past 60% of
+  the floor. A folded pane becomes a 26px `PaneStub` with its short name turned up the
+  spine — never nothing. `PaneStub` takes both a `label` (the accessible name, which must
+  say what pressing it does) and a `spine` (the short display text); they were one string
+  and the screen-reader name was the half that suffered.
+- **Pulling.** `components/Splitter.jsx` renders a zero-width flex child with a 10px hit
+  strip absolutely positioned over the neighbouring pane's hairline. It is a real
+  `role="separator"` with `aria-valuenow`: arrows nudge, shift-arrows stride, `Home`
+  resets, `Enter` folds, double-click restores the shipped width. It captures the pointer,
+  because a drag that outruns the cursor — and it will, since the layout reflows under it —
+  otherwise drops the handle mid-pull.
+- **Full screen.** `layout.setFull(surface)` drops the masthead and both rails; the atlas's
+  control also asks the browser for its own full screen, which is a separate win and may be
+  refused without costing the first. Escape leaves, and so does F11, because
+  `fullscreenchange` is watched and the shell follows it. **`full` is the one piece of
+  layout state that is not persisted** — that is what "temporarily" means, and a reader who
+  closes the tab in full screen gets the instrument back rather than a chrome-less shell.
+
+`--rail-left` and `--rail-ai` are gone from `theme/tokens.css`. Do not reinstate them: a
+stylesheet that also has an opinion about the rail width is a layout bug waiting to be
+filed.
+
+### The atlas draws at the scale it is read at
+
+Two things were wrong, and only one of them was resolution.
+
+**`vector-effect` is not an inherited property.** It was set on the `<g>` wrapping the land
+paths and on the `<g>` wrapping the lineage arcs, and reached neither, so `strokeWidth={0.7}`
+on the coastline was 0.7 *degrees of longitude* of ink and an arc's 1.5 was about a hundred
+miles. Every zoom multiplied the pen. Set it on the element, never on the group — and the
+e2e walk asserts the general form: no stroked mark in the atlas may carry a `stroke-width`
+without a `vector-effect` of its own.
+
+**And there was one outline for every scale.** There are three now:
+
+| tier | source | tolerance | rings | points | gzip | fetched |
+|---|---|---|---|---|---|---|
+| coarse | Natural Earth 110m | 0.35° | 102 | 1,946 | 9 KB | in the main bundle |
+| medium | Natural Earth 50m | 0.06° | 478 | 14,442 | 60 KB | below 70° of longitude |
+| fine | Natural Earth 10m | 0.012° | 2,262 | 116,623 | 363 KB | below 16° of longitude |
+
+`workbench/scripts/make_coastlines.py` generates all three from world-atlas@2 (which
+repackages Natural Earth's public-domain land layer), in the standard library. It quantises
+and delta-encodes the paths, writes a bounding box per ring so the map can cull before it
+renders, splits rings at the antimeridian so nothing is drawn across the whole plate, and
+drops Antarctica. It is a build-time script and the data is vendored: **no map library, no
+tiles, no network at run time.**
+
+`surfaces/phylo/coastTiers.js` picks the tier and reports four things separately — what the
+scale `wanted`, what is `drawn`, whether a fetch is `pending`, and whether one `failed`.
+The legend prints the difference. **A coarse coastline shown where a fine one was asked for
+is a drawing that has not been evaluated at this scale**, and reporting it as the fine one
+would be the same error the fault corpus exists to prevent.
+
+`MIN_W` is 3° of longitude, set by what 10m data can honestly draw (about five screen pixels
+of error across a 1,200px pane), not by taste. `surfaces/phylo/graticule.js` steps the grid
+with the scale. The wheel handler is a **native, non-passive** listener: React attaches
+`wheel` at the root as passive, so `preventDefault` in a JSX `onWheel` never worked and the
+page scrolled while the map zoomed.
+
+**The gazetteer did not change.** A finer coastline is a finer drawing aid; it does not make
+a placement better sourced than the prose it came from, and the legend still says so.
+
 ## The three-state rule, in components
 
 `JudgmentMark`, `FindingRow`, `SeverityTally` take `pass · fail · unjudged` and no

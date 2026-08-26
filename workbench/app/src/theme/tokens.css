@@ -152,8 +152,13 @@
   --sp-1:2px; --sp-2:4px; --sp-3:6px; --sp-4:8px; --sp-5:12px; --sp-6:16px;
   --sp-7:20px; --sp-8:28px; --sp-9:40px; --sp-10:56px; --sp-11:80px;
 
-  --rail-left:236px;             /* shipped convention */
-  --rail-ai:344px;               /* the AI rail — beside the canvas, never a modal */
+  /* The two rails no longer have a token width, and this note is where the old ones were.
+     They are the reader's now: state/layout.js owns the numbers, PANES declares the
+     default, the floor and the ceiling, and localStorage remembers what was chosen. The
+     shipped defaults — 236 and 344 — live in that table, not here, because a value two
+     places can set is a value two places can disagree about. Do not reinstate a token for
+     either; a stylesheet that also has an opinion about the rail width is the layout bug
+     this file would ship next. */
   --topbar-h:52px;
   --substrip-h:34px;             /* vocabulary filter strip under the topbar */
   --panel-pad:16px;

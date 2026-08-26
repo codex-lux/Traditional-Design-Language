@@ -64,6 +64,32 @@ check('three-state panel present (could not evaluate)', /could not evaluate/i.te
 check('hill-climb honesty line present', /hill-climb/i.test(body));
 check('the proof is offered, not just the search', /prove placement/i.test(body));
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
+// WP-5.7: every surface's index panel pulls, not just the shell's rails. The findings
+// column was 430px written into the JSX and chosen against one window.
+{
+  const sep = page.locator('[role="separator"][aria-label="resize the findings"]');
+  check('the findings column has a pullable margin', await sep.count() === 1);
+  const box = await sep.boundingBox();
+  await page.mouse.move(box.x + 5, box.y + 200);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 95, box.y + 200, { steps: 10 });
+  await page.mouse.up();
+  await page.waitForTimeout(250);
+  const moved = (await sep.boundingBox()).x - box.x;
+  check(`pulling the findings column widens it (${Math.round(moved)}px)`, moved > 60);
+  // and it must NOT fold: a Plan Workbench with its findings folded away is not a
+  // decluttered workbench, it is a broken one.
+  await page.mouse.move(box.x + 95, box.y + 200);
+  await page.mouse.down();
+  await page.mouse.move(box.x - 400, box.y + 200, { steps: 14 });
+  await page.mouse.up();
+  await page.waitForTimeout(250);
+  check("a surface's own index cannot be folded away by dragging past its floor",
+    await page.locator('[role="separator"][aria-label="resize the findings"]').count() === 1
+    && /could not evaluate/i.test(await page.locator('main').innerText()));
+  await sep.dblclick();
+  await page.waitForTimeout(250);
+}
 // Not "a toolbar rendered": the loupe has to make the drawing bigger. Measured on the
 // sheet's own SVG, before and after two steps of the ladder.
 const sheetBox = () => page.evaluate(() => {
@@ -566,6 +592,113 @@ check('a hearth on the map can be clicked',
 
 check('? explains the keys and the addressing', /kind:id/.test(card) && /⌘K/.test(card));
 await page.keyboard.press('Escape');
+
+// ── WP-5.7: the shell's proportions, and an atlas that sharpens ────────────────
+// The report that started it: "the map is VERY crude and doesn't take well to zooming in
+// since the resolution does not scale up as you zoom in." Two separate causes, both
+// pinned here, plus the three affordances asked for in the same breath.
+await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'networkidle' });
+await page.waitForTimeout(1800);
+
+// (1) The pen was scaled with the drawing: `vector-effect` does not inherit, so it was on
+// the <g> and reached none of the paths, and a 0.7-unit coastline was 0.7 DEGREES of ink.
+{
+  const scaled = await page.evaluate(() => {
+    const svg = document.querySelector('main svg[role="img"]');
+    return [...svg.querySelectorAll('path,line,circle,rect,polyline,polygon')]
+      .filter((el) => el.getAttribute('stroke-width') && !el.getAttribute('vector-effect'))
+      .length;
+  });
+  check('no stroked mark on the map scales its own pen with the view', scaled === 0);
+}
+
+// (2) The outline itself gains detail. Zoom in and the tier the map is drawing must
+// change — and it must SAY which one, so a coarse coastline is never passed off as a
+// fine one.
+const atHome = await page.locator('main').innerText();
+check('the atlas names the outline it is drawing and how much it can show',
+  /Coastline · land-110m\.json/.test(atHome) && /simplified at 0\.35°/.test(atHome));
+{
+  const svg = await page.locator('main svg[role="img"]').boundingBox();
+  for (let i = 0; i < 14; i += 1) {
+    await page.mouse.move(svg.x + svg.width * 0.78, svg.y + svg.height * 0.35);
+    await page.mouse.wheel(0, -200);
+    await page.waitForTimeout(60);
+  }
+  await page.waitForTimeout(2500);       // the fine tier is a fetched chunk
+  const zoomed = await page.locator('main').innerText();
+  check('zooming in fetches an outline that can carry the scale',
+    /land-10m\.json/.test(zoomed) && /simplified at 0\.012°/.test(zoomed));
+  // and the grid does not vanish at the zooms that were just made reachable
+  const grid = await page.locator('main svg[role="img"] line').count();
+  check('the graticule follows the scale rather than disappearing', grid >= 4);
+}
+
+// (3) Full screen: the atlas takes the window, and escape gives the instrument back.
+await page.getByRole('button', { name: /full screen/i }).click();
+await page.waitForTimeout(500);
+check('full screen takes the masthead and both rails',
+  await page.locator('nav[aria-label="surfaces"]').count() === 0
+  && await page.locator('aside[aria-label*="the rail"]').count() === 0);
+check('and says how to leave', /leave full screen · esc/i.test(await page.locator('main').innerText()));
+await page.screenshot({ path: SHOTS + 'phylogeny-map-full.png' });
+await page.keyboard.press('Escape');
+await page.waitForTimeout(500);
+check('escape gives the instrument back',
+  await page.locator('nav[aria-label="surfaces"]').count() === 1);
+// ⌘K still works in full screen, and a jump out of the atlas used to carry the
+// chrome-less shell onto a surface with no control to leave it by.
+await page.getByRole('button', { name: /full screen/i }).click();
+await page.waitForTimeout(400);
+await page.goto(BASE + '/#/kit', { waitUntil: 'networkidle' });
+await page.waitForTimeout(1200);
+check('leaving the atlas leaves full screen with it, not a shell with no way out',
+  await page.locator('nav[aria-label="surfaces"]').count() === 1);
+await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'networkidle' });
+await page.waitForTimeout(1500);
+
+// (4) Both rails fold, from the keyboard, and a fold leaves a way back rather than a hole.
+await page.keyboard.press('[');
+await page.keyboard.press(']');
+await page.waitForTimeout(300);
+check('[ and ] fold the surface list and the rail away',
+  await page.locator('nav[aria-label="surfaces"]').count() === 0
+  && await page.locator('aside[aria-label*="the rail"]').count() === 0);
+check('a folded pane leaves a spine to bring it back, not a trapdoor',
+  await page.getByRole('button', { name: /show the surface list/i }).count() === 1
+  && await page.getByRole('button', { name: /show the rail/i }).count() === 1);
+await page.screenshot({ path: SHOTS + 'phylogeny-map-folded.png' });
+await page.getByRole('button', { name: /show the surface list/i }).click();
+await page.getByRole('button', { name: /show the rail/i }).click();
+await page.waitForTimeout(300);
+check('and the spine brings it back', await page.locator('nav[aria-label="surfaces"]').count() === 1);
+
+// (5) The margins pull. A width the reader chose has to survive a reload, or it is a
+// gesture rather than a setting.
+{
+  const before = await page.locator('nav[aria-label="surfaces"]').evaluate((e) => e.getBoundingClientRect().width);
+  const sep = page.locator('[role="separator"][aria-label*="surface list"]');
+  check('the margin between the panes is a real separator, and focusable',
+    await sep.count() === 1);
+  const box = await sep.boundingBox();
+  await page.mouse.move(box.x + box.width / 2, box.y + 200);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 110, box.y + 200, { steps: 12 });
+  await page.mouse.up();
+  await page.waitForTimeout(300);
+  const after = await page.locator('nav[aria-label="surfaces"]').evaluate((e) => e.getBoundingClientRect().width);
+  check('pulling the margin widens the pane', after > before + 60);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForTimeout(1200);
+  const kept = await page.locator('nav[aria-label="surfaces"]').evaluate((e) => e.getBoundingClientRect().width);
+  check('and the width the reader chose survives a reload', Math.abs(kept - after) < 3);
+  // put it back, so the screenshots the rest of this walk takes are the shipped layout
+  await page.locator('[role="separator"][aria-label*="surface list"]').dblclick();
+  await page.waitForTimeout(300);
+  check('double-clicking the margin returns the pane to its shipped width',
+    Math.abs(await page.locator('nav[aria-label="surfaces"]')
+      .evaluate((e) => e.getBoundingClientRect().width) - 236) < 3);
+}
 
 await browser.close();
 if (failures.length) { console.error('\nFAILED:', failures); process.exit(1); }

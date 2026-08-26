@@ -2,7 +2,14 @@
    WP-5.5). The AI rail is persistent across all of them. A citation anywhere routes
    through citations.js and navigates this shell — and since WP-5.6 that navigation is
    written to the URL (router.js, state/nav.js), so a place can be refreshed, gone back
-   from, and handed to somebody else. */
+   from, and handed to somebody else.
+
+   WP-5.7 made the shell's proportions the reader's. Both rails fold and both pull
+   (state/layout.js, components/Splitter.jsx), and a surface can take the whole window —
+   `layout.full`, which the atlas asks for and escape gives back. What the layout store
+   holds is a preference about this browser, so it lives in localStorage; it deliberately
+   stays out of the URL, because a citation that carried the sender's rail width would be
+   handing the reader the sender's monitor. */
 import React from 'react';
 import { api, setUnauthorizedHandler } from './api/client.js';
 import { planDoc } from './state/planDoc.js';
@@ -10,7 +17,9 @@ import { nav } from './state/nav.js';
 import { useGlobalKeys, requestFilterFocus } from './keys.js';
 import { CommandPalette } from './palette/CommandPalette.jsx';
 import { ShortcutCard } from './palette/ShortcutCard.jsx';
-import { Masthead, LeftRail } from './Chrome.jsx';
+import { Masthead, LeftRail, PaneStub } from './Chrome.jsx';
+import { Splitter } from './components/Splitter.jsx';
+import { layout } from './state/layout.js';
 import { Gate } from './Gate.jsx';
 import { RailHost } from './rail/RailHost.jsx';
 import { PlanWorkbench } from './surfaces/PlanWorkbench.jsx';
@@ -76,6 +85,47 @@ export default function App() {
 
   const [palette, setPalette] = React.useState(false);
   const [helpCard, setHelpCard] = React.useState(false);
+  const panes = React.useSyncExternalStore(layout.subscribe, layout.get);
+  /* Full screen belongs to ONE surface. `layout.full` holds which, and this render treats
+     it as off anywhere else — because ⌘K still works in full screen, and a palette jump
+     from the atlas to the Kit used to carry the chrome-less shell along with it, onto a
+     surface with no control to leave by. The effect below clears the state so the browser's
+     own full screen goes with it rather than lingering. */
+  const full = panes.full === surface ? panes.full : null;
+
+  /* A width stored on a wide monitor must not strand the nav off the side of a laptop,
+     and the two rails together must never eat the canvas between them. The store holds
+     the absolute bounds; only the window knows the situational one. */
+  React.useEffect(() => {
+    const fit = () => layout.clampAll(window.innerWidth);
+    fit();
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, []);
+
+  /* Leaving the browser's own full screen — by F11, by the escape key the browser eats
+     before we see it, by anything — must also leave ours, or the reader is left in a
+     chrome-less shell they did not ask for. */
+  React.useEffect(() => {
+    if (typeof document === 'undefined') return undefined;
+    const sync = () => { if (!document.fullscreenElement && layout.get().full) layout.setFull(null); };
+    document.addEventListener('fullscreenchange', sync);
+    return () => document.removeEventListener('fullscreenchange', sync);
+  }, []);
+
+  /* Declared above the key map that calls it: leaving our full screen must also leave
+     the browser's, and the two have to be the same act or the reader ends up in one
+     without the other. */
+  const exitFull = React.useCallback(() => {
+    layout.setFull(null);
+    if (typeof document !== 'undefined' && document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (layout.get().full && layout.get().full !== surface) exitFull();
+  }, [surface, exitFull]);
 
   useGlobalKeys({
     onPalette: () => { setHelpCard(false); setPalette((p) => !p); },
@@ -84,7 +134,12 @@ export default function App() {
     onEscape: () => {
       if (palette) setPalette(false);
       else if (helpCard) setHelpCard(false);
+      else if (layout.get().full) exitFull();
     },
+    /* Two keys, added deliberately — see keys.js. The reason is the one the rails
+       themselves are the answer to: 580px of permanent furniture is worth a key. */
+    onFoldNav: () => layout.toggle('nav'),
+    onFoldRail: () => layout.toggle('rail'),
   });
 
   const cite = React.useCallback((ref) => nav.cite(ref), []);
@@ -92,7 +147,7 @@ export default function App() {
   const go = React.useCallback((s, sel) => nav.go(s, sel), []);
 
   const shared = { onCite: cite, selection, setSelection: select, go, lastEval, setLastEval,
-    onSearch: () => setPalette(true) };
+    onSearch: () => setPalette(true), full, onFull: layout.setFull, onExitFull: exitFull };
   // Only the surface in view is constructed. It used to be all eleven, every render,
   // each with its own mount effects waiting to fire.
   const Active = SURFACES[surface] || SURFACES.workbench;
@@ -104,15 +159,26 @@ export default function App() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <Masthead plan={plan} judgment={unjudged} onSearch={() => setPalette(true)} />
+      {/* Full screen takes the masthead and both rails, not just the rails: on the
+          laptop this was reported from, the masthead plus the browser's own bookmark bar
+          was more of the window than the atlas's legend. It is a state of the shell
+          rather than a mode of the surface, so every surface can ask for it and none of
+          them has to reimplement getting out. */}
+      {!full && <Masthead plan={plan} judgment={unjudged} onSearch={() => setPalette(true)} />}
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        <LeftRail current={surface} onGo={go} counts={overview?.counts} />
+        {!full && <LeftRail current={surface} onGo={go} counts={overview?.counts} />}
+        {!full && layout.isOpen('nav') && <Splitter pane="nav" grows="left" />}
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
           <Active {...shared} />
         </main>
-        <RailHost onCite={cite} surface={surface} plan={plan} lastEval={lastEval}
-          railAvailable={health ? !!health.rail : null}
-          toolCount={health?.mcp?.tools} />
+        {!full && layout.isOpen('rail') && <Splitter pane="rail" grows="right" />}
+        {!full && (layout.isOpen('rail')
+          ? (
+            <RailHost onCite={cite} surface={surface} plan={plan} lastEval={lastEval}
+              railAvailable={health ? !!health.rail : null}
+              toolCount={health?.mcp?.tools} />
+          )
+          : <PaneStub pane="rail" label="the rail" side="right" />)}
       </div>
       <CommandPalette open={palette} onClose={() => setPalette(false)}
         onAction={(run) => { if (run === 'help') setHelpCard(true); }} />

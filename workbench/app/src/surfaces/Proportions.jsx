@@ -14,6 +14,7 @@ import { FilterInput } from '../components/FilterInput.jsx';
 import { matches } from '../search/match.js';
 import { PlateViewer } from '../components/PlateViewer.jsx';
 import { ft } from '../sheet/derive.js';
+import { PullPane } from '../components/PullPane.jsx';
 
 const DEFAULT_PACK = 'gibbs-doric';
 
@@ -404,8 +405,8 @@ export function Proportions({ onCite, selection }) {
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         {/* pack navigation — material modules lead */}
-        <div style={{ width: 250, flex: 'none', borderRight: '1px solid var(--rule)', overflow: 'auto',
-          minHeight: 0, padding: '12px 0 20px' }}>
+        <PullPane pane="proportions" side="left"
+          style={{ borderRight: '1px solid var(--rule)', overflow: 'auto', padding: '12px 0 20px' }}>
           {byKind.map((g) => (
             <div key={g.kind} style={{ marginBottom: 14 }}>
               <Eyebrow style={{ padding: '0 12px 6px' }}>{KIND_LABEL[g.kind] || g.kind}</Eyebrow>
@@ -424,7 +425,7 @@ export function Proportions({ onCite, selection }) {
               })}
             </div>
           ))}
-        </div>
+        </PullPane>
 
         {/* the pack, dimensioned */}
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 24px 34px' }}>

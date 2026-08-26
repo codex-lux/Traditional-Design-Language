@@ -22,11 +22,20 @@
       count and the panel names them.
 
    No tiles, no map library, no network. The basemap is a vendored public-domain outline
-   drawn in the same hairline the drawing set uses. */
+   drawn in the same hairline the drawing set uses.
+
+   AND IT SHARPENS AS YOU ZOOM, which until WP-5.7 it did not. There was one outline —
+   Natural Earth 110m, simplified at 0.55 degrees — held at every scale, so magnifying the
+   plate magnified its corners and a coastline became a run of visible facets. There are
+   three now (`coastTiers.js`), the map fetches the one its scale can honestly show, and
+   while a finer one is in flight it says what is actually on the plate rather than
+   letting a facet pass for a shore. The graticule steps down with it. */
 import React from 'react';
 import { placeStyle, statesNoHearth } from '../../data/gazetteer.js';
-import { COASTLINES } from '../../data/coastlines.js';
+import { useCoastline, visibleRings } from './coastTiers.js';
+import { gridStep, ticks } from './graticule.js';
 import { Eyebrow } from '../../components/Eyebrow.jsx';
+import { ActionChip } from '../../Chrome.jsx';
 
 /* Equirectangular, and deliberately so: it is the projection the coastline asset is
    stored in, it keeps the transform to two subtractions, and at this scale — a diagram of
@@ -38,7 +47,40 @@ const project = (lat, lon) => ({ x: lon, y: -lat });
    and bottom — that is the honest trade: both coasts of the Atlantic have to be on screen
    at once for a transmission arc to mean anything. */
 const HOME = { x: -114, y: -60, w: 134, h: 43 };
-const MIN_W = 6, MAX_W = 300;
+
+/* MIN_W was 6 and is 3: the floor on how far in the reader may go, and it is set by what
+   the finest outline can honestly draw rather than by taste. Natural Earth 10m simplified
+   at 0.012 degrees is about five screen pixels of error across a 1,200px pane at three
+   degrees of longitude; letting the reader past that would be selling them a magnified
+   guess. MAX_W is a whole hemisphere and a bit — the outline is the world now, not the
+   North Atlantic clip it used to be, because a quarter of the gazetteer's places are
+   outside that box. */
+const MIN_W = 3, MAX_W = 340;
+
+
+const ZOOM_KEY = {
+  font: 'var(--type-data-s)', fontFamily: 'var(--mono)', width: 22, height: 20,
+  color: 'var(--ink-3)', background: 'transparent', cursor: 'pointer',
+  transition: 'var(--t-hover)',
+};
+
+/* Ask the browser for its own full screen as well as the shell's.
+
+   The two are different wins and the reader wants both: the shell's gives back the rails
+   and the masthead, the browser's gives back its tab strip, its address bar and — on the
+   machine this was reported from — a bookmarks bar taller than the atlas's legend. The
+   browser's may be refused (a permissions policy, an iframe, a gesture it did not count),
+   and that refusal must not cost the shell's: the promise is caught and the in-app
+   expansion stands on its own. */
+function requestFull(onFull) {
+  onFull && onFull();
+  if (typeof document === 'undefined') return;
+  const el = document.documentElement;
+  if (el && el.requestFullscreen && !document.fullscreenElement) {
+    const p = el.requestFullscreen();
+    if (p && p.catch) p.catch(() => { /* the shell's full screen is the part we control */ });
+  }
+}
 
 const PRECISION_NOTE = {
   locality: 'a place you could walk across',
@@ -48,11 +90,20 @@ const PRECISION_NOTE = {
 
 export function MapView({
   rows, edges, sel, compare, onPick, traditionHue, lit, carries, showClaims, rankFilter,
+  full, onFull, onExitFull,
 }) {
   const [view, setView] = React.useState(HOME);
   const [hover, setHover] = React.useState(null);
   const svgRef = React.useRef(null);
   const drag = React.useRef(null);
+
+  /* The outline this scale deserves, the one actually on the plate, and whether the
+     difference is a fetch in flight or one that failed. Three states, kept apart on
+     purpose: a coarse coastline drawn where a fine one was asked for is a drawing that
+     has not been evaluated at this scale, and reporting it as the fine one would be the
+     same error the fault corpus exists to prevent. */
+  const coast = useCoastline(view.w);
+  const land = React.useMemo(() => visibleRings(coast.drawn, view), [coast.drawn, view]);
 
   /* Place every row once. rows already carries the rank filter the tree applies. */
   const { clusters, byId, unlocated, counts, abstract } = React.useMemo(() => {
@@ -123,11 +174,28 @@ export function MapView({
     };
   };
 
-  const onWheel = (ev) => {
-    ev.preventDefault();
-    const p = toWorld(ev);
-    zoom(ev.deltaY > 0 ? 1.18 : 1 / 1.18, p.x, p.y);
-  };
+  /* Wheel-to-zoom is a NATIVE listener, registered non-passive, and not React's onWheel.
+
+     React attaches wheel at the root as a passive listener, so `preventDefault` inside a
+     JSX onWheel handler does nothing but log "Unable to preventDefault inside passive
+     event listener invocation" — the map zoomed AND the page scrolled under it, which on
+     a trackpad meant the surface slid away while you were trying to get closer to it. */
+  const viewRef = React.useRef(view);
+  viewRef.current = view;
+  React.useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return undefined;
+    const onWheel = (ev) => {
+      ev.preventDefault();
+      const r = svg.getBoundingClientRect();
+      const v = viewRef.current;
+      const px = v.x + ((ev.clientX - r.left) / r.width) * v.w;
+      const py = v.y + ((ev.clientY - r.top) / r.height) * v.h;
+      zoom(ev.deltaY > 0 ? 1.18 : 1 / 1.18, px, py);
+    };
+    svg.addEventListener('wheel', onWheel, { passive: false });
+    return () => svg.removeEventListener('wheel', onWheel);
+  }, []);
 
   const onPointerDown = (ev) => {
     drag.current = { start: toWorld(ev), view, moved: false, id: ev.pointerId };
@@ -180,6 +248,11 @@ export function MapView({
 
   const selCluster = byId[sel];
 
+  /* Only the lines that fall inside the view, at the step the view can carry. */
+  const step = gridStep(view.w);
+  const meridians = ticks(view.x, view.x + view.w, step);
+  const parallels = ticks(-(view.y + view.h), -view.y, step);
+
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0,
       position: 'relative' }}>
@@ -187,30 +260,50 @@ export function MapView({
         aria-label={`${clusters.length} hearths carrying ${rows.length - unlocated.length} styles, `
           + `with ${arcs.length} lineage arcs drawn between them`}
         viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}
-        onWheel={onWheel} onPointerDown={onPointerDown} onPointerMove={onPointerMove}
+        onPointerDown={onPointerDown} onPointerMove={onPointerMove}
         onPointerUp={onPointerUp} onPointerCancel={onPointerUp}
         style={{ flex: 1, minHeight: 0, width: '100%', background: 'var(--paper-lit)',
           cursor: drag.current ? 'grabbing' : 'grab', touchAction: 'none' }}>
 
-        {/* the graticule, every ten degrees — a plate, not a chart */}
-        <g stroke="var(--rule-soft)" strokeWidth={0.06 * u} fill="none" vectorEffect="non-scaling-stroke">
-          {Array.from({ length: 19 }, (_, i) => -90 + i * 10).map((lat) => (
-            <line key={'p' + lat} x1={-180} y1={-lat} x2={180} y2={-lat} />
+        {/* The graticule — a plate, not a chart. The step follows the scale and the lines
+            are cut to the view: at three degrees of longitude a fixed ten-degree grid is
+            no grid at all, and drawing all 56 world-spanning lines to have the viewBox
+            clip 54 of them is work nobody sees. */}
+        <g stroke="var(--rule-soft)" strokeWidth={0.5} fill="none">
+          {parallels.map((lat) => (
+            <line key={'p' + lat} x1={view.x} y1={-lat} x2={view.x + view.w} y2={-lat}
+              vectorEffect="non-scaling-stroke" />
           ))}
-          {Array.from({ length: 37 }, (_, i) => -180 + i * 10).map((lon) => (
-            <line key={'m' + lon} x1={lon} y1={-90} x2={lon} y2={90} />
+          {meridians.map((lon) => (
+            <line key={'m' + lon} x1={lon} y1={view.y} x2={lon} y2={view.y + view.h}
+              vectorEffect="non-scaling-stroke" />
           ))}
         </g>
 
-        {/* land */}
-        <g fill="var(--paper-deep)" stroke="var(--rule)" strokeWidth={0.7}
-          vectorEffect="non-scaling-stroke" strokeLinejoin="round">
-          {COASTLINES.map((d, i) => <path key={i} d={d} />)}
+        {/* Land, at whatever tier is in hand, culled to the view by the bounding boxes
+            the generator wrote beside each ring.
+
+            `vectorEffect` IS ON THE PATH, and it has to be. It was on this <g>, and
+            `vector-effect` is not an inherited property — so the 0.7 was 0.7 DEGREES of
+            ink rather than 0.7 pixels, and every zoom multiplied it. At six degrees of
+            longitude across the pane that is a seventy-pixel shoreline; the coastline
+            stopped being a line and became a band, and the map read as a crude drawing
+            when what was crude was the pen. This is the third instance in this codebase
+            of a per-element SVG property set on a parent and quietly ignored — see the
+            note about presentation attributes losing to class rules in CLAUDE.md. */}
+        <g fill="var(--paper-deep)" stroke="var(--rule)" strokeWidth={0.7} strokeLinejoin="round">
+          {land.map((i) => (
+            <path key={coast.drawnName + ':' + i} d={coast.drawn.paths[i]}
+              vectorEffect="non-scaling-stroke" />
+          ))}
         </g>
 
         {/* lineage arcs, under the marks. Same semantics as the tree: a cascade-carrying
             edge is solid and heavier, a claim is dashed and lighter. */}
-        <g fill="none" vectorEffect="non-scaling-stroke">
+        {/* Same story as the land above: the vectorEffect was on this <g> and reached
+            none of these paths, so a cascade-carrying arc was 1.5 DEGREES wide and the
+            transatlantic transmissions were drawn as bands a hundred miles across. */}
+        <g fill="none">
           {arcs.map(({ i, e, a, b, carries: cc }) => {
             const isLit = lit(e.from) && lit(e.to);
             if (!isLit) return null;
@@ -223,6 +316,7 @@ export function MapView({
             const cx = mx - (dy / len) * bow, cy = my + (dx / len) * bow;
             return (
               <path key={i} d={`M${a.x},${a.y} Q${cx},${cy} ${b.x},${b.y}`}
+                vectorEffect="non-scaling-stroke"
                 stroke={cc ? 'var(--edge-carries)' : 'var(--edge-claims)'}
                 strokeWidth={cc ? 1.5 : 0.8}
                 strokeDasharray={cc ? 'none' : '3 3'}
@@ -273,9 +367,18 @@ export function MapView({
         )}
       </svg>
 
-      {/* the legend, which is mostly a statement of what the marks do not know */}
+      {/* The legend, which is mostly a statement of what the marks do not know.
+
+          CAPPED, and scrolled past the cap. It is `flex: none` and it says a lot, so on a
+          860px window it took 395px — the drawing, whose whole subject is extent, got less
+          than half its own surface, and in full screen it got less than that. The prose is
+          load-bearing and none of it is cut; it is the DRAWING that gets the guaranteed
+          share now, and the legend that scrolls. */}
       <div style={{ flex: 'none', borderTop: '1px solid var(--rule)', background: 'var(--paper)',
-        padding: '9px 14px 11px', display: 'flex', gap: 26, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+      <div style={{ flex: '0 1 auto', padding: '9px 14px 8px', display: 'flex', gap: 26,
+        alignItems: 'flex-start', flexWrap: 'wrap', overflowY: 'auto', minHeight: 0,
+        maxHeight: full ? 108 : '34vh' }}>
         <div>
           <Eyebrow style={{ marginBottom: 6 }}>how firmly each is placed</Eyebrow>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
@@ -322,14 +425,60 @@ export function MapView({
                 below rather than placed: {unlocated.map((r) => r.id).join(', ')}.</>
             )}
           </p>
+          {/* What the outline itself can and cannot show, at this scale, right now. The
+              three states are kept apart: drawn, still coming, and could not be had. */}
+          <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '6px 0 0' }}>
+            Coastline · {coast.drawn.source}, simplified at {coast.drawn.tolerance}° —
+            {' '}{land.length} of {coast.drawn.rings} rings in view.
+            {coast.pending && (
+              <span style={{ color: 'var(--ink-3)' }}> Fetching the {coast.wanted.name} outline
+                for this scale; what is drawn is still the {coast.drawnName} one.</span>
+            )}
+            {coast.failed && (
+              <span style={{ color: 'var(--refusal)' }}> The {coast.wanted.name} outline could
+                not be fetched ({coast.failed}), so this is the {coast.drawnName} one at a
+                scale it cannot carry — the facets are the simplification, not the shore.</span>
+            )}
+          </p>
         </div>
 
-        <div style={{ flex: 'none', display: 'flex', gap: 10, alignItems: 'center' }}>
+      </div>
+
+      {/* The controls are OUTSIDE the scroller, and that is the point. Capping the legend
+          put them inside it, and in full screen — where the cap is tightest — the control
+          that LEAVES full screen scrolled out of sight. A way out that can be scrolled
+          away is not a way out. */}
+      <div style={{ flex: 'none', display: 'flex', gap: 10, alignItems: 'center',
+        flexWrap: 'wrap', padding: '6px 14px 9px', borderTop: '1px solid var(--rule-soft)' }}>
+          {/* Zoom as buttons as well as a wheel. A trackpad with no wheel gesture, a
+              touch screen and a keyboard all had no way in at all before this, and the
+              one thing the reader most wants from this surface is to get closer. */}
+          <span style={{ display: 'inline-flex', border: '1px solid var(--rule)' }}>
+            <button type="button" onClick={() => zoom(1 / 1.6, view.x + view.w / 2, view.y + view.h / 2)}
+              disabled={view.w <= MIN_W * 1.001} aria-label="zoom in" title="Closer"
+              style={ZOOM_KEY}>+</button>
+            <button type="button" onClick={() => zoom(1.6, view.x + view.w / 2, view.y + view.h / 2)}
+              disabled={view.w >= MAX_W * 0.999} aria-label="zoom out" title="Further out"
+              style={{ ...ZOOM_KEY, borderLeft: '1px solid var(--rule)' }}>−</button>
+          </span>
           <button type="button" onClick={() => setView(HOME)}
             style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
               borderBottom: '1px solid var(--link-underline)' }}>reset the view</button>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>drag · scroll to zoom</span>
-        </div>
+          {/* The whole window, temporarily. The rails and the masthead are 580px and 52px
+              of instrument around a drawing whose whole errand is extent; this hands them
+              back for as long as the reader wants them back, and escape ends it. */}
+          {(onFull || onExitFull) && (
+            <ActionChip affix={null}
+              onClick={() => (full ? onExitFull && onExitFull() : requestFull(onFull))}
+              title={full
+                ? 'Give the instrument back — or press escape'
+                : 'Give the atlas the whole window — escape brings the instrument back'}>
+              {full ? '⤡ leave full screen · esc' : '⤢ full screen'}
+            </ActionChip>
+          )}
+        <span style={{ flex: 1 }} />
+        <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>drag · scroll to zoom</span>
+      </div>
       </div>
 
       {/* what is under the cursor — anchored inside the map, not to the window, or it
