@@ -24,8 +24,10 @@ import { Proportions } from './surfaces/Proportions.jsx';
 import { DrawingSet } from './surfaces/DrawingSet.jsx';
 import { ExportDetails } from './surfaces/ExportDetails.jsx';
 import { Transcription } from './surfaces/Transcription.jsx';
+import { Overview } from './surfaces/Overview.jsx';
 
 const SURFACES = {
+  overview: Overview,
   workbench: PlanWorkbench,
   candidates: CandidateSet,
   faults: FaultCorpus,
@@ -89,7 +91,8 @@ export default function App() {
   const select = React.useCallback((patch) => nav.select(patch), []);
   const go = React.useCallback((s, sel) => nav.go(s, sel), []);
 
-  const shared = { onCite: cite, selection, setSelection: select, go, lastEval, setLastEval };
+  const shared = { onCite: cite, selection, setSelection: select, go, lastEval, setLastEval,
+    onSearch: () => setPalette(true) };
   // Only the surface in view is constructed. It used to be all eleven, every render,
   // each with its own mount effects waiting to fire.
   const Active = SURFACES[surface] || SURFACES.workbench;

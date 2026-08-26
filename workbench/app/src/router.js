@@ -18,22 +18,22 @@ import { routeCite, citeFor } from './citations.js';
    the query. Order matters: the keys are positional. `-` stands in for an absent
    leading key (a slot with no style: #/kit/-/door-main-entry). */
 export const SURFACE_PATHS = {
+  overview: { path: '', keys: [] },
   phylogeny: { path: 'phylogeny', keys: ['style'] },
   style: { path: 'style', keys: ['style'] },
   kit: { path: 'kit', keys: ['style', 'slot'] },
   faults: { path: 'faults', keys: ['fault'] },
   proportions: { path: 'proportions', keys: ['pack'] },
   candidates: { path: 'candidates', keys: ['candidate'] },
-  workbench: { path: '', keys: [] },
+  workbench: { path: 'workbench', keys: [] },
   brief: { path: 'brief', keys: [] },
   drawings: { path: 'drawings', keys: [] },
   export: { path: 'export', keys: [] },
   transcription: { path: 'transcription', keys: [] },
 };
 
-/* The empty path. Stage D of WP-5.6 moves this to the Overview surface; until that
-   surface exists the landing stays where it has always been. */
-export const DEFAULT_SURFACE = 'workbench';
+/* The empty path, and where an unreadable one lands. */
+export const DEFAULT_SURFACE = 'overview';
 const ABSENT = '-';
 
 const BY_PATH = {};

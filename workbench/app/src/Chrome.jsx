@@ -7,25 +7,45 @@ import React from 'react';
 import { Eyebrow } from './components/Eyebrow.jsx';
 import { Icon } from './components/Icon.jsx';
 
+/* The rail, grouped by what you are trying to do rather than by the order the surfaces
+   were built in.
+
+   The circled numerals are gone. They were work-package numbers — ②③④⑨⑩ then ⑤⑥⑦⑧⑧⑪ —
+   so they read as an ordering while meaning build history, sent the eye down a sequence
+   that goes 2,3,4,9,10 and then back to 5, and two surfaces both wore ⑧. The docs keep
+   the WP numbering, which is where it belongs.
+
+   `output` and `ingest` are split out of what used to be one long `compose` list of six.
+   Composing a house and exporting a drawing are different errands, and the Drawing Set
+   sitting under "compose" was the reason Export and Drawings kept being confused. */
 export function surfaces(counts) {
   const c = counts || {};
+  const packs = c.proportion_packs
+    ? Object.values(c.proportion_packs).reduce((a, b) => a + b, 0) : null;
   return [
-    { group: 'explore', items: [
-      { id: 'phylogeny', n: '②', label: 'The Phylogeny', meta: c.styles ? `${c.styles} taxa` : '' },
-      { id: 'style', n: '③', label: 'Style Record', meta: '9 sections' },
-      { id: 'kit', n: '④', label: 'The Kit', meta: c.element_slots ? `${c.element_slots} slots` : '' },
-      { id: 'faults', n: '⑨', label: 'Fault Corpus', meta: c.faults ? `${c.faults} solecisms` : '' },
-      { id: 'proportions', n: '⑩', label: 'Proportions',
-        meta: c.proportion_packs
-          ? `${Object.values(c.proportion_packs).reduce((a, b) => a + b, 0)} packs` : '' },
+    { group: 'start', items: [
+      { id: 'overview', label: 'Overview', meta: 'what this holds' },
+    ] },
+    { group: 'read the corpus', items: [
+      { id: 'phylogeny', label: 'The Phylogeny', meta: c.styles ? `${c.styles} taxa` : '' },
+      { id: 'style', label: 'Style Record', meta: '9 sections' },
+      { id: 'kit', label: 'The Kit', meta: c.element_slots ? `${c.element_slots} slots` : '' },
+      { id: 'proportions', label: 'Proportions', meta: packs ? `${packs} packs` : '' },
+      { id: 'faults', label: 'Fault Corpus', meta: c.faults ? `${c.faults} solecisms` : '' },
     ] },
     { group: 'compose', items: [
-      { id: 'brief', n: '⑤', label: 'Brief Intake', meta: '' },
-      { id: 'candidates', n: '⑥', label: 'Candidate Set', meta: '' },
-      { id: 'workbench', n: '⑦', label: 'Plan Workbench', meta: '' },
-      { id: 'drawings', n: '⑧', label: 'Drawing Set', meta: '5 sheets' },
-      { id: 'export', n: '⑧', label: 'Details & Export', meta: 'JSON · SVG · DXF · IFC' },
-      { id: 'transcription', n: '⑪', label: 'Transcription', meta: 'drawing → record' },
+      { id: 'brief', label: 'Brief Intake', meta: 'state the brief' },
+      { id: 'candidates', label: 'Candidate Set', meta: 'and its criticism' },
+      { id: 'workbench', label: 'Plan Workbench', meta: 'place and solve' },
+    ] },
+    { group: 'take it out', items: [
+      { id: 'drawings', label: 'Drawing Set', meta: '5 sheets' },
+      // The four format names fit the Overview, not a 236px rail — spelled out here they
+      // pushed "Details & Export" onto three lines, broken at the ampersand.
+      { id: 'export', label: 'Details & Export', meta: '4 formats' },
+    ] },
+    { group: 'bring it in', items: [
+      { id: 'transcription', label: 'Transcription', meta: 'drawing in' },
     ] },
   ];
 }
@@ -74,53 +94,39 @@ export function Masthead({ plan, judgment, onSearch }) {
 }
 
 export function LeftRail({ current, onGo, counts }) {
-  const inventory = counts ? [
-    ['styles', counts.styles],
-    ['lineage edges', counts.lineage_edges],
-    ['element slots', counts.element_slots],
-    ['massings', counts.massings],
-    ['rooms', counts.rooms],
-    ['faults', counts.faults],
-    ['image records', counts.image_records],
-  ] : [];
   return (
-    <nav style={{ width: 'var(--rail-left)', flex: 'none', borderRight: '1px solid var(--rule)',
-      background: 'var(--paper)', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-      <div style={{ flex: 1, overflow: 'auto', padding: '14px 0' }}>
+    <nav aria-label="surfaces"
+      style={{ width: 'var(--rail-left)', flex: 'none', borderRight: '1px solid var(--rule)',
+        background: 'var(--paper)', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+      <div style={{ flex: 1, overflow: 'auto', padding: '14px 0 18px' }}>
         {surfaces(counts).map((g) => (
           <div key={g.group} style={{ marginBottom: 18 }}>
             <Eyebrow style={{ padding: '0 14px 8px' }}>{g.group}</Eyebrow>
             {g.items.map((it) => {
               const on = current === it.id;
               return (
-                <button key={it.id} type="button" disabled={it.off}
-                  onClick={it.off ? undefined : () => onGo(it.id)}
+                <button key={it.id} type="button" onClick={() => onGo(it.id)}
+                  aria-current={on ? 'page' : undefined}
                   style={{ display: 'flex', alignItems: 'baseline', gap: 9, width: '100%', textAlign: 'left',
-                    padding: '4px 14px', minHeight: 28, cursor: it.off ? 'default' : 'pointer',
+                    padding: '4px 14px', minHeight: 28, cursor: 'pointer',
                     background: on ? 'var(--paper-deep)' : 'transparent',
                     borderLeft: on ? '2px solid var(--gilt-deep)' : '2px solid transparent',
                     transition: 'var(--t-hover)' }}>
-                  <span style={{ font: 'var(--type-data-s)', color: it.off ? 'var(--ink-4)' : 'var(--ink-3)',
-                    width: 12, flex: 'none' }}>{it.n}</span>
                   <span style={{ font: (on ? 'var(--fw-med)' : 'var(--fw-reg)') + ' 13px/1.4 var(--body)',
-                    color: it.off ? 'var(--text-disabled)' : (on ? 'var(--ink)' : 'var(--ink-2)'), flex: 1 }}>{it.label}</span>
-                  <span style={{ font: 'var(--type-data-s)',
-                    color: it.off ? 'var(--forthcoming)' : 'var(--ink-4)' }}>{it.meta}</span>
+                    color: on ? 'var(--ink)' : 'var(--ink-2)', flex: 1, whiteSpace: 'nowrap' }}>
+                    {it.label}
+                  </span>
+                  <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', flex: 'none',
+                    whiteSpace: 'nowrap' }}>{it.meta}</span>
                 </button>
               );
             })}
           </div>
         ))}
       </div>
-      <div style={{ flex: 'none', borderTop: '1px solid var(--rule)', padding: '11px 14px 13px' }}>
-        <Eyebrow style={{ marginBottom: 7 }}>corpus</Eyebrow>
-        {inventory.map((r) => (
-          <div key={r[0]} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, padding: '1px 0' }}>
-            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>{r[0]}</span>
-            <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>{r[1]}</span>
-          </div>
-        ))}
-      </div>
+      {/* The corpus inventory used to live here, on every surface, in a rail that is for
+          navigating. It is orientation — read once — so it moved to the Overview, and the
+          rail got its foot back. */}
     </nav>
   );
 }
