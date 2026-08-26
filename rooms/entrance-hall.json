@@ -52,7 +52,7 @@
     30,
     3
    ],
-   "clearance_in": null,
+   "clearance_in": 0,
    "note": "centre at 60 to 64 in above the floor; it is a face mirror on the way out, not a room mirror"
   },
   {
@@ -89,7 +89,7 @@
     60,
     60
    ],
-   "clearance_in": null,
+   "clearance_in": 0,
    "note": "a 5 ft square of nothing inside the door where two or three people can stand while greeting. This is what is missing from every hall that 'feels tight' at its stated area."
   }
  ],

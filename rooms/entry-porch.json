@@ -70,7 +70,7 @@
         36,
         96
       ],
-      "clearance_in": null,
+      "clearance_in": 0,
       "note": "must not pass through the seating group; a porch whose only route crosses in front of the occupied chairs is a corridor with furniture in it"
     }
   ],

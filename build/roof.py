@@ -93,6 +93,23 @@ def _parse_prose_between(statement, var_hint=None):
     if not m: return None
     return float(m.group(1)), float(m.group(2))
 
+def _fallback_band(fell_back, label, band):
+    """Record that a corpus lookup missed and a hardcoded band answered in its place (OQ 52).
+
+    Every band in this file is read off the corpus by matching a rule's exact wording -- a
+    fault's `expression` string, or the 'between X and Y' in a grouping's prose. A reworded
+    rule misses silently, and the fallback beside each lookup then answers with numbers that
+    are byte-identical to today's corpus values. That identity is exactly what makes the rot
+    undetectable: the record still reports `computed: True` and names the corpus file as its
+    evidence, so a stale copy reads as a live reading.
+
+    The fallbacks are kept -- a check that refuses to run is worse than one that says where it
+    read from -- but a run that used one now says so, in `bands_read_from_fallback` on its own
+    record, and `check_all`'s roof pass prints it. If that list is ever non-empty on a plan the
+    corpus does cover, a rule has been reworded and this file did not notice."""
+    fell_back.append(label)
+    return band
+
 def _grouping(gid):
     return json.load(open(f"{ROOT}/groupings/{gid}.json"))
 
@@ -310,8 +327,11 @@ def wing_step_down(plan, section, main):
     grp = _grouping("dependency-and-hyphen")
     ridge_rule = next((r for r in grp["internal_rules"] if r.get("test", "").startswith("dependency_ridge_ft")), None)
     hyphen_rule = next((r for r in grp["internal_rules"] if r.get("test", "").startswith("hyphen_length_ft")), None)
-    ridge_band = _parse_prose_between(ridge_rule["test"]) if ridge_rule else (0.6, 0.8)
-    hyphen_band = _parse_prose_between(hyphen_rule["test"]) if hyphen_rule else (12.0, 20.0)
+    fell_back = []
+    ridge_band = (_parse_prose_between(ridge_rule["test"]) if ridge_rule else None) \
+        or _fallback_band(fell_back, "dependency-and-hyphen: dependency_ridge_ft band", (0.6, 0.8))
+    hyphen_band = (_parse_prose_between(hyphen_rule["test"]) if hyphen_rule else None) \
+        or _fallback_band(fell_back, "dependency-and-hyphen: hyphen_length_ft band", (12.0, 20.0))
     ratio = WING_RIDGE_RATIO_DEFAULT if ridge_band[0] <= WING_RIDGE_RATIO_DEFAULT <= ridge_band[1] else sum(ridge_band) / 2.0
 
     main_ridge_ft = main.get("ridge", {}).get("grade_to_ridge_ft")
@@ -332,6 +352,7 @@ def wing_step_down(plan, section, main):
         "main_ridge_grade_ft": main_ridge_ft, "wing_ridge_grade_ft": wing_ridge_ft, "wing_eave_grade_ft": wing_eave_ft,
         "wing_depth_ft": wing_depth_ft, "hyphen_length_ft": hyphen_length_ft,
         "ratio": computed_ratio, "ratio_band": list(ridge_band), "ok": ok,
+        "bands_read_from_fallback": fell_back,
         "note": ("SCHEMATIC: this corpus's geometry solver never places a real second volume, so wing_depth_ft is "
                  "assumed (one bay module) rather than measured off a placed room. The ratio itself is real and "
                  "checked against dependency-and-hyphen.json's own stated 0.6-0.8 band, read from that file's "
@@ -416,13 +437,17 @@ def cape_eave_check(style, section, main):
         return {"applicable": True, "computed": False, "note": "No ground-storey grade datum to measure the eave against."}
     eave_above_first_floor_in = round((main["grade_to_eave_ft"] - ground["grade_to_floor_ft"]) * 12, 1)
     height_test = next((t for t in fault.get("secondary_tests", []) if t["expression"] == "eave_height_above_finished_first_floor_in"), None)
-    band = (height_test["threshold"], height_test["upper"]) if height_test else (96.0, 114.0)
+    fell_back = []
+    band = ((height_test["threshold"], height_test["upper"]) if height_test
+            else _fallback_band(fell_back, "cape-eave: eave_height_above_finished_first_floor_in band", (96.0, 114.0)))
     ok = band[0] <= eave_above_first_floor_in <= band[1]
     pitch_test = next((t for t in fault.get("secondary_tests", []) if t["expression"] == "roof_slope_angle_deg"), None)
-    pitch_band = (pitch_test["threshold"], pitch_test["upper"]) if pitch_test else (36.9, 45.0)
+    pitch_band = ((pitch_test["threshold"], pitch_test["upper"]) if pitch_test
+                  else _fallback_band(fell_back, "cape-eave: roof_slope_angle_deg band", (36.9, 45.0)))
     slope_deg = math.degrees(math.atan((main.get("pitch_rise_per_12") or 0) / 12.0)) if main.get("pitch_rise_per_12") else None
     pitch_ok = (slope_deg is not None) and (pitch_band[0] <= slope_deg <= pitch_band[1])
-    return {"applicable": True, "computed": True, "eave_height_above_finished_first_floor_in": eave_above_first_floor_in,
+    return {"applicable": True, "computed": True, "bands_read_from_fallback": fell_back,
+            "eave_height_above_finished_first_floor_in": eave_above_first_floor_in,
             "band_in": list(band), "ok": ok, "roof_slope_angle_deg": round(slope_deg, 1) if slope_deg else None,
             "pitch_band_deg": list(pitch_band), "pitch_ok": pitch_ok,
             "note": None if ok else f"{eave_above_first_floor_in} in is outside the {band[0]}-{band[1]} in band that defines this type ({fault['name']})."}
@@ -441,9 +466,12 @@ def gambrel_break_check(main):
     diff = g["lower_slope_deg"] - g["upper_slope_deg"]
     diff_ok = diff >= fault["test"]["threshold"]
     break_test = next((t for t in fault.get("secondary_tests", []) if t["expression"].startswith("break_height_above_eave_in")), None)
-    break_band = (break_test["threshold"], break_test["upper"]) if break_test else (0.55, 0.65)
+    fell_back = []
+    break_band = ((break_test["threshold"], break_test["upper"]) if break_test
+                  else _fallback_band(fell_back, "gambrel: break_height_above_eave_in band", (0.55, 0.65)))
     break_ok = break_band[0] <= g["break_fraction"] <= break_band[1]
     return {"applicable": True, "slope_difference_deg": round(diff, 1), "diff_ok": diff_ok,
+            "bands_read_from_fallback": fell_back,
             "break_fraction": g["break_fraction"], "break_band": list(break_band), "break_ok": break_ok}
 
 def dormer_rhythm_check(plan, section, main):

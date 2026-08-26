@@ -432,7 +432,12 @@ def check(plan, C=None, strict=False):
             # real bulk is not a fit constraint.
             if fw < 8:
                 continue
-            cl = it.get("clearance_in") or 0
+            # Read, never coerced. `or 0` here turned an unstated clearance into a measured zero
+            # (OQ 52's smaller member): the catalogue's twenty nulls all meant zero, but so would
+            # an item whose clearance an author forgot, and nothing told them apart. clearance_in
+            # is now a required number in schema/room.schema.json, so a missing one fails
+            # check_rooms rather than passing this check silently.
+            cl = it["clearance_in"]
             # A table needs clearance on both sides; a counter, bench, sideboard or run of
             # casework is against a wall and needs it on one. Treating them alike fails every
             # galley kitchen and butler's pantry against its own rule.

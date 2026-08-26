@@ -432,7 +432,16 @@ def _eval_test(t, measurements):
     if not t or not t.get("expression"): return None
     expr = t["expression"]
     names = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", expr))
-    missing = sorted(n for n in names if n not in measurements and n not in ("min","max","abs","round"))
+    # A key present with a null value is MISSING, not supplied (OQ 52). `null` is the natural
+    # JSON encoding of "I could not judge this", and it is what a generator that models a thing
+    # but could not measure it on this house will send. Reading it by key presence alone let it
+    # through to eval, where it became a TypeError and then a `status: error` -- a real state,
+    # but the wrong one: an error says the corpus asked something incoherent, where this says
+    # nobody took the measurement. build/elevation.py already drops its own Nones on the way
+    # out; this is for every other caller, the workbench and the MCP tools among them.
+    missing = sorted(n for n in names
+                     if n not in ("min", "max", "abs", "round")
+                     and measurements.get(n) is None)
     if missing: return {"status": "need_measurements", "missing": missing}
     try:
         val = eval(expr, {"__builtins__": {}}, dict(measurements) | {"min": min, "max": max, "abs": abs, "round": round})

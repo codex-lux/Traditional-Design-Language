@@ -187,9 +187,17 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   corpus failed a parti named `cape-central-chimney` for having no chimney; and a fault finding
   quoted `results[0]`, printing a PASSING measurement as the evidence for a failure. When a
   generator did not model something, the measurement must be **absent**, not zero.
+  **Found twelve more times and closed 26 Aug 2026 (OQ 52)** — a dormer count written over
+  `roof.py`'s explicit refusal, five chimney plan dimensions, a stack cap and its shadow lines, a
+  raking-cornice count and a gutter's outlets, all stated as constants, all convicting both
+  reference plans. The rule is now enforced rather than remembered: `elevation.py` declares a
+  `NOT_MODELLED` dict with a reason per name and **filters it at the point measurements are
+  returned**, so this class cannot come back by an `m.update()`. To add a measurement to that
+  file, model the thing first; to remove a name from the list, model it and delete the entry in
+  the same commit. `tests/test_measurement_honesty.py` is the guard.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 18 are open**
-  (7, 8, 9, 10, 11, 18, 32, 33, 34, 36, 37, 38, 39, 40, 41, 52, 53, 55). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 17 are open**
+  (7, 8, 9, 10, 11, 18, 32, 33, 34, 36, 37, 38, 39, 40, 41, 53, 55). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message
