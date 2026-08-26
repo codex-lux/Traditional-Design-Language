@@ -338,6 +338,40 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             fill="var(--ink-2)" textAnchor="middle">N</text>
         </g>
 
+        {/* P7 — a compromise is counted AND appears on the drawing, at its location (OQ 33).
+            Until 26 Aug 2026 the solvers recorded a relaxation as a bare number, so this sheet
+            could print an honest tally and had nothing to place a mark with: the count was true
+            and the drawing was silent about where the truth applied. Each mark is a cut that
+            missed the structural bay — a joist run that does not land on a bearing wall — drawn
+            as a hollow triangle on the line itself, in ink and not in colour, because colour in
+            this system names a material and never flags a condition. A mark from the CP engine
+            carries no extent (an edge there is a wall line shared by however many rooms abut it,
+            and inventing a span would be a drawn claim nobody measured), so it gets a short tick
+            centred on the line rather than a full run. */}
+        {(relax?.marks || []).filter((m) => (m.level ?? 0) === levelIndex).map((m, i) => {
+          const full = m.from_ft != null && m.to_ft != null;
+          const a = full ? m.from_ft : (m.axis === 'x' ? 0 : 0);
+          const b = full ? m.to_ft : (m.axis === 'x' ? H : W);
+          const lo = full ? a : (a + b) / 2 - 2.5;
+          const hi = full ? b : (a + b) / 2 + 2.5;
+          const mid = (lo + hi) / 2;
+          const isV = m.axis === 'x';
+          const [x1, y1, x2, y2] = isV
+            ? [m.at_ft, -lo, m.at_ft, -hi]
+            : [lo, -m.at_ft, hi, -m.at_ft];
+          const [gx, gy] = isV ? [m.at_ft, -mid] : [mid, -m.at_ft];
+          return (
+            <g key={'rx' + i}>
+              <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink-2)" strokeWidth=".55"
+                strokeDasharray="1.2 1.2" vectorEffect="non-scaling-stroke" />
+              <path d={`M ${gx} ${gy - 1.15} L ${gx + 1.0} ${gy + 0.75} L ${gx - 1.0} ${gy + 0.75} Z`}
+                fill="var(--paper)" stroke="var(--ink)" strokeWidth=".45"
+                vectorEffect="non-scaling-stroke" />
+              <title>{`${m.off_ft} ft off the bay line — this cut is a joist run that does not land on a bearing wall`}</title>
+            </g>
+          );
+        })}
+
         {/* scale bar — drawn, alternating, never merely stated */}
         <g transform={`translate(${-mL + 2},${mB - 2.6})`}>
           {[0, 1, 2, 3].map((i) => (
@@ -361,7 +395,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         <div style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)', color: 'var(--ink-2)',
           textAlign: 'right' }}>
           {relax
-            ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft` : ''}. `
+            ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft, each marked \u25B3 where it falls` : ''}. `
             : ''}
           {wins.dropped
             ? `${wins.dropped} declared window(s) not situated on this footprint — declared, not drawn. `

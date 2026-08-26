@@ -230,6 +230,36 @@ def render(plan, path, scale=7.0):
                 s.append(f'<path d="M {hx:.1f} {hy:.1f} A {swing_r:.1f} {swing_r:.1f} 0 0 {sweep} {ex:.1f} {ey:.1f}" '
                          f'fill="none" stroke="{PAL["ink3"]}" stroke-width="0.6" stroke-dasharray="2 2"/>')
                 s.append(f'<line x1="{hx:.1f}" y1="{hy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" stroke="{PAL["ink3"]}" stroke-width="0.6"/>')
+        # P7 -- a compromise is counted AND appears on the drawing, at its location (OQ 33).
+        # The tally above this level's plate has always been honest; until 26 Aug 2026 the
+        # solvers recorded a relaxation as a bare number, so neither this renderer nor the
+        # workbench's sheet could say WHERE it applied. Each mark is a cut that missed the
+        # structural bay -- a joist run that does not land on a bearing wall -- drawn on the
+        # line itself as a hollow triangle in ink, never in colour: colour in this drawing
+        # names a material and does not flag a condition.
+        for mk in (gr.get("relaxations", {}) or {}).get("marks", []):
+            if (mk.get("level") or 0) != i:
+                continue
+            full = mk.get("from_ft") is not None and mk.get("to_ft") is not None
+            vert = mk.get("axis") == "x"
+            at = mk.get("at_ft", 0.0)
+            # A CP mark carries no extent -- an edge there is a wall line shared by however
+            # many rooms abut it -- so it gets a short tick centred on the line rather than a
+            # run, because inventing a span would be a drawn claim nobody measured.
+            lo = mk["from_ft"] if full else max(0.0, (H if vert else W) / 2 - 2.5)
+            hi = mk["to_ft"] if full else min(H if vert else W, (H if vert else W) / 2 + 2.5)
+            mid = (lo + hi) / 2.0
+            if vert:
+                x1 = x2 = X(at); y1, y2 = Y(lo), Y(hi); gx, gy = X(at), Y(mid)
+            else:
+                y1 = y2 = Y(at); x1, x2 = X(lo), X(hi); gx, gy = X(mid), Y(at)
+            s.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
+                     f'stroke="{PAL["ink3"]}" stroke-width="0.7" stroke-dasharray="3 3"/>')
+            s.append(f'<path d="M {gx:.1f} {gy-4.5:.1f} L {gx+4.0:.1f} {gy+3.0:.1f} '
+                     f'L {gx-4.0:.1f} {gy+3.0:.1f} Z" fill="{PAL["paper"]}" '
+                     f'stroke="{PAL["ink"]}" stroke-width="1"><title>'
+                     f'{mk.get("off_ft")} ft off the bay line</title></path>')
+
         # scale bar
         s.append(f'<line class="pt" x1="{X(0):.1f}" y1="{Y(0)+22:.1f}" x2="{X(10):.1f}" y2="{Y(0)+22:.1f}" stroke="{PAL["brass"]}"/>')
         s.append(f'<text class="dm" x="{X(0):.1f}" y="{Y(0)+34:.1f}">10 ft</text>')

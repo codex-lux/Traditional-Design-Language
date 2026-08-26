@@ -660,7 +660,7 @@ def _count_relaxations(rects_by_level, W, H, bay, tol):
     """Interior wall lines off the bay grid — the heuristic's own definition of
     a compromise — counted from the solved placement (per unique line, per axis)."""
     relax = []
-    for rects in rects_by_level.values():
+    for lvl, rects in rects_by_level.items():
         for axis in ("x", "y"):
             edges = set()
             for (x, y, w, h) in rects.values():
@@ -676,7 +676,13 @@ def _count_relaxations(rects_by_level, W, H, bay, tol):
                 if axis == "y":
                     d = min(d, abs(e - H))
                 if d > tol:
-                    relax.append(round(d, 2))
+                    # Positioned, like the heuristic's (OQ 33). This counter already knew where
+                    # the line was -- `e` is the edge coordinate and the level is the loop key --
+                    # and threw it away to append a bare float. from/to are omitted: an edge here
+                    # is a wall line shared by however many rooms abut it, and inventing an
+                    # extent for it would be a drawn claim nobody measured.
+                    relax.append({"off_ft": round(d, 2), "axis": axis,
+                                  "at_ft": round(e, 2), "level": lvl})
     return relax
 
 

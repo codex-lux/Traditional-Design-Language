@@ -319,3 +319,50 @@ class TestFindingsCarryAStableServerMintedId:
         F.add("minor", "adjacency", "one", room="hall")
         F.add("minor", "adjacency", "two", room="hall")
         assert F.items[0]["id"] != F.items[1]["id"]
+
+
+class TestACompromiseAppearsOnTheDrawingAtItsLocation:
+    """OQ 33, and P7 of the interface standard — the one principle the workbench knowingly did
+    not meet. "A compromise is counted AND appears on the drawing, at its location." It was only
+    ever counted: the solvers recorded a relaxation as a bare float, so the sheet could print an
+    honest tally and had nothing to place a mark with, and `RelaxationMarker` — a component built
+    for exactly this — had no data to render. The tally was true and the drawing was silent about
+    where the truth applied.
+    """
+
+    def test_a_relaxation_carries_where_it_is(self, geometry_module):
+        out = geometry_module.solve(_plan("tidewater-georgian-careful"),
+                                    engine="heuristic", candidates=250)
+        rel = out["geometry_report"]["relaxations"]
+        assert rel["count"] > 0, "this plan is known to take cuts off the bay line"
+        marks = rel["marks"]
+        assert len(marks) == rel["count"], "every counted relaxation must be locatable"
+        for m in marks:
+            assert m["axis"] in ("x", "y")
+            assert isinstance(m["at_ft"], (int, float))
+            assert m["off_ft"] > 0
+            assert m["level"] in (0, 1)
+
+    def test_the_pinned_relaxation_count_did_not_move(self, geometry_module):
+        """11, and it is pinned in the WP-2.3 record as proof that extracting the shared
+        footprint helpers changed no numeric behaviour. Adding positions must not change it
+        either — and a first version of this change did, because it tested `if round(d, 2)`
+        where the original tested `if d`, which swallowed a sub-half-inch miss. The count is
+        exactly the kind of number that must not move by accident."""
+        out = geometry_module.solve(_plan("tidewater-georgian-careful"),
+                                    engine="heuristic", candidates=250)
+        assert out["geometry_report"]["relaxations"]["count"] == 11
+
+    def test_the_renderer_draws_one_mark_per_relaxation(self, geometry_module):
+        """P6 and P7 together: the drawing is a render of the data, so the number of marks on
+        the sheet is the number of relaxations in the record, not a number the renderer chose."""
+        import modcache
+        rp = modcache.load("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
+        out = geometry_module.solve(_plan("tidewater-georgian-careful"),
+                                    engine="heuristic", candidates=250)
+        import tempfile
+        with tempfile.NamedTemporaryFile(suffix=".svg", delete=False) as fh:
+            path = fh.name
+        rp.render(out, path)
+        svg = open(path).read()
+        assert svg.count("ft off the bay line") == out["geometry_report"]["relaxations"]["count"]
