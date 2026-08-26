@@ -793,6 +793,18 @@ def derive_footprint(plan, parti=None, prep=None):
             "void_ranges": void_ranges, "void_sf": round(void_sf), "need": need}
 
 
+# What `geometry_report.score` MEANS, said where the number is built rather than left to the
+# reader. It is a sum of penalties -- 10 a unit of area error, 12 a room under its band, 14 a
+# missing exterior wall, 1.5 an off-grid relaxation -- so LOWER IS BETTER and the argmin wins.
+# Raised by the adversarial audit of the candidate-score fix (26 Aug 2026) as the same defect
+# one layer down: compose.py published a demerit total under the word "score" and every reader
+# took the biggest number for the winner. This one is not renamed, because it is consumed by
+# tests/test_solver.py's benchmark and by mcp_server/core.py as a comparison quantity and not
+# as a grade -- but it now says which way it runs everywhere it is printed or published.
+DEMERIT_NOTE = ("The score is a DEMERIT TOTAL: lower is better, no ceiling, and the best "
+                "placement is the smallest number. It is not the candidate score compose.py "
+                "publishes, which is out of 100 and runs the other way. ")
+
 def under_band(rects_by_level, prep):
     """Rooms this layout placed below the floor of their own catalogue band.
 
@@ -977,8 +989,10 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
                                  "does not land on a bearing line and a window bay that will not centre." if rel
                                  else "Every cut landed on a bay line.")},
         "vertical": best["vnotes"] or ["Every upper wall continues to a wall below and every stack lands."],
-        "reading": ("Ground and upper were solved together and scored as a pair, so an upper layout that would "
-                    "score better alone is rejected when it leaves walls unsupported.")}
+        "reading": (DEMERIT_NOTE +
+                    "Ground and upper were solved together and scored as a pair, so an upper "
+                    "layout that would score LOWER alone is rejected when it leaves walls "
+                    "unsupported.")}
     ub = under_band({0: best["ground"], 1: best["upper"]}, prep)
     report["under_band"] = {
         "count": len(ub), "rooms": ub,
@@ -1057,8 +1071,9 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
                      "centre." if rel else "Every cut landed on a bay line.")},
         "vertical": best.get("vnotes")
                     or ["Every upper wall continues to a wall below and every stack lands."],
-        "reading": ("Ground and upper were solved together and scored as a pair, so an upper "
-                    "layout that would score better alone is rejected when it leaves walls "
+        "reading": (DEMERIT_NOTE +
+                    "Ground and upper were solved together and scored as a pair, so an upper "
+                    "layout that would score LOWER alone is rejected when it leaves walls "
                     "unsupported.")}
     # OQ 54 and OQ 55 must be reported on BOTH engines. `solve_heuristic` builds these with
     # its own prep and ring tally; here they are derived from the plan, because a guarantee
@@ -1216,7 +1231,8 @@ def main():
     fp, gr = out["footprint"], out["geometry_report"]
     print(f"\n  {plan['name']}")
     print(f"  footprint {fp['width_ft']} x {fp['depth_ft']} ft, {fp['bays']} bays of {fp['bay_module_ft']} ft, {fp['area_sf']} sf gross")
-    print(f"  score {gr['score']}  (ground {gr['ground_score']}, upper {gr['upper_score']}, vertical {gr['vertical_score']})")
+    print(f"  score {gr['score']} — LOWER IS BETTER, it counts what the placement costs "
+          f"(ground {gr['ground_score']}, upper {gr['upper_score']}, vertical {gr['vertical_score']})")
     print(f"  relaxations {gr['relaxations']['count']}, worst {gr['relaxations']['max_off_grid_ft']} ft off the bay line")
     for n in gr["vertical"][:6]: print(f"    · {n}")
     if a.out: json.dump(out, open(a.out, "w"), indent=1, ensure_ascii=False); print(f"  wrote {a.out}")

@@ -143,10 +143,19 @@ def test_the_impost_block_is_a_member_the_pack_will_not_let_you_drop():
 
 
 def test_the_horseshoe_return_is_a_band_because_the_fabric_is():
+    """RE-POINTED 26 Aug 2026 (OQ 68). The band and the value it bands were one rule, and the
+    engine compared a band on the RETURN AS A FRACTION OF THE RADIUS against a value in
+    inches — incommensurable, and reported out of band on every evaluation. They are two
+    rules now; the band lives on the ratio, and so does the sentence that explains it. The
+    claim this test makes is unchanged: the return is a BAND because the fabric is."""
     p = pack("moorish-arch")
-    r = next(x for x in p["derived_rules"] if x.get("dimension") == "return")
+    r = next(x for x in p["derived_rules"] if x.get("dimension") == "return_ratio")
     assert r["range"] == [0.33, 0.5]
+    assert r["units"] == "ratio"
     assert "0.375 is a default inside it and not a measurement" in r["note"]
+    # and the rule that turns it into inches carries no band of its own any more
+    dim = next(x for x in p["derived_rules"] if x.get("dimension") == "return")
+    assert "range" not in dim
 
 
 def test_the_moorish_pack_names_what_it_does_not_cover():

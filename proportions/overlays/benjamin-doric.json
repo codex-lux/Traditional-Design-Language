@@ -326,7 +326,14 @@
       "authority_note": "THE EAVE CORNICE GETS BIGGER IN 1830. 'To proportion their height, divide the height of the building, on which A is to be used, into twenty-four equal parts, and make the height of the cornice on the wall equal to one of these parts. If B or D is to be used, divide the height of the building into twenty-five parts... If C is to be used, divide the height into thirty equal parts.' And for cornices with friezes: 'As a general proportion, give to the height of the cornice on the wall, without the frieze, from one twenty-fifth to one thirtieth of the height of the wall.' In 1816 the rule was one thirtieth. The Greek Revival cornice is a fifth larger than the Federal one on the same building, which is exactly what the eye reports. BIND storey_height TO THE FULL WALL HEIGHT.",
       "judgment": true,
       "note": "JUDGMENT SLOT, and Benjamin makes it one: 'In determining their height and proportion, judgment is to be used. If a house have a front of forty or fifty feet, it will be necessary to make the cornice somewhat larger than if the front only occupy a space of twenty or twenty-five feet.'",
-      "quantity": "exterior_cornice_height"
+      "quantity": "exterior_cornice_height",
+      "calibrated_for": {
+        "storey_height": [
+          240,
+          600
+        ],
+        "note": "BIND storey_height TO THE FULL WALL HEIGHT — this rule's own authority note says so in capitals, and Benjamin's worked example is a house 'thirty five feet high'. At the engine's default binding of one 10 ft storey it derives a 4 in cornice and reports itself out of band; at 35 ft it lands squarely inside. Added 26 Aug 2026 (OQ 68) so the engine withholds judgement instead of convicting the rule of a building it was never given."
+      }
     },
     {
       "target_slot": "interior_door",

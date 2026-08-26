@@ -145,8 +145,8 @@
 
 /* ── TDL space & layout ─────────────────────────────────────────────────────
    A 4px base, and three fixed measures the shipped tools already use. Density is a
-   hard requirement, not a preference: one ordinary plan returns 130 findings, one kit
-   has 95 slots, one cascade runs 34 levels deep. Rows are 26–30px, not 44px.
+   hard requirement, not a preference: one ordinary plan returns 142 findings, one kit
+   has 97 slots, one cascade runs 53 levels deep. Rows are 26–30px, not 44px.
    ─────────────────────────────────────────────────────────────────────────── */
 :root{
   --sp-1:2px; --sp-2:4px; --sp-3:6px; --sp-4:8px; --sp-5:12px; --sp-6:16px;
@@ -371,7 +371,7 @@
   --aff-canonical:var(--gilt-deep); --aff-common:var(--green-deep); --aff-possible:var(--ink-2);
   --aff-atypical:var(--ink-3); --aff-forbidden:var(--brick);
 
-  /* ── Parameter kind. invented (14 of 1,569) is the only one that shouts. ── */
+  /* ── Parameter kind. invented (25 of 1,556) is the only one that shouts. ── */
   --kind-measured:var(--ink);
   --kind-editorial:var(--gilt-deep);
   --kind-derived:var(--ink-2);

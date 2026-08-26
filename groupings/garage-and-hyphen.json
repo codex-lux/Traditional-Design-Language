@@ -140,6 +140,12 @@
       "position": "one end of the run, set back from the front plane"
     },
     {
+      "massing": "split-level",
+      "fit": "common",
+      "position": "the lower half-level, under the bedroom wing",
+      "note": "The split-level IS the attached-garage plan — the garage occupying the lower half-level under the bedrooms is the form's whole organising move, and is why the type exists. Added 26 Aug 2026: this list received ranch-l and ranch-linear and omitted the third ranch form, so every split-level plan declaring the grouping drew an unrecorded-fit note for a fit that is not merely recorded but definitional."
+    },
+    {
       "massing": "bungalow-linear",
       "fit": "possible",
       "position": "detached to the rear of the lot, on the lane where one exists",
@@ -162,14 +168,9 @@
     }
   ],
   "expansion_logic": "A third bay is added on a return rather than abreast, so the elevation gains a corner instead of another 9 ft of door. Where a lot cannot take the return, the honest answer is two bays and a stated refusal, not three abreast.",
-  "privacy_span": [
-    3,
-    4
-  ],
+  "privacy_span": [1, 4],
   "servicing_strategy": "The hyphen carries the service run — the garage itself takes only light circuits, a 50 A EV feed as the current default assumption, and mechanical ventilation where attached. Heat stops at the hyphen.",
-  "circulation_parti": [
-    "additive"
-  ],
+  "circulation_parti": ["additive", "center-hall", "side-hall", "open-plan", "central-chimney-lobby", "hall-and-parlor"],
   "typical_area_sf": [
     440,
     900

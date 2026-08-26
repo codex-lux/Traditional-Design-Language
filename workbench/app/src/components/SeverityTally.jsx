@@ -1,7 +1,7 @@
 import React from "react";
 
-/* The header line the corpus itself prints: fatal 4  serious 70  minor 59  advisory 1  info 13.
-   Also the severity threshold control — 130 findings are solved by grouping and thresholds. */
+/* The header line the corpus itself prints: fatal 4  serious 65  minor 58  advisory 1  info 13.
+   Also the severity threshold control — 142 findings are solved by grouping and thresholds. */
 const ORDER = ['fatal', 'serious', 'minor', 'advisory', 'info'];
 const COLOUR = {
   fatal: 'var(--sev-fatal)',

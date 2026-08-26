@@ -511,7 +511,7 @@ export function Transcription({ go }) {
           {ingest && !ingest.error && !ingest.complete && (
             <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', margin: '6px 0 0' }}>
               {ingest.counts.kept} candidate room(s), units {ingest.units.units} ({ingest.units.basis},
-              plausibility {ingest.units.plausibility}){ingest.units.note ? ` — ${ingest.units.note}` : ''}
+              plausibility {ingest.units.plausibility} of 1, higher is better){ingest.units.note ? ` — ${ingest.units.note}` : ''}
               <div style={{ color: 'var(--ink-3)', marginTop: 4 }}>
                 gaps the extractor names:
                 {ingest.gaps.map((g, i) => <div key={i}>· {g}</div>)}

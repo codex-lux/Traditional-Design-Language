@@ -48,6 +48,12 @@ jobs:
         # The Dockerfile runs this same build; a break here is a break in the image.
         run: npm run build
         working-directory: workbench/app
+      - name: App suite
+        # The candidate ordering and the reasons-list rendering live in pure modules with
+        # their own node --test suite. build/check_all.py runs it too, reporting N/EV where
+        # node is absent; here node is always present, so a failure is a failure.
+        run: npm test
+        working-directory: workbench/app
 
       - uses: actions/setup-python@v5
         with:

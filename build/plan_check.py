@@ -666,13 +666,22 @@ def check(plan, C=None, strict=False):
     for gid in plan.get("groupings", []):
         g = C["groupings"].get(gid)
         if not g:
-            F.add("serious", "grouping", f"Unknown grouping '{gid}'.", fix="Use an id from groupings/.")
+            # rule=gid: without it the finding names no rule, and a consumer keyed by rule
+            # (compose.py's canon axis) credits the grouping as clean while still counting it.
+            F.add("serious", "grouping", f"Unknown grouping '{gid}'.", rule=gid,
+                  fix="Use an id from groupings/.")
             continue
         sv = next((v for v in g.get("style_variation", []) if v["style"] in chain), None)
         if sv and sv.get("present") is False:
             F.add("serious", "grouping", f"The plan declares {g['name']}, which {style} does not have: {sv['note']}", rule=gid)
         for want in g["rooms"]:
-            if want["role"] in ("primary",) and want["room"] not in types_present:
+            # satisfied_by(), not a raw membership test. Every other layer in this file asks
+            # the substitution table whether something the plan HAS would answer the rule
+            # (OQ 43); the grouping layer asked whether the exact type was present, and so
+            # convicted a centre-passage plan of having no entrance hall — a serious finding,
+            # on the top-ranked candidate of the shipped Georgian brief, produced by a table
+            # this file already carries and already trusts everywhere else.
+            if want["role"] in ("primary",) and not (satisfied_by(want["room"]) & types_present):
                 F.add("serious", "grouping",
                       f"{g['name']} requires a {want['room'].replace('-', ' ')} and the plan has none.", rule=gid)
         if plan.get("massing"):

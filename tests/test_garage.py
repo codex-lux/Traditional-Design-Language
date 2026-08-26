@@ -168,3 +168,44 @@ def test_the_garage_grouping_forbids_the_bedroom_adjacency_in_its_own_rules():
     hard = [r for r in G["internal_rules"] if r.get("severity") == "hard"]
     assert any("bedroom" in r["statement"].lower() for r in hard), \
         "garage-and-hyphen must state the bedroom prohibition as a hard rule of its own"
+
+
+def test_no_parti_declares_a_garage_room_without_the_grouping_that_governs_it():
+    """The invariant one level up from test_garage_is_placed_by_attachment_not_by_adjacency,
+    which can only see the partis a brief happens to return.
+
+    WP-4.3 made `garage-and-hyphen` the ONE attachment mechanism. A parti that writes a garage
+    room into its own `rooms` list and does not declare the grouping gets a garage that no
+    grouping placed and no grouping governs — `attach_garage()` sees the room already there and
+    returns before it can record anything. Two partis were in that state (`five-part-palladian`
+    and `ranch-tripartite`) and neither was caught, because neither had ever been returned by
+    the two shipped briefs. The scoring change of 26 Aug 2026 moved `five-part-palladian` into
+    family-georgian's four and the older test fired immediately. Checked against the data here
+    so it does not depend on which diagrams a brief happens to rank.
+    """
+    import glob
+    grouping = json.load(open(os.path.join(ROOT, "groupings", "garage-and-hyphen.json")))
+    receives = {a["massing"] for a in grouping["attaches_to"] if a.get("fit") != "forbidden"}
+    offenders = []
+    for path in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))):
+        parti = json.load(open(path))
+        if not any(r["type"] == "garage" for r in parti["rooms"]):
+            continue
+        if "garage-and-hyphen" not in (parti.get("groupings") or []):
+            offenders.append(parti["id"])
+            continue
+        massings = {parti["massing"]} | set(parti.get("alternate_massings") or [])
+        # `<=`, not `&`. The message has always described `<=` — "the grouping layer will
+        # report it on every plan" is what happens for EACH massing the grouping has no
+        # recorded fit for, not only when it receives none of them. With `&` the assertion
+        # could not fail on either parti and never distinguished anything; with `<=` it
+        # failed at once on ranch-tripartite's `split-level`, which the grouping omitted while
+        # receiving ranch-l and ranch-linear. Found by an independent audit of this test.
+        assert massings <= receives, (
+            f'{parti["id"]} declares garage-and-hyphen and the grouping records no fit for '
+            f'{sorted(massings - receives)} — plan_check.py emits an info finding for each, '
+            f'on every plan built from this diagram')
+    assert not offenders, (
+        f"these partis carry a garage room that no grouping governs: {offenders}. "
+        f"Add garage-and-hyphen to their groupings, or remove the room and let "
+        f"attach_garage() place it against the massing.")

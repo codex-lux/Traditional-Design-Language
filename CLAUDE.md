@@ -81,7 +81,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **30 checks, 762 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **31 checks, 861 tests** (plus 11 in the workbench app suite, `node --test`).
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
@@ -202,7 +202,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   plate by a CSS transform, so `getScreenCTM()` still maps back to model feet and the wall
   handles keep working. It measures the outer PANE, never the scroller: a scrollbar
   appearing inside the scroller narrows it, which re-fits the plate, which can make the
-  scrollbar go away again. That it magnifies the pen along with the drawing is **OQ 64**.
+  scrollbar go away again. That it magnifies the pen along with the drawing is **OQ 66**.
 - **A member's `y_bottom_in`/`y_top_in` are ABSOLUTE in the stack** — `proportion_engine
   .dimension()` has already run the cumulative sum. `OrderPlate` added each assembly's own
   base to them a second time and the Doric order came apart in the frame: the base 90 inches
@@ -214,7 +214,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   Thirteen order packs record `projection_parts` as an offset from the member's OWN NAKED,
   twelve as an absolute radius FROM THE AXIS — split by order, not by authority, across all
   five. Adding a naked to a radius draws the shaft narrower than its own mouldings, and
-  `dist/orders.html` did exactly that: Vignola's Ionic came out **2.25× too wide**. OQ 65
+  `dist/orders.html` did exactly that: Vignola's Ionic came out **2.25× too wide**. OQ 67
   closed by declaring `projection_datum` on the pack — seven declarations, nineteen
   overlays inheriting — and **`check_orders.py` verifies the declaration against each
   resolved pack's own geometry rather than trusting it**, so a wrong one errors on the base
@@ -244,8 +244,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **65 entries, of which 13 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **68 entries, of which 16 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message

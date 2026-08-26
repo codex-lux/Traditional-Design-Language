@@ -9,6 +9,7 @@ Exits nonzero if anything fails. Runs everything even after a failure so one
 red checker doesn't hide a second one — the summary at the end lists exactly
 what failed.
 """
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -116,6 +117,40 @@ def main():
             [sys.executable, "-m", "pytest", "workbench/server/tests", "-q"], cwd=str(ROOT))
         results.append(("pytest workbench/server/tests", 0 if wb_proc.returncode == 0 else 1))
 
+    # The workbench APP's own suite. Its pure ranking logic decides which candidate column
+    # reads as first, and it had no tests of any kind until 26 Aug 2026 -- the array-rendered-
+    # as-a-string defect that made a "why" line read "native to tidewater-georgianfour-over-
+    # four" shipped and stayed shipped. node is optional here exactly as the CAD libraries
+    # are: absent -> N/EV, stated, never a pass.
+    print("\n=== node --test workbench/app " + "=" * 30)
+    app = ROOT / "workbench" / "app"
+    node = shutil.which("node")
+    if not node:
+        print("COULD NOT EVALUATE — node is not on PATH")
+        print("    install Node 20+ (the app suite needs no npm install; it imports no packages)")
+        results.append(("node --test workbench/app", COULD_NOT_EVALUATE))
+    else:
+        specs = sorted(str(p) for p in (app / "src").glob("*.test.mjs"))
+        # A node too old to know --test exits nonzero, which reads as a FAILING suite. That
+        # is the unjudged-reported-as-failed direction, which is the safer one but still
+        # wrong: the suite did not run, so it neither passed nor failed.
+        ver = subprocess.run([node, "--version"], capture_output=True, text=True)
+        major = 0
+        try:
+            major = int((ver.stdout or "").strip().lstrip("v").split(".")[0])
+        except ValueError:
+            pass
+        if major < 18:
+            print(f"COULD NOT EVALUATE — node {ver.stdout.strip() or '?'} has no --test runner")
+            print("    install Node 18+ (20 is what CI uses)")
+            results.append(("node --test workbench/app", COULD_NOT_EVALUATE))
+        elif not specs:
+            print("COULD NOT EVALUATE — no *.test.mjs under workbench/app/src")
+            results.append(("node --test workbench/app", COULD_NOT_EVALUATE))
+        else:
+            node_proc = subprocess.run([node, "--test", *specs], cwd=str(app))
+            results.append(("node --test workbench/app",
+                            0 if node_proc.returncode == 0 else 1))
 
     print("\n" + "=" * 60)
     print("SUMMARY")

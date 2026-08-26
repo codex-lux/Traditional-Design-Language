@@ -182,13 +182,22 @@
       "dimension": "height",
       "expression": "column_height / 4",
       "units": "in",
+      "note": "Five modules on twenty - Vignola's quarter, retained, and defended. Chambers permits reduction where the order is engaged or in interior work, giving two ninths (0.222) and one fifth as the alternatives he will accept, and permits augmentation to a 'full five Modules' where the entablature must carry more. Palladio's fifth sits at the bottom of Chambers's permitted band, which is a fair measure of how far apart the two authorities are: what Palladio makes the rule, Chambers allows as a concession. THE BAND FOR THIS MOVED to the `entablature_to_column_ratio` rule beside it: it is a proportion of the column, not a length, and comparing it against this rule's inches was meaningless (OQ 68).",
+      "authority_note": "Chambers, Treatise 1759, pp. 62, 68 and 107.",
+      "quantity": "entablature_height"
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height_ratio",
+      "quantity": "entablature_to_column_ratio",
+      "expression": "1 / 4",
+      "units": "ratio",
       "range": [
         0.2222,
         0.25
       ],
-      "note": "Five modules on twenty - Vignola's quarter, retained, and defended. Chambers permits reduction where the order is engaged or in interior work, giving two ninths (0.222) and one fifth as the alternatives he will accept, and permits augmentation to a 'full five Modules' where the entablature must carry more. Palladio's fifth sits at the bottom of Chambers's permitted band, which is a fair measure of how far apart the two authorities are: what Palladio makes the rule, Chambers allows as a concession.",
-      "authority_note": "Chambers, Treatise 1759, pp. 62, 68 and 107.",
-      "quantity": "entablature_height"
+      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 68, 26 Aug 2026). The band the authority states is a proportion of the column; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. Five modules on twenty - Vignola's quarter, retained, and defended. Chambers permits reduction where the order is engaged or in interior work, giving two ninths (0.222) and one fifth as the alternatives he will accept, and permits augmentation to a 'full five Modules' where the entablature must carry more. Palladio's fifth sits at the bottom of Chambers's permitted band, which is a fair measure of how far apart the two authorities are: what Palladio makes the rule, Chambers allows as a concession.",
+      "authority_note": "Chambers, Treatise 1759, pp. 62, 68 and 107."
     },
     {
       "target_slot": "chair_rail",
@@ -219,13 +228,23 @@
       "expression": "ceiling_height / 5 * (2 / 5)",
       "units": "in",
       "judgment": true,
+      "note": "JUDGMENT SLOT. The room as an order, with the Corinthian entablature's cornice taken at two fifths - the proportion Chambers's Corinthian plate carries, and the figure most consistent with a Corinthian cornice of two modules on an entablature of five. 8.6 in at a 9 ft ceiling. This is a judgement because the entablature's internal division is on the plate rather than in the text and cannot be quoted; the range is honest and the point within it is not. THE BAND FOR THIS MOVED to the `interior_cornice_to_ceiling_ratio` rule beside it: it is a proportion of the ceiling height, not a length, and comparing it against this rule's inches was meaningless (OQ 68).",
+      "authority_note": "Chambers, Treatise 1759, p. 62; the two-fifths division follows Vignola's Corinthian entablature (2 of 5 modules), which Chambers's proportions match.",
+      "quantity": "interior_cornice_height"
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height_ratio",
+      "quantity": "interior_cornice_to_ceiling_ratio",
+      "expression": "1 / 5 * (2 / 5)",
+      "units": "ratio",
       "range": [
         0.06,
         0.09
       ],
-      "note": "JUDGMENT SLOT. The room as an order, with the Corinthian entablature's cornice taken at two fifths - the proportion Chambers's Corinthian plate carries, and the figure most consistent with a Corinthian cornice of two modules on an entablature of five. 8.6 in at a 9 ft ceiling. This is a judgement because the entablature's internal division is on the plate rather than in the text and cannot be quoted; the range is honest and the point within it is not.",
-      "authority_note": "Chambers, Treatise 1759, p. 62; the two-fifths division follows Vignola's Corinthian entablature (2 of 5 modules), which Chambers's proportions match.",
-      "quantity": "interior_cornice_height"
+      "judgment": true,
+      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 68, 26 Aug 2026). The band the authority states is a proportion of the ceiling height; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. JUDGMENT SLOT. The room as an order, with the Corinthian entablature's cornice taken at two fifths - the proportion Chambers's Corinthian plate carries, and the figure most consistent with a Corinthian cornice of two modules on an entablature of five. 8.6 in at a 9 ft ceiling. This is a judgement because the entablature's internal division is on the plate rather than in the text and cannot be quoted; the range is honest and the point within it is not.",
+      "authority_note": "Chambers, Treatise 1759, p. 62; the two-fifths division follows Vignola's Corinthian entablature (2 of 5 modules), which Chambers's proportions match."
     },
     {
       "target_slot": "porch_support",

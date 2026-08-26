@@ -281,7 +281,8 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                 </div>
               )}
               <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
-                Unjudged is not passed. 295 of the corpus's 660 style constraints carry no test at all.
+                Unjudged is not passed. The counts above are this plan's; corpus-wide, 295 of
+                660 style constraints carry no test at all, which is why so many land here.
               </p>
             </div>
 

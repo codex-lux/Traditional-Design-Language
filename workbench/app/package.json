@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node -e \"const n=require('fs').readdirSync('src').filter(f=>f.endsWith('.test.mjs'));if(!n.length){console.error('no *.test.mjs under src/ \u2014 a suite must not pass by being absent');process.exit(1)}console.log(n.length+' spec file(s): '+n.join(', '))\" && node --test src/*.test.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

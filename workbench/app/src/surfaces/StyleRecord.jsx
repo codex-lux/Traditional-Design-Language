@@ -174,7 +174,7 @@ export function StyleRecord({ onCite, selection, go, setSelection }) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
                   {rec.massing_affinities.map((m) => (
                     <VariantPill key={m.massing} ladder="affinity" name={'massing:' + m.massing}
-                      status={m.affinity} title={m.note} />
+                      status={m.affinity} note={m.note} />
                   ))}
                 </div>
               </Section>

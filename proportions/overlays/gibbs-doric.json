@@ -404,7 +404,14 @@
       "authority_note": "GIBBS GIVES A GEOMETRIC, NOT AN ARITHMETIC, PEDIMENT. Plate XXXVIII: 'Draw the line B G through the middle of the intended Door, take the full extent of the Cornice A C, from the middle of it at E describe the Circle A B C D, and from D describe the Circle A F C G, the Segment A F C is the proper height of the Pediment.' The rise is the sagitta of a circle whose radius equals the full span of the cornice - that is (1 - sqrt(3)/2) times half the span, i.e. 0.0670 of the span, or 0.1340 of the opening width once the cornice overhang is allowed for. It is a fixed pitch of about 15 degrees on the span of the cornice, which is why Georgian pediments are shallower than they look and why raising one to a roof pitch destroys it.",
       "judgment": true,
       "note": "JUDGMENT SLOT. The construction is on the SPAN OF THE CORNICE, not on the opening; the coefficient here assumes a cornice projecting a tenth of the opening on each side. Draw the construction rather than trusting the number when the cornice projection is known.",
-      "quantity": "pediment_rise"
+      "quantity": "pediment_rise",
+      "calibrated_for": {
+        "opening_width": [
+          48,
+          144
+        ],
+        "note": "The construction is on the SPAN OF THE CORNICE of a doorcase, and Gibbs's plates are drawn for principal doors. At the engine's default 36 in opening the arithmetic gives a 4.8 in rise and the rule reports itself out of band; a principal door of 4 ft or more lands inside it. Added 26 Aug 2026 (OQ 68)."
+      }
     },
     {
       "target_slot": "ceiling_height_rule",
