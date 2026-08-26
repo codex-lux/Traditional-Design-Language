@@ -12,8 +12,9 @@
 import React from 'react';
 import { fitLabel, fitLine, useFontMetrics } from '../sheet/label.js';
 import { api } from '../api/client.js';
+import { useStyles } from '../api/useStyles.js';
 import { planDoc } from '../state/planDoc.js';
-import { draftDoc, emptyDraft, completeness, toRecord, exteriorWalls, neighbours }
+import { draftDoc, emptyDraft, completeness, toRecord, exteriorWalls, neighbours, backdropStore }
   from '../state/draftDoc.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
@@ -300,16 +301,26 @@ export function Transcription({ go }) {
   const [sel, setSel] = React.useState(null);
   const [level, setLevel] = React.useState(0);
   const [mode, setMode] = React.useState('draw');
-  const [backdrop, setBackdrop] = React.useState(null);
+  /* Kept in a store rather than in this component, because this component now unmounts:
+     the scan and its calibration used to die on every navigation away. See draftDoc.js. */
+  const backdrop = React.useSyncExternalStore(backdropStore.subscribe, backdropStore.get);
+  const setBackdrop = React.useCallback((next) => {
+    backdropStore.set(typeof next === 'function' ? next(backdropStore.get()) : next);
+  }, []);
   const [roomTypes, setRoomTypes] = React.useState([]);
-  const [styles, setStyles] = React.useState([]);
+  /* One list, one order — the shared hook, not a fourth private copy. Three surfaces kept
+     calling api.styles({limit: 200}) sorted by id while useStyles asked for 250 sorted by
+     name: two cache entries, two round trips and two orderings of the same 164 styles,
+     depending which surface you were standing on. The hook's own header claimed it had
+     replaced six surfaces; it had replaced three. Found by an adversarial audit. */
+  const { styles: styleRecords } = useStyles();
+  const styles = React.useMemo(() => styleRecords.map((s) => s.id), [styleRecords]);
   const [ingest, setIngest] = React.useState(null);     // last DXF extraction report
   const [checked, setChecked] = React.useState(null);   // last evaluate result
   const [busy, setBusy] = React.useState(false);
 
   React.useEffect(() => {
     api.rooms({ limit: 200 }).then((r) => setRoomTypes((r.results || r.rooms || []).map((x) => x.id).sort())).catch(() => {});
-    api.styles({ limit: 200 }).then((r) => setStyles((r.results || []).map((s) => s.id).sort())).catch(() => {});
   }, []);
 
   if (!draft) {

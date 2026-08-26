@@ -1,9 +1,27 @@
 /* The citation grammar: kind:id(#fragment)?  —  one router for the whole product.
    Rail chips, finding rule refs and cross-surface links all come through here, so a
-   citation anywhere navigates the canvas the same way. */
+   citation anywhere navigates the canvas the same way.
+
+   The id character class must stay identical to REF_RE in workbench/server/citations.py.
+   It was not: the server allowed dots (its comment says why — constraint ids are
+   style-id.cNN) and this half did not, so all 660 constraint ids validated on the server,
+   streamed as citations, and then parsed to null here. Every `constraint:` chip the rail
+   ever drew navigated nowhere, silently. WP-5.6 widened this class to match — and an
+   adversarial audit then found a THIRD copy, in rail.py's CITE_RE, which extracts
+   `[[cite:...]]` from model output and also lacked the dot. So the widening changed nothing
+   observable: a constraint citation was never extracted, never validated, and reached the
+   reader as literal bracket syntax. All three now agree, and
+   workbench/server/tests/test_grammar_agreement.py reads this file to keep them agreeing —
+   which is why the classes below are named constants rather than a regex literal.
+
+   ID_CHARS and FRAG_CHARS are the same two classes citations.py exports under those names. */
+
+export const ID_CHARS = 'A-Za-z0-9_.-';
+export const FRAG_CHARS = 'A-Za-z0-9_-';
+const REF_RE = new RegExp(`^([a-z]+):([${ID_CHARS}]+)(?:#([${FRAG_CHARS}]+))?$`);
 
 export function parseCite(ref) {
-  const m = /^([a-z]+):([A-Za-z0-9_-]+)(?:#([A-Za-z0-9_-]+))?$/.exec(ref || '');
+  const m = REF_RE.exec(ref || '');
   if (!m) return null;
   return { kind: m[1], id: m[2], fragment: m[3] || null };
 }
@@ -30,6 +48,42 @@ export function routeCite(ref) {
     case 'grouping': return { surface: 'workbench', selection: { grouping: c.id } };
     case 'brief': return { surface: 'brief', selection: {} };
     case 'asset': return { surface: 'faults', selection: { asset: c.id } };
+    default: return null;
+  }
+}
+
+/* The inverse: what citation names this place? Lives beside routeCite so the two
+   directions cannot drift — the URL scheme (router.js) is a serialization of exactly
+   these pairs, and e2e/router-unit.mjs pins routeCite → citeFor as an identity for
+   every kind but one.
+
+   That one is `brief`: routeCite discards the id (there is a single brief), so no
+   citation can be recovered from the surface. It returns null rather than inventing one.
+   Where a surface holds several citable keys at once the most specific wins. */
+export function citeFor(surface, selection) {
+  const s = selection || {};
+  switch (surface) {
+    case 'style': return s.style ? 'style:' + s.style : null;
+    case 'kit':
+      if (s.style) return 'kit:' + s.style + (s.slot ? '#' + s.slot : '');
+      return s.slot ? 'slot:' + s.slot : null;
+    case 'faults':
+      if (s.fault) return 'fault:' + s.fault;
+      return s.asset ? 'asset:' + s.asset : null;
+    case 'proportions': return s.pack ? 'pack:' + s.pack : null;
+    case 'candidates':
+      if (s.parti) return 'parti:' + s.parti;
+      return s.candidate != null ? 'candidate:' + s.candidate : null;
+    case 'phylogeny':
+      // A style on the phylogeny is not `style:` — that citation routes to the full
+      // record by a decision recorded above. Only the massing has an exact inverse here.
+      return s.massing ? 'massing:' + s.massing : null;
+    case 'workbench':
+      if (s.finding) return 'finding:' + s.finding;
+      if (s.constraint) return 'constraint:' + s.constraint;
+      if (s.room) return 'plan:' + s.room;
+      if (s.roomType) return 'room:' + s.roomType;
+      return s.grouping ? 'grouping:' + s.grouping : null;
     default: return null;
   }
 }

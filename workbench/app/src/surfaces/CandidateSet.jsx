@@ -18,7 +18,9 @@ import { planDoc } from '../state/planDoc.js';
 import { CandidateColumn } from '../components/CandidateColumn.jsx';
 import { RefusalCard } from '../components/RefusalCard.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { nav } from '../state/nav.js';
+import { Spotlight } from '../components/Spotlight.jsx';
+import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { ORDERS, order, isNative } from '../candidateOrder.js';
 
 /* `what` — the sentence saying what an axis measures — rides on the RESULT once rather than
@@ -125,7 +127,7 @@ export function CandidateSet({ onCite, go, selection }) {
             ))}
           </div>
         )}
-        <Chip onClick={() => go('brief')}>go to Brief Intake ⑤</Chip>
+        <ActionChip onClick={() => go('brief')}>go to Brief Intake</ActionChip>
       </div>
     );
   }
@@ -147,6 +149,9 @@ export function CandidateSet({ onCite, go, selection }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
+      <Spotlight kind="parti" id={selection?.parti}
+        note="a plan diagram — the candidates below name the parti each was composed from"
+        onDismiss={() => nav.select({ parti: null })} />
       <FilterStrip right={
         <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
           returned {cands.length} of {askedFor} asked for
@@ -154,9 +159,13 @@ export function CandidateSet({ onCite, go, selection }) {
         </span>
       }>
         <Eyebrow as="span">order by</Eyebrow>
-        {Object.entries(ORDERS).map(([k, o]) => (
-          <Chip key={k} on={sort === k} onClick={() => setSort(k)}>{o.chip}</Chip>
-        ))}
+        {/* main's ORDERS table (the orderings are data, not two hardcoded chips) inside
+            this branch's radiogroup — they are mutually exclusive, and said to be. */}
+        <ChipGroup label="order">
+          {Object.entries(ORDERS).map(([k, o]) => (
+            <Chip key={k} radio on={sort === k} onClick={() => setSort(k)}>{o.chip}</Chip>
+          ))}
+        </ChipGroup>
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 22px 30px' }}>

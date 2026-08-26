@@ -155,3 +155,31 @@ export function toRecord(d) {
   if (Object.keys(prov).length) rec.provenance = prov;
   return rec;
 }
+
+/* THE BACKDROP LIVES HERE, not in Transcription's component state.
+
+   It holds the uploaded scan's object URL and — the part that costs real work to recreate —
+   the width in feet and the opacity the reader hand-tuned against it. That was plain
+   `useState`, which was harmless while App.jsx kept all eleven surfaces mounted forever. This
+   session made the shell render only the active surface, so navigating away (including by the
+   surface's own "send to the workbench" button) destroyed it: you came back to a blank canvas
+   and re-uploaded and re-calibrated. An adversarial audit found it.
+
+   The object URL is deliberately NOT persisted to localStorage — a blob URL is dead the
+   moment the tab reloads, and storing one would promise a scan that is not there. It survives
+   navigation within a session, which is the loss that was actually happening. */
+let backdrop = null;
+const backdropListeners = new Set();
+
+export const backdropStore = {
+  subscribe(fn) { backdropListeners.add(fn); return () => backdropListeners.delete(fn); },
+  get() { return backdrop; },
+  set(next) {
+    // revoke the old blob before dropping it, or every re-upload leaks one
+    if (backdrop && backdrop.url && (!next || next.url !== backdrop.url)) {
+      try { URL.revokeObjectURL(backdrop.url); } catch (e) { /* not a blob URL */ }
+    }
+    backdrop = next;
+    backdropListeners.forEach((fn) => fn());
+  },
+};

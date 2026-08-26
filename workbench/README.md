@@ -2,11 +2,32 @@
 
 The human interface to the Traditional Design Language (WP-5.2): a local web app —
 the drawing with the critique on it — over the same corpus and toolchain the CLI and
-MCP server drive. All eleven surfaces are live (⑪ Transcription, WP-5.5). Export ships the plan record, brief, check report and
+MCP server drive. Twelve surfaces are live: eleven working surfaces plus the Overview
+you land on (WP-5.6). Export ships the plan record, brief, check report and
 the five SVG sheets today; DXF/IFC (WP-5.1) ship too, and the guidelines book and
 details library (WP-5.3) are named as forthcoming on the Export surface rather than
 hidden. Drawing ingestion (WP-5.5) shipped as the Transcription surface, and the card
 that used to promise it now says where it went.
+
+## Finding your way around it
+
+Three keys, and they are the whole map:
+
+| | |
+|---|---|
+| `⌘K` · `ctrl-K` | search everything — 665 named things: styles, slots, faults, packs, rooms, partis, and the surfaces themselves |
+| `/` | filter the list in front of you |
+| `?` | the keys, and how a thing is addressed |
+
+**Every place is a URL** (WP-5.6), and the URL is the citation grammar written down —
+`#/kit/tidewater-georgian/cornice`, `#/faults?sev=serious`, `#/phylogeny?view=map`. So a
+view can be refreshed, gone back from, bookmarked or handed to somebody else, and a
+citation the rail writes is a link a person can open: `#/cite/fault:porch-too-shallow-to-inhabit`.
+Filters live in the URL too, which means "the serious faults driven by budget" is a link.
+
+The palette searches **names, ids and akas — not prose**. For a half-remembered phrase from
+a tell or a remedy, ask the rail: it reads the records properly, and says what it could not
+evaluate.
 
 ## Run it
 

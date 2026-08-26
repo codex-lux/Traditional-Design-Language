@@ -142,7 +142,14 @@ def _sse(event, data):
     return f"event: {event}\ndata: {json.dumps(data)}\n\n"
 
 
-CITE_RE = re.compile(r"\[\[cite:([a-z]+:[A-Za-z0-9_-]+(?:#[A-Za-z0-9_-]+)?)\]\]")
+# The id class comes from citations.py rather than being spelled again here. This regex used
+# to carry its own copy WITHOUT the dot, so `[[cite:constraint:tidewater-georgian.c01]]` never
+# matched, validate() never saw it, and all 660 constraint ids reached the reader as literal
+# bracket syntax — not even downgraded to plain text, because the downgrade lives in repl()
+# below and repl() was never called. Widening the client's parser (WP-5.6) could not fix that,
+# because the client never received a citation to parse.
+CITE_RE = re.compile(
+    rf"\[\[cite:([a-z]+:[{citations.ID_CHARS}]+(?:#[{citations.FRAG_CHARS}]+)?)\]\]")
 TAG_RE = re.compile(
     r"<unjudged>(.*?)</unjudged>"
     r"|<question(?:\s+cite=\"([^\"]*)\")?\s*>(.*?)</question>"

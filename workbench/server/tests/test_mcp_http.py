@@ -38,34 +38,52 @@ def _body(r):
 
 @pytest.fixture(scope="session")
 def live():
-    """A client whose lifespan has actually run, with the bearer token configured.
+    """A client whose lifespan has actually run.
 
     SESSION-scoped, and it has to be: `session_manager.run()` raises if entered twice on
     the same instance, so the lifespan may be entered exactly once per process. Module
     scope was not enough — a runner that interleaves modules (pytest-randomly, -xdist, a
     cross-file -k) tears the fixture down when it leaves this file and cannot re-enter it,
-    turning seven tests into spurious errors. Session scope survives that. Env is set
-    directly rather than through monkeypatch because that fixture is function-scoped.
+    turning seven tests into spurious errors. Session scope survives that.
+
+    It configures NOTHING. The token that makes this server gated is set by `_gated`
+    below, per test — see the note there for why the two are scoped differently.
     """
-    import os
     from fastapi.testclient import TestClient
     from workbench.server.app import app
 
-    saved = {k: os.environ.get(k) for k in ("WORKBENCH_API_TOKEN", "WORKBENCH_PASSWORD")}
-    os.environ["WORKBENCH_API_TOKEN"] = "tok"
-    os.environ.pop("WORKBENCH_PASSWORD", None)
-    try:
-        # base_url matters: TestClient's default Host is "testserver", which the
-        # transport's DNS-rebinding protection correctly refuses with 421. Using a real
-        # loopback host exercises the allowlist the way a local client does.
-        with TestClient(app, base_url="http://127.0.0.1") as c:
-            yield c
-    finally:
-        for k, v in saved.items():
-            if v is None:
-                os.environ.pop(k, None)
-            else:
-                os.environ[k] = v
+    # base_url matters: TestClient's default Host is "testserver", which the transport's
+    # DNS-rebinding protection correctly refuses with 421. Using a real loopback host
+    # exercises the allowlist the way a local client does.
+    with TestClient(app, base_url="http://127.0.0.1") as c:
+        yield c
+
+
+@pytest.fixture(autouse=True)
+def _gated(monkeypatch):
+    """`WORKBENCH_API_TOKEN=tok`, for the duration of ONE test in this file.
+
+    OQ 64. This used to live in `live` above, which is session-scoped — so from the
+    moment the first test here ran, `auth.required()` was true for the rest of the
+    process, and **every test file sorting after `test_mcp_http` ran against a gated
+    server**. A plain `client.get("/api/…")` in one then got a 401 that had nothing to do
+    with the route under test. `test_search_index.py` found it by passing alone and
+    failing in the suite.
+
+    The scopes differ because the two constraints differ, and that is the whole fix. The
+    CLIENT must be session-scoped (the lifespan may be entered once per process). The
+    TOKEN need only be set while a request in this file is in flight, and monkeypatch —
+    function-scoped, restoring after each test — is exactly the tool for that. Nothing
+    the fixture does is visible outside the test that asked for it, under any runner,
+    interleaved or not.
+
+    The gate is still exercised for real rather than mocked: the token is configured, the
+    middleware validates it, and `test_bearer_is_required` still proves that a request
+    without the header is refused — which is why the bearer header stays on the requests
+    that mean to be authorised, and off the one that does not.
+    """
+    monkeypatch.setenv("WORKBENCH_API_TOKEN", "tok")
+    monkeypatch.delenv("WORKBENCH_PASSWORD", raising=False)
 
 
 @pytest.fixture(autouse=True)
@@ -251,18 +269,12 @@ def test_userinfo_is_stripped_even_if_a_key_slips_through():
 def test_ungated_health_does_not_enumerate_hosts(live, monkeypatch):
     """/api/health is deliberately reachable without credentials, so it must not list
     hostnames — which can be internal service names."""
-    import os
-    saved = os.environ.get("WORKBENCH_PASSWORD")
-    os.environ["WORKBENCH_PASSWORD"] = "pw"
-    try:
-        body = live.get("/api/health").json()
-        assert "allowed_hosts" not in body["mcp"], body["mcp"]
-        assert body["mcp"]["platform_host_detected"] in (True, False)
-    finally:
-        if saved is None:
-            os.environ.pop("WORKBENCH_PASSWORD", None)
-        else:
-            os.environ["WORKBENCH_PASSWORD"] = saved
+    # monkeypatch rather than a hand-rolled save/restore: it was written this way because
+    # the fixture beside it could not use monkeypatch, and that is no longer true (OQ 64).
+    monkeypatch.setenv("WORKBENCH_PASSWORD", "pw")
+    body = live.get("/api/health").json()
+    assert "allowed_hosts" not in body["mcp"], body["mcp"]
+    assert body["mcp"]["platform_host_detected"] in (True, False)
 
 
 def test_platform_scan_ignores_values_that_are_not_hostnames(monkeypatch):

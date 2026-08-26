@@ -9,7 +9,10 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { EdgeGlyph } from '../components/EdgeGlyph.jsx';
 import { VariantPill } from '../components/VariantPill.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
+import { StylePicker } from '../components/StylePicker.jsx';
+
+const DEFAULT_STYLE = 'tidewater-georgian';
 
 const ALL_SECTIONS = 'summary,description,characteristics,lineage,proportion,massing,constraints,exemplars,sources';
 const CARRIES = { descends_from: 1, regional_of: 1 };
@@ -27,15 +30,16 @@ const prose = { font: 'var(--fw-reg) 14px/1.62 var(--body)', color: 'var(--ink)'
 const quiet = { font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: 0, maxWidth: '72ch' };
 
 export function StyleRecord({ onCite, selection, go, setSelection }) {
-  const [styleId, setStyleId] = React.useState(selection?.style || 'tidewater-georgian');
-  const [styleOptions, setStyleOptions] = React.useState([]);
+  const [styleId, setStyleId] = React.useState(selection?.style || DEFAULT_STYLE);
   const [rec, setRec] = React.useState(null);
   const [constraintFilter, setConstraintFilter] = React.useState(null);
 
-  React.useEffect(() => {
-    api.styles({ limit: 200 }).then((r) => setStyleOptions((r.results || []).map((s) => s.id).sort()));
-  }, []);
-  React.useEffect(() => { if (selection?.style) setStyleId(selection.style); }, [selection?.style]);
+  /* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
+   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
+   #/style left the panel displaying the record you had just left — the address bar and the
+   screen disagreeing, which is the one thing the router exists to prevent. Found by an
+   adversarial audit. */
+  React.useEffect(() => { setStyleId(selection?.style || DEFAULT_STYLE); }, [selection?.style]);
   React.useEffect(() => {
     setRec(null);
     api.style(styleId, ALL_SECTIONS).then(setRec).catch(() => setRec(null));
@@ -62,18 +66,15 @@ export function StyleRecord({ onCite, selection, go, setSelection }) {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip right={
         <span style={{ display: 'flex', gap: 10 }}>
-          <Chip onClick={() => onCite && onCite('kit:' + styleId)}>resolve the kit ④</Chip>
-          <Chip onClick={() => { setSelection && setSelection({ style: styleId }); go && go('phylogeny'); }}>
-            place in the phylogeny ②
-          </Chip>
+          <ActionChip onClick={() => onCite && onCite('kit:' + styleId)}>resolve the kit</ActionChip>
+          <ActionChip onClick={() => go && go('phylogeny', { style: styleId })}>
+            place in the phylogeny
+          </ActionChip>
         </span>
       }>
         <Eyebrow as="span">style record</Eyebrow>
-        <select value={styleId} onChange={(e) => setStyleId(e.target.value)}
-          style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', background: 'var(--paper-mat)',
-            border: '1px solid var(--rule)', padding: '2px 6px', maxWidth: 230 }}>
-          {styleOptions.map((x) => <option key={x} value={x}>{x}</option>)}
-        </select>
+        <StylePicker value={styleId} width={230} label="Which style's record to read"
+          onChange={(v) => { setStyleId(v); setSelection && setSelection({ style: v }); }} />
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '20px 26px 40px' }}>
@@ -137,10 +138,12 @@ export function StyleRecord({ onCite, selection, go, setSelection }) {
           <div style={{ flex: '1 1 400px', minWidth: 380, maxWidth: 560 }}>
             <Section eyebrow={`constraints · ${tested.length} tested · ${untested.length} untested · ${judgment.length} yours to judge`}>
               <div style={{ display: 'flex', gap: 6, marginBottom: 10 }}>
-                {[['tested', tested.length], ['untested', untested.length], ['judgment', judgment.length]].map(([k, n]) => (
-                  <Chip key={k} on={constraintFilter === k}
-                    onClick={() => setConstraintFilter(constraintFilter === k ? null : k)}>{k} {n}</Chip>
-                ))}
+                <ChipGroup label="constraint state">
+                  {[['tested', tested.length], ['untested', untested.length], ['judgment', judgment.length]].map(([k, n]) => (
+                    <Chip key={k} radio on={constraintFilter === k}
+                      onClick={() => setConstraintFilter(constraintFilter === k ? null : k)}>{k} {n}</Chip>
+                  ))}
+                </ChipGroup>
               </div>
               {shownConstraints.map((c) => (
                 <div key={c.id} style={{ marginBottom: 12, paddingBottom: 10,

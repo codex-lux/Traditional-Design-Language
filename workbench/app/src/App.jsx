@@ -1,10 +1,15 @@
 /* The Workbench shell. All eleven surfaces are live (⑪ Transcription joined in
    WP-5.5). The AI rail is persistent across all of them. A citation anywhere routes
-   through citations.js and navigates this shell. */
+   through citations.js and navigates this shell — and since WP-5.6 that navigation is
+   written to the URL (router.js, state/nav.js), so a place can be refreshed, gone back
+   from, and handed to somebody else. */
 import React from 'react';
 import { api, setUnauthorizedHandler } from './api/client.js';
-import { routeCite } from './citations.js';
 import { planDoc } from './state/planDoc.js';
+import { nav } from './state/nav.js';
+import { useGlobalKeys, requestFilterFocus } from './keys.js';
+import { CommandPalette } from './palette/CommandPalette.jsx';
+import { ShortcutCard } from './palette/ShortcutCard.jsx';
 import { Masthead, LeftRail } from './Chrome.jsx';
 import { Gate } from './Gate.jsx';
 import { RailHost } from './rail/RailHost.jsx';
@@ -19,10 +24,26 @@ import { Proportions } from './surfaces/Proportions.jsx';
 import { DrawingSet } from './surfaces/DrawingSet.jsx';
 import { ExportDetails } from './surfaces/ExportDetails.jsx';
 import { Transcription } from './surfaces/Transcription.jsx';
+import { Overview } from './surfaces/Overview.jsx';
+
+const SURFACES = {
+  overview: Overview,
+  workbench: PlanWorkbench,
+  candidates: CandidateSet,
+  faults: FaultCorpus,
+  kit: KitSurface,
+  phylogeny: Phylogeny,
+  brief: BriefIntake,
+  style: StyleRecord,
+  proportions: Proportions,
+  drawings: DrawingSet,
+  export: ExportDetails,
+  transcription: Transcription,
+};
 
 export default function App() {
-  const [surface, setSurface] = React.useState('workbench');
-  const [selection, setSelection] = React.useState({});
+  const place = React.useSyncExternalStore(nav.subscribe, nav.get);
+  const { surface, selection } = place;
   const [overview, setOverview] = React.useState(null);
   const [health, setHealth] = React.useState(null);
   const [lastEval, setLastEval] = React.useState(null);
@@ -53,27 +74,28 @@ export default function App() {
     return () => setUnauthorizedHandler(null);
   }, []);
 
-  function cite(ref) {
-    const target = routeCite(ref);
-    if (!target) return;
-    setSelection(target.selection || {});
-    setSurface(target.surface);
-  }
+  const [palette, setPalette] = React.useState(false);
+  const [helpCard, setHelpCard] = React.useState(false);
 
-  const shared = { onCite: cite, selection, setSelection, go: setSurface, lastEval, setLastEval };
-  const surfaces = {
-    workbench: <PlanWorkbench {...shared} />,
-    candidates: <CandidateSet {...shared} />,
-    faults: <FaultCorpus {...shared} />,
-    kit: <KitSurface {...shared} />,
-    phylogeny: <Phylogeny {...shared} />,
-    brief: <BriefIntake {...shared} />,
-    style: <StyleRecord {...shared} />,
-    proportions: <Proportions {...shared} />,
-    drawings: <DrawingSet {...shared} />,
-    export: <ExportDetails {...shared} />,
-    transcription: <Transcription {...shared} />,
-  };
+  useGlobalKeys({
+    onPalette: () => { setHelpCard(false); setPalette((p) => !p); },
+    onHelp: () => { setPalette(false); setHelpCard(true); },
+    onSlash: () => { requestFilterFocus(); },
+    onEscape: () => {
+      if (palette) setPalette(false);
+      else if (helpCard) setHelpCard(false);
+    },
+  });
+
+  const cite = React.useCallback((ref) => nav.cite(ref), []);
+  const select = React.useCallback((patch) => nav.select(patch), []);
+  const go = React.useCallback((s, sel) => nav.go(s, sel), []);
+
+  const shared = { onCite: cite, selection, setSelection: select, go, lastEval, setLastEval,
+    onSearch: () => setPalette(true) };
+  // Only the surface in view is constructed. It used to be all eleven, every render,
+  // each with its own mount effects waiting to fire.
+  const Active = SURFACES[surface] || SURFACES.workbench;
 
   const unjudged = lastEval?.check?.constraint_summary?.unjudged;
 
@@ -82,15 +104,19 @@ export default function App() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <Masthead plan={plan} judgment={unjudged} />
+      <Masthead plan={plan} judgment={unjudged} onSearch={() => setPalette(true)} />
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        <LeftRail current={surface} onGo={setSurface} counts={overview?.counts} />
+        <LeftRail current={surface} onGo={go} counts={overview?.counts} />
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0 }}>
-          {surfaces[surface] || surfaces.workbench}
+          <Active {...shared} />
         </main>
         <RailHost onCite={cite} surface={surface} plan={plan} lastEval={lastEval}
-          railAvailable={health ? !!health.rail : null} />
+          railAvailable={health ? !!health.rail : null}
+          toolCount={health?.mcp?.tools} />
       </div>
+      <CommandPalette open={palette} onClose={() => setPalette(false)}
+        onAction={(run) => { if (run === 'help') setHelpCard(true); }} />
+      <ShortcutCard open={helpCard} onClose={() => setHelpCard(false)} />
     </div>
   );
 }

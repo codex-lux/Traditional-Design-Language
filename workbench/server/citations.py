@@ -13,7 +13,20 @@ from . import corpus
 core = corpus.core
 
 # ids allow dots: constraint ids are style-id.cNN
-REF_RE = re.compile(r"^([a-z]+):([A-Za-z0-9_.-]+)(?:#([A-Za-z0-9_-]+))?$")
+#
+# THE ID CHARACTER CLASS IS SHARED, and it is shared as a named constant because keeping it
+# in three separate literals is exactly how it came to disagree with itself. rail.py's
+# CITE_RE — the regex that EXTRACTS `[[cite:...]]` from model output — carried its own copy
+# without the dot, so a constraint citation was never even offered to validate() below: it
+# streamed to the reader as raw bracket text. WP-5.6 widened the CLIENT's parseCite to match
+# this line and published that as the fix; the extractor upstream still refused the same 660
+# ids, so nothing observable changed. Found by an adversarial audit of that work.
+#
+# `\Z` rather than `$`: Python's `$` also matches before a trailing newline, which made this
+# accept "style:craftsman\n" where the client's JS regex did not.
+ID_CHARS = r"A-Za-z0-9_.-"
+FRAG_CHARS = r"A-Za-z0-9_-"
+REF_RE = re.compile(rf"^([a-z]+):([{ID_CHARS}]+)(?:#([{FRAG_CHARS}]+))?\Z")
 
 
 def _known_ids(kind):

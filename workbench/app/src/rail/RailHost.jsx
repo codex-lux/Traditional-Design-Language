@@ -7,7 +7,7 @@ import { railTurn } from '../api/client.js';
 import { session } from '../state/session.js';
 import { AiRail } from '../components/AiRail.jsx';
 
-export function RailHost({ onCite, surface, plan, lastEval, railAvailable }) {
+export function RailHost({ onCite, surface, plan, lastEval, railAvailable, toolCount }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
   const historyRef = React.useRef([]);   // API-shaped [{role, content: string}]
   const [busy, setBusy] = React.useState(false);
@@ -90,6 +90,7 @@ export function RailHost({ onCite, surface, plan, lastEval, railAvailable }) {
 
   return (
     <AiRail turns={turns} onCite={(ref) => onCite(ref.replace(/^«|»$/g, ''))} onSend={send}
+      toolCount={toolCount}
       placeholder={railAvailable === false ? 'the rail is off — no key attached' : 'Ask the corpus…'} />
   );
 }
