@@ -15,10 +15,9 @@ function noteUnauthorized(status) {
 
 async function getJSON(url, { fresh = false } = {}) {
   if (!fresh && cache.has(url)) return cache.get(url);
-  /* `fresh` skipped OUR map and then took the browser's cache instead — health carries no
-     validators, so a heuristically cached 200 kept answering with the state before the
-     operator fixed it. The server sends no-store now; ask for it from this side as well,
-     because the stale answer is only ever read as "my change did not work". */
+  /* `fresh` skipped OUR map and then took the browser's cache instead, which is not what
+     the flag promises its one caller: health is read to find out what the server is doing
+     NOW. */
   const r = await fetch(url, fresh ? { cache: 'no-store' } : undefined);
   if (!r.ok) {
     const body = await r.json().catch(() => ({}));

@@ -87,14 +87,7 @@ enforced structurally:
 - Tool results over 20 KB are truncated with a narrow-your-call marker; the corpus
   overview rides in the system prompt so orientation costs no rounds; 8 tool rounds
   per turn, hard cap.
-- No `ANTHROPIC_API_KEY` → the rail renders a labelled off state. Never a broken one —
-  and never a MISLABELLED one: the panel prints `/api/health`'s `rail_state.note`, which
-  distinguishes absent from empty, from a name carrying whitespace, from a near-miss
-  spelling, from a platform variable set at project scope that the service never
-  references, from the SDK not being installed. Reporting all six as "no key is attached"
-  is the same collapse this project forbids everywhere else: it told an operator whose key
-  WAS set to go and set it. `rail` stays a bare bool for older clients and is now literally
-  `rail_state.on`, so the flag and the reason beside it cannot disagree.
+- No `ANTHROPIC_API_KEY` → the rail renders a labelled off state. Never a broken one.
 
 Citation grammar (one router, `app/src/citations.js`, used by rail chips, finding
 rule refs and cross-surface links alike):

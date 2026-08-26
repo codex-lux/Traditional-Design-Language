@@ -22,10 +22,7 @@ vite proxies `/api`, so there is no CORS anywhere.
 
 The AI rail needs `ANTHROPIC_API_KEY` in the environment. Without it the server runs
 and the rail says plainly that it is off — the three-state discipline applies to the
-rail's own availability, and "off" now carries the reason rather than one assumed cause.
-`/api/health` → `rail_state` is the authority: `on`, the `variable` the key was actually
-read from, and a `note` naming the one thing to change. The same sentence prints at
-startup and renders in the rail panel itself.
+rail's own availability.
 
 ## Deploying it
 

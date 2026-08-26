@@ -9,7 +9,6 @@ The model marks structure with literal tags the client renders as typed cards:
   <question cite="…">…</question> a judgment put back to the human
   <refusal reason="…">…</refusal> a refusal, at the same weight as a result
 """
-import difflib
 import json
 import os
 import re
@@ -23,205 +22,19 @@ def _env(name, default):
     return os.environ.get(name) or default
 
 
-# ------------------------------------------------------------------ the credential
-#
-# The rail is off without a key, and "off" was reported as a bare false — true only of
-# the one case where the variable is genuinely absent. Every other way a platform's
-# variable editor mangles it (a trailing newline from a paste, surrounding quotes from a
-# raw .env block, whitespace in the NAME, a near-miss spelling, a project-level variable
-# the service never references) came out as the same dark panel with the same sentence
-# telling the operator to do the thing they had already done. What follows reads the key
-# tolerantly and then SAYS what it forgave: a tolerance that hides what it forgave is how
-# the next person loses the same afternoon.
 KEY_VAR = "ANTHROPIC_API_KEY"
-
-# Read, but never silently: state() names which one was used and that it is not canonical.
-KEY_ALIASES = ("ANTHROPIC_APIKEY", "ANTHROPIC_API_TOKEN", "ANTHROPIC_KEY", "CLAUDE_API_KEY")
-
-# A name is a near miss if it says ANTHROPIC/CLAUDE at all, or if it is simply CLOSE to
-# the canonical name. The substring test alone misses the commonest typo there is — a
-# transposition, ANTRHOPIC_API_KEY — which is exactly the case an operator cannot see by
-# rereading their own variable list, because it reads correctly to a human eye.
-_NEAR_MISS = ("ANTHROPIC", "CLAUDE_API", "CLAUDE_KEY")
-_NEAR_RATIO = 0.82
-# ...but saying ANTHROPIC is not enough on its own. ANTHROPIC_BASE_URL is a legitimate,
-# unrelated variable, and accusing it of being a fumbled key sends an operator to fix a
-# thing that is not broken — the same false-accusation failure check_partis guards against
-# on the corpus side. A name qualifies on the substring only if it also reads as a
-# credential; anything else has to earn it by shape.
-_CREDENTIAL_WORDS = ("KEY", "TOKEN", "SECRET", "CREDENTIAL")
-
-# Every platform that injects a public hostname also injects a marker of its own. Seeing
-# none of them means this process is not the deployed one — which is a different problem
-# from a missing variable, and must not be reported as the same one.
-_PLATFORM_MARKERS = ("RAILWAY_", "RENDER_", "FLY_", "HEROKU_", "KOYEB_", "DYNO")
-
-# Variables only a person configures — the platform never injects one. The live report
-# turned on this distinction: /api/health showed the platform's OWN variables arriving
-# (mcp.allowed_hosts carried the generated domain, which is discovered from RAILWAY_*)
-# while WORKBENCH_PASSWORD was simultaneously absent. Two unrelated variables missing at
-# once is not a mangled key: it is the whole configured set landing on some other service
-# or some other environment. That is a different sentence and a different remedy, and
-# saying "set ANTHROPIC_API_KEY here" to someone whose entire variable set is elsewhere
-# sends them to fix one row of a table that is in the wrong place.
-_APP_VARS = ("WORKBENCH_PASSWORD", "WORKBENCH_SECRET", "WORKBENCH_API_TOKEN",
-             "WORKBENCH_ALLOWED_HOSTS", "WORKBENCH_MODEL", "WORKBENCH_EFFORT",
-             "WORKBENCH_MAX_TOKENS", "WORKBENCH_TRUST_PROXY_AUTH", "RAIL_MAX_TOOL_ROUNDS",
-             "RAIL_TURNS_PER_HOUR", "RAIL_TURNS_PER_DAY", "RAIL_MAX_MESSAGES",
-             "RAIL_MAX_CHARS", "HEAVY_CALLS_PER_HOUR", "MCP_HEAVY_CALLS_PER_HOUR")
-
-
-def _clean(value):
-    """A usable key from whatever the variable editor stored, or None.
-
-    The newline strip is not cosmetic. A value pasted with a trailing newline sends an
-    invalid HTTP header, so the rail would come up reporting itself ON and then fail
-    every single turn with an SDK error nobody can map back to the paste.
-    """
-    if not isinstance(value, str):
-        return None
-    v = value.strip()
-    if len(v) >= 2 and v[0] == v[-1] and v[0] in "\"'":
-        v = v[1:-1].strip()
-    return v or None
-
-
-def _lookup():
-    """(name-as-set, cleaned-key) for the rail's credential, or (None, None).
-
-    The exact canonical name wins, then the aliases, then a scan matching on the STRIPPED
-    name — Railway's raw variable editor will store `ANTHROPIC_API_KEY ` with the trailing
-    space intact, and `os.environ.get` will never see it again.
-    """
-    names = (KEY_VAR,) + KEY_ALIASES
-    for name in names:
-        v = _clean(os.environ.get(name))
-        if v:
-            return name, v
-    for raw_name, raw_value in os.environ.items():
-        if raw_name.strip().upper() in names:
-            v = _clean(raw_value)
-            if v:
-                return raw_name, v
-    return None, None
 
 
 def key():
-    """The rail's credential, or None. Read at call time, never at import."""
-    return _lookup()[1]
+    """The rail's credential, or None. Read at call time, never at import.
 
-
-def _sdk_missing():
-    try:
-        import anthropic  # noqa: F401
-    except ImportError as e:
-        return f"the `{e.name or 'anthropic'}` package is not installed"
-    return None
-
-
-def _near_miss_names():
-    """Environment variable NAMES that look like a fumbled attempt at the credential.
-
-    Names only. The whole point is to let an operator see `ANTRHOPIC_API_KEY` sitting in
-    their own variable list; printing any value would put a live key in a health response.
+    Stripped, and the stripped value is what reaches the SDK. A key pasted with a trailing
+    newline is truthy, so `bool(os.environ.get(...))` reported the rail ON — and then every
+    turn failed, because a newline in a header value is not a legal header. The rail
+    claiming it can answer and then not answering is the one collapse this project forbids
+    everywhere else; it should not be reachable by a paste.
     """
-    target = "".join(c for c in KEY_VAR if c.isalnum())
-    found = []
-    names = (KEY_VAR,) + KEY_ALIASES
-    for raw_name in os.environ:
-        k = raw_name.strip().upper()
-        if k in names:
-            continue
-        flat = "".join(c for c in k if c.isalnum())
-        says_anthropic = any(m in k for m in _NEAR_MISS)
-        reads_as_credential = any(w in k for w in _CREDENTIAL_WORDS)
-        close_by_shape = difflib.SequenceMatcher(None, flat, target).ratio() >= _NEAR_RATIO
-        if (says_anthropic and reads_as_credential) or close_by_shape:
-            found.append(raw_name)
-    return sorted(found)
-
-
-def _present_but_empty():
-    """Names the lookup would have accepted that are set to nothing usable."""
-    names = (KEY_VAR,) + KEY_ALIASES
-    return sorted(raw for raw, value in os.environ.items()
-                  if raw.strip().upper() in names and not _clean(value))
-
-
-def _on_a_platform():
-    return any(m in k.upper() for k in os.environ for m in _PLATFORM_MARKERS)
-
-
-def _configured_vars():
-    """Which of this application's OWN variables reached the process. Names, never values,
-    and PORT is deliberately not among them — the platform injects that one itself, so its
-    presence would prove nothing about whether anybody's configuration arrived."""
-    return sorted(name for name in _APP_VARS if os.environ.get(name))
-
-
-def state(disclose=False):
-    """What /api/health reports about the rail. Off is never a bare false: the note names
-    the one thing to change. `disclose` gates the near-miss NAMES on the caller being
-    authorised, matching how allowed_hosts is handled — health is ungated, and an
-    operator's own variable names are not for the open internet.
-    """
-    name, k = _lookup()
-    # Quoted wherever it is printed: a name carrying whitespace is indistinguishable from
-    # the canonical one in a variable list AND in a log line, which is the whole trap.
-    shown = f"'{name}'" if name and name != name.strip() else name
-    sdk = _sdk_missing()
-    st = {"on": bool(k) and sdk is None, "variable": name, "note": None}
-    misses = _near_miss_names()
-    if disclose and misses:
-        st["candidates"] = misses
-
-    if k and sdk:
-        st["note"] = (f"{shown} is attached, but {sdk} — the rail cannot run. "
-                      f"pip install -r workbench/requirements.txt")
-    elif k and name != KEY_VAR and name.strip().upper() == KEY_VAR:
-        # The variable list shows `ANTHROPIC_API_KEY`; the stored name is `ANTHROPIC_API_KEY `
-        # and nothing on screen distinguishes them. Quote it so the space is visible.
-        st["note"] = (f"the variable name is stored as '{name}', not {KEY_VAR} — it carries "
-                      f"whitespace or a case difference. The key was read anyway; rename it "
-                      f"so this deployment does not depend on that.")
-    elif k and name != KEY_VAR:
-        st["note"] = (f"the key was read from {shown}. The canonical name is {KEY_VAR}; "
-                      f"rename it so this deployment does not depend on a fallback.")
-    elif k and not k.startswith("sk-ant-"):
-        # Reported, not refused: key prefixes are Anthropic's to change, and refusing on
-        # one would be this file deciding a thing it does not own. The turn will say so.
-        st["note"] = (f"{shown} is attached but does not look like an Anthropic key "
-                      f"(no sk-ant- prefix). If a turn fails on authentication, that is why.")
-    elif _present_but_empty():
-        # Asked of every name the lookup accepts, not just the canonical one: a variable
-        # that exists and holds nothing is a different mistake from one that never
-        # arrived, and telling someone to set what they have set is the whole bug here.
-        st["note"] = (f"{', '.join(_present_but_empty())} is set but empty once quotes and "
-                      f"whitespace are stripped — the variable exists with no key in it.")
-    elif misses:
-        n = len(misses)
-        subject = ("one variable name looks close" if n == 1
-                   else f"{n} variable names look close")
-        st["note"] = (f"no {KEY_VAR} in this process, but {subject}" +
-                      (f": {', '.join(misses)}" if disclose else "") +
-                      f" — rename it to {KEY_VAR} exactly, with no spaces in the name.")
-    elif _on_a_platform() and not _configured_vars():
-        st["note"] = (
-            f"NOTHING configured reached this process — not {KEY_VAR}, and not one of the "
-            f"{len(_APP_VARS)} other variables this application reads — while the "
-            f"platform's own variables did arrive. That is not a mistyped key: the whole "
-            f"variable set is attached to a different service or a different environment "
-            f"from the one serving this domain. Open the service this domain routes to, "
-            f"in that environment, and check whether its Variables tab is empty.")
-    elif _on_a_platform():
-        st["note"] = (f"no {KEY_VAR} reached this process, though it is running on a "
-                      f"platform. A project- or environment-level variable is NOT injected "
-                      f"until the service references it: set {KEY_VAR} on THIS service's "
-                      f"own Variables tab, in the environment the live domain points at, "
-                      f"and redeploy.")
-    else:
-        st["note"] = f"no {KEY_VAR} in the environment — set it and restart."
-    return st
+    return (os.environ.get(KEY_VAR) or "").strip() or None
 
 
 def model():
@@ -265,8 +78,7 @@ def _client():
     if _client_factory:
         return _client_factory()
     import anthropic
-    # Pass the CLEANED key rather than letting the SDK re-read the raw variable: the whole
-    # point of _clean is that the raw one may carry a newline the header layer rejects.
+    # The stripped key, not the raw variable the SDK would otherwise re-read for itself.
     return anthropic.Anthropic(api_key=key())
 
 
@@ -394,15 +206,10 @@ def stream_turn(body, identity=None):
     but the shape checks apply either way, because those bound one request's cost rather
     than one caller's rate.
     """
-    if not _client_factory:
-        st = state(disclose=True)
-        if not st["on"]:
-            # The reason travels with the refusal. "The rail is off" without it is the
-            # error message that sent an operator round the loop of re-setting a variable
-            # that was already set.
-            yield _sse("error", {"error": f"the rail is off — {st['note']}",
-                                 "honest": True, "rail": st})
-            return
+    if not (key() or _client_factory):
+        yield _sse("error", {"error": "no ANTHROPIC_API_KEY attached — the rail is off",
+                             "honest": True})
+        return
 
     refusal = limits.check_shape(body)
     if refusal is None and identity is not None:

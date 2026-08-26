@@ -104,19 +104,15 @@ def health(request: Request, response: Response):
     except ImportError:
         schema_ok = False
     counts = core.overview()["counts"]
-    # Imported here rather than at module scope: the rail pulls in the 24-tool registry,
-    # and health has to answer even on a deployment where that is the broken thing.
+    # rail.key(), not a second reading of the environment: two readers of one variable can
+    # disagree, and the one the browser believes would be the one that never runs a turn.
     from . import rail
-    # `rail_state` carries WHY the rail is off. `rail` stays a bare bool because the app's
-    # older builds and the e2e fixtures read it; it is now rail_state["on"], never a
-    # second reading of the environment that could disagree with the reason beside it.
-    rail_state = rail.state(disclose=auth.authorised(request))
-    # No-store, because this is the endpoint an operator refreshes to see whether the
-    # variable they just set took effect. A heuristically-cached 200 answers with the
-    # state before the fix and reads as "the fix did not work".
+    # An operator refreshes this endpoint to see whether a change took effect, and it
+    # carries no validators — a heuristically cached 200 answers with the state before the
+    # change and reads as the change not working.
     response.headers["Cache-Control"] = "no-store, max-age=0"
     return {"ok": schema_ok, "jsonschema": schema_ok, "counts": counts,
-            "rail": rail_state["on"], "rail_state": rail_state,
+            "rail": bool(rail.key()),
             "auth": auth.state(), "limits": limits.state(),
             # /api/health is deliberately ungated (the platform healthcheck has no
             # credentials), so it must not enumerate hostnames. allowed_hosts can carry

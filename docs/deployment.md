@@ -61,53 +61,21 @@ subject — two people who typed the same password still get separate budgets. A
 audit below for why that flag exists. Putting Cloudflare Access in front later is
 therefore configuration, not a rewrite.
 
-**The rail's credential is read tolerantly and reports what it forgave**
-(`workbench/server/rail.py`). Reported from a live deployment: the key was set as a
-platform variable and the panel still read *"No ANTHROPIC_API_KEY is attached to the
-server."* That sentence was `bool(os.environ.get("ANTHROPIC_API_KEY"))` rendered as prose —
-true of exactly one of the ways the rail can be dark, and asserted for all of them. An
-operator who HAD set the key was told to set the key, with nothing to do next.
+**The rail's key is read once, and stripped** (`workbench/server/rail.py`). `bool(
+os.environ.get("ANTHROPIC_API_KEY"))` is true of a key pasted with a trailing newline, and
+a newline is not a legal header value — so `/api/health` reported the rail available and
+every turn then failed inside the SDK. The rail claiming it can answer and then not
+answering is the collapse this project refuses everywhere else, and it should not be
+reachable by a paste. `rail.key()` strips, returns None for nothing usable, and is the
+single reader: health, the turn's own gate and the client the turn builds all go through
+it, so no two of them can disagree about whether the rail is on.
 
-Six states are now kept apart, and the reason travels with the flag. Absent. Present but
-empty once quotes and whitespace come off. A NAME carrying whitespace — Railway's raw
-editor stores `ANTHROPIC_API_KEY ` verbatim and `os.environ.get` never sees it again. A
-near-miss spelling, which is detected by shape rather than substring because the commonest
-typo is a transposition (`ANTRHOPIC_API_KEY`) and that reads as correct to the eye that
-typed it. Nothing set at all *on a machine carrying platform markers* — the project-scope
-variable a service never referenced, which is the likeliest cause on Railway and the one
-"set the key" is useless advice for. And the SDK not installed, which is a key that is
-attached and still cannot run.
-
-A seventh state was added after the live deployment's `/api/health` was actually read, and
-it is the one that answered the report. The response showed `mcp.allowed_hosts` carrying
-`traditional-design-language-production.up.railway.app` — a hostname discovered by scanning
-`RAILWAY_*`, so the platform's own variables were plainly arriving — and `auth.required:
-false` in the same breath, meaning `WORKBENCH_PASSWORD` had not. Two unrelated variables
-missing at once is not a mistyped key. It is the whole configured set attached to a
-different service, or a different environment, from the one serving the domain. `rail.py`
-asks that question directly now: if the process carries platform markers and *none* of the
-fifteen variables this application reads has arrived, the note says so and sends the
-operator to the service's Variables tab rather than to one row of it. `PORT` is
-deliberately excluded from that fifteen — the platform injects it, so its presence proves
-nothing about whether anybody's configuration arrived, and counting it would silence the
-finding.
-
-Three tolerances, each for a failure a variable editor actually produces rather than an
-imagined one: the value is stripped of surrounding quotes and whitespace (a trailing
-newline makes an invalid HTTP header, so the rail would report itself ON and then fail
-every turn), the name is matched after stripping, and four alias spellings are read. Each
-is *named* in the note when used — a tolerance that hides what it forgave is how the next
-person loses the same afternoon. The cleaned value is passed to the SDK explicitly rather
-than left for it to re-read the raw variable.
-
-Two disclosure rules came with it. Near-miss variable NAMES go only to an authorised
-caller, on the same reasoning as `mcp.allowed_hosts`, and no variable's VALUE is ever read,
-reported or logged for any name but the credential's own. And `/api/health` now sends
-`Cache-Control: no-store` — it is the endpoint an operator refreshes to see whether the
-variable they just set took effect, it carries no validators, and a heuristically cached
-200 answering with the state before the fix reads exactly like the fix not working. The
-client's `fresh: true` had the same hole: it skipped the app's own map and then took the
-browser's cache.
+`/api/health` also sends `Cache-Control: no-store` now. It is the endpoint an operator
+refreshes to see whether a change took effect and it carries no validators, so a
+heuristically cached 200 answers with the state from before the change — which reads
+exactly like the change not working. The client had the same hole from the other side:
+`fresh: true` skipped the app's own map and then took the browser's cache, which is not
+what the flag promises its one caller.
 
 **Caps on the rail** (`workbench/server/limits.py`). Two different things needed bounding
 and only one of them is a rate.
@@ -335,18 +303,7 @@ Everything below is done once, by hand, in the named service's own UI.
    - `WORKBENCH_SECRET` — 32 random bytes (`python3 -c "import secrets;
      print(secrets.token_urlsafe(32))"`). Without it sessions still work but are signed
      with a per-process key, so everyone is logged out on every restart.
-   - `ANTHROPIC_API_KEY` — the dedicated key from step 1. **Set it on THIS service's own
-     Variables tab, in the environment the live domain points at.** A project-level or
-     shared variable is not injected into a service until that service references it, and
-     the symptom is indistinguishable from never having set it: the rail panel goes dark
-     and the server reports no key. Two other ways this goes wrong on a real variable
-     editor, both now forgiven and both now *reported* rather than forgiven silently — a
-     trailing space in the variable NAME (stored verbatim; `os.environ.get` never sees it
-     again), and a value pasted with surrounding quotes or a trailing newline (the newline
-     makes an invalid HTTP header, so the rail comes up "on" and then fails every turn).
-     When the rail is off, `/api/health` → `rail_state.note` names which of these it is;
-     read that before changing anything. Log in first — the near-miss variable NAMES are
-     shown only to an authorised caller, for the same reason `mcp.allowed_hosts` is.
+   - `ANTHROPIC_API_KEY` — the dedicated key from step 1.
    - `WORKBENCH_API_TOKEN` — the bearer token for non-browser callers. Required if you
      want the `/mcp` endpoint reachable; agents authenticate with nothing else.
    - `WORKBENCH_ALLOWED_HOSTS` — *usually unnecessary*. `mcp_mount` scans the environment

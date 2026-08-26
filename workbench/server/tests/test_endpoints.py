@@ -8,32 +8,17 @@ def test_health(client):
     assert r["counts"]["styles"] == 164
 
 
-def test_health_says_why_the_rail_is_off(client, monkeypatch):
-    """`rail` was a bare bool, so a dark panel could only say one thing and it was often
-    the wrong thing. The reason travels with it now, and the two cannot disagree because
-    both come from rail.state()."""
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
-    r = client.get("/api/health").json()
-    assert r["rail"] is r["rail_state"]["on"]
-    assert r["rail_state"]["note"]
-
-
 def test_health_is_never_cached(client):
-    """The endpoint an operator refreshes to see whether the variable they just set took
-    effect. It carries no validators, so without this a heuristically cached 200 answers
-    with the state before the fix — which reads exactly like the fix not working."""
+    """This is the endpoint an operator refreshes to see whether a change took effect, and
+    it carries no validators — a heuristically cached 200 answers with the state before the
+    change and reads exactly like the change not working."""
     r = client.get("/api/health")
     assert "no-store" in r.headers.get("cache-control", "")
 
 
-def test_health_does_not_enumerate_variable_names_to_the_open_internet(client, monkeypatch):
-    """/api/health is ungated for the platform healthcheck, so an operator's own variable
-    names are shown only to an authorised caller — the same rule as mcp.allowed_hosts."""
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
-    monkeypatch.setenv("ANTRHOPIC_API_KEY", "sk-ant-never-printed")
-    monkeypatch.setenv("WORKBENCH_PASSWORD", "shibboleth")   # makes the caller unauthorised
-    body = client.get("/api/health").text
-    assert "ANTRHOPIC_API_KEY" not in body and "sk-ant-never-printed" not in body
+def test_health_reports_the_rail_from_the_same_reading_the_turn_uses(client, monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "  ")   # truthy to bool(), worth nothing
+    assert client.get("/api/health").json()["rail"] is False
 
 
 def test_overview_counts(client):
