@@ -49,8 +49,13 @@ def main():
         print("--- lazy tiers: COULD NOT EVALUATE (no dist/ — run npm run build first)")
     else:
         print("--- lazy tiers")
-        entry = [f for f in os.listdir(dist) if f.startswith("index-") and f.endswith(".js")]
-        tiers = [f for f in os.listdir(dist) if f.startswith("coastlines-")]
+        # sorted(), because tests/test_determinism.py holds every directory read in this
+        # toolchain to a stable order and it caught these two the moment they were added.
+        # It matters here beyond tidiness: `entry[0]` below picks one of the matches, and
+        # an unsorted listdir would make WHICH one machine-specific.
+        names = sorted(os.listdir(dist))
+        entry = [f for f in names if f.startswith("index-") and f.endswith(".js")]
+        tiers = [f for f in names if f.startswith("coastlines-")]
         if not entry:
             print("FAIL: no entry chunk in dist/assets", file=sys.stderr)
             bad += 1
