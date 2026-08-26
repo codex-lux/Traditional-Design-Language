@@ -73,10 +73,14 @@ def test_partis_gate(client):
 
 
 def test_example_plan_no_traversal(client):
-    # traversal in the URL never reaches the handler — starlette resolves it to the SPA
-    # catch-all, which serves index.html, not the target file
+    # traversal in the URL never reaches the handler. WHICH refusal you get depends on the
+    # Starlette version -- older ones resolve the path to the SPA catch-all and serve
+    # index.html, newer ones normalise it and 404 before any route matches -- so asserting
+    # the mechanism pinned this test to a routing detail and it broke on a version bump
+    # that had made the refusal STRICTER. What must hold either way is that the target
+    # file's content is never served; that is what is asserted here.
     r = client.get("/api/plans/examples/../../CLAUDE.md")
-    assert "text/html" in r.headers.get("content-type", "")
+    assert r.status_code in (200, 404)
     assert "working notes for Claude Code" not in r.text
     # and the handler itself strips any path a caller could smuggle in
     from fastapi import HTTPException

@@ -185,8 +185,16 @@ def check_parti(rep, path, p, u):
 
     # A parti's door graph is declared once per pair by convention (compose.py's
     # symmetrise_doors mirrors it), so a one-sided door is correct. What is NOT
-    # correct is a room no door reaches at all: the composer would place it and the
-    # validator would then report it as unreachable, on every plan, forever.
+    # correct is a room no door reaches at all: the composer would place it and every
+    # plan built on this diagram would carry a room nobody can enter.
+    #
+    # WP-6.1: this comment used to end "and the validator would then report it as
+    # unreachable, on every plan, forever." It would not. `build/plan_check.py` has no
+    # reachability check of any kind — a room with zero doors produces no finding at all,
+    # and a declared door the placement cannot realise produces none either. This lint,
+    # over the 21 authored partis, is the ONLY reachability guard in the system, and it
+    # never sees a composed or placed plan. The plan-side check arrives with WP-6.2's
+    # drawn-house layer; until then, do not rely on the sentence this one replaced.
     reachable = set()
     for r in rooms:
         for d in (r.get("doors") or []):

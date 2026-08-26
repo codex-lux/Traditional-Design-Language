@@ -322,7 +322,10 @@ def export_ifc(plan, path, parti=None):
                 props = {"plan_id": pid, "style": style,
                          "tdl_id": f"{r['id']}-door-{di}", "room": r["id"], "to": to,
                          "width_ft": d.get("width_ft")}
-                seg = RP._shared(a, rects[to]) if (a and to in rects) else None
+                # WP-6.1: the door's own leaf and jambs decide whether it has a wall to
+                # sit in, not a flat 3.2 ft applied to every door alike (OQ 41/63)
+                seg = (RP._shared(a, rects[to], width_ft=(d.get("width_ft") or RP.DEFAULT_DOOR_FT))
+                       if (a and to in rects) else None)
                 if to == "exterior" or seg is None or key in drawn:
                     props["geometry_note"] = ("exterior door — leaf placement is the elevation "
                                               "generator's judgment, not the plan record's"

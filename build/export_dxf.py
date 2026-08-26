@@ -298,11 +298,14 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
                 if to == "exterior" or to not in idx or key in drawn:
                     continue
                 drawn.add(key)
-                seg = RP._shared(a, idx[to])
+                # WP-6.1: measured against THIS door's leaf and its jambs, not the flat
+                # 3.2 ft the draw test used to apply to every door alike. A closet door
+                # narrower than 3.2 ft is now exported rather than listed as undrawable,
+                # which is the export half of OQ 41/63.
+                seg = RP._shared(a, idx[to], width_ft=(d.get("width_ft") or RP.DEFAULT_DOOR_FT))
                 if not seg:
-                    # a declared door with no drawable shared wall (the solver's
-                    # programme-scaled floor can accept a run narrower than the
-                    # 3.2 ft draw test) — stated, never silently omitted
+                    # a declared door the placement gives no wall wide enough to hold —
+                    # stated, never silently omitted
                     doors_not_drawn.append(f"L{n} {r['id']}-{to}")
                     continue
                 (px, py), horiz = seg

@@ -7,9 +7,16 @@ the facade composes from it. Where a room cannot be made to fit on the grid the 
 off it, and every such relaxation is recorded as a compromise rather than hidden.
 
 Levels are solved jointly, not sequentially: candidate layouts are generated for each level and
-scored in pairs on vertical alignment — bearing lines that continue, wet rooms that stack, a
-stair that lands where it left. That is a harder problem than constraining the upper floor to
-the lower, and it finds arrangements the sequential method cannot.
+scored in pairs on vertical alignment — bearing lines that continue, and wet rooms that stack.
+That is a harder problem than constraining the upper floor to the lower, and it finds
+arrangements the sequential method cannot.
+
+This docstring claimed a third term — "a stair that lands where it left" — from the day it was
+written until WP-6.1, and `vertical_score` never had one: the branch meant for it assigns a
+variable and discards it without scoring anything (see the note there). `stacks_over` is read
+by neither engine, so a landing may sit anywhere over its own stair and nothing charges for it.
+It is scored for real in WP-6.3; until that lands this file says what it does, not what it
+was meant to do.
 
 When the rooms will not fit: grow the footprint first, then shrink rooms toward their bands,
 then drop optional rooms. A room below its furniture minimum is a defect that survives the
@@ -593,6 +600,14 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
         cx, cy = x + w / 2, y + h / 2
         over = any(vx <= cx <= vx + vw and vy <= cy <= vy + vh for (vx, vy, vw, vh) in wet_g.values())
         if not over: s += 8; notes.append(f"{ut[rid].get('name') or rid} sits over no wet room; its stack has nowhere to land.")
+    # WP-6.1, stated rather than removed, because the removal belongs with the fix (WP-6.3).
+    # This loop is the stair-stacking term this module's own docstring and docs/geometry.md
+    # have both advertised since they were written. It scores NOTHING: `st` is assigned and
+    # discarded, the body ends here, and no charge is ever added. Measured consequence on
+    # plans/tidewater-georgian-careful.json, whose record explicitly declares
+    # `landing.stacks_over = "stair"` and an `above` adjacency: the ground stair is placed at
+    # y 16.00-26.62 and the upper landing at y 30.00-40.08 — zero overlap, a landing that
+    # arrives over the dining room, and not one point charged for it.
     for rid in u:
         if C["rooms"].get(ut.get(rid, {}).get("type"), {}).get("function_class") != "circulation": continue
         st = next((k for k in g if C["rooms"].get(gt.get(k, {}).get("type"), {}).get("id") == "stair-hall"), None)

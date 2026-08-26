@@ -129,6 +129,62 @@ check(`upper level: no room label leaves its room (${upper.rooms} rooms)`
   + (upper.over.length ? ' — ' + upper.over.join('; ') : ''), upper.over.length === 0);
 await page.getByRole('button', { name: /^level 0$/ }).click().catch(() => {});
 await page.waitForTimeout(2000);
+
+// WP-6.1 — the sheet's openings say what they are, and the sheet owns up to what it
+// could not draw. Every assertion here is against something the page computed from the
+// record, never against a number written down twice.
+const openings = await page.evaluate(() => {
+  const marks = [...document.querySelectorAll('[data-door-type]')];
+  const note = document.querySelector('[data-plate-note]');
+  const title = document.querySelector('[data-plate-title]');
+  return {
+    total: marks.length,
+    types: [...new Set(marks.map((m) => m.getAttribute('data-door-type')))].sort(),
+    rooms: [...document.querySelectorAll('[data-room]')].map((g) => g.getAttribute('data-room')),
+    note: note ? note.textContent.replace(/\s+/g, ' ').trim() : '',
+    legend: !!document.querySelector('[data-legend="relaxation"]'),
+    titleText: title ? title.textContent : '',
+    diverged: document.querySelectorAll('[data-diverged]').length,
+  };
+});
+// vacuity first, as everywhere else in this walk: a selector that matches nothing must
+// not be able to pass the assertions that follow
+check(`the sheet draws door marks (${openings.total})`, openings.total >= 10);
+// the 5 ft pair between drawing room and dining room, and the 6 ft cased opening into the
+// stair hall, were BOTH drawn as one giant hinged leaf until this package, because no
+// renderer read `type` at all
+check(`door marks carry their type (${openings.types.join(', ')})`,
+  openings.types.includes('double') && (openings.types.includes('open')
+    || openings.types.includes('cased-opening')));
+// the undrawable disclosure: it must name pairs, and every room it names must be a room
+// this sheet actually drew — a caption naming phantoms would be a new kind of lie
+const undrawn = openings.note.match(/(\d+) declared door\(s\) without a drawable opening[^:]*:([^.]*)\./i);
+check('the sheet states the doors it could not draw', !!undrawn);
+if (undrawn) {
+  const named = undrawn[2].split(',').map((s) => s.trim()).filter(Boolean);
+  const ids = new Set([...openings.rooms, 'exterior']);
+  // ONE end must be a room this sheet drew, not both: "the other room is not placed on
+  // this level" is itself one of the reasons a door cannot be drawn, and the Tidewater
+  // record's breakfast-room door to the terrace is exactly that case. Requiring both ends
+  // would make the sheet unable to name the very doors it most needs to name.
+  const phantom = named.filter((p) => !p.split('–').some((r) => ids.has(r.trim())));
+  check(`the undrawable list names ${undrawn[1]} door(s), each touching a room on this sheet`
+    + (phantom.length ? ' — phantom: ' + phantom.join('; ') : ''),
+    Number(undrawn[1]) === named.length && phantom.length === 0);
+}
+// the △ is defined on the sheet that uses it, not only in the running prose of a caption
+check('the relaxation mark carries a legend', openings.legend || !/cut\(s\) off the bay line/i.test(openings.note));
+// a room drawn at a size its record does not declare says so, in the caption and on itself
+const divergedClaim = openings.note.match(/(\d+) room\(s\) are drawn at a size the record does not declare/i);
+check('rooms drawn off their declaration are marked and counted',
+  !divergedClaim || Number(divergedClaim[1]) === openings.diverged);
+// and the plate title survives its own line-wrapping: stripped of the interpuncts and the
+// zero-width spaces that let it fold, it must still be the whole name. Folded badly, this
+// title read 'WATER GEORGIAN, FIVE CAREFULLY PLANNED' — a different house.
+const flat = openings.titleText.replace(/[·​]/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+check(`the plate title is whole ("${flat.slice(0, 48)}")`,
+  flat.includes('tidewater') && flat.includes('georgian'));
+
 // the loupe's scroller, and one room's drawn dimensions, read the same way twice
 const scrollPos = () => page.evaluate(() => {
   const d = [...document.querySelectorAll('div')]

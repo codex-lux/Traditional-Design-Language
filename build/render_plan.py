@@ -108,6 +108,14 @@ def render(plan, path, scale=7.0):
     fp = plan.get("footprint", {})
     W, H = fp.get("width_ft", 40), fp.get("depth_ft", 30)
 
+    # WP-6.1: resolved up front rather than inside the level loop, because the sheet's
+    # banner has to state the totals and the banner is drawn before the plates.
+    level_openings = [derive_openings(lv["rooms"], W, H) for lv in levels]
+    all_undrawable = [u for op in level_openings for u in op["undrawable"]]
+    all_diverged = [d for lv in levels for d in declared_divergence(lv["rooms"])]
+    all_diverged.sort(key=lambda d: -abs(d["pct"]))
+    diverged_ids = {d["id"] for d in all_diverged}
+
     # ---------------------------------------------------------- WP-2.4 site / lot geometry
     # Model coordinates already put south (the street side, by the existing window-wall
     # convention below) at y=0 and north at y=H, origin at the building's own SW corner —
@@ -160,7 +168,9 @@ def render(plan, path, scale=7.0):
              f'{fp.get("bays","?")} BAYS OF {fp.get("bay_module_ft","?")} FT · '
              f'{_fmt(W)} x {_fmt(H)} · {fp.get("area_sf","?")} SF GROSS</text>')
     gr = plan.get("geometry_report", {})
+    banner_y = 70
     if gr:
+        banner_y = 84
         rl = gr.get("relaxations", {})
         # style=, not fill=: `.lb` sets a fill, and a class rule beats a presentation
         # attribute -- so this banner and the infeasibility line below it were computing a
@@ -174,9 +184,29 @@ def render(plan, path, scale=7.0):
         inf = gr.get("infeasible")
         if inf:
             n = len(inf.get("conflicts", []))
-            s.append(f'<text class="lb" x="{pad}" y="84" style="fill:{PAL["iron"]}">'
+            s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:{PAL["iron"]}">'
                      f'INFEASIBLE AS DECLARED — {n} CONFLICT(S) PROVEN; THIS DRAWING IS THE '
                      f'LEAST-BAD RELAXATION (SEE GEOMETRY_REPORT.INFEASIBLE)</text>')
+            banner_y += 14
+
+    # WP-6.1 — the two disclosures this sheet owed and did not make. The wording of the
+    # first is the DXF exporter's, verbatim: it has stated this since WP-5.1 while the SVG
+    # said nothing, which is the whole reason a kitchen could be drawn with none of its
+    # five declared doors and read as a kitchen nobody can enter.
+    if all_undrawable:
+        names = ", ".join(f'{u["from"]}–{u["to"]}' for u in all_undrawable[:6])
+        more = f" (+{len(all_undrawable)-6} MORE)" if len(all_undrawable) > 6 else ""
+        s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:{PAL["iron"]}">'
+                 f'{len(all_undrawable)} DECLARED DOOR(S) WITHOUT A DRAWABLE OPENING — '
+                 f'IN THE RECORD, NOT THE LINEWORK: {_esc(names.upper())}{more}</text>')
+        banner_y += 14
+    if all_diverged:
+        w0 = all_diverged[0]
+        s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:{PAL["copper"]}">'
+                 f'{len(all_diverged)} ROOM(S) DRAWN AT A SIZE THE RECORD DOES NOT DECLARE, '
+                 f'MARKED ∗ — WORST {_esc((w0["name"] or "").upper())} '
+                 f'{"+" if w0["pct"] > 0 else ""}{w0["pct"]:.0f}% BY AREA</text>')
+        banner_y += 14
 
     for i, lv in enumerate(levels):
         ox = pad + i*(panel_w+gap) + extra_left; oy = top + extra_top
@@ -252,6 +282,13 @@ def render(plan, path, scale=7.0):
             tail = ""
             if g.get("void"):
                 tail = "roofed, unheated" if g["void"].get("roofed") else "open to sky"
+            # ∗ — DRAWN at a size the record does not declare. It is NOT part of `dim`,
+            # and that is the point: tests/test_drawn_labels.py freezes this line because
+            # OQ 55's void disclosure once rode on it, and anything that LENGTHENS the
+            # string shrinks the fitted size until the dimension drops out of every narrow
+            # room. The mark is drawn beside the string instead, off the same per-character
+            # estimate the fitter uses, so the fit is untouched.
+            star = "∗" if r["id"] in diverged_ids else ""
             dim = f'{_fmt(min(w,h))} x {_fmt(max(w,h))} · {g["area_sf"]} sf'
 
             def lay(box_w, box_h):
@@ -287,70 +324,90 @@ def render(plan, path, scale=7.0):
             if dsize:
                 s.append(f'<text class="dm" x="{cx:.1f}" y="{below + dsize:.1f}" '
                          f'style="font-size:{dsize:.2f}px" text-anchor="middle">{_esc(dim)}</text>')
+                if star:
+                    # 0.60 per character is the fitter's own advance estimate, three lines up
+                    sx = cx + 0.30 * dsize * len(dim) + 0.30 * dsize
+                    s.append(f'<text class="dm" x="{sx:.1f}" y="{below + dsize:.1f}" '
+                             f'style="font-size:{dsize:.2f}px;fill:{PAL["copper"]}">{star}</text>')
                 below += dsize * 1.5
+            elif star:
+                # the room is too small to carry its dimension string at all; the mark still
+                # belongs on it, because a room drawn off its declaration is exactly the
+                # room a reader must not take on trust
+                s.append(f'<text class="dm" x="{cx:.1f}" y="{below + 5.0:.1f}" '
+                         f'style="font-size:5.00px;fill:{PAL["copper"]}" '
+                         f'text-anchor="middle">{star}</text>')
             if tail:
                 s.append(f'<text class="dm" x="{cx:.1f}" y="{below + tsize:.1f}" '
                          f'style="font-size:{tsize:.2f}px;fill:{PAL["brass"]}" '
                          f'text-anchor="middle">{_esc(tail)}</text>')
             s.append('</g>')
-        # windows on exterior walls
-        for r in lv["rooms"]:
-            g = r.get("geometry")
-            if not g: continue
-            x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
-            for win in (r.get("windows") or []):
-                wall = win.get("wall"); n = win.get("count") or 1
-                for k in range(n):
-                    t = (k+1)/(n+1)
-                    ww = (win.get("width_ft") or 3)*scale*0.9
-                    if wall == "S" and y <= 0.6:
-                        cx = X(x + w*t); s.append(f'<line class="win" x1="{cx-ww/2:.1f}" y1="{Y(0):.1f}" x2="{cx+ww/2:.1f}" y2="{Y(0):.1f}"/>')
-                    elif wall == "N" and y+h >= H-0.6:
-                        cx = X(x + w*t); s.append(f'<line class="win" x1="{cx-ww/2:.1f}" y1="{Y(H):.1f}" x2="{cx+ww/2:.1f}" y2="{Y(H):.1f}"/>')
-                    elif wall == "W" and x <= 0.6:
-                        cy = Y(y + h*t); s.append(f'<line class="win" x1="{X(0):.1f}" y1="{cy-ww/2:.1f}" x2="{X(0):.1f}" y2="{cy+ww/2:.1f}"/>')
-                    elif wall == "E" and x+w >= W-0.6:
-                        cy = Y(y + h*t); s.append(f'<line class="win" x1="{X(W):.1f}" y1="{cy-ww/2:.1f}" x2="{X(W):.1f}" y2="{cy+ww/2:.1f}"/>')
-        # doors where two rooms touch
-        idx = {r["id"]: r.get("geometry") for r in lv["rooms"] if r.get("geometry")}
-        drawn = set()
-        for r in lv["rooms"]:
-            a = idx.get(r["id"])
-            if not a: continue
-            for d in (r.get("doors") or []):
-                t = d["to"]
-                key = tuple(sorted((r["id"], t)))
-                if t == "exterior" or t not in idx or key in drawn: continue
-                drawn.add(key); b = idx[t]
-                seg = _shared(a, b)
-                if not seg: continue
-                (px, py), horiz = seg
-                dw = 3.0*scale/2
-                if horiz: s.append(f'<line class="dr" x1="{X(px)-dw:.1f}" y1="{Y(py):.1f}" x2="{X(px)+dw:.1f}" y2="{Y(py):.1f}"/>')
-                else: s.append(f'<line class="dr" x1="{X(px):.1f}" y1="{Y(py)-dw:.1f}" x2="{X(px):.1f}" y2="{Y(py)+dw:.1f}"/>')
-                # WP-2.2: render door swings -- a quarter-circle leaf sweep, hinged at one end
-                # of the opening, into whichever of the two rooms sits on the far side (`b`,
-                # i.e. `t`/the door's own "to" room, for a consistent convention). Radius is
-                # the door's own drawn width (2*dw); direction is read off the two rooms'
-                # centres, not assumed, so it swings the right way whichever side b is on.
-                swing_r = 2 * dw          # NOT named `r` -- the outer loop variable is `r` (the room)
-                if horiz:
-                    a_cy = a["y_ft"] + a["depth_ft"] / 2
-                    b_cy = b["y_ft"] + b["depth_ft"] / 2
-                    up = b_cy > a_cy       # b is north of a -> swing toward model-north -> screen-up
-                    hx, hy = X(px) - dw, Y(py)
-                    ex, ey = hx, hy + (-swing_r if up else swing_r)
-                    sweep = 0 if up else 1
-                else:
-                    a_cx = a["x_ft"] + a["width_ft"] / 2
-                    b_cx = b["x_ft"] + b["width_ft"] / 2
-                    right = b_cx > a_cx    # b is east of a
-                    hx, hy = X(px), Y(py) - dw
-                    ex, ey = hx + (swing_r if right else -swing_r), hy
-                    sweep = 1 if right else 0
-                s.append(f'<path d="M {hx:.1f} {hy:.1f} A {swing_r:.1f} {swing_r:.1f} 0 0 {sweep} {ex:.1f} {ey:.1f}" '
+        # openings -- windows into the run the doors leave, then the doors themselves
+        op = level_openings[i]
+        for win in op["windows"]:
+            ww = win["width_ft"] * scale * 0.9
+            wl, p = win["wall"], win["at_ft"]
+            if wl in ("S", "N"):
+                cx, yy = X(p), Y(0 if wl == "S" else H)
+                s.append(f'<line class="win" x1="{cx-ww/2:.1f}" y1="{yy:.1f}" x2="{cx+ww/2:.1f}" y2="{yy:.1f}"/>')
+            else:
+                cy, xx = Y(p), X(0 if wl == "W" else W)
+                s.append(f'<line class="win" x1="{xx:.1f}" y1="{cy-ww/2:.1f}" x2="{xx:.1f}" y2="{cy+ww/2:.1f}"/>')
+
+        def _door(px, py, horiz, width, dtype, swing_positive):
+            """One opening drawn as the KIND of opening it is. Until WP-6.1 `type` was read
+            by no renderer at all, so a pair of doors and a cased opening were both drawn as
+            one enormous hinged leaf with an arc to match -- which is what a reader saw as
+            'a massive door' with 'no rhyme or reason' to its size."""
+            half = width * scale / 2
+            if horiz: s.append(f'<line class="dr" x1="{X(px)-half:.1f}" y1="{Y(py):.1f}" x2="{X(px)+half:.1f}" y2="{Y(py):.1f}"/>')
+            else: s.append(f'<line class="dr" x1="{X(px):.1f}" y1="{Y(py)-half:.1f}" x2="{X(px):.1f}" y2="{Y(py)+half:.1f}"/>')
+            if horiz: ax0, ay0, bx0, by0 = X(px)-half, Y(py), X(px)+half, Y(py)
+            else:     ax0, ay0, bx0, by0 = X(px), Y(py)-half, X(px), Y(py)+half
+
+            def jambs():
+                t = 3.0
+                for jx, jy in ((ax0, ay0), (bx0, by0)):
+                    if horiz: s.append(f'<line x1="{jx:.1f}" y1="{jy-t:.1f}" x2="{jx:.1f}" y2="{jy+t:.1f}" stroke="{PAL["ink3"]}" stroke-width="1"/>')
+                    else:     s.append(f'<line x1="{jx-t:.1f}" y1="{jy:.1f}" x2="{jx+t:.1f}" y2="{jy:.1f}" stroke="{PAL["ink3"]}" stroke-width="1"/>')
+
+            def leaf(hx, hy, radius, tox, toy, sweep):
+                if horiz: ex, ey = hx, hy + (-radius if swing_positive else radius)
+                else:     ex, ey = hx + (radius if swing_positive else -radius), hy
+                s.append(f'<path d="M {ex:.1f} {ey:.1f} A {radius:.1f} {radius:.1f} 0 0 {sweep} {tox:.1f} {toy:.1f}" '
                          f'fill="none" stroke="{PAL["ink3"]}" stroke-width="0.6" stroke-dasharray="2 2"/>')
                 s.append(f'<line x1="{hx:.1f}" y1="{hy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" stroke="{PAL["ink3"]}" stroke-width="0.6"/>')
+
+            # sweep flag follows the hinge-to-far-jamb direction, as WP-2.2 established
+            sw = (0 if swing_positive else 1) if horiz else (1 if swing_positive else 0)
+            if dtype == "double":
+                mx, my = (ax0 + bx0) / 2, (ay0 + by0) / 2
+                leaf(ax0, ay0, half, mx, my, sw)
+                leaf(bx0, by0, half, mx, my, 1 - sw)
+            elif dtype in ("cased-opening", "open"):
+                jambs()                                    # a lining and no leaf
+            elif dtype == "pocket":
+                jambs()
+                if horiz: s.append(f'<line x1="{ax0-2*half:.1f}" y1="{ay0:.1f}" x2="{ax0:.1f}" y2="{ay0:.1f}" stroke="{PAL["ink3"]}" stroke-width="0.6" stroke-dasharray="3 2"/>')
+                else:     s.append(f'<line x1="{ax0:.1f}" y1="{ay0-2*half:.1f}" x2="{ax0:.1f}" y2="{ay0:.1f}" stroke="{PAL["ink3"]}" stroke-width="0.6" stroke-dasharray="3 2"/>')
+            elif dtype in ("garage", "bulkhead"):
+                jambs()
+                dash = ' stroke-dasharray="4 3"' if dtype == "bulkhead" else ''
+                s.append(f'<line x1="{ax0:.1f}" y1="{ay0:.1f}" x2="{bx0:.1f}" y2="{by0:.1f}" stroke="{PAL["ink3"]}" stroke-width="1.2"{dash}/>')
+            else:
+                leaf(ax0, ay0, 2 * half, bx0, by0, sw)
+
+        for d in op["interior"]:
+            px, py = (d["pos_ft"], d["at_ft"]) if d["horiz"] else (d["at_ft"], d["pos_ft"])
+            _door(px, py, d["horiz"], d["width_ft"], d["type"], d["swing_positive"])
+        # exterior doors. This renderer drew NONE of them until WP-6.1 -- it `continue`d on
+        # `t == "exterior"` -- so every front and back door in the corpus was missing from
+        # every Python-rendered sheet, and the DXF and IFC exports inherited the gap.
+        for d in op["exterior"]:
+            wl, p = d["wall"], d["at_ft"]
+            horiz = wl in ("S", "N")
+            px, py = (p, 0.0 if wl == "S" else H) if horiz else (0.0 if wl == "W" else W, p)
+            _door(px, py, horiz, d["width_ft"], d["type"], wl in ("S", "W"))
         # P7 -- a compromise is counted AND appears on the drawing, at its location (OQ 33).
         # The tally above this level's plate has always been honest; until 26 Aug 2026 the
         # solvers recorded a relaxation as a bare number, so neither this renderer nor the
@@ -385,6 +442,17 @@ def render(plan, path, scale=7.0):
         # and again: `.pt` sets a stroke, so the scale bar was drawn as a partition line
         s.append(f'<line class="pt" x1="{X(0):.1f}" y1="{Y(0)+22:.1f}" x2="{X(10):.1f}" y2="{Y(0)+22:.1f}" style="stroke:{PAL["brass"]}"/>')
         s.append(f'<text class="dm" x="{X(0):.1f}" y="{Y(0)+34:.1f}">10 ft</text>')
+        # WP-6.1: the △ has been drawn since OQ 33 and defined only in the banner's running
+        # prose. A reader meeting it on the drawing had nothing to read it BY, and reported
+        # it as arrows that "seem to point to anything and everything". A symbol a drawing
+        # uses is a symbol the drawing defines.
+        if (gr.get("relaxations", {}) or {}).get("count"):
+            lx, ly = X(0) + 90, Y(0) + 30
+            s.append(f'<path d="M {lx:.1f} {ly-4.5:.1f} L {lx+4.0:.1f} {ly+3.0:.1f} '
+                     f'L {lx-4.0:.1f} {ly+3.0:.1f} Z" fill="{PAL["paper"]}" '
+                     f'stroke="{PAL["ink"]}" stroke-width="1"/>')
+            s.append(f'<text class="dm" x="{lx+9:.1f}" y="{ly+3:.1f}">'
+                     f'a cut off the bay line — no bearing wall under it</text>')
         # north arrow: a real glyph, not just the caption, since screen-up is model-north by
         # this file's own X/Y convention above. street_bearing_deg (WP-2.4, from `site`) is
         # reported as a label rather than used to rotate the drawing -- the room rectangles
@@ -402,17 +470,207 @@ def render(plan, path, scale=7.0):
     open(path, "w").write("\n".join(s))
     return path
 
-def _shared(a, b, tol=0.4):
+# ------------------------------------------------------------------ opening geometry
+# WP-6.1. These five numbers and four helpers are the whole of what an opening needs to be
+# drawn, and they are duplicated ON PURPOSE in workbench/app/src/sheet/derive.js -- the two
+# renderers of one record must not quietly disagree, and until this package they did, about
+# exterior doors (this file drew none), about door width (this file hardcoded 3 ft) and
+# about door TYPE (neither read it). tests/fixtures/sheet_symbols/*.json is the contract
+# they are both held to; a change here that is not made there fails two suites.
+JAMB_FT = 0.35              # the reveal either side of a leaf
+MIN_SOLID_FT = 1.0          # masonry between two openings on one wall
+DEFAULT_DOOR_FT = 3.0
+DEFAULT_EXT_DOOR_FT = 3.5
+
+def required_wall_ft(width_ft):
+    """A door is the leaf AND its jambs; a wall run shorter than this cannot hold it.
+
+    Replaces a flat 3.2 ft test that refused to DRAW a door the solver would PROVE on
+    2 ft, so a closet door held as a fact and appeared in no drawing (OQ 41/63). A closet
+    door is genuinely narrower than a parlour's, and now draws at its own width."""
+    return width_ft + 2 * JAMB_FT
+
+def _shared_run(a, b, tol=0.4):
+    """Where two rooms touch, and over how much run: (at, lo, hi, horiz) or None.
+    Whether the run is ENOUGH is the caller's question -- it depends on the door."""
     ax, ay, aw, ah = a["x_ft"], a["y_ft"], a["width_ft"], a["depth_ft"]
     bx, by, bw, bh = b["x_ft"], b["y_ft"], b["width_ft"], b["depth_ft"]
     if abs((ax+aw)-bx) <= tol or abs((bx+bw)-ax) <= tol:
         x = bx if abs((ax+aw)-bx) <= tol else ax
         lo, hi = max(ay, by), min(ay+ah, by+bh)
-        if hi-lo > 3.2: return ((x, (lo+hi)/2), False)
+        if hi > lo: return (x, lo, hi, False)
     if abs((ay+ah)-by) <= tol or abs((by+bh)-ay) <= tol:
         y = by if abs((ay+ah)-by) <= tol else ay
         lo, hi = max(ax, bx), min(ax+aw, bx+bw)
-        if hi-lo > 3.2: return (((lo+hi)/2, y), True)
+        if hi > lo: return (y, lo, hi, True)
     return None
+
+def _shared(a, b, tol=0.4, need=None, width_ft=None):
+    """((px, py), horiz) at the middle of the shared run, or None if it will not hold the
+    door. `width_ft` states the leaf so the test is the door's own; `need` overrides the
+    run outright. Callers that pass neither keep the historical 3.2 ft floor."""
+    if need is None:
+        need = required_wall_ft(width_ft) if width_ft else 3.2
+    seg = _shared_run(a, b, tol)
+    if not seg: return None
+    at, lo, hi, horiz = seg
+    if hi - lo < need: return None
+    return (((lo+hi)/2, at), True) if horiz else ((at, (lo+hi)/2), False)
+
+def _boundary_wall(g, wall, W, H, tol=0.6):
+    """The run of a room's edge that lies on the footprint boundary: (wall, lo, hi)."""
+    x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
+    if wall == "S" and y <= tol: return ("S", x, x + w)
+    if wall == "N" and y + h >= H - tol: return ("N", x, x + w)
+    if wall == "W" and x <= tol: return ("W", y, y + h)
+    if wall == "E" and x + w >= W - tol: return ("E", y, y + h)
+    return None
+
+def _free_intervals(lo, hi, blocked):
+    free = [(lo, hi)]
+    for a, b in blocked:
+        nxt = []
+        for s, e in free:
+            if b <= s or a >= e: nxt.append((s, e)); continue
+            if a > s: nxt.append((s, min(a, e)))
+            if b < e: nxt.append((max(b, s), e))
+        free = nxt
+    return [(s, e) for s, e in free if e - s > 1e-6]
+
+def _distribute(free, n, unit_w):
+    """k+1 of n+1 spacing -- but over the run the doors have LEFT, not over the whole
+    wall. Spacing windows without looking at the doors is how the Tidewater sheet drew a
+    window on top of the centre passage's front door and the kitchen's back door."""
+    centres = [(s + unit_w/2, e - unit_w/2) for s, e in free]
+    centres = [(s, e) for s, e in centres if e - s >= -1e-9]
+    if not centres: return []
+    total = sum(max(0.0, e - s) for s, e in centres)
+    out = []
+    for k in range(n):
+        t = total * ((k + 1) / (n + 1))
+        acc, pos = 0.0, centres[0][0]
+        for s, e in centres:
+            ln = max(0.0, e - s)
+            if t <= acc + ln + 1e-9: pos = s + (t - acc); break
+            acc += ln
+        out.append(pos)
+    kept = []
+    for p in out:
+        if not kept or p - kept[-1] >= unit_w + MIN_SOLID_FT - 1e-9: kept.append(p)
+    return kept
+
+def derive_openings(rooms, W, H, tol=0.6):
+    """Every opening of one level, resolved to where it is drawn -- and every declared
+    opening that CANNOT be drawn, with the reason. The second half is the point: a door
+    with no drawable shared wall used to be `continue`d over in silence by this renderer
+    and by the workbench's, so the Tidewater kitchen's five declared interior doors were
+    drawn as none and the sheet said nothing. Only the DXF exporter has ever owned up.
+
+    `rooms` is a list of the level's room records, each carrying `geometry`."""
+    idx = {r["id"]: r for r in rooms if r.get("geometry")}
+    interior, exterior, undrawable = [], [], []
+    inferred_widths = 0
+    handled = set()
+    for r in rooms:
+        a = r.get("geometry")
+        if not a: continue
+        used_walls = set()
+        for d in (r.get("doors") or []):
+            to = d["to"]
+            is_ext = to == "exterior"
+            declared_w = d.get("width_ft")
+            width = declared_w or (DEFAULT_EXT_DOOR_FT if is_ext else DEFAULT_DOOR_FT)
+            if declared_w is None: inferred_widths += 1
+            dtype = d.get("type") or "swing"
+            if is_ext:
+                # the record has no field saying WHICH wall an exterior door is on (until
+                # WP-6.2), so it is inferred: the first declared exterior wall this
+                # placement put on the boundary, and never one already carrying a door
+                seat = None
+                for wl in (r.get("exterior_walls") or ["S", "N", "W", "E"]):
+                    if wl in used_walls: continue
+                    seat = _boundary_wall(a, wl, W, H, tol)
+                    if seat: break
+                if not seat:
+                    undrawable.append({"from": r["id"], "to": "exterior", "width_ft": width,
+                        "type": dtype,
+                        "reason": "no declared exterior wall of this room is on the footprint boundary here"})
+                    continue
+                wl, lo, hi = seat
+                used_walls.add(wl)
+                mid = (lo + hi) / 2
+                exterior.append({"room": r["id"], "wall": wl, "width_ft": width, "type": dtype,
+                                 "at_ft": mid, "inferred_wall": True,
+                                 "inferred_width": declared_w is None})
+                continue
+            key = tuple(sorted((r["id"], to)))
+            if key in handled: continue
+            handled.add(key)
+            if to not in idx:
+                undrawable.append({"from": r["id"], "to": to, "width_ft": width, "type": dtype,
+                    "reason": "the other room is not placed on this level"})
+                continue
+            seg = _shared_run(a, idx[to]["geometry"])
+            if not seg:
+                undrawable.append({"from": r["id"], "to": to, "width_ft": width, "type": dtype,
+                    "reason": "the placement leaves these two rooms no shared wall"})
+                continue
+            at, lo, hi, horiz = seg
+            need = required_wall_ft(width)
+            if hi - lo < need:
+                undrawable.append({"from": r["id"], "to": to, "width_ft": width, "type": dtype,
+                    "reason": f"they share {hi-lo:.1f} ft; this leaf and its jambs need {need:.1f} ft"})
+                continue
+            b = idx[to]["geometry"]
+            if horiz:
+                swing = (b["y_ft"] + b["depth_ft"]/2) > (a["y_ft"] + a["depth_ft"]/2)
+            else:
+                swing = (b["x_ft"] + b["width_ft"]/2) > (a["x_ft"] + a["width_ft"]/2)
+            interior.append({"pair": list(key), "from": r["id"], "to": to, "width_ft": width,
+                             "type": dtype, "at_ft": at, "pos_ft": (lo+hi)/2, "horiz": horiz,
+                             "swing_positive": bool(swing)})
+    # windows go into what the doors left
+    blocked = {}
+    for e in exterior:
+        blocked.setdefault((e["room"], e["wall"]), []).append(
+            (e["at_ft"] - e["width_ft"]/2 - MIN_SOLID_FT, e["at_ft"] + e["width_ft"]/2 + MIN_SOLID_FT))
+    windows, off_footprint, crowded = [], 0, 0
+    for r in rooms:
+        a = r.get("geometry")
+        if not a: continue
+        for win in (r.get("windows") or []):
+            n = win.get("count") or 1
+            ww = win.get("width_ft") or 3
+            seat = _boundary_wall(a, win.get("wall"), W, H, tol)
+            if not seat:
+                off_footprint += n; continue
+            wl, lo, hi = seat
+            pos = _distribute(_free_intervals(lo, hi, blocked.get((r["id"], wl), [])), n, ww)
+            crowded += n - len(pos)
+            for p in pos:
+                windows.append({"room": r["id"], "wall": wl, "width_ft": ww, "at_ft": p})
+    return {"interior": interior, "exterior": exterior, "undrawable": undrawable,
+            "windows": windows, "windows_off_footprint": off_footprint,
+            "windows_crowded": crowded, "inferred_widths": inferred_widths}
+
+def declared_divergence(rooms, tol_ft=0.5):
+    """Rooms DRAWN at a size their own record does not declare. The sheet prints the placed
+    rectangle -- it must, it is what was drawn -- and said nothing about the declaration it
+    departed from, so a kitchen declared 16 x 20 and placed at 63% of that area read as a
+    measurement of the declared room (OQ 54's silence, on the drawing rather than in the
+    report)."""
+    out = []
+    for r in rooms:
+        g = r.get("geometry")
+        dw, dl = r.get("width_ft"), r.get("length_ft")
+        if not g or not dw or not dl: continue
+        short, lng = min(g["width_ft"], g["depth_ft"]), max(g["width_ft"], g["depth_ft"])
+        dshort, dlng = min(dw, dl), max(dw, dl)
+        if abs(short - dshort) <= tol_ft and abs(lng - dlng) <= tol_ft: continue
+        da, pa = dw * dl, g["width_ft"] * g["depth_ft"]
+        out.append({"id": r["id"], "name": r.get("name") or r["id"], "declared_sf": da,
+                    "placed_sf": pa, "pct": ((pa - da) / da * 100) if da else 0.0})
+    out.sort(key=lambda d: -abs(d["pct"]))
+    return out
 
 def _esc(t): return (t or "").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
