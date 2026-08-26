@@ -7,6 +7,7 @@ import React from 'react';
 import { planDoc } from '../state/planDoc.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
+import { PlateViewer } from '../components/PlateViewer.jsx';
 
 const KINDS = [
   { id: 'elevation', label: 'front elevation' },
@@ -110,7 +111,8 @@ export function DrawingSet({ go }) {
           </div>
         )}
         {result?.svg && (
-          <div style={{ maxWidth: 1100 }}>
+          <div style={{ maxWidth: 1180 }}>
+            <PlateViewer label={'the ' + kind} height="clamp(420px, 74vh, 960px)">
             <div style={{ background: 'var(--paper)', border: '1px solid var(--ink-2)',
               boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px' }}>
               <div dangerouslySetInnerHTML={{ __html: result.svg.replace(
@@ -127,6 +129,7 @@ export function DrawingSet({ go }) {
                 </span>
               </div>
             </div>
+            </PlateViewer>
             {result.relaxations && (
               <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '10px 0 0' }}>
                 {result.relaxations.count} cut(s) off the bay line

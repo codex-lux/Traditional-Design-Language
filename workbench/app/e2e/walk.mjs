@@ -36,6 +36,73 @@ check('three-state panel present (could not evaluate)', /could not evaluate/i.te
 check('hill-climb honesty line present', /hill-climb/i.test(body));
 check('the proof is offered, not just the search', /prove placement/i.test(body));
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
+check('the sheet can be magnified to be read', /the sheet/i.test(body) && /1:1/.test(body));
+
+// Every room label must stay inside the room it names. The sheet fits each name by
+// measuring it, so the guarantee can be checked the same way — and this is the assertion
+// that would have caught BUTLER'S PANTRY drawn eleven feet long in a seven-foot room.
+const spill = await page.evaluate(() => {
+  const out = { rooms: 0, over: [] };
+  for (const g of document.querySelectorAll('svg g')) {
+    const ttl = g.firstElementChild;
+    if (!ttl || ttl.tagName !== 'title') continue;
+    const rect = g.querySelector('rect');
+    if (!rect) continue;
+    out.rooms += 1;
+    const room = rect.getBoundingClientRect();
+    for (const t of g.querySelectorAll('text')) {
+      const b = t.getBoundingClientRect();
+      if (b.width < 0.5) continue;
+      if (b.left < room.left - 1 || b.right > room.right + 1
+          || b.top < room.top - 1 || b.bottom > room.bottom + 1) {
+        out.over.push(`${ttl.textContent}: ${t.textContent}`);
+      }
+    }
+  }
+  return out;
+});
+// a selector that matched nothing would pass this vacuously, which is the one way an
+// honesty check can lie: the room count is asserted first
+check('the sheet draws the record\'s rooms', spill.rooms >= 8);
+check(`no room label leaves the room it names (${spill.rooms} rooms)`
+  + (spill.over.length ? ' — ' + spill.over.join('; ') : ''), spill.over.length === 0);
+// The caption offers a wall drag; until 26 Aug 2026 the handle was drawn with the rooms
+// and the partition on that very wall line covered it, so the gesture could not be
+// started. Press, raise the preview, come back and release — asserting the affordance
+// exists without leaving the record changed for the checks below.
+await page.locator('svg[role="img"] g rect').first().click({ position: { x: 4, y: 4 } }).catch(() => {});
+const handleLive = await (async () => {
+  const room = await page.evaluate(() => {
+    for (const g of document.querySelectorAll('svg g')) {
+      const t = g.firstElementChild;
+      if (t && t.tagName === 'title' && /Drawing Room/.test(t.textContent)) {
+        const b = g.querySelector('rect').getBoundingClientRect();
+        return { x: b.x + b.width / 2, y: b.y + b.height / 2 };
+      }
+    } return null;
+  });
+  if (!room) return null;
+  await page.mouse.click(room.x, room.y);
+  await page.waitForTimeout(400);
+  const h = await page.evaluate(() => {
+    const rs = [...document.querySelectorAll('[data-nopan]')].map((e) => e.getBoundingClientRect());
+    if (!rs.length) return null;
+    const r = rs.sort((a, b) => b.x - a.x)[0];
+    return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
+  });
+  if (!h) return null;
+  await page.mouse.move(h.x, h.y);
+  await page.mouse.down();
+  await page.mouse.move(h.x + 30, h.y, { steps: 6 });
+  const preview = await page.evaluate(() => [...document.querySelectorAll('line')]
+    .filter((l) => (l.getAttribute('stroke') || '').includes('gilt')
+      && l.getAttribute('stroke-dasharray')).length);
+  await page.mouse.move(h.x, h.y, { steps: 4 });
+  await page.mouse.up();
+  await page.waitForTimeout(1200);
+  return preview;
+})();
+check('a wall handle can still be grasped through the loupe', handleLive > 0);
 await page.screenshot({ path: SHOTS + 'workbench.png', fullPage: false });
 
 // style switch: same plan, different rules
@@ -75,6 +142,33 @@ await page.waitForSelector('text=five authorities', { timeout: 20000 });
 const prop = await page.locator('main').innerText();
 check('proportions: material modules lead', /material modules/i.test(prop));
 check('proportions: conflicts with building today', /conflicts with building today/i.test(prop));
+
+// The order is ONE stack. Until 26 Aug 2026 the plate added each assembly's base to
+// member positions that were already absolute, so the base floated clear of the plinth
+// and the cornice left the frame; both faults are gaps in the drawn column, and both
+// are caught by asking whether the bands cover their own extent without a hole in it.
+const plate = await page.evaluate(() => {
+  const svg = document.querySelector('main svg[role="img"]');
+  if (!svg) return { missing: true };
+  const view = svg.getBoundingClientRect();
+  const spans = [], out = { clipped: [], gap: 0, bands: 0 };
+  for (const p of svg.querySelectorAll('path')) {
+    const b = p.getBoundingClientRect();
+    if (b.height < 0.05) continue;
+    out.bands += 1;
+    spans.push([b.top, b.bottom]);
+    if (b.top < view.top - 1 || b.bottom > view.bottom + 1
+        || b.left < view.left - 1 || b.right > view.right + 1) out.clipped.push(p.querySelector('title')?.textContent || '?');
+  }
+  spans.sort((a, b) => a[0] - b[0]);
+  let end = spans.length ? spans[0][1] : 0;
+  for (const [t, b] of spans) { out.gap = Math.max(out.gap, t - end); end = Math.max(end, b); }
+  return out;
+});
+check('the order plate draws bands at all', plate.bands > 8);
+check('the order stands as one stack — no gap between its assemblies', plate.gap < 2);
+check('no member is drawn outside the plate' + (plate.clipped?.length ? ' — ' + plate.clipped.length : ''),
+  (plate.clipped || []).length === 0);
 await page.screenshot({ path: SHOTS + 'proportions-order.png' });
 
 // ⑨ Fault Corpus

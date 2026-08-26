@@ -146,6 +146,15 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     members = {a["id"]: a["members"] for a in d["assemblies"]}
     for a in out["assemblies"]:
         a["members"] = members.get(a["id"], [])
+    # The column record itself, for the plate that draws the stack against the shaft's
+    # own naked: a band's projection is measured FROM a datum, and above the astragal
+    # that datum is the diminished radius, not the lower one. Without diminution and
+    # entasis_begins_at the plate would have to assume a taper the authority may not
+    # publish -- chambers-corinthian begins its diminution at the base, gibbs at a third.
+    if pk.get("column"):
+        out["column"] = {k: v for k, v in pk["column"].items() if k in
+                         ("height_modules", "shaft_height_modules", "diminution",
+                          "entasis_begins_at", "fluting")}
     return out
 
 

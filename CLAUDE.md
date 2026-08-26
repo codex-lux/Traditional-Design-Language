@@ -195,9 +195,32 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   returned**, so this class cannot come back by an `m.update()`. To add a measurement to that
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
+- **A drawing the reader cannot magnify is a drawing whose dimensions do not exist**, and
+  three of the workbench's plate surfaces were fixed at whatever width their column of the
+  layout happened to be. `components/PlateViewer.jsx` is the loupe — mounted on the
+  Proportions plate, the Plan Workbench sheet and the Drawing Set — and it scales the WHOLE
+  plate by a CSS transform, so `getScreenCTM()` still maps back to model feet and the wall
+  handles keep working. It measures the outer PANE, never the scroller: a scrollbar
+  appearing inside the scroller narrows it, which re-fits the plate, which can make the
+  scrollbar go away again. That it magnifies the pen along with the drawing is **OQ 64**.
+- **A member's `y_bottom_in`/`y_top_in` are ABSOLUTE in the stack** — `proportion_engine
+  .dimension()` has already run the cumulative sum. `OrderPlate` added each assembly's own
+  base to them a second time and the Doric order came apart in the frame: the base 90 inches
+  clear of its plinth, the cornice out through the top. The captions beside it were drawn
+  from a separate and correct total, so the plate labelled a gap CAPITAL. All 26 order packs
+  are contiguous 0 → stack with no assembly disagreeing with its stated height; if a plate
+  shows a gap, the plate is wrong.
+- **A room's name has to fit in the room, and a fitted size written as an SVG `font-size`
+  ATTRIBUTE is ignored.** Both plan renderers now break the name across lines before
+  shrinking it, turn it along a slot room, and never truncate — `sheet/label.js` measures the
+  real face, `build/render_plan.py` estimates from a per-character table. In `render_plan.py`
+  the size must be written `style="font-size:…"`: a presentation attribute loses to that
+  sheet's own `.nm`/`.dm` rules, so the fit is computed, discarded, and the label runs through
+  the wall anyway. `e2e/walk.mjs` asserts no label leaves its room — and asserts the room
+  COUNT first, because a selector matching nothing passes that check vacuously.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 12 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **64 entries, of which 13 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message

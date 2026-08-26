@@ -7,7 +7,8 @@
    flipped inside <Model>. Ported from the mockup Sheet; generalised from its one
    hardcoded 64×44 plan to any footprint. */
 import React from 'react';
-import { WALL_T, levelRooms, partitions, windows, doors, bayLines, litWalls, ft } from './derive.js';
+import { WALL_T, PART_T, levelRooms, partitions, windows, doors, bayLines, litWalls, ft } from './derive.js';
+import { fitLabel, fitLine, useFontMetrics } from './label.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
@@ -147,7 +148,7 @@ function DragHandle({ x, y, axis, room, bays, onCommit }) {
             stroke="var(--gilt-deep)" strokeWidth="1.2" strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
         : <line x1={room.x} y1={-hy} x2={room.x + room.w} y2={-hy}
             stroke="var(--gilt-deep)" strokeWidth="1.2" strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />)}
-      <rect x={hx - 0.8} y={axis === 'y' ? -hy - 0.8 : -room.y - room.h / 2 - 0.8}
+      <rect data-nopan="" x={hx - 0.8} y={axis === 'y' ? -hy - 0.8 : -room.y - room.h / 2 - 0.8}
         width={1.6} height={1.6}
         fill="var(--paper-lit)" stroke="var(--gilt-deep)" strokeWidth="1.2"
         vectorEffect="non-scaling-stroke"
@@ -157,8 +158,45 @@ function DragHandle({ x, y, axis, room, bays, onCommit }) {
   );
 }
 
+/* Room lettering, fitted to the room it names. The pad is the partition drawn on the
+   room's own edge plus a hair of air: a label that touches the wall reads as running
+   into it even when it stops short. A room too small for its name and its dimensions
+   keeps the name — the dimension string is on the dimension lines as well, the name is
+   nowhere else. */
+const LABEL_PAD = PART_T / 2 + 0.55;
+const DIM_GAP = 0.42;
+
+function layLabel(r, boxW, boxH) {
+  if (boxW <= 0.5 || boxH <= 0.5) return null;
+  const dim = fitLine(`${ft(r.w)} × ${ft(r.h)}`, boxW, { preferred: 0.9, min: 0.55 });
+  const wantDim = Math.min(r.w, r.h) >= 5.5 && Math.max(r.w, r.h) >= 8 && dim.size >= 0.62;
+  const reserve = wantDim ? dim.size * 1.15 + DIM_GAP : 0;
+  const name = fitLabel(r.name.toUpperCase(), boxW, Math.max(1, boxH - reserve),
+    { preferred: 1.25, min: 0.55, track: 0.3, lead: 1.24, maxLines: 3 });
+  if (!name) return null;
+  // the dimensions go only where the name still reads at a working size beside them
+  const showDim = wantDim && name.size >= 0.7;
+  return { name, dim: showDim ? dim : null,
+           block: name.height + (showDim ? DIM_GAP + dim.size * 1.15 : 0) };
+}
+
+function roomLabel(r) {
+  const flat = layLabel(r, r.w - LABEL_PAD * 2, r.h - LABEL_PAD * 2);
+  // A closet, a stair or a hyphen is a slot: its name will not go across it at any size
+  // that can still be read, and the draughtsman's answer has always been to turn the
+  // lettering to run with the room. Turned only when it earns a materially larger
+  // letter — a label turned for a few percent is a label the reader has to work at.
+  const turned = r.h > r.w * 1.3
+    ? layLabel(r, r.h - LABEL_PAD * 2, r.w - LABEL_PAD * 2) : null;
+  const useTurned = turned && (!flat || turned.name.size > flat.name.size * 1.15);
+  const L = useTurned ? turned : flat;
+  if (!L) return null;
+  return { ...L, turned: !!useTurned, cx: r.x + r.w / 2, cy: -r.y - r.h / 2 };
+}
+
 export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, selectedRoom,
                         onPickRoom, onResizeRoom, title, subtitle, styleName }) {
+  useFontMetrics();          // re-fit every label once EB Garamond itself has arrived
   const ov = overlays || {};
   const fp = placement?.footprint || {};
   const W = fp.width_ft || 40, H = fp.depth_ft || 30;
@@ -179,14 +217,17 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // viewBox in model feet (y already negated screenward): margins for street, dims, bar
   const mL = 11, mR = 15, mT = hasLot ? Math.max(15, lotD - H - yOff + 8) : 15, mB = hasLot ? Math.max(9, yOff + 7) : 9;
   const view = { x: -mL, y: -H - mT, w: W + mL + mR, h: H + mT + mB + 6 };
-  const interpunct = (title || '').trim().split(/\s+/).join('·');
+  // a zero-width space after each interpunct: the title may fold at a word boundary,
+  // and never inside a word — without it 'TIDEWATER·GEORGIAN,·FIVE·BAYS,·CAREFULLY·
+  // PLANNED' is one unbreakable word and the plate clips whatever does not fit
+  const interpunct = (title || '').trim().split(/\s+/).join('·\u200B');
   const relax = placement?.geometry_report?.relaxations;
 
   return (
     <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
       boxShadow: 'var(--shadow-plate)', padding: '18px 22px 14px' }}>
       <div style={{ textAlign: 'center', margin: '4px 0 2px' }}>
-        <div style={{ font: 'var(--fw-med) 17px/1.25 var(--serif)', letterSpacing: 'var(--tr-drawing)',
+        <div style={{ font: 'var(--fw-med) 17px/1.35 var(--serif)', letterSpacing: 'var(--tr-drawing)',
           textTransform: 'uppercase', color: 'var(--ink)' }}>{interpunct}</div>
         <div style={{ font: 'var(--fw-reg) 11px/1.4 var(--serif)', letterSpacing: 'var(--tr-caps)',
           textTransform: 'uppercase', color: 'var(--ink-2)', marginTop: 4 }}>
@@ -273,35 +314,34 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         {/* rooms — clickable, because every mark reaches its record (P6) */}
         {rooms.map((r) => {
           const sel = selectedRoom === r.id;
-          const nameSize = Math.max(0.8, 1.25 * Math.min(1, r.w / 12.5));
-          const showDims = r.w >= 9 && r.h >= 6;
+          const lab = roomLabel(r);
           return (
             <g key={r.id} onClick={onPickRoom ? () => onPickRoom(r) : undefined}
               style={{ cursor: onPickRoom ? 'pointer' : 'default' }}>
+              <title>{`${r.name} — ${ft(r.w)} × ${ft(r.h)}`}</title>
               <rect x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
                 fill={sel ? 'var(--wash-salmon-1)' : 'transparent'}
                 stroke={sel ? 'var(--salmon-deep)' : 'transparent'} strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
-              <text x={r.x + r.w / 2} y={-r.y - r.h / 2 + (showDims ? -0.3 : 0.4)} fontSize={nameSize}
-                fontFamily="var(--serif)" letterSpacing={nameSize * 0.3} fill="var(--ink)"
-                textAnchor="middle">{r.name.toUpperCase()}</text>
-              {showDims && (
-                <text x={r.x + r.w / 2} y={-r.y - r.h / 2 + 1.8} fontSize=".9" fontFamily="var(--serif)"
-                  letterSpacing=".12" fill="var(--ink-2)" textAnchor="middle">{ft(r.w)} × {ft(r.h)}</text>
+              {lab && (
+                <g transform={lab.turned ? `rotate(-90 ${lab.cx} ${lab.cy})` : undefined}>
+                  {lab.name.lines.map((ln, i) => (
+                    <text key={'n' + i} x={lab.cx + lab.name.track / 2}
+                      y={lab.cy - lab.block / 2 + (i + 0.5) * lab.name.lead}
+                      fontSize={lab.name.size} fontFamily="var(--serif)"
+                      letterSpacing={lab.name.track} fill="var(--ink)"
+                      textAnchor="middle" dominantBaseline="middle">{ln}</text>
+                  ))}
+                  {lab.dim && (
+                    <text x={lab.cx + lab.dim.track / 2}
+                      y={lab.cy - lab.block / 2 + lab.name.height + DIM_GAP + lab.dim.size * 0.6}
+                      fontSize={lab.dim.size} fontFamily="var(--serif)" letterSpacing={lab.dim.track}
+                      fill="var(--ink-2)" textAnchor="middle" dominantBaseline="middle">{lab.dim.text}</text>
+                  )}
+                </g>
               )}
             </g>
           );
         })}
-
-        {/* drag a wall on the bay grid: handles on the selected room's east and north
-            edges; release writes back to the record and the validator re-scores */}
-        {onResizeRoom && rooms.filter((r) => r.id === selectedRoom).map((r) => (
-          <g key={'h' + r.id}>
-            <DragHandle x={r.x + r.w} y={r.y + r.h / 2} axis="x" room={r} bays={bays}
-              onCommit={(axis, size) => onResizeRoom(r, 'x', size)} />
-            <DragHandle x={r.x + r.w / 2} y={r.y + r.h} axis="y" room={r} bays={bays}
-              onCommit={(axis, size) => onResizeRoom(r, 'y', size)} />
-          </g>
-        ))}
 
         {/* partitions — pale sepia flesh, ink skin */}
         {parts.map((p, i) => (
@@ -385,15 +425,32 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           <text x="16" y="3" fontSize=".9" fontFamily="var(--serif)" letterSpacing=".18" fill="var(--ink-2)" textAnchor="middle">16</text>
           <text x="32" y="3" fontSize=".9" fontFamily="var(--serif)" letterSpacing=".18" fill="var(--ink-2)" textAnchor="middle">32 FT</text>
         </g>
+
+        {/* Drag a wall on the bay grid: handles on the selected room's east and north
+            edges; release writes back to the record and the validator re-scores.
+            LAST in the sheet, and that is the fix rather than the habit — a handle
+            drawn with the rooms sat under the partition on the very wall line it was
+            offered for, so `elementFromPoint` at the handle returned the partition and
+            the gesture the caption promised could not be started at all. An affordance
+            painted over is an affordance that does not exist. */}
+        {onResizeRoom && rooms.filter((r) => r.id === selectedRoom).map((r) => (
+          <g key={'h' + r.id}>
+            <DragHandle x={r.x + r.w} y={r.y + r.h / 2} axis="x" room={r} bays={bays}
+              onCommit={(axis, size) => onResizeRoom(r, 'x', size)} />
+            <DragHandle x={r.x + r.w / 2} y={r.y + r.h} axis="y" room={r} bays={bays}
+              onCommit={(axis, size) => onResizeRoom(r, 'y', size)} />
+          </g>
+        ))}
       </svg>
 
       {/* plate caption */}
       <div style={{ borderTop: '1px solid var(--rule)', margin: '4px 2px 0', padding: '8px 0 4px',
         display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 24 }}>
-        <div style={{ font: 'var(--fw-med) 10.5px/1.3 var(--serif)', letterSpacing: '.3em',
-          textTransform: 'uppercase', color: 'var(--ink)', whiteSpace: 'nowrap' }}>{interpunct}</div>
+        <div style={{ font: 'var(--fw-med) 10.5px/1.4 var(--serif)', letterSpacing: '.3em',
+          textTransform: 'uppercase', color: 'var(--ink)', flex: '0 1 auto',
+          minWidth: 0 }}>{interpunct}</div>
         <div style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)', color: 'var(--ink-2)',
-          textAlign: 'right' }}>
+          textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
           {relax
             ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft, each marked \u25B3 where it falls` : ''}. `
             : ''}
