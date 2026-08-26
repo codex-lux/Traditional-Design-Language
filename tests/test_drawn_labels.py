@@ -197,42 +197,63 @@ def test_every_order_pack_is_one_contiguous_stack():
     assert checked >= 25
 
 
-def test_a_projection_is_measured_two_different_ways_and_the_shaft_says_which():
-    """OQ 65. Thirteen packs record `projection_parts` as an offset from the member's own
-    naked and twelve as an absolute radius from the axis; nothing in a pack declares
-    which. The workbench plate reads it off the shaft — whose outer face at its foot IS
-    the column's radius by definition — so this pins that the discriminator stays
-    unambiguous. If a pack ever lands between the two readings the plate is guessing,
-    and this fails rather than letting it."""
+def test_every_pack_that_projects_declares_which_datum_it_projects_from():
+    """OQ 65, RULED 26 Aug 2026 — declare the datum on the pack.
+
+    Thirteen packs record `projection_parts` as an offset from the member's own naked and
+    twelve as an absolute radius from the axis, split by order across all five
+    authorities. Nothing said which, so every consumer derived it, and the one that got it
+    wrong drew Vignola's Ionic 2.25x too wide with the shaft narrower than its own
+    mouldings. The ruling is that the pack says so and the reader believes it.
+
+    What is pinned here is that the declaration is not merely PRESENT but TRUE — verified
+    against each pack's own geometry, which is the only thing that makes a declared field
+    better than a derived one. `build/check_orders.py` runs the same check on every build;
+    this is the suite's own copy of it, and it also pins that the value survives the
+    overlay cascade, which is where nineteen of the twenty-six get theirs."""
     pe = _load("proportion_engine")
-    offset, absolute, derived = [], [], []
+    seen = {"naked": 0, "axis": 0}
+    inherited = 0
     for pid, v in pe.PACKS.items():
         if v.get("kind") != "order-system":
             continue
-        pk = pe.resolve(pid)
-        d = pe.dimension(pk, 36.0, None)
-        # dimension() takes a MODULE, and a module is not a diameter — Vignola's Composite
-        # publishes a module of one diameter where Gibbs's Doric publishes one of a
-        # semidiameter, so the radius has to come from the engine's own totals
-        r0 = d["totals"]["lower_diameter_in"] / 2
-        shaft = next((a for a in d["assemblies"] if a["id"] == "shaft"), None)
-        if not shaft or not shaft["members"]:
-            continue
-        span = shaft["y_top_in"] - shaft["y_bottom_in"]
-        body = next((m for m in shaft["members"]
-                     if m["id"] != "shaft_derived"
-                     and (m["y_top_in"] - m["y_bottom_in"]) > span * 0.6), None)
-        if body is None:
-            derived.append(pid)
-            continue
-        p = body["projection_in"] or 0.0
-        if abs(p) < 0.01:
-            offset.append(pid)
-        elif abs(p - r0) < 0.51:
-            absolute.append(pid)
-        else:
-            raise AssertionError(
-                f"{pid}: shaft body projects {p} against a semidiameter of {r0} — neither "
-                f"reading fits, so the plate cannot tell what the figure means")
-    assert offset and absolute, (len(offset), len(absolute))
-    assert len(offset) + len(absolute) + len(derived) >= 25
+        r = pe.resolve(pid)
+        d = pe.dimension(r, 36.0, None)
+        declared = d["projection_datum"]
+        has_proj = any((m.get("projection_in") or 0)
+                       for a in d["assemblies"] for m in a.get("members", []))
+        if not has_proj:
+            continue                        # moorish-arch: no projections, nothing to say
+        assert declared in ("naked", "axis"), \
+            f"{pid} carries projections and declares no datum — a reader has to guess"
+        observed = pe.observed_projection_datum(d)
+        assert observed is None or observed == declared, \
+            f"{pid} declares '{declared}' and its own geometry reads '{observed}'"
+        seen[declared] += 1
+        if not v.get("projection_datum"):
+            inherited += 1
+    assert seen["naked"] and seen["axis"], seen           # both readings are still live
+    assert seen["naked"] + seen["axis"] >= 25
+    assert inherited >= 15, "the overlay cascade stopped carrying it"
+
+
+def test_the_datum_is_verified_and_not_merely_trusted():
+    """A declared field nobody checks is a comment. Declare the wrong thing and the
+    corpus's own checker must say so — including on every overlay that inherits it."""
+    import copy
+    pe = _load("proportion_engine")
+    pack = copy.deepcopy(pe.PACKS["vignola-ionic"])
+    assert pack["projection_datum"] == "axis"
+    pack["projection_datum"] = "naked"
+    saved = pe.PACKS["vignola-ionic"]
+    pe.PACKS["vignola-ionic"] = pack
+    try:
+        d = pe.dimension(pe.resolve("vignola-ionic"), 36.0, None)
+        assert d["projection_datum"] == "naked"
+        assert pe.observed_projection_datum(d) == "axis", "the observation stopped biting"
+        # and the lie travels down the cascade, which is why the checker walks resolved packs
+        dg = pe.dimension(pe.resolve("gibbs-ionic"), 36.0, None)
+        assert dg["projection_datum"] == "naked"
+        assert pe.observed_projection_datum(dg) == "axis"
+    finally:
+        pe.PACKS["vignola-ionic"] = saved

@@ -154,7 +154,11 @@ def resolve(pack_id, _seen=None):
     out["_resolved_from"] = base.get("_resolved_from", [base_id]) + [pack_id]
     out["_overlay_notes"] = []
 
-    for k in ("id", "name", "aka", "authority", "module", "confidence", "notes", "_file", "overlay_of"):
+    # projection_datum rides here rather than being inherited silently: an overlay that
+    # adds members of its own may measure them the other way, and OQ 65 is exactly what
+    # happens when nobody can say which way a figure was measured.
+    for k in ("id", "name", "aka", "authority", "module", "confidence", "notes", "_file",
+              "overlay_of", "projection_datum"):
         if k in pack: out[k] = pack[k]
 
     parts = out["module"]["parts"]
@@ -247,6 +251,9 @@ def dimension(pack, module_in=None, include=None):
     out = {"pack": pack["id"], "name": pack["name"], "engine_version": ENGINE_VERSION,
            "module_in": mod, "parts": parts, "part_in": part_in,
            "diameters_per_module": diameters_per_module(pack),
+           # OQ 65, ruled 26 Aug 2026: a consumer must never have to derive which datum a
+           # projection was measured from. It travels with the dimensions.
+           "projection_datum": pack.get("projection_datum"),
            "resolved_from": pack.get("_resolved_from", [pack["id"]]),
            "authority": pack.get("authority", {}).get("source"),
            "assemblies": [], "totals": {}}
@@ -294,6 +301,38 @@ def dimension(pack, module_in=None, include=None):
     ent = (pack.get("assemblies") or {}).get("entablature")
     if ent: out["totals"]["entablature_height_in"] = round(ent["height_modules"] * mod, 4)
     return out
+
+def observed_projection_datum(dimensioned):
+    """Which datum this pack's own geometry says its projections were measured from, or
+    None where the geometry cannot say. Evidence, not preference: the shaft's outer face
+    at its foot IS the column's radius, so a shaft body reading 0 was measured from its
+    naked and one reading the semidiameter was measured from the axis. Where the shaft is
+    DERIVED (an authority that publishes a column height and no shaft) the engine writes
+    its projection as 0 whatever the pack meant, so that is no evidence at all and the
+    capital answers instead: an abacus cannot stand INSIDE the shaft, so a capital whose
+    widest member is under the radius was measured from the naked.
+
+    This exists to CHECK the declared `projection_datum`, never to replace it. A pack that
+    declares one thing and draws another is a pack somebody should look at."""
+    r0 = (dimensioned.get("totals", {}).get("lower_diameter_in") or 0) / 2.0
+    if not r0: return None
+    asms = {a["id"]: a for a in dimensioned.get("assemblies", [])}
+    shaft = asms.get("shaft")
+    if shaft and shaft.get("members"):
+        span = shaft["y_top_in"] - shaft["y_bottom_in"]
+        body = next((m for m in shaft["members"]
+                     if m["id"] != "shaft_derived"
+                     and (m["y_top_in"] - m["y_bottom_in"]) > span * 0.6), None)
+        if body is not None:
+            p = body.get("projection_in") or 0.0
+            if abs(p) < 0.01: return "naked"
+            if abs(p - r0) < 0.51: return "axis"
+            return None                        # neither reading fits: say so, do not pick
+    near = [m.get("projection_in") or 0.0
+            for k in ("base", "capital") if k in asms
+            for m in asms[k].get("members", [])]
+    if not near: return None
+    return "axis" if max(near) >= r0 - 0.01 else "naked"
 
 # ---------------------------------------------------------------- rules
 DEFAULT_BINDINGS = {

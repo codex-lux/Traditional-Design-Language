@@ -116,6 +116,13 @@
         }
       }
     },
+    "projection_datum": {
+      "enum": [
+        "naked",
+        "axis"
+      ],
+      "description": "WHICH DATUM a member's projection_parts is measured from, stated rather than inferred (OQ 65). 'naked' means the figure is an offset from the member's own naked -- the die for a pedestal member, the column's radius AT THAT HEIGHT for a base, shaft or capital member, the naked of the frieze for an entablature member; a shaft body then reads 0. 'axis' means the figure is an absolute radius from the column's own axis; a shaft body then reads exactly the semidiameter. The corpus uses BOTH -- Vignola's Doric and Tuscan are 'naked' and his Ionic, Corinthian and Composite are 'axis', and every overlay inherits its base's -- so a consumer that assumes one draws the other at two radii, with a shaft narrower than its own mouldings. An overlay states its own only if it genuinely differs; absent, it inherits. Required of any pack whose members carry a projection at all, and check_orders.py verifies the declared value against the pack's own shaft rather than trusting it."
+    },
     "column": {
       "type": "object",
       "additionalProperties": false,
@@ -196,7 +203,7 @@
                 },
                 "projection_parts": {
                   "type": "number",
-                  "description": "Projection from the naked of the frieze or the column axis datum, in parts."
+                  "description": "Projection in PARTS, measured from the datum this pack's projection_datum names -- the member's own naked, or the column axis. Never both: see OQ 65."
                 },
                 "profile": {
                   "enum": [

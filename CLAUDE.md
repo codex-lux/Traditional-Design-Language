@@ -210,13 +210,15 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   from a separate and correct total, so the plate labelled a gap CAPITAL. All 26 order packs
   are contiguous 0 → stack with no assembly disagreeing with its stated height; if a plate
   shows a gap, the plate is wrong.
-- **A projection means two different things in this corpus, and no pack says which.** Half
-  the order packs record `projection_parts` as an offset from the member's OWN NAKED and
-  half as an absolute radius FROM THE AXIS — split by order, not by authority, across all
-  five. Adding a naked to a radius draws the shaft narrower than its own mouldings, which
-  `dist/orders.html` still does. The workbench plate reads the convention off each pack's
-  shaft (whose outer face at its foot IS the radius). That is **OQ 65**, and
-  `tests/test_drawn_labels.py` fails if a pack ever lands between the two readings.
+- **A projection means two different things in this corpus, and the pack now says which.**
+  Thirteen order packs record `projection_parts` as an offset from the member's OWN NAKED,
+  twelve as an absolute radius FROM THE AXIS — split by order, not by authority, across all
+  five. Adding a naked to a radius draws the shaft narrower than its own mouldings, and
+  `dist/orders.html` did exactly that: Vignola's Ionic came out **2.25× too wide**. OQ 65
+  closed by declaring `projection_datum` on the pack — seven declarations, nineteen
+  overlays inheriting — and **`check_orders.py` verifies the declaration against each
+  resolved pack's own geometry rather than trusting it**, so a wrong one errors on the base
+  and on every overlay under it. Read the field; never re-derive it.
 - **A click on a wall handle used to be a silent record edit** — `pointerup` committed with
   no movement threshold, so a zero-delta release quantised the dimension to the half-foot
   and snapped it up to 0.75 ft to a bay line, onto the DECLARED record and into
@@ -242,8 +244,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **65 entries, of which 14 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 65). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **65 entries, of which 13 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message

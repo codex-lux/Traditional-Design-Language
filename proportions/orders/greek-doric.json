@@ -24,6 +24,7 @@
     "note": "The semidiameter, divided into thirty minutes, following the convention Benjamin and Lafever both use so this pack and the Benjamin overlays can be read against each other minute for minute. Default 12 in gives a 24 in column, which is the ordinary size of an American Greek Revival portico of real ambition; the Parthenon's is 75 in and its own figures are what the bands below are drawn from.",
     "diameters": 0.5
   },
+  "projection_datum": "naked",
   "column": {
     "height_modules": 11.0,
     "shaft_height_modules": 10.0,

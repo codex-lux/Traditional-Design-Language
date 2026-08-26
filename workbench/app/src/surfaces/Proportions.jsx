@@ -87,33 +87,18 @@ function OrderPlate({ data }) {
     const u = (t - entStart) / (1 - entStart);
     return r0 - (r0 - r1) * (u * u * (3 - 2 * u));   // cylindrical below, then smooth
   };
-  /* WHICH WAY IS A PROJECTION MEASURED? The corpus answers two different ways and no
-     pack says which it uses, so the plate has to read it off the data rather than assume.
-     Measured across all 26 order packs at a 36-inch diameter: thirteen record a member's
-     `projection_parts` as an offset FROM ITS NAKED (Gibbs's Doric shaft body: 0), and
-     twelve record it as an absolute radius FROM THE AXIS (Vignola's Ionic shaft body:
-     18.0, exactly the semidiameter). The split runs by ORDER and not by authority — every
-     Doric and Tuscan is an offset, every Ionic, Corinthian and Composite is a radius —
-     which is a data-entry seam rather than an architectural distinction. That is OQ 65.
-
-     The discriminator is the corpus's own definition and not a guess: the shaft's outer
-     face at its foot IS the column's radius, so whichever reading puts the shaft body at
-     r0 is the reading that pack uses. A DERIVED shaft is no evidence — the engine writes
-     it with projection 0 whatever the pack meant — so those fall back to the widest base
-     or capital member, which under an offset reading is a fraction of the radius and
-     under a radius reading is more than all of it.
-
-     Adding a naked to a radius is what drew the shaft narrower than its own mouldings on
-     the twelve: `dist/orders.html` does exactly that and carries the same fault. */
-  const shaftBody = shaft && shaft.ms.length && shaft.y1 > shaft.y0
-    ? shaft.ms.find((m) => m.id !== 'shaft_derived'
-        && ((m.y_top_in ?? 0) - (m.y_bottom_in ?? 0)) > (shaft.y1 - shaft.y0) * 0.6)
-    : null;
-  const nearAxis = rows.filter((x) => x.id === 'base' || x.id === 'capital')
-    .flatMap((x) => x.ms).map((m) => m.projection_in || 0);
-  const fromAxis = shaftBody
-    ? Math.abs((shaftBody.projection_in || 0) - r0) < 0.51
-    : (nearAxis.length ? Math.max(...nearAxis) >= r0 - 0.01 : false);
+  /* WHICH WAY IS A PROJECTION MEASURED? The corpus answers two different ways — thirteen
+     packs record a member's `projection_parts` as an offset FROM ITS OWN NAKED (Gibbs's
+     Doric shaft body: 0) and twelve as an absolute radius FROM THE AXIS (Vignola's Ionic
+     shaft body: exactly the semidiameter) — and until 26 Aug 2026 no pack said which, so
+     a consumer had to guess. Adding a naked to a figure that is already a radius draws
+     the shaft's own apophyge and astragal a whole semidiameter clear of the shaft they
+     sit on. OQ 65 was ruled: the pack DECLARES it, `check_orders.py` verifies the
+     declaration against the pack's own shaft, and this plate reads it rather than
+     deriving it. A pack that reaches here without one is drawn the way the older half of
+     the corpus is written, and says so on the sheet. */
+  const fromAxis = data.projection_datum === 'axis';
+  const undeclared = !data.projection_datum;
 
   const baseRow = rows.find((x) => x.id === 'base');
   const basePlinth = baseRow && baseRow.ms.length
@@ -253,9 +238,9 @@ function OrderPlate({ data }) {
         <span style={{ font: 'italic var(--fw-reg) 12.5px/1.45 var(--serif)', color: 'var(--ink-2)',
           textAlign: 'right', maxWidth: '46ch' }}>
           Half the order in section: every band is a member the engine emitted, run from the
-          axis to the outer face this pack states — none traced. Projections are read
-          {fromAxis ? ' from the axis' : ' from each member’s own naked'}, which is what
-          this pack’s shaft says they are (OQ 65: the corpus uses both).
+          axis to the outer face this pack states — none traced. This pack measures its
+          projections{fromAxis ? ' from the axis' : ' from each member’s own naked'}, and
+          says so{undeclared ? ' nowhere — that reading is assumed (OQ 65)' : ' (OQ 65: the corpus uses both)'}.
           {nominal ? ' This pack publishes no column diameter; the naked is drawn nominal.' : ''}
           {unrecorded.size
             ? ` ${unrecorded.size} member${unrecorded.size === 1 ? '' : 's'} state no projection at all and are drawn at the naked — that is an absent figure, not a flush face.`

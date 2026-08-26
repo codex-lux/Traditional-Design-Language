@@ -24,6 +24,7 @@
     "note": "12 parts, as Tuscan. Vignola: 'partita tutta la sua altezza in parti 20, di una di esse parti se ne fa il suo modulo, che si divide in dodici parti, come quello del Toscano.' The whole order without pedestal is 20 modules: 16 column, 4 entablature.",
     "diameters": 0.5
   },
+  "projection_datum": "naked",
   "column": {
     "height_modules": 16,
     "shaft_height_modules": 14,

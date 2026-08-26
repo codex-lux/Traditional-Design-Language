@@ -219,7 +219,7 @@ made reachable, one denial of service, three checks that could not fail, and a c
 §V above that was not reproducible. All of it is fixed below except where it says
 otherwise.
 
-## The datum was wrong on twelve of twenty-six packs — and the order tool still is
+## The datum was wrong on twelve of twenty-six packs, and on the order tool too
 
 `projection_parts` means two different things in this corpus and no pack says which.
 Measured across all 26 order packs at a 36-inch diameter:
@@ -232,7 +232,7 @@ Measured across all 26 order packs at a 36-inch diameter:
 No pack lands between the two. The split runs by order and not by authority, across all
 five authorities, which is the signature of two data-entry passes rather than of an
 architectural distinction — and `check_orders.py` cannot see it because both readings are
-internally consistent. That is now **OQ 65**.
+internally consistent. That was **OQ 65**, raised and — the same day, on a direct question — **ruled**.
 
 Adding a naked to a figure that is already a radius draws the twelve at two radii: the
 shaft's own apophyge, astragal and fillet standing a whole semidiameter clear of the shaft
@@ -240,19 +240,41 @@ they sit on — which is exactly the fault §I claims to have fixed, reintroduce
 correction. It shipped green because `Proportions.jsx` defaults to `gibbs-doric`, which is
 one of the thirteen, and the walk never changed pack.
 
-The plate now reads the convention off each pack's own shaft: the shaft's outer face at
-its foot IS the column's radius, so whichever reading puts it at `r0` is that pack's
-reading. That is a derivation from the corpus's own definition, not a guess, and
-`tests/test_drawn_labels.py` fails if any pack ever lands between the two. Where a
-radius-convention pack records a projection of `0` — eight assemblies do, including
-`palladio-corinthian`'s whole cornice — that is an **absent figure, not a flush face**: the
-band is drawn at its naked and the plate says on the sheet how many of its own edges the
-pack does not give, rather than drawing a cornice that recedes behind its own column.
+**Ruled the same day: the pack declares it.** `projection_datum: "naked" | "axis"` joins
+the pack schema, so every authority's published figures stay verbatim — a Gibbs number
+still checks against Gibbs's own plate, which is why normalising the twelve was refused —
+and no consumer derives anything. **Seven declarations cover all twenty-six**: the five
+Vignola bases plus the two standalone packs; the other nineteen are overlays and inherit
+through `resolve()`, which carries the field and lets an overlay state its own where it
+differs. None does. `moorish-arch` declares nothing, because it publishes no projections.
 
-**`dist/orders.html` still has the fault**, in `buildGeometry`, which is where the rule was
-copied from. It is named in OQ 65 and deliberately not fixed here: the order tool is a
-separate shipped artefact with its own moulding-profile geometry, and changing its datum is
-a change to a drawing nobody asked about in a pass that was asked about two others.
+Neither standalone pack publishes a shaft body, so their reading was **not** taken from the
+Doric pattern: it came from the capital, whose widest member is under half the radius in
+both, and an abacus cannot stand inside the shaft.
+
+**The declaration is checked, not believed.** `check_orders.py::check_projection_datum`
+dimensions every resolved pack and compares what it declares against what its geometry
+reads. Declaring the wrong datum on one Vignola base errors on that pack *and on all four
+overlays that inherit it* — verified, because a declared field nobody checks is a comment.
+
+**And the consumer that was wrong is fixed.** `build/orders_template.html::buildGeometry`
+added the naked to both readings, which is where the plate's rule was copied from.
+Measured in the regenerated `dist/orders.html`, before and after:
+
+| pack | datum | drawn now | under the old rule |
+|---|---|---|---|
+| `vignola-ionic` | axis | 57 px | 128 px — **2.25× too wide** |
+| `gibbs-corinthian` | axis | 56 px | 79 px — 1.41× too wide |
+| `gibbs-doric` | naked | 95 px | 95 px — unchanged, as it should be |
+
+**The zeros are ruled too: unrecorded, and marked.** Eight assemblies in the `axis` packs
+record every member's projection as 0, and under that reading 0 cannot be a statement — a
+cornice at radius 0 is at the axis. They are an **absent figure, not a flush face**: drawn
+at their naked, counted, and named on the sheet, so the plate says how many of a pack's own
+edges it does not give rather than drawing a cornice that recedes behind its own column.
+That is a reading of a silence and not a fact; whether those figures were never transcribed
+or were meant as flush is a question for the sources, and it stays with OQ 7–11 and OQ 18's
+source half, which are environment-blocked.
 
 ## A click was a silent record edit, and this commit made it reachable
 
@@ -370,8 +392,6 @@ of prose.
 
 ## Deliberately not fixed
 
-- **`dist/orders.html`'s datum** — named above and in OQ 65. A separate artefact, a
-  separate drawing, and its own profile geometry to re-verify.
 - **`export_dxf.py`'s room text**, centred by a character count against a hardcoded
   40-inch offset. It is a real DXF on its own annotation layer that a drafter moves; the
   fix wants the DXF layer's own pass.

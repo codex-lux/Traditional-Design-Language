@@ -156,6 +156,9 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     if pk.get("column"):
         out["column"] = {k: v for k, v in pk["column"].items()
                          if k in ("entasis_begins_at",)}
+    # OQ 65, ruled: which datum this pack's projections are measured from is STATED, not
+    # derived by whoever draws them. Inherited through the overlay chain by resolve().
+    out["projection_datum"] = pk.get("projection_datum")
     return out
 
 
