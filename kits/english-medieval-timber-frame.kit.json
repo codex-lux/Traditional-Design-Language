@@ -1,7 +1,7 @@
 {
   "style": "english-medieval-timber-frame",
   "style_name": "English Medieval Timber Frame",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -273,6 +273,21 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The frame IS the wall: 'the frame carries all vertical and lateral load' and the panel is infill. Post 200-300 mm square at 3.0-5.0 m centres, proud of the panel by its own thickness less the daub's. Nothing here is expressed for effect -- it is visible because it is there, which is what `structural` means as against `structural-and-expressed`.",
+      "variants": [
+        {
+          "id": "structural",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Modelled as a variant rather than a parameter because a variant can be FORBIDDEN -- `status: forbidden` is how five of these fourteen kits say the member must not appear, and a parameter has no way to say that. (The reason first recorded here was that a categorical carries no unit and the checker insists a parameter has one. That is false: this corpus holds 236 categorical parameters whose unit is `none` and `check_kits.py` passes every one. Corrected 25 Aug 2026 by audit -- the modelling call stands, its stated reason did not.)"
+        }
+      ]
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -337,6 +352,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {

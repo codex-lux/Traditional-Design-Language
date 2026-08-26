@@ -3,7 +3,7 @@
 An evolutionary taxonomy of traditional architecture, built as a machine-readable graph rather than a document — and designed so that selecting a style resolves to a kit of parts.
 
 <!-- COUNTS:START -->
-**164 taxa · 476 lineage edges · 95 element slots · 40 massings · 58 rooms · 16 groupings · 36 executable proportion packs · 209 named faults · 322 specified images · 12 partis · 24 MCP tools**
+**164 taxa · 476 lineage edges · 96 element slots · 40 massings · 60 rooms · 17 groupings · 45 executable proportion packs · 209 named faults · 322 specified images · 21 partis native to 129 of 132 buildable styles · 24 MCP tools**
 
 **700 BC – AD 2026**
 <!-- COUNTS:END -->
@@ -28,7 +28,7 @@ Nodes relate to each other in two independent ways, and the separation is the po
 95 universal slots in 8 groups, plus 40 style-independent volumetric skeletons, every one carrying `expansion_logic` — how the type grows without breaking. These are orthogonal to the style graph. A style does not *own* a cornice; it *specifies* one. Adding a style should never require adding a slot — if it does, the ontology was incomplete, not the style exotic.
 
 **3. The grammar** (`proportions/`, `build/proportion_engine.py`) — see `docs/proportion.md`
-Element slots are the alphabet; a proportion pack is the syntax. 36 packs, and they are **functions, not tables**: give one a module and a context and it emits a fully dimensioned assembly, member by member, with profiles. Vignola's five orders are the spine; Palladio, Gibbs, Chambers and Benjamin are overlays carrying only their deltas. Brick course, timber bay, sash light, storey graduation and log are the non-classical equivalents, because most traditional buildings were proportioned from a material module and not from a column. As of WP-4.1, 129 of the 132 buildable style/variant nodes carry a `proportion_packs` binding — which packs govern that node's facade, opening, room, trim and massing, at what precedence, and why (`build/check_pack_bindings.py` is the checker). The other 3 are deliberately unbound: no combination of the 36 packs fits Egyptian Revival's trabeated order or the Moorish/Mudejar cluster's Islamic geometric setting-out, named rather than forced — see `docs/reports/wp-4.1-proportion-pack-bindings.md`.
+Element slots are the alphabet; a proportion pack is the syntax. 57 packs, and they are **functions, not tables**: give one a module and a context and it emits a fully dimensioned assembly, member by member, with profiles. Vignola's five orders are the spine; Palladio, Gibbs, Chambers and Benjamin are overlays carrying only their deltas. Brick course, timber bay, sash light, storey graduation and log are the non-classical equivalents, because most traditional buildings were proportioned from a material module and not from a column. All 132 buildable style/variant nodes carry a `proportion_packs` binding — which packs govern that node's facade, opening, room, trim and massing, at what precedence, and why (`build/check_pack_bindings.py` is the checker). The last holdout, Egyptian Revival, was bound on 25 Aug 2026 under OQ 49 -- SCOPED to the two rules of `facade-peristyle` that fit, with the six that do not excluded, including an entasis its own c04 forbids. Read OQ 51 before trusting the coverage figure: it counts a node's OWN bindings, and the lineage cascade delivers packs nobody bound. The count worth watching now is not nodes bound but roles filled — 50 nodes still have no opening-role pack and 46 no facade-role pack, which is what WP-4.6 is working through; see `docs/reports/wp-4.6-missing-proportion-packs.md`.
 
 ```
 python3 build/proportion_engine.py compare vignola-doric gibbs-doric benjamin-doric --diameter 12
@@ -40,7 +40,7 @@ One file per style, variant, *and* family (159 total — 132 style/variant plus 
 **Georgian Colonial is filled end to end** as the depth-first proof: 88 of 95 slots specified or forbidden (95 as of WP-1.3's `wall_thickness_masonry`/`wall_thickness_frame` split — both open, unfilled, on every kit including this one), 417 variant records of which **119 are `forbidden`**, 417 typed parameters (172 `editorial`, 14 `invented`), 33 slots with proportion-pack precedence, 5 code conflicts, 4 slots marked `invented` because no precedent exists. Tidewater Georgian is then written as a 24-parameter override and English Georgian as an 8-parameter override, each resolving the rest from the parent — `build/resolve_kit.py` prints the provenance with a source column.
 
 **5. Rooms and groupings** (`rooms/`, `groupings/`) — see `docs/rooms.md`
-58 style-independent room types with the furniture that has to fit and its clearances, typed directional adjacency, a privacy gradient, and daylight depth. Then 16 groupings — the middle scale people actually design at: a hall-and-parlor pair, a centre-passage core, an entry sequence, a service core, a primary suite. Each grouping's `attaches_to` says how it lands in a massing, which is the join that makes rooms and skeletons composable.
+60 style-independent room types with the furniture that has to fit and its clearances, typed directional adjacency, a privacy gradient, and daylight depth. Then 17 groupings — the middle scale people actually design at: a hall-and-parlor pair, a centre-passage core, an entry sequence, a service core, a primary suite. Each grouping's `attaches_to` says how it lands in a massing, which is the join that makes rooms and skeletons composable.
 
 **6. The fault corpus** (`faults/`) — see `docs/faults.md`
 209 named errors, **element-first**: they hang off slots, not styles, because the half-width shutter is wrong on every house that has shutters. 93 of 95 slots covered — the two newest (`wall_thickness_masonry`/`wall_thickness_frame`, added in WP-1.3) have no fault authored against them yet. 846 style exceptions, 496 with numeric bounds — because a Georgian five-foot portico is a fatal fault by Craftsman rules and correct by its own. Every fault carries a `test`, so the corpus is executable: give it measurements from a photograph and it tells you which faults are present, which are clear, and which it could not judge.
@@ -51,10 +51,16 @@ Exactly one of 209 faults has `driver: ignorance`. The rest are stock sizes, tra
 The critic, built before the composer, because a composer needs a fitness function and this is it. Reads a hand-authorable plan record and checks it across five layers — rooms, adjacency and privacy, groupings, faults, code and style. Two worked examples ship with it: a deliberately ordinary production Colonial (4 fatal) and the same corpus applied carefully (0 fatal). The style layer's 660 constraints (`schema/constraint.schema.json`, `docs/constraints.md`) are now fully migrated — every constraint on every node that carries one has an id, a scope, and either a `test` (365, 55%) or an honest `scope: judgment` (295) — so a hard constraint's presence, clearance, or unjudged status is reported the same way a fault's is, never silently passed.
 
 **8. The composer** (`schema/brief.schema.json`, `partis/`, `build/compose.py`, `briefs/`) — see `docs/compose.md`
-Seeds from 12 canonical partis native to the style, sizes every room from the room catalogue, repairs against the validator until it stops improving, and returns four contrasting candidates ranked by fatal findings then style fidelity — each with what it trades away and a log of every assumption it made.
+Seeds from 21 canonical partis native to the style — as of WP-4.5 every buildable style with a canonical massing has at least one, where 39 of 132 did before — sizes every room from the room catalogue, repairs against the validator until it stops improving, and returns four contrasting candidates ranked by fatal findings then style fidelity — each with what it trades away and a log of every assumption it made.
 
-**9. Geometry** (`build/geometry.py`, `build/render_plan.py`) — see `docs/geometry.md`
-Bay-grid slicing with the relaxations counted, both levels solved together so vertical alignment is a constraint rather than an afterthought. Emits coordinates into the plan record and an SVG rendered from them. Produces valid, dimensioned, drawable plans with every compromise reported — not yet plans an architect would sign, and the doc says exactly where the gap is.
+**9. Geometry** (`build/geometry.py`, `build/geometry_cp.py`, `build/render_plan.py`) — see `docs/geometry.md`
+Bay-grid slicing with the relaxations counted, both levels solved together so vertical alignment is a constraint rather than an afterthought. Emits coordinates into the plan record and an SVG rendered from them.
+
+Two engines share that record. `geometry.py` searches: 250 randomised slicings, scored, best kept — fast, and the fallback. `geometry_cp.py` (WP-2.3) proves, and is the default: it states the same problem to CP-SAT over the same bay grid, where a room's own dimensional band is a constraint rather than a 12-point penalty, and the record's declared facts are hard constraints. The difference that matters is not the score. Asked for a house that cannot be built, the search returns its least-bad plan; the CP engine returns *which requirements conflict* — "a 2-bay, 20 x 25.96 ft single pile house cannot hold the dining-room, drawing-room and library at their stated minimums at once, and the lot allows no more bays after its side setbacks" — and draws nothing.
+
+```
+python3 build/geometry.py plans/tidewater-georgian-careful.json --engine cp --time 60
+```
 
 **10. The image layer** (`assets/manifest.json`) — see `docs/assets.md`
 Format-agnostic records authored **before** the images exist. 292 wanted records, 136 of them good/bad pairs, each generated from a `forbidden` variant, an `invented` slot, a code conflict, or a proportion-pack assembly. Every record carries a shot spec and alt text written to be reasoned from, so the gap is visible, the shot list exists, and an agent can use the record while the file is still missing.
@@ -111,6 +117,14 @@ The massing catalog is therefore a separate namespace, joined to styles through 
 
 ## Extending it
 
+The data and every checker run on the standard library alone. `requirements.txt`
+covers the tooling above the data — the CP-SAT solver, brief schema validation and
+the test suite:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
 ```bash
 python3 build/validate.py            # taxonomy: schema, references, acyclicity, chronology
 python3 build/check_orders.py        # proportion packs: sums, invariants, overlay integrity
@@ -137,19 +151,19 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
 
 ## What is deliberately not here yet
 
-*(Revised 25 Aug 2026 — the previous version of this list predated WP-1.3, WP-2.2 and WP-4.2, all of which closed items it still named. See `docs/reports/wp-5.1-export-dxf-ifc.md`, "What was found".)*
+*(Revised 25 Aug 2026, after the two branches merged — the previous version of this list predated WP-1.3, WP-2.2, WP-4.2, WP-4.5 and WP-4.6, all of which closed items it still named.)*
 
-- **A real solver.** The geometry pass composes by strongly-weighted preference over a 250-candidate search, not by proof — an infeasible brief returns the least-bad plan rather than a named conflict set. WP-2.3 (CP-SAT over the same bay grid) is the fix and the largest remaining structural gap.
-- **Partis for 93 of 132 styles.** 12 partis name 39 styles; a style with a canonical massing but no native parti cannot be composed for at all (WP-4.5).
-- **~25 proportion packs** the WP-4.1 binding pass found missing, the Islamic/Moorish arch-and-ornament system first among them (WP-4.6, OQ 30) — and the images: all 322 asset records are still `wanted`, none sourced (WP-4.4).
+- **The images.** All 322 asset records are still `wanted` and none is sourced (WP-4.4) — `build/harvest_habs.py` is written and dry-run exercised, but `www.loc.gov` refuses CONNECT from this environment. The network-free half is giving those records their `provenance.building` names.
 - **Generated guidelines and details, and costs** (WP-5.3, WP-5.4) — the workbench, the DXF/IFC export and drawing-to-record ingestion shipped; these two are what remain of the platform phase.
+- **What the lineage cascade delivers that nobody bound** (OQ 51, ruled 25 Aug): 294 role gaps, 233 of them never judged. Ruled adjudicate-first, and the backlog is the next package.
+- **Date-conditional resolution.** `applies_when.date_range` exists and is populated; nothing selects on it yet.
 - **Non-Western traditions.** Five traditions are modelled, deep on the North American lineage and its European roots. Japanese, Islamic, South Asian, and African traditions would each be a peer trunk, and the schema extends to them without modification. Cape Dutch already carries an acknowledged gap: its Cape and Indonesian strand has no node to point at.
 
 ---
 
 ## Open questions, flagged rather than silently decided
 
-The dataset was audited adversarially before release, and every layer added since has kept the same discipline: a judgement call gets a number and a place to live rather than a silent decision. That single list — taxonomy questions, proportion-layer gaps, the kit-authoring findings, and the structural questions gating later phases — is `docs/open-questions.md`, and it is kept there rather than duplicated here, because a second copy is exactly how the slot-count and tool-count drift this README itself suffered happened in the first place. As of this writing 30 questions are recorded there; 10 are marked resolved and one in progress. See `docs/README.md` for how every doc in this repo fits together.
+The dataset was audited adversarially before release, and every layer added since has kept the same discipline: a judgement call gets a number and a place to live rather than a silent decision. That single list — taxonomy questions, proportion-layer gaps, the kit-authoring findings, and the structural questions gating later phases — is `docs/open-questions.md`, and it is kept there rather than duplicated here, because a second copy is exactly how the slot-count and tool-count drift this README itself suffered happened in the first place. As of this writing 31 questions are recorded there. See `docs/README.md` for how every doc in this repo fits together.
 
 ## Known issues
 

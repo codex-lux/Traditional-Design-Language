@@ -1,7 +1,7 @@
 {
   "style": "nordic-alpine-vernacular",
   "style_name": "Nordic & Alpine Vernacular",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -99,7 +99,8 @@
           "value": "pen-storey-or-building",
           "unit": "none",
           "kind": "editorial",
-          "confidence": "high"
+          "confidence": "high",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A log wall cannot be lengthened once built. The household or farm grows by adding a pen, stacking a storey, or adding a wholly separate building — never by extending one wall.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "judgment": false,
@@ -239,6 +240,11 @@
       "binding": "open",
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -301,6 +307,11 @@
       "status": "empty"
     },
     "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "arch": {
       "group": "openings",
       "binding": "open",
       "status": "empty"

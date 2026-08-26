@@ -306,6 +306,12 @@
       "authority": "trim-craftsman",
       "note": "Bound optional and only for the type's late tail (c. 1900-1920), where the same rural lumberyards and mail-order catalogs that supplied Craftsman bungalow trim also supplied farmhouse trim packages, and the flat-stock, indifferent-to-opening-size logic genuinely describes a plain 4-5 in farmhouse window casing about as well as it describes a bungalow one. It does NOT describe the type's more central and much longer-lived trim logic -- a Greek Revival entablature thinned to a fascia and pilasters shrunk to corner boards -- which the node's own hard constraint (c02) states as a budget rather than a system. No pack in this set owns that thinning-of-an-order-until-only-the-budget-survives logic; it is a real gap, worth naming for WP-4.6.",
       "precedence": 5
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "optional",
+      "note": "Optional, and bound for one sentence that is worth the binding on its own: 'exactly one piece of ornament on an otherwise plain building: a jigsawn gable bracket, a pointed window, a run of turned posts'. That is the pack's member_count rule at its floor and its cost conflict's whole argument -- one member well done is both period-correct and affordable, and this record shows it was the commonest real practice rather than a compromise.",
+      "precedence": 6
     }
   ]
 }

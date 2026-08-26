@@ -247,6 +247,12 @@
       "role": "room",
       "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound for the same reasoning as shingle-style and stick-style's other Victorian siblings: the node states plainly that 'the exterior linear obsession barely enters the rooms' and the plan behind the stickwork is 'a conventional picturesque one with a hall, parlours, and a stair' — an ordinary balloon-framed plan governed by span and daylight, not by a proportional treatise.",
       "precedence": 4
+    },
+    {
+      "pack": "timber-panel",
+      "role": "optional",
+      "note": "Optional, and the binding needs its caveat stated first: THIS IS NOT INFILL. Stick Style applies flat boards to the surface of a clapboarded or shingled balloon-framed wall, and the boards express a frame that is not there -- which is the type's own argument rather than a deception, since what they express is the balloon frame behind them, a real structure with no exterior expression of its own. The pack is bound because one figure travels exactly: this record's 'panel field 3 to 6 ft square between stick bands' is the square-panel proportion, and its 'diagonal braces at 45 degrees, brace length 0.3 to 0.5 of post height' is the only brace figure anywhere in the corpus and is what the pack's brace rule quotes.",
+      "precedence": 5
     }
   ]
 }

@@ -219,6 +219,12 @@
       "role": "room",
       "note": "JUDGMENT BINDING, for the same reasoning given on the parent queen-anne-american node: balloon-framed, un-treatised rooms governed by span and daylight rather than by proportion. No change from the parent's reasoning is needed since spindlework versus classical trim is a porch and gable question and has no bearing on room shape.",
       "precedence": 3
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "The fullest expression of the family and the source of most of its porch figures: posts 5-8 in at the swell spaced 6-9 ft, spindle frieze 10-18 in deep with spindles 1.5-2.5 in at 3-5 in on centre, and a bracket or knee brace 12-24 in on the diagonal at every post head. This record also gives the rule that makes the frieze read: it is 'suspended beneath the porch head, running the full length of the porch', so a valance that stops and restarts at each post is a series of panels and a weaker thing.",
+      "precedence": 4
     }
   ]
 }

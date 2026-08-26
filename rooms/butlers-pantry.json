@@ -1,251 +1,255 @@
 {
-  "id": "butlers-pantry",
-  "name": "Butler's Pantry",
-  "aka": [
-    "serving pantry",
-    "china pantry",
-    "passage pantry",
-    "service pantry",
-    "the pantry (English usage)"
+ "id": "butlers-pantry",
+ "name": "Butler's Pantry",
+ "aka": [
+  "serving pantry",
+  "china pantry",
+  "passage pantry",
+  "service pantry",
+  "the pantry (English usage)"
+ ],
+ "function_class": "service",
+ "description": "The room between the kitchen and the dining room, where the china, glass and silver are kept, where plates are held and dressed, and where the butler slept - or at least kept the plate chest under his eye, which is what the room is actually named for. It is not a store and it is not a second kitchen. It is a LOCK: a two-door room whose entire job is to make sure the dining room never sees, hears or smells the kitchen, and the single rule that decides whether it does that job is one nobody states.",
+ "history": {
+  "appears": 1750,
+  "declines": 1930,
+  "replaced_by": "the serving counter, the pass-through, and - misapplied - the drinks bar",
+  "note": "The name is literal. The butler was responsible for the plate - the household's silver, which in a large house was worth more than its furniture - and he slept in or beside the pantry with the plate safe, sometimes in a bed that folded into the joinery. The room's other function was HOLDING: in a house where the kitchen was fifty or a hundred feet from the dining room, or in a separate building, food arrived cool and had to be dressed and warmed, which is what the hot cupboard, the plate warmer and the dish cover were for. It dies with the servant, between 1918 and 1930 in Britain and by the 1930s in America. What survives under the name in current American practice is usually neither - a run of upper and lower cabinet with a sink and a wine fridge, in a passage, which is a drinks bar. The genuine article is worth reviving in any house that has a real dining room, and it costs about 40 sq ft."
+ },
+ "dimensions": {
+  "area_sf": [
+   40,
+   90
   ],
-  "function_class": "service",
-  "description": "The room between the kitchen and the dining room, where the china, glass and silver are kept, where plates are held and dressed, and where the butler slept - or at least kept the plate chest under his eye, which is what the room is actually named for. It is not a store and it is not a second kitchen. It is a LOCK: a two-door room whose entire job is to make sure the dining room never sees, hears or smells the kitchen, and the single rule that decides whether it does that job is one nobody states.",
-  "history": {
-    "appears": 1750,
-    "declines": 1930,
-    "replaced_by": "the serving counter, the pass-through, and - misapplied - the drinks bar",
-    "note": "The name is literal. The butler was responsible for the plate - the household's silver, which in a large house was worth more than its furniture - and he slept in or beside the pantry with the plate safe, sometimes in a bed that folded into the joinery. The room's other function was HOLDING: in a house where the kitchen was fifty or a hundred feet from the dining room, or in a separate building, food arrived cool and had to be dressed and warmed, which is what the hot cupboard, the plate warmer and the dish cover were for. It dies with the servant, between 1918 and 1930 in Britain and by the 1930s in America. What survives under the name in current American practice is usually neither - a run of upper and lower cabinet with a sink and a wine fridge, in a passage, which is a drinks bar. The genuine article is worth reviving in any house that has a real dining room, and it costs about 40 sq ft."
+  "width_ft": [
+   5,
+   8
+  ],
+  "length_ft": [
+   8,
+   14
+  ],
+  "proportion": [
+   1.3,
+   2.4
+  ],
+  "ceiling_min_ft": 8,
+  "critical_dimension": "THE DOORS MUST NOT ALIGN. This is the rule the room exists for and it is almost never written down: if the kitchen door and the dining-room door are on the same axis, then every time one of them is open the dining room can see straight into the kitchen and the lock has failed. Offset the two doors by at least the width of one door leaf - 32 in - or better, put them on adjacent rather than opposite walls, so the route through is an L. THEN the dimensions: a single-sided pantry is 24 (counter) + 42 (aisle) = 66 in, 5 ft 6 in. Double-sided is 24 + 42 + 24 = 90 in, 7 ft 6 in, and the 42 in is not negotiable because two people pass in here carrying plates. LENGTH is set by the china: a household's dinner service, glass and serving pieces need 10 to 14 linear feet of 12 to 14 in shelf, which with a sink and a counter run gives 8 to 12 ft of room."
+ },
+ "furniture": [
+  {
+   "item": "counter run",
+   "footprint_in": [
+    96,
+    25
+   ],
+   "clearance_in": 42,
+   "note": "The dressing and holding surface. Stone or timber; it is where hot dishes land, so it must not be a laminate."
   },
-  "dimensions": {
-    "area_sf": [
-      40,
-      90
-    ],
-    "width_ft": [
-      5,
-      8
-    ],
-    "length_ft": [
-      8,
-      14
-    ],
-    "proportion": [
-      1.3,
-      2.4
-    ],
-    "ceiling_min_ft": 8,
-    "critical_dimension": "THE DOORS MUST NOT ALIGN. This is the rule the room exists for and it is almost never written down: if the kitchen door and the dining-room door are on the same axis, then every time one of them is open the dining room can see straight into the kitchen and the lock has failed. Offset the two doors by at least the width of one door leaf - 32 in - or better, put them on adjacent rather than opposite walls, so the route through is an L. THEN the dimensions: a single-sided pantry is 24 (counter) + 42 (aisle) = 66 in, 5 ft 6 in. Double-sided is 24 + 42 + 24 = 90 in, 7 ft 6 in, and the 42 in is not negotiable because two people pass in here carrying plates. LENGTH is set by the china: a household's dinner service, glass and serving pieces need 10 to 14 linear feet of 12 to 14 in shelf, which with a sink and a counter run gives 8 to 12 ft of room."
+  {
+   "item": "glazed upper cupboards for china and glass",
+   "footprint_in": [
+    96,
+    13
+   ],
+   "clearance_in": 0,
+   "note": "13 in deep, not 24: a dinner plate is 10 1/2 to 11 in and a charger 12 to 13. A 24 in upper cupboard stacks china two deep and the back stack is never used. Glazed doors because the point is to find the right piece at speed."
   },
-  "furniture": [
-    {
-      "item": "counter run",
-      "footprint_in": [
-        96,
-        25
-      ],
-      "clearance_in": 42,
-      "note": "The dressing and holding surface. Stone or timber; it is where hot dishes land, so it must not be a laminate."
-    },
-    {
-      "item": "glazed upper cupboards for china and glass",
-      "footprint_in": [
-        96,
-        13
-      ],
-      "clearance_in": 0,
-      "note": "13 in deep, not 24: a dinner plate is 10 1/2 to 11 in and a charger 12 to 13. A 24 in upper cupboard stacks china two deep and the back stack is never used. Glazed doors because the point is to find the right piece at speed."
-    },
-    {
-      "item": "plate and silver drawers",
-      "footprint_in": [
-        36,
-        22
-      ],
-      "clearance_in": 40,
-      "note": "Felt- or baize-lined, and in the historical article lockable. The silver drawer is the room's origin."
-    },
-    {
-      "item": "small sink",
-      "footprint_in": [
-        18,
-        16
-      ],
-      "clearance_in": 30,
-      "note": "15 to 18 in bar sink, for glass and for flowers. A full kitchen sink here turns the room into a second scullery, which is a different room with a different door position."
-    },
-    {
-      "item": "warming or holding cupboard / undercounter refrigeration",
-      "footprint_in": [
-        24,
-        24
-      ],
-      "clearance_in": 36,
-      "essential": false,
-      "note": "The modern descendant of the plate warmer. Where the kitchen is far from the table - and in a traditional plan it should be - this is what makes the arrangement work."
-    },
-    {
-      "item": "a place to stage a whole course",
-      "footprint_in": [
-        60,
-        25
-      ],
-      "clearance_in": 42,
-      "note": "Five feet of clear counter that nothing lives on. It is the difference between a pantry and a cupboard corridor, and it is what gets designed out."
-    }
-  ],
-  "daylight": {
-    "depth_multiplier": 1.6,
-    "sides_lit": 1,
-    "orientation": "None required; a north window is pleasant and the room is usually interior.",
-    "glazing_fraction": [
-      0.0,
-      0.08
-    ],
-    "note": "Usually a wholly interior room, which is correct - it is a lock, and a lock with a window on the garden is a room people will walk through and stop in. A borrowed light or a glazed transom over one of the doors is enough and is the period device. The room sits under the eave of a service ell as often as not, so the head is low."
+  {
+   "item": "plate and silver drawers",
+   "footprint_in": [
+    36,
+    22
+   ],
+   "clearance_in": 40,
+   "note": "Felt- or baize-lined, and in the historical article lockable. The silver drawer is the room's origin."
   },
-  "adjacency": {
-    "must_adjoin": [
-      {
-        "room": "dining-room",
-        "why": "On one side. The whole room is the joint between the two.",
-        "relation": "direct-door",
-        "strength": "hard"
-      },
-      {
-        "room": "kitchen",
-        "why": "On the other side, and with the doors OFFSET. See critical_dimension.",
-        "relation": "direct-door",
-        "strength": "hard"
-      }
-    ],
-    "should_adjoin": [
-      {
-        "room": "pantry",
-        "why": "Dry store behind the serving pantry, so that the china room does not also have to hold the flour.",
-        "relation": "direct-door",
-        "strength": "preferred"
-      }
-    ],
-    "must_not_adjoin": [
-      {
-        "room": "entrance-hall",
-        "why": "It is a service room and must not be on or visible from the entry sequence, however well it is finished. A butler's pantry used as a through route from the hall to the kitchen has become a service corridor and the dining room has lost its lock.",
-        "relation": "not-visible-from",
-        "strength": "strong"
-      },
-      {
-        "room": "centre-passage",
-        "why": "Not on the rear axis. Nothing is on the rear axis.",
-        "relation": "not-visible-from",
-        "strength": "strong"
-      }
-    ],
-    "entered_from": [
-      "kitchen",
-      "dining-room",
-      "back-hall",
-      "service-corridor"
-    ],
-    "never_a_through_room": false
+  {
+   "item": "small sink",
+   "footprint_in": [
+    18,
+    16
+   ],
+   "clearance_in": 30,
+   "note": "15 to 18 in bar sink, for glass and for flowers. A full kitchen sink here turns the room into a second scullery, which is a different room with a different door position."
   },
-  "privacy_rank": 3,
-  "servicing": {
-    "plumbing": "light",
-    "ventilation": "A transfer path, and no extract - this room must be NEUTRAL or slightly positive relative to the kitchen, because if the kitchen hood depressurises the kitchen and the pantry is the nearest opening, every cooking smell in the house travels through the pantry into the dining room. That is a real and commonly observed failure and it is a pressure problem, not a door problem.",
-    "heat": "Minimal; the room is passed through rather than occupied.",
-    "electrical": "Counter receptacles on the kitchen's small-appliance circuits or their own; dedicated circuit for any refrigeration; light on a two-way switch at both doors, because the room is entered from both ends with both hands full.",
-    "stack_proximity_ft": 8
+  {
+   "item": "warming or holding cupboard / undercounter refrigeration",
+   "footprint_in": [
+    24,
+    24
+   ],
+   "clearance_in": 36,
+   "essential": false,
+   "note": "The modern descendant of the plate warmer. Where the kitchen is far from the table - and in a traditional plan it should be - this is what makes the arrangement work."
   },
-  "style_variation": [
-    {
-      "style": "english-georgian-country-house",
-      "name_in_style": "butler's pantry",
-      "present": true,
-      "trim_grade": "plain",
-      "note": "With the plate safe, the butler's bed and a hatch to the servants' hall. Plain-finished but well made - it is a working room in a house where the work was skilled."
-    },
-    {
-      "style": "georgian-colonial-american",
-      "name_in_style": "pantry",
-      "present": true,
-      "trim_grade": "plain",
-      "note": "In the ell or the hyphen between the main block and the kitchen dependency, which is exactly where the five-part plan already puts a connecting room. The hyphen of a five-part Palladian composition IS a butler's pantry waiting to be named."
-    },
-    {
-      "style": "colonial-revival",
-      "name_in_style": "butler's pantry",
-      "present": true,
-      "trim_grade": "middle",
-      "note": "Its American high point, 1900-1930, and the surviving examples are excellent: glazed uppers with divided lights, a marble or soapstone counter, a nickel bar sink, beadboard, and a swing door with a kick plate at each end."
-    },
-    {
-      "style": "italianate-townhouse",
-      "name_in_style": "butler's pantry",
-      "present": true,
-      "trim_grade": "middle",
-      "note": "On the narrow plan it is the room between the front and back parlour range and the rear kitchen, and it is what makes a 20 ft wide house work socially."
-    },
-    {
-      "style": "craftsman-bungalow",
-      "name_in_style": "pass pantry",
-      "present": true,
-      "trim_grade": "middle",
-      "note": "Compressed to a passage with cabinets both sides and a pass-through hatch to the dining room - the bungalow's small, correct version."
-    },
-    {
-      "style": "ranch-style",
-      "present": false,
-      "note": "Absent. The kitchen serves the dining area directly across a counter, which is the type's argument."
-    },
-    {
-      "style": "minimal-traditional",
-      "present": false,
-      "note": "No dining room to serve."
-    }
+  {
+   "item": "a place to stage a whole course",
+   "footprint_in": [
+    60,
+    25
+   ],
+   "clearance_in": 42,
+   "note": "Five feet of clear counter that nothing lives on. It is the difference between a pantry and a cupboard corridor, and it is what gets designed out."
+  }
+ ],
+ "daylight": {
+  "depth_multiplier": 1.6,
+  "sides_lit": 1,
+  "orientation": "None required; a north window is pleasant and the room is usually interior.",
+  "glazing_fraction": [
+   0.0,
+   0.08
   ],
-  "code": [
-    {
-      "requirement": "Where a sink is fitted, GFCI protection and countertop receptacle spacing apply as in a kitchen.",
-      "ref": "NEC 210.8, 210.52(C)"
-    },
-    {
-      "requirement": "Swing doors with vision panels where a two-way door is used.",
-      "ref": "Good practice, not code",
-      "conflict": "The traditional butler's pantry door is a single-action swing door with no vision panel and there is a real collision hazard where two people carry plates in opposite directions. The historical answer was two doors and a one-way convention; the modern answer is a small glazed light in the door, which slightly compromises the visual lock and is worth it."
-    }
+  "note": "Usually a wholly interior room, which is correct - it is a lock, and a lock with a window on the garden is a room people will walk through and stop in. A borrowed light or a glazed transom over one of the doors is enough and is the period device. The room sits under the eave of a service ell as often as not, so the head is low."
+ },
+ "adjacency": {
+  "must_adjoin": [
+   {
+    "room": "dining-room",
+    "why": "On one side. The whole room is the joint between the two.",
+    "relation": "direct-door",
+    "strength": "hard"
+   },
+   {
+    "room": "kitchen",
+    "why": "On the other side, and with the doors OFFSET. See critical_dimension. VIA added 24 Aug 2026 (OQ 59): in a plan whose kitchen is in a dependency -- a five-part Palladian, a Tidewater plantation house, any arrangement with a detached or hyphenated service wing -- the pantry is in the block and the kitchen is in another building, and the connecting gallery is the connection. Read without this, the rule asked the pantry to be in two buildings at once. It is the same principle this room already embodies for the OTHER end of the run: a named intermediary is the connection, not a failure to connect.",
+    "relation": "direct-door",
+    "strength": "hard",
+    "via": [
+     "back-hall",
+     "gallery-corridor"
+    ]
+   }
   ],
-  "massing_fit": [
-    "five-part-palladian",
-    "four-over-four",
-    "side-hall-double-pile",
-    "townhouse-row",
-    "linear-ell-farmhouse",
-    "foursquare",
-    "h-plan-manor",
-    "massed-picturesque",
-    "mansard-block",
-    "telescope-house",
-    "charleston-single",
-    "villa-tower"
+  "should_adjoin": [
+   {
+    "room": "pantry",
+    "why": "Dry store behind the serving pantry, so that the china room does not also have to hold the flour.",
+    "relation": "direct-door",
+    "strength": "preferred"
+   }
   ],
-  "slots": [
-    "service_zone_strategy",
-    "room_adjacency_overrides",
-    "public_private_gradient",
-    "storage_strategy",
-    "built_ins",
-    "circulation_parti"
+  "must_not_adjoin": [
+   {
+    "room": "entrance-hall",
+    "why": "It is a service room and must not be on or visible from the entry sequence, however well it is finished. A butler's pantry used as a through route from the hall to the kitchen has become a service corridor and the dining room has lost its lock.",
+    "relation": "not-visible-from",
+    "strength": "strong"
+   },
+   {
+    "room": "centre-passage",
+    "why": "Not on the rear axis. Nothing is on the rear axis.",
+    "relation": "not-visible-from",
+    "strength": "strong"
+   }
   ],
-  "faults": [
-    "service-route-through-the-formal-plan",
-    "built-in-that-is-furniture",
-    "the-room-nobody-enters",
-    "one-trim-grade-for-every-room"
+  "entered_from": [
+   "kitchen",
+   "dining-room",
+   "back-hall",
+   "service-corridor"
   ],
-  "sources": [
-    "Jill Franklin, The Gentleman's Country House and its Plan 1835-1914 (1981)",
-    "Mark Girouard, Life in the English Country House (1978), on the plate and the butler",
-    "HABS measured plans of Colonial Revival butler's pantries, 1900-1930"
-  ],
-  "confidence": "high"
+  "never_a_through_room": false
+ },
+ "privacy_rank": 3,
+ "servicing": {
+  "plumbing": "light",
+  "ventilation": "A transfer path, and no extract - this room must be NEUTRAL or slightly positive relative to the kitchen, because if the kitchen hood depressurises the kitchen and the pantry is the nearest opening, every cooking smell in the house travels through the pantry into the dining room. That is a real and commonly observed failure and it is a pressure problem, not a door problem.",
+  "heat": "Minimal; the room is passed through rather than occupied.",
+  "electrical": "Counter receptacles on the kitchen's small-appliance circuits or their own; dedicated circuit for any refrigeration; light on a two-way switch at both doors, because the room is entered from both ends with both hands full.",
+  "stack_proximity_ft": 8
+ },
+ "style_variation": [
+  {
+   "style": "english-georgian-country-house",
+   "name_in_style": "butler's pantry",
+   "present": true,
+   "trim_grade": "plain",
+   "note": "With the plate safe, the butler's bed and a hatch to the servants' hall. Plain-finished but well made - it is a working room in a house where the work was skilled."
+  },
+  {
+   "style": "georgian-colonial-american",
+   "name_in_style": "pantry",
+   "present": true,
+   "trim_grade": "plain",
+   "note": "In the ell or the hyphen between the main block and the kitchen dependency, which is exactly where the five-part plan already puts a connecting room. The hyphen of a five-part Palladian composition IS a butler's pantry waiting to be named."
+  },
+  {
+   "style": "colonial-revival",
+   "name_in_style": "butler's pantry",
+   "present": true,
+   "trim_grade": "middle",
+   "note": "Its American high point, 1900-1930, and the surviving examples are excellent: glazed uppers with divided lights, a marble or soapstone counter, a nickel bar sink, beadboard, and a swing door with a kick plate at each end."
+  },
+  {
+   "style": "italianate-townhouse",
+   "name_in_style": "butler's pantry",
+   "present": true,
+   "trim_grade": "middle",
+   "note": "On the narrow plan it is the room between the front and back parlour range and the rear kitchen, and it is what makes a 20 ft wide house work socially."
+  },
+  {
+   "style": "craftsman-bungalow",
+   "name_in_style": "pass pantry",
+   "present": true,
+   "trim_grade": "middle",
+   "note": "Compressed to a passage with cabinets both sides and a pass-through hatch to the dining room - the bungalow's small, correct version."
+  },
+  {
+   "style": "ranch-style",
+   "present": false,
+   "note": "Absent. The kitchen serves the dining area directly across a counter, which is the type's argument."
+  },
+  {
+   "style": "minimal-traditional",
+   "present": false,
+   "note": "No dining room to serve."
+  }
+ ],
+ "code": [
+  {
+   "requirement": "Where a sink is fitted, GFCI protection and countertop receptacle spacing apply as in a kitchen.",
+   "ref": "NEC 210.8, 210.52(C)"
+  },
+  {
+   "requirement": "Swing doors with vision panels where a two-way door is used.",
+   "ref": "Good practice, not code",
+   "conflict": "The traditional butler's pantry door is a single-action swing door with no vision panel and there is a real collision hazard where two people carry plates in opposite directions. The historical answer was two doors and a one-way convention; the modern answer is a small glazed light in the door, which slightly compromises the visual lock and is worth it."
+  }
+ ],
+ "massing_fit": [
+  "five-part-palladian",
+  "four-over-four",
+  "side-hall-double-pile",
+  "townhouse-row",
+  "linear-ell-farmhouse",
+  "foursquare",
+  "h-plan-manor",
+  "massed-picturesque",
+  "mansard-block",
+  "telescope-house",
+  "charleston-single",
+  "villa-tower"
+ ],
+ "slots": [
+  "service_zone_strategy",
+  "room_adjacency_overrides",
+  "public_private_gradient",
+  "storage_strategy",
+  "built_ins",
+  "circulation_parti"
+ ],
+ "faults": [
+  "service-route-through-the-formal-plan",
+  "built-in-that-is-furniture",
+  "the-room-nobody-enters",
+  "one-trim-grade-for-every-room"
+ ],
+ "sources": [
+  "Jill Franklin, The Gentleman's Country House and its Plan 1835-1914 (1981)",
+  "Mark Girouard, Life in the English Country House (1978), on the plate and the butler",
+  "HABS measured plans of Colonial Revival butler's pantries, 1900-1930"
+ ],
+ "confidence": "high"
 }

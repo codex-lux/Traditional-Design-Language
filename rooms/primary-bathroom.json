@@ -106,9 +106,13 @@
     "must_adjoin": [
       {
         "room": "primary-bedroom",
-        "why": "Direct and private. A primary bath reached through a corridor shared with anything else is not en-suite.",
+        "why": "Direct and private. A primary bath reached through a corridor shared with anything else is not en-suite. WP-4.5: the via allowance is the mirror of the one added to primary-bedroom's rule at the same time. WP-2.1 found the gap from the bedroom's side and proposed the fix there; the rule is declared on BOTH rooms, so fixing one side left good-07 still failing from the other. A dressing room or a walk-in closet between the bedroom and the bath is the arrangement this corpus elsewhere calls the lock between them, and it satisfies the rule from whichever end it is read.",
         "relation": "direct-door",
-        "strength": "hard"
+        "strength": "hard",
+        "via": [
+          "dressing-room",
+          "walk-in-closet"
+        ]
       }
     ],
     "should_adjoin": [

@@ -39,6 +39,13 @@ HEX_MAP = {
     "#1E3547": "#ECE2CF",   # sleeping
     "#122A38": "#E6DFCE",   # storage
     "#0E2434": "#E3E2CB",   # outdoor — pale lawn
+    # OQ 55's roofed reserved void: a loggia is covered where a patio is not, and the drawing
+    # has to be able to say which. The open court takes the GROUND colour and is hatched; the
+    # roofed one keeps a faint fill, so on vellum it becomes the palest wash in the set —
+    # covered, but still outside. Added 25 Aug 2026: the void work and this theme map were
+    # built on different branches and met at the merge, so the colour reached the renderer
+    # before it reached the Drawn Language. That is exactly what this test is for.
+    "#12293A": "#E9E6D6",   # roofed void — loggia, piazza: covered, still outside
 }
 
 FONT_MAP = {

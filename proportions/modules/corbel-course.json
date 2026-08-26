@@ -1,0 +1,351 @@
+{
+  "id": "corbel-course",
+  "name": "The Corbel: How a Masonry Wall Gets an Overhang",
+  "aka": [
+    "the corbel table",
+    "the genoise",
+    "the gronda",
+    "the dogtooth band"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "Reconstructed by measurement from the corpus's own records, six of which give corbel or corbelled-band figures across four unrelated traditions -- Mudejar brick, Scottish tower-house stone, Provencal and Tuscan tile, and Anglo-American moulded brick; against Borras Gualis and Pavon Maldonado for the Spanish brickwork and the standard Scottish tower-house literature for the bartizan",
+    "author": "no named author; a mason's device, recorded rather than published",
+    "year": 1200,
+    "strength": "reconstructed",
+    "note": "RECONSTRUCTED, and from an unusually wide base: four traditions that share no vocabulary, no period and no country all solve the same problem the same way, and each of this corpus's records for them gives a figure. What none of them gives is the rule connecting the figures, which is what this pack reconstructs -- and it reconstructs it the way `jetty-overhang` had to, by taking each record's total projection and its own stated course count and dividing. The per-course step that falls out is stated as a judgment, with the arithmetic and the assumptions in the open, because three of the four sets of figures do not name their course count and it had to be read."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One masonry course: the unit's bed depth plus one bed joint",
+    "parts": 11,
+    "default_size_in": 2.75,
+    "note": "The part is a quarter of an inch and the course is eleven of them, which is `styles/queen-anne-patterned-masonry.json`'s 'brick course height 2.5 to 3 in' at its middle.\n\nTHIS PACK'S MODULE IS `brick-course`'S PART, EXACTLY. That pack's module is 'four brick courses... measured on the mason's gauge rod', 11 in in 4 parts of 2.75. This one's module is one course of the same 2.75 in. The two interlock rather than compete: `brick-course` works in gauge-rod lengths and answers questions about where an opening's head lands, and this one works in single courses and answers what happens when a course steps out past the one below it. A pack should be dimensioned in the unit its own rules are actually stated in, and every record here states corbelling in courses.\n\nThe default is a brick course because four of the six bound nodes are brick, but the module is declared as a rule so a node can override it -- a Scottish squared-rubble course runs 150-250 mm and a Provencal canal tile far less, and the pack's real content is the ratio of the step to the course rather than either number."
+  },
+  "assemblies": {
+    "corbel_table": {
+      "height_modules": 4.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "course_1",
+          "name": "First corbelled course",
+          "height_parts": 11.0,
+          "projection_parts": 6.0,
+          "profile": "flat",
+          "note": "One course, stepping 1.5 in -- about 55 per cent of its own depth. That ratio is the pack's central quantity and the reason it exists: what limits a corbel is not the total projection but how far ONE course may overhang the one below without the mortar bed going into tension at the back.",
+          "confidence": "medium"
+        },
+        {
+          "id": "course_2",
+          "name": "Second corbelled course",
+          "height_parts": 11.0,
+          "projection_parts": 12.0,
+          "profile": "flat",
+          "note": "3 in out. The projection figures are cumulative from the wall face, which is how a corbel is set out and drawn -- each course is laid to a line, not measured off the one below, because measuring off the one below accumulates the error into the thing everybody looks at.",
+          "confidence": "medium"
+        },
+        {
+          "id": "course_3",
+          "name": "Third corbelled course",
+          "height_parts": 11.0,
+          "projection_parts": 18.0,
+          "profile": "flat",
+          "note": "4.5 in. By the third course the tail of each unit needs real load on it, which in practice means the wall above must be built before the corbel is loaded from the front -- and it is why a corbel table is a wall-head device and almost never appears mid-elevation.",
+          "confidence": "medium"
+        },
+        {
+          "id": "course_4",
+          "name": "Fourth corbelled course, carrying the eave or the parapet",
+          "height_parts": 11.0,
+          "projection_parts": 24.0,
+          "profile": "corona",
+          "note": "6 in in all, which is exactly the ceiling `styles/queen-anne-patterned-masonry.json` puts on a corbelled chimney cap -- 'projecting 3 to 6 in'. Four courses is also the top of the Provencal genoise's own count, and there the number is a social statement rather than a structural one.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "ornament_band": {
+      "height_modules": 6.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "plain_below",
+          "name": "Plain course under the band",
+          "height_parts": 11.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "The band needs plain walling under it to read against, which is the same argument the Iberian records make about the portada and the Scottish record makes about the wall head: ornament works by contrast and the plain field is a designed element.",
+          "confidence": "medium"
+        },
+        {
+          "id": "dogtooth",
+          "name": "Dogtooth: whole units set on point",
+          "height_parts": 11.0,
+          "projection_parts": 4.5,
+          "profile": "bevel",
+          "note": "A brick turned 45 degrees in plan projects half the difference between its diagonal and its width -- 0.207 of the width, which on a 140 mm ladrillo is 29 mm and here is about 1.1 in. The figure is COMPUTED from the rotation and not chosen, which is the whole character of this ornament: `styles/mudejar.json` requires it to be 'generated by whole-brick offsets, rotations and corbels', so every dimension in the band is a consequence of a geometric operation on a standard unit.",
+          "confidence": "high"
+        },
+        {
+          "id": "dentil",
+          "name": "Dentil: alternate headers projecting",
+          "height_parts": 11.0,
+          "projection_parts": 6.0,
+          "profile": "dentil",
+          "note": "1.5 in, the same step as a corbelled course -- because it is one, interrupted. A dentil course is a corbel course with every other unit left back, and stating them at the same projection is not a simplification but the reason the two read as one family.",
+          "confidence": "medium"
+        },
+        {
+          "id": "interlace",
+          "name": "Interlace: two courses of angled units forming a lozenge net",
+          "height_parts": 22.0,
+          "projection_parts": 3.0,
+          "profile": "flat",
+          "note": "Two courses, because the pattern needs a rise and a fall to close. This is the sebka-derived net that `styles/mudejar.json` lists among its whole-brick bands, and it is the one that most obviously could not be done any other way -- a carved version of it would take a month and read as flat.",
+          "confidence": "low"
+        },
+        {
+          "id": "plain_above",
+          "name": "Plain course over the band",
+          "height_parts": 11.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "Closing the band, and the reason the band's total is an odd count: five elements over six courses, symmetrical about the interlace, which is how the Aragonese tower bands actually run.",
+          "confidence": "low"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is a quarter of an inch.",
+      "expression": "module.default_size_in / module.parts == 0.25",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "No course steps more than one and a quarter times its own depth.",
+      "expression": "assemblies.corbel_table.members.course_1.projection_parts / module.parts <= 1.25",
+      "tolerance": 0.0,
+      "note": "0.545 encoded, against a reconstructed band of 0.4 to 1.2. The ceiling is the one end of that band that is not a matter of taste: past about a course depth the unit is overhanging more than it is bedded, and the mortar joint at the back of the course below goes into tension. Three of the four traditions' figures fall inside it and the fourth, the Provencal and Tuscan tile eave, is outside for a stated material reason -- see the derived rule."
+    },
+    {
+      "statement": "The corbel table's total projection is the step times its course count.",
+      "expression": "assemblies.corbel_table.members.course_4.projection_parts == assemblies.corbel_table.members.course_1.projection_parts * 4",
+      "tolerance": 0.001,
+      "note": "24 parts against 6 times 4. Trivially true as encoded and worth an invariant anyway, because the commonest drafting error in a corbelled eave is a total projection that does not divide by the course count -- which produces either a half-brick step somewhere or a mason improvising, and the improvisation always lands on the top course where it shows."
+    },
+    {
+      "statement": "The dogtooth projects less than a corbelled course, because a rotation is not an offset.",
+      "expression": "assemblies.ornament_band.members.dogtooth.projection_parts < assemblies.corbel_table.members.course_1.projection_parts",
+      "tolerance": 0.0,
+      "note": "4.5 against 6. A dogtooth's projection is fixed by the unit's own geometry -- 0.207 of its width, and nothing a designer can adjust -- while a corbel's is chosen. Confusing the two is how a drawn dogtooth ends up with a projection no brick can actually produce."
+    },
+    {
+      "statement": "The ornament band is deeper than the corbel table, because it is made of courses rather than steps.",
+      "expression": "assemblies.ornament_band.height_modules > assemblies.corbel_table.height_modules",
+      "tolerance": 0.0,
+      "note": "Six courses against four, inside `styles/mudejar.json`'s 'ornamental bands 3-9 courses deep'. The two assemblies are the pack's two devices and they are not the same thing: a corbel table steps a wall outward and stops, and a band decorates a wall face and returns to it."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "cornice",
+      "dimension": "corbel_step",
+      "expression": "part * 6",
+      "units": "in",
+      "range": [0.6, 3.0],
+      "authority_note": "Derived. `styles/french-provincial-farmhouse.json`: a genoise of 'two to four courses of round tile corbelled out under the eave'. `styles/tuscan-vernacular.json`: 'eave overhang 300-600 mm on two or three corbelled courses of tile and brick'. `styles/queen-anne-patterned-masonry.json`: a corbelled cap 'projecting 3 to 6 in'. `styles/scottish-baronial.json`: a bartizan 'corbelled out 450-750 mm from the wall face'.",
+      "note": "ONE AND A HALF INCHES PER COURSE, and it is the quantity the whole pack turns on. No record states it: each gives a total and a course count, or a total and nothing, and the step has to be recovered by division. Doing so is what shows the four traditions are one device.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "step_ratio",
+      "expression": "0.545",
+      "units": "ratio",
+      "range": [0.4, 1.2],
+      "authority_note": "Reconstructed from four records by dividing each total projection by its own course count, with the course depth read from the same record where it gives one and from the material where it does not. Queen Anne: 3-6 in over 2-3 courses of 2.5-3 in gives 0.4-0.7. Mudejar: a quarter to a half ladrillo width on a 60-70 mm course gives 0.5-1.0. Scottish: 450-750 mm over an assumed 3-5 courses of 150-250 mm stone gives 0.5-1.2. Provencal and Tuscan: 300-600 mm over 2-3 tile courses gives 2 to 4, which is outside the band.",
+      "note": "THE STEP AS A FRACTION OF THE COURSE, AND THE OUTLIER IS THE INTERESTING ONE. Three traditions converge on roughly half to one course depth per step; the Mediterranean tile eave comes out at two to four times its course and is not a contradiction, because A TILE CORBEL IS NOT LIMITED BY ITS BED DEPTH BUT BY ITS LENGTH. A canal tile is 400-500 mm long and 40 mm deep, laid flat and lapped, so what resists the overturning is the tail of a long thin unit under the tile above it rather than the friction of a short deep one. The same distinction `jetty-overhang` found between a joist that is limited by sag and one limited by load, arriving in masonry. Judgment, because three of the four course counts had to be read rather than quoted, and the reading is stated above so it can be disagreed with.",
+      "judgment": true
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "corbel_projection",
+      "expression": "module * 2.18",
+      "units": "in",
+      "range": [3.0, 30.0],
+      "authority_note": "`styles/queen-anne-patterned-masonry.json` 3-6 in (chimney cap); `styles/tuscan-vernacular.json` 300-600 mm (eave); `styles/french-provincial-farmhouse.json` two to four tile courses (genoise); `styles/scottish-baronial.json` 450-750 mm (bartizan).",
+      "note": "SIX INCHES ENCODED AND A BAND OF NEARLY TEN TO ONE, because the four things being corbelled are different sizes: a chimney cap, an eave, a wall head and a turret. The band is the union and is not useful on its own -- read the node's own figure. What IS useful across all four is the step above and the count below, which is the argument for dimensioning this pack the way it is dimensioned.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "corbel_courses",
+      "expression": "4",
+      "units": "count",
+      "range": [2.0, 5.0],
+      "authority_note": "`styles/french-provincial-farmhouse.json`: 'two to four courses'. `styles/tuscan-vernacular.json`: 'two or three corbelled courses'.",
+      "note": "TWO TO FOUR COURSES, AND IN PROVENCE THE NUMBER IS A SOCIAL FACT. `styles/french-provincial-farmhouse.json` says it outright: 'the number of courses was, quite literally, a statement of the owner's standing.' That is the only rule in this library where a proportional quantity is stated as a declaration of wealth rather than as a consequence of structure, material or optics, and it is worth keeping in that form -- a compiler asked for a modest mas and given a four-course genoise has said something about the client that nobody intended.",
+      "judgment": false
+    },
+    {
+      "target_slot": "secondary_cladding",
+      "dimension": "course_height",
+      "expression": "module",
+      "units": "in",
+      "range": [1.5, 10.0],
+      "authority_note": "`styles/queen-anne-patterned-masonry.json`: 'brick course height 2.5 to 3 in'. `styles/mudejar.json`: 'brick course plus joint 60-70 mm'. `styles/scottish-baronial.json` implies a squared-rubble course; `styles/tuscan-vernacular.json` and `styles/french-provincial-farmhouse.json` a canal tile.",
+      "note": "THE MODULE, DECLARED AS A RULE SO A NODE CAN OVERRIDE IT, and the band runs from a tile to a stone because the pack's content is the ratio and not the dimension. Note that the Mudejar course at 60-70 mm is THINNER than the Anglo-American one at 2.5-3 in while the ladrillo is LONGER -- a thin long brick with a thick joint, which is why Mudejar coursing reads as a horizontal texture at a distance where English brickwork reads as a surface.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "band_courses",
+      "expression": "6",
+      "units": "count",
+      "range": [3.0, 9.0],
+      "authority_note": "`styles/mudejar.json`: 'ornamental bands 3-9 courses deep'.",
+      "note": "SIX COURSES. The band is the second of the pack's two devices and it does something a corbel table does not: it returns to the wall face. `styles/mudejar.json`'s governing logic explains why the count matters more than the depth -- 'ornament is dimensioned in whole brick courses... so every band, offset and blind arch is a whole number of bricks and nothing can be resized without redrawing.' A band is three to nine courses and there is no such thing as a band of six and a half.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "moulded_units",
+      "expression": "0",
+      "units": "count",
+      "range": [0.0, 1.0],
+      "authority_note": "`styles/mudejar.json`, hard rule: 'brick ornament must be generated by whole-brick offsets, rotations and corbels. Carved, moulded or cast brick profiles are prohibited: the entire visual character depends on the ornament being an arrangement of a standard unit.' `styles/queen-anne-patterned-masonry.json`, the opposite: 'terra cotta or moulded brick panels set into a brick field... the clearest single tell.'",
+      "note": "TWO OF THE BOUND TRADITIONS FORBID THE MOULDED UNIT AND ONE IS DEFINED BY IT, AND THE PACK DOES NOT RECONCILE THEM. Zero means whole standard units only; one means moulded and cast units are part of the vocabulary. It is a switch and not a scale, and it is marked judgment because it is the first thing to settle about any corbelled brickwork -- a Mudejar band built from moulded specials has lost the argument it exists to make, and a Queen Anne panel built from whole stretchers has thrown away the technology the style was showing off.",
+      "judgment": true
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "panel_share",
+      "expression": "0.18",
+      "units": "ratio",
+      "range": [0.05, 0.25],
+      "authority_note": "`styles/queen-anne-patterned-masonry.json`, hard rule: 'ornamental panels of moulded brick or terra cotta shall occupy not more than 25 percent of any elevation and shall be concentrated in frieze, spandrel, and gable positions.'",
+      "note": "A QUARTER OF AN ELEVATION AT MOST, and it is the same rationing rule `facade-portada` found nine records stating for Spanish work, arriving independently in an English one. Two ornamental traditions that share no vocabulary agree that the ornament must be bounded and that the plain field is what makes it read. The positions matter as much as the share: frieze, spandrel and gable, which are the three places a masonry wall is not carrying much.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "dogtooth_projection",
+      "expression": "part * 4.5",
+      "units": "in",
+      "range": [0.7, 1.6],
+      "authority_note": "Computed from the rotation rather than stated by a record: a rectangular unit turned 45 degrees in plan projects (sqrt(2) - 1) / 2 of its width past the face, which is 0.2071.",
+      "note": "1.125 IN, AND IT IS ARITHMETIC RATHER THAN A CHOICE. On a 140 mm Mudejar ladrillo the projection is 29 mm; on a 4 in Anglo brick it is 0.83 in. A designer cannot adjust it without changing the brick, which is exactly the property `styles/mudejar.json` is describing when it says the character 'depends on the ornament being an arrangement of a standard unit'. Stated as a rule because it is the one dimension in this family that a drawing most often gets wrong -- a dogtooth drawn at an arbitrary projection cannot be built from the brick it is drawn in.",
+      "judgment": false
+    },
+    {
+      "target_slot": "chimney",
+      "dimension": "cap_projection",
+      "expression": "module * 1.64",
+      "units": "in",
+      "range": [3.0, 6.0],
+      "authority_note": "`styles/queen-anne-patterned-masonry.json`, hard rule: stacks 'shall carry a corbelled or panelled cap projecting 3 to 6 in. In this subtype the chimney is a primary compositional element and may not be suppressed.'",
+      "note": "4.5 IN, AND THE NODE'S OWN CONSTRAINT NOTE RECORDS THAT THIS FIGURE HAD NOWHERE TO LIVE: 'the cap's corbelled/panelled form and its 3-6 in projection have no matching vocabulary variable (no chimney-cap-projection concept) and stay prose.' It has one now. The chimney cap is the commonest corbel in the corpus by a wide margin -- almost every masonry tradition here has one -- and it is the place where a corbel's structural logic is clearest, because there is nothing above to load the tails and the projection has to be modest for that reason alone.",
+      "judgment": false
+    },
+    {
+      "target_slot": "eave_condition",
+      "dimension": "corbel_depth",
+      "expression": "module * 6.5",
+      "units": "in",
+      "range": [11.8, 23.6],
+      "authority_note": "`styles/tuscan-vernacular.json`: 'shallow-pitched roof of coppi and embrici with a projecting corbelled tile eave (gronda) of 300-600 mm'. `styles/french-provincial-farmhouse.json`: the genoise, 'two to four courses of round tile corbelled out under the eave, with no fascia, gutter or soffit board'.",
+      "note": "THE MEDITERRANEAN TILE EAVE, 17.9 IN, AND THE PROVENCAL AND TUSCAN VERSIONS ARE THE SAME DEVICE. Neither record mentions the other and both describe two to four courses of round tile corbelled out to throw water clear of a lime-rendered wall. The clause that matters for construction is the French one's: 'no fascia, gutter or soffit board.' The corbel IS the eave detail -- there is no other trim, nothing to fix a gutter to, and a modern eave gutter bolted to a genoise destroys it and does not work, because the water leaves the tile at the arris and not at a fascia line.",
+      "judgment": false
+    },
+    {
+      "target_slot": "parapet",
+      "dimension": "bartizan_projection",
+      "expression": "module * 8.7",
+      "units": "in",
+      "range": [17.7, 29.5],
+      "authority_note": "`styles/scottish-baronial.json`: 'bartizan diameter 1.2-2.0 m, corbelled out 450-750 mm from the wall face, with a conical roof of 55-65 degrees', and its hard rule that a turret 'sitting on a bracket, a cantilevered slab, or nothing at all is the commonest and most immediately visible failure of the style.'",
+      "note": "TWO FEET OUT FROM THE WALL FACE, and it is the largest corbel in the corpus by a factor of four -- a turret with a room in it, carried on stepped stone. The style's own hard rule is the useful one and it is about honesty of construction rather than dimension: the corbelling must be VISIBLE, and a bartizan on a hidden bracket fails even when the bartizan is correct. `stone-course`'s own notes record that it declined this figure as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers so they would not be lost. This is where they were going.",
+      "judgment": false
+    },
+    {
+      "target_slot": "parapet",
+      "dimension": "bartizan_diameter",
+      "expression": "module * 22.9",
+      "units": "in",
+      "range": [47.0, 79.0],
+      "authority_note": "`styles/scottish-baronial.json`: 'bartizan diameter 1.2-2.0 m'.",
+      "note": "FIVE FEET ACROSS, which makes the diameter about two and a half times the projection -- so most of a bartizan is corbelled out past the corner and only a slice of it sits over solid wall. That ratio is why the corbelling has to be a proper stepped course and not a bracket, and it is also why bartizans are at CORNERS: a corner gives two walls to spread the load back into, and the same turret mid-elevation would need a buttress the style forbids.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_pitch",
+      "dimension": "conical_ratio",
+      "expression": "1.7321",
+      "units": "ratio",
+      "range": [1.428, 2.145],
+      "authority_note": "`styles/scottish-baronial.json`: 'a conical roof of 55-65 degrees'.",
+      "note": "SIXTY DEGREES, RISE OVER RUN 1.732. It is steeper than any gable in this library and the reason is the cone: a conical roof's slates lie on a surface of double curvature and have to be cut tapered, and a shallow cone makes the taper severe and the laps unreliable. The pitch is also what makes a bartizan read from below as a candle-snuffer rather than as a hat, which is the whole point of the silhouette this style is built on.",
+      "judgment": false
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "wall_head_share",
+      "expression": "0.2",
+      "units": "ratio",
+      "range": [0.1, 0.3],
+      "authority_note": "`styles/scottish-baronial.json`, hard rule: 'ornament is confined to the wall head -- corbel table, parapet, dormer heads, chimney caps. The lower two storeys must remain plain walling. Distributing ornament evenly up the elevation destroys the composition.' The share itself is a reading of 'the wall head'.",
+      "note": "THE TOP FIFTH OF THE ELEVATION AND NOT AN INCH LOWER, and the share is a reading while the rule is not. This is the third independent rationing rule the pack has met -- Mudejar bands against plain brick, Queen Anne panels at a quarter of an elevation, Scottish ornament at the wall head -- and it is the same finding `facade-portada` made about nine Spanish records. Four traditions, no shared vocabulary, all saying that ornament works by being bounded. It is beginning to look like a general law of this corpus rather than a Spanish peculiarity.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "A corbel is an overturning problem dressed as a decoration. Each course cantilevers past the one below on nothing but the friction and bond of a mortar bed, and the moment is resisted by whatever load sits on the unit's tail -- which means a corbel is only as good as the wall built ON it. That is why corbelling is a wall-head device: at the top of a wall there is often nothing above to hold the tails down, and the projection has to shrink accordingly. `styles/scottish-baronial.json` names the failure exactly and calls it the style's most visible one: a turret 'sitting on a bracket, a cantilevered slab, or nothing at all'. The modern version is worse than the historic one, because a steel angle or a concrete nib will carry the load perfectly well and the building will then be lying about how it stands up, in the one place the style exists to tell the truth.",
+      "resolution": "Load the tails. Build the wall above before the corbel is loaded from the front, keep the per-course step at or under half the course depth where nothing sits above, and let the step grow only where it does. For a bartizan or anything with a floor in it, design the stepped courses as the structure and check them as a gravity retaining problem, not as cladding on a hidden bracket -- and if the geometry will not work in stone, reduce the turret rather than hide a steel. Where a support really must be concealed, say so in the record: a corbel that is decorative is a different object from one that is structural and the drawings should not pretend otherwise.",
+      "severity": "blocking"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Everything here is quantised to the course and nothing can absorb a fraction of one. `styles/mudejar.json` states the consequence in its own governing logic -- 'every band, offset and blind arch is a whole number of bricks and nothing can be resized without redrawing' -- and `styles/queen-anne-patterned-masonry.json` records the same discipline as a virtue, 'heads and sills align across an elevation even where widths do not, because the mason set them out from the same course.' The corollary is unforgiving: a wall that gains or loses one course between two ends puts every band, every corbel and every opening head out by that course, visibly, along the whole elevation. And a corbel table compounds it, because a total projection that does not divide by the course count leaves the mason to improvise, always on the top course, where it shows.",
+      "resolution": "Set the gauge first and design to it, not the other way round -- fix the course height, then let every vertical dimension in the design round to it, which is what `belt_course`'s datum rule in `brick-course` already does for openings and what this pack extends to ornament. Lay each corbelled course to a line struck from the wall face rather than measured off the course below, so error does not accumulate into the top course. And choose a total projection that divides by the course count before drawing anything: on a four-course table at 1.5 in a step, the answer is 6 in and not 5 or 7.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "A corbel is a stack of upward-facing ledges on the most exposed part of a building, and each step is a shelf. In a freeze-thaw climate the projecting arris is the first thing to spall, because it is saturated on three faces and has the least material behind it; in a wet one the steps hold water long enough to grow biology and the staining runs down the plain wall the ornament exists to contrast with. The Mediterranean genoise and gronda are the counter-example and show what the device is actually for: there the corbel throws water clear of a lime-rendered wall that would otherwise be washed, and `styles/french-provincial-farmhouse.json` is explicit that it does so with 'no fascia, gutter or soffit board' -- the corbel IS the rainwater strategy.",
+      "resolution": "Weather every step outward, which the historic work does and reproductions usually do not, and use a unit dense enough for the exposure -- a soft handmade ladrillo is right in Aragon and wrong in Aberdeen. In freezing climates keep the corbel under the roof's own overhang where the tradition allows one, and accept a shallower projection rather than a spalling deeper one. And do not fit a gutter to a genoise or a gronda: the water leaves the tile at the arris and not at a fascia line, so a gutter bolted under it catches nothing, destroys the profile, and gives the wall a wet strip it did not have before.",
+      "severity": "material"
+    },
+    {
+      "with": "material-availability",
+      "statement": "The unit is the whole system, and three of the four units are hard to get. A Mudejar ladrillo is thin, long and soft-fired -- roughly 280 by 140 by 45 mm with a thick joint -- and nothing in a modern brick catalogue is that shape; ordinary brick corbelled in a Mudejar pattern produces the pattern at the wrong scale and with the wrong joint, which reads as a reproduction from across the street. Moulded and cast brick specials for the Queen Anne case are a shrinking trade. A canal tile long enough to corbel is regional. And the record on the Spanish revival is blunt about the other half of the problem: Neo-Mudejar was a 'craft revival in brick, but no continuity of the workforce.'",
+      "resolution": "Source the unit before designing the ornament, and let the unit's real dimensions set the pattern rather than adjusting the pattern afterwards -- which is the same instruction the tradition gives, since nothing here can be resized without redrawing. Where the correct unit cannot be had, prefer a simpler pattern in the right brick to the right pattern in the wrong brick: a plain dogtooth in a thin long unit is Mudejar and a sebka net in a modern stock brick is not. And cost the labour honestly, because whole-unit ornament is slow bricklaying rather than fast carving and the trade that can set it out is small.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Corbelled ornament is cheap in material and expensive in time, and the ratio is the opposite of what a modern estimate assumes. There is no carving, no casting, no special component and almost no waste -- `styles/mudejar.json`'s whole argument is that the ornament is an arrangement of the standard unit -- but every course is set out individually, every step is laid to a new line, and a six-course band takes a skilled bricklayer far longer than six plain courses. A corbel table on a tower is measured in days per metre. The historic economics made sense because the labour was local, guild-organised and continuous; the modern economics do not, and the usual answer is a precast or GRC unit moulded to look like stepped brick.",
+      "resolution": "Take the tradition's own economy where it still works: repeat ONE band detail and one corbel detail around the whole building rather than varying them, which is what the Aragonese towers do -- the same panelled elevation on all four faces -- and which turns the setting-out cost into a one-off. Where the budget will not carry real corbelling, reduce its extent rather than fake its depth: a single three-course band correctly laid is worth more than a moulded panel imitating nine. And be clear which case a precast unit belongs to, because on the Queen Anne side a moulded special IS the tradition and on the Mudejar side it voids it.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "mudejar",
+    "moorish-andalusian",
+    "scottish-baronial",
+    "queen-anne-patterned-masonry",
+    "tuscan-vernacular",
+    "french-provincial-farmhouse"
+  ],
+  "sources": [
+    "Gonzalo M. Borras Gualis, El arte mudejar, Instituto de Estudios Turolenses, Teruel, 1990",
+    "Basilio Pavon Maldonado, Arte mudejar: arte islamico en Espana, Madrid",
+    "Stewart Cruden, The Scottish Castle, Nelson, Edinburgh, 1960, for the tower-house wall head",
+    "Ronald Brunskill, Brick Building in Britain, Gollancz, London, 1990, for the corbelled and moulded English work"
+  ],
+  "confidence": "medium",
+  "notes": "THE SEVENTH GAP IN THIS PACKAGE THE CORPUS HAD ALREADY WRITTEN DOWN, and this time two nodes wrote it. `styles/mudejar.json`'s `facade-arcade` binding note says 'what neither pack carries is the thing this node is most distinctive for -- the whole-brick corbelling and offsetting that WP-4.1 list[ed]'. And `stone-course`'s own notes record that it declined the Scottish crow-step and bartizan as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers into its notes so they would not be lost. A third, `styles/queen-anne-patterned-masonry.json`, records that its corbelled chimney cap's '3-6 in projection' has 'no matching vocabulary variable' and stays prose. Three records, three traditions, one missing pack.\n\nTHE LIST NAMED ONE INSTANCE OF A CLASS, WHICH IS THIS TRANCHE'S RECURRING FINDING. WP-4.1 asked for 'a Mudejar brick corbelling module' at 7 nodes. Measured, the device is in FOUR unrelated traditions with figures: Mudejar whole-brick bands, the Scottish corbelled bartizan, the Anglo-American corbelled chimney cap, and the Provencal genoise with its Tuscan twin the gronda. They share no vocabulary, no period and no country, and they are all the same move -- because a masonry wall has exactly one way to get an overhang, which is to step its courses out.\n\nTHAT MAKES THIS PACK `jetty-overhang`'S SIBLING, AND THE PAIR IS THE POINT. A timber wall gets its overhang by cantilevering a joist and the limit is a multiple of the joist's depth (1.0 to 2.2, and three different failures behind the three multiples). A masonry wall gets its overhang by stepping a course and the limit is a multiple of the course's depth (0.4 to 1.2). Same problem, two materials, two packs, and the same shape of reconstruction in both -- take each record's total and its own course count, divide, and see whether the ratios agree. Three of four agree here. The fourth, the Mediterranean tile eave at two to four course depths, is outside for a stated material reason: A TILE CORBEL IS LIMITED BY THE UNIT'S LENGTH AND NOT BY ITS BED DEPTH, being a long thin unit laid flat and lapped rather than a short deep one bedded. `jetty-overhang` found the same class of explanation for its own outlier.\n\nONE RULE IS A SOCIAL FACT AND IS KEPT AS ONE. `styles/french-provincial-farmhouse.json` on the genoise: 'the number of courses was, quite literally, a statement of the owner's standing.' That is the only quantity in this library stated as a declaration of wealth rather than as a consequence of structure, material or optics, and it is worth keeping in that form -- a compiler asked for a modest mas and given a four-course genoise has said something about the client that nobody intended.\n\nAND ONE FINDING THAT MAY BE GENERAL. Three of the six bound records carry a RATIONING rule -- Mudejar bands against plain brick, Queen Anne panels at not more than a quarter of an elevation, Scottish ornament confined to the wall head with the lower two storeys plain. `facade-portada` found nine Spanish records saying the same thing one pack ago and treated it as an Iberian characteristic. It is not: four traditions with nothing in common are all saying that ornament works by being bounded and that the plain field is a designed element. That looks like a general law of this corpus rather than a regional habit, and it is now stated in two packs.\n\nNOT BOUND, WITH REASONS. `pueblo-revival` and `new-mexico-adobe` use the word CORBEL for something else entirely -- the zapata, a carved wooden bracket under a portal beam, 30 to 42 in long -- which is a bracket and not a stepped course, and has nothing to do with this pack. It is a homonym, and it would have been caught by any keyword sweep: the fifth time in this work package that a keyword measurement over-counted its own work list, and the first time by ambiguity rather than by breadth. `chateauesque` has corbelled turrets and 'massive corbelled chimneys treated as compositional elements' and gives NO figure for either, so it is left unbound rather than given this pack's defaults -- the Scottish bartizan's 450-750 mm is a Scottish figure and lending it to a French-derived turret would be inventing a measurement, which is the one thing this corpus forbids outright."
+}

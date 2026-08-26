@@ -1,0 +1,332 @@
+{
+  "id": "octagon-radial",
+  "name": "Octagon",
+  "aka": [
+    "the octagon house",
+    "Fowler plan",
+    "radial-plan house"
+  ],
+  "description": "Rooms arranged radially around a central stair in an eight-sided block. The type exists because of one argument, made by Orson Squire Fowler in 1848 and briefly very persuasive: an octagon encloses about a fifth more floor area than a square of the same perimeter, so it costs less wall for the same house and loses less heat through it. Everything else follows from taking that seriously. The stair goes in the middle because a radial plan has no other centre; the rooms become trapezoids because the perimeter is eight-sided and the core is square; and the leftover triangles between the rooms and the core become the closets, baths and passages, which is the type's real ingenuity and also the reason it is hard to furnish.",
+  "massing": "octagon",
+  "alternate_massings": [
+    "villa-tower"
+  ],
+  "styles": [
+    "octagon-house"
+  ],
+  "groupings": [
+    "stair-and-landing-core",
+    "kitchen-work-core",
+    "primary-suite",
+    "secondary-bedroom-cluster"
+  ],
+  "circulation_parti": "center-hall",
+  "storeys": 2,
+  "area_range_sf": [
+    1600,
+    4000
+  ],
+  "bedroom_range": [
+    3,
+    5
+  ],
+  "rooms": [
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Veranda",
+      "required": false,
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "exterior",
+        "hall"
+      ],
+      "note": "Where there is one it runs round every face, because on an eight-sided house a porch on one face reads as a mistake. That is expensive, and it is why many octagons have none."
+    },
+    {
+      "id": "hall",
+      "type": "entrance-hall",
+      "level": 0,
+      "name": "Hall",
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "porch",
+        "stair",
+        "parlor",
+        "dining",
+        "library"
+      ],
+      "area_weight": 0.07
+    },
+    {
+      "id": "stair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Central Stair",
+      "doors": [
+        "hall",
+        "landing",
+        "parlor",
+        "dining",
+        "kitchen",
+        "library"
+      ],
+      "area_weight": 0.09,
+      "note": "The core, and the whole plan's organising element. Every ground-floor room opens onto it, which is what makes the radial arrangement work at all; in Fowler's own house it is topped by a glazed cupola that lights the core and ventilates the whole building by stack effect."
+    },
+    {
+      "id": "parlor",
+      "type": "parlor",
+      "level": 0,
+      "name": "Parlor",
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "hall",
+        "stair",
+        "dining"
+      ],
+      "area_weight": 0.16,
+      "note": "Trapezoidal, like every principal room here - two parallel walls and two splayed ones. It is the reason the type never took hold: furniture is rectangular and these rooms are not, and the corners are unusable in a way a square room's are not."
+    },
+    {
+      "id": "dining",
+      "type": "dining-room",
+      "level": 0,
+      "name": "Dining Room",
+      "exterior_walls": [
+        "W",
+        "N"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "hall",
+        "stair",
+        "parlor",
+        "kitchen"
+      ],
+      "area_weight": 0.14
+    },
+    {
+      "id": "library",
+      "type": "library",
+      "level": 0,
+      "name": "Library",
+      "required": false,
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "hall",
+        "stair"
+      ],
+      "area_weight": 0.1
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "stair",
+        "dining",
+        "pantry",
+        "backhall"
+      ],
+      "fixtures": [
+        "sink",
+        "range",
+        "dishwasher"
+      ],
+      "area_weight": 0.12
+    },
+    {
+      "id": "pantry",
+      "type": "pantry",
+      "level": 0,
+      "name": "Pantry",
+      "required": false,
+      "doors": [
+        "kitchen"
+      ],
+      "note": "In one of the triangular leftovers between a trapezoidal room and the square core - the type's own answer to a geometry that generates awkward space at every junction."
+    },
+    {
+      "id": "backhall",
+      "type": "back-hall",
+      "level": 0,
+      "name": "Back Hall",
+      "required": false,
+      "exterior_walls": [
+        "N",
+        "E"
+      ],
+      "doors": [
+        "kitchen",
+        "exterior",
+        "powder"
+      ]
+    },
+    {
+      "id": "powder",
+      "type": "powder-room",
+      "level": 0,
+      "name": "Powder Room",
+      "required": false,
+      "doors": [
+        "backhall"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory"
+      ]
+    },
+    {
+      "id": "landing",
+      "type": "landing",
+      "level": 1,
+      "name": "Landing",
+      "doors": [
+        "stair",
+        "primary",
+        "chamber1",
+        "chamber2",
+        "hallbath"
+      ],
+      "stacks_over": "stair"
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 1,
+      "name": "Primary Bedroom",
+      "exterior_walls": [
+        "S",
+        "W"
+      ],
+      "lit_from": [
+        "S",
+        "W"
+      ],
+      "doors": [
+        "landing",
+        "primarybath"
+      ],
+      "stacks_over": "parlor",
+      "area_weight": 0.13
+    },
+    {
+      "id": "primarybath",
+      "type": "primary-bathroom",
+      "level": 1,
+      "name": "Primary Bath",
+      "doors": [
+        "primary"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub",
+        "shower"
+      ],
+      "stacks_over": "powder",
+      "note": "Fowler put a bathroom and a rainwater cistern in the core of his own octagon at a date when almost no American house had either, which is the part of his argument that turned out to matter."
+    },
+    {
+      "id": "chamber1",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "N"
+      ],
+      "lit_from": [
+        "N"
+      ],
+      "doors": [
+        "landing"
+      ],
+      "area_weight": 0.1
+    },
+    {
+      "id": "chamber2",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "required": false,
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "landing"
+      ],
+      "area_weight": 0.09
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 1,
+      "name": "Bath",
+      "required": false,
+      "doors": [
+        "landing"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ],
+      "stacks_over": "pantry"
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "widening",
+      "adding-a-storey"
+    ],
+    "bay_module_ft": 10,
+    "min_bay_count": 3,
+    "max_bay_count": 5,
+    "note": "An octagon grows only by getting bigger all over, which is the type's practical death sentence: there is no wing to add, no ell to extend, and a rear addition to an eight-sided house destroys the geometry that was its only argument. The corpus should record that the type's own logic forbids the thing every other house in the catalogue does."
+  },
+  "trades_away": "Rectangular rooms, and with them the ability to furnish a house with furniture built for one. It trades away every kind of extension, since an addition wrecks the geometry the type exists to exploit. It trades away simple framing - eight corners at 135 degrees, eight roof hips meeting at a point, and no square corner anywhere to set a stair or a cabinet against - which is most of why the saving in wall length never showed up as a saving in cost. And it trades away resale legibility: an octagon is the least conventional plan in this catalogue and the market has never forgiven it.",
+  "exemplars": [
+    "Armour-Stiner (Octagon) House, Irvington, New York, 1860 - the domed version, the finest survivor",
+    "Orson Squire Fowler's own 'Fowler's Folly', Fishkill, New York, 1853, demolished 1897",
+    "Longwood, Natchez, Mississippi, Samuel Sloan, 1860 - unfinished, and octagonal",
+    "McElroy Octagon House, San Francisco, 1861"
+  ],
+  "sources": [
+    "massings/catalog.json: octagon",
+    "Orson Squire Fowler, A Home for All, or the Gravel Wall and Octagon Mode of Building (1848, rev. 1853)",
+    "styles/octagon-house.json",
+    "editorial: the room list is a composable reduction; the trapezoidal geometry of the rooms is real and is NOT expressible in this corpus's rectangular plan record, which is stated in the report rather than worked around"
+  ],
+  "confidence": "high"
+}

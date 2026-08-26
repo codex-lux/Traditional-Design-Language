@@ -10,7 +10,9 @@ def test_health(client):
 
 def test_overview_counts(client):
     c = client.get("/api/overview").json()["counts"]
-    assert c["element_slots"] == 95 and c["faults"] == 209
+    # 97, not 95: ontology 0.7.0 added `arch` (OQ 46) and `expressed_frame` (OQ 47) on the
+    # Phase 4 branch, which merged 25 Aug 2026.
+    assert c["element_slots"] == 97 and c["faults"] == 209
 
 
 def test_phylogeny_shape(client):

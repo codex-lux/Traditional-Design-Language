@@ -1,0 +1,327 @@
+{
+  "id": "trim-sawn",
+  "name": "The Sawn and Turned Millwork Family",
+  "aka": [
+    "the scroll saw and the lathe",
+    "bargeboard, bracket and spindle",
+    "jigsawn ornament",
+    "steam millwork"
+  ],
+  "kind": "trim-system",
+  "authority": {
+    "source": "The mail-order and regional millwork catalogues of 1865-1910 -- Palliser, Bicknell, Hodgson, Radford, and the sash-and-blind works that printed them -- which published these members as numbered stock items with dimensions; A. J. Downing, Cottage Residences, 1842, and The Architecture of Country Houses, 1850, for the bargeboard's introduction; Alexander Jackson Davis, Rural Residences, 1837; and the surviving fabric behind this corpus's own records, which for this family carry unusually precise dimensions because the catalogues did",
+    "author": "compiled; after Downing and the millwork catalogues",
+    "year": 1880,
+    "strength": "documented",
+    "note": "DOCUMENTED, and this is the best-documented family in the whole library for a reason that is also its subject. These members were CATALOGUE ITEMS: a bargeboard, a bracket, a turned post and a spindle frieze all had numbers, dimensions and prices in a book a builder ordered from, so unlike the adobe wall or the rubble gable there is a printed record of exactly what was made. That is why this corpus's own records give the figures to the inch and why five of them agree with each other closely. What no catalogue did was say WHEN to use which, which is the part this pack has to reconstruct -- and, unusually, the corpus does that too, in a discrimination rule quoted in the notes below."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One pattern repeat: the unit the saw cuts and the design repeats along a run",
+    "parts": 16,
+    "default_size_in": 16.0,
+    "note": "The part is one inch, which is the scale of a spindle's diameter and a board's thickness -- the two dimensions in this family that are measured rather than designed. Sixteen inches is the middle of the 12-24 in repeat `styles/carpenter-gothic.json` gives for a bargeboard.\n\nTHE MODULE IS THE REPEAT BECAUSE THE MACHINE IS THE SUBJECT. What unifies four items on WP-4.1's candidate list -- sawn Gothic ornament, sawn-bracket Victorian trim, turned Queen Anne millwork, and the pierced valance -- is not a period or a country but two machines: the scroll saw and the lathe, steam-powered from the 1840s, which put carved ornament into pine at a fraction of what hand-carving cost. Everything in this pack is a thing one of those two machines makes, repeated along a run. Its members change with the decade and its economics do not, which is why a bargeboard of 1845, a bracket of 1870 and a spindle frieze of 1890 are stocked in the same catalogue and cut on the same bench.\n\nWhich members a building has IS ITS STYLE, and `styles/gothic-revival-american.json` states the discrimination as a decision procedure: 'bargeboard on the rake with no bracket under the eave: Gothic Revival. Brackets under a wide eave with no bargeboard: Italianate.' Add a turned post and a spindle frieze and it is Queen Anne; put all of it on an otherwise plain farmhouse one piece at a time and it is Folk Victorian, which `styles/american-farmhouse-vernacular.json` describes exactly -- 'exactly one piece of ornament on an otherwise plain building: a jigsawn gable bracket, a pointed window, a run of turned posts'."
+  },
+  "assemblies": {
+    "porch_head": {
+      "height_modules": 2.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "post_capital",
+          "name": "Turned capital or chamfer stop at the post head",
+          "height_parts": 4.0,
+          "projection_parts": 3.25,
+          "profile": "astragal",
+          "note": "4 in. Where the post is turned this is a run of beads and coves off the lathe; where it is chamfered it is the stop where the chamfer runs out. Either way it is the transition, and a post that meets the beam with nothing at all is a stick.",
+          "confidence": "medium"
+        },
+        {
+          "id": "bracket_zone",
+          "name": "Sawn bracket or knee brace at the post head",
+          "height_parts": 18.0,
+          "projection_parts": 18.0,
+          "profile": "other",
+          "enrichment": "pierced and scrolled in the Italianate and Queen Anne work; cusped and pointed in the Carpenter Gothic",
+          "note": "18 in on the diagonal, which is the middle of the 12-24 in `styles/queen-anne-spindled.json` gives and inside the 12-20 in `styles/carpenter-gothic.json` gives. Both height and projection are given as 18 because a sawn bracket is cut from a square blank and its two legs are equal -- which is a fact about the SAW rather than about taste, and is why brackets across four styles and fifty years are so consistently at 45 degrees.",
+          "confidence": "high"
+        },
+        {
+          "id": "spindle_frieze",
+          "name": "Spindle frieze or pierced valance under the beam",
+          "height_parts": 10.0,
+          "projection_parts": 1.0,
+          "profile": "flat",
+          "note": "10 in of turned spindles hung between two rails, or a sawn board pierced to the same effect. It is SUSPENDED and carries nothing -- `styles/queen-anne-spindled.json` says 'suspended beneath the porch head, running the full length of the porch' -- which is the difference between a valance and a balustrade, and the reason it can be as delicate as it is.",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one inch.",
+      "expression": "module.default_size_in / module.parts == 1.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The bracket is cut from a square blank: its projection equals its height.",
+      "expression": "assemblies.porch_head.members.bracket_zone.projection_parts == assemblies.porch_head.members.bracket_zone.height_parts",
+      "tolerance": 0.0,
+      "note": "A fact about the machine rather than the design. A scroll saw cuts a pattern out of a rectangular board, and a bracket that is deeper than it is long wastes the blank -- so brackets across four styles and fifty years sit at 45 degrees because that is what a square offcut gives. It is also why every record in the corpus measures a bracket 'on the diagonal'."
+    },
+    {
+      "statement": "The bracket is the largest member at the porch head, and the frieze the smallest.",
+      "expression": "assemblies.porch_head.members.bracket_zone.height_parts > assemblies.porch_head.members.spindle_frieze.height_parts",
+      "tolerance": 0.0,
+      "note": "18 against 10. The bracket is doing structural work -- shortening the beam's span, as `adobe-module`'s zapata and `balcony-gallery`'s head bracket both do -- and the frieze is doing none. Reverse them and the porch head reads as a deep decorative band with a small prop under it, which is a 1970s reproduction porch and is instantly wrong."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "member_count",
+      "expression": "2",
+      "units": "count",
+      "range": [
+        1.0,
+        3.0
+      ],
+      "authority_note": "`styles/gothic-revival-american.json` states the discrimination as a decision procedure: 'bargeboard on the rake with no bracket under the eave: Gothic Revival. Brackets under a wide eave with no bargeboard: Italianate.' `styles/american-farmhouse-vernacular.json`: 'exactly one piece of ornament on an otherwise plain building'.",
+      "note": "HOW MANY OF THE THREE MEMBERS THE BUILDING HAS, AND IT IS THE PACK'S CENTRAL RULE BECAUSE IT IS WHAT DECIDES THE STYLE. One member on a plain building is Folk Victorian. Bargeboard alone is Gothic Revival. Bracket alone is Italianate. Bracket plus turned post plus spindle frieze is Queen Anne. Having all three AND a bargeboard is a builder's house that has bought the whole catalogue, which is a real and common thing but is not a style. The dimension is named `member_count` rather than `count` because `opening-pointed` already writes `ornament_vocabulary`/`count` for a cusped motif set on two of the nodes this pack binds, and two packs meaning different quantities at one address is the corruption OQ 48 is about.",
+      "judgment": false
+    },
+    {
+      "target_slot": "rake_condition",
+      "dimension": "height",
+      "expression": "part * 13",
+      "units": "in",
+      "range": [
+        8.0,
+        20.0
+      ],
+      "authority_note": "`styles/carpenter-gothic.json`: 'bargeboard depth 10 to 18 in'.",
+      "note": "THE BARGEBOARD, 13 in on the face. `opening-pointed` writes the same address with the same meaning -- that pack's Gothic Revival bargeboard at 10 1/2 in -- and the two packs co-bind on `carpenter-gothic` and `gothic-revival-american`. That collision is deliberate and correct: both mean the bargeboard's depth, the same quantity with different values by tradition, which is exactly what precedence is for. It is the OTHER kind of collision, two packs meaning different quantities, that OQ 48 is about, and this pack renames three dimensions to avoid it.",
+      "judgment": false,
+      "quantity": "bargeboard_face_depth"
+    },
+    {
+      "target_slot": "rake_condition",
+      "dimension": "spacing",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        12.0,
+        24.0
+      ],
+      "authority_note": "`styles/carpenter-gothic.json`: 'pattern repeat 12 to 24 in'.",
+      "note": "THE PATTERN REPEAT, which is the module. Sixteen inches. The repeat is what makes this ornament machine ornament: the saw cuts one unit and the carpenter repeats it up the rake, so the bargeboard's design is a single figure and its length is a count. Two things follow that a designer should decide rather than discover -- the repeat has to divide the rake length or the pattern dies part-way at the apex, and the apex needs a terminating figure the repeat does not provide, which is what the finial is doing on every Carpenter Gothic gable.",
+      "judgment": false
+    },
+    {
+      "target_slot": "rake_condition",
+      "dimension": "stock_thickness",
+      "expression": "part * 1.25",
+      "units": "in",
+      "range": [
+        1.0,
+        1.5
+      ],
+      "authority_note": "`styles/carpenter-gothic.json`: bargeboard 'cut from 1 to 1.5 in stock'.",
+      "note": "THE STOCK THICKNESS, 1 1/4 in, and it is the most reliable dating and authenticity check in the family. A scroll saw cuts a board; a board is an inch or an inch and a half thick; so a real sawn bargeboard is thin, and everything it does it does by PIERCING rather than by relief. Modern reproduction in 3/4 in stock reads as flimsy and modern reproduction in a routed 2 in section reads as carved, and both miss what the machine actually did. DIMENSION NAMED rather than the obvious one: `facade-gable` writes `rake_condition`/`width` for a CROW-STEP'S TREAD. A bargeboard's stock thickness is a different quantity and the two packs co-bind. See OQ 48.",
+      "judgment": false
+    },
+    {
+      "target_slot": "eave_condition",
+      "dimension": "verge_overhang",
+      "expression": "part * 18",
+      "units": "in",
+      "range": [
+        12.0,
+        24.0
+      ],
+      "authority_note": "`styles/gothic-revival-american.json`: 'verge overhang 12 to 24 in, deep enough to shadow the bargeboard'.",
+      "note": "THE VERGE OVERHANG, 18 in, and the record gives the reason rather than only the number: 'deep enough to shadow the bargeboard'. A pierced board with nothing behind it is a pattern; a pierced board with 18 in of shadow behind it is tracery, because the piercing reads dark against dark and the board reads as a silhouette. This is the same argument `opening-pointed` makes about the bargeboard being pierced rather than merely shaped, arrived at from the roof rather than from the board. DIMENSION NAMED rather than the obvious one: `facade-picturesque` writes `eave_condition`/`height` for THE EAVE'S HEIGHT ABOVE GROUND -- about two storeys -- and co-binds with this pack on TEN nodes. A verge's overhang depth is a different quantity, and this is the collision that would most easily have shipped silently. See OQ 48.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice",
+      "dimension": "eave_projection",
+      "expression": "part * 27",
+      "units": "in",
+      "range": [
+        18.0,
+        36.0
+      ],
+      "authority_note": "`styles/italianate-american.json`: 'wide projecting eave, 18 to 36 in, carried on paired or single sawn brackets'. `styles/italianate-villa.json`: 'eave projection 24 to 36 in'. `styles/stick-style.json`: 'eave overhang 18 to 36 in on exposed brackets or rafter tails'.",
+      "note": "THE BRACKETED EAVE, 27 in, and three records give the same band. The eave and the bracket are one decision: the bracket exists because the eave projects, and the eave projects that far because a bracket can carry it. A designer who reduces the overhang to 12 in has removed the bracket's reason and left it as applied decoration, which is the commonest way an Italianate cornice goes wrong -- and it is visible, because at 12 in the bracket is deeper than the thing it supports. DIMENSION NAMED rather than the obvious one: `facade-classical` writes `cornice`/`projection` for the CORNICE MOULDING's own projection, under a rule that it must out-project every other horizontal. The overhang of a bracketed eave is a different member and a much larger number. See OQ 48.",
+      "judgment": false
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "spacing",
+      "expression": "part * 36",
+      "units": "in",
+      "range": [
+        24.0,
+        48.0
+      ],
+      "authority_note": "`styles/italianate-american.json`: 'bracket spacing 24 to 48 in on centre, with paired brackets at corners and at the ends of each bay'. `styles/italianate-villa.json`: 'brackets at 24 to 48 in on centre'. `styles/stick-style.json`: 'brackets or rafter tails at 24 to 48 in on centre'.",
+      "note": "BRACKET CENTRES, 36 in, and three records give exactly the same band -- 24 to 48 -- which for a decorative member is a striking agreement and is explained by the framing behind it: brackets land on rafters or on blocking at rafter centres, so 24 and 48 are 16 in and 24 in framing doubled and tripled. The slot is `modillion_dentil` because a sawn bracket under a wide eave is the vernacular descendant of a modillion and occupies the same position in the same assembly; the ancestry is real and the two should not be given separate slots.",
+      "judgment": false,
+      "quantity": "eave_member_spacing"
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "height",
+      "expression": "part * 18",
+      "units": "in",
+      "range": [
+        12.0,
+        24.0
+      ],
+      "authority_note": "`styles/queen-anne-spindled.json`: 'bracket or knee brace 12 to 24 in on the diagonal at every post head'. `styles/carpenter-gothic.json`: 'sawn brackets 12 to 20 in on the diagonal'.",
+      "note": "THE BRACKET, 18 in on the diagonal. Both records measure it that way and the pack's invariant says why: a scroll saw cuts a pattern from a square blank, so the bracket's two legs are equal and it sits at 45 degrees. The consistency across four styles and fifty years is a fact about the machine, not about the designers.",
+      "judgment": false,
+      "quantity": "eave_member_face_height"
+    },
+    {
+      "target_slot": "modillion_dentil",
+      "dimension": "count",
+      "expression": "1",
+      "units": "count",
+      "range": [
+        1.0,
+        2.0
+      ],
+      "authority_note": "`styles/italianate-american.json`: 'paired or single sawn brackets', with 'paired brackets at corners and at the ends of each bay'.",
+      "note": "SINGLE OR PAIRED, and the pairing is not decorative. Brackets double at the corners and at the ends of a bay for the same reason `facade-arcade`'s end pier is thicker: the run terminates there and the eye and the structure both want something heavier at a stop. It is also the corner problem the classical orders answer by contracting the intercolumniation -- `greek-doric` records the Doric triglyph conflict as having no solution -- and this family answers it by doubling, which is cruder and works.",
+      "judgment": false,
+      "quantity": "eave_members_per_bay"
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "support_shaft_width",
+      "expression": "part * 6.5",
+      "units": "in",
+      "range": [
+        4.0,
+        8.0
+      ],
+      "authority_note": "`styles/folk-victorian.json`: 'porch post 4x4 to 6x6 nominal, turned with a swell of 5 to 7 in diameter'. `styles/queen-anne-spindled.json`: 'porch post 5 to 8 in diameter at the swell'.",
+      "note": "THE TURNED POST AT ITS SWELL, 6 1/2 in. The SWELL is the measured dimension and not the stock, which matters: the post is turned from a 4x4 or a 6x6 and its widest point is most of that blank, so a turned post is always slightly narrower than the timber it came from and the taper above and below the swell is what the lathe was for. `balcony-gallery` writes this same address for its own supports and means the same quantity -- a support's width -- with different values, which is what precedence is for; the two packs co-bind on `italianate-american`.",
+      "judgment": false,
+      "quantity": "support_shaft_width"
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "spacing",
+      "expression": "part * 90",
+      "units": "in",
+      "range": [
+        72.0,
+        108.0
+      ],
+      "authority_note": "`styles/queen-anne-spindled.json`: posts 'spaced 6 to 9 ft on centre'.",
+      "note": "POST CENTRES, 7 ft 6 in. Wider than a masonry arcade's and much wider than a colonnette's, because a turned wooden post carrying a light porch beam can span it and because the spindle frieze between the posts wants a run long enough to read as a frieze rather than as a panel. Below about 6 ft the posts become a colonnade and the frieze becomes a series of infills.",
+      "judgment": false,
+      "quantity": "support_centres"
+    },
+    {
+      "target_slot": "porch_rail",
+      "dimension": "spacing",
+      "expression": "part * 4",
+      "units": "in",
+      "range": [
+        3.0,
+        5.0
+      ],
+      "authority_note": "`styles/folk-victorian.json` and `styles/queen-anne-spindled.json` BOTH give spindles 'at 3 to 5 in on centre', independently and identically.",
+      "note": "SPINDLE PITCH, 4 in, and two records give the identical band. It is also the identical band `balcony-gallery` gives for a baluster pitch on a completely different continent and material, which is not a coincidence: 4 in is what a hand can pass and a head cannot, and it is the pitch every balustrade tradition in this library arrives at. The two packs write the same address with the same meaning and very nearly the same value.",
+      "judgment": false,
+      "quantity": "baluster_pitch"
+    },
+    {
+      "target_slot": "porch_rail",
+      "dimension": "width",
+      "expression": "part * 2",
+      "units": "in",
+      "range": [
+        1.25,
+        2.5
+      ],
+      "authority_note": "`styles/folk-victorian.json`: 'spindles 1.25 to 2 in diameter'. `styles/queen-anne-spindled.json`: '1.5 to 2.5 in diameter'.",
+      "note": "SPINDLE DIAMETER, 2 in, and the two records differ by a quarter inch at each end -- the Queen Anne spindle is slightly fatter than the Folk Victorian one, which is what a more expensive house buys. At this diameter the spindle is turned from a 2x2 and every one is identical, which is the lathe's whole contribution: before it, a turned baluster was a joiner's day's work and after it a spindle cost pennies.",
+      "judgment": false,
+      "quantity": "baluster_section"
+    },
+    {
+      "target_slot": "frieze",
+      "dimension": "valance_depth",
+      "expression": "part * 13",
+      "units": "in",
+      "range": [
+        8.0,
+        18.0
+      ],
+      "authority_note": "`styles/folk-victorian.json`: 'spindle frieze depth 8 to 16 in'. `styles/queen-anne-spindled.json`: 'spindle frieze depth 10 to 18 in'.",
+      "note": "THE SPINDLE FRIEZE OR PIERCED VALANCE, 13 in deep, hung under the porch beam. It is SUSPENDED and carries nothing, which is what distinguishes it from a balustrade and is why it can be as fine as it is. `styles/queen-anne-spindled.json` adds the rule that makes it read: it runs 'the full length of the porch', so a valance that stops at each post and starts again is a series of panels and a different, weaker thing. Note the Queen Anne band is 2 in deeper at both ends than the Folk Victorian one, the same difference as the spindle diameter and for the same reason. DIMENSION NAMED rather than the obvious one: `facade-classical`, `vignola-tuscan` and `storey-graduation` all write `frieze`/`height` for the CLASSICAL FRIEZE BAND of an entablature, between the top-storey window heads and the cornice bed. A spindle valance hung under a porch beam is a different member entirely. See OQ 48.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "material-availability",
+      "statement": "The machines survive and the stock does not. A scroll saw and a lathe are still ordinary shop tools, and a CNC router will cut a bargeboard pattern faster than either -- so the ornament is not the problem. The problem is the WOOD: this family was cut from clear old-growth softwood, wide, straight-grained, stable and cheap, and what is available now is fast-grown, narrow, knotty and moves. A 16 in bargeboard in modern pine will cup and split at the piercings within a few winters, which is where the piercings are weakest.",
+      "resolution": "Change the material rather than the design, and choose by stability: clear cedar, accoya or a good exterior-grade composite for the pierced work, and be honest on the drawings about which. The pattern is what carries the style and the species is not, which is unusual in this library and is worth using -- almost every other pack here has a conflict that says the substitution destroys the thing, and this one does not. What DOES destroy it is thinning the stock: see the stock rule. Keep it at an inch and a quarter whatever it is made of.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "The economics have inverted since 1880 and the design should follow. Then, the machine made ornament cheap and the LABOUR of fitting it was the small part -- a catalogue bracket cost less than the carpenter's hour to hang it. Now the CNC cutting is cheap and the hanging, painting and maintaining is the whole cost: a spindle frieze is fifty pieces to prime on six faces, hang, and repaint every eight years, and a pierced bargeboard on four gables is a scaffold each time. So a design that reproduces the 1880 quantity of ornament is buying a maintenance liability the original owner was not.",
+      "resolution": "Use the member_count rule as a budget rather than only as a style test. One member well done -- a real bargeboard on the principal gable and plain boards elsewhere, or brackets on the street eave only -- is both period-correct and affordable, and `styles/american-farmhouse-vernacular.json` describes exactly that as a type in its own right: 'exactly one piece of ornament on an otherwise plain building'. Where a full Queen Anne porch is wanted, detail the frieze to come down in sections for painting, which nobody did in 1890 and everybody wishes had been done.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "Every member in this family is a horizontal trap or a water-holding joint. A spindle frieze is fifty end-grain joints facing up; a sawn bracket meets the post and the beam in two joints that hold water at the top of each; a pierced bargeboard collects debris in every piercing and holds it against the board. All of it is painted softwood in the weather, and all of it fails at the joint rather than in the middle.",
+      "resolution": "Detail for drainage, which the originals largely did not and which is why so few survive unrepaired. Bevel the top of every horizontal member; leave a gap rather than a tight joint where a spindle meets a rail, so water leaves rather than wicks; back-prime everything before assembly, including the end grain, which is the single most effective thing available and costs a day. Set the bracket so it drains away from the post rather than into the joint. And accept the cycle: this is painted external joinery and it wants attention every eight to twelve years forever.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "Two of the three members look structural and one is. The bracket at a post head really does shorten the beam's span and really is in compression -- `styles/queen-anne-spindled.json` calls it a 'bracket or KNEE BRACE' and both words are right. The bracket under a wide eave really does carry the eave. The spindle frieze carries nothing whatever and is suspended. A modern rebuild routinely gets this backwards: the eave is framed as a cantilever with the brackets applied afterwards, and the frieze is then built into the beam as though it were a structure.",
+      "resolution": "Let the bracket carry what it appears to carry, which on a 27 in eave is easy and cheap -- a real bracket bearing on the wall plate and under the fascia is no harder to build than a false one and it removes the cantilever. Hang the frieze from the beam on a removable rail, which also solves the painting. And where a bracket must be applied because the framing is already done, at least size it as if it were carrying, since a bracket too small for its eave reads as false whether it is or not.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The repeat has to close and a machine will not close it for you. A bargeboard's pattern repeats up the rake and the rake's length is whatever the roof is, so the pattern either divides into it or dies half-formed at the apex or the eave. The same problem is worse on a spindle frieze, which runs the full length of a porch between posts that are not at a whole number of spindle pitches apart. Nineteenth-century carpenters solved it by eye and by cutting a special piece; a CNC file will happily produce forty-seven and a half repeats.",
+      "resolution": "Set the repeat FROM the run and not the other way round: measure the rake, choose a repeat that divides it, and let the pattern's size follow -- which is why the repeat rule is a band and not a figure. Terminate deliberately at both ends, with a finial or a carved drop at the apex and a returned stop at the eave, which is what every good example does and what makes the difference between an ornament and a length of trim. On a frieze, set the posts at a whole number of pitches if the plan will bear it, and where it will not, absorb the difference at the ends against the posts rather than distributing it invisibly, because a distributed error makes every spacing slightly wrong and a concentrated one makes two of them different on purpose.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "carpenter-gothic",
+    "gothic-revival-american",
+    "rural-gothic-villa",
+    "italianate-american",
+    "italianate-villa",
+    "italianate-townhouse",
+    "queen-anne-american",
+    "queen-anne-spindled",
+    "folk-victorian",
+    "american-farmhouse-vernacular",
+    "shotgun-house",
+    "swiss-chalet"
+  ],
+  "sources": [
+    "Palliser, Palliser and Company, Palliser's American Cottage Homes, Bridgeport, 1878, and their later pattern books",
+    "A. J. Bicknell, Detail, Cottage and Constructive Architecture, New York, 1873",
+    "A. J. Downing, The Architecture of Country Houses, D. Appleton, New York, 1850",
+    "Alexander Jackson Davis, Rural Residences, New York, 1837",
+    "The sash, door and blind manufacturers' catalogues of 1865-1910, collectively"
+  ],
+  "confidence": "medium",
+  "notes": "FOUR ITEMS ON WP-4.1'S CANDIDATE LIST, BUILT AS ONE PACK, and the justification is a machine rather than a taste. The list separately asks for 'sawn/carved Gothic ornament (bargeboard, drip moulds...)', 'sawn-bracket Victorian trim, distinct from both trim-classical and trim-craftsman', 'turned/spindled millwork (Queen Anne's lathe-turned posts, spindle friezes...)' and 'Alpine bracket/balcony/carved-timber ornament'. The first three are the same two machines -- the scroll saw and the lathe, steam-powered from the 1840s -- producing three members that a builder ordered from the same catalogue and a carpenter cut on the same bench. Their members change with the decade and their economics do not.\n\nWHICH MEMBERS A BUILDING HAS IS ITS STYLE, and the corpus states the discrimination as a decision procedure rather than as a description. `styles/gothic-revival-american.json`: 'bargeboard on the rake with no bracket under the eave: Gothic Revival. Brackets under a wide eave with no bargeboard: Italianate.' `styles/queen-anne-american.json`: 'turned posts, spindles, round towers, and arched porch openings all say Queen Anne.' `styles/american-farmhouse-vernacular.json`: 'exactly one piece of ornament on an otherwise plain building.' That is why the pack's central rule is a COUNT of members rather than a dimension of any one of them.\n\nTHE FOURTH ITEM IS DELIBERATELY NOT MERGED. `swiss-chalet` is bound, but for its sawn balustrades and bargeboards only, and the Alpine CARVED work stays on WP-4.1's list as its own item -- because carving is a hand craft and this whole pack is about machines, and a tradition whose ornament is cut with a gouge before the industrial revolution does not belong in a family defined by the scroll saw. That record's 'carved and inscribed facade band' has nothing to do with a catalogue.\n\nTHREE RECORDS DEFINE THEMSELVES BY REFUSING THIS PACK, which is the strongest evidence that it is a real family. `styles/stick-style.json` gives a decision procedure of its own for the refusal: 'entirely rectilinear ornament: no turned spindles, no scrolled brackets, no curved members anywhere in the stickwork', and 'straight lines only. If the applied woodwork curves, turns, or scrolls, the building has moved to Queen Anne or Eastlake.' `styles/queen-anne-free-classic.json` is defined by the 'absence of turned spindlework and pierced valances anywhere on the building'. `styles/queen-anne-patterned-masonry.json`: 'there is no porch spindlework'. Two of those are Queen Anne subtypes refusing the ornament their own siblings are named for, which is a sharper distinction than any dimension could draw. None is bound. `styles/cotswold-vernacular.json` and `styles/scottish-baronial.json` refuse the bargeboard specifically -- 'no barge boards', 'no barge board' -- and both are already bound to `facade-gable`, which is the pack that describes what they have instead.\n\nOne cross-pack note. `opening-pointed` writes `rake_condition`/`height` for a Gothic Revival bargeboard and so does this pack, and the two co-bind on two nodes. That collision is the SAME quantity with different values and precedence is exactly the mechanism for it -- unlike the four different-quantity collisions OQ 48 records, three of which this pack avoids by naming its dimensions."
+}

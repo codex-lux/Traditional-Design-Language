@@ -1,135 +1,140 @@
 {
-  "id": "terrace",
-  "name": "Terrace",
-  "aka": [
-    "patio",
-    "paved court",
-    "platform"
+ "id": "terrace",
+ "name": "Terrace",
+ "aka": [
+  "patio",
+  "paved court",
+  "platform"
+ ],
+ "function_class": "outdoor",
+ "privacy_rank": 2,
+ "confidence": "medium",
+ "description": "An outdoor floor at or near the level of the rooms it serves. Its whole usefulness depends on being level with the inside and enclosed on at least two sides; a terrace a step down and open on four is a slab, and nobody sits on it.",
+ "history": {
+  "appears": 1550,
+  "note": "The Italian villa terrace enters English practice with Palladianism and becomes the standard rear extension of the American house after 1900, when the porch moved from the front to the back. That migration — front porch to rear terrace — is the clearest architectural record of the street becoming a place to drive rather than a place to sit."
+ },
+ "dimensions": {
+  "area_sf": [
+   120,
+   600
   ],
-  "function_class": "outdoor",
-  "privacy_rank": 2,
-  "confidence": "medium",
-  "description": "An outdoor floor at or near the level of the rooms it serves. Its whole usefulness depends on being level with the inside and enclosed on at least two sides; a terrace a step down and open on four is a slab, and nobody sits on it.",
-  "history": {
-    "appears": 1550,
-    "note": "The Italian villa terrace enters English practice with Palladianism and becomes the standard rear extension of the American house after 1900, when the porch moved from the front to the back. That migration — front porch to rear terrace — is the clearest architectural record of the street becoming a place to drive rather than a place to sit."
+  "width_ft": [
+   10,
+   30
+  ],
+  "length_ft": [
+   12,
+   40
+  ],
+  "ceiling_min_ft": null,
+  "critical_dimension": "Depth. A terrace under 10 ft cannot hold a table and a passage behind the chairs, which is the same arithmetic as the dining room and is failed just as often."
+ },
+ "void": {
+  "within_footprint": false,
+  "roofed": false,
+  "note": "NOT within the block: 'an outdoor floor at or near the level of the rooms it serves' is appended at grade, and the building would be the same shape without it. Unroofed. So a terrace keeps the pre-OQ-33 behaviour -- left out of placement entirely -- which for a terrace is the right answer rather than a limitation."
+ },
+ "furniture": [
+  {
+   "item": "outdoor table, seats 6",
+   "footprint_in": [
+    40,
+    72
+   ],
+   "clearance_in": 36
   },
-  "dimensions": {
-    "area_sf": [
-      120,
-      600
-    ],
-    "width_ft": [
-      10,
-      30
-    ],
-    "length_ft": [
-      12,
-      40
-    ],
-    "ceiling_min_ft": null,
-    "critical_dimension": "Depth. A terrace under 10 ft cannot hold a table and a passage behind the chairs, which is the same arithmetic as the dining room and is failed just as often."
+  {
+   "item": "lounge seating group",
+   "footprint_in": [
+    84,
+    108
+   ],
+   "clearance_in": 30,
+   "essential": false
+  }
+ ],
+ "daylight": {
+  "depth_multiplier": 3.0,
+  "sides_lit": 4,
+  "orientation": "South-east in cold climates for morning use; east or north in hot ones, where a west terrace is uninhabitable from May to September.",
+  "glazing_fraction": [
+   0,
+   0
+  ],
+  "note": "Unroofed, so the multiplier is not a real constraint; recorded at the top of the band because the schema requires one."
+ },
+ "adjacency": {
+  "must_adjoin": [],
+  "should_adjoin": [
+   {
+    "room": "breakfast-room",
+    "why": "The summer extension of the informal eating room, and the reason for a door.",
+    "relation": "direct-door",
+    "strength": "strong"
+   },
+   {
+    "room": "living-room",
+    "why": "The room whose gathering it extends.",
+    "relation": "direct-door",
+    "strength": "preferred"
+   }
+  ],
+  "must_not_adjoin": [],
+  "entered_from": [
+   "breakfast-room",
+   "living-room",
+   "kitchen",
+   "dining-room",
+   "loggia"
+  ],
+  "never_a_through_room": false
+ },
+ "servicing": {
+  "plumbing": "light",
+  "ventilation": "n/a",
+  "heat": "n/a",
+  "electrical": "Switched from inside, and on its own circuit",
+  "stack_proximity_ft": null
+ },
+ "style_variation": [
+  {
+   "style": "prairie-school",
+   "note": "Low walls and planters extend the composition into the site rather than adding volume; the terrace is compositional, not additive."
   },
-  "furniture": [
-    {
-      "item": "outdoor table, seats 6",
-      "footprint_in": [
-        40,
-        72
-      ],
-      "clearance_in": 36
-    },
-    {
-      "item": "lounge seating group",
-      "footprint_in": [
-        84,
-        108
-      ],
-      "clearance_in": 30,
-      "essential": false
-    }
-  ],
-  "daylight": {
-    "depth_multiplier": 3.0,
-    "sides_lit": 4,
-    "orientation": "South-east in cold climates for morning use; east or north in hot ones, where a west terrace is uninhabitable from May to September.",
-    "glazing_fraction": [
-      0,
-      0
-    ],
-    "note": "Unroofed, so the multiplier is not a real constraint; recorded at the top of the band because the schema requires one."
+  {
+   "style": "andalusian-spanish-revival",
+   "name_in_style": "Patio",
+   "note": "Enclosed on three or four sides and entered through a gate — this is the principal living space for much of the year, not an extension of one."
   },
-  "adjacency": {
-    "must_adjoin": [],
-    "should_adjoin": [
-      {
-        "room": "breakfast-room",
-        "why": "The summer extension of the informal eating room, and the reason for a door.",
-        "relation": "direct-door",
-        "strength": "strong"
-      },
-      {
-        "room": "living-room",
-        "why": "The room whose gathering it extends.",
-        "relation": "direct-door",
-        "strength": "preferred"
-      }
-    ],
-    "must_not_adjoin": [],
-    "entered_from": [
-      "breakfast-room",
-      "living-room",
-      "kitchen",
-      "dining-room",
-      "loggia"
-    ],
-    "never_a_through_room": false
-  },
-  "servicing": {
-    "plumbing": "light",
-    "ventilation": "n/a",
-    "heat": "n/a",
-    "electrical": "Switched from inside, and on its own circuit",
-    "stack_proximity_ft": null
-  },
-  "style_variation": [
-    {
-      "style": "prairie-school",
-      "note": "Low walls and planters extend the composition into the site rather than adding volume; the terrace is compositional, not additive."
-    },
-    {
-      "style": "andalusian-spanish-revival",
-      "name_in_style": "Patio",
-      "note": "Enclosed on three or four sides and entered through a gate — this is the principal living space for much of the year, not an extension of one."
-    },
-    {
-      "style": "ranch-style",
-      "note": "The rear patio replaces the front porch entirely, which is what makes the ranch street elevation socially dead."
-    }
-  ],
-  "code": [
-    {
-      "requirement": "Guard required where the walking surface is more than 30 in above grade",
-      "ref": "IRC R312.1",
-      "conflict": "The 30 in trigger is why so many terraces are set exactly 29 in above grade, which is a code decision masquerading as a design one."
-    }
-  ],
-  "massing_fit": [
-    "ranch-linear",
-    "ranch-l",
-    "courtyard-u",
-    "courtyard-full",
-    "prairie-cruciform",
-    "gallery-house"
-  ],
-  "slots": [
-    "grade_relationship",
-    "landscape_idiom",
-    "street_relationship",
-    "fence_wall"
-  ],
-  "sources": [
-    "IRC R312.1",
-    "Hess, The Ranch House"
-  ]
+  {
+   "style": "ranch-style",
+   "note": "The rear patio replaces the front porch entirely, which is what makes the ranch street elevation socially dead."
+  }
+ ],
+ "code": [
+  {
+   "requirement": "Guard required where the walking surface is more than 30 in above grade",
+   "ref": "IRC R312.1",
+   "conflict": "The 30 in trigger is why so many terraces are set exactly 29 in above grade, which is a code decision masquerading as a design one."
+  }
+ ],
+ "massing_fit": [
+  "ranch-linear",
+  "ranch-l",
+  "courtyard-u",
+  "courtyard-full",
+  "prairie-cruciform",
+  "gallery-house"
+ ],
+ "slots": [
+  "grade_relationship",
+  "landscape_idiom",
+  "street_relationship",
+  "fence_wall"
+ ],
+ "sources": [
+  "IRC R312.1",
+  "Hess, The Ranch House"
+ ]
 }

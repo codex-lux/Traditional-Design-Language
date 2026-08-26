@@ -257,10 +257,28 @@
   ],
   "proportion_packs": [
     {
+      "pack": "adobe-module",
+      "role": "primary",
+      "note": "Massive adobe, rubble or tezontle walls at 600-1000 mm -- two to three adobes on this pack's module, or the shuttered equivalent in tapia. Primary because the single-pile ranges around the court that this record names are a direct consequence of the pack's two governing rules: the viga span keeps a range one room deep, and the bracing length caps a range at about 24 ft between cross walls, so a court is what you get when you keep adding them and turning the corner. Note what this pack does NOT reach on this node: the portada, the retablo-fronted doorway and the carved surround are a bounded-panel ornament system that WP-4.1 listed as its own missing pack, and nothing here speaks to them.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "JUDGMENT BINDING - mexican-colonial is not itself in room-vernacular's applies_to, but its own hard constraint c03 is nearly a restatement of the pack's core logic: 'Room depth must not exceed the viga span, about 6 m clear. Ranges are single-pile and the building grows by adding courts, never by thickening a range' - span-limited breadth and single-pile daylight depth are exactly what room-vernacular encodes, and 6 m (about 19-20 ft) sits at the outer edge of the pack's own 14-18 ft measured band, which is itself dominated by the same climate and material logic. The node's two closest kin are both explicitly in the pack's applies_to: andalusian-courtyard-vernacular, its direct antecedent ('the domestic type... is not a monumental import but the ordinary Andalusian house'), and mexican-hacienda, its direct rural descendant ('same walls, same vigas, same patio, same carpentry, same trades'). The binding is scoped to the ordinary courtyard house and convento range, not to the portada, which the node's own text says is governed by an inherited Plateresque ornamental panel rather than by any order or room system.",
       "precedence": 1
+    },
+    {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "Supplies the bay rule -- 'patio arcade bay 2.5-3.5 m' -- and the slenderness band, 'column slenderness 7-10 diameters', and states the circulation rule in the bluntest form any record uses: 'arcaded corredor on the patio carrying circulation and social life; rooms entered from it, not from corridors'. That last clause is the sentence the pack's circulation rule is built on and the one that leads to the energy conflict, because a range of rooms entered from a corredor has an exterior door per room.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-portada",
+      "role": "facade",
+      "note": "The transmission, and the node that states the independence rule most plainly -- 'the portada does not relate to the fenestration and is not expected to.' Its own governing logic already divides the building the way this pack does: 'facade composition is governed by the portada -- a bounded ornamental panel inherited from Plateresque -- rather than by' anything else, while the patio arcade and the room depths answer to `adobe-module` and `facade-arcade`, which keep their places ahead of this. It also supplies the pack's material-availability conflict: the tequitqui manner, European motifs cut by indigenous carvers working from prints, which is not a degraded copy but the American form of the thing and is why a Mexican portada does not look like a Spanish one.",
+      "precedence": 3
     }
   ]
 }

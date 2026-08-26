@@ -1,0 +1,419 @@
+{
+  "id": "stone-course",
+  "name": "The Stone Course: Rubble Field and Ashlar Dressing",
+  "aka": [
+    "coursed rubble",
+    "the dressing",
+    "quoins, jambs and lintels",
+    "the banker mason's wall"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "Alec Clifton-Taylor, The Pattern of English Building, Faber, London 1962, for the regional stones and what each will do; W. R. Purchase, Practical Masonry, London, from 1895, for the craft definitions -- ashlar, coursed and snecked rubble, the through-stone, the quoin; R. W. Brunskill, Traditional Buildings of Britain, Gollancz, London 1981, for the vernacular survey; the Society for the Protection of Ancient Buildings' technical guidance on lime mortars and solid walls; and the Compagnons du Devoir's masonry and stone-cutting volumes for the French practice",
+    "author": "after Clifton-Taylor, Purchase and Brunskill",
+    "year": 1962,
+    "strength": "documented",
+    "note": "DOCUMENTED, with a split inside it that is worth naming because it is the same split `trim-prairie` and `trim-craftsman` turn on. THE CRAFT is thoroughly documented: Purchase will tell you what snecked rubble is, how a through-stone works and how a quoin is set, and has done since 1895. THE PROPORTIONS are not, because nobody wrote a Regola for a rubble wall -- there is no gauge rod in stone the way there is in brick, which is the pack's first observation about itself. So the dimensions below come from this corpus's own style records, which for this class of building are unusually consistent, and from the surviving fabric behind them, and each rule's authority_note names which record it is quoting. Where the pack generalises across five traditions rather than reporting one, it says so."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One dressed stone: the bed height a banker mason cuts a quoin, jamb or lintel to",
+    "parts": 9,
+    "default_size_in": 9.0,
+    "note": "The part is the inch, and the reason is the pack's whole argument in one line: DRESSED WORK IS CUT TO THE INCH AND RUBBLE IS CUT TO NOTHING. `brick-course`'s module is four courses on a mason's gauge rod, because a brick wall has a gauge and every course in it is the same height; a rubble wall has no gauge at all, because the stone arrives as the quarry bed gives it and the waller lays what comes to hand. So the module cannot be a course of the wall. It is a course of the DRESSING -- the quoin, the jamb, the lintel, the mullion, the kneeler, the coping -- which is the only stone in the building that has a dimension before it is laid. Nine inches is a working bed for oolitic limestone and for most sandstones; a granite tradition works deeper and a thin-bedded flagstone tradition shallower, and every figure below moves with it. What follows from choosing this module rather than a wall course is that the pack proportions THE DRESSINGS and treats the field as what is left over -- which is exactly how the buildings were priced, built and thought about."
+  },
+  "assemblies": {
+    "dressed_opening": {
+      "height_modules": 8.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "cill",
+          "name": "Cill -- weathered, throated, and running past the jamb at each end",
+          "height_parts": 6.0,
+          "projection_parts": 2.0,
+          "profile": "cavetto",
+          "note": "6 in deep, weathered on top so water leaves it and throated underneath so water does not run back to the wall. The detail that matters is at its ends: a stone cill runs PAST the jamb by three or four inches at each end and is built into the rubble, so that water leaving the cill is delivered to the field wall and not to the vertical joint between cill and jamb -- which is where a wall built the other way rots out. A cill cut flush to the jamb is a machine-shop habit and is visibly wrong once you know.",
+          "confidence": "high"
+        },
+        {
+          "id": "jamb_zone",
+          "name": "The dressed jambs, cill to springing of the head",
+          "height_parts": 54.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "54 in of jamb -- six modules, six dressed courses. The jambs are the openings's real cost and the reason a stone house has few large windows rather than many small ones: every opening needs two of these, cut, and the rubble is then coursed up TO them rather than the other way round. In the moulded traditions this is where the ovolo or cavetto mullion section lives; `styles/cotswold-vernacular.json` names both.",
+          "confidence": "high"
+        },
+        {
+          "id": "lintel",
+          "name": "Lintel, or the relieving arch over it",
+          "height_parts": 7.65,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "7 5/8 in deep, which is about a sixth of the span it carries -- the ordinary rule for a stone lintel in bending, and a much deeper section than a timber lintel would need over the same opening because stone is weak in tension and a lintel is entirely a tension member on its underside. This is the piece that caps the whole plan: see the head rule below, where the span a lintel will safely carry turns out to set the largest window the building can have.",
+          "confidence": "high"
+        },
+        {
+          "id": "hood_mould",
+          "name": "Hood mould or drip over the head, with returned stops",
+          "height_parts": 4.35,
+          "projection_parts": 3.0,
+          "profile": "cyma-reversa",
+          "note": "4 3/8 in, and it is doing the same job as the hood in `opening-pointed`: throwing water running down the wall clear of the opening, and stopping rather than dying into the wall, because the stop is where the water is thrown off. `styles/cotswold-vernacular.json` names it -- 'a hood mould or drip over the head' -- and `styles/norman-romanesque-english.json` lists string courses among the ashlar dressings for the same reason. On a rendered or harled wall it can be omitted; on a bare rubble wall it cannot, because there is nothing else to interrupt the sheet of water coming down.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "quoin_run": {
+      "height_modules": 2.0,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "quoin_long",
+          "name": "Quoin laid with its long face on the first elevation",
+          "height_parts": 9.0,
+          "projection_parts": 15.75,
+          "profile": "flat",
+          "note": "One module high, showing a 15 3/4 in face. The projection_parts figure is the FACE LENGTH rather than a projection past a datum, which is a departure from the field's usual meaning and is flagged because a reader will otherwise take it for an overhang -- the same departure `dutch-gambrel` makes with its slope runs.",
+          "confidence": "high"
+        },
+        {
+          "id": "quoin_short",
+          "name": "The course above, laid with its long face on the other elevation",
+          "height_parts": 9.0,
+          "projection_parts": 9.0,
+          "profile": "flat",
+          "note": "The alternation. Each course turns the corner the other way, so the long face appears on one elevation and the short on the other, and swaps at every bed. That is not a decorative pattern: it is what ties the two walls together at the angle, and it is the reason quoins exist. RUBBLE CANNOT MAKE A CORNER -- it has no square arris and no bond across the angle -- so the corner is built of dressed stone and the field is coursed up to it. `styles/cotswold-vernacular.json` and `styles/norman-romanesque-english.json` state the consequence independently and in nearly the same words: ashlar is reserved for quoins, jambs, lintels, mullions, kneelers, copings, voussoirs and string courses, and for nothing else.",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one inch: dressed work is cut to the inch and rubble is cut to nothing.",
+      "expression": "module.default_size_in / module.parts == 1.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The quoin run alternates: two courses of equal bed, showing different faces.",
+      "expression": "assemblies.quoin_run.members.quoin_long.height_parts == assemblies.quoin_run.members.quoin_short.height_parts",
+      "tolerance": 0.0,
+      "note": "Equal beds and unequal faces is what alternation means, and it is the invariant because the failure is so easy: a quoin run cut from one stock size shows the same face length at every course, which reads as machine-made from across a field. The face lengths are carried in projection_parts and their ratio is a derived rule."
+    },
+    {
+      "statement": "The lintel is about a sixth of its span in depth.",
+      "expression": "assemblies.dressed_opening.members.lintel.height_parts * 6 >= module.parts * 5",
+      "tolerance": 0.02,
+      "note": "7.65 x 6 = 45.9 against a five-module span of 45 in. Stone is weak in tension and a lintel's underside is entirely in tension, so a stone lintel is a much deeper section than a timber one over the same opening. The invariant ties the lintel's depth to the span cap in the derived rules, so that anyone widening the opening finds out that the head has to grow with it -- and then that the stone to cut it from may not exist."
+    },
+    {
+      "statement": "The cill is a real weathered stone and not a slip: at least half a module deep.",
+      "expression": "assemblies.dressed_opening.members.cill.height_parts >= module.parts / 2",
+      "tolerance": 0.0,
+      "note": "6 in against a floor of 4.5. A thin cill cannot be both weathered on top and throated underneath, and one that is neither delivers its water to the wall below. This is the member most often substituted with a slab in reproduction work."
+    },
+    {
+      "statement": "The hood mould projects further than the cill: it has more water to throw and further to throw it.",
+      "expression": "assemblies.dressed_opening.members.hood_mould.projection_parts > assemblies.dressed_opening.members.cill.projection_parts",
+      "tolerance": 0.0,
+      "note": "3 in against 2. The hood is catching the whole sheet of water coming down the wall above the opening and has to deliver it past the jambs; the cill is only shedding what falls on the opening itself. A hood detailed at the cill's projection is a moulding rather than a drip."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "wall_thickness_masonry",
+      "dimension": "width",
+      "expression": "module * 2.4",
+      "units": "in",
+      "range": [
+        17.7,
+        27.6
+      ],
+      "authority_note": "500-700 mm is given independently by `styles/cotswold-vernacular.json`, `styles/tuscan-vernacular.json` and `styles/french-provincial-farmhouse.json`; `styles/cape-dutch.json` gives 450-600 mm.",
+      "note": "21 1/2 in -- about 550 mm. Three unrelated records in three countries give the same 500-700 mm band, which is a stronger agreement than any single source could provide and is the reason this figure carries no hedge. It is thicker than a brick wall doing the same job because rubble has no bond across its own thickness unless the mason puts it there: a rubble wall is two faces with a core between them, and the core is only held by the through-stones and by the wall's own mass. Unlike `adobe-module`'s wall this thickness is CONTINUOUS rather than modular -- there is no unit to come in whole multiples of -- and a 480 mm rubble wall is a perfectly real thing where a 20 in adobe wall is not.",
+      "judgment": false
+    },
+    {
+      "target_slot": "wall_thickness_masonry",
+      "dimension": "ratio",
+      "expression": "0.82",
+      "units": "ratio",
+      "range": [
+        0.7,
+        1.0
+      ],
+      "authority_note": "`styles/tuscan-vernacular.json`: 'wall thickness 500-700 mm at ground, reducing to 400-500 mm above'.",
+      "note": "THE WALL THINS AS IT RISES: the upper storey's thickness as a fraction of the ground storey's, about four fifths. The reduction is taken on the INSIDE, so the outer face stays in one plane and the ledge it creates carries the upper floor's joists -- which is why in these buildings the floor structure and the wall's diminution are the same decision. Drawn on the outside instead it becomes a batter, which belongs to `adobe-module` and to defensive work and reads quite differently. The band reaching 1.0 is not slack: plenty of smaller houses do not reduce at all.",
+      "judgment": false
+    },
+    {
+      "target_slot": "reveal_masonry",
+      "dimension": "width",
+      "expression": "module * 1.6",
+      "units": "in",
+      "range": [
+        9.8,
+        23.6
+      ],
+      "authority_note": "`styles/cotswold-vernacular.json`: 'reveals of 250-450 mm at openings' on a 500-700 mm wall. `styles/tuscan-vernacular.json`: 'reveals 400-600 mm deep'. `styles/scottish-baronial.json`: 'wall thickness expressed at reveals of 300-450 mm'.",
+      "note": "14 1/2 in, and THE REVEAL IS NOT THE WALL -- which is the sharpest difference between this pack and `adobe-module`, where the two are stated with the same expression because they are the same number. Here the opening is framed by a dressed jamb, and the jamb is rebated: it stands proud of the internal splay and stops short of the external face, so the visible reveal is roughly two-thirds of the wall's thickness rather than all of it. That rebate is what the window or shutter closes against, and it is the reason a stone opening can be weathertight where an adobe one relies on its depth. `styles/scottish-baronial.json`'s phrasing is the useful one: the wall thickness is EXPRESSED at the reveal, not shown by it.",
+      "judgment": false,
+      "quantity": "wall_reveal_depth"
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "width",
+      "expression": "module * 5",
+      "units": "in",
+      "range": [
+        30.0,
+        66.0
+      ],
+      "authority_note": "`styles/french-provincial-farmhouse.json`, in its own words: openings are 'sized by the lintel or relieving arch available'.",
+      "note": "THE LARGEST OPENING THE BUILDING CAN HAVE, 45 in, AND IT IS THE PACK'S CENTRAL PLAN CONSEQUENCE. A stone lintel is a beam in bending with no tensile capacity worth the name, so what it will span is short -- four feet is comfortable in a good limestone or sandstone, five is asking, and beyond that the tradition stops using a lintel and turns to a relieving arch, a segmental head or a timber bressummer. Everything about the elevation follows: openings are FEW and SMALL, they are isolated events with wide piers between them, a mullion is what you use to get a wider opening without a wider lintel, and there is no such thing as a picture window. A designer who wants an 8 ft opening in a rubble wall has left the tradition and needs a concealed steel, which the pack's cost conflict says how to do honestly.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "height",
+      "expression": "module * 0.85",
+      "units": "in",
+      "range": [
+        5.0,
+        14.0
+      ],
+      "authority_note": "About a sixth of the span, which is the ordinary proportion for a stone lintel and is held by the pack's own invariant.",
+      "note": "7 5/8 in of lintel over a 45 in opening. Depth follows span, so widening the opening deepens the head, which raises the wall above it, which is often what actually stops the widening. Note that the lintel must also BEAR: at least a hand's width onto solid dressed jamb at each end, and a lintel bedded on rubble rather than on the jamb will settle unevenly and crack in the middle, which is the commonest structural failure in a surviving stone cottage.",
+      "judgment": false,
+      "quantity": "lintel_or_arch_depth"
+    },
+    {
+      "target_slot": "corner_quoin",
+      "dimension": "height",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        5.0,
+        14.0
+      ],
+      "authority_note": "The quoin's bed is the module by definition; the band covers a granite tradition working deeper and a thin-bedded flagstone one working shallower.",
+      "note": "9 in of bed. This is the one dimension in the wall that is chosen rather than found, which is why the pack takes it as the module. Where the wall is coursed at all, it is coursed to this -- the waller brings the rubble up to the quoin's beds and the courses of the field are therefore the quoin's courses, which is the only sense in which a rubble wall has a gauge.",
+      "judgment": false,
+      "quantity": "quoin_bed_height"
+    },
+    {
+      "target_slot": "corner_quoin",
+      "dimension": "width",
+      "expression": "module * 1.75",
+      "units": "in",
+      "range": [
+        10.0,
+        24.0
+      ],
+      "authority_note": "Quoin face lengths in surviving Cotswold, Norman and Scottish work run 10-24 in, with the long face commonly one and a half to two times the short.",
+      "note": "15 3/4 in on the long face. The quoin has to be long enough to reach past the corner and bond into the field, which is what it is for; a short quoin is a facing block and ties nothing. `styles/scottish-baronial.json`'s squared rubble and granite ashlar work at the top of the band, the limestone traditions in the middle.",
+      "judgment": false,
+      "quantity": "corner_face_width"
+    },
+    {
+      "target_slot": "corner_quoin",
+      "dimension": "ratio",
+      "expression": "1.75",
+      "units": "ratio",
+      "range": [
+        1.3,
+        2.5
+      ],
+      "authority_note": "The long face over the short, read off surviving quoin runs.",
+      "note": "THE ALTERNATION RATIO, and the diagnostic of the whole corner. Each course turns the corner the other way, so long and short faces swap at every bed and the ratio between them is what the eye reads going up. A run where every stone shows the same face is not a quoin run -- it is a corner cladding, and it says at fifty yards that the stones were ordered from a list rather than cut for the job. The band's floor of 1.3 is where the alternation stops being visible; its ceiling is where the long face has become a header running so far into the wall that it is a through-stone doing a different job.",
+      "judgment": true
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "ratio",
+      "expression": "1.55",
+      "units": "ratio",
+      "range": [
+        1.3,
+        2.0
+      ],
+      "authority_note": "`styles/tuscan-vernacular.json`: 'window proportions roughly 1:1.3 to 1:1.8'. `styles/scottish-baronial.json`: '1.6:1 to 2:1 height to width'.",
+      "note": "Height over width, and squarer than the sash traditions want. The reason is the lintel again: width is capped by what the head will span, and height by the wall's own economy, so the opening lands in a narrow band that no one chose. Where a wider opening is wanted the tradition adds a MULLION rather than a wider lintel -- two or three lights under one head, each light within the proportion -- which `styles/cotswold-vernacular.json` gives as 'two to five lights' and `styles/french-manoir.json` as the croisee, a cross of one mullion and one transom.",
+      "judgment": false,
+      "quantity": "opening_height_over_width"
+    },
+    {
+      "target_slot": "daylight_strategy",
+      "dimension": "ratio",
+      "expression": "0.09",
+      "units": "ratio",
+      "range": [
+        0.05,
+        0.16
+      ],
+      "authority_note": "`styles/tuscan-vernacular.json`: 'aperture area 5-10 percent of wall area'. `styles/french-provincial-farmhouse.json`: '8-15 percent on the sun face, under 5 percent on the mistral face'. `styles/scottish-baronial.json`: 'glazed area 10-16 percent of elevation'.",
+      "note": "A JUDGMENT SLOT. Nine per cent, and the band is wide because the right answer is ORIENTATION-DEPENDENT in a way none of the pack's other rules are -- `styles/french-provincial-farmhouse.json` states it outright, three times as much glass on the sun face as on the mistral face, in one building. That is a rule about elevations rather than about buildings and the schema has no place to put it, so it is recorded here and the pack defers. What is not a judgment is the ceiling: past about 16 per cent the piers between openings fall below what a rubble wall needs to stand, and the design has stopped being a stone one whatever it is clad in.",
+      "judgment": true,
+      "quantity": "glazed_to_wall_ratio"
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "height",
+      "expression": "module * 0.8",
+      "units": "in",
+      "range": [
+        4.0,
+        12.0
+      ],
+      "authority_note": "String courses are named among the ashlar dressings by `styles/norman-romanesque-english.json` and implied by `styles/french-manoir.json`'s 'corbelled string courses'.",
+      "note": "7 1/4 in of dressed string course. In this tradition the string is not a classical belt marking a floor level -- it is a WEATHERING, a projecting course that throws water off the wall face at the height where the wall is most exposed, and it happens to mark a floor because that is where a change of thickness occurs anyway. `styles/french-manoir.json` records the same member surviving as pure ornament once its defensive and structural reasons have gone, which is the honest history of most of this vocabulary.",
+      "judgment": false,
+      "quantity": "belt_course_height_above_floor"
+    },
+    {
+      "target_slot": "belt_course",
+      "dimension": "projection",
+      "expression": "module * 0.35",
+      "units": "in",
+      "range": [
+        1.5,
+        6.0
+      ],
+      "authority_note": "Enough to throw water clear of the face below; the same requirement as the hood mould at a larger scale.",
+      "note": "3 1/8 in. The projection is the whole function and a string course that does not project is a band of different-coloured stone. Weather the top and throat the underside, exactly as with the cill.",
+      "judgment": false
+    },
+    {
+      "target_slot": "foundation_expression",
+      "dimension": "height",
+      "expression": "module * 1.5",
+      "units": "in",
+      "range": [
+        8.0,
+        24.0
+      ],
+      "authority_note": "The plinth or base course, carried above grade to take the splash line; a general practice across all the traditions this pack covers rather than a figure from one record.",
+      "note": "13 1/2 in of plinth, usually in larger and harder stone than the field above it, and often battered or weathered at its top. The same argument as `adobe-module`'s base course and `opening-craftsman`'s water table: a solid wall fails at the bottom, from rising damp and from rain splashing back off the ground within about a foot of the face. Stone tolerates it better than earth, which is why the plinth here is an expression rather than a necessity -- but a rubble wall taken straight into the ground with no change of stone and no weathering will wick, and in a freeze-thaw climate it will spall.",
+      "judgment": false,
+      "quantity": "exposed_foundation_height"
+    },
+    {
+      "target_slot": "depth_and_pile",
+      "dimension": "width",
+      "expression": "module * 26",
+      "units": "in",
+      "range": [
+        200.0,
+        290.0
+      ],
+      "authority_note": "`styles/french-provincial-farmhouse.json`: 'range depth 5.5-7 m clear'. `styles/cape-dutch.json`: 'range depth 5.5-6.5 m clear'.",
+      "note": "THE RANGE DEPTH, 234 in -- just under 6 m. It is set by the roof timbers rather than by the walls, and `styles/cape-dutch.json` says so exactly: 'single-pile ranges only, room depth fixed by the span of undressed imported or local rafters'. So this is the same class of rule as `adobe-module`'s viga span and `log-module`'s pen, and it has the same consequence: the building grows in LENGTH and around courtyards, never in depth, and a double-pile stone house should be read as two ranges with a valley between them rather than as one block.",
+      "judgment": false,
+      "quantity": "block_depth"
+    },
+    {
+      "target_slot": "wing_strategy",
+      "dimension": "width",
+      "expression": "module * 21",
+      "units": "in",
+      "range": [
+        170.0,
+        220.0
+      ],
+      "authority_note": "`styles/french-provincial-farmhouse.json`: 'structural bay 4.5-5.5 m between cross-walls'.",
+      "note": "189 in -- about 4.8 m between cross-walls. The cross-walls are structure and not partitions, exactly as in `adobe-module`, and for the related but distinct reason that they brace the long walls and carry the purlins. What this means for a plan is that the room sizes are given before the brief is: a range 6 m deep divided at 4.5-5.5 m centres produces rooms of about 27-33 square metres and nothing else, and a great room in a stone farmhouse means removing a cross-wall, which means a beam, which means the roof above it.",
+      "judgment": false,
+      "quantity": "max_span_between_cross_walls"
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "wall_thickness_over_span",
+      "expression": "0.16",
+      "units": "ratio",
+      "range": [
+        0.125,
+        0.2
+      ],
+      "authority_note": "`styles/norman-romanesque-english.json`: 'wall thickness 1/8 to 1/5 of the clear span it encloses'.",
+      "note": "WALL THICKNESS AS A FRACTION OF THE CLEAR SPAN, and it is the one rule in the pack that scales the wall to the building rather than fixing it. A record that states its wall thickness as a ratio rather than a dimension is unusual and worth taking seriously: it is how a medieval mason actually thought, because he was building at every scale from a chapel to a cathedral with the same stone. On a domestic span of 6 m it gives 750-1200 mm, which is heavier than the 500-700 mm the vernacular records give -- and the difference is real rather than an inconsistency: `norman-romanesque-english` is describing vaulted and towered building, and this rule should be read where that is what is being designed and left alone where it is not.",
+      "judgment": false,
+      "quantity": "wall_thickness_over_span"
+    },
+    {
+      "target_slot": "roof_material",
+      "dimension": "ratio",
+      "expression": "0.27",
+      "units": "ratio",
+      "range": [
+        0.2,
+        0.45
+      ],
+      "authority_note": "`styles/cotswold-vernacular.json`: 'stone slate courses graded from 550-600 mm at the eaves to 150 mm at the ridge'.",
+      "note": "THE DIMINISHING COURSE: the ridge course's length as a fraction of the eaves course's, about a quarter. A stone slate roof is graded because the biggest and heaviest slates go where the structure is stiffest and the water is greatest, and the grading is continuous rather than in steps -- each course is very slightly shorter than the one below it, all the way up. This is the single most recognisable thing about a Cotswold roof and the single most expensive, because it means the slates must be sorted before they are laid and cannot be ordered by the square metre. A roof laid in one size is not this roof, whatever the stone.",
+      "judgment": false
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "energy-code",
+      "statement": "Stone is a worse insulator than earth and the wall is thinner. Limestone and sandstone run around R-0.08 per inch against adobe's R-0.25, so a 21 in rubble wall is about R-1.7 as an assembly -- roughly a quarter of what `adobe-module`'s wall achieves and an order of magnitude below any prescriptive requirement. The thermal mass argument that rescues adobe in a high desert does not transfer either: these are cool, damp, cloudy climates with small diurnal swings, so the mass delays heat it never gets enough of. There is no reading of the physics on which a solid rubble wall passes a modern energy standard.",
+      "resolution": "Line it internally, and understand exactly what that costs. This is the OPPOSITE of the advice in `adobe-module`, and the difference is the reveal rule: an adobe opening's reveal IS the wall, so lining the inside destroys the building's central diagnostic, while a stone opening's reveal is a rebated dressed jamb that already stops short of both faces -- so an internal lining can be brought up to the jamb, the external reveal is untouched, and the deep external shadow survives intact. What is lost is the internal stone face and the window seat in the thickness, and both are worth mourning, so line the secondary rooms and leave one or two principal spaces with the wall showing and their heating designed accordingly. Use a vapour-open insulation and a lime plaster, never a foam board and a polythene sheet: a solid wall must be able to dry inward, and a sealed lining is how a sound 300-year-old wall gets wet for the first time.",
+      "severity": "blocking"
+    },
+    {
+      "with": "structural",
+      "statement": "A rubble wall is two faces with a loose core between them, and its failure mode is the two faces separating. What ties them is the through-stone -- a single stone reaching the full thickness, laid at intervals -- and nothing else; a wall built as two skins of good facing with rubbish tipped down the middle looks perfect for a century and then bulges. Openings make it worse, because the jambs interrupt the coursing and the lintel delivers a point load onto the core. And the mortar is structural in a way it is not in brickwork: lime mortar is what allows the wall to move, settle and dry, and it carries load in a wall whose stones do not bed flat on one another.",
+      "resolution": "Through-stones at roughly a metre horizontally and vertically, staggered, and specify them as a schedule rather than a note because they are invisible when finished and will be left out. Lime mortar, and the correct one for the exposure -- a hydraulic lime where it is wet, a lime putty mortar where it is not. NEVER POINT OR BED IN CEMENT: a cement mortar is stronger and less permeable than the stone, so water that gets in leaves through the stone's face instead, and the face spalls off. That single substitution has destroyed more historic stonework than any other decision in this pack, and it is still routinely specified. Bed lintels on solid dressed jamb at each end, never on the rubble core.",
+      "severity": "blocking"
+    },
+    {
+      "with": "cost",
+      "statement": "The money is in the dressings, not in the wall. The rubble field is comparatively cheap -- a waller and a labourer -- but every quoin, jamb, cill, lintel, mullion, kneeler and coping is a banker mason's work, cut individually to a template. So the cost of a stone house is very nearly a count of its OPENINGS AND CORNERS: each opening carries two jambs, a cill, a lintel and often a hood, and each corner carries a full run of quoins from plinth to eaves. A plan with a picturesque profusion of gables and bays can cost twice what the same floor area costs in a simple rectangle, and the elevation gives no clue which is which.",
+      "resolution": "Count the dressings at sketch stage and put the number in front of the client before the plan is agreed, because it is the one cost in this construction that a floor-area rate hides completely. Then concentrate: fewer, better openings rather than many small ones, a simple compact plan with few external corners, and where the budget will not carry ashlar dressings everywhere, use them on the entrance elevation and go to a simpler jamb detail elsewhere -- which is what most real houses of this kind did as they were extended. Reconstituted stone dressings are the usual substitution and they are visible: the arris is too sharp, the colour too even, and they weather flat instead of wearing.",
+      "severity": "material"
+    },
+    {
+      "with": "material-availability",
+      "statement": "The stone is local by definition and most of the quarries have closed. That is not a supply problem in the ordinary sense: a Cotswold house built in a Yorkshire sandstone is not a slightly different Cotswold house, it is a different building, because the bed depth, the colour, the way the stone weathers and the size of stone the beds will give are all what produced the tradition's proportions in the first place. Cotswold stone slate for a graded roof is worse still -- largely a salvage market, and a salvaged roof is a finite quantity that has to be sorted before it can be laid.",
+      "resolution": "Find out what the local stone actually does before setting any dimension in this pack, and change the module if the beds are different: nine inches is oolitic limestone and most sandstones, and a granite or a thin flagstone tradition wants a different number with every figure moving behind it. Where the original quarry is gone, choose the substitute by BED and WEATHERING rather than by colour, because colour can be lived with and a stone that spalls cannot. For a graded stone slate roof, price the sorting as a separate item and expect to buy more than the area suggests. And where the budget forces an artificial slate, change the roof pitch and the detail honestly rather than laying a uniform-course substitute and calling it graded.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "The dressings are set to a line and the field is not, and a modern site will get that the wrong way round. A rubble wall is not flat, not plumb and not square; its faces wander by an inch or more over a storey and that wander is most of what makes it look like stone rather than like cladding. But the quoins, jambs and strings ARE cut to dimension and must be set true, because the windows and the floors depend on them. So the sequence is: set the dressings to a line, then course the rubble up to them and let it find its own face. A crew told to build a masonry wall will do the opposite -- string a line for the whole face and lay the rubble to it -- and produce something dead flat, evenly jointed and unmistakably wrong.",
+      "resolution": "Say it in the specification, because it is a sequence rather than a dimension and no drawing shows it: dressings first, to a line; field coursed up to the dressings; face permitted to wander within a stated tolerance rather than held to one. Give the waller a tolerance BAND rather than a maximum -- a wall required to be within 5 mm is a wall that will be built with a very regular stone and a very even joint. And keep the joints in the field wide and irregular, brushed back rather than struck: a neat ribbon pointing turns a rubble wall into a diagram of itself.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "A solid wall wets through, and these are the wet countries. In driving rain a 500 mm rubble wall will carry moisture to its inner face over a long storm -- the mechanism the wall survives by is that it dries again from both sides between storms, which it can do only if nothing impermeable has been added to either face. Freeze-thaw is the second half: a saturated stone that freezes spalls, and it spalls worst at the plinth, at the cills and under any ledge where water sits.",
+      "resolution": "Keep both faces vapour-open, which is the same instruction the energy and structural conflicts arrive at from different directions -- lime, not cement; lime plaster or nothing internally, not gypsum on a sealed lining; limewash or a mineral paint, never a masonry sealant. Weather every horizontal: cill, string, coping, plinth and hood are all in the assemblies above precisely because each is a place water would otherwise sit. Where a wall faces the prevailing wet, the traditions themselves answer it rather than pretending -- render, harl or limewash that elevation and leave the sheltered ones bare, which `styles/scottish-baronial.json` records as harled rubble and `styles/tuscan-vernacular.json` and `styles/french-provincial-farmhouse.json` both record as lime-rendered. A rendered elevation on a stone house is not a failure of nerve; it is the tradition's own answer to the weather side.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "cotswold-vernacular",
+    "cotswold-cottage-revival",
+    "english-cottage-vernacular",
+    "norman-romanesque-english",
+    "scottish-baronial",
+    "french-manoir",
+    "french-provincial-farmhouse",
+    "french-normandy-revival",
+    "tuscan-vernacular",
+    "italian-villa-vernacular",
+    "pennsylvania-bank-house",
+    "cape-dutch"
+  ],
+  "sources": [
+    "Alec Clifton-Taylor, The Pattern of English Building, Faber and Faber, London, 1962",
+    "W. R. Purchase, Practical Masonry: A Guide to the Art of Stone Cutting, Crosby Lockwood, London, from 1895",
+    "R. W. Brunskill, Traditional Buildings of Britain: An Introduction to Vernacular Architecture, Gollancz, London, 1981",
+    "Society for the Protection of Ancient Buildings, technical guidance on lime mortars and solid wall construction",
+    "Les Compagnons du Devoir, Encyclopedie des metiers: la maconnerie et la taille de pierre, Paris"
+  ],
+  "confidence": "medium",
+  "notes": "WP-4.1's candidate list asks for 'a stone-coursing equivalent of `brick-course`, for dressed or rubble stone rather than brick (Cotswold, French Manoir, Norman Vernacular, Italian/Tuscan villa vernacular)'. Measured against the corpus this was by a wide margin the largest item left on the list: SIXTY buildable nodes describe stone walling and thirty-four of those carry three packs or fewer, against a next-largest of thirty-one and twenty-three for the half-timber panel. It is bound to twelve, which is the second finding below.\n\nTHE PACK'S FIRST OBSERVATION IS ABOUT ITSELF: it cannot have `brick-course`'s module. A brick wall has a gauge rod and every course in it is the same height; a rubble wall has no gauge at all, because the stone arrives as the quarry bed gives it. So the module is not a course of the wall but a course of the DRESSING -- the quoin, jamb, lintel, mullion, kneeler and coping, which is the only stone in the building with a dimension before it is laid. Everything else in the pack follows from that choice, and it is why the pack proportions the dressings and treats the field as what is left over. That is also how these buildings were priced and built, and it is what the cost conflict is about.\n\nTHE CENTRAL RULE IS STATED TWICE, INDEPENDENTLY, IN NEARLY THE SAME WORDS. `styles/cotswold-vernacular.json`: 'dressed ashlar reserved for mullions, jambs, lintels, quoins, kneelers and copings'. `styles/norman-romanesque-english.json`: 'coursed rubble field walling with ashlar reserved for quoins, jambs, voussoirs, string courses and shafts'. Two records, four centuries and two building types apart, giving the same rule with the same word -- RESERVED -- and neither aware of the other. Rubble cannot make a corner, an edge or an opening, so every corner, edge and opening is dressed stone, and the composition of these buildings IS the contrast between the two.\n\nWHY TWELVE NODES AND NOT THIRTY-FOUR. The criterion is whether the stone wall GOVERNS or merely occurs. A node whose openings are sized by its lintels, whose plan depth is set by its rafters and whose corners are the reason it has dressed stone at all is bound; a node that has stone walls under a system that governs from somewhere else is not. So the Iberian and Mexican nodes are left to `adobe-module`, which already holds their mass-wall behaviour and whose module is right for them; `greek-classical` and `mid-atlantic-georgian` are left to their orders, because an ashlar Georgian front is proportioned by the order and the stone is a material choice below it; `jacobean`, `tudor` and `english-medieval-timber-frame` are left for the half-timber panel module, still on the list, because their walls are frames with infill and the stone is a plinth. Binding all thirty-four would have raised a number and told the corpus something false about eleven of them.\n\nWhat this pack does not carry, and where it went instead. The MOULDED SECTIONS -- the ovolo and cavetto mullion, the cyma of a Cotswold hood, the Norman chevron, billet and beakhead that `styles/norman-romanesque-english.json` describes as 'cut into the stone's arris rather than applied to its face' -- are an ornament repertoire and are left on WP-4.1's list with the other ornament items. The Scottish crow-step and bartizan geometry that `styles/scottish-baronial.json` gives real numbers for is a gable and turret system, which belongs with the gable-geometry item the list already records as entirely missing. And the loggia arcade `styles/tuscan-vernacular.json` gives at 'pier width 0.4-0.6 of the clear opening' is an arcade rule, which is a third missing item; the figure is quoted here in no rule and is flagged in this note so the next author finds it.\n\nConfidence is medium. The 500-700 mm wall, the reveal band, the opening cap, the range depth and the structural bay are all stated by two or more unrelated records and I would defend them anywhere. The quoin's face lengths, the alternation ratio and the dressed-opening assembly's members are read off surviving fabric and off Purchase's definitions; the alternation ratio is marked judgment because no record states it. The one figure a reader should treat with most care is the module itself: nine inches is oolitic limestone and most sandstones, and a granite or thin-flagstone tradition wants a different number with every figure in the pack moving behind it."
+}

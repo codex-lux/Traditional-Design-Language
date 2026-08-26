@@ -1,7 +1,7 @@
 {
   "style": "norman-vernacular",
   "style_name": "Norman Vernacular",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -278,6 +278,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -342,6 +347,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {
@@ -463,8 +473,8 @@
         "attachment": {
           "value": "detached: no hyphen, no shared wall, no shared roof",
           "unit": "none",
-          "kind": "editorial",
-          "note": "The style-specific departure from groupings/garage-and-hyphen.json, whose hyphen is the whole point of the grouping elsewhere."
+          "kind": "invented",
+          "note": "The style-specific departure from groupings/garage-and-hyphen.json, whose hyphen is the whole point of the grouping elsewhere. OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "soubassement_min": {
           "value": 400,
@@ -483,15 +493,16 @@
         "max_door_width": {
           "value": 10,
           "unit": "ft",
-          "kind": "editorial",
+          "kind": "invented",
           "source": "groupings/garage-and-hyphen.json",
-          "note": "The grouping's stated preference for two narrower doors over one wide one, which here is also a framing rule: an opening is a whole number of stud bays at 0.5-0.8 m centres (c02), and the post between two doors is a real post."
+          "note": "The grouping's stated preference for two narrower doors over one wide one, which here is also a framing rule: an opening is a whole number of stud bays at 0.5-0.8 m centres (c02), and the post between two doors is a real post. OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "door_count_preferred": {
           "value": 2,
           "unit": "count",
-          "kind": "editorial",
-          "source": "groupings/garage-and-hyphen.json"
+          "kind": "invented",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "ridge_ratio_to_logis": {
           "range": [

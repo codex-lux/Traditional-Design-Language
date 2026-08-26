@@ -206,5 +206,25 @@
     "islamic-craft",
     "christian-patronage"
   ],
-  "proportion_packs": []
+  "proportion_packs": [
+    {
+      "pack": "moorish-arch",
+      "role": "primary",
+      "precedence": 1,
+      "authority": "moorish-arch",
+      "note": "Left unbound by WP-4.1 for the same reason and with a second one: 'almost entirely ornament and structural technique rather than room- or facade-level proportion'. This pack reaches the arch-and-impost layer, which is the half of that Mudejar shares with its Andalusian parent -- the horseshoe and polylobed arch, the impost, the alfiz. It does NOT reach the whole-brick corbelling or the par y nudillo roof carpentry, which WP-4.1 named as a separate gap and this pack's own notes say it does not fill."
+    },
+    {
+      "pack": "corbel-course",
+      "role": "secondary",
+      "note": "THE PACK THIS NODE'S OWN BINDING NOTE ASKED FOR. Its `facade-arcade` entry says 'what neither pack carries is the thing this node is most distinctive for -- the whole-brick corbelling and offsetting that WP-4.1 list[ed]'. It supplies the pack's ornament half entire: the 60-70 mm course, the 3-9 course band, the dogtooth and dentil and interlace made by turning and offsetting whole units, and the hard rule that carved, moulded or cast profiles are prohibited because 'the entire visual character depends on the ornament being an arrangement of a standard unit'. It also states the quantisation the pack's construction-tolerance conflict is about: 'nothing can be resized without redrawing.' One of the corpus's two thinnest-bound nodes, now at three.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-arcade",
+      "role": "secondary",
+      "note": "The other of the two thinnest-bound nodes, and bound here for the same reason as its neighbour: `moorish-arch` gives it an arch and this pack gives the arcade the arch sits in. What neither pack carries is the thing this node is most distinctive for -- the whole-brick corbelling and offsetting that WP-4.1 lists as its own missing module, with a coursing dimension unlike `brick-course`'s American logic. That item is untouched and stays on the list.",
+      "precedence": 3
+    }
+  ]
 }

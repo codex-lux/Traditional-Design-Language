@@ -315,6 +315,12 @@
       "role": "optional",
       "note": "Bound optional and low for the same reason as on georgian-colonial-american: a Federal house is designed from a drawing, not from a frame, so the bay no longer sets the plan. It is promoted above brick-course on new-england-federal, where the frame clapboard house is the majority fabric.",
       "precedence": 10
+    },
+    {
+      "pack": "octagon-geometry",
+      "role": "optional",
+      "note": "Optional. This record gives the shallow end of the bay band with a word that does the work: 'a shallow curved or polygonal bay pushing out of an otherwise flat rear or garden elevation'. On a Federal house the bay is a modulation of a flat wall rather than a projecting mass, and it is on the GARDEN front rather than the street -- which is a compositional rule the pack's projection band cannot carry and this note can.",
+      "precedence": 11
     }
   ]
 }

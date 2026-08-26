@@ -27,3 +27,23 @@ Each grouping carries internal rules with `hard` / `strong` / `preferred` severi
 ## What is still missing
 
 Nothing resolves a set of rooms into a plan yet. The catalogue states the constraints; a generator that satisfies them is the next thing to build, and it should be built against `tdl_get_grouping` rather than against the rooms directly.
+
+## The `void` block
+
+Only meaningful on a room whose `function_class` is `outdoor`. Two required booleans:
+
+| field | means |
+|---|---|
+| `within_footprint` | the void takes a rectangle inside the building's block — the house is built around it or beside it under one outline |
+| `roofed` | the void is covered, so something may sit above it |
+
+They are independent, and both are needed to place one. Current values: `courtyard`
+(true, false), `loggia` (true, true), `piazza` (true, true), `terrace` (false, false). Each
+carries a `note` deriving the answer from the room's own description.
+
+A room with no `void` block is treated as `within_footprint: false` and stays out of placement.
+That default is deliberate: it is the behaviour before OQ 55, and a room nobody has judged must
+not be silently promoted into the footprint.
+
+This is **not** a second classification axis and it is not the `void` function_class OQ 55
+rejected. `function_class` is untouched; the block is descriptive.

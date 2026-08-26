@@ -1,0 +1,184 @@
+{
+  "id": "shotgun-linear",
+  "name": "Shotgun",
+  "aka": [
+    "the shotgun house",
+    "single shotgun",
+    "railroad house"
+  ],
+  "description": "Rooms one behind another in a single file, each opening into the next, with no corridor anywhere and the front and back doors in line. One room wide is the whole idea: on a narrow deep urban lot it is the only way to get every room an outside wall on both sides, which before mechanical ventilation is the difference between a house that can be lived in through a Gulf summer and one that cannot. The absence of a corridor is not poverty, it is the plan - a corridor in a twelve-foot-wide house would take a third of it - and the aligned doors are a ventilation device, giving the whole house one continuous draught from front to back.",
+  "massing": "shotgun",
+  "alternate_massings": [
+    "double-pen",
+    "creole-cottage"
+  ],
+  "styles": [
+    "shotgun-house"
+  ],
+  "groupings": [
+    "kitchen-work-core"
+  ],
+  "circulation_parti": "enfilade",
+  "storeys": 1,
+  "area_range_sf": [
+    500,
+    1400
+  ],
+  "bedroom_range": [
+    1,
+    3
+  ],
+  "rooms": [
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Front Porch",
+      "exterior_walls": [
+        "S",
+        "E",
+        "W"
+      ],
+      "doors": [
+        "exterior",
+        "front"
+      ],
+      "note": "The full width of the house and the room the household actually sits in. In the shotgun's own social arrangement it is the parlour, and the street is the room beyond it."
+    },
+    {
+      "id": "front",
+      "type": "parlor",
+      "level": 0,
+      "name": "Front Room",
+      "exterior_walls": [
+        "S",
+        "E",
+        "W"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "porch",
+        "middle"
+      ],
+      "area_weight": 0.24,
+      "note": "Parlour by day and bedroom by night in the working version of the type. Its two side walls are exterior walls, which is what the whole diagram is for."
+    },
+    {
+      "id": "middle",
+      "type": "bedroom",
+      "level": 0,
+      "name": "Middle Room",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "E",
+        "W"
+      ],
+      "lit_from": [
+        "E",
+        "W"
+      ],
+      "doors": [
+        "front",
+        "kitchen"
+      ],
+      "area_weight": 0.22,
+      "note": "The room everyone walks through to reach the kitchen, and the type's honest cost: there is no way to reach the back of the house without crossing a bedroom."
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "E",
+        "W",
+        "N"
+      ],
+      "lit_from": [
+        "E",
+        "W"
+      ],
+      "doors": [
+        "middle",
+        "bath",
+        "rearporch",
+        "eat"
+      ],
+      "fixtures": [
+        "sink",
+        "range"
+      ],
+      "area_weight": 0.2
+    },
+    {
+      "id": "eat",
+      "type": "eat-in-kitchen-area",
+      "level": 0,
+      "name": "Table",
+      "required": false,
+      "doors": [
+        "kitchen"
+      ],
+      "note": "There is no dining room and there never was one; the table is in the kitchen and the catalogue has a room type for exactly that."
+    },
+    {
+      "id": "bath",
+      "type": "bathroom",
+      "level": 0,
+      "name": "Bath",
+      "exterior_walls": [
+        "W"
+      ],
+      "doors": [
+        "kitchen"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ],
+      "note": "A later addition to the type in every case - the original had a privy in the yard - and it is added at the back, off the kitchen, because that is where the water already was."
+    },
+    {
+      "id": "rearporch",
+      "type": "piazza",
+      "level": 0,
+      "name": "Rear Porch",
+      "required": false,
+      "exterior_walls": [
+        "N",
+        "E",
+        "W"
+      ],
+      "doors": [
+        "kitchen",
+        "exterior"
+      ],
+      "note": "The working end, and the second half of the through-draught the aligned doors create."
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "deepening"
+    ],
+    "bay_module_ft": 12,
+    "min_bay_count": 1,
+    "max_bay_count": 1,
+    "note": "One bay wide, permanently. This diagram grows in one direction only, by adding another room to the back of the file, and it is the clearest case in the catalogue of a type whose max_bay_count and min_bay_count are the same number. The camelback variant grows upward at the rear instead, which is what a lot too short to lengthen forces."
+  },
+  "trades_away": "Privacy, entirely and by design. Every room is a corridor, the only way to the back of the house is through a bedroom, and no door in the house closes off a route. It trades away any possibility of a second bathroom reached without crossing the kitchen, and it trades away the wide facade a broader lot would allow - which is why a shotgun on a suburban lot looks wrong: the diagram is an answer to a narrow deep lot and makes no sense without one.",
+  "exemplars": [
+    "The New Orleans shotgun terraces of Faubourg Marigny and Bywater, from the 1830s",
+    "The Louisville and Charleston shotgun neighbourhoods recorded by HABS",
+    "Camelback variants, New Orleans - the rear-upstairs answer to a short lot"
+  ],
+  "sources": [
+    "massings/catalog.json: shotgun",
+    "styles/shotgun-house.json, whose own node records the type's contested Haitian and West African ancestry",
+    "John Michael Vlach, 'The Shotgun House: An African Architectural Legacy' (1976)",
+    "editorial: the room list is the type at its most common three-room depth"
+  ],
+  "confidence": "high"
+}

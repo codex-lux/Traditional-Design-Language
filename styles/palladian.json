@@ -256,34 +256,40 @@
       "precedence": 3
     },
     {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "The node that gives the pack its portico share: 'portico of four or six columns, Ionic or Corinthian, occupying 1/2 to 3/5 of the block width', which is the only figure in the corpus dimensioning a portico against the building it is on rather than against its own order. Its tripartite A-B-A bay rhythm and the seven approved room shapes belong to other packs; what this one takes is the portico's extent and its column count, which are the two things a compiler needs before it can place anything.",
+      "precedence": 4
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Confirmed in the pack's own applies_to. Governs the plain, uniform wing bays outward from the dominant centre that this style's own bay_rhythm describes.",
-      "precedence": 4
+      "precedence": 5
     },
     {
       "pack": "opening-proportion",
       "role": "opening",
       "note": "Confirmed in the pack's own applies_to, and by the same author as the order packs above.",
-      "precedence": 5
+      "precedence": 6
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "Confirmed in the pack's own applies_to. This is the pack's own founding text: room-harmonic's worked example (a 12x6 room taking an 8 ft vault by the harmonic mean) is quoted verbatim from Palladio Book I ch. XXIII, and this style's own proportional_system states the identical governing_logic -- 'the plan is generated from a closed list of room ratios... the section a function of the plan.' The single tightest pack-to-node match in this entire batch.",
-      "precedence": 6
+      "precedence": 7
     },
     {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "Confirmed in the pack's own applies_to. Governs the vertical relation of the raised piano nobile to the plinth-like service basement below it (c04's 1.2 m minimum), though the pack's own domestic-Georgian calibration describes a gentler diminution than the more emphatic base/piano-nobile contrast this style actually builds.",
-      "precedence": 7
+      "precedence": 8
     },
     {
       "pack": "trim-classical",
       "role": "interior",
       "note": "Confirmed in the pack's own applies_to. Governs the interior wall as pedestal:field:entablature, the same general-rule division (Vignola's pedestal at one third, entablature at one quarter of the column) this style's orders and its plan-derived room heights both assume.",
-      "precedence": 8
+      "precedence": 9
     }
   ]
 }

@@ -7,15 +7,25 @@
   "description": "Two unequal rooms side by side, the larger for work and reception, the smaller for the best furniture. The oldest Anglo-American diagram and the ancestor of everything: insert a passage between the two rooms and you have the Georgian plan.",
   "massing": "hall-and-parlor",
   "alternate_massings": [
-    "i-house",
-    "cape-cod-massing"
+    "cape-cod-massing",
+    "garrison-block",
+    "i-house"
   ],
   "styles": [
-    "new-england-colonial",
     "american-farmhouse-vernacular",
-    "log-vernacular-american",
+    "cape-cod-colonial",
+    "cotswold-vernacular",
+    "dutch-colonial-american",
+    "english-cottage-vernacular",
     "folk-victorian",
-    "cape-cod-colonial"
+    "garrison-colonial",
+    "garrison-revival",
+    "german-pennsylvania-colonial",
+    "hudson-valley-dutch",
+    "log-vernacular-american",
+    "new-england-colonial",
+    "new-jersey-dutch-gambrel",
+    "pennsylvania-bank-house"
   ],
   "groupings": [
     "hall-and-parlor-pair",

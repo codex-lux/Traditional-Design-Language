@@ -74,6 +74,16 @@ def chain_for(graph, style_id):
     return [style_id] + list(n.get("_cascade", []))
 
 
+def scope_for(graph, style_id):
+    """Which ancestors in this node's chain may contribute only SOME slots (OQ 58).
+
+    Absent for almost every ancestor, and absent entirely for a node with no scoped edge, which
+    is the historical behaviour: an edge with no `slots` list carries the donor's whole kit. An
+    edge that names slots carries those and nothing else, which is what a `hybridizes_with` edge
+    drawn for one aspect of a donor's practice actually means."""
+    return dict((graph["nodes"].get(style_id) or {}).get("_cascade_scope") or {})
+
+
 # ---------------------------------------------------------------- extends merge
 MERGE_REPLACE = ("rule", "packs", "code_conflict", "determined_by",
                  "judgment", "invented", "confidence", "sources", "status")
@@ -170,15 +180,23 @@ def merge_extends(base, delta, base_src, delta_src):
     return out, prov
 
 
-def resolve_slots(graph, chain):
+def resolve_slots(graph, chain, scope=None):
     kits = {nid: load_kit(nid) for nid in chain}
     inline = {nid: (graph["nodes"][nid].get("kit") or {}) for nid in chain}
     out = collections.OrderedDict()
     savings = {"slots": 0, "fields": 0, "detail": []}
+    scope = scope or {}
 
     for sid, group, name in slot_order(graph):
         deltas, rec, src = [], None, None
         for nid in chain:
+            # OQ 58: an ancestor reached by a scoped edge contributes only the slots that edge
+            # was drawn for. Skipping it here rather than filtering its kit means the walk
+            # simply continues past it to the next ancestor, which is exactly what "this edge
+            # does not carry that slot" should mean.
+            allowed = scope.get(nid)
+            if allowed is not None and sid not in allowed:
+                continue
             v, tag = None, ""
             for store, t in ((inline[nid], " (inline)"), (kits[nid], "")):
                 cand = store.get(sid)
@@ -265,13 +283,28 @@ def eval_packs(packs, ctx, module_override=None):
         except Exception as e:
             errors.append("%s: %s" % (pid, e))
             continue
+        # OQ 49: a binding may be SCOPED to named target slots. Absent means the whole pack, which
+        # is the historical behaviour and stays the default. This is the one place a scoped binding
+        # can be enforced -- everything downstream reads `by_slot` and cannot tell where a rule came
+        # from, which is exactly how `role: optional` plus a note in prose failed to scope anything.
+        # An entry is either a bare slot id (every rule the pack writes there) or `slot/dimension`
+        # (exactly one rule). Both are needed: `jetty-overhang` writes material_change_rule once,
+        # but `facade-portada` writes ornament_vocabulary four times and only one of them applies
+        # to the node being scoped.
+        scope = binding.get("slots")
         for r in ev["rules"]:
             if "error" in r:
+                continue
+            if scope is not None and not (
+                r["target_slot"] in scope
+                or "%s/%s" % (r["target_slot"], r.get("dimension")) in scope
+            ):
                 continue
             by_slot[r["target_slot"]].append({
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],
                 "style_precedence": binding.get("precedence"),
-                "dimension": r.get("dimension"), "expression": r["expression"],
+                "dimension": r.get("dimension"), "quantity": r.get("quantity"),
+                "expression": r["expression"],
                 "value": r.get("value"), "units": r.get("units"),
                 "judgment": r.get("judgment"),
                 "calibrated_for": r.get("calibrated_for"),
@@ -303,9 +336,67 @@ def choose_pack(rec, rows, ctx):
         prec = [r for r in rows if r.get("style_precedence") is not None]
         if prec:
             ranked = sorted(prec, key=lambda r: r["style_precedence"])
-            return {"how": "style.proportion_packs", "chosen": {"pack": ranked[0]["pack"],
-                    "expression": ranked[0]["expression"]}, "rejected": [], "ranked": ranked,
-                    "stale_calibration": False}
+            # OQ 48: rows at one (slot, dimension) may MEASURE DIFFERENT THINGS. Precedence decides
+            # which of two accounts of ONE quantity to believe; it cannot decide between two
+            # quantities, and until now the loser was discarded with nothing said. Group by
+            # `quantity`, choose within the winning group, and REPORT the groups set aside -- the
+            # contract is unchanged for the single-quantity case, which is most of them.
+            # Grouped by (dimension, quantity), not by quantity alone: `by_slot` is keyed on the
+            # SLOT, so rows for different dimensions of one slot are already in this list and were
+            # being compared against each other. A `count` rule is not an alternative account of a
+            # `width` rule any more than two quantities are.
+            groups = collections.OrderedDict()
+            for r in ranked:
+                groups.setdefault((r.get("dimension"), r.get("quantity")), []).append(r)
+            win_q = next(iter(groups))
+            winners = groups[win_q]
+            # Only a SAME-DIMENSION, different-quantity group is the corruption OQ 48 is about.
+            # Different dimensions of one slot -- a count, a width, a spacing -- are a normal
+            # fan-out and were never in competition; reporting those would bury the real ones.
+            by_dim = collections.OrderedDict()
+            for (dim, q), rs in groups.items():
+                by_dim.setdefault(dim, []).append((q, rs))
+            others = []
+            for dim, qs in by_dim.items():
+                if len(qs) < 2:
+                    continue
+                keep = qs[0][0]
+                # Three things this must not do, all found by audit on 25 Aug 2026.
+                #
+                # (1) UNJUDGED IS NOT PASSED, and it is not DECIDED either. A rule with no
+                #     `quantity` cannot be compared -- 268 of 751 have none -- so saying it was
+                #     "set aside in favour of" something is a decision nobody made. It is reported
+                #     as could-not-judge, in the schema's own words for the same case.
+                # (2) "in favour of X" was false whenever this dimension is not the CHOSEN one:
+                #     only one group is delivered, so at any other dimension BOTH quantities were
+                #     dropped and neither prevailed. Say dropped, not set aside.
+                # (3) A menu inside ONE pack is case (i), authored deliberately -- room-harmonic
+                #     writes one address ten times and every one is right. Reporting those buried
+                #     the cross-pack cases at a 68% false-alarm rate. Flag which kind it is.
+                chosen_dim = (dim == win_q[0])
+                for q, rs in qs[1:]:
+                    packs_here = sorted({x["pack"] for x in rs})
+                    keep_packs = sorted({x["pack"] for x in qs[0][1]})
+                    cross = bool(set(packs_here) ^ set(keep_packs))
+                    if q is None or keep is None:
+                        verdict = ("%s: '%s' and '%s' COULD NOT BE JUDGED -- one carries no "
+                                   "`quantity`, so it is unknown whether they measure the same "
+                                   "thing" % (dim, q or "unstated", keep or "unstated"))
+                        kind = "could-not-judge"
+                    elif chosen_dim:
+                        verdict = "%s: %s set aside in favour of %s" % (dim, q, keep)
+                        kind = "set-aside"
+                    else:
+                        verdict = ("%s: %s and %s both dropped -- this slot resolved at "
+                                   "dimension '%s'" % (dim, q, keep, win_q[0]))
+                        kind = "both-dropped"
+                    others.append({"quantity": verdict, "kind": kind,
+                                   "cross_pack": cross, "packs": packs_here})
+            return {"how": "style.proportion_packs", "chosen": {"pack": winners[0]["pack"],
+                    "expression": winners[0]["expression"], "quantity": win_q[1],
+                    "dimension": win_q[0]},
+                    "rejected": [], "ranked": ranked, "stale_calibration": False,
+                    "other_quantities": others}
         if len({r["pack"] for r in rows}) > 1:
             return {"how": "unresolved", "chosen": None, "rejected": [],
                     "ranked": rows, "stale_calibration": False}
@@ -421,7 +512,7 @@ def main():
 
     graph = load_graph()
     chain = chain_for(graph, a.style)
-    slots, savings = resolve_slots(graph, chain)
+    slots, savings = resolve_slots(graph, chain, scope_for(graph, a.style))
     packs = resolve_packs(graph, chain)
     ctx = {"ceiling_height": a.ceiling,
            "storey_height": a.storey if a.storey else a.ceiling + 12.0,
@@ -631,6 +722,26 @@ def main():
             unruled_slots.append(s)
     print("\nPACK RESOLUTION  (%d of %d slots have a bound pack speaking to them)" % (len(covered), len(slots)))
     print("  %d resolved by an explicit ruling, %d still unresolved" % (ruled, unruled))
+    # OQ 48: where two packs at one address MEASURE DIFFERENT THINGS, precedence picks a winner and
+    # the other quantity is set aside. It used to be discarded with nothing said; now it is named,
+    # because a rule that was silently dropped is unjudged and unjudged must not read as absent.
+    aside, kinds = [], collections.Counter()
+    for s in covered:
+        ch = choose_pack(slots[s], pack_slots[s], ctx) or {}
+        for o in ch.get("other_quantities") or []:
+            kinds[o.get("kind", "set-aside")] += 1
+            aside.append("%s (%s, from %s)" % (s, o["quantity"] or "unstated", "/".join(o["packs"])))
+    if aside:
+        # Broken down by kind. The single word "set aside" was applied to all three cases,
+        # including the ones nobody judged -- which is the cardinal rule broken in the summary
+        # line rather than in the data. `--slot <id>` shows any one of them in full.
+        summary = ", ".join("%d %s" % (n, k) for k, n in kinds.most_common())
+        print("  ! %d competing quantity/ies at an address (%s):" % (len(aside), summary))
+        for line in aside[:8]:            # not `a`: that is the argparse Namespace
+            print("      " + line)
+        if len(aside) > 8:
+            print("      ... and %d more" % (len(aside) - 8))
+        print("      (`check_addresses.py --scope cascade --report` measures this corpus-wide)")
     if unruled_slots:
         print("  unresolved: " + ", ".join(unruled_slots))
     stale = [s for s in covered if (choose_pack(slots[s], pack_slots[s], ctx) or {}).get("stale_calibration")]

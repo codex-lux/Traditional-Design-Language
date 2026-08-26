@@ -43,7 +43,7 @@ SEV_W = {"fatal": 100, "serious": 8, "minor": 1, "advisory": 0.5, "info": 0}
 MAX_TIE_EXPANSION = 3
 
 # ---------------------------------------------------------------- selection
-def pick_partis(brief, limit=6):
+def pick_partis(brief, limit=12):
     style = brief["style"]
     chain = PC.style_chain(style, C)
     st = C["styles"].get(style, {})
@@ -60,7 +60,17 @@ def pick_partis(brief, limit=6):
         if style in p["styles"]: fit += 3.0; why.append(f"native to {style}")
         elif set(p["styles"]) & chain: fit += 1.6; why.append("native to an ancestor or relative of the style")
         else: why.append("NOT native to this style — the composer is borrowing a diagram")
-        a = aff.get(p["massing"])
+        # The affinity of the BEST massing this parti can be built on, not only its
+        # primary. A parti reached through its alternate_massings is still that
+        # style's canonical diagram -- 23 of the nodes WP-4.5 covers reach their
+        # parti that way, and reading only p["massing"] gave them the nativity bonus
+        # while withholding the canonical-massing one, so they still lost to a
+        # lineage relative sitting on a canonical primary (1.6 + 2.0 > 3.0).
+        RANK = {"canonical": 4, "common": 3, "acceptable": 2, "rare": 1, "forbidden": 0}
+        cands = [aff.get(m) for m in ({p["massing"]} | set(p.get("alternate_massings") or []))]
+        cands = [c for c in cands if c]
+        a = max(cands, key=lambda c: RANK.get(c, 1)) if cands else None
+        if a and "forbidden" in cands: a = "forbidden"   # a forbidden massing taints the pick
         if a == "canonical": fit += 2.0; why.append(f"{p['massing']} is a canonical massing for the style")
         elif a == "common": fit += 1.2; why.append(f"{p['massing']} is a common massing for the style")
         elif a == "forbidden": fit -= 4.0; why.append(f"the style marks {p['massing']} FORBIDDEN")
@@ -113,18 +123,47 @@ def room_default_dims(room_type):
     w = math.sqrt(a / ratio)
     return round(w, 1), round(w * ratio, 1)
 
+def _as_feet(m):
+    """A ceiling height in whatever unit the kit's author wrote it in.
+
+    Kits state these in feet, in inches and (in the medieval British nodes) in millimetres.
+    Anything that lands outside a plausible storey height after conversion is refused rather
+    than guessed at, because a number this function cannot read is better dropped than turned
+    into a ceiling nobody meant."""
+    if m is None: return None
+    if m > 200: m = m / 304.8          # millimetres
+    elif m > 20: m = m / 12.0          # inches
+    return m if 6.0 <= m <= 24.0 else None
+
+
 def ceilings_for(style):
-    """Ceiling heights from the style's own kit, falling back to a sensible default."""
+    """Ceiling heights from the style's own kit, falling back to a sensible default.
+
+    Two passes, and the second one is WP-4.5's. The first reads storey-specific keys. The
+    second accepts a generic one, because half the kits that trouble to state a ceiling height
+    at all do not name a storey in the key: shotgun-house says `ceiling_height_min_ft`,
+    norman-vernacular says `storey_height_range_ft`, swiss-chalet says
+    `stube_ceiling_height_max`. Thirteen kits were read and thirteen were ignored, and the
+    ignored ones silently got the 9.0 ft default — which is how a shotgun house, whose own kit
+    specifies a 10 ft minimum and 11-12 ft preferred and whose whole character is a tall room
+    on a small footprint, was composed with nine-foot ceilings and then failed its own style's
+    transom-datum constraint at fatal. The style had spoken and nothing was listening."""
     kit = (C["kits"].get(style) or {}).get("slots", {})
     rec = kit.get("ceiling_height_rule") or {}
+    params = (rec.get("parameters") or {})
     g = u = None
-    for k, v in (rec.get("parameters") or {}).items():
+    generic = None
+    for k, v in params.items():
         val = v.get("range") or ([v["value"]] if isinstance(v.get("value"), (int, float)) else None)
         if not val: continue
-        m = sum(val) / len(val)
-        if m > 20: m = m / 12.0
+        m = _as_feet(sum(val) / len(val))
+        if m is None: continue
         if "first" in k or "ground" in k or "principal" in k: g = g or m
         elif "second" in k or "upper" in k or "chamber" in k: u = u or m
+        elif "ceiling" in k or "storey" in k or "story" in k:
+            # prefer a stated preference over a stated minimum, which is what the kits mean
+            if generic is None or "preferred" in k or "typical" in k: generic = m
+    g = g or generic
     return (g or 9.0, u or (g or 9.0) - 1.0)
 
 def instantiate(parti_id, brief):
@@ -158,7 +197,6 @@ def instantiate(parti_id, brief):
     dims = {}
     for r in rooms:
         w, l = room_default_dims(r["type"])
-        if r.get("area_weight"): w, l = w * 1.1, l * 1.1
         dims[r["id"]] = [w, l]
     target = brief["target_area_sf"]
     tol = brief.get("area_tolerance", 0.12)
@@ -170,15 +208,74 @@ def instantiate(parti_id, brief):
         rt = C["rooms"].get(rtype, {})
         lo, hi = (rt.get("dimensions", {}).get("area_sf") or [40, 900])
         return lo, hi
+    # OQ 55: the brief's target is HEATED area, and a reserved void does not spend it.
+    #
+    # This loop used to scale every room in `dims` against the target, outdoor rooms included,
+    # while reclaim() below measures area with outdoor rooms excluded -- so the two passes were
+    # sizing against two different quantities and only one of them was the brief's. On a plan
+    # with no placed void the difference was a rounding error and nobody saw it. On the
+    # courtyard parti, whose court and four-range corredor are 40% of the block, it made a
+    # 3,000 sf brief come back as an 1,834 sf house that the composer reported, correctly, as
+    # 38.9% off its own target and could not fix, because from its point of view the area had
+    # been spent. A void is now held out of the scaling entirely: it keeps the size its own
+    # weight and catalogue give it, and the ranges around it are scaled to the brief.
+    voids = {r["id"] for r in rooms
+             if C["rooms"].get(r["type"], {}).get("function_class") == "outdoor"}
+
+    # OQ 62, ruled 24 Aug 2026: `area_weight` is a SHARE OF THE BRIEF'S TARGET, and until now it
+    # was read as a boolean -- "nudge this room 10% if it has a weight at all" -- after which one
+    # global factor reached the target and the number itself decided nothing. So a parti's
+    # weights read as a considered distribution and were not one, and tuning them (the courtyard
+    # corredor, in the package before this) had to be done by measuring the output.
+    #
+    # PARTIAL COVERAGE IS ALLOWED, and is the normal case: only the ten partis WP-4.5 authored
+    # carry weights at all, and their sums run from 0.35 to 1.13. A room WITH a weight takes that
+    # share and is frozen -- a real share is not renegotiated by a global factor, which is the
+    # whole of what the ruling changes. Rooms WITHOUT one split whatever is left by the loop
+    # below, exactly as they did before, so the eleven partis that state no weights behave
+    # identically to yesterday.
+    #
+    # A void's weight is a share of the same number, not of a gross the brief never states. The
+    # court is 0.18 of the house the brief asked for; that the house also has a court is what
+    # makes the block bigger than the brief (OQ 55), and sizing the court against the block would
+    # be circular.
     frozen = set()
+    clamped_up, clamped_down = [], []
+    for r in rooms:
+        w = r.get("area_weight")
+        if not w: continue
+        want = w * target
+        lo, hi = band(r["id"], r["type"])
+        if want < lo:
+            clamped_down.append((r.get("name") or r["id"], want, lo)); want = lo
+        elif want > hi:
+            clamped_up.append((r.get("name") or r["id"], want, hi)); want = hi
+        ratio = (dims[r["id"]][1] / dims[r["id"]][0]) if dims[r["id"]][0] else 1.3
+        side = math.sqrt(want / ratio)
+        dims[r["id"]] = [round(side, 1), round(side * ratio, 1)]
+        frozen.add(r["id"])
+    # A weight the room's own catalogue band cannot honour is the diagram and the brief
+    # disagreeing, and it is the composer's job to say which -- not to split the difference
+    # quietly and report a target it missed for reasons nobody can see. The area miss that
+    # follows is then an explained number rather than a mysterious one.
+    for label, rows, sense in (("larger", clamped_up, "than its catalogue band allows"),
+                               ("smaller", clamped_down, "than its catalogue band allows")):
+        if not rows: continue
+        bits = ", ".join(f"{n} wants {a:.0f} sf, band gives {b:.0f}" for n, a, b in rows[:4])
+        log.append(
+            f"JUDGMENT: at a {target:.0f} sf target this diagram's own area weights make "
+            f"{len(rows)} room(s) {label} {sense} — {bits}. Held at the band and the "
+            f"difference left to the rooms the diagram does not weight. If the shortfall below "
+            f"is large, the brief is asking this diagram for a house it does not grow into by "
+            f"making its rooms bigger; it grows by having more of them.")
     for _ in range(4):
-        total = sum(w * l for w, l in dims.values())
-        free = sum(dims[r][0] * dims[r][1] for r in dims if r not in frozen)
+        total = sum(w * l for rid, (w, l) in dims.items() if rid not in voids)
+        free = sum(dims[r][0] * dims[r][1] for r in dims if r not in frozen and r not in voids)
         fixed = total - free
         if free <= 0: break
         k = max(0.4, min(1.8, (target - fixed) / free)) ** 0.5
         for r in list(dims):
-            if r in frozen: continue
+            if r in frozen or r in voids: continue
             w, l = dims[r][0] * k, dims[r][1] * k
             rtype = next(x["type"] for x in rooms if x["id"] == r)
             lo, hi = band(r, rtype)
@@ -186,11 +283,13 @@ def instantiate(parti_id, brief):
             if a < lo: f = math.sqrt(lo / a); w, l = w * f, l * f; frozen.add(r)
             elif a > hi: f = math.sqrt(hi / a); w, l = w * f, l * f; frozen.add(r)
             dims[r] = [round(w, 1), round(l, 1)]
-        if abs(sum(w * l for w, l in dims.values()) - target) / target <= tol: break
+        heated = sum(w * l for rid, (w, l) in dims.items() if rid not in voids)
+        if abs(heated - target) / target <= tol: break
 
     # If it is still too big, drop optional rooms from the back — the diagram says which may go.
     dropped = []
-    def area_now(): return sum(dims[r["id"]][0] * dims[r["id"]][1] for r in rooms if r["id"] in dims)
+    def area_now(): return sum(dims[r["id"]][0] * dims[r["id"]][1] for r in rooms
+                               if r["id"] in dims and r["id"] not in voids)
     # A room that satisfies a HARD adjacency is not optional however the parti marked it.
     # Dropping the butler's pantry to save area severs the kitchen from the dining room.
     load_bearing = set()
@@ -564,6 +663,12 @@ def footprint(plan, parti):
              if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
     bm = (parti.get("scaling") or {}).get("bay_module_ft") or 10
     mx = (parti.get("scaling") or {}).get("max_bay_count") or 5
+    # The floor a diagram cannot go below. Three is right for almost everything and is the
+    # default, but a one-room hall house is 250-500 sf and one or two bays wide by its own
+    # catalogue entry; floored at three it was not merely inflated, it was declared
+    # lot-infeasible and DROPPED. geometry.py has always used a floor of 2 here, so the two
+    # engines disagreed; the parti now says which it means. (WP-4.5)
+    mn = (parti.get("scaling") or {}).get("min_bay_count") or 3
     notes = []
     # WP-2.4: a lot caps how many bays this diagram may ever reach here, regardless of what
     # the parti's own catalogue maximum allows -- "a 24 ft town-house parti for a 30 ft lot;
@@ -576,11 +681,11 @@ def footprint(plan, parti):
             notes.append(f"Lot caps this diagram at {lot_mx} bays instead of its usual {mx}: "
                           f"{usable:.0f} ft usable width ({bm:.0f} ft bays) after side setbacks.")
         mx = min(mx, lot_mx)
-        if lot_mx < 3:
+        if lot_mx < mn:
             lot_infeasible = True
-            notes.append(f"This diagram needs at least 3 bays ({3*bm:.0f} ft) and the lot clears only "
+            notes.append(f"This diagram needs at least {mn} bays ({mn*bm:.0f} ft) and the lot clears only "
                           f"{usable:.0f} ft usable width after side setbacks. It does not fit this lot.")
-    bays = max(3, min(mx, round(math.sqrt(a0 * 1.6) / bm)))
+    bays = max(mn, min(mx, round(math.sqrt(a0 * 1.6) / bm)))
     width = round(bays * bm, 1)
     depth = round(a0 / width, 1) if width else 0
     if depth > 38: notes.append(f"Footprint {width} x {depth} ft — deeper than about 38 ft, which needs a double-pile section and will leave interior rooms unlit.")
@@ -593,7 +698,12 @@ def compose(brief, candidates=4, on_candidate=None):
     # on_candidate: optional callable invoked once per completed (kept) candidate with its
     # summary dict, plan excluded. Added for the workbench's compose progress stream;
     # None leaves behaviour identical and the CLI never passes it.
-    picks = pick_partis(brief, limit=max(candidates + 2, 6))
+    #
+    # The window is max(candidates + 4, 12), widened by WP-4.5 when the parti catalogue
+    # reached the twenties: at +2 a new parti could evict an existing one merely by tying
+    # with it, and 6 searched a twentieth of the catalogue. Kept over main's +2/6 at the
+    # 25 Aug merge because the catalogue it was sized for is the one on this branch.
+    picks = pick_partis(brief, limit=max(candidates + 4, 12))
     out, dropped_lot = [], []
     for pick in picks:
         plan, log, parti = instantiate(pick["parti"], brief)
@@ -606,7 +716,24 @@ def compose(brief, candidates=4, on_candidate=None):
         tol = brief.get("area_tolerance", 0.12)
         miss = abs(area - brief["target_area_sf"]) / brief["target_area_sf"]
         counts = res["counts"]
-        total = score(res) + (60 if miss > tol else 0) - pick["fit"] * 6
+        # NATIVITY_W: what a native diagram is worth against the validator's own findings.
+        #
+        # It was 6, and at 6 it did not work. fit runs about 0 to 7 (native +3.0, canonical
+        # massing +2.0, beds and area +1.0 each), so full nativity bought 42 points against 8
+        # for a serious finding: five serious findings outweighed being the right diagram
+        # entirely. The composer duly said "NOT native to this style -- the composer is
+        # borrowing a diagram" in the decision log and then ranked the borrowed one first, and
+        # WP-4.5 made that visible by adding nine partis for it to borrow from: a tidewater-
+        # georgian brief came back recommending an OCTAGON, on 27 serious against the native
+        # side-hall town house's 30.
+        #
+        # At 20 the same spread is worth 140 against 40 -- roughly twelve serious findings --
+        # so the right diagram wins unless it is genuinely much worse. It is deliberately NOT
+        # enough to outrank a fatal, which is 100 apiece: a native plan with a fatal in it
+        # should still lose to a clean borrowed one, because a fatal is a thing that is wrong
+        # rather than a thing that is foreign. (WP-4.5)
+        NATIVITY_W = 20
+        total = score(res) + (60 if miss > tol else 0) - pick["fit"] * NATIVITY_W
         fp = footprint(plan, parti)
         if fp["lot_infeasible"]:
             # WP-2.4 acceptance: a candidate that cannot physically fit the stated lot is

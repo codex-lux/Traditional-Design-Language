@@ -248,6 +248,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "Bound for the porch rather than for a balcony, and it is the node that supplies the pack's head-bracket rules. This record's own diagnostic is 'cast-iron or wooden porch posts with chamfered or turned shafts and scrolled brackets at the head, never classical columns with entasis' -- which is precisely the distinction that keeps this pack separate from every order pack in the library, and the reason `greek-revival-southern-plantation` was considered for this pack and refused: its two-tier gallery is a colonnade with entasis and `benjamin-doric` already governs it. This record also gives the bracket spacing at 24-48 in on centre 'with paired brackets at corners and at the ends of each bay', which is the corner problem solved by doubling rather than by contraction -- the opposite of what `greek-doric` records for the Doric triglyph.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Judgment binding: the pack's own applies_to names the italianate-villa child directly but not this parent style. Bound anyway because the parent's own proportional_system states its symmetry as 'balanced-asymmetrical' and its bay_rhythm as 'a constant bracket rhythm laid over a possibly irregular plan' - this pack's dominant-mass-with-subordinate-accents method, with the bracket line standing in for the accent hierarchy. The style's other child, italianate-townhouse, instead binds facade-classical directly, since the party wall forces the symmetrical half of what this parent's own text says the style 'works... as readily' on either register of.",
@@ -289,6 +295,12 @@
       "role": "room",
       "note": "Judgment binding, chosen over room-harmonic for the same reason trim-classical is bound at its plainest register above: the style's own lineage record states the Renaissance proportional system was not carried over, and its own interior description (via the villa child's text) is of loose, generous, additive space - 'the plan is generous and slightly loose' - rather than rooms set out to Palladian ratios.",
       "precedence": 7
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "The bracket half of the family, and three of the pack's rules come from here: eave 18-36 in 'carried on paired or single sawn brackets', bracket spacing 24-48 in on centre 'with paired brackets at corners and at the ends of each bay', and porch posts 'with chamfered or turned shafts and scrolled brackets at the head, never classical columns with entasis'. That last clause is what keeps this family separate from every order pack in the library. `balcony-gallery` is also bound here and the two write the same porch-support addresses meaning the same quantities -- a support's width and its spacing -- which is what precedence is for.",
+      "precedence": 8
     }
   ]
 }

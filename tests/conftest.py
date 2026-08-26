@@ -51,6 +51,12 @@ def compose_module():
 
 
 @pytest.fixture(scope="session")
+def solver_module():
+    import solver
+    return solver
+
+
+@pytest.fixture(scope="session")
 def resolve_kit_module():
     import resolve_kit
     return resolve_kit

@@ -235,6 +235,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "primary",
+      "note": "The node the pack was written from and the one it was checked against first. Its record supplies the wall at 500-700 mm, the reveals at 250-450, the two-to-five-light stone mullion with its ovolo or cavetto moulding and its hood, the graded stone slate from 550-600 mm at the eaves to 150 at the ridge, and -- the sentence the whole pack turns on -- 'dressed ashlar reserved for mullions, jambs, lintels, quoins, kneelers and copings'. Primary, because on this node nothing else generates: the openings are sized by the lintels, the corners exist in dressed stone because rubble cannot turn one, and the composition is the contrast between the two. Note the one figure the pack takes from here and treats as roofing rather than walling: the diminishing course, which is this tradition's most recognisable and most expensive feature and which no other node in the corpus states.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "cotswold-vernacular is named directly in room-vernacular's applies_to. governing_logic states plainly that dimensions here come from 'material logic, not applied proportion,' which is exactly what room-vernacular reconstructs from measured Anglo-American and British vernacular fabric rather than from a treatise: room breadth capped by joist span, area by hearth reach, depth by daylight. The daylight-depth cap is especially apt here given the deep-set windows the pack's own text describes ('windows sit in deep reveals and rooms are dim near the walls').",
@@ -245,6 +251,18 @@
       "role": "optional",
       "note": "cotswold-vernacular is named directly in timber-bay's applies_to, which is worth flagging as slightly counter-intuitive: this is a masonry wall tradition (500-700 mm coursed limestone rubble), not a framed one, so the bay module does not set the wall the way it does at english-medieval-timber-frame. It is bound anyway, low and optional, because the roof and floor carpentry inside a Cotswold house — common rafters, floor joists — is still cut and spaced by the same oak-bay logic as its timber-framed neighbours, and the pack's own applies_to already reflects that. Wall material and coursing are governed by the style's own text, not by this pack.",
       "precedence": 2
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "The vernacular survival, and the node that shows the system outliving its own period: 'ovolo-moulded stone mullions with a hood mould above, still in use on buildings of 1680 and later -- a Perpendicular detail running two centuries past its own period'. Its lights are the smallest of the structural traditions at 300-450 mm, which is a cottage rather than a hall, and its window overall at 1.5:1 to 2:1 is correspondingly less horizontal than the Tudor 2:1 to 4:1. `stone-course` holds this node's walling and the two packs meet at the opening: that one dresses it, this one fills it, and both carry the same cill-and-label relation with the same invariant.",
+      "precedence": 3
+    },
+    {
+      "pack": "facade-gable",
+      "role": "secondary",
+      "note": "Secondary, behind `stone-course` and `opening-mullioned`, and bound for the gable edge rather than the gable's shape: 'gables finished with kneelers at the foot and a coping raised above the roof plane, frequently with a ball, ogee or finial at the apex' is the pack's whole `gable_edge` assembly in one sentence. This node also supplies the dormer rule and the distinction that makes it worth having -- 'gabled dormers rising through the eaves with their faces FLUSH with the wall below, so that they read as gables of the wall rather than as boxes on the roof'. A flush-faced dormer takes everything in this pack; a dormer set back on the slope takes none of it.",
+      "precedence": 4
     }
   ]
 }

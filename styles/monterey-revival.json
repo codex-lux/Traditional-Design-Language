@@ -231,6 +231,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "balcony-gallery",
+      "role": "primary",
+      "note": "Primary, because on this node the balcony is not a feature of the design -- it is the design. This record says the balcony 'runs the entire elevation without interruption' and that 'a partial or centred balcony is a different and lesser thing', gives the depth as 6-8 ft with the note that below six feet it 'fails as usable space and reads as trim', and places the balcony line so the lower mass reads as the heavier at roughly 55:45, with the material changing from stucco to siding exactly at the balcony floor line. All four are rules in this pack. The one thing to carry across from the parent is the difference this record itself names: 'a slender, almost thin balcony rail and posts, quite unlike the heavy iron of the parent style' -- a revival lighter than its parent, because it was building in wood on a coast where the parent imported iron, and the pack's support-width band spans both materials and must not be averaged.",
+      "precedence": 0
+    },
+    {
       "pack": "opening-proportion",
       "role": "opening",
       "note": "This style's own defining_characteristics list 'double-hung sash with operable shutters, panelled entry door, and trim drawn from Anglo-American rather than Spanish practice' outright, and its lineage records hybridizes_with colonial-revival at weight 0.6 with inherits_kit true. Bound for the door and window rectangle logic on that explicit, in-file textual basis -- this is the one node in the cluster where an Anglo classical-derived opening system is not a stretch but the style's own stated borrowing. Governs the sash and door proportions only; the balcony itself, which is this style's real governing datum, is not modeled by this or any pack in the corpus.",

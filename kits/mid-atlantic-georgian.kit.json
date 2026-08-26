@@ -1,7 +1,7 @@
 {
   "style": "mid-atlantic-georgian",
   "style_name": "Mid-Atlantic Georgian",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -237,6 +237,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -301,6 +306,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {

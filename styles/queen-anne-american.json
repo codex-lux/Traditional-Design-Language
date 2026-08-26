@@ -271,6 +271,18 @@
       "role": "room",
       "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound because American Queen Anne is balloon-framed, and balloon framing still faces the same joist-span and daylight physics room-vernacular reconstructs — no treatise governs these rooms, and the node explicitly says the composition is 'checked in silhouette and texture, never in module,' which rules out room-harmonic's Palladian ratios as squarely as it rules out a bay system on the elevation. The fit is imperfect at the top end: the living hall, described as the style's organising innovation, is often larger than the pack's 14-18 ft measured band and closer to its noted 'halls in houses of pretension' outlier case, which the pack allows for but does not centrally describe. Ordinary parlours and chambers fit the band comfortably.",
       "precedence": 3
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "The node that states the family's other boundary as a decision procedure: 'compared with Stick Style: curves are present. Turned posts, spindles, round towers, and arched porch openings all say Queen Anne.' Read that against `styles/stick-style.json`'s mirror-image refusal -- 'if the applied woodwork curves, turns, or scrolls, the building has moved to Queen Anne or Eastlake' -- and the two records between them draw the sharpest line in this part of the corpus, from opposite sides, using the same test.",
+      "precedence": 4
+    },
+    {
+      "pack": "octagon-geometry",
+      "role": "optional",
+      "note": "Optional, and the node that supplies the pack's projection band: 'bay or oriel projection 18 to 42 in from the wall plane'. The same band holds the Federal shallow bay and this one, and what changes between them is the wall behind it -- there a modulation of a flat elevation, here a projecting mass among several. Note this node also carries `trim-sawn`, and the two describe the same porch-and-bay elevation from different trades.",
+      "precedence": 5
     }
   ]
 }

@@ -259,6 +259,18 @@
       "role": "opening",
       "note": "French doors here run 5'6\"-7'0\" wide overall, at or above the 40 in threshold opening-proportion's own entry_door rule names as the point where its canonical 2:1 door proportion 'belongs and is magnificent' — Palladio's ratio was derived for wide leaves, not the narrow 3 ft leaf that forces most Anglo-American doors away from it. Bound in preference to sash-light, whose apparatus (light count from glass-market supply, muntin dating) is built for double-hung sash windows and has no purchase on a full-height glazed French casement door; opening-proportion's door-from-storey and single-head-datum logic transfers cleanly instead.",
       "precedence": 2
+    },
+    {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "The deepest of the three carrying regimes and the node that defines it. This record gives the galerie at 8-12 ft, up to 14 on the raised plantation house, carried on 'light colonnettes or masonry piers' -- and, crucially, that there is 'no interior corridor: rooms open directly into one another and onto the galerie through full-height French casement doors'. That is why the posted gallery's depth has no structural ceiling and a wide band: it is circulation as well as shade, so its depth is a corridor's plus a room's worth of shadow, and the record's 'at least eight feet' is a floor rather than an average. This node also supplies the pack's roof rule, which is a break-position finding of the same class as `dutch-gambrel`'s: 'main roof 40-50 degrees; galerie slope 20-30 degrees; break at the outer wall plane'. The break's POSITION is the rule, and a gallery roof carried down from the ridge at one pitch is a different building.",
+      "precedence": 3
+    },
+    {
+      "pack": "timber-panel",
+      "role": "secondary",
+      "note": "Bound for the same colombage, and this record supplies the pack's plinth rule with its own vocabulary attached: poteaux-EN-TERRE giving way to poteaux-SUR-SOL, posts set in the earth giving way to posts on a sill on a plinth. That is the same lesson learned in Louisiana that had been learned in England four centuries earlier, and it is the single most consequential detail in timber framing -- a sill in contact with the ground rots, and a frame with a rotten sill has lost its foundation.",
+      "precedence": 4
     }
   ]
 }

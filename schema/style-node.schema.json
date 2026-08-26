@@ -191,6 +191,13 @@
           },
           "note": {
             "type": "string"
+          },
+          "slots": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Slot ids this edge transmits, when it transmits only some. Absent means the edge carries the ancestor's whole kit, which is the historical behaviour and stays the default. Added by OQ 58 for `hybridizes_with`: an edge drawn to carry one narrow aspect of a donor's practice - a porch treatment, a roof form, a decorative vocabulary - transmitted that donor's ENTIRE kit, because the cascade could not partition a donor's bindings by which aspect the edge was drawn for. WP-4.2 hit about twenty-six real merge problems that way across 129 kits and patched every one at the node instead of at the mechanism. Scoping an edge fixes the class and makes those node-level patches removable one at a time."
           }
         }
       }
@@ -387,7 +394,13 @@
             "default": "soft"
           },
           "scope": {
-            "enum": ["plan", "elevation", "site", "section", "judgment"],
+            "enum": [
+              "plan",
+              "elevation",
+              "site",
+              "section",
+              "judgment"
+            ],
             "description": "Present once migrated. See schema/constraint.schema.json."
           },
           "deprecated_in_favour_of": {
@@ -487,6 +500,15 @@
           "precedence": {
             "type": "integer",
             "description": "Lower wins where two packs bind the same slot. Required because the Georgian exercise found 32 of 82 slots spoken to by two or more packs, with a 10-inch spread on the chair rail and no rule for choosing."
+          },
+          "slots": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z_]+(/[a-z_]+)?$"
+            },
+            "minItems": 1,
+            "description": "Target slot ids this binding may contribute, when it contributes only some. Absent means the binding carries the pack's whole rule set, which is the historical behaviour and stays the default. Added by OQ 49, and it is OQ 58's mechanism one layer out: that ruling scoped a `hybridizes_with` edge so a donor could transmit one aspect rather than an entire kit; this scopes a BINDING so a pack can supply one rule to a node that is not an instance of its type. `french-normandy-revival` states `jetty-overhang`'s material-change rule almost verbatim and has no jetty; `mission-revival` carries a rule about `facade-portada`'s subject stating that there is none; two of `facade-peristyle`'s rules fit `egyptian-revival` exactly and thirteen do not. Without this field each of those is a choice between a false claim about the building and a true rule restated in the node, which is the duplication this library exists to remove. Each entry is either a bare slot id, which admits every rule the pack writes to that slot, or `slot/dimension`, which admits exactly one rule. BOTH GRANULARITIES ARE NEEDED and the coarse one alone would not have served the cases that motivated the field: `jetty-overhang` writes `material_change_rule` once, so a bare slot id is right there, but `facade-portada` writes `ornament_vocabulary` four times and only its rationing rule applies to `mission-revival`, and `facade-peristyle` writes `column` seven times of which two fit `egyptian-revival`. A scope that admitted three rules nobody asked for would be a smaller version of the problem it was added to solve."
           }
         }
       }

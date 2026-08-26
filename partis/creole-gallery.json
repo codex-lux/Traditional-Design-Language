@@ -1,255 +1,258 @@
 {
-  "id": "creole-gallery",
-  "name": "Creole Gallery, Hall-Less",
-  "aka": [
-    "cabinet-loggia plan"
-  ],
-  "description": "Four square rooms opening directly onto a full-width front gallery, with small cabinets flanking a rear loggia. There are no corridors, because the gallery is the corridor. The clearest demonstration that Anglo adjacency rules are regional rather than universal.",
-  "massing": "creole-cottage",
-  "alternate_massings": [
-    "raised-cottage",
-    "gallery-house"
-  ],
-  "styles": [
-    "creole-cottage-vernacular",
-    "french-colonial-american",
-    "raised-creole-plantation"
-  ],
-  "groupings": [
-    "gallery-and-cabinet-range",
-    "entry-sequence"
-  ],
-  "circulation_parti": "none-direct-entry",
-  "storeys": 1,
-  "area_range_sf": [
-    900,
-    2400
-  ],
-  "bedroom_range": [
-    2,
-    4
-  ],
-  "rooms": [
-    {
-      "id": "gallery",
-      "type": "loggia",
-      "level": 0,
-      "name": "Front Gallery",
-      "exterior_walls": [
-        "S",
-        "E",
-        "W"
-      ],
-      "lit_from": [
-        "S",
-        "E",
-        "W"
-      ],
-      "doors": [
-        "parlor",
-        "secondparlor",
-        "chamber1",
-        "exterior"
-      ],
-      "note": "Four openings across the front and no centred door. The symmetry is even-numbered, which reads wrong to an Anglo eye and is exactly correct."
-    },
-    {
-      "id": "parlor",
-      "type": "parlor",
-      "level": 0,
-      "name": "Parlor",
-      "exterior_walls": [
-        "S",
-        "E"
-      ],
-      "lit_from": [
-        "S"
-      ],
-      "doors": [
-        "gallery",
-        "secondparlor",
-        "chamber1"
-      ]
-    },
-    {
-      "id": "secondparlor",
-      "type": "sitting-room",
-      "level": 0,
-      "name": "Second Parlor",
-      "exterior_walls": [
-        "S",
-        "W"
-      ],
-      "lit_from": [
-        "S"
-      ],
-      "doors": [
-        "gallery",
-        "parlor",
-        "chamber2"
-      ]
-    },
-    {
-      "id": "chamber1",
-      "type": "bedchamber",
-      "level": 0,
-      "name": "Chamber",
-      "exterior_walls": [
-        "N",
-        "E"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "parlor",
-        "loggia"
-      ]
-    },
-    {
-      "id": "chamber2",
-      "type": "bedchamber",
-      "level": 0,
-      "name": "Chamber",
-      "exterior_walls": [
-        "N",
-        "W"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "secondparlor",
-        "loggia"
-      ]
-    },
-    {
-      "id": "loggia",
-      "type": "loggia",
-      "level": 0,
-      "name": "Rear Loggia",
-      "exterior_walls": [
-        "N"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "chamber1",
-        "chamber2",
-        "cabinet1",
-        "cabinet2",
-        "kitchen",
-        "exterior"
-      ]
-    },
-    {
-      "id": "cabinet1",
-      "type": "closet",
-      "level": 0,
-      "name": "Cabinet",
-      "exterior_walls": [
-        "N",
-        "E"
-      ],
-      "doors": [
-        "loggia"
-      ]
-    },
-    {
-      "id": "cabinet2",
-      "type": "bathroom",
-      "level": 0,
-      "name": "Cabinet / Bath",
-      "exterior_walls": [
-        "N",
-        "W"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "loggia"
-      ],
-      "fixtures": [
-        "wc",
-        "lavatory",
-        "tub"
-      ]
-    },
-    {
-      "id": "kitchen",
-      "type": "kitchen",
-      "level": 0,
-      "name": "Kitchen",
-      "exterior_walls": [
-        "N",
-        "W",
-        "E"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "loggia",
-        "pantry",
-        "exterior"
-      ],
-      "fixtures": [
-        "sink",
-        "dishwasher"
-      ]
-    },
-    {
-      "id": "pantry",
-      "type": "pantry",
-      "level": 0,
-      "name": "Pantry",
-      "required": false,
-      "exterior_walls": [
-        "N"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "kitchen"
-      ]
-    },
-    {
-      "id": "chamber",
-      "type": "bedchamber",
-      "level": 0,
-      "name": "Chamber",
-      "repeats_with_bedrooms": true,
-      "exterior_walls": [
-        "N"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "loggia"
-      ]
-    }
-  ],
-  "scaling": {
-    "grows_by": [
-      "deepening",
-      "widening"
-    ],
-    "bay_module_ft": 13,
-    "max_bay_count": 4,
-    "note": "The rear cabinet-loggia range fills in and the house grows backward. It never grows forward past the gallery line."
+ "id": "creole-gallery",
+ "name": "Creole Gallery, Hall-Less",
+ "aka": [
+  "cabinet-loggia plan"
+ ],
+ "description": "Four square rooms opening directly onto a full-width front gallery, with small cabinets flanking a rear loggia. There are no corridors, because the gallery is the corridor. The clearest demonstration that Anglo adjacency rules are regional rather than universal.",
+ "massing": "creole-cottage",
+ "alternate_massings": [
+  "raised-cottage",
+  "gallery-house"
+ ],
+ "styles": [
+  "creole-cottage-vernacular",
+  "french-colonial-american",
+  "monterey-colonial",
+  "monterey-revival",
+  "raised-creole-plantation"
+ ],
+ "groupings": [
+  "gallery-and-cabinet-range",
+  "entry-sequence"
+ ],
+ "circulation_parti": "none-direct-entry",
+ "storeys": 1,
+ "area_range_sf": [
+  900,
+  2400
+ ],
+ "bedroom_range": [
+  2,
+  4
+ ],
+ "rooms": [
+  {
+   "id": "gallery",
+   "type": "loggia",
+   "level": 0,
+   "name": "Front Gallery",
+   "exterior_walls": [
+    "S",
+    "E",
+    "W"
+   ],
+   "lit_from": [
+    "S",
+    "E",
+    "W"
+   ],
+   "doors": [
+    "parlor",
+    "secondparlor",
+    "chamber1",
+    "exterior"
+   ],
+   "note": "Four openings across the front and no centred door. The symmetry is even-numbered, which reads wrong to an Anglo eye and is exactly correct."
   },
-  "trades_away": "Privacy and any possibility of a corridor — every room is a through room, and a household that wants to close a door on itself will not like it. In exchange it is the best hot-wet-climate plan in the American repertoire.",
-  "exemplars": [
-    "Madame John's Legacy, New Orleans, 1788",
-    "Homeplace Plantation, St Charles Parish, c.1790"
+  {
+   "id": "parlor",
+   "type": "parlor",
+   "level": 0,
+   "name": "Parlor",
+   "exterior_walls": [
+    "S",
+    "E"
+   ],
+   "lit_from": [
+    "S"
+   ],
+   "doors": [
+    "gallery",
+    "secondparlor",
+    "chamber1"
+   ]
+  },
+  {
+   "id": "secondparlor",
+   "type": "sitting-room",
+   "level": 0,
+   "name": "Second Parlor",
+   "exterior_walls": [
+    "S",
+    "W"
+   ],
+   "lit_from": [
+    "S"
+   ],
+   "doors": [
+    "gallery",
+    "parlor",
+    "chamber2"
+   ]
+  },
+  {
+   "id": "chamber1",
+   "type": "bedchamber",
+   "level": 0,
+   "name": "Chamber",
+   "exterior_walls": [
+    "N",
+    "E"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "parlor",
+    "loggia"
+   ]
+  },
+  {
+   "id": "chamber2",
+   "type": "bedchamber",
+   "level": 0,
+   "name": "Chamber",
+   "exterior_walls": [
+    "N",
+    "W"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "secondparlor",
+    "loggia"
+   ]
+  },
+  {
+   "id": "loggia",
+   "type": "loggia",
+   "level": 0,
+   "name": "Rear Loggia",
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "chamber1",
+    "chamber2",
+    "cabinet1",
+    "cabinet2",
+    "kitchen",
+    "exterior"
+   ]
+  },
+  {
+   "id": "cabinet1",
+   "type": "closet",
+   "level": 0,
+   "name": "Cabinet",
+   "exterior_walls": [
+    "N",
+    "E"
+   ],
+   "doors": [
+    "loggia"
+   ]
+  },
+  {
+   "id": "cabinet2",
+   "type": "bathroom",
+   "level": 0,
+   "name": "Cabinet / Bath",
+   "exterior_walls": [
+    "N",
+    "W"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "loggia"
+   ],
+   "fixtures": [
+    "wc",
+    "lavatory",
+    "tub"
+   ]
+  },
+  {
+   "id": "kitchen",
+   "type": "kitchen",
+   "level": 0,
+   "name": "Kitchen",
+   "exterior_walls": [
+    "N",
+    "W",
+    "E"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "loggia",
+    "pantry",
+    "exterior"
+   ],
+   "fixtures": [
+    "sink",
+    "dishwasher"
+   ]
+  },
+  {
+   "id": "pantry",
+   "type": "pantry",
+   "level": 0,
+   "name": "Pantry",
+   "required": false,
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "kitchen"
+   ]
+  },
+  {
+   "id": "extrachamber",
+   "type": "bedchamber",
+   "level": 0,
+   "name": "Chamber",
+   "repeats_with_bedrooms": true,
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "loggia"
+   ],
+   "note": "OQ 59: renamed from `chamber`. compose.py generates a repeating room's extra copies as id + 1, 2, 3..., which produced `chamber1` and `chamber2` -- the ids of the two chambers this parti already names. Every brief for more than two bedrooms therefore built a plan with duplicate room ids, which is fatal, and no Creole brief could be composed at all."
+  }
+ ],
+ "scaling": {
+  "grows_by": [
+   "deepening",
+   "widening"
   ],
-  "sources": [
-    "Edwards, The Complex Origins of the American Domestic Piazza-Veranda-Gallery",
-    "Upton and Vlach, Common Places"
-  ],
-  "confidence": "high"
+  "bay_module_ft": 13,
+  "max_bay_count": 4,
+  "note": "The rear cabinet-loggia range fills in and the house grows backward. It never grows forward past the gallery line."
+ },
+ "trades_away": "Privacy and any possibility of a corridor — every room is a through room, and a household that wants to close a door on itself will not like it. In exchange it is the best hot-wet-climate plan in the American repertoire.",
+ "exemplars": [
+  "Madame John's Legacy, New Orleans, 1788",
+  "Homeplace Plantation, St Charles Parish, c.1790"
+ ],
+ "sources": [
+  "Edwards, The Complex Origins of the American Domestic Piazza-Veranda-Gallery",
+  "Upton and Vlach, Common Places"
+ ],
+ "confidence": "high"
 }

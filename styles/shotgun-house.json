@@ -241,6 +241,12 @@
       "role": "optional",
       "note": "Bound narrowly, for one thing only: the type's hard constraint that every interior door carries an operable transom (c03) is exactly the ventilation-transom device this pack's window-head notes describe, and its transom_sidelight rule -- that a transom must take the same light module as the windows it is glazed with, 'because they came out of the same box of glass and the same joiner's shop' -- is a free internal-consistency check across the street gable's one or two openings and the interior transom run. Not bound for light-count dating: the type's ornamental era (Italianate and Eastlake catalog millwork, mostly 1880s-1890s) is already carried by the node's own description and constraints, and forcing a divided-light pattern onto what were commonly large 1/1 or 2/2 panes by that date would misdate the building.",
       "precedence": 2
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "optional",
+      "note": "Optional. The shotgun's full-width front porch takes turned posts, brackets and a valance from the same catalogues as everything else in this family, and this node is thinly bound. What the pack cannot say here is anything about how much: the same house appears with a full spindled porch and with four plain posts, and the difference is the owner's money in the year it was built rather than a rule.",
+      "precedence": 3
     }
   ]
 }

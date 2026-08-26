@@ -248,6 +248,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "One of the three records the springing rule rests on -- 'arch springing at 2/3 of total opening height' -- and the one that gives the loggia's depth a floor with a reason: '10-16 ft, never less than 8 ft'. That floor is the same kind of statement as `monterey-revival`'s six-foot balcony, and the pack quotes it: below it the thing stops being a space and becomes a detail. This record also states the compositional rule the bay-count carries, 'arcaded in threes or fives', and the plan rule the circulation rule carries, 'loggias, arcades and covered galleries treated as primary rooms'.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "The required loggia (min. 8 ft clear depth, >=200 sq ft, opening off a principal room) is a covered outdoor room read on the same daylight logic as an interior one: at the pack's lower 1.8x multiplier -- used 'wherever there is a porch, a deep eave, a verandah... because all four lower the effective head' -- an 8-9 ft head loggia caps the interior room it opens off at a shallower daylit depth than an unshaded wall would, which is exactly the mechanism this style's arcade-and-terrace sequence depends on. Bind for that daylight-depth logic and for the general two-sided-lighting argument on courtyard-facing ranges; the pack's hearth-count and joist-span derivations do not describe a stucco or tile-floored house with no dogtrot or hall-and-parlor ancestry.",
@@ -258,6 +264,13 @@
       "role": "opening",
       "note": "This style's own governing_logic states plainly that 'a nominal classical order appears only at the entrance surround' and that proportion is otherwise 'governed by the arcade module' -- which no pack in this corpus models; none of the 36 available packs derives an arcade's pier-to-span ratio or its arch-springing height (see the WP-4.1 report). Bound at low precedence and scoped narrowly to the punched window rectangles above the arcade, never the arcade itself, on the strength of this style's two inherits_kit=true lineage edges: descends_from italian-renaissance-revival at weight 0.9 (itself bound to this same pack) and descends_from beaux-arts-american at weight 0.8, whose 'ecole-derived planning by axis and enfilade... is what holds an apparently rambling plan together.' Use the pack's single-head-datum rule and its 5/6 per-storey window diminution for the upper-storey openings only, and defer entirely to this style's own reveal-depth (6-18in), roof-plane height-differential and solid:void (4:1-6:1) rules wherever the two conflict -- those are this style's genuinely sourced numbers, and this binding is a lineage-based judgment call rather than a documented Mediterranean Revival window-proportion source.",
       "precedence": 2
+    },
+    {
+      "pack": "moorish-arch",
+      "role": "optional",
+      "precedence": 4,
+      "authority": "moorish-arch",
+      "note": "Optional, same reasoning as mission-revival: available where the building reaches for the Moorish arch and silent where it does not."
     }
   ]
 }

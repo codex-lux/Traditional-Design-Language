@@ -69,7 +69,9 @@ A fifth binding, `extends` (kit schema 0.2.0), stops the cascade like `specified
 
 Four slot pairs — `window_head`, `corner_treatment` (now `corner_quoin`/`corner_board`), `window_surround`, and `wall_thickness_expression` (now `wall_thickness_masonry`/`wall_thickness_frame`) — were originally single slots that conflated two assemblies made by different trades, at different times, in different materials, with different failure modes (docs/open-questions.md #12). Three were split in ontology 0.3.0; the fourth, `wall_thickness_expression`, was the one no one had actually built yet, and was added in 0.5.0 (WP-1.3). Discriminate all of them with `construction_type`.
 
-`cornice`, `frieze` and `modillion_dentil` (Envelope / Classical Apparatus) and `crown` and `chair_rail` (Interior) carry a `derives_from_module` field pointing at `entablature`, added in 0.5.0 (docs/open-questions.md #13). These five are the same object — an entablature's cornice — at different scales, and three of them are literally the same run; the cross-reference is not a regrouping, every id and existing kit binding stays valid, and it exists so a check or the proportion engine can eventually enforce that a chair rail's module actually derives from the same run as the exterior cornice rather than being independently invented (not yet wired into `check_kits.py` — the field exists and is populated, the enforcement is a reasonable follow-up, not yet built).
+`cornice`, `frieze` and `modillion_dentil` (Envelope / Classical Apparatus) and `crown` and `chair_rail` (Interior) carry a `derives_from_module` field pointing at `entablature`, added in 0.5.0 (docs/open-questions.md #13). These five are the same object — an entablature's cornice — at different scales, and three of them are literally the same run; the cross-reference is not a regrouping, every id and existing kit binding stays valid, and it exists so a check or the proportion engine can eventually enforce that a chair rail's module actually derives from the same run as the exterior cornice rather than being independently invented.
+
+Wired into `check_kits.py` on 24 Aug 2026 as `check_derived_module_family`: within one kit, two members of a family that both record a `computed_at` key must agree on its value. It compares only the keys both records carry, so a chair rail worked out from the ceiling height alone is not held in conflict with a cornice that also knew the opening width — a partial context is not a contradiction, only a different value for the same key is. Today only `georgian-colonial-american` binds the family with computed parameters, and it agrees with itself; the check exists for the kit that will not.
 
 ## Two slots that deserve special attention
 
@@ -106,3 +108,125 @@ They are prose, deliberately written to be enforceable — with numbers and thre
 Hard constraints are what stop a generator from producing incoherent houses. They are also the most valuable thing in the dataset, and the part most worth arguing about with plan development leads.
 
 Since WP-1.1 (23 Aug 2026), a constraint can additionally carry a formal `test` — the fault corpus's own `expression`/`threshold`/`direction` pattern, extended with a `one-of` direction and a `scope` field — so the statement above is no longer only prose a person reads; it can be an expression the validator, composer or geometry solver evaluates directly, with the same "unjudged, not passed" honesty as everything else in this corpus when the sources don't determine a number. See **`docs/constraints.md`** for the full rule language, and note that this is a migration in progress, not a completed conversion: as of this writing 140 of the corpus's 660 constraints (the `english-classical` and `american-colonial` families, as a worked example) have been migrated to carry `id`/`scope`/`test`; the rest are still the prose-with-kind-and-severity shape described above, which remains a perfectly valid record — migration adds fields, it does not invalidate what came before it.
+
+
+## Scoping an edge to the slots it was drawn for (OQ 58)
+
+A lineage edge may carry a `slots` list. When it does, that edge transmits those slots and
+nothing else. When it does not — which is almost every edge — it transmits the ancestor's whole
+kit, which is what every edge did before and stays the default.
+
+The problem it answers is specific to `hybridizes_with`. That edge is reticulation: a co-parent
+of comparable weight, drawn because two traditions genuinely met. But the meeting is usually
+about *one thing* — a porch treatment, a roof form, a decorative vocabulary, a way of ordering
+a house from a catalogue — and the cascade had no way to say so, so the edge handed over the
+donor's entire kit. WP-4.2 hit about twenty-six real merge problems that way across 129 kits and
+patched every one at the node.
+
+**Measured, 24 August 2026:** 36 nodes carry a kit-bearing `hybridizes_with` edge, and on 20 of
+them the donor actually wins slots in the resolved kit — **123 slots corpus-wide**. That is the
+size of the exposure, and it is why the mechanism was worth a schema version rather than another
+node-level patch.
+
+The worked case is `octagon-house hybridizes_with italianate-american`, whose own note is
+unusually clear about what it means: *"The octagon is a plan thesis with no ornamental vocabulary
+of its own, so nearly every built example wears Italianate dress."* Unscoped, that edge handed
+the octagon 21 slots — including `roof_form`, `roof_pitch` and `height_proportion`, which are the
+three things an octagon most certainly does not get from Italianate practice. Its roof is eight
+hips meeting at a point because its plan is eight-sided; its proportion is Fowler's arithmetic
+about wall length per enclosed area. Scoped to the dress, the edge now carries 18 slots and those
+three resolve elsewhere.
+
+**Two things to know before scoping an edge.**
+
+First, **an edge's own note usually already says what it carries.** `monterey-colonial
+hybridizes_with new-england-colonial` enumerates it outright — braced-frame carpentry, a
+wood-shingled hip roof, milled architrave trim, double-hung sash, an interior stair and corridor
+— and the scope is a transcription of that sentence. Where a note does not say, do not guess:
+leave the edge unscoped and it behaves as it always has.
+
+Second, and this is the honest limit of the mechanism: **scoping stops a wrong donor, it does not
+supply a right one.** With the Italianate edge scoped, the octagon's `roof_form` falls through to
+the next ancestor in the chain, which is `gothic-revival-american` — better, and still not the
+eight-hipped roof the type actually has. That belongs in `kits/octagon-house.kit.json` as the
+node's own binding. A scoped edge tells the cascade what NOT to take; what a style genuinely is
+still has to be authored.
+
+## `determined_by` means three things (OQ 19, 24 Aug 2026)
+
+The field named the slots that decide a slot and nothing resolved it, because the schema never
+said what the determination *meant*. `build/check_kits.py::check_determined_by` now holds the
+corpus to three readings:
+
+1. **The determiners must be bound.** A slot that says it is whatever the order requires, on a
+   kit whose `order` slot is empty, is **unjudged** — and it read as specified, which is this
+   project's first discipline inverted.
+2. **The graph is acyclic.** Two slots that each say the other decides them decide nothing.
+3. **A determined slot may not state a dimensional number as an independent claim.** The schema's
+   own note has always said it — *"specifying it separately either restates the order or
+   contradicts it"* — so a number on such a slot must be `kind: derived`, or carry a `source` or
+   `expr` tying it to the determiner, or say in its own note why it is genuinely independent of
+   it. An unsourced editorial number is the one case in which restatement and contradiction are
+   indistinguishable.
+
+## Typed rules on a rule-valued slot (OQ 15)
+
+Seventeen slots are typed `value_type: rule` in the ontology. A kit binding one may carry a
+`rules` array beside the one-sentence `rule` string, each entry stating what **kind** of claim
+the clause is (topology, axis, sequence, daylight, element-placement, hierarchy, orientation) and
+its **effect** on the universal rules in `rooms/` (adds, restricts, suppresses).
+
+`suppresses` is the one that must be machine-readable — it names `{room, key, target}` and
+`build/plan_check.py` reads it across the whole inheritance chain, because a suppression is a
+fact about a tradition and a descendant that did not restate it has not reinstated the rule. A
+suppression that exists only as prose is a rule the validator goes on enforcing while the kit
+says it should not.
+
+A clause whose kind is not `topology` or `sequence` does not belong on
+`room_adjacency_overrides` at all and belongs on the slot that owns that species.
+
+## `arch` and `window_head_masonry` are different slots (OQ 46, ontology 0.6.0)
+
+A gauged brick jack arch over a sash window is a **window head**: it is how the top of that
+opening is built, along with the head datum, the keystone and the architrave. The arcade of an
+Italian Renaissance loggia is an **arch**: round-headed, springing from an impost, rise exactly
+half the span, and there is no window in it.
+
+The boundary matters because a keyword search will not find it — twenty-two kits' window heads
+mention an arch and only six of them are *about* one. Where a head's geometry genuinely IS an
+arch's, as in the Tidewater's segmental gauged head, the geometry lives on `arch` and the head
+slot names it in `determined_by` rather than restating the rise.
+
+There is no `arcade` slot. `moorish-arch` puts its impost block on `porch_support`, because an
+arcade carrying a loggia is what that slot is for, and says so in its own notes.
+
+## `expressed_frame` and the three slots around it (OQ 47, ontology 0.7.0)
+
+A member that **is, or represents, structure, shown on the outside of a wall**: a close stud, a
+principal post, a diagonal brace, an exposed rafter tail, a bressumer, a Stick Style band. Its face
+width, its spacing, how far it stands proud of the cladding plane, and — the field the slot was added
+for — its `member_status`.
+
+`member_status` takes `structural`, `structural-and-expressed`, `applied` or `none`. It is the only
+field in the ontology that records whether a thing is doing the job it appears to do, and two records
+state it as a hard rule in nearly the same words: *"every visible material must be doing the job it
+appears to do. Applied half-timbering, veneer stone, false beams and imitation finishes are
+forbidden"* (`arts-and-crafts-british`), and *"exposed rafter tails must correspond to actual rafters
+… decorative tails applied"* are not permitted (`arts-and-crafts-american`).
+
+`applied` is a **legitimate position, not an accusation**. Stick Style applies its sticks on purpose
+and its own constraint requires them to be continuous; Tudor Revival and French Normandy Revival do
+the same and the latter requires the picture to describe a *plausible* frame. What the corpus could
+not do before was tell any of them apart from a real frame.
+
+The three neighbours, because a keyword search will not find these boundaries either:
+
+| slot | what it holds |
+|---|---|
+| `primary_cladding` | the **panel between** the members — wattle-and-daub, brick nogging, render |
+| `construction_type` | the **categorical** (braced-timber-frame, balloon-frame); no dimension |
+| `modillion_dentil` | a **bracket**, which has its own classical descent — `trim-sawn`'s brackets were correctly there all along |
+
+`corner_board` is a board at a corner, and is what this slot was standing in for. Five styles bind
+`expressed_frame` as `forbidden`/`none` — a rule *about* the member stating that there is none, which
+is the same argument that got `arch` built one version earlier.

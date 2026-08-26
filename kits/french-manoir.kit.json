@@ -1,7 +1,7 @@
 {
   "style": "french-manoir",
   "style_name": "French Manoir",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -252,6 +252,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -326,6 +331,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {
@@ -687,7 +697,15 @@
       "status": "drafted",
       "confidence": "high",
       "rule": "Every room on both floors opens directly off the stair tower; there is no corridor anywhere in the plan.",
-      "note": "Direct quote of the long description's second paragraph."
+      "note": "Direct quote of the long description's second paragraph.",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "restricts",
+          "statement": "Every room on both floors opens directly off the stair tower; there is no corridor anywhere in the plan.",
+          "why": "The tower is the circulation, vertically and horizontally at once. Same species as the Georgian passage rule with a different hub."
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",

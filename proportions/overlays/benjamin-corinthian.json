@@ -261,7 +261,8 @@
       ],
       "authority_note": "THE ENRICHMENT-FOR-HEIGHT TRADE, AND IT IS THE MOST TRANSFERABLE RULE BENJAMIN EVER WROTE. An enriched Corinthian frieze is 41 minutes of a 660-minute column; a plain one is 36. Five minutes - about an eighth - comes off the moment the carving comes off, because 'when mouldings are ornamented, they may be larger than when plain, as carving lightens them.' The corollary is what matters on a production job: IF YOU DELETE THE ORNAMENT YOU MUST ALSO SHRINK THE MEMBER, or the elevation gets heavier as it gets cheaper. This is the exact failure mode of value-engineered traditional work - the ornament is cut and the proportions are left, and the building reads as lumpen rather than as plain.",
       "judgment": false,
-      "note": "Expression gives the PLAIN frieze. For an enriched frieze use column_height * 41/660."
+      "note": "Expression gives the PLAIN frieze. For an enriched frieze use column_height * 41/660.",
+      "quantity": "entablature_frieze_height"
     },
     {
       "target_slot": "entablature",
@@ -273,7 +274,8 @@
         90
       ],
       "authority_note": "One part in five and a half. A 20 ft Corinthian column takes a 43 3/5 in. entablature under Benjamin and a 60 in. one under Vignola - a foot and a half of difference on a church portico. Benjamin's whole argument is that the American entablature is a light box of boards and does not need to look like a stone architrave carrying a stone roof.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "porch_support",
@@ -298,7 +300,8 @@
       ],
       "authority_note": "Corinthian modillions, thirteen minutes in front and thirty-five from centre to centre, each centred on a column axis. Vignola's Corinthian pitch is one module - thirty minutes - so Benjamin's modillions sit a sixth further apart and are proportionally narrower relative to their spacing. The whole bay rhythm of the elevation follows from this number, because the modillion must land on the column.",
       "judgment": false,
-      "note": "Gibbs, from an entirely separate tradition, arrives at seven twelfths of a diameter = thirty-five minutes for the same member. The two authorities agree exactly on Corinthian modillion spacing and disagree on almost everything else - which is a good indication that thirty-five minutes is where the eye actually wants it."
+      "note": "Gibbs, from an entirely separate tradition, arrives at seven twelfths of a diameter = thirty-five minutes for the same member. The two authorities agree exactly on Corinthian modillion spacing and disagree on almost everything else - which is a good indication that thirty-five minutes is where the eye actually wants it.",
+      "quantity": "eave_member_spacing"
     },
     {
       "target_slot": "ornament_vocabulary",
@@ -323,7 +326,8 @@
         10
       ],
       "authority_note": "THE ENRICHED ROOM CORNICE, which is the Corinthian case. 'Their projection may, in some cases, be double their height, and their height, when enriched with three ornaments, about a thirtieth part of the height of the room.' Four inches in a 10 ft room. The plain figure is one fortieth. Vignola's Corinthian cornice at room scale is ceiling_height * 2/20 - twelve inches in the same room, three times as much. Benjamin adds the manufacturing note that makes it possible at all: 'Stucco cornices admit of much greater variety than wooden ones, but nearly the same rules apply to both', and gives six designs on Plate 28 to be cast in plaster of Paris from clay-modelled masters, 'much less expensive, and requires less skill to perform it'.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "crown",
@@ -336,7 +340,8 @@
       ],
       "authority_note": "'Their projection may, in some cases, be double their height' - the enriched Corinthian room cornice is the case where Benjamin allows the maximum. Twice a thirtieth is a fifteenth: 8 in. of projection on a 4 in. cornice in a 10 ft room. 'In some cases where the room is low, the plancere may be laid flat on the ceiling, or even sunk level with it' - the cornice migrates onto the ceiling when the wall will not give it room, which is the single most useful move for a modern 8 ft room and it is in the book.",
       "judgment": true,
-      "note": "JUDGMENT SLOT, and Benjamin says so: 'Their projection ought, in some measure, to be conformable to the size, as well as their height, to that of the room. This will admit of no exact rule; therefore must, in a great measure, depend on the judgment of the designer.'"
+      "note": "JUDGMENT SLOT, and Benjamin says so: 'Their projection ought, in some measure, to be conformable to the size, as well as their height, to that of the room. This will admit of no exact rule; therefore must, in a great measure, depend on the judgment of the designer.'",
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "casing",
@@ -348,7 +353,8 @@
         7
       ],
       "authority_note": "One eighth of the door width, 1816, capped at six and a half or seven inches on a wide door and held constant across every opening in the room. Vignola's rule is a sixth. In a Corinthian room the difference matters more than elsewhere, because the casing is the order's architrave brought down to the opening and Benjamin's Corinthian architrave is itself a third shallower than Vignola's - the two reductions are the same decision made twice.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "cornice",
@@ -361,7 +367,8 @@
       ],
       "authority_note": "Eave cornice, one thirtieth of the whole height of the building, one fortieth for a tall narrow front, more than one thirtieth for a wide one or a block. BIND storey_height TO THE FULL WALL HEIGHT. On a Corinthian building - a church, a bank, a courthouse, which is where this order belongs in America - the cornice will usually be the entablature of the order itself, and the rule is then a check on the order rather than a substitute for it.",
       "judgment": true,
-      "note": "JUDGMENT SLOT. Benjamin gives a worked example on a building of exactly this class: 'The third story of the porch is proportioned exactly after the Doric order. The cornice to the attic story is about one seventeenth part of the height' - an attic cornice takes a much larger fraction than a main one, because it sits on a much shorter wall."
+      "note": "JUDGMENT SLOT. Benjamin gives a worked example on a building of exactly this class: 'The third story of the porch is proportioned exactly after the Doric order. The cornice to the attic story is about one seventeenth part of the height' - an attic cornice takes a much larger fraction than a main one, because it sits on a much shorter wall.",
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "chair_rail",
@@ -373,7 +380,8 @@
         5
       ],
       "authority_note": "Surbase at one tenth of the dado it caps, with the dado at a third of the ceiling. 'The same scale, or parts, will draw the base mouldings in proportion to the surbase' - base and surbase are one profile family drawn from one scale, which is the practical meaning of a trim family and the thing most often lost in modern specification, where the base comes from one catalogue page and the chair rail from another.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "chair_rail_profile_height"
     }
   ],
   "conflicts": [

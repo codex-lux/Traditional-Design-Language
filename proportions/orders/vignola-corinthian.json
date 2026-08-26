@@ -633,7 +633,8 @@
       "expression": "column_height / 4",
       "units": "in",
       "note": "A quarter of the column, base and capital included, at any scale. For the Corinthian this is the expensive rule: a ten-diameter column carries an entablature two and a half diameters deep, and the deeper the order the more of it is carved.",
-      "authority_note": "Vignola, Regola, plate XXIII."
+      "authority_note": "Vignola, Regola, plate XXIII.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "crown",
@@ -641,7 +642,8 @@
       "expression": "ceiling_height / 5 * (4 / 10)",
       "units": "in",
       "note": "The room read as an order; the crown is the cornice member, 4 of the 10 parts of the Corinthian entablature. At a 10 ft ceiling this gives 9.6 in - a modillion cornice, and the right one for a principal room.",
-      "authority_note": "Esquie, plate XXX: the entablature divided in ten, four to the cornice."
+      "authority_note": "Esquie, plate XXX: the entablature divided in ten, four to the cornice.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "crown",
@@ -649,7 +651,8 @@
       "expression": "ceiling_height / 5 * (4 / 10) * (38 / 36)",
       "units": "in",
       "note": "Vignola gives the Corinthian cornice a projection of 2 modules 2 parts against a height of 2 modules - slightly MORE than its height, unlike the Ionic. The modillions are what push it out.",
-      "authority_note": "Vignola 1889, plate XXII."
+      "authority_note": "Vignola 1889, plate XXII.",
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "modillion_dentil",
@@ -657,7 +660,8 @@
       "expression": "module * 4 / 3",
       "units": "in",
       "note": "Modillions 2/3 D = 24 parts on centres, each 2/9 D wide (8 parts) with 4/9 D between - exactly twice their width. Four dentils to each modillion: one under every modillion and three between, at 6 parts on centres. This is the alignment rule that governs the whole bay.",
-      "authority_note": "Ware, The American Vignola, on the Corinthian cornice."
+      "authority_note": "Ware, The American Vignola, on the Corinthian cornice.",
+      "quantity": "eave_member_spacing"
     },
     {
       "target_slot": "modillion_dentil",
@@ -665,7 +669,8 @@
       "expression": "column_height / 3 / (module * 4 / 3)",
       "units": "count",
       "note": "Modillions per bay at Vignola's own spacing of 6 2/3 modules on centres: five, with one on the axis of each column. Any bay that is not a whole multiple of 2/3 diameter will put a partial modillion somewhere, and there is nowhere good to put it.",
-      "authority_note": "Esquie, plate XXVI: the axes 6 2/3 modules apart 'allows a modillion in the cornice always to be placed over the axis of a column.'"
+      "authority_note": "Esquie, plate XXVI: the axes 6 2/3 modules apart 'allows a modillion in the cornice always to be placed over the axis of a column.'",
+      "quantity": "eave_members_per_bay"
     },
     {
       "target_slot": "baseboard",
@@ -677,7 +682,8 @@
       "range": [
         0.0625,
         0.0909
-      ]
+      ],
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "chair_rail",
@@ -690,7 +696,8 @@
         0.219,
         0.32
       ],
-      "judgment": true
+      "judgment": true,
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "wainscot",
@@ -702,7 +709,8 @@
         0.219,
         0.36
       ],
-      "judgment": true
+      "judgment": true,
+      "quantity": "wainscot_top_height"
     },
     {
       "target_slot": "casing",
@@ -713,7 +721,8 @@
       "range": [
         0.1429,
         0.1667
-      ]
+      ],
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "door_surround",
@@ -721,7 +730,8 @@
       "expression": "opening_width / 2",
       "units": "in",
       "note": "Entablature over the door: the opening twice as high as wide, the entablature a quarter of the door height. Vignola's own Corinthian doorway, at SS. Lorenzo e Damaso, has brackets under the cornice that both ornament and carry it.",
-      "authority_note": "Vignola, Regola, plate XXXI in the 1889 translation."
+      "authority_note": "Vignola, Regola, plate XXXI in the 1889 translation.",
+      "quantity": "entablature_over_door_height"
     },
     {
       "target_slot": "window_surround_wood",
@@ -732,28 +742,32 @@
       "range": [
         0.125,
         0.1667
-      ]
+      ],
+      "quantity": "window_casing_face_width"
     },
     {
       "target_slot": "cornice",
       "dimension": "height",
       "expression": "storey_height / 4 * (4 / 10)",
       "units": "in",
-      "note": "Envelope cornice at building scale. On a 12 ft principal storey this is a 14.4 in cornice projecting 15.2 in, carried on modillions 8 in wide at 16 in on centres. That is a real cornice and it needs real framing; if the budget cannot carry it, the honest move is to change order, not to shrink the cornice."
+      "note": "Envelope cornice at building scale. On a 12 ft principal storey this is a 14.4 in cornice projecting 15.2 in, carried on modillions 8 in wide at 16 in on centres. That is a real cornice and it needs real framing; if the budget cannot carry it, the honest move is to change order, not to shrink the cornice.",
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "frieze",
       "dimension": "height",
       "expression": "storey_height / 4 * (3 / 10)",
       "units": "in",
-      "note": "Envelope frieze, 3 of the 10 parts. The Corinthian frieze is the natural place for a carved or pulvinated band; left plain it is simply the deepest board on the building."
+      "note": "Envelope frieze, 3 of the 10 parts. The Corinthian frieze is the natural place for a carved or pulvinated band; left plain it is simply the deepest board on the building.",
+      "quantity": "entablature_frieze_height"
     },
     {
       "target_slot": "pilaster",
-      "dimension": "width",
+      "dimension": "pilaster_face_width",
       "expression": "2 * module",
       "units": "in",
-      "note": "A pilaster of the order is one lower diameter wide and carries the same capital, entablature and diminution as the column. Vignola's arcade piers are 3 modules and the column is engaged into them - a pilaster that is not the width of the column it stands for is a panel, not a pilaster."
+      "note": "A pilaster of the order is one lower diameter wide and carries the same capital, entablature and diminution as the column. Vignola's arcade piers are 3 modules and the column is engaged into them - a pilaster that is not the width of the column it stands for is a panel, not a pilaster.",
+      "quantity": "pilaster_face_width"
     }
   ],
   "conflicts": [

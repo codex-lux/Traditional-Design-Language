@@ -59,7 +59,8 @@
       0.0,
       0.1
     ],
-    "note": "Glazed garage doors are a contemporary convention with no traditional precedent; where light is wanted, a window in the side wall costs less and reads correctly."
+    "note": "OQ 31, ruled 24 Aug 2026: the depth rule does not govern this room. A two-car garage is 20 x 22 ft at the SHALLOW end of this room's own dimension band - a 16 ft car plus clearance - and no arrangement of windows within a 0-10% glazing band reaches its back wall. So every correctly-sized, correctly-glazed garage reported one serious daylight finding that could not be designed away, only ignored. That is not a defect in the garage and not a rule that failed to evaluate: it is a rule that does not apply here, which is a third thing the corpus previously had no way to say. Set explicitly rather than by exempting a whole function_class, so a genuinely unlit workshop or laundry - rooms people do occupy - keeps being flagged.\n\nGlazed garage doors are a contemporary convention with no traditional precedent; where light is wanted, a window in the side wall costs less and reads correctly.",
+    "depth_governs": false
   },
   "adjacency": {
     "must_adjoin": [

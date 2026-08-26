@@ -263,6 +263,12 @@
       "authority": "benjamin-doric",
       "note": "JUDGMENT BINDING, though the pack's own applies_to already lists folk-victorian. Bound optional and last because it covers only the minority of Folk Victorian porches whose posts are chamfered rather than turned — a chamfered square post is a simplified, carpenter-built stand-in for a Doric column, and Benjamin's 1816 Companion is the American pattern book that vernacular builders of this generation actually had in hand. It does not cover the majority spindled-and-bracketed porch, which has no order at all and no dedicated pack in this library (see report gaps).",
       "precedence": 6
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "The type the pack's economics are about. Posts 4x4 to 6x6 turned with a swell of 5-7 in, spindle frieze 8-16 in with spindles 1.25-2 in at 3-5 in on centre -- consistently a quarter to two inches lighter than the Queen Anne figures at both ends, which is exactly what a cheaper house buys from the same catalogue. This node is the reason the pack exists in the form it does: Folk Victorian is not a style with an ornament vocabulary, it is a plain vernacular house with catalogue millwork applied, and the member_count rule is what describes it.",
+      "precedence": 7
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "style": "tidewater-georgian",
   "style_name": "Tidewater Georgian",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -427,6 +427,11 @@
       "status": "drafted",
       "confidence": "low"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "specified",
@@ -434,7 +439,8 @@
         "wall_thickness": {
           "value": 13.5,
           "unit": "in",
-          "kind": "measured"
+          "kind": "measured",
+          "note": "OQ 19: restates `construction_type.masonry_wall_thickness`, which this slot names as its determiner, and agrees with it. Kept rather than deleted because this variant's whole content is the 4-8 in reveal and the absent exterior architrave, and a reveal is unreadable without the wall it is cut into."
         },
         "reveal": {
           "range": [
@@ -442,7 +448,8 @@
             8
           ],
           "unit": "in",
-          "kind": "measured"
+          "kind": "measured",
+          "note": "OQ 19: this IS the slot's own claim, not a restatement -- `construction_type` states wall thicknesses and says nothing about how far back the opening sits in them."
         },
         "step_at_floor": {
           "value": 4.5,
@@ -467,41 +474,14 @@
     },
     "reveal_frame": {
       "group": "envelope",
-      "binding": "specified",
-      "parameters": {
-        "wall_thickness": {
-          "value": 13.5,
-          "unit": "in",
-          "kind": "measured"
-        },
-        "reveal": {
-          "range": [
-            4,
-            8
-          ],
-          "unit": "in",
-          "kind": "measured"
-        },
-        "step_at_floor": {
-          "value": 4.5,
-          "unit": "in",
-          "kind": "measured",
-          "note": "A half brick at each floor level."
-        },
-        "exterior_architrave": {
-          "value": "none",
-          "unit": "none",
-          "kind": "measured",
-          "note": "The wall's depth is the window's only surround, and the austerity that follows is a large part of why a Virginia front looks unlike a Massachusetts one at the same size."
-        }
-      },
-      "rule": "The opening is set 4 to 8 in back in a real reveal and has no exterior architrave.",
+      "binding": "extends",
+      "rule": "As georgian-colonial-american: a frame opening sits nearly flush.",
       "determined_by": [
         "construction_type"
       ],
       "confidence": "low",
       "status": "drafted",
-      "note": "MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_frame."
+      "note": "OQ 19, 24 Aug 2026. This slot was a verbatim copy of `reveal_masonry` and therefore stated the MASONRY answer under the frame id: a 13.5 in wall, a 4 to 8 in reveal and no exterior architrave. A frame Tidewater house would have been drawn with a brick wall's reveal. It now extends the parent, which carries the real frame answer (5 to 7 in wall, under 2 in of reveal, depth given by the architrave), and states nothing of its own -- because nothing in this corpus sources a Tidewater DEPARTURE from that, and inventing one to fill the slot is what the copy already did once."
     },
     "cornice": {
       "group": "envelope",
@@ -542,6 +522,52 @@
       "group": "openings",
       "binding": "open",
       "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "specified",
+      "parameters": {
+        "segmental_rise": {
+          "expr": "opening_width / 8",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 4.5
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "flat_arch_camber": {
+          "expr": "opening_width / 96",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 0.375
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "arch_depth": {
+          "expr": "module",
+          "computed_at": {
+            "ceiling_height_in": 132.0,
+            "storey_height_in": 144.0,
+            "opening_width_in": 36.0,
+            "value": 11.0
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        }
+      },
+      "rule": "Segmental with a rise of one eighth of the opening before about 1750, flat and cambered after -- the date of the house is readable off the rise.",
+      "status": "drafted",
+      "confidence": "low",
+      "note": "Moved here from `window_head_masonry` 24 Aug 2026 (OQ 46). SPLIT 24 Aug 2026 (OQ 46). This slot carried two different claims at once: how the top of a masonry window is BUILT -- gauged and rubbed brick, one head datum a storey, an architrave, a keystone or its absence -- and the GEOMETRY of the arch doing the spanning. The second has moved to the `arch` slot and this slot names it in `determined_by`, which is the mechanism OQ 19 built for exactly this: a slot decided by another names it rather than restating its numbers."
     },
     "window_head_masonry": {
       "group": "openings",
@@ -590,49 +616,13 @@
         }
       ],
       "parameters": {
-        "segmental_rise": {
-          "expr": "opening_width / 8",
-          "computed_at": {
-            "ceiling_height_in": 132.0,
-            "storey_height_in": 144.0,
-            "opening_width_in": 36.0,
-            "value": 4.5
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course"
-        },
-        "flat_arch_camber": {
-          "expr": "opening_width / 96",
-          "computed_at": {
-            "ceiling_height_in": 132.0,
-            "storey_height_in": 144.0,
-            "opening_width_in": 36.0,
-            "value": 0.375
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course"
-        },
-        "arch_depth": {
-          "expr": "module",
-          "computed_at": {
-            "ceiling_height_in": 132.0,
-            "storey_height_in": 144.0,
-            "opening_width_in": 36.0,
-            "value": 11.0
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course"
-        },
         "keystone": {
           "value": "none",
           "unit": "none",
           "kind": "measured"
         }
       },
-      "rule": "Window heads are gauged and rubbed brick arches — segmental with a rise of one eighth of the opening before about 1750, flat and cambered after — and they never carry a keystone.",
+      "rule": "Window heads are gauged and rubbed brick, and they never carry a keystone. The arch geometry itself is stated on the `arch` slot, which this slot is determined by.",
       "packs": [
         {
           "pack": "brick-course",
@@ -642,8 +632,11 @@
         }
       ],
       "confidence": "low",
-      "note": "Specified rather than extends because the parent's five variants become two canonical, two forbidden and one atypical — at that point a merge is less legible than a restatement, and the parent's frame-versus-masonry applies_when scoping no longer applies since only one construction is canonical. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_masonry.",
-      "status": "drafted"
+      "note": "Specified rather than extends because the parent's five variants become two canonical, two forbidden and one atypical — at that point a merge is less legible than a restatement, and the parent's frame-versus-masonry applies_when scoping no longer applies since only one construction is canonical. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_masonry. SPLIT 24 Aug 2026 (OQ 46). This slot carried two different claims at once: how the top of a masonry window is BUILT -- gauged and rubbed brick, one head datum a storey, an architrave, a keystone or its absence -- and the GEOMETRY of the arch doing the spanning. The second has moved to the `arch` slot and this slot names it in `determined_by`, which is the mechanism OQ 19 built for exactly this: a slot decided by another names it rather than restating its numbers.",
+      "status": "drafted",
+      "determined_by": [
+        "arch"
+      ]
     },
     "window_head_wood": {
       "group": "openings",

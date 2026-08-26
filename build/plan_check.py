@@ -33,25 +33,129 @@ def _load(name, path):
     import modcache as _mc
     return _mc.load(name, path)
 
-# Genuinely interchangeable room types. A landing IS the stair hall at the head of the stair;
-# a walk-in closet satisfies a rule written for a closet. Without this the validator flags
-# correct plans for using the better of two words.
-EQUIVALENT = [
-    {"stair-hall", "landing"},
-    {"closet", "walk-in-closet", "linen-press"},
-    {"bathroom", "primary-bathroom"},
-    {"dining-room", "eat-in-kitchen-area", "breakfast-room"},
-    {"parlor", "living-room", "sitting-room", "family-room", "great-room", "drawing-room", "best-parlor"},
-    {"entrance-hall", "vestibule", "stair-hall"},
-    {"kitchen", "scullery"},
-    {"pantry", "butlers-pantry", "larder"},
-    {"bedroom", "bedchamber", "primary-bedroom"},
-]
+# SUBSTITUTION, and it runs in one direction (OQ 43, ruled 24 Aug 2026).
+#
+# This was a list of flat sets and `_alias` treated membership as mutual: if a primary bathroom
+# counted as a bathroom then a bathroom counted as a primary bathroom. That is right for some
+# pairings and wrong for exactly the ones that matter. A primary bedroom's rule to adjoin a
+# PRIMARY bathroom is not satisfied by the hall bath being somewhere in the house; a parlor's
+# rule to adjoin an entrance hall IS satisfied by a centre passage.
+#
+# Each entry names the SPECIFIC room and the general requests it can stand in for. Read it as
+# "a walk-in closet will do where a closet was asked for, and a closet will not do where a
+# walk-in closet was asked for." Where two rooms genuinely substitute both ways, both directions
+# are listed and the comment says why.
+#
+# Measured across all 129 composable styles before the change: of 542 findings where the plan
+# modelled an equivalent of the room a rule wanted, 214 were legitimate substitutions and 294
+# were the reverse -- a general room offered where a specific one was asked for, reported as
+# though the plan had the room. Making it directional returns those 294 to honest absence and
+# promotes the 214 to real adjacency findings, 115 of them fatal across 67 styles. Those 115 are
+# genuine: the plan has the room and the rule's subject does not reach it.
+SUBSTITUTES = {
+    # circulation. A landing IS the stair hall at the head of the stair, and the entrance-hall
+    # family is genuinely mutual: whichever of these a plan calls its entry sequence, the front
+    # door opens into it and the principal rooms open off it, which is the definition the group
+    # holds. gallery-corridor was added by WP-4.5 on the reference corpus's evidence (good-01
+    # and good-05 use a Gallery as exactly that room) and centre-passage by OQ 59.
+    "landing": {"stair-hall"},
+    "stair-hall": {"entrance-hall"},
+    "vestibule": {"entrance-hall"},
+    "gallery-corridor": {"entrance-hall"},
+    "centre-passage": {"entrance-hall"},
+    "entrance-hall": {"stair-hall", "vestibule", "gallery-corridor", "centre-passage",
+                      "cross-passage"},
+    # `hall` in the Anglo-American vernacular sense -- the undivided room the front door opens
+    # into, not a corridor. Added when making this table directional showed 24 findings of the
+    # shape "Parlor does not reach an entrance hall" on hall-and-parlor and living-hall
+    # diagrams, where the parlor is entered from the hall and that is exactly right for the
+    # type. The room's own record states it: `entered_from` is cross-passage, entry-porch,
+    # exterior, breezeway -- i.e. the outside -- and its own aka list carries "living hall". It
+    # substitutes in ONE direction: a hall does the entrance hall's job, and an entrance hall is
+    # not a hall, which is a room you eat and sleep in.
+    "hall": {"entrance-hall"},
+    # the screens passage. Its own record: "a passage running ACROSS the building FROM THE FRONT
+    # DOOR to the back door... with the service rooms opening off one side and the hall off the
+    # other", entered from the exterior and the entry porch. That is the entrance sequence of a
+    # medieval and Tudor plan, and it is what an H-plan manor's porch opens into.
+    "cross-passage": {"entrance-hall"},
+
+    # storage. A walk-in closet or a linen press will do where a closet was asked for; a plain
+    # closet will not do where a rule specifically wants a walk-in.
+    "walk-in-closet": {"closet"},
+    "linen-press": {"closet"},
+
+    # sanitary. The asymmetry this ruling exists for: a primary bathroom satisfies a request for
+    # a bathroom, and a hall bath does not satisfy a primary bedroom's request for a primary
+    # bathroom -- which is the difference between a suite and a house with a bathroom in it.
+    "primary-bathroom": {"bathroom"},
+
+    # dining. A breakfast room or an eat-in area will serve where a rule wants somewhere to eat;
+    # neither is a dining room where one is specifically required.
+    "breakfast-room": {"dining-room"},
+    "eat-in-kitchen-area": {"dining-room"},
+
+    # the parlor family. All of these are the principal sitting room under different names and
+    # different centuries, and a rule that names one will take another -- with the exception of
+    # best-parlor and drawing-room, which are the FORMAL room in a house that also has an
+    # everyday one, so they satisfy a request for a parlor and a request for one of them is not
+    # satisfied by the family room.
+    "parlor": {"living-room", "sitting-room"},
+    "living-room": {"parlor", "sitting-room"},
+    "sitting-room": {"parlor", "living-room"},
+    "family-room": {"living-room", "parlor", "sitting-room"},
+    "great-room": {"living-room", "parlor", "sitting-room"},
+    "best-parlor": {"parlor", "living-room", "sitting-room"},
+    "drawing-room": {"parlor", "living-room", "sitting-room"},
+
+    # service.
+    "scullery": {"kitchen"},
+    "butlers-pantry": {"pantry"},
+    "larder": {"pantry"},
+
+    # sleeping. A bedchamber is a bedroom in an older word and substitutes freely; a primary
+    # bedroom satisfies a request for a bedroom and the reverse is the same error as the
+    # bathroom case above.
+    "bedchamber": {"bedroom"},
+    "bedroom": {"bedchamber"},
+    "primary-bedroom": {"bedroom", "bedchamber"},
+    # A garret chamber is a bedroom inside the roof -- its own record: "a sleeping room inside
+    # the roof, with sloping ceilings on two sides and a knee wall" -- and it is what a Cape
+    # sleeps in. Without this, a Cape's closets fail `closet must_adjoin bedroom` while doored
+    # to exactly the room they serve. A bedroom is not a garret chamber, which is why it runs
+    # one way. `nursery` and `sleeping-porch` are also function_class `sleeping` and are NOT
+    # here: a nursery is a room for a child too young to have a bedroom and a sleeping porch is
+    # seasonal, so neither answers a rule that wants the household's bedroom.
+    "garret-chamber": {"bedroom", "bedchamber"},
+}
+
+
+def satisfies(have, want):
+    """Can a room of type `have` stand in where a rule asked for `want`? (OQ 43)"""
+    return have == want or want in SUBSTITUTES.get(have, ())
+
+
+def satisfied_by(want):
+    """Every room type that would SATISFY a rule asking for `want`.
+
+    Ask this when the question is "the rule wants a `want`; would anything the plan HAS do?"
+    """
+    return {want} | {have for have, wants in SUBSTITUTES.items() if want in wants}
+
+
+def serves(have):
+    """Every request a room of type `have` can answer -- itself, and what it substitutes for.
+
+    Ask this when the question is "this room is next to me; which rules does its presence
+    satisfy?" It is the other direction from `satisfied_by`, and before OQ 43 the two were one
+    function, which is precisely the bug."""
+    return {have} | set(SUBSTITUTES.get(have, ()))
+
+
 def _alias(t):
-    out = {t}
-    for grp in EQUIVALENT:
-        if t in grp: out |= grp
-    return out
+    """Kept as the name the rest of this file and the tests already use, and it means
+    `satisfied_by`. The other direction is `serves`."""
+    return satisfied_by(t)
 
 def load_corpus():
     C = {"rooms": {}, "groupings": {}, "styles": {}, "faults": {}, "massings": {}, "slots": {}, "kits": {}}
@@ -79,6 +183,30 @@ def style_chain(style_id, C):
 
 def excepted(rule, chain):
     return bool(set(rule.get("exceptions") or []) & chain)
+
+
+def kit_suppressions(chain, C):
+    """Universal room rules the style's kit declares it switches OFF (OQ 15).
+
+    `room_adjacency_overrides`'s own note has said since ontology 0.4.0 that the slot holds
+    "only what a style ADDS or SUPPRESSES" -- and nothing read it, so a suppression existed as
+    prose while the validator went on enforcing the rule the kit said should not apply. A rule
+    a style legitimately breaks is not reported: that is this file's own closing sentence, and
+    until now it was true only of the `exceptions` list on the room record, which is the room
+    catalogue's side of the same statement. This is the kit's side.
+
+    Read across the whole inheritance chain, because a suppression is a fact about a tradition
+    and a descendant that did not restate it has not thereby reinstated the rule.
+
+    Returns a set of (room, key, target) triples."""
+    out = set()
+    for sid in chain:
+        slot = ((C.get("kits", {}).get(sid) or {}).get("slots") or {}).get("room_adjacency_overrides")
+        for r in ((slot or {}).get("rules") or []):
+            sup = r.get("suppresses")
+            if r.get("effect") == "suppresses" and sup:
+                out.add((sup.get("room"), sup.get("key"), sup.get("target")))
+    return out
 
 def derive_constraint_vars(plan):
     """Narrow, conservative auto-derivation of a handful of constraint-vocabulary variables
@@ -134,6 +262,7 @@ def check(plan, C=None, strict=False):
     seen_pairs = set()
     style = plan.get("style")
     chain = style_chain(style, C)
+    suppressed = kit_suppressions(chain, C)
     if style not in C["styles"]:
         F.add("fatal", "style", f"Unknown style '{style}'.", fix="Use a style id from the taxonomy.")
 
@@ -169,14 +298,84 @@ def check(plan, C=None, strict=False):
             rel.setdefault((a["a"], a["b"]), a["relation"]); rel.setdefault((a["b"], a["a"]), a["relation"])
             declared_rel[(a["a"], a["b"])] = declared_rel[(a["b"], a["a"])] = a["relation"]
     types_present = {r["type"] for r in rooms.values()}
+    # OQ 42, ruled 24 Aug 2026. Every adjacency target already runs through `_alias()` when the
+    # question is what a room is NEXT TO; the question of whether the plan CONTAINS the room at
+    # all was asked against raw types, so a plan with a centre passage was told it models no
+    # entrance hall and a plan with a living room that it models no parlor. 774 of 3,219
+    # completeness findings across the catalogue were false in exactly that way.
+    #
+    # `types_modelled` is the aliased set and is used ONLY to decide whether the claim "and the
+    # plan models none" is true. It deliberately does NOT re-route these findings into the
+    # adjacency branch at the rule's own severity, which is the obvious-looking fix and is
+    # worse: measured, it turns 170 of the 774 FATAL across 87 styles. The cause is that
+    # EQUIVALENT is asymmetric in practice -- a primary bathroom satisfies a request for a
+    # bathroom, and a hall bathroom does not satisfy a primary bedroom's request for a primary
+    # bathroom -- and until each pairing states which direction it satisfies, promoting these is
+    # trading 774 false minors for 170 false fatals. So the severity is unchanged and only the
+    # sentence is corrected. The directional question stays open as OQ 43.
+    def types_modelled(rid):
+        """The aliased types the plan models, NOT counting the room doing the asking.
+
+        A room cannot satisfy its own adjacency rule. Without this the kitchen's rule to adjoin
+        a scullery was answered by the kitchen being a kitchen, which is true of the alias group
+        and nonsense as a statement about the plan."""
+        out = set()
+        for x, rr in rooms.items():
+            if x == rid: continue
+            out |= serves(rr["type"])
+        return out
     def types_adjacent(rid):
         out = set()
-        for x in adj[rid]: out |= _alias(rooms[x]["type"])
+        for x in adj[rid]: out |= serves(rooms[x]["type"])
         return out
 
     def circulation(x):
+        """Does this room carry the plan's movement?
+
+        Normally that is its function_class. But a whole family of house types -- the courtyard
+        corredor, the Creole gallery, the Charleston piazza -- run their entire circulation
+        through a room the catalogue types as `outdoor`, because it is roofed and open rather
+        than enclosed. In those plans the gallery IS the corridor: every room opens onto it and
+        onto nothing else. Judged on function_class alone the validator cannot see that, and
+        reports every bedroom in a courtyard house as failing to reach a bathroom -- which is
+        the corridor, the correct answer, being read as a fault. The test is what the plan does
+        with the room rather than what the room is: an outdoor room with doors to three or more
+        rooms is being used as circulation. Two doors is a porch you pass through; three is a
+        gallery. (WP-4.5)"""
         t = C["rooms"].get(rooms[x]["type"])
-        return bool(t) and t["function_class"] in ("circulation", "threshold")
+        if not t: return False
+        if t["function_class"] in ("circulation", "threshold"): return True
+        if t["function_class"] == "outdoor":
+            return len([d for d in adj[x] if d in rooms]) >= 3
+        return False
+
+    def types_on_level(delta_from):
+        """Room types on a given level. The vertical half of adjacency (OQ 57)."""
+        out = {}
+        for x, rr in rooms.items():
+            out.setdefault(level_of.get(x, 0), set()).update(serves(rr["type"]))
+        return out
+
+    _by_level = None
+
+    def types_vertically_from(rid, direction):
+        """Types on the storey directly above or below this room.
+
+        OQ 57, ruled 24 Aug 2026. Adjacency was evaluated within a level only, which made two
+        real arrangements unstateable: an overlook is open to the hall BELOW it, and a great
+        chamber over the parlour is a drawing room whose dining room is a storey down. Both were
+        being worked around -- one rule softened so a right answer was not called a defect, one
+        room retyped to dodge a rule it could never satisfy -- and both workarounds now come out.
+
+        Deliberately checks the LEVEL rather than plan-position overlap: a plan record carries
+        geometry only after the geometry pass has run, and this layer is hand-authorable and runs
+        first. Being on the storey below is the claim the corpus can actually make."""
+        nonlocal _by_level
+        if _by_level is None:
+            _by_level = types_on_level(0)
+        lv = level_of.get(rid, 0)
+        want = lv - 1 if direction == "below" else lv + 1
+        return _by_level.get(want, set())
 
     def types_near(rid):
         """Directly adjacent, plus anything one hop further through a hall.
@@ -188,7 +387,7 @@ def check(plan, C=None, strict=False):
         for mid in adj[rid]:
             if circulation(mid):
                 for x in adj[mid]:
-                    if x != rid: out |= _alias(rooms[x]["type"])
+                    if x != rid: out |= serves(rooms[x]["type"])
         return out
 
     # ============================================================ ROOM LAYER
@@ -263,7 +462,18 @@ def check(plan, C=None, strict=False):
         two_ended = any(OPP.get(w) in walls for w in walls)
         effective_depth = (l / 2.0) if (two_ended and l) else l
         reach = dm * wh * (1.5 if len(walls) >= 2 and not two_ended else 1.0) if wh else None
-        if wh and effective_depth and dm < 10 and reach and effective_depth > reach * 1.05:
+        # OQ 31, ruled 24 Aug 2026: a room may declare that this rule does not govern it. That is
+        # a THIRD state, not a pass -- the depth was never in question for a garage, which is
+        # deeper than any window can light and is not thereby defective. Reported at `info` so it
+        # appears in the record as a rule deliberately not applied, rather than vanishing, because
+        # a rule that quietly stops looking is exactly what this corpus refuses elsewhere.
+        governs = rt["daylight"].get("depth_governs", True)
+        if not governs and wh and effective_depth and reach and effective_depth > reach * 1.05:
+            F.add("info", "daylight",
+                  f"{label} is deeper than its daylight would reach, and the depth rule does not "
+                  f"govern this room type — not evaluated rather than passed.",
+                  room=rid, rule="rooms/%s.json daylight.depth_governs is false" % r["type"])
+        if governs and wh and effective_depth and dm < 10 and reach and effective_depth > reach * 1.05:
             how = ("lit from both ends, so measured at half its length" if two_ended
                    else "cross-lit, so the reach is relaxed by half" if len(walls) >= 2
                    else "lit from one side")
@@ -281,9 +491,27 @@ def check(plan, C=None, strict=False):
         for kind, key in (("must_adjoin", "must_adjoin"), ("should_adjoin", "should_adjoin")):
             for rule in rt["adjacency"].get(key, []):
                 if excepted(rule, chain): continue
-                direct = key == "must_adjoin" and rule.get("relation") == "direct-door"
+                if (r["type"], key, rule["room"]) in suppressed: continue
+                relation = rule.get("relation")
+                # --- vertical relations (OQ 57). A rule that IS vertical is satisfied only
+                # vertically; a horizontal rule marked vertical_ok may be satisfied either way.
+                if relation in ("open-to-below", "open-to-above"):
+                    d = "below" if relation == "open-to-below" else "above"
+                    if rule["room"] in types_vertically_from(rid, d): continue
+                    sev = STRENGTH_SEV.get(rule.get("strength", "strong"), "serious")
+                    if key == "should_adjoin": sev = "minor" if sev == "fatal" else sev
+                    F.add(sev, "adjacency",
+                          f"{label} should be open to a {rule['room'].replace('-', ' ')} on the "
+                          f"storey {d} it, and there is none.",
+                          room=rid, rule=rule["why"])
+                    continue
+                direct = key == "must_adjoin" and relation == "direct-door"
                 near = types_adjacent(rid) if direct else types_near(rid)
                 if rule["room"] in near: continue
+                if rule.get("vertical_ok") and (
+                        rule["room"] in types_vertically_from(rid, "below")
+                        or rule["room"] in types_vertically_from(rid, "above")):
+                    continue
                 # A named intermediary satisfies the rule. The butler's pantry is not a failure
                 # to connect the kitchen to the dining room; it is the connection.
                 if rule.get("via"):
@@ -294,7 +522,8 @@ def check(plan, C=None, strict=False):
                     if ok: continue
                 sev = STRENGTH_SEV.get(rule.get("strength", "strong"), "serious")
                 if key == "should_adjoin": sev = "minor" if sev == "fatal" else sev
-                if rule["room"] not in types_present:
+                _modelled = types_modelled(rid)
+                if rule["room"] not in _modelled:
                     # Absence is a different claim from non-adjacency. A plan record that does not
                     # model closets is coarse, not wrong, and reporting that at the same severity as
                     # a genuine adjacency failure buries the findings that matter.
@@ -303,12 +532,31 @@ def check(plan, C=None, strict=False):
                           room=rid, rule=rule["why"],
                           fix="Either the plan is missing the room, or the record simply does not model it. Run with --strict to treat absence as a failure.")
                 else:
+                    # OQ 43: the plan models a room that WOULD satisfy this rule -- itself, or
+                    # something that substitutes for it in the right direction -- and the subject
+                    # does not reach it. That is an adjacency failure and it lands at the rule's
+                    # own severity, which is what "make it directional and report them" means.
+                    #
+                    # Before the direction existed, 542 findings of this shape were held at
+                    # `minor` because 294 of them were the substitution running backwards -- a
+                    # general room offered where a specific one was asked for -- and promoting
+                    # those would have been reporting a room the plan does not have. Those 294
+                    # now fall to the branch above and say the true thing. The 214 that remain
+                    # are real, and 115 of them are fatal across 67 styles.
+                    _eq = sorted(satisfied_by(rule["room"]) & {rooms[x]["type"] for x in rooms if x != rid}
+                                 - {rule["room"]})
+                    under = ""
+                    if _eq:
+                        under = (" The plan models it as "
+                                 + " and ".join(x.replace("-", " ") for x in _eq) + ".")
                     F.add(sev, "adjacency",
                           f"{label} does not reach a {rule['room'].replace('-', ' ')}"
-                          + (" through a direct door." if rule.get("relation") == "direct-door" else " directly or across a hall."),
+                          + (" through a direct door." if rule.get("relation") == "direct-door"
+                             else " directly or across a hall.") + under,
                           room=rid, rule=rule["why"])
         for rule in rt["adjacency"].get("must_not_adjoin", []):
             if excepted(rule, chain): continue
+            if (r["type"], "must_not_adjoin", rule["room"]) in suppressed: continue
             if rule["room"] not in types_adjacent(rid): continue
             relation = rule.get("relation", "")
             for other in adj[rid]:
@@ -511,6 +759,12 @@ def check(plan, C=None, strict=False):
         elev = EL.build_elevation(plan)
         if "error" not in elev:
             for k, v in elev.get("measurements", {}).items():
+                # A None is the elevation layer saying it could not judge that quantity, and it
+                # must not enter the measurements dict at all: a key present with a None value
+                # is a measurement the fault evaluator will try to compare, and the only reason
+                # that did not already produce nonsense is that it threw and was swallowed.
+                # Absent is what "unjudged" looks like here (OQ 59).
+                if v is None: continue
                 meas.setdefault(k, v)
     except Exception:
         pass
@@ -519,8 +773,15 @@ def check(plan, C=None, strict=False):
     # "unjudged is not passed" degrades into "the first forty unjudged are not passed".
     fr = core.check_measurements(meas, style=style, limit=10**6) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
     for x in fr.get("faults_present", []):
+        # Quote the test that FAILED, not the first one that ran. A fault carrying secondary
+        # tests can have its primary pass and a secondary fail; reading results[0] then printed
+        # the passing measurement as the evidence for the fault -- "The House With No Fire: 2
+        # against at-least 1" on a Cape that has two chimneys. core.check_measurements now
+        # hands back `failing` beside `results`; the fallback keeps this working against an
+        # older core.
+        ev = (x.get("failing") or x["results"])[0]
         F.add(x["severity"] if x["severity"] in SEV_ORDER else "serious", "fault",
-              f"{x['name']}: {x['results'][0].get('value')} against {x['results'][0].get('required')}.",
+              f"{x['name']}: {ev.get('value')} against {ev.get('required')}.",
               rule=x["fault"], fix=x.get("fix_cheap"))
 
     counts = {}

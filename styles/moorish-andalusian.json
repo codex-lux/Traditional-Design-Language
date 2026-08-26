@@ -222,5 +222,25 @@
     "tile",
     "hot-dry"
   ],
-  "proportion_packs": []
+  "proportion_packs": [
+    {
+      "pack": "moorish-arch",
+      "role": "primary",
+      "precedence": 1,
+      "authority": "moorish-arch",
+      "note": "The node's own governing_logic reads 'no order and no absolute module... geometric generation from a square, compass-and-straightedge', which is why WP-4.1 left it with NO BINDING AT ALL rather than force a Vignola order onto it -- and why this pack exists. moorish-arch is that logic encoded: the module is the generating square's side, there is no column block because the shafts are spolia brought to a common springing by the impost block, and the arch is dimensioned by its return below the springing rather than by a diameter. This is the node the pack was written for."
+    },
+    {
+      "pack": "corbel-course",
+      "role": "secondary",
+      "note": "The parent craft, bound for the same brick and the same bands under different patronage -- the two nodes' own records say the buildings can be technically indistinguishable and that the difference is who paid. Its walls run 600-900 mm against Mudejar's 500-700, and its ornament is stratified by height and material (tile dado, carved plaster above, timber ceiling on top), which this pack does NOT carry: `moorish-arch` recorded that stratification as absent for want of defensible figures and it stays absent. What this pack adds here is the brick band and the corbelled head, which the arch pack does not reach. The corpus's other thinnest-bound node.",
+      "precedence": 2
+    },
+    {
+      "pack": "facade-arcade",
+      "role": "secondary",
+      "note": "One of the two thinnest-bound nodes in the corpus, carrying only `moorish-arch` until now. This record says the arcade is the point rather than the arch: the horseshoe and later cusped arches spring 'on slender columns and carried in ARCADES rather than as isolated openings' -- so a pack that gives the arch and not the rhythm was describing half of it. The column slenderness here, 8-12 diameters, is the top of this pack's band and `moorish-arch` explains why in its own notes: the shafts are spolia of whatever length came to hand and the impost block takes up the difference.",
+      "precedence": 3
+    }
+  ]
 }

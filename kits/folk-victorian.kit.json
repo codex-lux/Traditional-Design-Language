@@ -1,7 +1,7 @@
 {
   "style": "folk-victorian",
   "style_name": "Folk Victorian",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -273,6 +273,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -353,6 +358,11 @@
         "styles/folk-victorian.json proportion_packs (sash-light note)"
       ],
       "group": "openings"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",

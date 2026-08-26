@@ -1,7 +1,7 @@
 {
   "style": "french-colonial-american",
   "style_name": "French Colonial American",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -195,6 +195,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -259,6 +264,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {
@@ -682,10 +692,25 @@
     },
     "room_adjacency_overrides": {
       "group": "plan-logic",
-      "binding": "open",
+      "binding": "specified",
       "variants": [],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "rule": "The cabinets flank the rear loggia and are entered from IT, never from a chamber.",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "suppresses",
+          "statement": "The cabinets flank the rear loggia and are entered from IT, never from a chamber.",
+          "suppresses": {
+            "room": "closet",
+            "key": "must_adjoin",
+            "target": "bedroom"
+          },
+          "why": "Same fact as the one declared on creole-cottage-vernacular, and declared again here because these are SIBLING traditions rather than descendants of it -- a suppression is inherited down a chain and does not travel sideways. Stating it four times is the honest cost of that; hoisting it to a shared ancestor would claim the cabinet-and-loggia range for traditions that do not have it."
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",

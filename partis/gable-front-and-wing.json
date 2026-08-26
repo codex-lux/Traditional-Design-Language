@@ -12,13 +12,22 @@
     "gable-front"
   ],
   "styles": [
-    "greek-revival-american",
-    "gothic-revival-american",
-    "italianate-american",
-    "folk-victorian",
     "american-farmhouse-vernacular",
     "carpenter-gothic",
-    "modern-farmhouse-traditional"
+    "folk-victorian",
+    "german-fachwerk",
+    "gothic-revival-american",
+    "gothic-revival-british",
+    "greek-revival-american",
+    "italianate-american",
+    "modern-farmhouse-traditional",
+    "queen-anne-american",
+    "queen-anne-british",
+    "queen-anne-free-classic",
+    "queen-anne-patterned-masonry",
+    "queen-anne-spindled",
+    "stick-style",
+    "swiss-chalet"
   ],
   "groupings": [
     "hall-and-parlor-pair",

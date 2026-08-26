@@ -85,7 +85,10 @@ def test_pick_partis_expansion_is_bounded(compose_mod):
         {"style": "adam-style", "target_area_sf": 6000, "bedrooms": 3}, limit=6)
     assert len(wide) == 6, f"wide tie must take the deterministic cut, got {len(wide)}"
 
-    narrow = compose_mod.pick_partis(_brief("family-georgian"), limit=6)
+    # bungalow-small, not family-georgian: see the note on the previous test. Six diagrams
+    # tie at fit 2.0 there and the group is kept whole; family-georgian's tie went wide when
+    # the catalogue grew and is now the deterministic-cut case, not the narrow one.
+    narrow = compose_mod.pick_partis(_brief("bungalow-small"), limit=6)
     assert 6 < len(narrow) <= 6 + compose_mod.MAX_TIE_EXPANSION
 
 
@@ -126,25 +129,39 @@ def test_pick_partis_never_cuts_through_a_tie(compose_mod):
     """Diagrams that fit equally well are indistinguishable to this function, so the
     slice must not be what decides between them. Take the whole tie group; let the
     validator rank it."""
-    brief = _brief("family-georgian")
+    # Re-pointed at the 25 Aug merge, per this test group's own instruction: WP-4.5 took the
+    # catalogue from 12 partis to 21 and the tie this was written against MOVED. On
+    # family-georgian at limit=6 the cut now lands on a singleton (fit 2.3), so returning
+    # exactly 6 is correct and `len(picked) > 6` was asserting a property of the old
+    # catalogue rather than of the mechanism. bungalow-small at limit=6 is the live narrow
+    # tie: six diagrams at fit 2.0, expanded whole to 9.
+    brief = _brief("bungalow-small")
     full = compose_mod.pick_partis(brief, limit=99)
     picked = compose_mod.pick_partis(brief, limit=6)
 
-    assert len(picked) > 6, (
-        "family-georgian ties four diagrams at the limit — if this returns exactly 6, "
-        "the cut is again falling inside a tie group")
-
     edge = picked[-1]["fit"]
+    tied = [p for p in full if p["fit"] == edge]
+    assert len(tied) > 1, (
+        "this brief no longer ties at the cut — re-point the test at one that does, "
+        "rather than letting it pass by testing nothing")
+
     dropped_at_edge = [p["parti"] for p in full
                        if p["fit"] == edge and p not in picked]
     assert not dropped_at_edge, (
         f"dropped {dropped_at_edge} while keeping others at the same fit {edge}")
 
 
-def test_the_four_way_tie_is_still_there(compose_mod):
-    """The tie is the reason the other two tests exist. If a scoring change ever breaks
-    it apart, they stop testing anything and should be re-pointed at a live tie."""
+def test_the_tie_the_other_two_tests_rest_on_is_still_there(compose_mod):
+    """The tie is the reason the other two tests exist. If a scoring change ever breaks it
+    apart, they stop testing anything and should be re-pointed at a live tie.
+
+    It did not break apart — it GREW, which is the same hazard from the other direction.
+    WP-4.5 took the catalogue from 12 partis to 21 and family-georgian's four-way tie at
+    fit 2.0 became a SEVEN-way one, wide enough that `pick_partis` now takes the
+    deterministic cut there instead of expanding it. Re-pinned to the seven, and renamed,
+    because a test called `four_way` that guards seven is a small lie in the suite."""
     full = compose_mod.pick_partis(_brief("family-georgian"), limit=99)
     at_two = sorted(p["parti"] for p in full if p["fit"] == 2.0)
-    assert at_two == ["charleston-single-piazza", "foursquare-quadrant",
-                      "ranch-tripartite", "side-hall-townhouse"], at_two
+    assert at_two == ["charleston-single-piazza", "connected-farmstead",
+                      "courtyard-and-portal", "living-hall-picturesque",
+                      "octagon-radial", "ranch-tripartite", "tower-villa"], at_two

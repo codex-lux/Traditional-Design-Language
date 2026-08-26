@@ -249,29 +249,35 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-pavilion",
+      "role": "facade",
+      "note": "The lucarne style. This node gives 'wall dormer width 6-10 ft, projecting above the cornice by 1/2 to 1 full storey height', which is the pack's dormer/height rule said from the cornice's side and pushed further than the chateau record pushes it -- a Chateauesque dormer is allowed to be a whole storey above the cornice it cuts through. Placed ahead of `facade-picturesque`, which was doing the work and is the wrong instrument: picturesque composition is about massing irregularity and this style's irregularity is disciplined, a uniform travee broken by pavilions and towers rather than a silhouette assembled freely.",
+      "precedence": 1
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "The style's own proportional_system says so directly: 'There is no governing module; proportion is set by the roof' and symmetry is 'balanced-asymmetrical'. Confirmed in the pack's own applies_to. The dominant mass is the roof-and-tower assembly rather than any single wall plane, and the dominance rule (one mass must exceed the next by at least 1.35x in elevation area) is exactly the discipline that separates a genuine Biltmore-scale composition from 'Queen Anne with a turret', which is the style's own stated failure mode at reduced scale.",
-      "precedence": 1
+      "precedence": 2
     },
     {
       "pack": "vignola-composite",
       "role": "secondary",
       "authority": "vignola-composite",
       "note": "Confirmed directly in the pack's own applies_to, which names chateauesque explicitly alongside beaux-arts-american and second-empire. This is the honest way to bind the collision the style's diagnostic tells describe outright: 'Ornament is late Gothic in vocabulary - crockets, finials, tracery - but the openings underneath are Renaissance and round-arched. That specific collision dates the reference to about 1520.' Composite is the order whose capital genuinely fuses two registers (Ionic volute over Corinthian acanthus), which is a defensible formal echo of a style built at the exact historical seam between Gothic structure and Renaissance ornament. Bind it only at the round-arched, pilastered and pedimented stone door and window surrounds the defining_characteristics call out - never at the roof, the dormers, the turrets or any crocketed or finialed member, which are Gothic vocabulary this order does not touch and which no pack in this corpus models.",
-      "precedence": 2
+      "precedence": 3
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "The style's own distinguished_from entry against french-renaissance-chateau states the plan directly: 'The revival is a single-campaign house with a Beaux-Arts axial plan, plumbing, and an American service wing behind a French face.' Hunt's training was Ecole des Beaux-Arts (lineage edge to beaux-arts-french, weight 1.0), and room-harmonic is that same Ecole-adjacent classical room discipline. It governs the principal reception rooms behind the French face, not the towers, stair turrets or service ranges, which the plan explicitly treats as a separate, un-composed American wing.",
-      "precedence": 3
+      "precedence": 4
     },
     {
       "pack": "trim-classical",
       "role": "interior",
       "note": "Bound narrowly and at low precedence. It reaches only the formally planned principal rooms implied by the Beaux-Arts axial plan noted above - the great hall, the stair, the salon - and it says nothing about the Gothic register that dominates the exterior (crockets, finials, tracery) or the room-harmonic pack does not already cover. This is the honest ceiling of what a classical trim family can claim on a building whose ornamental vocabulary is genuinely bifurcated; no pack in this corpus encodes the late-Gothic half.",
-      "precedence": 4
+      "precedence": 5
     }
   ]
 }

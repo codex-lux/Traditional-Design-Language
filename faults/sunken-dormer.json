@@ -1,198 +1,203 @@
 {
-  "id": "sunken-dormer",
-  "name": "The Dormer Sunk in the Roof",
-  "aka": [
-    "the drowned dormer",
-    "the accidental wall dormer"
-  ],
-  "slots": [
-    "dormer",
-    "eave_condition"
-  ],
-  "severity": "serious",
-  "severity_in_use": "serious",
-  "severity_trajectory": "Serious and worsening. A dormer face sitting at or below the eave line puts a wall-to-roof intersection in the wettest 18 inches of the roof, where ice dams and back-up occur; it is the single hardest flashing on a house to make durable and the commonest source of concealed sheathing rot.",
-  "frequency": "common",
-  "category": "alignment",
-  "symptom": "The dormer sits so low on the slope that its sill is at or below the eave line and its front wall lands on or over the eave. Either it stands in the same plane as the wall below - an accidental wall dormer - or the roof cuts across its lower corners so the sill trim disappears into the shingles and the dormer looks half-drowned.",
-  "cause": {
-    "driver": "code",
-    "explanation": "To get 7 ft 0 in of headroom in the dormer without raising its ridge - which would collide with the main ridge or with a height limit - the designer slides the dormer down the slope, where the roof is lower and there is more room above it. Separately, the dormer's floor is the attic floor and the window must sit above that floor, so on a shallow roof the only place a full-height sash fits at all is at the very bottom of the slope.",
-    "cost_saved": "It saves raising the ridge or the plate, which on a height-limited lot can be the difference between a permit and a variance."
+ "id": "sunken-dormer",
+ "name": "The Dormer Sunk in the Roof",
+ "aka": [
+  "the drowned dormer",
+  "the accidental wall dormer"
+ ],
+ "slots": [
+  "dormer",
+  "eave_condition"
+ ],
+ "severity": "serious",
+ "severity_in_use": "serious",
+ "severity_trajectory": "Serious and worsening. A dormer face sitting at or below the eave line puts a wall-to-roof intersection in the wettest 18 inches of the roof, where ice dams and back-up occur; it is the single hardest flashing on a house to make durable and the commonest source of concealed sheathing rot.",
+ "frequency": "common",
+ "category": "alignment",
+ "symptom": "The dormer sits so low on the slope that its sill is at or below the eave line and its front wall lands on or over the eave. Either it stands in the same plane as the wall below - an accidental wall dormer - or the roof cuts across its lower corners so the sill trim disappears into the shingles and the dormer looks half-drowned.",
+ "cause": {
+  "driver": "code",
+  "explanation": "To get 7 ft 0 in of headroom in the dormer without raising its ridge - which would collide with the main ridge or with a height limit - the designer slides the dormer down the slope, where the roof is lower and there is more room above it. Separately, the dormer's floor is the attic floor and the window must sit above that floor, so on a shallow roof the only place a full-height sash fits at all is at the very bottom of the slope.",
+  "cost_saved": "It saves raising the ridge or the plate, which on a height-limited lot can be the difference between a permit and a variance."
+ },
+ "rule_violated": [
+  {
+   "kind": "kit-variant",
+   "ref": "georgian-colonial-american / dormer / wall-dormer = forbidden",
+   "statement": "Breaks the eave line, which no Georgian dormer does."
   },
-  "rule_violated": [
-    {
-      "kind": "kit-variant",
-      "ref": "georgian-colonial-american / dormer / wall-dormer = forbidden",
-      "statement": "Breaks the eave line, which no Georgian dormer does."
-    },
-    {
-      "kind": "first-principle",
-      "ref": "a dormer stands on the roof",
-      "statement": "The strip of roof running in front of a dormer is what makes it a dormer. Remove it and the element becomes a wall dormer, which is a different thing with different rules, or a mistake."
-    },
-    {
-      "kind": "code",
-      "ref": "IRC R305.1.1",
-      "statement": "7 ft 0 in over 50 per cent of the required floor area. Sliding the dormer down the slope buys headroom without raising its ridge into the main ridge or a height limit, which is why the fault is a code response rather than a taste one."
-    }
-  ],
-  "correct_practice": "The dormer's front wall stands ON the roof. Set it back from the wall plane so that at least 12-18 in of roof runs in front of it measured on the slope, and preferably two or three courses' worth, 18-36 in. The sill sits clear above the eave line by at least the height of the dormer's own sill and apron trim. The eave line runs unbroken past it. Where a wall dormer is actually wanted - and it is a legitimate and handsome element - it must be designed as one: rising from the wall plane, built of the wall's material, carried by the wall, with the cornice broken cleanly around it and usually a moulded sill or a string course marking the transition. What is never right is a frame dormer pushed forward down the slope until it happens to touch the eave.",
-  "fixes": {
-    "right": "Move the dormer up the slope until the roof runs 18 in in front of it, and take the headroom by raising the dormer's own ridge or by using a shed rather than a gable.",
-    "cheap": "Keep the position and raise the sill. Most sunken dormers can be rescued by using a shorter sash - the dormer window should be one storey-step smaller than the sash below anyway, at about 0.62 of the storey - which lifts the sill clear of the eave at no cost and fixes a proportion fault at the same time.",
-    "dishonest": "Running a length of flashing and a wide apron across the bottom of the dormer to bridge the eave. It makes a bigger and brighter horizontal object at exactly the height where the eave line should be continuous."
+  {
+   "kind": "first-principle",
+   "ref": "a dormer stands on the roof",
+   "statement": "The strip of roof running in front of a dormer is what makes it a dormer. Remove it and the element becomes a wall dormer, which is a different thing with different rules, or a mistake."
   },
-  "test": {
-    "expression": "roof_run_in_front_of_dormer_face_measured_on_slope_in",
-    "threshold": 12,
+  {
+   "kind": "code",
+   "ref": "IRC R305.1.1",
+   "statement": "7 ft 0 in over 50 per cent of the required floor area. Sliding the dormer down the slope buys headroom without raising its ridge into the main ridge or a height limit, which is why the fault is a code response rather than a taste one."
+  }
+ ],
+ "correct_practice": "The dormer's front wall stands ON the roof. Set it back from the wall plane so that at least 12-18 in of roof runs in front of it measured on the slope, and preferably two or three courses' worth, 18-36 in. The sill sits clear above the eave line by at least the height of the dormer's own sill and apron trim. The eave line runs unbroken past it. Where a wall dormer is actually wanted - and it is a legitimate and handsome element - it must be designed as one: rising from the wall plane, built of the wall's material, carried by the wall, with the cornice broken cleanly around it and usually a moulded sill or a string course marking the transition. What is never right is a frame dormer pushed forward down the slope until it happens to touch the eave.",
+ "fixes": {
+  "right": "Move the dormer up the slope until the roof runs 18 in in front of it, and take the headroom by raising the dormer's own ridge or by using a shed rather than a gable.",
+  "cheap": "Keep the position and raise the sill. Most sunken dormers can be rescued by using a shorter sash - the dormer window should be one storey-step smaller than the sash below anyway, at about 0.62 of the storey - which lifts the sill clear of the eave at no cost and fixes a proportion fault at the same time.",
+  "dishonest": "Running a length of flashing and a wide apron across the bottom of the dormer to bridge the eave. It makes a bigger and brighter horizontal object at exactly the height where the eave line should be continuous."
+ },
+ "test": {
+  "expression": "roof_run_in_front_of_dormer_face_measured_on_slope_in",
+  "threshold": 12,
+  "direction": "at-least",
+  "units": "in",
+  "measurable_from": "photograph",
+  "note": "The strip of roof in front of a dormer is what makes it a dormer. 12-18 in minimum, 18-36 in preferred - two or three courses' worth."
+ },
+ "secondary_tests": [
+  {
+   "expression": "dormer_sill_height_above_eave_line_in",
+   "threshold": 6,
+   "direction": "at-least",
+   "units": "in",
+   "measurable_from": "photograph",
+   "note": "The sill must sit clear above the eave by at least the height of the dormer's own sill and apron trim. Where the sill trim disappears into the roofing, the dormer has sunk."
+  },
+  {
+   "expression": "count_of_interruptions_in_the_eave_line",
+   "threshold": 0,
+   "direction": "at-most",
+   "units": "count",
+   "measurable_from": "photograph",
+   "note": "Sight along the eave in an oblique photograph. A Georgian dormer never breaks the eave; a dormer whose face is in the plane of the wall below is a wall dormer, which is a different element with different rules. SCOPED 24 Aug 2026 (OQ 63): a Georgian dormer never breaks the eave, which is what this note says. It is not true of every style -- a Shingle Style eyebrow and a Craftsman shed dormer break the eave by design -- so run universally this failed them for being themselves.",
+   "applies_to_styles": [
+    "georgian-colonial-american",
+    "english-georgian",
+    "georgian-revival"
+   ]
+  }
+ ],
+ "detection": "Sight along the eave line in an oblique photograph. If the eave or gutter line is interrupted by the dormer, or if the dormer's face is in the same plane as the wall below, it is a wall dormer - deliberate or accidental. If the dormer's sill trim disappears into the roofing rather than sitting above it with a visible apron and a shadow, it has sunk. A third cue: measure the roof runs on either side of the dormer face; if there is no roof visible below the dormer at all in a straight-on view, the fault is present.",
+ "applies_to": [
+  "universal"
+ ],
+ "exceptions": [
+  {
+   "style": "german-pennsylvania-colonial",
+   "why": "The wall dormer rising from the masonry wall plane, with the cornice broken around it, is canonical Germanic and Mid-Atlantic practice.",
+   "bounds": "It must be built of the wall's material and carried by the wall, with a proper cornice break - not a frame dormer that happens to be flush.",
+   "bounds_test": {
+    "expression": "dormer_face_offset_from_wall_plane_in",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "It must be built of the wall's material and carried by the wall, with a proper cornice break - not a frame dormer that happens to be flush."
+   },
+   "applies_when": {
+    "construction": [
+     "solid-masonry-two-wythe",
+     "stone-rubble",
+     "brick"
+    ],
+    "note": "The wall dormer is a masonry element. A frame dormer pushed flush is not licensed by it."
+   }
+  },
+  {
+   "style": "pennsylvania-bank-house",
+   "why": "Same tradition and same detail.",
+   "bounds": "As above.",
+   "bounds_test": {
+    "expression": "dormer_face_offset_from_wall_plane_in",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "As above."
+   }
+  },
+  {
+   "style": "dutch-urban-gable-house",
+   "why": "The wall dormer and the hoist gable rise directly out of the front wall by definition.",
+   "bounds": "As above, in masonry.",
+   "bounds_test": {
+    "expression": "dormer_face_offset_from_wall_plane_in",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "As above, in masonry."
+   }
+  },
+  {
+   "style": "flemish-vernacular",
+   "why": "As above.",
+   "bounds": "As above.",
+   "bounds_test": {
+    "expression": "dormer_face_offset_from_wall_plane_in",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "As above."
+   }
+  },
+  {
+   "style": "jacobethan-revival",
+   "why": "Wall dormers with parapeted or shaped gables rising from the wall plane are a signature.",
+   "bounds": "The dormer must carry a coping or a shaped gable and be of the wall's material.",
+   "bounds_test": {
+    "expression": "dormer_face_offset_from_wall_plane_in",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "in",
+    "measurable_from": "photograph",
+    "note": "The dormer must carry a coping or a shaped gable and be of the wall's material."
+   }
+  },
+  {
+   "style": "second-empire",
+   "why": "Dormers sit at the base of the mansard by definition, because that is where the mansard storey's floor is.",
+   "bounds": "They must sit in the mansard slope above the curb cornice, not below it.",
+   "bounds_test": {
+    "expression": "dormer_sill_height_above_curb_cornice_in",
+    "threshold": 0,
     "direction": "at-least",
     "units": "in",
     "measurable_from": "photograph",
-    "note": "The strip of roof in front of a dormer is what makes it a dormer. 12-18 in minimum, 18-36 in preferred - two or three courses' worth."
+    "note": "In the mansard slope above the curb cornice, never below it."
+   }
+  }
+ ],
+ "inverted_by": [
+  {
+   "style": "german-pennsylvania-colonial",
+   "statement": "A dormer set back on the roof is the fault. The wall dormer must rise from the wall plane in the wall's own material, with the cornice broken cleanly around it."
   },
-  "secondary_tests": [
-    {
-      "expression": "dormer_sill_height_above_eave_line_in",
-      "threshold": 6,
-      "direction": "at-least",
-      "units": "in",
-      "measurable_from": "photograph",
-      "note": "The sill must sit clear above the eave by at least the height of the dormer's own sill and apron trim. Where the sill trim disappears into the roofing, the dormer has sunk."
-    },
-    {
-      "expression": "count_of_interruptions_in_the_eave_line",
-      "threshold": 0,
-      "direction": "at-most",
-      "units": "count",
-      "measurable_from": "photograph",
-      "note": "Sight along the eave in an oblique photograph. A Georgian dormer never breaks the eave; a dormer whose face is in the plane of the wall below is a wall dormer, which is a different element with different rules."
-    }
-  ],
-  "detection": "Sight along the eave line in an oblique photograph. If the eave or gutter line is interrupted by the dormer, or if the dormer's face is in the same plane as the wall below, it is a wall dormer - deliberate or accidental. If the dormer's sill trim disappears into the roofing rather than sitting above it with a visible apron and a shadow, it has sunk. A third cue: measure the roof runs on either side of the dormer face; if there is no roof visible below the dormer at all in a straight-on view, the fault is present.",
-  "applies_to": [
-    "universal"
-  ],
-  "exceptions": [
-    {
-      "style": "german-pennsylvania-colonial",
-      "why": "The wall dormer rising from the masonry wall plane, with the cornice broken around it, is canonical Germanic and Mid-Atlantic practice.",
-      "bounds": "It must be built of the wall's material and carried by the wall, with a proper cornice break - not a frame dormer that happens to be flush.",
-      "bounds_test": {
-        "expression": "dormer_face_offset_from_wall_plane_in",
-        "threshold": 0,
-        "direction": "at-most",
-        "units": "in",
-        "measurable_from": "photograph",
-        "note": "It must be built of the wall's material and carried by the wall, with a proper cornice break - not a frame dormer that happens to be flush."
-      },
-      "applies_when": {
-        "construction": [
-          "solid-masonry-two-wythe",
-          "stone-rubble",
-          "brick"
-        ],
-        "note": "The wall dormer is a masonry element. A frame dormer pushed flush is not licensed by it."
-      }
-    },
-    {
-      "style": "pennsylvania-bank-house",
-      "why": "Same tradition and same detail.",
-      "bounds": "As above.",
-      "bounds_test": {
-        "expression": "dormer_face_offset_from_wall_plane_in",
-        "threshold": 0,
-        "direction": "at-most",
-        "units": "in",
-        "measurable_from": "photograph",
-        "note": "As above."
-      }
-    },
-    {
-      "style": "dutch-urban-gable-house",
-      "why": "The wall dormer and the hoist gable rise directly out of the front wall by definition.",
-      "bounds": "As above, in masonry.",
-      "bounds_test": {
-        "expression": "dormer_face_offset_from_wall_plane_in",
-        "threshold": 0,
-        "direction": "at-most",
-        "units": "in",
-        "measurable_from": "photograph",
-        "note": "As above, in masonry."
-      }
-    },
-    {
-      "style": "flemish-vernacular",
-      "why": "As above.",
-      "bounds": "As above.",
-      "bounds_test": {
-        "expression": "dormer_face_offset_from_wall_plane_in",
-        "threshold": 0,
-        "direction": "at-most",
-        "units": "in",
-        "measurable_from": "photograph",
-        "note": "As above."
-      }
-    },
-    {
-      "style": "jacobethan-revival",
-      "why": "Wall dormers with parapeted or shaped gables rising from the wall plane are a signature.",
-      "bounds": "The dormer must carry a coping or a shaped gable and be of the wall's material.",
-      "bounds_test": {
-        "expression": "dormer_face_offset_from_wall_plane_in",
-        "threshold": 0,
-        "direction": "at-most",
-        "units": "in",
-        "measurable_from": "photograph",
-        "note": "The dormer must carry a coping or a shaped gable and be of the wall's material."
-      }
-    },
-    {
-      "style": "second-empire",
-      "why": "Dormers sit at the base of the mansard by definition, because that is where the mansard storey's floor is.",
-      "bounds": "They must sit in the mansard slope above the curb cornice, not below it.",
-      "bounds_test": {
-        "expression": "dormer_sill_height_above_curb_cornice_in",
-        "threshold": 0,
-        "direction": "at-least",
-        "units": "in",
-        "measurable_from": "photograph",
-        "note": "In the mansard slope above the curb cornice, never below it."
-      }
-    }
-  ],
-  "inverted_by": [
-    {
-      "style": "german-pennsylvania-colonial",
-      "statement": "A dormer set back on the roof is the fault. The wall dormer must rise from the wall plane in the wall's own material, with the cornice broken cleanly around it."
-    },
-    {
-      "style": "dutch-urban-gable-house",
-      "statement": "As above - the wall dormer and hoist gable rise directly out of the front wall."
-    },
-    {
-      "style": "second-empire",
-      "statement": "A dormer set high in the slope is the fault; it belongs at the base of the mansard, above the curb cornice, because that is where the mansard storey's floor is."
-    }
-  ],
-  "confused_with": [
-    {
-      "fault": "dormer-wall",
-      "difference": "That is many dormers abolishing the roof horizontally. This is one dormer sitting too low on the slope."
-    }
-  ],
-  "co_occurs_with": [
-    "overscaled-dormer"
-  ],
-  "sources": [
-    "kits/georgian-colonial-american.kit.json dormer",
-    "HABS documentation of Pennsylvania German and Hudson Valley wall dormers",
-    "project style node second-empire"
-  ],
-  "confidence": "medium",
-  "tags": [
-    "dormer",
-    "alignment",
-    "eave"
-  ]
+  {
+   "style": "dutch-urban-gable-house",
+   "statement": "As above - the wall dormer and hoist gable rise directly out of the front wall."
+  },
+  {
+   "style": "second-empire",
+   "statement": "A dormer set high in the slope is the fault; it belongs at the base of the mansard, above the curb cornice, because that is where the mansard storey's floor is."
+  }
+ ],
+ "confused_with": [
+  {
+   "fault": "dormer-wall",
+   "difference": "That is many dormers abolishing the roof horizontally. This is one dormer sitting too low on the slope."
+  }
+ ],
+ "co_occurs_with": [
+  "overscaled-dormer"
+ ],
+ "sources": [
+  "kits/georgian-colonial-american.kit.json dormer",
+  "HABS documentation of Pennsylvania German and Hudson Valley wall dormers",
+  "project style node second-empire"
+ ],
+ "confidence": "medium",
+ "tags": [
+  "dormer",
+  "alignment",
+  "eave"
+ ]
 }

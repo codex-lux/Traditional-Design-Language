@@ -255,6 +255,12 @@
       "role": "room",
       "note": "Judgment binding (not in applies_to). Justified by direct lineage: this style descends_from english-cottage-vernacular (weight 0.7) and cotswold-vernacular (weight 0.6), both of which are room-vernacular's own source material, and Webb and Voysey are recorded as having 'measured and sketched Wealden and Surrey farmhouses' directly. The daylight-depth rule and the varied ceiling-height logic both suit a movement whose houses are 'designed in section as much as in elevation' — though the double-height hall, where present, exceeds the pack's ordinary-room scale and should be read against its own text instead.",
       "precedence": 3
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "opening",
+      "note": "THE NODE `opening-craftsman` REFUSED AND NAMED. That pack's notes say its head-datum rule is denied outright by this record's own governing logic -- 'no applied system... there is no repeating bay and no vertical alignment requirement' -- and say what this node wants instead: 'a leaded-casement-and-mullion system of its own'. This is that pack, and the fit is close: 'casement windows with leaded lights, grouped into horizontal bands under continuous stone or oak mullions and a shared lintel', with lights of 350-450 mm by 700-1100 and quarries at 100-150 mm 'rectangular rather than diamond in the stricter work'. This record also names the contrast the pack's overall-proportion rule is about, and names it better than the pack could: 'the exact inverse of the Georgian vertical punched opening, and instantly readable at distance'.",
+      "precedence": 4
     }
   ]
 }

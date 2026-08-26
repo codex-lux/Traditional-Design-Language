@@ -71,34 +71,44 @@ class TestReferenceCorpusShape:
         assert "transcription_confidence" in plan.get("note", "")
 
 
-class TestValidatorGapsTheReportFoundAreReal:
-    """These pin the two room-catalogue gaps docs/reports/wp-2.1-reference-corpus.md's 'where the
-    validator disagrees' section rests its argument on -- not the reference plans' overall finding
-    counts, which are expected to drift as the transcriptions or the catalogue evolve."""
+class TestValidatorGapsTheReportFoundAreClosed:
+    """INVERTED BY WP-4.5, which is what these tests asked for.
 
-    def test_gallery_corridor_is_not_an_entrance_hall_equivalent(self, plan_check_module, corpus):
-        """A porch reaching only a gallery-corridor (never an entrance-hall/vestibule/stair-hall)
-        should, per this finding, still fail entry-porch's must_adjoin rule -- because
-        gallery-corridor is absent from plan_check.EQUIVALENT. If this ever passes, either the
-        alias list was fixed (update docs/reports/wp-2.1-*.md to say so) or something else changed."""
-        assert not any("gallery-corridor" in grp for grp in plan_check_module.EQUIVALENT)
+    They were written to pin the two room-catalogue gaps
+    docs/reports/wp-2.1-reference-corpus.md's 'where the validator disagrees' section rests its
+    argument on, and each said in its own docstring that if it ever passed, the alias list had
+    been fixed and the report should be updated to say so. WP-4.5 fixed both, so each assertion
+    is now inverted to pin the fix instead of the gap, and the WP-2.1 report carries an
+    amendment note. The evidence that motivated them is unchanged and still worth reading;
+    what changed is that the corpus now agrees with it."""
 
-    def test_primary_bathroom_via_list_has_no_dressing_room(self, corpus):
+    def test_gallery_corridor_is_an_entrance_hall_equivalent(self, plan_check_module, corpus):
+        """A grand house whose entrance sequence is a gallery rather than a discrete hall is no
+        longer penalised for not also having a hall. WP-2.1 found this on good-01 and good-05
+        independently."""
+        # OQ 43 renamed the flat groups to a directed map; the claim is unchanged and is now
+        # checkable in the direction that matters: a gallery stands in for an entrance hall.
+        assert plan_check_module.satisfies("gallery-corridor", "entrance-hall")
+
+    def test_primary_bathroom_via_list_admits_a_dressing_room(self, corpus):
+        """good-05 and good-07 both draw a dressing room between the primary bedroom and its
+        bath -- the arrangement primary-bedroom's own closet note calls 'the lock between the
+        bedroom and the bath'."""
         rule = next(r for r in corpus["rooms"]["primary-bedroom"]["adjacency"]["must_adjoin"]
                     if r["room"] == "primary-bathroom")
-        assert "dressing-room" not in (rule.get("via") or [])
+        assert "dressing-room" in (rule.get("via") or [])
 
-    def test_good_05_reproduces_the_entrance_hall_gallery_fatal(self, plan_check_module, corpus):
+    def test_good_05_no_longer_trips_the_entrance_hall_gallery_fatal(self, plan_check_module, corpus):
         plan = load_reference_plan("good-05-lobby-gallery-mansion")
         result = plan_check_module.check(plan, corpus)
         fatals = [f["statement"] for f in result["findings"] if f["severity"] == "fatal"]
-        assert any("Lobby" in s and "stair hall" in s for s in fatals)
+        assert not any("Lobby" in s and "stair hall" in s for s in fatals)
 
-    def test_good_07_reproduces_the_dressing_room_bath_fatal(self, plan_check_module, corpus):
+    def test_good_07_no_longer_trips_the_dressing_room_bath_fatal(self, plan_check_module, corpus):
         plan = load_reference_plan("good-07-diamond-plan-house")
         result = plan_check_module.check(plan, corpus)
         fatals = [f["statement"] for f in result["findings"] if f["severity"] == "fatal"]
-        assert any("Primary Bathroom" in s and "primary bedroom" in s for s in fatals)
+        assert not any("Primary Bathroom" in s and "primary bedroom" in s for s in fatals)
 
 
 class TestFindingsSkewAsTheReportDescribes:

@@ -9,7 +9,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.a
 
 def test_pack_list_leads_with_material_modules(client):
     r = client.get("/api/proportions").json()
-    assert r["count"] == 36
+    # 57, not 36: WP-4.6 authored twenty-one proportion packs, merged 25 Aug 2026.
+    assert r["count"] == 57
     kinds = [p["kind"] for p in r["packs"]]
     # the non-classical packs are equal citizens, and they lead
     assert kinds[0] == "module-system"

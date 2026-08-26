@@ -229,28 +229,34 @@
       "precedence": 1
     },
     {
+      "pack": "jetty-overhang",
+      "role": "secondary",
+      "note": "THE PACK THIS NODE'S OWN BINDING NOTE ASKED FOR. Its `timber-bay` entry says in terms that the bay does not derive the jetty -- 'no pack in this corpus dimensions a framed overhang, and the 14-20 in framed / 2-6 in hewn figures in this node's own record are not recoverable from any of the 36 packs available.' They are now, because the pack is dimensioned off the JOIST rather than the bay, which is what all four of the corpus's rules of thumb do. Bound secondary and behind `timber-bay`, which keeps the plan: the bay generates the rooms and the jetty generates the elevation, and they are genuinely different systems on one frame. This node supplies both devices -- the framed overhang and the hewn one -- and the identification advice that distinguishes them.",
+      "precedence": 2
+    },
+    {
       "pack": "timber-bay",
       "role": "massing",
       "note": "The best-fitting single number in this whole cluster. This pack's height_proportion rule for a box frame -- second-floor post shorter than the ground-floor post, ratio 0.88, explicitly marked judgment -- lands almost exactly inside this node's own hard-adjacent constraint (c04): second-floor window height 80-90% of first-floor. Roof pitch (12:12-17:12) and the near-flush eave follow the same framing logic as new-england-colonial.",
-      "precedence": 2
+      "precedence": 3
     },
     {
       "pack": "sash-light",
       "role": "opening",
       "note": "Same date sequence as new-england-colonial -- casement to c. 1700, then progressively larger-paned sash -- governing the window openings on both floors.",
-      "precedence": 3
+      "precedence": 4
     },
     {
       "pack": "opening-proportion",
       "role": "opening",
       "note": "Bound for the single head-datum rule only, as on new-england-colonial; not for its 13:6 window ratio, which the recorded openings here do not follow.",
-      "precedence": 4
+      "precedence": 5
     },
     {
       "pack": "room-vernacular",
       "role": "room",
       "note": "The plan under the jetty is the ordinary First Period hall-and-parlor two-room plan; room breadth, hearth reach and Glassie's generative square-cell logic apply exactly as on new-england-colonial.",
-      "precedence": 5
+      "precedence": 6
     }
   ]
 }

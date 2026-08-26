@@ -253,6 +253,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "opening-craftsman",
+      "role": "opening",
+      "note": "The node this pack's central assertion is quoted from. Its own governing_logic states the whole system -- 'the porch beam sets a low datum, the aligned window and door heads set a high datum, and the exposed rafters declare the framing bay at 16 or 24 inches on centre' -- and adds the sentence that explains why the pack is written in absolute lengths rather than ratios: 'the system is dimensional rather than ratio-derived... which is why the plan-book trade could transmit it without transmitting any theory.' Bound in the opening role; facade-picturesque stays primary and governs the massing, and the two do not overlap, because this pack says nothing about composition and everything about the two lines it hangs on.",
+      "precedence": 3
+    },
+    {
       "pack": "facade-picturesque",
       "role": "primary",
       "note": "The exterior composer for a style whose own proportional_system is 'two horizontal datums and one structural rhythm' -- porch beam, aligned head height, exposed framing bay -- which is this pack's datum_stack assembly by another name, and whose roof_form rule (the dominant roof must cover at least half the elevation's width, or 'no roof is in charge') is the mechanism behind this node's own hard constraint that the porch roof must be framed under the primary roof rather than applied beneath the eave (c02). Given role 'primary' because, unlike the classical styles in this corpus, Craftsman's module really is compositional -- the low dominant roof, the eave shadow -- rather than a fixed board size; the board size is trim-craftsman's business and belongs to the interior.",

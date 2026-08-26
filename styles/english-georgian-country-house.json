@@ -286,6 +286,12 @@
       "authority": "palladio-ionic",
       "note": "The Palladian residue this node names as making it 'closer to the Palladian source than the town house ever is': the Venetian window on the stair landing or side elevation, the persisting piano-nobile echo in a house entered at grade. Bound low and optional -- this is a surviving motif inherited from english-palladian, not the governing order of the main elevation, which stays Gibbs's.",
       "precedence": 10
+    },
+    {
+      "pack": "octagon-geometry",
+      "role": "optional",
+      "note": "Optional, and the English source of the canted bay that reaches America through Jefferson. This record names it in an exemplar -- a compact three-storey villa of near-cubic proportion with canted bays, 'Taylor's characteristic reduction' -- which is the villa type Jefferson knew from the pattern books. Bound for the corner rule and the bay projection alone.",
+      "precedence": 11
     }
   ]
 }

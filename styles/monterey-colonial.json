@@ -56,7 +56,18 @@
       "type": "hybridizes_with",
       "weight": 0.5,
       "inherits_kit": true,
-      "note": "The Anglo half: braced-frame carpentry, a wood-shingled hip roof, milled architrave trim, double-hung six-over-six sash, an interior stair and an interior corridor — all brought by New England shipmasters and carpenters into a province that had none of them."
+      "note": "The Anglo half: braced-frame carpentry, a wood-shingled hip roof, milled architrave trim, double-hung six-over-six sash, an interior stair and an interior corridor — all brought by New England shipmasters and carpenters into a province that had none of them. SCOPED (OQ 58, 24 Aug 2026) to the list this note already enumerates - the carpentry, the trim, the sash, the stair and the corridor. Unscoped it also carried `chimney`, which the note does not claim and which is wrong: a Monterey chimney is the Hispanic adobe half of the house, not the Anglo half the shipmasters brought.",
+      "slots": [
+        "stair_position",
+        "stair_type",
+        "chair_rail",
+        "crown",
+        "cornice_return",
+        "gable_treatment",
+        "transom_sidelight",
+        "architrave",
+        "sash_pattern"
+      ]
     }
   ],
   "description": {
@@ -242,9 +253,21 @@
   ],
   "proportion_packs": [
     {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "The balcony is this hybrid's other half, and it is the half `facade-classical` cannot reach. That pack holds primary and governs the Anglo upper storey's composition; `adobe-module` holds the ground storey's wall; this pack holds the thing pinned to the front of both. It supplies the figures this record already states -- balcony 5-7 ft deep at roughly one-fifth to one-quarter of the building depth, rail 30-34 in, baluster 1 1/2 to 2 in square at 4-5 in on centre -- and adds why they are those figures: the depth ratio is the cantilever-to-backspan limit found by feel, because the joists run the depth of the house and project past the wall. Read this node's own insistence that 'the balcony floats: no posts, no brackets to the ground' together with the pack's structural conflict, which says the same thing from the engineer's side and warns against the modern substitution of a bolted ledger.",
+      "precedence": 5
+    },
+    {
+      "pack": "adobe-module",
+      "role": "secondary",
+      "note": "Secondary, not primary, and the split is the whole point of this node. facade-classical governs the upper storey and the veranda, and stays primary: the Anglo-American frame floor really is composed to a classical module and its own record says so. This pack governs the storey underneath it -- the 24-30 in adobe ground floor whose deep undivided reveals this node's facade-classical binding note explicitly excludes from that module, referring the reader to 'the mass-wall gap noted on the parent spanish-colonial-american node.' That gap is now filled and the reference resolves. The two packs meet at the step-in of the wall plane at the second-floor line, which this record gives as 6-12 in and which is simply the difference between a 29 in adobe wall and a frame one sitting on it -- a joint between two proportioning systems made visible, and the reason this hybrid reads as a hybrid.",
+      "precedence": 6
+    },
+    {
       "pack": "facade-classical",
       "role": "primary",
-      "note": "This node's own bay_rhythm record states the case directly: 'five to seven regularly spaced openings on the balcony elevation, essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred.' That is facade-classical's own domain -- a designed, module-divided, roughly-symmetrical front -- arriving here by direct transmission (the Yankee ship carpenters who built these houses came from a New England Georgian building culture) rather than through a pattern book. Bound at the balcony/upper-storey rank only: the ground-floor adobe wall, with its deep undivided reveals, is not composed to this or any module in the corpus -- see the mass-wall gap noted on the parent spanish-colonial-american node, which still governs the lower storey here.",
+      "note": "This node's own bay_rhythm record states the case directly: 'five to seven regularly spaced openings on the balcony elevation, essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred.' That is facade-classical's own domain -- a designed, module-divided, roughly-symmetrical front -- arriving here by direct transmission (the Yankee ship carpenters who built these houses came from a New England Georgian building culture) rather than through a pattern book. Bound at the balcony/upper-storey rank only: the ground-floor adobe wall, with its deep undivided reveals, is not composed to this or any module in the corpus -- see the mass-wall gap noted on the parent spanish-colonial-american node, which still governs the lower storey here -- and which is CLOSED as of 25 Aug 2026: `adobe-module` is bound secondary on this node and is what proportions that ground storey.",
       "precedence": 1
     },
     {
@@ -256,7 +279,7 @@
     {
       "pack": "storey-graduation",
       "role": "massing",
-      "note": "Governs the Anglo half of the hybrid: storey heights of 9-11 ft ground over 8-10 ft upper are a ratio of roughly 0.85-0.95, inside this pack's own 0.78-0.92 measured band for graduated Anglo-American work. What it does NOT derive is the wall-plane step itself (24-30 in adobe below, 6-10 in frame above) -- that is a material change, not a storey-height ratio, and no pack in this corpus owns it; it is the same mass-wall gap noted on the parent node, here meeting a pack that does apply to the storey above it. This node is not in storey-graduation's applies_to list either, for the same likely reason as sash-light: the hybrid is narrow enough (sixteen years, 1834-1850) that the general applies_to sweep may simply have missed it.",
+      "note": "Governs the Anglo half of the hybrid: storey heights of 9-11 ft ground over 8-10 ft upper are a ratio of roughly 0.85-0.95, inside this pack's own 0.78-0.92 measured band for graduated Anglo-American work. What it does NOT derive is the wall-plane step itself (24-30 in adobe below, 6-10 in frame above) -- that is a material change, not a storey-height ratio, and no pack in this corpus owns it; it is the same mass-wall gap noted on the parent node, here meeting a pack that does apply to the storey above it. AMENDED 25 Aug 2026: half of that is no longer true. `adobe-module` is bound secondary on this node and derives the 24-30 in figure below the step from the adobe itself. The STEP is still owned by no single pack and cannot be, because it is not a dimension -- it is the joint between two proportioning systems, and its size is just the difference between what each of them says the wall is. That is the honest shape of it and it should not be given to either pack to derive. This node is not in storey-graduation's applies_to list either, for the same likely reason as sash-light: the hybrid is narrow enough (sixteen years, 1834-1850) that the general applies_to sweep may simply have missed it.",
       "precedence": 3
     },
     {

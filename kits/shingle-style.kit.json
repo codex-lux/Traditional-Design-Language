@@ -1,7 +1,7 @@
 {
   "style": "shingle-style",
   "style_name": "Shingle Style",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -276,6 +276,21 @@
       ],
       "group": "envelope"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "'Eave overhang shall not exceed 12 in and rake overhang shall not exceed 10 in, and both shall be closed tight to the wall plane with no exposed bracke[ts].' The style's whole argument is a continuous skin, and an expressed member would interrupt it -- which is why it is forbidden here and required by its Stick Style predecessor.",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Modelled as a variant rather than a parameter because a variant can be FORBIDDEN -- `status: forbidden` is how five of these fourteen kits say the member must not appear, and a parameter has no way to say that. (The reason first recorded here was that a categorical carries no unit and the checker insists a parameter has one. That is false: this corpus holds 236 categorical parameters whose unit is `none` and `check_kits.py` passes every one. Corrected 25 Aug 2026 by audit -- the modelling call stands, its stated reason did not.)"
+        }
+      ]
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -356,6 +371,11 @@
         "styles/shingle-style.json defining_characteristics"
       ],
       "group": "openings"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -558,15 +578,16 @@
         "max_door_width": {
           "value": 10,
           "unit": "ft",
-          "kind": "editorial",
+          "kind": "invented",
           "source": "groupings/garage-and-hyphen.json",
-          "note": "Two openings with a shingled pier between them. Beyond about 10 ft there is too little field left between jamb and corner for the surface to read as continuous, which is the whole strategy."
+          "note": "Two openings with a shingled pier between them. Beyond about 10 ft there is too little field left between jamb and corner for the surface to read as continuous, which is the whole strategy. OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "door_count_preferred": {
           "value": 2,
           "unit": "count",
-          "kind": "editorial",
-          "source": "groupings/garage-and-hyphen.json"
+          "kind": "invented",
+          "source": "groupings/garage-and-hyphen.json",
+          "note": "OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "hyphen_length": {
           "range": [

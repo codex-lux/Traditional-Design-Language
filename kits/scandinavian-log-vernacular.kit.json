@@ -1,7 +1,7 @@
 {
   "style": "scandinavian-log-vernacular",
   "style_name": "Scandinavian Log Vernacular",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -27,7 +27,7 @@
       "group": "massing-and-roof",
       "binding": "specified",
       "status": "drafted",
-      "confidence": "high",
+      "confidence": "low",
       "judgment": false,
       "determined_by": [
         "roof_pitch"
@@ -48,7 +48,8 @@
       "sources": [
         "scandinavian-log-vernacular.c04",
         "scandinavian-log-vernacular.json defining_characteristics"
-      ]
+      ],
+      "note": " UNJUDGED, stated 24 Aug 2026 (OQ 19): this slot names `roof_pitch` as its determiner and `roof_pitch` is empty on this kit, so the choice between the two variants here is not actually decided by anything. It is not a free choice either -- sod on birch bark needs a shallow pitch to stay on and a split shingle needs a steep one to shed -- which is exactly why the determination was declared. Until `roof_pitch` is bound this reads as specified and is not."
     },
     "eave_condition": {
       "group": "massing-and-roof",
@@ -184,6 +185,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -248,6 +254,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {

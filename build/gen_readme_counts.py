@@ -99,6 +99,10 @@ def compute_counts():
     for d in partis_docs:
         native_styles.update(d.get("styles", []))
     c["parti_native_styles"] = len(native_styles)
+    # Rendered, not merely computed. This figure was calculated here and dropped on the floor,
+    # while "39 of 132" was hand-maintained in four other documents -- which is precisely the
+    # doc drift this script exists to prevent. (WP-4.5)
+    c["buildable_nodes"] = sum(1 for d in style_docs if d.get("rank") in ("style", "variant"))
 
     return c
 
@@ -109,7 +113,8 @@ def render_block(c):
         f"{c['slots']} element slots · {c['massings']} massings · {c['rooms']} rooms · "
         f"{c['groupings']} groupings · {c['proportion_packs']} executable proportion packs · "
         f"{c['faults']} named faults · {c['image_records']} specified images · "
-        f"{c['partis']} partis · {c['mcp_tools']} MCP tools**\n\n"
+        f"{c['partis']} partis native to {c['parti_native_styles']} of "
+        f"{c['buildable_nodes']} buildable styles · {c['mcp_tools']} MCP tools**\n\n"
         f"**700 BC – AD 2026**"
     )
 

@@ -1,0 +1,383 @@
+{
+  "id": "facade-peristyle",
+  "name": "The Screen and the Wall: Peristyle, Arch Order and Colossal Portico",
+  "aka": [
+    "the peripteral temple",
+    "the arch order",
+    "the Colosseum bay",
+    "the colossal portico"
+  ],
+  "kind": "facade-system",
+  "authority": {
+    "source": "Vitruvius, De architectura Book III, for the intercolumniations and the column heights that vary with them; the measured record of the Parthenon for the refinements and the peristyle count; and this corpus's own records, nine of which give portico or colonnade figures and four of which state, independently, what the colonnade's relation to the wall behind it is",
+    "author": "Vitruvius, for the Roman half; no named author for the Greek",
+    "year": -25,
+    "strength": "documented",
+    "note": "DOCUMENTED for the Roman half and RECONSTRUCTED for the Greek. Vitruvius published the intercolumniations, and published with them the rule that column height varies inversely with spacing -- which is the only stated FUNCTION in this library rather than a value or a band, and this pack states it as one. The Greek half has no treatise: the peristyle count, the corner contraction and the optical refinements are recovered from measurement of the buildings, and `styles/greek-classical.json` carries them in that form."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The axial intercolumniation: centre of column to centre of column along the front",
+    "parts": 12,
+    "default_size_in": 144.0,
+    "note": "The part is one foot and the bay is twelve of them, which is the middle of the 9-14 ft on centre `styles/greek-revival-southern-plantation.json` gives for a colossal colonnade.\n\nTHE MODULE IS THE BAY AND NOT THE DIAMETER, WHICH IS THE POINT OF SEPARATING THIS PACK FROM THE ORDERS. Every order pack in this library is dimensioned off the lower column diameter and each one proportions a column. None of them says how many columns there are, where they stand, what they stand on, or what the wall behind them is doing -- and those are the questions a peripteral temple, an arch order and a colossal portico answer differently from each other while using identical columns. Working in bays rather than diameters also lets one pack hold both traditions at once, because the diameter is what changes between them: at a Greek 1.45 diameters of clear space the bay is 2.45 diameters, and at a Vitruvian eustyle 2.25 clear it is 3.25, so the same twelve-foot bay carries a fat Doric column or a slim Corinthian one and the pack does not have to choose."
+  },
+  "assemblies": {
+    "peristyle_bay": {
+      "height_modules": 3.4,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "crepidoma",
+          "name": "The stepped base, continuous on all four sides",
+          "height_parts": 5.0,
+          "projection_parts": 3.0,
+          "profile": "plinth",
+          "note": "Three steps, 5 ft in all. It is continuous around the whole building and that is a structural statement as much as a formal one: a Greek temple has no front. `styles/roman-classical.json` names the contrast from the other side -- Greek work 'stands on an all-round crepidoma' and Roman work is 'podium-mounted and frontal'. The steps are also where the stylobate curvature lives, at 1:500 to 1:650 of the span, which is a rise of about three inches across a hundred-foot front.",
+          "confidence": "high"
+        },
+        {
+          "id": "shaft",
+          "name": "The shaft, fluted, baseless in Doric",
+          "height_parts": 24.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "24 ft. With the capital this makes 5.48 lower diameters, which is the Parthenon exactly and the middle of the 4 to 6.5 `styles/greek-classical.json` gives for the whole Doric tradition -- Archaic Paestum at 4.3, late Hellenistic at 6.5, lightening steadily for three centuries. The shaft carries the entasis and the diminution; it does not carry a base, and that is a hard rule of the style rather than a habit.",
+          "confidence": "high"
+        },
+        {
+          "id": "capital",
+          "name": "Capital: echinus and abacus",
+          "height_parts": 2.84,
+          "projection_parts": 1.2,
+          "profile": "echinus",
+          "note": "2.84 ft. The pack states its height because the assembly needs the interval; its PROFILE is the order packs' business and `greek-doric` owns it. That division is deliberate and is the whole reason this pack exists beside them rather than instead of them.",
+          "confidence": "high"
+        },
+        {
+          "id": "architrave",
+          "name": "Architrave",
+          "height_parts": 3.4,
+          "projection_parts": 0.2,
+          "profile": "fascia",
+          "note": "3.4 ft, and it is the member that makes the trabeated limit real: a stone lintel spanning a twelve-foot bay is the largest thing on the building that has to work in bending, and it is why `styles/greek-classical.json` caps the clear span at roughly 6 m 'without introducing an arch, which is outside the style.'",
+          "confidence": "high"
+        },
+        {
+          "id": "frieze",
+          "name": "Frieze: triglyphs and metopes",
+          "height_parts": 4.0,
+          "projection_parts": 0.4,
+          "profile": "triglyph",
+          "note": "4 ft, and it is the member that forces the corner contraction. The frieze must put a triglyph over every column axis AND finish with a triglyph flush at the corner, and those two cannot both be true at constant spacing -- so the last one or two bays narrow by about half a triglyph width. `styles/greek-classical.json` calls that contraction 'the single most reliable proof of authentic Doric grammar', which is a rare case of a proportional consequence being the best forensic evidence there is.",
+          "confidence": "high"
+        },
+        {
+          "id": "cornice",
+          "name": "Geison",
+          "height_parts": 1.56,
+          "projection_parts": 2.2,
+          "profile": "corona",
+          "note": "1.56 ft. The three members together come to a third of the column's height, which is `styles/greek-classical.json`'s figure for Doric and is very nearly double the revival's -- the American handbooks work at a quarter to a fifth, and that difference is what makes a revival entablature look like a board and an antique one look like a beam.",
+          "confidence": "high"
+        }
+      ]
+    },
+    "arch_order_bay": {
+      "height_modules": 4.385,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "podium",
+          "name": "The podium: high, and stepped only at the front",
+          "height_parts": 8.77,
+          "projection_parts": 2.0,
+          "profile": "plinth",
+          "note": "8.77 ft, a quarter of the column's height and the middle of the 1/5 to 1/3 `styles/roman-classical.json` gives. Its own rule says what happens below the band: 'below 1/6 the building loses the frontality that distinguishes it from Greek work.' The podium is not a taller crepidoma. It is the device that gives the building one face, and one face is what made the Roman temple front adaptable as the elevation of a courthouse or a bank two thousand years later while the Greek one was not.",
+          "confidence": "high"
+        },
+        {
+          "id": "engaged_shaft",
+          "name": "The shaft, engaged into the pier that is doing the work",
+          "height_parts": 31.5,
+          "projection_parts": 0.6,
+          "profile": "flat",
+          "note": "31.5 ft. Engaged, and the projection figure says so: about half a diameter proud of a pier that is carrying the arch. `styles/roman-classical.json` calls this 'the giveaway that this is Roman and not Greek' and states the consequence plainly -- once the wall is doing the work the column becomes 'an articulating device, applied to the face of an arcuated structure to give it scale, hierarchy and rhythm.'",
+          "confidence": "high"
+        },
+        {
+          "id": "engaged_capital",
+          "name": "Capital",
+          "height_parts": 3.58,
+          "projection_parts": 1.0,
+          "profile": "acanthus",
+          "note": "3.58 ft. With the shaft this makes 9.5 lower diameters, which is Vitruvius's eustyle figure and the middle register of the Colosseum's three.",
+          "confidence": "high"
+        },
+        {
+          "id": "entablature",
+          "name": "The entablature, which is now a string course",
+          "height_parts": 8.77,
+          "projection_parts": 1.4,
+          "profile": "corona",
+          "note": "8.77 ft, a quarter of the column. It is the same member as the Greek one and it has stopped being a beam: it spans an arch that is already spanning the opening, and in the superimposed case it is the floor line of the register above. That is the arrangement `styles/roman-classical.json` calls 'the single most consequential invention in the history of Western facade design', and it is not an exaggeration -- every classical elevation from Alberti to McKim is a Colosseum bay with the arch left in or taken out.",
+          "confidence": "high"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one foot.",
+      "expression": "module.default_size_in / module.parts == 12.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The Greek column stands between four and six and a half lower diameters.",
+      "expression": "(assemblies.peristyle_bay.members.shaft.height_parts + assemblies.peristyle_bay.members.capital.height_parts) / module.parts * 2.45 <= 6.5",
+      "tolerance": 0.0,
+      "note": "5.48 encoded -- the Parthenon -- against `styles/greek-classical.json`'s 4 to 6.5. The 2.45 in the expression is the pack's Greek axial bay in diameters: 1.45 of clear space plus the column itself. It is written into the expression rather than derived because the schema's module holds a length and not a diameter, and stating the conversion in the open is better than stating a column height the checker cannot relate to anything."
+    },
+    {
+      "statement": "The Greek entablature is about a third of the column, which is twice the revival's.",
+      "expression": "(assemblies.peristyle_bay.members.architrave.height_parts + assemblies.peristyle_bay.members.frieze.height_parts + assemblies.peristyle_bay.members.cornice.height_parts) / (assemblies.peristyle_bay.members.shaft.height_parts + assemblies.peristyle_bay.members.capital.height_parts) >= 0.3",
+      "tolerance": 0.0,
+      "note": "0.334, against `styles/greek-classical.json`'s 'Doric entablature approximately 1/3 of column height'. Five American records give a quarter to a fifth and one of them, `styles/greek-revival-american.json`, calls that band 'the single most diagnostic ratio in the style'. Both are right about their own buildings and the pack holds them apart in two assemblies rather than averaging them into a band that describes neither."
+    },
+    {
+      "statement": "The Roman entablature is about a quarter of the column.",
+      "expression": "assemblies.arch_order_bay.members.entablature.height_parts / (assemblies.arch_order_bay.members.engaged_shaft.height_parts + assemblies.arch_order_bay.members.engaged_capital.height_parts) <= 0.27",
+      "tolerance": 0.0,
+      "note": "0.25, against `styles/roman-classical.json`'s 'entablature approximately 1/4 of column height'. The lightening from a third to a quarter is exactly what the arch bought: an entablature that no longer has to look like it is being carried can be shallower, and once it is shallower it can be stacked."
+    },
+    {
+      "statement": "The podium is between a fifth and a third of the column's height.",
+      "expression": "assemblies.arch_order_bay.members.podium.height_parts / (assemblies.arch_order_bay.members.engaged_shaft.height_parts + assemblies.arch_order_bay.members.engaged_capital.height_parts) >= 0.2",
+      "tolerance": 0.0,
+      "note": "0.25. `styles/roman-classical.json` gives the band and the reason for its floor in one sentence: below a sixth 'the building loses the frontality that distinguishes it from Greek work.' A Roman temple with a low podium has become a Greek one wearing engaged columns."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "column",
+      "dimension": "flank_count",
+      "expression": "2 * 6 + 1",
+      "units": "count",
+      "range": [5.0, 17.0],
+      "authority_note": "`styles/greek-classical.json`: 'peristyle count follows n_flank = 2 x n_front + 1 (6x13, 8x17) - the Parthenon's 8x17 is a deliberate enlargement of the 6x13 norm'.",
+      "note": "THE ONLY CLOSED-FORM COUNT RULE IN THE CORPUS. Thirteen columns down the flank of a hexastyle temple, seventeen for an octastyle. The number of columns in a Greek peristyle is not a design decision -- it is COMPUTED from one integer, and the expression is written as `2 * 6 + 1` rather than as `13` so that the formula is visible in the data rather than only in this note. Everything else in this library gives a band inside which a designer chooses; this gives an answer. It is worth noticing what that implies about the tradition: a Greek temple's plan proportion is a consequence of its front, not a choice made alongside it.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "front_count",
+      "expression": "6",
+      "units": "count",
+      "range": [2.0, 8.0],
+      "authority_note": "`styles/greek-classical.json` gives 6x13 and 8x17. `styles/palladian.json`: 'portico of four or six columns'. `styles/neoclassical-revival.json`: 'four or six columns across the portico'. `styles/egyptian-revival.json` gives the low end, distyle in antis.",
+      "note": "SIX ACROSS THE FRONT, and the band runs from two to eight because it spans the whole family: distyle in antis at the bottom, octastyle at the top. The count is nearly always EVEN, which has a consequence the revival records state and the antique ones do not need to: with an even count the entrance falls on the centre line BETWEEN the middle pair, not on a column. `styles/neoclassical-revival.json` says so directly, and it is the hinge of the screen-and-wall problem two rules below -- an even screen and an odd wall can only agree at the centre.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "intercolumniation_greek",
+      "expression": "1.45",
+      "units": "ratio",
+      "range": [1.2, 1.7],
+      "authority_note": "`styles/greek-classical.json`: 'intercolumniation between 1.2 and 1.7 lower diameters of clear space'.",
+      "note": "THE TIGHTEST OF THE THREE BANDS, because these columns are carrying a stone architrave and the architrave is the limit. Clear space, not axial -- the axial bay is this plus one diameter. A Greek portico looks crowded to an eye trained on the revival and it is crowded, for a reason: 1.45 diameters of gap between shafts of five and a half diameters' height is a colonnade you cannot see through.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "intercolumniation_roman",
+      "expression": "2.25",
+      "units": "ratio",
+      "range": [1.5, 4.0],
+      "authority_note": "`styles/roman-classical.json`: 'Vitruvian intercolumniations: pycnostyle 1.5D, systyle 2D, eustyle 2.25D (central bay 3D), diastyle 3D, araeostyle 4D'.",
+      "note": "THE WIDEST BAND IN THE PACK, AND THE WIDTH IS THE FINDING. Rome can space its columns anywhere from one and a half diameters to four because the columns are not holding anything up -- and the choice is made not by the order but by the arch behind it. `styles/roman-classical.json` states the reconciliation exactly: 'the two systems are reconciled by choosing an intercolumniation that suits the required arch span.' Read that against the Greek rule above and the whole difference between the two traditions is in it: the Greek spacing is a structural consequence and the Roman spacing is a free variable used to solve for something else.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "intercolumniation_revival",
+      "expression": "2.5",
+      "units": "ratio",
+      "range": [2.25, 3.0],
+      "authority_note": "`styles/neoclassical-revival.json` 2.25-3.0 ('wider than 3 reads as slack'; centre pair may open to 3.5). `styles/english-palladian.json` 2.25-3.0. `styles/greek-revival-american.json` 2.25-2.75. `styles/greek-revival-northern.json` 2.25-2.75. `styles/jeffersonian-classicism.json` 2.25-2.5.",
+      "note": "FIVE RECORDS, WRITTEN INDEPENDENTLY, AND ALL FIVE PUT THE FLOOR AT 2.25 EXACTLY. That convergence is the strongest agreement of its kind found anywhere in this work package, and what it shows is unexpected: THE REVIVAL IS MORE UNIFORM THAN EITHER OF ITS SOURCES. Greece runs 1.2 to 1.7 and Rome 1.5 to 4.0; the revival takes a narrow band in between and holds it across five styles, two countries and a hundred and fifty years. The reason is in the number itself -- 2.25 is Vitruvius's eustyle, which he recommends as the best of the five, and the revival is working from the book rather than from the buildings. A tradition that learns from a text converges; one that learns from fabric does not.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "height_by_spacing",
+      "expression": "11.2 - 0.8 * 2.25",
+      "units": "ratio",
+      "range": [8.0, 10.0],
+      "authority_note": "`styles/roman-classical.json`: 'column height varies inversely with spacing: about 10 diameters at pycnostyle, 9.5 at eustyle, 8 at araeostyle'.",
+      "note": "THE ONLY RULE IN THIS LIBRARY THAT IS A FUNCTION RATHER THAN A VALUE OR A BAND, and it is Vitruvius's, not mine. The corpus gives three points -- (1.5, 10), (2.25, 9.5), (4.0, 8) -- which fall almost exactly on a line, and the pack states the line: height in diameters = 11.2 minus 0.8 times the clear spacing in diameters. At eustyle it returns 9.4 against the record's 9.5, which is the residual of the fit and is stated rather than tuned away. The reason the rule exists is optical: columns spaced further apart look shorter, so they are made shorter, and the whole point of Vitruvius's five intercolumniations is that each has its own column to go with it. A designer who takes a diastyle spacing and a pycnostyle column has built the one combination the system exists to prevent.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "screen_offset",
+      "expression": "1",
+      "units": "count",
+      "range": [0.0, 2.0],
+      "authority_note": "`styles/neoclassical-revival.json`: 'four or six columns across the portico with the entrance on the centre line between the middle pair; the wall behind carries five or seven bays at a constant rhythm that ignores the columns, producing the characteristic mismatch between screen and wall'.",
+      "note": "THE PACK'S CENTRAL RULE, AND THE CORPUS GIVES FOUR DIFFERENT SETTLEMENTS OF IT. A colonnade and the wall behind it are two systems, and the question is which governs. (1) GREECE: there is nothing to reconcile -- the peristyle IS the building and the cella is 'subordinate and undecorated'. (2) ROME: the wall governs, because the wall is doing the structure, and the intercolumniation is chosen to suit the arch span. (3) THE SOUTHERN PLANTATION: the wall governs the other way round -- 'column spacing is set by the bay of the house behind' and 'the wall behind is bayed to match'. (4) NEOCLASSICAL REVIVAL: NEITHER governs, and the record calls the result 'the characteristic mismatch'. Four columns over five bays, six over seven: the screen is even and the wall is odd, so they agree at the centre and nowhere else. The encoded value is that offset of one. Zero means the two rhythms coincide, which is settlements 1 and 3. Judgment, because which settlement applies is the largest decision this pack asks anyone to make and no measurement can make it.",
+      "judgment": true
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "portico_share",
+      "expression": "0.55",
+      "units": "ratio",
+      "range": [0.5, 0.6],
+      "authority_note": "`styles/palladian.json`: 'portico of four or six columns, Ionic or Corinthian, occupying 1/2 to 3/5 of the block width'. `styles/greek-revival-southern-plantation.json` gives the other extreme: 'colossal two-storey colonnade running the full width of the principal facade'.",
+      "note": "THE PORTICO TAKES BETWEEN A HALF AND THREE FIFTHS OF THE FRONT, which is the rule that distinguishes a PORTICO from a COLONNADE and the two are different buildings. A portico is an event on an elevation and needs plain wall each side to be an event; a colonnade runs the whole width and there is no wall left to be plain. The Southern plantation type goes further still and wraps all four sides -- `styles/greek-revival-southern-plantation.json` records that the peripteral colonnade there 'has no precedent in Greek or Anglo practice', because it is a Creole gallery with a Greek order on it, and Oak Alley is described in that record as 'a gallery house wearing a temple'.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "corner_contraction",
+      "expression": "0.5",
+      "units": "ratio",
+      "range": [0.4, 1.0],
+      "authority_note": "`styles/greek-classical.json`: 'the final one or two bays narrow by roughly half a triglyph width each. That contraction is the single most reliable proof of authentic Doric grammar.'",
+      "note": "HALF A TRIGLYPH, AND IT IS FORCED RATHER THAN CHOSEN. The Doric frieze must put a triglyph over every column axis and must also finish with a triglyph flush at the corner, and at constant spacing those two requirements are geometrically incompatible. So the corner bay narrows. Nobody decided this; it fell out. It is the most useful single test in the whole classical tradition because it cannot be faked by intention -- an American revival portico 'almost never contracts the corner bay', which that record says in those words, and its absence therefore dates and places a building at a glance. Expressed in triglyph widths rather than inches because the triglyph is the unit the problem is stated in.",
+      "judgment": false
+    },
+    {
+      "target_slot": "composition_parti",
+      "dimension": "centre_bay_widening",
+      "expression": "1.33",
+      "units": "ratio",
+      "range": [1.0, 1.4],
+      "authority_note": "`styles/roman-classical.json`: eustyle at 2.25D with a 'central bay 3D'. `styles/neoclassical-revival.json`: 'the centre pair may open to 3.5 diameters to frame the entrance; no other bay may.'",
+      "note": "A THIRD WIDER AT THE CENTRE, AND TWO RECORDS EIGHTEEN CENTURIES APART GIVE THE SAME NUMBER. Vitruvius's eustyle opens 2.25 to 3.0, a factor of 1.33; the American academic rule opens 2.625 to 3.5, a factor of 1.33. The agreement is not a coincidence of authorship -- the second is descended from the first through the handbooks -- but the fact that the RATIO survived while the absolute figures moved is the interesting part, and it is what tells you the rule was understood rather than copied. Note the second record's second clause, which is the real discipline: no OTHER bay may open. A composition with two widened bays has no centre.",
+      "judgment": false
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "column_ratio",
+      "expression": "0.29",
+      "units": "ratio",
+      "range": [0.2, 0.34],
+      "authority_note": "`styles/greek-classical.json`: Doric approximately 1/3, Ionic approximately 1/5. `styles/roman-classical.json`: approximately 1/4. `styles/greek-revival-american.json`: 'entablature depth 1/4 to 1/5 of column height - the single most diagnostic ratio in the style'. Four more records give 1/4 to 1/5.",
+      "note": "THE BAND SPANS A THIRD TO A FIFTH AND THE PACK DOES NOT NARROW IT, because the quantity really does differ by that much between the traditions it holds and each end is diagnostic of its own. `styles/neoclassical-revival.json` gives the failure at the bottom in a form worth quoting: 'an entablature under 1/6 of column height reads as a fascia board and voids the order.' What makes that failure common is a material fact rather than an aesthetic one -- a correct entablature at colossal scale is a five- or six-foot-deep built-up assembly, and the temptation is always to build it out of a board.",
+      "judgment": false
+    },
+    {
+      "target_slot": "foundation_expression",
+      "dimension": "podium_ratio",
+      "expression": "0.25",
+      "units": "ratio",
+      "range": [0.2, 0.333],
+      "authority_note": "`styles/roman-classical.json`: 'temple podium height between 1/5 and 1/3 of the column height; below 1/6 the building loses the frontality that distinguishes it from Greek work.'",
+      "note": "A QUARTER OF THE COLUMN, AND THE PODIUM IS THE WHOLE ARGUMENT FOR THE ROMAN TEMPLE FRONT. Rome puts the building up on a plinth, gives it one stair at one end, and engages the flank columns into the wall -- and the record draws the consequence out two thousand years: 'this frontality, plus the podium, is precisely what makes the Roman temple adaptable as a facade for a courthouse or a bank two thousand years later, and the Greek temple not.' A form with four equal faces cannot be the front of anything. That is why almost every classical public building in the world is Roman rather than Greek, whatever its capitals say.",
+      "judgment": false
+    },
+    {
+      "target_slot": "foundation_expression",
+      "dimension": "stylobate_curvature",
+      "expression": "0.0017",
+      "units": "ratio",
+      "range": [0.00154, 0.002],
+      "authority_note": "`styles/greek-classical.json`: 'stylobate upward curvature of roughly 1:500 to 1:650 of the span'.",
+      "note": "ONE PART IN FIVE HUNDRED AND SEVENTY-FIVE -- about three inches of rise in the middle of a hundred-foot front. It is the least visible thing in this library and one of the most expensive, because every step block and every column base has to be cut to a different height, and a curve of this radius cannot be set out by eye or by measurement from a straight line. The record's judgment on the American revival is severe and correct: 'it is the silhouette of Greek architecture without the refinements that were the point.' Note that the pack states the curvature as a RATIO and not a rise, which is the only form in which it survives a change of scale.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "inclination",
+      "expression": "0.00667",
+      "units": "ratio",
+      "range": [0.005, 0.008],
+      "authority_note": "`styles/greek-classical.json`: 'column inclination toward the centre of about 1:150'.",
+      "note": "ONE IN A HUNDRED AND FIFTY, LEANING INWARD. On a thirty-foot column that is two and a half inches out of plumb at the top, deliberately -- and if the lines were continued they would meet somewhere above a mile up. Together with the curvature and the entasis this is what `styles/greek-classical.json` means by 'optical refinements as standard practice, not as virtuosity'. Standard practice is the operative phrase: these were not a display of skill by exceptional builders, they were what a competent Greek mason did, and their absence in a revival building is not a failure of skill either. It is a different intention.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "entasis_swell",
+      "expression": "0.0175",
+      "units": "ratio",
+      "range": [0.015, 0.02],
+      "authority_note": "`styles/greek-classical.json`: 'the shaft diminishes only above roughly the lower third of its height, with total diminution of 1/6 to 1/5 of the lower diameter and a maximum swell of 1.5 to 2 percent over the straight-line taper.'",
+      "note": "ONE AND THREE QUARTER PER CENT OF SWELL OVER THE STRAIGHT LINE, and it starts only above the lower third -- the bottom third of a Greek shaft is a cylinder. That second clause is the one that gets lost: `greek-doric`'s own binding note records that Benjamin's American Doric puts the entasis at the FOOT, which produces a shaft that bulges where it should be straight, and this pack and that one agree about it from opposite ends. `styles/neoclassical-revival.json` makes the taper a hard constraint for the same reason -- 'untapered cylindrical or box columns are forbidden at colossal scale' -- because a colossal column is the one place where the eye can tell.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_type",
+      "dimension": "rank_depth",
+      "expression": "2",
+      "units": "count",
+      "range": [1.0, 3.0],
+      "authority_note": "`styles/roman-classical.json`: 'deep porch of two or three column ranks in front, with the cella pushed hard against the rear of the podium'.",
+      "note": "TWO OR THREE RANKS DEEP IN FRONT, ONE ALL ROUND IN GREECE, and the difference is where the building's money goes. A Greek peristyle is one rank of columns wrapped around everything; a Roman porch is two or three ranks piled at one end with a blank cella behind. Same number of columns, entirely different building -- and the record is blunt about the result: 'the exterior of the Pantheon is frankly ugly brick behind a stuck-on Greek porch.' A compiler asked for a temple front should ask which of the two is meant before it asks anything else.",
+      "judgment": true
+    },
+    {
+      "target_slot": "steps_and_stoop",
+      "dimension": "approach_fronts",
+      "expression": "1",
+      "units": "count",
+      "range": [1.0, 4.0],
+      "authority_note": "`styles/roman-classical.json`: Greek work 'stands on an all-round crepidoma' while the Roman temple 'is approached by a stair only at the front'. `styles/greek-classical.json` gives the same fact from the Greek side.",
+      "note": "HOW MANY SIDES YOU CAN WALK UP, and it is one number that carries the entire Greek-Roman difference. Four means the building is an object you go round; one means it has a face. Everything else in this pack -- the podium, the engaged flank columns, the porch ranks, the deep-single-ended plan -- follows from which of those two a designer has chosen, and the choice is usually made unconsciously by picking a precedent image. It is worth making it explicitly and first.",
+      "judgment": false
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "The same colonnade carries three completely different loads depending on which tradition it belongs to, and the appearance does not distinguish them. A Greek peristyle carries a stone architrave, the frieze, the cornice and the roof, and the architrave's bending capacity is what caps the bay at about 6 m -- `styles/greek-classical.json` says so and adds that going further requires an arch, 'which is outside the style'. A Roman engaged column carries nothing: the pier behind it takes the arch, and the column is, in that record's words, 'an articulating device'. A colossal revival portico is in between and is the dangerous case: `styles/neoclassical-revival.json` calls its order 'almost always structurally unnecessary', but the columns are twenty to twenty-six feet tall, usually hollow, usually wood or stucco on brick, and they are standing free in the wind carrying a portico roof that will lift.",
+      "resolution": "Draw the load path before choosing the order, because the order does not imply one. For a free-standing colossal colonnade the governing case is uplift and lateral load rather than gravity: tie the portico roof down to the columns and the columns down to their footings, and design the entablature as a horizontal diaphragm rather than as a decorated beam. For an engaged Roman order, detail the column as cladding on a pier and let the pier be sized without reference to the order at all -- that is what the Romans did and it is why their spacing was free. And take the trabeated span limit seriously where a real stone architrave is intended: 6 m is not conservative, it is where the tradition stopped.",
+      "severity": "blocking"
+    },
+    {
+      "with": "cost",
+      "statement": "The refinements are the point and they are the first thing cut. Stylobate curvature at 1:575 means every step block and every column base is a different height; corner contraction means the last bay's members are all one-offs; entasis means the shaft cannot be turned on a lathe or extruded; column inclination means no two column axes are parallel. Each is a per-piece cost multiplied by every piece, and none of them is visible in a photograph. `styles/greek-classical.json` records what happened when the money ran out: the American revival 'almost never' contracts the corner bay or curves the stylobate, and the record's verdict is that it is 'the silhouette of Greek architecture without the refinements that were the point.'",
+      "resolution": "Decide which refinements are being bought, say so, and then do those properly rather than doing all four badly. Entasis is cheap now and should always be bought -- a CNC lathe does not care about a curve, and `styles/neoclassical-revival.json` already makes it a hard requirement. Corner contraction is nearly free at design stage and expensive as a change. Stylobate curvature and column inclination are genuinely costly and are the two to leave out on a budget. But do not describe the result as a Greek building: a straight stylobate is not a defect in a revival portico, it is what a revival portico is, and pretending otherwise is how a client ends up paying for one and receiving the other.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "The same colonnade is a climate device in one region and pure composition in another, and the depth is what separates them. `styles/greek-revival-southern-plantation.json` states its colonnade's job outright -- 'gallery depth minimum 8 feet (10-12 typical), sufficient to shade the full window height on the principal facade at the summer solstice for the building's latitude. A colonnade shallower than 8 feet is ornament, not a climate device, and the plan behind it must then be re-justified.' A Northern portico at the same order and the same spacing is six to fourteen feet deep and shades nothing that matters, and that is correct for its climate. Specifying one for the other's latitude produces either a dark house or an unshaded one, and the plan behind it -- single-pile and cross-ventilated in the South, compact and heated in the North -- is wrong in the same move.",
+      "resolution": "Compute the depth from the solstice altitude at the actual latitude and the actual window head height, and then check the answer against the type: if the number comes out under 8 ft the colonnade is not doing climate work and the plan behind it should be a Northern one. Do not take a Southern plantation's proportions north or a Northern portico's south. And note that this pack deliberately states no portico depth rule at all: the wall-face-to-column-centreline dimension is the same measurement `balcony-gallery` already owns as gallery depth, and `styles/neoclassical-revival.json`'s own constraint note says so.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Three of this system's defining features are sub-one-per-cent deviations across very large members, and one of them is a deliberate departure from plumb. A stylobate curving at 1:575 cannot be set out from a string line, because the string is straighter than the curve. A column leaning 1:150 cannot be plumbed. An entasis swelling 1.75 per cent over a straight taper is within the tolerance most masonry specifications would accept as flat. And the colonnade is simultaneously the most exposed repeated element on the building: a bay spacing 3/4 in out over twelve feet is invisible on a drawing and obvious under a pediment.",
+      "resolution": "Give each refinement a setting-out METHOD rather than a dimension, which is what the originals had. Curvature: set the centre and the ends and interpolate on a parabola, cutting each block to a schedule. Inclination: set the axis at head height and plumb to the axis, not to the world. Entasis: full-size templates, one per shaft position. And set the colonnade's spacing from a single datum line marked once, never accumulated bay by bay, because accumulated error is what produces a contracted corner nobody intended -- which will then be mistaken for the one thing this style does deliberately.",
+      "severity": "material"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "The Roman podium is a barrier and it is load-bearing to the composition. The temple front sits two to four metres up, is approached by a stair at one end only, and has no other face -- and that frontality is exactly what `styles/roman-classical.json` identifies as the reason the type became the standard elevation for courthouses, banks and capitols. Modern accessibility requires an accessible route to every public entrance, and the usual answer is a ramp or a lift at the side, which puts the accessible entrance on the one elevation the composition declares to be the back. On a building whose whole argument is that it has one front, sending some visitors round to the flank is not a detailing compromise; it contradicts the thing the form is for.",
+      "resolution": "Solve it on the axis or reconsider the type. The workable answers are a graded approach that brings the ground up to the podium on the entrance side -- a broad ramped forecourt reading as landscape rather than as an appliance, which is what several successful modern civic buildings do -- or a podium at the low end of the 1/5 band with the stair correspondingly short. Where neither is possible, say plainly at brief stage that a Roman temple front will deliver an accessible entrance that is architecturally secondary, and let the client decide. A Greek all-round crepidoma, incidentally, has the opposite property and is easier: three low steps on four sides can be ramped anywhere without contradicting anything.",
+      "severity": "blocking"
+    }
+  ],
+  "applies_to": [
+    "greek-classical",
+    "roman-classical",
+    "greek-revival-american",
+    "greek-revival-northern",
+    "greek-revival-southern-plantation",
+    "neoclassical-revival",
+    "jeffersonian-classicism",
+    "english-palladian",
+    "palladian"
+  ],
+  "sources": [
+    "Vitruvius, De architectura, Book III, on the intercolumniations and the column heights proper to each",
+    "Francis Cranmer Penrose, An Investigation of the Principles of Athenian Architecture, London, 1851, for the measured refinements",
+    "William Bell Dinsmoor, The Architecture of Ancient Greece, Batsford, London, 3rd edn 1950",
+    "Talbot Hamlin, Greek Revival Architecture in America, Oxford University Press, New York, 1944"
+  ],
+  "confidence": "high",
+  "notes": "THE ORDERS ARE NOT THE COLONNADE, AND THIS LIBRARY HAD ELEVEN PACKS FOR ONE AND NONE FOR THE OTHER. Every order pack here is dimensioned off the lower column diameter and each one proportions a column beautifully. Not one of them says how many columns there are, where they stand, what they stand on, or what the wall behind them is doing -- and a peripteral temple, a Roman arch order and a colossal revival portico answer those questions completely differently while using identical columns. `greek-classical` and `roman-classical`, the two antique sources of the entire classical half of this corpus, carried NO facade-role pack at all before this.\n\nTHE MODULE IS THE BAY, WHICH IS WHAT LETS ONE PACK HOLD BOTH TRADITIONS. Working in axial intercolumniations rather than diameters means the same twelve-foot bay carries a fat Doric column at 2.45 diameters or a slim Corinthian one at 3.25, and the pack does not have to choose a tradition in order to state a dimension.\n\nTHE CENTRAL QUESTION IS THE SCREEN AND THE WALL, AND THE CORPUS GIVES FOUR SETTLEMENTS OF IT. A colonnade and the wall behind it are two systems. (1) In Greece there is nothing to reconcile: the peristyle IS the building and the cella is 'subordinate and undecorated'. (2) In Rome the wall governs, because the wall is doing the structure, and `styles/roman-classical.json` states the reconciliation exactly -- 'the two systems are reconciled by choosing an intercolumniation that suits the required arch span.' (3) On the Southern plantation the wall governs the other way: 'column spacing is set by the bay of the house behind', and the wall 'is bayed to match'. (4) In Neoclassical Revival NEITHER governs, and the record names the result -- 'the characteristic mismatch between screen and wall'. Four columns over five bays, six over seven; the screen is even and the wall is odd, so they meet at the centre and nowhere else.\n\nThat makes this the FOURTH tradition in this tranche to write to `window_grouping_rule` about whether an elevation's systems must agree. `facade-pavilion` requires exact vertical alignment; `jetty-overhang` and `facade-portada` require independence; this one says the answer is a design decision with four historical precedents and marks the rule judgment accordingly. The library could state none of this two weeks ago.\n\nTWO RULES ARE UNLIKE ANYTHING ELSE IN THE CORPUS. `column`/`flank_count` is THE ONLY CLOSED-FORM COUNT RULE here: n_flank = 2 x n_front + 1, so a Greek peristyle's plan proportion is computed from one integer rather than chosen. And `column`/`height_by_spacing` is THE ONLY RULE THAT IS A FUNCTION rather than a value or a band -- Vitruvius gives three points and they fall on a line, so the pack states the line and reports its residual at eustyle (9.4 against a recorded 9.5) instead of tuning it away.\n\nONE CONVERGENCE WORTH RECORDING ON ITS OWN. Five records -- `neoclassical-revival`, `english-palladian`, `greek-revival-american`, `greek-revival-northern`, `jeffersonian-classicism` -- put the floor of their intercolumniation band at 2.25 diameters EXACTLY, written independently across two countries and a century and a half. It is the strongest agreement found in this work package, and what it shows is counter-intuitive: the revival is more uniform than either of its sources, because 2.25 is Vitruvius's eustyle and the revival was working from the book while the ancients worked from the buildings. A tradition that learns from a text converges; one that learns from fabric does not.\n\nNOT BOUND: `egyptian-revival`, AND THIS IS THE THIRD INSTANCE OF OQ 49 IN THREE PACKS. It is the corpus's one deliberately unbound buildable node, held out by WP-4.1 under the reasoning that nothing fitted its trabeated order and that naming the gap was better than forcing a pack onto it. Two of this pack's rules fit it exactly -- its columns are 4 to 5.5 diameters, which OVERLAPS Archaic Doric at 4.3, and its intercolumniation is 1.5 to 2.5 diameters, inside the Roman band -- and its own record calls that 'the squattest proportion in any Western revival' without noticing that Paestum is squatter still. But its bay rhythm is 'A-B-A, never a repeating march of equal bays', which denies this pack's peristyle rules outright, and it has no podium, no crepidoma, no entasis and no corner. Binding for two rules would hand it fifteen. So the node stays unbound and 131 of 132 stands. What that costs is now precise and worth stating: OQ 49's proposal -- a `slots` array scoping a binding to named target slots -- would bind the LAST unbound node in the corpus, which is a better argument for the ruling than the two abstract cases before it."
+}

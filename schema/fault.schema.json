@@ -1,441 +1,448 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://traditional-design-language.org/schema/fault.schema.json",
-  "title": "Fault",
-  "version": "0.3.0",
-  "description": "A named error. Faults are ELEMENT-FIRST — they hang off slots, not styles, because most builder-grade errors are universal: the half-width shutter is wrong on every house that has shutters. Style is a facet, carried in applies_to and, more importantly, in exceptions: the cases where a style legitimately does the thing that is a fault everywhere else. A Georgian entry portico is five feet deep, which is a fault by Craftsman rules and correct by its own. A corpus that cannot say that will make a traditional design system worse rather than better.",
-  "type": "object",
-  "required": [
-    "id",
-    "name",
-    "slots",
-    "severity",
-    "symptom",
-    "cause",
-    "correct_practice",
-    "detection",
-    "applies_to"
-  ],
-  "additionalProperties": false,
-  "properties": {
-    "id": {
-      "type": "string",
-      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://traditional-design-language.org/schema/fault.schema.json",
+ "title": "Fault",
+ "version": "0.3.0",
+ "description": "A named error. Faults are ELEMENT-FIRST — they hang off slots, not styles, because most builder-grade errors are universal: the half-width shutter is wrong on every house that has shutters. Style is a facet, carried in applies_to and, more importantly, in exceptions: the cases where a style legitimately does the thing that is a fault everywhere else. A Georgian entry portico is five feet deep, which is a fault by Craftsman rules and correct by its own. A corpus that cannot say that will make a traditional design system worse rather than better.",
+ "type": "object",
+ "required": [
+  "id",
+  "name",
+  "slots",
+  "severity",
+  "symptom",
+  "cause",
+  "correct_practice",
+  "detection",
+  "applies_to"
+ ],
+ "additionalProperties": false,
+ "properties": {
+  "id": {
+   "type": "string",
+   "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+  },
+  "name": {
+   "type": "string",
+   "description": "Short and memorable. This becomes the thing a builder and a client can both say out loud."
+  },
+  "aka": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "slots": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "string"
+   },
+   "description": "Element slot ids this fault attaches to. The primary index."
+  },
+  "severity": {
+   "enum": [
+    "fatal",
+    "serious",
+    "minor"
+   ],
+   "description": "fatal: destroys the style reading, and no amount of quality elsewhere recovers it. serious: visibly wrong to anyone trained, and cheap to have avoided. minor: a refinement that separates good from very good."
+  },
+  "frequency": {
+   "enum": [
+    "endemic",
+    "common",
+    "occasional",
+    "rare"
+   ],
+   "description": "How often it actually occurs in contemporary production building. Endemic faults are where the leverage is."
+  },
+  "category": {
+   "enum": [
+    "proportion",
+    "assembly",
+    "material",
+    "omission",
+    "scale",
+    "alignment",
+    "anachronism",
+    "profile-depth",
+    "composition",
+    "sequence"
+   ],
+   "description": "profile-depth covers the whole family of errors where the shape is right and the relief is too shallow to cast a shadow — arguably the single largest category in contemporary work."
+  },
+  "symptom": {
+   "type": "string",
+   "description": "What you actually see. Written so someone who is not an architect can check it."
+  },
+  "cause": {
+   "type": "object",
+   "required": [
+    "driver",
+    "explanation"
+   ],
+   "additionalProperties": false,
+   "description": "WHY it happens. Almost never ignorance — nearly always a stock size, a trade sequence, a code, or a line item. Naming the driver is what makes the fault fixable rather than merely deplorable.",
+   "properties": {
+    "driver": {
+     "enum": [
+      "stock-size",
+      "cost",
+      "trade-sequence",
+      "code",
+      "material-substitution",
+      "catalog-default",
+      "drafting-convention",
+      "maintenance",
+      "ignorance"
+     ]
     },
-    "name": {
-      "type": "string",
-      "description": "Short and memorable. This becomes the thing a builder and a client can both say out loud."
+    "explanation": {
+     "type": "string"
     },
-    "aka": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
+    "cost_saved": {
+     "type": "string",
+     "description": "Roughly what the shortcut saves, because the argument for doing it right has to survive contact with a budget."
     },
-    "slots": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "string"
-      },
-      "description": "Element slot ids this fault attaches to. The primary index."
-    },
-    "severity": {
-      "enum": [
-        "fatal",
-        "serious",
-        "minor"
-      ],
-      "description": "fatal: destroys the style reading, and no amount of quality elsewhere recovers it. serious: visibly wrong to anyone trained, and cheap to have avoided. minor: a refinement that separates good from very good."
-    },
-    "frequency": {
-      "enum": [
-        "endemic",
-        "common",
-        "occasional",
-        "rare"
-      ],
-      "description": "How often it actually occurs in contemporary production building. Endemic faults are where the leverage is."
-    },
-    "category": {
-      "enum": [
-        "proportion",
-        "assembly",
-        "material",
-        "omission",
-        "scale",
-        "alignment",
-        "anachronism",
-        "profile-depth",
-        "composition",
-        "sequence"
-      ],
-      "description": "profile-depth covers the whole family of errors where the shape is right and the relief is too shallow to cast a shadow — arguably the single largest category in contemporary work."
-    },
-    "symptom": {
-      "type": "string",
-      "description": "What you actually see. Written so someone who is not an architect can check it."
-    },
-    "cause": {
-      "type": "object",
-      "required": [
-        "driver",
-        "explanation"
-      ],
-      "additionalProperties": false,
-      "description": "WHY it happens. Almost never ignorance — nearly always a stock size, a trade sequence, a code, or a line item. Naming the driver is what makes the fault fixable rather than merely deplorable.",
-      "properties": {
-        "driver": {
-          "enum": [
-            "stock-size",
-            "cost",
-            "trade-sequence",
-            "code",
-            "material-substitution",
-            "catalog-default",
-            "drafting-convention",
-            "maintenance",
-            "ignorance"
-          ]
-        },
-        "explanation": {
-          "type": "string"
-        },
-        "cost_saved": {
-          "type": "string",
-          "description": "Roughly what the shortcut saves, because the argument for doing it right has to survive contact with a budget."
-        },
-        "cost_negative": {
-          "type": "boolean",
-          "default": false,
-          "description": "True where the fault actually COSTS money rather than saving it — a picturesque parti on a formal style, or pitch drift between wings. It changes the argument entirely: nobody is defending a budget."
-        }
-      }
-    },
-    "rule_violated": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "kind",
-          "ref"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "kind": {
-            "enum": [
-              "pack-rule",
-              "style-constraint",
-              "kit-variant",
-              "first-principle",
-              "code"
-            ],
-            "description": "Added `code` in 0.2.0 — three authors independently reached for it. A house can be code-minimum and wrong, and the code is a real authority a fault is traded against, not a first principle."
-          },
-          "ref": {
-            "type": "string",
-            "description": "pack id and target_slot, style id, or a stated principle"
-          },
-          "statement": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "correct_practice": {
-      "type": "string",
-      "description": "What to do instead, with numbers wherever numbers exist."
-    },
-    "fixes": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Three tiers, because budget is real and a corpus that only offers the expensive answer gets ignored. The cheap tier is the one that actually gets built.",
-      "properties": {
-        "right": {
-          "type": "string"
-        },
-        "cheap": {
-          "type": "string",
-          "description": "The best available answer at no or low added cost. Often a change of proportion or placement rather than of material."
-        },
-        "dishonest": {
-          "type": "string",
-          "description": "The tempting shortcut that looks like a fix and is not. Naming it is protective."
-        }
-      }
-    },
-    "detection": {
-      "type": "string",
-      "description": "How to spot it fast, from the street or from a photograph. Written for both a person and a model looking at an image."
-    },
-    "applies_to": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "string"
-      },
-      "description": "Style node ids, or the single token 'universal' where the fault applies wherever the element occurs."
-    },
-    "exceptions": {
-      "type": "array",
-      "description": "Where this is NOT a fault. Some styles play with an element far more than others, and a corpus that flattens that will produce timid, generic buildings.",
-      "items": {
-        "type": "object",
-        "required": [
-          "style",
-          "why"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "style": {
-            "type": "string",
-            "description": "style node id, or a construction or region token"
-          },
-          "why": {
-            "type": "string"
-          },
-          "bounds": {
-            "type": "string",
-            "description": "How far the licence extends, so an exception does not become a loophole."
-          },
-          "bounds_test": {
-            "$ref": "#/properties/test",
-            "description": "The numeric form of `bounds`, so an exception can be checked rather than merely read. Without it an exception becomes a loophole."
-          },
-          "applies_when": {
-            "type": "object",
-            "additionalProperties": false,
-            "description": "An exception often depends on construction or region, not only on style: the Shingle Style corner licence holds only where the cladding is actually shingle, and only where the corner is woven.",
-            "properties": {
-              "construction": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "regions": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "date_range": {
-                "type": "array",
-                "items": {
-                  "type": "integer"
-                },
-                "minItems": 2,
-                "maxItems": 2
-              },
-              "slots": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "note": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
-    },
-    "confused_with": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "fault",
-          "difference"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "fault": {
-            "type": "string"
-          },
-          "difference": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "assets": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "asset ids — the incorrect/correct pair that teaches this"
-    },
-    "sources": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "confidence": {
-      "enum": [
-        "high",
-        "medium",
-        "low"
-      ]
-    },
-    "tags": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "test": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "The measurable form of the fault. Most faults reduce to one ratio against a threshold — leaf width over opening width, pier over opening, garage width over frontage, cornice projection over water-table projection. Putting it here rather than burying it in detection prose makes the corpus executable: a model with measurements from a photograph, or a platform with a model, can evaluate it directly.",
-      "properties": {
-        "expression": {
-          "type": "string",
-          "description": "e.g. 'shutter_leaf_width / sash_width'"
-        },
-        "threshold": {
-          "type": "number"
-        },
-        "direction": {
-          "enum": [
-            "at-least",
-            "at-most",
-            "equals",
-            "between"
-          ],
-          "description": "The condition for CORRECTNESS. The fault is present when it is not met."
-        },
-        "upper": {
-          "type": "number",
-          "description": "Second bound when direction is 'between'."
-        },
-        "units": {
-          "enum": [
-            "ratio",
-            "in",
-            "ft",
-            "sqft",
-            "deg",
-            "count",
-            "percent",
-            "kelvin"
-          ]
-        },
-        "measurable_from": {
-          "enum": [
-            "photograph",
-            "elevation",
-            "plan",
-            "section",
-            "site-visit"
-          ],
-          "description": "Whether a model looking at a street photograph can actually evaluate this."
-        },
-        "note": {
-          "type": "string"
-        }
-      }
-    },
-    "severity_by_style": {
-      "type": "array",
-      "description": "Severity is not uniform. A missing chimney is fatal on Tudor Revival and Prairie and unremarkable on a ranch; a pork-chop return is fatal on a Georgian and meaningless where there is no cornice.",
-      "items": {
-        "type": "object",
-        "required": [
-          "style",
-          "severity"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "style": {
-            "type": "string"
-          },
-          "severity": {
-            "enum": [
-              "fatal",
-              "serious",
-              "minor",
-              "not-applicable"
-            ]
-          },
-          "why": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "inverted_by": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": [
-          "style",
-          "statement"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "style": {
-            "type": "string"
-          },
-          "statement": {
-            "type": "string"
-          }
-        },
-        "description": "Where the OPPOSITE is the fault. A crisp arris is correct almost everywhere and wrong on Cape Dutch, Pueblo and Andalusian, where the fault is the absence of softening."
-      },
-      "description": "Faults with a polarity: too wide and too narrow, present where absent belongs and absent where present belongs."
-    },
-    "co_occurs_with": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "Faults that travel together, usually because they share a driver."
-    },
-    "alternative_to": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "Faults that are competing solutions to the same commercial problem and therefore almost never appear together — a raised Cape eave and a wall of dormers are two answers to one question about saleable upper-floor area."
-    },
-    "severity_trajectory": {
-      "type": "string",
-      "description": "Where severity changes over time. A cornice gutter with no liner is minor on day one and fatal in year twelve, and the maintenance-driven family all has this shape."
-    },
-    "secondary_tests": {
-      "type": "array",
-      "items": {
-        "$ref": "#/properties/test"
-      },
-      "description": "Faults that are genuinely two-part: crown size AND crown projection; porch depth AND deck height above the walk; room depth AND head height; Doric spacing, which needs both a continuous bound and a modular one. In 0.2.0 the second test lived in prose where nothing could execute it."
-    },
-    "severity_in_use": {
-      "enum": [
-        "fatal",
-        "serious",
-        "minor",
-        "not-applicable"
-      ],
-      "description": "Severity is defined against the STYLE READING, which is the wrong scale for the plan and services layer. A stack with nowhere to land is invisible in a photograph and fatal in occupation. Two axes, because a corpus that scores only what shows from the street will quietly deprioritise everything that decides whether the house is good to live in."
-    },
-    "deprecated_inheritance": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Where a period practice is correct for its own time and dangerous to inherit. Georgian solar indifference is authentic and should not cascade into a house built today.",
-      "properties": {
-        "statement": {
-          "type": "string"
-        },
-        "why_not_to_inherit": {
-          "type": "string"
-        },
-        "modern_substitute": {
-          "type": "string"
-        }
-      }
+    "cost_negative": {
+     "type": "boolean",
+     "default": false,
+     "description": "True where the fault actually COSTS money rather than saving it — a picturesque parti on a formal style, or pitch drift between wings. It changes the argument entirely: nobody is defending a budget."
     }
+   }
+  },
+  "rule_violated": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "kind",
+     "ref"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "kind": {
+      "enum": [
+       "pack-rule",
+       "style-constraint",
+       "kit-variant",
+       "first-principle",
+       "code"
+      ],
+      "description": "Added `code` in 0.2.0 — three authors independently reached for it. A house can be code-minimum and wrong, and the code is a real authority a fault is traded against, not a first principle."
+     },
+     "ref": {
+      "type": "string",
+      "description": "pack id and target_slot, style id, or a stated principle"
+     },
+     "statement": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "correct_practice": {
+   "type": "string",
+   "description": "What to do instead, with numbers wherever numbers exist."
+  },
+  "fixes": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "Three tiers, because budget is real and a corpus that only offers the expensive answer gets ignored. The cheap tier is the one that actually gets built.",
+   "properties": {
+    "right": {
+     "type": "string"
+    },
+    "cheap": {
+     "type": "string",
+     "description": "The best available answer at no or low added cost. Often a change of proportion or placement rather than of material."
+    },
+    "dishonest": {
+     "type": "string",
+     "description": "The tempting shortcut that looks like a fix and is not. Naming it is protective."
+    }
+   }
+  },
+  "detection": {
+   "type": "string",
+   "description": "How to spot it fast, from the street or from a photograph. Written for both a person and a model looking at an image."
+  },
+  "applies_to": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "string"
+   },
+   "description": "Style node ids, or the single token 'universal' where the fault applies wherever the element occurs."
+  },
+  "exceptions": {
+   "type": "array",
+   "description": "Where this is NOT a fault. Some styles play with an element far more than others, and a corpus that flattens that will produce timid, generic buildings.",
+   "items": {
+    "type": "object",
+    "required": [
+     "style",
+     "why"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "style": {
+      "type": "string",
+      "description": "style node id, or a construction or region token"
+     },
+     "why": {
+      "type": "string"
+     },
+     "bounds": {
+      "type": "string",
+      "description": "How far the licence extends, so an exception does not become a loophole."
+     },
+     "bounds_test": {
+      "$ref": "#/properties/test",
+      "description": "The numeric form of `bounds`, so an exception can be checked rather than merely read. Without it an exception becomes a loophole."
+     },
+     "applies_when": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "An exception often depends on construction or region, not only on style: the Shingle Style corner licence holds only where the cladding is actually shingle, and only where the corner is woven.",
+      "properties": {
+       "construction": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       "regions": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       "date_range": {
+        "type": "array",
+        "items": {
+         "type": "integer"
+        },
+        "minItems": 2,
+        "maxItems": 2
+       },
+       "slots": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       "note": {
+        "type": "string"
+       }
+      }
+     }
+    }
+   }
+  },
+  "confused_with": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "fault",
+     "difference"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "fault": {
+      "type": "string"
+     },
+     "difference": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "assets": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "description": "asset ids — the incorrect/correct pair that teaches this"
+  },
+  "sources": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "confidence": {
+   "enum": [
+    "high",
+    "medium",
+    "low"
+   ]
+  },
+  "tags": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "test": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "The measurable form of the fault. Most faults reduce to one ratio against a threshold — leaf width over opening width, pier over opening, garage width over frontage, cornice projection over water-table projection. Putting it here rather than burying it in detection prose makes the corpus executable: a model with measurements from a photograph, or a platform with a model, can evaluate it directly.",
+   "properties": {
+    "expression": {
+     "type": "string",
+     "description": "e.g. 'shutter_leaf_width / sash_width'"
+    },
+    "threshold": {
+     "type": "number"
+    },
+    "direction": {
+     "enum": [
+      "at-least",
+      "at-most",
+      "equals",
+      "between"
+     ],
+     "description": "The condition for CORRECTNESS. The fault is present when it is not met."
+    },
+    "upper": {
+     "type": "number",
+     "description": "Second bound when direction is 'between'."
+    },
+    "units": {
+     "enum": [
+      "ratio",
+      "in",
+      "ft",
+      "sqft",
+      "deg",
+      "count",
+      "percent",
+      "kelvin"
+     ]
+    },
+    "measurable_from": {
+     "enum": [
+      "photograph",
+      "elevation",
+      "plan",
+      "section",
+      "site-visit"
+     ],
+     "description": "Whether a model looking at a street photograph can actually evaluate this."
+    },
+    "note": {
+     "type": "string"
+    },
+    "applies_to_styles": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Style ids this test is written for. **Absent means every style the fault applies to**, which is the behaviour before this field existed and keeps every fault already in the corpus valid. OQ 63, ruled 24 Aug 2026: `check_measurements` runs every test in `[test] + secondary_tests` and reports the fault present if ANY of them fails, so a secondary test written for one style was failing houses of every other. `chimney-omitted` carries a Tudor Revival chimney-breadth ratio and a Prairie visual-mass test, and both were firing on a Cape Cod colonial -- which is why a parti named `cape-central-chimney` was reported as having no chimney. Matched against the style AND its inheritance chain, so a test scoped to a parent still applies to its descendants."
+    }
+   }
+  },
+  "severity_by_style": {
+   "type": "array",
+   "description": "Severity is not uniform. A missing chimney is fatal on Tudor Revival and Prairie and unremarkable on a ranch; a pork-chop return is fatal on a Georgian and meaningless where there is no cornice.",
+   "items": {
+    "type": "object",
+    "required": [
+     "style",
+     "severity"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "style": {
+      "type": "string"
+     },
+     "severity": {
+      "enum": [
+       "fatal",
+       "serious",
+       "minor",
+       "not-applicable"
+      ]
+     },
+     "why": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "inverted_by": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "style",
+     "statement"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "style": {
+      "type": "string"
+     },
+     "statement": {
+      "type": "string"
+     }
+    },
+    "description": "Where the OPPOSITE is the fault. A crisp arris is correct almost everywhere and wrong on Cape Dutch, Pueblo and Andalusian, where the fault is the absence of softening."
+   },
+   "description": "Faults with a polarity: too wide and too narrow, present where absent belongs and absent where present belongs."
+  },
+  "co_occurs_with": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "description": "Faults that travel together, usually because they share a driver."
+  },
+  "alternative_to": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   },
+   "description": "Faults that are competing solutions to the same commercial problem and therefore almost never appear together — a raised Cape eave and a wall of dormers are two answers to one question about saleable upper-floor area."
+  },
+  "severity_trajectory": {
+   "type": "string",
+   "description": "Where severity changes over time. A cornice gutter with no liner is minor on day one and fatal in year twelve, and the maintenance-driven family all has this shape."
+  },
+  "secondary_tests": {
+   "type": "array",
+   "items": {
+    "$ref": "#/properties/test"
+   },
+   "description": "Faults that are genuinely two-part: crown size AND crown projection; porch depth AND deck height above the walk; room depth AND head height; Doric spacing, which needs both a continuous bound and a modular one. In 0.2.0 the second test lived in prose where nothing could execute it."
+  },
+  "severity_in_use": {
+   "enum": [
+    "fatal",
+    "serious",
+    "minor",
+    "not-applicable"
+   ],
+   "description": "Severity is defined against the STYLE READING, which is the wrong scale for the plan and services layer. A stack with nowhere to land is invisible in a photograph and fatal in occupation. Two axes, because a corpus that scores only what shows from the street will quietly deprioritise everything that decides whether the house is good to live in."
+  },
+  "deprecated_inheritance": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "Where a period practice is correct for its own time and dangerous to inherit. Georgian solar indifference is authentic and should not cascade into a house built today.",
+   "properties": {
+    "statement": {
+     "type": "string"
+    },
+    "why_not_to_inherit": {
+     "type": "string"
+    },
+    "modern_substitute": {
+     "type": "string"
+    }
+   }
   }
+ }
 }

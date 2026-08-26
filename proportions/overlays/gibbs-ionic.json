@@ -411,7 +411,8 @@
       "expression": "column_height / 5",
       "units": "in",
       "authority_note": "PALLADIO'S RULE, NOT VIGNOLA'S, AND IT IS THE MOST CONSEQUENTIAL SINGLE NUMBER IN THE GIBBS OVERLAYS. For Ionic, Corinthian and Composite the entablature is a fifth of the column, not a quarter. An 11 ft Ionic column takes a 26 1/2 in. entablature under Gibbs and a 33 in. one under Vignola. When a client says a portico looks 'top-heavy' or 'Italian', this ratio is usually what they are seeing.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "chair_rail",
@@ -424,7 +425,8 @@
       ],
       "authority_note": "Gibbs's pedestal rule at room scale with his Ionic entablature ratio: pedestal = (column + column/5)/4 = 3/10 of the ceiling height. 32 2/5 in. at 9 ft, 28 4/5 in. at 8 ft - lower again than the Gibbs Tuscan and Doric figure of 5/16, and a full 3 1/2 in. below Vignola's ceiling/3. The richer the order, the lower the dado: that is a real and consistent Georgian phenomenon and it follows arithmetically from these two rules.",
       "judgment": false,
-      "note": "Measure to the TOP of the rail. The rail itself is the pedestal cap, one eighth of the pedestal: ceiling_height * 3/80, about 4 in. at 9 ft."
+      "note": "Measure to the TOP of the rail. The rail itself is the pedestal cap, one eighth of the pedestal: ceiling_height * 3/80, about 4 in. at 9 ft.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "crown",
@@ -436,7 +438,8 @@
         14
       ],
       "authority_note": "Room read as an Ionic order at reduced module, cornice alone: 1 44/100 modules of an 18-module column. 8 5/8 in. at a 9 ft ceiling, against Vignola's Ionic 10 1/2 in. A Georgian Ionic cornice is a smaller object than a Roman one and carries modillions rather than dentils.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "modillion_dentil",
@@ -448,7 +451,8 @@
         1.5
       ],
       "authority_note": "Ionic modillion pitch: three quarters of a diameter = 1 1/2 modules on centres, a modillion centred on every column axis. Expression is in modules. Everything else in an Ionic elevation - arcade bay, door width, window spacing - is then a whole number of these pitches. Vignola's Ionic has no modillions at all, so this rule has no Vignola counterpart to override; it is an addition, not a change.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "eave_member_spacing"
     },
     {
       "target_slot": "modillion_dentil",
@@ -473,7 +477,8 @@
         9
       ],
       "authority_note": "Gibbs agrees with Vignola on the sixth - 'The Architraves in all of them are one sixth of their Openings' - but his Ionic architrave has THREE fasciae where Vignola's has two, so the same six inches of casing is divided differently. That is what makes a Georgian Ionic door architrave read as finer than a Roman one at identical width.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "window_head_masonry",
@@ -486,7 +491,8 @@
       ],
       "authority_note": "Archivolt and impost, one eighth of the arch opening, in every order. Gibbs adds that 'in the Ionick and Composite, the Imposts project [one third] and [one sixth] more' than the Tuscan and Doric third - the richer orders get a bolder impost.",
       "judgment": false,
-      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "lintel_or_arch_depth"
     },
     {
       "target_slot": "pilaster",

@@ -1,7 +1,7 @@
 {
   "style": "jacobethan-revival",
   "style_name": "Jacobethan Revival",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -253,6 +253,21 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "'Applied half-timbering is forbidden. The variant is defined by its absence; a single timbered panel returns the building to tudor-revival.' A rule ABOUT the member which states that there is none -- the exact shape that got the `arch` slot built at 0.6.0 for `egyptian-revival`, and one of five such rules that had nowhere to live before this.",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Modelled as a variant rather than a parameter because a variant can be FORBIDDEN -- `status: forbidden` is how five of these fourteen kits say the member must not appear, and a parameter has no way to say that. (The reason first recorded here was that a categorical carries no unit and the checker insists a parameter has one. That is false: this corpus holds 236 categorical parameters whose unit is `none` and `check_kits.py` passes every one. Corrected 25 Aug 2026 by audit -- the modelling call stands, its stated reason did not.)"
+        }
+      ]
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -364,6 +379,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {

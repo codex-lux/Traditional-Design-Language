@@ -46,7 +46,8 @@
       ],
       "authority_note": "Single-pile depth in surviving Anglo-American frames runs 16-22 ft, and the massing catalogue records 18-22 ft for the Chesapeake single-pile centre-passage house and 18-20 ft for the New England hall-and-parlor.",
       "note": "The depth of a single-pile house IS the bay: one joist span, no interior bearing wall, a common-rafter roof. Cross-reference massing:hall-single-cell, massing:hall-and-parlor, massing:center-passage-single-pile, massing:i-house, massing:cape-cod-massing. This is the number that decides whether the type is available at all — draw a 26 ft deep single-pile house and you have drawn something no hand-framed building ever was.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "block_depth"
     },
     {
       "target_slot": "depth_and_pile",
@@ -59,14 +60,16 @@
       ],
       "authority_note": "Georgian double-pile depths run 32-36 ft, which is two joist spans sharing an interior bearing partition.",
       "note": "Double-pile depth is not a new dimension, it is two bays minus the shared partition. Cross-reference massing:four-over-four and massing:side-hall-double-pile. The interior bearing wall that the second pile requires is what the stair hall is for — this is the structural reason the Georgian plan has a passage and the hall-and-parlor plan does not.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "block_depth"
     },
     {
       "target_slot": "room_adjacency_overrides",
       "dimension": "count",
       "expression": "round((module * 2) / module)",
       "units": "count",
-      "note": "Two bays is hall-and-parlor: massing:hall-and-parlor. The two bays are deliberately unequal — the hall takes about 0.55 of the frame and the parlor 0.45 — which is why the door is off centre. Forcing the two bays equal to get a centred door does not produce a symmetrical hall-and-parlor house, it produces a double-pen (massing:double-pen), which is a different and later type with a different social meaning."
+      "note": "Two bays is hall-and-parlor: massing:hall-and-parlor. The two bays are deliberately unequal — the hall takes about 0.55 of the frame and the parlor 0.45 — which is why the door is off centre. Forcing the two bays equal to get a centred door does not produce a symmetrical hall-and-parlor house, it produces a double-pen (massing:double-pen), which is a different and later type with a different social meaning.",
+      "quantity": "rooms_across_the_front"
     },
     {
       "target_slot": "circulation_parti",
@@ -78,7 +81,8 @@
         552.0
       ],
       "authority_note": "Chesapeake centre-passage houses run 44-54 ft on the front with a passage of 10-14 ft; the massing catalogue and the tidewater-georgian node both record the passage at one-fifth to one-quarter of the facade.",
-      "note": "The centre-passage plan is two bays plus a passage bay, and the passage is a real bay of the frame, not a subdivision of one. That is the whole invention: it costs a third frame, and what you buy is the ability to put a door in the middle. Cross-reference massing:center-passage-single-pile and massing:i-house. The passage bay is narrower than the room bays because it does not have to be habitable, only walkable and stair-able — 10 ft is the usual number and 8 ft is the floor."
+      "note": "The centre-passage plan is two bays plus a passage bay, and the passage is a real bay of the frame, not a subdivision of one. That is the whole invention: it costs a third frame, and what you buy is the ability to put a door in the middle. Cross-reference massing:center-passage-single-pile and massing:i-house. The passage bay is narrower than the room bays because it does not have to be habitable, only walkable and stair-able — 10 ft is the usual number and 8 ft is the floor.",
+      "quantity": "passage_clear_width"
     },
     {
       "target_slot": "stair_position",
@@ -90,7 +94,8 @@
         168.0
       ],
       "authority_note": "10-14 ft passage width in the Chesapeake; 8-10 ft in New England and the upland South.",
-      "note": "The stair sets the floor on the passage bay. A straight run needs about 3 ft of width and 11-13 ft of run, which fits in the depth of the house. A dog-leg with a landing — the better and later form — needs about 8 ft of width minimum and produces the 10 ft passage. Below 8 ft you get a straight run against one wall and the passage stops being a room; above 14 ft the passage starts reading as a hall and the type changes."
+      "note": "The stair sets the floor on the passage bay. A straight run needs about 3 ft of width and 11-13 ft of run, which fits in the depth of the house. A dog-leg with a landing — the better and later form — needs about 8 ft of width minimum and produces the 10 ft passage. Below 8 ft you get a straight run against one wall and the passage stops being a room; above 14 ft the passage starts reading as a hall and the type changes.",
+      "quantity": "stair_well_width"
     },
     {
       "target_slot": "hearth_position",
@@ -102,7 +107,8 @@
         156.0
       ],
       "authority_note": "The New England central stack measures 8-12 ft square at the base, roughly one-third of the plan depth — recorded in the new-england-colonial node and confirmed across Cummings' survey.",
-      "note": "A central stack occupies over half a bay in plan. That is the reason the New England chimney bay exists as a bay: the stack is too big to sit inside a room bay, so the frame gets a narrow third bay for it, and the front door goes in front of the stack because there is nowhere else for it. Gable-end stacks (Chesapeake, upland South) free the bay and are why those regions get symmetrical fronts a generation earlier."
+      "note": "A central stack occupies over half a bay in plan. That is the reason the New England chimney bay exists as a bay: the stack is too big to sit inside a room bay, so the frame gets a narrow third bay for it, and the front door goes in front of the stack because there is nowhere else for it. Gable-end stacks (Chesapeake, upland South) free the bay and are why those regions get symmetrical fronts a generation earlier.",
+      "quantity": "hearth_or_stack_width"
     },
     {
       "target_slot": "window_grouping_rule",
@@ -113,11 +119,12 @@
         1.0,
         3.0
       ],
-      "note": "How many windows a bay will take. A 16 ft bay less 2 ft of post and corner allowance is 14 ft; a 3 ft opening with 2 ft of wall each side takes 5 ft, so two windows fit and three do not. This is why first-period fronts are four-bay and five-bay rather than six and seven, and why the openings sit in pairs with a wide blank between pairs. It is also why craftsman fronts group their windows: same rule, different frame."
+      "note": "How many windows a bay will take. A 16 ft bay less 2 ft of post and corner allowance is 14 ft; a 3 ft opening with 2 ft of wall each side takes 5 ft, so two windows fit and three do not. This is why first-period fronts are four-bay and five-bay rather than six and seven, and why the openings sit in pairs with a wide blank between pairs. It is also why craftsman fronts group their windows: same rule, different frame.",
+      "quantity": "openings_per_bay"
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "width",
+      "dimension": "minimum_solid_between_openings",
       "expression": "part * 1.25",
       "units": "in",
       "range": [
@@ -125,7 +132,8 @@
         30.0
       ],
       "authority_note": "Post sizes in surviving first-period frames run 8-11 in on the face, with the jowl or gunstock head wider still.",
-      "note": "The minimum clear wall between the face of a post and the jamb of a window: about 15 in. It is not an aesthetic margin — it is the post itself, plus the stud and the nailing for the window frame, plus the brace that runs up from the post foot and crosses that zone. Windows cannot be moved off a bay centre by less than this without hitting structure, which is exactly why period fronts have their characteristic slightly-off rhythm. Reproducing that rhythm without the frame that caused it is the difference between a house that looks framed and one that looks drawn."
+      "note": "The minimum clear wall between the face of a post and the jamb of a window: about 15 in. It is not an aesthetic margin — it is the post itself, plus the stud and the nailing for the window frame, plus the brace that runs up from the post foot and crosses that zone. Windows cannot be moved off a bay centre by less than this without hitting structure, which is exactly why period fronts have their characteristic slightly-off rhythm. Reproducing that rhythm without the frame that caused it is the difference between a house that looks framed and one that looks drawn.",
+      "quantity": "minimum_solid_between_openings"
     },
     {
       "target_slot": "ceiling_height_rule",
@@ -149,7 +157,8 @@
         12.0
       ],
       "note": "Six inches: the post plane, sheathing and clapboard. A box frame is a thin wall and it reads as thin at every opening — the jamb return is 4-5 in and the window sits almost in the plane of the cladding. A modern 2x6 wall with continuous insulation and a rainscreen returns 9-12 in, and the deep reveal it produces reads as masonry. If the reveal is going to be deep anyway, at least detail it as a deliberate jamb rather than letting it happen. Retargeted at ontology 0.3.0: 'wall_thickness_expression' was split by trade, and this rule belongs to reveal_masonry. The other heir needs its own rule and does not yet have one.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "wall_reveal_depth"
     },
     {
       "target_slot": "roof_pitch",
@@ -161,25 +170,28 @@
         1.2
       ],
       "authority_note": "45-50 degrees (10:12 to 12:12) in first-period New England; 7:12 to 9:12 in the 18th-century Chesapeake.",
-      "note": "The steep first-period pitch is a common-rafter roof over a single bay: the rafter is a piece of the frame, its length is set by the bay depth, and 45 degrees on a 18 ft depth gives a 13 ft rafter — the longest piece that pairs conveniently with the joists out of the same tree. The Chesapeake drop to 7:12 is not a change in framing, it is a change in climate priority and roofing material. Set the pitch from the region, then check that the rafter length is a plausible stick."
+      "note": "The steep first-period pitch is a common-rafter roof over a single bay: the rafter is a piece of the frame, its length is set by the bay depth, and 45 degrees on a 18 ft depth gives a 13 ft rafter — the longest piece that pairs conveniently with the joists out of the same tree. The Chesapeake drop to 7:12 is not a change in framing, it is a change in climate priority and roofing material. Set the pitch from the region, then check that the rafter length is a plausible stick.",
+      "quantity": "main_roof_pitch"
     },
     {
       "target_slot": "wing_strategy",
-      "dimension": "width",
+      "dimension": "subordinate_mass_width",
       "expression": "module * 0.8",
       "units": "in",
       "range": [
         120.0,
         216.0
       ],
-      "note": "An ell or lean-to is a new frame, and it is always narrower and lower than the main frame — 12-16 ft against 16-20. This is why the saltbox reads the way it does (massing:saltbox): the rear lean-to is a shorter span leaned on the main frame's rear plate, and the catslide roof is the honest consequence. A rear addition drawn the same depth as the main block is a 20th-century move and it destroys the type."
+      "note": "An ell or lean-to is a new frame, and it is always narrower and lower than the main frame — 12-16 ft against 16-20. This is why the saltbox reads the way it does (massing:saltbox): the rear lean-to is a shorter span leaned on the main frame's rear plate, and the catslide roof is the honest consequence. A rear addition drawn the same depth as the main block is a 20th-century move and it destroys the type.",
+      "quantity": "subordinate_mass_width"
     },
     {
       "target_slot": "daylight_strategy",
-      "dimension": "ratio",
+      "dimension": "exterior_walls_per_room",
       "expression": "2.0",
       "units": "ratio",
-      "note": "Two exterior walls per room. Because the bay caps the depth at one span, every room in a single-pile house is lit and cross-ventilated from two sides. Everything the Chesapeake did with air — the through passage, the aligned doors, the tall ceilings — depends on this and disappears the moment the plan goes double-pile. When you widen the bay with engineered lumber you get a deeper house and you silently lose the daylight strategy that the type existed to provide."
+      "note": "Two exterior walls per room. Because the bay caps the depth at one span, every room in a single-pile house is lit and cross-ventilated from two sides. Everything the Chesapeake did with air — the through passage, the aligned doors, the tall ceilings — depends on this and disappears the moment the plan goes double-pile. When you widen the bay with engineered lumber you get a deeper house and you silently lose the daylight strategy that the type existed to provide.",
+      "quantity": "exterior_walls_per_room"
     },
     {
       "target_slot": "corner_quoin",
@@ -191,7 +203,8 @@
         14.0
       ],
       "note": "The corner post is 8-11 in and in early work it is not concealed — the corner board is sized to cover it and is therefore wider than a modern corner board, 6-8 in rather than 3 1/2 to 4. A 4 in corner board on a nominally first-period house is one of the commonest and most legible errors in the revival literature, and it costs nothing to fix. Retargeted at ontology 0.3.0: 'corner_treatment' was split by trade, and this rule belongs to corner_quoin. The other heir needs its own rule and does not yet have one.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "corner_face_width"
     },
     {
       "target_slot": "height_proportion",
@@ -204,7 +217,8 @@
       ],
       "authority_note": "Second-storey posts in surviving two-storey first-period frames are shorter than ground-storey posts, but the ratio is not tightly clustered and is often set by the timber available rather than by intent.",
       "note": "See the storey-graduation pack for the general rule. In a box frame the graduation is weaker than in a masonry or later frame building, because the post is a single stick and the carpenter took what the tree gave. Marked judgment here because the record genuinely varies: some first-period frames are near-equal and some drop by a foot.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "storey_over_storey_diminution"
     },
     {
       "target_slot": "eave_condition",
@@ -216,7 +230,8 @@
         12.0
       ],
       "authority_note": "First-period New England eaves are effectively flush — the rafter foot lands on the plate and the boarding runs past it by a few inches.",
-      "note": "Six inches or less, and often nothing. A box frame gives you no overhang for free, because the rafter bears on the plate, not past it; every inch of eave is a deliberate extension and 17th-century builders did not spend it. The generous boxed cornice arrives with the 18th century as a piece of joinery applied to the frame, not as a piece of the frame. This is a hard date marker."
+      "note": "Six inches or less, and often nothing. A box frame gives you no overhang for free, because the rafter bears on the plate, not past it; every inch of eave is a deliberate extension and 17th-century builders did not spend it. The generous boxed cornice arrives with the 18th century as a piece of joinery applied to the frame, not as a piece of the frame. This is a hard date marker.",
+      "quantity": "eave_projection_from_wall"
     },
     {
       "target_slot": "chimney",
@@ -228,7 +243,8 @@
         144.0
       ],
       "note": "A gable-end stack is about 6 ft wide at the fireplace and 8-10 ft where it serves two flues. It sits outside the bay grid or inside the gable wall, and either way it is dimensioned in feet from the masonry side, not from the frame — this is the one place where the two module systems in a building have to be reconciled by hand.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "stack_plan_width"
     }
   ],
   "conflicts": [

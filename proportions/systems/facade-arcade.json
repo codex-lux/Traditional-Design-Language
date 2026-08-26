@@ -1,0 +1,387 @@
+{
+  "id": "facade-arcade",
+  "name": "The Arcade: Bay, Pier and Springing",
+  "aka": [
+    "the loggia",
+    "the corredor",
+    "the cortile arcade",
+    "the portal range",
+    "pier and arch"
+  ],
+  "kind": "facade-system",
+  "authority": {
+    "source": "Sebastiano Serlio, Tutte l'opere d'architettura et prospetiva, Books III and IV, Venice 1537-51, for the arcaded bay as a drawn type; Leon Battista Alberti, De re aedificatoria, 1452, on the arcuated bay and the relation of pier to void; the surviving fabric of the Italian cortile, the Spanish and Mexican patio corredor, the Californian mission corredor and the Romanesque nave arcade, as measured in this corpus's own style records; and Jacques-Francois Blondel and the nineteenth-century handbooks for the transmission into revival practice",
+    "author": "after Serlio and Alberti; and after the corpus's own records",
+    "year": 1537,
+    "strength": "reconstructed",
+    "note": "RECONSTRUCTED, and unusually the strongest evidence for it is this corpus rather than any book. Serlio drew arcaded bays and Alberti argued about pier and void, but neither reduced the arcade to a parametric rule, and no treatise covers the vernacular corredor at all. What DOES exist is an agreement across the style records that is stronger than any single source could be: NINE unrelated nodes -- Italian Renaissance, its American revival, the Italian villa vernacular, the Tuscan farmhouse, the Mediterranean Revival, Mission Revival, the Californian mission, Norman Romanesque and the Mexican patio -- give the pier as one third to one half of the clear span, and they cannot have got it from each other. Every rule below names the records it is quoting."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The clear span of one arch, measured between the piers at the springing",
+    "parts": 16,
+    "default_size_in": 96.0,
+    "note": "The part is six inches, half a foot, which is the scale an impost, an archivolt and a pier's chamfer are dimensioned at, and which divides the pier widths the records give -- 18, 24, 30, 36 and 48 inches -- without remainder. Eight feet of clear span is the middle of a band the records agree on closely: `styles/mediterranean-revival.json` and `styles/mission-revival.json` both give 6-9 ft, `styles/italian-villa-vernacular.json` 2.0-3.0 m, `styles/mexican-colonial.json` a patio bay of 2.5-3.5 m. THE MODULE IS THE VOID AND NOT THE PIER, which is the choice that makes the system work: an arcade is a rhythm of openings interrupted by supports, not a wall with holes in it, and every record that states a ratio states it as pier OVER span rather than the reverse."
+  },
+  "assemblies": {
+    "arcade_bay": {
+      "height_modules": 1.625,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "pier_base",
+          "name": "Plinth or base course under the pier",
+          "height_parts": 1.0,
+          "projection_parts": 0.5,
+          "profile": "plinth",
+          "note": "6 in. The pier stands on something, and on the courtyard side that something also stops the pier's foot being scrubbed and splashed by a paved court that is washed down. In the Italian traditions it is a moulded base or a stylobate carrying the whole run; in the Mexican and Californian work it is a plain projecting course.",
+          "confidence": "medium"
+        },
+        {
+          "id": "pier_shaft",
+          "name": "The pier or column shaft",
+          "height_parts": 11.5,
+          "projection_parts": 6.4,
+          "profile": "flat",
+          "note": "69 in of shaft. The projection_parts figure is the pier's WIDTH on the face -- 38 2/5 in, four tenths of the span -- rather than a projection from a datum; the same departure `dutch-gambrel` and `stone-course` make, flagged for the same reason. Where the support is a column rather than a pier the width is a diameter and the slenderness rule below governs instead.",
+          "confidence": "high"
+        },
+        {
+          "id": "impost",
+          "name": "Impost, abacus or springing block",
+          "height_parts": 1.5,
+          "projection_parts": 7.4,
+          "profile": "ovolo",
+          "note": "9 in, bringing the springing line to 84 in -- 7 ft, the bottom of the 7-9 ft `styles/california-mission-colonial.json` gives above the corredor floor. The impost is the member that says where the arch begins, and it is the one an arcade cannot do without: without it the arch grows out of the pier with no stated moment of change, which reads as a hole punched in a wall rather than as an arch carried on a support. `moorish-arch` makes the same member its diagnostic and calls it the cimacio; this pack and that one are describing the same joint in two traditions.",
+          "confidence": "high"
+        },
+        {
+          "id": "arch_zone",
+          "name": "The arch, springing to crown",
+          "height_parts": 8.0,
+          "projection_parts": 0.0,
+          "profile": "other",
+          "note": "48 in of rise -- exactly half the span, which is the semicircular arch. AND THE SHAPE IS NOT THIS PACK'S BUSINESS, which is the system's most useful property: the bay, the pier, the springing height and the rhythm are the same whether the arch above them is semicircular, pointed, four-centred or horseshoe. `styles/norman-romanesque-english.json` calls the 1:2 rise 'defining and non-negotiable' for its own tradition, `styles/english-gothic.json` gives the equilateral at rise equals span, `styles/tudor.json` the four-centred at 1:3 to 1:4, and `styles/moorish-andalusian.json` the horseshoe continued below the springing -- four different arches on one arcade geometry. Take the rise from the arch pack the node binds, and this member's default only where none is bound.",
+          "confidence": "high"
+        },
+        {
+          "id": "spandrel_and_cornice",
+          "name": "Spandrel above the arch, to the cornice or the storey above",
+          "height_parts": 4.0,
+          "projection_parts": 1.0,
+          "profile": "fascia",
+          "note": "24 in from crown to the top of the run, at 13 ft overall. The spandrel is what makes an arcade read as a wall pierced rhythmically rather than as a row of separate arches, and its depth is the thing most often lost: cut it to nothing and the arches become horseshoes of masonry standing on piers, which is a viaduct. Where a second storey sits above, this member is the floor zone and the storey graduation belongs to `storey-graduation` rather than here.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is six inches, and it divides every pier width the records give without remainder.",
+      "expression": "module.default_size_in / module.parts == 6.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The springing sits between fifty-five and seventy per cent of the way to the crown.",
+      "expression": "(assemblies.arcade_bay.members.pier_base.height_parts + assemblies.arcade_bay.members.pier_shaft.height_parts + assemblies.arcade_bay.members.impost.height_parts) / (assemblies.arcade_bay.members.pier_base.height_parts + assemblies.arcade_bay.members.pier_shaft.height_parts + assemblies.arcade_bay.members.impost.height_parts + assemblies.arcade_bay.members.arch_zone.height_parts) >= 0.55",
+      "tolerance": 0.0,
+      "note": "84 over 132 is 0.636. Three unrelated records give this as two thirds -- `styles/italian-renaissance-revival.json`, `styles/mediterranean-revival.json` and `styles/spanish-colonial-revival.json` all say the arch springs at 2/3 of the opening's total height -- and `styles/italian-villa-vernacular.json` gives the impost at 0.55-0.65 of the arch's total. The invariant states only the floor because the schema takes one expression; the ceiling of 0.70 is in the derived rule. Below 0.55 the arch is most of the opening and the arcade reads as a row of tunnels; above 0.70 the arch is a lunette on a post."
+    },
+    {
+      "statement": "The rise is half the span: the semicircular default, which the arch packs override.",
+      "expression": "assemblies.arcade_bay.members.arch_zone.height_parts * module.default_size_in / module.parts == module.default_size_in * 0.5",
+      "tolerance": 0.01,
+      "note": "8 parts of 6 in is 48, and half of 96 is 48. Stated as an invariant so that anyone editing the assembly discovers that this member is not free -- it is the arch's own geometry, and if the node's arch is pointed or four-centred the number comes from `opening-pointed` or from the Tudor pack rather than from here."
+    },
+    {
+      "statement": "The impost is a real member and not a scribed line.",
+      "expression": "assemblies.arcade_bay.members.impost.height_parts >= 1.0",
+      "tolerance": 0.0,
+      "note": "9 in encoded against a floor of 6. The member an arcade cannot do without; see its own note, and `moorish-arch`'s invariant on the same joint, which is written against the same failure in a different tradition."
+    },
+    {
+      "statement": "The impost projects further than the pier: the arch is carried, not continuous with its support.",
+      "expression": "assemblies.arcade_bay.members.impost.projection_parts > assemblies.arcade_bay.members.pier_shaft.projection_parts",
+      "tolerance": 0.0,
+      "note": "7.4 against 6.4 -- half a part each side. It is a small figure doing a large job: the shadow under the impost is what separates the arch from the pier visually, and an impost flush with the pier face is the same failure as no impost at all."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "porch_support",
+      "dimension": "ratio",
+      "expression": "0.4",
+      "units": "ratio",
+      "range": [
+        0.25,
+        0.6
+      ],
+      "authority_note": "NINE unrelated records converge here. 1/3 to 1/2: `styles/italian-renaissance.json`, `styles/italian-renaissance-revival.json`, `styles/mediterranean-revival.json`, `styles/norman-romanesque-english.json`. 0.35-0.5: `styles/italian-villa-vernacular.json`. 0.4-0.6: `styles/tuscan-vernacular.json`. Near 1:3.5: `styles/mission-revival.json`. 0.4-0.67 implied by `styles/california-mission-colonial.json`'s pier of 2 ft 6 in to 4 ft against a clear opening of 1.5-2.5 times it.",
+      "note": "THE PIER AS A FRACTION OF THE CLEAR SPAN, AND THE BEST-ATTESTED NUMBER IN THIS WHOLE LIBRARY. Nine records in five countries and six centuries, none of which can have got it from the others, all landing between a third and a half. That is not a stylistic preference -- it is what a masonry arcade needs in order to stand, because each arch thrusts on its neighbours and the pier between them has to take the difference in shear and the end of the run has to take all of it. The one record that goes conspicuously thinner is `styles/english-gothic.json` at 1:4 to 1:6, and it says so in the same breath as giving Norman work 1:2 to 1:3 -- which is the whole history of Gothic construction in one comparison, and is why a Gothic arcade is a different structural animal that this pack should not be used to proportion.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "support_shaft_width",
+      "expression": "module * 0.4",
+      "units": "in",
+      "range": [
+        18.0,
+        60.0
+      ],
+      "authority_note": "`styles/mission-revival.json`: piers 18-30 in. `styles/california-mission-colonial.json`: 2 ft 6 in to 4 ft. `styles/raised-creole-plantation.json`: masonry pier 16-24 in square.",
+      "note": "38 2/5 in on an 8 ft span. The absolute figure is given as well as the ratio because the two fail differently: scale a correct ratio down to a 4 ft span and the pier is 19 in, which is buildable, but scale it down to a 3 ft span and the pier is 14 in, which in rubble or adobe is not a pier at all. Below about 18 in the support has to become a column and the slenderness rule takes over.",
+      "judgment": false,
+      "quantity": "support_shaft_width"
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "spacing",
+      "expression": "module * 1.4",
+      "units": "in",
+      "range": [
+        96.0,
+        200.0
+      ],
+      "authority_note": "`styles/mexican-colonial.json`: 'patio arcade bay 2.5-3.5 m'. `styles/mexican-hacienda.json`: 'corredor bay 3-4 m'. `styles/italian-villa-vernacular.json`: clear span 2.0-3.0 m plus its pier.",
+      "note": "BAY CENTRES, 134 in -- span plus pier. This is the figure the plan behind the arcade actually has to work with, because the rooms entered from a corredor take their door positions from the bays, and a room that wants to be three metres wide on a 3.4 m bay will have its door off-centre for ever. Set the bay first and the plan to it: that is the order these buildings were designed in and it is the reverse of how a modern plan reaches an elevation.",
+      "judgment": false,
+      "quantity": "support_centres"
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "count",
+      "expression": "5",
+      "units": "count",
+      "range": [
+        3.0,
+        20.0
+      ],
+      "authority_note": "`styles/italian-villa-vernacular.json`: 'three to five equal semicircular arches'. `styles/mediterranean-revival.json`: 'arcaded in threes or fives'. `styles/mexican-hacienda.json`: 'arcade runs of 8-20 bays'.",
+      "note": "BAYS IN A RUN, and the range is wide because it holds two quite different things. Three or five is a LOGGIA -- a bounded element on an elevation, and the odd number matters because it centres. Eight to twenty is a CORREDOR -- a continuous run round a court, where the count is whatever the court is long and evenness or oddness means nothing at all. A designer should know which is being drawn: a five-bay loggia wants to be centred on something, and a fourteen-bay corredor wants to turn a corner and keep going.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "springing",
+      "expression": "part * 14",
+      "units": "in",
+      "range": [
+        72.0,
+        120.0
+      ],
+      "authority_note": "`styles/california-mission-colonial.json`: 'arch springing 7-9 ft above the corredor floor'. `styles/mediterranean-revival.json`: 'the arch springing well above head height'.",
+      "note": "THE SPRINGING LINE at 7 ft above the walk. The dimension is named `springing` rather than `height` because `moorish-arch` already writes the IMPOST BLOCK's own height -- about 6 in -- to `porch_support`/`height`, and three nodes bind both packs. Two packs putting different quantities into one slot-and-dimension address is a silent corruption rather than a conflict: whichever resolves last wins and nothing reports it. Found by a test that asserts the two packs share no address, and fixed here rather than by precedence, because precedence decides which of two accounts of the SAME quantity to believe and cannot help when they are different quantities. Two things follow and both matter. It is above head height, so a person walking the arcade passes under the pier's full width and never under the arch's curve -- which is why an arcade feels like a colonnade to walk through and only reads as arches from outside. And it is the line every arch in the run shares, so an arcade whose spans vary must keep the springing constant and let the rises differ, never the other way round.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "end_ratio",
+      "expression": "1.35",
+      "units": "ratio",
+      "range": [
+        1.0,
+        2.0
+      ],
+      "authority_note": "Read off surviving arcades rather than stated by any record; the requirement it answers is structural and is in the conflicts below.",
+      "note": "A JUDGMENT, AND THE ONE THING AN ARCADE DRAWN IN CAD ALWAYS GETS WRONG. The end pier of a run is wider than the intermediate ones -- about a third again -- because it is not in equilibrium: every intermediate pier has an arch thrusting at it from both sides and the two cancel, and the end pier has one. So the run must finish on a thicker pier, on a wall, or on a return that turns the corner and buttresses itself, and a run of identical piers ending in air is a structure that has never been built and will not stand. It is marked judgment because the exact figure depends on the span, the rise and the material, and an engineer should give it -- but the PRINCIPLE is not a judgment at all, and a designer who does not know it will draw the same pier twenty times.",
+      "judgment": true
+    },
+    {
+      "target_slot": "arch",
+      "dimension": "ratio",
+      "expression": "0.65",
+      "units": "ratio",
+      "range": [
+        0.55,
+        0.7
+      ],
+      "authority_note": "Three records give it as two thirds: `styles/italian-renaissance-revival.json`, `styles/mediterranean-revival.json` and `styles/spanish-colonial-revival.json`. `styles/italian-villa-vernacular.json` gives the impost at 0.55-0.65 of the arch's total height.",
+      "note": "THE SPRINGING AS A FRACTION OF THE OPENING'S TOTAL HEIGHT, which is the same rule as the height above the floor seen the other way round and is the form three records happen to state it in. Both are given because they fail differently: the absolute rule keeps the arcade walkable and this one keeps it looking right at any scale. Held by the pack's own invariant as well.",
+      "judgment": false,
+      "quantity": "springing_as_fraction_of_height"
+    },
+    {
+      "target_slot": "arch",
+      "dimension": "width",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        72.0,
+        144.0
+      ],
+      "authority_note": "`styles/mediterranean-revival.json` and `styles/mission-revival.json`: clear span 6-9 ft. `styles/italian-villa-vernacular.json`: 2.0-3.0 m. `styles/richardsonian-romanesque.json`: entrance arch 8-16 ft, which is a single arch rather than an arcade and sits above this band.",
+      "note": "THE CLEAR SPAN, which is the module. The band's ceiling of 12 ft is where a domestic arcade stops: past that the voussoirs get deep enough to need real engineering, the centering becomes a scaffold rather than a form, and the run reads as civic. `styles/richardsonian-romanesque.json`'s 8-16 ft entrance arch is deliberately outside it -- that is one great arch used as an event, not a rhythm, and this pack should not be used to proportion it.",
+      "judgment": false
+    },
+    {
+      "target_slot": "arch",
+      "dimension": "height",
+      "expression": "module * 0.5",
+      "units": "in",
+      "range": [
+        24.0,
+        96.0
+      ],
+      "authority_note": "The semicircular default. `styles/norman-romanesque-english.json`: 'arch rise to span exactly 1:2 -- the defining and non-negotiable ratio'. `styles/italian-renaissance.json`: 'arch rise exactly 1/2 the span'.",
+      "note": "THE RISE, AND THIS IS THE ONE RULE IN THE PACK THAT ANOTHER PACK SHOULD OVERRIDE. The arcade's geometry -- bay, pier, springing, rhythm -- is the same whatever shape sits on top of it, which is why this pack composes with `moorish-arch`, with `opening-pointed`, and with the four-centred Tudor system still on WP-4.1's list. Where a node binds one of those, take the rise from it: equilateral is rise equals span, four-centred is 1:3 to 1:4, a horseshoe continues below the springing. Take this figure only where the node's arch is genuinely semicircular, which for the Italian, Spanish, Mexican and Romanesque traditions it is.",
+      "judgment": false,
+      "quantity": "arch_rise"
+    },
+    {
+      "target_slot": "window_head_masonry",
+      "dimension": "archivolt_depth",
+      "expression": "module / 7",
+      "units": "in",
+      "range": [
+        8.0,
+        24.0
+      ],
+      "authority_note": "`styles/richardsonian-romanesque.json`: 'voussoir depth 1/8 to 1/6 of the span'.",
+      "note": "ARCHIVOLT OR VOUSSOIR DEPTH, 13 5/7 in on an 8 ft span, taken straight from the one record that states it. The depth is structural before it is visual: a shallow voussoir in a wide arch has too little bearing on its neighbours and the arch hinges. It is also the member that carries whatever ornament the tradition puts on an arch -- the Romanesque chevron, the Moorish alternating ablaq, the Renaissance moulded archivolt -- so getting the depth right is a precondition for the ornament packs still on the list.",
+      "judgment": false,
+      "quantity": "archivolt_depth"
+    },
+    {
+      "target_slot": "column",
+      "dimension": "ratio",
+      "expression": "8.5",
+      "units": "ratio",
+      "range": [
+        7.0,
+        12.0
+      ],
+      "authority_note": "`styles/mexican-colonial.json`: 'column slenderness 7-10 diameters'. `styles/spanish-plateresque.json`: 'patio arcade column slenderness 7-9 diameters'. `styles/moorish-andalusian.json`: 'column shaft slenderness 8-12 diameters'.",
+      "note": "WHERE THE SUPPORT IS A COLUMN RATHER THAN A PIER, and the two are genuinely alternative rather than a scale of one another. A pier is masonry continuous with the wall and is proportioned by the span; a column is a single piece proportioned by its own diameter, and at these slendernesses -- 7 to 12, well past any canonical order's 9 or 10 -- it is doing something a Vignola column does not, which is carrying an arch rather than an entablature. That is the structural reason arcade columns can be so thin: an arch delivers its load down the column's axis, where an entablature delivers a bending moment. `styles/moorish-andalusian.json` sits at the far end of the band and its own pack says why -- the shafts there are spolia and the impost block takes up the difference.",
+      "judgment": false
+    },
+    {
+      "target_slot": "column",
+      "dimension": "shaft_lower_diameter",
+      "expression": "part * 1.7",
+      "units": "in",
+      "range": [
+        6.0,
+        18.0
+      ],
+      "authority_note": "`styles/raised-creole-plantation.json`: 'colonnette diameter 6-9 in; masonry pier 16-24 in square -- a slenderness change of roughly 1:2.5'.",
+      "note": "10 1/5 in of shaft diameter. The record quoted here is doing something useful that no other does: it puts the column and the pier side by side in one building and measures the jump between them at about one to two and a half. That is the real difference between the two supports and it is why substituting one for the other changes the elevation completely rather than slightly.",
+      "judgment": false,
+      "quantity": "shaft_lower_diameter"
+    },
+    {
+      "target_slot": "porch_depth",
+      "dimension": "width",
+      "expression": "part * 24",
+      "units": "in",
+      "range": [
+        96.0,
+        192.0
+      ],
+      "authority_note": "`styles/california-mission-colonial.json`: 'corredor depth 10-14 ft'. `styles/mediterranean-revival.json`: 'loggia depth 10-16 ft, never less than 8 ft'. `styles/mexican-hacienda.json`: 'corredor depth 2.5-4 m'.",
+      "note": "TWELVE FEET DEEP, and deeper than any porch in the library except the Creole galerie. The reason is the next rule: this is not a porch, it is the building's corridor, and its depth has to hold circulation plus furniture plus the shade the wall behind it needs. `styles/mediterranean-revival.json`'s 'never less than 8 ft' is the same kind of floor as `styles/monterey-revival.json`'s six-foot balcony -- below it the thing stops being a space and becomes a detail.",
+      "judgment": false,
+      "quantity": "porch_depth"
+    },
+    {
+      "target_slot": "circulation_parti",
+      "dimension": "width",
+      "expression": "part * 18",
+      "units": "in",
+      "range": [
+        72.0,
+        168.0
+      ],
+      "authority_note": "FOUR records say the arcade IS the circulation, independently. `styles/california-mission-colonial.json`: 'serving as all circulation'. `styles/mexican-colonial.json`: 'rooms entered from it, not from corridors'. `styles/mexican-hacienda.json`: 'as the circulation, shade and social space'. `styles/spanish-colonial-american.json`: 'serving as the building's circulation'.",
+      "note": "THE CLEAR WALKING WIDTH, 9 ft -- the arcade's depth less the pier. THIS IS THE PACK'S LARGEST PLAN CONSEQUENCE and four unrelated records state it without any of them treating it as remarkable: there is no interior corridor, every room opens onto the arcade, and the arcade is therefore the plan's whole circulation system. What follows is a chain of consequences a designer meets one at a time and should meet all at once -- every room's door is an exterior door (see the energy conflict), the arcade is a required means of egress (see the egress conflict), room adjacencies are set by bay positions rather than by preference, and a room can be added to the range at any time without touching anything else, which is why these buildings grow the way they do.",
+      "judgment": false,
+      "quantity": "passage_clear_width"
+    },
+    {
+      "target_slot": "porch_ceiling",
+      "dimension": "height",
+      "expression": "part * 22",
+      "units": "in",
+      "range": [
+        108.0,
+        180.0
+      ],
+      "authority_note": "The soffit above the walk, between the springing at 7 ft and the crown at 11 ft; a general reading across the traditions rather than a figure from one record.",
+      "note": "11 ft to the soffit at the crown, which on a vaulted corredor is the vault's own crown and on a flat-ceiled one is the beam soffit. The height is generous and has to be: an arcade is the coolest place in these buildings because it is shaded, cross-ventilated and tall, and cutting the ceiling to a domestic 8 ft removes the stack that makes it work. That is a thermal argument rather than a compositional one and it is the reason the type survives in hot climates and not elsewhere.",
+      "judgment": false
+    },
+    {
+      "target_slot": "daylight_strategy",
+      "dimension": "arcade_open_area_fraction",
+      "expression": "0.35",
+      "units": "ratio",
+      "range": [
+        0.2,
+        0.5
+      ],
+      "authority_note": "Computed from the pack's own geometry -- an 8 ft void in a 11 ft 2 in bay, over a 13 ft storey -- rather than taken from a record.",
+      "note": "A JUDGMENT SLOT. The open area of an arcade run as a fraction of its elevation: about a third. This is the number that makes an arcade an arcade rather than a wall with arched windows in it, and it inverts the usual solid-to-void rule -- `styles/english-georgian.json` insists that 'wall must dominate glass' at 1:1 to 1.5:1, and here the void is a third of the elevation and the wall behind it is barely seen at all. The judgment is where in the band to sit, because it depends on whether the run is a loggia read as an element or a corredor read as a colonnade, and no record states it.",
+      "judgment": true,
+      "quantity": "arcade_open_area_fraction"
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "An arcade is in equilibrium in the middle and not at the ends. Every intermediate pier takes an arch thrusting at it from both sides and the two horizontal components cancel; the end pier takes one, uncancelled, and has to resist it by its own weight and width or by something behind it. That is the single most important structural fact about the form and it is invisible on an elevation, where all the piers look alike. Two secondary problems travel with it: a run with unequal spans has unequal thrusts and does not cancel even in the middle, and an arcade that turns a corner has a pier taking thrust on two axes at once.",
+      "resolution": "Finish the run properly and decide how at sketch stage, because all three answers change the plan. Thicken the end pier -- about a third again, which is the pack's end_ratio rule and wants an engineer's number rather than mine. Or run the arcade into a wall or a solid corner pavilion, which is what the Italian cortile does and why a courtyard arcade is easier than a straight one: a closed loop of four runs buttresses itself at every corner and has no ends at all. Or tie it, with a rod or a chain at the springing line, which is honest, is historically what was done when the piers turned out too thin, and is visible -- so decide whether it is to be seen. Keep the spans EQUAL, which is the historical rule and the reason every record above says 'equal arches': unequal spans are a structural problem dressed as a compositional freedom.",
+      "severity": "blocking"
+    },
+    {
+      "with": "egress-code",
+      "statement": "When the arcade is the circulation -- which four records say it is -- it stops being a porch and becomes a required means of egress, with everything that follows. Its clear width is measured between piers and at the narrowest point, so the pier reduces it at every bay. Its headroom is measured under the lowest projection, which is the impost at 7 ft and not the crown at 11. It is usually a step or two above the court it opens onto, so every bay is a change of level on an escape route. And because every room opens directly onto it with no interior corridor, it is the ONLY route out of most of the building, so it cannot be blocked, narrowed or furnished as freely as its width suggests.",
+      "resolution": "Design it as a corridor that happens to be beautiful, not as a porch that happens to be used. Keep the clear width between piers at or above the corridor minimum with the furniture allowed for -- which usually means taking the pack's depth rule at the upper half of its band rather than the lower. Keep the springing at 7 ft or above, which the pack's own rule does. Resolve the level change once, at a defined point with a proper step or ramp, rather than letting every bay be a threshold; the historical buildings do this with a single continuous step the length of the run. And where the arcade genuinely is the only exit from a wing, provide the second exit the code will want at the far end rather than pretending the courtyard is one.",
+      "severity": "blocking"
+    },
+    {
+      "with": "energy-code",
+      "statement": "Every room's door is an exterior door. That is the arcade plan's defining consequence and it is a problem no other type in this library has at this scale: a range of eight rooms entered from a corredor has eight exterior doors on one elevation, each with its own threshold, its own weatherseal, its own air leakage and its own thermal bridge, and no lobby anywhere. Meanwhile the arcade itself is outside the envelope but is roofed, floored and often paved to the same standard as inside, so it costs like conditioned space and performs like none.",
+      "resolution": "Accept the doors and detail them once, properly, as a single repeated assembly rather than eight variations -- which is cheaper as well as tighter, and is what a repeated bay is for. Where a modern brief will not tolerate it, the honest move is to glaze the arcade's outer face and bring the whole walk inside the envelope, which turns the corredor into a gallery: that is a real and historically attested move, it is what happened to many of these buildings in the twentieth century, and it changes the type -- the shade, the cross-ventilation and the outdoor room all go, and the building gains a corridor it never had. Decide it deliberately rather than arriving at it. Do not half-do it by glazing alternate bays.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Every arch is centering, voussoirs and a mason, and a corredor of twenty bays is twenty of each. The centering is the hidden cost: a timber form built to the exact curve, struck and reset for each arch, and it is the reason the historical arcades have identical spans -- one form, used twenty times. Vary the span and every form is bespoke. The piers add a second count, since each is a shaft with a base and an impost cut or moulded, and the impost is a banker mason's piece on any tradition that moulds it.",
+      "resolution": "One span, one form, one impost profile, repeated -- which is the historical practice and is also why these buildings look the way they do. Where a wider central bay is wanted for an entrance, make it a deliberate second form used once rather than a gradual variation, and expect it to cost as much as three of the others. In modern construction the arcade is often cast rather than laid, which solves the centering as one reusable formwork and brings its own tell: a cast arch has no voussoir joints, so the archivolt reads as a continuous band and the ornament packs that live on the voussoirs have nowhere to go.",
+      "severity": "material"
+    },
+    {
+      "with": "climate",
+      "statement": "The arcade is a climate device and it has two failure modes in the wrong climate. It shades the wall behind it, which is the point in Andalusia, Mexico and California -- and in a cool damp climate the same shade keeps that wall permanently wet and cold, so the room behind is the coldest and dampest in the building. And the open side drives rain in: a 12 ft deep arcade with a 7 ft springing takes wind-driven rain across half its floor in any real storm, so the walk is wet where it is most used and the door thresholds are in the wetted zone.",
+      "resolution": "Orient it. These traditions do, universally and without saying so -- the corredor faces the court, and the court is chosen so the arcade faces the sun in winter and is shaded in summer, which in the northern hemisphere means south to south-east. An arcade on a north elevation in a cool climate is a mistake that no detail fixes. For the rain, fall the walk away from the building and drain it at the open side, never at the wall; keep the thresholds a step up; and where the climate is genuinely wet, accept a deeper springing-to-floor relationship or a low parapet between the piers, which several of the Mediterranean traditions use and which reads as a balustrade rather than as a defence.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "italian-renaissance",
+    "italian-renaissance-revival",
+    "italian-villa-vernacular",
+    "tuscan-vernacular",
+    "mediterranean-revival",
+    "mission-revival",
+    "california-mission-colonial",
+    "spanish-colonial-american",
+    "mexican-colonial",
+    "mexican-hacienda",
+    "spanish-plateresque",
+    "andalusian-courtyard-vernacular",
+    "moorish-andalusian",
+    "mudejar",
+    "norman-romanesque-english",
+    "richardsonian-romanesque"
+  ],
+  "sources": [
+    "Sebastiano Serlio, Tutte l'opere d'architettura et prospetiva, Books III and IV, Venice, 1537-1551",
+    "Leon Battista Alberti, De re aedificatoria, 1452 (Florence, 1485)",
+    "Historic American Buildings Survey, measured drawings of the California missions and of Louisiana and Southwestern galleried and arcaded houses",
+    "Rexford Newcomb, Spanish-Colonial Architecture in the United States, J. J. Augustin, New York, 1937"
+  ],
+  "confidence": "high",
+  "notes": "WP-4.1's candidate list does not name this pack, and that is the finding it opens with. THREE PACKS IN THIS WORK PACKAGE ASKED FOR IT INDEPENDENTLY: `adobe-module`'s binding notes on `spanish-colonial-american` and `california-mission-colonial` both say 'a portal/arcade system is still missing and is still in WP-4.1's candidate list' -- which was wrong, because it was not on that list; `stone-course` quotes `styles/tuscan-vernacular.json`'s loggia at 'pier width 0.4-0.6 of the clear opening' in its notes precisely so the figure would not be lost; and `mexican-hacienda`'s binding note names the arcaded patio as wanting a system the library does not have. Measured across the corpus it is the largest remaining item: 33 buildable nodes describe an arcade or a loggia and 24 carry three packs or fewer.\n\nCONFIDENCE IS HIGH, WHICH NO OTHER PACK IN THIS PACKAGE CLAIMS, and the reason is the agreement rather than the sources. Nine unrelated style records give the pier as one third to one half of the clear span: Italian Renaissance and its American revival, the Italian villa vernacular, the Tuscan farmhouse, the Mediterranean Revival, Mission Revival, the Californian mission, Norman Romanesque and the Mexican patio. Five countries, six centuries, and no route by which any of them could have got the figure from the others. Three more give the springing at two thirds of the opening's height, and four say the arcade IS the circulation. When the corpus agrees with itself that strongly the pack is reporting rather than reconstructing, and the strength should say so.\n\nTHE ARCH'S SHAPE IS DELIBERATELY NOT IN THIS PACK, and that is what makes it composable. The bay, the pier, the springing height and the rhythm are identical whether the arch above them is semicircular, equilateral, four-centred or horseshoe -- so this pack takes the rise from `moorish-arch` on the Islamic nodes, from `opening-pointed` where a Gothic arcade is wanted, from the four-centred Tudor system still on the list, and from its own semicircular default only where the tradition really is semicircular. Two nodes that were bound here carry `moorish-arch` already and the two packs meet at the impost, which both of them make their diagnostic member: they are describing the same joint in two traditions and neither restates the other's figures.\n\nWHAT IS NOT HERE. The vault. Many of these arcades are vaulted rather than beamed -- groin vaults in the Italian cortile, barrel vaults in the mission corredor -- and vault geometry is a system of its own that nothing in this library touches; the pack gives the soffit height and stops. `styles/english-gothic.json` is deliberately NOT bound despite having the best-stated arcade ratios in the corpus, because it states them in order to say how different they are: 1:4 to 1:6 pier to bay against Norman's 1:2 to 1:3. A Gothic arcade is a structurally different animal -- the thrust goes to a buttress rather than into the pier -- and proportioning one with this pack would produce a building that cannot stand up in a way this pack cannot detect.\n\n`styles/richardsonian-romanesque.json` is bound but with a caution its note carries: its 8-16 ft entrance arch is one great arch used as an event and not a rhythm, and sits deliberately outside this pack's span band. What it does supply is the voussoir depth at 1/8 to 1/6 of the span, which is the only such figure anywhere in the corpus and which this pack takes for all its nodes."
+}

@@ -177,7 +177,12 @@ def _storey_window(op_pack, sash_pack, storey, bay_module_in, glass_module_in):
 # ---------------------------------------------------------------- bay layout
 def _bay_count(facade_pack, span_ft):
     module_in = facade_pack["module"]["default_size_in"]
-    count, _ = _val(facade_pack, "window_grouping_rule", {"span": span_ft * 12.0}, note_substr="bay count", dimension="count", clip=False)
+    # OQ 48: `window_grouping_rule`/`count` held five quantities across the packs that write it --
+    # openings per bay, units per group, lights per window, windows on a principal wall, and the bay
+    # count of a composed front. The dimension is now the quantity, so this asks for the one it
+    # always meant instead of asking for "count" and relying on a note substring to disambiguate.
+    count, _ = _val(facade_pack, "window_grouping_rule", {"span": span_ft * 12.0},
+                    dimension="bay_count_on_front", clip=False)
     return max(3, int(round(count))), module_in
 
 def _face_bays(facade_pack, span_ft, has_entrance):
@@ -213,7 +218,11 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
 
     with_sidelights_in = door_w + 2 * sidelight_w + 2 * casing_w
     without_sidelights_in = door_w + 2 * casing_w
-    comp_cap_in, _ = _val(facade_pack, "door_surround", {"module": facade_pack["module"]["default_size_in"]}, dimension="width")
+    # OQ 48: `door_surround`/`width` held two quantities -- an architrave's own face width and the
+    # MAXIMUM WIDTH OF THE WHOLE ENTRANCE COMPOSITION, which is what this cap has always meant.
+    comp_cap_in, _ = _val(facade_pack, "door_surround",
+                          {"module": facade_pack["module"]["default_size_in"]},
+                          dimension="entrance_composition_total_width")
     use_sidelights = with_sidelights_in <= comp_cap_in
     composition_w = with_sidelights_in if use_sidelights else without_sidelights_in
 
@@ -295,7 +304,10 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     # stock 9 ft assumption regardless of how tall the actual building is.
     module_in = module_in or facade_pack["module"]["default_size_in"]
     part_in = module_in / facade_pack["module"]["parts"]
-    frieze_h, _ = _val(facade_pack, "frieze", {"part": part_in}, dimension="height")
+    # OQ 48: the classical packs' `frieze`/`height` is a member of an entablature; this one is the
+    # BAND between the top-storey window heads and the cornice bed, which is a different quantity.
+    frieze_h, _ = _val(facade_pack, "frieze", {"part": part_in},
+                       dimension="elevation_frieze_band_height")
     cornice_h_stated = 2.0 * part_in   # facade-classical's own elevation.cornice member: height_parts 2.0
     cornice_proj, _ = _val(facade_pack, "cornice", {"module": module_in}, dimension="projection")
 
@@ -327,13 +339,17 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
         brick_module_in = brick_pack["module"]["default_size_in"]
         wt_h, _ = _val(brick_pack, "water_table", {"module": brick_module_in}, dimension="height")
         wt_proj, _ = _val(brick_pack, "water_table", {"part": brick_module_in / brick_pack["module"]["parts"]}, dimension="projection")
+        # OQ 48: `belt_course`/`height` held the band's height ABOVE THE FLOOR and the band's own
+        # DEPTH. This has always wanted the depth -- it is reported beside the projection as a
+        # board -- and the note_substr was doing the disambiguating that a dimension now does.
         belt_h, _ = _val(brick_pack, "belt_course", {"part": brick_module_in / brick_pack["module"]["parts"]},
-                          note_substr="ordinary case", dimension="height")
+                          dimension="belt_band_own_depth")
         source = "brick-course.json (construction is masonry)"
     else:
         wt_h = 3.0 * facade_part_in + 0.75 * facade_part_in   # facade-classical's own foundation + water_table members, summed
         wt_proj = 0.35 * facade_part_in   # facade-classical's own water_table member: projection_parts 0.35 (no separate derived_rule for this dimension)
-        belt_h, _ = _val(facade_pack, "belt_course", {"part": facade_part_in}, dimension="height")
+        belt_h, _ = _val(facade_pack, "belt_course", {"part": facade_part_in},
+                         dimension="belt_band_own_depth")
         source = "facade-classical.json (construction is not masonry -- no brick coursing to read)"
     belt_proj = None
     if is_masonry:
@@ -537,16 +553,16 @@ def _derive_measurements(elev):
         "main_block_ridge_height": roof.get("grade_to_ridge_in"), "main_block_height_in": roof.get("grade_to_ridge_in"),
         "count_of_distinct_ridge_heights_on_the_main_block": 1, "count_of_distinct_roof_slope_angles_on_the_building": 1,
         "min_absolute_difference_between_distinct_slope_angles_deg": 0.0,
-        "visible_chimney_count": roof.get("visible_chimney_count", 0),
+        "visible_chimney_count": roof.get("visible_chimney_count"),
         "stack_height_above_ridge_in": roof.get("stack_height_above_ridge_in"),
         "cap_projection_beyond_stack_face_in": 4.0, "chimney_least_plan_dimension_in": 36.0, "chimney_width_in": 36.0,
         "chimney_depth_in": 20.0, "chimney_visible_face_width_in": 36.0,
-        "count_of_stacks_with_a_visible_consequence_at_the_wall": roof.get("visible_chimney_count", 0),
+        "count_of_stacks_with_a_visible_consequence_at_the_wall": roof.get("visible_chimney_count"),
         "count_of_sheet_metal_caps_or_louvred_shrouds_at_the_stack_head": 0,
         "count_of_horizontal_shadow_lines_in_the_top_18in_of_the_stack": 1,
         "dormer_count": 0,
         "total_ridge_length_in": front["outside_width_in"], "ridge_length_finished_in_the_roofs_own_material_in": front["outside_width_in"],
-        "visible_stack_count": roof.get("visible_chimney_count", 0),
+        "visible_stack_count": roof.get("visible_chimney_count"),
         "total_eave_to_ridge_height_in": roof.get("roof_eave_to_ridge_height_in"),
         "main_roof_pitch": elev["roof_record"]["main"].get("pitch_rise_per_12"),
         # These are honest absence facts, not guesses: this generator places chimneys, windows,
@@ -736,7 +752,20 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "roof_eave_to_ridge_height_in": round((ridge_ft - grade_to_eave_ft) * 12, 2) if ridge_ft else None,
         "wall_height_grade_to_eave_in": round((grade_to_eave_ft - ground["grade_to_floor_ft"]) * 12, 2),
         "grade_to_ridge_in": round(ridge_ft * 12, 2) if ridge_ft else None,
-        "visible_chimney_count": len(roof.get("chimneys", {}).get("positions", [])),
+        # OQ 59: None, not 0, when the roof pass did not PLACE chimneys as opposed to placing
+        # none. roof.py models gable-end stacks only and says so in its own note -- a
+        # central-stack massing (cape-cod-massing, saltbox, garrison-block) comes back with an
+        # empty positions list meaning "not modelled here", and reporting that as a count of
+        # zero handed the fault corpus an evaluated measurement where it had none. The
+        # consequence was faults/chimney-omitted.json firing FATAL on a parti named
+        # cape-central-chimney for having no chimney, which is unjudged reported as
+        # evaluated-and-failed -- the corpus's first discipline, inverted.
+        # roof.py never concludes "this house has no chimney" -- every branch that returns an
+        # empty positions list says in its own note that it did not model the case (a central
+        # stack, a hipped roof with no gable end, a ridge it could not judge). So an empty list
+        # is could-not-evaluate, and the only honest count is None.
+        "visible_chimney_count": (len(roof["chimneys"]["positions"])
+                                  if (roof.get("chimneys") or {}).get("positions") else None),
         "stack_height_above_ridge_in": round(roof["chimneys"]["positions"][0]["height_above_ridge_ft"] * 12, 2) if roof.get("chimneys", {}).get("positions") else None,
     }
 

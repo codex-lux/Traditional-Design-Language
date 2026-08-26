@@ -254,6 +254,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "Gives the pack its tightest pier figure -- 'arcade piers 18-30 in. wide with clear spans 6-9 ft, giving a pier-to-span ratio near 1:3.5' -- which is at the thin end of the nine-record band and is a revival working in reinforced construction rather than in mass masonry. Worth reading against `california-mission-colonial`, whose piers are 2 ft 6 in to 4 ft for the same span: the revival's arcade is a third thinner than the thing it revives, which is a real and measurable difference and one of the clearest cases in the corpus of a revival being lighter than its parent.",
+      "precedence": 0
+    },
+    {
       "pack": "trim-craftsman",
       "role": "interior",
       "note": "Anticipated in the pack's own applies_to list, which already names mission-revival directly. This style's floruit (1893-1920) fully overlaps the Craftsman movement's, the two shared clients, carpenters and mail-order catalogues on the West Coast, and this style's own governing_logic ('no order and no module') rules out any trim family derived from a classical entablature -- which is exactly what distinguishes trim-craftsman from trim-classical in the first place. Bind for interior door and window casing, base and picture-rail logic only. This style's exterior is explicitly 'stucco... unbroken by belt course, quoin, or cornice' (c04), so nothing in this pack's exterior-adjacent members should be read as licensing applied exterior trim of any kind.",
@@ -264,6 +270,22 @@
       "role": "room",
       "note": "Not in the pack's own applies_to list, and bound here on general rather than documented grounds: the daylight-depth rule is stated by the pack itself as physics rather than period custom, and it governs the plain, minimally glazed rooms behind this style's arcaded porch (solid:void 5:1 or greater, 'the wall is meant to dominate') the same way it governs any single-loaded room. Bind narrowly for that rule; the hearth-count and frontage arithmetic do not describe a foursquare hipped stucco cube with an arcaded porch and no chimney-driven plan logic.",
       "precedence": 2
+    },
+    {
+      "pack": "moorish-arch",
+      "role": "optional",
+      "precedence": 4,
+      "authority": "moorish-arch",
+      "note": "Optional and low precedence. The Mission Revival's arcade is round-arched on piers far more often than horseshoe, so this pack is available for the buildings that reach for the Moorish and is not asserted over the ones that do not. An optional binding is the honest shape for a vocabulary a style sometimes uses."
+    },
+    {
+      "pack": "facade-portada",
+      "role": "optional",
+      "note": "SCOPED BINDING (OQ 49). This node carries a rule ABOUT `facade-portada`'s subject which states that there is none: 'no ornament at the entrance. If there is a carved or cast surround around the front door, the building is Spanish Colonial Revival, not Mission Revival.' That is `ornament_vocabulary`/`event_count` at zero, the floor of the pack's own band, and it is the same shape as `egyptian-revival`'s arch rule that got the `arch` slot built at 0.6.0. Scoped to ONE DIMENSION rather than to the slot, because the pack writes `ornament_vocabulary` four times and the other three -- register count, heraldry, the plain run beside a panel -- describe a retablo this style does not have. A scope that admitted them would be a smaller version of the problem the field was added to solve.",
+      "precedence": 5,
+      "slots": [
+        "ornament_vocabulary/event_count"
+      ]
     }
   ]
 }

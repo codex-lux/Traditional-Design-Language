@@ -42,6 +42,26 @@ OUTDOOR = {"outdoor"}
 
 # ---------------------------------------------------------------- helpers
 def is_indoor(rtype): return C["rooms"].get(rtype, {}).get("function_class") not in OUTDOOR
+
+def void_spec(rtype):
+    """OQ 55's `void` block on an outdoor room, or None if the room is not a reserved void.
+
+    Ruled 24 Aug 2026: outdoor rooms are carried as placed, dimensioned voids -- excluded from
+    the area budget and the heated envelope, drawn open -- rather than dropped before placement.
+    A room with no `void` block is treated as `within_footprint: false`, which IS the behaviour
+    before the ruling: left out of placement entirely. That is deliberately the default, because
+    a room nobody has judged must not be silently promoted into the footprint.
+
+    Returns None for anything not a within-footprint void, so `if void_spec(t)` reads as
+    "this room takes a rectangle in the block but is not part of the heated envelope"."""
+    r = C["rooms"].get(rtype, {})
+    if r.get("function_class") not in OUTDOOR: return None
+    v = r.get("void") or {}
+    return v if v.get("within_footprint") else None
+
+def is_placed(rtype):
+    """Everything that takes a rectangle in the block: every indoor room, plus reserved voids."""
+    return is_indoor(rtype) or void_spec(rtype) is not None
 def band(rtype):
     d = C["rooms"].get(rtype, {}).get("dimensions", {})
     return (d.get("area_sf") or [40, 900])
@@ -100,6 +120,141 @@ def spanning(rooms, axis):
         w = set(r.get("exterior_walls") or [])
         if pairs[0] in w and pairs[1] in w: return r
     return None
+
+def ring_depth(W, H, court_area, sides=4):
+    """Depth of the ranges around a court, solved from the court's own declared area.
+
+    Four sides: the court is (W-2d) x (H-2d), so 4d^2 - 2d(W+H) + (WH - court) = 0 and the
+    smaller root is the one that puts the ranges around the court rather than inside it.
+    Three sides (a U): the court is (W-2d) x (H-d), open on the south.
+
+    Returns None when the block cannot hold that court at all -- the discriminant goes
+    negative, or the ranges come out too shallow to hold a room. That is a real answer and the
+    caller falls back to the ordinary slicer rather than drawing a ring nobody could build."""
+    if court_area <= 0 or W <= 0 or H <= 0: return None
+    if sides >= 4:
+        a, b, c = 4.0, -2.0 * (W + H), W * H - court_area
+    else:
+        a, b, c = 2.0, -(2.0 * H + W), W * H - court_area
+    disc = b * b - 4 * a * c
+    if disc < 0: return None
+    d = (-b - math.sqrt(disc)) / (2 * a)
+    if d < 7.0 or d > min(W, H) / 2.2: return None
+    return d
+
+
+def courtyard_slice(rooms, W, H, module, tol, rng, out, relax, sides=4):
+    """Lay a block out as ranges around a court. Returns False if it cannot, having drawn nothing.
+
+    OQ 55, and the reason this exists rather than a scoring term alone: a ring is not something
+    a random guillotine partition finds. Four thousand candidates of the ordinary slicer put the
+    court in the block's corner every time, because isolating one room into the innermost cell
+    of a four-deep nesting is not a thing random splits do. A ring IS guillotine-decomposable --
+    cut at the court's south and north edges to get three bands, then cut the middle band at its
+    west and east edges -- so the tree is stated here instead of searched for. The ranges
+    themselves are still sliced by the ordinary search, which is what it is good at.
+
+    The court's depth is not chosen: it falls out of the court's own declared area against the
+    block (see ring_depth), which is the corpus deciding rather than this function."""
+    voids = [r for r in rooms if isinstance(r.get("_void"), dict) and not r["_void"].get("roofed")]
+    if len(voids) != 1: return False
+    court = voids[0]
+    ring = [r for r in rooms if r["id"] != court["id"]]
+    if len(ring) < sides: return False
+    d = ring_depth(W, H, court["_area"], sides)
+    if d is None: return False
+
+    # The four (or three) bands, as guillotine cuts. South is y=0 by this file's convention.
+    cw, ch = W - 2 * d, (H - 2 * d if sides >= 4 else H - d)
+    bands = [("S", 0.0, 0.0, W, d)] if sides >= 4 else []
+    y0 = d if sides >= 4 else 0.0
+    bands += [("W", 0.0, y0, d, ch), ("E", W - d, y0, d, ch), ("N", 0.0, y0 + ch, W, d)]
+    out[court["id"]] = (round(d, 2), round(y0, 2), round(cw, 2), round(ch, 2))
+
+    caps = [(k, x, y, w, h, w * h) for (k, x, y, w, h) in bands]
+    groups = {c[0]: [] for c in caps}
+
+    # OQ 61: when the parti gives the covered walk one record per range -- as many roofed voids
+    # as there are bands -- that IS the range assignment, and it is read rather than guessed:
+    # the i-th walk takes the i-th band (the parti lists them in this file's own band order, S
+    # W E N, so the range holding the entry passage is the one on the street), and every other
+    # room goes to the band of the walk it has a door to. A room with no door to any walk
+    # follows the room it does open off, which is how a larder reaches the kitchen's range and a
+    # primary bathroom its bedroom's. That is the diagram stating its own topology; falling back
+    # to filling bands by area would place a room in a range whose corredor it cannot reach.
+    walks = [r for r in ring if isinstance(r.get("_void"), dict) and r["_void"].get("roofed")]
+    assigned = False
+    if len(walks) == len(caps):
+        band_of = {}
+        for c, wroom in zip(caps, walks):
+            groups[c[0]].append(wroom); band_of[wroom["id"]] = c[0]
+        rest = [r for r in ring if r["id"] not in band_of]
+        walk_ids = set(band_of)
+        def _doors(r):
+            return [(d["to"] if isinstance(d, dict) else d) for d in (r.get("doors") or [])]
+        # A door to a WALK first, for every room, before any room is placed by a neighbour.
+        # Doing both in one pass lets a room inherit a range from a sibling that was itself
+        # assigned earlier in the same pass -- which put the kitchen in the street range because
+        # it happened to list the dining room before its own corredor.
+        for r in rest:
+            hit = next((d for d in _doors(r) if d in walk_ids), None)
+            if hit: band_of[r["id"]] = band_of[hit]; groups[band_of[hit]].append(r)
+        for _pass in range(3):
+            for r in rest:
+                if r["id"] in band_of: continue
+                for tid in _doors(r):
+                    if tid in band_of:
+                        band_of[r["id"]] = band_of[tid]; groups[band_of[tid]].append(r); break
+        if all(r["id"] in band_of for r in rest):
+            assigned = True
+        else:
+            groups = {c[0]: [] for c in caps}
+
+    if not assigned:
+        # Rooms go round the ring in the order the parti wrote them, which is the order its
+        # author walked the house. Each band takes rooms until it has its own area; nothing is
+        # re-sorted, because the sequence IS the adjacency information a parti carries about a
+        # ring. This is the path for a parti whose walk is still one record.
+        total = sum(c[5] for c in caps)
+        have = sum(r["_area"] for r in ring)
+        i, queue = 0, list(ring)
+        for n, c in enumerate(caps):
+            want = c[5] / total * have
+            acc = 0.0
+            remaining_bands = len(caps) - n - 1
+            while i < len(queue) and (acc < want or len(queue) - i > remaining_bands * 6):
+                if acc >= want and len(queue) - i <= remaining_bands: break
+                groups[c[0]].append(queue[i]); acc += queue[i]["_area"]; i += 1
+                if remaining_bands and len(queue) - i <= remaining_bands: break
+        for r in queue[i:]: groups[caps[-1][0]].append(r)
+    if any(not groups[c[0]] for c in caps): return False
+    # OQ 61 + OQ 62: the walk is laid against the COURT side of its own band, not left to the
+    # ordinary slicer to place somewhere in it. A corredor is by definition the edge between the
+    # ranges and the void -- that is what makes it the circulation -- and once OQ 62 gave the
+    # four walks real declared sizes, a walk small relative to its band was pushed off the court
+    # by the rooms beside it. Stating the strip is the same move as stating the ring: the search
+    # is good at slicing a range and has no way to know which of its edges matters.
+    INNER = {"S": "N", "N": "S", "W": "E", "E": "W"}
+    for (k, x, y, w, h, _a) in caps:
+        grp = groups[k]
+        walk = next((r for r in grp if isinstance(r.get("_void"), dict)
+                     and r["_void"].get("roofed")), None)
+        rest = [r for r in grp if walk is None or r["id"] != walk["id"]]
+        if walk is None or not rest:
+            slice_rect(copy.deepcopy(grp), x, y, w, h, module, tol, rng, out, relax)
+            continue
+        along = w if k in ("S", "N") else h            # the band's length along the court
+        strip = max(module * 0.55, min((h if k in ("S", "N") else w) * 0.6,
+                                       walk["_area"] / max(along, 1.0)))
+        side = INNER[k]
+        if side == "N":     wx, wy, ww, wh = x, y + h - strip, w, strip; rx, ry, rw, rh = x, y, w, h - strip
+        elif side == "S":   wx, wy, ww, wh = x, y, w, strip;             rx, ry, rw, rh = x, y + strip, w, h - strip
+        elif side == "E":   wx, wy, ww, wh = x + w - strip, y, strip, h; rx, ry, rw, rh = x, y, w - strip, h
+        else:               wx, wy, ww, wh = x, y, strip, h;             rx, ry, rw, rh = x + strip, y, w - strip, h
+        out[walk["id"]] = (round(wx, 2), round(wy, 2), round(ww, 2), round(wh, 2))
+        slice_rect(copy.deepcopy(rest), rx, ry, rw, rh, module, tol, rng, out, relax)
+    return True
+
 
 def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0):
     if not rooms: return
@@ -201,6 +356,33 @@ def exterior_score(rects, rooms, W, H, tol=0.6):
         if x + w >= W - tol: have.add("E")
         missing = {d for d in want if d in "NSEW"} - have
         s += len(missing) * 14
+    return s
+
+def void_enclosure_score(rects, rooms, W, H, shape, tol=0.6):
+    """OQ 55: an unroofed void on a courtyard massing has to be surrounded, or it is a notch.
+
+    Found by building the ruling and looking at the first drawing it produced: the court came
+    out in the block's SW corner against two exterior walls. That is the right area in the
+    right block and it is not a courtyard -- a court is defined by what encloses it, which is
+    `rooms/courtyard.json`'s own first sentence, so a court open to the street is a
+    contradiction of the diagram rather than a variant of it.
+
+    How many sides may be open is a fact about the MASSING, not about the room: the same
+    `courtyard` room serves `courtyard-full` (enclosed on four) and `courtyard-u` (three ranges
+    and a fourth side held by a wall or left open), so the allowance is read from the massing's
+    own `footprint` field. Any other shape is not charged at all -- a piazza runs along a flank
+    and MUST reach the perimeter, and charging it for that would be the check misfiring on the
+    case it was not written for."""
+    allowed = {"courtyard": 0, "u": 1}.get((shape or "").strip().lower())
+    if allowed is None: return 0.0
+    s = 0.0
+    for r in rooms:
+        v = r.get("_void")
+        if not isinstance(v, dict) or v.get("roofed"): continue
+        if r["id"] not in rects: continue
+        x, y, w, h = rects[r["id"]]
+        touched = sum(1 for hit in (y <= tol, y + h >= H - tol, x <= tol, x + w >= W - tol) if hit)
+        if touched > allowed: s += (touched - allowed) * 14
     return s
 
 def adjacency_score(rects, rooms, plan_rooms):
@@ -391,6 +573,24 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     for rid in u:
         if C["rooms"].get(ut.get(rid, {}).get("type"), {}).get("function_class") != "circulation": continue
         st = next((k for k in g if C["rooms"].get(gt.get(k, {}).get("type"), {}).get("id") == "stair-hall"), None)
+    # OQ 55: nothing may sit over an UNROOFED reserved void. A courtyard is open to the sky --
+    # a room placed above it has no floor and no bearing, and the roof plane it would need is
+    # the hole. A ROOFED void is the opposite case and is deliberately not charged: the whole
+    # point of separating `roofed` from `within_footprint` is that a Charleston single's upper
+    # piazza sits on its lower one, and that is correct rather than a defect.
+    open_voids = {rid: g[rid] for rid in g
+                  if isinstance(gt.get(rid, {}).get("_void"), dict)
+                  and not gt[rid]["_void"].get("roofed") and rid in g}
+    for rid, (x, y, w, h) in u.items():
+        if isinstance(ut.get(rid, {}).get("_void"), dict): continue   # void over void is fine
+        for vid, (vx, vy, vw, vh) in open_voids.items():
+            ox = min(x + w, vx + vw) - max(x, vx)
+            oy = min(y + h, vy + vh) - max(y, vy)
+            if ox > 1.0 and oy > 1.0:
+                s += 40
+                notes.append(f"{ut[rid].get('name') or rid} is placed over "
+                             f"{gt[vid].get('name') or vid}, which is open to the sky: "
+                             f"no floor under it, no bearing, and the roof it needs is the hole.")
     return s, notes
 
 # ---------------------------------------------------------------- the solve
@@ -410,30 +610,73 @@ def lot_usable_width_ft(plan):
     return max(0.0, lot_width - 2 * side)
 
 def prep_rooms(plan):
-    """Indoor rooms per level index, each carrying its program area. Shared by the
-    heuristic search below and the CP-SAT engine (WP-2.3, build/geometry_cp.py)
-    so the two engines place exactly the same room set."""
+    """Rooms per level index, each carrying the `_area` its own record declares. Shared by the
+    heuristic search below and the CP-SAT engine (WP-2.3, build/geometry_cp.py) so the two
+    engines place exactly the same room set. Returns (prep, levels), or (None, levels) when
+    there is no ground level.
+
+    Since OQ 55 this is no longer only indoor rooms: reserved voids (outdoor rooms whose own
+    record says they sit within the block -- a courtyard, a piazza, a loggia) are placed too,
+    carrying `_void`. Terraces and anything else with no `void` block still drop out here,
+    which is right: a terrace is appended at grade and the block would be the same shape
+    without it.
+
+    (Named `prep_rooms` after the 25 Aug merge: two sessions built WP-2.3 independently and
+    this function had two names. `geometry_cp.py` calls this one, so it is the one that
+    survives; the void handling is the other branch's and is kept.)"""
     levels = {lv.get("index", i): lv for i, lv in enumerate(plan["levels"])}
     prep = {}
     for idx, lv in levels.items():
         rs = []
         for r in lv["rooms"]:
-            if not is_indoor(r["type"]): continue
+            if not is_placed(r["type"]): continue
             q = dict(r); q["_area"] = (r.get("width_ft") or 10) * (r.get("length_ft") or 12)
+            # OQ 55: a reserved void is placed and dimensioned like any other room, and is
+            # marked here so every consumer that means HEATED area rather than FOOTPRINT area
+            # can tell the difference. `_void` is False on an indoor room and a dict on a void,
+            # so the flag carries the roofed/unroofed fact with it rather than needing a second
+            # corpus lookup at each use.
+            q["_void"] = void_spec(r["type"]) or False
             rs.append(q)
         prep[idx] = rs
+    # (levels, prep), which is the order geometry_cp.py unpacks at its two call sites. The
+    # other branch returned (prep, levels) and signalled "no ground level" by returning None
+    # for prep; that guard is kept below at the one caller that needs it, because silently
+    # returning None here would make the CP engine's `levels, prep = ...` bind prep to a level
+    # dict. Merge of 25 Aug: two independent WP-2.3 implementations, one surviving signature.
     return levels, prep
 
 
+# Footprint depth from the MASSING's own pile: a single-pile house is one room deep and a
+# double-pile two, and inventing an aspect ratio instead produces a house that is the right
+# area and the wrong shape.
+PILE = {"single-pile": 22.0, "one-and-a-half-pile": 28.0, "double-pile": 36.0,
+        "triple-pile": 46.0, "variable": 32.0}
+
+
 def derive_footprint(plan, parti=None, prep=None):
-    """The footprint derivation extracted verbatim from solve() (WP-2.3) so the
-    CP-SAT engine solves inside exactly the footprint the heuristic would have:
-    bay module and catalogue max from the parti, depth from the massing's own
-    pile, the lot cap (WP-2.4), and the grow-before-compromising loop. Returns
-    {"error": …} on the same conditions solve() always refused on."""
+    """Bay module, bay count and footprint, with the lot cap and the growth ordering.
+
+    Extracted from solve() in WP-2.3 so the CP-SAT solver derives its footprint from
+    exactly the same rule rather than a second copy that could drift: decision #11's
+    "grow the footprint before compromising a room" is a settled decision, and it should
+    have one implementation. Behaviour is verbatim what solve() did inline; the pinned
+    relaxation count in tests/test_geometry.py is what proves it.
+
+    Returns a dict of footprint facts, or one carrying `error` when the lot cannot hold
+    even the minimum two bays."""
     bay = ((parti or {}).get("scaling") or {}).get("bay_module_ft") or 10.0
     catalog_maxbay = ((parti or {}).get("scaling") or {}).get("max_bay_count") or 7
     maxbay = catalog_maxbay
+    # WP-2.4: compose.py's own footprint() estimate already caps candidate selection by lot
+    # width, but this solver derives its own bay count independently (from the massing's pile
+    # depth, not from compose.py's estimate) and is the placement that actually gets rendered
+    # -- so it needs the same cap, or a plan that "fit the lot" in compose.py's estimate can
+    # still be solved wider than its own lot right here, and the SVG lot line would be a lie
+    # about the building drawn inside it. Unlike the parti's own catalogue max_bay_count --
+    # which the growth loop below is already allowed to exceed by up to 3 bays rather than
+    # leave a room too deep -- the lot is a physical fact, not a diagram convention, so it
+    # bounds that growth loop too (see growth_ceiling below), not just the starting guess.
     lot_usable = lot_usable_width_ft(plan)
     lot_maxbay = None
     if lot_usable is not None:
@@ -444,48 +687,204 @@ def derive_footprint(plan, parti=None, prep=None):
                               f"cannot hold even this diagram's minimum 2 bays ({2*bay:.0f} ft) at its "
                               f"{bay:.0f} ft bay module."}
     tol = bay * 0.28
+    # The "no ground level" guard from main's side. It used to be signalled by prep_rooms
+    # returning None for prep; that could not survive the (levels, prep) signature the CP
+    # engine needs, so it is an explicit check here instead. PILE stays at module scope --
+    # main's side redeclared it locally and the two copies were identical.
     if prep is None:
         _, prep = prep_rooms(plan)
     if 0 not in prep or not prep[0]:
         return {"error": "no ground level"}
     a0 = sum(r["_area"] for r in prep[0])
     au = sum(r["_area"] for r in prep.get(1, []))
-    PILE = {"single-pile": 22.0, "one-and-a-half-pile": 28.0, "double-pile": 36.0,
-            "triple-pile": 46.0, "variable": 32.0}
     m = C["massings"].get(plan.get("massing") or "", {})
     target_depth = PILE.get(m.get("depth_rooms"), 32.0)
     need = max(a0, au)
+    # OQ 55, found by building it: on a void-bearing massing `depth_rooms` describes the RANGE,
+    # not the block. `courtyard-full` and `courtyard-u` both read `single-pile` -- correctly, the
+    # ranges around a court ARE one room deep -- and crossing the block you pass range, corredor,
+    # court, corredor, range. Feeding the court's area into a 22 ft depth target produced a
+    # 121 x 24.6 ft strip with the patio inside it: the right area, a shape that is not the
+    # diagram, and a house nobody could build. The massing's own `footprint` field is what
+    # distinguishes them -- "courtyard" has ranges on both sides of the void, "U" on one -- and
+    # the void band's depth is the reserved area over the block width, which is why this is
+    # recomputed inside the growth loop rather than fixed before it.
+    void_sf = sum(r["_area"] for r in prep[0] if isinstance(r.get("_void"), dict))
+    void_ranges = {"courtyard": 2, "u": 1}.get((m.get("footprint") or "").strip().lower())
+    if void_ranges is not None and void_sf:
+        base_depth = void_ranges * target_depth
+        def depth_for(width): return base_depth + void_sf / max(width, 1.0)
+    else:
+        void_ranges = None
+        def depth_for(width): return target_depth
     grown, bays = [], max(2, min(maxbay, round((need / target_depth) / bay)))
     growth_ceiling = catalog_maxbay + 3
     if lot_maxbay is not None: growth_ceiling = min(growth_ceiling, lot_maxbay)
     while True:
         W = bays * bay
         H = need / W
-        if H <= target_depth * 1.18 or bays >= growth_ceiling: break
+        # grow the footprint before compromising a room — the stated infeasibility ordering.
+        # `depth_for(W)` rather than the bare `target_depth` main's side used: on a ring massing
+        # the pile describes the RANGE and the block's target is ranges x pile PLUS the void
+        # band (OQ 55), so a fixed target shrinks a courtyard block to a light well.
+        if H <= depth_for(W) * 1.18 or bays >= growth_ceiling: break
         bays += 1; grown.append(bays)
-    while bays > 2 and need / ((bays - 1) * bay) <= target_depth * 1.18:
+    while bays > 2 and need / ((bays - 1) * bay) <= depth_for((bays - 1) * bay) * 1.18:
         bays -= 1
+    # OQ 55: on a ring massing the bay count decides the COURT's proportion, not just the
+    # block's, and the court's proportion is the number the diagram turns on --
+    # rooms/courtyard.json says so at length ("below about 0.8 the court is a light well...
+    # above about 3.0 it has stopped being a court"). The growth-and-shrink loops above are
+    # written for a block that holds rooms, and left alone they shrank this block to 4 bays and
+    # made the court a 16 x 40 slot: in band for area, out of band for the one ratio that
+    # matters. So on a ring massing the bay count is re-chosen against the courtyard room's own
+    # `proportion` band, which is the corpus deciding rather than this function.
+    if void_ranges is not None and void_sf:
+        court = next((r for r in prep[0] if isinstance(r.get("_void"), dict)
+                      and not r["_void"].get("roofed")), None)
+        prop = ((C["rooms"].get((court or {}).get("type"), {}).get("dimensions") or {})
+                .get("proportion")) if court else None
+        if court and prop:
+            aim = (prop[0] + prop[1]) / 2.0
+            scored = []
+            for b in range(2, int(growth_ceiling) + 1):
+                Wb = b * bay; Hb = need / Wb
+                dd = ring_depth(Wb, Hb, court["_area"], 4 if void_ranges == 2 else 3)
+                if dd is None: continue
+                cw = Wb - 2 * dd
+                chh = (Hb - 2 * dd) if void_ranges == 2 else (Hb - dd)
+                if cw <= 0 or chh <= 0: continue
+                ar = max(cw, chh) / min(cw, chh)
+                penalty = 0.0 if prop[0] <= ar <= prop[1] else min(abs(ar - prop[0]), abs(ar - prop[1])) * 10
+                scored.append((penalty + abs(ar - aim), b))
+            if scored:
+                bays = min(scored)[1]
     W = round(bays * bay, 2); H = round(need / W, 2)
-    slack = (W * H) - max(a0, au)
-    return {"bay": bay, "tol": tol, "W": W, "H": H, "bays": bays, "grown": grown,
-            "slack": slack, "catalog_maxbay": catalog_maxbay, "lot_maxbay": lot_maxbay,
-            "lot_usable": lot_usable, "growth_ceiling": growth_ceiling,
-            "target_depth": target_depth, "need": need}
+    # `tol` is carried in the dict (main's side) so solve_heuristic and geometry_cp read one
+    # relaxation allowance rather than each recomputing it. The void keys are OQ 55's.
+    return {"bay": bay, "tol": tol, "bays": bays, "W": W, "H": H,
+            "slack": (W * H) - max(a0, au),
+            "grown": grown, "lot_usable": lot_usable, "lot_maxbay": lot_maxbay,
+            "catalog_maxbay": catalog_maxbay, "growth_ceiling": growth_ceiling,
+            "target_depth": round(depth_for(W), 2), "range_depth": target_depth,
+            "void_ranges": void_ranges, "void_sf": round(void_sf), "need": need}
+
+
+def under_band(rects_by_level, prep):
+    """Rooms this layout placed below the floor of their own catalogue band.
+
+    OQ 54, ruled 24 Aug 2026. `level_score` charges a flat 12 points for a room under its band
+    and a candidate can win the search while paying it, so the spec Colonial's dining room comes
+    out at 91 sf against a 122 sf floor -- on every seed. Nothing reported it: the plan RECORD
+    still says 12 x 12, only the placement shrinks the room, and `plan_check.py` never reads
+    `room.geometry`, so no layer of the critic was looking at the number that changed.
+
+    The ruling was to report it here rather than to make the search refuse (which could leave a
+    brief with no candidate and no explanation) or to teach the critic to read geometry (a much
+    larger change every plan layer would feel). The search keeps its freedom to trade a room's
+    size against everything else, which is what a heuristic is for. It stops doing it silently."""
+    out = []
+    for idx, rects in rects_by_level.items():
+        for r in prep.get(idx, []):
+            rect = rects.get(r["id"])
+            if not rect: continue
+            got = rect[2] * rect[3]
+            lo, _hi = band(r["type"])
+            floor = lo * 0.85
+            if got < floor - 0.5:
+                out.append({"room": r["id"], "name": r.get("name") or r["id"], "type": r["type"],
+                            "placed_sf": round(got), "band_floor_sf": round(floor),
+                            "short_by_pct": round(100 * (floor - got) / floor)})
+    return sorted(out, key=lambda d: -d["short_by_pct"])
+
+
+def voids_report(rects_by_level, prep, ring=None):
+    """What was reserved, where, and what it cost the heated area (OQ 55).
+
+    Shared with build/geometry_cp.py so both engines report the reservation identically -- the
+    drawing is a render of the data, and two engines describing the same court two different
+    ways would put that guarantee back in doubt. `ring` is the heuristic's own ring-layout
+    tally and is None for the constraint solver, which does not lay out a ring: it inherits the
+    heuristic's slicing tree as its topology and refines it."""
+    voids = []
+    for idx, rects in sorted(rects_by_level.items()):
+        for r in prep.get(idx, []):
+            if not isinstance(r.get("_void"), dict) or r["id"] not in (rects or {}): continue
+            x, y, w, h = rects[r["id"]]
+            voids.append({"room": r["id"], "name": r.get("name") or r["id"], "type": r["type"],
+                          "level": idx, "area_sf": round(w * h),
+                          "roofed": bool(r["_void"].get("roofed"))})
+    return {
+        "count": len(voids), "rooms": voids,
+        "ring_layout": ring,
+        "reserved_sf": round(sum(v["area_sf"] for v in voids if v["level"] == 0)),
+        "note": ("Reserved voids: placed and dimensioned like any other room, excluded from the "
+                 "heated envelope, drawn open (OQ 55). The block was sized to hold them, so the "
+                 "footprint is larger than the heated area by the reserved figure -- that is the "
+                 "diagram being honoured rather than the house being inflated. An unroofed void "
+                 "is a hole in the roof plane; nothing is placed over it, and the roof pass is "
+                 "told so rather than left to span it." if voids
+                 else "No reserved voids on this plan.")}
+
+
+def write_record(plan, levels, ground, upper, fp, report):
+    """Write coordinates, footprint and geometry_report back into the plan record.
+
+    Shared with build/geometry_cp.py so both engines emit an identically-shaped record --
+    the drawing is a render of the data (decision #11), and two engines writing two
+    slightly different records would make that guarantee engine-dependent."""
+    void_sf = 0.0
+    for idx, lv in levels.items():
+        src = ground if idx == 0 else (upper if idx == 1 else {})
+        for r in lv["rooms"]:
+            if r["id"] in src:
+                x, y, w, h = src[r["id"]]
+                r["geometry"] = {"x_ft": x, "y_ft": y, "width_ft": round(w, 2), "depth_ft": round(h, 2),
+                                 "area_sf": round(w * h)}
+                # OQ 55: the record says on the rect itself whether it is a reserved void, so
+                # every downstream consumer -- the renderer, the structure pass, the roof pass,
+                # anything that reads a plan file it did not solve -- can tell without going
+                # back to the room catalogue. `heated: false` is the operative claim; `roofed`
+                # says whether anything may sit above it.
+                v = void_spec(r["type"])
+                if v:
+                    r["geometry"]["void"] = {"heated": False, "roofed": bool(v.get("roofed"))}
+                    if idx == 0: void_sf += w * h
+    gross = fp["W"] * fp["H"]
+    plan["footprint"] = {"width_ft": fp["W"], "depth_ft": fp["H"], "bays": fp["bays"],
+                         "bay_module_ft": fp["bay"], "area_sf": round(gross),
+                         "slack_sf": round(fp["slack"])}
+    if void_sf:
+        # area_sf keeps its meaning -- the block, outside the reserved voids as much as inside
+        # them, which is what the roof spans and the lot must hold. What it never meant and
+        # was silently taken for was the heated area, so that is now stated separately rather
+        # than left to be inferred from a number that does not carry it.
+        # Derived from the two rounded figures rather than rounded independently, so the three
+        # numbers in the record add up. A footprint block that is out by a square foot invites
+        # exactly the doubt this ruling exists to remove.
+        plan["footprint"]["void_area_sf"] = round(void_sf)
+        plan["footprint"]["heated_area_sf"] = plan["footprint"]["area_sf"] - round(void_sf)
+        plan["footprint"]["area_note"] = (
+            "area_sf is the gross block: what the roof spans and the lot must hold. "
+            "heated_area_sf takes out the reserved voids (OQ 55) -- they are placed and "
+            "dimensioned, and they are not conditioned space.")
+    if fp.get("lot_usable") is not None:
+        plan["footprint"]["lot_usable_width_ft"] = round(fp["lot_usable"], 1)
+    plan["geometry_report"] = report
+    return plan
 
 
 def solve_heuristic(plan, parti=None, candidates=250, seed=7):
+    """The hill-climbing search. Named `solve_heuristic` since the 25 Aug merge: `solve()`
+    below is now a dispatcher that prefers the CP-SAT engine and falls back to this one."""
     rng = random.Random(seed)
-    # Footprint derivation and room prep live in derive_footprint()/prep_rooms()
-    # above (extracted verbatim in WP-2.3 so the CP-SAT engine shares them; the
-    # WP-2.4 lot-cap reasoning is documented on derive_footprint).
     levels, prep = prep_rooms(plan)
-    fpd = derive_footprint(plan, parti, prep)
-    if "error" in fpd:
-        return {"error": fpd["error"]}
-    bay, tol = fpd["bay"], fpd["tol"]
-    W, H, bays = fpd["W"], fpd["H"], fpd["bays"]
-    grown, slack = fpd["grown"], fpd["slack"]
-    catalog_maxbay, lot_maxbay, lot_usable = fpd["catalog_maxbay"], fpd["lot_maxbay"], fpd["lot_usable"]
+    if prep is None or 0 not in prep: return {"error": "no ground level"}
+    fp = derive_footprint(plan, parti, prep)
+    if "error" in fp: return {"error": fp["error"]}
+    bay, bays, W, H = fp["bay"], fp["bays"], fp["W"], fp["H"]
+    grown, lot_maxbay, catalog_maxbay = fp["grown"], fp["lot_maxbay"], fp["catalog_maxbay"]
+    lot_usable, slack, tol = fp["lot_usable"], fp["slack"], fp["tol"]
 
     # WP-2.2: composition_parti (the style's kit) and entrance_faces (the plan's own context)
     # feed the compositional scoring terms below. composition_parti is read for completeness
@@ -495,14 +894,28 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
     # every plan this solver has ever been run against (context.entrance_faces).
     composition_parti = ((C["kits"].get(plan.get("style") or "") or {}).get("slots") or {}).get("composition_parti")
     ewalls = entrance_walls(plan)
+    void_shape = (C["massings"].get(plan.get("massing") or "", {}).get("footprint") or "")
+
+    # OQ 55: on a courtyard massing the ground level is laid out as ranges around the court
+    # rather than searched for, because the search cannot find a ring (see courtyard_slice).
+    # `ring_sides` is None for every other massing, and everything below is then untouched.
+    ring_sides = {"courtyard": 4, "u": 3}.get(void_shape.strip().lower())
+    ring_used = ring_failed = 0
 
     best = None
     for _ in range(candidates):
         gr, grelax = {}, []
-        slice_rect(copy.deepcopy(prep[0]), 0, 0, W, H, bay, tol, rng, gr, grelax)
+        drew = False
+        if ring_sides:
+            drew = courtyard_slice(copy.deepcopy(prep[0]), W, H, bay, tol, rng, gr, grelax, ring_sides)
+            if drew: ring_used += 1
+            else: gr, grelax, ring_failed = {}, [], ring_failed + 1
+        if not drew:
+            slice_rect(copy.deepcopy(prep[0]), 0, 0, W, H, bay, tol, rng, gr, grelax)
         sg = (level_score(gr, prep[0]) + exterior_score(gr, prep[0], W, H) + adjacency_score(gr, prep[0], levels[0]["rooms"])
               + entrance_score(gr, prep[0], W, H, ewalls) + principal_and_service_score(gr, prep[0], W, H, ewalls)
-              + ceremonial_score(gr, prep[0], W, H, ewalls) + centre_hall_symmetry_score(gr, prep[0], W, H))
+              + ceremonial_score(gr, prep[0], W, H, ewalls) + centre_hall_symmetry_score(gr, prep[0], W, H)
+              + void_enclosure_score(gr, prep[0], W, H, void_shape))
         ur, urelax = {}, []
         if prep.get(1):
             slice_rect(copy.deepcopy(prep[1]), 0, 0, W, H, bay, tol, rng, ur, urelax)
@@ -521,32 +934,12 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
                     "score": round(tot, 1), "ground": gr, "upper": ur, "vnotes": vnotes,
                     "relaxations": grelax + urelax, "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1)}
 
-    return _finish(plan, best, fpd, levels)
-
-
-def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
-    """Write a placement back into the plan record — extracted from the heuristic
-    tail (WP-2.3) so both engines emit exactly the same record and report shape.
-    `solver` names which engine produced this placement and why; `infeasible`
-    carries the CP engine's named conflict set when the declared facts cannot
-    all hold and this drawing is the labelled least-bad relaxation."""
-    W, H, bays, bay = fpd["W"], fpd["H"], fpd["bays"], fpd["bay"]
-    for idx, lv in levels.items():
-        src = best["ground"] if idx == 0 else (best["upper"] if idx == 1 else {})
-        for r in lv["rooms"]:
-            if r["id"] in src:
-                x, y, w, h = src[r["id"]]
-                r["geometry"] = {"x_ft": x, "y_ft": y, "width_ft": round(w, 2), "depth_ft": round(h, 2),
-                                 "area_sf": round(w * h)}
-    plan["footprint"] = {"width_ft": W, "depth_ft": H, "bays": bays, "bay_module_ft": bay,
-                         "area_sf": round(W * H), "slack_sf": round(fpd["slack"])}
-    if fpd["lot_usable"] is not None:
-        plan["footprint"]["lot_usable_width_ft"] = round(fpd["lot_usable"], 1)
+    # --- write coordinates back into the plan (write_record does it, below)
     rel = best["relaxations"]
-    plan["geometry_report"] = {
+    report = {
         "score": best["score"], "ground_score": best["sg"], "upper_score": best["su"], "vertical_score": best["sv"],
-        "bays_grown": fpd["grown"],
-        "lot_capped": (fpd["lot_maxbay"] is not None and fpd["lot_maxbay"] < fpd["catalog_maxbay"]),
+        "bays_grown": fp["grown"],
+        "lot_capped": (fp["lot_maxbay"] is not None and fp["lot_maxbay"] < fp["catalog_maxbay"]),
         "relaxations": {"count": len(rel), "max_off_grid_ft": round(max(rel), 2) if rel else 0,
                         "note": ("Cuts taken off the bay line to make a room fit. Each one is a joist run that "
                                  "does not land on a bearing line and a window bay that will not centre." if rel
@@ -554,6 +947,101 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
         "vertical": best["vnotes"] or ["Every upper wall continues to a wall below and every stack lands."],
         "reading": ("Ground and upper were solved together and scored as a pair, so an upper layout that would "
                     "score better alone is rejected when it leaves walls unsupported.")}
+    ub = under_band({0: best["ground"], 1: best["upper"]}, prep)
+    report["under_band"] = {
+        "count": len(ub), "rooms": ub,
+        "note": ("Rooms placed below the floor of their own catalogue band. The search is allowed to "
+                 "trade a room's size against everything else it is scoring, and it charges itself 12 "
+                 "points each time -- but the plan record still carries the room's DECLARED size, and "
+                 "nothing downstream reads these coordinates, so without this list the trade is "
+                 "invisible. A room below its band is a defect that survives the life of the building. "
+                 "build/geometry_cp.py refuses to make this trade at all (OQ 54)." if ub
+                 else "Every room was placed at or above the floor of its own catalogue band.")}
+    report["voids"] = voids_report(
+        {0: best["ground"], 1: best["upper"]}, prep,
+        ring=(None if not ring_sides else
+              {"sides": ring_sides, "used": ring_used, "fell_back": ring_failed,
+               "note": ("Ground laid out as ranges around the court, stated as a guillotine tree "
+                        "rather than searched for." if ring_used else
+                        "Courtyard massing, but the ring could not be built -- the block cannot "
+                        "hold the declared court with ranges deep enough to be rooms, so the "
+                        "ordinary search ran instead and the court is a notch in the block, not "
+                        "a court. Read the drawing before believing the plan.")}))
+    return write_record(plan, levels, best["ground"], best["upper"], fp, report)
+
+
+def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
+    """Write a placement back into the plan record. Main's side extracted this so the CP engine
+    and the heuristic emit the same record shape; `solve()` below calls it for the CP path.
+    `solver` names which engine produced this placement and why; `infeasible` carries the CP
+    engine's named conflict set when the declared facts cannot all hold and this drawing is the
+    labelled least-bad relaxation.
+
+    OQ 55 on this path: the CP engine does not yet lay out a courtyard RING -- that is stated as
+    a guillotine tree in courtyard_slice() and the heuristic owns it -- but the footprint's void
+    accounting is derived from the same fpd, so a CP-produced record still says what is reserved
+    and what is heated rather than silently reporting the gross block as conditioned space. The
+    remaining gap (a CP-placed ring) is recorded in docs/geometry.md rather than papered over.
+    """
+    W, H, bays, bay = fpd["W"], fpd["H"], fpd["bays"], fpd["bay"]
+    for idx, lv in levels.items():
+        src = best["ground"] if idx == 0 else (best["upper"] if idx == 1 else {})
+        for r in lv["rooms"]:
+            if r["id"] in src:
+                x, y, w, h = src[r["id"]]
+                r["geometry"] = {"x_ft": x, "y_ft": y, "width_ft": round(w, 2),
+                                 "depth_ft": round(h, 2), "area_sf": round(w * h)}
+    plan["footprint"] = {"width_ft": W, "depth_ft": H, "bays": bays, "bay_module_ft": bay,
+                         "area_sf": round(W * H), "slack_sf": round(fpd["slack"])}
+    void_sf = fpd.get("void_sf") or 0
+    if void_sf:
+        plan["footprint"]["void_area_sf"] = round(void_sf)
+        plan["footprint"]["heated_area_sf"] = plan["footprint"]["area_sf"] - round(void_sf)
+        plan["footprint"]["area_note"] = (
+            "area_sf is the gross block: what the roof spans and the lot must hold. "
+            "heated_area_sf takes out the reserved voids (OQ 55) -- they are placed and "
+            "dimensioned, and they are not conditioned space.")
+    if fpd.get("lot_usable") is not None:
+        plan["footprint"]["lot_usable_width_ft"] = round(fpd["lot_usable"], 1)
+
+    # The report is built HERE, not by the caller. The 25 Aug merge moved the shared
+    # report block into solve_heuristic (which augments it with under_band and voids) and
+    # left this path writing into a `geometry_report` that did not exist yet -- a KeyError
+    # on every CP-produced placement, which main's own test_check_plans_solve_with_stated
+    # _downgrades caught immediately.
+    rel = best.get("relaxations") or []
+    plan["geometry_report"] = {
+        "score": best.get("score"), "ground_score": best.get("sg"),
+        "upper_score": best.get("su"), "vertical_score": best.get("sv"),
+        "bays_grown": fpd.get("grown"),
+        "lot_capped": (fpd.get("lot_maxbay") is not None
+                       and fpd["lot_maxbay"] < fpd.get("catalog_maxbay", 10 ** 9)),
+        "relaxations": {
+            "count": len(rel), "max_off_grid_ft": round(max(rel), 2) if rel else 0,
+            "note": ("Cuts taken off the bay line to make a room fit. Each one is a joist run "
+                     "that does not land on a bearing line and a window bay that will not "
+                     "centre." if rel else "Every cut landed on a bay line.")},
+        "vertical": best.get("vnotes")
+                    or ["Every upper wall continues to a wall below and every stack lands."],
+        "reading": ("Ground and upper were solved together and scored as a pair, so an upper "
+                    "layout that would score better alone is rejected when it leaves walls "
+                    "unsupported.")}
+    # OQ 54 and OQ 55 must be reported on BOTH engines. `solve_heuristic` builds these with
+    # its own prep and ring tally; here they are derived from the plan, because a guarantee
+    # that holds only on the fallback engine is not a guarantee. `ring=None` is honest: the CP
+    # engine does not lay out a ring (see OQ 55), and voids_report says so rather than
+    # implying one was placed.
+    _levels, _prep = prep_rooms(plan)
+    _rects = {idx: {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"],
+                              r["geometry"]["width_ft"], r["geometry"]["depth_ft"])
+                    for r in lv["rooms"] if r.get("geometry")}
+              for idx, lv in (_levels or {}).items()}
+    ub = under_band(_rects, _prep)
+    plan["geometry_report"]["under_band"] = {
+        "count": len(ub), "rooms": ub,
+        "note": ("Rooms placed below the floor of their own catalogue band (OQ 54)." if ub
+                 else "Every room was placed at or above the floor of its own catalogue band.")}
+    plan["geometry_report"]["voids"] = voids_report(_rects, _prep, ring=None)
     if solver:
         plan["geometry_report"]["solver"] = solver
     if infeasible:
@@ -674,11 +1162,23 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("plan"); ap.add_argument("--out"); ap.add_argument("--svg")
     ap.add_argument("--parti"); ap.add_argument("--candidates", type=int, default=250)
+    # `--engine`, matching solve()'s own parameter. This was `--solver heuristic|cp|both`
+    # against build/solver.py until the 25 Aug merge: two sessions built WP-2.3 independently
+    # and geometry_cp.py is the engine that survived, so the flag now names the dispatcher's
+    # own vocabulary rather than a second solver's.
+    ap.add_argument("--engine", default="auto", choices=["auto", "cp", "heuristic"],
+                    help="auto (default: the CP-SAT engine when OR-Tools is present, falling "
+                         "back to this file's search with the reason named in "
+                         "geometry_report.solver), or force one of cp / heuristic")
+    ap.add_argument("--time", type=float, default=25.0, help="CP time budget, seconds")
     a = ap.parse_args()
     plan = json.load(open(a.plan))
     parti = json.load(open(f"{ROOT}/partis/{a.parti}.json")) if a.parti else None
-    out = solve(plan, parti, a.candidates)
-    if "error" in out: print(out["error"]); return
+    out = solve(plan, parti, a.candidates, engine=a.engine, time_limit_s=a.time)
+    if "error" in out:
+        print(out["error"])
+        for r in (out.get("conflict") or {}).get("requirements", []): print(f"    · {r}")
+        return
     fp, gr = out["footprint"], out["geometry_report"]
     print(f"\n  {plan['name']}")
     print(f"  footprint {fp['width_ft']} x {fp['depth_ft']} ft, {fp['bays']} bays of {fp['bay_module_ft']} ft, {fp['area_sf']} sf gross")

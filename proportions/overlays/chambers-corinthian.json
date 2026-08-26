@@ -174,7 +174,8 @@
       "expression": "column_height / 10 * (5 / 6)",
       "units": "in",
       "note": "The upper diameter. Chambers employs one sixth in all five orders and notes that in the antiques the diminution is 'seldom less than one eighth of the inferior Diameter of the Column, nor more than one sixth of it', with Vitruvius grading it by height - a sixth at fifteen feet, a seventh at twenty to thirty, an eighth at forty to fifty. He declines to grade it and takes the sixth throughout, arguing that a degree 'found pleasing' should then be held. Vignola agrees on the fraction; PALLADIO does grade it, which is why the three authorities' shafts differ visibly on a tall order.",
-      "authority_note": "Chambers, Treatise 1759, pp. 34-35."
+      "authority_note": "Chambers, Treatise 1759, pp. 34-35.",
+      "quantity": "shaft_upper_diameter"
     },
     {
       "target_slot": "entablature",
@@ -186,7 +187,8 @@
         0.25
       ],
       "note": "Five modules on twenty - Vignola's quarter, retained, and defended. Chambers permits reduction where the order is engaged or in interior work, giving two ninths (0.222) and one fifth as the alternatives he will accept, and permits augmentation to a 'full five Modules' where the entablature must carry more. Palladio's fifth sits at the bottom of Chambers's permitted band, which is a fair measure of how far apart the two authorities are: what Palladio makes the rule, Chambers allows as a concession.",
-      "authority_note": "Chambers, Treatise 1759, pp. 62, 68 and 107."
+      "authority_note": "Chambers, Treatise 1759, pp. 62, 68 and 107.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "chair_rail",
@@ -199,7 +201,8 @@
         0.33
       ],
       "note": "JUDGMENT SLOT. Pedestal 0.3, column 1.0, entablature 0.25: the cap lands at 0.194, about 21 in at a 9 ft ceiling. Under Vignola's Corinthian it is 7/32.5 = 0.215 and about 23 in. Both fall well short of the modern 32-36 in chair rail. In a Corinthian room - which is by definition a grand one - the right answer is usually to hold the classical dado and let the furniture look after itself.",
-      "authority_note": "Chambers, Treatise 1759, pp. 83-84."
+      "authority_note": "Chambers, Treatise 1759, pp. 83-84.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "pilaster",
@@ -207,7 +210,8 @@
       "expression": "5 / 6",
       "units": "ratio",
       "note": "Top width to bottom. Chambers is emphatic that pilasters diminish and that the contrary opinion 'shews very little acquaintance either with books of Architecture' or with the antique. In a Corinthian pilaster order the consequence is practical: the capital's leaves must be set out to the DIMINISHED width, and Chambers's rule elsewhere is that 'the Foot of the Leaves of the Capital must not project beyond the upper part of the Shaft'.",
-      "authority_note": "Chambers, Treatise 1759, pp. 72-75."
+      "authority_note": "Chambers, Treatise 1759, pp. 72-75.",
+      "quantity": "pilaster_diminution_ratio"
     },
     {
       "target_slot": "crown",
@@ -220,7 +224,8 @@
         0.09
       ],
       "note": "JUDGMENT SLOT. The room as an order, with the Corinthian entablature's cornice taken at two fifths - the proportion Chambers's Corinthian plate carries, and the figure most consistent with a Corinthian cornice of two modules on an entablature of five. 8.6 in at a 9 ft ceiling. This is a judgement because the entablature's internal division is on the plate rather than in the text and cannot be quoted; the range is honest and the point within it is not.",
-      "authority_note": "Chambers, Treatise 1759, p. 62; the two-fifths division follows Vignola's Corinthian entablature (2 of 5 modules), which Chambers's proportions match."
+      "authority_note": "Chambers, Treatise 1759, p. 62; the two-fifths division follows Vignola's Corinthian entablature (2 of 5 modules), which Chambers's proportions match.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "porch_support",
@@ -228,7 +233,8 @@
       "expression": "column_height / 10 * (7 / 3)",
       "units": "in",
       "note": "Clear span at Chambers's revised eustyle. On a 20 ft Corinthian column, 56 in against Vignola's 54 and Palladio's 48. The three authorities' Corinthian porticoes are measurably different buildings.",
-      "authority_note": "Chambers, Treatise 1759, p. 89."
+      "authority_note": "Chambers, Treatise 1759, p. 89.",
+      "quantity": "clear_span_between_supports"
     },
     {
       "target_slot": "modillion_dentil",
@@ -237,7 +243,8 @@
       "units": "count",
       "judgment": true,
       "note": "JUDGMENT SLOT. Modillions in the bay, at a pitch of a third of a diameter. Chambers's observation is the useful one: 'the distribution of the Dentil-Band will answer pretty nearly in all the regular Intercolumniations' - dentils forgive a bay that does not divide, modillions do not, and the modillion must land on the column axis and at the corner. Setting out from the corner inward and absorbing the remainder at the centre of the bay is the standard resolution and it is a draughtsman's decision.",
-      "authority_note": "Chambers, Treatise 1759, p. 53."
+      "authority_note": "Chambers, Treatise 1759, p. 53.",
+      "quantity": "eave_members_per_bay"
     }
   ],
   "conflicts": [

@@ -247,6 +247,18 @@
       "role": "room",
       "note": "The Stube and chamber rooms of a Fachwerk house are exactly the daylight- and span-limited vernacular room this pack models: small, low, lit from a panel wall that 'wants small openings.' The pack's hearth_position and daylight_strategy rules match this node's own account of a masonry-stove-heated Stube reached off a smoke-free passage.",
       "precedence": 2
+    },
+    {
+      "pack": "timber-panel",
+      "role": "primary",
+      "note": "The most precisely dimensioned panel record in the corpus: 'panel width 0.9-1.3 m; panel height 0.8-1.6 m; panel proportion roughly 1:1 to 2:3', with timber at 120-200 mm square and the jetty at 200-400 mm per storey. Primary. Two things to read against the English nodes rather than alongside them: the German post is HALF the English one and there are more of them, which is a real difference in framing culture and not a discrepancy; and the brace here goes up in compression, often symmetrically, where the English brace goes down in tension -- the pack states brace LENGTH and declines direction, because direction is a regional grammar with no number in it.",
+      "precedence": 3
+    },
+    {
+      "pack": "jetty-overhang",
+      "role": "secondary",
+      "note": "The multi-storey case, and the only record in the corpus that says what to do when the cantilever runs out: 'a jetty greater than about 400 mm requires a bracket (Knagge) at every beam end.' That threshold is `belt_course`/`bracket_threshold`, and it is also the explanation for a difference nobody states directly -- German towns jetty on three and four storeys and English work rarely jetties above one, because the Knagge converts a cantilever into a strut-and-tie and the English tradition did not use it that way. This node's jetty band, 200-400 mm, is the shallowest in the corpus and its bressumer the most elaborate: the carved and inscribed Schwelle carrying name, date and text.",
+      "precedence": 4
     }
   ]
 }

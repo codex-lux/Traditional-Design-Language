@@ -1,7 +1,7 @@
 {
   "style": "norman-romanesque-english",
   "style_name": "Norman Romanesque (English)",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -250,6 +250,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "binding": "specified",
       "status": "drafted",
@@ -376,7 +381,7 @@
       "parameters": {},
       "status": "empty"
     },
-    "window_head_masonry": {
+    "arch": {
       "binding": "specified",
       "status": "drafted",
       "confidence": "high",
@@ -404,7 +409,14 @@
       "sources": [
         "norman-romanesque-english.json constraints (norman-romanesque-english.c01)"
       ],
-      "group": "openings"
+      "group": "openings",
+      "note": "MIGRATED FROM `window_head_masonry` 24 Aug 2026 (OQ 46), when the `arch` slot was added. Semicircular, rise exactly half the span, pointed forbidden -- a single pointed arch reclassifies the building as Transitional. Arch form, not window head. The old slot is left `open`/`empty` on this kit rather than carrying a pointer, because the same fact in two places is what this migration exists to prevent."
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty",
+      "note": "Emptied 24 Aug 2026 (OQ 46): everything this slot carried was about the ARCH as a spanning member and has moved to the `arch` slot. This kit states nothing about how a masonry window head is built, and saying so is different from saying it has none."
     },
     "window_head_wood": {
       "group": "openings",

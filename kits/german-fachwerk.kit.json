@@ -1,7 +1,7 @@
 {
   "style": "german-fachwerk",
   "style_name": "German Fachwerk",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -234,6 +234,21 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The same, with a stricter joint rule the node states itself: 'every infill panel must be framed on all four sides by timber, and every brace must terminate in a joint at both ends. A timber that dies into a panel' is not permitted. The German post is HALF the English one and there are more of them, which `timber-panel` records as a real difference rather than a regional accent.",
+      "variants": [
+        {
+          "id": "structural",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Modelled as a variant rather than a parameter because a variant can be FORBIDDEN -- `status: forbidden` is how five of these fourteen kits say the member must not appear, and a parameter has no way to say that. (The reason first recorded here was that a categorical carries no unit and the checker insists a parameter has one. That is false: this corpus holds 236 categorical parameters whose unit is `none` and `check_kits.py` passes every one. Corrected 25 Aug 2026 by audit -- the modelling call stands, its stated reason did not.)"
+        }
+      ]
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -310,6 +325,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {

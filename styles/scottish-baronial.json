@@ -218,6 +218,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "secondary",
+      "note": "Secondary, and the split needs saying. The walling is squarely this pack's -- squared rubble, granite ashlar or harled rubble, reveals at 300-450 mm, glazed area at 10-16 per cent, 'plain and unornamented through the lower storeys' -- and the granite work sits at the top of the pack's quoin and module bands, which is what a granite tradition does. What is NOT here is everything above the wall head: the crow-stepped gable at 300-450 mm tread and 200-300 mm rise, and the corbelled bartizan at 1.2-2.0 m diameter on a 55-65 degree conical roof. Those are real numbers in this node's own record and they belong to a gable-and-turret geometry that WP-4.1 lists as entirely missing from the library. The pack quotes them in its notes so the next author finds them and does not restate them as walling.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "scottish-baronial is named directly in facade-picturesque's applies_to. governing_logic states 'None classical. Composition is picturesque — balance of masses read obliquely, with a dominant vertical accent' and symmetry is recorded as 'picturesque-asymmetrical,' which is exactly the pack's dominant-mass, oblique-reading logic. The one addition this style makes that the generic pack does not encode is the concentration of all ornament at the wall head over plain lower storeys (c02) — a vertical distribution rule with no equivalent slot in the pack, noted as a gap below.",
@@ -228,6 +234,18 @@
       "role": "room",
       "note": "Judgment binding: not in room-vernacular's applies_to, and the text is explicit that behind the tower-house costume the rooms are 'large, square, well-lit, plastered and comfortable, laid out with a Victorian sense of circulation' — larger and more regular than the anonymous vernacular median this pack reconstructs. Bound anyway because governing_logic rules out any classical room system ('None classical') and no closer fit exists in the library; treat the module and ratio figures as a loose floor rather than a governing target for a Bryce-scale house.",
       "precedence": 2
+    },
+    {
+      "pack": "facade-gable",
+      "role": "facade",
+      "note": "The node `stone-course` was keeping the figures for. That pack declined the crow-step and the bartizan as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers into its own notes so they would not be lost; this is where they were being kept. Crow-step tread 300-450 mm and rise 200-300 mm, cut in squared stone, with 'no barge board' -- the crow-step IS the verge treatment and adding a barge is two solutions to one problem. What this pack still does not carry is the bartizan, at 1.2-2.0 m diameter corbelled 450-750 mm out on a 55-65 degree conical roof: that is a turret and not a gable, and it remains on the list.",
+      "precedence": 3
+    },
+    {
+      "pack": "corbel-course",
+      "role": "secondary",
+      "note": "The largest corbel in the corpus, and the figures `stone-course` deliberately kept for a pack that did not exist -- its notes record that it declined the crow-step and the bartizan as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers so they would not be lost. This is where they were going. Bartizan diameter 1.2-2.0 m corbelled 450-750 mm from the wall face on a conical roof of 55-65 degrees, and the hard rule that matters more than any of them: the corbelling must be VISIBLE, because a turret 'sitting on a bracket, a cantilevered slab, or nothing at all is the commonest and most immediately visible failure of the style.' It also supplies the wall-head rationing rule. `facade-gable` keeps the crow-step, which is a different device.",
+      "precedence": 4
     }
   ]
 }

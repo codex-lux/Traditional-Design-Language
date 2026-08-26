@@ -261,16 +261,28 @@
   ],
   "proportion_packs": [
     {
+      "pack": "adobe-module",
+      "role": "optional",
+      "note": "Optional, which is the weakest binding this corpus offers and the right one. Spanish Colonial Revival is a stucco-on-frame idiom from the start -- it was never a mass-wall tradition and does not claim to be -- so the pack cannot govern its construction and should not pretend to. It is bound optional because a designer working this node routinely reaches for one or two moves that only make sense in the mass wall it descends from: a deep reveal, a small high window, a canale, a thick-walled entry. Where those moves are made, this pack says what they cost and what they have to be to work. Where they are not, nothing here applies, and facade-picturesque governs alone.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "This style states its own bay rhythm as 'deliberately irregular... vertical alignment between storeys is neither expected nor desirable' and its own massing_affinities record massed-picturesque as 'common... where volumes step and turn to describe apparent accretion' -- precisely the dominant-mass-plus-subordinate-masses composition facade-picturesque was built to check. Bind the same general invariants as on andalusian-spanish-revival (dominance ratio, lever-arm balance, two continuous datums, window-proportion-count cap, window-grouping-rule) for the same reason, and exclude the pack's datum_stack member heights, which assume a shingled or clapboarded wood-frame wall this style does not have. This style's own entrance-ornament rule (c03: not more than two elevations carry worked ornament, the principal surround the single most elaborate element on the building, with 12 ft of blank wall on each side) IS this style's own dominance rule, stated in its own vocabulary, and should be read as controlling over the bound pack wherever the two might seem to disagree.",
       "precedence": 1
     },
     {
+      "pack": "facade-portada",
+      "role": "facade",
+      "note": "The node the whole American strand descends from, and the one that gives the pack its two domestic figures: the surround 5-8 ft wide for a 3'0\" leaf, and the minimum 12 ft run of unornamented wall each side. That second is the only rule in the corpus that gives ABSENCE a dimension. Its own record diagnoses the type's characteristic failure -- 'the revival puts church-scale ornament on a house' -- and `door_surround`/`leaf_ratio` is the correction: a portada at a house door is a doorcase twice the width of its leaf, not a cathedral front reduced. Bound ahead of `room-vernacular` and behind `facade-picturesque`, which owns the massing this style composes by.",
+      "precedence": 2
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "Bound for the daylight-depth rule, on the same reasoning as andalusian-spanish-revival: the courtyard-organized plan, with its single-pile ranges opening onto a patio, is exactly the condition the pack's daylight physics describes, and that physics is period-agnostic by the pack's own account. Do not carry over the hearth-reach, joist-span or frontage-driven room-count rules -- none of the three physical constraints those rules recover from Anglo-American vernacular fabric (span, hearth, and the folk-house catalogue built from tiling a frontage with rooms) describes a stucco courtyard house organized around a patio rather than a passage.",
-      "precedence": 2
+      "precedence": 3
     }
   ]
 }

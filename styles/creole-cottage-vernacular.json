@@ -237,6 +237,18 @@
       "role": "opening",
       "note": "As with the parent style: French casement doors 5'6\"-6'6\" wide sit within opening-proportion's wide-leaf band where its 2:1 ratio is native rather than forced, and the pack's door-from-storey rule (storey/3.5) is a reasonable proportional starting point for an 11-13 ft ceiling. Preferred over sash-light for the same reason as the parent style: these are doors, not sash windows, and sash-light's glass-supply arithmetic has nothing to derive from here.",
       "precedence": 2
+    },
+    {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "The node that shows both of the pack's lighter regimes side by side in one sentence: 'either a posted galerie 6-10 ft deep with a pitch break at the wall plane, or an abat-vent projecting 30-48 in on iron rods or brackets with no posts.' Those are two of the pack's three depth rules stated as alternatives on one building type, which is the clearest evidence in the corpus that depth follows carrying strategy rather than taste. The abat-vent band it gives is the same one `styles/regency.json` gives for its cast-iron balconette, independently.",
+      "precedence": 3
+    },
+    {
+      "pack": "timber-panel",
+      "role": "secondary",
+      "note": "Colombage with 'briquette-entre-poteaux or bousillage infill, stuccoed or weatherboarded' -- the same system in a fourth language, and the node that makes the pack's climate conflict concrete. The infill here is named for what fills it (little bricks between posts; mud-and-moss) and the wall is then COVERED, which is the historical norm the pack argues for and which revival work reverses. `balcony-gallery` and `room-vernacular` hold this node's other systems and neither touches the wall.",
+      "precedence": 4
     }
   ]
 }

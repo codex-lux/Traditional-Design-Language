@@ -1,377 +1,380 @@
 {
-  "id": "ranch-tripartite",
-  "name": "Ranch, Tripartite",
-  "aka": [
-    "the three-zone ranch",
-    "bedroom wing plan"
-  ],
-  "description": "Sleeping rooms on one leg, living rooms in the middle, service and garage on the other. The zoning is the type's real innovation and it is genuinely good; what the type never solved is what to do with the garage doors once they face the street.",
-  "massing": "ranch-l",
-  "alternate_massings": [
-    "ranch-linear",
-    "split-level"
-  ],
-  "styles": [
-    "ranch-style",
-    "minimal-traditional",
-    "modern-farmhouse-traditional",
-    "neo-eclectic"
-  ],
-  "groupings": [
-    "contemporary-service-core",
-    "kitchen-work-core",
-    "primary-suite",
-    "secondary-bedroom-cluster"
-  ],
-  "circulation_parti": "open-plan",
-  "storeys": 1,
-  "area_range_sf": [
-    1400,
-    3000
-  ],
-  "bedroom_range": [
-    3,
-    4
-  ],
-  "rooms": [
-    {
-      "id": "porch",
-      "type": "entry-porch",
-      "level": 0,
-      "name": "Entry",
-      "exterior_walls": [
-        "S"
-      ],
-      "doors": [
-        "foyer",
-        "exterior"
-      ],
-      "note": "Usually a slab and a door. Recovering a second threshold here is the cheapest single improvement available to the type."
-    },
-    {
-      "id": "foyer",
-      "type": "entrance-hall",
-      "level": 0,
-      "name": "Foyer",
-      "exterior_walls": [
-        "S"
-      ],
-      "lit_from": [
-        "S"
-      ],
-      "doors": [
-        "porch",
-        "living",
-        "hall",
-        "exterior"
-      ]
-    },
-    {
-      "id": "living",
-      "type": "living-room",
-      "level": 0,
-      "name": "Living Room",
-      "exterior_walls": [
-        "S",
-        "W"
-      ],
-      "lit_from": [
-        "S",
-        "W"
-      ],
-      "doors": [
-        "foyer",
-        "dining",
-        "family"
-      ]
-    },
-    {
-      "id": "dining",
-      "type": "dining-room",
-      "level": 0,
-      "name": "Dining Room",
-      "required": false,
-      "exterior_walls": [
-        "W",
-        "N"
-      ],
-      "lit_from": [
-        "W"
-      ],
-      "doors": [
-        "living",
-        "kitchen"
-      ]
-    },
-    {
-      "id": "family",
-      "type": "family-room",
-      "level": 0,
-      "name": "Family Room",
-      "exterior_walls": [
-        "S",
-        "E"
-      ],
-      "lit_from": [
-        "S"
-      ],
-      "doors": [
-        "living",
-        "eatin"
-      ]
-    },
-    {
-      "id": "kitchen",
-      "type": "kitchen",
-      "level": 0,
-      "name": "Kitchen",
-      "exterior_walls": [
-        "N"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "dining",
-        "eatin",
-        "mud",
-        "pantry"
-      ],
-      "fixtures": [
-        "sink",
-        "dishwasher"
-      ]
-    },
-    {
-      "id": "eatin",
-      "type": "eat-in-kitchen-area",
-      "level": 0,
-      "name": "Breakfast Area",
-      "exterior_walls": [
-        "N",
-        "E"
-      ],
-      "lit_from": [
-        "N",
-        "E"
-      ],
-      "doors": [
-        "kitchen",
-        "family"
-      ]
-    },
-    {
-      "id": "pantry",
-      "type": "pantry",
-      "level": 0,
-      "name": "Pantry",
-      "required": false,
-      "doors": [
-        "kitchen"
-      ]
-    },
-    {
-      "id": "mud",
-      "type": "mudroom",
-      "level": 0,
-      "name": "Mud Room",
-      "exterior_walls": [
-        "N"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "kitchen",
-        "laundry",
-        "garage",
-        "powder"
-      ]
-    },
-    {
-      "id": "laundry",
-      "type": "laundry",
-      "level": 0,
-      "name": "Laundry",
-      "exterior_walls": [
-        "N"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "mud"
-      ],
-      "fixtures": [
-        "washer",
-        "sink"
-      ]
-    },
-    {
-      "id": "powder",
-      "type": "powder-room",
-      "level": 0,
-      "name": "Powder Room",
-      "doors": [
-        "mud"
-      ],
-      "fixtures": [
-        "wc",
-        "lavatory"
-      ]
-    },
-    {
-      "id": "garage",
-      "type": "garage",
-      "level": 0,
-      "name": "Garage",
-      "exterior_walls": [
-        "N",
-        "E"
-      ],
-      "doors": [
-        "mud",
-        "exterior"
-      ],
-      "note": "Side-loading or turned into a courtyard L. A front-loaded three-car ranch has no traditional solution and should be priced as a site problem rather than an elevation one."
-    },
-    {
-      "id": "hall",
-      "type": "gallery-corridor",
-      "level": 0,
-      "name": "Bedroom Hall",
-      "doors": [
-        "foyer",
-        "primary",
-        "hallbath",
-        "linen"
-      ]
-    },
-    {
-      "id": "primary",
-      "type": "primary-bedroom",
-      "level": 0,
-      "name": "Primary Bedroom",
-      "exterior_walls": [
-        "S",
-        "W"
-      ],
-      "lit_from": [
-        "S",
-        "W"
-      ],
-      "doors": [
-        "hall",
-        "primarybath"
-      ]
-    },
-    {
-      "id": "primarybath",
-      "type": "primary-bathroom",
-      "level": 0,
-      "name": "Primary Bath",
-      "exterior_walls": [
-        "W"
-      ],
-      "lit_from": [
-        "W"
-      ],
-      "doors": [
-        "primary",
-        "wic"
-      ],
-      "fixtures": [
-        "wc",
-        "lavatory",
-        "tub",
-        "shower"
-      ]
-    },
-    {
-      "id": "wic",
-      "type": "walk-in-closet",
-      "level": 0,
-      "name": "Walk-In Closet",
-      "doors": [
-        "primarybath",
-        "primary"
-      ]
-    },
-    {
-      "id": "hallbath",
-      "type": "bathroom",
-      "level": 0,
-      "name": "Hall Bath",
-      "exterior_walls": [
-        "N"
-      ],
-      "lit_from": [
-        "N"
-      ],
-      "doors": [
-        "hall"
-      ],
-      "fixtures": [
-        "wc",
-        "lavatory",
-        "tub"
-      ]
-    },
-    {
-      "id": "linen",
-      "type": "linen-press",
-      "level": 0,
-      "name": "Linen",
-      "required": false,
-      "doors": [
-        "hall"
-      ]
-    },
-    {
-      "id": "chamber",
-      "type": "bedroom",
-      "level": 0,
-      "name": "Bedroom",
-      "repeats_with_bedrooms": true,
-      "exterior_walls": [
-        "S",
-        "W"
-      ],
-      "lit_from": [
-        "S"
-      ],
-      "doors": [
-        "hall"
-      ]
-    },
-    {
-      "id": "chambercl",
-      "type": "closet",
-      "level": 0,
-      "name": "Closet",
-      "repeats_with_bedrooms": true,
-      "doors": [
-        "chamber"
-      ]
-    }
-  ],
-  "scaling": {
-    "grows_by": [
-      "widening",
-      "adding-a-link"
-    ],
-    "bay_module_ft": 12,
-    "max_bay_count": 8,
-    "note": "Extends at either end. Length demands a break in plane or material every three to four bays or the elevation becomes a wall."
+ "id": "ranch-tripartite",
+ "name": "Ranch, Tripartite",
+ "aka": [
+  "the three-zone ranch",
+  "bedroom wing plan"
+ ],
+ "description": "Sleeping rooms on one leg, living rooms in the middle, service and garage on the other. The zoning is the type's real innovation and it is genuinely good; what the type never solved is what to do with the garage doors once they face the street.",
+ "massing": "ranch-l",
+ "alternate_massings": [
+  "ranch-linear",
+  "split-level"
+ ],
+ "styles": [
+  "ranch-style",
+  "minimal-traditional",
+  "modern-farmhouse-traditional",
+  "neo-eclectic"
+ ],
+ "groupings": [
+  "contemporary-service-core",
+  "kitchen-work-core",
+  "primary-suite",
+  "secondary-bedroom-cluster"
+ ],
+ "circulation_parti": "open-plan",
+ "storeys": 1,
+ "area_range_sf": [
+  1400,
+  3000
+ ],
+ "bedroom_range": [
+  3,
+  4
+ ],
+ "rooms": [
+  {
+   "id": "porch",
+   "type": "entry-porch",
+   "level": 0,
+   "name": "Entry",
+   "exterior_walls": [
+    "S"
+   ],
+   "doors": [
+    "foyer",
+    "exterior"
+   ],
+   "note": "Usually a slab and a door. Recovering a second threshold here is the cheapest single improvement available to the type."
   },
-  "trades_away": "Any street presence and every upper-floor economy — a single storey doubles the roof and the foundation for the same area. In exchange the zoning is excellent, there are no stairs, and the rear yard becomes the real garden.",
-  "exemplars": [
-    "Cliff May's early California ranches, 1930s",
-    "the Levittown and Park Forest ranch tracts, 1950s"
+  {
+   "id": "foyer",
+   "type": "entrance-hall",
+   "level": 0,
+   "name": "Foyer",
+   "exterior_walls": [
+    "S"
+   ],
+   "lit_from": [
+    "S"
+   ],
+   "doors": [
+    "porch",
+    "living",
+    "hall",
+    "exterior"
+   ]
+  },
+  {
+   "id": "living",
+   "type": "living-room",
+   "level": 0,
+   "name": "Living Room",
+   "exterior_walls": [
+    "S",
+    "W"
+   ],
+   "lit_from": [
+    "S",
+    "W"
+   ],
+   "doors": [
+    "foyer",
+    "dining",
+    "family"
+   ]
+  },
+  {
+   "id": "dining",
+   "type": "dining-room",
+   "level": 0,
+   "name": "Dining Room",
+   "required": false,
+   "exterior_walls": [
+    "W",
+    "N"
+   ],
+   "lit_from": [
+    "W"
+   ],
+   "doors": [
+    "living",
+    "kitchen"
+   ]
+  },
+  {
+   "id": "family",
+   "type": "family-room",
+   "level": 0,
+   "name": "Family Room",
+   "exterior_walls": [
+    "S",
+    "E"
+   ],
+   "lit_from": [
+    "S"
+   ],
+   "doors": [
+    "living",
+    "eatin",
+    "kitchen"
+   ],
+   "note": "OQ 59: doored to the kitchen directly. family-room's own hard rule is must_adjoin kitchen, relation visible-from, and the eat-in area between them does not satisfy it -- the validator counts a hop only through CIRCULATION, and an eat-in area is a dining room. The tripartite ranch's whole point is that the family room, the eat-in area and the kitchen are one open zone, so the door is the diagram saying what it always meant."
+  },
+  {
+   "id": "kitchen",
+   "type": "kitchen",
+   "level": 0,
+   "name": "Kitchen",
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "dining",
+    "eatin",
+    "mud",
+    "pantry",
+    "family"
+   ],
+   "fixtures": [
+    "sink",
+    "dishwasher"
+   ]
+  },
+  {
+   "id": "eatin",
+   "type": "eat-in-kitchen-area",
+   "level": 0,
+   "name": "Breakfast Area",
+   "exterior_walls": [
+    "N",
+    "E"
+   ],
+   "lit_from": [
+    "N",
+    "E"
+   ],
+   "doors": [
+    "kitchen",
+    "family"
+   ]
+  },
+  {
+   "id": "pantry",
+   "type": "pantry",
+   "level": 0,
+   "name": "Pantry",
+   "required": false,
+   "doors": [
+    "kitchen"
+   ]
+  },
+  {
+   "id": "mud",
+   "type": "mudroom",
+   "level": 0,
+   "name": "Mud Room",
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "kitchen",
+    "laundry",
+    "garage",
+    "powder"
+   ]
+  },
+  {
+   "id": "laundry",
+   "type": "laundry",
+   "level": 0,
+   "name": "Laundry",
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "mud"
+   ],
+   "fixtures": [
+    "washer",
+    "sink"
+   ]
+  },
+  {
+   "id": "powder",
+   "type": "powder-room",
+   "level": 0,
+   "name": "Powder Room",
+   "doors": [
+    "mud"
+   ],
+   "fixtures": [
+    "wc",
+    "lavatory"
+   ]
+  },
+  {
+   "id": "garage",
+   "type": "garage",
+   "level": 0,
+   "name": "Garage",
+   "exterior_walls": [
+    "N",
+    "E"
+   ],
+   "doors": [
+    "mud",
+    "exterior"
+   ],
+   "note": "Side-loading or turned into a courtyard L. A front-loaded three-car ranch has no traditional solution and should be priced as a site problem rather than an elevation one."
+  },
+  {
+   "id": "hall",
+   "type": "gallery-corridor",
+   "level": 0,
+   "name": "Bedroom Hall",
+   "doors": [
+    "foyer",
+    "primary",
+    "hallbath",
+    "linen"
+   ]
+  },
+  {
+   "id": "primary",
+   "type": "primary-bedroom",
+   "level": 0,
+   "name": "Primary Bedroom",
+   "exterior_walls": [
+    "S",
+    "W"
+   ],
+   "lit_from": [
+    "S",
+    "W"
+   ],
+   "doors": [
+    "hall",
+    "primarybath"
+   ]
+  },
+  {
+   "id": "primarybath",
+   "type": "primary-bathroom",
+   "level": 0,
+   "name": "Primary Bath",
+   "exterior_walls": [
+    "W"
+   ],
+   "lit_from": [
+    "W"
+   ],
+   "doors": [
+    "primary",
+    "wic"
+   ],
+   "fixtures": [
+    "wc",
+    "lavatory",
+    "tub",
+    "shower"
+   ]
+  },
+  {
+   "id": "wic",
+   "type": "walk-in-closet",
+   "level": 0,
+   "name": "Walk-In Closet",
+   "doors": [
+    "primarybath",
+    "primary"
+   ]
+  },
+  {
+   "id": "hallbath",
+   "type": "bathroom",
+   "level": 0,
+   "name": "Hall Bath",
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "hall"
+   ],
+   "fixtures": [
+    "wc",
+    "lavatory",
+    "tub"
+   ]
+  },
+  {
+   "id": "linen",
+   "type": "linen-press",
+   "level": 0,
+   "name": "Linen",
+   "required": false,
+   "doors": [
+    "hall"
+   ]
+  },
+  {
+   "id": "chamber",
+   "type": "bedroom",
+   "level": 0,
+   "name": "Bedroom",
+   "repeats_with_bedrooms": true,
+   "exterior_walls": [
+    "S",
+    "W"
+   ],
+   "lit_from": [
+    "S"
+   ],
+   "doors": [
+    "hall"
+   ]
+  },
+  {
+   "id": "chambercl",
+   "type": "closet",
+   "level": 0,
+   "name": "Closet",
+   "repeats_with_bedrooms": true,
+   "doors": [
+    "chamber"
+   ]
+  }
+ ],
+ "scaling": {
+  "grows_by": [
+   "widening",
+   "adding-a-link"
   ],
-  "sources": [
-    "Hess, The Ranch House",
-    "Hayden, Building Suburbia"
-  ],
-  "confidence": "high"
+  "bay_module_ft": 12,
+  "max_bay_count": 8,
+  "note": "Extends at either end. Length demands a break in plane or material every three to four bays or the elevation becomes a wall."
+ },
+ "trades_away": "Any street presence and every upper-floor economy — a single storey doubles the roof and the foundation for the same area. In exchange the zoning is excellent, there are no stairs, and the rear yard becomes the real garden.",
+ "exemplars": [
+  "Cliff May's early California ranches, 1930s",
+  "the Levittown and Park Forest ranch tracts, 1950s"
+ ],
+ "sources": [
+  "Hess, The Ranch House",
+  "Hayden, Building Suburbia"
+ ],
+ "confidence": "high"
 }

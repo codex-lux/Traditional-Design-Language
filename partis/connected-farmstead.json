@@ -1,0 +1,366 @@
+{
+  "id": "connected-farmstead",
+  "name": "Connected Farmstead",
+  "aka": [
+    "big house, little house, back house, barn",
+    "continuous architecture",
+    "the linear ell",
+    "longère"
+  ],
+  "description": "A chain of buildings joined end to end in one line, descending in scale and in status from the house at one end to the working buildings at the other. It is not a house with wings: it is a sequence of separate structures, each with its own roof and often its own date, connected so that the whole farm can be worked in winter without going outside. The plan's logic is entirely about that chain - every link is a route as well as a room, the gradient from clean to dirty runs one way along it and never reverses, and the house end faces the road while the working end faces the yard.",
+  "massing": "linear-ell-farmhouse",
+  "alternate_massings": [
+    "hall-and-parlor",
+    "i-house"
+  ],
+  "styles": [
+    "french-provincial-farmhouse",
+    "north-german-hall-house",
+    "flemish-vernacular",
+    "modern-farmhouse-traditional",
+    "arts-and-crafts-british"
+  ],
+  "groupings": [
+    "keeping-room-hearth-cluster",
+    "kitchen-work-core",
+    "georgian-service-core",
+    "secondary-bedroom-cluster",
+    "dependency-and-hyphen"
+  ],
+  "circulation_parti": "additive",
+  "storeys": 2,
+  "area_range_sf": [
+    1400,
+    4200
+  ],
+  "bedroom_range": [
+    2,
+    5
+  ],
+  "rooms": [
+    {
+      "id": "porch",
+      "type": "entry-porch",
+      "level": 0,
+      "name": "Stoop",
+      "required": false,
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "exterior",
+        "hall"
+      ],
+      "note": "On the road front, and used by visitors only. The family comes in at the other end of the chain through the mudroom, which is the arrangement the type is built around."
+    },
+    {
+      "id": "hall",
+      "type": "entrance-hall",
+      "level": 0,
+      "name": "Front Hall",
+      "required": false,
+      "exterior_walls": [
+        "S"
+      ],
+      "doors": [
+        "porch",
+        "parlor",
+        "keeping",
+        "stair"
+      ],
+      "area_weight": 0.05
+    },
+    {
+      "id": "parlor",
+      "type": "parlor",
+      "level": 0,
+      "name": "Parlor",
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "hall",
+        "keeping"
+      ],
+      "area_weight": 0.11,
+      "note": "The best room, at the road end of the big house, and in working farms shut up for most of the year."
+    },
+    {
+      "id": "keeping",
+      "type": "keeping-room",
+      "level": 0,
+      "name": "Keeping Room",
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "hall",
+        "parlor",
+        "kitchen",
+        "stair"
+      ],
+      "area_weight": 0.13,
+      "note": "Where the family actually lives, against the hearth, between the parlor it does not use and the kitchen it does."
+    },
+    {
+      "id": "stair",
+      "type": "stair-hall",
+      "level": 0,
+      "name": "Stair",
+      "required": false,
+      "doors": [
+        "hall",
+        "keeping",
+        "landing"
+      ]
+    },
+    {
+      "id": "kitchen",
+      "type": "kitchen",
+      "level": 0,
+      "name": "Kitchen",
+      "exterior_walls": [
+        "E",
+        "W"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "keeping",
+        "larder",
+        "backhall"
+      ],
+      "fixtures": [
+        "sink",
+        "range"
+      ],
+      "area_weight": 0.13,
+      "note": "The first link of the chain proper - the 'little house'. It is a route as much as a room: everything from the working end passes through it."
+    },
+    {
+      "id": "larder",
+      "type": "larder",
+      "level": 0,
+      "name": "Larder",
+      "required": false,
+      "exterior_walls": [
+        "W"
+      ],
+      "doors": [
+        "kitchen"
+      ]
+    },
+    {
+      "id": "backhall",
+      "type": "back-hall",
+      "level": 0,
+      "name": "Back Kitchen",
+      "exterior_walls": [
+        "E",
+        "W"
+      ],
+      "doors": [
+        "kitchen",
+        "mudroom",
+        "laundry"
+      ],
+      "area_weight": 0.07,
+      "note": "The 'back house': summer kitchen, dairy work, wet work. The link that lets the dirty end of the farm stop before it reaches the family's rooms."
+    },
+    {
+      "id": "laundry",
+      "type": "laundry",
+      "level": 0,
+      "name": "Laundry",
+      "required": false,
+      "exterior_walls": [
+        "W"
+      ],
+      "doors": [
+        "backhall"
+      ],
+      "fixtures": [
+        "sink",
+        "washer"
+      ]
+    },
+    {
+      "id": "mudroom",
+      "type": "mudroom",
+      "level": 0,
+      "name": "Mudroom",
+      "exterior_walls": [
+        "E",
+        "W"
+      ],
+      "doors": [
+        "backhall",
+        "exterior",
+        "workshop",
+        "powder"
+      ],
+      "note": "The family's real front door, and the hinge of the whole gradient: boots stop here."
+    },
+    {
+      "id": "powder",
+      "type": "powder-room",
+      "level": 0,
+      "name": "Powder Room",
+      "required": false,
+      "doors": [
+        "mudroom"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory"
+      ]
+    },
+    {
+      "id": "workshop",
+      "type": "workshop",
+      "level": 0,
+      "name": "Shed",
+      "required": false,
+      "exterior_walls": [
+        "N",
+        "E",
+        "W"
+      ],
+      "doors": [
+        "mudroom",
+        "exterior"
+      ],
+      "area_weight": 0.09,
+      "note": "The last link the catalogue can express. The type's own name ends '...and barn', and the barn is a detached agricultural building the room catalogue has no type for and the geometry engine would place inside the house envelope - so the chain stops at the shed, and the omission is stated rather than faked."
+    },
+    {
+      "id": "landing",
+      "type": "landing",
+      "level": 1,
+      "name": "Landing",
+      "doors": [
+        "stair",
+        "primary",
+        "chamber1",
+        "chamber2",
+        "hallbath"
+      ],
+      "stacks_over": "stair"
+    },
+    {
+      "id": "primary",
+      "type": "primary-bedroom",
+      "level": 1,
+      "name": "Primary Bedroom",
+      "exterior_walls": [
+        "S",
+        "E"
+      ],
+      "lit_from": [
+        "S"
+      ],
+      "doors": [
+        "landing",
+        "primarybath"
+      ],
+      "stacks_over": "parlor",
+      "area_weight": 0.11
+    },
+    {
+      "id": "primarybath",
+      "type": "primary-bathroom",
+      "level": 1,
+      "name": "Primary Bath",
+      "required": false,
+      "doors": [
+        "primary"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub",
+        "shower"
+      ]
+    },
+    {
+      "id": "chamber1",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "repeats_with_bedrooms": true,
+      "exterior_walls": [
+        "W"
+      ],
+      "lit_from": [
+        "W"
+      ],
+      "doors": [
+        "landing"
+      ],
+      "area_weight": 0.09
+    },
+    {
+      "id": "chamber2",
+      "type": "bedroom",
+      "level": 1,
+      "name": "Chamber",
+      "required": false,
+      "exterior_walls": [
+        "E"
+      ],
+      "lit_from": [
+        "E"
+      ],
+      "doors": [
+        "landing"
+      ],
+      "area_weight": 0.08
+    },
+    {
+      "id": "hallbath",
+      "type": "bathroom",
+      "level": 1,
+      "name": "Bath",
+      "doors": [
+        "landing"
+      ],
+      "fixtures": [
+        "wc",
+        "lavatory",
+        "tub"
+      ],
+      "stacks_over": "backhall"
+    }
+  ],
+  "scaling": {
+    "grows_by": [
+      "adding-a-link"
+    ],
+    "bay_module_ft": 10,
+    "min_bay_count": 2,
+    "max_bay_count": 5,
+    "note": "This is the one diagram in the catalogue that grows by ADDING A BUILDING rather than by widening or deepening one. Each link is added at the working end, is narrower and lower than the one before it, and is built when it is needed - which is why surviving examples carry four dates and four framing systems in one line. Growth at the house end is the exception and reads as an alteration."
+  },
+  "trades_away": "Compactness and orientation. A chain one room wide has the worst possible ratio of wall to floor and cannot be turned to face the sun, so the rooms take whatever aspect the line gives them; the type survives that because a working farm is oriented to the road and the yard rather than to the south. It trades away the ability to reach anything without walking the chain - the shed is five rooms from the parlor - and it trades away any composed rear elevation, because the back of the line is where the farm happens.",
+  "exemplars": [
+    "The Sanborn farmstead, Kensington, New Hampshire - a documented four-part chain",
+    "Longère normande, Pays d'Auge, Normandy - the French version, house and byre in one line",
+    "Niedersachsenhaus (Low German hall house), Lower Saxony - where house and barn share a single roof",
+    "Langhuis, Flemish polder farms, from the seventeenth century"
+  ],
+  "sources": [
+    "massings/catalog.json: linear-ell-farmhouse, whose own name for the type is Connected Farmstead",
+    "Thomas C. Hubka, Big House, Little House, Back House, Barn (1984), which names the type",
+    "groupings/dependency-and-hyphen.json, whose link logic this parti uses along one axis rather than symmetrically",
+    "editorial: the chain stops at the shed because the catalogue has no barn; stated on the room rather than worked around"
+  ],
+  "confidence": "high"
+}

@@ -1,0 +1,328 @@
+{
+  "id": "facade-gable",
+  "name": "The Gable: Roof End, Parapet and Screen",
+  "aka": [
+    "the crow-step",
+    "the corbie gable",
+    "the shaped gable",
+    "the holbol",
+    "kneelers and coping"
+  ],
+  "kind": "facade-system",
+  "authority": {
+    "source": "R. W. Brunskill, Traditional Buildings of Britain, 1981, and the Royal Commission on the Ancient and Historical Monuments of Scotland's surveys for the crow-step; Hendrik Phaffenbach and the Dutch monument surveys for the stepped, neck, bell and spout gables of the Low Countries; James Walton and Hans Fransen on the Cape Dutch gable; and the surviving fabric behind this corpus's own records, which for this class carry the pack's most precise figures",
+    "author": "compiled; after Brunskill, Fransen and the national inventories",
+    "year": 1981,
+    "strength": "reconstructed",
+    "note": "RECONSTRUCTED. The gable was surveyed and typologised extensively -- the Dutch gable families have names in every guidebook -- but typology is not proportion, and no source states what a crow-step's tread should be against its rise or how tall a gable's apex should stand over its own width. Those come from this corpus's own records, which for once are more precise than the literature: `styles/scottish-baronial.json` gives the step in millimetres and `styles/flemish-vernacular.json` gives its ratio, and the two disagree, which is the most useful thing either of them says."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The gable's width at the eave line -- the base of the triangle",
+    "parts": 12,
+    "default_size_in": 144.0,
+    "note": "The part is the foot. Twelve feet is the bottom of the 3.5-5.5 m `styles/jacobean.json` gives for a shaped gable and about the middle of what a domestic cross-gable spans. THE MODULE IS THE BASE AND EVERYTHING IS MEASURED UP FROM IT, which is how a gable is actually set out: the width is given by the plan and the mason chooses how high to take it.\n\nWhat the module cannot tell you is the thing this pack exists to establish first. A gable is one of THREE DIFFERENT OBJECTS and the corpus distinguishes them in four separate records. It can be the END OF A ROOF -- `styles/flemish-vernacular.json` is explicit that its crow-steps sit 'on a gable that is genuinely the end of a roof rather than a screen in front of one'. It can be a PARAPET, the wall carried up past the roof plane and capped -- `styles/jacobethan-revival.json` states it and states the contrast: 'the wall carries up past the roof plane and is capped with coping stones. Tudor Revival gables end at the rake with a barge or a bargeboard.' Or it can be a SCREEN standing free of the roof altogether -- `styles/cape-dutch.json`'s gable stands 'clear of a thatched roof' on a LONG elevation, where there is no roof end at all, and `styles/dutch-urban-gable-house.json` calls its own a 'decorated masonry gable screen'. Every rule below applies to at least one of the three and several apply to only one, and each says which. Deciding which object is being drawn is prior to any dimension in this pack."
+  },
+  "assemblies": {
+    "gable_edge": {
+      "height_modules": 0.75,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "kneeler",
+          "name": "Kneeler at the gable foot",
+          "height_parts": 1.2,
+          "projection_parts": 1.2,
+          "profile": "other",
+          "note": "14 2/5 in. The stone that turns the raking coping into the horizontal eave line and stops it sliding -- a coping laid on a rake with nothing at its foot is a stone on a slope, and it goes. `styles/cotswold-vernacular.json` names it in the same breath as the coping: 'gables finished with kneelers at the foot and a coping raised above the roof plane'. It is the member most often omitted in reproduction because it is structural rather than visible, and its absence is why so many rebuilt gables have a slumped coping.",
+          "confidence": "high"
+        },
+        {
+          "id": "coping_run",
+          "name": "The raking coping, kneeler to apex",
+          "height_parts": 6.6,
+          "projection_parts": 0.6,
+          "profile": "other",
+          "note": "The coping itself at 6-9 in thick -- `styles/jacobethan-revival.json` gives that -- carried up the rake. It is weathered on top and throated underneath like every other horizontal in this library, and it oversails the wall on both faces so the water it sheds is thrown clear rather than run down the gable's own face. A flush coping is the single commonest cause of a stained gable.",
+          "confidence": "high"
+        },
+        {
+          "id": "apex_stone",
+          "name": "Apex stone, with ball, ogee or finial",
+          "height_parts": 1.2,
+          "projection_parts": 0.8,
+          "profile": "other",
+          "enrichment": "ball, ogee, obelisk or carved finial in the grand work; a plain saddle stone in the vernacular",
+          "note": "The two rakes have to meet on something. `styles/cotswold-vernacular.json` gives 'frequently with a ball, ogee or finial at the apex' and `styles/dutch-urban-gable-house.json` says the whole composition resolves 'on a single vertical axis at the apex', which is what the finial is for -- it is the full stop. On a screen gable it is doing structural work as well, since it is the heaviest stone on a freestanding wall and helps hold it down.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one foot.",
+      "expression": "module.default_size_in / module.parts == 12.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The kneeler is a real stone: at least a foot on the face.",
+      "expression": "assemblies.gable_edge.members.kneeler.height_parts >= 1.0",
+      "tolerance": 0.0,
+      "note": "The member most often left out, because it does structural work at the point where nobody is looking. A raking coping with no kneeler at its foot is a stone on a slope."
+    },
+    {
+      "statement": "The kneeler projects further than the coping it stops.",
+      "expression": "assemblies.gable_edge.members.kneeler.projection_parts > assemblies.gable_edge.members.coping_run.projection_parts",
+      "tolerance": 0.0,
+      "note": "1.2 parts against 0.6. It has to: the kneeler is what the coping bears against, so it must stand proud of it on both faces or there is nothing to bear on. This is also why a kneeler reads as a distinct object from the ground rather than as the bottom of the coping."
+    },
+    {
+      "statement": "The apex stone is the same order of size as the kneeler: the composition is stopped at both ends.",
+      "expression": "assemblies.gable_edge.members.apex_stone.height_parts >= assemblies.gable_edge.members.kneeler.height_parts * 0.75",
+      "tolerance": 0.0,
+      "note": "Equal on the encoded figures. A gable whose foot is emphatic and whose apex simply runs out reads as unfinished, and `styles/dutch-urban-gable-house.json`'s 'resolving on a single vertical axis at the apex' is the whole argument for why."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "gable_treatment",
+      "dimension": "ratio",
+      "expression": "0.72",
+      "units": "ratio",
+      "range": [
+        0.55,
+        1.05
+      ],
+      "authority_note": "`styles/tudor-revival.json`: 'gable width to eave-to-ridge height approximately 1:0.7 - the triangle reads taller than half its base'. `styles/gothic-revival-british.json`: 'gable width to apex height roughly 1:0.7 to 1:1'. `styles/jacobean.json`: 'height to the pediment apex roughly 0.6-0.8 of the gable width'.",
+      "note": "APEX HEIGHT OVER GABLE WIDTH, and three unrelated records land within a tenth of each other. `styles/tudor-revival.json` states the perceptual fact the number encodes -- 'the triangle reads taller than half its base' -- which is the whole point: a gable at 0.5 is a right-angled triangle and reads as a roof, and a gable at 0.7 or above reads as a gable, a thing the composition is about. That is a steep roof by any modern standard and it is not optional; a 6:12 cross-gable on a Tudor Revival house is the commonest single failure of the type.",
+      "judgment": false
+    },
+    {
+      "target_slot": "gable_treatment",
+      "dimension": "parapet_height",
+      "expression": "part * 1.5",
+      "units": "in",
+      "range": [
+        12.0,
+        24.0
+      ],
+      "authority_note": "`styles/jacobethan-revival.json`: 'gable parapet rising 12-24 in. above the roof plane'.",
+      "note": "PARAPET RULE -- applies only where the gable is a parapet or a screen, not where it is a roof end. 18 in of wall standing above the roof plane. Below about a foot the parapet reads as a thick verge and the effect is lost; above two feet it needs its own structural justification, which the pack's first conflict is about. Where the gable is a roof end this rule does not apply at all and the rake is finished with a barge or a bargeboard -- `styles/jacobethan-revival.json` draws exactly that contrast against Tudor Revival. DIMENSION NAMED rather than using `height`/`count`: `opening-pointed` writes `gable_treatment`/`height` for a FINIAL, `dutch-gambrel` writes it for the gable-end SILHOUETTE, `opening-pointed` writes `ornament_vocabulary`/`count` for a cusped motif set and `rake_condition`/`height` for a BARGEBOARD -- and this pack co-binds with both on real nodes. Three packs meaning three different quantities at one address is the corruption `facade-arcade` found, not a conflict precedence can settle.",
+      "judgment": false
+    },
+    {
+      "target_slot": "gable_treatment",
+      "dimension": "width",
+      "expression": "part * 0.6",
+      "units": "in",
+      "range": [
+        6.0,
+        9.0
+      ],
+      "authority_note": "`styles/jacobethan-revival.json`: 'coping 6-9 in. thick'. `styles/cotswold-vernacular.json` names the coping among the dressed ashlar members without giving a thickness.",
+      "note": "COPING THICKNESS, 7 1/5 in. It is thick because it is a single weathering stone spanning the wall and oversailing both faces, and because a thin coping cracks at its bedding joints as the gable moves. The band is narrow and both records agree, which is unusual enough to be worth saying.",
+      "judgment": false
+    },
+    {
+      "target_slot": "gable_treatment",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "range": [
+        1.0,
+        5.0
+      ],
+      "authority_note": "`styles/rural-gothic-villa.json`: 'three or more gables of unequal width forming a hierarchical silhouette against the sky'. `styles/jacobean.json`: shaped gables 'ranged symmetrically along a front or crowning end pavilions'.",
+      "note": "GABLES ON A PRINCIPAL FRONT, and the two records that give a count want opposite things with it. The Jacobean front ranges them SYMMETRICALLY, so the count is odd or the gables pair about a centre. The Gothic villa ranges them HIERARCHICALLY and its own record says equality is a fault -- see the hierarchy rule. Same number, opposite compositional rule, and a designer needs to know which tradition is being worked in before the count means anything.",
+      "judgment": false,
+      "quantity": "gables_on_principal_front"
+    },
+    {
+      "target_slot": "gable_treatment",
+      "dimension": "facade_ratio",
+      "expression": "3.5",
+      "units": "ratio",
+      "range": [
+        2.5,
+        4.5
+      ],
+      "authority_note": "`styles/dutch-urban-gable-house.json`: 'facade height (water to gable apex) to width roughly 3:1 to 4:1'.",
+      "note": "SCREEN-GABLE RULE, and it applies to the gable-FRONTED urban house only. Three and a half to one is extraordinarily tall and narrow -- a canal house is a gable with a building behind it, and its own record says 'the gable end turned to the street or canal; the short elevation is the only designed face'. The dimension is named `facade_ratio` rather than reusing `height_proportion`/`ratio` because `timber-bay` already writes that address on two of the nodes this pack binds, and two packs putting different quantities into one address is the corruption `facade-arcade` found the hard way.",
+      "judgment": false
+    },
+    {
+      "target_slot": "gable_treatment",
+      "dimension": "front_share",
+      "expression": "0.33",
+      "units": "ratio",
+      "range": [
+        0.2,
+        0.5
+      ],
+      "authority_note": "`styles/cape-dutch.json`: 'gable width to front elevation length roughly 1:3', with the gable 'standing free above the eave line of a thatched roof' and 'centred on the front door'.",
+      "note": "SCREEN-GABLE RULE, and the OTHER kind of screen -- the one that is not a gable end at all. A Cape Dutch gable stands on the LONG elevation, centred on the door, rising clear of a thatched roof that has no gable there whatever. It is a piece of architecture applied to a farmhouse, which is why it is the part that is moulded, plastered, whitewashed and dated in relief while the rest of the building is plain. At a third of the front it is emphatic without becoming the building; past a half it has swallowed the elevation and the type's quietness with it. That record also names the hierarchy the pack's rule generalises: 'a second, plainer gable over the rear or wing door, always subordinate to the front one'.",
+      "judgment": false
+    },
+    {
+      "target_slot": "rake_condition",
+      "dimension": "count",
+      "expression": "5",
+      "units": "count",
+      "range": [
+        3.0,
+        7.0
+      ],
+      "authority_note": "`styles/flemish-vernacular.json`: 'three to seven steps per side'.",
+      "note": "CROW-STEPS PER SIDE. Five. The count and the rise together fix the gable's height, so this rule and the apex-ratio rule constrain each other and a design has to reconcile them rather than setting both: seven steps at 10 in of rise is 70 in of climb per side, which on a 12 ft gable gives an apex ratio near the top of its band. That mutual constraint is why crow-stepped gables are consistently steep.",
+      "judgment": false
+    },
+    {
+      "target_slot": "rake_condition",
+      "dimension": "step_rise",
+      "expression": "part * 0.85",
+      "units": "in",
+      "range": [
+        7.9,
+        11.8
+      ],
+      "authority_note": "`styles/scottish-baronial.json`: 'crow-step rise 200-300 mm, cut in squared stone'.",
+      "note": "THE RISE OF ONE STEP, 10 1/5 in. Squared stone, cut -- not a corbelled approximation in rubble, which is what distinguishes a crow-step from the stepped rubble gables of poorer work. `styles/scottish-baronial.json` also says 'no barge board', which matters: the crow-step IS the verge treatment and adding a barge to it is putting two solutions to one problem on the same building. DIMENSION NAMED rather than using `height`/`count`: `opening-pointed` writes `gable_treatment`/`height` for a FINIAL, `dutch-gambrel` writes it for the gable-end SILHOUETTE, `opening-pointed` writes `ornament_vocabulary`/`count` for a cusped motif set and `rake_condition`/`height` for a BARGEBOARD -- and this pack co-binds with both on real nodes. Three packs meaning three different quantities at one address is the corruption `facade-arcade` found, not a conflict precedence can settle.",
+      "judgment": false
+    },
+    {
+      "target_slot": "rake_condition",
+      "dimension": "width",
+      "expression": "part * 1.2",
+      "units": "in",
+      "range": [
+        11.8,
+        17.7
+      ],
+      "authority_note": "`styles/scottish-baronial.json`: 'crow-step tread 300-450 mm'.",
+      "note": "THE TREAD, 14 2/5 in. It has to be at least the wall's thickness plus the oversail on both faces, so on a thin wall the tread is set by the coping and not by taste. Note that a crow-step is walkable and was walked -- the steps are how a mason reached the chimney -- which is a reason the tread does not go much below a foot.",
+      "judgment": false
+    },
+    {
+      "target_slot": "rake_condition",
+      "dimension": "ratio",
+      "expression": "1.4",
+      "units": "ratio",
+      "range": [
+        1.0,
+        2.25
+      ],
+      "authority_note": "TWO RECORDS DISAGREE AND THE BAND HOLDS BOTH. `styles/flemish-vernacular.json`: 'gable step rise to tread roughly 1:1'. `styles/scottish-baronial.json`: tread 300-450 mm against rise 200-300 mm, which is 1.0 to 2.25 and averages 1.5.",
+      "note": "TREAD OVER RISE, AND THE DISAGREEMENT IS THE FINDING. A Flemish crow-step is SQUARE and a Scottish one is BROADER THAN IT IS HIGH, and at 1:1 against 1.5:1 the two read quite differently from a distance -- the Flemish gable climbs faster and reads as serrated, the Scottish one as a flight of steps. Neither record is wrong and neither has heard of the other. The pack's default of 1.4 sits at the Scottish end because that is the tradition with the measured dimensions; a Flemish or Low Countries design should take 1.0 deliberately rather than inherit it.",
+      "judgment": false
+    },
+    {
+      "target_slot": "cornice_return",
+      "dimension": "width",
+      "expression": "part * 1.2",
+      "units": "in",
+      "range": [
+        8.0,
+        24.0
+      ],
+      "authority_note": "`styles/cotswold-vernacular.json`: 'gables finished with kneelers at the foot and a coping raised above the roof plane'.",
+      "note": "THE KNEELER. The slot is `cornice_return` and it is a good fit for once: a kneeler is precisely what returns the raking line to the horizontal at the eave, which is what a cornice return does in a classical gable. The two members answer the same compositional problem in two grammars, and a designer who understands one already understands the other.",
+      "judgment": false
+    },
+    {
+      "target_slot": "wing_strategy",
+      "dimension": "ratio",
+      "expression": "1.7",
+      "units": "ratio",
+      "range": [
+        1.4,
+        2.2
+      ],
+      "authority_note": "`styles/rural-gothic-villa.json`: 'dominant gable width 1.4 to 2.2 times the next largest gable; EQUAL WIDTHS ARE A FAILURE', and separately 'no two gables are the same width; equal gables indicate a builder's composition'.",
+      "note": "THE HIERARCHY, and it is the rare corpus rule stated as a prohibition. Two gables of the same width on one front is not a neutral choice -- that record calls it a builder's composition, meaning a house assembled from parts rather than designed. The reason is that a picturesque silhouette works by having a subject: three gables at 1, 1 and 1 give the eye nothing to look at first, and 1, 0.6 and 0.45 give it a sequence. Applies to the picturesque traditions and NOT to the Jacobean front, which ranges its gables symmetrically and equally on purpose -- see the count rule, where the same number carries opposite instructions.",
+      "judgment": false
+    },
+    {
+      "target_slot": "dormer",
+      "dimension": "width",
+      "expression": "module * 0.35",
+      "units": "in",
+      "range": [
+        30.0,
+        84.0
+      ],
+      "authority_note": "`styles/cotswold-vernacular.json`: 'gabled dormers rising through the eaves with their faces flush with the wall below, so that they read as gables of the wall rather than as boxes on the roof'.",
+      "note": "THE GABLED DORMER AS A SMALL GABLE, 50 in. The rule that matters is not the width but the FLUSH FACE: a dormer whose front is in the plane of the wall below is a gable of the wall and takes everything in this pack -- kneelers, coping, apex stone, the same apex ratio. A dormer set back onto the roof slope is a box with a roof on it and takes none of it. One record states the distinction and it decides which pack applies.",
+      "judgment": false,
+      "quantity": "dormer_width"
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "curve_count",
+      "expression": "3",
+      "units": "count",
+      "range": [
+        2.0,
+        4.0
+      ],
+      "authority_note": "`styles/jacobethan-revival.json`: 'shaped gable profile composed of 2-4 ogee or quadrant curves terminating in a semicircular or triangular cap'. `styles/jacobean.json`: 'concave and convex scrolls stepping up to a pediment'.",
+      "note": "A JUDGMENT SLOT. CURVES PER SIDE IN A SHAPED GABLE, three, and the rule that travels with the count is a dating tell `styles/jacobean.json` states outright: 'Elizabethan gables are straight-sided and finialled; Jacobean gables CURVE'. So the count is zero for an Elizabethan gable and two to four for a Jacobean or Flemish one, and the difference is a generation rather than a preference. The judgment is in the profile rather than the number: the Dutch holbol -- hollow-and-round, a concave curve running into a convex one -- is a specific figure with a specific fairness to it, and no source states its radii. A shaped gable drawn as tangent arcs in CAD is subtly wrong in a way that is visible and hard to name, which is the pack's construction-tolerance conflict. DIMENSION NAMED rather than using `height`/`count`: `opening-pointed` writes `gable_treatment`/`height` for a FINIAL, `dutch-gambrel` writes it for the gable-end SILHOUETTE, `opening-pointed` writes `ornament_vocabulary`/`count` for a cusped motif set and `rake_condition`/`height` for a BARGEBOARD -- and this pack co-binds with both on real nodes. Three packs meaning three different quantities at one address is the corruption `facade-arcade` found, not a conflict precedence can settle.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "A parapet gable and a screen gable are freestanding walls standing above the roof, taking wind on both faces with nothing behind them. The screen is the extreme case -- a Cape Dutch gable stands clear of a thatched roof and is restrained by almost nothing above the wall head, and a canal-house gable is a storey of masonry above the last floor. Crow-steps make it worse in detail: each step is a stone corbelled past the one below, so the gable's edge is a stack of small cantilevers, and the Dutch urban front adds a deliberate forward lean, which `styles/dutch-urban-gable-house.json` names as the vlucht -- a facade built leaning out so hoisted goods clear the wall, which is a permanent eccentric load on a wall that is already slender.",
+      "resolution": "Tie the gable back to the roof structure, at the purlins and at the ridge, and design the ties as ties rather than assuming the masonry will do it -- this is the detail that has failed in every storm that has taken a gable off a building. Weight the apex: the finial or ball is not only a full stop, it is the heaviest stone on the wall and it is where it is for a reason. On a shaped or stepped gable, corbel each step off the wall's full thickness rather than off a facing, so the cantilever bears on something. And where a modern building wants the screen without the mass, the honest answer is a framed and clad gable detailed to look like masonry, which is a legitimate substitution provided the coping and the oversail are still real -- what fails is a thin masonry screen with no tie, which looks correct and is not.",
+      "severity": "blocking"
+    },
+    {
+      "with": "climate",
+      "statement": "Every rule in this pack creates a horizontal surface where a roof would have had none. A crow-step is a staircase of ledges; a coping is a continuous joint the length of the rake; a parapet gable puts a re-entrant angle between wall and roof at exactly the point where the roof drains toward it. That junction is the single commonest failure in the whole class and it fails invisibly, because the water gets in at the abutment and comes out somewhere else entirely.",
+      "resolution": "Flash the abutment properly and treat it as the primary detail rather than as a trim item: a stepped flashing and a separate cover flashing, both in a real metal, dressed into the coursing rather than sealed to the face. Weather the top of every step and every coping stone -- a fall of one in twelve is invisible from the ground and doubles the life. Point in lime so the joint can move and the wall can dry, and never in cement, for the reason `stone-course`'s structural conflict gives at length. And accept that this is a maintained detail: a crow-stepped gable in a wet climate wants looking at every decade, which is a fact about the building type and not a defect in the work.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Every one of these gables is cut stone or moulded plaster, individually. A crow-stepped gable is a schedule of stones each of which is a different size, weathered on two faces and rebated to bed on its neighbour. A shaped gable is a set of moulded curves that must fair into one another. And the Cape Dutch gable is a plasterer's sculpture, modelled in situ on a former. There is no version of any of them that is bought by the metre.",
+      "resolution": "Concentrate, which is what the traditions do: `styles/cape-dutch.json` gives the front gable the modelling and the date in relief and puts 'a second, plainer gable over the rear or wing door, always subordinate to the front one'. Do the same. On a stepped gable, standardise the step -- one rise and one tread repeated -- so the stones are a schedule of one item and not of eleven, which is what the tradition does anyway and is why the ratio rule has a value at all. On a shaped gable, build the profile in a cheaper core and model the curve in render, which is the Cape Dutch method and is honest rather than a substitution. What is not worth doing is a cast-stone crow-step: the arris is too sharp, the colour too even, and the steps are the most closely-looked-at stones on the building.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "A stepped gable must be regular and a shaped gable must be fair, and site practice will deliver the opposite of each. Steps set by eye accumulate error up the rake and the two sides do not meet the apex stone at the same height, which is visible from a hundred yards. Curves, conversely, are now drawn as tangent arcs in CAD and built to a template cut from that drawing -- and a real holbol or ogee gable was struck and then MODELLED, so its curvature varies continuously and the join between concave and convex is a place the eye cannot find. A tangent-arc gable has a visible break at every tangent point, and the fault is subtle, universal in modern work, and hard to name.",
+      "resolution": "Set the steps out from the apex DOWNWARD to both kneelers, not upward from the eave, so the error accumulates at the bottom where a course can absorb it rather than at the top where the two sides must meet. For curves, make a full-size template of each side and fair it by eye on the bench before any stone is cut or any render laid -- and check it against the actual gable width on site rather than the drawn one. In render, the Cape Dutch method is still the best available: build the core, run the curve on a former, and finish it by hand, which produces the continuous variation that arcs cannot.",
+      "severity": "material"
+    },
+    {
+      "with": "energy-code",
+      "statement": "A parapet gable interrupts the roof insulation exactly where it is hardest to continue. The wall carries past the roof plane, so the insulation line has to stop at the wall and the wall above it is uninsulated masonry with cold air on both faces -- a thermal bridge running the full length of both rakes, at the junction that is also the pack's worst water detail. On a screen gable it is worse still, since the gable is entirely outside the envelope and the wall behind it is an external wall that looks like an internal one.",
+      "resolution": "Carry the insulation up the INSIDE face of the parapet to above the roof line and turn it, so the bridge is broken at the top of the wall rather than at the roof plane -- which needs deciding early because it changes the parapet's thickness and therefore the coping's oversail. Where the gable is a screen with nothing behind it, insulate and detail the real wall behind it as the external wall it is, and treat the screen as an unheated element: that is what it is, and pretending otherwise produces a wall assembly with an unventilated cavity in the wettest part of the building.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "scottish-baronial",
+    "cape-dutch",
+    "dutch-urban-gable-house",
+    "flemish-vernacular",
+    "jacobean",
+    "elizabethan",
+    "jacobethan-revival",
+    "cotswold-vernacular",
+    "tudor-revival",
+    "gothic-revival-british",
+    "rural-gothic-villa",
+    "dutch-colonial-american"
+  ],
+  "sources": [
+    "R. W. Brunskill, Traditional Buildings of Britain, Gollancz, London, 1981",
+    "Royal Commission on the Ancient and Historical Monuments of Scotland, inventory volumes",
+    "Hans Fransen and Mary Alexander Cook, The Old Buildings of the Cape, Balkema, Cape Town, 1980",
+    "James Walton, Homesteads and Villages of South Africa, Van Schaik, Pretoria, 1952",
+    "Rijksdienst voor het Cultureel Erfgoed, monument descriptions for the Low Countries gable families"
+  ],
+  "confidence": "medium",
+  "notes": "WP-4.1's candidate list records this gap in the strongest terms it uses anywhere: 'a curvilinear (holbol) Cape Dutch gable geometry module, and a separate stepped/bell/neck gable module for Low Countries urban fronts -- NO GABLE GEOMETRY SYSTEM OF ANY KIND CURRENTLY EXISTS IN THE LIBRARY'. Two more packs in this work package added to it independently: `dutch-gambrel`'s notes say plainly that it does NOT reduce the item, because 'a gable profile is an elevation outline and a gambrel is a roof section'; and `stone-course` quoted `styles/scottish-baronial.json`'s crow-step at 300-450 mm tread and 200-300 mm rise into its own notes purely so the figures would not be lost when it declined to carry them. This pack is where they were being kept.\n\nIT IS ONE PACK RATHER THAN THE TWO THE LIST ASKS FOR, because the three gable families are the same object treated three ways and the useful distinction runs across the list's division rather than along it. A gable is either the END OF A ROOF, a PARAPET carried past it, or a SCREEN standing free of it -- and the corpus distinguishes those three in four separate records, none of which is talking about the others. `styles/flemish-vernacular.json` insists its crow-steps sit on 'a gable that is genuinely the end of a roof rather than a screen in front of one'. `styles/jacobethan-revival.json` states the parapet case and its contrast with Tudor Revival's bargeboarded rake. `styles/cape-dutch.json`'s gable stands clear of a thatched roof on a LONG elevation where there is no roof end at all. Deciding which of the three is being drawn is prior to any dimension in the pack, and the module note says so before it says anything else.\n\nTWO DISAGREEMENTS BETWEEN RECORDS, both kept as bands. The crow-step is SQUARE in Flanders and BROADER THAN HIGH in Scotland -- 1:1 against 1.5:1 -- and the two read quite differently, the Flemish gable serrated and the Scottish one a flight of steps. And the gable count carries opposite compositional rules: `styles/jacobean.json` ranges its gables SYMMETRICALLY along a front, `styles/rural-gothic-villa.json` ranges them hierarchically and says in its own words that 'equal widths are a FAILURE' and that equal gables 'indicate a builder's composition'. Same number, opposite instruction.\n\nONE REFUSAL THE RECORD MAKES ITSELF. `styles/arts-and-crafts-british.json`: 'no classical order, no pointed arch, NO SHAPED GABLE, no period quotation of any kind: the absence of quotation is itself the tell.' That is the third node in this work package to refuse a pack in its own words, after `jacobethan-revival` and `cotswold-cottage-revival` refused half-timbering, and it is the reason a regex sweep is a starting point and not an answer.\n\nWhat this pack does not carry: the Dutch gable FAMILIES as a typology. Stepped, neck, bell and spout are names for profiles, and `styles/dutch-urban-gable-house.json` lists all four; the pack gives the geometry they share -- the height-to-width, the screen condition, the resolution on a vertical axis at the apex -- and not the four profiles, because a profile is an outline rather than a proportion and belongs with the ornament items on WP-4.1's list."
+}

@@ -1,7 +1,7 @@
 {
   "style": "arts-and-crafts-british",
   "style_name": "Arts and Crafts (British)",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -178,6 +178,21 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "The node whose c01 is this field's authority: 'every visible material must be doing the job it appears to do. Applied half-timbering, veneer stone, false beams and imitation finishes are forbidden.' That is a rule requiring `structural` and prohibiting `applied` in one sentence. Bound `structural-and-expressed` because the members here are also SHAPED to be read -- a chamfered tie, a stopped bead on a beam -- which is the movement's whole argument about honesty being a positive quality rather than merely the absence of a lie.",
+      "variants": [
+        {
+          "id": "structural-and-expressed",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Modelled as a variant rather than a parameter because a variant can be FORBIDDEN -- `status: forbidden` is how five of these fourteen kits say the member must not appear, and a parameter has no way to say that. (The reason first recorded here was that a categorical carries no unit and the checker insists a parameter has one. That is false: this corpus holds 236 categorical parameters whose unit is `none` and `check_kits.py` passes every one. Corrected 25 Aug 2026 by audit -- the modelling call stands, its stated reason did not.)"
+        }
+      ]
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "specified",
@@ -254,6 +269,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {

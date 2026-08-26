@@ -1,7 +1,7 @@
 {
   "style": "italian-renaissance-revival",
   "style_name": "Italian Renaissance Revival",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -73,7 +73,8 @@
         "pitch_typical": {
           "value": "4:12",
           "unit": "rise_in_12",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Roof pitch 3:12 to 5:12, clay tile only, with no gable facing any principal elevation (hard constraint c03).\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Roof pitch 3:12 to 5:12, clay tile only, with no gable facing any principal elevation (hard constraint c03).",
@@ -236,6 +237,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -323,6 +329,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {

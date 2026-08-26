@@ -221,17 +221,36 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "secondary",
+      "note": "Secondary. The arcade here is a patio arcade on slender columns -- 'column slenderness 7-9 diameters' with 'basket or Corinthianising capitals, and a carved or wrought balustrade above' -- so the pack's column rules govern rather than its pier rules. What this pack does NOT carry is what this record is actually about: 'ornament confined to a bounded field -- portada, window surround, patio arcade, cresting -- with the great majority of the wall left plain ashlar'. That bounded-panel ornament logic is its own item on WP-4.1's candidate list and is untouched here.",
+      "precedence": 0
+    },
+    {
+      "pack": "facade-portada",
+      "role": "facade",
+      "note": "THE NODE THAT NAMED THIS PACK BY NAME. Its `moorish-arch` binding note ends: 'WP-4.1's own portada/retablo gap is the pack Plateresque actually needs and it is still missing.' Its `vignola-tuscan` note declines the same work -- bound 'NOT for the ornamental panel, which no order pack in the library should be forced onto' -- and its `facade-arcade` note says what that pack does not carry is 'what this record is actually about'. Three notes, one gap. This node supplies the module itself ('the module is the ornamental panel and its frame'), the 1:2 to 1:3 aspect, the two-to-five registers, the applied depth, the heraldry requirement and the independence rule. The estipite rules do NOT apply here and the record says so: Plateresque never uses the member.",
+      "precedence": 1
+    },
+    {
       "pack": "vignola-tuscan",
       "role": "optional",
       "authority": "vignola-tuscan",
       "note": "Judgment binding, bound narrowly. spanish-plateresque is not in vignola-tuscan's own applies_to, and this style's own proportional_system is explicit that the portada is retablo, 'not order' -- so this is NOT bound for the ornamental panel, which no order pack in the library should be forced onto. It covers only the patio arcade's column shafts: this style's own typical_ratios give 'patio arcade column slenderness 7-9 diameters,' which brackets Vignola's Tuscan column at 7 diameters closely. It does not cover the capitals, which this style's own text calls 'basket or Corinthianising' inventions rather than correct Tuscan capitals -- shaft proportion only.",
-      "precedence": 1
+      "precedence": 2
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "Judgment binding, same reasoning and same doubt as the equivalent binding on churrigueresque. Not in room-harmonic's own applies_to, but its parent family 'spanish-classical' is. This style's own text gives slightly more support than churrigueresque's does: the proportional_system states outright that the plain wall's 'openings are placed by the rooms behind them,' i.e. the building genuinely has ordinary rooms following an ordinary logic independent of the portada -- this pack is offered as the best available (not a good) account of what that ordinary logic might be, for a style contemporary with the early Italian Renaissance whose vocabulary it explicitly imports (lineage edge to italian-renaissance, weight 0.4).",
-      "precedence": 2
+      "precedence": 3
+    },
+    {
+      "pack": "moorish-arch",
+      "role": "secondary",
+      "precedence": 4,
+      "authority": "moorish-arch",
+      "note": "Judgment binding, and a narrow one. Plateresque is a classical-order style with Mudejar survivals in it; the order packs already bound govern its apparatus. This pack is bound secondary for the alfiz and the polylobed arch where they appear, and for nothing else. WP-4.1's own portada/retablo gap is the pack Plateresque actually needs and it is still missing."
     }
   ]
 }

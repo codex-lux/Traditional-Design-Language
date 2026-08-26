@@ -270,6 +270,18 @@
       "role": "room",
       "note": "Judgment binding: not in the pack's own applies_to. The node's own interior description - 'the plan is generous and slightly loose... double doors between the front and back parlours to make one long room for occasions' - is additive and practical rather than harmonically proportioned, and the parent style's lineage record states outright that the Renaissance proportional system was not carried over into any Italianate register.",
       "precedence": 6
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "The same bracket rules at villa scale: eave 24-36 in with brackets at 24-48 on centre, and a veranda with 'chamfered or turned posts and a pierced valance'. Note that this record has the valance without the spindle frieze's Queen Anne elaboration, which is the family in its middle period -- the pierced board doing what turned spindles would do twenty years later, and cheaper.",
+      "precedence": 7
+    },
+    {
+      "pack": "octagon-geometry",
+      "role": "optional",
+      "note": "Optional, for the canted bay under the tower. Thinly justified and bound anyway because the bay is a real and frequent element of the type, but nothing in the octagon's closed-form geometry reaches this node -- read the corner rule and the projection rule and stop.",
+      "precedence": 8
     }
   ]
 }

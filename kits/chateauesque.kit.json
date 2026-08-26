@@ -1,7 +1,7 @@
 {
   "style": "chateauesque",
   "style_name": "Chateauesque",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -285,7 +285,8 @@
         "expression": {
           "value": "a continuous ashlar plinth or watertable in the same stone as the wall above; no exposed timber sill",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A masonry plinth in the wall's own stone. The inherited value (a timber-frame Sockel clear of grade, from germanic-vernacular) presupposes a light frame this style does not have and is corrected here.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "status": "drafted",
@@ -337,6 +338,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
       "status": "empty"
     },
     "reveal_masonry": {
@@ -466,6 +472,11 @@
       "rule": "Small rectangular lights in a leaded or muntined casement, not the Georgian sash ladder.",
       "confidence": "medium",
       "judgment": true
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -640,7 +651,8 @@
         "extent": {
           "value": "door and window surrounds only; there is no continuous classical entablature run at the eaves",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"No running eaves entablature. The style's own proportional_system states plainly that 'there is no governing module…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "status": "drafted",

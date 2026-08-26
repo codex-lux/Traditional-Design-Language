@@ -16,15 +16,32 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 CHECKS = [
+    # build.py FIRST, not last. It writes dist/taxonomy.json, and check_kits.py,
+    # check_addresses.py and check_inheritance.py all READ that artefact. With build.py last,
+    # every one of them validated the PREVIOUS run's graph: edit a lineage edge or a binding, and
+    # the run that introduced the change measured the corpus as it was before it. The OQ 51 meter
+    # -- whose whole purpose is to catch the cascade papering over something new -- was the worst
+    # placed of the three. Only pytest caught it, and only because pytest happens to run after.
+    # Found by audit 25 Aug 2026. It still runs at the end too, so a checker that mutates nothing
+    # is proved not to have, and the artefact committed to git is the one the run just verified.
+    ("build.py", []),
     ("validate.py", []),
     ("check_orders.py", []),
-    ("check_modules.py", []),
+    ("check_modules.py", ["--eval"]),
     ("check_systems.py", []),
     ("check_kits.py", []),
     ("check_constraints.py", []),
     ("check_pack_bindings.py", ["--strict"]),
     ("check_faults.py", []),
     ("check_rooms.py", []),
+    ("check_partis.py", []),
+    ("check_counts.py", []),
+    # --strict on both, added 25 Aug 2026 after an audit found neither could fail the build.
+    # check_addresses was default-off deliberately while OQ 48 carried 139 collisions; that
+    # question closed at 0, so the ratchet that stops a 1st new one is now the whole point.
+    # check_inheritance guards OQ 51's three numbers, which the ruling says must only go down.
+    ("check_addresses.py", ["--strict"]),
+    ("check_inheritance.py", ["--strict"]),
     ("proportion_engine.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
     ("plan_check.py", ["plans/tidewater-georgian-careful.json"]),
@@ -65,10 +82,14 @@ def main():
         results.append((label, proc.returncode))
 
     print("\n=== pytest tests/ " + "=" * 42)
-    # same interpreter as every check above — a standalone `pytest` on PATH can
-    # be a different environment entirely (found the hard way: an isolated
-    # pytest without the optional CAD libs silently skipped the export tests
-    # while the selftests two lines up ran them)
+    # `sys.executable -m pytest`, not the bare `pytest` on PATH. Every checker above already
+    # runs under this interpreter, and a `pytest` from somewhere else runs the suite against a
+    # different set of installed packages. Two sessions found this independently and it is worth
+    # keeping both instances: WP-2.3 found the suite quietly SKIPPING all sixteen solver tests
+    # while they passed when run directly, because the `pytest` first on PATH belonged to an
+    # environment with no OR-Tools; the deployment work found an isolated pytest without the CAD
+    # libs silently skipping the export tests while the selftests two lines up ran them. A skipped
+    # test reports success, so the whole point of the entry point was being lost without a word.
     pytest_proc = subprocess.run([sys.executable, "-m", "pytest", "tests/"], cwd=str(ROOT))
     # normalized: pytest's own exit 3 means "internal error", not our
     # could-not-evaluate protocol — only the build/ checks speak that code
@@ -94,6 +115,7 @@ def main():
         wb_proc = subprocess.run(
             [sys.executable, "-m", "pytest", "workbench/server/tests", "-q"], cwd=str(ROOT))
         results.append(("pytest workbench/server/tests", 0 if wb_proc.returncode == 0 else 1))
+
 
     print("\n" + "=" * 60)
     print("SUMMARY")

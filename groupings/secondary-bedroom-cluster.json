@@ -109,9 +109,14 @@
   ],
   "servicing_strategy": "Bathrooms stacked with the wet rooms below; the linen press hides the stack where it has to rise.",
   "circulation_parti": [
+    "additive",
     "center-hall",
-    "side-hall",
-    "gallery"
+    "enfilade",
+    "gallery",
+    "hall-and-parlor",
+    "none-direct-entry",
+    "open-plan",
+    "side-hall"
   ],
   "style_variation": [
     {
@@ -130,6 +135,9 @@
   ],
   "sources": [
     "IRC R310, R304",
-    "Wright, Building the Dream"
+    "Wright, Building the Dream",
+    "WP-4.5 widened circulation_parti: Widened by WP-4.5: the bungalow and the ranch partis both name this grouping and both are open-plan, which the list excluded.",
+    "WP-4.5: 'enfilade' added — the great-hall H-plan reaches its chambers through a room-to-room sequence rather than a corridor, which is what an enfilade is. The grouping itself is unchanged by the circulation in front of it.",
+    "WP-4.5: 'additive' added — a farmstead that grew by adding a building still puts its secondary bedrooms off one upstairs landing; the cluster is unchanged by how the house below it was assembled."
   ]
 }

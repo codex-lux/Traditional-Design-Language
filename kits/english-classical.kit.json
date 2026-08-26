@@ -1,7 +1,7 @@
 {
   "style": "english-classical",
   "style_name": "English Classical",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -251,6 +251,11 @@
       "binding": "open",
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -314,6 +319,11 @@
       "status": "empty"
     },
     "window_lite_pattern": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
+    },
+    "arch": {
       "group": "openings",
       "binding": "open",
       "status": "empty"

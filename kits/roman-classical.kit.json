@@ -1,7 +1,7 @@
 {
   "style": "roman-classical",
   "style_name": "Roman Classical",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -232,6 +232,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -298,7 +303,7 @@
       "parameters": {},
       "status": "empty"
     },
-    "window_head_masonry": {
+    "arch": {
       "group": "openings",
       "binding": "specified",
       "status": "drafted",
@@ -317,11 +322,17 @@
         }
       ],
       "rule": "Openings within an applied arch order take a real structural arch as their head, coordinated with the order's own impost line — never a flat lintel pretending to be load-bearing over a wide span.",
-      "note": "Judgment: applies the general arcuated-structure rules (c01, c03) specifically to the window_head_masonry slot, which the style's own text does not name by that vocabulary directly.",
+      "note": "Judgment: applies the general arcuated-structure rules (c01, c03) specifically to the window_head_masonry slot, which the style's own text does not name by that vocabulary directly. MIGRATED FROM `window_head_masonry` 24 Aug 2026 (OQ 46), when the `arch` slot was added. A real structural arch coordinated with the order's own impost line. The subject is the arch and the order it belongs to. The old slot is left `open`/`empty` on this kit rather than carrying a pointer, because the same fact in two places is what this migration exists to prevent.",
       "sources": [
         "roman-classical.c01",
         "roman-classical.c03"
       ]
+    },
+    "window_head_masonry": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty",
+      "note": "Emptied 24 Aug 2026 (OQ 46): everything this slot carried was about the ARCH as a spanning member and has moved to the `arch` slot. This kit states nothing about how a masonry window head is built, and saying so is different from saying it has none."
     },
     "window_head_wood": {
       "group": "openings",

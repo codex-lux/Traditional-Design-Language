@@ -285,22 +285,35 @@
       "precedence": 5
     },
     {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "The colonnade rather than the portico, and the distinction is this pack's `portico_share` rule: at a half to three fifths of the block a colonnade is an event on an elevation, and at the full width it is the elevation. This node goes further still and wraps all four sides -- and its own record is careful that the peripteral colonnade here 'has no precedent in Greek or Anglo practice', being a Creole gallery with a Greek order on it: 'Oak Alley is a gallery house wearing a temple.' It supplies the pack's climate conflict entire, including the only latitude-dependent rule in the corpus. NOTE: the pack states NO portico depth rule, because that wall-face-to-column-centreline dimension is `balcony-gallery`'s gallery depth and this node's own constraint note says so.",
+      "precedence": 6
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Governs the colossal colonnade's composition and the bay spacing it sets for the wall behind (9-14 ft on centre, per the style's own ratios), continuing at the same spacing around the flanks in peripteral examples like Oak Alley. The pack does not model gallery depth as a shading function of solar geometry (constraint c02's 8 ft minimum, sized to the site's latitude) -- that is a climatic calculation outside any of the 36 packs' scope, carried as prose in the style file's own test.",
-      "precedence": 6
+      "precedence": 7
     },
     {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "Genuinely useful here where it is not for the other two Greek Revival nodes: this variant's own ratios (principal floor 12-14 ft, upper floor 11-13 ft) are a real diminishing pair, roughly 0.85-0.93, close to this pack's core 0.85 second-storey rule -- unlike the Northern and parent nodes, where the entablature runs level across an undifferentiated block.",
-      "precedence": 7
+      "precedence": 8
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "Listed directly in this pack's applies_to cross-reference. Bound for rooms that are 'enormous, plainly trimmed' but still composed to the 11-14 ft ceiling heights and passage proportions the style states as hard constraints, not accumulated vernacular space.",
-      "precedence": 8
+      "precedence": 9
+    },
+    {
+      "pack": "greek-doric",
+      "role": "secondary",
+      "precedence": 10,
+      "authority": "greek-doric",
+      "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
     }
   ]
 }

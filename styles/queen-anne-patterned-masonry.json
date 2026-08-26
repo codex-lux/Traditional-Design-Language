@@ -217,16 +217,22 @@
       "precedence": 2
     },
     {
+      "pack": "corbel-course",
+      "role": "secondary",
+      "note": "The node whose own constraint note says this figure had nowhere to live: the corbelled cap's '3-6 in projection' has 'no matching vocabulary variable (no chimney-cap-projection concept) and stays prose'. It has one now. This node also sets the pack's module -- 'brick course height 2.5 to 3 in' -- and supplies the second rationing rule, ornamental panels at not more than 25 per cent of any elevation, concentrated in frieze, spandrel and gable. It is the one bound node where the pack's `moulded_units` switch reads ONE rather than zero: moulded brick and terra cotta are this style's 'clearest single tell' and are exactly what Mudejar forbids, which is why the pack states that as a switch and does not reconcile it. `brick-course` keeps the gauge rod and the openings.",
+      "precedence": 3
+    },
+    {
       "pack": "sash-light",
       "role": "opening",
       "note": "JUDGMENT BINDING. Not in this pack's applies_to, but the node states an opening area of 35-50 percent of the elevation with deep reveals — real double-hung sash in real glass, on the same 1878-1908 timeline as the wooden Queen Anne subtypes, so the same late-cylinder/early-plate glass reasoning applies. The head-height rule is superseded here by brick-course's own window_head_masonry, which is why this binding is opening/secondary rather than primary.",
-      "precedence": 3
+      "precedence": 4
     },
     {
       "pack": "room-vernacular",
       "role": "room",
       "note": "JUDGMENT BINDING, for the reasoning given on the parent queen-anne-american node. A load-bearing brick townhouse still faces a joist-span limit on its floor framing, and this subtype is explicitly the urban, narrow-lot version of the style (townhouse-row is a common massing affinity), which if anything tightens room breadth toward this pack's measured band rather than loosening it.",
-      "precedence": 4
+      "precedence": 5
     }
   ]
 }

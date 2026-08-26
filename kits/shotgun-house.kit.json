@@ -1,7 +1,7 @@
 {
   "style": "shotgun-house",
   "style_name": "Shotgun House",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -232,6 +232,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "binding": "forbidden",
       "rule": "There is no masonry wall to set an opening into (construction_type, already specified); window_head_masonry is forbidden below for the same reason.",
@@ -313,6 +318,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {
@@ -714,7 +724,15 @@
       "rule": "Rooms are strung front to back in a fixed linear sequence, typically parlour, bedroom, bedroom, kitchen (own long description); each room is adjacent only to the room immediately in front of and behind it, never side-by-side to a room it does not open into, since the house is one room wide throughout.",
       "confidence": "high",
       "status": "drafted",
-      "group": "plan-logic"
+      "group": "plan-logic",
+      "rules": [
+        {
+          "kind": "sequence",
+          "effect": "restricts",
+          "statement": "Rooms are strung front to back in a fixed linear sequence -- typically parlour, bedroom, bedroom, kitchen -- and each room is adjacent only to the room immediately in front of and behind it.",
+          "why": "The house is one room wide throughout, so there is no side-by-side adjacency to have. The universal records assume a room can have neighbours on more than one side; this says it cannot."
+        }
+      ]
     },
     "service_zone_strategy": {
       "binding": "specified",

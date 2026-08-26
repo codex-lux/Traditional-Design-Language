@@ -218,6 +218,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "opening-pointed",
+      "role": "opening",
+      "note": "The branch this pack's timber figures were written for: the bargeboard at 10 in and pierced rather than scalloped, the nailed architrave that substitutes for a stone dressing, the narrow timber mullion, the chamfered veranda post. The pack is explicit that the American surround is a SUBSTITUTION for the stone jamb rather than an equivalent, which matters most here, where every member of the system has been translated into pine by a scroll saw and the translation is the style rather than a corruption of it. sash-light stays for the square-headed sash this type also uses.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Confirmed in the pack's own applies_to. Governs the composed elevation as a hierarchy of masses even though Carpenter Gothic is usually a builder's symmetrical box rather than a genuinely irregular villa plan: the two-storey gable-front body is the single dominant mass, and the central gable rising through the eave line (the style's own commonest American composition, per its diagnostic tells) is the one subordinate accent the pack's mass hierarchy needs to register. Read this pack's numbers at the plain end of its range - the composition here is a builder's box wearing ornament, not an architect's irregular massing.",
@@ -234,6 +240,12 @@
       "role": "room",
       "note": "Judgment binding: not in the pack's own applies_to. The style's own description could not be plainer about it - 'the rooms are the ordinary rooms of an ordinary farmhouse,' low-ceilinged and small-windowed by later standards. This is exactly the reconstructed 14 ft joist-span room the pack records, not a treatise-derived harmonic shape; room-harmonic would misdescribe a style whose whole point is that the ornament is bought and the house underneath it is unchanged.",
       "precedence": 3
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "The node that gives the pack its bargeboard dimensions and its module: depth 10-18 in, cut from 1-1.5 in stock, pattern repeat 12-24 in, with sawn brackets 12-20 in on the diagonal and 'turned or chamfered porch posts with sawn brackets and a pierced valance'. This record also states the member the type cannot do without -- 'pierced and cusped bargeboard applied to the rake, the single indispensable element' -- which is the member_count rule seen from one style's side. `opening-pointed` also writes the bargeboard's depth on this node and means the same quantity; precedence resolves it, and both packs' notes say so.",
+      "precedence": 4
     }
   ]
 }

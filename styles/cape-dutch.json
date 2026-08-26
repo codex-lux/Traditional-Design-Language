@@ -251,6 +251,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "secondary",
+      "note": "Secondary, and honestly qualified: this record gives the walls as 'thick sun-dried brick OR rubble, lime-plastered and limewashed white', so half the time the wall is adobe and `adobe-module` is the better pack for it. What is unambiguous, and why the binding is worth making, is the plan rule: 'single-pile ranges only, room depth fixed by the span of undressed imported or local rafters', with the range at 5.5-6.5 m clear -- which is this pack's range-depth rule with its reason attached, and the same reason `adobe-module`'s viga span and `log-module`'s pen give. What this pack has nothing for is the thing this node is most known for: the curvilinear holbol gable, which WP-4.1 lists as its own missing item alongside the stepped, bell and neck gables of the Low Countries, and which is a gable profile rather than a wall.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "note": "Explicitly listed in the pack's applies_to. The voorkamer — one room deep, lit through thick lime-plastered reveals, roofed by a brandsolder fire-floor over exposed beams — is the daylight- and span-limited vernacular room this pack describes, and its single-pile constraint (cape-dutch.c01, depth not exceeding 6.5 m) is the same physical limit — what an undressed rafter will carry — that generates the pack's own depth_and_pile rule.",
@@ -261,6 +267,12 @@
       "role": "massing",
       "note": "Judgment bind, though this node id is itself listed in the pack's applies_to. Cape Dutch walls are masonry, not a timber frame, so the pack does not govern wall construction here — but its depth_and_pile rule (single-pile depth 192-264 in / 16-22 ft) matches this node's own stated range depth of 5.5-6.5 m (18-21 ft) closely, because both are the same underlying constraint restated: a room cannot be deeper than the span an available roof member will carry without an interior bearing wall. Bound narrowly for that depth-governing logic, not for framing. brick-course was checked and rejected: Cape Dutch walls are lime-plastered and limewashed sun-dried brick or rubble, and the coursing brick-course models (exposed bond, moulded water-table courses, gauged arches) is invisible under a plastered finish and does not apply.",
       "precedence": 2
+    },
+    {
+      "pack": "facade-gable",
+      "role": "facade",
+      "note": "The screen gable in its purest form, and the case that forced the pack's three-way distinction. This gable is not the end of a roof at all: it stands 'clear of a thatched roof' on the LONG elevation, centred on the front door, moulded in plaster and dated in relief -- a piece of architecture applied to a farmhouse, which is why it is the only modelled thing on an otherwise plain building. Its own figures are the pack's screen rules: gable width to front elevation length roughly 1:3, gable height above eave 2.5-4 m. It also states the hierarchy the pack generalises, in one clause: 'a second, plainer gable over the rear or wing door, always subordinate to the front one'. The holbol curve itself the pack does not carry -- see its notes.",
+      "precedence": 3
     }
   ]
 }

@@ -305,22 +305,35 @@
       "precedence": 5
     },
     {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "Bound ahead of `facade-classical`, which composes the WALL and says nothing about a colonnade -- the two are complementary and this node needs both. Its own ratio 'column height equals full facade height of the block it fronts, without exception in canonical work' is the strictest screen-and-wall settlement in the corpus, and its intercolumniation of 2.25-2.75 is one of the five independent records that put the floor at 2.25 exactly. Read the pack's cost conflict here in particular: this is the tradition `greek-classical` describes as 'the silhouette of Greek architecture without the refinements that were the point', and the pack's position is that a straight stylobate is not a defect in a revival portico but what a revival portico is.",
+      "precedence": 6
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Governs the full-height portico composition and the bay rhythm the portico sets for the wall behind it (intercolumniation 2.25-2.75 diameters, per the style's own proportional_system). On the gable-front vernacular form the pack's odd-bay-count logic gives way to the style's own tolerated asymmetric side-hall door, which the pediment is stated to resolve compositionally rather than by bay symmetry.",
-      "precedence": 6
+      "precedence": 7
     },
     {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "Bound, but its usual Georgian/Federal job -- diminishing upper-storey window height so the eye reads a hierarchy -- is largely absent here: Greek Revival unifies the whole facade height behind one continuous entablature rather than stepping it down, and the style's own typical_ratios give no diminution ratio at all (unlike federal-style's explicit 0.80-0.90 / 0.60-0.75). Bound chiefly for the ceiling-height figure, which this pack's own authority note names directly ('Greek Revival 10-12 ft'), and for the frieze-band attic storey, where a habitable half-storey is lit through the entablature rather than through a dormer (constraint c03).",
-      "precedence": 7
+      "precedence": 8
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "Bound for rooms that are 'taller than Federal rooms and much plainer' but still formally proportioned by a pattern-book carpenter rather than accumulated by habit -- the style's own description language. Benjamin-corinthian and benjamin-tuscan were both considered for a third bound order (the style names a Tower-of-the-Winds Corinthian as a legitimate third Greek order) and deliberately not bound at this parent level, to keep the same primary/secondary discipline georgian-colonial-american uses; the Corinthian is promoted instead on greek-revival-southern-plantation, where the style text and the corpus's own applies_to cross-reference both name it explicitly.",
-      "precedence": 8
+      "precedence": 9
+    },
+    {
+      "pack": "greek-doric",
+      "role": "secondary",
+      "precedence": 10,
+      "authority": "greek-doric",
+      "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
     }
   ]
 }

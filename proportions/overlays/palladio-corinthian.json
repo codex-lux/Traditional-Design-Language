@@ -253,7 +253,8 @@
       "expression": "9.5",
       "units": "modules",
       "note": "Nine and a half diameters. Vignola's Corinthian is ten. This is the only order where the two authorities disagree on the column itself, and it is not a rounding: on a 24 in column it is a 12 in difference in height. Anglo-Palladian Corinthian - Burlington, Kent, Campbell, and through them Jefferson - follows the nine and a half.",
-      "authority_note": "Ware 1738, Book I ch. XVII, with Ware's own errata sheet confirming 'nine modules and an half'."
+      "authority_note": "Ware 1738, Book I ch. XVII, with Ware's own errata sheet confirming 'nine modules and an half'.",
+      "quantity": "column_height_in_diameters"
     },
     {
       "target_slot": "entablature",
@@ -261,7 +262,8 @@
       "expression": "column_height / 5",
       "units": "in",
       "note": "A fifth, not a quarter. Compounded with the shorter column this makes the whole Palladian Corinthian order 11.4 diameters against Vignola's 12.5 - nine per cent lower for the same column diameter.",
-      "authority_note": "Ware 1738, Book I ch. XVII."
+      "authority_note": "Ware 1738, Book I ch. XVII.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "chair_rail",
@@ -274,7 +276,8 @@
         0.33
       ],
       "note": "JUDGMENT SLOT. The pedestal cap as the dado datum: pedestal 2.375, column 9.5, entablature 1.9, so the cap lands at 0.172 of the whole - about 19 in at a 9 ft ceiling, against 0.21 and 23 in under Vignola. Palladio's lower pedestal makes the classical dado LOWER still, and the gap between the classical datum and the modern 32 to 36 in chair rail correspondingly wider. State the conflict; do not split the difference silently.",
-      "authority_note": "Ware 1738, Book I ch. XIX."
+      "authority_note": "Ware 1738, Book I ch. XIX.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "modillion_dentil",
@@ -282,7 +285,8 @@
       "expression": "column_height / 5 * (5 / 12) * (2 / 8.5)",
       "units": "in",
       "note": "The modillion band, two of the eight and a half parts of the cornice. Palladio's Corinthian cornice runs dentils AND modillions, as Vignola's does, but gives the modillion nearly twice Vignola's depth relative to the diameter.",
-      "authority_note": "Ware 1738, Book I ch. XVII."
+      "authority_note": "Ware 1738, Book I ch. XVII.",
+      "quantity": "eave_member_face_height"
     },
     {
       "target_slot": "crown",
@@ -295,7 +299,8 @@
         0.08
       ],
       "note": "JUDGMENT SLOT. The interior cornice under the Palladian reading: entablature a sixth of wall-plus-cornice (because it is a fifth of the column), crown five twelfths of that. 7.5 in at a 9 ft ceiling against Vignola's 8.4. The Corinthian room is the one place where a designer may reasonably override this upward, because a Corinthian hall carries enrichment that a light cornice cannot hold.",
-      "authority_note": "Room-as-order analogy applied to Ware 1738, Book I ch. XVII; the analogy is not Palladio's."
+      "authority_note": "Room-as-order analogy applied to Ware 1738, Book I ch. XVII; the analogy is not Palladio's.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "porch_support",
@@ -303,7 +308,8 @@
       "expression": "column_height / 9.5 * 2",
       "units": "in",
       "note": "Clear span, systyle. Two diameters is a close bay - closer than any Vignolesque Corinthian portico - and it is the price of the nine-and-a-half-diameter column under Palladio's binding rule.",
-      "authority_note": "Ware 1738, Book I ch. XIII."
+      "authority_note": "Ware 1738, Book I ch. XIII.",
+      "quantity": "clear_span_between_supports"
     },
     {
       "target_slot": "height_proportion",
@@ -311,7 +317,8 @@
       "expression": "0.75",
       "units": "ratio",
       "note": "SUPERIMPOSITION. The Corinthian is Palladio's uppermost order in a three-order front (Doric, Ionic, Corinthian, as at the Palazzo Thiene fronts he records in Book II), and each order is a fourth less than the one below. Vignola gives no such rule.",
-      "authority_note": "Ware 1738, Book I ch. XII and Book II."
+      "authority_note": "Ware 1738, Book I ch. XII and Book II.",
+      "quantity": "superimposed_order_diminution"
     }
   ],
   "conflicts": [

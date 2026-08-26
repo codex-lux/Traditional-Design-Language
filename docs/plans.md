@@ -53,3 +53,61 @@ Converting two Georgian slots to `extends` made the third level appear in the pr
 ## Next
 
 The composer. It now has a scoring function, two worked examples of what good and bad look like against it, and a target: assemble groupings into a plan record that scores zero fatal.
+
+
+## Room-type substitution (`SUBSTITUTES`)
+
+Some room types stand in for others *for the purpose of an adjacency rule* and for no other
+purpose. A rule that says the entry porch must reach an entrance hall is satisfied by a vestibule
+or a stair hall, because what the rule protects against is a front door that leads nowhere and
+any of the three receives a person.
+
+**It runs in one direction (OQ 43, 24 Aug 2026).** This was a list of flat sets and the code
+treated membership as mutual: if a primary bathroom counted as a bathroom then a bathroom counted
+as a primary bathroom. That is right for some pairings and wrong for exactly the ones that
+matter — a primary bedroom's rule to adjoin a **primary** bathroom is not satisfied by the hall
+bath being somewhere in the house. `build/plan_check.py` holds a directed map, and two functions
+ask the two different questions: `satisfied_by(want)` is "the rule wants this; would anything the
+plan HAS do?", and `serves(have)` is "this room is next to me; which rules does it satisfy?".
+Before OQ 43 those were one function, which is precisely the bug.
+
+| a room of this type | stands in where a rule asked for | note |
+|---|---|---|
+| `landing` | `stair-hall` | the stair, read as one thing across its two levels |
+| `stair-hall`, `vestibule`, `gallery-corridor`, `centre-passage`, `cross-passage` | `entrance-hall` | the room that receives a person at the door — and mutual, because whichever of them a plan calls its entry, the front door opens into it |
+| `hall` | `entrance-hall` | the Anglo-American vernacular hall: the undivided room the front door opens into, not a corridor. One way — an entrance hall is not a hall, which is a room you eat and sleep in |
+| `parlor`, `living-room`, `sitting-room` | each other | the principal sitting room, whatever a period calls it |
+| `family-room`, `great-room`, `best-parlor`, `drawing-room` | `parlor`, `living-room`, `sitting-room` | one way: the formal or the everyday room answers a request for "the sitting room", and a request for the *best* parlor is not answered by the family room |
+| `breakfast-room`, `eat-in-kitchen-area` | `dining-room` | one way: somewhere to eat is not a dining room where one is required |
+| `bedchamber` ↔ `bedroom` | each other | the same room in an older word |
+| `primary-bedroom`, `garret-chamber` | `bedroom`, `bedchamber` | one way. A garret chamber is a bedroom inside the roof and is what a Cape sleeps in |
+| `primary-bathroom` | `bathroom` | one way, and the asymmetry this ruling exists for |
+| `walk-in-closet`, `linen-press` | `closet` | one way |
+| `scullery` | `kitchen` | one way |
+| `butlers-pantry`, `larder` | `pantry` | one way |
+
+**Measured when the direction was added**, across all 129 composable styles: of 542 findings
+where the plan modelled *something* the rule would take, 214 were legitimate substitutions and
+294 were the table running backwards. The 294 returned to honest absence; the 214 became real
+adjacency findings at their own severity, and working through them found two gaps in the table
+itself (`hall` and `garret-chamber`), two rules a correct plan structurally cannot satisfy, and
+six style traditions the universal rules were not written for — declared as suppressions. Fatal
+adjacency findings across the catalogue went 115 → 0.
+
+**This list is data, not convenience.** It is validator data in the same sense a fault or a
+style constraint is, and it changes results: WP-0.3 found a test fixture that was passing for
+the wrong reason, because a "stair hall standing between two rooms" satisfied an entrance-hall
+rule through *aliasing* rather than through the two-hop-through-circulation mechanism the test
+was actually written to exercise. If you are writing a fixture, know which of the two you are
+testing.
+
+`gallery-corridor` was added to the entrance-hall group by WP-4.5 on WP-2.1's evidence: two of
+the reference corpus's good examples use a Gallery as the room the front door and every
+principal room open off, which is functionally what an entrance hall *is*, and without it a
+grand house whose entrance sequence is a gallery failed a rule written to catch an entry porch
+leading nowhere.
+
+**What the groups are NOT.** They do not make two room types the same room. A drawing room and
+a family room alias for adjacency and differ in every other respect the corpus models —
+dimension band, furniture, privacy rank, trim grade, style variation. Aliasing is a statement
+about what a *rule* means, not about what a room is.

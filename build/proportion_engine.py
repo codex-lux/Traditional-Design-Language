@@ -313,9 +313,19 @@ def evaluate(pack, module_in=None, bindings=None):
     results = []
     for r in pack.get("derived_rules", []):
         row = {"target_slot": r["target_slot"], "dimension": r.get("dimension"),
+               "quantity": r.get("quantity"),          # OQ 48: what the rule MEASURES
                "expression": r["expression"], "units": r.get("units"),
                "judgment": bool(r.get("judgment")), "range": r.get("range"),
-               "note": r.get("note"), "authority_note": r.get("authority_note")}
+               "note": r.get("note"), "authority_note": r.get("authority_note"),
+               # calibrated_for and diagnostic complete the schema's eleven rule fields. They were
+               # dropped here, and `resolve_kit.py:310` reads `calibrated_for` off this very row --
+               # so `stale_calibration` was ALWAYS False and the warning at :594 could never fire.
+               # `trim-classical`'s chair rail says in its own words that the derivation only
+               # reaches the measured 30-32 in band at 142.5 in, and the resolver printed 22.75 in
+               # with no warning. Same bug as `quantity` (fixed 25 Aug), found in the same audit:
+               # a row rebuilt key-by-key from a richer source drops whatever nobody re-listed.
+               # tests/test_wp46_packs.py compares this dict against the schema so it cannot recur.
+               "calibrated_for": r.get("calibrated_for"), "diagnostic": r.get("diagnostic")}
         try:
             v = evaluate_expr(r["expression"], env)
             row["value"] = round(v, 4) if isinstance(v, (int, float)) and not isinstance(v, bool) else v

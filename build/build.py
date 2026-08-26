@@ -51,6 +51,12 @@ for i, n in nodes.items():
     json.dump(kit, open(path, "w"), indent=2, ensure_ascii=False); made += 1
 
 # ---------- 2. cascade ----------
+# OQ 58: ancestor -> the slots that ancestor is allowed to contribute, where an edge said so.
+# Keyed by (descendant, ancestor) because the same ancestor may be reached narrowly from one node
+# and wholly from another. Absent means "everything", which is the historical behaviour.
+EDGE_SCOPE = {}
+
+
 def cascade_chain(i, seen):
     """i's real-descent ancestors, nearest first, walking `lineage` edges with
     inherits_kit: true. Whenever the walk lands on a style-rank ancestor, that ancestor's
@@ -64,6 +70,8 @@ def cascade_chain(i, seen):
         t = e["target"]
         if t in seen or t not in nodes: continue
         seen.add(t); out.append(t)
+        if e.get("slots"):
+            EDGE_SCOPE[(i, t)] = sorted(set(e["slots"]))
         if nodes[t]["rank"] == "style":
             fam = family_of(t)
             if fam and fam not in seen:
@@ -97,6 +105,12 @@ for i, n in nodes.items():
             seen.add(fam); out.append(fam)
     out.extend(cascade_chain(i, seen))
     n["_cascade"] = out
+    # A flat {ancestor: [slots]} for this node, so resolve_kit can honour a scoped edge without
+    # re-walking the graph. Only edges that declared a scope appear; everything else is
+    # unrestricted, as it always was.
+    scope = {a: EDGE_SCOPE[(i, a)] for a in out if (i, a) in EDGE_SCOPE}
+    if scope:
+        n["_cascade_scope"] = scope
     n["_children"] = []
     n["_descendants"] = []
 for i, n in nodes.items():

@@ -257,6 +257,18 @@
       "role": "room",
       "note": "JUDGMENT BINDING: storybook-style is not in this pack's applies_to list. Bound on the strength of the node's own description quoted above -- an ordinary plan and ceiling height behind the theatrical surface -- which is squarely this pack's 'what rooms actually measure' domain rather than room-harmonic's designed Palladian one. Bound at low precedence and deliberately thin: the node's own text is explicit that the room is not where this style's claim is made, and no proportional system should be dressed up as governing what the node itself calls ordinary.",
       "precedence": 3
+    },
+    {
+      "pack": "timber-panel",
+      "role": "optional",
+      "note": "Optional, and the pack should be read here as a description of what is being caricatured rather than as a specification. Storybook work exaggerates every figure the pack states -- deeper jetties than a joist could carry, timbers curved where a frame's are straight, panels of no consistent proportion -- and does it deliberately. What the pack can usefully say is which exaggerations are which, so that a designer working this idiom is distorting the system knowingly rather than getting it wrong.",
+      "precedence": 4
+    },
+    {
+      "pack": "opening-mullioned",
+      "role": "optional",
+      "note": "Optional, and the pack should be read here as the thing being caricatured. This record's lights are 6 to 10 in wide in openings under 3 ft -- a third of the pack's module and well below anything the tradition built -- and they are 'placed by internal need and never aligned to a facade datum'. Both are deliberate distortions of rules this pack states, and what the pack can usefully offer is the undistorted version, so that a designer working this idiom is exaggerating knowingly.",
+      "precedence": 5
     }
   ]
 }

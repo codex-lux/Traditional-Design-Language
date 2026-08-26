@@ -1,0 +1,451 @@
+{
+  "id": "opening-craftsman",
+  "name": "The Craftsman and Prairie Opening System",
+  "aka": [
+    "the head datum",
+    "two datums and a framing bay",
+    "the window band",
+    "the grouped opening"
+  ],
+  "kind": "opening-system",
+  "authority": {
+    "source": "Gustav Stickley, Craftsman Homes, New York 1909, and More Craftsman Homes, 1912, with the plates and specifications published monthly in The Craftsman, 1901-16; Frank Lloyd Wright, 'A Home in a Prairie Town', Ladies' Home Journal, February 1901, and 'In the Cause of Architecture', Architectural Record, March 1908; the precut and plan-book catalogues that carried the type -- Radford, Aladdin, Sears Modern Homes -- which standardised every member length and are the reason the dimensions are so consistent across a continent",
+    "author": "Stickley and The Craftsman; Wright; the plan-book trade",
+    "year": 1909,
+    "strength": "documented",
+    "note": "DOCUMENTED. Stickley published the plates, the specifications and the argument, and Wright published the principle; the catalogues then published the cut lists. What none of them published is a proportional system, because -- and this is the point of the pack -- there is not one to publish. `styles/craftsman.json` says it in its own governing_logic: 'the system is dimensional rather than ratio-derived... the rules are all absolute lengths, which is why the plan-book trade could transmit it without transmitting any theory.' A carpenter in Ohio and one in Pasadena built the same house because they were given the same numbers, not because they had read the same book. So the figures below are absolute lengths and the pack is honest that they are; where a figure is a ratio it is because the corpus's own style records state it as one."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The framing bay -- stud and rafter spacing, and the width of one opening unit",
+    "parts": 12,
+    "default_size_in": 24.0,
+    "note": "The part is two inches, which is the scale of a mullion, a muntin and the difference between two casing widths. The module is THE FRAMING BAY, and choosing it rather than a sash width is the pack's one real idea. `styles/craftsman.json` names it -- 'the exposed rafters declare the framing bay at 16 or 24 inches on centre' -- and `styles/prairie-school.json` independently names the same figure from the other end: 'the standard casement width of roughly 2 ft, from which window bands are built in multiples.' Those are the same 24 inches seen from the structure and from the opening, and they coincide because in this construction the mullion lands on a stud and the band's length is a whole number of bays. That is why a Prairie band of five casements is 10 ft and not 9 ft 7, and why a Craftsman group of three is 6 ft. Set the module to 16 and every figure below moves with it, which is what a 16 in o.c. wall does to a bungalow. What CANNOT be derived from this module is an opening's height -- see the head datum rule, which is the pack's central assertion and is an absolute length rather than a ratio."
+  },
+  "assemblies": {
+    "datum_stack": {
+      "height_modules": 4.25,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "wall_below_sill",
+          "name": "Wall from the finished floor to the sill band",
+          "height_parts": 14.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "28 in. Shingle, clapboard, stucco or Roman brick, and in the Prairie work it is where the water table sits. Nothing happens in it, which is the point: this system's wall is a plain field interrupted at two lines.",
+          "confidence": "medium"
+        },
+        {
+          "id": "sill_band",
+          "name": "Sill band -- the continuous horizontal the sills die into",
+          "height_parts": 2.0,
+          "projection_parts": 0.5,
+          "profile": "flat",
+          "note": "4 in, sill at 32 in above the floor. In a Craftsman house it is a projecting sill course under the window group; in a Prairie house it is one of the four continuous lines that go unbroken around the whole building, and `styles/prairie-school.json` names it in that list. The distinction is how far it runs, not what it is. A sill that stops at the window jamb has broken the band, and a broken band is the most legible failure this system has.",
+          "confidence": "high"
+        },
+        {
+          "id": "light_zone",
+          "name": "The glazed zone, sill band to head datum",
+          "height_parts": 24.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "48 in of clear opening, exactly two modules. Every window on the elevation occupies this zone and no window occupies more or less of it, because both its lines are datums. That is the whole system.",
+          "confidence": "high"
+        },
+        {
+          "id": "lintel_band",
+          "name": "Lintel band -- the head datum made visible",
+          "height_parts": 3.0,
+          "projection_parts": 0.75,
+          "profile": "flat",
+          "note": "6 in, head datum at 80 in -- 6 ft 8 in, the bottom of the 6 ft 8 in to 7 ft 0 in band that three separate style records in this corpus state independently. In Craftsman work it is a wide flat head casing with a small cap; in Prairie work it is the lintel course carried around the building. Same member, same job: it is the line that everything dies into, and it is drawn as a band rather than as a moulding because a moulding would give it a direction and a datum has none.",
+          "confidence": "high"
+        },
+        {
+          "id": "frieze_to_plate",
+          "name": "Frieze from the head datum to the wall plate",
+          "height_parts": 8.0,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "16 in, plate at 102 in -- 8 ft 6 in, which is what `styles/craftsman-bungalow.json` gives for the ceiling. This band is plain and it is meant to be: it is the quiet strip between the head datum and the eave shadow, and it is where a designer trained on classical elevations reaches for a frieze ornament and should not.",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "porch_pier": {
+      "height_modules": 4.25,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "pier_base",
+          "name": "Battered masonry pier base -- stone, clinker brick or stucco over",
+          "height_parts": 15.0,
+          "projection_parts": 7.5,
+          "profile": "plinth",
+          "note": "30 in high and 30 in wide at the base, battering inward as it rises. The base is masonry and the post above it is wood, and the change of material at that line is not a compromise -- it is the type's clearest statement about what is doing what. `styles/craftsman.json` gives 24-36 in at the base and `styles/california-bungalow.json` adds that the post above is 'no more than half its width'.",
+          "confidence": "high"
+        },
+        {
+          "id": "tapered_post",
+          "name": "Tapered or battered wood post",
+          "height_parts": 27.0,
+          "projection_parts": 3.5,
+          "profile": "flat",
+          "note": "54 in, bringing the beam soffit to 84 in -- 7 ft 0 in. Square, boxed from boards rather than solid, and tapering to 12-18 in at the beam. THE TAPER IS THE DIAGNOSTIC and it is the first thing a builder drops, because a parallel post is cheaper to box and nobody has to cut a bevel. A parallel post on a masonry base is a Colonial Revival porch in Craftsman colours.",
+          "confidence": "high"
+        },
+        {
+          "id": "porch_beam",
+          "name": "Porch beam",
+          "height_parts": 9.0,
+          "projection_parts": 4.0,
+          "profile": "flat",
+          "note": "18 in deep, top at 102 in -- THE SAME PLATE LINE AS THE WALL, which the invariant below holds. That coincidence is why a Craftsman porch reads as part of the house rather than as something attached to it: the porch roof and the main roof are one structure at one level, and the eave runs across both without a step.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is two inches.",
+      "expression": "module.default_size_in / module.parts == 2.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The module is the framing bay: sixteen or twenty-four inches on centre, and nothing between.",
+      "expression": "module.default_size_in >= 16.0 and module.default_size_in <= 24.0",
+      "tolerance": 0.0,
+      "note": "Stated as a band because both spacings are real and the pack has to hold both. It is not a continuous range in practice -- a wall is framed at 16 or at 24 and never at 20 -- and the honest thing would be an enumeration, which the schema's invariants cannot express. The note is the enumeration."
+    },
+    {
+      "statement": "The head datum falls at six feet eight inches above the finished floor.",
+      "expression": "(assemblies.datum_stack.members.wall_below_sill.height_parts + assemblies.datum_stack.members.sill_band.height_parts + assemblies.datum_stack.members.light_zone.height_parts) * (module.default_size_in / module.parts) == 80.0",
+      "tolerance": 0.01,
+      "note": "The pack's central assertion, stated as an invariant because it is the one figure that is not negotiable: three separate style records in this corpus -- craftsman, craftsman-bungalow, arts-and-crafts-american -- give 6 ft 8 in to 7 ft 0 in independently, and it is the line the whole elevation is organised on."
+    },
+    {
+      "statement": "The porch and the wall come to one plate line.",
+      "expression": "assemblies.porch_pier.height_modules == assemblies.datum_stack.height_modules",
+      "tolerance": 0.001,
+      "note": "Both stacks are 4.25 modules -- 8 ft 6 in. This is why the porch roof and the house roof are one structure and the eave crosses both without a step, and it is the structural fact behind the visual one. A porch beam set below the wall plate produces a stepped eave, which is a Queen Anne move and reads as one."
+    },
+    {
+      "statement": "The porch beam soffit and the head datum are within three parts of each other: there are two lines on this elevation and no more.",
+      "expression": "abs((assemblies.porch_pier.members.pier_base.height_parts + assemblies.porch_pier.members.tapered_post.height_parts) - (assemblies.datum_stack.members.wall_below_sill.height_parts + assemblies.datum_stack.members.sill_band.height_parts + assemblies.datum_stack.members.light_zone.height_parts)) <= 3.0",
+      "tolerance": 0.0,
+      "note": "84 in against 80 in, four inches apart. WORTH READING CAREFULLY, because the corpus's own text and the encoded figures disagree about which is higher: `styles/craftsman.json` says 'the porch beam sets a LOW datum, the aligned window and door heads set a HIGH datum', and this assembly puts the beam soffit above the heads, because a 7 ft clear porch cannot have its beam at 6 ft 8. In surviving bungalows the two lines are within a few inches either way and frequently coincide outright. The invariant therefore asserts what both accounts agree on -- that there are only TWO horizontal lines on the elevation and they are close -- and declines to assert which is on top. Recorded rather than resolved, because resolving it would mean overruling a style record on no evidence."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "height",
+      "expression": "part * 40",
+      "units": "in",
+      "range": [
+        76.0,
+        84.0
+      ],
+      "authority_note": "Stated independently by three style records: craftsman ('window and door heads at 6 ft 8 in to 7 ft 0 in on a single datum'), craftsman-bungalow ('at 6 ft 8 in on a single datum') and arts-and-crafts-american ('aligned at a single datum, 6 ft 8 in to 7 ft 0 in above finish floor').",
+      "note": "THE HEAD DATUM, AND THE WHOLE SYSTEM. 80 in on the default. Every other opening pack in this library proportions an opening -- gives it a ratio, a strike, a module of its own. THIS ONE DOES NOT. It sets one horizontal line and every window, every door, every transom and every garage opening on the elevation dies into it, so an opening's height is not a proportion at all: it is the datum minus that opening's sill. A designer who asks 'what proportion should this window be' has already left the system. The consequence a brief will fight is that a taller window means a LOWER SILL and never a higher head, so a room that wants more light gets a window that goes closer to the floor -- which is exactly what these houses do.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "units_per_group",
+      "expression": "3",
+      "units": "count",
+      "range": [
+        2.0,
+        8.0
+      ],
+      "authority_note": "craftsman: 'openings gathered into groups of two or three between exposed posts'. prairie-school: 'window band length 3 to 8 casement units'. arts-and-crafts-american: 'ribbons of two to four units... the group, not the sash, is the compositional unit'.",
+      "note": "UNITS PER GROUP, and the range is wide because it holds two related idioms rather than one. Craftsman gathers two or three; Prairie runs three to eight and calls the result a band. Both refuse the isolated punched window, and that refusal is the shared rule -- the compositional unit is the GROUP, and a single window standing alone in a wall is, in this idiom, a bathroom or a mistake. The wall between groups is wide, plain and unbroken, and it is also the shear wall, which is why lengthening a band is a structural decision as well as a compositional one.",
+      "judgment": false,
+      "quantity": "units_per_group"
+    },
+    {
+      "target_slot": "window_sill",
+      "dimension": "height",
+      "expression": "part * 16",
+      "units": "in",
+      "range": [
+        24.0,
+        40.0
+      ],
+      "authority_note": "Read off Stickley's plates and the catalogue elevations; no source states it as a rule, which is why the band is wide.",
+      "note": "32 in above the finished floor. With the head datum fixed, THIS is the dimension that varies, and it is how the system says what a room is for: a living-room band drops toward 24 in to bring the garden in, a bedroom sits at 32, a kitchen or bath goes to 40 to get counter and privacy under it. The sills of one group are always level with each other even when two groups on the same elevation sit at different heights, because the sill band is continuous within the group and the group is the unit.",
+      "judgment": false,
+      "quantity": "sill_height_above_floor"
+    },
+    {
+      "target_slot": "window_proportion",
+      "dimension": "ratio",
+      "expression": "2.0",
+      "units": "ratio",
+      "range": [
+        1.5,
+        2.6
+      ],
+      "authority_note": "The consequence of the head datum at 80 in, the sill at 32 and a unit one module wide: 48 over 24.",
+      "note": "Height over width OF ONE UNIT, and it is worth stating precisely because it is the figure most often got backwards. The single unit is TALL AND NARROW at 2:1. The horizontality that everyone associates with this style is not in the window, it is in the GROUPING -- three tall units side by side under one head and one sill make a band whose overall proportion is 3:2 the other way. Designers who have absorbed the horizontal impression and go looking for a wide window produce a squat opening that belongs to the 1950s ranch, and the elevation loses the vertical counter-rhythm that made the band read as a band.",
+      "judgment": false,
+      "quantity": "opening_height_over_width"
+    },
+    {
+      "target_slot": "window_lite_pattern",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "range": [
+        3.0,
+        4.0
+      ],
+      "authority_note": "craftsman: 'upper sash divided into three or four vertical lights; lower sash undivided'. craftsman-bungalow: 'divided upper sash over single-light lower sash throughout'.",
+      "note": "VERTICAL LIGHTS IN THE UPPER SASH. Three or four, never two and never a grid. The lights are tall and narrow and the division is vertical only -- there is no horizontal muntin -- which is the counter-rhythm that keeps a horizontal band from reading as a slot. In the Prairie work the same job is done by rectilinear art glass, whose pattern is orthogonal and asymmetric rather than a repeated division, and which is the one place this idiom permits itself a pattern.",
+      "judgment": false,
+      "quantity": "lights_high"
+    },
+    {
+      "target_slot": "window_lite_pattern",
+      "dimension": "ratio",
+      "expression": "0.42",
+      "units": "ratio",
+      "range": [
+        0.33,
+        0.5
+      ],
+      "authority_note": "The divided upper sash as a fraction of the whole opening height, read off the plates; the corpus states the arrangement but not the fraction.",
+      "note": "THE UPPER SASH IS THE SMALLER ONE, at about two fifths. That asymmetry is the detail, and an even split kills it: a 50/50 double-hung with a divided top reads as a Colonial sash that has lost half its muntins. The lower sash is a single undivided light and stays that way -- it is the one place in the elevation where you look straight out, and the whole divided-over-plain arrangement exists so that the view is clear where the eye actually is and patterned where it is not.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_surround_wood",
+      "dimension": "width",
+      "expression": "part * 2.5",
+      "units": "in",
+      "range": [
+        3.5,
+        7.0
+      ],
+      "authority_note": "Casing widths in Stickley's specifications and in surviving catalogue houses run 4 1/2 to 5 1/2 in.",
+      "note": "5 in of flat, square-edged casing with no moulded profile at all, which is the exterior counterpart of what trim-craftsman does inside. The width is doing the work a profile does elsewhere: a 5 in flat board casts a real shadow at its arris and reads at fifty feet, where a 3 in one disappears. This is also the member that most reliably distinguishes the real thing from a builder's approximation, because 5 in of clear stock costs more than 3 in and there is nowhere to hide the saving.",
+      "judgment": false,
+      "quantity": "window_casing_face_width"
+    },
+    {
+      "target_slot": "window_head_wood",
+      "dimension": "height",
+      "expression": "part * 3",
+      "units": "in",
+      "range": [
+        4.0,
+        9.0
+      ],
+      "authority_note": "The head casing is deeper than the jamb casing in every surviving example and in the plates; 6 in over a 5 in jamb is the common relation.",
+      "note": "6 in, and it is deeper than the side casing on purpose. Depth is what turns a head casing into a DATUM: the eye needs the horizontal to be the strongest line on the opening, and equal casings all round give a picture frame instead. Where the head casings of a group run together into one continuous board -- which is the correct detail -- this member is the lintel band of the assembly above, and the band and the casing are the same piece of wood.",
+      "judgment": false
+    },
+    {
+      "target_slot": "window_head_wood",
+      "dimension": "projection",
+      "expression": "part * 0.6",
+      "units": "in",
+      "range": [
+        0.75,
+        2.0
+      ],
+      "authority_note": "A small drip cap or a projecting head board; the projection is set by the job of throwing water off the casing below.",
+      "note": "1 1/4 in of projection, and it is the only thing on this elevation that projects for a reason other than structure. Without it the head casing is a flat board on a flat wall and there is no shadow at the datum, so the line the whole system depends on has nothing to make it visible. This is the cheapest member in the pack and the most expensive one to leave out.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_pitch",
+      "dimension": "ratio",
+      "expression": "0.375",
+      "units": "ratio",
+      "range": [
+        0.25,
+        0.5
+      ],
+      "authority_note": "craftsman 3:12 to 6:12; craftsman-bungalow 4:12 to 6:12; california-bungalow 3:12 to 5:12; prairie-school 3:12 to 4:12 hipped.",
+      "note": "4 1/2 in 12. Low, and low for a structural reason as much as a stylistic one: a low pitch is what lets the rafters run out past the wall as a deep overhang without the tails ending up ten feet in the air. Pitch and overhang are one decision here and not two, which is why the range's bottom end belongs to Prairie's hipped roof and its top to the eastern Craftsman gable.",
+      "judgment": false,
+      "quantity": "main_roof_pitch"
+    },
+    {
+      "target_slot": "eave_condition",
+      "dimension": "width",
+      "expression": "module * 1.25",
+      "units": "in",
+      "range": [
+        24.0,
+        48.0
+      ],
+      "authority_note": "craftsman and arts-and-crafts-american 24-36 in; california-bungalow 30-48 in; prairie-school 30-48 in, uniform on all sides.",
+      "note": "30 in, EQUAL ON ALL FOUR SIDES, and the equality is as much the rule as the depth. `styles/craftsman.json` and `styles/prairie-school.json` both say uniform. It matters because the overhang is what puts the wall in shadow and makes the two datum lines read against a dark field; an overhang that shrinks on the sides and back -- which is what value engineering does to it first -- turns three of the four elevations into a different house. In the Californian branch the depth is set by sun angle before the plan is drawn at all, which `styles/california-bungalow.json` records as inverting the usual design sequence.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "support_shaft_width",
+      "expression": "module * 1.25",
+      "units": "in",
+      "range": [
+        24.0,
+        36.0
+      ],
+      "authority_note": "craftsman: 'porch pier base width 24 to 36 in'. craftsman-bungalow: '24 to 30 in'. california-bungalow: 'masonry porch base 24 to 36 in wide'.",
+      "note": "30 in across the masonry base. The pier is wide, low and heavy, and it is the only element on the house that is not made of boards -- stone, clinker brick, cobble or stucco over block, chosen for texture rather than for colour. Its width is what makes the porch read as a colonnade of masses rather than a row of posts, so a pier narrowed to 16 in to gain porch floor has changed the type.",
+      "judgment": false,
+      "quantity": "support_shaft_width"
+    },
+    {
+      "target_slot": "porch_support",
+      "dimension": "ratio",
+      "expression": "0.45",
+      "units": "ratio",
+      "range": [
+        0.35,
+        0.6
+      ],
+      "authority_note": "craftsman: base 24-36 in 'tapering to 12 to 18 in at the beam'. craftsman-bungalow: '24 to 30 in wide, tapering to 10 to 14 in'.",
+      "note": "THE TAPER: the post's width at the beam as a fraction of the pier's width at the base. About 45 per cent. This is the diagnostic of the whole threshold and the first thing a builder drops, because a parallel post is cheaper to box out and nobody has to cut a bevel on eight boards. A parallel post on a masonry base is a Colonial Revival porch in Craftsman colours, and the substitution is visible from across the street even to someone who could not say what changed. Note that the taper is a straight batter and not an entasis -- there is no curve in it, and putting one in reads immediately as classical.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_depth",
+      "dimension": "width",
+      "expression": "part * 48",
+      "units": "in",
+      "range": [
+        84.0,
+        144.0
+      ],
+      "authority_note": "craftsman and arts-and-crafts-american 7-9 ft, the latter adding 'deep enough to furnish'; california-bungalow 8-12 ft.",
+      "note": "8 ft clear. The qualification in arts-and-crafts-american's record is the rule and not a gloss: the porch is a ROOM and its depth is set by whether a chair and a table fit with someone walking past, which is about 7 ft and not less. A 5 ft porch is a stoop with a roof and the type does not have one. The Californian branch goes deeper because the porch is doing shade work as well, and `styles/california-bungalow.json` records the porch as the principal bay of the whole street elevation.",
+      "judgment": false,
+      "quantity": "porch_depth"
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "height",
+      "expression": "part * 51",
+      "units": "in",
+      "range": [
+        96.0,
+        120.0
+      ],
+      "authority_note": "craftsman 'wall plate 8 ft 6 in to 9 ft 0 in'; craftsman-bungalow 'ceiling 8 ft 6 in'; california-bungalow '8 ft 6 in to 9 ft 6 in, taller than the eastern type, for stack ventilation'.",
+      "note": "8 ft 6 in to the plate. Low by the standards of the century before it and deliberately so -- the type is arguing for shelter rather than for grandeur, and the low plate is what makes the deep eave and the 6 ft 8 in head datum sit comfortably instead of leaving a tall blank strip above the windows. The Californian branch runs taller for a mechanical reason rather than a compositional one, which its own record states.",
+      "judgment": false,
+      "quantity": "ground_storey_ceiling_height"
+    },
+    {
+      "target_slot": "ceiling_height_rule",
+      "dimension": "ratio",
+      "expression": "0.75",
+      "units": "ratio",
+      "range": [
+        0.65,
+        0.85
+      ],
+      "authority_note": "prairie-school: 'ceiling heights differentiated: 6 ft 10 in to 7 ft 4 in at compression, 9 ft 0 in to 10 ft 0 in at release'.",
+      "note": "COMPRESSION OVER RELEASE, and this rule belongs to the Prairie branch alone. The low ceiling as a fraction of the high one: about three quarters, and it is applied deliberately at entries, passages and inglenooks so that the principal room opens above you as you arrive. `styles/prairie-school.json` names it as the way vertical proportion is handled in that idiom -- 'not by facade ratio' -- which makes it the only vertical proportioning rule this whole pack has. A Craftsman bungalow does not do it and should not be given it; there the ceiling is one height throughout and the shelter comes from the eave instead.",
+      "judgment": false
+    },
+    {
+      "target_slot": "entry_door",
+      "dimension": "width",
+      "expression": "module * 1.5",
+      "units": "in",
+      "range": [
+        30.0,
+        42.0
+      ],
+      "authority_note": "The door is one and a half bays and takes the same head datum as every window, which is what the datum rule means when it says every opening.",
+      "note": "36 in. The door is wide, plain, and NOT the centre of the composition -- the porch is. It takes the same head casing as the windows and lands on the same line, and it is usually off-centre, because the composition is balanced-asymmetrical in all five of the style records this pack binds. Designers arriving from the classical side reliably over-dress it and centre it, and both moves cost the elevation its balance.",
+      "judgment": false,
+      "quantity": "entry_door_leaf_width"
+    },
+    {
+      "target_slot": "ornament_vocabulary",
+      "dimension": "count",
+      "expression": "2",
+      "units": "count",
+      "range": [
+        0.0,
+        3.0
+      ],
+      "authority_note": "Read off the plates rather than stated by Stickley or Wright, both of whom argue the principle without counting the motifs.",
+      "note": "A JUDGMENT SLOT, and the count is low because THE ORNAMENT IS THE STRUCTURE SHOWN. The working set is two families: exposed framing let out into the open -- rafter tail, purlin end, knee brace, beam end -- and, where the idiom permits itself a pattern, the rectilinear art glass. That is all. Everything else on a well-built house of this type is a member doing a job, and the moment a third family appears -- a scrolled bracket, a turned baluster, a dentil -- the building has become a builder's Craftsman, which is a real and common thing but is not this. The pack defers on the number: it is confident about the principle and about which two families, and not about whether the art glass should be counted as ornament at all rather than as glazing.",
+      "judgment": true
+    },
+    {
+      "target_slot": "daylight_strategy",
+      "dimension": "ratio",
+      "expression": "0.14",
+      "units": "ratio",
+      "range": [
+        0.1,
+        0.22
+      ],
+      "authority_note": "Computed from the pack's own geometry rather than taken from a source: a group of three units in a bay of plain wall, at 48 in of glazed height in a 102 in storey.",
+      "note": "A JUDGMENT SLOT. Fourteen per cent of the wall as glass -- roughly twice the adobe figure and well under a modern curtain-walled house. The band concentrates it: this system does not spread glass evenly, it puts a lot of it in a few places and leaves long stretches of wall with none, which is why the same overall percentage feels much brighter than it measures. The judgment the pack defers on is where in the band to sit, because the answer depends on the orientation and on how deep the eave is -- a 48 in overhang buys you glazing that a 24 in one does not, and `styles/california-bungalow.json` records a whole branch of the type that designed the roof first for exactly that reason.",
+      "judgment": true,
+      "quantity": "glazed_to_wall_ratio"
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "energy-code",
+      "statement": "The exposed rafter tail is a thermal and air-sealing problem and it is the type's signature. A true Craftsman tail is the rafter itself run out past the wall, so the roof structure passes THROUGH the plane of the wall at 16 or 24 in on centre -- which means the air barrier and the insulation are interrupted at every bay along every eave and rake of the building. There is no detail that seals a continuous membrane around forty penetrations reliably over a building's life, and the tails are also where wind-washing gets into the eave. Compounding it, the low plate leaves almost no room for insulation over the top plate exactly where the ceiling meets the wall, so the assembly thins to two or three inches at its coldest corner, and the wide window bands put most of the glazing in one place.",
+      "resolution": "Decide, explicitly and on the drawings, whether the tails are structure or trim. Structure: accept the penetrations, gasket each one, and detail a raised-heel condition so the insulation keeps its depth over the plate -- expensive, correct, and worth it where the rafters are visible inside as well as out. Trim: stop the rafters at the plate, keep the air barrier continuous, and carry the tails as applied outriggers on a ledger -- which is a fake, is invisible from the ground, and is what most good work now does. What is not acceptable is doing the second while drawing the first, because the next person to open the eave will find it. On the bands: the concentration is an advantage, not a penalty, because one well-detailed run of high-performance glazing is cheaper and tighter than the same area scattered as punched openings.",
+      "severity": "blocking"
+    },
+    {
+      "with": "structural",
+      "statement": "The wide plain wall between window groups is the shear wall, and the system's own logic pushes against it from both ends. Lengthen a Prairie band from five casements to seven and you have taken four feet out of the shear panel on that elevation; deepen the porch and the beam spans further between piers that are masonry below and boxed wood above, with the transition at the exact point the bending moment is largest. The tapered post makes it worse, because the section is smallest where the beam bears on it.",
+      "resolution": "Set the solid ends first and the band second, which is the order these buildings were designed in anyway -- the corner returns of a Prairie elevation are always solid and that is not an accident. Where a band must grow past what the panel can give, it is a moment frame or a steel strap and it should be priced as one rather than discovered at permit. In the porch, the wood post is boxed around a real column -- a steel tube or a built-up post -- and the taper is joinery around structure, which is what the originals did too; the boxed post was never solid.",
+      "severity": "material"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "The type is raised on purpose and the raising is the composition. A crawl space, a water table, a battered masonry pier standing on grade and four or five steps up to a deep porch: that sequence is what makes the porch read as a room lifted above the street, and every part of it is above the level entry a modern brief or code will want. The head datum is no obstacle -- 6 ft 8 in is a standard door head -- but the sill at 32 in blocks a seated view out of any window in the band, and the porch steps block the front door.",
+      "resolution": "Put the accessible entry on the side, under the deep eave, where the type already has a service door and where a ramp or a graded walk disappears against the wall. Keep the front porch, its steps and its masonry base intact: they are the building's argument and grading them away to a flush threshold leaves the piers sitting in a puddle of paving with nothing to stand on. Where a window seat or a low sill is wanted for a seated view, drop the sill of ONE group to 24 in rather than raising the whole band -- the system allows different sills between groups and forbids them within one, which is exactly the freedom needed here.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "Everything is visible carpentry and there is no trim to hide a bad cut. Rafter tails, purlin ends, knee braces, beam ends and the boxed tapered post are all finished joinery in an exposed position, cut on site, and every one of them has to be right because nothing covers it. The 5 in flat casings are wide clear stock. The art glass is a craft trade with a waiting list. And the deep overhang is expensive twice: once in framing and once in the scaffold needed to paint a soffit that projects three feet at gutter height.",
+      "resolution": "Concentrate, as with every other ornament-heavy idiom in this library. The street elevation and the porch carry shaped tails, real knee braces and the art glass; the sides and back get square-cut tails and clear glazing, which is what the plan-book houses themselves did once they got past the front. Box the post around structure rather than building it solid. And specify the tail profile as a single shop-cut template rather than a site decision -- forty tails cut by eye is forty slightly different tails, and unlike the Gothic bargeboard, where variation reads as handwork, here it reads as a bad carpenter, because the whole argument of the style is that the structure is honest and precise.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "A datum only exists if it is actually level, actually continuous, and actually the same across every material it crosses. This system has one line running from a wood-framed wall, across a stuccoed or brick porch pier, over a door head and around a corner, and modern framing tolerance plus a masonry trade working to its own coursing routinely puts the two halves half an inch apart. Half an inch reads. Once the line is broken the elevation has nothing left, because there is no ornament, no rhythm and no symmetry to carry it -- the datum was the composition.",
+      "resolution": "Dimension the head datum from a single site benchmark, not from each floor level, and put it on the drawings as a datum with an elevation rather than as a head height on each opening. Where the line crosses from frame to masonry, make the head casing one continuous piece running across the joint rather than two pieces meeting on it. Set the masonry coursing FROM the datum rather than from the ground, which is the reverse of how a mason normally works and has to be said in the specification. And check it with a laser before the casings go on, because it is trivially adjustable then and impossible afterwards.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "craftsman",
+    "craftsman-bungalow",
+    "california-bungalow",
+    "prairie-school",
+    "arts-and-crafts-american"
+  ],
+  "sources": [
+    "Gustav Stickley, Craftsman Homes, The Craftsman Publishing Company, New York, 1909",
+    "Gustav Stickley, More Craftsman Homes, The Craftsman Publishing Company, New York, 1912",
+    "The Craftsman, monthly, 1901-1916",
+    "Frank Lloyd Wright, 'A Home in a Prairie Town', Ladies' Home Journal, February 1901",
+    "Frank Lloyd Wright, 'In the Cause of Architecture', Architectural Record, March 1908",
+    "Sears, Roebuck and Company, Book of Modern Homes and Building Plans, from 1908; Aladdin and Radford plan-book and precut catalogues of the same years"
+  ],
+  "confidence": "medium",
+  "notes": "WP-4.1's candidate list asks for 'a Craftsman opening system and a Prairie trim family', confirmed by PB-4, which recorded the Craftsman/Prairie cluster as bound with no opening pack available. THIS IS THE OPENING HALF. The Prairie trim family is a separate item and remains on the list: `trim-craftsman` currently serves the whole cluster in the interior role, and whether Prairie's banded oak and art-glass interior is a distinct family or a dialect of Stickley's is a question that wants its own pack rather than a paragraph here.\n\nThe measured gap was larger than the list said. **Seven** buildable nodes in this cluster had no opening-role pack, not five: craftsman, craftsman-bungalow, california-bungalow, prairie-school, arts-and-crafts-american, arts-and-crafts-british and mission-revival. This pack binds five of them.\n\nTHE TWO IT DOES NOT BIND, and why, because both refusals are findings rather than omissions. `mission-revival` shares this cluster's interior trim and nothing else about its openings, which are arched and Spanish and already reach `moorish-arch` as an optional binding; a head datum is not what organises that elevation. `arts-and-crafts-british` is the more interesting refusal, because it looks like an obvious fit and is not: its own governing_logic says 'no applied system... there is no repeating bay and no vertical alignment requirement', which is a direct denial of this pack's central assertion. Its windows are leaded casements in horizontal bands under continuous stone or oak mullions with a shared lintel, dimensioned in millimetres off surviving fabric, and what it wants is a leaded-casement-and-mullion system of its own -- a new item for the candidate list, and one that would also serve the parts of `english-gothic` and `tudor` that `opening-pointed` deliberately left alone. Binding it here to close a count would have meant asserting an alignment rule against the node's own explicit denial of one.\n\nWhat this pack claims and does not. The absolute lengths -- the head datum, the plate, the eave, the porch depth, the pier -- are stated by the style records themselves, several of them independently by three or four nodes, and I would defend them anywhere. The relations read off the plates -- the sill at 32 in, the upper sash at two fifths, the head casing deeper than the jamb -- are readings and are described as such. The two calls that are most mine are marked judgment: true. Confidence is medium for that reason and not because the system is in doubt; it is the best-attested system in this whole package, because unlike the Moorish arch or the adobe wall it was transmitted in print, in specifications, to a mass market, within living memory."
+}

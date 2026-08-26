@@ -1,0 +1,318 @@
+{
+  "id": "timber-panel",
+  "name": "The Timber Panel: Infill, Studding and Jetty",
+  "aka": [
+    "the Gefach",
+    "close studding",
+    "wattle and daub",
+    "brick nogging",
+    "colombage and torchis"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "R. W. Brunskill, Timber Building in Britain, Gollancz, London 1985, and Traditional Buildings of Britain, 1981; Cecil Hewett, English Historic Carpentry, Phillimore, 1980, for the framing and its joints; Manfred Gerner, Fachwerk: Entwicklung, Instandsetzung, Neubau, Deutsche Verlags-Anstalt, for the German panel and its regional grammar; Jean-Pierre Bardou and the French regional surveys for colombage and torchis; and the surviving fabric behind this corpus's own style records, which for this class carry unusually precise panel dimensions",
+    "author": "after Brunskill, Hewett and Gerner",
+    "year": 1985,
+    "strength": "documented",
+    "note": "DOCUMENTED. Unlike the rubble wall or the adobe wall, this craft was written down thoroughly and comparatively early, because it was studied by antiquarians from the nineteenth century onward and because its joints are legible in a way a mortared wall's are not -- Hewett could date an English frame from its scarf joints. What was NOT written down is the proportional system, and for a reason the pack turns on: the panel's proportion is regional rather than universal, so a source describing one region states a figure that is wrong two hundred miles away. This pack's job is to hold the regional variation as a band and say which end belongs where."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "One wall panel: the clear opening between studs, from rail to rail",
+    "parts": 12,
+    "default_size_in": 36.0,
+    "note": "The part is three inches. Three feet of clear panel is the middle of a range that is genuinely bimodal rather than continuous, and the bimodality is the system: SQUARE-PANEL framing puts its studs about a metre apart and gets a panel near 1:1, and CLOSE STUDDING puts them at half that and gets a panel of 1:3 or 1:4. `styles/german-fachwerk.json` gives 'panel width 0.9-1.3 m; panel height 0.8-1.6 m; panel proportion roughly 1:1 to 2:3'. `styles/norman-vernacular.json` gives 'stud spacing 0.5-0.8 m; panel proportion roughly 1:2 to 1:4 (tall and narrow)'. `styles/english-medieval-timber-frame.json` holds both in one sentence -- 'wall panel roughly square in the south-east (1.0-1.4 m), and 1:3 to 1:4 vertical in East Anglian close studding' -- which is the corpus stating the pack's central rule for it.\n\nTHE MODULE IS THE PANEL AND NOT THE BAY, and the distinction matters because `timber-bay` already owns the bay. That pack holds the frame -- bent spacing, storey height, range depth, roof pitch, storey diminution -- and is already bound to seven of the nodes this one binds. This pack holds what fills the frame, and it restates none of timber-bay's figures. Two packs asserting one number is how a corpus starts disagreeing with itself."
+  },
+  "assemblies": {
+    "panel_and_frame": {
+      "height_modules": 1.6,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "sill_beam",
+          "name": "Sill beam, on its masonry plinth",
+          "height_parts": 2.4,
+          "projection_parts": 0.4,
+          "profile": "flat",
+          "note": "7 1/5 in of oak. The sill is the member the whole frame stands on and the one that rots, because it is the only timber in contact with anything wet -- which is why the plinth rule below is not decoration. A frame whose sill sits on the ground has a life measured in decades; on a stone plinth it has one measured in centuries, and the surviving buildings are a survivorship sample of exactly that decision.",
+          "confidence": "high"
+        },
+        {
+          "id": "panel_field",
+          "name": "The infill panel -- wattle and daub, torchis, bousillage, brick nogging or plaster",
+          "height_parts": 14.4,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "enrichment": "brick nogging laid herringbone or chequer in the Norman and Flemish work; incised and pargetted plaster in East Anglia; painted decoration in the German towns",
+          "note": "43 1/5 in of panel over a 36 in width -- 1.2 to 1, a squarish south-eastern English panel. It carries NO LOAD, which is the defining fact about it: `styles/english-medieval-timber-frame.json` says the frame carries 'all vertical and lateral load, with wall panels as non-structural infill', and `styles/german-fachwerk.json` says the same of its Gefach. The panel is a screen in a structural frame, and every conflict this pack has follows from that -- it is thin, it is not braced, it moves independently of the timber, and it can be replaced without touching the building.",
+          "confidence": "high"
+        },
+        {
+          "id": "mid_rail",
+          "name": "Mid rail or bressummer",
+          "height_parts": 2.4,
+          "projection_parts": 0.4,
+          "profile": "flat",
+          "note": "7 1/5 in. The horizontal that divides the wall's panels and, at a floor line, carries the jetty. Where it is a bressummer it is the largest single timber on the elevation and is the member the carving goes on in the wealthy work.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is three inches.",
+      "expression": "module.default_size_in / module.parts == 3.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The panel is the great majority of the wall: at least three quarters of the assembly's height.",
+      "expression": "assemblies.panel_and_frame.members.panel_field.height_parts >= assemblies.panel_and_frame.height_modules * module.parts * 0.7",
+      "tolerance": 0.0,
+      "note": "14.4 parts against a floor of 13.44. It sounds obvious and it is the thing revival work reverses: an applied half-timbered elevation tends toward more timber and less panel, because the timber is what is being bought, until the wall reads as a grid with plaster in the gaps rather than as panels between members. The medieval buildings are mostly panel."
+    },
+    {
+      "statement": "The sill beam and the mid rail are the same section: the frame is one carpentry, not a hierarchy of trims.",
+      "expression": "assemblies.panel_and_frame.members.sill_beam.height_parts == assemblies.panel_and_frame.members.mid_rail.height_parts",
+      "tolerance": 0.0,
+      "note": "Both 2.4 parts. Horizontal members in a timber frame are sized by what they do structurally and not by where they sit compositionally, so a sill and a mid rail in the same wall are the same stick. An elevation drawn with a graduated hierarchy of timber sections -- heavier low, lighter high, like a classical order -- is a nineteenth-century idea applied to a medieval building."
+    },
+    {
+      "statement": "The panel is roughly square to strongly vertical, never horizontal.",
+      "expression": "assemblies.panel_and_frame.members.panel_field.height_parts / module.parts >= 1.0",
+      "tolerance": 0.0,
+      "note": "1.2 on the encoded figures. Every record in the corpus gives a proportion at or above 1:1 -- German 1:1 to 2:3, English south-eastern about 1:1.2, Norman and East Anglian 1:2 to 1:4 -- and none gives a panel wider than it is tall. That is a structural fact rather than a taste: the studs are the vertical members and the rails are what divide the panel, so making a panel wider than tall means removing studs, which is what the frame is."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "primary_cladding",
+      "dimension": "ratio",
+      "expression": "1.6",
+      "units": "ratio",
+      "range": [
+        1.0,
+        4.0
+      ],
+      "authority_note": "`styles/english-medieval-timber-frame.json`: 'wall panel roughly square in the south-east (1.0-1.4 m), and 1:3 to 1:4 vertical in East Anglian close studding'. `styles/german-fachwerk.json`: 'panel proportion roughly 1:1 to 2:3'. `styles/norman-vernacular.json`: 'panel proportion roughly 1:2 to 1:4 (tall and narrow)'.",
+      "note": "THE PANEL'S HEIGHT OVER ITS WIDTH, AND THE ONE NUMBER THAT SAYS WHERE THE BUILDING IS FROM. There is no correct value, only a correct value for a place: 1:1 is a German or Alpine Gefach, 1.2 is the English south-east, 2 to 4 is East Anglian or Norman close studding. Get it wrong and the building is competently detailed and from nowhere, which is the commonest failure in revival half-timbering. The reason behind the number is economic and is worth knowing: close studding uses roughly twice the oak for the same wall, so it is a display of timber wealth, which is why it clusters in the rich wood-poor east of England and not in the timber-rich west. The default of 1.6 is between the two families and belongs to neither; a design should choose an end of the band, not the middle.",
+      "judgment": false
+    },
+    {
+      "target_slot": "primary_cladding",
+      "dimension": "width",
+      "expression": "module",
+      "units": "in",
+      "range": [
+        18.0,
+        52.0
+      ],
+      "authority_note": "`styles/german-fachwerk.json`: 'panel width 0.9-1.3 m'. `styles/english-medieval-timber-frame.json`: 1.0-1.4 m square panels. Close studding at 0.5-0.8 m stud centres gives a panel of 0.4-0.7 m.",
+      "note": "36 in of clear panel. The band is bimodal rather than continuous -- roughly 18-28 in for close studding and 35-52 in for square panelling, with little between -- because the two are different building cultures rather than points on a scale. A design landing at 30 in has probably averaged two traditions.",
+      "judgment": false
+    },
+    {
+      "target_slot": "primary_cladding",
+      "dimension": "height",
+      "expression": "part * 14.4",
+      "units": "in",
+      "range": [
+        30.0,
+        64.0
+      ],
+      "authority_note": "`styles/german-fachwerk.json`: 'panel height 0.8-1.6 m'.",
+      "note": "43 in. Panel height is set by the rails, and the rails are set by the storey and by where the frame needs stiffening, so this figure is more constrained than the width -- a storey of 8 ft with a sill, a mid rail and a plate gives two panels of about 40 in and there is not much choice about it. Where a wall shows one tall panel per storey rather than two it is usually close-studded work, where the studs do the stiffening and the mid rail can be omitted.",
+      "judgment": false
+    },
+    {
+      "target_slot": "expressed_frame",
+      "dimension": "spacing",
+      "expression": "module + part * 2.8",
+      "units": "in",
+      "range": [
+        18.0,
+        52.0
+      ],
+      "authority_note": "`styles/norman-vernacular.json`: 'stud spacing 0.5-0.8 m'. `styles/french-normandy-revival.json`: half-timber members 'spaced 16-30 in. clear'. `styles/german-fachwerk.json` implies 1.0-1.5 m centres from its panel widths.",
+      "note": "STUD CENTRES, 44 in on the square-panel default -- the panel plus one timber face. `corner_board` is the nearest thing the envelope group has -- an expressed vertical timber on a wall -- and every rule in this pack about the timber itself is routed through it. This is the same class of problem OQ 46 solved by adding an `arch` slot, and it is recorded as an open question rather than worked around silently.  MIGRATED to `expressed_frame` at ontology 0.7.0 (OQ 47, ruled 25 Aug 2026). It sat on `corner_board` -- a board at a corner -- because the ontology had no slot for a structural member expressed on a wall face, and the compromise was recorded rather than hidden. It has one now, and the slot's `member_status` field carries the distinction this pack most needed and could not state: whether the member is structural, structural-and-expressed, or applied.",
+      "judgment": false
+    },
+    {
+      "target_slot": "expressed_frame",
+      "dimension": "face_width",
+      "expression": "part * 2.8",
+      "units": "in",
+      "range": [
+        4.7,
+        12.0
+      ],
+      "authority_note": "`styles/german-fachwerk.json`: 'timber section 120-200 mm square for posts'. `styles/english-medieval-timber-frame.json`: 'post section 200-300 mm square'. `styles/french-normandy-revival.json`: 'half-timber members 5-8 in. face width'.",
+      "note": "8 2/5 in on the face. Note that the English medieval post is half again the German one -- 200-300 mm against 120-200 -- which is a real difference and not a discrepancy: English frames are fewer, heavier members carrying more per stick, German ones more numerous and lighter. The revival figure at 5-8 in sits below both, because a revival member is a board rather than a post and only has to look like one.  MIGRATED to `expressed_frame` at ontology 0.7.0 (OQ 47, ruled 25 Aug 2026). It sat on `corner_board` -- a board at a corner -- because the ontology had no slot for a structural member expressed on a wall face, and the compromise was recorded rather than hidden. It has one now, and the slot's `member_status` field carries the distinction this pack most needed and could not state: whether the member is structural, structural-and-expressed, or applied.",
+      "judgment": false
+    },
+    {
+      "target_slot": "expressed_frame",
+      "dimension": "projection",
+      "expression": "part * 0.4",
+      "units": "in",
+      "range": [
+        0.75,
+        3.0
+      ],
+      "authority_note": "`styles/french-normandy-revival.json` states the rule that matters and states it as a minimum: half-timber members 'projecting at least 1 in. from the stucco plane'.",
+      "note": "1 1/5 in PROUD OF THE PANEL, AND THIS IS THE RULE THAT SEPARATES REAL WORK FROM APPLIED WORK -- or rather, separates honest applied work from dishonest. In a real frame the panel is set behind the timber face and the timber stands proud, because the panel shrinks and the frame does not, and a flush panel opens a crack at every joint within a decade. In applied work the boards are nailed to a sheathed wall and rendered up to, and the temptation is to bring the render flush with the boards because it is easier and does not crack. The result reads instantly as painted-on stripes: no shadow, no depth, no reason for the timber to be there. `styles/french-normandy-revival.json` sets its minimum at an inch and is right to state it as a floor rather than a figure.  MIGRATED to `expressed_frame` at ontology 0.7.0 (OQ 47, ruled 25 Aug 2026). It sat on `corner_board` -- a board at a corner -- because the ontology had no slot for a structural member expressed on a wall face, and the compromise was recorded rather than hidden. It has one now, and the slot's `member_status` field carries the distinction this pack most needed and could not state: whether the member is structural, structural-and-expressed, or applied.",
+      "judgment": false
+    },
+    {
+      "target_slot": "expressed_frame",
+      "dimension": "brace_ratio",
+      "expression": "0.4",
+      "units": "ratio",
+      "range": [
+        0.3,
+        0.5
+      ],
+      "authority_note": "`styles/stick-style.json`: 'diagonal braces at 45 degrees, brace length 0.3 to 0.5 of post height'.",
+      "note": "THE BRACE, as a fraction of the post's height. The one record that gives a figure is a nineteenth-century American one, and the medieval frames it descends from agree well enough at the same fractions. What varies by tradition is DIRECTION rather than length: English frames brace downward from the post to the sill in tension, German ones upward in compression and often symmetrically as the figures a reader knows as the Mann, and the two look entirely different at the same length. The pack states the length and declines the direction, because direction is a regional grammar with no number in it.  MIGRATED to `expressed_frame` at ontology 0.7.0 (OQ 47, ruled 25 Aug 2026). It sat on `corner_board` -- a board at a corner -- because the ontology had no slot for a structural member expressed on a wall face, and the compromise was recorded rather than hidden. It has one now, and the slot's `member_status` field carries the distinction this pack most needed and could not state: whether the member is structural, structural-and-expressed, or applied.",
+      "judgment": false
+    },
+    {
+      "target_slot": "wall_thickness_frame",
+      "dimension": "width",
+      "expression": "part * 2",
+      "units": "in",
+      "range": [
+        4.0,
+        10.0
+      ],
+      "authority_note": "`styles/english-cottage-vernacular.json`, which measures three wall types side by side: 'wall thickness 450-600 mm in cob, 350-500 mm in rubble, 150 mm in a daub-panelled frame'.",
+      "note": "SIX INCHES, AND THE COMPARISON IS THE FINDING. One record measures a cob wall, a rubble wall and a framed wall in the same sentence and the framed one is a QUARTER the thickness. Every consequence of that follows: the reveal is nothing, so a framed building has no deep window shadow and cannot borrow one; the wall has no thermal mass at all where the others are almost entirely mass; and the wall can be pierced anywhere between two studs without touching the structure, which is why timber-framed buildings have more and larger openings than their masonry contemporaries and why they were so readily altered.",
+      "judgment": false
+    },
+    {
+      "target_slot": "material_change_rule",
+      "dimension": "height",
+      "expression": "part * 6",
+      "units": "in",
+      "range": [
+        8.0,
+        24.0
+      ],
+      "authority_note": "`styles/english-medieval-timber-frame.json`: 'jetty projection 350-600 mm'. `styles/german-fachwerk.json`: 'jetty projection 200-400 mm per storey'. `styles/tudor-revival.json`: 'second-storey overhang (jetty) where used: 8-16 in'.",
+      "note": "THE JETTY, 18 in. The upper storey oversails the lower on the ends of its floor joists, and the reasons are argued about -- more floor area on a taxed frontage, a stiffer joist by counterbalance, protection of the wall below, or simply that it was how the frame went together. What is not argued about is the size, and the size is the tell: see the ratio rule below.",
+      "judgment": false,
+      "quantity": "material_change_height_above_floor"
+    },
+    {
+      "target_slot": "material_change_rule",
+      "dimension": "ratio",
+      "expression": "1.33",
+      "units": "ratio",
+      "range": [
+        0.8,
+        2.0
+      ],
+      "authority_note": "TWO RECORDS DISAGREE AND THE BAND HOLDS BOTH. `styles/english-medieval-timber-frame.json`: the jetty is 'roughly one third of the floor joist depth times four -- never the exaggerated overhang of revival work'. `styles/tudor-revival.json`: 'never more than the depth of a plausible joist'.",
+      "note": "THE JETTY AS A MULTIPLE OF THE JOIST DEPTH, and the disagreement between the two records is real rather than an error in either. The medieval figure works out at about four thirds of the joist depth; the revival record sets a ceiling of one. Both are warning against the SAME thing from opposite directions -- an overhang so deep the joist cannot cantilever it -- and the revival's is stricter because a revival jetty is usually decorative and carries no joist at all, so 'a plausible joist' is a fiction that has to be kept plausible. Take the medieval figure where the jetty is real and the revival ceiling where it is applied, and note that both records use the word 'never', which is rare in this corpus.",
+      "judgment": false
+    },
+    {
+      "target_slot": "material_change_rule",
+      "dimension": "count",
+      "expression": "1",
+      "units": "count",
+      "range": [
+        0.0,
+        2.0
+      ],
+      "authority_note": "`styles/tudor-revival.json`: 'multi-material wall with a horizontal change of material between storeys, most often masonry below and stuccoed half-timbering above'. `styles/french-normandy-revival.json`: 'half-timbered panels in gables and upper storeys'. `styles/queen-anne-british.json`: 'tile-hung upper storey over brick, with the change of material always at a floor level'.",
+      "note": "HOW MANY STOREYS THE FRAME SHOWS ON, and it is the sharpest divide between the medieval buildings and their revivals. A medieval frame shows on all of them, because it is the building. A revival shows it on ONE -- the upper storey, or only the gable -- with masonry below, and all three revival records above say so independently. That is not a corruption: it is a legible convention with its own logic, since the ground storey is where the wear and the damp are. What it does mean is that a revival elevation showing the frame everywhere has copied a medieval building rather than joined a revival tradition, and should know which it is doing. Zero is in the range because `styles/jacobethan-revival.json` and `styles/cotswold-cottage-revival.json` both state, in their own words, that they have NO half-timbering at all.",
+      "judgment": false
+    },
+    {
+      "target_slot": "water_table",
+      "dimension": "height",
+      "expression": "part * 6",
+      "units": "in",
+      "range": [
+        8.0,
+        36.0
+      ],
+      "authority_note": "A general practice across every tradition this pack covers rather than a figure from one record; `styles/french-colonial-american.json`'s poteaux-sur-sol names the alternative it replaced -- poteaux-en-terre, posts set directly in the ground -- and the whole history of the type is the move from one to the other.",
+      "note": "THE PLINTH THE SILL BEAM STANDS ON, 18 in. The single most consequential detail in timber framing and the least visible: a sill in contact with the ground rots, and a frame with a rotten sill has lost its foundation. `styles/french-colonial-american.json` records the transition in its own vocabulary -- poteaux-EN-TERRE, posts in the earth, giving way to poteaux-SUR-SOL, posts on a sill on a plinth -- which is the same lesson learned in Louisiana that had been learned in England four centuries earlier. The same argument as `adobe-module`'s base course and `stone-course`'s plinth: solid walls of every material fail at the bottom.",
+      "judgment": false,
+      "quantity": "water_table_top_above_grade"
+    },
+    {
+      "target_slot": "secondary_cladding",
+      "dimension": "count",
+      "expression": "3",
+      "units": "count",
+      "range": [
+        2.0,
+        4.0
+      ],
+      "authority_note": "Four records list their infill materials and between them name six: `styles/english-medieval-timber-frame.json` 'wattle and daub, later brick nogging or plaster'; `styles/norman-vernacular.json` 'torchis (clay and chopped straw over riven laths), or from the 17th century brick nogging laid in herringbone or chequer'; `styles/flemish-vernacular.json` 'brick nogging'; `styles/french-colonial-american.json` and `styles/raised-creole-plantation.json` 'bousillage or briquette-entre-poteaux'.",
+      "note": "A JUDGMENT SLOT. Three infill families available to any one tradition: an earth-and-fibre daub over riven laths, a brick nogging, and a lime plaster or render. The count is a judgment because the boundaries between them are regional words for overlapping practices -- torchis, bousillage and wattle-and-daub are the same idea in three languages -- and because the choice within a building is often chronological rather than designed: the daub panel that failed in 1650 was replaced in brick and the wall now shows both. That mixture is authentic and a wall rebuilt uniformly in one material is the less honest of the two.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "structural",
+      "statement": "The frame carries everything and the panel carries nothing, and the commonest modern error is to forget the second half. A panel is a screen: it has no racking resistance, it is not tied to the studs except by its own friction and a few staves, and it moves independently of the timber around it. Two things follow. Bracing must come from the frame -- the diagonal braces, the jointed corners, the tie beams -- so a design that removes a brace to make a bigger panel has removed structure, not decoration. And green oak shrinks across the grain by up to five per cent as it seasons, which on an 8 in post is nearly half an inch, so every panel joint opens whatever it was built like.",
+      "resolution": "Brace the frame and leave the panels alone. Set the panel BEHIND the timber face rather than flush, which is what the projection rule is about: a recessed panel that opens a quarter-inch gap is still a recessed panel, and a flush one becomes a crack. Accept the shrinkage rather than designing against it -- use a flexible bedding at the panel edge, a lime mortar or a haired daub rather than a cement one, and expect to repoint. Where a modern frame is used, remember that kiln-dried or glue-laminated timber does not move like green oak and therefore does not need the same detail; a laminated frame with a traditional recessed panel is over-detailed for what it is, which is harmless, but a green oak frame with a modern flush panel is under-detailed and will fail.",
+      "severity": "blocking"
+    },
+    {
+      "with": "energy-code",
+      "statement": "There is no version of this wall that performs. A 150 mm daub panel is about R-3 and the timber beside it is R-1 per inch, so the wall is a poor insulator interrupted by a worse one every two feet -- and the interruption is not incidental, it is the building. That is what makes this the hardest energy case in the library: `adobe-module`'s wall can be lined internally at the cost of its inner face, and `stone-course`'s can be lined because its reveal is a rebated jamb rather than the wall itself. Here the frame shows on BOTH faces in the medieval work, so insulating either side buries the thing being conserved, and the exposed timber is a continuous thermal bridge at 24 in centres besides.",
+      "resolution": "Decide which face you are keeping and say so, because you cannot keep both. Keeping the outside is the usual answer on a listed or a street elevation: insulate internally with a vapour-open wood-fibre and lime system, accept the loss of the frame inside, and detail the reveals so the studs are not buried at the openings where the bridge is worst. Keeping the inside is the answer where a fine interior frame survives: insulate externally and clad, which the traditions themselves did -- see the climate conflict, where covering the frame turns out to be the historical norm rather than a modern compromise. What does not work is a thin insulated panel substituted for the daub in the same 150 mm: it gains almost nothing, it changes the panel's moisture behaviour, and it usually traps water against the timber.",
+      "severity": "blocking"
+    },
+    {
+      "with": "climate",
+      "statement": "An exposed frame is a wall made of joints, and every joint is a horizontal ledge in a vertical surface. Driving rain finds the shrinkage gap at every panel edge; the timber's end grain at every joint drinks; and the panel below a jetty gets the water the jetty sheds. THE TRADITIONS THEMSELVES CONCLUDED THAT THIS WALL SHOULD BE COVERED, which is the fact revival work reverses. `styles/queen-anne-british.json` records tile-hanging on upper storeys; `styles/french-colonial-american.json` and `styles/creole-cottage-vernacular.json` record colombage 'weatherboarded or stuccoed'; the English west country rendered and limewashed over the frame as a matter of course. The exposed black-and-white frame that everyone pictures is substantially a Victorian taste, and in many buildings it is Victorian paint on a wall that was rendered for three centuries.",
+      "resolution": "On a weather elevation, cover it -- and know that you are doing what the buildings did rather than giving something up. Weatherboard, tile-hang, render or limewash the exposed side and let the frame show where it is sheltered, which is usually the courtyard, the lee gable and the interior. Where the frame must show on the weather side, the details are the ones the pack already carries: the timber proud of the panel so water leaves the face, a drip or a weathered top edge on every horizontal member, and a lime rather than cement render so the wall dries. And do not paint the timber black with a modern coating: it seals the end grain, the timber cannot dry inward, and the tar-black finish is itself a nineteenth-century fashion rather than a historic one.",
+      "severity": "material"
+    },
+    {
+      "with": "cost",
+      "statement": "The oak, and then the carpentry. A close-studded wall uses roughly twice the timber of a square-panelled one for the same area, which is why it was a display of wealth in the first place, and green oak of framing section is priced by the cubic foot in a market that is small. The joints are the other half: a real frame is mortised, tenoned and pegged by a framing yard, and there is no economy of scale in a one-off. Against that, the frame goes up in days once cut, and everything else in the building hangs off it.",
+      "resolution": "Choose the regional grammar by budget as well as by geography, and be honest that this is what you are doing -- square-panel framing is the cheaper tradition and always was, which is why it covers most of Europe and close studding covers a few rich counties. Where the frame is applied rather than real, spend the money on DEPTH rather than on quantity: a smaller number of members standing a genuine inch and a half proud reads as timber, and a dense grid of flush boards reads as paint whatever it cost. And price the panel separately: a hand-daubed wattle panel is a craft item and a lime-rendered board panel is not, and the difference is visible close up and invisible from the street, which is a legitimate place to save.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "A frame is cut to dimension and a wall of frames is not. Each stick is accurate to a few millimetres, but a jointed frame racks slightly as it is raised, settles as the oak seasons, and ends up out of plumb by an inch or more over two storeys -- and that wander is most of what makes an old frame look like one. Modern site practice will produce a frame that is dead true, panels that are all identical, and an elevation with the regularity of a spreadsheet. The revival version has the same problem in reverse: applied boards CAN be set dead true and usually are, which is why applied half-timbering so often reads as a printed pattern.",
+      "resolution": "For a real frame, let it move: raise it, leave it, and infill the panels after the frame has taken its set rather than building panel and frame together to one line. For applied work, introduce variation deliberately and structurally rather than randomly -- vary the panel widths across a bay as a real frame would, where a stud has been added to carry an opening or a brace has interrupted the rhythm, rather than jittering the boards to look old. The tell of the printed-pattern elevation is that its irregularities have no cause; the tell of a real one is that every irregularity has one, and you can usually see what.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "english-medieval-timber-frame",
+    "german-fachwerk",
+    "norman-vernacular",
+    "north-german-hall-house",
+    "flemish-vernacular",
+    "english-cottage-vernacular",
+    "tudor",
+    "tudor-revival",
+    "french-normandy-revival",
+    "french-manoir",
+    "creole-cottage-vernacular",
+    "french-colonial-american",
+    "raised-creole-plantation",
+    "storybook-style",
+    "stick-style"
+  ],
+  "sources": [
+    "R. W. Brunskill, Timber Building in Britain, Gollancz, London, 1985",
+    "Cecil A. Hewett, English Historic Carpentry, Phillimore, Chichester, 1980",
+    "Manfred Gerner, Fachwerk: Entwicklung, Instandsetzung, Neubau, Deutsche Verlags-Anstalt, Stuttgart",
+    "R. W. Brunskill, Traditional Buildings of Britain, Gollancz, London, 1981",
+    "Historic American Buildings Survey, measured drawings of Louisiana colombage houses (HABS LA)"
+  ],
+  "confidence": "medium",
+  "notes": "WP-4.1's candidate list asks for 'a half-timber infill/nogging panel module, distinct from `timber-bay`'s larger structural framing bay'. Measured after the arcade was built it was the largest remaining item: 29 buildable nodes describe half-timbering and 21 carry three packs or fewer.\n\nTHE LIST'S PHRASE 'DISTINCT FROM timber-bay' TURNED OUT TO DO MORE WORK THAN IT LOOKS. Setting out to write this pack, six of the sixteen rules I had planned were already `timber-bay`'s: the structural bay, the storey height, the range depth, the storey diminution, the roof pitch and the frame reveal. That pack is already bound to seven of the fifteen nodes this one binds. So this pack restates none of them and holds only what fills the frame -- the panel, the studding, the timber's own section and projection, the jetty, the plinth and the infill material -- and the division is stated in its module note so the next author does not have to rediscover it.\n\nTHE CENTRAL RULE IS REGIONAL RATHER THAN UNIVERSAL, which is unusual in this library and is why no source states it. The panel's proportion runs from 1:1 in a German or Alpine Gefach through about 1:1.2 in the English south-east to 1:3 or 1:4 in East Anglian and Norman close studding, and `styles/english-medieval-timber-frame.json` holds two of those in a single sentence. There is no correct value, only a correct value for a place, and a building with the wrong one is competently detailed and from nowhere. The reason behind it is economic: close studding uses roughly twice the oak, so it is a display of timber wealth and clusters in the rich wood-poor east.\n\nTWO REFUSALS THE RECORDS MAKE THEMSELVES. `styles/jacobethan-revival.json` says its construction is 'masonry - ashlar, or brick with stone dressings - with NO half-timbering', and `styles/cotswold-cottage-revival.json` says its walls are stone or stucco 'WITHOUT applied half-timbering'. Both are nodes a regex sweep finds and both are explicit negatives, which is a good reminder that a node mentioning a thing is not a node having it. Neither is bound, and the pack's storey-count rule reaches zero because of them.\n\nWHAT THIS PACK COULD NOT SAY PROPERLY, AND NOW CAN. The ontology had no slot for AN EXPOSED STRUCTURAL MEMBER ON A WALL FACE, and a half-timbered wall is made of nothing else -- so the stud spacing, the timber's face width, its projection and the brace were all routed through `corner_board`, the envelope group's nearest thing, which read slightly wrong for all four. Raised as **OQ 47** rather than worked around silently, and RULED on 25 Aug 2026: `expressed_frame` was added at ontology 0.7.0 and these four rules moved to it. The slot also carries `member_status` -- structural, structural-and-expressed, applied or none -- which is the distinction this pack most needed and could not state, because the difference between an English close-studded wall and an applied Normandy Revival elevation is not a dimension at all. Stating the compromise in the data is what got it closed; a workaround would have become the convention.\n\nOne thing the pack states that its own tradition finds uncomfortable: the exposed black-and-white frame is substantially a Victorian taste. Four records in this corpus describe the frame being COVERED -- tile-hung, weatherboarded, stuccoed, limewashed -- and the climate conflict says plainly that covering it is what the buildings did rather than a modern compromise."
+}

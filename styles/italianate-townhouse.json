@@ -273,6 +273,12 @@
       "role": "room",
       "note": "Judgment binding: not in the pack's own applies_to. The double parlour is a long fixed-width room set by the party wall rather than a room chosen to a harmonic shape, and the node's own governing_logic is explicit that 'lot width is fixed by the party wall, so the design problem is entirely vertical' - a measured, constraint-derived room in exactly the sense this pack (rather than room-harmonic's chosen ratios) records.",
       "precedence": 7
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "interior",
+      "note": "Bound for the bracketed cornice, which on a townhouse is the whole of the family that survives: no porch, no valance, and the brackets carrying a heavy eave over a flat front. A useful check on the pack's member_count rule at its floor, since this is a building with exactly one of the three members and it is unambiguously Italianate for that reason.",
+      "precedence": 8
     }
   ]
 }

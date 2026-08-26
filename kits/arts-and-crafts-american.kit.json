@@ -1,7 +1,7 @@
 {
   "style": "arts-and-crafts-american",
   "style_name": "American Arts and Crafts",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -321,6 +321,21 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "specified",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "'Exposed rafter tails must correspond to actual rafters at 16 to 24 in on centre and project 24 to 36 in beyond the wall plane. Decorative tails applied' are not permitted -- the same rule as the British node, stated about one member and with numbers. `opening-craftsman` noted this member as the one whose structure-or-trim status has to be decided on the drawings; the field decides it in the record instead.",
+      "variants": [
+        {
+          "id": "structural-and-expressed",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Modelled as a variant rather than a parameter because a variant can be FORBIDDEN -- `status: forbidden` is how five of these fourteen kits say the member must not appear, and a parameter has no way to say that. (The reason first recorded here was that a categorical carries no unit and the checker insists a parameter has one. That is false: this corpus holds 236 categorical parameters whose unit is `none` and `check_kits.py` passes every one. Corrected 25 Aug 2026 by audit -- the modelling call stands, its stated reason did not.)"
+        }
+      ]
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -418,6 +433,11 @@
       "status": "drafted",
       "note": "Restated directly (not merely inherited from shingle-style, where it resolved correctly by coincidence) because craftsman's own diagnostic_tells state this exact pattern as the family's single fastest identifying detail.",
       "group": "openings"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",
@@ -850,7 +870,15 @@
       "judgment": true,
       "status": "drafted",
       "note": "CASCADE FIX. Before this binding, the slot resolved a Georgian passage-adjacency rule directly contradicted by circulation_parti (family level).",
-      "group": "plan-logic"
+      "group": "plan-logic",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "restricts",
+          "statement": "Rooms open into one another around the hearth rather than each opening independently off a passage; the living room is the circulation hub the Georgian passage would otherwise be.",
+          "why": "The exact inverse of the Georgian restriction, and the reason both need stating: neither is the universal rule, and a checker that assumed either would mark the other's houses wrong."
+        }
+      ]
     },
     "service_zone_strategy": {
       "binding": "specified",

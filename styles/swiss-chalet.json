@@ -246,6 +246,12 @@
       "role": "room",
       "note": "Judgment bind: this node is not individually listed in room-vernacular's applies_to, but its family container nordic-alpine-vernacular is, and the Stube — small, low-ceilinged (under 2.5 m), lit from one banded wall of small ganged windows, warmed by one masonry stove — is squarely the span/hearth/daylight-limited room this pack models. Note that the elaborate bracket, gallery-balustrade and stepped-purlin-end ornament vocabulary this node describes as the building's whole decorative content is not captured by this or any of the 36 packs (see gaps).",
       "precedence": 3
+    },
+    {
+      "pack": "trim-sawn",
+      "role": "optional",
+      "note": "Optional, AND FOR HALF OF WHAT THIS NODE HAS. Its 'galleries (Lauben) running the full width of the gable face under the overhang, with SAWN or turned balustrades' are this family -- the same machines, the same members. Its 'carved and inscribed facade band' is not, and neither is the carved bargeboard: carving is a hand craft with a gouge and this whole pack is about machines. WP-4.1 lists Alpine bracket and carved-timber ornament as its own item and it stays there; binding this node for the sawn work and refusing it for the carved work is the honest split, and the pack's notes say so.",
+      "precedence": 4
     }
   ]
 }

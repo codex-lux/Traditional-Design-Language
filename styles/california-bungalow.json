@@ -215,6 +215,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "opening-craftsman",
+      "role": "opening",
+      "note": "The branch that designs the roof before the plan, which its own record calls out as inverting the usual sequence. Two of the pack's figures sit at the top of their bands here for stated reasons rather than by preference: the eave at 30-48 in, because its depth is set by the shadow wanted on the wall, and the ceiling at 8 ft 6 in to 9 ft 6 in for stack ventilation. Read the eave rule and the daylight rule together on this node -- a 48 in overhang buys glazing that a 24 in one does not, and this is the node where that trade was made deliberately.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Inherited from the parent craftsman style (regional_of, weight 1) with the same datum-band and roof-dominance logic, and especially apt here: this node's own porch_depth figure (8-12 ft clear) sits almost exactly on this pack's own porch_depth rule ('eight feet... close to a hard number rather than a soft one... the band in which a porch is both usable and survivable for the rooms behind'), and the pack's roof_form ratio (dominant roof covers at least half to 0.85 of the elevation) matches this variant's even lower 3:12-5:12 pitch and 30-48 in eaves better than it matches the national type's.",

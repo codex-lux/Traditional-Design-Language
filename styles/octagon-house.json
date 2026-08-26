@@ -40,7 +40,27 @@
       "type": "hybridizes_with",
       "weight": 0.65,
       "inherits_kit": true,
-      "note": "Genuine blending. The octagon is a plan thesis with no ornamental vocabulary of its own, so nearly every built example wears Italianate dress: bracketed eaves, a cupola, round-arched windows, and a wrapping veranda."
+      "note": "Genuine blending. The octagon is a plan thesis with no ornamental vocabulary of its own, so nearly every built example wears Italianate dress: bracketed eaves, a cupola, round-arched windows, and a wrapping veranda. SCOPED (OQ 58, 24 Aug 2026) to the dress this note actually claims. Unscoped, the edge also carried roof_form, roof_pitch and height_proportion, and those are the three things an octagon does NOT get from Italianate practice: its roof is eight hips meeting at a point because its plan is eight-sided, and its proportion is Fowler's arithmetic about wall length per enclosed area. The octagon is a plan thesis wearing Italianate clothes; the clothes are what the edge transmits.",
+      "slots": [
+        "balustrade",
+        "belt_course",
+        "column",
+        "corner_quoin",
+        "cornice",
+        "eave_condition",
+        "entablature",
+        "modillion_dentil",
+        "order",
+        "ornament_vocabulary",
+        "pediment",
+        "pilaster",
+        "porch_support",
+        "rake_condition",
+        "window_grouping_rule",
+        "window_head_wood",
+        "window_proportion",
+        "window_type"
+      ]
     },
     {
       "target": "greek-revival-american",
@@ -202,6 +222,12 @@
     "cautionary"
   ],
   "proportion_packs": [
+    {
+      "pack": "octagon-geometry",
+      "role": "primary",
+      "note": "The type, and the node whose own record states the entire system in five ratios -- side 12-20 ft, inscribed diameter 29-48, wall height 1.0-1.4 times the side, cupola 0.25-0.35 of the diameter, veranda 7-10 ft uniform, pitch 4:12 to 7:12 on all eight hips. Primary, and the reason is in that record's own governing logic: 'purely geometric, and uniquely so in this branch: a regular octagon, with everything else derived from the side length. The design is closed-form, which is both its appeal and its limitation.' No other pack can hold this because no other pack's module generates a building rather than a system. `facade-picturesque` stays in the facade role and `room-harmonic` in the room role, and neither addresses the triangular residues -- which WP-4.1's list names and this pack gives a width and a purpose to without pretending to solve.",
+      "precedence": 0
+    },
     {
       "pack": "room-harmonic",
       "role": "room",

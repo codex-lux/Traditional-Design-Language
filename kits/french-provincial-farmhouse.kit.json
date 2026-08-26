@@ -1,7 +1,7 @@
 {
   "style": "french-provincial-farmhouse",
   "style_name": "French Provincial Farmhouse",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -315,6 +315,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -379,6 +384,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {
@@ -523,9 +533,9 @@
         "door_orientation": {
           "value": "into the working cour; never on the north-west (mistral) elevation and never on the south-to-south-east living facade",
           "unit": "none",
-          "kind": "editorial",
+          "kind": "invented",
           "source": "groupings/garage-and-hyphen.json",
-          "note": "The grouping says the doors turn off the principal elevation wherever the lot allows; in this type the climatic constraint c01 closes the opposite elevation as well, which leaves the yard as the only face that will take them."
+          "note": "The grouping says the doors turn off the principal elevation wherever the lot allows; in this type the climatic constraint c01 closes the opposite elevation as well, which leaves the yard as the only face that will take them. OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "lintel_rule": {
           "value": "any vehicle opening requires a stone relieving arch or a full-bearing timber lintel with dressed stone jambs",
@@ -537,9 +547,9 @@
         "max_door_width": {
           "value": 10,
           "unit": "ft",
-          "kind": "editorial",
+          "kind": "invented",
           "source": "groupings/garage-and-hyphen.json",
-          "note": "Two openings with a pier of masonry between them, which in a rubble wall is a structural preference as much as a compositional one -- each arch or lintel spans less and the pier carries the thrust between them."
+          "note": "Two openings with a pier of masonry between them, which in a rubble wall is a structural preference as much as a compositional one -- each arch or lintel spans less and the pier carries the thrust between them. OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         },
         "ridge_ratio_to_main_block": {
           "range": [
@@ -554,9 +564,9 @@
         "habitable_room_above": {
           "value": "prohibited over the bays, except where a range's own living-over-working section genuinely continues across; a bedroom above is prohibited outright",
           "unit": "none",
-          "kind": "editorial",
+          "kind": "invented",
           "source": "groupings/garage-and-hyphen.json",
-          "note": "An honest conflict rather than a rule. This type puts living quarters over a working ground floor as a matter of course, and the grouping prohibits a habitable room over the bays (strong, acoustic) and a bedroom over them absolutely (hard, and IRC R302.5.1). The bedroom rule wins without argument; the rest is a judgment that requires a rated, sealed and acoustically separated deck to be defensible at all."
+          "note": "An honest conflict rather than a rule. This type puts living quarters over a working ground floor as a matter of course, and the grouping prohibits a habitable room over the bays (strong, acoustic) and a bedroom over them absolutely (hard, and IRC R302.5.1). The bedroom rule wins without argument; the rest is a judgment that requires a rated, sealed and acoustically separated deck to be defensible at all. OQ 18, 24 Aug 2026: reclassified from `editorial` to `invented`. The two are different claims -- the schema defines editorial as 'our considered convention' and invented as 'no precedent exists' -- and `garage_strategy`'s own ontology note says in its first sentence that no historical precedent exists. A number about the garage door itself cannot be a convention drawn from tradition, because the tradition has no garage. The parameters left editorial on this slot are the ones carried from the dependency tradition rather than invented for the garage: subordination, ridge ratio, pitch match, cladding continuity."
         }
       },
       "rule_append": "In this type the garage takes a side of the working cour with its doors turned into the yard -- never on the north-west elevation, which c01 requires to stay effectively blind at ground level, and never on the south-to-south-east facade the entire orientation of the plan exists to protect.",

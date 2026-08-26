@@ -1,0 +1,305 @@
+{
+  "id": "octagon-geometry",
+  "name": "The Octagon: Side, Inscribed Diameter and Canted Corner",
+  "aka": [
+    "the eight-sided plan",
+    "Fowler's octagon",
+    "the canted bay",
+    "the octagon on a square"
+  ],
+  "kind": "module-system",
+  "authority": {
+    "source": "Orson Squire Fowler, A Home for All, or the Gravel Wall and Octagon Mode of Building, New York 1848 and 1853, which is the type's manifesto and the reason it exists at all; Thomas Jefferson's drawings for Poplar Forest, Monticello's octagonal projections and the Virginia villas, in the Massachusetts Historical Society and Coolidge collections; and the surviving fabric behind this corpus's own records, one of which states the whole system in five ratios",
+    "author": "after Fowler; and after Jefferson",
+    "year": 1848,
+    "strength": "documented",
+    "note": "DOCUMENTED, and unusually the manifesto came first. Fowler published the argument in 1848 and the houses followed, which is the reverse of every other pack in this library: there is no vernacular octagon tradition being recovered here, there is a book and its readers. Jefferson's use is separate and earlier and has no manifesto at all -- it is in the drawings, where octagonal and semi-octagonal rooms are generated on a square by cutting the corners, and `styles/jeffersonian-classicism.json` states the rule that governs it. The two uses are the same geometry doing quite different jobs, and the pack carries both."
+  },
+  "overlay_of": null,
+  "module": {
+    "name": "The side of the octagon -- the length of one of the eight faces",
+    "parts": 16,
+    "default_size_in": 192.0,
+    "note": "The part is the foot. Sixteen feet is the middle of the 12-20 ft `styles/octagon-house.json` gives, and that record also says why the side is the module and not something else: its governing logic is 'purely geometric, and uniquely so in this branch: a regular octagon, with everything else derived from the side length. The design is closed-form, which is both its appeal and its limitation.'\n\nCLOSED-FORM IS THE WHOLE POINT AND THE WHOLE PROBLEM. Fix the side and the inscribed diameter, the floor area, the perimeter, the wall height, the veranda, the cupola and the roof are all determined -- there is nothing left to choose, which is why the type produces such consistent buildings and why it cannot be adjusted. Every other module in this library generates a system that a designer then composes with; this one generates a building."
+  },
+  "assemblies": {
+    "octagon_storey": {
+      "height_modules": 1.2,
+      "sums_check": true,
+      "members": [
+        {
+          "id": "plinth",
+          "name": "Plinth or water table",
+          "height_parts": 1.2,
+          "projection_parts": 0.4,
+          "profile": "plinth",
+          "note": "14 2/5 in. Fowler's own walls were gravel concrete -- his book is as much about the material as the shape -- and a poured wall wants a base course for the same reasons an earth one does.",
+          "confidence": "medium"
+        },
+        {
+          "id": "wall_field",
+          "name": "The wall of one face, plinth to eave",
+          "height_parts": 16.8,
+          "projection_parts": 0.0,
+          "profile": "flat",
+          "note": "16 ft 9 in, giving a storey at 1.2 times the side -- the middle of the 1.0-1.4 `styles/octagon-house.json` gives. The face is the unit of composition: it carries one or two openings, identically placed, and repeats eight times.",
+          "confidence": "high"
+        },
+        {
+          "id": "eave_band",
+          "name": "Eave and the octagonal cornice",
+          "height_parts": 1.2,
+          "projection_parts": 1.5,
+          "profile": "fascia",
+          "note": "The cornice runs the whole octagon and mitres at every one of the eight corners at 22.5 degrees. That is 16 mitres per storey and it is the pack's cost conflict in one member.",
+          "confidence": "medium"
+        }
+      ]
+    }
+  },
+  "invariants": [
+    {
+      "statement": "One part is one foot.",
+      "expression": "module.default_size_in / module.parts == 12.0",
+      "tolerance": 0.001
+    },
+    {
+      "statement": "The storey stands between one and one and two fifths times the side.",
+      "expression": "assemblies.octagon_storey.height_modules <= 1.4",
+      "tolerance": 0.0,
+      "note": "1.2 encoded, against `styles/octagon-house.json`'s 'wall height 1.0 to 1.4 times the side length per storey'. Below 1.0 the faces read as squat panels and the eightfold rhythm becomes a band; above 1.4 the building is a tower and the roof cannot converge sensibly."
+    },
+    {
+      "statement": "The wall field is the great majority of the storey: the octagon has almost no horizontal apparatus.",
+      "expression": "assemblies.octagon_storey.members.wall_field.height_parts >= assemblies.octagon_storey.height_modules * module.parts * 0.8",
+      "tolerance": 0.0,
+      "note": "16.8 of 19.2 parts. `styles/octagon-house.json` says the type 'supplies none of its own' ornament and borrows it wholesale from whatever style is current, so its elevations are plain fields between a plinth and a cornice. A designer who gives an octagon a full classical apparatus has spent sixteen mitres per moulding and hidden the only thing the building is about."
+    }
+  ],
+  "derived_rules": [
+    {
+      "target_slot": "depth_and_pile",
+      "dimension": "inscribed_diameter",
+      "expression": "module * 2.4142",
+      "units": "in",
+      "range": [
+        348.0,
+        576.0
+      ],
+      "authority_note": "`styles/octagon-house.json`: 'side length 12 to 20 ft, giving an inscribed diameter of about 29 to 48 ft'. The multiplier is 1 + root 2, which is the geometry rather than a measurement.",
+      "note": "THE INSCRIBED DIAMETER, 38 ft 8 in on a 16 ft side. This is the number the plan is actually laid out from and the record gives both, which is a small kindness: 1 + root 2 is 2.4142, so a 12 ft side gives 29 ft and a 20 ft side gives 48, exactly as stated. Note what it means for the brief -- the diameter moves two and a half feet for every foot of side, so the type has almost no fine adjustment: a house wanting 3,000 sq ft cannot be got by nudging, it is a 17 ft side or an 18 ft one and nothing between.",
+      "judgment": false,
+      "quantity": "inscribed_diameter"
+    },
+    {
+      "target_slot": "depth_and_pile",
+      "dimension": "ratio",
+      "expression": "0.91",
+      "units": "ratio",
+      "range": [
+        0.88,
+        0.95
+      ],
+      "authority_note": "Geometry, and it is Fowler's own argument: a regular octagon of area A has a perimeter of 8s where A = 2(1+root 2)s squared, giving a perimeter 0.91 of a square of equal area.",
+      "note": "PERIMETER PER UNIT AREA, AGAINST A SQUARE, AND IT IS THE TYPE'S WHOLE CASE. Fowler's 1848 argument was economic and thermal before it was aesthetic: an octagon encloses the same floor for nine per cent less wall than a square and about the same less than a rectangle, so it costs less to build and less to heat. A circle would do better still at 0.886 and cannot be framed in timber, which is why eight sides and not six or twelve -- eight is the most a carpenter can cut at 45 degrees without a protractor. The argument is CORRECT and the type still failed, for the reason the cost conflict below gives: what Fowler saved in wall he spent in corners.",
+      "judgment": false
+    },
+    {
+      "target_slot": "height_proportion",
+      "dimension": "storey_over_side",
+      "expression": "1.2",
+      "units": "ratio",
+      "range": [
+        1.0,
+        1.4
+      ],
+      "authority_note": "`styles/octagon-house.json`: 'wall height 1.0 to 1.4 times the side length per storey'.",
+      "note": "STOREY HEIGHT AS A MULTIPLE OF THE SIDE, and the fact that a storey is measured against the PLAN's module rather than against itself is what closed-form means. Change the side to get a bigger house and the storeys grow with it, whether or not the rooms wanted to be taller. DIMENSION NAMED: `storey-graduation` writes `height_proportion`/`ratio` for STOREY DIMINUTION -- one storey over the one below -- and `facade-classical`, `facade-picturesque` and `timber-bay` write it too. A storey's height against the OCTAGON'S SIDE is a different quantity, and it collides on nine nodes. Found by `build/pack_addresses.py`; see OQ 48.",
+      "judgment": false
+    },
+    {
+      "target_slot": "roof_pitch",
+      "dimension": "ratio",
+      "expression": "0.46",
+      "units": "ratio",
+      "range": [
+        0.33,
+        0.58
+      ],
+      "authority_note": "`styles/octagon-house.json`: 'roof pitch 4:12 to 7:12 on all eight hips'.",
+      "note": "5 1/2 in 12, ON ALL EIGHT HIPS. The roof has no ridge -- eight hips converging on a point, or on the flat deck the cupola sits in -- which is a genuinely different structure from every other roof in this library and is why the pitch band is narrow. Steeper than 7:12 and the eight hips converge into an unbuildable spike; shallower than 4:12 and the deck swallows the roof.",
+      "judgment": false,
+      "quantity": "main_roof_pitch"
+    },
+    {
+      "target_slot": "roof_penetration_rules",
+      "dimension": "width",
+      "expression": "module * 2.4142 * 0.3",
+      "units": "in",
+      "range": [
+        87.0,
+        202.0
+      ],
+      "authority_note": "`styles/octagon-house.json`: 'cupola width 0.25 to 0.35 of the inscribed diameter'.",
+      "note": "THE CUPOLA, 11 ft 7 in across on the default -- and it is stated against the DIAMETER rather than the side, which is the record being careful. The cupola is not decoration: it is the top of the central core, it lights and ventilates the stair that serves all eight sectors, and on Fowler's own plan it is the building's chimney of air. An octagon with a decorative cupola over a solid roof has kept the silhouette and thrown away the section.",
+      "judgment": false
+    },
+    {
+      "target_slot": "porch_depth",
+      "dimension": "width",
+      "expression": "part * 8.5",
+      "units": "in",
+      "range": [
+        84.0,
+        120.0
+      ],
+      "authority_note": "`styles/octagon-house.json`: 'veranda depth 7 to 10 ft, uniform on every face it crosses'.",
+      "note": "8 ft 6 in, AND UNIFORM ON EVERY FACE IT CROSSES. The uniformity is the rule rather than the depth: a veranda that deepens at the entrance or wraps only the sunny faces has broken the eightfold rhythm, which is the only rhythm the building has. `styles/octagon-house.json` says the veranda wraps 'a majority of the faces', so it is normal for it to stop -- but it stops at a face, never part-way along one.",
+      "judgment": false,
+      "quantity": "porch_depth"
+    },
+    {
+      "target_slot": "window_grouping_rule",
+      "dimension": "count",
+      "expression": "2",
+      "units": "count",
+      "range": [
+        1.0,
+        2.0
+      ],
+      "authority_note": "`styles/octagon-house.json`: 'one or two openings per face, identically placed on every face, producing an eightfold rotational rhythm with a single break at the entry'.",
+      "note": "OPENINGS PER FACE, AND THE RULE IS THE IDENTICAL PLACEMENT RATHER THAN THE NUMBER. Eight faces each with the same two windows in the same positions is an EIGHTFOLD ROTATIONAL rhythm, which no other building type in this library has -- everything else here is bilateral or additive. The record notes the single exception, 'a single break at the entry', and that break is the composition: it is the only thing on the elevation that says which way the house faces.",
+      "judgment": false,
+      "quantity": "openings_per_bay"
+    },
+    {
+      "target_slot": "stair_position",
+      "dimension": "width",
+      "expression": "part * 10",
+      "units": "in",
+      "range": [
+        96.0,
+        168.0
+      ],
+      "authority_note": "`styles/octagon-house.json`: 'a central vertical core, either a stair or a chimney stack, serving all eight sectors'.",
+      "note": "THE CENTRAL CORE, 10 ft across. It is the plan's whole circulation and often its whole flue as well, and it is what makes the radial arrangement work -- eight sectors around one point, each reached from the middle. Move the stair off centre and the octagon becomes a rectangular plan wearing an eight-sided wall, which is what most surviving examples of the type actually are.",
+      "judgment": false,
+      "quantity": "stair_well_width"
+    },
+    {
+      "target_slot": "storage_strategy",
+      "dimension": "width",
+      "expression": "part * 4",
+      "units": "in",
+      "range": [
+        30.0,
+        84.0
+      ],
+      "authority_note": "`styles/octagon-house.json`: 'rooms arranged radially around the core, with triangular residual spaces used as closets, stairs, or service'.",
+      "note": "THE TRIANGULAR RESIDUE, about 4 ft at its widest. Rectangular rooms cannot tile an octagon, so every octagon plan leaves wedge-shaped leftovers between the rooms and the wall -- and the type's answer, stated in that record, is to use them as closets and service. It is a genuinely good answer and it is also the type's admission: the geometry does not accommodate rooms, it accommodates rooms plus the offcuts, and a designer who tries to make the residues into usable rooms will produce spaces nobody can furnish.",
+      "judgment": false
+    },
+    {
+      "target_slot": "wing_strategy",
+      "dimension": "count",
+      "expression": "0",
+      "units": "count",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "authority_note": "The consequence of closed form, which `styles/octagon-house.json` names as the limitation in the same clause as the appeal.",
+      "note": "WINGS: NONE, and the zero is the same kind of statement `greek-doric` makes about ornament and `dutch-gambrel` makes about the colonial shed dormer. You cannot add to an octagon. Every face is identical and each is part of the rhythm, so a wing off one face destroys the only order the building has, and there is no back to put it on -- an octagon has eight fronts. The range reaches one because a detached service wing joined by a link is the one addition that works, since it reads as a separate building. This is the deepest reason the type died: a family that outgrew its octagon had to move.",
+      "judgment": false
+    },
+    {
+      "target_slot": "wing_strategy",
+      "dimension": "canted_corner",
+      "expression": "0.3333",
+      "units": "ratio",
+      "range": [
+        0.29,
+        0.4
+      ],
+      "authority_note": "`styles/jeffersonian-classicism.json`: 'octagonal rooms generated on a square, canted corners at 1/3 of the side'.",
+      "note": "THE CANTED CORNER, AND THIS IS THE OTHER USE OF THE OCTAGON ENTIRELY. Jefferson's octagon is not a building, it is a ROOM: take a square, cut each corner back by a third of its side, and the result is an octagon that is not regular but reads as one and sits comfortably inside a rectangular plan. `styles/jeffersonian-classicism.json` describes the whole method -- 'plan geometry built from octagons, cubes, and their halves rather than from the rectangular Georgian room grid' -- and its elevation consequence: 'octagonal or semi-octagonal room projections in plan, visible as CANTED BAYS on the elevation'. That is the form in which this geometry reaches most of the corpus, and it is why the pack binds Federal and Georgian villa nodes that have no octagonal plan whatever. DIMENSION NAMED: `facade-gable` writes `wing_strategy`/`ratio` for a GABLE HIERARCHY -- the dominant gable over the next largest -- and `facade-picturesque` writes it too. The fraction of a square's side cut back to make an octagon is a different quantity. Found by `build/pack_addresses.py`; see OQ 48.",
+      "judgment": false
+    },
+    {
+      "target_slot": "special_window",
+      "dimension": "bay_projection",
+      "expression": "part * 2.5",
+      "units": "in",
+      "range": [
+        18.0,
+        42.0
+      ],
+      "authority_note": "`styles/queen-anne-american.json`: 'bay or oriel projection 18 to 42 in from the wall plane'.",
+      "note": "THE CANTED BAY'S PROJECTION, 30 in. Where the semi-octagonal room does not run the full depth it becomes a bay pushed out of the wall, and this is how far. `styles/federal-style.json` describes the same move at the other end of the range -- 'a shallow curved or polygonal bay pushing out of an otherwise flat rear or garden elevation' -- and the word shallow is doing work: on a Federal house the bay is a modulation of a flat wall, on a Queen Anne it is a projecting mass, and the same 18-42 in band holds both because what changes is the wall behind it rather than the bay. DIMENSION NAMED: `opening-proportion` writes `special_window`/`width` for the TOTAL WIDTH OF A VENETIAN WINDOW and `facade-classical` writes it too; a canted bay's projection from the wall plane is a different quantity and the packs co-bind on six nodes. Found by `build/pack_addresses.py`; see OQ 48.",
+      "judgment": false
+    },
+    {
+      "target_slot": "room_adjacency_overrides",
+      "dimension": "sector_count",
+      "expression": "8",
+      "units": "count",
+      "range": [
+        4.0,
+        8.0
+      ],
+      "authority_note": "`styles/octagon-house.json`: 'rooms arranged radially around the core'.",
+      "note": "SECTORS AROUND THE CORE. Eight on a full octagon, four where the rooms are paired across two faces each, which is what most built examples do because a room one face wide is 16 ft by not very much. The number matters for the plan checker rather than for the elevation: in a radial plan EVERY room adjoins the core and no room adjoins more than two others, which is a different adjacency graph from anything else in this corpus and is why a rectangular parti cannot be composed into this shape. DIMENSION NAMED: `room-vernacular` and `timber-bay` both write `room_adjacency_overrides`/`count`. The number of radial sectors around a central core is this pack's own quantity and should not resolve against theirs. Found by `build/pack_addresses.py`; see OQ 48.",
+      "judgment": true
+    }
+  ],
+  "conflicts": [
+    {
+      "with": "cost",
+      "statement": "Fowler's arithmetic was right and his conclusion was wrong, which is the most interesting thing about this type. An octagon does enclose its floor for nine per cent less wall than a square -- the pack's own perimeter rule -- and Fowler drew the correct economic conclusion from it. What he did not count is CORNERS. A rectangle has four; an octagon has eight, every one of them at 45 degrees, and every horizontal member that runs the building must be cut twice at 22.5 degrees at each of them. The cornice alone is sixteen mitres per storey. The floor framing has no square bays. The roof has eight hips and no ridge. And nothing is repeatable in the way a rectangular building's framing is, so the labour rises far faster than the material falls.",
+      "resolution": "Price it as labour and not as material, and expect the wall saving to be swamped. Where the type is being built now, the honest economies are the ones Fowler did not have: prefabricate the corner assemblies and the roof hips in a shop where a 22.5 degree cut is a machine setting, and keep the cornice section simple, because a complex profile is sixteen mitres of complex profile. Do not simplify by flattening the plan into a rectangle with canted corners -- that is a different and legitimate building, and it is Jefferson's, but it is not an octagon and the perimeter argument goes with it.",
+      "severity": "material"
+    },
+    {
+      "with": "construction-tolerance",
+      "statement": "Eight corners at 45 degrees accumulate error, and the roof is where it arrives. A regular octagon is only regular if all eight sides and all eight angles are right; set it out face by face and the last corner will not close, in exactly the way a crow-stepped gable's two rakes will not meet at the apex. The roof is worse because it is an eight-way convergence: eight hips meeting at one point, each depending on all eight walls being where they should be, with no ridge to absorb the difference.",
+      "resolution": "Set the plan out from the CENTRE and not around the perimeter: strike the inscribed circle, mark eight radii at 45 degrees, and locate every face from the middle so the error is distributed rather than accumulated. Do the same on the roof -- a king post or a compression ring at the centre, hips located from it, rather than eight rafters found by trial. Where a cupola sits on a flat deck the problem largely goes away, because the deck absorbs the convergence, which is one practical reason so many octagons have one.",
+      "severity": "material"
+    },
+    {
+      "with": "structural",
+      "statement": "A roof with no ridge is a different structure. Eight hip rafters converging on a point are in compression along their length and want to spread at the eave, and there is no ridge board to hold them and no straight run of ceiling joists to tie them -- the joists are radial and every one is a different length. On the floors the same problem appears as a framing plan with no repeated bay. And the central core carries a great deal: it is the stair, often the flue, and structurally the thing the whole radial arrangement leans on.",
+      "resolution": "Tie the eave, which on an octagon is easy and elegant -- a continuous plate around all eight faces is a closed polygon and is already a tension ring, provided the joints at the corners are made as ties rather than as butt joints, which is exactly where a carpenter will not think to. Take the hips to a compression ring or a king post rather than to a theoretical point. And treat the central core as structure from the first sketch, because it will be carrying the roof and the floors whether or not it was designed to.",
+      "severity": "blocking"
+    },
+    {
+      "with": "zoning",
+      "statement": "An octagon sits badly on a rectangular lot and the setback arithmetic makes it worse. Setbacks are measured to the nearest point of the building, and an octagon's diagonal faces push corners toward the boundary that a rectangle of the same floor area would not have -- so the same house needs a wider lot, and the leftover ground is four awkward triangles that are neither garden nor yard. Fowler's own houses were built on generous rural plots and the type never adapted to a street grid, which is a second reason it did not last.",
+      "resolution": "Set it on the diagonal of the lot if the lot will take it, so that four faces address the corners and the leftover ground gathers into two usable pieces rather than four unusable ones. On a tight site the honest answer is Jefferson's rather than Fowler's: a rectangular plan with canted corners or a semi-octagonal bay keeps the geometry's effect, fits the lot, and is a different pack rule in this same file.",
+      "severity": "material"
+    },
+    {
+      "with": "accessibility-code",
+      "statement": "The residual triangles are where the plan's difficulties collect. A wedge-shaped closet or service space narrows to nothing, so its usable depth is much less than its area suggests, and a wheelchair turning circle will not fit in one at all. The radial plan compounds it: every room is reached from the central core, so the core is the whole of the circulation and its width is the whole of the accessible route -- there is no second way round.",
+      "resolution": "Size the core for the route rather than for the stair, which usually means it is larger than the geometry wants and pushes the side length up. Use the residues for what they are good at -- linear storage, a run of shelving, plumbing chases -- and never for anything that needs a person to turn round in it. And accept that a fully accessible octagon is a larger octagon: this is one of the few types in this library where the code minimum drives the module rather than the other way round.",
+      "severity": "material"
+    }
+  ],
+  "applies_to": [
+    "octagon-house",
+    "jeffersonian-classicism",
+    "southern-federal",
+    "federal-style",
+    "english-georgian-country-house",
+    "queen-anne-american",
+    "italianate-villa",
+    "rural-gothic-villa"
+  ],
+  "sources": [
+    "Orson Squire Fowler, A Home for All, or the Gravel Wall and Octagon Mode of Building, Fowlers and Wells, New York, 1848 and 1853",
+    "Thomas Jefferson, architectural drawings for Poplar Forest and Monticello, Massachusetts Historical Society and the Coolidge Collection",
+    "Historic American Buildings Survey, measured drawings of surviving octagon houses",
+    "Carl F. Schmidt, The Octagon Fad, Scottsville, New York, 1958"
+  ],
+  "confidence": "medium",
+  "notes": "WP-4.1's candidate list asks for 'a polygonal/octagonal plan-geometry module (Octagon House's triangular corner residues, unaddressed by `room-harmonic`)'.\n\nTHE MEASUREMENT THAT PICKED THIS ITEM WAS WRONG AND READING IT CORRECTED IT. A keyword sweep put it at 17 nodes with 11 thinly bound, which would have made it the largest remaining item. Reading those seventeen, the octagon AS A PLAN is one node -- `octagon-house` -- and most of the rest match on an octagonal chimney shaft, an octagonal ceiling panel or an octagonal window in a list of window shapes. **The fourth time in this work package that a keyword measurement of mine over-counted its own work list**, after the 24 style-scoped tests that were 6, the 22 arch bindings that were 8, and the 115 predicted fatals that were 0. The rule that keeps being relearned: a regex proposes and reading disposes.\n\nWhat the item is really worth is still worth building, and it is two things rather than one. FOWLER'S OCTAGON is a whole building and `styles/octagon-house.json` states its entire system in five ratios -- side, inscribed diameter, wall height, cupola, veranda, pitch -- because the type is closed-form: fix the side and everything else is determined. JEFFERSON'S OCTAGON is a ROOM, generated on a square by cutting each corner back a third of its side, and it reaches most of this corpus in that form, as a canted bay on the elevation of a building with no octagonal plan whatever. The pack carries both and says which rule is which.\n\nThe finding worth carrying forward is that FOWLER'S ARITHMETIC WAS RIGHT AND HIS CONCLUSION WAS WRONG. An octagon really does enclose its floor for nine per cent less wall than a square, which is computable from the geometry and is exactly the argument his 1848 book makes. What he did not count is corners: eight instead of four, all at 45 degrees, sixteen cornice mitres per storey, a roof with eight hips and no ridge, and no repeated framing bay anywhere in the building. The labour rises faster than the material falls. That is why the type is a fad with a date rather than a tradition, and it is a useful corrective to the assumption -- easy to fall into across this whole work package -- that a traditional form is always the economical answer to something.\n\nWhat this pack does not carry: `room-harmonic`, which the list names as not addressing the residues, still does not, and this pack does not fix that either -- it gives the residue's width and says what it is for. A radial adjacency graph in which every room adjoins the core and no room adjoins more than two others is genuinely different from anything `plan_check.py` models, and that is a plan-layer question rather than a proportion one."
+}

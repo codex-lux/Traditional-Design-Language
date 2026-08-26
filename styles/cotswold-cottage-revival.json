@@ -245,6 +245,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "stone-course",
+      "role": "secondary",
+      "note": "The revival, bound secondary, and the pack is most useful here as a checklist of what the revival tends to lose. Three things in particular: reconstituted dressings, whose arris is too sharp and which weather flat instead of wearing; a rubble face built to a string line and therefore dead flat, which the pack's tolerance conflict is written against; and a stone slate roof laid in one course size, which is not this roof whatever the stone. Where the revival is building in real local stone with cut dressings the pack applies unchanged -- that is the point of a revival that works.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "Confirmed in the pack's own applies_to. The variant's own bay_rhythm entry states the picturesque premise more strongly than any other node in this batch: 'None. Openings are placed by internal need and by picturesque judgement... Any repeating rhythm defeats the variant's whole premise.' The roof as dominant proportional figure (occupying 45 percent or more of elevation height per the style's own hard constraint c01) and the disproportionate front chimney (c02, 1/4 to 1/3 of the elevation) both map directly onto facade-picturesque's dominance and chimney derived_rules.",

@@ -1,238 +1,243 @@
 {
-  "id": "loggia",
-  "name": "Loggia",
-  "aka": [
-    "corredor",
-    "portal (New Mexico)",
-    "recessed porch",
-    "arcaded gallery",
-    "logge"
+ "id": "loggia",
+ "name": "Loggia",
+ "aka": [
+  "corredor",
+  "portal (New Mexico)",
+  "recessed porch",
+  "arcaded gallery",
+  "logge"
+ ],
+ "function_class": "outdoor",
+ "description": "A roofed outdoor room cut INTO the building's mass rather than attached to its face. That single distinction - subtracted rather than added - is what separates a loggia from a porch and it drives everything else: the loggia's roof is the house's roof, its floor is the house's floor, its side walls are house walls, and it is therefore cool, structurally integral, and permanent in a way an applied porch is not. It is the outdoor room of hot dry and hot wet climates alike, and the one that survives being built in masonry.",
+ "history": {
+  "appears": -100,
+  "declines": null,
+  "note": "The loggia is the oldest outdoor room in the Western tradition and it never went away, which is unusual enough to be worth saying. It is Roman, it is standard in the Italian villa from the fifteenth century, Palladio makes it the villa's public face, and it arrives in the Americas twice by independent routes: through Spain and Mexico as the corredor around a patio, and through Italy and England as the villa loggia of the picturesque. THE MECHANISM THAT MAKES IT WORK is thermal mass plus shade plus air movement: the masonry around a recessed loggia stays several degrees below air temperature through the afternoon because it never sees the sun, and the space between two cool surfaces feels cooler than the same air in the open. This is why a loggia works in Andalusia and Mexico where a lightweight timber porch does not, and it is why building a loggia in stud framing with a stucco skin - which is what most Mediterranean Revival tract housing does - produces a shape with none of the behaviour."
+ },
+ "dimensions": {
+  "area_sf": [
+   80,
+   400
   ],
-  "function_class": "outdoor",
-  "description": "A roofed outdoor room cut INTO the building's mass rather than attached to its face. That single distinction - subtracted rather than added - is what separates a loggia from a porch and it drives everything else: the loggia's roof is the house's roof, its floor is the house's floor, its side walls are house walls, and it is therefore cool, structurally integral, and permanent in a way an applied porch is not. It is the outdoor room of hot dry and hot wet climates alike, and the one that survives being built in masonry.",
-  "history": {
-    "appears": -100,
-    "declines": null,
-    "note": "The loggia is the oldest outdoor room in the Western tradition and it never went away, which is unusual enough to be worth saying. It is Roman, it is standard in the Italian villa from the fifteenth century, Palladio makes it the villa's public face, and it arrives in the Americas twice by independent routes: through Spain and Mexico as the corredor around a patio, and through Italy and England as the villa loggia of the picturesque. THE MECHANISM THAT MAKES IT WORK is thermal mass plus shade plus air movement: the masonry around a recessed loggia stays several degrees below air temperature through the afternoon because it never sees the sun, and the space between two cool surfaces feels cooler than the same air in the open. This is why a loggia works in Andalusia and Mexico where a lightweight timber porch does not, and it is why building a loggia in stud framing with a stucco skin - which is what most Mediterranean Revival tract housing does - produces a shape with none of the behaviour."
+  "width_ft": [
+   8,
+   16
+  ],
+  "length_ft": [
+   10,
+   40
+  ],
+  "proportion": [
+   1.0,
+   3.5
+  ],
+  "ceiling_min_ft": 9,
+  "critical_dimension": "DEPTH, AND IT IS SET BY THE SUN ANGLE RATHER THAN BY FURNITURE. A loggia's job is to keep the sun off the wall behind it and off the people in it, and the depth needed is d = h / tan(altitude) where h is the head height of the opening. At 34 degrees north in July the noon sun is 79 degrees up and a 10 ft opening needs only 2 ft of depth; the sun that matters is the 3 p.m. and 5 p.m. sun at 45 and 20 degrees, which needs 10 ft and 27 ft respectively. That is why a west loggia cannot be shaded by depth alone and needs a screen, a vine or a shutter at its outer face, and why a SOUTH loggia is easy and a WEST loggia is a design problem. The second dimension is furniture and it is generous: an outdoor dining table for six is 36 x 72 in with 36 in of chair pull each side, so 108 in = 9 ft of depth is the floor if the loggia is to be dined in, which it should be."
+ },
+ "void": {
+  "within_footprint": true,
+  "roofed": true,
+  "note": "Within the block on the room's own stated distinction -- 'cut INTO the building's mass rather than attached to its face... subtracted rather than added'. Roofed by definition: a loggia that is not covered is a terrace."
+ },
+ "furniture": [
+  {
+   "item": "outdoor dining table for six",
+   "footprint_in": [
+    36,
+    72
+   ],
+   "clearance_in": 36,
+   "note": "36 + 36 + 36 = 108 in = 9 ft across the short way; this is the number that decides whether the loggia is a room or a walkway"
   },
-  "dimensions": {
-    "area_sf": [
-      80,
-      400
-    ],
-    "width_ft": [
-      8,
-      16
-    ],
-    "length_ft": [
-      10,
-      40
-    ],
-    "proportion": [
-      1.0,
-      3.5
-    ],
-    "ceiling_min_ft": 9,
-    "critical_dimension": "DEPTH, AND IT IS SET BY THE SUN ANGLE RATHER THAN BY FURNITURE. A loggia's job is to keep the sun off the wall behind it and off the people in it, and the depth needed is d = h / tan(altitude) where h is the head height of the opening. At 34 degrees north in July the noon sun is 79 degrees up and a 10 ft opening needs only 2 ft of depth; the sun that matters is the 3 p.m. and 5 p.m. sun at 45 and 20 degrees, which needs 10 ft and 27 ft respectively. That is why a west loggia cannot be shaded by depth alone and needs a screen, a vine or a shutter at its outer face, and why a SOUTH loggia is easy and a WEST loggia is a design problem. The second dimension is furniture and it is generous: an outdoor dining table for six is 36 x 72 in with 36 in of chair pull each side, so 108 in = 9 ft of depth is the floor if the loggia is to be dined in, which it should be."
+  {
+   "item": "two lounge chairs and a low table",
+   "footprint_in": [
+    84,
+    40
+   ],
+   "clearance_in": 30,
+   "essential": false
   },
-  "furniture": [
-    {
-      "item": "outdoor dining table for six",
-      "footprint_in": [
-        36,
-        72
-      ],
-      "clearance_in": 36,
-      "note": "36 + 36 + 36 = 108 in = 9 ft across the short way; this is the number that decides whether the loggia is a room or a walkway"
-    },
-    {
-      "item": "two lounge chairs and a low table",
-      "footprint_in": [
-        84,
-        40
-      ],
-      "clearance_in": 30,
-      "essential": false
-    },
-    {
-      "item": "long table or bench against the house wall",
-      "footprint_in": [
-        72,
-        20
-      ],
-      "clearance_in": 30,
-      "essential": false
-    },
-    {
-      "item": "clear route along the loggia",
-      "footprint_in": [
-        42,
-        240
-      ],
-      "clearance_in": null,
-      "note": "in a courtyard house the loggia IS the corridor, so the route must survive the furniture"
-    }
-  ],
-  "daylight": {
-    "depth_multiplier": 1.8,
-    "sides_lit": 1,
-    "orientation": "South and east are the easy ones. West is the hard one and needs a vertical device - shutters, a pierced screen, a vine on wires - because at low sun angles no roof depth is enough. North is a cold damp arcade and is used only where the loggia is a circulation gallery around a courtyard, where it is correct.",
-    "glazing_fraction": [
-      0.4,
-      0.8
-    ],
-    "note": "The loggia is a shading device and it costs the rooms behind it daylight in exactly the way a porch does - the multiplier for the room inboard drops from 2.25 toward 1.8, about a fifth of its usable depth. The Mediterranean answer differs from the Anglo one and is worth knowing: instead of raising the ceiling to buy the depth back, the courtyard plan puts the loggia on ONE face only and gives the rooms behind it a second window onto the street or the garden, so every principal room is lit from two sides and the loggia's shading is a benefit rather than a tax. Where a loggia runs round all four sides of a court, as in a full courtyard house, the rooms behind it are genuinely dim and are historically stores, service and sleeping rooms - which is the daylight rule assigning function again."
+  {
+   "item": "long table or bench against the house wall",
+   "footprint_in": [
+    72,
+    20
+   ],
+   "clearance_in": 30,
+   "essential": false
   },
-  "adjacency": {
-    "must_adjoin": [
-      {
-        "room": "courtyard",
-        "why": "a loggia faces something; in the courtyard types it faces the patio and is that court's inhabited edge",
-        "relation": "direct-door",
-        "strength": "strong",
-        "exceptions": [
-          "the villa loggia, which faces the landscape rather than a court, and is then the building's principal outward-facing room"
-        ]
-      }
-    ],
-    "should_adjoin": [
-      {
-        "room": "dining-room",
-        "why": "the loggia is the summer dining room in every climate that has one, and it should be reachable from the dining room or the kitchen without carrying a tray through a living space",
-        "relation": "direct-door",
-        "strength": "strong"
-      },
-      {
-        "room": "living-room",
-        "why": "the loggia extends the principal room outward and should read as one volume with it when the doors are open",
-        "relation": "direct-door",
-        "strength": "strong"
-      },
-      {
-        "room": "entrance-hall",
-        "why": "in the Spanish and Mexican types the loggia is on the arrival sequence: street, zaguan, court, loggia, room",
-        "relation": "direct-door",
-        "strength": "preferred"
-      }
-    ],
-    "must_not_adjoin": [
-      {
-        "room": "garage",
-        "why": "a loggia is the house's best room in the six months it is usable, and putting it against the car court gives it a view of a door and a smell of exhaust",
-        "relation": "not-visible-from",
-        "strength": "preferred"
-      }
-    ],
-    "entered_from": [
-      "courtyard",
-      "garden",
-      "entrance-hall",
-      "living-room",
-      "dining-room"
-    ],
-    "never_a_through_room": false
+  {
+   "item": "clear route along the loggia",
+   "footprint_in": [
+    42,
+    240
+   ],
+   "clearance_in": null,
+   "note": "in a courtyard house the loggia IS the corridor, so the route must survive the furniture"
+  }
+ ],
+ "daylight": {
+  "depth_multiplier": 1.8,
+  "sides_lit": 1,
+  "orientation": "South and east are the easy ones. West is the hard one and needs a vertical device - shutters, a pierced screen, a vine on wires - because at low sun angles no roof depth is enough. North is a cold damp arcade and is used only where the loggia is a circulation gallery around a courtyard, where it is correct.",
+  "glazing_fraction": [
+   0.4,
+   0.8
+  ],
+  "note": "The loggia is a shading device and it costs the rooms behind it daylight in exactly the way a porch does - the multiplier for the room inboard drops from 2.25 toward 1.8, about a fifth of its usable depth. The Mediterranean answer differs from the Anglo one and is worth knowing: instead of raising the ceiling to buy the depth back, the courtyard plan puts the loggia on ONE face only and gives the rooms behind it a second window onto the street or the garden, so every principal room is lit from two sides and the loggia's shading is a benefit rather than a tax. Where a loggia runs round all four sides of a court, as in a full courtyard house, the rooms behind it are genuinely dim and are historically stores, service and sleeping rooms - which is the daylight rule assigning function again."
+ },
+ "adjacency": {
+  "must_adjoin": [
+   {
+    "room": "courtyard",
+    "why": "a loggia faces something; in the courtyard types it faces the patio and is that court's inhabited edge",
+    "relation": "direct-door",
+    "strength": "strong",
+    "exceptions": [
+     "the villa loggia, which faces the landscape rather than a court, and is then the building's principal outward-facing room"
+    ]
+   }
+  ],
+  "should_adjoin": [
+   {
+    "room": "dining-room",
+    "why": "the loggia is the summer dining room in every climate that has one, and it should be reachable from the dining room or the kitchen without carrying a tray through a living space",
+    "relation": "direct-door",
+    "strength": "strong"
+   },
+   {
+    "room": "living-room",
+    "why": "the loggia extends the principal room outward and should read as one volume with it when the doors are open",
+    "relation": "direct-door",
+    "strength": "strong"
+   },
+   {
+    "room": "entrance-hall",
+    "why": "in the Spanish and Mexican types the loggia is on the arrival sequence: street, zaguan, court, loggia, room",
+    "relation": "direct-door",
+    "strength": "preferred"
+   }
+  ],
+  "must_not_adjoin": [
+   {
+    "room": "garage",
+    "why": "a loggia is the house's best room in the six months it is usable, and putting it against the car court gives it a view of a door and a smell of exhaust",
+    "relation": "not-visible-from",
+    "strength": "preferred"
+   }
+  ],
+  "entered_from": [
+   "courtyard",
+   "garden",
+   "entrance-hall",
+   "living-room",
+   "dining-room"
+  ],
+  "never_a_through_room": false
+ },
+ "privacy_rank": 2,
+ "servicing": {
+  "plumbing": "none",
+  "ventilation": "open",
+  "heat": "None traditionally. Where a modern loggia gets an outdoor fireplace, note that it moves the room's usable season by about six weeks at each end and is therefore one of the few pieces of outdoor equipment that pays for itself in use.",
+  "electrical": "Wet-rated fixtures, and light the ceiling rather than the seating - a loggia is used at dusk and a bright fixture at eye level destroys the view out, which is the whole point of the room.",
+  "stack_proximity_ft": null
+ },
+ "style_variation": [
+  {
+   "style": "italian-renaissance",
+   "trim_grade": "highest",
+   "note": "The canonical loggia: an arcade of three or five bays on the principal elevation, vaulted, at the piano nobile, framing the landscape. Palladio's villas make it the building's face and the type descends from there into everything Palladian."
   },
-  "privacy_rank": 2,
-  "servicing": {
-    "plumbing": "none",
-    "ventilation": "open",
-    "heat": "None traditionally. Where a modern loggia gets an outdoor fireplace, note that it moves the room's usable season by about six weeks at each end and is therefore one of the few pieces of outdoor equipment that pays for itself in use.",
-    "electrical": "Wet-rated fixtures, and light the ceiling rather than the seating - a loggia is used at dusk and a bright fixture at eye level destroys the view out, which is the whole point of the room.",
-    "stack_proximity_ft": null
+  {
+   "style": "spanish-colonial-revival",
+   "name_in_style": "loggia or corredor",
+   "trim_grade": "high",
+   "note": "Round-arched on square or octagonal piers, tile floor, exposed beam ceiling, running one or two sides of a patio. The revival gets the form right and the mass wrong: a stud wall with three coats of stucco does not do what a 24 in adobe wall does."
   },
-  "style_variation": [
-    {
-      "style": "italian-renaissance",
-      "trim_grade": "highest",
-      "note": "The canonical loggia: an arcade of three or five bays on the principal elevation, vaulted, at the piano nobile, framing the landscape. Palladio's villas make it the building's face and the type descends from there into everything Palladian."
-    },
-    {
-      "style": "spanish-colonial-revival",
-      "name_in_style": "loggia or corredor",
-      "trim_grade": "high",
-      "note": "Round-arched on square or octagonal piers, tile floor, exposed beam ceiling, running one or two sides of a patio. The revival gets the form right and the mass wrong: a stud wall with three coats of stucco does not do what a 24 in adobe wall does."
-    },
-    {
-      "style": "mexican-hacienda",
-      "name_in_style": "corredor",
-      "trim_grade": "middle",
-      "note": "Continuous round the patio on all four sides, doubling as the house's only corridor. Rooms open off it and off nothing else, which means every room has one wall of openings and the plan has no interior circulation at all."
-    },
-    {
-      "style": "new-mexico-adobe",
-      "name_in_style": "portal",
-      "trim_grade": "plain",
-      "note": "Peeled log posts, corbel brackets, vigas, flat roof, 6 to 10 ft deep. Structurally the simplest version and thermally one of the best, because the adobe behind it has enormous mass."
-    },
-    {
-      "style": "andalusian-courtyard-vernacular",
-      "trim_grade": "middle",
-      "note": "Often on two levels around a small patio, with the upper loggia serving the chambers. The patio is small, deep and planted, and the loggia is the shaded edge of a device for making a cold air pool."
-    },
-    {
-      "style": "monterey-revival",
-      "name_in_style": "balcony",
-      "trim_grade": "middle",
-      "note": "Raised to the upper floor and run the full width of the principal elevation - a loggia that has become a balcony and taken the type's identity with it. The style node makes the full-width 6 ft minimum a hard constraint."
-    },
-    {
-      "style": "georgian-colonial-american",
-      "present": false,
-      "note": "Absent. The Anglo-American tradition attaches porches rather than subtracting loggias, and a recessed loggia in a Georgian elevation reads as a missing room. The exception is the five-part plan's hyphens, which are sometimes open arcades and are the nearest thing the type has."
-    },
-    {
-      "style": "cape-cod-colonial",
-      "present": false,
-      "note": "Absent, and climatically wrong: a recessed outdoor room in a cold wet climate is a place that never dries and never warms."
-    }
-  ],
-  "code": [
-    {
-      "requirement": "Guard at 36 in where the floor is more than 30 in above grade.",
-      "ref": "IRC R312.1",
-      "conflict": "A loggia is usually at or near grade, which is why it escapes the guard requirement that disfigures raised porches. Keep it there."
-    },
-    {
-      "requirement": "A roofed and substantially enclosed outdoor space may be counted as habitable or as an accessory structure depending on the jurisdiction, which changes both the area calculation and the energy-code envelope.",
-      "conflict": "Enclosing a loggia on three sides plus a screen can flip it into conditioned floor area in some jurisdictions, at which point it must meet insulation and glazing requirements it was never meant to meet. This is the most common way a loggia turns into a badly built sunroom."
-    }
-  ],
-  "massing_fit": [
-    "courtyard-u",
-    "courtyard-full",
-    "five-part-palladian",
-    "villa-tower",
-    "raised-cottage",
-    "gallery-house",
-    "linear-ell-farmhouse",
-    "creole-cottage",
-    "temple-front-with-wings",
-    "h-plan-manor"
-  ],
-  "slots": [
-    "porch_type",
-    "porch_depth",
-    "porch_support",
-    "porch_ceiling",
-    "entry_sequence",
-    "orientation_rule",
-    "daylight_strategy",
-    "grade_relationship"
-  ],
-  "faults": [
-    "porch-too-shallow-to-inhabit",
-    "porch-as-a-stage-set",
-    "arch-that-carries-nothing",
-    "pier-narrower-than-the-opening",
-    "stucco-with-no-arris",
-    "porch-ceiling-of-exposed-joists",
-    "room-deeper-than-its-daylight"
-  ],
-  "sources": [
-    "Andrea Palladio, I quattro libri dell'architettura (1570), Book II, on the loggia as the villa's face",
-    "styles/andalusian-spanish-revival.json, constraint on window reveal depth and the expression of mass",
-    "proportions/systems/room-vernacular.json, daylight_strategy note on porches and shading",
-    "massings/catalog.json: courtyard-u, courtyard-full"
-  ],
-  "confidence": "high"
+  {
+   "style": "mexican-hacienda",
+   "name_in_style": "corredor",
+   "trim_grade": "middle",
+   "note": "Continuous round the patio on all four sides, doubling as the house's only corridor. Rooms open off it and off nothing else, which means every room has one wall of openings and the plan has no interior circulation at all."
+  },
+  {
+   "style": "new-mexico-adobe",
+   "name_in_style": "portal",
+   "trim_grade": "plain",
+   "note": "Peeled log posts, corbel brackets, vigas, flat roof, 6 to 10 ft deep. Structurally the simplest version and thermally one of the best, because the adobe behind it has enormous mass."
+  },
+  {
+   "style": "andalusian-courtyard-vernacular",
+   "trim_grade": "middle",
+   "note": "Often on two levels around a small patio, with the upper loggia serving the chambers. The patio is small, deep and planted, and the loggia is the shaded edge of a device for making a cold air pool."
+  },
+  {
+   "style": "monterey-revival",
+   "name_in_style": "balcony",
+   "trim_grade": "middle",
+   "note": "Raised to the upper floor and run the full width of the principal elevation - a loggia that has become a balcony and taken the type's identity with it. The style node makes the full-width 6 ft minimum a hard constraint."
+  },
+  {
+   "style": "georgian-colonial-american",
+   "present": false,
+   "note": "Absent. The Anglo-American tradition attaches porches rather than subtracting loggias, and a recessed loggia in a Georgian elevation reads as a missing room. The exception is the five-part plan's hyphens, which are sometimes open arcades and are the nearest thing the type has."
+  },
+  {
+   "style": "cape-cod-colonial",
+   "present": false,
+   "note": "Absent, and climatically wrong: a recessed outdoor room in a cold wet climate is a place that never dries and never warms."
+  }
+ ],
+ "code": [
+  {
+   "requirement": "Guard at 36 in where the floor is more than 30 in above grade.",
+   "ref": "IRC R312.1",
+   "conflict": "A loggia is usually at or near grade, which is why it escapes the guard requirement that disfigures raised porches. Keep it there."
+  },
+  {
+   "requirement": "A roofed and substantially enclosed outdoor space may be counted as habitable or as an accessory structure depending on the jurisdiction, which changes both the area calculation and the energy-code envelope.",
+   "conflict": "Enclosing a loggia on three sides plus a screen can flip it into conditioned floor area in some jurisdictions, at which point it must meet insulation and glazing requirements it was never meant to meet. This is the most common way a loggia turns into a badly built sunroom."
+  }
+ ],
+ "massing_fit": [
+  "courtyard-u",
+  "courtyard-full",
+  "five-part-palladian",
+  "villa-tower",
+  "raised-cottage",
+  "gallery-house",
+  "linear-ell-farmhouse",
+  "creole-cottage",
+  "temple-front-with-wings",
+  "h-plan-manor"
+ ],
+ "slots": [
+  "porch_type",
+  "porch_depth",
+  "porch_support",
+  "porch_ceiling",
+  "entry_sequence",
+  "orientation_rule",
+  "daylight_strategy",
+  "grade_relationship"
+ ],
+ "faults": [
+  "porch-too-shallow-to-inhabit",
+  "porch-as-a-stage-set",
+  "arch-that-carries-nothing",
+  "pier-narrower-than-the-opening",
+  "stucco-with-no-arris",
+  "porch-ceiling-of-exposed-joists",
+  "room-deeper-than-its-daylight"
+ ],
+ "sources": [
+  "Andrea Palladio, I quattro libri dell'architettura (1570), Book II, on the loggia as the villa's face",
+  "styles/andalusian-spanish-revival.json, constraint on window reveal depth and the expression of mass",
+  "proportions/systems/room-vernacular.json, daylight_strategy note on porches and shading",
+  "massings/catalog.json: courtyard-u, courtyard-full"
+ ],
+ "confidence": "high"
 }

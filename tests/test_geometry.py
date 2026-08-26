@@ -67,3 +67,45 @@ class TestSolveSmoke:
         unplaced_indoor = [r for r in unplaced if r["type"] != "terrace"]
         assert not unplaced_indoor, f"indoor rooms with no placed geometry: {unplaced_indoor}"
         assert len(placed_rooms) - len(unplaced) > 20, "expected the bulk of the plan to be placed"
+
+
+class TestUnderBandIsReported:
+    """OQ 54, ruled 24 Aug 2026. The search may trade a room's size against everything else it
+    scores — that is what a heuristic is for — but the plan record still carries the room's
+    DECLARED size and nothing downstream reads these coordinates, so the trade was invisible."""
+
+    def test_the_spec_colonials_squeezed_dining_room_is_named(self, geometry_module):
+        """The finding OQ 54 was raised about: 90 sf against a 122 sf band floor, on every seed,
+        while the plan record still says 12 x 12."""
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        plan = json.load(open(os.path.join(root, "plans", "spec-builder-colonial.json")))
+
+        # engine="heuristic" EXPLICITLY. OQ 54 is a finding about the hill-climb: it charges a
+        # flat 12 points for a room under its band and a candidate can win while paying it.
+        # `solve()` defaults to CP-SAT since the 25 Aug merge, and the CP engine places this
+        # dining room in band — so calling the default here stopped testing the thing the
+        # question is about and started testing an engine that does not have the defect.
+        out = geometry_module.solve(json.loads(json.dumps(plan)), engine="heuristic")
+        ub = out["geometry_report"]["under_band"]
+        assert ub["count"] >= 1
+        names = {r["type"] for r in ub["rooms"]}
+        assert "dining-room" in names
+        dining = next(r for r in ub["rooms"] if r["type"] == "dining-room")
+        assert dining["placed_sf"] < dining["band_floor_sf"]
+        assert dining["short_by_pct"] >= 20
+
+        # And the good news, pinned so it cannot regress unnoticed: the CP engine does NOT make
+        # this trade on the same record. That is the concrete difference between scoring a
+        # room's minimum and enforcing it, on the plan the question was raised about.
+        cp = geometry_module.solve(json.loads(json.dumps(plan)), engine="auto")
+        if (cp.get("geometry_report", {}).get("solver") or {}).get("engine") == "cp-sat":
+            cp_names = {r["type"] for r in cp["geometry_report"]["under_band"]["rooms"]}
+            assert "dining-room" not in cp_names, (
+                "the CP engine used to place this room in band; if it no longer does, the "
+                "room minimum has stopped being enforced")
+
+    def test_a_layout_with_nothing_under_band_says_so_rather_than_going_quiet(self, geometry_module):
+        rects = {0: {"a": (0.0, 0.0, 20.0, 20.0)}}
+        prep = {0: [{"id": "a", "type": "parlor", "name": "Parlor"}]}
+        assert geometry_module.under_band(rects, prep) == []

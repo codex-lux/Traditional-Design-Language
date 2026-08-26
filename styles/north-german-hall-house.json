@@ -228,6 +228,12 @@
       "role": "room",
       "note": "Applies only to the Flett end of the hall — the heated living space with its built-in beds — where the daylight- and hearth-reach logic this pack encodes is genuinely at work. The Diele (threshing floor) and Kubbungen (byre aisles) are not rooms in this pack's sense and are governed instead by this node's own agricultural-process constraints; the binding is deliberately scoped to the one part of the building the pack actually describes.",
       "precedence": 2
+    },
+    {
+      "pack": "timber-panel",
+      "role": "secondary",
+      "note": "Secondary behind `timber-bay`, which owns this node's defining dimension -- the Fach at 2.2-2.8 m on centre, which is a structural bay and not a panel. What this pack adds is what fills it. Worth noting that on this type the frame is doing something the others are not: the aisle posts at 3.5-4.5 m carry a hall rather than a wall, so the panels between them are screens in a barn's structure and are correspondingly plainer than a town Fachwerk's.",
+      "precedence": 3
     }
   ]
 }

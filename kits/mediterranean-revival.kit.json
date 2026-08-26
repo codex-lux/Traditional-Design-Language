@@ -1,7 +1,7 @@
 {
   "style": "mediterranean-revival",
   "style_name": "Mediterranean Revival",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -60,7 +60,8 @@
         "pitch_typical": {
           "value": "4:12",
           "unit": "rise_in_12",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Roof pitch 3:12 to 5:12 in clay tile, hipped, with eave overhang not exceeding 18 in and no exposed dimensional rafter tails (c02).\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "eave_overhang_max": {
           "value": 18,
@@ -253,6 +254,21 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "'No exposed dimensional rafter tails.' Bound because the neighbouring `mission-revival` REQUIRES them at 24-42 in where the eave is expressed at all, so the two nodes are told apart by this field and by little else at the eave.",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Modelled as a variant rather than a parameter because a variant can be FORBIDDEN -- `status: forbidden` is how five of these fourteen kits say the member must not appear, and a parameter has no way to say that. (The reason first recorded here was that a categorical carries no unit and the checker insists a parameter has one. That is false: this corpus holds 236 categorical parameters whose unit is `none` and `check_kits.py` passes every one. Corrected 25 Aug 2026 by audit -- the modelling call stands, its stated reason did not.)"
+        }
+      ]
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -328,6 +344,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {

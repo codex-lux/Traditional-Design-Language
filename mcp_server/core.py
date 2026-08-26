@@ -302,8 +302,14 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
            "invariants": pe.check_invariants(pk)}
     if include_rules:
         ev = pe.evaluate(pk, mod, {"ceiling_height": ceiling_height, "opening_width": opening_width})
-        out["derived_rules"] = [{k: r.get(k) for k in ("target_slot","dimension","expression","value","units","judgment","range","in_range","note")}
-                                for r in ev["rules"]]
+        # `quantity` (OQ 48) names what the rule MEASURES, which is what makes (slot, dimension)
+        # not the real address. Omitting it here left every MCP consumer seeing two rules that the
+        # corpus deliberately distinguishes as if they were the same address. `calibrated_for`
+        # carries a rule's own statement that it is out of band. Both were dropped by a fixed key
+        # list -- the same bug as proportion_engine's, found in the same audit, 25 Aug 2026.
+        RULE_KEYS = ("target_slot", "dimension", "quantity", "expression", "value", "units",
+                     "judgment", "range", "in_range", "note", "calibrated_for")
+        out["derived_rules"] = [{k: r.get(k) for k in RULE_KEYS} for r in ev["rules"]]
         out["judgment_rules"] = [r["target_slot"] for r in ev["rules"] if r.get("judgment")]
     out["conflicts"] = pk.get("conflicts", [])
     if not assembly: out["hint"] = "pass assembly='cornice' (or capital, base, entablature, pedestal) for member-by-member dimensions"
@@ -346,16 +352,39 @@ def _fault_card(f, style_id=None):
             "test": f.get("test", {}).get("expression"),
             "measurable_from": f.get("test", {}).get("measurable_from")}
 
-def _applies(f, style_id, D):
-    if "universal" in f["applies_to"]: return True
-    if style_id in f["applies_to"]: return True
+def _style_chain(style_id, D):
+    """A style and everything it inherits from, as a set. Extracted from _applies so a TEST can
+    be scoped to a style the same way a FAULT is (OQ 63)."""
     chain = set([style_id] + _cascade(style_id))
-    n = D["styles"].get(style_id)
-    cur = n
+    cur = D["styles"].get(style_id)
     for _ in range(6):
         if not cur: break
         chain.add(cur["id"]); cur = D["styles"].get(cur.get("member_of") or "")
-    return bool(chain & set(f["applies_to"]))
+    return chain
+
+
+def _test_applies(t, style_id, D):
+    """Whether one TEST of a fault is written for this style (OQ 63).
+
+    `applies_to_styles` absent means every style the fault applies to, which is the behaviour
+    before the field existed. Present, it is matched against the style AND its inheritance
+    chain, so a test scoped to a parent still applies to its descendants.
+
+    This exists because `check_measurements` reports a fault present when ANY of its tests
+    fails, and a secondary test written for one style was therefore failing houses of every
+    other. `faults/chimney-omitted.json` carries a Tudor Revival chimney-breadth ratio and a
+    Prairie visual-mass test whose own notes say so, and both fired on a Cape Cod colonial --
+    which is why a parti named `cape-central-chimney` was reported as having no chimney."""
+    want = t.get("applies_to_styles")
+    if not want: return True
+    if not style_id: return False
+    return bool(_style_chain(style_id, D) & set(want))
+
+
+def _applies(f, style_id, D):
+    if "universal" in f["applies_to"]: return True
+    if style_id in f["applies_to"]: return True
+    return bool(_style_chain(style_id, D) & set(f["applies_to"]))
 
 def find_faults(style=None, slot=None, group=None, severity=None, frequency=None,
                 measurable_from=None, query=None, limit=25):
@@ -491,7 +520,11 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         tests = [f.get("test")] + list(f.get("secondary_tests") or [])
         exc = next((e for e in f.get("exceptions", []) if style and e["style"] == style), None)
         if exc and exc.get("bounds_test"): tests = [exc["bounds_test"]] + tests[1:]
-        results = [r for r in (_eval_test(t, measurements) for t in tests if t) if r]
+        # OQ 63: a test scoped to another style is not run at all. Not run is not the same as
+        # passed -- a test that is not for this house says nothing about this house, and the
+        # fault's judgement rests on the tests that ARE for it.
+        tests = [t for t in tests if t and _test_applies(t, style, D)]
+        results = [r for r in (_eval_test(t, measurements) for t in tests) if r]
         ev = [r for r in results if r["status"] == "evaluated"]
         if not ev:
             miss = sorted({m for r in results if r["status"] == "need_measurements" for m in r["missing"]})
@@ -513,6 +546,13 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
                  (s["severity"] for s in f.get("severity_by_style", []) if s["style"] == style), f["severity"]),
                "slots": f["slots"], "results": ev}
         if failing:
+            # The tests that actually failed, kept apart from the ones that merely ran. A fault
+            # with secondary tests can have its PRIMARY pass and a secondary fail -- which is
+            # the fault being present -- and a caller reporting results[0] then quotes the
+            # passing number as the evidence. build/plan_check.py did exactly that: a Cape with
+            # two chimneys was reported as "The House With No Fire: 2 against at-least 1", a
+            # sentence in which every number is right and the claim is nonsense.
+            row["failing"] = failing
             row["symptom"] = f["symptom"]
             row["fix_cheap"] = (f.get("fixes") or {}).get("cheap")
             row["fix_right"] = (f.get("fixes") or {}).get("right")
@@ -771,6 +811,11 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     if parti:
         f = os.path.join(ROOT, "partis", f"{parti}.json")
         if os.path.exists(f): pt = json.load(open(f))
+    # OQ 44: the MCP tool takes the reproducible default deliberately and does not expose a way
+    # to turn it off. Everything arriving here is a plan somebody will read, keep or compare
+    # against another one, and a record that cannot be re-derived is worth less than the seconds
+    # it saves. (The ruling was made against the WP-2.3 solver that did not survive the 25 Aug
+    # merge; it is about determinism, not about which engine, so it carries over unchanged.)
     out = geo.solve(copy_json(plan), pt, candidates, engine=engine)
     if "error" in out: return out
     if svg_path:

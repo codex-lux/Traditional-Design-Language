@@ -240,11 +240,30 @@
   ],
   "proportion_packs": [
     {
+      "pack": "facade-arcade",
+      "role": "facade",
+      "note": "The courtyard arcade in its plainest form, and the node where this pack and `moorish-arch` meet most directly. `moorish-arch` holds primary and governs the arch -- the horseshoe, the impost block, the alfiz -- and this pack governs the rhythm the arches sit in: bay, pier, springing line, run length, the depth of the walk. The two packs share the impost and each makes it a diagnostic member, which is not a collision but the same joint described from two traditions; neither restates the other's figures.",
+      "precedence": 3
+    },
+    {
+      "pack": "adobe-module",
+      "role": "secondary",
+      "note": "Secondary, behind moorish-arch. The pack reaches this node through its rammed-earth half rather than its adobe half: this record gives 'massive walls of brick, rubble or tapia, 500-700 mm', and tapia is formed between shutters at whatever thickness they are set to, so the whole-brick argument that makes the New Mexico wall come in 14 in steps does not apply and the thickness genuinely is continuous here. What does apply, and is why the binding is worth making, is everything that follows from mass rather than from the brick: the reveal equals the wall, the bracing length caps the range, the openings are isolated events with a pier of at least a wall's thickness between them, and the wall fails at its base. The roof is the pack's stated climate conflict resolved the other way -- a tiled pitched roof with an oversailing eave on the same mass wall, which the pack names as fully authentic rather than as a compromise.",
+      "precedence": 2
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
       "authority": "room-vernacular",
       "note": "The node's own governing_logic states 'Nothing here is compositional - the whole proportional system is a shading calculation and a joist span,' with room depth set to 3.5-5 m clear by the timber joist. That is room-vernacular's own generative logic (span, hearth-reach and single-sided daylight intersecting in roughly the same neighbourhood) rather than a proportioned or harmonic one, and the node is named directly in the pack's applies_to. No facade or order pack is bound: the street elevation 'has no rhythm worth the name and is not meant to,' and the only columns in the type are the plain, unornamented court arcade - there is no entablature and no classical order to invoke.",
       "precedence": 1
+    },
+    {
+      "pack": "moorish-arch",
+      "role": "primary",
+      "precedence": 0,
+      "authority": "moorish-arch",
+      "note": "The vernacular the Alhambra's domestic work is the grand end of: the same arcade around the same court, in plaster rather than in stone. Primary because the arcade IS this type's structure and its composition at once."
     }
   ]
 }

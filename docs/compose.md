@@ -50,3 +50,50 @@ The single-pile winning a Tidewater brief is the right answer and it was not the
 ## Next
 
 Geometry. The composer emits topology plus a footprint check; it does not place rectangles. That is a constraint-packing problem and it now has a well-defined input — a plan record whose rooms are already sized and whose adjacencies are already legal.
+
+## The brief's target is heated area (OQ 55, 24 Aug 2026)
+
+`instantiate()` holds reserved voids out of the scaling loop entirely: a court or a corredor
+keeps the size its own weight and catalogue give it, and the rooms around it are scaled to reach
+`target_area_sf`. `reclaim()` has always measured area with outdoor rooms excluded, so before
+this the two passes were sizing against two different quantities and only one of them was the
+brief's. On a plan with no placed void the difference is a rounding error. On the courtyard
+parti, whose court and four-range corredor are about a third of the block, a 3,000 sf brief came
+back as an **1,834 sf house** which the composer reported, correctly, as 38.9% off its own target
+and could not fix — from its point of view the area had been spent.
+
+So a courtyard brief now returns a house of the requested heated area inside a visibly larger
+block, and `footprint.heated_area_sf` beside `footprint.area_sf` is where the difference is read.
+
+## Every parti must work for the style it was written for (OQ 59)
+
+`build/check_partis.py` check 10 instantiates each parti against the first style in its own
+`styles` array and runs `plan_check` on the result. A fatal is an error. It is **differential**:
+each parti is compared against a control diagram run on the same style, keyed on the requirement
+rather than the measured value, so a fault that belongs to the style's own kit or elevation is
+reported as the style's and not blamed on the diagram.
+
+This exists because five of twenty-one partis were carrying fatal findings against their own
+native styles, and a fatal is 100 points against at most 140 for nativity — so the composer,
+working exactly as designed, would not recommend them. A Charleston-single-house brief came back
+with a centre-passage single pile. See `docs/reports/oq-59-partis-that-fail-their-own-style.md`.
+
+## `area_weight` is a share of the brief's target (OQ 62, 24 Aug 2026)
+
+A room carrying an `area_weight` takes that fraction of `target_area_sf`, clamped to its own
+catalogue band, and is **frozen before the scaling loop** — a real share is not renegotiated by a
+global factor. Rooms without a weight split whatever is left.
+
+**Partial coverage is normal.** Only the ten partis WP-4.5 authored carry weights at all, and
+their sums run from 0.35 to 1.13; the eleven that carry none behave exactly as they did before
+this ruling. A sum below 1.0 is meaningful rather than accidental: it says how much of the house
+the diagram is deliberately sizing.
+
+A **void**'s weight is a share of the same number, not of a gross the brief never states. The
+court is 0.18 of the house that was asked for; that the house also has a court is what makes the
+block larger than the brief (OQ 55).
+
+Where a weight is larger or smaller than the room's own band allows, the composer logs a
+JUDGMENT naming the room, what the weight asked for and what the band gives, so the area miss
+that follows is an explained number. If that shortfall is large, the brief is asking the diagram
+for a house it does not grow into by making its rooms bigger — see **OQ 45**.

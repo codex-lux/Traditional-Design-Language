@@ -237,6 +237,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "opening-pointed",
+      "role": "opening",
+      "note": "The stone branch. Where the pack gives two figures for one member -- the mullion at 4-6 in rather than 2 1/2-4, the moulded jamb rather than an applied architrave -- this node takes the stone one, and the pack's own note on window_surround_wood says in terms that applying the timber figure to a stone or stuccoed elevation invents a member the tradition does not have. Also the node where the strike ratio is most likely to leave the equilateral: British domestic Gothic reaches for the acute head far more readily than the American branch does, so read the arch rule's band rather than its default here.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-picturesque",
       "role": "facade",
       "note": "This style is named directly in facade-picturesque's own applies_to list, and the fit is more than nominal: c04 (roof pitch not less than 45 degrees, entrance never centred on a symmetrical front) and c05 (no classical apparatus) are the same design logic the pack reconstructs from measured Victorian Gothic and Queen Anne fabric — a dominant mass, at least two unbroken horizontal datums, and a hierarchy made by massing and projection rather than by axis. The pack's own sources (Robinson, Curtis, Downing) postdate this style but describe the composition method Pugin's plan-driven asymmetry actually produced a generation earlier.",
@@ -247,6 +253,12 @@
       "role": "room",
       "note": "Judgment binding: gothic-revival-british is not in room-vernacular's applies_to, and its rooms — vicarage studies, High Victorian drawing rooms — sit above the anonymous vernacular median in scale. No better fit exists in the library: room-harmonic is a Palladian ratio system, and c05 forbids classical apparatus throughout, so applying a treatise proportioned from the orders would contradict the style's own founding argument against classicism. Bound instead for the pack's most transferable content, the daylight-depth relationship (a room lit from one side reads dark past about 2 to 2.5 times its window-head height), which is physics rather than period style and which Pugin's own principle — nothing admitted that is not necessary to convenience, construction or propriety — is a moral restatement of. Scoped to ordinary chambers and service rooms, not to the double-height hall or stair, which the style's own massing affinities (villa-tower, h-plan-manor) already govern.",
       "precedence": 2
+    },
+    {
+      "pack": "facade-gable",
+      "role": "secondary",
+      "note": "Secondary behind `facade-picturesque` and `opening-pointed`, and bound for one figure it states independently -- 'gable width to apex height roughly 1:0.7 to 1:1' -- which agrees with Tudor Revival and Jacobean to within a tenth from a completely different tradition. Three unrelated records landing that close on a proportion nobody wrote down is the strongest evidence the pack has for it. The roof pitch is deliberately NOT taken from this pack: `opening-pointed` already writes `roof_pitch`/`ratio` on this node, and its claim there -- that the gable and the window head are the same equilateral figure -- is a larger statement than anything this pack would add.",
+      "precedence": 3
     }
   ]
 }

@@ -43,12 +43,15 @@ ORDER_MODULE = 5.0
 
 def ontology():
     doc = json.load(open(os.path.join(ROOT, "elements", "slots.json")))
-    slots, groups = [], {}
+    slots, groups, derives, kinds = [], {}, {}, {}
     for g in doc["groups"]:
         for s in g["slots"]:
             slots.append(s["id"])
             groups[s["id"]] = g["id"]
-    return doc["version"], slots, groups
+            kinds[s["id"]] = s.get("value_type")
+            if s.get("derives_from_module"):
+                derives[s["id"]] = s["derives_from_module"]
+    return doc["version"], slots, groups, derives, kinds
 
 
 def graph():
@@ -68,13 +71,226 @@ def eval_expr(pack_id, expr):
     return pe.evaluate_expr(expr, env)
 
 
+def provenance_census(kits_seen):
+    """The kind-of-claim census, computed rather than recounted (OQ 18).
+
+    `docs/open-questions.md` #18 has carried a hand-counted figure for editorial parameters
+    since the migration, and it went stale twice. It is a real number about how much of this
+    corpus is our own convention rather than a sourced fact, and a number that matters that
+    much should not depend on someone remembering to recount it. Printed by every run.
+
+    The figure that matters is not `editorial` -- an editorial call with a note saying what it
+    rests on is the corpus working as designed -- but editorial with NEITHER a source NOR a
+    note: a number nobody can check and nobody said anything about."""
+    lines = []
+    kinds = ("measured", "derived", "editorial", "invented", "code", None)
+    # `editorial-bare` shares this counter and is a SUBSET of `editorial`; summing every key
+    # would count those parameters twice and inflate the denominator every percentage uses.
+    total = sum(kits_seen.get(k, 0) for k in kinds)
+    for k in kinds:
+        n = kits_seen.get(k, 0)
+        if n: lines.append("%s %d (%.1f%%)" % (k or "unlabelled", n, 100.0 * n / max(total, 1)))
+    return total, lines
+
+
+DIMENSIONAL_UNITS = {"in", "ft", "mm", "deg", "rise_in_12", "courses", "percent"}
+
+
+def check_determined_by(errs, warns, nid, kit, ont_ids):
+    """Give `determined_by` semantics, and hold the corpus to them (OQ 19).
+
+    The field has been declarative since it was added: `porch_ceiling` says it is determined by
+    the order, the entablature and the porch support, which is better than prose, and nothing
+    resolved it because the schema never said what the determination MEANS. Three things it can
+    mean that a checker can enforce, and each of them found something:
+
+    1. **The determiners must be bound.** A slot that says it is whatever the order requires,
+       on a kit whose `order` slot is empty, is UNJUDGED -- and it reads today as specified,
+       which is the corpus's first discipline inverted. Checked against the kit file only, so
+       a determiner a child inherits from a parent is a warning rather than an error.
+    2. **No cycles.** Two slots that each say the other decides them decide nothing.
+    3. **A determined slot may not state a dimensional number as an independent claim.** The
+       schema's own note has always said it: "A portico soffit is whatever the bound order's
+       entablature requires; specifying it separately either restates the order or contradicts
+       it." So a number here must be `kind: derived`, or carry a `source`/`expr` tying it to
+       the determiner, or say in its own note why it is genuinely independent of it. An
+       unsourced editorial number sitting where a determination should be is the one case
+       nobody can tell apart from a contradiction."""
+    slots = kit.get("slots") or {}
+    for sid, s in slots.items():
+        db = s.get("determined_by") or []
+        if not db: continue
+        for x in db:
+            if x not in ont_ids:
+                errs.append("%s: %s.determined_by names '%s', which is not a slot" % (nid, sid, x))
+                continue
+            if x == sid:
+                errs.append("%s: %s.determined_by names itself" % (nid, sid)); continue
+            other = slots.get(x) or {}
+            if sid in (other.get("determined_by") or []):
+                errs.append("%s: %s and %s each say the other determines them, which decides "
+                            "nothing (OQ 19)" % (nid, sid, x))
+            if other.get("status") in (None, "empty") or other.get("binding") in (None, "open"):
+                warns.append("%s: %s is determined_by %s, and %s is not bound on this kit "
+                             "(status %s, binding %s) -- so this slot is UNJUDGED, not specified, "
+                             "unless an ancestor binds it (OQ 19)"
+                             % (nid, sid, x, x, other.get("status"), other.get("binding")))
+        for pname, pv in (s.get("parameters") or {}).items():
+            if not isinstance(pv, dict) or pv.get("unit") not in DIMENSIONAL_UNITS: continue
+            if pv.get("kind") == "derived" or pv.get("source") or pv.get("expr"): continue
+            if pv.get("note"): continue
+            warns.append("%s: %s.%s is a %s number on a slot determined_by %s, with no source, "
+                         "no expression and no note saying why it is independent of the "
+                         "determiner -- restatement and contradiction look identical here (OQ 19)"
+                         % (nid, sid, pname, pv.get("kind"), ", ".join(db)))
+
+
+RULE_KINDS = {"topology", "axis", "sequence", "daylight", "element-placement",
+              "hierarchy", "orientation", "other"}
+RULE_EFFECTS = {"adds", "restricts", "suppresses"}
+ADJ_KEYS = {"must_adjoin", "should_adjoin", "must_not_adjoin"}
+
+
+def check_rule_blocks(errs, warns, nid, kit, rule_slots, rooms):
+    """The typed `rules` array on a rule-valued slot (OQ 15).
+
+    Three things nothing else can catch: a `rules` block on a slot the ontology does not type as
+    a rule (which means someone has put a rule statement where a parameter belongs); a
+    `suppresses` effect with no machine-readable target, which is the one case that MUST be
+    readable because build/plan_check.py acts on it and a suppression that exists only as prose
+    is a rule the validator goes on enforcing while the kit says it should not; and a suppression
+    naming a room or a rule that does not exist, which would switch nothing off and say nothing
+    about it."""
+    for sid, slot in (kit.get("slots") or {}).items():
+        rules = slot.get("rules")
+        if not rules: continue
+        if sid not in rule_slots:
+            warns.append("%s: %s carries a `rules` block but the ontology types it as '%s', not "
+                         "'rule' -- a rule statement in a slot that holds values"
+                         % (nid, sid, rule_slots.get(sid, "?")))
+        for i, r in enumerate(rules):
+            where = "%s: %s.rules[%d]" % (nid, sid, i)
+            if r.get("kind") not in RULE_KINDS:
+                errs.append("%s: kind '%s' is not one of %s" % (where, r.get("kind"), sorted(RULE_KINDS)))
+            if r.get("effect") not in RULE_EFFECTS:
+                errs.append("%s: effect '%s' is not one of %s" % (where, r.get("effect"), sorted(RULE_EFFECTS)))
+            sup = r.get("suppresses")
+            if r.get("effect") == "suppresses" and not sup:
+                errs.append("%s: effect is 'suppresses' with no `suppresses` target. A suppression "
+                            "that exists only as prose is a rule the validator goes on enforcing "
+                            "while this kit says it should not (OQ 15)." % where)
+            if sup and r.get("effect") != "suppresses":
+                errs.append("%s: carries a `suppresses` target but its effect is '%s'" % (where, r.get("effect")))
+            if not sup: continue
+            room = rooms.get(sup.get("room"))
+            if room is None:
+                errs.append("%s: suppresses room '%s', which is not in rooms/" % (where, sup.get("room")))
+                continue
+            key = sup.get("key")
+            if key not in ADJ_KEYS:
+                errs.append("%s: suppresses key '%s' is not an adjacency list" % (where, key)); continue
+            targets = {x.get("room") for x in (room.get("adjacency", {}) or {}).get(key, [])}
+            if sup.get("target") not in targets:
+                errs.append("%s: suppresses %s.%s -> '%s', and that room states no such rule "
+                            "(it states: %s). Suppressing a rule that is not there switches "
+                            "nothing off and says nothing about it."
+                            % (where, sup.get("room"), key, sup.get("target"),
+                               ", ".join(sorted(targets)) or "none"))
+
+
+def check_derived_module_family(errs, nid, kit, derives):
+    """OQ 13: a chair rail's module must derive from the same run as the exterior cornice.
+
+    `derives_from_module` has existed since WP-1.3 and validate.py already checks that the
+    reference resolves. What it did not check is the thing the ruling was actually about: that
+    the members of a family were computed against the SAME context. A cornice worked out at a
+    120 in storey and a chair rail worked out at a 96 in one are not one entablature at two
+    scales, they are two entablatures -- and the whole point of the cross-reference is that they
+    are one object.
+
+    Compares only keys the two records share, and requires those to agree. A member that records
+    a partial context (a chair rail derived from the ceiling height alone) is not in conflict
+    with one that records more; a member that records the SAME key with a different value is."""
+    fam = {}
+    for sid in (kit.get("slots") or {}):
+        base = derives.get(sid)
+        if base:
+            fam.setdefault(base, []).append(sid)
+    for base, members in fam.items():
+        seen = {}                       # context key -> (value, where it was first seen)
+        for sid in sorted(members) + ([base] if base in (kit.get("slots") or {}) else []):
+            sl = (kit["slots"].get(sid) or {})
+            for pname, pv in (sl.get("parameters") or {}).items():
+                ca = pv.get("computed_at")
+                if not isinstance(ca, dict):
+                    continue
+                for ck, cv in ca.items():
+                    if ck == "value":
+                        continue
+                    if ck in seen and seen[ck][0] != cv:
+                        errs.append(
+                            "%s: %s.%s computes against %s=%s but %s used %s=%s; the %s family "
+                            "must derive from one run (OQ 13)"
+                            % (nid, sid, pname, ck, cv, seen[ck][1], ck, seen[ck][0], base))
+                    else:
+                        seen.setdefault(ck, (cv, f"{sid}.{pname}"))
+
+
+def check_slot_fields(errs, warns, nid, kit, ont_fields):
+    """A slot may DECLARE fields in elements/slots.json (`fields[]`, with `required` and, for an
+    enum, the permitted values under `examples`). `expressed_frame` is the only slot that does, and
+    OQ 47 added it precisely because `member_status` -- structural / structural-and-expressed /
+    applied / none -- is the field the slot exists for. NOTHING READ THAT DECLARATION: an audit on
+    25 Aug 2026 found that a kit could take a position on the slot without stating the status, and
+    that `"aplied"` would validate, because the kit schema types a variant id as a free string. A
+    required field that nobody enforces is a comment.
+
+    The categorical is carried by the VARIANT ID -- `{"id": "applied", ...}` -- because a variant
+    can be FORBIDDEN and a parameter cannot. So the enum is checked against variant ids, which is
+    where the data actually puts it, not against a parameter named after the field.
+
+    `binding: open` means the style has not taken a position yet and is not required to: 145 of the
+    159 kits are seeded and unbound. The requirement bites once a kit says `specified` or
+    `forbidden`, which is the point at which it IS making a claim.
+    """
+    for sid, decl in ont_fields.items():
+        rec = (kit.get("slots") or {}).get(sid)
+        if not isinstance(rec, dict):
+            continue
+        binding = rec.get("binding")
+        variants = [v for v in (rec.get("variants") or []) if isinstance(v, dict)]
+        for fld in decl:
+            allowed = fld.get("examples") if fld.get("value_type") == "enum" else None
+            if not allowed:
+                continue
+            ids = [v.get("id") for v in variants]
+            if fld.get("required") and binding in ("specified", "forbidden") and not ids:
+                errs.append("%s: slot '%s' is %s but states no '%s' -- elements/slots.json marks "
+                            "it required, and it is the field the slot exists for"
+                            % (nid, sid, binding, fld["id"]))
+            for got in ids:
+                if got not in allowed:
+                    errs.append("%s: slot '%s' variant id %r is not a permitted '%s' -- "
+                                "elements/slots.json allows %s"
+                                % (nid, sid, got, fld["id"], allowed))
+
+
 def main():
     ap = argparse.ArgumentParser(description="Validate the kit corpus")
     ap.add_argument("style", nargs="?", help="check one kit only")
     ap.add_argument("--verbose", action="store_true")
     a = ap.parse_args()
 
-    ont_version, ont_slots, ont_groups = ontology()
+    ont_version, ont_slots, ont_groups, ont_derives, ont_kinds = ontology()
+    ont_fields = {}
+    for _g in json.load(open(os.path.join(ROOT, "elements", "slots.json")))["groups"]:
+        for _sl in _g["slots"]:
+            if _sl.get("fields"):
+                ont_fields[_sl["id"]] = _sl["fields"]
+    rule_slots = {k: v for k, v in ont_kinds.items() if v == "rule"}
+    rooms = {}
+    for rp in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))):
+        r = json.load(open(rp)); rooms[r["id"]] = r
     ont_set = set(ont_slots)
     g = graph()
     schema_path = os.path.join(ROOT, "schema", "kit.schema.json")
@@ -85,6 +301,7 @@ def main():
 
     errs, warns = [], []
     stats = collections.Counter()
+    census = collections.Counter()
     invented, judgment, out_of_cal, populated = [], [], [], []
 
     for f in files:
@@ -109,6 +326,16 @@ def main():
             errs.append("%s: kit_version %s, schema is %s" % (base, kit.get("kit_version"), schema.get("version")))
 
         slots = kit.get("slots", {})
+        check_derived_module_family(errs, base, kit, ont_derives)
+        check_rule_blocks(errs, warns, base, kit, rule_slots, rooms)
+        check_determined_by(errs, warns, base, kit, ont_set)
+        check_slot_fields(errs, warns, base, kit, ont_fields)
+        for _s in (kit.get("slots") or {}).values():
+            for _pv in (_s.get("parameters") or {}).values():
+                if not isinstance(_pv, dict): continue
+                census[_pv.get("kind")] += 1
+                if _pv.get("kind") == "editorial" and not _pv.get("source") and not _pv.get("note"):
+                    census["editorial-bare"] += 1
         unknown = set(slots) - ont_set
         missing = ont_set - set(slots)
         if unknown:
@@ -263,8 +490,12 @@ def main():
         print("\nPACK BINDINGS OUT OF CALIBRATION (%d)" % len(out_of_cal))
         for x in out_of_cal:
             print("  ! %s" % x)
-    print("\nparameters by provenance: invented %d, editorial %d"
-          % (stats["param_invented"], stats["param_editorial"]))
+    total, bits = provenance_census(census)
+    print("\nparameters by provenance (%d in all): %s" % (total, ", ".join(bits)))
+    print("  editorial with NEITHER a source NOR a note: %d (%.1f%% of all parameters). "
+          "That is the figure OQ 18 is about -- a number nobody can check and nobody said "
+          "anything about. An editorial call WITH a note is the corpus working as designed."
+          % (census["editorial-bare"], 100.0 * census["editorial-bare"] / max(total, 1)))
 
     if warns:
         print("\n%d WARNINGS" % len(warns))

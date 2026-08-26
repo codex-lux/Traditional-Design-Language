@@ -1,7 +1,7 @@
 {
   "style": "prairie-school",
   "style_name": "Prairie School",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -257,6 +257,21 @@
       "note": "Overrides the family's own 'plain-board' answer (the Craftsman-lineage device) with Prairie's own corner treatment, directly quoted above.",
       "group": "envelope"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "forbidden",
+      "status": "drafted",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "'Exposed rafter tails, knee braces, applied brackets, shutters, and any classical or revival ornament are forbidden. The eave soffit is a continuous cl[osed plane].' The Prairie eave is a slab and its refusal of the expressed member is as deliberate as Arts and Crafts's insistence on one -- two contemporaries, one continent, opposite answers.",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "`member_status` at ontology 0.7.0 (OQ 47). Modelled as a variant rather than a parameter because a variant can be FORBIDDEN -- `status: forbidden` is how five of these fourteen kits say the member must not appear, and a parameter has no way to say that. (The reason first recorded here was that a categorical carries no unit and the checker insists a parameter has one. That is false: this corpus holds 236 categorical parameters whose unit is `none` and `check_kits.py` passes every one. Corrected 25 Aug 2026 by audit -- the modelling call stands, its stated reason did not.)"
+        }
+      ]
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -336,6 +351,11 @@
       "status": "drafted",
       "note": "Overrides the parent's 'multi-light-over-single-light' double-hung pattern, which does not apply to a casement band.",
       "group": "openings"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
+      "status": "empty"
     },
     "window_head_masonry": {
       "group": "openings",

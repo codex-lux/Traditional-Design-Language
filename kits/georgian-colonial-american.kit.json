@@ -1,7 +1,7 @@
 {
   "style": "georgian-colonial-american",
   "style_name": "Georgian Colonial American",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -541,7 +541,8 @@
         "soffit": {
           "value": "closed, plastered or boarded, level (not raked)",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The eave is a classical entablature, not a trim board: the wall terminates in architrave, frieze and cornice derived from the bound order, boxed…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The eave is a classical entablature, not a trim board: the wall terminates in architrave, frieze and cornice derived from the bound order, boxed, with a level closed soffit and the corona projecting far enough to cast a shadow across the frieze.",
@@ -591,7 +592,8 @@
             8
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: not an independent claim. `rake_to_cornice_ratio` beside it, 0.5 to 0.7, IS the derivation from the `cornice` slot this record names as its determiner; this range is the band that ratio lands in on a Georgian eave, kept because a builder reads inches and an engine reads the ratio. Where the two disagree the ratio governs, because it is the one that moves with the cornice."
         },
         "rake_to_cornice_ratio": {
           "range": [
@@ -635,7 +637,8 @@
             24
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The cornice returns across the full depth of the gable end carrying its complete profile, including the modillion or dentil band, for 12 to 24 in before dying into the wall.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "return_carries": {
           "set": [
@@ -645,7 +648,8 @@
             "crown"
           ],
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The cornice returns across the full depth of the gable end carrying its complete profile, including the modillion or dentil band, for 12 to 24 in before dying into the wall.\" -- which is the reasoning, not a citation. STATED AS A SET OF PERMITTED VALUES. An enumeration is not an uncertainty band: a source would confirm or extend the list, not narrow it."
         }
       },
       "rule": "The cornice returns across the full depth of the gable end carrying its complete profile, including the modillion or dentil band, for 12 to 24 in before dying into the wall.",
@@ -726,7 +730,8 @@
         "pediment_rise_ratio": {
           "value": "1 : 5 of the span (facade-classical); Palladian practice runs 1:4.5 to 1:5.5",
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The gable end is a plain wall terminated by the cornice return; a pediment appears only where a centre pavilion or a portico breaks forward, and its rise is one fifth of its span.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "pavilion_projection_in": {
           "range": [
@@ -734,7 +739,8 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The gable end is a plain wall terminated by the cornice return; a pediment appears only where a centre pavilion or a portico breaks forward, and its rise is one fifth of its span.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "The gable end is a plain wall terminated by the cornice return; a pediment appears only where a centre pavilion or a portico breaks forward, and its rise is one fifth of its span.",
@@ -795,7 +801,8 @@
         "count_parity": {
           "value": "odd",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Dormers align exactly on the bays below, are odd in number, carry the same order as the house at reduced scale, and never break the eave line.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "alignment_rule": {
           "value": "each dormer centred on a window of the storey below",
@@ -874,12 +881,14 @@
             120
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Chimneys are paired and symmetrically disposed — never a single central stack, which is the First Period signature — and their plan dimensions are whole bricks.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "count": {
           "value": 2,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Chimneys are paired and symmetrically disposed — never a single central stack, which is the First Period signature — and their plan dimensions are whole bricks.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "cap_courses": {
           "range": [
@@ -982,7 +991,8 @@
         "window_height_second_over_first": {
           "value": "0.82 to 0.88 measured (style node); 5/6 = 0.833 by Palladio's rule, compounding by storey",
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Each storey is 0.85 of the one below it, storey to storey, and the window heights follow at 0.82-0.88; the graduation is what makes the front sit on the ground instead of floating.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "front_height_over_width": {
           "expr": "2.5 / max(3, floor((span / module - 1) / 2) * 2 + 1)",
@@ -1055,7 +1065,8 @@
             20
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A wing is subordinate in every dimension — lower ridge, shallower depth, set back from the main facade plane — and where wings are symmetrical they must be identical…\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "dependency_height_ratio": {
           "range": [
@@ -1063,7 +1074,8 @@
             0.75
           ],
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A wing is subordinate in every dimension — lower ridge, shallower depth, set back from the main facade plane — and where wings are symmetrical they must be identical…\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "wing_setback_in": {
           "range": [
@@ -1071,7 +1083,8 @@
             48
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A wing is subordinate in every dimension — lower ridge, shallower depth, set back from the main facade plane — and where wings are symmetrical they must be identical…\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "wing_ridge_rule": {
           "value": "always below the main ridge",
@@ -1189,7 +1202,7 @@
           "unit": "in",
           "kind": "derived",
           "source": "brick-course",
-          "note": "The wall steps in by a half brick (about 4.5 in) at each floor level, not continuously."
+          "note": "SUSPECT, flagged 24 Aug 2026 (OQ 19) and deliberately not changed: this reads 13.5 in, which is `masonry_wall_thickness` above it repeated verbatim, and a step at a floor line cannot be the whole thickness of the wall. `reveal_masonry.step_at_floor_in` says 4.5 in, a half brick, and its rule sentence says a half brick. Correcting a number on a guess is worse than recording that two slots disagree, so this is recorded. Whoever has the source decides."
         },
         "timber_bay": {
           "expr": "module",
@@ -1466,7 +1479,8 @@
         "min_plane_change_at_joint": {
           "value": 12,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Material may change only where the building changes volume or where a projecting horizontal course runs the full way round…\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "Material may change only where the building changes volume or where a projecting horizontal course runs the full way round; it may never change at an unreturned corner, never at a storey line that is not expressed by a real projection, and never on the entrance elevation alone.",
@@ -1524,7 +1538,8 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The foundation shows for 18 to 24 in below the water table, in a material and bond coarser than the wall above, and it is the same height all the way round the volume even where the grade falls.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "The foundation shows for 18 to 24 in below the water table, in a material and bond coarser than the wall above, and it is the same height all the way round the volume even where the grade falls.",
@@ -1606,7 +1621,9 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "measured",
+          "source": "georgian-colonial-american.c05",
+          "note": "OQ 18, 24 Aug 2026: was `editorial`, and is not. The style's own constraint c05 states the same band -- water table 24 to 36 in above grade -- with a source, so this was a sourced fact wearing the label for an unsourced one. Found by matching every unsourced editorial number in the corpus against every numeric threshold its own style states, on the constraint's expression name as well as its value; of 166 such numbers this was the only match, which is itself the finding."
         },
         "projection_in": {
           "expr": "part * 0.75",
@@ -1624,7 +1641,8 @@
         "must_return": {
           "value": true,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A moulded or bevelled water table runs 24 to 36 in above finished grade — ten brick courses where the wall is brick — projects about 2 in, and returns fully round every elevation of the volume including the rear.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "A moulded or bevelled water table runs 24 to 36 in above finished grade — ten brick courses where the wall is brick — projects about 2 in, and returns fully round every elevation of the volume including the rear.",
@@ -1742,7 +1760,8 @@
             9
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Where a belt course occurs it sits at the second-floor structure, not at the second-floor finish, runs the full width of every elevation, and projects about 2 in.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "Where a belt course occurs it sits at the second-floor structure, not at the second-floor finish, runs the full width of every elevation, and projects about 2 in.",
@@ -1817,7 +1836,8 @@
             10
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The corner is expressed by a member of the bound order — a board, a pilaster or a quoin — whose width is constant for the full height of the volume, and quoins alternate on a whole number of courses.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "corner_pilaster_width_in": {
           "range": [
@@ -1825,7 +1845,8 @@
             16
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The corner is expressed by a member of the bound order — a board, a pilaster or a quoin — whose width is constant for the full height of the volume, and quoins alternate on a whole number of courses.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "quoin_course_height_in": {
           "expr": "part * 2",
@@ -1921,7 +1942,8 @@
             10
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The corner is expressed by a member of the bound order — a board, a pilaster or a quoin — whose width is constant for the full height of the volume, and quoins alternate on a whole number of courses.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "corner_pilaster_width_in": {
           "range": [
@@ -1929,7 +1951,8 @@
             16
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The corner is expressed by a member of the bound order — a board, a pilaster or a quoin — whose width is constant for the full height of the volume, and quoins alternate on a whole number of courses.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "quoin_course_height_in": {
           "expr": "part * 2",
@@ -1979,155 +2002,60 @@
       "confidence": "low",
       "note": "CONFLICT WORTH RECORDING: facade-classical derives a corner width of module/6 = 18 in at a 9 ft bay, and the measured New England corner board is 6-10 in with the pilaster at 10-16 in. The pack is right about a stone quoin and wrong about a wood corner board by a factor of two. Prefer the measured figures for wood; the pack figure is a masonry rule leaking into a frame condition. MIGRATED 0.3.0 from 'corner_treatment', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to corner_board."
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "specified",
       "parameters": {
-        "brick_wall_thickness_in": {
-          "expr": "13.5",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 13.5
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course",
-          "note": "two wythes with a real through-bond; the thickness at which Flemish and English bond are even available"
-        },
-        "stone_wall_thickness_in": {
-          "range": [
-            18,
-            24
-          ],
-          "unit": "in",
-          "kind": "editorial"
-        },
-        "frame_wall_thickness_in": {
-          "range": [
-            5,
-            7
-          ],
-          "unit": "in",
-          "kind": "editorial"
-        },
         "step_at_floor_in": {
           "value": 4.5,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: kept here because it is what the REVEAL does at a floor line, which is this slot's own subject -- the wall thicknesses that used to sit beside it are deleted, because `construction_type`, which this slot names as its determiner, states all three of them (masonry 13.5 in, stone 18-24 in, frame 5-7 in) and the copies agreed with it exactly. DISAGREEMENT FOUND AND NOT SILENTLY RESOLVED: `construction_type.wythe_step_at_floor` reads 13.5 in, which is that slot's own masonry WALL THICKNESS repeated, not a step. This slot's rule sentence says the wall steps in by a half brick, and 4.5 in is a half brick. 4.5 is the number this kit means; the 13.5 beside it is flagged there."
         },
-        "reveal_masonry": {
+        "reveal_in": {
           "range": [
             4,
             8
           ],
           "unit": "in",
           "kind": "measured",
-          "applies_when": {
-            "construction": [
-              "solid-masonry-two-wythe",
-              "solid-masonry-three-wythe"
-            ]
-          }
-        },
-        "reveal_frame": {
-          "range": [
-            0.75,
-            2
-          ],
-          "unit": "in",
-          "kind": "measured",
-          "applies_when": {
-            "construction": [
-              "braced-timber-frame"
-            ]
-          },
-          "note": "The frame window is given its depth by a 5-6 in architrave instead of by the wall."
+          "note": "Renamed from `reveal_masonry` and its `applies_when.construction` dropped: a parameter named after its own slot, discriminated on the condition the slot already IS, was the duplication saying so twice."
         }
       },
-      "rule": "The reveal at every opening expresses the real thickness of the wall — 4 to 8 in in masonry, under 2 in in frame — and the wall steps in by a half brick at each floor level, not continuously.",
+      "rule": "The reveal at every masonry opening expresses the real thickness of the wall -- 4 to 8 in -- and the wall steps in by a half brick at each floor level, not continuously.",
       "determined_by": [
         "construction_type"
       ],
       "status": "drafted",
       "confidence": "low",
-      "note": "The frame and masonry answers are so different that they are arguably different slots. A frame Georgian window sits nearly flush and is given its depth by a 5-6 in architrave; a brick one sits 4-8 in back in a real reveal and has no architrave at all. Same slot, opposite assemblies, and the only thing they share is the word 'reveal'. See brick-course's conflict note: a 3 5/8 in veneer cannot be laid in Flemish bond at all, because Flemish bond is defined by headers passing INTO the wall's depth. MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_masonry."
+      "note": "OQ 19, 24 Aug 2026, second pass. OQ 19, 24 Aug 2026. This slot and its trade pair were BYTE-IDENTICAL: OQ 12's split divided the slot in two and copied the whole parameter set into both halves rather than dividing it, leaving each half carrying the other trade's numbers and the per-parameter `applies_when.construction` doing the discrimination the split was supposed to do. Surfaced by giving `determined_by` semantics: a slot that says it is decided by `construction_type` and then states every construction type's answer is not determined by anything. The frame and masonry answers are so different that they are arguably different slots. A frame Georgian window sits nearly flush and is given its depth by a 5-6 in architrave; a brick one sits 4-8 in back in a real reveal and has no architrave at all. Same slot, opposite assemblies, and the only thing they share is the word 'reveal'. See brick-course's conflict note: a 3 5/8 in veneer cannot be laid in Flemish bond at all, because Flemish bond is defined by headers passing INTO the wall's depth. MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_masonry."
     },
     "reveal_frame": {
       "group": "envelope",
       "binding": "specified",
       "parameters": {
-        "brick_wall_thickness_in": {
-          "expr": "13.5",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 13.5
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course",
-          "note": "two wythes with a real through-bond; the thickness at which Flemish and English bond are even available"
-        },
-        "stone_wall_thickness_in": {
-          "range": [
-            18,
-            24
-          ],
-          "unit": "in",
-          "kind": "editorial"
-        },
-        "frame_wall_thickness_in": {
-          "range": [
-            5,
-            7
-          ],
-          "unit": "in",
-          "kind": "editorial"
-        },
-        "step_at_floor_in": {
-          "value": 4.5,
-          "unit": "in",
-          "kind": "editorial"
-        },
-        "reveal_masonry": {
-          "range": [
-            4,
-            8
-          ],
-          "unit": "in",
-          "kind": "measured",
-          "applies_when": {
-            "construction": [
-              "solid-masonry-two-wythe",
-              "solid-masonry-three-wythe"
-            ]
-          }
-        },
-        "reveal_frame": {
+        "reveal_in": {
           "range": [
             0.75,
             2
           ],
           "unit": "in",
           "kind": "measured",
-          "applies_when": {
-            "construction": [
-              "braced-timber-frame"
-            ]
-          },
-          "note": "The frame window is given its depth by a 5-6 in architrave instead of by the wall."
+          "note": "The frame window is given its depth by a 5-6 in architrave instead of by the wall. Renamed from `reveal_frame` for the same reason its masonry pair was. The frame wall thickness that used to sit beside it is deleted: `construction_type` states it (5-7 in) and this slot names that slot as its determiner, so the copy was the restatement the schema's own note warns about."
         }
       },
-      "rule": "The reveal at every opening expresses the real thickness of the wall — 4 to 8 in in masonry, under 2 in in frame — and the wall steps in by a half brick at each floor level, not continuously.",
+      "rule": "A frame opening sits nearly flush -- under 2 in of reveal -- and is given its depth by the architrave rather than by the wall.",
       "determined_by": [
         "construction_type"
       ],
       "status": "drafted",
       "confidence": "low",
-      "note": "The frame and masonry answers are so different that they are arguably different slots. A frame Georgian window sits nearly flush and is given its depth by a 5-6 in architrave; a brick one sits 4-8 in back in a real reveal and has no architrave at all. Same slot, opposite assemblies, and the only thing they share is the word 'reveal'. See brick-course's conflict note: a 3 5/8 in veneer cannot be laid in Flemish bond at all, because Flemish bond is defined by headers passing INTO the wall's depth. MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_frame."
+      "note": "OQ 19, 24 Aug 2026, second pass. OQ 19, 24 Aug 2026. This slot and its trade pair were BYTE-IDENTICAL: OQ 12's split divided the slot in two and copied the whole parameter set into both halves rather than dividing it, leaving each half carrying the other trade's numbers and the per-parameter `applies_when.construction` doing the discrimination the split was supposed to do. Surfaced by giving `determined_by` semantics: a slot that says it is decided by `construction_type` and then states every construction type's answer is not determined by anything. The frame and masonry answers are so different that they are arguably different slots. A frame Georgian window sits nearly flush and is given its depth by a 5-6 in architrave; a brick one sits 4-8 in back in a real reveal and has no architrave at all. Same slot, opposite assemblies, and the only thing they share is the word 'reveal'. See brick-course's conflict note: a 3 5/8 in veneer cannot be laid in Flemish bond at all, because Flemish bond is defined by headers passing INTO the wall's depth. MIGRATED 0.3.0 from 'wall_thickness_expression', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to reveal_frame."
     },
     "cornice": {
       "group": "envelope",
@@ -2280,7 +2208,8 @@
         "treatment": {
           "value": "plain, or pulvinated (cushioned) in the Gibbsian manner on the richest work",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The frieze is a plain band equal in height to the architrave, uninterrupted between the top-storey window heads and the bed of the cornice…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The frieze is a plain band equal in height to the architrave, uninterrupted between the top-storey window heads and the bed of the cornice; where a window head assembly collides with it, the frieze is dropped and the architrave runs straight into the cornice.",
@@ -2361,7 +2290,8 @@
         "leader_position": {
           "value": "at the corners of the volume, never on the entrance elevation",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Rainwater is taken off the roof without altering the cornice profile: no gutter at all where the projection and the grade allow it…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "leader_section": {
           "value": "round",
@@ -2479,7 +2409,8 @@
         "sheen": {
           "value": "flat to low lustre on the body; higher lustre permitted on the door and shutters",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Trim is the same colour as the body or lighter, never darker; the entrance is accented by its order and not by its colour; shutters and the door are the only elements permitted to be darker than the wall.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Trim is the same colour as the body or lighter, never darker; the entrance is accented by its order and not by its colour; shutters and the door are the only elements permitted to be darker than the wall.",
@@ -2591,12 +2522,14 @@
             2.0
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Every window in the building is a wood double-hung sash with true divided lights and a muntin of about 7/8 in; the upper sash may be fixed on early work and both are operable after about 1750.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "glass": {
           "value": "cylinder or crown glass; restoration glass as the modern substitute",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Every window in the building is a wood double-hung sash with true divided lights and a muntin of about 7/8 in; the upper sash may be fixed on early work and both are operable after about 1750.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Every window in the building is a wood double-hung sash with true divided lights and a muntin of about 7/8 in; the upper sash may be fixed on early work and both are operable after about 1750.",
@@ -2648,7 +2581,8 @@
             2.1
           ],
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Sash opening height to width between 1.9 and 2.1 to one on the principal floor, diminishing in height by 5/6 at each storey above while the width stays constant.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "diminution_by_storey": {
           "expr": "5 / 6",
@@ -2867,6 +2801,54 @@
       "confidence": "high",
       "note": "This slot is the one that most rewards being told the date. A house presented as 1740 with 6/6 sash is twenty-five years ahead of its glass supply, and a house presented as 1775 with 12/12 is a museum piece. Note that the pattern must also step down with the storey: a 9/6 principal floor takes 6/6 above and 6/4 in the dormers. The date conditionality that had to live in a by_date object in 0.1.0 is now on the variant records, which is the single most useful thing 0.2.0 gave this kit: a generator told the house is 1740 can now select the sash itself."
     },
+    "arch": {
+      "group": "openings",
+      "binding": "specified",
+      "parameters": {
+        "flat_arch_camber_in": {
+          "expr": "opening_width / 96",
+          "computed_at": {
+            "ceiling_height_in": 108.0,
+            "storey_height_in": 120.0,
+            "opening_width_in": 36.0,
+            "value": 0.375
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course",
+          "note": "a flat arch is not flat: it is cambered so it does not read as sagging"
+        },
+        "segmental_arch_rise_in": {
+          "expr": "opening_width / 8",
+          "computed_at": {
+            "ceiling_height_in": 108.0,
+            "storey_height_in": 120.0,
+            "opening_width_in": 36.0,
+            "value": 4.5
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course"
+        },
+        "arch_depth_in": {
+          "expr": "module",
+          "computed_at": {
+            "ceiling_height_in": 108.0,
+            "storey_height_in": 120.0,
+            "opening_width_in": 36.0,
+            "value": 11.0
+          },
+          "unit": "in",
+          "kind": "derived",
+          "source": "brick-course",
+          "note": "the depth of the arch itself: four courses"
+        }
+      },
+      "rule": "A gauged brick head is a real arch: segmental with a rise of one eighth of the opening, or flat and cambered by the opening over ninety-six, and either way cut to a depth of one module.",
+      "status": "drafted",
+      "confidence": "low",
+      "note": "Moved here from `window_head_masonry` 24 Aug 2026 (OQ 46). SPLIT 24 Aug 2026 (OQ 46). This slot carried two different claims at once: how the top of a masonry window is BUILT -- gauged and rubbed brick, one head datum a storey, an architrave, a keystone or its absence -- and the GEOMETRY of the arch doing the spanning. The second has moved to the `arch` slot and this slot names it in `determined_by`, which is the mechanism OQ 19 built for exactly this: a slot decided by another names it rather than restating its numbers."
+    },
     "window_head_masonry": {
       "group": "openings",
       "binding": "specified",
@@ -2938,44 +2920,6 @@
         }
       ],
       "parameters": {
-        "flat_arch_camber_in": {
-          "expr": "opening_width / 96",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 0.375
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course",
-          "note": "a flat arch is not flat: it is cambered so it does not read as sagging"
-        },
-        "segmental_arch_rise_in": {
-          "expr": "opening_width / 8",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 4.5
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course"
-        },
-        "arch_depth_in": {
-          "expr": "module",
-          "computed_at": {
-            "ceiling_height_in": 108.0,
-            "storey_height_in": 120.0,
-            "opening_width_in": 36.0,
-            "value": 11.0
-          },
-          "unit": "in",
-          "kind": "derived",
-          "source": "brick-course",
-          "note": "the depth of the arch itself: four courses"
-        },
         "head_height_above_floor_in": {
           "expr": "storey_height * 0.78",
           "computed_at": {
@@ -3007,7 +2951,8 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19/46: independent of the `arch` this slot is now determined_by, and necessarily so -- an architrave is the joinery around the opening and the arch is the masonry spanning it. They meet at the head and neither sets the other's dimension. Editorial because no source in this corpus states a Georgian architrave width; 5 to 6 in is the surviving-fabric range this kit's own authors worked to."
         },
         "keystone_width_in": {
           "range": [
@@ -3015,7 +2960,8 @@
             9
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19/46: independent of the `arch`. A keystone's width is a matter of what the mason cuts to show, not of the arch's rise -- the same segmental arch takes a keystone or, in the Tidewater, takes none at all, and that variant states exactly that. Editorial for the same reason as the architrave beside it."
         },
         "gibbs_rule_head_height_in": {
           "expr": "opening_width / 8",
@@ -3055,7 +3001,10 @@
       ],
       "status": "drafted",
       "confidence": "low",
-      "note": "THIS SLOT SHOULD BE SPLIT. A gauged brick jack arch is a structural element made by the mason, cambered, four courses deep, laid up on a centre; a moulded wood cap is a piece of joinery nailed on by the carpenter after the wall is closed. They are made by different trades at different times out of different materials, they fail differently, and they have no dimension in common except the opening they sit over. Forcing them into one 'assembly' slot means the variants list is really two lists and the parameters object is really two objects, and nothing in the schema records which parameters belong to which variant. 0.2.0 lets the two trades be told apart by applies_when.construction, which is most of what I asked for. It still does not let the PARAMETERS be scoped that way — the camber and the arch depth are masonry-only and the architrave width is frame-only, and they sit in one flat object. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_masonry."
+      "note": "THIS SLOT SHOULD BE SPLIT. A gauged brick jack arch is a structural element made by the mason, cambered, four courses deep, laid up on a centre; a moulded wood cap is a piece of joinery nailed on by the carpenter after the wall is closed. They are made by different trades at different times out of different materials, they fail differently, and they have no dimension in common except the opening they sit over. Forcing them into one 'assembly' slot means the variants list is really two lists and the parameters object is really two objects, and nothing in the schema records which parameters belong to which variant. 0.2.0 lets the two trades be told apart by applies_when.construction, which is most of what I asked for. It still does not let the PARAMETERS be scoped that way — the camber and the arch depth are masonry-only and the architrave width is frame-only, and they sit in one flat object. MIGRATED 0.3.0 from 'window_head', which conflated two trades. This record was carried into both heirs unchanged and NEEDS SPLITTING BY HAND: keep only what belongs to window_head_masonry. SPLIT 24 Aug 2026 (OQ 46). This slot carried two different claims at once: how the top of a masonry window is BUILT -- gauged and rubbed brick, one head datum a storey, an architrave, a keystone or its absence -- and the GEOMETRY of the arch doing the spanning. The second has moved to the `arch` slot and this slot names it in `determined_by`, which is the mechanism OQ 19 built for exactly this: a slot decided by another names it rather than restating its numbers.",
+      "determined_by": [
+        "arch"
+      ]
     },
     "window_head_wood": {
       "group": "openings",
@@ -3197,7 +3146,8 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Every window and every door on a given storey shares one head datum, on every elevation without exception, and the head assembly is masonry where the wall is masonry and wood where the wall is wood.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "keystone_width_in": {
           "range": [
@@ -3205,7 +3155,8 @@
             9
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Every window and every door on a given storey shares one head datum, on every elevation without exception, and the head assembly is masonry where the wall is masonry and wood where the wall is wood.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "gibbs_rule_head_height_in": {
           "expr": "opening_width / 8",
@@ -3285,7 +3236,8 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"On a frame wall the window has a flat architrave of 5 to 6 in with a crown moulding; on a masonry wall it has no surround at all and its expression is the reveal and the arch.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "pack_width_in": {
           "expr": "module * 0.55",
@@ -3410,7 +3362,8 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"On a frame wall the window has a flat architrave of 5 to 6 in with a crown moulding; on a masonry wall it has no surround at all and its expression is the reveal and the arch.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "pack_width_in": {
           "expr": "module * 0.55",
@@ -3548,7 +3501,8 @@
         "slope": {
           "value": "1 in 6, roughly 10 degrees",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The sill sits at a constant 30 in above the finished floor on the principal storey and does not move between rooms; it projects past the wall face with a drip and is sloped 1 in 6.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "sill_height_above_floor_in": {
           "expr": "part * 3.0",
@@ -3686,7 +3640,8 @@
             1.0
           ],
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Windows appear as singles, evenly spaced, in an odd number of bays with the entrance in the centre bay; upper windows align exactly over lower ones…\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "pier_alt_in": {
           "expr": "opening_width * 1.4",
@@ -3788,7 +3743,8 @@
         "leaf_height": {
           "value": "equal to the full sash height",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Shutter leaves are half the clear opening width less the meeting clearance and the full height of the sash, hung on real pintles with real holdbacks, so that a closed pair exactly covers the window.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "panel_count_per_leaf": {
           "expr": "max(ceil((opening_width * 2.1 / 2 - 5.0 + 0.875) / (module * 0.75 + 0.875)), 2) - 1",
@@ -3805,12 +3761,14 @@
         "hardware": {
           "value": "strap or pintle hinges, and a holdback (shutter dog) at each leaf",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Shutter leaves are half the clear opening width less the meeting clearance and the full height of the sash, hung on real pintles with real holdbacks, so that a closed pair exactly covers the window.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "louver_date": {
           "value": "louvered shutters are a Southern device and appear from the mid eighteenth century; panelled is the earlier and Northern answer",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Shutter leaves are half the clear opening width less the meeting clearance and the full height of the sash, hung on real pintles with real holdbacks, so that a closed pair exactly covers the window.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Shutter leaves are half the clear opening width less the meeting clearance and the full height of the sash, hung on real pintles with real holdbacks, so that a closed pair exactly covers the window.",
@@ -3900,17 +3858,20 @@
         "venetian_centre_light_share": {
           "value": "the centre light is arched and about twice the width of each flanking light; its springing sits at the head datum of the flanking lights",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"At most one special window per elevation, always on the centre axis, always over the entrance or in a pediment; its width is capped at 0.72 of the bay.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "placement": {
           "value": "centre bay of the second storey, over the entrance, or in a pediment",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"At most one special window per elevation, always on the centre axis, always over the entrance or in a pediment; its width is capped at 0.72 of the bay.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "count_per_elevation": {
           "value": 1,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"At most one special window per elevation, always on the centre axis, always over the entrance or in a pediment; its width is capped at 0.72 of the bay.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "At most one special window per elevation, always on the centre axis, always over the entrance or in a pediment; its width is capped at 0.72 of the bay.",
@@ -3983,7 +3944,8 @@
             44
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fielded panels.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "measured_height_in": {
           "range": [
@@ -3991,7 +3953,8 @@
             90
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fielded panels.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "leaf_thickness_in": {
           "range": [
@@ -3999,12 +3962,14 @@
             2.25
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fielded panels.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "panel_arrangement": {
           "value": "six panels: two short over two tall over two short, raised and fielded on the outer face",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fielded panels.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The door is taken from the storey and not from a catalogue: width equal to the storey height divided by 3.5, height twice that, with six raised and fielded panels.",
@@ -4282,12 +4247,14 @@
         "rear_door_treatment": {
           "value": "the same order as the front, reduced by one step — architrave and crown without the pediment",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The rear door sits on the passage axis directly opposite the front door and is treated as an elevation in its own right; service and dependency doors are graduated down from it by about six per cent.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "graduation_rule": {
           "value": "principal 84 in, secondary 80 in, service 78 in",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The rear door sits on the passage axis directly opposite the front door and is treated as an elevation in its own right; service and dependency doors are graduated down from it by about six per cent.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The rear door sits on the passage axis directly opposite the front door and is treated as an elevation in its own right; service and dependency doors are graduated down from it by about six per cent.",
@@ -4548,7 +4515,8 @@
         "column_height_diameters": {
           "value": 9,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"One order governs the whole building and every moulding in it is derived from that order's module; where two orders are superimposed the heavier goes below.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "entablature_over_column": {
           "expr": "column_height / 5",
@@ -4609,37 +4577,44 @@
         "height_diameters": {
           "value": 9,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "diminution": {
           "value": 0.8333,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "entasis": {
           "value": "beginning at one third of the shaft height, not at the base",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "column_height_in_at_10in_diameter": {
           "value": 90,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "upper_diameter_in_at_10in_diameter": {
           "value": 8.3125,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "base": {
           "value": "attic base: plinth, lower torus, scotia between fillets, upper torus",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "flutes": {
           "value": "24 in the Ionic where fluted; commonly plain in American work",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The column is nine diameters high, diminishes to 0.833 of its lower diameter with entasis beginning at a third of the shaft, and its plinth height is set by the order and not by the lumber yard.",
@@ -4705,12 +4680,14 @@
         "internal_ratio": {
           "value": "architrave = frieze, cornice = 4/3 of either (Gibbs invariant, engine-checked)",
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The entablature is one fifth of the column, divided so that architrave and frieze are equal and the cornice is four thirds of either; it may be reduced by omitting enrichment but not by changing those ratios.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "architrave_fasciae": {
           "value": 3,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The entablature is one fifth of the column, divided so that architrave and frieze are equal and the cornice is four thirds of either; it may be reduced by omitting enrichment but not by changing those ratios.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         }
       },
       "rule": "The entablature is one fifth of the column, divided so that architrave and frieze are equal and the cornice is four thirds of either; it may be reduced by omitting enrichment but not by changing those ratios.",
@@ -4773,17 +4750,20 @@
         "palladian_band": {
           "value": "1:4.5 to 1:5.5 of the span",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A pediment's rise is one fifth of its span, its raking cornice carries the same profile as the level one, and a broken or scrolled pediment appears only over a doorway — never on a roof.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "raking_cornice": {
           "value": "the full cornice profile raked, with the corona level and the bed mould raked",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A pediment's rise is one fifth of its span, its raking cornice carries the same profile as the level one, and a broken or scrolled pediment appears only over a doorway — never on a roof.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "tympanum": {
           "value": "plain, or with a single oculus on the richest work",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A pediment's rise is one fifth of its span, its raking cornice carries the same profile as the level one, and a broken or scrolled pediment appears only over a doorway — never on a roof.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "A pediment's rise is one fifth of its span, its raking cornice carries the same profile as the level one, and a broken or scrolled pediment appears only over a doorway — never on a roof.",
@@ -4830,17 +4810,20 @@
             16
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: genuinely independent of the order, which is why it is editorial. The order decides a pilaster's width -- `width_in` above it is derived from the module -- and says nothing about a CORNER pilaster, which is a wider element answering two elevations at once and is a Georgian convention rather than a rule of the order."
         },
         "capital": {
           "value": "the same capital as the column of the bound order, in flat relief",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A pilaster is the column of the bound order in flat relief, of the same height and diminution, projecting about a sixth of its width…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "diminution": {
           "value": "pilasters diminish with the same 0.833 ratio as the columns they answer",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A pilaster is the column of the bound order in flat relief, of the same height and diminution, projecting about a sixth of its width…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "A pilaster is the column of the bound order in flat relief, of the same height and diminution, projecting about a sixth of its width; it appears at the corners of the volume, flanking the entrance, and framing a centre pavilion.",
@@ -4901,12 +4884,14 @@
         "interior_dentil_height_in": {
           "value": 1.75,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: independent of the order, and at a different scale from it. The order-derived members on this slot are the `modillion_*` parameters, which are exterior. An interior dentil is joinery run at room scale -- a chair rail's or a cornice's dentil course -- and no order states its size; that it appears on the same slot as the exterior modillion is the ontology grouping by element rather than by location."
         },
         "interior_dentil_spacing_in": {
           "value": 1.25,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "OQ 19: independent of the order, and at a different scale from it. The order-derived members on this slot are the `modillion_*` parameters, which are exterior. An interior dentil is joinery run at room scale -- a chair rail's or a cornice's dentil course -- and no order states its size; that it appears on the same slot as the exterior modillion is the ontology grouping by element rather than by location."
         },
         "corner_rule": {
           "value": "set out from the centre of the elevation; the corner member must be whole",
@@ -4953,7 +4938,8 @@
             33
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and terminates in a pedestal at each end rather than in a post.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "baluster_spacing_in": {
           "range": [
@@ -4961,17 +4947,20 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and terminates in a pedestal at each end rather than in a post.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "pedestal_at_each_end": {
           "value": true,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and terminates in a pedestal at each end rather than in a post.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "roof_deck_condition": {
           "value": "only on a hipped roof with a flat deck, set back from the eave so it reads against the sky",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and terminates in a pedestal at each end rather than in a post.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "A balustrade appears only on a hipped roof deck or a forecourt wall, is 30 to 33 in high with turned or square balusters at 4 to 6 in centres, and terminates in a pedestal at each end rather than in a post.",
@@ -5088,12 +5077,14 @@
         "relief": {
           "value": "bold and deep, cut rather than applied; the relief is what separates Georgian from Federal more reliably than the motif does",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Ornament is carved in bold relief, belongs to the bound order, and is concentrated at the entrance and the chimney breast; it does not appear on the rear or the ends.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "concentration": {
           "value": "the entrance, the chimney breast of the best room, and the stair; almost nothing elsewhere",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Ornament is carved in bold relief, belongs to the bound order, and is concentrated at the entrance and the chimney breast; it does not appear on the rear or the ends.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Ornament is carved in bold relief, belongs to the bound order, and is concentrated at the entrance and the chimney breast; it does not appear on the rear or the ends.",
@@ -5149,17 +5140,20 @@
         "canonical": {
           "value": "stoop-only",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The threshold is a raised stoop under a worked door surround; where a portico occurs it is one bay wide, centred, and carries the bound order.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "portico_bays": {
           "value": 1,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The threshold is a raised stoop under a worked door surround; where a portico occurs it is one bay wide, centred, and carries the bound order.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "two_tier_condition": {
           "value": "only on the grandest houses, structurally integral with the wall, superimposed orders",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The threshold is a raised stoop under a worked door surround; where a portico occurs it is one bay wide, centred, and carries the bound order.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The threshold is a raised stoop under a worked door surround; where a portico occurs it is one bay wide, centred, and carries the bound order.",
@@ -5177,7 +5171,8 @@
             8
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the order, not by use.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "stoop_depth_ft": {
           "range": [
@@ -5185,12 +5180,14 @@
             6
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the order, not by use.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "stoop_min_depth_in": {
           "value": 48,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the order, not by use.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "two_tier_portico_depth_ft": {
           "range": [
@@ -5198,7 +5195,8 @@
             12
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the order, not by use.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the order, not by use.",
@@ -5260,17 +5258,20 @@
         "column_height_diameters": {
           "value": 9,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Porch supports are columns of the bound order at full nine-diameter proportion, each answered by a pilaster on the wall behind, and spaced by the order's intercolumniation.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "engaged_pilaster": {
           "value": "each free column answered by a pilaster on the wall behind it",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Porch supports are columns of the bound order at full nine-diameter proportion, each answered by a pilaster on the wall behind, and spaced by the order's intercolumniation.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "spacing": {
           "value": "set by the intercolumniation of the bound order, not by the width of the steps",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Porch supports are columns of the bound order at full nine-diameter proportion, each answered by a pilaster on the wall behind, and spaced by the order's intercolumniation.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Porch supports are columns of the bound order at full nine-diameter proportion, each answered by a pilaster on the wall behind, and spaced by the order's intercolumniation.",
@@ -5305,12 +5306,14 @@
             33
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel or pedestal rather than in a post.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "code_required_height_in": {
           "value": 36,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel or pedestal rather than in a post.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "baluster_spacing_in": {
           "range": [
@@ -5318,17 +5321,20 @@
             6
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel or pedestal rather than in a post.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "code_max_baluster_gap_in": {
           "value": 4,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel or pedestal rather than in a post.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "rail_profile": {
           "value": "moulded handrail with a fillet and cyma, on a moulded shoe",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel or pedestal rather than in a post.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Where a rail is required the balusters are turned or square at 4 to 6 in centres between a moulded handrail and a moulded shoe, terminating in a newel or pedestal rather than in a post.",
@@ -5407,7 +5413,8 @@
             14
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with treads of 12 to 14 in.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "platform_width_in": {
           "expr": "module * 0.8 + part * 4",
@@ -5428,12 +5435,14 @@
             60
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with treads of 12 to 14 in.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "material": {
           "value": "stone or brick, laid solid; never a wood-framed deck",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with treads of 12 to 14 in.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with treads of 12 to 14 in.",
@@ -5448,7 +5457,8 @@
         "threshold_count": {
           "value": 3,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Three thresholds are crossed between the street and the hall — the gate on axis, the raised platform under the door surround…\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "thresholds": {
           "set": [
@@ -5637,7 +5647,8 @@
         "wall_division": {
           "value": "pedestal 4 : wall field 12 : entablature 3, in nineteen parts",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"One profile family governs every internal moulding in the house — the Georgian section of trim-classical and no other — and the trim is graded down room by room by omitting members, never by changing family.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "full_entablature_height_in": {
           "expr": "ceiling_height * 3 / 19",
@@ -5681,7 +5692,8 @@
         "grading_within_the_house": {
           "value": "the best cornice in the parlour, a lesser one in the chamber, none in the garret",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"One profile family governs every internal moulding in the house — the Georgian section of trim-classical and no other — and the trim is graded down room by room by omitting members, never by changing family.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "One profile family governs every internal moulding in the house — the Georgian section of trim-classical and no other — and the trim is graded down room by room by omitting members, never by changing family.",
@@ -5744,7 +5756,8 @@
         "profile": {
           "value": "square plinth board with a cyma reversa cap and fillet",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The base is a real plinth — a square board 8 to 9 in high at a 9 ft ceiling, capped with a cyma reversa — and it must be thicker than the casing that dies into it.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The base is a real plinth — a square board 8 to 9 in high at a 9 ft ceiling, capped with a cyma reversa — and it must be thicker than the casing that dies into it.",
@@ -5837,7 +5850,8 @@
         "profile": {
           "value": "two or three fasciae with an astragal between and a cyma reversa cap, with a backband",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Casing width is one sixth of the opening it trims — 6 in on a 36 in door — with a backband projecting about 1 in, dying into a plinth block 1 in taller than the base.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Casing width is one sixth of the opening it trims — 6 in on a 36 in door — with a backband projecting about 1 in, dying into a plinth block 1 in taller than the base.",
@@ -5954,7 +5968,8 @@
         "profile": {
           "value": "astragal, cyma reversa, corona and listel — the corona is the member a chair back actually hits",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The chair rail sits at 30 to 32 in above the finished floor, on the same datum as the window sill, and its corona must project further than the base cap or it will not shed a chair.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "height": {
           "range": [
@@ -6094,12 +6109,14 @@
         "min_clear_field_in": {
           "value": 9,
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The dado is raised and fielded panelling whose panels run wider than tall at 1.5 to 1.8 to 1, set out from the centre of the wall or the centre of the chimney breast so that no panel is a fragment and the panels…\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "full_height_panelling": {
           "value": "the chimney wall of the best room only; the other three walls plastered above the dado",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The dado is raised and fielded panelling whose panels run wider than tall at 1.5 to 1.8 to 1, set out from the centre of the wall or the centre of the chimney breast so that no panel is a fragment and the panels…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The dado is raised and fielded panelling whose panels run wider than tall at 1.5 to 1.8 to 1, set out from the centre of the wall or the centre of the chimney breast so that no panel is a fragment and the panels flanking an opening are equal.",
@@ -6170,7 +6187,8 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Interior doors are six-panel raised and fielded in principal rooms, sized so that the leaf is about 0.7 of the ceiling height, and graduated down to four panels and then to batten as the rooms lose rank.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "thickness_in": {
           "range": [
@@ -6178,12 +6196,14 @@
             1.75
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Interior doors are six-panel raised and fielded in principal rooms, sized so that the leaf is about 0.7 of the ceiling height, and graduated down to four panels and then to batten as the rooms lose rank.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "graduation": {
           "value": "principal rooms six-panel, chambers six or four, service two-panel or batten",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Interior doors are six-panel raised and fielded in principal rooms, sized so that the leaf is about 0.7 of the ceiling height, and graduated down to four panels and then to batten as the rooms lose rank.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Interior doors are six-panel raised and fielded in principal rooms, sized so that the leaf is about 0.7 of the ceiling height, and graduated down to four panels and then to batten as the rooms lose rank.",
@@ -6246,12 +6266,14 @@
             48
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The principal stair rises in the passage in two or three runs against one side wall, open-string with carved and applied bracket ends on the best work, turning at a landing that is lit by its own window.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "landing_position": {
           "value": "the stair rises in the passage against one side wall and turns at a landing lit by a window on the rear or side elevation",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The principal stair rises in the passage in two or three runs against one side wall, open-string with carved and applied bracket ends on the best work, turning at a landing that is lit by its own window.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "riser_height": {
           "range": [
@@ -6270,7 +6292,8 @@
           ],
           "unit": "in",
           "kind": "editorial",
-          "confidence": "low"
+          "confidence": "low",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The principal stair rises in the passage in two or three runs against one side wall, open-string with carved and applied bracket ends on the best work, turning at a landing that is lit by its own window.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "The principal stair rises in the passage in two or three runs against one side wall, open-string with carved and applied bracket ends on the best work, turning at a landing that is lit by its own window.",
@@ -6313,17 +6336,20 @@
         "baluster_pattern": {
           "value": "where three per tread, commonly twisted, fluted and plain in rotation",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Three balusters to a tread in the best work and two in ordinary work, carrying a moulded handrail that ramps and eases into a turned column newel; the open string carries a carved bracket at each tread end.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "handrail": {
           "value": "moulded, ramped and eased into the newel rather than butted to it",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Three balusters to a tread in the best work and two in ordinary work, carrying a moulded handrail that ramps and eases into a turned column newel; the open string carries a carved bracket at each tread end.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "step_end_brackets": {
           "value": "carved and applied to the open string, one per tread",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Three balusters to a tread in the best work and two in ordinary work, carrying a moulded handrail that ramps and eases into a turned column newel; the open string carries a carved bracket at each tread end.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "handrail_height": {
           "range": [
@@ -6430,7 +6456,8 @@
             56
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled overmantel carried to the cornice.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "firebox_width_in": {
           "range": [
@@ -6438,7 +6465,8 @@
             60
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled overmantel carried to the cornice.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "firebox_height_in": {
           "range": [
@@ -6446,7 +6474,8 @@
             40
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled overmantel carried to the cornice.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "surround_width_in": {
           "range": [
@@ -6454,17 +6483,20 @@
             9
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled overmantel carried to the cornice.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "overmantel": {
           "value": "panelled to the cornice on the chimney wall of the best room",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled overmantel carried to the cornice.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "hearth": {
           "value": "stone or brick, projecting 18-24 in into the room",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled overmantel carried to the cornice.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The fireplace is the accented wall of the room: a bolection or full architrave surround with a shelf at 42 to 56 in, and in the best room a panelled overmantel carried to the cornice.",
@@ -6511,7 +6543,8 @@
         "corner_cupboard_shell_radius": {
           "value": "the shell head is a half dome, its radius half the cupboard width",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Built-ins are architectural rather than joinery afterthoughts: a shell-top corner cupboard in the best room, closets flanking the chimney breast where the stack allows…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "closet_depth_in": {
           "range": [
@@ -6519,12 +6552,14 @@
             30
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Built-ins are architectural rather than joinery afterthoughts: a shell-top corner cupboard in the best room, closets flanking the chimney breast where the stack allows…\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "window_seat_condition": {
           "value": "masonry walls only, where the reveal is 4-8 in and the wall is 13.5 in or more",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Built-ins are architectural rather than joinery afterthoughts: a shell-top corner cupboard in the best room, closets flanking the chimney breast where the stack allows…\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Built-ins are architectural rather than joinery afterthoughts: a shell-top corner cupboard in the best room, closets flanking the chimney breast where the stack allows, and window seats only where the wall is thick enough to make one.",
@@ -6576,12 +6611,14 @@
             14
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and in service spaces.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "plank_laying": {
           "value": "random width, running the long dimension of the room, face-nailed with cut or rose-head nails",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and in service spaces.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "board_thickness_in": {
           "range": [
@@ -6589,12 +6626,14 @@
             1.25
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and in service spaces.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "brick_paving_location": {
           "value": "passage, cellar, kitchen and dependency floors",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and in service spaces.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Floors are random-width softwood or oak plank of 6 to 14 in, laid the long way of the room and face-nailed; masonry paving is used in the passage and in service spaces.",
@@ -6688,7 +6727,8 @@
         "finish": {
           "value": "wrought and blackened iron in ordinary rooms; brass box locks and knobs in principal rooms",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Hinges are surface-mounted wrought iron before about 1775 and the door hardware is graded with the room — brass box locks in the principal rooms, iron thumb latches everywhere else.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "hinge_count_per_door": {
           "value": 2,
@@ -6698,7 +6738,8 @@
         "shutter_hardware": {
           "value": "pintles set into the jamb, with a shutter dog at each leaf",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Hinges are surface-mounted wrought iron before about 1775 and the door hardware is graded with the room — brass box locks in the principal rooms, iron thumb latches everywhere else.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "butt_hinge_earliest_date": {
           "value": 1775,
@@ -6763,22 +6804,26 @@
             14
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room opening off it and no room entered through another.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "passage_share_of_facade": {
           "value": "roughly one third on a five-bay front; one fifth to one quarter on a seven-bay",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room opening off it and no room entered through another.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "passage_runs": {
           "value": "front to back, full depth, with an exterior door at each end",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room opening off it and no room entered through another.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "side_hall_condition": {
           "value": "urban lots only, three bays wide",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room opening off it and no room entered through another.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "A passage 10 to 14 ft wide runs the full depth of the house from front door to rear door, dividing it into two equal halves, with every principal room opening off it and no room entered through another.",
@@ -6817,7 +6862,8 @@
         "count": {
           "value": 2,
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Hearths are paired and symmetrical about the passage axis, never a single central stack, and their position on the gable-to-ridge axis is a climate decision that each region settles differently.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "fireplaces_per_stack": {
           "range": [
@@ -6825,7 +6871,8 @@
             4
           ],
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Hearths are paired and symmetrical about the passage axis, never a single central stack, and their position on the gable-to-ridge axis is a climate decision that each region settles differently.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "position_new_england": {
           "value": "interior, 5-12 ft in from the gable ends, flanking the ridge",
@@ -6866,6 +6913,12 @@
               "South Carolina and Georgia low country"
             ]
           }
+        },
+        "breast_position_in_room": {
+          "value": "on the outside wall of the room, opposite or beside the passage door",
+          "unit": "none",
+          "kind": "measured",
+          "note": "Moved here from `room_adjacency_overrides` on 24 Aug 2026 (OQ 15). It was one of six clauses in that slot's flat prose set and it is not an adjacency rule at all -- it says where a physical element sits within a room, which is what this slot is for. The regional `position_*` parameters beside it say where the STACK goes in the building; this says where the breast lands in the room, which is a different question with a different answer and they are both needed to draw the room."
         }
       },
       "rule": "Hearths are paired and symmetrical about the passage axis, never a single central stack, and their position on the gable-to-ridge axis is a climate decision that each region settles differently.",
@@ -6897,17 +6950,20 @@
             12
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The principal stair stands in the passage against one side wall, starting far enough back from the front door that the passage reads as a room before it reads as a stair, and it turns at a landing lit by its own window.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "landing_window": {
           "value": "required, on the rear or side elevation",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The principal stair stands in the passage against one side wall, starting far enough back from the front door that the passage reads as a room before it reads as a stair, and it turns at a landing lit by its own window.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "service_stair": {
           "value": "a second, narrower, enclosed stair serving the service end where the house has one",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The principal stair stands in the passage against one side wall, starting far enough back from the front door that the passage reads as a room before it reads as a stair, and it turns at a landing lit by its own window.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The principal stair stands in the passage against one side wall, starting far enough back from the front door that the passage reads as a room before it reads as a stair, and it turns at a landing lit by its own window.",
@@ -6945,18 +7001,6 @@
       "group": "plan-logic",
       "binding": "specified",
       "parameters": {
-        "adjacency_rules": {
-          "set": [
-            "every principal room opens directly off the passage and off nothing else",
-            "doors across the passage align on a common axis, so the enfilade reads through the house",
-            "the chimney breast is on the outside wall of the room, opposite or beside the passage door",
-            "no principal room is a through-route to another principal room",
-            "the best room is at the front, on the side away from the service end",
-            "windows on two walls of every principal room"
-          ],
-          "unit": "none",
-          "kind": "measured"
-        },
         "door_alignment_tolerance": {
           "value": 0,
           "unit": "in",
@@ -6966,7 +7010,24 @@
       "rule": "Every principal room opens off the passage and nothing else; doors align across the passage on a common axis; no room is a route to another.",
       "status": "drafted",
       "confidence": "low",
-      "note": "THE JOIN POINT TO THE ROOM CATALOGUE THAT DOES NOT EXIST YET, and the limitation shows here more than anywhere. These are six rules of very different kinds — a topological rule about the adjacency graph, a geometric rule about axes, a rule about where a wall element goes, and a preference about orientation — all crammed into one 'many'-cardinality slot as a list of prose strings. They are not the same species and no engine could act on them as written. UNCHANGED IN 0.2.0 AND STILL WRONG. These six rules are of four different kinds — a topological rule about the adjacency graph, a geometric rule about axes, a rule about where a wall element goes, and a preference about orientation — and they are still a flat set of prose strings inside one parameter. This is the slot the room catalogue has to fix; no schema change to the kit can. MIGRATED 0.4.0: this slot now holds only style-specific ADDITIONS to or SUPPRESSIONS of the universal room rules in rooms/. Any statement here that merely restates a universal rule should be deleted."
+      "note": "OQ 15, CLOSED 24 Aug 2026. This slot held six rules of four different kinds as a flat set of prose strings in one 'many'-cardinality parameter -- a topological rule about the adjacency graph, a geometric rule about axes, a rule about where a wall element goes, and a preference about orientation. They are not the same species and no engine could act on them as written. Resolved: TWO were about the adjacency graph and are now typed `rules` above (the second of them folding in a clause that restated it). THREE were duplication of slots that already say the same thing, and are deleted rather than moved -- 'the best room is at the front, on the side away from the service end' is `public_private_gradient`'s own rule sentence ('Rank falls front to back'); 'no principal room is a through-route to another' is that same slot's 'no room is entered through another' and this slot's own first clause; 'windows on two walls of every principal room' is `daylight_strategy`'s `walls_lit_per_principal_room: 2` and its rule sentence verbatim. ONE was not about adjacency at all -- the chimney breast's position within the room -- and has moved to `hearth_position`, which owns where the hearth goes. A style that states a universal rule here is duplicating data that will drift; that was true of half of what was here.",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "restricts",
+          "statement": "Every principal room opens directly off the passage and off nothing else, so no principal room is a route to another.",
+          "why": "This is what a centre passage IS, and what distinguishes the Georgian plan from the hall-and-parlor it replaced: the passage takes the through traffic so the rooms stop being corridors. The universal room records do not forbid a door between two principal rooms -- an enfilade is a legitimate arrangement elsewhere -- so this narrows them.",
+          "confidence": "high",
+          "note": "Folded in the sixth clause of the old flat set, 'no principal room is a through-route to another principal room', which stated the same restriction a second time (OQ 15)."
+        },
+        {
+          "kind": "axis",
+          "effect": "adds",
+          "statement": "Doors across the passage align on a common axis, so the enfilade reads through the house from front door to rear.",
+          "why": "A requirement no room record makes, and one of the two or three things that most reliably separates a designed Georgian plan from a room list with a corridor. The tolerance is the `door_alignment_tolerance` parameter beside this: zero inches.",
+          "confidence": "high"
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",
@@ -6993,7 +7054,8 @@
         "detached_min_distance_ft": {
           "value": 25,
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Service is removed from the main block — detached, hyphenated or in the basement — and it has its own circulation which does not cross the formal plan except at the passage.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "hyphen_length_ft": {
           "range": [
@@ -7001,7 +7063,8 @@
             20
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Service is removed from the main block — detached, hyphenated or in the basement — and it has its own circulation which does not cross the formal plan except at the passage.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "dependency_height_ratio": {
           "range": [
@@ -7009,7 +7072,8 @@
             0.75
           ],
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Service is removed from the main block — detached, hyphenated or in the basement — and it has its own circulation which does not cross the formal plan except at the passage.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "strategy_new_england": {
           "value": "rear ell or lean-to, attached",
@@ -7071,7 +7135,8 @@
             40
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Double-pile at 32 to 40 ft deep is the Northern and Mid-Atlantic norm; single-pile at 18 to 22 ft is the Chesapeake answer and it is a ventilation decision, not a poverty one.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "single_pile_depth_ft": {
           "range": [
@@ -7079,7 +7144,8 @@
             22
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Double-pile at 32 to 40 ft deep is the Northern and Mid-Atlantic norm; single-pile at 18 to 22 ft is the Chesapeake answer and it is a ventilation decision, not a poverty one.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "facade_width_ft": {
           "range": [
@@ -7087,7 +7153,8 @@
             72
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Double-pile at 32 to 40 ft deep is the Northern and Mid-Atlantic norm; single-pile at 18 to 22 ft is the Chesapeake answer and it is a ventilation decision, not a poverty one.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "bay_count": {
           "set": [
@@ -7096,7 +7163,8 @@
             7
           ],
           "unit": "count",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Double-pile at 32 to 40 ft deep is the Northern and Mid-Atlantic norm; single-pile at 18 to 22 ft is the Chesapeake answer and it is a ventilation decision, not a poverty one.\" -- which is the reasoning, not a citation. STATED AS A SET OF PERMITTED VALUES. An enumeration is not an uncertainty band: a source would confirm or extend the list, not narrow it."
         },
         "frame_bay_ft": {
           "expr": "module",
@@ -7149,17 +7217,20 @@
         "windows_per_principal_room": {
           "value": 2,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Every principal room is lit from two walls, the passage is lit at both ends, and the total glazing runs around a tenth of the floor area — which is dark by modern standards and is what the rooms were designed for.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "walls_lit_per_principal_room": {
           "value": 2,
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Every principal room is lit from two walls, the passage is lit at both ends, and the total glazing runs around a tenth of the floor area — which is dark by modern standards and is what the rooms were designed for.\" -- which is the reasoning, not a citation. A SINGLE FIGURE WITH NO SOURCE AND NO BAND, which is the weakest form in this corpus and the class OQ 18 most needs closed -- it reads as precise and is not."
         },
         "passage_lit": {
           "value": "at both ends, through the front and rear doors and their transoms",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Every principal room is lit from two walls, the passage is lit at both ends, and the total glazing runs around a tenth of the floor area — which is dark by modern standards and is what the rooms were designed for.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "Every principal room is lit from two walls, the passage is lit at both ends, and the total glazing runs around a tenth of the floor area — which is dark by modern standards and is what the rooms were designed for.",
@@ -7402,17 +7473,20 @@
         "approach": {
           "value": "on the entrance axis, so the front is met square-on",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The house presents a composed front square-on to its approach, and where it has two approaches it has two fully composed fronts; it is never seen obliquely as a picturesque object.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "two_front_condition": {
           "value": "plantation houses with a land front and a river front, both fully composed",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The house presents a composed front square-on to its approach, and where it has two approaches it has two fully composed fronts; it is never seen obliquely as a picturesque object.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "urban_condition": {
           "value": "the front wall on the street line, entrance directly on the pavement with a stoop of 3-5 risers",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The house presents a composed front square-on to its approach, and where it has two approaches it has two fully composed fronts; it is never seen obliquely as a picturesque object.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The house presents a composed front square-on to its approach, and where it has two approaches it has two fully composed fronts; it is never seen obliquely as a picturesque object.",
@@ -7434,17 +7508,20 @@
         "governing_factor": {
           "value": "the approach and the composition, not the sun",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The house is oriented to its approach and to symmetry; the entrance faces the road or the water and everything else follows from that.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "chimney_axis": {
           "value": "the ridge runs across the approach axis so the chimneys are seen against the sky from the front",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The house is oriented to its approach and to symmetry; the entrance faces the road or the water and everything else follows from that.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "passage_axis": {
           "value": "front to back on the approach axis, which sets the cross-ventilation axis whether or not it suits the prevailing wind",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The house is oriented to its approach and to symmetry; the entrance faces the road or the water and everything else follows from that.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The house is oriented to its approach and to symmetry; the entrance faces the road or the water and everything else follows from that.",
@@ -7509,7 +7586,8 @@
         "arrangement": {
           "value": "symmetrically disposed about the entrance axis where they are visible from the approach; informally grouped in the service yard where they are not",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Outbuildings that are visible from the approach are composed symmetrically about the axis and subordinated in height; outbuildings in the service yard are not composed at all.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "dependency_height_ratio": {
           "range": [
@@ -7517,7 +7595,8 @@
             0.75
           ],
           "unit": "ratio",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Outbuildings that are visible from the approach are composed symmetrically about the axis and subordinated in height; outbuildings in the service yard are not composed at all.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "detached_kitchen_distance_ft": {
           "range": [
@@ -7525,7 +7604,8 @@
             80
           ],
           "unit": "ft",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"Outbuildings that are visible from the approach are composed symmetrically about the axis and subordinated in height; outbuildings in the service yard are not composed at all.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         }
       },
       "rule": "Outbuildings that are visible from the approach are composed symmetrically about the axis and subordinated in height; outbuildings in the service yard are not composed at all.",
@@ -7565,12 +7645,14 @@
             54
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "picket_spacing": {
           "value": "picket width to picket gap roughly 1:1",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "brick_wall_height_in": {
           "range": [
@@ -7578,17 +7660,20 @@
             96
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "wall_coping": {
           "value": "moulded or bevelled brick, or stone",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "gate_position": {
           "value": "on the entrance axis, always",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The forecourt is enclosed by a painted picket fence or a brick wall with piers, with the gate on the entrance axis; field boundaries are post-and-rail.",
@@ -7646,17 +7731,20 @@
         "geometry": {
           "value": "rectilinear, axial, symmetrical about the entrance axis",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The landscape near the house is geometric and axial — forecourt, terraces, allee, walled garden in quarters — and it is composed with the elevation rather than around it.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "planting": {
           "value": "clipped and architectural near the house; the picturesque begins beyond the ha-ha if at all",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The landscape near the house is geometric and axial — forecourt, terraces, allee, walled garden in quarters — and it is composed with the elevation rather than around it.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "terrace_falls": {
           "value": "the falls at Middleton Place and the Chesapeake terraced gardens are the canonical case",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The landscape near the house is geometric and axial — forecourt, terraces, allee, walled garden in quarters — and it is composed with the elevation rather than around it.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The landscape near the house is geometric and axial — forecourt, terraces, allee, walled garden in quarters — and it is composed with the elevation rather than around it.",
@@ -7692,7 +7780,8 @@
             36
           ],
           "unit": "in",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The house sits on a plinth: the water table stands 24 to 36 in above finished grade on every elevation, and the grade falls away from the wall rather than being banked against it.\" -- which is the reasoning, not a citation. STATED AS A BAND RATHER THAN A FIGURE. The width of the band IS the uncertainty, and narrowing it needs evidence."
         },
         "exposed_foundation_in": {
           "expr": "part * 2",
@@ -7709,12 +7798,14 @@
         "grade_fall_away_from_wall": {
           "value": "not less than 6 in in the first 10 ft",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The house sits on a plinth: the water table stands 24 to 36 in above finished grade on every elevation, and the grade falls away from the wall rather than being banked against it.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         },
         "raised_basement_condition": {
           "value": "Charleston and urban Mid-Atlantic; the principal floor a full storey above grade with the entry stair rising to it",
           "unit": "none",
-          "kind": "editorial"
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED (OQ 18, annotated 25 Aug 2026; reclassified 25 Aug after audit). The basis stated for this slot is: \"The house sits on a plinth: the water table stands 24 to 36 in above finished grade on every elevation, and the grade falls away from the wall rather than being banked against it.\" -- which is the reasoning, not a citation. A CATEGORICAL CALL, NOT A MEASUREMENT -- it names a treatment or a class, so no citation would sharpen it into a number. What it needs is a source showing the tradition makes this choice, not a figure."
         }
       },
       "rule": "The house sits on a plinth: the water table stands 24 to 36 in above finished grade on every elevation, and the grade falls away from the wall rather than being banked against it.",

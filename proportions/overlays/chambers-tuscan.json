@@ -130,7 +130,8 @@
       ],
       "judgment": true,
       "note": "JUDGMENT SLOT, AND A CHAMBERS SIGNATURE. He parameterises the order by building type instead of fixing it: 'I have given to the Height of the Tuscan Column seven Diameters, or fourteen Modules; a proportion which is very proper for rural or military works' - but in 'Town buildings, intended for civil purposes, or in interior decorations, the Height of the Column may be fourteen and a half, or even fifteen Modules, as Scamozzi makes it.' Vignola gives one number for all uses. Chambers gives a band and a criterion for choosing within it, which is what a professional practice actually needs.",
-      "authority_note": "Chambers, Treatise 1759, p. 42."
+      "authority_note": "Chambers, Treatise 1759, p. 42.",
+      "quantity": "column_height_in_diameters"
     },
     {
       "target_slot": "entablature",
@@ -142,7 +143,8 @@
         0.25
       ],
       "note": "Three and a half modules on a fourteen-module column - Vignola's quarter, retained. But Chambers attaches a rider that Vignola does not: when the column is heightened to 14 1/2 or 15 modules for a town building, the ENTABLATURE IS NOT HEIGHTENED WITH IT. It 'will be sufficiently bold, though its Height be a little less than one quarter of the Height of the Column', which at 15 modules is 3.5/15 = 0.233. The whole increase goes on the shaft. The range is the ratio of entablature to column across his permitted column heights.",
-      "authority_note": "Chambers, Treatise 1759, p. 42."
+      "authority_note": "Chambers, Treatise 1759, p. 42.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "column",
@@ -150,7 +152,8 @@
       "expression": "column_height / 7 * (5 / 6)",
       "units": "in",
       "note": "The upper diameter, and the reasoning behind where the curve starts. Chambers reports that in the antiques the diminution begins 'sometimes from the foot of the Shaft, and at others from one quarter, or one third of its height; the lower part being perfectly Cylindrical', and then chooses: the first 'was most in use amongst the Antients, and being the most natural and graceful ought to have the preference'. Vignola makes the lower third cylindrical. Chambers curves the shaft from the foot, using Blondel's instrument after the first conchoid of Nicomedes, which performs 'both the swelling and the diminution' in one stroke and gives 'such a graceful form to the Column, that it is universally allowed to be the most perfect practice hitherto discovered'. The fraction is the same as Vignola's; the curve is not.",
-      "authority_note": "Chambers, Treatise 1759, pp. 32-34."
+      "authority_note": "Chambers, Treatise 1759, pp. 32-34.",
+      "quantity": "shaft_upper_diameter"
     },
     {
       "target_slot": "pilaster",
@@ -158,7 +161,8 @@
       "expression": "5 / 6",
       "units": "ratio",
       "note": "PILASTERS ARE DIMINISHED. Chambers is blunt about the common practice of running them parallel: 'To assert that Pilasters are not susceptible of diminution shews very little acquaintance either with books of Architecture' or with the antique, where 'there are several instances thereof'. The ratio is the top width to the bottom width, the same 5/6 as the column. Vignola leaves the question open and most Georgian joinery ran pilasters parallel because it is easier to mitre.",
-      "authority_note": "Chambers, Treatise 1759, pp. 72-75."
+      "authority_note": "Chambers, Treatise 1759, pp. 72-75.",
+      "quantity": "pilaster_diminution_ratio"
     },
     {
       "target_slot": "chair_rail",
@@ -171,7 +175,8 @@
         0.33
       ],
       "note": "JUDGMENT SLOT. The pedestal cap as the dado datum: pedestal 0.3, column 1.0, entablature 0.25, so the cap lands at 0.194 of the whole - about 21 in at a 9 ft ceiling, against 0.21 and 23 in under Vignola. Chambers's lower pedestal makes the classical dado lower, and the gap to the modern 32-36 in chair rail correspondingly wider. Where a room must satisfy both, take the classical height for the dado CAP and run a separate rail at furniture height, rather than moving the dado.",
-      "authority_note": "Chambers, Treatise 1759, pp. 83-84."
+      "authority_note": "Chambers, Treatise 1759, pp. 83-84.",
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "porch_support",
@@ -179,7 +184,8 @@
       "expression": "column_height / 7 * 3",
       "units": "in",
       "note": "Clear span, diastyle. Chambers rejects the araeostyle outright 'for its deficiency in point of strength', so three diameters is the widest bay he permits - even in the Tuscan, and even with a timber architrave. Palladio would go wider in this order; Vignola draws 2 1/3.",
-      "authority_note": "Chambers, Treatise 1759, p. 89."
+      "authority_note": "Chambers, Treatise 1759, p. 89.",
+      "quantity": "clear_span_between_supports"
     },
     {
       "target_slot": "crown",
@@ -187,7 +193,8 @@
       "expression": "ceiling_height / 5 * (3 / 8)",
       "units": "in",
       "note": "The room as an order. Chambers's Tuscan cornice takes about three eighths of the entablature, and the entablature is a fifth of wall-plus-cornice: 8.1 in at a 9 ft ceiling. Carried here rather than inherited because the arithmetic runs in thirtieths and not in twelfths, and a reader working from the Vignola pack will otherwise mix scales.",
-      "authority_note": "Chambers, Treatise 1759, p. 38."
+      "authority_note": "Chambers, Treatise 1759, p. 38.",
+      "quantity": "interior_cornice_height"
     }
   ],
   "conflicts": [

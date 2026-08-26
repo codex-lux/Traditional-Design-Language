@@ -103,9 +103,12 @@
   "servicing_strategy": "The vestibule is the thermal break; where there is none, the entrance hall does the job badly and the heating load shows it.",
   "circulation_parti": [
     "center-hall",
-    "side-hall",
     "central-chimney-lobby",
-    "gallery"
+    "enfilade",
+    "gallery",
+    "hall-and-parlor",
+    "none-direct-entry",
+    "side-hall"
   ],
   "style_variation": [
     {
@@ -128,6 +131,7 @@
   "sources": [
     "Alexander, A Pattern Language, patterns 110-112",
     "Poston, The Buildings of Charleston",
-    "Lancaster, The American Bungalow"
+    "Lancaster, The American Bungalow",
+    "WP-4.5 widened circulation_parti: Widened by WP-4.5. A house entered directly, with no hall to receive the door, still has an entry sequence - it is just a shorter one, and the Creole and hall-and-parlor partis both name this grouping."
   ]
 }

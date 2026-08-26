@@ -56,7 +56,8 @@
         336.0
       ],
       "authority_note": "Reconstructed central tendency from measured Anglo-American vernacular plans; the honest band is 1.15 to 1.40 and the mode sits near 1.25.",
-      "note": "ROOM LENGTH FROM ROOM BREADTH. Seventeen feet six inches on a fourteen-foot room. This is the pack's headline number and it should be read against the room-harmonic pack, where it will not be found: 4 : 5 is neither one of Palladio's seven nor one of Alberti's nine. Ordinary rooms are SQUARER than the treatises recommend, and consistently so. The reason is that all three of the physical constraints - span, hearth and daylight - act on the SHORT dimension and none of them acts on the long one, so there is nothing pushing the long dimension out; a builder who has settled his span has no reason to make the room longer than the furniture and the door swings require. The theoretical rooms are long because length is where a designer puts ambition, and the vernacular builder had somewhere else to put it."
+      "note": "ROOM LENGTH FROM ROOM BREADTH. Seventeen feet six inches on a fourteen-foot room. This is the pack's headline number and it should be read against the room-harmonic pack, where it will not be found: 4 : 5 is neither one of Palladio's seven nor one of Alberti's nine. Ordinary rooms are SQUARER than the treatises recommend, and consistently so. The reason is that all three of the physical constraints - span, hearth and daylight - act on the SHORT dimension and none of them acts on the long one, so there is nothing pushing the long dimension out; a builder who has settled his span has no reason to make the room longer than the furniture and the door swings require. The theoretical rooms are long because length is where a designer puts ambition, and the vernacular builder had somewhere else to put it.",
+      "quantity": "room_length_from_breadth"
     },
     {
       "target_slot": "room_adjacency_overrides",
@@ -72,7 +73,7 @@
     },
     {
       "target_slot": "depth_and_pile",
-      "dimension": "width",
+      "dimension": "room_depth_from_window_wall",
       "expression": "storey_height * 0.78 * 2.25",
       "units": "in",
       "range": [
@@ -80,11 +81,12 @@
         300.0
       ],
       "authority_note": "The daylight rule of thumb: useful daylight from single-sided glazing reaches about 2 to 2.5 times the window head height above the floor. Advanced Buildings' Daylighting Pattern Guide states the modern form ('section depths not much more than two and a half times deeper than the head height of the perimeter windows') and caps the absolute at about 25 ft.",
-      "note": "MAXIMUM ROOM DEPTH FROM ONE WINDOW WALL. Fifteen feet nine inches on a nine-foot storey, taking the head at 0.78 of the storey after the storey-graduation pack. THIS IS THE MOST TRANSFERABLE RULE IN THE PACK because it is physics rather than custom - it was true in 1650, it is true now, and it is the same number in both cases. It is also the rule that explains the single-pile plan: a one-room-deep house exists because a room deeper than about 16 ft has a dark back wall, and no amount of candle or lamp made that acceptable when the alternative was to build long instead of deep. The corollary is the useful one for new work: RAISE THE HEAD AND YOU BUY DEPTH, one for two and a quarter. Six inches of extra head height is worth over a foot of room depth, and it is far cheaper than the extra glass area that would be needed to achieve the same effect by widening."
+      "note": "MAXIMUM ROOM DEPTH FROM ONE WINDOW WALL. Fifteen feet nine inches on a nine-foot storey, taking the head at 0.78 of the storey after the storey-graduation pack. THIS IS THE MOST TRANSFERABLE RULE IN THE PACK because it is physics rather than custom - it was true in 1650, it is true now, and it is the same number in both cases. It is also the rule that explains the single-pile plan: a one-room-deep house exists because a room deeper than about 16 ft has a dark back wall, and no amount of candle or lamp made that acceptable when the alternative was to build long instead of deep. The corollary is the useful one for new work: RAISE THE HEAD AND YOU BUY DEPTH, one for two and a quarter. Six inches of extra head height is worth over a foot of room depth, and it is far cheaper than the extra glass area that would be needed to achieve the same effect by widening.",
+      "quantity": "room_depth_from_window_wall"
     },
     {
       "target_slot": "daylight_strategy",
-      "dimension": "ratio",
+      "dimension": "daylight_depth_multiplier",
       "expression": "2.25",
       "units": "ratio",
       "range": [
@@ -92,7 +94,8 @@
         2.6
       ],
       "authority_note": "The published band is 1.5x head height for good daylight, 2.0x for adequate, 2.5x for the outer limit of useful single-sided daylight; a light-coloured ceiling and a high reflectance rear wall move it toward the top of the band and a deep porch or a dark interior moves it toward the bottom.",
-      "note": "THE DAYLIGHT DEPTH MULTIPLIER. Take 2.25 as the vernacular working figure - historic interiors had whitewashed ceilings and light plaster, which puts them at the generous end - and drop to 1.8 wherever there is a porch, a deep eave, a verandah or a shading tree, because all four lower the effective head. THIS IS THE RULE A PORCH BREAKS, and it is worth stating in one line: an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth. The Southern answer was to raise the storey until the head was high enough to carry the loss, which is why porched vernacular houses have taller ceilings than unporched ones in the same region, and why lowering the ceiling of a porched house is a mistake that is felt long before it is understood."
+      "note": "THE DAYLIGHT DEPTH MULTIPLIER. Take 2.25 as the vernacular working figure - historic interiors had whitewashed ceilings and light plaster, which puts them at the generous end - and drop to 1.8 wherever there is a porch, a deep eave, a verandah or a shading tree, because all four lower the effective head. THIS IS THE RULE A PORCH BREAKS, and it is worth stating in one line: an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth. The Southern answer was to raise the storey until the head was high enough to carry the loss, which is why porched vernacular houses have taller ceilings than unporched ones in the same region, and why lowering the ceiling of a porched house is a mistake that is felt long before it is understood.",
+      "quantity": "daylight_depth_multiplier"
     },
     {
       "target_slot": "ceiling_height_rule",
@@ -104,7 +107,8 @@
         144.0
       ],
       "authority_note": "Measured finished ceiling heights in vernacular building: first-period New England 6 ft 8 in - 7 ft 6 in; eighteenth-century ordinary 7 ft 6 in - 8 ft 6 in; nineteenth-century upland and farmhouse 8 ft - 9 ft 6 in; Tidewater and Deep South 10 ft - 12 ft; post-1900 bungalow 8 ft 6 in - 9 ft.",
-      "note": "EIGHT FEET, and the number is a compromise between three forces pulling in different directions. HEAT pulls it down, because a low room is warmable and a tall one is not - this dominates in the north and produces the seven-foot first-period ceiling. AIR pulls it up, because a tall room with high openings stratifies and vents - this dominates in the humid south and produces the twelve-foot Tidewater ceiling. MATERIAL sets the resolution, because a ceiling height is a post length and posts came in the lengths trees came in. The regional split in vernacular ceiling height is therefore a climate map, and it is one of the most reliable diagnostics available: a seven-foot ceiling in Charleston or a twelve-foot ceiling in Vermont is a building that has been designed rather than built."
+      "note": "EIGHT FEET, and the number is a compromise between three forces pulling in different directions. HEAT pulls it down, because a low room is warmable and a tall one is not - this dominates in the north and produces the seven-foot first-period ceiling. AIR pulls it up, because a tall room with high openings stratifies and vents - this dominates in the humid south and produces the twelve-foot Tidewater ceiling. MATERIAL sets the resolution, because a ceiling height is a post length and posts came in the lengths trees came in. The regional split in vernacular ceiling height is therefore a climate map, and it is one of the most reliable diagnostics available: a seven-foot ceiling in Charleston or a twelve-foot ceiling in Vermont is a building that has been designed rather than built.",
+      "quantity": "ground_storey_ceiling_height"
     },
     {
       "target_slot": "hearth_position",
@@ -116,11 +120,12 @@
         240.0
       ],
       "judgment": true,
-      "note": "WIDTH OF ROOM ONE HEARTH WILL SERVE. Fourteen feet. Marked judgment because the number depends on the fireplace, the fuel, the insulation and the climate, and the measured record spreads accordingly - a Rumford fireplace in a well-caulked house serves a room twice what a shallow seventeenth-century opening serves in a leaky one, and a cast-iron stove after 1830 changes the answer again and is the real reason nineteenth-century rooms got bigger. What the rule is FOR is the negative case: if the plan shows one hearth serving a room much over 300 sq ft, either the room was not heated to a comfortable temperature (which is historically normal and should be said out loud) or the plan is wrong. The dogtrot, the hall-and-parlor and the double-pen all have the fireplace count they have because of this constraint - see massing:dogtrot, massing:hall-and-parlor, massing:double-pen."
+      "note": "WIDTH OF ROOM ONE HEARTH WILL SERVE. Fourteen feet. Marked judgment because the number depends on the fireplace, the fuel, the insulation and the climate, and the measured record spreads accordingly - a Rumford fireplace in a well-caulked house serves a room twice what a shallow seventeenth-century opening serves in a leaky one, and a cast-iron stove after 1830 changes the answer again and is the real reason nineteenth-century rooms got bigger. What the rule is FOR is the negative case: if the plan shows one hearth serving a room much over 300 sq ft, either the room was not heated to a comfortable temperature (which is historically normal and should be said out loud) or the plan is wrong. The dogtrot, the hall-and-parlor and the double-pen all have the fireplace count they have because of this constraint - see massing:dogtrot, massing:hall-and-parlor, massing:double-pen.",
+      "quantity": "hearth_or_stack_width"
     },
     {
       "target_slot": "window_grouping_rule",
-      "dimension": "count",
+      "dimension": "windows_on_principal_wall",
       "expression": "max(1, floor(module / 60))",
       "units": "count",
       "range": [
@@ -128,7 +133,8 @@
         5.0
       ],
       "authority_note": "Measured: one window per 5-7 ft of exterior wall in ordinary work, less in first-period and log building, more after 1850.",
-      "note": "WINDOWS ON THE PRINCIPAL WALL. Two on the default. Vernacular fenestration is set by glass cost and by the wall the frame will give up, not by daylight calculation - which means that historic rooms are usually UNDER-glazed relative to their depth, and that the daylight rule above describes the limit rather than the practice. A restored interior lit to modern expectations is not a restored interior. Where a new building needs more light than the type will carry, add windows to the SAME rank on the same wall rather than enlarging the ones there, which keeps the elevation honest; the sash-light pack owns the pattern within each opening."
+      "note": "WINDOWS ON THE PRINCIPAL WALL. Two on the default. Vernacular fenestration is set by glass cost and by the wall the frame will give up, not by daylight calculation - which means that historic rooms are usually UNDER-glazed relative to their depth, and that the daylight rule above describes the limit rather than the practice. A restored interior lit to modern expectations is not a restored interior. Where a new building needs more light than the type will carry, add windows to the SAME rank on the same wall rather than enlarging the ones there, which keeps the elevation honest; the sash-light pack owns the pattern within each opening.",
+      "quantity": "windows_on_principal_wall"
     },
     {
       "target_slot": "room_adjacency_overrides",
@@ -140,7 +146,8 @@
         6.0
       ],
       "authority_note": "The room count follows directly from the frontage divided by the room breadth; two is the vernacular floor because a one-room house is a cabin and has its own type.",
-      "note": "ROOMS ACROSS THE FRONT. The whole Anglo-American folk-house catalogue is this arithmetic: one room is massing:hall-single-cell, two unequal rooms is massing:hall-and-parlor, two equal rooms is massing:double-pen, two rooms with a passage between is massing:center-passage-single-pile and then massing:i-house. The types are not stylistic choices; they are the small number of ways a fourteen-foot room tiles a frontage. This is worth saying to a client who wants a 'colonial' with a 40 ft open front: the type does not exist because the room does not."
+      "note": "ROOMS ACROSS THE FRONT. The whole Anglo-American folk-house catalogue is this arithmetic: one room is massing:hall-single-cell, two unequal rooms is massing:hall-and-parlor, two equal rooms is massing:double-pen, two rooms with a passage between is massing:center-passage-single-pile and then massing:i-house. The types are not stylistic choices; they are the small number of ways a fourteen-foot room tiles a frontage. This is worth saying to a client who wants a 'colonial' with a 40 ft open front: the type does not exist because the room does not.",
+      "quantity": "rooms_across_the_front"
     },
     {
       "target_slot": "circulation_parti",
@@ -152,7 +159,8 @@
         120.0
       ],
       "authority_note": "Measured central passages run 6 to 12 ft; 8-10 ft where the passage is a living space in hot climates, 6-7 ft where it is only circulation.",
-      "note": "SIX FEET of central passage. The passage is the one dimension in vernacular planning that is genuinely regional rather than physical: in the north it is the minimum a stair and two doors need, and in the Chesapeake and the Deep South it is a room in its own right, cross-ventilated and furnished, sometimes 12 ft wide. If the design is southern and the passage is 6 ft, the plan has been drawn from a northern precedent."
+      "note": "SIX FEET of central passage. The passage is the one dimension in vernacular planning that is genuinely regional rather than physical: in the north it is the minimum a stair and two doors need, and in the Chesapeake and the Deep South it is a room in its own right, cross-ventilated and furnished, sometimes 12 ft wide. If the design is southern and the passage is 6 ft, the plan has been drawn from a northern precedent.",
+      "quantity": "passage_clear_width"
     },
     {
       "target_slot": "stair_position",
@@ -163,7 +171,8 @@
         28.0,
         60.0
       ],
-      "note": "THREE FEET of stair well width - the enclosed winder or straight-run stair of ordinary building, not the open dog-leg of a designed house. A vernacular stair is a piece of joinery squeezed against a chimney or into a corner, and it is the single element most often over-designed in reproduction work. If the stair is 4 ft wide with a turned newel and an open string, the house is no longer vernacular whatever its exterior says."
+      "note": "THREE FEET of stair well width - the enclosed winder or straight-run stair of ordinary building, not the open dog-leg of a designed house. A vernacular stair is a piece of joinery squeezed against a chimney or into a corner, and it is the single element most often over-designed in reproduction work. If the stair is 4 ft wide with a turned newel and an open string, the house is no longer vernacular whatever its exterior says.",
+      "quantity": "stair_well_width"
     },
     {
       "target_slot": "service_zone_strategy",
@@ -190,25 +199,27 @@
     },
     {
       "target_slot": "ceiling_height_rule",
-      "dimension": "height",
+      "dimension": "upper_storey_ceiling_height",
       "expression": "part * 7.5",
       "units": "in",
       "range": [
         60.0,
         126.0
       ],
-      "note": "SEVEN FEET SIX in the chamber above. The upper storey of a vernacular house is not a diminished version of the lower one, it is a different kind of space: unheated or barely heated, used for sleeping and storage, and frequently under the roof rather than under a ceiling. Where it is under the roof the governing dimension is not this one at all but the head height at the knee wall, which the storey-graduation pack is right to flag as the number that actually decides whether the space is usable."
+      "note": "SEVEN FEET SIX in the chamber above. The upper storey of a vernacular house is not a diminished version of the lower one, it is a different kind of space: unheated or barely heated, used for sleeping and storage, and frequently under the roof rather than under a ceiling. Where it is under the roof the governing dimension is not this one at all but the head height at the knee wall, which the storey-graduation pack is right to flag as the number that actually decides whether the space is usable.",
+      "quantity": "upper_storey_ceiling_height"
     },
     {
       "target_slot": "reveal_masonry",
-      "dimension": "width",
+      "dimension": "interior_partition_thickness",
       "expression": "part * 0.4",
       "units": "in",
       "range": [
         3.0,
         12.0
       ],
-      "note": "FOUR AND A HALF TO FIVE INCHES of finished interior partition - a 3 to 4 in stud or a plank partition with plaster or board both sides. This dimension matters because it is subtracted from the frame twice on the way to the room: a 16 ft bay with a 5 in partition and 5 in of exterior wall finish gives a 15 ft 2 in room, and if the frame was designed to the room the house comes out short. Dimension the ROOM and let the frame follow, or dimension the frame and accept the room you get, but do not do both from the same number. Retargeted at ontology 0.3.0: 'wall_thickness_expression' was split by trade, and this rule belongs to reveal_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "FOUR AND A HALF TO FIVE INCHES of finished interior partition - a 3 to 4 in stud or a plank partition with plaster or board both sides. This dimension matters because it is subtracted from the frame twice on the way to the room: a 16 ft bay with a 5 in partition and 5 in of exterior wall finish gives a 15 ft 2 in room, and if the frame was designed to the room the house comes out short. Dimension the ROOM and let the frame follow, or dimension the frame and accept the room you get, but do not do both from the same number. Retargeted at ontology 0.3.0: 'wall_thickness_expression' was split by trade, and this rule belongs to reveal_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "interior_partition_thickness"
     },
     {
       "target_slot": "fireplace_surround",
@@ -224,14 +235,15 @@
     },
     {
       "target_slot": "depth_and_pile",
-      "dimension": "width",
+      "dimension": "room_depth_from_window_wall",
       "expression": "storey_height * 0.78 * 1.2",
       "units": "in",
       "range": [
         72.0,
         180.0
       ],
-      "note": "THE SECOND-RANK ROOM, lit borrowed or end-on. Eight feet five on a nine-foot storey. When a plan goes double-pile the back room loses its window wall and is lit through a door, a transom, a borrowed light or a single gable-end window, and the depth it can carry collapses to about 1.2 times the head height. This is why the back rooms of a double-pile plan are the service rooms, the closets and the stairs, and why putting a principal room there is a mistake that no amount of glazing on the end wall fixes. The transom over an interior door is not a decorative motif; it is the device that made this room habitable, and removing it in a renovation is why so many restored double-pile houses feel dark in a way the owners cannot account for."
+      "note": "THE SECOND-RANK ROOM, lit borrowed or end-on. Eight feet five on a nine-foot storey. When a plan goes double-pile the back room loses its window wall and is lit through a door, a transom, a borrowed light or a single gable-end window, and the depth it can carry collapses to about 1.2 times the head height. This is why the back rooms of a double-pile plan are the service rooms, the closets and the stairs, and why putting a principal room there is a mistake that no amount of glazing on the end wall fixes. The transom over an interior door is not a decorative motif; it is the device that made this room habitable, and removing it in a renovation is why so many restored double-pile houses feel dark in a way the owners cannot account for.",
+      "quantity": "room_depth_from_window_wall"
     },
     {
       "target_slot": "room_adjacency_overrides",
@@ -242,7 +254,8 @@
         108.0,
         240.0
       ],
-      "note": "THE SQUARE CELL. Fourteen by fourteen. Glassie's structural analysis of middle Virginia folk housing turns on the observation that the vernacular builder worked from a square base unit and generated the house by adding, halving and extending it, rather than by proportioning a rectangle. That is a fundamentally different mental operation from Palladio's, and it produces a different building: additive, extendable, and indifferent to the elevation. Where a plan looks 'wrong' by harmonic standards but reads as coherent on site, this is usually why - it was generated, not proportioned."
+      "note": "THE SQUARE CELL. Fourteen by fourteen. Glassie's structural analysis of middle Virginia folk housing turns on the observation that the vernacular builder worked from a square base unit and generated the house by adding, halving and extending it, rather than by proportioning a rectangle. That is a fundamentally different mental operation from Palladio's, and it produces a different building: additive, extendable, and indifferent to the elevation. Where a plan looks 'wrong' by harmonic standards but reads as coherent on site, this is usually why - it was generated, not proportioned.",
+      "quantity": "room_length_from_breadth"
     }
   ],
   "conflicts": [

@@ -1,0 +1,203 @@
+{
+  "id": "overlook",
+  "name": "Overlook",
+  "aka": [
+    "open gallery",
+    "mezzanine",
+    "upper lobby",
+    "minstrels' gallery",
+    "gallery over the hall"
+  ],
+  "function_class": "circulation",
+  "description": "An upper-level circulation space open on one long side to a double-height room below, guarded rather than walled. It is not a landing, and the difference is the whole reason this room exists in the catalogue: a landing is where a stair changes direction and its defining dimension is the stair's going, while an overlook is a piece of upper corridor whose defining dimension is the length of the opening it guards and whose defining property is that the volume below is visible and audible from it. Where the two coincide - and they often do at the head of an open stair - the room is a landing that has become an overlook, and it should be recorded as this type, because the guard, the acoustics and the daylight all behave differently once the floor beside you is missing.",
+  "history": {
+    "appears": 1450,
+    "declines": null,
+    "note": "Two separate ancestries meet in the modern version and it is worth keeping them apart. The first is the medieval great hall's minstrels' gallery over the screens passage, which is a real room with a function; the English tradition carries it forward into the Jacobean and Elizabethan long-galleried house. The second is the American Shingle-style and Queen Anne living hall of the 1880s, where the stair rises through the principal room and the upper corridor becomes a balcony onto it - Richardson and the Shingle-style houses make this the diagram's signature. The contemporary spec-house version descends from the second by way of the 1980s two-storey entry, and it is where the type is most often done badly: an overlook onto an entry foyer nobody occupies gives the upstairs corridor a view of a chandelier and gives the downstairs no benefit at all, while transmitting every sound in the house to every bedroom door."
+  },
+  "dimensions": {
+    "area_sf": [
+      40,
+      260
+    ],
+    "width_ft": [
+      4,
+      10
+    ],
+    "length_ft": [
+      8,
+      40
+    ],
+    "proportion": [
+      1.6,
+      6.0
+    ],
+    "ceiling_min_ft": 8,
+    "critical_dimension": "WIDTH, MEASURED FROM THE GUARD TO THE WALL BEHIND, AND IT IS ROUTINELY DRAWN TOO NARROW. An overlook is a corridor first: 42 in clear is the working minimum for one person passing a guard they instinctively keep a shoulder's width from, and 36 in - the figure a plan reaches for because it is the code corridor width - produces a route people sidle along. Where the overlook serves more than two rooms or carries furniture it wants 5 to 6 ft. THE SECOND DIMENSION is the length of the open side, and it is what separates the type from a hole in the floor: below about 8 ft the opening reads as a gap rather than a gallery and the room below gains nothing. THE THIRD, and the one that decides whether the room is pleasant or merely dramatic, is the height from the overlook's floor to the ceiling above it - if the double-height volume is 18 ft and the overlook has 8 ft over it, the overlook is a shelf in a canyon; the good examples give the upper level its own generous ceiling so it reads as a room with a missing wall rather than a ledge."
+  },
+  "furniture": [
+    {
+      "item": "clear passing route along the open side",
+      "footprint_in": [
+        42,
+        120
+      ],
+      "clearance_in": null,
+      "note": "42 in rather than the code's 36: people do not walk tight to a guard with a drop behind it, and a 36 in overlook measures 36 and works like 30"
+    },
+    {
+      "item": "guard to the open side",
+      "footprint_in": [
+        5,
+        120
+      ],
+      "clearance_in": null,
+      "note": "Its thickness eats the width. A 5 in newel-and-baluster rail and a 12 in panelled parapet are different rooms at the same nominal dimension"
+    },
+    {
+      "item": "bookcase or chest against the closed wall",
+      "footprint_in": [
+        14,
+        48
+      ],
+      "clearance_in": 36,
+      "essential": false,
+      "note": "The furniture the type invites, and the reason 5 ft rather than 42 in is the better width where there is room for it"
+    }
+  ],
+  "daylight": {
+    "depth_multiplier": 2.4,
+    "sides_lit": 1,
+    "orientation": "Usually none of its own. The overlook is normally lit borrowed - from a tall window in the volume below, or from a window at its own end - and the good versions put a window at the end of the run so the corridor has a destination and is not lit only from the side that has no floor.",
+    "note": "The overlook's real daylight role is what it does for the room BELOW, not for itself: a double-height space with an overlook on one side has a high wall free for tall glazing, and that is the whole daylight argument for the type. It works in the other direction too - an overlook lets light from an upper window fall into the plan's centre, which is how the type earns its place in a deep house. What it cannot do is light the rooms that open off it: those still need their own windows, and an upstairs corridor lit only by the void beside it leaves every bedroom door in the dark."
+  },
+  "adjacency": {
+    "must_adjoin": [
+      {
+        "room": "stair-hall",
+        "why": "an overlook is a piece of upper circulation and must be reached by the stair it usually accompanies; an overlook you cannot get onto is a decorative hole",
+        "relation": "direct-door",
+        "strength": "strong",
+        "via": [
+          "landing"
+        ]
+      }
+    ],
+    "should_adjoin": [
+      {
+        "room": "hall",
+        "why": "the room it overlooks. In the living-hall types this is the whole point — the upper corridor is a balcony onto the house's principal room, and a 'gallery' with nothing open beneath it is just a corridor. OQ 57, ruled 24 Aug 2026: this is a VERTICAL relation and the corpus can now say so. It was held at 'preferred' with an apology attached because adjacency was evaluated within a level only, so the rule could never pass on a correct plan; it is back at 'strong' and means what it says.",
+        "relation": "open-to-below",
+        "strength": "strong"
+      },
+      {
+        "room": "bedroom",
+        "why": "it is the corridor that serves the upper rooms, and if it serves none it is a viewing platform rather than a room",
+        "relation": "direct-door",
+        "strength": "preferred"
+      }
+    ],
+    "must_not_adjoin": [
+      {
+        "room": "primary-bedroom",
+        "why": "an overlook carries every sound in the house up and along it. A primary bedroom door opening straight onto one is the single most common acoustic complaint in houses that have this room, and the fix - a short lobby or a turn - costs almost nothing at plan stage and cannot be added later",
+        "relation": "acoustically-separated",
+        "strength": "preferred"
+      }
+    ],
+    "entered_from": [
+      "landing",
+      "stair-hall",
+      "any-circulation"
+    ],
+    "never_a_through_room": false
+  },
+  "privacy_rank": 3,
+  "servicing": {
+    "plumbing": "none",
+    "ventilation": "The overlook is the top of a stack of warm air and the reason a double-height room stratifies. Where the volume below is heated, expect the overlook to run several degrees warmer than the rooms off it, and expect that to be the occupants' complaint rather than a comfort they enjoy. A high operable window at the overlook's own level is the traditional answer and it also gives the stack somewhere to go in summer.",
+    "heat": "Usually none of its own and usually needs some, for the same reason: the air is warm but the guard side is a large cold radiant surface in winter if the volume below is glazed.",
+    "electrical": "Light the closed wall, not the void. A fixture hung in the double-height volume lights the drama and leaves the corridor itself dim at exactly the height a person walks.",
+    "stack_proximity_ft": null
+  },
+  "style_variation": [
+    {
+      "style": "shingle-style",
+      "name_in_style": "gallery",
+      "trim_grade": "high",
+      "note": "The canonical American version: the upper corridor opens onto the living hall over the inglenook and the stair, with a heavy turned or shingled balustrade, and the hall below is read as a room with a gallery rather than a stairwell with a landing. This is the type at its best and it is why massed-picturesque houses want this room typed rather than a landing."
+    },
+    {
+      "style": "queen-anne-american",
+      "trim_grade": "high",
+      "note": "Spindled screens and turned balusters, often with a window seat on the overlook itself, and frequently combined with a corner turret so the gallery turns."
+    },
+    {
+      "style": "tudor",
+      "name_in_style": "minstrels' gallery",
+      "trim_grade": "high",
+      "note": "Over the screens passage at the low end of the great hall, with a panelled parapet rather than an open balustrade. Its position is fixed by the hall's hierarchy, not chosen: it is always at the service end, never over the dais."
+    },
+    {
+      "style": "colonial-revival",
+      "trim_grade": "middle",
+      "note": "Present but usually thinned - a short run of turned balusters over a two-storey entry rather than over an inhabited room. This is the version the fault corpus's arguments about the two-storey foyer are aimed at."
+    },
+    {
+      "style": "georgian-colonial-american",
+      "present": false,
+      "note": "Absent. The Georgian upper passage is a walled corridor and the stair hall is a room in its own right, closed at each level. An overlook in a Georgian plan is a nineteenth-century or later alteration, and putting one in a new Georgian house is importing a Victorian idea into a plan whose whole logic is the enfilade of closed rooms."
+    },
+    {
+      "style": "cape-cod-colonial",
+      "present": false,
+      "note": "Absent, and impossible at the type's ceiling heights."
+    }
+  ],
+  "code": [
+    {
+      "requirement": "Guards at least 36 in high are required where the walking surface is more than 30 in above the floor below, with openings that will not pass a 4 in sphere.",
+      "ref": "IRC R312.1",
+      "conflict": "The 4 in sphere rule is what makes a period baluster spacing illegal, and the overlook is where the conflict is most visible because the run is long and straight. faults/guard-height-against-the-period-rail.json carries the argument; the honest fixes are a closer baluster spacing accepted as a departure, or a panelled parapet which was always a legitimate period alternative and sidesteps the rule entirely."
+    },
+    {
+      "requirement": "Corridors serving habitable rooms require a minimum clear width, commonly 36 in.",
+      "ref": "IRC R311.6",
+      "conflict": "36 in is a floor, not a target, and an overlook built to it is the narrowest usable version of this room. See critical_dimension."
+    },
+    {
+      "requirement": "A double-height volume connecting two storeys may be treated as a vertical opening requiring draftstopping or, in some jurisdictions, sprinkler provision.",
+      "conflict": "This is the constraint that most often kills a proposed overlook late in design, and it is worth checking before the double-height room is drawn rather than after."
+    }
+  ],
+  "massing_fit": [
+    "massed-picturesque",
+    "cross-gable-victorian",
+    "h-plan-manor",
+    "four-over-four",
+    "foursquare",
+    "villa-tower",
+    "split-level"
+  ],
+  "slots": [
+    "stair_type",
+    "newel_balustrade",
+    "daylight_strategy",
+    "special_window",
+    "ceiling_height_rule"
+  ],
+  "faults": [
+    "guard-height-against-the-period-rail",
+    "rail-without-a-bottom-rail",
+    "handrail-you-cannot-grip",
+    "open-plan-in-a-room-based-style"
+  ],
+  "sources": [
+    "docs/reports/wp-2.1-reference-corpus.md, which found this room twice independently (bad-05's Mezzanine and good-05's upper Lobby) overloading rooms/landing.json and named it as a real catalogue gap",
+    "rooms/landing.json, which this room is deliberately distinguished from",
+    "rooms/hall.json, whose style_variation for the living-hall types describes the volume this room looks into",
+    "Vincent Scully, The Shingle Style and the Stick Style (rev. ed. 1971), on the living hall and its gallery",
+    "editorial: the 42 in working width and the 8 ft minimum opening length are this corpus's own judgment from the reference drawings rather than published figures"
+  ],
+  "confidence": "medium"
+}

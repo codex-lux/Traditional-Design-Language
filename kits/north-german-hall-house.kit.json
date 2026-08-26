@@ -1,7 +1,7 @@
 {
   "style": "north-german-hall-house",
   "style_name": "North German Hall House",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -246,6 +246,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -310,6 +315,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {
@@ -699,6 +709,20 @@
       "rule": "Livestock stand in the two side aisles (Kubbungen), heads turned inward toward the Diele so they are fed, watered, milked and watched from the working floor; the family's beds are built into the wall as cupboards around the Flett, with no door or partition anywhere between the sleeping area and the cattle stalls.",
       "sources": [
         "north-german-hall-house.json description.long"
+      ],
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "adds",
+          "statement": "Livestock stand in the two side aisles (Kubbungen), heads turned inward toward the Diele, and the family's beds are built into the wall as cupboards around the Flett with no door or partition anywhere between the sleeping area and the cattle stalls.",
+          "why": "An arrangement the room catalogue cannot state at all -- it has no stall, no Diele and no built-in bed -- so this is an addition rather than a restriction, and it is unenforceable until those rooms exist. Recorded as prose rather than faked as a rule against room types that are not there."
+        },
+        {
+          "kind": "orientation",
+          "effect": "adds",
+          "statement": "The cattle face inward to the working floor, so they are fed, watered, milked and watched from it.",
+          "why": "Separated from the clause above because it is a different species: which way an occupant faces, not what adjoins what. It is also the reason for the arrangement."
+        }
       ]
     },
     "service_zone_strategy": {

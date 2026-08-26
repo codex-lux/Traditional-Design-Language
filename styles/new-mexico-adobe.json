@@ -244,9 +244,15 @@
   ],
   "proportion_packs": [
     {
+      "pack": "adobe-module",
+      "role": "primary",
+      "note": "The node that states this system most completely, and the one every figure in the pack was checked against. Its own proportional_system block already carried the wall thickness, the ten-to-one height limit, the ceiling to the underside of the vigas, the 12-16 ft viga span, the 6-12 per cent glazed area, the 12-24 in parapet, the quarter-inch-per-foot fall to the canales, the 8-12 ft portal and the 6-9 ft post spacing -- as numbers in prose with, in its own words, 'no proportion pack behind any of them.' They have one now, and the pack derives them from a single module rather than listing them, which is the difference between a table and a grammar. Primary; room-vernacular stays as the room system.",
+      "precedence": 0
+    },
+    {
       "pack": "room-vernacular",
       "role": "room",
-      "note": "Explicitly listed in this pack's own applies_to, and the fit is close: viga span limits room clear width to 12-16 ft here, against the pack's reconstructed 14-18 ft band, and the resulting long, narrow, strung-rather-than-stacked room is exactly what the pack's span/hearth/daylight logic predicts for a beam-limited vernacular tradition, even though the beam is a peeled ponderosa viga rather than a sawn joist and the wall behind it is adobe rather than frame. As on the parent spanish-colonial-american node, nothing else in this corpus governs: the wall itself (24-36 in thick, height not more than 10x thickness), the corner fogon, the portal on posts with carved zapatas, and the canale-drained parapet are all real, numbered constraints in this node's own record with no proportion pack behind any of them. A dedicated mass-wall/adobe module is missing from the corpus.",
+      "note": "Explicitly listed in this pack's own applies_to, and the fit is close: viga span limits room clear width to 12-16 ft here, against the pack's reconstructed 14-18 ft band, and the resulting long, narrow, strung-rather-than-stacked room is exactly what the pack's span/hearth/daylight logic predicts for a beam-limited vernacular tradition, even though the beam is a peeled ponderosa viga rather than a sawn joist and the wall behind it is adobe rather than frame. As on the parent spanish-colonial-american node, nothing else in this corpus governs: the wall itself (24-36 in thick, height not more than 10x thickness), the corner fogon, the portal on posts with carved zapatas, and the canale-drained parapet are all real, numbered constraints in this node's own record with no proportion pack behind any of them. SUPERSEDED 25 Aug 2026: the mass-wall/adobe module this sentence asked for is `adobe-module`, bound primary on this node, and every one of the numbered constraints listed above now has a pack behind it.",
       "precedence": 1
     }
   ]

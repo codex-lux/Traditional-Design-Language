@@ -244,6 +244,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "opening-craftsman",
+      "role": "opening",
+      "note": "States the system in almost the same words as craftsman -- 'two datums and one structural rhythm' -- and adds the sentence that gives the grouping rule its point: 'the group, not the sash, is the compositional unit.' It also supplies the one qualification the pack quotes verbatim in its porch rule, that the porch is 'deep enough to furnish', which is a functional dimension rather than a compositional one and is the honest reason a porch of this type is seven feet and not five.",
+      "precedence": 0
+    },
+    {
       "pack": "trim-craftsman",
       "role": "interior",
       "authority": "trim-craftsman",

@@ -253,6 +253,12 @@
   ],
   "proportion_packs": [
     {
+      "pack": "balcony-gallery",
+      "role": "secondary",
+      "note": "Secondary. This record calls the cast-iron balcony under an ogee-tented copper hood 'the single most reliable Regency signature and one that appears in no earlier style', and pairs it with the floor-length window that makes it usable -- both are rules here. The finding this node contributes is that its balcony at 900-1200 mm deep is structurally the SAME THING as the Louisiana abat-vent at 30-48 in: both hung off a wall on rods or brackets with nothing under them, both landing in the same band, and neither record aware of the other. What the pack does not carry is the iron's pattern vocabulary -- the anthemion, lyre, heart and trellis this record names -- which is an ornament repertoire rather than a proportional system and stays on WP-4.1's candidate list. Nor the tented copper hood, which is a roof form and has no figures here.",
+      "precedence": 0
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Bound as the top-governing pack in place of an order, because this node's own governing_logic says so directly: 'Georgian proportional habits, loosened and lightened, with Greek orders used as motifs rather than as a generative module.' No order pack is bound primary or secondary on this node -- see the chambers-doric entry below for why. What actually generates a Regency elevation is the composition itself: the retained Georgian bay and pier discipline, now loosened to admit a bow or a canted front at the centre of a villa or the end of a terrace, and at the largest scale (Nash's Regent's Park terraces) a whole row composed as one palace-fronted scenographic object.",
@@ -301,6 +307,13 @@
       "authority": "brick-course",
       "note": "The structural module survives entirely hidden: 'almost everything structural is inherited -- the brick carcass... but... the brick is covered in stucco, ruled and lined to imitate ashlar.' The coursing this pack governs is real and still sets the wall's dimensions; it is simply never seen.",
       "precedence": 8
+    },
+    {
+      "pack": "greek-doric",
+      "role": "secondary",
+      "precedence": 9,
+      "authority": "greek-doric",
+      "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding. Regency's Greek Doric is the diagnostic order WP-4.1's PB-2 batch flagged as having no true pack; this is it."
     }
   ]
 }

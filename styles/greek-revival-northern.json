@@ -256,22 +256,35 @@
       "precedence": 5
     },
     {
+      "pack": "facade-peristyle",
+      "role": "facade",
+      "note": "The same reasoning as `greek-revival-american`, and this node states the screen-and-wall relation in the direction that pack's rule calls settlement 3: the portico 'sets the bay module for the wall behind it'. Worth noting against `neoclassical-revival`, where the same two systems are explicitly NOT reconciled -- two American styles fifty years apart taking opposite answers to one question, which is the clearest demonstration in the corpus that the question is real.",
+      "precedence": 6
+    },
+    {
       "pack": "facade-classical",
       "role": "facade",
       "note": "Governs the temple-front and gable-front composition and the portico's bay-setting intercolumniation (2.25-2.75 diameters). Where columns are absent, the pack's composed-elevation logic still applies to the continuous corner-pilaster-and-entablature assembly the style requires to run unbroken around the building (constraint c01's columnless alternative: total eave assembly at least 18 in on a two-storey house).",
-      "precedence": 6
+      "precedence": 7
     },
     {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "Bound chiefly for the ceiling-height figure and the frieze-window habitable-attic case, as on the parent style; ordinary window-height diminution between floors is not this variant's mechanism. The pack does not model the wing-versus-main-block ridge offset this variant's own constraint (c03: wing ridge 3-6 ft below the main ridge, front plane recessed at least 2 ft) requires for the upright-and-wing silhouette -- that hierarchy is a massing/plan relationship, not a storey relationship, and no pack among the 36 covers it. A genuine, acknowledged gap.",
-      "precedence": 7
+      "precedence": 8
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "Not listed in this pack's own applies_to cross-reference (which names greek-revival-american and greek-revival-southern-plantation but not this variant), and bound here anyway on architectural grounds stated plainly: this variant's interiors are pattern-book carpenter work off Lafever's and Benjamin's plates -- 'heavy symmetrical door architraves and corner blocks' -- not the accumulated, undesigned rooms room-vernacular covers, which is reserved here for greek-revival-upland-vernacular where the plan genuinely predates the style.",
-      "precedence": 8
+      "precedence": 9
+    },
+    {
+      "pack": "greek-doric",
+      "role": "secondary",
+      "precedence": 10,
+      "authority": "greek-doric",
+      "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
     }
   ]
 }

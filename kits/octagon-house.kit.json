@@ -1,7 +1,7 @@
 {
   "style": "octagon-house",
   "style_name": "Octagon House",
-  "ontology_version": "0.5.0",
+  "ontology_version": "0.7.0",
   "kit_version": "0.2.1",
   "slots": {
     "composition_parti": {
@@ -234,6 +234,11 @@
       "parameters": {},
       "status": "empty"
     },
+    "expressed_frame": {
+      "group": "envelope",
+      "binding": "open",
+      "status": "empty"
+    },
     "reveal_masonry": {
       "group": "envelope",
       "binding": "open",
@@ -298,6 +303,11 @@
       "binding": "open",
       "variants": [],
       "parameters": {},
+      "status": "empty"
+    },
+    "arch": {
+      "group": "openings",
+      "binding": "open",
       "status": "empty"
     },
     "window_head_masonry": {
@@ -684,7 +694,21 @@
       },
       "rule": "No single room shall occupy more than three of the eight sides, and each principal room shall have openings on at least two faces. This is what buys the cross-light and cross-ventilation the type exists for (c03).",
       "confidence": "high",
-      "status": "drafted"
+      "status": "drafted",
+      "rules": [
+        {
+          "kind": "topology",
+          "effect": "restricts",
+          "statement": "No single room shall occupy more than three of the eight sides.",
+          "why": "Fowler's own c03. Machine-readable against `max_sides_per_room` beside this."
+        },
+        {
+          "kind": "daylight",
+          "effect": "adds",
+          "statement": "Each principal room shall have openings on at least two faces.",
+          "why": "A daylight claim, not an adjacency one, and it is what the three-sides restriction is FOR: cross-light and cross-ventilation are the reason the type exists. Kept here rather than moved to `daylight_strategy` because it is inseparable from the geometric rule above -- and flagged as the one clause in this slot corpus-wide whose home is arguable."
+        }
+      ]
     },
     "service_zone_strategy": {
       "group": "plan-logic",

@@ -96,7 +96,8 @@
       ],
       "authority_note": "A solid brick wall is a whole number of half-brick wythes and nothing else. One brick (two wythes, header-bonded) is about 9 in; one and a half brick about 13 1/2 in; two brick about 18 in. Surviving Chesapeake great houses run 18-24 in at the base.",
       "note": "This is the rule that decides which bonds are even available. Flemish and English bond are through-bonds: they require headers that pass into the wall, so they require at least a one-brick wall. A 3 5/8 in veneer over wood frame physically cannot be laid in Flemish bond, and the 'Flemish' veneers of production building are half-bricks glued to the face. Default 13 1/2 in = one and a half brick, the ordinary two-storey Anglo-colonial wall. Retargeted at ontology 0.3.0: 'wall_thickness_expression' was split by trade, and this rule belongs to reveal_masonry. The other heir needs its own rule and does not yet have one.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "wall_reveal_depth"
     },
     {
       "target_slot": "reveal_masonry",
@@ -118,7 +119,8 @@
       ],
       "authority_note": "24-36 in above grade is the range recorded across Tidewater and Mid-Atlantic brick houses; the moulded course itself must land on a course line.",
       "note": "Two and a half modules — ten courses — puts the top of the water table at 27 1/2 in on the default coursing. Set the number of courses first and let the height fall where it falls; never set the height and ask the mason to make it work.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "water_table_top_above_grade"
     },
     {
       "target_slot": "water_table",
@@ -143,11 +145,12 @@
         156.0
       ],
       "authority_note": "Attested throughout: the belt course centres on the second-floor framing, which is where the wall steps in.",
-      "note": "The rounding is the whole rule. The belt course lands on the course line nearest the second-floor structure, and then the storey height is adjusted to match — not the other way round. On a 110 in storey with a 2 3/4 in course the belt bed joint is at 110.0 in exactly (40 courses); on a 108 in storey it goes to 107.25 (39 courses) or 110.0 (40) and the framer is told which."
+      "note": "The rounding is the whole rule. The belt course lands on the course line nearest the second-floor structure, and then the storey height is adjusted to match — not the other way round. On a 110 in storey with a 2 3/4 in course the belt bed joint is at 110.0 in exactly (40 courses); on a 108 in storey it goes to 107.25 (39 courses) or 110.0 (40) and the framer is told which.",
+      "quantity": "belt_course_height_above_floor"
     },
     {
       "target_slot": "belt_course",
-      "dimension": "height",
+      "dimension": "belt_band_own_depth",
       "expression": "part * 2",
       "units": "in",
       "range": [
@@ -155,11 +158,12 @@
         8.5
       ],
       "authority_note": "Belt courses in surviving work run from one plain rowlock course to three courses with a moulded brick cap.",
-      "note": "Two courses is the ordinary case: a moulded or bevelled brick over a plain projecting course. A one-course belt reads as an accident at any distance; a four-course belt starts competing with the cornice and should only appear on a building with a full order."
+      "note": "Two courses is the ordinary case: a moulded or bevelled brick over a plain projecting course. A one-course belt reads as an accident at any distance; a four-course belt starts competing with the cornice and should only appear on a building with a full order.",
+      "quantity": "belt_band_own_depth"
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "head_height_above_floor",
       "expression": "round(opening_width * 2.05 / part) * part",
       "units": "in",
       "range": [
@@ -167,7 +171,8 @@
         108.0
       ],
       "authority_note": "Anglo-American brick openings run 1.9:1 to 2.2:1 height to width; the Chesapeake runs at the tall end, 2.0:1 to 2.2:1.",
-      "note": "This is the single rule that most distinguishes real brickwork from drawn brickwork. The opening height is not a design number — it is whatever whole multiple of the course lands nearest the intended proportion, because the head of the opening has to be a bed joint. Get this wrong and the arch springs from a half-course and every jamb in the elevation has a cut brick in it. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "This is the single rule that most distinguishes real brickwork from drawn brickwork. The opening height is not a design number — it is whatever whole multiple of the course lands nearest the intended proportion, because the head of the opening has to be a bed joint. Get this wrong and the arch springs from a half-course and every jamb in the elevation has a cut brick in it. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "head_height_above_floor"
     },
     {
       "target_slot": "window_proportion",
@@ -178,11 +183,12 @@
         1.85,
         2.25
       ],
-      "note": "The realised ratio after the head has been snapped to a course. Report it, don't specify it. If the snapped ratio falls outside the band, change the opening width by a half-brick (4 1/2 in) rather than forcing the height."
+      "note": "The realised ratio after the head has been snapped to a course. Report it, don't specify it. If the snapped ratio falls outside the band, change the opening width by a half-brick (4 1/2 in) rather than forcing the height.",
+      "quantity": "opening_height_over_width"
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "flat_arch_camber",
       "expression": "opening_width / 96",
       "units": "in",
       "range": [
@@ -190,7 +196,8 @@
         0.75
       ],
       "authority_note": "The traditional camber for a gauged flat (jack) arch is 1/8 in per foot of span, i.e. span/96.",
-      "note": "A flat arch is not flat. Its soffit is cambered up by about 1/8 in per foot so that when the wall settles it reads level; a truly level flat arch reads as sagging within a decade. A 40 in opening gets a bit under a half inch of camber. This is invisible on paper and unmistakable on the building. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "A flat arch is not flat. Its soffit is cambered up by about 1/8 in per foot so that when the wall settles it reads level; a truly level flat arch reads as sagging within a decade. A 40 in opening gets a bit under a half inch of camber. This is invisible on paper and unmistakable on the building. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "flat_arch_camber"
     },
     {
       "target_slot": "window_head_masonry",
@@ -202,11 +209,12 @@
         16.5
       ],
       "authority_note": "Gauged flat arches in surviving 18th-century work are three to five courses deep; the Brick Industry Association's structural minimum for a modern jack arch is 4 in plus 1 in per foot of span.",
-      "note": "The depth of the arch itself. One module — four courses, 11 in on the default — satisfies both the historic look and the modern structural minimum up to a 7 ft span. The two rules agree, which is not an accident: the historic mason arrived at the same number empirically. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "The depth of the arch itself. One module — four courses, 11 in on the default — satisfies both the historic look and the modern structural minimum up to a 7 ft span. The two rules agree, which is not an accident: the historic mason arrived at the same number empirically. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "lintel_or_arch_depth"
     },
     {
       "target_slot": "window_head_masonry",
-      "dimension": "height",
+      "dimension": "segmental_arch_rise",
       "expression": "opening_width / 8",
       "units": "in",
       "range": [
@@ -214,7 +222,8 @@
         9.0
       ],
       "authority_note": "Segmental heads on 17th and early-18th-century Anglo-American brickwork rise between 1/12 and 1/6 of the span; 1/8 is the common case.",
-      "note": "The rise of a segmental arch. Early work is segmental, later work goes flat and cambered — the change is roughly 1720-1750 in the Chesapeake and is a better date marker than most trim. A segmental head on a 1780 house is as wrong as a Palladian window on a 1650 one. Below 1/12 the arch stops behaving as an arch and needs a relieving lintel; above 1/6 it starts reading as a relieving arch over a lintel, which is a different and older detail. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one."
+      "note": "The rise of a segmental arch. Early work is segmental, later work goes flat and cambered — the change is roughly 1720-1750 in the Chesapeake and is a better date marker than most trim. A segmental head on a 1780 house is as wrong as a Palladian window on a 1650 one. Below 1/12 the arch stops behaving as an arch and needs a relieving lintel; above 1/6 it starts reading as a relieving arch over a lintel, which is a different and older detail. Retargeted at ontology 0.3.0: 'window_head' was split by trade, and this rule belongs to window_head_masonry. The other heir needs its own rule and does not yet have one.",
+      "quantity": "segmental_arch_rise"
     },
     {
       "target_slot": "window_sill",
@@ -226,7 +235,8 @@
         4.5
       ],
       "authority_note": "The ordinary Anglo-American brick sill is a single rowlock course, laid on edge and pitched.",
-      "note": "One course. A rowlock sill occupies exactly the course it displaces, which is why it does not disturb the coursing of the wall beside it. A stone sill in a brick wall must be sized to a whole number of courses too, or the jambs beside it go to pieces."
+      "note": "One course. A rowlock sill occupies exactly the course it displaces, which is why it does not disturb the coursing of the wall beside it. A stone sill in a brick wall must be sized to a whole number of courses too, or the jambs beside it go to pieces.",
+      "quantity": "sill_height_above_floor"
     },
     {
       "target_slot": "window_surround_wood",
@@ -238,7 +248,8 @@
         9.0
       ],
       "authority_note": "Rubbed-and-gauged jamb work and brick architraves in surviving work run from a half-brick (4 1/2 in) to a brick and a half.",
-      "note": "A brick surround is measured in bricks, not inches. Half a brick reads as a change of texture only; a full brick (9 in) reads as an architrave. There is nothing available in between, and drawing a 6 in brick architrave produces a wall full of cut brick. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one."
+      "note": "A brick surround is measured in bricks, not inches. Half a brick reads as a change of texture only; a full brick (9 in) reads as an architrave. There is nothing available in between, and drawing a 6 in brick architrave produces a wall full of cut brick. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one.",
+      "quantity": "window_casing_face_width"
     },
     {
       "target_slot": "corner_quoin",
@@ -250,7 +261,8 @@
         8.5
       ],
       "authority_note": "Brick quoins are laid up in units of two or three courses so that the long face and the short face alternate on a whole-course rhythm.",
-      "note": "Brick quoins must alternate on a whole number of courses or the corner will not close. Two courses per quoin is the ordinary rhythm and gives a quoin about 5 1/2 in high by 13 1/2 in long — squarer and smaller than a stone quoin, which is why brick quoins read as pattern and stone quoins read as structure. Retargeted at ontology 0.3.0: 'corner_treatment' was split by trade, and this rule belongs to corner_quoin. The other heir needs its own rule and does not yet have one."
+      "note": "Brick quoins must alternate on a whole number of courses or the corner will not close. Two courses per quoin is the ordinary rhythm and gives a quoin about 5 1/2 in high by 13 1/2 in long — squarer and smaller than a stone quoin, which is why brick quoins read as pattern and stone quoins read as structure. Retargeted at ontology 0.3.0: 'corner_treatment' was split by trade, and this rule belongs to corner_quoin. The other heir needs its own rule and does not yet have one.",
+      "quantity": "quoin_bed_height"
     },
     {
       "target_slot": "cornice",
@@ -263,7 +275,8 @@
       ],
       "authority_note": "Corbelled brick cornices in Anglo-American and Dutch work run three to eight courses, each course stepping out about a quarter to a third of a brick.",
       "note": "A corbelled brick cornice is a stack of whole courses, each stepping out no more than about 1 in (a third of the brick's bearing must remain on the course below, or the corbel fails). Five courses at 1 in each gives a 5 in projection over a 13 3/4 in height — flatter and taller than a wooden cornice, which is exactly why an all-brick building looks wrong with a big wooden box cornice sitting on it and right with a modest one.",
-      "judgment": false
+      "judgment": false,
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "ceiling_height_rule",
@@ -286,7 +299,8 @@
         60.0
       ],
       "note": "Chimney plan dimensions are whole bricks: a stack is 1 1/2 x 2 bricks (about 13 1/2 x 18 in), 2 x 2 (18 in square), 2 x 3 (18 x 27 in) and so on. Twenty-two inches on the default coursing is between sizes; the mason will build 18 or 27 and someone should decide which rather than discovering it on site.",
-      "judgment": true
+      "judgment": true,
+      "quantity": "stack_plan_width"
     },
     {
       "target_slot": "steps_and_stoop",

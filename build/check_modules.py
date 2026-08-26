@@ -69,17 +69,33 @@ def load_massing_ids(path):
 
 class Ref:
     """Attribute/item access over the pack dict, so invariant expressions can be written
-    as 'module.default_size_in' or 'assemblies.water_table.height_modules'."""
+    as 'module.default_size_in' or 'assemblies.water_table.height_modules'.
+
+    A LIST of dicts is addressed by its members' `id`, so that
+    'assemblies.wall_section.members.base_course.height_parts' resolves. This is not a
+    convenience: check_orders.py's SafeEval has always done it, and until WP-4.6 this
+    Ref did not, so the same invariant expression was legal in an order pack and a
+    NameError in a module pack. Two checkers over one schema field disagreeing about
+    the expression language is the kind of drift that makes an author write the weaker
+    of two true statements, and the weaker statement is the one that does not name the
+    member it is about.
+    """
 
     def __init__(self, data):
         self._d = data
 
     def __getattr__(self, name):
+        d = self._d
+        if isinstance(d, list):
+            match = [x for x in d if isinstance(x, dict) and x.get("id") == name]
+            if len(match) != 1:
+                raise AttributeError(name)
+            return Ref(match[0])
         try:
-            v = self._d[name]
+            v = d[name]
         except (KeyError, TypeError):
             raise AttributeError(name)
-        return Ref(v) if isinstance(v, dict) else v
+        return Ref(v) if isinstance(v, (dict, list)) else v
 
     def __repr__(self):
         return f"Ref({self._d!r})"
@@ -220,9 +236,15 @@ def main():
                           f"non-finite result {v!r} on {b}")
                         break
                     if rng and not (rng[0] <= v <= rng[1]):
-                        W(f"derived_rules[{i}] ({r['target_slot']}): "
-                          f"{v:g} outside declared range {rng} at opening_width="
-                          f"{b['opening_width', 'opening_height']:g}, storey_height={b['storey_height']:g}")
+                        # `b['opening_width', 'opening_height']` was a TUPLE KEY, not a fallback --
+                        # a KeyError every time it ran. Which means it never ran: this warning path
+                        # is only reached when a rule lands outside its own declared range, and no
+                        # module pack had done that until WP-4.6 wrote one. So --eval has been
+                        # checking ranges and been unable to report a violation for as long as it
+                        # has existed. Found 25 Aug 2026 by a rule that was genuinely out of band.
+                        ctx = ", ".join(f"{k}={b[k]:g}" for k in sorted(b))
+                        W(f"derived_rules[{i}] ({r['target_slot']}/{r.get('dimension')}): "
+                          f"{v:g} outside declared range {rng} at {ctx}")
 
         confs = pack.get("conflicts", [])
         if not (CONFLICT_BAND[0] <= len(confs) <= CONFLICT_BAND[1]):

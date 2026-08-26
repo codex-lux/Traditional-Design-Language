@@ -307,6 +307,12 @@
       "role": "optional",
       "note": "The vernacular frame equivalent, per the style's own wording -- demoted below brick-course for this variant specifically, the inverse of new-england-federal's ranking. Present chiefly on the Piedmont farmer's I-house version, where the style's own massing_affinities note 'Federal trim at the door only.'",
       "precedence": 9
+    },
+    {
+      "pack": "octagon-geometry",
+      "role": "optional",
+      "note": "Optional, and bound for the canted bay it inherits. This record measures its own distance from the source: 'there is no sharp line between a Piedmont Federal house with a canted bay and a minor Jeffersonian one'. So the corner rule applies where the bay appears and nothing else in the pack does.",
+      "precedence": 10
     }
   ]
 }

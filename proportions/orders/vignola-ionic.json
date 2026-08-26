@@ -574,7 +574,8 @@
       "expression": "column_height / 4",
       "units": "in",
       "note": "The order's one rule, applied at any scale: a full entablature is a quarter of whatever you have called the column. Use it for porticoes and porches, where the column is real.",
-      "authority_note": "Vignola, Regola, plate XVII."
+      "authority_note": "Vignola, Regola, plate XVII.",
+      "quantity": "entablature_height"
     },
     {
       "target_slot": "crown",
@@ -582,7 +583,8 @@
       "expression": "ceiling_height / 5 * (7 / 18)",
       "units": "in",
       "note": "The room read as an order: wall plus cornice is the whole, the entablature is a fifth of it, and the crown is the cornice member of that entablature - 7 of the 18 parts into which Vignola divides the Ionic entablature. At a 9 ft ceiling this gives 8.4 in, which is a correct high-style Georgian cornice.",
-      "authority_note": "Vignola 4:1 column to entablature; Ionic entablature 5:6:7."
+      "authority_note": "Vignola 4:1 column to entablature; Ionic entablature 5:6:7.",
+      "quantity": "interior_cornice_height"
     },
     {
       "target_slot": "crown",
@@ -590,7 +592,8 @@
       "expression": "ceiling_height / 5 * (7 / 18)",
       "units": "in",
       "note": "Projection equal to height. Ware states the rule for every order but the Doric, where the projection is greater.",
-      "authority_note": "Ware, The American Vignola, plate II commentary."
+      "authority_note": "Ware, The American Vignola, plate II commentary.",
+      "quantity": "interior_cornice_projection"
     },
     {
       "target_slot": "baseboard",
@@ -602,7 +605,8 @@
       "range": [
         0.0625,
         0.0833
-      ]
+      ],
+      "quantity": "baseboard_height"
     },
     {
       "target_slot": "chair_rail",
@@ -615,7 +619,8 @@
         0.21,
         0.32
       ],
-      "judgment": true
+      "judgment": true,
+      "quantity": "chair_rail_height_above_floor"
     },
     {
       "target_slot": "wainscot",
@@ -627,7 +632,8 @@
         0.21,
         0.36
       ],
-      "judgment": true
+      "judgment": true,
+      "quantity": "wainscot_top_height"
     },
     {
       "target_slot": "casing",
@@ -638,7 +644,8 @@
       "range": [
         0.1429,
         0.1667
-      ]
+      ],
+      "quantity": "casing_face_width"
     },
     {
       "target_slot": "door_surround",
@@ -646,7 +653,8 @@
       "expression": "opening_width / 2",
       "units": "in",
       "note": "Height of the entablature over the door. Vignola's own doorway is twice as high as wide and its entablature is one quarter the height of the door: 2W/4 = W/2. A 3 ft door therefore carries an 18 in entablature.",
-      "authority_note": "Vignola, Regola, doorway of SS. Lorenzo e Damaso (plate XXXI in the 1889 translation)."
+      "authority_note": "Vignola, Regola, doorway of SS. Lorenzo e Damaso (plate XXXI in the 1889 translation).",
+      "quantity": "entablature_over_door_height"
     },
     {
       "target_slot": "door_surround",
@@ -657,7 +665,8 @@
       "range": [
         0.1429,
         0.1667
-      ]
+      ],
+      "quantity": "architrave_face_width"
     },
     {
       "target_slot": "window_surround_wood",
@@ -668,7 +677,8 @@
       "range": [
         0.125,
         0.1667
-      ]
+      ],
+      "quantity": "window_casing_face_width"
     },
     {
       "target_slot": "window_proportion",
@@ -680,7 +690,8 @@
         1.7,
         2.2
       ],
-      "judgment": true
+      "judgment": true,
+      "quantity": "sash_height_over_width"
     },
     {
       "target_slot": "modillion_dentil",
@@ -688,21 +699,24 @@
       "expression": "module / 3",
       "units": "in",
       "note": "Dentils 6 parts on centres: 4 parts of dentil and 2 of interdentil, the dentil 6 parts high. At the default 6 in module that is a 2 in spacing with a 1 1/3 in dentil - buildable in wood, and the smallest dentil worth cutting.",
-      "authority_note": "Ware: dentil 1/9 D wide, interdentil 1/18 D, 1/6 D on centres."
+      "authority_note": "Ware: dentil 1/9 D wide, interdentil 1/18 D, 1/6 D on centres.",
+      "quantity": "eave_member_spacing"
     },
     {
       "target_slot": "cornice",
       "dimension": "height",
       "expression": "storey_height / 4 * (7 / 18)",
       "units": "in",
-      "note": "Envelope cornice. Treat the storey as the column, take a quarter of it for the entablature, and give the cornice its 7 of 18. A 10 ft storey yields a 12 in cornice with 12 in of projection - which is why real Georgian eaves are deep and why a 6 in crown on a two-storey elevation always reads thin."
+      "note": "Envelope cornice. Treat the storey as the column, take a quarter of it for the entablature, and give the cornice its 7 of 18. A 10 ft storey yields a 12 in cornice with 12 in of projection - which is why real Georgian eaves are deep and why a 6 in crown on a two-storey elevation always reads thin.",
+      "quantity": "exterior_cornice_height"
     },
     {
       "target_slot": "frieze",
       "dimension": "height",
       "expression": "storey_height / 4 * (6 / 18)",
       "units": "in",
-      "note": "Envelope frieze, 6 of the 18 parts. In wood construction this is the board that carries the cornice and hides the plate; giving it its classical depth is what stops the eave from looking applied."
+      "note": "Envelope frieze, 6 of the 18 parts. In wood construction this is the board that carries the cornice and hides the plate; giving it its classical depth is what stops the eave from looking applied.",
+      "quantity": "entablature_frieze_height"
     }
   ],
   "conflicts": [

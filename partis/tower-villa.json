@@ -1,0 +1,326 @@
+{
+ "id": "tower-villa",
+ "name": "Tower Villa",
+ "aka": [
+  "the campanile villa",
+  "Italianate villa",
+  "the belvedere plan"
+ ],
+ "description": "An asymmetrical block with a tower at the inside angle of an L, the entrance at the tower's foot, and the principal rooms opening off a hall that runs from it. The tower is not an ornament added to a plan: it is the plan's pivot. It takes the front door, the stair and the top-floor belvedere, and because it does, the two ranges of the L are freed from having to be symmetrical about anything - which is precisely what the picturesque theorists wanted and what the Georgian plan could not give them. Take the tower away and the diagram collapses into an ordinary side-hall house with an awkward corner. An Italianate tower villa of the largest sort runs to 5,500 sf with a service wing and a conservatory. The range above is what these rooms reach; it was 5,500, of which 97% was reachable (OQ 45).",
+ "massing": "villa-tower",
+ "alternate_massings": [
+  "cross-gable-victorian",
+  "massed-picturesque"
+ ],
+ "styles": [
+  "italianate-villa",
+  "italian-villa-vernacular"
+ ],
+ "groupings": [
+  "stair-and-landing-core",
+  "kitchen-work-core",
+  "primary-suite",
+  "secondary-bedroom-cluster",
+  "public-enfilade"
+ ],
+ "circulation_parti": "side-hall",
+ "storeys": 2,
+ "area_range_sf": [
+  2000,
+  5300
+ ],
+ "bedroom_range": [
+  3,
+  5
+ ],
+ "rooms": [
+  {
+   "id": "porch",
+   "type": "entry-porch",
+   "level": 0,
+   "name": "Entrance Porch",
+   "exterior_walls": [
+    "S"
+   ],
+   "doors": [
+    "exterior",
+    "hall"
+   ],
+   "note": "At the foot of the tower, in the angle of the L. Round-arched and usually single-storey against the tower's height, which is what makes the tower read as tall."
+  },
+  {
+   "id": "hall",
+   "type": "entrance-hall",
+   "level": 0,
+   "name": "Hall",
+   "exterior_walls": [
+    "S"
+   ],
+   "doors": [
+    "porch",
+    "parlor",
+    "library",
+    "dining",
+    "stair"
+   ],
+   "area_weight": 0.08,
+   "note": "In the tower's base, and it is a hall in the Georgian sense - a room you pass through - rather than the living hall of the Shingle types. The difference matters: this diagram is picturesque in its massing and conventional in its circulation."
+  },
+  {
+   "id": "stair",
+   "type": "stair-hall",
+   "level": 0,
+   "name": "Stair",
+   "doors": [
+    "hall",
+    "landing"
+   ],
+   "area_weight": 0.06,
+   "note": "In the tower, rising past a tall arched window on the half-landing that lights it from outside the room - the tower's own reason for existing beyond the view from the top."
+  },
+  {
+   "id": "parlor",
+   "type": "drawing-room",
+   "level": 0,
+   "name": "Drawing Room",
+   "exterior_walls": [
+    "S",
+    "W"
+   ],
+   "lit_from": [
+    "S",
+    "W"
+   ],
+   "doors": [
+    "hall",
+    "dining"
+   ],
+   "area_weight": 0.15,
+   "note": "In the front range, with a canted bay to the garden - the bay is the type's second signature after the tower."
+  },
+  {
+   "id": "dining",
+   "type": "dining-room",
+   "level": 0,
+   "name": "Dining Room",
+   "exterior_walls": [
+    "W",
+    "N"
+   ],
+   "lit_from": [
+    "W"
+   ],
+   "doors": [
+    "hall",
+    "parlor",
+    "pantry"
+   ],
+   "area_weight": 0.12
+  },
+  {
+   "id": "library",
+   "type": "library",
+   "level": 0,
+   "name": "Library",
+   "required": false,
+   "exterior_walls": [
+    "E"
+   ],
+   "lit_from": [
+    "E"
+   ],
+   "doors": [
+    "hall"
+   ],
+   "area_weight": 0.09
+  },
+  {
+   "id": "pantry",
+   "type": "butlers-pantry",
+   "level": 0,
+   "name": "Butler's Pantry",
+   "required": false,
+   "doors": [
+    "dining",
+    "kitchen"
+   ]
+  },
+  {
+   "id": "kitchen",
+   "type": "kitchen",
+   "level": 0,
+   "name": "Kitchen",
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "pantry",
+    "backhall",
+    "dining"
+   ],
+   "fixtures": [
+    "sink",
+    "range",
+    "dishwasher"
+   ],
+   "area_weight": 0.1,
+   "note": "In the rear range of the L, which is the wing the tower's asymmetry exists to permit."
+  },
+  {
+   "id": "backhall",
+   "type": "back-hall",
+   "level": 0,
+   "name": "Back Hall",
+   "required": false,
+   "exterior_walls": [
+    "N",
+    "E"
+   ],
+   "doors": [
+    "kitchen",
+    "exterior",
+    "powder"
+   ]
+  },
+  {
+   "id": "powder",
+   "type": "powder-room",
+   "level": 0,
+   "name": "Powder Room",
+   "required": false,
+   "doors": [
+    "backhall"
+   ],
+   "fixtures": [
+    "wc",
+    "lavatory"
+   ]
+  },
+  {
+   "id": "landing",
+   "type": "landing",
+   "level": 1,
+   "name": "Landing",
+   "doors": [
+    "stair",
+    "primary",
+    "chamber1",
+    "chamber2",
+    "hallbath"
+   ],
+   "stacks_over": "stair"
+  },
+  {
+   "id": "primary",
+   "type": "primary-bedroom",
+   "level": 1,
+   "name": "Primary Bedroom",
+   "exterior_walls": [
+    "S",
+    "W"
+   ],
+   "lit_from": [
+    "S",
+    "W"
+   ],
+   "doors": [
+    "landing",
+    "primarybath"
+   ],
+   "stacks_over": "parlor",
+   "area_weight": 0.12
+  },
+  {
+   "id": "primarybath",
+   "type": "primary-bathroom",
+   "level": 1,
+   "name": "Primary Bath",
+   "doors": [
+    "primary"
+   ],
+   "fixtures": [
+    "wc",
+    "lavatory",
+    "tub",
+    "shower"
+   ],
+   "stacks_over": "powder"
+  },
+  {
+   "id": "chamber1",
+   "type": "bedroom",
+   "level": 1,
+   "name": "Chamber",
+   "repeats_with_bedrooms": true,
+   "exterior_walls": [
+    "N"
+   ],
+   "lit_from": [
+    "N"
+   ],
+   "doors": [
+    "landing"
+   ],
+   "area_weight": 0.09
+  },
+  {
+   "id": "chamber2",
+   "type": "bedroom",
+   "level": 1,
+   "name": "Chamber",
+   "required": false,
+   "exterior_walls": [
+    "E"
+   ],
+   "lit_from": [
+    "E"
+   ],
+   "doors": [
+    "landing"
+   ],
+   "area_weight": 0.08
+  },
+  {
+   "id": "hallbath",
+   "type": "bathroom",
+   "level": 1,
+   "name": "Bath",
+   "doors": [
+    "landing"
+   ],
+   "fixtures": [
+    "wc",
+    "lavatory",
+    "tub"
+   ],
+   "stacks_over": "pantry"
+  }
+ ],
+ "scaling": {
+  "grows_by": [
+   "adding-a-link",
+   "widening"
+  ],
+  "bay_module_ft": 11,
+  "min_bay_count": 2,
+  "max_bay_count": 5,
+  "note": "Grows by lengthening either arm of the L, which the asymmetry absorbs without strain - this is the type's practical advantage over a symmetrical block and the reason it was popular with builders. What it cannot absorb is a taller neighbour on the plan: the tower must stay the highest thing, and a two-storey wing with a steep roof beside a three-storey tower will read as taller than it and take the composition apart."
+ },
+ "trades_away": "The whole apparatus of the symmetrical front, and with it the ability to compose a facade to a classical order - the type wears its classicism as brackets, quoins and round-arched openings rather than as proportion. It trades away a compact service route: the L puts the kitchen a long way from the front door, which is why the type always has a back hall. And the tower is expensive per square foot of usable room, since most of its volume is stair.",
+ "exemplars": [
+  "Morse-Libby House (Victoria Mansion), Portland, Maine, Henry Austin, 1858-60",
+  "Camden Park, Sydney - the Australian reading of the same diagram",
+  "The villas in A. J. Downing, The Architecture of Country Houses (1850), Designs XXIII-XXVIII",
+  "Osborne House, Isle of Wight, Prince Albert and Thomas Cubitt, 1845-51 - the royal exemplar the type descends from"
+ ],
+ "sources": [
+  "massings/catalog.json: villa-tower",
+  "A. J. Downing, The Architecture of Country Houses (1850)",
+  "styles/italianate-villa.json, styles/italian-villa-vernacular.json",
+  "editorial: the room list is a composable reduction of the type"
+ ],
+ "confidence": "high"
+}

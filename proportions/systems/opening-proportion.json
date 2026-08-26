@@ -78,7 +78,8 @@
         60.0
       ],
       "authority_note": "Palladio ch. XXV, verbatim: 'divide the space from the floor to the superficies of the joists, into three parts and a half... and allow two to the height, and one to the breadth of the opening.'",
-      "note": "THE DOOR FROM THE STOREY. Thirty-six inches on a 10 ft 6 in storey; 30 7/8 in on a 9 ft storey; 42 7/8 in on a 12 ft 6 in one. THIS IS THE RULE TO RUN FIRST, before any door is chosen, because it tells you what size of door the building is asking for and therefore whether the storey and the door schedule are in agreement. A 12 ft storey wants a 41 in door and will be given a 36 in one by any standard specification, which is a five-inch shortfall that reads immediately as meanness at the entrance. It is also the rule that explains why grand rooms have double doors: past about 44 in a single leaf becomes unwieldy, so the storey's demand is met with two."
+      "note": "THE DOOR FROM THE STOREY. Thirty-six inches on a 10 ft 6 in storey; 30 7/8 in on a 9 ft storey; 42 7/8 in on a 12 ft 6 in one. THIS IS THE RULE TO RUN FIRST, before any door is chosen, because it tells you what size of door the building is asking for and therefore whether the storey and the door schedule are in agreement. A 12 ft storey wants a 41 in door and will be given a 36 in one by any standard specification, which is a five-inch shortfall that reads immediately as meanness at the entrance. It is also the rule that explains why grand rooms have double doors: past about 44 in a single leaf becomes unwieldy, so the storey's demand is met with two.",
+      "quantity": "entry_door_leaf_width"
     },
     {
       "target_slot": "entry_door",
@@ -102,7 +103,8 @@
         104.0
       ],
       "authority_note": "Palladio ch. XXV on room doors: 'not wider than three foot, and six and a half high; nor less than two foot in breadth, and five in height.' The maximum is 2.17 : 1 and the minimum is 2.5 : 1.",
-      "note": "INTERIOR DOOR HEIGHT. Seventy-eight inches on a 36 in leaf - within half an inch of the modern 6 ft 8 in stock door, which is a genuinely striking convergence and worth knowing when someone claims the stock door is an unhistorical modern imposition. It is not; it is Palladio's maximum room door, plus one and a half inches. WHAT IS MODERN is the refusal to go above it: Palladio's range runs from 2.17 : 1 down to 2.5 : 1 and Anglo-American practice runs a foot higher in principal rooms, with 7 ft and 7 ft 6 in interior doors ordinary in Georgian and Federal houses of quality. A 6 ft 8 in door is a small door used everywhere, not a wrong door."
+      "note": "INTERIOR DOOR HEIGHT. Seventy-eight inches on a 36 in leaf - within half an inch of the modern 6 ft 8 in stock door, which is a genuinely striking convergence and worth knowing when someone claims the stock door is an unhistorical modern imposition. It is not; it is Palladio's maximum room door, plus one and a half inches. WHAT IS MODERN is the refusal to go above it: Palladio's range runs from 2.17 : 1 down to 2.5 : 1 and Anglo-American practice runs a foot higher in principal rooms, with 7 ft and 7 ft 6 in interior doors ordinary in Georgian and Federal houses of quality. A 6 ft 8 in door is a small door used everywhere, not a wrong door.",
+      "quantity": "interior_door_leaf_height"
     },
     {
       "target_slot": "window_proportion",
@@ -114,7 +116,8 @@
         2.75
       ],
       "authority_note": "Palladio ch. XXV, verbatim: windows 'are to be made two squares and a sixth part' - 2.1667 : 1. Vitruvius's Doric doorway independently gives 2.1818 : 1.",
-      "note": "THE CANONICAL WINDOW PROPORTION, HEIGHT OVER WIDTH. Two and one sixth. This is the treatise figure and it should be read alongside the sash-light pack's 2.1, which is the measured Anglo-American band from surviving fabric - the two agree to within three per cent, arrived at from a treatise and from a tape measure respectively, and that agreement is the reason to trust either. USE THE SASH-LIGHT BAND for a specific style and period, because it is finer grained: 1.9-2.2 in the eighteenth century, 2.0-2.3 Federal and Greek Revival, 2.2-2.6 Italianate and Second Empire. USE THIS FIGURE when there is no style to consult, when checking a drawing, or when the opening is not a sash window at all - a casement, a French door or a masonry aperture, none of which the light-count arithmetic applies to."
+      "note": "THE CANONICAL WINDOW PROPORTION, HEIGHT OVER WIDTH. Two and one sixth. This is the treatise figure and it should be read alongside the sash-light pack's 2.1, which is the measured Anglo-American band from surviving fabric - the two agree to within three per cent, arrived at from a treatise and from a tape measure respectively, and that agreement is the reason to trust either. USE THE SASH-LIGHT BAND for a specific style and period, because it is finer grained: 1.9-2.2 in the eighteenth century, 2.0-2.3 Federal and Greek Revival, 2.2-2.6 Italianate and Second Empire. USE THIS FIGURE when there is no style to consult, when checking a drawing, or when the opening is not a sash window at all - a casement, a French door or a masonry aperture, none of which the light-count arithmetic applies to.",
+      "quantity": "opening_height_over_width"
     },
     {
       "target_slot": "window_proportion",
@@ -126,11 +129,12 @@
         72.0
       ],
       "authority_note": "Palladio ch. XXV, verbatim: windows 'ought not to be wider than the fourth part of the breadth of the rooms, or narrower than the fifth.'",
-      "note": "WINDOW WIDTH FROM THE ROOM IT LIGHTS, taking the midpoint of Palladio's band. Forty-two and two thirds inches for a 16 ft room; 29 1/3 in for an 11 ft one. THIS IS THE RULE MODERN PRACTICE HAS ENTIRELY LOST, and its loss is why so many otherwise correct elevations feel under-windowed. Palladio is saying that a 16 ft room wants a window between 38 and 48 in wide, and a typical modern specification puts a 30 in unit there. Two consequences follow. First, the ROOM decides the window, not the elevation - which means the plan and the elevation have to be drawn together, and it is why elevations drawn after plans are always wrong. Second, wider windows change the light count: at 43 in with 1830 glass the sash-light pack gives three lights across, not two, and the whole character of the window follows. Run the two packs in that order - this one for the width, sash-light for what goes in it."
+      "note": "WINDOW WIDTH FROM THE ROOM IT LIGHTS, taking the midpoint of Palladio's band. Forty-two and two thirds inches for a 16 ft room; 29 1/3 in for an 11 ft one. THIS IS THE RULE MODERN PRACTICE HAS ENTIRELY LOST, and its loss is why so many otherwise correct elevations feel under-windowed. Palladio is saying that a 16 ft room wants a window between 38 and 48 in wide, and a typical modern specification puts a 30 in unit there. Two consequences follow. First, the ROOM decides the window, not the elevation - which means the plan and the elevation have to be drawn together, and it is why elevations drawn after plans are always wrong. Second, wider windows change the light count: at 43 in with 1830 glass the sash-light pack gives three lights across, not two, and the whole character of the window follows. Run the two packs in that order - this one for the width, sash-light for what goes in it.",
+      "quantity": "window_width_from_room"
     },
     {
       "target_slot": "window_proportion",
-      "dimension": "ratio",
+      "dimension": "window_height_diminution_by_storey",
       "expression": "5 / 6",
       "units": "ratio",
       "range": [
@@ -138,7 +142,8 @@
         0.95
       ],
       "authority_note": "Palladio ch. XXV, verbatim: 'The windows above these, that is, in the second story, ought to be a sixth part less in the height of the void, than those underneath; and in the same manner, if other windows are placed higher, they ought to diminish still a sixth part.'",
-      "note": "DIMINUTION OF WINDOW HEIGHT BY STOREY. Each storey's windows are five sixths the height of those below, COMPOUNDING - so a third storey is 0.694 of the first and a fourth is 0.579. Note carefully what diminishes and what does not: the HEIGHT of the void diminishes, and Palladio says nothing about the width, which stays constant because it is set by the room. That is exactly the mechanism the storey-graduation pack describes from the section side - sills constant at about 30 in, heads following the storey, upper windows shorter from the top - and the two accounts are the same account. THE ONE PLACE IT IS ROUTINELY GOT WRONG is scaling the whole window: a second-storey window that is five sixths as tall AND five sixths as wide is not a diminished window, it is a smaller window, and the elevation loses its vertical alignment because the jambs no longer stack."
+      "note": "DIMINUTION OF WINDOW HEIGHT BY STOREY. Each storey's windows are five sixths the height of those below, COMPOUNDING - so a third storey is 0.694 of the first and a fourth is 0.579. Note carefully what diminishes and what does not: the HEIGHT of the void diminishes, and Palladio says nothing about the width, which stays constant because it is set by the room. That is exactly the mechanism the storey-graduation pack describes from the section side - sills constant at about 30 in, heads following the storey, upper windows shorter from the top - and the two accounts are the same account. THE ONE PLACE IT IS ROUTINELY GOT WRONG is scaling the whole window: a second-storey window that is five sixths as tall AND five sixths as wide is not a diminished window, it is a smaller window, and the elevation loses its vertical alignment because the jambs no longer stack.",
+      "quantity": "window_height_diminution_by_storey"
     },
     {
       "target_slot": "window_head_wood",
@@ -186,7 +191,8 @@
         44.0
       ],
       "note": "THE SILL THAT FALLS OUT OF THE SYSTEM - head datum less the window height at the canonical proportion. Eighteen inches on a 9 ft 6 in ceiling with a 36 in window, and THIS IS A DIAGNOSTIC RULE RATHER THAN A DESIGN RULE. The storey-graduation pack fixes the sill at a near-constant 28-32 in above the floor, set by the human body and by furniture. If this expression returns a number well below 28, the room is telling you that a correctly proportioned window will not fit under a correctly placed head - which means either the ceiling is too low for the window width you want, or the window is too wide for the ceiling. Both are real and both have the same fix: narrow the window or raise the room. Running the number and finding 18 in is how you learn, before drawing anything, that a 9 ft 6 in room cannot carry a 36 in window at Palladio's proportion under a classical head datum. It is the most useful failing check in this pack. DIAGNOSTIC: this rule is designed to fail informatively. A low or negative return does not mean the formula is wrong — it means the storey height and the window proportion cannot both be classical in this room, and one of them has to give. Read it before drawing, not after.",
-      "diagnostic": true
+      "diagnostic": true,
+      "quantity": "sill_height_above_floor"
     },
     {
       "target_slot": "door_surround",
@@ -198,7 +204,8 @@
         10.0
       ],
       "authority_note": "Palladio ch. XXVI, verbatim: the jambs 'ought not to be less thick than the sixth part of the breadth of the void, nor thicker than the fifth.' Vitruvius Book IV ch. VI gives the antepagmenta as one twelfth of the door HEIGHT for Doric and one fourteenth for Ionic - on a 2:1 opening that is one sixth to one seventh of the width, the same answer.",
-      "note": "ARCHITRAVE OR CASING WIDTH. Six inches on a 36 in door. Two ancient sources and one Renaissance one converge on the band one sixth to one fifth, and the modern default of a 2 1/4 in casing on a 36 in door is one sixteenth. The trim-classical pack carries the interior consequences of this rule and its member profiles; what is stated here is the rule itself and its EXTERIOR consequence, which is that a trimmed opening occupies 48 to 50 in of wall and the facade's pier arithmetic has to allow for it."
+      "note": "ARCHITRAVE OR CASING WIDTH. Six inches on a 36 in door. Two ancient sources and one Renaissance one converge on the band one sixth to one fifth, and the modern default of a 2 1/4 in casing on a 36 in door is one sixteenth. The trim-classical pack carries the interior consequences of this rule and its member profiles; what is stated here is the rule itself and its EXTERIOR consequence, which is that a trimmed opening occupies 48 to 50 in of wall and the facade's pier arithmetic has to allow for it.",
+      "quantity": "architrave_face_width"
     },
     {
       "target_slot": "door_surround",
@@ -210,7 +217,8 @@
         34.0
       ],
       "authority_note": "Palladio ch. XXVI: over the architrave the frieze is three quarters of the architrave and the cornice five quarters, so the whole assembly above the opening is three architraves - 1 + 0.75 + 1.25.",
-      "note": "FULL SURROUND ABOVE THE OPENING. Eighteen inches on a 36 in door, which is the height of a proper doorhead with architrave, frieze and cornice - and it is a direct quotation, worked out. THE PROPORTION OF SURROUND TO OPENING that this yields is worth stating on its own: the whole trimmed doorway on a 36 x 80 leaf is 48 in wide and 98 in high, so the surround adds a third to the width and a fifth to the height, and the doorway occupies about 33 sq ft of elevation against the door's 20. A doorway is a third again as big as its door, and any elevation drawn without allowing for that will find the entrance crowding its neighbours."
+      "note": "FULL SURROUND ABOVE THE OPENING. Eighteen inches on a 36 in door, which is the height of a proper doorhead with architrave, frieze and cornice - and it is a direct quotation, worked out. THE PROPORTION OF SURROUND TO OPENING that this yields is worth stating on its own: the whole trimmed doorway on a 36 x 80 leaf is 48 in wide and 98 in high, so the surround adds a third to the width and a fifth to the height, and the doorway occupies about 33 sq ft of elevation against the door's 20. A doorway is a third again as big as its door, and any elevation drawn without allowing for that will find the entrance crowding its neighbours.",
+      "quantity": "entablature_over_door_height"
     },
     {
       "target_slot": "transom_sidelight",
@@ -238,7 +246,7 @@
     },
     {
       "target_slot": "window_surround_wood",
-      "dimension": "height",
+      "dimension": "exterior_head_assembly_height",
       "expression": "opening_width / 5.5 * 2.6",
       "units": "in",
       "range": [
@@ -246,7 +254,8 @@
         32.0
       ],
       "authority_note": "Palladio's frieze-and-cornice rule applied at the window's wider architrave: 2.6 architraves rather than the door's 3, because a window head normally omits the frieze or reduces it.",
-      "note": "EXTERIOR HEAD ASSEMBLY OVER A WINDOW - cap, cornice and any frieze. Seventeen inches on a 36 in window. This is the member that dies into the frieze band on a classical elevation and it is what the facade-classical pack's 9 in frieze has to accommodate; where the two collide, the head assembly is reduced by dropping the frieze and running architrave straight into cornice, which is documented and normal. On a masonry front this assembly is a flat arch, a jack arch or a stone lintel instead, and the brick-course pack owns its coursing. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one."
+      "note": "EXTERIOR HEAD ASSEMBLY OVER A WINDOW - cap, cornice and any frieze. Seventeen inches on a 36 in window. This is the member that dies into the frieze band on a classical elevation and it is what the facade-classical pack's 9 in frieze has to accommodate; where the two collide, the head assembly is reduced by dropping the frieze and running architrave straight into cornice, which is documented and normal. On a masonry front this assembly is a flat arch, a jack arch or a stone lintel instead, and the brick-course pack owns its coursing. Retargeted at ontology 0.3.0: 'window_surround' was split by trade, and this rule belongs to window_surround_wood. The other heir needs its own rule and does not yet have one.",
+      "quantity": "exterior_head_assembly_height"
     },
     {
       "target_slot": "special_window",
@@ -258,7 +267,8 @@
         220.0
       ],
       "authority_note": "The Venetian or Palladian window divides 1 : 2 : 1 - two side lights and a centre light of twice their width - so the total is four side-light widths.",
-      "note": "TOTAL WIDTH OF A VENETIAN WINDOW, from the side-light width. One hundred forty-four inches where the side light is 36 in; more usefully, run it backwards from the bay: a 9 ft bay caps the composition at about 78 in, giving side lights of 19 1/2 in and a centre light of 39 in. The centre light is arched and its springing sits at the head datum of the flanking lights, so the arch rises ABOVE the storey's head line - which is the one licensed exception to the single-head-datum rule and the reason a Venetian window is such a strong accent. Break the datum once, on the axis, for this. Do not break it anywhere else."
+      "note": "TOTAL WIDTH OF A VENETIAN WINDOW, from the side-light width. One hundred forty-four inches where the side light is 36 in; more usefully, run it backwards from the bay: a 9 ft bay caps the composition at about 78 in, giving side lights of 19 1/2 in and a centre light of 39 in. The centre light is arched and its springing sits at the head datum of the flanking lights, so the arch rises ABOVE the storey's head line - which is the one licensed exception to the single-head-datum rule and the reason a Venetian window is such a strong accent. Break the datum once, on the axis, for this. Do not break it anywhere else.",
+      "quantity": "venetian_window_total_width"
     },
     {
       "target_slot": "secondary_door",

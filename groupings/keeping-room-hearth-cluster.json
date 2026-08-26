@@ -92,9 +92,10 @@
   ],
   "servicing_strategy": "One central masonry mass doing structure, heat and cooking at once — the most efficient arrangement available before mechanical systems, and the reason the type dies when the furnace arrives.",
   "circulation_parti": [
+    "additive",
     "central-chimney-lobby",
     "hall-and-parlor",
-    "additive"
+    "none-direct-entry"
   ],
   "style_variation": [
     {
@@ -113,6 +114,7 @@
   "sources": [
     "Cummings, The Framed Houses of Massachusetts Bay",
     "Cromley, The Food Axis",
-    "Hubka, Big House, Little House, Back House, Barn"
+    "Hubka, Big House, Little House, Back House, Barn",
+    "WP-4.5: 'none-direct-entry' added — the single-cell hall house is the hearth cluster with nothing else in it, and it is entered straight off the outside; excluding direct entry excluded the type this grouping descends from."
   ]
 }

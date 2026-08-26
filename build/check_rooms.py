@@ -78,7 +78,7 @@ EXPECTED_ELSEWHERE = {
     "keeping-room", "great-room", "family-room", "den", "library", "study",
     "morning-room", "breakfast-room", "music-room", "drawing-room",
     "sitting-room", "sunroom", "conservatory", "porch", "piazza", "loggia",
-    "veranda", "portico", "courtyard", "breezeway", "terrace", "dogtrot-passage",
+    "veranda", "portico", "breezeway", "terrace", "dogtrot-passage",
     "mudroom", "landing", "back-stair", "service-stair",
     # ids owned by this author, listed so cross-references resolve while the
     # catalogue is landing file by file

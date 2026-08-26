@@ -239,34 +239,40 @@
       "precedence": 1
     },
     {
+      "pack": "facade-pavilion",
+      "role": "facade",
+      "note": "The style the mansard is named for, and WP-4.1's list names it: 'Second Empire has no fit among the 5 existing modules'. Bound at second place, immediately behind the node's existing primary `facade-classical`, rather than displacing it -- the American Second Empire front really is composed in classical layers, with a proper base, cornice and entablature, and the pack that this node was missing is the one for the ROOF that sits on top of them. What `facade-classical` cannot express is a storey inside the roof: its logic terminates the elevation at the cornice, and here the building continues for another 60 per cent of a storey above it.",
+      "precedence": 2
+    },
+    {
       "pack": "storey-graduation",
       "role": "massing",
       "note": "Explicit in this pack's applies_to, and the node states its own mansard-storey-height rule (0.8-1.0 of the storey below) as a direct extension of this pack's general diminution logic — the mansard is read as one more graduated storey in the stack, not as an unrelated roof form. Governs the ordinary storey diminution below the mansard and the sill/head datum discipline the dormers must key into.",
-      "precedence": 2
+      "precedence": 3
     },
     {
       "pack": "opening-proportion",
       "role": "opening",
       "note": "Explicit in this pack's applies_to. Governs the rectangle of each opening and, critically, the single-head-datum-per-storey rule that the node's own hard constraint (c03) depends on: dormers must centre on the openings of the storey below within 6 in, which presumes the storey already has one disciplined head line for the dormers to agree with.",
-      "precedence": 3
+      "precedence": 4
     },
     {
       "pack": "sash-light",
       "role": "opening",
       "note": "Explicit in this pack's applies_to, and its window_proportion authority_note names Second Empire directly (2.2-2.6 height:width, the tall end of the Anglo-American range) alongside Italianate. Governs light count and muntin section for the tall narrow paired sash the node's defining_characteristics call for.",
-      "precedence": 4
+      "precedence": 5
     },
     {
       "pack": "trim-classical",
       "role": "interior",
       "note": "Explicit in this pack's applies_to. Governs interior baseboard, cornice and casing; the node's Italianate-derived body and academic civic ambitions (city halls, hotels) place it with the formal classical interior tradition rather than a carpenter's trim family, and storey-graduation's own ceiling-height notes record 10-14 ft Italianate ceilings, which is inside this pack's well-calibrated 11-13 ft band rather than its low-ceiling failure zone.",
-      "precedence": 5
+      "precedence": 6
     },
     {
       "pack": "room-harmonic",
       "role": "room",
       "note": "JUDGMENT BINDING. Not in this pack's applies_to, but Second Empire's placement in facade-classical, trim-classical, opening-proportion, sash-light and storey-graduation together — the same set of formal-classical packs bound to georgian-colonial-american and colonial-revival — argues for a designed, treatise-adjacent room over room-vernacular's span-constrained folk room. Second Empire houses were civic and upper-class buildings (city halls, hotels, 'houses of the newly rich'), not vernacular construction, and the style's tall Italianate-derived ceilings (10-14 ft) are squarely in room-harmonic's working range rather than room-vernacular's 7-9 ft band.",
-      "precedence": 6
+      "precedence": 7
     }
   ]
 }
