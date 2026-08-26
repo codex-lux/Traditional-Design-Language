@@ -300,6 +300,46 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
 
 # ---------------------------------------------------------------- overlays
 
+def check_projection_datum(by_id):
+    """OQ 65, ruled 26 Aug 2026. Every pack whose members carry a projection at all must
+    say which datum it was measured from, and the declaration is VERIFIED against the
+    pack's own geometry rather than trusted: a shaft body reads 0 under the naked reading
+    and the semidiameter under the axis reading, and a capital's widest member cannot sit
+    inside the shaft. A pack that declares one thing and draws another is worse than a
+    pack that declares nothing, because the next consumer will believe it."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("pe", os.path.join(ROOT, "build", "proportion_engine.py"))
+    pe = importlib.util.module_from_spec(spec); spec.loader.exec_module(pe)
+    for pid, pack in sorted(by_id.items()):
+        if pack.get("kind") != "order-system":
+            continue
+        try:
+            r = pe.resolve(pid)
+            d = pe.dimension(r, 36.0, None)
+        except Exception as e:                    # a pack that will not dimension is
+            warn(pid, f"could not dimension for the projection-datum check: {e}")
+            continue
+        has_proj = any((m.get("projection_in") or 0)
+                       for a in d["assemblies"] for m in a.get("members", []))
+        declared = d.get("projection_datum")
+        if not has_proj:
+            continue                              # nothing to measure from: nothing to say
+        if not declared:
+            err(pid, "carries projections but no projection_datum — a reader cannot tell "
+                     "whether a figure is an offset from the naked or a radius from the "
+                     "axis, and guessing draws the shaft narrower than its own mouldings "
+                     "(OQ 65)")
+            continue
+        observed = pe.observed_projection_datum(d)
+        if observed is None:
+            warn(pid, f"declares projection_datum '{declared}' and its own geometry cannot "
+                      f"confirm it — no published shaft body and no base or capital to read")
+        elif observed != declared:
+            err(pid, f"declares projection_datum '{declared}' but its geometry reads "
+                     f"'{observed}' — one of the two is wrong and every drawing of this "
+                     f"pack is wrong with it")
+
+
 def check_overlays(by_id):
     """Resolve every overlay_of against the loaded corpus.
 
@@ -373,6 +413,7 @@ def main():
         check_pack(p, schema, slot_ids, style_ids, verbose)
 
     check_overlays(by_id)
+    check_projection_datum(by_id)
 
     for w in warnings:
         print(f"WARN  {w}")

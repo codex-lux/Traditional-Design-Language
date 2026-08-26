@@ -60,6 +60,17 @@ jobs:
       - name: Smoke — HTTP results match the CLI's own
         run: bash workbench/scripts/smoke.sh
 
+      # The walk is the only thing that measures the DRAWINGS: that no room label leaves
+      # the room it names, that the order stands as one stack drawn to its stated height
+      # at the right datum, that the loupe magnifies and that a wall handle still keeps
+      # its own drag. It ran nowhere until 26 Aug 2026, while CLAUDE.md described it as a
+      # guard — a guarantee nobody enforced. It runs here now.
+      - name: Install Playwright's chromium
+        run: npx playwright install --with-deps chromium
+        working-directory: workbench/app
+      - name: Walk every surface and measure the plates
+        run: bash workbench/scripts/walk.sh
+
   image:
     name: docker build
     runs-on: ubuntu-latest

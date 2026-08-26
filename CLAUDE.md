@@ -195,9 +195,57 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   returned**, so this class cannot come back by an `m.update()`. To add a measurement to that
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
+- **A drawing the reader cannot magnify is a drawing whose dimensions do not exist**, and
+  three of the workbench's plate surfaces were fixed at whatever width their column of the
+  layout happened to be. `components/PlateViewer.jsx` is the loupe — mounted on the
+  Proportions plate, the Plan Workbench sheet and the Drawing Set — and it scales the WHOLE
+  plate by a CSS transform, so `getScreenCTM()` still maps back to model feet and the wall
+  handles keep working. It measures the outer PANE, never the scroller: a scrollbar
+  appearing inside the scroller narrows it, which re-fits the plate, which can make the
+  scrollbar go away again. That it magnifies the pen along with the drawing is **OQ 64**.
+- **A member's `y_bottom_in`/`y_top_in` are ABSOLUTE in the stack** — `proportion_engine
+  .dimension()` has already run the cumulative sum. `OrderPlate` added each assembly's own
+  base to them a second time and the Doric order came apart in the frame: the base 90 inches
+  clear of its plinth, the cornice out through the top. The captions beside it were drawn
+  from a separate and correct total, so the plate labelled a gap CAPITAL. All 26 order packs
+  are contiguous 0 → stack with no assembly disagreeing with its stated height; if a plate
+  shows a gap, the plate is wrong.
+- **A projection means two different things in this corpus, and the pack now says which.**
+  Thirteen order packs record `projection_parts` as an offset from the member's OWN NAKED,
+  twelve as an absolute radius FROM THE AXIS — split by order, not by authority, across all
+  five. Adding a naked to a radius draws the shaft narrower than its own mouldings, and
+  `dist/orders.html` did exactly that: Vignola's Ionic came out **2.25× too wide**. OQ 65
+  closed by declaring `projection_datum` on the pack — seven declarations, nineteen
+  overlays inheriting — and **`check_orders.py` verifies the declaration against each
+  resolved pack's own geometry rather than trusting it**, so a wrong one errors on the base
+  and on every overlay under it. Read the field; never re-derive it.
+- **A click on a wall handle used to be a silent record edit** — `pointerup` committed with
+  no movement threshold, so a zero-delta release quantised the dimension to the half-foot
+  and snapped it up to 0.75 ft to a bay line, onto the DECLARED record and into
+  localStorage. It could not fire while the handle was painted over by its own partition;
+  making the affordance work made the bug behind it live. A fix that removes a shield is a
+  fix that has to look at what the shield was covering.
+- **A room name is an untrusted string and the label fitter was O(W³).** 800 words cost 73
+  seconds of CPU, and `POST /api/drawings` takes a plan record verbatim from anyone who can
+  reach it. Both fitters cap at twelve words and chunk beyond it.
+- **A room's name has to fit in the room, and a fitted size written as an SVG `font-size`
+  ATTRIBUTE is ignored.** Both plan renderers now break the name across lines before
+  shrinking it, turn it along a slot room, and never truncate — `sheet/label.js` measures the
+  real face, `build/render_plan.py` estimates from a per-character table. In `render_plan.py`
+  the size must be written `style="font-size:…"`: a presentation attribute loses to that
+  sheet's own `.nm`/`.dm` rules, so the fit is computed, discarded, and the label runs through
+  the wall anyway. Four more of the same were found in `render_plan.py` and
+  `render_section.py` — the infeasibility alarm, both scale bars, every interior room
+  outline's weight, the section's red over-span figure — and
+  `tests/test_drawn_labels.py` now asserts the GENERAL form: for any property a class sets,
+  no element carrying that class may also set it as an attribute. `e2e/walk.mjs` asserts no
+  label leaves its room — and asserts the room COUNT and the LABEL count first, because a
+  selector matching nothing, or a sheet that draws no labels at all, passes it vacuously.
+  **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
+  called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 12 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **65 entries, of which 13 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message
