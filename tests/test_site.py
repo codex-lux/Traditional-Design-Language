@@ -178,6 +178,13 @@ class TestComposerHonoursLotWidth:
         brief["site"] = {"lot_width_ft": 40, "setback_side_ft": 5}
         result = compose_module.compose(brief)
         five_part = [c for c in result["candidates"] if c["parti"] == "five-part-palladian"]
+        # The presence guard its two neighbours already have. Without it this test goes
+        # silently green the moment the ranking stops returning this parti — and the scoring
+        # change of 26 Aug 2026 moves rankings, which is exactly the circumstance that turns
+        # a loop over an empty list into a passing test that checks nothing.
+        assert five_part, (
+            "five-part-palladian is no longer returned for this brief, so this test is "
+            "asserting nothing. Re-pick the parti or the lot rather than leaving it green.")
         for c in five_part:
             assert c["footprint"]["bays"] <= 3, "9 ft bays x 3 = 27 ft is the most this 30 ft usable lot can hold"
 

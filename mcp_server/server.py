@@ -265,7 +265,19 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False) -
 
     Seeds from the canonical partis native to the style, sizes every room from the room catalogue,
     repairs against the validator until it stops improving, reclaims the area the repair spent, and
-    returns candidates ordered by fatal findings first then style fidelity.
+    returns candidates fatal-free first and then by score.
+
+    `score` is out of 100 and HIGHER IS BETTER. It is a weighted composite of eight axes, not a total
+    of what is wrong: each axis is the share of its own denominator that came back clean, so a bigger
+    house is not marked down for being checked more times. `score_axes` itemises it — weight, share
+    and the denominator the share was taken over. An axis nothing could be evaluated on has its weight
+    DROPPED and the total renormalised, never counted as a pass; `score_weight_unevaluated` says how
+    much of the hundred that was. A fatal finding sets `disqualified` true and states why in
+    `disqualified_because`; the candidate is still scored, because whole sets come back
+    disqualified on styles the fault corpus cannot clear and four such plans still differ, but it
+    never outranks a clean one whatever it scores — that is enforced by the return order, not by
+    the number, and no score is a case for building it. `demerits` is the superseded
+    lower-is-better total and ranks nothing.
 
     Read `trades_away` before `score` — every diagram gives something up, and the best-scoring plan is
     not always the one the client wants. Read `decisions` too: those are what the composer chose where
@@ -287,9 +299,10 @@ def tdl_place_plan(plan: dict, parti: str = "", candidates: int = 250, svg_path:
     be taken off the grid where a room otherwise will not fit, and every such relaxation is counted
     and reported rather than hidden.
 
-    Levels are scored as a PAIR on vertical alignment — bearing lines that continue, wet rooms that
-    stack — so an upper layout that would score better alone is rejected when it leaves walls
-    unsupported. When rooms will not fit, the footprint grows a bay before any room is compromised.
+    `geometry_report.score` is a DEMERIT TOTAL — lower is better, no ceiling — and is not the
+    candidate score tdl_compose publishes, which is out of 100 and runs the other way. Levels are
+    scored as a PAIR on vertical alignment — bearing lines that continue, wet rooms that stack —
+    so an upper layout that would score LOWER alone is rejected when it leaves walls unsupported. When rooms will not fit, the footprint grows a bay before any room is compromised.
 
     Pass svg_path to also write a drawing. The drawing is a render of the coordinates, never the
     source of them. Returns coordinates in feet, origin at the south-west corner.

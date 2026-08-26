@@ -49,9 +49,17 @@ def _run(job):
 
         def on_candidate(summary):
             done.append(summary)
+            # `disqualified` and the fatal count ride WITH the score, never behind it. The
+            # score is now a composite out of 100 that a disqualified candidate can top, and
+            # the disqualification band the Candidate Set draws exists precisely because that
+            # number cannot stand on its own — a progress line publishing it alone would put
+            # the highest-looking figure on the screen next to a plan carrying two fatals.
+            # `n` is ARRIVAL order, not rank: compose() has not sorted anything yet here.
             job.events.put({"event": "candidate", "data": {
                 "n": len(done), "parti": summary.get("parti"),
-                "parti_name": summary.get("parti_name"), "score": summary.get("score")}})
+                "parti_name": summary.get("parti_name"), "score": summary.get("score"),
+                "disqualified": bool(summary.get("disqualified")),
+                "fatal": (summary.get("counts") or {}).get("fatal", 0)}})
 
         # Detect the callback parameter by signature rather than catching
         # TypeError around the call — a genuine TypeError inside a working

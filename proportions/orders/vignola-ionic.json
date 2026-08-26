@@ -23,6 +23,7 @@
     "note": "Vignola divided the module into 12 parts for the Tuscan and Doric and into 18 for the Ionic, Corinthian and Composite, 'because the mouldings are more numerous and more delicate than in the sturdier Orders' (Esquie). Ware calls the 18ths minutes and records that Vignola sometimes uses the quarter minute, i.e. 1/144 of a diameter. The default of 6 in is the module of a 12 in column: one part is then exactly 1/3 in.",
     "diameters": 0.5
   },
+  "projection_datum": "axis",
   "column": {
     "height_modules": 18,
     "shaft_height_modules": 16.3333333333,

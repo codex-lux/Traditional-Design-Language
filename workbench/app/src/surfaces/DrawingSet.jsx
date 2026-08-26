@@ -7,6 +7,7 @@ import React from 'react';
 import { planDoc } from '../state/planDoc.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
+import { PlateViewer } from '../components/PlateViewer.jsx';
 
 const KINDS = [
   { id: 'elevation', label: 'front elevation' },
@@ -17,9 +18,15 @@ const KINDS = [
 ];
 
 const DISCLOSURE = {
-  elevation: 'The elevation generator evaluates 83 of the 177 applicable photograph-measurable ' +
-    'faults — the acceptance text had named 100 — and the remainder have no model at this ' +
-    'layer yet (WP-3.2, disclosed rather than closed by fabricating data). Sash lights are ' +
+  // The 83-of-177 figure this caption used to print is tidewater-georgian's own count
+  // (docs/reports/wp-3.2-elevation-generator.md), and it was drawn unqualified beneath a
+  // Craftsman or a Charleston elevation as though it described them. Nothing in
+  // build/elevation.py emits either number, so the caption could never drift back into
+  // agreement with the generator. Stated as the limit it is, without a borrowed count.
+  elevation: 'The elevation generator models a part of the photograph-measurable fault ' +
+    'corpus and no more; the rest have no model at this layer yet (WP-3.2, disclosed rather ' +
+    'than closed by fabricating data), and what it could not measure is absent from the ' +
+    'measurements rather than reported as zero. Sash lights are ' +
     'set for the declared date; the cornice is the style’s own entablature reduction at the ' +
     'real storey height.',
   section: 'Cut from the same record as the plan. Storey heights come from the ' +
@@ -112,23 +119,29 @@ export function DrawingSet({ go }) {
           </div>
         )}
         {result?.svg && (
-          <div style={{ maxWidth: 1100 }}>
+          <div style={{ maxWidth: 1180 }}>
+            <PlateViewer label={'the ' + kind} height="clamp(420px, 74vh, 960px)">
             <div style={{ background: 'var(--paper)', border: '1px solid var(--ink-2)',
               boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px' }}>
               <div dangerouslySetInnerHTML={{ __html: result.svg.replace(
                 /<svg /, '<svg style="max-width:100%;height:auto" ') }} />
               <div style={{ borderTop: '1px solid var(--rule)', marginTop: 10, padding: '8px 2px 4px',
                 display: 'flex', justifyContent: 'space-between', gap: 24, alignItems: 'baseline' }}>
-                <span style={{ font: 'var(--fw-med) 10.5px/1.3 var(--serif)', letterSpacing: '.3em',
-                  textTransform: 'uppercase', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
-                  {(plan.name || plan.id).split(/\s+/).join('·')}
+                {/* the interpunct join makes one unbreakable word; a zero-width space
+                    after each lets the title fold at a word boundary and never inside a
+                    word. `nowrap` here clipped it outright, and the loupe lays the plate
+                    out at the PANE's width, which is narrower still than the surface. */}
+                <span style={{ font: 'var(--fw-med) 10.5px/1.4 var(--serif)', letterSpacing: '.3em',
+                  textTransform: 'uppercase', color: 'var(--ink)', flex: '0 1 auto', minWidth: 0 }}>
+                  {(plan.name || plan.id).split(/\s+/).join('·\u200B')}
                 </span>
                 <span style={{ font: 'italic var(--fw-reg) 12.5px/1.5 var(--serif)', color: 'var(--ink-2)',
-                  textAlign: 'right', maxWidth: '68ch' }}>
+                  textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
                   {DISCLOSURE[kind]}
                 </span>
               </div>
             </div>
+            </PlateViewer>
             {result.relaxations && (
               <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '10px 0 0' }}>
                 {result.relaxations.count} cut(s) off the bay line

@@ -1,7 +1,7 @@
 import React from "react";
 
 /* A four-rank ladder, not a binary. 'forbidden' is positive knowledge — 851 forbidden
-   variants and 223 forbidden bindings — and gets the loudest form in the system: a
+   variants and 228 forbidden bindings — and gets the loudest form in the system: a
    cross-hatched field with a ruled-through label. */
 const LADDERS = {
   variant: {

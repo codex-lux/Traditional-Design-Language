@@ -17,6 +17,7 @@ import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip, FilterGroup } from '../Chrome.jsx';
 import { StylePicker } from '../components/StylePicker.jsx';
+import { PlateViewer } from '../components/PlateViewer.jsx';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -204,9 +205,14 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
               <ActionChip onClick={() => runEvaluate(plan, { engine: 'cp' })} affix="⊢"
                 title="WP-2.3: prove the placement with CP-SAT — hard constraints on the record's declared facts, a named conflict set if they cannot all hold. Takes seconds; per-drag re-scores stay on the fast search.">
                 prove placement (CP-SAT)</ActionChip>
-              <ActionChip onClick={() => planDoc.undo()} affix="↩" title="undo the last record edit">undo</ActionChip>
             </span>
           </FilterGroup>
+          {/* Undo stays OUT of the disclosure. The density pass tidied it in beside the
+              solver settings, which put the one act a reader reaches for immediately after a
+              mistake behind a click — and the e2e walk, which drags a room and undoes it,
+              could not find the button at all. A thing you need when something has just gone
+              wrong is not a setting. */}
+          <ActionChip onClick={() => planDoc.undo()} affix="↩" title="undo the last record edit">undo</ActionChip>
           <ActionChip onClick={() => runEvaluate(plan)} affix="↻" disabled={busy}
             title="the solver is a hill-climb; results differ across runs">
             {busy ? 're-solving…' : 're-solve'}
@@ -331,7 +337,8 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                 </div>
               )}
               <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
-                Unjudged is not passed. 295 of the corpus's 660 style constraints carry no test at all.
+                Unjudged is not passed. The counts above are this plan's; corpus-wide, 295 of
+                660 style constraints carry no test at all, which is why so many land here.
               </p>
             </div>
 
@@ -436,7 +443,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
             </p>
           )}
           {placement && (
-            <div style={{ maxWidth: 1000, opacity: busy ? 0.45 : 1, transition: 'opacity .3s' }}>
+            <div style={{ maxWidth: 1120, opacity: busy ? 0.45 : 1, transition: 'opacity .3s' }}>
+              <PlateViewer label="the sheet" height="clamp(420px, 74vh, 960px)"
+                note="⌘/ctrl-scroll to zoom · drag to pan · a wall handle still drags the wall">
               <Sheet plan={plan} placement={placement} levelIndex={level}
                 overlays={{ ...ov, meta: lastEval?.rooms_meta }}
                 ghost={(() => {   // ghost the nearest level BELOW the one in view
@@ -466,6 +475,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                   ? ` · ${placement.footprint.bays} bays of ${placement.footprint.bay_module_ft}′ · clear dimensions`
                   : '')}
                 styleName={plan.style} />
+              </PlateViewer>
             </div>
           )}
 

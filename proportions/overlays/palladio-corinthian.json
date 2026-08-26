@@ -294,13 +294,23 @@
       "expression": "ceiling_height / 6 * (5 / 12)",
       "units": "in",
       "judgment": true,
+      "note": "JUDGMENT SLOT. The interior cornice under the Palladian reading: entablature a sixth of wall-plus-cornice (because it is a fifth of the column), crown five twelfths of that. 7.5 in at a 9 ft ceiling against Vignola's 8.4. The Corinthian room is the one place where a designer may reasonably override this upward, because a Corinthian hall carries enrichment that a light cornice cannot hold. THE BAND FOR THIS MOVED to the `interior_cornice_to_ceiling_ratio` rule beside it: it is a proportion of the ceiling height, not a length, and comparing it against this rule's inches was meaningless (OQ 68).",
+      "authority_note": "Room-as-order analogy applied to Ware 1738, Book I ch. XVII; the analogy is not Palladio's.",
+      "quantity": "interior_cornice_height"
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height_ratio",
+      "quantity": "interior_cornice_to_ceiling_ratio",
+      "expression": "1 / 6 * (5 / 12)",
+      "units": "ratio",
       "range": [
         0.055,
         0.08
       ],
-      "note": "JUDGMENT SLOT. The interior cornice under the Palladian reading: entablature a sixth of wall-plus-cornice (because it is a fifth of the column), crown five twelfths of that. 7.5 in at a 9 ft ceiling against Vignola's 8.4. The Corinthian room is the one place where a designer may reasonably override this upward, because a Corinthian hall carries enrichment that a light cornice cannot hold.",
-      "authority_note": "Room-as-order analogy applied to Ware 1738, Book I ch. XVII; the analogy is not Palladio's.",
-      "quantity": "interior_cornice_height"
+      "judgment": true,
+      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 68, 26 Aug 2026). The band the authority states is a proportion of the ceiling height; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. JUDGMENT SLOT. The interior cornice under the Palladian reading: entablature a sixth of wall-plus-cornice (because it is a fifth of the column), crown five twelfths of that. 7.5 in at a 9 ft ceiling against Vignola's 8.4. The Corinthian room is the one place where a designer may reasonably override this upward, because a Corinthian hall carries enrichment that a light cornice cannot hold.",
+      "authority_note": "Room-as-order analogy applied to Ware 1738, Book I ch. XVII; the analogy is not Palladio's."
     },
     {
       "target_slot": "porch_support",

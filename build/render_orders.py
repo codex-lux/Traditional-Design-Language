@@ -23,6 +23,9 @@ for auth, _, _, _ in AUTHORITIES:
             packs[pid] = {
                 "id": r["id"], "name": r["name"], "order": o, "authority": auth,
                 "module": r["module"], "column": r.get("column", {}),
+                # OQ 65: which datum this pack's projections were measured from, stated
+                # by the pack and inherited through the overlay chain by resolve()
+                "projection_datum": r.get("projection_datum"),
                 "assemblies": r.get("assemblies", {}),
                 "invariants": pe.check_invariants(r),
                 "derived_rules": r.get("derived_rules", []),
@@ -42,6 +45,7 @@ for pid, p in pe.PACKS.items():
     if p["kind"] in ("trim-system", "opening-system", "room-system", "facade-system", "module-system"):
         r = pe.resolve(pid)
         systems[pid] = {"id": r["id"], "name": r["name"], "kind": r["kind"],
+                        "projection_datum": r.get("projection_datum"),
                         "module": r["module"], "assemblies": r.get("assemblies", {}),
                         "derived_rules": r.get("derived_rules", []),
                         "conflicts": r.get("conflicts", []),

@@ -58,9 +58,14 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
         })),
         // the card typesets `test` as prose beside the statement; the record's is a
         // structured rule — render it as the sentence it encodes, note included
+        /* `between` carries BOTH edges — 40 of the 209 faults use it — and only
+           `threshold` was printed, so a two-sided band rendered as "between 7.0 ratio"
+           and a reader could not tell whether 12.0 passed. */
         test: f.test
-          ? `${f.test.expression} ${f.test.direction} ${f.test.threshold} ${f.test.units}` +
-            ` · measurable from a ${f.test.measurable_from}` +
+          ? `${f.test.expression} ${f.test.direction} ${f.test.threshold}`
+            + (f.test.upper != null ? ` to ${f.test.upper}` : '')
+            + ` ${f.test.units}`
+            + ` · measurable from a ${f.test.measurable_from}` +
             (f.test.note ? ` — ${f.test.note}` : '')
           : null,
       }))
@@ -123,7 +128,9 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
               {list.length !== all.length && filters.activeCount > 0 ? ' · filtered' : ''}
             </Eyebrow>
             <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '7px 0 0' }}>
-              Of {all.length} cause drivers, exactly {driverCounts.ignorance || 0} {driverCounts.ignorance === 1 ? 'is' : 'are'}{' '}
+              {/* `all` is the FAULT list, and it is capped at the query's own limit — the
+                   denominator was labelled "cause drivers" and would silently truncate. */}
+              Of the {all.length} solecisms listed, exactly {driverCounts.ignorance || 0} name{driverCounts.ignorance === 1 ? 's' : ''}{' '}
               <span style={{ color: 'var(--ink-2)' }}>ignorance</span>.
               This is a system explaining an economy, not scolding a builder.
             </p>

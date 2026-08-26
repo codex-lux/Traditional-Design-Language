@@ -37,6 +37,16 @@ def test_compose_on_candidate_callback():
     assert len(seen) >= len(res["candidates"])  # dropped-for-lot may reduce the kept set
     assert all("plan" not in c for c in seen)   # summaries only, never the whole plan
     assert all("score" in c and "parti" in c for c in seen)
+    # The keys workbench/server/jobs.py::on_candidate actually reads, and the reason it reads
+    # them: the progress strip publishes a score, and a disqualified candidate's score can be
+    # the highest number on the screen. Asserting only "score" in c would not notice
+    # `disqualified` or `counts` vanishing from the summary, which is the one way that line
+    # can go back to publishing a 99.9 beside a plan carrying two fatals.
+    for c in seen:
+        assert "counts" in c, "jobs.py reads summary['counts'] for the fatal count"
+        assert "disqualified" in c, "jobs.py streams the disqualification beside the score"
+        assert isinstance(c["disqualified"], bool)
+        assert c["disqualified"] == (c["counts"].get("fatal", 0) > 0), c["parti"]
 
 
 def test_compose_without_callback_unchanged():

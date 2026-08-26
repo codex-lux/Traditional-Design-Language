@@ -1,6 +1,6 @@
 import React from "react";
 
-/* The workhorse. 130 findings must fit on one screen collapsed, and any one of them must
+/* The workhorse. 142 findings must fit on one screen collapsed, and any one of them must
    open to full prose: statement / why / fix, always in that order. Note that a fix often
    ends 'or record the relation as X if the separation is real' — that is a real
    interaction, so onAssert is a first-class prop, not an extra. */

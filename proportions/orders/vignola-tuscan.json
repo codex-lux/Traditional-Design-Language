@@ -23,6 +23,7 @@
     "note": "Vignola divides the module into 12 parts for Tuscan and Doric, 18 minutes for Ionic, Corinthian and Composite. Confirmed verbatim in Ware (1920) p.9 and in the 1889 translation, Plate I. Default 6 in. gives a 12 in. column, a 7 ft column shaft-to-abacus of 7 ft 0 in., i.e. an order 14 modules tall.",
     "diameters": 0.5
   },
+  "projection_datum": "naked",
   "column": {
     "height_modules": 14,
     "shaft_height_modules": 12,

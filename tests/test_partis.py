@@ -120,10 +120,24 @@ class TestTheComposerPrefersTheNativeDiagram:
             f"{style} should lead with its own diagram, got {picks[0]['parti']}")
 
     def test_nativity_outweighs_a_handful_of_serious_findings_but_not_a_fatal(self, compose_module):
-        """The calibration itself. 20 points per fit unit against 8 for a serious finding and
-        100 for a fatal is the whole argument: the right diagram wins unless it is genuinely
-        much worse, and never wins by carrying something that is actually wrong."""
+        """The calibration itself — and as of 26 Aug 2026 it lives somewhere else, which is
+        the point of the second half of this test.
+
+        NATIVITY_W still computes `demerits`, and `demerits` no longer ranks anything: the
+        composer orders by the composite score, where being the right diagram is the FIDELITY
+        AXIS's weight. A test that greps for `NATIVITY_W = 20` and stops was therefore pinning
+        a vestige — it would have stayed green through any re-weighting of the thing that
+        actually decides which plan a client is shown. Both are asserted now, and the
+        behavioural claim is asserted as behaviour rather than as source text."""
         import inspect
         src = inspect.getsource(compose_module.compose)
         assert "NATIVITY_W = 20" in src
         assert 'pick["fit"] * NATIVITY_W' in src
+
+        fidelity = next(w for n, w, _ in compose_module.SCORE_AXES if n == "fidelity")
+        assert fidelity == 25, (
+            "the fidelity axis is what ranks candidates now; NATIVITY_W only feeds the "
+            "superseded demerit total. See docs/reports/candidate-score-composite.md for how "
+            "25 was measured, and re-measure before moving it.")
+        # never enough to carry a fatal: a fatal DISQUALIFIES, which no weight can offset
+        assert fidelity < 100

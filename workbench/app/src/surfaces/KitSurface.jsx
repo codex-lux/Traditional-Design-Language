@@ -137,12 +137,14 @@ export function KitSurface({ onCite, selection, setSelection }) {
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <Chip on={specifiedOnly} onClick={() => filters.set('all', specifiedOnly)}>specified only</Chip>
           <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
-            {/* The slot count was the literal 95 while the ontology held 97. A number
-                typed into a view goes stale the day the corpus moves; this one is read
-                from /api/overview, like every other count in the frame. */}
+            {/* The slot count was the literal 95 while the ontology held 97, and main's
+                fallback still carries a 97. A number typed into a view goes stale the day
+                the corpus moves, so the total comes from the payload that knows it
+                (`slots_total`, added on main) and failing that from /api/overview — never
+                from a literal. */}
             {kit
-              ? `${rows.length} of ${counts ? counts.element_slots : kit.slots_returned} slots `
-                + `${specifiedOnly ? 'bound' : 'shown'}`
+              ? `${rows.length} of ${kit.slots_total ?? (counts ? counts.element_slots : kit.slots_returned)} `
+                + `slots ${specifiedOnly ? 'bound' : 'shown'}`
               : '…'}
           </span>
         </span>
@@ -208,7 +210,7 @@ export function KitSurface({ onCite, selection, setSelection }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
                 {styleInfo.massing_affinities.map((m) => (
                   <VariantPill key={m.massing} ladder="affinity" name={'massing:' + m.massing}
-                    status={m.affinity} title={m.note} />
+                    status={m.affinity} note={m.note} />
                 ))}
               </div>
               <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '9px 0 0' }}>

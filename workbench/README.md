@@ -66,6 +66,15 @@ dollars is the budget on the key itself.
 Locally none of this applies. With no `WORKBENCH_PASSWORD` set the server is open, as it
 has always been, and says so at startup and in `/api/health`.
 
+## Reading the drawings
+
+Every plate — the order on ⑩, the sheet on ⑦, the five sheets of ⑧ — is mounted in a loupe:
+**fit** by default, ± or ⌘/ctrl-scroll to magnify, drag to pan, **1:1** for the pane's own
+width. It scales the whole plate rather than the SVG alone, so the title block and the
+caption stay in register with the drawing, and a wall handle on the plan still drags the
+wall at any magnification. Room names are fitted to the room they name — broken across lines
+before they are shrunk, turned along a slot room, and never truncated.
+
 ## What it will not claim
 
 The interface renders the system's honest states rather than hiding them: unjudged is

@@ -34,7 +34,15 @@ class TestShippedPlans:
         # count and a gutter's outlets. They are could-not-judge now, which is what the corpus
         # actually knows. This number going DOWN is the fix working: it is four fewer convictions
         # on evidence that did not exist, not four fewer defects in the house.
-        assert result["counts"]["serious"] == 66
+        # 66 -> 65 on 26 Aug 2026: the GROUPING layer's "requires a X and the plan has none"
+        # check asked whether the exact room type was present, while every other layer in
+        # plan_check.py asks the substitution table whether something the plan HAS would
+        # answer the rule (OQ 43). So a centre-passage plan was convicted of having no
+        # entrance hall, and a plan with a drawing room of having no parlor -- one serious
+        # finding manufactured by a table this file already carries and already trusts.
+        # Found by an adversarial audit of the candidate-score work. Fatal is unmoved, which
+        # is what says this removed noise rather than signal.
+        assert result["counts"]["serious"] == 65
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -74,7 +82,15 @@ class TestShippedPlans:
         # reason. The flagship: "Dormers Off the Rhythm: 0 against equals 1" fired on a house with
         # no dormers modelled, because roof.py refuses to judge dormers and elevation.py wrote
         # dormer_count: 0 over that refusal.
-        assert result["counts"]["serious"] == 36
+        # 36 -> 34 on 26 Aug 2026: the GROUPING layer's "requires a X and the plan has none"
+        # check asked whether the exact room type was present, while every other layer in
+        # plan_check.py asks the substitution table whether something the plan HAS would
+        # answer the rule (OQ 43). So a centre-passage plan was convicted of having no
+        # entrance hall, and a plan with a drawing room of having no parlor -- two serious
+        # findings manufactured by a table this file already carries and already trusts.
+        # Found by an adversarial audit of the candidate-score work. Fatal is unmoved, which
+        # is what says this removed noise rather than signal.
+        assert result["counts"]["serious"] == 34
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the

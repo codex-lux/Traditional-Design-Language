@@ -15,7 +15,10 @@ function noteUnauthorized(status) {
 
 async function getJSON(url, { fresh = false } = {}) {
   if (!fresh && cache.has(url)) return cache.get(url);
-  const r = await fetch(url);
+  /* `fresh` skipped OUR map and then took the browser's cache instead, which is not what
+     the flag promises its one caller: health is read to find out what the server is doing
+     NOW. */
+  const r = await fetch(url, fresh ? { cache: 'no-store' } : undefined);
   if (!r.ok) {
     const body = await r.json().catch(() => ({}));
     noteUnauthorized(r.status);

@@ -22,6 +22,21 @@ def _env(name, default):
     return os.environ.get(name) or default
 
 
+KEY_VAR = "ANTHROPIC_API_KEY"
+
+
+def key():
+    """The rail's credential, or None. Read at call time, never at import.
+
+    Stripped, and the stripped value is what reaches the SDK. A key pasted with a trailing
+    newline is truthy, so `bool(os.environ.get(...))` reported the rail ON — and then every
+    turn failed, because a newline in a header value is not a legal header. The rail
+    claiming it can answer and then not answering is the one collapse this project forbids
+    everywhere else; it should not be reachable by a paste.
+    """
+    return (os.environ.get(KEY_VAR) or "").strip() or None
+
+
 def model():
     return _env("WORKBENCH_MODEL", "claude-sonnet-5")
 
@@ -63,7 +78,8 @@ def _client():
     if _client_factory:
         return _client_factory()
     import anthropic
-    return anthropic.Anthropic()
+    # The stripped key, not the raw variable the SDK would otherwise re-read for itself.
+    return anthropic.Anthropic(api_key=key())
 
 
 SYSTEM = """You are the rail of the Traditional Design Language workbench — a design
@@ -197,7 +213,7 @@ def stream_turn(body, identity=None):
     but the shape checks apply either way, because those bound one request's cost rather
     than one caller's rate.
     """
-    if not (os.environ.get("ANTHROPIC_API_KEY") or _client_factory):
+    if not (key() or _client_factory):
         yield _sse("error", {"error": "no ANTHROPIC_API_KEY attached — the rail is off",
                              "honest": True})
         return

@@ -11,11 +11,11 @@
     "id": { "type": "string" },
     "name": { "type": "string" },
     "style": { "type": "string", "description": "style node id" },
-    "target_area_sf": { "type": "number" },
-    "area_tolerance": { "type": "number", "default": 0.12, "description": "Fraction either side of target that counts as a hit." },
-    "bedrooms": { "type": "integer", "default": 3, "description": "Sleeping rooms including the principal chamber." },
-    "bathrooms": { "type": "number", "default": 2.5 },
-    "storeys": { "type": "integer", "description": "Leave unset and the composer picks from the massing." },
+    "target_area_sf": { "type": "number", "exclusiveMinimum": 0 },
+    "area_tolerance": { "type": "number", "minimum": 0, "default": 0.12, "description": "Fraction either side of target that counts as a hit. Never negative — compose.py's area axis reads it as a denominator, and a negative one published a score of 902.8 \"out of 100\" before this bound existed." },
+    "bedrooms": { "type": "integer", "minimum": 0, "default": 3, "description": "Sleeping rooms including the principal chamber." },
+    "bathrooms": { "type": "number", "minimum": 0, "default": 2.5 },
+    "storeys": { "type": "integer", "minimum": 1, "description": "Leave unset and the composer picks from the massing." },
     "massing": { "type": "string", "description": "Force a skeleton, or leave unset and let style affinity choose." },
     "must_have": { "type": "array", "items": { "type": "string" },
       "description": "Room type ids the client has explicitly asked for. The composer will not drop these." },
@@ -50,7 +50,7 @@
       }
     },
     "household": { "type": "string", "description": "Free text. Who lives here and how they use a house — the thing that decides whether the dining room gets built and never used." },
-    "candidates": { "type": "integer", "default": 4, "description": "How many contrasting plans to return." },
+    "candidates": { "type": "integer", "minimum": 1, "default": 4, "description": "How many contrasting plans to return." },
     "note": { "type": "string" }
   }
 }

@@ -8,6 +8,19 @@ def test_health(client):
     assert r["counts"]["styles"] == 164
 
 
+def test_health_is_never_cached(client):
+    """This is the endpoint an operator refreshes to see whether a change took effect, and
+    it carries no validators — a heuristically cached 200 answers with the state before the
+    change and reads exactly like the change not working."""
+    r = client.get("/api/health")
+    assert "no-store" in r.headers.get("cache-control", "")
+
+
+def test_health_reports_the_rail_from_the_same_reading_the_turn_uses(client, monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "  ")   # truthy to bool(), worth nothing
+    assert client.get("/api/health").json()["rail"] is False
+
+
 def test_overview_counts(client):
     c = client.get("/api/overview").json()["counts"]
     # 97, not 95: ontology 0.7.0 added `arch` (OQ 46) and `expressed_frame` (OQ 47) on the

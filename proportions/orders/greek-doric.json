@@ -24,6 +24,7 @@
     "note": "The semidiameter, divided into thirty minutes, following the convention Benjamin and Lafever both use so this pack and the Benjamin overlays can be read against each other minute for minute. Default 12 in gives a 24 in column, which is the ordinary size of an American Greek Revival portico of real ambition; the Parthenon's is 75 in and its own figures are what the bands below are drawn from.",
     "diameters": 0.5
   },
+  "projection_datum": "naked",
   "column": {
     "height_modules": 11.0,
     "shaft_height_modules": 10.0,
@@ -152,14 +153,23 @@
       "dimension": "height",
       "expression": "column_height * 0.318",
       "units": "in",
+      "authority_note": "The Parthenon's measured ratio, about 0.315.",
+      "note": "The number that most reliably separates a Greek Revival portico from a Roman one, and the number a builder most reliably shaves. An entablature at Vignola's quarter on a 5.5-diameter column is neither order. THE BAND FOR THIS MOVED to the `entablature_to_column_ratio` rule beside it: it is a proportion of the column, not a length, and comparing it against this rule's inches was meaningless (OQ 68).",
+      "judgment": false,
+      "quantity": "entablature_height"
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height_ratio",
+      "quantity": "entablature_to_column_ratio",
+      "expression": "0.318",
+      "units": "ratio",
       "range": [
         0.3,
         0.34
       ],
-      "authority_note": "The Parthenon's measured ratio, about 0.315.",
-      "note": "The number that most reliably separates a Greek Revival portico from a Roman one, and the number a builder most reliably shaves. An entablature at Vignola's quarter on a 5.5-diameter column is neither order.",
-      "judgment": false,
-      "quantity": "entablature_height"
+      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 68, 26 Aug 2026). The band the authority states is a proportion of the column; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. The number that most reliably separates a Greek Revival portico from a Roman one, and the number a builder most reliably shaves. An entablature at Vignola's quarter on a 5.5-diameter column is neither order.",
+      "authority_note": "The Parthenon's measured ratio, about 0.315."
     },
     {
       "target_slot": "modillion_dentil",

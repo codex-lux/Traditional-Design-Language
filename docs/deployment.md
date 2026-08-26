@@ -61,6 +61,22 @@ subject — two people who typed the same password still get separate budgets. A
 audit below for why that flag exists. Putting Cloudflare Access in front later is
 therefore configuration, not a rewrite.
 
+**The rail's key is read once, and stripped** (`workbench/server/rail.py`). `bool(
+os.environ.get("ANTHROPIC_API_KEY"))` is true of a key pasted with a trailing newline, and
+a newline is not a legal header value — so `/api/health` reported the rail available and
+every turn then failed inside the SDK. The rail claiming it can answer and then not
+answering is the collapse this project refuses everywhere else, and it should not be
+reachable by a paste. `rail.key()` strips, returns None for nothing usable, and is the
+single reader: health, the turn's own gate and the client the turn builds all go through
+it, so no two of them can disagree about whether the rail is on.
+
+`/api/health` also sends `Cache-Control: no-store` now. It is the endpoint an operator
+refreshes to see whether a change took effect and it carries no validators, so a
+heuristically cached 200 answers with the state from before the change — which reads
+exactly like the change not working. The client had the same hole from the other side:
+`fresh: true` skipped the app's own map and then took the browser's cache, which is not
+what the flag promises its one caller.
+
 **Caps on the rail** (`workbench/server/limits.py`). Two different things needed bounding
 and only one of them is a rate.
 

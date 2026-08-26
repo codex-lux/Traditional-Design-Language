@@ -30,6 +30,13 @@ import math
 import os
 import sys
 
+# The engine, by path, through the shared module cache — build/modcache.py exists because a
+# local by-path loader re-executes the module on every call (OQ 28).
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import modcache
+ENGINE = modcache.load("proportion_engine",
+                       os.path.join(os.path.dirname(os.path.abspath(__file__)), "proportion_engine.py"))
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCHEMA_PATH = os.path.join(ROOT, "schema", "proportion-pack.schema.json")
 PACK_GLOB = os.path.join(ROOT, "proportions", "**", "*.json")
@@ -282,6 +289,32 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
         if rng and rng[0] > rng[1]:
             err(pid, f"derived_rule '{r['target_slot']}' has an inverted range {rng}")
 
+    # 8. EVALUATE every ranged rule against its own band.
+    #
+    # check_modules.py --eval and check_systems.py have both done this for years, and neither
+    # covers proportions/orders/ or proportions/overlays/ -- which is where 22 rules were
+    # sitting outside their own declared bands, published to the workbench as "· out of band",
+    # with no checker looking (OQ 68). Evaluation goes through proportion_engine.evaluate()
+    # rather than a second implementation here, so what this checks is exactly what the MCP
+    # tool and the workbench publish: the same tolerance, and the same withholding of
+    # judgement where a rule states a calibration context the default bindings are outside.
+    #
+    # A violation is a WARNING and not an error, deliberately. Two survive at the time of
+    # writing and both are recorded in OQ 68 as wanting a ruling rather than a patch; turning
+    # them into errors would fail the build on two findings the corpus is correctly making.
+    try:
+        ev = ENGINE.evaluate(pack)
+    except Exception as exc:
+        err(pid, f"derived_rules could not be evaluated: {exc}")
+        ev = None
+    for r in (ev or {}).get("rules", []):
+        if r.get("error"):
+            err(pid, f"derived_rule '{r['target_slot']}' failed to evaluate: {r['error']}")
+        elif r.get("in_range") is False:
+            warn(pid, f"derived_rule '{r['target_slot']}/{r.get('dimension')}' evaluates to "
+                      f"{r['value']:g} {r.get('units') or ''}".rstrip()
+                      + f", outside its own declared range {r['range']}")
+
     n_judgment = sum(1 for r in pack.get("derived_rules", []) if r.get("judgment"))
     if pack.get("derived_rules") and n_judgment == 0:
         warn(pid, "no derived_rule is marked judgment: true - a pack that claims to know everything is suspect")
@@ -299,6 +332,46 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
 
 
 # ---------------------------------------------------------------- overlays
+
+def check_projection_datum(by_id):
+    """OQ 65, ruled 26 Aug 2026. Every pack whose members carry a projection at all must
+    say which datum it was measured from, and the declaration is VERIFIED against the
+    pack's own geometry rather than trusted: a shaft body reads 0 under the naked reading
+    and the semidiameter under the axis reading, and a capital's widest member cannot sit
+    inside the shaft. A pack that declares one thing and draws another is worse than a
+    pack that declares nothing, because the next consumer will believe it."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("pe", os.path.join(ROOT, "build", "proportion_engine.py"))
+    pe = importlib.util.module_from_spec(spec); spec.loader.exec_module(pe)
+    for pid, pack in sorted(by_id.items()):
+        if pack.get("kind") != "order-system":
+            continue
+        try:
+            r = pe.resolve(pid)
+            d = pe.dimension(r, 36.0, None)
+        except Exception as e:                    # a pack that will not dimension is
+            warn(pid, f"could not dimension for the projection-datum check: {e}")
+            continue
+        has_proj = any((m.get("projection_in") or 0)
+                       for a in d["assemblies"] for m in a.get("members", []))
+        declared = d.get("projection_datum")
+        if not has_proj:
+            continue                              # nothing to measure from: nothing to say
+        if not declared:
+            err(pid, "carries projections but no projection_datum — a reader cannot tell "
+                     "whether a figure is an offset from the naked or a radius from the "
+                     "axis, and guessing draws the shaft narrower than its own mouldings "
+                     "(OQ 65)")
+            continue
+        observed = pe.observed_projection_datum(d)
+        if observed is None:
+            warn(pid, f"declares projection_datum '{declared}' and its own geometry cannot "
+                      f"confirm it — no published shaft body and no base or capital to read")
+        elif observed != declared:
+            err(pid, f"declares projection_datum '{declared}' but its geometry reads "
+                     f"'{observed}' — one of the two is wrong and every drawing of this "
+                     f"pack is wrong with it")
+
 
 def check_overlays(by_id):
     """Resolve every overlay_of against the loaded corpus.
@@ -373,6 +446,7 @@ def main():
         check_pack(p, schema, slot_ids, style_ids, verbose)
 
     check_overlays(by_id)
+    check_projection_datum(by_id)
 
     for w in warnings:
         print(f"WARN  {w}")

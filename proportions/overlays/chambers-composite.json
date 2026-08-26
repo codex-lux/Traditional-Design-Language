@@ -123,13 +123,22 @@
       "dimension": "height",
       "expression": "column_height / 4",
       "units": "in",
+      "note": "THE MOST USEFUL RULE IN THE TREATISE, AND CHAMBERS'S CLEAREST LICENSED DEPARTURE. The Composite entablature is five modules on twenty - a quarter, as Vignola - but 'may be reduced to two ninths of the Column' (0.222) or 'to one fifth' (0.20) where the situation requires, and to keep the reduced figure on whole numbers he suggests taking the module at nine tenths of the semidiameter, which brings the entablature out at four and a half modules exactly. Note what this band contains: PALLADIO'S FIFTH sits at its lower limit. What Palladio makes the rule for his three upper orders, Chambers permits as a reduction on stated occasions. That is the precise distance between the two authorities. THE BAND FOR THIS MOVED to the `entablature_to_column_ratio` rule beside it: it is a proportion of the column, not a length, and comparing it against this rule's inches was meaningless (OQ 68).",
+      "authority_note": "Chambers, Treatise 1759, p. 68.",
+      "quantity": "entablature_height"
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height_ratio",
+      "quantity": "entablature_to_column_ratio",
+      "expression": "1 / 4",
+      "units": "ratio",
       "range": [
         0.2,
         0.25
       ],
-      "note": "THE MOST USEFUL RULE IN THE TREATISE, AND CHAMBERS'S CLEAREST LICENSED DEPARTURE. The Composite entablature is five modules on twenty - a quarter, as Vignola - but 'may be reduced to two ninths of the Column' (0.222) or 'to one fifth' (0.20) where the situation requires, and to keep the reduced figure on whole numbers he suggests taking the module at nine tenths of the semidiameter, which brings the entablature out at four and a half modules exactly. Note what this band contains: PALLADIO'S FIFTH sits at its lower limit. What Palladio makes the rule for his three upper orders, Chambers permits as a reduction on stated occasions. That is the precise distance between the two authorities.",
-      "authority_note": "Chambers, Treatise 1759, p. 68.",
-      "quantity": "entablature_height"
+      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 68, 26 Aug 2026). The band the authority states is a proportion of the column; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. THE MOST USEFUL RULE IN THE TREATISE, AND CHAMBERS'S CLEAREST LICENSED DEPARTURE. The Composite entablature is five modules on twenty - a quarter, as Vignola - but 'may be reduced to two ninths of the Column' (0.222) or 'to one fifth' (0.20) where the situation requires, and to keep the reduced figure on whole numbers he suggests taking the module at nine tenths of the semidiameter, which brings the entablature out at four and a half modules exactly. Note what this band contains: PALLADIO'S FIFTH sits at its lower limit. What Palladio makes the rule for his three upper orders, Chambers permits as a reduction on stated occasions. That is the precise distance between the two authorities.",
+      "authority_note": "Chambers, Treatise 1759, p. 68."
     },
     {
       "target_slot": "modillion_dentil",
