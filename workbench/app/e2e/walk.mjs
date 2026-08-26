@@ -250,7 +250,12 @@ await page.screenshot({ path: SHOTS + 'phylogeny.png' });
 
 // ④ Kit
 await rail.getByRole('button', { name: /The Kit/ }).click();
-await page.waitForSelector('text=cascade', { timeout: 15000 });
+// Wait for the CLAIM being asserted, not for a heading that renders before it. "cascade" is
+// the section header and is on screen the moment the surface mounts; the note comes from
+// /api/kit/{style}/cascade a round trip later. Locally that gap is invisible and this passed
+// every run; on a CI runner it lost the race and failed the one assertion below. A wait that
+// does not wait for the thing under test is a flake with a plausible-looking line number.
+await page.waitForSelector('text=thin kit is correct', { timeout: 20000 });
 const kit = await page.locator('main').innerText();
 check('kit shows thin-kit-is-correct note', /thin kit is correct/i.test(kit));
 await page.screenshot({ path: SHOTS + 'kit.png' });

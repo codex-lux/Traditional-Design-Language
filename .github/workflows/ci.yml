@@ -17,13 +17,40 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      # Node, because two of check_all's checkers now need it and BOTH go quiet without it.
+      # `check_gazetteer.py` runs `gazetteer.js` rather than keeping a second copy of the
+      # placement algorithm in Python, and `check_frontend.py` runs the router and search
+      # suites. Absent node they exit 3 — COULD NOT EVALUATE, which check_all correctly
+      # declines to treat as a failure — so this job would have gone green with the gazetteer
+      # ratchet and 74 frontend checks never run. That is the same shape as the walk that
+      # "ran nowhere while CLAUDE.md described it as a guard", noted twenty lines below.
+      # No npm install: neither checker needs a package, only the runtime.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
       - name: Install
         # The corpus itself has no dependencies; these are the checkers' own.
         run: pip install jsonschema pytest
       - name: check_all.py
-        # Reports the workbench suite as SKIP here — fastapi is deliberately not
+        # Reports the workbench server suite as N/EV here — fastapi is deliberately not
         # installed in this job, and the workbench job below runs it properly.
-        run: python3 build/check_all.py
+        #
+        # AND NOTHING ELSE MAY BE N/EV. check_all reports COULD NOT EVALUATE distinctly and
+        # does not fail on it, which is right: an absent optional library is not a failing
+        # test. But that is exactly how a checker goes quiet — this job would have gone green
+        # with the gazetteer ratchet and 74 frontend checks never run, for want of a runtime
+        # nobody had noticed they needed. One legitimate unjudged check in this job; a second
+        # is a checker that did not run, and a green tick would claim it had. Run once, not
+        # twice: the suite is three minutes.
+        run: |
+          set -o pipefail
+          python3 build/check_all.py 2>&1 | tee /tmp/ca.log
+          unjudged=$(grep -c '^  N/EV' /tmp/ca.log || true)
+          if [ "$unjudged" -gt 1 ]; then
+            echo "::error::$unjudged checks COULD NOT EVALUATE; only the workbench server suite may."
+            grep '^  N/EV' /tmp/ca.log
+            exit 1
+          fi
 
   workbench:
     name: workbench — server tests + app build
