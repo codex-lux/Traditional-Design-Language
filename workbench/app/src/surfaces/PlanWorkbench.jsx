@@ -13,6 +13,7 @@ import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Sheet } from '../sheet/Sheet.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
+import { PlateViewer } from '../components/PlateViewer.jsx';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -386,7 +387,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
             </p>
           )}
           {placement && (
-            <div style={{ maxWidth: 1000, opacity: busy ? 0.45 : 1, transition: 'opacity .3s' }}>
+            <div style={{ maxWidth: 1120, opacity: busy ? 0.45 : 1, transition: 'opacity .3s' }}>
+              <PlateViewer label="the sheet" height="clamp(420px, 74vh, 960px)"
+                note="⌘/ctrl-scroll to zoom · drag to pan · a wall handle still drags the wall">
               <Sheet plan={plan} placement={placement} levelIndex={level}
                 overlays={{ ...ov, meta: lastEval?.rooms_meta }}
                 ghost={(() => {   // ghost the nearest level BELOW the one in view
@@ -416,6 +419,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                   ? ` · ${placement.footprint.bays} bays of ${placement.footprint.bay_module_ft}′ · clear dimensions`
                   : '')}
                 styleName={plan.style} />
+              </PlateViewer>
             </div>
           )}
 

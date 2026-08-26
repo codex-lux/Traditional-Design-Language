@@ -151,7 +151,7 @@ count on every column.
 
 **The weights were not tuned against anything except fidelity's.** Seven of the eight are
 editorial, stated once in `SCORE_AXES` with the reasoning beside them, and never measured
-against a set of plans a fluent reader ranked by hand. That is OQ 64. Fidelity's 25 is the
+against a set of plans a fluent reader ranked by hand. That is OQ 66. Fidelity's 25 is the
 one measured weight, and it is measured against a *spread*, not against a preferred answer.
 
 **No axis was added for the elevation.** `plan_check.py` folds `elevation.py`'s measurements
@@ -307,7 +307,7 @@ family-georgian" was measured on the morning of 26 Aug and was false by that eve
 the parti and grouping fixes above moved every demerit total. Replaced with a spread measured
 against this tree, and stated as a spread, which is what the claim was always about.
 
-**Deferred, with reasons.** **OQ 66** records 32 derived proportion rules that evaluate outside
+**Deferred, with reasons.** **OQ 68** records 32 derived proportion rules that evaluate outside
 their own declared band — ten of them comparing inches to a ratio, which can never be true —
 and the checker gap that let them sit there. Not fixed: each needs a decision about what the
 band should say, and that belongs to the authority the pack cites, not to whoever noticed the

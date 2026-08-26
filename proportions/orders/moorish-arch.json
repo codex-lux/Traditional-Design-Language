@@ -136,7 +136,7 @@
       "expression": "module * 0.375",
       "units": "in",
       "authority_note": "The return as a fraction of the radius. Visigothic precedent nearer a third; mature Cordoban work nearer a half.",
-      "note": "THE NUMBER THE WHOLE SYSTEM TURNS ON, and the one an imitation gets wrong. Below about a third the arch reads as a semicircle that has sagged; above about a half it reads as a keyhole and the opening becomes unusable, because the clear width at the impost falls below the clear width a person needs. The range is the claim; 0.375 is a default inside it and not a measurement of any one building. THE BAND FOR THIS MOVED to the `arch_return_to_radius_ratio` rule beside it: it is a proportion of the radius, not a length, and comparing it against this rule's inches was meaningless (OQ 66).",
+      "note": "THE NUMBER THE WHOLE SYSTEM TURNS ON, and the one an imitation gets wrong. Below about a third the arch reads as a semicircle that has sagged; above about a half it reads as a keyhole and the opening becomes unusable, because the clear width at the impost falls below the clear width a person needs. The range is the claim; 0.375 is a default inside it and not a measurement of any one building. THE BAND FOR THIS MOVED to the `arch_return_to_radius_ratio` rule beside it: it is a proportion of the radius, not a length, and comparing it against this rule's inches was meaningless (OQ 68).",
       "judgment": false
     },
     {
@@ -149,7 +149,7 @@
         0.33,
         0.5
       ],
-      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 66, 26 Aug 2026). The band the authority states is a proportion of the radius; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. THE NUMBER THE WHOLE SYSTEM TURNS ON, and the one an imitation gets wrong. Below about a third the arch reads as a semicircle that has sagged; above about a half it reads as a keyhole and the opening becomes unusable, because the clear width at the impost falls below the clear width a person needs. The range is the claim; 0.375 is a default inside it and not a measurement of any one building.",
+      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 68, 26 Aug 2026). The band the authority states is a proportion of the radius; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. THE NUMBER THE WHOLE SYSTEM TURNS ON, and the one an imitation gets wrong. Below about a third the arch reads as a semicircle that has sagged; above about a half it reads as a keyhole and the opening becomes unusable, because the clear width at the impost falls below the clear width a person needs. The range is the claim; 0.375 is a default inside it and not a measurement of any one building.",
       "authority_note": "The return as a fraction of the radius. Visigothic precedent nearer a third; mature Cordoban work nearer a half."
     },
     {

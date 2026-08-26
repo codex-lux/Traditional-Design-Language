@@ -24,6 +24,79 @@ FILL = {"public":"#1B3A4E","living":"#1B3A4E","dining":"#1D4051","circulation":"
         "threshold":"#14304a","service":"#16303F","sanitary":"#173544","sleeping":"#1E3547",
         "work":"#16303F","storage":"#122A38","outdoor":"#0E2434"}
 
+# ---------------------------------------------------------------- room lettering
+# A room's name has to fit in the room. Until 26 Aug 2026 this renderer set every name
+# on one line at 9.5px whatever the room's width, so a name wider than its room ran
+# through the walls on both sides -- and the small-room branch answered that by printing
+# `nm[:9]`, which does not shorten a name, it amputates one: "Butler's Pantry" was drawn
+# "Butler's " and read as the room's actual name. The rule now is the draughtsman's:
+# break the name across lines first, shrink it only as far as it stays readable, turn it
+# to run with the room where the room is a slot, and never truncate it.
+#
+# Widths are ESTIMATED -- this renderer has no font metrics, and an estimate that is
+# occasionally a few percent wide is a label with a little air around it, where the old
+# fixed size was a label through a wall. The advances below are for the sans face the
+# sheet sets its names in; the dimension line is monospaced and measures exactly.
+def _adv(ch):
+    if ch in "iljI.,:;'|!": return 0.28
+    if ch in "ft()[]r ": return 0.36
+    if ch in "mwMW": return 0.86
+    if ch.isupper() or ch.isdigit(): return 0.66
+    return 0.53
+
+def _text_w(text, size, mono=False):
+    return size * (0.60 * len(text) if mono else sum(_adv(c) for c in text))
+
+def _balance(words, n):
+    """Split words into exactly n lines so the widest line is as narrow as it can be."""
+    if n == 1: return [" ".join(words)]
+    if n > len(words): return None
+    best = None
+    def walk(depth, start, cuts):
+        nonlocal best
+        if depth == n - 1:
+            lines, prev = [], 0
+            for c in cuts: lines.append(" ".join(words[prev:c])); prev = c
+            lines.append(" ".join(words[prev:]))
+            widest = max(_text_w(l, 1.0) for l in lines)
+            if best is None or widest < best[0]: best = (widest, lines)
+            return
+        for c in range(start + 1, len(words) - (n - 2 - depth)):
+            walk(depth + 1, c, cuts + [c])
+    walk(0, 0, [])
+    return best[1] if best else None
+
+# The exhaustive split is C(W-1, n-1) arrangements, each costed over all W words -- O(W^3)
+# at n=3. For a room name that is nothing; for a hostile one it is a CPU bomb, and a plan
+# record arrives over HTTP from anyone who can reach /api/drawings. Measured here: 400
+# words took 9.2 s, 800 took 73 s, and nothing in the schema bounds a room's name. Beyond
+# MAX_WORDS the name is set as it stands rather than balanced -- it is still drawn whole,
+# still shrunk to fit, and no longer worth a minute of somebody's server.
+MAX_WORDS = 12
+
+def _fit_lines(text, max_w, max_h, preferred, floor, lead=1.2, max_lines=3):
+    """(lines, size) for `text` inside max_w x max_h. The floor is a floor, not a
+    target: a name that will not fit at it is still drawn, cramped and complete,
+    because a reader can see cramped and cannot see truncated."""
+    words = [w for w in str(text).split() if w]
+    if not words: return None
+    if len(words) > MAX_WORDS:
+        # chunked into max_lines runs rather than balanced: linear, and a name this long
+        # has no good arrangement anyway
+        k = -(-len(words) // max_lines)
+        words = [" ".join(words[i:i + k]) for i in range(0, len(words), k)]
+    best = None
+    for n in range(1, min(max_lines, len(words)) + 1):
+        lines = _balance(words, n)
+        if not lines: continue
+        widest = max(_text_w(l, 1.0) for l in lines)
+        size = min(preferred, max_w / widest if widest else preferred,
+                   max_h / (n * lead) if n else preferred)
+        if best is None or size > best[1]: best = (lines, size)
+        if size >= preferred - 1e-6: break
+    if best is None: return None
+    return best[0], max(floor, best[1])
+
 def _fmt(x):
     ft = int(x); inch = round((x-ft)*12)
     if inch == 12: ft += 1; inch = 0
@@ -89,7 +162,11 @@ def render(plan, path, scale=7.0):
     gr = plan.get("geometry_report", {})
     if gr:
         rl = gr.get("relaxations", {})
-        s.append(f'<text class="lb" x="{pad}" y="70" fill="{PAL["copper"] if rl.get("count") else PAL["verd"]}">'
+        # style=, not fill=: `.lb` sets a fill, and a class rule beats a presentation
+        # attribute -- so this banner and the infeasibility line below it were computing a
+        # colour and then being drawn in the same quiet grey as every other caption. A
+        # warning the sheet renders as neutral is a warning the sheet does not give.
+        s.append(f'<text class="lb" x="{pad}" y="70" style="fill:{PAL["copper"] if rl.get("count") else PAL["verd"]}">'
                  f'{rl.get("count",0)} CUT(S) OFF THE BAY LINE'
                  + (f", WORST {rl.get('max_off_grid_ft')} FT" if rl.get("count") else "") + '</text>')
         # WP-2.3: a proven-infeasible plan is drawn as the labelled least-bad
@@ -97,7 +174,7 @@ def render(plan, path, scale=7.0):
         inf = gr.get("infeasible")
         if inf:
             n = len(inf.get("conflicts", []))
-            s.append(f'<text class="lb" x="{pad}" y="84" fill="{PAL["iron"]}">'
+            s.append(f'<text class="lb" x="{pad}" y="84" style="fill:{PAL["iron"]}">'
                      f'INFEASIBLE AS DECLARED — {n} CONFLICT(S) PROVEN; THIS DRAWING IS THE '
                      f'LEAST-BAD RELAXATION (SEE GEOMETRY_REPORT.INFEASIBLE)</text>')
 
@@ -152,26 +229,70 @@ def render(plan, path, scale=7.0):
             g = r.get("geometry")
             if not g: continue
             x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
+            # likewise: `.wl` sets stroke-width 2.2, so this 1.0 was discarded and every
+            # interior room outline was drawn at the building perimeter's own weight
             s.append(f'<rect class="wl" x="{X(x):.1f}" y="{Y(y+h):.1f}" width="{w*scale:.1f}" height="{h*scale:.1f}" '
-                     f'stroke-width="{1.0}"/>')
+                     f'style="stroke-width:1"/>')
         s.append(f'<rect class="wl" x="{X(0):.1f}" y="{Y(H):.1f}" width="{pw:.1f}" height="{ph:.1f}"/>')
-        # labels
+        # labels — wrapped, shrunk and where necessary turned to fit the room (see
+        # _fit_lines): the name is never truncated and never crosses a wall
         for r in lv["rooms"]:
             g = r.get("geometry")
             if not g: continue
             x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
             cx, cy = X(x + w/2), Y(y + h/2)
             nm = r.get("name") or r["id"]
-            if w*scale < 34 or h*scale < 20:
-                if w*scale > 16 and h*scale > 11:
-                    s.append(f'<text class="dm" x="{cx:.1f}" y="{cy+3:.1f}" text-anchor="middle">{_esc(nm[:9])}</text>')
-                continue
-            s.append(f'<text class="nm" x="{cx:.1f}" y="{cy-1:.1f}" text-anchor="middle">{_esc(nm)}</text>')
+            bw, bh = w*scale - 8, h*scale - 6
+            if bw <= 4 or bh <= 5: continue
+            # OQ 55's void disclosure is a statement about what the room IS, not an
+            # embellishment on the dimension string -- carrying it as a tail made it ride
+            # on `dim`'s fit, and since the tail LENGTHENS `dim` it dropped out for every
+            # room under about 19 ft wide, which is most loggias and every piazza in the
+            # catalogue. It is its own line now, drawn for every void whatever else fits.
             tail = ""
             if g.get("void"):
-                tail = " · roofed, unheated" if g["void"].get("roofed") else " · open to sky"
-            s.append(f'<text class="dm" x="{cx:.1f}" y="{cy+11:.1f}" text-anchor="middle">'
-                     f'{_fmt(min(w,h))} x {_fmt(max(w,h))} · {g["area_sf"]} sf{tail}</text>')
+                tail = "roofed, unheated" if g["void"].get("roofed") else "open to sky"
+            dim = f'{_fmt(min(w,h))} x {_fmt(max(w,h))} · {g["area_sf"]} sf'
+
+            def lay(box_w, box_h):
+                tsize = min(6.5, box_w / (0.60 * len(tail))) if tail else 0
+                tsize = max(4.6, tsize) if tail else 0
+                dsize = min(7.5, box_w / (0.60 * len(dim)))
+                want = dsize >= 5.6 and box_h >= 26 + (tsize * 1.5 if tail else 0)
+                reserve = (dsize * 1.5 if want else 0) + (tsize * 1.5 if tail else 0)
+                fit = _fit_lines(nm, box_w, box_h - reserve, 9.5, 6.0)
+                if not fit: return None
+                lines, size = fit
+                show = want and size >= 7.0
+                return lines, size, (dsize if show else None), tsize, \
+                    len(lines) * size * 1.2 + (dsize * 1.5 if show else 0) \
+                    + (tsize * 1.5 if tail else 0)
+
+            flat = lay(bw, bh)
+            # a slot -- a stair, a closet, a hyphen -- takes its name along its length
+            turned = lay(bh, bw) if h > w * 1.3 else None
+            use = turned if (turned and (not flat or turned[1] > flat[1] * 1.15)) else flat
+            if not use: continue
+            lines, size, dsize, tsize, block = use
+            gx = f'<g transform="rotate(-90 {cx:.1f} {cy:.1f})">' if use is turned else '<g>'
+            s.append(gx)
+            top = cy - block/2
+            for i, ln in enumerate(lines):
+                # style=, not font-size=: a presentation attribute loses to the .nm and
+                # .dm rules in the sheet's own <style>, so a fitted size written as an
+                # attribute is computed, ignored, and the label overflows anyway
+                s.append(f'<text class="nm" x="{cx:.1f}" y="{top + (i + 0.72) * size * 1.2:.1f}" '
+                         f'style="font-size:{size:.2f}px" text-anchor="middle">{_esc(ln)}</text>')
+            below = top + len(lines) * size * 1.2
+            if dsize:
+                s.append(f'<text class="dm" x="{cx:.1f}" y="{below + dsize:.1f}" '
+                         f'style="font-size:{dsize:.2f}px" text-anchor="middle">{_esc(dim)}</text>')
+                below += dsize * 1.5
+            if tail:
+                s.append(f'<text class="dm" x="{cx:.1f}" y="{below + tsize:.1f}" '
+                         f'style="font-size:{tsize:.2f}px;fill:{PAL["brass"]}" '
+                         f'text-anchor="middle">{_esc(tail)}</text>')
+            s.append('</g>')
         # windows on exterior walls
         for r in lv["rooms"]:
             g = r.get("geometry")
@@ -261,7 +382,8 @@ def render(plan, path, scale=7.0):
                      f'{mk.get("off_ft")} ft off the bay line</title></path>')
 
         # scale bar
-        s.append(f'<line class="pt" x1="{X(0):.1f}" y1="{Y(0)+22:.1f}" x2="{X(10):.1f}" y2="{Y(0)+22:.1f}" stroke="{PAL["brass"]}"/>')
+        # and again: `.pt` sets a stroke, so the scale bar was drawn as a partition line
+        s.append(f'<line class="pt" x1="{X(0):.1f}" y1="{Y(0)+22:.1f}" x2="{X(10):.1f}" y2="{Y(0)+22:.1f}" style="stroke:{PAL["brass"]}"/>')
         s.append(f'<text class="dm" x="{X(0):.1f}" y="{Y(0)+34:.1f}">10 ft</text>')
         # north arrow: a real glyph, not just the caption, since screen-up is model-north by
         # this file's own X/Y convention above. street_bearing_deg (WP-2.4, from `site`) is

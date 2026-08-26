@@ -1,4 +1,4 @@
-"""Derived proportion rules against their own declared bands — OQ 66.
+"""Derived proportion rules against their own declared bands — OQ 68.
 
 WHY THIS FILE EXISTS. 22 rules across `proportions/orders/` and `proportions/overlays/`
 evaluated outside the band the same rule declares, and were published to the workbench as
@@ -40,7 +40,7 @@ def _packs():
 
 
 class TestTheBandsHold:
-    # The ratchet. Both are recorded in OQ 66 as wanting a ruling rather than a patch, and
+    # The ratchet. Both are recorded in OQ 68 as wanting a ruling rather than a patch, and
     # both are the mechanism working: a rule deriving a dimension from a small order and a
     # band that says the result is too small to build.
     KNOWN_OUT = {("vignola-doric", "cornice"), ("chambers-ionic", "balustrade")}

@@ -37,7 +37,12 @@ def render_roof(roof, path, scale=7.0):
     W, H = fp["width_ft"], fp["depth_ft"]
     pad, top = 42, 78
     pw, ph = W * scale, H * scale
-    total_w = pad * 2 + pw
+    # the canvas is sized to the FOOTPRINT, and the legend below it is a fixed 99-character
+    # string ~445px wide at .dm — so on anything under about 56 ft the key was clipped by
+    # the viewBox and the reader was never told what the red dot means
+    LEGEND = ("EAVE (SOLID) · RIDGE (BRASS) · HIP (DASHED GREY) · "
+              "GAMBREL BREAK (DASHED GREEN) · CHIMNEY (RED DOT)")
+    total_w = max(pad * 2 + pw, pad * 2 + len(LEGEND) * 4.55)
     total_h = top + ph + 60
 
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
@@ -63,7 +68,7 @@ def render_roof(roof, path, scale=7.0):
         s.append(f'<circle class="chm" cx="{X(c["x_ft"]):.1f}" cy="{Y(c["y_ft"]):.1f}" r="{r:.1f}"/>')
 
     legend_y = oy + ph + 18
-    s.append(f'<text class="dm" x="{ox:.1f}" y="{legend_y:.1f}">EAVE (SOLID) · RIDGE (BRASS) · HIP (DASHED GREY) · GAMBREL BREAK (DASHED GREEN) · CHIMNEY (RED DOT)</text>')
+    s.append(f'<text class="dm" x="{ox:.1f}" y="{legend_y:.1f}">{LEGEND}</text>')
 
     checks = roof.get("checks", {})
     line2 = []

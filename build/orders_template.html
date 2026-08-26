@@ -284,11 +284,25 @@ const COLUMN_ASM = new Set(["pedestal","base","shaft","capital"]);
 
 function buildGeometry(pk, dim){
   const D = dim.totals.diameterIn, R = D/2;
+  /* OQ 65, ruled 26 Aug 2026. `projection_parts` is measured one of two ways in this
+     corpus and the pack now says which: 'naked' means an offset from the member's own
+     datum, 'axis' means an absolute radius from the column's axis. This tool added the
+     naked to BOTH for four years, so every Ionic, Corinthian and Composite it drew put
+     the shaft's own apophyge, astragal and fillet a full semidiameter clear of the shaft
+     they sit on — a column narrower than its own mouldings. Under the axis reading a
+     recorded 0 is not "at the axis"; it is a projection nobody wrote down, and the member
+     takes its naked rather than collapsing to the centreline. */
+  const fromAxis = pk.projection_datum === "axis";
+  const outerAt = (nakedX, projIn) => {
+    if(!fromAxis) return nakedX + projIn;
+    if(!(projIn > 0)) return nakedX;              // absent figure, not a flush face
+    return Math.max(projIn, nakedX);
+  };
   const dimin = (pk.column && pk.column.diminution) || 1;
   const Rtop = R*dimin;
   const baseAsm = dim.assemblies.find(a=>a.id==="base");
   const plinthProj = baseAsm ? Math.max(0,...baseAsm.members.map(m=>m.projIn)) : R*0.2;
-  const dieNaked = R + plinthProj;
+  const dieNaked = plinthProj ? Math.max(R, fromAxis ? plinthProj : R + plinthProj) : R*1.2;
   const entStart = (pk.column && pk.column.entasis_begins_at) || 1/3;
 
   const shaftAsm = dim.assemblies.find(a=>a.id==="shaft");
@@ -312,8 +326,8 @@ function buildGeometry(pk, dim){
     for(const m of a.members){
       if(m.sideBySide){ if(seen.has("x")) continue; seen.add("x"); }
       const isShaftBody = a.id==="shaft" && m.heightIn > (sy1-sy0)*0.6;
-      const x0 = datum(a.id, m.y0) + (isShaftBody?0:m.projIn);
-      const x1 = datum(a.id, m.y1) + (isShaftBody?0:m.projIn);
+      const x0 = isShaftBody ? datum(a.id, m.y0) : outerAt(datum(a.id, m.y0), m.projIn);
+      const x1 = isShaftBody ? datum(a.id, m.y1) : outerAt(datum(a.id, m.y1), m.projIn);
       pts.push({ asm:a.id, m, x0, x1, taper:isShaftBody });
     }
   }

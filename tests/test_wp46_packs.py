@@ -143,7 +143,7 @@ def test_the_impost_block_is_a_member_the_pack_will_not_let_you_drop():
 
 
 def test_the_horseshoe_return_is_a_band_because_the_fabric_is():
-    """RE-POINTED 26 Aug 2026 (OQ 66). The band and the value it bands were one rule, and the
+    """RE-POINTED 26 Aug 2026 (OQ 68). The band and the value it bands were one rule, and the
     engine compared a band on the RETURN AS A FRACTION OF THE RADIUS against a value in
     inches — incommensurable, and reported out of band on every evaluation. They are two
     rules now; the band lives on the ratio, and so does the sentence that explains it. The

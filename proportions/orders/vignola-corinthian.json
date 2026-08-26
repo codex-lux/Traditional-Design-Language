@@ -23,6 +23,7 @@
     "note": "Eighteen parts, as for the Ionic and Composite. Twelve is reserved for the Tuscan and Doric.",
     "diameters": 0.5
   },
+  "projection_datum": "axis",
   "column": {
     "height_modules": 20,
     "shaft_height_modules": 16.6666666667,

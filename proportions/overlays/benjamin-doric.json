@@ -23,6 +23,7 @@
     "note": "Benjamin's scale throughout both books: the DIAMETER is divided into sixty minutes, so the semidiameter carries thirty. Default 9 in. gives an 18 in. column - the size of a Greek Revival house portico of ordinary ambition, at which one minute is three tenths of an inch. Note that the Greek Doric column is short and thick, so the absolute module is LARGER than in any other order at the same overall height; this is the order in which mouldings are most likely to be big enough to survive.",
     "diameters": 0.5
   },
+  "projection_datum": "naked",
   "column": {
     "height_modules": 14,
     "shaft_height_modules": 13,
@@ -331,7 +332,7 @@
           240,
           600
         ],
-        "note": "BIND storey_height TO THE FULL WALL HEIGHT — this rule's own authority note says so in capitals, and Benjamin's worked example is a house 'thirty five feet high'. At the engine's default binding of one 10 ft storey it derives a 4 in cornice and reports itself out of band; at 35 ft it lands squarely inside. Added 26 Aug 2026 (OQ 66) so the engine withholds judgement instead of convicting the rule of a building it was never given."
+        "note": "BIND storey_height TO THE FULL WALL HEIGHT — this rule's own authority note says so in capitals, and Benjamin's worked example is a house 'thirty five feet high'. At the engine's default binding of one 10 ft storey it derives a 4 in cornice and reports itself out of band; at 35 ft it lands squarely inside. Added 26 Aug 2026 (OQ 68) so the engine withholds judgement instead of convicting the rule of a building it was never given."
       }
     },
     {

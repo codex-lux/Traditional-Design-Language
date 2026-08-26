@@ -294,13 +294,13 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
     # check_modules.py --eval and check_systems.py have both done this for years, and neither
     # covers proportions/orders/ or proportions/overlays/ -- which is where 22 rules were
     # sitting outside their own declared bands, published to the workbench as "· out of band",
-    # with no checker looking (OQ 66). Evaluation goes through proportion_engine.evaluate()
+    # with no checker looking (OQ 68). Evaluation goes through proportion_engine.evaluate()
     # rather than a second implementation here, so what this checks is exactly what the MCP
     # tool and the workbench publish: the same tolerance, and the same withholding of
     # judgement where a rule states a calibration context the default bindings are outside.
     #
     # A violation is a WARNING and not an error, deliberately. Two survive at the time of
-    # writing and both are recorded in OQ 66 as wanting a ruling rather than a patch; turning
+    # writing and both are recorded in OQ 68 as wanting a ruling rather than a patch; turning
     # them into errors would fail the build on two findings the corpus is correctly making.
     try:
         ev = ENGINE.evaluate(pack)
@@ -332,6 +332,46 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
 
 
 # ---------------------------------------------------------------- overlays
+
+def check_projection_datum(by_id):
+    """OQ 65, ruled 26 Aug 2026. Every pack whose members carry a projection at all must
+    say which datum it was measured from, and the declaration is VERIFIED against the
+    pack's own geometry rather than trusted: a shaft body reads 0 under the naked reading
+    and the semidiameter under the axis reading, and a capital's widest member cannot sit
+    inside the shaft. A pack that declares one thing and draws another is worse than a
+    pack that declares nothing, because the next consumer will believe it."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("pe", os.path.join(ROOT, "build", "proportion_engine.py"))
+    pe = importlib.util.module_from_spec(spec); spec.loader.exec_module(pe)
+    for pid, pack in sorted(by_id.items()):
+        if pack.get("kind") != "order-system":
+            continue
+        try:
+            r = pe.resolve(pid)
+            d = pe.dimension(r, 36.0, None)
+        except Exception as e:                    # a pack that will not dimension is
+            warn(pid, f"could not dimension for the projection-datum check: {e}")
+            continue
+        has_proj = any((m.get("projection_in") or 0)
+                       for a in d["assemblies"] for m in a.get("members", []))
+        declared = d.get("projection_datum")
+        if not has_proj:
+            continue                              # nothing to measure from: nothing to say
+        if not declared:
+            err(pid, "carries projections but no projection_datum — a reader cannot tell "
+                     "whether a figure is an offset from the naked or a radius from the "
+                     "axis, and guessing draws the shaft narrower than its own mouldings "
+                     "(OQ 65)")
+            continue
+        observed = pe.observed_projection_datum(d)
+        if observed is None:
+            warn(pid, f"declares projection_datum '{declared}' and its own geometry cannot "
+                      f"confirm it — no published shaft body and no base or capital to read")
+        elif observed != declared:
+            err(pid, f"declares projection_datum '{declared}' but its geometry reads "
+                     f"'{observed}' — one of the two is wrong and every drawing of this "
+                     f"pack is wrong with it")
+
 
 def check_overlays(by_id):
     """Resolve every overlay_of against the loaded corpus.
@@ -406,6 +446,7 @@ def main():
         check_pack(p, schema, slot_ids, style_ids, verbose)
 
     check_overlays(by_id)
+    check_projection_datum(by_id)
 
     for w in warnings:
         print(f"WARN  {w}")

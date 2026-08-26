@@ -10,6 +10,7 @@
    dims + topology + provenance, the same shape as every record in plans/.
    The backdrop image never leaves the browser. */
 import React from 'react';
+import { fitLabel, fitLine, useFontMetrics } from '../sheet/label.js';
 import { api } from '../api/client.js';
 import { planDoc } from '../state/planDoc.js';
 import { draftDoc, emptyDraft, completeness, toRecord, exteriorWalls, neighbours }
@@ -39,6 +40,7 @@ function Field({ name, value, onChange, list, type, placeholder, w }) {
 /* ---------------- the tracing canvas ---------------- */
 
 function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
+  useFontMetrics();      // re-fit the traced rooms' names once the real face has arrived
   const svgRef = React.useRef(null);
   const drag = React.useRef(null);
   const [, force] = React.useReducer((x) => x + 1, 0);
@@ -149,15 +151,43 @@ function Canvas({ draft, level, sel, setSel, backdrop, mode }) {
               stroke={on ? 'var(--gilt-deep)' : r.type ? 'var(--ink)' : 'var(--judge-unjudged)'}
               strokeWidth={on ? 1.6 : 1.1} vectorEffect="non-scaling-stroke"
               strokeDasharray={r.type ? undefined : '3 3'} style={{ cursor: 'move' }} />
-            <text x={r.x + r.w / 2} y={-r.y - r.h / 2} textAnchor="middle" fontSize="1.35"
-              fill="var(--ink)" fontFamily="var(--body)" style={{ pointerEvents: 'none' }}>
-              {r.name || r.name_hint || r.id}
-            </text>
-            <text x={r.x + r.w / 2} y={-r.y - r.h / 2 + 1.9} textAnchor="middle" fontSize="1"
-              fill={r.type ? 'var(--ink-3)' : 'var(--judge-unjudged)'} fontFamily="var(--mono, monospace)"
-              style={{ pointerEvents: 'none' }}>
-              {r.type || 'type unset'} · {r.w}×{r.h} ft
-            </text>
+            {/* Fitted, like the plan sheet's — this drew every name at a CONSTANT 1.35
+                model feet with no reference to the traced room's width at all, so a
+                fifteen-character name in a five-foot closet ran two and a half feet out
+                through each wall, on the surface whose whole business is turning a
+                drawing into a record. Same fitter, same rule: break, shrink, turn. */}
+            {(() => {
+              const nm = r.name || r.name_hint || r.id;
+              const meta = `${r.type || 'type unset'} · ${r.w}×${r.h} ft`;
+              const pad = 0.5;
+              const box = { w: r.w - pad * 2, h: r.h - pad * 2 };
+              if (box.w <= 0.4 || box.h <= 0.4) return null;
+              const turn = r.h > r.w * 1.3;
+              const bw = turn ? box.h : box.w, bh = turn ? box.w : box.h;
+              const mfit = fitLine(meta, bw, { preferred: 1, min: 0.42, track: 0 });
+              const want = bh >= mfit.size * 3.2;
+              const lab = fitLabel(nm, bw, Math.max(0.6, bh - (want ? mfit.size * 1.5 : 0)),
+                { preferred: 1.35, min: 0.5, track: 0, lead: 1.2, maxLines: 3 });
+              if (!lab) return null;
+              const block = lab.height + (want ? mfit.size * 1.5 : 0);
+              const cx = r.x + r.w / 2, cy = -r.y - r.h / 2, top = cy - block / 2;
+              return (
+                <g transform={turn ? `rotate(-90 ${cx} ${cy})` : undefined}
+                  style={{ pointerEvents: 'none' }}>
+                  {lab.lines.map((ln, i) => (
+                    <text key={i} x={cx} y={top + (i + 0.5) * lab.lead} fontSize={lab.size}
+                      textAnchor="middle" dominantBaseline="middle"
+                      fill="var(--ink)" fontFamily="var(--body)">{ln}</text>
+                  ))}
+                  {want && (
+                    <text x={cx} y={top + lab.height + mfit.size * 0.7} fontSize={mfit.size}
+                      textAnchor="middle" dominantBaseline="middle"
+                      fill={r.type ? 'var(--ink-3)' : 'var(--judge-unjudged)'}
+                      fontFamily="var(--mono, monospace)">{mfit.text}</text>
+                  )}
+                </g>
+              );
+            })()}
             {on && ['ne', 'nw', 'se', 'sw'].map((h) => {
               const hx = h.includes('e') ? r.x + r.w : r.x;
               const hy = h.includes('n') ? r.y + r.h : r.y;

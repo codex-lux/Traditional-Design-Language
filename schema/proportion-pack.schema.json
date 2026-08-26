@@ -116,6 +116,13 @@
         }
       }
     },
+    "projection_datum": {
+      "enum": [
+        "naked",
+        "axis"
+      ],
+      "description": "WHICH DATUM a member's projection_parts is measured from, stated rather than inferred (OQ 65). 'naked' means the figure is an offset from the member's own naked -- the die for a pedestal member, the column's radius AT THAT HEIGHT for a base, shaft or capital member, the naked of the frieze for an entablature member; a shaft body then reads 0. 'axis' means the figure is an absolute radius from the column's own axis; a shaft body then reads exactly the semidiameter. The corpus uses BOTH -- Vignola's Doric and Tuscan are 'naked' and his Ionic, Corinthian and Composite are 'axis', and every overlay inherits its base's -- so a consumer that assumes one draws the other at two radii, with a shaft narrower than its own mouldings. An overlay states its own only if it genuinely differs; absent, it inherits. Required of any pack whose members carry a projection at all, and check_orders.py verifies the declared value against the pack's own shaft rather than trusting it."
+    },
     "column": {
       "type": "object",
       "additionalProperties": false,
@@ -196,7 +203,7 @@
                 },
                 "projection_parts": {
                   "type": "number",
-                  "description": "Projection from the naked of the frieze or the column axis datum, in parts."
+                  "description": "Projection in PARTS, measured from the datum this pack's projection_datum names -- the member's own naked, or the column axis. Never both: see OQ 65."
                 },
                 "profile": {
                   "enum": [
@@ -341,7 +348,7 @@
           },
           "dimension": {
             "type": "string",
-            "description": "Which dimension of that slot the expression yields: height, width, projection, count — or a named `*_ratio` (height_ratio, return_ratio), where the rule states the proportion an authority gives rather than a measurement derived from it. Such a rule and the dimension rule beside it are the same claim in two units, and only the ratio rule carries the band (OQ 66). Name it specifically rather than `ratio`: the address is (slot, dimension, quantity), and a generic `ratio` collides with any other pack that used it on the same slot for something else."
+            "description": "Which dimension of that slot the expression yields: height, width, projection, count — or a named `*_ratio` (height_ratio, return_ratio), where the rule states the proportion an authority gives rather than a measurement derived from it. Such a rule and the dimension rule beside it are the same claim in two units, and only the ratio rule carries the band (OQ 68). Name it specifically rather than `ratio`: the address is (slot, dimension, quantity), and a generic `ratio` collides with any other pack that used it on the same slot for something else."
           },
           "expression": {
             "type": "string",
@@ -379,7 +386,7 @@
           "calibrated_for": {
             "type": "object",
             "additionalProperties": false,
-            "description": "The context in which this rule was calibrated. Outside it the rule still evaluates and should not be trusted — trim-classical's chair-rail derivation is calibrated for 11-13 ft rooms and puts the rail under the back of a chair at 8 ft. HONOURED BY THE ENGINE since OQ 66: proportion_engine.evaluate() withholds `in_range` outside the stated context and publishes `out_of_calibration` in its place, because judging a rule against a binding its own note tells you not to use is unjudged reported as failed.",
+            "description": "The context in which this rule was calibrated. Outside it the rule still evaluates and should not be trusted — trim-classical's chair-rail derivation is calibrated for 11-13 ft rooms and puts the rail under the back of a chair at 8 ft. HONOURED BY THE ENGINE since OQ 68: proportion_engine.evaluate() withholds `in_range` outside the stated context and publishes `out_of_calibration` in its place, because judging a rule against a binding its own note tells you not to use is unjudged reported as failed.",
             "properties": {
               "ceiling_height": {
                 "type": "array",

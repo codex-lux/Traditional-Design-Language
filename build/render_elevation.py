@@ -27,6 +27,20 @@ PAL = {"ground": "#0B1B29", "paper": "#0F2536", "wall": "#16344A", "rule": "#244
        "ink2": "#9FB3C2", "ink3": "#63808F", "brass": "#D8B26A", "verd": "#7FB3A3", "copper": "#C4734A",
        "iron": "#C4553A", "glass": "#2E5468", "sash": "#EDE7DA", "shutter": "#3A5A47"}
 
+def _wrap(text, cols):
+    """Greedy wrap at word boundaries. `cols` is a character count, which is what a
+    monospaced .dm class makes meaningful; a word longer than the measure is left long
+    rather than cut, because cutting a word is how a note stops being a note."""
+    out, line = [], ""
+    for w in str(text).split():
+        if line and len(line) + 1 + len(w) > cols:
+            out.append(line); line = w
+        else:
+            line = f"{line} {w}" if line else w
+    if line: out.append(line)
+    return out
+
+
 def _esc(t): return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 def _style_block():
@@ -159,10 +173,20 @@ def render_elevation(elev, path, face=None, scale=6.0):
         # This style is outside the Palladian/classical-front system this generator implements
         # (see build_elevation()'s own scope-gate note) -- an honest one-line placeholder, not a
         # traced or guessed elevation for a building this file was never scoped to draw.
-        s = ['<svg xmlns="http://www.w3.org/2000/svg" width="640" height="80" viewBox="0 0 640 80" '
-             f'style="background:{PAL["ground"]}">', _style_block(),
-             f'<text class="lb" x="16" y="30">{_esc(elev.get("style",""))} -- NOT APPLICABLE</text>',
-             f'<text class="dm" x="16" y="48">{_esc((elev.get("note") or "")[:140])}</text>', '</svg>']
+        # The note runs to ~660 characters and this card used to print `[:140]` of it,
+        # mid-word, with no ellipsis, into a box only wide enough for ~138 — two
+        # amputations stacked, neither signalled, on the one drawing whose whole content
+        # IS the refusal. It wraps now and the card grows to hold it: a refusal is
+        # content, and a third of a refusal is not a refusal.
+        note = (elev.get("note") or "").strip()
+        wrapped = _wrap(note, 96) or [""]
+        h = max(80, 44 + len(wrapped) * 15)
+        s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="640" height="{h}" '
+             f'viewBox="0 0 640 {h}" style="background:{PAL["ground"]}">', _style_block(),
+             f'<text class="lb" x="16" y="30">{_esc(elev.get("style",""))} -- NOT APPLICABLE</text>']
+        for i, ln in enumerate(wrapped):
+            s.append(f'<text class="dm" x="16" y="{48 + i * 15}">{_esc(ln)}</text>')
+        s.append('</svg>')
         open(path, "w").write("\n".join(s))
         return path
     face = face or elev["entrance_face"]
