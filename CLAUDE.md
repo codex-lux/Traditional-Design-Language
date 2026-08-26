@@ -81,7 +81,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **30 checks, 762 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **30 checks, 806 tests**.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
@@ -196,8 +196,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 12 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **64 entries, of which 13 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message

@@ -265,7 +265,16 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False) -
 
     Seeds from the canonical partis native to the style, sizes every room from the room catalogue,
     repairs against the validator until it stops improving, reclaims the area the repair spent, and
-    returns candidates ordered by fatal findings first then style fidelity.
+    returns candidates fatal-free first and then by score.
+
+    `score` is out of 100 and HIGHER IS BETTER. It is a weighted composite of eight axes, not a total
+    of what is wrong: each axis is the share of its own denominator that came back clean, so a bigger
+    house is not marked down for being checked more times. `score_axes` itemises it — weight, share
+    and the denominator the share was taken over. An axis nothing could be evaluated on has its weight
+    DROPPED and the total renormalised, never counted as a pass; `score_weight_unevaluated` says how
+    much of the hundred that was. A fatal finding forfeits the score entirely: `score` is null and
+    `score_forfeit` says why, with the axes still measured. `demerits` is the superseded
+    lower-is-better total and ranks nothing.
 
     Read `trades_away` before `score` — every diagram gives something up, and the best-scoring plan is
     not always the one the client wants. Read `decisions` too: those are what the composer chose where

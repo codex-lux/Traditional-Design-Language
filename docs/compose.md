@@ -14,20 +14,54 @@ A parti specifies **topology and roles only** — which rooms, which walls are o
 
 **Size, repair, reclaim.** Rooms are scaled from the catalogue midpoint toward the target, then clamped to each room's own band, then optional rooms are dropped if it is still too big. The plan then goes through the validator and the composer applies the move each finding implies — widen a room that cannot take its furniture, raise a window head that cannot reach the back of the room, shorten a room deeper than its light. Repair spends area, so a reclaim pass gives it back from rooms that are not complaining, shortening length rather than width because width is what the checks care about.
 
-**Rank by fatal first, then style fidelity.** Score is 100 per fatal, 8 per serious, 1 per minor, less a bonus for how native the diagram is to the style and how canonical the massing.
+**Rank fatal-free first, then by score.** The two keys are separate on purpose, and the first is the one that is never traded away: a plan carrying a fatal never displaces a clean one from the returned set, however native its diagram.
+
+## The score
+
+**Out of 100, higher is better, and it is a composite rather than a total.**
+
+It was a total once — 100 a fatal, 8 a serious, 1 a minor, less 20 a point of style fidelity, lower is better — and three things were wrong with publishing that under the word "score". It had no ceiling, so the figure was only ever comparative while the workbench's big numeral invited an absolute reading. It ran in the unintuitive direction under a label that promises the other one. And its magnitude tracked corpus density and plan size rather than quality: 36 on one brief and 208 on another, for plans of comparable merit, because a bigger house is simply checked more times.
+
+Each axis is now a **share of its own denominator** — what came back clean out of what was actually checked. A bigger house puts more rooms in the numerator and the same rooms in the denominator, so size cancels.
+
+| axis | weight | denominator |
+|---|---|---|
+| solecisms | 22 | the faults the corpus could judge on this plan |
+| rooms | 20 | every room, against its catalogue band, furniture, daylight and servicing |
+| connections | 17 | every room, against the adjacency, circulation, privacy and completeness rules |
+| fidelity | 18 | `pick_partis` fit, out of a possible 7.0 |
+| area | 8 | how far off target against the brief's own tolerance |
+| bedrooms | 4 | the bedrooms the brief asked for |
+| canon | 6 | declared slots, groupings, evaluated constraints, massing affinity |
+| buildability | 5 | the two footprint tests |
+
+A room is spent by a serious finding, halved by a minor, and left whole by an advisory or an info — the corpus calls those advisory and unjudged respectively, and neither is a failure. **The code layer is deliberately unscored**: it is advisory and jurisdictional and `plan_check.py` says so in its own note, so scoring a house on it would be scoring it against a jurisdiction nobody named.
+
+**The weights are editorial.** They are one judgement about what matters in a house, stated once in `compose.py`'s `SCORE_AXES` rather than buried in a sum. The fault corpus and the two room-level axes are more than half the score because they are what a fluent reader notices walking through. Fidelity is 18 because being the right diagram for the style is the composer's whole argument for preferring one parti to another, and 18 is deliberately not enough to carry a plan that fails everything else.
+
+**Unjudged is not passed.** An axis with no evidence neither scores zero nor scores full marks: its weight is dropped and the total renormalised over the weight that could be evaluated. `score_weight_unevaluated` reports how much of the hundred that was, so a score taken over 94 points of evidence cannot be read as one taken over 100.
+
+**A fatal finding forfeits the score** rather than lowering it. `score` is null, `score_forfeit` says why, the axes are still measured, and the candidate sorts last. A fatal is a thing that is wrong, not a thing that is worse, and averaging it into a share would let a native diagram with a broken plan outscore a sound borrowed one.
+
+`demerits` is still on the record — the old lower-is-better total, kept because it is a real quantity and because earlier reports quote it. It ranks nothing.
 
 ## What it returns
 
 Four contrasting candidates, each with its counts, its area and how far off target, a footprint check against the bay module, **what the diagram trades away**, and a decision log of everything the composer chose where the brief was silent.
 
 ```
-Centre Passage, Single Pile     fatal 0  serious 10  3309 sf (3.4%)  score 84
-Centre Passage, Double Pile     fatal 0  serious 11  3413 sf (6.7%)  score 114
-Side-Hall Town House            fatal 0  serious  9  3319 sf (3.7%)  score 116
-Foursquare Quadrant             fatal 0  serious 10  3396 sf (6.1%)  score 122
+1. Centre Passage, Double Pile   score 66.3 of 100   fatal 0  serious 30  minor 77
+    15.6 / 22  solecisms          71%  76 faults the corpus could judge on this plan  (129 unjudged)
+    10.7 / 20  rooms              54%  27 rooms
+     8.2 / 17  connections        48%  27 rooms
+    18.0 / 18  fidelity          100%  fit 7.0 of a possible 7.0
+     3.5 / 8   area               44%  6.7% off target against the brief's 12.0% tolerance
+     4.0 / 4   bedrooms          100%  4 of 4 asked for
+     3.7 / 6   canon              61%  declared slots, groupings, evaluated constraints and the massing
+     2.5 / 5   buildability       50%  2 footprint tests
 ```
 
-The single-pile winning a Tidewater brief is the right answer and it was not the first one the composer gave. It ranked fourth with a fatal finding until a modelling error was fixed — see below.
+The single-pile winning a Tidewater brief was the right answer once and is no longer the one the composer gives; WP-4.5's wider pick window found four diagrams with no fatal on that brief and the double pile now leads it. Its own story is below — it ranked fourth with a fatal finding until a modelling error was fixed.
 
 ## Four things the composer will not do
 

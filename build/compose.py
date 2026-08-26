@@ -4,9 +4,10 @@
   read a brief -> pick partis native to the style -> instantiate at the target size
   -> repair against the validator until it stops improving -> emit N contrasting candidates
 
-Objective: fewest fatal findings first, then style fidelity. Where the brief underdetermines
-something the composer decides it and SAYS SO in the decision log rather than presenting the
-choice as a fact. Judgment slots are surfaced, never silently resolved — a plan that violates
+Objective: fatal-free first, then highest score — a composite out of 100 where every axis is
+a share of its own denominator, and a fatal forfeits the number rather than lowering it (see
+SCORE_AXES). Where the brief underdetermines something the composer decides it and SAYS SO in
+the decision log rather than presenting the choice as a fact. Judgment slots are surfaced, never silently resolved — a plan that violates
 nothing can still be dead, and the human is the one who can tell.
 
   python3 build/compose.py briefs/<id>.json [--json] [--candidates 4]
@@ -36,6 +37,200 @@ for f in sorted(glob.glob(f"{ROOT}/partis/*.json")):
     p = json.load(open(f)); PARTIS[p["id"]] = p
 
 SEV_W = {"fatal": 100, "serious": 8, "minor": 1, "advisory": 0.5, "info": 0}
+
+# ---------------------------------------------------------------- the score
+#
+# What a candidate is worth OUT OF 100, and why it is a composite rather than a total.
+#
+# It used to be the demerit sum above: 100 a fatal, 8 a serious, 1 a minor, less 20 a point
+# of style fidelity, LOWER IS BETTER. Three things were wrong with publishing that as a
+# "score". It had no ceiling, so the figure was only ever comparative while the workbench's
+# big numeral invited an absolute reading it could not support. It ran in the unintuitive
+# direction under a label that promises the other one. And its magnitude tracked corpus
+# density and plan size rather than quality -- 36 on one brief and 208 on another for plans
+# of comparable merit -- because a bigger house is simply checked more times.
+#
+# The composite fixes all three by scoring each axis as a SHARE of its own denominator:
+# what came back clean out of what was actually checked. A bigger house puts more rooms in
+# the numerator and the same rooms in the denominator, so size cancels. Every axis lands
+# between 0 and 1, the weights sum to 100, and the whole arithmetic is published on the
+# record so the number can be argued with rather than believed.
+#
+# UNJUDGED IS NOT PASSED, and here that means an axis with no evidence neither scores zero
+# nor scores full marks: its weight is DROPPED and the total renormalised over the weight
+# that could be evaluated, with the dropped weight reported beside the score. A candidate
+# whose style constraints were every one unjudged is scored out of 94, and says so.
+#
+# A FATAL FINDING FORFEITS THE SCORE rather than lowering it. A fatal is a thing that is
+# wrong, not a thing that is worse, and averaging it into a share would let a native diagram
+# with a broken plan outscore a sound borrowed one -- which is the exact failure WP-4.5's
+# NATIVITY_W comment argues against. The axes are still computed and still shown; only the
+# headline is withheld, and the candidate sorts last.
+#
+# THE WEIGHTS ARE EDITORIAL. They are one judgement about what matters in a house, stated
+# once here rather than buried inside a sum. The fault corpus and the two room-level axes
+# are more than half the score because they are what a fluent reader notices walking
+# through. Fidelity is 18 because being the right diagram for the style is the composer's
+# whole argument for preferring one parti to another, and 18 is deliberately not enough to
+# carry a plan that fails everything else. The code layer is deliberately absent: it is
+# advisory and jurisdictional and plan_check.py says so in its own note, so scoring a house
+# on it would be scoring it against a jurisdiction nobody named.
+SCORE_AXES = [
+    ("solecisms",   22, "the fault corpus \u2014 the named things that read as wrong to someone fluent"),
+    ("rooms",       20, "each room against its catalogue band, its furniture, its daylight and its servicing"),
+    ("connections", 17, "each room against the adjacency, circulation, privacy and completeness rules"),
+    ("fidelity",    18, "how native the diagram is to the style and how canonical its massing"),
+    ("area",         8, "how close the plan lands to the area the brief asked for"),
+    ("bedrooms",     4, "whether the bedrooms the brief asked for are actually in the plan"),
+    ("canon",        6, "declared slots, groupings, massing affinity and the style's own constraints"),
+    ("buildability", 5, "the footprint against the bay module and the depth a plan can daylight"),
+]
+assert sum(w for _, w, _ in SCORE_AXES) == 100
+
+# Which axis each of plan_check.py's finding layers belongs to. None means deliberately
+# unscored, and there is exactly one of those. A layer missing from this map is reported on
+# the record as `score_unclassified` rather than silently dropped -- a new layer in the
+# validator must not quietly stop counting.
+SCORE_LAYERS = {
+    "fault": "solecisms",
+    "room": "rooms", "furniture": "rooms", "daylight": "rooms", "servicing": "rooms",
+    "plan": "rooms",
+    "adjacency": "connections", "circulation": "connections", "privacy": "connections",
+    "completeness": "connections",
+    "style": "canon", "grouping": "canon",
+    "code": None,
+}
+
+# What a room is still worth once something has been found against it. A serious finding
+# spends the room; a minor halves it; advisory and info leave it whole, because the corpus
+# calls those advisory and unjudged respectively and neither is a failure.
+SEV_CREDIT = {"fatal": 0.0, "serious": 0.0, "minor": 0.5, "advisory": 1.0, "info": 1.0}
+
+# The most pick_partis() can award: 3.0 native + 2.0 canonical massing + 1.0 bedroom range
+# + 1.0 area range. It can go NEGATIVE (a forbidden massing costs 4.0), which is why the
+# share is clamped at the bottom rather than allowed to drag the composite below zero.
+MAX_FIT = 7.0
+
+# The two tests footprint() runs on a candidate that fits its lot: is it deeper than a plan
+# can daylight, and has it reached the width the diagram grows to. The third note it can
+# emit is lot_infeasible, and a candidate carrying that one is dropped rather than scored.
+FOOTPRINT_TESTS = 2
+
+# What the brief means by "4 bed". function_class 'sleeping' also holds the dressing room
+# and the sleeping porch, and neither is a bedroom anybody counts.
+BEDROOM_TYPES = {"bedroom", "primary-bedroom", "bedchamber", "garret-chamber", "nursery"}
+
+
+def _axis_from_layers(res, axis, n_rooms):
+    """A per-room axis: every room is an opportunity, the worst finding against it decides
+    what it still scores. A finding in these layers that names no room becomes its own
+    opportunity, so nothing lands outside the denominator."""
+    per_room, loose = {}, []
+    for f in res["findings"]:
+        if SCORE_LAYERS.get(f["layer"]) != axis: continue
+        credit = SEV_CREDIT.get(f["severity"], 0.0)
+        rid = f.get("room")
+        if rid: per_room[rid] = min(per_room.get(rid, 1.0), credit)
+        else: loose.append(credit)
+    of = n_rooms + len(loose)
+    if not of: return None
+    kept = sum(per_room.values()) + sum(loose) + max(0, n_rooms - len(per_room))
+    return {"share": max(0.0, min(1.0, kept / of)), "of": of,
+            "clean": round(kept, 2), "flagged": len(per_room) + len(loose),
+            "denominator": f"{n_rooms} rooms" + (f" + {len(loose)} plan-wide" if loose else "")}
+
+
+def _axis_canon(res, plan):
+    """Not per room: per RULE. Every declared slot, every grouping, every constraint the
+    style layer could actually evaluate and the massing affinity is one opportunity. The
+    info-level findings here are 'cannot evaluate' and 'check by hand' -- unjudged, counted
+    as such, and kept out of both halves of the fraction."""
+    cs = res.get("constraint_summary") or {}
+    of = (len(plan.get("declared") or {}) + len(plan.get("groupings") or [])
+          + cs.get("present", 0) + cs.get("clear", 0) + (1 if plan.get("massing") else 0))
+    per_rule, loose, unjudged = {}, [], cs.get("unjudged", 0)
+    for f in res["findings"]:
+        if SCORE_LAYERS.get(f["layer"]) != "canon": continue
+        if f["severity"] == "info":
+            unjudged += 1; continue
+        credit = SEV_CREDIT.get(f["severity"], 0.0)
+        k = f.get("rule")
+        if k: per_rule[k] = min(per_rule.get(k, 1.0), credit)
+        else: loose.append(credit)
+    of = max(of, len(per_rule)) + len(loose)
+    if not of: return {"share": None, "of": 0, "unjudged": unjudged}
+    kept = sum(per_rule.values()) + sum(loose) + max(0, of - len(loose) - len(per_rule))
+    return {"share": max(0.0, min(1.0, kept / of)), "of": of, "clean": round(kept, 2),
+            "flagged": len(per_rule) + len(loose), "unjudged": unjudged,
+            "denominator": "declared slots, groupings, evaluated constraints and the massing"}
+
+
+def score_candidate(res, plan, brief, fit, fp, miss, tol):
+    """The composite, itemised. Returns the score out of 100 (None where a fatal forfeits
+    it), every axis with its own share and denominator, and the weight that could not be
+    evaluated at all."""
+    n_rooms = res.get("rooms") or 0
+    fs = res.get("fault_summary") or {}
+    judged = fs.get("clear", 0) + fs.get("present", 0)
+    beds_want = brief.get("bedrooms", 3)
+    beds_have = sum(1 for lv in plan["levels"] for r in lv["rooms"] if r["type"] in BEDROOM_TYPES)
+
+    raw = {
+        "solecisms": ({"share": fs["clear"] / judged, "of": judged, "clean": fs["clear"],
+                       "flagged": fs["present"], "unjudged": fs.get("unjudged", 0),
+                       "denominator": f"{judged} faults the corpus could judge on this plan"}
+                      if judged else {"share": None, "of": 0, "unjudged": fs.get("unjudged", 0)}),
+        "rooms": _axis_from_layers(res, "rooms", n_rooms),
+        "connections": _axis_from_layers(res, "connections", n_rooms),
+        "fidelity": {"share": max(0.0, min(1.0, fit / MAX_FIT)), "of": MAX_FIT,
+                     "clean": round(fit, 2), "flagged": 0,
+                     "denominator": f"fit {fit} of a possible {MAX_FIT}"},
+        "area": {"share": (max(0.0, 1.0 - miss / tol) if tol else (1.0 if miss == 0 else 0.0)),
+                 "of": 1, "clean": None, "flagged": 0,
+                 "denominator": f"{round(miss * 100, 1)}% off target against the brief's "
+                                f"{round(tol * 100, 1)}% tolerance"},
+        "bedrooms": ({"share": min(1.0, beds_have / beds_want), "of": beds_want,
+                      "clean": beds_have, "flagged": max(0, beds_want - beds_have),
+                      "denominator": f"{beds_have} of {beds_want} asked for"}
+                     if beds_want else {"share": None, "of": 0}),
+        "canon": _axis_canon(res, plan),
+        "buildability": {"share": max(0.0, 1.0 - len(fp["notes"]) / FOOTPRINT_TESTS),
+                         "of": FOOTPRINT_TESTS, "clean": FOOTPRINT_TESTS - len(fp["notes"]),
+                         "flagged": len(fp["notes"]),
+                         "denominator": f"{FOOTPRINT_TESTS} footprint tests"},
+    }
+
+    axes, earned, evaluable = [], 0.0, 0
+    for name, weight, what in SCORE_AXES:
+        a = raw.get(name) or {"share": None, "of": 0}
+        row = {"axis": name, "weight": weight, "what": what,
+               "share": None if a.get("share") is None else round(a["share"], 4),
+               "of": a.get("of"), "clean": a.get("clean"), "flagged": a.get("flagged"),
+               "unjudged": a.get("unjudged"), "denominator": a.get("denominator")}
+        if a.get("share") is None:
+            row["points"] = None
+            row["note"] = "could not be evaluated on this plan — its weight is dropped, not passed"
+        else:
+            row["points"] = round(weight * a["share"], 1)
+            earned += weight * a["share"]; evaluable += weight
+        axes.append(row)
+
+    unclassified = sorted({f["layer"] for f in res["findings"] if f["layer"] not in SCORE_LAYERS})
+    fatal = res["counts"].get("fatal", 0)
+    out = {"score_axes": axes, "score_of": 100,
+           "score_weight_evaluated": evaluable, "score_weight_unevaluated": 100 - evaluable,
+           "score_unclassified_layers": unclassified}
+    if fatal:
+        out["score"] = None
+        out["score_forfeit"] = (
+            f"{fatal} fatal finding{'s' if fatal != 1 else ''}. A fatal is a thing that is wrong, "
+            f"not a thing that is worse, so it forfeits the score rather than lowering it. "
+            f"The axes below are still measured.")
+    else:
+        out["score"] = round(100 * earned / evaluable, 1) if evaluable else None
+        if not evaluable:
+            out["score_forfeit"] = "nothing on this plan could be evaluated — unjudged, not passed."
+    return out
 
 # How many diagrams past `limit` a tie at the cut may add. Small on purpose — see
 # pick_partis. Enough to keep a genuine near-tie whole; not enough to let a style whose
@@ -846,7 +1041,6 @@ def compose(brief, candidates=4, on_candidate=None):
         # should still lose to a clean borrowed one, because a fatal is a thing that is wrong
         # rather than a thing that is foreign. (WP-4.5)
         NATIVITY_W = 20
-        total = score(res) + (60 if miss > tol else 0) - pick["fit"] * NATIVITY_W
         fp = footprint(plan, parti)
         if fp["lot_infeasible"]:
             # WP-2.4 acceptance: a candidate that cannot physically fit the stated lot is
@@ -854,9 +1048,15 @@ def compose(brief, candidates=4, on_candidate=None):
             # not merely outscored, so it can never appear even as the only candidate.
             dropped_lot.append({"parti": pick["parti"], "parti_name": parti["name"], "why": fp["notes"][-1]})
             continue
+        # `demerits` is the old lower-is-better total, kept because it is a real quantity and
+        # because a report or a commit written before this change quotes it. It no longer
+        # ranks anything: see SCORE_AXES above for what does, and why a sum with no ceiling
+        # could not honestly be published under the word "score".
+        demerits = round(score(res) + (60 if miss > tol else 0) - pick["fit"] * NATIVITY_W, 1)
+        card = score_candidate(res, plan, brief, pick["fit"], fp, miss, tol)
         out.append({
             "parti": pick["parti"], "parti_name": parti["name"],
-            "score": round(total, 1), "style_fit": pick["fit"],
+            "demerits": demerits, "style_fit": pick["fit"], **card,
             "counts": counts, "area_sf": round(area), "area_miss_pct": round(miss * 100, 1),
             "footprint": fp,
             "trades_away": parti["trades_away"],
@@ -870,17 +1070,31 @@ def compose(brief, candidates=4, on_candidate=None):
             "plan": plan})
         if on_candidate:
             on_candidate({k: v for k, v in out[-1].items() if k != "plan"})
-    # Tie-break by parti id for the same reason pick_partis does: score is rounded to 1dp
-    # and is a weighted sum of integer counts, so collisions are reachable — especially
-    # between two diagrams from the same fit tie group, which share the -fit*6 term. A
-    # stable sort would then fall back to insertion order, and the slice below would be
-    # deciding again. Determinism here must not be borrowed from the previous stage.
-    out.sort(key=lambda c: (c["counts"].get("fatal", 0), c["score"], c.get("parti") or ""))
+    # Fatal-free first, then highest score. The two keys are separate on purpose and the
+    # first one is the one that must not be traded away: a plan carrying a fatal never
+    # displaces a clean one from the returned set, however native its diagram, which is the
+    # guarantee WP-4.5's NATIVITY_W comment argues for and which a single weighted total
+    # could only ever approximate. A forfeited score (None) sorts last within its group and
+    # falls back to demerits, so the order inside a set of fatal-bearing candidates is still
+    # meant rather than arbitrary.
+    #
+    # Tie-break by parti id for the same reason pick_partis does: the score is rounded to 1dp
+    # and built from integer counts, so collisions are reachable — especially between two
+    # diagrams from the same fit tie group, which share a fidelity axis. A stable sort would
+    # then fall back to insertion order, and the slice below would be deciding again.
+    # Determinism here must not be borrowed from the previous stage.
+    out.sort(key=lambda c: (c["counts"].get("fatal", 0),
+                            -(c["score"] if c["score"] is not None else -1e9),
+                            c["demerits"], c.get("parti") or ""))
     result = {"brief": brief.get("id") or brief.get("name"), "style": brief["style"],
             "target_area_sf": brief["target_area_sf"], "bedrooms": brief.get("bedrooms", 3),
             "candidates": out[:candidates],
             "how_to_read_this": [
-              "Candidates are ordered by fatal findings first, then by score. Score is 100 per fatal, 8 per serious, 1 per minor, less a bonus for style fidelity.",
+              "Score is out of 100 and HIGHER IS BETTER. It is not a total of what is wrong: it is a weighted composite of eight axes, each one a share of its own denominator -- what came back clean out of what was actually checked -- so a bigger house is not penalised for being checked more times. score_axes carries every axis, its weight, its share and the denominator that share was taken over.",
+              "An axis nothing could be evaluated on has its WEIGHT DROPPED and the total renormalised over the rest, never scored as a pass and never as a zero. score_weight_unevaluated says how much of the hundred that was, so a score computed over 94 points of evidence cannot be read as one computed over 100.",
+              "A fatal finding FORFEITS the score rather than lowering it, and the candidate reports why in score_forfeit with its axes still measured. A fatal is a thing that is wrong, not a thing that is worse.",
+              "Candidates are RETURNED fatal-free first and then by score, so a plan carrying a fatal never displaces a clean one from the set even where its fidelity would outscore it. How the ones that came back are then ORDERED for reading is a separate choice -- by score, by nativity, or fatal-first -- and the reading order is named above them.",
+              "demerits is the old lower-is-better total -- 100 a fatal, 8 a serious, 1 a minor, less 20 a point of fidelity. It is kept because it is a real quantity and because earlier reports quote it. It ranks nothing now.",
               "trades_away is the honest part. Every diagram gives something up, and the one that scores best is not always the one you want.",
               "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",
               "decisions_structured is the same list with a kind on each line (judgment, refusal, authored, unsolved, disclosure, assumption) and field/chose/because DERIVED from the sentence — absent where the sentence does not carry them, and marked derived so nothing reads them as authored.",
@@ -905,8 +1119,19 @@ def main():
     print(f"\n  {brief.get('name') or brief['id']}   {brief['style']}   {brief['target_area_sf']:.0f} sf   {brief.get('bedrooms',3)} bed")
     for i, c in enumerate(res["candidates"], 1):
         cc = c["counts"]
-        print(f"\n  {i}. {c['parti_name']}   score {c['score']}   "
+        head = f"score {c['score']} of 100" if c["score"] is not None else "score FORFEIT"
+        print(f"\n  {i}. {c['parti_name']}   {head}   "
               f"fatal {cc.get('fatal',0)}  serious {cc.get('serious',0)}  minor {cc.get('minor',0)}")
+        if c.get("score_forfeit"): print(f"     ! {c['score_forfeit']}")
+        for ax in c["score_axes"]:
+            pts = f"{ax['points']:>5.1f} / {ax['weight']:<2}" if ax["points"] is not None \
+                else f"{'--':>5} / {ax['weight']:<2}"
+            share = f"{ax['share'] * 100:.0f}%" if ax["share"] is not None else "not evaluated"
+            unj = f"  ({ax['unjudged']} unjudged)" if ax.get("unjudged") else ""
+            print(f"     {pts}  {ax['axis']:<13} {share:>13}  {ax.get('denominator') or ''}{unj}")
+        if c["score_weight_unevaluated"]:
+            print(f"     scored over {c['score_weight_evaluated']} of 100 points of evidence; "
+                  f"{c['score_weight_unevaluated']} could not be evaluated")
         print(f"     {c['area_sf']} sf ({c['area_miss_pct']}% off target) · footprint {c['footprint']['footprint_ft'][0]} x {c['footprint']['footprint_ft'][1]} ft in {c['footprint']['bays']} bays")
         print(f"     why: {'; '.join(c['why_this_diagram'][:2])}")
         print(f"     trades away: {c['trades_away'][:170]}")
