@@ -105,6 +105,71 @@ client-side. Kinds beyond style/slot/kit/fault/pack/candidate/finding/plan curre
 navigate to their surface without a per-item highlight — a known limitation recorded
 in the WP-5.2 audit section.
 
+**The id character class must stay identical on both sides.** It was not: the server's
+`REF_RE` allowed dots (constraint ids are `style-id.cNN`) and `app/src/citations.js` did
+not, so all 660 constraint ids validated server-side, streamed as citations, and parsed to
+null in the browser — every `constraint:` chip navigated nowhere, silently. Fixed in
+WP-5.6; `app/e2e/router-unit.mjs` now pins the two against each other.
+
+## Navigation and addressing (WP-5.6)
+
+**A place is a URL, and a URL is a citation.** The hash serializes `(surface, selection,
+filters)` — the same pair `routeCite()` already returned — so the addressing scheme the
+rail validates against is the one the address bar holds. No router dependency;
+`app/src/router.js` is pure functions, `app/src/state/nav.js` is a `useSyncExternalStore`
+over `hashchange` in the same idiom as `planDoc`.
+
+```
+#/                                   the Overview
+#/<surface>                          #/kit  #/faults  #/phylogeny
+#/<surface>/<id>[/<sub-id>]          #/kit/tidewater-georgian/cornice
+#/cite/<kind>:<id>                   a citation, verbatim, as a link
+#/<surface>/<id>?sev=serious&q=porch filters, in the query
+#/phylogeny?view=map                 which reading of a surface you are in
+```
+
+- `citeFor(surface, selection)` in `citations.js` is the inverse of `routeCite`, kept
+  beside it so the two cannot drift. It is an identity for every kind but `brief`, where
+  `routeCite` discards the id; it returns null there rather than inventing one.
+- Surface and selection changes **push** history; filter changes **replace** it, so
+  chipping through a strip does not fill the back button.
+- `#/cite/…` canonicalises in place to the URL of the place it names — but only when the
+  citation resolved. A broken one is left standing rather than redirected to a default
+  surface, which would disguise a dead link as a working one.
+- `-` holds an absent leading path key (`#/kit/-/cornice` is a slot with no style).
+- A URL cannot express "present, but null", and nothing downstream reads one.
+
+**Search.** `GET /api/search/index` serves every nameable thing once (665 entries, ~207 KB)
+and the palette matches it in the browser. It indexes names, ids, akas and short
+categorical fields — **not prose**: indexing every fault's remedy and every style's
+diagnostic tells quadrupled the payload and produced matches nobody could account for. The
+payload states that boundary in its own `indexes` / `does_not_index` fields. Prose search
+belongs to `/api/styles?query=` and to the rail. Every entry carries a `cite`, so the
+palette dispatches through the citation router and cannot reach a place a citation could
+not name; `test_search_index.py` runs all 665 through the server's own validator.
+
+**Keys.** `app/src/keys.js` is the only file that binds one, and it binds three: `⌘K`/`ctrl-K`
+(palette), `/` (focus this surface's filter bar, via a one-line registration bus so the
+shell needs to know nothing about surfaces), `?` (the card that teaches both the keys and
+the citation grammar), plus `esc`. While the caret is in a field only `⌘K` and `esc` are
+keys — a slash typed into a filter must be a slash.
+
+**Filters.** `app/src/filters/useFilters.js` holds them in the query string, which replaced
+twelve hand-rolled copies of `setX(x === v ? null : v)` and made a filtered view a link.
+`FilterStrip` prints a standing "N narrowing · clear" wherever a surface filters.
+`Chip` is now only ever a filter (`aria-pressed`, or `role=radio` inside a `ChipGroup`);
+acts are `ActionChip`; `FilterGroup` folds a cluster behind a word that names what is on
+inside it, so folding never hides an active filter.
+
+**The map reading of the Phylogeny** (`?view=map`) places styles from
+`app/src/data/gazetteer.js`, which is **interface furniture, not corpus data** — the corpus
+holds no coordinates, and per the sourcing rules none of these numbers may migrate into
+`styles/*.json`. Placement precision (locality / region / country) is drawn rather than
+hidden: 81 of 164 styles name only a country, which is not a hearth, so those marks are
+hollow and hatched and the legend counts them. A style the gazetteer cannot place is listed
+as unplaced, never nudged onto a continent. The basemap is Natural Earth 110m land (public
+domain), simplified and vendored as SVG path data — no tiles, no map library, no network.
+
 ## The three-state rule, in components
 
 `JudgmentMark`, `FindingRow`, `SeverityTally` take `pass · fail · unjudged` and no
@@ -120,6 +185,18 @@ could-not-judge detail that `check()` now returns beside the counts it always ha
 suite stays green): endpoint shapes, error paths, **CLI parity** — `/api/plan/evaluate`
 must return counts and findings identical to `plan_check.check()` in-process and to
 `build/plan_check.py --json` in a subprocess (the smoke script diffs both), the rail
-loop against a fake transport, citation validation. `workbench/scripts/smoke.sh` and
-`workbench/app/e2e/walk.mjs` (Playwright) exercise the running thing; the e2e walk
-asserts the honesty affordances on every surface and screenshots them.
+loop against a fake transport, citation validation, and the search index (every entry's
+citation must resolve through the server's own validator, and the counts are cross-checked
+against `core.overview()` so a kind cannot silently stop being indexed).
+
+`workbench/app/e2e/router-unit.mjs` and `search-unit.mjs` run on node with no DOM and no
+server — the URL↔citation bijection, the ranking ladder, and the palette's synonyms (24 of
+them: if "mistakes" stops finding the Fault Corpus, the palette has quietly become an index
+of labels).
+
+`workbench/scripts/smoke.sh` and `workbench/app/e2e/walk.mjs` (Playwright) exercise the
+running thing; the e2e walk asserts the honesty affordances on every surface, screenshots
+them, and since WP-5.6 also walks navigation end to end — a cold `#/cite/` link, a refresh
+that keeps its place, `/` reaching the filter bar, filters surviving a round trip, one act
+clearing them, the palette dispatching by citation, and the map view's arithmetic
+(placed + unplaced = every taxon, none dropped).

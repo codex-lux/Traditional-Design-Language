@@ -68,12 +68,22 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 `python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
 (`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
-## Where the work stands (25 Aug 2026)
+## Where the work stands (26 Aug 2026)
 
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6; WP-4.4 is
 environment-blocked. **Phase 5 is part-built** — WP-5.1 (DXF/IFC export), WP-5.2 (the workbench
-in `workbench/`) and WP-5.5 (drawing-to-record ingestion) all shipped on the trunk while this
-branch was working Phase 4; WP-5.3 and WP-5.4 remain.
+in `workbench/`), WP-5.5 (drawing-to-record ingestion) and **WP-5.6 (the navigation overhaul)**
+have shipped; WP-5.3 and WP-5.4 remain.
+
+**WP-5.6 changed how the workbench is addressed, and it is worth knowing before touching it.**
+A place is now a URL, and that URL is the citation grammar written down — `#/kit/craftsman/cornice`,
+`#/faults?sev=serious`, `#/cite/fault:porch-too-shallow-to-inhabit`. `app/src/router.js` and
+`state/nav.js` hold it; `citeFor()` in `citations.js` is the inverse of `routeCite` and lives
+beside it so the two cannot drift. Search is `⌘K` over `/api/search/index` (665 named things,
+dispatching by citation); `/` filters the list in front of you; `?` explains both. Filters live
+in the query string via `filters/useFilters.js` — do not reintroduce per-surface filter state.
+`Chip` is now only ever a filter; acts are `ActionChip`. Report:
+`docs/reports/wp-5.6-navigation-overhaul.md`.
 
 164 nodes · 97 slots (ontology 0.7.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
@@ -81,7 +91,10 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **30 checks, 762 tests**.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **30 checks, 893 tests**
+(the test figure was 762 here and had been stale for some time -- `check_counts.py` polices
+counts DERIVED FROM THE CORPUS, and a test count is not one of them; nor are numbers written
+into JSX, which is how the Kit's header claimed 95 slots against an ontology holding 97).
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
@@ -196,8 +209,14 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 12 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **66 entries, of which 15 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 65, 66). **64, 65 and 66 came from WP-5.6** —
+  66 is the one to know about before you run the suite: `test_solver.py`'s downgrade pin measures 9
+  against a bound of 8 **intermittently**, reproduces at `12e1dd0` with none of that package present,
+  and is the wall-clock sensitivity its own comment predicts. 64 is a
+  session-scoped test fixture that gates every test file sorting after it, found because a new test
+  passed alone and failed in the suite; 65 is the map's gazetteer, which is interface data about a
+  corpus that grows and has no check to say when a new style falls off the map. **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message

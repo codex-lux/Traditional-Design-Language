@@ -539,6 +539,24 @@ Scope only: unit costs by construction type and region; the 32 `cost_negative` f
 
 **Depends on:** WP-2.1 experience. **Size:** medium.
 
+### WP-5.6 The navigation overhaul
+
+**Status: COMPLETE (26 Aug 2026).** Raised by Lucas, not by the plan: *"extraordinarily overwhelming… painfully difficult to navigate… there's no apparent search bar anywhere for anything"*, with the standing constraint that machine usability must not be compromised to serve the human one. Four rulings taken before any code (full restructure over additive aids; both a global palette and per-view filter bars; the Drawn Language kept unchanged; served equally to the fluent author and the newcomer), and three more mid-package (the rail's circled numerals removed, an Overview surface as the landing, the palette indexing entities and surfaces but not the rail's tools).
+
+**The finding that organised it:** the product already had a complete, validated addressing scheme and was not using it to navigate. `routeCite()` turned a citation into `{surface, selection}`; navigation was a `useState` string. So the URL became that pair written down — `#/kit/tidewater-georgian/cornice`, `#/faults?sev=serious`, `#/cite/fault:…` — and the palette, the filters and the back button all fall out of one mechanism rather than three. **One addressing scheme, three audiences**: the reader, the rail, and anything driving the HTTP API.
+
+Built: a hand-rolled hash router and a fourth external store (`state/nav.js`); `GET /api/search/index` over 665 named things with a `⌘K` palette that dispatches by citation; `useFilters` holding filter state in the URL, which retired twelve hand-rolled copies of `setX(x === v ? null : v)`; the `Chip`/`ActionChip`/`ChipGroup`/`FilterGroup` split with the ARIA it never had; a `StylePicker` combobox retiring six 164-option `<select>`s; an `Overview` landing whose every claim comes from `/api/overview`; a left rail regrouped by errand; and the Phylogeny's **map reading** (`?view=map`) placing style origins and drawing lineage as arcs. No new npm dependency — the app still has two.
+
+**Found:** the two halves of the citation grammar disagreed on whether an id may contain a dot, so all **660 constraint ids** validated server-side, streamed as citations and parsed to null in the browser — every `constraint:` chip the rail ever drew was inert, silently. `/api/phylogeny` truncated `regions` to three, silently coarsening the 82 of 164 styles that carry more. The Kit's header claimed 95 slots against an ontology holding 97. A session-scoped test fixture gates every test file sorting after it (OQ 64).
+
+**The map's discipline, because it is the one place this package could have laundered a guess:** the corpus holds no coordinates, so the gazetteer is interface furniture that may never migrate into `styles/*.json`; placement precision is drawn rather than hidden (81 of 164 styles name only a country, which is not a hearth, and those marks are hollow and hatched); a style that cannot be placed is listed, never nudged onto a continent; and 16 lineage edges are not drawn at all because both ends share a hearth. Basemap is public-domain Natural Earth, vendored as 888 points — no map library, no tiles, no network.
+
+**Machine usability, proved rather than asserted:** `rail.py`, `mcp_mount.py`, `citations.py` and `tools.py` are byte-identical to their pre-package state, `mcp_server/` and `build/` untouched, the `/mcp` mount verified live, the citation grammar only widened, and the three-state rule preserved by redesigning no judgment component. Accessibility improved, which serves both audiences at once.
+
+Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workbench.md` (new "Navigation and addressing" section) · new open questions: OQ 64, 65.
+
+**Depends on:** WP-5.2. **Size:** large.
+
 A structured transcription form (HTML) that produces a plan record from a drawing by tracing, and a DXF importer that reads a drafter's plan into a record. This is what lets HABS drawings, the reference corpus, and a builder's back catalogue flow into the critic.
 
 ---
