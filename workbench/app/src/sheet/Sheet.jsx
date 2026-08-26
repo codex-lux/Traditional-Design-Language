@@ -107,7 +107,10 @@ function DragHandle({ x, y, axis, room, bays, onCommit }) {
     e.stopPropagation();
     e.target.setPointerCapture(e.pointerId);
     const start = toModel(e);
+    const px = { x: e.clientX, y: e.clientY };
+    let moved = false;
     const move = (ev) => {
+      if (Math.abs(ev.clientX - px.x) + Math.abs(ev.clientY - px.y) >= 3) moved = true;
       const now = toModel(ev);
       setDelta(axis === 'x' ? now.x - start.x : now.y - start.y);
     };
@@ -120,6 +123,18 @@ function DragHandle({ x, y, axis, room, bays, onCommit }) {
     };
     const cancel = () => detach();   // touch-scroll or capture loss: drop the drag cleanly
     const up = (ev) => {
+      /* A CLICK IS NOT A RESIZE. This committed unconditionally, and with a zero delta it
+         still rewrote the record twice over: `Math.round(size * 2) / 2` quantised an
+         off-grid dimension to the half-foot, and the bay snap below moved it by up to
+         0.75 ft — from a gesture nobody made. It also writes the PLACEMENT's dimension
+         onto the DECLARED record, so a stray click baked the solver's own relaxation in
+         and the sheet's △ marks quietly went away. It never fired while the handle was
+         painted over by its partition; making the handle reachable made it live. */
+      if (!moved) {
+        try { e.target.releasePointerCapture(ev.pointerId); } catch { /* already lost */ }
+        detach();
+        return;
+      }
       const now = toModel(ev);
       let d = axis === 'x' ? now.x - start.x : now.y - start.y;
       let size = Math.max(4, (axis === 'x' ? room.w : room.h) + d);

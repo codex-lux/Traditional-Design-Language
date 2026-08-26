@@ -106,7 +106,8 @@ def render_section(section, path, scale=7.0):
         s.append(f'<text class="dm" x="{ox:.1f}" y="{Y(eave)-8:.1f}">RIDGE UNJUDGED — {_esc((roof.get("note") or "")[:70])}</text>')
 
     # scale bar
-    s.append(f'<line class="fl" x1="{ox:.1f}" y1="{total_h-18:.1f}" x2="{ox+10*scale:.1f}" y2="{total_h-18:.1f}" stroke="{PAL["brass"]}"/>')
+    # likewise: `.fl` sets a dashed grey stroke, so the scale bar was drawn as a floor line
+    s.append(f'<line class="fl" x1="{ox:.1f}" y1="{total_h-18:.1f}" x2="{ox+10*scale:.1f}" y2="{total_h-18:.1f}" style="stroke:{PAL["brass"]};stroke-dasharray:none"/>')
     s.append(f'<text class="dm" x="{ox:.1f}" y="{total_h-6:.1f}">10 ft</text>')
     s.append('</svg>')
     open(path, "w").write("\n".join(s))
@@ -155,7 +156,10 @@ def render_bearing_diagram(section, path, scale=7.0):
                 y1 = Yc(0); y2 = Yc(H); x = X((sp["from_ft"] + sp["to_ft"]) / 2)
                 s.append(f'<line class="bad" x1="{x:.1f}" y1="{y1:.1f}" x2="{x:.1f}" y2="{y2:.1f}" stroke-dasharray="6 3"/>')
             lx, ly = (X(0) + 4, Yc((sp["from_ft"] + sp["to_ft"]) / 2) - 4) if sp["axis"] == "x" else (X((sp["from_ft"] + sp["to_ft"]) / 2) + 4, Yc(H) - 4)
-            s.append(f'<text class="dm" x="{lx:.1f}" y="{ly:.1f}" fill="{PAL["iron"]}">{sp["span_ft"]} ft &gt; {sp["max_span_ft"]} ft</text>')
+            # style=, not fill=: `.dm` sets a fill and a class rule beats a presentation
+            # attribute, so this sheet's own legend promised RED = SPAN EXCEEDS CAPACITY
+            # and then drew the failing figure in the same grey as the wall tally
+            s.append(f'<text class="dm" x="{lx:.1f}" y="{ly:.1f}" style="fill:{PAL["iron"]}">{sp["span_ft"]} ft &gt; {sp["max_span_ft"]} ft</text>')
 
         bearing_n = sum(1 for w in lv["walls"] if w["bearing"])
         s.append(f'<text class="dm" x="{ox:.1f}" y="{oy+ph+18:.1f}">{len(lv["walls"])} WALL LINES, {bearing_n} BEARING, '

@@ -151,10 +151,11 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     # that datum is the diminished radius, not the lower one. Without diminution and
     # entasis_begins_at the plate would have to assume a taper the authority may not
     # publish -- chambers-corinthian begins its diminution at the base, gibbs at a third.
+    # entasis_begins_at only: the taper itself comes from totals.upper_diameter_in, and
+    # `fluting.profile` is a paragraph of prose that would ride on every request unread
     if pk.get("column"):
-        out["column"] = {k: v for k, v in pk["column"].items() if k in
-                         ("height_modules", "shaft_height_modules", "diminution",
-                          "entasis_begins_at", "fluting")}
+        out["column"] = {k: v for k, v in pk["column"].items()
+                         if k in ("entasis_begins_at",)}
     return out
 
 

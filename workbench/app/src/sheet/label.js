@@ -20,6 +20,12 @@ const REF = 100;                 // measure at 100px and scale — one measureme
 let ctx = null;
 const cache = new Map();
 
+/* The cache is bounded. `balance` measures every candidate joined LINE, so a name of W
+   words mints O(W²) distinct keys — harmless for 'Butler's Pantry', an unbounded retained
+   string for anything pathological. Oldest-out at the cap; a Map iterates in insertion
+   order, which is all the eviction this needs. */
+const CACHE_CAP = 600;
+
 function advance(text) {
   // width in ems of the string set at font-size 1, letter-spacing excluded
   if (cache.has(text)) return cache.get(text);
@@ -34,18 +40,16 @@ function advance(text) {
   } else {
     w = text.length * 0.66;      // no canvas (a test renderer): the conservative guess
   }
+  if (cache.size >= CACHE_CAP) cache.delete(cache.keys().next().value);
   cache.set(text, w);
   return w;
 }
 
-/* One line's width in model units at a given size. SVG letter-spacing is added to EVERY
-   glyph's advance, the last one included — which is also why a centred, letterspaced
-   string sits half a space left of where it looks like it should. `centreShift` is that
-   half space, to be added back to x. */
-export function lineWidth(text, size, track) {
-  return advance(text) * size + track * size * text.length;
-}
-export const centreShift = (size, track) => (size * track) / 2;
+/* SVG letter-spacing is added to EVERY glyph's advance, the last one included — which is
+   why a centred, letterspaced string sits half a space left of where it looks like it
+   should. `fitLabel`/`fitLine` return `track` already multiplied by the fitted size, so
+   the caller adds `track / 2` back to x. Stated here because it is the one piece of this
+   module's contract that lives at the call site. */
 
 /* Split words into exactly n lines so the widest line is as narrow as it can be.
    Rooms are named in two or three words; the search over break points is exhaustive
@@ -82,10 +86,22 @@ function balance(words, n, track) {
    target: below it the lettering stops being a label, so the label is set at the floor
    and allowed to be the widest thing in the room rather than being silently dropped —
    a name the reader can see is cramped beats a room with no name at all. */
+/* The exhaustive split is C(W-1, n-1) arrangements each costed over all W words — O(W³)
+   at three lines. Nothing bounds a room's name: a record can be pasted, imported from the
+   Transcription surface, or fetched, and 400 words freeze this tab for over a second on
+   the main thread with no way to cancel. Past the cap the name is chunked rather than
+   balanced — linear, still drawn whole, still shrunk to fit. */
+const MAX_WORDS = 12;
+
 export function fitLabel(text, maxW, maxH, opt) {
   const { preferred = 1.25, min = 0.62, track = 0.3, lead = 1.24, maxLines = 3 } = opt || {};
-  const words = String(text).trim().split(/\s+/).filter(Boolean);
+  let words = String(text).trim().split(/\s+/).filter(Boolean);
   if (!words.length) return null;
+  if (words.length > MAX_WORDS) {
+    const k = Math.ceil(words.length / maxLines);
+    words = Array.from({ length: Math.ceil(words.length / k) },
+      (_, i) => words.slice(i * k, i * k + k).join(' '));
+  }
   const cap = Math.max(1, Math.min(maxLines, words.length));
   let best = null;
   for (let n = 1; n <= cap; n++) {

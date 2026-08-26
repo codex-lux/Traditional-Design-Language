@@ -119,12 +119,16 @@ export function DrawingSet({ go }) {
                 /<svg /, '<svg style="max-width:100%;height:auto" ') }} />
               <div style={{ borderTop: '1px solid var(--rule)', marginTop: 10, padding: '8px 2px 4px',
                 display: 'flex', justifyContent: 'space-between', gap: 24, alignItems: 'baseline' }}>
-                <span style={{ font: 'var(--fw-med) 10.5px/1.3 var(--serif)', letterSpacing: '.3em',
-                  textTransform: 'uppercase', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
-                  {(plan.name || plan.id).split(/\s+/).join('·')}
+                {/* the interpunct join makes one unbreakable word; a zero-width space
+                    after each lets the title fold at a word boundary and never inside a
+                    word. `nowrap` here clipped it outright, and the loupe lays the plate
+                    out at the PANE's width, which is narrower still than the surface. */}
+                <span style={{ font: 'var(--fw-med) 10.5px/1.4 var(--serif)', letterSpacing: '.3em',
+                  textTransform: 'uppercase', color: 'var(--ink)', flex: '0 1 auto', minWidth: 0 }}>
+                  {(plan.name || plan.id).split(/\s+/).join('·\u200B')}
                 </span>
                 <span style={{ font: 'italic var(--fw-reg) 12.5px/1.5 var(--serif)', color: 'var(--ink-2)',
-                  textAlign: 'right', maxWidth: '68ch' }}>
+                  textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
                   {DISCLOSURE[kind]}
                 </span>
               </div>

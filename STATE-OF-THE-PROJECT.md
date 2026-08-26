@@ -268,7 +268,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Interface | `mcp_server/` | 24 tools | Functional |
 | Evidence | `assets/manifest.json` | **322 wanted, 0 sourced** | Records only — WP-4.4, environment-blocked |
 | Back-end | `construction/` | 2 catalogs | Complete — WP-3.1's data side |
-| Governance | `docs/open-questions.md` | **64 entries, 13 open** | ids 32–41 were reissued as 54–63 at the 25 Aug merge (both branches issued that block); **OQ 52 and 53 need a ruling** |
+| Governance | `docs/open-questions.md` | **65 entries, 14 open** | ids 32–41 were reissued as 54–63 at the 25 Aug merge (both branches issued that block); **OQ 52 and 53 need a ruling** |
 | Provenance | `rule_append` | honoured, with the contributing ancestor recorded | **OQ 16 closed 25 Aug** — the code had shipped; only the label was open |
 | Governance | `docs/reports/` | **22 package reports** | One per completed WP |
 | Checks | `build/*.py` | **30 checkers** | All pass; incl. `check_counts`, `check_addresses`, `check_inheritance` |

@@ -210,17 +210,40 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   from a separate and correct total, so the plate labelled a gap CAPITAL. All 26 order packs
   are contiguous 0 → stack with no assembly disagreeing with its stated height; if a plate
   shows a gap, the plate is wrong.
+- **A projection means two different things in this corpus, and no pack says which.** Half
+  the order packs record `projection_parts` as an offset from the member's OWN NAKED and
+  half as an absolute radius FROM THE AXIS — split by order, not by authority, across all
+  five. Adding a naked to a radius draws the shaft narrower than its own mouldings, which
+  `dist/orders.html` still does. The workbench plate reads the convention off each pack's
+  shaft (whose outer face at its foot IS the radius). That is **OQ 65**, and
+  `tests/test_drawn_labels.py` fails if a pack ever lands between the two readings.
+- **A click on a wall handle used to be a silent record edit** — `pointerup` committed with
+  no movement threshold, so a zero-delta release quantised the dimension to the half-foot
+  and snapped it up to 0.75 ft to a bay line, onto the DECLARED record and into
+  localStorage. It could not fire while the handle was painted over by its own partition;
+  making the affordance work made the bug behind it live. A fix that removes a shield is a
+  fix that has to look at what the shield was covering.
+- **A room name is an untrusted string and the label fitter was O(W³).** 800 words cost 73
+  seconds of CPU, and `POST /api/drawings` takes a plan record verbatim from anyone who can
+  reach it. Both fitters cap at twelve words and chunk beyond it.
 - **A room's name has to fit in the room, and a fitted size written as an SVG `font-size`
   ATTRIBUTE is ignored.** Both plan renderers now break the name across lines before
   shrinking it, turn it along a slot room, and never truncate — `sheet/label.js` measures the
   real face, `build/render_plan.py` estimates from a per-character table. In `render_plan.py`
   the size must be written `style="font-size:…"`: a presentation attribute loses to that
   sheet's own `.nm`/`.dm` rules, so the fit is computed, discarded, and the label runs through
-  the wall anyway. `e2e/walk.mjs` asserts no label leaves its room — and asserts the room
-  COUNT first, because a selector matching nothing passes that check vacuously.
+  the wall anyway. Four more of the same were found in `render_plan.py` and
+  `render_section.py` — the infeasibility alarm, both scale bars, every interior room
+  outline's weight, the section's red over-span figure — and
+  `tests/test_drawn_labels.py` now asserts the GENERAL form: for any property a class sets,
+  no element carrying that class may also set it as an attribute. `e2e/walk.mjs` asserts no
+  label leaves its room — and asserts the room COUNT and the LABEL count first, because a
+  selector matching nothing, or a sheet that draws no labels at all, passes it vacuously.
+  **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
+  called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **64 entries, of which 13 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **65 entries, of which 14 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 65). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message

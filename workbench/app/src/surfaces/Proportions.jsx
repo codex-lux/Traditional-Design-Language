@@ -87,13 +87,59 @@ function OrderPlate({ data }) {
     const u = (t - entStart) / (1 - entStart);
     return r0 - (r0 - r1) * (u * u * (3 - 2 * u));   // cylindrical below, then smooth
   };
+  /* WHICH WAY IS A PROJECTION MEASURED? The corpus answers two different ways and no
+     pack says which it uses, so the plate has to read it off the data rather than assume.
+     Measured across all 26 order packs at a 36-inch diameter: thirteen record a member's
+     `projection_parts` as an offset FROM ITS NAKED (Gibbs's Doric shaft body: 0), and
+     twelve record it as an absolute radius FROM THE AXIS (Vignola's Ionic shaft body:
+     18.0, exactly the semidiameter). The split runs by ORDER and not by authority — every
+     Doric and Tuscan is an offset, every Ionic, Corinthian and Composite is a radius —
+     which is a data-entry seam rather than an architectural distinction. That is OQ 65.
+
+     The discriminator is the corpus's own definition and not a guess: the shaft's outer
+     face at its foot IS the column's radius, so whichever reading puts the shaft body at
+     r0 is the reading that pack uses. A DERIVED shaft is no evidence — the engine writes
+     it with projection 0 whatever the pack meant — so those fall back to the widest base
+     or capital member, which under an offset reading is a fraction of the radius and
+     under a radius reading is more than all of it.
+
+     Adding a naked to a radius is what drew the shaft narrower than its own mouldings on
+     the twelve: `dist/orders.html` does exactly that and carries the same fault. */
+  const shaftBody = shaft && shaft.ms.length && shaft.y1 > shaft.y0
+    ? shaft.ms.find((m) => m.id !== 'shaft_derived'
+        && ((m.y_top_in ?? 0) - (m.y_bottom_in ?? 0)) > (shaft.y1 - shaft.y0) * 0.6)
+    : null;
+  const nearAxis = rows.filter((x) => x.id === 'base' || x.id === 'capital')
+    .flatMap((x) => x.ms).map((m) => m.projection_in || 0);
+  const fromAxis = shaftBody
+    ? Math.abs((shaftBody.projection_in || 0) - r0) < 0.51
+    : (nearAxis.length ? Math.max(...nearAxis) >= r0 - 0.01 : false);
+
   const baseRow = rows.find((x) => x.id === 'base');
-  const dieNaked = r0 + (baseRow && baseRow.ms.length
-    ? Math.max(0, ...baseRow.ms.map((m) => m.projection_in || 0)) : r0 * 0.2);
+  const basePlinth = baseRow && baseRow.ms.length
+    ? Math.max(0, ...baseRow.ms.map((m) => m.projection_in || 0)) : 0;
+  // the pedestal die is naked to the base plinth that lands on it, read the pack's own way
+  const dieNaked = basePlinth
+    ? Math.max(r0, fromAxis ? basePlinth : r0 + basePlinth)
+    : r0 * 1.2;
   const naked = (id, y) => {
     if (id === 'pedestal' || id === 'subplinth') return dieNaked;
     if (id === 'base' || id === 'shaft' || id === 'capital') return radiusAt(y);
     return r1;                                        // entablature: from the frieze naked
+  };
+
+  /* Under the radius reading a recorded 0 is not "at the axis" — it is NO PROJECTION
+     RECORDED, and drawing the band to the centreline would collapse it. Those members
+     take their naked instead and are counted, so the plate can say how many of its own
+     edges the pack does not give rather than drawing a cornice that recedes behind the
+     column. Under the offset reading 0 means flush with the naked, which is a statement
+     the pack is making, and it is drawn as one. */
+  const unrecorded = new Set();
+  const outer = (id, key, y, proj) => {
+    const nk = naked(id, y);
+    if (!fromAxis) return nk + proj;
+    if (!(proj > 0)) { unrecorded.add(key); return nk; }
+    return Math.max(proj, nk);
   };
 
   const bands = [];
@@ -114,12 +160,15 @@ function OrderPlate({ data }) {
     for (const m of ordered) {
       const y0 = m.y_bottom_in ?? row.y0, y1 = m.y_top_in ?? y0;
       const isShaftBody = row.id === 'shaft' && (y1 - y0) > span * 0.6;
-      const proj = isShaftBody ? 0 : (m.projection_in || 0);
+      const proj = m.projection_in || 0;
       bands.push({
-        key: `${row.id}.${m.id}`, id: m.id, name: m.name, note: m.note,
+        key: `${row.id}.${m.id}`, asm: row.id, id: m.id, name: m.name, note: m.note,
         conf: m.confidence, side: m.side_by_side && row.ms.length > 1, y0, y1,
-        x0: naked(row.id, y0) + proj, x1: naked(row.id, y1) + proj,
-        h: y1 - y0, proj: m.projection_in || 0,
+        // the shaft body is the column: it takes the naked at each height, which is what
+        // makes it taper, and never a projection on top of the radius it already is
+        x0: isShaftBody ? naked(row.id, y0) : outer(row.id, `${row.id}.${m.id}`, y0, proj),
+        x1: isShaftBody ? naked(row.id, y1) : outer(row.id, `${row.id}.${m.id}`, y1, proj),
+        h: y1 - y0, proj,
       });
     }
   }
@@ -140,14 +189,16 @@ function OrderPlate({ data }) {
           strokeDasharray="14 4 2.5 4" vectorEffect="non-scaling-stroke" />
         {bands.map((b) => (
           <g key={b.key}>
-            <path d={`M 0 ${sy(b.y0)} L ${b.x0} ${sy(b.y0)} L ${b.x1} ${sy(b.y1)} L 0 ${sy(b.y1)} Z`}
+            <path data-asm={b.asm} data-member={b.id}
+              d={`M 0 ${sy(b.y0)} L ${b.x0} ${sy(b.y0)} L ${b.x1} ${sy(b.y1)} L 0 ${sy(b.y1)} Z`}
               fill={b.side ? 'var(--sepia-pale)' : 'var(--paper-lit)'}
               stroke="var(--ink)" strokeWidth={b.h > U * 1.2 ? 1.1 : 0.7}
               vectorEffect="non-scaling-stroke">
-              <title>{`${b.id} · ${b.name || ''} · ${inches(b.h)} high, ${inches(b.proj)} projection${b.side ? ' · stands beside its neighbour, not on it' : ''}${b.note ? '\n' + b.note : ''}`}</title>
+              <title>{`${b.id} · ${b.name || ''} · ${inches(b.h)} high, ${unrecorded.has(b.key) ? 'no projection recorded — drawn at the naked' : `${inches(b.proj)} projection`}${b.side ? ' · stands beside its neighbour, not on it' : ''}${b.note ? '\n' + b.note : ''}`}</title>
             </path>
             {b.conf && b.conf !== 'high' && (
-              <path d={`M 0 ${sy(b.y0)} L ${b.x0} ${sy(b.y0)} L ${b.x1} ${sy(b.y1)} L 0 ${sy(b.y1)} Z`}
+              <path data-mark="confidence"
+                d={`M 0 ${sy(b.y0)} L ${b.x0} ${sy(b.y0)} L ${b.x1} ${sy(b.y1)} L 0 ${sy(b.y1)} Z`}
                 fill="none" stroke="var(--judge-unjudged)" strokeWidth="1"
                 strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
             )}
@@ -202,8 +253,13 @@ function OrderPlate({ data }) {
         <span style={{ font: 'italic var(--fw-reg) 12.5px/1.45 var(--serif)', color: 'var(--ink-2)',
           textAlign: 'right', maxWidth: '46ch' }}>
           Half the order in section: every band is a member the engine emitted, run from the
-          axis to its own naked plus the projection the authority states — none traced.
+          axis to the outer face this pack states — none traced. Projections are read
+          {fromAxis ? ' from the axis' : ' from each member’s own naked'}, which is what
+          this pack’s shaft says they are (OQ 65: the corpus uses both).
           {nominal ? ' This pack publishes no column diameter; the naked is drawn nominal.' : ''}
+          {unrecorded.size
+            ? ` ${unrecorded.size} member${unrecorded.size === 1 ? '' : 's'} state no projection at all and are drawn at the naked — that is an absent figure, not a flush face.`
+            : ''}
           {' '}Hover a band for its record.
         </span>
       </div>
@@ -366,8 +422,16 @@ export function Proportions({ onCite, selection }) {
                drawing would not find it. The rules table spans the full width underneath,
                which is what a five-column table with a paragraph of note per row wanted
                all along. */
+            /* `minmax(300px, …)` twice is a hard 626px floor with no query to relax it,
+               and at the app's own enforced minimum (#root min-width 1380, less the 236px
+               rail, the 344px AI rail, the 250px pack nav and the padding) this pane gets
+               502px — so the fix for "the plate ends up below the tables" bought a
+               horizontal scrollbar. `auto-fit` with a 290px track drops to one column
+               when it must, which is the wrap the old layout had, without the wrap
+               putting the drawing a screen and a half down. */
             <div style={{ display: 'grid', gap: 26, alignItems: 'start', maxWidth: 1240,
-              gridTemplateColumns: hasPlate ? 'minmax(300px, 1fr) minmax(300px, 1fr)' : 'minmax(300px, 1fr)' }}>
+              gridTemplateColumns: hasPlate
+                ? 'repeat(auto-fit, minmax(min(290px, 100%), 1fr))' : 'minmax(0, 1fr)' }}>
               <div>
                 <Eyebrow>{meta?.kind}{data.resolved_from?.length > 1 ? ` · overlay resolved through ${data.resolved_from.join(' → ')}` : ''}</Eyebrow>
                 <h2 style={{ font: 'var(--fw-reg) var(--fs-d3)/1.12 var(--display)',

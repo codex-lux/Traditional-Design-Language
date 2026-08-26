@@ -51,8 +51,10 @@ plate's reading of it was not.
 Second, smaller, and the reason the column read as a stick: every band was drawn `16 + projection`
 units wide **whatever the order's diameter**, so the shaft — whose whole business is to be
 one diameter thick — came out narrower than the mouldings on it. The plate now draws a
-half section, and it takes its datum rule from the corpus's own order tool
-(`build/orders_template.html::buildGeometry`) rather than inventing one:
+half section. It first took its datum rule from the corpus's own order tool
+(`build/orders_template.html::buildGeometry`), and **that rule is wrong for twelve of the
+twenty-six packs — see §VII, which is the audit's finding and the largest thing in this
+report**. Corrected, the datum is:
 
 | assembly | a projection is measured from |
 |---|---|
@@ -169,14 +171,24 @@ they were committed to passing against the new:
 | check | what it measured on the old code |
 |---|---|
 | `no room label leaves the room it names` | **9 of 13 rooms** named outside themselves |
-| `the order stands as one stack — no gap between its assemblies` | the gap was there |
-| `no member is drawn outside the plate` | **30 members** clipped out of the frame |
 | `a wall handle can still be grasped through the loupe` | no drag preview: the handle was under a partition |
 | `the sheet draws the record's rooms` | — |
 
 The last one is not decoration. The label check's first form selected nothing and passed
 vacuously; the room count is asserted before the spill is, because a selector that matches
 nothing is the one way an honesty check can lie.
+
+**Two claims made here on 26 August were overstated and are withdrawn.** This table
+originally also listed *the order stands as one stack* ("the gap was there") and *no member
+is drawn outside the plate* ("**30 members** clipped"). Both numbers came from a negative
+test that broke the NEW code's arithmetic, not from the code as it stood at HEAD~1 — where
+the bands were `<rect>` elements the checks did not select at all, so both would have passed
+on zero bands rather than failing. Worse, as written the second could not fail for any
+input: the frame was computed as `max(dieNaked, …bands)`, so it was fitted to the very
+members it was asked to contain. Both checks are rebuilt in §VII against the engine's own
+stated stack height and measured in model inches; the sentence above them — that a check
+run only against the code that passes it is not evidence — is the one this pass got wrong
+about itself.
 
 ## VI. What was deliberately not done
 
@@ -193,3 +205,186 @@ nothing is the one way an honesty check can lie.
   somebody's finding, not this pass's to bury.
 - **The loupe magnifies the pen with the drawing.** That is a departure from the Drawn
   Language's own rule and it is **OQ 64**, raised rather than decided.
+
+
+---
+
+# VII. The adversarial audit, 26 August 2026
+
+Four independent read-only auditors were run over the commit — on regressions and
+consumers, on whether the new tests could actually fail, on second-order risk, and on
+second occurrences of each fixed pattern elsewhere. Between them they found one thing that
+made the plate wrong on twelve packs, one class of silent data corruption that this commit
+made reachable, one denial of service, three checks that could not fail, and a claim in
+§V above that was not reproducible. All of it is fixed below except where it says
+otherwise.
+
+## The datum was wrong on twelve of twenty-six packs — and the order tool still is
+
+`projection_parts` means two different things in this corpus and no pack says which.
+Measured across all 26 order packs at a 36-inch diameter:
+
+| reading | packs | the shaft body's own `projection_in` |
+|---|---|---|
+| an offset **from the member's own naked** | 13 — every Doric and Tuscan | `0` |
+| an absolute radius **from the axis** | 12 — every Ionic, Corinthian, Composite | exactly `r0` |
+
+No pack lands between the two. The split runs by order and not by authority, across all
+five authorities, which is the signature of two data-entry passes rather than of an
+architectural distinction — and `check_orders.py` cannot see it because both readings are
+internally consistent. That is now **OQ 65**.
+
+Adding a naked to a figure that is already a radius draws the twelve at two radii: the
+shaft's own apophyge, astragal and fillet standing a whole semidiameter clear of the shaft
+they sit on — which is exactly the fault §I claims to have fixed, reintroduced by the
+correction. It shipped green because `Proportions.jsx` defaults to `gibbs-doric`, which is
+one of the thirteen, and the walk never changed pack.
+
+The plate now reads the convention off each pack's own shaft: the shaft's outer face at
+its foot IS the column's radius, so whichever reading puts it at `r0` is that pack's
+reading. That is a derivation from the corpus's own definition, not a guess, and
+`tests/test_drawn_labels.py` fails if any pack ever lands between the two. Where a
+radius-convention pack records a projection of `0` — eight assemblies do, including
+`palladio-corinthian`'s whole cornice — that is an **absent figure, not a flush face**: the
+band is drawn at its naked and the plate says on the sheet how many of its own edges the
+pack does not give, rather than drawing a cornice that recedes behind its own column.
+
+**`dist/orders.html` still has the fault**, in `buildGeometry`, which is where the rule was
+copied from. It is named in OQ 65 and deliberately not fixed here: the order tool is a
+separate shipped artefact with its own moulding-profile geometry, and changing its datum is
+a change to a drawing nobody asked about in a pass that was asked about two others.
+
+## A click was a silent record edit, and this commit made it reachable
+
+`DragHandle`'s `pointerup` committed unconditionally, with no movement threshold. A press
+and release with zero delta still ran `Math.round(size * 2) / 2` — quantising an off-grid
+dimension to the half-foot — and then snapped it up to 0.75 ft to the nearest bay line,
+from a gesture nobody made. It writes the *placement's* dimension onto the *declared*
+record and persists it to `localStorage`, so a stray click baked the solver's own
+relaxation in and the sheet's `△` marks quietly went away with it.
+
+The code is pre-existing and untouched by the diff. What the diff changed is that the
+handle was previously painted over by the partition on the very wall line it was offered
+for, so the gesture could not be started at all — §IV called that a dead affordance and
+made it live, without noticing what the paint had been covering. A movement threshold now
+gates the commit, and the walk presses and releases the handle without moving to prove it.
+
+## A room name was a denial of service
+
+`_fit_lines` searches every arrangement of the name across up to three lines: `C(W-1, 2)`
+splits each costed over all `W` words, which is `O(W³)`. Measured: 400 words 9.2 s, **800
+words 73 seconds of pure CPU**. Nothing bounds a room's name — `schema/plan.schema.json`
+types it as an unconstrained string, `POST /api/drawings/{kind}` takes the plan record
+verbatim, and the endpoint is synchronous, so a handful of such requests starves the whole
+thread pool. The browser mirror in `label.js` freezes the tab on the same input.
+
+Both are capped at twelve words, past which the name is chunked rather than balanced —
+linear, still drawn whole, still shrunk to fit. 4000 words now costs 0.003 s, and the
+suite pins it.
+
+## The void disclosure, dropped by the fix that was supposed to make labels honest
+
+OQ 55's `open to sky` / `roofed, unheated` rode on the dimension string as a tail. Because
+the tail *lengthens* that string, the new fit dropped the whole line for any room under
+about 19 ft wide — which is every loggia and every piazza in the catalogue. `test_voids.py`
+kept passing because its courtyard fixture happens to have a 20-ft court. It is its own
+line now, with its own size and its own floor, drawn for every void whatever else fits.
+
+## Pattern C survived in the file the pass fixed it in
+
+A computed value written as an SVG **presentation attribute** is beaten by any class rule
+in the same document's `<style>`. §IV fixed `font-size` on the room labels and walked past
+three more in the same and neighbouring files:
+
+- `render_plan.py` — the relaxation banner's copper-vs-verdigris and the **infeasibility
+  alarm's** `fill`, both discarded, so a proven-infeasible plan was captioned in the same
+  quiet grey as everything else. The comment above that line reads *"the label is data, not
+  decoration."* It was decoration.
+- `render_plan.py` — every interior room outline drawn at the building perimeter's own
+  weight, because a `stroke-width="1.0"` lost to `.wl`'s 2.2, in a system whose entire
+  grammar is line weight.
+- `render_plan.py`, `render_section.py` — both scale bars drawn as partition and floor
+  lines rather than in brass.
+- `render_section.py` — the sheet's own legend promises `RED = SPAN EXCEEDS CAPACITY` and
+  the failing span's figure was drawn grey.
+
+All five are fixed, and `tests/test_drawn_labels.py` now asserts the general form against
+the document rather than against a list of known sites: for every property a class sets, no
+element carrying that class may also set it as an attribute.
+
+## Pattern B survived one surface over
+
+`Transcription.jsx` drew every traced room's name at a **constant 1.35 model feet** with no
+reference to the room's width at all — the pre-fix `Sheet.jsx` bug, worse, on the surface
+whose whole business is turning a drawing into a record. It uses the same fitter now.
+`render_elevation.py`'s refusal card printed `[:140]` of a ~660-character note, mid-word,
+with no ellipsis, into a box wide enough for ~138 — two amputations stacked, on the one
+drawing whose entire content is the refusal. It wraps and the card grows.
+`render_roof.py`'s legend was wider than its own canvas on any house under ~56 ft, so the
+reader was never told what the red dot means; the canvas is sized to hold it.
+
+## Three checks that could not fail, and one that lied about its own history
+
+Rebuilt in `walk.mjs`, all measured in **model inches off `getBBox`** rather than in screen
+pixels — the plate is fitted to its pane, so a real gap at a small fit factor read as under
+the old two-pixel tolerance. The frame is compared against the engine's stated stack
+height, not against the drawn extent, because a frame derived from the bands can never be
+smaller than the bands. Bands are addressable (`data-asm`, `data-member`), the confidence
+outline is marked so a band count is a band count, and the plate checks run over **three
+packs, one of each reading**, because checking only the default is how a datum wrong on
+twelve packs shipped green.
+
+Two more the audit caught in passing, both real:
+
+- The magnify check asserted that a toolbar had rendered. Made to measure the SVG, it
+  failed: **two presses of `+` moved 93% to 93% to 100%**, because `fit` had been put in
+  the ladder as a rung and the first press stepped onto a rounded copy of where the reader
+  already was. `fit` is a floor now, not a rung.
+- A second press within a render of the first landed on the same rung, because both
+  handlers closed over the `z` of the render that created them. The ladder is walked from a
+  ref.
+
+## The walk ran nowhere
+
+`e2e/walk.mjs` was in no CI job — `CLAUDE.md` described it as a guard and nothing enforced
+it. `workbench/scripts/walk.sh` serves the built app and runs it; the workbench job runs
+that after the smoke test, and `playwright` is a devDependency so the browser resolves on a
+runner as it does here.
+
+## Fixed without ceremony
+
+The loupe's window listeners are torn down on `pointercancel` and on unmount, not only on
+`pointerup`; the swallow-click is armed on `window` and disarmed on the next tick, because
+a pan very often ends outside the pane and a `once` listener bound to the scroller was
+never spent and ate the reader's next real click; `overscroll-behavior: contain` is gone,
+which had trapped the page wheel under a two-thirds-of-a-screen pane with the rules table
+below it; the anchor correction moved from a `requestAnimationFrame` racing React's commit
+into a layout effect that also accounts for the centring margin; `fit` is no longer clamped
+to the ladder's floor, which used to leave a very tall plate "fitted" with its foot off the
+bottom and the `fit` button disabled; a pan sets `user-select: none` and the cursor reads
+`grab` when there is something to pan; the label cache is bounded; the Proportions grid
+drops to one column instead of overflowing at the app's own minimum width; the Drawing
+Set's caption gets the same zero-width-space treatment as the sheet's; and the `column`
+payload ships the one field the plate reads instead of five, one of which was a paragraph
+of prose.
+
+## Deliberately not fixed
+
+- **`dist/orders.html`'s datum** — named above and in OQ 65. A separate artefact, a
+  separate drawing, and its own profile geometry to re-verify.
+- **`export_dxf.py`'s room text**, centred by a character count against a hardcoded
+  40-inch offset. It is a real DXF on its own annotation layer that a drafter moves; the
+  fix wants the DXF layer's own pass.
+- **`Sheet.jsx`'s lot labels** can leave a viewBox whose left and right margins are frozen
+  while its top and bottom grow with the lot. Dormant — neither shipped plan declares a lot
+  depth — and it is `render_plan.py`'s `extra_left` that shows how it should be done.
+- **`build/template.html`'s tradition headers** lose their per-tradition colour to a class
+  rule, in the built `dist/taxonomy.html` too. Same pattern, a different layer, and it
+  should go with a taxonomy pass rather than be smuggled in here.
+- **ctrl/cmd-wheel captures the browser's own zoom gesture** over the plate. It is the
+  convention every canvas uses, the `−`/`+`/`fit`/`1:1` keys are the keyboard-reachable
+  path, and changing the modifier is a call for whoever owns the interaction, not a bug fix.
+- **`tests/test_solver.py::test_check_plans_solve_with_stated_downgrades`** still fails on
+  this machine at 16 downgrades against a pinned 8, as it did on the pristine tree before
+  any of this. CP-SAT wall-clock nondeterminism, named in the test's own docstring, and
+  somebody's finding rather than this pass's to bury.
