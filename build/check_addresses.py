@@ -83,7 +83,15 @@ def cobinding(nodes, scope):
 
 
 def compare(packs, cob):
-    errors, unjudged = [], []
+    """Two packs writing DIFFERENT quantities to one address is the corruption (OQ 48). Two
+    packs writing the same quantity in different UNITS is a second, quieter state (OQ 53):
+    they agree about what they measure and disagree about what they are saying it in, so
+    precedence -- which exists to choose between rival accounts of one quantity -- was
+    choosing between a measurement and a bare ratio and could deliver either. It is reported
+    separately rather than folded into the collisions, because it is not the same fault and
+    the fix is not the same fix: a collision wants a named dimension, this wants the ratio's
+    referent moved out of its prose note and into its expression."""
+    errors, unjudged, unit_splits = [], [], []
     for (x, y), where in sorted(cob.items()):
         if x not in packs or y not in packs:
             continue
@@ -91,17 +99,26 @@ def compare(packs, cob):
         for pid in (x, y):
             for r in packs[pid].get("derived_rules", []):
                 by_addr.setdefault((r["target_slot"], r["dimension"]), {}).setdefault(
-                    pid, set()).add(r.get("quantity"))
+                    pid, set()).add((r.get("quantity"), r.get("units")))
         for addr, sides in by_addr.items():
             if len(sides) < 2:
                 continue
-            qx, qy = sides[x], sides[y]
+            qx = {q for q, _ in sides[x]}
+            qy = {q for q, _ in sides[y]}
             if None in qx or None in qy:
                 unjudged.append((x, y, addr, sorted(where)[:3]))
                 continue
             if not (qx & qy):
                 errors.append((x, y, addr, sorted(qx), sorted(qy), sorted(where)))
-    return errors, unjudged
+                continue
+            # Same quantity on both sides. Do they agree on the units they say it in?
+            for q in sorted(qx & qy):
+                ux = {u for qq, u in sides[x] if qq == q}
+                uy = {u for qq, u in sides[y] if qq == q}
+                if ux != uy and not (ux & uy):
+                    unit_splits.append((x, y, addr, q, sorted(map(str, ux)),
+                                        sorted(map(str, uy)), sorted(where)))
+    return errors, unjudged, unit_splits
 
 
 def main():
@@ -124,19 +141,23 @@ def main():
     counts, failed = {}, []
     for scope in scopes:
         cob = cobinding(nodes, scope)
-        errors, unjudged = compare(packs, cob)
-        counts[scope] = (len(cob), len(errors), len(unjudged))
+        errors, unjudged, unit_splits = compare(packs, cob)
+        counts[scope] = (len(cob), len(errors), len(unjudged), len(unit_splits))
 
         print(f"\n--- scope: {scope} " + "-" * 40)
         for x, y, addr, qx, qy, where in errors:
             print(f"x {addr[0]}/{addr[1]}: '{x}' measures {qx} and '{y}' measures {qy} "
                   f"-- {len(where)} node(s), e.g. {', '.join(where[:3])}")
+        for x, y, addr, q, ux, uy, where in unit_splits:
+            print(f"u {addr[0]}/{addr[1]}/{q}: '{x}' says it in {'/'.join(ux)} and '{y}' in "
+                  f"{'/'.join(uy)} -- {len(where)} node(s), e.g. {', '.join(where[:3])}")
         if a.report:
             for x, y, addr, where in unjudged:
                 print(f"? {addr[0]}/{addr[1]}: '{x}' and '{y}' -- one or both rules carry no "
                       f"`quantity`, so this pair COULD NOT BE JUDGED (e.g. {', '.join(where)})")
         print(f"{len(cob)} co-binding pack pair(s); {len(errors)} address(es) where two packs "
-              f"measure different quantities; {len(unjudged)} could not be judged.")
+              f"measure different quantities; {len(unit_splits)} where they agree on the quantity "
+              f"and differ on its units; {len(unjudged)} could not be judged.")
         if len(errors) > RATCHET[scope]:
             failed.append(f"{scope}: {RATCHET[scope]} -> {len(errors)}")
 
@@ -145,10 +166,10 @@ def main():
     # in the code. State what was judged and what was not, always.
     print()
     for scope in scopes:
-        pairs, errs, unj = counts[scope]
+        pairs, errs, unj, usp = counts[scope]
         verdict = "no collision" if errs == 0 else f"{errs} COLLISION(S)"
-        print(f"{scope:8s}: {pairs:5d} pairs -- {verdict}, {unj} pair(s) COULD NOT BE JUDGED "
-              f"(ratchet {RATCHET[scope]})")
+        print(f"{scope:8s}: {pairs:5d} pairs -- {verdict}, {usp} unit split(s), {unj} pair(s) "
+              f"COULD NOT BE JUDGED (ratchet {RATCHET[scope]})")
     if "cascade" in scopes and counts["cascade"][1] > counts.get("own", (0, 0, 0))[1]:
         print("\nThe cascade number is the one the compiler is exposed to: `resolve_packs` walks "
               "the whole\nlineage, so packs a node never bound meet at its addresses too. That is "

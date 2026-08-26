@@ -196,8 +196,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 17 are open**
-  (7, 8, 9, 10, 11, 18, 32, 33, 34, 36, 37, 38, 39, 40, 41, 53, 55). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 16 are open**
+  (7, 8, 9, 10, 11, 18, 32, 33, 34, 36, 37, 38, 39, 40, 41, 55). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message

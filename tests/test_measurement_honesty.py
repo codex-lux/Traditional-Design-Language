@@ -149,3 +149,60 @@ class TestTheRoofSaysWhereItReadItsBands:
                     f"{plan_name}: {key} read {part['bands_read_from_fallback']} from a hardcoded "
                     "fallback, which means a corpus rule has been reworded and roof.py did not "
                     "notice (OQ 52).")
+
+
+class TestABareRatioIsNeverDeliveredAsADimension:
+    """OQ 53. `casing_face_width` is written `opening_width / 6` in inches by trim-classical and
+    its peers, and `1 / 6` as a bare ratio by the order packs — whose own notes carry the referent
+    ("Of opening_width.") in PROSE, where no evaluator can read it. resolve_kit grouped them as
+    rival accounts of one quantity, so a ratio could win on precedence and land in the kit as the
+    dimension: `craftsman` and `craftsman-bungalow` resolved `casing` to 0.1667 where 6 in was
+    meant, chambers-ionic's `1 / 6` beating palladio-tuscan's `opening_width / 6` — two rules
+    saying exactly the same thing, one of them in a form that is not a measurement.
+    """
+
+    CTX = {"ceiling_height": 108.0, "storey_height": 120.0,
+           "opening_height": 80.0, "opening_width": 36.0, "span": 16.0}
+
+    def _casing_choice(self, rk, style):
+        g = rk.load_graph()
+        chain = rk.chain_for(g, style)
+        slots, _ = rk.resolve_slots(g, chain)
+        pack_slots, _ = rk.eval_packs(rk.resolve_packs(g, chain), self.CTX, None)
+        return rk.choose_pack(slots["casing"], pack_slots.get("casing", []), self.CTX)
+
+    @pytest.mark.parametrize("style", ("craftsman", "craftsman-bungalow"))
+    def test_the_two_live_wrong_dimensions_are_fixed(self, style, resolve_kit_module):
+        """The two the register named. A casing on a 36 in door is 6 in, not 0.1667 of nothing."""
+        chosen = self._casing_choice(resolve_kit_module, style)["chosen"]
+        assert chosen["units"] != "ratio", (
+            f"{style}: casing resolved to a bare ratio again — that is 0.1667 where a "
+            "measurement was meant (OQ 53).")
+        assert "opening_width" in chosen["expression"]
+
+    @pytest.mark.parametrize("style", ("craftsman", "craftsman-bungalow"))
+    def test_the_demotion_is_recorded_not_silent(self, style, resolve_kit_module):
+        """Preferring the measurement is a decision this resolver takes, so it says so. A silent
+        preference would be the same class of problem in the other direction: the corpus would
+        stop being able to show why one of two agreeing rules was passed over."""
+        chosen = self._casing_choice(resolve_kit_module, style)["chosen"]
+        assert "ratio_demoted" in chosen
+        assert chosen["ratio_demoted"]["pack"] == "chambers-ionic"
+        assert "referent" in chosen["ratio_demoted"]["why"]
+
+    def test_a_genuine_ratio_quantity_is_left_alone(self, resolve_kit_module):
+        """The guard must stay narrow. Most ratio-valued quantities in this corpus ARE ratios and
+        are right in that form — a roof pitch, an opening's height over its width, an arch's rise
+        over its span. A first version of the flag fired on all of them, 1,463 times across every
+        node, which is a checker crying wolf rather than a finding."""
+        g = resolve_kit_module.load_graph()
+        chain = resolve_kit_module.chain_for(g, "craftsman")
+        slots, _ = resolve_kit_module.resolve_slots(g, chain)
+        packs = resolve_kit_module.resolve_packs(g, chain)
+        pack_slots, _ = resolve_kit_module.eval_packs(packs, self.CTX, None)
+        pc = resolve_kit_module.choose_pack(
+            slots["roof_pitch"], pack_slots.get("roof_pitch", []), self.CTX)
+        chosen = (pc or {}).get("chosen")
+        if isinstance(chosen, dict):
+            assert "ratio_demoted" not in chosen, (
+                "a roof pitch IS a ratio; demoting it would be inventing a referent")
