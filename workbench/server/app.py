@@ -15,7 +15,7 @@ password screen, and it carries no corpus data.
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import Body, FastAPI, HTTPException, Query, Request
+from fastapi import Body, FastAPI, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -97,15 +97,22 @@ def _ok(result):
 
 # ----------------------------------------------------------------- health
 @app.get("/api/health")
-def health(request: Request):
+def health(request: Request, response: Response):
     try:
         import jsonschema  # noqa: F401 — without it every check "fails schema"
         schema_ok = True
     except ImportError:
         schema_ok = False
     counts = core.overview()["counts"]
+    # rail.key(), not a second reading of the environment: two readers of one variable can
+    # disagree, and the one the browser believes would be the one that never runs a turn.
+    from . import rail
+    # An operator refreshes this endpoint to see whether a change took effect, and it
+    # carries no validators — a heuristically cached 200 answers with the state before the
+    # change and reads as the change not working.
+    response.headers["Cache-Control"] = "no-store, max-age=0"
     return {"ok": schema_ok, "jsonschema": schema_ok, "counts": counts,
-            "rail": bool(os.environ.get("ANTHROPIC_API_KEY")),
+            "rail": bool(rail.key()),
             "auth": auth.state(), "limits": limits.state(),
             # /api/health is deliberately ungated (the platform healthcheck has no
             # credentials), so it must not enumerate hostnames. allowed_hosts can carry
