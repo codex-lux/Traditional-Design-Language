@@ -79,7 +79,10 @@ have shipped; WP-5.3 and WP-5.4 remain.
 A place is now a URL, and that URL is the citation grammar written down — `#/kit/craftsman/cornice`,
 `#/faults?sev=serious`, `#/cite/fault:porch-too-shallow-to-inhabit`. `app/src/router.js` and
 `state/nav.js` hold it; `citeFor()` in `citations.js` is the inverse of `routeCite` and lives
-beside it so the two cannot drift. Search is `⌘K` over `/api/search/index` (665 named things,
+beside it so the two cannot drift. **The grammar is spelled in three places — `REF_RE` and
+`CITE_RE` in `workbench/server/`, `parseCite` in the app — and an audit found two of the three
+disagreeing about the dot in a constraint id, which is why `test_grammar_agreement.py` now
+reads the JavaScript and holds all three against each other. Do not add a fourth copy.** Search is `⌘K` over `/api/search/index` (665 named things,
 dispatching by citation); `/` filters the list in front of you; `?` explains both. Filters live
 in the query string via `filters/useFilters.js` — do not reintroduce per-surface filter state.
 `Chip` is now only ever a filter; acts are `ActionChip`. Report:
@@ -91,7 +94,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **30 checks, 893 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **32 checks, 899 tests**
 (the test figure was 762 here and had been stale for some time -- `check_counts.py` polices
 counts DERIVED FROM THE CORPUS, and a test count is not one of them; nor are numbers written
 into JSX, which is how the Kit's header claimed 95 slots against an ontology holding 97).

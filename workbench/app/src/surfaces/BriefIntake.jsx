@@ -5,6 +5,7 @@
    and never implies feasibility was proved (the conflict-set display waits on WP-2.3). */
 import React from 'react';
 import { api, jobEvents } from '../api/client.js';
+import { useStyles } from '../api/useStyles.js';
 import { session } from '../state/session.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
@@ -46,15 +47,28 @@ export function BriefIntake({ go }) {
   // merge over defaults: a brief persisted by an older shape must never crash the form
   const [brief, setBrief] = React.useState(
     { ...defaults, ...(s.brief || {}), context: { ...(s.brief?.context || {}) } });
-  const [styleOptions, setStyleOptions] = React.useState([]);
+  /* One list, one order — the shared hook, not a fourth private copy. Three surfaces kept
+     calling api.styles({limit: 200}) sorted by id while useStyles asked for 250 sorted by
+     name: two cache entries, two round trips and two orderings of the same 164 styles,
+     depending which surface you were standing on. The hook's own header claimed it had
+     replaced six surfaces; it had replaced three. Found by an adversarial audit. */
+  const { styles: styleRecords } = useStyles();
+  const styleOptions = React.useMemo(() => styleRecords.map((s) => s.id), [styleRecords]);
   const [partis, setPartis] = React.useState(null);
   const [rooms, setRooms] = React.useState([]);
   const [composing, setComposing] = React.useState(false);
   const [error, setError] = React.useState(null);
   const unsubRef = React.useRef(null);
 
+  /* Close the stream when this surface goes away. compose() calls go('candidates'), which
+     now UNMOUNTS Brief Intake — so the ref holding the only handle on the EventSource was
+     garbage and the connection could never be closed. Each compose-and-return leaked one
+     open stream, and browsers allow six per origin, after which every other fetch in the app
+     stalls. The in-mount guard below only ever worked within a single mount, and the
+     component no longer survives one compose. Found by an adversarial audit. */
+  React.useEffect(() => () => { if (unsubRef.current) unsubRef.current(); }, []);
+
   React.useEffect(() => {
-    api.styles({ limit: 200 }).then((r) => setStyleOptions((r.results || []).map((x) => x.id).sort()));
     api.rooms({ limit: 60 }).then((r) => setRooms((r.results || r.rooms || []).map((x) => x.id)));
   }, []);
   React.useEffect(() => {

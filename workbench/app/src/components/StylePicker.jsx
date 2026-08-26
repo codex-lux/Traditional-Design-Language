@@ -13,7 +13,7 @@ import { useStyles } from '../api/useStyles.js';
 import { search } from '../search/match.js';
 
 export function StylePicker({ value, onChange, label = 'Style', allowNone, noneLabel = 'no style in view', width = 200 }) {
-  const styles = useStyles();
+  const { styles, failed } = useStyles();
   const [open, setOpen] = React.useState(false);
   const [q, setQ] = React.useState('');
   const [cursor, setCursor] = React.useState(0);
@@ -57,6 +57,12 @@ export function StylePicker({ value, onChange, label = 'Style', allowNone, noneL
 
   return (
     <span ref={boxRef} style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', flex: 'none' }}>
+      {failed && (
+        <span title={String(failed)}
+          style={{ font: 'var(--type-data-s)', color: 'var(--sev-fatal, var(--ink-3))' }}>
+          the style list could not be read
+        </span>
+      )}
       <input ref={inputRef} type="text" role="combobox" aria-expanded={open} aria-autocomplete="list"
         aria-controls="stylepicker-list" aria-label={label}
         value={open ? q : shown}

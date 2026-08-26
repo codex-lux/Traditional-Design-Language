@@ -1184,10 +1184,21 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
                     "unsolved": True, "status": res.get("status")}
         out = solve_heuristic(plan, parti, candidates, seed)
         if "error" not in out:
+            # WHY it fell back, as a machine-readable word beside the sentence. UNKNOWN means
+            # the solver ran and could not decide inside the budget — a loaded machine, and a
+            # genuinely unjudged state. Anything else (MODEL_INVALID, or a status this code
+            # does not recognise) means the model or the engine is broken, which is a failure
+            # and must never be mistaken for the first case. They used to share one sentence,
+            # so a test discriminating on the words could not tell them apart: tests/test_solver.py
+            # skipped on a structurally invalid model and check_all stayed green. Found by an
+            # adversarial audit of the OQ 66 work.
+            status = res.get("status", "?")
             out["geometry_report"]["solver"] = {
                 "engine": "heuristic",
+                "fallback": "budget" if status == "UNKNOWN" else "engine",
+                "status": status,
                 "reason": f"CP-SAT returned no solution in {time_limit_s:.0f}s "
-                          f"({res.get('status', '?')}); fell back to the hill-climb"}
+                          f"({status}); fell back to the hill-climb"}
         return out
     return _finish(plan, res["best"], res["fpd"], res["levels"], solver=res["solver"])
 

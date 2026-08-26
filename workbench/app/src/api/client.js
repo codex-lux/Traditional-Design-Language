@@ -40,6 +40,16 @@ async function postJSON(url, body) {
   return r.json();
 }
 
+/* Path parameters are ENCODED. Ids come from `location.hash` now, which is user-pasteable
+   and therefore untrusted: an id containing `?`, `#`, `%` or a slash used to be interpolated
+   raw, so `#/kit/a%3Fx%3D1` produced `/api/kit/a?x=1?only_specified=true` and silently
+   dropped the flag, and `..%2F..%2Fadmin` resolved to a different endpoint entirely. Not a
+   security hole — mcp_server/core.py preloads every record into dicts and looks them up with
+   `.get()`, never opening a file by id, and the SPA catch-all has a realpath guard — but it
+   corrupts requests, and it is one refactor away from being worse. Found by an adversarial
+   audit; no real corpus id contains any of these characters, which is why nothing broke. */
+const seg = (v) => encodeURIComponent(String(v == null ? '' : v));
+
 const qs = (params) => {
   const p = Object.entries(params || {}).filter(([, v]) => v !== undefined && v !== null && v !== '');
   return p.length ? '?' + new URLSearchParams(p).toString() : '';
@@ -56,36 +66,36 @@ export const api = {
   searchIndex: () => getJSON('/api/search/index'),
   phylogeny: () => getJSON('/api/phylogeny'),
   styles: (params) => getJSON('/api/styles' + qs(params)),
-  style: (id, sections) => getJSON(`/api/styles/${id}` + qs({ sections })),
+  style: (id, sections) => getJSON(`/api/styles/${seg(id)}` + qs({ sections })),
   compareStyles: (a, b) => getJSON('/api/styles/compare' + qs({ a, b })),
-  slot: (id) => getJSON(`/api/slots/${id}`),
-  kit: (styleId, params) => getJSON(`/api/kit/${styleId}` + qs(params)),
-  cascade: (styleId) => getJSON(`/api/kit/${styleId}/cascade`),
-  proportions: (packId, params) => getJSON(`/api/proportions/${packId}` + qs(params)),
-  authorities: (order, params) => getJSON(`/api/authorities/${order}` + qs(params)),
+  slot: (id) => getJSON(`/api/slots/${seg(id)}`),
+  kit: (styleId, params) => getJSON(`/api/kit/${seg(styleId)}` + qs(params)),
+  cascade: (styleId) => getJSON(`/api/kit/${seg(styleId)}/cascade`),
+  proportions: (packId, params) => getJSON(`/api/proportions/${seg(packId)}` + qs(params)),
+  authorities: (order, params) => getJSON(`/api/authorities/${seg(order)}` + qs(params)),
   faults: (params) => getJSON('/api/faults' + qs(params)),
-  fault: (id, style) => getJSON(`/api/faults/${id}` + qs({ style })),
+  fault: (id, style) => getJSON(`/api/faults/${seg(id)}` + qs({ style })),
   vocabulary: (params) => getJSON('/api/vocabulary' + qs(params)),
   massings: (params) => getJSON('/api/massings' + qs(params)),
   rooms: (params) => getJSON('/api/rooms' + qs(params)),
-  room: (id, style) => getJSON(`/api/rooms/${id}` + qs({ style })),
+  room: (id, style) => getJSON(`/api/rooms/${seg(id)}` + qs({ style })),
   groupings: (params) => getJSON('/api/groupings' + qs(params)),
   assets: (params) => getJSON('/api/assets' + qs(params)),
   partis: (params) => getJSON('/api/partis' + qs(params)),
   planSchema: () => getJSON('/api/schema/plan'),
   briefSchema: () => getJSON('/api/schema/brief'),
-  examplePlan: (name) => getJSON(`/api/plans/examples/${name}`, { fresh: true }),
+  examplePlan: (name) => getJSON(`/api/plans/examples/${seg(name)}`, { fresh: true }),
 
   evaluate: (plan, opts = {}) => postJSON('/api/plan/evaluate', { plan, ...opts }),
   ingestDxf: (dxf, units) => postJSON('/api/ingest/dxf', { dxf, units }),
   compose: (brief, candidates = 4) => postJSON('/api/compose', { brief, candidates }),
-  job: (id) => getJSON(`/api/jobs/${id}`, { fresh: true }),
-  candidatePlan: (jobId, n) => getJSON(`/api/jobs/${jobId}/candidates/${n}/plan`, { fresh: true }),
+  job: (id) => getJSON(`/api/jobs/${seg(id)}`, { fresh: true }),
+  candidatePlan: (jobId, n) => getJSON(`/api/jobs/${seg(jobId)}/candidates/${seg(n)}/plan`, { fresh: true }),
 };
 
 /* Subscribe to a job's SSE stream. Returns an unsubscribe function. */
 export function jobEvents(jobId, handlers) {
-  const es = new EventSource(`/api/jobs/${jobId}/events`);
+  const es = new EventSource(`/api/jobs/${seg(jobId)}/events`);
   let finished = false;
   for (const [event, fn] of Object.entries(handlers)) {
     es.addEventListener(event, (e) => {

@@ -12,12 +12,14 @@ import { StylePicker } from '../components/StylePicker.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
 
+const DEFAULT_FAULT = 'porch-too-shallow-to-inhabit';
+
 const SEV_C = { fatal: 'var(--sev-fatal)', serious: 'var(--sev-serious)', minor: 'var(--sev-minor)' };
 const SPEC = { sev: {}, driver: {}, q: { type: 'text' }, style: {} };
 
 export function FaultCorpus({ onCite, selection, setSelection }) {
   const [all, setAll] = React.useState([]);
-  const [id, setId] = React.useState(selection?.fault || 'porch-too-shallow-to-inhabit');
+  const [id, setId] = React.useState(selection?.fault || DEFAULT_FAULT);
   const [fault, setFault] = React.useState(null);
   const [assets, setAssets] = React.useState([]);
 
@@ -30,7 +32,12 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
   }, []);
 
   React.useEffect(() => {
-    if (selection?.fault) setId(selection.fault);
+/* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
+   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
+   #/faults left the panel displaying the record you had just left — the address bar and the
+   screen disagreeing, which is the one thing the router exists to prevent. Found by an
+   adversarial audit. */
+    setId(selection?.fault || DEFAULT_FAULT);
   }, [selection?.fault]);
 
   React.useEffect(() => {

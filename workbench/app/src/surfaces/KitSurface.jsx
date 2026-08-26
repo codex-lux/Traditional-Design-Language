@@ -13,6 +13,8 @@ import { StylePicker } from '../components/StylePicker.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
 
+const DEFAULT_STYLE = 'tidewater-georgian';
+
 /* resolve_kit rows → SlotRow props. Source strings become {distance, id}; the
    "a + b (extends)" composite renders as the base ancestor plus a marker. */
 function adaptRow(row, distances) {
@@ -51,10 +53,10 @@ function adaptRow(row, distances) {
   };
 }
 
-const KIT_SPEC = { group: {}, q: { type: 'text' }, all: { type: 'bool' } };
+const KIT_SPEC = { group: {}, q: { type: 'text' }, all: { widens: true, type: 'bool' } };
 
 export function KitSurface({ onCite, selection, setSelection }) {
-  const [styleId, setStyleId] = React.useState(selection?.style || 'tidewater-georgian');
+  const [styleId, setStyleId] = React.useState(selection?.style || DEFAULT_STYLE);
   const [kit, setKit] = React.useState(null);
   const [cascade, setCascade] = React.useState(null);
   const [styleInfo, setStyleInfo] = React.useState(null);
@@ -75,8 +77,13 @@ export function KitSurface({ onCite, selection, setSelection }) {
   }, []);
 
   React.useEffect(() => {
-    if (selection?.style) setStyleId(selection.style);
-    if (selection?.slot) setOpenSlot(selection.slot);
+/* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
+   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
+   #/kit left the panel displaying the record you had just left — the address bar and the
+   screen disagreeing, which is the one thing the router exists to prevent. Found by an
+   adversarial audit. */
+    setStyleId(selection?.style || DEFAULT_STYLE);
+    setOpenSlot(selection?.slot || null);
   }, [selection?.style, selection?.slot]);
 
   React.useEffect(() => {

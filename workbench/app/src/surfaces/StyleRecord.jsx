@@ -12,6 +12,8 @@ import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { StylePicker } from '../components/StylePicker.jsx';
 
+const DEFAULT_STYLE = 'tidewater-georgian';
+
 const ALL_SECTIONS = 'summary,description,characteristics,lineage,proportion,massing,constraints,exemplars,sources';
 const CARRIES = { descends_from: 1, regional_of: 1 };
 
@@ -28,11 +30,16 @@ const prose = { font: 'var(--fw-reg) 14px/1.62 var(--body)', color: 'var(--ink)'
 const quiet = { font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: 0, maxWidth: '72ch' };
 
 export function StyleRecord({ onCite, selection, go, setSelection }) {
-  const [styleId, setStyleId] = React.useState(selection?.style || 'tidewater-georgian');
+  const [styleId, setStyleId] = React.useState(selection?.style || DEFAULT_STYLE);
   const [rec, setRec] = React.useState(null);
   const [constraintFilter, setConstraintFilter] = React.useState(null);
 
-  React.useEffect(() => { if (selection?.style) setStyleId(selection.style); }, [selection?.style]);
+  /* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
+   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
+   #/style left the panel displaying the record you had just left — the address bar and the
+   screen disagreeing, which is the one thing the router exists to prevent. Found by an
+   adversarial audit. */
+  React.useEffect(() => { setStyleId(selection?.style || DEFAULT_STYLE); }, [selection?.style]);
   React.useEffect(() => {
     setRec(null);
     api.style(styleId, ALL_SECTIONS).then(setRec).catch(() => setRec(null));

@@ -14,6 +14,8 @@ import { FilterInput } from '../components/FilterInput.jsx';
 import { matches } from '../search/match.js';
 import { ft } from '../sheet/derive.js';
 
+const DEFAULT_PACK = 'gibbs-doric';
+
 const KIND_LABEL = {
   'module-system': 'material modules', 'trim-system': 'trim systems',
   'opening-system': 'openings', 'room-system': 'rooms', 'facade-system': 'facades',
@@ -169,7 +171,7 @@ function RulesTable({ rules }) {
 
 export function Proportions({ onCite, selection }) {
   const [packs, setPacks] = React.useState([]);
-  const [packId, setPackId] = React.useState(selection?.pack || 'gibbs-doric');
+  const [packId, setPackId] = React.useState(selection?.pack || DEFAULT_PACK);
   const [packFilter, setPackFilter] = React.useState('');
   const [data, setData] = React.useState(null);
   const [compare, setCompare] = React.useState(null);
@@ -180,7 +182,12 @@ export function Proportions({ onCite, selection }) {
   React.useEffect(() => {
     fetch('/api/proportions').then((r) => r.json()).then((r) => setPacks(r.packs || []));
   }, []);
-  React.useEffect(() => { if (selection?.pack) setPackId(selection.pack); }, [selection?.pack]);
+  /* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
+   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
+   #/proportions left the panel displaying the record you had just left — the address bar and the
+   screen disagreeing, which is the one thing the router exists to prevent. Found by an
+   adversarial audit. */
+  React.useEffect(() => { setPackId(selection?.pack || DEFAULT_PACK); }, [selection?.pack]);
 
   const meta = packs.find((p) => p.id === packId);
   const isOrder = meta?.kind === 'order-system';

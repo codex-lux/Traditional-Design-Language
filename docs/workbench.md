@@ -105,11 +105,17 @@ client-side. Kinds beyond style/slot/kit/fault/pack/candidate/finding/plan curre
 navigate to their surface without a per-item highlight — a known limitation recorded
 in the WP-5.2 audit section.
 
-**The id character class must stay identical on both sides.** It was not: the server's
-`REF_RE` allowed dots (constraint ids are `style-id.cNN`) and `app/src/citations.js` did
-not, so all 660 constraint ids validated server-side, streamed as citations, and parsed to
-null in the browser — every `constraint:` chip navigated nowhere, silently. Fixed in
-WP-5.6; `app/e2e/router-unit.mjs` now pins the two against each other.
+**The id character class is spelled in THREE places and must stay identical in all of
+them** — `REF_RE` in `server/citations.py`, `CITE_RE` in `server/rail.py` (which extracts
+`[[cite:…]]` from the model stream *before* anything validates it), and `parseCite` in
+`app/src/citations.js`. Two of the three disagreed about the dot in a constraint id, so all
+660 constraint ids were inert: the server validated them, the browser parsed them to null.
+WP-5.6 widened the client and published that as the fix — and an adversarial audit then found
+`CITE_RE` also lacked the dot, which meant a constraint citation had never reached `validate()`
+at all and the reader saw raw bracket syntax. Widening the parser could not help something
+the parser was never handed. The two Python copies now share `ID_CHARS`/`FRAG_CHARS`, and
+`workbench/server/tests/test_grammar_agreement.py` reads the JavaScript to hold the third
+against them, end to end. **Do not add a fourth copy.**
 
 ## Navigation and addressing (WP-5.6)
 
@@ -170,7 +176,10 @@ vendored as SVG path data — no tiles, no map library, no network.
 A style is placed from **both** `geography.regions` and `geography.hearth`, taking the
 finest thing either names. Reading only the regions list put Craftsman in the middle of
 Kansas while its own record said "Pasadena and Los Angeles" (OQ 65): 87 of 164 styles are
-now placed at locality precision, against 15 before the hearth was read.
+now placed at locality precision, against 15 before the hearth was read. Among several
+candidates the EARLIEST-mentioned wins, applied after the anchor check — the sentences are
+written primary-first, and scanning the gazetteer longest-name-first instead put Craftsman in
+Los Angeles while its record reads "Pasadena and Los Angeles".
 
 **The hearth may sharpen a region, never contradict one.** A place name found in the hearth
 is rejected if it is more than 45° from *every* region the style names — not merely from the
@@ -188,8 +197,11 @@ style the gazetteer cannot place is listed as unplaced, never nudged onto a cont
 
 `build/check_gazetteer.py --strict` runs in `check_all.py` and ratchets three numbers, all
 at zero: styles it cannot place, styles coarse for any reason but the record's, and hearth
-sentences it cannot read. It parses the JS gazetteer rather than duplicating it in Python —
-a second copy is exactly how the two halves of the citation grammar came to disagree.
+sentences it cannot read. It **runs `gazetteer.js` through node** rather than re-implementing
+the placement in Python — the first version parsed the data table and then duplicated the
+algorithm that reads it, which is the second-copy trap it cites, and an audit found the 45°
+constant named on one side and hard-coded on the other. Without node it reports COULD NOT
+EVALUATE rather than passing.
 
 ## The three-state rule, in components
 

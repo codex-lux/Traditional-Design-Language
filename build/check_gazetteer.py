@@ -41,9 +41,9 @@ copy in Python — is exactly how two halves of the citation grammar came to dis
 """
 import argparse
 import json
-import math
 import os
 import re
+import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -62,128 +62,123 @@ MAX_UNPLACED = 0
 MAX_COARSE = 0
 MAX_UNREAD = 0
 
-PRECISION_RANK = {"locality": 0, "region": 1, "country": 2}
-# A hearth that says there is no hearth. Matched on the record's own words.
-NO_HEARTH = re.compile(r"no (single |design )?hearth|nationwide", re.I)
+# "Has no hearth by its own account" is decided by `statesNoHearth` in gazetteer.js and asked
+# for through the bridge below — not re-spelled here. There were three copies of that regex
+# and two of them already disagreed.
 
 
-def load_gazetteer(path=GAZ):
-    """Parse the JS object literal. Deliberately not an import and not a duplicate.
+COULD_NOT_EVALUATE = 3
 
-    The entries are `'Name': [lat, lon, 'precision'],` — one per line, by construction of
-    that file. Anything that does not match that shape is skipped, and the count is
-    reported so a reformat that breaks the parse shows up as a cliff rather than as a
-    silent zero.
+# The JS is asked to place every style and hand back the answer. This file used to
+# re-implement placeByRegions/placeByHearth/regionAnchors/degreesApart in Python and compare
+# nothing — a second copy of the ALGORITHM, which is precisely the trap its own docstring
+# cited about the citation grammar. It parsed the JS data table and then duplicated the logic
+# that reads it, so `CONTRADICTION_DEGREES` was a named constant on one side and a bare 45 on
+# the other, and an edit to either would have moved the map while this check reported OK.
+# An adversarial audit found the two copies still agreed on all 164 styles and one classifier
+# regex already disagreeing. There is now one implementation, and this asks it.
+PLACE_JS = r"""
+import { placeStyle, placeByHearth, regionAnchors, statesNoHearth } from '%s';
+import { readdirSync, readFileSync } from 'node:fs';
+const out = {};
+for (const f of readdirSync('%s').filter((f) => f.endsWith('.json'))) {
+  const d = JSON.parse(readFileSync('%s/' + f, 'utf8'));
+  const g = d.geography || {};
+  const p = placeStyle(g.regions || [], g.hearth);
+  // Whether the hearth was READABLE at all, which is a different question from whether it
+  // won: a style whose regions already name something finer has a perfectly readable hearth.
+  const readable = !!placeByHearth(g.hearth, regionAnchors(g.regions || []));
+  out[d.id] = {
+    rank: d.rank,
+    hearth: g.hearth || null,
+    hearthRead: readable,
+    statedNoHearth: statesNoHearth(g.hearth),
+    placed: p ? { precision: p.precision, region: p.region, via: p.via || 'regions' } : null,
+  };
+}
+process.stdout.write(JSON.stringify(out));
+"""
+
+
+def placements():
+    """Ask gazetteer.js where every style goes. Exits 3 (COULD NOT EVALUATE) without node.
+
+    Node is not a dependency of the corpus — the data and every other checker run on the
+    standard library alone, deliberately. So its absence is a named unjudged state, the same
+    way the CAD selftests report N/EV without ezdxf. It is never a pass.
     """
-    src = open(path, encoding="utf-8").read()
-    body = src[src.index("export const GAZETTEER"):]
-    entry = re.compile(
-        r"^\s*(?:'([^']+)'|\"([^\"]+)\")\s*:\s*\[\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*,\s*'(\w+)'\s*\]",
-        re.M)
-    out = {}
-    for m in entry.finditer(body):
-        name = m.group(1) if m.group(1) is not None else m.group(2)
-        out[name] = (float(m.group(3)), float(m.group(4)), m.group(5))
-    return out
+    src = PLACE_JS % (GAZ, STYLES, STYLES)
+    try:
+        proc = subprocess.run(["node", "--input-type=module", "-e", src],
+                              capture_output=True, text=True, cwd=ROOT, timeout=120)
+    except (FileNotFoundError, subprocess.TimeoutExpired) as e:
+        print(f"COULD NOT EVALUATE: cannot run node to read the gazetteer ({e}). "
+              f"The placement logic lives in {os.path.relpath(GAZ, ROOT)} and this check "
+              f"asks it rather than keeping a second copy — so without node it has no "
+              f"answer, which is not the same as a passing one.", file=sys.stderr)
+        sys.exit(COULD_NOT_EVALUATE)
+    if proc.returncode != 0:
+        print("FAIL: gazetteer.js could not be loaded or threw:\n" + proc.stderr.strip(),
+              file=sys.stderr)
+        sys.exit(1)
+    return json.loads(proc.stdout)
 
 
-def _styles():
-    for f in sorted(os.listdir(STYLES)):
-        if f.endswith(".json"):
-            yield json.load(open(os.path.join(STYLES, f), encoding="utf-8"))
+def gazetteer_size():
+    """How many names the table holds — reported so a parse cliff reads as a parse cliff.
+
+    Only the COUNT is read here, and only for the floor assertion below; nothing is placed
+    from this. A reformat (prettier's double quotes, a multi-line array) drops it to zero, and
+    without the floor the failure surfaced as "164 styles are unplaceable — go place them"
+    when the truth was "somebody ran a formatter".
+    """
+    src = open(GAZ, encoding="utf-8").read()
+    return len(re.findall(r"^\s*(?:'[^']+'|\"[^\"]+\")\s*:\s*\[", src, re.M))
 
 
-def _degrees_apart(hit, anchor):
-    dlat = hit[0] - anchor[0]
-    dlon = (hit[1] - anchor[1]) * math.cos(math.radians((hit[0] + anchor[0]) / 2))
-    return math.hypot(dlat, dlon)
-
-
-def _place_by_regions(gaz, regions):
-    best = None
-    for r in regions or []:
-        hit = gaz.get(r) or gaz.get(str(r).strip())
-        if not hit:
-            continue
-        rank = PRECISION_RANK[hit[2]]
-        if best is None or rank < best[0]:
-            best = (rank, hit, r)
-            if rank == 0:
-                break
-    return best
-
-
-def _anchors(gaz, regions):
-    """Every point the style's own regions vouch for."""
-    out = []
-    for r in regions or []:
-        hit = gaz.get(r) or gaz.get(str(r).strip())
-        if hit:
-            out.append((hit[0], hit[1]))
-    return out
-
-
-def _place_by_hearth(gaz, hearth, anchors):
-    """The same reading placeByHearth does in the app, anchor check included: a hearth may
-    SHARPEN a region, never contradict one — where "contradict" means far from EVERY region
-    the style names, not merely from the finest. That distinction is load-bearing.
-    `churrigueresque` names Spain, Mexico and the Spanish Americas, and its hearth reads
-    "Madrid, Salamanca and Andalusia"; against the finest region alone Madrid looked like a
-    contradiction. Against all of them, Spain vouches for it. And
-    `dutch-colonial-american` still refuses Amsterdam, because all six of its regions are
-    American — resolving the sentence to Albany, which is what it meant."""
-    if not hearth:
-        return None
-    text = hearth.lower()
-    best = None
-    for name in sorted(gaz, key=len, reverse=True):
-        hit = gaz[name]
-        rank = PRECISION_RANK[hit[2]]
-        if best is not None and rank >= best[0]:
-            continue
-        if not re.search(r"(^|[^a-z])" + re.escape(name.lower()) + r"($|[^a-z])", text):
-            continue
-        if anchors and not any(_degrees_apart(hit, a) <= 45 for a in anchors):
-            continue          # contradicts every region named; not this style's Boston
-        best = (rank, hit, name)
-        if rank == 0:
-            break
-    return best
+# The table has held ~275 names since OQ 65. Well below that is a PARSE failure, not an
+# authoring one: prettier's double quotes or a multi-line array drops the reader to zero, and
+# without this the run reported "164 styles are unplaceable — go place them" when the truth
+# was that somebody had run a formatter. Found by an adversarial audit.
+MIN_GAZETTEER_ENTRIES = 200
 
 
 def survey():
-    gaz = load_gazetteer()
+    placed = placements()
+    size = gazetteer_size()
+    if size < MIN_GAZETTEER_ENTRIES:
+        print(f"FAIL: only {size} gazetteer entries parsed out of "
+              f"{os.path.relpath(GAZ, ROOT)}, and there should be at least "
+              f"{MIN_GAZETTEER_ENTRIES}. This is a PARSE failure, not a missing place: the "
+              f"reader expects `'Name': [lat, lon, 'precision'],` one per line, in single "
+              f"quotes. A reformat (prettier, a multi-line array) breaks it. Fix the reader "
+              f"rather than the data.", file=sys.stderr)
+        sys.exit(1)
     unplaced, coarse, unread, by_record = [], [], [], []
     counts = {"locality": 0, "region": 0, "country": 0}
 
-    for s in _styles():
-        g = s.get("geography") or {}
-        hearth = g.get("hearth")
-        by_region = _place_by_regions(gaz, g.get("regions"))
-        by_hearth = _place_by_hearth(gaz, hearth, _anchors(gaz, g.get("regions")))
-        best = by_hearth if (by_hearth and (by_region is None or by_hearth[0] < by_region[0])) \
-            else by_region
-
-        if best is None:
-            unplaced.append(s["id"])
+    for sid, rec in sorted(placed.items()):
+        hearth = rec.get("hearth")
+        p = rec.get("placed")
+        if p is None:
+            unplaced.append(sid)
             continue
-        counts[best[1][2]] += 1
+        counts[p["precision"]] += 1
 
-        if best[1][2] == "country":
+        if p["precision"] == "country":
             # An abstraction, or a record that says it has no hearth, is correctly coarse.
-            if s.get("rank") in ("family", "tradition") or (hearth and NO_HEARTH.search(hearth)):
-                by_record.append(s["id"])
+            if rec.get("rank") in ("family", "tradition") or rec.get("statedNoHearth"):
+                by_record.append(sid)
             else:
-                coarse.append(s["id"])
+                coarse.append(sid)
 
-        # A hearth sentence the gazetteer can find NO place name in at all. Not "a hearth
-        # that did not yield a town" — "The Peloponnese and Attica" is read correctly and
-        # the answer is a region, because that is what the sentence names. The work list is
-        # only the sentences this file cannot read a single word of.
-        if hearth and by_hearth is None and not NO_HEARTH.search(hearth):
-            unread.append((s["id"], hearth[:90]))
+        # A hearth sentence the gazetteer found NO place name in at all. Not "a hearth that
+        # did not yield a town" — "The Peloponnese and Attica" is read correctly and the
+        # answer is a region, because that is what the sentence names.
+        if hearth and not rec.get("hearthRead") and not rec.get("statedNoHearth"):
+            unread.append((sid, hearth[:90]))
 
-    return {"gazetteer_entries": len(gaz), "counts": counts, "unplaced": unplaced,
+    return {"gazetteer_entries": size, "counts": counts, "unplaced": unplaced,
             "coarse": coarse, "by_record": by_record, "unread": unread}
 
 

@@ -7,13 +7,22 @@
 
    One hook, one order, names included. The id alone was what the <select>s showed, which
    asked a reader to know that `english-georgian-country-house` is the country house — the
-   name is right there in the record. */
+   name is right there in the record.
+
+   A FAILURE IS REPORTED, NOT RETURNED AS AN EMPTY CORPUS. The catch used to `return []`,
+   which every StylePicker then rendered as "no styles" — indistinguishable from a corpus
+   containing none, and silent. That is the same swallow this session found in parseCite and
+   fixed, reintroduced in a new shared cache; an adversarial audit caught it. Callers get the
+   error and can say the list could not be read. */
 
 import React from 'react';
 import { api } from './client.js';
 
 let cache = null;      // resolved [{id, name, rank}]
 let inflight = null;
+let failure = null;
+const listeners = new Set();
+const emit = () => listeners.forEach((fn) => fn());
 
 function load() {
   if (cache) return Promise.resolve(cache);
@@ -23,22 +32,28 @@ function load() {
         cache = (r.results || [])
           .map((s) => ({ id: s.id, name: s.name || s.id, rank: s.rank }))
           .sort((a, b) => a.name.localeCompare(b.name));
+        failure = null;
+        emit();
         return cache;
       })
-      .catch(() => {
+      .catch((e) => {
         inflight = null;         // let a later mount try again
+        failure = e;
+        emit();
         return [];
       });
   }
   return inflight;
 }
 
+/* → {styles, failed}. `failed` is the Error, so a caller can name what went wrong rather
+   than drawing an empty list. */
 export function useStyles() {
-  const [styles, setStyles] = React.useState(cache || []);
+  const [, bump] = React.useReducer((n) => n + 1, 0);
   React.useEffect(() => {
-    let live = true;
-    load().then((s) => { if (live) setStyles(s); });
-    return () => { live = false; };
+    listeners.add(bump);
+    load();
+    return () => { listeners.delete(bump); };
   }, []);
-  return styles;
+  return { styles: cache || [], failed: failure };
 }

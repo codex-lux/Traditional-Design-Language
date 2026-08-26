@@ -6,10 +6,22 @@
    It was not: the server allowed dots (its comment says why — constraint ids are
    style-id.cNN) and this half did not, so all 660 constraint ids validated on the server,
    streamed as citations, and then parsed to null here. Every `constraint:` chip the rail
-   ever drew navigated nowhere, silently. WP-5.6 widened this class to match. */
+   ever drew navigated nowhere, silently. WP-5.6 widened this class to match — and an
+   adversarial audit then found a THIRD copy, in rail.py's CITE_RE, which extracts
+   `[[cite:...]]` from model output and also lacked the dot. So the widening changed nothing
+   observable: a constraint citation was never extracted, never validated, and reached the
+   reader as literal bracket syntax. All three now agree, and
+   workbench/server/tests/test_grammar_agreement.py reads this file to keep them agreeing —
+   which is why the classes below are named constants rather than a regex literal.
+
+   ID_CHARS and FRAG_CHARS are the same two classes citations.py exports under those names. */
+
+export const ID_CHARS = 'A-Za-z0-9_.-';
+export const FRAG_CHARS = 'A-Za-z0-9_-';
+const REF_RE = new RegExp(`^([a-z]+):([${ID_CHARS}]+)(?:#([${FRAG_CHARS}]+))?$`);
 
 export function parseCite(ref) {
-  const m = /^([a-z]+):([A-Za-z0-9_.-]+)(?:#([A-Za-z0-9_-]+))?$/.exec(ref || '');
+  const m = REF_RE.exec(ref || '');
   if (!m) return null;
   return { kind: m[1], id: m[2], fragment: m[3] || null };
 }

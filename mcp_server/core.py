@@ -67,7 +67,18 @@ def _style_card(n):
     p = n["period"]
     return {"id": n["id"], "name": n["name"], "rank": n["rank"], "in": n.get("member_of"),
             "years": f"{_yr(p['floruit_start'])}–{_yr(p['floruit_end'])}",
-            "regions": n["geography"]["regions"][:3], "short": n["description"]["short"]}
+            # The whole list, and a count where a reader can see it. `[:3]` was harmless
+            # while this fed a one-line caption, and became a lie the moment anything drew
+            # from it: 82 of 164 styles carry more than three regions, so a card showing
+            # three of nine looked like a complete list with no ellipsis and no number. It is
+            # the same truncation `corpus.py::phylogeny()` carried, fixed there this session
+            # and missed here — the Phylogeny screen contradicted itself, the map placing a
+            # style from its full region list while the panel beside it named three. Found by
+            # an adversarial audit. Every consumer (find_style, get_style summary,
+            # compare_styles, overview traditions, StyleRecord, the Phylogeny panel) gets the
+            # list the record actually holds.
+            "regions": n["geography"]["regions"],
+            "short": n["description"]["short"]}
 
 # ----------------------------------------------------------------- overview
 def overview():
@@ -818,7 +829,14 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     geo = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
     pt = None
     if parti:
-        f = os.path.join(ROOT, "partis", f"{parti}.json")
+        # basename, because `parti` arrives in a POST body: /api/plan/evaluate and
+        # /api/drawings/{kind} pass body.get("parti") straight through, so "../schema/plan"
+        # read ROOT/schema/plan.json. Authenticated and the contents are never returned —
+        # the file becomes a parti template inside geo.solve — but it is the one place in the
+        # repo where a user-supplied id becomes a path, and the example-plan handler four
+        # lines away in app.py already does exactly this. Found by an adversarial audit.
+        safe = os.path.basename(str(parti))
+        f = os.path.join(ROOT, "partis", f"{safe}.json")
         if os.path.exists(f): pt = json.load(open(f))
     # OQ 44: the MCP tool takes the reproducible default deliberately and does not expose a way
     # to turn it off. Everything arriving here is a plan somebody will read, keep or compare

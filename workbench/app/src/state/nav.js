@@ -62,7 +62,17 @@ function write(surface, selection, params, replace) {
   if (typeof location === 'undefined') return;
   if (hash === location.hash) { sync(); return; }
   if (replace && typeof history !== 'undefined' && history.replaceState) {
-    history.replaceState(null, '', hash);
+    /* Guarded, because a filter bar writes here on every keystroke. Safari rate-limits
+       replaceState to ~100 calls in 30 s and THROWS SecurityError past it; unguarded, the
+       throw escapes the React onChange handler and the field stops accepting input — the
+       filter bar dies mid-word. Chrome and Firefox rate-limit more quietly. Falling back to
+       the state update alone keeps the UI correct and merely loses the address-bar sync,
+       which is the right thing to lose. */
+    try {
+      history.replaceState(null, '', hash);
+    } catch (e) {
+      // the URL is now behind the view; the next place-change (a push) resynchronises it
+    }
     sync();
   } else {
     location.hash = hash;                 // fires hashchange → sync()
@@ -80,9 +90,20 @@ export const nav = {
     write(surface, selection || {}, {}, false);
   },
 
-  /* Stay on this surface, name a different record. */
-  select(patch) {
-    write(state.surface, { ...state.selection, ...patch }, state.params, false);
+  /* Stay on this surface, name a different record.
+
+     A null value CLEARS the key rather than writing "null" into the URL — useFilters leans
+     on this for a selection-key axis it is clearing, and a caller naming a record has no
+     reason to want the string. `replace` is for the case where the change is a narrowing of
+     the same view rather than a move: choosing which style's exceptions to read should not
+     cost a press of the back button. */
+  select(patch, opts) {
+    const next = { ...state.selection };
+    Object.entries(patch || {}).forEach(([k, v]) => {
+      if (v == null || v === '' || v === false) delete next[k];
+      else next[k] = v;
+    });
+    write(state.surface, next, state.params, !!(opts && opts.replace));
   },
 
   /* Filters. Replace by default: a filter is a view of the place, not a new place.

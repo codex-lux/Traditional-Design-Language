@@ -6,12 +6,15 @@
    kept-distinct sources and is styled as neither verdict. */
 import React from 'react';
 import { api } from '../api/client.js';
+import { useStyles } from '../api/useStyles.js';
 import { planDoc, mutations } from '../state/planDoc.js';
 import { FindingRow } from '../components/FindingRow.jsx';
 import { SeverityTally } from '../components/SeverityTally.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Sheet } from '../sheet/Sheet.jsx';
+import { nav } from '../state/nav.js';
+import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip, FilterGroup } from '../Chrome.jsx';
 import { StylePicker } from '../components/StylePicker.jsx';
 
@@ -57,7 +60,13 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const [strict, setStrict] = React.useState(false);
   const [seeds, setSeeds] = React.useState(250);
   const [busy, setBusy] = React.useState(false);
-  const [styleOptions, setStyleOptions] = React.useState([]);
+  /* One list, one order — the shared hook, not a fourth private copy. Three surfaces kept
+     calling api.styles({limit: 200}) sorted by id while useStyles asked for 250 sorted by
+     name: two cache entries, two round trips and two orderings of the same 164 styles,
+     depending which surface you were standing on. The hook's own header claimed it had
+     replaced six surfaces; it had replaced three. Found by an adversarial audit. */
+  const { styles: styleRecords } = useStyles();
+  const styleOptions = React.useMemo(() => styleRecords.map((s) => s.id), [styleRecords]);
   const [examples, setExamples] = React.useState([]);
   const [prevKeys, setPrevKeys] = React.useState(null);
   const [evalError, setEvalError] = React.useState(null);
@@ -65,12 +74,16 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const lastFindingsRef = React.useRef(null);   // keys of the last APPLIED evaluation
 
   React.useEffect(() => {
-    api.styles({ limit: 200 }).then((r) => setStyleOptions((r.results || []).map((s) => s.id).sort()));
     api.planSchema().then((r) => setExamples((r.examples || []).map((e) => e.replace(/\.json$/, ''))));
   }, []);
   React.useEffect(() => {
-    if (selection?.room) setRoom(selection.room);
-    if (selection?.finding) setOpenId(selection.finding);
+/* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
+   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
+   #/workbench left the panel displaying the record you had just left — the address bar and the
+   screen disagreeing, which is the one thing the router exists to prevent. Found by an
+   adversarial audit. */
+    setRoom(selection?.room || null);
+    setOpenId(selection?.finding || null);
   }, [selection?.room, selection?.finding]);
 
   const runEvaluate = React.useCallback((p, opts = {}) => {
@@ -109,6 +122,14 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   if (!plan) {
     return (
       <div style={{ padding: '26px 30px', maxWidth: 720 }}>
+        {/* A room or grouping searched from the palette lands HERE, on the empty bench —
+            which is precisely where its acknowledgement was missing. */}
+        <Spotlight kind={selection?.roomType ? 'room' : 'grouping'}
+          id={selection?.roomType || selection?.grouping}
+          note={selection?.roomType
+            ? 'a room type from the catalogue — the bench places rooms, it does not hold the catalogue entry'
+            : 'a grouping from the catalogue — a plan is composed from groupings, the bench does not display one'}
+          onDismiss={() => nav.select({ roomType: null, grouping: null })} />
         <Eyebrow>no plan on the bench</Eyebrow>
         <h2 style={{ font: 'var(--fw-reg) var(--fs-d2)/1.1 var(--display)', margin: '8px 0 10px' }}>
           Load a plan record
@@ -165,6 +186,12 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
           folds hold the rest: what is drawn over the plan, and what the solver is asked to
           do. It carried eight axes in one row before, which meant the three you steer by
           were the same size and weight as the five you touch once an hour. */}
+      <Spotlight kind={selection?.roomType ? 'room' : 'grouping'}
+        id={selection?.roomType || selection?.grouping}
+        note={selection?.roomType
+          ? 'a room type from the catalogue — the plan below places rooms, it does not hold the catalogue entry'
+          : 'a grouping from the catalogue — the plan below is composed from groupings, it does not display one'}
+        onDismiss={() => nav.select({ roomType: null, grouping: null })} />
       <FilterStrip right={
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <FilterGroup label="solver" active={strict ? 1 : 0} summary={strict ? 'strict' : ''}>

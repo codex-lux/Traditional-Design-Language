@@ -132,11 +132,21 @@ def test_check_plans_solve_with_stated_downgrades():
         # pass, so nothing collapses into green.
         solver = gr["solver"]
         if solver["engine"] != "cp-sat":
-            reason = solver.get("reason", "")
-            if "fell back to the hill-climb" in reason:
-                pytest.skip(f"COULD NOT EVALUATE — {rel}: {reason}. The downgrade "
-                            f"accounting below needs the CP engine to have run.")
-            assert False, (rel, solver)
+            # `fallback` is the engine's own word for which case this is, and discriminating
+            # on it rather than on the sentence is the whole point. The first version of this
+            # guard matched "fell back to the hill-climb", which geometry.py emitted for EVERY
+            # unsolved status — so a structurally invalid model skipped exactly like a loaded
+            # machine, and this assertion, the one standing between the corpus and a silently
+            # degraded solver, could be disarmed by the regression it names. Proved by an
+            # adversarial audit: solve_cp patched to return MODEL_INVALID, test skipped,
+            # pytest exit 0.
+            if solver.get("fallback") == "budget":
+                pytest.skip(f"COULD NOT EVALUATE — {rel}: {solver.get('reason')}. The "
+                            f"downgrade accounting below needs the CP engine to have run.")
+            assert False, (
+                f"{rel}: the engine fell back for a reason that is NOT the budget "
+                f"({solver.get('status')}) — that is a broken model or a broken engine, "
+                f"not an unjudged one: {solver}")
         assert not gr.get("infeasible"), rel
         refinements = gr["solver"]["refinements"]
         assert refinements, \
@@ -172,12 +182,38 @@ def test_check_plans_solve_with_stated_downgrades():
             f"{rel}: {len(unvouched)} downgrade(s) state neither proof nor carriage. " \
             f"A downgrade must say which it is: {unvouched[:2]}"
 
-        # The other direction of the same worry: downgrading everything would satisfy
-        # the accounting above while meaning the model stopped enforcing walls at all.
-        # Load-independent, because it is bounded by the plan rather than by the clock.
-        assert len(pins) < declared, \
-            f"{rel}: {len(pins)} of {declared} declared wall pins downgraded — the " \
-            f"model must still be ENFORCING some of them, not merely narrating them"
+        # THE REINSTATEMENT PASS IS TESTED, not merely quoted. Asserting that each note
+        # contains one of two string literals pins a str.format call and nothing else: an
+        # adversarial audit showed that making geometry_cp.py emit "proven" unconditionally —
+        # i.e. deleting the whole `unproven` bookkeeping this test claims to guard — left it
+        # green, and so did making it emit "carried" unconditionally. Worse, at 60 s on these
+        # two plans NO pin is ever individually re-proved (17 restore attempts: 8 OPTIMAL, 9
+        # UNKNOWN, 0 INFEASIBLE), so the PROVEN branch was dead code the suite never reached.
+        #
+        # `attempts` is the pass's own record of what it tried. A note may claim proof only
+        # for a pin the pass actually proved INFEASIBLE, and every such proof must be claimed.
+        # That is falsifiable by deleting _reinstate, which the string check was not.
+        attempts = solver.get("attempts") or []
+        proved = {a[0][len("restore "):] for a in attempts
+                  if a[0].startswith("restore ") and a[1] == "R:INFEASIBLE"}
+        claimed = {pin for pin in pins
+                   if any(n.startswith(f"{named.get(pin.split(' ', 2)[1], pin.split(' ', 2)[1])}'s "
+                                       f"declared {pin.split(' ', 2)[2]} wall") and PROVEN in n
+                          for n in refinements)}
+        assert claimed == proved, (
+            f"{rel}: the notes claim proof for {sorted(claimed)} but the reinstatement pass "
+            f"proved {sorted(proved)} infeasible. A downgrade may only say 'proven' for a pin "
+            f"this run actually restored alone and found no placement for.")
+        assert attempts, f"{rel}: the reinstatement pass left no record of what it tried"
+
+        # The other direction of the same worry: downgrading most of the walls would satisfy
+        # the accounting above while meaning the model had stopped enforcing them and started
+        # narrating them. Bounded by the plan rather than by the clock, so it is load
+        # independent — but bounded TIGHTLY: `< declared` permitted 34 of 35, which is not a
+        # bound at all. Measured today: 9 of 35 and 3 of 19.
+        assert len(pins) <= declared // 2, \
+            f"{rel}: {len(pins)} of {declared} declared wall pins downgraded — over half the " \
+            f"declared walls read as massing means the model is no longer enforcing them"
 
         assert gr["relaxations"]["count"] > 0, \
             f"{rel}: the CP path must still COUNT its off-bay cuts (decision: " \

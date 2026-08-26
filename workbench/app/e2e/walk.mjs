@@ -284,6 +284,43 @@ await page.waitForTimeout(600);
 await page.keyboard.press('?');
 await page.waitForTimeout(400);
 const card = await page.locator('[role="dialog"]').innerText();
+// ── the adversarial audit's fixes, pinned so they cannot come back ──────────────
+// Every one of these passed the suite while being broken; that is why they are here.
+
+// B2: `style` is both a filter axis and a router selection key. It used to read from the
+// query, where the router never puts it, so the picker snapped back and the style-specific
+// exception set was never fetched.
+await page.goto(BASE + '/#/faults?style=craftsman');
+await page.waitForTimeout(1600);
+const styleFilter = await page.locator('main input[role="combobox"]').first().inputValue();
+check('a selection-key filter axis actually holds', /craftsman/i.test(styleFilter));
+check('and it counts as narrowing', /1 narrowing/i.test(await page.locator('main').innerText()));
+
+// W3: 138 of 665 palette entries dispatched a selection key no surface read, so the search
+// silently did nothing. A record with no detail view is acknowledged rather than dropped.
+await page.goto(BASE + '/#/cite/room:parlor');
+await page.waitForTimeout(1600);
+check('a searched record with no detail view is acknowledged',
+  /searched/i.test(await page.locator('main').innerText()));
+
+// W5: every surface guarded its sync with `if (selection?.x)`, so going back to a bare
+// surface left the previous record on screen — the URL and the panel disagreeing.
+await page.goto(BASE + '/#/kit/craftsman');
+await page.waitForTimeout(1400);
+await page.goto(BASE + '/#/kit');
+await page.waitForTimeout(1400);
+check('a bare surface URL does not still show the last record',
+  !/craftsman/i.test((await page.locator('main').innerText()).slice(0, 400)));
+
+// W6: setPointerCapture on the <svg> retargeted the click, so no mark on the map could be
+// selected — while panning still worked, which is why it looked fine.
+await page.goto(BASE + '/#/phylogeny?view=map');
+await page.waitForTimeout(2000);
+await page.locator('main svg g[style*="pointer"]').first().click({ force: true });
+await page.waitForTimeout(900);
+check('a hearth on the map can be clicked',
+  /VARIANT|STYLE|FAMILY|TRADITION|searched/i.test(await page.locator('main').innerText()));
+
 check('? explains the keys and the addressing', /kind:id/.test(card) && /⌘K/.test(card));
 await page.keyboard.press('Escape');
 

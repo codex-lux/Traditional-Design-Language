@@ -82,13 +82,28 @@ worse one that has to be memorised.
 
 Six things, in rough order of how long they had been wrong.
 
-**(i) The two halves of the citation grammar disagreed, and 660 citations went nowhere.**
-`server/citations.py`'s `REF_RE` allows dots, with a comment saying exactly why —
-constraint ids are `style-id.cNN`. The client's `parseCite` did not. So every one of the
-**660 constraint ids** validated on the server, streamed to the browser as a citation, and
-parsed to `null` there. Every `constraint:` chip the rail has ever drawn was inert. Nothing
-reported it, because the client's failure mode for an unparseable citation is silence.
-Fixed; `router-unit.mjs` now pins the two character classes against each other.
+**(i) The citation grammar was spelled THREE times, and two of the three disagreed —
+660 citations went nowhere.** `server/citations.py`'s `REF_RE` allows dots, with a comment
+saying exactly why: constraint ids are `style-id.cNN`. The client's `parseCite` did not. So
+every one of the **660 constraint ids** validated on the server and parsed to `null` in the
+browser; every `constraint:` chip the rail drew was inert, silently, because the client's
+failure mode for an unparseable citation is nothing at all.
+
+**That fix was wrong, and this paragraph said so was fixed for a day.** An adversarial audit
+of this package found a THIRD copy of the grammar: `rail.py`'s `CITE_RE`, which extracts
+`[[cite:…]]` from the model stream before anything validates it, and which also lacked the
+dot. A constraint citation therefore never reached `validate()` at all — it was not
+downgraded to plain text, it was never recognised as a citation, and the reader saw the raw
+bracket syntax. Widening the client could not help, because the client was never handed
+anything to parse. The regression test shipped alongside pinned only the client half, which
+is exactly where the false confidence came from.
+
+Now: the two Python copies share `ID_CHARS`/`FRAG_CHARS` from one place, and
+`workbench/server/tests/test_grammar_agreement.py` reads the JavaScript to hold the third
+against them — including an end-to-end assertion that a real constraint citation leaves
+`_emit_text` as a `cites` event rather than as bracket text. The lesson is not "widen the
+third one". It is that a grammar spelled three times drifts, and the only durable fix is to
+stop spelling it three times.
 
 **(ii) The phylogeny endpoint truncated `regions` to three, and half the corpus lost
 precision.** Harmless while the field fed a caption. Wrong the moment a style is placed on a
@@ -110,7 +125,7 @@ style, come back: set it up again. One clear-all existed in the whole product, h
 one surface. No surface said how many filters were narrowing what you saw — and a filter you
 have forgotten is worse than no filter, because it makes a short list look like the corpus.
 
-**(v) A session-scoped test fixture leaks auth state across every later test file.**
+**(v) A session-scoped test fixture leaks auth state across every later test file.** *(Raised as OQ 64 here; ruled and closed the same day — see §9.)*
 `test_mcp_http.py`'s `live` fixture sets `WORKBENCH_API_TOKEN` directly — deliberately, and
 its docstring explains why function scope tore down too early — but restores it only at
 *session* teardown. Every test file sorting after `test_mcp_http` therefore runs against a
@@ -256,7 +271,66 @@ point rather than an inconvenience.
 
 ---
 
-## 8. The three questions, ruled and executed the same day
+## 8. The adversarial audit of this package, and what it found
+
+Three independent read-only auditors were pointed at the finished diff — regressions and call
+chains, whether the new tests were load-bearing, and second-order security/performance risk.
+Twenty findings, two of them blocking. **The suite was green throughout, which is the point:
+it covered none of this.**
+
+**The two that blocked.** (i) above — the headline fix defeated by a third copy of the grammar
+nobody had looked for. And the Fault Corpus's style filter, dead on arrival: `style` is both a
+filter axis and a router selection key, so `parseHash` put it in `selection` while
+`useSurfaceFilters` read `params`, and the value was permanently `undefined`. The picker
+snapped back the instant you chose a style, the style-specific exception set was never
+fetched, and clear-all could not clear it. `useFilters` now routes an axis by where the router
+actually keeps it.
+
+**The most instructive one is mine.** The OQ 66 work — the test rewritten *that day* to assert
+the proof rather than the count — turned out to assert neither. Its skip matched the sentence
+`geometry.py` emits for **every** unsolved status, so a structurally invalid CP model skipped
+exactly like a loaded machine: the one assertion standing between the corpus and a silently
+degraded solver, disarmed by the regression it names. And its "proven-or-carried" check pinned
+two string literals copied out of the source, which at 60 s no run ever reaches — 17 restore
+attempts, 8 OPTIMAL, 9 UNKNOWN, **0 INFEASIBLE** — so the `PROVEN` branch was dead code and
+making `geometry_cp.py` emit `"proven"` unconditionally left the test green. Both fixed:
+`geometry.py` now names its fallback (`budget` vs `engine`) and the test asserts against
+`attempts`, the pass's own record of what it tried. Proved by mutation: stubbing the
+reinstatement bookkeeping now fails.
+
+**A second occurrence of a bug this package had already fixed.** `mcp_server/core.py`'s
+`_style_card` carried the same `regions[:3]` truncation as `corpus.py::phylogeny()` — fixed in
+one, missed in the other, and live in two UI surfaces. The Phylogeny screen contradicted
+itself: the map placing a style from its full region list while the panel beside it named
+three of nine, with no ellipsis.
+
+**And the placement reading was picking the wrong place a quarter of the time.**
+`placeByHearth` scanned the gazetteer longest-name-first and took the first hit, so it chose
+by an accident of key length rather than by what the sentence says. 25 of 93 hearth placements
+landed on somewhere named second or later — including **`craftsman`, placed in Los Angeles
+while its record reads "Pasadena and Los Angeles"**, Pasadena being the exact word this whole
+reading was justified by, in the commit, in `docs/workbench.md`, and in §9 below. Earliest
+mentioned now wins, applied *after* the anchor filter — the order matters, because sorting
+first would hand `dutch-colonial-american` to Amsterdam, the very bug the anchor rule exists
+to catch.
+
+The rest, fixed: 138 palette entries that dispatched to surfaces reading none of their
+selection key; the Transcription scan and its hand-tuned calibration destroyed on every
+navigation, now in a store; `setPointerCapture` swallowing every click on a map mark, and a
+cluster only ever selectable as its first member of 25; `rows`/`edges` rebuilt during render
+so `MapView`'s memo was a no-op and every keystroke re-placed 164 styles; `replaceState` per
+keystroke, undebounced and unguarded, which Safari throws on; `useStyles` turning a failed
+fetch into an empty corpus; three surfaces never migrated to it; `activeCount` counting
+*widening* controls as narrowing; unencoded path parameters; the search index rebuilt per
+request (3.3 ms → 0.00009 ms); a path traversal in `place_plan(parti=…)`; and
+`aria-pressed="false"` stamped on fifteen plain acts.
+
+**And the suites nobody ran.** `router-unit.mjs` and `search-unit.mjs` were wired into
+nothing — not `check_all.py`, not `package.json` — so 74 checks ran only when someone
+remembered, while §9 cited them as verification. `build/check_frontend.py` runs them now, and
+reports COULD NOT EVALUATE without node rather than passing.
+
+## 9. The three questions, ruled and executed the same day
 
 Lucas ruled all three on 26 Aug, and working them turned up more than they were about.
 
@@ -315,7 +389,7 @@ precisely how the two halves of the citation grammar came to disagree about dots
 adding a style naming a place nobody has heard of: the check fails, names it, and says what
 to do about it.
 
-## 9. Open questions raised
+## 10. Open questions raised
 
 **OQ 64 — a session-scoped fixture gates every test file that sorts after it.** **CLOSED.** See §3(v).
 The mechanism is `test_mcp_http.py::live`; the symptom is a 401 on any unauthenticated

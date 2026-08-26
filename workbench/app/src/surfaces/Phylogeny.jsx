@@ -7,11 +7,16 @@ import React from 'react';
 import { api } from '../api/client.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { EdgeGlyph } from '../components/EdgeGlyph.jsx';
+import { nav } from '../state/nav.js';
+import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup } from '../Chrome.jsx';
 import { FilterInput } from '../components/FilterInput.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
 import { MapView } from './phylo/MapView.jsx';
+
+const DEFAULT_TAXON = 'tidewater-georgian';
+const EMPTY = [];
 
 const BREAK_AT = 1600, BREAK_FRAC = 0.18;
 function tScale(y) {
@@ -29,11 +34,11 @@ const TRADITION_HUES = {
 };
 const yr = (v) => (v == null ? '?' : v < 0 ? Math.abs(v) + ' BC' : String(v));
 
-const PHYLO_SPEC = { view: {}, rank: {}, q: { type: 'text' }, claims: { type: 'bool' } };
+const PHYLO_SPEC = { view: { widens: true }, rank: {}, q: { type: 'text' }, claims: { type: 'bool' } };
 
 export function Phylogeny({ onCite, selection, setSelection }) {
   const [graph, setGraph] = React.useState(null);
-  const [sel, setSel] = React.useState(selection?.style || 'tidewater-georgian');
+  const [sel, setSel] = React.useState(selection?.style || DEFAULT_TAXON);
   const [compare, setCompare] = React.useState(null);
   const [cmpData, setCmpData] = React.useState(null);
   const [selInfo, setSelInfo] = React.useState(null);
@@ -46,7 +51,12 @@ export function Phylogeny({ onCite, selection, setSelection }) {
   const showClaims = !filters.values.claims;
 
   React.useEffect(() => { api.phylogeny().then(setGraph).catch(() => {}); }, []);
-  React.useEffect(() => { if (selection?.style) setSel(selection.style); }, [selection?.style]);
+  /* The URL owns this, so an ABSENT selection must reset to the default rather than leave the
+   last one showing. Guarding the sync with `if (selection?.x)` meant pressing Back to a bare
+   #/phylogeny left the panel displaying the record you had just left — the address bar and the
+   screen disagreeing, which is the one thing the router exists to prevent. Found by an
+   adversarial audit. */
+  React.useEffect(() => { setSel(selection?.style || DEFAULT_TAXON); }, [selection?.style]);
   React.useEffect(() => {
     api.style(sel, 'summary').then(setSelInfo).catch(() => setSelInfo(null));
   }, [sel]);
@@ -76,19 +86,34 @@ export function Phylogeny({ onCite, selection, setSelection }) {
     return { rows, index, byId };
   }, [graph]);
 
-  if (!derived) {
-    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--ink-3)' }}>reading the graph…</div>;
-  }
+  /* MEMOISED, and the map is why. MapView guards its whole placement pass with
+     useMemo([rows]) — reference identity — so building `rows` fresh during every render made
+     that guard a no-op: every keystroke in the filter box, every chip, every hover-driven
+     re-render re-placed all 164 styles. An adversarial audit measured the pass at 17.9 ms and
+     the memo at zero effect. The same applies to `edges` below.
 
-  const { rows: allRows, index } = derived;
-  const rows = allRows.filter((r) => (
+     ABOVE the `if (!derived)` return, and it has to be: hooks may not run conditionally, and
+     putting these after the early return changed the hook count between the loading render
+     and the loaded one — React error #310, a blank surface. */
+  const allRows = derived ? derived.rows : EMPTY;
+  const rows = React.useMemo(() => allRows.filter((r) => (
     (!rankFilter || r.rank === rankFilter || r.id === sel)
     // The selected taxon always survives a filter: hiding the thing you are reading
     // about, and its detail panel with it, is not filtering, it is losing your place.
     && (r.id === sel || matches(r, q, ['name', 'id', 'rank', 'regions', 'short']))
-  ));
-  const rowIndex = {};
-  rows.forEach((r, i) => { rowIndex[r.id] = i; });
+  )), [allRows, rankFilter, sel, q]);
+  const rowIndex = React.useMemo(() => {
+    const ix = {};
+    rows.forEach((r, i) => { ix[r.id] = i; });
+    return ix;
+  }, [rows]);
+  const graphEdges = derived ? graph.edges : EMPTY;
+
+  if (!derived) {
+    return <div style={{ padding: 24, font: 'var(--type-body)', color: 'var(--ink-3)' }}>reading the graph…</div>;
+  }
+
+  const { index } = derived;
 
   const ancestors = {}, descendants = {};
   {
@@ -124,6 +149,9 @@ export function Phylogeny({ onCite, selection, setSelection }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
+      <Spotlight kind="massing" id={selection?.massing}
+        note="a massing from the catalogue — a style's affinities for it are listed on its full record"
+        onDismiss={() => nav.select({ massing: null })} />
       <FilterStrip filters={filters} right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <Chip on={showClaims} onClick={() => filters.set('claims', showClaims)}>

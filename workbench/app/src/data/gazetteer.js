@@ -24,7 +24,24 @@
    information the record already carried. A style naming nothing this file knows is not
    placed, not guessed — see UNLOCATED handling in MapView. */
 
-export const PRECISION = { locality: 0, region: 1, country: 2 };
+export const REGIONS_ONLY = 'regions-only';
+
+/* "This style has no hearth", said by the record itself.
+
+   A family or a tradition is an abstraction over styles and has no birthplace, and a few
+   styles say as much in prose: `neo-eclectic` reads "No design hearth; the style was generated
+   inside production builders' plan departments", `craftsman-bungalow` "Streetcar suburbs
+   nationwide". Those are records telling the truth, and a country-wide mark for them is
+   correct rather than a failure of the drawing.
+
+   ONE COPY, because there were three and two already disagreed. `check_gazetteer.py` matched
+   "no single hearth" and MapView did not, so `american-farmhouse-vernacular` was classified
+   differently by the check and the map it checks — inert only because that style happens to
+   place at region precision. Found by an adversarial audit. */
+export const statesNoHearth = (hearth) =>
+  /no (single |design )?hearth|nationwide/i.test(hearth || '');
+
+const PRECISION = { locality: 0, region: 1, country: 2 };
 
 /* name → [lat, lon, precision] */
 export const GAZETTEER = {
@@ -193,7 +210,13 @@ export const GAZETTEER = {
   'San Francisco': [37.77, -122.42, 'locality'],
   'Pasadena': [34.15, -118.14, 'locality'],
   'Oregon': [44.0, -120.6, 'region'],
-  'Washington': [47.4, -120.5, 'region'],
+  // AMBIGUOUS IN PROSE, so it is flagged regions-only: a style whose `regions` list says
+  // "Washington" means the state, but a hearth sentence saying "standardized in Washington by
+  // the Federal Housing Administration" means D.C. The 45 degree anchor cannot separate them
+  // because both readings are inside the United States — that rule was built for the Boston in
+  // Lincolnshire, and is blind to ambiguity within one country. Before this flag,
+  // `minimal-traditional` was drawn 3,700 km from where its record puts it.
+  'Washington': [47.4, -120.5, 'region', REGIONS_ONLY],
   'Hawaii': [20.8, -156.3, 'region'],
 
   // ── Canada, and the wider Atlantic ─────────────────────────────────────────
@@ -393,6 +416,19 @@ export function placeByRegions(regions) {
    rather than have them vanish. */
 const NAMES_BY_LENGTH = Object.keys(GAZETTEER).sort((a, b) => b.length - a.length);
 const ESC = /[.*+?^${}()|[\]\\]/g;
+
+/* One RegExp per name for the life of the page, not one per name PER STYLE. Building them
+   inside the scan compiled 17,587 of them for a single 164-style pass — 17.9 ms measured,
+   and the Phylogeny re-ran it on every keystroke of its filter box. 275 compiles now, once. */
+const WORD_RE = new Map();
+const wordRe = (name) => {
+  let re = WORD_RE.get(name);
+  if (!re) {
+    re = new RegExp('(^|[^a-z])' + name.toLowerCase().replace(ESC, '\\$&') + '($|[^a-z])');
+    WORD_RE.set(name, re);
+  }
+  return re;
+};
 const CONTRADICTION_DEGREES = 45;
 
 function degreesApart(a, b) {
@@ -417,23 +453,43 @@ export function placeByHearth(hearth, anchors) {
   if (!hearth || typeof hearth !== 'string') return null;
   const text = hearth.toLowerCase();
   const vouchers = anchors || [];
-  let best = null;
+  let bestRank = 99;
+  let cands = [];
   const rejected = [];
 
   for (const name of NAMES_BY_LENGTH) {
     const hit = GAZETTEER[name];
+    if (hit[3] === REGIONS_ONLY) continue;        // ambiguous in prose — see 'Washington'
     const rank = PRECISION[hit[2]];
-    if (best !== null && rank >= best.rank) continue;      // cannot improve on what we have
-    const re = new RegExp('(^|[^a-z])' + name.toLowerCase().replace(ESC, '\\$&') + '($|[^a-z])');
-    if (!re.test(text)) continue;
+    if (rank > bestRank) continue;                // cannot improve on what we have
+    const m = text.match(wordRe(name));
+    if (!m) continue;
     const found = { lat: hit[0], lon: hit[1], precision: hit[2], region: name, rank, via: 'hearth' };
     const vouched = vouchers.length === 0
       || vouchers.some((a) => degreesApart(found, a) <= CONTRADICTION_DEGREES);
     if (!vouched) { rejected.push(name); continue; }
-    best = found;
-    if (rank === 0) break;
+    if (rank < bestRank) { bestRank = rank; cands = []; }
+    cands.push({ ...found, at: m.index });
   }
-  if (best) best.rejected = rejected;
+  if (!cands.length) return null;
+
+  /* THE EARLIEST-MENTIONED PLACE WINS, and the order of these two steps is the whole rule.
+     These sentences are written primary-first — "Pasadena and Los Angeles", "San Diego and
+     Santa Barbara", "Twickenham for the Gothick phase; Ramsgate, Westminster ... for the
+     archaeological one" — and several mark the later ones as secondary in so many words
+     ("with a second core", "and after them"). Scanning the gazetteer longest-name-first and
+     taking the first hit picked by an accident of key length instead: 25 of 93 hearth
+     placements landed on a place the sentence names second or later, `craftsman` among them,
+     which put it in Los Angeles while the record said Pasadena — the very word this whole
+     reading was justified by.
+
+     Earliest-wins runs AFTER the anchor filter, never before. Sorting first and anchoring
+     second would hand `dutch-colonial-american` to Amsterdam, which is the first place its
+     hearth names and the exact bug the anchor rule exists to catch. Filtered first, the same
+     sentence resolves to Albany. */
+  cands.sort((a, b) => a.at - b.at);
+  const best = cands[0];
+  best.rejected = rejected;
   return best;
 }
 

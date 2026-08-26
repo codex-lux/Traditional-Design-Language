@@ -24,7 +24,7 @@
    No tiles, no map library, no network. The basemap is a vendored public-domain outline
    drawn in the same hairline the drawing set uses. */
 import React from 'react';
-import { placeStyle } from '../../data/gazetteer.js';
+import { placeStyle, statesNoHearth } from '../../data/gazetteer.js';
 import { COASTLINES } from '../../data/coastlines.js';
 import { Eyebrow } from '../../components/Eyebrow.jsx';
 
@@ -73,7 +73,7 @@ export function MapView({
       if (!p) { un.push(r); return; }
       c[p.precision] += 1;
       if (p.precision === 'country'
-        && (r.rank === 'family' || r.rank === 'tradition' || /no (design )?hearth|nationwide/i.test(r.hearth || ''))) {
+        && (r.rank === 'family' || r.rank === 'tradition' || statesNoHearth(r.hearth))) {
         abstract += 1;
       }
       const key = `${p.lat},${p.lon}`;
@@ -130,11 +130,17 @@ export function MapView({
   };
 
   const onPointerDown = (ev) => {
-    drag.current = { start: toWorld(ev), view };
-    ev.currentTarget.setPointerCapture(ev.pointerId);
+    drag.current = { start: toWorld(ev), view, moved: false, id: ev.pointerId };
+    // NOT setPointerCapture. Capturing on the <svg> retargets the compatibility mouse events
+    // and the subsequent `click` to the capture element (Pointer Events L3), so the click
+    // never reached the <g> of the mark under the cursor and selecting a hearth was
+    // impossible — while panning still worked, which is why it looked fine. An adversarial
+    // audit caught it; the e2e walk loaded the map but never clicked a mark. Panning below
+    // works off the pointermove stream and does not need capture inside one element.
   };
   const onPointerMove = (ev) => {
     if (!drag.current) return;
+    drag.current.moved = true;
     const svg = svgRef.current;
     const r = svg.getBoundingClientRect();
     const dx = ((ev.clientX - r.left) / r.width) * view.w;
@@ -142,7 +148,27 @@ export function MapView({
     const { start, view: v0 } = drag.current;
     setView({ ...view, x: v0.x + (start.x - (v0.x + dx)), y: v0.y + (start.y - (v0.y + dy)) });
   };
-  const onPointerUp = () => { drag.current = null; };
+  // A drag must not also select whatever mark it started on.
+  const draggedRef = React.useRef(false);
+  const onPointerUp = () => {
+    draggedRef.current = !!(drag.current && drag.current.moved);
+    drag.current = null;
+  };
+  const pickFromMap = (ev, id) => {
+    if (draggedRef.current) { draggedRef.current = false; return; }
+    onPick(ev, id);
+  };
+
+  /* Clicking a cluster used to select `members[0]` and nothing else, so of the 25 styles
+     sharing the England mark, 24 were unreachable from the map — every click re-selected the
+     same one and looked like a dead control. Clicking now steps to the next member, so a
+     cluster is a way in to all of them; the hover panel names them so the order is visible
+     rather than guessed at. */
+  const nextInCluster = (c) => {
+    if (c.members.length === 1) return c.members[0].id;
+    const at = c.members.findIndex((m) => m.id === sel);
+    return c.members[(at + 1) % c.members.length].id;
+  };
 
   // A degree is this many user units; marks are sized in degrees so they hold their
   // screen size as the view scales.
@@ -215,7 +241,7 @@ export function MapView({
             const coarse = c.precision === 'country';
             return (
               <g key={c.key} onMouseEnter={() => setHover(c)} onMouseLeave={() => setHover(null)}
-                onClick={(ev) => onPick(ev, c.members[0].id)}
+                onClick={(ev) => pickFromMap(ev, nextInCluster(c))}
                 style={{ cursor: 'pointer' }}>
                 {/* A country-precision mark is hollow and hatched: the record named a
                     nation, not a hearth, and a filled dot would claim one. */}

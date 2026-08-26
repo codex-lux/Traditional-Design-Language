@@ -158,6 +158,20 @@ def _author(authority):
     return authority.split(",")[0].strip()[:60] or None
 
 
+# Built once per process. The corpus does not change under a running server — that is why the
+# client caches the response forever — but the SERVER was rebuilding all 665 entries and
+# re-globbing and re-parsing the 21 parti files on EVERY request: 214 KB and 3.3 ms of CPU a
+# call, 11x the cost of /api/phylogeny, on an endpoint deliberately left out of the metered
+# set. An adversarial audit measured it. /api/dev/reload already exists for the case where the
+# corpus is edited under a dev server; it clears core's caches, so this is cleared with it.
+_SEARCH_INDEX = None
+
+
+def reset_search_index():
+    global _SEARCH_INDEX
+    _SEARCH_INDEX = None
+
+
 def search_index():
     """Every nameable thing in the corpus, as one flat list the palette can hold.
 
@@ -180,6 +194,9 @@ def search_index():
     reach a place a citation could not name. workbench/server/tests/test_search_index.py
     holds that: each cite must parse and resolve.
     """
+    global _SEARCH_INDEX
+    if _SEARCH_INDEX is not None:
+        return _SEARCH_INDEX
     import glob as _glob
     import json as _json
     import os as _os
@@ -250,7 +267,7 @@ def search_index():
             "hay": _hay(p.get("name"), p["id"], p.get("aka"), p.get("circulation_parti")),
         })
 
-    return {
+    _SEARCH_INDEX = {
         "count": len(e),
         "entries": e,
         "indexes": ["name", "id", "aka", "categorical fields (rank, group, category, "
@@ -260,6 +277,7 @@ def search_index():
         "note": ("The palette finds things by name. For prose use /api/styles?query=, "
                  "which searches the tells server-side, or ask the rail."),
     }
+    return _SEARCH_INDEX
 
 
 def pack_list():
@@ -467,4 +485,5 @@ def invalidate():
     import modcache
     modcache.invalidate()
     core._data.cache_clear()
+    reset_search_index()
     return {"reloaded": True}

@@ -9,6 +9,8 @@ import { planDoc } from '../state/planDoc.js';
 import { CandidateColumn } from '../components/CandidateColumn.jsx';
 import { RefusalCard } from '../components/RefusalCard.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
+import { nav } from '../state/nav.js';
+import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 
 function adaptCandidate(c, i, nativePartis) {
@@ -120,6 +122,9 @@ export function CandidateSet({ onCite, go, selection }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
+      <Spotlight kind="parti" id={selection?.parti}
+        note="a plan diagram — the candidates below name the parti each was composed from"
+        onDismiss={() => nav.select({ parti: null })} />
       <FilterStrip right={
         <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
           returned {cands.length} of {askedFor} asked for

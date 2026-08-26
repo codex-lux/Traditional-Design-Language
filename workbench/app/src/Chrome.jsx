@@ -167,7 +167,14 @@ export function FilterStrip({ children, right, filters }) {
    a button that HID something. Actions moved to ActionChip; this one is now only ever a
    filter, and carries aria-pressed to prove it. */
 export function Chip({ on, onClick, children, tone, title, radio }) {
-  const aria = radio ? { role: 'radio', 'aria-checked': !!on } : { 'aria-pressed': !!on };
+  /* `aria-pressed` only where there is a state to press. Stamping it unconditionally put
+     aria-pressed="false" on roughly fifteen plain acts that had not been migrated to
+     ActionChip yet — "discard draft", "compose 4 candidates", a delete-window ×  — announcing
+     each as an unpressed toggle, which is worse than the no-ARIA-at-all they had before.
+     A chip with no `on` prop is an act; it gets plain button semantics. Found by an
+     adversarial audit. */
+  const aria = radio ? { role: 'radio', 'aria-checked': !!on }
+    : (on === undefined ? {} : { 'aria-pressed': !!on });
   return (
     <button type="button" onClick={onClick} title={title} {...aria}
       style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
