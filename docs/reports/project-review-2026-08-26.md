@@ -362,3 +362,48 @@ measured.
   — the uncommitted UI/UX spec bundle — is recorded in this report's preamble as a
   request to Lucas rather than an OQ, since only Lucas can say whether the bundle still
   exists.
+
+
+---
+
+## VIII — What this review then went on to fix, 26 August 2026
+
+*The review above is left exactly as written, because it is the record of what the project looked
+like before the work below. Seven of the items it named as open are now closed, and two of its own
+findings turned out to be wrong when the code was read rather than surveyed — both corrections are
+stated here rather than quietly edited into the sections above.*
+
+| item | §V rank | outcome |
+|---|---|---|
+| **OQ 52** — the elevation invents measurements the critic convicts on | 1 | **Closed.** Twelve fabricated measurements removed; the generator declares a `NOT_MODELLED` list with a reason apiece and filters it at the point measurements are returned, so the class cannot return by a careless edit. Seven faults moved from judged to could-not-judge on both reference plans — five had been convictions, two were passes. Pinned counts fell (Tidewater serious 40→36, spec Colonial 70→66) and the re-pinning says in place that a falling count is the fix working. |
+| **OQ 53** — units-blind pack resolution | 1 | **Closed.** All 68 addresses read. `resolve_kit.choose_pack` now prefers a rule that yields a measurement over a bare ratio and records the demotion; **135 slot resolutions across 40 nodes** now deliver a dimension where a ratio used to win, far more than the 2 the register predicted. `check_addresses.py` counts units as a third state, pinned at 68. |
+| **OQ 55** — the CP engine lost the open-void guarantee | 1 | **Closed.** `geometry_cp.py` states it again: 0 sf over an open court where the heuristic still allows 296. Two things had to move that the reopening did not foresee — a scoring tolerance is not a placement licence, and `_absorb` runs after the solve with no cross-level view and grew a room straight through the hole. |
+| **OQ 54** — under-band placement invisible | 1 / 4 | **Ruling already executed; the gap was that nothing showed it.** The Plan Workbench now reports it — on the spec Colonial, a foyer at 30 sf against a 60 sf band and a dining room 26% short. |
+| **OQ 51** — the adjudication backlog | 2 | **First pass run.** Eleven `storey-graduation` gaps adjudicated against each node's own record; unendorsed **233 → 222**, endorsed 61 → 72, ratchets re-pinned. And a finding that changes how the rest gets worked: **only one of the ruling's three moves exists** — a node the pack fits is settled in a line, a node it does not fit cannot be settled at all, because `inherits_packs` is in the register's text and nowhere in the code. |
+| **WP-4.4's offline half** | 3 | **Done for the half that can be.** 161 records name a building and its location, from the depicted node's own exemplars. The image layer covers **three** style nodes, not the corpus; and 150 records cannot ever name a building, because they depict errors and this corpus names buildings that exemplify a style, never a fault. |
+| **Surface ①**, the conflict-set panel, the shipped-ingestion card | 4 | **Done**, per the ruling to strike the Console reference. |
+| **OQ 32** — findings have no stable id | 6 | **Closed.** Minted server-side from layer, room and rule id — never from the sentence. A test rewords a finding and asserts the id does not move. |
+| **OQ 33** — compromises counted but not located | 6 | **Closed, and it makes P7 met.** Both engines record a cut's position; both renderers draw a triangle on the line, in ink and never in colour. The Tidewater plan reports 11 cuts and its SVG contains exactly 11 marks. |
+| **OQ 34** — decision log is prose | 6 | **Closed.** `decisions_structured` beside the unchanged prose; the judgment inside it is one line, because the log already classifies itself by the prefixes the composer writes. |
+
+**Two corrections to this review's own findings**, both from reading the code rather than
+surveying it:
+
+1. **§III said the conflict-set panel "is still marked forthcoming… the UI never learned."** Half
+   wrong. The UI *had* learned — the Plan Workbench has carried a proven-conflict panel and a
+   *prove placement (CP-SAT)* control since WP-2.3 landed. What was stale was the standing prose
+   beneath them, which contradicted the panel directly above it. The fix was three paragraphs, not
+   a feature.
+2. **§IV ranked OQ 54 as live wrongness.** Its ruling had in fact been executed and
+   `geometry_report.under_band` was already being produced; the defect was that no surface
+   displayed it. A reporting gap, not an unreported one.
+
+**The open-question register stands at 12 open, down from 18**, and every remaining one is either
+environment-blocked (7, 8, 9, 10, 11, 18's source half) or needs a ruling from Lucas (36, 37, 38,
+39, 40, 41). **Nothing on the road is now blocked on work rather than on a decision or a network.**
+`check_all.py` reports all 30 checks green, with 793 tests passing and 2 skipped — both an
+explicitly documented long-benchmark skip.
+
+**What remains, unchanged from §V:** WP-5.3 (generated guidelines and the details library — the
+largest unstarted deliverable), WP-5.4 (cost, partner-gated), WP-4.7 (peer trunks, scope only),
+the rest of OQ 51's backlog, and the environment-blocked harvest.
