@@ -419,7 +419,7 @@ The Georgian binding in `styles/georgian-colonial-american.json` is the template
 
 ### WP-4.4 Images from HABS
 
-**Status: BLOCKED BY THE ENVIRONMENT, 24 Aug 2026 — the harvester is written and queued.** All 322 asset records are still `wanted` and none can be sourced from here: this container's network policy denies the Library of Congress at the proxy.
+**Status: STILL BLOCKED BY THE ENVIRONMENT, but the OFFLINE HALF IS DONE (26 Aug 2026).** All 322 asset records are still `wanted` and none can be sourced from here: this container's network policy denies the Library of Congress at the proxy. What has changed is that the package's own named next step is complete — **161 records now carry a `provenance.building` and its location**, taken from the depicted node's own `exemplars`, so the day the network opens `--live --write` works on those instead of refusing on all 322. Two findings came with it, both in `docs/reports/wp-4.4-offline-half-building-names.md`: the image layer covers **three style nodes**, not the corpus (`georgian-colonial-american` 247, `tidewater-georgian` 46, `english-georgian` 18), which no count anywhere says; and **the other 161 cannot be given a building name at all** — 150 are `role: incorrect`, and the corpus names buildings that exemplify a style, never ones that exemplify a fault. That half cannot be harvested from any archive and needs a decision rather than a fetch.
 
 ```
 curl https://www.loc.gov/pictures/collection/hh/?fo=json
