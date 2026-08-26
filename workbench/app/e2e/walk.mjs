@@ -34,6 +34,7 @@ await page.waitForSelector('svg[role="img"]', { timeout: 30000 });
 const body = await page.locator('main').innerText();
 check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
 check('hill-climb honesty line present', /hill-climb/i.test(body));
+check('the proof is offered, not just the search', /prove placement/i.test(body));
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
 await page.screenshot({ path: SHOTS + 'workbench.png', fullPage: false });
 
@@ -90,7 +91,10 @@ await page.getByRole('button', { name: /Brief Intake/ }).click();
 await page.waitForSelector('text=feasibility', { timeout: 15000 });
 const brief = await page.locator('main').innerText();
 check('silences are named as decisions', /becomes a composer decision/i.test(brief));
-check('WP-2.3 conflict set marked forthcoming', /forthcoming \(WP-2\.3\)/i.test(brief));
+// WP-2.3 landed; the panel now says WHERE the conflict set is named (the bench, on a plan)
+// rather than that it does not exist. The assertion moved with the claim.
+check('conflict set located, not promised', /conflict set · on the bench, not here/i.test(brief));
+check('feasibility still advisory, never a proof', /never a proof/i.test(brief));
 await page.screenshot({ path: SHOTS + 'brief.png' });
 
 // ⑥ Candidate Set (empty state without a run)
