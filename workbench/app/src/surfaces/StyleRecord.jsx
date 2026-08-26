@@ -63,7 +63,7 @@ export function StyleRecord({ onCite, selection, go, setSelection }) {
       <FilterStrip right={
         <span style={{ display: 'flex', gap: 10 }}>
           <Chip onClick={() => onCite && onCite('kit:' + styleId)}>resolve the kit ④</Chip>
-          <Chip onClick={() => { setSelection && setSelection({ style: styleId }); go && go('phylogeny'); }}>
+          <Chip onClick={() => go && go('phylogeny', { style: styleId })}>
             place in the phylogeny ②
           </Chip>
         </span>
