@@ -125,7 +125,13 @@ export function LeftRail({ current, onGo, counts }) {
   );
 }
 
-export function FilterStrip({ children, right }) {
+/* The strip. `filters` is the {activeCount, clear} a surface gets from useSurfaceFilters;
+   passing it puts a standing "N narrowing · clear" at the right-hand end. Every surface
+   that filters gets the same one, in the same place, saying the same thing — there was
+   one clear-all in the whole product before, hand-built on the Plan Workbench, and no
+   surface at all said how many filters were on. */
+export function FilterStrip({ children, right, filters }) {
+  const n = filters ? filters.activeCount : 0;
   return (
     <div style={{ height: 'var(--substrip-h)', flex: 'none', display: 'flex', alignItems: 'center',
       gap: 14, padding: '0 14px', borderBottom: '1px solid var(--rule)', background: 'var(--paper)',
@@ -133,17 +139,84 @@ export function FilterStrip({ children, right }) {
       {children}
       <div style={{ flex: 1, minWidth: 14 }} />
       {right}
+      {n > 0 && (
+        <button type="button" onClick={filters.clear}
+          title="Show everything again"
+          style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', whiteSpace: 'nowrap',
+            flex: 'none', borderBottom: '1px solid var(--link-underline)' }}>
+          {n} narrowing · clear
+        </button>
+      )}
     </div>
   );
 }
 
-export function Chip({ on, onClick, children, tone, title }) {
+/* A filter. On or off, and it says so to a screen reader as well as to an eye.
+
+   Chip used to be three things — a toggle, a radio, and a plain action like "download
+   SVG" or "undo" — drawn identically, so a button that DID something looked exactly like
+   a button that HID something. Actions moved to ActionChip; this one is now only ever a
+   filter, and carries aria-pressed to prove it. */
+export function Chip({ on, onClick, children, tone, title, radio }) {
+  const aria = radio ? { role: 'radio', 'aria-checked': !!on } : { 'aria-pressed': !!on };
   return (
-    <button type="button" onClick={onClick} title={title}
+    <button type="button" onClick={onClick} title={title} {...aria}
       style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
         border: '1px solid ' + (on ? (tone || 'var(--gilt-deep)') : 'var(--rule)'),
         color: on ? (tone || 'var(--gilt-deep)') : 'var(--ink-3)',
         background: on ? 'var(--paper-deep)' : 'transparent', transition: 'var(--t-hover)' }}>{children}</button>
+  );
+}
+
+/* An act, not a state. Drawn with no border and a gilt hand so it cannot be mistaken for
+   something that is switched on. */
+export function ActionChip({ onClick, children, title, disabled, affix = '→' }) {
+  return (
+    <button type="button" onClick={onClick} title={title} disabled={disabled}
+      style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
+        display: 'inline-flex', alignItems: 'center', gap: 5, border: '1px solid transparent',
+        color: disabled ? 'var(--text-disabled)' : 'var(--gilt-deep)',
+        cursor: disabled ? 'default' : 'pointer', transition: 'var(--t-hover)' }}>
+      {children}
+      {affix && <span aria-hidden="true" style={{ color: 'var(--ink-4)' }}>{affix}</span>}
+    </button>
+  );
+}
+
+/* Chips that are alternatives rather than independent switches — one level, one sort
+   order, one view. The group is what tells a screen reader they are alternatives. */
+export function ChipGroup({ label, children }) {
+  return (
+    <span role="radiogroup" aria-label={label}
+      style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+      {children}
+    </span>
+  );
+}
+
+/* A cluster of filters that stays folded until wanted, showing what is on inside it while
+   closed. This is the whole answer to a strip with eight axes on it: the two you steer by
+   stay out, the rest fold into a word — and the word says whether anything inside is
+   narrowing what you see, so folding never hides an active filter. */
+export function FilterGroup({ label, summary, children, defaultOpen = false, active = 0 }) {
+  const [open, setOpen] = React.useState(defaultOpen);
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, flex: 'none' }}>
+      <button type="button" onClick={() => setOpen(!open)} aria-expanded={open}
+        title={open ? `Fold ${label} away` : `Show the ${label} filters`}
+        style={{ font: 'var(--type-data-s)', padding: '2px 7px', whiteSpace: 'nowrap',
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          border: '1px solid ' + (active ? 'var(--gilt-deep)' : 'var(--rule)'),
+          color: active ? 'var(--gilt-deep)' : 'var(--ink-3)',
+          background: open ? 'var(--paper-deep)' : 'transparent', transition: 'var(--t-hover)' }}>
+        <span aria-hidden="true" style={{ color: 'var(--ink-4)' }}>{open ? '−' : '+'}</span>
+        {label}
+        {!open && summary && (
+          <span style={{ color: active ? 'var(--gilt-deep)' : 'var(--ink-4)' }}>· {summary}</span>
+        )}
+      </button>
+      {open && children}
+    </span>
   );
 }
 

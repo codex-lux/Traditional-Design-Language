@@ -1,5 +1,5 @@
-/* Surface ④ — the Kit, live. 95 slots in 8 groups resolved through the cascade, with
-   the source column showing which ancestor supplied each value. The cascade is a
+/* Surface ④ — the Kit, live. Every element slot in 8 groups resolved through the cascade,
+   with the source column showing which ancestor supplied each value. The cascade is a
    first-class object with its own display; a thin kit is correct, not incomplete. */
 import React from 'react';
 import { api } from '../api/client.js';
@@ -7,7 +7,11 @@ import { SlotRow } from '../components/SlotRow.jsx';
 import { ProvenanceTrace } from '../components/ProvenanceTrace.jsx';
 import { VariantPill } from '../components/VariantPill.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { FilterStrip, Chip, ChipGroup, FilterGroup } from '../Chrome.jsx';
+import { FilterInput } from '../components/FilterInput.jsx';
+import { StylePicker } from '../components/StylePicker.jsx';
+import { useSurfaceFilters } from '../filters/useFilters.js';
+import { matches } from '../search/match.js';
 
 /* resolve_kit rows → SlotRow props. Source strings become {distance, id}; the
    "a + b (extends)" composite renders as the base ancestor plus a marker. */
@@ -47,22 +51,27 @@ function adaptRow(row, distances) {
   };
 }
 
-export function KitSurface({ onCite, selection }) {
+const KIT_SPEC = { group: {}, q: { type: 'text' }, all: { type: 'bool' } };
+
+export function KitSurface({ onCite, selection, setSelection }) {
   const [styleId, setStyleId] = React.useState(selection?.style || 'tidewater-georgian');
-  const [styleOptions, setStyleOptions] = React.useState([]);
   const [kit, setKit] = React.useState(null);
   const [cascade, setCascade] = React.useState(null);
   const [styleInfo, setStyleInfo] = React.useState(null);
-  const [group, setGroup] = React.useState(null);
-  const [specifiedOnly, setSpecifiedOnly] = React.useState(true);
   const [openSlot, setOpenSlot] = React.useState(selection?.slot || null);
   const [detail, setDetail] = React.useState({});   // slot id → full record (+faults)
   const [source, setSource] = React.useState(null);
   const [groups, setGroups] = React.useState([]);
+  const [counts, setCounts] = React.useState(null);
+
+  const filters = useSurfaceFilters(KIT_SPEC);
+  const { group, q } = filters.values;
+  // The URL says `all`; the fetch wants its opposite. Stated this way round because
+  // "show me everything" is the deliberate act and belongs in the link.
+  const specifiedOnly = !filters.values.all;
 
   React.useEffect(() => {
-    api.overview().then((o) => setGroups(o.slot_groups || []));
-    api.styles({ limit: 200 }).then((r) => setStyleOptions((r.results || []).map((s) => s.id).sort()));
+    api.overview().then((o) => { setGroups(o.slot_groups || []); setCounts(o.counts || null); });
   }, []);
 
   React.useEffect(() => {
@@ -96,6 +105,7 @@ export function KitSurface({ onCite, selection }) {
   (cascade?.cascade || []).forEach((r) => { distances[r.id] = r.distance; });
   const rows = (kit?.slots || [])
     .filter((s) => !group || s.group === group)
+    .filter((s) => matches(s, q, ['slot', 'group', 'name', 'binding', 'source', 'value']))
     .map((s) => {
       const d = detail[`${styleId}:${s.slot}`];
       return adaptRow(d ? { ...s, ...d } : s, distances);
@@ -116,26 +126,42 @@ export function KitSurface({ onCite, selection }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
-      <FilterStrip right={
+      <FilterStrip filters={filters} right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <Chip on={specifiedOnly} onClick={() => setSpecifiedOnly(!specifiedOnly)}>specified only</Chip>
+          <Chip on={specifiedOnly} onClick={() => filters.set('all', specifiedOnly)}>specified only</Chip>
           <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
-            {kit ? `${kit.slots_returned} of 95 slots ${specifiedOnly ? 'bound' : 'shown'}` : '…'}
+            {/* The slot count was the literal 95 while the ontology held 97. A number
+                typed into a view goes stale the day the corpus moves; this one is read
+                from /api/overview, like every other count in the frame. */}
+            {kit
+              ? `${rows.length} of ${counts ? counts.element_slots : kit.slots_returned} slots `
+                + `${specifiedOnly ? 'bound' : 'shown'}`
+              : '…'}
           </span>
         </span>
       }>
         <Eyebrow as="span">style</Eyebrow>
-        <select value={styleId} onChange={(e) => setStyleId(e.target.value)}
-          style={{ font: 'var(--type-data-s)', color: 'var(--ink-2)', background: 'var(--paper-mat)',
-            border: '1px solid var(--rule)', padding: '2px 6px', maxWidth: 210 }}>
-          {styleOptions.map((s) => <option key={s} value={s}>{s}</option>)}
-        </select>
+        <StylePicker value={styleId} onChange={(v) => {
+          setStyleId(v);
+          setSelection && setSelection({ style: v, slot: undefined });
+        }} label="Which style's kit to resolve" width={210} />
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
-        <Eyebrow as="span">slot group</Eyebrow>
-        {groups.map((g) => (
-          <Chip key={g.id} on={group === g.id}
-            onClick={() => setGroup(group === g.id ? null : g.id)}>{g.id} {g.count}</Chip>
-        ))}
+        <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={rows.length}
+          label="Filter these slots by name, group, binding or source"
+          placeholder="filter slots" width={170} />
+        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        {/* Eight groups is a lot of chips to hold open when most visits steer by one.
+            Folded by default — open, they pushed the count and the specified-only toggle
+            off the right-hand edge of the strip, which is how a bar of filters starts
+            hiding the things it is supposed to be reporting. */}
+        <FilterGroup label="slot group" active={group ? 1 : 0} summary={group || 'all 8'}>
+          <ChipGroup label="slot group">
+            {groups.map((g) => (
+              <Chip key={g.id} radio on={group === g.id}
+                onClick={() => filters.toggle('group', g.id)}>{g.id} {g.count}</Chip>
+            ))}
+          </ChipGroup>
+        </FilterGroup>
       </FilterStrip>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
