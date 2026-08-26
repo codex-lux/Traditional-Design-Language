@@ -77,28 +77,16 @@ def test_says_what_it_does_not_index(index):
     assert longest < 600, f"a haystack of {longest} chars means prose crept back in"
 
 
-def test_endpoint_serves_it(monkeypatch):
-    """Served, and gated like every other /api route.
+def test_endpoint_serves_it(client):
+    """Served on an open server, with no ceremony.
 
-    The explicit unauthenticated baseline is not ceremony. test_mcp_http.py's `live`
-    fixture is session-scoped and sets WORKBENCH_API_TOKEN directly — deliberately, with
-    a docstring explaining that function scope tore down too early — but it restores the
-    variable only at SESSION teardown. So every test file sorting after `test_mcp_http`
-    runs against a server that auth.required() considers gated, and any plain
-    client.get("/api/…") in one gets a 401 that has nothing to do with the route under
-    test. This test found that by failing in the suite and passing on its own.
-
-    Rather than paper over it with an accommodating assertion, the baseline is stated
-    here, the way test_auth_and_limits.py's fresh_client does it.
+    This used to build its own client and clear two environment variables first, because
+    `test_mcp_http.py`'s session-scoped fixture left WORKBENCH_API_TOKEN set for the rest
+    of the process and every file sorting after it saw a gated server (OQ 64). That
+    fixture is function-scoped now, so the workaround is gone and this test is what it
+    should always have been: a GET against the shared client.
     """
-    from fastapi.testclient import TestClient
-    from workbench.server.app import app
-
-    monkeypatch.delenv("WORKBENCH_API_TOKEN", raising=False)
-    monkeypatch.delenv("WORKBENCH_PASSWORD", raising=False)
-    c = TestClient(app)
-
-    r = c.get("/api/search/index")
+    r = client.get("/api/search/index")
     assert r.status_code == 200
     body = r.json()
     assert body["count"] > 600
