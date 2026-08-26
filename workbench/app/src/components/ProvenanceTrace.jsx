@@ -1,8 +1,8 @@
 import React from "react";
 
 /* P2 — the cascade is a first-class object, not a breadcrumb and not a tooltip. Tidewater
-   Georgian resolves through 29 levels; appalachian-log-house reaches 34. Craftsman resolved
-   91 of its 95 slots from ancestors before a line of its own was written, and that fact
+   Georgian resolves through 20 levels; appalachian-log-house reaches 23, and monterey-revival 53. Craftsman resolves
+   78 of its 97 slots from ancestors before a line of its own was written, and that fact
    should be visible. Two forms: compact (one line, for a slot row) and full (the ladder). */
 const EYE = {
   font: 'var(--type-eyebrow)',

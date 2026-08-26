@@ -47,8 +47,9 @@ SEV_W = {"fatal": 100, "serious": 8, "minor": 1, "advisory": 0.5, "info": 0}
 # "score". It had no ceiling, so the figure was only ever comparative while the workbench's
 # big numeral invited an absolute reading it could not support. It ran in the unintuitive
 # direction under a label that promises the other one. And its magnitude tracked corpus
-# density and plan size rather than quality -- 36 on one brief and 208 on another for plans
-# of comparable merit -- because a bigger house is simply checked more times.
+# density and plan size rather than quality -- bungalow-small's candidates run -66 to 146
+# and family-georgian's 176 to 283, for plans of comparable merit -- because a bigger house
+# is simply checked more times, 27 rooms against 14.
 #
 # The composite fixes all three by scoring each axis as a SHARE of its own denominator:
 # what came back clean out of what was actually checked. A bigger house puts more rooms in
@@ -151,22 +152,35 @@ FOOTPRINT_TESTS = 2
 BEDROOM_TYPES = {"bedroom", "primary-bedroom", "bedchamber", "garret-chamber", "nursery"}
 
 
+def _num(x, default=0.0):
+    """A float, or the default. Every number reaching score_candidate comes from compose()'s
+    own arithmetic today, but score_candidate is called directly by tests and by anything
+    that wants to score a candidate it built itself -- and compose() has NO per-candidate
+    try/except, so one TypeError here does not spoil one candidate, it fails the whole job
+    and returns four plans as a single error string. Cheaper to be total."""
+    try:
+        f = float(x)
+    except (TypeError, ValueError):
+        return default
+    return default if f != f or f in (float("inf"), float("-inf")) else f
+
+
 def _axis_from_layers(res, axis, n_rooms):
     """A per-room axis: every room is an opportunity, the worst finding against it decides
     what it still scores. A finding in these layers that names no room becomes its own
     opportunity, so nothing lands outside the denominator."""
     per_room, loose, unjudged = {}, [], 0
-    for f in res["findings"]:
-        if SCORE_LAYERS.get(f["layer"]) != axis: continue
+    for f in res.get("findings") or []:
+        if SCORE_LAYERS.get(f.get("layer")) != axis: continue
         # An `info` finding is the validator saying it could not judge, or asking for a check
         # by hand. It is pulled OUT of the fraction here exactly as _axis_canon and the
         # solecisms axis pull it out of theirs. It used to take SEV_CREDIT 1.0 and count as a
         # room that passed, which is the one direction this corpus must never round in --
         # three treatments of the same severity across three axes, one of them "unjudged is
         # passed".
-        if f["severity"] == "info":
+        if f.get("severity") == "info":
             unjudged += 1; continue
-        credit = SEV_CREDIT.get(f["severity"], 0.0)
+        credit = SEV_CREDIT.get(f.get("severity"), 0.0)
         rid = f.get("room")
         if rid: per_room[rid] = min(per_room.get(rid, 1.0), credit)
         else: loose.append(credit)
@@ -206,11 +220,11 @@ def _axis_canon(res, plan):
     # so the info count already covers them; max() keeps the number honest if that invariant
     # ever stops holding rather than silently under-reporting.
     per_rule, loose, info_findings = {}, [], 0
-    for f in res["findings"]:
-        if SCORE_LAYERS.get(f["layer"]) != "canon": continue
-        if f["severity"] == "info":
+    for f in res.get("findings") or []:
+        if SCORE_LAYERS.get(f.get("layer")) != "canon": continue
+        if f.get("severity") == "info":
             info_findings += 1; continue
-        credit = SEV_CREDIT.get(f["severity"], 0.0)
+        credit = SEV_CREDIT.get(f.get("severity"), 0.0)
         k = f.get("rule")
         if k: per_rule[k] = min(per_rule.get(k, 1.0), credit)
         else: loose.append(credit)
@@ -224,9 +238,11 @@ def _axis_canon(res, plan):
 
 
 def score_candidate(res, plan, brief, fit, fp, miss, tol):
-    """The composite, itemised. Returns the score out of 100 (None where a fatal forfeits
-    it), every axis with its own share and denominator, and the weight that could not be
-    evaluated at all."""
+    """The composite, itemised. Returns the score out of 100, every axis with its own share
+    and denominator, the weight that could not be evaluated at all, and whether a fatal
+    finding DISQUALIFIES the candidate -- which is stated beside the score and enforced by
+    the ordering, never by withholding the number. `score` is None only in the unreachable
+    case where no axis had any evidence at all."""
     n_rooms = res.get("rooms") or 0
     fs = res.get("fault_summary") or {}
     judged = fs.get("clear", 0) + fs.get("present", 0)
@@ -253,13 +269,14 @@ def score_candidate(res, plan, brief, fit, fp, miss, tol):
                       if judged else {"share": None, "of": 0, "unjudged": fs.get("unjudged", 0)}),
         "rooms": _axis_from_layers(res, "rooms", n_rooms),
         "connections": _axis_from_layers(res, "connections", n_rooms),
-        "fidelity": {"share": (fit or 0) / MAX_FIT, "of": MAX_FIT,
-                     "clean": round(fit, 2), "flagged": 0,
-                     "denominator": f"fit {fit} of a possible {MAX_FIT}"},
-        "area": {"share": ((1.0 - miss / tol) if tol else (1.0 if miss == 0 else 0.0)),
+        "fidelity": {"share": _num(fit) / MAX_FIT, "of": MAX_FIT,
+                     "clean": round(_num(fit), 2), "flagged": 0,
+                     "denominator": f"fit {_num(fit)} of a possible {MAX_FIT}"},
+        "area": {"share": ((1.0 - _num(miss) / _num(tol)) if _num(tol)
+                           else (1.0 if _num(miss) == 0 else 0.0)),
                  "of": 1, "clean": None, "flagged": 0,
-                 "denominator": f"{round(miss * 100, 1)}% off target against the brief's "
-                                f"{round(tol * 100, 1)}% tolerance"},
+                 "denominator": f"{round(_num(miss) * 100, 1)}% off target against the brief's "
+                                f"{round(_num(tol) * 100, 1)}% tolerance"},
         "bedrooms": ({"share": beds_have / beds_want, "of": beds_want,
                       "clean": beds_have, "flagged": max(0, beds_want - beds_have),
                       "denominator": f"{beds_have} of {beds_want} asked for"}
@@ -298,7 +315,8 @@ def score_candidate(res, plan, brief, fit, fp, miss, tol):
             earned += weight * share; evaluable += weight
         axes.append(row)
 
-    unclassified = sorted({f["layer"] for f in res["findings"] if f["layer"] not in SCORE_LAYERS})
+    unclassified = sorted({f.get("layer") for f in (res.get("findings") or [])
+                           if f.get("layer") not in SCORE_LAYERS} - {None})
     fatal = res["counts"].get("fatal", 0)
     out = {"score": round(100 * earned / evaluable, 1) if evaluable else None,
            "score_axes": axes,
@@ -1073,7 +1091,7 @@ def footprint(plan, parti):
     # lot-infeasible and DROPPED. geometry.py has always used a floor of 2 here, so the two
     # engines disagreed; the parti now says which it means. (WP-4.5)
     mn = (parti.get("scaling") or {}).get("min_bay_count") or 3
-    notes = []
+    notes, lot_note = [], None
     # WP-2.4: a lot caps how many bays this diagram may ever reach here, regardless of what
     # the parti's own catalogue maximum allows -- "a 24 ft town-house parti for a 30 ft lot;
     # not a five-bay Georgian on a 40 ft lot" (PLAN-OF-ACTION.md, WP-2.4).
@@ -1087,8 +1105,15 @@ def footprint(plan, parti):
         mx = min(mx, lot_mx)
         if lot_mx < mn:
             lot_infeasible = True
-            notes.append(f"This diagram needs at least {mn} bays ({mn*bm:.0f} ft) and the lot clears only "
-                          f"{usable:.0f} ft usable width after side setbacks. It does not fit this lot.")
+            # Kept by name, not by position. compose() published notes[-1] as the reason a
+            # candidate was dropped, and by the time the drop happens the LAST note is
+            # usually "at N bays this diagram is at the width it grows to" -- because an
+            # infeasible lot forces bays past mx, which fires that test every time. Measured
+            # on a 30 ft lot: 4 of 4 dropped candidates published a reason that was not why
+            # they were dropped, into the record the MCP tool and the workbench both read.
+            lot_note = (f"This diagram needs at least {mn} bays ({mn*bm:.0f} ft) and the lot clears only "
+                        f"{usable:.0f} ft usable width after side setbacks. It does not fit this lot.")
+            notes.append(lot_note)
     bays = max(mn, min(mx, round(math.sqrt(a0 * 1.6) / bm)))
     width = round(bays * bm, 1)
     depth = round(a0 / width, 1) if width else 0
@@ -1107,7 +1132,7 @@ def footprint(plan, parti):
         notes.append(f"At {bays} bays this diagram is at the width it grows to; further area wants a dependency, not more room.")
     return {"level_0_area_sf": round(a0), "bays": bays, "bay_module_ft": bm,
             "footprint_ft": [width, depth], "notes": notes, "lot_infeasible": lot_infeasible,
-            "tests_run": FOOTPRINT_TESTS, "tests_failed": failed}
+            "lot_note": lot_note, "tests_run": FOOTPRINT_TESTS, "tests_failed": failed}
 
 # ---------------------------------------------------------------- compose
 def compose(brief, candidates=4, on_candidate=None):
@@ -1154,7 +1179,8 @@ def compose(brief, candidates=4, on_candidate=None):
             # WP-2.4 acceptance: a candidate that cannot physically fit the stated lot is
             # never returned, however well it would otherwise have scored — dropped here,
             # not merely outscored, so it can never appear even as the only candidate.
-            dropped_lot.append({"parti": pick["parti"], "parti_name": parti["name"], "why": fp["notes"][-1]})
+            dropped_lot.append({"parti": pick["parti"], "parti_name": parti["name"],
+                                "why": fp.get("lot_note") or fp["notes"][-1]})
             continue
         # `demerits` is the old lower-is-better total, kept because it is a real quantity and
         # because a report or a commit written before this change quotes it. It no longer
@@ -1199,7 +1225,9 @@ def compose(brief, candidates=4, on_candidate=None):
     # a candidate last within its fatal group rather than sorting None against a float.
     # The axis definitions ride on the RESULT, not on every candidate. They are constant
     # across a run, and repeating `what` and `score_of` in eight rows per candidate added
-    # about 1.4 KB of pure duplication to a payload the MCP tool bills a model for.
+    # 2,361 bytes of pure duplication, measured on the real tdl_compose payload for both
+    # shipped briefs, to something the MCP tool bills a model for. (An earlier version of
+    # this comment guessed "about 1.4 KB" -- 69% under. Figures here are measured.)
     score_model = {"of": 100, "axes": [{"axis": n, "weight": w, "what": t} for n, w, t in SCORE_AXES]}
     result = {"brief": brief.get("id") or brief.get("name"), "style": brief["style"],
             "score_model": score_model,

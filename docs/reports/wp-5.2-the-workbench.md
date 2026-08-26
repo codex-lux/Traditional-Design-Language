@@ -102,6 +102,27 @@ package did. `dist/taxonomy.html` and `dist/orders.html` are untouched.
    scores worst. Score and rightness render as separate axes because the corpus's own
    output insists on it.
 
+   > **Correction, 26 Aug 2026 — those two figures are on a scale that no longer exists,
+   > and the sentence around them now reads backwards.** 291.0 and 472.0 are DEMERIT
+   > totals: lower was better, and "scores best" meant the smaller number. The candidate
+   > score is now a weighted composite out of 100 where higher is better, so a reader
+   > coming to this line today takes 472.0 for the winner — which is the exact misreading
+   > the rewrite was done to remove. The item is left as written, per this project's
+   > practice, because it was true of the corpus and the scale it was measured against.
+   >
+   > Re-measured on the same brief (`briefs/family-georgian.json`) with the current
+   > composer: **side-hall-townhouse 56.3 of 100** (fit 3.6, native to an ancestor rather
+   > than to the style itself), **centre-passage-single-pile 69.5 of 100 and DISQUALIFIED**
+   > — it carries two fatal findings, so it never outranks a clean plan whatever it scores.
+   > The demerit totals moved too (189.0 and 330.0, not 291.0 and 472.0), because WP-4.5
+   > and WP-4.6 changed the corpus underneath them; the figures were accurate when written.
+   >
+   > **The finding this item records is unchanged and is why the passage stays.** Score and
+   > rightness are still separate axes, and the composer still does not put the native
+   > diagram first by default — it now says so in a band on the column rather than leaving
+   > it to be inferred from a number running the wrong way. See
+   > `docs/reports/candidate-score-composite.md`.
+
 ## 4. What was deliberately not done
 
 - No JS ports of validator/composer/geometry/proportions; no DXF/IFC (WP-5.1); no

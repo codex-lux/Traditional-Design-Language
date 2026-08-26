@@ -20,7 +20,7 @@ A parti specifies **topology and roles only** — which rooms, which walls are o
 
 **Out of 100, higher is better, and it is a composite rather than a total.**
 
-It was a total once — 100 a fatal, 8 a serious, 1 a minor, less 20 a point of style fidelity, lower is better — and three things were wrong with publishing that under the word "score". It had no ceiling, so the figure was only ever comparative while the workbench's big numeral invited an absolute reading. It ran in the unintuitive direction under a label that promises the other one. And its magnitude tracked corpus density and plan size rather than quality: 36 on one brief and 208 on another, for plans of comparable merit, because a bigger house is simply checked more times.
+It was a total once — 100 a fatal, 8 a serious, 1 a minor, less 20 a point of style fidelity, lower is better — and three things were wrong with publishing that under the word "score". It had no ceiling, so the figure was only ever comparative while the workbench's big numeral invited an absolute reading. It ran in the unintuitive direction under a label that promises the other one. And its magnitude tracked corpus density and plan size rather than quality: `bungalow-small`'s candidates run −66 to 146 and `family-georgian`'s 176 to 283, for plans of comparable merit, because a bigger house is simply checked more times — 27 rooms against 14.
 
 Each axis is now a **share of its own denominator** — what came back clean out of what was actually checked. A bigger house puts more rooms in the numerator and the same rooms in the denominator, so size cancels.
 

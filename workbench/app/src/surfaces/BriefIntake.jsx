@@ -85,8 +85,15 @@ export function BriefIntake({ go }) {
     const clean = JSON.parse(JSON.stringify(brief, (k, v) =>
       (v === '' || v === null || (Array.isArray(v) && !v.length)
         || (typeof v === 'object' && v && !Array.isArray(v) && !Object.keys(v).length)) ? undefined : v));
+    // `min="1"` on the number input is decorative here — submit is a Chip, not a form, so
+    // the browser never enforces it, and an empty field reads back as 0. The brief schema
+    // gained `minimum: 1` on candidates, so 0 now refuses the WHOLE brief with a validation
+    // error about a field the user was not thinking about. It was already ignored on the
+    // wire (the count travels as its own argument), so drop it rather than refuse on it.
+    const wanted = Number(brief.candidates);
+    if (!Number.isFinite(wanted) || wanted < 1) delete clean.candidates;
     try {
-      const { job_id } = await api.compose(clean, brief.candidates || 4);
+      const { job_id } = await api.compose(clean, wanted >= 1 ? wanted : 4);
       session.set({ jobId: job_id });
       if (unsubRef.current) unsubRef.current();   // a superseded compose drops its stream
       unsubRef.current = jobEvents(job_id, {
@@ -150,7 +157,7 @@ export function BriefIntake({ go }) {
               <div>
                 <span style={label}>candidates</span>
                 <input style={input} type="number" min="1" max="8" value={brief.candidates}
-                  onChange={(e) => set('candidates', +e.target.value)} />
+                  onChange={(e) => set('candidates', e.target.value === '' ? null : +e.target.value)} />
               </div>
               <div>
                 <span style={label}>bedrooms</span>

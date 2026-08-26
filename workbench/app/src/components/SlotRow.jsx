@@ -1,6 +1,6 @@
 import React from "react";
 
-/* 95 of these per kit, most of them 'open'. Collapsed it is one 26px line: slot, binding,
+/* 97 of these per kit, most of them 'open'. Collapsed it is one 26px line: slot, binding,
    source, and the fault count filed against it. Open it carries the rule sentence, the
    authoring note, the variants ladder, the parameters with their kind, and the pack
    precedence. Prose stays beside the test: the rule sentence is never replaced by the number. */

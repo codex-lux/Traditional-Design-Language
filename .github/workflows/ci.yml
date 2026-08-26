@@ -66,6 +66,41 @@ jobs:
       - name: Smoke — HTTP results match the CLI's own
         run: bash workbench/scripts/smoke.sh
 
+      # workbench/app/e2e/walk.mjs has asserted 28 honesty affordances across all eleven
+      # surfaces since WP-5.2 and NOTHING RAN IT — not this file, not the Makefile, not
+      # check_all.py. Found on 26 Aug 2026 when a caption changed and the walk turned out
+      # to be pinning the stale per-style fault count that change removed: an assertion
+      # nobody executes protects nothing and quietly certifies whatever is there.
+      - name: Install Playwright
+        # --no-save on purpose: `npm ci` above has already verified the lockfile, and the
+        # walk is the only thing that wants a browser. Adding playwright to package.json
+        # would put a ~300 MB devDependency in front of every contributor's install.
+        # BOTH lines are needed: the second installs a browser, the first installs the
+        # module walk.mjs imports. Installing only the browser leaves `require('playwright')`
+        # with nothing to find.
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.49
+          npx playwright install --with-deps chromium
+        working-directory: workbench/app
+      - name: E2E — every surface loads and keeps its honesty affordances
+        # Repo root, NOT workbench/app: `python3 -m uvicorn workbench.server.app:app` needs
+        # the `workbench` package importable, and from workbench/app it is not. The server is
+        # backgrounded, so the health probe must be able to FAIL — a `for` loop that ends in
+        # `sleep 0.5` returns 0 whether or not the server ever came up, and the step would
+        # then fail thirty seconds later inside the walk with a connection error naming
+        # nothing. walk.mjs resolves both playwright and its screenshot directory relative to
+        # its own file, so running it by path from here is correct.
+        run: |
+          python3 -m uvicorn workbench.server.app:app --host 127.0.0.1 --port 8177 \
+            --log-level error &
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:8177/api/health >/dev/null && break
+            sleep 0.5
+          done
+          curl -sf http://127.0.0.1:8177/api/health >/dev/null \
+            || { echo "the workbench server never came up — see the log above"; exit 1; }
+          node workbench/app/e2e/walk.mjs
+
   image:
     name: docker build
     runs-on: ubuntu-latest

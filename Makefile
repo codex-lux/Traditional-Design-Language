@@ -22,5 +22,14 @@ workbench-dev:
 
 workbench-test:
 	python3 -m pytest workbench/server/tests -q
+	cd workbench/app && npm test
 
-.PHONY: workbench workbench-dev workbench-test
+# The eleven-surface browser walk. Needs a BUILT app, a server already running on 8177
+# (make workbench in another terminal) and playwright. It is not part of `make check`
+# because it needs all three; CI runs it, which is new as of 26 Aug 2026 — until then
+# nothing ran it at all and its assertions had been certifying whatever happened to be
+# on the page.
+workbench-e2e:
+	cd workbench/app && node e2e/walk.mjs
+
+.PHONY: workbench workbench-dev workbench-test workbench-e2e

@@ -280,6 +280,37 @@ class TestNothingIsDroppedSilently:
             assert all("what" not in a for a in c["score_axes"])
 
 
+class TestAFixedKeyListDoesNotDropWhatItDoesNotName:
+    """Not the score, but the same defect this session exists to remove, and the one place
+    it recurred. `mcp_server/core.py`'s RULE_KEYS projects each derived proportion rule onto
+    a hand-written tuple, so a key nobody remembered is silently deleted on the way to the
+    workbench and to every tdl_get_proportions caller. `error` was missing, and an
+    unevaluable rule arrived with its refusal removed and drew as "null in". Fixing that one
+    key left two more missing — `authority_note`, carried by 730 of the corpus's 900 derived
+    rules, and `diagnostic`. The list is the bug, so the list is what gets pinned."""
+
+    def test_rule_keys_publishes_every_key_the_pack_schema_defines(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "core", os.path.join(ROOT, "mcp_server", "core.py"))
+        core = importlib.util.module_from_spec(spec); spec.loader.exec_module(core)
+        with open(os.path.join(ROOT, "schema", "proportion-pack.schema.json")) as f:
+            schema = json.load(f)
+        declared = set(schema["properties"]["derived_rules"]["items"]["properties"])
+        src = open(os.path.join(ROOT, "mcp_server", "core.py")).read()
+        start = src.index("RULE_KEYS = (")
+        published = set(eval(src[start + len("RULE_KEYS = "):src.index(")", start) + 1]))
+        missing = declared - published
+        assert not missing, (
+            f"RULE_KEYS drops {sorted(missing)}, which schema/proportion-pack.schema.json "
+            f"defines on a rule. A key this list does not name is deleted silently on the "
+            f"way to every consumer — add it, or say in the comment why it is withheld.")
+        # the engine adds these two on top of the schema's own; they are not optional
+        assert {"value", "in_range", "error"} <= published, (
+            "value/in_range/error are set by proportion_engine.evaluate(), not by the pack — "
+            "dropping `error` is how a refusal became a measurement")
+
+
 class TestAFatalDisqualifies:
     """The first build WITHHELD the score on a fatal, and measuring it killed the idea:
     composed across eight briefs, five returned sets in which EVERY candidate carried a fatal

@@ -12,7 +12,14 @@ const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
 const SHOTS = new URL('./shots/', import.meta.url).pathname;
 mkdirSync(SHOTS, { recursive: true });
 
-const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium' });
+// Browser resolution, in order: an explicit CHROMIUM, this machine's preinstalled one if it
+// is actually there, else whatever playwright installed for itself. It used to hardcode
+// /opt/pw-browsers/chromium as the fallback, which exists on exactly one machine — so this
+// walk could never have run in CI even if CI had been running it (it was not).
+import { existsSync } from 'node:fs';
+const LOCAL = '/opt/pw-browsers/chromium';
+const exe = process.env.CHROMIUM || (existsSync(LOCAL) ? LOCAL : null);
+const browser = await chromium.launch(exe ? { executablePath: exe } : {});
 const page = await browser.newPage({ viewport: { width: 1680, height: 1000 } });
 const failures = [];
 const check = (name, cond) => { if (!cond) failures.push(name); console.log(cond ? ' ok ' : 'FAIL', name); };
@@ -104,9 +111,18 @@ await page.screenshot({ path: SHOTS + 'candidates.png' });
 
 // (8) Drawing Set - the elevation with its disclosure
 await page.getByRole('button', { name: /Drawing Set/ }).click();
-await page.waitForSelector('text=83 of', { timeout: 40000 });
+// The disclosure is asserted by its CLAIM, not by a number. It used to wait on the literal
+// "83 of" — which was tidewater-georgian's own fault-coverage count (wp-3.2's report says so
+// in as many words) printed unqualified beneath a Craftsman or Charleston elevation, and
+// corpus-wide it was 175 rather than 177 besides. Pinning it here is what kept it shipping.
+await page.waitForSelector('text=photograph-measurable', { timeout: 40000 });
 const ds = await page.locator('main').innerText();
-check('drawing set: WP-3.2 disclosure on-sheet', /83 of the 177 applicable/i.test(ds));
+check('drawing set: WP-3.2 disclosure on-sheet',
+  /photograph-measurable fault corpus/i.test(ds) && /no model at this layer yet/i.test(ds));
+check('drawing set: the disclosure states the unjudged rule, not a borrowed count',
+  /absent from the measurements rather than reported as zero/i.test(ds));
+check('drawing set: no per-style fault count is printed as if it were universal',
+  !/\b\d+ of the \d+ applicable/i.test(ds));
 await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
 await page.getByRole('button', { name: 'bearing lines' }).click();
 await page.waitForTimeout(3000);

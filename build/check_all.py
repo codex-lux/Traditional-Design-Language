@@ -131,7 +131,20 @@ def main():
         results.append(("node --test workbench/app", COULD_NOT_EVALUATE))
     else:
         specs = sorted(str(p) for p in (app / "src").glob("*.test.mjs"))
-        if not specs:
+        # A node too old to know --test exits nonzero, which reads as a FAILING suite. That
+        # is the unjudged-reported-as-failed direction, which is the safer one but still
+        # wrong: the suite did not run, so it neither passed nor failed.
+        ver = subprocess.run([node, "--version"], capture_output=True, text=True)
+        major = 0
+        try:
+            major = int((ver.stdout or "").strip().lstrip("v").split(".")[0])
+        except ValueError:
+            pass
+        if major < 18:
+            print(f"COULD NOT EVALUATE — node {ver.stdout.strip() or '?'} has no --test runner")
+            print("    install Node 18+ (20 is what CI uses)")
+            results.append(("node --test workbench/app", COULD_NOT_EVALUATE))
+        elif not specs:
             print("COULD NOT EVALUATE — no *.test.mjs under workbench/app/src")
             results.append(("node --test workbench/app", COULD_NOT_EVALUATE))
         else:

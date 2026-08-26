@@ -278,6 +278,12 @@ def resolve_kit(style_id, group=None, slot=None, ceiling_height=108.0, only_spec
     prov = {}
     for k in keys: prov[source.get(k, "?")] = prov.get(source.get(k, "?"), 0) + 1
     return {"style": style_id, "kits_in_chain": have, "cascade": chain,
+            # slots_total is the ONTOLOGY's own count, sent live. The workbench used to
+            # render `${slots_returned} of 95 slots` against a literal, and the ontology has
+            # been at 97 since 0.7.0 — so the surface printed "97 of 95 slots shown", a
+            # sentence that contradicts itself on screen. A number the corpus knows should
+            # never be retyped into a component.
+            "slots_total": len(D["slots"]),
             "provenance": prov, "slots_returned": len(rows), "slots": rows,
             "hint": "pass slot='<id>' for the full record including parameters and pack bindings"}
 
@@ -307,12 +313,18 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
         # corpus deliberately distinguishes as if they were the same address. `calibrated_for`
         # carries a rule's own statement that it is out of band. Both were dropped by a fixed key
         # list -- the same bug as proportion_engine's, found in the same audit, 25 Aug 2026.
-        # `error` is in this list because proportion_engine.evaluate() sets it when a rule
-        # cannot be evaluated, and a fixed key list that drops it turns a refusal into a
-        # value: Proportions.jsx renders `${r.value} ${r.units}` and would draw "null in".
-        # Unjudged is not passed, and it is not rendered as a measurement either.
+        # A FIXED KEY LIST DROPS WHATEVER IT DOES NOT NAME, silently. `error` was outside
+        # it, so a rule proportion_engine.evaluate() could not evaluate reached the workbench
+        # with its refusal removed and Proportions.jsx drew "null in" -- a refusal rendered as
+        # a measurement. Adding `error` fixed one instance and left two: `authority_note`,
+        # which 730 of the corpus's 900 derived rules carry and which says WHICH authority the
+        # figure comes from, and `diagnostic`. Both are in schema/proportion-pack.schema.json's
+        # own rule object and both were being dropped from every tdl_get_proportions call.
+        # tests/test_score.py::test_rule_keys_publishes_every_key_the_pack_schema_defines
+        # keeps the list from drifting again -- the drift, not any one key, is the bug.
         RULE_KEYS = ("target_slot", "dimension", "quantity", "expression", "value", "units",
-                     "judgment", "range", "in_range", "note", "calibrated_for", "error")
+                     "judgment", "range", "in_range", "note", "calibrated_for",
+                     "authority_note", "diagnostic", "error")
         out["derived_rules"] = [{k: r.get(k) for k in RULE_KEYS} for r in ev["rules"]]
         out["judgment_rules"] = [r["target_slot"] for r in ev["rules"] if r.get("judgment")]
     out["conflicts"] = pk.get("conflicts", [])

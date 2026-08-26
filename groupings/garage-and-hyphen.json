@@ -162,14 +162,9 @@
     }
   ],
   "expansion_logic": "A third bay is added on a return rather than abreast, so the elevation gains a corner instead of another 9 ft of door. Where a lot cannot take the return, the honest answer is two bays and a stated refusal, not three abreast.",
-  "privacy_span": [
-    3,
-    4
-  ],
+  "privacy_span": [1, 4],
   "servicing_strategy": "The hyphen carries the service run — the garage itself takes only light circuits, a 50 A EV feed as the current default assumption, and mechanical ventilation where attached. Heat stops at the hyphen.",
-  "circulation_parti": [
-    "additive"
-  ],
+  "circulation_parti": ["additive", "center-hall", "side-hall", "open-plan", "central-chimney-lobby", "hall-and-parlor"],
   "typical_area_sf": [
     440,
     900

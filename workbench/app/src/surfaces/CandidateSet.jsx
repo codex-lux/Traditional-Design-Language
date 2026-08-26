@@ -7,7 +7,10 @@
    column's corner is a position in the one currently chosen, not a verdict. Reading a
    column numbered 1 under "native to the style" as the winner is exactly the misreading
    the header line above the columns exists to prevent — it was possible here for as long
-   as the heading said only "ranked", while the scores it showed ran 82, 36, 74, 78. */
+   as the heading said only "ranked", while the numbers under those columns ran 82, 36, 74,
+   78. Those four are DEMERIT totals, the superseded lower-is-better quantity: the sequence
+   looked random because it was the score order read through a different sort, and the
+   largest of them was the worst plan. Nothing renders that quantity now. */
 import React from 'react';
 import { api, jobEvents } from '../api/client.js';
 import { session } from '../state/session.js';

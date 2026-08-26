@@ -1,4 +1,4 @@
-/* Surface ④ — the Kit, live. 95 slots in 8 groups resolved through the cascade, with
+/* Surface ④ — the Kit, live. 97 slots in 8 groups resolved through the cascade, with
    the source column showing which ancestor supplied each value. The cascade is a
    first-class object with its own display; a thin kit is correct, not incomplete. */
 import React from 'react';
@@ -120,7 +120,7 @@ export function KitSurface({ onCite, selection }) {
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <Chip on={specifiedOnly} onClick={() => setSpecifiedOnly(!specifiedOnly)}>specified only</Chip>
           <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
-            {kit ? `${kit.slots_returned} of 95 slots ${specifiedOnly ? 'bound' : 'shown'}` : '…'}
+            {kit ? `${kit.slots_returned} of ${kit.slots_total ?? 97} slots ${specifiedOnly ? 'bound' : 'shown'}` : '…'}
           </span>
         </span>
       }>

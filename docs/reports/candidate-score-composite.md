@@ -29,8 +29,13 @@ multiplied by 20 before it entered the total.
 
 There was a fourth defect underneath those, and it is the one that decided the fix. **The
 total had no ceiling and its magnitude tracked corpus density rather than quality.** The
-same formula gives 36 on a Richardsonian brief and 208 on `family-georgian`, because a
-bigger house is simply checked more times — 27 rooms against 18. A figure like that is only
+same formula puts `bungalow-small`'s four candidates between **−66 and 146** while
+`family-georgian`'s sit between **176 and 283** — plans of comparable merit — because a bigger
+house is simply checked more times, 27 rooms against 14. *(An earlier version of this
+paragraph said "36 on a Richardsonian brief and 208 on family-georgian". Those were measured
+on 26 Aug, and by the end of the same day neither reproduced: the parti and grouping fixes
+below moved every demerit total. Re-measured against this tree, and the point is the
+spread, not the two numbers.)* A figure like that is only
 ever comparative, which is exactly what a big numeral labelled SCORE promises it is not.
 
 ## What replaced it
@@ -86,7 +91,7 @@ The composer RETURNS fatal-free first and then by score. That key is a selection
 is the one never traded away: a plan carrying a fatal never displaces a clean one from the
 returned set, however native its diagram. WP-4.5's guarantee used to rest on a sort key
 sitting in front of a weighted total that could, at fit 7.0, out-credit a fatal by 40 points;
-it now rests on a key in front of a score a fatal forfeits outright.
+it now rests on that key alone, in front of a score a disqualified candidate still carries.
 
 How the returned set is then ORDERED FOR READING is a separate choice, and the workbench has
 three: **highest score first** (the default), **native to the style**, **fatal first**. Each
@@ -209,9 +214,16 @@ workbench as `null in` — a refusal rendered as a measurement; the privacy over
 where `privacy_rank` runs 1–5 and drew an unranked room exactly like the least private one;
 and the elevation caption printed one style's fault coverage beneath every style's elevation.
 
-**Deliberately not fixed.** `docs/reports/wp-5.2-the-workbench.md` still quotes a candidate
-score of 472.0 on the old scale. Reports in this project are left as written; the scale it
-belongs to is named here and in the changelog.
+**The one deferral, closed 26 Aug 2026.** `docs/reports/wp-5.2-the-workbench.md`'s teaching
+example quotes candidate scores of 291.0 and 472.0 and says the first "scores best" — true on
+the demerit scale, and backwards on this one, which is the exact misreading the rewrite exists
+to remove. Reports here are left as written, so the item stands and carries a dated correction
+beneath it with the same two candidates re-measured on the current composer: side-hall-townhouse
+56.3 of 100, centre-passage-single-pile 69.5 of 100 and disqualified on two fatal findings. A
+sweep of every report, doc and prose file found no other candidate score on the superseded
+scale; `docs/reports/wp-1.2-validator-reads-constraints.md`'s "100/8/1 weights" and "8 points
+worse" describe `compose.score()`, the findings-cost function, which is unchanged and still
+uses exactly those weights.
 
 **And one defect the ranking change flushed out by moving a diagram into view.**
 `tests/test_garage.py` asserts that a placed garage must record the grouping that placed it —
@@ -227,3 +239,80 @@ twenty-one partis rather than across whichever ones a brief happens to rank. Dec
 surfaced one honest warning that was previously invisible: `check_partis.py` now reports that
 `ranch-tripartite`'s open-plan circulation is not among the values `garage-and-hyphen` expects.
 Additive, errors 0 — the corpus saying something true that nothing had asked it before.
+
+## The second audit round, 26 August 2026
+
+Four more independent auditors, on the audit's own output. They found ten things, three of
+them in the fixes themselves and one of them a false claim in this report.
+
+**The report was wrong about CI, and the correction is above** — "Build app" always had its
+`working-directory`. The claim came from re-emitting a yaml block that already contained the
+line and reading the diff as an addition. It is corrected in place rather than deleted.
+
+**The last round's own thesis had survived in three files.** A change whose whole argument is
+"say what the number means" shipped `score_candidate`'s docstring still promising `None` on a
+fatal, a changelog paragraph asserting both the forfeit rule and the disqualification rule
+eighty words apart, and a line of this report saying "a score a fatal forfeits outright". All
+three corrected.
+
+**`workbench/app/e2e/walk.mjs` — 28 assertions across all eleven surfaces since WP-5.2 — was
+run by nothing.** Not CI, not the Makefile, not `check_all.py`. It was found the way these
+things are found: a caption changed, and the walk turned out to be pinning the stale
+per-style fault count that change removed. Worse, it could never have run anywhere else — it
+hard-coded one machine's Chromium path and its `require('playwright')` had no module to find.
+Both fixed, and it runs in CI now. `npm test` had the matching hole: `node --test src/*.test.mjs`
+with no matching file **exits 0**, so deleting the suite would have turned CI green with zero
+assertions executed. It now refuses to run without specs.
+
+**`RULE_KEYS` was the same bug three times, and the first round fixed one of them.** Adding
+`error` to the projection stopped an unevaluable proportion rule drawing as `null in`. It left
+`authority_note` — carried by **730 of the corpus's 900 derived rules**, and the field that
+says WHICH authority a figure comes from — and `diagnostic` being deleted on the way to every
+consumer. The list is the defect, so a test now pins the list against the pack schema's own
+rule object.
+
+**A dropped candidate published the wrong reason for being dropped.** `compose()` reported
+`fp["notes"][-1]`, and by the time a candidate is dropped for the lot the last note is almost
+always "at N bays this diagram is at the width it grows to" — because an infeasible lot forces
+the bay count past the maximum, which fires that test every time. Measured on a 30 ft lot:
+**4 of 4** dropped candidates named a reason that was not why they were dropped, into the
+record both the MCP tool and the workbench read. The lot note is kept by name now.
+
+**The garage fix had a second half nobody had looked at.** Declaring `garage-and-hyphen` on
+the two partis surfaced two `check_partis` warnings and a permanent spurious minor, and the
+grouping's own record turned out to be the problem both times: its `privacy_span` said `[3, 4]`
+while its own room list spans **1 to 4** (mudroom 1, workshop 4), and its `circulation_parti`
+accepted only `additive` — **1 of the 11 partis whose massings its own `attaches_to` receives
+as canonical or common**. Both corrected from the grouping's own data rather than by guessing:
+warnings 3 → 1, and the spurious minor is gone.
+
+**The grouping layer never applied the substitution table.** `plan_check.py` asks
+`satisfied_by()` — would anything the plan HAS answer this rule? — in every layer but one. The
+grouping layer's "requires a X and the plan has none" tested raw type membership, so a
+centre-passage plan was convicted of having no entrance hall and a plan with a drawing room of
+having no parlor. Two serious findings on the shipped Georgian brief's top-ranked candidate,
+manufactured by a table this file already carries and already trusts. The two reference plans'
+pinned counts move with it — spec Colonial serious 66 → 65, Tidewater 36 → 34 — re-pinned with
+the reason, fatal unmoved on both, which is what says this removed noise rather than signal.
+
+**Fifteen stale numbers across the workbench app**, none covered by `check_counts.py`, which
+watches 22 claims in 5 files and nothing under `workbench/app/src/`. One of them rendered on
+screen: the Kit surface printed **"97 of 95 slots shown"**, a sentence that contradicts itself,
+because the ontology reached 97 at 0.7.0 and the component still held a literal 95. It reads
+the corpus's own count now. The rest were component comments — cascade depths, finding counts,
+a severity tally re-pinned everywhere except its own header — corrected against measurement.
+
+**And two figures in this report did not reproduce.** "36 on a Richardsonian brief and 208 on
+family-georgian" was measured on the morning of 26 Aug and was false by that evening, because
+the parti and grouping fixes above moved every demerit total. Replaced with a spread measured
+against this tree, and stated as a spread, which is what the claim was always about.
+
+**Deferred, with reasons.** **OQ 66** records 32 derived proportion rules that evaluate outside
+their own declared band — ten of them comparing inches to a ratio, which can never be true —
+and the checker gap that let them sit there. Not fixed: each needs a decision about what the
+band should say, and that belongs to the authority the pack cites, not to whoever noticed the
+arithmetic. Two more are noted and not acted on: `build/elevation.py`'s front-bay count is
+floored at 3 and never capped, and reaches its declared ceiling of 11 with zero margin but
+does not exceed it on any input that could be constructed; and 47 parti/grouping pairs have no
+recorded massing fit, which becomes an `info` and is correctly counted as unjudged — visible,
+not silent, and a data package rather than a defect.

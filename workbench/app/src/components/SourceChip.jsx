@@ -1,6 +1,6 @@
 import React from "react";
 
-/* P2 — attaches to every number in the product. 'invented' (14 of 1,569) is the only kind
+/* P2 — attaches to every number in the product. 'invented' (25 of 1,556) is the only kind
    that shouts, and it must keep shouting so the number stays small. */
 const KIND = {
   measured: {
