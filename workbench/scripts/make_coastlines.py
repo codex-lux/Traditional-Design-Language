@@ -17,8 +17,9 @@ one its current view can actually show.
 The finer two are separate modules so Vite splits them into their own chunks: a reader
 who never zooms never pays for them, and a reader who does pays once.
 
-INPUT is world-atlas@2 (https://github.com/topojson/world-atlas), which repackages
-Natural Earth's public-domain `land` layer as TopoJSON. Fetch it with
+INPUT is world-atlas@2 (https://github.com/topojson/world-atlas), by Mike Bostock, ISC
+licence, which repackages Natural Earth's public-domain `land` layer as TopoJSON. Fetch it
+with
 
     npm pack world-atlas@2.0.2 && tar xzf world-atlas-2.0.2.tgz
 
@@ -26,11 +27,19 @@ and point --src at the resulting `package/` directory. Nothing here is hand-edit
 nothing here is corpus data: a coastline is furniture, the same as the gazetteer beside
 it, and may not migrate into styles/*.json as a measured fact.
 
+EACH GENERATED FILE RECORDS THE SHA-256 OF THE INPUT IT WAS BUILT FROM, and the version
+string of the package that supplied it. An audit pointed out that "world-atlas@2" plus a
+filename cannot tie 1.4 MB of committed data to a specific upstream artifact, and that a
+file marked "do not hand-edit" with nothing to check it against is a file anyone can quietly
+edit. Re-running this script on the same input is byte-identical (verified); the checksum is
+what says WHICH input.
+
 TopoJSON is decoded in the standard library — the arcs are delta-encoded integers with a
 scale and a translate, which is two lines of arithmetic, and taking a dependency to do it
 would put a build-time package between this repo and a drawing.
 """
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -234,10 +243,24 @@ def bbox(ring):
             math.ceil(max(xs)), math.ceil(max(ys)))
 
 
+def source_version(src):
+    """The package.json beside the data, so the output can name its exact upstream."""
+    try:
+        with open(os.path.join(src, 'package.json')) as fh:
+            pkg = json.load(fh)
+        return f"{pkg.get('name', '?')}@{pkg.get('version', '?')}"
+    except (OSError, ValueError):
+        return 'unknown'
+
+
 def build(src, out_dir):
     report = []
+    version = source_version(src)
     for name, filename, eps, decimals in TIERS:
-        with open(os.path.join(src, filename)) as fh:
+        path_in = os.path.join(src, filename)
+        with open(path_in, 'rb') as fh:
+            digest = hashlib.sha256(fh.read()).hexdigest()
+        with open(path_in) as fh:
             topo = json.load(fh)
         raw_rings = decode(topo, 'land')
         rings = []
@@ -263,7 +286,7 @@ def build(src, out_dir):
         # their bays, and so a truncated read still shows a recognisable world.
         kept.sort(key=lambda t: t[0], reverse=True)
         text = emit(name, filename, eps, floor, len(kept), pts, raw_pts,
-                    [d for _, d, _ in kept], [b for _, _, b in kept])
+                    [d for _, d, _ in kept], [b for _, _, b in kept], version, digest)
         target = os.path.join(out_dir, f'coastlines{"" if name == "coarse" else "-" + name}.js')
         with open(target, 'w') as fh:
             fh.write(text)
@@ -273,8 +296,9 @@ def build(src, out_dir):
 
 HEADER = """/* Coastlines — the {name} tier. GENERATED; do not hand-edit.
 
-   Written by workbench/scripts/make_coastlines.py from {source} (world-atlas@2, which
-   repackages Natural Earth's public-domain land layer). Ramer-Douglas-Peucker at
+   Written by workbench/scripts/make_coastlines.py from {source}, supplied by {version}
+   (Mike Bostock, ISC licence; it repackages Natural Earth's public-domain land layer).
+   Input SHA-256 {digest}. Ramer-Douglas-Peucker at
    {eps} degrees; rings under {floor} square degrees dropped; coordinates quantised to
    {decimals} decimal places and delta-encoded.
 
@@ -291,10 +315,10 @@ HEADER = """/* Coastlines — the {name} tier. GENERATED; do not hand-edit.
 """
 
 
-def emit(name, source, eps, floor, rings, pts, raw, paths, boxes):
+def emit(name, source, eps, floor, rings, pts, raw, paths, boxes, version, digest):
     decimals = dict((t[0], t[3]) for t in TIERS)[name]
-    body = HEADER.format(name=name, source=source, eps=eps, floor=floor,
-                         decimals=decimals, rings=rings, pts=pts, raw=raw)
+    body = HEADER.format(name=name, source=source, eps=eps, floor=floor, version=version,
+                         digest=digest, decimals=decimals, rings=rings, pts=pts, raw=raw)
     const = 'COAST_' + name.upper()
     body += f'\nexport const {const} = {{\n'
     body += f"  name: '{name}',\n"

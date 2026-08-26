@@ -1,7 +1,8 @@
 /* Coastlines — the fine tier. GENERATED; do not hand-edit.
 
-   Written by workbench/scripts/make_coastlines.py from land-10m.json (world-atlas@2, which
-   repackages Natural Earth's public-domain land layer). Ramer-Douglas-Peucker at
+   Written by workbench/scripts/make_coastlines.py from land-10m.json, supplied by world-atlas@2.0.2
+   (Mike Bostock, ISC licence; it repackages Natural Earth's public-domain land layer).
+   Input SHA-256 9b9f584709c119d63fbadf484ce425260497697b7166be7a2fe360e8c0b171a8. Ramer-Douglas-Peucker at
    0.012 degrees; rings under 0.004 square degrees dropped; coordinates quantised to
    3 decimal places and delta-encoded.
 

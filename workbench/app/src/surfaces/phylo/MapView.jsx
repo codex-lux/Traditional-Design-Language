@@ -46,7 +46,17 @@ const project = (lat, lon) => ({ x: lon, y: -lat });
    and the panel beside it is nearly square, so `meet` letterboxes it into extra ocean top
    and bottom — that is the honest trade: both coasts of the Atlantic have to be on screen
    at once for a transmission arc to mean anything. */
-const HOME = { x: -114, y: -60, w: 134, h: 43 };
+const HOME = { x: -114, cy: -38.5, w: 134 };   // cy: the latitude the view is centred on
+
+/* A pan may not lose the world. With the outline now global and MAX_W a whole hemisphere,
+   dragging far enough leaves blank paper with no way back but "reset the view". The
+   centre is held inside the earth, which still allows an ocean-only view — that is a real
+   place — but not an empty one. */
+const clampPlace = (pl) => ({
+  ...pl,
+  x: Math.min(180, Math.max(-180 - pl.w, pl.x)),
+  cy: Math.min(90, Math.max(-90, pl.cy)),
+});
 
 /* MIN_W was 6 and is 3: the floor on how far in the reader may go, and it is set by what
    the finest outline can honestly draw rather than by taste. Natural Earth 10m simplified
@@ -92,10 +102,49 @@ export function MapView({
   rows, edges, sel, compare, onPick, traditionHue, lit, carries, showClaims, rankFilter,
   full, onFull, onExitFull,
 }) {
-  const [view, setView] = React.useState(HOME);
+  /* `place` is {x, cy, w} — a longitude span and the point it is centred on. THE HEIGHT
+     IS NOT STORED. It is derived from the pane's measured aspect, so the viewBox always
+     has the pane's own shape and the SVG has no letterbox at all.
+
+     It used to store `h` too, fixed at 134:43, against a pane nearer 4:3 — so
+     `xMidYMid meet` fitted by width and painted 27.8 degrees of latitude above and below
+     the box. Three separate defects followed from that one gap, and an adversarial audit
+     found all three: the ring cull dropped land that was on screen (South America goes
+     missing at the home view, because its bounding box misses the viewBox and not the
+     plate); the graticule was cut to the viewBox and drew a floating rectangle of lines
+     ending short of the paper; and `toWorld` divided by the element's height while
+     multiplying by the viewBox's, so a wheel zoom moved the point under the cursor by
+     three degrees a notch. Deriving the height rather than correcting three call sites is
+     the fix that cannot come back: with no letterbox there is no second coordinate space
+     left to get wrong. */
+  const [place, setPlace] = React.useState(HOME);
+  const [aspect, setAspect] = React.useState(134 / 43);
   const [hover, setHover] = React.useState(null);
   const svgRef = React.useRef(null);
   const drag = React.useRef(null);
+
+  /* The pane's aspect, measured. A ResizeObserver rather than a one-off read: the panes
+     beside this one are draggable now, so the map changes shape without the window
+     changing. */
+  React.useLayoutEffect(() => {
+    const svg = svgRef.current;
+    if (!svg || typeof ResizeObserver === 'undefined') return undefined;
+    const read = () => {
+      const r = svg.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) setAspect(r.width / r.height);
+    };
+    const ro = new ResizeObserver(read);
+    ro.observe(svg);
+    read();
+    return () => ro.disconnect();
+  }, []);
+
+  /* The viewBox. `h` follows the pane; `cy` holds the centre steady as the pane changes
+     shape, so growing the map taller does not slide the drawing off the top. */
+  const view = React.useMemo(() => {
+    const h = place.w / (aspect || 1);
+    return { x: place.x, y: place.cy - h / 2, w: place.w, h };
+  }, [place, aspect]);
 
   /* The outline this scale deserves, the one actually on the plate, and whether the
      difference is a fetch in flight or one that failed. Three states, kept apart on
@@ -154,23 +203,30 @@ export function MapView({
     return { arcs: out, sameHearth: same };
   }, [edges, byId, carries]);
 
-  const zoom = (factor, cx, cy) => {
-    setView((v) => {
-      const w = Math.min(MAX_W, Math.max(MIN_W, v.w * factor));
-      const h = w * (v.h / v.w);
-      // keep the point under the cursor still
-      const fx = (cx - v.x) / v.w, fy = (cy - v.y) / v.h;
-      return { x: cx - fx * w, y: cy - fy * h, w, h };
+  /* Zoom about a point, keeping that point still. Exact now that the viewBox and the
+     element are the same shape: the fractions below are the fractions on screen. */
+  const zoomAbout = (factor, mx, my) => {
+    const asp = aspect || 1;
+    setPlace((pl) => {
+      const h0 = pl.w / asp;
+      const y0 = pl.cy - h0 / 2;
+      const w = Math.min(MAX_W, Math.max(MIN_W, pl.w * factor));
+      const h = w / asp;
+      const fx = (mx - pl.x) / pl.w, fy = (my - y0) / h0;
+      return clampPlace({ x: mx - fx * w, cy: (my - fy * h) + h / 2, w });
     });
   };
 
-  const toWorld = (ev) => {
+  /* Screen point → model point. ONE mapping, used by the drag and the wheel and nothing
+     else, so there is no second copy to drift. */
+  const toWorld = (clientX, clientY) => {
     const svg = svgRef.current;
-    if (!svg) return { x: 0, y: 0 };
+    if (!svg) return { x: view.x, y: view.y };
     const r = svg.getBoundingClientRect();
+    if (!r.width || !r.height) return { x: view.x, y: view.y };
     return {
-      x: view.x + ((ev.clientX - r.left) / r.width) * view.w,
-      y: view.y + ((ev.clientY - r.top) / r.height) * view.h,
+      x: view.x + ((clientX - r.left) / r.width) * view.w,
+      y: view.y + ((clientY - r.top) / r.height) * view.h,
     };
   };
 
@@ -180,25 +236,31 @@ export function MapView({
      JSX onWheel handler does nothing but log "Unable to preventDefault inside passive
      event listener invocation" — the map zoomed AND the page scrolled under it, which on
      a trackpad meant the surface slid away while you were trying to get closer to it. */
-  const viewRef = React.useRef(view);
-  viewRef.current = view;
+  /* The handler goes through a ref so the listener can be registered once, and the ref is
+     written in an EFFECT rather than in the render body: writing a ref during render
+     mutates state a discarded render should not have touched. */
+  const wheelRef = React.useRef(null);
+  React.useEffect(() => {
+    wheelRef.current = (ev) => {
+      // ctrl/cmd-wheel is the browser's own page zoom, and a trackpad pinch arrives the
+      // same way. Taking it would mean the reader cannot zoom the PAGE while the pointer
+      // is over the map, which is not the map's call to make.
+      if (ev.ctrlKey || ev.metaKey) return;
+      ev.preventDefault();
+      const p = toWorld(ev.clientX, ev.clientY);
+      zoomAbout(ev.deltaY > 0 ? 1.18 : 1 / 1.18, p.x, p.y);
+    };
+  });
   React.useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return undefined;
-    const onWheel = (ev) => {
-      ev.preventDefault();
-      const r = svg.getBoundingClientRect();
-      const v = viewRef.current;
-      const px = v.x + ((ev.clientX - r.left) / r.width) * v.w;
-      const py = v.y + ((ev.clientY - r.top) / r.height) * v.h;
-      zoom(ev.deltaY > 0 ? 1.18 : 1 / 1.18, px, py);
-    };
+    const onWheel = (ev) => { if (wheelRef.current) wheelRef.current(ev); };
     svg.addEventListener('wheel', onWheel, { passive: false });
     return () => svg.removeEventListener('wheel', onWheel);
   }, []);
 
   const onPointerDown = (ev) => {
-    drag.current = { start: toWorld(ev), view, moved: false, id: ev.pointerId };
+    drag.current = { start: toWorld(ev.clientX, ev.clientY), place, moved: false, id: ev.pointerId };
     // NOT setPointerCapture. Capturing on the <svg> retargets the compatibility mouse events
     // and the subsequent `click` to the capture element (Pointer Events L3), so the click
     // never reached the <g> of the mark under the cursor and selecting a hearth was
@@ -209,12 +271,9 @@ export function MapView({
   const onPointerMove = (ev) => {
     if (!drag.current) return;
     drag.current.moved = true;
-    const svg = svgRef.current;
-    const r = svg.getBoundingClientRect();
-    const dx = ((ev.clientX - r.left) / r.width) * view.w;
-    const dy = ((ev.clientY - r.top) / r.height) * view.h;
-    const { start, view: v0 } = drag.current;
-    setView({ ...view, x: v0.x + (start.x - (v0.x + dx)), y: v0.y + (start.y - (v0.y + dy)) });
+    const here = toWorld(ev.clientX, ev.clientY);
+    const { start, place: p0 } = drag.current;
+    setPlace(clampPlace({ ...p0, x: p0.x + (start.x - here.x), cy: p0.cy + (start.y - here.y) }));
   };
   // A drag must not also select whatever mark it started on.
   const draggedRef = React.useRef(false);
@@ -256,12 +315,20 @@ export function MapView({
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0,
       position: 'relative' }}>
+      {/* `preserveAspectRatio="none"`, stated rather than defaulted. The viewBox is built
+          from the pane's own aspect, so `none` and the default `meet` draw the same thing
+          — but `none` GUARANTEES the two coordinate spaces agree even in the frame before
+          a resize is observed, where `meet` would silently reintroduce the letterbox and,
+          with it, the cull and the pointer maths that read it. The cost is one frame of
+          non-uniform scale during a resize; the alternative is one frame of missing
+          continents. */}
       <svg ref={svgRef} role="img"
         aria-label={`${clusters.length} hearths carrying ${rows.length - unlocated.length} styles, `
           + `with ${arcs.length} lineage arcs drawn between them`}
         viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove}
         onPointerUp={onPointerUp} onPointerCancel={onPointerUp}
+        preserveAspectRatio="none"
         style={{ flex: 1, minHeight: 0, width: '100%', background: 'var(--paper-lit)',
           cursor: drag.current ? 'grabbing' : 'grab', touchAction: 'none' }}>
 
@@ -437,7 +504,12 @@ export function MapView({
             {coast.failed && (
               <span style={{ color: 'var(--refusal)' }}> The {coast.wanted.name} outline could
                 not be fetched ({coast.failed}), so this is the {coast.drawnName} one at a
-                scale it cannot carry — the facets are the simplification, not the shore.</span>
+                scale it cannot carry — the facets are the simplification, not the shore.
+                {' '}
+                <button type="button" onClick={coast.retry}
+                  style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
+                    borderBottom: '1px solid var(--link-underline)' }}>try again</button>
+              </span>
             )}
           </p>
         </div>
@@ -454,14 +526,14 @@ export function MapView({
               touch screen and a keyboard all had no way in at all before this, and the
               one thing the reader most wants from this surface is to get closer. */}
           <span style={{ display: 'inline-flex', border: '1px solid var(--rule)' }}>
-            <button type="button" onClick={() => zoom(1 / 1.6, view.x + view.w / 2, view.y + view.h / 2)}
+            <button type="button" onClick={() => zoomAbout(1 / 1.6, view.x + view.w / 2, place.cy)}
               disabled={view.w <= MIN_W * 1.001} aria-label="zoom in" title="Closer"
               style={ZOOM_KEY}>+</button>
-            <button type="button" onClick={() => zoom(1.6, view.x + view.w / 2, view.y + view.h / 2)}
+            <button type="button" onClick={() => zoomAbout(1.6, view.x + view.w / 2, place.cy)}
               disabled={view.w >= MAX_W * 0.999} aria-label="zoom out" title="Further out"
               style={{ ...ZOOM_KEY, borderLeft: '1px solid var(--rule)' }}>−</button>
           </span>
-          <button type="button" onClick={() => setView(HOME)}
+          <button type="button" onClick={() => setPlace(HOME)}
             style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
               borderBottom: '1px solid var(--link-underline)' }}>reset the view</button>
           {/* The whole window, temporarily. The rails and the masthead are 580px and 52px

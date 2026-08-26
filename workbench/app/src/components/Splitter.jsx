@@ -54,12 +54,26 @@ export function Splitter({ pane, grows = 'left' }) {
     try { ev.currentTarget.releasePointerCapture(ev.pointerId); } catch { /* already gone */ }
   };
 
+  /* WIRED TO THE ELEMENT BELOW, and it was not.
+
+     This handler was written, documented in this file's own header, in docs/workbench.md
+     and in the package report, asserted in the e2e walk as "the margin is a real
+     separator, and focusable" — and never attached. A separator that is focusable and
+     deaf is worse than one that is not focusable at all: a keyboard user tabs to it and
+     nothing happens. The walk's check passed because it asserted the ELEMENT existed
+     rather than that the KEYS did anything, which is the vacuous shape this project keeps
+     finding. `layout.test.mjs` now drives the handler directly and the walk presses the
+     keys and measures the pane. */
   const onKeyDown = (ev) => {
     const step = ev.shiftKey ? STRIDE : NUDGE;
     if (ev.key === 'ArrowLeft') { layout.dragTo(pane, width - step * dir); }
     else if (ev.key === 'ArrowRight') { layout.dragTo(pane, width + step * dir); }
     else if (ev.key === 'Home') { layout.reset(pane); }
-    else if (ev.key === 'Enter' || ev.key === ' ') { layout.toggle(pane); }
+    // Enter folds — but only where folding is a thing this pane does. It used to call
+    // toggle() on all eight, and `setCollapsed` refused for the five that are a surface's
+    // own subject while `preventDefault` ran anyway: the key was swallowed and nothing
+    // happened, which is indistinguishable from a broken control.
+    else if ((ev.key === 'Enter' || ev.key === ' ') && layout.canFold(pane)) { layout.toggle(pane); }
     else return;
     ev.preventDefault();
   };
@@ -68,12 +82,29 @@ export function Splitter({ pane, grows = 'left' }) {
     <div style={{ width: 0, flex: 'none', position: 'relative', zIndex: 6 }}>
       <div role="separator" tabIndex={0} aria-orientation="vertical"
         aria-label={`resize ${spec ? spec.label : pane}`}
-        aria-valuenow={open ? width : 0} aria-valuemin={0} aria-valuemax={spec ? spec.max : 0}
+        aria-valuenow={open ? width : 0}
+        aria-valuemin={spec ? (spec.foldable ? 0 : spec.min) : 0}
+        aria-valuemax={spec ? spec.max : 0}
+        aria-valuetext={open ? `${width} pixels` : 'folded away'}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove}
         onPointerUp={onPointerUp} onPointerCancel={onPointerUp}
+        onKeyDown={onKeyDown}
         onDoubleClick={() => layout.reset(pane)}
-        title={`Drag to resize ${spec ? spec.label : pane} · double-click for its shipped width`}
-        style={{ position: 'absolute', top: 0, bottom: 0, left: -5, width: 10,
+        title={`Drag to resize ${spec ? spec.label : pane} · arrows nudge, shift-arrows stride, `
+          + `Home or double-click for its shipped width${spec && spec.foldable ? ', Enter folds' : ''}`}
+        /* Asymmetric, and biased the SAME way whichever side the pane is on. A centred
+           10px strip put 5px of itself over its left neighbour's right edge — which in a
+           left-to-right layout is exactly where that neighbour's vertical scrollbar lives,
+           so pressing the scrollbar resized the pane instead of scrolling it. Two pixels
+           there and eight on the other side keeps the target generous while leaving a
+           classic scrollbar grabbable.
+
+           `-2` regardless of `grows`, and that is not an oversight: the neighbour whose
+           SCROLLBAR is adjacent is always the one on the left, because that is the edge a
+           scrollbar sits on. Making this depend on `grows` — which I did first — moves the
+           eight pixels onto the canvas's right edge in the `right` case and reintroduces
+           the same defect mirrored. */
+        style={{ position: 'absolute', top: 0, bottom: 0, left: -2, width: 10,
           cursor: 'col-resize', touchAction: 'none',
           // The ink: nothing at rest — the pane's own hairline is already there — a
           // thread under the hand, and gilt while a pull is in progress even after the

@@ -9,7 +9,7 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { EdgeGlyph } from '../components/EdgeGlyph.jsx';
 import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
-import { FilterStrip, Chip, ChipGroup, PaneStub, FoldControl } from '../Chrome.jsx';
+import { FilterStrip, Chip, ChipGroup, PaneStub, FoldControl, ActionChip } from '../Chrome.jsx';
 import { Splitter } from '../components/Splitter.jsx';
 import { layout } from '../state/layout.js';
 import { FilterInput } from '../components/FilterInput.jsx';
@@ -163,6 +163,20 @@ export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExi
         onDismiss={() => nav.select({ massing: null })} />
       <FilterStrip filters={filters} right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          {/* THE WAY OUT LIVES HERE, not only in the atlas's legend.
+
+              It was only in `MapView`, and the FilterStrip is rendered in full screen —
+              so entering full screen on the map and then pressing the `tree` chip
+              unmounted MapView, taking the one visible exit with it, and left a
+              chrome-less shell whose only escape was a key nobody had been told about.
+              Two adversarial auditors found it independently. The strip survives both
+              readings, so the control belongs to the strip. */}
+          {full && (
+            <ActionChip affix={null} onClick={onExitFull}
+              title="Give the instrument back — or press escape">
+              ⤡ leave full screen · esc
+            </ActionChip>
+          )}
           <Chip on={showClaims} onClick={() => filters.set('claims', showClaims)}>
             show claimed ancestry
           </Chip>

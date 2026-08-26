@@ -194,6 +194,191 @@ scrolled, and the drawing gets the guaranteed share.
   gets that, because they are different panes; a reader who wants the *rail* wide on the
   Kit and narrow on the map does not, and nothing suggests they would.
 
+## The adversarial audit, and what it found
+
+Four independent read-only passes over the committed diff — edge cases and regressions,
+test meaningfulness, second-order risk, and second occurrences of each fixed bug pattern —
+plus browser probes run alongside them. **Eleven of the package's forty-three new
+assertions passed on the code they were written to guard.** Everything below was found
+after the first commit and fixed before this report was final. It is recorded in full
+because the pattern is more useful than the list: every one of these is a guarantee that
+was WRITTEN DOWN and not enforced.
+
+### Blocked deployment
+
+**1. The guard against the headline bug could not detect the headline bug.** The walk
+filtered on `el.getAttribute('stroke-width')` — but `stroke-width` *is* inherited, so the
+coastline paths and the graticule lines take theirs from their `<g>` and carry no attribute
+of their own. Both were dropped from the population before the `vector-effect` test ever
+ran. Reverting the fix left the check reporting zero: the seventy-pixel shoreline would
+have shipped again, green, and this was the guard written to stop a fourth recurrence of a
+bug this codebase has now found three times. Verified in Chromium against reconstructions
+of both shapes. It reads `getComputedStyle` now — which is what "does not inherit" actually
+means — runs over every `viewBox`-bearing SVG on the surface, exempts marks inside a
+`<pattern>` (a hatch spacing is a measurement, not a pen), and **asserts its own
+denominator**, because a guard whose population is empty passes on anything.
+
+**2. `Splitter`'s keyboard support was written, documented in three places, and never
+attached to the element.** `onKeyDown` was defined and no `onKeyDown={onKeyDown}` existed.
+A focusable `role="separator"` that announces `aria-valuenow` and then swallows every key is
+worse for a keyboard user than one that is not focusable at all. The walk's check —
+"the margin between the panes is a real separator, and focusable" — counted the element and
+stopped. Found independently by two auditors and by my own browser probe.
+
+**3. The atlas culled land and cut the graticule to the viewBox while the SVG painted well
+outside it.** The `<svg>` set no `preserveAspectRatio`, so `meet` letterboxed a 134:43
+viewBox into a pane nearer 4:3 and painted **27.8 degrees of latitude above and below the
+box**. Three defects from one gap: the new ring cull dropped land that was on screen (South
+America vanished from the home view, because its bounding box misses the viewBox and not the
+paper), the new graticule ended short of the edge of the plate, and `toWorld` divided by the
+element's height while multiplying by the viewBox's — measured at **3.12° of drift on two
+wheel notches**, so the point under the cursor did not stay put. Fixed at the root by
+deriving the viewBox height from the pane's measured aspect: with no letterbox there is no
+second coordinate space left to get wrong. Land drawn at the home view went 16 rings → 42;
+drift 3.123° → 0.037°.
+
+**4. A moment of a narrow window permanently destroyed every stored pane width.** `clampAll`
+only ever shrank, wrote the result into the stored preference, and had no counterpart —
+so dragging the window narrow to put a PDF beside the workbench, or opening it on a rotated
+tablet, wrote all eight panes to their floors and committed it, *including the five belonging
+to surfaces that were not mounted*. Widening back restored nothing. Fixed by separating the
+two numbers that were one: `widths` is what the reader chose and is persisted; `effective`
+is what fits this window and is derived.
+
+**5. Below 900px the two rails ate the entire window.** The fit computed a one-third ceiling
+and then passed the result through `clamp()`, which re-imposed `min` — so the stated
+guarantee was silently void exactly when it bound. At 390px `nav.min + rail.min` is 390 and
+the canvas between them, which is the thing being read, was **zero pixels wide**. The fit
+now has its own floor, scaled to the window, and the guarantee holds at every width from
+320px up — asserted across that whole range rather than at the one width where it happened
+to close.
+
+**6. Below 900px every resize event wrote localStorage and re-rendered the whole shell** for
+no change at all, because the fit rebuilt `widths` into a new object with identical values
+and the identity test passed. Dragging a window edge produces dozens of those a second.
+
+### Worth fixing, and fixed
+
+- **The fine tier is one megabyte and the download is the smaller half.** OQ 72 was first
+  written as a question about bytes; the audit showed that framing would steer the fix
+  wrong, because culling by bounding box plateaus at ~78% of the geometry — the tier's
+  largest ring is Afro-Eurasia, one `<path>` with a 244 KB `d` attribute, and no fetch split
+  removes it. The question is restated with both halves and with measurements
+  (`visibleRings` itself is 0.004–0.033 ms and is *not* the cost).
+- **Zooming out drew coarser than the data already in hand.** `drawn` refused any tier finer
+  than `wanted`, so zooming past the medium band and back out replaced the 10m outline with
+  110m facets while the 10m data sat in the module cache.
+- **A failed tier fetch was a life sentence.** The chunk name is content-hashed, so *any*
+  redeploy 404s it for every already-open tab, and `failed` had no eviction. The legend now
+  offers "try again" beside the refusal it already stated honestly.
+- **Full screen plus the tree reading stranded the reader.** The exit control lived only in
+  `MapView`, and the filter strip is rendered in full screen — so pressing `tree` unmounted
+  the one visible way out. The control moved to the strip, which survives both readings.
+- **`FilterStrip`'s clear-all could be scrolled out of reach.** `overflowX: auto` on a
+  34px bar; the same defect as the map legend scrolling away its own leave-full-screen
+  control, and it had already been fixed once for being *pushed* off the edge. Sticky now.
+- **A stored fold was honoured for a pane that cannot fold**, leaving `Splitter` believing a
+  pane rendering at full width was 0 wide — the first drag snapped it to its floor and
+  `aria-valuenow` told a screen reader 0 about a visible pane.
+- **A drag cost one synchronous localStorage write per pixel** (measured: 115 for one 1.5 s
+  pull), each also a `storage` event to every other tab. Debounced, with a `pagehide` flush.
+- **`setFull` persisted.** A transient act this file says is not stored serialised the tab's
+  whole state, so toggling full screen in a stale tab reverted a width another tab had just
+  set. It emits without saving, and a `storage` listener now picks up another tab's write
+  rather than clobbering it.
+- **The grab strip sat on the neighbouring pane's scrollbar.** Asymmetric now.
+- **`Enter` was swallowed on the five panes that cannot fold**, and `aria-valuemin` reported
+  0 for panes that clamp at 150–300.
+- **`ctrl`-wheel was captured**, so the browser's own page zoom did not work over the map.
+- **A pan could leave the earth** with no way back but "reset the view".
+- **Nothing enforced that the heavy tiers stay lazy.** A future static import would fold
+  1.17 MB into the entry chunk, print the *same* size warning Vite already prints, and exit
+  0. `build/check_frontend.py` now measures the entry chunk and the tier chunks; verified by
+  making the import eager and watching it fail.
+- **`DrawingSet` dropped every sheet's declared ground colour.** It injected the fit as a
+  SECOND `style` attribute before the `<svg>`'s own, and every Python renderer opens with
+  `style="background:…"` — the parser keeps the first and silently discards the second.
+  Pre-existing, and the same family as the presentation-attribute-loses-to-a-class-rule trap
+  CLAUDE.md already records, by duplicate attribute rather than by cascade. Invisible only
+  because what showed through was a near-identical vellum, and one theme change from dark
+  ink on a dark ground. The fit is a CSS rule on the wrapper now; the walk asserts the
+  attribute count, the resolved background and the fit.
+- **The generator recorded no provenance.** Each file now carries the exact package version
+  and the SHA-256 of the input it was built from, and world-atlas's ISC licence is credited.
+  Re-running the generator on the same input is byte-identical — verified, not assumed.
+
+### The tests, which were the worst of it
+
+`layout.test.mjs`, `coastlines.test.mjs` and `graticule.test.mjs` were rewritten against a
+mutation harness rather than re-read. What the audit demonstrated, each with a reproduction:
+
+- The **fine tier could be replaced wholesale by the coarse tier** — 102 rings in place of
+  2,262 — with `points: 116623` and `tolerance: 0.012` left untouched, and all 36 tests
+  passed. The suite compared the file's self-declared metadata against itself and never
+  touched a coordinate. The point count is now **walked from the geometry**, and the tiers
+  are checked against each other by median segment length.
+- The bounding-box test applied **1.01° of slop in the permissive direction**, so a box
+  whose western edge sat a full degree *inside* its ring passed — up to 110 km of the "hole
+  in the world" the test names, invisible. Shifting a ring 0.9° left it green.
+- The culling oracle's **latitude clauses were never exercised**: at the one view box
+  tested, every ring overlapping in longitude also overlapped in latitude, so deleting half
+  the predicate left the suite green.
+- `reset()` could be made a **no-op**; the third-of-window ceiling could be **deleted**;
+  `MIN_LINES` could be **tripled** to draw 37 lines the test's own word calls wallpaper.
+- The anti-fold check asserted things that are **byte-identical either way** — `PullPane`
+  never reads `collapsed`, so a folded pane renders the same DOM. Deleting both foldable
+  guards left the suite green. It measures the width now, which is the only difference.
+- "and says how to leave" used `innerText`, which **includes text scrolled out of view** —
+  so it passed on precisely the shipped defect it was written for, a control sitting 1,256px
+  below the bottom of its scroller. It measures the bounding box against the viewport now.
+
+**And rewriting one of them found a real bug in code I had written.** The graticule's
+"does not drift" guarantee was false: `Math.round(v / step) * step` recovers the right
+multiple and then puts the error straight back, because `3 * 0.2` is 0.6000000000000001 in
+binary floating point. The rounding looked like a fix and was not, and the test that was
+supposed to prove it carried a 1e-9 tolerance against a 4e-16 error. Ticks are counted in
+multiples and multiplied out once now.
+
+### Found while verifying the fixes, not by the auditors
+
+**A rate-limited walk failed as a broken sheet.** Running the e2e walk repeatedly against
+one server exhausts `HEAVY_CALLS_PER_HOUR` (60, per identity — the walk spends several), and
+what that looks like is `waitForSelector('svg[role="img"]')` timing out on the Plan
+Workbench thirty seconds later: a failure that reads as broken code and is a spent quota.
+The limiter already says so honestly in its response body and nothing was listening. The
+walk now watches for a 429, prints what it means and how to clear it, and **exits 3 — the
+COULD NOT EVALUATE code the rest of this project uses** — rather than reporting either a
+pass or a failure it did not measure. `workbench/scripts/walk.sh` names that case too. This
+is the same rule as everything else here: an unjudged walk is not a green one.
+
+### Checked and clean, so the negative results are on record
+
+No hook-order violations and no conditional hooks; every `getSnapshot` returns a primitive
+or a stable object identity, so no render loop. All 45 `.jsx` files parse under esbuild, so
+every `</PullPane>` provably closes its own `<PullPane>`. No `--rail-left`/`--rail-ai`
+references remain in code. No other React `onWheel`/`onTouch*` calls `preventDefault` (both
+wheel handlers in the app are native and non-passive). No other non-inherited SVG property
+is set on a container anywhere in the repo — 50 uses of `vector-effect`, every one on the
+drawn element. No other inverted ladder among the app's threshold tables. The layout key
+cannot collide with or clobber `planDoc`, `session` or `draftDoc`. The lazy tiers really are
+lazy (no `modulepreload`, one `__vitePreload` reference). Hostile localStorage — arrays,
+strings, objects, `1e999`, negative numbers, `__proto__`, a 100 KB string, an accessor that
+throws on read — produces no crash, no loop and no unrecoverable shell.
+
+### Deferred, with reasons
+
+- **`tests/test_drawn_labels.py` covers one of five SVG emitters** and only class selectors,
+  not the type selectors every Python renderer actually opens its `<style>` with. Real
+  coverage gap, **pre-existing**, and in a subsystem this package does not touch; the
+  auditor re-ran the general form statically across all five and found **no live clash**.
+  Widening it is its own package.
+- **The map's pointer maths still reads `getBoundingClientRect()` on every move.** Correct,
+  and a forced layout read per pointermove; not worth a refactor until the mega-ring
+  question in OQ 72 is settled, since that is the larger cost in the same loop.
+- **1.4 MB of generated data is now in git with no policy**, and each regeneration adds
+  another ~370 KB compressed blob permanently. Named here rather than solved; a policy is a
+  repository decision, not a work-package one.
+
 ## New open question
 
 **OQ 72** — the fine coastline tier is 363 KB gzipped, fetched whole the first time a
@@ -213,10 +398,17 @@ New: `app/src/state/layout.js`, `app/src/components/Splitter.jsx`,
 `app/src/components/PullPane.jsx`, `app/src/surfaces/phylo/coastTiers.js`,
 `app/src/surfaces/phylo/graticule.js`.
 
-New: `app/src/components/PullPane.jsx`.
+New: `app/src/components/PullPane.jsx`, `app/src/surfaces/phylo/graticule.js`.
 
-Tests: `app/src/layout.test.mjs` (11), `app/src/coastlines.test.mjs` (9),
-`app/src/graticule.test.mjs` (5), and eighteen new checks in `app/e2e/walk.mjs`.
+Tests, after the audit rewrote them: `app/src/layout.test.mjs` (**20**),
+`app/src/coastlines.test.mjs` (**11**), `app/src/graticule.test.mjs` (5), and the e2e walk at
+**113** `check()` calls against 82 before the package — 125 assertions at run time, since
+the order-plate block loops. All three unit suites are checked against a
+mutation harness — every fix they name is reverted and the suite must go red — rather than
+re-read; the harness is worth keeping for the next person who adds one.
+
+`build/check_frontend.py` gained the guard that the heavy coastline tiers stay out of the
+entry chunk, verified by making the import eager and watching it fail.
 
 Changed: `App.jsx`, `Chrome.jsx`, `components/AiRail.jsx`, `keys.js`, `theme/tokens.css`,
 `surfaces/Phylogeny.jsx`, `surfaces/phylo/MapView.jsx`, and the five surfaces whose index

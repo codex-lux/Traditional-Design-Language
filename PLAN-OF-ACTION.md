@@ -604,7 +604,26 @@ rule shipped inverted inside this package and drew no lines at all at the zooms 
 reachable — caught by a browser probe counting elements, and pinned now; the map's legend was
 taking 395px of an 860px window, so the drawing got less than half its own surface.
 
-Report: `docs/reports/wp-5.7-the-atlas-and-the-shell.md` · new open question: OQ 72.
+**Then audited adversarially, and the audit is the more useful half.** Four independent
+read-only passes -- edge cases, test meaningfulness, second-order risk, second occurrences of
+each fixed pattern -- plus browser probes. **Eleven of the package's forty-three new
+assertions passed on the code they were written to guard.** Six findings blocked deployment
+and all six are fixed: the guard against the headline `vector-effect` bug could not detect
+it (it filtered on an attribute the bug's own shape does not carry, so reverting the fix left
+it green); `Splitter`'s keyboard support was written, documented in three places and never
+attached; the atlas culled land and cut the graticule to the viewBox while the SVG painted
+27.8 degrees outside it, so South America vanished from the home view and a wheel zoom
+drifted 3.12 degrees; a moment of a narrow window permanently destroyed every stored pane
+width; below 900px the two rails ate the whole window and the canvas was zero pixels wide;
+and below 900px every resize event wrote localStorage and re-rendered the shell for no
+change. The three unit suites were rewritten against a mutation harness rather than re-read
+-- the fine coastline tier could be replaced wholesale by the coarse tier with all 36 tests
+green -- and rewriting one of them found a real bug in the shipped code: the graticule's
+"does not drift" rounding recovers the right multiple and then puts the error straight back,
+because `3 * 0.2` is 0.6000000000000001.
+
+Report: `docs/reports/wp-5.7-the-atlas-and-the-shell.md` (§ the adversarial audit) · new open
+question: OQ 72.
 
 **Depends on:** WP-5.2, WP-5.6. **Size:** medium.
 

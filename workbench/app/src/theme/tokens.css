@@ -446,3 +446,16 @@ hr{border:0;border-top:var(--rule-hair);margin:var(--sp-6) 0}
 ::-webkit-scrollbar-thumb:hover{background:var(--ink-3)}
 
 html,body{height:100%}body{overflow:auto}#root{height:100%;min-width:1380px}input[type=range]{height:14px}
+
+/* A rendered sheet, fitted to its column.
+
+   The rule lives here rather than being injected into the SVG's own tag, and that is the
+   fix rather than the style. `DrawingSet` used to rewrite `<svg ` into
+   `<svg style="max-width:100%;height:auto" ` — and every Python renderer opens with
+   `…viewBox="…" style="background:…">`, so the element carried TWO `style` attributes, the
+   parser kept the first and silently dropped the second, and each sheet's declared ground
+   colour never applied. Same family as the presentation-attribute-loses-to-a-class-rule
+   trap CLAUDE.md records for `render_plan.py`, by duplicate attribute rather than by
+   cascade. A rule on the parent reaches the child and cannot collide with anything the
+   renderer wrote. Found by an adversarial audit of WP-5.7. */
+.plate-fit > svg { max-width: 100%; height: auto; }

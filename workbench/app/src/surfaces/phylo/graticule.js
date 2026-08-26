@@ -28,11 +28,20 @@ export function gridStep(width) {
 export function ticks(lo, hi, step, cap = 60) {
   const out = [];
   if (!(step > 0) || !(hi >= lo)) return out;
-  const first = Math.ceil(lo / step) * step;
-  for (let v = first; v <= hi + step * 1e-9 && out.length < cap; v += step) {
-    // Rounded back onto the grid: repeated addition of 0.2 drifts, and a graticule whose
-    // labels would read 39.99999999999999 is a graticule that has stopped being one.
-    out.push(Math.round(v / step) * step);
+  /* Counted in MULTIPLES of the step and multiplied out once, rather than accumulated.
+
+     The first version added `step` repeatedly and then "rounded back onto the grid" with
+     `Math.round(v / step) * step` — which recovers the right multiple and then puts the
+     error straight back, because `3 * 0.2` is 0.6000000000000001 in binary floating point
+     and `3 * 0.7` is 2.0999999999999996. The rounding looked like a fix and was not; the
+     test that was supposed to prove it carried a 1e-9 tolerance against a 4e-16 error and
+     could not see the difference. `toFixed` at nine places is what actually lands the
+     value on the number a reader would write down, and a graticule at 1e-9 of a degree is
+     a graticule at a tenth of a millimetre. */
+  const first = Math.ceil(lo / step);
+  const last = hi / step;
+  for (let k = first; k <= last + 1e-9 && out.length < cap; k += 1) {
+    out.push(Number((k * step).toFixed(9)));
   }
   return out;
 }

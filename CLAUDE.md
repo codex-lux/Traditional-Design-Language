@@ -154,17 +154,33 @@ the plate** rather than letting a facet pass for a shore. `MIN_W` is 3 degrees b
 what the finest data can honestly draw, not because of taste. Rings are culled by generated
 bounding boxes; the graticule steps with the scale (`graticule.js`); the wheel handler is
 native and non-passive, because React's passive `onWheel` meant the page scrolled while the
-map zoomed. **`state/layout.js` is a fifth external store** -- pane widths and folds, in
+map zoomed. **A per-element SVG property set on a parent is this codebase's most-repeated bug and the
+guard against it must read COMPUTED STYLE**: the first version of that guard filtered on
+`getAttribute('stroke-width')`, but `stroke-width` IS inherited, so the very marks the bug
+lives on were dropped from the population before the test ran and reverting the fix left it
+green. **The atlas's viewBox now takes the pane's own shape and its height is DERIVED, not
+stored** -- a fixed 134:43 box in a 4:3 pane letterboxed 27.8 degrees of latitude, and the
+ring cull, the graticule and the pointer maths all read the viewBox as though it were the
+plate: South America vanished from the home view and a wheel zoom drifted 3.12 degrees every
+two notches. One mismatch, three defects; do not reintroduce a stored height.
+**`state/layout.js` is a fifth external store** -- pane widths and folds, in
 localStorage, deliberately NOT in the URL, because a citation that carried the sender's rail
-width would be handing the reader the sender's monitor. **Eight panes pull** — the two rails, the
+width would be handing the reader the sender's monitor. **It holds TWO numbers per pane** --
+what the reader chose, persisted, and what fits this window, derived -- because the first
+version had one and let a moment of a narrow window overwrite all eight panes' widths
+permanently. **Eight panes pull** — the two rails, the
 Phylogeny's record, and the five surface index panels that were fixed numbers in their own JSX
 (`components/PullPane.jsx`) — and widths clamp on READ as well as on write. Only the first
 three FOLD (`[` and `]`, or the spine): `PANES.foldable` is the difference between chrome and
 subject, and a Fault Corpus with its fault list folded away is not a decluttered Fault Corpus. The atlas can take the whole
 window; `layout.full` is the one piece of layout state that is not persisted, which is what
 "temporarily" means. `--rail-left` and `--rail-ai` are gone from `tokens.css` on purpose -- do
-not reinstate them. Report: `docs/reports/wp-5.7-the-atlas-and-the-shell.md` · new open
-question: OQ 72.
+not reinstate them. **Four adversarial audits then found eleven of the package's forty-three new assertions
+passing on the code they were written to guard** -- among them the fine coastline tier being
+replaceable wholesale by the coarse one with the suite green, and a documented keyboard
+control that was never wired to its element. Read the report's audit section before adding a
+test here; the suites are now mutation-checked and the harness is worth reusing. Report:
+`docs/reports/wp-5.7-the-atlas-and-the-shell.md` · new open question: OQ 72.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for

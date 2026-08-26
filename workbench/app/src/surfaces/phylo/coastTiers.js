@@ -101,14 +101,39 @@ export function useCoastline(width) {
     inflight.set(wanted.name, p);
   }, [wanted.name]);
 
-  // Best available: the finest tier already in hand that is no finer than what is wanted.
-  const from = BY_DETAIL.indexOf(wanted);
-  const drawn = BY_DETAIL.slice(from).find((t) => loaded.has(t.name)) || TIERS[0];
+  /* Best available means NEAREST TO WANTED on the ladder — not the coarsest that will do,
+     and not the finest in hand either. Both of those were tried and both were wrong.
+
+     The first version refused any tier finer than the scale asked for, so zooming past the
+     medium band and back out drew 110m facets while the 10m data sat in the module cache:
+     the legend reported the coarse tier as what the scale deserved, and it was not.
+     Correcting that to "finest in hand" over-corrected — the e2e walk caught it —
+     because once the fine tier is fetched, returning to a hemisphere view mounted 827
+     rings including the 25,000-point Afro-Eurasia path, for a drawing indistinguishable at
+     0.134 degrees per pixel from one with 42.
+
+     Nearest, with a tie going to the FINER tier, gives the right answer in both: at a
+     hemisphere the wanted tier is loaded and is used; at forty degrees, with medium not
+     fetched and fine in hand, fine is one rung away and coarse is one rung away, and the
+     finer of the two is the honest one to draw. */
+  const wantIdx = BY_DETAIL.indexOf(wanted);
+  const inHand = BY_DETAIL.filter((t) => loaded.has(t.name));
+  const drawn = inHand.slice().sort((a, b) => {
+    const da = Math.abs(BY_DETAIL.indexOf(a) - wantIdx);
+    const db = Math.abs(BY_DETAIL.indexOf(b) - wantIdx);
+    return da - db || BY_DETAIL.indexOf(a) - BY_DETAIL.indexOf(b);   // tie → the finer
+  })[0] || TIERS[0];
   return {
     wanted,
     drawn: loaded.get(drawn.name) || COAST_COARSE,
     drawnName: drawn.name,
-    pending: drawn.name !== wanted.name && !failed.has(wanted.name),
+    pending: drawn.name !== wanted.name && !failed.has(wanted.name) && !loaded.has(wanted.name),
     failed: failed.get(wanted.name) || null,
+    /* A failed fetch is recorded rather than retried in a loop, but it must not be a life
+       sentence: the chunk filename is content-hashed, so ANY redeploy 404s it for every
+       tab that is already open, and without this the map is stuck on a coarser outline
+       until the reader thinks to reload the whole page. The legend offers this; nothing
+       calls it on a timer. */
+    retry: () => { failed.delete(wanted.name); bump(); },
   };
 }

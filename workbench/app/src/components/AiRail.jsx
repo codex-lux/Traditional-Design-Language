@@ -115,9 +115,13 @@ function AssistantTurn({ turn, onCite }) {
 
 function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount }) {
   /* The rail's own width, pulled from the shell's layout store rather than a token, so
-     the splitter on its left edge and the aside itself cannot disagree about it. A
-     `width` prop still wins — the shortcut card and the tests mount this at a fixed
-     size. */
+     the splitter on its left edge and the aside itself cannot disagree about it.
+
+     The `width` prop still wins where one is passed. NOTHING PASSES ONE — `RailHost` is
+     the only mount site — and the comment here used to claim "the shortcut card and the
+     tests mount this at a fixed size", which an audit found to be true of neither. The
+     escape hatch is kept because a fixed-width mount is a reasonable thing to want; the
+     claim that something already does it is not kept. */
   const pulled = React.useSyncExternalStore(layout.subscribe, () => layout.width('rail'));
   return (
     <aside aria-label="the rail — ask the corpus"

@@ -211,6 +211,21 @@ EVALUATE rather than passing.
 `draftDoc` and `nav`. It holds a width and a folded flag per pane and persists to
 **localStorage**, not to the URL.
 
+**TWO NUMBERS PER PANE, and the distinction is the whole file.** `widths[p]` is what the
+reader CHOSE — persisted, changed only by a deliberate act. `effective[p]` is what fits
+THIS window right now — derived, never stored, and what `layout.width()` returns. The first
+version had one number and let the window overwrite it, which meant a moment of a narrow
+window (a PDF beside the workbench, a rotated tablet) wrote all eight panes to their floors
+and committed it, including the five belonging to surfaces that were not even mounted.
+Widening back restored nothing. **Preference and fit have to be different numbers or that
+is unavoidable.**
+
+**The fit may go below a pane's `min`, and must.** `min` is a floor on what the reader may
+CHOOSE, not a claim about what the window can hold. Re-imposing it inside the fit made the
+stated guarantee void exactly when it bound: at 390px `nav.min + rail.min` is 390, so the
+two rails took the whole window and the canvas between them was zero pixels wide. The fit
+has its own floor, scaled to a sixth of the window, so the canvas never gets less than half.
+
 | pane | what it is | default | folds |
 |---|---|---|---|
 | `nav` | the surface list | 236 | yes |
@@ -304,7 +319,34 @@ would be the same error the fault corpus exists to prevent.
 of error across a 1,200px pane), not by taste. `surfaces/phylo/graticule.js` steps the grid
 with the scale. The wheel handler is a **native, non-passive** listener: React attaches
 `wheel` at the root as passive, so `preventDefault` in a JSX `onWheel` never worked and the
-page scrolled while the map zoomed.
+page scrolled while the map zoomed. It lets `ctrl`/`cmd`-wheel through, because that is the
+browser's own page zoom and not the map's to take.
+
+### The viewBox has the pane's own shape, and everything depends on it
+
+`MapView` stores `{x, cy, w}` — a longitude span and the latitude it is centred on. **The
+height is not stored.** It is derived from the pane's measured aspect (a `ResizeObserver`,
+because the panes beside it are draggable now), and `preserveAspectRatio="none"` is stated
+rather than defaulted.
+
+This is not tidiness. The view used to carry a fixed `h`, at 134:43 against a pane nearer
+4:3, so `xMidYMid meet` painted **27.8 degrees of latitude above and below the viewBox** —
+and three separate things then read the viewBox as though it were the plate:
+
+- the ring cull dropped land that was on screen (South America vanished from the home view,
+  because its bounding box misses the viewBox and not the paper);
+- the graticule was cut to the viewBox and ended short of the edge of the plate;
+- `toWorld` divided by the element's height while multiplying by the viewBox's, so a wheel
+  zoom moved the point under the cursor by 3.12° every two notches.
+
+One mismatch, three defects. **Do not reintroduce a stored height**: with no letterbox there
+is no second coordinate space left to get wrong, and the e2e walk asserts the two rectangles
+agree.
+
+`coastTiers.js` draws the tier NEAREST what the scale asked for, with a tie going to the
+finer. Both neighbouring rules were tried and both were wrong: "never finer than wanted"
+drew 110m facets on zoom-out while 10m data sat in the module cache, and "finest in hand"
+mounted 827 rings at a hemisphere view where 42 are indistinguishable.
 
 **The gazetteer did not change.** A finer coastline is a finer drawing aid; it does not make
 a placement better sourced than the prose it came from, and the legend still says so.

@@ -214,11 +214,20 @@ export function FilterStrip({ children, right, filters }) {
       {/* Before `right`, not after it. The clear-all is the escape hatch from a strip that
           is already too full, so it must not be the control that a full strip pushes off
           the edge — which is exactly what happened on the Fault Corpus at 1680px. */}
+      {/* STICKY, not merely early. Putting it before `right` stopped a full strip from
+          PUSHING it off the edge, which is what the note above records — but the strip is
+          `overflowX: auto`, so everything in it including this scrolls, and a reader who
+          has over-filtered into an empty list had to scroll a 34px-tall bar sideways to
+          find the way out. The same defect as the map legend scrolling its own
+          leave-full-screen control away, and the same rule: a way out that can be scrolled
+          away is not a way out. */}
       {n > 0 && (
         <button type="button" onClick={filters.clear}
           title="Show everything again"
           style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', whiteSpace: 'nowrap',
-            flex: 'none', borderBottom: '1px solid var(--link-underline)' }}>
+            flex: 'none', borderBottom: '1px solid var(--link-underline)',
+            position: 'sticky', right: 0, background: 'var(--paper)',
+            paddingLeft: 8, zIndex: 2 }}>
           {n} narrowing · clear
         </button>
       )}

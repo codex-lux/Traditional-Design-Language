@@ -137,9 +137,14 @@ export default function App() {
       else if (layout.get().full) exitFull();
     },
     /* Two keys, added deliberately — see keys.js. The reason is the one the rails
-       themselves are the answer to: 580px of permanent furniture is worth a key. */
-    onFoldNav: () => layout.toggle('nav'),
-    onFoldRail: () => layout.toggle('rail'),
+       themselves are the answer to: 580px of permanent furniture is worth a key.
+
+       Inert where there is nothing to fold. In full screen both rails are already gone and
+       no modal is dismissed by them, so the keys used to flip state invisibly — and leaving
+       full screen then revealed a rail the reader did not remember folding. A key that
+       silently changes something you cannot see is worse than a key that does nothing. */
+    onFoldNav: () => { if (!layout.get().full && !palette && !helpCard) layout.toggle('nav'); },
+    onFoldRail: () => { if (!layout.get().full && !palette && !helpCard) layout.toggle('rail'); },
   });
 
   const cite = React.useCallback((ref) => nav.cite(ref), []);
