@@ -78,9 +78,10 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
       <FilterStrip filters={filters} right={
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <Eyebrow as="span">exceptions for</Eyebrow>
+          <Eyebrow as="span" style={{ whiteSpace: 'nowrap' }}>exceptions</Eyebrow>
           <StylePicker value={styleInView} onChange={(v) => filters.set('style', v)}
-            label="Read the corpus with one style's exceptions in view" allowNone width={190} />
+            label="Read the corpus with one style's exceptions in view" allowNone width={160}
+            noneLabel="no style" />
         </span>
       }>
         <FilterInput value={q} onChange={(v) => filters.set('q', v)} count={list.length}

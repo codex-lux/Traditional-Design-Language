@@ -144,7 +144,9 @@ export function FilterStrip({ children, right, filters }) {
       overflowX: 'auto', overflowY: 'hidden', scrollbarWidth: 'thin' }}>
       {children}
       <div style={{ flex: 1, minWidth: 14 }} />
-      {right}
+      {/* Before `right`, not after it. The clear-all is the escape hatch from a strip that
+          is already too full, so it must not be the control that a full strip pushes off
+          the edge — which is exactly what happened on the Fault Corpus at 1680px. */}
       {n > 0 && (
         <button type="button" onClick={filters.clear}
           title="Show everything again"
@@ -153,6 +155,7 @@ export function FilterStrip({ children, right, filters }) {
           {n} narrowing · clear
         </button>
       )}
+      {right}
     </div>
   );
 }
