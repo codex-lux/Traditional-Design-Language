@@ -246,7 +246,7 @@ export function BriefIntake({ go }) {
               ) : native.length === 0 ? (
                 <Advisory tone="limit"
                   label={`${brief.style} has no native parti — the composer will borrow diagrams`}
-                  detail="93 of 132 styles have none; every candidate will carry the NOT-native label. A corpus limit, not a bad result." />
+                  detail="Three of the corpus's 132 styles and variants have none — egyptian-revival, new-urbanist-traditional and tuscan-vernacular — and every candidate here will carry the NOT-native label. This is one of the three, not the norm: WP-4.5 took native coverage from 93 uncovered to 0, and this panel claimed the pre-WP-4.5 figure until 26 Aug 2026." />
               ) : (
                 <Advisory
                   label={`${native.length} parti${native.length === 1 ? '' : 's'} native to ${brief.style}`}

@@ -17,9 +17,15 @@ const KINDS = [
 ];
 
 const DISCLOSURE = {
-  elevation: 'The elevation generator evaluates 83 of the 177 applicable photograph-measurable ' +
-    'faults — the acceptance text had named 100 — and the remainder have no model at this ' +
-    'layer yet (WP-3.2, disclosed rather than closed by fabricating data). Sash lights are ' +
+  // The 83-of-177 figure this caption used to print is tidewater-georgian's own count
+  // (docs/reports/wp-3.2-elevation-generator.md), and it was drawn unqualified beneath a
+  // Craftsman or a Charleston elevation as though it described them. Nothing in
+  // build/elevation.py emits either number, so the caption could never drift back into
+  // agreement with the generator. Stated as the limit it is, without a borrowed count.
+  elevation: 'The elevation generator models a part of the photograph-measurable fault ' +
+    'corpus and no more; the rest have no model at this layer yet (WP-3.2, disclosed rather ' +
+    'than closed by fabricating data), and what it could not measure is absent from the ' +
+    'measurements rather than reported as zero. Sash lights are ' +
     'set for the declared date; the cornice is the style’s own entablature reduction at the ' +
     'real storey height.',
   section: 'Cut from the same record as the plan. Storey heights come from the ' +

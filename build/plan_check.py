@@ -666,7 +666,10 @@ def check(plan, C=None, strict=False):
     for gid in plan.get("groupings", []):
         g = C["groupings"].get(gid)
         if not g:
-            F.add("serious", "grouping", f"Unknown grouping '{gid}'.", fix="Use an id from groupings/.")
+            # rule=gid: without it the finding names no rule, and a consumer keyed by rule
+            # (compose.py's canon axis) credits the grouping as clean while still counting it.
+            F.add("serious", "grouping", f"Unknown grouping '{gid}'.", rule=gid,
+                  fix="Use an id from groupings/.")
             continue
         sv = next((v for v in g.get("style_variation", []) if v["style"] in chain), None)
         if sv and sv.get("present") is False:

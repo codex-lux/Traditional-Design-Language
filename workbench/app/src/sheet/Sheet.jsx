@@ -241,10 +241,15 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         <rect x={0} y={-H} width={W} height={H} fill="var(--paper-lit)" />
 
         {/* analytic overlays, glazed on the sheet */}
+        {/* privacy_rank runs 1-5 across rooms/, not 1-6, so dividing by 6 meant the most
+            private room never reached the top of the ramp. And `|| 1` drew a room type the
+            catalogue has no rank for exactly like the LEAST private one — unjudged rendered
+            as evaluated, on a sheet. An unranked room is now left unglazed. */}
         {ov.privacy && rooms.map((r) => {
-          const rank = roomsMeta[r.type]?.privacy_rank || 1;
+          const rank = roomsMeta[r.type]?.privacy_rank;
+          if (!rank) return null;
           return <rect key={'pv' + r.id} x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
-            fill="var(--sepia)" opacity={0.04 + (rank / 6) * 0.20} />;
+            fill="var(--sepia)" opacity={0.04 + ((rank - 1) / 4) * 0.20} />;
         })}
         {ov.daylight && rooms.map((r) => litWalls(r, W, H).map((wall) => {
           // gated on the walls the placement actually lit — the overlay may never

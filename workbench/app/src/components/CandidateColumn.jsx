@@ -1,4 +1,5 @@
 import React from "react";
+import { whyText } from "../candidateOrder.js";
 
 /* P4 — rank them, never crown one. Three rules this component exists to enforce:
    1. trades_away sits adjacent to the score at all times, never behind a disclosure.
@@ -9,8 +10,12 @@ import React from "react";
       · 1/minor − fidelity (7)") which reads as a count of fatal findings and explains
       nothing about the figure above it. It is now a composite out of 100, higher is better,
       and every axis is shown with its own share, its weight and the denominator that share
-      was taken over. An axis that could not be evaluated says so and has its weight dropped;
-      a fatal finding forfeits the score outright and the reason is printed in its place. */
+      was taken over. An axis that could not be evaluated says so and has its weight dropped.
+   4. A DISQUALIFIED CANDIDATE IS STILL SCORED, and its number can be the highest on screen.
+      A fatal finding is carried in the band below the score, not by withholding the number:
+      withholding it was built first and measured, and five briefs of eight came back with
+      EVERY candidate disqualified, four dashes and no way to tell them apart. The ordering
+      is what keeps a disqualified plan behind a clean one — see candidateOrder.js. */
 const EYE = {
   font: 'var(--type-eyebrow)',
   letterSpacing: 'var(--tr-eyebrow)',
@@ -24,21 +29,6 @@ const SEV = {
 };
 const h = React.createElement;
 
-/* `why_this_diagram` is a LIST of reasons and was being handed to React whole. React
-   concatenates an array of strings with nothing between them, so the native case read
-   "native to tidewater-georgianfour-over-four is a canonical massing for the style", and
-   the borrowed case interpolated the array into a template literal, which joins on commas
-   AND repeats the "NOT native to this style" the surrounding span had just said. Both
-   were in the shipped workbench. Joined properly here, and the redundant clause dropped
-   where the caller has already made that point in its own colour. */
-function whyText(why, dropNativity) {
-  return (Array.isArray(why) ? why : [why]).filter(Boolean).map(String)
-    /* strip only the clause the caller already printed, never the sentence it opens —
-       "the composer is borrowing a diagram" is the part worth reading */
-    .map((w) => (dropNativity ? w.replace(/^NOT native to this style\s*[—-]\s*/i, '') : w))
-    .filter((w) => w.trim())
-    .join('; ');
-}
 
 /* The headline and its whole arithmetic. Rendered from compose.py's `score_axes`, which
    carries one row per axis: its weight out of 100, the share of its own denominator that
@@ -46,24 +36,38 @@ function whyText(why, dropNativity) {
    the shape of a candidate is readable before any of the numbers are. */
 function ScoreBlock({ candidate: c }) {
   const axes = c.score_axes || [];
-  const forfeit = c.score == null;
+  const unscored = typeof c.score !== 'number' || !isFinite(c.score);
+  const dq = !!c.disqualified;
   return h(React.Fragment, null,
     h("div", { style: { display: 'flex', alignItems: 'baseline', gap: 9, marginTop: 12 } },
-      h("span", { style: { font: 'var(--fw-reg) 26px/1 var(--mono)',
-                           color: forfeit ? 'var(--sev-fatal)' : 'var(--ink)' } },
-        forfeit ? '—' : c.score.toFixed(1)),
-      h("span", { style: { ...EYE } }, forfeit ? "score forfeit" : "score")),
-    !forfeit && h("div", { style: { ...EYE, color: 'var(--ink-4)', marginTop: 3 } },
+      h("span", { style: { font: 'var(--fw-reg) 26px/1 var(--mono)', color: 'var(--ink)' } },
+        unscored ? '—' : c.score.toFixed(1)),
+      h("span", { style: { ...EYE } }, unscored ? "not scored" : "score")),
+    !unscored && h("div", { style: { ...EYE, color: 'var(--ink-4)', marginTop: 3 } },
       "out of 100 · higher is better"),
-    /* A forfeited score is never a blank. The corpus states its refusals. */
-    c.score_forfeit && h("p", {
-      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--sev-fatal)',
+    /* A disqualified candidate is still scored and its number can be the highest on the
+       screen — every ordering puts it last, and this band is why. It is a rule, not a
+       ranking: no score is a case for building a plan with a fatal finding in it. */
+    dq && h("div", {
+      style: { marginTop: 8, borderLeft: '2px solid var(--sev-fatal)', paddingLeft: 9 }
+    },
+      h("div", { style: { ...EYE, color: 'var(--sev-fatal)' } }, "disqualified"),
+      h("p", { style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-2)',
+                        margin: '3px 0 0' } },
+        c.disqualified_because || "a fatal finding")),
+    c.score_unscored_because && h("p", {
+      style: { font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)',
                margin: '6px 0 0' }
-    }, c.score_forfeit),
+    }, c.score_unscored_because),
     axes.length > 0 && h("div", { style: { marginTop: 10 } },
       h("div", { style: EYE }, "how it scores"),
       axes.map(function (a) {
-        const pct = a.share == null ? null : Math.round(a.share * 100);
+        /* Number() then isFinite: `share` is server data, and a NaN or a string would be
+           interpolated straight into a CSS gradient below. A bad share reads as "not
+           evaluated", which is the honest fallback and never a silent 0%. */
+        const raw = Number(a.share);
+        const pct = a.share == null || !isFinite(raw) ? null
+          : Math.max(0, Math.min(100, Math.round(raw * 100)));
         const title = [a.what, a.denominator && ('over ' + a.denominator),
                        a.unjudged ? (a.unjudged + ' could not be judged and are not counted as passed') : null,
                        a.note].filter(Boolean).join(' — ');

@@ -143,7 +143,14 @@ function RulesTable({ rules }) {
               </td>
               <td style={{ font: 'var(--type-data)', color: r.judgment ? 'var(--ink-3)' : 'var(--ink)',
                 padding: '6px 12px 2px 0', whiteSpace: 'nowrap', verticalAlign: 'top' }}>
-                {r.judgment ? 'yours to decide' : `${r.value} ${r.units || ''}`}
+                {/* `error` is the engine saying it could not evaluate this rule. It was
+                    outside core.py's RULE_KEYS until 26 Aug 2026, so it never arrived and
+                    this cell drew "null in" — a refusal rendered as a measurement, which is
+                    the one direction this corpus must not round in. */}
+                {r.judgment ? 'yours to decide'
+                  : r.error ? <span style={{ color: 'var(--ink-3)' }}>could not evaluate — {r.error}</span>
+                  : r.value == null ? <span style={{ color: 'var(--ink-3)' }}>not evaluated</span>
+                  : `${r.value} ${r.units || ''}`}
               </td>
               <td style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', padding: '6px 0 2px 0',
                 whiteSpace: 'nowrap', verticalAlign: 'top' }}>

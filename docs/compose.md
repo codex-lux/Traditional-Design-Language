@@ -41,7 +41,11 @@ A room is spent by a serious finding, halved by a minor, and left whole by an ad
 
 **Unjudged is not passed.** An axis with no evidence neither scores zero nor scores full marks: its weight is dropped and the total renormalised over the weight that could be evaluated. `score_weight_unevaluated` reports how much of the hundred that was, so a score taken over 94 points of evidence cannot be read as one taken over 100.
 
-**A fatal finding forfeits the score** rather than lowering it. `score` is null, `score_forfeit` says why, the axes are still measured, and the candidate sorts last. A fatal is a thing that is wrong, not a thing that is worse, and averaging it into a share would let a native diagram with a broken plan outscore a sound borrowed one.
+**A fatal finding disqualifies a candidate**, and that is carried *beside* the score rather than inside it: `disqualified` is true and `disqualified_because` says so in words. A disqualified candidate never outranks a clean one whatever it scores — that guarantee lives in the sort's primary key, which is the fatal count, so the score does not have to enforce it a second time. In the workbench every ordering puts a disqualified candidate last, including "highest score first", and its column carries a band saying why.
+
+This was first built the other way, withholding the score entirely on a fatal, and **measuring it killed the idea**. Composed across eight briefs, five returned candidate sets in which *every* candidate carried a fatal — `cape-cod-colonial` and `greek-revival` among them, which OQ 63 already records as styles that cannot return a clean plan under their own native diagram. Every column then read "—" and the four plans could not be told apart at all, which is strictly less than the demerit total gave. Withholding an aggregate while publishing all eight of its components is not a refusal; it is a number hidden from the reader who needed it most.
+
+Within the axes a fatal spends its room exactly as a serious does, because the axes measure the share of checks that came back clean and that is what a failed check costs. The difference between *wrong* and *worse* is carried by `disqualified`, in words.
 
 `demerits` is still on the record — the old lower-is-better total, kept because it is a real quantity and because earlier reports quote it. It ranks nothing.
 

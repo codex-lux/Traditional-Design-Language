@@ -29,8 +29,9 @@
   "georgian-service-core",
   "entry-sequence",
   "public-enfilade",
-  "primary-suite"
- ],
+  "primary-suite",
+    "garage-and-hyphen"
+  ],
  "circulation_parti": "center-hall",
  "storeys": 2,
  "area_range_sf": [

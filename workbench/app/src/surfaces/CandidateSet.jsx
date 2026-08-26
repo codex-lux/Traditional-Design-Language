@@ -16,17 +16,23 @@ import { CandidateColumn } from '../components/CandidateColumn.jsx';
 import { RefusalCard } from '../components/RefusalCard.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
+import { ORDERS, order, isNative } from '../candidateOrder.js';
 
-function adaptCandidate(c, i, nativePartis) {
-  const native = nativePartis
-    ? nativePartis.has(c.parti)
-    : !/NOT native/i.test(c.why_this_diagram || '');
+/* `what` — the sentence saying what an axis measures — rides on the RESULT once rather than
+   on eight rows per candidate, because it is constant across a run and the MCP tool bills a
+   model for the payload. Merged back onto the rows here so the column stays a pure function
+   of its own candidate, and defaulted so a result composed before this shipped still renders. */
+function adaptCandidate(c, i, nativePartis, axisWhat) {
+  const native = isNative(c, nativePartis);
   return {
     id: 'c' + i,
     parti: c.parti, parti_name: c.parti_name,
     score: c.score ?? null,
-    score_axes: c.score_axes || [],
-    score_forfeit: c.score_forfeit,
+    score_axes: (c.score_axes || []).map((a) => (
+      a.what || !axisWhat?.[a.axis] ? a : { ...a, what: axisWhat[a.axis] })),
+    disqualified: !!c.disqualified,
+    disqualified_because: c.disqualified_because,
+    score_unscored_because: c.score_unscored_because,
     score_weight_evaluated: c.score_weight_evaluated,
     score_weight_unevaluated: c.score_weight_unevaluated,
     demerits: c.demerits,
@@ -46,37 +52,6 @@ function adaptCandidate(c, i, nativePartis) {
     raw: c,
   };
 }
-
-/* The three orderings, each with the sentence that says what it did. Every one of them
-   falls through to the score and then to the parti id, so no ordering is ever settled by
-   the order the composer happened to return — the same list drawn twice is the same list.
-   `score` may be null where a fatal forfeited it; a forfeited candidate sorts last under
-   every ordering rather than sorting as a zero. */
-function byScore(a, b) {
-  const as = a.score == null ? -Infinity : a.score;
-  const bs = b.score == null ? -Infinity : b.score;
-  return (bs - as) || ((a.demerits || 0) - (b.demerits || 0))
-    || String(a.parti || '').localeCompare(String(b.parti || ''));
-}
-const ORDERS = {
-  score: {
-    chip: 'highest score first',
-    says: 'Ordered by score, highest first.',
-    cmp: byScore,
-  },
-  native: {
-    chip: 'native to the style',
-    says: 'Ordered by whether the diagram is native to the style, then by score — so the '
-        + 'column numbered 1 is the most native, not the highest scoring.',
-    cmp: (a, b) => ((b.native ? 1 : 0) - (a.native ? 1 : 0)) || byScore(a, b),
-  },
-  fatal: {
-    chip: 'fatal first',
-    says: 'Fatal findings decide the order before the score does — a plan carrying one '
-        + 'sorts last, whatever else it does well.',
-    cmp: (a, b) => ((a.fatal_n || 0) - (b.fatal_n || 0)) || byScore(a, b),
-  },
-};
 
 export function CandidateSet({ onCite, go, selection }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
@@ -138,7 +113,11 @@ export function CandidateSet({ onCite, go, selection }) {
             {s.progress.map((p, i) => (
               <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', padding: '1px 0' }}>
                 {p.stage ? `${p.stage} — ${p.note || ''}`
-                  : `candidate ${p.n}: ${p.parti_name} · score ${p.score == null ? 'forfeit (fatal)' : p.score + '/100'}`}
+                  /* "tried", not "candidate N": this is the order compose() reached the
+                     diagrams in, and nothing is ranked until every one is in. */
+                  : `tried ${p.n}: ${p.parti_name} · score `
+                    + `${typeof p.score === 'number' ? p.score + '/100' : 'not scored'}`
+                    + `${p.disqualified ? ` · DISQUALIFIED, ${p.fatal} fatal` : ''}`}
               </div>
             ))}
           </div>
@@ -148,9 +127,11 @@ export function CandidateSet({ onCite, go, selection }) {
     );
   }
 
-  const cands = (result.candidates || []).map((c, i) => adaptCandidate(c, i, nativePartis));
-  const order = ORDERS[sort] || ORDERS.score;
-  const list = cands.slice().sort(order.cmp);
+  const axisWhat = Object.fromEntries(
+    ((result.score_model || {}).axes || []).map((a) => [a.axis, a.what]));
+  const cands = (result.candidates || []).map((c, i) => adaptCandidate(c, i, nativePartis, axisWhat));
+  const chosen = ORDERS[sort] || ORDERS.score;
+  const list = cands.slice().sort(order(chosen.cmp));
   const dropped = result.dropped_lot_infeasible || [];
   const askedFor = s.brief?.candidates || 4;
 
@@ -188,7 +169,7 @@ export function CandidateSet({ onCite, go, selection }) {
                 column is a position in THIS order and nothing more. */}
             <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
               margin: '8px 0 0', maxWidth: '62ch' }}>
-              {order.says} Score is out of 100 and higher is better — a weighted composite of
+              {chosen.says} Score is out of 100 and higher is better — a weighted composite of
               eight axes, each one the share of its own checks that came back clean, so a
               bigger house is not marked down for being checked more times. Every column shows
               the whole arithmetic.
@@ -240,7 +221,12 @@ export function CandidateSet({ onCite, go, selection }) {
 
         <div style={{ display: 'flex', gap: 26, marginTop: 26, alignItems: 'flex-start', flexWrap: 'wrap' }}>
           <div style={{ flex: '1 1 460px', minWidth: 420 }}>
-            <Eyebrow>decision log · candidate {sel ? Number(sel.slice(1)) + 1 : 1}</Eyebrow>
+            {/* Named, not numbered. The column ordinal is a position in the CURRENT order
+                 and `sel` is an index into the SERVER's order; before the three orderings
+                 landed those agreed by construction in the default view and they no longer
+                 do, so clicking the column marked 2 could open a log headed "candidate 3".
+                 A parti name cannot disagree with itself. */}
+            <Eyebrow>decision log · {(sel ? cands.find((x) => x.id === sel) : cands[0])?.parti_name || '—'}</Eyebrow>
             <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)', margin: '7px 0 10px',
               maxWidth: '64ch' }}>
               What the composer chose where the brief was silent. Read it — those are the assumptions,

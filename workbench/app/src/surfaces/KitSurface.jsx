@@ -175,7 +175,7 @@ export function KitSurface({ onCite, selection }) {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
                 {styleInfo.massing_affinities.map((m) => (
                   <VariantPill key={m.massing} ladder="affinity" name={'massing:' + m.massing}
-                    status={m.affinity} title={m.note} />
+                    status={m.affinity} note={m.note} />
                 ))}
               </div>
               <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '9px 0 0' }}>

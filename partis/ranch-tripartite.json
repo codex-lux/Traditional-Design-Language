@@ -21,8 +21,9 @@
   "contemporary-service-core",
   "kitchen-work-core",
   "primary-suite",
-  "secondary-bedroom-cluster"
- ],
+  "secondary-bedroom-cluster",
+    "garage-and-hyphen"
+  ],
  "circulation_parti": "open-plan",
  "storeys": 1,
  "area_range_sf": [

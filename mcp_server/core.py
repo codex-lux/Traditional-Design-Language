@@ -307,8 +307,12 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
         # corpus deliberately distinguishes as if they were the same address. `calibrated_for`
         # carries a rule's own statement that it is out of band. Both were dropped by a fixed key
         # list -- the same bug as proportion_engine's, found in the same audit, 25 Aug 2026.
+        # `error` is in this list because proportion_engine.evaluate() sets it when a rule
+        # cannot be evaluated, and a fixed key list that drops it turns a refusal into a
+        # value: Proportions.jsx renders `${r.value} ${r.units}` and would draw "null in".
+        # Unjudged is not passed, and it is not rendered as a measurement either.
         RULE_KEYS = ("target_slot", "dimension", "quantity", "expression", "value", "units",
-                     "judgment", "range", "in_range", "note", "calibrated_for")
+                     "judgment", "range", "in_range", "note", "calibrated_for", "error")
         out["derived_rules"] = [{k: r.get(k) for k in RULE_KEYS} for r in ev["rules"]]
         out["judgment_rules"] = [r["target_slot"] for r in ev["rules"] if r.get("judgment")]
     out["conflicts"] = pk.get("conflicts", [])
