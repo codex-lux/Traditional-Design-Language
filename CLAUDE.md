@@ -196,8 +196,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 16 are open**
-  (7, 8, 9, 10, 11, 18, 32, 33, 34, 36, 37, 38, 39, 40, 41, 55). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 15 are open**
+  (7, 8, 9, 10, 11, 18, 32, 33, 34, 36, 37, 38, 39, 40, 41). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message
@@ -206,9 +206,14 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   and need a ruling** -- 52 is the elevation generator inventing measurements the fault corpus then
   convicts houses on, 53 is `check_addresses.py` comparing `quantity` without `units`, which has two
   live wrong dimensions. The list is DERIVED from the file by a test rather than asserted against a
-  literal, and an unrecognised status word now fails that test rather than counting as settled. **OQ 55 reopened at the merge**: it had closed with the open-void guarantee stated in BOTH
-  engines, and the engine that stated it as a hard constraint is the one that did not survive —
-  the heuristic's 40-point charge is all that is left, and a candidate can buy its way out.
+  literal, and an unrecognised status word now fails that test rather than counting as settled. **OQ 55 reopened at the merge and CLOSED AGAIN 26 Aug 2026**: it had closed with the
+  open-void guarantee stated in BOTH engines, and the engine that stated it as a hard constraint
+  was the one that did not survive. `geometry_cp.py` now states it again — 0.0 sf over an open
+  court where the heuristic still places 296 sf and pays its 40 points. Two things worth carrying
+  forward from that fix: a scoring tolerance is **not** a placement licence (mirroring the
+  heuristic's 1 ft charge threshold let a room sit 1 ft into the court), and **`_absorb` runs
+  after the solve with no cross-level view**, so it grew that room straight through the hole —
+  a guarantee proven and then undone by a post-pass. It takes a `keepout` now.
   - **Environment-blocked, not unstarted: OQ 7, 8, 9, 10, 11**, and the source half of **OQ 18**.
     Every one needs a legible facsimile. `loc.gov`, `archive.org` and `hathitrust` all fail to
     connect from here. **None may be closed from a secondary source or a modern redrawing** —
