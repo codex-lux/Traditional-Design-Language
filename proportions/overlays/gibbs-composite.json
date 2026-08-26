@@ -203,8 +203,9 @@
           "profile": "dentil",
           "count": null,
           "spacing_parts": 3.857,
+          "width_parts": 2.571,
           "confidence": "medium",
-          "note": "As in the Corinthian: dentil two parts to a one-part space, semidiameter divided into fourteen. Gibbs gives no separate Composite dentil rule."
+          "note": "As in the Corinthian: dentil two parts to a one-part space, semidiameter divided into fourteen. Gibbs gives no separate Composite dentil rule. WIDTH OF ONE UNIT: This member's own note: 'As in the Corinthian: dentil two parts to a one-part space, semidiameter divided into fourteen.'"
         },
         {
           "id": "corn_ovolo",

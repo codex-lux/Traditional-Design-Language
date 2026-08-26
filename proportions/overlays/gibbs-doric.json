@@ -192,7 +192,8 @@
           "profile": "modillion",
           "count": null,
           "spacing_parts": 30,
-          "note": "DELTA, AND THE BIG ONE. Vignola's Doric cornice carries MUTULES - flat inclined blocks with guttae, representing rafter ends. Gibbs's carries MODILLIONS, scrolled brackets, in the Doric. He sizes them off the triglyphs: 'divide the distance from middle to middle of two Triglyphs into four parts; two of them will be the Modillion with the Fillet and Ogee over it, and two will be the distance betwixt the Modillions.' Triglyph pitch is 30 parts, so the modillion is 15 parts wide with a 15-part interval - one modillion per triglyph pitch. Their soffit panels are figured: 'divided into five parts for the Pannel in the Sofite; take one on each side for its Border, there will remain three for the square of the Pannel.'",
+          "width_parts": 15.0,
+          "note": "DELTA, AND THE BIG ONE. Vignola's Doric cornice carries MUTULES - flat inclined blocks with guttae, representing rafter ends. Gibbs's carries MODILLIONS, scrolled brackets, in the Doric. He sizes them off the triglyphs: 'divide the distance from middle to middle of two Triglyphs into four parts; two of them will be the Modillion with the Fillet and Ogee over it, and two will be the distance betwixt the Modillions.' Triglyph pitch is 30 parts, so the modillion is 15 parts wide with a 15-part interval - one modillion per triglyph pitch. Their soffit panels are figured: 'divided into five parts for the Pannel in the Sofite; take one on each side for its Border, there will remain three for the square of the Pannel.' WIDTH OF ONE UNIT: Gibbs, quoted in this member's own note: 'divide the distance from middle to middle of two Triglyphs into four parts; two of them will be the Modillion with the Fillet and Ogee over it'. The triglyph pitch is 30 parts, so the modillion is 15.",
           "confidence": "high"
         },
         {

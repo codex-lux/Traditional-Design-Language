@@ -317,10 +317,49 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     dim = PE.dimension(gibbs_pack, reduced_module_in, include=["cornice"])
     cor_asm = next(a for a in dim["assemblies"] if a["id"] == "cornice")
     bed_member = next((m for m in cor_asm["members"] if "bed" in m["id"]), None)
+
+    # WHICH PLANE THESE PROJECTIONS ARE MEASURED FROM, decided on the pack's own evidence.
+    #
+    # OQ 65 ruled the datum onto the PACK: gibbs-ionic inherits `axis` from vignola-ionic. That
+    # declaration is true of the column -- `check_orders.py` verifies it against the shaft, base
+    # and capital -- but it is NOT true of the entablature in the same pack, and the pack says so
+    # itself: the frieze face records a projection of 0, as does the architrave's lowest fascia.
+    # A frieze standing on the column's centre line is impossible, so an entablature member's
+    # projection here is relief from its own naked. Reading the pack-level `axis` literally over
+    # the cornice clamps every member whose figure is smaller than the column's radius flush with
+    # the frieze -- which silently deletes this cornice's bed mould and its fillet.
+    #
+    # Detected rather than assumed, in the manner of proportion_engine.observed_projection_datum():
+    # the reading that would put a member inside the shaft is the reading that is wrong.
+    full = PE.dimension(gibbs_pack, reduced_module_in)
+    base_faces = [m["projection_in"] for a in full["assemblies"] if a["id"] in ("frieze", "architrave")
+                  for m in a["members"]]
+    entab_from_axis = bool(base_faces) and min(base_faces) > 0.01
+    datum = dim.get("projection_datum")
+    totals = full.get("totals", {})
+    col_naked_in = (totals.get("upper_diameter_in") or totals.get("lower_diameter_in") or 0.0) / 2.0
+    frieze_naked_in = col_naked_in if entab_from_axis else 0.0
+    relief = max((m["projection_in"] for m in cor_asm["members"]), default=0.0) - frieze_naked_in
     return {
         "frieze_height_in": round(frieze_h, 3), "cornice_height_in": round(cor_asm["height_in_summed"], 3),
         "cornice_projection_in": round(cornice_proj, 3),
         "reduced_gibbs_module_in": round(reduced_module_in, 3),
+        "projection_datum": datum,
+        "entablature_projection_datum": "axis" if entab_from_axis else "naked",
+        "frieze_naked_in": round(frieze_naked_in, 3),
+        "order_relief_beyond_frieze_in": round(relief, 3),
+        # TWO PACKS, ONE ADDRESS, DIFFERENT ANSWERS -- stated rather than silently resolved.
+        # Gibbs's own rule ("the projection of the Cornice equal to its height", which he holds
+        # for every order but the Doric) makes this cornice project as far as it stands tall.
+        # facade-classical's `cornice/projection` rule says module/14 for a domestic front. Both
+        # are sourced, they are not the same number, and nothing here is entitled to pick: the
+        # order's figure draws the profile plate, the envelope's figure draws the band on the
+        # wall, and the sheet says both. This is the OQ 48 class at cascade scope.
+        "envelope_projection_in": round(cornice_proj, 3),
+        "projection_disagreement_note": (
+            f"The order's own cornice projects {round(relief,2)} in (Gibbs: projection equals height); "
+            f"facade-classical's domestic envelope rule gives {round(cornice_proj,2)} in. Both are sourced "
+            f"and they disagree; neither is chosen here."),
         "members": cor_asm["members"],
         "bed_mould_projection_in": round(bed_member["projection_in"], 3) if bed_member else None,
         "member_count": len(cor_asm["members"]),
@@ -357,10 +396,35 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
     else:
         belt_proj, _ = _val(facade_pack, "belt_course", {"part": facade_part_in}, dimension="projection")
     belt_datum_ft = upper["grade_to_floor_ft"] if upper else None
+
+    # WP-5.7. Two things the pack has always stated and nothing has ever drawn.
+    #
+    # THE COURSE. brick-course.json's own invariant fixes one course at module/parts, and its
+    # notes say what that is for: "in a brick building there are no free horizontal dimensions
+    # above the water table". Every band on a brick elevation lands on a bed joint or it is
+    # wrong, and a drawing that cannot show the coursing cannot show that.
+    #
+    # THE MOULDED COURSE. The water table is not a plain plinth: the pack carries it as an
+    # ASSEMBLY -- plinth courses in English bond under a Flemish face, then one purpose-moulded
+    # course, ovolo on ordinary work and a cyma reversa on the better grade ("the Westover
+    # standard" is the pack's own phrase). It has been drawn as a rectangle with a hardcoded
+    # four-pixel overhang.
+    course_in = moulded = None
+    if is_masonry:
+        course_in = brick_module_in / brick_pack["module"]["parts"]
+        wt_asm = (brick_pack.get("assemblies") or {}).get("water_table")
+        if wt_asm and wt_asm.get("members"):
+            # Dimensioned at the brick module, so the moulded course is exactly one course deep
+            # and the plinth below it exactly as many as the pack says.
+            wt_dim = PE.dimension({**brick_pack, "assemblies": {"water_table": wt_asm}},
+                                  brick_module_in, include=["water_table"])
+            moulded = wt_dim["assemblies"][0]["members"]
     return {
         "applicable": True, "source": source, "is_masonry": is_masonry,
         "water_table_height_above_finished_grade_in": round(wt_h, 3),
         "water_table_projection_in": round(wt_proj, 3),
+        "course_height_in": round(course_in, 4) if course_in else None,
+        "water_table_members": moulded,
         "belt_height_in": round(belt_h, 3),
         "belt_course_projection_in": round(belt_proj, 3) if belt_proj is not None else None,
         "belt_datum_grade_to_floor_ft": belt_datum_ft,
@@ -385,10 +449,17 @@ NOT_MODELLED = {
     "dormer_count": "no plan schema field authors a dormer (build/roof.py dormer_rhythm_check)",
     "sum_of_dormer_face_widths_in": "as dormer_count",
     # roof.py's chimney record carries a position and two heights. There is no plan size in it.
-    "chimney_width_in": "the roof record carries no chimney plan dimension",
-    "chimney_depth_in": "the roof record carries no chimney plan dimension",
-    "chimney_least_plan_dimension_in": "the roof record carries no chimney plan dimension",
-    "chimney_visible_face_width_in": "the roof record carries no chimney plan dimension",
+    # WP-5.7 corrected these four reasons. brick-course DOES carry `chimney/width` (part * 8,
+    # 22 in here) -- so the old reason, that nobody had wired it, was wrong. The real reason is
+    # stronger: that rule is flagged `judgment: true` and its own note says a mason will build 18
+    # or 27 and "someone should decide which rather than discovering it on site". A judgment slot
+    # is marked, not filled, so the figure must not reach the fault corpus and convict a house on
+    # a size the sources declined to fix. The elevation record carries it for the DRAWING only,
+    # as `chimney_stack_plan_in`, labelled a judgment on the sheet.
+    "chimney_width_in": "brick-course states a stack width but flags it judgment: 18 or 27 in is a decision, not a measurement",
+    "chimney_depth_in": "no pack states a stack depth distinct from its width; claiming one would invent an aspect ratio",
+    "chimney_least_plan_dimension_in": "as chimney_width_in -- the only figure available is a judgment",
+    "chimney_visible_face_width_in": "as chimney_width_in -- the only figure available is a judgment",
     "cap_projection_beyond_stack_face_in": "no stack cap is modelled",
     "count_of_sheet_metal_caps_or_louvred_shrouds_at_the_stack_head": "no stack head is modelled",
     "count_of_horizontal_shadow_lines_in_the_top_18in_of_the_stack": "no stack head is modelled",
@@ -762,6 +833,68 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     entrance_face = (plan.get("context") or {}).get("entrance_faces") or "S"
     is_masonry = section["wall"].get("bearing") == "load-bearing-masonry"
 
+    # WP-5.7: THE STACK'S PLAN SIZE, AND WHY IT STAYS OUT OF THE MEASUREMENTS.
+    #
+    # Four names sit in NOT_MODELLED saying "the roof record carries no chimney plan dimension",
+    # and this looked at first like a wiring job: brick-course DOES carry `chimney/width` as
+    # `part * 8`, eight courses square, 22 in on this style. But that rule is flagged
+    # `judgment: true`, and its own note says why: "Twenty-two inches on the default coursing is
+    # between sizes; the mason will build 18 or 27 and someone should decide which rather than
+    # discovering it on site."
+    #
+    # So this was never a MISSING measurement. It is a DEFERRED one, and the corpus's sixth
+    # settled decision is that a judgment slot is marked, not filled. Publishing 22 in into
+    # `measurements` would hand the fault corpus a number the sources deliberately declined to
+    # fix, and houses would be convicted on it. The entries therefore STAY in NOT_MODELLED, with
+    # their reason corrected from "nobody wired it" to "nobody is entitled to".
+    #
+    # What changes is the DRAWING, which had been asserting a hardcoded 36 in over the top of the
+    # very slot the corpus left open. It now draws the pack's own figure and says on the sheet
+    # that it is a judgment between two buildable sizes. A drawing may show a deferred figure;
+    # it may not pretend the deferral is not there.
+    chimney_plan_in = chimney_plan_judgment = None
+    if is_masonry:
+        try:
+            chimney_plan_in, _ = _val(brick_pack, "chimney",
+                                      {"part": brick_pack["module"]["default_size_in"] / brick_pack["module"]["parts"]},
+                                      dimension="width")
+            rule = next((r for r in brick_pack.get("derived_rules", [])
+                         if r.get("target_slot") == "chimney" and r.get("dimension") == "width"), None)
+            if rule and rule.get("judgment"):
+                chimney_plan_judgment = rule.get("note")
+        except Exception:
+            chimney_plan_in = None
+
+    # WP-5.7: HOW THE HEAD OF AN OPENING IS CARRIED, which on a brick house is the most
+    # diagnostic thing on the wall after the bay rhythm. brick-course.json states all three
+    # figures as rules of the opening's own width: a segmental arch rises w/8, a gauged flat
+    # arch is cambered w/96 (a rise you can see only because it is there), and either is one
+    # module deep. Which of the two a house gets is a DATE question, and the kit says so -- the
+    # gauged flat arch is the later, more expensive work. The corpus states no voussoir count
+    # or joint width, so none is drawn: the arch is one gauged mass, which is honest, and the
+    # two faults that measure voussoir joints stay could-not-judge.
+    for sw in storey_windows:
+        sw["head_treatment"] = None
+        if not is_masonry:
+            continue
+        w_in = sw["opening_width_in"]
+        rise, _ = _val(brick_pack, "window_head_masonry", {"opening_width": w_in},
+                       dimension="segmental_arch_rise")
+        camber, _ = _val(brick_pack, "window_head_masonry", {"opening_width": w_in},
+                         dimension="flat_arch_camber")
+        depth, _ = _val(brick_pack, "window_head_masonry", {"module": brick_pack["module"]["default_size_in"]},
+                        dimension="height")
+        segmental = bool(date) and int(str(date)[:4]) < 1750
+        sw["head_treatment"] = {
+            "kind": "segmental-gauged-arch" if segmental else "gauged-flat-arch",
+            "rise_in": round(rise, 3) if segmental else round(camber, 3),
+            "depth_in": round(depth, 3),
+            "keystone": False,     # the kit states `keystone: none` for this tradition
+            "source": "brick-course.json window_head_masonry" + (
+                f"; the {date} date puts it after the change to the gauged flat arch"
+                if not segmental else f"; the {date} date is before the change to the flat arch"),
+        }
+
     faces = {}
     for f in FACES:
         span_ft = fp["width_ft"] if f in ("S", "N") else fp["depth_ft"]
@@ -832,6 +965,12 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "ground_grade_to_floor_in": round(ground["grade_to_floor_ft"] * 12, 2),
         "applicable": True,
         "entrance": ent, "eave_cornice": cornice, "water_table_belt": wtb,
+        # NOT a measurement, and deliberately absent from `measurements` below: brick-course
+        # flags this rule `judgment: true`. It is here so the DRAWING can show a stack at the
+        # corpus's own figure instead of the 36 in constant it used to assert, and so the sheet
+        # can say the size is still a decision.
+        "chimney_stack_plan_in": chimney_plan_in,
+        "chimney_stack_plan_judgment": chimney_plan_judgment,
         "grade_to_true_eave_in": grade_to_true_eave_in, "eave_reconciliation_note": eave_reconciliation_note,
         "roof": roof_meas, "roof_record": roof,
         "footprint": fp, "section": section,

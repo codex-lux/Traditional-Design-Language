@@ -86,14 +86,25 @@ entrance composition, water table and belt bands, and the roofline reused from `
 profile (bed mould, modillion band, corona, cymatium) from `proportion_engine.dimension()`'s own
 member data, not traced.
 
-That inset exists because the hand-off brief calls for porting `orders_template.html`'s `segTo()`
-— the JS function that turns one member (a height, a projection, a profile name) into an SVG path
-fragment for that moulding's own cross-section shape — into Python: `seg_to()` is that port, case
-for case against the JS original, and `profile_silhouette_path()` is the same stepped-member walk
-`orders_template.html`'s own `silhouettePath()`/`buildGeometry()` do for a column shaft, simplified
-for a flat entablature run (no entasis, no diminution — neither exists anywhere in this codebase
-for an eave cornice or a door entablature). `tests/test_elevation.py`'s `TestSegTo` class pins each
-profile case directly against the JS original's own control-point arithmetic.
+That inset used to be drawn by `seg_to()`, a case-for-case Python port of
+`orders_template.html`'s `segTo()`, pinned against the JS original by `TestSegTo`. **WP-5.7
+replaced both with `build/profiles.py`, which CONSTRUCTS each moulding** — a quarter of an ellipse
+for an ovolo, two tangent arcs through the chord's midpoint for a cyma, a half round for a torus —
+rather than approximating it with hand-tuned Bézier control fractions. Two things were wrong with
+the port, and the second is why the drawing looked as it did:
+
+* `profile_silhouette_path()` called `seg_to()` with `xa == xb` on **every** member, so every
+  curve degenerated to the vertical face it was drawn between. The profile names in the data were
+  right and the cornice drew as a flight of steps regardless. `TestSegTo` pinned the control-point
+  arithmetic exactly and could not see this, because it asserted the string and never the shape.
+* It drew from a naked of 0 while `gibbs-ionic`'s projections are radii from the column axis.
+
+The datum is now read from the pack's own evidence rather than its declaration — see **OQ 72**,
+because a pack's declared datum is true of its column and not of its entablature — and the inset
+is a full detail plate: every member named at its own height, the relief and the total dimensioned,
+and the projection disagreement of **OQ 73** printed rather than silently resolved. The successor
+guards are `tests/test_profiles.py` and `TestCorniceProfileGeometry`, which assert geometry
+(tangency, convexity, scale invariance, the datum) instead of path strings.
 
 ## What was found
 

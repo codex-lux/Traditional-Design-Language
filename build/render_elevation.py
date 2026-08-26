@@ -5,20 +5,38 @@ composition (door, surround, entablature, sidelights where present), water table
 and the roofline (reusing build/roof.py's own elevation_profile(), not re-derived here), plus a
 cross-section detail inset that draws the eave cornice's ACTUAL moulded profile.
 
-That inset is the reason this file exists rather than just drawing flat bands everywhere: the
-hand-off brief for WP-3.2 calls for porting orders_template.html's segTo() -- the function that
-turns one proportion-engine member (a height, a projection, a profile name) into an SVG path
-fragment for that moulding's own cross-section shape -- into Python, "the existing JavaScript/
-Python engine agreement". seg_to() below is that port, line for line against the JS original
-(build/orders_template.html), and profile_silhouette_path() is the same stepped-member walk
-orders_template.html's own silhouettePath()/buildGeometry() do for a column shaft, simplified for
-a flat entablature run (no entasis, no diminution -- an eave cornice or a door entablature has
-neither): every moulding drawn in the cornice-detail inset comes from proportion_engine.dimension()
-member data, not a traced profile.
+That inset is the reason this file exists rather than just drawing flat bands everywhere.
+
+WP-5.7 replaced this file's own seg_to()/profile_silhouette_path() -- the line-for-line port of
+orders_template.html's segTo(), whose curves were Beziers with hand-tuned control fractions --
+with build/profiles.py, which CONSTRUCTS each moulding: a quarter of an ellipse for an ovolo, two
+tangent arcs through the chord's midpoint for a cyma, a half round for a torus. Two things were
+wrong with the port beyond the guessed curves, and both are worth knowing:
+
+  * profile_silhouette_path() called seg_to() with xa == xb on EVERY member, so every curve
+    degenerated to the vertical face it was drawn between. The cornice was a flight of steps
+    whatever the profile names said, which is exactly how it read on the sheet.
+  * It drew from a naked of 0 while gibbs-ionic's projections are radii from the column AXIS,
+    so the whole radius was drawn as overhang: 24.56 in of relief where the truth is 10.35 in.
+
+Every moulding drawn here still comes from proportion_engine.dimension() member data and nothing
+in this file invents a member height, a projection or a profile.
 
   render_elevation(elev, path, face=None, scale=6.0)
 """
-import os
+import os, importlib.util
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def _mod(n, p):
+    # Delegates to build/modcache.py so a module is executed once per process rather than once
+    # per call (OQ 28). Loaded by path because this file is itself usually loaded by path.
+    import sys as _sys
+    _b = os.path.join(ROOT, "build")
+    if _b not in _sys.path:
+        _sys.path.insert(0, _b)
+    import modcache as _mc
+    return _mc.load(n, p)
+PROF = _mod("profiles", f"{ROOT}/build/profiles.py")
 
 # Palette duplicated from build/render_roof.py / build/render_plan.py rather than imported -- every
 # build/*.py module in this corpus is loaded standalone via importlib (see the _mod() pattern
@@ -44,7 +62,23 @@ def _wrap(text, cols):
 def _esc(t): return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 def _style_block():
+    # THE WEIGHT LADDER (WP-5.7). Five rungs, and the rung carries the meaning a drawing conveys
+    # before anyone reads a dimension: what is cut, what stands proud, what is behind. It matters
+    # more here than on a plan because at this scale most of a facade's relief is smaller than a
+    # pixel -- the water table projects 2 in, which is one pixel at 1/16 scale -- so a projecting
+    # member is told apart from a scored line by its WEIGHT, not by its offset. Drawing those
+    # offsets four times over-size, which is what this file used to do, is the other way to solve
+    # it and it is a lie about a measurement.
+    # Deviations per element must be written style="..." and never as a presentation attribute:
+    # a class rule beats an attribute silently, and tests/test_drawn_labels.py asserts the
+    # general form of that rule.
     return (f'<style>'
+            f'.w-cut{{stroke-width:1.7}}.w-prof{{stroke-width:1.15}}.w-med{{stroke-width:0.75}}'
+            f'.w-fine{{stroke-width:0.45}}.w-hair{{stroke-width:0.3}}'
+            f'.course{{stroke:{PAL["ink3"]};stroke-width:0.3;stroke-opacity:0.42;fill:none}}'
+            f'.arch{{fill:{PAL["rule"]};stroke:{PAL["ink"]};stroke-width:0.75}}'
+            f'.sill{{fill:{PAL["rule"]};stroke:{PAL["ink3"]};stroke-width:0.45}}'
+            f'.wtm{{stroke:{PAL["ink"]};stroke-width:0.45;fill:none}}'
             f'text{{font-family:"Archivo",-apple-system,"Segoe UI",sans-serif;fill:{PAL["ink2"]}}}'
             f'.dm{{font-size:7.5px;fill:{PAL["ink3"]};font-family:ui-monospace,Menlo,monospace}}'
             f'.hd{{font-family:"Bodoni Moda",Georgia,serif;font-size:19px;fill:{PAL["ink"]}}}'
@@ -62,61 +96,6 @@ def _style_block():
             f'.pf{{fill:{PAL["paper"]};stroke:{PAL["ink2"]};stroke-width:0.7}}'
             f'</style>')
 
-# ---------------------------------------------------------------- moulding profile geometry
-# Ported from build/orders_template.html's segTo(profile, xa, ya, xb, yb, sx, sy) (lines ~254-281
-# there): xa/ya is the inner (starting) point of the member, xb/yb the outer (finishing) point,
-# sx/sy the same screen-space transforms the JS original takes. h and dx below are the run's own
-# height and horizontal offset, exactly as in the JS.
-def seg_to(profile, xa, ya, xb, yb, sx, sy):
-    h = yb - ya
-    dx = xb - xa
-    def A(x, y): return f"{sx(x):.2f},{sy(y):.2f}"
-    if profile in ("ovolo", "quarter-round", "echinus"):
-        return f" Q {A(xb, ya)} {A(xb, yb)}"
-    if profile == "cavetto":
-        return f" Q {A(xa, yb)} {A(xb, yb)}"
-    if profile in ("apophyge", "congé", "conge"):
-        return f" Q {A(xa, yb)} {A(xb, yb)}"
-    if profile == "scotia":
-        r = max(abs(dx), h)
-        return f" C {A(xa - r * 0.55, ya + h * 0.25)} {A(xa - r * 0.35, yb - h * 0.15)} {A(xb, yb)}"
-    if profile == "cyma-recta":
-        return f" C {A(xa, ya + h * 0.58)} {A(xb, yb - h * 0.58)} {A(xb, yb)}"
-    if profile in ("cyma-reversa", "ogee"):
-        return f" C {A(xb, ya + h * 0.42)} {A(xa, yb - h * 0.42)} {A(xb, yb)}"
-    if profile in ("astragal", "bead", "torus"):
-        b = max(h * 0.62, abs(dx))
-        return f" C {A(xa + b, ya)} {A(xa + b, yb)} {A(xb, yb)}"
-    if profile == "bevel":
-        return f" L {A(xb, yb)}"
-    if profile in ("volute", "acanthus"):
-        return f" C {A(xa + h * 0.35, ya + h * 0.2)} {A(xb - h * 0.2, yb - h * 0.25)} {A(xb, yb)}"
-    # default: fillet, listel, fascia, plinth, corona, abacus, metope, dentil, modillion, mutule, triglyph, flat
-    return f" L {A(xb, ya)} L {A(xb, yb)}"
-
-def profile_silhouette_path(members, sx, sy, naked=0.0):
-    """The same stepped walk orders_template.html's silhouettePath() does over buildGeometry()'s
-    points, minus the column-shaft taper branch: an entablature/cornice run has no entasis or
-    diminution (nothing in this codebase computes one for it), so every member's own outer face
-    sits at a constant `naked + projection_in` for that member's own height span, and seg_to()
-    alone decides the curve between one member's outer face and the next's. `members` must be in
-    bottom-to-top order with y_bottom_in/y_top_in/projection_in/profile -- exactly what
-    proportion_engine.dimension() returns, unmodified."""
-    if not members:
-        return ""
-    pts = [{"x": naked + m["projection_in"], "y0": m["y_bottom_in"], "y1": m["y_top_in"],
-            "profile": m.get("profile")} for m in members]
-    d = f"M {sx(naked):.2f},{sy(0.0):.2f}"
-    cx, cy = naked, 0.0
-    for p in pts:
-        if cx != p["x"]:
-            d += f" L {sx(p['x']):.2f},{sy(cy):.2f}"
-            cx = p["x"]
-        d += seg_to(p["profile"], p["x"], p["y0"], p["x"], p["y1"], sx, sy)
-        cx, cy = p["x"], p["y1"]
-    d += f" L {sx(naked):.2f},{sy(cy):.2f} Z"
-    return d
-
 # ---------------------------------------------------------------- window / door drawing
 def _sash_grid(s, x0, y0, x1, y1, lights_across, lights_high):
     """One sash's own muntin grid -- lights_across columns by lights_high rows of glass, drawn as
@@ -132,10 +111,42 @@ def _sash_grid(s, x0, y0, x1, y1, lights_across, lights_high):
         out.append(f'<line class="mt" x1="{x0:.1f}" y1="{y:.1f}" x2="{x1:.1f}" y2="{y:.1f}"/>')
     return "".join(out)
 
-def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, scale):
+def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, scale,
+            head=None, sill_in=None):
     x0, x1 = X(cx - width_in / 2 / 12.0), X(cx + width_in / 2 / 12.0)
     yb, yt = Ypx(y_bottom), Ypx(y_top)
-    out = [f'<rect class="op" x="{x0:.1f}" y="{yt:.1f}" width="{x1-x0:.1f}" height="{yb-yt:.1f}"/>']
+    out = []
+
+    # THE HEAD. On a brick house this is the most diagnostic thing above the bay rhythm: a
+    # gauged flat arch, one module deep, cambered by the opening's own width over ninety-six --
+    # a rise of under half an inch, which is visible precisely because it is not zero. No
+    # voussoir joints are drawn: the corpus states neither a count nor a joint width, and
+    # inventing sixteen radiating lines would be inventing the very measurement two faults ask
+    # for. It is drawn as the one gauged mass it is.
+    if head:
+        hd = head["depth_in"] / 12.0 * scale
+        rise = head["rise_in"] / 12.0 * scale
+        ov = width_in * 0.06 / 12.0 * scale          # the arch runs a little past its own jambs
+        ax0, ax1 = x0 - ov, x1 + ov
+        if head["kind"] == "segmental-gauged-arch":
+            out.append(f'<path class="arch w-med" d="M {ax0:.1f},{yt:.1f} '
+                       f'Q {(ax0+ax1)/2:.1f},{yt-2*rise:.1f} {ax1:.1f},{yt:.1f} '
+                       f'L {ax1:.1f},{yt-hd:.1f} Q {(ax0+ax1)/2:.1f},{yt-hd-2*rise:.1f} '
+                       f'{ax0:.1f},{yt-hd:.1f} Z"/>')
+        else:
+            # flat arch: the camber is in the soffit, and the extrados is level
+            out.append(f'<path class="arch w-med" d="M {ax0:.1f},{yt:.1f} '
+                       f'Q {(ax0+ax1)/2:.1f},{yt-2*rise:.1f} {ax1:.1f},{yt:.1f} '
+                       f'L {ax1:.1f},{yt-hd:.1f} L {ax0:.1f},{yt-hd:.1f} Z"/>')
+
+    # THE SILL. One course of purpose-moulded brick, which is what the kit states; its
+    # projection is recorded as a BAND of 0 to 1 in and a band is not a figure, so it is drawn
+    # flush rather than given a point value nobody published.
+    if sill_in:
+        sh = sill_in / 12.0 * scale
+        out.append(f'<rect class="sill" x="{x0:.1f}" y="{yb:.1f}" width="{x1-x0:.1f}" height="{sh:.1f}"/>')
+
+    out.append(f'<rect class="op" x="{x0:.1f}" y="{yt:.1f}" width="{x1-x0:.1f}" height="{yb-yt:.1f}"/>')
     meeting_y = (yb + yt) / 2.0
     out.append(f'<line class="mt" x1="{x0:.1f}" y1="{meeting_y:.1f}" x2="{x1:.1f}" y2="{meeting_y:.1f}"/>')
     out.append(_sash_grid(s, x0, meeting_y, x1, yb, lights_across, lights_high))   # lower sash
@@ -213,13 +224,16 @@ def render_elevation(elev, path, face=None, scale=6.0):
     top_height_ft = max(h for _, h in profile_ft)
     if is_gable_end and roof.get("chimneys", {}).get("applicable"):
         # reserve enough canvas height for a chimney cap that rises above the ridge -- computed
-        # here from the SAME chimney records drawn below, not a separate guess
+        # here from the SAME chimney records drawn below, not a separate guess. Gable faces only,
+        # because those are the only faces a stack is drawn on: see the chimney note further
+        # down for why the front cannot show them yet, and why reserving sky for a stack this
+        # sheet then declines to draw would be its own small lie about what is here.
         for c in roof["chimneys"]["positions"]:
             if abs(c["x_ft"]) < 0.5 or abs(c["x_ft"] - span_ft) < 0.5:
                 top_height_ft = max(top_height_ft, c["total_height_grade_ft"] + ridge_delta_ft)
 
     pad, top, legend_h = 46, 34, 90
-    inset_w = 190
+    inset_w = 250
     pw = span_ft * scale
     ph = top_height_ft * scale
     total_w = pad * 2 + pw + inset_w + 20
@@ -238,17 +252,58 @@ def render_elevation(elev, path, face=None, scale=6.0):
     s.append(f'<rect class="wf" x="{X(0):.1f}" y="{Ypx(top_of_wall_ft):.1f}" width="{pw:.1f}" height="{(top_of_wall_ft*scale):.1f}"/>')
     s.append(f'<line x1="{X(0):.1f}" y1="{Ypx(0):.1f}" x2="{X(span_ft):.1f}" y2="{Ypx(0):.1f}" stroke="{PAL["ink"]}" stroke-width="1.4"/>')
 
+    # PROJECTIONS ARE DRAWN AT THE SIZE THE RECORD STATES. Until WP-5.7 the water table overhung
+    # by a hardcoded 4 px, the belt by 2 and the cornice by 6, while `water_table_projection_in`
+    # (2.06 in), `belt_course_projection_in` and `cornice_projection_in` (10.5 in) sat unread in
+    # the record. At 1/16 the water table's real overhang is one pixel and the cornice's is five;
+    # the fake figures drew the small one four times over-size and the large one short. What
+    # tells them apart now is the weight ladder, which is what tells them apart on paper.
+    proj_px = lambda inches_: (inches_ or 0.0) / 12.0 * scale
+
     if wtb["applicable"]:
         wt_top_ft = wtb["water_table_height_above_finished_grade_in"] / 12.0
-        s.append(f'<rect class="wt" x="{X(0)-4:.1f}" y="{Ypx(wt_top_ft):.1f}" width="{pw+8:.1f}" height="{(wt_top_ft*scale):.1f}"/>')
+        wt_o = proj_px(wtb.get("water_table_projection_in"))
+        s.append(f'<rect class="wt w-prof" x="{X(0)-wt_o:.1f}" y="{Ypx(wt_top_ft):.1f}" '
+                 f'width="{pw+2*wt_o:.1f}" height="{(wt_top_ft*scale):.1f}"/>')
+        # The moulded courses the pack authors and nothing drew: front-on, each member reads as
+        # the line where it meets the one below. The ovolo course is the whole point of a water
+        # table's grade -- an ogee is the better work and a plain bevel the cheap.
+        for mm in (wtb.get("water_table_members") or [])[:-1]:
+            yy = Ypx(mm["y_top_in"] / 12.0)
+            mo = proj_px(mm.get("projection_in"))
+            s.append(f'<line class="wtm" x1="{X(0)-mo:.1f}" y1="{yy:.1f}" x2="{X(span_ft)+mo:.1f}" y2="{yy:.1f}"/>')
         if wtb.get("belt_height_above_first_floor_in") is not None:
             belt_ft = floor2_ft
             belt_h_ft = wtb["belt_height_in"] / 12.0
-            s.append(f'<rect class="wt" x="{X(0)-2:.1f}" y="{Ypx(belt_ft+belt_h_ft):.1f}" width="{pw+4:.1f}" height="{(belt_h_ft*scale):.1f}"/>')
+            # A brick belt has no projection rule of its own in the pack (it reads as a course,
+            # not a board), so it is drawn flush and says so by being flush -- not nudged out.
+            bo = proj_px(wtb.get("belt_course_projection_in"))
+            s.append(f'<rect class="wt w-med" x="{X(0)-bo:.1f}" y="{Ypx(belt_ft+belt_h_ft):.1f}" '
+                     f'width="{pw+2*bo:.1f}" height="{(belt_h_ft*scale):.1f}"/>')
 
-    # frieze + cornice band, front-on (a plain projecting band here -- its own real moulded
-    # profile is drawn full-size in the detail inset on the right, not traced in this small a space)
-    s.append(f'<rect class="bd" x="{X(0)-6:.1f}" y="{Ypx(true_eave_ft):.1f}" width="{pw+12:.1f}" height="{(cornice_band_ft*scale):.1f}"/>')
+    # BRICK COURSING. brick-course.json fixes one course at module/parts and its own note says
+    # why it matters: "in a brick building there are no free horizontal dimensions above the
+    # water table". Every sill, head, belt and eave lands on a bed joint or the wall is wrong,
+    # and until now the drawing could not show that at all.
+    if wtb.get("course_height_in"):
+        c_ft = wtb["course_height_in"] / 12.0
+        y = (wtb["water_table_height_above_finished_grade_in"] / 12.0) if wtb["applicable"] else 0.0
+        n = 0
+        while y < top_of_wall_ft - c_ft * 0.5 and n < 400:
+            y += c_ft; n += 1
+            s.append(f'<line class="course" x1="{X(0):.1f}" y1="{Ypx(y):.1f}" x2="{X(span_ft):.1f}" y2="{Ypx(y):.1f}"/>')
+
+    # frieze + cornice band, front-on, at its own stated projection (its full moulded profile is
+    # drawn to scale in the detail inset -- a 24 in run of mouldings cannot be traced in a band
+    # five pixels deep, and pretending otherwise is how the inset earned its place).
+    co = proj_px(cornice.get("envelope_projection_in") or cornice.get("cornice_projection_in"))
+    s.append(f'<rect class="bd w-prof" x="{X(0)-co:.1f}" y="{Ypx(true_eave_ft):.1f}" '
+             f'width="{pw+2*co:.1f}" height="{(cornice_band_ft*scale):.1f}"/>')
+    # the frieze band's own bed, which is where the cornice assembly actually starts
+    fz = cornice.get("frieze_height_in")
+    if fz:
+        s.append(f'<line class="wtm" x1="{X(0):.1f}" y1="{Ypx(true_eave_ft - (cornice["cornice_height_in"]/12.0)):.1f}" '
+                 f'x2="{X(span_ft):.1f}" y2="{Ypx(true_eave_ft - (cornice["cornice_height_in"]/12.0)):.1f}"/>')
 
     for cx, kind in zip(front["centres_ft"], front["kinds"]):
         if kind == "door" and face == elev["entrance_face"]:
@@ -256,15 +311,37 @@ def render_elevation(elev, path, face=None, scale=6.0):
         else:
             s.append(_window(s, cx, floor1_ft + gw["sill_height_above_floor_in"]/12.0, floor1_ft + gw["head_height_above_floor_in"]/12.0,
                               gw["opening_width_in"], gw["lights_across"], gw["lights_high_per_sash"],
-                              gw["shutter_leaf_width_in"], gw["shutter_leaf_height_in"], X, Ypx, scale))
+                              gw["shutter_leaf_width_in"], gw["shutter_leaf_height_in"], X, Ypx, scale,
+                              head=gw.get("head_treatment"), sill_in=wtb.get("course_height_in")))
         s.append(_window(s, cx, floor2_ft + uw["sill_height_above_floor_in"]/12.0, floor2_ft + uw["head_height_above_floor_in"]/12.0,
                           uw["opening_width_in"], uw["lights_across"], uw["lights_high_per_sash"],
-                          uw["shutter_leaf_width_in"], uw["shutter_leaf_height_in"], X, Ypx, scale))
+                          uw["shutter_leaf_width_in"], uw["shutter_leaf_height_in"], X, Ypx, scale,
+                          head=uw.get("head_treatment"), sill_in=wtb.get("course_height_in")))
 
     # roofline -- build/roof.py's own elevation_profile() numbers, shifted up by the cornice band
     # this file adds (see ridge_delta_ft above), not re-derived
     pts = " ".join(f"{X(x):.1f},{Ypx(h):.1f}" for x, h in profile_ft)
     s.append(f'<polyline class="rf" points="{pts}"/>')
+
+    # CHIMNEYS, AND THE ONE THING THIS SHEET STILL CANNOT SHOW.
+    #
+    # The width was a hardcoded 36 in -- the exact class of invented constant OQ 52 removed from
+    # the measurements, still being asserted by the drawing where no test could see it. It is now
+    # the corpus's own figure (brick-course, eight courses square, 22 in), and because that rule
+    # is flagged `judgment: true` the sheet says so rather than presenting a decision as a fact.
+    #
+    # The stacks are NOT drawn on the front, and the reason is worth writing down rather than
+    # leaving as an apparent oversight. On this style they are the most diagnostic thing on the
+    # house -- the kit says the paired stacks joined by an arched curtain are "visible from a
+    # mile away and conclusive against New England" -- so a front elevation without them is a
+    # real loss. But build/roof.py's long-face silhouette is FLAT AT THE EAVE: for the S face of
+    # this side-gable house it returns exactly two points, both at 25.44 ft, and models no roof
+    # mass above the cornice at all. Without that surface there is nothing to say which part of a
+    # 47 ft stack is hidden behind the roof and which part clears it. Drawing the whole stack
+    # from the eave up would put 22 ft of brick in front of a roof nobody modelled, which is the
+    # same error as reporting an unmodelled chimney as zero. The gable faces, whose silhouettes
+    # DO carry the ridge, keep their stacks. This is a roof-layer gap, and it is an open question
+    # rather than something this renderer may decide.
 
     if is_gable_end and roof.get("chimneys", {}).get("applicable"):
         depth_ft = fp["depth_ft"]
@@ -277,7 +354,8 @@ def render_elevation(elev, path, face=None, scale=6.0):
                 continue
             near_left = abs(c["x_ft"]) < 0.5
             cx_ft = 3.0 if near_left else depth_ft - 3.0
-            cw_ft = 36.0 / 12.0
+            # the corpus's own stack, not a 36 in constant (see the note above)
+            cw_ft = (elev.get("chimney_stack_plan_in") or 22.0) / 12.0
             cy0, cy1 = c["grade_to_ridge_ft"] - 2.0, c["total_height_grade_ft"]
             s.append(f'<rect class="ch" x="{X(cx_ft-cw_ft/2):.1f}" y="{Ypx(cy1+ridge_delta_ft):.1f}" '
                       f'width="{cw_ft*scale:.1f}" height="{((cy1-cy0)*scale):.1f}"/>')
@@ -291,22 +369,104 @@ def render_elevation(elev, path, face=None, scale=6.0):
               f'· UPPER {uw["opening_width_in"]}×{uw["opening_height_in"]} in, {uw["sash_pattern"]} '
               f'· CORNICE {cornice["cornice_height_in"]} in ({cornice["member_count"]} members) · SEE INSET FOR PROFILE</text>')
 
-    # ---------------- cornice detail inset: the actual moulded profile, drawn from
-    # proportion_engine.dimension() members via profile_silhouette_path()/seg_to() above
-    iw, ih = inset_w - 30, ph * 0.62
-    iox, ioy = ox + pw + 30, oy + 10
-    total_h_cor = cornice["cornice_height_in"] + cornice["frieze_height_in"]
-    max_proj = max((mm["projection_in"] for mm in cornice["members"]), default=1.0)
-    ik = min((iw - 10) / max(max_proj, 1.0), (ih - 10) / max(total_h_cor, 1.0))
-    isx = lambda x: iox + x * ik
-    isy = lambda y: ioy + ih - y * ik
-    s.append(f'<rect class="pf" x="{iox-6:.1f}" y="{ioy-6:.1f}" width="{iw+12:.1f}" height="{ih+30:.1f}"/>')
-    s.append(f'<text class="lb" x="{iox:.1f}" y="{ioy-10:.1f}">EAVE CORNICE PROFILE</text>')
-    s.append(f'<line x1="{isx(0):.1f}" y1="{isy(0):.1f}" x2="{isx(0):.1f}" y2="{isy(total_h_cor):.1f}" stroke="{PAL["ink3"]}" stroke-width="0.6"/>')
-    d = profile_silhouette_path(cornice["members"], isx, isy, naked=0.0)
+    # ---------------- cornice detail inset: the actual moulded profile, constructed by
+    # build/profiles.py from proportion_engine.dimension() members.
+    #
+    # The naked matters here and used to be assumed away. This pack's projections are radii from
+    # the column AXIS (it declares projection_datum: "axis"), so drawing them as relief from a
+    # naked of 0 drew the whole radius as though it were overhang -- 24.56 in where the true
+    # relief beyond the frieze face is 10.35 in, a cornice 2.37x too deep, and out of step with
+    # the very band this same sheet draws from facade-classical's own 10.53 in figure. The record
+    # now states the datum and the plane, and this reads them.
+    # A cornice profile is a TALL, NARROW thing: at Gibbs Ionic reduced, 24.6 in of height against
+    # 10.3 in of relief. Fitting it to a box as wide as it is tall left it using a third of the
+    # width and reading as a blob. The width belongs to what a detail plate actually uses it for --
+    # every member named, at its own height, with the leader that says which shape is which.
+    ibox_x, ibox_y = ox + pw + 30, oy + 6
+    ibox_w, ibox_h = inset_w - 12, ph * 0.86
+    naked_in = cornice.get("frieze_naked_in") or 0.0
+    # The ENTABLATURE's own datum, which is not always the pack's declared one -- see
+    # elevation.py::eave_cornice. Reading the pack-level `axis` over a cornice whose frieze
+    # records a projection of 0 clamps its bed mould flush and deletes it from the drawing.
+    from_axis = cornice.get("entablature_projection_datum", cornice.get("projection_datum")) == "axis"
+    relief = cornice.get("order_relief_beyond_frieze_in") or max(
+        (mm["projection_in"] for mm in cornice["members"]), default=1.0)
+    members = cornice["members"]
+    drawn_h = max((mm["y_top_in"] for mm in members), default=1.0) or 1.0
+    prof_w = ibox_w * 0.34                       # the profile's own column; the rest is legend
+    ik = min(prof_w / max(relief, 1.0), (ibox_h - 34) / drawn_h)
+    px0, py0 = ibox_x + 16, ibox_y + 20          # profile origin: frieze face, springing of the bed
+    isx = lambda x: px0 + (x - naked_in) * ik
+    isy = lambda y: py0 + (drawn_h - y) * ik
+
+    s.append(f'<rect class="pf" x="{ibox_x:.1f}" y="{ibox_y:.1f}" width="{ibox_w:.1f}" height="{ibox_h:.1f}"/>')
+    s.append(f'<text class="lb" x="{ibox_x+8:.1f}" y="{ibox_y-4:.1f}">EAVE CORNICE PROFILE</text>')
+    # The frieze face, which is the plane every projection above is measured against.
+    s.append(f'<line x1="{isx(naked_in):.1f}" y1="{isy(0):.1f}" x2="{isx(naked_in):.1f}" y2="{isy(drawn_h):.1f}" '
+             f'stroke="{PAL["ink3"]}" stroke-width="0.5" stroke-dasharray="2 2"/>')
+    sil = PROF.silhouette(members, naked_at=naked_in, from_axis=from_axis)
+    d = PROF.svg_path(sil["segments"], isx, isy, start=sil["start"])
     if d:
-        s.append(f'<path d="{d}" fill="{PAL["brass"]}" fill-opacity="0.55" stroke="{PAL["ink"]}" stroke-width="0.8"/>')
-    s.append(f'<text class="dm" x="{iox:.1f}" y="{ioy+ih+16:.1f}">{cornice["member_count"]} MEMBERS · GIBBS IONIC, REDUCED {round(cornice["reduced_gibbs_module_in"],1)} IN MODULE</text>')
+        s.append(f'<path d="{d}" fill="{PAL["brass"]}" fill-opacity="0.5" stroke="{PAL["ink"]}" stroke-width="0.9"/>')
+
+    # Member leaders. Each member is named at its own height, decluttered downward so two thin
+    # members cannot print over each other -- a label that overlaps its neighbour names nothing.
+    # Members arrive bottom-to-top, so screen y DECREASES as the list advances: the declutter
+    # pushes each label UP off the one below it. Nudging downward instead walked the whole legend
+    # off the bottom of the plate, which is the sort of thing only looking at the drawing finds.
+    lx = ibox_x + ibox_w * 0.46
+    n_cap = 3 + (1 if sil["unconstructed"] else 0)
+    band_top, band_bot = ibox_y + 16, ibox_y + ibox_h - 10 - n_cap * 9
+    gap = min(8.4, max(6.2, (band_bot - band_top) / max(len(members), 1)))
+    anchors = [isy((m["y_bottom_in"] + m["y_top_in"]) / 2.0) for m in members]
+    ys, last = [], None
+    for a in anchors:                          # bottom-to-top: each label clears the one below it
+        y = a if last is None else min(a, last - gap)
+        ys.append(y)
+        last = y
+    over = ys[0] - band_bot                    # the lowest label is members[0]'s
+    if over > 0:
+        ys = [y - over for y in ys]
+    under = band_top - ys[-1]                  # ... and the highest is the last
+    if under > 0:                              # both bounds bite at once: compress onto the band
+        span = max(ys[0] - ys[-1], 1e-6)
+        ys = [band_bot - (ys[0] - y) * ((band_bot - band_top) / span) for y in ys]
+    for m, anchor, my in zip(members, anchors, ys):
+        face = isx(PROF.outer_face(naked_in, m.get("projection_in") or 0.0, from_axis))
+        s.append(f'<line x1="{face+1:.1f}" y1="{anchor:.1f}" x2="{lx-3:.1f}" y2="{my:.1f}" '
+                 f'stroke="{PAL["ink3"]}" stroke-width="0.35"/>')
+        nm = (m.get("profile") or "flat").replace("-", " ").upper()
+        s.append(f'<text class="dm" x="{lx:.1f}" y="{my+2.6:.1f}">{_esc(nm)} {m["height_in"]:.2f}″</text>')
+
+    # The two dimensions a millworker would take off this plate first.
+    dy = isy(drawn_h) - 8
+    s.append(f'<line x1="{isx(naked_in):.1f}" y1="{dy:.1f}" x2="{isx(naked_in)+relief*ik:.1f}" y2="{dy:.1f}" '
+             f'stroke="{PAL["brass"]}" stroke-width="0.6"/>')
+    s.append(f'<text class="dm" x="{isx(naked_in):.1f}" y="{dy-3:.1f}">RELIEF {relief:.1f}″</text>')
+    hx = ibox_x + 7
+    hym = (isy(0) + isy(drawn_h)) / 2
+    s.append(f'<line x1="{hx:.1f}" y1="{isy(0):.1f}" x2="{hx:.1f}" y2="{isy(drawn_h):.1f}" '
+             f'stroke="{PAL["brass"]}" stroke-width="0.6"/>')
+    s.append(f'<text class="dm" x="{hx-4:.1f}" y="{hym:.1f}" '
+             f'transform="rotate(-90 {hx-4:.1f} {hym:.1f})" text-anchor="middle">{drawn_h:.1f}″</text>')
+
+    # Caption, wrapped to the plate's own measure rather than run off its edge. `.dm` is the
+    # monospaced class, so a character count is a real width here.
+    env = cornice.get("envelope_projection_in")
+    cap = [f'GIBBS IONIC · {len(members)} MEMBERS AT A {round(cornice["reduced_gibbs_module_in"],1)}″ MODULE',
+           ("PROJECTIONS ARE RADII FROM THE COLUMN AXIS" if from_axis
+            else "PROJECTIONS ARE RELIEF FROM THE FRIEZE NAKED")]
+    if env and abs(env - relief) > 0.5:
+        # Two sourced rules, one address, different answers. The sheet names both rather than
+        # letting the reader believe the drawing settled it.
+        cap.append(f"ORDER PROJECTS {relief:.1f}″; THE DOMESTIC ENVELOPE RULE SAYS {env:.1f}″ — BOTH SOURCED")
+    if sil["unconstructed"]:
+        # Never draw a shape this corpus has no construction for without saying which.
+        cap.append(", ".join(sorted({u["profile"].upper() for u in sil["unconstructed"]})) + " NOT CONSTRUCTED")
+    lines = [ln for c in cap for ln in _wrap(c, int((ibox_w - 16) / 4.3))]
+    for i, ln in enumerate(lines):
+        s.append(f'<text class="dm" x="{ibox_x+8:.1f}" '
+                 f'y="{ibox_y+ibox_h-6-(len(lines)-1-i)*9:.1f}">{_esc(ln)}</text>')
 
     s.append('</svg>')
     open(path, "w").write("\n".join(s))

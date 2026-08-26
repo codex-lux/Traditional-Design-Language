@@ -72,8 +72,8 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6; WP-4.4 is
 environment-blocked. **Phase 5 is part-built** — WP-5.1 (DXF/IFC export), WP-5.2 (the workbench
-in `workbench/`), WP-5.5 (drawing-to-record ingestion) and **WP-5.6 (the navigation overhaul)**
-have shipped; WP-5.3 and WP-5.4 remain.
+in `workbench/`), WP-5.5 (drawing-to-record ingestion), **WP-5.6 (the navigation overhaul)** and
+**WP-5.7 (the geometry layer)** have shipped; WP-5.3 and WP-5.4 remain.
 
 **WP-5.6 changed how the workbench is addressed, and it is worth knowing before touching it.**
 A place is now a URL, and that URL is the citation grammar written down — `#/kit/craftsman/cornice`,
@@ -212,6 +212,36 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   returned**, so this class cannot come back by an `m.update()`. To add a measurement to that
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
+- **A moulding is CONSTRUCTED, in one place, and JavaScript does not know what a cyma is.**
+  `build/profiles.py` turns a member's height and projection into real geometry — a quarter of an
+  ellipse for an ovolo, two tangent arcs through the chord's midpoint for a cyma, a half round for
+  a torus — and every surface consumes it: `dist/orders.html`, the workbench Proportions plate,
+  `render_elevation.py`'s cornice inset and `export_dxf.py` (as bulges, so an arc reaches CAD
+  exactly). Pack geometry is **linear in the module**, proved in `tests/test_profiles.py`, which is
+  what lets it be computed once and merely scaled. **Do not port these constructions into JS.**
+  The file this replaced, `orders_template.html::segTo`, was hand-tuned Beziers — and worse,
+  `profile_silhouette_path()` called its Python port with `xa == xb` on EVERY member, so every
+  curve degenerated to a vertical face and the cornice drew as steps whatever the data said.
+  `TestSegTo` pinned that function's control points exactly and could not see it: **pinning the
+  arithmetic of a curve nobody can see is not a guard.** Tests assert geometry — convexity,
+  tangency at a cyma's join, scale invariance — never path strings.
+- **A pack's `projection_datum` is true of its COLUMN and not of its ENTABLATURE.** OQ 65 declared
+  it per pack and `check_orders.py` verifies it against the shaft. But `gibbs-ionic` declares
+  `axis` while its frieze face records a projection of **0**, and a frieze cannot stand on the
+  column's centre line — so entablature figures there are relief from the naked. Read the
+  declaration literally over a cornice and every member narrower than the column radius clamps
+  flush, **deleting the bed mould**; `dist/orders.html` still draws it that way. `eave_cornice()`
+  detects the entablature's own datum from evidence instead. That is **OQ 72**, open. Beware also
+  a coincidence: the wrong reading put the cornice's relief within 1.7% of `facade-classical`'s
+  independent figure, and taking that as corroboration would have shipped the bug.
+- **The honesty discipline has to reach the RENDERERS, not just the records.** OQ 52 swept twelve
+  invented constants out of `elevation.py`'s measurements and is guarded by a test that reads the
+  measurements dict — which cannot see SVG. A hardcoded 36 in chimney width and ±4/±2/±6 px fake
+  projections lived happily on the other side of that line for as long as the file existed, drawn
+  over the top of real figures sitting unread in the record. Both are fixed; the class is not.
+  And a figure the corpus flags **`judgment: true`** may be DRAWN but never published as a
+  measurement: the chimney's 22 in is a decision the mason still owes ("18 or 27"), so its
+  `NOT_MODELLED` entries stay and the sheet labels the figure.
 - **A drawing the reader cannot magnify is a drawing whose dimensions do not exist**, and
   three of the workbench's plate surfaces were fixed at whatever width their column of the
   layout happened to be. `components/PlateViewer.jsx` is the loupe — mounted on the
@@ -261,7 +291,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **71 entries, of which 16 are open**
+  trusting any list of them. `docs/open-questions.md` holds **74 entries, of which 19 are open**
   (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68). **69, 70 and 71 were raised AND
   ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
   and 66, colliding with main's block for the second parallel-session collision in two days;

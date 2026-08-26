@@ -33,9 +33,17 @@ function inches(v) {
 /* The plate: the assembly stack drawn at real inches from the members' own y and
    projection values, as a HALF SECTION — every band runs from the column's axis out to
    its own naked plus its projection, which is what an authority means by a projection.
-   A band per member, the deepest boundaries carrying dimension ticks. Not the moulding
-   profiles of dist/orders.html — those stay in the order tool; this is the engine's
-   stack, stated plainly.
+   A band per member, the deepest boundaries carrying dimension ticks.
+
+   RULING OVERTURNED 26 Aug 2026 (WP-5.7). This comment used to end "Not the moulding profiles
+   of dist/orders.html — those stay in the order tool; this is the engine's stack, stated
+   plainly." That was a defensible line while the only moulding geometry in the corpus was a
+   set of hand-tuned Beziers that belonged to one page. It is not defensible now: the profiles
+   are CONSTRUCTED, in build/profiles.py, from the same member data this plate already draws,
+   and a plate that shows a cyma recta as a straight line is not stating the engine's stack
+   plainly — it is withholding the half of it a reader came for. The bands still carry every
+   dimension, tick, hover and confidence mark they did; their outer edge is now the moulding.
+   The plate still constructs nothing itself: it scales what the engine built.
 
    Two things this plate got wrong until 26 Aug 2026, both visible at a glance and both
    in the reading of the engine's output rather than in the engine:
@@ -131,6 +139,44 @@ function OrderPlate({ data }) {
     return Math.max(proj, nk);
   };
 
+  /* WP-5.7: the member's own moulded edge, constructed by build/profiles.py and served with the
+     pack. This plate does not know what a cyma is and must not learn: every copy of that
+     knowledge this corpus has kept in two languages has eventually disagreed with itself. All
+     that happens here is scale, flip, and emit. `f` is the ratio of the module the plate is
+     drawing to the module the geometry was constructed at — pack geometry is linear in the
+     module, which tests/test_profiles.py proves. */
+  const geom = data.geometry;
+  const f = geom && geom.module_in ? (data.module_in || geom.module_in) / geom.module_in : 1;
+  const segsFor = {};
+  if (geom) {
+    for (const a of geom.assemblies) {
+      for (const fc of a.faces || []) segsFor[`${a.id}.${fc.id}`] = fc;
+    }
+  }
+  const edgeCmds = (segments) => {
+    let d = '';
+    for (const s of segments || []) {
+      if (s.kind === 'close') continue;
+      if (s.kind === 'line') { d += ` L ${s.to[0] * f} ${sy(s.to[1] * f)}`; continue; }
+      // sy() flips y, and a flip reverses the direction an arc turns
+      const ccw = s.a1 > s.a0;
+      const sweep = ccw ? 1 : 0;
+      const large = Math.abs(s.a1 - s.a0) > Math.PI ? 1 : 0;
+      d += ` A ${s.rx * f} ${s.ry * f} 0 ${large} ${sweep} ${s.to[0] * f} ${sy(s.to[1] * f)}`;
+    }
+    return d;
+  };
+  /* One member as a closed band: out along its own foot, up its constructed profile, back to
+     the axis. Falls back to the straight edge when a pack reaches here without geometry, so a
+     plate is still drawn rather than blanked. */
+  const bandPath = (b) => {
+    const g = segsFor[b.key];
+    if (!g || !g.segments || !g.segments.length) {
+      return `M 0 ${sy(b.y0)} L ${b.x0} ${sy(b.y0)} L ${b.x1} ${sy(b.y1)} L 0 ${sy(b.y1)} Z`;
+    }
+    return `M 0 ${sy(b.y0)} L ${g.x_from * f} ${sy(b.y0)}${edgeCmds(g.segments)} L 0 ${sy(b.y1)} Z`;
+  };
+
   const bands = [];
   for (const row of rows) {
     const span = row.y1 - row.y0;
@@ -179,7 +225,7 @@ function OrderPlate({ data }) {
         {bands.map((b) => (
           <g key={b.key}>
             <path data-asm={b.asm} data-member={b.id}
-              d={`M 0 ${sy(b.y0)} L ${b.x0} ${sy(b.y0)} L ${b.x1} ${sy(b.y1)} L 0 ${sy(b.y1)} Z`}
+              d={bandPath(b)}
               fill={b.side ? 'var(--sepia-pale)' : 'var(--paper-lit)'}
               stroke="var(--ink)" strokeWidth={b.h > U * 1.2 ? 1.1 : 0.7}
               vectorEffect="non-scaling-stroke">
@@ -187,7 +233,7 @@ function OrderPlate({ data }) {
             </path>
             {b.conf && b.conf !== 'high' && (
               <path data-mark="confidence"
-                d={`M 0 ${sy(b.y0)} L ${b.x0} ${sy(b.y0)} L ${b.x1} ${sy(b.y1)} L 0 ${sy(b.y1)} Z`}
+                d={bandPath(b)}
                 fill="none" stroke="var(--judge-unjudged)" strokeWidth="1"
                 strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
             )}

@@ -198,7 +198,8 @@
           "profile": "dentil",
           "count": null,
           "spacing_parts": 3.857,
-          "note": "Gibbs: 'As to the Dentels, divide the Semidiameter marked on the Cornice into fourteen parts: two of those parts will be the Dentel, and one the space betwixt them.' A semidiameter is one module = 18 parts, so a dentil is 2 4/7 parts wide with a 1 2/7-part space and a pitch of 3 6/7 parts. The 2 : 1 dentil-to-space ratio is constant across Gibbs's orders; only the absolute size changes.",
+          "width_parts": 2.571,
+          "note": "Gibbs: 'As to the Dentels, divide the Semidiameter marked on the Cornice into fourteen parts: two of those parts will be the Dentel, and one the space betwixt them.' A semidiameter is one module = 18 parts, so a dentil is 2 4/7 parts wide with a 1 2/7-part space and a pitch of 3 6/7 parts. The 2 : 1 dentil-to-space ratio is constant across Gibbs's orders; only the absolute size changes. WIDTH OF ONE UNIT: Gibbs, quoted in this member's own note: 'divide the Semidiameter ... into fourteen parts: two of those parts will be the Dentel, and one the space betwixt them'. A semidiameter is 18 parts, so 2/14 of it is 2 4/7 parts.",
           "confidence": "high"
         },
         {

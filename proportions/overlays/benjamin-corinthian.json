@@ -167,7 +167,8 @@
           "profile": "modillion",
           "count": null,
           "spacing_parts": 17.5,
-          "note": "STATED VERBATIM: 'cornice, forty eight'. Vignola's is 2 modules = 60 minutes. Modillions stated too: 'the modillions are thirteen minutes in front, and thirty five from centre to centre. The directions given for placing modillions, in the Ionic order, are to be strictly observed in this' - i.e. the centre of a modillion exactly over the centre of each column. Thirty-five minutes on centres is 17 1/2 parts of this pack's module, against Vignola's Corinthian pitch of one module = 30 minutes. Benjamin's modillions are further apart and narrower. The internal division of the 48 minutes among bed mould, dentils, ovolo, modillion, corona and cymatium is figured on Plate 15 only and is not encoded.",
+          "width_parts": 6.5,
+          "note": "STATED VERBATIM: 'cornice, forty eight'. Vignola's is 2 modules = 60 minutes. Modillions stated too: 'the modillions are thirteen minutes in front, and thirty five from centre to centre. The directions given for placing modillions, in the Ionic order, are to be strictly observed in this' - i.e. the centre of a modillion exactly over the centre of each column. Thirty-five minutes on centres is 17 1/2 parts of this pack's module, against Vignola's Corinthian pitch of one module = 30 minutes. Benjamin's modillions are further apart and narrower. The internal division of the 48 minutes among bed mould, dentils, ovolo, modillion, corona and cymatium is figured on Plate 15 only and is not encoded. WIDTH OF ONE UNIT: Benjamin, quoted in this member's own note: 'the modillions are thirteen minutes in front, and thirty five from centre to centre'. The note converts his 35 minutes to this pack's 17.5 parts, so 13 minutes is 6.5 parts.",
           "confidence": "high"
         }
       ]

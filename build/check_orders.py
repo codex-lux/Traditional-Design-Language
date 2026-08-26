@@ -259,6 +259,23 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
         if dupes:
             err(pid, f"assembly '{name}' has duplicate member ids: {sorted(dupes)}")
 
+        # WP-5.7: a repeating member's own width against its own pitch. A tooth as wide as its
+        # pitch leaves no gap between teeth, which is a solid band with extra steps; a tooth
+        # WIDER than its pitch is teeth overlapping each other, which cannot be built. Neither is
+        # caught by the schema, because both are perfectly good numbers on their own.
+        for m in asm["members"]:
+            w, sp = m.get("width_parts"), m.get("spacing_parts")
+            if w is None:
+                continue
+            if w <= 0:
+                err(pid, f"member '{m['id']}': width_parts {w} is not a width")
+            elif sp is None:
+                err(pid, f"member '{m['id']}': states a width_parts of {w} but no spacing_parts "
+                         f"to lay it out on — a width without a pitch places nothing")
+            elif w >= sp:
+                err(pid, f"member '{m['id']}': width_parts {w} is not under its own pitch of "
+                         f"{sp} — teeth this wide leave no gap between them")
+
     # 3. invariants
     for inv in pack.get("invariants", []):
         tol = inv.get("tolerance", 0.02)

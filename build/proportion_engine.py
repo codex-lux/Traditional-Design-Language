@@ -275,6 +275,10 @@ def dimension(pack, module_in=None, include=None):
                 "projection_in": round(m.get("projection_parts", 0) * part_in, 4),
                 "y_bottom_in": round(my0, 4), "y_top_in": round(my0 + h, 4), "side_by_side": side,
                 "count": m.get("count"), "spacing_in": (m["spacing_parts"] * part_in) if m.get("spacing_parts") else None,
+                # WP-5.7: the pitch says where the teeth fall, the width says how much of that
+                # pitch is solid. Null stays null all the way to the renderer, which then draws
+                # the band solid and says the width was never published.
+                "width_in": (m["width_parts"] * part_in) if m.get("width_parts") else None,
                 "enrichment": m.get("enrichment"), "confidence": m.get("confidence", "high"),
                 "note": m.get("note"),
             })

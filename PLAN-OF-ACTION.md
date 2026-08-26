@@ -15,7 +15,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **2 — Composition** | WP-2.1, 2.2, 2.3, 2.4 | **Complete** — placement is CP-SAT with named conflict sets (25 Aug); the hill-climb remains as fallback, cross-check and the workbench's per-gesture engine |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3, 4.5, 4.6 complete · **4.4 environment-blocked, 4.7 not started** | **In progress** |
-| **5 — Platform** | WP-5.1, 5.2, 5.5 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
+| **5 — Platform** | WP-5.1, 5.2, 5.5, 5.6, 5.7 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -556,6 +556,22 @@ Built: a hand-rolled hash router and a fourth external store (`state/nav.js`); `
 Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workbench.md` (new "Navigation and addressing" section) · new open questions: OQ 64, 65.
 
 **Depends on:** WP-5.2. **Size:** large.
+
+### WP-5.7 The geometry layer: moulding constructions, coursing, and repetition
+
+**Status: COMPLETE (26 Aug 2026).** Raised by Lucas against three drawn surfaces — the Drawing Set's front elevation ("bears not even a passing resemblance to a true Georgian tidewater precedent"), the eave cornice inset ("a most abstracted step knob, painfully primitive relative to the actual sophistication of the profiles"), and the order Proportions plate — with the question attached: is SVG capable of this at all, or does the project need a CAD/BIM layer underneath?
+
+**The answer, and the finding the package records: SVG was never the constraint, and CAD/BIM could not have fixed it, because a format serialises what is modelled and cannot invent what is not.** The proof was already in the tree: `export_dxf.py` exported the whole cornice as ONE RECTANGLE, not because DXF cannot hold an arc but because no layer of this corpus held a moulding as geometry. Meanwhile all 502 order members already carried a machine-readable `profile`, and the resolved Tidewater kit already stated a ten-course moulded water table, 2.75 in coursing, gauged arches with rise and camber, and the chimney's plan size — almost none of it drawn. The missing thing was the layer between: constructed 2D geometry.
+
+Built: **`build/profiles.py`**, which constructs each moulding from the member's own two numbers — a quarter of an ellipse for an ovolo, two tangent arcs through the chord's midpoint for a cyma (radius falling out of the geometry, not chosen), a half round for a torus — plus tooth-by-tooth repetition, the OQ 65 datum rule stated once, and serialisers to SVG and to DXF **bulges** so a circular arc reaches CAD exactly. `width_parts` on 14 members, every figure TRANSCRIBED from the member's own note (Lucas ruled editorial authoring acceptable; it was not needed and none was written). The order tool lost `segTo()`/`buildGeometry()` — 106 lines of Bézier constants and a duplicate datum — for a 30-line mapper: geometry is linear in the module, proved not assumed, so it is computed once in Python and scaled by everything that draws it, and **JavaScript no longer knows what a cyma is**. The elevation gained brick coursing, the moulded water table as the assembly it is, gauged flat arches switched on the plan's own date, sills, real projections everywhere, and a five-rung weight ladder. The Proportions plate draws true profiles, **overturning its own in-file ruling** ("those stay in the order tool") on Lucas's word.
+
+**Found:** the inset's curves had NEVER been drawn — `profile_silhouette_path()` called `seg_to()` with `xa == xb` on every member, so every curve degenerated to a vertical face, and `TestSegTo` pinned the control-point arithmetic exactly while being blind to it (**pinning the arithmetic of a curve nobody can see is not a guard**). A pack's declared projection datum is true of its column and NOT of its entablature — `gibbs-ionic` declares `axis` while its frieze records 0 — so reading the declaration literally deletes the bed mould, which is what `dist/orders.html` still does (OQ 72). Gibbs and `facade-classical` give the same cornice two projections 2.3x apart, both sourced (OQ 73). The chimney width was **not a missing measurement but a deferred one** — `judgment: true`, "the mason will build 18 or 27" — so its `NOT_MODELLED` entries STAY, with reasons corrected from "nobody wired it" to "nobody is entitled to", while the renderer's hardcoded 36 in went. And the front elevation still cannot show its chimneys, because `roof.py`'s long-face silhouette stops at the eave; the attempt was **withdrawn** rather than shipped (OQ 74).
+
+**The durable lesson:** OQ 52 swept twelve invented constants out of the measurements and is guarded by a test that reads the measurements dict — which cannot see SVG. The 36 in chimney and the fake pixel projections lived on the other side of that line. **The honesty discipline has to reach the renderers, not just the records.**
+
+Report: `docs/reports/wp-5.7-real-2d-geometry.md` · layer docs: `docs/proportion.md`, `docs/elevation.md`, `docs/export.md` · new open questions: OQ 72, 73, 74.
+
+**Depends on:** WP-3.2, WP-5.1, WP-5.2. **Size:** large.
 
 A structured transcription form (HTML) that produces a plan record from a drawing by tracing, and a DXF importer that reads a drafter's plan into a record. This is what lets HABS drawings, the reference corpus, and a builder's back catalogue flow into the critic.
 

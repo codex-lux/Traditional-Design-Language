@@ -65,3 +65,47 @@ A rule can also be marked `diagnostic`, meaning it is designed to fail informati
 Every pack records where it collides with building today, with a severity and a resolution: an 8-foot ceiling against a Corinthian entablature; carved acanthus against any real budget, with four ranked substitutions and a statement of which ones are dishonest; modillion spacing against code-minimum glazing; insulated glazing units that cannot take true divided lites. And a tolerance floor — at a 6-inch module one part is a third of an inch and several fillets are a tenth, so these orders do not work below roughly a 9-inch module in painted wood.
 
 This is the most commercially defensible material in the project. It is the expertise that currently lives only in senior architects' heads.
+
+## Moulding geometry (WP-5.7)
+
+A `profile` on a member is not decoration in the record — it is the instruction for drawing that
+member, and `build/profiles.py` executes it. Every classical moulding here is a **construction**
+from the member's own height and projection, never a curve fitted to look right:
+
+- **ovolo / quarter-round / echinus** — a convex quarter, elliptical where height and projection
+  differ, which is the ordinary case.
+- **cavetto / apophyge / congé** — the concave quarter.
+- **cyma recta** — the *gola diritta*: hollow below, round above, two equal tangent arcs meeting at
+  the chord's midpoint with vertical end tangents. The radius falls out of the geometry,
+  `r = (dx² + h²) / 4dx`.
+- **cyma reversa / ogee** — the *gola rovescia*, the same construction reversed: round below,
+  hollow above, horizontal end tangents, `r = (dx² + h²) / 4h`.
+- **torus / astragal / bead** — a half round, out to the face at mid-height and back to the plane
+  it sprang from.
+- **scotia** — a hollow half the member's own height deep, in two quarters tangent at the throat.
+  This one carries a stated convention: no pack gives a scotia's depth, and half its height is what
+  a half-round hollow means. It is a drawing construction, said so in the module docstring rather
+  than buried in a constant.
+- **fillet, listel, fascia, plinth, corona, abacus** — a square step. A corona takes a drip **only**
+  where its own note asks for one (Gibbs: *"divide the projecting part in two for the Drip"*).
+- **volute, acanthus** — **not constructed.** A volute's spiral construction is on a plate this
+  corpus cannot reach (the OQ 7-11 class); these draw as a swelling and report themselves
+  unconstructed so a caller can say so on the sheet.
+
+**`width_parts`** gives the face width of one repeating unit — a dentil, modillion, mutule,
+triglyph or metope. `spacing_parts` is the pitch; this is how much of that pitch is solid, and
+without it a band of dentils can only be drawn as a solid band. It is null where the authority
+publishes no width, and the band is then drawn solid **and says so**. Fourteen members carry one,
+every figure transcribed from the member's own note with the quotation recorded beside it —
+Vignola's *"1/9 D wide (4 parts)"*, Gibbs's *"two of those parts will be the Dentel"*. None was
+authored editorially. `check_orders.py` refuses a tooth as wide as its own pitch.
+
+**Entasis is not constructed.** `column_radius_at()` is a smoothstep, the same shape
+`orders_template.html` has always drawn, and its docstring says so. Vignola describes striking the
+swell from a divided semicircle and Chambers gives another construction; no pack in this corpus
+records either, and the facsimiles that would settle it are network-blocked.
+
+**Geometry is linear in the module**, proved in `tests/test_profiles.py` rather than assumed. That
+is what lets it be computed once in Python and merely scaled by everything that draws it — the
+order tool, the workbench plate, the elevation sheet and the DXF exporter all read the same
+segments, and JavaScript holds no profile knowledge at all. Do not add a second implementation.
