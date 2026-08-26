@@ -56,6 +56,20 @@ _CREDENTIAL_WORDS = ("KEY", "TOKEN", "SECRET", "CREDENTIAL")
 # from a missing variable, and must not be reported as the same one.
 _PLATFORM_MARKERS = ("RAILWAY_", "RENDER_", "FLY_", "HEROKU_", "KOYEB_", "DYNO")
 
+# Variables only a person configures — the platform never injects one. The live report
+# turned on this distinction: /api/health showed the platform's OWN variables arriving
+# (mcp.allowed_hosts carried the generated domain, which is discovered from RAILWAY_*)
+# while WORKBENCH_PASSWORD was simultaneously absent. Two unrelated variables missing at
+# once is not a mangled key: it is the whole configured set landing on some other service
+# or some other environment. That is a different sentence and a different remedy, and
+# saying "set ANTHROPIC_API_KEY here" to someone whose entire variable set is elsewhere
+# sends them to fix one row of a table that is in the wrong place.
+_APP_VARS = ("WORKBENCH_PASSWORD", "WORKBENCH_SECRET", "WORKBENCH_API_TOKEN",
+             "WORKBENCH_ALLOWED_HOSTS", "WORKBENCH_MODEL", "WORKBENCH_EFFORT",
+             "WORKBENCH_MAX_TOKENS", "WORKBENCH_TRUST_PROXY_AUTH", "RAIL_MAX_TOOL_ROUNDS",
+             "RAIL_TURNS_PER_HOUR", "RAIL_TURNS_PER_DAY", "RAIL_MAX_MESSAGES",
+             "RAIL_MAX_CHARS", "HEAVY_CALLS_PER_HOUR", "MCP_HEAVY_CALLS_PER_HOUR")
+
 
 def _clean(value):
     """A usable key from whatever the variable editor stored, or None.
@@ -138,6 +152,13 @@ def _on_a_platform():
     return any(m in k.upper() for k in os.environ for m in _PLATFORM_MARKERS)
 
 
+def _configured_vars():
+    """Which of this application's OWN variables reached the process. Names, never values,
+    and PORT is deliberately not among them — the platform injects that one itself, so its
+    presence would prove nothing about whether anybody's configuration arrived."""
+    return sorted(name for name in _APP_VARS if os.environ.get(name))
+
+
 def state(disclose=False):
     """What /api/health reports about the rail. Off is never a bare false: the note names
     the one thing to change. `disclose` gates the near-miss NAMES on the caller being
@@ -184,6 +205,14 @@ def state(disclose=False):
         st["note"] = (f"no {KEY_VAR} in this process, but {subject}" +
                       (f": {', '.join(misses)}" if disclose else "") +
                       f" — rename it to {KEY_VAR} exactly, with no spaces in the name.")
+    elif _on_a_platform() and not _configured_vars():
+        st["note"] = (
+            f"NOTHING configured reached this process — not {KEY_VAR}, and not one of the "
+            f"{len(_APP_VARS)} other variables this application reads — while the "
+            f"platform's own variables did arrive. That is not a mistyped key: the whole "
+            f"variable set is attached to a different service or a different environment "
+            f"from the one serving this domain. Open the service this domain routes to, "
+            f"in that environment, and check whether its Variables tab is empty.")
     elif _on_a_platform():
         st["note"] = (f"no {KEY_VAR} reached this process, though it is running on a "
                       f"platform. A project- or environment-level variable is NOT injected "

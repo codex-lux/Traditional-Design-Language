@@ -78,6 +78,20 @@ variable a service never referenced, which is the likeliest cause on Railway and
 "set the key" is useless advice for. And the SDK not installed, which is a key that is
 attached and still cannot run.
 
+A seventh state was added after the live deployment's `/api/health` was actually read, and
+it is the one that answered the report. The response showed `mcp.allowed_hosts` carrying
+`traditional-design-language-production.up.railway.app` — a hostname discovered by scanning
+`RAILWAY_*`, so the platform's own variables were plainly arriving — and `auth.required:
+false` in the same breath, meaning `WORKBENCH_PASSWORD` had not. Two unrelated variables
+missing at once is not a mistyped key. It is the whole configured set attached to a
+different service, or a different environment, from the one serving the domain. `rail.py`
+asks that question directly now: if the process carries platform markers and *none* of the
+fifteen variables this application reads has arrived, the note says so and sends the
+operator to the service's Variables tab rather than to one row of it. `PORT` is
+deliberately excluded from that fifteen — the platform injects it, so its presence proves
+nothing about whether anybody's configuration arrived, and counting it would silence the
+finding.
+
 Three tolerances, each for a failure a variable editor actually produces rather than an
 imagined one: the value is stripped of surrounding quotes and whitespace (a trailing
 newline makes an invalid HTTP header, so the rail would report itself ON and then fail

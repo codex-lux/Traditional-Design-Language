@@ -114,11 +114,40 @@ def test_no_value_is_ever_reported(monkeypatch):
 
 def test_on_a_platform_the_note_names_the_platform_trap(monkeypatch):
     monkeypatch.setenv("RAILWAY_PUBLIC_DOMAIN", "workbench.up.railway.app")
+    monkeypatch.setenv("WORKBENCH_PASSWORD", "shibboleth")   # SOMETHING configured arrived
     st = rail.state()
     assert st["on"] is False
     # The commonest real cause: the variable exists, at project scope, and the service
     # never references it. "Set the key" is useless advice to someone who did.
     assert "THIS service" in st["note"] and "redeploy" in st["note"]
+
+
+def test_an_empty_variable_set_is_not_reported_as_a_missing_key(monkeypatch):
+    """The live report turned on this distinction. /api/health showed the platform's own
+    variables arriving — mcp.allowed_hosts carried the generated domain, which is
+    discovered from RAILWAY_* — while WORKBENCH_PASSWORD was absent at the same moment.
+    Two unrelated variables missing at once is the whole configured set landing on another
+    service or another environment, which is a different remedy from setting one key."""
+    monkeypatch.setenv("RAILWAY_PUBLIC_DOMAIN", "workbench.up.railway.app")
+    for name in rail._APP_VARS:
+        monkeypatch.delenv(name, raising=False)
+    st = rail.state()
+    assert st["on"] is False
+    assert "NOTHING configured reached this process" in st["note"]
+    assert "different service or a different environment" in st["note"]
+    # and the moment one real variable arrives, it is a key problem again, not a wiring one
+    monkeypatch.setenv("WORKBENCH_SECRET", "s")
+    assert "NOTHING configured" not in rail.state()["note"]
+
+
+def test_PORT_alone_does_not_count_as_configuration(monkeypatch):
+    """The platform injects PORT itself, so its presence proves nothing about whether
+    anybody's configuration arrived. Counting it would silence the finding above."""
+    monkeypatch.setenv("RAILWAY_PUBLIC_DOMAIN", "workbench.up.railway.app")
+    monkeypatch.setenv("PORT", "8080")
+    for name in rail._APP_VARS:
+        monkeypatch.delenv(name, raising=False)
+    assert "NOTHING configured reached this process" in rail.state()["note"]
 
 
 def test_a_missing_sdk_is_not_a_missing_key(monkeypatch):
