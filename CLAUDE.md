@@ -209,14 +209,16 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **66 entries, of which 15 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 65, 66). **64, 65 and 66 came from WP-5.6** —
-  66 is the one to know about before you run the suite: `test_solver.py`'s downgrade pin measures 9
-  against a bound of 8 **intermittently**, reproduces at `12e1dd0` with none of that package present,
-  and is the wall-clock sensitivity its own comment predicts. 64 is a
-  session-scoped test fixture that gates every test file sorting after it, found because a new test
-  passed alone and failed in the suite; 65 is the map's gazetteer, which is interface data about a
-  corpus that grows and has no check to say when a new style falls off the map. **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **66 entries, of which 12 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41). **64, 65 and 66 were raised AND ruled on 26 Aug**,
+  all three from WP-5.6: 64 a session-scoped test fixture that gated every test file sorting after
+  it (closed — the token is per-test now, and `test_zz_auth_leak_guard.py` sorts last to keep it
+  so); 65 the map's gazetteer (closed — and the check was the smaller half: 59 styles had a
+  `geography.hearth` naming somewhere finer than their regions, which nothing was reading, so
+  locality placements went 15 → 87 without authoring a single new fact); 66 `test_solver.py`'s
+  downgrade pin, which measured 9 against a bound of 8 intermittently (closed — it asserts the
+  proof rather than the count, and reports COULD NOT EVALUATE when the machine could not run
+  CP-SAT at all). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message

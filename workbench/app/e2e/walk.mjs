@@ -251,9 +251,14 @@ const mapText = await page.locator('main').innerText();
 // The whole point of the precision tiers: a country is not a hearth, and the drawing
 // says so rather than planting a firm dot in the middle of a nation.
 check('placement precision is counted, not implied', /\d+ country/i.test(mapText)
-  && /the record names no hearth/i.test(mapText));
+  && /no hearth to place it at/i.test(mapText));
 check('the gazetteer is disclaimed as interface, not source',
-  /regions in prose, not coordinates/i.test(mapText) && /none of them is a source/i.test(mapText));
+  /in prose, not coordinates/i.test(mapText) && /none of them is a source/i.test(mapText));
+// OQ 65: a country-wide mark must be distinguishable from a failure to place. Every one
+// of them is now country-wide by the corpus's own account — a family, a tradition, or a
+// record whose hearth says it has none — and the drawing says which.
+check('coarse marks are attributed to the record, not to the drawing',
+  /because the corpus says so rather than because this drawing failed/i.test(mapText));
 // Every taxon must be either placed or named as unplaced — never dropped.
 {
   const phyl = await (await fetch(BASE + '/api/phylogeny')).json();

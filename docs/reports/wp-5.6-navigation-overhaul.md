@@ -150,11 +150,12 @@ arrives — applied to geography.
 Three honesties are built into the drawing rather than written beside it:
 
 1. **Precision is drawn.** Each entry records `locality` / `region` / `country`, and a style
-   is placed by the *finest* region it names. **81 of 164 name only a country** — "England",
-   "United States nationwide" — which is not a hearth, and a firm dot in the middle of
-   Kansas would invent one. Those marks are hollow and hatched, in the same `--hatch-unjudged`
-   vocabulary the product uses for "could not evaluate", and the legend counts all three
-   tiers and says what each means.
+   is placed by the *finest* thing its `regions` or its `hearth` names (see §8 — reading the
+   hearth as well took locality placements from 15 to 87). A country is not a hearth and a
+   firm dot in the middle of Kansas would invent one, so those marks are hollow and hatched,
+   in the same `--hatch-unjudged` vocabulary the product uses for "could not evaluate". The
+   legend counts all three tiers, says what each means, and attributes the coarse ones: all
+   24 are country-wide by the corpus's own account rather than by any failure of the drawing.
 2. **Nothing is placed that cannot be.** A style whose regions the gazetteer does not know is
    listed as unplaced, never nudged onto a continent to tidy the picture. The walk asserts
    the arithmetic: placed + unplaced = every taxon, none dropped.
@@ -255,19 +256,82 @@ point rather than an inconvenience.
 
 ---
 
-## 8. Open questions raised
+## 8. The three questions, ruled and executed the same day
 
-**OQ 64 — a session-scoped fixture gates every test file that sorts after it.** See §3(v).
+Lucas ruled all three on 26 Aug, and working them turned up more than they were about.
+
+**OQ 66 — assert the proof, not the count.** The property the pin defends is that a
+downgrade is never silent, and counting was a proxy for it that made a green suite a fact
+about the machine. Every downgraded wall pin must now carry a stated refinement naming its
+room and wall, and that refinement must say which of two things it is: proven infeasible
+alone at this footprint, or carried from the conflict core and explicitly not re-proved in
+budget. Both are honest; an unstated third path is the failure, and so is a pin with no note.
+That holds under any load. The other direction keeps a bound but a load-independent one —
+fewer pins downgraded than the plan declares, or the model has stopped enforcing walls and
+started narrating them. Proving the fix turned up its twin: under 4× CPU oversubscription
+CP-SAT does not run at all, so the *engine-identity* assertion failed. Same species, same
+discipline — a budget fallback now skips as COULD NOT EVALUATE carrying the dispatcher's own
+reason, while a fallback for any other cause still fails.
+
+**OQ 64 — configure the gate per test.** The two constraints were never one constraint. The
+client must stay session-scoped (the lifespan may be entered once per process); the token
+need only exist while a request in that file is in flight, which is exactly what
+`monkeypatch` is. Not done as literally ruled, for a reason worth recording: a client
+carrying a default `Authorization` header cannot coexist with `test_bearer_is_required`,
+which proves the gate by sending none. `test_zz_auth_leak_guard.py` now asserts no gate
+variable survives into it and names the cause and remedy in its failure message; the `zz` is
+load-bearing, because a guard against "something earlier leaked" only works if it runs after
+everything it guards.
+
+**OQ 65 — and the check was the smaller half.** Ruled: build the check, and chase the
+hearths too. Chasing them needed no authoring at all, which is the finding. The map placed
+styles from `geography.regions` alone — and **59 of the 81 country-level placements had a
+`geography.hearth` naming somewhere finer that nothing was reading.** Craftsman sat in the
+middle of Kansas while its own record said "Pasadena and Los Angeles, California". Reading
+both fields took locality placements from **15 to 87** and country-wide from **81 to 24**,
+without a single new fact being authored. The corpus already knew; the interface was not
+listening.
+
+The remaining 24 are correct, and that is the answer to the half of the question that
+suspected a gap in hearth coverage: 22 are families and traditions, abstractions over styles
+with no birthplace, and two are styles whose hearth says so in its own words —
+`neo-eclectic`'s "No design hearth; the style was generated inside production builders' plan
+departments", `craftsman-bungalow`'s "Streetcar suburbs nationwide". The map now attributes
+them rather than counting them as its own failure.
+
+The rule that makes prose-reading safe: **a hearth may sharpen a region, never contradict
+one.** A name found in the prose is refused if it lies more than 45° from *every* region the
+style names. The first version anchored to the finest region only and was wrong — it threw
+away `churrigueresque`'s Madrid because that style's finest region is in Mexico, while Spain
+sat in the same list. Against all of them it still does its job: `dutch-colonial-american`'s
+hearth reads "from Nieuw Amsterdam to Beverwijck (Albany)", all six of its regions are
+American, so Amsterdam is refused and the sentence resolves to Albany — which is what it
+meant.
+
+`build/check_gazetteer.py --strict` joins `check_all.py` and ratchets three numbers, **all
+at zero**: unplaced, coarse for any reason but the record's, and hearth sentences it cannot
+read. It parses the JS gazetteer rather than keeping a Python copy — a second copy is
+precisely how the two halves of the citation grammar came to disagree about dots. Proved by
+adding a style naming a place nobody has heard of: the check fails, names it, and says what
+to do about it.
+
+## 9. Open questions raised
+
+**OQ 64 — a session-scoped fixture gates every test file that sorts after it.** **CLOSED.** See §3(v).
 The mechanism is `test_mcp_http.py::live`; the symptom is a 401 on any unauthenticated
 request in a later file; the workaround (state your own baseline) is in
 `test_search_index.py` with the reasoning in place. Needs a ruling on whether the fixture
 should be reworked or the convention documented.
 
-**OQ 66 — a solver pin that depends on machine load.** See §7. Raised here only because
-this package had to establish that it had not broken the solver, and establishing that
-turned up a check that fails intermittently for reasons unrelated to the code under test.
+All three were ruled and executed the same day — see §8 for what each turned up. They are
+recorded here as they were raised, because the questions are what the package produced and
+the answers came afterwards.
 
-**OQ 65 — the gazetteer is unversioned interface data about a corpus that grows.** 180
+**OQ 66 — a solver pin that depends on machine load.** See §7. Raised only because this
+package had to establish it had not broken the solver, and establishing that turned up a
+check failing intermittently for reasons unrelated to the code under test. **CLOSED.**
+
+**OQ 65 — the gazetteer is unversioned interface data about a corpus that grows.** **CLOSED**, and the larger half of it was that the corpus already held the answer. 275
 entries place all 164 styles today. A style added tomorrow with an unknown region name will
 be reported as unplaced, which is the correct failure — but nothing *fails the build* to
 tell an author their new style is invisible on the map. A `check_gazetteer.py` that ratchets

@@ -42,6 +42,10 @@ CHECKS = [
     # check_inheritance guards OQ 51's three numbers, which the ruling says must only go down.
     ("check_addresses.py", ["--strict"]),
     ("check_inheritance.py", ["--strict"]),
+    # check_gazetteer guards OQ 65: every style must be placeable on the Phylogeny's map
+    # from its own regions and hearth. The map already reports a style it cannot place —
+    # but as a line in a panel, which is where a new style goes quietly missing.
+    ("check_gazetteer.py", ["--strict"]),
     ("proportion_engine.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
     ("plan_check.py", ["plans/tidewater-georgian-careful.json"]),

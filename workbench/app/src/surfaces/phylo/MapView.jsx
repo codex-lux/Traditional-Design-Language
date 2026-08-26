@@ -43,7 +43,7 @@ const MIN_W = 6, MAX_W = 300;
 const PRECISION_NOTE = {
   locality: 'a place you could walk across',
   region: 'a named region, a hundred miles wide',
-  country: 'a whole country — the record names no hearth',
+  country: 'a whole country — no hearth to place it at',
 };
 
 export function MapView({
@@ -55,15 +55,27 @@ export function MapView({
   const drag = React.useRef(null);
 
   /* Place every row once. rows already carries the rank filter the tree applies. */
-  const { clusters, byId, unlocated, counts } = React.useMemo(() => {
+  const { clusters, byId, unlocated, counts, abstract } = React.useMemo(() => {
     const cl = new Map();
     const by = {};
     const un = [];
     const c = { locality: 0, region: 0, country: 0 };
+    // How many of the coarse marks are coarse because the corpus says so — a family or a
+    // tradition is an abstraction over styles and has no birthplace, and two styles say in
+    // their own hearth that they have none ("No design hearth", "Streetcar suburbs
+    // nationwide"). Reporting those as a shortcoming of the drawing would be a lie about
+    // the records.
+    let abstract = 0;
     rows.forEach((r) => {
-      const p = placeStyle(r.regions);
+      // regions AND hearth: the prose is finer than the list, and reading only the list
+      // put Craftsman in the middle of Kansas while its record said Pasadena (OQ 65).
+      const p = placeStyle(r.regions, r.hearth);
       if (!p) { un.push(r); return; }
       c[p.precision] += 1;
+      if (p.precision === 'country'
+        && (r.rank === 'family' || r.rank === 'tradition' || /no (design )?hearth|nationwide/i.test(r.hearth || ''))) {
+        abstract += 1;
+      }
       const key = `${p.lat},${p.lon}`;
       if (!cl.has(key)) {
         cl.set(key, { key, ...p, ...project(p.lat, p.lon), members: [] });
@@ -74,7 +86,7 @@ export function MapView({
       // A cluster is as precise as its most precise member.
       if (p.precision === 'locality') cluster.precision = 'locality';
     });
-    return { clusters: [...cl.values()], byId: by, unlocated: un, counts: c };
+    return { clusters: [...cl.values()], byId: by, unlocated: un, counts: c, abstract };
   }, [rows]);
 
   /* Arcs, from the same edge set the tree draws, between placed endpoints. An edge whose
@@ -263,9 +275,16 @@ export function MapView({
           <Eyebrow style={{ marginBottom: 6 }}>what this drawing does not know</Eyebrow>
           <p style={{ font: 'var(--fw-reg) 12px/1.5 var(--body)', color: 'var(--ink-3)',
             margin: 0, maxWidth: '74ch' }}>
-            The corpus records regions in prose, not coordinates. These points come from a
-            gazetteer in the interface, keyed on those region names — they are accurate to
-            the size of the thing named and no better, and none of them is a source.
+            The corpus records where a style arose in prose, not coordinates. These points
+            come from a gazetteer in the interface, keyed on the region and hearth names the
+            records use — they are accurate to the size of the thing named and no better,
+            and none of them is a source.
+            {abstract > 0 && (
+              <> {abstract} of the {counts.country} country-wide marks are country-wide
+                because the corpus says so rather than because this drawing failed: a family
+                or a tradition is an abstraction over styles and has no birthplace, and a
+                style whose hearth reads "no design hearth" is telling you something true.</>
+            )}
             {sameHearth > 0 && (
               <> {sameHearth} lineage {sameHearth === 1 ? 'edge is' : 'edges are'} not drawn:
                 both ends share a hearth, so the transmission happened inside one place and

@@ -39,6 +39,10 @@ def phylogeny():
             # of 164 styles carry more than three — so a cut here silently coarsened half
             # the corpus, putting styles in the middle of a country that name a valley.
             "regions": (n.get("geography") or {}).get("regions", []),
+            # And the hearth, which is finer still: `regions` says "United States" where
+            # the hearth says "Pasadena and Los Angeles, California". 59 of the 81
+            # country-level placements had a hearth naming somewhere better (OQ 65).
+            "hearth": (n.get("geography") or {}).get("hearth"),
             "short": (n.get("description") or {}).get("short"),
         })
         for e in n.get("lineage") or []:

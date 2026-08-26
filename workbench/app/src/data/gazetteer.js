@@ -216,6 +216,137 @@ export const GAZETTEER = {
   'Australia': [-25.5, 134.0, 'country'],
   'New Zealand': [-41.5, 172.5, 'country'],
   'India': [22.0, 79.0, 'country'],
+
+  /* ── Places the HEARTH sentences name (OQ 65) ──────────────────────────────
+     Everything below was added by reading the 132 hearth sentences and listing
+     what they name that this file could not place. They are here to be matched
+     in prose, not in `regions`, which is why several are towns.
+
+     Ambiguity is real and handled by the anchor check in placeByHearth rather
+     than by leaving names out: there is a Boston in Lincolnshire and a Salem in
+     Oregon, and an English style anchored to England rejects the Massachusetts
+     reading at 70° before it is ever drawn. */
+
+  // New England, which most of the American hearths point at
+  'Boston': [42.36, -71.06, 'locality'],
+  'Salem': [42.52, -70.90, 'locality'],
+  'Marblehead': [42.50, -70.86, 'locality'],
+  'Ipswich': [42.68, -70.84, 'locality'],
+  'Newport': [41.49, -71.31, 'locality'],
+  'Portsmouth': [43.07, -70.76, 'locality'],
+  'Essex County': [42.64, -70.94, 'locality'],
+  'Massachusetts Bay': [42.4, -70.9, 'region'],
+  'Connecticut River': [41.8, -72.6, 'region'],
+  'Connecticut Valley': [41.9, -72.6, 'region'],
+
+  // the mid-Atlantic and the Hudson
+  'Delaware Valley': [40.0, -75.2, 'region'],
+  'Fishkill': [41.54, -73.90, 'locality'],
+  'Albany': [42.65, -73.76, 'locality'],
+  'Washington, D.C.': [38.90, -77.04, 'locality'],
+  'Erie Canal': [43.1, -76.1, 'region'],
+  'Western Reserve': [41.4, -81.3, 'region'],
+
+  // the South and the interior
+  'Albemarle County': [38.02, -78.53, 'locality'],
+  'Great Valley of Virginia': [38.4, -78.9, 'region'],
+  'Blue Ridge': [36.6, -81.5, 'region'],
+  'Virginia Piedmont': [37.9, -78.3, 'region'],
+  'Carolina Piedmont': [35.5, -80.5, 'region'],
+  'Lower Mississippi Valley': [31.5, -91.4, 'region'],
+  'Black Belt': [32.4, -87.2, 'region'],
+  'East Tennessee': [35.9, -84.0, 'region'],
+  'Bluegrass': [38.0, -84.5, 'region'],
+  'Tennessee Valley': [34.8, -87.0, 'region'],
+  'St. Augustine': [29.90, -81.31, 'locality'],
+  'Rio Grande': [35.5, -106.0, 'region'],
+
+  // the West
+  'Santa Barbara': [34.42, -119.70, 'locality'],
+  'Montecito': [34.44, -119.63, 'locality'],
+  'Oak Park': [41.89, -87.79, 'locality'],
+  'San Diego': [32.72, -117.16, 'locality'],
+  'Sonoma': [38.29, -122.46, 'locality'],
+  'Seaside': [30.38, -86.15, 'locality'],
+
+  // England, beyond the counties already listed
+  'Derbyshire': [53.1, -1.6, 'region'],
+  'Nottinghamshire': [53.1, -1.0, 'region'],
+  'Gloucestershire': [51.8, -2.2, 'region'],
+  'Oxfordshire': [51.8, -1.3, 'region'],
+  'Wiltshire': [51.3, -1.9, 'region'],
+  'Norfolk': [52.6, 1.0, 'region'],
+  'the Thames valley': [51.5, -0.9, 'region'],
+  'Thames valley': [51.5, -0.9, 'region'],
+  'the Midlands': [52.5, -1.5, 'region'],
+  'Twickenham': [51.45, -0.33, 'locality'],
+  'Ramsgate': [51.34, 1.42, 'locality'],
+  'Westminster': [51.50, -0.13, 'locality'],
+  'Chiswick': [51.49, -0.26, 'locality'],
+
+  // Scotland
+  'Aberdeenshire': [57.2, -2.5, 'region'],
+  'Aberdeen': [57.15, -2.09, 'locality'],
+  'Abbotsford': [55.60, -2.78, 'locality'],
+  'the Borders': [55.5, -2.8, 'region'],
+
+  // France
+  'the Rhone valley': [44.9, 4.8, 'region'],
+  'Rhone valley': [44.9, 4.8, 'region'],
+  'Amboise': [47.41, 0.98, 'locality'],
+  'Blois': [47.59, 1.33, 'locality'],
+  "Pays d'Auge": [49.1, 0.1, 'region'],
+  'Calvados': [49.1, -0.4, 'region'],
+  'the Perche': [48.5, 0.7, 'region'],
+  'Burgundy': [47.1, 4.5, 'region'],
+
+  // Iberia
+  'Salamanca': [40.97, -5.66, 'locality'],
+  'Toledo': [39.86, -4.03, 'locality'],
+  'Valladolid': [41.65, -4.72, 'locality'],
+  'Madrid': [40.42, -3.70, 'locality'],
+  'Aragon': [41.6, -0.9, 'region'],
+  'Zaragoza': [41.65, -0.89, 'locality'],
+  'Teruel': [40.34, -1.11, 'locality'],
+
+  // the German lands and the north
+  'Hesse': [50.6, 9.0, 'region'],
+  'Franconia': [49.8, 10.9, 'region'],
+  'Lower Saxony': [52.8, 9.4, 'region'],
+  'Westphalia': [51.7, 7.9, 'region'],
+  'Luneburg Heath': [53.1, 10.1, 'region'],
+  'Middle Rhine': [50.2, 7.7, 'region'],
+  'Bernese Oberland': [46.6, 7.9, 'region'],
+  'Telemark': [59.4, 8.6, 'region'],
+  'Numedal': [60.3, 9.1, 'region'],
+  'Dalarna': [60.9, 14.5, 'region'],
+  'Savo': [62.6, 27.5, 'region'],
+
+  // Italy and Greece
+  'Siena': [43.32, 11.33, 'locality'],
+  'Chianti': [43.5, 11.3, 'region'],
+  "Val d'Orcia": [43.05, 11.6, 'region'],
+  'Peloponnese': [37.5, 22.3, 'region'],
+  'Attica': [38.0, 23.7, 'region'],
+
+  // the last five the hearths named and this file could not read
+  'Manhattan': [40.78, -73.97, 'locality'],
+  'Brooklyn': [40.68, -73.94, 'locality'],
+  'Bergen County': [40.96, -74.07, 'locality'],
+  'Hackensack': [40.89, -74.04, 'locality'],
+  'Atlantic seaboard': [39.5, -75.5, 'region'],
+  // adjectives are how a hearth names a place: "the Florentine and Sienese hill country"
+  'Florentine': [43.77, 11.26, 'region'],
+  'Sienese': [43.32, 11.33, 'region'],
+  // the four rivers of the Tidewater, named in tidewater-georgian's hearth
+  'Rappahannock': [38.0, -76.9, 'region'],
+  'Potomac': [38.4, -77.1, 'region'],
+
+  // New Spain
+  'Bajio': [20.7, -101.3, 'region'],
+  'Hidalgo': [20.5, -98.8, 'region'],
+  'Puebla': [19.05, -98.2, 'locality'],
+  'Yucatan': [20.7, -89.1, 'region'],
 };
 
 /* → {lat, lon, precision, region} for the FINEST region a style names, or null.
@@ -223,18 +354,98 @@ export const GAZETTEER = {
    Null means the gazetteer has never heard of any region this style claims. That is
    reported as unlocated, never rounded to a continent: a mark placed where no record put
    one is worse than an absence, because an absence can be seen. */
-export function placeStyle(regions) {
+export function placeByRegions(regions) {
   let best = null;
   for (const r of regions || []) {
     const hit = GAZETTEER[r] || GAZETTEER[String(r).trim()];
     if (!hit) continue;
     const rank = PRECISION[hit[2]];
     if (best === null || rank < best.rank) {
-      best = { lat: hit[0], lon: hit[1], precision: hit[2], region: r, rank };
+      best = { lat: hit[0], lon: hit[1], precision: hit[2], region: r, rank, via: 'regions' };
       if (rank === 0) break;              // nothing beats a locality
     }
   }
   return best;
+}
+
+/* The `regions` list is the coarse answer, and often the corpus knows better in prose.
+   `craftsman` lists "United States" and its hearth says "Pasadena and Los Angeles,
+   California"; `prairie-school` lists "United States" and says "Oak Park and Chicago".
+   Placing those in the middle of Kansas threw away the best geography the record holds —
+   59 of the 81 country-level placements had a hearth naming somewhere finer.
+
+   So the hearth sentence is read for place names it shares with this gazetteer. The names
+   are sorted longest-first so "Newport, Rhode Island" is tried before "Newport", and each
+   is matched on word boundaries so "Bath" does not match "Bathurst".
+
+   THE HEARTH MAY SHARPEN A REGION, NEVER CONTRADICT ONE. A hearth match is rejected when it
+   is more than 45° from EVERY region the style names — not merely from the finest one, which
+   was the first version of this rule and was wrong. `churrigueresque` lists Spain, Mexico and
+   the Spanish Americas and its hearth reads "Madrid, Salamanca and Andalusia"; anchored only
+   to the finest region (the Spanish Americas, in Mexico) Madrid looked like a contradiction
+   and was thrown away, when Spain is sitting right there in the style's own regions.
+
+   Against every region it still does the work it was written for: `dutch-colonial-american`
+   names six regions, all of them American, and its hearth says "the Hudson corridor from
+   Nieuw Amsterdam to Beverwijck (Albany)". Amsterdam is far from all six, so it is refused —
+   and the sentence resolves to Albany, which is what it meant. That is the difference between
+   reading the corpus and guessing at it. Rejections are returned so a caller can report them
+   rather than have them vanish. */
+const NAMES_BY_LENGTH = Object.keys(GAZETTEER).sort((a, b) => b.length - a.length);
+const ESC = /[.*+?^${}()|[\]\\]/g;
+const CONTRADICTION_DEGREES = 45;
+
+function degreesApart(a, b) {
+  const dLat = a.lat - b.lat;
+  // longitude degrees narrow with latitude; at 45° a degree of longitude is ~0.7 of one
+  // of latitude, and this only needs to separate "same country" from "other continent"
+  const dLon = (a.lon - b.lon) * Math.cos((a.lat + b.lat) / 2 * Math.PI / 180);
+  return Math.hypot(dLat, dLon);
+}
+
+/* Every point the style's own regions vouch for — the set a hearth match is held against. */
+export function regionAnchors(regions) {
+  const out = [];
+  for (const r of regions || []) {
+    const hit = GAZETTEER[r] || GAZETTEER[String(r).trim()];
+    if (hit) out.push({ lat: hit[0], lon: hit[1] });
+  }
+  return out;
+}
+
+export function placeByHearth(hearth, anchors) {
+  if (!hearth || typeof hearth !== 'string') return null;
+  const text = hearth.toLowerCase();
+  const vouchers = anchors || [];
+  let best = null;
+  const rejected = [];
+
+  for (const name of NAMES_BY_LENGTH) {
+    const hit = GAZETTEER[name];
+    const rank = PRECISION[hit[2]];
+    if (best !== null && rank >= best.rank) continue;      // cannot improve on what we have
+    const re = new RegExp('(^|[^a-z])' + name.toLowerCase().replace(ESC, '\\$&') + '($|[^a-z])');
+    if (!re.test(text)) continue;
+    const found = { lat: hit[0], lon: hit[1], precision: hit[2], region: name, rank, via: 'hearth' };
+    const vouched = vouchers.length === 0
+      || vouchers.some((a) => degreesApart(found, a) <= CONTRADICTION_DEGREES);
+    if (!vouched) { rejected.push(name); continue; }
+    best = found;
+    if (rank === 0) break;
+  }
+  if (best) best.rejected = rejected;
+  return best;
+}
+
+/* The placement a style actually gets: the finest of what its regions say and what its
+   hearth says, with the hearth held to the account of every region the style names. */
+export function placeStyle(regions, hearth) {
+  const byRegion = placeByRegions(regions);
+  const byHearth = placeByHearth(hearth, regionAnchors(regions));
+  if (byHearth && (!byRegion || byHearth.rank < byRegion.rank)) {
+    return { ...byHearth, coarser: byRegion ? byRegion.region : null };
+  }
+  return byRegion;
 }
 
 export const GAZETTEER_SIZE = Object.keys(GAZETTEER).length;

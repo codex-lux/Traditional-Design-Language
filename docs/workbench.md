@@ -164,11 +164,32 @@ inside it, so folding never hides an active filter.
 **The map reading of the Phylogeny** (`?view=map`) places styles from
 `app/src/data/gazetteer.js`, which is **interface furniture, not corpus data** — the corpus
 holds no coordinates, and per the sourcing rules none of these numbers may migrate into
-`styles/*.json`. Placement precision (locality / region / country) is drawn rather than
-hidden: 81 of 164 styles name only a country, which is not a hearth, so those marks are
-hollow and hatched and the legend counts them. A style the gazetteer cannot place is listed
-as unplaced, never nudged onto a continent. The basemap is Natural Earth 110m land (public
-domain), simplified and vendored as SVG path data — no tiles, no map library, no network.
+`styles/*.json`. The basemap is Natural Earth 110m land (public domain), simplified and
+vendored as SVG path data — no tiles, no map library, no network.
+
+A style is placed from **both** `geography.regions` and `geography.hearth`, taking the
+finest thing either names. Reading only the regions list put Craftsman in the middle of
+Kansas while its own record said "Pasadena and Los Angeles" (OQ 65): 87 of 164 styles are
+now placed at locality precision, against 15 before the hearth was read.
+
+**The hearth may sharpen a region, never contradict one.** A place name found in the hearth
+is rejected if it is more than 45° from *every* region the style names — not merely from the
+finest, which was the first version of the rule and threw away `churrigueresque`'s Madrid
+because its finest region was in Mexico while Spain sat in the same list.
+`dutch-colonial-american` is why the rule exists at all: its hearth reads "from Nieuw
+Amsterdam to Beverwijck (Albany)", all six of its regions are American, and Amsterdam is
+refused so the sentence resolves to Albany.
+
+Precision (locality / region / country) is drawn rather than hidden, and a country-wide mark
+is attributed: all 24 of them are country-wide **by the corpus's own account** — 22 are
+families and traditions, which are abstractions over styles and have no birthplace, and two
+are styles whose hearth says so ("No design hearth"; "Streetcar suburbs nationwide"). A
+style the gazetteer cannot place is listed as unplaced, never nudged onto a continent.
+
+`build/check_gazetteer.py --strict` runs in `check_all.py` and ratchets three numbers, all
+at zero: styles it cannot place, styles coarse for any reason but the record's, and hearth
+sentences it cannot read. It parses the JS gazetteer rather than duplicating it in Python —
+a second copy is exactly how the two halves of the citation grammar came to disagree.
 
 ## The three-state rule, in components
 
