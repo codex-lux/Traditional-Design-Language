@@ -30,27 +30,46 @@ jobs:
           node-version: "20"
       - name: Install
         # The corpus itself has no dependencies; these are the checkers' own.
-        run: pip install jsonschema pytest
+        #
+        # ortools, because without it an entire subsystem's guards were decorative here.
+        # `tests/test_solver.py` opens with `pytest.importorskip("ortools")`, so the whole
+        # file was skipped inside a `pytest tests/` that then reported OK, and
+        # `geometry_cp.py selftest` sat beside it as COULD NOT EVALUATE. The CP solver — its
+        # hard-fact fixtures, its proven-infeasible K5 refusal, and the downgrade pin that
+        # was rewritten and mutation-proved on 26 Aug — had never once run in CI. The
+        # workbench job below does install ortools, but runs only the server suite.
+        # Costs an install and about two minutes of solver tests. Ruled worth it.
+        run: pip install jsonschema pytest ortools
       - name: check_all.py
         # Reports the workbench server suite as N/EV here — fastapi is deliberately not
         # installed in this job, and the workbench job below runs it properly.
         #
-        # AND NOTHING ELSE MAY BE N/EV. check_all reports COULD NOT EVALUATE distinctly and
-        # does not fail on it, which is right: an absent optional library is not a failing
-        # test. But that is exactly how a checker goes quiet — this job would have gone green
-        # with the gazetteer ratchet and 74 frontend checks never run, for want of a runtime
-        # nobody had noticed they needed. One legitimate unjudged check in this job; a second
-        # is a checker that did not run, and a green tick would claim it had. Run once, not
-        # twice: the suite is three minutes.
+        # AND NOTHING OUTSIDE THE ALLOWLIST MAY BE N/EV. check_all reports COULD NOT
+        # EVALUATE distinctly and does not fail on it, which is right: an absent optional
+        # library is not a failing test. But that is exactly how a checker goes quiet — this
+        # job went green with the gazetteer ratchet and 74 frontend checks never run, for
+        # want of a runtime nobody had noticed they needed.
+        #
+        # The guard is a NAMED LIST, not a count. The first version of it asserted "at most
+        # one" and failed immediately at four, because I had guessed the baseline instead of
+        # reading it: ezdxf, ifcopenshell and fastapi are all absent here too, every one of
+        # them documented as optional. A number would also have missed the case that matters
+        # — a legitimate absence appearing while a real one disappears keeps the total the
+        # same. Naming them says which absences this job accepts and why, and anything else
+        # reporting unjudged is a checker that did not run behind a tick claiming it had.
+        #
+        # The two CAD libraries stay out on purpose: their selftests are exercised in the
+        # workbench job, which installs them. Run once, not twice — the suite is minutes.
         run: |
           set -o pipefail
           python3 build/check_all.py 2>&1 | tee /tmp/ca.log
-          unjudged=$(grep -c '^  N/EV' /tmp/ca.log || true)
-          if [ "$unjudged" -gt 1 ]; then
-            echo "::error::$unjudged checks COULD NOT EVALUATE; only the workbench server suite may."
-            grep '^  N/EV' /tmp/ca.log
+          allowed='export_dxf.py selftest|export_ifc.py selftest|pytest workbench/server/tests'
+          if grep '^  N/EV' /tmp/ca.log | grep -Ev "$allowed"; then
+            echo "::error::a check reported COULD NOT EVALUATE that this job expects to judge."
+            echo "Allowed unjudged here: $allowed"
             exit 1
           fi
+          echo "Every check outside the allowlist was judged."
 
   workbench:
     name: workbench — server tests + app build
