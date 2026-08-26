@@ -267,22 +267,71 @@ def test_the_heuristic_still_charges_for_a_room_over_an_unroofed_void():
     assert roofed[0] < over[0], "a roofed void must not be charged — that is the piazza case"
 
 
-def test_the_cp_engine_does_not_yet_enforce_the_open_void_and_that_is_stated():
-    """UNJUDGED IS NOT PASSED, applied to a capability rather than a measurement.
+def test_the_cp_engine_enforces_the_open_void_as_a_hard_constraint():
+    """The lapse is closed (26 Aug 2026). This test replaces the one that pinned it.
 
-    `build/geometry_cp.py` carries no open-void constraint: the ring is stated as a guillotine
-    tree in `courtyard_slice()`, which is the heuristic's, and the CP engine reads no `_void`
-    fact at all. That is a real gap opened by the 25 Aug merge — the deleted `solver.py` DID
-    state it as a hard constraint — and it is recorded in OQ 55 rather than left for someone to
-    discover from a drawing. This test fails the day somebody teaches the CP engine about
-    voids, which is exactly when OQ 55's note should be rewritten."""
+    Its predecessor asserted that `_void` appeared nowhere in `build/geometry_cp.py` and said in
+    its own docstring that it would fail the day somebody taught the CP engine about voids —
+    which is what happened, and the failure was the signal it was written to give. OQ 55 had
+    closed with the guarantee stated in BOTH engines, and the one that stated it as a HARD
+    constraint, `build/solver.py`, is the one the 25 Aug merge deleted; what survived was the
+    heuristic's 40-point charge, a price a candidate can pay and still win.
+
+    What is pinned now is the constraint itself, not its absence: an upper room may abut an
+    open void's edge and may not enter it by any amount. The tolerance question is the whole
+    finding — mirroring geometry.py's 1.0 ft SCORING threshold as a placement licence let the
+    solver put a room exactly one foot into the court, and `_absorb`'s keep-out limiter only
+    stops a room that has not already crossed the line, so it then grew straight through the
+    hole. Proven, then undone by a post-pass: the same shape as OQ 52."""
     src = open(os.path.join(ROOT, "build", "geometry_cp.py")).read()
-    assert "_void" not in src, (
-        "geometry_cp.py now reads a void fact — good, but OQ 55 and this test both say it "
-        "does not. Update them together.")
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
-    assert "the CP engine does not yet lay out a courtyard RING" in oq or \
-           "geometry_cp.py" in oq, "the lapse must be stated in the register, not only here"
+    assert "_void" in src, "the CP engine must read the void fact it is constrained by"
+    assert "keepout" in src, (
+        "the absorb pass must respect the void too — the constraint alone was not enough, "
+        "because absorb runs after the solve with no cross-level view")
+
+
+def test_nothing_the_cp_engine_places_sits_over_an_open_void():
+    """The behaviour, not the source. A courtyard house with two upper chambers: the CP engine
+    must leave the court clear, where the heuristic will place a chamber across it and pay."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache
+    geo = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    plan = {
+        "id": "oq55-cp", "style": "spanish-colonial-revival",
+        "context": {"lot_width_ft": 140, "lot_depth_ft": 180, "entrance_faces": "S"},
+        "levels": [
+            {"level": 0, "floor_to_ceiling_ft": 10, "rooms": [
+                {"id": "court", "type": "courtyard", "name": "Court",
+                 "width_ft": 18, "length_ft": 18, "doors": [{"to": "sala"}]},
+                {"id": "sala", "type": "living-room", "name": "Sala", "width_ft": 22,
+                 "length_ft": 18, "doors": [{"to": "exterior"}, {"to": "court"}]},
+                {"id": "comedor", "type": "dining-room", "name": "Comedor", "width_ft": 18,
+                 "length_ft": 18, "doors": [{"to": "sala"}]}]},
+            {"level": 1, "floor_to_ceiling_ft": 9, "rooms": [
+                {"id": "chamber", "type": "bedroom", "name": "Chamber",
+                 "width_ft": 16, "length_ft": 16},
+                {"id": "chamber2", "type": "bedroom", "name": "Second Chamber",
+                 "width_ft": 16, "length_ft": 16}]}]}
+
+    def overlap(a, b):
+        if not a or not b:
+            return 0.0
+        ox = min(a["x_ft"] + a["width_ft"], b["x_ft"] + b["width_ft"]) - max(a["x_ft"], b["x_ft"])
+        oy = min(a["y_ft"] + a["depth_ft"], b["y_ft"] + b["depth_ft"]) - max(a["y_ft"], b["y_ft"])
+        return max(0.0, ox) * max(0.0, oy)
+
+    out = geo.solve(plan, engine="cp", candidates=80)
+    engine = out.get("geometry_report", {}).get("solver", {}).get("engine")
+    if engine != "cp-sat":
+        pytest.skip(f"CP engine unavailable (ran as {engine}) — ortools is optional, and a "
+                    f"skip here is a named state, never a pass")
+    ground = {r["id"]: r.get("geometry") for r in out["levels"][0]["rooms"]}
+    upper = {r["id"]: r.get("geometry") for r in out["levels"][1]["rooms"]}
+    over = sum(overlap(ground.get("court"), g) for g in upper.values())
+    assert over == 0.0, (
+        f"{over:.1f} sf of upper storey sits over a court open to the sky. There is no floor "
+        "under it, no bearing, and the roof it needs is the hole (OQ 55).")
 def test_the_portal_is_four_records_one_per_range():
     """A continuous roofed walk around four sides of a court cannot be one rectangle. It was
     one, so the engines placed it along one side and the other three ranges were entered from

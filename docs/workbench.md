@@ -63,9 +63,13 @@ are drawn at conventional mid-wall position (`render_plan.py` omits them entirel
 and a declared window whose room the solver did not place on that wall is dropped
 with a caption tally — declared, not drawn — and the daylight overlay is gated on
 the same test, so overlay and drawing cannot contradict each other. Every room is
-clickable to its record; the selected room grows drag handles; relaxations are
-reported as the honest tally (`count`, `max_off_grid_ft`) because `geometry.solve()`
-records no positions for them (OQ 33).
+clickable to its record; the selected room grows drag handles; and relaxations are
+both tallied (`count`, `max_off_grid_ft`) and DRAWN where they fall — a hollow triangle
+on the cut line, in ink and never in colour, one per counted relaxation. That is P7,
+and it was the one principle this interface knowingly did not meet until `geometry.py`
+and `geometry_cp.py` started recording a cut's position beside its size (OQ 33, closed
+26 Aug 2026). `render_plan.py` draws the same marks from the same record, so the CLI
+sheet and the browser sheet cannot disagree about where a compromise is.
 
 ## The rail
 

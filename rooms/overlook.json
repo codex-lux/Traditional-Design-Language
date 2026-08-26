@@ -42,7 +42,7 @@
         42,
         120
       ],
-      "clearance_in": null,
+      "clearance_in": 0,
       "note": "42 in rather than the code's 36: people do not walk tight to a guard with a drop behind it, and a 36 in overlook measures 36 and works like 30"
     },
     {
@@ -51,7 +51,7 @@
         5,
         120
       ],
-      "clearance_in": null,
+      "clearance_in": 0,
       "note": "Its thickness eats the width. A 5 in newel-and-baluster rail and a 12 in panelled parapet are different rooms at the same nominal dimension"
     },
     {

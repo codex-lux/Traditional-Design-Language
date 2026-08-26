@@ -286,12 +286,15 @@ export function BriefIntake({ go }) {
             <div style={{ marginTop: 14, border: '1px solid var(--rule)', padding: '9px 11px',
               backgroundImage: 'var(--hatch-45)' }}>
               <span style={{ background: 'var(--paper)', display: 'inline-block', padding: '2px 6px' }}>
-                <Eyebrow as="span" tone="quiet">conflict set · forthcoming (WP-2.3)</Eyebrow>
+                <Eyebrow as="span" tone="quiet">conflict set · on the bench, not here</Eyebrow>
               </span>
               <p style={{ font: 'var(--fw-reg) 12.5px/1.5 var(--body)', color: 'var(--ink-3)',
                 margin: '6px 0 0', background: 'var(--paper)', padding: '2px 6px' }}>
-                Today an infeasible brief returns the least-bad plan, not a named conflict set.
-                When the CP-SAT solver lands, the minimal infeasible subset will be named here.
+                The CP-SAT solver landed (WP-2.3): where a plan&rsquo;s declared facts cannot all hold,
+                it names the minimal set that conflicts. It proves a PLAN, though, not a brief — so the
+                naming happens on the Plan Workbench, under <em>prove placement</em>, once a candidate
+                exists. The feasibility note above this stays what it says it is: advisory arithmetic on
+                area and lot, and never a proof.
               </p>
             </div>
           </div>

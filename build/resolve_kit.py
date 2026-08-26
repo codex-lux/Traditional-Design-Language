@@ -392,9 +392,50 @@ def choose_pack(rec, rows, ctx):
                         kind = "both-dropped"
                     others.append({"quantity": verdict, "kind": kind,
                                    "cross_pack": cross, "packs": packs_here})
-            return {"how": "style.proportion_packs", "chosen": {"pack": winners[0]["pack"],
-                    "expression": winners[0]["expression"], "quantity": win_q[1],
-                    "dimension": win_q[0]},
+            # OQ 53: A BARE RATIO IS NOT A DIMENSION, and precedence must not deliver one as if
+            # it were. Rules at one (slot, dimension, quantity) may state the same quantity in
+            # different UNITS -- `casing_face_width` is written `opening_width / 6` in inches by
+            # trim-classical and its peers, and `1 / 6` as a bare ratio by the order packs, whose
+            # own notes carry the referent ("Of opening_width.") in PROSE, where no evaluator can
+            # read it. Grouping on (dimension, quantity) alone put them in one group, so a ratio
+            # could win on precedence and be written into the kit as the dimension: `craftsman`
+            # and `craftsman-bungalow` resolved `casing` to 0.1667 where 6 in was meant, with
+            # chambers-ionic's 1/6 beating palladio-tuscan's opening_width/6 -- two rules saying
+            # exactly the same thing, one of them saying it in a form that is not a measurement.
+            #
+            # The fix is not to convert the ratios. Their bands are scale-free and correct as
+            # ratios (0.1429-0.1667 holds at every opening width, where an inch band would only
+            # hold at one), and several are genuinely DIFFERENT accounts rather than the same one
+            # reworded -- palladio-ionic proportions the Ionic pedestal to the arch void, not the
+            # order, and says so; chambers-ionic measures against the whole order's height. Those
+            # are rival accounts, which is what precedence is for, and flattening them into
+            # inches would invent a referent the source never gave.
+            #
+            # So: prefer a rule that yields a MEASUREMENT over one that yields a bare ratio, and
+            # say so. Where only a ratio exists the slot still takes it, marked `not_a_dimension`
+            # so a consumer sees a stated limitation rather than a plausible wrong number. Making
+            # a ratio's referent machine-readable (a `ratio_of` field beside `units`) is the
+            # standing fix for that residue and is recorded in OQ 53 rather than half-done here.
+            dimensional = [w for w in winners if w.get("units") not in (None, "ratio")]
+            demoted = None
+            if dimensional and winners[0].get("units") == "ratio":
+                demoted = {"pack": winners[0]["pack"], "expression": winners[0]["expression"],
+                           "why": ("a bare ratio cannot be a dimension: its referent is stated "
+                                   "only in the rule's prose note")}
+                winners = dimensional + [w for w in winners if w not in dimensional]
+            chosen = {"pack": winners[0]["pack"], "expression": winners[0]["expression"],
+                      "quantity": win_q[1], "dimension": win_q[0],
+                      "units": winners[0].get("units")}
+            if demoted:
+                chosen["ratio_demoted"] = demoted
+            # Deliberately NOT flagged: an address where every rule is a ratio. Most such
+            # quantities ARE ratios and are right in that form -- `main_roof_pitch`,
+            # `opening_height_over_width`, `arch_rise_over_span`, `wall_thickness_over_span` --
+            # and a first version of this flag fired 1,463 times across all 132 nodes, which is
+            # a checker crying wolf rather than a finding. Only the demotion above is provable
+            # from the data alone: a measurement of this very quantity was on the table and a
+            # ratio was delivered instead.
+            return {"how": "style.proportion_packs", "chosen": chosen,
                     "rejected": [], "ranked": ranked, "stale_calibration": False,
                     "other_quantities": others}
         if len({r["pack"] for r in rows}) > 1:

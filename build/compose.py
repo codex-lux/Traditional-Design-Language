@@ -575,6 +575,119 @@ def _summarise(lines):
     else: other = widened + other
     return other
 
+# OQ 34 — the decision log, structured, WITHOUT the prose being replaced.
+#
+# The workbench's DecisionLogEntry renders {field, chose, because}; this log is prose lines, so
+# the component has been rendering a shape the data does not have. The entry recorded it rather
+# than fixing it because there is a judgment inside: which lines are DECISIONS the composer took
+# and which are narration of what it did. Ruled 26 Aug 2026 — structure it and mark the judgment.
+#
+# THE RULE USED, stated so it can be argued with. The log already classifies itself: a line the
+# composer meant as a decision carries a prefix it wrote itself, and those prefixes are the
+# corpus's own vocabulary, not a taxonomy imposed here. Everything else is an assumption the
+# composer took where the brief was silent — which the result's own `how_to_read_this` already
+# calls "the assumptions, not facts", so it is a decision too, of a quieter kind.
+#
+# WHAT IS NOT DONE, deliberately: `field` and `chose` are DERIVED from the sentence and are absent
+# where the sentence does not carry them. They are not re-authored at the 25 call sites, because
+# re-writing those sentences would change prose that tests and reports quote, and because a
+# derived value that says it is derived is honest where a re-parsed one presented as authored
+# would not be. Every entry carries `derived: true` and its original `statement` verbatim; nothing
+# reading `decisions` sees any change at all.
+_DECISION_KINDS = (
+    ("JUDGMENT:", "judgment"),
+    ("REFUSED:", "refusal"),
+    ("AUTHORED:", "authored"),
+    ("NOT SOLVED:", "unsolved"),
+    ("KNOWN FINDING, not a defect:", "disclosure"),
+)
+
+# The log's own vocabulary, read off it rather than imagined. Across every brief in `briefs/`
+# the composer emits 58 distinct sentences from these fourteen shapes; each pattern names the
+# BRIEF FIELD or plan quantity the decision settled, and the groups give `chose`. A sentence
+# matching nothing keeps `field: null` and `chose: null` rather than being force-fitted -- a
+# derived value that is wrong is worse than one that is absent, and the prose is right there.
+_DECISION_PATTERNS = (
+    (r"^(\d+) garage bays placed as a dependency off (?P<a>[^,(]+)", "garage_bays", r"\1 bays off \g<a>"),
+    (r"^the brief asks for (\d+) garage bays", "garage_bays", r"not placed (\1 asked for)"),
+    (r"^Ceiling heights (?P<a>[\d.]+) ft ground and (?P<b>[\d.]+) ft above", "ceiling_heights",
+     r"\g<a> ft ground, \g<b> ft above"),
+    (r"^Dropped optional rooms to reach the area target: (?P<a>[^.]+)", "optional_rooms", r"dropped \g<a>"),
+    (r"^Dropped (?P<a>.+?): the brief excludes", "optional_rooms", r"dropped \g<a>"),
+    (r"^the brief requires a (?P<a>[a-z ]+) and this diagram has no place", "required_room", r"\g<a>: not added"),
+    (r"^at a (\d+) sf target this diagram's own area weights make (?P<a>\d+) room", "room_areas",
+     r"\g<a> room(s) outside their catalogue band"),
+    (r"^Sized from the room catalogue.*?; (?P<a>[\d.]+) sf against a (?P<b>[\d.]+) sf target", "target_area_sf",
+     r"\g<a> sf against \g<b> sf"),
+    (r"^Kit's orientation_rule \((?P<a>[^)]+)\)", "orientation_rule", r"from \g<a>'s kit"),
+    (r"^Kit leaves setback_rule open", "setback_rule", "left open"),
+    (r"^Raised the window head in (?P<a>.+?) to (?P<b>[\d.]+) ft", "window_head_ft", r"\g<a> to \g<b> ft"),
+    (r"^Shortened (?P<a>\d+) rooms that were not complaining, to give back (?P<b>\d+) sf", "room_lengths",
+     r"\g<a> rooms, \g<b> sf returned"),
+    (r"^Shortened (?P<a>.+?) to (?P<b>[\d.]+) ft;", "room_length_ft", r"\g<a> to \g<b> ft"),
+    (r"^Widened (?P<a>\d+) rooms to take their furniture", "room_widths", r"\g<a> rooms"),
+    (r"^Widened (?P<a>.+?) from (?P<b>[\d.]+) to (?P<c>[\d.]+) ft", "room_width_ft", r"\g<a>: \g<b> to \g<c> ft"),
+    (r"^Widened (?P<a>.+?) to the (?P<b>[\d.]+) ft floor", "room_width_ft", r"\g<a> to the \g<b> ft floor"),
+)
+
+def structure_decisions(lines):
+    """Prose decision lines -> {kind, field, chose, because, statement}, prose kept verbatim.
+
+    OQ 34. The workbench's DecisionLogEntry renders {field, chose, because} and this log was
+    prose, so the component has been rendering a shape the data does not have. The entry recorded
+    it rather than fixing it because there is a judgment inside -- which lines are DECISIONS the
+    composer took and which are narration. Ruled 26 Aug 2026: structure it, and mark the judgment.
+
+    THE RULE USED, stated so it can be argued with. The log already classifies itself: a line the
+    composer meant as a decision carries a prefix it wrote itself -- JUDGMENT, REFUSED, AUTHORED,
+    NOT SOLVED, KNOWN FINDING -- and those are the corpus's own words, not a taxonomy imposed
+    here. Everything else is an assumption taken where the brief was silent, which the result's
+    own `how_to_read_this` already calls "the assumptions, not facts", so it is a decision too, of
+    a quieter kind. That is the whole judgment, and it is one line of code: prefix or no prefix.
+
+    WHAT IS DELIBERATELY NOT DONE. `field` and `chose` are DERIVED and say so. They are not
+    re-authored at the twenty-five call sites, because rewriting those sentences would change
+    prose that tests and reports quote. Every entry carries its `statement` verbatim and
+    `derived: true`; nothing reading `decisions` sees any change at all. A sentence outside the
+    table keeps null fields rather than a forced guess."""
+    import re as _re
+    out = []
+    for line in lines:
+        kind, rest = "assumption", line
+        for prefix, k in _DECISION_KINDS:
+            if line.startswith(prefix):
+                kind, rest = k, line[len(prefix):].strip()
+                break
+        field = chose = None
+        for pat, fld, tmpl in _DECISION_PATTERNS:
+            m = _re.search(pat, rest)
+            if m:
+                field = fld
+                try:
+                    chose = m.expand(tmpl).strip() if "\\" in tmpl or "\\g" in tmpl else tmpl
+                except Exception:
+                    chose = None
+                break
+        # The reason clause, taken from the connective the sentence actually uses. The marker is
+        # KEPT in the text where it carries the sense ("to reach the back of the room" is the
+        # reason; "the back of the room" is not), which is why these are matched rather than
+        # split blindly. A sentence with no connective keeps `because: null` -- the statement is
+        # right there and carries the whole thought.
+        because = None
+        for marker in (" because ", " so that ", " so it ", " so the ",
+                       ", taken from ", " to reach the ", " to give back ",
+                       " for its room type", " \u2014 ", " -- ", "; the ", ": the "):
+            if marker in rest:
+                tail = rest.split(marker, 1)[1].strip().rstrip(".")
+                lead = marker.strip(" ,;:")
+                because = (f"{lead} {tail}" if lead.replace(" ", "").isalpha() and
+                           lead not in ("the",) else tail) or None
+                if because:
+                    break
+        out.append({"kind": kind, "field": field, "chose": chose, "because": because,
+                    "statement": line, "derived": True})
+    return out
+
 def score(res):
     s = sum(SEV_W.get(f["severity"], 0) for f in res["findings"])
     return s
@@ -749,6 +862,9 @@ def compose(brief, candidates=4, on_candidate=None):
             "trades_away": parti["trades_away"],
             "why_this_diagram": pick["why"],
             "decisions": log + _summarise(rlog),
+            # The same lines, structured (OQ 34). The prose list above is unchanged and stays
+            # the thing to read; this is what the workbench's DecisionLogEntry renders.
+            "decisions_structured": structure_decisions(log + _summarise(rlog)),
             "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
                       for f in res["findings"] if f["severity"] in ("fatal", "serious")][:8],
             "plan": plan})
@@ -767,6 +883,7 @@ def compose(brief, candidates=4, on_candidate=None):
               "Candidates are ordered by fatal findings first, then by score. Score is 100 per fatal, 8 per serious, 1 per minor, less a bonus for style fidelity.",
               "trades_away is the honest part. Every diagram gives something up, and the one that scores best is not always the one you want.",
               "decisions lists what the composer chose where the brief was silent. Read it — those are the assumptions, not facts.",
+              "decisions_structured is the same list with a kind on each line (judgment, refusal, authored, unsolved, disclosure, assumption) and field/chose/because DERIVED from the sentence — absent where the sentence does not carry them, and marked derived so nothing reads them as authored.",
               "A plan with no fatal findings is not therefore good. The corpus can tell you what is wrong and cannot tell you what is alive."]}
     if dropped_lot:
         result["dropped_lot_infeasible"] = dropped_lot

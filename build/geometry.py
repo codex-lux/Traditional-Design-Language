@@ -256,6 +256,24 @@ def courtyard_slice(rooms, W, H, module, tol, rng, out, relax, sides=4):
     return True
 
 
+def _relax(relax, off, axis, at, span_lo, span_hi):
+    """Record a cut that missed the bay line, WITH ITS POSITION (OQ 33).
+
+    P7 of the interface standard says a compromise is counted AND appears on the drawing, at its
+    location. It was only ever counted: this list held bare floats, so the workbench could print
+    an honest tally and had nothing to place a mark with, and `RelaxationMarker` -- a component
+    built for exactly this -- had no data to render. The tally was true and the drawing was
+    silent about where the truth applied.
+
+    A relaxation is a guillotine cut that did not land on the structural bay: `axis` is the axis
+    it cuts ACROSS ("x" a vertical line, "y" a horizontal one), `at_ft` is where the line sits on
+    that axis, and from/to are its extent along the other one. That is a joist run that does not
+    land on a bearing wall, and a builder can now be shown WHICH one.
+    """
+    relax.append({"off_ft": round(off, 2), "axis": axis, "at_ft": round(at, 2),
+                  "from_ft": round(span_lo, 2), "to_ft": round(span_hi, 2)})
+
+
 def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0):
     if not rooms: return
     if len(rooms) == 1:
@@ -268,7 +286,9 @@ def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0):
         if sp and h > w * 0.55:
             sw = max(module * 0.7, min(w * 0.4, sp["_area"] / h))
             sws, d = snap(sw, module, tol)
-            if d: relax.append(round(d, 2))
+            slab_off = d          # raw, NOT rounded: `if round(d, 2)` swallows a sub-half-inch
+                                  # miss that `if d` counted, and the pinned relaxation count is
+                                  # exactly the kind of number that must not move by accident.
             sw = max(module * 0.6, min(w * 0.45, sws)) * rng.uniform(0.94, 1.10)
             rest = [r for r in rooms if r["id"] is not sp["id"] and r["id"] != sp["id"]]
             west = [r for r in rest if bias(r, "x") < 0]
@@ -287,9 +307,12 @@ def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0):
             wfrac = min(0.78, max(0.22, wfrac + rng.uniform(-0.07, 0.07)))
             rem = w - sw
             wwid, dd = snap(rem * wfrac, module, tol)
-            if dd: relax.append(round(dd, 2))
             wwid = max(module * 0.6, min(rem - module * 0.6, wwid))
             out[sp["id"]] = (round(x + wwid, 2), round(y, 2), round(sw, 2), round(h, 2))
+            # Both edges of the spanning slab, now that its position is known. The width snap
+            # (slab_off) misses the grid at the slab's FAR edge; the wwid snap at its near one.
+            if dd: _relax(relax, dd, "x", x + wwid, y, y + h)
+            if slab_off: _relax(relax, slab_off, "x", x + wwid + sw, y, y + h)
             slice_rect(west, x, y, wwid, h, module, tol, rng, out, relax, depth + 1)
             slice_rect(east, x + wwid + sw, y, rem - wwid, h, module, tol, rng, out, relax, depth + 1)
             return
@@ -318,14 +341,14 @@ def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0):
         cut = w * frac
         s, d = snap(x + cut, module, tol)
         cut = max(module * 0.6, min(w - module * 0.6, s - x))
-        if d: relax.append(round(d, 2))
+        if d: _relax(relax, d, "x", x + cut, y, y + h)
         slice_rect(lo, x, y, cut, h, module, tol, rng, out, relax, depth + 1)      # lo goes west
         slice_rect(hi, x + cut, y, w - cut, h, module, tol, rng, out, relax, depth + 1)
     else:
         cut = h * frac
         s, d = snap(y + cut, module, tol)
         cut = max(module * 0.6, min(h - module * 0.6, s - y))
-        if d: relax.append(round(d, 2))
+        if d: _relax(relax, d, "y", y + cut, x, x + w)
         slice_rect(lo, x, y, w, cut, module, tol, rng, out, relax, depth + 1)      # lo goes south
         slice_rect(hi, x, y + cut, w, h - cut, module, tol, rng, out, relax, depth + 1)
 
@@ -932,7 +955,11 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
         if best is None or tot < best["_raw"]:
             best = {"_raw": tot,
                     "score": round(tot, 1), "ground": gr, "upper": ur, "vnotes": vnotes,
-                    "relaxations": grelax + urelax, "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1)}
+                    # Level stamped as the two lists merge — slice_rect does not know which
+                    # storey it is slicing, and a mark has to know which plan it belongs on (OQ 33).
+                    "relaxations": ([dict(r, level=0) for r in grelax]
+                                    + [dict(r, level=1) for r in urelax]),
+                    "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1)}
 
     # --- write coordinates back into the plan (write_record does it, below)
     rel = best["relaxations"]
@@ -940,7 +967,12 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
         "score": best["score"], "ground_score": best["sg"], "upper_score": best["su"], "vertical_score": best["sv"],
         "bays_grown": fp["grown"],
         "lot_capped": (fp["lot_maxbay"] is not None and fp["lot_maxbay"] < fp["catalog_maxbay"]),
-        "relaxations": {"count": len(rel), "max_off_grid_ft": round(max(rel), 2) if rel else 0,
+        "relaxations": {"count": len(rel),
+                        "max_off_grid_ft": round(max(r["off_ft"] for r in rel), 2) if rel else 0,
+                        # P7: counted AND locatable. Each mark carries the axis it cuts across,
+                        # where it sits, and its extent, so the sheet can draw it in place
+                        # instead of only tallying it (OQ 33).
+                        "marks": rel,
                         "note": ("Cuts taken off the bay line to make a room fit. Each one is a joist run that "
                                  "does not land on a bearing line and a window bay that will not centre." if rel
                                  else "Every cut landed on a bay line.")},
@@ -1017,7 +1049,9 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
         "lot_capped": (fpd.get("lot_maxbay") is not None
                        and fpd["lot_maxbay"] < fpd.get("catalog_maxbay", 10 ** 9)),
         "relaxations": {
-            "count": len(rel), "max_off_grid_ft": round(max(rel), 2) if rel else 0,
+            "count": len(rel),
+            "max_off_grid_ft": round(max(r["off_ft"] for r in rel), 2) if rel else 0,
+            "marks": rel,        # P7, on the CP path too (OQ 33)
             "note": ("Cuts taken off the bay line to make a room fit. Each one is a joist run "
                      "that does not land on a bearing line and a window bay that will not "
                      "centre." if rel else "Every cut landed on a bay line.")},

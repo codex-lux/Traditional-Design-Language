@@ -3122,7 +3122,10 @@ def _addresses():
     import subprocess, re
     out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_addresses.py")],
                          capture_output=True, text=True, cwd=ROOT).stdout
-    m = re.search(r"(\d+) co-binding pack pair\(s\); (\d+) address\(es\)[^;]*; (\d+) could not", out)
+    # Four numbers since 26 Aug 2026, not three: OQ 53 added a state between agreement and
+    # collision -- two packs that agree on the quantity and differ on the UNITS they say it in.
+    m = re.search(r"(\d+) co-binding pack pair\(s\); (\d+) address\(es\)[^;]*; (\d+) where they "
+                  r"agree on the quantity and differ on its units; (\d+) could not", out)
     assert m, out
     return tuple(int(x) for x in m.groups())
 
@@ -3132,12 +3135,19 @@ def test_the_real_collision_count_is_pinned_and_cannot_grow_silently():
     rate over 453 predicted -- a seven-fold under-estimate, and the seventh time in this work that
     a measurement was wrong once it was read. Fixing them is a migration and is not done here; the
     pinned count is what protects the corpus meanwhile, because a new pack adding a 140th fails."""
-    pairs, real, unjudged = _addresses()
+    pairs, real, unit_splits, unjudged = _addresses()
     # RE-PINNED after the migration: 139 -> 0. The 74 minority rules at the 27 genuinely
     # conflicted addresses took their `quantity` as their `dimension`, so both meanings survive
     # instead of one being set aside. What the pin protects now is that it STAYS zero.
     assert (pairs, real) == (442, 0)
     assert unjudged == 14
+    # OQ 53's number, pinned the day it was measured rather than left to drift. These 68 are not
+    # collisions -- the two rules agree about what they measure -- but they say it in different
+    # units, and until 26 Aug 2026 precedence could deliver either, so a bare ratio could be
+    # written into a kit as a dimension. resolve_kit now prefers the measurement and records the
+    # demotion; this pin is what stops the underlying class from growing while the referents stay
+    # in prose. It may go DOWN as ratio rules gain a machine-readable referent, never up.
+    assert unit_splits == 68
 
 
 def test_unjudged_is_reported_separately_and_never_as_agreement():
@@ -3146,7 +3156,7 @@ def test_unjudged_is_reported_separately_and_never_as_agreement():
     src = open(os.path.join(ROOT, "build", "check_addresses.py")).read()
     assert "UNJUDGED IS NOT PASSED" in src
     assert "could not be judged" in src
-    _, _, unjudged = _addresses()
+    _, _, _, unjudged = _addresses()
     assert unjudged > 0                       # and it is a real number, not an empty branch
 
 
@@ -3405,7 +3415,11 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     backlog, not a regression -- and the pin is what protects it. All three should go DOWN as the
     corpus is worked; a rise means the cascade papered over something new."""
     gaps, packs, unendorsed, _endorsed = _inheritance()
-    assert (gaps, packs, unendorsed) == (294, 3367, 233)
+    # 233 -> 222 on 26 Aug 2026: the first adjudication pass against the ruling. Eleven
+    # storey-graduation gaps were judged against each node's own record and endorsed; the pack's
+    # applies_to now names them. gaps and packs do not move on an endorsement -- the cascade
+    # delivers what it always delivered, and what changed is that somebody read it.
+    assert (gaps, packs, unendorsed) == (294, 3367, 222)
 
 
 def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault():
@@ -3419,7 +3433,7 @@ def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault()
     # here reproduces the checker's own arithmetic, so the printed line was never read and could
     # not be contradicted -- break the endorsement predicate's reporting and this could not notice.
     assert endorsed_printed == gaps - unendorsed, "the checker's own two numbers disagree"
-    assert endorsed_printed == 61, "61 of the 294 gaps are endorsed by the pack's own applies_to"
+    assert endorsed_printed == 72, "72 of the 294 gaps are endorsed by the pack's own applies_to"
 
     # And the predicate means what it says: a named gap whose pack `applies_to` lists the node is
     # endorsed, and one whose pack does not is not. `assert unendorsed < gaps` was vacuous --

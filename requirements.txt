@@ -7,7 +7,7 @@
 #
 # python3 -m pip install -r requirements.txt
 
-# WP-2.3's constraint solver (build/solver.py). Optional at runtime: it is imported
+# WP-2.3's constraint solver (build/geometry_cp.py). Optional at runtime: it is imported
 # inside solve() rather than at module load, and when it is absent the solver falls
 # back to build/geometry.py's heuristic and SAYS SO in geometry_report.solver
 # (engine: "heuristic-fallback", with a reason). A silent fallback would be a

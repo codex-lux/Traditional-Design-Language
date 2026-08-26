@@ -89,7 +89,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Queen Square",
+        "location": "Bath, England"
       },
       "file": null,
       "status": "wanted",
@@ -173,7 +175,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Bedford Square",
+        "location": "Bloomsbury, London, England"
       },
       "file": null,
       "status": "wanted",
@@ -257,7 +261,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Fairfax House",
+        "location": "Castlegate, York, England"
       },
       "file": null,
       "status": "wanted",
@@ -341,7 +347,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Bedford Square",
+        "location": "Bloomsbury, London, England"
       },
       "file": null,
       "status": "wanted",
@@ -425,7 +433,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Queen Square",
+        "location": "Bath, England"
       },
       "file": null,
       "status": "wanted",
@@ -509,7 +519,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Merrion Square",
+        "location": "Dublin, Ireland"
       },
       "file": null,
       "status": "wanted",
@@ -535,7 +547,9 @@
       "caption": "English Georgian, main cornice: the period dimension against the code minimum.",
       "alt_text": "A dimensioned comparison drawing. Period: Timber eaves cornice, country work. Code: London Building Act 1707 prohibited projecting timber cornices. Resolution: Parapet with a brick or stone cornice in town; the timber version is correct only outside the Acts' reach.. Both conditions drawn at the same scale and overlaid, so the size of the compromise is visible rather than argued.",
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Fairfax House",
+        "location": "Castlegate, York, England"
       },
       "file": null,
       "status": "wanted",
@@ -618,7 +632,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Bedford Square",
+        "location": "Bloomsbury, London, England"
       },
       "file": null,
       "status": "wanted",
@@ -644,7 +660,9 @@
       "caption": "English Georgian, window type: the period dimension against the code minimum.",
       "alt_text": "A dimensioned comparison drawing. Period: Sash box flush with the face before 1709, set back 4 in after, concealed after 1774. Code: Modern energy code drives insulated units that will not fit a period box. Resolution: Slim-profile double glazing in a full-depth box, or single glazing with secondary internal glazing where the elevation matters more than the U-value.. Both conditions drawn at the same scale and overlaid, so the size of the compromise is visible rather than argued.",
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Queen Square",
+        "location": "Bath, England"
       },
       "file": null,
       "status": "wanted",
@@ -727,7 +745,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Merrion Square",
+        "location": "Dublin, Ireland"
       },
       "file": null,
       "status": "wanted",
@@ -811,7 +831,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -895,7 +917,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -979,7 +1003,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -1063,7 +1089,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -1147,7 +1175,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -1231,7 +1261,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -1315,7 +1347,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -1399,7 +1433,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -1483,7 +1519,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -1567,7 +1605,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -1651,7 +1691,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -1735,7 +1777,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -1819,7 +1863,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -1903,7 +1949,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -1987,7 +2035,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -2071,7 +2121,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -2155,7 +2207,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -2239,7 +2293,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -2323,7 +2379,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -2407,7 +2465,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -2491,7 +2551,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -2575,7 +2637,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -2659,7 +2723,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -2743,7 +2809,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -2827,7 +2895,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -2911,7 +2981,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -2995,7 +3067,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -3079,7 +3153,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -3163,7 +3239,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -3204,7 +3282,9 @@
         "scale_cue": "a dimensioned bar and a figure"
       },
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -3288,7 +3368,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -3372,7 +3454,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -3456,7 +3540,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -3540,7 +3626,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -3624,7 +3712,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -3708,7 +3798,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -3792,7 +3884,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -3876,7 +3970,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -3960,7 +4056,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -4044,7 +4142,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -4128,7 +4228,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -4212,7 +4314,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -4296,7 +4400,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -4380,7 +4486,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -4464,7 +4572,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -4548,7 +4658,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -4632,7 +4744,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -4716,7 +4830,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -4800,7 +4916,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -4884,7 +5002,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -4968,7 +5088,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -5052,7 +5174,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -5136,7 +5260,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -5220,7 +5346,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -5304,7 +5432,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -5388,7 +5518,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -5472,7 +5604,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -5556,7 +5690,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -5640,7 +5776,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -5724,7 +5862,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -5808,7 +5948,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -5892,7 +6034,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -5976,7 +6120,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -6060,7 +6206,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -6144,7 +6292,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -6228,7 +6378,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -6312,7 +6464,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -6396,7 +6550,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -6480,7 +6636,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -6564,7 +6722,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -6648,7 +6808,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -6732,7 +6894,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -6816,7 +6980,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -6857,7 +7023,9 @@
         "scale_cue": "a dimensioned bar and a figure"
       },
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -6941,7 +7109,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -7025,7 +7195,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -7109,7 +7281,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -7193,7 +7367,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -7219,7 +7395,9 @@
       "caption": "Georgian Colonial American, glazing assembly: the period dimension against the code minimum.",
       "alt_text": "A dimensioned comparison drawing. Period: Single glazing, U-factor approximately 1.0. Code: U-0.30 to U-0.32 maximum fenestration U-factor in climate zones 4-6 (IECC R402.1.2). Resolution: Historic replacement windows are commonly exempt, but a new-build traditional house is not. The interior storm panel is the assembly that comes closest while leaving every visible dimension intact; where it cannot reach code, take the exception on the principal elevation and use insulated true-divided units on the rear, which is a documented and legible hierarchy rather than a uniform compromise.. Both conditions drawn at the same scale and overlaid, so the size of the compromise is visible rather than argued.",
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -7302,7 +7480,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -7386,7 +7566,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -7470,7 +7652,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -7554,7 +7738,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -7638,7 +7824,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -7664,7 +7852,9 @@
       "caption": "Georgian Colonial American, balustrade: the period dimension against the code minimum.",
       "alt_text": "A dimensioned comparison drawing. Period: Balustrade height 30-33 in to the top of the rail. Code: 36 in minimum guard height at a walking surface more than 30 in above grade (IRC R312.1.2). Resolution: Keep the period height where the balustrade is decorative and unreachable — a roof deck with no occupiable access, or a forecourt wall below the 30 in trigger. Where the surface is occupiable, raise the whole assembly on a taller pedestal and plinth rather than stretching the baluster, which changes its proportion and is visible from the ground.. Both conditions drawn at the same scale and overlaid, so the size of the compromise is visible rather than argued.",
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -7747,7 +7937,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -7831,7 +8023,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -7915,7 +8109,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -7999,7 +8195,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -8083,7 +8281,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -8167,7 +8367,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -8251,7 +8453,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -8335,7 +8539,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -8419,7 +8625,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -8503,7 +8711,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -8587,7 +8797,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -8671,7 +8883,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -8755,7 +8969,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -8839,7 +9055,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -8865,7 +9083,9 @@
       "caption": "Georgian Colonial American, porch rail: the period dimension against the code minimum.",
       "alt_text": "A dimensioned comparison drawing. Period: Rail height 30-33 in, balusters at 4-6 in centres. Code: 36 in minimum guard height; 4 in maximum sphere between balusters (IRC R312.1.2, R312.1.3). Resolution: The baluster spacing conflict is resolved by taking the 4 in end of the period band, which is period-correct anyway. The height conflict is resolved by raising the whole assembly — a taller plinth under the balusters and a taller newel — rather than by lengthening the baluster, which changes its turned proportion. On a stoop of four or fewer risers no guard is required and the correct answer is no rail.. Both conditions drawn at the same scale and overlaid, so the size of the compromise is visible rather than argued.",
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -8948,7 +9168,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -9032,7 +9254,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -9116,7 +9340,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -9142,7 +9368,9 @@
       "caption": "Georgian Colonial American, stair type: the period dimension against the code minimum.",
       "alt_text": "A dimensioned comparison drawing. Period: Riser 7.5-8.5 in, tread 9-10.5 in. Code: Riser 7.75 in maximum, tread 10 in minimum (IRC R311.7.5). Resolution: A period-correct principal stair is not buildable as drawn. Taking the shallow end of the period band (7.75 in riser, 10 in tread) is legal and is inside the historical range, but it adds a riser per storey and lengthens the run by about 10 in, which eats the passage the plan is organised around. Where the passage cannot absorb it, add a winder-free landing and turn the stair earlier rather than reducing the passage width below the 10 ft minimum.. Both conditions drawn at the same scale and overlaid, so the size of the compromise is visible rather than argued.",
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -9167,7 +9395,9 @@
       "caption": "Georgian Colonial American, newel & balustrade: the period dimension against the code minimum.",
       "alt_text": "A dimensioned comparison drawing. Period: Handrail 30-32 in above the tread nosing. Code: 34 in minimum, 38 in maximum (IRC R311.7.8.1). Resolution: Set the rail at 34 in — the code minimum and only 2 in above the period band, which is within the tolerance of the ramp-and-ease anyway. Do not stretch the balusters: lengthen the newel and re-cut the ramp, which is where the 2 in should be absorbed.. Both conditions drawn at the same scale and overlaid, so the size of the compromise is visible rather than argued.",
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -9250,7 +9480,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -9334,7 +9566,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -9418,7 +9652,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -9502,7 +9738,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -9586,7 +9824,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -9670,7 +9910,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -9754,7 +9996,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -9838,7 +10082,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -9922,7 +10168,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -10006,7 +10254,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -10090,7 +10340,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -10174,7 +10426,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -10258,7 +10512,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -10342,7 +10598,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -10383,7 +10641,9 @@
         "scale_cue": "a dimensioned bar and a figure"
       },
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -10467,7 +10727,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -10551,7 +10813,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -10635,7 +10899,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -10719,7 +10985,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Hammond-Harwood House",
+        "location": "Annapolis, Maryland"
       },
       "file": null,
       "status": "wanted",
@@ -10760,7 +11028,9 @@
         "scale_cue": "a dimensioned bar and a figure"
       },
       "provenance": {
-        "license": "owned"
+        "license": "owned",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -10844,7 +11114,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Mount Pleasant",
+        "location": "Fairmount Park, Philadelphia, Pennsylvania"
       },
       "file": null,
       "status": "wanted",
@@ -10928,7 +11200,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11012,7 +11286,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Drayton Hall",
+        "location": "Ashley River, Charleston County, South Carolina"
       },
       "file": null,
       "status": "wanted",
@@ -11096,7 +11372,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11180,7 +11458,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11264,7 +11544,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Gunston Hall",
+        "location": "Mason Neck, Fairfax County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11348,7 +11630,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Carter's Grove",
+        "location": "James City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11432,7 +11716,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Stratford Hall",
+        "location": "Westmoreland County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11516,7 +11802,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Carter's Grove",
+        "location": "James City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11600,7 +11888,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Gunston Hall",
+        "location": "Mason Neck, Fairfax County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11684,7 +11974,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Carter's Grove",
+        "location": "James City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11768,7 +12060,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Gunston Hall",
+        "location": "Mason Neck, Fairfax County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11852,7 +12146,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -11936,7 +12232,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Stratford Hall",
+        "location": "Westmoreland County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12020,7 +12318,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Gunston Hall",
+        "location": "Mason Neck, Fairfax County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12104,7 +12404,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Carter's Grove",
+        "location": "James City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12188,7 +12490,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Stratford Hall",
+        "location": "Westmoreland County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12272,7 +12576,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12356,7 +12662,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Carter's Grove",
+        "location": "James City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12440,7 +12748,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12524,7 +12834,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Stratford Hall",
+        "location": "Westmoreland County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12608,7 +12920,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Gunston Hall",
+        "location": "Mason Neck, Fairfax County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12692,7 +13006,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Stratford Hall",
+        "location": "Westmoreland County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12776,7 +13092,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Carter's Grove",
+        "location": "James City County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12860,7 +13178,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Stratford Hall",
+        "location": "Westmoreland County, Virginia"
       },
       "file": null,
       "status": "wanted",
@@ -12944,7 +13264,9 @@
         "scale_cue": "match the pair"
       },
       "provenance": {
-        "license": "unknown"
+        "license": "unknown",
+        "building": "Westover",
+        "location": "Charles City County, Virginia"
       },
       "file": null,
       "status": "wanted",

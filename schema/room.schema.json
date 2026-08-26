@@ -155,10 +155,8 @@
       "maxItems": 2
      },
      "clearance_in": {
-      "type": [
-       "number",
-       "null"
-      ]
+      "type": "number",
+      "description": "The gap this item needs beyond its own footprint, in inches. It must be STATED: a zero is a real answer and says the item needs no gap -- because it is itself clear space (a passing route, an arrival floor, a landing) or because it has no floor bulk (a mirror, a bell pull). Null was permitted here until 26 Aug 2026 and meant nothing distinguishable: build/plan_check.py read it as zero, so an item whose clearance an author simply forgot was checked as though it needed none. The twenty records that carried null all genuinely meant zero and now say so (OQ 52)."
      },
      "essential": {
       "type": "boolean",

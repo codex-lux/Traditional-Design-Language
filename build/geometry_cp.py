@@ -196,7 +196,23 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         m.AddNoOverlap2D(xiv, yiv)
         # coverage floor: no-overlap + containment + this bounds the void the
         # absorb pass must grow rooms into (the guillotine heuristic tiles exactly)
-        m.Add(sum(rooms[(lvl, r["id"])]["a"] for r in rs) >= int(COVERAGE * Wi * Hi))
+        upper_area = sum(rooms[(lvl, r["id"])]["a"] for r in rs)
+        voids_below = ([r for r in (prep.get(0) or [])
+                        if isinstance(r.get("_void"), dict) and not r["_void"].get("roofed")]
+                       if lvl == 1 else [])
+        if voids_below:
+            # An upper storey over a courtyard cannot cover the footprint, and must not be
+            # asked to (OQ 55). Without this the coverage floor and the open-void constraint
+            # below contradict each other on every courtyard plan: the storey is required to
+            # fill 97% of the block AND to leave the hole empty, and CP-SAT correctly reports
+            # a brief that is perfectly buildable as infeasible. The hole comes off the target.
+            # Written with integer coefficients (x100) because CP-SAT takes no float ones.
+            c100 = int(round(COVERAGE * 100))
+            void_area = sum(rooms[(0, v["id"])]["a"] for v in voids_below
+                            if (0, v["id"]) in rooms)
+            m.Add(100 * upper_area + c100 * void_area >= c100 * Wi * Hi)
+        else:
+            m.Add(upper_area >= int(COVERAGE * Wi * Hi))
 
         # ---- declared exterior walls
         contested = _contested_corners(rs)
@@ -333,6 +349,63 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                         off = m.NewBoolVar("")
                         m.Add(d <= tolU).OnlyEnforceIf(off.Not())
                         penalties.append((off, 15))     # 1.5 per relaxation, x10
+
+    # ---- nothing sits over a void open to the sky (OQ 55)
+    #
+    # This is the guarantee the 25 Aug merge lost. OQ 55 closed with the rule stated in BOTH
+    # engines, and the engine that stated it as a HARD constraint -- the deleted build/solver.py
+    # -- is the one that did not survive; what was left was geometry.py's 40-point charge, which
+    # is a price a candidate can pay and still win. A courtyard is a hole: there is no floor
+    # under an upper room placed over it, no bearing, and the roof that room needs is the hole
+    # itself. That is not a preference and it is not scoreable, so here it is a constraint.
+    #
+    # ROOFED voids are deliberately exempt, and the exemption is the reason `roofed` is a
+    # separate fact from `within_footprint`: a Charleston single's upper piazza sits squarely on
+    # its lower one and is correct. A void over a void is likewise fine -- an upper gallery may
+    # open onto the same court.
+    #
+    # Mirrors geometry.py's vertical_score() term for term, including its 1.0 ft overlap
+    # tolerance, so the two engines cannot disagree about what "over" means. The RING remains
+    # stated rather than searched (courtyard_slice()'s guillotine tree, which the CP engine
+    # inherits through the heuristic hint) -- that half of OQ 55 is a layout problem, not a
+    # constraint, and is left stated rather than half-solved.
+    ground_rooms = prep.get(0) or []
+    upper_rooms = prep.get(1) or []
+    open_voids = [r for r in ground_rooms
+                  if isinstance(r.get("_void"), dict) and not r["_void"].get("roofed")]
+    if open_voids and upper_rooms:
+        # STRICT: the rooms may abut the void's edge and may not enter it by any amount.
+        # geometry.py charges its 40 points only past a 1.0 ft overlap, and mirroring that
+        # tolerance here was a real bug for two reasons. A scoring noise-tolerance is not a
+        # placement licence -- 1 ft of bedroom over a courtyard is a foot of floor with nothing
+        # under it. And it broke the guarantee downstream: the solver placed a room exactly 1 ft
+        # into the court, and _absorb's keep-out limiter only stops a room that has not already
+        # crossed the line, so the room grew straight through the hole. Proven, then undone.
+        for ur in upper_rooms:
+            if isinstance(ur.get("_void"), dict):
+                continue                    # void over void is fine
+            uv = rooms.get((1, ur["id"]))
+            if uv is None:
+                continue
+            for vr in open_voids:
+                gv = rooms.get((0, vr["id"]))
+                if gv is None:
+                    continue
+                lit = reqs.lit(
+                    f"{ur.get('name') or ur['id']} cannot sit over "
+                    f"{vr.get('name') or vr['id']}, which is open to the sky: no floor under "
+                    f"it, no bearing, and the roof it needs is the hole",
+                    kind="void")
+                # Separated on one axis or the other, by more than the shared tolerance.
+                seps = []
+                for cond in (uv["x"] + uv["w"] <= gv["x"],
+                             gv["x"] + gv["w"] <= uv["x"],
+                             uv["y"] + uv["h"] <= gv["y"],
+                             gv["y"] + gv["h"] <= uv["y"]):
+                    b = m.NewBoolVar("")
+                    m.Add(cond).OnlyEnforceIf(b)
+                    seps.append(b)
+                m.AddBoolOr(seps).OnlyEnforceIf(lit)
 
     # ---- entrance front. HARD only for the threshold room that actually opens
     # to the exterior — that is the entry. The room catalog classes mudrooms
@@ -516,16 +589,30 @@ def _hint_values(model, rooms, values):
         model.AddHint(v["h"], h)
 
 
-def _absorb(rects, W, H, caps=None):
+def _absorb(rects, W, H, caps=None, keepout=()):
     """Grow rooms into the void the coverage floor allows, edges moving outward
     only — a pinned boundary edge is already at its boundary, and a shared edge
     stops exactly at its neighbour, so nothing hard can break. `caps` bounds
     each room at the model's own size band (max area, sf): the solve PROVED
     "rooms at program size", and un-capped absorption was found stretching a
     2.8 sf linen press to 8 sf — a drawing quietly violating its own proof.
-    A cap can leave residual void; honest empty floor beats an inflated room."""
+    A cap can leave residual void; honest empty floor beats an inflated room.
+
+    `keepout` is a list of (x, y, w, h) this level's rooms may not grow over,
+    and it exists because "nothing hard can break" was true only WITHIN a level
+    (OQ 55). This pass runs per level with no cross-level view, so on a
+    courtyard plan the CP engine proved no upper room sat over the open court
+    and then this grew one across it — a guarantee proven and then undone by a
+    post-pass, which is the same shape of defect as OQ 52 and just as invisible,
+    because the record it writes looks exactly like a solved plan. The keep-out
+    rectangles limit growth in all four directions exactly as a sibling room
+    does, so the proof survives into the drawing."""
     ids = list(rects)
     caps = caps or {}
+    if keepout:
+        rects = dict(rects)
+        for i, ko in enumerate(keepout):
+            rects[f"\0keepout{i}"] = tuple(ko)
     for _ in range(8):
         moved = False
         for rid in ids:
@@ -566,14 +653,14 @@ def _absorb(rects, W, H, caps=None):
             rects[rid] = (round(x, 2), round(y, 2), round(w, 2), round(h, 2))
         if not moved:
             break
-    return rects
+    return {k: v for k, v in rects.items() if not k.startswith("\0keepout")}
 
 
 def _count_relaxations(rects_by_level, W, H, bay, tol):
     """Interior wall lines off the bay grid — the heuristic's own definition of
     a compromise — counted from the solved placement (per unique line, per axis)."""
     relax = []
-    for rects in rects_by_level.values():
+    for lvl, rects in rects_by_level.items():
         for axis in ("x", "y"):
             edges = set()
             for (x, y, w, h) in rects.values():
@@ -589,7 +676,13 @@ def _count_relaxations(rects_by_level, W, H, bay, tol):
                 if axis == "y":
                     d = min(d, abs(e - H))
                 if d > tol:
-                    relax.append(round(d, 2))
+                    # Positioned, like the heuristic's (OQ 33). This counter already knew where
+                    # the line was -- `e` is the edge coordinate and the level is the loop key --
+                    # and threw it away to append a bare float. from/to are omitted: an edge here
+                    # is a wall line shared by however many rooms abut it, and inventing an
+                    # extent for it would be a drawn claim nobody measured.
+                    relax.append({"off_ft": round(d, 2), "axis": axis,
+                                  "at_ft": round(e, 2), "level": lvl})
     return relax
 
 
@@ -789,12 +882,20 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         rects_by_level = {}
         for (lvl, rid), (x, y, w, h) in vals.items():
             rects_by_level.setdefault(lvl, {})[rid] = (x / U, y / U, w / U, h / U)
-        for lvl in rects_by_level:
+        # SORTED, so the ground is absorbed before the storey that must avoid its holes.
+        for lvl in sorted(rects_by_level):
             rs = prep.get(lvl) or []
             fill = (fpd["W"] * fpd["H"]) / max(1.0, sum(r["_area"] for r in rs))
             caps = {r["id"]: max(1.20, fill * 1.22) * r["_area"] for r in rs}
+            keepout = []
+            if lvl == 1:
+                below = rects_by_level.get(0) or {}
+                for gr in (prep.get(0) or []):
+                    v = gr.get("_void")
+                    if isinstance(v, dict) and not v.get("roofed") and gr["id"] in below:
+                        keepout.append(below[gr["id"]])
             rects_by_level[lvl] = _absorb(rects_by_level[lvl], fpd["W"], fpd["H"],
-                                          caps=caps)
+                                          caps=caps, keepout=keepout)
         relax = _count_relaxations(rects_by_level, fpd["W"], fpd["H"],
                                    fpd["bay"], fpd["tol"])
         sc = _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax)

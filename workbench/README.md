@@ -3,9 +3,10 @@
 The human interface to the Traditional Design Language (WP-5.2): a local web app —
 the drawing with the critique on it — over the same corpus and toolchain the CLI and
 MCP server drive. All eleven surfaces are live (⑪ Transcription, WP-5.5). Export ships the plan record, brief, check report and
-the five SVG sheets today; DXF/IFC (WP-5.1), the guidelines book and details
-library (WP-5.3) and drawing ingestion (WP-5.5) are named as forthcoming on the
-Export surface rather than hidden.
+the five SVG sheets today; DXF/IFC (WP-5.1) ship too, and the guidelines book and
+details library (WP-5.3) are named as forthcoming on the Export surface rather than
+hidden. Drawing ingestion (WP-5.5) shipped as the Transcription surface, and the card
+that used to promise it now says where it went.
 
 ## Run it
 
@@ -47,9 +48,13 @@ has always been, and says so at startup and in `/api/health`.
 ## What it will not claim
 
 The interface renders the system's honest states rather than hiding them: unjudged is
-never collapsed into passed; the solver is named as a hill-climb (re-solve is explicit,
-candidate count exposed); an infeasible brief is never presented as proof of anything
-(the conflict-set panel is designed and marked forthcoming until WP-2.3); the code
+never collapsed into passed; the per-gesture solver is named as a hill-climb (re-solve is
+explicit, candidate count exposed) and the proof is offered beside it as *prove
+placement (CP-SAT)*, which names the conflicting requirements when a record's declared
+facts cannot all hold; a plan is never presented as proved when it was only searched;
+a room the search placed below its own catalogue band is reported, not silently traded
+away (OQ 54); a cut off the bay line is counted AND drawn where it falls (P7, OQ 33);
+the code
 layer is advisory, never compliance; no candidate is ever crowned; and no plan is ever
 called good.
 

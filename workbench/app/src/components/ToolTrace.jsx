@@ -1,8 +1,14 @@
 import React from "react";
 
 /* Trust is built by watching it check, not by its confidence. A compact trace of the MCP
-   tools consulted, with the records each one read. Also used in the Console's corpus-health
-   strip, where it reports what the last run touched. */
+   tools consulted, with the records each one read.
+
+   The mockup also used this in a Console surface's corpus-health strip. That surface was never
+   built -- the rail runs from the Phylogeny -- and the corpus inventory it would have carried is
+   already in the left rail's footer, fed live from /api/overview. Ruled 26 Aug 2026: strike the
+   reference rather than build a twelfth surface to justify a sentence. Said here rather than
+   deleted silently, because a component header that cites a screen nobody can open is how a spec
+   and a product start disagreeing without either being wrong. */
 function ToolTrace({
   calls,
   onCite,

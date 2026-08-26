@@ -125,9 +125,9 @@ against the whole style graph rather than noticed one pack at a time.
    network-free next step there is giving the 322 asset records their `provenance.building` names,
    without which every harvest query degrades to a style-name search. Then Phase 5.
 
-WP-2.3 closed Phase 2 on 24 Aug 2026: `build/solver.py` states placement to CP-SAT, enforces
+WP-2.3 closed Phase 2 on 25 Aug 2026: `build/geometry_cp.py` states placement to CP-SAT, enforces
 room minimums instead of scoring them, and returns a named conflict set when a brief cannot be
-housed. Read `docs/reports/wp-2.3-real-solver.md` before touching geometry — the exact-tiling
+housed. Read `docs/reports/wp-2.3-the-real-solver.md` before touching geometry — the exact-tiling
 formulation the plan of action named does not work (CP-SAT could not decide it in 240 s while
 holding a valid solution), and the solver reads the slicing tree off a heuristic layout instead.
 `build/geometry.py` remains the default engine everywhere.
@@ -151,7 +151,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
 - **Two placement engines, and the default is the weaker one.** `build/geometry.py` searches
-  and `build/solver.py` proves; every caller defaults to the search. The search will place a
+  and `build/geometry_cp.py` proves; every caller defaults to the search. The search will place a
   room below the floor of its own band and say nothing — the spec Colonial's dining room comes
   out 26% short on every seed — because `level_score` charges a flat 12 points and a candidate
   can win while paying it. The plan record still reads 12 x 12 and `plan_check.py` never reads
@@ -173,7 +173,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `ranges × pile + the void band` — read the massing's own `footprint` field, not its pile. And
   **the heuristic cannot find a ring**: four thousand candidates put the court in the block's
   corner every time, so `courtyard_slice()` states the ring as a guillotine tree rather than
-  searching for one. `solver.py` inherits it, because it reads its topology off the heuristic.
+  searching for one. `geometry_cp.py` inherits it, because it reads its topology off the heuristic.
 - **The composer refuses on purpose.** It will not invent a room the parti has no place for,
   will not present an assumption as fact, and will not call a plan good. Refusals belong in
   the decision log, stated. Do not "fix" a refusal into a guess.
@@ -187,9 +187,17 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   corpus failed a parti named `cape-central-chimney` for having no chimney; and a fault finding
   quoted `results[0]`, printing a PASSING measurement as the evidence for a failure. When a
   generator did not model something, the measurement must be **absent**, not zero.
+  **Found twelve more times and closed 26 Aug 2026 (OQ 52)** — a dormer count written over
+  `roof.py`'s explicit refusal, five chimney plan dimensions, a stack cap and its shadow lines, a
+  raking-cornice count and a gutter's outlets, all stated as constants, all convicting both
+  reference plans. The rule is now enforced rather than remembered: `elevation.py` declares a
+  `NOT_MODELLED` dict with a reason per name and **filters it at the point measurements are
+  returned**, so this class cannot come back by an `m.update()`. To add a measurement to that
+  file, model the thing first; to remove a name from the list, model it and delete the entry in
+  the same commit. `tests/test_measurement_honesty.py` is the guard.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 18 are open**
-  (7, 8, 9, 10, 11, 18, 32, 33, 34, 36, 37, 38, 39, 40, 41, 52, 53, 55). **Ids 32-41 mean something
+  trusting any list of them. `docs/open-questions.md` holds **63 entries, of which 12 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41). **Ids 32-41 mean something
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message
@@ -198,9 +206,14 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   and need a ruling** -- 52 is the elevation generator inventing measurements the fault corpus then
   convicts houses on, 53 is `check_addresses.py` comparing `quantity` without `units`, which has two
   live wrong dimensions. The list is DERIVED from the file by a test rather than asserted against a
-  literal, and an unrecognised status word now fails that test rather than counting as settled. **OQ 55 reopened at the merge**: it had closed with the open-void guarantee stated in BOTH
-  engines, and the engine that stated it as a hard constraint is the one that did not survive —
-  the heuristic's 40-point charge is all that is left, and a candidate can buy its way out.
+  literal, and an unrecognised status word now fails that test rather than counting as settled. **OQ 55 reopened at the merge and CLOSED AGAIN 26 Aug 2026**: it had closed with the
+  open-void guarantee stated in BOTH engines, and the engine that stated it as a hard constraint
+  was the one that did not survive. `geometry_cp.py` now states it again — 0.0 sf over an open
+  court where the heuristic still places 296 sf and pays its 40 points. Two things worth carrying
+  forward from that fix: a scoring tolerance is **not** a placement licence (mirroring the
+  heuristic's 1 ft charge threshold let a room sit 1 ft into the court), and **`_absorb` runs
+  after the solve with no cross-level view**, so it grew that room straight through the hole —
+  a guarantee proven and then undone by a post-pass. It takes a `keepout` now.
   - **Environment-blocked, not unstarted: OQ 7, 8, 9, 10, 11**, and the source half of **OQ 18**.
     Every one needs a legible facsimile. `loc.gov`, `archive.org` and `hathitrust` all fail to
     connect from here. **None may be closed from a secondary source or a modern redrawing** —

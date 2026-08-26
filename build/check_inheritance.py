@@ -46,7 +46,12 @@ ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "ro
 # The test asserts EQUALITY, not `<=`, deliberately. Working the OQ 51 backlog LOWERS these; the
 # equality assert forces whoever lowers them to come here and say so, which keeps the ratchet tight
 # instead of letting slack accumulate underneath it as the numbers fall.
-RATCHET = {"role_gaps": 294, "inherited_packs": 3367, "unendorsed": 233}
+# 26 Aug 2026: unendorsed 233 -> 222, endorsed 61 -> 72. Eleven storey-graduation gaps
+# adjudicated against each node's OWN record (see docs/reports/oq-51-first-adjudication-pass.md);
+# re-pinned so the gain cannot be lost. role_gaps and inherited_packs do NOT move on an
+# endorsement -- the cascade still delivers exactly what it delivered; what changed is that a
+# human has now judged eleven of those deliveries to be right.
+RATCHET = {"role_gaps": 294, "inherited_packs": 3367, "unendorsed": 222}
 
 
 def applies_to_index():

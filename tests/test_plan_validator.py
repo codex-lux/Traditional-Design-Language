@@ -28,7 +28,13 @@ class TestShippedPlans:
         plan = load_plan("spec-builder-colonial")
         result = plan_check_module.check(plan, corpus)
         assert result["counts"]["fatal"] == 4
-        assert result["counts"]["serious"] == 70
+        # 70 -> 66 on 26 Aug 2026 (OQ 52): four serious findings were being adjudicated from
+        # measurements build/elevation.py stated as constants and never took -- a dormer count
+        # over roof.py's explicit refusal, a chimney's plan dimensions, a raking-cornice member
+        # count and a gutter's outlets. They are could-not-judge now, which is what the corpus
+        # actually knows. This number going DOWN is the fix working: it is four fewer convictions
+        # on evidence that did not exist, not four fewer defects in the house.
+        assert result["counts"]["serious"] == 66
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -38,7 +44,9 @@ class TestShippedPlans:
         # 56 -> 59 (OQ 43): substitution became directional, so a room the plan models under an
         # equivalent name now produces a real adjacency finding at the rule's own severity
         # instead of one minor "treats as equivalent" note. Fatal is unmoved at 4.
-        assert result["counts"]["minor"] == 59
+        # 59 -> 58 (OQ 52): 'The Chimney With No Hat' was decided from an invented count of the
+        # shadow lines in the top 18 in of a stack this corpus does not model.
+        assert result["counts"]["minor"] == 58
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -62,12 +70,17 @@ class TestShippedPlans:
         # longer run against this one. A test that is not for this house says nothing about it.
         # 38 -> 40 (OQ 43): two findings that were held at minor while substitution was
         # symmetric are now reported at the severity their own rule carries. Fatal stays 0.
-        assert result["counts"]["serious"] == 40
+        # 40 -> 36 on 26 Aug 2026 (OQ 52), same four as the spec Colonial above and for the same
+        # reason. The flagship: "Dormers Off the Rhythm: 0 against equals 1" fired on a house with
+        # no dormers modelled, because roof.py refuses to judge dormers and elevation.py wrote
+        # dormer_count: 0 over that refusal.
+        assert result["counts"]["serious"] == 36
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the
         # absence they are, or promoted to the severity their rule carries. Fatal stays 0.
-        assert result["counts"]["minor"] == 62
+        # 62 -> 61 (OQ 52): the same invented stack-shadow-line count as the spec Colonial.
+        assert result["counts"]["minor"] == 61
 
 
 class TestAdjacencyMechanics:

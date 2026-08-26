@@ -71,7 +71,7 @@
         42,
         144
       ],
-      "clearance_in": null,
+      "clearance_in": 0,
       "note": "and it must stay clear, because the route is also the airflow"
     }
   ],

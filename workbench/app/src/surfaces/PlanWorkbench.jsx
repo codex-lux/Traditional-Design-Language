@@ -14,8 +14,14 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Sheet } from '../sheet/Sheet.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
 
-/* Findings carry no ids; a stable client key makes rows diffable and citable. */
+/* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
+   or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
+   survives only as a fallback for a response from a server older than that change. It hashed the
+   STATEMENT, so improving the wording of a finding silently broke every open row, every citation
+   and every diff: the UI reported one finding cleared and another opened when nothing had changed
+   but an adjective. Prefer f.id; never reintroduce the hash as the primary. */
 function findingKey(f) {
+  if (f.id) return f.id;
   const s = `${f.layer}|${f.statement}|${f.room || ''}`;
   let h = 0;
   for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
@@ -143,6 +149,12 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const faultUnjudged = lastEval?.fault_unjudged || [];
   const cs = check?.constraint_summary;
   const relax = placement?.geometry_report?.relaxations;
+  // OQ 54. The search may place a room below the floor of its own catalogue band, charging
+  // itself 12 points and winning anyway — and the plan RECORD still declares the full size, so
+  // the trade is invisible to every layer of the critic downstream. geometry.py reports it; this
+  // is the surface that shows it. The CP engine refuses the trade outright, so proving a
+  // placement is the fix as well as the diagnosis.
+  const underBand = placement?.geometry_report?.under_band;
   const levelIndices = (plan.levels || []).map((l) => l.index ?? 0);
   const declared = plan.adjacencies || [];
 
@@ -341,6 +353,30 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
               </p>
             </div>
           )}
+          {underBand?.count > 0 && (
+            <div style={{ maxWidth: 1000, border: '1px solid var(--rule)',
+              borderLeft: '3px solid var(--sepia)', padding: '10px 14px', margin: '0 0 14px' }}>
+              <Eyebrow tone="secondary">
+                {underBand.count} room{underBand.count === 1 ? '' : 's'} placed below
+                {' '}its own band
+              </Eyebrow>
+              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
+                margin: '6px 0 0', paddingLeft: 18 }}>
+                {underBand.rooms.map((r) => (
+                  <li key={r.room}>
+                    <strong>{r.name}</strong> drawn at {r.placed_sf} sf against the{' '}
+                    {r.band_floor_sf} sf floor of the {r.type} band — {r.short_by_pct}% short.
+                  </li>
+                ))}
+              </ul>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '8px 0 0' }}>
+                The record still declares the full size; only the placement is short, and nothing
+                downstream reads these coordinates — so without this panel the trade is invisible.
+                A room below its band is a defect that survives the life of the building.
+                {' '}<em>Prove placement</em> refuses the trade outright.
+              </p>
+            </div>
+          )}
           {placement?.geometry_report?.solver?.refinements?.length > 0 && (
             <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '0 0 10px' }}>
               solver refinements ({placement.geometry_report.solver.refinements.length}):{' '}
@@ -384,10 +420,13 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
 
           <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
             margin: '16px 0 0', maxWidth: '76ch' }}>
-            The solver is a hill-climb, not an optimiser: results are not deterministic across runs, and an
-            infeasible brief returns the least-bad plan rather than a named conflict set (WP-2.3, forthcoming).
-            Nothing on this surface asserts that feasibility was proved — and a plan with no fatal findings
-            is not therefore good.
+            Each edit re-scores on the fast search, which is a hill-climb and not an optimiser: it is
+            seconds-cheap and not deterministic across runs, so nothing it draws asserts that feasibility
+            was proved. <em>Prove placement (CP-SAT)</em> above is the act that proves it — hard
+            constraints on the record's own declared facts, and a named conflict set above when they
+            cannot all hold. The search also trades a room's size away when it must, and says so under
+            the drawing rather than silently (OQ 54). A plan with no fatal findings is still not
+            therefore good.
           </p>
         </div>
       </div>

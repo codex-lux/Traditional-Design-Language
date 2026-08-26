@@ -368,6 +368,37 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
     }
 
 # ---------------------------------------------------------------- measurements dict for the fault corpus
+# What this generator does NOT model, declared as data so it can be TESTED rather than
+# remembered (OQ 52). Every name here was, until 26 Aug 2026, supplied as a constant, and the
+# fault corpus adjudicated real houses on all of them -- five convictions and two passes per
+# reference plan, every one of them from a number nobody measured. The filter at the foot of
+# _derive_measurements() drops anything on this list, so reintroducing one by a careless
+# m.update() cannot put it back in front of the critic; tests/test_measurement_honesty.py
+# asserts the list stays out of the supplied measurements and that the faults naming these
+# variables come back could-not-judge.
+#
+# To take a name OFF this list: model the thing, derive it from the record, and delete the
+# entry in the same commit. That is the only honest way out, and it is the point of the list.
+NOT_MODELLED = {
+    # roof.py's dormer_rhythm_check refuses in its own words -- no plan schema field authors
+    # a dormer, so an absent dormer and an unstatable one are indistinguishable here.
+    "dormer_count": "no plan schema field authors a dormer (build/roof.py dormer_rhythm_check)",
+    "sum_of_dormer_face_widths_in": "as dormer_count",
+    # roof.py's chimney record carries a position and two heights. There is no plan size in it.
+    "chimney_width_in": "the roof record carries no chimney plan dimension",
+    "chimney_depth_in": "the roof record carries no chimney plan dimension",
+    "chimney_least_plan_dimension_in": "the roof record carries no chimney plan dimension",
+    "chimney_visible_face_width_in": "the roof record carries no chimney plan dimension",
+    "cap_projection_beyond_stack_face_in": "no stack cap is modelled",
+    "count_of_sheet_metal_caps_or_louvred_shrouds_at_the_stack_head": "no stack head is modelled",
+    "count_of_horizontal_shadow_lines_in_the_top_18in_of_the_stack": "no stack head is modelled",
+    # eave_cornice() dimensions the horizontal run only; the rake is never composed.
+    "raking_cornice_member_count": "eave_cornice() dimensions the horizontal entablature only",
+    # Nothing in this corpus models a gutter: no slot, no kit parameter, no line in a renderer.
+    "gutter_outlets": "no gutter is modelled anywhere in the corpus",
+    "overflow_scuppers": "no gutter is modelled anywhere in the corpus",
+}
+
 def _derive_measurements(elev):
     m = {}
     front = elev["front"]
@@ -479,10 +510,18 @@ def _derive_measurements(elev):
         "count_of_moulded_members_in_the_eave_assembly": cornice["member_count"],
         "count_of_moulding_profiles_carried_around_onto_the_return": cornice["member_count"],
         "bed_mould_projection_in": cornice["bed_mould_projection_in"],
-        "raking_cornice_member_count": 0, "horizontal_cornice_member_count": cornice["member_count"],
+        # raking_cornice_member_count is NOT supplied (OQ 52). eave_cornice() dimensions the
+        # HORIZONTAL entablature run and nothing else; whether those members are carried up the
+        # rake to close a pediment is a decision this file never makes and the record never holds.
+        # Supplying 0 asserted that they are not -- which convicted every gable-roofed plan of an
+        # incomplete-pediment fault on a number nobody measured.
+        "horizontal_cornice_member_count": cornice["member_count"],
         "cyma_profiles_at_the_eave": sum(1 for mm in cornice["members"] if "cyma" in (mm.get("profile") or "")),
         "eave_overhang_in": cornice["cornice_projection_in"], "eave_projection_in": cornice["cornice_projection_in"],
-        "rake_overhang_in": cornice["cornice_projection_in"], "gutter_outlets": 2, "overflow_scuppers": 0,
+        # gutter_outlets and overflow_scuppers are NOT supplied (OQ 52). Nothing in this corpus
+        # models a gutter -- no slot, no kit parameter, no line in any renderer -- so "2 outlets
+        # and no scuppers" was a sentence with no author. It convicted both reference plans.
+        "rake_overhang_in": cornice["cornice_projection_in"],
         "count_of_perforations_visible_in_the_cornice_soffit_frieze_or_fascia": 0,
         "count_of_plane_changes_between_wall_face_and_roof_surface": cornice["member_count"],
         "window_head_casings_colliding_with_the_cornice_bed_mould": False,
@@ -492,7 +531,10 @@ def _derive_measurements(elev):
         # a return's own depth is not simply the cornice's face projection, and guessing it
         # produced a false 'pork-chop-return' fatal on a plan that never actually specified one.
         # Left could_not_judge rather than fabricated. See docs/reports/wp-3.2 for the finding.
-        "sum_of_dormer_face_widths_in": 0.0,
+        # sum_of_dormer_face_widths_in is NOT supplied, for the same reason dormer_count is not
+        # (OQ 52, and roof.py's dormer_rhythm_check says it in its own words): no plan schema
+        # field authors a dormer, so this generator cannot distinguish a house with no dormers
+        # from a house whose dormers the record has no way to state.
         "wall_thickness_in": elev["section"]["wall"]["exterior_in"],
     })
 
@@ -555,12 +597,16 @@ def _derive_measurements(elev):
         "min_absolute_difference_between_distinct_slope_angles_deg": 0.0,
         "visible_chimney_count": roof.get("visible_chimney_count"),
         "stack_height_above_ridge_in": roof.get("stack_height_above_ridge_in"),
-        "cap_projection_beyond_stack_face_in": 4.0, "chimney_least_plan_dimension_in": 36.0, "chimney_width_in": 36.0,
-        "chimney_depth_in": 20.0, "chimney_visible_face_width_in": 36.0,
+        # NO CHIMNEY PLAN DIMENSIONS ARE SUPPLIED (OQ 52), and the absence is the point. This
+        # file used to state five of them as constants -- a 36 x 20 in stack with a 4 in cap
+        # projection and one shadow line -- beside a `visible_chimney_count` that is correctly
+        # ABSENT whenever roof.py could not judge it. roof.py's chimney record carries a
+        # position and two heights and nothing else: there is no width, no depth, no cap in it,
+        # and no kit parameter this file reads for one. `vestigial-chimney-chase` was then
+        # adjudicated from 20/36 = 0.5556 against an at-least 0.6 -- a fabricated failure, with
+        # its own primary test passing on the same fabricated numbers beside it.
+        # When the corpus learns to state a stack's plan size, supply it here from the record.
         "count_of_stacks_with_a_visible_consequence_at_the_wall": roof.get("visible_chimney_count"),
-        "count_of_sheet_metal_caps_or_louvred_shrouds_at_the_stack_head": 0,
-        "count_of_horizontal_shadow_lines_in_the_top_18in_of_the_stack": 1,
-        "dormer_count": 0,
         "total_ridge_length_in": front["outside_width_in"], "ridge_length_finished_in_the_roofs_own_material_in": front["outside_width_in"],
         "visible_stack_count": roof.get("visible_chimney_count"),
         "total_eave_to_ridge_height_in": roof.get("roof_eave_to_ridge_height_in"),
@@ -634,7 +680,12 @@ def _derive_measurements(elev):
         brick_pack = PE.resolve("brick-course")
         m["arch_depth_in"] = brick_pack["module"]["default_size_in"]   # brick-course.json: arch_depth_in = module
 
-    return {k: v for k, v in m.items() if v is not None}
+    # Two filters, and they mean different things. A None is a thing this generator models but
+    # could not measure on THIS house, and it is dropped so the corpus reports it as
+    # could-not-judge rather than comparing against a null. A NOT_MODELLED key is a thing this
+    # generator does not model at all: it should never have been built, and the filter is here
+    # so that a future edit reintroducing one cannot reach the critic (OQ 52).
+    return {k: v for k, v in m.items() if v is not None and k not in NOT_MODELLED}
 
 # ---------------------------------------------------------------- orchestration
 def build_elevation(plan, parti=None, section=None, roof=None):
