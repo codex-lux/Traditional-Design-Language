@@ -115,7 +115,7 @@ const ex = await page.locator('main').innerText();
 check('export: DXF/IFC live (WP-5.1)', /plan dxf/.test(ex) && /ifc model/.test(ex));
 check('export: unbuilt work named with its WP', /WP-5\.3 is not built/.test(ex));
 check('export: no costing engine implied', /No costing engine exists/i.test(ex));
-check('export: conflict count is the recorded 158', /158 recorded pack conflicts/.test(ex));
+check('export: conflict count is the recorded 262', /262 recorded pack conflicts/.test(ex));
 await page.screenshot({ path: SHOTS + 'export.png' });
 
 // (11) Transcription - a drawing goes in, a record comes out, gaps named

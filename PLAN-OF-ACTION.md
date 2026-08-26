@@ -1,10 +1,10 @@
 # Traditional Design Language — Plan of Action
 
-*Companion to `STATE-OF-THE-PROJECT.md` (revised 24 August 2026). That document says where the project stands; this one says how to finish it. It is written to be cut up and handed to Claude agents one work package at a time. Each package is self-contained: what to read, what to build, what "done" means, and what not to touch.*
+*Companion to `STATE-OF-THE-PROJECT.md` (revised 25 August 2026 and since kept current). That document says where the project stands; this one says how to finish it. It is written to be cut up and handed to Claude agents one work package at a time. Each package is self-contained: what to read, what to build, what "done" means, and what not to touch.*
 
 ---
 
-## Progress board — as of 24 August 2026
+## Progress board — as of 25 August 2026
 
 Every package below carries a **Status** line. This is the summary. Original package text is left as written even where the work has since been done, so the record of what was asked for stays legible next to what was delivered; where the delivered result diverged from the acceptance text, the Status line says so rather than quietly restating the goal.
 
@@ -39,19 +39,17 @@ Every package below carries a **Status** line. This is the summary. Original pac
    Gothic item — the facade half was measured and found already served), and `opening-craftsman`
    with `trim-prairie`, which are both halves of PB-4's item, `dutch-gambrel`, `balcony-gallery`, `stone-course`, `facade-arcade`, `timber-panel`, `opening-mullioned`, `facade-gable`, `trim-sawn`, `octagon-geometry`, `facade-pavilion`, `jetty-overhang`, `facade-portada`, `facade-peristyle`, `corbel-course` and `facade-medieval-english`. **All six packs this work package's own task
    text names as likely candidates are built, plus the largest item the rest of the list held when it
-   was measured.** 131 of 132 nodes bound; nodes with
-   **no opening-role pack 68 → 50** and **no facade-role pack 67 → 56**, which is where the
+   was measured.** 132 of 132 nodes bound (OQ 49's slot-scoped binding closed the last); nodes with
+   **no opening-role pack 68 → 50** and **no facade-role pack 67 → 46** (the board previously carried the mid-package 56), which is where the
    movement now is, plus one wrong interior binding corrected, which moves no count at all. The
    remaining list, with each item's measured leverage, is in
    `docs/reports/wp-4.6-missing-proportion-packs.md`; next is the Iberian portada, the peripteral Greek-Roman system and Mudejar corbelling. The report now also
    names the items that are **not supportable from this corpus**, the Baroque curved wall first
    among them — no figure for an undulating elevation exists in any of the 22 matching nodes. Then **WP-4.4** (images), which is currently
    environment-blocked — see its own status block.
-7. **Phase 5** — the last mile.
+7. **Phase 5** — the last mile: WP-5.1, 5.2 and 5.5 are done; 5.3 and 5.4 remain.
 
-7. **Phase 5** — WP-5.1, 5.2 and 5.5 are done; 5.3 and 5.4 remain.
-
-**Three open questions want a ruling before or alongside WP-4.6**, all raised by the pass above
+**Three open questions want a ruling before or alongside WP-4.6** *(since closed — OQ 62, OQ 63 and OQ 42 all carry rulings as of 25 Aug 2026; kept as written for the record)*, all raised by the pass above
 and none of them blocking: **OQ 62** (`area_weight` is read as a boolean and never as a share of
 anything, so every parti's weights read as a considered distribution and are not one), **OQ 63**
 (a fault's secondary tests are written for one style and run against every style — it is why

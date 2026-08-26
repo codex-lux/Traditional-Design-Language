@@ -15,7 +15,9 @@ export function surfaces(counts) {
       { id: 'style', n: '③', label: 'Style Record', meta: '9 sections' },
       { id: 'kit', n: '④', label: 'The Kit', meta: c.element_slots ? `${c.element_slots} slots` : '' },
       { id: 'faults', n: '⑨', label: 'Fault Corpus', meta: c.faults ? `${c.faults} solecisms` : '' },
-      { id: 'proportions', n: '⑩', label: 'Proportions', meta: '36 packs' },
+      { id: 'proportions', n: '⑩', label: 'Proportions',
+        meta: c.proportion_packs
+          ? `${Object.values(c.proportion_packs).reduce((a, b) => a + b, 0)} packs` : '' },
     ] },
     { group: 'compose', items: [
       { id: 'brief', n: '⑤', label: 'Brief Intake', meta: '' },

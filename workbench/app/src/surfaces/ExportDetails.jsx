@@ -161,13 +161,9 @@ export function ExportDetails({ lastEval }) {
               'exceptions, pack bindings, rendered orders and details. HTML and PDF, from data, ' +
               'so it cannot drift.' },
             { t: 'The details library', wp: 'WP-5.3', body:
-              'Every measured detail rendered by the engine, and all 158 recorded pack conflicts ' +
+              'Every measured detail rendered by the engine, and all 262 recorded pack conflicts ' +
               'with their resolution prose. Ranked substitution sets are planned structure the ' +
               'corpus does not yet hold — this card will not pretend otherwise.' },
-            { t: 'Drawing-to-record ingestion', wp: 'WP-5.5', body:
-              'A structured transcription form that produces a plan record from a drawing by ' +
-              'tracing, and a DXF importer for a drafter’s plan. Fourteen reference plans ' +
-              'were transcribed by hand; this is the path to volume.' },
           ].map((c) => (
             <div key={c.t} style={{ ...card, backgroundImage: 'var(--hatch-45)' }}>
               <div style={{ background: 'var(--paper)', padding: '8px 10px' }}>
@@ -180,6 +176,13 @@ export function ExportDetails({ lastEval }) {
             </div>
           ))}
         </div>
+
+        <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
+          margin: '16px 0 0', maxWidth: '76ch' }}>
+          Drawing-to-record ingestion was named forthcoming here until it existed; it shipped
+          as the Transcription surface (WP-5.5) — a drawing goes in by tracing or a
+          drafter&rsquo;s DXF, and a record comes out with its gaps named.
+        </p>
 
         <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
           margin: '24px 0 0', maxWidth: '76ch' }}>

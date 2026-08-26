@@ -125,9 +125,9 @@ against the whole style graph rather than noticed one pack at a time.
    network-free next step there is giving the 322 asset records their `provenance.building` names,
    without which every harvest query degrades to a style-name search. Then Phase 5.
 
-WP-2.3 closed Phase 2 on 24 Aug 2026: `build/solver.py` states placement to CP-SAT, enforces
+WP-2.3 closed Phase 2 on 25 Aug 2026: `build/geometry_cp.py` states placement to CP-SAT, enforces
 room minimums instead of scoring them, and returns a named conflict set when a brief cannot be
-housed. Read `docs/reports/wp-2.3-real-solver.md` before touching geometry — the exact-tiling
+housed. Read `docs/reports/wp-2.3-the-real-solver.md` before touching geometry — the exact-tiling
 formulation the plan of action named does not work (CP-SAT could not decide it in 240 s while
 holding a valid solution), and the solver reads the slicing tree off a heuristic layout instead.
 `build/geometry.py` remains the default engine everywhere.
@@ -151,7 +151,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
 - **Two placement engines, and the default is the weaker one.** `build/geometry.py` searches
-  and `build/solver.py` proves; every caller defaults to the search. The search will place a
+  and `build/geometry_cp.py` proves; every caller defaults to the search. The search will place a
   room below the floor of its own band and say nothing — the spec Colonial's dining room comes
   out 26% short on every seed — because `level_score` charges a flat 12 points and a candidate
   can win while paying it. The plan record still reads 12 x 12 and `plan_check.py` never reads
@@ -173,7 +173,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `ranges × pile + the void band` — read the massing's own `footprint` field, not its pile. And
   **the heuristic cannot find a ring**: four thousand candidates put the court in the block's
   corner every time, so `courtyard_slice()` states the ring as a guillotine tree rather than
-  searching for one. `solver.py` inherits it, because it reads its topology off the heuristic.
+  searching for one. `geometry_cp.py` inherits it, because it reads its topology off the heuristic.
 - **The composer refuses on purpose.** It will not invent a room the parti has no place for,
   will not present an assumption as fact, and will not call a plan good. Refusals belong in
   the decision log, stated. Do not "fix" a refusal into a guess.
