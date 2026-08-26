@@ -12,7 +12,8 @@ import { SeverityTally } from '../components/SeverityTally.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Sheet } from '../sheet/Sheet.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { FilterStrip, Chip, ChipGroup, ActionChip, FilterGroup } from '../Chrome.jsx';
+import { StylePicker } from '../components/StylePicker.jsx';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -160,44 +161,55 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
+      {/* The strip holds what you are LOOKING AT — the style, the level, the ghost. Two
+          folds hold the rest: what is drawn over the plan, and what the solver is asked to
+          do. It carried eight axes in one row before, which meant the three you steer by
+          were the same size and weight as the five you touch once an hour. */}
       <FilterStrip right={
         <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>candidates {seeds}</span>
-          <input type="range" min="40" max="800" step="40" value={seeds}
-            onChange={(e) => setSeeds(+e.target.value)} style={{ width: 84, accentColor: 'var(--gilt-deep)' }} />
-          <Chip on={busy} onClick={() => runEvaluate(plan)} title="the solver is a hill-climb; results differ across runs">
+          <FilterGroup label="solver" active={strict ? 1 : 0} summary={strict ? 'strict' : ''}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 9 }}>
+              <Chip on={strict} onClick={() => setStrict(!strict)}
+                title="the completeness layer: treat absent room types as failures (--strict)">strict</Chip>
+              <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>candidates {seeds}</span>
+              <input type="range" min="40" max="800" step="40" value={seeds} aria-label="how many candidate placements the search tries"
+                onChange={(e) => setSeeds(+e.target.value)} style={{ width: 84, accentColor: 'var(--gilt-deep)' }} />
+              <ActionChip onClick={() => runEvaluate(plan, { engine: 'cp' })} affix="⊢"
+                title="WP-2.3: prove the placement with CP-SAT — hard constraints on the record's declared facts, a named conflict set if they cannot all hold. Takes seconds; per-drag re-scores stay on the fast search.">
+                prove placement (CP-SAT)</ActionChip>
+              <ActionChip onClick={() => planDoc.undo()} affix="↩" title="undo the last record edit">undo</ActionChip>
+            </span>
+          </FilterGroup>
+          <ActionChip onClick={() => runEvaluate(plan)} affix="↻" disabled={busy}
+            title="the solver is a hill-climb; results differ across runs">
             {busy ? 're-solving…' : 're-solve'}
-          </Chip>
-          <Chip onClick={() => planDoc.undo()} title="undo the last record edit">undo</Chip>
+          </ActionChip>
         </span>
       }>
         <Eyebrow as="span">style</Eyebrow>
-        <select value={plan.style} onChange={(e) => planDoc.update(mutations.setStyle(e.target.value))}
-          title="same plan, different rules — findings appear and clear"
-          style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', background: 'var(--paper-mat)',
-            border: '1px solid var(--rule)', padding: '2px 6px', maxWidth: 200 }}>
-          {[plan.style, ...styleOptions.filter((s) => s !== plan.style)].map((s) => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
+        <StylePicker value={plan.style} onChange={(v) => planDoc.update(mutations.setStyle(v))}
+          label="Judge this plan against a different style — findings appear and clear" width={190} />
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
-        <Eyebrow as="span">level</Eyebrow>
-        {levelIndices.map((i) => (
-          <Chip key={i} on={level === i} onClick={() => setLevel(i)}>
-            {(plan.levels.find((l) => (l.index ?? 0) === i) || {}).name || 'level ' + i}
-          </Chip>
-        ))}
+        <ChipGroup label="level">
+          <Eyebrow as="span">level</Eyebrow>
+          {levelIndices.map((i) => (
+            <Chip key={i} radio on={level === i} onClick={() => setLevel(i)}>
+              {(plan.levels.find((l) => (l.index ?? 0) === i) || {}).name || 'level ' + i}
+            </Chip>
+          ))}
+        </ChipGroup>
         <Chip on={ghost} onClick={() => setGhost(!ghost)}>ghost below</Chip>
         <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
-        <Eyebrow as="span">overlays</Eyebrow>
-        <Chip on={ov.daylight} tone="var(--green-deep)" onClick={() => setOv({ ...ov, daylight: !ov.daylight })}>daylight reach</Chip>
-        <Chip on={ov.wet} tone="var(--blue-deep)" onClick={() => setOv({ ...ov, wet: !ov.wet })}>wet stacks</Chip>
-        <Chip on={ov.privacy} tone="var(--sepia)" onClick={() => setOv({ ...ov, privacy: !ov.privacy })}>privacy gradient</Chip>
-        <Chip on={strict} onClick={() => setStrict(!strict)}
-          title="the completeness layer: treat absent room types as failures (--strict)">strict</Chip>
-        <Chip onClick={() => runEvaluate(plan, { engine: 'cp' })}
-          title="WP-2.3: prove the placement with CP-SAT — hard constraints on the record's declared facts, a named conflict set if they cannot all hold. Takes seconds; per-drag re-scores stay on the fast search.">
-          prove placement (CP-SAT)</Chip>
+        <FilterGroup label="overlays"
+          active={(ov.daylight ? 1 : 0) + (ov.wet ? 1 : 0) + (ov.privacy ? 1 : 0)}
+          summary={[ov.daylight && 'daylight', ov.wet && 'wet', ov.privacy && 'privacy']
+            .filter(Boolean).join(' · ') || 'none'}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            <Chip on={ov.daylight} tone="var(--green-deep)" onClick={() => setOv({ ...ov, daylight: !ov.daylight })}>daylight reach</Chip>
+            <Chip on={ov.wet} tone="var(--blue-deep)" onClick={() => setOv({ ...ov, wet: !ov.wet })}>wet stacks</Chip>
+            <Chip on={ov.privacy} tone="var(--sepia)" onClick={() => setOv({ ...ov, privacy: !ov.privacy })}>privacy gradient</Chip>
+          </span>
+        </FilterGroup>
       </FilterStrip>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
@@ -207,14 +219,26 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
           <div style={{ padding: '12px 12px 10px', borderBottom: '1px solid var(--rule)' }}>
             <SeverityTally counts={counts} active={sev} onSelect={setSev} />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 10 }}>
-              {layers.map((l) => {
-                const n = findings.filter((f) => f.layer === l).length;
-                return <Chip key={l} on={layer === l} onClick={() => setLayer(layer === l ? null : l)}>{l} {n}</Chip>;
-              })}
+              <ChipGroup label="finding layer">
+                {layers.map((l) => {
+                  const n = findings.filter((f) => f.layer === l).length;
+                  return (
+                    <Chip key={l} radio on={layer === l}
+                      onClick={() => setLayer(layer === l ? null : l)}>{l} {n}</Chip>
+                  );
+                })}
+              </ChipGroup>
             </div>
             {(room || sev || layer) && (
-              <button type="button" onClick={() => { setRoom(null); setSev(null); setLayer(null); }}
-                style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', marginTop: 9 }}>clear filters</button>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 9 }}>
+                <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)' }}>
+                  {shown.length} of {findings.length} findings shown
+                  {room ? ` · at ${room}` : ''}
+                </span>
+                <button type="button" onClick={() => { setRoom(null); setSev(null); setLayer(null); }}
+                  style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)',
+                    borderBottom: '1px solid var(--link-underline)' }}>clear</button>
+              </div>
             )}
             {newKeys > 0 && (
               <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', marginTop: 7 }}>

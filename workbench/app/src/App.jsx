@@ -111,7 +111,8 @@ export default function App() {
           <Active {...shared} />
         </main>
         <RailHost onCite={cite} surface={surface} plan={plan} lastEval={lastEval}
-          railAvailable={health ? !!health.rail : null} />
+          railAvailable={health ? !!health.rail : null}
+          toolCount={health?.mcp?.tools} />
       </div>
       <CommandPalette open={palette} onClose={() => setPalette(false)}
         onAction={(run) => { if (run === 'help') setHelpCard(true); }} />

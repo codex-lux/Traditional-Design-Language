@@ -6,7 +6,7 @@
 import React from 'react';
 import { planDoc } from '../state/planDoc.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 
 const KINDS = [
   { id: 'elevation', label: 'front elevation' },
@@ -66,7 +66,7 @@ export function DrawingSet({ go }) {
           The drawing set is generated from the plan record on the workbench. Load or
           compose one first.
         </p>
-        <Chip onClick={() => go('workbench')}>go to the Plan Workbench ⑦</Chip>
+        <ActionChip onClick={() => go('workbench')}>go to the Plan Workbench</ActionChip>
       </div>
     );
   }
@@ -85,13 +85,15 @@ export function DrawingSet({ go }) {
       <FilterStrip right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{plan.id} · {plan.style}</span>
-          <Chip onClick={download}>download SVG</Chip>
+          <ActionChip affix="↓" onClick={download}>download SVG</ActionChip>
         </span>
       }>
         <Eyebrow as="span">sheet</Eyebrow>
-        {KINDS.map((k) => (
-          <Chip key={k.id} on={kind === k.id} onClick={() => setKind(k.id)}>{k.label}</Chip>
-        ))}
+        <ChipGroup label="sheet">
+          {KINDS.map((k) => (
+            <Chip key={k.id} radio on={kind === k.id} onClick={() => setKind(k.id)}>{k.label}</Chip>
+          ))}
+        </ChipGroup>
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 34px' }}>

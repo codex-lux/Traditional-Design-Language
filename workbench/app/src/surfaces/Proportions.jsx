@@ -9,7 +9,9 @@ import React from 'react';
 import { api } from '../api/client.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { FilterStrip, Chip, FilterGroup } from '../Chrome.jsx';
+import { FilterInput } from '../components/FilterInput.jsx';
+import { matches } from '../search/match.js';
 import { ft } from '../sheet/derive.js';
 
 const KIND_LABEL = {
@@ -168,6 +170,7 @@ function RulesTable({ rules }) {
 export function Proportions({ onCite, selection }) {
   const [packs, setPacks] = React.useState([]);
   const [packId, setPackId] = React.useState(selection?.pack || 'gibbs-doric');
+  const [packFilter, setPackFilter] = React.useState('');
   const [data, setData] = React.useState(null);
   const [compare, setCompare] = React.useState(null);
   const [diameter, setDiameter] = React.useState(12);
@@ -198,8 +201,12 @@ export function Proportions({ onCite, selection }) {
     api.authorities(order, { column_diameter: diameter }).then(setCompare).catch(() => setCompare(null));
   }, [packId, diameter, isOrder]);
 
+  // The selected pack always survives the filter: the plate on the right is reading it,
+  // and hiding its row while continuing to draw it would be a lie about where you are.
+  const listed = packs.filter((p) => p.id === packId
+    || matches(p, packFilter, ['id', 'name', 'kind', 'authority']));
   const byKind = [];
-  for (const p of packs) {
+  for (const p of listed) {
     const g = byKind.find((x) => x.kind === p.kind);
     if (g) g.items.push(p); else byKind.push({ kind: p.kind, items: [p] });
   }
@@ -213,27 +220,37 @@ export function Proportions({ onCite, selection }) {
           comparisons at a common column diameter · never a common module
         </span>
       }>
+        <FilterInput value={packFilter} onChange={setPackFilter} count={listed.length}
+          label="Filter the proportion packs by name, kind or authority"
+          placeholder={`filter ${packs.length} packs`} width={165} />
+        <span style={{ width: 1, height: 18, background: 'var(--rule)' }} />
+        {/* The sliders fold, and the fold shows the figures they are set to — which is
+            what a reader wants from them nine visits in ten. */}
         {isOrder ? (
-          <>
-            <Eyebrow as="span">column diameter</Eyebrow>
-            <input type="range" min="6" max="36" step="1" value={diameter}
-              onChange={(e) => setDiameter(+e.target.value)}
-              style={{ width: 110, accentColor: 'var(--gilt-deep)' }} />
-            <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{diameter}″</span>
-          </>
+          <FilterGroup label="at" summary={`${diameter}″ column`}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Eyebrow as="span">column diameter</Eyebrow>
+              <input type="range" min="6" max="36" step="1" value={diameter} aria-label="column diameter, inches"
+                onChange={(e) => setDiameter(+e.target.value)}
+                style={{ width: 110, accentColor: 'var(--gilt-deep)' }} />
+              <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{diameter}″</span>
+            </span>
+          </FilterGroup>
         ) : (
-          <>
-            <Eyebrow as="span">ceiling</Eyebrow>
-            <input type="range" min="84" max="144" step="2" value={ceiling}
-              onChange={(e) => setCeiling(+e.target.value)}
-              style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
-            <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{inches(ceiling)}</span>
-            <Eyebrow as="span">opening</Eyebrow>
-            <input type="range" min="18" max="96" step="2" value={opening}
-              onChange={(e) => setOpening(+e.target.value)}
-              style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
-            <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{inches(opening)}</span>
-          </>
+          <FilterGroup label="at" summary={`${inches(ceiling)} ceiling · ${inches(opening)} opening`}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <Eyebrow as="span">ceiling</Eyebrow>
+              <input type="range" min="84" max="144" step="2" value={ceiling} aria-label="ceiling height, inches"
+                onChange={(e) => setCeiling(+e.target.value)}
+                style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
+              <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{inches(ceiling)}</span>
+              <Eyebrow as="span">opening</Eyebrow>
+              <input type="range" min="18" max="96" step="2" value={opening} aria-label="opening width, inches"
+                onChange={(e) => setOpening(+e.target.value)}
+                style={{ width: 90, accentColor: 'var(--gilt-deep)' }} />
+              <span style={{ font: 'var(--type-data)', color: 'var(--ink)' }}>{inches(opening)}</span>
+            </span>
+          </FilterGroup>
         )}
       </FilterStrip>
 

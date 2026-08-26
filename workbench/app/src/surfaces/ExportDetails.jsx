@@ -7,7 +7,7 @@ import { api } from '../api/client.js';
 import { planDoc } from '../state/planDoc.js';
 import { session } from '../state/session.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { FilterStrip, Chip, ActionChip } from '../Chrome.jsx';
 
 function save(name, content, type = 'application/json') {
   const a = document.createElement('a');
@@ -93,10 +93,10 @@ export function ExportDetails({ lastEval }) {
               dimensions, declared walls, doors, assertions. JSON against
               <span style={{ fontFamily: 'var(--mono)' }}> schema/plan.schema.json</span>.
             </p>
-            <Chip onClick={plan ? () => save(`${plan.id}.json`, plan) : undefined}
+            <ActionChip affix="↓" disabled={!plan} onClick={plan ? () => save(`${plan.id}.json`, plan) : undefined}
               title={plan ? '' : 'no plan on the bench'}>
               {plan ? `download ${plan.id}.json` : 'no plan on the bench'}
-            </Chip>
+            </ActionChip>
           </div>
           <div style={card}>
             <h3 style={cardTitle}>The brief &amp; the check report</h3>
@@ -105,12 +105,12 @@ export function ExportDetails({ lastEval }) {
               constraint summary and the could-not-judge list, none of it collapsed.
             </p>
             <span style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              <Chip onClick={s.brief ? () => save(`${s.brief.id || 'brief'}.json`, s.brief) : undefined}>
+              <ActionChip affix="↓" disabled={!s.brief} onClick={s.brief ? () => save(`${s.brief.id || 'brief'}.json`, s.brief) : undefined}>
                 {s.brief ? 'download brief' : 'no brief drafted'}
-              </Chip>
-              <Chip onClick={lastEval?.check ? () => save(`${plan?.id || 'plan'}-check.json`, lastEval) : undefined}>
+              </ActionChip>
+              <ActionChip affix="↓" disabled={!lastEval?.check} onClick={lastEval?.check ? () => save(`${plan?.id || 'plan'}-check.json`, lastEval) : undefined}>
                 {lastEval?.check ? 'download check report' : 'no evaluation yet'}
-              </Chip>
+              </ActionChip>
             </span>
           </div>
           <div style={card}>
@@ -121,9 +121,9 @@ export function ExportDetails({ lastEval }) {
             </p>
             <span style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {['plan', 'elevation', 'section', 'bearing', 'roof'].map((k) => (
-                <Chip key={k} on={busySvg === k} onClick={plan ? () => saveSvg(k) : undefined}>
+                <ActionChip key={k} affix={busySvg === k ? '…' : '↓'} disabled={!plan} onClick={plan ? () => saveSvg(k) : undefined}>
                   {busySvg === k ? 'generating…' : k}
-                </Chip>
+                </ActionChip>
               ))}
             </span>
           </div>
@@ -137,14 +137,14 @@ export function ExportDetails({ lastEval }) {
             </p>
             <span style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {['plan', 'section', 'roof', 'elevation'].map((k) => (
-                <Chip key={k} on={busyCad === `dxf:${k}`}
+                <ActionChip key={k} affix={busyCad === `dxf:${k}` ? '…' : '↓'} disabled={!plan}
                   onClick={plan ? () => saveCad('dxf', k) : undefined}>
                   {busyCad === `dxf:${k}` ? 'generating…' : `${k} dxf`}
-                </Chip>
+                </ActionChip>
               ))}
-              <Chip on={busyCad === 'ifc'} onClick={plan ? () => saveCad('ifc') : undefined}>
+              <ActionChip affix={busyCad === 'ifc' ? '…' : '↓'} disabled={!plan} onClick={plan ? () => saveCad('ifc') : undefined}>
                 {busyCad === 'ifc' ? 'generating…' : 'ifc model'}
-              </Chip>
+              </ActionChip>
             </span>
             {cadNote && (
               <p style={{ font: 'var(--type-data-s)', color: 'var(--forthcoming)',

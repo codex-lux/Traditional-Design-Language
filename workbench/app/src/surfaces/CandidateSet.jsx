@@ -9,7 +9,7 @@ import { planDoc } from '../state/planDoc.js';
 import { CandidateColumn } from '../components/CandidateColumn.jsx';
 import { RefusalCard } from '../components/RefusalCard.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
-import { FilterStrip, Chip } from '../Chrome.jsx';
+import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 
 function adaptCandidate(c, i, nativePartis) {
   const native = nativePartis
@@ -100,7 +100,7 @@ export function CandidateSet({ onCite, go, selection }) {
             ))}
           </div>
         )}
-        <Chip onClick={() => go('brief')}>go to Brief Intake ⑤</Chip>
+        <ActionChip onClick={() => go('brief')}>go to Brief Intake</ActionChip>
       </div>
     );
   }
@@ -127,8 +127,10 @@ export function CandidateSet({ onCite, go, selection }) {
         </span>
       }>
         <Eyebrow as="span">order by</Eyebrow>
-        <Chip on={sort === 'score'} onClick={() => setSort('score')}>score, fatal first</Chip>
-        <Chip on={sort === 'native'} onClick={() => setSort('native')}>native to the style</Chip>
+        <ChipGroup label="order">
+          <Chip radio on={sort === 'score'} onClick={() => setSort('score')}>score, fatal first</Chip>
+          <Chip radio on={sort === 'native'} onClick={() => setSort('native')}>native to the style</Chip>
+        </ChipGroup>
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 22px 30px' }}>

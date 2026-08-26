@@ -61,14 +61,24 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
 await page.screenshot({ path: SHOTS + 'workbench.png', fullPage: false });
 
-// style switch: same plan, different rules
-const before = (body.match(/serious\s+(\d+)/) || [])[1];
-await page.locator('select').first().selectOption('craftsman');
+// style switch: same plan, different rules.
+// Driven through the combobox that replaced the 164-option <select> in WP-5.6 — typing a
+// few letters, which is the whole reason it replaced it.
+const pickStyle = async (name) => {
+  const box = page.locator('main').getByRole('combobox', { name: /different style/i });
+  await box.click();
+  await box.fill(name);
+  await page.waitForTimeout(400);
+  await page.locator('[role="option"]').first().click();
+};
+await pickStyle('craftsman');
 await page.waitForTimeout(2500);
 const after = await page.locator('main').innerText();
 check('style switch re-scores', (after.match(/serious\s+(\d+)/) || [])[1] !== undefined);
+check('no 164-option select survives on the bench', await page.locator('main select').count() === 0);
 await page.screenshot({ path: SHOTS + 'workbench-craftsman.png' });
-await page.locator('select').first().selectOption('tidewater-georgian');
+await pickStyle('tidewater-georgian');
+await page.waitForTimeout(1500);
 
 // ② Phylogeny
 await rail.getByRole('button', { name: /The Phylogeny/ }).click();
@@ -131,7 +141,9 @@ await page.waitForSelector('text=83 of', { timeout: 40000 });
 const ds = await page.locator('main').innerText();
 check('drawing set: WP-3.2 disclosure on-sheet', /83 of the 177 applicable/i.test(ds));
 await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
-await page.getByRole('button', { name: 'bearing lines' }).click();
+// A sheet kind is one of a set, so it is a radio now, not a button — the chips that pick
+// between alternatives say so to a screen reader since WP-5.6.
+await page.getByRole('radio', { name: 'bearing lines' }).click();
 await page.waitForTimeout(3000);
 await page.screenshot({ path: SHOTS + 'drawing-bearing.png' });
 
