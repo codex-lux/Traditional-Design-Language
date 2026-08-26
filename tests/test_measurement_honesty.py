@@ -206,3 +206,68 @@ class TestABareRatioIsNeverDeliveredAsADimension:
         if isinstance(chosen, dict):
             assert "ratio_demoted" not in chosen, (
                 "a roof pitch IS a ratio; demoting it would be inventing a referent")
+
+
+class TestTheDecisionLogCarriesItsStructureWithoutLosingItsProse:
+    """OQ 34. The workbench's DecisionLogEntry renders {field, chose, because}; the composer's
+    decision log was prose, so the component rendered a shape the data did not have. Ruled 26 Aug
+    2026: structure it and mark the judgment. The judgment is which lines are DECISIONS and which
+    are narration, and the rule taken is that the log already classifies itself — a line the
+    composer meant as a decision carries a prefix it wrote (JUDGMENT, REFUSED, AUTHORED, NOT
+    SOLVED, KNOWN FINDING), and everything else is an assumption taken where the brief was silent.
+    """
+
+    def test_the_prose_is_unchanged_and_still_first(self, compose_module):
+        """`decisions` must keep its exact shape: a list of sentences. Every consumer that read
+        it before this change reads it identically after."""
+        s = compose_module.structure_decisions(["Ceiling heights 9.0 ft ground and 8.0 ft above, "
+                                                "taken from the style's own kit."])
+        assert s[0]["statement"] == ("Ceiling heights 9.0 ft ground and 8.0 ft above, taken from "
+                                     "the style's own kit.")
+
+    def test_a_prefix_the_composer_wrote_becomes_the_kind(self, compose_module):
+        """The corpus's own vocabulary, not a taxonomy imposed on it."""
+        cases = {
+            "JUDGMENT: the brief requires a library and this diagram has no place for one.": "judgment",
+            "AUTHORED: 2 garage bays placed as a dependency off the Mudroom.": "authored",
+            "NOT SOLVED: whether an upper-storey room ends up over the garage.": "unsolved",
+            "KNOWN FINDING, not a defect: the garage will report a daylight failure.": "disclosure",
+            "Ceiling heights 9.0 ft ground and 8.0 ft above.": "assumption",
+        }
+        for line, kind in cases.items():
+            assert compose_module.structure_decisions([line])[0]["kind"] == kind, line
+
+    def test_a_derived_field_says_it_is_derived(self, compose_module):
+        """`field` and `chose` are read off the sentence, not authored at the call site, and the
+        record says so. A derived value presented as an authored one would be the same class of
+        problem as OQ 52's invented measurements, one layer up."""
+        s = compose_module.structure_decisions(
+            ["Ceiling heights 11.0 ft ground and 10.0 ft above, taken from the style's own kit."])[0]
+        assert s["derived"] is True
+        assert s["field"] == "ceiling_heights"
+        assert "11.0 ft ground" in s["chose"]
+        assert "taken from" in s["because"]
+
+    def test_a_sentence_outside_the_table_keeps_null_fields(self, compose_module):
+        """Not force-fitted. A wrong derived value is worse than an absent one, and the prose is
+        right there — which is why the two disclosure lines in the live corpus keep field: null."""
+        s = compose_module.structure_decisions(["Something the table has never seen before."])[0]
+        assert s["field"] is None and s["chose"] is None
+        assert s["statement"] == "Something the table has never seen before."
+
+    def test_every_live_decision_line_is_classified(self, compose_module):
+        """Against the real composer output, not a fixture: every line gets a kind, and the great
+        majority get a field. The two that do not are NOT SOLVED and KNOWN FINDING — disclosures
+        that settle no brief field, where null is the correct answer."""
+        import glob
+        briefs = sorted(glob.glob(os.path.join(ROOT, "briefs", "*.json")))
+        assert briefs, "no briefs to compose"
+        result = compose_module.compose(json.load(open(briefs[0])), candidates=2)
+        rows = [e for c in result["candidates"] for e in c["decisions_structured"]]
+        assert rows, "the composer emitted no structured decisions"
+        assert all(r["kind"] for r in rows)
+        assert all(r["statement"] for r in rows)
+        named = [r for r in rows if r["field"]]
+        assert len(named) >= 0.8 * len(rows), (
+            f"only {len(named)} of {len(rows)} lines matched the decision vocabulary — the "
+            "composer's wording has drifted from _DECISION_PATTERNS")

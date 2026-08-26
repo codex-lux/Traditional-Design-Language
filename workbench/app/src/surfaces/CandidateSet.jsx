@@ -193,12 +193,35 @@ export function CandidateSet({ onCite, go, selection }) {
               What the composer chose where the brief was silent. Read it — those are the assumptions,
               not facts.
             </p>
-            {((sel ? cands.find((c) => c.id === sel) : cands[0])?.raw.decisions || []).map((d, i) => (
-              <p key={i} style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
-                margin: '0 0 7px', paddingLeft: 12, borderLeft: '2px solid var(--rule-soft)' }}>
-                {d}
-              </p>
-            ))}
+            {/* OQ 34: the composer now emits `decisions_structured` beside the prose — the same
+                lines, each with the kind it gave itself (judgment, refusal, authored, unsolved,
+                disclosure, assumption) and a field/chose DERIVED from the sentence. The prose
+                statement is still what is read; the structure is what makes a judgment legible
+                as a judgment at a glance. Falls back to the plain list, so a record composed
+                before this shipped still renders. */}
+            {(() => {
+              const c = (sel ? cands.find((x) => x.id === sel) : cands[0])?.raw || {};
+              const rows = c.decisions_structured
+                || (c.decisions || []).map((d) => ({ statement: d, kind: 'assumption' }));
+              const TONE = { judgment: 'var(--gilt-deep)', refusal: 'var(--brick)',
+                unsolved: 'var(--ink-3)', disclosure: 'var(--sepia)', authored: 'var(--ink-2)' };
+              return rows.map((d, i) => (
+                <div key={i} style={{ margin: '0 0 9px', paddingLeft: 12,
+                  borderLeft: `2px solid ${TONE[d.kind] || 'var(--rule-soft)'}` }}>
+                  {d.kind && d.kind !== 'assumption' && (
+                    <Eyebrow as="span" tone="quiet" style={{ color: TONE[d.kind] }}>{d.kind}</Eyebrow>
+                  )}
+                  {d.field && (
+                    <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)',
+                      marginLeft: d.kind && d.kind !== 'assumption' ? 8 : 0 }}>
+                      {d.field}{d.chose ? ` · ${d.chose}` : ''}
+                    </span>
+                  )}
+                  <p style={{ font: 'var(--fw-reg) 13px/1.55 var(--body)', color: 'var(--ink-2)',
+                    margin: '2px 0 0' }}>{d.statement}</p>
+                </div>
+              ));
+            })()}
           </div>
           <div style={{ flex: '0 1 420px', minWidth: 380 }}>
             <Eyebrow style={{ marginBottom: 9 }}>how to read this</Eyebrow>
