@@ -603,11 +603,17 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     # WP-6.1, stated rather than removed, because the removal belongs with the fix (WP-6.3).
     # This loop is the stair-stacking term this module's own docstring and docs/geometry.md
     # have both advertised since they were written. It scores NOTHING: `st` is assigned and
-    # discarded, the body ends here, and no charge is ever added. Measured consequence on
-    # plans/tidewater-georgian-careful.json, whose record explicitly declares
-    # `landing.stacks_over = "stair"` and an `above` adjacency: the ground stair is placed at
+    # discarded, the body ends here, and no charge is ever added.
+    #
+    # Measured on plans/tidewater-georgian-careful.json: the ground stair is placed at
     # y 16.00-26.62 and the upper landing at y 30.00-40.08 — zero overlap, a landing that
-    # arrives over the dining room, and not one point charged for it.
+    # arrives over the dining room, and not one point charged for it. That plan states the
+    # relationship as an `above`/`below` ADJACENCY (read by plan_check alone); it is
+    # `partis/five-part-palladian.json` that declares `landing.stacks_over = "stair"`, so
+    # every plan composed from that diagram carries the field. Neither engine reads either
+    # one. (Corrected 26 Aug 2026: an earlier version of this comment put the stacks_over on
+    # the plan record. It is in the parti. The measurement was right and the mechanism named
+    # for it was wrong, which is the more dangerous half to get wrong.)
     for rid in u:
         if C["rooms"].get(ut.get(rid, {}).get("type"), {}).get("function_class") != "circulation": continue
         st = next((k for k in g if C["rooms"].get(gt.get(k, {}).get("type"), {}).get("id") == "stair-hall"), None)

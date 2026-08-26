@@ -25,7 +25,11 @@ Two related constraints followed: only circulation may span (a porch with three 
 
 Candidate layouts are generated for each level and scored **in pairs** on vertical alignment — upper wall lines that continue to a wall below, and wet rooms that sit over wet rooms. An upper layout that would score better on its own is rejected when it leaves walls unsupported.
 
-**"The stair landing over the stair" stood in that list until WP-6.1 and was never true.** `vertical_score`'s stair branch assigns a variable and discards it; `stacks_over` is read by neither engine. A landing may therefore sit anywhere over its own stair — on the shipped Tidewater plan, which declares `landing.stacks_over = "stair"`, the two placed rectangles do not overlap at all — and nothing is charged. WP-6.3 makes it a real term in the heuristic and a hard constraint in the CP engine; this paragraph is what the file does today.
+**"The stair landing over the stair" stood in that list until WP-6.1 and was never true.** `vertical_score`'s stair branch assigns a variable and discards it; `stacks_over` is read by neither engine, and neither is the `above`/`below` adjacency relation. A landing may therefore sit anywhere over its own stair: on the shipped Tidewater plan the stair is placed at y 16.00–26.62 and the landing at y 30.00–40.08, which do not overlap at all, and nothing is charged.
+
+Nor is it only the stair. Across the two shipped plans **six rooms declare `stacks_over` and four of them are placed with zero overlap on the room they name** — `powder` over `cellarstair`, `primarybath` over `butlers` and `hallbath` over `powder` on the Tidewater plan, `hallbath` over `laundry` on the spec Colonial. Each of those is a waste stack with nothing under it, declared in the record and contradicted by the drawing.
+
+*(One correction worth keeping: the Tidewater plan record states the stair-to-landing relationship as an `above`/`below` adjacency, which only `plan_check` reads. It is `partis/five-part-palladian.json` that carries `landing.stacks_over = "stair"`. An earlier draft of this paragraph put the field on the plan record. The measurement was right and the mechanism named for it was wrong.)*
 
 Every misalignment that survives is named in the report: *"11 upper wall lines do not continue to a wall below; each is a transfer beam."* That is a cost, and it should be visible before anyone prices it.
 

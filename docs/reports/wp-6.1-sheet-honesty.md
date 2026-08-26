@@ -72,9 +72,18 @@ about type (neither read it). The claim was in a comment and nothing held it to 
 feature.** `build/geometry.py`'s module docstring and `docs/geometry.md` both advertise
 "a stair that lands where it left" among the vertical-alignment terms. `vertical_score`'s
 stair branch assigns a variable and discards it; it scores nothing, and `stacks_over` is
-read by neither engine. On the Tidewater plan — which explicitly declares
-`landing.stacks_over = "stair"` — the ground stair sits at y 16.00–26.62 and the upper
-landing at y 30.00–40.08: **zero overlap, and not one point charged.** Separately,
+read by neither engine. On the Tidewater plan the ground stair sits at y 16.00–26.62 and the upper landing at
+y 30.00–40.08: **zero overlap, and not one point charged.**
+
+*(Corrected after this report was first written: that plan states the stair-to-landing
+relationship as an `above`/`below` adjacency, which only `plan_check` reads;
+`landing.stacks_over = "stair"` is declared in `partis/five-part-palladian.json`, so every
+plan composed from that diagram carries it. Neither engine reads either field, so the
+finding is unchanged — but an earlier draft named the wrong mechanism for a right
+measurement, which is the more dangerous half to get wrong, and this corpus has a
+standing record of exactly that error inflating the evidence for a change somebody wanted.
+Measured properly, across both shipped plans six rooms declare `stacks_over` and **four are
+placed with zero overlap on the room they name**.)* Separately,
 `check_partis.py` carried a comment asserting that the plan validator reports unreachable
 rooms. It does not; that lint over the 21 authored partis is the only reachability guard
 in the system, and it never sees a composed plan.
