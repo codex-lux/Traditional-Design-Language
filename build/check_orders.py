@@ -30,6 +30,13 @@ import math
 import os
 import sys
 
+# The engine, by path, through the shared module cache — build/modcache.py exists because a
+# local by-path loader re-executes the module on every call (OQ 28).
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import modcache
+ENGINE = modcache.load("proportion_engine",
+                       os.path.join(os.path.dirname(os.path.abspath(__file__)), "proportion_engine.py"))
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCHEMA_PATH = os.path.join(ROOT, "schema", "proportion-pack.schema.json")
 PACK_GLOB = os.path.join(ROOT, "proportions", "**", "*.json")
@@ -281,6 +288,32 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
         rng = r.get("range")
         if rng and rng[0] > rng[1]:
             err(pid, f"derived_rule '{r['target_slot']}' has an inverted range {rng}")
+
+    # 8. EVALUATE every ranged rule against its own band.
+    #
+    # check_modules.py --eval and check_systems.py have both done this for years, and neither
+    # covers proportions/orders/ or proportions/overlays/ -- which is where 22 rules were
+    # sitting outside their own declared bands, published to the workbench as "· out of band",
+    # with no checker looking (OQ 66). Evaluation goes through proportion_engine.evaluate()
+    # rather than a second implementation here, so what this checks is exactly what the MCP
+    # tool and the workbench publish: the same tolerance, and the same withholding of
+    # judgement where a rule states a calibration context the default bindings are outside.
+    #
+    # A violation is a WARNING and not an error, deliberately. Two survive at the time of
+    # writing and both are recorded in OQ 66 as wanting a ruling rather than a patch; turning
+    # them into errors would fail the build on two findings the corpus is correctly making.
+    try:
+        ev = ENGINE.evaluate(pack)
+    except Exception as exc:
+        err(pid, f"derived_rules could not be evaluated: {exc}")
+        ev = None
+    for r in (ev or {}).get("rules", []):
+        if r.get("error"):
+            err(pid, f"derived_rule '{r['target_slot']}' failed to evaluate: {r['error']}")
+        elif r.get("in_range") is False:
+            warn(pid, f"derived_rule '{r['target_slot']}/{r.get('dimension')}' evaluates to "
+                      f"{r['value']:g} {r.get('units') or ''}".rstrip()
+                      + f", outside its own declared range {r['range']}")
 
     n_judgment = sum(1 for r in pack.get("derived_rules", []) if r.get("judgment"))
     if pack.get("derived_rules") and n_judgment == 0:

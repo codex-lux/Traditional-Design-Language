@@ -275,7 +275,14 @@
       "authority_note": "THE EAVE CORNICE, SIZED FROM THE BUILDING AND NOT FROM ANY ORDER. 'To proportion cornices to the eaves of buildings, divide the whole height into thirty parts, give one part to the height of the cornice. For example, suppose a house to be thirty five feet high, divide thirty five feet into thirty parts, and one thirtieth will be fourteen inches.' No classical author gives this rule because no classical author had to design a cornice for a building with no order on it. BIND storey_height TO THE FULL HEIGHT OF THE WALL from grade to the top of the frieze, not to one storey.",
       "judgment": true,
       "note": "JUDGMENT SLOT, and Benjamin makes it one himself, at length: 'It is sometimes necessary to vary the above proportion. If it be required to proportion a cornice to a basement story house of forty feet high, and twenty five feet front, unconnected with any other building, I would advise to divide the height into forty parts... Again, if a house be forty feet high, and from fifty to sixty feet front, or a block of buildings from seventy five to one hundred feet front, one thirtieth may not be too large... and if a house of two stories high, say twenty five feet whole height, and from fifty to sixty feet front, one thirtieth would be ten inches, which would not be large enough; in that case I would advise to make it eleven and a half or twelve inches.' TALL AND NARROW TAKES 1/40; LOW AND WIDE TAKES MORE THAN 1/30. He then gives a built check: the Thomas Amory house in Park Place, Boston, walls 62 ft high, cornice 20 in., 'which is about one thirty seventh part of the height.'",
-      "quantity": "exterior_cornice_height"
+      "quantity": "exterior_cornice_height",
+      "calibrated_for": {
+        "storey_height": [
+          240,
+          600
+        ],
+        "note": "BIND storey_height TO THE FULL WALL HEIGHT — this rule's own authority note says so in capitals, and Benjamin's worked example is a house 'thirty five feet high'. At the engine's default binding of one 10 ft storey it derives a 4 in cornice and reports itself out of band; at 35 ft it lands squarely inside. Added 26 Aug 2026 (OQ 66) so the engine withholds judgement instead of convicting the rule of a building it was never given."
+      }
     },
     {
       "target_slot": "chair_rail",

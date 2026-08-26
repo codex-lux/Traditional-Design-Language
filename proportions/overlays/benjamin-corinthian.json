@@ -368,7 +368,14 @@
       "authority_note": "Eave cornice, one thirtieth of the whole height of the building, one fortieth for a tall narrow front, more than one thirtieth for a wide one or a block. BIND storey_height TO THE FULL WALL HEIGHT. On a Corinthian building - a church, a bank, a courthouse, which is where this order belongs in America - the cornice will usually be the entablature of the order itself, and the rule is then a check on the order rather than a substitute for it.",
       "judgment": true,
       "note": "JUDGMENT SLOT. Benjamin gives a worked example on a building of exactly this class: 'The third story of the porch is proportioned exactly after the Doric order. The cornice to the attic story is about one seventeenth part of the height' - an attic cornice takes a much larger fraction than a main one, because it sits on a much shorter wall.",
-      "quantity": "exterior_cornice_height"
+      "quantity": "exterior_cornice_height",
+      "calibrated_for": {
+        "storey_height": [
+          240,
+          600
+        ],
+        "note": "BIND storey_height TO THE FULL WALL HEIGHT — this rule's own authority note says so in capitals, and Benjamin's worked example is a house 'thirty five feet high'. At the engine's default binding of one 10 ft storey it derives a 4 in cornice and reports itself out of band; at 35 ft it lands squarely inside. Added 26 Aug 2026 (OQ 66) so the engine withholds judgement instead of convicting the rule of a building it was never given."
+      }
     },
     {
       "target_slot": "chair_rail",

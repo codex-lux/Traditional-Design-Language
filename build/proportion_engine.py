@@ -301,6 +301,67 @@ DEFAULT_BINDINGS = {
     "wall_thickness": 12.0, "span": 240.0, "room_length": 288.0, "room_width": 192.0,
 }
 
+def stated_precision(x):
+    """Half a unit in the last decimal place the number was WRITTEN to.
+
+    A band edge written `0.219` is not the real number 0.219; it is the author saying "0.219
+    to the precision I am giving you", which is 0.2185-0.2195. Four rules evaluated 7/32 =
+    0.21875 against a floor of 0.219 -- the three-decimal rounding of the very expression the
+    band exists to contain -- and were reported out of band by 0.00025, while the workbench
+    displayed the value rounded to 0.2188 and so printed a number that looked inside the band
+    it said was violated.
+
+    check_invariants() already carries this idea, and says why: "these are ratios written down
+    by hand in the sixteenth century and stored as decimals. 5/6 is 0.8333333333 in the file
+    and it is not going to equal 0.8333333333333333." This derives the tolerance from the
+    author's own precision instead of choosing a constant, so a band written to four places
+    gets a tenth of the slack of one written to three, and a band written `10` gets 0.05 --
+    which is nothing, correctly.
+    """
+    CAP = 5e-4
+    s = repr(float(x))
+    if "e" in s or "E" in s:
+        return 0.0
+    frac = s.split(".")[1] if "." in s else ""
+    frac = "" if frac == "0" else frac
+    half_ulp = 0.5 * (10 ** -len(frac)) if frac else 0.5
+    # CAPPED, and the cap is the point. Half a unit in the last place of an edge written `0.3`
+    # is 0.05, which is 17% of the band and would forgive a genuine violation; of an edge
+    # written `10` it is 0.5. The artefact this absorbs is decimal rounding at the three and
+    # four places these bands are actually written to, and half a thousandth is the largest
+    # step that can arise there. An edge written more precisely gets proportionately less.
+    return min(half_ulp, CAP)
+
+
+def out_of_calibration(rule, env, module_in):
+    """The bindings a rule was calibrated for, and whether we are inside them.
+
+    `calibrated_for` has been in the schema since the chair-rail correction, described as "the
+    context in which this rule was calibrated. Outside it the rule still evaluates and should
+    not be trusted" -- and nothing read it. Four of Benjamin's eave cornices say, in capitals,
+    in their own authority note, BIND storey_height TO THE FULL WALL HEIGHT; DEFAULT_BINDINGS
+    gives one 10 ft storey, and all four were duly reported out of band. Benjamin's own worked
+    example is a 35 ft house and lands them squarely inside it.
+
+    Returns a list of human-readable reasons, empty when the rule is in calibration. A rule
+    outside its calibration is UNJUDGED -- `in_range` is withheld, not set False. Judging a
+    rule against a binding its own note tells you not to use is the unjudged-reported-as-failed
+    direction, and it convicted six rules of being wrong about a building they were never
+    given.
+    """
+    cal = rule.get("calibrated_for") or {}
+    reasons = []
+    for k, band in cal.items():
+        if k == "note" or not isinstance(band, (list, tuple)) or len(band) != 2:
+            continue
+        v = module_in if k == "module" else env.get(k)
+        if v is None:
+            continue
+        if not (band[0] <= v <= band[1]):
+            reasons.append(f"{k} is {v:g}, calibrated for {band[0]:g}-{band[1]:g}")
+    return reasons
+
+
 def evaluate(pack, module_in=None, bindings=None):
     mod = module_in if module_in is not None else (pack["module"].get("default_size_in") or 6.0)
     parts = pack["module"]["parts"]
@@ -331,7 +392,14 @@ def evaluate(pack, module_in=None, bindings=None):
             row["value"] = round(v, 4) if isinstance(v, (int, float)) and not isinstance(v, bool) else v
             if r.get("range") and isinstance(v, (int, float)):
                 lo, hi = r["range"]
-                row["in_range"] = lo <= v <= hi
+                why = out_of_calibration(r, env, mod)
+                if why:
+                    # UNJUDGED, not failed. in_range is left absent exactly as it is for a rule
+                    # with no range at all, and the reason is published beside it.
+                    row["out_of_calibration"] = "; ".join(why)
+                else:
+                    tol = max(stated_precision(lo), stated_precision(hi))
+                    row["in_range"] = (lo - tol) <= v <= (hi + tol)
         except Exception as e:
             row["error"] = str(e)
         results.append(row)

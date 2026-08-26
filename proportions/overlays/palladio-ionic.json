@@ -281,13 +281,23 @@
       "expression": "ceiling_height / 6 * (5 / 12)",
       "units": "in",
       "judgment": true,
+      "note": "JUDGMENT SLOT. The room read as an order. Under Vignola the interior entablature is a fifth of the wall-plus-cornice and the crown is 7/18 of it. Under Palladio the entablature is a SIXTH (a fifth of the column, and the column is five sixths of the whole) and the crown is 5/12 of that. At a 9 ft ceiling: Palladio 7.5 in, Vignola 8.4 in. The Palladian room has a lighter cornice, and that is a real and visible difference between a Burlington interior and a Beaux-Arts one. The range is of ceiling height and is where judgement should live. THE BAND FOR THIS MOVED to the `interior_cornice_to_ceiling_ratio` rule beside it: it is a proportion of the ceiling height, not a length, and comparing it against this rule's inches was meaningless (OQ 66).",
+      "authority_note": "Derived from Ware 1738, Book I ch. XVI by the standard room-as-order analogy; the analogy itself is not Palladio's.",
+      "quantity": "interior_cornice_height"
+    },
+    {
+      "target_slot": "crown",
+      "dimension": "height_ratio",
+      "quantity": "interior_cornice_to_ceiling_ratio",
+      "expression": "1 / 6 * (5 / 12)",
+      "units": "ratio",
       "range": [
         0.055,
         0.08
       ],
-      "note": "JUDGMENT SLOT. The room read as an order. Under Vignola the interior entablature is a fifth of the wall-plus-cornice and the crown is 7/18 of it. Under Palladio the entablature is a SIXTH (a fifth of the column, and the column is five sixths of the whole) and the crown is 5/12 of that. At a 9 ft ceiling: Palladio 7.5 in, Vignola 8.4 in. The Palladian room has a lighter cornice, and that is a real and visible difference between a Burlington interior and a Beaux-Arts one. The range is of ceiling height and is where judgement should live.",
-      "authority_note": "Derived from Ware 1738, Book I ch. XVI by the standard room-as-order analogy; the analogy itself is not Palladio's.",
-      "quantity": "interior_cornice_height"
+      "judgment": true,
+      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 66, 26 Aug 2026). The band the authority states is a proportion of the ceiling height; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. JUDGMENT SLOT. The room read as an order. Under Vignola the interior entablature is a fifth of the wall-plus-cornice and the crown is 7/18 of it. Under Palladio the entablature is a SIXTH (a fifth of the column, and the column is five sixths of the whole) and the crown is 5/12 of that. At a 9 ft ceiling: Palladio 7.5 in, Vignola 8.4 in. The Palladian room has a lighter cornice, and that is a real and visible difference between a Burlington interior and a Beaux-Arts one. The range is of ceiling height and is where judgement should live.",
+      "authority_note": "Derived from Ware 1738, Book I ch. XVI by the standard room-as-order analogy; the analogy itself is not Palladio's."
     },
     {
       "target_slot": "chair_rail",

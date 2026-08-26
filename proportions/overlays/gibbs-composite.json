@@ -441,7 +441,14 @@
       "authority_note": "Gibbs's circular construction for pediment height, given once on Plate XXXVIII and applied to all orders: describe a circle on the full extent of the cornice, then a second circle of the same radius from the bottom of the first, and take the segment. A fixed rise of about one fifteenth of the span, i.e. about 15 degrees. He also draws circular and broken pediments in the Composite, for which no rule is given at all.",
       "judgment": true,
       "note": "JUDGMENT SLOT. The construction is on the span of the CORNICE, not on the opening; the coefficient assumes a cornice projecting a tenth of the opening on each side. Draw the construction when the cornice projection is known.",
-      "quantity": "pediment_rise"
+      "quantity": "pediment_rise",
+      "calibrated_for": {
+        "opening_width": [
+          48,
+          144
+        ],
+        "note": "The construction is on the SPAN OF THE CORNICE of a doorcase, and Gibbs's plates are drawn for principal doors. At the engine's default 36 in opening the arithmetic gives a 4.8 in rise and the rule reports itself out of band; a principal door of 4 ft or more lands inside it. Added 26 Aug 2026 (OQ 66)."
+      }
     }
   ],
   "conflicts": [

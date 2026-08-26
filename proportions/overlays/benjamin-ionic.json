@@ -266,7 +266,14 @@
       "authority_note": "Eave cornice, one thirtieth of the whole height of the building. BIND storey_height TO THE FULL WALL HEIGHT. Tall and narrow takes one fortieth; low and wide takes more than one thirtieth. Benjamin's built check is the Thomas Amory house, Boston: walls 62 ft, cornice 20 in., about one thirty-seventh - and he notes that the drops at the foot of that cornice 'lie on the brick wall, so that the bricks in the interval between the drops are plainly seen, and ought not to be considered as a part of the cornice', which is a nice reminder to measure what you are measuring.",
       "judgment": true,
       "note": "JUDGMENT SLOT, on Benjamin's own instruction: 'It is sometimes necessary to vary the above proportion.'",
-      "quantity": "exterior_cornice_height"
+      "quantity": "exterior_cornice_height",
+      "calibrated_for": {
+        "storey_height": [
+          240,
+          600
+        ],
+        "note": "BIND storey_height TO THE FULL WALL HEIGHT — this rule's own authority note says so in capitals, and Benjamin's worked example is a house 'thirty five feet high'. At the engine's default binding of one 10 ft storey it derives a 4 in cornice and reports itself out of band; at 35 ft it lands squarely inside. Added 26 Aug 2026 (OQ 66) so the engine withholds judgement instead of convicting the rule of a building it was never given."
+      }
     },
     {
       "target_slot": "window_proportion",

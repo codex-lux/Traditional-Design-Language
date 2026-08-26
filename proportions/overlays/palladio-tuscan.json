@@ -188,13 +188,23 @@
       "expression": "column_height / 4",
       "units": "in",
       "judgment": true,
+      "note": "JUDGMENT SLOT. Palladio's Tuscan chapter dimensions the column, base, capital and pedestal, but describes the entablature only as a timber construction - 'the architrave is made of wood, equal in height as in width, and not to exceed in width the shaft of the column at top' - and leaves the stone entablature to the plate, whose numerals are not legible in any scan reached. Vignola's quarter (3 1/2 semidiameter modules = 1 3/4 D) is retained as the starting point and is very close to what Palladio draws, but this pack does not assert a Palladian figure. The range is the ratio of entablature to column and is honest; the point within it is not. THE BAND FOR THIS MOVED to the `entablature_to_column_ratio` rule beside it: it is a proportion of the column, not a length, and comparing it against this rule's inches was meaningless (OQ 66).",
+      "authority_note": "Ware 1738, Book I ch. XIV. Palladio's other four orders are dimensioned at a fifth of the column, so a Tuscan entablature nearer 1/5 than 1/4 is defensible in Palladian company.",
+      "quantity": "entablature_height"
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height_ratio",
+      "quantity": "entablature_to_column_ratio",
+      "expression": "1 / 4",
+      "units": "ratio",
       "range": [
         0.2,
         0.25
       ],
-      "note": "JUDGMENT SLOT. Palladio's Tuscan chapter dimensions the column, base, capital and pedestal, but describes the entablature only as a timber construction - 'the architrave is made of wood, equal in height as in width, and not to exceed in width the shaft of the column at top' - and leaves the stone entablature to the plate, whose numerals are not legible in any scan reached. Vignola's quarter (3 1/2 semidiameter modules = 1 3/4 D) is retained as the starting point and is very close to what Palladio draws, but this pack does not assert a Palladian figure. The range is the ratio of entablature to column and is honest; the point within it is not.",
-      "authority_note": "Ware 1738, Book I ch. XIV. Palladio's other four orders are dimensioned at a fifth of the column, so a Tuscan entablature nearer 1/5 than 1/4 is defensible in Palladian company.",
-      "quantity": "entablature_height"
+      "judgment": true,
+      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 66, 26 Aug 2026). The band the authority states is a proportion of the column; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. JUDGMENT SLOT. Palladio's Tuscan chapter dimensions the column, base, capital and pedestal, but describes the entablature only as a timber construction - 'the architrave is made of wood, equal in height as in width, and not to exceed in width the shaft of the column at top' - and leaves the stone entablature to the plate, whose numerals are not legible in any scan reached. Vignola's quarter (3 1/2 semidiameter modules = 1 3/4 D) is retained as the starting point and is very close to what Palladio draws, but this pack does not assert a Palladian figure. The range is the ratio of entablature to column and is honest; the point within it is not.",
+      "authority_note": "Ware 1738, Book I ch. XIV. Palladio's other four orders are dimensioned at a fifth of the column, so a Tuscan entablature nearer 1/5 than 1/4 is defensible in Palladian company."
     },
     {
       "target_slot": "column",

@@ -341,7 +341,7 @@
           },
           "dimension": {
             "type": "string",
-            "description": "Which dimension of that slot the expression yields: height, width, projection, count."
+            "description": "Which dimension of that slot the expression yields: height, width, projection, count — or a named `*_ratio` (height_ratio, return_ratio), where the rule states the proportion an authority gives rather than a measurement derived from it. Such a rule and the dimension rule beside it are the same claim in two units, and only the ratio rule carries the band (OQ 66). Name it specifically rather than `ratio`: the address is (slot, dimension, quantity), and a generic `ratio` collides with any other pack that used it on the same slot for something else."
           },
           "expression": {
             "type": "string",
@@ -379,7 +379,7 @@
           "calibrated_for": {
             "type": "object",
             "additionalProperties": false,
-            "description": "The context in which this rule was calibrated. Outside it the rule still evaluates and should not be trusted — trim-classical's chair-rail derivation is calibrated for 11-13 ft rooms and puts the rail under the back of a chair at 8 ft.",
+            "description": "The context in which this rule was calibrated. Outside it the rule still evaluates and should not be trusted — trim-classical's chair-rail derivation is calibrated for 11-13 ft rooms and puts the rail under the back of a chair at 8 ft. HONOURED BY THE ENGINE since OQ 66: proportion_engine.evaluate() withholds `in_range` outside the stated context and publishes `out_of_calibration` in its place, because judging a rule against a binding its own note tells you not to use is unjudged reported as failed.",
             "properties": {
               "ceiling_height": {
                 "type": "array",
@@ -399,6 +399,30 @@
               },
               "note": {
                 "type": "string"
+              },
+              "storey_height": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "opening_width": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "column_height": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
               }
             }
           },

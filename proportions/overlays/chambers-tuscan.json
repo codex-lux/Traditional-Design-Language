@@ -138,13 +138,22 @@
       "dimension": "height",
       "expression": "column_height / 4",
       "units": "in",
+      "note": "Three and a half modules on a fourteen-module column - Vignola's quarter, retained. But Chambers attaches a rider that Vignola does not: when the column is heightened to 14 1/2 or 15 modules for a town building, the ENTABLATURE IS NOT HEIGHTENED WITH IT. It 'will be sufficiently bold, though its Height be a little less than one quarter of the Height of the Column', which at 15 modules is 3.5/15 = 0.233. The whole increase goes on the shaft. The range is the ratio of entablature to column across his permitted column heights. THE BAND FOR THIS MOVED to the `entablature_to_column_ratio` rule beside it: it is a proportion of the column, not a length, and comparing it against this rule's inches was meaningless (OQ 66).",
+      "authority_note": "Chambers, Treatise 1759, p. 42.",
+      "quantity": "entablature_height"
+    },
+    {
+      "target_slot": "entablature",
+      "dimension": "height_ratio",
+      "quantity": "entablature_to_column_ratio",
+      "expression": "1 / 4",
+      "units": "ratio",
       "range": [
         0.2333,
         0.25
       ],
-      "note": "Three and a half modules on a fourteen-module column - Vignola's quarter, retained. But Chambers attaches a rider that Vignola does not: when the column is heightened to 14 1/2 or 15 modules for a town building, the ENTABLATURE IS NOT HEIGHTENED WITH IT. It 'will be sufficiently bold, though its Height be a little less than one quarter of the Height of the Column', which at 15 modules is 3.5/15 = 0.233. The whole increase goes on the shaft. The range is the ratio of entablature to column across his permitted column heights.",
-      "authority_note": "Chambers, Treatise 1759, p. 42.",
-      "quantity": "entablature_height"
+      "note": "SPLIT FROM THE DIMENSION RULE BESIDE THIS ONE (OQ 66, 26 Aug 2026). The band the authority states is a proportion of the column; the rule beside this one multiplies it out into inches. They were one rule carrying one `range`, and the engine compared a band on the ratio against a value in inches — incommensurable numbers, reported as out of band on every evaluation. Both halves are the same claim; only this one carries a band. Three and a half modules on a fourteen-module column - Vignola's quarter, retained. But Chambers attaches a rider that Vignola does not: when the column is heightened to 14 1/2 or 15 modules for a town building, the ENTABLATURE IS NOT HEIGHTENED WITH IT. It 'will be sufficiently bold, though its Height be a little less than one quarter of the Height of the Column', which at 15 modules is 3.5/15 = 0.233. The whole increase goes on the shaft. The range is the ratio of entablature to column across his permitted column heights.",
+      "authority_note": "Chambers, Treatise 1759, p. 42."
     },
     {
       "target_slot": "column",
