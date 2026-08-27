@@ -2,6 +2,7 @@
 reports through an event queue the SSE endpoint drains. Results (with full plans)
 are held in memory for 30 minutes; the server holds no other state.
 """
+import asyncio
 import json
 import queue
 import threading
@@ -129,28 +130,59 @@ def candidate_plan(job_id, n):
     return cands[n].get("plan")
 
 
-def events(job_id):
-    """Generator of SSE lines for one job.
+# How long the consumer sleeps between drains of the queue, and how many of those sleeps
+# make up one heartbeat interval. 50 ms is well under what a reader can see on a progress
+# line, and the heartbeat stays at the 1 s it has always been.
+_POLL_S = 0.05
+_HEARTBEAT_EVERY = 20
+
+
+async def events(job_id):
+    """ASYNC generator of SSE lines for one job.
 
     The per-job queue is single-consumer: whichever stream drains an event owns
     it. A second consumer (a reconnect, a second tab, React StrictMode's double
     mount) can therefore find the queue empty — so a finished job always closes
     with a synthetic terminal event from the job's own state, and a late attach
-    on a finished job gets its result rather than a silent stream."""
+    on a finished job gets its result rather than a silent stream.
+
+    ASYNC, and that is the whole point of the shape below. This used to be a sync
+    generator whose loop blocked on `job.events.get(timeout=1.0)`. Starlette wraps a
+    sync iterator in `iterate_in_threadpool`, which spends one anyio threadpool token
+    per `next()` — and because that `next()` was a blocking OS wait, an open compose
+    stream held a token for its ENTIRE life rather than for the instant it took to
+    produce a line. The default limiter is 40 tokens for the whole application, so
+    roughly forty readers watching a compose starved every sync `def` endpoint in the
+    server, /api/health included — which is the endpoint the platform healthcheck polls,
+    so the symptom would have been the container being restarted under load rather than
+    anything that pointed at SSE. Measured before and after in
+    docs/reports/infrastructure-audit.md.
+
+    The queue stays a thread-safe `queue.Queue` and is NOT an asyncio.Queue: the compose
+    worker puts to it from a plain thread, and often before any consumer has attached at
+    all, so the buffer has to exist independently of a loop. So the consumer drains it
+    without blocking and awaits between drains, which holds no thread.
+    """
     job = _JOBS.get(job_id)
     if not job:
         yield _sse("error", {"error": "unknown job"})
         return
     _reap()
     saw_terminal = False
+    idle = 0
     while True:
         if job.status in ("done", "error") and job.events.empty():
             break
         try:
-            ev = job.events.get(timeout=1.0)
+            ev = job.events.get_nowait()
         except queue.Empty:
-            yield ": heartbeat\n\n"
+            await asyncio.sleep(_POLL_S)
+            idle += 1
+            if idle >= _HEARTBEAT_EVERY:
+                idle = 0
+                yield ": heartbeat\n\n"
             continue
+        idle = 0
         yield _sse(ev["event"], ev["data"])
         if ev["event"] in ("done", "error"):
             saw_terminal = True
