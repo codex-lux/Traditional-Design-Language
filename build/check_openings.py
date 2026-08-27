@@ -104,11 +104,14 @@ _REC_RE = re.compile(r"((?:rooms|kits|styles|faults|groupings|proportions)/[A-Za
 _QUOTE_RE = re.compile(r"\"([^\"]{25,})\"")
 
 
-def check_basis(rep, rule):
+def check_basis(rep, rule, source="openings/grammar.json"):
     """A basis must name a record that exists, and any long quotation in it must appear in
-    that record. Editorial is a licence to judge, never a licence to make things up."""
+    that record. Editorial is a licence to judge, never a licence to make things up.
+
+    `source` names the file being checked so build/check_windows.py can call this rather than
+    grow a second copy — the corpus has been bitten three times by one rule spelled twice."""
     basis = rule.get("basis") or ""
-    where = f"openings/grammar.json[{rule['id']}]"
+    where = f"{source}[{rule['id']}]"
     paths = _REC_RE.findall(basis)
     if not paths:
         rep.err(where, "basis names no record — an editorial call must say what it read")

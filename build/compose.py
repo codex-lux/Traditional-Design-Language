@@ -854,6 +854,77 @@ def grammar():
             _GRAMMAR = json.load(fh)
     return _GRAMMAR
 
+_WGRAMMAR = None
+
+def window_grammar():
+    global _WGRAMMAR
+    if _WGRAMMAR is None:
+        with open(f"{ROOT}/openings/window-grammar.json", "r", encoding="utf-8") as fh:
+            _WGRAMMAR = json.load(fh)
+    return _WGRAMMAR
+
+
+def window_rule(room_type, wall_exposure="exterior"):
+    """The window grammar's rule for a room against a wall. First match, stated order."""
+    g = window_grammar()
+    rt = C["rooms"].get(room_type) or {}
+    for r in (g.get("room_rules") or []):
+        w = r.get("when") or {}
+        if room_type in ((w.get("room") or {}).get("type") or []) \
+           and w.get("wall", wall_exposure) == wall_exposure:
+            return r
+    for r in (g.get("class_defaults") or []):
+        w = r.get("when") or {}
+        if rt.get("function_class") in ((w.get("room") or {}).get("function_class") or []) \
+           and w.get("wall", wall_exposure) == wall_exposure:
+            return r
+    return g["default"]
+
+
+_WT_CACHE = {}
+
+def kit_window_type(style):
+    """The SASH KIND the style says, or None if nobody has authored one — never a guess.
+
+    WP-7.3 (OQ 72). The grammar decides a window's ROLE and the kit decides its KIND, and
+    neither may answer for the other.
+
+    RESOLVED THROUGH THE LINEAGE, not read off the flat kit file, and the difference is the
+    whole answer. `kits/*.json` carries `window_type` as `status: empty` on 120 of 159 —
+    `tidewater-georgian`, the corpus's own worked example, among them. `resolve_kit` walks
+    the cascade and finds it: `double-hung`, specified by `georgian-colonial-american`, with
+    six variants forbidden. A first version of this function read the flat file and would
+    have reported COULD NOT EVALUATE for a style the corpus can answer for perfectly well —
+    the "unjudged is not passed" rule run backwards, which is its own kind of lie.
+
+    The provenance travels with the answer because the cascade delivers things nobody bound
+    (OQ 51): a reader has to be able to see that Tidewater's sash kind is its Georgian
+    ancestor's and not its own."""
+    if style in _WT_CACHE:
+        return _WT_CACHE[style]
+    RK = _mod("resolve_kit", f"{ROOT}/build/resolve_kit.py")
+    try:
+        graph = RK.load_graph()
+        slots, _sav = RK.resolve_slots(graph, RK.chain_for(graph, style),
+                                       RK.scope_for(graph, style))
+    except Exception:
+        slots = {}
+    slot = (slots or {}).get("window_type") or {}
+    if slot.get("binding") == "forbidden":
+        out = (None, None, "the kit forbids a window_type outright")
+    else:
+        allowed = [v for v in (slot.get("variants") or [])
+                   if (v.get("status") or "") != "forbidden"]
+        if allowed:
+            out = (allowed[0].get("id"), slot.get("from") or slot.get("source"), None)
+        elif slot.get("variants"):
+            out = (None, None, "every window_type variant this kit names is forbidden")
+        else:
+            out = (None, None, None)
+    _WT_CACHE[style] = out
+    return out
+
+
 def _side_matches(side, room_id, room):
     if side.get("any"): return True
     if "type" in side: return side["type"] == room_id
@@ -1034,6 +1105,47 @@ def derive_openings(plan, style, log):
                    f"canonical height-over-width of 13/6 — the rule that pack's own note calls "
                    f"'THE RULE MODERN PRACTICE HAS ENTIRELY LOST'. Nothing in this system had "
                    f"ever run it: every composed window was 3.2 ft wide in every room.")
+    # --- WP-7.3 (OQ 72): every window unit gets a ROLE from the grammar and a KIND from the
+    # kit, and where the kit has not been authored it gets no kind at all.
+    roled = kinded = kindless = 0
+    kinds = {}
+    for r in idx.values():
+        rt = C["rooms"].get(r["type"]) or {}
+        for win in (r.get("windows") or []):
+            rule = window_rule(r["type"], "exterior")
+            role = (rule.get("unit") or {}).get("role")
+            if role in (None, "none"):
+                continue
+            win["role"] = role
+            win["role_rule"] = rule["id"]
+            roled += 1
+            kind, whence, refusal = kit_window_type(plan.get("style"))
+            if kind:
+                win["unit_type"] = kind
+                if whence and whence != plan.get("style"):
+                    win["unit_type_from"] = whence
+                kinds[kind] = kinds.get(kind, 0) + 1
+                kinded += 1
+            else:
+                # THREE-STATE, and this is the load-bearing half of the ruling
+                win["unit_type_unresolved"] = {
+                    "reason": refusal or (f"kits/{plan.get('style')}.kit.json states no "
+                                          f"window_type, so this corpus does not know what "
+                                          f"kind of sash this style uses")}
+                kindless += 1
+    if roled:
+        log.append(f"{roled} window unit(s) given a ROLE by openings/window-grammar.json — "
+                   f"which opening is an ordinary lit window, a high transom band, a borrowed "
+                   f"light or a bay. The grammar decides the role and the kit decides the sash "
+                   f"kind; neither may state the other's (OQ 72).")
+    if kinded:
+        log.append(f"{kinded} unit(s) given a sash kind by the style's own kit: "
+                   + ", ".join(f"{k} x{v}" for k, v in sorted(kinds.items())) + ".")
+    if kindless:
+        log.append(f"JUDGMENT WITHHELD: {kindless} window unit(s) carry a role and NO "
+                   f"`unit_type`, because this style's kit states no window_type. "
+                   f"`window_type` is drafted on 39 of 159 kits. Drawing them as double-hung "
+                   f"because that is the commonest would be a guess wearing a fact.")
     if derived:
         log.append(f"Window counts on {derived} wall(s) derived from each room's own "
                    f"daylight.glazing_fraction band against that wall's area, and bounded by "

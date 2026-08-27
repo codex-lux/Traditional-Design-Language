@@ -118,7 +118,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **34 checks, 995 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **35 checks, 1,006 tests**
 (plus the workbench app suite, `node --test`). The test figure was 762 here and had been stale
 for some time -- `check_counts.py` polices counts DERIVED FROM THE CORPUS, and a test count is
 not one of them; nor are numbers written into JSX, which is how the Kit's header claimed 95
@@ -417,6 +417,11 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
   trusting any list of them. `docs/open-questions.md` holds **78 entries, of which 22 are open**
   (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 78).
+  **Phase 7 half-closed three of them.** OQ 72: two layers decide — the window grammar says a
+  window's ROLE, the kit says its SASH KIND, and 119 of 159 styles answer *through the
+  lineage* where only 39 answer in the flat kit file. OQ 73: sizing is REFUSED ("the tail
+  wagging the dog"), arrangement goes as far as the rooms' own words. OQ 76: the generator is
+  level-aware and it fixed BEARING, not stacking.
   **OQ 76 is HALF CLOSED by WP-7.1** — the generator is level-aware and it fixed BEARING
   (transfer beams 166 → 109 corpus-wide) and not STACKING (26/47 → 27/47, flat). **OQ 78 is
   new**: the search has no span term, so clearing the structural capacity is luck, and the

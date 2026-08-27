@@ -39,6 +39,7 @@ CHECKS = [
     # room schema, and the opening grammar is a different document in a different directory
     # for exactly that reason.
     ("check_openings.py", []),
+    ("check_windows.py", []),
     ("check_partis.py", []),
     ("check_counts.py", []),
     # --strict on both, added 25 Aug 2026 after an audit found neither could fail the build.

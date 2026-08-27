@@ -5,6 +5,7 @@ placed or it says why not; a rule is either cited or the composer says it took a
 midpoint; a plan nobody has placed reports COULD NOT EVALUATE on every drawn check and
 never a pass.
 """
+import glob
 import json
 import os
 import sys
@@ -431,3 +432,81 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
         # the finding quotes the room's own sentence, which is the basis for the number
         assert "uninterrupted wall of at least 6 ft" in hits[0]["statement"]
         assert hits[0]["severity"] == "minor"
+
+
+class TestTheWindowGrammar:
+    """WP-7.3 (OQ 72). The register's question was never what the window types are — the
+    corpus knows them — but WHICH LAYER decides. The answer this package gives: the grammar
+    decides the ROLE and the kit decides the KIND, and neither may state the other's."""
+
+    def _g(self):
+        return json.load(open(os.path.join(ROOT, "openings", "window-grammar.json")))
+
+    def test_every_basis_quotes_prose_that_is_really_in_the_record(self):
+        """The same guarantee the door grammar gives, using the same function rather than a
+        second copy. It caught three loose transcriptions while this file was being written,
+        which is exactly what it is for: an editorial call whose citation cannot be checked is
+        a guess wearing a citation."""
+        CO = mc.load("check_openings", os.path.join(ROOT, "build", "check_openings.py"))
+        CW = mc.load("check_windows", os.path.join(ROOT, "build", "check_windows.py"))
+        g = self._g()
+        rep = CO.Report()
+        for r in CW.all_rules(g):
+            if r["id"] == g["default"]["id"]:
+                continue
+            CO.check_basis(rep, r, "openings/window-grammar.json")
+        assert not rep.errors, rep.errors
+
+    def test_resolution_is_total_and_the_fall_through_is_published(self):
+        """Every room type against every wall exposure lands on a named rule, and how many
+        reach a mere default is a number the checker prints rather than hides."""
+        CW = mc.load("check_windows", os.path.join(ROOT, "build", "check_windows.py"))
+        g = self._g()
+        C = CW.rooms_corpus()
+        assert len(C) == 60, f"the room corpus moved: {len(C)}"
+        tiers = {"room": 0, "class": 0, "default": 0}
+        for room in C.values():
+            for wall in ("exterior", "interior"):
+                rule, tier = CW.resolve(g, room, wall)
+                assert rule and rule.get("id")
+                tiers[tier] += 1
+        assert sum(tiers.values()) == 120
+        # a grammar that answered nothing would still be "total" via its default, so the
+        # share landing on a rule that READ something is what is actually pinned
+        assert tiers["room"] + tiers["class"] >= 100, tiers
+
+    def test_no_rule_states_a_sash_kind_and_no_borrowed_light_is_in_an_exterior_wall(self):
+        """The two-layer split, enforced rather than described. A room rule carrying a
+        `unit_type` would put the kits' vocabulary in a second place."""
+        CW = mc.load("check_windows", os.path.join(ROOT, "build", "check_windows.py"))
+        g = self._g()
+        roles = set(g["roles"])
+        for r in CW.all_rules(g):
+            u = r.get("unit") or {}
+            assert u.get("role") in roles, r["id"]
+            assert "unit_type" not in u and "window_type" not in u, r["id"]
+            if u["role"] == "borrowed-light":
+                assert (r.get("when") or {}).get("wall") == "interior", r["id"]
+
+    def test_the_grammar_publishes_no_closed_enum(self):
+        """A first draft invented one — double-hung / casement / fixed — and the kits use ~40
+        free strings including `clean-rectangle-flat-architrave` and `horseshoe-arch`. That
+        would have been a second spelling of the kits' own vocabulary."""
+        g = self._g()
+        assert not (g.get("unit_types") or {}).get("values")
+        assert (g["unit_types"]["observed"]["styles_resolving"]) == 119
+
+    def test_the_kit_is_resolved_through_the_lineage_and_both_states_are_live(self):
+        """The correction that mattered most. `kits/*.json` carries `window_type` as empty on
+        120 of 159, so reading the flat file reported COULD NOT EVALUATE for styles the
+        corpus answers for perfectly well — `tidewater-georgian` among them, which inherits
+        `double-hung` from `georgian-colonial-american`. Through the cascade, 119 of 159
+        resolve. Both branches are pinned so neither can become dead code."""
+        CO = mc.load("compose", os.path.join(ROOT, "build", "compose.py"))
+        kind, _whence, _ref = CO.kit_window_type("tidewater-georgian")
+        assert kind == "double-hung", kind
+        resolved = sum(1 for f in sorted(glob.glob(os.path.join(ROOT, "kits", "*.json")))
+                       if CO.kit_window_type(json.load(open(f))["style"])[0])
+        assert resolved == 119, resolved
+        # and the withheld state is real, not theoretical
+        assert 159 - resolved == 40
