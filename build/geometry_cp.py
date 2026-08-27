@@ -158,6 +158,21 @@ class _Reqs:
         return b
 
 
+def _span_capacity(plan):
+    """The clear span this plan's framing tradition can make, from the corpus rather than a
+    constant: timber-bay.json's 20 ft bay module for the styles that list it, else the deepest
+    member in construction/floor-structure.json's light_frame_joist_spans. Mirrors
+    structure.span_check's own decision so the two engines charge the same fact."""
+    try:
+        ST = _mod("structure", f"{ROOT}/build/structure.py")
+        if (plan.get("style") or "") in ST._timber_bay_applies_to():
+            return 20.0
+        tbl = ST.load_construction()["floor"]["light_frame_joist_spans"]
+        return max(mm["max_clear_span_ft"] for mm in tbl)
+    except Exception:
+        return None       # catalogue unreadable: unjudged, so nothing is charged
+
+
 def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
            unproven=frozenset()):
     from ortools.sat.python import cp_model
@@ -570,6 +585,87 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             none = m.NewBoolVar("")
             m.AddBoolOr(over + [none])
             penalties.append((none, 8 * SCALE))
+
+        # WP-7.4 (OQ 76): declared `stacks_over`, charged. SOFT, and that is the whole design.
+        #
+        # OQ 76 recorded that a stacking constraint here "outranks every authored exterior wall
+        # in the corpus", because the downgrade loop below reads
+        # `[key for _t, k, key in core if k == "wall" and key]` and a non-wall pin can never
+        # enter it -- measured, a hard version downgraded an authored kitchen wall to satisfy an
+        # inferred stack, which is the OQ 52 family (an authored fact losing silently to a
+        # derived one). That is true OF A HARD PIN. A penalty is not a pin: it creates no
+        # assumption literal, never enters a conflict core, and cannot displace anything. The
+        # blocker is sidestepped rather than solved, and the downgrade loop is untouched.
+        #
+        # Shaped exactly like the wet-stack term above so the two read as one mechanism, and
+        # weighted from the same sweep that set geometry.STACK_W (measured on the heuristic:
+        # broken claims across all 14 declaring partis).
+        for r in upper:
+            so = r.get("stacks_over")
+            if not so or (1, r["id"]) not in rooms or (0, so) not in rooms:
+                continue     # target not on the level below: unjudged, and unjudged is not charged
+            v, vg = rooms[(1, r["id"])], rooms[(0, so)]
+            b = m.NewBoolVar("")
+            m.Add(v["x"] < vg["x"] + vg["w"]).OnlyEnforceIf(b)
+            m.Add(vg["x"] < v["x"] + v["w"]).OnlyEnforceIf(b)
+            m.Add(v["y"] < vg["y"] + vg["h"]).OnlyEnforceIf(b)
+            m.Add(vg["y"] < v["y"] + v["h"]).OnlyEnforceIf(b)
+            none = m.NewBoolVar("")
+            m.AddBoolOr([b, none])
+            penalties.append((none, int(GEO.STACK_W) * SCALE))
+
+        # WP-7.4 (OQ 78): over-capacity clear spans, charged, on the same structural fact the
+        # heuristic charges and plan_check reports.
+        #
+        # THE BEARING SET IS FINITE AND SMALL HERE, which is what makes this affordable. This
+        # model is on a 1-ft integer grid (U = 1), and structure.bearing_lines calls an interior
+        # wall bearing when it sits within 0.75 ft of a bay multiple -- so on whole feet the
+        # only qualifying positions ARE the multiples. The candidate bearing lines are therefore
+        # {0, bay, 2*bay, ... , extent}: seven of them on a 60 ft frontage at a 10 ft bay, not a
+        # continuum, and the span rule becomes a handful of clauses over one bool per line.
+        #
+        # HALF-REIFIED ON PURPOSE. `f -> (face == L)` and nothing in the other direction: a line
+        # may only be claimed bearing if a room face is really on it, while leaving it unclaimed
+        # is free. False is the penalised direction, so the solver can never buy a bearing line
+        # it has not placed a wall on, and the expensive `!=` half of a full reification is
+        # never built. Measured: the model keeps its proof of tidewater-georgian-careful.
+        cap_ft = _span_capacity(plan)
+        if cap_ft:
+            for lvl in (0, 1):
+                rs = prep.get(lvl) or []
+                if not rs:
+                    continue
+                for axis, extent in (("x", Wi), ("y", Hi)):
+                    lines = list(range(0, extent + 1, bayU))
+                    if lines[-1] != extent:
+                        lines.append(extent)
+                    act = {}
+                    for L in lines[1:-1]:
+                        faces = []
+                        for r in rs:
+                            if (lvl, r["id"]) not in rooms:
+                                continue
+                            v = rooms[(lvl, r["id"])]
+                            lo = v["x"] if axis == "x" else v["y"]
+                            sz = v["w"] if axis == "x" else v["h"]
+                            f1 = m.NewBoolVar(""); m.Add(lo == L).OnlyEnforceIf(f1)
+                            f2 = m.NewBoolVar(""); m.Add(lo + sz == L).OnlyEnforceIf(f2)
+                            faces += [f1, f2]
+                        a_ = m.NewBoolVar("")
+                        m.AddBoolOr(faces + [a_.Not()])   # a_ -> some face really sits on L
+                        act[L] = a_
+                    # every run of consecutive lines longer than the capacity must contain a
+                    # bearing line, or it pays
+                    capU = int(cap_ft * U)
+                    for i, lo_L in enumerate(lines):
+                        for hi_L in lines[i + 1:]:
+                            if hi_L - lo_L <= capU:
+                                continue
+                            inner = [act[L] for L in lines[i + 1:] if L < hi_L and L in act]
+                            viol = m.NewBoolVar("")
+                            m.AddBoolOr(inner + [viol])
+                            penalties.append((viol, int(GEO.SPAN_W) * SCALE))
+                            break        # the shortest over-capacity window implies the rest
 
     if objective and penalties:
         m.Minimize(sum(p * wgt for p, wgt in penalties))

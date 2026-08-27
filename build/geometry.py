@@ -12,13 +12,14 @@ That is a harder problem than constraining the upper floor to the lower, and it 
 arrangements the sequential method cannot.
 
 This docstring claimed a third term — "a stair that lands where it left" — from the day it was
-written until WP-6.1, and `vertical_score` never had one. WP-6.3 built the charge and REFUSED
-it on measurement: the generator produces each level blind to the other, so a score can only
-re-rank blind candidates — at 100x and 10,000x the weight the output is byte-identical. The
-dead branch was removed in WP-6.4 rather than left as bait. `stacks_over` is therefore read by
-neither engine and a landing may still sit anywhere over its own stair; what changed is that
-`plan_check`'s drawn layer now checks every such claim and says so. The real fix is a
-level-aware generator, which is OQ 76. This file says what it does, not what it was meant to.
+written until WP-6.1, and `vertical_score` had none for another three packages. WP-6.3 built a
+charge and refused it as inert (byte-identical output at 100x and 10,000x); WP-7.1 made the
+generator level-aware and moved bearing without moving stacking; WP-7.4 charges declared
+`stacks_over` in both engines and works — the refused charge keyed on landing-over-stair, a
+pair neither shipped plan declares, and was measured against a 250-candidate pool too thin to
+contain the alternative. Read `vertical_score`'s own comment before quoting any of that: two
+published refusals are superseded there, with the measurement that superseded them. This file
+says what it does, not what it was meant to.
 
 When the rooms will not fit: grow the footprint first, then shrink rooms toward their bands,
 then drop optional rooms. A room below its furniture minimum is a defect that survives the
@@ -642,6 +643,70 @@ def centre_hall_symmetry_score(rects, rooms, W, H, tol_frac=0.18):
     return s
 
 # ---------------------------------------------------------------- joint scoring
+# WP-7.4 (OQ 76). The one NAMED weight in this file, and it is named because it was chosen by
+# sweep rather than by analogy -- see the measurement in vertical_score below. Its neighbours
+# (the wet-stack 8, the transfer-beam 2.0) are inline literals like every other weight here;
+# this one carries a name so the sweep that set it can be re-run against it.
+STACK_W = 40.0
+
+# WP-7.4 (OQ 78). The span charge, and both halves of its form were chosen by sweep.
+#
+# OQ 78 asked whether span capacity should be a search term "and at what force", and answered
+# its own cost question wrongly: it said putting the check in a 250-candidate loop is the
+# "25 s x N cost that build_section's own docstring exists to avoid". That 25 s is the SOLVE
+# inside build_section, which the candidate loop already has. The check itself --
+# structure.wall_lines -> bearing_lines -> span_check over rects that already exist -- measures
+# 0.026 s for 250 iterations, against the 250-candidate search's own 0.21 s. So the corpus's
+# REAL structural check is affordable here and the "cheap proxy" OQ 78 speculated about is not
+# needed. A proxy would also have been wrong: geometry.wall_lines collects every room edge and
+# cannot tell bearing from partition, so its widest gap is an under-estimate of the clear span
+# -- which is exactly the error WP-7.4 had just removed from span_check itself.
+#
+# FLAT PLUS GRADED, because neither alone is right. Flat alone gives the slicer no signal about
+# HOW far over a run is, and the cut positions it chooses are a continuum; graded alone makes a
+# marginal violation nearly free, so a 20.4 ft span over a 20 ft capacity would never be worth
+# clearing. The graded half is the FRACTIONAL overage, not the absolute, so a hand-framed 20 ft
+# bay and a light-frame joist table compare on the same scale.
+SPAN_W = 20.0
+
+
+def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog):
+    """Over-capacity clear spans, charged, using structure.py's own check rather than a
+    restatement of it.
+
+    Deliberately NOT re-spelled here. There are already two `wall_lines` in this tree
+    (this file's, over raw rects, and structure's, over placed room records) and the
+    REF_RE/CITE_RE/parseCite drift is what a third spelling of one rule costs. `structure`
+    imports this module, so it is loaded lazily on first use rather than at import."""
+    if floor_catalog is None:
+        # the catalogue could not be read: the span cannot be evaluated, so it is not scored
+        # and not reported as clear either. A zero here would read as "no span exceeds
+        # capacity", which is the OQ 52 lie in the cheapest possible place.
+        return 0.0, None
+    ST = _mod("structure", f"{ROOT}/build/structure.py")
+    charge, over = 0.0, 0
+    for idx, rects in rects_by_level.items():
+        if not rects: continue
+        rs = []
+        for r in prep.get(idx, []):
+            v = rects.get(r["id"])
+            if not v: continue
+            g = {"x_ft": v[0], "y_ft": v[1], "width_ft": v[2], "depth_ft": v[3]}
+            # a wall facing an unroofed void is weather-facing and bearing (OQ 55), and
+            # structure.wall_lines reads that off the geometry block, not the catalogue
+            vd = r.get("_void")
+            if isinstance(vd, dict):
+                g["void"] = {"heated": False, "roofed": bool(vd.get("roofed"))}
+            rs.append({"id": r["id"], "geometry": g})
+        if not rs: continue
+        bearing = ST.bearing_lines(ST.wall_lines(rs, W, H), bay)
+        for sp in ST.span_check(bearing, W, H, style, floor_catalog):
+            if sp["ok"] or not sp.get("max_span_ft"): continue
+            over += 1
+            charge += SPAN_W * (1.0 + (sp["span_ft"] / sp["max_span_ft"] - 1.0))
+    return charge, over
+
+
 def vertical_score(g, u, groundrooms, upperrooms, plan):
     """The reason both levels are solved together: bearing lines, stacks, and the stair."""
     if not u: return 0.0, []
@@ -661,49 +726,53 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
         cx, cy = x + w / 2, y + h / 2
         over = any(vx <= cx <= vx + vw and vy <= cy <= vy + vh for (vx, vy, vw, vh) in wet_g.values())
         if not over: s += 8; notes.append(f"{ut[rid].get('name') or rid} sits over no wet room; its stack has nowhere to land.")
-    # THE STAIR-STACKING TERM IS NOT HERE, AND THAT IS SETTLED (WP-6.3, OQ 76). The dead
-    # loop that used to sit at this point -- assigning `st` and discarding it -- was removed
-    # in WP-6.4, because dead code under a comment is an invitation to the next person to
-    # "finish" it, and finishing it does not work. The finding it stood for is below and is
-    # the reason no term replaced it.
+    # DECLARED STACKING, CHARGED (WP-7.4, OQ 76). A room whose record says it sits over
+    # another room and does not is a waste stack with nothing under it -- a defect that
+    # survives the life of the building. Until this package it was REPORTED by
+    # plan_check.drawn_layer and prevented by neither engine.
     #
-    # WP-6.3 built the charge and swept it: at 100x and at 10,000x the weight the output was
-    # BYTE-IDENTICAL, and paying it cost relaxations 11 -> 16.
+    # THIS SUPERSEDES TWO PUBLISHED REFUSALS, AND BOTH ARE WORTH KNOWING BEFORE TOUCHING IT.
     #
-    # ITS STATED REASON WAS WRONG AND WP-7.1 CORRECTED IT. WP-6.3 wrote that "the search can
-    # only re-rank blind candidates and can never produce a stacking one". Measured over 24
-    # seeds, the winning candidate satisfies 1 to 3 of tidewater's 3 cross-level claims and 0
-    # to 2 of spec-builder's 2 -- the search plainly reaches stacking placements. The charge
-    # was inert for a narrower reason: it keyed on landing-over-stair, and neither shipped
-    # plan declares that pair.
+    # (1) WP-6.3 built a stacking charge, swept it at 100x and 10,000x, got BYTE-IDENTICAL
+    # output, and concluded "the search can only re-rank blind candidates and can never
+    # produce a stacking one". The measurement was sound and the conclusion drawn from it was
+    # not. That charge keyed on landing-over-stair, a pair NEITHER shipped plan declares, so it
+    # was inert for a reason that had nothing to do with the search's reach. WP-7.1 falsified
+    # the stated reason directly: over 24 seeds the winning candidate satisfies 1 to 3 of
+    # tidewater's 3 cross-level claims. The search reaches stacking placements.
     #
-    # AND THE BLINDNESS, NOW FIXED, TURNED OUT NOT TO BE THE CAUSE EITHER. WP-7.1 made the
-    # generator level-aware (see `snap`) and measured it corpus-wide over 14 composed plans:
-    # transfer beams 166 -> 109, relaxations 96 -> 76, and `stacks_over` claims broken 26/47
-    # -> 27/47 -- FLAT. Moving a cut line moves a wall; it does not move a room over another
-    # room. Bearing continuity and declared stacking are two different problems and OQ 76
-    # conflated them. The first is closed for this engine; the second is not, and no score
-    # term or generator seed in this file has yet touched it. A hard
-    # CP constraint is worse: geometry_cp.py downgrades only `kind == "wall"` pins, so a
-    # stacking constraint outranks every authored exterior wall in the corpus -- measured, it
-    # downgraded an authored kitchen wall to satisfy an inferred stack. The fix is a
-    # level-aware GENERATOR or a downgradable pin ranked below walls; both are OQ 76.
+    # (2) WP-7.1 then made the generator level-aware and moved broken claims 26/47 -> 27/47:
+    # flat. That is also true, and it is not evidence against a term. Moving a cut line moves a
+    # wall; it does not move a room over another room. Bearing continuity and declared stacking
+    # are two problems and OQ 76 conflated them.
     #
-    # The claim is not dropped, it is MOVED: `plan_check.drawn_layer` checks every
-    # `stacks_over` against the room it names and reports what it finds.
+    # WHAT MADE THE TERM LOOK INERT WAS THE SIZE OF THE POOL IT WAS RE-RANKING. Measured over
+    # 2,000 candidates (5 seeds x 400) rather than the shipped 250 at one seed: on
+    # tidewater-georgian-careful, 12 candidates beat the winner's 3 broken claims WHILE KEEPING
+    # THE PORCH ON THE ENTRANCE FRONT, at a cost of +41.3 points; on spec-builder-colonial, 6
+    # candidates at +2.1. In the thin pool the only better-stacking candidates are ones that
+    # move the porch off the front -- entrance_score 0 -> 100, WP-2.2's founding bug -- which is
+    # why the break-even read 378 and 52 there. A sampling artefact, not a property of the
+    # charge.
     #
-    # Measured on plans/tidewater-georgian-careful.json ON THIS ENGINE, which is the one
-    # this function scores -- since WP-6.3 the default is CP-SAT, and that placement has its
-    # own broken stacks (primarybath over butlers) rather than these. The heuristic figures:
-    # the ground stair is placed at
-    # y 16.00-26.62 and the upper landing at y 30.00-40.08 — zero overlap, a landing that
-    # arrives over the dining room, and not one point charged for it. That plan states the
-    # relationship as an `above`/`below` ADJACENCY (read by plan_check alone); it is
-    # `partis/five-part-palladian.json` that declares `landing.stacks_over = "stair"`, so
-    # every plan composed from that diagram carries the field. Neither engine reads either
-    # one. (Corrected 26 Aug 2026: an earlier version of this comment put the stacks_over on
-    # the plan record. It is in the parti. The measurement was right and the mechanism named
-    # for it was wrong, which is the more dangerous half to get wrong.)
+    # THE TEST IS plan_check's, DELIBERATELY. Strict positive rectangle intersection, the same
+    # rule as plan_check.py's drawn layer, so the search and the critic cannot convict and
+    # acquit the same house. Do not "improve" it to a centroid or an overlap fraction here
+    # without changing it there in the same commit -- that is the openings.required_wall_ft
+    # error (an arbiter carrying its own transcription of a rule) in a new place.
+    #
+    # A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS UNJUDGED AND IS NOT CHARGED. The
+    # generator cannot answer it and a zero would read as a pass (the OQ 52 rule).
+    for rid, (x, y, w, h) in u.items():
+        so = (ut.get(rid, {}) or {}).get("stacks_over")
+        if not so: continue
+        t = g.get(so)
+        if not t: continue
+        if (min(x + w, t[0] + t[2]) - max(x, t[0]) <= 0
+                or min(y + h, t[1] + t[3]) - max(y, t[1]) <= 0):
+            s += STACK_W
+            notes.append(f"{ut[rid].get('name') or rid} declares it stacks over "
+                         f"{gt.get(so, {}).get('name') or so} and is drawn clear of it.")
 
     # OQ 55: nothing may sit over an UNROOFED reserved void. A courtyard is open to the sky --
     # a room placed above it has no floor and no bearing, and the roof plane it would need is
@@ -1148,6 +1217,13 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     ring_sides = {"courtyard": 4, "u": 3}.get(void_shape.strip().lower())
     ring_used = ring_failed = 0
 
+    # loaded once per solve rather than once per candidate: it is a file read, and the span
+    # charge below is only affordable because nothing in it touches the disk
+    try:
+        _floor = _mod("structure", f"{ROOT}/build/structure.py").load_construction()["floor"]
+    except Exception:
+        _floor = None
+
     best = None
     for _ in range(candidates):
         gr, grelax = {}, []
@@ -1181,7 +1257,11 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                   + centre_hall_symmetry_score(ur, prep[1], W, H))
         else: su = 0.0
         vs, vnotes = vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
-        tot = sg + su + vs + 1.5 * len(grelax + urelax)
+        # WP-7.4 (OQ 78): the structural check the corpus already runs, run here too. See
+        # _span_charge -- this is structure.span_check itself, not a proxy, and it costs about
+        # 0.1 ms per candidate against this loop's own 0.85 ms.
+        spc, _sp_over = _span_charge({0: gr, 1: ur}, prep, W, H, bay, plan.get("style"), _floor)
+        tot = sg + su + vs + spc + 1.5 * len(grelax + urelax)
         # Compare raw against raw. "score" is stored rounded to 1dp, so comparing an
         # unrounded challenger against it let a strictly WORSE candidate win whenever
         # rounding nudged the incumbent up: 40.06 stores as 40.1, and a 40.08 challenger
