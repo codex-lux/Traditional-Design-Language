@@ -131,8 +131,14 @@ def test_the_heartbeat_interval_is_observed_not_asserted_against_itself():
     finally:
         jobs._JOBS.pop(job.id, None)
     assert dt is not None, "no heartbeat was emitted on an idle stream"
-    assert 0.5 < dt < 2.0, (
-        f"heartbeat arrived at {dt:.2f}s; readers and proxies both depend on ~1 s")
+    # Deliberately loose on the upper bound. The interval is 1.0 s (0.05 x 20) and the property
+    # worth guarding is that it has not moved by an ORDER of magnitude — a change to 0.1 s
+    # would flood a proxy, a change to 10 s would let one time the connection out. A tight
+    # 2.0 s ceiling would instead measure how busy the CI runner is, which is the flake this
+    # branch has already been bitten by once in a ratio test.
+    assert 0.5 < dt < 5.0, (
+        f"heartbeat arrived at {dt:.2f}s against an interval of "
+        f"{jobs._POLL_S * jobs._HEARTBEAT_EVERY:.2f}s; readers and proxies both depend on it")
 
 
 def test_the_bridge_delivers_a_sync_generators_lines_in_order():
