@@ -338,18 +338,24 @@ with the early-out disabled. It returns the solve to **0.45 s**.
 `check_inheritance`, `check_counts` (24 claims, 0 stale), `proportion_engine selftest` (57
 packs, 0 problems).
 
-**36 of the 37 test files pass**, run in batches: 894-odd tests including `test_solver.py`
+**All 37 test files pass**, run in batches: 894-odd tests including `test_solver.py`
 (8 passed, 2 skipped — the CP proof pin holds), `test_wp46_packs.py` (281, the open-question
 register guard among them), `test_geometry`, `test_structure`, `test_openings`, `test_site`,
 `test_plan_validator`, `test_export`, `test_measurement_honesty`.
 
-**`tests/test_score.py` could not be run to completion in this container, and it is not this
-package's doing.** It reaches test 43 of 46 and then crawls; the same file behaves identically
-**at commit `b8b8f36`, before any of WP-7.4**, and identically again with `_span_charge`
-short-circuited to return zero and both weights set to 0. Three of its last four tests
-(`TestTheComposerIsDeterministic`) pass in 42 s when run as a class. Whatever this is —
-environmental, or an ordering-dependent cost in the composer — it predates the package and is
-reported rather than papered over. It is the one gap in this verification.
+**`tests/test_score.py` passes — 46 passed in 160.02 s — and the reason that took a while to
+establish is worth recording.** Its runtime is wildly variable: some runs finish in under three
+minutes, others sit on test 44 of 46 for half an hour. Test 44 is
+`TestTheComposerIsDeterministic::test_composing_one_brief_does_not_change_another_s_result`,
+which composes briefs, and composition solves on `auto` — so CP-SAT's 25 s wall-clock budget per
+plan dominates, and whether it is spent varies run to run. It is not a hang and it is not this
+package: the same file behaves the same way **at commit `b8b8f36`, before any of WP-7.4**, and
+again with `_span_charge` short-circuited to return zero and both weights at 0.
+
+*An earlier version of this section said the file "could not be run to completion in this
+container". That was wrong, and it was wrong in the direction that matters: I was reading a
+progress file while several other jobs contended for the machine, and reported an observation
+about my own scheduling as a fact about the corpus. The whole suite passes.*
 
 **Five pinned numbers moved and each carries what moved it**: relaxations 9 → 7 on Tidewater in
 three files; the under-band test's named room (the dining room is in band now, the stair hall is
