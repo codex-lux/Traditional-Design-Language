@@ -374,3 +374,71 @@ distinction is where a fault's expression *measures* something at zero versus wh
 - **`check_addresses.py` is 27× slower** (0.11 s → 3.0 s) because `kit_vs_pack` re-resolves the
   cascade per node. Measured and accepted: 3 s on a build check that already takes twelve minutes.
 
+
+---
+
+## The merge with main, 28 August 2026
+
+This branch merged `origin/main` at `9d918f1`. Three files conflicted and both of the things
+they conflicted over were **id collisions between two sessions that ran at the same time** —
+the third such collision in three days.
+
+### The open-question block, renumbered for the third time
+
+Both sides issued from 72. Main's block — the atlas's fine coastline tier (72) and the five from
+the infrastructure audit (73–77) — **keeps its numbers**, because it merged first and its own
+reports cite them; that is the rule this register states and has now applied three times. **This
+branch's twelve moved by six: 72–83 became 78–89**, converted across 34 files and 90 citation
+sites, with the conversion table in `docs/open-questions.md`. Main's own note for 73–77
+anticipated the collision and offered to renumber; the merged-first rule settles which side moves
+and it is not the side that merged.
+
+Two commit messages — `f768c02` and `426ed35` — were written under the old numbers and cannot be
+changed. Everything inside the tree was converted, and main's own citations were left untouched:
+each citing line was classified by whether it already exists on `origin/main` before anything was
+rewritten, rather than by which file it sits in, because `CLAUDE.md` and `PLAN-OF-ACTION.md` carry
+citations from both sides.
+
+### The work-package numbers collided too, and were NOT renumbered
+
+**There are two different WP-5.7s** — main's atlas and this branch's geometry layer — and unlike
+the open questions they were left alone. That asymmetry is deliberate and is recorded as **OQ 90**
+rather than decided in a merge commit: an open question is cited by number and nothing else, but a
+work package is cited by its REPORT, and the two reports have always had distinct filenames, so no
+citation in this corpus is ambiguous today. Renumbering either would rename report files, break the
+`wp-<id>-<slug>.md` convention, and — for this branch's — break the chain where WP-5.8 exists to
+execute WP-5.7's rulings. **Until it is ruled, cite the report and never the number.**
+
+### Two stale claims in CLAUDE.md that the merge surfaced
+
+Both were this branch's, both were prose asserting what the code no longer does, which is the
+failure this corpus polices hardest — and both had been green through a full suite.
+
+- The kit-versus-pack trap still said **133, ratcheted** and "five nodes carry 116 of them". The
+  audit's unit-aware fix had already taken it to **62 across 13 nodes, four of which carry 47**.
+  Corrected against `check_addresses.py`'s own output rather than arithmetic.
+- The `projection_datum` trap said the entablature question was **open** and that
+  `dist/orders.html` "still draws it that way". Both had stopped being true: OQ 78 closed when the
+  datum moved into `profiles.py::axis_holds_for`, and `dist/orders.html` stopped clamping when it
+  stopped computing geometry at all (OQ 83). Verified in the code before rewriting the prose.
+
+### A broken skip path in a test that arrived from main
+
+`workbench/server/tests/test_compression_and_caching.py` calls `pytest.skip()` at **four** sites
+and imports `pytest` at none of them. Every one is a could-not-evaluate path — no built frontend,
+no precompressed assets — so main's CI, which builds and precompresses, had never reached one. The
+merge did, and the result was not a skip but a `NameError`: **a test that cannot report its own
+unjudged state and fails instead.** One import fixes all four, and the fix was proved by removing a
+`.gz` and confirming the test now reports SKIP with its own reason where it previously raised.
+Pre-existing on main, introduced by nothing here, and exactly the corpus's own discipline one layer
+out: a guard whose unjudged path is broken is not a guard.
+
+### What the merge did not change
+
+The two reference elevations render **byte-identical** before and after, front and gable end. Both
+were re-rendered and looked at in the delivered light theme rather than the dark dev one: the
+blinded centre bay of OQ 85 is drawn and disclosed, the stacks clear the roof at both gable ends,
+and the measured widths hold — wall face at 46 px, cornice projecting 21.1 px (10.5″, the envelope
+rule the legend prints) and the stacks 44 px (22″, the figure the legend flags as a judgment).
+`check_frontend.py` failed once on a `dist/` built before main's atlas work; rebuilding and
+precompressing settled it, and it was a stale artifact rather than a defect.
