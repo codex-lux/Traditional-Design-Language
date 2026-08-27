@@ -83,6 +83,24 @@ CHECKS = [
 COULD_NOT_EVALUATE = 3
 
 
+# The three suites the runner appends AFTER the CHECKS loop. They are named here rather than
+# only appearing as `results.append(...)` calls inside main() because CLAUDE.md publishes a
+# check TOTAL, and that number has now been wrong three times for exactly one reason: whoever
+# updated it measured `len(CHECKS)`, which is the loop and not the run. WP-5.7 found it saying
+# 32 against a suite of 33; the 27 Aug merge resolved a conflict here and wrote 32 again, in
+# the very sentence that describes the bug, and check_all.py printed "1 of 35" against it an
+# hour later. TOTAL_CHECKS is what the runner actually reports, and
+# tests/test_counts_guard.py holds CLAUDE.md to it -- so the next person to add a suite breaks
+# a test instead of quietly making a published number wrong.
+EXTRA_SUITES = (
+    "pytest tests/",
+    "pytest workbench/server/tests",
+    "node --test workbench/app",
+)
+
+TOTAL_CHECKS = len(CHECKS) + len(EXTRA_SUITES)
+
+
 def main():
     results = []
     for script, args in CHECKS:
@@ -171,6 +189,15 @@ def main():
     for label, rc in results:
         state = "OK  " if rc == 0 else ("N/EV" if rc == COULD_NOT_EVALUATE else "FAIL")
         print(f"  {state}  {label}")
+    # TOTAL_CHECKS is a second statement of what this function assembles, and a second
+    # statement is a thing that drifts -- this codebase's most-repeated defect. So the runner
+    # holds itself to it: add or remove a suite without touching EXTRA_SUITES and check_all
+    # fails here, loudly, instead of letting a published total quietly go wrong again.
+    if len(results) != TOTAL_CHECKS:
+        print(f"\nFAIL: check_all ran {len(results)} checks but TOTAL_CHECKS says "
+              f"{TOTAL_CHECKS}. A suite was added or removed without updating EXTRA_SUITES; "
+              f"CLAUDE.md's published check total is derived from it.", file=sys.stderr)
+        sys.exit(1)
     if failed:
         print(f"\n{len(failed)} of {len(results)} checks failed.")
         sys.exit(1)

@@ -125,11 +125,18 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **32 checks, 907 tests**
-(plus the workbench app suite, **49** under `node --test`). Those figures were 970/36 before the
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **35 checks, 909 tests**
+(plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
-suite of 33 until WP-5.7 read the total; the numbers here are the 27 Aug merge's own measurement
-(`len(check_all.CHECKS)` and `pytest --collect-only`), taken because main and this branch had
+suite of 33 until WP-5.7 read the total. **It said 32 again for an hour on 27 Aug, in this
+sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
+`len(check_all.CHECKS)`, which is the 32 checks the LOOP runs and excludes the three the runner
+appends after it (`pytest tests/`, `pytest workbench/server/tests`, `node --test
+workbench/app`). The number to read is the runner's own `len(results)`, printed as "All N checks
+passed"; the app-suite figure is the `# tests` line from `node --test`. Both were re-measured
+27 Aug after `check_all.py` itself printed "1 of 35" against this file's 32. The rest of the
+numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
+total), taken because main and this branch had
 drifted to 33/1,009 and 35/1,006 respectively and NEITHER was right. `check_counts.py` polices
 counts DERIVED FROM THE CORPUS, and neither a test count nor a check count is one of them, so
 **every number in this paragraph goes stale silently** -- nor are numbers written into JSX, which
