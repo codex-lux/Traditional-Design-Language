@@ -854,9 +854,19 @@ def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax):
     else:
         su = 0.0
     sv, vnotes = GEO.vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
-    tot = sg + su + sv + 1.5 * len(relax)
+    # WP-7.4: the span charge belongs HERE too, and leaving it out would quietly falsify this
+    # function's own first sentence. `_finish_feasible` chooses among hard-valid placements by
+    # this score, so a term the heuristic's candidate loop charges and this one does not is a
+    # term the CP path cannot act on however well the CP model is steered by it.
+    try:
+        _floor = _mod("structure", f"{ROOT}/build/structure.py").load_construction()["floor"]
+    except Exception:
+        _floor = None
+    spc, _over = GEO._span_charge(rects_by_level, prep, W, H, fpd["bay"],
+                                  plan.get("style"), _floor)
+    tot = sg + su + sv + spc + 1.5 * len(relax)
     return {"score": round(tot, 1), "sg": round(sg, 1), "su": round(su, 1),
-            "sv": round(sv, 1), "vnotes": vnotes}
+            "sv": round(sv, 1), "span_charge": round(spc, 1), "vnotes": vnotes}
 
 
 def _values(solver, rooms):

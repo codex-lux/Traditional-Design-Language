@@ -662,11 +662,15 @@ STACK_W = 40.0
 # cannot tell bearing from partition, so its widest gap is an under-estimate of the clear span
 # -- which is exactly the error WP-7.4 had just removed from span_check itself.
 #
-# FLAT PLUS GRADED, because neither alone is right. Flat alone gives the slicer no signal about
-# HOW far over a run is, and the cut positions it chooses are a continuum; graded alone makes a
-# marginal violation nearly free, so a 20.4 ft span over a 20 ft capacity would never be worth
-# clearing. The graded half is the FRACTIONAL overage, not the absolute, so a hand-framed 20 ft
-# bay and a light-frame joist table compare on the same scale.
+# PROPORTIONAL TO HOW FAR OVER CAPACITY THE SPAN IS -- `SPAN_W * span/capacity` -- and the
+# ratio rather than the absolute overage, so a hand-framed 20 ft bay and a light-frame joist
+# table compare on the same scale. Because ONLY over-capacity spans are charged, that ratio is
+# greater than 1 by construction: a marginal violation already costs about SPAN_W and a 60 ft
+# run over a 20 ft capacity costs three times it. (This was first written as
+# `SPAN_W * (1 + (span/cap - 1))` under a comment arguing for "flat plus graded, because
+# neither alone is right". The two are the same expression. The comment described a
+# distinction the code did not make, which is the WP-6.4 failure mode in code an hour old --
+# the algebra is stated here so the next person does not re-derive the argument.)
 SPAN_W = 20.0
 
 
@@ -703,7 +707,7 @@ def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog):
         for sp in ST.span_check(bearing, W, H, style, floor_catalog):
             if sp["ok"] or not sp.get("max_span_ft"): continue
             over += 1
-            charge += SPAN_W * (1.0 + (sp["span_ft"] / sp["max_span_ft"] - 1.0))
+            charge += SPAN_W * (sp["span_ft"] / sp["max_span_ft"])
     return charge, over
 
 
@@ -1258,10 +1262,20 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         else: su = 0.0
         vs, vnotes = vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
         # WP-7.4 (OQ 78): the structural check the corpus already runs, run here too. See
-        # _span_charge -- this is structure.span_check itself, not a proxy, and it costs about
-        # 0.1 ms per candidate against this loop's own 0.85 ms.
+        # _span_charge -- this is structure.span_check itself and not a proxy.
+        #
+        # THE EARLY-OUT IS EXACT, NOT AN APPROXIMATION, and it is here because the check is
+        # the most expensive thing in this loop: it rebuilds each level's room records and
+        # runs structure.wall_lines' O(n^2) shared-segment scan, which took a 250-candidate
+        # solve from 0.21 s to 0.57 s -- and `solve_heuristic` is what the workbench's wall
+        # drag calls by name. `_span_charge` can only ever ADD, so a candidate already at or
+        # above the incumbent cannot win however few spans it has, and skipping it changes no
+        # outcome. Most candidates lose, so most never pay for the check.
+        part = sg + su + vs + 1.5 * len(grelax + urelax)
+        if best is not None and part >= best["_raw"]:
+            continue
         spc, _sp_over = _span_charge({0: gr, 1: ur}, prep, W, H, bay, plan.get("style"), _floor)
-        tot = sg + su + vs + spc + 1.5 * len(grelax + urelax)
+        tot = part + spc
         # Compare raw against raw. "score" is stored rounded to 1dp, so comparing an
         # unrounded challenger against it let a strictly WORSE candidate win whenever
         # rounding nudged the incumbent up: 40.06 stores as 40.1, and a 40.08 challenger
