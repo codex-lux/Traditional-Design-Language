@@ -116,9 +116,14 @@ def _style_block():
             # POLARITY TRAP, and it cost an hour here on 27 Aug 2026. This file draws in a DARK
             # palette and `workbench/server/svg_theme.py` substitutes it hex-for-hex to the light
             # sheet the workbench actually serves. So a colour that looks dark HERE is light
-            # THERE. `PAL["glass"]` exists for exactly this and maps to coal #221F1A -- the
-            # convention is about the DELIVERED sheet, and judging these choices from the dark
-            # preview inverts every one of them.
+            # THERE. `PAL["glass"]` exists for exactly this: svg_theme maps it to the coal the
+            # Drawn Language reserves for glazing. The convention is about the DELIVERED sheet,
+            # and judging these choices from the dark preview inverts every one of them.
+            #
+            # Do not write the light-theme hex here, even in a comment. test_m3_drawings.py's
+            # totality check reads this file for hex literals and cannot tell a comment from
+            # code -- and a TARGET colour has no HEX_MAP entry by definition, so naming one is
+            # indistinguishable from a renderer colour nobody themed.
             f'.op{{fill:{PAL["glass"]};stroke:{PAL["ink"]};stroke-width:1.1}}'
             # A muntin against dark glass is drawn in the LIGHT colour: it is a solid bar in front
             # of the pane, and at 1/4 in = 1 ft a 7/8 in bar is 1.75 px, which is a real line.
