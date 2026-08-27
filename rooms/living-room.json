@@ -40,6 +40,7 @@
   "furniture": [
     {
       "item": "sofa",
+      "needs_uninterrupted_wall_ft": 11.0,
       "footprint_in": [
         84,
         36

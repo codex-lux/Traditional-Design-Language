@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "range, 30 in",
+      "needs_uninterrupted_wall_ft": 5.0,
       "footprint_in": [
         30,
         27

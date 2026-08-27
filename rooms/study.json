@@ -90,6 +90,7 @@
     },
     {
       "item": "the camera wall",
+      "needs_uninterrupted_wall_ft": 5.0,
       "footprint_in": [
         60,
         4

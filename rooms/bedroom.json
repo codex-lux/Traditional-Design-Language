@@ -88,6 +88,7 @@
     },
     {
       "item": "desk (any bedroom occupied by anyone under twenty-five)",
+      "needs_uninterrupted_wall_ft": 6.0,
       "footprint_in": [
         48,
         24

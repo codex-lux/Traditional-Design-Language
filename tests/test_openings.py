@@ -455,6 +455,53 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
             if "tried" in why:
                 assert len(_re.findall(r"[NSEW] \d", why)) == 4, f"all four walls must be named: {why}"
 
+    def test_every_wall_run_figure_is_read_off_the_sentence_beside_it(self):
+        """WP-7.4. `needs_uninterrupted_wall_ft` is a READING, not a judgment: the figure has to
+        appear in the item's own note, in feet or in inches, or it is an editorial call wearing
+        a measurement. This is `check_openings.check_basis`' discipline applied to the furniture
+        layer -- an editorial call whose citation cannot be checked is a guess with a citation.
+
+        WP-7.2 authored one such figure and OQ 73 published that "exactly one" item states a run
+        in words. FIVE do, and this test is how that number was settled: a sixth was authored
+        from `keeping-room`'s *"its chimney breast is 9 to 10 ft; on a 14 ft wall that leaves
+        almost nothing either side"* -- which is a band explaining why first-period halls are
+        wide, not a run the hearth requires, and taking its low end was a judgment wearing a
+        reading. The test caught it and the figure was withdrawn rather than the test loosened.
+        A rule that states a band, or states none, hands the room to the architect."""
+        import glob, re as _re
+        found = []
+        for f in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))):
+            d = json.load(open(f))
+            for it in (d.get("furniture") or []):
+                need = it.get("needs_uninterrupted_wall_ft")
+                if need is None:
+                    continue
+                note = it.get("note") or ""
+                feet = {float(x) for x in _re.findall(r"(\d+(?:\.\d+)?)\s*(?:ft|feet)", note)}
+                feet |= {float(x) / 12.0 for x in _re.findall(r"(\d+(?:\.\d+)?)\s*(?:in|inches)", note)}
+                assert any(abs(v - float(need)) < 1e-6 for v in feet), (
+                    f"{os.path.basename(f)} :: {it.get('item')} claims {need} ft of wall and its "
+                    f"own note states {sorted(feet)}: {note[:120]}")
+                found.append((os.path.basename(f), it.get("item"), need))
+        assert len(found) >= 5, f"expected at least the five measured, got {len(found)}: {found}"
+
+    def test_the_wall_run_check_has_rooms_to_evaluate(self):
+        """A rule that fires on nothing passes vacuously. WP-7.2's check carried one room type
+        and evaluated 13 placed rooms; with the four figures WP-7.4 read off their own notes it
+        reaches 61 across five types. Assert there is a population before trusting a clean run
+        -- the same reason e2e/walk.mjs counts rooms and labels before it measures either."""
+        carriers = {rt for rt, r in GEO.C["rooms"].items()
+                    if any(i.get("needs_uninterrupted_wall_ft") for i in (r.get("furniture") or []))}
+        assert len(carriers) >= 5, carriers
+        seen = 0
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            solved = GEO.solve(_plan(pid), engine="heuristic")
+            for lv in solved["levels"]:
+                for rm in lv["rooms"]:
+                    if rm["type"] in carriers and rm.get("geometry"):
+                        seen += 1
+        assert seen >= 8, f"only {seen} placed rooms carry a wall-run rule on the shipped plans"
+
     def test_every_furniture_item_states_its_own_placement(self):
         """`placement` decides one-sided or two-sided clearance and is the difference between
         a galley kitchen passing its own rule and failing it. The schema declared it and 0 of
