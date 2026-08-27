@@ -204,7 +204,26 @@ def span_check(bearing_walls, W, H, style, floor_catalog):
     timber_framed = style in _timber_bay_applies_to()
     results = []
     for axis, extent in (("x", W), ("y", H)):
-        lines = sorted({0.0, extent} | {w["position_ft"] for w in bearing_walls if w["axis"] == axis})
+        # WP-7.4: `if w["bearing"]` is the whole of this fix, and its absence was measured
+        # rather than reasoned about. This function took the list bearing_lines() classifies
+        # and read only each wall's POSITION, never the `bearing` flag computed one call
+        # earlier -- so every partition was counted as a support and the docstring's "between
+        # consecutive bearing lines" described something the code did not do. bearing_lines()
+        # was writing `why: "not on the bay grid -- a partition"` onto walls this function then
+        # leaned the floor on.
+        #
+        # Measured on plans/tidewater-georgian-careful.json, the reference plan: the x axis
+        # reported a worst gap of 23.37 ft over 7 lines, of which 4 are partitions. Between the
+        # 3 real bearing lines the clear span is 49.93 ft, against a 20 ft hand-framed
+        # capacity. The check under-reported by 2.1x, in the direction that looks safe -- a
+        # defect stated smaller than it is, which is the OQ 52 family (a generator's own
+        # refusal overwritten by a confident number) wearing the opposite sign.
+        #
+        # The capacity and bearing_lines()'s 0.75 ft grid tolerance are deliberately NOT
+        # loosened to make the resulting figure smaller. A partition carries no load; that a
+        # corrected check convicts a hand-authored reference plan is the check working.
+        lines = sorted({0.0, extent} | {w["position_ft"] for w in bearing_walls
+                                        if w["axis"] == axis and w.get("bearing")})
         for lo, hi in zip(lines, lines[1:]):
             span_ft = round(hi - lo, 2)
             if span_ft <= 0.1: continue

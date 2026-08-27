@@ -115,6 +115,53 @@ class TestBearingLines:
         assert "partition" in bearing[0]["why"]
 
 
+class TestSpanCheckReadsTheBearingFlag:
+    """WP-7.4. span_check took the list bearing_lines() classifies and read only each wall's
+    POSITION, never its `bearing` flag -- so every partition was counted as a support and the
+    docstring's "between consecutive bearing lines" described something the code did not do.
+
+    Measured on plans/tidewater-georgian-careful.json when it was found: the x axis reported a
+    worst gap of 23.37 ft over 7 lines, of which 4 are partitions; between the 3 real bearing
+    lines the clear span is 49.93 ft against a 20 ft capacity. Corpus-wide over 16 plans the
+    correction took spans 236 -> 126 (the phantom break points disappear) and over-capacity
+    spans 9 -> 20, worst 36.57 ft -> 60.00 ft. A check that under-reports a structural defect
+    is the OQ 52 family wearing the safe-looking sign."""
+
+    def test_a_partition_does_not_break_a_span(self, structure_module):
+        """The whole of the fix, stated as a case: a wall off the bay grid carries no floor,
+        so the joist run measures straight past it."""
+        construction = structure_module.load_construction()
+        walls = [
+            {"role": "exterior", "wall": "W", "axis": "x", "position_ft": 0.0, "lo_ft": 0.0, "hi_ft": 10.0},
+            {"role": "exterior", "wall": "E", "axis": "x", "position_ft": 24.0, "lo_ft": 0.0, "hi_ft": 10.0},
+            # 13.4 is 3.4 ft off the 10 ft grid: bearing_lines calls it a partition
+            {"role": "interior", "axis": "x", "position_ft": 13.4, "lo_ft": 0.0, "hi_ft": 10.0, "rooms": ["a", "b"]},
+        ]
+        bearing = structure_module.bearing_lines(walls, bay_module_ft=10.0)
+        assert [w["bearing"] for w in bearing if w["role"] == "interior"] == [False]
+        spans = structure_module.span_check(bearing, 24.0, 10.0, "tidewater-georgian", construction["floor"])
+        x = [s for s in spans if s["axis"] == "x"]
+        assert len(x) == 1, f"the partition must not create a break point: {x}"
+        assert x[0]["span_ft"] == 24.0
+        assert x[0]["ok"] is False, "24 ft over a 20 ft hand-framed capacity must fail"
+
+    def test_an_on_grid_interior_wall_does_break_a_span(self, structure_module):
+        """The control. Same footprint, same room split, one wall moved onto the bay line --
+        and the span it carries is real, so the run stops at it and the plan is framable."""
+        construction = structure_module.load_construction()
+        walls = [
+            {"role": "exterior", "wall": "W", "axis": "x", "position_ft": 0.0, "lo_ft": 0.0, "hi_ft": 10.0},
+            {"role": "exterior", "wall": "E", "axis": "x", "position_ft": 24.0, "lo_ft": 0.0, "hi_ft": 10.0},
+            {"role": "interior", "axis": "x", "position_ft": 10.0, "lo_ft": 0.0, "hi_ft": 10.0, "rooms": ["a", "b"]},
+        ]
+        bearing = structure_module.bearing_lines(walls, bay_module_ft=10.0)
+        spans = sorted((s for s in structure_module.span_check(
+            bearing, 24.0, 10.0, "tidewater-georgian", construction["floor"]) if s["axis"] == "x"),
+            key=lambda s: s["from_ft"])
+        assert [s["span_ft"] for s in spans] == [10.0, 14.0]
+        assert all(s["ok"] for s in spans)
+
+
 class TestSpanCheckFramingBasis:
     """Regression for bug #2: timber_framed must be decided from STYLE membership in timber-
     bay.json's applies_to list, not from construction_type -- construction_type values
