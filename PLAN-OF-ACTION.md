@@ -16,7 +16,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3, 4.5, 4.6 complete · **4.4 environment-blocked, 4.7 not started** | **In progress** |
 | **5 — Platform** | WP-5.1, 5.2, 5.5, 5.6, 5.7 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
-| **7 — The three open questions, then their remaining halves** | WP-7.1, 7.2, 7.3, **7.4** | **Complete (27 Aug 2026)** — OQ 76, 73 and 72, each ruled by Lucas and each half-closed with the half that could not be done named; **WP-7.4 then took the halves that were left**. The generator is level-aware and fixed BEARING not stacking (transfer beams 166 → 109), and WP-7.4 charged the stacking directly in both engines; furniture sizing is REFUSED and arrangement goes as far as the rooms' own words, which turned out to be five wall runs rather than the one the register published; a window's ROLE is the plan's to decide and its SASH KIND the style's, with 119 of 159 styles answering through the lineage and the kit vocabulary now merged and ratcheted. **WP-7.4 also found that `span_check` had never read the bearing flag it was handed** — every partition counted as a support, so the corpus under-reported its own structural defects by half |
+| **7 — The three open questions, then their remaining halves** | WP-7.1, 7.2, 7.3, **7.4**, **7.5** | **Complete (27 Aug 2026)** — OQ 82, 79 and 78 (issued as 76, 73 and 72; see the register's 27 August conversion table), each ruled by Lucas and each half-closed with the half that could not be done named; **WP-7.4 then took the halves that were left**. The generator is level-aware and fixed BEARING not stacking (transfer beams 166 → 109), and WP-7.4 charged the stacking directly in both engines; furniture sizing is REFUSED and arrangement goes as far as the rooms' own words, which turned out to be five wall runs rather than the one the register published; a window's ROLE is the plan's to decide and its SASH KIND the style's, with 119 of 159 styles answering through the lineage and the kit vocabulary now merged and ratcheted. **WP-7.4 also found that `span_check` had never read the bearing flag it was handed** — every partition counted as a support, so the corpus under-reported its own structural defects by half. **WP-7.5 is the adversarial audit of WP-7.4** and found two blocking defects it had introduced, one of them a false claim in its own commit message ("the three tests replacing it" — three were added and the nondeterministic one was never removed), plus the same span bug a second time in `render_section.py`; six tests that passed with the fix reverted were made to bite, and OQ 85 was raised for what the audit deliberately did not fix |
 | **6 — Plan semantics** | WP-6.1, 6.2, 6.3, **6.4 (the audit)** | **Complete (27 Aug 2026)** — raised by Lucas, not by the plan: the rendered sheets were "colorless green ideas sleeping furiously", every part well-formed and the whole meaningless. A door had no wall, no position and no rank; the renderers invented what the record could not say and dropped what it could; nothing checked that you could walk from the front door to a room |
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -676,7 +676,7 @@ it. **`compose.py`** derives door widths, types, ranks and heights and window wi
 from packs and kits that have always held them and were never read. **`plan_check` gains a
 `drawn` layer** — the only layer that reads placement, three-state throughout — which reopens
 OQ 54 on Lucas's ruling and turns every one of the reported symptoms into a finding.
-Report: `docs/reports/wp-6.2-opening-semantics.md` · new open questions: OQ 72–75.
+Report: `docs/reports/wp-6.2-opening-semantics.md` · new open questions: OQ 78–81 (issued as 72–75).
 
 ### WP-6.3 Geometry truth
 
@@ -729,8 +729,8 @@ its own level is named in the caption and not drawn. The dashed run was also swa
 click that selects the room under it, which had been misread as CP latency until it was
 measured.
 
-Report: `docs/reports/wp-6.3-geometry-truth.md` · closes OQ 41 · new open questions: OQ 76
-(the generator is blind to the other level — the real home of the stacking fix) and OQ 77
+Report: `docs/reports/wp-6.3-geometry-truth.md` · closes OQ 41 · new open questions: OQ 82 (issued as 76)
+(the generator is blind to the other level — the real home of the stacking fix) and OQ 83 (issued as 77)
 (`_shared`'s first-match ordering can report a corner kiss as a shared edge).
 
 **Depends on:** WP-6.2. **Size:** medium.

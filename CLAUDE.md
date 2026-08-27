@@ -98,6 +98,13 @@ check that was claimed in a comment and never written. Reports:
 proposing a score term here, and WP-6.4's closing note before writing "until X lands" in a
 comment.
 
+**Phase 7 is COMPLETE** (WP-7.1 through 7.5, 27 Aug) — the three half-open questions and then
+their remaining halves. Reports: `docs/reports/wp-7.{1,2,3,4}-*.md` and
+**`wp-7.5-the-adversarial-audit.md`**, which is the audit of WP-7.4 and the one to read first
+if you are about to trust a number this phase published: it found two blocking defects WP-7.4
+had introduced, one of them a false claim in WP-7.4's own commit message, the same span bug a
+second time in `render_section.py`, and six tests that passed with the fix reverted.
+
 **WP-5.6 changed how the workbench is addressed, and it is worth knowing before touching it.**
 A place is now a URL, and that URL is the citation grammar written down — `#/kit/craftsman/cornice`,
 `#/faults?sev=serious`, `#/cite/fault:porch-too-shallow-to-inhabit`. `app/src/router.js` and
@@ -261,7 +268,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
-- **BOTH ENGINES CHARGE DECLARED STACKING AND OVER-CAPACITY SPANS NOW (WP-7.4, OQ 76 and 78
+- **BOTH ENGINES CHARGE DECLARED STACKING AND OVER-CAPACITY SPANS NOW (WP-7.4, OQ 82 and 84
   CLOSED), AND THE WEIGHTS ARE BALANCED AGAINST EACH OTHER RATHER THAN SET SEPARATELY.**
   `geometry.STACK_W = 40.0` and `SPAN_W = 20.0`; `geometry_cp.py` carries soft mirrors of both
   in its objective block, never pins. Measured over the 14 partis that declare `stacks_over`:
@@ -273,7 +280,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   level-aware generator really did leave stacking flat (26/47 -> 27/47) — moving a cut line
   moves a wall, not a room. What made a term look inert was the POOL: over 2,000 candidates
   instead of the shipped 250 at one seed, 12 tidewater candidates beat the winner's 3 broken
-  claims while keeping the porch on the entrance front, at +41.3 points. **OQ 76's CP blocker
+  claims while keeping the porch on the entrance front, at +41.3 points. **OQ 82's CP blocker
   was true of a PIN and never of a PENALTY** — a penalty creates no assumption literal and
   never enters a conflict core, so the `kind == "wall"` downgrade loop is untouched and an
   inferred stack still cannot displace an authored wall.
@@ -412,7 +419,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   reserve is crude and conservative on purpose: a newly opened wall starts past the deepest
   fixture placed anywhere in the room, which OVER-reserves, and the failure that prevents is a
   drawn collision while the failure it causes is a NAMED refusal.
-- **`needs_uninterrupted_wall_ft` is a READING and the test enforces that (WP-7.4).** OQ 73
+- **`needs_uninterrupted_wall_ft` is a READING and the test enforces that (WP-7.4).** OQ 79
   published that exactly one furniture item states a wall run in words; five do, and the figure
   must appear in the item's own note in feet or inches or the basis test rejects it. It rejected
   a sixth of mine — `keeping-room`'s hearth at 9.0 ft from *"its chimney breast is 9 to 10 ft"*,
