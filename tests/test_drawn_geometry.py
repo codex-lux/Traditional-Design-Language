@@ -515,12 +515,19 @@ class TestNoOpeningIsDrawnWhereAStackStands:
         r.render_elevation(rec, out, face="E")
         svg = open(out).read()
         assert len(rec["faces"]["E"]["centres_ft"]) == 3, "three bays, or this test proves nothing"
-        opens = [float(m) for m in re.findall(r'<rect class="op"[^>]*x="([-\d.]+)"', svg)]
+        # x AND width, because the first version compared a LEFT EDGE against a bay CENTRE with a
+        # 24 px threshold — and an opening is 33.8-38.6 in wide, so a window drawn dead on the
+        # stack's axis has a left edge 34-39 px away and passed. Proven by no-op'ing the blinder:
+        # all six openings appeared, the centre bay was glazed, and every iteration still passed.
+        opens = [(float(a), float(b)) for a, b in
+                 re.findall(r'<rect class="op"[^>]*x="([-\d.]+)"[^>]*width="([-\d.]+)"', svg)]
         assert len(opens) == 4, f"two glazed bays x two storeys, got {len(opens)}"
         blind_px = 46.0 + 21.33 * 24.0                      # the same pad and scale the sheet uses
-        for x in opens:
-            assert abs(x - blind_px) > 24.0, (
-                f"an opening is drawn at x={x:.1f}, on the stack's own axis ({blind_px:.1f})")
+        stack_half_px = (rec.get("chimney_stack_plan_in") or 22.0) / 24.0 * 24.0
+        for x, w in opens:
+            centre = x + w / 2.0
+            assert abs(centre - blind_px) > stack_half_px, (
+                f"an opening is centred at {centre:.1f}, on the stack's own axis ({blind_px:.1f})")
         assert "BAY BLIND WHERE A STACK STANDS ON IT" in svg
 
     def test_the_generator_publishes_that_it_resolved_the_collision(self):
@@ -530,6 +537,36 @@ class TestNoOpeningIsDrawnWhereAStackStands:
         m = self._rec()["measurements"]
         assert m["count_of_openings_on_the_axis_of_a_chimney_stack"] == 0
         assert m["visible_chimney_count"] == 2
+
+    def test_a_door_on_a_stack_axis_is_not_blinded_but_IS_reported(self):
+        """The one bay the blinding rule deliberately does not touch, and the half of that
+        decision that was never written down or tested.
+
+        A door on a stack's axis is exactly as impossible as a window on one, but deleting an
+        entrance is not a decision this generator may take on its own — the entrance is the
+        composition's subject, and a facade silently missing its door is a worse drawing than one
+        showing a conflict. So the bay is left alone AND the collision still reaches the
+        measurement, so `window-on-the-chimney-axis` fires and a human decides. Refusing to
+        resolve is not the same as failing to report."""
+        import copy
+        import json as _j
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        base = e.build_elevation(plan)
+        face = base["entrance_face"]
+        door_cx = [c for c, k in zip(base["faces"][face]["centres_ft"],
+                                     base["faces"][face]["kinds"]) if k == "door"][0]
+        roof = copy.deepcopy(base["roof_record"])
+        roof["chimneys"]["positions"] = [{"x_ft": door_cx, "y_ft": 0.0,
+                                          "grade_to_ridge_ft": 39.66,
+                                          "height_above_ridge_ft": 8.0,
+                                          "total_height_grade_ft": 47.66}]
+        rec = e.build_elevation(plan, roof=roof)
+        f = rec["faces"][face]
+        assert "blind" not in f["kinds"], "the entrance was silently deleted"
+        assert f.get("blind_bay_centres_ft") is None
+        assert rec["measurements"]["count_of_openings_on_the_axis_of_a_chimney_stack"] == 1, (
+            "the collision was neither resolved nor reported — it just vanished")
 
     def test_the_fault_fires_on_a_record_that_states_the_collision(self):
         """Without this the zero above could be produced by a rule that can never return anything
@@ -736,21 +773,53 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
     def test_a_gabled_dormer_draws_no_cornice_return(self, tmp_path):
         """A cornice RETURN runs perpendicular to the picture plane, so orthographic projection
         gives it no width — the same reason the cheeks vanish. It was drawn for one revision as
-        two stubs standing above the level cornice at the eave corners, which is a real member
-        seen in perspective, and it looked exactly as wrong as it was. Nothing may be drawn above
-        the cornice line on a gabled dormer except the roof and its shingle courses."""
+        two stubs standing above the level cornice at the eave corners: a real member seen in
+        perspective, on an orthographic sheet.
+
+        REWRITTEN 28 Aug 2026. The first version scanned for `<rect class="pf w-fine">`, a class
+        the gabled path never emits — `pf w-fine` is only ever a POLYGON (the pediment's tympanum).
+        The loop body never executed and the only live assertion was `assert roofs`. Re-adding the
+        stubs in the class the renderer actually uses passed it. This version asserts over EVERY
+        element drawn above the cornice line inside the dormer's own x-span, whatever its class,
+        and permits only the set the docstring names: the roof polygon and its shingle lines."""
         import re
         svg = self._svg(tmp_path, {"count": 3, "variant": "gabled"})
         roofs = self._polys(svg, "rf w-prof", n=3)
-        assert roofs, "no dormer roof drawn at all — this test would pass vacuously"
+        assert len(roofs) == 3, f"expected three dormer roofs, got {len(roofs)}"
+        # every drawn element, with its class and a y to test, whatever the tag
+        drawn = []
+        for m in re.finditer(r'<(rect|polygon|line)\s+class="([^"]*)"([^>]*)/?>', svg):
+            tag, cls, attrs = m.group(1), m.group(2), m.group(3)
+            if tag == "rect":
+                a = dict(re.findall(r'(\w+)="([-\d.]+)"', attrs))
+                if "x" in a and "y" in a:
+                    drawn.append((cls, float(a["x"]), float(a["x"]) + float(a.get("width", 0)),
+                                  float(a["y"])))
+            elif tag == "polygon":
+                pts = re.search(r'points="([^"]+)"', attrs)
+                if pts:
+                    p = [tuple(float(v) for v in q.split(",")) for q in pts.group(1).split()]
+                    drawn.append((cls, min(x for x, _ in p), max(x for x, _ in p),
+                                  min(y for _, y in p)))
+            else:
+                a = dict(re.findall(r'(\w+)="([-\d.]+)"', attrs))
+                if {"x1", "x2", "y1"} <= set(a):
+                    drawn.append((cls, min(float(a["x1"]), float(a["x2"])),
+                                  max(float(a["x1"]), float(a["x2"])), float(a["y1"])))
+        assert drawn, "nothing parsed out of the sheet — this test would pass vacuously"
+        ALLOWED = ("rf w-prof", "shingle")
         for pts in roofs:
-            base_y = max(p[1] for p in pts)          # SVG y grows downward: the eave line
+            base_y = max(p[1] for p in pts)          # SVG y grows down: the cornice line
             x0, x1 = min(p[0] for p in pts), max(p[0] for p in pts)
-            for m in re.finditer(r'<rect class="pf w-fine"[^>]*x="([-\d.]+)"[^>]*y="([-\d.]+)"', svg):
-                rx, ry = float(m.group(1)), float(m.group(2))
-                assert not (x0 - 1 <= rx <= x1 + 1 and ry < base_y - 1), (
-                    "a cornice return is drawn above the dormer's cornice line — that is a "
-                    "return in perspective on an orthographic sheet")
+            for cls, ex0, ex1, ey in drawn:
+                if cls in ALLOWED:
+                    continue
+                inside = ex0 >= x0 - 1 and ex1 <= x1 + 1
+                if inside and ey < base_y - 1:
+                    raise AssertionError(
+                        f"'{cls}' is drawn above the dormer's cornice line at y={ey:.1f} "
+                        f"(cornice at {base_y:.1f}), inside its own x-span — a cornice return in "
+                        "perspective on an orthographic sheet")
 
     def test_a_pedimented_dormers_tympanum_sits_inside_its_raking_cornice(self, tmp_path):
         """The two canonical variants differ here and nowhere else. A pediment is an outer gable
@@ -797,22 +866,32 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
                 "a rake that is not the level cornice is the fault this corpus names")
 
     def test_the_dormer_sash_carries_all_its_glazing_bars(self, tmp_path):
-        """"6/6" is six lights in EACH sash, not six in the window. Reading the first number as
-        the whole opening put half the glazing bars in, and the drawing showed a 2x3 grid where a
-        double-hung 6/6 has 2 across and 3 high TWICE, with the meeting rail between."""
+        """\"6/6\" is six lights in EACH sash, not six in the window. Reading the first number as
+        the whole opening put half the glazing bars in.
+
+        REWRITTEN 28 Aug 2026. The first version computed the expected bar count, discarded it,
+        and asserted on `class="mt w-med"` — the MEETING RAIL, which `_window` emits exactly once
+        per window whatever the light counts are. So it asserted \"twelve windows are drawn\",
+        which was true before the fix and after it. Proven: forcing the dormer sashes to 1x1
+        deleted all 18 dormer glazing bars and the test still passed. It now counts the bars
+        themselves, differentially against a sheet with no dormers."""
+        import re
         d = self._elev({"count": 3, "variant": "gabled"})["dormers"]
         per = int(str(d["sash_pattern"]).split("/")[0])
         assert d["lights_across"] * d["lights_high_per_sash"] == per, (
-            f'{d["sash_pattern"]}: {d["lights_across"]}x{d["lights_high_per_sash"]} is not {per} '
-            "lights per sash")
-        svg = self._svg(tmp_path, {"count": 3, "variant": "gabled"}, "s.svg")
-        import re
+            f'{d["sash_pattern"]}: {d["lights_across"]}x{d["lights_high_per_sash"]} is not {per}')
         # interior muntins per dormer: (across-1) verticals x 2 sashes + (high-1) horizontals x 2
-        want_per_dormer = (d["lights_across"] - 1) * 2 + (d["lights_high_per_sash"] - 1) * 2
-        assert want_per_dormer > 0
-        # the meeting rail is drawn w-med and is the one that says the sash is double-hung
-        assert len(re.findall(r'class="mt w-med"', svg)) >= 3 + 9, (
-            "every dormer needs its own meeting rail, as every storey window has one")
+        want = (d["lights_across"] - 1) * 2 + (d["lights_high_per_sash"] - 1) * 2
+        assert want == 6, f"6/6 in a 2x3 sash is six bars per dormer, not {want}"
+        bars = lambda svg: len(re.findall(r'class="mt"', svg))
+        none_svg = self._svg(tmp_path, "none", "nb.svg")
+        three_svg = self._svg(tmp_path, {"count": 3, "variant": "gabled"}, "wb.svg")
+        assert bars(three_svg) == bars(none_svg) + 3 * want, (
+            f"{bars(three_svg)} glazing bars with three dormers against "
+            f"{bars(none_svg)} without — expected {bars(none_svg) + 3 * want}")
+        # and the meeting rail is still there, which is a DIFFERENT claim about the same sash
+        assert len(re.findall(r'class="mt w-med"', three_svg)) == \
+            len(re.findall(r'class="mt w-med"', none_svg)) + 3
 
     def test_a_variant_the_record_did_not_choose_is_not_chosen_for_it(self):
         """Picking the first canonical variant is dict order dressed as a decision. Tidewater makes
@@ -876,12 +955,7 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
 
     def test_a_sash_pattern_the_kit_does_not_state_is_not_invented(self):
         """A glazing pattern nobody stated must not be asserted: `_dormer_lights` returns
-        (None, None) and the sash is drawn as glass with the reason on the sheet.
-
-        REWRITTEN 27 Aug 2026 (WP-5.10) for the same reason as the test above it. This pinned
-        `colonial-revival` stating no pattern, which was true only because the style had inherited
-        an English cottage's dormer slot; it states one now. The MECHANISM is what matters, so it
-        is driven directly rather than through whichever style happens to be missing a figure."""
+        (None, None) and the sash is drawn as glass with the reason on the sheet."""
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
         assert e._dormer_lights(None) == (None, None)
         assert e._dormer_lights([]) == (None, None)
@@ -889,6 +963,64 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
         # and a stated one is read as lights PER SASH, not as the whole opening
         assert e._dormer_lights(["6/6"]) == (2, 3)
         assert e._dormer_lights(["12/12"]) == (3, 4)
+
+    def test_the_undeclared_sash_is_drawn_as_glass_and_the_sheet_says_so(self, tmp_path):
+        """The END-TO-END half, restored 28 Aug 2026. The WP-5.10 rewrite moved this test off
+        `colonial-revival` (correctly — that style states a pattern now) and in doing so retreated
+        to a unit test of `_dormer_lights`, dropping the drawing assertion its own docstring
+        promised. Neither the bare-glass sash nor the `DORMER SASH PATTERN UNDECLARED` legend was
+        asserted anywhere in the suite, and **46 styles still resolve a dormer slot with no
+        `sash_pattern`**, so the branch is live.
+
+        The style is chosen from the corpus at test time rather than named, which is the lesson
+        from the rewrite that broke it."""
+        import copy
+        import json as _j
+        import re
+        rk = modcache.load("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
+        g = rk.load_graph()
+        # Keep looking until one both lacks a sash pattern AND is inside this generator's own
+        # scope gate — a skipped test guards nothing, and picking the alphabetically first
+        # candidate landed on a style the elevation layer refuses to draw.
+        base = _j.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json")))
+        pick, rec = None, None
+        for nid, node in sorted(g["nodes"].items()):
+            if node.get("rank") not in ("style", "variant"):
+                continue
+            try:
+                slots, _ = rk.resolve_slots(g, rk.chain_for(g, nid), rk.scope_for(g, nid))
+            except Exception:
+                continue
+            d = slots.get("dormer") or {}
+            if not d.get("variants") or (d.get("parameters") or {}).get("sash_pattern"):
+                continue
+            plan = copy.deepcopy(base)
+            plan["style"] = nid
+            plan["declared"]["dormer"] = {"count": 3}
+            try:
+                cand = e.build_elevation(plan)
+            except Exception:
+                continue
+            if cand.get("applicable", True) and "error" not in cand and cand["dormers"].get("count"):
+                pick, rec = nid, cand
+                break
+        assert pick, ("no style both lacks a dormer sash pattern and is drawable — if the corpus "
+                      "has authored one everywhere, retire this test rather than tuning it")
+        assert rec["dormers"]["sash_pattern"] is None
+        assert rec["dormers"]["lights_across"] is None
+        out = str(tmp_path / "bare.svg")
+        r.render_elevation(rec, out)
+        svg = open(out).read()
+        assert "SASH PATTERN UNDECLARED" in svg, "the sheet drew bare glass and did not say why"
+
+    def test_an_undeclared_variant_is_also_said_on_the_sheet(self, tmp_path):
+        """Its neighbour `IS INHERITED FROM` is asserted and `DORMER VARIANT UNDECLARED` was not —
+        an inconsistency rather than a decision. Tidewater makes two variants canonical, so a
+        record naming neither has not chosen."""
+        svg = self._svg(tmp_path, {"count": 3}, "undec.svg")
+        assert "DORMER VARIANT UNDECLARED" in svg
 
     def test_dormers_the_roof_cannot_carry_are_declared_not_drawn_and_SAID(self, tmp_path):
         """A dormer needs a roof to stand on, and `spec-builder-colonial`'s roof record judges

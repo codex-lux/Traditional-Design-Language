@@ -32,7 +32,7 @@ faults/*.json are evaluated against what this file actually generated, not again
       [--out plans/<id>.elevation.json] [--svg dist/<id>-elevation.svg]
 """
 from __future__ import annotations
-import json, os, math, argparse, importlib.util
+import json, os, math, re, argparse, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def _mod(n, p):
@@ -247,7 +247,16 @@ def blind_bays_behind_stacks(face_rec, stack_axes_ft, stack_width_ft):
     blinded = []
     for i, cx in enumerate(face_rec["centres_ft"]):
         if face_rec["kinds"][i] == "door":
-            continue          # an entrance and a stack on one axis is a different problem
+            # AN ENTRANCE IS NOT BLINDED, AND IT IS STILL REPORTED. A door on a stack's axis is
+            # just as impossible as a window on one, but deleting an entrance is not a decision
+            # this generator may take on its own -- the entrance is the composition's whole
+            # subject, and a facade silently missing its door is a worse drawing than one showing
+            # a conflict. So the bay is left alone AND the collision still reaches
+            # `count_of_openings_on_the_axis_of_a_chimney_stack`, which means
+            # `window-on-the-chimney-axis` fires and a human decides. Refusing to resolve it is
+            # not the same as failing to report it, and this comment used to say only the first
+            # half. Guarded in tests/test_drawn_geometry.py.
+            continue
         if any(abs(cx - ax) <= half for ax in stack_axes_ft):
             face_rec["kinds"][i] = "blind"
             blinded.append(round(cx, 3))
@@ -536,16 +545,40 @@ DORMER_SETBACK_ON_SLOPE_IN = 24.0
 # not listed is not thereby a guess, because the question is only ever asked of a cornice this
 # generator measured, and the cornice it measures is the EAVE's.
 ORDER_AT_THE_EAVE = {
+    # WHAT PUTS AN ENTABLATURE AT THE EAVE, and the entries are quoted from the corpus's own
+    # records rather than from a general idea of what a giant order is.
     "two-tier-engaged-portico":
         "tidewater-georgian / porch_type: 'The grandest houses only, structurally integral, "
         "superimposed orders. Drayton Hall is the type case.'",
-    "giant-order-portico":
-        "a portico of the full wall height carries the main entablature by definition; listed "
-        "for the styles that name one, none of which is a reference plan here",
-    "full-height-engaged-portico":
-        "as two-tier-engaged-portico -- engagement over the whole wall height",
-    "colossal-order": "an order spanning every storey has no cornice but the eave's",
+    "projecting-colossal-order-portico":
+        "neoclassical-revival / porch_type: a colossal portico spans every storey, so its "
+        "entablature IS the main one",
+    "engaged-giant-order":
+        "beaux-arts-american / pilaster: 'Articulates the recessed wall plane between advanced "
+        "pavilions' -- engaged over the wall's full height",
+    "giant-pilaster":
+        "english-baroque / pilaster: 'The giant order embraces two or more storeys as often in "
+        "pilaster form as in engaged or free-standing column form.'",
+    "giant-order-facade-pilaster":
+        "'A Beaux-Arts and Neoclassical Revival device across a flat wall' -- a pilastered front",
+    "giant-order-two-storey": "order: 'Giant order spanning two storeys.'",
+    "giant-order": "order: the giant order, which by definition reaches the entablature",
+    "colossal-two-storey-column": "column: a colossal order carried over two storeys",
+    "coupled-columns-giant-order":
+        "column: 'Coupled columns, usually of a giant order, marking a projecting central "
+        "pavilion on a symmetrical front.'",
 }
+
+# Anything canonical that READS like an applied order and is not classified above makes the
+# question UNJUDGED rather than answered 0. Added 28 Aug 2026 by this package's own adversarial
+# audit, which found the hand list missing every one of the corpus's real giant-order variants:
+# `beaux-arts-american`, `neoclassical-revival`, `english-baroque` and two more returned 0 with a
+# confident note saying every canonical variant was "a void or an attached structure", which
+# selects the DOMESTIC cornice band (0.35-0.55) for a front whose cornice legitimately runs
+# 0.85-1.2 and convicts it. OQ 78 replaced "both rivals run, one convicts" with "the wrong one
+# runs, silently" on five styles. A short hand list is fine for what it names; what it must not do
+# is answer confidently about what it does not.
+_LOOKS_LIKE_AN_ORDER = re.compile(r"giant|colossal|two-tier|full-height")
 
 
 def order_at_the_eave(porch_slot, pilaster_slot, declared):
@@ -599,6 +632,15 @@ def order_at_the_eave(porch_slot, pilaster_slot, declared):
     if engaged:
         return None, (f"The style makes {', '.join(engaged)} canonical and the record has not "
                       f"chosen. Somebody must; until then this is unjudged rather than assumed.")
+    unclassified = sorted(v for v in canon
+                          if v not in ORDER_AT_THE_EAVE and _LOOKS_LIKE_AN_ORDER.search(v))
+    if unclassified:
+        return None, (
+            f"This style makes {', '.join(unclassified)} canonical, which reads like an order "
+            "applied over the wall's full height but is not in ORDER_AT_THE_EAVE. Whether it "
+            "carries the eave cornice decides which of cornice-that-is-a-fascia's two rival rules "
+            "judges the house, so it is left UNJUDGED and both decline. Classify the variant, with "
+            "the record's own words, rather than letting a hand list answer by omission.")
     return 0, ("The record states no porch and every variant this style makes canonical "
                f"({', '.join(sorted(canon))}) is a void or an attached structure rather than an "
                "order engaging the wall, so the eave cornice is a domestic boxed one whichever "
@@ -629,7 +671,7 @@ def _dormer_lights(sash_set):
     return across, max(1, per // across)
 
 
-def dormers(plan, kit_slot, front, upper_w, roof, entrance_face, module_in,
+def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
             cornice=None, casing_in=None, house_wall_in=None):
     """The dormers this house carries, or a stated none, or nothing at all.
 
@@ -732,7 +774,22 @@ def dormers(plan, kit_slot, front, upper_w, roof, entrance_face, module_in,
     cheek = round(min(_mid, win_w * 0.22, casing_in or _mid), 3)
     face_w = round(win_w + 2 * cheek, 3)
 
-    centres = list(front.get("centres_ft") or [])
+    # THE CENTRES OF THE FACE THE DORMERS ARE ON, which is not always the entrance face. This read
+    # `faces[entrance_face]` unconditionally until 28 Aug 2026, when this package's own adversarial
+    # audit found it: a record declaring `{"count": 3, "face": "E"}` on the tidewater house got the
+    # SOUTH front's bay centres -- 18.774, 31.29, 43.806 ft -- laid out on an east elevation 42.66
+    # ft wide, so the third dormer stood 1.15 ft past the corner of the wall and none of the three
+    # was over an E-face window. Worse, the generator then published
+    # `count_of_dormers_centred_on_a_window_below: 3` against `dormer_count: 3` and
+    # `dormer-off-the-bay` cleared the house on a number nobody had measured -- the OQ 52 class,
+    # inside the package that closed it.
+    #
+    # A BLIND BAY IS NOT A CANDIDATE EITHER (OQ 79): a chimney stack stands on that axis, so there
+    # is no window below for a dormer to centre on.
+    face_rec = (faces or {}).get(face) or {}
+    centres = [c for c, k in zip(face_rec.get("centres_ft") or [],
+                                 face_rec.get("kinds") or [])
+               if k != "blind"]
     if count and len(centres) >= count:
         # Centred on windows below, taken from the middle outward so an odd count sits on the
         # centre bay -- which is what the kit's parity rule is FOR on a five-bay front.
@@ -799,7 +856,19 @@ def dormers(plan, kit_slot, front, upper_w, roof, entrance_face, module_in,
         # half the glazing bars in.
         "lights_across": _dormer_lights(sash_set)[0],
         "lights_high_per_sash": _dormer_lights(sash_set)[1],
-        "sum_of_face_widths_in": round(face_w * len(positions), 3),
+        # THE DECLARED COUNT, NOT THE PLACED ONE. `positions` is capped at the number of bays the
+        # face has, so a record declaring 24 dormers on a five-bay front reported the face width
+        # of FIVE -- and `dormer-wall`, which is FATAL, read 0.248 instead of 1.188 and cleared a
+        # house carrying more dormer face than it has wall. Found 28 Aug 2026 by this package's
+        # own adversarial audit. What the record asserts is on the building is what the fault
+        # about how much of the building is dormer has to measure.
+        "sum_of_face_widths_in": round(face_w * count, 3),
+        "placed_count": len(positions),
+        "placement_shortfall_note": (
+            None if len(positions) >= count else
+            f"{count} dormers are declared and this face has {len(positions)} bays free to carry "
+            f"them, so {count - len(positions)} are not placed. The measurements still report the "
+            f"declared count: the fault corpus judges the house the record describes."),
         "sash_pattern": sash_set[0] if sash_set else None,
         "count_parity_stated": parity,
         "count_parity_ok": (None if not parity else
@@ -1024,14 +1093,23 @@ def _derive_measurements(elev):
             "wall_height_water_table_to_cornice_in": round(elev["grade_to_true_eave_in"] - wtb["water_table_height_above_finished_grade_in"], 2),
         })
 
+    _open_bays = sum(1 for k in bays["kinds"] if k != "blind")
+    _has_door = "door" in bays["kinds"]
     m.update({
         "count_of_openings_without_a_mirror_twin_about_the_facade_centreline": 0,
         "width_of_the_largest_asymmetric_element_in": 0.0, "facade_width_in": elev["front"]["outside_width_in"],
         "elevation_width_in": elev["front"]["outside_width_in"], "elevation_length": elev["front"]["outside_width_in"],
         "building_width_in": elev["front"]["outside_width_in"], "street_elevation_width_in": elev["front"]["outside_width_in"],
         "front_elevation_width": elev["front"]["outside_width_in"],
-        "upper_floor_opening_count": bays["count"], "total_upper_storey_openings": bays["count"],
-        "openings_on_the_front_elevation": bays["count"] * 2 - 1,
+        # A BLIND BAY IS A BAY AND NOT AN OPENING (OQ 79). `bay_count` counts bays -- the rhythm
+        # is five bays whether or not one of them is blinded by a stack -- but an OPENING count
+        # must not include a bay with no opening in it. Found 28 Aug 2026 by this package's own
+        # adversarial audit: these three read `bays["count"]` and would have reported an opening
+        # where the same package had just stopped drawing one. Inert on both reference plans,
+        # whose blind bays are on the gable ends rather than the front, and live for any record
+        # whose roof puts a stack at the front or back wall.
+        "upper_floor_opening_count": _open_bays, "total_upper_storey_openings": _open_bays,
+        "openings_on_the_front_elevation": _open_bays * 2 - (1 if _has_door else 0),
         "bay_count": bays["count"], "bay_count_on_the_principal_front": bays["count"], "bay_width_in": bays["actual_bay_width_in"],
         "window_bay_pitch_in": bays["actual_bay_width_in"],
         # Every upper bay stacks directly over its lower counterpart by construction (both storeys
@@ -1156,8 +1234,11 @@ def _derive_measurements(elev):
     # Front elevation glazed area vs. gross front wall area, both real: window openings on both
     # storeys (door glass not counted -- a panelled door, not glazed) against the front's own
     # outside width times its total storey height.
-    gnd_win_count = max(0, front["count"] - 1)   # every bay but the door bay
-    upr_win_count = front["count"]
+    # Blind bays carry no glass (OQ 79); counting their notional windows would inflate the glazed
+    # area of a house whose stack stands where the window would have been.
+    _open = sum(1 for k in front["kinds"] if k != "blind")
+    gnd_win_count = max(0, _open - (1 if "door" in front["kinds"] else 0))
+    upr_win_count = _open
     glazed_in2 = (gnd_win_count * ground_w["opening_width_in"] * ground_w["opening_height_in"] +
                   upr_win_count * upper_w["opening_width_in"] * upper_w["opening_height_in"])
     wall_in2 = front["outside_width_in"] * (elev["ground_storey_height_in"] + elev["upper_storey_height_in"])
@@ -1487,7 +1568,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     }
 
     # THE DORMERS, or the stated absence of them, or the absence of a statement.
-    dorm = dormers(plan, dormer_slot, faces[entrance_face], storey_windows[1], roof,
+    dorm = dormers(plan, dormer_slot, faces, storey_windows[1], roof,
                    entrance_face, ground["storey_height_ft"] * 12.0,
                    cornice=cornice, casing_in=round(ent["casing_width_in"] * 0.6, 3),
                    house_wall_in=round(grade_to_true_eave_in

@@ -555,3 +555,51 @@ from somewhere that is not the working tree.
     every slot that is `open` and relying on the cascade, which is most of them. What is wanted first is
     the count — how many `open` slots resolve to an ancestor's record, and how many of those carry a
     `forbidden` the node would not have written.
+
+## From the adversarial audit of WP-5.10 (28 Aug 2026)
+
+82. **OPEN — `sash-light`'s frame-wall sill rule reaches 27 masonry nodes, and two more pack rules have
+    the same shape.** WP-5.10 scoped `sash-light`'s `window_sill/projection` (2.25 in, *"sloped about 1 in
+    6 with a drip"*) away from `tidewater-georgian`, on the strength of the rule's own note: *"In a frame
+    wall this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the
+    brick-course pack, not this one."* That fixed one node. The cascade delivers the same rule to **86
+    nodes, of which 27 make a masonry cladding canonical** — `english-georgian`, `charleston-georgian`,
+    `mid-atlantic-georgian`, `jeffersonian-classicism`, `hudson-valley-dutch`, `italianate-townhouse`,
+    `brownstone`-clad `renaissance-revival-american` among them. `charleston-georgian` still resolves the
+    2.25 in sloped sill today.
+
+    **Two other rules state a scope their data does not carry**, found by the same sweep:
+    `opening-proportion`'s `window_surround_wood/exterior_head_assembly_height` (*"On a masonry front this
+    assembly is a flat arch, a jack arch or a stone lintel instead, and the brick-course pack owns its
+    coursing"*, `applies_to` 52 nodes, and it resolves onto `tidewater-georgian` and `charleston-georgian`
+    — the same node, one address over from the rule just fixed); and `facade-gable`'s
+    `gable_treatment/parapet_height` (*"Where the gable is a roof end this rule does not apply at all"*,
+    `applies_to` 12 nodes including `tudor-revival` and `dutch-colonial-american`).
+
+    `slots_except` (WP-5.10) is the mechanism and it works per binding. What is wanted is either a
+    per-rule construction scope — the thing each of these notes actually describes — or 27+ scoped
+    bindings. That is a migration and a schema decision, not a patch.
+
+83. **OPEN — three measurements are still withheld to work around gaps `applies_when` now covers, and one
+    is supplied as a constant that is not true.** WP-5.10's commit message says "two workarounds retired
+    by one field". Three more are standing:
+
+    - `window_head_radius_in` / `shutter_head_radius_in` (`build/elevation.py`): withheld for exactly the
+      reason the solar-array measurement was, and `shutter-on-an-unshutterable-opening`'s arch-head
+      secondary **gained** its `applies_when` in the same commit — so the guard exists and the
+      measurement that would exercise it still does not, leaving that fault clear on 1 of 2 tests.
+    - `plan_offset_at_material_change_in`, `ridge_height_difference_between_volumes_in`
+      (`brick-front-vinyl-return`), whose comment names the solar and shutter cases as its precedent.
+    - **`total_shutter_leaves: 2.0` and `shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall: 2.0`
+      are unconditional constants**, supplied whether or not the style carries shutters, so
+      `shutter-on-an-unshutterable-opening` reads `2/2 = 1.0` and returns CLEAR on a house whose kit makes
+      `none` canonical. That is a fault cleared on two invented shutters — OQ 52's class, inside
+      `_derive_measurements`, outside `NOT_MODELLED`'s reach and therefore outside the guard that was
+      built to catch exactly this.
+
+    **Also counted while there:** 15 `exceptions[].bounds_test` entries divide by a count with no
+    `applies_when`. None is live today (their denominators are unsupplied or non-zero), and they are
+    listed rather than guarded speculatively — the four WP-5.10 guarded were guarded because they were
+    reachable, and guarding the rest without a reachable case would be adding preconditions nobody can
+    check.
+

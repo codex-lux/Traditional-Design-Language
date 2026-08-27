@@ -199,6 +199,24 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **differential** against a control diagram: three of the Cape parti's four original fatals
   belonged to `cape-cod-colonial`'s kit and fired for every diagram, and blaming the parti for
   them would make the check a generator of false accusations.
+- **A fault's tests live in THREE places and the third is the one that bites.** `test`,
+  `secondary_tests`, and **`exceptions[].bounds_test`**, which `core.check_measurements`
+  SUBSTITUTES for the primary on a matching style. OQ 78 and 79 guarded the first two; Second
+  Empire's bounds_test `dormer_count / bay_count == 1.0` then convicted a house stating NO dormers
+  the moment WP-5.9 began supplying that zero, and `craftsman`'s `dormer_count at-most 1` acquitted
+  one. Neither reference plan is Second Empire or Craftsman, so 1,018 green tests saw nothing —
+  it took sweeping all 164 styles with one plan's measurements. **Guarding a fault means all three
+  locations**, and `tests/test_measurement_honesty.py` now enumerates them so a future pass has
+  something to check against.
+- **Verifying a corpus-wide change on the plans that happen to ship is verifying it on 2 of 164
+  styles.** Three separate defects in WP-5.9/5.10 were invisible to both reference plans and fell
+  out of a style sweep in seconds. If a change touches the fault corpus or the measurement set,
+  sweep the styles.
+- **A NEGATIVE assertion whose selector breaks inverts into a tautology.** `assert 'class="ch"' not
+  in text` stopped matching when the stack gained a weight rung, and the suite then held both "no
+  chimney on the front" and "two stacks on the front" — green, because only the broken selector
+  kept them apart. The same stale pin had been fixed one test earlier in the same diff. Match the
+  TOKEN (`class="ch`), and prefer a positive assertion with a count.
 - **A fault silenced by a NAME MISMATCH reads exactly like a fault that was checked.**
   `cornice-that-is-a-fascia` carries two RIVAL secondaries on one expression — the domestic boxed
   eave at 0.35–0.55 of its own height and the full entablature case at 0.85–1.2 — so whichever is
@@ -373,8 +391,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **81 entries, of which 19 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 73, 80, 81). **78 and 79 closed
+  trusting any list of them. `docs/open-questions.md` holds **83 entries, of which 21 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 73, 80, 81, 82, 83). **82 and 83
+  came from WP-5.10's own adversarial audit: the sill scope it fixed on one node reaches 27
+  masonry nodes and two more pack rules have the same shape (82), and three measurements are still
+  withheld to work around gaps `applies_when` now covers while `total_shutter_leaves` is supplied
+  as an unconditional constant of 2.0 whether or not the style carries shutters (83).** **78 and 79 closed
   27 Aug (WP-5.10) and raised 80 and 81 between them: 80 is 133 addresses where a node's own
   MEASURED parameter contradicts a pack rule, which OQ 48's pack-versus-pack measurement could
   not see because the two are written under different names; 81 is that a slot bound `open` —

@@ -135,6 +135,13 @@
         "direction": "equals",
         "units": "ratio",
         "measurable_from": "photograph",
+        "applies_when": {
+          "expression": "dormer_count",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "A house that states it carries NO dormers has no dormer rhythm to be off, and this expression divides by a count. Added 28 Aug 2026 by the WP-5.10 adversarial audit, which found this convicting on a STATED ZERO -- the exact failure OQ 52 closed and OQ 78/79 guarded for, surviving in the one test location neither of them touched. `check_measurements` substitutes an exception's `bounds_test` for the fault's PRIMARY test on a matching style, so a bounds_test is a test like any other and needs the same precondition; guarding `test` and `secondary_tests` and stopping there left this path live. Found by sweeping all 164 styles with one plan's measurements, not by the two reference plans, which are not Second Empire."
+        },
         "note": "The mansard must run all the way round and be terminated by a bracketed curb cornice. The honesty of the claim is what licenses it."
       }
     },

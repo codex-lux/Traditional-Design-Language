@@ -104,6 +104,13 @@
         "direction": "equals",
         "units": "ratio",
         "measurable_from": "photograph",
+        "applies_when": {
+          "expression": "dormer_count",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "A house that states it carries NO dormers has no dormer rhythm to be off, and this expression divides by a count. Added 28 Aug 2026 by the WP-5.10 adversarial audit, which found this convicting on a STATED ZERO -- the exact failure OQ 52 closed and OQ 78/79 guarded for, surviving in the one test location neither of them touched. `check_measurements` substitutes an exception's `bounds_test` for the fault's PRIMARY test on a matching style, so a bounds_test is a test like any other and needs the same precondition; guarding `test` and `secondary_tests` and stopping there left this path live. Found by sweeping all 164 styles with one plan's measurements, not by the two reference plans, which are not Second Empire."
+        },
         "note": "One per bay, and every dormer still on a bay. The licence is about count, not about position."
       }
     },
@@ -156,6 +163,13 @@
         "direction": "at-most",
         "units": "count",
         "measurable_from": "photograph",
+        "applies_when": {
+          "expression": "dormer_count",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "The last of this fault's four test locations to be guarded, found 28 Aug 2026 by the WP-5.10 audit. `dormer_count at-most 1` reads a stated zero as 0 <= 1 and reports the fault CLEAR -- so on craftsman alone, of 164 styles, a house that carries no dormers was acquitted rather than found not-applicable. Not a false conviction and so easy to miss, but the same collapse: a fault about a thing the house does not have must not return a verdict on it either way."
+        },
         "note": "A single broad dormer centred on the mass, rather than a row of dormers off the rhythm."
       }
     }

@@ -462,14 +462,45 @@ class TestRenderElevation:
         # WP-5.9: and the roof is a closed plane now, not a line along its bottom edge.
         assert "<polygon" in text, "the roof is drawn as a polyline again"
 
-    def test_long_face_of_a_side_gable_shows_no_chimney(self, elevation_module, render_elevation_module, tmp_path):
-        """WP-3.3's own finding: both of this plan's chimneys sit on the gable-end (E/W) walls --
-        the S/N long faces should not draw a chimney that is not actually in that wall's plane."""
+    def test_long_face_of_a_side_gable_DOES_show_its_stacks(self, elevation_module, render_elevation_module, tmp_path):
+        """REVERSED AND REWRITTEN 28 Aug 2026, and the reversal is a ruling rather than a slip.
+
+        This test asserted `'class="ch"' not in text` — "the long faces should not draw a chimney
+        that is not actually in that wall's plane", which was WP-3.3's finding and was right while
+        `roof.py`'s long-face silhouette stopped at the eave: with no roof surface modelled there
+        was nothing to say which part of a 47 ft stack clears the roof, so drawing any of it would
+        have been inventing. OQ 74 closed that (WP-5.9): `elevation_profile` carries the near roof
+        PLANE on a long face, because parallel projection fills the band from eave to ridge, and
+        the front elevation draws both end stacks — which the kit calls "visible from a mile away
+        and conclusive against New England".
+
+        It was left green by an unrelated accident: the stack gained a weight rung, so the emitted
+        class became `class="ch w-prof"` and the exact-string pin stopped matching anything. A
+        NEGATIVE assertion whose selector breaks inverts into a tautology, and this one then sat
+        in the same suite as `test_the_front_elevation_shows_both_end_stacks`, which asserts the
+        opposite. Only the broken selector kept them from colliding. The audit that found it also
+        found the identical stale pin fixed one test earlier in the same diff and not here."""
+        import re
         plan, elev = _tidewater_elevation(elevation_module)
         out = tmp_path / "tidewater-S.svg"
         render_elevation_module.render_elevation(elev, str(out), face="S")
         text = out.read_text()
-        assert 'class="ch"' not in text
+        rects = re.findall(r'<rect class="ch[^"]*"[^>]*x="([-\d.]+)"[^>]*width="([-\d.]+)"[^>]*height="([-\d.]+)"', text)
+        assert len(rects) == 2, f"two gable-end stacks on the front, got {len(rects)}"
+        xs = sorted(float(r[0]) for r in rects)
+        assert xs[1] - xs[0] > 1000, "they are at opposite ends of the front, not stacked together"
+        # ONLY THE PART ABOVE THE ROOF, and at the width the record states -- neither was asserted
+        # anywhere until this audit, and CLAUDE.md names a hardcoded 36 in stack width as a bug of
+        # exactly this class in exactly this file.
+        roof = elev["roof_record"]
+        c = roof["chimneys"]["positions"][0]
+        above_ft = c["total_height_grade_ft"] - c["grade_to_ridge_ft"]
+        for x, w, h in rects:
+            assert abs(float(h) / 24.0 - above_ft) < 0.05, (
+                f"{float(h)/24:.2f} ft of stack drawn; {above_ft} ft clears the ridge")
+            assert abs(float(w) / 24.0 * 12.0 - elev["chimney_stack_plan_in"]) < 0.1, (
+                f"stack drawn {float(w)/24*12:.2f} in wide; the record says "
+                f"{elev['chimney_stack_plan_in']} in")
 
     def test_unjudged_ridge_renders_a_flat_roofline_not_an_invented_pitch(self, elevation_module, render_elevation_module, tmp_path):
         plan = load_plan("spec-builder-colonial")

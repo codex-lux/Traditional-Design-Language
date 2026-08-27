@@ -58,18 +58,19 @@ def load():
 # Pinned. own-scope collisions must stay 0 (OQ 48's closure). cascade-scope is a measured backlog
 # under OQ 51 and may only go DOWN -- it falls as the cascade is adjudicated.
 #
-# kit_vs_pack is a THIRD measured backlog, first counted 27 Aug 2026 (WP-5.10, OQ 80). 133, and it
-# is the same shape as OQ 48's original 139: a real corruption, discovered by measuring something
-# nobody had measured, too large to fix in the package that found it. Ratcheted so it cannot grow.
-# The distribution is concentrated -- american-farmhouse-vernacular 32, federal-style 31,
-# greek-revival-american 24, craftsman-bungalow 16, georgian-colonial-american 13 -- so five nodes
-# carry 116 of the 133 and adjudicating them settles most of it.
+# kit_vs_pack is a THIRD measured backlog, first counted 27 Aug 2026 (WP-5.10, OQ 80) and
+# CORRECTED 28 Aug by that package's own adversarial audit. The first count was 133 and was
+# units-blind: 71 of its pairs compared a figure in inches against a pack rule stating a ratio,
+# and one compared 60-72 DEGREES against 1.7321 -- tan 60, the same slope, reported as a
+# contradiction. That is OQ 53's class, reproduced in a new function ninety lines below the
+# docstring recording it. Comparing only same-unit pairs gives 62 real contradictions and moves
+# the rest to could-not-evaluate, where a units mismatch belongs.
 #
 # The instance that found it is NOT in the count, because it was fixed in the same commit:
 # `tidewater-georgian` authored its brick sill's projection at 0-1 in as MEASURED while
 # `sash-light` delivered 2.25 in "sloped about 1 in 6 with a drip" to the same address, in a node
 # whose kit FORBIDS the sloped sill and says why.
-RATCHET = {"own": 0, "cascade": 9, "kit_vs_pack": 133}
+RATCHET = {"own": 0, "cascade": 9, "kit_vs_pack": 62}
 
 
 def cobinding(nodes, scope):
@@ -153,7 +154,17 @@ def kit_vs_pack(nodes):
     WHAT IS COMPARED is the VALUE, not the quantity -- a kit parameter has no `quantity` field, so
     the pack-versus-pack test cannot be reused. A range and a figure are compared by whether the
     figure falls in the range; two figures by a 10 per cent tolerance, which is loose on purpose:
-    the corruption worth reporting is a member drawn twice the size, not rounding."""
+    the corruption worth reporting is a member drawn twice the size, not rounding.
+
+    AND ONLY WHERE THE TWO SIDES SAY IT IN THE SAME UNITS, which the first version of this
+    function did not check -- reproducing OQ 53 (the open question recording that this very file
+    compares `quantity` without `units`) ninety lines below the docstring that documents it. It
+    put 71 cross-unit pairs into a corruption count of 133: 70 comparing a kit figure in INCHES
+    against a pack rule stating a RATIO, and one comparing `dutch-colonial-american`'s
+    `gambrel_lower_slope` of 60-72 DEGREES against `dutch-gambrel`'s 1.7321 -- which is tan 60,
+    the same slope, reported as a contradiction. A mismatch of units at one address is a real
+    finding and a DIFFERENT one; it goes to `unjudged`, which is what could-not-evaluate is
+    called here, rather than being counted as a corruption."""
     import resolve_kit as _rk  # noqa: E402
     hits, unjudged = [], []
     CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_height": 80.0,
@@ -189,6 +200,14 @@ def kit_vs_pack(nodes):
                     v = r.get("value")
                     if not isinstance(v, (int, float)):
                         unjudged.append((nid, sid, dim, r["pack"]))
+                        continue
+                    if pval.get("unit") != r.get("units"):
+                        # Same address, different units: not a corruption of the FIGURE, and
+                        # comparing the numbers would invent one. OQ 53's class, reported as
+                        # could-not-evaluate rather than as a contradiction.
+                        unjudged.append((nid, sid, dim,
+                                         f"{r['pack']} says it in {r.get('units')}, "
+                                         f"the node in {pval.get('unit')}"))
                         continue
                     tol = 0.10 * max(abs(hi), abs(lo), abs(v), 1e-9)
                     if v < lo - tol or v > hi + tol:

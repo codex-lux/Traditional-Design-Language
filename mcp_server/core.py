@@ -470,6 +470,18 @@ def _eval_test(t, measurements):
     # which is could-not-evaluate and is reported as such rather than quietly skipped.
     when = t.get("applies_when")
     if when:
+        # A MALFORMED GUARD IS AN ERROR, NOT A SILENT ANYTHING. `schema/fault.schema.json` now
+        # requires expression/direction/threshold, but the schema is only checked when jsonschema
+        # is installed and `_eval_test` is the shared evaluator every surface calls -- so the two
+        # failure modes the WP-5.10 audit found are refused here too. Omitting `expression` made
+        # the precondition vanish and the test run unguarded; omitting `direction` made `passes`
+        # None, which read as "declined" and switched the test off permanently. Both were
+        # schema-valid, both were silent, and the second is indistinguishable from a design
+        # decision now that not-applicable is a normal state.
+        if not when.get("expression") or not when.get("direction"):
+            return {"status": "error",
+                    "detail": "applies_when needs both an expression and a direction; "
+                              f"got {sorted(when)}"}
         w = _eval_test({k: v for k, v in when.items() if k != "applies_when"}, measurements)
         if w and w["status"] != "evaluated": return w
         if w and w["passes"] is not True:
@@ -565,8 +577,10 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
     """Evaluate every applicable fault test against a dict of measurements.
 
     This is the corpus made executable: give it what you can measure from a photograph or a
-    drawing and it tells you which faults are present, which are clear, and which it could
-    not judge because a number is missing."""
+    drawing and it tells you which faults are present, which are clear, which it could not judge
+    because a number is missing, and which are NOT APPLICABLE -- every test preconditioned on a
+    measurement this house does not meet, so none ran. Four states, not three; the docstring said
+    three for a day after the fourth shipped."""
     D = _data()
     present, clear, needed, not_applicable = [], [], [], []
     for f in D["faults"].values():
@@ -643,7 +657,10 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
             "not_applicable": not_applicable,
             "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed),
                         "not_applicable": len(not_applicable)},
-            "note": "A fault only counts as present when a test actually failed. Anything under could_not_judge is unknown, not passed."}
+            "note": "A fault only counts as present when a test actually failed. Anything under "
+                    "could_not_judge is unknown, not passed. Anything under not_applicable had "
+                    "every one of its tests declined by an `applies_when` precondition, so none "
+                    "ran: the question does not arise, which is neither a pass nor an unjudged."}
 
 def measurement_vocabulary(slot=None, style=None, include_constraints=True):
     """Every variable name the corpus tests on, so a caller knows what to measure.
@@ -667,14 +684,21 @@ def measurement_vocabulary(slot=None, style=None, include_constraints=True):
             # dormer_count the parity test is could-not-evaluate, so a vocabulary that omitted it
             # would tell a caller to photograph everything except the number that decides whether
             # the question is asked at all.
-            exprs = [t["expression"]] + [w["expression"] for w in [t.get("applies_when")]
-                                         if w and w.get("expression")]
-            for nm in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", " ".join(exprs)):
-                if nm in ("min","max","abs","round"): continue
-                v = vocab.setdefault(nm, {"used_by": 0, "units": t.get("units"),
-                                           "measurable_from": t.get("measurable_from"), "source": []})
-                v["used_by"] += 1
-                if "fault" not in v["source"]: v["source"].append("fault")
+            # A PRECONDITION'S VARIABLES CARRY THE PRECONDITION'S OWN UNITS, not the test's. The
+            # first version tagged them with `t["units"]`, so
+            # `an_order_is_applied_to_the_wall_carrying_the_eave_cornice` -- a 0/1 flag declared
+            # `units: count` in its own applies_when -- was published to
+            # tdl_measurement_vocabulary and GET /api/vocabulary as a `ratio`, because the test it
+            # guards measures one. A caller told to measure a ratio will not supply a flag.
+            when = t.get("applies_when") or {}
+            sources = [(t["expression"], t)] + ([(when["expression"], when)] if when.get("expression") else [])
+            for expr, owner in sources:
+                for nm in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", expr):
+                    if nm in ("min","max","abs","round"): continue
+                    v = vocab.setdefault(nm, {"used_by": 0, "units": owner.get("units"),
+                                               "measurable_from": t.get("measurable_from"), "source": []})
+                    v["used_by"] += 1
+                    if "fault" not in v["source"]: v["source"].append("fault")
     if include_constraints and not slot:
         cv = _load_constraint_vocab().VOCABULARY
         styles = [D["styles"][style]] if style and style in D["styles"] else D["styles"].values()

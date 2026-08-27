@@ -505,7 +505,28 @@ def dormer_rhythm_check(plan, section, main):
                         "off, which is not the same as a rhythm that was measured and passed."}
     n = int(decl.get("count") or 0)
     fp = section["footprint"]
-    bay_ft = fp.get("bay_module_ft") or 10.0
+    # THE ROOF DOES NOT OWN THE BAY RHYTHM AND MUST NOT INVENT ONE. This read
+    # `fp.get("bay_module_ft") or 10.0` and divided the width by it, which on a footprint that
+    # states no module (both reference plans) is a 10 ft constant of exactly the class this
+    # package spent two commits removing. It gave 6 bays on a front the facade pack lays out as
+    # FIVE, so at `{"count": 6}` the roof reported `ratio 1.0, ok True` while the fault corpus
+    # convicted the same record on 5 of 6 centred -- two records built from different rules that
+    # nothing compared, which is OQ 79's own thesis, shipped inside the package that closed it.
+    # Found 28 Aug 2026 by this package's adversarial audit.
+    #
+    # The bay count belongs to the facade layer (`elevation.py::_face_bays`, from
+    # facade-classical's own odd-count formula). Where the footprint states a module the roof can
+    # read it; where it does not, this is UNJUDGED and says so rather than answering from a
+    # constant.
+    bay_ft = fp.get("bay_module_ft")
+    if not bay_ft:
+        return {"applicable": True, "stated": True, "dormer_count": n, "bay_count": None,
+                "on_bay_count": None, "ratio": None, "ok": None,
+                "note": "This footprint states no bay module, and the bay rhythm is the facade "
+                        "layer's (build/elevation.py::_face_bays, from facade-classical's own "
+                        "odd-count formula) rather than the roof's. Whether there are bays enough "
+                        "to carry the declared dormers is therefore unjudged HERE; the elevation "
+                        "layer judges it, and `dormer-off-the-bay` reports it."}
     bay_count = int(fp["width_ft"] // bay_ft)
     on_bay = min(n, bay_count)
     ratio = (on_bay / n) if n else None
@@ -558,9 +579,16 @@ def elevation_profile(section, main, wall):
     outline for the elevation generator', per the hand-off brief -- as an ordered list of
     (horizontal_ft, height_ft) points along that wall, height measured above grade. A gable end
     (perpendicular to the ridge) is a triangle peaking at the ridge height; a long face (parallel
-    to the ridge) is a flat eave line for a simple gable, or a trapezoid for a hip (the
-    characteristic hip silhouette: eave flat, then the hip planes rise in at both ends to meet
-    the ridge height across the ridge's own shorter span)."""
+    to the ridge) is the RECTANGLE from eave to ridge, because parallel projection of one sloping
+    plane fills that band; a hip is a trapezoid (eave flat, then the hip planes rise in at both
+    ends to meet the ridge height across the ridge's own shorter span).
+
+    THIS DOCSTRING SAID "a flat eave line for a simple gable" until 28 Aug 2026, nineteen lines
+    above the code that stopped doing that in WP-5.9 and explains at length why -- the flat line
+    was a PERSPECTIVE argument inside an orthographic renderer. WP-5.10 found and fixed exactly
+    this class in `render_elevation.py`'s chimney block and left it standing in the function whose
+    behaviour had actually changed. Prose asserting what the code no longer does is the failure
+    this corpus polices hardest, and it survived the package that named it twice."""
     fp = section["footprint"]
     W, D = fp["width_ft"], fp["depth_ft"]
     eave = main["grade_to_eave_ft"]

@@ -307,26 +307,64 @@ class TestDormerRhythm:
         assert d["dormer_count"] == 0
         assert d["ratio"] is None and d["ok"] is None
 
-    def test_a_count_the_bays_can_carry_passes(self, roof_module):
-        plan, section = _tidewater_section(roof_module)
-        plan["declared"]["dormer"] = {"count": 3}
-        main = roof_module.main_roof(plan, section, plan["style"])
-        d = roof_module.dormer_rhythm_check(plan, section, main)
-        assert d["applicable"] is True and d["dormer_count"] == 3
-        assert d["bay_count"] >= 3
-        assert d["ratio"] == 1.0 and d["ok"] is True
+    def test_a_footprint_with_no_bay_module_leaves_the_count_UNJUDGED(self, roof_module):
+        """REWRITTEN 28 Aug 2026 by this package's own adversarial audit, and the rewrite is the
+        finding. The two tests here computed the expected bay count with `int(width_ft //
+        (bay_module_ft or 10.0))` — `roof.py:509` copied verbatim into the test — and
+        `bay_module_ft` is ABSENT on this footprint, so both sides fell back to the same invented
+        10.0 and the assertion could not fail.
 
-    def test_more_dormers_than_bays_fails_and_no_derivation_can_fix_it(self, roof_module):
-        """The one thing a record CAN get wrong here. Placement is derived from the bays, so it
-        is right by construction; the count is authored, and a front cannot carry more dormers on
-        bays than it has bays."""
+        It was hiding a live cross-layer disagreement. The roof got 6 bays from that constant; the
+        facade pack lays this front out as FIVE. At `{"count": 6}` the roof reported `ratio 1.0,
+        ok True` while `plan_check` convicted the same house on 5 of 6 centred. Two records built
+        from different rules that nothing compared — OQ 79's own thesis, one layer up, shipped
+        inside the package that closed OQ 79. The roof no longer invents a module: the bay rhythm
+        belongs to the facade layer, and where the footprint states none this is unjudged."""
         plan, section = _tidewater_section(roof_module)
+        assert not section["footprint"].get("bay_module_ft"), (
+            "this footprint now states a bay module — the premise of this test has changed")
+        plan["declared"]["dormer"] = {"count": 6}
         main = roof_module.main_roof(plan, section, plan["style"])
-        bays = int(section["footprint"]["width_ft"] // (section["footprint"].get("bay_module_ft") or 10.0))
-        plan["declared"]["dormer"] = {"count": bays + 2}
         d = roof_module.dormer_rhythm_check(plan, section, main)
-        assert d["ok"] is False
-        assert d["on_bay_count"] == bays and d["ratio"] < 1.0
+        assert d["applicable"] is True and d["dormer_count"] == 6
+        assert d["bay_count"] is None and d["ratio"] is None and d["ok"] is None, (
+            "the roof answered from a bay module the footprint does not state")
+        assert "facade layer" in d["note"]
+
+    def test_it_judges_where_the_footprint_actually_states_a_module(self, roof_module):
+        """Not merely unjudged everywhere — the check still works on a record that carries the
+        figure. Asserted with a module that makes the answer FALSE, so the test cannot pass by
+        the code always returning None."""
+        import copy
+        plan, section = _tidewater_section(roof_module)
+        section = copy.deepcopy(section)
+        section["footprint"]["bay_module_ft"] = 12.516      # 62.58 / 5 -> four whole bays
+        plan["declared"]["dormer"] = {"count": 6}
+        main = roof_module.main_roof(plan, section, plan["style"])
+        d = roof_module.dormer_rhythm_check(plan, section, main)
+        assert d["bay_count"] == 4 and d["on_bay_count"] == 4
+        assert d["ok"] is False and d["ratio"] < 1.0
+
+    def test_the_roof_and_the_elevation_agree_or_the_roof_declines(self, roof_module):
+        """The invariant the circular version could not state. Wherever the roof DOES publish a
+        bay count, it must be the one the facade layer lays out — otherwise the corpus holds two
+        answers to one question and the fault layer picks the other one."""
+        import json as _j
+        import os as _os
+        e = __import__("elevation")
+        root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            plan = _j.load(open(_os.path.join(root, "plans", f"{pid}.json")))
+            section = roof_module.ST.build_section(plan)
+            p2 = dict(plan, declared=dict(plan["declared"], dormer={"count": 3}))
+            main = roof_module.main_roof(p2, section, p2["style"])
+            d = roof_module.dormer_rhythm_check(p2, section, main)
+            if d.get("bay_count") is None:
+                continue                       # declined, which is the honest half
+            elev = e.build_elevation(p2)
+            front = elev["faces"][elev["entrance_face"]]["count"]
+            assert d["bay_count"] == front, (
+                f"{pid}: the roof says {d['bay_count']} bays and the elevation lays out {front}")
 
     def test_neither_shipped_plan_has_an_attic_a_dormer_would_light(self):
         for name in ("tidewater-georgian-careful", "spec-builder-colonial"):

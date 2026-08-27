@@ -154,25 +154,30 @@ class TestTheSevenFaultsAreNoLongerDecidedOnFabricatedEvidence:
                 "from a measurement no generator in this corpus takes (OQ 52).")
 
     @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
-    def test_a_stated_none_is_used_but_never_convicts(self, plan_name, plan_check_module):
-        """The three that moved, each pinned to the state it moved to and to the reason. A
-        stated zero is a measurement and the critic may reason from it — that is what makes the
-        field worth having. What it must never do is turn the zero into a fault, which is what
-        `dormer_count % 2 == 1` did on the first run after both houses could say none."""
-        result = plan_check_module.check(_plan(plan_name))
+    def test_a_stated_none_is_used_but_never_convicts(self, plan_name, plan_check_module,
+                                                      core_module, elevation_mod):
+        """The three that moved, each pinned to the state it moved to and to the reason.
+
+        REWRITTEN 28 Aug 2026. The first version read `where.get(fault_id, "clear")` off
+        `plan_check.check()`, which returns NO clear list — so "clear" meant "appeared in none of
+        the three lists I looked at", which is precisely the collapse this file's own docstring
+        says `not_applicable` was invented to prevent. A fault dropped from evaluation entirely
+        by a renamed id or an `_applies` change would have passed it silently. Membership is now
+        asserted POSITIVELY against `core.check_measurements`, which does return a clear list."""
+        rec = elevation_mod.build_elevation(_plan(plan_name))
+        r = core_module.check_measurements(rec["measurements"], style=rec["style"], limit=10**6)
         where = {}
-        for r in (result.get("fault_unjudged") or []): where[r["fault"]] = "unjudged"
-        for r in (result.get("fault_not_applicable") or []): where[r["fault"]] = "not_applicable"
-        for f in result["findings"]:
-            if (f.get("rule") or "") in JUDGED_ON_A_STATED_ZERO and f.get("layer") == "fault":
-                where[f["rule"]] = "present"
+        for row in r["faults_present"]: where[row["fault"]] = "present"
+        for row in r["faults_clear"]: where[row["fault"]] = "clear"
+        for row in r["could_not_judge"]: where[row["fault"]] = "unjudged"
+        for row in r.get("not_applicable", []): where[row["fault"]] = "not_applicable"
         for fault_id, expected in JUDGED_ON_A_STATED_ZERO.items():
-            got = where.get(fault_id, "clear")
-            assert got == expected, (
-                f"{plan_name}: '{fault_id}' came back {got}, expected {expected}. A house that "
-                "STATES it carries no dormers has no dormer rhythm to be off (not applicable) "
-                "and no dormer wall (clear on a real zero) — and must never be convicted of "
-                "either on the strength of the zero itself.")
+            assert fault_id in where, (
+                f"{plan_name}: '{fault_id}' is in NO list at all — present, clear, unjudged and "
+                "not-applicable between them must account for every fault the style reaches, and "
+                "a fault in none of them reads exactly like a clear one.")
+            assert where[fault_id] == expected, (
+                f"{plan_name}: '{fault_id}' came back {where[fault_id]}, expected {expected}.")
 
     @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
     def test_deleting_the_declaration_puts_all_three_back_to_unjudged(self, plan_name,
@@ -315,6 +320,135 @@ class TestTheSolarWorkaroundIsRetired:
         f = json.load(open(os.path.join(ROOT, "faults", "entrance-slope-penetration.json")))
         t = next(t for t in f["secondary_tests"] if "solar_array_area_sqft" in t["expression"])
         assert core_module._eval_test(t, m)["status"] == "not_applicable"
+
+
+class TestAStatedZeroConvictsNobodyInAnyStyle:
+    """The guard the WP-5.9/5.10 work needed and did not have, added 28 Aug 2026 by its own
+    adversarial audit — which found two live false convictions it would have caught.
+
+    Every dormer test in this corpus was guarded by reading `test` and `secondary_tests`. There is
+    a THIRD test location: `exceptions[].bounds_test`, which `core.check_measurements` substitutes
+    for the fault's PRIMARY test on a matching style. `dormer-off-the-bay` and `dormer-wall` both
+    carry a Second Empire exception whose bounds_test is `dormer_count / bay_count == 1.0`, and
+    once WP-5.9 began supplying `dormer_count` as a stated zero that evaluated to 0.0 and reported
+    both faults PRESENT — a Second Empire house convicted of Dormers Off the Rhythm for having no
+    dormers. The two reference plans are not Second Empire, so nothing saw it.
+
+    The lesson is the shape of the check, not the two records: verifying a corpus-wide change on
+    the two plans that happen to ship is verifying it on 2 of 164 styles. This sweeps them all."""
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_no_style_convicts_on_a_dormer_measurement_that_is_zero(self, plan_name, core_module,
+                                                                    elevation_mod):
+        """Scoped to the EXPRESSION, not to a list of fault ids, and the first draft of this test
+        got that wrong: listing `even-bay-front` as a dormer fault made it fail on
+        `english-georgian-townhouse` for a 5-bay house against a 3-bay townhouse rule — a correct
+        conviction on BAY count, from feeding one plan's measurements to another style's rules.
+        The invariant is not "no dormer fault fires"; it is that nothing is convicted BY a dormer
+        measurement whose value is a stated zero."""
+        import re
+        m = elevation_mod.build_elevation(_plan(plan_name))["measurements"]
+        assert m["dormer_count"] == 0, "the premise: these plans STATE they carry no dormers"
+        zero_dormer_names = {k for k, v in m.items() if v == 0 and "dormer" in k}
+        assert "dormer_count" in zero_dormer_names, zero_dormer_names
+        bad = []
+        for style in sorted(core_module._data()["styles"]):
+            r = core_module.check_measurements(m, style=style, limit=10**6)
+            for row in r["faults_present"]:
+                for ev in (row.get("failing") or row["results"]):
+                    # the evaluator does not hand back the expression, so re-find the test that
+                    # produced this result by its own `required` string
+                    d = json.load(open(os.path.join(ROOT, "faults", row["fault"] + ".json")))
+                    tests = [d.get("test")] + list(d.get("secondary_tests") or [])
+                    tests += [e.get("bounds_test") for e in (d.get("exceptions") or [])]
+                    for t in tests:
+                        if not t or not t.get("expression"):
+                            continue
+                        names = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", t["expression"]))
+                        if names & zero_dormer_names and core_module._eval_test(t, m) == ev:
+                            bad.append(f"{style}/{row['fault']}: {t['expression']} = "
+                                       f"{ev.get('value')} against {ev.get('required')}")
+        assert not bad, (
+            "a house that STATES it carries no dormers was convicted BY that zero:\n  "
+            + "\n  ".join(sorted(set(bad))[:10]))
+
+    def test_every_test_location_is_swept_not_just_two(self, core_module):
+        """The structural half. A fault's tests live in three places and the audit found the third
+        only by accident; this asserts the corpus knows about all three, so that a future guard
+        pass has something to enumerate against."""
+        import glob
+        locations = set()
+        for f in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
+            d = json.load(open(f))
+            if d.get("test"):
+                locations.add("test")
+            if d.get("secondary_tests"):
+                locations.add("secondary_tests")
+            if any(e.get("bounds_test") for e in (d.get("exceptions") or [])):
+                locations.add("exceptions[].bounds_test")
+        assert locations == {"test", "secondary_tests", "exceptions[].bounds_test"}, locations
+
+    def test_no_live_test_anywhere_divides_by_a_supplied_zero(self, core_module, elevation_mod):
+        """DIVISION BY ZERO ONLY, over all three test locations — and the narrow scope is stated
+        because the first draft of this docstring called itself "the general form of the bug" and
+        was not. A zero DENOMINATOR raises and becomes `status: error`; that is what this catches.
+        A zero NUMERATOR is the case that actually convicted Second Empire, and it is a different
+        shape — often perfectly legitimate (`sum_of_dormer_face_widths_in / building_width_in` is
+        rightly 0 on a house with no dormers) — so it cannot be caught by a rule about zeros and
+        is caught by the sweep above instead. Verified: with the Second Empire guards removed this
+        test still PASSES and the sweep fails, which is why both exist."""
+        import glob
+        import re
+        m = elevation_mod.build_elevation(_plan("tidewater-georgian-careful"))["measurements"]
+        zeros = {k for k, v in m.items() if v == 0}
+        assert zeros, "no zero measurements at all — this test would be vacuous"
+        offenders = []
+        for f in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
+            d = json.load(open(f))
+            tests = [d.get("test")] + list(d.get("secondary_tests") or [])
+            tests += [e.get("bounds_test") for e in (d.get("exceptions") or [])]
+            for t in tests:
+                if not t or not t.get("expression") or "/" not in t["expression"]:
+                    continue
+                denom = t["expression"].rsplit("/", 1)[-1].strip()
+                if denom in zeros and not t.get("applies_when"):
+                    offenders.append(f"{d['id']}: {t['expression']} (denominator is 0 here)")
+        assert not offenders, (
+            "a test divides by a measurement this corpus supplies as zero, with no precondition:\n  "
+            + "\n  ".join(offenders))
+
+
+class TestTheFourthStateCannotLeakIntoTheConstraintLayer:
+    """`_eval_test` is SHARED between the fault corpus and the style-constraint layer, and WP-5.9
+    gave it a fourth return status. The constraint callers were not updated, because they cannot
+    receive it: `schema/constraint.schema.json` sets `additionalProperties: false` on its test
+    object and does not list `applies_when`, so no constraint can carry a precondition.
+
+    That is a shield, and this corpus's own rule is that a fix relying on a shield has to look at
+    what the shield covers. Both constraint call sites do `if r["status"] != "evaluated": ->
+    unjudged`, which would silently file a not-applicable constraint as could-not-judge — a wrong
+    answer, though a quiet one. Rather than add a fourth bucket to a path nothing can reach, this
+    pins the shield: add `applies_when` to the constraint schema and this test fails, which is the
+    moment to decide what those two call sites should do."""
+
+    def test_the_constraint_schema_still_forbids_a_precondition(self):
+        s = json.load(open(os.path.join(ROOT, "schema", "constraint.schema.json")))
+        t = s["properties"]["test"]
+        assert t.get("additionalProperties") is False
+        assert "applies_when" not in t.get("properties", {}), (
+            "a constraint test may now carry `applies_when`, so core._eval_test can return "
+            "not_applicable to check_style_constraints and build/plan_check.py:776 — both of "
+            "which currently file it as UNJUDGED. Decide what they should do before shipping it.")
+
+    def test_no_constraint_in_the_corpus_carries_one(self):
+        import glob
+        offenders = []
+        for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
+            d = json.load(open(f))
+            for c in d.get("constraints") or []:
+                if (c.get("test") or {}).get("applies_when"):
+                    offenders.append(f"{d['id']}/{c.get('id')}")
+        assert not offenders, offenders
 
 
 class TestTheEvaluatorReadsANullAsMissing:

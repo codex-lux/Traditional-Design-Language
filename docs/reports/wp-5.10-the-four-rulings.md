@@ -242,3 +242,135 @@ the record is fixed, and moving it is the moment to ask what it was really for.
 - **`spec-builder-colonial`'s roof still judges no pitch and no ridge.** The sheet says so now
   instead of quietly dropping the dormers, but the underlying gap — a reference plan whose roof
   the corpus cannot dimension — is untouched and is worth its own look.
+
+---
+
+# The adversarial audit, 28 Aug 2026
+
+Three independent auditors were run over `7f1892f..HEAD` — one on broken contracts and unhandled
+consumers, one on whether the new tests actually guard anything, one on second-order risk and
+repeat occurrences. **The suite was green at 1,018 tests before any of them started**, and between
+them they found two live false judgements, three of my own new tests that do not test what they
+claim, and a corruption count that was measured with the wrong instrument.
+
+That is the finding above all the others: **a green suite is necessary and it is not evidence.**
+Every item below passed 1,018 tests.
+
+## Live defects — fixed
+
+**A false conviction on Second Empire.** A fault's tests live in **three** places, not two:
+`test`, `secondary_tests`, and `exceptions[].bounds_test`, which `check_measurements` substitutes
+for the *primary* on a matching style. OQ 78 and 79 guarded the first two. Second Empire's
+bounds_test is `dormer_count / bay_count == 1.0`, so a house stating **no dormers** evaluated 0.0
+and was convicted of *Dormers Off the Rhythm* — the exact OQ 52 failure this package exists to
+prevent, in the one location neither ruling touched. Found by sweeping all 164 styles with one
+plan's measurements; the two reference plans are not Second Empire. `craftsman`'s bounds_test had
+the same shape in the other direction: `dormer_count at-most 1` read a stated zero as CLEAR, an
+acquittal rather than a conviction, on 1 style of 164.
+
+**The DXF drew the collision the SVG had just stopped drawing.** `export_dxf.py`'s bay loop reads
+`if kind == "door" … else: window`, so OQ 79's new `"blind"` fell into the `else` and the CAD file
+put an opening where the chimney stands. Two surfaces disagreeing about one record. The export
+selftest could not see it — it round-trips *findings*, not geometry, which is WP-5.7's lesson
+recurring in the CAD path.
+
+**Dormers were placed on the wrong face.** `dormers()` was handed `faces[entrance_face]`
+unconditionally, so a record declaring `{"count": 3, "face": "E"}` got the *south* front's bay
+centres laid out on an east elevation 20 ft narrower — the third dormer standing 1.15 ft past the
+corner of the wall. Worse, the generator then published `count_of_dormers_centred_on_a_window_
+below: 3` and `dormer-off-the-bay` **cleared** the house on a number nobody had measured.
+
+**`ORDER_AT_THE_EAVE` answered confidently about what it did not know.** The hand list of four
+missed every giant-order variant the corpus actually names, so `beaux-arts-american`,
+`neoclassical-revival` and `english-baroque` returned `0` with a note saying every canonical
+variant was "a void or an attached structure" — selecting the *domestic* cornice band for fronts
+whose cornice legitimately runs 0.85–1.2. OQ 78 had replaced "both rivals run, one convicts" with
+"the wrong one runs, silently." Nine variants are now classified from the corpus's own words, and
+anything canonical that reads like an applied order and is *not* classified returns **unjudged**
+rather than 0.
+
+**`applies_when` had two silent failure modes.** Omit `expression` and the guard vanishes — the
+test runs unguarded and convicts. Omit `direction` and `passes` is `None`, so the test is
+**permanently** not-applicable: a fault switched off for the life of the corpus, reporting
+`required: "None 1"` to anyone who looks. Both were schema-valid. The failure state of a mistyped
+guard is a fault going quiet, and this package had just taught every reader that quiet is benign.
+Now required in the schema *and* refused in the evaluator, because the schema is only checked when
+`jsonschema` is installed.
+
+**`kit_vs_pack` compared across units, and OQ 80's number was wrong.** 71 of the 133 "corruptions"
+were cross-unit: 70 comparing a kit figure in **inches** against a pack rule stating a **ratio**,
+and one comparing `dutch-colonial-american`'s `gambrel_lower_slope` of **60–72 degrees** against
+`dutch-gambrel`'s **1.7321** — which is tan 60, *the same slope*, reported as a contradiction.
+That is **OQ 53 verbatim**, the open question recording that this very file compares `quantity`
+without `units`, reproduced ninety lines below the docstring documenting it. Unit-aware, the real
+count is **62**, and the ratchet is re-pinned there.
+
+**Two more measurement leaks.** `sum_of_dormer_face_widths_in` was computed from *placed*
+positions, capped at the bay count — so a record declaring 24 dormers reported the face width of
+five, and the **fatal** `dormer-wall` read 0.248 instead of 1.188 and cleared it. And blind bays
+were still counted as openings by `upper_floor_opening_count`, `openings_on_the_front_elevation`
+and `glazed_area`.
+
+**The fourth state stopped at the API boundary.** `not_applicable` reached `plan_check` and went
+no further: `workbench/server/evaluate.py` forwarded only `fault_unjudged`, the bench rendered
+only `fault_unjudged`, and `rail.py` still told the model to build its mandatory `<unjudged>` block
+from three fields. A fault in that state appeared in **no list on the bench** — the precise
+sentence the state was invented to prevent, relocated one boundary out.
+
+## Three of my own tests did not test what they claim — rewritten
+
+- **The cornice-return guard scanned a class the gabled path never emits** (`pf w-fine` is only
+  ever a *polygon*). The loop body never executed. Re-adding the returns in the class the renderer
+  actually uses passed it. It now asserts over every element drawn above the cornice line, whatever
+  its tag or class, permitting only the roof polygon and its shingles.
+- **"Carries all its glazing bars" counted meeting rails.** `_window` emits exactly one per window
+  whatever the light counts are, so the assertion meant "twelve windows are drawn" — true before
+  the fix and after. It computed the right number and discarded it. Forcing the sashes to 1×1
+  deleted all 18 dormer bars and the test passed. It now counts the bars, differentially against a
+  sheet with no dormers.
+- **The blind-bay position check compared a left edge against a bay centre** with a 24 px
+  threshold, while an opening is 34–39 px wide — so a window drawn dead on the stack's axis passed.
+  Now compares centres against the stack's own half-width.
+
+Each was verified by reverting the fix and confirming the rewritten test fails.
+
+**And one test was asserting the opposite of another.** `test_long_face_of_a_side_gable_shows_no_
+chimney` pinned `'class="ch"' not in text`. WP-5.9 gave the stack a weight rung, the class became
+`ch w-prof`, and a *negative* assertion whose selector breaks inverts into a tautology — leaving
+the suite simultaneously asserting "no chimney on the front" and "two stacks on the front". Only
+the broken selector kept them apart. Its intent was reversed by OQ 74 on purpose; it is rewritten
+to assert what the ruling chose, plus the stack's drawn **width**, which nothing had ever asserted.
+
+**And one hid a live disagreement.** `test_a_count_the_bays_can_carry_passes` recomputed
+`int(width_ft // (bay_module_ft or 10.0))` — `roof.py`'s own line, copied into the test — and
+`bay_module_ft` is absent, so both sides fell back to the same invented 10.0. It concealed this:
+the roof said **6** bays and passed a record at `{"count": 6}` while the elevation laid out **5**
+and the fault corpus convicted the same house. Two records built from different rules that nothing
+compared — **OQ 79's own thesis, one layer up, shipped inside the package that closed OQ 79.** The
+roof no longer invents a module: the bay rhythm belongs to the facade layer, and where the
+footprint states none the roof declines.
+
+## Considered and deliberately not changed
+
+**`dormer-wall` and `overscaled-dormer` return CLEAR on a house that states no dormers, and that
+is correct.** One auditor called this a false acquittal of a *fatal* fault. It is not the same
+shape as the parity rule: `sum_of_dormer_face_widths_in / building_width_in = 0` is a real
+measurement of a real quantity, and a roof with no dormers has definitively not become a storey.
+`dormer_count % 2 == 1` is different — "is the number odd" presupposes there is a number. The
+distinction is where a fault's expression *measures* something at zero versus where it
+*presupposes* something. Left as clear, with the reasoning recorded here rather than silently.
+
+## Deferred, with reasons — raised as open questions
+
+- **The `sash-light` sill scope is one node of 27** that make a masonry cladding canonical, and two
+  more pack rules have the same shape (a note stating a scope the data does not carry). That is a
+  corpus migration, not a patch — **OQ 82**.
+- **Three measurements are still withheld** from `elevation.py` to work around conditional-test
+  gaps that `applies_when` now covers, and `total_shutter_leaves` is supplied as an unconditional
+  constant of 2.0 regardless of whether the style carries shutters — **OQ 83**, and the second half
+  is OQ 52 residue in `_derive_measurements`, outside `NOT_MODELLED`'s reach.
+- **15 more `exceptions[].bounds_test` entries divide by a count with no guard.** None is live
+  today. Named in OQ 83 rather than guarded speculatively.
+- **`check_addresses.py` is 27× slower** (0.11 s → 3.0 s) because `kit_vs_pack` re-resolves the
+  cascade per node. Measured and accepted: 3 s on a build check that already takes twelve minutes.
+

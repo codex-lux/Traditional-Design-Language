@@ -161,12 +161,26 @@ def check_node(node, packs, errors, warnings, strict):
         # write is the failure this field class exists to prevent, and it is worse on a denylist:
         # an allowlist that admits nothing delivers nothing and is noticed, while a denylist that
         # refuses nothing delivers EVERYTHING and reads exactly like a scope that worked.
+        _w = set()
         if deny:
             try:
                 _rr = _pe().resolve(pack_id).get("derived_rules", [])
             except Exception:
                 _rr = packs[pack_id].get("derived_rules", [])
             _w = {r["target_slot"] for r in _rr} | {f"{r['target_slot']}/{r.get('dimension')}" for r in _rr}
+            # A DENYLIST THAT REFUSES EVERYTHING is a binding that delivers nothing while still
+            # reading as an `opening`-role pack on the node. The comment below claims an allowlist
+            # admitting nothing "is noticed"; nothing noticed either form until the WP-5.10 audit
+            # tried it. A scope must leave at least one rule, or it is a removal wearing a scope's
+            # clothes and the binding should simply be deleted.
+            _left = [r for r in _rr
+                     if not (r["target_slot"] in deny
+                             or "%s/%s" % (r["target_slot"], r.get("dimension")) in deny)]
+            if not _left:
+                errors.append(
+                    f"{nid}: entry {i} ('{pack_id}') excludes every rule the pack writes -- the "
+                    f"binding delivers nothing while still reading as a bound {e.get('role')} "
+                    f"pack. Delete the binding instead of scoping it to nothing.")
         for entry in (deny or []):
             if entry not in _w:
                 errors.append(

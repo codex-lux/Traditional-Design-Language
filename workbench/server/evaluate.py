@@ -44,6 +44,11 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
     # check() (build/plan_check.py) now returns fault_unjudged beside fault_summary —
     # the could-not-judge detail, kept distinct from both failed and passed.
     out["fault_unjudged"] = check.get("fault_unjudged", [])
+    # AND THE FOURTH STATE (WP-5.9). Forwarding only `fault_unjudged` left a not-applicable fault
+    # in NO list on the bench -- which is the exact sentence core.check_measurements' own comment
+    # gives for why the state was invented ("a fault absent from every list reads exactly like a
+    # clear one"), relocated one API boundary out. Found 28 Aug 2026 by the WP-5.10 audit.
+    out["fault_not_applicable"] = check.get("fault_not_applicable", [])
     if place:
         t2 = time.perf_counter()
         # place_plan deep-copies its input itself (geo.solve(copy_json(plan), …));
