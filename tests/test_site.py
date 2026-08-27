@@ -244,9 +244,10 @@ class TestGeometrySolverHonoursLotWidth:
         package (test_geometry.py's own relaxation-count pin depends on this)."""
         plan = load_plan("tidewater-georgian-careful")
         assert plan.get("site") is None
-        # engine pinned: these are the slicer's own numbers (the 11-relaxation
-        # pin below) — on hardware fast enough for CP-SAT to finish inside the
-        # default budget, the default engine would return CP's different count
+        # engine pinned: these are the slicer's own numbers (the relaxation pin
+        # below, which has read 11, then 9, then 7 as three packages moved it) — on
+        # hardware fast enough for CP-SAT to finish inside the default budget, the
+        # default engine would return CP's different count
         result = geometry_module.solve(plan, engine="heuristic")
         assert result["geometry_report"]["lot_capped"] is False
         # 7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 76). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.

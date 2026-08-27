@@ -145,21 +145,74 @@ class TestSpanCheckReadsTheBearingFlag:
         assert x[0]["span_ft"] == 24.0
         assert x[0]["ok"] is False, "24 ft over a 20 ft hand-framed capacity must fail"
 
-    def test_an_on_grid_interior_wall_does_break_a_span(self, structure_module):
-        """The control. Same footprint, same room split, one wall moved onto the bay line --
-        and the span it carries is real, so the run stops at it and the plan is framable."""
+    def test_an_on_grid_wall_breaks_a_span_and_a_partition_beside_it_does_not(self, structure_module):
+        """Both halves of the rule in ONE call, which is what makes this a guard rather than a
+        control. An audit pointed out that the first version -- an on-grid wall alone -- passes
+        identically with the fix reverted, so it contributed a green tick to a class named for
+        reading the bearing flag while testing nothing about it.
+
+        Here the same call carries an on-grid wall at 10.0 and a partition at 16.4. Reverted,
+        the partition also breaks the run and the spans come out [10.0, 6.4, 7.6]; correct, the
+        partition is ignored and they are [10.0, 14.0]."""
         construction = structure_module.load_construction()
         walls = [
             {"role": "exterior", "wall": "W", "axis": "x", "position_ft": 0.0, "lo_ft": 0.0, "hi_ft": 10.0},
             {"role": "exterior", "wall": "E", "axis": "x", "position_ft": 24.0, "lo_ft": 0.0, "hi_ft": 10.0},
             {"role": "interior", "axis": "x", "position_ft": 10.0, "lo_ft": 0.0, "hi_ft": 10.0, "rooms": ["a", "b"]},
+            {"role": "interior", "axis": "x", "position_ft": 16.4, "lo_ft": 0.0, "hi_ft": 10.0, "rooms": ["b", "c"]},
         ]
         bearing = structure_module.bearing_lines(walls, bay_module_ft=10.0)
+        assert [w["bearing"] for w in bearing if w["role"] == "interior"] == [True, False]
         spans = sorted((s for s in structure_module.span_check(
             bearing, 24.0, 10.0, "tidewater-georgian", construction["floor"]) if s["axis"] == "x"),
             key=lambda s: s["from_ft"])
-        assert [s["span_ft"] for s in spans] == [10.0, 14.0]
+        assert [s["span_ft"] for s in spans] == [10.0, 14.0], (
+            "the 16.4 ft partition broke the run; span_check is reading position without bearing")
         assert all(s["ok"] for s in spans)
+
+
+class TestTheSpanChargeIsSoundToPruneOn:
+    """`solve_heuristic` skips the span check for a candidate whose partial score already meets
+    the incumbent, which is exact ONLY because the charge can never be negative. An audit noted
+    that nothing pinned that, and that the early-out is otherwise covered only incidentally by
+    a relaxation count in another file."""
+
+    def test_the_charge_is_never_negative(self, structure_module):
+        """Only over-capacity spans are charged and the charge is `SPAN_W * span/capacity`, so
+        the ratio exceeds 1 by construction. If a future capacity table admitted a zero or a
+        negative `max_span_ft`, the ratio could invert and the pruning would silently start
+        discarding winners."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "geometry", os.path.join(ROOT, "build", "geometry.py"))
+        geo = importlib.util.module_from_spec(spec); spec.loader.exec_module(geo)
+        floor = structure_module.load_construction()["floor"]
+        assert geo.SPAN_W >= 0, "a negative weight would invert the pruning"
+        seen_positive = False
+        for w, d in ((20.0, 14.0), (40.0, 30.0), (60.0, 40.0), (80.0, 12.0)):
+            prep = {0: [{"id": "a", "type": "parlor", "_area": w * d}]}
+            rects = {0: {"a": (0.0, 0.0, w, d)}}
+            charge, over = geo._span_charge(rects, prep, w, d, 10.0,
+                                            "tidewater-georgian", floor)
+            assert charge >= 0.0, (w, d, charge)
+            assert over is not None and over >= 0
+            if charge > 0:
+                seen_positive = True
+        assert seen_positive, "no case produced a charge — this test proved nothing"
+
+    def test_an_unreadable_catalogue_is_unjudged_and_not_a_clean_zero(self, structure_module):
+        """The third state. A zero charge with no count would read as 'no span exceeds
+        capacity', which is the OQ 52 lie in the cheapest possible place -- the count must come
+        back None so the report can say COULD NOT EVALUATE."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "geometry", os.path.join(ROOT, "build", "geometry.py"))
+        geo = importlib.util.module_from_spec(spec); spec.loader.exec_module(geo)
+        charge, over = geo._span_charge({0: {"a": (0.0, 0.0, 60.0, 40.0)}},
+                                        {0: [{"id": "a", "type": "parlor", "_area": 2400}]},
+                                        60.0, 40.0, 10.0, "tidewater-georgian", None)
+        assert charge == 0.0
+        assert over is None, "an unreadable catalogue must report unjudged, never a clean zero"
 
 
 class TestSpanCheckFramingBasis:

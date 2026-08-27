@@ -5,6 +5,7 @@ room produces a treemap instead of a plan.' Only circulation rooms span —
 a porch with three exterior walls wants the south edge, not a slab through
 the middle of the house.
 """
+import pytest
 
 
 class TestSpanningRule:
@@ -115,18 +116,29 @@ class TestUnderBandIsReported:
         # And the good news, pinned so it cannot regress unnoticed: the CP engine does NOT make
         # this trade on the same record. That is the concrete difference between scoring a
         # room's minimum and enforcing it, on the plan the question was raised about.
+        # THIS ASSERTION IS OUTSIDE THE CP GATE ON PURPOSE. An audit found it nested inside
+        # `if solver.engine == "cp-sat"`, which meant that with no ortools, on a slower box, or
+        # on a CP timeout, the whole test degraded to a shape check that could not detect the
+        # WP-7.4 revert at all -- and the sibling test's own docstring records that CP on this
+        # plan is wall-clock nondeterministic. It runs on the HEURISTIC result already computed
+        # above, which is deterministic, and it is the one assertion here that fails on revert:
+        # with the score terms off this plan's under-band set is {entrance-hall, dining-room}.
+        assert "dining-room" not in {r["type"] for r in ub["rooms"]}, (
+            "the dining room is under band again on the hill-climb; WP-7.4's score terms put "
+            "it in band (under_band 2 -> 1, the stair hall taking its place) and something "
+            "has undone that")
+        # The CP half stays gated, because it genuinely cannot be evaluated without a solve --
+        # and it reports COULD NOT EVALUATE rather than passing when the engine did not run.
         cp = geometry_module.solve(json.loads(json.dumps(plan)), engine="auto")
-        if (cp.get("geometry_report", {}).get("solver") or {}).get("engine") == "cp-sat":
+        cp_engine = (cp.get("geometry_report", {}).get("solver") or {}).get("engine")
+        if cp_engine == "cp-sat":
             cp_names = {r["type"] for r in cp["geometry_report"]["under_band"]["rooms"]}
             assert "dining-room" not in cp_names, (
                 "the CP engine used to place this room in band; if it no longer does, the "
                 "room minimum has stopped being enforced")
-            # and since WP-7.4 the hill-climb places it in band too, which is why the assertion
-            # above moved off this room's name — recorded here so the two engines' agreement on
-            # OQ 54's own example is visible rather than inferred
-            assert "dining-room" not in {r["type"] for r in ub["rooms"]}, (
-                "the dining room is under band again on the hill-climb; WP-7.4's score terms "
-                "put it in band and something has undone that")
+        else:
+            pytest.skip(f"CP did not run (engine={cp_engine!r}) — the CP half is unjudged here, "
+                        f"not passed; the heuristic half above still ran")
 
     def test_a_layout_with_nothing_under_band_says_so_rather_than_going_quiet(self, geometry_module):
         rects = {0: {"a": (0.0, 0.0, 20.0, 20.0)}}

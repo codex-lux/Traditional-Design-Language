@@ -454,8 +454,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **78 entries, of which 20 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 77).
+  trusting any list of them. `docs/open-questions.md` holds **79 entries, of which 21 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 77, 79).
   **Phase 7 half-closed three of them.** OQ 72: two layers decide — the window grammar says a
   window's ROLE, the kit says its SASH KIND, and 119 of 159 styles answer *through the
   lineage* where only 39 answer in the flat kit file. OQ 73: sizing is REFUSED ("the tail

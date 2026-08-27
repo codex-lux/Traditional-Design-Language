@@ -370,13 +370,17 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
                                 f"{pid}: the door {r['id']}->{d['to']} is drawn through "
                                 f"{f['item']}")
 
-    def test_a_fixture_is_tried_on_every_wall_before_it_is_refused(self):
-        """Packing against the longest wall regardless of what is already on it reported the
-        powder room's water closet and basin as unfittable while its east wall stood empty.
-        A fixture refused on a wall nobody tried is a false "cannot fit", and this corpus
-        exists to distinguish evaluated-and-failed from not-looked-at."""
+    def test_every_fixture_the_shipped_plans_declare_is_placed(self):
+        """WP-7.2's guarantee, on the DETERMINISTIC engine.
+
+        This replaces a test that asserted the same count on the default engine, which is
+        `auto`: CP-SAT is wall-clock bounded, and four consecutive runs of spec-builder
+        alternated between 13 placed / 0 refused and 12 / 1 depending on which branch finished
+        in budget. That is OQ 71's error. WP-7.4b's commit message said the replacement had
+        happened; it had not — three tests were added beside this one and the flaky assertion
+        was left in the suite. Found by an adversarial audit of that commit."""
         for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
-            solved = GEO.solve(_plan(pid))
+            solved = GEO.solve(_plan(pid), engine="heuristic")
             rep = solved.get("opening_report") or {}
             assert rep.get("fixtures_placed", 0) > 0, "vacuous unless fixtures were placed"
             assert rep.get("fixtures_unplaced", 0) == 0, (
@@ -446,14 +450,29 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
         room = {"id": "tiny", "type": "bathroom", "fixtures": ["wc", "lavatory", "tub", "shower"],
                 "geometry": {"x_ft": 0.0, "y_ft": 0.0, "width_ft": 4.0, "depth_ft": 4.0}}
         rep = {"fixtures_placed": 0, "fixtures_unplaced": 0}
-        OP.fixture_pass([room], OP.C if hasattr(OP, "C") else GEO.C, rep, {})
+        OP.fixture_pass([room], GEO.C, rep, {})
         refused = [f for f in (room.get("fixture_layout") or []) if "unplaced" in f]
         assert refused, "a 4 x 4 ft room cannot hold a tub, a shower, a WC and a lavatory"
+        # An audit found three loopholes here and all three are closed. (1) The assertion was a
+        # DISJUNCTION -- `"tried" in why or "does not know how big" in why` -- so a catalogue
+        # rename that made every fixture unresolvable would send every refusal down the second
+        # branch, the four-wall check would never execute, and the test would stay green. At
+        # least one refusal must now reach the branch this test is named for. (2) The regex
+        # counted four matches, not four DISTINCT walls, so "S 4, S 4, S 4, S 4" satisfied it.
+        # (3) `OP.C if hasattr(OP, "C") else GEO.C` was a dead branch: `hasattr` is False, so it
+        # always resolved to GEO.C and would have silently switched corpora if `openings` ever
+        # grew a `C`.
+        tried = [f for f in refused if "tried" in f["unplaced"]["reason"]]
+        assert tried, (
+            "no refusal reached the all-walls-tried branch, so this test asserted nothing about "
+            f"it: {[f['unplaced']['reason'][:60] for f in refused]}")
         for f in refused:
             why = f["unplaced"]["reason"]
             assert "tried" in why or "does not know how big" in why, why
-            if "tried" in why:
-                assert len(_re.findall(r"[NSEW] \d", why)) == 4, f"all four walls must be named: {why}"
+        for f in tried:
+            why = f["unplaced"]["reason"]
+            named = {m[0] for m in _re.findall(r"\b([NSEW]) \d", why)}
+            assert named == {"N", "S", "E", "W"}, f"all four walls must be named distinctly: {why}"
 
     def test_every_wall_run_figure_is_read_off_the_sentence_beside_it(self):
         """WP-7.4. `needs_uninterrupted_wall_ft` is a READING, not a judgment: the figure has to
@@ -477,13 +496,20 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
                 if need is None:
                     continue
                 note = it.get("note") or ""
-                feet = {float(x) for x in _re.findall(r"(\d+(?:\.\d+)?)\s*(?:ft|feet)", note)}
-                feet |= {float(x) / 12.0 for x in _re.findall(r"(\d+(?:\.\d+)?)\s*(?:in|inches)", note)}
+                # \b on the unit: without it "12 in a row" read as 1.0 ft and gave the figure
+                # a free coincidental match. Still a unit-adjacency check rather than a semantic
+                # one -- a note written "9 ft to 10 ft" would let a band-derived guess through,
+                # which is how the withdrawn keeping-room figure would have survived had its
+                # note been phrased differently. That limit is stated rather than papered over.
+                feet = {float(x) for x in _re.findall(r"(\d+(?:\.\d+)?)\s*(?:ft|feet)\b", note)}
+                feet |= {float(x) / 12.0 for x in _re.findall(r"(\d+(?:\.\d+)?)\s*(?:in|inches)\b", note)}
                 assert any(abs(v - float(need)) < 1e-6 for v in feet), (
                     f"{os.path.basename(f)} :: {it.get('item')} claims {need} ft of wall and its "
                     f"own note states {sorted(feet)}: {note[:120]}")
                 found.append((os.path.basename(f), it.get("item"), need))
-        assert len(found) >= 5, f"expected at least the five measured, got {len(found)}: {found}"
+        # PINNED, not floored: five is the settled answer, and a sixth figure whose note happens
+        # to contain the number would slip past a `>=`.
+        assert len(found) == 5, f"expected exactly the five measured, got {len(found)}: {found}"
 
     def test_the_wall_run_check_has_rooms_to_evaluate(self):
         """A rule that fires on nothing passes vacuously. WP-7.2's check carried one room type
@@ -501,6 +527,99 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
                     if rm["type"] in carriers and rm.get("geometry"):
                         seen += 1
         assert seen >= 8, f"only {seen} placed rooms carry a wall-run rule on the shipped plans"
+
+    def test_no_fixture_overlaps_another_and_none_leaves_its_room(self):
+        """THE TEST WHOSE ABSENCE LET THE BUG SHIP. WP-7.4b measured "0 outside their room, 0
+        real overlaps" as one-off numbers in prose and pinned neither, so when the packer began
+        spilling across walls nothing checked the two properties that spilling can break.
+
+        The first version reserved the corner by starting a newly opened wall past the deepest
+        fixture placed anywhere in the room. Every wall packs from its LOW end and the four low
+        ends are four different corners, so that guarded SW, did nothing for NE, and actively
+        pushed W into N. Over this sweep it produced overlaps or out-of-room fixtures in 60 of
+        81 room sizes while the corpus's own 16 plans showed none of it. The approximation is
+        gone: a seat is turned into its rectangle and rejected if it leaves the room or touches
+        anything already placed.
+
+        Swept rather than sampled, because the shipped plans do not exercise the corners."""
+        rooms_checked = fixtures_checked = 0
+        for w in range(4, 16):
+            for d in range(4, 16):
+                room = {"id": "r", "type": "primary-bathroom",
+                        "fixtures": ["wc", "lavatory", "tub", "shower"],
+                        "geometry": {"x_ft": 0.0, "y_ft": 0.0,
+                                     "width_ft": float(w), "depth_ft": float(d)}}
+                rep = {"fixtures_placed": 0, "fixtures_unplaced": 0}
+                OP.fixture_pass([room], GEO.C, rep, {})
+                placed = [f for f in (room.get("fixture_layout") or []) if "unplaced" not in f]
+                rooms_checked += 1
+                fixtures_checked += len(placed)
+                box = [(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]) for f in placed]
+                for i, a in enumerate(box):
+                    assert a[0] >= -1e-9 and a[1] >= -1e-9, (w, d, placed[i])
+                    assert a[0] + a[2] <= w + 1e-9 and a[1] + a[3] <= d + 1e-9, (w, d, placed[i])
+                    for b in box[i + 1:]:
+                        ox = min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0])
+                        oy = min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1])
+                        assert not (ox > 1e-9 and oy > 1e-9), (w, d, a, b)
+        # the tolerance is 1e-9, not a forgiving one, because position and extent are rounded
+        # to the same precision now -- they were 3dp and 2dp, and the 0.003 ft overshoot that
+        # produced had to be tolerated by any check written against the old record
+        assert rooms_checked == 144 and fixtures_checked > 300, (rooms_checked, fixtures_checked)
+
+    def test_no_fixture_overlaps_another_on_the_shipped_plans(self):
+        """The same two properties on the real corpus rather than a sweep -- so a change that
+        satisfies the sweep by refusing everything cannot pass."""
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            solved = GEO.solve(_plan(pid), engine="heuristic")
+            seen = 0
+            for lv in solved["levels"]:
+                for rm in lv["rooms"]:
+                    g = rm.get("geometry")
+                    if not g:
+                        continue
+                    placed = [f for f in (rm.get("fixture_layout") or []) if "unplaced" not in f]
+                    seen += len(placed)
+                    box = [(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]) for f in placed]
+                    for i, a in enumerate(box):
+                        assert a[0] >= g["x_ft"] - 1e-9 and a[1] >= g["y_ft"] - 1e-9, (pid, rm["id"])
+                        assert a[0] + a[2] <= g["x_ft"] + g["width_ft"] + 1e-9, (pid, rm["id"])
+                        assert a[1] + a[3] <= g["y_ft"] + g["depth_ft"] + 1e-9, (pid, rm["id"])
+                        for b in box[i + 1:]:
+                            ox = min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0])
+                            oy = min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1])
+                            assert not (ox > 1e-9 and oy > 1e-9), (pid, rm["id"], a, b)
+            assert seen > 0, f"{pid}: vacuous unless fixtures were placed"
+
+    def test_the_window_type_vocabulary_covers_every_id_the_kits_use(self):
+        """WP-7.4 declared a `fields[]` enum on `elements/slots.json`'s `window_type` slot and
+        called it "a ratchet now instead of a comment". An audit pointed out the ratchet had no
+        pawl: `check_kits.check_slot_fields` iterates only the slots that DECLARE fields, so
+        deleting the whole 41-entry block removes the check rather than breaking anything, and
+        nothing asserted the vocabulary still matches the corpus.
+
+        Two directions, and both matter. An id used by a kit but missing from the list means the
+        build fails for a legitimate value; an id in the list that no kit uses is a rename that
+        was only half done."""
+        import glob as _glob
+        slots = json.load(open(os.path.join(ROOT, "elements", "slots.json")))
+        slot = next(sl for g in slots["groups"] for sl in g["slots"] if sl["id"] == "window_type")
+        fields = slot.get("fields") or []
+        declared = next((set(f["examples"]) for f in fields
+                         if f.get("id") == "window_type" and f.get("value_type") == "enum"), None)
+        assert declared, "window_type declares no enum vocabulary — the ratchet is gone"
+        used = set()
+        for kf in sorted(_glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
+            rec = (json.load(open(kf)).get("slots") or {}).get("window_type") or {}
+            for v in (rec.get("variants") or []):
+                if v.get("id"):
+                    used.add(v["id"])
+        assert used, "no kit states a window_type variant — this test would pass vacuously"
+        assert not (used - declared), f"kits use ids the vocabulary does not permit: {sorted(used - declared)}"
+        assert not (declared - used), f"vocabulary lists ids no kit uses: {sorted(declared - used)}"
+        # and the merge that WP-7.4c performed must stay performed
+        for gone in ("double-hung-sash", "round-arched", "round-headed-window"):
+            assert gone not in used, f"{gone} is back in the kits; the WP-7.4c merge was undone"
 
     def test_every_furniture_item_states_its_own_placement(self):
         """`placement` decides one-sided or two-sided clearance and is the difference between

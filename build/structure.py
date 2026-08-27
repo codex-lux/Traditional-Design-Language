@@ -48,10 +48,22 @@ IRC_MIN_TREAD_IN = 10.0
 IRC_MIN_HEADROOM_IN = 80.0
 
 # ---------------------------------------------------------------- construction catalog
+_CONSTRUCTION = None
 def load_construction():
-    assemblies = {a["id"]: a for a in json.load(open(f"{ROOT}/construction/wall-assemblies.json"))["assemblies"]}
-    floor = json.load(open(f"{ROOT}/construction/floor-structure.json"))
-    return {"assemblies": assemblies, "floor": floor}
+    """The wall and floor catalogues, read once per process.
+
+    WP-7.4 cached this. It was two file reads and two JSON parses per call, which was fine
+    while every caller was once-per-plan -- and `geometry._span_charge` now calls `span_check`
+    inside a 250-candidate loop, so `geometry_cp._score` and the candidate loop between them
+    were re-reading static catalogue files hundreds of times per solve. Every consumer treats
+    the result as read-only (checked: no assignment into `construction[...]` anywhere in the
+    tree), so one shared dict is safe; do not mutate it."""
+    global _CONSTRUCTION
+    if _CONSTRUCTION is None:
+        assemblies = {a["id"]: a for a in json.load(open(f"{ROOT}/construction/wall-assemblies.json"))["assemblies"]}
+        floor = json.load(open(f"{ROOT}/construction/floor-structure.json"))
+        _CONSTRUCTION = {"assemblies": assemblies, "floor": floor}
+    return _CONSTRUCTION
 
 def _mid(rng):
     return (rng[0] + rng[1]) / 2.0 if isinstance(rng, list) else float(rng)
@@ -179,7 +191,12 @@ def bearing_lines(walls, bay_module_ft, tol=0.75):
     out = []
     for w in walls:
         if w["role"] == "exterior":
-            out.append({**w, "bearing": True, "why": "exterior envelope"}); continue
+            # WP-7.4 audit: keep a `why` the caller already wrote. `wall_lines` marks a wall
+            # facing an unroofed court with "faces <court>, which is open to the sky" (OQ 55),
+            # and the blanket "exterior envelope" overwrote it -- including in the IFC property
+            # set, which writes `why` verbatim, so the courtyard reasoning was gone from the
+            # export. The envelope walls carry no `why` of their own and still get one.
+            out.append({**w, "bearing": True, "why": w.get("why") or "exterior envelope"}); continue
         on_grid = abs((w["position_ft"] / bay_module_ft) - round(w["position_ft"] / bay_module_ft)) * bay_module_ft <= tol
         out.append({**w, "bearing": on_grid, "why": ("on the bay grid" if on_grid else "not on the bay grid -- a partition")})
     return out
@@ -256,8 +273,15 @@ def span_check(bearing_walls, W, H, style, floor_catalog):
             })
     return results
 
+_TIMBER_BAY = None
 def _timber_bay_applies_to():
-    return set(json.load(open(f"{ROOT}/proportions/modules/timber-bay.json"))["applies_to"])
+    """Cached for the same reason as load_construction: `span_check` calls this ONCE PER
+    INVOCATION, and WP-7.4 put span_check inside the placement search's candidate loop -- 500
+    reads of one static file per solve on a two-storey plan."""
+    global _TIMBER_BAY
+    if _TIMBER_BAY is None:
+        _TIMBER_BAY = frozenset(json.load(open(f"{ROOT}/proportions/modules/timber-bay.json"))["applies_to"])
+    return _TIMBER_BAY
 
 # ---------------------------------------------------------------- storeys and roof
 def storey_heights(plan):

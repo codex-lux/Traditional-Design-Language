@@ -1274,7 +1274,14 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         part = sg + su + vs + 1.5 * len(grelax + urelax)
         if best is not None and part >= best["_raw"]:
             continue
-        spc, _sp_over = _span_charge({0: gr, 1: ur}, prep, W, H, bay, plan.get("style"), _floor)
+        try:
+            spc, sp_over = _span_charge({0: gr, 1: ur}, prep, W, H, bay, plan.get("style"), _floor)
+        except Exception:
+            # The catalogue LOAD is guarded above; the CALL was not, so a floor-structure.json
+            # missing `light_frame_joist_spans` (KeyError) or holding an empty list (ValueError
+            # out of max()) took down the whole placement, while an unreadable file degraded to
+            # a stated COULD NOT EVALUATE. Same failure, two behaviours. Now one: unjudged.
+            spc, sp_over = 0.0, None
         tot = part + spc
         # Compare raw against raw. "score" is stored rounded to 1dp, so comparing an
         # unrounded challenger against it let a strictly WORSE candidate win whenever
@@ -1288,7 +1295,8 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                     # storey it is slicing, and a mark has to know which plan it belongs on (OQ 33).
                     "relaxations": ([dict(r, level=0) for r in grelax]
                                     + [dict(r, level=1) for r in urelax]),
-                    "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1)}
+                    "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1),
+                    "span_charge": round(spc, 1), "spans_over_capacity": sp_over}
 
     # --- write coordinates back into the plan (write_record does it, below)
     rel = best["relaxations"]
@@ -1310,6 +1318,25 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                     "Ground and upper were solved together and scored as a pair, so an upper "
                     "layout that would score LOWER alone is rejected when it leaves walls "
                     "unsupported.")}
+    # WP-7.4 (OQ 78). Reported for exactly the reason `under_band` below is: the search now
+    # TRADES against this, and a trade the record does not carry is a trade nobody can see. An
+    # over-capacity span is a defect that survives the building, so the count is stated whether
+    # it is zero or not -- and `None` is the third state, meaning the construction catalogue
+    # could not be read and the span was never evaluated. A zero there would read as "nothing
+    # exceeds capacity", which is the OQ 52 lie in the cheapest possible place.
+    _spo = best.get("spans_over_capacity")
+    report["span_capacity"] = {
+        "over_capacity": _spo,
+        "charge": best.get("span_charge"),
+        "weight": SPAN_W,
+        "note": ("COULD NOT EVALUATE -- construction/floor-structure.json was unreadable, so no "
+                 "span was checked and none is claimed clear." if _spo is None else
+                 "Every clear span between bearing lines is within its framing capacity."
+                 if not _spo else
+                 f"{_spo} clear span(s) exceed the capacity their framing tradition states. The "
+                 f"search charges each in proportion to how far over it is and trades that "
+                 f"against everything else it scores; build/structure.py's section report names "
+                 f"them individually.")}
     ub = under_band({0: best["ground"], 1: best["upper"]}, prep)
     report["over_band"] = _over_band_block(
         over_band({0: best["ground"], 1: best["upper"]}, prep))
@@ -1378,6 +1405,22 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
     plan["geometry_report"] = {
         "score": best.get("score"), "ground_score": best.get("sg"),
         "upper_score": best.get("su"), "vertical_score": best.get("sv"),
+        # WP-7.4: the CP path builds its report from named keys, so a term added to `_score`
+        # reaches the record only if it is named here too. It was not, and the span charge the
+        # CP acceptance comparison now uses was computed and dropped -- the same shape as the
+        # bug this package opened with.
+        "span_capacity": {
+            "over_capacity": best.get("spans_over_capacity"),
+            "charge": best.get("span_charge"),
+            "weight": SPAN_W,
+            "note": ("COULD NOT EVALUATE -- construction/floor-structure.json was unreadable, "
+                     "so no span was checked and none is claimed clear."
+                     if best.get("spans_over_capacity") is None else
+                     "Every clear span between bearing lines is within its framing capacity."
+                     if not best.get("spans_over_capacity") else
+                     f"{best.get('spans_over_capacity')} clear span(s) exceed the capacity their "
+                     f"framing tradition states; build/structure.py's section report names "
+                     f"them individually.")},
         "bays_grown": fpd.get("grown"),
         "lot_capped": (fpd.get("lot_maxbay") is not None
                        and fpd["lot_maxbay"] < fpd.get("catalog_maxbay", 10 ** 9)),
@@ -1574,8 +1617,15 @@ def main():
     fp, gr = out["footprint"], out["geometry_report"]
     print(f"\n  {plan['name']}")
     print(f"  footprint {fp['width_ft']} x {fp['depth_ft']} ft, {fp['bays']} bays of {fp['bay_module_ft']} ft, {fp['area_sf']} sf gross")
+    # WP-7.4 audit: the decomposition has to ADD UP. It listed ground, upper and vertical while
+    # `score` also carried the span charge and the relaxation tax, so the Tidewater plan printed
+    # 714.6 against parts summing to 644.7 -- 69.9 unexplained, which is the 70.0 span charge.
+    # A breakdown a reader cannot reconcile with its own total is worse than no breakdown.
+    _sc = (gr.get("span_capacity") or {}).get("charge") or 0.0
+    _rx = 1.5 * (gr.get("relaxations") or {}).get("count", 0)
     print(f"  score {gr['score']} — LOWER IS BETTER, it counts what the placement costs "
-          f"(ground {gr['ground_score']}, upper {gr['upper_score']}, vertical {gr['vertical_score']})")
+          f"(ground {gr['ground_score']}, upper {gr['upper_score']}, "
+          f"vertical {gr['vertical_score']}, spans {_sc}, relaxations {_rx:g})")
     print(f"  relaxations {gr['relaxations']['count']}, worst {gr['relaxations']['max_off_grid_ft']} ft off the bay line")
     for n in gr["vertical"][:6]: print(f"    · {n}")
     if a.out: json.dump(out, open(a.out, "w"), indent=1, ensure_ascii=False); print(f"  wrote {a.out}")

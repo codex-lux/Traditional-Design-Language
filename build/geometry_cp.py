@@ -158,6 +158,18 @@ class _Reqs:
         return b
 
 
+def _w(weight):
+    """A heuristic weight as an integer CP penalty, on this model's x10 SCALE.
+
+    WP-7.4 wrote this as `int(w) * SCALE`, which truncates: a weight of 0.5 became 0 and the
+    term silently vanished, and a weight of 40.9 became 40. Rounding the SCALED value keeps
+    fractional weights meaningful, and a non-zero weight can never round away to nothing --
+    a term that disappears because someone tuned it below 1.0 is the kind of silence this
+    corpus exists to prevent."""
+    v = int(round(float(weight) * SCALE))
+    return v if v or not weight else (1 if weight > 0 else -1)
+
+
 def _span_capacity(plan):
     """The clear span this plan's framing tradition can make, from the corpus rather than a
     constant: timber-bay.json's 20 ft bay module for the styles that list it, else the deepest
@@ -612,7 +624,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             m.Add(vg["y"] < v["y"] + v["h"]).OnlyEnforceIf(b)
             none = m.NewBoolVar("")
             m.AddBoolOr([b, none])
-            penalties.append((none, int(GEO.STACK_W) * SCALE))
+            penalties.append((none, _w(GEO.STACK_W)))
 
         # WP-7.4 (OQ 78): over-capacity clear spans, charged, on the same structural fact the
         # heuristic charges and plan_check reports.
@@ -654,8 +666,23 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                         a_ = m.NewBoolVar("")
                         m.AddBoolOr(faces + [a_.Not()])   # a_ -> some face really sits on L
                         act[L] = a_
-                    # every run of consecutive lines longer than the capacity must contain a
-                    # bearing line, or it pays
+                    # Every run of consecutive grid lines longer than the capacity must
+                    # contain a bearing line, or it pays.
+                    #
+                    # THIS IS NOT THE HEURISTIC'S QUANTITY AND THE COMMENT USED TO IMPLY IT WAS.
+                    # `geometry._span_charge` charges ONCE PER over-capacity span, in proportion
+                    # to how far over it is. This anchors one clause at EVERY grid line, so a
+                    # single long clear span is charged once per anchor that cannot reach a
+                    # bearing line: with lines every 10 ft, a 20 ft capacity and bearing only at
+                    # 0 and 60, the heuristic charges 3x the weight and this charges 4x. Both
+                    # grow with the span and neither mis-ranks two placements that differ only
+                    # in span, but they are different numbers and calling them mirrors was
+                    # loose. Making them identical needs reified consecutive-line logic, which
+                    # is the expensive formulation this one exists to avoid.
+                    #
+                    # The `break` is sound: for a given `lo_L` the SHORTEST over-capacity window
+                    # has the fewest inner lines, so its clause is the strictest, and every
+                    # longer window's clause is implied by it.
                     capU = int(cap_ft * U)
                     for i, lo_L in enumerate(lines):
                         for hi_L in lines[i + 1:]:
@@ -664,7 +691,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                             inner = [act[L] for L in lines[i + 1:] if L < hi_L and L in act]
                             viol = m.NewBoolVar("")
                             m.AddBoolOr(inner + [viol])
-                            penalties.append((viol, int(GEO.SPAN_W) * SCALE))
+                            penalties.append((viol, _w(GEO.SPAN_W)))
                             break        # the shortest over-capacity window implies the rest
 
     if objective and penalties:
@@ -862,11 +889,12 @@ def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax):
         _floor = _mod("structure", f"{ROOT}/build/structure.py").load_construction()["floor"]
     except Exception:
         _floor = None
-    spc, _over = GEO._span_charge(rects_by_level, prep, W, H, fpd["bay"],
-                                  plan.get("style"), _floor)
+    spc, over = GEO._span_charge(rects_by_level, prep, W, H, fpd["bay"],
+                                 plan.get("style"), _floor)
     tot = sg + su + sv + spc + 1.5 * len(relax)
     return {"score": round(tot, 1), "sg": round(sg, 1), "su": round(su, 1),
-            "sv": round(sv, 1), "span_charge": round(spc, 1), "vnotes": vnotes}
+            "sv": round(sv, 1), "span_charge": round(spc, 1),
+            "spans_over_capacity": over, "vnotes": vnotes}
 
 
 def _values(solver, rooms):

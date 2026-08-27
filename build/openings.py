@@ -594,28 +594,47 @@ def fixture_pass(level_rooms, C, report, occupied=None):
         # WP-7.4: THE RUN TURNS THE CORNER. WP-7.2 made this pick the wall with the longest
         # CLEAR run instead of simply the longest wall, because "a fixture refused on a wall
         # nobody tried is a false 'cannot fit'". It then packed every fixture onto that one
-        # wall -- which is the same error one level up, and it surfaced the moment WP-7.4's
-        # score terms moved a room: `spec-builder-colonial`'s primary bath is 9 x 18 ft, its
-        # four fixtures want 22 ft, its longest clear run is 17.2 ft, and its other three
-        # walls stood empty. A 162 sf bathroom reporting a shower that will not fit is exactly
-        # the well-formed-and-meaningless drawing this programme exists to remove.
+        # wall -- the same error one level up, and it surfaced the moment WP-7.4's score terms
+        # moved a room: `spec-builder-colonial`'s primary bath is 9 x 18 ft, its four fixtures
+        # want 22 ft, its longest clear run is 17.2 ft, and its other three walls stood empty.
         #
         # Each wall keeps its own cursor and a fixture tries the wall it is already on first,
         # so a room whose fixtures all fit on one wall packs BYTE-IDENTICALLY to before.
         #
-        # THE CORNER RESERVE IS DELIBERATELY CRUDE AND DELIBERATELY CONSERVATIVE. Every wall
-        # is packed from its low end, so two walls meeting there can collide; rather than model
-        # the corner exactly, a newly opened wall starts past the deepest fixture already
-        # placed anywhere in the room. That over-reserves — it can refuse a fixture that would
-        # in fact have fitted — and over-reserving is the safe direction, because the failure
-        # it prevents is a drawn collision and the failure it causes is a NAMED refusal.
-        walls = {c[3]: {"along": c[4], "run": c[5], "base": c[6], "free": c[7], "cursor": 0.0,
-                        "opened": False} for c in cand}
+        # A SEAT IS ACCEPTED ONLY IF THE RECTANGLE IT PRODUCES IS REALLY FREE. The first
+        # version of this reserved the corner by starting a newly opened wall past the deepest
+        # fixture placed anywhere in the room, and called that "conservative". It is not: every
+        # wall packs from its LOW end, and the four low ends are four different corners, so the
+        # reserve guards the SW corner and does nothing for NE, pushes W into N at NW and S into
+        # E at SE. Measured over a sweep of 81 plausible primary-bathroom sizes, 60 came out
+        # with a drawn fixture overlapping another or sitting outside the room. Nothing in the
+        # corpus's own 16 plans showed it, which is exactly why it needed measuring rather than
+        # reasoning about. The approximation is gone: a candidate seat is now turned into its
+        # actual rectangle and rejected if it leaves the room or touches anything already
+        # placed, which also covers the OPPOSITE-wall case (a 6 ft room cannot hold a 5.5 ft
+        # fixture on W and a 5 ft one on E) that no corner rule could ever have caught.
+        walls = {c[3]: {"along": c[4], "run": c[5], "base": c[6], "free": c[7],
+                        "clear": -c[0], "cursor": 0.0} for c in cand}
         order = [c[3] for c in cand]
         wall = order[0]
-        walls[wall]["opened"] = True
-        deepest = 0.0
         layout = []
+        placed = []          # (x, y, w, d) of every fixture actually drawn in this room
+
+        def _seat_rect(cw, seat, fw, fd):
+            """The rectangle a seat on `cw` would occupy, or None if it leaves the room."""
+            along = walls[cw]["along"]
+            if along and fd > d + 1e-6: return None
+            if not along and fd > w + 1e-6: return None
+            off = (y if cw == "S" else y + d - fd) if along else (x if cw == "W" else x + w - fd)
+            return ((seat, off, fw, fd) if along else (off, seat, fd, fw))
+
+        def _clear_of_placed(rect):
+            for q in placed:
+                if (min(rect[0] + rect[2], q[0] + q[2]) - max(rect[0], q[0]) > 1e-6
+                        and min(rect[1] + rect[3], q[1] + q[3]) - max(rect[1], q[1]) > 1e-6):
+                    return False
+            return True
+
         for f in fixtures:
             spec = _furniture_for(r["type"], f, C)
             if not spec:
@@ -625,53 +644,48 @@ def fixture_pass(level_rooms, C, report, occupied=None):
                 continue
             fw = spec["w_in"] / 12.0
             fd = spec["d_in"] / 12.0
-            # the wall it is already on first, then every other wall in clear-run order
-            seat = None
+            # the wall it is already on first, then every other wall in clear-run order; and
+            # within a wall every free segment, not only the first that is wide enough
+            seat = rect = None
             for cw in [wall] + [o for o in order if o != wall]:
                 W_ = walls[cw]
-                start_at = W_["cursor"] if W_["opened"] else max(W_["cursor"], deepest)
                 for lo, hi in W_["free"]:
-                    start = max(lo, W_["base"] + start_at)
-                    if hi - start >= fw - 1e-6:
-                        seat, wall = start, cw
-                        break
-                if seat is not None:
-                    break
+                    start = max(lo, W_["base"] + W_["cursor"])
+                    while hi - start >= fw - 1e-6:
+                        cand_rect = _seat_rect(cw, start, fw, fd)
+                        if cand_rect is not None and _clear_of_placed(cand_rect):
+                            seat, rect, wall = start, cand_rect, cw
+                            break
+                        if cand_rect is None:
+                            break        # too deep for this wall's room dimension: no seat fits
+                        start += 0.5     # step along and try again past the obstruction
+                    if seat is not None: break
+                if seat is not None: break
             if seat is None:
-                tried = ", ".join(f"{o} {walls[o]['run']:.1f} ft" for o in order)
-                taken = sum(b - a for a, b in occupied.get((r["id"], wall), []))
+                tried = ", ".join(f"{o} {walls[o]['clear']:.1f} ft clear of {walls[o]['run']:.1f}"
+                                  for o in order)
                 layout.append({"item": spec["item"], "width_ft": round(fw, 2),
                                "depth_ft": round(fd, 2), "unplaced": {
-                    "reason": (f"no wall of this room has a clear run left for a {fw:.1f} ft "
-                               f"item. All four were tried ({tried})"
-                               + (f"; openings hold {taken:.1f} ft of the {wall} wall" if taken else "")
-                               + f"; fixtures already placed take {walls[wall]['cursor']:.1f} ft of it")}})
+                    "reason": (f"no wall of this room has a clear run left for a {fw:.1f} x "
+                               f"{fd:.1f} ft item that does not overlap what is already placed. "
+                               f"All four were tried ({tried}); fixtures already placed take "
+                               f"{walls[wall]['cursor']:.1f} ft of the {wall} wall")}})
                 continue
-            W_ = walls[wall]
-            W_["opened"] = True
-            along_x, base = W_["along"], W_["base"]
-            # WP-7.4: THE OFF-WALL COORDINATE, which was the room's low edge for all four
-            # walls. A fixture on the N wall was written at the room's SOUTH edge and one on
-            # the E wall at its WEST edge -- so it was drawn against the opposite wall from the
-            # one its own record names. Measured over the 16 plans: 15 of 67 placed fixtures
-            # sit on N or E, across 6 of the 24 rooms that place any.
-            #
-            # It could not show as a collision while every fixture went on ONE wall: they were
-            # all wrong together, so they still did not overlap and the drawing merely put the
-            # bath on the wrong side of the room. Letting the run turn the corner above made it
-            # visible immediately -- 5 overlapping pairs across both shipped plans on the first
-            # measurement. A fix that removes a shield has to look at what the shield covered.
-            off = (y if wall == "S" else y + d - fd) if along_x else (x if wall == "W" else x + w - fd)
             layout.append({
                 "item": spec["item"],
                 "wall": wall,
-                "x_ft": round(seat if along_x else off, 3),
-                "y_ft": round(off if along_x else seat, 3),
-                "width_ft": round(fw if along_x else fd, 2),
-                "depth_ft": round(fd if along_x else fw, 2),
+                # WP-7.4 audit: position and extent are rounded to the SAME precision. They
+                # were 3dp and 2dp, so a fixture against the far wall came out at
+                # 2.333 + 2.67 = 5.003 in a 5.00 ft room -- the "against the wall it names"
+                # invariant held only to about 0.005 ft, and an outside-the-room check had to
+                # be written with a tolerance loose enough to hide a real 0.04 ft error.
+                "x_ft": round(rect[0], 3),
+                "y_ft": round(rect[1], 3),
+                "width_ft": round(rect[2], 3),
+                "depth_ft": round(rect[3], 3),
             })
-            W_["cursor"] = (seat - base) + fw
-            deepest = max(deepest, fd)
+            placed.append(rect)
+            walls[wall]["cursor"] = (seat - walls[wall]["base"]) + fw
         if layout:
             r["fixture_layout"] = layout
             report["fixtures_placed"] += sum(1 for f in layout if "unplaced" not in f)
