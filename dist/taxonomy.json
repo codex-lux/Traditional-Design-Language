@@ -45433,6 +45433,15 @@
           "role": "optional",
           "note": "DEMOTED. The canonical Tidewater house is brick and single-pile at 18–22 ft, which is one bay deep and therefore says nothing the brick module does not already say. Retained only for the frame houses of the middling planters, where it governs.",
           "precedence": 9
+        },
+        {
+          "pack": "sash-light",
+          "role": "opening",
+          "slots_except": [
+            "window_sill/projection"
+          ],
+          "note": "BOUND HERE ONLY TO REFUSE ONE RULE, and the pack itself says which. sash-light reaches this node through georgian-colonial-american and writes fourteen addresses, thirteen of which are right on a brick house -- the glass module that dates the building, the muntin section, the deep reveal. Its `window_sill/projection` rule is not: it gives 2.25 in past the cladding 'sloped about 1 in 6 with a drip', and its OWN note draws the line -- 'In a frame wall this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one.' This node is solid masonry, forbids `wood-sill-sloped` in its kit for exactly that reason ('the parent's 2 1/4 in projecting sloped sill throws a shadow under every window and the brick sill does not'), and authors its own `projection` of 0-1 in as measured. So the slot carried the node's measured figure and the pack's contradicting one at the same address under two names -- `projection` and `projection_in` -- which is OQ 48's class between a kit parameter and a pack rule, a pairing check_addresses.py did not compare. Scoped 27 Aug 2026 (WP-5.10): the pack's own prose, written into its data.",
+          "precedence": 3
         }
       ],
       "_cascade": [

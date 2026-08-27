@@ -300,3 +300,126 @@ class TestScopedLineageEdges:
         slots, _ = resolve_kit_module.resolve_slots(graph, chain, scope)
         still = [s for s, v in slots.items() if v and v.get("_source") == "italianate-american"]
         assert len(still) >= 10, "the dress itself must still come through the edge"
+
+class TestASlotAStyleDeclinedToConstrainIsNotConstrainedForIt:
+    """OQ 79's sibling, closed 27 Aug 2026 (WP-5.10), and found by drawing rather than by testing.
+
+    `colonial-revival` bound `dormer` as `binding: "open"`, `status: "empty"` — the style
+    explicitly declining to constrain the slot. `resolve_slots` only stops its walk on `specified`
+    or `forbidden`; `open` is skipped entirely, so the walk continued to
+    `english-cottage-vernacular` and returned its whole slot: `eyebrow-swept-dormer-within-thatch`
+    canonical, `catslide-over-rear-outshot` permitted, and **`boxed-dormer` forbidden** — the only
+    dormer a production Colonial Revival is ever built with, refused on a `c01, hard.`
+
+    That a style saying `open` inherits a constraint it declined to make is a question about the
+    semantics of `open` across all 97 slots, and it is raised separately rather than answered
+    here. This pins the instance."""
+
+    def test_colonial_revival_owns_its_dormer_slot(self, resolve_kit_module):
+        rk = resolve_kit_module
+        g = rk.load_graph()
+        chain = rk.chain_for(g, "colonial-revival")
+        slots, _ = rk.resolve_slots(g, chain, rk.scope_for(g, "colonial-revival"))
+        d = slots["dormer"]
+        assert d["_source"] == "colonial-revival", (
+            f"the dormer slot resolves from {d['_source']} — the cascade is answering for a style "
+            "that has its own binding")
+        st = {v["id"]: v.get("status") for v in d["variants"]}
+        assert st.get("boxed-dormer") == "canonical", st
+        assert "eyebrow-swept-dormer-within-thatch" not in st, (
+            "a thatched cottage's dormer is canonical on a production Colonial Revival again")
+
+    def test_the_style_can_now_state_the_dormer_it_is_built_with(self, resolve_kit_module):
+        """The behaviour the binding exists for: a record declaring a boxed dormer must not be
+        refused. Before this, it was — by an inherited `forbidden`."""
+        import copy
+        import json as _j
+        import os as _os
+        e = __import__("elevation")
+        root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+        plan = _j.load(open(_os.path.join(root, "plans", "spec-builder-colonial.json")))
+        plan = copy.deepcopy(plan)
+        plan["declared"]["dormer"] = {"count": 3, "variant": "boxed-dormer"}
+        d = e.build_elevation(plan)["dormers"]
+        assert d.get("refused") is not True
+        assert d["variant"] == "boxed-dormer"
+
+    def test_the_sash_pattern_no_longer_has_to_be_drawn_as_bare_glass(self, resolve_kit_module):
+        """The slot states one now. WP-5.9 had to draw this style's dormer sash with no glazing
+        bars at all, and say so on the sheet, because nothing in the cascade stated a pattern."""
+        import copy
+        import json as _j
+        import os as _os
+        e = __import__("elevation")
+        root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+        plan = copy.deepcopy(_j.load(open(_os.path.join(root, "plans", "spec-builder-colonial.json"))))
+        plan["declared"]["dormer"] = {"count": 3}
+        d = e.build_elevation(plan)["dormers"]
+        assert d["sash_pattern"] == "6/6"
+        assert d["lights_across"] == 2 and d["lights_high_per_sash"] == 3
+
+class TestTheSillNoLongerForbidsWhatItSpecifies:
+    """The window sill, ruled 27 Aug 2026: the forbidden variant wins.
+
+    `kits/tidewater-georgian.kit.json` forbids `wood-sill-sloped` with a reason — "the parent's
+    2 1/4 in projecting sloped sill throws a shadow under every window and the brick sill does
+    not, so the elevation is flatter" — and two inherited things contradicted it. The parent's
+    `rule` sentence ended "...it projects past the wall face with a drip and is sloped 1 in 6",
+    which describes the forbidden variant. And `sash-light`'s `window_sill/projection` rule
+    delivered 2.25 in under the name `projection_in`, beside the node's own authored `projection`
+    of 0–1 in: two names for one quantity, differing by more than twice, with nothing comparing
+    them.
+
+    The pack's own note had the answer in it all along — "In a frame wall this is a real sill
+    member; in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not
+    this one" — and the fix is that sentence written into the data."""
+
+    def _sill(self, rk, style):
+        g = rk.load_graph()
+        chain = rk.chain_for(g, style)
+        slots, _ = rk.resolve_slots(g, chain, rk.scope_for(g, style))
+        return slots["window_sill"]
+
+    def test_the_rule_no_longer_describes_the_variant_it_forbids(self, resolve_kit_module):
+        ws = self._sill(resolve_kit_module, "tidewater-georgian")
+        rule = ws["rule"].lower()
+        assert "sloped 1 in 6" not in rule and "projects past the wall face" not in rule, ws["rule"]
+        assert "one course of brick" in rule
+        st = {v["id"]: v.get("status") for v in ws["variants"]}
+        assert st["wood-sill-sloped"] == "forbidden", "the forbidding is the premise of this test"
+
+    def test_one_name_for_the_projection_and_it_is_the_nodes_own_figure(self, resolve_kit_module):
+        ws = self._sill(resolve_kit_module, "tidewater-georgian")
+        prm = ws["parameters"]
+        assert "projection" not in prm, (
+            "`projection` and `projection_in` are two names for one quantity; that is how a 0–1 in "
+            "measured figure and a 2.25 in pack figure sat in one slot without meeting")
+        assert prm["projection_in"]["range"] == [0, 1]
+        assert prm["projection_in"]["kind"] == "measured"
+
+    def test_a_frame_tradition_still_gets_the_packs_figure(self, resolve_kit_module):
+        """The scope must be a scope, not a deletion. `sash-light`'s sloped sill is right on a
+        frame wall and the parent keeps it."""
+        prm = self._sill(resolve_kit_module, "georgian-colonial-american")["parameters"]
+        assert prm["projection_in"]["computed_at"]["value"] == 2.25
+
+    def test_the_pack_still_delivers_its_other_thirteen_addresses(self, resolve_kit_module):
+        """`slots_except` refuses one rule. An allowlist would have meant naming the other
+        thirteen by hand, and would silently stop delivering any rule the pack gained later —
+        which is why the denylist form exists."""
+        rk = resolve_kit_module
+        g = rk.load_graph()
+        chain = rk.chain_for(g, "tidewater-georgian")
+        packs = rk.resolve_packs(g, chain)
+        assert packs["sash-light"]["_source"] == "tidewater-georgian"
+        assert packs["sash-light"]["slots_except"] == ["window_sill/projection"]
+        ctx = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_height": 80.0,
+               "opening_width": 36.0, "span": 16.0}
+        pack_slots, _ = rk.eval_packs(packs, ctx, None)
+        sill = [r for r in (pack_slots.get("window_sill") or []) if r["pack"] == "sash-light"]
+        assert not sill, "the refused rule is back"
+        elsewhere = [sid for sid, rows in pack_slots.items()
+                     if any(r["pack"] == "sash-light" for r in rows)]
+        assert len(elsewhere) >= 5, (
+            f"sash-light now reaches only {elsewhere} — the exclusion has become a deletion")
+

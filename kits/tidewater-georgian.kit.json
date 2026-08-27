@@ -772,16 +772,18 @@
         }
       ],
       "parameters": {
-        "projection": {
+        "projection_in": {
           "range": [
             0,
             1
           ],
           "unit": "in",
-          "kind": "measured"
+          "kind": "measured",
+          "note": "RENAMED FROM `projection` AND RESTATED HERE, 27 Aug 2026 (WP-5.10). This node authored the figure as `projection` while the parent carried the pack's contradicting one as `projection_in` -- 2.25 in 'past the cladding, sloped about 1 in 6 with a drip' -- so the resolved slot held two names for one quantity, differing by more than twice, with nothing comparing them. That is OQ 48's class between a kit parameter and a pack rule, and check_addresses.py compares pack against pack, so it could not see it. Under the parameter name the parent and every pack actually use, this override lands: a brick sill is one course laid in the plane of the wall and projects barely or not at all, which is the whole reason this binding forbids `wood-sill-sloped`."
         }
       },
-      "note": "The diagnostic storey-agreement expression, the 30 in sill datum and the three-pack precedence all inherit.",
+      "rule": "The sill sits at a constant 30 in above the finished floor on the principal storey and does not move between rooms; it is one course of brick, rubbed or rowlock, laid in the plane of the wall and projecting barely or not at all.",
+      "note": "The diagnostic storey-agreement expression, the 30 in sill datum and the three-pack precedence all inherit. THE RULE IS RESTATED HERE, and the restatement is the point (WP-5.10). The parent's sentence ends '...it projects past the wall face with a drip and is sloped 1 in 6', which is a WOOD sill -- the very variant this binding forbids, and forbids with a reason: 'the parent's 2 1/4 in projecting sloped sill throws a shadow under every window and the brick sill does not, so the elevation is flatter.' The node's own binding was therefore forbidding what its own resolved rule went on to specify, and anyone reading the slot found the sloped sill described in prose beside the note refusing it. `rule` is in MERGE_REPLACE, so stating it here replaces the sentence rather than appending to it.",
       "status": "drafted"
     },
     "window_grouping_rule": {

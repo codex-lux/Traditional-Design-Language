@@ -205,6 +205,118 @@ class TestTheSevenFaultsAreNoLongerDecidedOnFabricatedEvidence:
                 "would be a measurement nobody took.")
 
 
+class TestTheTwoRivalCorniceRulesNoLongerBothRun:
+    """OQ 78, closed 27 Aug 2026 (WP-5.10).
+
+    `cornice-that-is-a-fascia` carries two secondaries on ONE expression — the domestic boxed eave
+    at 0.35–0.55 of its own height, and the full entablature-derived case at 0.85–1.2 — so
+    whichever is right, the other convicts the house. The fault's own note has always said how to
+    choose ("Choose the test by whether an order is present, not by preference"), in prose no
+    evaluator could read.
+
+    WP-3.2 worked around it by WITHHOLDING `cornice_projection_in` from the measurements, which
+    silenced the fault on a name mismatch: `elevation.py` published
+    `cornice_projection_past_wall_face_in` instead, and three of the fault's five tests — the
+    primary among them — were skipped for want of a name rather than for want of a number. The
+    fault came back "clear" on its wall-height ratio alone, which reads exactly like a fault that
+    was actually checked.
+    """
+
+    def _tests(self, core_module):
+        f = json.load(open(os.path.join(ROOT, "faults", "cornice-that-is-a-fascia.json")))
+        return f, [f["test"]] + f["secondary_tests"]
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_exactly_one_of_the_two_rivals_runs(self, plan_name, core_module, elevation_mod):
+        rec = elevation_mod.build_elevation(_plan(plan_name))
+        m = rec["measurements"]
+        f, tests = self._tests(core_module)
+        rivals = [t for t in f["secondary_tests"]
+                  if t["expression"] == "cornice_projection_in / cornice_height_in"]
+        assert len(rivals) == 2, "the rival pair is what this test is about"
+        states = [core_module._eval_test(t, m)["status"] for t in rivals]
+        assert sorted(states) == ["evaluated", "not_applicable"], (
+            f"{plan_name}: rival cornice tests came back {states}. Exactly one must run — both "
+            "running means one of them convicts the house whatever it measures.")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_the_name_is_supplied_and_the_primary_actually_runs(self, plan_name, core_module,
+                                                                elevation_mod):
+        """The half of the fix that is easy to forget. Guarding the rivals while still withholding
+        `cornice_projection_in` would leave the fault just as inert and look just as green."""
+        m = elevation_mod.build_elevation(_plan(plan_name))["measurements"]
+        assert "cornice_projection_in" in m
+        f, _ = self._tests(core_module)
+        r = core_module._eval_test(f["test"], m)
+        assert r["status"] == "evaluated" and r["passes"] is True, (
+            f"{plan_name}: the fault's PRIMARY test is still not running — it was skipped for "
+            "want of a name, not a number, from WP-3.2 until OQ 78 closed.")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_without_the_guard_both_houses_would_be_convicted(self, plan_name, core_module,
+                                                              elevation_mod):
+        """The trap, pinned so nobody removes the guard believing it decorative. Both reference
+        houses measure 0.4286 — inside the domestic band, far outside the entablature one."""
+        import copy
+        m = elevation_mod.build_elevation(_plan(plan_name))["measurements"]
+        f, _ = self._tests(core_module)
+        entab = next(copy.deepcopy(t) for t in f["secondary_tests"]
+                     if t.get("applies_when", {}).get("direction") == "at-least")
+        entab.pop("applies_when")
+        r = core_module._eval_test(entab, m)
+        assert r["status"] == "evaluated" and r["passes"] is False, (
+            "the entablature rule no longer fails these houses, so this test is not pinning the "
+            "trap it was written for — check whether the bands or the measurement moved.")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_the_discriminator_is_not_the_order_pack_flag(self, plan_name, elevation_mod):
+        """`gibbs_order_applies_to_style` is True on tidewater-georgian and means only that Gibbs
+        Ionic is the order this style's cornice is GENERATED from. Reading it as "an order is
+        applied to this facade" selects the entablature test and convicts the house. Checked
+        before the derivation was written, and pinned here because it is the plausible wrong
+        answer that a later reader would reach for first."""
+        rec = elevation_mod.build_elevation(_plan(plan_name))
+        assert rec["order_at_the_eave"] == 0
+        assert rec["order_at_the_eave_note"]
+        if rec.get("gibbs_order_applies_to_style"):
+            assert rec["order_at_the_eave"] == 0, (
+                "the order pack applies to this style AND no order reaches its eave — which is "
+                "exactly the pair of facts that makes the pack flag the wrong discriminator")
+
+    def test_an_engaged_order_selects_the_other_rule(self, core_module, elevation_mod):
+        """Flip the record and the other test runs. Without this the pair could be guarded in a
+        way that permanently silences one of them, which would pass every assertion above."""
+        import copy
+        plan = copy.deepcopy(_plan("tidewater-georgian-careful"))
+        plan["declared"]["porch_type"] = "two-tier-engaged-portico"
+        rec = elevation_mod.build_elevation(plan)
+        assert rec["order_at_the_eave"] == 1
+        assert "Drayton Hall" in rec["order_at_the_eave_note"]
+        m = rec["measurements"]
+        f = json.load(open(os.path.join(ROOT, "faults", "cornice-that-is-a-fascia.json")))
+        rivals = [t for t in f["secondary_tests"]
+                  if t["expression"] == "cornice_projection_in / cornice_height_in"]
+        states = {t["applies_when"]["direction"]: core_module._eval_test(t, m)["status"]
+                  for t in rivals}
+        assert states == {"at-most": "not_applicable", "at-least": "evaluated"}
+
+
+class TestTheSolarWorkaroundIsRetired:
+    """The same authoring gap, found in the same WP-3.2 pass and worked around the same way:
+    `solar_array_area_sqft` was withheld even though its zero was honest, because the array
+    secondary would read 0/plane = 0.0 and convict a house of a patchy array it does not have.
+    `applies_when` (WP-5.9) gates it now, so the honest zero can be told."""
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_the_honest_zero_is_supplied_and_declines_its_test(self, plan_name, core_module,
+                                                               elevation_mod):
+        m = elevation_mod.build_elevation(_plan(plan_name))["measurements"]
+        assert m.get("solar_array_area_sqft") == 0.0
+        f = json.load(open(os.path.join(ROOT, "faults", "entrance-slope-penetration.json")))
+        t = next(t for t in f["secondary_tests"] if "solar_array_area_sqft" in t["expression"])
+        assert core_module._eval_test(t, m)["status"] == "not_applicable"
+
+
 class TestTheEvaluatorReadsANullAsMissing:
     def test_null_is_need_measurements_not_error(self, core_module):
         """A key present with a null value is the natural JSON encoding of 'I could not judge

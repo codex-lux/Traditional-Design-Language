@@ -322,6 +322,8 @@ def _dormers(elev, roof, profile_ft, X, Ypx, scale, face):
     d = elev.get("dormers") or {}
     if not d.get("count") or d.get("refused"):
         return ""
+    if d.get("placeable") is False:
+        return ""                      # said in the legend, not swallowed here
     if face != (d.get("face") or elev.get("entrance_face")):
         return ""                      # a dormer on the far slope is not in this elevation
     eave_ft = min(h for _, h in profile_ft)
@@ -734,6 +736,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
                  f'x2="{X(span_ft):.1f}" y2="{Ypx(true_eave_ft - (cornice["cornice_height_in"]/12.0)):.1f}"/>')
 
     for cx, kind in zip(front["centres_ft"], front["kinds"]):
+        # A BLIND BAY IS DRAWN AS WALL (OQ 79). The bay is real -- it holds its place in the
+        # rhythm -- and the opening is not, because a chimney stack stands on that axis. Skipping
+        # BOTH storeys is deliberate: an exterior end stack runs the full height of the wall.
+        if kind == "blind":
+            continue
         if kind == "door" and face == elev["entrance_face"]:
             s.append(_entrance(elev, cx, floor1_ft, X, Ypx, scale))
         else:
@@ -888,8 +895,13 @@ def render_elevation(elev, path, face=None, scale=24.0):
     if elev.get("chimney_stack_plan_judgment") and elev.get("chimney_stack_plan_in"):
         notes.append(f'STACK DRAWN {elev["chimney_stack_plan_in"]}″ SQUARE — A JUDGMENT, NOT A '
                      f'MEASUREMENT: THE COURSING PUTS IT BETWEEN SIZES AND A MASON WILL BUILD 18″ OR 27″')
+    if front.get("blind_bay_centres_ft"):
+        notes.append('BAY BLIND WHERE A STACK STANDS ON IT — ' +
+                     _esc((front.get("blind_bay_reason") or "").upper()))
     _d = elev.get("dormers") or {}
     if _d.get("count") and not _d.get("refused"):
+        if _d.get("placeable") is False:
+            notes.append('DORMERS DECLARED BUT NOT DRAWN — ' + _esc((_d.get("not_drawn_reason") or "").upper()))
         if _d.get("variant_undeclared_choices"):
             notes.append('DORMER VARIANT UNDECLARED — THIS STYLE MAKES '
                          f'{len(_d["variant_undeclared_choices"])} CANONICAL AND THE RECORD NAMES '

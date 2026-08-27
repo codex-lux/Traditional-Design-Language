@@ -220,6 +220,64 @@ def _face_bays(facade_pack, span_ft, has_entrance):
                      f"from the {module_in/12:.1f} ft module the bay-count formula assumed -- normal practice: the formula "
                      f"picks a plausible odd count, the real facade width decides the real spacing.")}
 
+def blind_bays_behind_stacks(face_rec, stack_axes_ft, stack_width_ft):
+    """Mark any bay whose centre a chimney stack stands on as `blind`, in place.
+
+    OQ 79. `roof.py` puts this house's stacks at `y_ft` 21.33 on a gable end 42.66 ft deep -- its
+    exact centre line -- and `_face_bays()` independently gives every face an odd bay count evenly
+    spaced, which puts a window centre at 21.33 too. The two records were built from different
+    rules and nothing compared them, so the elevation drew a window where a chimney stands. It was
+    found by drawing the stack from grade for one revision, not by any test.
+
+    Ruled 27 Aug 2026: THE CENTRE BAY IS BLIND. That is what a Chesapeake end wall usually is, and
+    it holds whichever way the stack is built -- an exterior stack stands in front of the opening
+    and an interior one occupies the wall the opening would need.
+
+    WHAT THIS DOES NOT ASSERT. It does not say a Tidewater gable end always has a blind centre; it
+    blinds the bay where THIS RECORD places a stack, and says so. Worth knowing before trusting
+    that: the kit makes `paired-and-joined-by-arched-curtain` canonical -- "the tall paired stacks
+    joined above the roof by an arched brick curtain" -- which is TWO stacks on one gable end with
+    the space between them spanned by an arch, and `roof.py` places a single stack per end at
+    mid-depth instead. Correct that simplification and the two stacks would flank the centre bay
+    rather than stand on it, and the window might come back. That is a roof-layer question and is
+    recorded rather than pre-empted here."""
+    if not stack_axes_ft:
+        return []
+    half = stack_width_ft / 2.0
+    blinded = []
+    for i, cx in enumerate(face_rec["centres_ft"]):
+        if face_rec["kinds"][i] == "door":
+            continue          # an entrance and a stack on one axis is a different problem
+        if any(abs(cx - ax) <= half for ax in stack_axes_ft):
+            face_rec["kinds"][i] = "blind"
+            blinded.append(round(cx, 3))
+    return blinded
+
+
+def stack_axes_for_face(face, chimneys, fp):
+    """Where the stacks in THIS wall's plane fall on this face's own horizontal axis.
+
+    The roof's plan frame has x along the ridge and y across it. A gable end's own horizontal axis
+    IS that plan y, and a long face's is x -- the same mapping `render_elevation` uses for the
+    stacks themselves. A stack counts as being in a wall's plane when it stands at that wall: at a
+    ridge END for a gable face, at the near or far wall for a long face. Both of this house's
+    stacks are at mid-depth, so they are in the gable walls and in neither long wall, which is why
+    the front elevation loses no bay and the ends lose their centre one."""
+    W, D = fp["width_ft"], fp["depth_ft"]
+    out = []
+    for c in (chimneys or {}).get("positions") or []:
+        x, y = c.get("x_ft"), c.get("y_ft")
+        if x is None or y is None:
+            continue
+        if face in ("E", "W"):
+            if abs(x) < 0.5 or abs(x - W) < 0.5:
+                out.append(y)
+        else:
+            if abs(y) < 0.5 or abs(y - D) < 0.5:
+                out.append(x)
+    return out
+
+
 # ---------------------------------------------------------------- entrance composition
 def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_in):
     door_w, door_w_r = _val(op_pack, "entry_door", {"storey_height": ground_storey_height_in}, note_substr="door from the storey", dimension="width")
@@ -470,6 +528,81 @@ SASH_FRAME = {"stile_in": 2.0, "top_rail_in": 2.0, "bottom_rail_in": 3.0, "meeti
 # Where a dormer face stands up the slope, measured along it. Editorial: the fault corpus
 # prefers 18-36 in and requires at least 12; nothing reachable states a figure.
 DORMER_SETBACK_ON_SLOPE_IN = 24.0
+
+
+# THE ORDER-AT-THE-EAVE SET, and it is short because the thing is rare. A variant belongs here
+# only when the corpus's own words say the order is structurally integral to the WALL, so that
+# the entablature it carries IS the eave. Each entry quotes the note that put it in; a variant
+# not listed is not thereby a guess, because the question is only ever asked of a cornice this
+# generator measured, and the cornice it measures is the EAVE's.
+ORDER_AT_THE_EAVE = {
+    "two-tier-engaged-portico":
+        "tidewater-georgian / porch_type: 'The grandest houses only, structurally integral, "
+        "superimposed orders. Drayton Hall is the type case.'",
+    "giant-order-portico":
+        "a portico of the full wall height carries the main entablature by definition; listed "
+        "for the styles that name one, none of which is a reference plan here",
+    "full-height-engaged-portico":
+        "as two-tier-engaged-portico -- engagement over the whole wall height",
+    "colossal-order": "an order spanning every storey has no cornice but the eave's",
+}
+
+
+def order_at_the_eave(porch_slot, pilaster_slot, declared):
+    """Is an order applied to the WALL, so that the eave cornice is an entablature?
+
+    OQ 78. `cornice-that-is-a-fascia` carries two rival secondaries on one expression -- the
+    domestic boxed eave at 0.35-0.55 of its own height and the full entablature-derived case at
+    0.85-1.2 -- and whichever is right the other convicts the house. The fault states the
+    discriminator in its own note ("Choose the test by whether an order is present, not by
+    preference") and no generator took the measurement, so both tests sat over every house.
+
+    WHAT THIS IS NOT. `gibbs_order_applies_to_style` is True on tidewater-georgian and means only
+    that Gibbs Ionic is the order this style's cornice is GENERATED from. Reading it as "an order
+    is applied to this facade" selects the entablature test on a house that measures 0.4286 and
+    convicts it. That was checked before this function was written, and it is the whole reason the
+    signal is the porch and pilaster slots instead.
+
+    NOR IS A PORTICO ENOUGH. tidewater-georgian's own porch rule says that "where a portico occurs
+    it is one bay wide, centred, and carries the bound order" -- a one-bay portico has its own
+    entablature, below the eave, and the eave beside it is still a domestic boxed cornice. Only an
+    order engaging the whole wall makes the eave an entablature, which is what ORDER_AT_THE_EAVE
+    lists and what its quotations justify.
+
+    THREE STATES, as everywhere else in this file: 1 where the record or the style puts such an
+    order on the wall, 0 where nothing available to this house could, and ABSENT where the style
+    makes one canonical and the record has not chosen -- because then nobody has decided, and a
+    guess here picks which of two rival tests judges the house."""
+    declared_porch = (declared or {}).get("porch_type")
+    if isinstance(declared_porch, dict):
+        declared_porch = declared_porch.get("variant")
+    if declared_porch:
+        hit = declared_porch in ORDER_AT_THE_EAVE
+        return (1 if hit else 0), (
+            f"The record declares porch_type '{declared_porch}', which "
+            + (f"carries the order to the eave -- {ORDER_AT_THE_EAVE[declared_porch]}"
+               if hit else "does not engage the wall over its full height, so the eave cornice is "
+                           "a domestic boxed one and the order (if any) is the portico's own."))
+
+    # Nothing declared: read what the style could canonically put there.
+    canon = set()
+    for slot in (porch_slot, pilaster_slot):
+        for v in (slot or {}).get("variants") or []:
+            if v.get("status") == "canonical":
+                canon.add(v["id"])
+    if not canon:
+        return None, ("Neither the record nor the style states what stands at the threshold, so "
+                      "whether an order reaches the eave is unjudged -- and the two rival "
+                      "secondaries of cornice-that-is-a-fascia both decline rather than one of "
+                      "them judging the house on a guess.")
+    engaged = sorted(canon & set(ORDER_AT_THE_EAVE))
+    if engaged:
+        return None, (f"The style makes {', '.join(engaged)} canonical and the record has not "
+                      f"chosen. Somebody must; until then this is unjudged rather than assumed.")
+    return 0, ("The record states no porch and every variant this style makes canonical "
+               f"({', '.join(sorted(canon))}) is a void or an attached structure rather than an "
+               "order engaging the wall, so the eave cornice is a domestic boxed one whichever "
+               "is built.")
 
 
 def _dormer_lights(sash_set):
@@ -827,10 +960,17 @@ def _derive_measurements(elev):
     })
 
     m.update({
-        # cornice_projection_in (plain) is deliberately NOT emitted -- see the docstring note on
-        # faults/cornice-that-is-a-fascia.json below for why supplying it trips that fault's own
-        # authoring gap. cornice_projection_past_wall_face_in is a distinct variable name (used
-        # only by faults/gutter-as-cornice.json) and is unaffected.
+        # cornice_projection_in IS emitted now, and that is OQ 78 closing. It was withheld from
+        # WP-3.2 until 27 Aug 2026 because faults/cornice-that-is-a-fascia.json carries two RIVAL
+        # secondaries on `cornice_projection_in / cornice_height_in` -- the domestic boxed eave at
+        # 0.35-0.55 and the full entablature-derived case at 0.85-1.2 -- so supplying the name
+        # meant one of them convicting every house whatever it measured. Withholding it made the
+        # fault inert on a name mismatch, which is a workaround wearing the costume of a decision:
+        # the primary test and two of the four secondaries were being skipped as well.
+        # Both rivals now carry an `applies_when` on
+        # `an_order_is_applied_to_the_wall_carrying_the_eave_cornice`, so exactly one of them can
+        # run, and the fault is judged on evidence instead of silenced by a typo.
+        "cornice_projection_in": cornice["cornice_projection_in"],
         "cornice_height_in": cornice["cornice_height_in"],
         "cornice_projection_past_wall_face_in": cornice["cornice_projection_in"],
         "eave_cornice_height_in": cornice["cornice_height_in"], "main_cornice_height_in": cornice["cornice_height_in"],
@@ -955,18 +1095,29 @@ def _derive_measurements(elev):
         # know"); here we do know, because we built the thing and know everything that is on it.
         "equipment_units_visible_on_the_entrance_elevation": 0.0,
         "count_of_non_chimney_non_dormer_objects_on_the_entrance_roof_slope": 0,
+        # OQ 79. A MEASURED ZERO, and it is the generator publishing that it resolved a collision
+        # rather than that one never existed: on this house's gable ends the bay a stack stands on
+        # IS blinded, and this says so in a form `window-on-the-chimney-axis` can check. Any other
+        # producer -- an ingested drawing, a hand-authored record -- gets checked against the same
+        # rule instead of being trusted. Counted over every face, because the entrance face is not
+        # where this happens.
+        "count_of_openings_on_the_axis_of_a_chimney_stack": sum(
+            1 for f, fa in elev["faces"].items()
+            for cx, kind in zip(fa["centres_ft"], fa["kinds"])
+            if kind != "blind" and any(
+                abs(cx - ax) <= ((elev.get("chimney_stack_plan_in") or 22.0) / 24.0)
+                for ax in stack_axes_for_face(f, (elev.get("roof_record") or {}).get("chimneys"),
+                                              elev["footprint"]))),
         "vent_terminal_height_above_roof_surface_in": 0.0,
-        # solar_array_area_sqft is deliberately NOT supplied, even though it too is honestly zero.
-        # entrance-slope-penetration.json's own solar-array secondary test (ratio >= 0.9) is
-        # authored as a CONDITIONAL check ("the conditional test for arrays") meant to apply only
-        # when an array is actually present, but core.check_measurements has no way to gate a
-        # secondary test on another value -- it evaluates it unconditionally whenever both
-        # variables are supplied. 0 sqft of array over a real roof_plane_area_sqft reads as
-        # 0/plane = 0.0, which FAILS the >=0.9 floor and would flip this fault to "present" for
-        # the honest reason that no array exists at all -- the same authoring gap already found
-        # and disclosed in cornice-that-is-a-fascia.json (WP-3.2 report). Leaving this one key
-        # out lets the fault evaluate correctly (clear) on its primary test and its other,
-        # unconditional secondary test alone.
+        # solar_array_area_sqft IS supplied now, and its honest zero is the point. This key was
+        # withheld for the same reason cornice_projection_in was, and the comment here said so:
+        # entrance-slope-penetration's array secondary is "the conditional test for arrays" and
+        # core.check_measurements "has no way to gate a secondary test on another value", so a
+        # truthful 0 sqft read as 0/plane = 0.0 and convicted the house of a patchy array it does
+        # not have. It has a way now -- `applies_when` (WP-5.9) -- and that secondary is
+        # preconditioned on the array's own area, so a house with no array declines the test
+        # rather than failing it. Two workarounds retired by one field.
+        "solar_array_area_sqft": 0.0,
         # Doorcase (Gibbs Ionic, read at door scale) and eave (the same order's cornice, reduced
         # to facade-classical's domestic envelope) are the SAME classical vocabulary at two
         # scales, per tidewater-georgian's own governing_logic ("a pattern-book order for the
@@ -1175,8 +1326,13 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         _g = RK.load_graph()
         _slots, _ = RK.resolve_slots(_g, RK.chain_for(_g, style), RK.scope_for(_g, style))
         dormer_slot = _slots.get("dormer") or {}
+        porch_slot = _slots.get("porch_type") or {}
+        pilaster_slot = _slots.get("pilaster") or {}
     except Exception:
-        dormer_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("dormer") or {}
+        _ks = ((C["kits"].get(style) or {}).get("slots", {}) or {})
+        dormer_slot = _ks.get("dormer") or {}
+        porch_slot = _ks.get("porch_type") or {}
+        pilaster_slot = _ks.get("pilaster") or {}
 
     shutter_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("shutter") or {}
     _sv = {v["id"]: v.get("status") for v in shutter_slot.get("variants", [])}
@@ -1259,10 +1415,24 @@ def build_elevation(plan, parti=None, section=None, roof=None):
 
 
     faces = {}
+    blinded_bays = {}
+    _stack_w_ft = (chimney_plan_in or 22.0) / 12.0
     for f in FACES:
         span_ft = fp["width_ft"] if f in ("S", "N") else fp["depth_ft"]
         faces[f] = _face_bays(facade_pack, span_ft, has_entrance=(f == entrance_face))
         faces[f]["outside_width_in"] = round(span_ft * 12.0, 2)
+        # OQ 79: a bay a chimney stands on is BLIND. The two records -- roof.py's chimney plan
+        # positions and this file's evenly spaced odd bay count -- were built from different rules
+        # and nothing compared them, so a window was drawn where a stack stands.
+        axes = stack_axes_for_face(f, roof.get("chimneys"), fp)
+        hit = blind_bays_behind_stacks(faces[f], axes, _stack_w_ft)
+        if hit:
+            blinded_bays[f] = hit
+            faces[f]["blind_bay_centres_ft"] = hit
+            faces[f]["blind_bay_reason"] = (
+                f"A chimney stack stands on {'this axis' if len(hit) == 1 else 'these axes'}: "
+                f"{', '.join(str(h) for h in hit)} ft along the face, from the roof record's own "
+                f"plan position. An opening there is not drawn.")
 
     ent = entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0) if gibbs_applies else \
           entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0)
@@ -1330,7 +1500,25 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # How far the face stands back HORIZONTALLY, and how high its sill sits, both follow from
         # the setback along the slope once the pitch is known -- so the drawing places the dormer
         # from one stated figure rather than from three.
+        # A DORMER NEEDS A ROOF TO STAND ON, and where the roof record could not judge one the
+        # record must say so rather than the drawing quietly showing none. `spec-builder-colonial`
+        # is the case: its roof has no judged pitch and no judged ridge, so `elevation_profile`
+        # honestly returns a flat eave line with nothing invented above it -- and the renderer then
+        # skipped every dormer with no note, while the measurements went on reporting three of them
+        # to the fault corpus. The critic judged three dormers on a sheet that drew none.
         _p12 = (roof.get("main") or {}).get("pitch_rise_per_12")
+        _ridge = ((roof.get("main") or {}).get("ridge") or {}).get("grade_to_ridge_ft")
+        if not _p12 or _ridge is None:
+            dorm["placeable"] = False
+            dorm["not_drawn_reason"] = (
+                "The roof record could not judge " +
+                (" and ".join([x for x in (None if _p12 else "a pitch",
+                                           None if _ridge is not None else "a ridge height") if x])) +
+                " for this house, so there is no roof surface to place a dormer on. The dormers "
+                "the record states are NOT DRAWN; they are not absent, and the count still "
+                "reaches the fault corpus.")
+        else:
+            dorm["placeable"] = True
         if _p12:
             _rr = _p12 / 12.0
             _hyp = math.sqrt(1.0 + _rr * _rr)
@@ -1355,9 +1543,15 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                 "roof_run_in_front_of_dormer_face_measured_on_slope_in": dorm["roof_run_in_front_in"],
             })
 
+    # OQ 78: which of two rival cornice rules judges this house. Derived from the porch and
+    # pilaster slots the style actually resolves, never from `gibbs_order_applies_to_style`.
+    order_at_eave, order_at_eave_note = order_at_the_eave(porch_slot, pilaster_slot,
+                                                          plan.get("declared") or {})
+
     elev = {
         "plan_id": plan.get("id"), "style": style, "entrance_face": entrance_face,
         "dormers": dorm,
+        "order_at_the_eave": order_at_eave, "order_at_the_eave_note": order_at_eave_note,
         "date_of_representation": date, "glass_module_in": glass_module_in, "glass_module_source": glass_note,
         "gibbs_order_applies_to_style": gibbs_applies,
         "front": faces[entrance_face], "faces": faces,
@@ -1385,6 +1579,11 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     for _k, _v in dormer_m.items():
         if _v is not None:
             elev["measurements"].setdefault(_k, _v)
+    # Absent, not zero, where nobody has decided -- and both rival secondaries of
+    # cornice-that-is-a-fascia then decline rather than one of them judging on a guess.
+    if order_at_eave is not None:
+        elev["measurements"].setdefault(
+            "an_order_is_applied_to_the_wall_carrying_the_eave_cornice", order_at_eave)
     return elev
 
 # ---------------------------------------------------------------- cli

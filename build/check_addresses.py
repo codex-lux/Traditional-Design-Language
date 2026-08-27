@@ -57,7 +57,19 @@ def load():
 
 # Pinned. own-scope collisions must stay 0 (OQ 48's closure). cascade-scope is a measured backlog
 # under OQ 51 and may only go DOWN -- it falls as the cascade is adjudicated.
-RATCHET = {"own": 0, "cascade": 9}
+#
+# kit_vs_pack is a THIRD measured backlog, first counted 27 Aug 2026 (WP-5.10, OQ 80). 133, and it
+# is the same shape as OQ 48's original 139: a real corruption, discovered by measuring something
+# nobody had measured, too large to fix in the package that found it. Ratcheted so it cannot grow.
+# The distribution is concentrated -- american-farmhouse-vernacular 32, federal-style 31,
+# greek-revival-american 24, craftsman-bungalow 16, georgian-colonial-american 13 -- so five nodes
+# carry 116 of the 133 and adjudicating them settles most of it.
+#
+# The instance that found it is NOT in the count, because it was fixed in the same commit:
+# `tidewater-georgian` authored its brick sill's projection at 0-1 in as MEASURED while
+# `sash-light` delivered 2.25 in "sloped about 1 in 6 with a drip" to the same address, in a node
+# whose kit FORBIDS the sloped sill and says why.
+RATCHET = {"own": 0, "cascade": 9, "kit_vs_pack": 133}
 
 
 def cobinding(nodes, scope):
@@ -121,6 +133,69 @@ def compare(packs, cob):
     return errors, unjudged, unit_splits
 
 
+# ---------------------------------------------------------------- kit parameter vs pack rule
+def kit_vs_pack(nodes):
+    """A node's OWN authored parameter and a pack rule, at one address, disagreeing.
+
+    OQ 48 measured pack against pack. This is the same corruption one layer over, and it was
+    invisible to that measurement for the same reason it was invisible to everyone else: the kit
+    writes a parameter called `projection_in` and a pack writes dimension `projection`, so the two
+    never met under one name. `tidewater-georgian` authored its brick sill's projection as 0-1 in,
+    `kind: measured`, while `sash-light` delivered 2.25 in "sloped about 1 in 6 with a drip" to the
+    same slot -- a figure more than twice the node's own, in a node whose kit FORBIDS the sloped
+    sill and gives its reason. Nothing compared them, and the resolved slot carried both.
+
+    THE MAPPING is `<dimension>` or `<dimension>_in`, which is the convention the corpus already
+    uses everywhere. Only a parameter the node authored as `measured` is compared: a `derived` one
+    is a pack's own value copied into the kit and agreeing with itself, and reporting those would
+    bury the real cases under hundreds of tautologies.
+
+    WHAT IS COMPARED is the VALUE, not the quantity -- a kit parameter has no `quantity` field, so
+    the pack-versus-pack test cannot be reused. A range and a figure are compared by whether the
+    figure falls in the range; two figures by a 10 per cent tolerance, which is loose on purpose:
+    the corruption worth reporting is a member drawn twice the size, not rounding."""
+    import resolve_kit as _rk  # noqa: E402
+    hits, unjudged = [], []
+    CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_height": 80.0,
+           "opening_width": 36.0, "span": 16.0}
+    g = _rk.load_graph()
+    for nid in sorted(n["id"] for n in nodes):
+        kit = _rk.load_kit(nid)
+        if not kit:
+            continue
+        try:
+            chain = _rk.chain_for(g, nid)
+            packs = _rk.resolve_packs(g, chain)
+            pack_slots, _ = _rk.eval_packs(packs, CTX, None)
+        except Exception:
+            continue
+        for sid, rec in kit.items():
+            for pname, pval in (rec.get("parameters") or {}).items():
+                if not isinstance(pval, dict) or pval.get("kind") != "measured":
+                    continue
+                dim = pname[:-3] if pname.endswith("_in") else pname
+                rows = [r for r in (pack_slots.get(sid) or []) if r.get("dimension") == dim]
+                if not rows:
+                    continue
+                lo, hi = None, None
+                if isinstance(pval.get("range"), list) and len(pval["range"]) == 2:
+                    lo, hi = pval["range"]
+                elif isinstance(pval.get("value"), (int, float)):
+                    lo = hi = pval["value"]
+                if lo is None:
+                    unjudged.append((nid, sid, dim, pname))
+                    continue
+                for r in rows:
+                    v = r.get("value")
+                    if not isinstance(v, (int, float)):
+                        unjudged.append((nid, sid, dim, r["pack"]))
+                        continue
+                    tol = 0.10 * max(abs(hi), abs(lo), abs(v), 1e-9)
+                    if v < lo - tol or v > hi + tol:
+                        hits.append((nid, sid, dim, pname, (lo, hi), r["pack"], v))
+    return hits, unjudged
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--report", action="store_true", help="also list pairs that could not be judged")
@@ -174,6 +249,20 @@ def main():
         print("\nThe cascade number is the one the compiler is exposed to: `resolve_packs` walks "
               "the whole\nlineage, so packs a node never bound meet at its addresses too. That is "
               "OQ 51's surface,\nand OQ 48's closure at 0 is a statement about own bindings only.")
+    # OQ 48 AT THE KIT LAYER. The pack-versus-pack measurement above cannot see a node's own
+    # authored parameter contradicting a pack rule at the same address, because the two are
+    # written under different names -- which is exactly how a brick sill authored at 0-1 in sat
+    # beside a pack's 2.25 in "sloped 1 in 6" in a node that forbids the sloped sill.
+    kp_hits, kp_unjudged = kit_vs_pack(nodes)
+    print(f"\n--- scope: kit-vs-pack " + "-" * 33)
+    for nid, sid, dim, pname, band, pack, v in kp_hits:
+        print(f"k {nid} {sid}/{dim}: the node authors {pname} = {band[0]}-{band[1]} as MEASURED "
+              f"and '{pack}' delivers {v} to the same address")
+    print(f"{len(kp_hits)} node parameter(s) contradicted by a pack rule; {len(kp_unjudged)} "
+          f"could not be judged (ratchet {RATCHET['kit_vs_pack']}).")
+    if len(kp_hits) > RATCHET["kit_vs_pack"]:
+        failed.append(f"kit_vs_pack: {RATCHET['kit_vs_pack']} -> {len(kp_hits)}")
+
     if failed:
         print("\nRATCHET BROKEN — address collisions grew: " + "; ".join(failed))
     if a.strict:

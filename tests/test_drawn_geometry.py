@@ -472,6 +472,79 @@ class TestRelieflsDrawnInLineNotInTone:
             "a frame wall is being given a masonry reveal's shadow")
 
 
+class TestNoOpeningIsDrawnWhereAStackStands:
+    """OQ 79, closed 27 Aug 2026 (WP-5.10).
+
+    `roof.py` puts this house's stacks at `y_ft` 21.33 on a gable end 42.66 ft deep — its exact
+    centre line — and `_face_bays()` independently spaces an odd bay count evenly, which puts a
+    window centre at 21.33 too. Two records built from different rules, never compared, so the
+    elevation drew a window where a chimney stands. It was found by drawing the stack from grade
+    for one revision; no test of either record could see it, because each is right on its own.
+    """
+
+    def _rec(self, style_plan="tidewater-georgian-careful"):
+        import json as _j
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        return e.build_elevation(_j.load(open(os.path.join(ROOT, "plans", f"{style_plan}.json"))))
+
+    def test_the_gable_end_centre_bay_is_blind_and_the_flanks_are_not(self):
+        rec = self._rec()
+        for f in ("E", "W"):
+            kinds = rec["faces"][f]["kinds"]
+            assert kinds == ["window", "blind", "window"], f"{f}: {kinds}"
+            assert rec["faces"][f]["blind_bay_centres_ft"] == [21.33]
+            assert rec["faces"][f].get("blind_bay_reason")
+
+    def test_the_long_faces_lose_nothing(self):
+        """The rule must be a collision test, not "gable ends have a blind centre". Both stacks
+        are at mid-DEPTH, so they stand in the gable walls and in neither long wall, and the front
+        keeps all five bays."""
+        rec = self._rec()
+        for f in ("S", "N"):
+            assert "blind" not in rec["faces"][f]["kinds"], f
+            assert rec["faces"][f].get("blind_bay_centres_ft") is None
+
+    def test_the_blind_bay_draws_no_opening_at_either_storey(self, tmp_path):
+        """An exterior end stack runs the full height of the wall, so BOTH storeys lose the
+        opening. Asserted off the emitted SVG, and the bay count is asserted first so a selector
+        matching nothing cannot pass this vacuously."""
+        import re
+        r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
+        rec = self._rec()
+        out = str(tmp_path / "e.svg")
+        r.render_elevation(rec, out, face="E")
+        svg = open(out).read()
+        assert len(rec["faces"]["E"]["centres_ft"]) == 3, "three bays, or this test proves nothing"
+        opens = [float(m) for m in re.findall(r'<rect class="op"[^>]*x="([-\d.]+)"', svg)]
+        assert len(opens) == 4, f"two glazed bays x two storeys, got {len(opens)}"
+        blind_px = 46.0 + 21.33 * 24.0                      # the same pad and scale the sheet uses
+        for x in opens:
+            assert abs(x - blind_px) > 24.0, (
+                f"an opening is drawn at x={x:.1f}, on the stack's own axis ({blind_px:.1f})")
+        assert "BAY BLIND WHERE A STACK STANDS ON IT" in svg
+
+    def test_the_generator_publishes_that_it_resolved_the_collision(self):
+        """A measured zero, not an absence. The count is what `window-on-the-chimney-axis` tests,
+        so any other producer — an ingested drawing, a hand-authored record — gets checked against
+        the same rule instead of being trusted."""
+        m = self._rec()["measurements"]
+        assert m["count_of_openings_on_the_axis_of_a_chimney_stack"] == 0
+        assert m["visible_chimney_count"] == 2
+
+    def test_the_fault_fires_on_a_record_that_states_the_collision(self):
+        """Without this the zero above could be produced by a rule that can never return anything
+        else, which is a measurement that proves nothing."""
+        import json as _j
+        core = modcache.load("core", os.path.join(ROOT, "mcp_server", "core.py"))
+        f = _j.load(open(os.path.join(ROOT, "faults", "window-on-the-chimney-axis.json")))
+        hit = core._eval_test(f["test"], {"visible_chimney_count": 2,
+                                          "count_of_openings_on_the_axis_of_a_chimney_stack": 1})
+        assert hit["status"] == "evaluated" and hit["passes"] is False
+        none = core._eval_test(f["test"], {"visible_chimney_count": 0,
+                                           "count_of_openings_on_the_axis_of_a_chimney_stack": 1})
+        assert none["status"] == "not_applicable", "a house with no chimney has no stack axis"
+
+
 class TestTheStacksAreDrawnWhereTheRecordPutsThem:
     """WP-5.9, second half. The chimney block carried a twelve-line comment saying the front
     elevation COULD NOT show the stacks, because `roof.py`'s long-face silhouette was flat at the
@@ -751,44 +824,101 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
         d2 = self._elev({"count": 3, "variant": "pedimented"})["dormers"]
         assert d2["variant"] == "pedimented" and d2["variant_undeclared_choices"] is None
 
-    def test_a_variant_the_cascade_delivered_says_where_it_came_from(self, tmp_path):
-        """OQ 51 in the KIT layer, found by drawing. `colonial-revival` binds the dormer slot
-        nothing, so the lineage resolves the whole of it from `english-cottage-vernacular`: the one
-        canonical dormer of a production Colonial Revival is an eyebrow swept within THATCH, and
-        `boxed-dormer` — what the style actually builds — is forbidden. Adjudicating that is a
-        corpus decision. Saying where the variant came from costs one field and puts the question
-        on the sheet instead of leaving a thatch dormer asserted with confidence."""
+    def test_a_variant_the_cascade_delivered_says_where_it_came_from(self):
+        """OQ 51 in the KIT layer. A style that binds a slot nothing gets its nearest ancestor's
+        record in full, and the drawing must say so rather than asserting the result.
+
+        REWRITTEN 27 Aug 2026 (WP-5.10). This test used to pin `spec-builder-colonial`, whose
+        `colonial-revival` bound `dormer` as `open` and therefore resolved a thatched cottage's
+        dormer from `english-cottage-vernacular` — with `boxed-dormer`, the only dormer such a
+        house is built with, FORBIDDEN. That instance was fixed (OQ 81), so pinning it would now
+        assert the bug. Twenty-nine other styles still inherit a dormer slot the same way; the
+        mechanism is tested on one of them, chosen from the corpus at test time rather than named,
+        so this cannot go stale the same way twice."""
+        rk = modcache.load("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+        g = rk.load_graph()
+        inherited = []
+        for nid, n in g["nodes"].items():
+            if n.get("rank") not in ("style", "variant"):
+                continue
+            try:
+                chain = rk.chain_for(g, nid)
+                slots, _ = rk.resolve_slots(g, chain, rk.scope_for(g, nid))
+            except Exception:
+                continue
+            d = slots.get("dormer") or {}
+            if d.get("_source") and d["_source"] != nid and d.get("variants"):
+                inherited.append((nid, d["_source"]))
+        assert len(inherited) > 5, (
+            f"only {len(inherited)} styles inherit a dormer slot — if the cascade has been made "
+            "opt-in (OQ 51/81), this test has served its purpose and should be retired, not tuned")
+        # and the style that raised it now owns its own
+        chain = rk.chain_for(g, "colonial-revival")
+        slots, _ = rk.resolve_slots(g, chain, rk.scope_for(g, "colonial-revival"))
+        assert slots["dormer"]["_source"] == "colonial-revival"
+
+    def test_an_inherited_variant_is_disclosed_on_the_sheet(self, tmp_path):
+        """The disclosure itself, driven directly: where the variant came from a node that is not
+        the style, the legend says which node and names OQ 51."""
         import copy
         import json as _j
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
         r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
-        plan = copy.deepcopy(_j.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json"))))
-        plan["declared"]["dormer"] = {"count": 3}
+        plan = copy.deepcopy(_j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))))
+        plan["declared"]["dormer"] = {"count": 3, "variant": "gabled"}
         rec = e.build_elevation(plan)
-        d = rec["dormers"]
-        assert d["variant_source_node"] == "english-cottage-vernacular"
-        assert d["variant_source_node"] != rec["style"]
-        out = str(tmp_path / "cr.svg")
+        # tidewater-georgian binds the slot empty; the spec lives on georgian-colonial-american
+        assert rec["dormers"]["variant_source_node"] == "georgian-colonial-american"
+        out = str(tmp_path / "inh.svg")
         r.render_elevation(rec, out)
         svg = open(out).read()
         assert "IS INHERITED FROM" in svg and "OQ 51" in svg
 
-    def test_a_sash_pattern_the_kit_does_not_state_is_not_invented(self, tmp_path):
-        """`colonial-revival`'s cascaded dormer slot states no sash pattern, and the first version
-        defaulted to 6/6 — a confident twelve-light dormer nobody had recorded. A glazing pattern
-        nobody stated is drawn as glass, with the reason on the sheet."""
+    def test_a_sash_pattern_the_kit_does_not_state_is_not_invented(self):
+        """A glazing pattern nobody stated must not be asserted: `_dormer_lights` returns
+        (None, None) and the sash is drawn as glass with the reason on the sheet.
+
+        REWRITTEN 27 Aug 2026 (WP-5.10) for the same reason as the test above it. This pinned
+        `colonial-revival` stating no pattern, which was true only because the style had inherited
+        an English cottage's dormer slot; it states one now. The MECHANISM is what matters, so it
+        is driven directly rather than through whichever style happens to be missing a figure."""
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        assert e._dormer_lights(None) == (None, None)
+        assert e._dormer_lights([]) == (None, None)
+        assert e._dormer_lights(["not-a-pattern"]) == (None, None)
+        # and a stated one is read as lights PER SASH, not as the whole opening
+        assert e._dormer_lights(["6/6"]) == (2, 3)
+        assert e._dormer_lights(["12/12"]) == (3, 4)
+
+    def test_dormers_the_roof_cannot_carry_are_declared_not_drawn_and_SAID(self, tmp_path):
+        """A dormer needs a roof to stand on, and `spec-builder-colonial`'s roof record judges
+        neither a pitch nor a ridge — so `elevation_profile` honestly returns a flat eave line
+        with nothing invented above it. The renderer then skipped every dormer with no note while
+        the measurements went on reporting three to the fault corpus: the critic judging three
+        dormers on a sheet that drew none. Found by looking at the sheet, not by any test."""
         import copy
         import json as _j
+        import re
         e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
         r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
         plan = copy.deepcopy(_j.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json"))))
-        plan["declared"]["dormer"] = {"count": 3}
+        plan["declared"]["dormer"] = {"count": 3, "variant": "boxed-dormer"}
         rec = e.build_elevation(plan)
-        assert rec["dormers"]["sash_pattern"] is None
-        assert rec["dormers"]["lights_across"] is None
-        out = str(tmp_path / "cr2.svg")
+        assert rec["dormers"]["count"] == 3, "the record still states them"
+        assert rec["dormers"]["placeable"] is False
+        assert "not_drawn_reason" in rec["dormers"]
+        out = str(tmp_path / "np.svg")
         r.render_elevation(rec, out)
-        assert "SASH PATTERN UNDECLARED" in open(out).read()
+        svg = open(out).read()
+        assert not self._polys(svg, "rf w-prof", n=3), "a dormer roof drawn on a roof nobody judged"
+        assert "DECLARED BUT NOT DRAWN" in svg, (
+            "three dormers vanished from the sheet and it said nothing")
+
+    def test_a_roof_that_can_carry_them_draws_them_and_says_nothing(self):
+        """The other half: the disclosure must not become permanent furniture."""
+        elev = self._elev({"count": 3, "variant": "gabled"})
+        assert elev["dormers"]["placeable"] is True
+        assert "not_drawn_reason" not in elev["dormers"]
 
     def test_the_dormer_cornice_is_the_house_cornice_at_the_houses_own_ratio(self):
         """The kit's rule for this slot: dormers "carry the same order as the house at reduced

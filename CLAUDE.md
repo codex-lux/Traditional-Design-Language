@@ -90,9 +90,9 @@ in the query string via `filters/useFilters.js` — do not reintroduce per-surfa
 
 164 nodes · 97 slots (ontology 0.7.0) · 40 massings · 60 rooms · 17 groupings ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before trusting that number -- it counts a node's OWN bindings and the lineage cascade delivers packs nobody bound) — but 50 nodes still have no opening-role pack
+style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before trusting that number -- it counts a node's OWN bindings and the lineage cascade delivers packs nobody bound) — but 49 nodes still have no opening-role pack
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
-migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
+migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **32 checks, 970 tests**
 (plus the workbench app suite, `node --test`). The test figure was 762 here and had been stale
@@ -159,7 +159,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,367 instances. Read it before trusting "132 of 132 bound".
+  is **OQ 51** and is the one with 3,366 instances. Read it before trusting "132 of 132 bound".
   OQ 51 is now RULED -- adjudicate the 233 unjudged gaps first, flip inheritance to opt-in after --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
@@ -199,6 +199,44 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **differential** against a control diagram: three of the Cape parti's four original fatals
   belonged to `cape-cod-colonial`'s kit and fired for every diagram, and blaming the parti for
   them would make the check a generator of false accusations.
+- **A fault silenced by a NAME MISMATCH reads exactly like a fault that was checked.**
+  `cornice-that-is-a-fascia` carries two RIVAL secondaries on one expression — the domestic boxed
+  eave at 0.35–0.55 of its own height and the full entablature case at 0.85–1.2 — so whichever is
+  right the other convicts the house. WP-3.2 worked around it by withholding
+  `cornice_projection_in` and publishing `cornice_projection_past_wall_face_in` instead: the same
+  quantity under a different name. The fault then came back **clear** on one surviving secondary
+  while its primary and two others were skipped for want of a NAME rather than a number — 1 of 5
+  tests evaluating. Closed at OQ 78 by taking the measurement the fault's own note always asked
+  for (*"Choose the test by whether an order is present"*) and guarding both rivals with
+  `applies_when`. **The obvious discriminator is a trap and is pinned as a test**:
+  `gibbs_order_applies_to_style` is True on `tidewater-georgian` and means only that Gibbs Ionic is
+  the order its cornice is GENERATED from — reading it as "an order is applied here" selects the
+  entablature test on a house measuring 0.4286 and convicts it. A one-bay portico is not enough
+  either; only an order engaging the whole wall makes the eave an entablature.
+- **Two records built from different rules, and nothing compared them.** `roof.py` puts the stacks
+  at `y_ft` 21.33 on a 42.66 ft gable end — its centre line — and `_face_bays()` independently
+  spaces an odd bay count evenly, putting a window centre at 21.33. The elevation drew a window
+  where a chimney stands, on every gable elevation this corpus has ever produced, and it was found
+  by DRAWING the stack from grade for one revision. Each record is right on its own. OQ 79 closed
+  it: the bay a stack stands on is `blind`, no opening at either storey, and
+  `window-on-the-chimney-axis` catches the collision where a record states both. The generator
+  publishes `count_of_openings_on_the_axis_of_a_chimney_stack` as a MEASURED zero — it resolved a
+  collision, it did not fail to have one.
+- **A node's own MEASURED parameter can contradict a pack rule at the same address, and OQ 48's
+  checker could not see it.** The kit writes `projection_in`; a pack writes dimension `projection`;
+  the two never meet under one name. `tidewater-georgian` authored its brick sill at **0–1 in
+  measured** while `sash-light` delivered **2.25 in "sloped about 1 in 6"** to the same slot — in a
+  node whose kit FORBIDS the sloped sill and says why. `check_addresses.py` gained `kit_vs_pack()`
+  and the first measurement is **133, ratcheted** (OQ 80); five nodes carry 116 of them. **And the
+  rule reaches a node TWICE** — live through `eval_packs`, and baked into an ancestor's kit file as
+  an authored parameter carrying `source: <pack>`. Scoping the binding (`slots_except`, new) closes
+  one path only; the other is closed at the child.
+- **`open` does not mean open.** `resolve_slots` stops its walk only on `specified` or `forbidden`,
+  so a slot bound `open` — the style declining to constrain it — inherits its nearest ancestor's
+  record in full. `colonial-revival`'s `dormer` was `open`, and resolved from
+  `english-cottage-vernacular` with a thatch dormer canonical and **`boxed-dormer` forbidden**: the
+  style could not declare the only dormer it is built with. That instance is bound now; the
+  mechanism is OQ 81 and reaches all 97 slots.
 - **The moment a record can finally STATE a zero, every rule that presupposed the thing runs on it.**
   WP-5.9 gave the plan schema `declared.dormer` with three states — key absent (could not evaluate),
   `"none"` (a measured zero), an object (a house with dormers) — and both reference houses stated
@@ -335,8 +373,13 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **79 entries, of which 19 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 73, 78, 79). **72, 73 and 74 were
+  trusting any list of them. `docs/open-questions.md` holds **81 entries, of which 19 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 73, 80, 81). **78 and 79 closed
+  27 Aug (WP-5.10) and raised 80 and 81 between them: 80 is 133 addresses where a node's own
+  MEASURED parameter contradicts a pack rule, which OQ 48's pack-versus-pack measurement could
+  not see because the two are written under different names; 81 is that a slot bound `open` —
+  the style declining to constrain it — inherits its ancestor's constraints in full, because
+  `resolve_slots` stops its walk only on `specified` or `forbidden`.** **72, 73 and 74 were
   WP-5.7's, about the geometry layer: the entablature's datum, two sourced rules disagreeing about
   the cornice's projection, and the front elevation that could not draw its own chimneys. 72 and
   74 are closed — 74 by WP-5.9, which found the renderer still asserting in a twelve-line comment
@@ -402,10 +445,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     it is a safety net rather than a cliff that strands 294 gaps in one commit. Doing it the other
     way round was costed and refused: opt-in now is a morning of mechanism and a corpus-wide
     stranding.
-    **The meter.** `build/check_inheritance.py` pins three numbers that may only go down: **294
-    role_gaps**, **3,367 inherited_packs**, **233 unendorsed**. The split matters — a gap whose
+    **The meter.** `build/check_inheritance.py` pins three numbers that may only go down: **293
+    role_gaps**, **3,366 inherited_packs**, **222 unendorsed** (294 / 3,367 / 233 when first
+    measured; the first two moved on 27 Aug when `colonial-revival` bound its own dormer slot,
+    which is the meter moving the right way). The split matters — a gap whose
     pack `applies_to` already names the node is the cascade delivering what an author INTENDED, and
-    counting those 61 as faults would make the work list wrong. `--unendorsed` prints the list by
+    counting those 71 as faults would make the work list wrong. `--unendorsed` prints the list by
     pack, because adjudicating one pack settles every node under it: `storey-graduation` 38,
     `opening-proportion` 23, `trim-classical` 16, `chambers-ionic` 15 (on `carpenter-gothic` and
     both Gothic Revivals), `facade-gable` 14, `sash-light` 12, `brick-course` 11.
