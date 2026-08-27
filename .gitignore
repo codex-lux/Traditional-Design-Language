@@ -8,3 +8,9 @@ workbench/.venv/
 workbench/app/e2e/shots/
 dist/dxf/
 dist/ifc/
+
+# Nothing here leaks today; this is the guard against the first person who creates one.
+.env
+.env.*
+*.pem
+*.key

@@ -228,7 +228,13 @@ def render_elevation(elev, path, face=None, scale=6.0):
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
          f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{PAL["ground"]}">']
     s.append(_style_block())
-    s.append(f'<text class="hd" x="{pad}" y="20">{_esc(elev.get("plan_id",""))} — {face} ELEVATION</text>')
+    # _esc on `face` too: it arrives as body.get("face") on /api/drawings and /api/export, and
+    # this string is rendered into the page by DrawingSet.jsx with dangerouslySetInnerHTML.
+    # Nothing was exploitable — elevation.py looks `face` up in FACES ("S","N","E","W") 38 lines
+    # earlier and a miss raises KeyError into a 422 — but that guard is incidental to this line,
+    # and an unescaped interpolation of request data protected only by a lookup somewhere else
+    # is one refactor from being live.
+    s.append(f'<text class="hd" x="{pad}" y="20">{_esc(elev.get("plan_id",""))} — {_esc(face)} ELEVATION</text>')
 
     ox, oy = pad, top
     X = lambda ft: ox + ft * scale

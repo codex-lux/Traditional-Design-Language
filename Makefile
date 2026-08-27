@@ -8,8 +8,10 @@ counts:
 
 # --- The Workbench (WP-5.2) -------------------------------------------------
 # Serve the built app + JSON API on 127.0.0.1:8177. Requires:
-#   pip install -r workbench/requirements.txt
+#   pip install -r workbench/requirements.txt          # to run it
+#   pip install -r workbench/requirements-dev.txt      # to test it too
 #   (cd workbench/app && npm install && npm run build)   # once, or after app changes
+#   python3 workbench/scripts/precompress.py            # gz siblings; the image does this
 workbench:
 	python3 -m workbench.server
 
