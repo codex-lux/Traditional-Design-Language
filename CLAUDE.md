@@ -191,17 +191,36 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
-- **The placement generator is BLIND to the other level, so no score term can fix stacking
-  (WP-6.3, OQ 76).** `slice_rect` is called per level with no reference to the level below,
-  so `vertical_score` scores candidates that were produced without knowing what they must
-  sit on. A stair-stacking charge was built and swept: **100x and 10,000x the weight give
-  byte-identical output**, because the search can only re-rank blind candidates. Do not add
-  a score term here expecting it to act — it is a tax the search pays forever. And do not
-  reach for a hard CP constraint instead: `geometry_cp.py` downgrades **only** `kind ==
-  "wall"` pins, so anything else is non-downgradable and outranks every authored exterior
-  wall in the corpus (measured: it downgraded an authored kitchen wall to satisfy an
-  inferred stack). The fix is a level-aware GENERATOR, or a downgradable pin with its own
-  kind ranked below walls.
+- **BEARING CONTINUITY AND DECLARED STACKING ARE TWO PROBLEMS, AND OQ 76 CONFLATED THEM
+  (WP-7.1).** The generator WAS blind to the other level; `slice_rect` is now called for
+  level 1 with the ground layout, and `snap()` prefers a wall line below over a bare bay
+  line. Measured corpus-wide over 14 composed plans: **transfer beams 166 -> 109,
+  relaxations 96 -> 76**, total score improved. Over 23 plans including both shipped ones,
+  transfer beams **205 -> 128**. That is the bearing half, and it is closed for this engine.
+  **`stacks_over` did not move: 26/47 broken -> 27/47.** Moving a cut line moves a wall; it
+  does not move a room over another room. Do not expect the generator to fix stacking, and
+  do not quote WP-6.3's stated reason for refusing the stair charge — *"the search can only
+  re-rank blind candidates and can never produce a stacking one"* is FALSE: measured over 24
+  seeds the winner satisfies 1-3 of tidewater's 3 claims and 0-2 of spec's 2. The charge was
+  inert because it keyed on landing-over-stair and neither shipped plan declares that pair.
+  A hard CP constraint stays refused for its own measured reason: `geometry_cp.py` downgrades
+  **only** `kind == "wall"` pins, so anything else outranks every authored exterior wall
+  (measured: it downgraded an authored kitchen wall to satisfy an inferred stack).
+- **The level-aware generator is for the PLACEMENT and not for the CP HINT, and that split
+  is measured (WP-7.1).** `solve_heuristic(level_aware=...)` is True everywhere except
+  `geometry_cp._hint_heuristic`, which asks for the blind run. A hint's only job is to be
+  REPAIRABLE and a placement's is to be right. Also: the two `snap` forms are NOT
+  interchangeable — the slab branch snaps a WIDTH and a wall line below is an absolute
+  position, and quietly changing one into the other moved the GROUND placement, cost CP-SAT
+  its proof of `tidewater-georgian-careful` (OPTIMAL -> UNKNOWN at budget), and took an
+  afternoon to find. The blind path must stay byte-identical.
+- **The search has NO span term, so `spans_exceeding_capacity` is luck (WP-7.1).**
+  `test_no_span_over_capacity_passes_silently_on_the_careful_plan` asserted the careful plan
+  had none — measuring `build_section(plan)`'s HEURISTIC default while the product ships CP.
+  On the default engine that plan has carried a **29.00 ft span over a 20 ft capacity since
+  WP-6.3**, and nothing noticed. The test now asserts what is real: spans are computed, the
+  capacity is checked, and an over-capacity span surfaces. Do not restore a zero assertion —
+  it pins luck.
 - **An over-band charge is an under-band charge plus a constant, because the slicer tiles
   exactly (WP-6.3).** `Sum max(0, got-hi) == (T - Sum hi) + Sum max(0, hi-got)` is an
   identity, verified to under 0.5 sf. Three formulations were run through the whole search
@@ -396,8 +415,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **77 entries, of which 21 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77).
+  trusting any list of them. `docs/open-questions.md` holds **78 entries, of which 22 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 78).
+  **OQ 76 is HALF CLOSED by WP-7.1** — the generator is level-aware and it fixed BEARING
+  (transfer beams 166 → 109 corpus-wide) and not STACKING (26/47 → 27/47, flat). **OQ 78 is
+  new**: the search has no span term, so clearing the structural capacity is luck, and the
+  test that claimed the careful plan cleared it was measuring an engine no reader sees.
   **72-75 come from the plan-semantics program** (WP-6.1/6.2) and are what Lucas's review of two
   rendered sheets turned up that the program did not settle: the per-opening window type and bay
   windows, furniture arrangement beyond wet rooms, the door's hand, and a reference plan that

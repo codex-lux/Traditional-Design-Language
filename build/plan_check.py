@@ -450,12 +450,18 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # --- EVERY stacks_over claim, against the room it names. `stacks_over` is in the
     # schema, the partis declare it, the plan records declare it, and NEITHER placement
     # engine reads it — so a waste stack may be drawn with nothing under it and nothing
-    # says so. Measured across the two shipped plans on their CP placements: six rooms
-    # declare it, one claim is same-level (not a stack at all), and TWO are placed with
-    # zero overlap on the room they name — `primarybath` over `butlers`, `hallbath` over
-    # `laundry`, each a waste stack with nothing under it. (An earlier draft of this
-    # comment said four, measured on the heuristic placement before WP-6.3's door floor
-    # let CP-SAT solve these plans. Re-measure before quoting it.)
+    # says so, and WP-7.1 established that no generator change in `geometry.py` fixes it
+    # either: making the upper level level-aware took transfer beams 166 -> 109 corpus-wide
+    # and left broken stacks at 26/47 -> 27/47. Bearing continuity and declared stacking are
+    # different problems.
+    #
+    # THE SCOPE IS LARGER THAN THE TWO SHIPPED PLANS. `stacks_over` is declared by 14 of the
+    # 21 partis (50 claims), so every plan composed from one carries them. Measured across
+    # every such parti composed against its own first native style: **26 of 49 claims are
+    # drawn broken on the heuristic, 23 of 49 on CP-SAT** -- roughly half, on both engines,
+    # because neither reads the field. On the two shipped plans alone it is three of six.
+    # Re-measure before quoting any of these; an earlier draft of this comment said "two",
+    # measured on a placement two packages out of date.
     #
     # This REPORTS rather than charging, and that is a measured choice rather than a
     # timid one. A charge in `geometry.vertical_score` was built and refused: the upper

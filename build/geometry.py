@@ -75,28 +75,77 @@ def band(rtype):
     d = C["rooms"].get(rtype, {}).get("dimensions", {})
     return (d.get("area_sf") or [40, 900])
 
-def snap(v, module, tol):
-    """Nearest bay line, unless that would move the cut more than tol."""
+def wall_lines(rects, r=1):
+    """The x and y lines a set of placed rectangles puts walls on.
+
+    One spelling, used by `vertical_score`'s bearing term and by the level-aware generator
+    that feeds it (WP-7.1). A second copy of this is how a scorer and the generator it scores
+    come to disagree about where the walls are."""
+    xs = {round(v[0], r) for v in rects.values()} | {round(v[0] + v[2], r) for v in rects.values()}
+    ys = {round(v[1], r) for v in rects.values()} | {round(v[1] + v[3], r) for v in rects.values()}
+    return sorted(xs), sorted(ys)
+
+
+def snap(v, module, tol, prefer=()):
+    """Where a cut lands: a wall line below if there is one, else the nearest bay line.
+
+    `prefer` is the level below's wall lines on this axis, and it is the whole of WP-7.1
+    (OQ 76). Until it existed, `slice_rect` was called for the upper level with NO reference
+    to the ground placement -- so `vertical_score` scored candidates produced blind, and 26 of
+    49 `stacks_over` claims across the corpus were drawn broken because the search could not
+    aim, only re-rank. The ground layout is fully populated at the moment the upper level is
+    generated; it was simply never passed.
+
+    THE RETURNED `off` IS THE DEFINITION CORRECTION, and it must be read carefully. A
+    relaxation is defined in this file's own prose as "a joist run that does not land on a
+    bearing wall"; the code has always approximated that as "misses the bay module". Those are
+    not the same thing -- 18 of 30 ground wall lines on the shipped plans are themselves off
+    the bay grid, so a cut landing squarely on a wall below would have been counted a
+    compromise while a cut on a bare bay line with nothing under it was counted sound. A cut
+    that lands on a wall below returns off=0.0 because it DOES land on bearing. That is the
+    prose finally executed, not a loosening of it."""
+    for L in prefer:
+        if abs(L - v) <= tol:
+            return (L, 0.0)
     s = round(v / module) * module
     return (s, 0.0) if abs(s - v) <= tol else (v, abs(s - v))
 
 # ---------------------------------------------------------------- slicing
-def bias(room, axis):
+def bias(room, axis, below=None):
     """Directional pull from the room's declared exterior walls: +1 north/east, -1 south/west."""
     b = 0.0
     for w in (room.get("exterior_walls") or []):
         dx, dy = DIRS.get(w, (0, 0))
         b += (dy if axis == "y" else dx)
+    # WP-7.1 (OQ 76), and this is the half that aims a ROOM rather than a wall line. Snapping
+    # the upper cuts to the walls below makes upper walls continue -- measured, transfer beams
+    # 21 -> 9 on the Tidewater plan -- and does nothing whatever for `stacks_over`, because
+    # moving a line does not move a room. Measured across all 14 partis that declare the
+    # field, cut-line snapping ALONE took broken claims from 26/49 to 30/49: worse, not
+    # better. A room that says it stacks over another has to be PULLED toward it while the
+    # rooms are being divided, which is here.
+    #
+    # Weighted at 2.0 against an exterior wall's 1.0: a waste stack with nothing under it is
+    # a defect that survives the building, and a room's declared exposure is a preference the
+    # search is meant to trade off. Scaled by how far off centre the target actually sits, so
+    # a target in the middle of the block exerts no false pull.
+    if below:
+        t = (below.get("rects") or {}).get(room.get("stacks_over") or "")
+        if t:
+            span = (below.get("H") or 0) if axis == "y" else (below.get("W") or 0)
+            if span:
+                c = (t[1] + t[3] / 2.0) if axis == "y" else (t[0] + t[2] / 2.0)
+                b += 2.0 * max(-1.0, min(1.0, (c - span / 2.0) / (span / 2.0)))
     return b
 
-def partition(rooms, axis, rng):
+def partition(rooms, axis, rng, below=None):
     """Split into two groups: the LOW group goes south or west, so it must be seeded with the
     rooms pulled that way. Grow each group through the door graph, so a cut severs as few
     connections as possible — a plan whose adjacencies survive the slicing is the whole point."""
     ids = {r["id"] for r in rooms}
     doors = {r["id"]: {d["to"] for d in (r.get("doors") or []) if d["to"] in ids} for r in rooms}
     # bias ASCENDING: most negative (south/west) first, because lo is placed low
-    ranked = sorted(rooms, key=lambda r: (bias(r, axis), -r["_area"], r["id"]))
+    ranked = sorted(rooms, key=lambda r: (bias(r, axis, below), -r["_area"], r["id"]))
     total = sum(r["_area"] for r in ranked)
     target = total * rng.uniform(0.44, 0.56)
     lo, taken, acc = [], set(), 0.0
@@ -108,7 +157,7 @@ def partition(rooms, axis, rng):
         for r in ranked:
             if r["id"] in taken: continue
             conn = len(doors[r["id"]] & taken)
-            sc = (-conn, bias(r, axis), -r["_area"])
+            sc = (-conn, bias(r, axis, below), -r["_area"])
             if bs is None or sc < bs: best, bs = r, sc
         if best is None: break
         lo.append(best); taken.add(best["id"]); acc += best["_area"]
@@ -283,7 +332,7 @@ def _relax(relax, off, axis, at, span_lo, span_hi):
                   "from_ft": round(span_lo, 2), "to_ft": round(span_hi, 2)})
 
 
-def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0):
+def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0, below=None):
     if not rooms: return
     if len(rooms) == 1:
         r = rooms[0]; out[r["id"]] = (round(x, 2), round(y, 2), round(w, 2), round(h, 2)); return
@@ -300,66 +349,77 @@ def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0):
                                   # exactly the kind of number that must not move by accident.
             sw = max(module * 0.6, min(w * 0.45, sws)) * rng.uniform(0.94, 1.10)
             rest = [r for r in rooms if r["id"] is not sp["id"] and r["id"] != sp["id"]]
-            west = [r for r in rest if bias(r, "x") < 0]
+            west = [r for r in rest if bias(r, "x", below) < 0]
             east = [r for r in rest if r not in west]
             # let a borderline room cross the cut sometimes, or the search has nothing to explore
             for r in list(rest):
-                if abs(bias(r, "x")) < 0.5 and rng.random() < 0.35:
+                if abs(bias(r, "x", below)) < 0.5 and rng.random() < 0.35:
                     (east if r in west else west).append(r)
                     (west if r in west else east).remove(r)
             if not west or not east:
-                west, east = partition(rest, "x", rng)
+                west, east = partition(rest, "x", rng, below)
             aw = sum(r["_area"] for r in west); ae = sum(r["_area"] for r in east)
             wfrac = aw / (aw + ae) if (aw + ae) else 0.5
             if "centre" in (sp["type"] or "") or "center" in (sp["type"] or ""):
                 wfrac = (wfrac + 0.5) / 2.0      # a centre passage is named for where it goes
             wfrac = min(0.78, max(0.22, wfrac + rng.uniform(-0.07, 0.07)))
             rem = w - sw
-            wwid, dd = snap(rem * wfrac, module, tol)
+            # The line this decides sits at x + wwid, so a wall line below -- which is stated
+            # in MODEL coordinates, not in this rectangle's -- can only be preferred by
+            # snapping the absolute position. The blind path keeps the original WIDTH snap
+            # byte for byte: the two are not equivalent once x is off the module, and
+            # changing it silently moved the ground placement, cost CP-SAT its proof of
+            # `tidewater-georgian-careful`, and took a whole afternoon to find.
+            _px = (below or {}).get("x", ())
+            if _px:
+                _abs, dd = snap(x + rem * wfrac, module, tol, _px)
+                wwid = _abs - x
+            else:
+                wwid, dd = snap(rem * wfrac, module, tol)
             wwid = max(module * 0.6, min(rem - module * 0.6, wwid))
             out[sp["id"]] = (round(x + wwid, 2), round(y, 2), round(sw, 2), round(h, 2))
             # Both edges of the spanning slab, now that its position is known. The width snap
             # (slab_off) misses the grid at the slab's FAR edge; the wwid snap at its near one.
             if dd: _relax(relax, dd, "x", x + wwid, y, y + h)
             if slab_off: _relax(relax, slab_off, "x", x + wwid + sw, y, y + h)
-            slice_rect(west, x, y, wwid, h, module, tol, rng, out, relax, depth + 1)
-            slice_rect(east, x + wwid + sw, y, rem - wwid, h, module, tol, rng, out, relax, depth + 1)
+            slice_rect(west, x, y, wwid, h, module, tol, rng, out, relax, depth + 1, below)
+            slice_rect(east, x + wwid + sw, y, rem - wwid, h, module, tol, rng, out, relax, depth + 1, below)
             return
         sp = spanning(rooms, "x")
         if sp and w > h * 0.55:
             sh = max(module * 0.5, min(h * 0.4, sp["_area"] / w))
             rest = [r for r in rooms if r["id"] != sp["id"]]
-            south = [r for r in rest if bias(r, "y") < 0]
+            south = [r for r in rest if bias(r, "y", below) < 0]
             north = [r for r in rest if r not in south]
-            if not south or not north: south, north = partition(rest, "y", rng)
+            if not south or not north: south, north = partition(rest, "y", rng, below)
             a_s = sum(r["_area"] for r in south); a_n = sum(r["_area"] for r in north)
             sfrac = a_s / (a_s + a_n) if (a_s + a_n) else 0.5
             rem = h - sh
             shgt = max(module * 0.5, min(rem - module * 0.5, rem * sfrac))
             out[sp["id"]] = (round(x, 2), round(y + shgt, 2), round(w, 2), round(sh, 2))
-            slice_rect(south, x, y, w, shgt, module, tol, rng, out, relax, depth + 1)
-            slice_rect(north, x, y + shgt + sh, w, rem - shgt, module, tol, rng, out, relax, depth + 1)
+            slice_rect(south, x, y, w, shgt, module, tol, rng, out, relax, depth + 1, below)
+            slice_rect(north, x, y + shgt + sh, w, rem - shgt, module, tol, rng, out, relax, depth + 1, below)
             return
 
     axis = "x" if w >= h else "y"
     if abs(w - h) < module * 0.9 and rng.random() < 0.45: axis = "y" if axis == "x" else "x"
-    lo, hi = partition(rooms, axis, rng)
+    lo, hi = partition(rooms, axis, rng, below)
     a_lo = sum(r["_area"] for r in lo); a_tot = a_lo + sum(r["_area"] for r in hi)
     frac = a_lo / a_tot if a_tot else 0.5
     if axis == "x":
         cut = w * frac
-        s, d = snap(x + cut, module, tol)
+        s, d = snap(x + cut, module, tol, (below or {}).get('x', ()))
         cut = max(module * 0.6, min(w - module * 0.6, s - x))
         if d: _relax(relax, d, "x", x + cut, y, y + h)
-        slice_rect(lo, x, y, cut, h, module, tol, rng, out, relax, depth + 1)      # lo goes west
-        slice_rect(hi, x + cut, y, w - cut, h, module, tol, rng, out, relax, depth + 1)
+        slice_rect(lo, x, y, cut, h, module, tol, rng, out, relax, depth + 1, below)      # lo goes west
+        slice_rect(hi, x + cut, y, w - cut, h, module, tol, rng, out, relax, depth + 1, below)
     else:
         cut = h * frac
-        s, d = snap(y + cut, module, tol)
+        s, d = snap(y + cut, module, tol, (below or {}).get('y', ()))
         cut = max(module * 0.6, min(h - module * 0.6, s - y))
         if d: _relax(relax, d, "y", y + cut, x, x + w)
-        slice_rect(lo, x, y, w, cut, module, tol, rng, out, relax, depth + 1)      # lo goes south
-        slice_rect(hi, x, y + cut, w, h - cut, module, tol, rng, out, relax, depth + 1)
+        slice_rect(lo, x, y, w, cut, module, tol, rng, out, relax, depth + 1, below)      # lo goes south
+        slice_rect(hi, x, y + cut, w, h - cut, module, tol, rng, out, relax, depth + 1, below)
 
 # ---------------------------------------------------------------- scoring one level
 def level_score(rects, rooms):
@@ -586,8 +646,7 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     """The reason both levels are solved together: bearing lines, stacks, and the stair."""
     if not u: return 0.0, []
     s, notes = 0.0, []
-    gx = sorted({round(v[0], 1) for v in g.values()} | {round(v[0] + v[2], 1) for v in g.values()})
-    gy = sorted({round(v[1], 1) for v in g.values()} | {round(v[1] + v[3], 1) for v in g.values()})
+    gx, gy = wall_lines(g)      # the same spelling the generator slices against (WP-7.1)
     off = 0
     for rid, (x, y, w, h) in u.items():
         for val, lines in ((x, gx), (x + w, gx), (y, gy), (y + h, gy)):
@@ -608,10 +667,23 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     # "finish" it, and finishing it does not work. The finding it stood for is below and is
     # the reason no term replaced it.
     #
-    # WP-6.3 built the charge and swept it: `slice_rect` generates the upper level with NO
-    # reference to the ground placement, so this function can only re-rank candidates that
-    # were produced blind and can never produce a stacking one. At 100x and at 10,000x the
-    # weight the output is BYTE-IDENTICAL, and paying it costs relaxations 11 -> 16. A hard
+    # WP-6.3 built the charge and swept it: at 100x and at 10,000x the weight the output was
+    # BYTE-IDENTICAL, and paying it cost relaxations 11 -> 16.
+    #
+    # ITS STATED REASON WAS WRONG AND WP-7.1 CORRECTED IT. WP-6.3 wrote that "the search can
+    # only re-rank blind candidates and can never produce a stacking one". Measured over 24
+    # seeds, the winning candidate satisfies 1 to 3 of tidewater's 3 cross-level claims and 0
+    # to 2 of spec-builder's 2 -- the search plainly reaches stacking placements. The charge
+    # was inert for a narrower reason: it keyed on landing-over-stair, and neither shipped
+    # plan declares that pair.
+    #
+    # AND THE BLINDNESS, NOW FIXED, TURNED OUT NOT TO BE THE CAUSE EITHER. WP-7.1 made the
+    # generator level-aware (see `snap`) and measured it corpus-wide over 14 composed plans:
+    # transfer beams 166 -> 109, relaxations 96 -> 76, and `stacks_over` claims broken 26/47
+    # -> 27/47 -- FLAT. Moving a cut line moves a wall; it does not move a room over another
+    # room. Bearing continuity and declared stacking are two different problems and OQ 76
+    # conflated them. The first is closed for this engine; the second is not, and no score
+    # term or generator seed in this file has yet touched it. A hard
     # CP constraint is worse: geometry_cp.py downgrades only `kind == "wall"` pins, so a
     # stacking constraint outranks every authored exterior wall in the corpus -- measured, it
     # downgraded an authored kitchen wall to satisfy an inferred stack. The fix is a
@@ -1038,9 +1110,19 @@ def write_record(plan, levels, ground, upper, fp, report):
     return plan
 
 
-def solve_heuristic(plan, parti=None, candidates=250, seed=7):
+def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     """The hill-climbing search. Named `solve_heuristic` since the 25 Aug merge: `solve()`
-    below is now a dispatcher that prefers the CP-SAT engine and falls back to this one."""
+    below is now a dispatcher that prefers the CP-SAT engine and falls back to this one.
+
+    `level_aware` (WP-7.1, OQ 76) slices the upper level against the ground layout instead of
+    blind. It is TRUE for a placement and FALSE for a CP warm-start, and that split is a
+    measured necessity rather than a preference. A hint's only job is to be REPAIRABLE; a
+    placement's job is to be right, and they are not the same job. Measured on
+    `plans/tidewater-georgian-careful.json`, the plan WP-6.3 fought to make solvable at all:
+    hinting CP-SAT with the level-aware run took it from OPTIMAL to UNKNOWN at its 25 s
+    budget, so the whole sheet fell back to the hill-climb. A better hint by this file's own
+    score was a worse basin for the proof. `geometry_cp.py::_hint_heuristic` therefore asks
+    for the blind run, and CP's own placement is unchanged byte for byte."""
     rng = random.Random(seed)
     levels, prep = prep_rooms(plan)
     if prep is None or 0 not in prep: return {"error": "no ground level"}
@@ -1082,7 +1164,19 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
               + void_enclosure_score(gr, prep[0], W, H, void_shape))
         ur, urelax = {}, []
         if prep.get(1):
-            slice_rect(copy.deepcopy(prep[1]), 0, 0, W, H, bay, tol, rng, ur, urelax)
+            # WP-7.1 (OQ 76): the upper level is sliced AGAINST THE GROUND LAYOUT, not blind.
+            # `gr` is fully populated four lines above and was simply never passed, so
+            # `vertical_score` below has always been scoring candidates produced with no
+            # knowledge of what they must sit on. Nothing else changes: the rng stream is
+            # untouched (no new draws), so the slicing TREE is identical candidate for
+            # candidate and only the cut POSITIONS move -- onto the walls below where one is
+            # within tolerance, and onto the bay line exactly as before where none is.
+            below = None
+            if level_aware:
+                gx, gy = wall_lines(gr)
+                below = {"x": gx, "y": gy, "rects": gr, "W": W, "H": H}
+            slice_rect(copy.deepcopy(prep[1]), 0, 0, W, H, bay, tol, rng, ur, urelax,
+                       below=below)
             su = (level_score(ur, prep[1]) + exterior_score(ur, prep[1], W, H) + adjacency_score(ur, prep[1], levels[1]["rooms"])
                   + centre_hall_symmetry_score(ur, prep[1], W, H))
         else: su = 0.0

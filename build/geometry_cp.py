@@ -583,7 +583,12 @@ def _hint_heuristic(model, rooms, plan, parti, seed, candidates=40):
     full search's placement, which already optimized the SOFT terms and only
     needs its hard violations repaired — a far better basin than phase A's."""
     try:
-        h = GEO.solve_heuristic(copy.deepcopy(plan), parti, candidates=candidates, seed=seed)
+        # level_aware=False deliberately (WP-7.1): a hint's only job is to be REPAIRABLE.
+        # Hinting with the level-aware run took `tidewater-georgian-careful` from OPTIMAL to
+        # UNKNOWN at budget -- a hint better by the heuristic's own score, in a basin the
+        # proof could not close. See solve_heuristic's docstring.
+        h = GEO.solve_heuristic(copy.deepcopy(plan), parti, candidates=candidates, seed=seed,
+                                level_aware=False)
     except Exception:
         return
     if "error" in h:

@@ -55,7 +55,8 @@ class TestSolveSmoke:
         plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
         result = geometry_module.solve(plan, engine="heuristic")
         report = result["geometry_report"]
-        assert report["relaxations"]["count"] == 11
+        # 9, moved from 11 by WP-7.1 (OQ 76). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.
+        assert report["relaxations"]["count"] == 9
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]

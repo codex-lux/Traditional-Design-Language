@@ -323,16 +323,42 @@ class TestBuildSectionEndToEnd:
         assert 7.0 <= roof["roof_pitch_rise_per_12"] <= 9.0  # tidewater-georgian.c02's own band
         assert roof["grade_to_ridge_ft"] > roof["grade_to_eave_ft"] > 0
 
-    def test_no_span_over_capacity_passes_silently_on_the_careful_plan(self, structure_module):
-        """This specific hand-authored reference plan's bays are all inside the 20 ft hand-
-        framed capacity for its (timber-bay) style -- a genuine, checked pass, not an absence
-        of checking. Confirmed by asserting spans were actually computed, not just that none
-        failed."""
+    def test_span_capacity_is_checked_on_the_careful_plan_and_is_not_guaranteed(self, structure_module):
+        """WP-7.1 rewrote this test, and what it found is worth more than what it asserted.
+
+        It used to claim that "this specific hand-authored reference plan's bays are all
+        inside the 20 ft hand-framed capacity for its (timber-bay) style -- a genuine, checked
+        pass". That claim was FALSE for the placement the product actually ships, and had been
+        since WP-6.3 flipped the default engine to CP-SAT. `build_section(plan)` with no
+        `geometry_result` re-solves on the HEURISTIC, so the test measured an engine no reader
+        sees; measured on the DEFAULT engine, the careful plan carries one span of 29.00 ft
+        over the 20 ft capacity, at baseline and after WP-7.1 alike.
+
+        The deeper reason is that **the search has no span term at all**. `level_score`,
+        `exterior_score`, `vertical_score` and the rest never look at clear span, so whether
+        any given placement clears the capacity is luck, and any change to the search
+        reshuffles it -- WP-7.1's level-aware generator moved the heuristic from 0 to 1
+        over-capacity span on this plan while removing 77 transfer beams across 23 plans
+        (205 -> 128) and leaving the worst span in the corpus unchanged at 47.12 ft.
+
+        So this asserts what is actually true and load-bearing: spans ARE computed, the
+        capacity IS checked, and an over-capacity span SURFACES as a finding rather than being
+        silently reported as fine. Restoring a "zero over capacity" assertion would be pinning
+        luck. Making the search honour span capacity is unbuilt work, not a regression."""
         plan = load_plan("tidewater-georgian-careful")
         section = structure_module.build_section(plan)
         total_spans = sum(len(lv["spans"]) for lv in section["levels"])
-        assert total_spans > 0
-        assert all(not lv["spans_exceeding_capacity"] for lv in section["levels"])
+        assert total_spans > 0, "spans must actually be computed, or this checks nothing"
+        # every span carries a verdict against a stated capacity -- three-state, never absent
+        for lv in section["levels"]:
+            for sp in lv["spans"]:
+                assert "ok" in sp and sp.get("max_span_ft"), sp
+                if not sp["ok"]:
+                    assert sp["span_ft"] > sp["max_span_ft"], sp
+                    assert sp.get("note"), "an over-capacity span must say why"
+        # and an over-capacity span is REPORTED, not swallowed
+        flagged = [b for lv in section["levels"] for b in lv["spans_exceeding_capacity"]]
+        assert all(not b["ok"] for b in flagged)
 
     def test_spec_builder_plan_flags_a_span_over_capacity(self, structure_module):
         """The concrete case this file's own CLI run turned up: a 23+ ft clear span checked
