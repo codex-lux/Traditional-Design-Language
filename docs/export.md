@@ -99,3 +99,23 @@ the workbench endpoint returns that refusal as a 501, and the two selftests
 exit 3, which `check_all.py` reports as `N/EV — COULD NOT EVALUATE`, listed by
 name and never counted as a pass. Unjudged is not passed, applied to the check
 suite itself.
+
+## The cornice profile (WP-5.7)
+
+The elevation DXF used to carry the entire eave cornice as **one closed rectangle** on
+`TDL-ELEV-CORNICE`, plus a text note saying how many members it had. That was never a limitation
+of DXF — it was that no layer of this corpus held a moulding as geometry, so there was nothing for
+any format to carry. It is the reason a CAD or BIM layer could not have made these drawings
+better on its own: a format serialises what is modelled.
+
+`TDL-ELEV-CORNICE-PROFILE` now carries the real profile, drawn full size beside the elevation,
+from the same `build/profiles.py` segments the SVG sheet draws. **Circular arcs survive exactly**,
+as LWPOLYLINE bulges — a bulge *is* an arc — so the cornice in the CAD file is the same curve as
+the cornice on the sheet rather than a polygon approximating it. Elliptical quarters flatten at a
+stated tolerance. The band on `TDL-ELEV-CORNICE` is now drawn at the projection the record states
+instead of a hardcoded six inches.
+
+**IFC is future work, named rather than hidden.** `build/export_ifc.py` still exports no order
+geometry at all. The obvious next step is an `IfcShapeRepresentation` swept from the same profile
+polyline this exporter already builds; the geometry exists now, so it is a serialisation job and
+not a modelling one.

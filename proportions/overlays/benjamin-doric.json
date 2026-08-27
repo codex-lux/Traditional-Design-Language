@@ -91,7 +91,8 @@
           "profile": "triglyph",
           "count": null,
           "spacing_parts": 75,
-          "note": "SUMS_CHECK IS FALSE FOR THIS ASSEMBLY and honestly so: triglyph and metope are the full height of the frieze and stand side by side, so their heights cannot sum to it. Stated verbatim: 'The triglyphs in the frize are thirty minutes in front, and their distance from each other, reckoning from the centre of each, is seventy-five minutes.' Triglyph 30 minutes wide, pitch 75, so the metope is 45 wide; metopes are square, so the frieze is 45 minutes high. Those figures are identical to Vignola's Roman Doric (triglyph 1 module, metope square at 1 1/2 modules, 2 1/2 modules on centres) - the frieze is the one place where the Greek and Roman Doric agree, which is why triglyph spacing is the most stable number in the whole classical system.",
+          "width_parts": 30.0,
+          "note": "SUMS_CHECK IS FALSE FOR THIS ASSEMBLY and honestly so: triglyph and metope are the full height of the frieze and stand side by side, so their heights cannot sum to it. Stated verbatim: 'The triglyphs in the frize are thirty minutes in front, and their distance from each other, reckoning from the centre of each, is seventy-five minutes.' Triglyph 30 minutes wide, pitch 75, so the metope is 45 wide; metopes are square, so the frieze is 45 minutes high. Those figures are identical to Vignola's Roman Doric (triglyph 1 module, metope square at 1 1/2 modules, 2 1/2 modules on centres) - the frieze is the one place where the Greek and Roman Doric agree, which is why triglyph spacing is the most stable number in the whole classical system. WIDTH OF ONE UNIT: Benjamin, quoted verbatim in this member's own note: 'The triglyphs in the frize are thirty minutes in front'. This pack's spacing of 75 parts is his 75 minutes, so a part is a minute here.",
           "confidence": "high"
         },
         {
@@ -102,7 +103,8 @@
           "profile": "metope",
           "count": null,
           "spacing_parts": 75,
-          "note": "Square, 45 minutes on a side. Benjamin leaves them plain in Example No. 3.",
+          "width_parts": 45.0,
+          "note": "Square, 45 minutes on a side. Benjamin leaves them plain in Example No. 3. WIDTH OF ONE UNIT: This member's own note: 'Square, 45 minutes on a side', and 75 less the triglyph's 30 leaves exactly that.",
           "confidence": "high"
         },
         {

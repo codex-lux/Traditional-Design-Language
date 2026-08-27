@@ -447,10 +447,46 @@ def export_elevation_dxf(elev, path, face=None):
     msp.add_line((-24, 0), (span + 24, 0), dxfattribs={"layer": grade})
     msp.add_lwpolyline([(0, 0), (span, 0), (span, top_of_wall), (0, top_of_wall)],
                        close=True, dxfattribs={"layer": wall})
-    # frieze + cornice band
-    msp.add_lwpolyline([(-6, top_of_wall), (span + 6, top_of_wall),
-                        (span + 6, true_eave), (-6, true_eave)],
+    # frieze + cornice band, at the projection the record actually states rather than a
+    # hardcoded six inches either side
+    cornice = elev["eave_cornice"]
+    band_proj = cornice.get("envelope_projection_in") or cornice.get("cornice_projection_in") or 6.0
+    msp.add_lwpolyline([(-band_proj, top_of_wall), (span + band_proj, top_of_wall),
+                        (span + band_proj, true_eave), (-band_proj, true_eave)],
                        close=True, dxfattribs={"layer": cor})
+
+    # WP-5.7: THE CORNICE PROFILE ITSELF, AND THE ANSWER TO "DO WE NEED CAD FOR THIS".
+    #
+    # This file used to export the entire cornice as one closed rectangle plus a text note
+    # saying how many members it had. That was not a limitation of DXF. It was that no layer of
+    # this corpus held the moulding as GEOMETRY, so there was nothing for any format to carry --
+    # a CAD or BIM layer bolted on underneath would have had exactly the same rectangle to
+    # export, because a format serialises what is modelled and cannot invent what is not.
+    #
+    # build/profiles.py constructs the profile once, from the pack's own members, and this walks
+    # the same segments the SVG sheet draws. Circular arcs survive exactly, as bulges -- a bulge
+    # IS an arc, so the cornice in the CAD file is the same curve as the cornice on the sheet
+    # and not a polygon approximating it. Elliptical quarters flatten at a stated tolerance.
+    # The detail is drawn at full size beside the elevation, the way it would be on a sheet.
+    members = cornice.get("members") or []
+    if members:
+        PROF = _mod("profiles", f"{ROOT}/build/profiles.py")
+        prof_layer = _layer(doc, "TDL-ELEV-CORNICE-PROFILE", color=7)
+        naked = cornice.get("frieze_naked_in") or 0.0
+        from_axis = cornice.get("entablature_projection_datum",
+                                cornice.get("projection_datum")) == "axis"
+        sil = PROF.silhouette(members, naked_at=naked, from_axis=from_axis)
+        ox, oy = span + 48.0, top_of_wall      # the detail stands clear of the elevation
+        pts = PROF.dxf_points(sil["segments"], sil["start"])
+        msp.add_lwpolyline([(ox + (x - naked), oy + y, 0.0, 0.0, b) for x, y, b in pts],
+                           format="xyseb", close=True, dxfattribs={"layer": prof_layer})
+        _text(msp, anno, f"EAVE CORNICE PROFILE - {len(members)} MEMBERS, FULL SIZE",
+              ox, oy - 14)
+        _text(msp, anno,
+              f"RELIEF {round(cornice.get('order_relief_beyond_frieze_in') or 0, 2)} IN"
+              + (f"; ENVELOPE RULE SAYS {round(band_proj, 2)} IN - BOTH SOURCED, SEE OQ"
+                 if abs((cornice.get('order_relief_beyond_frieze_in') or 0) - band_proj) > 0.5 else ""),
+              ox, oy - 26)
 
     # roof silhouette from roof.py's own elevation profile, shifted by the band
     profile = [(x * IN, h * IN + cornice_band) for x, h in roof["elevation_profiles"][face]]
@@ -476,6 +512,14 @@ def export_elevation_dxf(elev, path, face=None):
     ent = elev["entrance"]
     for cx_ft, kind in zip(front["centres_ft"], front["kinds"]):
         cx = cx_ft * IN
+        # A BLIND BAY CARRIES NO OPENING AT EITHER STOREY (OQ 85). The bay holds its place in the
+        # rhythm and a chimney stack stands on its axis, so there is nothing to draw. Missed when
+        # the blind bay was introduced: this loop read `if door ... else window`, so `blind` fell
+        # into the else and the CAD file drew the very collision the SVG had just stopped drawing
+        # -- two surfaces disagreeing about one record, which is the class this package exists to
+        # close. The selftest could not see it: it round-trips FINDINGS, not geometry.
+        if kind == "blind":
+            continue
         if kind == "door" and face == elev["entrance_face"]:
             dw, dh = ent["door_leaf_width_in"], ent["door_leaf_height_in"]
             x0, x1 = cx - dw / 2, cx + dw / 2

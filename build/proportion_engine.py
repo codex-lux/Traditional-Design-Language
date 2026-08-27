@@ -111,7 +111,14 @@ def _convert_assembly(a, ratio, part_ratio):
     if isinstance(a.get("height_modules"), (int, float)):
         a["height_modules"] = a["height_modules"] * ratio
     for mem in a.get("members", []):
-        for k in ("height_parts", "projection_parts", "spacing_parts"):
+        # EVERY field measured in parts converts, and the list is the whole of the contract:
+        # a field added to the schema and to dimension() but not to this tuple inherits in the
+        # BASE pack's unit while its neighbours convert, which is worse than not inheriting at
+        # all because the two then disagree silently. `width_parts` was added in WP-5.7 and
+        # missed here, so chambers-doric's triglyph carried Vignola's 12-part width against its
+        # own converted 75-part pitch -- a 60% hole in a Doric frieze, in a pack whose inherited
+        # note says triglyph and metope fill that pitch exactly.
+        for k in ("height_parts", "projection_parts", "spacing_parts", "width_parts"):
             if isinstance(mem.get(k), (int, float)): mem[k] = mem[k] * part_ratio
     return a
 
@@ -275,6 +282,10 @@ def dimension(pack, module_in=None, include=None):
                 "projection_in": round(m.get("projection_parts", 0) * part_in, 4),
                 "y_bottom_in": round(my0, 4), "y_top_in": round(my0 + h, 4), "side_by_side": side,
                 "count": m.get("count"), "spacing_in": (m["spacing_parts"] * part_in) if m.get("spacing_parts") else None,
+                # WP-5.7: the pitch says where the teeth fall, the width says how much of that
+                # pitch is solid. Null stays null all the way to the renderer, which then draws
+                # the band solid and says the width was never published.
+                "width_in": (m["width_parts"] * part_in) if m.get("width_parts") else None,
                 "enrichment": m.get("enrichment"), "confidence": m.get("confidence", "high"),
                 "note": m.get("note"),
             })

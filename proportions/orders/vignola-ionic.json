@@ -380,7 +380,8 @@
           "profile": "dentil",
           "count": null,
           "spacing_parts": 6,
-          "note": "Dentils 1/6 D high (6 parts), 1/9 D wide (4 parts), the interdentil 1/18 D (2 parts), so 1/6 D = 6 parts on centres (Ware). A double dentil turns the corner. Vignola's Ionic intercolumniation of 6 1/2 modules is 19.5 dentil spacings, which does not resolve to a whole dentil on the axis - and Esquie says so explicitly: the Ionic dentils 'do not require so precise a location as the triglyph of the Doric or the modillion of the Corinthian.'",
+          "width_parts": 4.0,
+          "note": "Dentils 1/6 D high (6 parts), 1/9 D wide (4 parts), the interdentil 1/18 D (2 parts), so 1/6 D = 6 parts on centres (Ware). A double dentil turns the corner. Vignola's Ionic intercolumniation of 6 1/2 modules is 19.5 dentil spacings, which does not resolve to a whole dentil on the axis - and Esquie says so explicitly: the Ionic dentils 'do not require so precise a location as the triglyph of the Doric or the modillion of the Corinthian.' WIDTH OF ONE UNIT: Vignola/Ware, in this member's own note: dentils '1/9 D wide (4 parts)', interdentil 1/18 D (2 parts), 6 parts on centres.",
           "confidence": "high"
         },
         {

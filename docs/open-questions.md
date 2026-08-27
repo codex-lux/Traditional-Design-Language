@@ -417,6 +417,41 @@ issuing ids by reading the file and adding one will keep colliding.** It has now
 twice in two days, cost a renumbering both times, and will cost a third unless the id comes
 from somewhere that is not the working tree.
 
+
+**A THIRD PARALLEL-SESSION COLLISION, in three days, and the rule is now a rule.** Two
+sessions again ran at once and both issued from 72. Main's block — the atlas's fine coastline
+tier and the five from the infrastructure audit — keeps its numbers, because it merged first
+and is cited under them from `docs/reports/wp-5.7-the-atlas-and-the-shell.md` and
+`docs/reports/infrastructure-audit.md`. This branch's **twelve** were reissued, which is four
+times the size of the last renumbering:
+
+| raised on this branch as | now | subject |
+|---|---|---|
+| 72 | **78** | the entablature's projection datum, and the bed mould it deletes |
+| 73 | **79** | two sourced rules giving the eave cornice two different projections |
+| 74 | **80** | the long face that could not draw its own chimneys |
+| 75 | **81** | two Benjamin modillion pitches against their own pack's stated unit |
+| 76 | **82** | `repeat_positions()`, built and documented and never called |
+| 77 | **83** | the sweep rule spelled twice in JavaScript |
+| 78 | **84** | `cornice-that-is-a-fascia`'s two rival secondaries |
+| 79 | **85** | a stack and a window on one axis, with nothing comparing them |
+| 80 | **86** | a kit parameter and a pack rule contradicting each other under two names |
+| 81 | **87** | a slot bound `open` inheriting the constraint the style declined to make |
+| 82 | **88** | the sill scope that reaches 27 masonry nodes |
+| 83 | **89** | measurements withheld, and one supplied as an unconditional constant |
+
+Main's own entry for 73–77 anticipated this and said to renumber here if another session had
+taken the block; the rule this register has now applied three times settles which side moves,
+and it is not the side that merged. **Every reference inside the tree has been converted.** A
+commit message carries the old number and cannot be changed: on this branch that is `f768c02`
+and `426ed35`, both written while these were 72–83, and the two WP-5.7 reports plus the WP-5.8,
+WP-5.9 and WP-5.10 reports were written under the old numbers and have been converted in place.
+
+**Three collisions is not bad luck, it is the procedure.** The last note said this would cost a
+third renumbering unless the id came from somewhere that is not the working tree. It has, and it
+did, and the cost went up rather than down because the block was longer. Nothing here fixes that;
+the next session that reads this file and adds one will collide a fourth time.
+
 ## From the atlas and the shell (WP-5.7, 26 August 2026)
 
 72. **OPEN — the fine coastline tier is one megabyte of geometry, a fifth of it in a single un-cullable ring, and the download is the smaller half of the problem.** WP-5.7 gave the atlas three levels of detail so that zooming in sharpens the drawing instead of magnifying its facets (`workbench/scripts/make_coastlines.py`, `app/src/surfaces/phylo/coastTiers.js`). The finest is Natural Earth 10m simplified at 0.012 degrees: 2,262 rings, 116,623 points, 1.17 MB raw and 363 KB gzipped, fetched as one dynamic-import chunk the first time a reader crosses sixteen degrees of longitude.
@@ -442,3 +477,193 @@ these numbers, renumber here and add a third row to the conversion table.*
 76. **OPEN — the heavy limiter is simultaneously too loose for ten users and too tight for one.** `HEAVY_CALLS_PER_HOUR` is 60 per identity, covering `/api/plan/evaluate`, `/api/compose`, `/api/drawings`, `/api/export` and `/api/ingest/dxf`. The Plan Workbench re-evaluates on a 400 ms debounce, so **one person dragging a wall spends all sixty calls in twenty-four seconds** and is then refused for the remaining fifty-nine and a half minutes. At the same time sixty multi-second solves per identity per hour is far above what the box can absorb from even a few callers, and there is no process-wide backstop on these endpoints at all — only the rail has one (`rail:__all__`, 200/day). The identity is also weak where it matters most: `auth.identity()` falls back to the source address, `source_address` reads the LAST `X-Forwarded-For` hop, and with `forwarded_allow_ips="*"` on a bare platform deployment a caller who rotates that header mints a fresh sixty-call budget per request. The shape is wrong, not the number: an editing session is bursty and a solve is expensive, and one counter cannot express both. A token bucket with a burst allowance, or separate budgets for the debounced path and the deliberate ones, would fit what the surface actually does.
 
 77. **OPEN — two builds of the same commit can ship different dependency trees.** Neither `requirements.txt` nor `workbench/requirements.txt` pins exact versions and there is no lockfile; only `anthropic` and `mcp` carry upper bounds, and both were added reactively after a breakage that the comments still describe. The Dockerfile's `pip install --no-cache-dir -r workbench/requirements.txt` therefore resolves fresh on every build, which means the image that passes CI and the image that deploys an hour later are not guaranteed to be the same software. The frontend does not have this problem: `npm ci` runs against a committed `package-lock.json`. Related and worth deciding in the same breath: the corpus suite currently goes red in a fresh virtualenv because nine root tests shell out to a bare `python3` on the assumption that it, rather than the runner's interpreter, carries the dependencies — `tests/test_proportion_engine.py:16` states that assumption deliberately, and half the suite disagrees with it by using `sys.executable`. Both are the same underlying question: what, exactly, is this project's declared environment?
+
+
+## From the geometry layer (WP-5.7, 26 Aug 2026)
+
+78. **CLOSED 27 Aug 2026 — ruled: DETECT THE DATUM PER ASSEMBLY-GROUP, from the pack's own evidence, in one place.** `build/profiles.py::pack_geometry` now decides it in `axis_holds_for()` on two signals, either of which settles it: a recorded 0 (impossible under the radius reading — this is what an entablature gives) or nothing in the group reaching its own naked (every member would sit inside the shaft — this is what a capital gives). It only ever downgrades `axis` to `naked`, never the reverse. The entablature is judged as ONE group because its architrave, frieze and cornice share a naked; the pedestal likewise; the column's three assemblies are judged separately because each has its own. `build/elevation.py::eave_cornice` had carried a private copy and now delegates, so the 2.37× divergence between the inset and the two order plates is gone. **Measured: faces drawn flush with their own naked 192 → 81; 60 assemblies across the 14 axis packs now read naked-relative (14 cornices, 14 friezes, 14 architraves, 10 pedestals, 5 bases, 2 subplinths, 1 capital).** `check_orders.py` gained a third reporter, `note()`, and prints for every axis pack exactly which of its assemblies contradict its declaration — the silence was the whole cost of this question. The original entry, and the audit that widened it, follow.<br><br>ORIGINALLY WIDENED 27 Aug 2026 by an adversarial audit: this entry originally scoped the problem to the entablature and to `dist/orders.html`, and it is wrong in both directions.** It is NOT true that "the column family is sound": `gibbs-ionic`'s ENTIRE CAPITAL (volute 3.0, echinus 3.333, bead 2.667, abacus ovolo 3.667, against an upper radius of 5.0) and its ENTIRE PEDESTAL each draw as one flat vertical line, because every one of those figures falls under the radius and is clamped by `max(p, naked)`. `check_orders.py::check_projection_datum` reads the SHAFT only, so it passes the pack clean while the capital contradicts the declaration. And the affected surface is not one but two: the workbench Proportions plate consumes `pack_geometry()`, which takes the PACK-level datum, so it carries the identical clamp — on the product's primary surface, named nowhere. Measured corpus-wide: 14 packs declare `axis`; **192 entablature faces draw flush, 153 of them discarding a published non-zero projection**, and `palladio-corinthian`'s cornice is 5 of 5 flat. 78 of 175 quarter and cyma members corpus-wide have `dx == 0` and take the straight-line branch. `build/profiles.py` now COLLECTS these as `unrecorded` so a surface can at least say how many faces it drew flush for want of a figure, and the elevation inset prints the count — but that is disclosure, not a fix. The original entry follows.<br><br> OQ 65 closed by putting `projection_datum` on the pack and having `check_orders.py` verify the declaration against the pack's own geometry. That verification reads the SHAFT, falling back to base and capital — the column family — and the ruling is sound there. It is not true of the ENTABLATURE in the same packs, and the packs say so themselves: `gibbs-ionic` declares `axis`, yet its frieze face records a projection of **0**, as does its architrave's lowest fascia. A frieze standing on the column's centre line is impossible, so those figures are relief from the naked; the same shape appears in `vignola-ionic`, `vignola-corinthian` and `palladio-ionic`. Reading the pack-level declaration literally across a cornice clamps every member whose figure is smaller than the column radius flush with the frieze — on `gibbs-ionic`'s cornice that is the bed cyma and its fillet, i.e. **the bed mould disappears from the drawing**, and `dist/orders.html` has been drawing it that way since OQ 65 closed, because `outerAt` applies `max(projIn, naked)` to the entablature as well. `build/elevation.py::eave_cornice` now DETECTS the entablature's own datum from evidence (a base member recording 0 cannot be a radius) rather than trusting the declaration, in the manner of `proportion_engine.observed_projection_datum()`, and the elevation's cornice inset reads that. **What is open is whether the fix belongs where it now sits.** Three options: declare the datum per ASSEMBLY in the schema and migrate the 26 packs (most explicit, most authoring); keep detecting it from the pack's own geometry and move that detection into `proportion_engine` so every consumer gets it (cheapest, and it is where `observed_projection_datum` already lives); or rule that the entablature is naked-relative by definition in every pack and record that as a convention. Until then `dist/orders.html` still draws the clamped reading, which is a live wrong drawing on a shipped surface. Raised with, and partly worked around by, `build/profiles.py`.
+
+79. **OPEN — two sourced rules give the eave cornice two different projections, and nothing is entitled to choose.** `eave_cornice()` sizes Gibbs's Ionic cornice so its HEIGHT fills `facade-classical`'s domestic envelope (2 parts of the bay module, 24.56 in here). Gibbs's own rule then fixes its projection: *"The projection of the Cornice equal to its height"*, which he holds for every order but the Doric — so the order projects **24.56 in**. `facade-classical`'s own `cornice/projection` rule says `module / 14`, which at this storey height is **10.53 in**. Both are sourced, both are about the same cornice on the same wall, and they differ by a factor of 2.3. This is the OQ 48 class — two packs meaning different quantities at one address — but at the CASCADE scope OQ 48 explicitly did not close, and it is not a naming collision that a `quantity` field can separate: they genuinely disagree about how far the thing sticks out. The record now carries both (`order_relief_beyond_frieze_in`, `envelope_projection_in`) with a `projection_disagreement_note`, the detail inset draws the order's own profile and the elevation band draws the envelope's figure, and the sheet prints both and says both are sourced. That is disclosure, not resolution. A ruling would say which governs a domestic front — most likely the envelope, with the order read as the profile's SHAPE and not its depth, but that is a judgment about what "reducing an order" means and it belongs to Lucas. Nothing should silently pick one before then.
+
+80. **CLOSED 27 Aug 2026 (WP-5.9) — ruled by doing it: `elevation_profile` carries the visible roof PLANE on a long face, and the front elevation draws its stacks.** This entry said the first option was "almost certainly right and is not a renderer's call to make"; it was, and it was a roof-layer change of four lines. In parallel projection the near roof plane fills the band from eave to ridge, so a side-gable long face is a RECTANGLE, not a flat eave line — the old two-point return was a PERSPECTIVE argument ("the ridge is behind the near plane, not visible") applied inside an orthographic renderer, and it had stood through three work packages that all read it. With the surface there, `_profile_top_at()` answers how much of a stack a roof hides, for a gable triangle and a long-face rectangle alike, with no special casing. **Two things came out of the fix that this entry did not anticipate.** The renderer's own chimney block still asserted the flat eave line in a twelve-line comment — prose asserting what the code no longer does, which is the failure this corpus polices hardest, found in the file being edited. And underneath it were two invented constants of the OQ 52 class: the stack was drawn 3 ft from the gable wall's front corner and based 2 ft below the ridge, against a record stating `y_ft` 21.33 (mid-depth, on the ridge line) and `total_height_grade_ft` — on the sheet that put a brick bar in the sky at the top-left corner, touching no roof, on every gable elevation this corpus has ever drawn. **What is drawn now is the part above the roof only**, and that is a claim about evidence rather than about visibility: the kit makes these stacks gable-end EXTERIOR, so nothing hides the breast, but the only width this corpus states (brick-course's eight courses square, 22 in, itself flagged a judgment) is the STACK's. Drawing 47 ft of 22 in brick asserts a chimney breast nobody measured; the legend says what is missing below. `tests/test_drawn_geometry.py::TestTheStacksAreDrawnWhereTheRecordPutsThem` reads the positions back off the emitted rects. The original entry follows.<br><br>ORIGINALLY: **the front elevation cannot show the chimneys, because the roof's long-face silhouette stops at the eave.** `build/roof.py`'s `elevation_profiles` gives the S face of a side-gable house exactly two points, both at the eave (25.44 ft on `tidewater-georgian-careful`), and models no roof mass above the cornice at all; the gable faces get the real ridge. The cost is specific and large for this style: its kit says the paired stacks joined by an arched brick curtain are *"visible from a mile away and conclusive against New England"*, and the sheet everyone actually looks at cannot draw them. WP-5.7 tried to, by drawing only the portion of a stack clearing the roof silhouette at its plan position — and withdrew it, because with the silhouette flat at the eave that rule puts 22 ft of brick in front of a roof nobody modelled, which is the same error as reporting an unmodelled chimney as zero. The drawing's own hardcoded 36 in stack width WAS fixed in the same pass (see the chimney note in `build/render_elevation.py`). What is wanted is a roof-layer decision: whether `elevation_profiles` should carry the visible roof PLANE on a long face rather than just its eave line, which is a small piece of geometry with consequences for every renderer that reads it, or whether front-face chimneys should be drawn from the plan record and the roof surface inferred at draw time. The first is almost certainly right and is not a renderer's call to make.
+
+## From the adversarial audit of the geometry layer (27 Aug 2026)
+
+81. **CLOSED 27 Aug 2026 — ruled: correct the pitches to their own pack's stated unit.** `benjamin-corinthian`'s modillion pitch 17.5 → **35** and `benjamin-ionic`'s 15.5 → **31**, matching each pack's module block (*"Every figure here is in minutes"*) and its own quoted authority; the halving sentences inside both member notes were corrected with them. The other Benjamin members were swept for the same conversion error and carry none — it was confined to these two. **And the correction that opened this question had itself not landed.** Commit 529310c reported writing widths of 13 and 10.5 and wrote neither: its rewrite loop set the value on reaching `spacing_parts`, then kept iterating and copied the file's original `width_parts` back over it, while the NOTES were rewritten regardless — so two members carried a provenance sentence saying they had been corrected, beside values that had not been. `gibbs-corinthian` landed only because it had no prior value to clobber. Fixed, verified by reading back from disk, and guarded: `TestTheTranscribedWidthsAreTheAuthoritiesOwnFigures` pins all fifteen authored widths against the words each was read from. **The ratio invariant could not have caught any of it** — halving both numbers preserves the ratio, so 6.5/17.5 and 13/35 both read 37%. Original: two Benjamin modillion pitches contradict their own pack's stated unit, and correcting them is a data change nobody has ruled on.** All three Benjamin packs say in their `module.note`, in as many words, *"the DIAMETER is divided into sixty minutes, so the semidiameter carries thirty ... Every figure here is in minutes"* — a part IS a minute. But `benjamin-corinthian`'s modillion records `spacing_parts: 17.5` while its own note quotes Benjamin at *"thirty five from centre to centre"*, and `benjamin-ionic` records `15.5` against *"thirty one minutes from centre to centre"*. Both are exactly half, and both member notes carry a conversion sentence performing that halving ("Thirty-five minutes on centres is 17 1/2 parts of this pack's module"), which the module block contradicts. The error is pre-existing (it predates WP-5.7), and WP-5.7 then **derived new `width_parts` figures from the halved pitches and wrote a provenance sentence around them** — 6.5 and 5.25 where Benjamin says thirteen and ten-and-a-half. The widths were corrected on 27 Aug to their sources; **the pitches were left as found**, because changing a figure this session did not author, in a pack whose own note argues both ways, is a ruling and not a cleanup. The consequence is visible: those two modillion bands now draw 74% and 68% solid, which is what the pack currently says and is almost certainly not what Benjamin drew. Either the pitches are halved and should read 35 and 31, or the module note is wrong for these two packs and should say so. A third possibility worth checking first: whether `spacing_parts` was authored against Vignola's 18-part module and never converted.
+
+82. **CLOSED 27 Aug 2026 — ruled: wire it in.** `repeat_positions()` had two bugs before it had a caller: its `centre_on` branch filled forward only, leaving the whole run before the first anchor bare, and two anchors filling toward each other both claimed the teeth between them, so every middle tooth was drawn twice. Both fixed. The elevation cornice lays its band out tooth by tooth now, anchored on the bay centres — which is what Gibbs's rule (*"always the centre of a Modillion exactly over the centre of each column"*) means on a wall with no columns. **Where a width is unstated the band draws solid AND THE SHEET SAYS SO**, the behaviour the schema, `proportion_engine.py` and `docs/proportion.md` all described and no surface performed; the Tidewater cornice takes exactly that path, because `gibbs-ionic`'s modillion note publishes the pitch and not the width. Worth recording, because it narrows the ruling honestly: the order plates draw a SECTION, and a section cannot show repetition — teeth belong in elevation. Original: nothing calls `repeat_positions()`, so no dentil, modillion, mutule or triglyph band in this corpus is drawn as teeth.** WP-5.7 built the layout function, authored `width_parts` on 17 members from their own authorities' notes, added the field to the schema, passed it through `dimension()` as `width_in`, and documented in three places — the schema, `proportion_engine.py` and `docs/proportion.md` — that a band with no stated width is "drawn solid AND SAYS SO". None of that reaches a drawing: `repeat_positions` has no production caller and `REPEATING` is defined and unreferenced, so every band still draws as the solid smear it did before, and the disclosure the docs promise appears on no surface. The data is now there and correct (the ratios are consistent across every family: dentils 67%, triglyphs 40%, metopes 60%, modillions 29-50%), which means this is a rendering job and not an authoring one — the cornice inset and the two order plates each need to lay the teeth out along the run. Its `centre_on` branch also fills forward only, so an anchored band leaves everything left of the first anchor bare; Gibbs's rule ("always the centre of a Modillion exactly over the centre of each column") needs it to fill both ways.
+
+83. **CLOSED 27 Aug 2026 — ruled: serve the finished paths from Python and retire both copies.** `build/profiles.py` emits `path` per pack and per face in MODEL inches (x out from the axis, y up), and both surfaces apply an SVG `<g transform="… scale(k,-k)">` instead of walking segments. **A model-space path has no handedness for a consumer to get wrong** — SVG mirrors the arcs itself, which is its job, and the flip that used to need detecting is now a negative number in a matrix. `segCmds` (with `silhouettePathFromGeometry`, 106 lines) and `edgeCmds` are deleted; `vector-effect="non-scaling-stroke"` keeps the pen off the scale. Guarded two ways in `workbench/server/tests/test_grammar_agreement.py`, beside the citation-grammar test it is modelled on: one reads both JavaScript files with comments stripped and fails if arc-sweep arithmetic reappears in live code, and one asserts Python is actually serving paths with arcs in them — so the two cannot both pass while a plate is blank. Original: should the drawn-geometry guard extend to the two order plates and the DXF, or is the Python round-trip enough?** `tests/test_drawn_geometry.py` reads `svg_path()`'s output back through the W3C endpoint-to-centre rule and proved, on the day it was written, that all 245 arcs in the corpus were being drawn as their own mirrors. Nothing does this for the two JavaScript surfaces, which hold their own copy of the sweep rule (`orders_template.html::segCmds` and `Proportions.jsx::edgeCmds`) — and the order tool's copy had a second, independent bug: it read only the y-flip, while that page draws its section half with x running one way and its mirrored elevation half with x running the other, so the two halves of every plate contradicted each other on every arc. Both are fixed and neither is guarded. The options are the ones OQ 78 lists in a different context: have the browser walk read a rendered path back the same way (real, slow, and the only check that covers what a viewer sees); assert the JS emits byte-identical paths to Python for a fixture pack (cheap, and catches drift rather than wrongness); or serve the finished path string from Python and let JS stop computing it at all, which is the same "one implementation" argument that motivated the geometry layer in the first place and would retire both copies.
+
+## From the dormer layer (WP-5.9, 27 Aug 2026)
+
+84. **CLOSED 27 Aug 2026 (WP-5.10) — ruled: take the measurement, then guard both.** The fault's own note
+    has always said how to choose (*"Choose the test by whether an order is present, not by preference"*), in
+    prose no evaluator could read. `build/elevation.py` now derives
+    `an_order_is_applied_to_the_wall_carrying_the_eave_cornice` from the style's own `porch_type` and
+    `pilaster` slots, and both rivals carry an `applies_when` on it, so exactly one can run.
+    **The plausible wrong answer was checked first and is pinned as a test:** `gibbs_order_applies_to_style`
+    is True on `tidewater-georgian` and means only that Gibbs Ionic is the order its cornice is GENERATED
+    from; reading it as "an order is applied here" selects the entablature test on a house measuring
+    **0.4286** and convicts it. Nor is a portico enough — the style's own rule says "where a portico occurs
+    it is one bay wide, centred, and carries the bound order", and a one-bay portico's entablature is not
+    the eave. Only an order engaging the whole wall qualifies, which is a short and quoted list.
+    **`cornice_projection_in` is supplied now, and that is the point of the exercise.** WP-3.2 had
+    withheld it to keep the rivals from firing, which silenced the fault on a NAME MISMATCH:
+    `elevation.py` published `cornice_projection_past_wall_face_in`, and the fault came back "clear" on
+    its wall-height ratio alone while its primary and two of its four secondaries were skipped for want
+    of a name rather than a number. Measured: **1 of 5 tests evaluating → 3 evaluated, 1 declined on its
+    precondition, 1 still needing an unsupplied measurement.** The same field retired a second WP-3.2
+    workaround in the same commit: `solar_array_area_sqft` is supplied at its honest zero and
+    `entrance-slope-penetration`'s array secondary declines instead of convicting. The original entry
+    follows.<br><br>ORIGINALLY: **`cornice-that-is-a-fascia` carries two RIVAL secondary tests, and
+    whichever is right the other fails.** Its first secondary wants `cornice_projection_in / cornice_height_in` between **0.35** and its
+    upper bound (*"THE DOMESTIC BOXED CASE. 18 in high and 7 3/4 in out gives 0.43"*); its second wants the
+    same expression between **0.85** and its own (*"THE FULL ENTABLATURE-DERIVED CASE — where an order is
+    actually applied, on a portico or a pilastered front. A full cornice projects about its own height"*).
+    Both notes are explicit that applying either to the other's case is a disaster, and `check_measurements`
+    reports a fault present when ANY of its tests fails — so on any house that supplies a cornice projection
+    and a cornice height, one of the two convicts it. Nothing in the corpus is being asked which case this
+    facade is.
+
+    WP-5.9 built `applies_when`, a precondition on the MEASUREMENTS, and used it to close
+    `docs/elevation.md`'s open question 1 for the other two faults that question named
+    (`entrance-slope-penetration`'s solar-array secondary, `shutter-on-an-unshutterable-opening`'s
+    arch-head secondary). **This one it deliberately did not touch**, because guarding it needs a
+    measurement stating whether an order is applied to this facade — something like
+    `an_order_is_applied_to_the_facade`, or a count of applied pilasters or columns — and no generator in
+    this corpus takes one. `build/elevation.py` knows whether a doorcase carries pilasters and whether the
+    style resolves an order pack, so the measurement is derivable; the question is whether it should be
+    a boolean the fault corpus tests on, or whether the two secondaries should instead be split into two
+    faults with different `applies_to`. That is a fault-corpus editorial decision, not a renderer's.
+
+    Neither reference plan trips it today, and the reason is not reassuring: the elevation supplies
+    `cornice_projection_past_wall_face_in` and `main_cornice_height_in`, and the fault tests on
+    `cornice_projection_in` — a name nothing supplies. The rival pair is inert because of a name mismatch,
+    and the day anyone fixes the name, both houses acquire a serious fault.
+
+85. **CLOSED 27 Aug 2026 (WP-5.10) — ruled: the centre bay is blind.** `_face_bays()` now takes the
+    chimney axes for the face it is laying out and marks any bay a stack stands on `blind`; the renderer
+    draws no opening there at either storey, because an exterior end stack runs the full height of the
+    wall. The gable ends read as two glazed bays flanking a blind centre, which is what a Chesapeake end
+    wall is, and the long faces lose nothing — both stacks are at mid-DEPTH, so they stand in the gable
+    walls and in neither long wall. **A new fault, `window-on-the-chimney-axis`, catches the collision**
+    where a record states both, guarded with `applies_when` on the chimney count; the elevation publishes
+    `count_of_openings_on_the_axis_of_a_chimney_stack` as a MEASURED zero, which is the generator saying
+    it resolved a collision rather than that one never existed.
+    **One thing this does not assert, and it is worth carrying forward:** it blinds the bay where THIS
+    RECORD places a stack, not "a Tidewater gable end always has a blind centre". The kit makes
+    `paired-and-joined-by-arched-curtain` canonical — *"the tall paired stacks joined above the roof by
+    an arched brick curtain"* — which is TWO stacks on one gable end with the space between them spanned
+    by an arch, and `roof.py` places a single stack per end at mid-depth instead. Correct that
+    simplification and the stacks would flank the centre bay rather than stand on it, and the window
+    might come back. That is a roof-layer question. An exception on the fault was drafted for it and
+    removed: `check_faults.py` was right that an unbounded exception on the very style that raised the
+    problem is a loophole, not a nuance. The original entry follows.<br><br>ORIGINALLY: **a
+    gable-end-exterior stack at mid-depth stands in front of the centre bay, and no layer asks whether
+    they collide.** `roof.py` places `tidewater-georgian-careful`'s two stacks at `y_ft` 21.33,
+    which is exactly half the 42.66 ft depth — on the ridge line, which is right — and the kit's own source
+    string calls them `gable-end-exterior`. `build/elevation.py` independently gives each gable end three
+    bays with a window in the centre one. Drawn from grade, the stack runs straight down through the centre
+    window of both storeys, which is how this was found: WP-5.9 drew it that way for one revision.
+
+    It is not a drawing bug. Either the gable end has no centre window, or the stack is not on the centre
+    line, or (most likely for the type) the stack is a broad breast the flanking windows sit clear of and
+    the centre bay is blind — which is what a Tidewater end wall usually is. All three are corpus facts and
+    the corpus states none of them: nothing relates the chimney record's plan position to the elevation's
+    bay layout. WP-5.9 sidestepped it by drawing only the part above the roof, for an unrelated and
+    sufficient reason (the breast's width is not stated), so nothing is currently drawn wrongly — but the
+    conflict is still in the records, and a `chimney-through-the-window` fault would catch it if the two
+    layers were ever asked about each other.
+
+## From the four rulings (WP-5.10, 27 Aug 2026)
+
+86. **OPEN — a node's own MEASURED parameter and a pack rule contradict each other at 133 addresses, and
+    nothing was comparing them.** OQ 48 measured pack against pack and closed at 0 own-scope collisions.
+    This is the same corruption one layer over and it was invisible to that measurement for a simple
+    reason: the kit writes a parameter called `projection_in` and a pack writes dimension `projection`, so
+    the two never met under one name. `tidewater-georgian` authored its brick sill's projection as **0–1 in,
+    `kind: measured`**, while `sash-light` delivered **2.25 in "sloped about 1 in 6 with a drip"** to the
+    same slot — more than twice the node's own figure, in a node whose kit FORBIDS the sloped sill and
+    gives its reason. The resolved slot carried both, under two names, and no checker looked.
+
+    `build/check_addresses.py` gained a third reporter, `kit_vs_pack()`, and the first measurement is
+    **133 contradicted parameters, 3 could not be judged**. It compares only parameters the node authored
+    as `measured` — a `derived` one is a pack's own value copied into the kit, agreeing with itself — and
+    compares VALUES rather than quantities, because a kit parameter has no `quantity` field. Ratcheted at
+    133 so it cannot grow, in the shape OQ 48's original 139 were handled: a real corruption, found by
+    measuring something nobody had measured, too large to fix in the package that found it.
+
+    **The distribution is concentrated and that is the good news:** `american-farmhouse-vernacular` 32,
+    `federal-style` 31, `greek-revival-american` 24, `craftsman-bungalow` 16,
+    `georgian-colonial-american` 13 — five nodes carry 116 of the 133. The sill that found it is not in
+    the count; it was fixed in the same commit.
+
+87. **OPEN — a slot bound `open` inherits the constraint the style declined to make.** `resolve_slots`
+    stops its walk only on `specified` or `forbidden`; `open` is skipped entirely and the walk continues.
+    So a style that says "I do not constrain this slot" gets its nearest ancestor's constraints in full,
+    which is the opposite of what the word means anywhere else in this corpus.
+
+    Found at `colonial-revival`'s `dormer` slot, bound `open` / `status: empty`, which therefore resolved
+    the whole slot from `english-cottage-vernacular`: `eyebrow-swept-dormer-within-thatch` **canonical**,
+    and `boxed-dormer` — the only dormer such a house is ever built with — **forbidden**, on a `c01, hard.`
+    A production Colonial Revival could not declare its own dormer, and the elevation generator drew a
+    thatched cottage's on it with full confidence. That instance is fixed (the style now binds the slot
+    `specified`), but the mechanism is untouched and reaches all 97 slots.
+
+    It is OQ 51's question in the kit layer rather than the proportion layer, and it should probably be
+    settled with OQ 51's opt-in flip rather than before it: making `open` stop the walk today would strand
+    every slot that is `open` and relying on the cascade, which is most of them. What is wanted first is
+    the count — how many `open` slots resolve to an ancestor's record, and how many of those carry a
+    `forbidden` the node would not have written.
+
+## From the adversarial audit of WP-5.10 (28 Aug 2026)
+
+88. **OPEN — `sash-light`'s frame-wall sill rule reaches 27 masonry nodes, and two more pack rules have
+    the same shape.** WP-5.10 scoped `sash-light`'s `window_sill/projection` (2.25 in, *"sloped about 1 in
+    6 with a drip"*) away from `tidewater-georgian`, on the strength of the rule's own note: *"In a frame
+    wall this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the
+    brick-course pack, not this one."* That fixed one node. The cascade delivers the same rule to **86
+    nodes, of which 27 make a masonry cladding canonical** — `english-georgian`, `charleston-georgian`,
+    `mid-atlantic-georgian`, `jeffersonian-classicism`, `hudson-valley-dutch`, `italianate-townhouse`,
+    `brownstone`-clad `renaissance-revival-american` among them. `charleston-georgian` still resolves the
+    2.25 in sloped sill today.
+
+    **Two other rules state a scope their data does not carry**, found by the same sweep:
+    `opening-proportion`'s `window_surround_wood/exterior_head_assembly_height` (*"On a masonry front this
+    assembly is a flat arch, a jack arch or a stone lintel instead, and the brick-course pack owns its
+    coursing"*, `applies_to` 52 nodes, and it resolves onto `tidewater-georgian` and `charleston-georgian`
+    — the same node, one address over from the rule just fixed); and `facade-gable`'s
+    `gable_treatment/parapet_height` (*"Where the gable is a roof end this rule does not apply at all"*,
+    `applies_to` 12 nodes including `tudor-revival` and `dutch-colonial-american`).
+
+    `slots_except` (WP-5.10) is the mechanism and it works per binding. What is wanted is either a
+    per-rule construction scope — the thing each of these notes actually describes — or 27+ scoped
+    bindings. That is a migration and a schema decision, not a patch.
+
+89. **OPEN — three measurements are still withheld to work around gaps `applies_when` now covers, and one
+    is supplied as a constant that is not true.** WP-5.10's commit message says "two workarounds retired
+    by one field". Three more are standing:
+
+    - `window_head_radius_in` / `shutter_head_radius_in` (`build/elevation.py`): withheld for exactly the
+      reason the solar-array measurement was, and `shutter-on-an-unshutterable-opening`'s arch-head
+      secondary **gained** its `applies_when` in the same commit — so the guard exists and the
+      measurement that would exercise it still does not, leaving that fault clear on 1 of 2 tests.
+    - `plan_offset_at_material_change_in`, `ridge_height_difference_between_volumes_in`
+      (`brick-front-vinyl-return`), whose comment names the solar and shutter cases as its precedent.
+    - **`total_shutter_leaves: 2.0` and `shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall: 2.0`
+      are unconditional constants**, supplied whether or not the style carries shutters, so
+      `shutter-on-an-unshutterable-opening` reads `2/2 = 1.0` and returns CLEAR on a house whose kit makes
+      `none` canonical. That is a fault cleared on two invented shutters — OQ 52's class, inside
+      `_derive_measurements`, outside `NOT_MODELLED`'s reach and therefore outside the guard that was
+      built to catch exactly this.
+
+    **Also counted while there:** 15 `exceptions[].bounds_test` entries divide by a count with no
+    `applies_when`. None is live today (their denominators are unsupplied or non-zero), and they are
+    listed rather than guarded speculatively — the four WP-5.10 guarded were guarded because they were
+    reachable, and guarding the rest without a reachable case would be adding preconditions nobody can
+    check.
+
+## From the third collision (28 Aug 2026)
+
+90. **OPEN — two different work packages are both called WP-5.7, and the reports are the only thing keeping the citations apart.** The same two sessions that collided over open-question ids 72–83 collided over the work-package number, in the same three days, by the same mechanism: read the working tree, add one. The OQ block was renumbered at the merge and the work packages were not, and that asymmetry wants a ruling rather than a default. **Main's WP-5.7 is the atlas and the shell's proportions; this branch's is the geometry layer**, and this branch's WP-5.8, 5.9 and 5.10 chain off its own — WP-5.8 exists precisely to execute WP-5.7's rulings, so renumbering the geometry layer breaks a sequence and renumbering the atlas breaks nothing but is the side that merged first, which is the opposite of the rule applied to the ids. **Nothing is ambiguous today and that is the whole reason this can wait**: a work package is cited by its REPORT, never by its number alone, and `docs/reports/wp-5.7-the-atlas-and-the-shell.md` and `docs/reports/wp-5.7-real-2d-geometry.md` have always been distinct files. What a renumbering would cost is real and is why it is not being done in a merge commit: two report filenames, the `wp-<id>-<slug>.md` convention's match between a report and the section it reports on, CLAUDE.md, the progress board, and five commit messages that cannot be changed. Three options: rename main's atlas package (cheapest, contradicts the merged-first rule); rename this branch's chain 5.7–5.10 to 5.11–5.14 (consistent with the rule, four renames and a broken narrative order in the plan); or rule that work-package numbers are labels rather than identifiers, cite the report always, and stop pretending the number is unique — which is what is true today and would cost nothing but an admission. **The underlying cause is unchanged and is now three-for-three: an id issued by reading the working tree collides whenever two sessions run at once.** Neither this entry nor the two before it fixes that.

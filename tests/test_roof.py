@@ -271,26 +271,100 @@ class TestCapeEaveCheck:
 
 
 class TestDormerRhythm:
-    def test_not_applicable_when_no_dormers_are_declared(self, roof_module):
-        plan, section = _tidewater_section(roof_module)
-        main = roof_module.main_roof(plan, section, plan["style"])
-        d = roof_module.dormer_rhythm_check(plan, section, main)
-        assert d["applicable"] is False
+    """REWRITTEN 27 Aug 2026 (WP-5.9), and the rewrite is the finding.
 
-    def test_dormers_on_bay_centres_pass(self, roof_module):
-        plan, section = _tidewater_section(roof_module)
-        plan["declared_dormers"] = [5.0, 15.0, 25.0]   # bay module is 10 ft on this plan
-        main = roof_module.main_roof(plan, section, plan["style"])
-        d = roof_module.dormer_rhythm_check(plan, section, main)
-        assert d["applicable"] is True
-        assert d["ratio"] == 1.0
+    These three tests reached dormer_rhythm_check by writing `plan["declared_dormers"] = [...]`
+    -- a key no schema ever defined, that no record in the corpus carried, and that the function
+    had invented for itself because no field authored a dormer. So the tests passed against a
+    code path nothing could reach, and the check returned not-applicable on every real plan. A
+    guard that constructs its own input out of thin air proves the arithmetic and nothing about
+    the corpus; this is the same shape as WP-5.7's TestSegTo, which pinned the control points of
+    curves that had degenerated to straight lines.
 
-    def test_a_dormer_off_the_bay_fails(self, roof_module):
+    `declared.dormer` exists now, so they are written against it -- including the state the old
+    ones could not express at all, which is a house that STATES it has none.
+    """
+
+    def test_a_record_that_says_nothing_is_not_a_record_that_says_none(self, roof_module):
+        """The distinction the whole field exists for. Both shipped plans now DECLARE none, so
+        the silent state has to be built by removing the declaration."""
         plan, section = _tidewater_section(roof_module)
-        plan["declared_dormers"] = [5.0, 15.0, 22.0]   # 22 is off the 10 ft grid
+        plan["declared"].pop("dormer", None)
         main = roof_module.main_roof(plan, section, plan["style"])
         d = roof_module.dormer_rhythm_check(plan, section, main)
-        assert d["ok"] is False
+        assert d["applicable"] is False and d["stated"] is False
+        assert "dormer_count" not in d, "a house nobody asked about has no count, not a count of 0"
+
+    def test_a_stated_none_is_judged_and_reports_no_ratio(self, roof_module):
+        """A measured zero: applicable, stated, count 0 -- and `ok` is None, not True. Zero
+        dormers is not a rhythm that passed; it is no rhythm. Reporting True here is how a
+        refusal becomes a pass, which is the collapse this corpus least survives."""
+        plan, section = _tidewater_section(roof_module)
+        assert plan["declared"]["dormer"] == "none"      # as shipped
+        main = roof_module.main_roof(plan, section, plan["style"])
+        d = roof_module.dormer_rhythm_check(plan, section, main)
+        assert d["applicable"] is True and d["stated"] is True
+        assert d["dormer_count"] == 0
+        assert d["ratio"] is None and d["ok"] is None
+
+    def test_a_footprint_with_no_bay_module_leaves_the_count_UNJUDGED(self, roof_module):
+        """REWRITTEN 28 Aug 2026 by this package's own adversarial audit, and the rewrite is the
+        finding. The two tests here computed the expected bay count with `int(width_ft //
+        (bay_module_ft or 10.0))` — `roof.py:509` copied verbatim into the test — and
+        `bay_module_ft` is ABSENT on this footprint, so both sides fell back to the same invented
+        10.0 and the assertion could not fail.
+
+        It was hiding a live cross-layer disagreement. The roof got 6 bays from that constant; the
+        facade pack lays this front out as FIVE. At `{"count": 6}` the roof reported `ratio 1.0,
+        ok True` while `plan_check` convicted the same house on 5 of 6 centred. Two records built
+        from different rules that nothing compared — OQ 85's own thesis, one layer up, shipped
+        inside the package that closed OQ 85. The roof no longer invents a module: the bay rhythm
+        belongs to the facade layer, and where the footprint states none this is unjudged."""
+        plan, section = _tidewater_section(roof_module)
+        assert not section["footprint"].get("bay_module_ft"), (
+            "this footprint now states a bay module — the premise of this test has changed")
+        plan["declared"]["dormer"] = {"count": 6}
+        main = roof_module.main_roof(plan, section, plan["style"])
+        d = roof_module.dormer_rhythm_check(plan, section, main)
+        assert d["applicable"] is True and d["dormer_count"] == 6
+        assert d["bay_count"] is None and d["ratio"] is None and d["ok"] is None, (
+            "the roof answered from a bay module the footprint does not state")
+        assert "facade layer" in d["note"]
+
+    def test_it_judges_where_the_footprint_actually_states_a_module(self, roof_module):
+        """Not merely unjudged everywhere — the check still works on a record that carries the
+        figure. Asserted with a module that makes the answer FALSE, so the test cannot pass by
+        the code always returning None."""
+        import copy
+        plan, section = _tidewater_section(roof_module)
+        section = copy.deepcopy(section)
+        section["footprint"]["bay_module_ft"] = 12.516      # 62.58 / 5 -> four whole bays
+        plan["declared"]["dormer"] = {"count": 6}
+        main = roof_module.main_roof(plan, section, plan["style"])
+        d = roof_module.dormer_rhythm_check(plan, section, main)
+        assert d["bay_count"] == 4 and d["on_bay_count"] == 4
+        assert d["ok"] is False and d["ratio"] < 1.0
+
+    def test_the_roof_and_the_elevation_agree_or_the_roof_declines(self, roof_module):
+        """The invariant the circular version could not state. Wherever the roof DOES publish a
+        bay count, it must be the one the facade layer lays out — otherwise the corpus holds two
+        answers to one question and the fault layer picks the other one."""
+        import json as _j
+        import os as _os
+        e = __import__("elevation")
+        root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            plan = _j.load(open(_os.path.join(root, "plans", f"{pid}.json")))
+            section = roof_module.ST.build_section(plan)
+            p2 = dict(plan, declared=dict(plan["declared"], dormer={"count": 3}))
+            main = roof_module.main_roof(p2, section, p2["style"])
+            d = roof_module.dormer_rhythm_check(p2, section, main)
+            if d.get("bay_count") is None:
+                continue                       # declined, which is the honest half
+            elev = e.build_elevation(p2)
+            front = elev["faces"][elev["entrance_face"]]["count"]
+            assert d["bay_count"] == front, (
+                f"{pid}: the roof says {d['bay_count']} bays and the elevation lays out {front}")
 
     def test_neither_shipped_plan_has_an_attic_a_dormer_would_light(self):
         for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
@@ -322,12 +396,30 @@ class TestRoofOutlineAndElevationProfiles:
         assert heights[1] == main["ridge"]["grade_to_ridge_ft"]
         assert heights[0] == heights[2] == main["grade_to_eave_ft"]
 
-    def test_long_face_of_a_simple_gable_is_a_flat_eave_line(self, roof_module):
+    def test_long_face_of_a_simple_gable_reaches_the_ridge(self, roof_module):
+        """REWRITTEN 27 Aug 2026 (WP-5.9). This test asserted the opposite -- that the long face is
+        a flat eave line of two points -- and it was pinning a bug.
+
+        The code it guarded carried the comment "ridge is behind the near roof plane, not
+        visible", which is a PERSPECTIVE argument applied to an ORTHOGRAPHIC projection. In
+        parallel projection the near plane slopes away from the viewer and maps to a full-width
+        band from the eave up to the ridge; the ridge is the top edge of the drawing, at its true
+        height. Every front elevation this corpus drew of a side-gable house was short by the
+        whole roof -- 14.22 ft on the Tidewater reference plan.
+
+        The test passed for three work packages because it agreed with the code. A guard written
+        from the same misunderstanding as the thing it guards is not a guard, and this is the
+        second one of those found in two days (see tests/test_profiles.py's receding member)."""
         plan, section = _tidewater_section(roof_module)
         main = roof_module.main_roof(plan, section, plan["style"])
         profile = roof_module.elevation_profile(section, main, "S")
-        assert len(profile) == 2
-        assert profile[0][1] == profile[1][1] == main["grade_to_eave_ft"]
+        assert len(profile) == 4, "a roof plane is an area, not a line along its bottom edge"
+        heights = [p[1] for p in profile]
+        assert heights[0] == heights[-1] == main["grade_to_eave_ft"]
+        assert heights[1] == heights[2] == main["ridge"]["grade_to_ridge_ft"]
+        # and it is a RECTANGLE: the ridge runs the full width, unlike a hip's, which runs in
+        xs = [p[0] for p in profile]
+        assert xs[1] == xs[0] and xs[2] == xs[3], "a side-gable front is not a trapezoid"
 
     def test_hip_long_face_is_a_trapezoid(self, roof_module):
         plan, section = _tidewater_section(roof_module, roof_form="hip")

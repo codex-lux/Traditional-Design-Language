@@ -198,7 +198,8 @@
           "profile": "dentil",
           "count": null,
           "spacing_parts": 3.857,
-          "note": "Gibbs: 'As to the Dentels, divide the Semidiameter marked on the Cornice into fourteen parts: two of those parts will be the Dentel, and one the space betwixt them.' A semidiameter is one module = 18 parts, so a dentil is 2 4/7 parts wide with a 1 2/7-part space and a pitch of 3 6/7 parts. The 2 : 1 dentil-to-space ratio is constant across Gibbs's orders; only the absolute size changes.",
+          "width_parts": 2.571,
+          "note": "Gibbs: 'As to the Dentels, divide the Semidiameter marked on the Cornice into fourteen parts: two of those parts will be the Dentel, and one the space betwixt them.' A semidiameter is one module = 18 parts, so a dentil is 2 4/7 parts wide with a 1 2/7-part space and a pitch of 3 6/7 parts. The 2 : 1 dentil-to-space ratio is constant across Gibbs's orders; only the absolute size changes. WIDTH OF ONE UNIT: Gibbs, quoted in this member's own note: 'divide the Semidiameter ... into fourteen parts: two of those parts will be the Dentel, and one the space betwixt them'. A semidiameter is 18 parts, so 2/14 of it is 2 4/7 parts.",
           "confidence": "high"
         },
         {
@@ -219,7 +220,8 @@
           "profile": "modillion",
           "count": null,
           "spacing_parts": 21,
-          "note": "DELTA IN SPACING. Gibbs: 'Half a Diameter is here divided on the Cornice into six parts, of which the breadth of the Modillion is two, and the length of it is four; the Cap projects [half] of those parts, and the distance betwixt the Modillions is five. By this Rule the exact distance betwixt middle and middle of the Modillions is seven twelfths of the Diameter.' He confirms it: 'N.B. It is twelve times in seven Diameters.' Seven twelfths of a diameter is 21 parts, against Vignola's Corinthian modillion pitch of one module = 18 parts. Gibbs's modillions are further apart and each is 6 parts wide with a 12-part projection. The out-fillets and the bead are each one eighth of the modillion's breadth; the modillion profile itself is a scroll with an eight-centre spiral, drawn at large on Plate LXIV.",
+          "width_parts": 6.0,
+          "note": "DELTA IN SPACING. Gibbs: 'Half a Diameter is here divided on the Cornice into six parts, of which the breadth of the Modillion is two, and the length of it is four; the Cap projects [half] of those parts, and the distance betwixt the Modillions is five. By this Rule the exact distance betwixt middle and middle of the Modillions is seven twelfths of the Diameter.' He confirms it: 'N.B. It is twelve times in seven Diameters.' Seven twelfths of a diameter is 21 parts, against Vignola's Corinthian modillion pitch of one module = 18 parts. Gibbs's modillions are further apart and each is 6 parts wide with a 12-part projection. The out-fillets and the bead are each one eighth of the modillion's breadth; the modillion profile itself is a scroll with an eight-centre spiral, drawn at large on Plate LXIV. WIDTH OF ONE UNIT: Gibbs, quoted in this member's own note: 'the breadth of the Modillion is two' of the six parts a half-diameter is divided into on the cornice, which the note itself works out as 'each is 6 parts wide'. ADDED 27 Aug 2026: the WP-5.7 sweep read the notes for a stated width and missed this one, so the band drew solid while its own note carried the figure.",
           "confidence": "high"
         },
         {

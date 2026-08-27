@@ -90,3 +90,81 @@ def test_trailing_newline_is_rejected_the_same_way_on_both_sides():
     """Python's `$` also matches before a trailing newline; JavaScript's does not. `\\Z`
     closes that, so a ref with a trailing newline is refused by both rather than by one."""
     assert not citations.REF_RE.match("style:craftsman\n")
+
+
+# ---------------------------------------------------------------- OQ 83: no fifth copy
+# The moulding geometry is constructed in build/profiles.py and serialised there. Two JavaScript
+# copies of the SVG sweep rule existed until 27 Aug 2026 and BOTH were wrong: each emitted the
+# inverse of the correct flag, so every arc in the corpus drew as its own mirror; and the order
+# tool's also read only the y-flip on a page that mirrors x on one half, so the two halves of the
+# same plate contradicted each other on every arc.
+#
+# The ruling was to serve the finished path from Python and let SVG's own transform do the
+# mirroring. This test holds that line. It reads the JavaScript, in the manner of the citation
+# grammar test above, because the thing being guarded is the ABSENCE of code.
+
+_ARC_MATH = ("sweep", "a1 > a0", "a1>a0")
+
+_JS_SURFACES = [
+    ("build/orders_template.html", "the order tool"),
+    ("workbench/app/src/surfaces/Proportions.jsx", "the workbench Proportions plate"),
+]
+
+
+def _strip_comments(src):
+    """Comments may DESCRIBE the retired rule -- that history is worth keeping. Only live code
+    is searched."""
+    out, i, n = [], 0, len(src)
+    while i < n:
+        if src.startswith("/*", i):
+            j = src.find("*/", i + 2)
+            i = n if j < 0 else j + 2
+        elif src.startswith("//", i):
+            j = src.find("\n", i)
+            i = n if j < 0 else j
+        else:
+            out.append(src[i])
+            i += 1
+    return "".join(out)
+
+
+def _repo_root():
+    import os
+    return os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.abspath(__file__)))))
+
+
+def test_no_javascript_surface_re_derives_an_arc_sweep():
+    import os
+    root = _repo_root()
+    offenders = []
+    for rel, what in _JS_SURFACES:
+        path = os.path.join(root, rel)
+        assert os.path.exists(path), f"{rel} moved; this guard must move with it"
+        code = _strip_comments(open(path, encoding="utf-8").read())
+        for needle in _ARC_MATH:
+            if needle in code:
+                offenders.append(f"{rel} ({what}) contains {needle!r} in live code")
+    assert not offenders, (
+        "a JavaScript surface is deriving arc geometry again -- build/profiles.py serves finished "
+        "paths in model space precisely so that no consumer has to:\n  " + "\n  ".join(offenders))
+
+
+def test_the_served_geometry_actually_carries_a_path():
+    """The guard above only proves the JS stopped computing. This proves Python started serving,
+    so the two cannot both be true and the plate be blank."""
+    import importlib.util, os
+    root = _repo_root()
+
+    def _load(name):
+        spec = importlib.util.spec_from_file_location(name, os.path.join(root, "build", f"{name}.py"))
+        m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+        return m
+
+    pe, prof = _load("proportion_engine"), _load("profiles")
+    r = pe.resolve("gibbs-doric")
+    geo = prof.pack_geometry(pe.dimension(r, 36.0), r.get("column"), r.get("projection_datum"))
+    assert geo.get("path", "").startswith("M "), "no silhouette path served"
+    assert " A " in geo["path"], "the served path has no arcs at all -- the curves are gone again"
+    faces = [f for a in geo["assemblies"] for f in a.get("faces", []) if f.get("path")]
+    assert len(faces) > 10, f"only {len(faces)} faces carry a path"

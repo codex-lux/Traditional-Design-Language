@@ -15,7 +15,7 @@
     "jurisdiction": "IRC model text, no local amendments applied",
     "budget_tier": "value"
   },
-  "note": "A deliberately ordinary production plan, written to see what the validator catches. Every decision in it is one I have seen built.",
+  "note": "A deliberately ordinary production plan, written to see what the validator catches. Every decision in it is one I have seen built. NO DORMERS declared. The plan has no attic storey a dormer would light, so this is a stated zero rather than an unexamined silence.",
   "levels": [
     {
       "id": "ground",
@@ -613,7 +613,8 @@
   "declared": {
     "roof_form": "side-gable",
     "shutter": "half-width-fixed",
-    "primary_cladding": "vinyl-lap"
+    "primary_cladding": "vinyl-lap",
+    "dormer": "none"
   },
   "measurements": {
     "shutter_leaf_width_in": 12,

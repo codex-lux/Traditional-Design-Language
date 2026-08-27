@@ -101,10 +101,56 @@
     },
     "dormer": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "boxed-dormer",
+          "status": "canonical",
+          "note": "The dormer this style is actually built with, and it was FORBIDDEN here until 27 Aug 2026 -- inherited, with a `c01, hard.` behind it, from english-cottage-vernacular."
+        },
+        {
+          "id": "gabled",
+          "status": "canonical"
+        },
+        {
+          "id": "pedimented",
+          "status": "permitted",
+          "note": "On the more literal Georgian and Federal readings of the type."
+        },
+        {
+          "id": "hipped",
+          "status": "permitted"
+        },
+        {
+          "id": "segmental-arched",
+          "status": "permitted"
+        },
+        {
+          "id": "shed-dormer",
+          "status": "atypical",
+          "note": "Common in fact and wrong on a principal elevation; the Dutch Colonial Revival is the branch where a full-length shed dormer is the type's definition, not this one."
+        },
+        {
+          "id": "wall-dormer",
+          "status": "forbidden",
+          "note": "Breaks the eave line, which no Colonial dormer does."
+        }
+      ],
+      "parameters": {
+        "sash_pattern": {
+          "set": [
+            "6/6",
+            "6/1"
+          ],
+          "unit": "none",
+          "kind": "editorial",
+          "note": "EDITORIAL, AND NO SOURCE IS RECORDED. The revival's own dormer sash follows the storey below it one step smaller, and the storey below is 6/6 or 6/1 through the 1900-1940 span this style covers. Stated because the alternative is what the drawing did before this binding existed: with no pattern anywhere in the cascade the elevation had to draw the dormer sash as bare glass and say so on the sheet. ONLY THIS PARAMETER IS AUTHORED HERE, and the restraint is deliberate: a count parity and an alignment rule were drafted with it and dropped, because neither changes what is drawn and both would have been unsourced editorial calls added to OQ 18's debt for documentation's sake. The corpus reports those two as NOT STATED, which is true, rather than as an editorial guess. This one is authored because without it the elevation must draw the dormer sash as bare glass."
+        }
+      },
+      "rule": "Dormers are boxed and gabled, aligned on the bays below, odd in number, and never break the eave line.",
+      "status": "drafted",
+      "confidence": "low",
+      "note": "BOUND 27 Aug 2026 (WP-5.10, OQ 85's sibling finding). This slot was `binding: open`, `status: empty` -- the style declining to constrain it -- and `resolve_slots` only stops its walk on `specified` or `forbidden`, so `open` was skipped entirely and the whole slot resolved from `english-cottage-vernacular`: `eyebrow-swept-dormer-within-thatch` canonical, `catslide-over-rear-outshot` permitted, and `boxed-dormer` FORBIDDEN. A production Colonial Revival could not declare the only dormer it is ever built with, and the elevation generator drew a thatched cottage's dormer on it with full confidence. Found by running the dormer generator on the second reference plan rather than by any test. This is OQ 51's class arriving in the kit layer; that a style saying `open` inherits a constraint it explicitly declined to make is a question about the semantics of `open` across all 97 slots, raised separately."
     },
     "chimney": {
       "group": "massing-and-roof",

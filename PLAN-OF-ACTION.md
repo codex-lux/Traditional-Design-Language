@@ -557,6 +557,54 @@ Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workben
 
 **Depends on:** WP-5.2. **Size:** large.
 
+### WP-5.8 The four rulings, and a correction that did not land
+
+**Status: COMPLETE (27 Aug 2026).** Executes Lucas's rulings on the three open questions WP-5.7's adversarial audit raised and the one it widened — and opens by fixing an error in the commit that raised them.
+
+**The correction that did not land.** `529310c` states in its message, in the WP-5.7 report addendum and in the summary given to Lucas that two `width_parts` were corrected to their sources. They were not: the rewrite loop assigned the new value on reaching `spacing_parts`, then kept iterating and copied the file's original value back over it, while the NOTES were rewritten regardless — so two members carried a provenance sentence saying they had been corrected beside values that had not been. Fixed, verified by reading back from disk. **The guard added alongside could not have caught it, and that is the more useful finding:** the ratio invariant relates width to pitch, so halving BOTH preserves it (6.5/17.5 and 13/35 both read 37%). A transcription has to be pinned against its quoted source, not its neighbour — `TestTheTranscribedWidthsAreTheAuthoritiesOwnFigures` now pins all fifteen against the words each was read from, mutation-tested.
+
+**OQ 78 — detect the datum per assembly-GROUP, once.** Two signals, either settling it: a recorded 0 (impossible under the radius reading — what an entablature gives) or nothing in the group reaching its own naked (every member inside the shaft — what a capital gives). Only ever downgrades `axis` to `naked`. Grouping cost a first attempt: judged per assembly, `gibbs-ionic`'s cornice still read `axis` while its frieze read `naked` — an entablature in two coordinate systems, a subtler wrong answer than the one it replaced. `eave_cornice` delegates now, closing the 2.37× divergence between the inset and the plates. **Faces flush with their own naked 192 → 81; 60 assemblies across the 14 axis packs now read naked-relative.** `check_orders.py` gained `note()`, a third reporter beside `err` and `warn`, and prints which assemblies contradict each declaration — the silence was the whole cost of the question.
+
+**OQ 81 — the Benjamin pitches corrected** to 35 and 31, matching each pack's own module block ("Every figure here is in minutes") and its quoted authority; the halving sentences in both notes corrected with them; the rest of the Benjamin members swept and clean.
+
+**OQ 82 — the teeth are drawn.** `repeat_positions()` had two bugs before it had a caller (filled forward only; two anchors double-claimed the teeth between them). The elevation cornice lays its band out anchored on the bay centres. **Where a width is unstated the band draws solid and the sheet prints the reason** — the behaviour three documents described and no surface performed. The ruling is narrower than it looks and the report says so: a section cannot show repetition, so the order plates correctly do not get teeth.
+
+**OQ 83 — the paths are serialised in Python and both JS copies are gone.** `pack_geometry` emits `path` per pack and per face in MODEL inches; the two surfaces apply an SVG `<g transform="… scale(k,-k)">`. **A model-space path has no handedness for a consumer to get wrong** — SVG mirrors the arcs itself. Better than testing two copies against each other, because it removes the thing being tested. Guarded by a source-reading test (comments stripped, so the history stays in prose) plus one asserting Python actually serves paths with arcs in them; both mutation-tested.
+
+Report: `docs/reports/wp-5.8-the-four-rulings.md`. **No new open questions.**
+
+### WP-5.7 The geometry layer: moulding constructions, coursing, and repetition
+
+**Status: COMPLETE (26 Aug 2026).** Raised by Lucas against three drawn surfaces — the Drawing Set's front elevation ("bears not even a passing resemblance to a true Georgian tidewater precedent"), the eave cornice inset ("a most abstracted step knob, painfully primitive relative to the actual sophistication of the profiles"), and the order Proportions plate — with the question attached: is SVG capable of this at all, or does the project need a CAD/BIM layer underneath?
+
+**The answer, and the finding the package records: SVG was never the constraint, and CAD/BIM could not have fixed it, because a format serialises what is modelled and cannot invent what is not.** The proof was already in the tree: `export_dxf.py` exported the whole cornice as ONE RECTANGLE, not because DXF cannot hold an arc but because no layer of this corpus held a moulding as geometry. Meanwhile all 502 order members already carried a machine-readable `profile`, and the resolved Tidewater kit already stated a ten-course moulded water table, 2.75 in coursing, gauged arches with rise and camber, and the chimney's plan size — almost none of it drawn. The missing thing was the layer between: constructed 2D geometry.
+
+Built: **`build/profiles.py`**, which constructs each moulding from the member's own two numbers — a quarter of an ellipse for an ovolo, two tangent arcs through the chord's midpoint for a cyma (radius falling out of the geometry, not chosen), a half round for a torus — plus tooth-by-tooth repetition, the OQ 65 datum rule stated once, and serialisers to SVG and to DXF **bulges** so a circular arc reaches CAD exactly. `width_parts` on 14 members, every figure TRANSCRIBED from the member's own note (Lucas ruled editorial authoring acceptable; it was not needed and none was written). The order tool lost `segTo()`/`buildGeometry()` — 106 lines of Bézier constants and a duplicate datum — for a 30-line mapper: geometry is linear in the module, proved not assumed, so it is computed once in Python and scaled by everything that draws it, and **JavaScript no longer knows what a cyma is**. The elevation gained brick coursing, the moulded water table as the assembly it is, gauged flat arches switched on the plan's own date, sills, real projections everywhere, and a five-rung weight ladder. The Proportions plate draws true profiles, **overturning its own in-file ruling** ("those stay in the order tool") on Lucas's word.
+
+**Found:** the inset's curves had NEVER been drawn — `profile_silhouette_path()` called `seg_to()` with `xa == xb` on every member, so every curve degenerated to a vertical face, and `TestSegTo` pinned the control-point arithmetic exactly while being blind to it (**pinning the arithmetic of a curve nobody can see is not a guard**). A pack's declared projection datum is true of its column and NOT of its entablature — `gibbs-ionic` declares `axis` while its frieze records 0 — so reading the declaration literally deletes the bed mould, which is what `dist/orders.html` still does (OQ 78). Gibbs and `facade-classical` give the same cornice two projections 2.3x apart, both sourced (OQ 79). The chimney width was **not a missing measurement but a deferred one** — `judgment: true`, "the mason will build 18 or 27" — so its `NOT_MODELLED` entries STAY, with reasons corrected from "nobody wired it" to "nobody is entitled to", while the renderer's hardcoded 36 in went. And the front elevation still cannot show its chimneys, because `roof.py`'s long-face silhouette stops at the eave; the attempt was **withdrawn** rather than shipped (OQ 80).
+
+**The durable lesson:** OQ 52 swept twelve invented constants out of the measurements and is guarded by a test that reads the measurements dict — which cannot see SVG. The 36 in chimney and the fake pixel projections lived on the other side of that line. **The honesty discipline has to reach the renderers, not just the records.**
+
+Report: `docs/reports/wp-5.7-real-2d-geometry.md` · layer docs: `docs/proportion.md`, `docs/elevation.md`, `docs/export.md` · new open questions: OQ 78, 73, 74.
+
+**Depends on:** WP-3.2, WP-5.1, WP-5.2. **Size:** large.
+### A NOTE ON THE TWO WP-5.7s, AND WHY NEITHER WAS RENUMBERED HERE
+
+**Two work packages carry the number 5.7 and they are different packages.** Main's is the atlas
+and the shell's proportions; this branch's is the geometry layer. The same two sessions that
+collided over open-question ids 72-83 collided over the work-package number in the same three
+days, by the same mechanism — reading the working tree and adding one — and the OQ block was
+renumbered at the merge (main keeps 72-77, this branch's twelve became 78-89) while these were
+not. **That asymmetry is deliberate and it is a deferral, not a decision.** An open question is
+cited by number and nothing else; a work package is cited by its REPORT, and the two reports have
+always had distinct filenames — `docs/reports/wp-5.7-the-atlas-and-the-shell.md` and
+`docs/reports/wp-5.7-real-2d-geometry.md` — so no citation in this corpus is currently ambiguous.
+Renumbering either one would rename report files, break the `wp-<id>-<slug>.md` convention's
+match with the section it reports on, and cascade into CLAUDE.md, the progress board and five
+commit messages that cannot be changed. Renumbering this branch's would also break the chain
+that follows it: WP-5.8 exists to execute WP-5.7's rulings, and 5.9 and 5.10 continue from there.
+**Raised as OQ 90.** Until it is ruled, cite the report and not the number.
+
 ### WP-5.7 The atlas, and the shell's proportions
 
 **Status: COMPLETE (26 Aug 2026).** Raised by Lucas against a screenshot of the map reading,
@@ -626,7 +674,6 @@ Report: `docs/reports/wp-5.7-the-atlas-and-the-shell.md` (§ the adversarial aud
 question: OQ 72.
 
 **Depends on:** WP-5.2, WP-5.6. **Size:** medium.
-
 A structured transcription form (HTML) that produces a plan record from a drawing by tracing, and a DXF importer that reads a drafter's plan into a record. This is what lets HABS drawings, the reference corpus, and a builder's back catalogue flow into the critic.
 
 ---

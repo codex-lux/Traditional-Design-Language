@@ -96,7 +96,23 @@
     "measurements": { "type": "object",
       "description": "Any additional numbers for the fault corpus to test — elevation dimensions, trim sizes, ratios. Keys must match the fault corpus vocabulary; see tdl_measurement_vocabulary." },
     "declared": { "type": "object",
-      "description": "Design choices the plan asserts, keyed by element slot id, for checking against the style's forbidden variants. e.g. {\"roof_form\": \"gambrel\", \"shutter\": \"none\"}." },
+      "description": "Design choices the plan asserts, keyed by element slot id, for checking against the style's forbidden variants. e.g. {\"roof_form\": \"gambrel\", \"shutter\": \"none\"}. Most values are a bare variant id; a slot of cardinality `many` may instead take an object, which states its variant under `variant` so the forbidden-variant check still reaches it.",
+      "properties": {
+        "dormer": {
+          "description": "WHETHER THIS HOUSE CARRIES DORMERS, and it has three states on purpose. The string \"none\" is a house STATED to have none — a measured zero the fault corpus may judge. An object states how many and on which face. OMITTING THE KEY ENTIRELY is could-not-evaluate: the record does not say, and every dormer measurement is then absent rather than zero. That third state is why the field exists — build/roof.py's dormer_rhythm_check could not tell a house with no dormers from a house whose dormers the record had no way to state, and build/elevation.py refused dormer_count outright for the same reason (OQ 52, and the cape-central-chimney incident of OQ 59, where a refusal written as 0 convicted a parti named for its chimney). POSITIONS ARE NOT AUTHORED: the kit's own alignment_rule — 'each dormer centred on a window of the storey below' — derives them, so a record cannot state a rhythm that contradicts the style it claims. The slot is `dormer` and not `dormers` because that is the ontology's own id (elements/slots.json, cardinality many); a plural key here read as a slot nobody had heard of.",
+          "oneOf": [
+            { "const": "none" },
+            { "type": "object", "required": ["count"], "additionalProperties": false,
+              "properties": {
+                "count": { "type": "integer", "minimum": 0, "maximum": 24,
+                  "description": "How many on the named face. The kit's count_parity says odd for this tradition; the checker reports a breach rather than refusing the record." },
+                "face": { "enum": ["N","S","E","W"], "description": "Which elevation. Defaults to the entrance face." },
+                "variant": { "type": "string",
+                  "description": "A dormer variant id from the style's own kit slot (gabled, pedimented, hipped…). Checked against it, never invented here." }
+              } }
+          ]
+        }
+      } },
     "note": { "type": "string" },
     "provenance": { "type": "object",
       "description": "Where this record came from and how much to trust it — the structured provenance WP-2.1 asked for after carrying source_image, confidence and the style reasoning as prose in `note`. Optional: an authored record needs none; an ingested one (traced from a drawing, imported from a drafter's DXF) should say so. Added in 0.2.0 (WP-5.5).",

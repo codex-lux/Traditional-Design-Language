@@ -10,6 +10,8 @@ import importlib.util
 import json
 import os
 
+import pytest
+
 from workbench.server import corpus
 
 core = corpus.core

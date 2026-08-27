@@ -151,6 +151,44 @@ def check_node(node, packs, errors, warnings, strict):
         # the binding still reads as though it delivered a rule. That is precisely the shape of
         # failure this field was added to prevent, so it must not be reintroduced by the field.
         scope = e.get("slots")
+        deny = e.get("slots_except")
+        if scope is not None and deny is not None:
+            errors.append(
+                f"{nid}: entry {i} ('{pack_id}') states both `slots` and `slots_except`. One is an "
+                f"allowlist and the other a denylist; together they are a rule nobody can read off "
+                f"the record, and the schema forbids the pair.")
+        # The SAME no-op check, for the denylist. A scope that names something the pack does not
+        # write is the failure this field class exists to prevent, and it is worse on a denylist:
+        # an allowlist that admits nothing delivers nothing and is noticed, while a denylist that
+        # refuses nothing delivers EVERYTHING and reads exactly like a scope that worked.
+        _w = set()
+        if deny:
+            try:
+                _rr = _pe().resolve(pack_id).get("derived_rules", [])
+            except Exception:
+                _rr = packs[pack_id].get("derived_rules", [])
+            _w = {r["target_slot"] for r in _rr} | {f"{r['target_slot']}/{r.get('dimension')}" for r in _rr}
+            # A DENYLIST THAT REFUSES EVERYTHING is a binding that delivers nothing while still
+            # reading as an `opening`-role pack on the node. The comment below claims an allowlist
+            # admitting nothing "is noticed"; nothing noticed either form until the WP-5.10 audit
+            # tried it. A scope must leave at least one rule, or it is a removal wearing a scope's
+            # clothes and the binding should simply be deleted.
+            _left = [r for r in _rr
+                     if not (r["target_slot"] in deny
+                             or "%s/%s" % (r["target_slot"], r.get("dimension")) in deny)]
+            if not _left:
+                errors.append(
+                    f"{nid}: entry {i} ('{pack_id}') excludes every rule the pack writes -- the "
+                    f"binding delivers nothing while still reading as a bound {e.get('role')} "
+                    f"pack. Delete the binding instead of scoping it to nothing.")
+        for entry in (deny or []):
+            if entry not in _w:
+                errors.append(
+                    f"{nid}: entry {i} ('{pack_id}') excludes '{entry}', which that pack does not "
+                    f"write -- the exclusion refuses nothing and the binding delivers the whole "
+                    f"pack while reading as though it were scoped")
+        if deny is not None and not deny:
+            errors.append(f"{nid}: entry {i} ('{pack_id}') has an empty `slots_except` scope")
         if scope is not None:
             # OVERLAY-MERGED rules, via pe.resolve -- not the pack file's own derived_rules. The
             # enforcer (resolve_kit.eval_packs) filters against the resolved pack, and 18 of the 57

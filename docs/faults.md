@@ -38,6 +38,23 @@ tdl_check_measurements({"shutter_leaf_width_in": 12,
 
 Anything the corpus could not judge is returned as **unjudged, never as passed**. That distinction is the whole difference between a tool that helps and one that reassures.
 
+### Four states, and the fourth was added because a fault could vanish
+
+A test may be scoped to the styles it was written for (`applies_to_styles`, OQ 63) and, since WP-5.9, preconditioned on a **measurement** (`applies_when`). A test that declines is **not run** — not passed, not failed, absent from the fault's judgement, exactly as a test written for another style is. So a fault comes back in one of four states:
+
+| state | meaning |
+|---|---|
+| present | a test that was for this house ran and failed |
+| clear | tests ran and none failed |
+| unjudged | a number the tests need was not supplied |
+| **not applicable** | every test declined its own precondition — the question does not arise |
+
+The fourth exists because such a fault previously appeared in **no list at all**: not present, not clear, not unjudged, absent from the counts — which reads to a caller exactly like clear, and that is the one collapse this corpus forbids.
+
+`applies_when` has since done more than the case it was built for. It gates the two RIVAL secondaries of `cornice-that-is-a-fascia` (the domestic boxed eave at 0.35–0.55 of its own height against the full entablature case at 0.85–1.2, where whichever is right the other convicts the house) on whether an order actually reaches the eave — the choice the fault's own note had always described in prose. It retired two WP-3.2 workarounds in one commit: `cornice_projection_in` and `solar_array_area_sqft` had both been WITHHELD from the measurements to keep a conditional test from firing, which silenced one fault on a name mismatch and left the other unable to hear an honest zero. Both are supplied now.
+
+`applies_when` was added for a specific failure. `dormer-off-the-bay` carries the secondary `dormer_count % 2 == 1` — dormers are odd on a symmetrical front. The day a plan record could first state that a house carries **no** dormers, that stated zero was a real measurement, the parity test ran on it, and both reference houses were convicted of *"Dormers Off the Rhythm: 0 against equals 1."* Zero dormers is not an even number of dormers; it is no dormers. Any test whose expression divides by a count should carry a precondition, or it will error on the house that has none.
+
 ## Two axes of severity
 
 `severity` scores the style reading. `severity_in_use` scores whether the house is good to live in. They diverge: a waste stack with nowhere to land is invisible from the street and fatal in occupation. A corpus that scores only what shows from the sidewalk would quietly deprioritise everything that decides whether the plan works, so both are recorded.

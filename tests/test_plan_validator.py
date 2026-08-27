@@ -54,7 +54,11 @@ class TestShippedPlans:
         # instead of one minor "treats as equivalent" note. Fatal is unmoved at 4.
         # 59 -> 58 (OQ 52): 'The Chimney With No Hat' was decided from an invented count of the
         # shadow lines in the top 18 in of a stack this corpus does not model.
-        assert result["counts"]["minor"] == 58
+        # 58 -> 56 on 27 Aug 2026 (WP-5.9): `shutter-panel-scale` stops firing on both storeys,
+        # because the two panel-field figures it read were leaf-width ratios with no author and
+        # are refused now. `muntin-wider-than-its-date` also stops firing here -- see the
+        # Tidewater note below for why it was firing at all.
+        assert result["counts"]["minor"] == 56
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -90,13 +94,28 @@ class TestShippedPlans:
         # findings manufactured by a table this file already carries and already trusts.
         # Found by an adversarial audit of the candidate-score work. Fatal is unmoved, which
         # is what says this removed noise rather than signal.
-        assert result["counts"]["serious"] == 34
+        # 34 -> 33 and minor 61 -> 60 on 27 Aug 2026 (WP-5.9), and this is the useful one:
+        # BOTH REFERENCE HOUSES WERE BEING CONVICTED OF A SERIOUS FAULT ON A FABRICATED NUMBER.
+        # `muntin-wider-than-its-date` reads sash_stile_width_in in its secondary test, and
+        # elevation.py was supplying `muntin_width_in * 4` = 3.5 in -- against the 2 in the
+        # corpus's own sash-light.json states in as many words ("2 in top rail, 3 in bottom rail
+        # and 1 1/4 in meeting rail ... near-constant from 1700 to 1900"). The ratio existed in no
+        # pack, kit or element file. Read from the corpus instead of invented, the fault stops
+        # firing, on this plan and on the spec Colonial.
+        # `shutter-panel-scale` (minor) likewise: it was judging panel proportion on
+        # shutter_panel_field_height_in / _width_in, both of them leaf-width ratios (0.4, 0.8)
+        # with no author. Those are refused now, so the fault is could-not-judge rather than
+        # answered from fiction. This is the OQ 52 class, in the half NOT_MODELLED never covered:
+        # a test that guards a refusal filter cannot see a supplied number that was never refused.
+        assert result["counts"]["serious"] == 33
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the
         # absence they are, or promoted to the severity their rule carries. Fatal stays 0.
         # 62 -> 61 (OQ 52): the same invented stack-shadow-line count as the spec Colonial.
-        assert result["counts"]["minor"] == 61
+        # 61 -> 60 on 27 Aug 2026 (WP-5.9): `shutter-panel-scale`, which was reading two
+        # fabricated leaf-width ratios -- see the serious-count note above.
+        assert result["counts"]["minor"] == 60
 
 
 class TestAdjacencyMechanics:

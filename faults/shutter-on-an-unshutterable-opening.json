@@ -145,6 +145,13 @@
       "upper": 1.05,
       "units": "ratio",
       "measurable_from": "photograph",
+      "applies_when": {
+        "expression": "window_head_radius_in",
+        "direction": "at-least",
+        "threshold": 0.1,
+        "units": "in",
+        "note": "Only evaluated where the head is CURVED, which the test's own note already said in prose where no evaluator could read it. A square-headed window has no head radius: supply 0 for both and the expression is 0/0, supply 0 for one and it convicts. docs/elevation.md's open question 1, answered 27 Aug 2026 (WP-5.9)."
+      },
       "note": "Only evaluated where the head is curved. A stock arch-top leaf is moulded to one generic radius and produces two mismatched curves side by side, which is worse than the square leaf it replaced."
     }
   ],

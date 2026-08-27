@@ -412,7 +412,8 @@
           "projection_parts": 6,
           "profile": "dentil",
           "spacing_parts": 6,
-          "note": "Dentils 1/6 D high, 1/9 D wide, interdentil 1/18 D, 1/6 D on centres - the same dentil as the Ionic. Four dentils to each modillion: one under every modillion and three between (Ware).",
+          "width_parts": 4.0,
+          "note": "Dentils 1/6 D high, 1/9 D wide, interdentil 1/18 D, 1/6 D on centres - the same dentil as the Ionic. Four dentils to each modillion: one under every modillion and three between (Ware). WIDTH OF ONE UNIT: This member's own note: '1/9 D wide ... the same dentil as the Ionic'. A diameter is 36 parts here, so 1/9 D is 4 parts.",
           "confidence": "high"
         },
         {
@@ -447,7 +448,8 @@
           "projection_parts": 25,
           "profile": "modillion",
           "spacing_parts": 24,
-          "note": "Ware: the cornice is divided into five equal parts, the middle fifth being the modillion band. Each modillion is 5/12 D long (15 parts, half the upper diameter of the shaft), 1/5 D high, and as wide as a dentil and two interdentils, i.e. 2/9 D (8 parts); they stand 2/3 D = 24 parts on centres with 4/9 D between, exactly twice their width. One modillion must come over the axis of every column - which is why Vignola's Corinthian intercolumniation is 6 2/3 modules, five modillion spacings.",
+          "width_parts": 8.0,
+          "note": "Ware: the cornice is divided into five equal parts, the middle fifth being the modillion band. Each modillion is 5/12 D long (15 parts, half the upper diameter of the shaft), 1/5 D high, and as wide as a dentil and two interdentils, i.e. 2/9 D (8 parts); they stand 2/3 D = 24 parts on centres with 4/9 D between, exactly twice their width. One modillion must come over the axis of every column - which is why Vignola's Corinthian intercolumniation is 6 2/3 modules, five modillion spacings. WIDTH OF ONE UNIT: This member's own note, from Ware: each modillion is 'as wide as a dentil and two interdentils, i.e. 2/9 D (8 parts)'.",
           "confidence": "high"
         },
         {
