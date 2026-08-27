@@ -335,7 +335,12 @@ def plan_evaluate(request: Request, body: dict = Body(...)):
     plan = body.get("plan")
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
-    engine = body.get("engine", "heuristic")
+    # WP-6.3: `auto`, not `heuristic`. This default shadowed evaluate.evaluate()'s own, so
+    # flipping that one alone changed nothing a browser could see — the sheet a reader
+    # judges the house by went on coming from the fallback engine. Measured on the shipped
+    # Tidewater plan: heuristic draws a kitchen with none of its five interior doors and
+    # strands three rooms; CP draws all of them and strands none.
+    engine = body.get("engine", "auto")
     if engine not in ("heuristic", "cp", "auto"):
         # anything unrecognized would silently take the auto->CP branch and
         # burn a 15s+ solve on a typo — refuse it, stated

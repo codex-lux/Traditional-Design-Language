@@ -95,7 +95,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **32 checks, 970 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **34 checks, 995 tests**
 (plus the workbench app suite, `node --test`). The test figure was 762 here and had been stale
 for some time -- `check_counts.py` polices counts DERIVED FROM THE CORPUS, and a test count is
 not one of them; nor are numbers written into JSX, which is how the Kit's header claimed 95
@@ -168,6 +168,69 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
+- **The placement generator is BLIND to the other level, so no score term can fix stacking
+  (WP-6.3, OQ 76).** `slice_rect` is called per level with no reference to the level below,
+  so `vertical_score` scores candidates that were produced without knowing what they must
+  sit on. A stair-stacking charge was built and swept: **100x and 10,000x the weight give
+  byte-identical output**, because the search can only re-rank blind candidates. Do not add
+  a score term here expecting it to act — it is a tax the search pays forever. And do not
+  reach for a hard CP constraint instead: `geometry_cp.py` downgrades **only** `kind ==
+  "wall"` pins, so anything else is non-downgradable and outranks every authored exterior
+  wall in the corpus (measured: it downgraded an authored kitchen wall to satisfy an
+  inferred stack). The fix is a level-aware GENERATOR, or a downgradable pin with its own
+  kind ranked below walls.
+- **An over-band charge is an under-band charge plus a constant, because the slicer tiles
+  exactly (WP-6.3).** `Sum max(0, got-hi) == (T - Sum hi) + Sum max(0, hi-got)` is an
+  identity, verified to under 0.5 sf. Three formulations were run through the whole search
+  and **not one room changed size**. Over-size is already billed symmetrically by
+  `level_score`'s `abs(got-want)/want*10`. `over_band()` REPORTS and deliberately does not
+  charge, and it carries `declared_over_ceiling` because 5 of the 12 rooms over their
+  ceiling on the Tidewater placement are over it AS DECLARED too — blaming the placement
+  for those is the OQ 52 error in a new place. (SIX rooms are declared over their ceiling;
+  `passage` is one and is then placed under it. Two questions, two counts; say which.)
+- **`_absorb` can break a keep-out and can never break a contact or a stack (WP-6.3).**
+  Every branch moves one face outward and `max(w, cap/h)` floors each candidate at the
+  current extent, so there is no shrink path and the shared face is algebraically frozen.
+  Growth is monotone: upper bounds are unsafe, lower bounds are safe by construction. That
+  is what OQ 55 actually established. Fuzzed over 4,000 layouts — worst shrink 0.014 ft
+  against a 0.4 ft tolerance. Do not add a keep-out for doors or stacks; there is nothing
+  there to fix.
+- **A door's required shared wall is the door's own leaf and jambs, in ONE place
+  (WP-6.3, OQ 41 closed).** `openings.required_wall_ft`, used by both renderers, both
+  exporters, the CP model and `hard_fact_violations` — which had carried a second
+  transcription of the old rule, which is how an arbiter comes to convict placements the
+  solver proved legal. The rule it replaced (`min(4, floor(0.9*min(maxside)))`) **never
+  once fired its own protective branch**: `maxside` is the LONGER side, and 0 of 238 rooms
+  in the corpus qualify, so every closet in the corpus was being asked for a parlour's 4 ft.
+  Fixing it let CP-SAT solve `tidewater-georgian-careful` for the first time — a *stricter*
+  rule for most pairs made the model easier — and took that plan's undrawable doors from 11
+  to 1 and its fatal findings from 3 to 0.
+- **The bench draws on `auto` now, and the caption must READ which engine ran rather than
+  assert one (WP-6.3).** Three defaults had to flip, not one: `evaluate.py`, `corpus.py`,
+  and `app.py`, whose route default `body.get("engine", "heuristic")` shadowed both others
+  and was the one that mattered. The moment it flipped, the sheet's own paragraph — "each
+  edit re-scores on the fast search … nothing it draws asserts that feasibility was proved"
+  — became false in the direction that matters, because a reader could no longer tell a
+  proof from a search. It now reads `geometry_report.solver.engine` and names the fall-back
+  reason when `auto` tried the proof and did not get one; `e2e/walk.mjs` checks that claim
+  against the API's report, not against a phrase. **The wall drag is the one caller that
+  asks for the hill-climb by name**, and there is deliberately no settle-timer re-proof
+  behind it: a second render landing mid-gesture replaces the handle under the pointer and
+  the drag dies.
+- **A relaxation △ goes on a wall or it goes in the caption, and an annotation must not eat
+  the click under it (WP-6.3).** The CP counter emitted a line with no extent, refusing to
+  invent one; both renderers then drew it as a 5 ft tick at **the middle of the plan**,
+  which put a mark inside the drawing room six feet clear of any wall, over that room's own
+  name. That is the "arrows over walls between spaces … they seem to point to anything and
+  everything" of Lucas's review, and WP-6.1 read it as a missing legend — owed, and the
+  smaller half. `_count_relaxations` was looping over the very rectangles whose faces lie on
+  the line, so it now carries `runs`: measured, possibly disjoint. **`relaxation_marks`
+  (`render_plan.py`) and `relaxationMarks` (`derive.js`) are the one rule** — do not add a
+  third. A mark locatable on no wall of its own level is NAMED, never placed somewhere
+  plausible. The dashed run carries `pointerEvents: none` because it was swallowing the
+  click that selects the room under it: four e2e interaction checks failed for a week and
+  were misdiagnosed as CP latency, and a settle timer was written for that wrong cause and
+  made it worse. `e2e/walk.mjs` measures each drawn △ against each drawn room.
 - **A door is a thing with a place now, and three files must agree about it (WP-6.2).**
   Until 26 Aug a door was `{"to": id}` with an optional width — no wall, no position, no
   rank — so each renderer invented a position and each invented it differently. Plan schema
@@ -289,8 +352,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **75 entries, of which 20 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 72, 73, 74, 75).
+  trusting any list of them. `docs/open-questions.md` holds **77 entries, of which 21 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77).
   **72-75 come from the plan-semantics program** (WP-6.1/6.2) and are what Lucas's review of two
   rendered sheets turned up that the program did not settle: the per-opening window type and bay
   windows, furniture arrangement beyond wet rooms, the door's hand, and a reference plan that

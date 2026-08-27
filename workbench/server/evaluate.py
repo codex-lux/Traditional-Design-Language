@@ -26,11 +26,28 @@ core = corpus.core
 
 
 def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
-             engine="heuristic"):
-    # engine defaults to the HEURISTIC here, deliberately: this endpoint runs
-    # on a 400 ms debounce behind every wall drag, and a CP-SAT proof takes
-    # seconds. Proving is an explicit act on the bench (engine="cp"), which
-    # returns WP-2.3's conflict set / stated refinements in the placement.
+             engine="auto"):
+    # WP-6.3 flipped this from "heuristic" to "auto" (CP-SAT where it can answer, the
+    # hill-climb where it cannot, with the reason named in geometry_report.solver either
+    # way). The old default was chosen for latency — this endpoint runs on a 400 ms
+    # debounce behind every wall drag and a proof takes seconds — and the cost of it was
+    # not visible until the openings became placeable and countable.
+    #
+    # MEASURED on plans/tidewater-georgian-careful.json, three runs each, deterministic:
+    #   heuristic  20 openings placed, 11 unplaced, 3 rooms stranded (fatal), kitchen
+    #              reachable only from outdoors
+    #   auto/CP    30 openings placed,  1 unplaced (a door to a room the record puts on
+    #              no level), 0 stranded, 0 fatal
+    # The sheet a reader was looking at came from the weaker engine, and every access
+    # defect they reported was an artefact of that. Latency is the right thing to spend
+    # here and the wrong thing to spend it on was correctness.
+    #
+    # A caller that wants the fast path still asks for it BY NAME: the bench passes
+    # engine="heuristic" on the drag path only, and every other way the record can change
+    # takes this default. There is deliberately no settle-timer re-proof behind the drag —
+    # it was tried and was worse, because a second render landing mid-gesture replaces the
+    # handle element under the pointer and the drag dies. The next change to the record
+    # gets the proof.
     t0 = time.perf_counter()
     check = core.check_plan(plan, strict=strict)
     t1 = time.perf_counter()

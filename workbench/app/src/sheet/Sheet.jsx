@@ -8,7 +8,7 @@
    hardcoded 64×44 plan to any footprint. */
 import React from 'react';
 import { WALL_T, PART_T, levelRooms, partitions, windows, doors, bayLines, litWalls,
-         divergence, interpunctTitle, ft } from './derive.js';
+         divergence, interpunctTitle, relaxationMarks, ft } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
@@ -323,6 +323,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // PLANNED' is one unbreakable word and the plate clips whatever does not fit
   const interpunct = interpunctTitle(title);
   const relax = placement?.geometry_report?.relaxations;
+  const rxMarks = relaxationMarks(relax?.marks, levelIndex, W, H);
 
   return (
     <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
@@ -462,12 +463,20 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
                       fontSize={lab.dim.size} fontFamily="var(--serif)"
                       fill="var(--gilt-deep)" dominantBaseline="middle">∗</text>
                   )}
-                  {off && !lab.dim && (
-                    <text x={lab.cx} y={lab.cy + lab.block / 2 + 0.7} fontSize={0.75}
-                      fontFamily="var(--serif)" fill="var(--gilt-deep)"
-                      textAnchor="middle" dominantBaseline="middle">∗</text>
-                  )}
                 </g>
+              )}
+              {/* the divergence mark for a room too small to carry its dimension string.
+                  OUTSIDE the label group on purpose: that group may be rotated -90 for a
+                  slot room, and a mark placed in the room's corner inside it is rotated
+                  about the label's centre and lands outside the room. e2e/walk.mjs caught
+                  it twice — first under the name on a 9 x 5 cellar stair, then in the
+                  corner of a 4 x 25 butler's pantry — because it measures where the glyph
+                  actually is rather than where it was meant to be. */}
+              {off && !(lab && lab.dim) && (
+                <text x={r.x + r.w - LABEL_PAD} y={-r.y - r.h + LABEL_PAD}
+                  fontSize={Math.min(0.75, r.w * 0.3, r.h * 0.3)}
+                  fontFamily="var(--serif)" fill="var(--gilt-deep)"
+                  textAnchor="end" dominantBaseline="hanging">∗</text>
               )}
             </g>
           );
@@ -575,26 +584,30 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             and the drawing was silent about where the truth applied. Each mark is a cut that
             missed the structural bay — a joist run that does not land on a bearing wall — drawn
             as a hollow triangle on the line itself, in ink and not in colour, because colour in
-            this system names a material and never flags a condition. A mark from the CP engine
-            carries no extent (an edge there is a wall line shared by however many rooms abut it,
-            and inventing a span would be a drawn claim nobody measured), so it gets a short tick
-            centred on the line rather than a full run. */}
-        {(relax?.marks || []).filter((m) => (m.level ?? 0) === levelIndex).map((m, i) => {
-          const full = m.from_ft != null && m.to_ft != null;
-          const a = full ? m.from_ft : (m.axis === 'x' ? 0 : 0);
-          const b = full ? m.to_ft : (m.axis === 'x' ? H : W);
-          const lo = full ? a : (a + b) / 2 - 2.5;
-          const hi = full ? b : (a + b) / 2 + 2.5;
-          const mid = (lo + hi) / 2;
+            this system names a material and never flags a condition. Where the mark goes is
+            `relaxationMarks` in derive.js — and an unlocatable one is named in the caption
+            rather than drawn somewhere plausible.
+
+            The dashed run is `pointerEvents: none`. It is an annotation, not a control: a
+            hairline drawn across a room was swallowing the click that selects the room under
+            it, and an affordance defeated by a tick over it is an affordance that does not
+            exist. The triangle keeps its pointer events, because it is a visible glyph with a
+            tooltip of its own and clicking a mark is a thing a reader means to do. */}
+        {rxMarks.drawn.map(({ mark: m, runs, at }, i) => {
           const isV = m.axis === 'x';
-          const [x1, y1, x2, y2] = isV
-            ? [m.at_ft, -lo, m.at_ft, -hi]
-            : [lo, -m.at_ft, hi, -m.at_ft];
-          const [gx, gy] = isV ? [m.at_ft, -mid] : [mid, -m.at_ft];
+          const [gx, gy] = isV ? [m.at_ft, -at] : [at, -m.at_ft];
           return (
             <g key={'rx' + i}>
-              <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink-2)" strokeWidth=".55"
-                strokeDasharray="1.2 1.2" vectorEffect="non-scaling-stroke" />
+              {runs.map(([lo, hi], j) => {
+                const [x1, y1, x2, y2] = isV
+                  ? [m.at_ft, -lo, m.at_ft, -hi]
+                  : [lo, -m.at_ft, hi, -m.at_ft];
+                return (
+                  <line key={j} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink-2)"
+                    strokeWidth=".55" strokeDasharray="1.2 1.2" pointerEvents="none"
+                    vectorEffect="non-scaling-stroke" />
+                );
+              })}
               <path d={`M ${gx} ${gy - 1.15} L ${gx + 1.0} ${gy + 0.75} L ${gx - 1.0} ${gy + 0.75} Z`}
                 fill="var(--paper)" stroke="var(--ink)" strokeWidth=".45"
                 vectorEffect="non-scaling-stroke" />
@@ -660,8 +673,14 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           flex: '1 0 auto' }}>{interpunct}</div>
         <div data-plate-note="" style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)',
           color: 'var(--ink-2)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
+          {/* "each marked \u25B3 where it falls" was a claim about every mark, and a mark the
+              solver located nowhere is now not drawn at all rather than dropped at the
+              middle of the plan. So the sentence counts what it actually marked. */}
           {relax
-            ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft, each marked \u25B3 where it falls` : ''}. `
+            ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft, ${rxMarks.drawn.length} marked \u25B3 on this level where it falls` : ''}. `
+            : ''}
+          {rxMarks.unlocated.length
+            ? `${rxMarks.unlocated.length} cut(s) the solver located on no wall of this level \u2014 counted, not drawn. `
             : ''}
           {drs.undrawable.length
             ? `${drs.undrawable.length} declared door(s) without a drawable opening — in the record, not the linework: `

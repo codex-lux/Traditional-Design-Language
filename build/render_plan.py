@@ -115,6 +115,18 @@ def render(plan, path, scale=7.0):
     all_diverged = [d for lv in levels for d in declared_divergence(lv["rooms"])]
     all_diverged.sort(key=lambda d: -abs(d["pct"]))
     diverged_ids = {d["id"] for d in all_diverged}
+    # and the same for the relaxation marks: which ones can be drawn on a wall of their own
+    # level is decided here so the banner can state the ones that cannot.
+    _rx_all = (plan.get("geometry_report", {}).get("relaxations", {}) or {}).get("marks", [])
+    level_marks = [relaxation_marks(_rx_all, i, W, H) for i in range(len(levels))]
+    all_unlocated = [m for _d, un in level_marks for m in un]
+
+    # The header has to be as tall as the disclosures it carries. `top` was the constant 96
+    # while the banner stack grew from one line to four, at 14 px each from y=70 -- three
+    # disclosures already reached 98 and drew THROUGH the top of the first plate. A sheet
+    # that hides its own disclosures behind the drawing is the WP-6.1 failure in a new place.
+    _n_banner = sum(1 for c in (plan.get("geometry_report", {}).get("infeasible"),
+                                all_undrawable, all_diverged, all_unlocated) if c)
 
     # ---------------------------------------------------------- WP-2.4 site / lot geometry
     # Model coordinates already put south (the street side, by the existing window-wall
@@ -142,7 +154,8 @@ def render(plan, path, scale=7.0):
         extra_bottom = y_off * scale
         extra_top = max(0.0, lot_d - H - y_off) * scale
 
-    pad, gap, top = 42, 58, 96
+    pad, gap = 42, 58
+    top = max(96, (84 if plan.get("geometry_report") else 70) + 14 * _n_banner + 8)
     pw, ph = W*scale, H*scale
     panel_w = pw + extra_left + extra_right
     total_w = pad*2 + len(levels)*panel_w + (len(levels)-1)*gap
@@ -206,6 +219,13 @@ def render(plan, path, scale=7.0):
                  f'{len(all_diverged)} ROOM(S) DRAWN AT A SIZE THE RECORD DOES NOT DECLARE, '
                  f'MARKED ∗ — WORST {_esc((w0["name"] or "").upper())} '
                  f'{"+" if w0["pct"] > 0 else ""}{w0["pct"]:.0f}% BY AREA</text>')
+        banner_y += 14
+    # A mark the solver puts on no wall of its own level is counted here rather than
+    # dropped at the middle of the plan, which is where an extentless one used to land.
+    if all_unlocated:
+        s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:{PAL["iron"]}">'
+                 f'{len(all_unlocated)} CUT(S) OFF THE BAY LINE THE SOLVER LOCATED ON NO '
+                 f'WALL OF THEIR LEVEL — COUNTED, NOT DRAWN</text>')
         banner_y += 14
 
     for i, lv in enumerate(levels):
@@ -464,24 +484,24 @@ def render(plan, path, scale=7.0):
         # structural bay -- a joist run that does not land on a bearing wall -- drawn on the
         # line itself as a hollow triangle in ink, never in colour: colour in this drawing
         # names a material and does not flag a condition.
-        for mk in (gr.get("relaxations", {}) or {}).get("marks", []):
-            if (mk.get("level") or 0) != i:
-                continue
-            full = mk.get("from_ft") is not None and mk.get("to_ft") is not None
+        #
+        # WHERE the mark goes is `relaxation_marks` -- the same rule the workbench's sheet
+        # applies through derive.js. A CP mark used to be dropped at the middle of the plan
+        # for want of an extent, which put a tick and a triangle inside a room with no wall
+        # under either; a mark the solver can locate on no wall of this level is now counted
+        # in the banner instead of drawn somewhere plausible.
+        drawn_mk, _unlocated_mk = level_marks[i]
+        for mk, runs, at_along in drawn_mk:
             vert = mk.get("axis") == "x"
             at = mk.get("at_ft", 0.0)
-            # A CP mark carries no extent -- an edge there is a wall line shared by however
-            # many rooms abut it -- so it gets a short tick centred on the line rather than a
-            # run, because inventing a span would be a drawn claim nobody measured.
-            lo = mk["from_ft"] if full else max(0.0, (H if vert else W) / 2 - 2.5)
-            hi = mk["to_ft"] if full else min(H if vert else W, (H if vert else W) / 2 + 2.5)
-            mid = (lo + hi) / 2.0
-            if vert:
-                x1 = x2 = X(at); y1, y2 = Y(lo), Y(hi); gx, gy = X(at), Y(mid)
-            else:
-                y1 = y2 = Y(at); x1, x2 = X(lo), X(hi); gx, gy = X(mid), Y(at)
-            s.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
-                     f'stroke="{PAL["ink3"]}" stroke-width="0.7" stroke-dasharray="3 3"/>')
+            for lo, hi in runs:
+                if vert:
+                    x1 = x2 = X(at); y1, y2 = Y(lo), Y(hi)
+                else:
+                    y1 = y2 = Y(at); x1, x2 = X(lo), X(hi)
+                s.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
+                         f'stroke="{PAL["ink3"]}" stroke-width="0.7" stroke-dasharray="3 3"/>')
+            gx, gy = (X(at), Y(at_along)) if vert else (X(at_along), Y(at))
             s.append(f'<path d="M {gx:.1f} {gy-4.5:.1f} L {gx+4.0:.1f} {gy+3.0:.1f} '
                      f'L {gx-4.0:.1f} {gy+3.0:.1f} Z" fill="{PAL["paper"]}" '
                      f'stroke="{PAL["ink"]}" stroke-width="1"><title>'
@@ -791,5 +811,43 @@ def declared_divergence(rooms, tol_ft=0.5):
                     "placed_sf": pa, "pct": ((pa - da) / da * 100) if da else 0.0})
     out.sort(key=lambda d: -abs(d["pct"]))
     return out
+
+def relaxation_marks(marks, level_index, W, H):
+    """Where a relaxation mark may be drawn -- and where it may not.
+
+    A relaxation is one wall line that missed the structural bay. The heuristic records the
+    cut it made, so its mark carries a from/to extent. The CP engine records only the line,
+    and both renderers used to draw such a mark as a 5 ft tick CENTRED ON THE PLAN: on the
+    Tidewater placement that put a dashed tick and a triangle inside the drawing room with
+    no wall under either. Those are the "arrows over walls between spaces … they seem to
+    point to anything and everything" of Lucas's review -- the mark was not over a wall.
+
+    `runs` (geometry_cp.py) is the measured answer: the room faces that actually lie on that
+    line, as disjoint intervals. A mark with runs is drawn along them, with the triangle on
+    the longest. A mark with neither extent nor runs is returned in the second list and
+    NOT drawn -- picking a plausible spot for it would be the same error in a smaller place.
+
+    Kept in lockstep with `relaxationMarks` in workbench/app/src/sheet/derive.js.
+    Returns ([(mark, [(lo, hi), ...], at_along), ...], [unlocated marks]).
+    """
+    drawn, unlocated = [], []
+    for mk in (marks or []):
+        if (mk.get("level") or 0) != level_index:
+            continue
+        if mk.get("from_ft") is not None and mk.get("to_ft") is not None:
+            runs = [(mk["from_ft"], mk["to_ft"])]
+        elif mk.get("runs"):
+            runs = [tuple(r) for r in mk["runs"]]
+        else:
+            unlocated.append(mk); continue
+        span = H if mk.get("axis") == "x" else W
+        clipped = [(max(0.0, min(a, b)), min(span, max(a, b))) for a, b in runs]
+        clipped = [(a, b) for a, b in clipped if b - a > 0.05]
+        if not clipped:
+            unlocated.append(mk); continue
+        lo, hi = max(clipped, key=lambda r: r[1] - r[0])
+        drawn.append((mk, clipped, (lo + hi) / 2.0))
+    return drawn, unlocated
+
 
 def _esc(t): return (t or "").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")

@@ -13,6 +13,8 @@ Rooms snap to the structural bay module the parti declares, because traditional 
 
 Where a room cannot be made to fit on the grid the cut is allowed off it, and **every such relaxation is counted and reported**. A cut off the bay line is a joist run that does not land on a bearing wall and a window bay that will not centre, so it is a compromise rather than a detail.
 
+Each relaxation is also **located**, and both renderers draw it as a hollow △ on the line itself. The two engines record the position differently: the heuristic knows the cut it made, so its mark carries `from_ft`/`to_ft`; the CP engine reads the line off the finished placement and carries `runs` — the room faces that actually lie on it, measured, and possibly several disjoint pieces. WP-6.3 added `runs`, because until then an extentless mark was drawn as a short tick at **the middle of the plan**, which on the Tidewater placement put a tick and a triangle inside the drawing room with no wall under either. A mark that can be located on no wall of its own level is now named in the caption and **not drawn**; picking a plausible spot for it is the same error in a smaller place. `relaxation_marks` in `build/render_plan.py` and `relaxationMarks` in `workbench/app/src/sheet/derive.js` are the one rule, held together by `tests/test_sheet_symbols.py` and `derive.test.mjs`.
+
 ## The move that turns a treemap into a plan
 
 The first working version produced perfectly valid rectangles in entirely wrong places. The fix was one rule:

@@ -826,6 +826,81 @@ DEMERIT_NOTE = ("The score is a DEMERIT TOTAL: lower is better, no ceiling, and 
                 "placement is the smallest number. It is not the candidate score compose.py "
                 "publishes, which is out of 100 and runs the other way. ")
 
+def _over_band_block(ob):
+    """The report block, written once because both engines must say the same thing."""
+    by_record = [r for r in ob if r["declared_over_ceiling"]]
+    return {
+        "count": len(ob), "rooms": ob,
+        "declared_over_ceiling": len(by_record),
+        "note": ("Rooms placed above the ceiling of their own catalogue band. This is "
+                 "REPORTED and deliberately not charged: the slicer tiles the footprint "
+                 "exactly, so an over-band charge is an under-band charge plus a constant "
+                 "(measured: three formulations, not one room changed size), and "
+                 "`level_score` already bills area error symmetrically. Where "
+                 "`declared_over_ceiling` is true the room was over its ceiling AS "
+                 "DECLARED and the placement is not the author of it. See over_band()'s "
+                 "own docstring for the identity and the measurements."
+                 if ob else "Every room was placed at or below the ceiling of its own band.")}
+
+
+def over_band(rects_by_level, prep):
+    """Rooms this layout placed ABOVE the ceiling of their own catalogue band.
+
+    WP-6.3, and the shape of it is a finding. The obvious move was to mirror `under_band`
+    with a matching CHARGE in `level_score`, so that a passage placed 63% over its
+    declaration would cost a candidate something. That was measured and refused, because
+    the slicer tiles the footprint EXACTLY: with `Sum(got)` fixed at the block area T,
+
+        Sum max(0, got - hi)  ==  (T - Sum hi)  +  Sum max(0, hi - got)
+
+    is an identity, not an approximation — verified to under 0.5 sf on both levels of the
+    shipped plan. So "penalise a room over its ceiling" IS "penalise a room under its
+    ceiling", plus a constant. It pushes every room UP; it does not oppose `under_band`,
+    it amplifies it. On the Tidewater upper level the term is 96.3% constant (an
+    irreducible floor of 671 sf against 697 placed) and its coefficient of variation
+    across all 250 candidates is 4.67%. Three formulations — flat 12 a room, proportional,
+    per-square-foot — were run through the whole search: **not one room changed size**, and
+    the score moved by exactly the predicted constant.
+
+    Over-size is also already charged. `level_score` bills `abs(got - want)/want * 10`,
+    which is symmetric, and the upper passage already pays 6.3 of it. What produces the
+    +63% is that `1/want` weighting routing unavoidable slack to the LARGEST room, which is
+    a deliberate allocation; an over-band charge normalised by `hi` has the same gradient
+    and would reinforce it.
+
+    And the slack is the RECORD's, not the placement's: the Tidewater upper storey is
+    programmed at 1,621 sf inside a block sized by the 2,405 sf ground floor. No placement
+    can absorb 784 sf. Charging for it would convict the solver of the brief's arithmetic —
+    the OQ 52 family of error. SIX rooms on that plan are over their band ceiling AS
+    DECLARED, before any placement runs (`landing` 108 against 60, `hallbath` 88 against 70,
+    `linen` 15 against 6, and `passage`, `powder`, `chamber2`), which is the same point
+    again. Note that this is not the same set as `declared_over_ceiling` below, which counts
+    only rooms the placement ALSO put over the ceiling: five, because `passage` is declared
+    at 408 against a 400 ceiling and is then placed under it. The two numbers answer
+    different questions and a reader meeting them together should be told which.
+
+    So this REPORTS and does not charge, and it says which of the two cases each room is:
+    over its ceiling because it was declared that way, or because the placement put it
+    there. The drawn layer in build/plan_check.py is where a reader is told about it."""
+    out = []
+    for idx, rects in rects_by_level.items():
+        for r in prep.get(idx, []):
+            rect = rects.get(r["id"])
+            if not rect:
+                continue
+            got = rect[2] * rect[3]
+            _lo, hi = band(r["type"])
+            if hi and got > hi + 0.5:
+                declared = (r.get("width_ft") or 0) * (r.get("length_ft") or 0)
+                out.append({"room": r["id"], "name": r.get("name") or r["id"],
+                            "type": r["type"], "placed_sf": round(got),
+                            "band_ceiling_sf": round(hi),
+                            "over_by_pct": round(100 * (got - hi) / hi),
+                            # the distinction that stops this reading as an accusation
+                            "declared_over_ceiling": bool(declared and declared > hi + 0.5)})
+    return sorted(out, key=lambda d: -d["over_by_pct"])
+
+
 def under_band(rects_by_level, prep):
     """Rooms this layout placed below the floor of their own catalogue band.
 
@@ -1015,6 +1090,8 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
                     "layout that would score LOWER alone is rejected when it leaves walls "
                     "unsupported.")}
     ub = under_band({0: best["ground"], 1: best["upper"]}, prep)
+    report["over_band"] = _over_band_block(
+        over_band({0: best["ground"], 1: best["upper"]}, prep))
     report["under_band"] = {
         "count": len(ub), "rooms": ub,
         "note": ("Rooms placed below the floor of their own catalogue band. The search is allowed to "
@@ -1107,6 +1184,7 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
                     for r in lv["rooms"] if r.get("geometry")}
               for idx, lv in (_levels or {}).items()}
     ub = under_band(_rects, _prep)
+    plan["geometry_report"]["over_band"] = _over_band_block(over_band(_rects, _prep))
     plan["geometry_report"]["under_band"] = {
         "count": len(ub), "rooms": ub,
         "note": ("Rooms placed below the floor of their own catalogue band (OQ 54)." if ub

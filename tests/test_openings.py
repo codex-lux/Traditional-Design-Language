@@ -160,21 +160,59 @@ def test_no_two_openings_share_masonry(pid):
 
 
 def test_the_passage_takes_its_rear_door():
-    """op-passage-axis, and the reported symptom in its exact form.
+    """The reported symptom in its exact form: "the centre passage shows no door out the
+    back — it's really just a window."
 
     styles/tidewater-georgian.json c03 is HARD — "exterior doors at both ends, aligned on
     axis and both operable" — and could not be satisfied, because a door had no wall: both
     renderers put every exterior door of a room on the FIRST wall it declared, so the
-    passage's rear door was drawn on its front, under the front door, and the rear
-    elevation showed a window where the door should be."""
+    passage's rear door was drawn on its front, under the front door.
+
+    This asserts the OUTCOME, which is what must hold of any correct placement: the
+    passage's own exterior door sits on a boundary wall it does not already reach the
+    outside through. The mechanism that decides it when the passage touches BOTH ends —
+    op-passage-axis — is tested separately below, because which rule fires depends on where
+    the solver put the room, and pinning that here made this test fail the day the
+    placement got BETTER."""
     solved = GEO.solve(_plan("tidewater-georgian-careful"))
     passage = next(r for lv in solved["levels"] for r in lv["rooms"] if r["id"] == "passage")
     ext = [d for d in passage["doors"] if d["to"] == "exterior"]
     assert ext, "the passage declares an exterior door"
-    assert ext[0].get("wall") == "N", \
-        f"the passage's exterior door is on {ext[0].get('wall')}, not the rear wall"
-    assert any(a.get("rule") == "op-passage-axis"
-               for a in solved["opening_report"]["axis"]), "the axis rule did not fire"
+    d = ext[0]
+    assert not d.get("unplaced"), f"the passage's own exterior door is unplaced: {d.get('unplaced')}"
+    assert d.get("wall") in ("N", "E", "S", "W"), "it must be on a stated wall"
+    # and not on the wall it already reaches the outside through (the porch door)
+    porch = next((x for x in passage["doors"] if x["to"] == "porch"), None)
+    if porch and porch.get("wall"):
+        assert d["wall"] != porch["wall"], \
+            "the passage's two ways out are on the same wall — that is the reported symptom"
+
+
+def test_the_passage_axis_rule_seats_a_door_at_the_far_end():
+    """op-passage-axis itself, on the case it exists for: a circulation room reaching the
+    boundary at BOTH ends, already entered through a threshold room at one of them. The
+    declared exterior door must take the other end."""
+    plan = {
+        "id": "axis-probe", "name": "axis probe", "style": "tidewater-georgian",
+        "footprint": {"width_ft": 30.0, "depth_ft": 40.0},
+        "levels": [{"id": "ground", "index": 0, "rooms": [
+            {"id": "passage", "type": "centre-passage", "width_ft": 10, "length_ft": 40,
+             "exterior_walls": ["S", "N"],
+             "geometry": {"x_ft": 10, "y_ft": 0, "width_ft": 10, "depth_ft": 40, "area_sf": 400},
+             "doors": [{"to": "porch", "width_ft": 3.5}, {"to": "exterior", "width_ft": 3.5}]},
+            {"id": "porch", "type": "entry-porch", "width_ft": 10, "length_ft": 6,
+             "exterior_walls": ["S", "E", "W"],
+             "geometry": {"x_ft": 20, "y_ft": 0, "width_ft": 10, "depth_ft": 6, "area_sf": 60},
+             "doors": [{"to": "passage", "width_ft": 3.5}, {"to": "exterior", "width_ft": 3.5}]},
+        ]}],
+    }
+    OP.place(plan)
+    passage = plan["levels"][0]["rooms"][0]
+    d = next(x for x in passage["doors"] if x["to"] == "exterior")
+    assert d.get("wall") == "N", (
+        f"the passage reaches the boundary at both ends and is entered through the porch at "
+        f"the south; its own exterior door belongs at the north end, not on {d.get('wall')}")
+    assert any(a.get("rule") == "op-passage-axis" for a in plan["opening_report"]["axis"])
 
 
 def test_the_stair_is_an_object_or_a_stated_refusal():
@@ -205,40 +243,95 @@ def test_the_drawn_layer_cannot_evaluate_an_unplaced_record():
     assert any(f["layer"] == "drawn" and f["severity"] == "info" for f in res["findings"])
 
 
+# The three tests below assert the MECHANISM against a placement built for the purpose,
+# not a defect count against a shipped plan.
+#
+# They did the latter first, and it cost them: WP-6.3 made the CP engine able to solve
+# plans/tidewater-georgian-careful.json (the per-pair door floor is looser for narrow
+# doors, so the model fits in budget), the placement stopped stranding rooms, and all
+# three tests went RED because the defects they pinned had been FIXED. A guard that fails
+# when the code gets better is pointed the wrong way — the same lesson OQ 71 taught
+# test_solver.py ("assert the proof, not the count") and that the workbench's
+# path-traversal test learned the same week (assert the property, not the mechanism).
+
+
+def _stranded_plan():
+    """A placed two-room plan where the second room's only door has no shared wall."""
+    return {
+        "id": "stranded", "name": "stranded", "style": "tidewater-georgian",
+        "footprint": {"width_ft": 30.0, "depth_ft": 20.0},
+        "levels": [{"id": "ground", "index": 0, "rooms": [
+            {"id": "hall", "type": "entrance-hall", "width_ft": 10, "length_ft": 20,
+             "exterior_walls": ["S"],
+             "geometry": {"x_ft": 0, "y_ft": 0, "width_ft": 10, "depth_ft": 20, "area_sf": 200},
+             "doors": [{"to": "exterior", "width_ft": 3.5, "wall": "S", "position_ft": 5.0},
+                       {"to": "bath", "width_ft": 2.6,
+                        "unplaced": {"reason": "the placement leaves these two rooms no shared wall"}}]},
+            {"id": "bath", "type": "bathroom", "width_ft": 6, "length_ft": 8,
+             "geometry": {"x_ft": 20, "y_ft": 0, "width_ft": 6, "depth_ft": 8, "area_sf": 48},
+             "doors": [{"to": "hall", "width_ft": 2.6,
+                        "unplaced": {"reason": "the placement leaves these two rooms no shared wall"}}]},
+        ]}],
+    }
+
+
 def test_a_room_no_door_reaches_is_a_fatal_finding():
-    """Nothing in this system has ever checked that you can walk from the front door to
+    """Nothing in this system had ever checked that you can walk from the front door to
     every room. build/check_partis.py's comment asserted the plan validator did; it did
     not, and a chamber bath whose only door the placement could not realise shipped on a
     reference sheet with no finding against it."""
-    solved = GEO.solve(_plan("tidewater-georgian-careful"))
-    res = PC.check(solved)
+    res = PC.check(_stranded_plan())
     d = res["drawn_summary"]
     assert d["evaluated"] is True
-    assert d["unreachable"], "the Tidewater placement strands rooms; the layer must say so"
-    assert "hallbath" in d["unreachable"], \
-        "the chamber bath is the reported case and must be among them"
+    assert d["unreachable"] == ["bath"], f"expected the bath stranded, got {d['unreachable']}"
     fatals = [f for f in res["findings"] if f["layer"] == "drawn" and f["severity"] == "fatal"]
-    assert len(fatals) == len(d["unreachable"])
+    assert len(fatals) == 1 and "cannot be reached" in fatals[0]["statement"]
 
 
 def test_a_room_reachable_only_from_outdoors_is_named_as_such():
     """The first reported symptom: "the door to the kitchen is only from the outside, and
-    the kitchen is connected to no other rooms". It passes reachability — it has its own
-    exterior door — and it is still wrong, so it is its own finding rather than silence."""
-    solved = GEO.solve(_plan("tidewater-georgian-careful"))
-    res = PC.check(solved)
-    assert "kitchen" in res["drawn_summary"]["cut_off"]
+    the kitchen is connected to no other rooms". Such a room PASSES reachability — it has
+    its own exterior door — and is still wrong, so it is its own finding rather than
+    silence."""
+    plan = _stranded_plan()
+    # give the bath its own way out: now it is reachable, and still joined to nothing
+    plan["levels"][0]["rooms"][1]["doors"].append(
+        {"to": "exterior", "width_ft": 3.0, "wall": "S", "position_ft": 23.0})
+    res = PC.check(plan)
+    # BOTH rooms are cut off, and correctly so: the one door between them is the one the
+    # placement could not realise, so each is joined to nothing but the outdoors
+    assert set(res["drawn_summary"]["cut_off"]) == {"bath", "hall"}
+    assert not res["drawn_summary"]["unreachable"], "both ARE reachable — from outdoors"
     said = [f for f in res["findings"]
             if f["layer"] == "drawn" and "only way in is from outside" in f["statement"]]
-    assert said, "the kitchen's isolation must be stated, not merely counted"
+    assert said, "the isolation must be stated, not merely counted"
 
 
 def test_drawn_and_declared_sizes_are_reconciled_or_reported():
     """OQ 54's silence, closed. The sheet prints the PLACED rectangle and the record keeps
-    the declared one; nothing said they differed, so a kitchen drawn at 63% of its declared
-    area read as a measurement."""
+    the declared one; nothing said they differed, so a room drawn at 63% of its declared
+    area read as a measurement of the declared room.
+
+    Asserted as a property of ANY placement rather than as a list of rooms: every room
+    whose drawn area departs from its declaration by more than a tenth must appear in the
+    summary, and every entry must carry the percentage."""
     solved = GEO.solve(_plan("tidewater-georgian-careful"))
     res = PC.check(solved)
-    diverged = {d["room"] for d in res["drawn_summary"]["diverged"]}
-    assert "kitchen" in diverged, "the kitchen is drawn far under its declaration"
-    assert "upperpassage" in diverged, "the upper passage is drawn far over its declaration"
+    reported = {d["room"]: d["pct"] for d in res["drawn_summary"]["diverged"]}
+    assert reported, "this placement does diverge from the record somewhere"
+    declared, placed = {}, {}
+    for lv in solved["levels"]:
+        for r in lv["rooms"]:
+            g = r.get("geometry")
+            if g and r.get("width_ft") and r.get("length_ft"):
+                declared[r["id"]] = r["width_ft"] * r["length_ft"]
+                placed[r["id"]] = g["width_ft"] * g["depth_ft"]
+    # the layer reports at a tenth OR MORE, and the boundary is not hypothetical: on this
+    # placement the kitchen and the library both land at exactly -10.00%
+    expected = {rid for rid in declared
+                if abs(placed[rid] - declared[rid]) / declared[rid] >= 0.10 - 1e-9}
+    assert set(reported) == expected, (
+        f"reported {sorted(set(reported) - expected)} that do not diverge, and missed "
+        f"{sorted(expected - set(reported))}")
+    for rid, pct in reported.items():
+        assert abs(pct) >= 10, f"{rid} reported at {pct}% — under the threshold"

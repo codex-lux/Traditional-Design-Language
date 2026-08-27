@@ -13,8 +13,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-import { doors, windows, divergence, requiredWallFt, sharedEdge, interpunctTitle }
-  from './sheet/derive.js';
+import { doors, windows, divergence, requiredWallFt, sharedEdge, interpunctTitle,
+         relaxationMarks } from './sheet/derive.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const FIX = join(HERE, '..', '..', '..', 'tests', 'fixtures', 'sheet_symbols');
@@ -154,4 +154,39 @@ test('the plate title folds only at word boundaries', () => {
   // title into 'WATER GEORGIAN, FIVE CAREFULLY PLANNED', which is a different house
   assert.equal(t.replace(/[·​]/g, ' ').replace(/\s+/g, ' ').trim(),
     'Tidewater Georgian, five bays, carefully planned');
+});
+
+/* A relaxation mark goes on a wall or it goes in the caption. Both renderers decide this
+   the same way — the Python half is tests/test_sheet_symbols.py. The case that mattered:
+   a CP mark carries `runs` and not a from/to extent, and the sheet used to drop it at the
+   middle of the plan, which on the Tidewater placement put it inside the drawing room. */
+test('a relaxation mark is drawn on the wall it is true of, or not drawn', () => {
+  const W = 60, H = 40;
+  const heur = { off_ft: 2, axis: 'y', at_ft: 27, level: 0, from_ft: 10, to_ft: 20 };
+  const cp = { off_ft: 3, axis: 'y', at_ft: 27, level: 0, runs: [[51, 60], [0, 4]] };
+  const nowhere = { off_ft: 4, axis: 'y', at_ft: 27, level: 0 };
+  const other = { off_ft: 5, axis: 'x', at_ft: 13, level: 1, runs: [[0, 40]] };
+  const r = relaxationMarks([heur, cp, nowhere, other], 0, W, H);
+
+  assert.equal(r.drawn.length, 2, 'the level-1 mark belongs to the other plate');
+  assert.equal(r.unlocated.length, 1);
+  assert.equal(r.unlocated[0].off_ft, 4, 'a mark on no wall is named, never placed');
+
+  const [d0, d1] = r.drawn;
+  assert.deepEqual(d0.runs, [[10, 20]], 'a heuristic mark keeps the cut it recorded');
+  assert.equal(d0.at, 15);
+  // the △ hangs on the LONGEST real run, and 51–60 is nine feet against four
+  assert.equal(d1.at, 55.5);
+  assert.equal(d1.runs.length, 2, 'both measured pieces of the line are drawn');
+  // and never at the middle of the plan, which is where the drawing room was
+  assert.notEqual(d1.at, W / 2);
+});
+
+test('a relaxation run that leaves the sheet is clipped, and one with nothing left is not drawn', () => {
+  const r = relaxationMarks([
+    { off_ft: 2, axis: 'x', at_ft: 5, level: 0, runs: [[-8, 12]] },
+    { off_ft: 2, axis: 'x', at_ft: 6, level: 0, runs: [[80, 96]] },
+  ], 0, 60, 40);
+  assert.deepEqual(r.drawn.map((d) => d.runs), [[[0, 12]]]);
+  assert.equal(r.unlocated.length, 1, 'a run wholly off the plate locates nothing');
 });

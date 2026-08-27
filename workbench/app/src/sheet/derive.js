@@ -403,6 +403,41 @@ export function divergence(rooms, tolFt = 0.5) {
   return out;
 }
 
+/* Where a relaxation mark may be drawn — and, just as important, where it may not.
+
+   A relaxation is one wall line that missed the structural bay. The heuristic records the
+   cut it made, so the mark has a `from_ft`/`to_ft` extent and is drawn along it. The CP
+   engine records only the line, and the sheet used to draw such a mark as a 5 ft tick
+   CENTRED ON THE PLAN — which is how, on the Tidewater placement, a dashed tick and a
+   triangle came to sit in the middle of the drawing room with no wall under either. That
+   is the "arrows over walls between spaces … they seem to point to anything and
+   everything" of Lucas's review: the mark was not over a wall at all.
+
+   `runs` (geometry_cp.py) is the measured answer — the room faces that actually lie on
+   that line, as disjoint intervals. A mark with runs is drawn along them. A mark with
+   neither extent nor runs is NOT drawn: it is returned in `unlocated` for the caption to
+   name. Guessing a position for it would be the same error in a smaller place. */
+export function relaxationMarks(marks, levelIndex, W, H) {
+  const drawn = [], unlocated = [];
+  for (const m of (marks || [])) {
+    if ((m.level ?? 0) !== levelIndex) continue;
+    let runs = null;
+    if (m.from_ft != null && m.to_ft != null) runs = [[m.from_ft, m.to_ft]];
+    else if (Array.isArray(m.runs) && m.runs.length) runs = m.runs;
+    if (!runs) { unlocated.push(m); continue; }
+    // clip to the sheet, drop anything with no length left, and hang the △ on the
+    // longest surviving piece — one line, one mark, on the widest wall it is true of
+    const span = m.axis === 'x' ? H : W;
+    const clipped = runs
+      .map(([lo, hi]) => [Math.max(0, Math.min(lo, hi)), Math.min(span, Math.max(lo, hi))])
+      .filter(([lo, hi]) => hi - lo > 0.05);
+    if (!clipped.length) { unlocated.push(m); continue; }
+    const best = clipped.reduce((a, b) => (b[1] - b[0] > a[1] - a[0] ? b : a));
+    drawn.push({ mark: m, runs: clipped, at: (best[0] + best[1]) / 2 });
+  }
+  return { drawn, unlocated };
+}
+
 /* Vertical bay lines from the footprint's own module. */
 export function bayLines(footprint) {
   const W = footprint?.width_ft || 0;

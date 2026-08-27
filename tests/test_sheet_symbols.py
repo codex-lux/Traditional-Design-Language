@@ -131,3 +131,57 @@ def test_the_kitchen_keeps_its_doors_on_the_record_even_when_undrawable():
     named = {tuple(sorted((u["from"], u["to"]))) for u in ground["expected"]["undrawable"]}
     kitchen = {p for p in named if "kitchen" in p}
     assert len(kitchen) >= 5, f"expected the kitchen's undrawable doors to be named; got {kitchen}"
+
+
+def test_a_relaxation_mark_is_drawn_on_the_wall_it_is_true_of_or_not_drawn():
+    """The JS half is `relaxationMarks` in derive.test.mjs, and the two must agree.
+
+    A CP mark carries `runs` rather than a from/to extent, and both renderers used to drop
+    such a mark at the MIDDLE OF THE PLAN: on the Tidewater placement that put a dashed tick
+    and a triangle inside the drawing room, on a line that has no wall anywhere near it.
+    Those are the arrows Lucas reported as pointing "to anything and everything"."""
+    W, H = 60, 40
+    heur = {"off_ft": 2, "axis": "y", "at_ft": 27, "level": 0, "from_ft": 10, "to_ft": 20}
+    cp = {"off_ft": 3, "axis": "y", "at_ft": 27, "level": 0, "runs": [[51, 60], [0, 4]]}
+    nowhere = {"off_ft": 4, "axis": "y", "at_ft": 27, "level": 0}
+    other = {"off_ft": 5, "axis": "x", "at_ft": 13, "level": 1, "runs": [[0, 40]]}
+
+    drawn, unlocated = render_plan.relaxation_marks([heur, cp, nowhere, other], 0, W, H)
+    assert len(drawn) == 2, "the level-1 mark belongs to the other plate"
+    assert [m["off_ft"] for m in unlocated] == [4], "a mark on no wall is named, never placed"
+
+    (_m0, runs0, at0), (_m1, runs1, at1) = drawn
+    assert runs0 == [(10, 20)] and at0 == pytest.approx(15)
+    assert len(runs1) == 2, "both measured pieces of the line are drawn"
+    assert at1 == pytest.approx(55.5), "the triangle hangs on the longest real run"
+    assert at1 != pytest.approx(W / 2), "and never at the middle of the plan"
+
+    # a run off the plate is clipped; one with nothing left locates nothing
+    drawn, unlocated = render_plan.relaxation_marks(
+        [{"off_ft": 2, "axis": "x", "at_ft": 5, "level": 0, "runs": [[-8, 12]]},
+         {"off_ft": 2, "axis": "x", "at_ft": 6, "level": 0, "runs": [[80, 96]]}], 0, W, H)
+    assert [r for _m, r, _a in drawn] == [[(0, 12)]]
+    assert len(unlocated) == 1
+
+
+def test_the_cp_counter_gives_every_relaxation_a_wall_to_sit_on():
+    """The counter knew which room faces lay on the off-grid line and threw them away, so
+    the sheet had nothing to place the mark by and dropped it at the middle of the plan.
+
+    Measured on the counter itself rather than on a frozen placement: `_count_relaxations`
+    is a pure function of the rectangles, so this needs no solver and pins the mechanism
+    instead of one machine's search result. Two rooms meet on a line at x = 13 that the
+    10 ft bay does not carry, and they meet along y 25..40 — nowhere near the middle."""
+    cp = modcache.load("geometry_cp", str(ROOT / "build" / "geometry_cp.py"))
+    rects = {"a": (0.0, 25.0, 13.0, 15.0), "b": (13.0, 25.0, 27.0, 15.0),
+             "c": (0.0, 0.0, 40.0, 25.0)}
+    marks = cp._count_relaxations({0: rects}, W=40, H=40, bay=10.0, tol=0.5)
+    assert marks, "a wall at 13 ft on a 10 ft bay is a relaxation"
+    for m in marks:
+        assert m.get("runs"), f"{m} carries no measured wall to sit on"
+    line = next(m for m in marks if m["axis"] == "x" and m["at_ft"] == 13.0)
+    assert line["runs"] == [[25.0, 40.0]], "the run is where the rooms actually meet"
+    drawn, unlocated = render_plan.relaxation_marks(marks, 0, 40, 40)
+    assert not unlocated and len(drawn) == len(marks)
+    assert all(a >= 25.0 for _m, runs, _at in drawn for a, _b in runs
+               if _m["axis"] == "x"), "and not across the room below it"

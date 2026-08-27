@@ -64,11 +64,38 @@ GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
 C = GEO.C
 
 U = 1                     # 1-ft integer grid (coarse on purpose: domains half the size)
-MIN_DOOR_OVERLAP = 4      # 4 ft shared edge, above render_plan's 3.2 ft door test
-                          # (the programme-scaled branch can floor at 2 ft for a
-                          # closet pair — those doors hold as facts but fall
-                          # under the draw test; exporters state them, stated
-                          # in the WP-2.3 report)
+MIN_DOOR_OVERLAP = 4      # the fallback for a door that declares no width of its own
+
+
+def _door_overlap(d, v1, v2):
+    """How much wall two rooms must share to hold THIS door (WP-6.3, closing OQ 41/63).
+
+    The rule was `min(4, max(2, floor(0.9 * min(maxside))))`, and its comment said it
+    "scales to the smaller room: a linen press's whole side may be 2 ft — its door is
+    narrower than a parlor's, and demanding 4 ft would refuse real closets". **That branch
+    has never once fired.** `maxside` is `max(width_ft, length_ft)` — the LONGER side — so
+    dropping below 4 needs a room whose long side is under 3.34 ft, and there are **0 such
+    rooms in all 16 plan records** (238 rooms measured). Every interior pair in the corpus
+    got a flat 4 ft: the 3 x 5 linen press the comment names got a parlour's requirement,
+    and so did `bed2cl`, which is literally 2 x 6. OQ 41's own text quotes the same dead
+    expression as though it described behaviour.
+
+    So the floor is now the door's own leaf and its jambs, which is what a door occupies and
+    what both renderers and both exporters have measured against since WP-6.1 — one number,
+    `openings.required_wall_ft`, in one place. 469 of the corpus's 471 doors declare a width
+    (the two that do not are exterior and never reach here), so this is the record speaking
+    rather than a constant. Ceiled to the model's integer grid.
+
+    Measured per pair across the corpus: 102 tighter, 3 looser, 128 unchanged."""
+    w = d.get("width_ft")
+    if not w:
+        return MIN_DOOR_OVERLAP
+    OP = _mod("openings", f"{ROOT}/build/openings.py")
+    need = OP.required_wall_ft(float(w))
+    # never demand more shared wall than the smaller room can physically offer, or a wide
+    # opening between two small rooms becomes an infeasibility rather than a finding
+    room_cap = min(v1["maxside"], v2["maxside"])
+    return max(2, min(int(math.ceil(need * U)), int(math.floor(room_cap * U))))
 SCALE = 10                # objective weights are WP-2.2's, x10 into integers
 COVERAGE = 0.97           # hard floor; the absorb pass grows rooms into the rest
 
@@ -293,11 +320,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                     continue
                 seen.add(key)
                 v2 = rooms[(lvl, to)]
-                # the shared-wall requirement scales to the smaller room: a
-                # linen press's whole side may be 2 ft — its door is narrower
-                # than a parlor's, and demanding 4 ft would refuse real closets
-                ovr = min(MIN_DOOR_OVERLAP,
-                          max(2, int(math.floor(0.9 * min(v1["maxside"], v2["maxside"]) * U))))
+                ovr = _door_overlap(d, v1, v2)
                 lit = reqs.lit(f"{r.get('name') or r['id']} and {idx[to].get('name') or to} "
                                f"share a door — they must share enough wall for one",
                                kind="door")
@@ -656,20 +679,33 @@ def _absorb(rects, W, H, caps=None, keepout=()):
     return {k: v for k, v in rects.items() if not k.startswith("\0keepout")}
 
 
+def _merge_runs(spans, gap=0.05):
+    """Merge a list of (lo, hi) into disjoint runs, closing hairline gaps."""
+    out = []
+    for lo, hi in sorted(spans):
+        if out and lo <= out[-1][1] + gap:
+            out[-1][1] = max(out[-1][1], hi)
+        else:
+            out.append([lo, hi])
+    return [[round(lo, 2), round(hi, 2)] for lo, hi in out]
+
+
 def _count_relaxations(rects_by_level, W, H, bay, tol):
     """Interior wall lines off the bay grid — the heuristic's own definition of
     a compromise — counted from the solved placement (per unique line, per axis)."""
     relax = []
     for lvl, rects in rects_by_level.items():
         for axis in ("x", "y"):
-            edges = set()
+            edges = {}
             for (x, y, w, h) in rects.values():
                 if axis == "x":
-                    edges.add(round(x, 1)); edges.add(round(x + w, 1))
+                    edges.setdefault(round(x, 1), []).append((y, y + h))
+                    edges.setdefault(round(x + w, 1), []).append((y, y + h))
                 else:
-                    edges.add(round(y, 1)); edges.add(round(y + h, 1))
+                    edges.setdefault(round(y, 1), []).append((x, x + w))
+                    edges.setdefault(round(y + h, 1), []).append((x, x + w))
             span = W if axis == "x" else H
-            for e in edges:
+            for e, spans in edges.items():
                 if e <= 0.05 or e >= span - 0.05:
                     continue
                 d = abs(e - round(e / bay) * bay)
@@ -678,11 +714,23 @@ def _count_relaxations(rects_by_level, W, H, bay, tol):
                 if d > tol:
                     # Positioned, like the heuristic's (OQ 33). This counter already knew where
                     # the line was -- `e` is the edge coordinate and the level is the loop key --
-                    # and threw it away to append a bare float. from/to are omitted: an edge here
-                    # is a wall line shared by however many rooms abut it, and inventing an
-                    # extent for it would be a drawn claim nobody measured.
+                    # and threw it away to append a bare float.
+                    #
+                    # It also knew, and threw away, WHERE ALONG THAT LINE THERE IS A WALL. The
+                    # earlier note here refused an extent because "an edge is a wall line shared
+                    # by however many rooms abut it, and inventing an extent for it would be a
+                    # drawn claim nobody measured" -- correct about the invention, wrong that
+                    # there was nothing to measure. `runs` is the union of the room faces that
+                    # actually sit on this line: measured, not invented, and possibly several
+                    # disjoint pieces, which is why it is a list and not a from/to pair. The
+                    # sheet had been drawing an extentless mark at the MIDDLE OF THE PLAN, which
+                    # on the Tidewater placement put a dashed tick and a triangle inside the
+                    # drawing room with no wall under either -- the "arrows that seem to point to
+                    # anything and everything" of Lucas's review, and a mark the room's own click
+                    # could not be made through.
                     relax.append({"off_ft": round(d, 2), "axis": axis,
-                                  "at_ft": round(e, 2), "level": lvl})
+                                  "at_ft": round(e, 2), "level": lvl,
+                                  "runs": _merge_runs(spans)})
     return relax
 
 
@@ -955,9 +1003,20 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
                            "objective": objective,
                            "wall_time_s": round(time.monotonic() - started, 2),
                            "attempts": attempts,
+                           # WP-6.3 corrected two words of this claim. It said "rooms at
+                           # program size", and the SOLVE does prove that — but `_absorb`
+                           # runs after it and grows rooms to `max(1.20, fill*1.22)` times
+                           # their programme area, measured at 1.22x on both ground levels
+                           # and 2.27x on one upper. The record shipped a proof of programme
+                           # size on a drawing that no longer held it. The cap is not the
+                           # defect (honest empty floor beats an inflated room, and the cap
+                           # is what stops a 2.8 sf linen press reaching 8); the CLAIM was.
                            "hard": "no-overlap; containment; coverage; declared doors "
-                                   "touch; the entry on its front; rooms at program "
-                                   "size; declared exterior walls (until a set is "
+                                   "share wall enough for their own leaf and jambs; the "
+                                   "entry on its front; rooms at or above program size "
+                                   "(the post-solve absorb pass grows them into leftover "
+                                   "floor, capped, so the drawn size is a floor and not an "
+                                   "equality); declared exterior walls (until a set is "
                                    "proven unable to co-hold — then downgraded, stated)",
                            "note": "the compositional terms are constraints and "
                                    "weighted objectives here, not search preferences",
@@ -1101,12 +1160,13 @@ def hard_fact_violations(plan, out, extra_downgraded=None):
                     continue
                 seen.add(key)
                 ox, oy, ow, oh = rects[to]
-                # the model's own programme-scaled requirement — a closet's whole
-                # side may be 2 ft; judging it by a parlor's 3.2 ft door would
-                # call a legal placement a violation
-                ovr = min(MIN_DOOR_OVERLAP,
-                          max(2, int(math.floor(0.9 * min(maxside[r["id"]],
-                                                          maxside[to]) * U)))) - 0.05
+                # THE SAME RULE THE MODEL STATED, from the same function. This was a second
+                # copy of the old expression, and a second copy of a rule is how an arbiter
+                # comes to contradict the solver it arbitrates: change one and this one
+                # convicts placements the model proved legal. The 0.05 slack is kept —
+                # it is a float-comparison tolerance against integers the model rounded.
+                ovr = _door_overlap(d, {"maxside": maxside[r["id"]]},
+                                    {"maxside": maxside[to]}) - 0.05
                 shared_v = (abs(x + w - ox) <= 0.4 or abs(ox + ow - x) <= 0.4) and                     min(y + h, oy + oh) - max(y, oy) >= ovr
                 shared_h = (abs(y + h - oy) <= 0.4 or abs(oy + oh - y) <= 0.4) and                     min(x + w, ox + ow) - max(x, ox) >= ovr
                 if not (shared_v or shared_h):

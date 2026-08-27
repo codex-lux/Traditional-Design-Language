@@ -63,6 +63,31 @@ const body = await page.locator('main').innerText();
 check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
 check('hill-climb honesty line present', /hill-climb/i.test(body));
 check('the proof is offered, not just the search', /prove placement/i.test(body));
+// …and the caption names the engine that ACTUALLY DREW THIS SHEET. Until WP-6.3 flipped
+// the default it said flatly that every edit re-scores on the hill-climb and that nothing
+// drawn asserts feasibility was proved — true then, false the moment `auto` became the
+// default, and false in the direction that matters: a reader could not tell a proof from a
+// search. Checked against the API's own report rather than against a phrase.
+{
+  const solved = await fetch(BASE + '/api/plans/examples/tidewater-georgian-careful')
+    .then((r) => r.json())
+    .then((p) => fetch(BASE + '/api/plan/evaluate', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ plan: p.plan || p, place: true }),
+    }))
+    .then((r) => r.json())
+    .catch(() => null);
+  const eng = solved?.placement?.geometry_report?.solver?.engine;
+  if (!eng) {
+    check('the caption names the engine that drew the sheet — COULD NOT EVALUATE '
+      + '(the API did not report one)', false);
+  } else {
+    const saysProved = /was\s+proved,\s+not\s+searched/i.test(body);
+    const saysSearched = /came from the\s+fast search/i.test(body);
+    check(`the caption names the engine that drew the sheet (${eng})`,
+      eng === 'cp-sat' ? (saysProved && !saysSearched) : (saysSearched && !saysProved));
+  }
+}
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
 // Not "a toolbar rendered": the loupe has to make the drawing bigger. Measured on the
 // sheet's own SVG, before and after two steps of the ladder.
@@ -174,6 +199,34 @@ if (undrawn) {
 }
 // the △ is defined on the sheet that uses it, not only in the running prose of a caption
 check('the relaxation mark carries a legend', openings.legend || !/cut\(s\) off the bay line/i.test(openings.note));
+// …and it sits on a wall. A CP mark carries no from/to extent, and the sheet used to drop
+// it at the MIDDLE OF THE PLAN: on this very placement that put a tick and a triangle
+// inside the drawing room, on a line with no wall near it, which is what was reported as
+// arrows that "seem to point to anything and everything". Measured, not asserted from the
+// record: each △'s own drawn centre against each drawn room rectangle.
+const rx = await page.evaluate(() => {
+  const tris = [...document.querySelectorAll('svg path')].filter((p) => {
+    const t = p.parentElement && p.parentElement.querySelector('title');
+    return t && /off the bay line/.test(t.textContent);
+  });
+  const rooms = [...document.querySelectorAll('[data-room]')]
+    .map((g) => ({ id: g.getAttribute('data-room'), b: g.querySelector('rect').getBoundingClientRect() }));
+  const adrift = [];
+  for (const p of tris) {
+    const b = p.getBoundingClientRect();
+    const cx = b.x + b.width / 2, cy = b.y + b.height / 2;
+    for (const r of rooms) {
+      if (cx <= r.b.left || cx >= r.b.right || cy <= r.b.top || cy >= r.b.bottom) continue;
+      // inside this room: how far from the nearest wall of it, in screen px
+      const d = Math.min(cx - r.b.left, r.b.right - cx, cy - r.b.top, r.b.bottom - cy);
+      if (d > 12) adrift.push(`${r.id} (${Math.round(d)}px in)`);
+    }
+  }
+  return { tris: tris.length, adrift };
+});
+check(`every △ is drawn on a wall, none adrift in a room (${rx.tris} mark(s))`
+  + (rx.adrift.length ? ' — ' + rx.adrift.join(', ') : ''),
+  rx.tris > 0 && rx.adrift.length === 0);
 // a room drawn at a size its record does not declare says so, in the caption and on itself
 const divergedClaim = openings.note.match(/(\d+) room\(s\) are drawn at a size the record does not declare/i);
 check('rooms drawn off their declaration are marked and counted',
