@@ -26,7 +26,7 @@ Two example plans ship with it. One is a deliberately ordinary production Coloni
 
 The three fatals on the first are the powder-room door off the dining room, the primary bedroom over the garage, and a half-width shutter at 0.33 where the corpus wants 0.48.
 
-## Six layers, and one of them reads the drawing
+## Seven layers, and one of them reads the drawing
 
 **Room** — dimension bands, ceiling minimums, **furniture fit with real clearances**, daylight depth against window head. The furniture check is the one most plans have never had run on them: a dining table for eight plus chair pull plus passage needs 12 ft 4 in across, so an 11 ft 6 in dining room fails before anything is drawn.
 
@@ -47,7 +47,7 @@ It exists because the split it crosses was hiding real defects. OQ 54 ruled in A
 - **Reachability**, over the openings that were actually placed. Nothing in this system had ever checked that you can walk from the front door to every room; a room with no doors produced no finding, and neither did a room whose declared doors had nowhere to go. A stranded habitable room is `fatal`.
 - **A room joined to nothing inside the house** — it passes reachability if it has its own exterior door, and it is still wrong. This is the reported symptom in its exact form: *"the door to the kitchen is only from the outside, and the kitchen is connected to no other rooms."*
 - **Drawn against declared**, both directions, `minor` past 10% and `serious` past 25%.
-- **The landing over its own stair.** `stacks_over` is in the schema and the partis declare it; neither placement engine read it until WP-6.3.
+- **Every `stacks_over` claim, against the room it names.** The field is in the schema and the partis declare it, and **neither placement engine reads it — still.** WP-6.3 built the charge, measured it inert (the generator produces each level blind to the other, so 100× and 10,000× the weight give byte-identical output) and refused it; the real fix is a level-aware generator, OQ 76. So the claim is checked here instead of enforced there: a room drawn clear of the room it says it stacks over is a `serious` finding, and one whose named room this placement did not place reports COULD NOT EVALUATE.
 - **Passage clear width** against `rooms/centre-passage.json`'s own two right answers and the dead zone between them.
 - **Wet-room fixtures** that will not fit together on real walls, from `room.fixture_layout`.
 

@@ -128,10 +128,15 @@ def _solved_copy(plan, parti=None, candidates=250):
     if has_geometry:
         return plan, plan
     GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
-    # the sheet is a DERIVATION of the record, drawn the same way the workbench
-    # draws it — the heuristic. Proving a placement is an explicit act
-    # (geometry.solve engine="cp"); an export must match the drawing it ships.
-    solved = GEO.solve(copy.deepcopy(plan), parti, candidates, engine="heuristic")
+    # The sheet is a DERIVATION of the record, drawn the same way the workbench draws it.
+    # That premise is the whole rule and it did not change; what changed is what the
+    # workbench draws with. This said "the heuristic" until WP-6.4, and by then the bench
+    # had been on `auto` since WP-6.3 -- so an export shipped a placement the reader had
+    # never seen. `_placed` in workbench/server/corpus.py hands this function an already
+    # placed record for every user-facing export, and `has_geometry` above returns it
+    # untouched; this branch is the CLI and library path, and it takes the same engine the
+    # bench does.
+    solved = GEO.solve(copy.deepcopy(plan), parti, candidates, engine="auto")
     if "error" in solved:
         return plan, solved
     return plan, solved

@@ -921,7 +921,11 @@ def derive_openings(plan, style, log):
     editorial = {}
 
     # doors, resolved once per PAIR and written to both records: a door disagreeing with
-    # itself across its two rooms is a corruption the drawn layer now reports
+    # itself across its two rooms is a corruption `plan_check`'s DECLARED layer reports
+    # (WP-6.4). This comment named the drawn layer for a package and a half and the drawn
+    # layer never checked it -- nothing in the repo compared a door's two records until the
+    # check was actually written. Deciding once per pair here is what keeps a COMPOSED plan
+    # clean; the check is what catches a hand-authored or hand-edited one.
     decided = {}
     for r in list(idx.values()):
         for d in (r.get("doors") or []):

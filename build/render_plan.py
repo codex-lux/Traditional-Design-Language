@@ -125,8 +125,21 @@ def render(plan, path, scale=7.0):
     # while the banner stack grew from one line to four, at 14 px each from y=70 -- three
     # disclosures already reached 98 and drew THROUGH the top of the first plate. A sheet
     # that hides its own disclosures behind the drawing is the WP-6.1 failure in a new place.
+    # WP-6.4: and the plate says WHICH ENGINE placed it. WP-6.3 disclosed that in the
+    # workbench's page prose, which is the one place it cannot travel -- this file's whole
+    # output is a sheet somebody prints or hands to a builder, and it carried no disclosure
+    # at all. A reader could not tell a proof from a search on the drawing itself.
+    _solver = plan.get("geometry_report", {}).get("solver") or {}
+    _engine_line = ""
+    if _solver.get("engine") == "cp-sat":
+        _engine_line = "PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"
+    elif _solver.get("engine"):
+        _reason = _solver.get("reason")
+        _engine_line = "PLACEMENT SEARCHED, NOT PROVED — HILL-CLIMB" + (
+            f" — {_reason.upper()}" if _reason and _reason != "requested" else "")
     _n_banner = sum(1 for c in (plan.get("geometry_report", {}).get("infeasible"),
-                                all_undrawable, all_diverged, all_unlocated) if c)
+                                all_undrawable, all_diverged, all_unlocated,
+                                _engine_line) if c)
 
     # ---------------------------------------------------------- WP-2.4 site / lot geometry
     # Model coordinates already put south (the street side, by the existing window-wall
@@ -219,6 +232,11 @@ def render(plan, path, scale=7.0):
                  f'{len(all_diverged)} ROOM(S) DRAWN AT A SIZE THE RECORD DOES NOT DECLARE, '
                  f'MARKED ∗ — WORST {_esc((w0["name"] or "").upper())} '
                  f'{"+" if w0["pct"] > 0 else ""}{w0["pct"]:.0f}% BY AREA</text>')
+        banner_y += 14
+    if _engine_line:
+        s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:'
+                 f'{PAL["verd"] if _solver.get("engine") == "cp-sat" else PAL["copper"]}">'
+                 f'{_esc(_engine_line)}</text>')
         banner_y += 14
     # A mark the solver puts on no wall of its own level is counted here rather than
     # dropped at the middle of the plan, which is where an extentless one used to land.

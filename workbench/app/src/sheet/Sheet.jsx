@@ -324,6 +324,18 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   const interpunct = interpunctTitle(title);
   const relax = placement?.geometry_report?.relaxations;
   const rxMarks = relaxationMarks(relax?.marks, levelIndex, W, H);
+  /* WHICH ENGINE PLACED THIS, on the PLATE (WP-6.4). WP-6.3 put the disclosure in the page
+     prose beside the drawing, which is the one place it cannot travel: a plate that is
+     printed, screenshotted or exported leaves the prose behind, and a reader then cannot
+     tell a proof from a search. The caption is the plate's own voice, so it says it here.
+     `reason` is present when `auto` FELL BACK, and that is the case worth naming. */
+  const solver = placement?.geometry_report?.solver;
+  const engineLine = !solver ? ''
+    : solver.engine === 'cp-sat'
+      ? "Placement proved (CP-SAT) against the record's own declared facts. "
+      : 'Placement searched, not proved — hill-climb'
+        + (solver.reason && solver.reason !== 'requested' ? `, because ${solver.reason}` : '')
+        + '. ';
 
   return (
     <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
@@ -673,6 +685,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           flex: '1 0 auto' }}>{interpunct}</div>
         <div data-plate-note="" style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)',
           color: 'var(--ink-2)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
+          {engineLine}
           {/* "each marked \u25B3 where it falls" was a claim about every mark, and a mark the
               solver located nowhere is now not drawn at all rather than dropped at the
               middle of the plan. So the sentence counts what it actually marked. */}
@@ -699,8 +712,11 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           {drs.inferredWidths
             ? `${drs.inferredWidths} door(s) declare no width; drawn at the conventional leaf. `
             : ''}
-          Exterior door openings are drawn at conventional mid-wall position, on a wall
-          inferred from the room's declared exterior walls — the record does not state which.
+          {drs.inferredPositions
+            ? `${drs.inferredPositions} exterior door(s) carry no placement in the record and are `
+              + 'drawn at conventional mid-wall position, on a wall inferred from the room\u2019s '
+              + 'declared exterior walls. '
+            : ''}
           The grid remains — evidence the plan was composed, not arranged.
         </div>
       </div>

@@ -74,7 +74,7 @@ Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6; 
 environment-blocked. **Phase 5 is part-built** — WP-5.1 (DXF/IFC export), WP-5.2 (the workbench
 in `workbench/`), WP-5.5 (drawing-to-record ingestion) and **WP-5.6 (the navigation overhaul)**
 have shipped; WP-5.3 and WP-5.4 remain. **Phase 6 — plan semantics — is COMPLETE** (WP-6.1,
-6.2, 6.3, 26–27 Aug).
+6.2, 6.3 and **WP-6.4, the audit of the other three**, 26–27 Aug).
 
 **Phase 6 exists because Lucas read two rendered sheets and found them meaningless** — the
 project's own founding failure mode, every part well-formed and the whole saying nothing. A
@@ -90,8 +90,13 @@ all 1,890 room pairs) says what kind of opening belongs between two rooms; `buil
 places them, the stair and the wet-room fixtures; `plan_check` gained a **`drawn`** layer — the
 only layer permitted to read placement — which walks the house from the front door. **WP-6.3**
 — the placement itself was the deepest cause, and the workbench was drawing on the weaker of
-the two engines. Reports: `docs/reports/wp-6.{1,2,3}-*.md`; read WP-6.3's refusals before
-proposing a score term here.
+the two engines. **WP-6.4 audited the other three and found the program's own disease inside
+it**: eleven claims in source, schema and docs that 6.1–6.3 falsified and nobody updated, plus
+one real defect (a downloaded DXF was a different placement from the sheet on screen) and one
+check that was claimed in a comment and never written. Reports:
+`docs/reports/wp-6.{1,2,3}-*.md` and `wp-6.4-the-audit.md`; read WP-6.3's refusals before
+proposing a score term here, and WP-6.4's closing note before writing "until X lands" in a
+comment.
 
 **WP-5.6 changed how the workbench is addressed, and it is worth knowing before touching it.**
 A place is now a URL, and that URL is the citation grammar written down — `#/kit/craftsman/cornice`,
@@ -223,8 +228,29 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   Fixing it let CP-SAT solve `tidewater-georgian-careful` for the first time — a *stricter*
   rule for most pairs made the model easier — and took that plan's undrawable doors from 11
   to 1 and its fatal findings from 3 to 0.
+- **"Until X lands" is a lie the moment X lands and is refused (WP-6.4).** Auditing 6.1-6.3
+  found **eleven claims in source, schema and docs that those packages falsified and nobody
+  updated** — `geometry.py`'s docstring promising a charge WP-6.3 measured and refused;
+  `compose.py` saying "a corruption the drawn layer now reports" when nothing in the repo
+  compared a door's two records; `plan.schema.json` advertising a `severed_doors` field
+  nothing has ever produced; `docs/workbench.md` saying `render_plan.py` "omits [exterior
+  doors] entirely" when it has drawn them since WP-6.1. **No test catches any of these,
+  because they are prose.** When you refuse a planned change, go back and correct every
+  comment that promised it, in the same commit. When a package supersedes a deliverable, say
+  *superseded* in the refusals list rather than letting it vanish.
+- **A drawing set is ONE building, and it was not (WP-6.4).** `corpus._placed()` places a
+  plan once on `auto` and every sheet takes it. Before it: the plan SVG used `auto`,
+  `export_dxf._solved_copy` forced `heuristic`, and `structure.build_section` took its own
+  heuristic default — so a reader looking at a CP-proved sheet **downloaded a DXF of a
+  different placement of the same house**, with a third under the section beside it. The
+  client posts the DECLARED record, so the exporter's has-geometry short-circuit never fired.
+  `build_section` KEEPS its heuristic default (it is the derivation step inside plan_check's
+  elevation layer and the composer's scoring loop — a CP solve there is 25 s x N in
+  `check_all`); what changed is that every user-facing caller passes `geometry_result`.
 - **The bench draws on `auto` now, and the caption must READ which engine ran rather than
-  assert one (WP-6.3).** Three defaults had to flip, not one: `evaluate.py`, `corpus.py`,
+  assert one (WP-6.3, extended WP-6.4).** The disclosure lives on the PLATE in both
+  renderers, not only in the page prose beside it: a printed or exported plate leaves prose
+  behind, and a reader then cannot tell a proof from a search. Three defaults had to flip, not one: `evaluate.py`, `corpus.py`,
   and `app.py`, whose route default `body.get("engine", "heuristic")` shadowed both others
   and was the one that mattered. The moment it flipped, the sheet's own paragraph — "each
   edit re-scores on the fast search … nothing it draws asserts that feasibility was proved"

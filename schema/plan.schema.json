@@ -125,7 +125,7 @@
         "bay_module_ft": { "type": "number" },
         "heated_area_sf": { "type": "number" }, "void_area_sf": { "type": "number" } } },
     "geometry_report": { "type": "object",
-      "description": "0.3.0. What the placement cost and what it could not honour — relaxations, under- and over-band rooms, severed doors, the solver's own account of itself. Shape is build/geometry.py's; kept open because it is a report, not a contract." },
+      "description": "0.3.0. What the placement cost and what it could not honour — relaxations (located on the walls they are true of), under- and over-band rooms against BOTH the catalogue band and the declaration, and the solver's own account of itself including which engine ran and why. Shape is build/geometry.py's; kept open because it is a report, not a contract. This said 'severed doors' until WP-6.4 and nothing ever produced that field: a door the placement could not realise is in `opening_report.unplaced`, with its reason." },
     "opening_report": { "type": "object",
       "description": "0.3.0. What build/openings.py placed and what it could not: every unplaced door with its reason, the doors it offset for the butler's-pantry rule, the exterior doors it seated on a passage axis, and the fixture tallies. A report rather than a contract, so its shape is open — but the unplaced list is the load-bearing half, because an opening nobody could place must never read as an opening nobody declared." },
     "stair": { "type": "object",

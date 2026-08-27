@@ -589,6 +589,38 @@ def check(plan, C=None, strict=False):
                 continue
             adj[rid].add(t); adj[t].add(rid)
             rel[(rid, t)] = rel[(t, rid)] = "direct-door"
+    # ONE DOOR, TWO RECORDS, AND THEY MUST AGREE (WP-6.4). A door is declared on both
+    # rooms it joins, so its width, type and rank exist twice; `compose.symmetrise_doors`
+    # mirrors them and `compose.derive_openings` decides once per PAIR and writes both
+    # sides. Nothing checked it. A hand-authored or hand-edited record whose two halves
+    # disagree gives each renderer a different door to draw and the exporters a third,
+    # and `compose.py` carried a comment saying "a door disagreeing with itself across its
+    # two rooms is a corruption the drawn layer now reports" -- it reported nothing of the
+    # kind. This is a DECLARED-layer check on purpose: it compares two records against each
+    # other and never reads a placement, so it stays legal under OQ 54's ruling.
+    _seen_pair = {}
+    for rid, r in sorted(rooms.items()):
+        for d in r.get("doors", []):
+            t = d["to"]
+            if t == "exterior" or t not in rooms:
+                continue
+            key = tuple(sorted((rid, t)))
+            first = _seen_pair.get(key)
+            if first is None:
+                _seen_pair[key] = (rid, d)
+                continue
+            frid, fd = first
+            for field, label in (("width_ft", "width"), ("type", "type"), ("rank", "rank")):
+                a, b = fd.get(field), d.get(field)
+                if a is None or b is None or a == b:
+                    continue      # absent on one side is a gap, not a contradiction
+                F.add("minor", "plan",
+                      f"The door between {rooms[frid].get('name') or frid} and "
+                      f"{r.get('name') or rid} disagrees with itself about its {label}: "
+                      f"{frid} says {a}, {rid} says {b}.",
+                      room=rid,
+                      fix=("Give both records the same value — one door is one opening, and "
+                           "each renderer picks whichever record it reaches first."))
     # Declared relations are kept beside the door-derived ones, not merged under
     # them: a pair can legitimately be joined by a door AND declared
     # not-visible-from (the door sits around a jog). The must-not-adjoin skip

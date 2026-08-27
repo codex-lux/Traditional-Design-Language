@@ -193,6 +193,12 @@ fall-back reason when `auto` tried the proof and did not get one, and `e2e/walk.
 the claim against the API's own report rather than against a phrase. The re-solve tooltip
 carried the same stale assertion and was corrected with it.
 
+*(Corrected by WP-6.4: this section said "the caption", and in this codebase's vocabulary
+that names the plate's own caption — `Sheet.jsx`'s and `render_plan.py`'s. What WP-6.3
+actually changed was the page prose beside the plate, which is the one place the disclosure
+cannot travel: a printed or exported sheet leaves it behind. Both plate captions carry the
+engine line now.)*
+
 ### Two false claims corrected
 
 `geometry_report.solver.hard` asserted "rooms at program size". The solve does prove that —
@@ -289,3 +295,26 @@ experiment is in the tree is not a measurement of anything.
   0.4 ft tolerance a degenerate corner contact can be reported on one wall before another,
   and a 3-inch corner kiss can read as a shared edge. It is 21× short of the narrowest door
   in the corpus, so nothing draws on it today.
+- **The `_absorb` growth cap is left at `max(1.20, fill × 1.22)`** rather than tightened to
+  `min(1.15 × declared, catalogue hi)` as the package text asked. The reasoning is in "Two
+  false claims corrected" above — the cap is what stops a 2.8 sf linen press reaching 8, and
+  an honest empty floor beats an inflated room — but it belongs here, in the refusals, where
+  a reader scanning for what was skipped will find it. *(Added by WP-6.4's audit, which
+  found it named only in a fix narrative.)*
+
+*Added by WP-6.4's audit — two items this report should have carried and did not:*
+
+- **`geometry_report.severed_doors {count, pairs}` was SUPERSEDED, not skipped.** The
+  package asked for it and it does not exist. It was planned before WP-6.2, and WP-6.2 built
+  the same thing better: `opening_report.unplaced` carries every opening the placement could
+  not realise **with its reason**, both renderers banner it, the DXF exporter has stated it
+  since WP-5.1, and `plan_check`'s drawn layer counts it. A second tally of the same fact,
+  keyed differently, is how two counters come to disagree. `schema/plan.schema.json` was
+  advertising the field to every consumer of the schema and has been corrected.
+- **`under_band` was not compared against the declaration.** The package asked for it in the
+  same breath as the over-size penalty, and only the over-size half was adjudicated — so
+  `over_band` shipped reading the declaration (`declared_over_ceiling`) while `under_band`
+  read only the catalogue band, and a room placed far under what the *brief* asked for was
+  invisible unless it also crossed the looser catalogue floor. Built in WP-6.4. Measured on
+  `spec-builder-colonial`: the dining room is 26% under its catalogue floor and **40% under
+  its own declaration**; the foyer 49% and **64%**.

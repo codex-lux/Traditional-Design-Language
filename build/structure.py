@@ -376,14 +376,18 @@ def stair_geometry(plan, geometry_result, storeys):
 
 # ---------------------------------------------------------------- orchestration
 def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
-    # engine defaults to the HEURISTIC deliberately (WP-2.3): this function is
-    # the derivation step inside plan_check's elevation layer and the composer's
-    # scoring loop, where a CP-SAT proof per candidate made the critic crawl —
-    # measured, not guessed. Placement as a PRODUCT is proven: geometry.solve(),
-    # core.place_plan and the workbench's prove control all default to CP-SAT;
-    # a caller who wants this section built over the proven placement passes
-    # geometry_result=solve(plan) or engine="auto". The placement's own
-    # geometry_report.solver names which engine ran, so nothing is silent.
+    # engine defaults to the HEURISTIC deliberately (WP-2.3), and the default is for
+    # INTERNAL callers ONLY: this function is the derivation step inside plan_check's
+    # elevation layer and the composer's scoring loop, where a CP-SAT proof per candidate
+    # made the critic crawl — measured, not guessed. Placement as a PRODUCT is proven:
+    # geometry.solve(), core.place_plan and the workbench's prove control all default to
+    # CP-SAT. The placement's own geometry_report.solver names which engine ran.
+    #
+    # WP-6.4: EVERY USER-FACING CALLER MUST PASS `geometry_result`. Two did not —
+    # workbench/server/corpus.py's section/bearing SVG and its section DXF — so the
+    # Drawing Set shipped a plan sheet placed by CP-SAT and a section of the same house
+    # placed by the hill-climb, with nothing saying so. A default that is right for a
+    # scoring loop and wrong for a drawing is a default that has to name which it is for.
     if geometry_result is None:
         geometry_result = GEOM.solve(json.loads(json.dumps(plan)), parti, engine=engine)
     if "error" in geometry_result:

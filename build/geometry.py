@@ -12,11 +12,13 @@ That is a harder problem than constraining the upper floor to the lower, and it 
 arrangements the sequential method cannot.
 
 This docstring claimed a third term — "a stair that lands where it left" — from the day it was
-written until WP-6.1, and `vertical_score` never had one: the branch meant for it assigns a
-variable and discards it without scoring anything (see the note there). `stacks_over` is read
-by neither engine, so a landing may sit anywhere over its own stair and nothing charges for it.
-It is scored for real in WP-6.3; until that lands this file says what it does, not what it
-was meant to do.
+written until WP-6.1, and `vertical_score` never had one. WP-6.3 built the charge and REFUSED
+it on measurement: the generator produces each level blind to the other, so a score can only
+re-rank blind candidates — at 100x and 10,000x the weight the output is byte-identical. The
+dead branch was removed in WP-6.4 rather than left as bait. `stacks_over` is therefore read by
+neither engine and a landing may still sit anywhere over its own stair; what changed is that
+`plan_check`'s drawn layer now checks every such claim and says so. The real fix is a
+level-aware generator, which is OQ 76. This file says what it does, not what it was meant to.
 
 When the rooms will not fit: grow the footprint first, then shrink rooms toward their bands,
 then drop optional rooms. A room below its furniture minimum is a defect that survives the
@@ -600,12 +602,28 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
         cx, cy = x + w / 2, y + h / 2
         over = any(vx <= cx <= vx + vw and vy <= cy <= vy + vh for (vx, vy, vw, vh) in wet_g.values())
         if not over: s += 8; notes.append(f"{ut[rid].get('name') or rid} sits over no wet room; its stack has nowhere to land.")
-    # WP-6.1, stated rather than removed, because the removal belongs with the fix (WP-6.3).
-    # This loop is the stair-stacking term this module's own docstring and docs/geometry.md
-    # have both advertised since they were written. It scores NOTHING: `st` is assigned and
-    # discarded, the body ends here, and no charge is ever added.
+    # THE STAIR-STACKING TERM IS NOT HERE, AND THAT IS SETTLED (WP-6.3, OQ 76). The dead
+    # loop that used to sit at this point -- assigning `st` and discarding it -- was removed
+    # in WP-6.4, because dead code under a comment is an invitation to the next person to
+    # "finish" it, and finishing it does not work. The finding it stood for is below and is
+    # the reason no term replaced it.
     #
-    # Measured on plans/tidewater-georgian-careful.json: the ground stair is placed at
+    # WP-6.3 built the charge and swept it: `slice_rect` generates the upper level with NO
+    # reference to the ground placement, so this function can only re-rank candidates that
+    # were produced blind and can never produce a stacking one. At 100x and at 10,000x the
+    # weight the output is BYTE-IDENTICAL, and paying it costs relaxations 11 -> 16. A hard
+    # CP constraint is worse: geometry_cp.py downgrades only `kind == "wall"` pins, so a
+    # stacking constraint outranks every authored exterior wall in the corpus -- measured, it
+    # downgraded an authored kitchen wall to satisfy an inferred stack. The fix is a
+    # level-aware GENERATOR or a downgradable pin ranked below walls; both are OQ 76.
+    #
+    # The claim is not dropped, it is MOVED: `plan_check.drawn_layer` checks every
+    # `stacks_over` against the room it names and reports what it finds.
+    #
+    # Measured on plans/tidewater-georgian-careful.json ON THIS ENGINE, which is the one
+    # this function scores -- since WP-6.3 the default is CP-SAT, and that placement has its
+    # own broken stacks (primarybath over butlers) rather than these. The heuristic figures:
+    # the ground stair is placed at
     # y 16.00-26.62 and the upper landing at y 30.00-40.08 — zero overlap, a landing that
     # arrives over the dining room, and not one point charged for it. That plan states the
     # relationship as an `above`/`below` ADJACENCY (read by plan_check alone); it is
@@ -614,9 +632,7 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     # one. (Corrected 26 Aug 2026: an earlier version of this comment put the stacks_over on
     # the plan record. It is in the parti. The measurement was right and the mechanism named
     # for it was wrong, which is the more dangerous half to get wrong.)
-    for rid in u:
-        if C["rooms"].get(ut.get(rid, {}).get("type"), {}).get("function_class") != "circulation": continue
-        st = next((k for k in g if C["rooms"].get(gt.get(k, {}).get("type"), {}).get("id") == "stair-hall"), None)
+
     # OQ 55: nothing may sit over an UNROOFED reserved void. A courtyard is open to the sky --
     # a room placed above it has no floor and no bearing, and the roof plane it would need is
     # the hole. A ROOFED void is the opposite case and is deliberately not charged: the whole
@@ -913,7 +929,16 @@ def under_band(rects_by_level, prep):
     The ruling was to report it here rather than to make the search refuse (which could leave a
     brief with no candidate and no explanation) or to teach the critic to read geometry (a much
     larger change every plan layer would feel). The search keeps its freedom to trade a room's
-    size against everything else, which is what a heuristic is for. It stops doing it silently."""
+    size against everything else, which is what a heuristic is for. It stops doing it silently.
+
+    WP-6.4 closed an asymmetry with `over_band`, which has read the DECLARATION since it was
+    written and carries `declared_over_ceiling` so a room the brief made oversized is not
+    blamed on the placement. This read only the catalogue band, so a kitchen declared 16 x 20
+    and placed at 63% of that was invisible here unless it ALSO crossed the catalogue floor --
+    and the catalogue floor is the looser of the two tests for a generously declared room. It
+    now carries the declared figure alongside the band one. The two are different questions
+    and the entry says which is which: `short_by_pct` is against the type's catalogue floor,
+    `declared_short_by_pct` is against what this plan actually asked for."""
     out = []
     for idx, rects in rects_by_level.items():
         for r in prep.get(idx, []):
@@ -923,9 +948,17 @@ def under_band(rects_by_level, prep):
             lo, _hi = band(r["type"])
             floor = lo * 0.85
             if got < floor - 0.5:
-                out.append({"room": r["id"], "name": r.get("name") or r["id"], "type": r["type"],
-                            "placed_sf": round(got), "band_floor_sf": round(floor),
-                            "short_by_pct": round(100 * (floor - got) / floor)})
+                e = {"room": r["id"], "name": r.get("name") or r["id"], "type": r["type"],
+                     "placed_sf": round(got), "band_floor_sf": round(floor),
+                     "short_by_pct": round(100 * (floor - got) / floor)}
+                declared = (r.get("width_ft") or 0) * (r.get("length_ft") or 0)
+                if declared:
+                    e["declared_sf"] = round(declared)
+                    # signed: a room can sit under its catalogue floor and still be at or over
+                    # what the brief asked for, and calling that a shortfall would be the OQ 52
+                    # error -- convicting the placement of the record's own arithmetic
+                    e["declared_short_by_pct"] = round(100 * (declared - got) / declared)
+                out.append(e)
     return sorted(out, key=lambda d: -d["short_by_pct"])
 
 

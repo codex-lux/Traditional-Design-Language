@@ -60,7 +60,7 @@ plausible house in feet *and* in metres — the extractor **refuses to pick**,
 returns the scores, and asks for `--units`. Unjudged is not passed, applied to
 a number as basic as the unit of measure.
 
-## Provenance (plan schema 0.2.0)
+## Provenance (added at plan schema 0.2.0; the schema is 0.3.0 now)
 
 The structured provenance WP-2.1 asked for, after carrying `source_image`,
 confidence and the style reasoning as prose in `note`. Optional on every

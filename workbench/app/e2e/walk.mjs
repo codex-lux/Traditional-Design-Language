@@ -86,6 +86,18 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
     const saysSearched = /came from the\s+fast search/i.test(body);
     check(`the caption names the engine that drew the sheet (${eng})`,
       eng === 'cp-sat' ? (saysProved && !saysSearched) : (saysSearched && !saysProved));
+    // …and the PLATE says it too, not only the page prose beside it. WP-6.3 put the
+    // disclosure one level out, which is the one place it cannot travel: a printed or
+    // exported plate leaves the prose behind and a reader cannot tell a proof from a
+    // search. Measured on the plate's own caption element.
+    const plate = await page.evaluate(() => {
+      const n = document.querySelector('[data-plate-note]');
+      return n ? n.textContent.replace(/\s+/g, ' ').trim() : '';
+    });
+    check(`the plate's own caption names the engine (${eng})`,
+      eng === 'cp-sat'
+        ? /placement proved \(cp-sat\)/i.test(plate)
+        : /placement searched, not proved/i.test(plate));
   }
 }
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));

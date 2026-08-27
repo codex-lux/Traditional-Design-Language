@@ -330,6 +330,26 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     return out
 
 
+def _placed(plan, parti=None, candidates=250):
+    """Place the plan ONCE, on the proving engine, for every sheet in a drawing set.
+
+    WP-6.4. Until this, each sheet solved for itself and they did not agree: the plan SVG
+    went through `engine="auto"` (WP-6.3), while `export_dxf._solved_copy` forced
+    `engine="heuristic"` and `structure.build_section` took its own heuristic default. A
+    reader looking at a CP-proved plan sheet could download a DXF of a DIFFERENT placement
+    of the same house, and the section beside it was a third. One drawing set is one
+    building or it is nothing.
+
+    A record that already carries `geometry` is returned untouched -- a bench plan the
+    client has already had placed must not be re-solved out from under the sheet the reader
+    is looking at, which is the same rule `_solved_copy` applies.
+    """
+    if any("geometry" in r for lv in plan.get("levels", []) for r in lv["rooms"]):
+        return plan
+    geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    return geo.solve(plan, parti, candidates, engine="auto")
+
+
 def drawing(kind, plan, parti=None, face=None, candidates=250):
     """Run the build/ pipeline for one drawing and return its SVG, re-tokenized to
     the Drawn Language. Everything is generated from the record — the same modules
@@ -357,18 +377,21 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
     meta = {}
     try:
         if kind == "plan":
-            geo = core._mod("geometry", f"{B}/geometry.py")
             # WP-6.3: `auto`, not `heuristic`. This endpoint produces the SHEET — the thing
             # a reader looks at and judges the house by — and on the shipped Tidewater plan
             # the heuristic draws a kitchen with none of its five interior doors while the
             # CP engine draws all of them. A drawing is the wrong place to spend
-            # correctness to save seconds.
-            solved = geo.solve(plan, pt, candidates, engine="auto")
+            # correctness to save seconds. WP-6.4 moved the solve into `_placed` so the
+            # section beside this sheet is a section of THIS house.
+            solved = _placed(plan, pt, candidates)
             if "error" in solved:
                 return {"error": solved["error"]}
             rp = core._mod("render_plan", f"{B}/render_plan.py")
             rp.render(solved, out_path)
-            meta = {"relaxations": solved["geometry_report"].get("relaxations")}
+            # the solver's own account travels with the drawing: a sheet a reader may print
+            # has to be able to say whether its placement was proved or searched
+            meta = {"relaxations": solved["geometry_report"].get("relaxations"),
+                    "solver": solved["geometry_report"].get("solver")}
         elif kind == "elevation":
             EL = core._mod("elevation", f"{B}/elevation.py")
             elev = EL.build_elevation(plan, pt)
@@ -381,7 +404,14 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
                     "glass_module_in": elev.get("glass_module_in")}
         elif kind in ("section", "bearing"):
             st = core._mod("structure", f"{B}/structure.py")
-            section = st.build_section(plan, pt)
+            # WP-6.4: hand it the SAME placement the plan sheet draws. `build_section`'s own
+            # heuristic default is for its internal callers (plan_check's elevation layer,
+            # the composer's scoring loop); a user-facing sheet is not one of those, and
+            # taking that default here shipped a section of a different house.
+            placed = _placed(plan, pt, candidates)
+            if "error" in placed:
+                return {"error": placed["error"]}
+            section = st.build_section(plan, pt, geometry_result=placed)
             if "error" in section:
                 return {"error": section["error"]}
             rs = core._mod("render_section", f"{B}/render_section.py")
@@ -445,11 +475,21 @@ def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
                 EX = core._mod("export_dxf", f"{B}/export_dxf.py")
                 kind = kind or "plan"
                 p = _os.path.join(td, "out.dxf")
+                # WP-6.4: the exported sheet is a sheet of the house on screen. Both of
+                # these used to place the plan for themselves on the weaker engine, so a
+                # downloaded DXF was a different placement from the SVG the reader was
+                # looking at when they pressed the button.
                 if kind == "plan":
-                    res = EX.export_plan_dxf(plan, p, pt, candidates)
+                    placed = _placed(plan, pt, candidates)
+                    if "error" in placed:
+                        return placed
+                    res = EX.export_plan_dxf(placed, p, pt, candidates)
                 elif kind == "section":
                     st = core._mod("structure", f"{B}/structure.py")
-                    section = st.build_section(plan, pt)
+                    placed = _placed(plan, pt, candidates)
+                    if "error" in placed:
+                        return placed
+                    section = st.build_section(plan, pt, geometry_result=placed)
                     res = section if "error" in section else EX.export_section_dxf(section, p)
                 elif kind == "roof":
                     rf = core._mod("roof", f"{B}/roof.py")
