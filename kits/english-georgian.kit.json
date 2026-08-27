@@ -477,7 +477,7 @@
       "binding": "specified",
       "variants": [
         {
-          "id": "double-hung-sash",
+          "id": "double-hung",
           "status": "canonical"
         },
         {

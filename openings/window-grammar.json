@@ -261,11 +261,14 @@
   "none": "no opening at all. An interior wall takes a window only where a room's own record asks for a borrowed light; the rest get nothing, and saying so is not the same as having no rule"
  },
  "unit_types": {
-  "note": "THERE IS NO CLOSED ENUM, and pretending otherwise would be the third spelling of a fact. `unit_type` carries whatever the style's kit resolves for its `window_type` slot, verbatim. Measured across all 159 kits through build/resolve_kit.py's lineage: 119 styles resolve a value and 40 have none. The values are ~40 free strings and they are not all sash kinds — `double-hung-sash` (32), `double-hung` (22) and `casement-leaded` (12) are, but `clean-rectangle-flat-architrave` (8), `horseshoe-arch` (7) and `round-arched-paired` (5) describe an opening's SHAPE, and `double-hung` and `double-hung-sash` are the same thing spelled twice. Normalising them is a change to the kit corpus and needs its own ruling; inventing a mapping here would put the vocabulary in two places and let this file drift from the kits it reads.",
+  "note": "THERE IS NO CLOSED ENUM, and pretending otherwise would be the third spelling of a fact. `unit_type` carries whatever the style's kit resolves for its `window_type` slot, verbatim. Measured across all 159 kits through build/resolve_kit.py's lineage: 119 styles resolve a value and 40 have none. WP-7.4 merged the three exact duplicate spellings this file reported — `double-hung-sash` into `double-hung` (which is the spelling elements/slots.json already gives as an example), `round-arched` into `round-arch`, `round-headed-window` into `round-headed` — so the same 119 styles now resolve 21 distinct picks rather than 22, and `double-hung` carries the 54 that were split 32/22. Nothing else moved: the consumed pick and the resolved variants list were snapshotted for all 164 styles before and after, and 0 differed beyond the rename, which matters because build/compose.py takes the FIRST non-forbidden variant, so list order is the semantics. WHAT IS STILL WRONG IS NOT SPELLING BUT AXIS: 20 of the surviving 41 ids describe an opening's head SHAPE or its SURROUND rather than its sash — `clean-rectangle-flat-architrave` (8), `horseshoe-arch` (7), `round-arched-paired` (5) — and the corpus already has the slots that own them (`arch`, added at ontology 0.7.0, plus window_head_* and window_surround_*). Moving them changes what 24 of 119 styles resolve as their window type and is its own ruling, so they are declared and counted in elements/slots.json rather than migrated here.",
   "observed": {
    "styles_resolving": 119,
    "styles_with_no_answer": 40,
-   "distinct_values": "~40"
+   "distinct_values_resolved": 41,
+   "distinct_values_consumed": 21,
+   "consumed_top": {"double-hung": 54, "casement-leaded": 12, "clean-rectangle-flat-architrave": 8, "horseshoe-arch": 7, "paired-casement": 6, "round-arched-paired": 5},
+   "on_the_wrong_axis": 20
   }
  }
 }
