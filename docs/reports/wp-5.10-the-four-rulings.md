@@ -9,9 +9,9 @@ executes.**
 
 | | the prose | where it was |
 |---|---|---|
-| OQ 78 | *"Choose the test by whether an order is present, not by preference."* | the fault's own note |
+| OQ 84 | *"Choose the test by whether an order is present, not by preference."* | the fault's own note |
 | the sill | *"in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, **not this one**"* | the pack rule's own note |
-| OQ 79 | *"where a portico occurs it is one bay wide, centred"* | the kit's own rule |
+| OQ 85 | *"where a portico occurs it is one bay wide, centred"* | the kit's own rule |
 | the CR dormer | `binding: "open"` — the style declining to constrain the slot | the kit's own binding |
 
 The work was mostly making that prose executable. It also raised two new open questions, one of
@@ -19,7 +19,7 @@ them larger than anything it closed.
 
 ---
 
-## OQ 78 — two rival cornice rules, and the trap in the obvious fix
+## OQ 84 — two rival cornice rules, and the trap in the obvious fix
 
 `cornice-that-is-a-fascia` carries two secondaries on ONE expression: the domestic boxed eave at
 **0.35–0.55** of its own height, and the full entablature-derived case at **0.85–1.2**. Whichever
@@ -71,7 +71,7 @@ is supplied at its honest zero, and `entrance-slope-penetration`'s array seconda
 on the array's own area since WP-5.9 — declines instead of convicting a house of a patchy array it
 does not have. **Two workarounds retired by one field.**
 
-## OQ 79 — the centre bay is blind
+## OQ 85 — the centre bay is blind
 
 `roof.py` puts both stacks at `y_ft` **21.33** on a gable end **42.66 ft** deep — its exact centre
 line — and `_face_bays()` independently spaces an odd bay count evenly, putting a window centre at
@@ -100,7 +100,7 @@ exterior end stack, and inventing one is the failure this corpus keeps catching.
 **An exception was drafted and removed.** It would have exempted `tidewater-georgian` — the very
 style that raised the problem — on the grounds that `paired-and-joined-by-arched-curtain` leaves
 the space between two stacks free. `check_faults.py` refused it: *"exceptions without bounds become
-loopholes"*, and it was right. The nuance is real and belongs in OQ 79's closure instead: the kit
+loopholes"*, and it was right. The nuance is real and belongs in OQ 85's closure instead: the kit
 makes that variant canonical, `roof.py` places a single stack per end, and correcting *that*
 simplification would put the stacks either side of the centre bay and might restore the window.
 That is a roof-layer question, and it is recorded rather than pre-empted.
@@ -143,7 +143,7 @@ The second path was closed at the child, where the contradiction lives: the node
 is renamed to `projection_in`, which is the name the parent and every pack actually use, so the
 override lands and the slot carries **one** figure.
 
-## OQ 80 (new, and the largest thing here) — 133 addresses nobody was comparing
+## OQ 86 (new, and the largest thing here) — 133 addresses nobody was comparing
 
 That sill is not a one-off. `build/check_addresses.py` gained a third reporter, `kit_vs_pack()`,
 and the first measurement is **133 node parameters contradicted by a pack rule, 3 could not be
@@ -163,7 +163,7 @@ Ratcheted at 133, in the shape OQ 48's original 139 were handled. **The distribu
 concentrated**: `american-farmhouse-vernacular` 32, `federal-style` 31, `greek-revival-american`
 24, `craftsman-bungalow` 16, `georgian-colonial-american` 13 — five nodes carry 116 of the 133.
 
-## OQ 81 (new) — `open` does not mean open
+## OQ 87 (new) — `open` does not mean open
 
 `colonial-revival` bound `dormer` as `binding: "open"`, `status: "empty"` — the style explicitly
 declining to constrain the slot. `resolve_slots` stops its walk only on `specified` or `forbidden`;
@@ -236,7 +236,7 @@ the record is fixed, and moving it is the moment to ask what it was really for.
 ## Deliberately not done
 
 - **The 133 are not fixed.** They are counted, ratcheted and named. Fixing them is a migration.
-- **`open`'s semantics are not changed.** One instance is fixed; the mechanism is OQ 81.
+- **`open`'s semantics are not changed.** One instance is fixed; the mechanism is OQ 87.
 - **The `paired-and-joined-by-arched-curtain` simplification is not corrected** — `roof.py` still
   places one stack per gable end where the kit's canonical variant describes a joined pair.
 - **`spec-builder-colonial`'s roof still judges no pitch and no ridge.** The sheet says so now
@@ -260,7 +260,7 @@ Every item below passed 1,018 tests.
 
 **A false conviction on Second Empire.** A fault's tests live in **three** places, not two:
 `test`, `secondary_tests`, and `exceptions[].bounds_test`, which `check_measurements` substitutes
-for the *primary* on a matching style. OQ 78 and 79 guarded the first two. Second Empire's
+for the *primary* on a matching style. OQ 84 and 79 guarded the first two. Second Empire's
 bounds_test is `dormer_count / bay_count == 1.0`, so a house stating **no dormers** evaluated 0.0
 and was convicted of *Dormers Off the Rhythm* — the exact OQ 52 failure this package exists to
 prevent, in the one location neither ruling touched. Found by sweeping all 164 styles with one
@@ -269,7 +269,7 @@ the same shape in the other direction: `dormer_count at-most 1` read a stated ze
 acquittal rather than a conviction, on 1 style of 164.
 
 **The DXF drew the collision the SVG had just stopped drawing.** `export_dxf.py`'s bay loop reads
-`if kind == "door" … else: window`, so OQ 79's new `"blind"` fell into the `else` and the CAD file
+`if kind == "door" … else: window`, so OQ 85's new `"blind"` fell into the `else` and the CAD file
 put an opening where the chimney stands. Two surfaces disagreeing about one record. The export
 selftest could not see it — it round-trips *findings*, not geometry, which is WP-5.7's lesson
 recurring in the CAD path.
@@ -284,7 +284,7 @@ below: 3` and `dormer-off-the-bay` **cleared** the house on a number nobody had 
 missed every giant-order variant the corpus actually names, so `beaux-arts-american`,
 `neoclassical-revival` and `english-baroque` returned `0` with a note saying every canonical
 variant was "a void or an attached structure" — selecting the *domestic* cornice band for fronts
-whose cornice legitimately runs 0.85–1.2. OQ 78 had replaced "both rivals run, one convicts" with
+whose cornice legitimately runs 0.85–1.2. OQ 84 had replaced "both rivals run, one convicts" with
 "the wrong one runs, silently." Nine variants are now classified from the corpus's own words, and
 anything canonical that reads like an applied order and is *not* classified returns **unjudged**
 rather than 0.
@@ -297,7 +297,7 @@ guard is a fault going quiet, and this package had just taught every reader that
 Now required in the schema *and* refused in the evaluator, because the schema is only checked when
 `jsonschema` is installed.
 
-**`kit_vs_pack` compared across units, and OQ 80's number was wrong.** 71 of the 133 "corruptions"
+**`kit_vs_pack` compared across units, and OQ 86's number was wrong.** 71 of the 133 "corruptions"
 were cross-unit: 70 comparing a kit figure in **inches** against a pack rule stating a **ratio**,
 and one comparing `dutch-colonial-american`'s `gambrel_lower_slope` of **60–72 degrees** against
 `dutch-gambrel`'s **1.7321** — which is tan 60, *the same slope*, reported as a contradiction.
@@ -338,7 +338,7 @@ Each was verified by reverting the fix and confirming the rewritten test fails.
 chimney` pinned `'class="ch"' not in text`. WP-5.9 gave the stack a weight rung, the class became
 `ch w-prof`, and a *negative* assertion whose selector breaks inverts into a tautology — leaving
 the suite simultaneously asserting "no chimney on the front" and "two stacks on the front". Only
-the broken selector kept them apart. Its intent was reversed by OQ 74 on purpose; it is rewritten
+the broken selector kept them apart. Its intent was reversed by OQ 80 on purpose; it is rewritten
 to assert what the ruling chose, plus the stack's drawn **width**, which nothing had ever asserted.
 
 **And one hid a live disagreement.** `test_a_count_the_bays_can_carry_passes` recomputed
@@ -346,7 +346,7 @@ to assert what the ruling chose, plus the stack's drawn **width**, which nothing
 `bay_module_ft` is absent, so both sides fell back to the same invented 10.0. It concealed this:
 the roof said **6** bays and passed a record at `{"count": 6}` while the elevation laid out **5**
 and the fault corpus convicted the same house. Two records built from different rules that nothing
-compared — **OQ 79's own thesis, one layer up, shipped inside the package that closed OQ 79.** The
+compared — **OQ 85's own thesis, one layer up, shipped inside the package that closed OQ 85.** The
 roof no longer invents a module: the bay rhythm belongs to the facade layer, and where the
 footprint states none the roof declines.
 
@@ -364,13 +364,13 @@ distinction is where a fault's expression *measures* something at zero versus wh
 
 - **The `sash-light` sill scope is one node of 27** that make a masonry cladding canonical, and two
   more pack rules have the same shape (a note stating a scope the data does not carry). That is a
-  corpus migration, not a patch — **OQ 82**.
+  corpus migration, not a patch — **OQ 88**.
 - **Three measurements are still withheld** from `elevation.py` to work around conditional-test
   gaps that `applies_when` now covers, and `total_shutter_leaves` is supplied as an unconditional
-  constant of 2.0 regardless of whether the style carries shutters — **OQ 83**, and the second half
+  constant of 2.0 regardless of whether the style carries shutters — **OQ 89**, and the second half
   is OQ 52 residue in `_derive_measurements`, outside `NOT_MODELLED`'s reach.
 - **15 more `exceptions[].bounds_test` entries divide by a count with no guard.** None is live
-  today. Named in OQ 83 rather than guarded speculatively.
+  today. Named in OQ 89 rather than guarded speculatively.
 - **`check_addresses.py` is 27× slower** (0.11 s → 3.0 s) because `kit_vs_pack` re-resolves the
   cascade per node. Measured and accepted: 3 s on a build check that already takes twelve minutes.
 

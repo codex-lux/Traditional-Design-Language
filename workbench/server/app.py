@@ -18,6 +18,7 @@ from contextlib import asynccontextmanager
 from fastapi import Body, FastAPI, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.body_limit import RequestBodyLimitMiddleware
 
 from . import auth, corpus, evaluate, jobs, limits, mcp_mount
 
@@ -44,6 +45,46 @@ app = FastAPI(title="TDL Workbench", docs_url=None, redoc_url=None, openapi_url=
               lifespan=lifespan)
 
 
+# A request body is bounded by Starlette's own RequestBodyLimitMiddleware, registered below.
+#
+# THIS WAS A HAND-ROLLED ASGI MIDDLEWARE AND IT WAS WRONG IN FOUR WAYS. Its comment claimed
+# nothing at any layer bounded a body — "not uvicorn, not Starlette, not FastAPI" — and that was
+# false for the Starlette this project installs, which ships exactly this middleware. What the
+# hand-rolled one got wrong that the built-in gets right:
+#
+#   * It returned {"type": "http.disconnect"} on an oversize chunk and rewrote the outgoing
+#     status to 413. That works only where the handler's own error handling turns the resulting
+#     ClientDisconnect into a response. `rail_messages` calls `await request.json()` directly
+#     rather than through FastAPI's Body(...) machinery, so there is no such conversion: the
+#     exception propagated past the rewrite and the caller got a 500 with a traceback in the
+#     log. Reproduced before replacing it.
+#   * Where the rewrite did fire, the BODY was still the handler's own parse error — "There was
+#     an error parsing the body" — so the actionable message never reached anyone.
+#   * It bounded nothing on a handler that never reads its body: a 5x oversize chunked POST to
+#     /api/dev/reload returned 200.
+#   * Its only test used TestClient, which always sends Content-Length, so the whole streaming
+#     half was uncovered — delete the middleware and the test still passed. That is this audit's
+#     own headline defect, committed inside the fix that closes it.
+#
+# 8 MB is far above any real plan (the largest in plans/ is 26 KB) and far below what makes the
+# box sweat. Note it is a JSON-STRING ceiling for /api/ingest/dxf, where escaping inflates a DXF
+# by ~1.21x, so the real limit there is ~6.6 MB of drawing.
+MAX_BODY_BYTES = int(os.environ.get("WORKBENCH_MAX_BODY_BYTES") or 8 * 1024 * 1024)
+
+
+# Registered BEFORE the gate, which puts it INSIDE it — Starlette applies middleware in reverse
+# order of addition, so the last one added is outermost. Inside is required, not preferred: the
+# gate is a BaseHTTPMiddleware, which wraps `receive` in its own anyio task group, and an
+# exception raised inside that wrapper surfaces as an ExceptionGroup. The limiter answers 413
+# by catching its own _RequestBodyTooLarge, so wrapped that way it never matches and the caller
+# gets a 500 with a traceback instead. Measured both orders before choosing this one.
+#
+# The consequence is that auth runs first, so an unauthenticated oversize body is refused 401
+# rather than 413 — which is also the better answer: it stops an anonymous caller learning the
+# limit from a gated route.
+app.add_middleware(RequestBodyLimitMiddleware, max_body_size=MAX_BODY_BYTES)
+
+
 @app.middleware("http")
 async def gate(request: Request, call_next):
     path = request.url.path
@@ -61,6 +102,72 @@ async def gate(request: Request, call_next):
                                 content={"detail": {"error": "a password is required",
                                                     "auth": auth.state()}})
     return await call_next(request)
+
+
+class GZipExceptSSE:
+    """Compression, with the one exemption that has to be deliberate rather than discovered.
+
+    Nothing here compressed anything. The app bundle, the 214 KB search index, every corpus
+    response and the atlas's 1.17 MB fine coastline tier all went out whole — three times the
+    bytes on a platform that bills egress, and three times the transfer time on every call,
+    which is a share of what a reader experiences as lag.
+
+    Starlette's GZipMiddleware would do it, but it buffers a streaming response, and this
+    server has THREE that must arrive incrementally: /api/rail/messages, the compose event
+    stream, and /mcp — the MCP streamable-HTTP transport, which the first version of this list
+    missed. Buffering any of them turns a live progress line into a long pause and then
+    everything at once — the rail's whole point is that it answers as it thinks. So they are
+    exempted by path BEFORE the middleware sees the request, rather than hoping the content
+    type saves us after the fact.
+    """
+
+    # /assets is exempt for a DIFFERENT reason from the SSE routes, and it is the sharper of
+    # the two. Compressing the 1.19 MB bundle per request cost 569 ms at Starlette's default
+    # level 9, and 38 ms even at level 4, against 8 ms served plain — on a route outside both
+    # the auth gate (the shell must load to draw the password screen) and _heavy(). At level 9
+    # one anonymous caller at 1.76 req/s saturated the core, making a static GET five times
+    # more expensive than /api/plan/evaluate, the endpoint this audit calls the ceiling. And it
+    # blocked the EVENT LOOP rather than a worker: FileResponse streams in 64 KiB chunks and
+    # Starlette only offloads a chunk of 128 KiB or more, so every chunk compressed inline.
+    # These files are content-hashed and immutable, so they are compressed ONCE at build time
+    # instead — see ImmutableStatic and workbench/scripts/precompress.py.
+    EXEMPT_PREFIXES = ("/assets/",)
+
+    # LEVEL 4, NOT Starlette's default of 9. For /api/search/index, 214,229 bytes raw: level 9
+    # costs 9.01 ms and emits 52,293 bytes; level 4 costs 2.58 ms and emits 54,937. That is
+    # 3.5x the CPU for 4.6% fewer bytes, on a server measured at one core and ~2 evaluates a
+    # second. The first version passed only minimum_size and so inherited 9 without choosing it.
+    COMPRESSLEVEL = 4
+
+    def __init__(self, app, minimum_size=600, compresslevel=COMPRESSLEVEL):
+        from starlette.middleware.gzip import GZipMiddleware
+        self.plain = app
+        self.zipped = GZipMiddleware(app, minimum_size=minimum_size,
+                                     compresslevel=compresslevel)
+
+    def _exempt(self, path):
+        """True for anything that must not go through the compressor."""
+        if path.startswith(self.EXEMPT_PREFIXES):
+            return True                                   # compressed at build time instead
+        # /mcp is the MCP streamable-HTTP transport and it is text/event-stream too. It was
+        # missing from the first version of this list, which survived only because this
+        # Starlette excludes that content type by default — the very mechanism this class
+        # exists in order not to rely on, and one no requirements pin guarantees.
+        if path == "/mcp" or path.startswith("/mcp/"):
+            return True
+        if path.startswith("/api/rail/messages"):
+            return True
+        return path.startswith("/api/jobs/") and path.endswith("/events")
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.plain(scope, receive, send)
+        if self._exempt(scope.get("path", "")):
+            return await self.plain(scope, receive, send)
+        return await self.zipped(scope, receive, send)
+
+
+app.add_middleware(GZipExceptSSE)
 
 
 @app.post("/api/login")
@@ -236,7 +343,7 @@ def vocabulary(slot: str = None, style: str = None, include_constraints: bool = 
 def check_measurements(body: dict = Body(...)):
     return core.check_measurements(body.get("measurements") or {},
                                    style=body.get("style"), slot=body.get("slot"),
-                                   limit=body.get("limit", 40))
+                                   limit=_clamp(body.get("limit"), default=40, cap=1000))
 
 
 @app.post("/api/check/constraints")
@@ -319,6 +426,20 @@ def example_plan(name: str):
                                     "detail": str(e)[:200]})
 
 
+def _clamp(value, default, cap, floor=1):
+    """An int from a request body, or the default, bounded and never raising.
+
+    /api/check/measurements read `body.get("limit", 40)` raw. The commit that clamped
+    /api/compose said it was fixing "the one heavy route reading the value raw" — it was not
+    the one, and this was the sibling it walked past. Same failure on a non-numeric value: an
+    unhandled ValueError into a 500.
+    """
+    try:
+        return max(floor, min(cap, int(value if value is not None else default)))
+    except (TypeError, ValueError):
+        return default
+
+
 def _candidates(body, default=250, cap=2000):
     """Clamp the search width: it multiplies a full placement loop, so an
     unbounded value is a self-inflicted denial of service on a local tool."""
@@ -356,7 +477,11 @@ def compose(request: Request, body: dict = Body(...)):
     brief = body.get("brief")
     if not brief:
         raise HTTPException(status_code=422, detail={"error": "body.brief is required"})
-    res = jobs.submit(brief, candidates=int(body.get("candidates", 4)))
+    # _candidates, like every sibling endpoint: this was the one heavy route reading the
+    # value raw, so a non-numeric `candidates` raised ValueError into an unhandled 500. The
+    # work is catalogue-bounded anyway (pick_partis cannot exceed the 21 partis), so the cap
+    # is about consistency and the 500, not about a large attack surface.
+    res = jobs.submit(brief, candidates=_candidates(body, default=4, cap=24))
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
     return res
@@ -440,7 +565,14 @@ async def rail_messages(request: Request):
     body = await request.json()
     # Identity, not the session cookie itself: a Cloudflare Access email outranks it, and
     # a caller with neither still gets a stable-enough key. See auth.identity.
-    stream = rail.stream_turn(body, identity=auth.identity(request))
+    # Bridged onto a dedicated thread rather than handed to StreamingResponse directly.
+    # stream_turn is a SYNC generator making blocking SDK calls, and Starlette would wrap it in
+    # iterate_in_threadpool — one anyio token per next(), held for a whole API round trip, out
+    # of a pool 40 wide for the whole application, with no timeout to release it between
+    # rounds. Same mechanism jobs.events was fixed for, and strictly worse; see
+    # jobs.bridge_sync_stream for why the rail is bridged rather than rewritten.
+    identity = auth.identity(request)
+    stream = jobs.bridge_sync_stream(lambda: rail.stream_turn(body, identity=identity))
     return StreamingResponse(stream, media_type="text/event-stream",
                              headers={"Cache-Control": "no-cache",
                                       "X-Accel-Buffering": "no"})
@@ -448,7 +580,14 @@ async def rail_messages(request: Request):
 
 # ----------------------------------------------------------------- dev
 @app.post("/api/dev/reload")
-def dev_reload():
+def dev_reload(request: Request):
+    # Metered, because it is the most expensive thing an authorised caller can ask for and it
+    # was the one heavy route outside the heavy bucket. invalidate() drops the module cache,
+    # core._data and the search index, so the NEXT request re-globs and re-parses the whole
+    # corpus — measured at ~600 ms — and a loop here is high-amplification for a caller who
+    # pays almost nothing. Whether the route should exist in a production build at all is a
+    # separate question, recorded rather than decided here.
+    _heavy(request)
     return corpus.invalidate()
 
 
@@ -462,8 +601,52 @@ if MCP_APP is not None:
 # ----------------------------------------------------------------- static app
 APP_DIST = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                         "app", "dist")
+class ImmutableStatic(StaticFiles):
+    """Content-hashed assets, cached for a year and compressed once rather than per request.
+
+    Vite content-hashes every filename under /assets, so a given URL's bytes can never change
+    — a new build means a new name. That makes a year-long immutable cache exactly true rather
+    than merely convenient, and it stops the browser revalidating the bundle and the 1.17 MB
+    fine coastline tier on every load.
+
+    PRE-COMPRESSED, and that half is a fix rather than an optimisation. Running the dynamic
+    gzip over these files cost 569 ms a request at Starlette's default level 9 and 38 ms even
+    at level 4, against 8 ms plain, ON THE EVENT LOOP, on a route outside both the auth gate
+    and the rate limiter. `workbench/scripts/precompress.py` writes a `<name>.gz` beside each
+    asset at build time (the Dockerfile and CI both run it) and this serves that file when the
+    caller accepts gzip. Measured after: 9.6 ms, and the client gets level-9 bytes rather than
+    the level-4 the dynamic path had to settle for.
+
+    When no `.gz` exists the original is served uncompressed, so a tree that skipped the build
+    step still works; it simply ships more bytes.
+    """
+
+    def file_response(self, full_path, stat_result, scope, status_code=200):
+        gz = str(full_path) + ".gz"
+        # 200 only: a 206 Range response must describe the range of the resource the client
+        # asked for, and a 304 carries no body at all.
+        if status_code == 200 and _accepts_gzip(scope) and os.path.isfile(gz):
+            resp = super().file_response(gz, os.stat(gz), scope, status_code)
+            resp.headers["Content-Encoding"] = "gzip"
+            resp.headers["Vary"] = "Accept-Encoding"
+            # The ETag must belong to the RESOURCE, not to the .gz, or a client switching
+            # between encodings revalidates against the wrong validator.
+            resp.headers["ETag"] = f'"{stat_result.st_mtime_ns:x}-{stat_result.st_size:x}"'
+        else:
+            resp = super().file_response(full_path, stat_result, scope, status_code)
+        resp.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        return resp
+
+
+def _accepts_gzip(scope):
+    for k, v in scope.get("headers") or ():
+        if k == b"accept-encoding":
+            return b"gzip" in v.lower()
+    return False
+
+
 if os.path.isdir(APP_DIST):
-    app.mount("/assets", StaticFiles(directory=os.path.join(APP_DIST, "assets")),
+    app.mount("/assets", ImmutableStatic(directory=os.path.join(APP_DIST, "assets")),
               name="assets")
 
     @app.get("/{path:path}")
@@ -481,4 +664,11 @@ if os.path.isdir(APP_DIST):
             if (candidate == root or candidate.startswith(root + os.sep)) \
                     and os.path.isfile(candidate):
                 return FileResponse(candidate)
-        return FileResponse(os.path.join(APP_DIST, "index.html"))
+        # no-cache, because the docstring above used to CLAIM the shell "must stay
+        # revalidated" and nothing made it so: FileResponse sets only ETag/Last-Modified, so
+        # RFC 9111 heuristic freshness lets a browser serve a stale shell without asking.
+        # Now that /assets is immutable for a year, this response is the only thing that can
+        # carry a deploy to a returning visitor. no-cache means "revalidate", not "do not
+        # store", so the ETag still saves the bytes on an unchanged deploy.
+        return FileResponse(os.path.join(APP_DIST, "index.html"),
+                            headers={"Cache-Control": "no-cache"})

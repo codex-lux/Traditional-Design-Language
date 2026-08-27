@@ -18,6 +18,7 @@ import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip, FilterGroup } from '../Chrome.jsx';
 import { StylePicker } from '../components/StylePicker.jsx';
 import { PlateViewer } from '../components/PlateViewer.jsx';
+import { PullPane } from '../components/PullPane.jsx';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -252,8 +253,8 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         {/* the critique */}
-        <div style={{ width: 430, flex: 'none', borderRight: '1px solid var(--rule)', display: 'flex',
-          flexDirection: 'column', minHeight: 0 }}>
+        <PullPane pane="workbench" side="left"
+          style={{ borderRight: '1px solid var(--rule)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '12px 12px 10px', borderBottom: '1px solid var(--rule)' }}>
             <SeverityTally counts={counts} active={sev} onSelect={setSev} />
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 10 }}>
@@ -371,7 +372,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
               </div>
             )}
           </div>
-        </div>
+        </PullPane>
 
         {/* the sheet */}
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '20px 26px 30px',

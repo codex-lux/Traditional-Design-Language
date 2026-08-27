@@ -473,7 +473,7 @@ class TestRelieflsDrawnInLineNotInTone:
 
 
 class TestNoOpeningIsDrawnWhereAStackStands:
-    """OQ 79, closed 27 Aug 2026 (WP-5.10).
+    """OQ 85, closed 27 Aug 2026 (WP-5.10).
 
     `roof.py` puts this house's stacks at `y_ft` 21.33 on a gable end 42.66 ft deep — its exact
     centre line — and `_face_bays()` independently spaces an odd bay count evenly, which puts a
@@ -910,7 +910,7 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
         REWRITTEN 27 Aug 2026 (WP-5.10). This test used to pin `spec-builder-colonial`, whose
         `colonial-revival` bound `dormer` as `open` and therefore resolved a thatched cottage's
         dormer from `english-cottage-vernacular` — with `boxed-dormer`, the only dormer such a
-        house is built with, FORBIDDEN. That instance was fixed (OQ 81), so pinning it would now
+        house is built with, FORBIDDEN. That instance was fixed (OQ 87), so pinning it would now
         assert the bug. Twenty-nine other styles still inherit a dormer slot the same way; the
         mechanism is tested on one of them, chosen from the corpus at test time rather than named,
         so this cannot go stale the same way twice."""

@@ -25,7 +25,7 @@ def test_overview_counts(client):
     c = client.get("/api/overview").json()["counts"]
     # 97, not 95: ontology 0.7.0 added `arch` (OQ 46) and `expressed_frame` (OQ 47) on the
     # Phase 4 branch, which merged 25 Aug 2026.
-    # 210, not 209: WP-5.10 added `window-on-the-chimney-axis` (OQ 79) — the fault that
+    # 210, not 209: WP-5.10 added `window-on-the-chimney-axis` (OQ 85) — the fault that
     # catches an opening drawn on a chimney stack's own axis, which is two records built
     # from different rules that nothing had ever compared.
     assert c["element_slots"] == 97 and c["faults"] == 210

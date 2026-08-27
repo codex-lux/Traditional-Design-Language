@@ -23,8 +23,11 @@ therefore meant adding a container and a gate, not restructuring anything.
 
 Nor does any of it need a database. The corpus is JSON in git, baked into the image at
 build time and read-only at runtime; 164 styles, 159 kits, 209 faults and the rest come to
-27 MB, which is nothing to a container image and would be a migration pipeline to no
-purpose in Postgres. What state exists — a session cookie, rate-limit counters, the compose
+**12.3 MB across 725 files** — this said 27 MB until the infrastructure audit measured it —
+which is nothing to a container image and would be a migration pipeline to no purpose in
+Postgres. The whole shipped tree, corpus plus toolchain plus docs, is 20 MB; the image around
+it is ~733 MB, and 581 MB of that is Python packages. See
+`docs/reports/infrastructure-audit.md` §1. What state exists — a session cookie, rate-limit counters, the compose
 job registry — is in memory and is *supposed* to be lost on redeploy. A database becomes
 real when saved plans must outlive a deploy, and not before.
 
@@ -287,6 +290,34 @@ separate processes. A package marker fixes it; 393 tests now pass in one run.
 reporting an unranked precedence tie as the author's ruling. Both are real; both are
 product decisions about what a ranking means rather than patches, and taking either
 unilaterally would be deciding something the corpus is supposed to put to a human.
+
+## What it will actually carry
+
+Measured 27 August 2026 on 4 vCPU / 16 GB, against a real server with a fresh plan per
+request. Full method and tables in `docs/reports/infrastructure-audit.md` §2.
+
+**Reading is comfortable for dozens of people at once.** `/api/health` sustains ~560 rps,
+`/api/kit/{style}` ~170, `/api/search/index` ~105. None is close to saturated.
+
+**Editing a plan is the ceiling, and the ceiling is about one person.** The Plan Workbench
+re-evaluates on a 400 ms debounce after every change, and one `/api/plan/evaluate` costs
+338 ms of CPU — so one person dragging a wall consumes roughly 85% of the server's entire
+evaluate capacity. A second editor sees 899 ms p50, already past the debounce, so their
+edits queue. Four see 2.0 s; eight see 4.2 s. Throughput is flat at ~2 evaluates a second
+across the whole range, because it is one core, fully serialised.
+
+**Composing is serialised globally** behind `ThreadPoolExecutor(max_workers=1)`, ~8 s a job,
+one at a time, for everyone. That and the in-process job registry are why replicas stay at 1.
+
+So "a handful of people trying it" is right for reading, and optimistic by about a factor of
+two for editing. Four uvicorn workers would buy ~4x — measured — and would break compose,
+because `_JOBS` is process memory: six jobs submitted across four workers, five answered 404
+by a worker that had never seen them. That is OQ 36, and it now has numbers.
+
+**Egress.** A cold visit downloads 1.70 MB uncompressed. The server gzips now, so it is
+0.54 MB — 3.1x, and 1.15 MB saved per visitor, most of it the atlas's fine coastline tier.
+Check whether the platform edge compresses too:
+`curl -H 'Accept-Encoding: gzip' -sI https://<host>/assets/<hashed>.js | grep -i content-encoding`
 
 ## Running it, in order
 

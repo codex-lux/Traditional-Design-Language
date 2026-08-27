@@ -302,7 +302,7 @@ class TestScopedLineageEdges:
         assert len(still) >= 10, "the dress itself must still come through the edge"
 
 class TestASlotAStyleDeclinedToConstrainIsNotConstrainedForIt:
-    """OQ 79's sibling, closed 27 Aug 2026 (WP-5.10), and found by drawing rather than by testing.
+    """OQ 85's sibling, closed 27 Aug 2026 (WP-5.10), and found by drawing rather than by testing.
 
     `colonial-revival` bound `dormer` as `binding: "open"`, `status: "empty"` — the style
     explicitly declining to constrain the slot. `resolve_slots` only stops its walk on `specified`

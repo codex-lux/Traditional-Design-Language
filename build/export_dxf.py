@@ -512,7 +512,7 @@ def export_elevation_dxf(elev, path, face=None):
     ent = elev["entrance"]
     for cx_ft, kind in zip(front["centres_ft"], front["kinds"]):
         cx = cx_ft * IN
-        # A BLIND BAY CARRIES NO OPENING AT EITHER STOREY (OQ 79). The bay holds its place in the
+        # A BLIND BAY CARRIES NO OPENING AT EITHER STOREY (OQ 85). The bay holds its place in the
         # rhythm and a chimney stack stands on its axis, so there is nothing to draw. Missed when
         # the blind bay was introduced: this loop read `if door ... else window`, so `blind` fell
         # into the else and the CAD file drew the very collision the SVG had just stopped drawing

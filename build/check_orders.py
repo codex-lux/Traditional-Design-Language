@@ -74,7 +74,7 @@ def warn(pack_id, msg):
 def note(pack_id, msg):
     """A third state: neither wrong nor clean, but a fact the corpus must not hold silently.
 
-    OQ 72's whole cost was that a pack disagreeing with its own declaration said nothing, so the
+    OQ 78's whole cost was that a pack disagreeing with its own declaration said nothing, so the
     published account of it claimed the column family was sound. This is what a checker owes a
     known, ruled, handled condition -- disclosure without the false alarm of a warning."""
     notes.append(f"{pack_id}: {msg}")
@@ -407,10 +407,10 @@ def check_projection_datum(by_id):
                      f"pack is wrong with it")
 
 
-        # WHERE THE DECLARATION DOES NOT HOLD, reported per assembly-group (OQ 72, ruled
+        # WHERE THE DECLARATION DOES NOT HOLD, reported per assembly-group (OQ 78, ruled
         # 27 Aug 2026). This check read the SHAFT and nothing else, so it passed gibbs-ionic
         # clean while that pack's whole capital, whole pedestal and whole entablature
-        # contradicted the same declaration -- and the published account of OQ 72 said the
+        # contradicted the same declaration -- and the published account of OQ 78 said the
         # column family was sound on the strength of it.
         #
         # This is a NOTE, not an error. The declaration is the COLUMN's and is correct there;
@@ -427,7 +427,7 @@ def check_projection_datum(by_id):
                 if naked_groups:
                     note(pid, "declares axis, but its own figures read as relief from the naked "
                               f"in: {', '.join(naked_groups)} — drawn that way by evidence "
-                              f"(OQ 72), not by the declaration")
+                              f"(OQ 78), not by the declaration")
 
 def check_overlays(by_id):
     """Resolve every overlay_of against the loaded corpus.

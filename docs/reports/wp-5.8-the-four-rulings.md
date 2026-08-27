@@ -27,12 +27,12 @@ the file back from disk rather than trusting the write.
 `test_a_width_survives_inheritance_in_the_same_unit_as_its_own_pitch` checks the width/pitch ratio,
 so halving both numbers preserves it: 6.5/17.5 and 13/35 both read 37%. It catches a *mismatch*
 between two fields and is structurally blind to a *uniform* error in both — which is precisely what
-OQ 75 turned out to be. A transcription must be pinned against its quoted source, not its neighbour.
+OQ 81 turned out to be. A transcription must be pinned against its quoted source, not its neighbour.
 `TestTheTranscribedWidthsAreTheAuthoritiesOwnFigures` now pins all fifteen authored widths against
 the words each was read from, and a mutation test confirms it fails on the exact halving that
 shipped while the ratio test stays green.
 
-## 1. OQ 72 — detect the datum per assembly-group
+## 1. OQ 78 — detect the datum per assembly-group
 
 **Ruled: detect it, in one place.** The declaration is the *column's* and is correct there; the
 question was what to do about the assemblies it does not describe.
@@ -59,10 +59,10 @@ pedestals, 5 bases, 2 subplinths, 1 capital. `palladio-corinthian`'s cornice was
 
 `check_orders.py` gained a third reporter — `note()`, beside `err()` and `warn()` — and prints, for
 every axis pack, exactly which of its assemblies contradict its declaration. Fourteen do. The
-silence was the whole cost of this question: the published account of OQ 72 said the column family
+silence was the whole cost of this question: the published account of OQ 78 said the column family
 was sound because the check read the shaft and nothing else.
 
-## 2. OQ 75 — correct the Benjamin pitches
+## 2. OQ 81 — correct the Benjamin pitches
 
 **Ruled: correct them.** `benjamin-corinthian` 17.5 → **35**, `benjamin-ionic` 15.5 → **31**, matching
 each pack's own module block (*"Every figure here is in minutes"*) and its own quoted authority. The
@@ -72,7 +72,7 @@ swept for the same conversion error and carry none — it was confined to these 
 With §0's widths this gives 13/35 and 10.5/31: 37% and 34% solid, where every other modillion in the
 corpus sits.
 
-## 3. OQ 76 — draw the teeth
+## 3. OQ 82 — draw the teeth
 
 **Ruled: wire it in.** `repeat_positions()` had two bugs before it had a caller. Its `centre_on`
 branch filled forward only, so an anchored band left everything before the first anchor bare; and
@@ -93,7 +93,7 @@ a solid band that says why.
 *section*, and a section cannot show repetition — teeth are an elevation phenomenon. So the elevation
 sheet gets them; a half-section plate correctly does not.
 
-## 4. OQ 77 — serve the paths, retire both copies
+## 4. OQ 83 — serve the paths, retire both copies
 
 **Ruled: serve them from Python.** `build/profiles.py` emits `path` per pack and per face in MODEL
 inches (x out from the axis, y up). The order tool and the workbench plate apply an SVG
@@ -124,12 +124,12 @@ the source has to be in the test.
 every member it "corrected". Reading the file back afterwards costs one line and would have caught it
 immediately; it is now the habit in this package.
 
-**Grouping is part of a datum, not an afterthought.** The first cut of OQ 72's fix judged each
+**Grouping is part of a datum, not an afterthought.** The first cut of OQ 78's fix judged each
 assembly on its own evidence and produced an entablature whose frieze and cornice were measured from
 different origins — a subtler wrong answer than the one it replaced, and one that would have looked
 plausible on the sheet.
 
-**A promise made in three documents is still not a feature.** OQ 76's "drawn solid AND SAYS SO" was
+**A promise made in three documents is still not a feature.** OQ 82's "drawn solid AND SAYS SO" was
 described in the schema, the engine and the layer doc while no surface performed it — the same shape
 as the chimney judgment the audit found asserted in a comment, a report and a commit message and
 printed on no sheet. Two instances in two days suggests the failure mode is documentation written at
@@ -144,7 +144,7 @@ the strength of the zero, and its real radii would then be added to the naked an
 too wide. That is the OQ 65 bug returning by the back door.
 
 Checked rather than assumed. The combination occurs in exactly twelve groups and every one of them
-is an **entablature** — where it is the correct reading and the case OQ 72 was raised about: the
+is an **entablature** — where it is the correct reading and the case OQ 78 was raised about: the
 frieze records 0 because it *is* the naked, and the cornice's larger figures are relief from it.
 Confirmed independently, and this is the satisfying part: under the naked reading the Tidewater
 cornice's relief is **24.558 in against a height of 24.558 in** — exactly Gibbs's own stated rule

@@ -32,7 +32,8 @@ evaluate.
 ## Run it
 
 ```
-pip install -r workbench/requirements.txt
+pip install -r workbench/requirements.txt        # to run the server
+pip install -r workbench/requirements-dev.txt    # adds pytest + httpx, to test it
 cd workbench/app && npm install && npm run build && cd ../..
 make workbench          # → http://127.0.0.1:8177
 ```

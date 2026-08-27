@@ -357,7 +357,7 @@ class TestTheTranscribedWidthsAreTheAuthoritiesOwnFigures:
     `test_a_width_survives_inheritance_in_the_same_unit_as_its_own_pitch` checks width/pitch, so
     HALVING BOTH PRESERVES IT — 6.5/17.5 and 13/35 both read 37%. That test catches a MISMATCH
     between the two fields and is structurally blind to a uniform error in both, which is exactly
-    what OQ 75 was. A transcription has to be pinned against its quoted source, not its neighbour.
+    what OQ 81 was. A transcription has to be pinned against its quoted source, not its neighbour.
 
     Each row is (pack, assembly, member, width_parts, spacing_parts, the words it was read from).
     Changing a figure here means changing the quotation with it, which is the point: the number
@@ -433,7 +433,7 @@ class TestTheDatumDetectionsOwnBlindSpot:
     drawn about twice too wide — which is the OQ 65 bug, returning by the back door.
 
     In this corpus that combination occurs only on ENTABLATURES, where it is the correct reading
-    and the case OQ 72 was raised about: the frieze records 0 because it IS the naked, and the
+    and the case OQ 78 was raised about: the frieze records 0 because it IS the naked, and the
     cornice's larger figures are relief from it. Confirmed independently by Gibbs's own rule that
     the cornice's projection equals its height — which holds exactly under the naked reading of
     the Tidewater cornice (24.558 in of relief against 24.558 in of height) and not at all under

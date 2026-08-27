@@ -12,6 +12,7 @@ import { FilterInput } from '../components/FilterInput.jsx';
 import { StylePicker } from '../components/StylePicker.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
+import { PullPane } from '../components/PullPane.jsx';
 
 const DEFAULT_STYLE = 'tidewater-georgian';
 
@@ -174,8 +175,8 @@ export function KitSurface({ onCite, selection, setSelection }) {
       </FilterStrip>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        <div style={{ width: 340, flex: 'none', borderRight: '1px solid var(--rule)', overflow: 'auto',
-          minHeight: 0, padding: '14px 12px 22px' }}>
+        <PullPane pane="kit" side="left"
+          style={{ borderRight: '1px solid var(--rule)', overflow: 'auto', padding: '14px 12px 22px' }}>
           <h2 style={{ font: 'var(--fw-reg) var(--fs-d3)/1.1 var(--display)', fontVariationSettings: '"opsz" 48',
             letterSpacing: 'var(--tr-display)', margin: '0 0 3px' }}>{summary.name || styleId}</h2>
           <div style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', marginBottom: 16 }}>
@@ -220,7 +221,7 @@ export function KitSurface({ onCite, selection, setSelection }) {
               </p>
             </div>
           )}
-        </div>
+        </PullPane>
 
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, padding: '10px 10px 8px',

@@ -211,7 +211,7 @@ class TestTheSevenFaultsAreNoLongerDecidedOnFabricatedEvidence:
 
 
 class TestTheTwoRivalCorniceRulesNoLongerBothRun:
-    """OQ 78, closed 27 Aug 2026 (WP-5.10).
+    """OQ 84, closed 27 Aug 2026 (WP-5.10).
 
     `cornice-that-is-a-fascia` carries two secondaries on ONE expression — the domestic boxed eave
     at 0.35–0.55 of its own height, and the full entablature-derived case at 0.85–1.2 — so
@@ -255,7 +255,7 @@ class TestTheTwoRivalCorniceRulesNoLongerBothRun:
         r = core_module._eval_test(f["test"], m)
         assert r["status"] == "evaluated" and r["passes"] is True, (
             f"{plan_name}: the fault's PRIMARY test is still not running — it was skipped for "
-            "want of a name, not a number, from WP-3.2 until OQ 78 closed.")
+            "want of a name, not a number, from WP-3.2 until OQ 84 closed.")
 
     @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
     def test_without_the_guard_both_houses_would_be_convicted(self, plan_name, core_module,

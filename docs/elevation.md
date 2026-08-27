@@ -99,10 +99,10 @@ the port, and the second is why the drawing looked as it did:
   arithmetic exactly and could not see this, because it asserted the string and never the shape.
 * It drew from a naked of 0 while `gibbs-ionic`'s projections are radii from the column axis.
 
-The datum is now read from the pack's own evidence rather than its declaration — see **OQ 72**,
+The datum is now read from the pack's own evidence rather than its declaration — see **OQ 78**,
 because a pack's declared datum is true of its column and not of its entablature — and the inset
 is a full detail plate: every member named at its own height, the relief and the total dimensioned,
-and the projection disagreement of **OQ 73** printed rather than silently resolved. The successor
+and the projection disagreement of **OQ 79** printed rather than silently resolved. The successor
 guards are `tests/test_profiles.py` and `TestCorniceProfileGeometry`, which assert geometry
 (tangency, convexity, scale invariance, the datum) instead of path strings.
 

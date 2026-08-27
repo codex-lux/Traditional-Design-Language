@@ -302,7 +302,7 @@ model and says nothing about the ink.**
 
 ---
 
-# Addendum 2, 27 Aug 2026 — the chimneys, and OQ 74 closed by a comment that had gone false
+# Addendum 2, 27 Aug 2026 — the chimneys, and OQ 80 closed by a comment that had gone false
 
 Drawing the dormers meant reading `render_elevation.py`'s roof block, and twenty lines below it sat
 this, in the renderer's own voice:
@@ -318,7 +318,7 @@ no longer does, which is the failure this corpus polices hardest, sitting inside
 falsified it. That is worth more than the drawing it produced: the roof fix and this comment were in
 the same working tree for hours, and nothing connected them.
 
-**OQ 74 asked exactly this question** — *"whether `elevation_profiles` should carry the visible roof
+**OQ 80 asked exactly this question** — *"whether `elevation_profiles` should carry the visible roof
 PLANE on a long face rather than just its eave line, which is a small piece of geometry with
 consequences for every renderer that reads it … The first is almost certainly right and is not a
 renderer's call to make."* It was right, and it was four lines. `_profile_top_at()` now answers how
@@ -359,7 +359,7 @@ that is the width of the **stack**. A chimney breast at the base of an exterior 
 feet across. Drawing 47 ft of 22-inch brick asserts a chimney nobody measured, in the same shape as
 the 3 ft and the 2 ft this block just lost. The legend now says what is missing below.
 
-Drawing it from grade for one revision also surfaced something real, which is **OQ 79**: on the
+Drawing it from grade for one revision also surfaced something real, which is **OQ 85**: on the
 gable end the stack is at mid-depth and ran straight down through the centre window of both storeys.
 `roof.py` puts the stack on the centre line and `elevation.py` independently puts a window there,
 and nothing relates the two records. Either the gable end has no centre window, or the stack is off

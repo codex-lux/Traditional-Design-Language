@@ -94,11 +94,14 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **32 checks, 970 tests**
-(plus the workbench app suite, `node --test`). The test figure was 762 here and had been stale
-for some time -- `check_counts.py` polices counts DERIVED FROM THE CORPUS, and a test count is
-not one of them; nor are numbers written into JSX, which is how the Kit's header claimed 95
-slots against an ontology holding 97.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **33 checks, 1,009 tests**
+(plus the workbench app suite, **49** under `node --test`). Those two figures were 970 and 36 until
+the infrastructure audit collected them; before that the test figure was 762 and had been stale for
+some time, and the CHECK figure said 32 against a suite of 33 until WP-5.7 ran it and read the
+total. `check_counts.py` polices counts DERIVED FROM THE CORPUS, and neither a test count nor a
+check count is one of them, so **every number in this paragraph goes stale silently** -- nor are
+numbers written into JSX, which is how the Kit's header claimed 95 slots against an ontology
+holding 97.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
@@ -134,6 +137,73 @@ undulating elevation. **Read that report's closing section before touching this 
 the four things the package leaves open, chief among them a finding nobody has raised as a question
 yet — five unrelated traditions all say ornament works by being BOUNDED, and it should be tested
 against the whole style graph rather than noticed one pack at a time.
+
+**WP-5.7 changed the shell's proportions and the atlas's resolution, and both are worth
+knowing before touching the workbench.** Raised by Lucas against a screenshot of the map:
+*"the map is VERY crude and doesn't take well to zooming in since the resolution does not
+scale up as you zoom in"*, plus full screen, collapsible rails and draggable margins.
+**The crudeness was two defects wearing one symptom, and the first is the one to remember:
+`vector-effect` is not an inherited property**, so `vectorEffect="non-scaling-stroke"` set on
+a `<g>` reached none of the paths inside it, and the coastline's `strokeWidth={0.7}` was 0.7
+DEGREES of ink -- seventy pixels at the zoom the reader was complaining about. Third instance
+in this codebase of a per-element SVG property set on a parent and ignored; the e2e walk now
+asserts the general form (no stroked mark in the atlas may carry a `stroke-width` without a
+`vector-effect` of its own). The second defect was real too: one outline at every scale. There
+are three now -- `workbench/scripts/make_coastlines.py` generates coarse/medium/fine from
+Natural Earth 110m/50m/10m, `surfaces/phylo/coastTiers.js` fetches the one the scale has
+earned, and **while a finer tier is in flight or has failed the legend says what is actually on
+the plate** rather than letting a facet pass for a shore. `MIN_W` is 3 degrees because that is
+what the finest data can honestly draw, not because of taste. Rings are culled by generated
+bounding boxes; the graticule steps with the scale (`graticule.js`); the wheel handler is
+native and non-passive, because React's passive `onWheel` meant the page scrolled while the
+map zoomed. **A per-element SVG property set on a parent is this codebase's most-repeated bug and the
+guard against it must read COMPUTED STYLE**: the first version of that guard filtered on
+`getAttribute('stroke-width')`, but `stroke-width` IS inherited, so the very marks the bug
+lives on were dropped from the population before the test ran and reverting the fix left it
+green. **The atlas's viewBox now takes the pane's own shape and its height is DERIVED, not
+stored** -- a fixed 134:43 box in a 4:3 pane letterboxed 27.8 degrees of latitude, and the
+ring cull, the graticule and the pointer maths all read the viewBox as though it were the
+plate: South America vanished from the home view and a wheel zoom drifted 3.12 degrees every
+two notches. One mismatch, three defects; do not reintroduce a stored height.
+**`state/layout.js` is a fifth external store** -- pane widths and folds, in
+localStorage, deliberately NOT in the URL, because a citation that carried the sender's rail
+width would be handing the reader the sender's monitor. **It holds TWO numbers per pane** --
+what the reader chose, persisted, and what fits this window, derived -- because the first
+version had one and let a moment of a narrow window overwrite all eight panes' widths
+permanently. **Eight panes pull** — the two rails, the
+Phylogeny's record, and the five surface index panels that were fixed numbers in their own JSX
+(`components/PullPane.jsx`) — and widths clamp on READ as well as on write. Only the first
+three FOLD (`[` and `]`, or the spine): `PANES.foldable` is the difference between chrome and
+subject, and a Fault Corpus with its fault list folded away is not a decluttered Fault Corpus. The atlas can take the whole
+window; `layout.full` is the one piece of layout state that is not persisted, which is what
+"temporarily" means. `--rail-left` and `--rail-ai` are gone from `tokens.css` on purpose -- do
+not reinstate them. **The workbench app's `node --test` suite may not import anything from node_modules.**
+`check_all.py` runs it with no npm install, so a package import there is a green local run
+and a red CI one -- which is exactly what happened to WP-5.7's first audit pass, via
+`coastTiers.js` importing React for one hook. The hook lives in `useCoastline.js` now and
+`src/no_bare_imports.test.mjs` walks the suite's import graph to keep it that way.
+**Four adversarial audits then found eleven of the package's forty-three new assertions
+passing on the code they were written to guard** -- among them the fine coastline tier being
+replaceable wholesale by the coarse one with the suite green, and a documented keyboard
+control that was never wired to its element. Read the report's audit section before adding a
+test here; the suites are now mutation-checked and the harness is worth reusing. Report:
+`docs/reports/wp-5.7-the-atlas-and-the-shell.md` · new open question: OQ 72.
+
+**THE INFRASTRUCTURE AUDIT (27 Aug 2026) measured the deployment for the first time, and the
+headline is that the ceiling is about ONE person, not a handful.** Reading the corpus is
+comfortable for dozens (100-560 rps); **editing a plan is the bound**, because
+`PlanWorkbench.jsx` re-evaluates on a 400 ms debounce and one evaluate costs 338 ms of CPU, so
+one person dragging a wall consumes ~85% of the server's entire evaluate capacity. Two editors
+see 899 ms, four see 2.0 s, eight see 4.2 s. Throughput is FLAT across the whole ladder --
+~2 evaluates and ~4.5 drawings a second whatever the concurrency -- because it is one core,
+fully serialised. `workbench/scripts/load.py` is the harness; run it against a server you
+started, with `HEAVY_CALLS_PER_HOUR` raised, or you measure the rate limiter instead.
+**Four uvicorn workers buy ~4x and break compose five times in six** (measured: 6 jobs
+submitted, 5 answered 404 by a worker that never saw them) -- that is OQ 36, and the audit
+supplies the numbers its ruling was missing. **Storage: ~733 MB image, no volume, no database,
+and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`ortools` and
+their transitive `pandas`/`numpy`/`fontTools`.** Report:
+`docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
@@ -201,7 +271,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   them would make the check a generator of false accusations.
 - **A fault's tests live in THREE places and the third is the one that bites.** `test`,
   `secondary_tests`, and **`exceptions[].bounds_test`**, which `core.check_measurements`
-  SUBSTITUTES for the primary on a matching style. OQ 78 and 79 guarded the first two; Second
+  SUBSTITUTES for the primary on a matching style. OQ 84 and 79 guarded the first two; Second
   Empire's bounds_test `dormer_count / bay_count == 1.0` then convicted a house stating NO dormers
   the moment WP-5.9 began supplying that zero, and `craftsman`'s `dormer_count at-most 1` acquitted
   one. Neither reference plan is Second Empire or Craftsman, so 1,018 green tests saw nothing —
@@ -224,7 +294,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `cornice_projection_in` and publishing `cornice_projection_past_wall_face_in` instead: the same
   quantity under a different name. The fault then came back **clear** on one surviving secondary
   while its primary and two others were skipped for want of a NAME rather than a number — 1 of 5
-  tests evaluating. Closed at OQ 78 by taking the measurement the fault's own note always asked
+  tests evaluating. Closed at OQ 84 by taking the measurement the fault's own note always asked
   for (*"Choose the test by whether an order is present"*) and guarding both rivals with
   `applies_when`. **The obvious discriminator is a trap and is pinned as a test**:
   `gibbs_order_applies_to_style` is True on `tidewater-georgian` and means only that Gibbs Ionic is
@@ -235,7 +305,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   at `y_ft` 21.33 on a 42.66 ft gable end — its centre line — and `_face_bays()` independently
   spaces an odd bay count evenly, putting a window centre at 21.33. The elevation drew a window
   where a chimney stands, on every gable elevation this corpus has ever produced, and it was found
-  by DRAWING the stack from grade for one revision. Each record is right on its own. OQ 79 closed
+  by DRAWING the stack from grade for one revision. Each record is right on its own. OQ 85 closed
   it: the bay a stack stands on is `blind`, no opening at either storey, and
   `window-on-the-chimney-axis` catches the collision where a record states both. The generator
   publishes `count_of_openings_on_the_axis_of_a_chimney_stack` as a MEASURED zero — it resolved a
@@ -245,7 +315,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   the two never meet under one name. `tidewater-georgian` authored its brick sill at **0–1 in
   measured** while `sash-light` delivered **2.25 in "sloped about 1 in 6"** to the same slot — in a
   node whose kit FORBIDS the sloped sill and says why. `check_addresses.py` gained `kit_vs_pack()`
-  and the first measurement is **133, ratcheted** (OQ 80); five nodes carry 116 of them. **And the
+  and the first measurement is **62, ratcheted** (OQ 86); four nodes carry 47 of them. **And the
   rule reaches a node TWICE** — live through `eval_packs`, and baked into an ancestor's kit file as
   an authored parameter carrying `source: <pack>`. Scoping the binding (`slots_except`, new) closes
   one path only; the other is closed at the child.
@@ -254,7 +324,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   record in full. `colonial-revival`'s `dormer` was `open`, and resolved from
   `english-cottage-vernacular` with a thatch dormer canonical and **`boxed-dormer` forbidden**: the
   style could not declare the only dormer it is built with. That instance is bound now; the
-  mechanism is OQ 81 and reaches all 97 slots.
+  mechanism is OQ 87 and reaches all 97 slots.
 - **The moment a record can finally STATE a zero, every rule that presupposed the thing runs on it.**
   WP-5.9 gave the plan schema `declared.dormer` with three states — key absent (could not evaluate),
   `"none"` (a measured zero), an object (a house with dormers) — and both reference houses stated
@@ -266,7 +336,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   style; a test whose precondition fails is **not run**, not passed. **Any test whose expression
   divides by a count needs one**, or it errors on the house that has none. This closed
   `docs/elevation.md`'s own open question 1, which had asked for exactly this field after WP-3.2
-  found three instances — two of those three are guarded now, and the third is OQ 78.
+  found three instances — two of those three are guarded now, and the third is OQ 84.
 - **A fault could vanish from every list, and a fault in no list reads exactly like a clear one.**
   `check_measurements` sorted into present / clear / could-not-judge; a fault whose every test
   declines produces no evaluation, no missing measurement and no error, so it was appended to
@@ -302,7 +372,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   corpus — so fixing only the sweep flag would have made the drawings worse, which is
   "a fix that removes a shield is a fix that has to look at what the shield was covering" at
   corpus scale. `tests/test_drawn_geometry.py` is the guard: it reads the emitted path back
-  through the W3C endpoint-to-centre rule and asserts the drawn arc is the modelled one. **Both JS copies of the sweep rule are now gone (OQ 77): `build/profiles.py` serves
+  through the W3C endpoint-to-centre rule and asserts the drawn arc is the modelled one. **Both JS copies of the sweep rule are now gone (OQ 83): `build/profiles.py` serves
   finished paths in MODEL space and the two surfaces apply an SVG transform, so a mirror is a
   negative number in a matrix rather than a flag to derive. A source-reading test fails if arc
   arithmetic reappears in either file.**
@@ -330,8 +400,10 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `axis` while its frieze face records a projection of **0**, and a frieze cannot stand on the
   column's centre line — so entablature figures there are relief from the naked. Read the
   declaration literally over a cornice and every member narrower than the column radius clamps
-  flush, **deleting the bed mould**; `dist/orders.html` still draws it that way. `eave_cornice()`
-  detects the entablature's own datum from evidence instead. That is **OQ 72**, open. Beware also
+  flush, **deleting the bed mould**. That is **OQ 78, closed 27 Aug**: the datum is detected per
+  ASSEMBLY-GROUP from the pack's own evidence, in `profiles.py::axis_holds_for` and nowhere else —
+  `eave_cornice()` had carried a private copy and now delegates, and `dist/orders.html` stopped
+  clamping when it stopped computing geometry at all (OQ 83). Beware also
   a coincidence: the wrong reading put the cornice's relief within 1.7% of `facade-classical`'s
   independent figure, and taking that as corroboration would have shipped the bug.
 - **The honesty discipline has to reach the RENDERERS, not just the records.** OQ 52 swept twelve
@@ -390,27 +462,105 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   selector matching nothing, or a sheet that draws no labels at all, passes it vacuously.
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
+- **A sync generator handed to `StreamingResponse` holds an anyio threadpool token for its
+  whole life**, not for the instant it produces a line. Starlette wraps a sync iterator in
+  `iterate_in_threadpool`, one token per `next()`, and `jobs.events` blocked in
+  `queue.get(timeout=1.0)` — so readers watching a compose contended with every sync `def`
+  endpoint against a pool 40 wide for the whole application, `/api/health` included, which is
+  what the platform healthcheck polls. Measured at 25 ms / 194 ms / 1021 ms of health latency
+  for 8 / 48 / 80 open streams, flat after. `jobs.events` is `async` now, draining with
+  `get_nowait()` and awaiting between drains; the queue stays a thread-safe `queue.Queue`
+  because the compose worker puts to it from a plain thread, often before any consumer exists.
+  **If you add an SSE route, its body must be an async generator** —
+  `test_sse_does_not_hold_threads.py` pins it.
+- **Compression must skip SSE *and* `/assets`, by PATH.** `GZipExceptSSE` in `app.py` wraps
+  Starlette's gzip. THREE SSE routes go round it -- `/api/rail/messages`, `/api/jobs/*/events`
+  and **`/mcp`**, which the first version missed and which survived only on a Starlette
+  content-type default no requirements pin guarantees. **`/assets` goes round it for a
+  different and sharper reason**: compressing the 1.19 MB bundle per request cost 569 ms at
+  Starlette's default level 9 and 38 ms even at level 4, against 8 ms plain -- on the EVENT
+  LOOP, because `FileResponse` streams 64 KiB chunks and Starlette only offloads at 128 KiB,
+  and on a route outside both the auth gate and the rate limiter. One anonymous caller at
+  1.76 req/s saturated the core. `workbench/scripts/precompress.py` writes a `.gz` at build
+  time and `ImmutableStatic` serves it: 9.6 ms, better ratio, zero per-request CPU.
+  **Never pass only `minimum_size` to `GZipMiddleware`** -- `compresslevel` then inherits 9,
+  which is 3.5x the CPU of level 4 for 4.6% fewer bytes. **The obvious test for the SSE half
+  cannot fail**: Starlette holds a streaming response uncompressed until it exceeds
+  `minimum_size` and the first SSE chunk is a few dozen bytes, so asserting
+  `content-encoding != gzip` on a real stream passes with the exemption deleted. Assert the
+  middleware's dispatch instead.
+- **Do not hand-roll a request body limit; Starlette ships `RequestBodyLimitMiddleware`.** A
+  hand-rolled one here was wrong four ways, the sharpest being a 500 instead of a 413 on
+  `/api/rail/messages` (it reads its body directly, so nothing converted the `ClientDisconnect`
+  the middleware induced). **Register it INSIDE the auth gate.** The gate is a
+  `BaseHTTPMiddleware`, which wraps `receive` in an anyio task group; the limiter answers 413
+  by catching its own `_RequestBodyTooLarge`, and wrapped that way the exception surfaces as an
+  `ExceptionGroup` it never matches. Outside the gate: 500 plus a traceback. Inside: a clean
+  413. Both measured.
+- **`copy_json` is `json.loads(json.dumps(o))`, so caching a cheap build can be slower than the
+  build.** An audit cached `corpus.phylogeny()` on the argument that it was "the same bug as
+  the search index, one endpoint over" and made it **7.8x slower**: the rebuild walks
+  already-in-memory `core._data()` at 0.23 ms, the cached path pays 1.79 ms to copy 157 KB out.
+  The endpoint costs ~20 ms end to end and the build was 1.1% of it -- the rest is FastAPI's
+  encoder. `search_index()` IS worth caching (2.74 ms rebuild, re-globs 21 files) and returns
+  the SHARED object with no copy. Measure before imitating a neighbouring cache.
+- **An instrument that cannot fail is worse than a test that cannot fail**, because its output
+  is a number rather than a green tick. `workbench/scripts/load.py` misreported three separate
+  times: it timed an IDLE server at its most-loaded point (the job had finished and the streams
+  had closed), it read 5.0 ms for an endpoint that costs 215 ms (it replayed one plan into
+  `_SOLVE_CACHE`), and it measured the UNCOMPRESSED path throughout while being used to say
+  compression was free (`urllib` sends no `Accept-Encoding`). It now refuses a point it cannot
+  hold, carries a fresh plan id, and asks for gzip.
+- **A caller-supplied parti id becomes a path in exactly one place: `core.load_parti`.** Three
+  copies of that join existed and two were unsanitised — `core.place_plan` carried the 25 Aug
+  `basename` fix and a comment claiming it covered `/api/drawings/{kind}`, which does not route
+  through `place_plan` at all. Same shape as the citation grammar's three spellings. Do not add
+  a fourth; `test_parti_confinement.py` scans the tree for one.
+- **Benchmarking this server has two traps that both report success.** `build/geometry.py`
+  keys `_SOLVE_CACHE` on `json.dumps(plan)`, so replaying one plan measures the cache —
+  `/api/drawings/plan` read 5.0 ms that way against a real 215 ms, 43x out. And the heavy
+  endpoints are metered at 60/hour per identity, so an unmodified sweep measures
+  `limits.py`. `load.py` carries a fresh plan id per request; raise `HEAVY_CALLS_PER_HOUR`
+  for the run.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **83 entries, of which 21 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 73, 80, 81, 82, 83). **82 and 83
-  came from WP-5.10's own adversarial audit: the sill scope it fixed on one node reaches 27
-  masonry nodes and two more pack rules have the same shape (82), and three measurements are still
-  withheld to work around gaps `applies_when` now covers while `total_shutter_leaves` is supplied
-  as an unconditional constant of 2.0 whether or not the style carries shutters (83).** **78 and 79 closed
-  27 Aug (WP-5.10) and raised 80 and 81 between them: 80 is 133 addresses where a node's own
-  MEASURED parameter contradicts a pack rule, which OQ 48's pack-versus-pack measurement could
-  not see because the two are written under different names; 81 is that a slot bound `open` —
-  the style declining to constrain it — inherits its ancestor's constraints in full, because
-  `resolve_slots` stops its walk only on `specified` or `forbidden`.** **72, 73 and 74 were
-  WP-5.7's, about the geometry layer: the entablature's datum, two sourced rules disagreeing about
-  the cornice's projection, and the front elevation that could not draw its own chimneys. 72 and
-  74 are closed — 74 by WP-5.9, which found the renderer still asserting in a twelve-line comment
-  the flat-eave-line behaviour the roof layer had stopped having earlier in the same package, and
-  two invented constants underneath it putting a brick bar in the sky.** **78 and 79 are WP-5.9's,
-  from the dormer layer: `cornice-that-is-a-fascia`'s two rival secondaries, where whichever is
-  right the other convicts the house — inert today only because it tests on a measurement name
-  nothing supplies — and a gable-end-exterior stack standing on the centre line of a gable end
-  whose elevation puts a window there, with no layer asking whether they collide.** **69, 70 and 71 were raised AND
+  trusting any list of them. `docs/open-questions.md` holds **90 entries, of which 28 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 90).
+  The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
+  is an open one. That list is DERIVED from the file by
+  `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
+  which also requires the ids to be a bare comma-separated list on ONE line — putting prose
+  inside the parentheses makes its regex match nothing and the assertion fires on an empty set,
+  which is how this line was broken and caught while writing it.
+  **A THIRD PARALLEL-SESSION COLLISION LANDED 28 AUG, and it renumbered twelve.** Two sessions
+  again issued from 72. **Main's 72-77 keep their numbers** — the atlas's fine coastline tier and
+  the five from the infrastructure audit — because main merged first and its own reports cite
+  them. **The dormer and geometry block moved by six: 72-83 are now 78-89**, and the conversion
+  table is in the register. `f768c02` and `426ed35` are the two commit messages that carry the
+  old numbers and cannot be changed; every reference inside the tree has been converted. Three
+  collisions in three days is the procedure, not bad luck — the next session that reads the file
+  and adds one will collide a fourth time. **The work-package numbers collided too and were NOT
+  renumbered: there are two different WP-5.7s** (main's atlas, this branch's geometry layer), kept
+  apart only by their report filenames. That is **OQ 90**, and until it is ruled, cite the report
+  and never the number.
+  **88 and 89 came from WP-5.10's own adversarial audit: the sill scope it fixed on one node
+  reaches 27 masonry nodes and two more pack rules have the same shape (88), and three
+  measurements are still withheld to work around gaps `applies_when` now covers while
+  `total_shutter_leaves` is supplied as an unconditional constant of 2.0 whether or not the style
+  carries shutters (89).** **84 and 85 closed 27 Aug (WP-5.10) and raised 86 and 87 between them:
+  86 is 62 addresses where a node's own MEASURED parameter contradicts a pack rule, which OQ 48's
+  pack-versus-pack measurement could not see because the two are written under different names;
+  87 is that a slot bound `open` — the style declining to constrain it — inherits its ancestor's
+  constraints in full, because `resolve_slots` stops its walk only on `specified` or `forbidden`.**
+  **78, 79 and 80 were WP-5.7's, about the geometry layer: the entablature's datum, two sourced
+  rules disagreeing about the cornice's projection, and the front elevation that could not draw
+  its own chimneys. 78 and 80 are closed — 80 by WP-5.9, which found the renderer still asserting
+  in a twelve-line comment the flat-eave-line behaviour the roof layer had stopped having earlier
+  in the same package, and two invented constants underneath it putting a brick bar in the sky.**
+  **84 and 85 are WP-5.9's, from the dormer layer: `cornice-that-is-a-fascia`'s two rival
+  secondaries, where whichever is right the other convicts the house — inert today only because
+  it tests on a measurement name nothing supplies — and a gable-end-exterior stack standing on
+  the centre line of a gable end whose elevation puts a window there, with no layer asking
+  whether they collide.** **69, 70 and 71 were raised AND
   ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
   and 66, colliding with main's block for the second parallel-session collision in two days;
   main keeps its numbers and these were reissued, with the conversion table at the foot of the

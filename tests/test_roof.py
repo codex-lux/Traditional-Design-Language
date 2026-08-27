@@ -317,8 +317,8 @@ class TestDormerRhythm:
         It was hiding a live cross-layer disagreement. The roof got 6 bays from that constant; the
         facade pack lays this front out as FIVE. At `{"count": 6}` the roof reported `ratio 1.0,
         ok True` while `plan_check` convicted the same house on 5 of 6 centred. Two records built
-        from different rules that nothing compared — OQ 79's own thesis, one layer up, shipped
-        inside the package that closed OQ 79. The roof no longer invents a module: the bay rhythm
+        from different rules that nothing compared — OQ 85's own thesis, one layer up, shipped
+        inside the package that closed OQ 85. The roof no longer invents a module: the bay rhythm
         belongs to the facade layer, and where the footprint states none this is unjudged."""
         plan, section = _tidewater_section(roof_module)
         assert not section["footprint"].get("bay_module_ft"), (

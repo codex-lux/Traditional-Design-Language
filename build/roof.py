@@ -511,7 +511,7 @@ def dormer_rhythm_check(plan, section, main):
     # package spent two commits removing. It gave 6 bays on a front the facade pack lays out as
     # FIVE, so at `{"count": 6}` the roof reported `ratio 1.0, ok True` while the fault corpus
     # convicted the same record on 5 of 6 centred -- two records built from different rules that
-    # nothing compared, which is OQ 79's own thesis, shipped inside the package that closed it.
+    # nothing compared, which is OQ 85's own thesis, shipped inside the package that closed it.
     # Found 28 Aug 2026 by this package's adversarial audit.
     #
     # The bay count belongs to the facade layer (`elevation.py::_face_bays`, from

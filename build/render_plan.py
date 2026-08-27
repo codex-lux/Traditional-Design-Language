@@ -74,13 +74,25 @@ def _balance(words, n):
 # still shrunk to fit, and no longer worth a minute of somebody's server.
 MAX_WORDS = 12
 
+# MAX_WORDS bounds how many ARRANGEMENTS are searched. It does not bound how much text each
+# arrangement is costed over, and _text_w walks every character of every line for each of the
+# C(11,2)=55 arrangements a 12-word name still gets. So the 73-second bomb closed and a
+# quieter one stayed open: measured here, twelve words of a thousand characters cost 74 ms and
+# twelve words of twenty thousand cost 1466 ms — per room, with room count unbounded by the
+# schema, on one POST /api/drawings.
+#
+# The cap is on the SEARCH, not on the text, because the rule above the function holds: a name
+# is drawn whole or not at all. Past MAX_CHARS the name takes the same pre-chunked path a
+# too-many-words name takes — still complete, still shrunk to fit, no longer costed 55 times.
+MAX_CHARS = 400
+
 def _fit_lines(text, max_w, max_h, preferred, floor, lead=1.2, max_lines=3):
     """(lines, size) for `text` inside max_w x max_h. The floor is a floor, not a
     target: a name that will not fit at it is still drawn, cramped and complete,
     because a reader can see cramped and cannot see truncated."""
     words = [w for w in str(text).split() if w]
     if not words: return None
-    if len(words) > MAX_WORDS:
+    if len(words) > MAX_WORDS or sum(len(w) for w in words) > MAX_CHARS:
         # chunked into max_lines runs rather than balanced: linear, and a name this long
         # has no good arrangement anyway
         k = -(-len(words) // max_lines)

@@ -120,7 +120,7 @@ authored editorially. `check_orders.py` refuses a tooth as wide as its own pitch
 swell from a divided semicircle and Chambers gives another construction; no pack in this corpus
 records either, and the facsimiles that would settle it are network-blocked.
 
-**The datum is detected per assembly-group, not taken from the pack's declaration** (OQ 72, ruled
+**The datum is detected per assembly-group, not taken from the pack's declaration** (OQ 78, ruled
 27 Aug 2026). A pack declares `projection_datum` once and it is not uniform inside one: `gibbs-ionic`
 declares `axis` — true of its shaft, whose body records exactly the semidiameter — while its frieze
 records 0, and a frieze cannot stand on the column's centre line. `pack_geometry::axis_holds_for()`
@@ -131,7 +131,7 @@ entablature is one group because architrave, frieze and cornice share a naked; t
 the column's three assemblies each have their own and are judged separately. `check_orders.py` prints
 a NOTE for every axis pack naming which of its assemblies contradict the declaration — 14 packs do.
 
-**The paths are serialised in Python, in model space, and no consumer re-derives a curve** (OQ 77).
+**The paths are serialised in Python, in model space, and no consumer re-derives a curve** (OQ 83).
 `pack_geometry` emits `path` per pack and per face in MODEL inches (x out from the axis, y up); the
 order tool and the workbench plate apply an SVG `<g transform="… scale(k,-k)">`. A model-space path
 has no handedness to get wrong — SVG mirrors the arcs itself. The two JavaScript copies of the sweep

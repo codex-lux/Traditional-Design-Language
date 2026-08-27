@@ -18,7 +18,7 @@ building; a slightly larger house is just a slightly larger house.
   python3 build/geometry.py plans/<id>.json [--out plans/<id>.geo.json] [--svg dist/<id>.svg]
 """
 from __future__ import annotations
-import json, os, math, random, argparse, importlib.util, copy
+import json, os, math, random, argparse, importlib.util, copy, hashlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def _mod(n, p):
@@ -1099,6 +1099,9 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
 
 
 _SOLVE_CACHE = {}
+# A plan larger than this is solved and returned but never cached — see solve(). 1 MB is ~40x
+# the largest record in plans/ and small enough that 64 of them cannot matter.
+MAX_CACHEABLE_BYTES = 1024 * 1024
 
 def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=25.0):
     # 25 s default, not 15: both reference plans need ~20-30 s of CP — a budget
@@ -1132,16 +1135,30 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=
                 "unsolved": True}
     # the parti's CONTENT keys the cache, not its id: an id-less parti stub
     # (tests build them) or two partis sharing an id must never collide
-    key = (json.dumps(plan, sort_keys=True, default=str),
-           json.dumps(parti, sort_keys=True, default=str) if parti else None,
+    plan_s = json.dumps(plan, sort_keys=True, default=str)
+    parti_s = json.dumps(parti, sort_keys=True, default=str) if parti else None
+    # HASHED, not stored. The key used to be the serialised plan itself, and 64 of those were
+    # retained — so a caller posting a large record 64 times pinned 64 copies of it in the key
+    # alone, on top of 64 deep-copied results. A plan record arrives over HTTP; its size is
+    # the caller's choice. sha256 makes the key constant-size whatever the record weighs.
+    key = (hashlib.sha256(plan_s.encode()).hexdigest(),
+           hashlib.sha256(parti_s.encode()).hexdigest() if parti_s else None,
            candidates, seed, engine, time_limit_s)
     hit = _SOLVE_CACHE.get(key)
     if hit is not None:
         return copy.deepcopy(hit)
     out = _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s)
-    if len(_SOLVE_CACHE) > 64:
-        _SOLVE_CACHE.clear()
-    _SOLVE_CACHE[key] = copy.deepcopy(out)
+    # And a large INPUT is not remembered at all. Stated precisely because the first version of
+    # this comment said "the VALUE is bounded too" and the guard below reads len(plan_s) — the
+    # input, not the cached result. The result is a solved plan, strictly larger than the record
+    # that produced it (~1.5x measured), so 64 entries just under the limit still retain
+    # something over 100 MB. That is far better than the unbounded original and it is not the
+    # bound the old sentence claimed. Every plan in plans/ is under 30 KB, so no real record is
+    # affected either way.
+    if len(plan_s) <= MAX_CACHEABLE_BYTES:
+        if len(_SOLVE_CACHE) > 64:
+            _SOLVE_CACHE.clear()
+        _SOLVE_CACHE[key] = copy.deepcopy(out)
     return out
 
 

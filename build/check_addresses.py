@@ -58,7 +58,7 @@ def load():
 # Pinned. own-scope collisions must stay 0 (OQ 48's closure). cascade-scope is a measured backlog
 # under OQ 51 and may only go DOWN -- it falls as the cascade is adjudicated.
 #
-# kit_vs_pack is a THIRD measured backlog, first counted 27 Aug 2026 (WP-5.10, OQ 80) and
+# kit_vs_pack is a THIRD measured backlog, first counted 27 Aug 2026 (WP-5.10, OQ 86) and
 # CORRECTED 28 Aug by that package's own adversarial audit. The first count was 133 and was
 # units-blind: 71 of its pairs compared a figure in inches against a pack rule stating a ratio,
 # and one compared 60-72 DEGREES against 1.7321 -- tan 60, the same slope, reported as a

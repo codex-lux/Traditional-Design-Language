@@ -273,7 +273,7 @@ function geomFor(pk, withPedestal){
    for the screen because sy() flips y, and a flip reverses the way an arc turns. Emits NO
    leading M: the caller owns where the pen starts, because the whole stack is one outline. */
 /* THE PATHS COME FROM PYTHON NOW, in MODEL inches (x out from the axis, y up), and this page
-   applies an SVG transform instead of walking the segments (OQ 77, ruled 27 Aug 2026).
+   applies an SVG transform instead of walking the segments (OQ 83, ruled 27 Aug 2026).
 
    What used to be here was `segCmds`, which re-derived the SVG sweep flag for every arc — and got
    it wrong twice over. It emitted the inverse of the correct flag, so every arc drew as its own

@@ -92,7 +92,7 @@ def test_trailing_newline_is_rejected_the_same_way_on_both_sides():
     assert not citations.REF_RE.match("style:craftsman\n")
 
 
-# ---------------------------------------------------------------- OQ 77: no fifth copy
+# ---------------------------------------------------------------- OQ 83: no fifth copy
 # The moulding geometry is constructed in build/profiles.py and serialised there. Two JavaScript
 # copies of the SVG sweep rule existed until 27 Aug 2026 and BOTH were wrong: each emitted the
 # inverse of the correct flag, so every arc in the corpus drew as its own mirror; and the order

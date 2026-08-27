@@ -214,7 +214,7 @@ def test_ifc_refusal_without_ifcopenshell(monkeypatch):
     assert EI.selftest() == 3
 
 def test_a_blind_bay_exports_no_opening_to_cad(tmp_path):
-    """OQ 79 reached the CAD file, and only because this audit went looking.
+    """OQ 85 reached the CAD file, and only because this audit went looking.
 
     A bay a chimney stack stands on is `blind` and carries no opening at either storey. The SVG
     renderer was taught that; `export_dxf.py`'s bay loop read `if kind == "door" ... else: window`,

@@ -626,7 +626,13 @@ def render_elevation(elev, path, face=None, scale=24.0):
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
          f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{PAL["ground"]}">']
     s.append(_style_block())
-    s.append(f'<text class="hd" x="{pad}" y="20">{_esc(elev.get("plan_id",""))} — {face} ELEVATION</text>')
+    # _esc on `face` too: it arrives as body.get("face") on /api/drawings and /api/export, and
+    # this string is rendered into the page by DrawingSet.jsx with dangerouslySetInnerHTML.
+    # Nothing was exploitable — elevation.py looks `face` up in FACES ("S","N","E","W") 38 lines
+    # earlier and a miss raises KeyError into a 422 — but that guard is incidental to this line,
+    # and an unescaped interpolation of request data protected only by a lookup somewhere else
+    # is one refactor from being live.
+    s.append(f'<text class="hd" x="{pad}" y="20">{_esc(elev.get("plan_id",""))} — {_esc(face)} ELEVATION</text>')
 
     ox, oy = pad, top
     X = lambda ft: ox + ft * scale
@@ -736,7 +742,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
                  f'x2="{X(span_ft):.1f}" y2="{Ypx(true_eave_ft - (cornice["cornice_height_in"]/12.0)):.1f}"/>')
 
     for cx, kind in zip(front["centres_ft"], front["kinds"]):
-        # A BLIND BAY IS DRAWN AS WALL (OQ 79). The bay is real -- it holds its place in the
+        # A BLIND BAY IS DRAWN AS WALL (OQ 85). The bay is real -- it holds its place in the
         # rhythm -- and the opening is not, because a chimney stack stands on that axis. Skipping
         # BOTH storeys is deliberate: an exterior end stack runs the full height of the wall.
         if kind == "blind":

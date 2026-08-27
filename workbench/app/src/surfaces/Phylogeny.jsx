@@ -9,7 +9,9 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { EdgeGlyph } from '../components/EdgeGlyph.jsx';
 import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
-import { FilterStrip, Chip, ChipGroup } from '../Chrome.jsx';
+import { FilterStrip, Chip, ChipGroup, PaneStub, FoldControl, ActionChip } from '../Chrome.jsx';
+import { Splitter } from '../components/Splitter.jsx';
+import { layout } from '../state/layout.js';
 import { FilterInput } from '../components/FilterInput.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
@@ -36,7 +38,7 @@ const yr = (v) => (v == null ? '?' : v < 0 ? Math.abs(v) + ' BC' : String(v));
 
 const PHYLO_SPEC = { view: { widens: true }, rank: {}, q: { type: 'text' }, claims: { type: 'bool' } };
 
-export function Phylogeny({ onCite, selection, setSelection }) {
+export function Phylogeny({ onCite, selection, setSelection, full, onFull, onExitFull }) {
   const [graph, setGraph] = React.useState(null);
   const [sel, setSel] = React.useState(selection?.style || DEFAULT_TAXON);
   const [compare, setCompare] = React.useState(null);
@@ -44,6 +46,13 @@ export function Phylogeny({ onCite, selection, setSelection }) {
   const [selInfo, setSelInfo] = React.useState(null);
 
   const filters = useSurfaceFilters(PHYLO_SPEC);
+  /* The record beside the drawing pulls too. It is 320px of prose against a map whose
+     whole errand is extent, and on a laptop that was the difference between seeing both
+     coasts of the Atlantic and seeing one. In full screen it is gone entirely: the atlas
+     asked for the window, and leaving a third of it as a panel would be answering a
+     different question. */
+  const panel = React.useSyncExternalStore(layout.subscribe, () => layout.width('phylo'));
+  const panelOpen = React.useSyncExternalStore(layout.subscribe, () => layout.isOpen('phylo'));
   const isMap = filters.values.view === 'map';
   const rankFilter = filters.values.rank;
   const q = filters.values.q;
@@ -154,6 +163,20 @@ export function Phylogeny({ onCite, selection, setSelection }) {
         onDismiss={() => nav.select({ massing: null })} />
       <FilterStrip filters={filters} right={
         <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          {/* THE WAY OUT LIVES HERE, not only in the atlas's legend.
+
+              It was only in `MapView`, and the FilterStrip is rendered in full screen —
+              so entering full screen on the map and then pressing the `tree` chip
+              unmounted MapView, taking the one visible exit with it, and left a
+              chrome-less shell whose only escape was a key nobody had been told about.
+              Two adversarial auditors found it independently. The strip survives both
+              readings, so the control belongs to the strip. */}
+          {full && (
+            <ActionChip affix={null} onClick={onExitFull}
+              title="Give the instrument back — or press escape">
+              ⤡ leave full screen · esc
+            </ActionChip>
+          )}
           <Chip on={showClaims} onClick={() => filters.set('claims', showClaims)}>
             show claimed ancestry
           </Chip>
@@ -195,7 +218,9 @@ export function Phylogeny({ onCite, selection, setSelection }) {
              of wool, and the two readings should agree about what is on screen. */
           <MapView rows={rows} edges={edges} sel={sel} compare={compare} onPick={pick}
             traditionHue={(r) => TRADITION_HUES[r.tradition] || 'var(--ink-4)'}
-            lit={lit} carries={CARRIES} showClaims={showClaims} rankFilter={rankFilter} />
+            lit={lit} carries={CARRIES} showClaims={showClaims} rankFilter={rankFilter}
+            full={!!full} onExitFull={onExitFull}
+            onFull={onFull ? () => onFull('phylogeny') : undefined} />
         ) : (
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '14px 18px 26px' }}>
           <div style={{ position: 'relative', height: 26, marginLeft: 210, marginBottom: 4 }}>
@@ -281,8 +306,15 @@ export function Phylogeny({ onCite, selection, setSelection }) {
         </div>
         )}
 
-        <div style={{ width: 320, flex: 'none', borderLeft: '1px solid var(--rule)', overflow: 'auto',
-          minHeight: 0, padding: '16px 14px 24px', background: 'var(--paper)' }}>
+        {!full && panelOpen && <Splitter pane="phylo" grows="right" />}
+        {!full && panelOpen && (
+        <div style={{ width: panel, flex: 'none', borderLeft: '1px solid var(--rule)',
+          minHeight: 0, background: 'var(--paper)', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: 'none', height: 24, display: 'flex', alignItems: 'center',
+          justifyContent: 'flex-end' }}>
+          <FoldControl pane="phylo" label="the taxon's record" side="right" />
+        </div>
+        <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '2px 14px 24px' }}>
           {selNode && (
             <>
               <Eyebrow>{selNode.rank}</Eyebrow>
@@ -394,6 +426,13 @@ export function Phylogeny({ onCite, selection, setSelection }) {
             </>
           )}
         </div>
+        </div>
+        )}
+        {/* Folded, the record is a spine rather than nothing: a pull past the floor is a
+            request to fold, and a fold with no visible way back is a trapdoor. */}
+        {!full && !panelOpen && (
+          <PaneStub pane="phylo" label="the taxon's record" spine="the record" side="right" />
+        )}
       </div>
     </div>
   );

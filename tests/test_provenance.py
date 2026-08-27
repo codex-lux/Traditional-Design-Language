@@ -92,7 +92,7 @@ def test_the_editorial_parameters_carried_forward_are_still_the_known_number():
     c = census()
     # 202, not 201: WP-5.10 authored ONE editorial parameter, `colonial-revival`'s dormer
     # `sash_pattern`. The style bound its dormer slot `open` and inherited an English cottage's
-    # (OQ 81), which stated no pattern, so the elevation had to draw that style's dormer sash as
+    # (OQ 87), which stated no pattern, so the elevation had to draw that style's dormer sash as
     # bare glass and say so on the sheet. A count parity and an alignment rule were drafted
     # alongside it and DROPPED: neither changes what is drawn, and both would have added unsourced
     # editorial calls to OQ 18's debt for documentation's sake. The corpus reports those two as

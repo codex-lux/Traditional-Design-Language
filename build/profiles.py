@@ -448,7 +448,7 @@ COLUMN_ASM = ("pedestal", "subplinth", "base", "shaft", "capital")
 def silhouette_path_model(geo):
     """The whole stack as ONE closed outline, in MODEL inches — x out from the axis, y up.
 
-    Emitted here rather than in JavaScript (OQ 77, ruled 27 Aug 2026). The page used to walk these
+    Emitted here rather than in JavaScript (OQ 83, ruled 27 Aug 2026). The page used to walk these
     segments itself and re-derive the SVG sweep flag while doing it, in two copies, one of which
     also read only the y-flip on a page that mirrors x on one half — so the two halves of every
     plate contradicted each other on every arc. A path in model coordinates has no handedness
@@ -565,7 +565,7 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
         return "entablature"
 
     def axis_holds_for(group_asms, naked):
-        """Is the PACK's `axis` declaration true of THIS group? (OQ 72, ruled 27 Aug 2026.)
+        """Is the PACK's `axis` declaration true of THIS group? (OQ 78, ruled 27 Aug 2026.)
 
         A pack declares `projection_datum` once and it is not uniform across the pack's own
         assemblies. `gibbs-ionic` declares `axis` -- true of its shaft, whose body records exactly
@@ -667,7 +667,7 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
             "segments": segs, "faces": faces,
         })
         out["unconstructed"].extend(uncon)
-    # OQ 77: the finished paths, so no consumer re-derives a curve or a sweep flag.
+    # OQ 83: the finished paths, so no consumer re-derives a curve or a sweep flag.
     out["path"] = silhouette_path_model(out)
     for a in out["assemblies"]:
         for f in a.get("faces", []):

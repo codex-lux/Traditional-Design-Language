@@ -223,7 +223,7 @@ def _face_bays(facade_pack, span_ft, has_entrance):
 def blind_bays_behind_stacks(face_rec, stack_axes_ft, stack_width_ft):
     """Mark any bay whose centre a chimney stack stands on as `blind`, in place.
 
-    OQ 79. `roof.py` puts this house's stacks at `y_ft` 21.33 on a gable end 42.66 ft deep -- its
+    OQ 85. `roof.py` puts this house's stacks at `y_ft` 21.33 on a gable end 42.66 ft deep -- its
     exact centre line -- and `_face_bays()` independently gives every face an odd bay count evenly
     spaced, which puts a window centre at 21.33 too. The two records were built from different
     rules and nothing compared them, so the elevation drew a window where a chimney stands. It was
@@ -413,7 +413,7 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     # DELEGATED, not detected here. This function used to carry its own copy of the rule, and
     # `build/profiles.py::pack_geometry` -- which feeds both order plates and the DXF exporter --
     # kept the pack's literal declaration, so the SAME cornice was drawn two ways, 2.37x apart,
-    # in one product. OQ 72 was ruled on 27 Aug 2026: detect per assembly-group, once, where every
+    # in one product. OQ 78 was ruled on 27 Aug 2026: detect per assembly-group, once, where every
     # consumer sees it. The rule and its evidence now live in axis_holds_for() over there.
     full = PE.dimension(gibbs_pack, reduced_module_in)
     geo = PROF.pack_geometry(full, gibbs_pack.get("column"), full.get("projection_datum"))
@@ -575,7 +575,7 @@ ORDER_AT_THE_EAVE = {
 # `beaux-arts-american`, `neoclassical-revival`, `english-baroque` and two more returned 0 with a
 # confident note saying every canonical variant was "a void or an attached structure", which
 # selects the DOMESTIC cornice band (0.35-0.55) for a front whose cornice legitimately runs
-# 0.85-1.2 and convicts it. OQ 78 replaced "both rivals run, one convicts" with "the wrong one
+# 0.85-1.2 and convicts it. OQ 84 replaced "both rivals run, one convicts" with "the wrong one
 # runs, silently" on five styles. A short hand list is fine for what it names; what it must not do
 # is answer confidently about what it does not.
 _LOOKS_LIKE_AN_ORDER = re.compile(r"giant|colossal|two-tier|full-height")
@@ -584,7 +584,7 @@ _LOOKS_LIKE_AN_ORDER = re.compile(r"giant|colossal|two-tier|full-height")
 def order_at_the_eave(porch_slot, pilaster_slot, declared):
     """Is an order applied to the WALL, so that the eave cornice is an entablature?
 
-    OQ 78. `cornice-that-is-a-fascia` carries two rival secondaries on one expression -- the
+    OQ 84. `cornice-that-is-a-fascia` carries two rival secondaries on one expression -- the
     domestic boxed eave at 0.35-0.55 of its own height and the full entablature-derived case at
     0.85-1.2 -- and whichever is right the other convicts the house. The fault states the
     discriminator in its own note ("Choose the test by whether an order is present, not by
@@ -784,7 +784,7 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
     # `dormer-off-the-bay` cleared the house on a number nobody had measured -- the OQ 52 class,
     # inside the package that closed it.
     #
-    # A BLIND BAY IS NOT A CANDIDATE EITHER (OQ 79): a chimney stack stands on that axis, so there
+    # A BLIND BAY IS NOT A CANDIDATE EITHER (OQ 85): a chimney stack stands on that axis, so there
     # is no window below for a dormer to centre on.
     face_rec = (faces or {}).get(face) or {}
     centres = [c for c, k in zip(face_rec.get("centres_ft") or [],
@@ -826,7 +826,7 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
         # `cornice-that-is-a-fascia`'s own expression names, and the same number
         # _derive_measurements publishes under that name. Passed in rather than re-derived: two
         # derivations of one quantity is how the elevation inset and the order plates came to
-        # draw the same cornice 2.37x apart (OQ 72).
+        # draw the same cornice 2.37x apart (OQ 78).
         if house_wall_in:
             ratio = cornice["cornice_height_in"] / house_wall_in
             dormer_wall_in = win_h + 2 * casing_in
@@ -1029,7 +1029,7 @@ def _derive_measurements(elev):
     })
 
     m.update({
-        # cornice_projection_in IS emitted now, and that is OQ 78 closing. It was withheld from
+        # cornice_projection_in IS emitted now, and that is OQ 84 closing. It was withheld from
         # WP-3.2 until 27 Aug 2026 because faults/cornice-that-is-a-fascia.json carries two RIVAL
         # secondaries on `cornice_projection_in / cornice_height_in` -- the domestic boxed eave at
         # 0.35-0.55 and the full entablature-derived case at 0.85-1.2 -- so supplying the name
@@ -1101,7 +1101,7 @@ def _derive_measurements(elev):
         "elevation_width_in": elev["front"]["outside_width_in"], "elevation_length": elev["front"]["outside_width_in"],
         "building_width_in": elev["front"]["outside_width_in"], "street_elevation_width_in": elev["front"]["outside_width_in"],
         "front_elevation_width": elev["front"]["outside_width_in"],
-        # A BLIND BAY IS A BAY AND NOT AN OPENING (OQ 79). `bay_count` counts bays -- the rhythm
+        # A BLIND BAY IS A BAY AND NOT AN OPENING (OQ 85). `bay_count` counts bays -- the rhythm
         # is five bays whether or not one of them is blinded by a stack -- but an OPENING count
         # must not include a bay with no opening in it. Found 28 Aug 2026 by this package's own
         # adversarial audit: these three read `bays["count"]` and would have reported an opening
@@ -1173,7 +1173,7 @@ def _derive_measurements(elev):
         # know"); here we do know, because we built the thing and know everything that is on it.
         "equipment_units_visible_on_the_entrance_elevation": 0.0,
         "count_of_non_chimney_non_dormer_objects_on_the_entrance_roof_slope": 0,
-        # OQ 79. A MEASURED ZERO, and it is the generator publishing that it resolved a collision
+        # OQ 85. A MEASURED ZERO, and it is the generator publishing that it resolved a collision
         # rather than that one never existed: on this house's gable ends the bay a stack stands on
         # IS blinded, and this says so in a form `window-on-the-chimney-axis` can check. Any other
         # producer -- an ingested drawing, a hand-authored record -- gets checked against the same
@@ -1234,7 +1234,7 @@ def _derive_measurements(elev):
     # Front elevation glazed area vs. gross front wall area, both real: window openings on both
     # storeys (door glass not counted -- a panelled door, not glazed) against the front's own
     # outside width times its total storey height.
-    # Blind bays carry no glass (OQ 79); counting their notional windows would inflate the glazed
+    # Blind bays carry no glass (OQ 85); counting their notional windows would inflate the glazed
     # area of a house whose stack stands where the window would have been.
     _open = sum(1 for k in front["kinds"] if k != "blind")
     gnd_win_count = max(0, _open - (1 if "door" in front["kinds"] else 0))
@@ -1502,7 +1502,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         span_ft = fp["width_ft"] if f in ("S", "N") else fp["depth_ft"]
         faces[f] = _face_bays(facade_pack, span_ft, has_entrance=(f == entrance_face))
         faces[f]["outside_width_in"] = round(span_ft * 12.0, 2)
-        # OQ 79: a bay a chimney stands on is BLIND. The two records -- roof.py's chimney plan
+        # OQ 85: a bay a chimney stands on is BLIND. The two records -- roof.py's chimney plan
         # positions and this file's evenly spaced odd bay count -- were built from different rules
         # and nothing compared them, so a window was drawn where a stack stands.
         axes = stack_axes_for_face(f, roof.get("chimneys"), fp)
@@ -1624,7 +1624,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                 "roof_run_in_front_of_dormer_face_measured_on_slope_in": dorm["roof_run_in_front_in"],
             })
 
-    # OQ 78: which of two rival cornice rules judges this house. Derived from the porch and
+    # OQ 84: which of two rival cornice rules judges this house. Derived from the porch and
     # pilaster slots the style actually resolves, never from `gibbs_order_applies_to_style`.
     order_at_eave, order_at_eave_note = order_at_the_eave(porch_slot, pilaster_slot,
                                                           plan.get("declared") or {})

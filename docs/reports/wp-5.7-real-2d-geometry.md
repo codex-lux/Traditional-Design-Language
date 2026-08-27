@@ -111,7 +111,7 @@ arithmetic exactly — and would have passed just as happily on the day the curv
 appearing, because it asserted the string and never the shape. That is the lesson worth keeping:
 **pinning the arithmetic of a curve nobody can see is not a guard.**
 
-**2. The projection datum is declared per pack and is not uniform inside one.** (OQ 72.) OQ 65 put
+**2. The projection datum is declared per pack and is not uniform inside one.** (OQ 78.) OQ 65 put
 `projection_datum` on the pack and had `check_orders.py` verify it against the shaft. True for the
 column; **not true for the entablature in the same packs**, and the packs say so themselves —
 `gibbs-ionic` declares `axis` while its frieze face records a projection of **0**, as does its
@@ -128,7 +128,7 @@ was a coincidence, and taking it as corroboration would have shipped a cornice w
 What settled it was reading the pack's own frieze projection instead of trusting a number that
 happened to match.
 
-**3. Two sourced rules give the cornice two different projections.** (OQ 73.) Gibbs: *"The
+**3. Two sourced rules give the cornice two different projections.** (OQ 79.) Gibbs: *"The
 projection of the Cornice equal to its height"* — 24.56 in. `facade-classical`'s envelope rule:
 `module / 14` — 10.53 in. Both sourced, both about the same cornice, differing by 2.3×. The record
 carries both with a disagreement note and the sheet prints both; nothing picks a winner.
@@ -145,7 +145,7 @@ hardcoded **36 in** over the top of that very slot — an invented constant of e
 class, surviving in the drawing where no measurement test could see it. That is now the corpus's
 own figure.
 
-**5. The front elevation still cannot show its chimneys.** (OQ 74.) `roof.py`'s long-face
+**5. The front elevation still cannot show its chimneys.** (OQ 80.) `roof.py`'s long-face
 silhouette is flat at the eave — two points, both at 25.44 ft — and models no roof mass above the
 cornice. An attempt to draw the portion of each stack clearing the roof was **withdrawn**: with the
 silhouette at the eave, that rule puts 22 ft of brick in front of a roof nobody modelled, which is
@@ -314,7 +314,7 @@ not just the records."* It did not apply that lesson to itself.
   sentence inside the member's note which halves minutes into parts against the pack's own module
   block. Corrected to their sources. **The underlying halved `spacing_parts` is pre-existing and
   was left as found** — changing a figure this session did not author, in a pack that argues both
-  ways, is a ruling (OQ 75).
+  ways, is a ruling (OQ 81).
 - **One width was reachable and skipped.** `gibbs-corinthian`'s modillion note works the figure out
   in its own words — *"each is 6 parts wide"* — and the sweep missed it while the docs say null
   means the authority published none. Added.
@@ -326,17 +326,17 @@ written as though they had been read off the page. That sentence was the bad par
 
 ## What is still open
 
-- **OQ 72 was under-scoped in both directions and has been widened.** It said the clamp is "true
+- **OQ 78 was under-scoped in both directions and has been widened.** It said the clamp is "true
   for the column; not true for the entablature." `gibbs-ionic`'s entire *capital* and entire
   *pedestal* each draw as one flat vertical line. And it named only `dist/orders.html` — the
   workbench plate consumes `pack_geometry()`, which takes the pack-level datum, so it carries the
   identical clamp on the product's primary surface. Corpus-wide: 192 entablature faces flush,
   **153 of them discarding a published non-zero projection**.
-- **OQ 75** — the two Benjamin pitches that contradict their own pack's stated unit.
-- **OQ 76** — `repeat_positions()` has no production caller, so no dentil or modillion band is
+- **OQ 81** — the two Benjamin pitches that contradict their own pack's stated unit.
+- **OQ 82** — `repeat_positions()` has no production caller, so no dentil or modillion band is
   actually drawn as teeth. The data is authored, correct and consistent; the rendering is not
   written, and three documents describe behaviour that exists nowhere.
-- **OQ 77** — the two JavaScript copies of the sweep rule are unguarded. The order tool's copy had
+- **OQ 83** — the two JavaScript copies of the sweep rule are unguarded. The order tool's copy had
   a second, independent bug (it read only the y-flip, while that page mirrors x on one half), so
   the two halves of every plate contradicted each other on every arc. Both fixed, neither pinned.
 

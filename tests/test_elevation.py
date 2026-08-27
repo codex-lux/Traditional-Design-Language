@@ -451,7 +451,7 @@ class TestRenderElevation:
         assert 'class="ch' in text   # tidewater-georgian-careful's own gable-end chimneys (WP-3.3)
         # And WHERE, because "a stack is on the sheet" was true of the version that drew it as a
         # bar floating in the sky at the top-left corner, 3 ft from the gable's front corner and
-        # touching no roof (see WP-5.9's report, and OQ 74).
+        # touching no roof (see WP-5.9's report, and OQ 80).
         import re as _re
         rects = _re.findall(r'<rect class="ch[^"]*" x="([-\d.]+)"[^>]*width="([-\d.]+)"', text)
         assert len(rects) == 1, "one stack per gable end"
@@ -469,7 +469,7 @@ class TestRenderElevation:
         that is not actually in that wall's plane", which was WP-3.3's finding and was right while
         `roof.py`'s long-face silhouette stopped at the eave: with no roof surface modelled there
         was nothing to say which part of a 47 ft stack clears the roof, so drawing any of it would
-        have been inventing. OQ 74 closed that (WP-5.9): `elevation_profile` carries the near roof
+        have been inventing. OQ 80 closed that (WP-5.9): `elevation_profile` carries the near roof
         PLANE on a long face, because parallel projection fills the band from eave to ridge, and
         the front elevation draws both end stacks — which the kit calls "visible from a mile away
         and conclusive against New England".

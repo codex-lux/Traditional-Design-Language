@@ -47,7 +47,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
    names the items that are **not supportable from this corpus**, the Baroque curved wall first
    among them — no figure for an undulating elevation exists in any of the 22 matching nodes. Then **WP-4.4** (images), which is currently
    environment-blocked — see its own status block.
-7. **Phase 5** — the last mile: WP-5.1, 5.2 and 5.5 are done; 5.3 and 5.4 remain.
+7. **Phase 5** — the last mile: WP-5.1, 5.2, 5.5, 5.6 and 5.7 are done; 5.3 and 5.4 remain.
 
 **Three open questions want a ruling before or alongside WP-4.6** *(since closed — OQ 62, OQ 63 and OQ 42 all carry rulings as of 25 Aug 2026; kept as written for the record)*, all raised by the pass above
 and none of them blocking: **OQ 62** (`area_weight` is read as a boolean and never as a share of
@@ -563,13 +563,13 @@ Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workben
 
 **The correction that did not land.** `529310c` states in its message, in the WP-5.7 report addendum and in the summary given to Lucas that two `width_parts` were corrected to their sources. They were not: the rewrite loop assigned the new value on reaching `spacing_parts`, then kept iterating and copied the file's original value back over it, while the NOTES were rewritten regardless — so two members carried a provenance sentence saying they had been corrected beside values that had not been. Fixed, verified by reading back from disk. **The guard added alongside could not have caught it, and that is the more useful finding:** the ratio invariant relates width to pitch, so halving BOTH preserves it (6.5/17.5 and 13/35 both read 37%). A transcription has to be pinned against its quoted source, not its neighbour — `TestTheTranscribedWidthsAreTheAuthoritiesOwnFigures` now pins all fifteen against the words each was read from, mutation-tested.
 
-**OQ 72 — detect the datum per assembly-GROUP, once.** Two signals, either settling it: a recorded 0 (impossible under the radius reading — what an entablature gives) or nothing in the group reaching its own naked (every member inside the shaft — what a capital gives). Only ever downgrades `axis` to `naked`. Grouping cost a first attempt: judged per assembly, `gibbs-ionic`'s cornice still read `axis` while its frieze read `naked` — an entablature in two coordinate systems, a subtler wrong answer than the one it replaced. `eave_cornice` delegates now, closing the 2.37× divergence between the inset and the plates. **Faces flush with their own naked 192 → 81; 60 assemblies across the 14 axis packs now read naked-relative.** `check_orders.py` gained `note()`, a third reporter beside `err` and `warn`, and prints which assemblies contradict each declaration — the silence was the whole cost of the question.
+**OQ 78 — detect the datum per assembly-GROUP, once.** Two signals, either settling it: a recorded 0 (impossible under the radius reading — what an entablature gives) or nothing in the group reaching its own naked (every member inside the shaft — what a capital gives). Only ever downgrades `axis` to `naked`. Grouping cost a first attempt: judged per assembly, `gibbs-ionic`'s cornice still read `axis` while its frieze read `naked` — an entablature in two coordinate systems, a subtler wrong answer than the one it replaced. `eave_cornice` delegates now, closing the 2.37× divergence between the inset and the plates. **Faces flush with their own naked 192 → 81; 60 assemblies across the 14 axis packs now read naked-relative.** `check_orders.py` gained `note()`, a third reporter beside `err` and `warn`, and prints which assemblies contradict each declaration — the silence was the whole cost of the question.
 
-**OQ 75 — the Benjamin pitches corrected** to 35 and 31, matching each pack's own module block ("Every figure here is in minutes") and its quoted authority; the halving sentences in both notes corrected with them; the rest of the Benjamin members swept and clean.
+**OQ 81 — the Benjamin pitches corrected** to 35 and 31, matching each pack's own module block ("Every figure here is in minutes") and its quoted authority; the halving sentences in both notes corrected with them; the rest of the Benjamin members swept and clean.
 
-**OQ 76 — the teeth are drawn.** `repeat_positions()` had two bugs before it had a caller (filled forward only; two anchors double-claimed the teeth between them). The elevation cornice lays its band out anchored on the bay centres. **Where a width is unstated the band draws solid and the sheet prints the reason** — the behaviour three documents described and no surface performed. The ruling is narrower than it looks and the report says so: a section cannot show repetition, so the order plates correctly do not get teeth.
+**OQ 82 — the teeth are drawn.** `repeat_positions()` had two bugs before it had a caller (filled forward only; two anchors double-claimed the teeth between them). The elevation cornice lays its band out anchored on the bay centres. **Where a width is unstated the band draws solid and the sheet prints the reason** — the behaviour three documents described and no surface performed. The ruling is narrower than it looks and the report says so: a section cannot show repetition, so the order plates correctly do not get teeth.
 
-**OQ 77 — the paths are serialised in Python and both JS copies are gone.** `pack_geometry` emits `path` per pack and per face in MODEL inches; the two surfaces apply an SVG `<g transform="… scale(k,-k)">`. **A model-space path has no handedness for a consumer to get wrong** — SVG mirrors the arcs itself. Better than testing two copies against each other, because it removes the thing being tested. Guarded by a source-reading test (comments stripped, so the history stays in prose) plus one asserting Python actually serves paths with arcs in them; both mutation-tested.
+**OQ 83 — the paths are serialised in Python and both JS copies are gone.** `pack_geometry` emits `path` per pack and per face in MODEL inches; the two surfaces apply an SVG `<g transform="… scale(k,-k)">`. **A model-space path has no handedness for a consumer to get wrong** — SVG mirrors the arcs itself. Better than testing two copies against each other, because it removes the thing being tested. Guarded by a source-reading test (comments stripped, so the history stays in prose) plus one asserting Python actually serves paths with arcs in them; both mutation-tested.
 
 Report: `docs/reports/wp-5.8-the-four-rulings.md`. **No new open questions.**
 
@@ -581,14 +581,99 @@ Report: `docs/reports/wp-5.8-the-four-rulings.md`. **No new open questions.**
 
 Built: **`build/profiles.py`**, which constructs each moulding from the member's own two numbers — a quarter of an ellipse for an ovolo, two tangent arcs through the chord's midpoint for a cyma (radius falling out of the geometry, not chosen), a half round for a torus — plus tooth-by-tooth repetition, the OQ 65 datum rule stated once, and serialisers to SVG and to DXF **bulges** so a circular arc reaches CAD exactly. `width_parts` on 14 members, every figure TRANSCRIBED from the member's own note (Lucas ruled editorial authoring acceptable; it was not needed and none was written). The order tool lost `segTo()`/`buildGeometry()` — 106 lines of Bézier constants and a duplicate datum — for a 30-line mapper: geometry is linear in the module, proved not assumed, so it is computed once in Python and scaled by everything that draws it, and **JavaScript no longer knows what a cyma is**. The elevation gained brick coursing, the moulded water table as the assembly it is, gauged flat arches switched on the plan's own date, sills, real projections everywhere, and a five-rung weight ladder. The Proportions plate draws true profiles, **overturning its own in-file ruling** ("those stay in the order tool") on Lucas's word.
 
-**Found:** the inset's curves had NEVER been drawn — `profile_silhouette_path()` called `seg_to()` with `xa == xb` on every member, so every curve degenerated to a vertical face, and `TestSegTo` pinned the control-point arithmetic exactly while being blind to it (**pinning the arithmetic of a curve nobody can see is not a guard**). A pack's declared projection datum is true of its column and NOT of its entablature — `gibbs-ionic` declares `axis` while its frieze records 0 — so reading the declaration literally deletes the bed mould, which is what `dist/orders.html` still does (OQ 72). Gibbs and `facade-classical` give the same cornice two projections 2.3x apart, both sourced (OQ 73). The chimney width was **not a missing measurement but a deferred one** — `judgment: true`, "the mason will build 18 or 27" — so its `NOT_MODELLED` entries STAY, with reasons corrected from "nobody wired it" to "nobody is entitled to", while the renderer's hardcoded 36 in went. And the front elevation still cannot show its chimneys, because `roof.py`'s long-face silhouette stops at the eave; the attempt was **withdrawn** rather than shipped (OQ 74).
+**Found:** the inset's curves had NEVER been drawn — `profile_silhouette_path()` called `seg_to()` with `xa == xb` on every member, so every curve degenerated to a vertical face, and `TestSegTo` pinned the control-point arithmetic exactly while being blind to it (**pinning the arithmetic of a curve nobody can see is not a guard**). A pack's declared projection datum is true of its column and NOT of its entablature — `gibbs-ionic` declares `axis` while its frieze records 0 — so reading the declaration literally deletes the bed mould, which is what `dist/orders.html` still does (OQ 78). Gibbs and `facade-classical` give the same cornice two projections 2.3x apart, both sourced (OQ 79). The chimney width was **not a missing measurement but a deferred one** — `judgment: true`, "the mason will build 18 or 27" — so its `NOT_MODELLED` entries STAY, with reasons corrected from "nobody wired it" to "nobody is entitled to", while the renderer's hardcoded 36 in went. And the front elevation still cannot show its chimneys, because `roof.py`'s long-face silhouette stops at the eave; the attempt was **withdrawn** rather than shipped (OQ 80).
 
 **The durable lesson:** OQ 52 swept twelve invented constants out of the measurements and is guarded by a test that reads the measurements dict — which cannot see SVG. The 36 in chimney and the fake pixel projections lived on the other side of that line. **The honesty discipline has to reach the renderers, not just the records.**
 
-Report: `docs/reports/wp-5.7-real-2d-geometry.md` · layer docs: `docs/proportion.md`, `docs/elevation.md`, `docs/export.md` · new open questions: OQ 72, 73, 74.
+Report: `docs/reports/wp-5.7-real-2d-geometry.md` · layer docs: `docs/proportion.md`, `docs/elevation.md`, `docs/export.md` · new open questions: OQ 78, 73, 74.
 
 **Depends on:** WP-3.2, WP-5.1, WP-5.2. **Size:** large.
+### A NOTE ON THE TWO WP-5.7s, AND WHY NEITHER WAS RENUMBERED HERE
 
+**Two work packages carry the number 5.7 and they are different packages.** Main's is the atlas
+and the shell's proportions; this branch's is the geometry layer. The same two sessions that
+collided over open-question ids 72-83 collided over the work-package number in the same three
+days, by the same mechanism — reading the working tree and adding one — and the OQ block was
+renumbered at the merge (main keeps 72-77, this branch's twelve became 78-89) while these were
+not. **That asymmetry is deliberate and it is a deferral, not a decision.** An open question is
+cited by number and nothing else; a work package is cited by its REPORT, and the two reports have
+always had distinct filenames — `docs/reports/wp-5.7-the-atlas-and-the-shell.md` and
+`docs/reports/wp-5.7-real-2d-geometry.md` — so no citation in this corpus is currently ambiguous.
+Renumbering either one would rename report files, break the `wp-<id>-<slug>.md` convention's
+match with the section it reports on, and cascade into CLAUDE.md, the progress board and five
+commit messages that cannot be changed. Renumbering this branch's would also break the chain
+that follows it: WP-5.8 exists to execute WP-5.7's rulings, and 5.9 and 5.10 continue from there.
+**Raised as OQ 90.** Until it is ruled, cite the report and not the number.
+
+### WP-5.7 The atlas, and the shell's proportions
+
+**Status: COMPLETE (26 Aug 2026).** Raised by Lucas against a screenshot of the map reading,
+zoomed in: *"the map is VERY crude and doesn't take well to zooming in since the resolution
+does not scale up as you zoom in"*, with three affordances asked for in the same breath — a
+button to make the atlas temporarily full screen, collapse/expand on both the rail and the
+left navigation, and windows adjustable by pulling at the margins. All four are built.
+
+**The crudeness was two defects wearing one symptom.** The first was not resolution at all:
+`vectorEffect="non-scaling-stroke"` was set on the `<g>` wrapping the land paths and on the
+`<g>` wrapping the lineage arcs, and **`vector-effect` is not an inherited property** — so a
+`strokeWidth` of 0.7 was 0.7 DEGREES of ink and an arc's 1.5 was about a hundred miles. At the
+home view that is two or three pixels and looks deliberate; at the six degrees the old `MIN_W`
+allowed it is a seventy-pixel shoreline, which is the band in the screenshot. Third instance in
+this codebase of a per-element SVG property set somewhere it does not reach, so the e2e walk
+asserts the general form rather than the case. The second was real: one outline —
+Natural Earth 110m at 0.55° of simplification, 888 points — held at every scale. There are
+three now (`workbench/scripts/make_coastlines.py`, `surfaces/phylo/coastTiers.js`): coarse
+110m eagerly, medium 50m below 70° of longitude, fine 10m below 16°, the finer two as dynamic
+imports so a reader who never zooms never pays for them. **The honesty the tiers needed:** while
+a finer tier is in flight, or if it failed, the legend says what is on the plate rather than
+letting a facet pass for a shore. `MIN_W` is 3° because that is what 10m data can honestly
+carry. Rings are culled by generated bounding boxes, the graticule steps with the scale, and
+the wheel handler is native and non-passive (React's passive `onWheel` meant the page scrolled
+while the map zoomed).
+
+**The shell:** `state/layout.js`, a fifth external store — pane width and fold per pane, in
+localStorage, deliberately not in the URL. **Eight panes**: the two rails, the Phylogeny's
+record, and the five surface index panels that were fixed numbers in their own JSX (330, 340,
+430, 250, 360), all wrapped by `components/PullPane.jsx`. The five pull but do not fold, and
+`PANES.foldable` says so — folding is right for chrome and wrong for a subject; a Fault Corpus
+with the fault list folded away is not a decluttered Fault Corpus, it is a broken one. Both
+rails and the Phylogeny's record fold to a 26px spine (never to nothing — a fold whose opener is elsewhere is a trapdoor) and pull
+(`components/Splitter.jsx`: a real `role="separator"`, pointer-captured, arrows to nudge, Home
+to reset, ten pixels of grab over a one-pixel rule). Widths clamp on READ as well as on write,
+so a width stored on a 2560px display cannot strand the nav on a laptop. `[` and `]` join the
+key map with the reason written down. Full screen takes the masthead and both rails and asks
+the browser for its own as well; `layout.full` is the one piece of layout state that is not
+persisted, which is what "temporarily" means.
+
+**Found while building:** the delta encoder dropped a separator that was only safe after a
+number carrying a decimal point, which would have shipped a displaced coastline — caught by a
+test that parses the deltas back rather than pattern-matching the bytes; the graticule's step
+rule shipped inverted inside this package and drew no lines at all at the zooms just made
+reachable — caught by a browser probe counting elements, and pinned now; the map's legend was
+taking 395px of an 860px window, so the drawing got less than half its own surface.
+
+**Then audited adversarially, and the audit is the more useful half.** Four independent
+read-only passes -- edge cases, test meaningfulness, second-order risk, second occurrences of
+each fixed pattern -- plus browser probes. **Eleven of the package's forty-three new
+assertions passed on the code they were written to guard.** Six findings blocked deployment
+and all six are fixed: the guard against the headline `vector-effect` bug could not detect
+it (it filtered on an attribute the bug's own shape does not carry, so reverting the fix left
+it green); `Splitter`'s keyboard support was written, documented in three places and never
+attached; the atlas culled land and cut the graticule to the viewBox while the SVG painted
+27.8 degrees outside it, so South America vanished from the home view and a wheel zoom
+drifted 3.12 degrees; a moment of a narrow window permanently destroyed every stored pane
+width; below 900px the two rails ate the whole window and the canvas was zero pixels wide;
+and below 900px every resize event wrote localStorage and re-rendered the shell for no
+change. The three unit suites were rewritten against a mutation harness rather than re-read
+-- the fine coastline tier could be replaced wholesale by the coarse tier with all 36 tests
+green -- and rewriting one of them found a real bug in the shipped code: the graticule's
+"does not drift" rounding recovers the right multiple and then puts the error straight back,
+because `3 * 0.2` is 0.6000000000000001.
+
+Report: `docs/reports/wp-5.7-the-atlas-and-the-shell.md` (§ the adversarial audit) · new open
+question: OQ 72.
+
+**Depends on:** WP-5.2, WP-5.6. **Size:** medium.
 A structured transcription form (HTML) that produces a plan record from a drawing by tracing, and a DXF importer that reads a drafter's plan into a record. This is what lets HABS drawings, the reference corpus, and a builder's back catalogue flow into the critic.
 
 ---
