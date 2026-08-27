@@ -44,9 +44,68 @@ app = FastAPI(title="TDL Workbench", docs_url=None, redoc_url=None, openapi_url=
               lifespan=lifespan)
 
 
+# Nothing at any layer bounded a request body: not uvicorn, not Starlette, not FastAPI, and
+# not the plan schema, which carries no maxItems on levels[].rooms and no maxLength on a name.
+# Every heavy endpoint's cost scales with the body it is handed — the solver in room count,
+# both renderers in the text they set — so an unbounded body is the cheapest way to spend
+# someone else's CPU. 8 MB is far above any real plan (the largest in plans/ is 26 KB) and far
+# below what makes the box sweat. Content-Length is checked first because refusing before the
+# body is read is the only refusal that saves anything; a chunked upload with no declared
+# length is bounded while streaming.
+MAX_BODY_BYTES = int(os.environ.get("WORKBENCH_MAX_BODY_BYTES") or 8 * 1024 * 1024)
+
+
+def _too_large():
+    return JSONResponse(status_code=413, content={
+        "error": f"request body exceeds {MAX_BODY_BYTES} bytes",
+        "hint": "raise WORKBENCH_MAX_BODY_BYTES if a real record needs it"})
+
+
+class BodyLimit:
+    """The half a Content-Length check cannot do.
+
+    A chunked request declares no length, so the header check above sees nothing to refuse.
+    This counts the body as it streams and cuts it off at the same ceiling. It is a plain
+    ASGI middleware rather than an @app.middleware("http") one because the latter builds its
+    own receive channel for the downstream app, so wrapping the request's receive there would
+    bound the middleware's view of the body and not the handler's.
+    """
+
+    def __init__(self, app, limit):
+        self.app, self.limit = app, limit
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
+        seen = 0
+        refused = False
+
+        async def counted():
+            nonlocal seen, refused
+            msg = await receive()
+            if msg["type"] == "http.request":
+                seen += len(msg.get("body", b""))
+                if seen > self.limit:
+                    refused = True
+                    # Stop the body here. The handler sees a truncated request and fails its
+                    # own validation; the 413 below is what the caller is actually told.
+                    return {"type": "http.disconnect"}
+            return msg
+
+        async def guarded_send(msg):
+            if refused and msg["type"] == "http.response.start":
+                msg = dict(msg, status=413)
+            await send(msg)
+
+        await self.app(scope, counted, guarded_send)
+
+
 @app.middleware("http")
 async def gate(request: Request, call_next):
     path = request.url.path
+    declared = request.headers.get("content-length")
+    if declared and declared.isdigit() and int(declared) > MAX_BODY_BYTES:
+        return _too_large()
     # Starlette's Mount("/mcp") compiles to ^/mcp(?P<path>/.*)$ — it does not match a bare
     # "/mcp", which would fall through to the SPA catch-all and answer 405 to a POST.
     # Clients are handed ".../mcp" without a slash, so normalise here, before routing.
@@ -61,6 +120,11 @@ async def gate(request: Request, call_next):
                                 content={"detail": {"error": "a password is required",
                                                     "auth": auth.state()}})
     return await call_next(request)
+
+
+# Added AFTER the gate so it wraps OUTSIDE it: Starlette applies middleware in reverse order
+# of addition, and a body has to be refused before anything reads it, auth included.
+app.add_middleware(BodyLimit, limit=MAX_BODY_BYTES)
 
 
 @app.post("/api/login")
@@ -356,7 +420,11 @@ def compose(request: Request, body: dict = Body(...)):
     brief = body.get("brief")
     if not brief:
         raise HTTPException(status_code=422, detail={"error": "body.brief is required"})
-    res = jobs.submit(brief, candidates=int(body.get("candidates", 4)))
+    # _candidates, like every sibling endpoint: this was the one heavy route reading the
+    # value raw, so a non-numeric `candidates` raised ValueError into an unhandled 500. The
+    # work is catalogue-bounded anyway (pick_partis cannot exceed the 21 partis), so the cap
+    # is about consistency and the 500, not about a large attack surface.
+    res = jobs.submit(brief, candidates=_candidates(body, default=4, cap=24))
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
     return res
@@ -448,7 +516,14 @@ async def rail_messages(request: Request):
 
 # ----------------------------------------------------------------- dev
 @app.post("/api/dev/reload")
-def dev_reload():
+def dev_reload(request: Request):
+    # Metered, because it is the most expensive thing an authorised caller can ask for and it
+    # was the one heavy route outside the heavy bucket. invalidate() drops the module cache,
+    # core._data and the search index, so the NEXT request re-globs and re-parses the whole
+    # corpus — measured at ~600 ms — and a loop here is high-amplification for a caller who
+    # pays almost nothing. Whether the route should exist in a production build at all is a
+    # separate question, recorded rather than decided here.
+    _heavy(request)
     return corpus.invalidate()
 
 

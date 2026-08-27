@@ -101,16 +101,16 @@ def test_no_module_spells_the_parti_join_itself():
     one allowed; this fails when a fourth appears, in the way test_grammar_agreement.py
     fails when the citation grammar grows a fourth spelling.
     """
+    import glob as _glob
     import re
+    # sorted glob over the four source trees, which is the idiom tests/test_determinism.py
+    # uses and enforces. os.walk from ROOT would have to prune node_modules, and wrapping it
+    # in sorted() to satisfy that check materialises the whole tree BEFORE the prune can
+    # run — deterministic and slow, which is not the trade this test wants.
     pattern = re.compile(r'["\']partis["\']\s*,\s*f?["\']\{')
     offenders = []
-    for base, dirs, files in os.walk(ROOT):
-        dirs[:] = [d for d in dirs
-                   if d not in {".git", "node_modules", "__pycache__", ".venv", ".pytest_cache"}]
-        for name in files:
-            if not name.endswith(".py"):
-                continue
-            path = os.path.join(base, name)
+    for sub in ("build", "mcp_server", "workbench", "tests"):
+        for path in sorted(_glob.glob(os.path.join(ROOT, sub, "**", "*.py"), recursive=True)):
             for n, line in enumerate(open(path, encoding="utf-8"), 1):
                 if pattern.search(line):
                     offenders.append(f"{os.path.relpath(path, ROOT)}:{n}")
