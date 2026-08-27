@@ -133,7 +133,11 @@ sentence, for the same reason** — the 27 Aug merge resolved the conflict here 
 `len(check_all.CHECKS)`, which is the 32 checks the LOOP runs and excludes the three the runner
 appends after it (`pytest tests/`, `pytest workbench/server/tests`, `node --test
 workbench/app`). The number to read is the runner's own `len(results)`, printed as "All N checks
-passed"; the app-suite figure is the `# tests` line from `node --test`. Both were re-measured
+passed"; the app-suite figure is the `# tests` line from `node --test`. **And there is a trap in
+the line CI actually prints**: with the CAD libraries and fastapi absent, the corpus job reads
+"32 of 35 checks passed; 3 COULD NOT EVALUATE", where that leading 32 is the PASS count and
+coincidentally equals `len(CHECKS)`. Read the second number. `check_all.TOTAL_CHECKS` and
+`tests/test_counts_guard.py` now enforce this so the coincidence cannot cost anything again. Both were re-measured
 27 Aug after `check_all.py` itself printed "1 of 35" against this file's 32. The rest of the
 numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
 total), taken because main and this branch had
