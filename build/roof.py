@@ -551,7 +551,18 @@ def elevation_profile(section, main, wall):
         g = main["gambrel"]
         off = g["break_offset_ft"]
         return [(0.0, eave), (off, g["break_grade_to_ft"]), (wall_len - off, g["break_grade_to_ft"]), (wall_len, eave)]
-    return [(0.0, eave), (wall_len, eave)]   # simple gable, long face: ridge is behind the near roof plane, not visible
+    # SIMPLE GABLE, LONG FACE. This returned a flat eave line until 27 Aug 2026, on the reasoning
+    # that "the ridge is behind the near roof plane, not visible". That is a PERSPECTIVE argument
+    # and this is an ORTHOGRAPHIC projection. The near plane slopes away from the viewer, and
+    # parallel projection maps it to a full-width band from the eave up to the ridge -- the ridge
+    # is the top edge of the drawing, at its true height. The front elevation of the Tidewater
+    # reference plan was short by 14.22 ft: the whole roof was missing from the sheet everyone
+    # looks at, which is what made a five-bay Georgian read as a box.
+    #
+    # A side-gable front is therefore a plain rectangle, eave line to ridge line, and its
+    # BLANKNESS is correct -- there is nothing in it but the covering. That is the opposite of the
+    # gable end (a triangle) and of the hip (a trapezoid), and all three now come from here.
+    return [(0.0, eave), (0.0, ridge_ft), (wall_len, ridge_ft), (wall_len, eave)]
 
 # ---------------------------------------------------------------- orchestration
 def build_roof(plan, parti=None, section=None):

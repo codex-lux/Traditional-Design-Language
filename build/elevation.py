@@ -171,6 +171,18 @@ def _storey_window(op_pack, sash_pack, storey, bay_module_in, glass_module_in):
         "individual_light_width_in": light_width_in, "individual_light_height_in": light_height_in,
         "muntin_width_in": 0.875,   # the +0.875 constant IS the muntin/bar-width allowance in sash-light.json's own light-count formulas -- read off the formula, not invented
         "shutter_leaf_width_in": round(shutter_leaf_w, 3), "shutter_leaf_height_in": round(height_in, 3),  # full sash coverage when closed
+        # PANELS PER LEAF, from sash-light.json's own rule on `shutter/count`: "Panel count in a
+        # panelled (raised-panel) shutter leaf, which follows the sash division roughly but not
+        # exactly: a 12/12 window gets a two- or three-panel leaf, a 6/6 gets two." Hardcoded 4
+        # until 27 Aug 2026, which no pack supports; Colonial Williamsburg's own reports on the
+        # Prentis and John Blair shutters give three on the ground floor and two above, which is
+        # what this rule produces at these light counts.
+        # The boundary is the pack's own: a 6/6 gets two, a 12/12 gets "two or three". A 15-light
+        # sash is larger than the 12/12 the pack tops out at, so it takes three; a 12/12 takes the
+        # lower of its two, which is what puts three on the taller ground sash and two on the
+        # shorter upper one -- the graduation Colonial Williamsburg records at the Prentis and
+        # John Blair houses.
+        "shutter_panel_count": (3 if (lights_high or 0) * (lights_across or 0) >= 15 else 2),
         "window_proportion_ratio": round(height_in / width_in, 3),
         "sash_light_ratio_source": ratio_r["rule"]["authority_note"] if ratio_r else None,
     }
@@ -446,6 +458,14 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
 #
 # To take a name OFF this list: model the thing, derive it from the record, and delete the
 # entry in the same commit. That is the only honest way out, and it is the point of the list.
+# The sash frame, quoted from proportions/modules/sash-light.json's own note on
+# `window_type/width`: "Sash stile width, both sides. Together with the 2 in top rail, 3 in bottom
+# rail and 1 1/4 in meeting rail this is the whole sash frame, and all four numbers are
+# near-constant from 1700 to 1900 -- they are set by mortise-and-tenon joinery." The pack states
+# them in prose and carries no expression for them, so they are transcribed here in the one place
+# that needs them, the way GLASS_MODULE_BANDS transcribes that pack's period table.
+SASH_FRAME = {"stile_in": 2.0, "top_rail_in": 2.0, "bottom_rail_in": 3.0, "meeting_rail_in": 1.25}
+
 NOT_MODELLED = {
     # roof.py's dormer_rhythm_check refuses in its own words -- no plan schema field authors
     # a dormer, so an absent dormer and an unstatable one are indistinguishable here.
@@ -470,6 +490,16 @@ NOT_MODELLED = {
     "raking_cornice_member_count": "eave_cornice() dimensions the horizontal entablature only",
     # Nothing in this corpus models a gutter: no slot, no kit parameter, no line in a renderer.
     "gutter_outlets": "no gutter is modelled anywhere in the corpus",
+    # WP-5.9. These four were SUPPLIED, from ratios of the leaf width and the muntin that exist
+    # in no pack, kit or element file: 0.8, 0.4, 0.18 and x3. `shutter-panel-scale` was reading
+    # two of them and judging houses on the result. A shutter's framing IS knowable -- period work
+    # graduates stile, top rail, lock rail and bottom rail -- but no figure for a Chesapeake
+    # example could be established, so the field they leave is not derivable either.
+    "shutter_panel_field_width_in": "no pack states a shutter's stile or rail widths, so the "
+                                    "field they leave cannot be derived",
+    "shutter_panel_field_height_in": "as shutter_panel_field_width_in",
+    "shutter_stile_width_in": "no pack states a shutter's stile width",
+    "shutter_lock_rail_height_in": "no pack states a shutter's rail widths",
     "overflow_scuppers": "no gutter is modelled anywhere in the corpus",
 }
 
@@ -490,7 +520,19 @@ def _derive_measurements(elev):
         "individual_light_width_in": ground_w["individual_light_width_in"], "individual_light_height_in": ground_w["individual_light_height_in"],
         "individual_light_area_sqin": round((ground_w["individual_light_width_in"] or 0) * (ground_w["individual_light_height_in"] or 0), 1),
         "muntin_width_in": ground_w["muntin_width_in"], "glazing_bar_width_in": ground_w["muntin_width_in"],
-        "sash_meeting_rail_height_in": ground_w["muntin_width_in"] * 1.5,
+        # THE SASH FRAME, read from sash-light.json's own note rather than derived from the muntin.
+        # These four were computed as ratios of the muntin width until 27 Aug 2026 -- stile at
+        # muntin x 4 (3.5 in, against the pack's stated 2 in: 75% too wide, on the very dimension
+        # `muntin-wider-than-its-date` measures) and meeting rail at muntin x 1.5. Neither ratio
+        # existed anywhere in kits/, proportions/ or elements/. The pack states all four plainly:
+        # "Sash stile width, both sides. Together with the 2 in top rail, 3 in bottom rail and
+        # 1 1/4 in meeting rail this is the whole sash frame, and all four numbers are
+        # near-constant from 1700 to 1900 -- they are set by mortise-and-tenon joinery."
+        # A bottom rail deeper than the top rail is the fastest tell of a wrongly-drawn sash.
+        "sash_stile_width_in": SASH_FRAME["stile_in"],
+        "sash_top_rail_height_in": SASH_FRAME["top_rail_in"],
+        "sash_bottom_rail_height_in": SASH_FRAME["bottom_rail_in"],
+        "sash_meeting_rail_height_in": SASH_FRAME["meeting_rail_in"],
         "distinct_head_datums_per_storey_per_elevation": 1, "distinct_sill_datums_per_storey_per_elevation": 1,
         "distinct_head_datums_within_one_wall_plane_and_storey": 1,
         "max_head_offset_from_datum_in": 0.0,
@@ -504,10 +546,7 @@ def _derive_measurements(elev):
         "second_floor_sill_height_in": upper_w["sill_height_above_floor_in"],
         "sash_opening_height_in": ground_w["opening_height_in"],
         "shutter_leaf_width_in": ground_w["shutter_leaf_width_in"], "shutter_leaf_height_in": ground_w["shutter_leaf_height_in"],
-        "shutter_panel_field_width_in": ground_w["shutter_leaf_width_in"] * 0.8,
-        "shutter_panel_field_height_in": ground_w["shutter_leaf_height_in"] * 0.4,
-        "shutter_stile_width_in": ground_w["shutter_leaf_width_in"] * 0.18,
-        "shutter_lock_rail_height_in": ground_w["muntin_width_in"] * 3,
+        "shutter_panel_count_per_leaf": ground_w.get("shutter_panel_count"),
         # shutter-on-an-unshutterable-opening.json: a standard pair (2 leaves) per opening, both
         # genuinely clearing on the hinge side -- pier_width_in (real, computed above) is
         # comfortably wider than shutter_leaf_width_in on this bay spacing, so both leaves really
@@ -560,7 +599,6 @@ def _derive_measurements(elev):
         "upper_shaft_diameter": ent["upper_shaft_diameter_in"], "upper_shaft_diameter_in": ent["upper_shaft_diameter_in"],
         "entablature_bed_height_in": ent["surround_height_above_opening_in"] * 0.3,
         "escutcheon_width_in": 2.0, "door_stile_width_in": ent["door_leaf_width_in"] * 0.14,
-        "sash_stile_width_in": ground_w["muntin_width_in"] * 4,
         "visible_hardware_items_per_window": 6, "visible_surface_hinges_per_leaf": 3,
         "front_door_plane_setback_behind_garage_door_plane_ft": 0.0,
     })
@@ -887,6 +925,18 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     # arch and a source sentence reading "the None date puts it after the change".
     #
     # The style's own kit governs; brick-course supplies dimensions the kit does not state.
+    # SHUTTERS, READ FROM THE KIT rather than assumed. `tidewater-georgian` bound this slot empty
+    # and the cascade delivered its parent's raised-panel-pair, so every elevation of this style
+    # was drawn with shutters -- on a solid-brick Chesapeake house, where Colonial Williamsburg's
+    # own report on the Ludwell-Paradise House says "None. (Being a brick building in colonial
+    # times shutters appeared only in interiors.)" The gap was adjudicated in the kit on
+    # 27 Aug 2026 (WP-5.9, and the OQ 51 idiom); this reads the answer.
+    shutter_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("shutter") or {}
+    _sv = {v["id"]: v.get("status") for v in shutter_slot.get("variants", [])}
+    shutters_carried = bool(_sv) and _sv.get("none") != "canonical"
+    if not _sv:
+        shutters_carried = True          # nothing stated: the older half of the corpus draws them
+
     head_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("window_head_masonry") or {}
     head_variants = {v["id"]: v.get("status") for v in head_slot.get("variants", [])}
     head_params = head_slot.get("parameters") or {}
@@ -952,6 +1002,12 @@ def build_elevation(plan, parti=None, section=None, roof=None):
 
     for sw in storey_windows:
         sw["head_treatment"] = _head_treatment(sw["opening_width_in"])
+        sw["shutters_carried"] = shutters_carried
+        if not shutters_carried:
+            # A shutter that is not there has no leaf. Absent, not zero.
+            sw["shutter_leaf_width_in"] = None
+            sw["shutter_leaf_height_in"] = None
+            sw["shutter_panel_count"] = None
 
 
     faces = {}

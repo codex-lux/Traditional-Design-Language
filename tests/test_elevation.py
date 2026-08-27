@@ -440,8 +440,13 @@ class TestRenderElevation:
         out = tmp_path / "tidewater-E.svg"
         render_elevation_module.render_elevation(elev, str(out), face="E")
         text = out.read_text()
-        assert 'class="rf"' in text
+        # The roof carries a line-weight class alongside its own now (WP-5.9), so match the TOKEN
+        # rather than the whole attribute -- a pin on `class="rf"` exactly would fail every time
+        # the roof moved a rung on the ladder without the roof having changed at all.
+        assert 'class="rf' in text
         assert 'class="ch"' in text   # tidewater-georgian-careful's own gable-end chimneys (WP-3.3)
+        # WP-5.9: and the roof is a closed plane now, not a line along its bottom edge.
+        assert "<polygon" in text, "the roof is drawn as a polyline again"
 
     def test_long_face_of_a_side_gable_shows_no_chimney(self, elevation_module, render_elevation_module, tmp_path):
         """WP-3.3's own finding: both of this plan's chimneys sit on the gable-end (E/W) walls --

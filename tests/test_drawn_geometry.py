@@ -316,3 +316,106 @@ class TestTheCadFileAndTheSheetAgreeOnTheCurve:
             assert mid[0] == pytest.approx(want[0], abs=1e-6), (
                 f"{profile}: the DXF bulge and the model disagree about which way the arc turns")
             assert mid[1] == pytest.approx(want[1], abs=1e-6)
+
+
+class TestTheRoofIsOnTheSheet:
+    """WP-5.9. The front elevation of a side-gable house had no roof on it at all.
+
+    `roof.py::elevation_profile` returned two points, both at the eave, for a long face, on the
+    reasoning that "the ridge is behind the near roof plane, not visible". That is a PERSPECTIVE
+    argument applied to an ORTHOGRAPHIC projection: the near plane slopes away from the viewer and
+    parallel projection maps it to a full-width band from eave to ridge. The Tidewater reference
+    sheet was 14.22 ft short — the whole roof — which is why a five-bay Georgian read as a box.
+
+    Nothing caught it because every roof test asked the RECORD for the ridge height, and the
+    record had it right. Only the profile was wrong, and only the drawing consumed the profile."""
+
+    def _profiles(self):
+        rf = modcache.load("roof", os.path.join(ROOT, "build", "roof.py"))
+        st = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
+        import json as _j
+        plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        return rf, st, plan
+
+    def test_a_side_gable_front_reaches_the_ridge(self):
+        rf, st, plan = self._profiles()
+        roof = rf.build_roof(plan, st.build_section(plan))
+        ridge_ft = max(h for _, h in roof["elevation_profiles"]["E"])   # the gable end knows it
+        front = roof["elevation_profiles"]["S"]
+        assert max(h for _, h in front) == pytest.approx(ridge_ft, abs=0.01), (
+            "the front elevation stops at the eave: the roof is missing from the sheet")
+        assert len(front) >= 4, "a roof plane is an area, not a line"
+
+    def test_a_hip_front_is_a_trapezoid_whose_ridge_is_length_minus_depth(self):
+        """The one construction that settles a hip: for an equal-pitch hip the ridge is exactly
+        (length - depth), because each hip runs in at 45 degrees in PLAN. If the drawn ridge is
+        any other length the hips are not at the roof's own pitch and the silhouette is a
+        different building."""
+        import copy
+        import json as _j
+        rf, st, plan = self._profiles()
+        hip = copy.deepcopy(plan)
+        hip["declared"]["roof_form"] = "hip"
+        roof = rf.build_roof(hip, st.build_section(hip))
+        front = roof["elevation_profiles"]["S"]
+        top = max(h for _, h in front)
+        at_ridge = [x for x, h in front if abs(h - top) < 1e-6]
+        assert len(at_ridge) == 2, "a hip front should meet the ridge along a run, not at a point"
+        fp = st.build_section(hip)["footprint"]
+        assert max(at_ridge) - min(at_ridge) == pytest.approx(
+            fp["width_ft"] - fp["depth_ft"], abs=0.05), "the hip ridge is not (length - depth)"
+
+    def test_the_gable_end_is_still_a_triangle(self):
+        rf, st, plan = self._profiles()
+        roof = rf.build_roof(plan, st.build_section(plan))
+        end = roof["elevation_profiles"]["E"]
+        top = max(h for _, h in end)
+        assert len([x for x, h in end if abs(h - top) < 1e-6]) == 1, "a gable end peaks at a point"
+
+
+class TestTheGaugedArchIsDrawnAsBrickwork:
+    """HABS 4.6.2 names round, jack and flat arches as the one place individual bricks are drawn
+    even where the rest of the wall carries only coursing. A gauged arch drawn as a plain block is
+    the detail a fluent reader checks first on a Chesapeake front."""
+
+    def _svg(self, tmp_path):
+        import json as _j
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
+        plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        elev = e.build_elevation(plan)
+        out = str(tmp_path / "e.svg")
+        r.render_elevation(elev, out)
+        return open(out).read(), elev
+
+    def test_every_arch_carries_radiating_voussoir_joints(self, tmp_path):
+        import re
+        svg, elev = self._svg(tmp_path)
+        arches = len(re.findall(r'class="arch', svg))
+        joints = len(re.findall(r'class="vsr', svg))
+        assert arches, "no arch is drawn at all"
+        per = joints / arches
+        # A voussoir is a rubbed brick on edge, so its soffit width is one course. Over these
+        # openings that is eleven to fifteen bricks; anything far outside says the count is being
+        # taken off the wrong dimension (off the arch DEPTH it came out at five: eight-inch
+        # voussoirs, which are not bricks).
+        assert 9 <= per <= 17, f"{per:.1f} joints per arch: the voussoirs are not brick-sized"
+
+    def test_the_flat_arch_splays_to_its_skewback(self, tmp_path):
+        """A gauged flat arch's extrados is WIDER than its soffit -- the skewbacks are cut at 60
+        degrees, so the arch runs out past the opening by depth/tan(60) at each end. Drawn square
+        it hides the joint that makes a flat arch stand up, and the outer voussoir joints run off
+        into the wall with nothing to stop them."""
+        import re
+        svg, elev = self._svg(tmp_path)
+        m = re.search(r'class="arch[^"]*" d="M ([\d.]+),([\d.]+) Q [\d.]+,[\d.]+ ([\d.]+),[\d.]+ '
+                      r'L ([\d.]+),([\d.]+) L ([\d.]+),', svg)
+        assert m, "no flat-arch path found in the expected form"
+        x_soffit_l, x_soffit_r = float(m.group(1)), float(m.group(3))
+        x_ext_r, x_ext_l = float(m.group(4)), float(m.group(6))
+        assert x_ext_r > x_soffit_r + 1.0, "the extrados does not splay to the right"
+        assert x_ext_l < x_soffit_l - 1.0, "the extrados does not splay to the left"
+        splay = ((x_ext_r - x_soffit_r) + (x_soffit_l - x_ext_l)) / 2.0
+        depth = float(m.group(2)) - float(m.group(5))
+        assert splay == pytest.approx(depth / math.tan(math.radians(60.0)), rel=0.05), (
+            "the skewback is not at 60 degrees")

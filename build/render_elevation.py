@@ -22,9 +22,9 @@ wrong with the port beyond the guessed curves, and both are worth knowing:
 Every moulding drawn here still comes from proportion_engine.dimension() member data and nothing
 in this file invents a member height, a projection or a profile.
 
-  render_elevation(elev, path, face=None, scale=6.0)
+  render_elevation(elev, path, face=None, scale=24.0)   # 1/4 in = 1 ft
 """
-import os, importlib.util
+import math, os, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def _mod(n, p):
@@ -73,10 +73,28 @@ def _style_block():
     # a class rule beats an attribute silently, and tests/test_drawn_labels.py asserts the
     # general form of that rule.
     return (f'<style>'
-            f'.w-cut{{stroke-width:1.7}}.w-prof{{stroke-width:1.15}}.w-med{{stroke-width:0.75}}'
-            f'.w-fine{{stroke-width:0.45}}.w-hair{{stroke-width:0.3}}'
+            # THE LINE LADDER, on the Historic American Buildings Survey's own rungs. HABS
+            # specifies, for a sheet plotted at 1/4 in = 1 ft:
+            #   0.1 mm  joint lines -- brick coursing, floorboards, shingle courses
+            #   0.2 mm  light edges -- a small change in surface plane
+            #   0.3 mm  medium edges
+            #   0.4 mm  heavy edges -- "indicating major depth change"
+            #   0.5 mm  material cut lines
+            #   0.6 mm  the GROUND LINE in elevation, the heaviest line on the sheet
+            # What carries over is the RATIO -- 6:1 end to end, with adjacent rungs about root 2
+            # apart so a reader tells them apart at a glance (ISO 128's own series). The five
+            # names below predate WP-5.9 and are kept; `w-ground` is the sixth rung, which this
+            # sheet did not have and which HABS makes the heaviest thing on it.
+            f'.w-hair{{stroke-width:0.4}}.w-fine{{stroke-width:0.8}}.w-med{{stroke-width:1.2}}'
+            f'.w-prof{{stroke-width:1.6}}.w-cut{{stroke-width:2.0}}.w-ground{{stroke-width:2.4}}'
             f'.course{{stroke:{PAL["ink3"]};stroke-width:0.3;stroke-opacity:0.42;fill:none}}'
-            f'.arch{{fill:{PAL["rule"]};stroke:{PAL["ink"]};stroke-width:0.75}}'
+            # A GAUGED ARCH IS DRAWN BRICK BY BRICK -- HABS 4.6.2 names round, jack and flat
+            # arches as the one place individual bricks are always drawn even where the rest of
+            # the wall is only coursed. Rubbed brick reads slightly LIGHTER than the field, and
+            # the arch and the jambs are the only tonal event on a Chesapeake brick front, so it
+            # carries a light wash rather than the solid block it was drawn as.
+            f'.arch{{fill:{PAL["ink"]};fill-opacity:0.10;stroke:{PAL["ink"]};stroke-opacity:0.8}}'
+            f'.vsr{{stroke:{PAL["ink"]};stroke-opacity:0.55;fill:none}}'
             f'.sill{{fill:{PAL["rule"]};stroke:{PAL["ink3"]};stroke-width:0.45}}'
             f'.wtm{{stroke:{PAL["ink"]};stroke-width:0.45;fill:none}}'
             f'text{{font-family:"Archivo",-apple-system,"Segoe UI",sans-serif;fill:{PAL["ink2"]}}}'
@@ -84,16 +102,30 @@ def _style_block():
             f'.hd{{font-family:"Bodoni Moda",Georgia,serif;font-size:19px;fill:{PAL["ink"]}}}'
             f'.lb{{font-family:ui-monospace,Menlo,monospace;font-size:8.5px;letter-spacing:.14em;fill:{PAL["ink3"]}}}'
             f'.wf{{fill:{PAL["wall"]};stroke:{PAL["ink3"]};stroke-width:0.6}}'
-            f'.op{{fill:{PAL["glass"]};stroke:{PAL["ink"]};stroke-width:1.1}}'
-            f'.mt{{stroke:{PAL["ink"]};stroke-width:0.7}}'
+            # GLASS IS A TONE, NOT A HOLE. HABS 4.6.6, and the older drawn practice the manual
+            # praises: "Glass areas are black." A pane left the colour of the sheet reads as a
+            # gap in the wall; a dark even tone reads as glass, and it is what lets the muntin
+            # grid sit ON something. Diagonal glazing hatches are the fastest way to make a
+            # careful elevation look like an estate agent's drawing -- HABS forbids generated
+            # hatch patterns outright.
+            f'.op{{fill:{PAL["ground"]};stroke:{PAL["ink"]};stroke-width:1.1}}'
+            # A muntin against dark glass is drawn in the LIGHT colour: it is a solid bar in front
+            # of the pane, and at 1/4 in = 1 ft a 7/8 in bar is 1.75 px, which is a real line.
+            f'.mt{{stroke:{PAL["sash"]};stroke-width:1.0;stroke-opacity:0.9}}'
             f'.sh{{fill:{PAL["shutter"]};stroke:{PAL["ink"]};stroke-width:0.6}}'
             f'.dr{{fill:{PAL["copper"]};stroke:{PAL["ink"]};stroke-width:0.8}}'
             f'.cs{{fill:none;stroke:{PAL["brass"]};stroke-width:1.0}}'
-            f'.bd{{fill:{PAL["paper"]};stroke:{PAL["rule"]};stroke-width:0.6}}'
+            f'.bd{{fill:{PAL["wall"]};stroke:{PAL["ink2"]};stroke-opacity:0.9}}'
             f'.rf{{fill:{PAL["iron"]};fill-opacity:0.28;stroke:{PAL["ink"]};stroke-width:1.4;stroke-linejoin:round}}'
+            # A shingle course is a JOINT LINE -- HABS's lightest rung, 0.1 mm, the same weight it
+            # gives brick coursing. It is the covering indicated, not the covering drawn.
+            f'.shingle{{stroke:{PAL["ink"]};stroke-width:0.4;stroke-opacity:0.5;fill:none}}'
+            f'.pnl{{fill:none;stroke:{PAL["ink"]};stroke-opacity:0.75}}'
+            f'.gl{{stroke:{PAL["ink"]};fill:none}}'
             f'.wt{{fill:{PAL["rule"]};stroke:{PAL["ink3"]};stroke-width:0.6}}'
             f'.ch{{fill:{PAL["iron"]};stroke:{PAL["ink"]};stroke-width:0.6}}'
             f'.pf{{fill:{PAL["paper"]};stroke:{PAL["ink2"]};stroke-width:0.7}}'
+
             f'</style>')
 
 # ---------------------------------------------------------------- window / door drawing
@@ -112,7 +144,7 @@ def _sash_grid(s, x0, y0, x1, y1, lights_across, lights_high):
     return "".join(out)
 
 def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, scale,
-            head=None, sill_in=None):
+            head=None, sill_in=None, panel_count=None):
     x0, x1 = X(cx - width_in / 2 / 12.0), X(cx + width_in / 2 / 12.0)
     yb, yt = Ypx(y_bottom), Ypx(y_top)
     out = []
@@ -142,10 +174,44 @@ def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutte
                        f'L {ax1:.1f},{yt-hd:.1f} Q {(ax0+ax1)/2:.1f},{yt-hd-2*rise:.1f} '
                        f'{ax0:.1f},{yt-hd:.1f} Z"/>')
         else:
-            # a flat arch: the camber is in the soffit and the extrados is level
+            # A GAUGED FLAT ARCH IS A TRAPEZOID, not a rectangle. Its skewbacks are cut at 60
+            # degrees from the horizontal -- the mason's standard for gauged work -- so over the
+            # arch's own depth the extrados runs out past the soffit by depth/tan(60) at EACH
+            # end. Drawing it square hides the skewback, which is the joint that makes a flat
+            # arch stand up, and left the outermost voussoir joints running off into the wall.
+            skew = hd / math.tan(math.radians(60.0))
             out.append(f'<path class="arch w-med" d="M {ax0:.1f},{yt:.1f} '
                        f'Q {(ax0+ax1)/2:.1f},{yt-2*rise:.1f} {ax1:.1f},{yt:.1f} '
-                       f'L {ax1:.1f},{yt-hd:.1f} L {ax0:.1f},{yt-hd:.1f} Z"/>')
+                       f'L {ax1+skew:.1f},{yt-hd:.1f} L {ax0-skew:.1f},{yt-hd:.1f} Z"/>')
+        # THE VOUSSOIRS. An ODD number, so a single brick sits on the centre line rather than a
+        # joint splitting it, and they radiate to a strike point below the soffit -- for a gauged
+        # flat arch the skewback is taken at 60 degrees from the horizontal, which puts the strike
+        # at (span/2) x tan 60 below. The joints are the whole reading of a gauged arch: they are
+        # 1/16 to 1/8 in of lime putty against 3/8 in of mortar in the field, which is why the
+        # arch reads as one smooth block of brick from across a street and as radiating lines
+        # close up. The COUNT is not published for any measured Chesapeake arch, so it is derived
+        # from the corpus's own arch depth at one brick per course-and-a-bit and forced odd, and
+        # the sheet says the count is derived rather than measured.
+        span_px = ax1 - ax0
+        # A voussoir is a rubbed brick set on edge, so its width at the soffit is one brick
+        # height -- the corpus's own course figure, 2.75 in, which is the only brick dimension
+        # this corpus states. Over this plan's 38.6 in opening that gives thirteen, inside the
+        # 11-13 a survey of gauged Chesapeake work would lead you to expect. Deriving it from the
+        # ARCH DEPTH instead gave five, which is a voussoir eight inches wide at the soffit: not
+        # a brick.
+        v_w = (sill_in or 2.75) / 12.0 * scale
+        n_v = max(5, int(round(span_px / max(v_w, 1e-6))))
+        n_v += (1 - n_v % 2)                        # odd: a brick on the centre line, not a joint
+        strike_y = yt + (span_px / 2.0) * math.tan(math.radians(60.0))
+        for i in range(1, n_v):
+            fx = ax0 + span_px * (i / n_v)
+            dx, dy = fx - (ax0 + ax1) / 2.0, yt - strike_y
+            if abs(dy) < 1e-6:
+                continue
+            tx = fx + dx * (hd / abs(dy)) if dy else fx
+            out.append(f'<line class="vsr w-hair" x1="{fx:.1f}" y1="{yt:.1f}" '
+                       f'x2="{tx:.1f}" y2="{yt-hd:.1f}"/>')
+
         if head.get("keystone"):
             # The kit makes a keystone canonical. Its WIDTH may be a band or unstated; a band is
             # drawn at its midpoint and an unstated one at the arch's own depth, which is the
@@ -164,15 +230,34 @@ def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutte
         out.append(f'<rect class="sill" x="{x0:.1f}" y="{yb:.1f}" width="{x1-x0:.1f}" height="{sh:.1f}"/>')
 
     out.append(f'<rect class="op" x="{x0:.1f}" y="{yt:.1f}" width="{x1-x0:.1f}" height="{yb-yt:.1f}"/>')
+    # THE MEETING RAIL is the thickest bar in the window -- 1 1/4 in against a 7/8 in muntin --
+    # and it is the line that tells a reader the sash is double-hung rather than a fixed grid.
     meeting_y = (yb + yt) / 2.0
-    out.append(f'<line class="mt" x1="{x0:.1f}" y1="{meeting_y:.1f}" x2="{x1:.1f}" y2="{meeting_y:.1f}"/>')
+    out.append(f'<line class="mt w-med" x1="{x0:.1f}" y1="{meeting_y:.1f}" x2="{x1:.1f}" y2="{meeting_y:.1f}"/>')
     out.append(_sash_grid(s, x0, meeting_y, x1, yb, lights_across, lights_high))   # lower sash
     out.append(_sash_grid(s, x0, yt, x1, meeting_y, lights_across, lights_high))   # upper sash
-    sw, sh = shutter_w / 12.0 * scale, shutter_h / 12.0 * scale
-    for side, sx0 in ((-1, x0 - sw), (1, x1)):
-        out.append(f'<rect class="sh" x="{sx0:.1f}" y="{yt:.1f}" width="{sw:.1f}" height="{sh:.1f}"/>')
-        panel_x = sx0 + sw / 2.0
-        out.append(f'<line class="mt" x1="{panel_x:.1f}" y1="{yt:.1f}" x2="{panel_x:.1f}" y2="{(yt+sh):.1f}"/>')
+    # SHUTTERS, where the style carries them. A leaf of None is a style whose kit says it has none
+    # -- the solid-brick Chesapeake house is the case, and drawing a pair anyway is drawing a
+    # detail four records say was never there. Absent, not zero-width.
+    if shutter_w and shutter_h:
+        sw, sh = shutter_w / 12.0 * scale, shutter_h / 12.0 * scale
+        # THE FRAMING, at this scale. A 2 in stile is 4 px at 1/4 in = 1 ft, so the leaf reads as
+        # framing with fielded panels inside it rather than as a plain rectangle with one line.
+        # The panels are graduated three-below-two by the sash division (see elevation.py); the
+        # stile and rail WIDTHS are not published for any Chesapeake example, so the frame is
+        # drawn at the leaf's own proportion and the panels sit inside it -- what is drawn is the
+        # panel COUNT, which is sourced, not a stile width, which is not.
+        for side, sx0 in ((-1, x0 - sw), (1, x1)):
+            out.append(f'<rect class="sh w-med" x="{sx0:.1f}" y="{yt:.1f}" width="{sw:.1f}" height="{sh:.1f}"/>')
+            n = max(1, int(panel_count or 2))
+            inset = min(sw * 0.16, sh * 0.03)
+            for k in range(n):
+                py0 = yt + sh * (k / n) + inset
+                py1 = yt + sh * ((k + 1) / n) - inset
+                if py1 - py0 < 2.0:
+                    continue                      # below 2 px a panel is not a panel
+                out.append(f'<rect class="pnl w-fine" x="{sx0 + inset:.1f}" y="{py0:.1f}" '
+                           f'width="{sw - 2 * inset:.1f}" height="{py1 - py0:.1f}"/>')
     return "".join(out)
 
 def _entrance(elev, cx, floor_ft, X, Ypx, scale):
@@ -181,10 +266,32 @@ def _entrance(elev, cx, floor_ft, X, Ypx, scale):
     door_w_in, door_h_in = ent["door_leaf_width_in"], ent["door_leaf_height_in"]
     dx0, dx1 = X(cx - door_w_in / 2 / 12.0), X(cx + door_w_in / 2 / 12.0)
     dyb, dyt = Ypx(floor_ft), Ypx(floor_ft + door_h_in / 12.0)
-    out.append(f'<rect class="dr" x="{dx0:.1f}" y="{dyt:.1f}" width="{dx1-dx0:.1f}" height="{dyb-dyt:.1f}"/>')
-    for i in (1, 2):   # a six-panel-scaled two-wide reading, schematic only -- panel design itself is out of scope (see docs/reports)
-        py = dyt + (dyb - dyt) * i / 3.0
-        out.append(f'<line class="mt" x1="{dx0:.1f}" y1="{py:.1f}" x2="{dx1:.1f}" y2="{py:.1f}"/>')
+    out.append(f'<rect class="dr w-med" x="{dx0:.1f}" y="{dyt:.1f}" width="{dx1-dx0:.1f}" height="{dyb-dyt:.1f}"/>')
+    # THE SIX-PANEL RAISED-AND-FIELDED DOOR, drawn as the arrangement it is. The kit names the
+    # type; the arrangement is the one every account of the period gives -- TWO SHORT panels at
+    # the top, TWO LONG in the middle, TWO SHORT at the bottom, with the bottom pair equal to or
+    # a little taller than the top pair. Two horizontal lines across the leaf, which is what was
+    # drawn here before, is a THREE-panel door: it says nothing about the vertical joint that
+    # makes it six, and it makes the commonest door of the tradition read as the wrong one.
+    #
+    # The stile and rail WIDTHS are not published for any measured Virginia example, so the
+    # panels are laid out on the leaf's own proportion and inset by a stile that is drawn, not
+    # asserted: what this states is the ARRANGEMENT, which is documented, and not a dimension,
+    # which is not.
+    dw, dh = dx1 - dx0, dyb - dyt
+    stile = min(dw * 0.115, dh * 0.035)                  # about one seventh of the leaf, halved
+    bands = (0.20, 0.46, 0.20)                           # short / long / short, top to bottom
+    gap = stile * 0.62
+    yy = dyt + stile
+    avail = dh - 2 * stile - 2 * gap
+    for frac in bands:
+        bh = avail * (frac / sum(bands))
+        if bh > 2.0 and dw / 2 - stile * 1.5 > 2.0:
+            for hx0 in (dx0 + stile, dx0 + dw / 2 + gap / 2):
+                pw_ = dw / 2 - stile - gap / 2
+                out.append(f'<rect class="pnl w-fine" x="{hx0:.1f}" y="{yy:.1f}" '
+                           f'width="{pw_:.1f}" height="{bh:.1f}"/>')
+        yy += bh + gap
     casing_w = ent["casing_width_in"] / 12.0 * scale
     cs_x0, cs_x1 = dx0 - casing_w, dx1 + casing_w
     ent_h = (ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]) / 12.0 * scale
@@ -196,7 +303,32 @@ def _entrance(elev, cx, floor_ft, X, Ypx, scale):
     return "".join(out)
 
 # ---------------------------------------------------------------- main
-def render_elevation(elev, path, face=None, scale=6.0):
+# Wood shingle laid to the weather. Colonial Williamsburg's own figure for its reconstructions
+# ("They are laid 5-1/2 to 6 in to the weather"); the 1700s Virginia statute fixes shingle LENGTH
+# and says nothing about exposure, so this is conventional practice and not a period measurement.
+SHINGLE_EXPOSURE_IN = 5.75
+
+
+def _profile_span_at(profile_ft, y):
+    """Where a horizontal line at height y enters and leaves a closed roof silhouette.
+
+    A shingle course runs the full width of the plane on a side-gable front and narrows toward
+    the ridge on a hip, because the hips cut it. Reading the span off the polygon gets both from
+    one rule instead of special-casing the forms."""
+    xs = []
+    n = len(profile_ft)
+    for i in range(n):
+        (x1, y1), (x2, y2) = profile_ft[i], profile_ft[(i + 1) % n]
+        if y1 == y2:
+            continue
+        if min(y1, y2) - 1e-9 <= y <= max(y1, y2) + 1e-9:
+            xs.append(x1 + (x2 - x1) * (y - y1) / (y2 - y1))
+    if len(xs) < 2:
+        return None
+    return (min(xs), max(xs))
+
+
+def render_elevation(elev, path, face=None, scale=24.0):
     if not elev.get("applicable", True):
         # This style is outside the Palladian/classical-front system this generator implements
         # (see build_elevation()'s own scope-gate note) -- an honest one-line placeholder, not a
@@ -267,7 +399,12 @@ def render_elevation(elev, path, face=None, scale=6.0):
 
     s.append(f'<rect x="{X(0):.1f}" y="{Ypx(top_height_ft):.1f}" width="{pw:.1f}" height="{ph:.1f}" fill="{PAL["paper"]}"/>')
     s.append(f'<rect class="wf" x="{X(0):.1f}" y="{Ypx(top_of_wall_ft):.1f}" width="{pw:.1f}" height="{(top_of_wall_ft*scale):.1f}"/>')
-    s.append(f'<line x1="{X(0):.1f}" y1="{Ypx(0):.1f}" x2="{X(span_ft):.1f}" y2="{Ypx(0):.1f}" stroke="{PAL["ink"]}" stroke-width="1.4"/>')
+    # THE GROUND LINE. HABS makes this the single heaviest line on an elevation -- 0.6 mm against
+    # 0.1 mm for a joint -- and runs it PAST the building at both ends, because it is the ground
+    # and not the underside of the wall. Its weight came from an inline attribute until 27 Aug
+    # 2026, so it sat off the ladder entirely and could not be reasoned about with the rest.
+    s.append(f'<line class="gl w-ground" x1="{X(0)-scale*1.5:.1f}" y1="{Ypx(0):.1f}" '
+             f'x2="{X(span_ft)+scale*1.5:.1f}" y2="{Ypx(0):.1f}"/>')
 
     # PROJECTIONS ARE DRAWN AT THE SIZE THE RECORD STATES. Until WP-5.7 the water table overhung
     # by a hardcoded 4 px, the belt by 2 and the cornice by 6, while `water_table_projection_in`
@@ -361,16 +498,49 @@ def render_elevation(elev, path, face=None, scale=6.0):
             s.append(_window(s, cx, floor1_ft + gw["sill_height_above_floor_in"]/12.0, floor1_ft + gw["head_height_above_floor_in"]/12.0,
                               gw["opening_width_in"], gw["lights_across"], gw["lights_high_per_sash"],
                               gw["shutter_leaf_width_in"], gw["shutter_leaf_height_in"], X, Ypx, scale,
-                              head=gw.get("head_treatment"), sill_in=wtb.get("course_height_in")))
+                              head=gw.get("head_treatment"), sill_in=wtb.get("course_height_in"),
+                          panel_count=gw.get("shutter_panel_count")))
         s.append(_window(s, cx, floor2_ft + uw["sill_height_above_floor_in"]/12.0, floor2_ft + uw["head_height_above_floor_in"]/12.0,
                           uw["opening_width_in"], uw["lights_across"], uw["lights_high_per_sash"],
                           uw["shutter_leaf_width_in"], uw["shutter_leaf_height_in"], X, Ypx, scale,
-                          head=uw.get("head_treatment"), sill_in=wtb.get("course_height_in")))
+                          head=uw.get("head_treatment"), sill_in=wtb.get("course_height_in"),
+                          panel_count=uw.get("shutter_panel_count")))
 
-    # roofline -- build/roof.py's own elevation_profile() numbers, shifted up by the cornice band
-    # this file adds (see ridge_delta_ft above), not re-derived
-    pts = " ".join(f"{X(x):.1f},{Ypx(h):.1f}" for x, h in profile_ft)
-    s.append(f'<polyline class="rf" points="{pts}"/>')
+    # THE ROOF, drawn as the closed plane it is rather than as a line along its bottom edge.
+    #
+    # roof.py's own elevation_profile() numbers, shifted by the cornice band this file adds (see
+    # ridge_delta_ft above). Until 27 Aug 2026 the long-face profile was two points both at the
+    # eave, so this polyline drew a horizontal line and the entire roof was absent from the front
+    # sheet -- 14.22 ft of building, on a house whose kit calls its roof canonical.
+    #
+    # The three silhouettes are each other's opposites and all three come from roof.py:
+    #   side-gable, long face   a plain rectangle, eave to ridge; its BLANKNESS is correct
+    #   hip, long face          an isosceles trapezoid, the hips at the roof's own nominal pitch
+    #   gable end               a triangle
+    roof_poly = " ".join(f"{X(x):.1f},{Ypx(h):.1f}" for x, h in profile_ft)
+    s.append(f'<polygon class="rf w-prof" points="{roof_poly}"/>')
+
+    # THE COVERING. Wood shingle, laid to a 5 1/2-6 in exposure (Colonial Williamsburg's own
+    # figure for its shops; the 18th-c Virginia statute fixes shingle LENGTH and not exposure, so
+    # the exposure is conventional and is said so). The courses foreshorten: a plane at pitch
+    # theta seen square-on compresses each course to `exposure x sin(theta)`, so they crowd toward
+    # the ridge of a steep roof and open out on a shallow one. Drawn only where a course clears
+    # the minimum legible spacing for this sheet -- 51 courses at 0.6 px apart is a grey wash, not
+    # a drawing, and HABS's own rule is a vignette of the covering rather than a generated hatch.
+    slope_deg = roof.get("main", {}).get("roof_slope_angle_deg") or elev.get("measurements", {}).get("roof_slope_angle_deg")
+    eave_top_ft = min(h for _, h in profile_ft)
+    ridge_top_ft = max(h for _, h in profile_ft)
+    if slope_deg and ridge_top_ft - eave_top_ft > 0.1:
+        import math as _m
+        course_ft = (SHINGLE_EXPOSURE_IN / 12.0) * _m.sin(_m.radians(slope_deg))
+        if course_ft * scale >= 2.0:            # below 2 px a course is not a line, it is a tone
+            y = eave_top_ft + course_ft
+            while y < ridge_top_ft - 1e-6:
+                xs = _profile_span_at(profile_ft, y)
+                if xs:
+                    s.append(f'<line class="shingle" x1="{X(xs[0]):.1f}" y1="{Ypx(y):.1f}" '
+                             f'x2="{X(xs[1]):.1f}" y2="{Ypx(y):.1f}"/>')
+                y += course_ft
 
     # CHIMNEYS, AND THE ONE THING THIS SHEET STILL CANNOT SHOW.
     #

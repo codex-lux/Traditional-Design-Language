@@ -791,8 +791,37 @@
     },
     "shutter": {
       "group": "openings",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "op": "add",
+          "note": "NO EXTERIOR SHUTTERS on the solid-masonry Tidewater house. This slot was `empty` and the cascade delivered the parent's raised-panel-pair, so every drawn elevation of this style carried shutters the evidence does not support -- an OQ 51 gap adjudicated here rather than inherited. Colonial Williamsburg's architectural report on the Ludwell-Paradise House answers the shutter question for a brick house of exactly this class: \"None. (Being a brick building in colonial times shutters appeared only in interiors.)\" The Public Records Office's exterior shutters were examined and discarded as not original, and neither the 1970 National Register nomination for Pembroke Manor nor its 2024-25 additional documentation describes any. The photograph of Pembroke shows none. EDITORIAL, judgment: read as search-index excerpts of Colonial Williamsburg and NPS documents that are unreachable from this session (the same proxy block that holds OQ 7-11 open); not verified at source."
+        },
+        {
+          "id": "raised-panel-pair",
+          "status": "atypical",
+          "op": "add",
+          "note": "Demoted from the parent's canonical, not forbidden: panelled exterior shutters are correct on FRAME houses of this tradition and on later work, and the geometry stays available to any node that binds it. What the evidence rules out is this style's brick front."
+        }
+      ],
+      "parameters": {
+        "panel_count_per_leaf_ground": {
+          "value": 3,
+          "unit": "count",
+          "kind": "editorial",
+          "note": "Where a shutter of this tradition IS panelled: three panels on the ground-floor leaf and two above. Colonial Williamsburg's reports on the Prentis House shutters (copied from an old house in Surry County) and on the John Blair House both give three. It agrees with sash-light.json's own rule, which says a 12/12 window takes a two- or three-panel leaf and a 6/6 takes two. EDITORIAL, unverified at source."
+        },
+        "panel_count_per_leaf_upper": {
+          "value": 2,
+          "unit": "count",
+          "kind": "editorial",
+          "note": "As panel_count_per_leaf_ground; the shorter upper sash takes the lower of the pack's two. EDITORIAL, unverified at source."
+        }
+      },
+      "note": "Adjudicated 27 Aug 2026 (WP-5.9). The style bound this slot `empty` and inherited shutters it should not have. Four independent records say a colonial Tidewater brick house carried interior shutters and no exterior ones."
     },
     "special_window": {
       "group": "openings",
