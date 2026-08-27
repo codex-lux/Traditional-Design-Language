@@ -127,6 +127,42 @@ async def gate(request: Request, call_next):
 app.add_middleware(BodyLimit, limit=MAX_BODY_BYTES)
 
 
+class GZipExceptSSE:
+    """Compression, with the one exemption that has to be deliberate rather than discovered.
+
+    Nothing here compressed anything. The app bundle, the 214 KB search index, every corpus
+    response and the atlas's 1.17 MB fine coastline tier all went out whole — three times the
+    bytes on a platform that bills egress, and three times the transfer time on every call,
+    which is a share of what a reader experiences as lag.
+
+    Starlette's GZipMiddleware would do it, but it buffers a streaming response, and this
+    server has two that must arrive incrementally: /api/rail/messages and the compose event
+    stream. Buffering either turns a live progress line into a long pause and then everything
+    at once — the rail's whole point is that it answers as it thinks. So SSE is exempted by
+    path BEFORE the middleware sees the request, rather than hoping the content type saves us
+    after the fact.
+    """
+
+    SSE_PATHS = ("/api/rail/messages", "/api/jobs/")
+
+    def __init__(self, app, minimum_size=600):
+        from starlette.middleware.gzip import GZipMiddleware
+        self.plain = app
+        self.zipped = GZipMiddleware(app, minimum_size=minimum_size)
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.plain(scope, receive, send)
+        path = scope.get("path", "")
+        if path.startswith(self.SSE_PATHS[0]) or (
+                path.startswith(self.SSE_PATHS[1]) and path.endswith("/events")):
+            return await self.plain(scope, receive, send)
+        return await self.zipped(scope, receive, send)
+
+
+app.add_middleware(GZipExceptSSE)
+
+
 @app.post("/api/login")
 async def login(request: Request, body: dict = Body(...)):
     if not auth.required():
@@ -537,8 +573,23 @@ if MCP_APP is not None:
 # ----------------------------------------------------------------- static app
 APP_DIST = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                         "app", "dist")
+class ImmutableStatic(StaticFiles):
+    """Vite content-hashes every filename under /assets, so a given URL's bytes can never
+    change — a new build means a new name. That makes a year-long immutable cache exactly
+    true rather than merely convenient, and it is free: the browser stops revalidating the
+    bundle and the 1.17 MB fine coastline tier on every load. Without it StaticFiles sends
+    only ETag/Last-Modified, so each asset still costs a round trip to be told it has not
+    changed. index.html is NOT served from here — it goes through the SPA catch-all below,
+    which must stay revalidated or a deploy would never reach anyone."""
+
+    def file_response(self, *a, **kw):
+        resp = super().file_response(*a, **kw)
+        resp.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        return resp
+
+
 if os.path.isdir(APP_DIST):
-    app.mount("/assets", StaticFiles(directory=os.path.join(APP_DIST, "assets")),
+    app.mount("/assets", ImmutableStatic(directory=os.path.join(APP_DIST, "assets")),
               name="assets")
 
     @app.get("/{path:path}")

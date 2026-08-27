@@ -105,7 +105,11 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install server deps
-        run: pip install -r workbench/requirements.txt
+        # Both files: the runtime set is what the image ships, and requirements-dev.txt
+        # adds pytest and httpx, which used to be in the runtime file and so were being
+        # built into production. If the suite ever fails here for a missing package that
+        # the image does not need, it belongs in the dev file rather than back in the other.
+        run: pip install -r workbench/requirements.txt -r workbench/requirements-dev.txt
       - name: Server tests
         run: python3 -m pytest workbench/server/tests -q
 

@@ -771,17 +771,33 @@ def check_plan(plan, strict=False):
         return {"error": "could not validate: the jsonschema package is not installed",
                 "detail": "pip install jsonschema", "unvalidated": True}
     try:
-        jsonschema.validate(plan, json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))))
+        jsonschema.validate(plan, schema("plan"))
     except Exception as e:
         return {"error": "plan does not match the plan schema", "detail": str(e)[:400],
                 "hint": "see schema/plan.schema.json; the minimum is id, name, style and one level with rooms"}
     return pc.check(plan, strict=strict)
 
+@functools.lru_cache(maxsize=8)
+def schema(name):
+    """One parse of schema/<name>.schema.json per process, shared by every caller.
+
+    check_plan re-read and re-parsed plan.schema.json on EVERY call, and check_plan is what
+    /api/plan/evaluate runs behind a 400 ms debounce on every wall drag. Six sites did the
+    same thing with two files. The corpus does not change under a running server — that is
+    the property the search index already leans on — and /api/dev/reload clears this with
+    the rest when it does.
+
+    The returned object is SHARED. jsonschema.validate does not mutate it; a caller who
+    hands it onward should copy_json it first, which is what plan_schema/brief_schema do.
+    """
+    return json.load(open(os.path.join(ROOT, "schema", f"{name}.schema.json")))
+
+
 def _load_plan_checker():
     return _mod("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
 
 def plan_schema():
-    return {"schema": json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))),
+    return {"schema": copy_json(schema("plan")),
             "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "plans", "*.json")))],
             "hint": ("A plan is a topology plus approximate dimensions — enough to check, not enough to build. "
                      "Doors imply adjacency in both directions; the validator derives the graph from them. "
@@ -796,7 +812,7 @@ def _composer():
 def compose(brief, candidates=4, include_plans=False):
     try:
         import jsonschema
-        jsonschema.validate(brief, json.load(open(os.path.join(ROOT, "schema", "brief.schema.json"))))
+        jsonschema.validate(brief, schema("brief"))
     except Exception as e:
         return {"error": "brief does not match the brief schema", "detail": str(e)[:400],
                 "hint": "the minimum is style and target_area_sf; see tdl_brief_schema"}
@@ -827,7 +843,7 @@ def list_partis(style=None, massing=None):
                      "them rather than searching from noise.")}
 
 def brief_schema():
-    return {"schema": json.load(open(os.path.join(ROOT, "schema", "brief.schema.json"))),
+    return {"schema": copy_json(schema("brief")),
             "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "briefs", "*.json")))],
             "hint": ("Only style and target_area_sf are required. Everything absent is decided by the "
                      "composer and reported in the decision log as an assumption, not smuggled in as a fact. "

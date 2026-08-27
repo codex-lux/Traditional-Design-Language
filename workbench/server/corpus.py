@@ -17,12 +17,27 @@ import core  # noqa: E402  (mcp_server/core.py)
 CASCADE_EDGES = ("descends_from", "regional_of")
 
 
+_PHYLOGENY = None
+
+
+def reset_phylogeny():
+    global _PHYLOGENY
+    _PHYLOGENY = None
+
+
 def phylogeny():
     """The whole style graph, flattened for the Phylogeny surface.
 
     dist/taxonomy.json proves the shape is derivable, but it is a build artifact;
     this derives live from the same styles/ files so the picture cannot go stale.
+
+    Built once per process, for the reason the search index above is: 157 KB rebuilt from
+    core._data() on every request, for a structure that cannot change under a running
+    server. Same bug, one endpoint over, found by measuring rather than by reading.
     """
+    global _PHYLOGENY
+    if _PHYLOGENY is not None:
+        return core.copy_json(_PHYLOGENY)
     D = core._data()
     taxa, edges = [], []
     for n in D["styles"].values():
@@ -51,10 +66,13 @@ def phylogeny():
                 "weight": e.get("weight"),
                 "inherits_kit": bool(e.get("inherits_kit")) or e["type"] in CASCADE_EDGES,
             })
-    return {"taxa": taxa, "edges": edges,
-            "edge_types": {"cascade_carrying": list(CASCADE_EDGES),
-                           "claimed_only": ["references", "reacts_against", "revives"],
-                           "reticulate": ["hybridizes_with"]}}
+    _PHYLOGENY = {"taxa": taxa, "edges": edges,
+                  "edge_types": {"cascade_carrying": list(CASCADE_EDGES),
+                                 "claimed_only": ["references", "reacts_against", "revives"],
+                                 "reticulate": ["hybridizes_with"]}}
+    # A copy out, always: the caller receives a structure it may keep or mutate, and the
+    # cached one has to stay the corpus's answer rather than the last caller's.
+    return core.copy_json(_PHYLOGENY)
 
 
 def kit_cascade(style_id):
@@ -491,5 +509,7 @@ def invalidate():
     import modcache
     modcache.invalidate()
     core._data.cache_clear()
+    core.schema.cache_clear()      # the parsed plan/brief schemas
     reset_search_index()
+    reset_phylogeny()
     return {"reloaded": True}

@@ -103,8 +103,7 @@ def _validate_brief(brief):
         return {"error": "could not validate: the jsonschema package is not installed",
                 "detail": "pip install -r workbench/requirements.txt"}
     try:
-        schema = json.load(open(os.path.join(corpus.ROOT, "schema", "brief.schema.json")))
-        jsonschema.validate(brief, schema)
+        jsonschema.validate(brief, core.schema("brief"))  # one shared parse, not one per submit
     except jsonschema.ValidationError as e:
         return {"error": "brief does not match the brief schema", "detail": str(e)[:400],
                 "hint": "the minimum is style and target_area_sf"}

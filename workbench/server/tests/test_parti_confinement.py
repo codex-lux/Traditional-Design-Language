@@ -114,6 +114,12 @@ def test_no_module_spells_the_parti_join_itself():
             for n, line in enumerate(open(path, encoding="utf-8"), 1):
                 if pattern.search(line):
                     offenders.append(f"{os.path.relpath(path, ROOT)}:{n}")
-    assert offenders == ["mcp_server/core.py:859"], (
+    # By FILE, not by file:line. The first version pinned "mcp_server/core.py:859" and went
+    # red the moment an unrelated function was added above it — a guard that cries wolf on
+    # every edit is a guard people learn to silence.
+    files = sorted({o.rsplit(":", 1)[0] for o in offenders})
+    assert files == ["mcp_server/core.py"], (
         "a parti id became a path outside core.load_parti — route it through that instead: "
         + ", ".join(offenders))
+    assert len(offenders) == 1, (
+        "core.load_parti should spell the join exactly once: " + ", ".join(offenders))

@@ -1,5 +1,9 @@
-# The Workbench server. Install with: pip install -r workbench/requirements.txt
+# The Workbench server, at RUNTIME. Install with: pip install -r workbench/requirements.txt
 # The corpus itself has no dependencies; these serve it over HTTP and drive the AI rail.
+#
+# Test-only dependencies live in requirements-dev.txt and are deliberately NOT here: the
+# Dockerfile installs this file wholesale, so pytest and httpx were shipping to production.
+# CI installs both.
 fastapi>=0.110
 uvicorn[standard]>=0.29
 jsonschema>=4.21        # also required by core.check_plan / core.compose — without it
@@ -8,8 +12,6 @@ anthropic>=1.0,<2       # the AI rail; the server runs without a key, the rail s
                         # PINNED >=1.0: rail.py passes output_config=, which does not
                         # exist on 0.x — an older venv satisfies >=0.40 and then every
                         # turn raises TypeError, which no test catches (fake transport).
-pytest>=8               # workbench/server/tests
-httpx>=0.27             # FastAPI TestClient transport
 ezdxf>=1.2              # WP-5.1 CAD export — optional for the root toolchain
 ifcopenshell>=0.8       # (it refuses honestly without them); the workbench's
                         # /api/export endpoints want them present
