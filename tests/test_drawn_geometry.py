@@ -470,3 +470,336 @@ class TestRelieflsDrawnInLineNotInTone:
         assert not elev["storey_windows"][0].get("reveal_band_in")
         assert len(re.findall(r'class="shade', svg)) <= 4, (
             "a frame wall is being given a masonry reveal's shadow")
+
+
+class TestTheStacksAreDrawnWhereTheRecordPutsThem:
+    """WP-5.9, second half. The chimney block carried a twelve-line comment saying the front
+    elevation COULD NOT show the stacks, because `roof.py`'s long-face silhouette was flat at the
+    eave and modelled no roof mass above the cornice. That was true when it was written and
+    stopped being true earlier in the same package — `elevation_profile` returns the near roof
+    plane on a long face now, because parallel projection fills the band from eave to ridge.
+    Prose asserting what the code no longer does is the failure this corpus polices hardest, and
+    it was sitting in the renderer's own comment.
+
+    Underneath it were two invented constants of exactly the class OQ 52 swept out of the
+    measurements: the stack was drawn 3 ft from the gable wall's front corner and based 2 ft
+    below the ridge, while the record states `y_ft` (21.33 here — mid-depth, on the ridge line)
+    and `total_height_grade_ft`. On the sheet the 3 ft put a brick bar in the sky at the
+    top-left corner, touching no roof at all, on every gable elevation this corpus has ever
+    drawn."""
+
+    def _rects(self, svg, cls="ch"):
+        import re
+        out = []
+        for m in re.finditer(r'<rect class="' + cls + r'[^"]*"([^>]*)/>', svg):
+            a = dict(re.findall(r'(\w+)="([-\d.]+)"', m.group(1)))
+            out.append({k: float(v) for k, v in a.items()})
+        return out
+
+    def _draw(self, tmp_path, face):
+        import json as _j
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
+        plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        rec = e.build_elevation(plan)
+        out = str(tmp_path / f"{face}.svg")
+        r.render_elevation(rec, out, face=face)
+        return rec, open(out).read()
+
+    def test_the_front_elevation_shows_both_end_stacks(self, tmp_path):
+        """The kit calls the paired stacks "visible from a mile away and conclusive against New
+        England", and the sheet everyone actually looks at drew neither."""
+        rec, svg = self._draw(tmp_path, "S")
+        stacks = self._rects(svg)
+        assert len(stacks) == 2, "two gable-end stacks, one at each end of the ridge"
+        xs = sorted(r["x"] for r in stacks)
+        assert xs[1] - xs[0] > 1000, "they are at opposite ends of the front, not stacked together"
+
+    def test_a_gable_end_draws_one_stack_at_the_position_the_record_states(self, tmp_path):
+        rec, svg = self._draw(tmp_path, "E")
+        stacks = self._rects(svg)
+        assert len(stacks) == 1, "one stack per gable end; the record carries one at each"
+        roof = rec["roof_record"]
+        y_ft = roof["chimneys"]["positions"][0]["y_ft"]
+        depth_ft = rec["footprint"]["depth_ft"]
+        # the drawn centre, back through the same 24 px/ft and 46 px pad the sheet uses
+        centre_px = stacks[0]["x"] + stacks[0]["width"] / 2.0
+        assert abs((centre_px - 46.0) / 24.0 - y_ft) < 0.2, (
+            f"the stack is drawn at {(centre_px-46)/24:.2f} ft along the gable end and the record "
+            f"puts it at {y_ft} ft — the 3 ft constant is back")
+        assert abs(y_ft - depth_ft / 2.0) < 0.5, "on this house that position is the ridge line"
+
+    def test_no_stack_is_drawn_below_the_roof_it_comes_through(self, tmp_path):
+        """Only the part above the roof is drawn, and that is a claim about EVIDENCE rather than
+        about visibility: these stacks are exterior, so nothing hides the breast — but the only
+        width this corpus states is the STACK's, and a chimney breast is several feet across. 47
+        ft of 22 in brick asserts a chimney nobody measured. The sheet says so in its legend."""
+        rec, svg = self._draw(tmp_path, "E")
+        roof = rec["roof_record"]
+        c = roof["chimneys"]["positions"][0]
+        above_ft = c["total_height_grade_ft"] - c["grade_to_ridge_ft"]
+        st = self._rects(svg)[0]
+        assert abs(st["height"] / 24.0 - above_ft) < 0.05, (
+            f"drawn {st['height']/24:.2f} ft of stack; {above_ft} ft clears the ridge")
+        assert "BREAST BELOW" in svg.upper(), "the sheet must say what it is not drawing"
+
+
+class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
+    """WP-5.9. Dormers were the last thing in this corpus that could not be stated at all.
+
+    `build/roof.py::dormer_rhythm_check` read a field it had invented for itself
+    (`declared_dormers`) because the plan schema had none, and `build/elevation.py` refused
+    `dormer_count` outright — both for the same reason, stated in both files: an absent dormer and
+    an UNSTATABLE one were indistinguishable, so any figure at all was a guess.
+
+    `declared.dormer` separates them, and the separation is the whole feature:
+        absent   the record does not say -> every dormer measurement withheld
+        "none"   a house stated to have none -> dormer_count is a MEASURED zero
+        {count}  a house that has them -> the full set
+
+    The middle state is what the cape-central-chimney incident (OQ 59) was about: a refusal
+    published as a zero, which then convicted a parti named for the very thing it had refused."""
+
+    def _elev(self, declared):
+        import copy
+        import json as _j
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        plan = _j.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        plan = copy.deepcopy(plan)
+        if declared == "DROP":
+            plan["declared"].pop("dormer", None)
+        else:
+            plan["declared"]["dormer"] = declared
+        return e.build_elevation(plan)
+
+    def test_an_unstated_record_withholds_every_dormer_measurement(self):
+        m = self._elev("DROP")["measurements"]
+        for k in ("dormer_count", "sum_of_dormer_face_widths_in", "dormer_window_width_in"):
+            assert k not in m, f"{k} was supplied for a plan that says nothing about dormers"
+
+    def test_a_stated_none_is_a_measured_zero(self):
+        m = self._elev("none")["measurements"]
+        assert m["dormer_count"] == 0
+        assert m["sum_of_dormer_face_widths_in"] == 0
+        # ...but nothing PER-DORMER, because there is no dormer to measure
+        assert "dormer_window_width_in" not in m
+        assert "visible_cheek_width_in" not in m
+
+    def test_both_shipped_plans_state_their_dormers(self):
+        """They state none, and the reason is in each record's own note. A reference plan that
+        stayed silent would leave the whole dormer layer untested on every run."""
+        import json as _j
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            plan = _j.load(open(os.path.join(ROOT, "plans", f"{pid}.json")))
+            assert plan["declared"].get("dormer") == "none", pid
+
+    def test_a_dormered_house_lands_inside_every_band_the_fault_corpus_states(self):
+        """The fault corpus specifies a dormer completely, and the generator is built from it:
+        window 0.75-1.0 of the sash below (`overscaled-dormer`), cheek at most 0.25 of the sash
+        (`fat-cheek-dormer`), at least 12 in of roof in front and 18-36 preferred
+        (`sunken-dormer`), faces together at most 0.4 of the building width (`dormer-wall`)."""
+        elev = self._elev({"count": 3, "variant": "gabled"})
+        d, m = elev["dormers"], elev["measurements"]
+        below = m["window_width_directly_below_in"]
+        assert 0.75 <= d["window_width_in"] / below <= 1.0
+        assert 0.12 <= d["cheek_width_in"] / d["window_width_in"] <= 0.25
+        # AND the rule that fault states in prose but does not encode in its test: "the finished
+        # cheek width should not exceed the width of the window casing beside it". The kit band's
+        # own midpoint breaks it on this house (6 in against a 4.21 in casing) and the drawing is
+        # where that showed -- a strip of bare board outboard of the casing, two members where
+        # the tradition wants one read as one.
+        assert d["cheek_width_in"] <= d["casing_width_in"] + 1e-9
+        assert 18.0 <= d["roof_run_in_front_in"] <= 36.0
+        assert m["sum_of_dormer_face_widths_in"] / (elev["front"]["outside_width_in"]) <= 0.4
+        assert d["count_parity_ok"] is True, "three is odd and the kit's parity rule says odd"
+
+    def test_a_variant_the_style_forbids_is_refused_through_the_CASCADE(self):
+        """`tidewater-georgian` binds the dormer slot EMPTY, exactly as it binds `shutter`, so the
+        variants live on `georgian-colonial-american` and reach it only through the lineage.
+        Checking the raw kit would let a shed dormer onto a Georgian front."""
+        d = self._elev({"count": 3, "variant": "shed-dormer"})["dormers"]
+        assert d.get("refused") is True
+        assert "forbid" in d["note"].lower()
+
+    def test_a_parity_breach_is_reported_and_not_refused(self):
+        """An even count on a tradition that wants odd is a finding, not an invalid record. The
+        corpus reports breaches; it does not refuse to draw the house."""
+        d = self._elev({"count": 4, "variant": "gabled"})["dormers"]
+        assert d["count"] == 4 and d.get("refused") is not True
+        assert d["count_parity_ok"] is False
+
+    # ---------------------------------------------------------------- the INK, not the record
+    def _svg(self, tmp_path, declared, name="d.svg"):
+        r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
+        out = str(tmp_path / name)
+        r.render_elevation(self._elev(declared), out)
+        return open(out).read()
+
+    @staticmethod
+    def _polys(svg, cls, n=None):
+        """Polygons of a class, optionally only those with n vertices.
+
+        The vertex filter is not decoration: the MAIN roof carries the same `rf w-prof` class as a
+        dormer roof, and it is a four-point band while a dormer's is a three-point gable. Counting
+        without it made "three dormer roofs" read four and, worse, made "a pediment shows no roof
+        plane" fail on the roof of the house."""
+        import re
+        out = []
+        for m in re.finditer(r'<polygon class="' + cls + r'[^"]*" points="([^"]+)"', svg):
+            pts = [tuple(float(v) for v in p.split(",")) for p in m.group(1).split()]
+            if n is None or len(pts) == n:
+                out.append(pts)
+        return out
+
+    def test_dormers_are_drawn_on_the_roof_plane(self, tmp_path):
+        import re
+        svg = self._svg(tmp_path, {"count": 3, "variant": "gabled"})
+        assert len(re.findall(r'class="pf w-prof" x=', svg)) >= 3, "three faces, one per dormer"
+        assert len(self._polys(svg, "rf w-prof", n=3)) == 3, "three dormer roofs at the main pitch"
+        # and a house that states none draws none
+        n = self._svg(tmp_path, "none", "n.svg")
+        assert not self._polys(n, "rf w-prof", n=3)
+
+    def test_a_gabled_dormer_draws_no_cornice_return(self, tmp_path):
+        """A cornice RETURN runs perpendicular to the picture plane, so orthographic projection
+        gives it no width — the same reason the cheeks vanish. It was drawn for one revision as
+        two stubs standing above the level cornice at the eave corners, which is a real member
+        seen in perspective, and it looked exactly as wrong as it was. Nothing may be drawn above
+        the cornice line on a gabled dormer except the roof and its shingle courses."""
+        import re
+        svg = self._svg(tmp_path, {"count": 3, "variant": "gabled"})
+        roofs = self._polys(svg, "rf w-prof", n=3)
+        assert roofs, "no dormer roof drawn at all — this test would pass vacuously"
+        for pts in roofs:
+            base_y = max(p[1] for p in pts)          # SVG y grows downward: the eave line
+            x0, x1 = min(p[0] for p in pts), max(p[0] for p in pts)
+            for m in re.finditer(r'<rect class="pf w-fine"[^>]*x="([-\d.]+)"[^>]*y="([-\d.]+)"', svg):
+                rx, ry = float(m.group(1)), float(m.group(2))
+                assert not (x0 - 1 <= rx <= x1 + 1 and ry < base_y - 1), (
+                    "a cornice return is drawn above the dormer's cornice line — that is a "
+                    "return in perspective on an orthographic sheet")
+
+    def test_a_pedimented_dormers_tympanum_sits_inside_its_raking_cornice(self, tmp_path):
+        """The two canonical variants differ here and nowhere else. A pediment is an outer gable
+        bounded by a raking cornice with the tympanum inside it, and the rake must be the SAME
+        assembly as the level cornice — `raking-cornice-that-does-not-match` is a fault in this
+        corpus precisely because it usually is not.
+
+        The measurement that matters is PERPENDICULAR. An inner triangle offset in y alone gives
+        a rake thinner than the level cornice by the cosine of the pitch, and thinner the steeper
+        the pediment; two stroked lines give a notch at the apex and two tails below the eaves.
+        Both were drawn before this test existed, and both passed every test of the record."""
+        import math
+        svg = self._svg(tmp_path, {"count": 3, "variant": "pedimented"}, "p.svg")
+        outer = self._polys(svg, "pf w-prof", n=3)
+        inner = self._polys(svg, "pf w-fine", n=3)
+        assert outer and inner, "a pedimented dormer draws an outer gable and a tympanum"
+        assert not self._polys(svg, "rf w-prof", n=3), "a pediment closes the gable; no dormer roof plane shows"
+        # the level cornice's own thickness, from the record
+        d = self._elev({"count": 3, "variant": "pedimented"})["dormers"]
+        for o, i in zip(outer, inner):
+            oap = min(o, key=lambda p: p[1])
+            iap = min(i, key=lambda p: p[1])
+            assert iap[1] > oap[1], "the tympanum's apex must sit BELOW the raking cornice's"
+            ox0, ox1 = min(p[0] for p in o), max(p[0] for p in o)
+            ix0, ix1 = min(p[0] for p in i), max(p[0] for p in i)
+            assert ix0 > ox0 and ix1 < ox1, "the tympanum must be inset at the eaves too"
+            # perpendicular thickness of the left rake, measured as the distance from the inner
+            # eave corner to the outer rake line
+            rise, run = oap[1] - o[0][1], oap[0] - ox0
+            ln = math.hypot(run, rise) or 1.0
+            perp = abs((ix0 - ox0) * rise) / ln
+            assert perp > 0.5, "the raking cornice has no thickness at all"
+            # and it equals the LEVEL cornice's thickness, which is what "the same assembly" means
+            lvl = None
+            import re as _re
+            for m in _re.finditer(r'<rect class="pf w-prof"[^>]*y="([-\d.]+)"[^>]*height="([-\d.]+)"', svg):
+                h = float(m.group(2))
+                if abs(float(m.group(1)) - o[0][1]) < 0.6:
+                    lvl = h
+                    break
+            assert lvl is not None, "no level cornice found under the pediment"
+            assert abs(perp - lvl) < 0.75, (
+                f"the raking cornice is {perp:.2f} px thick and the level cornice {lvl:.2f} px — "
+                "a rake that is not the level cornice is the fault this corpus names")
+
+    def test_the_dormer_sash_carries_all_its_glazing_bars(self, tmp_path):
+        """"6/6" is six lights in EACH sash, not six in the window. Reading the first number as
+        the whole opening put half the glazing bars in, and the drawing showed a 2x3 grid where a
+        double-hung 6/6 has 2 across and 3 high TWICE, with the meeting rail between."""
+        d = self._elev({"count": 3, "variant": "gabled"})["dormers"]
+        per = int(str(d["sash_pattern"]).split("/")[0])
+        assert d["lights_across"] * d["lights_high_per_sash"] == per, (
+            f'{d["sash_pattern"]}: {d["lights_across"]}x{d["lights_high_per_sash"]} is not {per} '
+            "lights per sash")
+        svg = self._svg(tmp_path, {"count": 3, "variant": "gabled"}, "s.svg")
+        import re
+        # interior muntins per dormer: (across-1) verticals x 2 sashes + (high-1) horizontals x 2
+        want_per_dormer = (d["lights_across"] - 1) * 2 + (d["lights_high_per_sash"] - 1) * 2
+        assert want_per_dormer > 0
+        # the meeting rail is drawn w-med and is the one that says the sash is double-hung
+        assert len(re.findall(r'class="mt w-med"', svg)) >= 3 + 9, (
+            "every dormer needs its own meeting rail, as every storey window has one")
+
+    def test_a_variant_the_record_did_not_choose_is_not_chosen_for_it(self):
+        """Picking the first canonical variant is dict order dressed as a decision. Tidewater makes
+        BOTH `gabled` and `pedimented` canonical, so a record that names neither has not chosen;
+        the drawing shows the plain gabled form and the sheet says the variant is undeclared."""
+        d = self._elev({"count": 3})["dormers"]
+        assert d["variant"] is None
+        assert sorted(d["variant_undeclared_choices"]) == ["gabled", "pedimented"]
+        d2 = self._elev({"count": 3, "variant": "pedimented"})["dormers"]
+        assert d2["variant"] == "pedimented" and d2["variant_undeclared_choices"] is None
+
+    def test_a_variant_the_cascade_delivered_says_where_it_came_from(self, tmp_path):
+        """OQ 51 in the KIT layer, found by drawing. `colonial-revival` binds the dormer slot
+        nothing, so the lineage resolves the whole of it from `english-cottage-vernacular`: the one
+        canonical dormer of a production Colonial Revival is an eyebrow swept within THATCH, and
+        `boxed-dormer` — what the style actually builds — is forbidden. Adjudicating that is a
+        corpus decision. Saying where the variant came from costs one field and puts the question
+        on the sheet instead of leaving a thatch dormer asserted with confidence."""
+        import copy
+        import json as _j
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
+        plan = copy.deepcopy(_j.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json"))))
+        plan["declared"]["dormer"] = {"count": 3}
+        rec = e.build_elevation(plan)
+        d = rec["dormers"]
+        assert d["variant_source_node"] == "english-cottage-vernacular"
+        assert d["variant_source_node"] != rec["style"]
+        out = str(tmp_path / "cr.svg")
+        r.render_elevation(rec, out)
+        svg = open(out).read()
+        assert "IS INHERITED FROM" in svg and "OQ 51" in svg
+
+    def test_a_sash_pattern_the_kit_does_not_state_is_not_invented(self, tmp_path):
+        """`colonial-revival`'s cascaded dormer slot states no sash pattern, and the first version
+        defaulted to 6/6 — a confident twelve-light dormer nobody had recorded. A glazing pattern
+        nobody stated is drawn as glass, with the reason on the sheet."""
+        import copy
+        import json as _j
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
+        plan = copy.deepcopy(_j.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json"))))
+        plan["declared"]["dormer"] = {"count": 3}
+        rec = e.build_elevation(plan)
+        assert rec["dormers"]["sash_pattern"] is None
+        assert rec["dormers"]["lights_across"] is None
+        out = str(tmp_path / "cr2.svg")
+        r.render_elevation(rec, out)
+        assert "SASH PATTERN UNDECLARED" in open(out).read()
+
+    def test_the_dormer_cornice_is_the_house_cornice_at_the_houses_own_ratio(self):
+        """The kit's rule for this slot: dormers "carry the same order as the house at reduced
+        scale". `cornice-that-is-a-fascia` states the ratio the house's own cornice obeys — one
+        twelfth to one fourteenth of the wall it crowns. The dormer's cornice is that same ratio
+        over the dormer's own face, so the rule is used twice rather than invented once."""
+        elev = self._elev({"count": 3, "variant": "gabled"})
+        d, m, c = elev["dormers"], elev["measurements"], elev["eave_cornice"]
+        house_ratio = c["cornice_height_in"] / m["wall_height_water_table_to_cornice_in"]
+        assert 0.0714 <= house_ratio <= 0.0833, "the house's own cornice must obey the rule first"
+        face_in = d["window_height_in"] + 2 * d["casing_width_in"]
+        assert abs(d["cornice_height_in"] - house_ratio * face_in) < 0.01
+        assert d["cornice_projection_in"] > 0
+        assert "reduced scale" in (d["cornice_source"] or "")

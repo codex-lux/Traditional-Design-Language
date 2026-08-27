@@ -30,7 +30,7 @@ The three fatals on the first are the powder-room door off the dining room, the 
 
 **Grouping** — declared groupings' required rooms, massing fit, privacy span.
 
-**Fault** — the 209-fault corpus against whatever measurements the plan supplies, style exceptions honoured.
+**Fault** — the 209-fault corpus against whatever measurements the plan supplies, style exceptions honoured. A fault comes back in one of four states, and `result` carries all four: present (a test that was for this house ran and failed), clear, `fault_unjudged` (a number the tests need was not supplied), and `fault_not_applicable` (every test declined its own `applies_when` precondition — a house that states it carries no dormers has no dormer rhythm to be off). The fourth exists because such a fault previously appeared in **no list at all**, which reads to a caller exactly like clear. Neither of the last two is a pass. See `docs/faults.md`.
 
 **Code** — IRC model text, **advisory and jurisdictional**, never a permit review. Labelled as such in every run.
 

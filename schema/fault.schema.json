@@ -336,6 +336,48 @@
     "note": {
      "type": "string"
     },
+    "applies_when": {
+     "type": "object",
+     "additionalProperties": false,
+     "description": "A precondition on the MEASUREMENTS, as `applies_to_styles` is a precondition on the style. Same shape as a test: expression, direction, threshold. Where it evaluates false the test is NOT RUN -- not passed, not failed, absent from the fault's judgement entirely, exactly as a test scoped to another style is. Where its own measurements are missing the test is could-not-evaluate, because nobody can say whether it applied. This exists because some rules presuppose the thing they measure: `dormer-off-the-bay`'s parity secondary is `dormer_count % 2 == 1`, and on a house STATED to carry no dormers it reported 'Dormers Off the Rhythm: 0 against equals 1'. Zero dormers is not an even number of dormers. Any test whose expression DIVIDES by a count should carry one, or it errors on the house that has none.",
+     "properties": {
+      "expression": {
+       "type": "string",
+       "description": "e.g. 'dormer_count'"
+      },
+      "threshold": {
+       "type": "number"
+      },
+      "direction": {
+       "enum": [
+        "at-least",
+        "at-most",
+        "equals",
+        "between"
+       ],
+       "description": "The condition under which the test RUNS."
+      },
+      "upper": {
+       "type": "number",
+       "description": "Second bound when direction is 'between'."
+      },
+      "units": {
+       "enum": [
+        "ratio",
+        "in",
+        "ft",
+        "sqft",
+        "deg",
+        "count",
+        "percent",
+        "kelvin"
+       ]
+      },
+      "note": {
+       "type": "string"
+      }
+     }
+    },
     "applies_to_styles": {
      "type": "array",
      "items": {

@@ -271,26 +271,62 @@ class TestCapeEaveCheck:
 
 
 class TestDormerRhythm:
-    def test_not_applicable_when_no_dormers_are_declared(self, roof_module):
+    """REWRITTEN 27 Aug 2026 (WP-5.9), and the rewrite is the finding.
+
+    These three tests reached dormer_rhythm_check by writing `plan["declared_dormers"] = [...]`
+    -- a key no schema ever defined, that no record in the corpus carried, and that the function
+    had invented for itself because no field authored a dormer. So the tests passed against a
+    code path nothing could reach, and the check returned not-applicable on every real plan. A
+    guard that constructs its own input out of thin air proves the arithmetic and nothing about
+    the corpus; this is the same shape as WP-5.7's TestSegTo, which pinned the control points of
+    curves that had degenerated to straight lines.
+
+    `declared.dormer` exists now, so they are written against it -- including the state the old
+    ones could not express at all, which is a house that STATES it has none.
+    """
+
+    def test_a_record_that_says_nothing_is_not_a_record_that_says_none(self, roof_module):
+        """The distinction the whole field exists for. Both shipped plans now DECLARE none, so
+        the silent state has to be built by removing the declaration."""
         plan, section = _tidewater_section(roof_module)
+        plan["declared"].pop("dormer", None)
         main = roof_module.main_roof(plan, section, plan["style"])
         d = roof_module.dormer_rhythm_check(plan, section, main)
-        assert d["applicable"] is False
+        assert d["applicable"] is False and d["stated"] is False
+        assert "dormer_count" not in d, "a house nobody asked about has no count, not a count of 0"
 
-    def test_dormers_on_bay_centres_pass(self, roof_module):
+    def test_a_stated_none_is_judged_and_reports_no_ratio(self, roof_module):
+        """A measured zero: applicable, stated, count 0 -- and `ok` is None, not True. Zero
+        dormers is not a rhythm that passed; it is no rhythm. Reporting True here is how a
+        refusal becomes a pass, which is the collapse this corpus least survives."""
         plan, section = _tidewater_section(roof_module)
-        plan["declared_dormers"] = [5.0, 15.0, 25.0]   # bay module is 10 ft on this plan
+        assert plan["declared"]["dormer"] == "none"      # as shipped
         main = roof_module.main_roof(plan, section, plan["style"])
         d = roof_module.dormer_rhythm_check(plan, section, main)
-        assert d["applicable"] is True
-        assert d["ratio"] == 1.0
+        assert d["applicable"] is True and d["stated"] is True
+        assert d["dormer_count"] == 0
+        assert d["ratio"] is None and d["ok"] is None
 
-    def test_a_dormer_off_the_bay_fails(self, roof_module):
+    def test_a_count_the_bays_can_carry_passes(self, roof_module):
         plan, section = _tidewater_section(roof_module)
-        plan["declared_dormers"] = [5.0, 15.0, 22.0]   # 22 is off the 10 ft grid
+        plan["declared"]["dormer"] = {"count": 3}
         main = roof_module.main_roof(plan, section, plan["style"])
+        d = roof_module.dormer_rhythm_check(plan, section, main)
+        assert d["applicable"] is True and d["dormer_count"] == 3
+        assert d["bay_count"] >= 3
+        assert d["ratio"] == 1.0 and d["ok"] is True
+
+    def test_more_dormers_than_bays_fails_and_no_derivation_can_fix_it(self, roof_module):
+        """The one thing a record CAN get wrong here. Placement is derived from the bays, so it
+        is right by construction; the count is authored, and a front cannot carry more dormers on
+        bays than it has bays."""
+        plan, section = _tidewater_section(roof_module)
+        main = roof_module.main_roof(plan, section, plan["style"])
+        bays = int(section["footprint"]["width_ft"] // (section["footprint"].get("bay_module_ft") or 10.0))
+        plan["declared"]["dormer"] = {"count": bays + 2}
         d = roof_module.dormer_rhythm_check(plan, section, main)
         assert d["ok"] is False
+        assert d["on_bay_count"] == bays and d["ratio"] < 1.0
 
     def test_neither_shipped_plan_has_an_attic_a_dormer_would_light(self):
         for name in ("tidewater-georgian-careful", "spec-builder-colonial"):

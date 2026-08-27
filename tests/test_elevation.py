@@ -444,7 +444,21 @@ class TestRenderElevation:
         # rather than the whole attribute -- a pin on `class="rf"` exactly would fail every time
         # the roof moved a rung on the ladder without the roof having changed at all.
         assert 'class="rf' in text
-        assert 'class="ch"' in text   # tidewater-georgian-careful's own gable-end chimneys (WP-3.3)
+        # THE SAME PIN, ONE LINE APART. The comment directly above says a pin on `class="rf"`
+        # exactly would fail every time the roof moved a rung on the weight ladder without the
+        # roof changing -- and then the next line pinned `class="ch"` exactly, which is what broke
+        # when WP-5.9 gave the stack its own rung. Match the token.
+        assert 'class="ch' in text   # tidewater-georgian-careful's own gable-end chimneys (WP-3.3)
+        # And WHERE, because "a stack is on the sheet" was true of the version that drew it as a
+        # bar floating in the sky at the top-left corner, 3 ft from the gable's front corner and
+        # touching no roof (see WP-5.9's report, and OQ 74).
+        import re as _re
+        rects = _re.findall(r'<rect class="ch[^"]*" x="([-\d.]+)"[^>]*width="([-\d.]+)"', text)
+        assert len(rects) == 1, "one stack per gable end"
+        centre_ft = (float(rects[0][0]) + float(rects[0][1]) / 2.0 - 46.0) / 24.0
+        y_ft = elev["roof_record"]["chimneys"]["positions"][0]["y_ft"]
+        assert abs(centre_ft - y_ft) < 0.2, (
+            f"stack drawn at {centre_ft:.2f} ft along the gable end; the record says {y_ft}")
         # WP-5.9: and the roof is a closed plane now, not a line along its bottom edge.
         assert "<polygon" in text, "the roof is drawn as a polyline again"
 

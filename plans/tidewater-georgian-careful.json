@@ -17,7 +17,7 @@
     "date_of_representation": 1765,
     "budget_tier": "custom"
   },
-  "note": "The same corpus applied deliberately, to see whether the validator stays quiet on a plan that respects it. Ceilings are Tidewater height; the passage runs through; service is a dependency.",
+  "note": "The same corpus applied deliberately, to see whether the validator stays quiet on a plan that respects it. Ceilings are Tidewater height; the passage runs through; service is a dependency. NO DORMERS, stated rather than left silent (WP-5.9). The evidence for this house type is consistent: Pembroke Manor's dormer was a 20th-c addition and has since been removed; the George Wythe House -- two-storey, five-bay, brick, the building Pembroke is most often compared to -- records 'Dormer Windows / None'; and Carter's Grove's original roof was unbroken and took a 1928 campaign to dormer at all. The structural reason is the pitch: Chesapeake houses that carry dormers run 47-50 degrees, and this one is 8:12, which is 33.7. A two-storey Georgian of this class had its garret lit from the gable ends. Stating it makes dormer_count a MEASURED zero the fault corpus may judge; leaving the key out would mean could-not-evaluate, which is true of a record that has not been looked at and not true of this one.",
   "levels": [
     {
       "id": "ground",
@@ -857,6 +857,7 @@
   "declared": {
     "roof_form": "side-gable",
     "primary_cladding": "brick-flemish-bond",
-    "construction_type": "solid-masonry-two-wythe"
+    "construction_type": "solid-masonry-two-wythe",
+    "dormer": "none"
   }
 }

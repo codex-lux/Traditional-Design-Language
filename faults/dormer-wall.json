@@ -96,6 +96,13 @@
       "direction": "at-most",
       "units": "ratio",
       "measurable_from": "photograph",
+      "applies_when": {
+        "expression": "dormer_count",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Divides by dormer_count. Zero dormers cannot put their heads on one line; the expression would raise rather than judge. Added 27 Aug 2026 (WP-5.9)."
+      },
       "note": "The test that settles it. If a single horizontal line touches the heads of every dormer window and the head of nothing else, the dormers are a storey wearing a hat."
     }
   ],

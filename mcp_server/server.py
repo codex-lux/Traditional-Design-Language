@@ -150,8 +150,12 @@ def tdl_check_measurements(measurements: dict, style: str = "", slot: str = "",
                            limit: int = 40) -> str:
     """Evaluate the fault corpus against real numbers. Give a dict of measurements — from a
     photograph, an elevation, or a tape — and get back which faults are PRESENT (a test actually
-    failed, with the value, the threshold and the fix), which are CLEAR, and which COULD NOT BE
-    JUDGED for want of a number. Anything unjudged is unknown, never passed; say so to the human.
+    failed, with the value, the threshold and the fix), which are CLEAR, which COULD NOT BE
+    JUDGED for want of a number, and which are NOT APPLICABLE (every test of that fault is
+    preconditioned on a measurement this house does not meet, so none ran — a house that states
+    it carries no dormers has no dormer rhythm to be off). Anything unjudged is unknown, never
+    passed, and not-applicable is not a pass either: the question does not arise. Say both to
+    the human.
     Style-specific exceptions are applied automatically, so a five-foot Georgian portico will not
     be reported as the four-foot-porch fault. Use tdl_measurement_vocabulary for the variable names.
     For a style's own hard/soft constraints rather than the element-level fault corpus, use

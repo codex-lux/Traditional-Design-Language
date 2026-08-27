@@ -292,6 +292,156 @@ def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutte
                            f'width="{sw - 2 * inset:.1f}" height="{py1 - py0:.1f}"/>')
     return "".join(out)
 
+def _dormers(elev, roof, profile_ft, X, Ypx, scale, face):
+    """The dormers, drawn on the roof plane they sit in.
+
+    HOW A DORMER IS DRAWN IN A TRUE ELEVATION, and it is not what most renderings do. The FACE is
+    parallel to the picture plane, so it is drawn TRUE -- its real width, its real sash. The
+    CHEEKS are perpendicular to it, so in orthographic projection they have no width at all and
+    VANISH: a dormer drawn with visible cheeks has been drawn in perspective by accident. What is
+    left of the cheek on the sheet is the strip of dormer FACE outboard of the window casing,
+    which is a real face and is drawn. And the dormer's own roof is drawn at the MAIN roof's
+    pitch, because three Colonial Williamsburg reports give dormer pitch as equal to the main
+    roof's.
+
+    `visible_cheek_width_in` still travels in the measurements, because `fat-cheek-dormer` is a
+    PHOTOGRAPH test and a photograph is oblique. The elevation and the photograph disagree about
+    the cheek on purpose, and both are right about their own projection.
+
+    WHAT WAS ADDED 27 Aug 2026, and why it matters more than it sounds. The first version drew a
+    rectangle, a triangle and a six-light grid: the gable sprang straight off the head casing with
+    NO CORNICE, the sash carried half its glazing bars, and the roof had none of the shingle
+    courses the main roof beside it had. That is the same abstraction WP-5.7 was written to
+    remove, reappearing one storey up. The kit's own rule for this slot -- dormers "carry the same
+    order as the house at reduced scale" -- says a dormer has the house's cornice on it, and
+    build/elevation.py::dormers() now derives that cornice's height and projection from the ratio
+    the house's own cornice obeys. Here it is drawn: a cornice band with its true projection and
+    its shade line, carried up the rakes and closed as a pediment where the variant is
+    `pedimented`, and stopped with returns where it is `gabled`. A dormer with no cornice is not
+    a simplified dormer; it is a different building."""
+    d = elev.get("dormers") or {}
+    if not d.get("count") or d.get("refused"):
+        return ""
+    if face != (d.get("face") or elev.get("entrance_face")):
+        return ""                      # a dormer on the far slope is not in this elevation
+    eave_ft = min(h for _, h in profile_ft)
+    ridge_ft = max(h for _, h in profile_ft)
+    sill_ft = eave_ft + (d.get("sill_above_eave_in") or 0.0) / 12.0
+    fw = d["face_width_in"] / 12.0 * scale
+    ww_in = d["window_width_in"]
+    head_ft = sill_ft + d["window_height_in"] / 12.0
+    p12 = (roof.get("main") or {}).get("pitch_rise_per_12") or 8.0
+    casing_in = d.get("casing_width_in") or 0.0
+    cor_h_ft = (d.get("cornice_height_in") or 0.0) / 12.0
+    cor_pr = (d.get("cornice_projection_in") or 0.0) / 12.0 * scale
+    pedimented = (d.get("variant") or "") == "pedimented"
+
+    # The dormer's face runs from where it comes out of the roof to the bed of its own cornice,
+    # a casing's width clear of the sash head. Its cornice sits on top of that.
+    face_top_ft = head_ft + casing_in / 12.0
+    cor_top_ft = face_top_ft + cor_h_ft
+
+    out = []
+    for cx in d.get("positions_ft") or []:
+        x0, x1 = X(cx) - fw / 2.0, X(cx) + fw / 2.0
+        ys = Ypx(sill_ft - casing_in / 12.0)          # the face carries down past the sill
+        yft, yct = Ypx(face_top_ft), Ypx(cor_top_ft)
+        apex_ft = cor_top_ft + (d["face_width_in"] / 24.0) * (p12 / 12.0)
+        if apex_ft > ridge_ft:
+            continue                   # a dormer taller than the roof it sits in is not drawn
+
+        # THE FACE, and the strip of it outboard of the casing is what a photograph calls a
+        # cheek. Drawn as PAINTED BOARD and not as the wall's own material: nobody builds a brick
+        # dormer on a roof, and `fat-cheek-dormer`'s own correct_practice says historic dormers
+        # were "framed light and clad in the same shingle or clapboard as the roof and wall".
+        # Drawing the face in the wall's colour on a Flemish-bond house asserts a brick dormer,
+        # which is a construction that does not exist.
+        out.append(f'<rect class="pf w-prof" x="{x0:.1f}" y="{yft:.1f}" '
+                   f'width="{fw:.1f}" height="{(ys-yft):.1f}"/>')
+
+        # THE GABLE ABOVE THE CORNICE, and the two canonical variants differ here and nowhere
+        # else. A PEDIMENTED dormer closes its gable with a tympanum -- a wall face -- bounded by
+        # a RAKING cornice that is the same assembly as the level one. A GABLED dormer leaves the
+        # roof plane running up to the ridge and returns its cornice a short way onto the rake.
+        # `raking-cornice-that-does-not-match` is a fault in this corpus precisely because a rake
+        # that is not the level cornice is the commonest way to get a pediment wrong, so the rake
+        # is drawn at the level cornice's own thickness by construction rather than by eye.
+        ax0, ax1 = x0 - cor_pr, x1 + cor_pr
+        apex_y = Ypx(apex_ft)
+        th = max(yft - yct, 1.0)                       # the cornice band's own thickness, in px
+        if pedimented:
+            # THE PEDIMENT: an outer gable bounded by a raking cornice, with the tympanum inside
+            # it. The rake is the SAME assembly as the level cornice -- `raking-cornice-that-does-
+            # not-match` exists because it usually is not -- so the tympanum is the outer gable
+            # inset by the level cornice's own thickness measured PERPENDICULAR to the rake. That
+            # perpendicular is the whole of the geometry and the reason this is not two stroked
+            # lines: a band offset in y alone is thinner than the cornice it continues, by the
+            # cosine of the pitch, and thinner the steeper the pediment. Two stroked lines were
+            # tried first and gave a notch at the apex and two tails hanging below the eaves.
+            _rise = max(yct - apex_y, 1e-6)
+            _run = max((ax1 - ax0) / 2.0, 1e-6)
+            _len = math.hypot(_run, _rise)
+            dx_in = th * _len / _rise          # horizontal inset at the base = th / sin(rake)
+            dy_in = th * _len / _run           # apex drop                    = th / cos(rake)
+            out.append(f'<polygon class="pf w-prof" points="{ax0:.1f},{yct:.1f} '
+                       f'{X(cx):.1f},{apex_y:.1f} {ax1:.1f},{yct:.1f}"/>')
+            if (ax1 - ax0) - 2 * dx_in > 2.0 and (yct - apex_y) - dy_in > 2.0:
+                out.append(f'<polygon class="pf w-fine" points="{ax0+dx_in:.1f},{yct:.1f} '
+                           f'{X(cx):.1f},{apex_y+dy_in:.1f} {ax1-dx_in:.1f},{yct:.1f}"/>')
+        else:
+            out.append(f'<polygon class="rf w-prof" points="{ax0:.1f},{yct:.1f} '
+                       f'{X(cx):.1f},{apex_y:.1f} {ax1:.1f},{yct:.1f}"/>')
+            # shingle courses on it, at the same exposure and slope as the roof it stands on --
+            # the main roof beside it had them and this did not, which is the kind of difference
+            # that makes one part of a sheet look drawn and the other part look diagrammed.
+            course_ft = (SHINGLE_EXPOSURE_IN / 12.0) * (p12 / math.sqrt(144.0 + p12 * p12))
+            if course_ft * scale >= 2.0:
+                y = cor_top_ft + course_ft
+                half = (ax1 - ax0) / 2.0
+                while y < apex_ft - 1e-6:
+                    t = (apex_ft - y) / max(apex_ft - cor_top_ft, 1e-6)
+                    out.append(f'<line class="shingle" x1="{X(cx)-half*t:.1f}" y1="{Ypx(y):.1f}" '
+                               f'x2="{X(cx)+half*t:.1f}" y2="{Ypx(y):.1f}"/>')
+                    y += course_ft
+
+        # THE LEVEL CORNICE, across the face at its own projection, with the shade line that is
+        # the only thing on a flat sheet that says it projects at all.
+        if cor_h_ft > 0:
+            out.append(f'<rect class="pf w-prof" x="{ax0:.1f}" y="{yct:.1f}" '
+                       f'width="{ax1-ax0:.1f}" height="{th:.1f}"/>')
+            out.append(_shade(ax0, yct, ax1, yct + th, sides=("bottom", "right")))
+            # A GABLED DORMER'S CORNICE RETURN IS NOT DRAWN, and the reason is the same one
+            # that vanishes the cheeks: a return runs PERPENDICULAR to the picture plane, so in
+            # orthographic projection it has no width and what is left on the sheet is the level
+            # cornice stopping. It was drawn here for one revision as two stubs standing above
+            # the cornice at the eave corners, which is a return seen in perspective -- a real
+            # member, drawn in the wrong projection, and the same mistake as a visible cheek.
+
+        # THE SASH, drawn by the same renderer as every other window on the sheet so the two
+        # cannot drift apart: same stiles, same meeting rail, same muntin weight. No reveal (a
+        # dormer is frame, not solid masonry) and no gauged arch (its head is a wood casing).
+        # THE CASING, a frame around the opening at the figure the corpus publishes for this
+        # house's window casing -- not a dormer-specific one nobody measured. Drawn BEFORE the
+        # sash so the sash sits in it rather than over it.
+        if casing_in:
+            cwp = casing_in / 12.0 * scale
+            out.append(f'<rect class="sill w-fine" x="{X(cx)-ww_in/24.0*scale-cwp:.1f}" '
+                       f'y="{Ypx(head_ft)-cwp:.1f}" width="{ww_in/12.0*scale+2*cwp:.1f}" '
+                       f'height="{(Ypx(sill_ft)-Ypx(head_ft))+2*cwp:.1f}"/>')
+        # A SASH WHOSE PATTERN THE KIT DOES NOT STATE IS DRAWN AS GLASS, with no muntins at all,
+        # and the legend says so -- the same treatment the window head already gets when the date
+        # cannot separate two masonry heads. `_dormer_lights` returns (None, None) there rather
+        # than defaulting to 6/6, which is what it did on the first run: a spec-builder colonial's
+        # dormers came back with a confident twelve-light pattern no record had stated.
+        la, lh = d.get("lights_across"), d.get("lights_high_per_sash")
+        out.append(_window(out, cx, sill_ft, head_ft, ww_in,
+                           la or 1, lh or 1, None, None, X, Ypx, scale,
+                           head=None, sill_in=None, panel_count=None, reveal_in=None))
+        # and the face's own shade line: it stands proud of the roof plane it sits in
+        out.append(_shade(x0, yft, x1, ys, sides=("bottom", "right")))
+    return "".join(out)
+
+
 def _entrance(elev, cx, floor_ft, X, Ypx, scale):
     ent = elev["entrance"]
     out = []
@@ -390,6 +540,26 @@ def _profile_span_at(profile_ft, y):
     return (min(xs), max(xs))
 
 
+def _profile_top_at(profile_ft, x):
+    """The highest point of the roof silhouette at horizontal position x, or None off the end.
+
+    The inverse of _profile_span_at, and it is what decides how much of a chimney a roof hides.
+    On the long face of a side-gable house the silhouette is a RECTANGLE from eave to ridge (a
+    parallel projection of one sloping plane fills the band), so the answer is the ridge at every
+    x; on a gable end it is the triangle's own height at x. One rule, both forms, no special
+    casing -- and it only became askable at all on 27 Aug 2026, when elevation_profile stopped
+    returning a flat eave line for a long face."""
+    ys = []
+    n = len(profile_ft)
+    for i in range(n):
+        (x1, y1), (x2, y2) = profile_ft[i], profile_ft[(i + 1) % n]
+        if x1 == x2:
+            continue
+        if min(x1, x2) - 1e-9 <= x <= max(x1, x2) + 1e-9:
+            ys.append(y1 + (y2 - y1) * (x - x1) / (x2 - x1))
+    return max(ys) if ys else None
+
+
 def render_elevation(elev, path, face=None, scale=24.0):
     if not elev.get("applicable", True):
         # This style is outside the Palladian/classical-front system this generator implements
@@ -433,14 +603,15 @@ def render_elevation(elev, path, face=None, scale=24.0):
     ridge_delta_ft = true_eave_ft - top_of_wall_ft                   # shift the whole silhouette up by the cornice band this file adds on top
     profile_ft = [(x, h + ridge_delta_ft) for x, h in profile_ft]
     top_height_ft = max(h for _, h in profile_ft)
-    if is_gable_end and roof.get("chimneys", {}).get("applicable"):
-        # reserve enough canvas height for a chimney cap that rises above the ridge -- computed
-        # here from the SAME chimney records drawn below, not a separate guess. Gable faces only,
-        # because those are the only faces a stack is drawn on: see the chimney note further
-        # down for why the front cannot show them yet, and why reserving sky for a stack this
-        # sheet then declines to draw would be its own small lie about what is here.
+    if roof.get("chimneys", {}).get("applicable"):
+        # Reserve enough canvas for a stack rising above the ridge -- from the SAME chimney
+        # records drawn below, not a separate guess. This used to be gable faces only, in step
+        # with a chimney block that drew nothing on the front; both changed together on 27 Aug
+        # 2026, and they have to, because reserving sky for a stack the sheet declines to draw is
+        # its own small lie and drawing one into sky nobody reserved runs it off the top edge --
+        # which is exactly what happened on the first run, at y = -158.
         for c in roof["chimneys"]["positions"]:
-            if abs(c["x_ft"]) < 0.5 or abs(c["x_ft"] - span_ft) < 0.5:
+            if abs(c["x_ft"]) < 0.5 or abs(c["x_ft"] - fp["width_ft"]) < 0.5:
                 top_height_ft = max(top_height_ft, c["total_height_grade_ft"] + ridge_delta_ft)
 
     pad, top, legend_h = 46, 34, 90
@@ -613,42 +784,81 @@ def render_elevation(elev, path, face=None, scale=24.0):
                              f'x2="{X(xs[1]):.1f}" y2="{Ypx(y):.1f}"/>')
                 y += course_ft
 
-    # CHIMNEYS, AND THE ONE THING THIS SHEET STILL CANNOT SHOW.
-    #
-    # The width was a hardcoded 36 in -- the exact class of invented constant OQ 52 removed from
-    # the measurements, still being asserted by the drawing where no test could see it. It is now
-    # the corpus's own figure (brick-course, eight courses square, 22 in), and because that rule
-    # is flagged `judgment: true` the sheet says so rather than presenting a decision as a fact.
-    #
-    # The stacks are NOT drawn on the front, and the reason is worth writing down rather than
-    # leaving as an apparent oversight. On this style they are the most diagnostic thing on the
-    # house -- the kit says the paired stacks joined by an arched curtain are "visible from a
-    # mile away and conclusive against New England" -- so a front elevation without them is a
-    # real loss. But build/roof.py's long-face silhouette is FLAT AT THE EAVE: for the S face of
-    # this side-gable house it returns exactly two points, both at 25.44 ft, and models no roof
-    # mass above the cornice at all. Without that surface there is nothing to say which part of a
-    # 47 ft stack is hidden behind the roof and which part clears it. Drawing the whole stack
-    # from the eave up would put 22 ft of brick in front of a roof nobody modelled, which is the
-    # same error as reporting an unmodelled chimney as zero. The gable faces, whose silhouettes
-    # DO carry the ridge, keep their stacks. This is a roof-layer gap, and it is an open question
-    # rather than something this renderer may decide.
+    s.append(_dormers(elev, roof, profile_ft, X, Ypx, scale, face))
 
-    if is_gable_end and roof.get("chimneys", {}).get("applicable"):
+    # THE CHIMNEYS. This block asserted, in twelve lines, that the front elevation could not show
+    # them: "build/roof.py's long-face silhouette is FLAT AT THE EAVE ... models no roof mass
+    # above the cornice at all", and it drew them on the gable ends only. That was true when it
+    # was written and stopped being true earlier in this same package -- elevation_profile now
+    # returns the near roof PLANE on a long face, because parallel projection fills the band from
+    # eave to ridge. Prose asserting what the code no longer does is the failure this corpus
+    # polices hardest, and it was sitting in the renderer's own comment.
+    #
+    # It also drew the stack at a hardcoded 3 ft from the gable wall's front corner, with its base
+    # a hardcoded 2 ft below the ridge -- two invented constants of exactly the class OQ 52 swept
+    # out of the measurements, still being asserted by the drawing where no test could see them.
+    # The record states y_ft (21.33 here, which is mid-depth: a stack on the ridge line) and
+    # total_height_grade_ft. On the sheet the 3 ft put a brick bar in the sky at the top-left
+    # corner, touching no roof at all.
+    #
+    # WHERE A STACK STANDS DECIDES WHAT HIDES IT, and the record says which: this style's own kit
+    # gives `gable-end-exterior, paired-and-joined-by-arched-curtain`. An EXTERIOR stack is
+    # outside the envelope, so nothing hides it and it is drawn from grade -- which is the whole
+    # of the reading the kit calls "visible from a mile away and conclusive against New England".
+    # A stack that is NOT exterior comes up through the roof, and the near plane hides it to the
+    # roof's own height at its plan position, which _profile_top_at answers for either form.
+    chimneys_drawn = 0
+    ch = roof.get("chimneys") or {}
+    if ch.get("applicable") and ch.get("positions"):
         depth_ft = fp["depth_ft"]
-        for c in roof["chimneys"]["positions"]:
-            # chimney x_ft/y_ft are in the ROOF's own plan-view frame (x along ridge axis, y across
-            # it); on a gable-end face the wall's own horizontal axis IS that plan-view y -- only
-            # chimneys at THIS gable-end wall (x_ft matching 0 or the far end) actually sit in this
-            # face's plane, per roof.py's own WP-3.3 finding (both chimneys are gable-end, one per end)
-            if not (abs(c["x_ft"]) < 0.5 or abs(c["x_ft"] - span_ft) < 0.5):
-                continue
-            near_left = abs(c["x_ft"]) < 0.5
-            cx_ft = 3.0 if near_left else depth_ft - 3.0
-            # the corpus's own stack, not a 36 in constant (see the note above)
-            cw_ft = (elev.get("chimney_stack_plan_in") or 22.0) / 12.0
-            cy0, cy1 = c["grade_to_ridge_ft"] - 2.0, c["total_height_grade_ft"]
-            s.append(f'<rect class="ch" x="{X(cx_ft-cw_ft/2):.1f}" y="{Ypx(cy1+ridge_delta_ft):.1f}" '
-                      f'width="{cw_ft*scale:.1f}" height="{((cy1-cy0)*scale):.1f}"/>')
+        exterior = "exterior" in (ch.get("source") or "").lower()
+        cw_ft = (elev.get("chimney_stack_plan_in") or 22.0) / 12.0
+        drawn = 0
+        for c in ch["positions"]:
+            at_end = abs(c["x_ft"]) < 0.5 or abs(c["x_ft"] - fp["width_ft"]) < 0.5
+            if is_gable_end:
+                # Only a stack in THIS wall's plane, and the record does not say which compass end
+                # is which: both gable ends of this house carry one identical stack, so one is
+                # drawn per gable face and the sheet is not claiming to know E from W. If the two
+                # ever differ, this needs the roof layer to name the ends.
+                if not at_end or drawn:
+                    continue
+                cx_ft = c["y_ft"]                       # the gable end's own horizontal axis IS depth
+            else:
+                if not at_end:
+                    continue
+                # an exterior end stack stands OUTBOARD of the gable wall, so on the long face it
+                # sits just beyond the end of the wall rather than on top of it
+                side = -1.0 if abs(c["x_ft"]) < 0.5 else 1.0
+                cx_ft = c["x_ft"] + side * (cw_ft / 2.0 if exterior else 0.0)
+            # ONLY THE PART ABOVE THE ROOF IS DRAWN, and this is a correction of the first
+            # version of this same fix rather than a limitation carried over from the old one.
+            # The kit says these stacks are EXTERIOR, so nothing hides them and the honest
+            # VISIBILITY answer is the whole stack from grade. But the only width this corpus
+            # states -- brick-course's eight courses square, 22 in, itself flagged a judgment --
+            # is the width of the STACK. A chimney BREAST at the base of an exterior end stack is
+            # several feet across and no rule here gives a figure for it, so drawing 47 ft of
+            # 22 in brick asserts a chimney nobody measured, in the same shape as the 3 ft and
+            # the 2 ft this block just lost. Drawn from the roof surface up, where the stated
+            # figure is the right figure; the legend says what is missing below it.
+            #
+            # It also made the drawing false in a second way worth recording: on the gable end
+            # the stack is at mid-depth, and drawn from grade it ran straight down through the
+            # centre window of both storeys. That collision is REAL -- see the report -- and it
+            # belongs in a finding, not in ink over a sash.
+            top_ft = c["total_height_grade_ft"]
+            hid = _profile_top_at(profile_ft, cx_ft)
+            base_ft = hid if hid is not None else (
+                (roof["main"].get("ridge") or {}).get("grade_to_ridge_ft", top_ft) + ridge_delta_ft)
+            if top_ft + ridge_delta_ft - base_ft <= 0.01:
+                continue                                 # entirely behind the roof: drawn as nothing
+            base_ft -= ridge_delta_ft                    # back into the record's own grade frame
+            s.append(f'<rect class="ch w-prof" x="{X(cx_ft-cw_ft/2):.1f}" y="{Ypx(top_ft+ridge_delta_ft):.1f}" '
+                     f'width="{cw_ft*scale:.1f}" height="{((top_ft-base_ft)*scale):.1f}"/>')
+            s.append(_shade(X(cx_ft-cw_ft/2), Ypx(top_ft+ridge_delta_ft),
+                            X(cx_ft+cw_ft/2), Ypx(base_ft+ridge_delta_ft), sides=("right",)))
+            drawn += 1
+        chimneys_drawn = drawn
 
     legend_y = oy + ph + 22
     m = roof["main"]
@@ -678,6 +888,23 @@ def render_elevation(elev, path, face=None, scale=24.0):
     if elev.get("chimney_stack_plan_judgment") and elev.get("chimney_stack_plan_in"):
         notes.append(f'STACK DRAWN {elev["chimney_stack_plan_in"]}″ SQUARE — A JUDGMENT, NOT A '
                      f'MEASUREMENT: THE COURSING PUTS IT BETWEEN SIZES AND A MASON WILL BUILD 18″ OR 27″')
+    _d = elev.get("dormers") or {}
+    if _d.get("count") and not _d.get("refused"):
+        if _d.get("variant_undeclared_choices"):
+            notes.append('DORMER VARIANT UNDECLARED — THIS STYLE MAKES '
+                         f'{len(_d["variant_undeclared_choices"])} CANONICAL AND THE RECORD NAMES '
+                         'NONE; DRAWN AS THE PLAIN GABLED FORM')
+        _src = _d.get("variant_source_node")
+        if _d.get("variant") and _src and _src != elev.get("style"):
+            notes.append(f'DORMER VARIANT “{_d["variant"].replace("-", " ").upper()}” IS INHERITED FROM '
+                         f'{_src.replace("-", " ").upper()} — THIS STYLE BINDS THE SLOT NOTHING (OQ 51)')
+        if not _d.get("lights_across"):
+            notes.append('DORMER SASH PATTERN UNDECLARED — THIS STYLE\u2019S KIT STATES NONE, SO THE '
+                         'SASH IS DRAWN AS GLASS WITH NO GLAZING BARS RATHER THAN AT A GUESSED 6/6')
+    if chimneys_drawn:
+        notes.append('STACKS DRAWN ABOVE THE ROOF ONLY — THE KIT MAKES THEM GABLE-END EXTERIOR, SO '
+                     'NOTHING HIDES THE BREAST BELOW; NO RULE IN THIS CORPUS STATES ITS WIDTH, AND '
+                     'THE 22″ FIGURE IS THE STACK\u2019S')
     for i, n in enumerate(notes):
         s.append(f'<text class="dm" x="{pad}" y="{legend_y+26+i*10:.1f}">{_esc(n)}</text>')
 

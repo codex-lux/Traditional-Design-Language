@@ -199,6 +199,29 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **differential** against a control diagram: three of the Cape parti's four original fatals
   belonged to `cape-cod-colonial`'s kit and fired for every diagram, and blaming the parti for
   them would make the check a generator of false accusations.
+- **The moment a record can finally STATE a zero, every rule that presupposed the thing runs on it.**
+  WP-5.9 gave the plan schema `declared.dormer` with three states — key absent (could not evaluate),
+  `"none"` (a measured zero), an object (a house with dormers) — and both reference houses stated
+  none. `dormer-off-the-bay`'s parity secondary is `dormer_count % 2 == 1`, which had never run
+  because no generator supplied the number; on the first run after they could, both were convicted
+  of **"Dormers Off the Rhythm: 0 against equals 1"**. Zero dormers is not an even number of
+  dormers. Fault tests now carry **`applies_when`**, a precondition on the MEASUREMENTS in the same
+  shape as a test (`schema/fault.schema.json`), beside `applies_to_styles`'s precondition on the
+  style; a test whose precondition fails is **not run**, not passed. **Any test whose expression
+  divides by a count needs one**, or it errors on the house that has none. This closed
+  `docs/elevation.md`'s own open question 1, which had asked for exactly this field after WP-3.2
+  found three instances — two of those three are guarded now, and the third is OQ 78.
+- **A fault could vanish from every list, and a fault in no list reads exactly like a clear one.**
+  `check_measurements` sorted into present / clear / could-not-judge; a fault whose every test
+  declines produces no evaluation, no missing measurement and no error, so it was appended to
+  nothing and dropped out of the summary counts too. **`not_applicable` is a fourth returned
+  state** (surfaced by `plan_check` as `fault_not_applicable`), carrying which precondition
+  declined and what it required. Not a pass: the question does not arise.
+- **The slot id is singular because the ontology's is.** `declared.dormer`, not `dormers` —
+  `plan_check` reads every key of `declared` as an ontology slot, and a plural one earned both
+  reference plans a `minor` finding saying it was not in the ontology. A `declared` value may now
+  be an OBJECT for a slot of cardinality `many`, and it states its variant under `variant` so the
+  forbidden-variant check still reaches it.
 - **Unjudged reported as failed is the dangerous direction.** Twice found in one package.
   `elevation.py` reported an unmodelled chimney as `visible_chimney_count: 0`, so the fault
   corpus failed a parti named `cape-central-chimney` for having no chimney; and a fault finding
@@ -312,11 +335,17 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **77 entries, of which 18 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 73, 74). **72, 73 and 74 are
-  WP-5.7's, and are about the geometry layer: the entablature's datum, two sourced rules
-  disagreeing about the cornice's projection, and the front elevation that cannot draw its own
-  chimneys.** **69, 70 and 71 were raised AND
+  trusting any list of them. `docs/open-questions.md` holds **79 entries, of which 19 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 73, 78, 79). **72, 73 and 74 were
+  WP-5.7's, about the geometry layer: the entablature's datum, two sourced rules disagreeing about
+  the cornice's projection, and the front elevation that could not draw its own chimneys. 72 and
+  74 are closed — 74 by WP-5.9, which found the renderer still asserting in a twelve-line comment
+  the flat-eave-line behaviour the roof layer had stopped having earlier in the same package, and
+  two invented constants underneath it putting a brick bar in the sky.** **78 and 79 are WP-5.9's,
+  from the dormer layer: `cornice-that-is-a-fascia`'s two rival secondaries, where whichever is
+  right the other convicts the house — inert today only because it tests on a measurement name
+  nothing supplies — and a gable-end-exterior stack standing on the centre line of a gable end
+  whose elevation puts a window there, with no layer asking whether they collide.** **69, 70 and 71 were raised AND
   ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
   and 66, colliding with main's block for the second parallel-session collision in two days;
   main keeps its numbers and these were reissued, with the conversion table at the foot of the

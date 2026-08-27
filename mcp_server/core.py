@@ -457,6 +457,25 @@ def get_fault(fault_id, style=None):
 
 def _eval_test(t, measurements):
     if not t or not t.get("expression"): return None
+    # A TEST MAY BE PRECONDITIONED ON A MEASUREMENT, not only on a style (`applies_to_styles`,
+    # OQ 63). Some rules presuppose the thing they measure exists: `dormer-off-the-bay`'s parity
+    # secondary is `dormer_count % 2 == 1`, which fires on a house STATED to carry no dormers and
+    # reports "Dormers Off the Rhythm: 0 against equals 1" -- the OQ 52 flagship failure walking
+    # back in through the front door the moment a record could finally say "none". Zero dormers is
+    # not an even number of dormers; it is no dormers, and the parity rule has nothing to say.
+    #
+    # A precondition that FAILS means the test is NOT RUN -- the same shape `_test_applies` uses,
+    # and for the same reason: a rule that is not about this house says nothing about this house.
+    # A precondition whose OWN measurements are missing means we cannot tell whether it applies,
+    # which is could-not-evaluate and is reported as such rather than quietly skipped.
+    when = t.get("applies_when")
+    if when:
+        w = _eval_test({k: v for k, v in when.items() if k != "applies_when"}, measurements)
+        if w and w["status"] != "evaluated": return w
+        if w and w["passes"] is not True:
+            return {"status": "not_applicable", "because": when.get("expression"),
+                    "required": f"{when.get('direction')} {when.get('threshold')}",
+                    "value": w["value"]}
     expr = t["expression"]
     names = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", expr))
     # A key present with a null value is MISSING, not supplied (OQ 52). `null` is the natural
@@ -549,7 +568,7 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
     drawing and it tells you which faults are present, which are clear, and which it could
     not judge because a number is missing."""
     D = _data()
-    present, clear, needed = [], [], []
+    present, clear, needed, not_applicable = [], [], [], []
     for f in D["faults"].values():
         if slot and slot not in f["slots"]: continue
         if style and not _applies(f, style, D): continue
@@ -565,6 +584,22 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         if not ev:
             miss = sorted({m for r in results if r["status"] == "need_measurements" for m in r["missing"]})
             errs = sorted({r["detail"] for r in results if r["status"] == "error"})
+            # THE FOURTH STATE, and it exists for the same reason as the `errs` branch below it.
+            # A test may now decline on a MEASUREMENT (`applies_when`), not only on a style: zero
+            # dormers means the whole of `dormer-off-the-bay` has nothing to say. With every test
+            # declined there is no `ev`, no `miss` and no `errs`, so the fault was appended to
+            # nothing -- not present, not clear, not unjudged, absent from the counts, and
+            # indistinguishable to a caller from clear. Not applicable is a real answer and gets
+            # its own list; it is not a pass, and it is not an unjudged either.
+            declined = [r for r in results if r["status"] == "not_applicable"]
+            if declined and not miss and not errs:
+                not_applicable.append({"fault": f["id"], "name": f["name"],
+                                       "because": sorted({r["because"] for r in declined}),
+                                       "required": sorted({r["required"] for r in declined}),
+                                       "note": "Every test of this fault is preconditioned on a "
+                                               "measurement this house does not meet, so none was "
+                                               "run. Not a pass -- the question does not arise."})
+                continue
             # `errs` is why this branch exists in this shape. A fault whose every test
             # ERRORED produced no `ev` and no `miss`, so it was appended to nothing: not
             # present, not clear, not unjudged, and absent from the summary counts — a
@@ -605,7 +640,9 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
             # already worked around it by passing limit=10**6; the tool should not need
             # the workaround.
             "could_not_judge": needed,
-            "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed)},
+            "not_applicable": not_applicable,
+            "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed),
+                        "not_applicable": len(not_applicable)},
             "note": "A fault only counts as present when a test actually failed. Anything under could_not_judge is unknown, not passed."}
 
 def measurement_vocabulary(slot=None, style=None, include_constraints=True):
@@ -626,7 +663,13 @@ def measurement_vocabulary(slot=None, style=None, include_constraints=True):
         if style and not _applies(f, style, D): continue
         for t in [f.get("test")] + list(f.get("secondary_tests") or []):
             if not t or not t.get("expression"): continue
-            for nm in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", t["expression"]):
+            # A precondition's own variables are variables a caller must measure -- without
+            # dormer_count the parity test is could-not-evaluate, so a vocabulary that omitted it
+            # would tell a caller to photograph everything except the number that decides whether
+            # the question is asked at all.
+            exprs = [t["expression"]] + [w["expression"] for w in [t.get("applies_when")]
+                                         if w and w.get("expression")]
+            for nm in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", " ".join(exprs)):
                 if nm in ("min","max","abs","round"): continue
                 v = vocab.setdefault(nm, {"used_by": 0, "units": t.get("units"),
                                            "measurable_from": t.get("measurable_from"), "source": []})

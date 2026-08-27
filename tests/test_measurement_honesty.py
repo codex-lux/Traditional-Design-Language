@@ -14,6 +14,24 @@ This is the project's own first discipline running backwards — unjudged report
 CLAUDE.md names it as the one collapse the corpus least survives. So these tests pin it from
 three directions: the generator's own declared limits, the seven faults that were being decided
 on fabricated evidence, and the evaluator's reading of a null.
+
+UPDATED 27 Aug 2026 (WP-5.9). The dormer half of that finding is now MODELLED rather than
+refused: `declared.dormer` gives a plan record three states — absent (could not evaluate), the
+string "none" (a measured zero), and an object (a house with dormers) — and both reference plans
+state none, with their evidence in their own `note`. Three of the seven therefore leave the
+unjudged list legitimately, which is the opposite of the failure this file was written for and
+has to be told apart from it. The way it is told apart: delete the declaration and all three must
+return to unjudged. That round trip is asserted, and it is the only assertion that can prove the
+three states are three.
+
+The same commit found the failure trying to come back in through the new field. `dormer_count: 0`
+is a legitimate measurement, and `dormer-off-the-bay`'s parity secondary is `dormer_count % 2 ==
+1`, so the first run after both houses could say "none" convicted both of "Dormers Off the
+Rhythm: 0 against equals 1". Zero dormers is not an even number of dormers. Fault tests may now
+carry an `applies_when` precondition on a MEASUREMENT (schema/fault.schema.json), a test that
+declines is not run rather than passed, and a fault whose every test declines comes back under a
+fourth state, `not_applicable` — which exists because such a fault previously appeared in no list
+at all, and a fault absent from every list reads exactly like a clear one.
 """
 import json
 import os
@@ -34,6 +52,33 @@ FABRICATED_SEVEN = (
     "raking-cornice-that-does-not-match",
     "vestigial-chimney-chase",
 )
+
+# THREE OF THE SEVEN MOVED ON 27 AUG 2026 (WP-5.9), and the reason is the opposite of the one
+# that put them here. They were unjudged because no plan record could state a dormer at all, so
+# `dormer_count: 0` was a fabricated constant standing over a refusal. `declared.dormer` exists
+# now, both reference houses STATE they carry none, and a stated zero is a measurement -- so the
+# critic may use it. What it may NOT do is convict on it, and the difference is exactly what the
+# tests below hold:
+#
+#   dormer-off-the-bay   NOT APPLICABLE. Every one of its three tests is now preconditioned on
+#                        `dormer_count >= 1`. A house with no dormers has no rhythm to be off, and
+#                        before the guard its parity secondary (`dormer_count % 2 == 1`) reported
+#                        "Dormers Off the Rhythm: 0 against equals 1" on both houses the moment
+#                        they could say none -- OQ 52's flagship failure returning through the
+#                        very field built to prevent it.
+#   dormer-wall          CLEAR, on a real measurement: 0 in of dormer face over the building
+#                        width is 0, which is at most 0.4. A roof with no dormers has not become
+#                        a storey, and the evidence for saying so is a number this corpus took.
+#   overscaled-dormer    CLEAR, on the same measurement (its first secondary is dormer-wall's
+#                        primary, verbatim -- a duplication that predates this package).
+#
+# Delete the declaration and all three go straight back to unjudged. That round trip is asserted
+# below, because it is the only thing that proves the three states are three and not two.
+STILL_UNJUDGED = ("capless-stack", "cornice-gutter-without-a-liner",
+                  "raking-cornice-that-does-not-match", "vestigial-chimney-chase")
+JUDGED_ON_A_STATED_ZERO = {"dormer-off-the-bay": "not_applicable",
+                           "dormer-wall": "clear",
+                           "overscaled-dormer": "clear"}
 
 REFERENCE_PLANS = ("tidewater-georgian-careful", "spec-builder-colonial")
 
@@ -87,17 +132,63 @@ class TestTheGeneratorDeclaresItsLimits:
 
 
 class TestTheSevenFaultsAreNoLongerDecidedOnFabricatedEvidence:
+    def test_the_split_still_covers_all_seven(self):
+        """The seven are the historical list and it does not shrink. Splitting it into the four
+        still unmeasurable and the three now judged on a stated zero is the kind of edit that
+        loses one silently — this is what notices."""
+        assert set(STILL_UNJUDGED) | set(JUDGED_ON_A_STATED_ZERO) == set(FABRICATED_SEVEN)
+        assert not set(STILL_UNJUDGED) & set(JUDGED_ON_A_STATED_ZERO)
+
     @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
     def test_they_come_back_could_not_judge(self, plan_name, plan_check_module):
         """Not present, not clear — unjudged. This is the whole point: the corpus does not know
-        whether these houses have dormers, gutters, a raking cornice or a stack of a given plan
-        size, and it must now say so instead of deciding."""
+        whether these houses have gutters, a raking cornice or a stack of a given plan size, and
+        it must now say so instead of deciding. The three dormer faults left this list when the
+        record gained a way to state a dormer; see JUDGED_ON_A_STATED_ZERO above and the two
+        tests below it."""
         result = plan_check_module.check(_plan(plan_name))
         unjudged = {r.get("fault") for r in (result.get("fault_unjudged") or [])}
-        for fault_id in FABRICATED_SEVEN:
+        for fault_id in STILL_UNJUDGED:
             assert fault_id in unjudged, (
                 f"{plan_name}: '{fault_id}' is being adjudicated again. It can only be judged "
                 "from a measurement no generator in this corpus takes (OQ 52).")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_a_stated_none_is_used_but_never_convicts(self, plan_name, plan_check_module):
+        """The three that moved, each pinned to the state it moved to and to the reason. A
+        stated zero is a measurement and the critic may reason from it — that is what makes the
+        field worth having. What it must never do is turn the zero into a fault, which is what
+        `dormer_count % 2 == 1` did on the first run after both houses could say none."""
+        result = plan_check_module.check(_plan(plan_name))
+        where = {}
+        for r in (result.get("fault_unjudged") or []): where[r["fault"]] = "unjudged"
+        for r in (result.get("fault_not_applicable") or []): where[r["fault"]] = "not_applicable"
+        for f in result["findings"]:
+            if (f.get("rule") or "") in JUDGED_ON_A_STATED_ZERO and f.get("layer") == "fault":
+                where[f["rule"]] = "present"
+        for fault_id, expected in JUDGED_ON_A_STATED_ZERO.items():
+            got = where.get(fault_id, "clear")
+            assert got == expected, (
+                f"{plan_name}: '{fault_id}' came back {got}, expected {expected}. A house that "
+                "STATES it carries no dormers has no dormer rhythm to be off (not applicable) "
+                "and no dormer wall (clear on a real zero) — and must never be convicted of "
+                "either on the strength of the zero itself.")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_deleting_the_declaration_puts_all_three_back_to_unjudged(self, plan_name,
+                                                                      plan_check_module):
+        """The round trip, which is the only thing that proves the three states are three. Absent
+        is could-not-evaluate; "none" is a measured zero; an object is a house with dormers. If
+        removing the declaration left these faults judged, the generator would be supplying the
+        zero on its own — which is precisely the twelve-constant class OQ 52 closed."""
+        plan = _plan(plan_name)
+        assert plan["declared"].pop("dormer", None) == "none", "both reference plans ship a stated none"
+        result = plan_check_module.check(plan)
+        unjudged = {r.get("fault") for r in (result.get("fault_unjudged") or [])}
+        for fault_id in JUDGED_ON_A_STATED_ZERO:
+            assert fault_id in unjudged, (
+                f"{plan_name}: with no declaration at all, '{fault_id}' still came back judged. "
+                "A record that says nothing about dormers must yield no dormer measurements.")
 
     @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
     def test_no_finding_quotes_the_fabricated_numbers(self, plan_name, plan_check_module):

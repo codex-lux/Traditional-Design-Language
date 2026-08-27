@@ -52,6 +52,7 @@ GEOM = _mod("geometry", f"{ROOT}/build/geometry.py")
 ST = _mod("structure", f"{ROOT}/build/structure.py")
 RF = _mod("roof", f"{ROOT}/build/roof.py")
 PE = _mod("proportion_engine", f"{ROOT}/build/proportion_engine.py")
+RK = _mod("resolve_kit", f"{ROOT}/build/resolve_kit.py")
 PROF = _mod("profiles", f"{ROOT}/build/profiles.py")
 C = PC.load_corpus()
 
@@ -466,11 +467,233 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
 # that needs them, the way GLASS_MODULE_BANDS transcribes that pack's period table.
 SASH_FRAME = {"stile_in": 2.0, "top_rail_in": 2.0, "bottom_rail_in": 3.0, "meeting_rail_in": 1.25}
 
+# Where a dormer face stands up the slope, measured along it. Editorial: the fault corpus
+# prefers 18-36 in and requires at least 12; nothing reachable states a figure.
+DORMER_SETBACK_ON_SLOPE_IN = 24.0
+
+
+def _dormer_lights(sash_set):
+    """(across, high per sash) for a dormer's stated sash pattern, or (None, None).
+
+    "6/6" is six lights in the UPPER sash over six in the lower -- the corpus's own notation and
+    the one _storey_window already uses (`lights_high_per_sash`). Reading the 6 as the whole
+    opening puts half the glazing bars in, which is what the dormer drawing did on its first
+    outing. Six lights go 2 across by 3 high, four go 2 by 2, eight 2 by 4, nine and twelve 3
+    across; anything else falls back to the two-wide reading, which is what a dormer sash is.
+
+    A STYLE WHOSE KIT STATES NO PATTERN GETS NONE, not 6/6. `colonial-revival` is such a style,
+    and the first version defaulted -- so a spec-builder colonial's dormers came back with a
+    confident 6/6 that no record anywhere had said. A glazing pattern nobody stated is a pattern
+    the drawing must not assert; the sash is drawn as glass and the sheet says the pattern is
+    undeclared."""
+    if not sash_set:
+        return None, None
+    try:
+        per = int(str(sash_set[0]).split("/")[0])
+    except (ValueError, IndexError):
+        return None, None
+    across = 3 if per in (9, 12, 15) else 2
+    return across, max(1, per // across)
+
+
+def dormers(plan, kit_slot, front, upper_w, roof, entrance_face, module_in,
+            cornice=None, casing_in=None, house_wall_in=None):
+    """The dormers this house carries, or a stated none, or nothing at all.
+
+    THREE STATES, and they are the point. `declared.dormer` absent means the record does not say
+    -- every dormer measurement is then ABSENT, because build/roof.py could not tell a house with
+    no dormers from a house whose dormers it had no way to state, and writing 0 over that is the
+    cape-central-chimney incident (OQ 59): a refusal published as a measurement, which then
+    convicted a parti named for the very thing. `"none"` is a house STATED to have none, so
+    dormer_count is a real zero the fault corpus may judge. An object is a house that has them.
+
+    EVERY DIMENSION COMES FROM THE CORPUS, and mostly from the fault corpus, which turns out to
+    specify a dormer completely:
+
+      overscaled-dormer   dormer window <= the window directly below, correct at 0.75-1.0. A
+                          dormer is a small building on a large roof and its window is one
+                          storey-step smaller than the sash beneath it.
+      fat-cheek-dormer    visible cheek <= 0.25 of the sash width; historic work 0.12-0.25.
+      sunken-dormer       at least 12 in of roof in front of the face, 18-36 preferred -- "the
+                          strip of roof in front of a dormer is what makes it a dormer".
+      dormer-off-the-bay  every dormer centred on a window below, which is also the kit's own
+                          alignment_rule, so the centres are DERIVED from the bays rather than
+                          authored: a record cannot state a rhythm contradicting its own style.
+      dormer-wall         the faces together <= 0.4 of the building width.
+
+    So nothing here is invented. What is NOT derivable is named: the sill's height above the
+    garret floor, and the overall face width as a measured figure rather than as window plus two
+    cheeks plus two stiles -- no Chesapeake example reachable from here states either."""
+    declared = (plan.get("declared") or {}).get("dormer")
+    if declared is None:
+        return {"applicable": False, "stated": False,
+                "note": "This plan does not say whether it carries dormers. Not an absence of "
+                        "dormers -- an absence of a statement, so every dormer measurement is "
+                        "withheld rather than reported as zero."}
+    if declared == "none":
+        return {"applicable": True, "stated": True, "count": 0, "positions": [],
+                "note": "The plan states this house carries no dormers."}
+
+    count = int(declared.get("count") or 0)
+    face = declared.get("face") or entrance_face
+    variants = {v["id"]: v.get("status") for v in (kit_slot.get("variants") or [])}
+    want = declared.get("variant")
+    if want and variants.get(want) == "forbidden":
+        return {"applicable": True, "stated": True, "count": count, "positions": [],
+                "refused": True,
+                "note": f"The plan declares a {want} dormer and this style forbids it."}
+    # THE VARIANT IS A CHOICE, AND PICKING THE FIRST CANONICAL ONE IS NOT MAKING IT. The first
+    # version took `next(canonical)`, which is dict order dressed as a decision: on
+    # `spec-builder-colonial` that returned `eyebrow-swept-dormer-within-thatch` -- a thatched
+    # cottage's dormer, on a production colonial, chosen because it happened to sort first in a
+    # cascaded slot. Where the record does not state a variant and the style makes more than one
+    # canonical, the record has not chosen and this says so, in the same shape the window head
+    # already uses when the date cannot separate two masonry heads: the drawing shows the plain
+    # gabled form and the legend says the variant is undeclared.
+    canonical = [v for v, st in variants.items() if st == "canonical"]
+    variant = want or (canonical[0] if len(canonical) == 1 else None)
+    variant_undeclared = None if variant else sorted(canonical)
+    # AND WHERE THE VARIANT LIST CAME FROM, which on this slot is not a formality. Drawing this
+    # for `spec-builder-colonial` returned `eyebrow-swept-dormer-within-thatch` -- a dormer formed
+    # within the thatch of an English cottage -- as the ONE canonical dormer of Colonial Revival,
+    # with `boxed-dormer` FORBIDDEN. It is not dict order and it is not a bug here:
+    # `colonial-revival` binds this slot nothing, and the lineage cascade resolves the whole of it
+    # from `english-cottage-vernacular`. That is OQ 51's class arriving in the kit layer rather
+    # than the proportion layer, and it reaches the drawing as a confident thatch dormer on a
+    # production colonial. Adjudicating it is a corpus decision, not a renderer's; saying where
+    # the variant came from costs one field and puts the question on the sheet.
+    variant_source = kit_slot.get("_source")
+
+    params = kit_slot.get("parameters") or {}
+    cheek_band = (params.get("cheek_width") or {}).get("range")
+    sash_set = (params.get("sash_pattern") or {}).get("set") or []
+    parity = (params.get("count_parity") or {}).get("value")
+
+    # The window: one storey-step smaller than the sash below, at the top of the band the fault
+    # corpus calls correct. Its own height comes from the kit's derived rule where the kit gives
+    # one, and from the same 0.75 step where it does not.
+    below_w = upper_w["opening_width_in"]
+    win_w = round(below_w * 0.85, 3)              # inside 0.75-1.0, and not at the limit
+    kh = (params.get("dormer_window_height_in") or {})
+    win_h = None
+    if kh.get("expr"):
+        try:
+            win_h = round(PE.evaluate_expr(kh["expr"], {"module": module_in}), 3)
+        except Exception:
+            win_h = None
+    if win_h is None:
+        win_h = round(upper_w["opening_height_in"] * 0.75, 3)
+
+    # THE CHEEK sits inside THREE bounds, and the third was found by drawing it. The kit gives an
+    # absolute 4-8 in band; `fat-cheek-dormer`'s test caps it at 0.25 of the sash width (historic
+    # work runs 0.12-0.25); and that same fault's correct_practice states a rule its test does not
+    # encode -- "the finished cheek width should not exceed the width of the window CASING beside
+    # it", and where a corner board is unavoidable it should be "the same width as the window
+    # casing so that the two read as one member rather than as two competing ones". The kit band's
+    # midpoint is 6 in against this house's 4.21 in casing, which breaks that rule; on the sheet
+    # it showed as a strip of bare board outboard of the casing, two members where the tradition
+    # wants one. Clamped to the casing, the cheek IS the casing and the dormer face is the window
+    # plus its two casings exactly -- which is also the face the cornice is sized from below, so
+    # the two derivations agree by construction instead of by coincidence.
+    _mid = (cheek_band[0] + cheek_band[1]) / 2.0 if cheek_band else win_w * 0.18
+    cheek = round(min(_mid, win_w * 0.22, casing_in or _mid), 3)
+    face_w = round(win_w + 2 * cheek, 3)
+
+    centres = list(front.get("centres_ft") or [])
+    if count and len(centres) >= count:
+        # Centred on windows below, taken from the middle outward so an odd count sits on the
+        # centre bay -- which is what the kit's parity rule is FOR on a five-bay front.
+        order = sorted(range(len(centres)), key=lambda i: abs(i - (len(centres) - 1) / 2.0))
+        chosen = sorted(order[:count])
+        positions = [centres[i] for i in chosen]
+    else:
+        positions = centres[:count]
+
+    # THE DORMER'S OWN CORNICE, and it is not a new invention: it is the house's cornice, read
+    # small. The kit's rule for this slot says so in its own words -- dormers "carry the same
+    # order as the house at reduced scale" -- and `overscaled-dormer` says it from the other
+    # side ("Dormers carry the same order as the house at reduced scale; at full scale they
+    # compete with it"). Until 27 Aug 2026 the drawing had the gable springing straight off the
+    # head casing with no cornice at all, which is the abstraction the whole of WP-5.7 to 5.9
+    # exists to remove, at dormer scale.
+    #
+    # HOW BIG. `cornice-that-is-a-fascia`'s third secondary states the rule the HOUSE's cornice
+    # obeys -- the crowning assembly is one twelfth to one fourteenth of the wall it crowns, and
+    # this house's own comes out at 0.078, inside that band. A dormer face is a small wall, so
+    # the same ratio the house itself uses, applied to the dormer's own face, gives the dormer's
+    # cornice: one rule used twice, not a second rule for dormers that nobody wrote. The face
+    # taken is the window plus its two casings, which is the only part of a dormer's face this
+    # corpus dimensions -- an apron below the sill and a frieze above the head are real and
+    # unpublished, so they are not added and the figure is the smaller for it.
+    #
+    # ITS PROJECTION follows by the same ratio, from the house's own cornice projection. A
+    # cornice reduced in height and kept at full projection is a different profile, not the same
+    # one small, and the rule the kit states is that it is the same one.
+    cornice_h = cornice_proj = None
+    cornice_ratio_note = None
+    if cornice and cornice.get("cornice_height_in") and casing_in and house_wall_in:
+        # The wall this house's cornice crowns, water table to cornice -- the same quantity
+        # `cornice-that-is-a-fascia`'s own expression names, and the same number
+        # _derive_measurements publishes under that name. Passed in rather than re-derived: two
+        # derivations of one quantity is how the elevation inset and the order plates came to
+        # draw the same cornice 2.37x apart (OQ 72).
+        if house_wall_in:
+            ratio = cornice["cornice_height_in"] / house_wall_in
+            dormer_wall_in = win_h + 2 * casing_in
+            cornice_h = round(ratio * dormer_wall_in, 3)
+            cornice_proj = round((cornice.get("envelope_projection_in") or 0.0) * (cornice_h / cornice["cornice_height_in"]), 3)
+            cornice_ratio_note = (
+                f"The house's own cornice is {round(ratio, 4)} of the wall it crowns -- inside "
+                f"cornice-that-is-a-fascia's stated 1/14 to 1/12. The same ratio over this "
+                f"dormer's face ({round(dormer_wall_in, 1)} in of window plus casings) gives "
+                f"{cornice_h} in, projecting {cornice_proj} in. The kit's rule for this slot is "
+                f"that a dormer carries the same order as the house at reduced scale; this is "
+                f"that rule with a number in it. The wall figure excludes an apron and a frieze "
+                f"the corpus does not dimension, so it errs small.")
+
+    return {
+        "applicable": True, "stated": True, "count": count, "face": face, "variant": variant,
+        "variant_undeclared_choices": variant_undeclared,
+        "variant_source_node": variant_source,
+        "positions_ft": positions, "window_width_in": win_w, "window_height_in": win_h,
+        "cheek_width_in": cheek, "face_width_in": face_w,
+        "casing_width_in": casing_in,
+        "cornice_height_in": cornice_h, "cornice_projection_in": cornice_proj,
+        "cornice_source": cornice_ratio_note,
+        # THE SASH, in the same terms the storey windows use, so the dormer is drawn by the same
+        # renderer and cannot drift from them. "6/6" is six lights in EACH sash, not six in the
+        # window: the drawing had been reading the first number as the whole opening and putting
+        # half the glazing bars in.
+        "lights_across": _dormer_lights(sash_set)[0],
+        "lights_high_per_sash": _dormer_lights(sash_set)[1],
+        "sum_of_face_widths_in": round(face_w * len(positions), 3),
+        "sash_pattern": sash_set[0] if sash_set else None,
+        "count_parity_stated": parity,
+        "count_parity_ok": (None if not parity else
+                            (count % 2 == 1) if parity == "odd" else (count % 2 == 0)),
+        # THE STRIP OF ROOF IN FRONT OF THE FACE. `sunken-dormer` wants at least 12 in of it and
+        # prefers 18-36 -- "the strip of roof in front of a dormer is what makes it a dormer".
+        # Where the face sits up the slope is a POSITIONING CHOICE and no source reachable from
+        # here states one for a Chesapeake example, so this is editorial: the lower-middle of the
+        # fault corpus's own preferred band, named as a choice rather than derived from the
+        # dormer's height, which would have produced 56 in and called it geometry.
+        "roof_run_in_front_in": DORMER_SETBACK_ON_SLOPE_IN,
+        "roof_run_in_front_source": "editorial: the lower-middle of sunken-dormer's own preferred "
+                                    "18-36 in band; no Chesapeake example reachable from here "
+                                    "states where the face sits up the slope",
+        "source": "the style's kit for the variant, cheek and sash; the fault corpus for the "
+                  "window-to-sash step and the rhythm; the bays below for the centres",
+    }
+
+
 NOT_MODELLED = {
-    # roof.py's dormer_rhythm_check refuses in its own words -- no plan schema field authors
-    # a dormer, so an absent dormer and an unstatable one are indistinguishable here.
-    "dormer_count": "no plan schema field authors a dormer (build/roof.py dormer_rhythm_check)",
-    "sum_of_dormer_face_widths_in": "as dormer_count",
+    # `dormer_count` and `sum_of_dormer_face_widths_in` LEFT this list on 27 Aug 2026 (WP-5.9),
+    # under its own rule: to take a name off you must model the thing in the same commit. They are
+    # modelled now -- schema/plan.schema.json gained `declared.dormer` and build/elevation.py
+    # gained dormers(). What made them refusable was never the geometry; it was that an absent
+    # dormer and an unstatable one were indistinguishable, so any figure at all was a guess. The
+    # new field separates them: "none" is a measured zero the fault corpus may judge, an absent
+    # key is could-not-evaluate, and these measurements are supplied ONLY in the first case.
     # roof.py's chimney record carries a position and two heights. There is no plan size in it.
     # WP-5.7 corrected these four reasons. brick-course DOES carry `chimney/width` (part * 8,
     # 22 in here) -- so the old reason, that nobody had wired it, was wrong. The real reason is
@@ -643,10 +866,12 @@ def _derive_measurements(elev):
         # a return's own depth is not simply the cornice's face projection, and guessing it
         # produced a false 'pork-chop-return' fatal on a plan that never actually specified one.
         # Left could_not_judge rather than fabricated. See docs/reports/wp-3.2 for the finding.
-        # sum_of_dormer_face_widths_in is NOT supplied, for the same reason dormer_count is not
-        # (OQ 52, and roof.py's dormer_rhythm_check says it in its own words): no plan schema
-        # field authors a dormer, so this generator cannot distinguish a house with no dormers
-        # from a house whose dormers the record has no way to state.
+        # dormer_count and sum_of_dormer_face_widths_in used to be refused here, on the reasoning
+        # that no plan schema field authored a dormer so this generator could not tell a house
+        # with none from a house whose dormers the record had no way to state. `declared.dormer`
+        # tells them apart now, and both are supplied FROM IT rather than from this block -- see
+        # dormers() above and the dormer_m fold at the end of build_elevation, which supplies them
+        # only where the record actually stated something.
         "wall_thickness_in": elev["section"]["wall"]["exterior_in"],
     })
 
@@ -940,6 +1165,19 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     reveal_band_in = list(_rvp["range"]) if _rvp.get("range") else (
         [_rvp["value"], _rvp["value"]] if isinstance(_rvp.get("value"), (int, float)) else None)
 
+    # THE CASCADED dormer slot, not the raw one. `tidewater-georgian` binds this slot EMPTY --
+    # exactly as it binds `shutter` -- so `C["kits"]` carries no variants, no cheek band and no
+    # parity rule for it, and a check against the raw kit would let a `shed-dormer` through on a
+    # style whose parent forbids it. The spec lives on `georgian-colonial-american` and reaches
+    # this node only through the lineage. This is the OQ 51 cascade being READ deliberately
+    # rather than tripped over.
+    try:
+        _g = RK.load_graph()
+        _slots, _ = RK.resolve_slots(_g, RK.chain_for(_g, style), RK.scope_for(_g, style))
+        dormer_slot = _slots.get("dormer") or {}
+    except Exception:
+        dormer_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("dormer") or {}
+
     shutter_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("shutter") or {}
     _sv = {v["id"]: v.get("status") for v in shutter_slot.get("variants", [])}
     shutters_carried = bool(_sv) and _sv.get("none") != "canonical"
@@ -1078,8 +1316,48 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "stack_height_above_ridge_in": round(roof["chimneys"]["positions"][0]["height_above_ridge_ft"] * 12, 2) if roof.get("chimneys", {}).get("positions") else None,
     }
 
+    # THE DORMERS, or the stated absence of them, or the absence of a statement.
+    dorm = dormers(plan, dormer_slot, faces[entrance_face], storey_windows[1], roof,
+                   entrance_face, ground["storey_height_ft"] * 12.0,
+                   cornice=cornice, casing_in=round(ent["casing_width_in"] * 0.6, 3),
+                   house_wall_in=round(grade_to_true_eave_in
+                                       - wtb["water_table_height_above_finished_grade_in"], 2))
+    if dorm.get("count") and not dorm.get("refused"):
+        # The strip of roof in front of the face, measured ON THE SLOPE -- `sunken-dormer` wants
+        # at least 12 in of it and prefers 18-36, because that strip is what makes a dormer a
+        # dormer rather than a wall carried up. Derived from the roof's own geometry: the face
+        # stands where its own height fits under the slope with that run left below it.
+        # How far the face stands back HORIZONTALLY, and how high its sill sits, both follow from
+        # the setback along the slope once the pitch is known -- so the drawing places the dormer
+        # from one stated figure rather than from three.
+        _p12 = (roof.get("main") or {}).get("pitch_rise_per_12")
+        if _p12:
+            _rr = _p12 / 12.0
+            _hyp = math.sqrt(1.0 + _rr * _rr)
+            dorm["face_setback_from_eave_in"] = round(DORMER_SETBACK_ON_SLOPE_IN / _hyp, 2)
+            dorm["sill_above_eave_in"] = round(DORMER_SETBACK_ON_SLOPE_IN * _rr / _hyp, 2)
+
+    # THE DORMER MEASUREMENTS, supplied only where the plan STATES its dormers. Where it does
+    # not, every one of these stays absent -- which is the distinction the whole field exists for.
+    dormer_m = {}
+    if dorm.get("stated") and not dorm.get("refused"):
+        dormer_m["dormer_count"] = dorm.get("count", 0)
+        dormer_m["sum_of_dormer_face_widths_in"] = dorm.get("sum_of_face_widths_in", 0.0)
+        if dorm.get("count"):
+            dormer_m.update({
+                "count_of_dormers_centred_on_a_window_below": len(dorm.get("positions_ft") or []),
+                "dormer_window_width_in": dorm["window_width_in"],
+                "dormer_window_height_in": dorm["window_height_in"],
+                "window_width_directly_below_in": storey_windows[1]["opening_width_in"],
+                "visible_cheek_width_in": dorm["cheek_width_in"],
+                "sash_width_in": dorm["window_width_in"],
+                "finished_cheek_width_in": dorm["cheek_width_in"],
+                "roof_run_in_front_of_dormer_face_measured_on_slope_in": dorm["roof_run_in_front_in"],
+            })
+
     elev = {
         "plan_id": plan.get("id"), "style": style, "entrance_face": entrance_face,
+        "dormers": dorm,
         "date_of_representation": date, "glass_module_in": glass_module_in, "glass_module_source": glass_note,
         "gibbs_order_applies_to_style": gibbs_applies,
         "front": faces[entrance_face], "faces": faces,
@@ -1101,6 +1379,12 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "footprint": fp, "section": section,
     }
     elev["measurements"] = _derive_measurements(elev)
+    # Folded in AFTER the NOT_MODELLED filter has run, because these are no longer refused names
+    # and must not be filtered by their own former entries. setdefault, so a plan's own declared
+    # measurement still wins, which is the precedence build/plan_check.py already uses.
+    for _k, _v in dormer_m.items():
+        if _v is not None:
+            elev["measurements"].setdefault(_k, _v)
     return elev
 
 # ---------------------------------------------------------------- cli
