@@ -561,6 +561,62 @@ def drawn_layer(plan, rooms, level_of, C, F):
                   room=rid,
                   fix="Widen the room, or drop the fixture from the record.")
 
+    # --- a run of wall the room's own words demand, unbroken by the openings just placed
+    #
+    # WP-7.2, and the scope is deliberately exactly what the corpus states. `rooms/*.json`
+    # carries 278 furniture items and ONE of them names a wall run in words:
+    # `dining-room`'s sideboard, *"Needs an uninterrupted wall of at least 6 ft. This is what
+    # the second window usually kills."* That sentence is the basis and the number sits beside
+    # it in the same record, so the two cannot drift. Every item carrying
+    # `needs_uninterrupted_wall_ft` is measured here; no rule is invented for a room that
+    # states none, which is where Lucas drew the line between the corpus and the architect.
+    #
+    # This is an ARRANGEMENT rule and never a sizing one. Room size comes from the program and
+    # the catalogue band, never from the furniture — ruled 27 Aug 2026, OQ 73. A room that
+    # fails this has a window in the wrong place, not a size problem.
+    for rid, r in rooms.items():
+        g = placed.get(rid)
+        rt = C["rooms"].get(r["type"]) or {}
+        if not g:
+            continue
+        wants = [it for it in (rt.get("furniture") or []) if it.get("needs_uninterrupted_wall_ft")]
+        if not wants:
+            continue
+        # what each wall has left once this room's placed openings have taken their runs
+        spans = {w: [] for w in ("N", "S", "E", "W")}
+        for o in list(r.get("doors") or []) + list(r.get("windows") or []):
+            if o.get("unplaced") or not o.get("wall"):
+                continue
+            wd = o.get("width_ft") or 3.0
+            for pos in (o.get("positions_ft") or ([o["position_ft"]] if o.get("position_ft") is not None else [])):
+                spans[o["wall"]].append((pos - wd / 2.0, pos + wd / 2.0))
+        best = 0.0
+        for w, taken in spans.items():
+            along_x = w in ("N", "S")
+            lo = g["x_ft"] if along_x else g["y_ft"]
+            hi = lo + (g["width_ft"] if along_x else g["depth_ft"])
+            free = [(lo, hi)]
+            for a, b in sorted(taken):
+                nxt = []
+                for s0, e0 in free:
+                    if b <= s0 or a >= e0:
+                        nxt.append((s0, e0)); continue
+                    if a > s0: nxt.append((s0, min(a, e0)))
+                    if b < e0: nxt.append((max(b, s0), e0))
+                free = nxt
+            best = max([best] + [e0 - s0 for s0, e0 in free])
+        name = r.get("name") or rid
+        for it in wants:
+            need = float(it["needs_uninterrupted_wall_ft"])
+            if best + 1e-6 < need:
+                F.add("minor", "drawn",
+                      f"{name} has no unbroken run of wall for its {it['item']}: the longest "
+                      f"its walls have left once the doors and windows are placed is "
+                      f"{best:.1f} ft, and rooms/{r['type']}.json asks for {need:g} ft — "
+                      f"\"{(it.get('note') or '').split('.')[0]}.\"",
+                      room=rid,
+                      fix="Move a window off that wall, or accept the piece elsewhere.")
+
     out["unreachable_count"] = len(out["unreachable"])
     out["diverged_count"] = len(out["diverged"])
     return out
@@ -784,9 +840,15 @@ def check(plan, C=None, strict=False):
             # A table needs clearance on both sides; a counter, bench, sideboard or run of
             # casework is against a wall and needs it on one. Treating them alike fails every
             # galley kitchen and butler's pantry against its own rule.
-            place = it.get("placement") or ("against-wall" if re.search(
-                r"counter|bench|sideboard|cabinet|casework|drawer|shelf|shelv|press|cupboard|vanity|range|refrigerat|sink|washer|dryer|wardrobe|dresser|chest|bookcase|desk|piano|bed\b",
-                it["item"], re.I) else "freestanding")
+            # WP-7.2: READ, never inferred. `placement` is declared in
+            # schema/room.schema.json and was authored on all 278 furniture items; until then
+            # it was on 0 of them and this line guessed from the item's NAME with a regex --
+            # a guess in code where the schema has a field, which is the pattern this project
+            # keeps paying for. The regex called 84 items against-wall; the authored data
+            # calls 159, so it had been demanding two-sided clearance for a sideboard, a
+            # nightstand and a console table alike. `check_rooms.py` now requires the field,
+            # so it cannot silently go missing again.
+            place = it.get("placement") or "freestanding"
             sides = 1 if place in ("against-wall", "corner", "built-in") else 2
             need_short = (fw + sides * cl) / 12.0
             need_long = (fl + 2 * min(cl, 36)) / 12.0     # ends take chair pull, not full passage

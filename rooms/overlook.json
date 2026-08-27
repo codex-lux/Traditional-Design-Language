@@ -43,7 +43,8 @@
         120
       ],
       "clearance_in": 0,
-      "note": "42 in rather than the code's 36: people do not walk tight to a guard with a drop behind it, and a 36 in overlook measures 36 and works like 30"
+      "note": "42 in rather than the code's 36: people do not walk tight to a guard with a drop behind it, and a 36 in overlook measures 36 and works like 30",
+      "placement": "freestanding"
     },
     {
       "item": "guard to the open side",
@@ -52,7 +53,8 @@
         120
       ],
       "clearance_in": 0,
-      "note": "Its thickness eats the width. A 5 in newel-and-baluster rail and a 12 in panelled parapet are different rooms at the same nominal dimension"
+      "note": "Its thickness eats the width. A 5 in newel-and-baluster rail and a 12 in panelled parapet are different rooms at the same nominal dimension",
+      "placement": "against-wall"
     },
     {
       "item": "bookcase or chest against the closed wall",
@@ -62,7 +64,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "The furniture the type invites, and the reason 5 ft rather than 42 in is the better width where there is room for it"
+      "note": "The furniture the type invites, and the reason 5 ft rather than 42 in is the better width where there is room for it",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

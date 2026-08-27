@@ -44,7 +44,8 @@
         18
       ],
       "clearance_in": 36,
-      "note": "the 36 in is the seated leg, and it is the number that is always cut"
+      "note": "the 36 in is the seated leg, and it is the number that is always cut",
+      "placement": "against-wall"
     },
     {
       "item": "hook rail or lockers",
@@ -53,7 +54,8 @@
         14
       ],
       "clearance_in": 24,
-      "note": "a hung winter coat projects 10 in from the wall; lockers at 14 to 16 in deep hold a coat only if the coat is hung on a hook rather than a hanger, since a hanger needs 20 in"
+      "note": "a hung winter coat projects 10 in from the wall; lockers at 14 to 16 in deep hold a coat only if the coat is hung on a hook rather than a hanger, since a hanger needs 20 in",
+      "placement": "against-wall"
     },
     {
       "item": "boot tray / drip zone",
@@ -62,7 +64,8 @@
         20
       ],
       "clearance_in": 0,
-      "note": "on the floor under the bench, and it wants to be over a floor material that will take standing water - the one place in the house where tile is not a stylistic choice"
+      "note": "on the floor under the bench, and it wants to be over a floor material that will take standing water - the one place in the house where tile is not a stylistic choice",
+      "placement": "against-wall"
     },
     {
       "item": "dog bowls and crate",
@@ -72,7 +75,8 @@
       ],
       "clearance_in": 24,
       "essential": false,
-      "note": "the crate is 30 to 48 in long and is the object most often discovered after the plan is finished"
+      "note": "the crate is 30 to 48 in long and is the object most often discovered after the plan is finished",
+      "placement": "freestanding"
     },
     {
       "item": "broom, vacuum, sports kit cupboard",
@@ -81,7 +85,8 @@
         24
       ],
       "clearance_in": 30,
-      "essential": false
+      "essential": false,
+      "placement": "against-wall"
     },
     {
       "item": "clear route, garage door to kitchen door",
@@ -90,7 +95,8 @@
         96
       ],
       "clearance_in": 0,
-      "note": "must not pass in front of the bench: a route across the seated zone means the room can be used by one person at a time, which defeats its whole purpose at 8 a.m."
+      "note": "must not pass in front of the bench: a route across the seated zone means the room can be used by one person at a time, which defeats its whole purpose at 8 a.m.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

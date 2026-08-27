@@ -548,9 +548,23 @@ def _furniture_for(room_type, fixture, C):
     return None
 
 
-def fixture_pass(level_rooms, C, report):
+def fixture_pass(level_rooms, C, report, occupied=None):
     """Wet rooms and the kitchen only (v1, by ruling). Fixtures are packed along the room's
-    longest wall with their clearances respected; anything that will not fit is named."""
+    longest wall with their clearances respected; anything that will not fit is named.
+
+    WP-7.2 — THIS RUNS AFTER THE OPENINGS AND THE DOOR WINS. `place()`'s docstring used to
+    say fixtures ran first "because a door has to know what is against the wall it would
+    swing into", and `occupied` never held a fixture, so the code did not implement the
+    reason its own ordering stated: measured on the CP placements, the powder room's basin
+    (1.92 ft) and the principal bath's double vanity (2.7 ft) were drawn with a door through
+    them on `spec-builder-colonial`.
+
+    The ordering was inverted rather than the map patched, because the precedence matters
+    more than the sequence: a door is AUTHORED in the plan record and a fixture layout is
+    DERIVED here, and an authored fact must never lose silently to an inferred one (OQ 52).
+    So the openings take their runs first and a fixture that cannot clear them is reported
+    `unplaced` with a reason, which is the same three-state treatment every opening gets."""
+    occupied = occupied if occupied is not None else {}
     for r in level_rooms:
         fixtures = r.get("fixtures") or []
         rect = _rect(r)
@@ -560,8 +574,23 @@ def fixture_pass(level_rooms, C, report):
         if fc not in ("sanitary", "service"):
             continue
         x, y, w, d = rect
-        along_x = w >= d
-        run = w if along_x else d
+        # WP-7.2: the wall with the longest CLEAR run, not simply the longest wall. Packing
+        # against the longest wall regardless of what is already on it reported the powder
+        # room's water closet and basin as unfittable because its 11 ft south wall was 9 ft
+        # spoken for, while its east wall stood empty. A fixture refused on a wall nobody
+        # tried is a false "cannot fit", and this corpus is built to distinguish
+        # evaluated-and-failed from not-looked-at.
+        cand = []
+        for wall in ("S", "N", "W", "E"):
+            along = wall in ("S", "N")
+            wrun = w if along else d
+            wbase = x if along else y
+            wfree = sorted(_free(wbase, wbase + wrun, occupied.get((r["id"], wall), [])))
+            longest = max((b - a for a, b in wfree), default=0.0)
+            # ties break on the longer wall, then S/W, so an unobstructed room packs exactly
+            # as it did before this change
+            cand.append((-longest, -wrun, ("S", "N", "W", "E").index(wall), wall, along, wrun, wbase, wfree))
+        _n, _r, _i, wall, along_x, run, base, free = min(cand)
         cursor = 0.0
         layout = []
         for f in fixtures:
@@ -573,21 +602,33 @@ def fixture_pass(level_rooms, C, report):
                 continue
             fw = spec["w_in"] / 12.0
             fd = spec["d_in"] / 12.0
-            if cursor + fw > run + 1e-6:
+            # the first clear run, at or after the cursor, that will hold this fixture
+            seat = None
+            for lo, hi in free:
+                start = max(lo, base + cursor)
+                if hi - start >= fw - 1e-6:
+                    seat = start
+                    break
+            if seat is None:
+                taken = sum(b - a for a, b in occupied.get((r["id"], wall), []))
                 layout.append({"item": spec["item"], "width_ft": round(fw, 2),
                                "depth_ft": round(fd, 2), "unplaced": {
-                    "reason": f"the wall run is {run:.1f} ft and the fixtures before this one "
-                              f"take {cursor:.1f} ft of it"}})
+                    "reason": (f"the {wall} wall is {run:.1f} ft, its openings hold "
+                               f"{taken:.1f} ft of it, and the fixtures before this one take "
+                               f"{cursor:.1f} ft — nothing clear is left for a {fw:.1f} ft item")
+                    if taken else
+                              (f"the wall run is {run:.1f} ft and the fixtures before this one "
+                               f"take {cursor:.1f} ft of it")}})
                 continue
             layout.append({
                 "item": spec["item"],
-                "wall": ("S" if along_x else "W"),
-                "x_ft": round(x + (cursor if along_x else 0.0), 3),
-                "y_ft": round(y + (0.0 if along_x else cursor), 3),
+                "wall": wall,
+                "x_ft": round(seat if along_x else x, 3),
+                "y_ft": round(y if along_x else seat, 3),
                 "width_ft": round(fw if along_x else fd, 2),
                 "depth_ft": round(fd if along_x else fw, 2),
             })
-            cursor += fw
+            cursor = (seat - base) + fw
         if layout:
             r["fixture_layout"] = layout
             report["fixtures_placed"] += sum(1 for f in layout if "unplaced" not in f)
@@ -598,9 +639,17 @@ def fixture_pass(level_rooms, C, report):
 def place(plan, C=None):
     """Place every opening, the stair and the wet-room fixtures, in that order.
 
-    Fixtures FIRST within a level, because a door has to know what is against the wall it
-    would swing into; then interior doors; then exterior doors, which is where the passage
-    axis is decided; then windows, into whatever run the doors have left."""
+    Interior doors first; then exterior doors, which is where the passage axis is decided;
+    then windows, into whatever run the doors have left; then fixtures, into whatever run the
+    openings have left.
+
+    WP-7.2 INVERTED THIS. Fixtures used to run first, under a note saying "a door has to know
+    what is against the wall it would swing into" — and `occupied` never held a fixture, so
+    the code did not do the thing its own comment gave as the reason. What it did instead was
+    draw a door straight through a double vanity. Both orderings need the two passes to share
+    `occupied`; the question is only which loses when they cannot both fit, and that is
+    settled: a door is AUTHORED in the record, a fixture layout is DERIVED here, and an
+    authored fact must never lose silently to an inferred one (OQ 52)."""
     if C is None:
         PC = _mod("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
         C = PC.load_corpus()
@@ -618,10 +667,10 @@ def place(plan, C=None):
     for lv in plan["levels"]:
         rooms = [r for r in lv["rooms"]]
         occupied = {}
-        fixture_pass(rooms, C, report)
         _place_interior(rooms, occupied, report)
         _place_exterior(rooms, occupied, W, H, C, report)
         _place_windows(rooms, occupied, W, H, report)
+        fixture_pass(rooms, C, report, occupied)
     stair = stair_pass(plan, C, report)
     if stair:
         plan["stair"] = stair

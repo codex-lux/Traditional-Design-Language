@@ -44,7 +44,8 @@
         86
       ],
       "clearance_in": 30,
-      "note": "Mattress 76 by 80; a California king is 72 by 84, narrower and longer, and fits a narrower room. Two people getting out of a bed on different schedules is the actual programme, so 30 in each side, not 24."
+      "note": "Mattress 76 by 80; a California king is 72 by 84, narrower and longer, and fits a narrower room. Two people getting out of a bed on different schedules is the actual programme, so 30 in each side, not 24.",
+      "placement": "against-wall"
     },
     {
       "item": "nightstands, pair",
@@ -52,7 +53,8 @@
         24,
         18
       ],
-      "clearance_in": 0
+      "clearance_in": 0,
+      "placement": "against-wall"
     },
     {
       "item": "chest of drawers or dresser",
@@ -60,7 +62,8 @@
         60,
         20
       ],
-      "clearance_in": 40
+      "clearance_in": 40,
+      "placement": "against-wall"
     },
     {
       "item": "bench or blanket chest at the foot",
@@ -69,7 +72,8 @@
         18
       ],
       "clearance_in": 30,
-      "essential": false
+      "essential": false,
+      "placement": "against-wall"
     },
     {
       "item": "two chairs and a table",
@@ -79,7 +83,8 @@
       ],
       "clearance_in": 30,
       "essential": false,
-      "note": "The 'sitting area' every brief asks for. It needs about 60 sq ft clear of every aisle, so it adds 5 ft to the room's length and it should be at the WINDOW end, in the light, not in the dark corner it usually gets."
+      "note": "The 'sitting area' every brief asks for. It needs about 60 sq ft clear of every aisle, so it adds 5 ft to the room's length and it should be at the WINDOW end, in the light, not in the dark corner it usually gets.",
+      "placement": "freestanding"
     },
     {
       "item": "television",
@@ -89,7 +94,8 @@
       ],
       "clearance_in": 96,
       "essential": false,
-      "note": "Comfortable viewing distance is 1.2 to 1.6 times the diagonal, so a 65 in screen wants 8 to 10 ft. In a 13 ft 6 in room the only wall that works is the one opposite the bed, which is the wall the bathroom door is on. This is a real planning conflict and it is worth resolving on paper."
+      "note": "Comfortable viewing distance is 1.2 to 1.6 times the diagonal, so a 65 in screen wants 8 to 10 ft. In a 13 ft 6 in room the only wall that works is the one opposite the bed, which is the wall the bathroom door is on. This is a real planning conflict and it is worth resolving on paper.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

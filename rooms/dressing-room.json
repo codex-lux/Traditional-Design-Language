@@ -44,7 +44,8 @@
         20
       ],
       "clearance_in": 36,
-      "note": "Historically the room's principal object and the reason it faced a window - you dress by daylight or you dress badly. A dressing table with its back to the window is the modern error."
+      "note": "Historically the room's principal object and the reason it faced a window - you dress by daylight or you dress badly. A dressing table with its back to the window is the modern error.",
+      "placement": "against-wall"
     },
     {
       "item": "chair or stool",
@@ -53,7 +54,8 @@
         24
       ],
       "clearance_in": 18,
-      "note": "The presence of somewhere to sit is the whole difference between this room and a closet. You put shoes on sitting down."
+      "note": "The presence of somewhere to sit is the whole difference between this room and a closet. You put shoes on sitting down.",
+      "placement": "freestanding"
     },
     {
       "item": "hanging, double-loaded",
@@ -61,7 +63,8 @@
         96,
         84
       ],
-      "clearance_in": 42
+      "clearance_in": 42,
+      "placement": "against-wall"
     },
     {
       "item": "cheval or full-length glass",
@@ -70,7 +73,8 @@
         20
       ],
       "clearance_in": 60,
-      "note": "Needs 5 ft of standing-back distance to show the whole figure, which a closet aisle never gives and a room does."
+      "note": "Needs 5 ft of standing-back distance to show the whole figure, which a closet aisle never gives and a room does.",
+      "placement": "freestanding"
     },
     {
       "item": "small fireplace",
@@ -80,7 +84,8 @@
       ],
       "clearance_in": 30,
       "essential": false,
-      "note": "A dressing-room chimneypiece is the smallest in the house - a 24 to 30 in opening - and it is what made the room usable in a house heated only by fires. Where a modern version wants the feeling without the flue, the answer is a window and a radiator under it, not a direct-vent box in a period surround."
+      "note": "A dressing-room chimneypiece is the smallest in the house - a 24 to 30 in opening - and it is what made the room usable in a house heated only by fires. Where a modern version wants the feeling without the flue, the answer is a window and a radiator under it, not a direct-vent box in a period surround.",
+      "placement": "built-in"
     }
   ],
   "daylight": {

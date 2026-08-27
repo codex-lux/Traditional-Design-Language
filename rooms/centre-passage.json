@@ -45,7 +45,8 @@
     20
    ],
    "clearance_in": 36,
-   "note": "the southern passage's characteristic furnishing, and it needs 20 + 36 = 56 in before the route even starts"
+   "note": "the southern passage's characteristic furnishing, and it needs 20 + 36 = 56 in before the route even starts",
+   "placement": "against-wall"
   },
   {
    "item": "settee or bench",
@@ -54,7 +55,8 @@
     24
    ],
    "clearance_in": 36,
-   "essential": false
+   "essential": false,
+   "placement": "against-wall"
   },
   {
    "item": "side table between the room doors",
@@ -62,7 +64,8 @@
     36,
     16
    ],
-   "clearance_in": 30
+   "clearance_in": 30,
+   "placement": "against-wall"
   },
   {
    "item": "tall case clock",
@@ -71,7 +74,8 @@
     12
    ],
    "clearance_in": 0,
-   "essential": false
+   "essential": false,
+   "placement": "against-wall"
   },
   {
    "item": "clear passing route",
@@ -80,7 +84,8 @@
     240
    ],
    "clearance_in": 0,
-   "note": "42 in is two people passing without either turning sideways; 36 in is one person and a door swing"
+   "note": "42 in is two people passing without either turning sideways; 36 in is one person and a door swing",
+   "placement": "freestanding"
   }
  ],
  "daylight": {

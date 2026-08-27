@@ -47,7 +47,8 @@
     72
    ],
    "clearance_in": 36,
-   "note": "the piazza is the summer dining room; this is what sets the 9 ft depth"
+   "note": "the piazza is the summer dining room; this is what sets the 9 ft depth",
+   "placement": "freestanding"
   },
   {
    "item": "row of rocking chairs",
@@ -56,7 +57,8 @@
     30
    ],
    "clearance_in": 30,
-   "note": "26 deep plus 30 in of rock plus a 36 in route is 92 in, which is 7 ft 8 in and is why 8 ft is the real floor even without the table"
+   "note": "26 deep plus 30 in of rock plus a 36 in route is 92 in, which is 7 ft 8 in and is why 8 ft is the real floor even without the table",
+   "placement": "freestanding"
   },
   {
    "item": "joggling board",
@@ -66,7 +68,8 @@
    ],
    "clearance_in": 24,
    "essential": false,
-   "note": "a 16 ft springy plank on rocker ends, a genuine Lowcountry piece of furniture, and it needs the piazza's full length"
+   "note": "a 16 ft springy plank on rocker ends, a genuine Lowcountry piece of furniture, and it needs the piazza's full length",
+   "placement": "freestanding"
   },
   {
    "item": "hanging bed or swing",
@@ -76,7 +79,8 @@
    ],
    "clearance_in": 36,
    "essential": false,
-   "note": "sleeping on the piazza was normal practice before air conditioning and the swing bed is its survivor"
+   "note": "sleeping on the piazza was normal practice before air conditioning and the swing bed is its survivor",
+   "placement": "against-wall"
   },
   {
    "item": "clear route from the street door to the house door",
@@ -85,7 +89,8 @@
     180
    ],
    "clearance_in": 0,
-   "note": "and it must NOT pass through the seating group, which is why the house door is one bay back from the street end rather than opposite the gate"
+   "note": "and it must NOT pass through the seating group, which is why the house door is one bay back from the street end rather than opposite the gate",
+   "placement": "freestanding"
   }
  ],
  "daylight": {

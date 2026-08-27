@@ -45,7 +45,8 @@
         30
       ],
       "clearance_in": 36,
-      "note": "seated on ONE side only, facing down the hall - this is what makes the room directional and why the dais end is the high end"
+      "note": "seated on ONE side only, facing down the hall - this is what makes the room directional and why the dais end is the high end",
+      "placement": "against-wall"
     },
     {
       "item": "trestle tables and forms down the body",
@@ -54,7 +55,8 @@
         144
       ],
       "clearance_in": 30,
-      "note": "demountable, and the demountability is the point: the hall was cleared for dancing, for sleeping and for business, and permanent furniture would have prevented all three"
+      "note": "demountable, and the demountability is the point: the hall was cleared for dancing, for sleeping and for business, and permanent furniture would have prevented all three",
+      "placement": "freestanding"
     },
     {
       "item": "open central hearth with a louver over",
@@ -63,7 +65,8 @@
         60
       ],
       "clearance_in": 60,
-      "note": "5 ft of clear floor all round the fire, so 15 x 15 ft of the hall is hearth zone - which is why a hall under about 20 ft wide with a central fire has no room left"
+      "note": "5 ft of clear floor all round the fire, so 15 x 15 ft of the hall is hearth zone - which is why a hall under about 20 ft wide with a central fire has no room left",
+      "placement": "freestanding"
     },
     {
       "item": "screen at the low end",
@@ -71,7 +74,8 @@
         216,
         6
       ],
-      "clearance_in": 36
+      "clearance_in": 36,
+      "placement": "against-wall"
     },
     {
       "item": "cupboard or buffet for display of plate",
@@ -81,7 +85,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "on the dais wall; the ancestor of the sideboard and the display cabinet"
+      "note": "on the dais wall; the ancestor of the sideboard and the display cabinet",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

@@ -44,7 +44,8 @@
         78,
         34
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "against-wall"
     },
     {
       "item": "two armchairs",
@@ -53,7 +54,8 @@
         34
       ],
       "clearance_in": 24,
-      "note": "and they should be MOVABLE - the sitting room's virtue is that the furniture can be pulled round to the fire in winter and to the window in summer"
+      "note": "and they should be MOVABLE - the sitting room's virtue is that the furniture can be pulled round to the fire in winter and to the window in summer",
+      "placement": "freestanding"
     },
     {
       "item": "coffee table or low table",
@@ -62,7 +64,8 @@
         28
       ],
       "clearance_in": 16,
-      "note": "16 to 18 in from the sofa front is the reach dimension: closer and you cannot get your legs in, further and you cannot reach a cup"
+      "note": "16 to 18 in from the sofa front is the reach dimension: closer and you cannot get your legs in, further and you cannot reach a cup",
+      "placement": "freestanding"
     },
     {
       "item": "bookcase or built-in cupboard",
@@ -71,7 +74,8 @@
         12
       ],
       "clearance_in": 30,
-      "essential": false
+      "essential": false,
+      "placement": "built-in"
     },
     {
       "item": "writing table or bureau",
@@ -81,7 +85,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "the sitting room absorbs the household's small administration in any house without a study"
+      "note": "the sitting room absorbs the household's small administration in any house without a study",
+      "placement": "freestanding"
     },
     {
       "item": "television, in every version after 1955",
@@ -90,7 +95,8 @@
         4
       ],
       "clearance_in": 96,
-      "note": "a 65 in set wants a viewing distance of 7 to 9 ft, and the seating group above is 11 ft across - so the set and the fire compete for the same wall and the same seats, which is the central unsolved problem of every modern sitting room"
+      "note": "a 65 in set wants a viewing distance of 7 to 9 ft, and the seating group above is 11 ft across - so the set and the fire compete for the same wall and the same seats, which is the central unsolved problem of every modern sitting room",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

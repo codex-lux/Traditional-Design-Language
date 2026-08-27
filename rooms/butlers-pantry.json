@@ -44,7 +44,8 @@
     25
    ],
    "clearance_in": 42,
-   "note": "The dressing and holding surface. Stone or timber; it is where hot dishes land, so it must not be a laminate."
+   "note": "The dressing and holding surface. Stone or timber; it is where hot dishes land, so it must not be a laminate.",
+   "placement": "built-in"
   },
   {
    "item": "glazed upper cupboards for china and glass",
@@ -53,7 +54,8 @@
     13
    ],
    "clearance_in": 0,
-   "note": "13 in deep, not 24: a dinner plate is 10 1/2 to 11 in and a charger 12 to 13. A 24 in upper cupboard stacks china two deep and the back stack is never used. Glazed doors because the point is to find the right piece at speed."
+   "note": "13 in deep, not 24: a dinner plate is 10 1/2 to 11 in and a charger 12 to 13. A 24 in upper cupboard stacks china two deep and the back stack is never used. Glazed doors because the point is to find the right piece at speed.",
+   "placement": "against-wall"
   },
   {
    "item": "plate and silver drawers",
@@ -62,7 +64,8 @@
     22
    ],
    "clearance_in": 40,
-   "note": "Felt- or baize-lined, and in the historical article lockable. The silver drawer is the room's origin."
+   "note": "Felt- or baize-lined, and in the historical article lockable. The silver drawer is the room's origin.",
+   "placement": "built-in"
   },
   {
    "item": "small sink",
@@ -71,7 +74,8 @@
     16
    ],
    "clearance_in": 30,
-   "note": "15 to 18 in bar sink, for glass and for flowers. A full kitchen sink here turns the room into a second scullery, which is a different room with a different door position."
+   "note": "15 to 18 in bar sink, for glass and for flowers. A full kitchen sink here turns the room into a second scullery, which is a different room with a different door position.",
+   "placement": "against-wall"
   },
   {
    "item": "warming or holding cupboard / undercounter refrigeration",
@@ -81,7 +85,8 @@
    ],
    "clearance_in": 36,
    "essential": false,
-   "note": "The modern descendant of the plate warmer. Where the kitchen is far from the table - and in a traditional plan it should be - this is what makes the arrangement work."
+   "note": "The modern descendant of the plate warmer. Where the kitchen is far from the table - and in a traditional plan it should be - this is what makes the arrangement work.",
+   "placement": "built-in"
   },
   {
    "item": "a place to stage a whole course",
@@ -90,7 +95,8 @@
     25
    ],
    "clearance_in": 42,
-   "note": "Five feet of clear counter that nothing lives on. It is the difference between a pantry and a cupboard corridor, and it is what gets designed out."
+   "note": "Five feet of clear counter that nothing lives on. It is the difference between a pantry and a cupboard corridor, and it is what gets designed out.",
+   "placement": "freestanding"
   }
  ],
  "daylight": {

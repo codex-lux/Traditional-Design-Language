@@ -45,7 +45,8 @@
         30
       ],
       "clearance_in": 42,
-      "note": "42 in behind, not 36, because the shelving behind the chair takes 12 in and a person must be able to rise and turn"
+      "note": "42 in behind, not 36, because the shelving behind the chair takes 12 in and a person must be able to rise and turn",
+      "placement": "against-wall"
     },
     {
       "item": "desk chair",
@@ -53,7 +54,8 @@
         26,
         26
       ],
-      "clearance_in": 0
+      "clearance_in": 0,
+      "placement": "against-wall"
     },
     {
       "item": "bookshelves",
@@ -62,7 +64,8 @@
         12
       ],
       "clearance_in": 30,
-      "note": "a study's shelving is 100 to 250 volumes; past about 400 the room is a library and needs the library's structural check"
+      "note": "a study's shelving is 100 to 250 volumes; past about 400 the room is a library and needs the library's structural check",
+      "placement": "against-wall"
     },
     {
       "item": "filing and printer unit",
@@ -71,7 +74,8 @@
         22
       ],
       "clearance_in": 36,
-      "note": "a lateral file needs 36 in in front for a full drawer extension plus the person; this is the piece that most often does not fit"
+      "note": "a lateral file needs 36 in in front for a full drawer extension plus the person; this is the piece that most often does not fit",
+      "placement": "freestanding"
     },
     {
       "item": "one visitor chair",
@@ -81,7 +85,8 @@
       ],
       "clearance_in": 24,
       "essential": false,
-      "note": "the study's social capacity is exactly one visitor, and a room that seats three is a small sitting room"
+      "note": "the study's social capacity is exactly one visitor, and a room that seats three is a small sitting room",
+      "placement": "freestanding"
     },
     {
       "item": "the camera wall",
@@ -90,7 +95,8 @@
         4
       ],
       "clearance_in": 60,
-      "note": "not furniture, but it is a dimensional requirement: 5 ft of wall BEHIND the sitter that is not a window and is fit to be seen, at a distance of about 5 ft from the camera so the framing is not a close-up"
+      "note": "not furniture, but it is a dimensional requirement: 5 ft of wall BEHIND the sitter that is not a window and is fit to be seen, at a distance of about 5 ft from the camera so the framing is not a close-up",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

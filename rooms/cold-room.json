@@ -45,7 +45,8 @@
         16
       ],
       "clearance_in": 0,
-      "note": "Slatted, not solid, and timber rather than metal - air must move around every crate. 16 in deep and spaced 14 to 16 in apart to take a bushel crate."
+      "note": "Slatted, not solid, and timber rather than metal - air must move around every crate. 16 in deep and spaced 14 to 16 in apart to take a bushel crate.",
+      "placement": "against-wall"
     },
     {
       "item": "bushel crates and bins",
@@ -54,7 +55,8 @@
         16
       ],
       "clearance_in": 0,
-      "note": "A bushel crate is about 20 by 16 by 12 and holds 50 lb of potatoes. Six crates is a winter's roots for a household of four and occupies about 12 sq ft of floor plus its shelving."
+      "note": "A bushel crate is about 20 by 16 by 12 and holds 50 lb of potatoes. Six crates is a winter's roots for a household of four and occupies about 12 sq ft of floor plus its shelving.",
+      "placement": "against-wall"
     },
     {
       "item": "low intake vent",
@@ -63,7 +65,8 @@
         6
       ],
       "clearance_in": 0,
-      "note": "A 4 to 6 in duct from outside terminating within 12 in of the floor, screened. Cold air falls in."
+      "note": "A 4 to 6 in duct from outside terminating within 12 in of the floor, screened. Cold air falls in.",
+      "placement": "against-wall"
     },
     {
       "item": "high exhaust vent",
@@ -72,7 +75,8 @@
         6
       ],
       "clearance_in": 0,
-      "note": "Terminating at the ceiling and rising to outside. Warm moist air leaves. The two together are a passive thermosiphon and they are the entire mechanical system; both need dampers so the room can be shut down in a hard freeze."
+      "note": "Terminating at the ceiling and rising to outside. Warm moist air leaves. The two together are a passive thermosiphon and they are the entire mechanical system; both need dampers so the room can be shut down in a hard freeze.",
+      "placement": "against-wall"
     },
     {
       "item": "thermometer and hygrometer",
@@ -81,7 +85,8 @@
         2
       ],
       "clearance_in": 0,
-      "note": "Not a whimsy. A cold room is operated, not just built: the vents are opened and closed through the season, and without a thermometer the household will freeze the potatoes in January."
+      "note": "Not a whimsy. A cold room is operated, not just built: the vents are opened and closed through the season, and without a thermometer the household will freeze the potatoes in January.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

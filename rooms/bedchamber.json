@@ -43,7 +43,8 @@
         84
       ],
       "clearance_in": 24,
-      "note": "Height 84-96 in to the tester. The hangings are the point: a curtained bed is a room within a room, and it is how privacy was obtained in a house where the chamber was not private."
+      "note": "Height 84-96 in to the tester. The hangings are the point: a curtained bed is a room within a room, and it is how privacy was obtained in a house where the chamber was not private.",
+      "placement": "against-wall"
     },
     {
       "item": "clothes press or chest of drawers",
@@ -51,7 +52,8 @@
         48,
         22
       ],
-      "clearance_in": 36
+      "clearance_in": 36,
+      "placement": "against-wall"
     },
     {
       "item": "pair of side chairs and a small table",
@@ -60,7 +62,8 @@
         30
       ],
       "clearance_in": 30,
-      "note": "The chairs are what make it a chamber. A room with a bed and no seating is a bedroom."
+      "note": "The chairs are what make it a chamber. A room with a bed and no seating is a bedroom.",
+      "placement": "freestanding"
     },
     {
       "item": "washstand",
@@ -69,7 +72,8 @@
         20
       ],
       "clearance_in": 30,
-      "note": "Basin and ewer. The chamber's plumbing until about 1890, and the reason chamber floors were often painted or oilclothed near it."
+      "note": "Basin and ewer. The chamber's plumbing until about 1890, and the reason chamber floors were often painted or oilclothed near it.",
+      "placement": "against-wall"
     },
     {
       "item": "fireplace",
@@ -78,7 +82,8 @@
         20
       ],
       "clearance_in": 36,
-      "note": "A chamber hearth opening is 30-36 in wide against a parlour's 36-48. A heated chamber and an unheated one are different rooms socially, and the chimney count on the elevation tells you how many of each the house had."
+      "note": "A chamber hearth opening is 30-36 in wide against a parlour's 36-48. A heated chamber and an unheated one are different rooms socially, and the chimney count on the elevation tells you how many of each the house had.",
+      "placement": "built-in"
     }
   ],
   "daylight": {

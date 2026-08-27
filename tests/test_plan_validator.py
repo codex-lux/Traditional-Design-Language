@@ -42,7 +42,17 @@ class TestShippedPlans:
         # finding manufactured by a table this file already carries and already trusts.
         # Found by an adversarial audit of the candidate-score work. Fatal is unmoved, which
         # is what says this removed noise rather than signal.
-        assert result["counts"]["serious"] == 65
+        # 65 -> 54 and 58 -> 62 on 27 Aug 2026, two packages moving them together and in
+        # opposite directions, so they are stated apart:
+        #   WP-7.1 made the upper level slice against the ground layout, which changes
+        #     which candidate wins and therefore where every room lands.
+        #   WP-7.2 authored `placement` on all 278 furniture items and deleted the regex
+        #     that had guessed it from the item's NAME. The regex called 84 items
+        #     against-wall where the data calls 159, so a sideboard, a nightstand and a
+        #     console table were each being asked for clearance on BOTH sides. Furniture
+        #     findings across the two shipped plans: 44 -> 34, all of them removed
+        #     accusations rather than removed checks.
+        assert result["counts"]["serious"] == 54
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -54,7 +64,9 @@ class TestShippedPlans:
         # instead of one minor "treats as equivalent" note. Fatal is unmoved at 4.
         # 59 -> 58 (OQ 52): 'The Chimney With No Hat' was decided from an invented count of the
         # shadow lines in the top 18 in of a stack this corpus does not model.
-        assert result["counts"]["minor"] == 58
+        # and minor RISES, 58 -> 62: the drawn layer sees a different placement (WP-7.1) and
+        # now also measures a stated wall run against the placed openings (WP-7.2).
+        assert result["counts"]["minor"] == 62
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -90,7 +102,9 @@ class TestShippedPlans:
         # findings manufactured by a table this file already carries and already trusts.
         # Found by an adversarial audit of the candidate-score work. Fatal is unmoved, which
         # is what says this removed noise rather than signal.
-        assert result["counts"]["serious"] == 34
+        # 34 -> 31 (WP-7.1's placement moved, WP-7.2 removed three furniture false
+        # accusations); see the spec-builder note above for the full reasoning.
+        assert result["counts"]["serious"] == 31
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the

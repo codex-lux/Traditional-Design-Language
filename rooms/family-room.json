@@ -45,7 +45,8 @@
         90
       ],
       "clearance_in": 30,
-      "note": "the sectional is this room's characteristic piece and it needs a corner: it turns the seating inward and destroys any wall it touches, which is why a family room with four doors cannot take one"
+      "note": "the sectional is this room's characteristic piece and it needs a corner: it turns the seating inward and destroys any wall it touches, which is why a family room with four doors cannot take one",
+      "placement": "against-wall"
     },
     {
       "item": "television and console",
@@ -53,7 +54,8 @@
         60,
         18
       ],
-      "clearance_in": 102
+      "clearance_in": 102,
+      "placement": "against-wall"
     },
     {
       "item": "coffee table or ottoman",
@@ -61,7 +63,8 @@
         48,
         32
       ],
-      "clearance_in": 16
+      "clearance_in": 16,
+      "placement": "freestanding"
     },
     {
       "item": "toy and game storage",
@@ -70,7 +73,8 @@
         18
       ],
       "clearance_in": 30,
-      "note": "the one storage requirement that is always real and never drawn; a family room without 6 to 8 linear feet of closed low storage becomes the room where everything is left"
+      "note": "the one storage requirement that is always real and never drawn; a family room without 6 to 8 linear feet of closed low storage becomes the room where everything is left",
+      "placement": "against-wall"
     },
     {
       "item": "games table",
@@ -79,7 +83,8 @@
         42
       ],
       "clearance_in": 36,
-      "essential": false
+      "essential": false,
+      "placement": "freestanding"
     },
     {
       "item": "clear floor for children",
@@ -88,7 +93,8 @@
         72
       ],
       "clearance_in": 0,
-      "note": "the room's real programme for its first ten years, and the thing a fitted sectional and a hearth extension jointly eliminate"
+      "note": "the room's real programme for its first ten years, and the thing a fitted sectional and a hearth extension jointly eliminate",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

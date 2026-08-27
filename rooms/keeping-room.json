@@ -43,7 +43,8 @@
         20
       ],
       "clearance_in": 36,
-      "note": "the 60 in high back is a draught screen against the floor-level cold air the chimney draws toward the fire; a modern reproduction with a low back has removed the working part"
+      "note": "the 60 in high back is a draught screen against the floor-level cold air the chimney draws toward the fire; a modern reproduction with a low back has removed the working part",
+      "placement": "against-wall"
     },
     {
       "item": "trestle or gate-leg table",
@@ -52,7 +53,8 @@
         60
       ],
       "clearance_in": 36,
-      "note": "the family ate here, and the table is demountable or folding because the room had to be cleared for work"
+      "note": "the family ate here, and the table is demountable or folding because the room had to be cleared for work",
+      "placement": "freestanding"
     },
     {
       "item": "ladder-back and banister-back chairs",
@@ -60,7 +62,8 @@
         18,
         18
       ],
-      "clearance_in": 24
+      "clearance_in": 24,
+      "placement": "freestanding"
     },
     {
       "item": "great wheel or flax wheel",
@@ -70,7 +73,8 @@
       ],
       "clearance_in": 60,
       "essential": false,
-      "note": "a walking wheel needs the spinner to pace three to four steps back and forward, so it takes 5 ft of clear floor and is the largest single space demand in the room"
+      "note": "a walking wheel needs the spinner to pace three to four steps back and forward, so it takes 5 ft of clear floor and is the largest single space demand in the room",
+      "placement": "freestanding"
     },
     {
       "item": "cradle by the hearth",
@@ -79,7 +83,8 @@
         20
       ],
       "clearance_in": 24,
-      "essential": false
+      "essential": false,
+      "placement": "freestanding"
     },
     {
       "item": "cooking hearth with crane and oven",
@@ -88,7 +93,8 @@
         30
       ],
       "clearance_in": 42,
-      "note": "the working hearth is 5 to 7 ft wide in first-period work and its chimney breast is 9 to 10 ft; on a 14 ft wall that leaves almost nothing either side, which is exactly why first-period halls are wider than their successors"
+      "note": "the working hearth is 5 to 7 ft wide in first-period work and its chimney breast is 9 to 10 ft; on a 14 ft wall that leaves almost nothing either side, which is exactly why first-period halls are wider than their successors",
+      "placement": "built-in"
     }
   ],
   "daylight": {

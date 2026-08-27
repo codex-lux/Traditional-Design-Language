@@ -50,7 +50,8 @@
     48
    ],
    "clearance_in": 36,
-   "note": "Not decoration. The evaporating surface is part of the cooling, the sound covers the street, and in the older houses the court IS the cistern's catchment - which is why the floor drains to the middle rather than to the edge."
+   "note": "Not decoration. The evaporating surface is part of the cooling, the sound covers the street, and in the older houses the court IS the cistern's catchment - which is why the floor drains to the middle rather than to the edge.",
+   "placement": "freestanding"
   },
   {
    "item": "outdoor dining table for six to eight",
@@ -60,7 +61,8 @@
    ],
    "clearance_in": 36,
    "essential": false,
-   "note": "Usually under the covered walk rather than in the open court, which is why the walk's depth and not the court's area is what decides whether the house dines outside"
+   "note": "Usually under the covered walk rather than in the open court, which is why the walk's depth and not the court's area is what decides whether the house dines outside",
+   "placement": "freestanding"
   },
   {
    "item": "planting bed or pots to the court's edge",
@@ -70,7 +72,8 @@
    ],
    "clearance_in": 24,
    "essential": false,
-   "note": "Transpiration is the other half of the cooling; a paved court with no planting runs several degrees hotter than a planted one of the same size"
+   "note": "Transpiration is the other half of the cooling; a paved court with no planting runs several degrees hotter than a planted one of the same size",
+   "placement": "against-wall"
   },
   {
    "item": "clear route around all four sides",
@@ -79,7 +82,8 @@
     240
    ],
    "clearance_in": 0,
-   "note": "In the full courtyard type this route is the entire circulation of the house. If the furniture or the planting breaks it, rooms stop being reachable"
+   "note": "In the full courtyard type this route is the entire circulation of the house. If the furniture or the planting breaks it, rooms stop being reachable",
+   "placement": "freestanding"
   }
  ],
  "daylight": {

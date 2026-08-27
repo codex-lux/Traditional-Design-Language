@@ -43,7 +43,8 @@
         21
       ],
       "clearance_in": 42,
-      "note": "Bowls at 36 in centres minimum. 84 in is where it stops being a compromise. Below 60 in fit ONE bowl and a run of counter, which is a better room than two bad basins."
+      "note": "Bowls at 36 in centres minimum. 84 in is where it stops being a compromise. Below 60 in fit ONE bowl and a run of counter, which is a better room than two bad basins.",
+      "placement": "against-wall"
     },
     {
       "item": "freestanding tub",
@@ -52,7 +53,8 @@
         32
       ],
       "clearance_in": 24,
-      "note": "Needs 4 to 6 in clear of every wall to be cleaned behind, and 24 to 30 in on the approach side to get into. A freestanding tub in an alcove is the worst of both: it wants a bay of its own, ideally in front of a window, and it needs a floor-mounted filler whose supply comes up through the floor - which is a framing and a waterproofing decision, not a fixture one, and cannot be changed after the slab or the subfloor."
+      "note": "Needs 4 to 6 in clear of every wall to be cleaned behind, and 24 to 30 in on the approach side to get into. A freestanding tub in an alcove is the worst of both: it wants a bay of its own, ideally in front of a window, and it needs a floor-mounted filler whose supply comes up through the floor - which is a framing and a waterproofing decision, not a fixture one, and cannot be changed after the slab or the subfloor.",
+      "placement": "against-wall"
     },
     {
       "item": "shower with bench",
@@ -61,7 +63,8 @@
         60
       ],
       "clearance_in": 24,
-      "note": "36 by 48 is the smallest adult shower; 42 by 60 takes a 15-18 in deep bench with the seat at 17-19 in, which is the single most useful thing in an ageing-in-place bathroom. A curbless entry needs the floor structure dropped 1 1/2 to 2 in over the shower area - decided at framing or not at all."
+      "note": "36 by 48 is the smallest adult shower; 42 by 60 takes a 15-18 in deep bench with the seat at 17-19 in, which is the single most useful thing in an ageing-in-place bathroom. A curbless entry needs the floor structure dropped 1 1/2 to 2 in over the shower area - decided at framing or not at all.",
+      "placement": "against-wall"
     },
     {
       "item": "water closet compartment",
@@ -70,7 +73,8 @@
         66
       ],
       "clearance_in": 0,
-      "note": "30 in clear width is the code; a real compartment is 36 by 66 in the clear with an OUT-swinging or pocket door, because a 24 in door swinging into a 36 in compartment leaves 12 in to stand in. The compartment is what makes the room usable by two people and it is the first thing cut for area."
+      "note": "30 in clear width is the code; a real compartment is 36 by 66 in the clear with an OUT-swinging or pocket door, because a 24 in door swinging into a 36 in compartment leaves 12 in to stand in. The compartment is what makes the room usable by two people and it is the first thing cut for area.",
+      "placement": "against-wall"
     },
     {
       "item": "linen store",
@@ -80,7 +84,8 @@
       ],
       "clearance_in": 30,
       "essential": false,
-      "note": "14 in deep, as at linen-press. A 24 in deep linen cupboard in a bathroom is 10 in of stored damp."
+      "note": "14 in deep, as at linen-press. A 24 in deep linen cupboard in a bathroom is 10 in of stored damp.",
+      "placement": "against-wall"
     },
     {
       "item": "a place to sit and a place to put a towel down",
@@ -89,7 +94,8 @@
         18
       ],
       "clearance_in": 24,
-      "note": "Never drawn, always wanted. A bench or a stool, and 18 in of dry counter that is not the basin surround."
+      "note": "Never drawn, always wanted. A bench or a stool, and 18 in of dry counter that is not the basin surround.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

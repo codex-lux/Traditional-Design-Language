@@ -35,7 +35,8 @@
    ],
    "clearance_in": 30,
    "essential": false,
-   "note": "The half-pace window seat is the single best return on square footage in a traditional plan."
+   "note": "The half-pace window seat is the single best return on square footage in a traditional plan.",
+   "placement": "built-in"
   }
  ],
  "daylight": {

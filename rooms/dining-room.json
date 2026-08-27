@@ -46,7 +46,8 @@
       ],
       "clearance_in": 54,
       "essential": true,
-      "note": "36 in chair pull plus 18 in passage. Seats 10 at 40 x 120."
+      "note": "36 in chair pull plus 18 in passage. Seats 10 at 40 x 120.",
+      "placement": "freestanding"
     },
     {
       "item": "dining chair",
@@ -54,7 +55,8 @@
         19,
         21
       ],
-      "clearance_in": 36
+      "clearance_in": 36,
+      "placement": "freestanding"
     },
     {
       "item": "sideboard",
@@ -64,7 +66,9 @@
       ],
       "clearance_in": 36,
       "essential": true,
-      "note": "Needs an uninterrupted wall of at least 6 ft. This is what the second window usually kills."
+      "note": "Needs an uninterrupted wall of at least 6 ft. This is what the second window usually kills.",
+      "placement": "against-wall",
+      "needs_uninterrupted_wall_ft": 6
     },
     {
       "item": "china cupboard or corner cupboard",
@@ -73,7 +77,8 @@
         42
       ],
       "clearance_in": 30,
-      "essential": false
+      "essential": false,
+      "placement": "corner"
     }
   ],
   "daylight": {

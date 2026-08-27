@@ -44,7 +44,8 @@
         27
       ],
       "clearance_in": 15,
-      "note": "15 in of landing each side, so a range needs 60 in of wall minimum and wants 72. A 36 in or 48 in range wants 66 and 78. NEVER at the end of a run and never against a side wall - a range with a wall on one side has no landing there and the wall gets scorched."
+      "note": "15 in of landing each side, so a range needs 60 in of wall minimum and wants 72. A 36 in or 48 in range wants 66 and 78. NEVER at the end of a run and never against a side wall - a range with a wall on one side has no landing there and the wall gets scorched.",
+      "placement": "against-wall"
     },
     {
       "item": "refrigerator, 36 in",
@@ -53,7 +54,8 @@
         30
       ],
       "clearance_in": 15,
-      "note": "30 in deep with the door, 36 with the handle; counter-depth units are 24-27 and cost the household 4-6 cu ft. 15 in of landing on the handle side, and 36 in of clear floor in front because the door swings 24 in and you stand behind it. A refrigerator at the end of a run beside a doorway blocks the doorway every time it is opened."
+      "note": "30 in deep with the door, 36 with the handle; counter-depth units are 24-27 and cost the household 4-6 cu ft. 15 in of landing on the handle side, and 36 in of clear floor in front because the door swings 24 in and you stand behind it. A refrigerator at the end of a run beside a doorway blocks the doorway every time it is opened.",
+      "placement": "against-wall"
     },
     {
       "item": "sink, 30-33 in",
@@ -62,7 +64,8 @@
         22
       ],
       "clearance_in": 24,
-      "note": "24 in of counter on one side and 18 on the other. Under a window is the traditional position and it is still right, for the same reason it always was: you stand there longest."
+      "note": "24 in of counter on one side and 18 on the other. Under a window is the traditional position and it is still right, for the same reason it always was: you stand there longest.",
+      "placement": "against-wall"
     },
     {
       "item": "dishwasher, 24 in",
@@ -71,7 +74,8 @@
         24
       ],
       "clearance_in": 21,
-      "note": "Within 36 in of the nearest edge of the sink bowl. Its door occupies 24 in of floor when open and it must not block the aisle to the range or the route out of the room, which in a galley it always does - which is the real argument for the island."
+      "note": "Within 36 in of the nearest edge of the sink bowl. Its door occupies 24 in of floor when open and it must not block the aisle to the range or the route out of the room, which in a galley it always does - which is the real argument for the island.",
+      "placement": "against-wall"
     },
     {
       "item": "island",
@@ -80,7 +84,8 @@
         27
       ],
       "clearance_in": 42,
-      "note": "Minimum useful island is 7 ft by 27 in; below that it is a table. 42 in aisle on every working face, 44 behind a seated stool, and 24 in of width per stool with a 15 in overhang at 36 in counter height or 12 in at 42 in bar height."
+      "note": "Minimum useful island is 7 ft by 27 in; below that it is a table. 42 in aisle on every working face, 44 behind a seated stool, and 24 in of width per stool with a 15 in overhang at 36 in counter height or 12 in at 42 in bar height.",
+      "placement": "freestanding"
     },
     {
       "item": "table, kitchen",
@@ -90,7 +95,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "36 in from the table edge to a wall to get a chair out and sit; 44 in if someone walks behind. The kitchen table is the oldest fitting in the room and the one an island replaces at a real cost - you cannot do homework at an island."
+      "note": "36 in from the table edge to a wall to get a chair out and sit; 44 in if someone walks behind. The kitchen table is the oldest fitting in the room and the one an island replaces at a real cost - you cannot do homework at an island.",
+      "placement": "freestanding"
     },
     {
       "item": "waste and recycling",
@@ -99,7 +105,8 @@
         24
       ],
       "clearance_in": 30,
-      "note": "The single most consistently omitted item in kitchen design. Three streams now, 30 in of cabinet, and it has to be within a pace of the prep counter or it will live on the floor."
+      "note": "The single most consistently omitted item in kitchen design. Three streams now, 30 in of cabinet, and it has to be within a pace of the prep counter or it will live on the floor.",
+      "placement": "against-wall"
     },
     {
       "item": "a place to put the shopping down",
@@ -108,7 +115,8 @@
         25
       ],
       "clearance_in": 36,
-      "note": "Between the door the shopping comes in by and the refrigerator. Never drawn, always needed - see mudroom."
+      "note": "Between the door the shopping comes in by and the refrigerator. Never drawn, always needed - see mudroom.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

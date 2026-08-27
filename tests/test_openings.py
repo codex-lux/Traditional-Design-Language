@@ -335,3 +335,99 @@ def test_drawn_and_declared_sizes_are_reconciled_or_reported():
         f"{sorted(expected - set(reported))}")
     for rid, pct in reported.items():
         assert abs(pct) >= 10, f"{rid} reported at {pct}% — under the threshold"
+
+
+class TestFurnitureIsArrangedAgainstThePlacedOpenings:
+    """WP-7.2 (OQ 73). Two defects and one rule, all of them about the same thing: the
+    fixtures and the openings were placed as if the other did not exist."""
+
+    def test_no_door_is_drawn_through_a_fixture(self):
+        """The reported defect. `openings.place`'s docstring said fixtures ran first
+        "because a door has to know what is against the wall it would swing into" -- and
+        `occupied` never held a fixture, so the code did not do the thing its own comment
+        gave as the reason. Measured on the CP placements before the fix: the powder room's
+        basin overlapped its door by 1.92 ft and the principal bath's double vanity by
+        2.70 ft on `spec-builder-colonial`."""
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            solved = GEO.solve(_plan(pid))
+            for lv in solved["levels"]:
+                for r in lv["rooms"]:
+                    for d in (r.get("doors") or []):
+                        if d.get("unplaced") or d.get("position_ft") is None or not d.get("wall"):
+                            continue
+                        w = d.get("width_ft") or 3.0
+                        lo, hi = d["position_ft"] - w / 2, d["position_ft"] + w / 2
+                        horiz = d["wall"] in ("N", "S")
+                        for f in (r.get("fixture_layout") or []):
+                            if f.get("unplaced") or f.get("x_ft") is None:
+                                continue
+                            if f.get("wall") != d["wall"]:
+                                continue
+                            a, b = ((f["x_ft"], f["x_ft"] + f["width_ft"]) if horiz
+                                    else (f["y_ft"], f["y_ft"] + f["depth_ft"]))
+                            assert min(hi, b) - max(lo, a) <= 0.05, (
+                                f"{pid}: the door {r['id']}->{d['to']} is drawn through "
+                                f"{f['item']}")
+
+    def test_a_fixture_is_tried_on_every_wall_before_it_is_refused(self):
+        """Packing against the longest wall regardless of what is already on it reported the
+        powder room's water closet and basin as unfittable while its east wall stood empty.
+        A fixture refused on a wall nobody tried is a false "cannot fit", and this corpus
+        exists to distinguish evaluated-and-failed from not-looked-at."""
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            solved = GEO.solve(_plan(pid))
+            rep = solved.get("opening_report") or {}
+            assert rep.get("fixtures_placed", 0) > 0, "vacuous unless fixtures were placed"
+            assert rep.get("fixtures_unplaced", 0) == 0, (
+                f"{pid}: {rep.get('fixtures_unplaced')} fixture(s) refused")
+
+    def test_every_furniture_item_states_its_own_placement(self):
+        """`placement` decides one-sided or two-sided clearance and is the difference between
+        a galley kitchen passing its own rule and failing it. The schema declared it and 0 of
+        278 items carried one, so `plan_check` guessed from the item's NAME -- calling 84
+        against-wall where the authored data calls 159."""
+        import glob
+        n = against = 0
+        for f in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json"))):
+            for it in (json.load(open(f)).get("furniture") or []):
+                n += 1
+                assert it.get("placement"), f"{f}: {it['item']} states no placement"
+                against += it["placement"] in ("against-wall", "corner", "built-in")
+        assert n == 278, f"the corpus moved: {n} furniture items"
+        assert against > 150, "the authored data should call far more items wall-bound than the old regex did"
+
+    def test_a_stated_wall_run_is_measured_against_the_placed_openings(self):
+        """The one arrangement rule the corpus states in words, and it is checked rather than
+        assumed. Both directions are pinned, because a check that never fires and a check
+        that always fires are equally useless."""
+        import copy
+        PC = mc.load("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
+        solved = GEO.solve(_plan("tidewater-georgian-careful"))
+
+        # it PASSES on the shipped plan, and for a measured reason: the dining room is
+        # 23 x 14 with its three doors on N and W, so the whole S wall is unbroken
+        clean = [f for f in PC.check(solved)["findings"] if "unbroken run of wall" in f["statement"]]
+        assert not clean, clean
+
+        # and it FIRES when the walls really are full
+        q = copy.deepcopy(solved)
+        for lv in q["levels"]:
+            for r in lv["rooms"]:
+                if r["type"] != "dining-room":
+                    continue
+                g = r["geometry"]
+                r["doors"] = []
+                r["windows"] = [
+                    {"wall": "S", "width_ft": g["width_ft"] - 2, "count": 1,
+                     "position_ft": g["x_ft"] + g["width_ft"] / 2},
+                    {"wall": "N", "width_ft": g["width_ft"] - 2, "count": 1,
+                     "position_ft": g["x_ft"] + g["width_ft"] / 2},
+                    {"wall": "W", "width_ft": g["depth_ft"] - 2, "count": 1,
+                     "position_ft": g["y_ft"] + g["depth_ft"] / 2},
+                    {"wall": "E", "width_ft": g["depth_ft"] - 2, "count": 1,
+                     "position_ft": g["y_ft"] + g["depth_ft"] / 2}]
+        hits = [f for f in PC.check(q)["findings"] if "unbroken run of wall" in f["statement"]]
+        assert len(hits) == 1, hits
+        # the finding quotes the room's own sentence, which is the basis for the number
+        assert "uninterrupted wall of at least 6 ft" in hits[0]["statement"]
+        assert hits[0]["severity"] == "minor"

@@ -43,7 +43,8 @@
         12
       ],
       "clearance_in": 36,
-      "note": "12 in nominal depth for octavo, 14 to 16 for folio and art books, shelf spans not over 32 in in 3/4 in material or they sag - which is why period shelving has a vertical every 30 in and modern flat-pack does not"
+      "note": "12 in nominal depth for octavo, 14 to 16 for folio and art books, shelf spans not over 32 in in 3/4 in material or they sag - which is why period shelving has a vertical every 30 in and modern flat-pack does not",
+      "placement": "built-in"
     },
     {
       "item": "library table or partners' desk",
@@ -52,7 +53,8 @@
         40
       ],
       "clearance_in": 42,
-      "note": "the table is in the MIDDLE of a library and against a wall in a study, and that difference is what distinguishes the two rooms"
+      "note": "the table is in the MIDDLE of a library and against a wall in a study, and that difference is what distinguishes the two rooms",
+      "placement": "against-wall"
     },
     {
       "item": "two easy chairs and a reading lamp",
@@ -60,7 +62,8 @@
         34,
         36
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "freestanding"
     },
     {
       "item": "sofa",
@@ -69,7 +72,8 @@
         34
       ],
       "clearance_in": 30,
-      "essential": false
+      "essential": false,
+      "placement": "against-wall"
     },
     {
       "item": "library steps or ladder",
@@ -79,7 +83,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "needed above about 78 in of shelf height, which is the reach limit; shelves above 84 in without a ladder are decoration"
+      "note": "needed above about 78 in of shelf height, which is the reach limit; shelves above 84 in without a ladder are decoration",
+      "placement": "freestanding"
     },
     {
       "item": "globe, atlas stand, map table",
@@ -88,7 +93,8 @@
         30
       ],
       "clearance_in": 30,
-      "essential": false
+      "essential": false,
+      "placement": "against-wall"
     }
   ],
   "daylight": {

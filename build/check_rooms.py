@@ -267,6 +267,16 @@ def check_room(rep, path, room, u, room_ids):
 
     # --- furniture ------------------------------------------------------------
     for f in room.get("furniture", []):
+        # WP-7.2: `placement` decides whether an item needs clearance on one side or two, and
+        # it is the difference between a galley kitchen passing its own rule and failing it.
+        # The schema has declared it since the field was added and 0 of 278 items carried
+        # one, so `plan_check` inferred it from the item's NAME with a regex -- which called
+        # 84 items against-wall where the authored data calls 159. Required here so it cannot
+        # go missing again in silence.
+        if not f.get("placement"):
+            rep.err(where, f"furniture '{f['item']}' states no `placement` — without it the "
+                           f"fit check has to guess whether it needs clearance on one side "
+                           f"or two")
         fp = f["footprint_in"]
         if fp[0] <= 0 or fp[1] <= 0:
             rep.err(where, f"furniture '{f['item']}' has a non-positive footprint")

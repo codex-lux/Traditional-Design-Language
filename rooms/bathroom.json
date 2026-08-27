@@ -44,7 +44,8 @@
         30
       ],
       "clearance_in": 21,
-      "note": "60 by 30 standard, 60 by 32 better, 60 by 36 for a soaking tub in a 6 ft room. 21 in clear in front by code and 30 to dry a child in. The apron face is a datum: it must land on a wall-to-wall dimension exactly, because a 1/2 in filler strip at a tub end is visible forever."
+      "note": "60 by 30 standard, 60 by 32 better, 60 by 36 for a soaking tub in a 6 ft room. 21 in clear in front by code and 30 to dry a child in. The apron face is a datum: it must land on a wall-to-wall dimension exactly, because a 1/2 in filler strip at a tub end is visible forever.",
+      "placement": "against-wall"
     },
     {
       "item": "shower, minimum",
@@ -53,7 +54,8 @@
         30
       ],
       "clearance_in": 24,
-      "note": "IRC P2708.1: 900 sq in minimum and 30 in minimum in any dimension, measured to the finished wall. A 30 by 30 shower is legal and is a phone booth. 36 by 48 is the smallest one an adult can wash in without touching the walls; 36 by 60 takes a bench."
+      "note": "IRC P2708.1: 900 sq in minimum and 30 in minimum in any dimension, measured to the finished wall. A 30 by 30 shower is legal and is a phone booth. 36 by 48 is the smallest one an adult can wash in without touching the walls; 36 by 60 takes a bench.",
+      "placement": "against-wall"
     },
     {
       "item": "water closet",
@@ -62,7 +64,8 @@
         30
       ],
       "clearance_in": 24,
-      "note": "Depth 27-31 in from the wall depending on bowl shape; 30 in clear WIDTH is the rule that matters and it is 15 in each side of centre. 21 in clear in front by code, 24 in in practice, 30 if the door swings into it."
+      "note": "Depth 27-31 in from the wall depending on bowl shape; 30 in clear WIDTH is the rule that matters and it is 15 in each side of centre. 21 in clear in front by code, 24 in in practice, 30 if the door swings into it.",
+      "placement": "against-wall"
     },
     {
       "item": "lavatory or vanity",
@@ -71,7 +74,8 @@
         21
       ],
       "clearance_in": 30,
-      "note": "A 21 in deep vanity with a 22 in top. A pedestal is 20 by 18 and gives the small room back its floor, which is why period bathrooms feel larger than their dimensions - a vanity is a 20th-century storage decision, not a fixture decision."
+      "note": "A 21 in deep vanity with a 22 in top. A pedestal is 20 by 18 and gives the small room back its floor, which is why period bathrooms feel larger than their dimensions - a vanity is a 20th-century storage decision, not a fixture decision.",
+      "placement": "against-wall"
     },
     {
       "item": "door swing",
@@ -80,7 +84,8 @@
         28
       ],
       "clearance_in": 0,
-      "note": "THE ITEM THAT WRECKS THE ROOM. A 28 in door swinging into a 5 ft wide bath sweeps a quadrant 28 in on each side, which in a 5 by 8 is 10 per cent of the floor and always the piece in front of the lavatory. Swing it OUT into the passage where the passage will take it, or use a pocket door and accept that a pocket door in a wet room needs a solid jamb and a good latch, or borrow the swing over the tub end."
+      "note": "THE ITEM THAT WRECKS THE ROOM. A 28 in door swinging into a 5 ft wide bath sweeps a quadrant 28 in on each side, which in a 5 by 8 is 10 per cent of the floor and always the piece in front of the lavatory. Swing it OUT into the passage where the passage will take it, or use a pocket door and accept that a pocket door in a wet room needs a solid jamb and a good latch, or borrow the swing over the tub end.",
+      "placement": "freestanding"
     },
     {
       "item": "towel positions",
@@ -89,7 +94,8 @@
         4
       ],
       "clearance_in": 0,
-      "note": "Two bars or rings per user, 24 in long, within reach of the tub and of the basin without dripping across the floor - which is a real dimension and is the last thing on any bathroom drawing and the first thing the household notices."
+      "note": "Two bars or rings per user, 24 in long, within reach of the tub and of the basin without dripping across the floor - which is a real dimension and is the last thing on any bathroom drawing and the first thing the household notices.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

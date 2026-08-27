@@ -165,6 +165,11 @@
      "note": {
       "type": "string"
      },
+     "needs_uninterrupted_wall_ft": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "description": "WP-7.2. A run of wall this item needs UNBROKEN BY OPENINGS, in feet. Authored only where the room's own `note` states it in words, and the note is the basis — the number sits beside the sentence so the two cannot drift. One item carries it today: the dining room's sideboard, whose note reads 'Needs an uninterrupted wall of at least 6 ft. This is what the second window usually kills.' `plan_check`'s drawn layer measures the longest run each wall has left once the placement's doors and windows have taken theirs. This is an ARRANGEMENT rule and never a sizing one: room size comes from the program and the catalogue band, never from the furniture (OQ 73, ruled 27 Aug 2026)."
+     },
      "placement": {
       "enum": [
        "freestanding",

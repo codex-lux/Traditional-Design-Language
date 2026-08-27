@@ -45,7 +45,8 @@
         22
       ],
       "clearance_in": 36,
-      "note": "Fireclay or stainless, 9-12 in deep, with a high-arc or a bridge tap. 24 in of drainer or counter on one side minimum."
+      "note": "Fireclay or stainless, 9-12 in deep, with a high-arc or a bridge tap. 24 in of drainer or counter on one side minimum.",
+      "placement": "against-wall"
     },
     {
       "item": "second dishwasher",
@@ -55,7 +56,8 @@
       ],
       "clearance_in": 21,
       "essential": false,
-      "note": "Where the household entertains, the second machine belongs here, not in the show kitchen."
+      "note": "Where the household entertains, the second machine belongs here, not in the show kitchen.",
+      "placement": "against-wall"
     },
     {
       "item": "open shelving",
@@ -64,7 +66,8 @@
         14
       ],
       "clearance_in": 0,
-      "note": "14 to 16 in deep, painted or bare timber, no doors. Fitted cabinetry in a scullery is a category error - the room's whole virtue is that things can be put down and seen."
+      "note": "14 to 16 in deep, painted or bare timber, no doors. Fitted cabinetry in a scullery is a category error - the room's whole virtue is that things can be put down and seen.",
+      "placement": "against-wall"
     },
     {
       "item": "work counter",
@@ -73,7 +76,8 @@
         25
       ],
       "clearance_in": 42,
-      "note": "Butcher block or stone. This is where the rough prep goes, so it wants to be at 34 to 36 in and it wants to be washable to the wall with no scribed joint."
+      "note": "Butcher block or stone. This is where the rough prep goes, so it wants to be at 34 to 36 in and it wants to be washable to the wall with no scribed joint.",
+      "placement": "built-in"
     },
     {
       "item": "bulk store and small appliances",
@@ -82,7 +86,8 @@
         24
       ],
       "clearance_in": 36,
-      "note": "The room's real modern job: the food processor, the mixer, the air fryer and the coffee machine live here plugged in, which is why it needs a run of counter at 20 in clear under the shelf and four receptacles along it."
+      "note": "The room's real modern job: the food processor, the mixer, the air fryer and the coffee machine live here plugged in, which is why it needs a run of counter at 20 in clear under the shelf and four receptacles along it.",
+      "placement": "against-wall"
     },
     {
       "item": "waste, recycling, compost",
@@ -90,7 +95,8 @@
         36,
         24
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "against-wall"
     }
   ],
   "daylight": {

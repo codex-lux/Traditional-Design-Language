@@ -43,7 +43,8 @@
         26
       ],
       "clearance_in": 36,
-      "note": "placed at the window side-on, not against a wall - the whole room is organised round this piece"
+      "note": "placed at the window side-on, not against a wall - the whole room is organised round this piece",
+      "placement": "against-wall"
     },
     {
       "item": "chair at the table",
@@ -51,7 +52,8 @@
         20,
         22
       ],
-      "clearance_in": 36
+      "clearance_in": 36,
+      "placement": "freestanding"
     },
     {
       "item": "two easy chairs and a small sofa",
@@ -59,7 +61,8 @@
         60,
         32
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "against-wall"
     },
     {
       "item": "work table for sewing or accounts",
@@ -68,7 +71,8 @@
         20
       ],
       "clearance_in": 30,
-      "essential": false
+      "essential": false,
+      "placement": "freestanding"
     },
     {
       "item": "bell pull or, later, the house telephone",
@@ -77,7 +81,8 @@
         3
       ],
       "clearance_in": 0,
-      "note": "the room's connection to the service floor, and the reason it is not deep in the formal enfilade"
+      "note": "the room's connection to the service floor, and the reason it is not deep in the formal enfilade",
+      "placement": "against-wall"
     },
     {
       "item": "plants at the window",
@@ -87,7 +92,8 @@
       ],
       "clearance_in": 0,
       "essential": false,
-      "note": "the east window and the fernery go together in every nineteenth-century account of this room"
+      "note": "the east window and the fernery go together in every nineteenth-century account of this room",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

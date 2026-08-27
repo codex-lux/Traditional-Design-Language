@@ -43,7 +43,8 @@
         78
       ],
       "clearance_in": 36,
-      "note": "two flights at 36 in clear width, a 40 in landing, a 4 to 8 in well between strings. The well matters: a stair with no well has no daylight route down it and no handrail continuity at the turn."
+      "note": "two flights at 36 in clear width, a 40 in landing, a 4 to 8 in well between strings. The well matters: a stair with no well has no daylight route down it and no handrail continuity at the turn.",
+      "placement": "against-wall"
     },
     {
       "item": "clear landing at the foot",
@@ -52,7 +53,8 @@
         48
       ],
       "clearance_in": 0,
-      "note": "the arrival square. It is not the code landing, which is 36 in; it is the space in which a person who has just come down can stop, be seen, and choose a direction."
+      "note": "the arrival square. It is not the code landing, which is 36 in; it is the space in which a person who has just come down can stop, be seen, and choose a direction.",
+      "placement": "freestanding"
     },
     {
       "item": "hall clock or tall case",
@@ -62,7 +64,8 @@
       ],
       "clearance_in": 0,
       "essential": false,
-      "note": "the traditional occupant of the wall under the ramp, where the ceiling slopes and nothing else fits"
+      "note": "the traditional occupant of the wall under the ramp, where the ceiling slopes and nothing else fits",
+      "placement": "against-wall"
     },
     {
       "item": "window seat or chair on the half landing",
@@ -71,7 +74,8 @@
         20
       ],
       "clearance_in": 30,
-      "essential": false
+      "essential": false,
+      "placement": "built-in"
     }
   ],
   "daylight": {

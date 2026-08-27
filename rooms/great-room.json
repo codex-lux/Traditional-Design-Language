@@ -42,7 +42,8 @@
         120,
         96
       ],
-      "clearance_in": 36
+      "clearance_in": 36,
+      "placement": "against-wall"
     },
     {
       "item": "television, 65 to 85 in",
@@ -51,7 +52,8 @@
         4
       ],
       "clearance_in": 120,
-      "note": "an 85 in set is 74 in wide and wants 9 to 12 ft of viewing distance, which is one of the few honest arguments for the room's size"
+      "note": "an 85 in set is 74 in wide and wants 9 to 12 ft of viewing distance, which is one of the few honest arguments for the room's size",
+      "placement": "against-wall"
     },
     {
       "item": "dining table for eight",
@@ -60,7 +62,8 @@
         96
       ],
       "clearance_in": 54,
-      "note": "if the room contains the dining function it needs the dining room's full clearance envelope - 40 + 108 = 148 in across - inside the great room's floor, not overlapping the seating group's circulation"
+      "note": "if the room contains the dining function it needs the dining room's full clearance envelope - 40 + 108 = 148 in across - inside the great room's floor, not overlapping the seating group's circulation",
+      "placement": "freestanding"
     },
     {
       "item": "kitchen island with seating",
@@ -69,7 +72,8 @@
         96
       ],
       "clearance_in": 42,
-      "note": "42 in of aisle on the work side and 44 in behind a seated stool; the island's stool side must not be the room's main route"
+      "note": "42 in of aisle on the work side and 44 in behind a seated stool; the island's stool side must not be the room's main route",
+      "placement": "freestanding"
     },
     {
       "item": "rug, large",
@@ -78,7 +82,8 @@
         180
       ],
       "clearance_in": 0,
-      "note": "NOT A FURNISHING DECISION. A 12 x 15 rug over a hard floor is roughly 180 sf at an absorption coefficient near 0.25 against the floor's 0.05, which alone takes 15 to 20 per cent off the reverberation time. It is the cheapest acoustic treatment available and it should be in the specification, not in the styling."
+      "note": "NOT A FURNISHING DECISION. A 12 x 15 rug over a hard floor is roughly 180 sf at an absorption coefficient near 0.25 against the floor's 0.05, which alone takes 15 to 20 per cent off the reverberation time. It is the cheapest acoustic treatment available and it should be in the specification, not in the styling.",
+      "placement": "freestanding"
     },
     {
       "item": "clear circulation ring",
@@ -87,7 +92,8 @@
         480
       ],
       "clearance_in": 0,
-      "note": "a great room has three or four zones and the route between them must go AROUND the seating, not through it; the commonest failure is a route from the mudroom to the stair that crosses the front of the television"
+      "note": "a great room has three or four zones and the route between them must go AROUND the seating, not through it; the commonest failure is a route from the mudroom to the stair that crosses the front of the television",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

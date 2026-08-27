@@ -44,7 +44,8 @@
         18
       ],
       "clearance_in": 36,
-      "note": "18 in of bench plus 36 in to sit and pull a boot off is 54 in of depth; a 42 in corridor cannot have a bench in it and a mudroom is therefore a different room, not a wide back hall"
+      "note": "18 in of bench plus 36 in to sit and pull a boot off is 54 in of depth; a 42 in corridor cannot have a bench in it and a mudroom is therefore a different room, not a wide back hall",
+      "placement": "against-wall"
     },
     {
       "item": "hook rail",
@@ -52,7 +53,8 @@
         48,
         10
       ],
-      "clearance_in": 24
+      "clearance_in": 24,
+      "placement": "against-wall"
     },
     {
       "item": "broom cupboard",
@@ -60,7 +62,8 @@
         24,
         24
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "against-wall"
     },
     {
       "item": "clear loaded route",
@@ -68,7 +71,8 @@
         42,
         180
       ],
-      "clearance_in": 0
+      "clearance_in": 0,
+      "placement": "freestanding"
     }
   ],
   "daylight": {

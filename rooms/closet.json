@@ -46,7 +46,8 @@
         24
       ],
       "clearance_in": 0,
-      "note": "Rod centreline 12 in off the back wall, top of rod 66 in for shirts and jackets, 68-70 in for dresses, 72 in for full-length coats. Shelf over at 12-16 in deep with its top at 84 in - which is why a closet in a 7 ft (84 in) room has no shelf, and why the closet, uniquely, wants the taller storey."
+      "note": "Rod centreline 12 in off the back wall, top of rod 66 in for shirts and jackets, 68-70 in for dresses, 72 in for full-length coats. Shelf over at 12-16 in deep with its top at 84 in - which is why a closet in a 7 ft (84 in) room has no shelf, and why the closet, uniquely, wants the taller storey.",
+      "placement": "built-in"
     },
     {
       "item": "hanging rod, double-hung",
@@ -56,7 +57,8 @@
       ],
       "clearance_in": 0,
       "essential": false,
-      "note": "Rods at 42 in and 84 in. Doubles the capacity of the same floor area and needs 88 in of clear height above the floor to the shelf - so it works under an 8 ft ceiling and not under a 7 ft 6 in one. This is the cheapest square foot of storage available anywhere in a house and it is left out of most bedrooms."
+      "note": "Rods at 42 in and 84 in. Doubles the capacity of the same floor area and needs 88 in of clear height above the floor to the shelf - so it works under an 8 ft ceiling and not under a 7 ft 6 in one. This is the cheapest square foot of storage available anywhere in a house and it is left out of most bedrooms.",
+      "placement": "built-in"
     },
     {
       "item": "a single adult's hanging clothes",
@@ -65,7 +67,8 @@
         24
       ],
       "clearance_in": 0,
-      "note": "Five to six linear feet of rod is the working minimum for one adult; ten to twelve is comfortable. A hanger occupies about 1 in on the rod for shirts and 2 in for coats, so 6 ft of rod is roughly forty garments. Two adults in one bedroom therefore need 12 linear feet, which is a 6 ft closet double-hung or a 12 ft closet single-hung, and no amount of shelving substitutes."
+      "note": "Five to six linear feet of rod is the working minimum for one adult; ten to twelve is comfortable. A hanger occupies about 1 in on the rod for shirts and 2 in for coats, so 6 ft of rod is roughly forty garments. Two adults in one bedroom therefore need 12 linear feet, which is a 6 ft closet double-hung or a 12 ft closet single-hung, and no amount of shelving substitutes.",
+      "placement": "against-wall"
     },
     {
       "item": "coat closet at the entry",
@@ -74,7 +77,8 @@
         26
       ],
       "clearance_in": 36,
-      "note": "26 in clear, not 24: outerwear is bulkier than indoor clothing and a closet packed with parkas will not close at 24. 48 in wide serves a household; 36 in serves nobody once there are guests. Wants a full-height hinged door pair rather than a bifold, because a bifold loses the two end bays of rod to its own hardware."
+      "note": "26 in clear, not 24: outerwear is bulkier than indoor clothing and a closet packed with parkas will not close at 24. 48 in wide serves a household; 36 in serves nobody once there are guests. Wants a full-height hinged door pair rather than a bifold, because a bifold loses the two end bays of rod to its own hardware.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {
