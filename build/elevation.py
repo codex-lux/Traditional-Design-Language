@@ -866,34 +866,90 @@ def build_elevation(plan, parti=None, section=None, roof=None):
             chimney_plan_in = None
 
     # WP-5.7: HOW THE HEAD OF AN OPENING IS CARRIED, which on a brick house is the most
-    # diagnostic thing on the wall after the bay rhythm. brick-course.json states all three
-    # figures as rules of the opening's own width: a segmental arch rises w/8, a gauged flat
-    # arch is cambered w/96 (a rise you can see only because it is there), and either is one
-    # module deep. Which of the two a house gets is a DATE question, and the kit says so -- the
-    # gauged flat arch is the later, more expensive work. The corpus states no voussoir count
-    # or joint width, so none is drawn: the arch is one gauged mass, which is honest, and the
-    # two faults that measure voussoir joints stay could-not-judge.
-    for sw in storey_windows:
-        sw["head_treatment"] = None
+    # diagnostic thing on the wall after the bay rhythm.
+    #
+    # CORRECTED 27 Aug 2026, and the first version was the invented-source failure this corpus
+    # names as the worst thing that can be done to it. It hardcoded `"keystone": False` with a
+    # comment saying "the kit states keystone: none for this tradition", and cited
+    # `brick-course.json window_head_masonry` as the source. brick-course contains the word
+    # "keystone" zero times, and the claim is true of ONE style: tidewater-georgian forbids the
+    # keystoned flat arch, while mid-atlantic-georgian makes it CANONICAL with a measured 6-9 in
+    # keystone and a measured 4-6 in rise. The generator answered `keystone: false` and a 0.4 in
+    # camber for it, in a published record, attributed to a pack that says nothing on the subject.
+    #
+    # It also hardened brick-course's own note -- "the change is roughly 1720-1750 IN THE
+    # CHESAPEAKE" -- into a global `< 1750` point test. A band is not a threshold and a regional
+    # observation is not a universal one, so a date inside the band now says it cannot choose
+    # rather than choosing, and an absent date says that too instead of reporting a definite
+    # arch and a source sentence reading "the None date puts it after the change".
+    #
+    # The style's own kit governs; brick-course supplies dimensions the kit does not state.
+    head_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("window_head_masonry") or {}
+    head_variants = {v["id"]: v.get("status") for v in head_slot.get("variants", [])}
+    head_params = head_slot.get("parameters") or {}
+    CHANGE_BAND = (1720, 1750)      # brick-course's own words, as the band it states
+
+    def _head_treatment(w_in):
         if not is_masonry:
-            continue
-        w_in = sw["opening_width_in"]
-        rise, _ = _val(brick_pack, "window_head_masonry", {"opening_width": w_in},
-                       dimension="segmental_arch_rise")
-        camber, _ = _val(brick_pack, "window_head_masonry", {"opening_width": w_in},
-                         dimension="flat_arch_camber")
-        depth, _ = _val(brick_pack, "window_head_masonry", {"module": brick_pack["module"]["default_size_in"]},
-                        dimension="height")
-        segmental = bool(date) and int(str(date)[:4]) < 1750
-        sw["head_treatment"] = {
-            "kind": "segmental-gauged-arch" if segmental else "gauged-flat-arch",
-            "rise_in": round(rise, 3) if segmental else round(camber, 3),
-            "depth_in": round(depth, 3),
-            "keystone": False,     # the kit states `keystone: none` for this tradition
-            "source": "brick-course.json window_head_masonry" + (
-                f"; the {date} date puts it after the change to the gauged flat arch"
-                if not segmental else f"; the {date} date is before the change to the flat arch"),
-        }
+            return None
+        canonical = [k for k, v in head_variants.items() if v == "canonical"]
+        arch_kinds = [k for k in canonical if "arch" in k]
+        kind, why = None, None
+        if len(arch_kinds) == 1:
+            kind, why = arch_kinds[0], "the style's kit makes it the only canonical masonry head"
+        elif len(arch_kinds) > 1:
+            yr = int(str(date)[:4]) if date else None
+            if yr is None:
+                why = ("the kit permits more than one masonry head and this plan states no date, "
+                       "so which one it is cannot be judged here")
+            elif yr < CHANGE_BAND[0]:
+                kind = next((k for k in arch_kinds if "segmental" in k), arch_kinds[0])
+                why = f"{yr} is before brick-course's stated {CHANGE_BAND[0]}-{CHANGE_BAND[1]} change"
+            elif yr > CHANGE_BAND[1]:
+                kind = next((k for k in arch_kinds if "flat" in k), arch_kinds[0])
+                why = f"{yr} is after brick-course's stated {CHANGE_BAND[0]}-{CHANGE_BAND[1]} change"
+            else:
+                why = (f"{yr} falls inside brick-course's own {CHANGE_BAND[0]}-{CHANGE_BAND[1]} "
+                       f"change band, which is a band and not a threshold — unjudged")
+        else:
+            why = "the style's kit names no canonical masonry arch"
+
+        # Dimensions. The kit's own measured figure wins over a pack rule derived for another
+        # tradition; where the kit gives a band, the band travels rather than its midpoint.
+        rise_in = rise_band = None
+        kit_rise = head_params.get("arch_rise") or {}
+        if isinstance(kit_rise.get("value"), (int, float)):
+            rise_in, rise_src = float(kit_rise["value"]), "the style's own kit"
+        elif kit_rise.get("range"):
+            rise_band, rise_src = list(kit_rise["range"]), "the style's own kit, as a band"
+        elif kind:
+            dim = "segmental_arch_rise" if "segmental" in kind else "flat_arch_camber"
+            rise_in, _ = _val(brick_pack, "window_head_masonry", {"opening_width": w_in}, dimension=dim)
+            rise_in, rise_src = round(rise_in, 3), f"brick-course {dim}"
+        else:
+            rise_src = None
+        depth, _ = _val(brick_pack, "window_head_masonry",
+                        {"module": brick_pack["module"]["default_size_in"]}, dimension="height")
+
+        out = {"kind": kind, "kind_note": why, "depth_in": round(depth, 3),
+               "rise_in": rise_in, "rise_band_in": rise_band, "rise_source": rise_src,
+               "source": "the style's kit for the head; brick-course for its dimensions"}
+        # KEYSTONE: read, never assumed, and ABSENT where the kit is silent. Present as a
+        # measured figure where the kit gives one -- mid-atlantic-georgian states 6-9 in.
+        ks = head_params.get("keystone") or head_params.get("keystone_width") or {}
+        if ks.get("value") == "none":
+            out["keystone"] = False
+        elif isinstance(ks.get("value"), (int, float)) or ks.get("range"):
+            out["keystone"] = True
+            out["keystone_width_in"] = ks.get("value") or list(ks["range"])
+        elif any("keystoned" in k for k, v in head_variants.items() if v == "canonical"):
+            out["keystone"] = True          # the variant is canonical; its width is unstated
+        # else: the kit is silent, and so is this record.
+        return out
+
+    for sw in storey_windows:
+        sw["head_treatment"] = _head_treatment(sw["opening_width_in"])
+
 
     faces = {}
     for f in FACES:

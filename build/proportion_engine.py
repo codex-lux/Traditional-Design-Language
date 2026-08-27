@@ -111,7 +111,14 @@ def _convert_assembly(a, ratio, part_ratio):
     if isinstance(a.get("height_modules"), (int, float)):
         a["height_modules"] = a["height_modules"] * ratio
     for mem in a.get("members", []):
-        for k in ("height_parts", "projection_parts", "spacing_parts"):
+        # EVERY field measured in parts converts, and the list is the whole of the contract:
+        # a field added to the schema and to dimension() but not to this tuple inherits in the
+        # BASE pack's unit while its neighbours convert, which is worse than not inheriting at
+        # all because the two then disagree silently. `width_parts` was added in WP-5.7 and
+        # missed here, so chambers-doric's triglyph carried Vignola's 12-part width against its
+        # own converted 75-part pitch -- a 60% hole in a Doric frieze, in a pack whose inherited
+        # note says triglyph and metope fill that pitch exactly.
+        for k in ("height_parts", "projection_parts", "spacing_parts", "width_parts"):
             if isinstance(mem.get(k), (int, float)): mem[k] = mem[k] * part_ratio
     return a
 

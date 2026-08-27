@@ -117,27 +117,44 @@ def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutte
     yb, yt = Ypx(y_bottom), Ypx(y_top)
     out = []
 
-    # THE HEAD. On a brick house this is the most diagnostic thing above the bay rhythm: a
-    # gauged flat arch, one module deep, cambered by the opening's own width over ninety-six --
-    # a rise of under half an inch, which is visible precisely because it is not zero. No
-    # voussoir joints are drawn: the corpus states neither a count nor a joint width, and
-    # inventing sixteen radiating lines would be inventing the very measurement two faults ask
-    # for. It is drawn as the one gauged mass it is.
-    if head:
+    # THE HEAD, drawn only where the record could judge one.
+    #
+    # Two things changed on 27 Aug 2026. The arch used to run `0.06 * opening_width` past each
+    # jamb -- 2.32 in a side on this house -- which is a building dimension no record states, and
+    # which made the implied skewback vary from window to window because it was tied to the
+    # opening's width rather than to the arch's own depth. It is drawn flush now; a bearing rule
+    # can put it back when one exists.
+    #
+    # And `kind` may be None, which is the honest output where the style permits more than one
+    # masonry head and the plan's date cannot separate them (brick-course states a 1720-1750
+    # CHANGE BAND, not a threshold). An unjudged head is drawn as no head at all rather than as
+    # a definite one, and the sheet says so in the legend.
+    if head and head.get("kind"):
         hd = head["depth_in"] / 12.0 * scale
-        rise = head["rise_in"] / 12.0 * scale
-        ov = width_in * 0.06 / 12.0 * scale          # the arch runs a little past its own jambs
-        ax0, ax1 = x0 - ov, x1 + ov
-        if head["kind"] == "segmental-gauged-arch":
+        rise_in = head.get("rise_in")
+        if rise_in is None and head.get("rise_band_in"):
+            rise_in = sum(head["rise_band_in"]) / 2.0     # a band's midpoint, named in the legend
+        rise = (rise_in or 0.0) / 12.0 * scale
+        ax0, ax1 = x0, x1                                  # flush with the jambs
+        if "segmental" in head["kind"]:
             out.append(f'<path class="arch w-med" d="M {ax0:.1f},{yt:.1f} '
                        f'Q {(ax0+ax1)/2:.1f},{yt-2*rise:.1f} {ax1:.1f},{yt:.1f} '
                        f'L {ax1:.1f},{yt-hd:.1f} Q {(ax0+ax1)/2:.1f},{yt-hd-2*rise:.1f} '
                        f'{ax0:.1f},{yt-hd:.1f} Z"/>')
         else:
-            # flat arch: the camber is in the soffit, and the extrados is level
+            # a flat arch: the camber is in the soffit and the extrados is level
             out.append(f'<path class="arch w-med" d="M {ax0:.1f},{yt:.1f} '
                        f'Q {(ax0+ax1)/2:.1f},{yt-2*rise:.1f} {ax1:.1f},{yt:.1f} '
                        f'L {ax1:.1f},{yt-hd:.1f} L {ax0:.1f},{yt-hd:.1f} Z"/>')
+        if head.get("keystone"):
+            # The kit makes a keystone canonical. Its WIDTH may be a band or unstated; a band is
+            # drawn at its midpoint and an unstated one at the arch's own depth, which is the
+            # only figure available -- both said in the legend rather than implied by the ink.
+            kw = head.get("keystone_width_in")
+            kw = (sum(kw) / 2.0 if isinstance(kw, list) else kw) or head["depth_in"] * 0.6
+            kwp = kw / 12.0 * scale
+            out.append(f'<rect class="arch w-med" x="{(x0+x1)/2 - kwp/2:.1f}" y="{yt-hd:.1f}" '
+                       f'width="{kwp:.1f}" height="{hd:.1f}"/>')
 
     # THE SILL. One course of purpose-moulded brick, which is what the kit states; its
     # projection is recorded as a BAND of 0 to 1 in and a band is not a figure, so it is drawn
@@ -369,6 +386,26 @@ def render_elevation(elev, path, face=None, scale=6.0):
               f'· UPPER {uw["opening_width_in"]}×{uw["opening_height_in"]} in, {uw["sash_pattern"]} '
               f'· CORNICE {cornice["cornice_height_in"]} in ({cornice["member_count"]} members) · SEE INSET FOR PROFILE</text>')
 
+    # WHAT THIS SHEET COULD NOT JUDGE, AND WHAT ON IT IS SOMEBODY'S DECISION.
+    #
+    # Both of these were carried in the record and printed nowhere until 27 Aug 2026. The chimney
+    # one is the worse miss: a twenty-line comment in build/elevation.py, this package's own
+    # report and its commit message all said the stack size reaches the drawing "labelled a
+    # judgment", and the words appeared on no sheet. An assurance stated in three documents and
+    # implemented in none is worth less than no assurance at all.
+    notes = []
+    ht = (gw.get("head_treatment") or {})
+    if ht and not ht.get("kind") and ht.get("kind_note"):
+        notes.append(f'WINDOW HEAD UNJUDGED — {ht["kind_note"].upper()}')
+    elif ht.get("rise_band_in"):
+        notes.append(f'HEAD RISE IS A BAND OF {ht["rise_band_in"][0]}–{ht["rise_band_in"][1]}″ '
+                     f'({_esc(str(ht.get("rise_source") or ""))}); DRAWN AT ITS MIDPOINT')
+    if elev.get("chimney_stack_plan_judgment") and elev.get("chimney_stack_plan_in"):
+        notes.append(f'STACK DRAWN {elev["chimney_stack_plan_in"]}″ SQUARE — A JUDGMENT, NOT A '
+                     f'MEASUREMENT: THE COURSING PUTS IT BETWEEN SIZES AND A MASON WILL BUILD 18″ OR 27″')
+    for i, n in enumerate(notes):
+        s.append(f'<text class="dm" x="{pad}" y="{legend_y+26+i*10:.1f}">{_esc(n)}</text>')
+
     # ---------------- cornice detail inset: the actual moulded profile, constructed by
     # build/profiles.py from proportion_engine.dimension() members.
     #
@@ -463,6 +500,10 @@ def render_elevation(elev, path, face=None, scale=6.0):
     if sil["unconstructed"]:
         # Never draw a shape this corpus has no construction for without saying which.
         cap.append(", ".join(sorted({u["profile"].upper() for u in sil["unconstructed"]})) + " NOT CONSTRUCTED")
+    if sil.get("unrecorded"):
+        # A face drawn flush because the authority published no figure looks exactly like a face
+        # measured flush. Saying which is the whole difference.
+        cap.append(f'{len(sil["unrecorded"])} MEMBER(S) DRAWN AT THE NAKED — NO PROJECTION PUBLISHED')
     lines = [ln for c in cap for ln in _wrap(c, int((ibox_w - 16) / 4.3))]
     for i, ln in enumerate(lines):
         s.append(f'<text class="dm" x="{ibox_x+8:.1f}" '

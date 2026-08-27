@@ -54,13 +54,20 @@ member's own two numbers, named in the module docstring:
 | fillet, fascia, corona, plinth… | a square step; a corona takes a drip only where its own note asks for one |
 | volute, acanthus | **not constructed**, reported as such |
 
+> **The four curved rows of that table were WRONG and are corrected in the addendum below.** The
+> cyma definitions are inverted (a cyma recta is convex below and concave above), the quarters let
+> the sign of `dx` decide their convexity, the torus bulged by `dx` instead of standing proud of
+> its own springing, and the scotia's arcs met in a cusp. Left as written, per this project's
+> convention, so that what was claimed stays legible beside what was true.
+
 The radii fall out of the geometry rather than being chosen, which is the difference between a
 construction and a fitted curve. The engine also lays out repeating members tooth by tooth,
 implements the OQ 65 datum rule in one place, and serialises to SVG (`L`/`A`) and to DXF vertices
 with **bulges**, so a circular arc reaches CAD exactly rather than as a polygon.
 
 `tests/test_profiles.py` (49 tests) and `python3 build/profiles.py selftest` assert **geometry,
-not strings**: that an ovolo bulges out of its chord and a cavetto falls inside it, that a cyma's
+not strings** — though see the addendum: they assert the geometry of the MODEL, and every one of
+them passed while the drawing was mirrored. `tests/test_drawn_geometry.py` is the missing half: that an ovolo bulges out of its chord and a cavetto falls inside it, that a cyma's
 two arcs meet without a kink, that a torus returns to its springing, that pack geometry is linear
 in the module, and that every profile name in the corpus has a construction.
 
@@ -204,3 +211,146 @@ inherited the same problem. What was missing was a geometry layer, and with it i
 SVG renderers draw real mouldings, real coursing and real arches — and the CAD exporter that
 carried one rectangle now carries the same profile, arcs intact, because there is finally
 something to carry.
+
+---
+
+# Addendum — the adversarial audit, 27 August 2026
+
+The package above was committed green: 34 checks, 906 tests, the browser walk, a DXF round-trip.
+It was then audited adversarially — six independent lenses over the diff, every candidate finding
+handed to a separate skeptic instructed to refute it and required to reproduce the failure
+personally. Forty-nine candidates, thirty-nine survived. **The audit found a critical bug that all
+of that green had missed, and its own central claims did not survive intact.** What follows is
+what was wrong and what was done about it.
+
+## The critical one, and why fixing it alone would have made things worse
+
+**`svg_path()` emitted an inverted SVG sweep flag.** Every arc the engine built was drawn as its
+own mirror about its chord — an ovolo as a cavetto, a torus as a hollow — on the elevation sheet,
+`dist/orders.html` and the workbench plate at once. 245 of 245 arcs. Confirmed two ways before
+anything was touched: by deriving the rule from the spec (SVG's flag is 1 when the ellipse's
+parameter increases in *screen* space, which has y down, while these angles increase in *model*
+space, which has y up — so a y-flip reverses it), and by parsing the emitted paths back through
+the W3C endpoint-to-centre rule and comparing the drawn midpoint to the modelled one.
+
+It survived 34 checks, 970 tests, a selftest that proves the constructions, and the CI browser
+walk, because **every one of those interrogates the model and none of them asks where the ink
+goes**. That is precisely the disease this package diagnosed in the `TestSegTo` block it deleted —
+*"it asserted the string and never the shape"* — recurring one layer out, in its replacement.
+
+Four constructions were **also** wrong in model space:
+
+- **cyma recta and cyma reversa were swapped.** The standard definition puts the cyma recta's
+  concave part uppermost (it is the shape of every crown moulding); this drew it hollow-below.
+  53 authored members, 92 instances. The inverted definition was pinned in four places at once —
+  the module docstring, the selftest, two tests and `docs/proportion.md` — all agreeing with each
+  other, which is why nothing caught it.
+- **the sign of `dx` decided a quarter's convexity**, so every receding ovolo became a cavetto —
+  16 members, including the congé at the foot of every Tuscan and Doric shaft. A test called
+  `test_a_receding_member_keeps_its_character` asserted the *bug*: it ran a receding ovolo and
+  required it to fall inside its chord. A guard written from the same misunderstanding as the code
+  guards nothing.
+- **a torus whose face sat inboard of the member below it was drawn as a groove bitten into that
+  member** — `chambers-doric`'s lower torus was a four-inch gouge in its own plinth, in the
+  committed `dist/orders.html`.
+- **the scotia's two arcs met with opposing horizontal tangents** — a cusp, a beak sticking into
+  the hollow, in all seventeen scotias.
+
+**And the two families cancelled.** On roughly half the corpus the mirrored serialiser undid the
+wrong construction. Fixing the sweep flag alone would have taken the drawings from 124 correct
+arcs to 121 — every cyma, every scotia and every receding round going from accidentally right to
+visibly wrong. This is `CLAUDE.md`'s own trap — *"a fix that removes a shield is a fix that has to
+look at what the shield was covering"* — at corpus scale. All six were fixed in one commit, under
+a guard written first.
+
+## The honesty findings, which are the ones that sting
+
+The package's own stated durable lesson was *"the honesty discipline has to reach the renderers,
+not just the records."* It did not apply that lesson to itself.
+
+- **A style fact was hardcoded and attributed to a pack that does not contain it.** `"keystone":
+  False` carried the comment *"the kit states keystone: none for this tradition"* and a `source`
+  string citing `brick-course.json`, in which the word "keystone" occurs **zero times**. The claim
+  is true of one style: `tidewater-georgian` forbids the keystoned flat arch, while
+  `mid-atlantic-georgian` makes it **canonical** with a measured 6–9 in keystone and a measured
+  4–6 in rise — and the generator answered `keystone: false` and a 0.4 in camber for it. This is
+  the invented-source failure, in a published record. The head is now read from the style's own
+  kit, and the kit's measured band beats a pack rule derived for another tradition.
+- **An absent date was reported as an evaluated one.** `brick-course` says the segmental-to-flat
+  change is *"roughly 1720-1750 **in the Chesapeake**"* — a band, and regional. That was hardened
+  into a global `< 1750` point test, so a plan with no date produced a definite gauged flat arch
+  and a source sentence reading *"the None date puts it after the change to the gauged flat arch"*.
+  Could-not-evaluate published as evidence, reachable by anyone who can POST a plan. A date inside
+  the band and an absent date now both say they cannot judge, and the sheet prints why.
+- **The chimney safeguard was asserted in three documents and implemented in none.** A twenty-line
+  comment, this report's §4 and the commit message all said the judgment figure reaches the drawing
+  *labelled*. The words appeared on no sheet. It prints now.
+- **Invented constants got back in.** The gauged arch ran `0.06 × opening width` past each jamb —
+  a building dimension no record states — and tying it to the opening's width made the implied
+  skewback differ per window. The corona's drip was cut between two fractions of the member's
+  height, `0.5` (Gibbs's) and `0.62` (nobody's, and literally one of the three hand-tuned numbers
+  this module was built to replace), and cut into the **face** when the note that triggers it says
+  the drip is on the **soffit**. The arch is flush now; the corona is drawn square with its soffit
+  split at Gibbs's half-division and `drip_at` carried for a caller to annotate, because a groove
+  needs a depth and no authority here publishes one.
+- **A promise in a docstring with no channel to keep it.** `outer_face()` said an unpublished
+  projection was drawn at its naked so the caller could "count it"; no caller could —
+  `silhouette()` and `pack_geometry()` collected only `unconstructed`. **78 members** across 14
+  packs draw flush for want of a figure, indistinguishable on every surface from a face measured
+  flush. They are collected as `unrecorded` now and the inset prints the count.
+
+## The data findings
+
+- **`_convert_assembly` did not rescale `width_parts`.** The field was added to the schema and to
+  `dimension()` and missed in the conversion tuple, so 14 inherited members carried the base pack's
+  width against their own converted pitch — `chambers-doric`'s triglyph filled 12 of a 75-part
+  pitch instead of 30, a 60% hole in a Doric frieze, against its own inherited note saying triglyph
+  and metope fill it exactly. Fixed, and pinned by a ratio invariant: a tooth is between a quarter
+  and three quarters of its own pitch in every tradition here, and anything outside that is a
+  conversion that did not happen.
+- **Two of the fourteen `width_parts` were half their source.** All three Benjamin packs state
+  *"Every figure here is in minutes"* — a part **is** a minute — so Benjamin's "thirteen minutes in
+  front" is 13 parts, not the 6.5 that was written. The figures came from trusting a conversion
+  sentence inside the member's note which halves minutes into parts against the pack's own module
+  block. Corrected to their sources. **The underlying halved `spacing_parts` is pre-existing and
+  was left as found** — changing a figure this session did not author, in a pack that argues both
+  ways, is a ruling (OQ 75).
+- **One width was reachable and skipped.** `gibbs-corinthian`'s modillion note works the figure out
+  in its own words — *"each is 6 parts wide"* — and the sweep missed it while the docs say null
+  means the authority published none. Added.
+
+So the claim *"the width_parts figures were transcribed, not invented"* holds for twelve of
+fourteen and did not hold for two. Nothing was authored editorially and nothing was laundered as
+`measured`, but two figures were **derived** from a bad neighbour and given a provenance sentence
+written as though they had been read off the page. That sentence was the bad part.
+
+## What is still open
+
+- **OQ 72 was under-scoped in both directions and has been widened.** It said the clamp is "true
+  for the column; not true for the entablature." `gibbs-ionic`'s entire *capital* and entire
+  *pedestal* each draw as one flat vertical line. And it named only `dist/orders.html` — the
+  workbench plate consumes `pack_geometry()`, which takes the pack-level datum, so it carries the
+  identical clamp on the product's primary surface. Corpus-wide: 192 entablature faces flush,
+  **153 of them discarding a published non-zero projection**.
+- **OQ 75** — the two Benjamin pitches that contradict their own pack's stated unit.
+- **OQ 76** — `repeat_positions()` has no production caller, so no dentil or modillion band is
+  actually drawn as teeth. The data is authored, correct and consistent; the rendering is not
+  written, and three documents describe behaviour that exists nowhere.
+- **OQ 77** — the two JavaScript copies of the sweep rule are unguarded. The order tool's copy had
+  a second, independent bug (it read only the y-flip, while that page mirrors x on one half), so
+  the two halves of every plate contradicted each other on every arc. Both fixed, neither pinned.
+
+## The verdict this addendum exists to record
+
+The package's four central claims, re-judged:
+
+**"The mouldings are constructed rather than approximated"** — true of the module, and it was not
+true of the drawings until this addendum. **"No honesty rule was broken"** — false, three times.
+**"The new tests actually guard"** — partly; every one of the six construction and serialiser bugs
+shipped green through the entire suite. **"The width_parts figures were transcribed"** — twelve of
+fourteen.
+
+The geometry layer was the right thing to build and the argument about SVG holds. What the audit
+establishes is narrower and worth keeping: **a green suite proved the model and said nothing about
+the drawing, and this project's own honesty discipline is easiest to break in exactly the place it
+had just finished warning about.**

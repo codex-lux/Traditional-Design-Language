@@ -27,16 +27,20 @@ WHERE THE SHAPES COME FROM, and what is construction rather than measurement:
   * ovolo / quarter-round / echinus  a CONVEX quarter, elliptical where the member's height and
                                      projection differ (which is the ordinary case).
   * cavetto / apophyge / conge       a CONCAVE quarter, the same two numbers.
-  * cyma-recta                       the gola diritta: hollow BELOW, round ABOVE. Two equal
-                                     tangent arcs meeting at the chord's midpoint, vertical
-                                     tangents at both ends. Radius falls out of the geometry:
-                                     r = (dx^2 + h^2) / (4*dx).
-  * cyma-reversa / ogee              the gola rovescia, the same construction reversed: round
-                                     BELOW, hollow ABOVE, horizontal end tangents, and therefore
-                                     r = (dx^2 + h^2) / (4*h).
-  * torus / astragal / bead          a half round: out to the face at mid-height and back.
-  * scotia                           a hollow half the member's own height deep, in two quarters
-                                     tangent at the throat. THIS ONE CARRIES A CONVENTION: no pack
+  * cyma-recta                       the crowning cymatium: CONVEX BELOW, CONCAVE ABOVE. Two
+                                     equal tangent arcs meeting at the chord's midpoint. The
+                                     radius falls out of the geometry rather than being chosen,
+                                     and WHICH of the two constructions delivers this shape
+                                     depends on the sign of dx -- see _two_arc_s().
+  * cyma-reversa / ogee              the bed mould, the Lesbian cymatium: CONCAVE BELOW, CONVEX
+                                     ABOVE, which is what 'reversed' means.
+  * torus / astragal / bead          a half round standing PROUD: its height is its diameter and
+                                     its recorded projection is the crown, so it springs from
+                                     half its height inboard of that crown and returns there.
+  * scotia                           a hollow half the member's own height deep, in two arcs whose
+                                     centres sit LEVEL WITH THE THROAT, so the curve stands
+                                     vertical as it turns through its deepest point rather than
+                                     meeting itself in a beak. THIS ONE CARRIES A CONVENTION: no pack
                                      states a scotia's depth, so the depth is taken as half the
                                      height, which is what a half-round hollow means. It is a
                                      drawing construction, not a measurement, and is said so here
@@ -111,6 +115,34 @@ def _ell_arc(cx, cy, rx, ry, p_from, p_to):
     return _arc(cx, cy, rx, ry, a0, a0 + d, p_to)
 
 
+def _two_arc_s(x_from, y0, x_face, y1, convex_below):
+    """A cyma: two equal tangent arcs meeting at the chord's midpoint.
+
+    There are two constructions in this family and they differ in end tangency -- one leaves both
+    ends VERTICAL (radius (dx^2+h^2)/4dx, centres level with the ends) and one leaves them
+    HORIZONTAL (radius (dx^2+h^2)/4h, centres above and below them). Both pass through the chord's
+    midpoint and both are C1 there.
+
+    WHICH ONE GIVES WHICH SHAPE DEPENDS ON THE SIGN OF dx, and that is the trap: each construction
+    flips its convexity when the member draws back instead of forward. So the caller states the
+    SHAPE it wants -- which half bulges -- and this picks the construction that delivers it:
+
+        want convex below   dx > 0 -> horizontal-tangent    dx < 0 -> vertical-tangent
+        want concave below  dx > 0 -> vertical-tangent      dx < 0 -> horizontal-tangent
+    """
+    h, dx = y1 - y0, x_face - x_from
+    mx, my = x_from + dx / 2.0, y0 + h / 2.0
+    horizontal = (dx > 0) == bool(convex_below)
+    if horizontal:
+        r = (dx * dx + h * h) / (4.0 * h)
+        c1, c2 = (x_from, y0 + r), (x_face, y1 - r)
+    else:
+        r = (dx * dx + h * h) / (4.0 * dx)
+        c1, c2 = (x_from + r, y0), (x_face - r, y1)
+    return [_ell_arc(c1[0], c1[1], abs(r), abs(r), (x_from, y0), (mx, my)),
+            _ell_arc(c2[0], c2[1], abs(r), abs(r), (mx, my), (x_face, y1))]
+
+
 def arc_point(seg, t=1.0):
     """A point along an arc segment, t in [0,1] from a0 to a1. Used by the tests to prove
     tangency and by dxf_points() to flatten an ellipse."""
@@ -177,46 +209,71 @@ def member_path(profile, x_from, y0, x_face, y1, note=None):
         return segs, x_face
 
     if p in CONVEX_QUARTER:
-        # Convex quarter: centre above the start, so the face swells out early and stands
-        # vertical where it meets what sits on it.
-        segs.append(_ell_arc(x_from, y1, dx, h, (x_from, y0), (x_face, y1)))
+        # CONVEX quarter: the curve stands OUTBOARD of its own chord. Which corner of the
+        # bounding box the centre sits in depends on which way the member runs -- a member that
+        # DRAWS BACK as it rises (a conge at the foot of a Tuscan shaft, a member above a corona)
+        # is still convex, and letting the sign of dx pick the corner is what turned every
+        # receding ovolo in the corpus into a cavetto. The rule that does not flip: put the centre
+        # at the least-projecting x, level with whichever end projects most.
+        cx = min(x_from, x_face)
+        cy = y1 if x_face > x_from else y0
+        segs.append(_ell_arc(cx, cy, dx, h, (x_from, y0), (x_face, y1)))
         return segs, x_face
 
     if p in CONCAVE_QUARTER:
-        # Concave quarter: centre outboard at the springing, so the face leaves vertical and
-        # turns over into the horizontal.
-        segs.append(_ell_arc(x_face, y0, dx, h, (x_from, y0), (x_face, y1)))
+        # CONCAVE quarter: the mirror rule -- centre at the most-projecting x, level with
+        # whichever end projects least.
+        cx = max(x_from, x_face)
+        cy = y0 if x_face > x_from else y1
+        segs.append(_ell_arc(cx, cy, dx, h, (x_from, y0), (x_face, y1)))
         return segs, x_face
 
     if p == "cyma-recta":
-        r = (dx * dx + h * h) / (4.0 * dx)
-        mx, my = x_from + dx / 2.0, y0 + h / 2.0
-        segs.append(_ell_arc(x_from + r, y0, r, r, (x_from, y0), (mx, my)))
-        segs.append(_ell_arc(x_face - r, y1, r, r, (mx, my), (x_face, y1)))
+        # The crowning cymatium: CONVEX BELOW, CONCAVE ABOVE. Britannica and Oxford both put the
+        # cyma recta's concave part uppermost, and it is the shape of every crown moulding: it
+        # swells out of the corona's fillet and hollows back under the one that caps it.
+        segs.extend(_two_arc_s(x_from, y0, x_face, y1, convex_below=True))
         return segs, x_face
 
     if p in ("cyma-reversa", "ogee"):
-        r = (dx * dx + h * h) / (4.0 * h)
-        mx, my = x_from + dx / 2.0, y0 + h / 2.0
-        segs.append(_ell_arc(x_from, y0 + r, r, r, (x_from, y0), (mx, my)))
-        segs.append(_ell_arc(x_face, y1 - r, r, r, (mx, my), (x_face, y1)))
+        # The bed mould, the Lesbian cymatium: CONCAVE BELOW, CONVEX ABOVE -- the reverse, which
+        # is what its name says.
+        segs.extend(_two_arc_s(x_from, y0, x_face, y1, convex_below=False))
         return segs, x_face
 
     if p in ROUNDS:
-        # A half round: out to the face at mid height, back to the plane it sprang from.
+        # A HALF ROUND, and it stands PROUD. Its height is its diameter and its recorded
+        # projection is the crown of the roll, so it springs from half its height inboard of that
+        # crown and returns there. Bulging by dx instead makes a torus whose face sits inboard of
+        # the member below it into a groove bitten out of that member -- 18 members across 15
+        # packs, and chambers-doric's lower torus was a four-inch gouge in its own plinth.
         ym = y0 + h / 2.0
-        bulge = dx if abs(dx) > _EPS else h / 2.0
-        segs.append(_ell_arc(x_from, ym, bulge, h / 2.0, (x_from, y0), (x_from + bulge, ym)))
-        segs.append(_ell_arc(x_from, ym, bulge, h / 2.0, (x_from + bulge, ym), (x_from, y1)))
-        return segs, x_from
+        rad = h / 2.0
+        x_spring = x_face - rad
+        if abs(x_from - x_spring) > _EPS:
+            segs.append(_line(x_spring, y0))
+        segs.append(_ell_arc(x_spring, ym, rad, rad, (x_spring, y0), (x_face, ym)))
+        segs.append(_ell_arc(x_spring, ym, rad, rad, (x_face, ym), (x_spring, y1)))
+        return segs, x_spring
 
     if p == "scotia":
-        # Two quarters tangent at the throat. The depth is the convention named in the module
-        # docstring -- half the member's own height -- because no pack states one.
-        ym = y0 + h / 2.0
-        x_throat = min(x_from, x_face) - h / 2.0
-        segs.append(_ell_arc(x_throat, y0, x_from - x_throat, h / 2.0, (x_from, y0), (x_throat, ym)))
-        segs.append(_ell_arc(x_throat, y1, x_face - x_throat, h / 2.0, (x_throat, ym), (x_face, y1)))
+        # A HOLLOW WITH A THROAT. The two arcs' centres sit LEVEL WITH the throat, so the radius
+        # there is horizontal and the curve stands vertical as it turns through its deepest point.
+        # Centres level with the ENDS instead put a horizontal tangent at the throat pointing
+        # opposite ways on either side of it, which is a cusp -- a beak sticking into the hollow,
+        # and it was in all seventeen scotias in the corpus.
+        # The depth is the convention named in the module docstring: half the member's own
+        # height, because no pack states one.
+        y_t = y0 + h / 2.0
+        x_t = min(x_from, x_face) - h / 2.0
+        for (xa, ya) in ((x_from, y0), (x_face, y1)):
+            den = 2.0 * (x_t - xa)
+            cx = ((x_t * x_t - xa * xa - (ya - y_t) ** 2) / den) if abs(den) > _EPS else x_t + h
+            r = abs(cx - x_t)
+            if ya < y_t:
+                segs.append(_ell_arc(cx, y_t, r, r, (xa, ya), (x_t, y_t)))
+            else:
+                segs.append(_ell_arc(cx, y_t, r, r, (x_t, y_t), (xa, ya)))
         return segs, x_face
 
     if p == "bevel":
@@ -233,13 +290,20 @@ def member_path(profile, x_from, y0, x_face, y1, note=None):
     # Square step -- fillet, fascia, corona, plinth, abacus, and the repeating members whose
     # section is square even though their elevation is a row of teeth.
     if p == "corona" and note and "drip" in str(note).lower():
-        # Gibbs, of the corona: 'divide the projecting part in two for the Drip'. The note asks
-        # for it; a corona whose note does not is drawn square.
+        # A CORONA WITH A DRIP IS STILL DRAWN SQUARE, and the drip is reported instead of drawn.
+        #
+        # Gibbs says 'divide the projecting part in two for the Drip', which locates it and says
+        # nothing about its depth; the notes that mention it put it on the SOFFIT ("undercut with
+        # a drip on the soffit"), the underside. The first version of this cut a notch into the
+        # FACE, between two fractions of the member's height -- 0.5, which is Gibbs's, and 0.62,
+        # which is nobody's and is literally one of the three hand-tuned fractions this module's
+        # own docstring condemns. A groove needs a depth and no authority here publishes one.
+        # So the position is carried as a fact and the shape is not invented: the soffit is split
+        # at the half-division Gibbs states, which puts an arris exactly where the drip runs, and
+        # `drip_at` tells a caller where to annotate it.
+        segs.append(_line(x_from + dx * 0.5, y0))
+        segs[-1]["drip_at"] = round(x_from + dx * 0.5, 6)
         segs.append(_line(x_face, y0))
-        segs.append(_line(x_face, y0 + h * 0.5))
-        segs.append(_line(x_from + dx * 0.5, y0 + h * 0.5))
-        segs.append(_line(x_from + dx * 0.5, y0 + h * 0.62))
-        segs.append(_line(x_face, y0 + h * 0.62))
         segs.append(_line(x_face, y1))
         return segs, x_face
     segs.append(_line(x_face, y0))
@@ -257,9 +321,12 @@ def silhouette(members, naked_at=None, from_axis=False, close=True):
     column radius for a shaft); pass a float for a constant. `from_axis` is the pack's declared
     `projection_datum` == "axis".
 
-    Returns {"start": (x, y), "segments": [...], "unconstructed": [ids], "notes": [...]}.
-    A caller that wants to SAY which members it could not construct reads `unconstructed`; that
-    is the difference between a drawing that is honest about a volute and one that pretends."""
+    Returns {"start", "segments", "unconstructed", "unrecorded", "notes"}.
+    A caller that wants to SAY which members it could not construct reads `unconstructed`, and
+    which members the authority never gave a projection for reads `unrecorded`. Both are the
+    difference between a drawing that is honest about what it does not know and one that
+    pretends: a volute drawn as a swelling and a face drawn flush because nobody measured it
+    look, on the sheet, exactly like a volute and a flush face."""
     if not members:
         return {"start": (0.0, 0.0), "segments": [], "unconstructed": [], "notes": []}
     if naked_at is None:
@@ -268,9 +335,16 @@ def silhouette(members, naked_at=None, from_axis=False, close=True):
 
     y_start = members[0]["y_bottom_in"]
     x_cur = nk(y_start)
-    out, unconstructed = [], []
+    out, unconstructed, unrecorded = [], [], []
     for m in members:
         y0, y1 = m["y_bottom_in"], m["y_top_in"]
+        # Under the axis reading a recorded 0 is a projection the authority never published, and
+        # outer_face() draws it at its naked. That is the right shape and a silent one, so the
+        # member is COLLECTED here: the docstring has always promised the caller could count
+        # these and until 27 Aug 2026 there was no channel to count them through, which made a
+        # face drawn flush indistinguishable from a face measured flush on every surface.
+        if from_axis and not (m.get("projection_in") or 0.0) > 0:
+            unrecorded.append({"id": m.get("id"), "profile": m.get("profile")})
         face = outer_face(nk((y0 + y1) / 2.0), m.get("projection_in") or 0.0, from_axis)
         segs, x_cur = member_path(m.get("profile"), x_cur, y0, face, y1, note=m.get("note"))
         for s in segs:
@@ -282,7 +356,8 @@ def silhouette(members, naked_at=None, from_axis=False, close=True):
         out.append(_line(nk(y_end), y_end))
         out.append({"kind": "close"})
     return {"start": (round(x_cur if not out else nk(y_start), 6), round(y_start, 6)),
-            "segments": out, "unconstructed": unconstructed, "notes": []}
+            "segments": out, "unconstructed": unconstructed, "unrecorded": unrecorded,
+            "notes": []}
 
 
 # ---------------------------------------------------------------- repetition
@@ -418,7 +493,7 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
            "die_naked_in": round(die_naked, 5),
            "shaft": ({"y0": sy0, "y1": sy1, "entasis_begins_at": ent_at,
                       "diminution": dimin} if shaft else None),
-           "assemblies": [], "unconstructed": []}
+           "assemblies": [], "unconstructed": [], "unrecorded": []}
 
     for a in dim.get("assemblies", []):
         aid = a["id"]
@@ -449,6 +524,9 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
                               "segments": x_taper})
                 x_cur = radius_at(y1)
                 continue
+            if from_axis and not (m.get("projection_in") or 0.0) > 0:
+                out["unrecorded"].append({"assembly": aid, "id": m.get("id"),
+                                          "profile": m.get("profile")})
             face = outer_face(datum_for(aid, (y0 + y1) / 2.0), m.get("projection_in") or 0.0, from_axis)
             x_from = x_cur
             ms, x_cur = member_path(m.get("profile"), x_cur, y0, face, y1, note=m.get("note"))
@@ -481,7 +559,24 @@ def svg_path(segments, sx=None, sy=None, start=None):
     remember to invert it."""
     sx = sx or (lambda v: v)
     sy = sy or (lambda v: v)
-    flip = sy(1.0) < sy(0.0)
+    # HANDEDNESS, and it is the whole of this function's difficulty.
+    #
+    # SVG's sweep-flag is 1 when the ellipse's own parameter INCREASES, evaluated in the SCREEN's
+    # coordinate system -- which has y DOWN. This module's angles increase in MODEL space, which
+    # has y UP. A transform that flips y therefore REVERSES which way the parameter runs; so does
+    # one that mirrors x (the order tool draws its elevation half with x running the other way).
+    # Two flips cancel. What matters is the NET handedness of the transform, not either axis
+    # alone, and the flag follows it:
+    #
+    #     sweep = 1  when  (model arc runs counter-clockwise)  XOR  (transform reverses handedness)
+    #
+    # This was inverted until 27 Aug 2026, which drew every arc in the corpus as its own mirror
+    # about its chord -- an ovolo as a cavetto, a torus as a hollow -- on all three surfaces at
+    # once. It survived 34 checks, 970 tests, a selftest that proved the constructions and a
+    # browser walk, because every one of them interrogated the MODEL and none of them asked where
+    # the ink went. tests/test_drawn_geometry.py now reads the emitted path back through the W3C
+    # endpoint-to-centre rule and asserts the drawn midpoint is the modelled one.
+    flip = (sx(1.0) < sx(0.0)) != (sy(1.0) < sy(0.0))
     d = []
     if start is not None:
         d.append(f"M {sx(start[0]):.3f},{sy(start[1]):.3f}")
@@ -492,7 +587,7 @@ def svg_path(segments, sx=None, sy=None, start=None):
             d.append(f"L {sx(s['to'][0]):.3f},{sy(s['to'][1]):.3f}")
         else:
             ccw = s["a1"] > s["a0"]
-            sweep = 0 if (ccw != flip) else 1
+            sweep = 1 if (ccw != flip) else 0
             large = 1 if abs(s["a1"] - s["a0"]) > math.pi + _EPS else 0
             # Radii scale with the transform; these plates scale x and y alike.
             rx = abs(sx(s["rx"]) - sx(0.0))
@@ -566,17 +661,36 @@ def selftest():
         check(_close(p1[0], 1.5, 1e-6) and _close(p1[1], 2.5, 1e-6),
               f"{prof}: join at {p1}, not the chord midpoint")
 
-    # 3. A cyma recta is hollow BELOW and round ABOVE; a reversa is the other way up. This is the
-    #    gola diritta / gola rovescia distinction and it is the whole difference between them.
+    # 3. A cyma recta is CONVEX BELOW and concave above -- the crowning cymatium, whose concave
+    #    part is uppermost; a reversa is the other way up. That is the whole difference between
+    #    them, and having it backwards draws every cornice in the corpus upside down in its
+    #    curves while every other assertion in this file still passes.
     lo_recta = arc_point(member_path("cyma-recta", 0.0, 0.0, 3.0, 5.0)[0][0], 0.5)
     lo_rev = arc_point(member_path("cyma-reversa", 0.0, 0.0, 3.0, 5.0)[0][0], 0.5)
     chord_x = 0.75                                   # chord x at quarter height
-    check(lo_recta[0] < chord_x, "cyma-recta: lower half is not hollow")
-    check(lo_rev[0] > chord_x, "cyma-reversa: lower half is not round")
+    check(lo_recta[0] > chord_x, "cyma-recta: lower half is not convex")
+    check(lo_rev[0] < chord_x, "cyma-reversa: lower half is not concave")
 
-    # 4. A half round returns to the plane it sprang from.
+    # 3b. And a receding member keeps its character: an ovolo that draws BACK as it rises is
+    #     still convex. Letting the sign of dx pick the centre turned every conge at the foot of
+    #     a Tuscan shaft into a bulge.
+    for prof, want_out in (("ovolo", True), ("cavetto", False)):
+        segs, _ = member_path(prof, 6.0, 0.0, 2.0, 4.0)
+        mid = arc_point(segs[0], 0.5)
+        chord = 6.0 - 4.0 * (mid[1] / 4.0)
+        check((mid[0] > chord) == want_out,
+              f"receding {prof}: character changed with the sign of dx")
+
+    # 4. A half round stands proud of its own springing and returns to it. Its crown is its
+    #    recorded projection and its radius is half its height, so it springs from crown - h/2.
     segs, xe = member_path("torus", 2.0, 0.0, 5.0, 6.0)
-    check(_close(xe, 2.0), f"torus: ends at {xe}, should return to its springing")
+    check(_close(xe, 5.0 - 3.0), f"torus: ends at {xe}, should return to its own springing")
+    crown = max(arc_point(a, t / 8)[0] for a in segs if a["kind"] == "arc" for t in range(9))
+    check(_close(crown, 5.0, 1e-4), f"torus: crown at {crown}, should be its own face")
+    segs2, _ = member_path("torus", 5.0, 0.0, 2.0, 6.0)   # a roll set BACK from what is below it
+    crown2 = max(arc_point(a, t / 8)[0] for a in segs2 if a["kind"] == "arc" for t in range(9))
+    spring2 = arc_point([a for a in segs2 if a["kind"] == "arc"][0], 0.0)[0]
+    check(crown2 > spring2, "a receding torus is drawn as a groove, not a roll")
 
     # 5. The datum rule. Under `axis` a recorded 0 is absent, not flush.
     check(_close(outer_face(10.0, 3.0, False), 13.0), "naked datum: projection is an offset")

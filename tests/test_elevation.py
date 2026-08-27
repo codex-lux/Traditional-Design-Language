@@ -9,6 +9,7 @@ for bugs actually found and fixed during this WP (each one names the bug it pins
 test_roof.py's TestWingStepDown/TestCapeEaveCheck do for WP-3.3's own fixes).
 """
 import json
+import os
 import pytest
 import math
 
@@ -342,6 +343,84 @@ class TestCorniceProfileGeometry:
         assert "EAVE CORNICE PROFILE" in svg
         assert "RELIEF FROM THE FRIEZE NAKED" in svg
         assert "BOTH SOURCED" in svg
+
+
+class TestTheHeadOfAnOpeningIsReadNotAsserted:
+    """WP-5.7 shipped a style fact hardcoded and attributed to a pack that does not contain it,
+    which is the invented-source failure CLAUDE.md calls the worst thing that can be done to this
+    corpus. It wrote `"keystone": False` with a comment claiming "the kit states keystone: none
+    for this tradition" and a `source` string citing `brick-course.json window_head_masonry` --
+    in which the word "keystone" does not occur. The claim was true of exactly one style.
+
+    It also hardened brick-course's own note -- "the change is roughly 1720-1750 IN THE
+    CHESAPEAKE" -- into a global `< 1750` point test, so an absent date produced a definite
+    gauged flat arch and a source sentence reading "the None date puts it after the change":
+    could-not-evaluate published as evidence, reachable by anyone who can POST a plan."""
+
+    def _with(self, elevation_module, style=None, date="keep"):
+        plan = load_plan("tidewater-georgian-careful")
+        if style:
+            plan["style"] = style
+        if date == "keep":
+            pass
+        elif date is None:
+            plan["context"].pop("date_of_representation", None)
+        else:
+            plan["context"]["date_of_representation"] = date
+        return elevation_module.build_elevation(plan)
+
+    def test_a_keystone_comes_from_the_style_kit_and_not_from_a_constant(self, elevation_module):
+        """tidewater-georgian FORBIDS the keystoned flat arch and states keystone: none.
+        mid-atlantic-georgian makes it CANONICAL with a measured 6-9 in keystone and a measured
+        4-6 in rise. One hardcoded False cannot be right for both."""
+        tw = self._with(elevation_module)["storey_windows"][0]["head_treatment"]
+        assert tw["keystone"] is False
+
+        ma = self._with(elevation_module, style="mid-atlantic-georgian")["storey_windows"][0]["head_treatment"]
+        assert ma["kind"] == "keystoned-flat-arch"
+        assert ma["keystone"] is True
+        assert ma["keystone_width_in"] == [6, 9]
+        # and its own measured rise band beats a rule derived for another tradition
+        assert ma["rise_band_in"] == [4, 6]
+        assert "kit" in (ma["rise_source"] or "")
+
+    def test_no_source_string_claims_a_pack_that_does_not_say_it(self, elevation_module):
+        head = self._with(elevation_module)["storey_windows"][0]["head_treatment"]
+        brick = open(os.path.join(ROOT, "proportions", "modules", "brick-course.json")).read()
+        assert "keystone" not in brick.lower(), "brick-course now mentions keystones; revisit this"
+        assert "keystone" not in (head.get("source") or "").lower(), (
+            "the head's source cites a pack for a fact that pack does not carry")
+
+    def test_a_date_inside_the_change_band_is_unjudged_rather_than_rounded(self, elevation_module):
+        """brick-course states a BAND -- 1720 to 1750 -- and a band is not a threshold."""
+        head = self._with(elevation_module, date=1735)["storey_windows"][0]["head_treatment"]
+        assert head["kind"] is None
+        assert "band" in head["kind_note"].lower()
+
+    def test_an_absent_date_says_so_instead_of_reporting_one(self, elevation_module):
+        head = self._with(elevation_module, date=None)["storey_windows"][0]["head_treatment"]
+        assert head["kind"] is None
+        blob = json.dumps(head).lower()
+        assert "none date" not in blob, "an absent date is being narrated as an evaluated one"
+        assert "no date" in head["kind_note"].lower()
+
+    def test_an_unjudged_head_is_not_drawn_and_the_sheet_says_why(self, elevation_module,
+                                                                  render_elevation_module, tmp_path):
+        elev = self._with(elevation_module, date=None)
+        svg = open(render_elevation_module.render_elevation(elev, str(tmp_path / "u.svg"))).read()
+        assert 'class="arch' not in svg, "an unjudged head was drawn as a definite one"
+        assert "WINDOW HEAD UNJUDGED" in svg
+
+    def test_the_chimney_judgment_reaches_the_sheet(self, elevation_module,
+                                                   render_elevation_module, tmp_path):
+        """brick-course flags the stack width `judgment: true` -- "a mason will build 18 or 27
+        and someone should decide". WP-5.7's comment, report and commit message all said the
+        figure reaches the drawing labelled as a judgment. It reached no sheet at all."""
+        elev = self._with(elevation_module)
+        assert elev["chimney_stack_plan_judgment"], "the record dropped the judgment note"
+        svg = open(render_elevation_module.render_elevation(elev, str(tmp_path / "c.svg"))).read()
+        assert "JUDGMENT" in svg.upper()
+        assert "18" in svg and "27" in svg
 
 
 class TestRenderElevation:

@@ -68,14 +68,24 @@ class TestConvexAndConcave:
             chord_x = 4.0 * (y / 6.0)
             assert x <= chord_x + 1e-9, f"{profile} bulged out of its chord at y={y}"
 
-    def test_a_receding_member_keeps_its_character(self):
-        """dx < 0 happens: a member can draw back as it rises. The construction must carry the
-        sign rather than assume a cornice only ever grows outward."""
-        segs, xe = PROF.member_path("ovolo", 6.0, 0.0, 2.0, 4.0)
+    @pytest.mark.parametrize("profile,want_out", [("ovolo", True), ("cavetto", False)])
+    def test_a_receding_member_keeps_its_character(self, profile, want_out):
+        """dx < 0 happens: a member can draw back as it rises — a conge at the foot of a Tuscan
+        shaft, a member above a corona. Its CHARACTER must not change with its direction.
+
+        This test asserted the opposite until 27 Aug 2026. It ran a receding ovolo and required
+        it to fall INSIDE its chord — that is a cavetto — and called it "keeps its character".
+        The construction did exactly that, on sixteen members across ten packs, and the test
+        agreed with it. A guard written from the same misunderstanding as the code guards
+        nothing."""
+        segs, xe = PROF.member_path(profile, 6.0, 0.0, 2.0, 4.0)
         assert xe == pytest.approx(2.0)
         for x, y in _sample(segs):
             chord_x = 6.0 - 4.0 * (y / 4.0)
-            assert x <= chord_x + 1e-9
+            if abs(x - chord_x) < 1e-9:
+                continue
+            assert (x > chord_x) == want_out, (
+                f"a receding {profile} changed character at y={y:.3f}")
 
 
 class TestTheCymas:
@@ -99,17 +109,21 @@ class TestTheCymas:
         t2 = PROF.arc_tangent(arcs[1], 0.0)
         assert t1 == pytest.approx(t2, abs=1e-6)
 
-    def test_recta_is_hollow_below_and_round_above(self):
-        """The gola diritta: throat at the bottom. Its reverse is the other way up, and getting
-        these two the wrong way round swaps a crowning cymatium for a bed mould."""
+    def test_recta_is_convex_below_and_concave_above(self):
+        """The crowning cymatium, whose CONCAVE part is uppermost (Britannica, Oxford). Its
+        reverse is the other way up, and having the two the wrong way round swaps a crowning
+        cymatium for a bed mould on every cornice in the corpus — 53 authored members.
+
+        The inverted definition was pinned here, in the module docstring, in the selftest and in
+        docs/proportion.md, and all four agreed with each other, which is why nothing caught it."""
         segs, _ = PROF.member_path("cyma-recta", 0.0, 0.0, 4.0, 8.0)
         lo = PROF.arc_point([s for s in segs if s["kind"] == "arc"][0], 0.5)
-        assert lo[0] < 4.0 * (lo[1] / 8.0), "cyma recta's lower half is not hollow"
+        assert lo[0] > 4.0 * (lo[1] / 8.0), "cyma recta's lower half is not convex"
 
-    def test_reversa_is_round_below_and_hollow_above(self):
+    def test_reversa_is_concave_below_and_convex_above(self):
         segs, _ = PROF.member_path("cyma-reversa", 0.0, 0.0, 4.0, 8.0)
         lo = PROF.arc_point([s for s in segs if s["kind"] == "arc"][0], 0.5)
-        assert lo[0] > 4.0 * (lo[1] / 8.0), "cyma reversa's lower half is not round"
+        assert lo[0] < 4.0 * (lo[1] / 8.0), "cyma reversa's lower half is not concave"
 
     def test_ogee_is_the_same_curve_as_cyma_reversa(self):
         a, _ = PROF.member_path("ogee", 0.0, 0.0, 3.0, 5.0)
@@ -120,9 +134,22 @@ class TestTheCymas:
 class TestRoundsAndHollows:
     @pytest.mark.parametrize("profile", ("torus", "astragal", "bead"))
     def test_a_half_round_returns_to_its_own_springing(self, profile):
+        """Its height is its diameter and its recorded projection is the crown, so it springs
+        from half its height inboard of that crown and comes back there."""
         segs, xe = PROF.member_path(profile, 2.0, 0.0, 5.0, 6.0)
-        assert xe == pytest.approx(2.0), "a half round that does not come back is not a half round"
+        assert xe == pytest.approx(5.0 - 3.0), "a half round that does not come back is not one"
         assert max(x for x, _ in _sample(segs)) == pytest.approx(5.0, abs=1e-6)
+
+    @pytest.mark.parametrize("profile", ("torus", "astragal", "bead"))
+    def test_a_roll_set_back_is_still_a_roll(self, profile):
+        """A pack may record a torus whose face is INBOARD of the member below it. Bulging by dx
+        then makes it a groove bitten out of that member — chambers-doric's lower torus was a
+        four-inch gouge in its own plinth, in the shipped dist/orders.html."""
+        segs, _ = PROF.member_path(profile, 5.0, 0.0, 2.0, 6.0)
+        arcs = [s for s in segs if s["kind"] == "arc"]
+        spring = PROF.arc_point(arcs[0], 0.0)[0]
+        crown = max(PROF.arc_point(a, t / 8)[0] for a in arcs for t in range(9))
+        assert crown > spring, f"a receding {profile} is drawn as a hollow"
 
     def test_a_scotia_is_hollower_than_a_cavetto(self):
         """Both recede; the scotia is the deeper hollow, which is what makes it a scotia."""
@@ -273,6 +300,35 @@ class TestAgainstTheRealCorpus:
                 pts = _sample(sil["segments"], n=4)
                 assert all(math.isfinite(x) and math.isfinite(y) for x, y in pts), \
                     f"{p['id']}/{asm['id']} produced a non-finite coordinate"
+
+    def test_a_width_survives_inheritance_in_the_same_unit_as_its_own_pitch(self):
+        """A repeating member's width and its pitch are both measured in parts, so an overlay
+        that redefines the part must convert BOTH. `width_parts` was added to the schema and to
+        dimension() in WP-5.7 and missed in `_convert_assembly`'s conversion tuple, so fourteen
+        inherited members carried the base pack's width against their own converted pitch:
+        chambers-doric's triglyph filled 12 of a 75-part pitch instead of 30, a 60% hole in a
+        Doric frieze, against its own inherited note saying triglyph and metope fill it exactly.
+
+        The check is the ratio, because that is what survives a unit change. A tooth is between a
+        quarter and three quarters of its own pitch in every tradition the corpus holds; anything
+        outside that is a conversion that did not happen."""
+        seen = 0
+        for pid in sorted(PE.PACKS):
+            try:
+                pack = PE.resolve(pid)
+            except Exception:
+                continue
+            for asm in (pack.get("assemblies") or {}).values():
+                for m in asm.get("members", []):
+                    w, sp = m.get("width_parts"), m.get("spacing_parts")
+                    if not (w and sp):
+                        continue
+                    seen += 1
+                    assert 0.25 <= w / sp <= 0.75, (
+                        f"{pid}/{m['id']}: a tooth {w} parts wide on a {sp}-part pitch is "
+                        f"{100 * w / sp:.0f}% solid — its width and its pitch are not in the "
+                        f"same unit, so one of them did not convert on inheritance")
+        assert seen >= 25, f"only {seen} repeating members carry a width; the sweep lost some"
 
     def test_every_profile_name_in_the_corpus_is_one_this_module_knows(self):
         """A profile the constructor has never heard of is drawn square. That is a safe default,

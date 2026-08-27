@@ -75,19 +75,34 @@ from the member's own height and projection, never a curve fitted to look right:
 - **ovolo / quarter-round / echinus** — a convex quarter, elliptical where height and projection
   differ, which is the ordinary case.
 - **cavetto / apophyge / congé** — the concave quarter.
-- **cyma recta** — the *gola diritta*: hollow below, round above, two equal tangent arcs meeting at
-  the chord's midpoint with vertical end tangents. The radius falls out of the geometry,
-  `r = (dx² + h²) / 4dx`.
-- **cyma reversa / ogee** — the *gola rovescia*, the same construction reversed: round below,
-  hollow above, horizontal end tangents, `r = (dx² + h²) / 4h`.
-- **torus / astragal / bead** — a half round, out to the face at mid-height and back to the plane
-  it sprang from.
-- **scotia** — a hollow half the member's own height deep, in two quarters tangent at the throat.
+- **cyma recta** — the crowning cymatium: **convex below, concave above** (Britannica and Oxford
+  both put its concave part uppermost, and it is the shape of every crown moulding). Two equal
+  tangent arcs meeting at the chord's midpoint; the radius falls out of the geometry rather than
+  being chosen. **Which of the two constructions in that family delivers this shape depends on the
+  sign of dx**, because each one flips its convexity when the member draws back instead of forward
+  — so the caller states the shape and `_two_arc_s` picks the construction. Held the other way up
+  until 27 Aug 2026, which drew all 53 authored cyma members upside down in their curves while the
+  docstring, the selftest, two tests and this paragraph all agreed with each other.
+- **cyma reversa / ogee** — the bed mould, the Lesbian cymatium: **concave below, convex above**,
+  which is what "reversed" means.
+- **torus / astragal / bead** — a half round standing **proud**. Its height is its diameter and its
+  recorded projection is the crown of the roll, so it springs from half its height inboard of that
+  crown and returns there. Bulging by `dx` instead turns a torus whose face sits inboard of the
+  member below it into a groove bitten out of that member.
+- **scotia** — a hollow half the member's own height deep, in two arcs whose centres sit **level
+  with the throat**, so the curve stands vertical as it turns through its deepest point. Centres
+  level with the ends instead give opposing horizontal tangents there, which is a cusp — a beak
+  sticking into the hollow.
   This one carries a stated convention: no pack gives a scotia's depth, and half its height is what
   a half-round hollow means. It is a drawing construction, said so in the module docstring rather
   than buried in a constant.
-- **fillet, listel, fascia, plinth, corona, abacus** — a square step. A corona takes a drip **only**
-  where its own note asks for one (Gibbs: *"divide the projecting part in two for the Drip"*).
+- **fillet, listel, fascia, plinth, corona, abacus** — a square step. A corona whose own note asks
+  for a drip (Gibbs: *"divide the projecting part in two for the Drip"*) is **still drawn square**:
+  the authority locates the drip and publishes no depth, and a groove needs one. The soffit is
+  split at Gibbs's half-division, which puts an arris exactly where the drip runs, and the segment
+  carries `drip_at` so a caller can annotate it. Drawing the notch instead required inventing a
+  second fraction, which is how `0.62` — one of the hand-tuned numbers this module replaced — got
+  back in.
 - **volute, acanthus** — **not constructed.** A volute's spiral construction is on a plate this
   corpus cannot reach (the OQ 7-11 class); these draw as a swelling and report themselves
   unconstructed so a caller can say so on the sheet.
@@ -104,6 +119,14 @@ authored editorially. `check_orders.py` refuses a tooth as wide as its own pitch
 `orders_template.html` has always drawn, and its docstring says so. Vignola describes striking the
 swell from a divided semicircle and Chambers gives another construction; no pack in this corpus
 records either, and the facsimiles that would settle it are network-blocked.
+
+**What is drawn is guarded separately from what is modelled.** `tests/test_profiles.py` asserts the
+constructions; `tests/test_drawn_geometry.py` reads the emitted SVG back through the W3C
+endpoint-to-centre rule and asserts the drawn arc is the modelled one, and that on the sheet an
+ovolo bulges and a cavetto hollows. Both are needed: an inverted sweep flag drew every arc in the
+corpus as its own mirror for a day, through 34 checks, 970 tests, a selftest that proved the
+constructions and a browser walk, because every one of them interrogated the model and none asked
+where the ink went.
 
 **Geometry is linear in the module**, proved in `tests/test_profiles.py` rather than assumed. That
 is what lets it be computed once in Python and merely scaled by everything that draws it — the

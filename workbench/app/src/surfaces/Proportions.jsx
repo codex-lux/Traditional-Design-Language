@@ -158,9 +158,17 @@ function OrderPlate({ data }) {
     for (const s of segments || []) {
       if (s.kind === 'close') continue;
       if (s.kind === 'line') { d += ` L ${s.to[0] * f} ${sy(s.to[1] * f)}`; continue; }
-      // sy() flips y, and a flip reverses the direction an arc turns
+      /* SVG's sweep flag is 1 when the ellipse's own parameter increases in SCREEN space, which
+         has y DOWN; these angles increase in MODEL space, which has y UP. This plate draws x in
+         model inches with no transform at all and passes y through sy(), which flips it — so the
+         net handedness IS reversed and the flag is the inverse of the model's own direction.
+         (build/profiles.py::svg_path derives the same thing from its two transforms; here x is
+         the identity, so the y flip decides it alone.)
+         Held the other way round until 27 Aug 2026, which drew every arc on this plate as its
+         own mirror: an ovolo as a cavetto, a torus as a hollow. */
+      const flip = sy(1) < sy(0);
       const ccw = s.a1 > s.a0;
-      const sweep = ccw ? 1 : 0;
+      const sweep = (ccw !== flip) ? 1 : 0;
       const large = Math.abs(s.a1 - s.a0) > Math.PI ? 1 : 0;
       d += ` A ${s.rx * f} ${s.ry * f} 0 ${large} ${sweep} ${s.to[0] * f} ${sy(s.to[1] * f)}`;
     }

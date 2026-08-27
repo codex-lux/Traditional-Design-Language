@@ -212,6 +212,25 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   returned**, so this class cannot come back by an `m.update()`. To add a measurement to that
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
+- **A test of the MODEL is not a test of the DRAWING, and this corpus has now been caught by that
+  twice in two days.** WP-5.7 deleted `TestSegTo` for pinning the control points of curves that
+  had silently degenerated to straight lines — then shipped `svg_path()` with an **inverted SVG
+  sweep flag**, so every one of the 245 arcs in the corpus was drawn as its own mirror about its
+  chord: an ovolo as a cavetto, a torus as a hollow, on all three surfaces at once. It passed 34
+  checks, 970 tests, a selftest that proved the constructions, and the browser walk, because every
+  one of them interrogated the model and none asked where the ink went. Worse, four constructions
+  were ALSO wrong in model space, and the two families of bug **cancelled** on about half the
+  corpus — so fixing only the sweep flag would have made the drawings worse, which is
+  "a fix that removes a shield is a fix that has to look at what the shield was covering" at
+  corpus scale. `tests/test_drawn_geometry.py` is the guard: it reads the emitted path back
+  through the W3C endpoint-to-centre rule and asserts the drawn arc is the modelled one. **The two
+  JS copies of the sweep rule are still unguarded — OQ 77.**
+- **The sweep flag follows the NET handedness of the transform, not the y-flip.** SVG's flag is 1
+  when the ellipse's parameter increases in SCREEN space (y down); these angles increase in MODEL
+  space (y up). A y-flip reverses it and so does an x-mirror, and two flips cancel. The order tool
+  draws its section half with x one way and its mirrored elevation half with x the other, through
+  the same y-flip: reading only y gave both halves the same flag and the plate contradicted itself
+  down its own centre line.
 - **A moulding is CONSTRUCTED, in one place, and JavaScript does not know what a cyma is.**
   `build/profiles.py` turns a member's height and projection into real geometry — a quarter of an
   ellipse for an ovolo, two tangent arcs through the chord's midpoint for a cyma, a half round for
@@ -291,8 +310,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **74 entries, of which 19 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 72, 73, 74). **72, 73 and 74 are
+  trusting any list of them. `docs/open-questions.md` holds **77 entries, of which 22 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77). **72, 73 and 74 are
   WP-5.7's, and are about the geometry layer: the entablature's datum, two sourced rules
   disagreeing about the cornice's projection, and the front elevation that cannot draw its own
   chimneys.** **69, 70 and 71 were raised AND

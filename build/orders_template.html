@@ -273,13 +273,19 @@ function geomFor(pk, withPedestal){
    for the screen because sy() flips y, and a flip reverses the way an arc turns. Emits NO
    leading M: the caller owns where the pen starts, because the whole stack is one outline. */
 function segCmds(segments, f, sx, sy){
-  const flip = sy(1) < sy(0);
+  /* NET handedness, not the y-flip alone. This page draws the section with x running one way
+     (sx = OX + x*k) and the mirrored elevation half with it running the other (dsx = OX - x*k),
+     and both through the same y-flip. Reading only y gave both halves the same sweep flag, so
+     the plate contradicted itself down its own centre line on every arc; reading only the net
+     of the two is what makes a mirrored half draw as a mirror. See build/profiles.py::svg_path,
+     which carries the same rule and the same history. */
+  const flip = (sx(1) < sx(0)) !== (sy(1) < sy(0));
   let d = "";
   for(const s of segments){
     if(s.kind === "close") continue;                    // the stack closes once, at the end
     if(s.kind === "line"){ d += ` L ${sx(s.to[0]*f).toFixed(2)},${sy(s.to[1]*f).toFixed(2)}`; continue; }
     const ccw = s.a1 > s.a0;
-    const sweep = (ccw !== flip) ? 0 : 1;
+    const sweep = (ccw !== flip) ? 1 : 0;
     const large = Math.abs(s.a1 - s.a0) > Math.PI ? 1 : 0;
     const rx = Math.abs(sx(s.rx*f) - sx(0)), ry = Math.abs(sy(s.ry*f) - sy(0));
     d += ` A ${rx.toFixed(2)} ${ry.toFixed(2)} 0 ${large} ${sweep} `
