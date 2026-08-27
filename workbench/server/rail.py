@@ -95,6 +95,16 @@ def _client():
     k = key()
     client = _POOLED.get(k)
     if client is None:
+        # One entry, normally: the key comes from the environment, not from a request, so
+        # nothing a caller does can grow this dict. A rotation in a live process strands the
+        # old client's keep-alive sockets behind a strong reference, so close it on the way
+        # out rather than leaving it to a GC that will never run for a module global.
+        for stale_key, stale in list(_POOLED.items()):
+            _POOLED.pop(stale_key, None)
+            try:
+                stale.close()
+            except Exception:      # noqa: BLE001 — a client we are discarding anyway
+                pass
         # The stripped key, not the raw variable the SDK would otherwise re-read for itself.
         client = _POOLED[k] = anthropic.Anthropic(api_key=k)
     return client

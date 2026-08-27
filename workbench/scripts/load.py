@@ -25,6 +25,7 @@ Percentiles come from three runs per point by default; the spread is printed bes
 because a knee read off one sample is a guess with a decimal place on it.
 """
 import argparse
+import gzip
 import json
 import os
 import statistics
@@ -40,16 +41,33 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 
 # ------------------------------------------------------------------ the calls
 
+# ACCEPT-ENCODING, because urllib sends none by default and that quietly invalidated a whole
+# measurement pass: every sweep — including the "after" run used to say the fixes cost nothing
+# — exercised the UNCOMPRESSED path, so the one change most likely to move per-request CPU was
+# never touched by the instrument used to bless it. A real browser always asks for gzip.
+_HEADERS = {"accept-encoding": "gzip"}
+
+
+def _read(r):
+    """The body, decompressed if the server compressed it. Timing INCLUDES the decompress,
+    which is what a client actually pays."""
+    body = r.read()
+    if (r.headers.get("content-encoding") or "").lower() == "gzip":
+        body = gzip.decompress(body)
+    return body
+
+
 def _post(url, path, payload, timeout=120):
     req = urllib.request.Request(url + path, data=json.dumps(payload).encode(),
-                                 headers={"content-type": "application/json"})
+                                 headers={"content-type": "application/json", **_HEADERS})
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.status, r.read()
+        return r.status, _read(r)
 
 
 def _get(url, path, timeout=120):
-    with urllib.request.urlopen(url + path, timeout=timeout) as r:
-        return r.status, r.read()
+    req = urllib.request.Request(url + path, headers=_HEADERS)
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.status, _read(r)
 
 
 def _plan():
@@ -67,8 +85,9 @@ _UNIQ_LOCK = threading.Lock()
 def _fresh_plan():
     """A plan no solve has seen before.
 
-    build/geometry.py keys `_SOLVE_CACHE` on `json.dumps(plan, sort_keys=True)`, so
-    replaying one identical plan measures the cache and not the solver. The first version
+    build/geometry.py keys `_SOLVE_CACHE` on a sha256 OF `json.dumps(plan, sort_keys=True)`
+    — it was the raw string when this comment was first written, and the mechanism is the
+    same either way — so replaying one identical plan measures the cache and not the solver. The first version
     of this harness did exactly that and reported POST /api/drawings/plan at 5.0 ms p50 —
     faster than a kit lookup, for an endpoint that solves a plan and renders an SVG. Any
     change to the record busts the key; the id is the one field nothing else reads.

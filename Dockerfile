@@ -36,6 +36,13 @@ COPY . .
 # The built app, from stage 1. app.py mounts it only if the directory exists.
 COPY --from=frontend /build/dist ./workbench/app/dist
 
+# One gzipped sibling per asset, written at build time. The server used to compress these on
+# the fly: 38 ms a request against 8 ms plain for the 1.19 MB bundle, on the event loop, on a
+# route outside both the auth gate and the rate limiter. Compressed once here at level 9 it
+# costs nothing per request and ships fewer bytes than the dynamic path did. See
+# workbench/scripts/precompress.py.
+RUN python3 workbench/scripts/precompress.py workbench/app/dist
+
 # Nothing here writes to the image, and the corpus is read-only at runtime, so there is
 # no reason to run as root. It also bounds what any future file-serving mistake can
 # reach — the SPA catch-all was an unauthenticated arbitrary file read until this pass.

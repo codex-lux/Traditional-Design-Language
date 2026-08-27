@@ -790,7 +790,13 @@ def schema(name):
     The returned object is SHARED. jsonschema.validate does not mutate it; a caller who
     hands it onward should copy_json it first, which is what plan_schema/brief_schema do.
     """
-    return json.load(open(os.path.join(ROOT, "schema", f"{name}.schema.json")))
+    # basename for the same reason load_parti has one, and the irony is recorded rather than
+    # quietly fixed: this helper was added in the very commit that reduced the parti join to a
+    # single sanitised site, and it reintroduced the shape one screen above that docstring. No
+    # caller passes user input today — it is schema("plan") and schema("brief") — so this was
+    # never live. It is one endpoint away from being live, which is the whole argument.
+    safe = os.path.basename(str(name))
+    return json.load(open(os.path.join(ROOT, "schema", f"{safe}.schema.json")))
 
 
 def _load_plan_checker():
@@ -824,11 +830,20 @@ def compose(brief, candidates=4, include_plans=False):
         res["note"] = "Plans omitted to save context. Call again with include_plans=true for the full records, or pass one to tdl_check_plan."
     return res
 
+@functools.lru_cache(maxsize=1)
+def _all_partis():
+    """The 21 parti records, parsed once. list_partis re-globbed and re-parsed all of them on
+    every call — 0.95 ms of filesystem work per request to /api/partis — which is the same bug,
+    one function over, that corpus.search_index's comment describes fixing. Cleared by
+    corpus.invalidate() with the rest."""
+    return tuple(json.load(open(f))
+                 for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))))
+
+
 def list_partis(style=None, massing=None):
     D = _data()
     out = []
-    for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))):
-        p = json.load(open(f))
+    for p in _all_partis():
         if style and style not in p["styles"]: continue
         if massing and p["massing"] != massing and massing not in p.get("alternate_massings", []): continue
         out.append({"id": p["id"], "name": p["name"], "massing": p["massing"],

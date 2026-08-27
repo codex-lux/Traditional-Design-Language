@@ -1148,10 +1148,13 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=
     if hit is not None:
         return copy.deepcopy(hit)
     out = _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s)
-    # And the VALUE is bounded too, because hashing the key does nothing about a 10 MB result.
-    # An oversized record still solves and still returns — it simply is not remembered, which
-    # costs a repeat caller time and costs everyone else nothing. Every plan in plans/ is
-    # under 30 KB, so this never touches a real record.
+    # And a large INPUT is not remembered at all. Stated precisely because the first version of
+    # this comment said "the VALUE is bounded too" and the guard below reads len(plan_s) — the
+    # input, not the cached result. The result is a solved plan, strictly larger than the record
+    # that produced it (~1.5x measured), so 64 entries just under the limit still retain
+    # something over 100 MB. That is far better than the unbounded original and it is not the
+    # bound the old sentence claimed. Every plan in plans/ is under 30 KB, so no real record is
+    # affected either way.
     if len(plan_s) <= MAX_CACHEABLE_BYTES:
         if len(_SOLVE_CACHE) > 64:
             _SOLVE_CACHE.clear()

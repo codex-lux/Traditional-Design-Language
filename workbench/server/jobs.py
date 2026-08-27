@@ -188,9 +188,64 @@ async def events(job_id):
             break
     if not saw_terminal and job.status in ("done", "error"):
         if job.status == "done" and job.result is not None:
-            yield _sse("done", _strip_plans(job.result))
+            # OFF the loop. _strip_plans is core.copy_json — a json.dumps+loads over the whole
+            # result INCLUDING every candidate plan — and making this generator async moved it
+            # from a threadpool thread onto the event loop, where a 24-candidate compose blocks
+            # every other request for the duration. The late-attach path is common by design
+            # (a reconnect, a second tab, React StrictMode's double mount), so this is not rare.
+            yield _sse("done", await asyncio.to_thread(_strip_plans, job.result))
         else:
             yield _sse("error", {"error": job.error or "job failed"})
+
+
+_BRIDGE_END = object()
+
+
+async def bridge_sync_stream(make_iter, poll_s=_POLL_S):
+    """Run a BLOCKING sync generator on its own thread and yield its lines asynchronously.
+
+    For SSE bodies that cannot reasonably be made async. `rail.stream_turn` is the case this
+    exists for: it is a sync generator making blocking Anthropic SDK calls, up to
+    RAIL_MAX_TOOL_ROUNDS + 1 = 9 of them per turn, and Starlette wraps a sync iterator in
+    `iterate_in_threadpool` — one anyio token per next(), held for a whole API round trip.
+    That is the same mechanism `events` above was rewritten to avoid, and the shared pool is
+    40 wide for the entire application.
+
+    Rewriting the rail to AsyncAnthropic would be the tidier fix and was deliberately not
+    taken: rail.py is the one module that spends real money, docs/deployment.md already
+    records its model switch as untested, and no live turn can be run from this environment
+    to prove the rewrite. This moves the blocking work onto a DEDICATED thread instead —
+    which is not drawn from the anyio pool, so it cannot starve /api/health — and leaves
+    rail.py's signature, logic and tests untouched.
+
+    The cost is one OS thread per concurrent rail turn, bounded by RAIL_TURNS_PER_HOUR (20
+    per identity) and RAIL_TURNS_PER_DAY (200 process-wide).
+
+    `make_iter` is a callable returning the generator, not the generator itself: it is
+    invoked ON the worker thread, so any blocking work in its construction stays there too.
+    """
+    q = queue.Queue(maxsize=64)
+
+    def pump():
+        try:
+            for line in make_iter():
+                q.put(line)              # blocks when the reader falls behind, which is
+        except Exception as e:           # backpressure rather than unbounded buffering
+            q.put(_sse("error", {"error": f"{type(e).__name__}: {str(e)[:200]}",
+                                 "honest": True}))
+        finally:
+            q.put(_BRIDGE_END)
+
+    threading.Thread(target=pump, daemon=True).start()
+    while True:
+        try:
+            item = q.get_nowait()
+        except queue.Empty:
+            await asyncio.sleep(poll_s)
+            continue
+        if item is _BRIDGE_END:
+            return
+        yield item
 
 
 def _sse(event, data):

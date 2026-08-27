@@ -105,11 +105,15 @@ was raised for the run — at its default of 60 the sweep would measure the rate
 
 | endpoint | 1 | 2 | 4 | 8 | 16 | sustained rps |
 |---|---:|---:|---:|---:|---:|---:|
-| `GET /api/health` | 2 | 3 | 6 | 11 | 13 | ~560 |
-| `GET /api/kit/{style}` | 6 | 11 | 22 | 47 | 45 | ~170 |
-| `GET /api/search/index` | 10 | 18 | 34 | 65 | 75 | ~105 |
-| `POST /api/drawings/plan` | 217 | 447 | 1026 | 1996 | 2901 | **~4.5** |
-| `POST /api/plan/evaluate` | **338** | 899 | 2011 | 4204 | 6414 | **~2.0** |
+| `GET /api/health` | 3 | 4 | 6 | 11 | 14 | ~550 |
+| `GET /api/kit/{style}` | 7 | 12 | 23 | 47 | 62 | ~150 |
+| `GET /api/search/index` | 14 | 24 | 39 | 89 | 115 | ~65–97 |
+| `POST /api/drawings/plan` | 208 | 452 | 956 | 1881 | 2888 | **~4.5** |
+| `POST /api/plan/evaluate` | **327** | 934 | 2167 | 3970 | 6256 | **~2.0** |
+
+*Re-measured with `Accept-Encoding: gzip` actually sent — see §3. The first version of this
+table did not send it, so the read endpoints were faster there than a browser will ever see
+them; `/api/search/index` in particular reads 14 ms rather than 10.*
 
 **Read the last column, not the first row.** Throughput is flat across the whole ladder —
 about 2 evaluates and 4.5 drawings per second no matter how many callers arrive. That is a
@@ -214,14 +218,43 @@ is exempted **by path**, before the compressor sees the request. Verified both w
 `Accept-Encoding: gzip` the compose stream still answers with no `content-encoding`, and its
 first line arrives at 0.01 s of a 9.9 s job.
 
-**Note for reading the §2 tables:** the sweep runs on localhost, where bytes are free, so
-compression does not show as a latency win there and the before/after sweeps are within noise
-of each other. The win is in bytes over a real network, measured above.
+**Compression is not free, and the first version of this report said it was.** That claim came
+from a sweep that never exercised it: `workbench/scripts/load.py` drove everything through
+`urllib.request`, which sends no `Accept-Encoding` header, so every "after" run measured the
+UNCOMPRESSED path. With the header sent, `/api/search/index` p50 goes from 9.7 ms to 13.9 ms at
+one caller and its sustained rate from ~105 to ~65–97 rps. That is the real trade: **roughly a
+third more CPU on the largest read endpoint, for four times fewer bytes.** Worth it on a
+platform that bills egress; not worth hiding.
 
-**Also fixed:** four things were rebuilt per request that cannot change under a running
-server — `plan.schema.json` and `brief.schema.json` re-parsed at six sites including
-`core.check_plan` (which runs behind that 400 ms debounce), `/api/phylogeny` rebuilding 157 KB
-a call, and `/assets` carrying no cache headers despite Vite content-hashing every filename.
+Two settings make it affordable rather than ruinous, and both were wrong when first shipped:
+
+* **Level 4, not Starlette's default of 9.** For `/api/search/index`: level 9 costs 9.01 ms and
+  emits 52,293 bytes; level 4 costs 2.58 ms and emits 54,937. 3.5× the CPU for 4.6% fewer bytes.
+* **`/assets` is not compressed per request at all.** It was, and that was the single worst
+  thing on the server: the 1.19 MB bundle cost **569 ms** at level 9 and 38 ms even at level 4,
+  against 8 ms plain — on a route outside both the auth gate and the rate limiter, and on the
+  EVENT LOOP, because `FileResponse` streams in 64 KiB chunks and Starlette only offloads a
+  chunk of 128 KiB or more. At level 9 one anonymous caller at 1.76 req/s saturated the core,
+  making a static GET five times more expensive than `/api/plan/evaluate` — the endpoint §2
+  calls the ceiling. `workbench/scripts/precompress.py` now writes a `.gz` beside each asset at
+  build time and `ImmutableStatic` serves it: **9.6 ms**, at level-9 ratios, with zero
+  per-request compression.
+
+**Also fixed:** things rebuilt per request that cannot change under a running server —
+`plan.schema.json` and `brief.schema.json` re-parsed at six sites including `core.check_plan`
+(which runs behind that 400 ms debounce), `core.list_partis` re-globbing and re-parsing all 21
+parti files a call (0.95 ms → 0.012 ms), and `/assets` carrying no cache headers despite Vite
+content-hashing every filename.
+
+**And one "fix" that was a 7.8× pessimisation, reverted.** This section previously claimed
+`/api/phylogeny` as a win of the same kind. It was not: measured, the rebuild walks
+already-in-memory `core._data()` at **0.23 ms**, while the cache returned `core.copy_json()` of
+the result at **1.79 ms** — `copy_json` is `json.loads(json.dumps(o))` over 157 KB. The endpoint
+costs 20.79 ms end to end, so the build was 1.1% of it and the rest is FastAPI's encoder. The
+premise was wrong too: `search_index`'s rebuild really is expensive (2.74 ms, and it re-globs 21
+files) and it returns the **shared** object with no copy. Caching phylogeny was slower than doing
+nothing and inconsistent with the neighbour it claimed to imitate. Reverted, with a test that
+pins the relation rather than a wall-clock number.
 
 ---
 
@@ -352,6 +385,15 @@ One mutation silently failed to apply during the re-verification pass and the ha
 NOT CAUGHT. An `assert` that the source actually changed is what turned that into a visible
 failure rather than a false clean bill; it is in the harness now.
 
+**Then a third harness defect, found by the audit of this audit: the sweep never sent
+`Accept-Encoding`.** `urllib.request` does not by default, so every run — including the one
+used to say compression cost nothing — measured the uncompressed path. Three separate
+occasions on which this instrument reported confidently about something it was not touching:
+an idle server read as the most-loaded point, a solve cache read as the solver, and now an
+uncompressed path read as the compressed one. The pattern is worth more than the three
+incidents: **an instrument that cannot fail is as dangerous as a test that cannot fail, and it
+is harder to notice, because its output is a number rather than a green tick.**
+
 ---
 
 ## 6. Found on the way past, reported rather than fixed
@@ -382,6 +424,74 @@ Raised by this audit and recorded in `docs/open-questions.md`: **73** (refusing 
 a 25–30 s blocking solve), **75** (dropping the 497 MB of optional libraries from the image),
 **76** (the heavy limiter simultaneously too loose for ten users and too tight for one), and
 **77** (a Python lockfile).
+
+## 7b. The audit of this audit
+
+Three independent read-only auditors were run over the finished branch — edge cases and the
+full caller chain, test meaningfulness, second-order risk and repeated patterns — with a brief
+to break it rather than confirm it. **None of what follows was caught by the 148 tests that
+were green when the branch was first declared done.**
+
+**Critical, and mine.** Dynamic gzip over `/assets` was an unauthenticated CPU amplifier:
+569 ms for the 1.19 MB bundle at Starlette's default level 9, on the event loop, on a route
+outside both the auth gate and the rate limiter. Fixed by build-time precompression (§3).
+
+**A "fix" that was a 7.8× pessimisation.** The phylogeny cache. Reverted (§3).
+
+**A hand-rolled middleware that Starlette already ships, and mine was wrong in four ways.**
+`BodyLimit` returned 500 rather than 413 on `/api/rail/messages` (which reads its body
+directly, so nothing converted the resulting `ClientDisconnect`), delivered the handler's parse
+error rather than its own message where it did fire, bounded nothing on a handler that never
+reads its body, and had its entire streaming half untested — `TestClient` always sends
+`Content-Length`, so deleting the middleware left the test green. Replaced with
+`RequestBodyLimitMiddleware`, registered **inside** the auth gate: the gate is a
+`BaseHTTPMiddleware`, which wraps `receive` in an anyio task group, and an exception raised
+inside that wrapper surfaces as an `ExceptionGroup` the limiter's own handler never matches.
+Both orders were measured; only one produces a 413.
+
+**The same bug I had just fixed, next door, left unfixed.** `rail.stream_turn` is a sync
+generator making up to nine blocking Anthropic calls, handed to `StreamingResponse` — the
+identical `iterate_in_threadpool` mechanism, and strictly worse than the one in `jobs.events`,
+which at least released its token every second. Worse still, the CLAUDE.md rule I added in the
+same commit says every SSE route's body must be an async generator, so I shipped a rule the
+codebase broke. Bridged onto a dedicated thread rather than rewriting the one module that
+spends real money and cannot be verified end to end from here.
+
+**`/mcp` is a third SSE route** and was missing from the exemption list, protected only by a
+Starlette content-type default that no requirements pin guarantees.
+
+**A new unsanitised path join, in the commit that consolidated path joins.** `core.schema()`
+built `schema/{name}.schema.json` with no `basename`, one screen above `load_parti`'s docstring
+saying that must never happen. Not live — no caller passes user input, and every
+`*.schema.json` lives in `schema/`, so the mandatory suffix confines it anyway — but fixed and
+guarded, because "one endpoint away from live" is that docstring's whole argument.
+
+**`index.html` had no `Cache-Control` at all**, while `ImmutableStatic`'s docstring asserted it
+"must stay revalidated". With `/assets` immutable for a year that response is the only thing
+that can carry a deploy to a returning visitor. Now `no-cache`, with a test.
+
+**`core.list_partis` re-globbed and re-parsed all 21 parti files per call** — the same bug the
+search-index comment describes fixing, one function over. And `corpus.invalidate()` missed
+`citations._parti_ids` and `_constraint_ids`, so `/api/dev/reload` left a newly added parti
+uncitable for the life of the process.
+
+**`/api/check/measurements` read `body.get("limit", 40)` raw** — the sibling the compose fix
+claimed was "the one heavy route reading the value raw." It was not the one.
+
+**Six more tests that could not fail**, on top of the six caught during the first pass: two of
+four parti escape parameters were duds (`../../etc/passwd` lands above the repo; the
+percent-encoded one contains no `/`, so `basename` is the identity function and nothing
+decodes it), the fitter completeness test asserted non-truncation rather than the cap, the
+compose test asserted a 500 `TestClient` can never show, the immutable-assets test grepped
+source text that its own docstring satisfied, the heartbeat test multiplied two constants the
+fix itself introduced, and `invalidate`'s search-index assertion passed on a cache an unrelated
+test 130 lines earlier had filled. All rewritten and mutation-checked.
+
+**Deliberately not changed**, with reasons: the `>1 MB` solve-cache skip is a memory-for-CPU
+trade and the right way round (bounded by the body cap and 60 calls/hour, against 640 MB of
+retained plans); `HEAD /` returning 405 on the SPA catch-all is pre-existing on `main` and out
+of scope; the 8 MB body cap means a ~6.6 MB ceiling on an uploaded DXF after JSON escaping,
+which no shipped drawing approaches but a drafter's real floor plan eventually will.
 
 ## 8. Verification
 

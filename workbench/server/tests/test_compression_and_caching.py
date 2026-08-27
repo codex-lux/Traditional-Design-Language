@@ -69,17 +69,25 @@ def test_the_sse_paths_bypass_the_compressor_entirely():
     async def go(path):
         await mw({"type": "http", "path": path, "headers": []}, None, None)
 
-    for path, expected in [("/api/rail/messages", path_plain := True),
-                           ("/api/jobs/abc123/events", True),
-                           ("/api/search/index", False),
-                           ("/api/jobs/abc123", False)]:
+    cases = [
+        # exempt, and why
+        ("/api/rail/messages", True, "SSE"),
+        ("/api/jobs/abc123/events", True, "SSE"),
+        ("/mcp", True, "SSE — the MCP streamable-HTTP transport, missed by the first list"),
+        ("/mcp/", True, "SSE"),
+        ("/assets/index-abc123.js", True, "precompressed at build time"),
+        # compressed
+        ("/api/search/index", False, "ordinary JSON"),
+        ("/api/jobs/abc123", False, "ordinary JSON — a job POLL is not its event stream"),
+        ("/", False, "the shell"),
+    ]
+    for path, exempt, why in cases:
         routed.clear()
-        asyncio.get_event_loop_policy().new_event_loop().run_until_complete(go(path))
+        asyncio.run(go(path))          # asyncio.run closes its loop; new_event_loop leaked one
         went_plain = routed == [path]
-        assert went_plain is expected, (
-            f"{path} went to the {'compressor' if not went_plain else 'plain app'}, "
-            f"which is {'wrong' if expected else 'wrong'} for an "
-            f"{'SSE' if expected else 'ordinary'} route")
+        assert went_plain is exempt, (
+            f"{path} went to the {'plain app' if went_plain else 'compressor'} but should "
+            f"have gone to the {'plain app' if exempt else 'compressor'} ({why})")
 
 
 class _Marker:
@@ -124,41 +132,74 @@ def test_no_module_re_reads_a_schema_file_per_request():
             for n, line in enumerate(open(path, encoding="utf-8"), 1):
                 if pattern.search(line):
                     offenders.append(f"{os.path.relpath(path, ROOT)}:{n}")
-    assert len(offenders) <= 1, (
+    # By FILE, not by count. `<= 1` tolerated the single permitted read moving anywhere,
+    # which is not what the rule says.
+    assert offenders and offenders[0].startswith("mcp_server/core.py"), (
+        "the one permitted schema parse is not core.schema(): " + ", ".join(offenders))
+    assert len(offenders) == 1, (
         "a schema file is parsed outside core.schema(): " + ", ".join(offenders))
 
 
-def test_phylogeny_is_built_once(monkeypatch):
-    """157 KB rebuilt from core._data() per request, for a structure that cannot change
-    under a running server. Same bug as the search index, one endpoint over.
+def test_phylogeny_is_deliberately_not_cached():
+    """The cache that was here made it 7.8x SLOWER, and the revert needs a guard.
 
-    The second call is made with core._data BOOBY-TRAPPED, because asserting that
-    `_PHYLOGENY is not None` afterwards does not test the cache — the uncached version also
-    assigns it on the way out, so that assertion passed with the early return deleted. The
-    only proof the cache is READ is that a rebuild would now be impossible.
+    An audit added a module-level cache on the argument that this was "the same bug as the
+    search index, one endpoint over". Measured: the rebuild walks already-in-memory
+    core._data() and costs 0.23 ms; returning a cached copy cost 1.79 ms, because
+    core.copy_json is json.loads(json.dumps(o)) over 157 KB. The endpoint costs ~20 ms end
+    to end, so the build was 1.1% of it and the rest is FastAPI's encoder.
+
+    This asserts the RELATION rather than a wall-clock number, so it cannot flake on a busy
+    runner: rebuilding must not cost more than a copy of the result would have.
     """
-    corpus.reset_phylogeny()
-    a = corpus.phylogeny()
+    import time
+    build = min(_time(corpus.phylogeny) for _ in range(5))
+    built = corpus.phylogeny()
+    copy = min(_time(lambda: core.copy_json(built)) for _ in range(5))
+    assert build < copy, (
+        f"rebuilding costs {build*1000:.2f} ms and copying {copy*1000:.2f} ms — if that ever "
+        "inverts, caching phylogeny() becomes worth reconsidering; today it is not")
+    assert not hasattr(corpus, "_PHYLOGENY"), (
+        "the phylogeny cache is back; it was measured as a 7.8x pessimisation")
 
-    def boom():
-        raise AssertionError("phylogeny() rebuilt from the corpus instead of using its cache")
 
-    monkeypatch.setattr(core, "_data", boom)
-    b = corpus.phylogeny()
-    assert a == b
-    assert a is not b, "callers must not share the cached structure"
+def _time(fn):
+    import time
+    t0 = time.perf_counter()
+    fn()
+    return time.perf_counter() - t0
 
 
 def test_invalidate_clears_every_cache_it_claims_to():
     """/api/dev/reload exists so on-disk edits are seen. A cache it forgets is a cache that
     serves stale corpus data for the life of the process."""
-    corpus.phylogeny()
+    from workbench.server import citations
+    # EVERY cache primed explicitly. The first version asserted _SEARCH_INDEX was None after
+    # invalidating without ever filling it — it was only non-None because an unrelated test
+    # 130 lines earlier had hit /api/search/index, so the assertion passed on a cache that was
+    # never cleared because it was never filled. Order-dependent, and green for the wrong
+    # reason: exactly the "populated rather than used" trap this file complains about.
     core.schema("plan")
-    assert corpus._PHYLOGENY is not None
+    core.schema("brief")
+    corpus.search_index()
+    core._all_partis()
+    citations._parti_ids()
+    citations._constraint_ids()
+    assert corpus._SEARCH_INDEX is not None
+    assert core.schema.cache_info().currsize > 0
+    assert core._all_partis.cache_info().currsize > 0
+    assert citations._parti_ids.cache_info().currsize > 0
+
     corpus.invalidate()
-    assert corpus._PHYLOGENY is None, "invalidate() left the phylogeny cached"
+
+    assert corpus._SEARCH_INDEX is None, "invalidate() left the search index cached"
     assert core.schema.cache_info().currsize == 0, "invalidate() left the schemas cached"
-    assert corpus._SEARCH_INDEX is None
+    assert core._all_partis.cache_info().currsize == 0, "invalidate() left the partis cached"
+    # These two were missed by the first version, so /api/dev/reload left a newly added parti
+    # uncitable for the life of the process — the rail downgraded the citation silently.
+    assert citations._parti_ids.cache_info().currsize == 0, "invalidate() left parti ids cached"
+    assert citations._constraint_ids.cache_info().currsize == 0, \
+        "invalidate() left constraint ids cached"
 
 
 # ------------------------------------------------------------------ the rail's client
@@ -188,14 +229,73 @@ def test_a_rotated_key_gets_a_new_client(monkeypatch):
 
 # ------------------------------------------------------------------ static assets
 
-def test_hashed_assets_are_immutable_and_index_is_not():
-    """Vite content-hashes every name under /assets, so the bytes at a URL can never change.
-    index.html must NOT carry it or a deploy would never reach anyone."""
+def test_hashed_assets_carry_the_immutable_header(client):
+    """Asserted on a real RESPONSE, because the first version grepped inspect.getsource for
+    the word "immutable" — which also appears in the docstring, so deleting the whole
+    file_response override left the assertion green. It also never touched index.html despite
+    saying so in its own name."""
+    import os as _os
     from workbench.server import app as app_mod
-    assert issubclass(app_mod.ImmutableStatic, app_mod.StaticFiles)
+    if not _os.path.isdir(app_mod.APP_DIST):
+        pytest.skip("needs a built frontend")
+    name = sorted(_os.listdir(_os.path.join(app_mod.APP_DIST, "assets")))
+    hashed = next((n for n in name if not n.endswith(".gz")), None)
+    assert hashed, "no assets to check"
+    r = client.get(f"/assets/{hashed}")
+    assert r.status_code == 200
+    assert r.headers.get("cache-control") == "public, max-age=31536000, immutable", (
+        f"/assets/{hashed} is not immutably cached: {r.headers.get('cache-control')!r}")
+
+
+def test_the_shell_is_revalidated_so_a_deploy_reaches_a_returning_visitor(client):
+    """The other half, which had no header and no test at all.
+
+    ImmutableStatic's docstring claimed index.html "must stay revalidated" and nothing made
+    it so: FileResponse sets only ETag/Last-Modified, and RFC 9111 heuristic freshness lets a
+    browser serve a stale shell without asking. With /assets immutable for a year, this
+    response is the only thing that can carry a deploy to someone who has been here before.
+    """
+    import os as _os
+    from workbench.server import app as app_mod
+    if not _os.path.isdir(app_mod.APP_DIST):
+        pytest.skip("needs a built frontend")
+    r = client.get("/")
+    assert r.status_code == 200
+    cc = (r.headers.get("cache-control") or "").lower()
+    assert "no-cache" in cc or "no-store" in cc or "max-age=0" in cc, (
+        f"the shell may be served stale from cache: cache-control={cc!r}")
+    assert "immutable" not in cc, "the shell must never be immutable"
+
+
+def test_assets_are_precompressed_rather_than_compressed_per_request(client):
+    """The critical one. Dynamic gzip over the 1.19 MB bundle cost 569 ms at level 9 and
+    38 ms at level 4, against 8 ms plain — on the event loop, on a route outside both the
+    auth gate and the rate limiter, where one anonymous caller could saturate the core."""
+    import os as _os
+    from workbench.server import app as app_mod
+    if not _os.path.isdir(app_mod.APP_DIST):
+        pytest.skip("needs a built frontend")
+    assert "/assets/" in app_mod.GZipExceptSSE.EXEMPT_PREFIXES, (
+        "/assets is going through the dynamic compressor again")
+    big = max((n for n in sorted(_os.listdir(_os.path.join(app_mod.APP_DIST, "assets")))
+               if n.endswith(".js") and not n.endswith(".gz")),
+              key=lambda n: _os.path.getsize(_os.path.join(app_mod.APP_DIST, "assets", n)))
+    if not _os.path.isfile(_os.path.join(app_mod.APP_DIST, "assets", big + ".gz")):
+        pytest.skip("assets not precompressed — run workbench/scripts/precompress.py")
+    r = client.get(f"/assets/{big}", headers={"Accept-Encoding": "gzip"})
+    assert r.headers.get("content-encoding") == "gzip", "the .gz sibling was not served"
+    assert r.headers.get("vary") == "Accept-Encoding"
+
+
+def test_the_compression_level_is_chosen_not_inherited():
+    """Starlette's default is 9. For /api/search/index that is 9.01 ms and 52,293 bytes
+    against level 4's 2.58 ms and 54,937 — 3.5x the CPU for 4.6% fewer bytes, on a server
+    measured at one core. The first version of GZipExceptSSE passed only minimum_size."""
+    from starlette.middleware.gzip import GZipMiddleware
+    from workbench.server import app as app_mod
     import inspect
-    src = inspect.getsource(app_mod.ImmutableStatic)
-    assert "immutable" in src and "max-age=31536000" in src
-    spa = inspect.getsource(app_mod)
-    assert 'app.mount("/assets", ImmutableStatic(' in spa, (
-        "the immutable cache is not actually mounted")
+    starlette_default = inspect.signature(GZipMiddleware.__init__).parameters["compresslevel"].default
+    assert app_mod.GZipExceptSSE.COMPRESSLEVEL < starlette_default, (
+        "the compression level is back to Starlette's default")
+    assert inspect.signature(app_mod.GZipExceptSSE.__init__).parameters[
+        "compresslevel"].default == app_mod.GZipExceptSSE.COMPRESSLEVEL

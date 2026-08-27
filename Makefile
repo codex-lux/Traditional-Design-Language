@@ -11,6 +11,7 @@ counts:
 #   pip install -r workbench/requirements.txt          # to run it
 #   pip install -r workbench/requirements-dev.txt      # to test it too
 #   (cd workbench/app && npm install && npm run build)   # once, or after app changes
+#   python3 workbench/scripts/precompress.py            # gz siblings; the image does this
 workbench:
 	python3 -m workbench.server
 

@@ -341,13 +341,44 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   because the compose worker puts to it from a plain thread, often before any consumer exists.
   **If you add an SSE route, its body must be an async generator** —
   `test_sse_does_not_hold_threads.py` pins it.
-- **Compression must skip SSE, and by PATH rather than by content type.** `GZipExceptSSE` in
-  `app.py` wraps Starlette's gzip and routes `/api/rail/messages` and `/api/jobs/*/events`
-  around it, because gzip buffers a streaming response and turns a live progress line into a
-  long pause and then everything at once. **The obvious test for this cannot fail**: Starlette
-  holds a streaming response uncompressed until it exceeds `minimum_size`, and the first SSE
-  chunk is a few dozen bytes, so asserting `content-encoding != gzip` on a real stream passes
-  with the exemption deleted. Assert the middleware's dispatch instead.
+- **Compression must skip SSE *and* `/assets`, by PATH.** `GZipExceptSSE` in `app.py` wraps
+  Starlette's gzip. THREE SSE routes go round it -- `/api/rail/messages`, `/api/jobs/*/events`
+  and **`/mcp`**, which the first version missed and which survived only on a Starlette
+  content-type default no requirements pin guarantees. **`/assets` goes round it for a
+  different and sharper reason**: compressing the 1.19 MB bundle per request cost 569 ms at
+  Starlette's default level 9 and 38 ms even at level 4, against 8 ms plain -- on the EVENT
+  LOOP, because `FileResponse` streams 64 KiB chunks and Starlette only offloads at 128 KiB,
+  and on a route outside both the auth gate and the rate limiter. One anonymous caller at
+  1.76 req/s saturated the core. `workbench/scripts/precompress.py` writes a `.gz` at build
+  time and `ImmutableStatic` serves it: 9.6 ms, better ratio, zero per-request CPU.
+  **Never pass only `minimum_size` to `GZipMiddleware`** -- `compresslevel` then inherits 9,
+  which is 3.5x the CPU of level 4 for 4.6% fewer bytes. **The obvious test for the SSE half
+  cannot fail**: Starlette holds a streaming response uncompressed until it exceeds
+  `minimum_size` and the first SSE chunk is a few dozen bytes, so asserting
+  `content-encoding != gzip` on a real stream passes with the exemption deleted. Assert the
+  middleware's dispatch instead.
+- **Do not hand-roll a request body limit; Starlette ships `RequestBodyLimitMiddleware`.** A
+  hand-rolled one here was wrong four ways, the sharpest being a 500 instead of a 413 on
+  `/api/rail/messages` (it reads its body directly, so nothing converted the `ClientDisconnect`
+  the middleware induced). **Register it INSIDE the auth gate.** The gate is a
+  `BaseHTTPMiddleware`, which wraps `receive` in an anyio task group; the limiter answers 413
+  by catching its own `_RequestBodyTooLarge`, and wrapped that way the exception surfaces as an
+  `ExceptionGroup` it never matches. Outside the gate: 500 plus a traceback. Inside: a clean
+  413. Both measured.
+- **`copy_json` is `json.loads(json.dumps(o))`, so caching a cheap build can be slower than the
+  build.** An audit cached `corpus.phylogeny()` on the argument that it was "the same bug as
+  the search index, one endpoint over" and made it **7.8x slower**: the rebuild walks
+  already-in-memory `core._data()` at 0.23 ms, the cached path pays 1.79 ms to copy 157 KB out.
+  The endpoint costs ~20 ms end to end and the build was 1.1% of it -- the rest is FastAPI's
+  encoder. `search_index()` IS worth caching (2.74 ms rebuild, re-globs 21 files) and returns
+  the SHARED object with no copy. Measure before imitating a neighbouring cache.
+- **An instrument that cannot fail is worse than a test that cannot fail**, because its output
+  is a number rather than a green tick. `workbench/scripts/load.py` misreported three separate
+  times: it timed an IDLE server at its most-loaded point (the job had finished and the streams
+  had closed), it read 5.0 ms for an endpoint that costs 215 ms (it replayed one plan into
+  `_SOLVE_CACHE`), and it measured the UNCOMPRESSED path throughout while being used to say
+  compression was free (`urllib` sends no `Accept-Encoding`). It now refuses a point it cannot
+  hold, carries a fresh plan id, and asks for gzip.
 - **A caller-supplied parti id becomes a path in exactly one place: `core.load_parti`.** Three
   copies of that join existed and two were unsanitised — `core.place_plan` carried the 25 Aug
   `basename` fix and a comment claiming it covered `/api/drawings/{kind}`, which does not route

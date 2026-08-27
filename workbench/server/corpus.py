@@ -17,27 +17,25 @@ import core  # noqa: E402  (mcp_server/core.py)
 CASCADE_EDGES = ("descends_from", "regional_of")
 
 
-_PHYLOGENY = None
-
-
-def reset_phylogeny():
-    global _PHYLOGENY
-    _PHYLOGENY = None
-
-
 def phylogeny():
     """The whole style graph, flattened for the Phylogeny surface.
 
     dist/taxonomy.json proves the shape is derivable, but it is a build artifact;
     this derives live from the same styles/ files so the picture cannot go stale.
 
-    Built once per process, for the reason the search index above is: 157 KB rebuilt from
-    core._data() on every request, for a structure that cannot change under a running
-    server. Same bug, one endpoint over, found by measuring rather than by reading.
+    NOT CACHED, and that is a measurement rather than an oversight. An audit added a
+    module-level cache here on the argument that this was "the same bug as the search
+    index, one endpoint over". It was not, and the cache was 7.8x SLOWER: the rebuild
+    below only walks already-in-memory core._data() and costs 0.23 ms, while returning a
+    cached copy costs 1.79 ms because core.copy_json is json.loads(json.dumps(o)) over
+    157 KB. The endpoint costs 20.79 ms end to end, so the build is 1.1% of it and the
+    rest is FastAPI's encoder — caching the build optimised the one part that was already
+    cheap and added a serialisation round trip to do it.
+
+    search_index() above IS worth caching, and the difference is the point: its rebuild
+    re-globs and re-parses 21 parti files (2.74 ms), and it returns the SHARED object
+    rather than a copy. Measure before imitating it.
     """
-    global _PHYLOGENY
-    if _PHYLOGENY is not None:
-        return core.copy_json(_PHYLOGENY)
     D = core._data()
     taxa, edges = [], []
     for n in D["styles"].values():
@@ -66,13 +64,10 @@ def phylogeny():
                 "weight": e.get("weight"),
                 "inherits_kit": bool(e.get("inherits_kit")) or e["type"] in CASCADE_EDGES,
             })
-    _PHYLOGENY = {"taxa": taxa, "edges": edges,
-                  "edge_types": {"cascade_carrying": list(CASCADE_EDGES),
-                                 "claimed_only": ["references", "reacts_against", "revives"],
-                                 "reticulate": ["hybridizes_with"]}}
-    # A copy out, always: the caller receives a structure it may keep or mutate, and the
-    # cached one has to stay the corpus's answer rather than the last caller's.
-    return core.copy_json(_PHYLOGENY)
+    return {"taxa": taxa, "edges": edges,
+            "edge_types": {"cascade_carrying": list(CASCADE_EDGES),
+                           "claimed_only": ["references", "reacts_against", "revives"],
+                           "reticulate": ["hybridizes_with"]}}
 
 
 def kit_cascade(style_id):
@@ -509,7 +504,13 @@ def invalidate():
     import modcache
     modcache.invalidate()
     core._data.cache_clear()
-    core.schema.cache_clear()      # the parsed plan/brief schemas
+    core.schema.cache_clear()          # the parsed plan/brief schemas
+    core._all_partis.cache_clear()     # the 21 parsed parti records
+    # citations' two id sets were missed by the first version of this function, so
+    # /api/dev/reload left a newly added parti uncitable for the life of the process — the
+    # rail would downgrade [[cite:parti:new-one]] to plain text and say nothing.
+    from . import citations
+    citations._parti_ids.cache_clear()
+    citations._constraint_ids.cache_clear()
     reset_search_index()
-    reset_phylogeny()
     return {"reloaded": True}
