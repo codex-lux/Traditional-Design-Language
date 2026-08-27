@@ -329,6 +329,34 @@ score already meets the incumbent cannot win however few spans it has. Skipping 
 those is **exact, not an approximation**: verified over all 16 plan records, **0 scores differ**
 with the early-out disabled. It returns the solve to **0.45 s**.
 
+## Verification, and the one thing that could not be confirmed
+
+**Every checker green**, with both address ratchets unmoved: `validate`, `check_kits`,
+`check_constraints`, `check_rooms` (0 errors), `check_partis` (0 errors), `check_faults`,
+`check_addresses` (own 442 pairs / 0 collisions; cascade 1,264 / 9 — the ratchet values),
+`check_openings` (1,890/1,890 pairs named), `check_windows`, `check_pack_bindings --strict`,
+`check_inheritance`, `check_counts` (24 claims, 0 stale), `proportion_engine selftest` (57
+packs, 0 problems).
+
+**36 of the 37 test files pass**, run in batches: 894-odd tests including `test_solver.py`
+(8 passed, 2 skipped — the CP proof pin holds), `test_wp46_packs.py` (281, the open-question
+register guard among them), `test_geometry`, `test_structure`, `test_openings`, `test_site`,
+`test_plan_validator`, `test_export`, `test_measurement_honesty`.
+
+**`tests/test_score.py` could not be run to completion in this container, and it is not this
+package's doing.** It reaches test 43 of 46 and then crawls; the same file behaves identically
+**at commit `b8b8f36`, before any of WP-7.4**, and identically again with `_span_charge`
+short-circuited to return zero and both weights set to 0. Three of its last four tests
+(`TestTheComposerIsDeterministic`) pass in 42 s when run as a class. Whatever this is —
+environmental, or an ordering-dependent cost in the composer — it predates the package and is
+reported rather than papered over. It is the one gap in this verification.
+
+**Five pinned numbers moved and each carries what moved it**: relaxations 9 → 7 on Tidewater in
+three files; the under-band test's named room (the dining room is in band now, the stair hall is
+not); and serious findings on spec-builder 54 → 53, which diffing finding-by-finding shows is
+entirely the porch coming out 6.00 ft instead of 5.71 and clearing
+`porch-nobody-can-sit-on`.
+
 ## What this package did not do
 
 - **No hard CP stacking pin.** Soft only; the `wall_keys` downgrade loop is untouched, so an
