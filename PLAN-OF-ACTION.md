@@ -15,10 +15,9 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **2 — Composition** | WP-2.1, 2.2, 2.3, 2.4 | **Complete** — placement is CP-SAT with named conflict sets (25 Aug); the hill-climb remains as fallback, cross-check and the workbench's per-gesture engine |
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3, 4.5, 4.6 complete · **4.4 environment-blocked, 4.7 not started** | **In progress** |
-| **5 — Platform** | WP-5.1, 5.2, 5.5 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
+| **5 — Platform** | WP-5.1, 5.2, 5.5, 5.6, 5.7 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
 | **7 — The three open questions, then their remaining halves** | WP-7.1, 7.2, 7.3, **7.4** | **Complete (27 Aug 2026)** — OQ 76, 73 and 72, each ruled by Lucas and each half-closed with the half that could not be done named; **WP-7.4 then took the halves that were left**. The generator is level-aware and fixed BEARING not stacking (transfer beams 166 → 109), and WP-7.4 charged the stacking directly in both engines; furniture sizing is REFUSED and arrangement goes as far as the rooms' own words, which turned out to be five wall runs rather than the one the register published; a window's ROLE is the plan's to decide and its SASH KIND the style's, with 119 of 159 styles answering through the lineage and the kit vocabulary now merged and ratcheted. **WP-7.4 also found that `span_check` had never read the bearing flag it was handed** — every partition counted as a support, so the corpus under-reported its own structural defects by half |
 | **6 — Plan semantics** | WP-6.1, 6.2, 6.3, **6.4 (the audit)** | **Complete (27 Aug 2026)** — raised by Lucas, not by the plan: the rendered sheets were "colorless green ideas sleeping furiously", every part well-formed and the whole meaningless. A door had no wall, no position and no rank; the renderers invented what the record could not say and dropped what it could; nothing checked that you could walk from the front door to a room |
-
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
@@ -49,7 +48,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
    names the items that are **not supportable from this corpus**, the Baroque curved wall first
    among them — no figure for an undulating elevation exists in any of the 22 matching nodes. Then **WP-4.4** (images), which is currently
    environment-blocked — see its own status block.
-7. **Phase 5** — the last mile: WP-5.1, 5.2 and 5.5 are done; 5.3 and 5.4 remain.
+7. **Phase 5** — the last mile: WP-5.1, 5.2, 5.5, 5.6 and 5.7 are done; 5.3 and 5.4 remain.
 
 **Three open questions want a ruling before or alongside WP-4.6** *(since closed — OQ 62, OQ 63 and OQ 42 all carry rulings as of 25 Aug 2026; kept as written for the record)*, all raised by the pass above
 and none of them blocking: **OQ 62** (`area_weight` is read as a boolean and never as a share of
@@ -558,6 +557,76 @@ Built: a hand-rolled hash router and a fourth external store (`state/nav.js`); `
 Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workbench.md` (new "Navigation and addressing" section) · new open questions: OQ 64, 65.
 
 **Depends on:** WP-5.2. **Size:** large.
+
+### WP-5.7 The atlas, and the shell's proportions
+
+**Status: COMPLETE (26 Aug 2026).** Raised by Lucas against a screenshot of the map reading,
+zoomed in: *"the map is VERY crude and doesn't take well to zooming in since the resolution
+does not scale up as you zoom in"*, with three affordances asked for in the same breath — a
+button to make the atlas temporarily full screen, collapse/expand on both the rail and the
+left navigation, and windows adjustable by pulling at the margins. All four are built.
+
+**The crudeness was two defects wearing one symptom.** The first was not resolution at all:
+`vectorEffect="non-scaling-stroke"` was set on the `<g>` wrapping the land paths and on the
+`<g>` wrapping the lineage arcs, and **`vector-effect` is not an inherited property** — so a
+`strokeWidth` of 0.7 was 0.7 DEGREES of ink and an arc's 1.5 was about a hundred miles. At the
+home view that is two or three pixels and looks deliberate; at the six degrees the old `MIN_W`
+allowed it is a seventy-pixel shoreline, which is the band in the screenshot. Third instance in
+this codebase of a per-element SVG property set somewhere it does not reach, so the e2e walk
+asserts the general form rather than the case. The second was real: one outline —
+Natural Earth 110m at 0.55° of simplification, 888 points — held at every scale. There are
+three now (`workbench/scripts/make_coastlines.py`, `surfaces/phylo/coastTiers.js`): coarse
+110m eagerly, medium 50m below 70° of longitude, fine 10m below 16°, the finer two as dynamic
+imports so a reader who never zooms never pays for them. **The honesty the tiers needed:** while
+a finer tier is in flight, or if it failed, the legend says what is on the plate rather than
+letting a facet pass for a shore. `MIN_W` is 3° because that is what 10m data can honestly
+carry. Rings are culled by generated bounding boxes, the graticule steps with the scale, and
+the wheel handler is native and non-passive (React's passive `onWheel` meant the page scrolled
+while the map zoomed).
+
+**The shell:** `state/layout.js`, a fifth external store — pane width and fold per pane, in
+localStorage, deliberately not in the URL. **Eight panes**: the two rails, the Phylogeny's
+record, and the five surface index panels that were fixed numbers in their own JSX (330, 340,
+430, 250, 360), all wrapped by `components/PullPane.jsx`. The five pull but do not fold, and
+`PANES.foldable` says so — folding is right for chrome and wrong for a subject; a Fault Corpus
+with the fault list folded away is not a decluttered Fault Corpus, it is a broken one. Both
+rails and the Phylogeny's record fold to a 26px spine (never to nothing — a fold whose opener is elsewhere is a trapdoor) and pull
+(`components/Splitter.jsx`: a real `role="separator"`, pointer-captured, arrows to nudge, Home
+to reset, ten pixels of grab over a one-pixel rule). Widths clamp on READ as well as on write,
+so a width stored on a 2560px display cannot strand the nav on a laptop. `[` and `]` join the
+key map with the reason written down. Full screen takes the masthead and both rails and asks
+the browser for its own as well; `layout.full` is the one piece of layout state that is not
+persisted, which is what "temporarily" means.
+
+**Found while building:** the delta encoder dropped a separator that was only safe after a
+number carrying a decimal point, which would have shipped a displaced coastline — caught by a
+test that parses the deltas back rather than pattern-matching the bytes; the graticule's step
+rule shipped inverted inside this package and drew no lines at all at the zooms just made
+reachable — caught by a browser probe counting elements, and pinned now; the map's legend was
+taking 395px of an 860px window, so the drawing got less than half its own surface.
+
+**Then audited adversarially, and the audit is the more useful half.** Four independent
+read-only passes -- edge cases, test meaningfulness, second-order risk, second occurrences of
+each fixed pattern -- plus browser probes. **Eleven of the package's forty-three new
+assertions passed on the code they were written to guard.** Six findings blocked deployment
+and all six are fixed: the guard against the headline `vector-effect` bug could not detect
+it (it filtered on an attribute the bug's own shape does not carry, so reverting the fix left
+it green); `Splitter`'s keyboard support was written, documented in three places and never
+attached; the atlas culled land and cut the graticule to the viewBox while the SVG painted
+27.8 degrees outside it, so South America vanished from the home view and a wheel zoom
+drifted 3.12 degrees; a moment of a narrow window permanently destroyed every stored pane
+width; below 900px the two rails ate the whole window and the canvas was zero pixels wide;
+and below 900px every resize event wrote localStorage and re-rendered the shell for no
+change. The three unit suites were rewritten against a mutation harness rather than re-read
+-- the fine coastline tier could be replaced wholesale by the coarse tier with all 36 tests
+green -- and rewriting one of them found a real bug in the shipped code: the graticule's
+"does not drift" rounding recovers the right multiple and then puts the error straight back,
+because `3 * 0.2` is 0.6000000000000001.
+
+Report: `docs/reports/wp-5.7-the-atlas-and-the-shell.md` (§ the adversarial audit) · new open
+question: OQ 72.
+
+**Depends on:** WP-5.2, WP-5.6. **Size:** medium.
 
 A structured transcription form (HTML) that produces a plan record from a drawing by tracing, and a DXF importer that reads a drafter's plan into a record. This is what lets HABS drawings, the reference corpus, and a builder's back catalogue flow into the critic.
 

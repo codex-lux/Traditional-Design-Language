@@ -83,7 +83,7 @@ should become a fault — `evenly-distributed-ornament`, with `italian-renaissan
 open; the fault layer would first need a way to see ornament *zones*, which `elevation.py` does not
 model.
 
-## A room is not sized by its furniture (OQ 73, ruled 27 August 2026)
+## A room is not sized by its furniture (OQ 79, ruled 27 August 2026)
 
 The room catalogue carries 278 furniture items with real footprints and clearances, and 60
 `critical_dimension` notes — 22 of them stating an arithmetic that derives a minimum from the

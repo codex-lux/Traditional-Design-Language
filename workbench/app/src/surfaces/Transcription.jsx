@@ -18,6 +18,7 @@ import { draftDoc, emptyDraft, completeness, toRecord, exteriorWalls, neighbours
   from '../state/draftDoc.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip } from '../Chrome.jsx';
+import { PullPane } from '../components/PullPane.jsx';
 
 const SNAP = 0.5;
 const snap = (v) => Math.round(v / SNAP) * SNAP;
@@ -455,8 +456,8 @@ export function Transcription({ go }) {
           </div>
         </div>
 
-        <div style={{ width: 360, flex: 'none', borderLeft: '1px solid var(--rule)',
-          overflow: 'auto', padding: '14px 16px 40px' }}>
+        <PullPane pane="transcription" side="right"
+          style={{ borderLeft: '1px solid var(--rule)', overflow: 'auto', padding: '14px 16px 40px' }}>
           <Eyebrow>the record</Eyebrow>
           <div style={row}>
             <Field name="id" value={draft.meta.id} onChange={(v) => meta('id', v)} />
@@ -564,7 +565,7 @@ export function Transcription({ go }) {
                   'the full critique lives on the bench (⑦)'}
             </p>
           )}
-        </div>
+        </PullPane>
       </div>
     </div>
   );

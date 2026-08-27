@@ -14,6 +14,8 @@
 import React from 'react';
 import { ToolTrace } from './ToolTrace.jsx';
 import { citeHref } from '../router.js';
+import { layout } from '../state/layout.js';
+import { FoldControl } from '../Chrome.jsx';
 
 const EYE = {
   font: 'var(--type-eyebrow)',
@@ -112,21 +114,32 @@ function AssistantTurn({ turn, onCite }) {
 }
 
 function AiRail({ turns, onCite, onSend, placeholder, width, style, toolCount }) {
+  /* The rail's own width, pulled from the shell's layout store rather than a token, so
+     the splitter on its left edge and the aside itself cannot disagree about it.
+
+     The `width` prop still wins where one is passed. NOTHING PASSES ONE — `RailHost` is
+     the only mount site — and the comment here used to claim "the shortcut card and the
+     tests mount this at a fixed size", which an audit found to be true of neither. The
+     escape hatch is kept because a fixed-width mount is a reasonable thing to want; the
+     claim that something already does it is not kept. */
+  const pulled = React.useSyncExternalStore(layout.subscribe, () => layout.width('rail'));
   return (
     <aside aria-label="the rail — ask the corpus"
-      style={{ width: width || 'var(--rail-ai)', flex: 'none', display: 'flex',
+      style={{ width: width || pulled, flex: 'none', display: 'flex',
         flexDirection: 'column', borderLeft: '1px solid var(--rule)', background: 'var(--paper)',
         minHeight: 0, ...style }}>
 
       <header style={{ height: 'var(--substrip-h)', flex: 'none', display: 'flex',
-        alignItems: 'center', justifyContent: 'space-between', padding: '0 12px',
+        alignItems: 'center', gap: 10, padding: '0 6px 0 12px',
         borderBottom: '1px solid var(--rule)' }}>
         <span style={EYE}>the rail</span>
+        <span style={{ flex: 1 }} />
         {/* Counted by the server, which is the only thing that knows. Absent rather than
             guessed while /api/health is still in flight. */}
         <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>
           {toolCount == null ? '' : `${toolCount} tools`}
         </span>
+        <FoldControl pane="rail" label="the rail" side="right" />
       </header>
 
       <div style={{ flex: 1, overflow: 'auto', padding: 12, display: 'flex',

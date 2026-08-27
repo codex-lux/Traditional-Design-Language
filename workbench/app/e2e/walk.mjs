@@ -7,6 +7,9 @@ let chromium;
 try { ({ chromium } = require('playwright')); }
 catch { ({ chromium } = require('/opt/node22/lib/node_modules/playwright')); }
 import { existsSync, mkdirSync } from 'node:fs';
+// The pane table, so this file is not a second authority over numbers the store owns —
+// which is the sin `--rail-left` was deleted for.
+import { PANES } from '../src/state/layout.js';
 
 const BASE = process.env.WB_URL || 'http://127.0.0.1:8177';
 const SHOTS = new URL('./shots/', import.meta.url).pathname;
@@ -21,6 +24,26 @@ const browser = await chromium.launch(EXEC ? { executablePath: EXEC } : {});
 const page = await browser.newPage({ viewport: { width: 1680, height: 1000 } });
 const failures = [];
 const check = (name, cond) => { if (!cond) failures.push(name); console.log(cond ? ' ok ' : 'FAIL', name); };
+
+/* A 429 must announce itself, not surface as a selector timeout thirty seconds later.
+
+   The server allows 60 composing/checking calls an hour PER IDENTITY (HEAVY_CALLS_PER_HOUR
+   in workbench/server/limits.py), and this walk spends several of them — so running it
+   repeatedly against one server, which is exactly what iterating on it looks like,
+   eventually exhausts the budget. What that looked like was `waitForSelector('svg[role=
+   "img"]')` timing out on the Plan Workbench: a failure that reads as a broken sheet and is
+   a spent quota. The limiter already says so honestly in its response body; nothing was
+   listening. Restarting the server resets the window. */
+let limited = null;
+page.on('response', (r) => {
+  if (r.status() === 429 && !limited) {
+    limited = r.url();
+    console.log('\nRATE LIMITED by the workbench server at ' + limited);
+    console.log('  This walk is not failing on the code. The server allows 60 heavy calls');
+    console.log('  an hour per identity and this run has spent them — restart the server');
+    console.log('  (or wait for the window) and run again.\n');
+  }
+});
 
 await page.goto(BASE, { waitUntil: 'networkidle' });
 const overview = await (await fetch(BASE + '/api/overview')).json();
@@ -101,6 +124,47 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
   }
 }
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
+// WP-5.7: every surface's index panel pulls, not just the shell's rails. The findings
+// column was 430px written into the JSX and chosen against one window.
+{
+  const sep = page.locator('[role="separator"][aria-label="resize the findings"]');
+  check('the findings column has a pullable margin', await sep.count() === 1);
+  const box = await sep.boundingBox();
+  await page.mouse.move(box.x + 5, box.y + 200);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 95, box.y + 200, { steps: 10 });
+  await page.mouse.up();
+  await page.waitForTimeout(250);
+  const moved = (await sep.boundingBox()).x - box.x;
+  check(`pulling the findings column widens it (${Math.round(moved)}px)`, moved > 60);
+  /* And it must NOT fold: a Plan Workbench with its findings folded away is not a
+     decluttered workbench, it is a broken one.
+
+     MEASURED BY WIDTH, because that is the only thing that differs. `PullPane` never reads
+     `collapsed`, so a folded pane renders a byte-identical DOM — the separator is still
+     there and "could not evaluate" is still there — and the original version of this check,
+     which asserted exactly those two things, stayed green with BOTH foldable guards deleted.
+     Folded leaves the width where it was; clamped puts it at the pane's floor. */
+  const findingsW = () => page.evaluate(() => {
+    const s = document.querySelector('[role="separator"][aria-label="resize the findings"]');
+    return s.parentElement.previousElementSibling.getBoundingClientRect().width;
+  });
+  const wide = await findingsW();
+  const grab = await sep.boundingBox();               // re-measured: the pane just moved
+  await page.mouse.move(grab.x + grab.width / 2, grab.y + 200);
+  await page.mouse.down();
+  await page.mouse.move(grab.x - 500, grab.y + 200, { steps: 14 });
+  await page.mouse.up();
+  await page.waitForTimeout(250);
+  const narrow = await findingsW();
+  check(`a surface's own index clamps at its floor rather than folding `
+    + `(${Math.round(wide)} → ${Math.round(narrow)}, floor ${PANES.workbench.min})`,
+    Math.abs(narrow - PANES.workbench.min) < 3);
+  await sep.dblclick();
+  await page.waitForTimeout(250);
+  check('and double-click puts it back',
+    Math.abs(await findingsW() - PANES.workbench.def) < 3);
+}
 // Not "a toolbar rendered": the loupe has to make the drawing bigger. Measured on the
 // sheet's own SVG, before and after two steps of the ladder.
 const sheetBox = () => page.evaluate(() => {
@@ -518,6 +582,26 @@ check('drawing set: the disclosure states the unjudged rule, not a borrowed coun
   /absent from the measurements rather than reported as zero/i.test(ds));
 check('drawing set: no per-style fault count is printed as if it were universal',
   !/\b\d+ of the \d+ applicable/i.test(ds));
+{
+  /* The sheet's own declared ground must survive being embedded. It did not: the fit was
+     injected as a SECOND `style` attribute before the element's own, so the parser kept
+     the injected one and silently dropped `style="background:…"` that every Python
+     renderer writes. Invisible only because what showed through happened to be a
+     near-identical vellum, and one theme change from dark ink on a dark ground. */
+  const g = await page.evaluate(() => {
+    const svg = document.querySelector('.plate-fit > svg');
+    if (!svg) return null;
+    const head = svg.outerHTML.slice(0, svg.outerHTML.indexOf('>') + 1);
+    return { dup: (head.match(/style=/g) || []).length,
+             bg: getComputedStyle(svg).backgroundColor,
+             fits: svg.getBoundingClientRect().width
+               <= svg.parentElement.getBoundingClientRect().width + 1 };
+  });
+  check('drawing set: the sheet carries one style attribute, not two', g && g.dup === 1);
+  check(`drawing set: its declared ground actually applies (${g && g.bg})`,
+    g && g.bg !== 'rgba(0, 0, 0, 0)');
+  check('drawing set: and the sheet still fits its column', g && g.fits);
+}
 await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
 // A sheet kind is one of a set, so it is a radio now, not a button — the chips that pick
 // between alternatives say so to a screen reader since WP-5.6.
@@ -702,6 +786,229 @@ check('a hearth on the map can be clicked',
 check('? explains the keys and the addressing', /kind:id/.test(card) && /⌘K/.test(card));
 await page.keyboard.press('Escape');
 
+// ── WP-5.7: the shell's proportions, and an atlas that sharpens ────────────────
+// The report that started it: "the map is VERY crude and doesn't take well to zooming in
+// since the resolution does not scale up as you zoom in." Two separate causes, both
+// pinned here, plus the three affordances asked for in the same breath.
+await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'networkidle' });
+await page.waitForTimeout(1800);
+
+/* (1) The pen was scaled with the drawing: `vector-effect` does not inherit, so it was on
+   the <g> and reached none of the paths, and a 0.7-unit coastline was 0.7 DEGREES of ink.
+
+   THIS READS COMPUTED STYLE, AND THE FIRST VERSION DID NOT — which made it inert against
+   the exact defect it names. It filtered on `el.getAttribute('stroke-width')`, but
+   `stroke-width` IS inherited: the coastline paths and the graticule lines take theirs
+   from their <g> and carry no attribute of their own, so both were dropped from the
+   population before the vector-effect test ever ran. Reverting the fix left it reporting
+   zero. Only the resolved value distinguishes the two shapes, because "does not inherit"
+   is a statement about resolution. Verified against a reconstruction of both. */
+async function penCheck(where) {
+  const r = await page.evaluate(() => {
+    const svgs = [...document.querySelectorAll('main svg')];
+    let stroked = 0;
+    const bad = [];
+    svgs.forEach((svg) => {
+      // a scalable drawing is one whose user units are not pixels
+      if (!svg.getAttribute('viewBox')) return;
+      svg.querySelectorAll('path,line,circle,rect,polyline,polygon,ellipse,polygon').forEach((el) => {
+        const c = getComputedStyle(el);
+        if (!c.stroke || c.stroke === 'none' || !(parseFloat(c.strokeWidth) > 0)) return;
+        // a mark inside a <pattern> is deliberately in model units — the hatch spacing is
+        // a measurement, not a pen — and is the one exemption.
+        if (el.closest('pattern')) return;
+        stroked += 1;
+        if (c.vectorEffect !== 'non-scaling-stroke') bad.push(el.tagName + ':' + (el.getAttribute('class') || ''));
+      });
+    });
+    return { stroked, bad: bad.slice(0, 6), n: bad.length };
+  });
+  // Assert the DENOMINATOR too: a guard whose population is empty passes on anything.
+  check(`${where}: the guard actually inspects marks (${r.stroked} stroked)`, r.stroked > 0);
+  check(`${where}: no stroked mark scales its own pen with the view${r.n ? ' — ' + r.bad.join(', ') : ''}`,
+    r.n === 0);
+}
+await penCheck('the atlas');
+
+// (2) The outline itself gains detail. Zoom in and the tier the map is drawing must
+// change — and it must SAY which one, so a coarse coastline is never passed off as a
+// fine one.
+const atHome = await page.locator('main').innerText();
+check('the atlas names the outline it is drawing and how much it can show',
+  /Coastline · land-110m\.json/.test(atHome) && /simplified at 0\.35°/.test(atHome));
+{
+  const svg = await page.locator('main svg[role="img"]').boundingBox();
+  for (let i = 0; i < 14; i += 1) {
+    await page.mouse.move(svg.x + svg.width * 0.78, svg.y + svg.height * 0.35);
+    await page.mouse.wheel(0, -200);
+    await page.waitForTimeout(60);
+  }
+  await page.waitForTimeout(2500);       // the fine tier is a fetched chunk
+  const zoomed = await page.locator('main').innerText();
+  check('zooming in fetches an outline that can carry the scale',
+    /land-10m\.json/.test(zoomed) && /simplified at 0\.012°/.test(zoomed));
+  // and the grid does not vanish at the zooms that were just made reachable
+  const grid = await page.locator('main svg[role="img"] line').count();
+  check(`the graticule follows the scale rather than disappearing (${grid} lines)`,
+    grid >= 5 && grid <= 40);
+}
+{
+  /* THE PLATE AND THE VIEWBOX ARE THE SAME RECTANGLE. They were not: the svg had no
+     `preserveAspectRatio`, so `meet` painted 27.8 degrees of latitude above and below the
+     box while the new cull and the new graticule were both cut TO the box — South America
+     vanished from the home view because its bounding box misses the viewBox and not the
+     paper, and the grid ended short of the edge of the plate. One mismatch, three defects.
+     Asserting the two rectangles agree is what stops all three coming back. */
+  await page.locator('main').getByRole('button', { name: 'reset the view' }).click();
+  await page.waitForTimeout(700);
+  const m = await page.evaluate(() => {
+    const svg = document.querySelector('main svg[role="img"]');
+    const r = svg.getBoundingClientRect();
+    const vb = svg.getAttribute('viewBox').split(/\s+/).map(Number);
+    const g = [...svg.querySelectorAll('g')].find((x) => x.getAttribute('fill') === 'var(--paper-deep)');
+    const par = [...svg.querySelectorAll('line')].filter((l) => l.getAttribute('y1') === l.getAttribute('y2'));
+    return { pane: r.width / r.height, box: vb[2] / vb[3], vbW: vb[2],
+             land: g ? g.children.length : 0,
+             gratSpan: par.length ? Math.abs(+par[0].getAttribute('x2') - +par[0].getAttribute('x1')) : 0,
+             southern: g ? [...g.children].some((pa) => { const b = pa.getBBox(); return b.y + b.height > 20 && b.width > 20; }) : false };
+  });
+  check(`the viewBox has the pane's own shape, so nothing is letterboxed `
+    + `(${m.pane.toFixed(3)} vs ${m.box.toFixed(3)})`, Math.abs(m.pane - m.box) < 0.01);
+  check(`the graticule spans the whole plate (${m.gratSpan} of ${m.vbW})`,
+    Math.abs(m.gratSpan - m.vbW) < 0.01);
+  /* Bounded on BOTH sides. Too few means the cull is dropping land the plate paints —
+     the regression this block exists for. Too many means the tier choice has swung the
+     other way and a hemisphere view is mounting the 10m outline it fetched earlier, which
+     is 827 rings and one 25,000-point path for a drawing nobody can tell apart at 0.134
+     degrees per pixel. Both were live at some point in this package. */
+  check(`land that the plate paints is drawn, and no more (${m.land} rings at the home view)`,
+    m.land >= 30 && m.land <= 120 && m.southern);
+}
+
+// (3) Full screen: the atlas takes the window, and escape gives the instrument back.
+// The rail's presence is asserted BEFORE it is asserted absent — the two fold checks below
+// are both `=== 0`, and would pass together if the rail simply stopped rendering here.
+check('the rail is on this surface to begin with',
+  await page.locator('aside[aria-label*="the rail"]').count() === 1);
+await page.getByRole('button', { name: /full screen/i }).click();
+await page.waitForTimeout(500);
+check('full screen takes the masthead and both rails',
+  await page.locator('nav[aria-label="surfaces"]').count() === 0
+  && await page.locator('aside[aria-label*="the rail"]').count() === 0);
+{
+  /* IN THE VIEWPORT, not merely in the DOM. `innerText` includes text inside a scrolled
+     `overflow-y: auto` container, so the original textual check passed on exactly the
+     shipped defect it was written for — the exit control sitting 1,256px below the
+     bottom of the legend's scroller. A way out that can be scrolled away is not a way out,
+     and a check that reads innerText cannot tell the difference. */
+  const exit = page.getByRole('button', { name: /leave full screen/i }).first();
+  check('and says how to leave', await exit.count() === 1);
+  const box = await exit.boundingBox();
+  const vp = page.viewportSize();
+  check(`and the way out is on screen (${box ? Math.round(box.y) : '?'} of ${vp.height})`,
+    !!box && box.y >= 0 && box.y + box.height <= vp.height && box.x >= 0);
+}
+await page.screenshot({ path: SHOTS + 'phylogeny-map-full.png' });
+/* Switching the READING while full used to strand the reader: the exit chip lived only in
+   MapView, so pressing `tree` unmounted the one visible way out while the chrome stayed
+   hidden. The strip survives both readings, so the control belongs to the strip. */
+await page.locator('main').getByRole('radio', { name: 'tree' }).click();
+await page.waitForTimeout(700);
+check('switching the reading in full screen keeps a visible way out',
+  await page.locator('nav[aria-label="surfaces"]').count() === 0
+  && await page.getByRole('button', { name: /leave full screen/i }).first().isVisible());
+await page.locator('main').getByRole('radio', { name: 'map' }).click();
+await page.waitForTimeout(700);
+await page.keyboard.press('Escape');
+await page.waitForTimeout(500);
+check('escape gives the instrument back',
+  await page.locator('nav[aria-label="surfaces"]').count() === 1);
+// ⌘K still works in full screen, and a jump out of the atlas used to carry the
+// chrome-less shell onto a surface with no control to leave it by.
+await page.getByRole('button', { name: /full screen/i }).click();
+await page.waitForTimeout(400);
+await page.goto(BASE + '/#/kit', { waitUntil: 'networkidle' });
+await page.waitForTimeout(1200);
+check('leaving the atlas leaves full screen with it, not a shell with no way out',
+  await page.locator('nav[aria-label="surfaces"]').count() === 1);
+await page.goto(BASE + '/#/phylogeny/tidewater-georgian?view=map', { waitUntil: 'networkidle' });
+await page.waitForTimeout(1500);
+
+// (4) Both rails fold, from the keyboard, and a fold leaves a way back rather than a hole.
+await page.keyboard.press('[');
+await page.keyboard.press(']');
+await page.waitForTimeout(300);
+check('[ and ] fold the surface list and the rail away',
+  await page.locator('nav[aria-label="surfaces"]').count() === 0
+  && await page.locator('aside[aria-label*="the rail"]').count() === 0);
+check('a folded pane leaves a spine to bring it back, not a trapdoor',
+  await page.getByRole('button', { name: /show the surface list/i }).count() === 1
+  && await page.getByRole('button', { name: /show the rail/i }).count() === 1);
+await page.screenshot({ path: SHOTS + 'phylogeny-map-folded.png' });
+await page.getByRole('button', { name: /show the surface list/i }).click();
+await page.getByRole('button', { name: /show the rail/i }).click();
+await page.waitForTimeout(300);
+check('and the spine brings it back', await page.locator('nav[aria-label="surfaces"]').count() === 1);
+
+// (5) The margins pull. A width the reader chose has to survive a reload, or it is a
+// gesture rather than a setting.
+{
+  const navW = () => page.locator('nav[aria-label="surfaces"]').evaluate((e) => e.getBoundingClientRect().width);
+  const before = await navW();
+  const sep = page.locator('[role="separator"][aria-label*="surface list"]');
+  check('the margin between the panes is a real separator', await sep.count() === 1);
+  /* AND IT ANSWERS KEYS. The original check counted the element and stopped there — and
+     `onKeyDown` was written, documented in the component header, in docs/workbench.md and
+     in the package report, and never attached to the element. A focusable role="separator"
+     that announces aria-valuenow and then swallows every key is worse for a keyboard user
+     than one that is not focusable at all, and this is the check that was meant to catch
+     it. Drive the keys and measure the pane. */
+  await sep.focus();
+  check('and it takes focus', await sep.evaluate((e) => e === document.activeElement));
+  const kb0 = await navW();
+  for (let i = 0; i < 4; i += 1) await page.keyboard.press('ArrowRight');
+  await page.waitForTimeout(200);
+  const kb1 = await navW();
+  check(`arrow keys resize the pane (${Math.round(kb0)} → ${Math.round(kb1)})`, kb1 > kb0 + 20);
+  await page.keyboard.press('ArrowLeft');
+  await page.keyboard.press('ArrowLeft');
+  await page.waitForTimeout(200);
+  const kb2 = await navW();
+  check(`and go back the other way (${Math.round(kb1)} → ${Math.round(kb2)})`, kb2 < kb1);
+  await page.keyboard.down('Shift');
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.up('Shift');
+  await page.waitForTimeout(200);
+  check('shift strides further than an arrow nudges',
+    (await navW()) - kb2 > (kb1 - kb0) / 4 + 8);
+  await page.keyboard.press('Home');
+  await page.waitForTimeout(200);
+  check(`Home returns it to its shipped width (${PANES.nav.def})`,
+    Math.abs((await navW()) - PANES.nav.def) < 3);
+  const box = await sep.boundingBox();
+  await page.mouse.move(box.x + box.width / 2, box.y + 200);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 110, box.y + 200, { steps: 12 });
+  await page.mouse.up();
+  await page.waitForTimeout(300);
+  const after = await page.locator('nav[aria-label="surfaces"]').evaluate((e) => e.getBoundingClientRect().width);
+  check('pulling the margin widens the pane', after > before + 60);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForTimeout(1200);
+  const kept = await page.locator('nav[aria-label="surfaces"]').evaluate((e) => e.getBoundingClientRect().width);
+  check('and the width the reader chose survives a reload', Math.abs(kept - after) < 3);
+  // put it back, so the screenshots the rest of this walk takes are the shipped layout
+  await page.locator('[role="separator"][aria-label*="surface list"]').dblclick();
+  await page.waitForTimeout(300);
+  check('double-clicking the margin returns the pane to its shipped width',
+    Math.abs(await navW() - PANES.nav.def) < 3);
+}
+
 await browser.close();
+if (limited) {
+  console.error('\nCOULD NOT EVALUATE: the server rate-limited this run (429 at ' + limited
+    + '). Restart it and run again — an unjudged walk is not a green one.');
+  process.exit(3);
+}
 if (failures.length) { console.error('\nFAILED:', failures); process.exit(1); }
 console.log('\nE2E WALK GREEN');

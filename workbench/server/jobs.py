@@ -2,6 +2,7 @@
 reports through an event queue the SSE endpoint drains. Results (with full plans)
 are held in memory for 30 minutes; the server holds no other state.
 """
+import asyncio
 import json
 import queue
 import threading
@@ -102,8 +103,7 @@ def _validate_brief(brief):
         return {"error": "could not validate: the jsonschema package is not installed",
                 "detail": "pip install -r workbench/requirements.txt"}
     try:
-        schema = json.load(open(os.path.join(corpus.ROOT, "schema", "brief.schema.json")))
-        jsonschema.validate(brief, schema)
+        jsonschema.validate(brief, core.schema("brief"))  # one shared parse, not one per submit
     except jsonschema.ValidationError as e:
         return {"error": "brief does not match the brief schema", "detail": str(e)[:400],
                 "hint": "the minimum is style and target_area_sf"}
@@ -129,37 +129,123 @@ def candidate_plan(job_id, n):
     return cands[n].get("plan")
 
 
-def events(job_id):
-    """Generator of SSE lines for one job.
+# How long the consumer sleeps between drains of the queue, and how many of those sleeps
+# make up one heartbeat interval. 50 ms is well under what a reader can see on a progress
+# line, and the heartbeat stays at the 1 s it has always been.
+_POLL_S = 0.05
+_HEARTBEAT_EVERY = 20
+
+
+async def events(job_id):
+    """ASYNC generator of SSE lines for one job.
 
     The per-job queue is single-consumer: whichever stream drains an event owns
     it. A second consumer (a reconnect, a second tab, React StrictMode's double
     mount) can therefore find the queue empty — so a finished job always closes
     with a synthetic terminal event from the job's own state, and a late attach
-    on a finished job gets its result rather than a silent stream."""
+    on a finished job gets its result rather than a silent stream.
+
+    ASYNC, and that is the whole point of the shape below. This used to be a sync
+    generator whose loop blocked on `job.events.get(timeout=1.0)`. Starlette wraps a
+    sync iterator in `iterate_in_threadpool`, which spends one anyio threadpool token
+    per `next()` — and because that `next()` was a blocking OS wait, an open compose
+    stream held a token for its ENTIRE life rather than for the instant it took to
+    produce a line. The default limiter is 40 tokens for the whole application, so
+    roughly forty readers watching a compose starved every sync `def` endpoint in the
+    server, /api/health included — which is the endpoint the platform healthcheck polls,
+    so the symptom would have been the container being restarted under load rather than
+    anything that pointed at SSE. Measured before and after in
+    docs/reports/infrastructure-audit.md.
+
+    The queue stays a thread-safe `queue.Queue` and is NOT an asyncio.Queue: the compose
+    worker puts to it from a plain thread, and often before any consumer has attached at
+    all, so the buffer has to exist independently of a loop. So the consumer drains it
+    without blocking and awaits between drains, which holds no thread.
+    """
     job = _JOBS.get(job_id)
     if not job:
         yield _sse("error", {"error": "unknown job"})
         return
     _reap()
     saw_terminal = False
+    idle = 0
     while True:
         if job.status in ("done", "error") and job.events.empty():
             break
         try:
-            ev = job.events.get(timeout=1.0)
+            ev = job.events.get_nowait()
         except queue.Empty:
-            yield ": heartbeat\n\n"
+            await asyncio.sleep(_POLL_S)
+            idle += 1
+            if idle >= _HEARTBEAT_EVERY:
+                idle = 0
+                yield ": heartbeat\n\n"
             continue
+        idle = 0
         yield _sse(ev["event"], ev["data"])
         if ev["event"] in ("done", "error"):
             saw_terminal = True
             break
     if not saw_terminal and job.status in ("done", "error"):
         if job.status == "done" and job.result is not None:
-            yield _sse("done", _strip_plans(job.result))
+            # OFF the loop. _strip_plans is core.copy_json — a json.dumps+loads over the whole
+            # result INCLUDING every candidate plan — and making this generator async moved it
+            # from a threadpool thread onto the event loop, where a 24-candidate compose blocks
+            # every other request for the duration. The late-attach path is common by design
+            # (a reconnect, a second tab, React StrictMode's double mount), so this is not rare.
+            yield _sse("done", await asyncio.to_thread(_strip_plans, job.result))
         else:
             yield _sse("error", {"error": job.error or "job failed"})
+
+
+_BRIDGE_END = object()
+
+
+async def bridge_sync_stream(make_iter, poll_s=_POLL_S):
+    """Run a BLOCKING sync generator on its own thread and yield its lines asynchronously.
+
+    For SSE bodies that cannot reasonably be made async. `rail.stream_turn` is the case this
+    exists for: it is a sync generator making blocking Anthropic SDK calls, up to
+    RAIL_MAX_TOOL_ROUNDS + 1 = 9 of them per turn, and Starlette wraps a sync iterator in
+    `iterate_in_threadpool` — one anyio token per next(), held for a whole API round trip.
+    That is the same mechanism `events` above was rewritten to avoid, and the shared pool is
+    40 wide for the entire application.
+
+    Rewriting the rail to AsyncAnthropic would be the tidier fix and was deliberately not
+    taken: rail.py is the one module that spends real money, docs/deployment.md already
+    records its model switch as untested, and no live turn can be run from this environment
+    to prove the rewrite. This moves the blocking work onto a DEDICATED thread instead —
+    which is not drawn from the anyio pool, so it cannot starve /api/health — and leaves
+    rail.py's signature, logic and tests untouched.
+
+    The cost is one OS thread per concurrent rail turn, bounded by RAIL_TURNS_PER_HOUR (20
+    per identity) and RAIL_TURNS_PER_DAY (200 process-wide).
+
+    `make_iter` is a callable returning the generator, not the generator itself: it is
+    invoked ON the worker thread, so any blocking work in its construction stays there too.
+    """
+    q = queue.Queue(maxsize=64)
+
+    def pump():
+        try:
+            for line in make_iter():
+                q.put(line)              # blocks when the reader falls behind, which is
+        except Exception as e:           # backpressure rather than unbounded buffering
+            q.put(_sse("error", {"error": f"{type(e).__name__}: {str(e)[:200]}",
+                                 "honest": True}))
+        finally:
+            q.put(_BRIDGE_END)
+
+    threading.Thread(target=pump, daemon=True).start()
+    while True:
+        try:
+            item = q.get_nowait()
+        except queue.Empty:
+            await asyncio.sleep(poll_s)
+            continue
+        if item is _BRIDGE_END:
+            return
+        yield item
 
 
 def _sse(event, data):

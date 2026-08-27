@@ -8,7 +8,7 @@ Lucas, verbatim: *"room sizing should not be furniture driven — that's the tai
 dog — however furniture arrangements that suit the program / room name and room size should be
 placed accordingly."*
 
-So OQ 73's sizing half is **refused**, not deferred, and it is written into `docs/model.md`.
+So OQ 79's sizing half is **refused**, not deferred, and it is written into `docs/model.md`.
 The room catalogue's 22 `critical_dimension` arithmetics — *"40 + 2(36) + 2(18) = 148 in, so
 12 ft 4 in is the absolute floor"* — stay prose. They are a designer's argument for where a
 band's floor sits, addressed to a person; making one a constraint would let a derived number
@@ -100,7 +100,7 @@ and it **fires** when the walls really are full.
 - **No arrangement beyond a stated wall run.** The corpus states 8 further placement rules in
   prose and **none of them with a figure**, so each would be an editorial call rather than a
   reading of the record. Seating that makes a group, a bed clear of the door swing, a table
-  centred under the fixture: all unbuilt, and named in OQ 73.
+  centred under the fixture: all unbuilt, and named in OQ 79.
 - **No `essential` authoring.** 4 of 278 items carry it; filling in the other 274 is a large
   editorial pass whose only consumer would have been the sizing rule that was just refused.
 
@@ -110,5 +110,5 @@ and it **fires** when the walls really are full.
 from the street door to the house door", "a standing person", "car" — they are clearance
 reservations wearing an item's shape, and they now carry a `placement` value that means nothing
 for them. They were classified `freestanding`, the conservative reading (clearance on both
-sides), which is what the fit check already assumed. Recorded in OQ 73 rather than fixed,
+sides), which is what the fit check already assumed. Recorded in OQ 79 rather than fixed,
 because re-typing them is a data-model question and not this package's.

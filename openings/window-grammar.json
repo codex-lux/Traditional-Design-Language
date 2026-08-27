@@ -2,7 +2,7 @@
  "id": "window-grammar",
  "version": "0.1.0",
  "name": "The window grammar",
- "description": "What KIND of window belongs at an opening, and how many units make it. A sibling of openings/grammar.json and deliberately not part of it: the door grammar's domain is the 1,890 unordered ROOM PAIRS, this one's is the room against the wall it is lit from, and schema/opening-grammar.schema.json locks `opening.type` to the door enum. Plan schema 0.3.0 gave every window unit a `unit_type` field and nothing filled it, because no layer had been given authority to decide (OQ 72).",
+ "description": "What KIND of window belongs at an opening, and how many units make it. A sibling of openings/grammar.json and deliberately not part of it: the door grammar's domain is the 1,890 unordered ROOM PAIRS, this one's is the room against the wall it is lit from, and schema/opening-grammar.schema.json locks `opening.type` to the door enum. Plan schema 0.3.0 gave every window unit a `unit_type` field and nothing filled it, because no layer had been given authority to decide (OQ 78).",
  "kind": "editorial",
  "judgment": true,
  "authority": {

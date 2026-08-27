@@ -886,7 +886,7 @@ _WT_CACHE = {}
 def kit_window_type(style):
     """The SASH KIND the style says, or None if nobody has authored one — never a guess.
 
-    WP-7.3 (OQ 72). The grammar decides a window's ROLE and the kit decides its KIND, and
+    WP-7.3 (OQ 78). The grammar decides a window's ROLE and the kit decides its KIND, and
     neither may answer for the other.
 
     RESOLVED THROUGH THE LINEAGE, not read off the flat kit file, and the difference is the
@@ -1105,7 +1105,7 @@ def derive_openings(plan, style, log):
                    f"canonical height-over-width of 13/6 — the rule that pack's own note calls "
                    f"'THE RULE MODERN PRACTICE HAS ENTIRELY LOST'. Nothing in this system had "
                    f"ever run it: every composed window was 3.2 ft wide in every room.")
-    # --- WP-7.3 (OQ 72): every window unit gets a ROLE from the grammar and a KIND from the
+    # --- WP-7.3 (OQ 78): every window unit gets a ROLE from the grammar and a KIND from the
     # kit, and where the kit has not been authored it gets no kind at all.
     roled = kinded = kindless = 0
     kinds = {}
@@ -1137,7 +1137,7 @@ def derive_openings(plan, style, log):
         log.append(f"{roled} window unit(s) given a ROLE by openings/window-grammar.json — "
                    f"which opening is an ordinary lit window, a high transom band, a borrowed "
                    f"light or a bay. The grammar decides the role and the kit decides the sash "
-                   f"kind; neither may state the other's (OQ 72).")
+                   f"kind; neither may state the other's (OQ 78).")
     if kinded:
         log.append(f"{kinded} unit(s) given a sash kind by the style's own kit: "
                    + ", ".join(f"{k} x{v}" for k, v in sorted(kinds.items())) + ".")

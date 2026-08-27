@@ -4,7 +4,7 @@
 
 ## Why
 
-OQ 76 said the placement generator was blind to the level below, and that no score term could
+OQ 82 said the placement generator was blind to the level below, and that no score term could
 see past that. It was right about the blindness. It was wrong about what the blindness was
 causing, and this package is mostly the story of finding that out.
 
@@ -66,7 +66,7 @@ stacking (cut-lines alone: 30/49; with the bias: 26/49) and netted zero improvem
 baseline. It is kept because it is the right shape and costs nothing, and it is reported as
 having achieved nothing.
 
-**Bearing continuity and declared stacking are two different problems, and OQ 76 conflated
+**Bearing continuity and declared stacking are two different problems, and OQ 82 conflated
 them.** The bearing half is closed for this engine. The stacking half is open and is a
 different mechanism.
 

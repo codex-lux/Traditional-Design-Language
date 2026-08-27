@@ -21,4 +21,11 @@ done
 curl -sf "http://127.0.0.1:$PORT/api/health" >/dev/null || { echo "server never came up" >&2; exit 1; }
 
 cd workbench/app
-WB_URL="http://127.0.0.1:$PORT" node e2e/walk.mjs
+# Exit 3 is the walk's COULD NOT EVALUATE — the server rate-limited the run, so nothing
+# was judged. It is not a pass and it is not a code failure; `set -e` above would already
+# stop the job, and this says which of the two it was.
+WB_URL="http://127.0.0.1:$PORT" node e2e/walk.mjs || {
+  rc=$?
+  [ "$rc" = 3 ] && echo "walk COULD NOT EVALUATE (rate limited) — not a pass" >&2
+  exit $rc
+}

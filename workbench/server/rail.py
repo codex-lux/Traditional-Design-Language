@@ -74,12 +74,40 @@ def set_client_factory(fn):
     _client_factory = fn
 
 
+_POOLED = {}          # api key -> the one client built for it
+
+
 def _client():
     if _client_factory:
         return _client_factory()
     import anthropic
-    # The stripped key, not the raw variable the SDK would otherwise re-read for itself.
-    return anthropic.Anthropic(api_key=key())
+    # POOLED, keyed on the key. This used to construct a client per turn, and every
+    # anthropic.Anthropic() builds its own httpx.Client with its own connection pool — so
+    # each turn paid a fresh TCP handshake and TLS negotiation to api.anthropic.com before
+    # its first token, and dropped the sockets to the garbage collector afterwards. The
+    # eight tool rounds inside one turn already shared a client; nothing shared across
+    # turns, which is the boundary a keep-alive is for.
+    #
+    # Keyed rather than a module singleton so a rotated key still takes effect: key() is
+    # read from the environment at call time everywhere else in this file, deliberately,
+    # and a cached client holding the old one would be the single reader disagreeing with
+    # the rest — the exact collapse rail.key() exists to prevent.
+    k = key()
+    client = _POOLED.get(k)
+    if client is None:
+        # One entry, normally: the key comes from the environment, not from a request, so
+        # nothing a caller does can grow this dict. A rotation in a live process strands the
+        # old client's keep-alive sockets behind a strong reference, so close it on the way
+        # out rather than leaving it to a GC that will never run for a module global.
+        for stale_key, stale in list(_POOLED.items()):
+            _POOLED.pop(stale_key, None)
+            try:
+                stale.close()
+            except Exception:      # noqa: BLE001 — a client we are discarding anyway
+                pass
+        # The stripped key, not the raw variable the SDK would otherwise re-read for itself.
+        client = _POOLED[k] = anthropic.Anthropic(api_key=k)
+    return client
 
 
 SYSTEM = """You are the rail of the Traditional Design Language workbench — a design

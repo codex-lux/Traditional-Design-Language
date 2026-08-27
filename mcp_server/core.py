@@ -771,17 +771,39 @@ def check_plan(plan, strict=False):
         return {"error": "could not validate: the jsonschema package is not installed",
                 "detail": "pip install jsonschema", "unvalidated": True}
     try:
-        jsonschema.validate(plan, json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))))
+        jsonschema.validate(plan, schema("plan"))
     except Exception as e:
         return {"error": "plan does not match the plan schema", "detail": str(e)[:400],
                 "hint": "see schema/plan.schema.json; the minimum is id, name, style and one level with rooms"}
     return pc.check(plan, strict=strict)
 
+@functools.lru_cache(maxsize=8)
+def schema(name):
+    """One parse of schema/<name>.schema.json per process, shared by every caller.
+
+    check_plan re-read and re-parsed plan.schema.json on EVERY call, and check_plan is what
+    /api/plan/evaluate runs behind a 400 ms debounce on every wall drag. Six sites did the
+    same thing with two files. The corpus does not change under a running server — that is
+    the property the search index already leans on — and /api/dev/reload clears this with
+    the rest when it does.
+
+    The returned object is SHARED. jsonschema.validate does not mutate it; a caller who
+    hands it onward should copy_json it first, which is what plan_schema/brief_schema do.
+    """
+    # basename for the same reason load_parti has one, and the irony is recorded rather than
+    # quietly fixed: this helper was added in the very commit that reduced the parti join to a
+    # single sanitised site, and it reintroduced the shape one screen above that docstring. No
+    # caller passes user input today — it is schema("plan") and schema("brief") — so this was
+    # never live. It is one endpoint away from being live, which is the whole argument.
+    safe = os.path.basename(str(name))
+    return json.load(open(os.path.join(ROOT, "schema", f"{safe}.schema.json")))
+
+
 def _load_plan_checker():
     return _mod("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
 
 def plan_schema():
-    return {"schema": json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))),
+    return {"schema": copy_json(schema("plan")),
             "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "plans", "*.json")))],
             "hint": ("A plan is a topology plus approximate dimensions — enough to check, not enough to build. "
                      "Doors imply adjacency in both directions; the validator derives the graph from them. "
@@ -796,7 +818,7 @@ def _composer():
 def compose(brief, candidates=4, include_plans=False):
     try:
         import jsonschema
-        jsonschema.validate(brief, json.load(open(os.path.join(ROOT, "schema", "brief.schema.json"))))
+        jsonschema.validate(brief, schema("brief"))
     except Exception as e:
         return {"error": "brief does not match the brief schema", "detail": str(e)[:400],
                 "hint": "the minimum is style and target_area_sf; see tdl_brief_schema"}
@@ -808,11 +830,20 @@ def compose(brief, candidates=4, include_plans=False):
         res["note"] = "Plans omitted to save context. Call again with include_plans=true for the full records, or pass one to tdl_check_plan."
     return res
 
+@functools.lru_cache(maxsize=1)
+def _all_partis():
+    """The 21 parti records, parsed once. list_partis re-globbed and re-parsed all of them on
+    every call — 0.95 ms of filesystem work per request to /api/partis — which is the same bug,
+    one function over, that corpus.search_index's comment describes fixing. Cleared by
+    corpus.invalidate() with the rest."""
+    return tuple(json.load(open(f))
+                 for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))))
+
+
 def list_partis(style=None, massing=None):
     D = _data()
     out = []
-    for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))):
-        p = json.load(open(f))
+    for p in _all_partis():
         if style and style not in p["styles"]: continue
         if massing and p["massing"] != massing and massing not in p.get("alternate_massings", []): continue
         out.append({"id": p["id"], "name": p["name"], "massing": p["massing"],
@@ -827,7 +858,7 @@ def list_partis(style=None, massing=None):
                      "them rather than searching from noise.")}
 
 def brief_schema():
-    return {"schema": json.load(open(os.path.join(ROOT, "schema", "brief.schema.json"))),
+    return {"schema": copy_json(schema("brief")),
             "examples": [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "briefs", "*.json")))],
             "hint": ("Only style and target_area_sf are required. Everything absent is decided by the "
                      "composer and reported in the decision log as an assumption, not smuggled in as a fact. "
@@ -836,6 +867,32 @@ def brief_schema():
 
 
 # ----------------------------------------------------------------- geometry
+def load_parti(parti):
+    """Read one parti template by id, or None. THE ONLY WAY a caller-supplied parti id
+    may become a path — call this, never build the path yourself.
+
+    basename, because `parti` arrives in a POST body: /api/plan/evaluate, /api/drawings/{kind}
+    and /api/export/{fmt} pass body.get("parti") straight through, so "../schema/plan" read
+    ROOT/schema/plan.json and an ABSOLUTE id won the join outright. The contents are never
+    returned — the file becomes a parti template inside geo.solve — but a caller could still
+    learn which paths exist and hold JSON, from the 500-vs-422 an unreadable one produces.
+
+    This function exists because the first fix did not close the class. It was applied here,
+    in place_plan, with a comment claiming it covered /api/drawings/{kind} — and that endpoint
+    does not come through place_plan at all. workbench/server/corpus.py had its own two copies
+    of the join, both unsanitised, and they stayed that way. Three copies of one rule is the
+    same shape as the citation grammar's three spellings in CLAUDE.md: one implementation,
+    every caller through it, and a test that fails if a fourth copy appears.
+    """
+    if not parti:
+        return None
+    safe = os.path.basename(str(parti))
+    f = os.path.join(ROOT, "partis", f"{safe}.json")
+    if not os.path.exists(f):
+        return None
+    return json.load(open(f))
+
+
 def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     """Place room rectangles in a footprint. Both levels are solved together.
     engine: "auto" (CP-SAT when available — WP-2.3's real solver, with named
@@ -843,17 +900,7 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     workbench uses per edit gesture, where a ~25 s proof per wall drag would
     make the surface unusable — proving is an explicit act there)."""
     geo = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
-    pt = None
-    if parti:
-        # basename, because `parti` arrives in a POST body: /api/plan/evaluate and
-        # /api/drawings/{kind} pass body.get("parti") straight through, so "../schema/plan"
-        # read ROOT/schema/plan.json. Authenticated and the contents are never returned —
-        # the file becomes a parti template inside geo.solve — but it is the one place in the
-        # repo where a user-supplied id becomes a path, and the example-plan handler four
-        # lines away in app.py already does exactly this. Found by an adversarial audit.
-        safe = os.path.basename(str(parti))
-        f = os.path.join(ROOT, "partis", f"{safe}.json")
-        if os.path.exists(f): pt = json.load(open(f))
+    pt = load_parti(parti)
     # OQ 44: the MCP tool takes the reproducible default deliberately and does not expose a way
     # to turn it off. Everything arriving here is a plan somebody will read, keep or compare
     # against another one, and a record that cannot be re-derived is worth less than the seconds

@@ -1,0 +1,10 @@
+# What the workbench's TESTS need, on top of workbench/requirements.txt.
+#
+# Split out because the Dockerfile installs the runtime file wholesale, and pytest and httpx
+# were therefore being built into the production image. Neither is imported by any server
+# module; they are the suite and the TestClient's transport.
+#
+#   pip install -r workbench/requirements.txt -r workbench/requirements-dev.txt
+-r requirements.txt
+pytest>=8               # workbench/server/tests
+httpx>=0.27             # FastAPI TestClient transport

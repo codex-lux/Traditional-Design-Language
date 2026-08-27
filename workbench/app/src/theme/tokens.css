@@ -152,8 +152,13 @@
   --sp-1:2px; --sp-2:4px; --sp-3:6px; --sp-4:8px; --sp-5:12px; --sp-6:16px;
   --sp-7:20px; --sp-8:28px; --sp-9:40px; --sp-10:56px; --sp-11:80px;
 
-  --rail-left:236px;             /* shipped convention */
-  --rail-ai:344px;               /* the AI rail — beside the canvas, never a modal */
+  /* The two rails no longer have a token width, and this note is where the old ones were.
+     They are the reader's now: state/layout.js owns the numbers, PANES declares the
+     default, the floor and the ceiling, and localStorage remembers what was chosen. The
+     shipped defaults — 236 and 344 — live in that table, not here, because a value two
+     places can set is a value two places can disagree about. Do not reinstate a token for
+     either; a stylesheet that also has an opinion about the rail width is the layout bug
+     this file would ship next. */
   --topbar-h:52px;
   --substrip-h:34px;             /* vocabulary filter strip under the topbar */
   --panel-pad:16px;
@@ -441,3 +446,16 @@ hr{border:0;border-top:var(--rule-hair);margin:var(--sp-6) 0}
 ::-webkit-scrollbar-thumb:hover{background:var(--ink-3)}
 
 html,body{height:100%}body{overflow:auto}#root{height:100%;min-width:1380px}input[type=range]{height:14px}
+
+/* A rendered sheet, fitted to its column.
+
+   The rule lives here rather than being injected into the SVG's own tag, and that is the
+   fix rather than the style. `DrawingSet` used to rewrite `<svg ` into
+   `<svg style="max-width:100%;height:auto" ` — and every Python renderer opens with
+   `…viewBox="…" style="background:…">`, so the element carried TWO `style` attributes, the
+   parser kept the first and silently dropped the second, and each sheet's declared ground
+   colour never applied. Same family as the presentation-attribute-loses-to-a-class-rule
+   trap CLAUDE.md records for `render_plan.py`, by duplicate attribute rather than by
+   cascade. A rule on the parent reaches the child and cannot collide with anything the
+   renderer wrote. Found by an adversarial audit of WP-5.7. */
+.plate-fit > svg { max-width: 100%; height: auto; }

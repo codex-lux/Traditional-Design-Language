@@ -467,7 +467,7 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # a score term. WP-7.4 found the actual cause: the charge was being measured against a
     # 250-candidate pool too thin to contain the alternative, and over 2,000 candidates the
     # better-stacking placements are there and keep the porch on the entrance front. The CP
-    # side needed no hard pin at all, so OQ 76's "a stacking constraint outranks every
+    # side needed no hard pin at all, so OQ 82's "a stacking constraint outranks every
     # authored exterior wall" -- true of a pin, which creates an assumption literal and
     # enters conflict cores -- never applied to the penalty that was actually built.
     #
@@ -572,7 +572,7 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # states none, which is where Lucas drew the line between the corpus and the architect.
     #
     # This is an ARRANGEMENT rule and never a sizing one. Room size comes from the program and
-    # the catalogue band, never from the furniture — ruled 27 Aug 2026, OQ 73. A room that
+    # the catalogue band, never from the furniture — ruled 27 Aug 2026, OQ 79. A room that
     # fails this has a window in the wrong place, not a size problem.
     for rid, r in rooms.items():
         g = placed.get(rid)

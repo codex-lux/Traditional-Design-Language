@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check openings/window-grammar.json (WP-7.3, OQ 72).
+"""Check openings/window-grammar.json (WP-7.3, OQ 78).
 
 Seven checks, and the two that matter most are the same two the door grammar's checker
 enforces: every editorial `basis` must quote prose that is really in the record it names, and

@@ -22,6 +22,19 @@ def phylogeny():
 
     dist/taxonomy.json proves the shape is derivable, but it is a build artifact;
     this derives live from the same styles/ files so the picture cannot go stale.
+
+    NOT CACHED, and that is a measurement rather than an oversight. An audit added a
+    module-level cache here on the argument that this was "the same bug as the search
+    index, one endpoint over". It was not, and the cache was 7.8x SLOWER: the rebuild
+    below only walks already-in-memory core._data() and costs 0.23 ms, while returning a
+    cached copy costs 1.79 ms because core.copy_json is json.loads(json.dumps(o)) over
+    157 KB. The endpoint costs 20.79 ms end to end, so the build is 1.1% of it and the
+    rest is FastAPI's encoder — caching the build optimised the one part that was already
+    cheap and added a serialisation round trip to do it.
+
+    search_index() above IS worth caching, and the difference is the point: its rebuild
+    re-globs and re-parses 21 parti files (2.74 ms), and it returns the SHARED object
+    rather than a copy. Measure before imitating it.
     """
     D = core._data()
     taxa, edges = [], []
@@ -354,7 +367,6 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
     """Run the build/ pipeline for one drawing and return its SVG, re-tokenized to
     the Drawn Language. Everything is generated from the record — the same modules
     the CLI drives, to a tempfile, read back, recoloured, never redrawn."""
-    import json as _json
     import os as _os
     import tempfile
 
@@ -362,11 +374,9 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
 
     B = _os.path.join(ROOT, "build")
     plan = core.copy_json(plan)
-    pt = None
-    if parti:
-        f = _os.path.join(ROOT, "partis", f"{parti}.json")
-        if _os.path.exists(f):
-            pt = _json.load(open(f))
+    # core.load_parti, never a join of our own: `parti` is a caller-supplied string from a
+    # POST body and this was one of two unsanitised copies. See core.load_parti's docstring.
+    pt = core.load_parti(parti)
 
     def _tmp():
         fd, p = tempfile.mkstemp(suffix=".svg")
@@ -448,17 +458,13 @@ def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
     a missing optional library, an elevation outside the classical-front
     family — come back stated with `unexported`/`refusal`, never collapsed
     into an empty file."""
-    import json as _json
     import os as _os
     import tempfile
 
     B = _os.path.join(ROOT, "build")
     plan = core.copy_json(plan)
-    pt = None
-    if parti:
-        f = _os.path.join(ROOT, "partis", f"{parti}.json")
-        if _os.path.exists(f):
-            pt = _json.load(open(f))
+    # core.load_parti, never a join of our own — see its docstring.
+    pt = core.load_parti(parti)
     pid = plan.get("id", "plan")
 
     try:
@@ -541,5 +547,13 @@ def invalidate():
     import modcache
     modcache.invalidate()
     core._data.cache_clear()
+    core.schema.cache_clear()          # the parsed plan/brief schemas
+    core._all_partis.cache_clear()     # the 21 parsed parti records
+    # citations' two id sets were missed by the first version of this function, so
+    # /api/dev/reload left a newly added parti uncitable for the life of the process — the
+    # rail would downgrade [[cite:parti:new-one]] to plain text and say nothing.
+    from . import citations
+    citations._parti_ids.cache_clear()
+    citations._constraint_ids.cache_clear()
     reset_search_index()
     return {"reloaded": True}

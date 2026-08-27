@@ -118,12 +118,15 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **35 checks, 1,006 tests**
-(plus the workbench app suite, `node --test`). The test figure was 762 here and had been stale
-for some time -- `check_counts.py` polices counts DERIVED FROM THE CORPUS, and a test count is
-not one of them; nor are numbers written into JSX, which is how the Kit's header claimed 95
-slots against an ontology holding 97.
-
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **32 checks, 907 tests**
+(plus the workbench app suite, **49** under `node --test`). Those figures were 970/36 before the
+infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
+suite of 33 until WP-5.7 read the total; the numbers here are the 27 Aug merge's own measurement
+(`len(check_all.CHECKS)` and `pytest --collect-only`), taken because main and this branch had
+drifted to 33/1,009 and 35/1,006 respectively and NEITHER was right. `check_counts.py` polices
+counts DERIVED FROM THE CORPUS, and neither a test count nor a check count is one of them, so
+**every number in this paragraph goes stale silently** -- nor are numbers written into JSX, which
+is how the Kit's header claimed 95 slots against an ontology holding 97.
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
 parameters now say they are editorial and quote the basis their slot states, so the count of
@@ -158,6 +161,73 @@ undulating elevation. **Read that report's closing section before touching this 
 the four things the package leaves open, chief among them a finding nobody has raised as a question
 yet — five unrelated traditions all say ornament works by being BOUNDED, and it should be tested
 against the whole style graph rather than noticed one pack at a time.
+
+**WP-5.7 changed the shell's proportions and the atlas's resolution, and both are worth
+knowing before touching the workbench.** Raised by Lucas against a screenshot of the map:
+*"the map is VERY crude and doesn't take well to zooming in since the resolution does not
+scale up as you zoom in"*, plus full screen, collapsible rails and draggable margins.
+**The crudeness was two defects wearing one symptom, and the first is the one to remember:
+`vector-effect` is not an inherited property**, so `vectorEffect="non-scaling-stroke"` set on
+a `<g>` reached none of the paths inside it, and the coastline's `strokeWidth={0.7}` was 0.7
+DEGREES of ink -- seventy pixels at the zoom the reader was complaining about. Third instance
+in this codebase of a per-element SVG property set on a parent and ignored; the e2e walk now
+asserts the general form (no stroked mark in the atlas may carry a `stroke-width` without a
+`vector-effect` of its own). The second defect was real too: one outline at every scale. There
+are three now -- `workbench/scripts/make_coastlines.py` generates coarse/medium/fine from
+Natural Earth 110m/50m/10m, `surfaces/phylo/coastTiers.js` fetches the one the scale has
+earned, and **while a finer tier is in flight or has failed the legend says what is actually on
+the plate** rather than letting a facet pass for a shore. `MIN_W` is 3 degrees because that is
+what the finest data can honestly draw, not because of taste. Rings are culled by generated
+bounding boxes; the graticule steps with the scale (`graticule.js`); the wheel handler is
+native and non-passive, because React's passive `onWheel` meant the page scrolled while the
+map zoomed. **A per-element SVG property set on a parent is this codebase's most-repeated bug and the
+guard against it must read COMPUTED STYLE**: the first version of that guard filtered on
+`getAttribute('stroke-width')`, but `stroke-width` IS inherited, so the very marks the bug
+lives on were dropped from the population before the test ran and reverting the fix left it
+green. **The atlas's viewBox now takes the pane's own shape and its height is DERIVED, not
+stored** -- a fixed 134:43 box in a 4:3 pane letterboxed 27.8 degrees of latitude, and the
+ring cull, the graticule and the pointer maths all read the viewBox as though it were the
+plate: South America vanished from the home view and a wheel zoom drifted 3.12 degrees every
+two notches. One mismatch, three defects; do not reintroduce a stored height.
+**`state/layout.js` is a fifth external store** -- pane widths and folds, in
+localStorage, deliberately NOT in the URL, because a citation that carried the sender's rail
+width would be handing the reader the sender's monitor. **It holds TWO numbers per pane** --
+what the reader chose, persisted, and what fits this window, derived -- because the first
+version had one and let a moment of a narrow window overwrite all eight panes' widths
+permanently. **Eight panes pull** — the two rails, the
+Phylogeny's record, and the five surface index panels that were fixed numbers in their own JSX
+(`components/PullPane.jsx`) — and widths clamp on READ as well as on write. Only the first
+three FOLD (`[` and `]`, or the spine): `PANES.foldable` is the difference between chrome and
+subject, and a Fault Corpus with its fault list folded away is not a decluttered Fault Corpus. The atlas can take the whole
+window; `layout.full` is the one piece of layout state that is not persisted, which is what
+"temporarily" means. `--rail-left` and `--rail-ai` are gone from `tokens.css` on purpose -- do
+not reinstate them. **The workbench app's `node --test` suite may not import anything from node_modules.**
+`check_all.py` runs it with no npm install, so a package import there is a green local run
+and a red CI one -- which is exactly what happened to WP-5.7's first audit pass, via
+`coastTiers.js` importing React for one hook. The hook lives in `useCoastline.js` now and
+`src/no_bare_imports.test.mjs` walks the suite's import graph to keep it that way.
+**Four adversarial audits then found eleven of the package's forty-three new assertions
+passing on the code they were written to guard** -- among them the fine coastline tier being
+replaceable wholesale by the coarse one with the suite green, and a documented keyboard
+control that was never wired to its element. Read the report's audit section before adding a
+test here; the suites are now mutation-checked and the harness is worth reusing. Report:
+`docs/reports/wp-5.7-the-atlas-and-the-shell.md` · new open question: OQ 72.
+
+**THE INFRASTRUCTURE AUDIT (27 Aug 2026) measured the deployment for the first time, and the
+headline is that the ceiling is about ONE person, not a handful.** Reading the corpus is
+comfortable for dozens (100-560 rps); **editing a plan is the bound**, because
+`PlanWorkbench.jsx` re-evaluates on a 400 ms debounce and one evaluate costs 338 ms of CPU, so
+one person dragging a wall consumes ~85% of the server's entire evaluate capacity. Two editors
+see 899 ms, four see 2.0 s, eight see 4.2 s. Throughput is FLAT across the whole ladder --
+~2 evaluates and ~4.5 drawings a second whatever the concurrency -- because it is one core,
+fully serialised. `workbench/scripts/load.py` is the harness; run it against a server you
+started, with `HEAVY_CALLS_PER_HOUR` raised, or you measure the rate limiter instead.
+**Four uvicorn workers buy ~4x and break compose five times in six** (measured: 6 jobs
+submitted, 5 answered 404 by a worker that never saw them) -- that is OQ 36, and the audit
+supplies the numbers its ruling was missing. **Storage: ~733 MB image, no volume, no database,
+and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`ortools` and
+their transitive `pandas`/`numpy`/`fontTools`.** Report:
+`docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
@@ -453,26 +523,92 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   selector matching nothing, or a sheet that draws no labels at all, passes it vacuously.
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
+- **A sync generator handed to `StreamingResponse` holds an anyio threadpool token for its
+  whole life**, not for the instant it produces a line. Starlette wraps a sync iterator in
+  `iterate_in_threadpool`, one token per `next()`, and `jobs.events` blocked in
+  `queue.get(timeout=1.0)` — so readers watching a compose contended with every sync `def`
+  endpoint against a pool 40 wide for the whole application, `/api/health` included, which is
+  what the platform healthcheck polls. Measured at 25 ms / 194 ms / 1021 ms of health latency
+  for 8 / 48 / 80 open streams, flat after. `jobs.events` is `async` now, draining with
+  `get_nowait()` and awaiting between drains; the queue stays a thread-safe `queue.Queue`
+  because the compose worker puts to it from a plain thread, often before any consumer exists.
+  **If you add an SSE route, its body must be an async generator** —
+  `test_sse_does_not_hold_threads.py` pins it.
+- **Compression must skip SSE *and* `/assets`, by PATH.** `GZipExceptSSE` in `app.py` wraps
+  Starlette's gzip. THREE SSE routes go round it -- `/api/rail/messages`, `/api/jobs/*/events`
+  and **`/mcp`**, which the first version missed and which survived only on a Starlette
+  content-type default no requirements pin guarantees. **`/assets` goes round it for a
+  different and sharper reason**: compressing the 1.19 MB bundle per request cost 569 ms at
+  Starlette's default level 9 and 38 ms even at level 4, against 8 ms plain -- on the EVENT
+  LOOP, because `FileResponse` streams 64 KiB chunks and Starlette only offloads at 128 KiB,
+  and on a route outside both the auth gate and the rate limiter. One anonymous caller at
+  1.76 req/s saturated the core. `workbench/scripts/precompress.py` writes a `.gz` at build
+  time and `ImmutableStatic` serves it: 9.6 ms, better ratio, zero per-request CPU.
+  **Never pass only `minimum_size` to `GZipMiddleware`** -- `compresslevel` then inherits 9,
+  which is 3.5x the CPU of level 4 for 4.6% fewer bytes. **The obvious test for the SSE half
+  cannot fail**: Starlette holds a streaming response uncompressed until it exceeds
+  `minimum_size` and the first SSE chunk is a few dozen bytes, so asserting
+  `content-encoding != gzip` on a real stream passes with the exemption deleted. Assert the
+  middleware's dispatch instead.
+- **Do not hand-roll a request body limit; Starlette ships `RequestBodyLimitMiddleware`.** A
+  hand-rolled one here was wrong four ways, the sharpest being a 500 instead of a 413 on
+  `/api/rail/messages` (it reads its body directly, so nothing converted the `ClientDisconnect`
+  the middleware induced). **Register it INSIDE the auth gate.** The gate is a
+  `BaseHTTPMiddleware`, which wraps `receive` in an anyio task group; the limiter answers 413
+  by catching its own `_RequestBodyTooLarge`, and wrapped that way the exception surfaces as an
+  `ExceptionGroup` it never matches. Outside the gate: 500 plus a traceback. Inside: a clean
+  413. Both measured.
+- **`copy_json` is `json.loads(json.dumps(o))`, so caching a cheap build can be slower than the
+  build.** An audit cached `corpus.phylogeny()` on the argument that it was "the same bug as
+  the search index, one endpoint over" and made it **7.8x slower**: the rebuild walks
+  already-in-memory `core._data()` at 0.23 ms, the cached path pays 1.79 ms to copy 157 KB out.
+  The endpoint costs ~20 ms end to end and the build was 1.1% of it -- the rest is FastAPI's
+  encoder. `search_index()` IS worth caching (2.74 ms rebuild, re-globs 21 files) and returns
+  the SHARED object with no copy. Measure before imitating a neighbouring cache.
+- **An instrument that cannot fail is worse than a test that cannot fail**, because its output
+  is a number rather than a green tick. `workbench/scripts/load.py` misreported three separate
+  times: it timed an IDLE server at its most-loaded point (the job had finished and the streams
+  had closed), it read 5.0 ms for an endpoint that costs 215 ms (it replayed one plan into
+  `_SOLVE_CACHE`), and it measured the UNCOMPRESSED path throughout while being used to say
+  compression was free (`urllib` sends no `Accept-Encoding`). It now refuses a point it cannot
+  hold, carries a fresh plan id, and asks for gzip.
+- **A caller-supplied parti id becomes a path in exactly one place: `core.load_parti`.** Three
+  copies of that join existed and two were unsanitised — `core.place_plan` carried the 25 Aug
+  `basename` fix and a comment claiming it covered `/api/drawings/{kind}`, which does not route
+  through `place_plan` at all. Same shape as the citation grammar's three spellings. Do not add
+  a fourth; `test_parti_confinement.py` scans the tree for one.
+- **Benchmarking this server has two traps that both report success.** `build/geometry.py`
+  keys `_SOLVE_CACHE` on `json.dumps(plan)`, so replaying one plan measures the cache —
+  `/api/drawings/plan` read 5.0 ms that way against a real 215 ms, 43x out. And the heavy
+  endpoints are metered at 60/hour per identity, so an unmodified sweep measures
+  `limits.py`. `load.py` carries a fresh plan id per request; raise `HEAVY_CALLS_PER_HOUR`
+  for the run.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **79 entries, of which 21 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 77, 79).
-  **Phase 7 half-closed three of them.** OQ 72: two layers decide — the window grammar says a
-  window's ROLE, the kit says its SASH KIND, and 119 of 159 styles answer *through the
-  lineage* where only 39 answer in the flat kit file. OQ 73: sizing is REFUSED ("the tail
-  wagging the dog"), arrangement goes as far as the rooms' own words. OQ 76: the generator is
-  level-aware and it fixed BEARING, not stacking.
-  **OQ 76 is HALF CLOSED by WP-7.1** — the generator is level-aware and it fixed BEARING
-  (transfer beams 166 → 109 corpus-wide) and not STACKING (26/47 → 27/47, flat). **OQ 78 is
-  new**: the search has no span term, so clearing the structural capacity is luck, and the
-  test that claimed the careful plan cleared it was measuring an engine no reader sees.
-  **72-75 come from the plan-semantics program** (WP-6.1/6.2) and are what Lucas's review of two
-  rendered sheets turned up that the program did not settle: the per-opening window type and bay
-  windows, furniture arrangement beyond wet rooms, the door's hand, and a reference plan that
-  cannot satisfy its own style's hard rule about doors at both ends of a passage. **39 and 41 are
-  HALF CLOSED by the same program** — a door has a height now, and the renderers learned narrow
-  doors — and both stay open because their other halves do. **OQ 54 was RULED AGAIN**: the critic
-  reads the drawn house, in one layer and only one. **69, 70 and 71 were raised AND
-  ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
+  trusting any list of them. `docs/open-questions.md` holds **85 entries, of which 27 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85).
+  **IDS 72-79 COLLIDED FOR THE THIRD TIME AT THE 27 AUG MERGE.** Main issued 72-77 (the atlas
+  tier, WP-5.7, and the infrastructure audit) and this branch issued 72-79 (plan semantics and
+  Phase 7) within a day. Main keeps its numbers by the same rule as the two earlier collisions;
+  **this branch's block was reissued as 78-85**, with a third conversion table at the foot of the
+  register. A commit message or report written on that branch before the merge still carries the
+  old number.
+  **72-77 are main's**: the coastline tier's un-cullable rings, the container's open default, a
+  25-second `engine: "cp"` from a request body, the image size, the limiter, and reproducible
+  builds. **78-85 are this branch's.** OQ 78 (was 72): two layers decide — the window grammar
+  says a window's ROLE, the kit its SASH KIND, 119 of 159 styles answering *through the lineage*
+  where only 39 answer in the flat kit file; the vocabulary half is merged and ratcheted and the
+  AXIS half is what remains. OQ 79 (was 73): sizing REFUSED ("the tail wagging the dog"),
+  arrangement to the rooms' own words — five wall runs, not the one the register claimed.
+  **OQ 82 (was 76) and OQ 84 (was 78) are CLOSED by WP-7.4**: both engines charge declared
+  stacking and over-capacity spans, 27/49 broken stacks → 15/49. **OQ 85 (was 79) is new from the
+  WP-7.5 audit** — `span_check` still credits a bearing wall across the whole plate however short
+  it is, and `plan_check` has no span finding at all.
+  The tally counts HALF CLOSED entries as open, because a half-closed question is an open one.
+  That list is DERIVED from the file by
+  `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
+  which also requires the ids to be a bare comma-separated list — putting prose inside the
+  parentheses makes its regex match nothing and the assertion fires on an empty set, which is
+  how this line was broken and caught while writing it. **69, 70 and 71 were raised AND  ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
   and 66, colliding with main's block for the second parallel-session collision in two days;
   main keeps its numbers and these were reissued, with the conversion table at the foot of the
   register. 69 is a session-scoped test fixture that gated every test file sorting after it

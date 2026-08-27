@@ -123,8 +123,20 @@ export function DrawingSet({ go }) {
             <PlateViewer label={'the ' + kind} height="clamp(420px, 74vh, 960px)">
             <div style={{ background: 'var(--paper)', border: '1px solid var(--ink-2)',
               boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px' }}>
-              <div dangerouslySetInnerHTML={{ __html: result.svg.replace(
-                /<svg /, '<svg style="max-width:100%;height:auto" ') }} />
+              {/* The fit goes on the WRAPPER, not into a second `style` on the <svg>.
+
+                  It used to be injected as `<svg style="max-width:100%;height:auto" …`
+                  before the element's own attributes — and every Python renderer opens
+                  with `…viewBox="…" style="background:{PAL['ground']}">`. Two `style`
+                  attributes on one element: the parser keeps the first and silently drops
+                  the second, so each sheet's declared ground colour never applied. Same
+                  family as the presentation-attribute-loses-to-a-class-rule trap
+                  CLAUDE.md records for `render_plan.py`, by duplicate attribute rather
+                  than by cascade, and invisible today only because what is painted behind
+                  it happens to be a near-identical vellum. Found by an adversarial audit
+                  of WP-5.7; a CSS rule on the wrapper reaches the child and cannot
+                  collide with anything the renderer wrote. */}
+              <div className="plate-fit" dangerouslySetInnerHTML={{ __html: result.svg }} />
               <div style={{ borderTop: '1px solid var(--rule)', marginTop: 10, padding: '8px 2px 4px',
                 display: 'flex', justifyContent: 'space-between', gap: 24, alignItems: 'baseline' }}>
                 {/* the interpunct join makes one unbreakable word; a zero-width space
