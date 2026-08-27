@@ -191,21 +191,35 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
-- **BEARING CONTINUITY AND DECLARED STACKING ARE TWO PROBLEMS, AND OQ 76 CONFLATED THEM
-  (WP-7.1).** The generator WAS blind to the other level; `slice_rect` is now called for
-  level 1 with the ground layout, and `snap()` prefers a wall line below over a bare bay
-  line. Measured corpus-wide over 14 composed plans: **transfer beams 166 -> 109,
-  relaxations 96 -> 76**, total score improved. Over 23 plans including both shipped ones,
-  transfer beams **205 -> 128**. That is the bearing half, and it is closed for this engine.
-  **`stacks_over` did not move: 26/47 broken -> 27/47.** Moving a cut line moves a wall; it
-  does not move a room over another room. Do not expect the generator to fix stacking, and
-  do not quote WP-6.3's stated reason for refusing the stair charge — *"the search can only
-  re-rank blind candidates and can never produce a stacking one"* is FALSE: measured over 24
-  seeds the winner satisfies 1-3 of tidewater's 3 claims and 0-2 of spec's 2. The charge was
-  inert because it keyed on landing-over-stair and neither shipped plan declares that pair.
-  A hard CP constraint stays refused for its own measured reason: `geometry_cp.py` downgrades
-  **only** `kind == "wall"` pins, so anything else outranks every authored exterior wall
-  (measured: it downgraded an authored kitchen wall to satisfy an inferred stack).
+- **BOTH ENGINES CHARGE DECLARED STACKING AND OVER-CAPACITY SPANS NOW (WP-7.4, OQ 76 and 78
+  CLOSED), AND THE WEIGHTS ARE BALANCED AGAINST EACH OTHER RATHER THAN SET SEPARATELY.**
+  `geometry.STACK_W = 40.0` and `SPAN_W = 20.0`; `geometry_cp.py` carries soft mirrors of both
+  in its objective block, never pins. Measured over the 14 partis that declare `stacks_over`:
+  broken claims **27/49 -> 15/49**, over-capacity spans **29 -> 23** with the worst falling
+  **80 -> 60 ft**, `serious` findings **703 -> 685**; the price is fatal 89 -> 90 and rooms
+  below their band **17 -> 19**. **Three published refusals died on the way here and none of
+  them was wrong as a measurement.** WP-6.3's byte-identical output at 100x and 10,000x was of
+  a charge keyed on landing-over-stair, a pair NEITHER shipped plan declares. WP-7.1's
+  level-aware generator really did leave stacking flat (26/47 -> 27/47) — moving a cut line
+  moves a wall, not a room. What made a term look inert was the POOL: over 2,000 candidates
+  instead of the shipped 250 at one seed, 12 tidewater candidates beat the winner's 3 broken
+  claims while keeping the porch on the entrance front, at +41.3 points. **OQ 76's CP blocker
+  was true of a PIN and never of a PENALTY** — a penalty creates no assumption literal and
+  never enters a conflict core, so the `kind == "wall"` downgrade loop is untouched and an
+  inferred stack still cannot displace an authored wall.
+- **A NEW SEARCH TERM CAN BE WORSE IN THE MIDDLE OF ITS RANGE THAN AT EITHER END (WP-7.4).**
+  The span term is byte-identical to no term below weight 2, and between 2 and 20 it is worse
+  than both: fatal findings 89 -> 94 at weight 2, 100 at weight 10, back to 90 at 30-60. It
+  perturbs the hill-climb into a worse basin long before it is strong enough to steer it into
+  a better one. **A sweep that stops at "small weights are safe" ships the worst setting.**
+  And the two terms are not separable: at `SPAN_W = 40` a 60 ft span over a 20 ft capacity
+  costs 120 points — `entrance_score`'s fatal-tier scale — and swamped the stack term
+  completely, `STACK_W = 16, SPAN_W = 40` giving output identical to the span term alone.
+- **`geometry._SOLVE_CACHE` IS KEYED ON CALL ARGUMENTS, SO A SWEEP OVER A MODULE CONSTANT
+  SILENTLY MEASURES THE FIRST VALUE (WP-7.4).** `STACK_W` and `SPAN_W` are module-level, and
+  the cache key is (plan, parti, candidates, seed, engine, time_limit). The first weight sweep
+  run came back flat at every weight INCLUDING zero, which read as "the term is inert" and was
+  the same conclusion two earlier packages had drawn. Clear the cache between settings.
 - **The level-aware generator is for the PLACEMENT and not for the CP HINT, and that split
   is measured (WP-7.1).** `solve_heuristic(level_aware=...)` is True everywhere except
   `geometry_cp._hint_heuristic`, which asks for the blind run. A hint's only job is to be
@@ -214,13 +228,17 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   position, and quietly changing one into the other moved the GROUND placement, cost CP-SAT
   its proof of `tidewater-georgian-careful` (OPTIMAL -> UNKNOWN at budget), and took an
   afternoon to find. The blind path must stay byte-identical.
-- **The search has NO span term, so `spans_exceeding_capacity` is luck (WP-7.1).**
-  `test_no_span_over_capacity_passes_silently_on_the_careful_plan` asserted the careful plan
-  had none — measuring `build_section(plan)`'s HEURISTIC default while the product ships CP.
-  On the default engine that plan has carried a **29.00 ft span over a 20 ft capacity since
-  WP-6.3**, and nothing noticed. The test now asserts what is real: spans are computed, the
-  capacity is checked, and an over-capacity span surfaces. Do not restore a zero assertion —
-  it pins luck.
+- **`span_check` NEVER READ THE BEARING FLAG IT WAS HANDED, so every partition counted as a
+  support (WP-7.4).** Its docstring said "clear span between consecutive bearing lines" and it
+  read every wall's `position_ft`, discarding the `bearing` flag `bearing_lines()` had computed
+  one call earlier — including that function's own `why: "not on the bay grid -- a partition"`.
+  On the reference plan the x axis reported a worst gap of 23.37 ft over 7 lines, 4 of them
+  partitions; between the 3 real bearing lines the clear span is **49.93 ft against a 20 ft
+  capacity**. Corpus-wide: spans 236 -> 126, over-capacity 9 -> 20, worst 36.57 -> 60.00 ft.
+  **A defect reported SMALLER than it is — the OQ 52 family wearing the safe-looking sign.**
+  Both shipped reference plans now fail their own capacity loudly and that is the check
+  working. Do not loosen the 20 ft capacity or `bearing_lines`' 0.75 ft tolerance to make the
+  number smaller. Nothing pinned it for three packages; two tests do now.
 - **An over-band charge is an under-band charge plus a constant, because the slicer tiles
   exactly (WP-6.3).** `Sum max(0, got-hi) == (T - Sum hi) + Sum max(0, hi-got)` is an
   identity, verified to under 0.5 sf. Three formulations were run through the whole search
@@ -310,6 +328,27 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   suites fail. **The DXF exporter strips placement output from its XDATA** so the round trip
   still returns the AUTHORED record — and `wall` is authored on a WINDOW and solver output on
   a DOOR, which cost one round-trip failure to discover.
+- **THE FIXTURE PACKER TURNS THE CORNER NOW, AND THAT UNSHIELDED WHICH WALL IT DREW AGAINST
+  (WP-7.4).** WP-7.2 made `fixture_pass` pick the wall with the longest CLEAR run because "a
+  fixture refused on a wall nobody tried is a false cannot-fit", then packed everything onto
+  that one wall — the same error one level up: `spec-builder-colonial`'s primary bath is 9 x 18
+  ft, its four fixtures want 22 ft, its longest clear run is 17.2 ft, its other three walls
+  stood empty. **And the off-wall coordinate was the room's LOW edge for all four walls**, so a
+  fixture on the N wall was written at the room's south edge and one on the E wall at its west
+  edge. That could not show while everything sat on one wall — they were wrong together, so
+  nothing overlapped and the drawing merely put the bath on the wrong side of the room. Turning
+  the corner made it 5 overlapping pairs immediately; 15 of 67 placed fixtures sit on N or E.
+  **A fix that removes a shield has to look at what the shield was covering.** The corner
+  reserve is crude and conservative on purpose: a newly opened wall starts past the deepest
+  fixture placed anywhere in the room, which OVER-reserves, and the failure that prevents is a
+  drawn collision while the failure it causes is a NAMED refusal.
+- **`needs_uninterrupted_wall_ft` is a READING and the test enforces that (WP-7.4).** OQ 73
+  published that exactly one furniture item states a wall run in words; five do, and the figure
+  must appear in the item's own note in feet or inches or the basis test rejects it. It rejected
+  a sixth of mine — `keeping-room`'s hearth at 9.0 ft from *"its chimney breast is 9 to 10 ft"*,
+  a band explaining why first-period halls are wide rather than a run the hearth requires. The
+  figure was withdrawn rather than the test loosened. A room stating a band, or none, is handed
+  to the architect.
 - **`openings/grammar.json` is editorial and its citations are CHECKED.** Every rule quotes
   the room-record prose it reads, and `build/check_openings.py` verifies that the record
   exists and that the sentence is really in it. An editorial call whose citation cannot be
@@ -415,8 +454,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **78 entries, of which 22 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 78).
+  trusting any list of them. `docs/open-questions.md` holds **78 entries, of which 20 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 77).
   **Phase 7 half-closed three of them.** OQ 72: two layers decide — the window grammar says a
   window's ROLE, the kit says its SASH KIND, and 119 of 159 styles answer *through the
   lineage* where only 39 answer in the flat kit file. OQ 73: sizing is REFUSED ("the tail
