@@ -382,6 +382,79 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
             assert rep.get("fixtures_unplaced", 0) == 0, (
                 f"{pid}: {rep.get('fixtures_unplaced')} fixture(s) refused")
 
+    def test_a_fixture_is_drawn_against_the_wall_its_record_names(self):
+        """WP-7.4. The off-wall coordinate was the room's LOW edge whichever wall was chosen,
+        so a fixture on the N wall was written at the room's south edge and one on the E wall
+        at its west edge -- drawn against the opposite wall from the one it names.
+
+        It could not surface while every fixture went on ONE wall: they were all wrong
+        together, so nothing overlapped and the drawing merely put the bath on the wrong side
+        of the room. Letting the run turn the corner made it visible as 5 overlapping pairs on
+        the first measurement. 15 of 67 placed fixtures across the 16 plans sit on N or E."""
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            solved = GEO.solve(_plan(pid), engine="heuristic")
+            seen = 0
+            for lv in solved["levels"]:
+                for rm in lv["rooms"]:
+                    g = rm.get("geometry")
+                    if not g:
+                        continue
+                    for f in (rm.get("fixture_layout") or []):
+                        if "unplaced" in f or not f.get("wall"):
+                            continue
+                        seen += 1
+                        x0, y0 = g["x_ft"], g["y_ft"]
+                        x1, y1 = x0 + g["width_ft"], y0 + g["depth_ft"]
+                        near = {"S": abs(f["y_ft"] - y0),
+                                "N": abs(f["y_ft"] + f["depth_ft"] - y1),
+                                "W": abs(f["x_ft"] - x0),
+                                "E": abs(f["x_ft"] + f["width_ft"] - x1)}[f["wall"]]
+                        assert near <= 0.01, (
+                            f"{pid}: {rm['id']}'s {f['item']} says wall {f['wall']} and is "
+                            f"drawn {near:.2f} ft off it")
+            assert seen > 0, f"{pid}: vacuous unless fixtures were placed against walls"
+
+    def test_the_fixture_run_turns_the_corner_before_refusing(self):
+        """WP-7.2 made the packer pick the wall with the longest CLEAR run because 'a fixture
+        refused on a wall nobody tried is a false cannot-fit'. It then packed everything onto
+        that one wall, which is the same error one level up: spec-builder-colonial's primary
+        bath is 9 x 18 ft, its four fixtures want 22 ft, its longest clear run is 17.2 ft and
+        its other three walls stood empty.
+
+        Pinned on the HEURISTIC engine deliberately. The default is 'auto', and CP-SAT is
+        wall-clock bounded -- measured, four consecutive runs of this plan on 'auto' alternated
+        between 13 placed / 0 refused and 12 / 1 depending on which branch finished in budget.
+        A count asserted against a nondeterministic solve is OQ 71's error, and the behaviour
+        this test names is deterministic."""
+        solved = GEO.solve(_plan("spec-builder-colonial"), engine="heuristic")
+        walls = set()
+        for lv in solved["levels"]:
+            for rm in lv["rooms"]:
+                if rm["id"] != "primarybath":
+                    continue
+                for f in (rm.get("fixture_layout") or []):
+                    assert "unplaced" not in f, (
+                        f"a 9 x 18 ft bathroom refused {f['item']}: {f.get('unplaced')}")
+                    walls.add(f.get("wall"))
+        assert len(walls) > 1, f"all four fixtures still packed onto one wall: {walls}"
+
+    def test_a_refused_fixture_says_which_walls_were_tried(self):
+        """Evaluated-and-failed, never not-looked-at. A refusal must name every wall and its
+        run, so a reader can tell a room that is genuinely too small from a packer that gave
+        up early -- which is the distinction that made WP-7.2's one-wall packer look correct."""
+        import re as _re
+        room = {"id": "tiny", "type": "bathroom", "fixtures": ["wc", "lavatory", "tub", "shower"],
+                "geometry": {"x_ft": 0.0, "y_ft": 0.0, "width_ft": 4.0, "depth_ft": 4.0}}
+        rep = {"fixtures_placed": 0, "fixtures_unplaced": 0}
+        OP.fixture_pass([room], OP.C if hasattr(OP, "C") else GEO.C, rep, {})
+        refused = [f for f in (room.get("fixture_layout") or []) if "unplaced" in f]
+        assert refused, "a 4 x 4 ft room cannot hold a tub, a shower, a WC and a lavatory"
+        for f in refused:
+            why = f["unplaced"]["reason"]
+            assert "tried" in why or "does not know how big" in why, why
+            if "tried" in why:
+                assert len(_re.findall(r"[NSEW] \d", why)) == 4, f"all four walls must be named: {why}"
+
     def test_every_furniture_item_states_its_own_placement(self):
         """`placement` decides one-sided or two-sided clearance and is the difference between
         a galley kitchen passing its own rule and failing it. The schema declared it and 0 of
