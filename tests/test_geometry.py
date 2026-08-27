@@ -55,8 +55,8 @@ class TestSolveSmoke:
         plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
         result = geometry_module.solve(plan, engine="heuristic")
         report = result["geometry_report"]
-        # 9, moved from 11 by WP-7.1 (OQ 76). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.
-        assert report["relaxations"]["count"] == 9
+        # 7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 76). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.
+        assert report["relaxations"]["count"] == 7
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]
@@ -89,12 +89,28 @@ class TestUnderBandIsReported:
         # question is about and started testing an engine that does not have the defect.
         out = geometry_module.solve(json.loads(json.dumps(plan)), engine="heuristic")
         ub = out["geometry_report"]["under_band"]
-        assert ub["count"] >= 1
-        names = {r["type"] for r in ub["rooms"]}
-        assert "dining-room" in names
-        dining = next(r for r in ub["rooms"] if r["type"] == "dining-room")
-        assert dining["placed_sf"] < dining["band_floor_sf"]
-        assert dining["short_by_pct"] >= 20
+        # WP-7.4: THE DINING ROOM IS IN BAND NOW AND THE STAIR HALL IS NOT, so this asserts the
+        # MECHANISM rather than the room. Measured on this plan with the two score terms off and
+        # on: under_band 2 (entrance-hall, dining-room) -> 1 (stair-hall). OQ 54's own worked
+        # example came right as a side effect of charging spans and stacks, which is worth
+        # knowing and is not what this test exists to protect. What it protects is that the
+        # hill-climb WILL trade a room below its own catalogue floor, and that the trade is
+        # visible: named, measured against the floor it missed, and set beside the size the
+        # record still declares. Naming a specific room pinned an accident.
+        assert ub["count"] >= 1, (
+            "the hill-climb reported no under-band room at all — investigate before "
+            "celebrating; this engine has made that trade on this plan since OQ 54 was raised")
+        for r in ub["rooms"]:
+            assert r.get("type") and r.get("name"), r
+            assert r["placed_sf"] < r["band_floor_sf"], r
+            # the divergence OQ 54 is actually about: the record still says something else
+            assert r.get("declared_sf"), r
+            assert r.get("short_by_pct") and r.get("declared_short_by_pct") is not None, r
+        # WP-7.4: the dining room is no longer the one squeezed on this plan, so asserting on
+        # it by name would pin an outcome the terms just changed. What still holds is that the
+        # room the hill-climb DOES squeeze is squeezed materially, not by a rounding.
+        worst = max(ub["rooms"], key=lambda r: r["short_by_pct"])
+        assert worst["short_by_pct"] >= 20, worst
 
         # And the good news, pinned so it cannot regress unnoticed: the CP engine does NOT make
         # this trade on the same record. That is the concrete difference between scoring a
@@ -105,6 +121,12 @@ class TestUnderBandIsReported:
             assert "dining-room" not in cp_names, (
                 "the CP engine used to place this room in band; if it no longer does, the "
                 "room minimum has stopped being enforced")
+            # and since WP-7.4 the hill-climb places it in band too, which is why the assertion
+            # above moved off this room's name — recorded here so the two engines' agreement on
+            # OQ 54's own example is visible rather than inferred
+            assert "dining-room" not in {r["type"] for r in ub["rooms"]}, (
+                "the dining room is under band again on the hill-climb; WP-7.4's score terms "
+                "put it in band and something has undone that")
 
     def test_a_layout_with_nothing_under_band_says_so_rather_than_going_quiet(self, geometry_module):
         rects = {0: {"a": (0.0, 0.0, 20.0, 20.0)}}

@@ -348,10 +348,10 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         from WP-2.3 until WP-7.1, and a first attempt at positions moved it by testing
         `if round(d, 2)` where the original tested `if d`, swallowing a sub-half-inch miss.
 
-        9, moved from 11 by WP-7.1 (OQ 76). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109."""
+        7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 76). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109."""
         out = geometry_module.solve(_plan("tidewater-georgian-careful"),
                                     engine="heuristic", candidates=250)
-        assert out["geometry_report"]["relaxations"]["count"] == 9
+        assert out["geometry_report"]["relaxations"]["count"] == 7
 
     def test_the_renderer_draws_one_mark_per_relaxation(self, geometry_module):
         """P6 and P7 together: the drawing is a render of the data, so the number of marks on
