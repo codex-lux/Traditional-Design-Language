@@ -68,12 +68,30 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 `python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
 (`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
-## Where the work stands (26 Aug 2026)
+## Where the work stands (27 Aug 2026)
 
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6; WP-4.4 is
 environment-blocked. **Phase 5 is part-built** — WP-5.1 (DXF/IFC export), WP-5.2 (the workbench
 in `workbench/`), WP-5.5 (drawing-to-record ingestion) and **WP-5.6 (the navigation overhaul)**
-have shipped; WP-5.3 and WP-5.4 remain.
+have shipped; WP-5.3 and WP-5.4 remain. **Phase 6 — plan semantics — is COMPLETE** (WP-6.1,
+6.2, 6.3, 26–27 Aug).
+
+**Phase 6 exists because Lucas read two rendered sheets and found them meaningless** — the
+project's own founding failure mode, every part well-formed and the whole saying nothing. A
+kitchen whose only drawn door was to the outside; a stair hall with no stair; a centre passage
+whose rear door read as a window; triangular marks pointing at anything and everything. Every
+symptom was reproduced by execution, and they split three ways. **WP-6.1** — the sheet was
+lying about the record: interior doors were silently dropped below a flat 3.2 ft of shared
+wall, `door.type` was read by nothing, exterior doors went on the first wall a room declared.
+**WP-6.2** — the record had nothing to say: a door was `{to, width?}` with no wall, position,
+hinge or rank, so each renderer invented one and invented it differently. Plan schema **0.3.0**
+admits placed geometry and placed openings; `openings/grammar.json` (30 editorial rules over
+all 1,890 room pairs) says what kind of opening belongs between two rooms; `build/openings.py`
+places them, the stair and the wet-room fixtures; `plan_check` gained a **`drawn`** layer — the
+only layer permitted to read placement — which walks the house from the front door. **WP-6.3**
+— the placement itself was the deepest cause, and the workbench was drawing on the weaker of
+the two engines. Reports: `docs/reports/wp-6.{1,2,3}-*.md`; read WP-6.3's refusals before
+proposing a score term here.
 
 **WP-5.6 changed how the workbench is addressed, and it is worth knowing before touching it.**
 A place is now a URL, and that URL is the citation grammar written down — `#/kit/craftsman/cornice`,
