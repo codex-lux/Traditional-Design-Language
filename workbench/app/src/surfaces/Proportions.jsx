@@ -153,36 +153,26 @@ function OrderPlate({ data }) {
       for (const fc of a.faces || []) segsFor[`${a.id}.${fc.id}`] = fc;
     }
   }
-  const edgeCmds = (segments) => {
-    let d = '';
-    for (const s of segments || []) {
-      if (s.kind === 'close') continue;
-      if (s.kind === 'line') { d += ` L ${s.to[0] * f} ${sy(s.to[1] * f)}`; continue; }
-      /* SVG's sweep flag is 1 when the ellipse's own parameter increases in SCREEN space, which
-         has y DOWN; these angles increase in MODEL space, which has y UP. This plate draws x in
-         model inches with no transform at all and passes y through sy(), which flips it — so the
-         net handedness IS reversed and the flag is the inverse of the model's own direction.
-         (build/profiles.py::svg_path derives the same thing from its two transforms; here x is
-         the identity, so the y flip decides it alone.)
-         Held the other way round until 27 Aug 2026, which drew every arc on this plate as its
-         own mirror: an ovolo as a cavetto, a torus as a hollow. */
-      const flip = sy(1) < sy(0);
-      const ccw = s.a1 > s.a0;
-      const sweep = (ccw !== flip) ? 1 : 0;
-      const large = Math.abs(s.a1 - s.a0) > Math.PI ? 1 : 0;
-      d += ` A ${s.rx * f} ${s.ry * f} 0 ${large} ${sweep} ${s.to[0] * f} ${sy(s.to[1] * f)}`;
-    }
-    return d;
-  };
-  /* One member as a closed band: out along its own foot, up its constructed profile, back to
-     the axis. Falls back to the straight edge when a pack reaches here without geometry, so a
-     plate is still drawn rather than blanked. */
+  /* THE PATHS COME FROM PYTHON, in MODEL inches (x out from the axis, y up), and this plate
+     applies an SVG transform instead of walking the segments (OQ 77, ruled 27 Aug 2026).
+
+     What used to be here was `edgeCmds`, one of two JavaScript copies of the SVG sweep rule, and
+     both copies were wrong: they emitted the inverse of the correct flag, so every arc on this
+     plate drew as its own mirror — an ovolo as a cavetto, a torus as a hollow. A model-space path
+     has no handedness for a consumer to get wrong; `<g transform="scale(1,-1)">` flips it and SVG
+     mirrors the arcs correctly, which is its job and not this file's.
+
+     One member as a closed band: out along its own foot, up its constructed profile, back to the
+     axis. Falls back to the straight edge when a pack reaches here without geometry, so a plate
+     is still drawn rather than blanked. */
   const bandPath = (b) => {
     const g = segsFor[b.key];
-    if (!g || !g.segments || !g.segments.length) {
-      return `M 0 ${sy(b.y0)} L ${b.x0} ${sy(b.y0)} L ${b.x1} ${sy(b.y1)} L 0 ${sy(b.y1)} Z`;
+    if (!g || !g.path) {
+      return { d: `M 0 ${sy(b.y0)} L ${b.x0} ${sy(b.y0)} L ${b.x1} ${sy(b.y1)} L 0 ${sy(b.y1)} Z`,
+               transform: null };
     }
-    return `M 0 ${sy(b.y0)} L ${g.x_from * f} ${sy(b.y0)}${edgeCmds(g.segments)} L 0 ${sy(b.y1)} Z`;
+    // sy(y) = H - y, so the group is a y-flip about H, and f scales the module.
+    return { d: g.path, transform: `translate(0,${H}) scale(${f},${-f})` };
   };
 
   const bands = [];
@@ -230,10 +220,12 @@ function OrderPlate({ data }) {
         {/* the axis the whole order is measured from */}
         <line x1={0} y1={sy(-2 * U)} x2={0} y2={sy(H + 2 * U)} stroke="var(--hair)" strokeWidth=".7"
           strokeDasharray="14 4 2.5 4" vectorEffect="non-scaling-stroke" />
-        {bands.map((b) => (
-          <g key={b.key}>
+        {bands.map((b) => {
+          const bp = bandPath(b);
+          return (
+          <g key={b.key} transform={bp.transform || undefined}>
             <path data-asm={b.asm} data-member={b.id}
-              d={bandPath(b)}
+              d={bp.d}
               fill={b.side ? 'var(--sepia-pale)' : 'var(--paper-lit)'}
               stroke="var(--ink)" strokeWidth={b.h > U * 1.2 ? 1.1 : 0.7}
               vectorEffect="non-scaling-stroke">
@@ -241,12 +233,13 @@ function OrderPlate({ data }) {
             </path>
             {b.conf && b.conf !== 'high' && (
               <path data-mark="confidence"
-                d={bandPath(b)}
+                d={bp.d}
                 fill="none" stroke="var(--judge-unjudged)" strokeWidth="1"
                 strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
             )}
           </g>
-        ))}
+          );
+        })}
         {/* assembly extents + names on the left, ticks not arrowheads */}
         {rows.map((a) => (
           <g key={a.id}>

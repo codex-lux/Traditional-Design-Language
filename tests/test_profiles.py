@@ -344,3 +344,141 @@ class TestAgainstTheRealCorpus:
                         seen.add(m["profile"])
         unknown = sorted(seen - known)
         assert not unknown, f"profiles with no stated construction: {unknown}"
+
+
+class TestTheTranscribedWidthsAreTheAuthoritiesOwnFigures:
+    """The transcriptions themselves, pinned against the sources they were read from.
+
+    THIS IS THE ASSERTION THE RATIO TEST CANNOT MAKE, and the gap is not theoretical: two of these
+    fifteen were authored at exactly half their source, and a third of the way through the fix the
+    corrected values silently failed to reach the file while the notes beside them were rewritten
+    to say they had. Neither event moved a single test.
+
+    `test_a_width_survives_inheritance_in_the_same_unit_as_its_own_pitch` checks width/pitch, so
+    HALVING BOTH PRESERVES IT — 6.5/17.5 and 13/35 both read 37%. That test catches a MISMATCH
+    between the two fields and is structurally blind to a uniform error in both, which is exactly
+    what OQ 75 was. A transcription has to be pinned against its quoted source, not its neighbour.
+
+    Each row is (pack, assembly, member, width_parts, spacing_parts, the words it was read from).
+    Changing a figure here means changing the quotation with it, which is the point: the number
+    and its authority move together or the test fails."""
+
+    TRANSCRIBED = [
+        ("vignola-composite",  "cornice",     "dentil_band",      6.0,   9,     "1/6 D wide (6 parts)"),
+        ("vignola-corinthian", "cornice",     "dentil_band",      4.0,   6,     "1/9 D wide (4 parts)"),
+        ("vignola-corinthian", "cornice",     "modillion_band",   8.0,   24,    "1/3 D wide (8 parts)"),
+        ("vignola-doric",      "frieze",      "triglyph",         12.0,  30,    "1/2 D wide (12 parts)"),
+        ("vignola-doric",      "frieze",      "metope",           18.0,  30,    "the metope is square: 18 parts"),
+        ("vignola-doric",      "cornice",     "corn_mutule_band", 12.0,  30,    "the mutule is the width of the triglyph"),
+        ("vignola-ionic",      "cornice",     "dentil_band",      4.0,   6,     "1/9 D wide (4 parts)"),
+        ("benjamin-corinthian","entablature", "ent_cornice",      13.0,  35.0,  "the modillions are thirteen minutes in front, and thirty five from centre to centre"),
+        ("benjamin-doric",     "frieze",      "triglyph",         30.0,  75,    "one module in width"),
+        ("benjamin-doric",     "frieze",      "metope",           45.0,  75,    "the metope a module and a half"),
+        ("benjamin-ionic",     "entablature", "ent_cornice",      10.5,  31.0,  "ten, ten and one half, or eleven minutes in front; place them thirty one minutes from centre to centre"),
+        ("gibbs-composite",    "cornice",     "corn_dentil_band", 2.571, 3.857, "two of those parts will be the Dentel"),
+        ("gibbs-corinthian",   "cornice",     "corn_dentil_band", 2.571, 3.857, "two of those parts will be the Dentel"),
+        ("gibbs-corinthian",   "cornice",     "corn_modillion",   6.0,   21,    "each is 6 parts wide"),
+        ("gibbs-doric",        "cornice",     "corn_modillion",   15.0,  30,    "half the pitch"),
+    ]
+
+    def test_every_authored_width_is_the_figure_its_own_note_quotes(self):
+        import json
+        missing, wrong = [], []
+        for pid, aid, mid, want_w, want_sp, quote in self.TRANSCRIBED:
+            path = None
+            for sub in ("orders", "overlays", "systems", "modules"):
+                p = os.path.join(ROOT, "proportions", sub, f"{pid}.json")
+                if os.path.exists(p):
+                    path = p
+                    break
+            assert path, f"{pid}: pack file not found"
+            d = json.load(open(path))
+            mem = next((m for m in d["assemblies"][aid]["members"] if m["id"] == mid), None)
+            if mem is None:
+                missing.append(f"{pid}/{mid}")
+                continue
+            if mem.get("width_parts") != want_w or mem.get("spacing_parts") != want_sp:
+                wrong.append(f"{pid}/{mid}: file has width={mem.get('width_parts')} "
+                             f"spacing={mem.get('spacing_parts')}, transcription says "
+                             f"{want_w}/{want_sp} from \"{quote}\"")
+        assert not missing, f"members vanished: {missing}"
+        assert not wrong, "a width no longer matches the source it was read from:\n  " + "\n  ".join(wrong)
+
+    def test_the_table_covers_every_authored_width_in_the_corpus(self):
+        """A transcription added without a row here is a figure with no recorded source."""
+        import glob as _glob
+        import json
+        authored = set()
+        for path in sorted(_glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
+            d = json.load(open(path))
+            for aid, a in (d.get("assemblies") or {}).items():
+                for m in a.get("members", []):
+                    if m.get("width_parts") is not None:
+                        authored.add((d["id"], aid, m["id"]))
+        pinned = {(r[0], r[1], r[2]) for r in self.TRANSCRIBED}
+        assert authored == pinned, (
+            f"unpinned: {sorted(authored - pinned)}; stale rows: {sorted(pinned - authored)}")
+
+
+class TestTheDatumDetectionsOwnBlindSpot:
+    """Where `axis_holds_for()` could be wrong, named and watched.
+
+    The rule downgrades a pack's `axis` declaration to naked-relative on either of two signals:
+    a recorded 0 (impossible under the radius reading) or nothing in the group reaching its own
+    naked. The second is self-evidently safe — if no figure reaches the naked, none can be a
+    radius.
+
+    THE FIRST IS NOT, on its own. A group holding genuine radii AND one unrecorded 0 would be
+    downgraded on the strength of the 0, and its real radii would then be added to the naked and
+    drawn about twice too wide — which is the OQ 65 bug, returning by the back door.
+
+    In this corpus that combination occurs only on ENTABLATURES, where it is the correct reading
+    and the case OQ 72 was raised about: the frieze records 0 because it IS the naked, and the
+    cornice's larger figures are relief from it. Confirmed independently by Gibbs's own rule that
+    the cornice's projection equals its height — which holds exactly under the naked reading of
+    the Tidewater cornice (24.558 in of relief against 24.558 in of height) and not at all under
+    the other.
+
+    So the rule is right on every group the corpus actually contains, and this test watches the
+    edge it does not: a COLUMN OR PEDESTAL group carrying both a real radius and an unrecorded
+    zero. If one is ever authored, this fails and says what to do, rather than the drawing quietly
+    doubling."""
+
+    def test_no_column_group_mixes_a_real_radius_with_an_unrecorded_zero(self):
+        offenders = []
+        for pid in sorted(PE.PACKS):
+            pack = PE.PACKS[pid]
+            if pack.get("kind") != "order-system":
+                continue
+            r = PE.resolve(pid)
+            d = PE.dimension(r, 36.0)
+            if d.get("projection_datum") != "axis":
+                continue
+            geo = PROF.pack_geometry(d, r.get("column"), d.get("projection_datum"))
+            nakeds = {"pedestal": geo["die_naked_in"], "subplinth": geo["die_naked_in"],
+                      "base": geo["lower_radius_in"], "shaft": geo["lower_radius_in"],
+                      "capital": geo["upper_radius_in"]}
+            groups = {}
+            for a in d["assemblies"]:
+                aid = a["id"]
+                if aid in ("pedestal", "subplinth"):
+                    g = "pedestal"
+                elif aid in ("base", "shaft", "capital"):
+                    g = aid
+                else:
+                    continue                      # entablatures are the known, correct case
+                groups.setdefault(g, []).append(a)
+            for gname, gasms in groups.items():
+                projs = [m.get("projection_in") or 0.0 for a in gasms for m in a["members"]]
+                if not projs:
+                    continue
+                naked = nakeds.get(gname, geo["upper_radius_in"])
+                if min(projs) <= 0.01 and max(projs) >= naked - 0.01:
+                    offenders.append(
+                        f"{pid}/{gname}: holds a figure of {max(projs):.2f} that reaches its naked "
+                        f"({naked:.2f}) AND an unrecorded 0 — axis_holds_for() will downgrade the "
+                        f"whole group on the zero and draw that radius roughly twice too wide")
+        assert not offenders, (
+            "the datum detection's blind spot now has data in it; the zero-signal must be "
+            "narrowed (e.g. to fire only when the assembly that DEFINES the group's naked is "
+            "wholly unrecorded) before these draw:\n  " + "\n  ".join(offenders))

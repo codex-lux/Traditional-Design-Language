@@ -223,8 +223,10 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   corpus — so fixing only the sweep flag would have made the drawings worse, which is
   "a fix that removes a shield is a fix that has to look at what the shield was covering" at
   corpus scale. `tests/test_drawn_geometry.py` is the guard: it reads the emitted path back
-  through the W3C endpoint-to-centre rule and asserts the drawn arc is the modelled one. **The two
-  JS copies of the sweep rule are still unguarded — OQ 77.**
+  through the W3C endpoint-to-centre rule and asserts the drawn arc is the modelled one. **Both JS copies of the sweep rule are now gone (OQ 77): `build/profiles.py` serves
+  finished paths in MODEL space and the two surfaces apply an SVG transform, so a mirror is a
+  negative number in a matrix rather than a flag to derive. A source-reading test fails if arc
+  arithmetic reappears in either file.**
 - **The sweep flag follows the NET handedness of the transform, not the y-flip.** SVG's flag is 1
   when the ellipse's parameter increases in SCREEN space (y down); these angles increase in MODEL
   space (y up). A y-flip reverses it and so does an x-mirror, and two flips cancel. The order tool
@@ -310,8 +312,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **77 entries, of which 22 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77). **72, 73 and 74 are
+  trusting any list of them. `docs/open-questions.md` holds **77 entries, of which 18 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 73, 74). **72, 73 and 74 are
   WP-5.7's, and are about the geometry layer: the entablature's datum, two sourced rules
   disagreeing about the cornice's projection, and the front elevation that cannot draw its own
   chimneys.** **69, 70 and 71 were raised AND

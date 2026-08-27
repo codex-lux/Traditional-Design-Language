@@ -382,21 +382,36 @@ def repeat_positions(run_in, count=None, spacing_in=None, width_in=None, centre_
     teeth = []
     if centre_on:
         anchors = [c for c in centre_on if -width_in <= c <= run_in + width_in]
+        # FILL BOTH WAYS from every anchor. Filling forward only left the whole run before the
+        # first anchor bare -- on a five-bay front with the first column at 30 ft, thirty feet of
+        # cornice carried no modillions at all. Gibbs's rule is that a modillion centres over each
+        # column; it does not say the band starts there.
         for a in anchors:
-            k = 1
             teeth.append(a)
-            while True:                     # fill between the anchors at the stated pitch
-                nxt = a + k * spacing_in
-                if nxt > run_in or any(abs(nxt - b) < spacing_in * 0.5 for b in anchors):
-                    break
-                teeth.append(nxt)
-                k += 1
+            for direction in (1, -1):
+                k = 1
+                while True:
+                    nxt = a + direction * k * spacing_in
+                    if not (-width_in <= nxt <= run_in + width_in):
+                        break
+                    if any(abs(nxt - b) < spacing_in * 0.5 for b in anchors):
+                        break               # another anchor owns this tooth
+                    teeth.append(nxt)
+                    k += 1
     else:
         n = int(count) if count else max(1, int(round(run_in / spacing_in)))
         span = (n - 1) * spacing_in
         x0 = (run_in - span) / 2.0          # a band is centred on its run, not started at one end
         teeth = [x0 + i * spacing_in for i in range(n)]
     teeth = sorted(t for t in teeth if -_EPS <= t - width_in / 2.0 and t + width_in / 2.0 <= run_in + _EPS)
+    # Two anchors filling toward each other both claim the teeth between them. Collapse them, or
+    # the band draws every middle tooth twice -- invisible on a sheet, and a wrong count to anyone
+    # measuring the drawing.
+    deduped = []
+    for t in teeth:
+        if not deduped or abs(t - deduped[-1]) > width_in * 0.5:
+            deduped.append(t)
+    teeth = deduped
     return {"solid": False, "reason": None, "width_in": width_in, "spacing_in": spacing_in,
             "teeth": [{"x0": round(t - width_in / 2.0, 4), "x1": round(t + width_in / 2.0, 4),
                        "centre": round(t, 4)} for t in teeth]}
@@ -428,6 +443,51 @@ def column_radius_at(y, shaft_y0, shaft_y1, r_lower, diminution=None, entasis_be
 
 # ---------------------------------------------------------------- a whole pack, ready to scale
 COLUMN_ASM = ("pedestal", "subplinth", "base", "shaft", "capital")
+
+
+def silhouette_path_model(geo):
+    """The whole stack as ONE closed outline, in MODEL inches — x out from the axis, y up.
+
+    Emitted here rather than in JavaScript (OQ 77, ruled 27 Aug 2026). The page used to walk these
+    segments itself and re-derive the SVG sweep flag while doing it, in two copies, one of which
+    also read only the y-flip on a page that mirrors x on one half — so the two halves of every
+    plate contradicted each other on every arc. A path in model coordinates has no handedness
+    problem to get wrong: the page wraps it in `<g transform="... scale(k, -k)">` and SVG mirrors
+    the arcs correctly on its own, which is the whole point of handing it a path instead of a
+    parameterisation.
+
+    One M and no more: a fresh M per assembly splits the outline into disconnected subpaths, which
+    fill as slivers."""
+    live = [a for a in geo.get("assemblies", []) if a.get("segments")]
+    if not live:
+        return ""
+    y0, y1 = live[0]["y0"], live[-1]["y1"]
+    d = [f"M 0,{y0:.4f}"]
+    first = True
+    for a in live:
+        sx0, sy0 = a["start"][0], (y0 if first else a["start"][1])
+        d.append(f"L {sx0:.4f},{sy0:.4f}")
+        d.append(_seg_cmds_model(a["segments"]))
+        first = False
+    d.append(f"L 0,{y1:.4f} Z")
+    return " ".join(x for x in d if x)
+
+
+def _seg_cmds_model(segments):
+    """Segments to path commands in MODEL space (identity transform, y up)."""
+    out = []
+    for s in segments:
+        if s["kind"] == "line":
+            out.append(f"L {s['to'][0]:.4f},{s['to'][1]:.4f}")
+        elif s["kind"] == "arc":
+            # y is UP here and the transform that flips it is the caller's `<g>`, so the model
+            # path's own handedness is the model's: counter-clockwise IS sweep 1. No flip
+            # detection, because there is no flip yet.
+            ccw = s["a1"] > s["a0"]
+            large = 1 if abs(s["a1"] - s["a0"]) > math.pi else 0
+            out.append(f"A {s['rx']:.4f} {s['ry']:.4f} 0 {large} {1 if ccw else 0} "
+                       f"{s['to'][0]:.4f},{s['to'][1]:.4f}")
+    return " ".join(out)
 
 
 def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
@@ -488,16 +548,77 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
             return radius_at(y)
         return r_top
 
+    # WHICH ASSEMBLIES SHARE A DATUM. The entablature is ONE coordinate system: its architrave,
+    # frieze and cornice are all relief from the same naked, so they must be read the same way or
+    # the reading is incoherent -- a frieze taken as naked-relative under a cornice taken as radii
+    # puts the two halves of one entablature in different spaces. The pedestal likewise. The
+    # column's three assemblies do NOT share one: a base, a shaft and a capital each have their
+    # own naked (and the shaft's is a function of height), so each is judged on its own evidence.
+    COLUMN = ("base", "shaft", "capital")
+    PEDESTAL = ("pedestal", "subplinth")
+
+    def _group(aid):
+        if aid in PEDESTAL:
+            return "pedestal"
+        if aid in COLUMN:
+            return aid
+        return "entablature"
+
+    def axis_holds_for(group_asms, naked):
+        """Is the PACK's `axis` declaration true of THIS group? (OQ 72, ruled 27 Aug 2026.)
+
+        A pack declares `projection_datum` once and it is not uniform across the pack's own
+        assemblies. `gibbs-ionic` declares `axis` -- true of its shaft, whose body records exactly
+        the semidiameter -- while its frieze records a projection of 0, and a frieze cannot stand
+        on the column's centre line. Read literally, `outer_face` clamps every member whose figure
+        falls under the local naked flush with it, which deletes bed moulds, whole capitals and
+        whole pedestals from the drawing.
+
+        Two pieces of evidence, either of which settles it, and both say the same thing: THESE
+        FIGURES CANNOT BE RADII.
+
+          1. A recorded 0. Under the radius reading that member stands on the centre line, which
+             is impossible for anything that has width. This is the signal the entablature gives.
+          2. Nothing in the group reaches its own naked. Every member would then sit inside the
+             shaft. This is the signal a capital gives, whose figures are all real and all small.
+
+        It only ever downgrades axis to naked, never the reverse: a pack declaring `naked` is
+        taken at its word, and a group with one plausible radius and some smaller members keeps
+        the declaration rather than being second-guessed.
+
+        `build/elevation.py::eave_cornice` detected this for the entablature alone while every
+        other surface kept the literal reading, so the same cornice drew two ways, 2.37x apart,
+        in one product. It lives here now so every consumer gets one answer."""
+        if not from_axis:
+            return False
+        projs = [m.get("projection_in") or 0.0 for a in group_asms for m in a.get("members", [])]
+        if not projs:
+            return True
+        if min(projs) <= 0.01:
+            return False
+        return max(projs) >= naked - 0.01
+
     out = {"module_in": dim.get("module_in"), "projection_datum": projection_datum,
            "lower_radius_in": round(R, 5), "upper_radius_in": round(r_top, 5),
            "die_naked_in": round(die_naked, 5),
            "shaft": ({"y0": sy0, "y1": sy1, "entasis_begins_at": ent_at,
                       "diminution": dimin} if shaft else None),
-           "assemblies": [], "unconstructed": [], "unrecorded": []}
+           "assemblies": [], "unconstructed": [], "unrecorded": [],
+           "assembly_datum": {}}
+
+    groups = {}
+    for a in dim.get("assemblies", []):
+        groups.setdefault(_group(a["id"]), []).append(a)
+    group_axis = {}
+    for gname, gasms in groups.items():
+        mid_y = (gasms[0]["y_bottom_in"] + gasms[-1]["y_top_in"]) / 2.0
+        group_axis[gname] = axis_holds_for(gasms, datum_for(gasms[0]["id"], mid_y))
 
     for a in dim.get("assemblies", []):
         aid = a["id"]
         segs, uncon, faces = [], [], []
+        axis_here = group_axis[_group(aid)]
+        out["assembly_datum"][aid] = "axis" if axis_here else "naked"
         x_cur = datum_for(aid, a["y_bottom_in"])
         start = (x_cur, a["y_bottom_in"])
         seen_side = False
@@ -524,10 +645,10 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
                               "segments": x_taper})
                 x_cur = radius_at(y1)
                 continue
-            if from_axis and not (m.get("projection_in") or 0.0) > 0:
+            if axis_here and not (m.get("projection_in") or 0.0) > 0:
                 out["unrecorded"].append({"assembly": aid, "id": m.get("id"),
                                           "profile": m.get("profile")})
-            face = outer_face(datum_for(aid, (y0 + y1) / 2.0), m.get("projection_in") or 0.0, from_axis)
+            face = outer_face(datum_for(aid, (y0 + y1) / 2.0), m.get("projection_in") or 0.0, axis_here)
             x_from = x_cur
             ms, x_cur = member_path(m.get("profile"), x_cur, y0, face, y1, note=m.get("note"))
             # Each member's OWN segments, so a plate that draws band by band (the workbench's
@@ -546,6 +667,14 @@ def pack_geometry(dim, column=None, projection_datum=None, taper_steps=14):
             "segments": segs, "faces": faces,
         })
         out["unconstructed"].extend(uncon)
+    # OQ 77: the finished paths, so no consumer re-derives a curve or a sweep flag.
+    out["path"] = silhouette_path_model(out)
+    for a in out["assemblies"]:
+        for f in a.get("faces", []):
+            segs = f.get("segments") or []
+            if segs:
+                f["path"] = (f"M 0,{f['y0']:.4f} L {f.get('x_from', f['x']):.4f},{f['y0']:.4f} "
+                             + _seg_cmds_model(segs) + f" L 0,{f['y1']:.4f} Z")
     return out
 
 

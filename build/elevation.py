@@ -52,6 +52,7 @@ GEOM = _mod("geometry", f"{ROOT}/build/geometry.py")
 ST = _mod("structure", f"{ROOT}/build/structure.py")
 RF = _mod("roof", f"{ROOT}/build/roof.py")
 PE = _mod("proportion_engine", f"{ROOT}/build/proportion_engine.py")
+PROF = _mod("profiles", f"{ROOT}/build/profiles.py")
 C = PC.load_corpus()
 
 FACES = ("S", "N", "E", "W")
@@ -329,12 +330,14 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     # the cornice clamps every member whose figure is smaller than the column's radius flush with
     # the frieze -- which silently deletes this cornice's bed mould and its fillet.
     #
-    # Detected rather than assumed, in the manner of proportion_engine.observed_projection_datum():
-    # the reading that would put a member inside the shaft is the reading that is wrong.
+    # DELEGATED, not detected here. This function used to carry its own copy of the rule, and
+    # `build/profiles.py::pack_geometry` -- which feeds both order plates and the DXF exporter --
+    # kept the pack's literal declaration, so the SAME cornice was drawn two ways, 2.37x apart,
+    # in one product. OQ 72 was ruled on 27 Aug 2026: detect per assembly-group, once, where every
+    # consumer sees it. The rule and its evidence now live in axis_holds_for() over there.
     full = PE.dimension(gibbs_pack, reduced_module_in)
-    base_faces = [m["projection_in"] for a in full["assemblies"] if a["id"] in ("frieze", "architrave")
-                  for m in a["members"]]
-    entab_from_axis = bool(base_faces) and min(base_faces) > 0.01
+    geo = PROF.pack_geometry(full, gibbs_pack.get("column"), full.get("projection_datum"))
+    entab_from_axis = geo["assembly_datum"].get("cornice") == "axis"
     datum = dim.get("projection_datum")
     totals = full.get("totals", {})
     col_naked_in = (totals.get("upper_diameter_in") or totals.get("lower_diameter_in") or 0.0) / 2.0

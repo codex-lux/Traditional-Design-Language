@@ -120,6 +120,30 @@ authored editorially. `check_orders.py` refuses a tooth as wide as its own pitch
 swell from a divided semicircle and Chambers gives another construction; no pack in this corpus
 records either, and the facsimiles that would settle it are network-blocked.
 
+**The datum is detected per assembly-group, not taken from the pack's declaration** (OQ 72, ruled
+27 Aug 2026). A pack declares `projection_datum` once and it is not uniform inside one: `gibbs-ionic`
+declares `axis` — true of its shaft, whose body records exactly the semidiameter — while its frieze
+records 0, and a frieze cannot stand on the column's centre line. `pack_geometry::axis_holds_for()`
+decides it on two signals, either of which settles it: **a recorded 0** (impossible under the radius
+reading — what an entablature gives) or **nothing in the group reaching its own naked** (every member
+would sit inside the shaft — what a capital gives). It only ever downgrades `axis` to `naked`. The
+entablature is one group because architrave, frieze and cornice share a naked; the pedestal likewise;
+the column's three assemblies each have their own and are judged separately. `check_orders.py` prints
+a NOTE for every axis pack naming which of its assemblies contradict the declaration — 14 packs do.
+
+**The paths are serialised in Python, in model space, and no consumer re-derives a curve** (OQ 77).
+`pack_geometry` emits `path` per pack and per face in MODEL inches (x out from the axis, y up); the
+order tool and the workbench plate apply an SVG `<g transform="… scale(k,-k)">`. A model-space path
+has no handedness to get wrong — SVG mirrors the arcs itself. The two JavaScript copies of the sweep
+rule that this replaced were **both** wrong, and one of them differently wrong from the other.
+
+**A repeating band is drawn tooth by tooth, or solid and said so.** `repeat_positions()` lays dentils,
+modillions, mutules and triglyphs out along a run from `width_in` and `spacing_in`, anchored where
+the caller knows the column axes (Gibbs: *"always the centre of a Modillion exactly over the centre of
+each column"*), filling both ways from every anchor. Where the authority published no width the band
+draws solid and the sheet prints the reason — a promise these documents made for a day before any
+surface kept it.
+
 **What is drawn is guarded separately from what is modelled.** `tests/test_profiles.py` asserts the
 constructions; `tests/test_drawn_geometry.py` reads the emitted SVG back through the W3C
 endpoint-to-centre rule and asserts the drawn arc is the modelled one, and that on the sheet an

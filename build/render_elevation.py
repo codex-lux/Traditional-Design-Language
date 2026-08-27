@@ -316,6 +316,38 @@ def render_elevation(elev, path, face=None, scale=6.0):
     co = proj_px(cornice.get("envelope_projection_in") or cornice.get("cornice_projection_in"))
     s.append(f'<rect class="bd w-prof" x="{X(0)-co:.1f}" y="{Ypx(true_eave_ft):.1f}" '
              f'width="{pw+2*co:.1f}" height="{(cornice_band_ft*scale):.1f}"/>')
+    # THE TEETH. A modillion band drawn as a solid band is a band of no modillions, and until
+    # 27 Aug 2026 that is what every cornice in this corpus was: the layout function existed, the
+    # widths were authored from the authorities' own notes, and nothing called it. Gibbs's rule
+    # is that a modillion centres over each column; this facade has no columns, so the bay centres
+    # are the anchors -- which is what the rule means on a wall.
+    band = None
+    for mm in cornice.get("members", []):
+        if (mm.get("profile") or "") in ("modillion", "dentil", "mutule", "triglyph"):
+            band = mm
+            break
+    if band:
+        rp = PROF.repeat_positions(
+            span_ft * 12.0,
+            spacing_in=band.get("spacing_in"),
+            width_in=band.get("width_in"),
+            centre_on=[(c - X(0) / scale) * 12.0 for c in front["centres_ft"]] or None)
+        by0 = true_eave_ft - (cornice["cornice_height_in"] - band["y_bottom_in"]) / 12.0
+        bh = (band["y_top_in"] - band["y_bottom_in"]) / 12.0 * scale
+        bp = proj_px(band.get("projection_in"))
+        if rp["solid"]:
+            # Drawn solid AND SAID SO -- the behaviour three documents describe and no surface
+            # performed. The reason travels to the legend rather than being swallowed here.
+            cornice_band_note = f'{band["profile"].upper()} BAND DRAWN SOLID — {rp["reason"].upper()}'
+        else:
+            cornice_band_note = None
+            for t in rp["teeth"]:
+                s.append(f'<rect class="bd w-fine" x="{X(t["x0"]/12.0):.1f}" '
+                         f'y="{Ypx(by0 + (band["y_top_in"]-band["y_bottom_in"])/12.0):.1f}" '
+                         f'width="{(t["x1"]-t["x0"])/12.0*scale:.1f}" height="{bh:.1f}"/>')
+    else:
+        cornice_band_note = None
+
     # the frieze band's own bed, which is where the cornice assembly actually starts
     fz = cornice.get("frieze_height_in")
     if fz:
@@ -400,6 +432,8 @@ def render_elevation(elev, path, face=None, scale=6.0):
     elif ht.get("rise_band_in"):
         notes.append(f'HEAD RISE IS A BAND OF {ht["rise_band_in"][0]}–{ht["rise_band_in"][1]}″ '
                      f'({_esc(str(ht.get("rise_source") or ""))}); DRAWN AT ITS MIDPOINT')
+    if cornice_band_note:
+        notes.append(cornice_band_note)
     if elev.get("chimney_stack_plan_judgment") and elev.get("chimney_stack_plan_in"):
         notes.append(f'STACK DRAWN {elev["chimney_stack_plan_in"]}″ SQUARE — A JUDGMENT, NOT A '
                      f'MEASUREMENT: THE COURSING PUTS IT BETWEEN SIZES AND A MASON WILL BUILD 18″ OR 27″')

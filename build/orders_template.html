@@ -272,46 +272,24 @@ function geomFor(pk, withPedestal){
    the drawn module to the module the geometry was constructed at. The sweep flag is recomputed
    for the screen because sy() flips y, and a flip reverses the way an arc turns. Emits NO
    leading M: the caller owns where the pen starts, because the whole stack is one outline. */
-function segCmds(segments, f, sx, sy){
-  /* NET handedness, not the y-flip alone. This page draws the section with x running one way
-     (sx = OX + x*k) and the mirrored elevation half with it running the other (dsx = OX - x*k),
-     and both through the same y-flip. Reading only y gave both halves the same sweep flag, so
-     the plate contradicted itself down its own centre line on every arc; reading only the net
-     of the two is what makes a mirrored half draw as a mirror. See build/profiles.py::svg_path,
-     which carries the same rule and the same history. */
-  const flip = (sx(1) < sx(0)) !== (sy(1) < sy(0));
-  let d = "";
-  for(const s of segments){
-    if(s.kind === "close") continue;                    // the stack closes once, at the end
-    if(s.kind === "line"){ d += ` L ${sx(s.to[0]*f).toFixed(2)},${sy(s.to[1]*f).toFixed(2)}`; continue; }
-    const ccw = s.a1 > s.a0;
-    const sweep = (ccw !== flip) ? 1 : 0;
-    const large = Math.abs(s.a1 - s.a0) > Math.PI ? 1 : 0;
-    const rx = Math.abs(sx(s.rx*f) - sx(0)), ry = Math.abs(sy(s.ry*f) - sy(0));
-    d += ` A ${rx.toFixed(2)} ${ry.toFixed(2)} 0 ${large} ${sweep} `
-       + `${sx(s.to[0]*f).toFixed(2)},${sy(s.to[1]*f).toFixed(2)}`;
-  }
-  return d;
-}
+/* THE PATHS COME FROM PYTHON NOW, in MODEL inches (x out from the axis, y up), and this page
+   applies an SVG transform instead of walking the segments (OQ 77, ruled 27 Aug 2026).
 
-/* The whole stack as ONE closed outline: up the axis, out to the foot of the lowest assembly,
-   through every member's own profile in turn, and back to the axis at the top. Emitting a fresh
-   M per assembly instead splits it into disconnected subpaths, which fill as slivers. */
-function silhouettePathFromGeometry(geo, f, sx, sy){
-  if(!geo || !geo.assemblies.length) return "";
-  const live = geo.assemblies.filter(a => a.segments.length);
-  if(!live.length) return "";
-  const y0 = live[0].y0*f, y1 = live[live.length-1].y1*f;
-  let d = `M ${sx(0).toFixed(2)},${sy(y0).toFixed(2)}`;
-  let first = true;
-  for(const a of live){
-    // step to this assembly's own springing: its naked, at its own foot
-    d += ` L ${sx(a.start[0]*f).toFixed(2)},${sy((first? y0 : a.start[1]*f)).toFixed(2)}`;
-    d += segCmds(a.segments, f, sx, sy);
-    first = false;
-  }
-  d += ` L ${sx(0).toFixed(2)},${sy(y1).toFixed(2)} Z`;
-  return d;
+   What used to be here was `segCmds`, which re-derived the SVG sweep flag for every arc — and got
+   it wrong twice over. It emitted the inverse of the correct flag, so every arc drew as its own
+   mirror; and it read only the y-flip, on a page that draws its section half with x running one
+   way and its mirrored elevation half with x running the other, so the two halves of the same
+   plate contradicted each other. Both bugs are invisible in the path string and invisible to any
+   test that asks the model where a curve is.
+
+   A model-space path has no handedness for this page to get wrong. `<g transform="translate(...)
+   scale(k,-k)">` mirrors the arcs correctly because that is SVG's own job, and the flip that used
+   to need detecting is now just a negative number in a matrix. `vector-effect="non-scaling-stroke"`
+   keeps the pen off the scale. */
+function placed(pathD, tx, ty, sx, sy, cls, extra){
+  if(!pathD) return "";
+  return `<g transform="translate(${tx.toFixed(2)},${ty.toFixed(2)}) scale(${sx},${sy})">`
+       + `<path class="${cls}" d="${pathD}" vector-effect="non-scaling-stroke"${extra||""}/></g>`;
 }
 
 function geomMaxX(geo, f){
@@ -392,7 +370,7 @@ function draw(){
   // elevation half (mirrored, quiet)
   if(S.elev){
     const dsx = x => OX - x*k;
-    g += `<path class="elev" d="${silhouettePathFromGeometry(geo0, f, dsx, sy)}"/>`;
+    g += placed(geo0 && geo0.path, OX, sy(0), -k*f, -k*f, "elev");
     // flutes hint on the shaft
     const sh = dim.assemblies.find(a=>a.id==="shaft");
     const fl = pk.column && pk.column.fluting && pk.column.fluting.count;
@@ -412,7 +390,7 @@ function draw(){
   }
 
   // the section itself
-  g += `<path class="silh" d="${silhouettePathFromGeometry(geo0, f, sx, sy)}"/>`;
+  g += placed(geo0 && geo0.path, OX, sy(0), k*f, -k*f, "silh");
 
   // ghost comparison
   if(S.ghost && P[packId(S.ghost,S.order)]){
@@ -423,7 +401,7 @@ function draw(){
     const foot = d2 => { const a = d2.assemblies.find(x=>x.id==="base") || d2.assemblies.find(x=>x.id==="shaft"); return a? a.y0 : 0; };
     const dy = foot(dim) - foot(gd);                 // align at the foot of the column
     const gsy = y => sy(y + dy);
-    g += `<path class="silh ghost" d="${silhouettePathFromGeometry(gg, gf, sx, gsy)}"/>`;
+    g += placed(gg && gg.path, OX, gsy(0), k*gf, -k*gf, "silh ghost");
     g += `<line class="dimline" style="stroke:var(--verdigris)" x1="${sx(0)}" y1="${gsy(gd.totals.stackIn)}" x2="${W-46}" y2="${gsy(gd.totals.stackIn)}" stroke-dasharray="4 3"/>`;
     g += `<text class="lbl" style="fill:var(--verdigris)" x="${W-50}" y="${gsy(gd.totals.stackIn)-5}" text-anchor="end">${esc(gp.name)} — ${inches(gd.totals.stackIn)} overall${gd.totals.columnD?` · ${gd.totals.columnD} D column`:""}</text>`;
   }

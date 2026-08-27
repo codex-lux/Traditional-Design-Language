@@ -55,6 +55,7 @@ FLOAT_TOL = 1e-6
 
 errors = []
 warnings = []
+notes = []
 checked = 0
 # id -> pack, for every pack that declares overlay_of; resolved after all are loaded.
 overlays = {}
@@ -68,6 +69,15 @@ def err(pack_id, msg):
 
 def warn(pack_id, msg):
     warnings.append(f"{pack_id}: {msg}")
+
+
+def note(pack_id, msg):
+    """A third state: neither wrong nor clean, but a fact the corpus must not hold silently.
+
+    OQ 72's whole cost was that a pack disagreeing with its own declaration said nothing, so the
+    published account of it claimed the column family was sound. This is what a checker owes a
+    known, ruled, handled condition -- disclosure without the false alarm of a warning."""
+    notes.append(f"{pack_id}: {msg}")
 
 
 # ---------------------------------------------------------------- expressions
@@ -350,6 +360,13 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
 
 # ---------------------------------------------------------------- overlays
 
+def _profiles():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("prof", os.path.join(ROOT, "build", "profiles.py"))
+    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    return m
+
+
 def check_projection_datum(by_id):
     """OQ 65, ruled 26 Aug 2026. Every pack whose members carry a projection at all must
     say which datum it was measured from, and the declaration is VERIFIED against the
@@ -389,6 +406,28 @@ def check_projection_datum(by_id):
                      f"'{observed}' — one of the two is wrong and every drawing of this "
                      f"pack is wrong with it")
 
+
+        # WHERE THE DECLARATION DOES NOT HOLD, reported per assembly-group (OQ 72, ruled
+        # 27 Aug 2026). This check read the SHAFT and nothing else, so it passed gibbs-ionic
+        # clean while that pack's whole capital, whole pedestal and whole entablature
+        # contradicted the same declaration -- and the published account of OQ 72 said the
+        # column family was sound on the strength of it.
+        #
+        # This is a NOTE, not an error. The declaration is the COLUMN's and is correct there;
+        # build/profiles.py::pack_geometry now detects the reading per group from the pack's own
+        # evidence, so a pack that disagrees with itself is drawn right rather than drawn wrong
+        # and blamed. What must never happen again is that it disagrees SILENTLY.
+        if declared == "axis":
+            try:
+                geo = _profiles().pack_geometry(d, r.get("column"), declared)
+            except Exception as e:
+                warn(pid, f"could not read assembly datums: {e}")
+            else:
+                naked_groups = sorted({a for a, v in geo["assembly_datum"].items() if v == "naked"})
+                if naked_groups:
+                    note(pid, "declares axis, but its own figures read as relief from the naked "
+                              f"in: {', '.join(naked_groups)} — drawn that way by evidence "
+                              f"(OQ 72), not by the declaration")
 
 def check_overlays(by_id):
     """Resolve every overlay_of against the loaded corpus.
@@ -465,12 +504,15 @@ def main():
     check_overlays(by_id)
     check_projection_datum(by_id)
 
+    for n in notes:
+        print(f"NOTE  {n}")
     for w in warnings:
         print(f"WARN  {w}")
     for e in errors:
         print(f"ERROR {e}")
 
-    print(f"\n{checked} pack(s) checked, {len(errors)} error(s), {len(warnings)} warning(s)")
+    print(f"\n{checked} pack(s) checked, {len(errors)} error(s), "
+          f"{len(warnings)} warning(s), {len(notes)} note(s)")
     return 1 if errors else 0
 
 
