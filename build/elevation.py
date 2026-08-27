@@ -931,6 +931,15 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     # own report on the Ludwell-Paradise House says "None. (Being a brick building in colonial
     # times shutters appeared only in interiors.)" The gap was adjudicated in the kit on
     # 27 Aug 2026 (WP-5.9, and the OQ 51 idiom); this reads the answer.
+    # THE REVEAL, read from whichever of the two slots this construction uses. A band, not a
+    # figure -- 4 to 8 in on the masonry kit -- so it travels as a band and the drawing uses its
+    # PRESENCE (which edges fall into shadow) rather than claiming a depth the corpus withholds.
+    _rv = ((C["kits"].get(style) or {}).get("slots", {}) or {})
+    _rvs = (_rv.get("reveal_masonry") if is_masonry else _rv.get("reveal_frame")) or {}
+    _rvp = (_rvs.get("parameters") or {}).get("reveal") or {}
+    reveal_band_in = list(_rvp["range"]) if _rvp.get("range") else (
+        [_rvp["value"], _rvp["value"]] if isinstance(_rvp.get("value"), (int, float)) else None)
+
     shutter_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("shutter") or {}
     _sv = {v["id"]: v.get("status") for v in shutter_slot.get("variants", [])}
     shutters_carried = bool(_sv) and _sv.get("none") != "canonical"
@@ -1003,6 +1012,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     for sw in storey_windows:
         sw["head_treatment"] = _head_treatment(sw["opening_width_in"])
         sw["shutters_carried"] = shutters_carried
+        sw["reveal_band_in"] = reveal_band_in
         if not shutters_carried:
             # A shutter that is not there has no leaf. Absent, not zero.
             sw["shutter_leaf_width_in"] = None

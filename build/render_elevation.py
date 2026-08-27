@@ -108,10 +108,24 @@ def _style_block():
             # grid sit ON something. Diagonal glazing hatches are the fastest way to make a
             # careful elevation look like an estate agent's drawing -- HABS forbids generated
             # hatch patterns outright.
-            f'.op{{fill:{PAL["ground"]};stroke:{PAL["ink"]};stroke-width:1.1}}'
+            # GLASS IS A TONE, NOT A HOLE -- HABS 4.6.6, and the older drawn practice the manual
+            # praises: "Glass areas are black." A pane left the colour of the sheet reads as a gap
+            # in the wall; a dark even tone reads as glass and lets the muntin grid sit ON
+            # something. No diagonal glazing hatch: HABS forbids generated hatch patterns.
+            #
+            # POLARITY TRAP, and it cost an hour here on 27 Aug 2026. This file draws in a DARK
+            # palette and `workbench/server/svg_theme.py` substitutes it hex-for-hex to the light
+            # sheet the workbench actually serves. So a colour that looks dark HERE is light
+            # THERE. `PAL["glass"]` exists for exactly this and maps to coal #221F1A -- the
+            # convention is about the DELIVERED sheet, and judging these choices from the dark
+            # preview inverts every one of them.
+            f'.op{{fill:{PAL["glass"]};stroke:{PAL["ink"]};stroke-width:1.1}}'
             # A muntin against dark glass is drawn in the LIGHT colour: it is a solid bar in front
             # of the pane, and at 1/4 in = 1 ft a 7/8 in bar is 1.75 px, which is a real line.
-            f'.mt{{stroke:{PAL["sash"]};stroke-width:1.0;stroke-opacity:0.9}}'
+            # The muntin is a solid bar in FRONT of the pane, so it is drawn light against the
+            # coal -- `paper` here, which is the sheet's own colour once themed. At 1/4 in = 1 ft
+            # a 7/8 in bar is 1.75 px, which is a real line rather than a suggestion.
+            f'.mt{{stroke:{PAL["paper"]};stroke-width:1.0}}'
             f'.sh{{fill:{PAL["shutter"]};stroke:{PAL["ink"]};stroke-width:0.6}}'
             f'.dr{{fill:{PAL["copper"]};stroke:{PAL["ink"]};stroke-width:0.8}}'
             f'.cs{{fill:none;stroke:{PAL["brass"]};stroke-width:1.0}}'
@@ -122,6 +136,7 @@ def _style_block():
             f'.shingle{{stroke:{PAL["ink"]};stroke-width:0.4;stroke-opacity:0.5;fill:none}}'
             f'.pnl{{fill:none;stroke:{PAL["ink"]};stroke-opacity:0.75}}'
             f'.gl{{stroke:{PAL["ink"]};fill:none}}'
+            f'.shade{{stroke:{PAL["ink"]};stroke-opacity:0.92;fill:none;stroke-linecap:square}}'
             f'.wt{{fill:{PAL["rule"]};stroke:{PAL["ink3"]};stroke-width:0.6}}'
             f'.ch{{fill:{PAL["iron"]};stroke:{PAL["ink"]};stroke-width:0.6}}'
             f'.pf{{fill:{PAL["paper"]};stroke:{PAL["ink2"]};stroke-width:0.7}}'
@@ -144,7 +159,7 @@ def _sash_grid(s, x0, y0, x1, y1, lights_across, lights_high):
     return "".join(out)
 
 def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, scale,
-            head=None, sill_in=None, panel_count=None):
+            head=None, sill_in=None, panel_count=None, reveal_in=None):
     x0, x1 = X(cx - width_in / 2 / 12.0), X(cx + width_in / 2 / 12.0)
     yb, yt = Ypx(y_bottom), Ypx(y_top)
     out = []
@@ -232,6 +247,18 @@ def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutte
     out.append(f'<rect class="op" x="{x0:.1f}" y="{yt:.1f}" width="{x1-x0:.1f}" height="{yb-yt:.1f}"/>')
     # THE MEETING RAIL is the thickest bar in the window -- 1 1/4 in against a 7/8 in muntin --
     # and it is the line that tells a reader the sash is double-hung rather than a fixed grid.
+    # THE REVEAL. In solid masonry of this tradition the frame sits BACK from the wall face -- the
+    # corpus resolves `none-masonry-reveal` and a 4-8 in reveal -- and that recess is the single
+    # thing that makes a brick elevation read as a mass with holes in it rather than as a flat
+    # plane with rectangles drawn on. Light over the left shoulder at 45 degrees puts the shadow
+    # on the HEAD and the LEFT JAMB, inside the opening, to a depth equal to the reveal.
+    #
+    # The reveal is a BAND in the corpus (4 to 8 in), not a figure, so what is drawn is the
+    # shadow's presence and not a measured depth: the shade line goes on the two edges the
+    # geometry puts it on, and the sheet does not claim a number the data does not give.
+    if reveal_in:
+        out.append(_shade(x0, yt, x1, yb, sides=("top", "left")))
+
     meeting_y = (yb + yt) / 2.0
     out.append(f'<line class="mt w-med" x1="{x0:.1f}" y1="{meeting_y:.1f}" x2="{x1:.1f}" y2="{meeting_y:.1f}"/>')
     out.append(_sash_grid(s, x0, meeting_y, x1, yb, lights_across, lights_high))   # lower sash
@@ -307,6 +334,36 @@ def _entrance(elev, cx, floor_ft, X, Ypx, scale):
 # ("They are laid 5-1/2 to 6 in to the weather"); the 1700s Virginia statute fixes shingle LENGTH
 # and says nothing about exposure, so this is conventional practice and not a period measurement.
 SHINGLE_EXPOSURE_IN = 5.75
+
+
+def _shade(x0, y0, x1, y1, sides=("bottom",)):
+    """SHADE LINES: relief drawn in line, not in tone.
+
+    The conventional light of architectural drawing comes over the viewer's left shoulder at 45
+    degrees, so on a front elevation every projecting member is lit on its top and left and dark
+    on its underside and right. The depth of the cast shadow on the wall equals the member's own
+    projection exactly -- that is the whole of the geometry, and it is why a water table that
+    projects 2 in and a cornice that projects 10 in do not read alike.
+
+    Rendered as WEIGHT rather than as tone, deliberately. HABS's guidelines prohibit shading in
+    elevation outright and then bless this instead: accenting the shadowed edge of a member is
+    the line-only way to get relief, and it is what its own delineators did. It also suits this
+    corpus: it introduces no colour (so `svg_theme.HEX_MAP` stays total), it uses the ladder that
+    is already there, and it does not put a wash over a drawing whose whole claim is that every
+    line is a measurement.
+
+    Without it a projection is invisible. A band drawn at its true width against a flat wall is
+    still a flat wall on the sheet -- which is most of why the elevation read as a diagram."""
+    out = []
+    if "bottom" in sides:
+        out.append(f'<line class="shade w-prof" x1="{x0:.1f}" y1="{y1:.1f}" x2="{x1:.1f}" y2="{y1:.1f}"/>')
+    if "right" in sides:
+        out.append(f'<line class="shade w-prof" x1="{x1:.1f}" y1="{y0:.1f}" x2="{x1:.1f}" y2="{y1:.1f}"/>')
+    if "left" in sides:
+        out.append(f'<line class="shade w-prof" x1="{x0:.1f}" y1="{y0:.1f}" x2="{x0:.1f}" y2="{y1:.1f}"/>')
+    if "top" in sides:
+        out.append(f'<line class="shade w-prof" x1="{x0:.1f}" y1="{y0:.1f}" x2="{x1:.1f}" y2="{y0:.1f}"/>')
+    return "".join(out)
 
 
 def _profile_span_at(profile_ft, y):
@@ -419,6 +476,10 @@ def render_elevation(elev, path, face=None, scale=24.0):
         wt_o = proj_px(wtb.get("water_table_projection_in"))
         s.append(f'<rect class="wt w-prof" x="{X(0)-wt_o:.1f}" y="{Ypx(wt_top_ft):.1f}" '
                  f'width="{pw+2*wt_o:.1f}" height="{(wt_top_ft*scale):.1f}"/>')
+        # Its underside is in shadow: the light is over the left shoulder at 45 degrees and this
+        # course projects 2 1/16 in past the wall. Without the shade line a water table drawn at
+        # its true projection is a stripe, not a plinth.
+        s.append(_shade(X(0)-wt_o, Ypx(wt_top_ft), X(span_ft)+wt_o, Ypx(0)))
         # The moulded courses the pack authors and nothing drew: front-on, each member reads as
         # the line where it meets the one below. The ovolo course is the whole point of a water
         # table's grade -- an ogee is the better work and a plain bevel the cheap.
@@ -434,6 +495,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
             bo = proj_px(wtb.get("belt_course_projection_in"))
             s.append(f'<rect class="wt w-med" x="{X(0)-bo:.1f}" y="{Ypx(belt_ft+belt_h_ft):.1f}" '
                      f'width="{pw+2*bo:.1f}" height="{(belt_h_ft*scale):.1f}"/>')
+            s.append(_shade(X(0)-bo, Ypx(belt_ft+belt_h_ft), X(span_ft)+bo, Ypx(belt_ft)))
 
     # BRICK COURSING. brick-course.json fixes one course at module/parts and its own note says
     # why it matters: "in a brick building there are no free horizontal dimensions above the
@@ -453,6 +515,10 @@ def render_elevation(elev, path, face=None, scale=24.0):
     co = proj_px(cornice.get("envelope_projection_in") or cornice.get("cornice_projection_in"))
     s.append(f'<rect class="bd w-prof" x="{X(0)-co:.1f}" y="{Ypx(true_eave_ft):.1f}" '
              f'width="{pw+2*co:.1f}" height="{(cornice_band_ft*scale):.1f}"/>')
+    # The cornice throws the deepest shadow on the building -- its projection is the greatest of
+    # any member, and on a Georgian front that band of dark under the eaves is the first thing the
+    # eye reads. Drawn as the heaviest shade line on the sheet after the ground.
+    s.append(_shade(X(0)-co, Ypx(true_eave_ft), X(span_ft)+co, Ypx(top_of_wall_ft)))
     # THE TEETH. A modillion band drawn as a solid band is a band of no modillions, and until
     # 27 Aug 2026 that is what every cornice in this corpus was: the layout function existed, the
     # widths were authored from the authorities' own notes, and nothing called it. Gibbs's rule
@@ -499,12 +565,12 @@ def render_elevation(elev, path, face=None, scale=24.0):
                               gw["opening_width_in"], gw["lights_across"], gw["lights_high_per_sash"],
                               gw["shutter_leaf_width_in"], gw["shutter_leaf_height_in"], X, Ypx, scale,
                               head=gw.get("head_treatment"), sill_in=wtb.get("course_height_in"),
-                          panel_count=gw.get("shutter_panel_count")))
+                          panel_count=gw.get("shutter_panel_count"), reveal_in=gw.get("reveal_band_in")))
         s.append(_window(s, cx, floor2_ft + uw["sill_height_above_floor_in"]/12.0, floor2_ft + uw["head_height_above_floor_in"]/12.0,
                           uw["opening_width_in"], uw["lights_across"], uw["lights_high_per_sash"],
                           uw["shutter_leaf_width_in"], uw["shutter_leaf_height_in"], X, Ypx, scale,
                           head=uw.get("head_treatment"), sill_in=wtb.get("course_height_in"),
-                          panel_count=uw.get("shutter_panel_count")))
+                          panel_count=uw.get("shutter_panel_count"), reveal_in=uw.get("reveal_band_in")))
 
     # THE ROOF, drawn as the closed plane it is rather than as a line along its bottom edge.
     #

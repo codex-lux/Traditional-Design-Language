@@ -419,3 +419,54 @@ class TestTheGaugedArchIsDrawnAsBrickwork:
         depth = float(m.group(2)) - float(m.group(5))
         assert splay == pytest.approx(depth / math.tan(math.radians(60.0)), rel=0.05), (
             "the skewback is not at 60 degrees")
+
+
+class TestRelieflsDrawnInLineNotInTone:
+    """WP-5.9. A projection drawn at its true width against a flat wall is still a flat wall on
+    the sheet — which is most of why this elevation read as a diagram rather than a building.
+
+    The convention is not decorative and it is not free-hand: the light comes over the viewer's
+    left shoulder at 45 degrees, so every projecting member is lit on its top and left and dark on
+    its underside and right, and the depth of the cast shadow equals the member's own projection
+    exactly. HABS prohibits shading in elevation outright and blesses this instead — accenting the
+    shadowed edge is the line-only way to get relief.
+
+    Guarded because it is the class of thing that silently stops happening: nothing else in the
+    suite would notice if every shade line vanished, and the drawing would go back to flat."""
+
+    def _svg(self, tmp_path, plan_id="tidewater-georgian-careful"):
+        import json as _j
+        e = modcache.load("elevation", os.path.join(ROOT, "build", "elevation.py"))
+        r = modcache.load("render_elevation", os.path.join(ROOT, "build", "render_elevation.py"))
+        elev = e.build_elevation(_j.load(open(os.path.join(ROOT, "plans", f"{plan_id}.json"))))
+        out = str(tmp_path / f"{plan_id}.svg")
+        r.render_elevation(elev, out)
+        return open(out).read(), elev
+
+    def test_every_projecting_band_carries_a_shade_line(self, tmp_path):
+        import re
+        svg, elev = self._svg(tmp_path)
+        n = len(re.findall(r'class="shade', svg))
+        # water table, belt course, cornice -- the three bands that project from the wall plane
+        assert n >= 3, f"only {n} shade lines: the projecting bands are drawn flat"
+
+    def test_a_masonry_reveal_shades_its_head_and_left_jamb(self, tmp_path):
+        """The recess is what makes a brick elevation read as a mass with holes in it. Light from
+        the upper left puts the shadow on the head and the LEFT jamb — not the right, which is the
+        lit side, and drawing it there would light the building from the wrong quarter."""
+        import re
+        svg, elev = self._svg(tmp_path)
+        band = elev["storey_windows"][0].get("reveal_band_in")
+        assert band, "the masonry kit states a reveal and the record dropped it"
+        # nine openings, each contributing a head and a jamb, on top of the three bands
+        assert len(re.findall(r'class="shade', svg)) >= 3 + 2 * 9
+
+    def test_a_frame_wall_gets_no_reveal_shadow(self, tmp_path):
+        """A frame house has an architrave standing PROUD of the sheathing, not a recess cut into
+        a 13 1/2 in wall. Drawing a reveal shadow on it would assert a detail of the wrong
+        construction — and the corpus says so: `reveal_frame` carries no figure for this style."""
+        import re
+        svg, elev = self._svg(tmp_path, "spec-builder-colonial")
+        assert not elev["storey_windows"][0].get("reveal_band_in")
+        assert len(re.findall(r'class="shade', svg)) <= 4, (
+            "a frame wall is being given a masonry reveal's shadow")
