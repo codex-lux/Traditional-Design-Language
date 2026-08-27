@@ -322,12 +322,30 @@ class TestRoofOutlineAndElevationProfiles:
         assert heights[1] == main["ridge"]["grade_to_ridge_ft"]
         assert heights[0] == heights[2] == main["grade_to_eave_ft"]
 
-    def test_long_face_of_a_simple_gable_is_a_flat_eave_line(self, roof_module):
+    def test_long_face_of_a_simple_gable_reaches_the_ridge(self, roof_module):
+        """REWRITTEN 27 Aug 2026 (WP-5.9). This test asserted the opposite -- that the long face is
+        a flat eave line of two points -- and it was pinning a bug.
+
+        The code it guarded carried the comment "ridge is behind the near roof plane, not
+        visible", which is a PERSPECTIVE argument applied to an ORTHOGRAPHIC projection. In
+        parallel projection the near plane slopes away from the viewer and maps to a full-width
+        band from the eave up to the ridge; the ridge is the top edge of the drawing, at its true
+        height. Every front elevation this corpus drew of a side-gable house was short by the
+        whole roof -- 14.22 ft on the Tidewater reference plan.
+
+        The test passed for three work packages because it agreed with the code. A guard written
+        from the same misunderstanding as the thing it guards is not a guard, and this is the
+        second one of those found in two days (see tests/test_profiles.py's receding member)."""
         plan, section = _tidewater_section(roof_module)
         main = roof_module.main_roof(plan, section, plan["style"])
         profile = roof_module.elevation_profile(section, main, "S")
-        assert len(profile) == 2
-        assert profile[0][1] == profile[1][1] == main["grade_to_eave_ft"]
+        assert len(profile) == 4, "a roof plane is an area, not a line along its bottom edge"
+        heights = [p[1] for p in profile]
+        assert heights[0] == heights[-1] == main["grade_to_eave_ft"]
+        assert heights[1] == heights[2] == main["ridge"]["grade_to_ridge_ft"]
+        # and it is a RECTANGLE: the ridge runs the full width, unlike a hip's, which runs in
+        xs = [p[0] for p in profile]
+        assert xs[1] == xs[0] and xs[2] == xs[3], "a side-gable front is not a trapezoid"
 
     def test_hip_long_face_is_a_trapezoid(self, roof_module):
         plan, section = _tidewater_section(roof_module, roof_form="hip")

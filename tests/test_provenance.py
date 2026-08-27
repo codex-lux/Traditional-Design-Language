@@ -90,7 +90,17 @@ def test_the_editorial_parameters_carried_forward_are_still_the_known_number():
     and the corpus cannot drift apart again without a test saying so. Update it deliberately,
     with the reason, the way every other count in this suite is updated."""
     c = census()
-    assert c["editorial"] == 199, c["editorial"]
+    assert c["editorial"] == 201, c["editorial"]
+    # 199 -> 201 on 27 Aug 2026 (WP-5.9): two shutter panel counts authored on
+    # `tidewater-georgian`'s shutter slot when that slot was adjudicated. The style had bound the
+    # slot EMPTY, so the cascade delivered its parent's raised-panel pair and every elevation of
+    # a solid-brick Chesapeake house was drawn with exterior shutters four independent records
+    # say it never had. Both new parameters are editorial, judgment, and carry the unverified-at-
+    # source idiom this package introduced: the Colonial Williamsburg and NPS documents they rest
+    # on were read as search-index excerpts and could not be opened from here (the proxy block
+    # that holds OQ 7-11). They are the honest kind of editorial -- a figure the corpus needs,
+    # marked as a judgment, with its basis quoted -- and not the kind this same package deleted
+    # from build/elevation.py, which were ratios with no author at all.
     # 164 -> 162 on 24 Aug 2026 (OQ 46): splitting the Georgian and Tidewater window heads
     # against the new `arch` slot put those two slots under OQ 19's determined_by check, which
     # requires a note on an editorial number sitting where a determination should be. Two got
