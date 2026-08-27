@@ -52,7 +52,14 @@ class TestShippedPlans:
         #     console table were each being asked for clearance on BOTH sides. Furniture
         #     findings across the two shipped plans: 44 -> 34, all of them removed
         #     accusations rather than removed checks.
-        assert result["counts"]["serious"] == 54
+        # 54 -> 53 on 27 Aug 2026 (WP-7.4). The two score terms pulled a cut onto the bay line
+        # and THE PORCH CAME OUT 6.00 FT INSTEAD OF 5.71, which clears `porch-nobody-can-sit-on`
+        # outright (it wants at least 6.0) and leaves `four-foot-porch` failing from 6.00 rather
+        # than 5.71 against its 7.0. One fault removed because the house got better, not because
+        # a check stopped looking: the finding that remains still fires, with a better number.
+        # That a span-capacity charge produces a sittable porch is a coincidence of this plan's
+        # geometry and not a claim about the term.
+        assert result["counts"]["serious"] == 53
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
