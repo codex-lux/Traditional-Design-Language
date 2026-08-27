@@ -11,6 +11,7 @@ import { FilterInput } from '../components/FilterInput.jsx';
 import { StylePicker } from '../components/StylePicker.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 import { matches } from '../search/match.js';
+import { PullPane } from '../components/PullPane.jsx';
 
 const DEFAULT_FAULT = 'porch-too-shallow-to-inhabit';
 
@@ -120,8 +121,8 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
       </FilterStrip>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        <div style={{ width: 330, flex: 'none', borderRight: '1px solid var(--rule)', overflow: 'auto',
-          minHeight: 0 }}>
+        <PullPane pane="faults" side="left"
+          style={{ borderRight: '1px solid var(--rule)', overflow: 'auto' }}>
           <div style={{ padding: '11px 12px', borderBottom: '1px solid var(--rule)' }}>
             <Eyebrow>
               {all.length} solecisms · {list.length} shown here
@@ -163,7 +164,7 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
               </button>
             );
           })}
-        </div>
+        </PullPane>
 
         <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '18px 22px 34px' }}>
           {fault && (

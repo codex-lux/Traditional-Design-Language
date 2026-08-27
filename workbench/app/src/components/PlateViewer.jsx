@@ -9,7 +9,7 @@
 
    The scale is a CSS transform, which means `getScreenCTM()` still maps screen pixels
    back to model feet correctly: the plan's wall-drag handles keep working at any
-   magnification. That it magnifies the pen along with the drawing is OQ 64.
+   magnification. That it magnifies the pen along with the drawing is OQ 66 (it was raised as 64 and reissued at the 26 Aug merge).
 
    Fit is the resting state and is recomputed as the pane resizes; once the reader
    chooses a magnification it is held until they ask to fit again. Panning is by drag,

@@ -2,15 +2,21 @@
 
    There were none before this. That is worth keeping in mind: nothing in the corpus, the
    rail or any surface expects a key, so the whole map is what is written here, and it is
-   short on purpose. Three keys, no chords, no modal sequences:
+   short on purpose. Six keys, no chords, no modal sequences:
 
      ⌘K / ctrl-K   the palette — the one way to jump anywhere
      /             focus the filter bar on this surface
+     [             fold the surface list away, or bring it back
+     ]             fold the rail away, or bring it back
      ?             what these keys are, and the citation grammar
-     esc           close whatever is open, or clear the filter bar
+     esc           close whatever is open, leave full screen, or clear the filter bar
 
-   A fourth would need a reason. The palette IS the jump mechanism; a `g then k` chord
-   would only be a second, worse one that has to be memorised.
+   A fourth needed a reason and WP-5.7 had one for two of them. The rails are 580px of
+   permanent furniture between the reader and the drawing; a fold that can only be reached
+   by finding a 12px glyph at the foot of the thing you want gone is a fold nobody uses.
+   `[` and `]` are the brackets around the canvas, which is what they do. A `g then k`
+   chord would still be a second, worse jump mechanism that has to be memorised, and is
+   still not here.
 
    The rule about typing: while the caret is in a field, only ⌘K and escape are keys.
    Everything else is a character, including `?` and `/` — a slash typed into the fault
@@ -26,7 +32,8 @@ export function isTyping(el) {
   return FIELD.test(el.tagName || '');
 }
 
-/* handlers: {onPalette, onHelp, onSlash, onEscape} — each optional. */
+/* handlers: {onPalette, onHelp, onSlash, onEscape, onFoldNav, onFoldRail} — each
+   optional. */
 export function useGlobalKeys(handlers) {
   const ref = React.useRef(handlers);
   ref.current = handlers;
@@ -58,6 +65,12 @@ export function useGlobalKeys(handlers) {
       } else if (ev.key === '?') {
         ev.preventDefault();
         h.onHelp && h.onHelp();
+      } else if (ev.key === '[') {
+        ev.preventDefault();
+        h.onFoldNav && h.onFoldNav();
+      } else if (ev.key === ']') {
+        ev.preventDefault();
+        h.onFoldRail && h.onFoldRail();
       }
     }
 
@@ -86,6 +99,8 @@ export function requestFilterFocus() {
 export const SHORTCUTS = [
   { keys: '⌘K', alt: 'ctrl K', does: 'Search everything — styles, slots, faults, packs, rooms, surfaces' },
   { keys: '/', does: 'Filter the list in front of you' },
+  { keys: '[', does: 'Fold the surface list away, or bring it back' },
+  { keys: ']', does: 'Fold the rail away, or bring it back' },
   { keys: '?', does: 'This card' },
-  { keys: 'esc', does: 'Close, or clear the filter' },
+  { keys: 'esc', does: 'Close, leave full screen, or clear the filter' },
 ];

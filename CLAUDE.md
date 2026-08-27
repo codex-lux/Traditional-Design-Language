@@ -94,11 +94,12 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **32 checks, 970 tests**
-(plus the workbench app suite, `node --test`). The test figure was 762 here and had been stale
-for some time -- `check_counts.py` polices counts DERIVED FROM THE CORPUS, and a test count is
-not one of them; nor are numbers written into JSX, which is how the Kit's header claimed 95
-slots against an ontology holding 97.
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **33 checks, 970 tests**
+(plus the workbench app suite, **36** under `node --test`). The test figure was 762 here and had
+been stale for some time, and the CHECK figure said 32 against a suite of 33 until WP-5.7 ran it
+and read the total -- `check_counts.py` polices counts DERIVED FROM THE CORPUS, and neither a
+test count nor a check count is one of them; nor are numbers written into JSX, which is how the
+Kit's header claimed 95 slots against an ontology holding 97.
 
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
 19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
@@ -134,6 +135,57 @@ undulating elevation. **Read that report's closing section before touching this 
 the four things the package leaves open, chief among them a finding nobody has raised as a question
 yet — five unrelated traditions all say ornament works by being BOUNDED, and it should be tested
 against the whole style graph rather than noticed one pack at a time.
+
+**WP-5.7 changed the shell's proportions and the atlas's resolution, and both are worth
+knowing before touching the workbench.** Raised by Lucas against a screenshot of the map:
+*"the map is VERY crude and doesn't take well to zooming in since the resolution does not
+scale up as you zoom in"*, plus full screen, collapsible rails and draggable margins.
+**The crudeness was two defects wearing one symptom, and the first is the one to remember:
+`vector-effect` is not an inherited property**, so `vectorEffect="non-scaling-stroke"` set on
+a `<g>` reached none of the paths inside it, and the coastline's `strokeWidth={0.7}` was 0.7
+DEGREES of ink -- seventy pixels at the zoom the reader was complaining about. Third instance
+in this codebase of a per-element SVG property set on a parent and ignored; the e2e walk now
+asserts the general form (no stroked mark in the atlas may carry a `stroke-width` without a
+`vector-effect` of its own). The second defect was real too: one outline at every scale. There
+are three now -- `workbench/scripts/make_coastlines.py` generates coarse/medium/fine from
+Natural Earth 110m/50m/10m, `surfaces/phylo/coastTiers.js` fetches the one the scale has
+earned, and **while a finer tier is in flight or has failed the legend says what is actually on
+the plate** rather than letting a facet pass for a shore. `MIN_W` is 3 degrees because that is
+what the finest data can honestly draw, not because of taste. Rings are culled by generated
+bounding boxes; the graticule steps with the scale (`graticule.js`); the wheel handler is
+native and non-passive, because React's passive `onWheel` meant the page scrolled while the
+map zoomed. **A per-element SVG property set on a parent is this codebase's most-repeated bug and the
+guard against it must read COMPUTED STYLE**: the first version of that guard filtered on
+`getAttribute('stroke-width')`, but `stroke-width` IS inherited, so the very marks the bug
+lives on were dropped from the population before the test ran and reverting the fix left it
+green. **The atlas's viewBox now takes the pane's own shape and its height is DERIVED, not
+stored** -- a fixed 134:43 box in a 4:3 pane letterboxed 27.8 degrees of latitude, and the
+ring cull, the graticule and the pointer maths all read the viewBox as though it were the
+plate: South America vanished from the home view and a wheel zoom drifted 3.12 degrees every
+two notches. One mismatch, three defects; do not reintroduce a stored height.
+**`state/layout.js` is a fifth external store** -- pane widths and folds, in
+localStorage, deliberately NOT in the URL, because a citation that carried the sender's rail
+width would be handing the reader the sender's monitor. **It holds TWO numbers per pane** --
+what the reader chose, persisted, and what fits this window, derived -- because the first
+version had one and let a moment of a narrow window overwrite all eight panes' widths
+permanently. **Eight panes pull** — the two rails, the
+Phylogeny's record, and the five surface index panels that were fixed numbers in their own JSX
+(`components/PullPane.jsx`) — and widths clamp on READ as well as on write. Only the first
+three FOLD (`[` and `]`, or the spine): `PANES.foldable` is the difference between chrome and
+subject, and a Fault Corpus with its fault list folded away is not a decluttered Fault Corpus. The atlas can take the whole
+window; `layout.full` is the one piece of layout state that is not persisted, which is what
+"temporarily" means. `--rail-left` and `--rail-ai` are gone from `tokens.css` on purpose -- do
+not reinstate them. **The workbench app's `node --test` suite may not import anything from node_modules.**
+`check_all.py` runs it with no npm install, so a package import there is a green local run
+and a red CI one -- which is exactly what happened to WP-5.7's first audit pass, via
+`coastTiers.js` importing React for one hook. The hook lives in `useCoastline.js` now and
+`src/no_bare_imports.test.mjs` walks the suite's import graph to keep it that way.
+**Four adversarial audits then found eleven of the package's forty-three new assertions
+passing on the code they were written to guard** -- among them the fine coastline tier being
+replaceable wholesale by the coarse one with the suite green, and a documented keyboard
+control that was never wired to its element. Read the report's audit section before adding a
+test here; the suites are now mutation-checked and the harness is worth reusing. Report:
+`docs/reports/wp-5.7-the-atlas-and-the-shell.md` · new open question: OQ 72.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
@@ -261,8 +313,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **The walk now runs in CI** (`workbench/scripts/walk.sh`); until 26 Aug 2026 this file
   called it a guard and no job ran it.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **71 entries, of which 16 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68). **69, 70 and 71 were raised AND
+  trusting any list of them. `docs/open-questions.md` holds **72 entries, of which 17 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 41, 64, 66, 67, 68, 72). **69, 70 and 71 were raised AND
   ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
   and 66, colliding with main's block for the second parallel-session collision in two days;
   main keeps its numbers and these were reissued, with the conversion table at the foot of the
