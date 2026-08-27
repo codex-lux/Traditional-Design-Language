@@ -334,7 +334,6 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
     """Run the build/ pipeline for one drawing and return its SVG, re-tokenized to
     the Drawn Language. Everything is generated from the record — the same modules
     the CLI drives, to a tempfile, read back, recoloured, never redrawn."""
-    import json as _json
     import os as _os
     import tempfile
 
@@ -342,11 +341,9 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
 
     B = _os.path.join(ROOT, "build")
     plan = core.copy_json(plan)
-    pt = None
-    if parti:
-        f = _os.path.join(ROOT, "partis", f"{parti}.json")
-        if _os.path.exists(f):
-            pt = _json.load(open(f))
+    # core.load_parti, never a join of our own: `parti` is a caller-supplied string from a
+    # POST body and this was one of two unsanitised copies. See core.load_parti's docstring.
+    pt = core.load_parti(parti)
 
     def _tmp():
         fd, p = tempfile.mkstemp(suffix=".svg")
@@ -415,17 +412,13 @@ def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
     a missing optional library, an elevation outside the classical-front
     family — come back stated with `unexported`/`refusal`, never collapsed
     into an empty file."""
-    import json as _json
     import os as _os
     import tempfile
 
     B = _os.path.join(ROOT, "build")
     plan = core.copy_json(plan)
-    pt = None
-    if parti:
-        f = _os.path.join(ROOT, "partis", f"{parti}.json")
-        if _os.path.exists(f):
-            pt = _json.load(open(f))
+    # core.load_parti, never a join of our own — see its docstring.
+    pt = core.load_parti(parti)
     pid = plan.get("id", "plan")
 
     try:

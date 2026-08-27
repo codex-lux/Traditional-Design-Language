@@ -836,6 +836,32 @@ def brief_schema():
 
 
 # ----------------------------------------------------------------- geometry
+def load_parti(parti):
+    """Read one parti template by id, or None. THE ONLY WAY a caller-supplied parti id
+    may become a path — call this, never build the path yourself.
+
+    basename, because `parti` arrives in a POST body: /api/plan/evaluate, /api/drawings/{kind}
+    and /api/export/{fmt} pass body.get("parti") straight through, so "../schema/plan" read
+    ROOT/schema/plan.json and an ABSOLUTE id won the join outright. The contents are never
+    returned — the file becomes a parti template inside geo.solve — but a caller could still
+    learn which paths exist and hold JSON, from the 500-vs-422 an unreadable one produces.
+
+    This function exists because the first fix did not close the class. It was applied here,
+    in place_plan, with a comment claiming it covered /api/drawings/{kind} — and that endpoint
+    does not come through place_plan at all. workbench/server/corpus.py had its own two copies
+    of the join, both unsanitised, and they stayed that way. Three copies of one rule is the
+    same shape as the citation grammar's three spellings in CLAUDE.md: one implementation,
+    every caller through it, and a test that fails if a fourth copy appears.
+    """
+    if not parti:
+        return None
+    safe = os.path.basename(str(parti))
+    f = os.path.join(ROOT, "partis", f"{safe}.json")
+    if not os.path.exists(f):
+        return None
+    return json.load(open(f))
+
+
 def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     """Place room rectangles in a footprint. Both levels are solved together.
     engine: "auto" (CP-SAT when available — WP-2.3's real solver, with named
@@ -843,17 +869,7 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     workbench uses per edit gesture, where a ~25 s proof per wall drag would
     make the surface unusable — proving is an explicit act there)."""
     geo = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
-    pt = None
-    if parti:
-        # basename, because `parti` arrives in a POST body: /api/plan/evaluate and
-        # /api/drawings/{kind} pass body.get("parti") straight through, so "../schema/plan"
-        # read ROOT/schema/plan.json. Authenticated and the contents are never returned —
-        # the file becomes a parti template inside geo.solve — but it is the one place in the
-        # repo where a user-supplied id becomes a path, and the example-plan handler four
-        # lines away in app.py already does exactly this. Found by an adversarial audit.
-        safe = os.path.basename(str(parti))
-        f = os.path.join(ROOT, "partis", f"{safe}.json")
-        if os.path.exists(f): pt = json.load(open(f))
+    pt = load_parti(parti)
     # OQ 44: the MCP tool takes the reproducible default deliberately and does not expose a way
     # to turn it off. Everything arriving here is a plan somebody will read, keep or compare
     # against another one, and a record that cannot be re-derived is worth less than the seconds
