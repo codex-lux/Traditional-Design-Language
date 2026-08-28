@@ -3342,7 +3342,7 @@ def test_oq_50_states_what_it_does_not_claim():
 
 
 def test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal():
-    """CLAUDE.md described five closed questions as open for a day: OQ 54, 40, 41, 42 and 43 were
+    """CLAUDE.md described five closed questions as open for a day: OQ 54, OQ 40, OQ 41, OQ 42 and OQ 43 were
     ruled or closed on 24 Aug and the summary went on listing three of them as needing a ruling.
     `check_counts.py` polices NUMBERS in prose and has no view on claims about rulings, so this is
     the guard for that class -- both the list and the count in front of it."""
