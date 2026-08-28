@@ -131,3 +131,28 @@ def test_the_runner_refuses_to_disagree_with_its_own_total():
         "from what the runner actually assembles")
     assert re.search(r"len\(results\) != TOTAL_CHECKS:\s*\n(?:.*\n)*?\s*sys\.exit\(1\)", body), (
         "the TOTAL_CHECKS mismatch is detected but does not fail the run")
+
+
+def test_the_ci_line_quoted_in_claude_md_matches_the_live_total():
+    """The illustration rotted in under a day, in the paragraph whose own thesis is that every
+    number in it goes stale silently.
+
+    CLAUDE.md quotes the corpus job's summary line to teach a trap: the LEADING number is the
+    PASS count, not the total. On 27 Aug it read "32 of 35"; WP-8.1 added a check and CI began
+    printing "34 of 37", leaving the file describing a line CI no longer emits.
+
+    The trap itself is an IDENTITY, not the coincidence the first version called it: exactly
+    three checks are unjudged in CI (both CAD selftests and the fastapi suite), and
+    TOTAL_CHECKS is len(CHECKS) plus the three appended suites, so the pass count is
+    TOTAL - 3 == len(CHECKS) arithmetically, at every check ever added.
+
+    Historical instances are allowed to stay -- they carry smaller totals and are dated as
+    record. The LARGEST total quoted must be the live one."""
+    m = _check_all()
+    md = open(os.path.join(ROOT, "CLAUDE.md"), encoding="utf-8").read()
+    quoted = [int(t) for _p, t in re.findall(r"(\d+) of (\d+) checks passed", md)]
+    assert quoted, ("CLAUDE.md no longer quotes a `N of M checks passed` line -- if that "
+                    "illustration was removed this guard is dead weight and should go too")
+    assert max(quoted) == m.TOTAL_CHECKS, (
+        f"the current CI-line illustration says 'of {max(quoted)} checks' while check_all runs "
+        f"{m.TOTAL_CHECKS}. Update the quoted line; older dated instances may stay as record.")

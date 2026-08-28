@@ -42,6 +42,12 @@ CHECKS = [
     ("check_windows.py", []),
     ("check_partis.py", []),
     ("check_counts.py", []),
+    # Citations, not counts. check_counts.py guards a NUMBER computed from the data;
+    # this guards a REFERENCE -- that every `OQ N` resolves, that no cited id hides
+    # behind a bare continuation number where a renumbering regex cannot see it, and
+    # that the reissue tables still land somewhere. Added after three stale citations
+    # were found on main, two written by this session and one by another.
+    ("check_citations.py", []),
     # --strict on both, added 25 Aug 2026 after an audit found neither could fail the build.
     # check_addresses was default-off deliberately while OQ 48 carried 139 collisions; that
     # question closed at 0, so the ratchet that stops a 1st new one is now the whole point.
