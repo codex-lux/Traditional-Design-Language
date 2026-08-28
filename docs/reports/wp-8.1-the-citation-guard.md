@@ -118,7 +118,27 @@ test. That is now pinned by a test that says it out loud.
 cause. This package makes the *aftermath* of a collision mechanically complete; it does not
 prevent one, and the checker's header says that rather than implying the problem is solved.
 
-That root cause is now **OQ 99**, with the three candidate mechanisms named and none costed:
+**OQ 99 IS NOW CLOSED, RULED AND EXECUTED IN THE SAME PACKAGE** — Lucas said go ahead, and
+costing the three candidates collapsed them. **The numbers are frozen at 99 and every new
+question is named** (`### oq/<slug>`); `check_citations.py` refuses a numbered entry above the
+ceiling, so the mechanism that collided four times is unavailable rather than discouraged.
+
+The measurement that decided it: **nothing in the codebase parses an OQ id.** All 1,640
+citations are human references in prose and comments, and only two things read the register
+structurally. So a full renumber was *possible* — and pointless, because commit messages carry
+the old numbers and cannot be rewritten. **A uniform scheme was never on the table**; the only
+choice was which inconsistency to keep, and two namespaces is cheaper than 1,640 rewritten
+citations plus a history that still disagrees with them. An out-of-tree registry has no shared
+state to live in but the repository itself, so its claim step collides identically; reserved
+blocks need the same coordination or produce sparse meaningless numbers.
+
+Closing it opened one honest successor, `oq/two-id-namespaces`, which is also the first entry
+under the new scheme: a slug can restate a numbered question's subject and **nothing can tell**,
+because WP-8.1 established that no machine can verify a citation's subject matches its entry —
+the same argument one level up. Quieter than a collision, since there is no duplicate id to make
+it visible. A subject index over the 99 legacy entries would help and is unbuilt.
+
+*The original entry, before the ruling, named three candidate mechanisms and none costed:*
 an out-of-tree registry, a reserved block per session, or slugs (`oq/span-partial-bearing-wall`)
 — the last being the only one that makes the ambiguity impossible rather than unlikely, and also
 the only one that invalidates 1,570 existing citations and every reference in the commit history.

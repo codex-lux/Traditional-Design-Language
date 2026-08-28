@@ -3380,10 +3380,23 @@ def test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_agai
             live.add(n)
         elif not st.startswith(SETTLED_WORDS):
             unknown.append((n, st))
+    # NAMED entries, 28 Aug 2026 onward. The numeric block is frozen at 99 (see "How an id is
+    # issued" at the head of the register, and check D in build/check_citations.py), so every
+    # question raised from now on appears as `### oq/<slug>` and NOT as a list item. Reading
+    # only the numbered form would have let a named question sit open and untallied -- the
+    # exact failure this test exists to catch, in the shape the new scheme creates.
+    for slug, raw in re.findall(r"^### `?(oq/[a-z0-9][a-z0-9-]*)`?\s*\n+\*\*([^\n]{0,80})",
+                                oq, re.M):
+        st = _norm(raw)
+        if st.startswith(OPEN_WORDS):
+            live.add(slug)
+        elif not st.startswith(SETTLED_WORDS):
+            unknown.append((slug, st))
     assert not unknown, (
         f"unrecognised open-question status word(s): {unknown}. Add the word to SETTLED_WORDS or "
         f"OPEN_WORDS -- an unclassified entry must never silently count as settled.")
-    claimed = set(re.findall(r"of which \d+ are open\*\*\s*\n?\s*\(([\d, ]+)\)", md))
+    # The list may now carry slugs beside numbers, so the character class admits `oq/...`.
+    claimed = set(re.findall(r"of which \d+ are open\*\*\s*\n?\s*\(([\d, a-z/-]+)\)", md))
     assert claimed, md[md.index("Open questions are live"):][:300]
     listed = {x.strip() for x in list(claimed)[0].split(",") if x.strip()}
     assert listed == live, f"CLAUDE.md says {sorted(listed)}, the file says {sorted(live)}"

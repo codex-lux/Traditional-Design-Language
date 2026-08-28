@@ -126,7 +126,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **37 checks, 1,085 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **37 checks, 1,089 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.7 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -143,7 +143,7 @@ coincidentally equals `len(CHECKS)`. Read the second number. `check_all.TOTAL_CH
 then earned itself at the very next merge**: PR #14 brought a 33rd check and 162 more tests, so
 35/909 became 36/1,071 on 28 Aug — caught by `TOTAL_CHECKS` at the merge, which is the exact
 point this number has gone wrong every single time. **And again at the very next commit**: WP-8.1
-added `check_citations.py` and fourteen tests, so 36/1,071 became 37/1,085 — the guard failed
+added `check_citations.py` and eighteen tests, so 36/1,071 became 37/1,089 — the guard failed
 the build before the number could go stale, which is the whole of what it is for. The rest of the
 numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
 total), taken because main and this branch had
@@ -740,8 +740,18 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `limits.py`. `load.py` carries a fresh plan id per request; raise `HEAVY_CALLS_PER_HOUR`
   for the run.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **99 entries, of which 34 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 98, 99).
+  trusting any list of them. `docs/open-questions.md` holds **100 entries, of which 34 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 98, oq/two-id-namespaces).
+  **THE NUMBERS ARE FROZEN AT 99 AND EVERY NEW QUESTION IS NAMED** — `### oq/<slug>`, ruled
+  28 Aug 2026, closing OQ 99. A sequential id has to be issued from somewhere, and the only
+  shared state two parallel sessions have is the repo they both branched from, so both read the
+  highest number in THEIR copy and whoever merges second renumbers: four times in four days.
+  A slug is derived from the subject rather than issued, so two sessions picking one have raised
+  the same question and the conflict is the one you want. `check_citations.py` refuses a numbered
+  entry above 99, so the old mechanism is unavailable rather than discouraged. The legacy numbers
+  are NOT migrated and the reason is worth carrying: nothing parses an OQ id -- all 1,640
+  citations are prose -- but commit messages carry the old numbers and cannot be rewritten, so a
+  uniform scheme was never available and the only choice was which inconsistency to keep.
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
   is an open one. That list is DERIVED from the file by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

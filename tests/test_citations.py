@@ -172,9 +172,9 @@ def test_the_tally_list_stays_bare_and_the_two_guards_do_not_contradict_each_oth
     md = open(os.path.join(ROOT, "CLAUDE.md"), encoding="utf-8").read()
     m = re.search(r"of which \d+ are open\*\*\s*\n?\s*\(([^)]+)\)", md)
     assert m, "the tally list is no longer where either guard looks for it"
-    assert re.fullmatch(r"[\d, ]+", m.group(1)), (
-        f"the open-question tally must stay BARE numbers for test_wp46_packs.py's "
-        f"derivation regex; found {m.group(1)[:60]!r}")
+    assert re.fullmatch(r"[\d, a-z/-]+", m.group(1)), (
+        f"the open-question tally must carry only bare numbers and oq/ slugs for "
+        f"test_wp46_packs.py's derivation regex; found {m.group(1)[:60]!r}")
     m2 = _mod()
     assert not m2.CITE.search("(" + m.group(1) + ")"), (
         "the tally list has acquired an OQ prefix -- check B will now flag it and the "
@@ -199,3 +199,55 @@ def test_untracked_files_are_scanned():
     invisible to the checker until `git add` -- the worst possible moment to start checking."""
     src = open(os.path.join(ROOT, "build", "check_citations.py"), encoding="utf-8").read()
     assert '"--untracked"' in src, "the checker has stopped seeing uncommitted files"
+
+
+# ------------------------------------------------------------------ the frozen numeric block
+
+def test_a_numbered_entry_above_the_ceiling_is_refused():
+    """CHECK D, the enforcement. A sequential id has to be issued from somewhere, and the only
+    shared state two parallel sessions have is the repo they both branched from -- which is how
+    the same block collided four times in four days. Refusing a numbered entry above 99 is what
+    makes the named scheme a rule instead of a note in a file nobody re-reads."""
+    m = _mod()
+    reg = open(os.path.join(ROOT, "docs", "open-questions.md"), encoding="utf-8").read()
+    ids = m.entry_ids(reg)
+    assert max(ids) == m.FROZEN_CEILING == 99, (
+        f"the numeric block runs to {max(ids)} against a ceiling of {m.FROZEN_CEILING}")
+    assert m.entry_ids("100. **OPEN — issued from a working tree again.**\n") == {100}, (
+        "the parser cannot see a numbered entry, so check D would pass vacuously")
+
+
+def test_the_named_scheme_has_a_live_entry_and_is_not_checked_vacuously():
+    """A slug checker with no slugs to check reports 0 faults and exits 0, which reads exactly
+    like a clean tree -- this repository's own 'a selector matching nothing passes vacuously'
+    trap. The scheme ships with a real question under it."""
+    m = _mod()
+    reg = open(os.path.join(ROOT, "docs", "open-questions.md"), encoding="utf-8").read()
+    slugs = m.slug_ids(reg)
+    assert slugs, "no named entry exists, so every slug assertion here is vacuous"
+    assert all(re.fullmatch(r"oq/[a-z0-9][a-z0-9-]*", s) for s in slugs), sorted(slugs)
+
+
+def test_a_citation_of_a_named_entry_that_does_not_exist_is_reported():
+    m = _mod()
+    reg = open(os.path.join(ROOT, "docs", "open-questions.md"), encoding="utf-8").read()
+    slugs = m.slug_ids(reg)
+    assert m.SLUG_CITE.search("see oq/no-such-question for this").group(0) not in slugs
+    live = sorted(slugs)[0]
+    assert m.SLUG_CITE.search(f"see {live} for this").group(0) in slugs
+
+
+def test_a_named_entry_is_counted_by_the_open_tally():
+    """The failure the new scheme creates: read only the numbered form and a named question sits
+    open and untallied. Both readers -- the derivation test and this file -- must see it."""
+    md = open(os.path.join(ROOT, "CLAUDE.md"), encoding="utf-8").read()
+    reg = open(os.path.join(ROOT, "docs", "open-questions.md"), encoding="utf-8").read()
+    m = re.search(r"of which \d+ are open\*\*\s*\n?\s*\(([^)]+)\)", md)
+    listed = {x.strip() for x in m.group(1).split(",")}
+    named_open = {s for s, raw in re.findall(
+        r"^### `?(oq/[a-z0-9][a-z0-9-]*)`?\s*\n+\*\*([^\n]{0,80})", reg, re.M)
+        if raw.strip().upper().startswith("OPEN")}
+    assert named_open, "no open named entry -- this test is vacuous"
+    assert named_open <= listed, (
+        f"named question(s) open in the register but absent from CLAUDE.md's tally: "
+        f"{sorted(named_open - listed)}")

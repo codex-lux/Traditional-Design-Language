@@ -52,6 +52,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REGISTER = os.path.join("docs", "open-questions.md")
 # The two files that contain the malformed shape on purpose (see tracked_files).
 SPECIMEN = {"build/check_citations.py", "tests/test_citations.py"}
+# Entries 1-99 are the legacy numeric block and are frozen. Every question raised after
+# 28 Aug 2026 is NAMED (`### oq/<slug>`), because a sequential id has to be issued from
+# somewhere and the only shared state two parallel sessions have is the repo they both
+# branched from -- which is how the same block collided four times in four days. A slug is
+# derived from the subject rather than issued, so two sessions choosing one have raised the
+# same question, and that conflict is one you want to see.
+FROZEN_CEILING = 99
 
 # A month name after a number means the number is a DATE, not a citation.
 # "OQ 18, 24 Aug 2026: reclassified from ..." is correct prose and must never be
@@ -66,12 +73,20 @@ CITE = re.compile(rf"\bOQ (\d+)((?:\s*(?:,|and|or|&)\s*\d+(?!\s+{MONTH})(?!\d))*
 # One continuation number inside that run, with the separator that introduced it.
 # An inline code span: a literal being shown, not a reference being made.
 CODE = re.compile(r"`[^`]*`")
+# A named entry's heading, and a citation of one.
+SLUG_ENTRY = re.compile(r"^###\s+`?(oq/[a-z0-9][a-z0-9-]*)`?\s*$", re.M)
+SLUG_CITE = re.compile(r"\boq/[a-z0-9][a-z0-9-]*")
 CONT = re.compile(rf"(\s*(?:,|and|or|&)\s*)(\d+)(?!\s+{MONTH})(?!\d)")
 
 
 def entry_ids(text):
     """The ids the register actually defines, as `N. **STATUS ...` list items."""
     return {int(n) for n in re.findall(r"^(\d+)\. ", text, re.M)}
+
+
+def slug_ids(text):
+    """The NAMED entries -- everything raised after the numbers were frozen."""
+    return set(SLUG_ENTRY.findall(text))
 
 
 def tracked_files():
@@ -129,7 +144,17 @@ def main():
               "checking anything. Its `N. **STATUS` shape has changed.", file=sys.stderr)
         return 1
 
+    slugs = slug_ids(reg)
     dangling, bare, n_cites = [], [], 0
+
+    # D -- THE ENFORCEMENT. A numbered entry above the ceiling means somebody issued a
+    # sequential id from their working tree again, which is the mechanism that collided four
+    # times in four days. Refusing it here is what makes the scheme a rule rather than a note
+    # in a file nobody re-reads.
+    over = sorted(n for n in ids if n > FROZEN_CEILING)
+    ceiling = [f"{REGISTER}: entry {n} is above the frozen ceiling of {FROZEN_CEILING} -- "
+               f"the numeric block is closed. Raise it as `### oq/<slug>` instead; see "
+               f"'How an id is issued' at the head of that file." for n in over]
 
     for rel in sorted(tracked_files()):
         full = os.path.join(ROOT, rel)
@@ -154,6 +179,10 @@ def main():
                     if int(c.group(2)) not in ids:
                         dangling.append(f"{rel}:{ln}: OQ {c.group(2)} names no entry")
                     bare.append((rel, ln, m.group(0).strip(), c.group(2)))
+            for sm in SLUG_CITE.finditer(line):
+                n_cites += 1
+                if sm.group(0) not in slugs:
+                    dangling.append(f"{rel}:{ln}: {sm.group(0)} names no entry")
 
         if args.fix and any(b[0] == rel for b in bare):
             fixed = CITE.sub(
@@ -178,7 +207,8 @@ def main():
         seen[to] = ln
 
     if args.verbose:
-        print(f"  register entries   {len(ids)} (max {max(ids)})")
+        print(f"  register entries   {len(ids)} (max {max(ids)}, frozen at {FROZEN_CEILING})")
+        print(f"  named entries      {len(slugs)}")
         print(f"  citations          {n_cites}")
         print(f"  reissue rows       {n_rows}")
 
@@ -190,15 +220,17 @@ def main():
                 f"renumbering pass cannot see it")
     for t in table_bad:
         print("TABLE     " + t)
+    for c in ceiling:
+        print("CEILING   " + c)
 
     print(f"\n{n_cites} citation(s) checked across {len(tracked_files())} file(s), "
-          f"{n_rows} reissue row(s); {len(dangling)} dangling, {len(bare)} bare, "
-          f"{len(table_bad)} table fault(s).")
+          f"{n_rows} reissue row(s), {len(slugs)} named entry(s); {len(dangling)} dangling, "
+          f"{len(bare)} bare, {len(table_bad)} table fault(s), {len(ceiling)} over the ceiling.")
     if bare and not args.fix:
         print("A bare continuation number is invisible to the regex every renumbering "
               "pass has used. Write `OQ 95 and OQ 97`, never `OQ 95 and 97`. "
               "Run with --fix to insert the prefixes.")
-    return 1 if (dangling or bare or table_bad) else 0
+    return 1 if (dangling or bare or table_bad or ceiling) else 0
 
 
 if __name__ == "__main__":
