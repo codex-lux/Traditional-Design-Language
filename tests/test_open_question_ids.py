@@ -57,12 +57,22 @@ def test_every_filename_states_its_own_id_and_no_two_agree(ci):
     qs, errors = ci.read_questions()
     assert not errors, errors
     for qid, rec in qs.items():
-        assert rec["file"].startswith(f"{qid:03d}-"), rec
+        # Two namespaces since 28 Aug 2026 (OQ 99): `<nnn>-<slug>.md` for the frozen numeric
+        # block, `oq-<slug>.md` for every question raised after it. Both are filename == id,
+        # which is the property that makes a duplicate an add/add conflict git refuses rather
+        # than a text conflict it merges by juxtaposition.
         text = open(os.path.join(QDIR, rec["file"]), encoding="utf-8").read()
-        heading = re.search(r"^# OQ (\d+) — ", text, re.M)
-        assert heading and int(heading.group(1)) == qid, (
-            f"{rec['file']} disagrees with its own heading — the one disagreement a "
-            f"directory cannot prevent by itself")
+        if isinstance(qid, int):
+            assert rec["file"].startswith(f"{qid:03d}-"), rec
+            heading = re.search(r"^# OQ (\d+) — ", text, re.M)
+            assert heading and int(heading.group(1)) == qid, (
+                f"{rec['file']} disagrees with its own heading — the one disagreement a "
+                f"directory cannot prevent by itself")
+        else:
+            assert rec["file"] == "oq-%s.md" % qid[len("oq/"):], rec
+            heading = re.search(r"^# (oq/[a-z0-9][a-z0-9-]*) — ", text, re.M)
+            assert heading and heading.group(1) == qid, (
+                f"{rec['file']} disagrees with its own heading")
     assert len(set(qs)) == len(qs)
 
 

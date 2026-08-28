@@ -98,7 +98,12 @@ def _register_text():
             continue
         text = open(os.path.join(qdir, name), encoding="utf-8").read()
         body = text.split("\n", 3)[3] if text.count("\n") >= 3 else text
-        parts.append(f"{int(name[:3])}. " + body.lstrip("\n"))
+        # A NAMED entry has no number to rebuild (OQ 99 froze the block at 99 and every
+        # question since is `oq-<slug>.md`). It keeps its `### oq/<slug>` heading, which is the
+        # form check_citations.py and the derivation test both read.
+        head = (f"{int(name[:3])}. " if name[:3].isdigit()
+                else f"### oq/{name[3:-3]}\n\n")
+        parts.append(head + body.lstrip("\n"))
     assert parts, "the register is empty -- this helper is reading the wrong place"
     return "\n\n".join(parts) + "\n\n" + open(
         os.path.join(qdir, "README.md"), encoding="utf-8").read()
@@ -3381,7 +3386,7 @@ def test_oq_50_states_what_it_does_not_claim():
 
 
 def test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal():
-    """CLAUDE.md described five closed questions as open for a day: OQ 54, 40, 41, 42 and 43 were
+    """CLAUDE.md described five closed questions as open for a day: OQ 54, OQ 40, OQ 41, OQ 42 and OQ 43 were
     ruled or closed on 24 Aug and the summary went on listing three of them as needing a ruling.
     `check_counts.py` polices NUMBERS in prose and has no view on claims about rulings, so this is
     the guard for that class -- both the list and the count in front of it."""
@@ -3409,7 +3414,12 @@ def test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_agai
     assert qs, "read_questions() found nothing -- the register moved and this guard is reading air"
     live = {str(k) for k, v in qs.items() if v["state"] == "open"}
 
-    claimed = set(re.findall(r"of which \d+ are open\*\*\s*\n?\s*\(([\d, ]+)\)", md))
+    # The list may carry SLUGS beside numbers since 28 Aug 2026: the numeric block is frozen at
+    # 99 (OQ 99), so every question raised after it is named `oq/<slug>` and `read_questions()`
+    # returns it as a string key. Reading only the numeric form would let a named question sit
+    # open and untallied -- the exact failure this test exists to catch, in the shape the new
+    # scheme creates. The character class admits `oq/...` for that reason.
+    claimed = set(re.findall(r"of which \d+ are open\*\*\s*\n?\s*\(([\d, a-z/-]+)\)", md))
     assert claimed, md[md.index("Open questions are live"):][:300]
     listed = {x.strip() for x in list(claimed)[0].split(",") if x.strip()}
     assert listed == live, f"CLAUDE.md says {sorted(listed)}, the file says {sorted(live)}"
@@ -3539,7 +3549,7 @@ def test_the_diagnostic_names_the_ancestor_because_that_is_the_actionable_part()
 def test_a_ranch_is_dimensioned_by_a_gothic_arch_pack_and_the_slot_report_says_so():
     """The finding at its sharpest. 69 of `ranch-style`'s 78 dimensioned slots are governed by
     packs it never bound, and the report names the pack AND the ancestor it was bound on."""
-    # 78/69 -> 67/60 on 28 Aug 2026 (WP-8.3, OQ 99). Not work and not a regression: a slot whose
+    # 78/69 -> 67/60 on 28 Aug 2026 (WP-8.3, `oq/forbidden-stops-the-pack-cascade`). Not work and not a regression: a slot whose
     # every pack rule is REFUSED because the node's resolved kit binds it `forbidden` carries no
     # figure, and counting it as "dimensioned" was the meter overstating itself. Eleven of
     # ranch-style's slots are in that state and the report now names them on their own line.

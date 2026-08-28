@@ -5,17 +5,28 @@ per question. **Edit the question's own file, never this index** — the next ru
 overwrites it. The register's own history, including the four id-collision
 conversion tables, is in [`docs/open-questions/README.md`](open-questions/README.md).*
 
+**Two namespaces, and the second cannot collide.** Entries 1-99 keep their numbers
+forever; every question raised after 28 August 2026 is NAMED `oq/<slug>` and lives in
+`docs/open-questions/oq-<slug>.md`. A number has to be issued from somewhere, and the
+only shared state two parallel sessions have is the repository they both branched
+from -- so both read the highest number in their own copy and whoever merges second
+renumbers, which happened FIVE times in four days. A slug is derived from its subject
+rather than issued, so two sessions that pick the same one have raised the same
+question and get the add/add conflict they should get. `build/check_ids.py` refuses a
+numbered file above 99 and `build/check_citations.py` refuses a numbered entry above
+it, so the mechanism that collided five times is unavailable rather than discouraged.
+
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**99 questions, of which 32 are open.** A question is OPEN while
+**103 questions, of which 33 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 32
+## Open — 33
 
 Awaiting a ruling. This is the list to read first.
 
@@ -45,16 +56,17 @@ Awaiting a ruling. This is the list to read first.
 | **79** | OPEN | [two sourced rules give the eave cornice two different projections, and nothing is entitled to choose](open-questions/079-two-sourced-rules-give-eave-cornice-two-different.md) |
 | **86** | OPEN | [a node's own MEASURED parameter and a pack rule contradict each other at 133 addresses, and nothing was comparing them](open-questions/086-node-s-own-measured-parameter-pack-rule-contradict.md) |
 | **87** | OPEN | [a slot bound `open` inherits the constraint the style declined to make](open-questions/087-slot-bound-open-inherits-constraint-style-declined-make.md) |
-| **88** | OPEN | [`sash-light`'s frame-wall sill rule reaches 27 masonry nodes, and two more pack rules have the same shape](open-questions/088-sash-light-s-frame-wall-sill-rule-reaches-masonry-nodes.md) |
-| **89** | OPEN | [three measurements are still withheld to work around gaps `applies_when` now covers, and one is supplied as a constant that is not true](open-questions/089-three-measurements-still-withheld-work-around-gaps-applies.md) |
 | **91** | HALF CLOSED 27 AUG 2026 | [a window has a `unit_type` field and nothing fills it, because nobody has ruled where the authority lives](open-questions/091-window-unit-type-field-nothing-fills-because-nobody-ruled.md) |
 | **92** | HALF CLOSED 27 AUG 2026 | [furniture is placed for wet rooms and the kitchen, and for nothing else](open-questions/092-furniture-placed-wet-rooms-kitchen-nothing-else.md) |
 | **93** | OPEN | [every door is hinged `low` and no rule decides the hand](open-questions/093-every-door-hinged-low-rule-decides-hand.md) |
 | **94** | OPEN | [the reference plan cannot satisfy its own style's hard constraint, and only a person can say who fixes it](open-questions/094-reference-plan-cannot-satisfy-own-style-s-hard.md) |
 | **96** | OPEN | [`_shared`'s first-match-wins ordering can report a corner kiss as a shared edge](open-questions/096-shared-s-first-match-wins-ordering-report-corner-kiss-sha.md) |
 | **98** | OPEN | [`span_check` credits a bearing wall across the whole floor plate however short it is, and the validator never mentions span capacity at all](open-questions/098-span-check-credits-bearing-wall-across-whole-floor-plate.md) |
+| **oq/a-baked-pack-value-is-a-second-delivery-path** | OPEN | [a scope on a rule cannot reach the copy of it in a kit](open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md) |
+| **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
+| **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 
-## Settled — 67
+## Settled — 70
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -123,7 +135,10 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **83** | CLOSED 27 AUG 2026 | [ruled: serve the finished paths from Python and retire both copies](open-questions/083-the-sweep-rule-spelled-twice-in-javascript.md) |
 | **84** | CLOSED 27 AUG 2026 | [ruled: take the measurement, then guard both](open-questions/084-cornice-that-is-a-fascia-two-rival-secondaries.md) |
 | **85** | CLOSED 27 AUG 2026 | [ruled: the centre bay is blind](open-questions/085-a-stack-and-a-window-on-one-axis-nothing-comparing.md) |
+| **88** | CLOSED | [`sash-light`'s frame-wall sill rule reaches 27 masonry nodes, and two more pack rules have the same shape](open-questions/088-sash-light-s-frame-wall-sill-rule-reaches-masonry-nodes.md) |
+| **89** | CLOSED | [three measurements are still withheld to work around gaps `applies_when` now covers, and one is supplied as a constant that is not true](open-questions/089-three-measurements-still-withheld-work-around-gaps-applies.md) |
 | **90** | CLOSED 28 Aug 2026 | [two different work packages were both called WP-5.7](open-questions/090-two-different-work-packages-called-wp-5-reports-only.md) |
 | **95** | CLOSED 27 AUG 2026 | [the placement generator is blind to the other level, and no score term can see past that](open-questions/095-placement-generator-blind-other-level-score-term-see.md) |
 | **97** | CLOSED 27 AUG 2026 | [the search has no span term, so whether a placement clears its own structural capacity is luck](open-questions/097-search-span-term-whether-placement-clears-own-structural.md) |
-| **99** | CLOSED 28 Aug 2026 | [787 pack rules dimension a slot the resolved kit forbids, and nobody chose one of them](open-questions/099-pack-rules-writing-to-slots-the-kit-forbids.md) |
+| **99** | CLOSED | [an open-question id is issued from the working tree, and this register predicted its own collision](open-questions/099-how-an-open-question-id-is-issued.md) |
+| **oq/forbidden-stops-the-pack-cascade** | CLOSED 28 Aug 2026 | [787 pack rules dimension a slot the resolved kit forbids, and nobody chose one of them](open-questions/oq-forbidden-stops-the-pack-cascade.md) |

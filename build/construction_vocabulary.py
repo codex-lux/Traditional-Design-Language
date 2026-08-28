@@ -538,12 +538,22 @@ def resolve(token, resolved_slots, declared=None):
         live = [v for v in variants if v.get("status") in _LIVE and v["id"] in wanted]
         canon_in = [v for v in variants if v.get("status") == "canonical" and v["id"] in wanted]
         canon_out = [v for v in variants if v.get("status") == "canonical" and v["id"] not in wanted]
+        # A CANONICAL OUTRANKS A PERMITTED, and that is the difference between a decision and a
+        # shrug. `jeffersonian-classicism` inherits a construction_type where EVERY variant is
+        # merely permitted, so that slot cannot decide -- but its own cladding is canonically
+        # Flemish-bond brick with clapboard FORBIDDEN, and reading a permitted
+        # `beaded-clapboard` as "this might be a frame house" left a brick node undecided and
+        # still receiving a sloped timber sill. What a style says CANONICALLY is what it is.
         if not live:
             per_slot.append("fails")
             detail.append("%s names none of %s outside a `forbidden`" % (sid, token))
         elif canon_in and not canon_out:
             per_slot.append("holds")
             detail.append("%s is canonically %s" % (sid, ", ".join(v["id"] for v in canon_in)))
+        elif canon_out and not canon_in:
+            per_slot.append("fails")
+            detail.append("%s is canonically %s, none of which is %s"
+                          % (sid, ", ".join(v["id"] for v in canon_out[:3]), token))
         else:
             per_slot.append("undecidable")
             detail.append("%s permits %s and %d other%s" % (
@@ -552,15 +562,21 @@ def resolve(token, resolved_slots, declared=None):
     why = "; ".join(detail) or "no slot this token reads is bound on this style"
     if not per_slot:
         return "undecidable", why
-    if "holds" in per_slot and "fails" in per_slot:
-        return "undecidable", "the record points both ways -- " + why
-    if "holds" in per_slot:
-        if spec["strength"] == "partial":
+    # SLOT ORDER IS AUTHORITY ORDER, and the first slot that can answer decides. `slots` is
+    # written most-decisive first -- `construction_type` states the wall assembly, where a
+    # cladding is only evidence about it. Treating a disagreement between them as a
+    # contradiction is what a flat combination does, and it is wrong in a way that matters:
+    # `pueblo-revival` is `stucco-over-wood-frame` CANONICAL with `earth-toned-stucco` on the
+    # face, so `wood-frame` HOLDS on the assembly and FAILS on the surface, and reading that as
+    # "the record points both ways" made a decided question undecidable on 15 nodes. A render
+    # is not a wall.
+    for verdict in per_slot:
+        if verdict == "undecidable":
+            continue
+        if verdict == "holds" and spec["strength"] == "partial":
             return "undecidable", ("%s carries a qualifier the corpus does not record, so this "
                                    "is the most that can be said: %s" % (token, why))
-        return "holds", why
-    if all(v == "fails" for v in per_slot):
-        return "fails", why
+        return verdict, why
     return "undecidable", why
 
 

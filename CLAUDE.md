@@ -128,7 +128,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **39 checks, 1,100 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **41 checks, 1,154 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -137,30 +137,42 @@ sentence, for the same reason** — the 27 Aug merge resolved the conflict here 
 appends after it (`pytest tests/`, `pytest workbench/server/tests`, `node --test
 workbench/app`). The number to read is the runner's own `len(results)`, printed as "All N checks
 passed"; the app-suite figure is the `# tests` line from `node --test`. **And there is a trap in
-the line CI actually prints**: with the CAD libraries and fastapi absent, the corpus job reads
-"34 of 38 checks passed; 3 COULD NOT EVALUATE" (the shape, not the exact figures — read them
-off the run), where that leading number is the PASS count and
-coincidentally equals `len(CHECKS)`. Read the second number. `check_all.TOTAL_CHECKS` and
-`tests/test_counts_guard.py` now enforce this so the coincidence cannot cost anything again. Both were re-measured
+the line CI actually prints, and it is an IDENTITY rather than a coincidence**: with the CAD
+libraries and fastapi absent, exactly three checks are unjudged there (`export_dxf` and
+`export_ifc` selftests, `pytest workbench/server/tests`), and `TOTAL_CHECKS` is `len(CHECKS)`
+plus the three appended suites -- so the PASS count the corpus job prints is
+`TOTAL - 3 = len(CHECKS)`, ARITHMETICALLY, every time. It read "32 of 35 checks passed" on
+27 Aug against a `len(CHECKS)` of 32, read "34 of 37 checks passed" earlier on 28 Aug against a
+`len(CHECKS)` of 34, and reads "38 of 41 checks passed" after WP-8.4 against a `len(CHECKS)`
+of 38.
+An earlier version of this sentence called that a coincidence, which told the next reader it
+probably would not happen to them; it happens at every check ever added. **Read the SECOND
+number.** `check_all.TOTAL_CHECKS` and
+`tests/test_counts_guard.py` now enforce this -- the latter pins both the published total AND
+the largest `N of M checks passed` quoted in this file, so neither the figure nor its
+illustration can rot again. Both were re-measured
 27 Aug after `check_all.py` itself printed "1 of 35" against this file's 32. **And the guard
 then earned itself at the very next merge**: PR #14 brought a 33rd check and 162 more tests, so
 35/909 became 36/1,071 on 28 Aug — caught by `TOTAL_CHECKS` at the merge, which is the exact
-point this number has gone wrong every single time. **It earned itself again the same day**:
-WP-8.1 added `check_ids.py` and `gen_open_questions.py --check`, taking 36/1,071 to 38/1,081,
-WP-8.2's forbidden-slot meter took it to 39/1,092, and WP-8.3's OQ 99 tests to **39/1,100** —
-the guard failed on the first run each time, rather than the next reader noticing. The rest of the
+point this number has gone wrong every single time. **And again at the very next commit**: WP-8.1
+added `check_citations.py` and nineteen tests, so 36/1,071 became 37/1,090 — the guard failed
+the build before the number could go stale, which is the whole of what it is for. **It has now
+earned itself five more times in one day**: the register-as-a-directory added `check_ids.py` and
+`gen_open_questions.py --check`, the refusal half a forbidden-slot meter, the forbidden slot its
+own tests, and WP-8.4 the construction vocabulary -- each caught at the first run rather than by
+the next reader. The rest of the
 numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
 total), taken because main and this branch had
 drifted to 33/1,009 and 35/1,006 respectively and NEITHER was right. `check_counts.py` polices
 counts DERIVED FROM THE CORPUS, and neither a test count nor a check count is one of them, so
 **every number in this paragraph goes stale silently** -- nor are numbers written into JSX, which
 is how the Kit's header claimed 95 slots against an ontology holding 97.
-**Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
-19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
+**Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, OQ 13, OQ 14, OQ 15,
+OQ 19, OQ 26, OQ 27, OQ 29, OQ 31, OQ 32, OQ 33, OQ 34, OQ 35, OQ 36, OQ 37, OQ 38, OQ 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
 parameters now say they are editorial and quote the basis their slot states, so the count of
 unexplained numbers is 0; the SOURCE half is environment-blocked and none of the 162 may be given
 a source from a secondary work.
-WP-4.6 raised **OQ 47, 48 and 49**. **OQ 47 and 49 are CLOSED** — `expressed_frame` at ontology
+WP-4.6 raised **OQ 47, OQ 48 and OQ 49**. **OQ 47 and OQ 49 are CLOSED** — `expressed_frame` at ontology
 0.7.0 with a `member_status` field (structural / structural-and-expressed / applied / none), bound
 on 14 kits of which five FORBID the member; and a `slots` scope on bindings, which took the corpus
 to 132 of 132 by binding `egyptian-revival` to the two `facade-peristyle` rules that fit and
@@ -257,6 +269,26 @@ and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`
 their transitive `pandas`/`numpy`/`fontTools`.** Report:
 `docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
+**Phase 8 is COMPLETE (28 Aug 2026)** — the register, the refusal half of OQ 51, the forbidden
+slot, and **WP-8.4, which read the fault corpus's exception preconditions for the first time**.
+331 of 846 exceptions carry a condition on the wall, the roof or the date and all three of
+`core.py`'s selection sites matched on the style id alone, so `architrave-that-is-not-there`'s
+Pueblo Revival licence — written for adobe — was excusing a house whose style resolves
+canonically to stucco-over-wood-frame. The field is `granted_when` now (it was a SECOND
+`applies_when` in the same schema, meaning something else, which is why nothing read it);
+`build/construction_vocabulary.py` is a CLOSED table mapping 61 of the 78 tokens in use onto
+variant ids that already exist and recording 17 as unmappable with a reason; and where a
+precondition cannot be resolved AND the exception carries a `bounds_test`, **both rules are run
+and compared** — unjudged only where they disagree, which over 164 styles is 11 verdicts moving
+instead of 26. A fake unjudged is as dishonest in its own direction as a fake pass. **The
+package collided head-on with main**, which had shipped its own OQ 88 scope, its own OQ 99 and
+its own WP-8.1: main's `scope` field survives and this vocabulary is ported into it, after
+measuring that main's substring classifier over the CLADDING disagreed with each node's own
+`construction_type` on 13 of 164 styles — `cape-dutch` is sun-dried brick with timber frame
+FORBIDDEN and a lime-plaster face carrying no masonry word, so the frame-wall sill rule went to
+a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Report:
+`docs/reports/wp-8.4-the-exception-precondition.md`.
+
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
    www.loc.gov. `build/harvest_habs.py` is written, dry-run exercised and queued against the day
@@ -289,7 +321,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
-- **BOTH ENGINES CHARGE DECLARED STACKING AND OVER-CAPACITY SPANS NOW (WP-7.4, OQ 95 and 84
+- **BOTH ENGINES CHARGE DECLARED STACKING AND OVER-CAPACITY SPANS NOW (WP-7.4, OQ 95 and OQ 97
   CLOSED), AND THE WEIGHTS ARE BALANCED AGAINST EACH OTHER RATHER THAN SET SEPARATELY.**
   `geometry.STACK_W = 40.0` and `SPAN_W = 20.0`; `geometry_cp.py` carries soft mirrors of both
   in its objective block, never pins. Measured over the 14 partis that declare `stacks_over`:
@@ -492,7 +524,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   them would make the check a generator of false accusations.
 - **A fault's tests live in THREE places and the third is the one that bites.** `test`,
   `secondary_tests`, and **`exceptions[].bounds_test`**, which `core.check_measurements`
-  SUBSTITUTES for the primary on a matching style. OQ 84 and 79 guarded the first two; Second
+  SUBSTITUTES for the primary on a matching style. OQ 84 and OQ 79 guarded the first two; Second
   Empire's bounds_test `dormer_count / bay_count == 1.0` then convicted a house stating NO dormers
   the moment WP-5.13 began supplying that zero, and `craftsman`'s `dormer_count at-most 1` acquitted
   one. Neither reference plan is Second Empire or Craftsman, so 1,018 green tests saw nothing —
@@ -540,12 +572,78 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   rule reaches a node TWICE** — live through `eval_packs`, and baked into an ancestor's kit file as
   an authored parameter carrying `source: <pack>`. Scoping the binding (`slots_except`, new) closes
   one path only; the other is closed at the child.
+- **AN EXCEPTION IS A LICENCE AND ITS OWN CONDITION IS READ NOW (WP-8.4).**
+  `exceptions[].granted_when` — 331 records — was called `applies_when`, which is ALSO the name
+  of the test-level precondition on MEASUREMENTS in the same schema, and that collision is why
+  nothing read it for a year. Three verdicts, never a bool: `granted` / `refused` / `unjudged`.
+  Where an exception carries a `bounds_test` (which REPLACES the primary test) and its
+  precondition cannot be resolved, **both rules are run and compared** — the fault is unjudged
+  only where they disagree. `granted_when.construction` resolves through
+  `build/construction_vocabulary.py`, a CLOSED table: an agent needing a token that is missing
+  REPORTS the gap. `regions` is deliberately not evaluated (78 of 79 uses name a region
+  containing the style's own) and `date_range` only where a caller supplies a date; both counts
+  are ratcheted rather than assumed harmless. `applies_when` still means two different things
+  across three schemas — `oq/applies-when-means-two-things`.
+- **A SUBSTRING TEST OVER A SURFACE CANNOT ANSWER A QUESTION ABOUT AN ASSEMBLY (WP-8.4).**
+  OQ 88's first fix classified a node masonry/frame by matching `"brick"`, `"stone"`,
+  `"stucco"`, `"tile"` in its canonical cladding ids. Measured against each node's own
+  `construction_type` it was wrong on 13 of 164 styles in both directions: `cape-dutch` is
+  `sun-dried-brick-or-rubble-masonry` with braced timber frame FORBIDDEN and clad
+  `lime-plaster-limewash-white`, which contains no masonry word — so the frame-wall sill rule
+  was delivered to a mass masonry wall, **OQ 88's own bug surviving inside OQ 88's fix**. The
+  vocabulary reads `construction_type` FIRST and falls back to cladding only when that slot
+  cannot decide, and **a canonical outranks a permitted**: `jeffersonian-classicism` inherits a
+  construction_type where everything is merely permitted and is canonically Flemish-bond brick
+  with clapboard forbidden.
+- **A GUARD CAN NAME THE FUNCTION IT DOES NOT REACH, AND THIS IS THE THIRD INSTANCE.**
+  `proportion_engine.evaluate()` rebuilds each rule row key-by-key and its own comment says
+  *"tests/test_wp46_packs.py compares this dict against the schema so it cannot recur."* No such
+  test existed; the one that does reads `mcp_server/core.py`'s `RULE_KEYS`, a DIFFERENT rebuild
+  one layer out. A new rule field was dropped there exactly as described, and the scope built on
+  it refused **0 of 293 deliveries with every check green**. Both rebuilds are pinned now, the
+  engine's by reading a REAL EMITTED ROW rather than its source — a key present in the literal
+  and overwritten below would still pass a source-reading test.
+- **THE ELEVATION READ THE RAW KIT FOR TWO SLOTS UNDER A COMMENT NAMING ONE OF THEM (WP-8.4).**
+  `build/elevation.py`'s cascade block says *"the CASCADED dormer slot, not the raw one.
+  `tidewater-georgian` binds this slot EMPTY — exactly as it binds `shutter`"* and then read
+  `shutter` off `C["kits"]` two lines below. `jeffersonian-classicism`'s raw kit says shutters
+  are carried and its CASCADE makes `none` canonical, so `shutter-on-an-unshutterable-opening`
+  came back CLEAR on two shutters the style declines — OQ 89's own defect, surviving on the one
+  node where the two records disagree. `window_head_masonry` was worse: EMPTY in the raw kit on
+  **66 of 164 styles**, so the head radius reached 8 styles and now reaches 29.
 - **`open` does not mean open.** `resolve_slots` stops its walk only on `specified` or `forbidden`,
   so a slot bound `open` — the style declining to constrain it — inherits its nearest ancestor's
   record in full. `colonial-revival`'s `dormer` was `open`, and resolved from
   `english-cottage-vernacular` with a thatch dormer canonical and **`boxed-dormer` forbidden**: the
   style could not declare the only dormer it is built with. That instance is bound now; the
   mechanism is OQ 87 and reaches all 97 slots.
+- **A pack rule may now be OUT OF SCOPE for a building, and the reading lives in ONE place.**
+  `derived_rules` carries a `scope` (OQ 88, closed) and `proportion_engine.rule_scope()` decides it,
+  beside the numeric `calibrated_for`/`out_of_calibration()` it is modelled on — a reader looking
+  for "when does a rule not apply" should find both together, and **nothing may re-derive "is this
+  a brick house" anywhere else**; `resolve_kit.scope_facts()` is the one reader of the kit.
+  `eval_packs` drops an out-of-scope rule and RECORDS why. **Three answers, not two, and the third
+  is the point**: 13 styles the sill rule reaches make BOTH a masonry and a frame cladding
+  canonical, so their construction is a fact about the HOUSE — those are delivered with
+  `scope_unjudged` attached rather than resolved or dropped. Measured: 102 deliveries dropped, 120
+  flagged. **A scope may only rule on variants somebody has classified**: the first draft read
+  "not in my list" as OUT and its `any_of` ids were invented from the rule's prose, matching
+  nothing the corpus uses — it would have deleted `facade-gable`'s parapet rule on all twelve of
+  its own nodes, silently.
+- **A fault can be CLEARED by an invented constant, and `NOT_MODELLED` cannot see it.** OQ 52's
+  guard polices measurements that are WITHHELD. `shutter-on-an-unshutterable-opening` returned
+  clear at `passes: true` on a house whose kit forbids shutters because `total_shutter_leaves` was
+  a hardcoded `2.0` — nothing withheld, something INVENTED, in `_derive_measurements`, beside real
+  figures (OQ 89, closed). The fact (`shutters_carried`) had been computed 500 lines away since
+  WP-5.9 and was never read. **When adding a measurement, ask what the record already knows before
+  writing a literal.**
+- **Supplying a withheld measurement arms every rule that presupposed it — including the ones a
+  register lists as "not live today".** OQ 89 counted unguarded `bounds_test` divisions and said
+  none was reachable; supplying `window_head_radius_in` made one reachable in the same change,
+  returning `error: float division by zero`. It was the IDENTICAL expression to a secondary guarded
+  in WP-5.10, one field over. **Withholding by a source COMMENT is not withholding**: use
+  `NOT_MODELLED` (visible to the honesty test) or state the measurement and precondition the tests
+  with `applies_when`.
 - **The moment a record can finally STATE a zero, every rule that presupposed the thing runs on it.**
   WP-5.13 gave the plan schema `declared.dormer` with three states — key absent (could not evaluate),
   `"none"` (a measured zero), an object (a house with dormers) — and both reference houses stated
@@ -744,11 +842,34 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `limits.py`. `load.py` carries a fresh plan id per request; raise `HEAVY_CALLS_PER_HOUR`
   for the run.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. **THE REGISTER IS A DIRECTORY** — `docs/open-questions/<nnn>-<slug>.md`,
-  one file per question, filename == id, exactly as `faults/` and `rooms/` have always worked.
-  `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and run
-  `build/gen_open_questions.py`. It holds **99 entries, of which 32 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 91, 92, 93, 94, 96, 98).
+  trusting any list of them. **THE REGISTER IS A DIRECTORY** — `docs/open-questions/<nnn>-<slug>.md`
+  for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
+  28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
+  always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
+  run `build/gen_open_questions.py`. It holds **103 entries, of which 33 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/applies-when-means-two-things, oq/two-id-namespaces).
+  The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
+  question is an open one. That list is DERIVED from the register by
+  `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
+  which reads `build/check_ids.py`'s own reader rather than re-parsing anything -- the
+  status vocabulary is spelled in ONE place. It requires the ids to be a bare
+  comma-separated list on ONE line; prose inside the parentheses makes its regex match
+  nothing and the assertion fires on an empty set.
+  **THE NUMBERS ARE FROZEN AT 99 AND EVERY NEW QUESTION IS NAMED** — ruled 28 Aug 2026, closing
+  OQ 99. A sequential id has to be issued from somewhere, and the only
+  shared state two parallel sessions have is the repo they both branched from, so both read the
+  highest number in THEIR copy and whoever merges second renumbers: FIVE times in four days.
+  A slug is derived from the subject rather than issued, so two sessions picking one have raised
+  the same question and the conflict is the one you want. `check_citations.py` refuses a numbered
+  entry above 99 and `check_ids.py` refuses a numbered FILE above 99, so the old mechanism is
+  unavailable rather than discouraged. The legacy numbers
+  are NOT migrated and the reason is worth carrying: nothing parses an OQ id -- all 1,640
+  citations are prose -- but commit messages carry the old numbers and cannot be rewritten, so a
+  uniform scheme was never available and the only choice was which inconsistency to keep.
+  **The two mechanisms are complementary and both are needed.** The directory makes a duplicate
+  id an add/add conflict git REFUSES instead of a text conflict it merges by juxtaposition; the
+  slug makes the id underivable from the working tree in the first place. The fifth collision --
+  two different WP-8.1s and two different OQ 99s, 28 Aug -- landed between them.
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
   is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
@@ -800,7 +921,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   only 39 answer in the flat kit file; the vocabulary half is merged and ratcheted and the AXIS
   half remains. OQ 92 (raised 73): furniture sizing REFUSED ("the tail wagging the dog"),
   arrangement to the rooms' own words — five wall runs, not the one the register claimed.
-  **OQ 95 and 97 are CLOSED by WP-7.4**: both engines charge declared stacking and over-capacity
+  **OQ 95 and OQ 97 are CLOSED by WP-7.4**: both engines charge declared stacking and over-capacity
   spans, 27/49 broken stacks -> 15/49. **OQ 98 is new from the WP-7.5 audit** — `span_check`
   still credits a bearing wall across the whole plate however short it is, and `plan_check` has
   no span finding at all.
@@ -821,7 +942,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message
-  or report written before the merge still carries the old number. OQ 48, 50, 51 and 16 closed on
+  or report written before the merge still carries the old number. OQ 48, OQ 50, OQ 51 and OQ 16 closed on
   25 Aug; **52 and 53 were raised the same day by an adversarial audit of this session's own work
   and need a ruling** -- 52 is the elevation generator inventing measurements the fault corpus then
   convicts houses on, 53 is `check_addresses.py` comparing `quantity` without `units`, which has two
@@ -834,7 +955,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   heuristic's 1 ft charge threshold let a room sit 1 ft into the court), and **`_absorb` runs
   after the solve with no cross-level view**, so it grew that room straight through the hole —
   a guarantee proven and then undone by a post-pass. It takes a `keepout` now.
-  - **Environment-blocked, not unstarted: OQ 7, 8, 9, 10, 11**, and the source half of **OQ 18**.
+  - **Environment-blocked, not unstarted: OQ 7, OQ 8, OQ 9, OQ 10, OQ 11**, and the source half of **OQ 18**.
     Every one needs a legible facsimile. `loc.gov`, `archive.org` and `hathitrust` all fail to
     connect from here. **None may be closed from a secondary source or a modern redrawing** —
     that is how a guess gets laundered as `measured`.

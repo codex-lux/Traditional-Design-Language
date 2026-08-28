@@ -236,23 +236,13 @@
       "target_slot": "window_sill",
       "dimension": "projection",
       "expression": "module * 0.25",
-      "applies_when": {
-        "construction_except": [
-          "mass-wall",
-          "load-bearing-masonry",
-          "masonry",
-          "mass-masonry",
-          "solid-masonry",
-          "brick",
-          "cut-stone",
-          "stone-rubble",
-          "adobe",
-          "rammed-earth",
-          "load-bearing-stone"
-        ],
-        "note": "OQ 88, scoped 28 Aug 2026 (WP-8.4) from this rule's own last sentence, which has always said where it does not apply: 'in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one'. WP-5.14 enforced that on ONE node with a `slots_except` on one binding; the cascade delivers this rule to 86 nodes. Written as a denial rather than an allowlist because the note is a denial: an allowlist would have to enumerate every frame construction in the corpus and would stop refusing the day a new masonry variant is authored."
-      },
       "units": "in",
+      "scope": {
+        "construction": [
+          "wood-frame"
+        ],
+        "note": "The rule's own note has said this since it was written: \"In a frame wall this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one.\" Carried in DATA since OQ 88, because in prose it reached 86 nodes and 47 of them make a masonry cladding canonical -- english-georgian resolved this 2.25 in sloped timber sill on a brick wall. RETOKENISED 28 AUG 2026 (WP-8.4): `frame` was one of two values decided by a substring test over the cladding; `wood-frame` is a token in build/construction_vocabulary.py that resolves against the node's own `construction_type` first. cape-dutch stops receiving this rule and prairie-school and storybook-style start receiving it again."
+      },
       "range": [
         1.5,
         3.0

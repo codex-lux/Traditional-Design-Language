@@ -54,8 +54,18 @@ SETTLED = ("CLOSED", "RESOLVED", "RULED", "FIXED", "CONFIRMED", "ANSWERED",
            "LEFT AS A STANDING DISCLOSURE", "SUPERSEDED", "WITHDRAWN")
 OPEN = ("OPEN", "STILL OPEN", "HALF CLOSED", "PARTLY", "IN PROGRESS")
 
+# TWO NAMESPACES, AND THE SECOND IS THE ONE THAT CANNOT COLLIDE (OQ 99, ruled on main
+# 28 Aug 2026). Entries 1-99 keep their numbers forever; every question raised after that
+# ruling is NAMED -- `oq-<slug>.md`, heading `# oq/<slug> — <title>`. A slug is derived from
+# the subject rather than issued from the working tree, so two sessions that pick the same
+# slug have raised the same question and get the add/add conflict they should get. A NEW
+# number above 99 is refused outright below, so the mechanism that collided five times is
+# unavailable rather than discouraged. The cost of two namespaces is `oq/two-id-namespaces`.
 FILENAME = re.compile(r"^(\d{3})-([a-z0-9][a-z0-9-]*)\.md$")
+NAMED_FILENAME = re.compile(r"^oq-([a-z0-9][a-z0-9-]*)\.md$")
 HEADING = re.compile(r"^# OQ (\d+) — ", re.M)
+NAMED_HEADING = re.compile(r"^# oq/([a-z0-9][a-z0-9-]*) — ", re.M)
+HIGHEST_NUMBER = 99
 STATUS_LINE = re.compile(r"^\*Status: (.+?) · Raised in: (.+?)\*$", re.M)
 
 
@@ -71,20 +81,34 @@ def read_questions():
         if name == "README.md" or not name.endswith(".md"):
             continue
         m = FILENAME.match(name)
-        if not m:
-            errors.append(f"{name}: filename must be <nnn>-<slug>.md, three digits "
-                          f"and a lowercase-hyphen slug — the id IS the filename")
+        nm = NAMED_FILENAME.match(name)
+        if not m and not nm:
+            errors.append(f"{name}: filename must be <nnn>-<slug>.md (ids 1-{HIGHEST_NUMBER}, "
+                          f"frozen) or oq-<slug>.md (every question raised after 28 Aug 2026) "
+                          f"— the id IS the filename")
             continue
-        fid = int(m.group(1))
         text = open(os.path.join(QDIR, name), encoding="utf-8").read()
-
-        h = HEADING.search(text)
-        if not h:
-            errors.append(f"{name}: no `# OQ <n> — <title>` heading")
-        elif int(h.group(1)) != fid:
-            # The one disagreement a directory cannot prevent by itself.
-            errors.append(f"{name}: heading says OQ {h.group(1)} but the filename "
-                          f"says {fid}. The filename wins; fix the heading.")
+        if m:
+            fid = int(m.group(1))
+            if fid > HIGHEST_NUMBER:
+                errors.append(f"{name}: numbered ids are frozen at {HIGHEST_NUMBER} (OQ 99). "
+                              f"A new question is NAMED — oq-<slug>.md — because a slug is "
+                              f"derived from its subject and cannot be issued twice.")
+            h = HEADING.search(text)
+            if not h:
+                errors.append(f"{name}: no `# OQ <n> — <title>` heading")
+            elif int(h.group(1)) != fid:
+                # The one disagreement a directory cannot prevent by itself.
+                errors.append(f"{name}: heading says OQ {h.group(1)} but the filename "
+                              f"says {fid}. The filename wins; fix the heading.")
+        else:
+            fid = "oq/" + nm.group(1)
+            h = NAMED_HEADING.search(text)
+            if not h:
+                errors.append(f"{name}: no `# oq/<slug> — <title>` heading")
+            elif "oq/" + h.group(1) != fid:
+                errors.append(f"{name}: heading says oq/{h.group(1)} but the filename "
+                              f"says {fid}. The filename wins; fix the heading.")
 
         s = STATUS_LINE.search(text)
         if not s:
@@ -169,9 +193,10 @@ def main():
     by_number, report_errors = check_reports()
     errors += report_errors
 
-    if qs:
-        ids = sorted(qs)
-        missing = sorted(set(range(1, max(ids) + 1)) - set(ids))
+    nums = sorted(i for i in qs if isinstance(i, int))
+    named = sorted(i for i in qs if not isinstance(i, int))
+    if nums:
+        missing = sorted(set(range(1, max(nums) + 1)) - set(nums))
         if missing:
             # Not fatal on its own -- a withdrawn question leaves a hole and the id is
             # never reused -- but it is always worth saying out loud.
@@ -180,7 +205,8 @@ def main():
 
     states = collections.Counter(q["state"] for q in qs.values())
     print(f"{len(qs)} open question(s) — {states['open']} open, "
-          f"{states['settled']} settled, {states['unjudged']} UNJUDGED")
+          f"{states['settled']} settled, {states['unjudged']} UNJUDGED "
+          f"({len(nums)} numbered, frozen at {HIGHEST_NUMBER}; {len(named)} named)")
     print(f"{sum(len(v) for v in by_number.values())} work-package report(s) "
           f"across {len(by_number)} number(s)")
     for num, names in sorted(by_number.items()):

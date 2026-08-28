@@ -36,3 +36,32 @@ own fallback.
 on `PLAN-OF-ACTION.md` §1's never-reuse list now, and the register is a directory: one file per
 question, so two sessions issuing id 99 collide on a PATH git refuses to auto-merge instead of
 inside a file git silently juxtaposes. *Original entry follows.*<br><br>**OPEN — two different work packages are both called WP-5.7, and the reports are the only thing keeping the citations apart.** The same two sessions that collided over open-question ids 72–83 collided over the work-package number, in the same three days, by the same mechanism: read the working tree, add one. The OQ block was renumbered at the merge and the work packages were not, and that asymmetry wants a ruling rather than a default. **Main's WP-5.7 is the atlas and the shell's proportions; this branch's is the geometry layer**, and this branch's WP-5.12, 5.9 and 5.10 chain off its own — WP-5.12 exists precisely to execute WP-5.7's rulings, so renumbering the geometry layer breaks a sequence and renumbering the atlas breaks nothing but is the side that merged first, which is the opposite of the rule applied to the ids. **Nothing is ambiguous today and that is the whole reason this can wait**: a work package is cited by its REPORT, never by its number alone, and `docs/reports/wp-5.7-the-atlas-and-the-shell.md` and `docs/reports/wp-5.11-real-2d-geometry.md` have always been distinct files. What a renumbering would cost is real and is why it is not being done in a merge commit: two report filenames, the `wp-<id>-<slug>.md` convention's match between a report and the section it reports on, CLAUDE.md, the progress board, and five commit messages that cannot be changed. Three options: rename main's atlas package (cheapest, contradicts the merged-first rule); rename this branch's chain 5.7–5.10 to 5.11–5.14 (consistent with the rule, four renames and a broken narrative order in the plan); or rule that work-package numbers are labels rather than identifiers, cite the report always, and stop pretending the number is unique — which is what is true today and would cost nothing but an admission. **The underlying cause is unchanged and is now three-for-three: an id issued by reading the working tree collides whenever two sessions run at once.** Neither this entry nor the two before it fixes that.
+
+---
+
+## Extended at the FIFTH collision, 28 Aug 2026 — and closed by the ruling next door
+
+The fifth collision arrived while WP-8.4 was being written: `main` and branch
+`claude/planning-items-e6c13s` each shipped a **WP-8.1** (main's the citation guard, this
+branch's the register-as-a-directory) and each raised a different **OQ 99** (main's the id
+scheme, this branch's the forbidden slot). Main merged first, so main keeps both numbers and
+this branch's OQ 99 became `oq/forbidden-stops-the-pack-cascade`.
+
+**The work-package half is now ruled, and it is the third of the three options above:
+a work-package number is a LABEL, not an identifier. Cite the report.** The argument is the
+one OQ 99 itself makes for not migrating the numbered questions, and it applies here
+unchanged: commit messages carry these numbers and cannot be rewritten, so renumbering makes
+the reports disagree with the history rather than agreeing with it. Measured before deciding:
+renaming this branch's chain a second time (5.11-5.14 to 5.15-5.18, plus 8.1) touches **199
+references**, and 64 of them are WP-5.11 citations that now belong to TWO packages and would
+each have to be read to decide which — the very cost that made a `sed` unsafe the first time.
+
+What actually protects a citation is already built and enforced: `build/check_ids.py` fails
+the build when two reports share a filename slug, and every report is cited by filename. Two
+packages may share a number; no two may share a name. `docs/reports/wp-5.11-real-2d-geometry.md`
+and `docs/reports/wp-5.11-the-scope-a-note-states.md` are unambiguous, and so are
+`wp-8.1-the-register-and-the-id.md` and `wp-8.1-the-citation-guard.md`.
+
+**The renumber already executed is not undone.** This branch's 5.7-5.10 became 5.11-5.14 on
+27 Aug under the earlier reading, and reverting it would be a seventh renumber to reach the
+position that numbers do not matter.

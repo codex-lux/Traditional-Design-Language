@@ -102,20 +102,22 @@
       "target_slot": "gable_treatment",
       "dimension": "parapet_height",
       "expression": "part * 1.5",
-      "applies_when": {
+      "units": "in",
+      "scope": {
         "slot_variant": {
-          "gable_treatment": [
+          "slot": "gable_treatment",
+          "any_of": [
             "parapeted",
-            "parapeted-brick-end",
-            "free-standing-screen-gable",
-            "shaped-scrolled-dutch-gable",
             "shaped-scrolled-dutch-gable-with-small-pediment",
             "straight-sided-finialled-gable"
+          ],
+          "none_of": [
+            "pointed-gable-with-drip-mould",
+            "half-timbered"
           ]
         },
-        "note": "OQ 88, scoped 28 Aug 2026 (WP-8.4). This is the one of OQ 88's three rules whose scope is NOT a construction, and reading it as one would have been the wrong fix: the rule's own note says it 'applies only where the gable is a parapet or a screen, not where it is a roof end', which is a variant of the very slot it writes to. The corpus already records the distinction -- these six variants against `flush`, `bargeboard`, `jerkinhead`, `pedimented` and `structural-gable-as-roof-end` -- and nothing was reading it."
+        "note": "From the rule's own note: \"applies only where the gable is a parapet or a screen, not where it is a roof end\", and \"Where the gable is a roof end this rule does not apply at all.\" A VARIANT scope rather than a construction one, which is why OQ 88's field carries both shapes. The lists are classified from each variant's own record: the Jacobean shaped gable \"steps up to a pediment\" in concave and convex scrolls and its Elizabethan counterpart is \"straight-sided and finialled\" -- both are wall carried above the roof plane, which is what a parapet gable is. Carpenter Gothic's pointed gable with a drip mould and a half-timbered gable face are roof ends. Anything else this corpus grows is UNJUDGED here, deliberately: a variant nobody has classified must not be silently ruled out of scope."
       },
-      "units": "in",
       "range": [
         12.0,
         24.0

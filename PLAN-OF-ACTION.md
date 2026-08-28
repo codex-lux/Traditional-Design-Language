@@ -16,9 +16,10 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3, 4.5, 4.6 complete · **4.4 environment-blocked, 4.7 not started** | **In progress** |
 | **5 — Platform** | WP-5.1, 5.2, 5.5, 5.6, 5.7 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
-| **7 — The three open questions, then their remaining halves** | WP-7.1, 7.2, 7.3, **7.4**, **7.5** | **Complete (27 Aug 2026)** — OQ 95, 79 and 78 (issued as 76, 73 and 72; see the register's 27 August conversion table), each ruled by Lucas and each half-closed with the half that could not be done named; **WP-7.4 then took the halves that were left**. The generator is level-aware and fixed BEARING not stacking (transfer beams 166 → 109), and WP-7.4 charged the stacking directly in both engines; furniture sizing is REFUSED and arrangement goes as far as the rooms' own words, which turned out to be five wall runs rather than the one the register published; a window's ROLE is the plan's to decide and its SASH KIND the style's, with 119 of 159 styles answering through the lineage and the kit vocabulary now merged and ratcheted. **WP-7.4 also found that `span_check` had never read the bearing flag it was handed** — every partition counted as a support, so the corpus under-reported its own structural defects by half. **WP-7.5 is the adversarial audit of WP-7.4** and found two blocking defects it had introduced, one of them a false claim in its own commit message ("the three tests replacing it" — three were added and the nondeterministic one was never removed), plus the same span bug a second time in `render_section.py`; six tests that passed with the fix reverted were made to bite, and OQ 98 was raised for what the audit deliberately did not fix |
+| **7 — The three open questions, then their remaining halves** | WP-7.1, 7.2, 7.3, **7.4**, **7.5** | **Complete (27 Aug 2026)** — OQ 95, OQ 92 and OQ 91 (issued as 76, 73 and 72; see the register's 28 August conversion table), each ruled by Lucas and each half-closed with the half that could not be done named; **WP-7.4 then took the halves that were left**. The generator is level-aware and fixed BEARING not stacking (transfer beams 166 → 109), and WP-7.4 charged the stacking directly in both engines; furniture sizing is REFUSED and arrangement goes as far as the rooms' own words, which turned out to be five wall runs rather than the one the register published; a window's ROLE is the plan's to decide and its SASH KIND the style's, with 119 of 159 styles answering through the lineage and the kit vocabulary now merged and ratcheted. **WP-7.4 also found that `span_check` had never read the bearing flag it was handed** — every partition counted as a support, so the corpus under-reported its own structural defects by half. **WP-7.5 is the adversarial audit of WP-7.4** and found two blocking defects it had introduced, one of them a false claim in its own commit message ("the three tests replacing it" — three were added and the nondeterministic one was never removed), plus the same span bug a second time in `render_section.py`; six tests that passed with the fix reverted were made to bite, and OQ 98 was raised for what the audit deliberately did not fix |
+| **8 — Keeping the record honest** | **WP-8.1** | **Complete (28 Aug 2026)** — the open-question register has collided across parallel sessions four times in four days, and every renumbering pass after one has used a regex that CANNOT SEE THE SECOND NUMBER IN A LIST: `OQ 82 and 84` renumbers the 82 and leaves the 84, and because the stale id still names a REAL entry nothing dangles and no existence check fires. Three live instances were on main and **one of them was written by a different session on a different branch**, which is what makes it a class. Fixed, the 22 bare-continuation lists normalised so every cited id carries its own prefix, and `build/check_citations.py` added to `check_all` (37 checks) to hold it there. It fixes the AFTERMATH of a collision and deliberately not the cause; the cause is **OQ 99**, which was raised by reading the highest id in this working copy and says so. **OQ 99 was then ruled and executed in the same package**: the numbers are FROZEN AT 99 and every new question is NAMED (`### oq/<slug>`), because a sequential id has to be issued from somewhere and the only shared state two parallel sessions have is the repo they both branched from. A slug is derived from the subject rather than issued, so two sessions picking one have raised the same question and the conflict is the one you want. Check D refuses a numbered entry above the ceiling, so the old mechanism is unavailable rather than discouraged. The legacy numbers are deliberately NOT migrated: nothing parses an OQ id, so a renumber was possible and pointless -- commit messages carry the old numbers and cannot be rewritten, so a uniform scheme was never available. Successor question, and the first under the new scheme: `oq/two-id-namespaces`. Report: `docs/reports/wp-8.1-the-citation-guard.md` |
 | **6 — Plan semantics** | WP-6.1, 6.2, 6.3, **6.4 (the audit)** | **Complete (27 Aug 2026)** — raised by Lucas, not by the plan: the rendered sheets were "colorless green ideas sleeping furiously", every part well-formed and the whole meaningless. A door had no wall, no position and no rank; the renderers invented what the record could not say and dropped what it could; nothing checked that you could walk from the front door to a room |
-| **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, **8.3**, 8.4, 8.5 | **In progress (28 Aug 2026)** — **WP-8.1, WP-8.2 and WP-8.3 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **OQ 99**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. **WP-8.3** made `forbidden` stop the pack cascade too (OQ 99) and found that `elevation.py` reaches packs by `PE.resolve` and never through the resolver — a second path nothing had named, 46 pairs, 16 refused and 24 disclosed. The remaining two packages are the construction scope from the fault corpus to the pack rules (8.3), and OQ 89's withheld measurements (8.4) |
+| **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, **8.3**, **8.4** | **Complete (28 Aug 2026)** — **WP-8.1, WP-8.2 and WP-8.3 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **`oq/forbidden-stops-the-pack-cascade`**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. **WP-8.3** made `forbidden` stop the pack cascade too (`oq/forbidden-stops-the-pack-cascade`) and found that `elevation.py` reaches packs by `PE.resolve` and never through the resolver — a second path nothing had named, 46 pairs, 16 refused and 24 disclosed. **WP-8.4** read the exception preconditions -- 331 records, 123 naming a construction, and not one line of code had ever consulted any of them. `granted_when` (renamed from a second `applies_when` in the same schema), a closed 61-token construction vocabulary over variant ids that already exist, three verdicts with the unjudged case judged BOTH WAYS and reported unjudged only where the two rules disagree. It also collided head-on with main, which had shipped its own OQ 88 scope, its own OQ 99 and its own WP-8.1: **ruled -- main's `scope` field survives and this vocabulary is ported into it**, after measuring that main's substring classifier over the cladding disagreed with each node's own `construction_type` on 13 of 164 styles, `cape-dutch` among them, which is OQ 88's own bug surviving inside OQ 88's fix. OQ 86 closed (`kit_vs_pack` read the node's own file, 62 -> 1,231), OQ 90 closed at its third option (a WP number is a label; cite the report), and OQ 89's remainder swept up: `elevation.py` read `shutter` and `window_head_masonry` off the RAW kit under a comment naming `shutter` as needing the cascade. Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions: `oq/applies-when-means-two-things`, `oq/a-baked-pack-value-is-a-second-delivery-path` |
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
@@ -26,7 +27,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 3. ~~**WP-2.3**~~ — **done 25 Aug 2026**, closing Phase 2. `build/geometry_cp.py`. See `docs/reports/wp-2.3-the-real-solver.md`. (Two sessions built this package independently; the CP engine dispatched from `geometry.solve()` is the one that survived the 25 Aug merge.)
 4. ~~**WP-4.5**~~ — **done 24 Aug 2026**: 21 partis, 129 of 132 styles native, 0 uncovered. See `docs/reports/wp-4.5-partis-to-full-coverage.md`.
 5. ~~**The open-question pass**~~ — **done 24 Aug 2026**. Every question Lucas had ruled on is
-   executed: OQ 12, 13, 14, 26, 27, 29, 31, 32, 33, 34, 35, 36, and 15, 18, 19, 37, 38, 39
+   executed: OQ 12, OQ 13, OQ 14, OQ 26, OQ 27, OQ 29, OQ 31, OQ 32, OQ 33, OQ 34, OQ 35, OQ 36, and 15, 18, 19, 37, 38, 39
    besides. Reports: `docs/reports/oq-55-reserved-voids.md` and
    `docs/reports/oq-59-partis-that-fail-their-own-style.md`. The two that changed the compiler
    rather than the corpus are **OQ 55** (courtyards are placed, and the heuristic gained a
@@ -145,7 +146,7 @@ Several packages are blocked on decisions that are design judgments rather than 
 - ~~**OQ 16 — `rule_append`.**~~ Built in WP-1.3 (kit schema 0.2.1), wired into `resolve_kit.py`.
 - ~~**OQ 17 — `applies_when.regions` versus variant status.**~~ Ruled in WP-1.3 and written up in `docs/inheritance.md`: use a variant node when enough diverges to deserve its own identity, `applies_when.regions` when only a single parameter differs.
 - ~~**OQ 20 — the cascade at depth.**~~ Answered with corpus-wide data in WP-4.2 wave B: ~26 real merge problems across 129 kits, of three kinds, none a mechanism failure. See `docs/reports/wp-4.2-wave-b-kit-fill.md`.
-- ~~**OQ 23, 25**~~ — struck in WP-0.2.
+- ~~**OQ 23, OQ 25**~~ — struck in WP-0.2.
 
 **All ruled, 24 August 2026.** Every question that was blocking a package now has a decision recorded against it in `docs/open-questions.md`; nothing in the remaining plan waits on a judgment.
 
@@ -161,7 +162,7 @@ Several packages are blocked on decisions that are design judgments rather than 
 - **OQ 14 — three rail slots.** Ruled: keep the three, state the shared code conflict once. **OQ 26** folds into the same pass.
 - **OQ 21 — variant `op` string matching.** Closed: the checker is enough.
 - **OQ 29 — the three unbound nodes.** Confirmed; OQ 30's pack retires two of them.
-- **OQ 3, 4, 5, 6** — left as standing disclosures. They are recorded uncertainties about history, not defects in the model.
+- **OQ 3, OQ 4, OQ 5, OQ 6** — left as standing disclosures. They are recorded uncertainties about history, not defects in the model.
 
 ---
 
@@ -258,7 +259,7 @@ Batch the migration by family (27 families) so agents can run in parallel; one a
 
 **Status: COMPLETE** — kit schema 0.2.1, ontology 0.5.0, `rule_append` built, fourth slot split, date-conditional resolution wired (`docs/reports/wp-1.3-kit-schema-operators.md`).
 
-**Depends on:** Phase 0. **Needs rulings:** OQ 12, 13, 16, 17. **Size:** medium.
+**Depends on:** Phase 0. **Needs rulings:** OQ 12, OQ 13, OQ 16, OQ 17. **Size:** medium.
 
 **Tasks.** Implement `rule_append` in `resolve_kit.py` so a child can add a clause to an inherited rule without restating it (OQ 16). Execute the slot splits Lucas rules on (OQ 12: `window_head` → masonry head / carpentry cap; `corner_treatment` → quoin / corner board; `window_surround` allowing `none` as a value; `wall_thickness_expression` by trade), bumping the ontology to 0.5.0 and migrating the three filled kits with a script. Resolve the entablature scatter (OQ 13) either by a `derives_from_module` cross-reference between the six slots or by a group move — per the ruling. Add a `date` parameter to `resolve_kit.py` and `tdl_resolve_kit` that filters variants and parameters by `applies_when.date_range` (OQ 22) — the data is already populated. Write guidance for OQ 17 into `docs/inheritance.md`.
 
@@ -407,7 +408,7 @@ The Georgian binding in `styles/georgian-colonial-american.json` is the template
 
 **Status: COMPLETE — all 159 kit files populated.** Required a mechanism build first: family nodes had no kit files and carry no lineage edges, so "extend against the family" had nothing behind it until `build.py` learned to generate family kits and splice a style's own family into the cascade via `member_of`. Then 129 style/variant kits filled in two sub-waves. OQ 20 answered with data. Two reports: `wp-4.2-family-kits.md` (wave A, the mechanism) and `wp-4.2-wave-b-kit-fill.md` (wave B, the fill + the merge-problem findings).
 
-**Depends on:** Phase 1, WP-1.3. **Needs rulings:** OQ 17, 20. **Size:** very large, parallel by family.
+**Depends on:** Phase 1, WP-1.3. **Needs rulings:** OQ 17, OQ 20. **Size:** very large, parallel by family.
 
 **Tasks.** Fill kits top-down so the cascade pays: first the 27 family nodes (each specifying the slots the family genuinely shares — roof family, construction, trim family, plan logic), then the 90 styles (using `extends` against the family wherever the style adds rather than restates), then the 42 variants as 10–30 overrides. Every `specified` slot needs variants with `status`, `parameters` with units and sources, and `forbidden` where the style forbids. `garage_strategy` is `specified` on every contemporary buildable variant (WP-4.3). Run the three-level cascade test from `docs/plans.md` on each family: if a style's provenance shows 0% from the family, the family kit is dead weight — fix the family, not the style. Mark `kind: editorial` honestly and list parameters needing a source.
 
@@ -453,7 +454,7 @@ Two things it will not do, both deliberate. It never sets `status: approved`, be
 
 Three of the package's named dozen were skipped on the data and are named rather than dropped: `telescope` (canonical for no style — 0 unblocked), `split-level` (0 unblocked, and needs the schema decision now recorded as OQ 56), `foursquare side hall` (<=1, and `foursquare-quadrant` is already `circulation_parti: "side-hall"`).
 
-Four composer bugs found by running the diagrams rather than reading them: pick order was decided by filesystem order; massing affinity ignored `alternate_massings`; half the kits that state a ceiling height were never read; and the 3-bay floor *dropped* a one-room house rather than inflating it. And the finding that mattered most — nativity was worth `fit * 6` against 8 per serious finding, so a borrowed diagram routinely beat a native one, which adding nine partis turned into a Tidewater Georgian brief recommending an octagon. `NATIVITY_W` is now 20. See `docs/reports/wp-4.5-partis-to-full-coverage.md`; OQ 55, 34, 35 raised.
+Four composer bugs found by running the diagrams rather than reading them: pick order was decided by filesystem order; massing affinity ignored `alternate_massings`; half the kits that state a ceiling height were never read; and the 3-bay floor *dropped* a one-room house rather than inflating it. And the finding that mattered most — nativity was worth `fit * 6` against 8 per serious finding, so a borrowed diagram routinely beat a native one, which adding nine partis turned into a Tidewater Georgian brief recommending an octagon. `NATIVITY_W` is now 20. See `docs/reports/wp-4.5-partis-to-full-coverage.md`; OQ 55, OQ 34, OQ 35 raised.
 
 **Depends on:** WP-2.1 (for the missing-room list). **Size:** medium.
 
@@ -561,7 +562,7 @@ Built: a hand-rolled hash router and a fourth external store (`state/nav.js`); `
 
 **Machine usability, proved rather than asserted:** `rail.py`, `mcp_mount.py`, `citations.py` and `tools.py` are byte-identical to their pre-package state, `mcp_server/` and `build/` untouched, the `/mcp` mount verified live, the citation grammar only widened, and the three-state rule preserved by redesigning no judgment component. Accessibility improved, which serves both audiences at once.
 
-Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workbench.md` (new "Navigation and addressing" section) · new open questions: OQ 64, 65.
+Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workbench.md` (new "Navigation and addressing" section) · new open questions: OQ 64, OQ 65.
 
 **Depends on:** WP-5.2. **Size:** large.
 
@@ -593,7 +594,7 @@ Built: **`build/profiles.py`**, which constructs each moulding from the member's
 
 **The durable lesson:** OQ 52 swept twelve invented constants out of the measurements and is guarded by a test that reads the measurements dict — which cannot see SVG. The 36 in chimney and the fake pixel projections lived on the other side of that line. **The honesty discipline has to reach the renderers, not just the records.**
 
-Report: `docs/reports/wp-5.11-real-2d-geometry.md` · layer docs: `docs/proportion.md`, `docs/elevation.md`, `docs/export.md` · new open questions: OQ 78, 73, 74.
+Report: `docs/reports/wp-5.11-real-2d-geometry.md` · layer docs: `docs/proportion.md`, `docs/elevation.md`, `docs/export.md` · new open questions: OQ 78, OQ 79 and OQ 80.
 
 **Depends on:** WP-3.2, WP-5.1, WP-5.2. **Size:** large.
 ### A NOTE ON THE TWO WP-5.7s, AND HOW IT WAS SETTLED
@@ -895,7 +896,7 @@ classical module"*, *"everything projects less than about two inches"*). `inheri
 meter gained a FLOOR — `judged` may only rise — and `unendorsed` is a work list, not a score.
 `jacobethan-revival` was deliberately left: *"no classical order except at the entrance porch"*.
 
-**RAISED: OQ 99**, and it is larger than the backlog beside it. **776 (node, slot) pairs where the
+**RAISED: `oq/forbidden-stops-the-pack-cascade`**, and it is larger than the backlog beside it. **776 (node, slot) pairs where the
 resolved kit binds a slot `forbidden` and a pack dimensions it anyway**, over 118 of 132 nodes,
 **776 of 776 by precedence and not one chosen by a human**. Declining does not close it. Ratcheted
 apart; fixing it changes dimensions on 118 nodes and is its own package.
@@ -904,13 +905,13 @@ Tooling: `--ancestors` (with the DIRECT column that refused the edge mechanism),
 `--gates` (endorsing is a code change with no diff — the 26 Aug pass armed `graduation_check` on
 eleven styles and said so nowhere), `--impact`, `--forbidden`.
 
-Report: `docs/reports/wp-8.2-the-refusal-half.md` · new open question: **OQ 99**.
+Report: `docs/reports/wp-8.2-the-refusal-half.md` · new open question: **`oq/forbidden-stops-the-pack-cascade`**.
 
 **Depends on:** WP-8.1. **Size:** medium.
 
 ---
 
-### WP-8.3 The forbidden slot (OQ 99)
+### WP-8.3 The forbidden slot (`oq/forbidden-stops-the-pack-cascade`)
 
 **Status: COMPLETE (28 Aug 2026), with one half deliberately open and named.** `docs/inheritance.md`'s
 binding table has said `forbidden` "stops the cascade" from the beginning. It stopped the KIT
@@ -941,9 +942,77 @@ on a shipped plan at once — `spec-builder-colonial` forbids `transom_sidelight
 `--slots carpenter-gothic` said 75 and now says 64 plus 11 named as refused; `ranch-style` 78/69
 became 67/60.
 
-Report: `docs/reports/wp-8.3-the-forbidden-slot.md` · closes **OQ 99** (drawn half named).
+Report: `docs/reports/wp-8.3-the-forbidden-slot.md` · closes **`oq/forbidden-stops-the-pack-cascade`** (drawn half named).
 
 **Depends on:** WP-8.2. **Size:** medium.
+
+---
+
+### WP-8.4 The exception precondition, the construction vocabulary, and the collision with main
+
+**Status: COMPLETE (28 Aug 2026).**
+
+An exception is a LICENCE, and where it carries a `bounds_test` it REPLACES the fault's
+primary test. **331 of 846 exceptions carry a precondition on the wall, the roof or the date,
+and all three of `core.py`'s selection sites matched on `e["style"] == style` and nothing
+else.** `architrave-that-is-not-there`'s Pueblo Revival licence, written for adobe, was
+excusing a house whose style resolves canonically to stucco-over-wood-frame.
+
+**Why nobody had read it:** `schema/fault.schema.json` carried TWO fields called
+`applies_when` meaning different things — one a precondition on MEASUREMENTS, evaluated since
+WP-5.13; one on CONTEXT, evaluated by nothing. The unread one is `granted_when` now, on all 331
+records, and `check_faults.py` errors on the old name.
+
+**`build/construction_vocabulary.py` is a mapping table, not an ontology.** 78 tokens were in
+use, spelling load-bearing masonry five ways, barrel tile four and wood shingle three. 61 map
+onto variant ids that ALREADY EXIST in `kits/`; 17 are recorded UNMAPPABLE with a reason. No
+new corpus id is authored on the authority of fault-exception prose. Three rules earned their
+place by being wrong first: **slot order is authority order** (a render is not a wall), **a
+canonical outranks a permitted** (`jeffersonian-classicism` is canonically brick with clapboard
+forbidden, and a permitted `beaded-clapboard` was leaving it undecided), and **a `partial`
+token may fail but never hold** (nothing records how thick a stucco is).
+
+**Three verdicts, and the unjudged case is judged BOTH WAYS and compared.** Where the
+exception's own numbers and the general rule agree, the unresolved question is immaterial and
+the fault is answered; only where they disagree is it could-not-evaluate. Over 164 styles that
+is 11 verdicts moving instead of 26.
+
+**THE COLLISION.** Main shipped its own OQ 88 answer (`scope`, decided in
+`proportion_engine.rule_scope()`), its own OQ 99 and its own WP-8.1 while this was being
+written. **Ruled: main's field survives, this vocabulary is ported into it.** The port is not
+cosmetic — main's `construction_of()` classified a node by SUBSTRING MATCH over its cladding
+ids and disagreed with each node's own `construction_type` on **13 of 164 styles, in both
+directions**. `cape-dutch` is sun-dried brick with timber frame FORBIDDEN and a
+`lime-plaster-limewash-white` face carrying no masonry word, so the frame-wall sill rule was
+delivered to a mass masonry wall: **OQ 88's own bug surviving inside OQ 88's fix.**
+
+**Also closed:** **OQ 86** — `kit_vs_pack` read `load_kit(nid)`, the node's own file, while
+comparing against cascade-assembled rules; reading the cascade takes 62 to **1,231** at 37
+distinct addresses. **OQ 90** — at its third option: a work-package number is a LABEL, cite the
+report; renumbering a second time touches 199 references and would make the reports disagree
+with commit messages that cannot be rewritten. **OQ 89's remainder** — `elevation.py` read
+`shutter` and `window_head_masonry` off the RAW kit, under a comment that named `shutter` as
+binding empty *"exactly as"* the cascaded dormer slot. `jeffersonian-classicism` was still
+clearing `shutter-on-an-unshutterable-opening` on two invented shutters, and
+`window_head_masonry` is empty in the raw kit on 66 of 164 styles, so the head radius reached 8
+styles where it now reaches 29.
+
+**Found and not fixed, each with a meter:** a pack value BAKED into a kit as `kind: derived` is
+a second delivery path no scope reaches (3,176 resolve, **20** deliver a figure the live rule
+refuses); `applies_when` still means two things across three schemas, and the kit one is itself
+half-read; eight exceptions carry a `construction:`/`region:` pseudo-style id no selection site
+can ever match; nine nodes state their construction in prose with an empty variant list, every
+one of them a family whose identity IS its construction.
+
+`build/check_division_guards.py` is new: every dividing test against every measurement a
+generator supplies as ZERO, swept over all 164 styles. **306 unguarded dividing tests, of which
+0 divide by a name that can actually be zero** — pinned there, because that number goes
+non-zero the moment a generator states a new zero, which is exactly what WP-5.13 did.
+
+Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions:
+`oq/applies-when-means-two-things`, `oq/a-baked-pack-value-is-a-second-delivery-path`.
+
+**Depends on:** WP-8.3, and a merge of main. **Size:** large.
 
 ---
 

@@ -186,6 +186,13 @@
       "expression": "plan_offset_at_material_change_in",
       "direction": "at-least",
       "units": "in",
+      "applies_when": {
+        "expression": "count_of_material_changes_on_the_elevation",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Only evaluated where there IS a material change to site (OQ 89). This test gates a change at a real second volume, so on a house with one volume in one material there is no change whose plan offset could be measured -- and because the direction is `at-least`, supplying 0 would convict it for the honest reason that no change exists at all. The measurement was withheld by a source comment until this precondition existed to state the condition in data."
+      },
       "measurable_from": "plan",
       "threshold": 24,
       "note": "A legitimate change happens where one volume meets another, which means an INSIDE corner with a real plan offset. Under about 24 in the two volumes are not distinguishable and the change is happening at an outside corner in disguise."
@@ -194,6 +201,13 @@
       "expression": "ridge_height_difference_between_volumes_in",
       "direction": "at-least",
       "units": "in",
+      "applies_when": {
+        "expression": "count_of_material_changes_on_the_elevation",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "The second half of the volume test, and the same precondition (OQ 89): with no material change there are no two volumes whose ridges could differ, and an `at-least` test on a supplied 0 would convict a house for not having the fault."
+      },
       "measurable_from": "elevation",
       "threshold": 18,
       "note": "The second half of the volume test. A material change with a plan offset but no ridge break is still one volume wearing two skins."

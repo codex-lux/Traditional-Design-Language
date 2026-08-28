@@ -450,34 +450,45 @@
             "pattern": "^[a-z][a-z0-9_]*$",
             "description": "What this rule MEASURES, in a short canonical name, so that `(target_slot, dimension, quantity)` is the real address of a rule rather than `(target_slot, dimension)`. Added by OQ 48. A `(slot, dimension)` address can legitimately hold several rules -- a menu within one pack, or two packs offering alternative accounts of the SAME quantity, which is what precedence is for -- but it can also hold two packs measuring DIFFERENT quantities, and that is a silent corruption: whichever resolves last wins, nothing reports it, and precedence cannot help because precedence decides which of two accounts of one quantity to believe. Naming the quantity makes the three cases distinguishable by a checker instead of by a person. Optional, because the corpus predates it: a rule with no `quantity` is UNJUDGED and `build/check_addresses.py` reports it as could-not-evaluate rather than as agreement."
           },
-          "applies_when": {
+          "scope": {
             "type": "object",
             "additionalProperties": false,
-            "description": "A precondition on the CONTEXT -- what the wall is made of -- for THIS RULE ALONE. Added 28 Aug 2026 (WP-8.4) to close OQ 88. Same shape and same meaning as `applies_when` on a kit variant (schema/kit.schema.json $defs.applies_when), deliberately: this corpus has paid four times for spelling one idea two ways, and a per-rule scope is the same kind of fact as a per-variant one. NOT the same as `test.applies_when` in schema/fault.schema.json, which is a precondition on MEASUREMENTS -- that collision is named in OQ 100 for a corpus-wide ruling rather than settled here. WHY IT EXISTS. Three pack rules state a construction scope in their own prose and carry no data that enforces it. `sash-light`'s window_sill/projection says 'In a frame wall this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one' -- and the cascade delivers it to 86 nodes, 37 of which make a masonry cladding canonical. `opening-proportion`'s window_surround_wood/exterior_head_assembly_height says 'On a masonry front this assembly is a flat arch, a jack arch or a stone lintel instead'. `facade-gable`'s gable_treatment/parapet_height says 'Where the gable is a roof end this rule does not apply at all'. `slots`/`slots_except` on a BINDING cannot express any of these: they scope a whole binding for one node, where the note describes a property of the rule that is true of every node it reaches. REFUSED, NEVER DELETED. A rule whose precondition fails is emitted carrying `refused_by_construction` and the reason, exactly as WP-8.3's kit refusal is, so the measurement of what was refused survives and `choose_pack` declines to choose it. UNDECIDABLE IS NOT REFUSED. Where the style permits the named construction and others too, the rule stands: withholding a dimension on a maybe would leave the slot with nothing, which is worse than a dimension a reader can see is scoped. The count of such rules is reported by check_pack_bindings and is the honest size of what this field cannot yet decide.",
+            "description": "WHEN THIS RULE IS ABOUT THE BUILDING AT ALL (OQ 88). The categorical sibling of `calibrated_for`, and honoured the same way and for the same reason: three rules in this corpus state their scope in their own `note` and carried none in data, so `sash-light`'s frame-wall window sill was delivered to 47 nodes that make a masonry cladding canonical and `english-georgian` resolved a sloped timber sill on a brick wall. Decided in ONE place, `proportion_engine.rule_scope()`. Three outcomes, and the third is the point: a rule out of scope is dropped by `eval_packs` with its reason, and a rule whose scope CANNOT BE DECIDED -- a style that makes both a masonry and a frame cladding canonical, where construction is a fact about the house and not the style -- is still delivered but flagged `scope_unjudged`, because withholding it would strand every frame house of a both-ways style.",
             "properties": {
               "construction": {
                 "type": "array",
                 "items": {
                   "type": "string"
                 },
-                "description": "Tokens from build/construction_vocabulary.py, which is a CLOSED table. The rule applies where the wall is any one of these. An unknown token is an error in check_pack_bindings: it would refuse the rule for every node in the corpus."
-              },
-              "construction_except": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "description": "The same field turned round, and the one these three rules actually want: each says where it does NOT apply. An allowlist would make `sash-light`'s sill rule enumerate every frame construction in the corpus and stop delivering the moment a new one is authored, which is the failure `slots_except` was added for one package earlier."
+                "minItems": 1,
+                "description": "The wall constructions this rule is stated for. Tokens come from build/construction_vocabulary.py, which is a CLOSED table validated by check_pack_bindings -- an unknown token would put every node out of scope in silence. WIDENED FROM A TWO-VALUE ENUM ON 28 AUG 2026 (WP-8.4). `masonry` and `frame` were decided by `construction_of()`, a SUBSTRING TEST over canonical `primary_cladding` ids, and a substring test over a surface cannot answer a question about an assembly: it disagreed with the node's own `construction_type` on 13 of 164 styles, in both directions. `cape-dutch` is `sun-dried-brick-or-rubble-masonry` with braced timber frame FORBIDDEN, and its `lime-plaster-limewash-white` cladding carries no masonry word, so the frame sill rule was delivered to a mass masonry wall -- OQ 88's own bug surviving inside OQ 88's fix. `prairie-school` and `storybook-style` are framed houses whose stucco and Roman brick surfaces read as masonry, and the frame rule was dropped from them. The vocabulary reads `construction_type` first and maps to variant ids that exist, with no string matching."
               },
               "slot_variant": {
                 "type": "object",
-                "additionalProperties": {
-                  "type": "array",
-                  "items": {
+                "additionalProperties": false,
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
                     "type": "string"
+                  },
+                  "any_of": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  },
+                  "none_of": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
                   }
                 },
-                "description": "{slot_id: [variant_id, ...]} -- the rule applies only where the resolved kit makes one of those variants live (canonical, permitted or atypical) on that slot. The third of OQ 88's rules needs this and not a construction: `facade-gable`'s gable_treatment/parapet_height says 'applies only where the gable is a parapet or a screen, not where it is a roof end', which is a variant of the very slot the rule writes to. The distinction is already in the corpus -- `parapeted`, `parapeted-brick-end`, `free-standing-screen-gable` and the shaped Dutch gables against `flush`, `bargeboard`, `jerkinhead` and `structural-gable-as-roof-end` -- and nothing was reading it. A rule may name the slot it targets, which is not circular: the kit chooses the variant and the pack dimensions it. Same refusal discipline as `construction`: refused only where the slot is bound and names none of these; an unbound slot is undecidable and the rule stands."
+                "description": "The rule applies only where the named slot resolves to one of `any_of`, and explicitly does not where it resolves to one of `none_of`. A variant in NEITHER list is UNJUDGED, never out: reading 'not in my list' as out of scope silently drops the rule everywhere the moment the list is wrong, which is what happened on the first draft of facade-gable's parapet scope."
               },
               "note": {
                 "type": "string"

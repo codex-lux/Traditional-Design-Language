@@ -319,10 +319,40 @@ def _construction_vocabulary():
                          os.path.join(ROOT, "build", "construction_vocabulary.py"))
 
 
-def eval_packs(packs, ctx, module_override, kit):
+def scope_facts(slots):
+    """What `proportion_engine.rule_scope()` needs, off a node's RESOLVED slots (OQ 88).
+
+    One place, so a second reading of "is this a brick house" cannot drift from the first.
+
+    IT NO LONGER CLASSIFIES (WP-8.4). Until 28 Aug this returned a single label --
+    masonry / frame / mixed -- from `pe.construction_of()`, a SUBSTRING TEST over canonical
+    `primary_cladding` ids. A substring test over a SURFACE cannot answer a question about an
+    ASSEMBLY, and it disagreed with the node's own `construction_type` on 13 of 164 styles in
+    both directions: `cape-dutch` is `sun-dried-brick-or-rubble-masonry` with braced timber
+    frame FORBIDDEN, and its `lime-plaster-limewash-white` cladding carries no masonry word, so
+    the frame-wall sill rule was delivered to a mass masonry wall -- OQ 88's own bug surviving
+    inside OQ 88's fix. `prairie-school` and `storybook-style` are framed houses whose stucco
+    and Roman brick surfaces read as masonry, and the frame rule was dropped from them.
+    The resolved slots now travel whole and `rule_scope` resolves each token against them
+    through `build/construction_vocabulary.py`, which reads `construction_type` first and maps
+    to variant ids that exist.
+
+    `elevation.py` answers the same question better at PLAN scope, from structure.py's solved
+    `section["wall"]["bearing"]`, because by then there is an actual house. This is what can be
+    said when all there is, is a style.
+    """
+    canonical = {}
+    for sid, rec in (slots or {}).items():
+        ids = [v["id"] for v in (rec.get("variants") or []) if v.get("status") == "canonical"]
+        if ids:
+            canonical[sid] = ids
+    return {"resolved_slots": slots or {}, "resolved_variants": canonical}
+
+
+def eval_packs(packs, ctx, module_override, kit, scope_dropped=None):
     """Every rule the bound packs contribute, keyed by target slot.
 
-    OQ 99 (WP-8.3): A PACK RULE MAY NOT WRITE TO A SLOT THE RESOLVED KIT BINDS `forbidden`.
+    `oq/forbidden-stops-the-pack-cascade` (WP-8.3): A PACK RULE MAY NOT WRITE TO A SLOT THE RESOLVED KIT BINDS `forbidden`.
     `docs/inheritance.md`'s binding table has always said `forbidden` means "This node prohibits
     the slot. Stops the cascade." It stopped the KIT cascade and never the PACK cascade, and 787
     (node, slot) pairs across 118 of 132 nodes carried a pack-supplied dimension for a slot the
@@ -334,16 +364,28 @@ def eval_packs(packs, ctx, module_override, kit):
     reads these rows without ever calling `choose_pack`, so a refusal placed only in the chooser
     would not reach it. Same discipline as `openings.py` marking an opening it cannot realise
     `unplaced` with a reason and never deleting it, and as `calibrated_for` publishing
-    `out_of_calibration` rather than withholding in silence.
+    `out_of_calibration` rather than withholding in silence. OQ 88's own scope drop (below)
+    predates that rule and is kept as a DROP because `scope_dropped` records every one -- the
+    two refusals are reported by different means and neither is silent.
 
     `kit` IS REQUIRED AND HAS NO DEFAULT, deliberately. A `kit=None` default would let every one
     of the eight call sites keep the old behaviour by saying nothing -- which is the exact failure
     the fault schema's own note describes for a mistyped guard: "omit `expression` and the
     precondition is ignored entirely, the test runs unguarded and convicts". A caller with no kit
-    passes `{}` and means it.
+    passes `{}` and means it. It is also what OQ 88's scope reads: `scope_facts` is applied HERE
+    rather than by every caller, because a caller who forgot it got `resolved_slots: None`, every
+    scope `unknown`, and a mechanism silently inert with nothing said.
     """
+    if scope_dropped is None:
+        scope_dropped = []
+    if kit:
+        ctx = {**ctx, **scope_facts(kit)}
     by_slot = collections.defaultdict(list)
     errors = []
+    # OQ 88. Callers that want to report what scope removed pass a list in; the default keeps
+    # the two-value return every existing caller already unpacks.
+    if scope_dropped is None:
+        scope_dropped = []
     for pid, binding in packs.items():
         try:
             pk = pe.resolve(pid)
@@ -379,7 +421,7 @@ def eval_packs(packs, ctx, module_override, kit):
         def _refused(sid):
             """(refused, why) for a slot the resolved kit forbids.
 
-            THE HUMAN OVERRIDE, per OQ 99's ruling: a slot whose own `packs` block names this
+            THE HUMAN OVERRIDE, per `oq/forbidden-stops-the-pack-cascade`'s ruling: a slot whose own `packs` block names this
             pack is a person's explicit ruling and wins. `choose_pack`'s own docstring calls that
             block "the only place a human has said which pack wins", and it is consulted there
             first for the same reason. Zero of the 787 qualify today, so the override strands
@@ -393,53 +435,6 @@ def eval_packs(packs, ctx, module_override, kit):
                 return False, None
             return True, (rec.get("note") or "the resolved kit binds this slot `forbidden`")
 
-        def _wrong_construction(r):
-            """(refused, why) for a rule scoped to a construction this wall is not (OQ 88).
-
-            Three pack rules state a construction scope in their own prose and carried no
-            data that enforced it -- `sash-light`'s sill projection is the flagship, whose
-            note says plainly that in a masonry wall the sill "belongs to the brick-course
-            pack, not this one" while the cascade delivered it to 86 nodes. This is that
-            note made executable, per rule rather than per binding: `slots_except` scopes a
-            binding for ONE node, where these notes describe a property of the rule that is
-            true of every node it reaches.
-
-            UNDECIDABLE IS NOT REFUSED, and that asymmetry is deliberate. A slot left with
-            no rule at all is worse than a rule a reader can see is scoped: the kit refusal
-            of WP-8.3 could withhold safely because the kit had already said the slot is
-            forbidden, and here nothing has said anything. So a rule is refused only where
-            the vocabulary can say the wall is NOT what the rule needs.
-            """
-            aw = r.get("applies_when") or {}
-            # `slot_variant` first: it is the sharper test, because it reads a variant the
-            # kit has actually chosen rather than inferring a wall from a cladding.
-            for sid, wanted in (aw.get("slot_variant") or {}).items():
-                rec2 = (kit or {}).get(sid) or {}
-                variants = [v for v in (rec2.get("variants") or []) if v.get("id")]
-                if not variants:
-                    continue                       # unbound: undecidable, so the rule stands
-                live = [v["id"] for v in variants
-                        if v.get("status") in ("canonical", "permitted", "atypical")]
-                if live and not (set(live) & set(wanted)):
-                    return True, ("this rule applies only where %s is one of %s, and this "
-                                  "style's is %s: %s" % (sid, ", ".join(wanted),
-                                                         ", ".join(live), aw.get("note") or ""))
-            want, deny = aw.get("construction"), aw.get("construction_except")
-            if not want and not deny:
-                return False, None
-            cv = _construction_vocabulary()
-            for token in (deny or []):
-                verdict, why = cv.resolve(token, kit or {})
-                if verdict == "holds":
-                    return True, ("this rule does not apply to %s construction: %s"
-                                  % (token, aw.get("note") or why))
-            if want:
-                verdicts = [cv.resolve(t, kit or {}) for t in want]
-                if all(v == "fails" for v, _ in verdicts):
-                    return True, ("this rule applies only to %s construction, and the style is "
-                                  "built in none of them" % ", ".join(want))
-            return False, None
-
         for r in ev["rules"]:
             if "error" in r:
                 continue
@@ -447,11 +442,20 @@ def eval_packs(packs, ctx, module_override, kit):
                 continue
             if deny is not None and _named(r, deny):
                 continue
+            # OQ 88: a rule whose own note says it is not about this construction is NOT
+            # delivered. `proportion_engine.rule_scope()` decided this and wrote the reason;
+            # dropping it here is the same enforcement point the two binding scopes use, for
+            # the same reason -- everything downstream reads `by_slot` and cannot tell where a
+            # rule came from. The drop is recorded, not silent: a rule that vanishes with no
+            # trace is the failure this corpus polices, so `scope_dropped` carries every one.
+            if r.get("out_of_scope"):
+                scope_dropped.append({"pack": pid, "slot": r["target_slot"],
+                                      "dimension": r.get("dimension"),
+                                      "why": r["out_of_scope"]})
+                continue
             refused, why = _refused(r["target_slot"])
-            wrong_wall, wall_why = _wrong_construction(r)
             by_slot[r["target_slot"]].append({
                 "refused_by_kit": refused, "refused_because": why,
-                "refused_by_construction": wrong_wall, "construction_because": wall_why,
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],
                 "style_precedence": binding.get("precedence"),
                 "dimension": r.get("dimension"), "quantity": r.get("quantity"),
@@ -459,6 +463,9 @@ def eval_packs(packs, ctx, module_override, kit):
                 "value": r.get("value"), "units": r.get("units"),
                 "judgment": r.get("judgment"),
                 "calibrated_for": r.get("calibrated_for"),
+                # Present ONLY when the scope could not be decided (a both-ways style). Absent
+                # means the rule is in scope, never that nobody looked.
+                "scope_unjudged": r.get("scope_unjudged"),
             })
     return by_slot, errors
 
@@ -473,7 +480,7 @@ def choose_pack(rec, rows, ctx):
       2. the style node's `proportion_packs.precedence`
       3. no ruling: report the disagreement, which is what 0.1.0 could only ever do
     """
-    # OQ 99 (WP-8.3): a rule `eval_packs` marked `refused_by_kit` may not be chosen. The mark is
+    # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): a rule `eval_packs` marked `refused_by_kit` may not be chosen. The mark is
     # made there, where the kit is in hand and the row is built; the choice is refused here. One
     # judgment, two places that must agree, and they agree because only one of them decides.
     # Reported, never silently dropped: a slot whose every candidate was refused returns
@@ -486,20 +493,6 @@ def choose_pack(rec, rows, ctx):
                 "why": next((r.get("refused_because") for r in rows if r.get("refused_because")),
                             "the resolved kit binds this slot `forbidden`")}
     rows = live_rows
-    # OQ 88 (WP-8.4): the same discipline for a rule scoped to a construction this wall is
-    # not. Marked in eval_packs where the kit is in hand, refused here. Kept separate from
-    # `kit.forbidden` in the reported `how` because they are different refusals: one is the
-    # style saying the slot may not exist, the other is the rule saying it is not about this
-    # wall -- and a reader who cannot tell them apart will go looking in the wrong file.
-    live_rows = [r for r in rows if not r.get("refused_by_construction")]
-    if rows and not live_rows:
-        return {"how": "rule.wrong_construction", "chosen": None, "ranked": [],
-                "refused": list(rows),
-                "why": next((r.get("construction_because") for r in rows
-                             if r.get("construction_because")),
-                            "every rule at this address is scoped to another construction")}
-    rows = live_rows
-
     declared = rec.get("packs") or []
     if declared:
         ranked = sorted(declared, key=lambda p: (p.get("precedence") if p.get("precedence") is not None else 99))
@@ -736,7 +729,8 @@ def main():
     ctx = {"ceiling_height": a.ceiling,
            "storey_height": a.storey if a.storey else a.ceiling + 12.0,
            "opening_height": 80.0, "opening_width": a.opening, "span": a.span}
-    pack_slots, pack_errors = eval_packs(packs, ctx, a.module, slots)
+    scope_dropped = []
+    pack_slots, pack_errors = eval_packs(packs, ctx, a.module, slots, scope_dropped)
 
     if a.json:
         payload = {"style": a.style, "chain": chain, "context": ctx, "date": a.date,

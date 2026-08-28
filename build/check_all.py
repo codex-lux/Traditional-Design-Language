@@ -43,6 +43,13 @@ CHECKS = [
     ("check_constraints.py", []),
     ("check_pack_bindings.py", ["--strict"]),
     ("check_faults.py", []),
+    # Every dividing test against every measurement a generator supplies as ZERO. The corpus's
+    # flagship failure is a rule that presupposes the thing it measures -- `dormer_count % 2`
+    # on a house stating no dormers -- and the standing rule that any dividing test needs an
+    # `applies_when` has been enforced by memory since WP-5.13. This is the meter. Its LIVE
+    # figure is pinned at zero and goes non-zero the moment a generator starts supplying a new
+    # zero, which is exactly what WP-5.13 did.
+    ("check_division_guards.py", []),
     ("check_rooms.py", []),
     # WP-6.2. Not folded into check_rooms.py: that checker globs rooms/*.json against the
     # room schema, and the opening grammar is a different document in a different directory
@@ -51,6 +58,12 @@ CHECKS = [
     ("check_windows.py", []),
     ("check_partis.py", []),
     ("check_counts.py", []),
+    # Citations, not counts. check_counts.py guards a NUMBER computed from the data;
+    # this guards a REFERENCE -- that every `OQ N` resolves, that no cited id hides
+    # behind a bare continuation number where a renumbering regex cannot see it, and
+    # that the reissue tables still land somewhere. Added after three stale citations
+    # were found on main, two written by this session and one by another.
+    ("check_citations.py", []),
     # --strict on both, added 25 Aug 2026 after an audit found neither could fail the build.
     # check_addresses was default-off deliberately while OQ 48 carried 139 collisions; that
     # question closed at 0, so the ratchet that stops a 1st new one is now the whole point.

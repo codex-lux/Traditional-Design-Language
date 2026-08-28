@@ -56,6 +56,28 @@ Except that the second is false in his own Corinthian and Composite, where he dr
 
 This is not modesty. A generative grammar produces syntactically valid nonsense — *colorless green ideas sleep furiously* — and a rules-based house generator will do the same: houses that violate no constraint and are still dead. The answer is not more rules. It is marking the slots where the system knows it does not know, and saying so.
 
+## When a rule is not about the building at all
+
+`judgment: true` marks a rule the sources do not determine. Two further fields mark a rule that IS
+determined but is not about *this* building, and both are honoured by the engine rather than left
+in prose:
+
+- **`calibrated_for`** — the numeric bindings a rule was calibrated for (OQ 68). Outside them
+  `in_range` is withheld and `out_of_calibration` published in its place.
+- **`scope`** — the construction, or the resolved slot variant, a rule is stated for (OQ 88).
+  `sash-light`'s window sill says in its own note that in a masonry wall the member "belongs to the
+  brick-course pack, not this one"; carried only in prose, it reached 86 nodes of which 47 make a
+  masonry cladding canonical. `proportion_engine.rule_scope()` decides it — **the only place that
+  reading exists** — and `eval_packs` drops an out-of-scope rule while recording why.
+
+Both answer the same argument: judging a rule against a binding its own note tells you not to use
+is unjudged reported as failed. **`scope` has three answers rather than two**, because 13 styles
+make both a masonry and a frame cladding canonical and were genuinely built both ways: for those
+the construction is a fact about the house, and the rule is delivered carrying `scope_unjudged`
+rather than silently applied or silently dropped. A variant that neither `any_of` nor `none_of`
+classifies is likewise unknown, never out — reading "not in my list" as out of scope deletes a rule
+everywhere the moment the list is wrong.
+
 The chair rail is the honest case. The classical derivation puts it at the pedestal cap, and at a 9-foot ceiling that lands at 23 inches, below the back of a chair. `trim-classical` now carries `calibrated_for: [142.5, 168]` — the derivation only reaches the measured 30–32 inch band at a ceiling of 142½ inches, so it is out of calibration through the whole New England and Chesapeake range and comes good only in Charleston. Below that, set the rail from the window sill and re-derive the base and cornice from the pedestal you actually used.
 
 A rule can also be marked `diagnostic`, meaning it is designed to fail informatively. `opening-proportion`'s sill expression returns a low number to tell you that the storey height and the window proportion cannot both be classical in this room, and one of them has to give. Without the flag it reads as a rule returning a wrong answer.

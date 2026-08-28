@@ -412,6 +412,116 @@ def out_of_calibration(rule, env, module_in):
     return reasons
 
 
+# `MASONRY_WORDS` and `construction_of()` STOOD HERE and were removed on 28 Aug 2026 (WP-8.4).
+# They classified a node masonry / frame / mixed by SUBSTRING MATCH over its canonical
+# `primary_cladding` ids -- "brick", "stone", "stucco", "tile" and eight more. A substring test
+# over a SURFACE cannot answer a question about an ASSEMBLY, and measured against each node's own
+# `construction_type` it disagreed on 13 of 164 styles, in both directions:
+#
+#   cape-dutch        sun-dried-brick-or-rubble-masonry, braced timber frame FORBIDDEN, clad
+#                     `lime-plaster-limewash-white` -- no masonry word, so it read FRAME and the
+#                     frame-wall sill rule was delivered to a mass masonry wall. OQ 88's own bug,
+#                     surviving inside OQ 88's fix.
+#   prairie-school    platform-frame canonical, solid masonry FORBIDDEN, clad `roman-brick` --
+#                     read MASONRY, and the frame rule was dropped from a framed house.
+#   storybook-style   wood-frame-wire-lath-portland-cement-stucco, clad
+#                     `troweled-modelled-plastic-stucco` -- read MASONRY, same drop.
+#   beaux-arts-*      masonry-veneer-over-frame canonical, clad `stone-ashlar` -- read MASONRY,
+#                     which is right for the sill and right by accident.
+#
+# `rule_scope` now resolves each token in `scope.construction` against the node's RESOLVED SLOTS
+# through build/construction_vocabulary.py, which reads `construction_type` first, maps to
+# variant ids that exist, and answers holds / fails / undecidable per token. `mixed` has not been
+# lost: it is what `undecidable` means, and it is still delivered flagged rather than dropped.
+
+
+def _construction_vocabulary():
+    """The closed token table, through modcache (CLAUDE.md, OQ 28)."""
+    import sys as _sys
+    _b = os.path.dirname(os.path.abspath(__file__))
+    if _b not in _sys.path:
+        _sys.path.insert(0, _b)
+    import modcache
+    return modcache.load("construction_vocabulary",
+                         os.path.join(_b, "construction_vocabulary.py"))
+
+
+def rule_scope(rule, env):
+    """Is this rule about this building at all? ("in" | "out" | "unknown", reason) -- OQ 88.
+
+    THE PROBLEM THIS EXISTS FOR. Three rules in this corpus state their own scope in a `note`
+    and carry none in data. `sash-light`'s window sill says, in as many words, "In a frame wall
+    this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the
+    brick-course pack, NOT THIS ONE" -- and the cascade delivers it to 86 nodes, 47 of which make
+    a masonry cladding canonical. `english-georgian`, brick-only, resolved a 2.25 in sloped
+    timber sill "sloped about 1 in 6 with a drip" until this function existed. WP-5.10 fixed that
+    for exactly one node by scoping its binding; scoping 47 bindings by hand is the answer this
+    is built to avoid, and it could not express the mixed case anyway.
+
+    THE SHAPE IS BORROWED, DELIBERATELY. `calibrated_for` and `out_of_calibration()` above are
+    the same idea for NUMERIC bands, ruled at OQ 68 with the argument that decides this one too:
+    judging a rule against a binding its own note tells you not to use is unjudged reported as
+    failed. That function cannot serve here -- it compares two-element numeric ranges -- so this
+    is its categorical sibling, in the same file, so that a reader looking for "when does a rule
+    not apply" finds both together.
+
+    THREE STATES, and the third is the whole reason this is not a filter:
+
+      in      -- the rule governs. Nothing changes.
+      out     -- the building contradicts the rule's stated scope. The value must not be
+                 delivered as a governing figure; `eval_packs` drops it and says why.
+      unknown -- the fact needed to decide is not available, or is genuinely both. UNJUDGED: the
+                 value is still delivered, because withholding it would strand every frame house
+                 of a both-ways style, but it carries the reason so nothing downstream can mistake
+                 a coin-toss for a ruling.
+    """
+    sc = rule.get("scope") or {}
+    if not sc:
+        return "in", None
+
+    want = sc.get("construction")
+    if want:
+        slots = env.get("resolved_slots")
+        if slots is None:
+            return "unknown", ("no resolved kit reached this evaluation, so nothing here can say "
+                               "what the wall is made of")
+        cv = _construction_vocabulary()
+        # A LIST IS A DISJUNCTION: the rule is stated for a wall built in ANY of these ways.
+        verdicts = [(t,) + cv.resolve(t, slots) for t in want]
+        kinds = {v for _t, v, _w in verdicts}
+        if "holds" not in kinds:
+            if kinds <= {"fails"}:
+                return "out", ("this rule is stated for %s and the style is built in none of "
+                               "them: %s" % (" or ".join(want),
+                                             "; ".join(w for _t, _v, w in verdicts)))
+            if kinds <= {"fails", "unmappable"}:
+                return "unknown", ("every construction this rule names is either refused by the "
+                                   "style or absent from the vocabulary")
+            return "unknown", ("this style permits %s and other constructions too, so its "
+                               "construction is a fact about the house and not about the style"
+                               % ", ".join(t for t, v, _w in verdicts if v == "undecidable"))
+
+    sv = sc.get("slot_variant")
+    if sv:
+        got = (env.get("resolved_variants") or {}).get(sv["slot"])
+        if got is None:
+            return "unknown", "no resolved variant is known for slot '%s'" % sv["slot"]
+        # BOTH LISTS, AND ANYTHING ELSE IS UNJUDGED. The first version of this had `any_of`
+        # only and read "not in my list" as OUT -- which is a silent corpus-wide drop the
+        # moment the list is wrong, and it WAS wrong: every id in it was invented from the
+        # rule's prose and not one matched the vocabulary the corpus actually uses, so the
+        # parapet rule would have been dropped on all twelve of its own nodes with nothing
+        # said. A scope may only rule on variants somebody has classified.
+        if any(v in (sv.get("any_of") or []) for v in got):
+            return "in", None
+        if any(v in (sv.get("none_of") or []) for v in got):
+            return "out", "slot '%s' resolves to %s, which this rule states it does not cover" % (
+                sv["slot"], ", ".join(v for v in got if v in (sv.get("none_of") or [])))
+        return "unknown", ("slot '%s' resolves to %s, which this rule's scope does not classify "
+                           "either way" % (sv["slot"], ", ".join(got) or "nothing"))
+    return "in", None
+
+
 def evaluate(pack, module_in=None, bindings=None):
     mod = module_in if module_in is not None else (pack["module"].get("default_size_in") or 6.0)
     parts = pack["module"]["parts"]
@@ -435,20 +545,32 @@ def evaluate(pack, module_in=None, bindings=None):
                # reaches the measured 30-32 in band at 142.5 in, and the resolver printed 22.75 in
                # with no warning. Same bug as `quantity` (fixed 25 Aug), found in the same audit:
                # a row rebuilt key-by-key from a richer source drops whatever nobody re-listed.
-               # THE GUARD WRITTEN FOR THAT BUG DOES NOT REACH THIS DICT (found WP-8.4, the
-               # third instance of it). The comment here has said since WP-5.11 that
-               # "tests/test_wp46_packs.py compares this dict against the schema so it cannot
-               # recur"; the test that exists is test_score.py's
+               # THE GUARD WRITTEN FOR THAT BUG DID NOT REACH THIS DICT (found WP-8.4, the
+               # third instance of it). The comment here said from WP-5.11 until 28 Aug 2026
+               # that "tests/test_wp46_packs.py compares this dict against the schema so it
+               # cannot recur"; the test that existed was test_score.py's
                # test_rule_keys_publishes_every_key_the_pack_schema_defines, and it reads
                # `mcp_server/core.py`'s RULE_KEYS -- a DIFFERENT key-by-key rebuild, one layer
                # further out. So the function whose own comment tells this story was the one
-               # function nothing checked, and `applies_when` (OQ 88) was dropped here in
-               # exactly the way described, silently, with the scope refusing nothing on all
-               # 293 deliveries. Both rebuilds are pinned now.
+               # function nothing checked, and a new rule field was dropped here in exactly
+               # the way described, silently, leaving its scope refusing 0 of 293 deliveries
+               # with every check green. Both rebuilds are pinned now, this one by
+               # test_the_engines_own_row_publishes_every_key_the_pack_schema_defines, which
+               # reads a REAL EMITTED ROW rather than the source: a key present in this
+               # literal and overwritten below would still pass a source-reading test.
                "calibrated_for": r.get("calibrated_for"), "diagnostic": r.get("diagnostic"),
-               # OQ 88 (WP-8.4): a rule may be scoped to a construction or to a variant of the
-               # slot it writes to. resolve_kit.eval_packs reads it off this row.
-               "applies_when": r.get("applies_when")}
+               # The rule's own scope travels with the row, so a consumer can see WHY a
+               # figure is or is not governing rather than inferring it.
+               "scope": r.get("scope")}
+        # SCOPE BEFORE VALUE (OQ 88). Checked for EVERY rule, not only for one carrying a
+        # `range` -- `out_of_calibration` below is consulted inside the range branch because it
+        # only qualifies `in_range`, but a rule that is not about this building at all must be
+        # marked whether or not it has a band to be judged against.
+        _scope, _why = rule_scope(r, env)
+        if _scope == "out":
+            row["out_of_scope"] = _why
+        elif _scope == "unknown" and (r.get("scope") or {}):
+            row["scope_unjudged"] = _why
         try:
             v = evaluate_expr(r["expression"], env)
             row["value"] = round(v, 4) if isinstance(v, (int, float)) and not isinstance(v, bool) else v

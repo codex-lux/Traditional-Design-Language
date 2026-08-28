@@ -1,6 +1,6 @@
 # WP-8.3 — `forbidden` stops the pack cascade too, and the drawn half needed its own fix
 
-*28 August 2026. OQ 99, raised by WP-8.2 and ruled the same day: a pack rule may not write to a
+*28 August 2026. `oq/forbidden-stops-the-pack-cascade`, raised by WP-8.2 and ruled the same day: a pack rule may not write to a
 slot the resolved kit binds `forbidden`, with a human override. Building it found a second path
 from packs to output that no plan and no open question had named, and half of that path is
 deliberately left open.*
@@ -62,7 +62,7 @@ pairs.**
 | **16 refused** | `transom_sidelight` 8, `pilaster` 8 | The entrance composition already carried a `use_sidelights` branch, so the kit's refusal decides it instead of a width cap. Both figures are now **absent, not zero** — a zero is a measured claim that the sidelight is nothing wide, which is a different statement from "this style does not have one". |
 | **24 read anyway, disclosed** | `frieze` 9, `belt_course` 6, `water_table` 6, `door_surround` 1, `cornice` 1, `window_head_wood` 1 | Published in the elevation record as `forbidden_slots_read_from_packs`. |
 
-**The 24 are deliberately not zeroed and that is OQ 99's open half.** A style whose resolved kit
+**The 24 are deliberately not zeroed and that is `oq/forbidden-stops-the-pack-cascade`'s open half.** A style whose resolved kit
 forbids `frieze` while still passing a *classical* scope gate is two records contradicting each
 other, not a number to silence. Zeroing them would pick a winner between the kit and the pack's
 `applies_to` on nine styles without anybody having decided which is right. `cape-cod-colonial` is

@@ -53,6 +53,43 @@ The fourth exists because such a fault previously appeared in **no list at all**
 
 `applies_when` has since done more than the case it was built for. It gates the two RIVAL secondaries of `cornice-that-is-a-fascia` (the domestic boxed eave at 0.35–0.55 of its own height against the full entablature case at 0.85–1.2, where whichever is right the other convicts the house) on whether an order actually reaches the eave — the choice the fault's own note had always described in prose. It retired two WP-3.2 workarounds in one commit: `cornice_projection_in` and `solar_array_area_sqft` had both been WITHHELD from the measurements to keep a conditional test from firing, which silenced one fault on a name mismatch and left the other unable to hear an honest zero. Both are supplied now.
 
+## An exception is a licence, and its own condition is read (WP-8.4)
+
+An `exceptions[]` entry says the general rule does not convict this style, and where it carries
+a `bounds_test` it **replaces** the fault's primary test. **331 of the corpus's 846 exceptions
+carry a precondition** on the wall, the roof or the date, in a field called `granted_when`
+(named `applies_when` until 28 August 2026, when it was renamed because
+`schema/fault.schema.json` carried two fields of that name meaning different things and nobody
+could tell which one ran). Until WP-8.4 nothing read it: `architrave-that-is-not-there`'s
+Pueblo Revival licence, written for `construction: [adobe, rammed-earth]`, was excusing a house
+whose style resolves canonically to stucco-over-wood-frame.
+
+`core.grant_exception()` returns three verdicts, never a bool:
+
+| | |
+|---|---|
+| `granted` | the condition holds; the licence applies as before |
+| `refused` | the style is built in none of the ways the licence names; the general rule stands |
+| `unjudged` | the style permits this construction and others too, and nothing in front of us says which one this house is |
+
+**Where the precondition is unjudged AND the exception carries a `bounds_test`, both rules are
+run and compared.** Where they agree the question is immaterial and the fault is answered;
+where they disagree it is could-not-evaluate, naming the condition. Over 164 styles that is the
+difference between 26 verdicts moving and 11 — a fake unjudged is as dishonest in its own
+direction as a fake pass.
+
+`granted_when.construction` resolves through `build/construction_vocabulary.py`, a **closed**
+table mapping 61 tokens onto variant ids that already exist in `kits/` and recording 17 more as
+unmappable with a reason. An agent needing a token that is missing reports the gap; it does not
+add one. `date_range` is evaluated only where a caller supplies a date (`plan_check` passes
+`context.date_of_representation`), and `regions` is not evaluated at all — 78 of its 79 uses
+name a region that CONTAINS the style's own, so the key restates the style match at a coarser
+grain. Both counts are ratcheted rather than assumed harmless.
+
+**A caller that knows settles it.** `check_measurements(..., context={"declared": {...},
+"date": 1765})` turns most `unjudged` verdicts into real answers, and a plan record already
+declares its `construction_type` and its date.
+
 `applies_when` was added for a specific failure. `dormer-off-the-bay` carries the secondary `dormer_count % 2 == 1` — dormers are odd on a symmetrical front. The day a plan record could first state that a house carries **no** dormers, that stated zero was a real measurement, the parity test ran on it, and both reference houses were convicted of *"Dormers Off the Rhythm: 0 against equals 1."* Zero dormers is not an even number of dormers; it is no dormers. Any test whose expression divides by a count should carry a precondition, or it will error on the house that has none.
 
 ## Two axes of severity

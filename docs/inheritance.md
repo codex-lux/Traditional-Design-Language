@@ -48,13 +48,13 @@ To resolve slot *S* for node *N*: take *N*'s own binding if `binding` is `specif
 | `specified` | This node fixes the slot. Stops the cascade. |
 | `inherited` | Explicitly deferred to the cascade. Documentation, not behaviour. |
 | `open` | Unspecified. The default. Cascades; if nothing upstream specifies it, the slot is a free choice. |
-| `forbidden` | This node prohibits the slot. Stops **both** cascades — the kit's and, since WP-8.3, the proportion packs' (OQ 99). Prairie forbids most classical apparatus; a Creole cottage forbids a centred entry door. |
+| `forbidden` | This node prohibits the slot. Stops **both** cascades — the kit's and, since WP-8.3, the proportion packs' (`oq/forbidden-stops-the-pack-cascade`). Prairie forbids most classical apparatus; a Creole cottage forbids a centred entry door. |
 
 `status` tracks editorial progress independently: `empty` → `stub` → `drafted` → `reviewed`.
 
 A fifth binding, `extends` (kit schema 0.2.0), stops the cascade like `specified` but merges rather than replaces: parameters merge by key (a child key replaces the inherited one outright), variants apply add/remove/replace ops matched on id, and most other fields replace-if-present-else-inherit. `rule` was the one exception — a single string, so a child adding a clause had to restate the whole sentence or leave the resolved rule silent about its own change — until `rule_append` (0.2.1) gave it a real merge operator (docs/open-questions.md #16, wired into `build/resolve_kit.py` in WP-1.3): a child's `rule_append` value joins onto the resolved rule as an additional sentence, and `resolve_kit.py --slot <id> --verbose` shows which ancestor's delta contributed which clause. See the merge-semantics docstring at the top of `build/resolve_kit.py` for the complete rule, including the ordering of `extends` deltas (farthest ancestor first, so the nearest wins) and how a dangling `extends` with no base to merge into is handled.
 
-## `forbidden` stops the pack cascade too (OQ 99, WP-8.3)
+## `forbidden` stops the pack cascade too (`oq/forbidden-stops-the-pack-cascade`, WP-8.3)
 
 This table said `forbidden` "stops the cascade" from the beginning. It stopped the **kit**
 cascade and never the **pack** cascade, and the gap was 776 (node, slot) pairs across 118 of 132

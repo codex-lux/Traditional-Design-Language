@@ -77,10 +77,10 @@ RATCHET = {"own": 0, "cascade": 9,
            # see was a node inheriting its parameter from one ancestor and its pack from
            # another, which is most of the corpus. OQ 86 closed.
            "kit_vs_pack": 1231,
-           # OQ 101: a pack value BAKED into a kit file at an address where the live rule is
+           # oq/a-baked-pack-value-is-a-second-delivery-path: a pack value BAKED into a kit file at an address where the live rule is
            # refused. Nothing refuses a snapshot, so a scope on the rule is defeated wherever
            # a kit carries a copy. Reported, not fixed -- see baked_vs_refused().
-           "baked_vs_refused": 8}
+           "baked_vs_refused": 20}
 
 
 def cobinding(nodes, scope):
@@ -189,6 +189,9 @@ def kit_vs_pack(nodes):
             # per-file check wearing a per-node name: a node inheriting its parameter from an
             # ancestor and its pack rule from another was the one case it could never see, and
             # that is most of the corpus. The published 62 was a floor, not a measurement.
+            # It is also what OQ 88's scope reads -- `eval_packs` derives the scope facts from
+            # this same kit, so a caller can no longer forget them and quietly count
+            # contradictions from rules that are not about this construction at all.
             kit, _sv = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
             pack_slots, _ = _rk.eval_packs(packs, CTX, None, kit)
         except Exception:
@@ -245,7 +248,7 @@ def baked_vs_refused(nodes):
     `kind: derived` with `source: <pack>` is a snapshot of a pack rule copied into the kit --
     3,176 of them resolve across this corpus. `eval_packs` can refuse the live rule; nothing
     refuses the snapshot, so a scope written on the rule is defeated at every node whose kit
-    carries a copy. Measured 28 Aug 2026: 8 pairs, 3 of `sash-light`'s sill projection
+    carries a copy. Measured 28 Aug 2026: 20 pairs, 8 of `sash-light`'s sill projection
     (`mid-atlantic-georgian`, `queen-anne-patterned-masonry`, `renaissance-revival-american`,
     all resolving `georgian-colonial-american`'s baked `projection_in`) and 5 of
     `opening-proportion`'s head assembly.
@@ -265,9 +268,16 @@ def baked_vs_refused(nodes):
         try:
             chain = _rk.chain_for(g, nid)
             kit, _sv = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
-            pack_slots, _ = _rk.eval_packs(_rk.resolve_packs(g, chain), CTX, None, kit)
+            dropped = []
+            pack_slots, _ = _rk.eval_packs(_rk.resolve_packs(g, chain), CTX, None, kit, dropped)
         except Exception:
             continue
+        # TWO REFUSALS, REPORTED TWO WAYS, AND THIS HAS TO READ BOTH. WP-8.3's kit refusal
+        # MARKS the row (`refused_by_kit`); OQ 88's scope DROPS it and records the drop in
+        # `scope_dropped`. Reading only the marked rows made this measurement report 0 the
+        # moment the scope started biting -- the count went to zero because the evidence was
+        # removed, not because the collision was.
+        gone = {(d["pack"], d["slot"]) for d in dropped}
         for sid, rec in (kit or {}).items():
             for pname, pval in (rec.get("parameters") or {}).items():
                 if not isinstance(pval, dict) or pval.get("kind") != "derived":
@@ -276,10 +286,12 @@ def baked_vs_refused(nodes):
                 if not src:
                     continue
                 rows = [r for r in (pack_slots.get(sid) or []) if r["pack"] == src]
-                if rows and all(r.get("refused_by_kit") or r.get("refused_by_construction")
-                                for r in rows):
-                    why = next((r.get("construction_because") or r.get("refused_because")
-                                for r in rows), "")
+                if (src, sid) in gone and not rows:
+                    why = next((d["why"] for d in dropped
+                                if d["pack"] == src and d["slot"] == sid), "")
+                    out.append((nid, sid, pname, src, why))
+                elif rows and all(r.get("refused_by_kit") for r in rows):
+                    why = next((r.get("refused_because") for r in rows), "")
                     out.append((nid, sid, pname, src, why))
     return out
 
@@ -364,7 +376,7 @@ def main():
               f"-- {(why or '')[:90]}")
     print(f"{len(bvr)} baked parameter(s) delivering a value the live rule refuses "
           f"(ratchet {RATCHET['baked_vs_refused']}). A `kind: derived` snapshot is a second "
-          f"delivery path and no scope reaches it; see OQ 101.")
+          f"delivery path and no scope reaches it; see `oq/a-baked-pack-value-is-a-second-delivery-path`.")
     if len(bvr) > RATCHET["baked_vs_refused"]:
         failed.append(f"baked_vs_refused: {RATCHET['baked_vs_refused']} -> {len(bvr)}")
 

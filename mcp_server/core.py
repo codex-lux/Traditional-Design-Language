@@ -333,9 +333,14 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
         # own rule object and both were being dropped from every tdl_get_proportions call.
         # tests/test_score.py::test_rule_keys_publishes_every_key_the_pack_schema_defines
         # keeps the list from drifting again -- the drift, not any one key, is the bug.
+        # `scope` and the two states the engine derives from it join the list at OQ 88. A
+        # consumer that reads a value must be able to see that the value is not about its
+        # building -- publishing the figure and withholding "this rule is stated for a frame
+        # wall" would be the same silent delivery this field was added to end.
         RULE_KEYS = ("target_slot", "dimension", "quantity", "expression", "value", "units",
                      "judgment", "range", "in_range", "note", "calibrated_for",
-                     "authority_note", "diagnostic", "error", "applies_when")
+                     "authority_note", "diagnostic", "error",
+                     "scope", "out_of_scope", "scope_unjudged")
         out["derived_rules"] = [{k: r.get(k) for k in RULE_KEYS} for r in ev["rules"]]
         out["judgment_rules"] = [r["target_slot"] for r in ev["rules"] if r.get("judgment")]
     out["conflicts"] = pk.get("conflicts", [])

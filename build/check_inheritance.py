@@ -254,7 +254,7 @@ def main():
         print(f"{a.slots}: {len(by_slot) - len(refused)} slot(s) dimensioned, "
               f"{len(foreign)} by a pack it never bound")
         if refused:
-            # OQ 99. Counting these as "dimensioned" would be the same overstatement the meter
+            # `oq/forbidden-stops-the-pack-cascade`. Counting these as "dimensioned" would be the same overstatement the meter
             # itself made: a slot every pack was refused on carries no figure.
             print(f"   ({len(refused)} further slot(s) had every pack rule REFUSED because this "
                   f"node's resolved kit binds them `forbidden`: {', '.join(refused)})")

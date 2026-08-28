@@ -1,4 +1,4 @@
-"""OQ 99 — a pack rule may not write to a slot the resolved kit binds `forbidden`.
+"""`oq/forbidden-stops-the-pack-cascade` — a pack rule may not write to a slot the resolved kit binds `forbidden`.
 
 `docs/inheritance.md`'s binding table has said `forbidden` means "This node prohibits the slot.
 Stops the cascade" since the beginning. It stopped the KIT cascade and never the PACK cascade,
@@ -79,7 +79,7 @@ def test_the_kit_argument_is_required_and_has_no_default(rk):
     sig = inspect.signature(rk.eval_packs)
     assert "kit" in sig.parameters, sig
     assert sig.parameters["kit"].default is inspect.Parameter.empty, (
-        "eval_packs' `kit` has grown a default; every caller can now skip OQ 99's gate silently")
+        "eval_packs' `kit` has grown a default; every caller can now skip `oq/forbidden-stops-the-pack-cascade`'s gate silently")
 
 
 def test_the_human_override_is_the_slots_own_packs_block(rk, graph):

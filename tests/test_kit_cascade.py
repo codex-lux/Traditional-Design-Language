@@ -423,3 +423,116 @@ class TestTheSillNoLongerForbidsWhatItSpecifies:
         assert len(elsewhere) >= 5, (
             f"sash-light now reaches only {elsewhere} — the exclusion has become a deletion")
 
+
+
+class TestARuleStatesItsScopeInDataAndNotOnlyInProse:
+    """OQ 88. Three rules in this corpus name their own scope in a `note` and carried none in
+    data, so the cascade delivered them wherever it liked. `sash-light`'s window sill says, in as
+    many words, "In a frame wall this is a real sill member; in a masonry wall it is a rowlock or
+    a stone and belongs to the brick-course pack, NOT THIS ONE" -- and it reached 86 nodes, 47 of
+    which make a masonry cladding canonical. `english-georgian`, brick-only, resolved a 2.25 in
+    timber sill "sloped about 1 in 6 with a drip" on a brick wall.
+
+    WP-5.10 fixed that for exactly ONE node by scoping its binding. The register's own entry named
+    the alternative -- "27+ scoped bindings" -- as the worse option, and measuring it showed why
+    it is not merely tedious but impossible: THIRTEEN of the styles the rule reaches make BOTH a
+    masonry and a frame cladding canonical, because they were genuinely built both ways. For those
+    the construction is a fact about the HOUSE, and no per-node scope can decide it.
+
+    So the scope is honoured in one place, `proportion_engine.rule_scope()`, beside the numeric
+    `out_of_calibration()` it is modelled on, and it has three answers rather than two.
+    """
+
+    CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_height": 80.0,
+           "opening_width": 36.0, "span": 16.0}
+
+    def _sill(self, rk, style):
+        """-> (verdict, rows, dropped) where verdict is the SCOPE OUTCOME.
+
+        This used to return `scope_facts(slots)["construction"]`, a masonry/frame/mixed
+        LABEL. WP-8.4 removed the label with the substring classifier that produced it, and
+        asserting on it would have been asserting on an implementation detail anyway: what
+        matters is whether the rule governs, not what intermediate word was computed on the
+        way. `eval_packs` derives the scope facts from the kit itself now, so a caller
+        cannot forget them and quietly leave every scope unjudged."""
+        g = rk.load_graph()
+        chain = rk.chain_for(g, style)
+        slots, _ = rk.resolve_slots(g, chain, rk.scope_for(g, style))
+        dropped = []
+        by_slot, _ = rk.eval_packs(rk.resolve_packs(g, chain), self.CTX, None, slots, dropped)
+        rows = [r for r in (by_slot.get("window_sill") or [])
+                if r["pack"] == "sash-light" and r.get("dimension") == "projection"]
+        here = [d for d in dropped if d["slot"] == "window_sill"]
+        verdict = ("out" if here else
+                   "unknown" if (rows and rows[0].get("scope_unjudged")) else
+                   "in" if rows else "not delivered")
+        return verdict, rows, here
+
+    def test_a_brick_only_style_no_longer_resolves_a_sloped_timber_sill(self, resolve_kit_module):
+        """The live instance the register names, and the whole point of the field."""
+        verdict, rows, dropped = self._sill(resolve_kit_module, "english-georgian")
+        assert verdict == "out"
+        assert not rows, "english-georgian resolves sash-light's frame-wall sill again (OQ 88)"
+        assert dropped and "wood-frame" in dropped[0]["why"], (
+            "the rule must be dropped WITH ITS REASON -- a rule that vanishes silently is the "
+            "failure this corpus polices hardest")
+
+    def test_a_frame_style_still_gets_the_rule(self, resolve_kit_module):
+        """A scope that drops the rule everywhere would pass the test above. The sill is a real
+        member on a frame wall and this pack is entitled to state it."""
+        verdict, rows, _ = self._sill(resolve_kit_module, "cape-cod-colonial")
+        assert verdict == "in"
+        assert rows, "the frame-wall sill rule has stopped reaching frame walls"
+        assert rows[0].get("scope_unjudged") is None, "in scope must not be flagged unjudged"
+
+    def test_a_both_ways_style_is_unjudged_and_still_delivered(self, resolve_kit_module):
+        """The thirteen. `charleston-georgian` makes clapboard AND brick-flemish-bond canonical,
+        so the style cannot say which wall this house has. Dropping the rule would strand every
+        frame house of the style; delivering it silently is the bug. It is delivered WITH the
+        reason attached, which is the third state and the only honest answer."""
+        verdict, rows, dropped = self._sill(resolve_kit_module, "charleston-georgian")
+        assert verdict == "unknown"
+        assert not dropped, "a style that may be either must not be ruled out of scope"
+        assert rows, "and must not be silently withheld either"
+        assert rows[0].get("scope_unjudged"), (
+            "the rule is delivered with no note that its scope could not be decided, which is "
+            "exactly the silent delivery OQ 88 is about")
+        assert "house" in rows[0]["scope_unjudged"]
+
+    def test_an_unclassified_variant_is_unjudged_rather_than_out_of_scope(self):
+        """The near-miss worth pinning. `facade-gable`'s parapet scope was first written with an
+        `any_of` list invented from the rule's prose -- and not one id in it matched the
+        vocabulary the corpus actually uses, so the rule would have been dropped on all twelve of
+        its own nodes with nothing said. A variant nobody has classified must come back UNKNOWN.
+        """
+        import proportion_engine as pe
+        rule = {"scope": {"slot_variant": {"slot": "gable_treatment",
+                                           "any_of": ["parapeted"],
+                                           "none_of": ["half-timbered"]}}}
+        assert pe.rule_scope(rule, {"resolved_variants": {"gable_treatment": ["parapeted"]}})[0] == "in"
+        assert pe.rule_scope(rule, {"resolved_variants": {"gable_treatment": ["half-timbered"]}})[0] == "out"
+        state, why = pe.rule_scope(rule, {"resolved_variants": {"gable_treatment": ["something-new"]}})
+        assert state == "unknown", "an unclassified variant was silently ruled out of scope"
+        assert "does not classify" in why
+
+    def test_the_scoped_rules_still_reach_the_nodes_they_are_about(self, resolve_kit_module):
+        """A scope is a filter, and a filter that removes everything is indistinguishable from a
+        deletion. Each of the three scoped rules must still be delivered somewhere."""
+        rk = resolve_kit_module
+        g = rk.load_graph()
+        delivered = {"window_sill/projection": 0,
+                     "window_surround_wood/exterior_head_assembly_height": 0,
+                     "gable_treatment/parapet_height": 0}
+        for nid in g["nodes"]:
+            try:
+                chain = rk.chain_for(g, nid)
+                slots, _ = rk.resolve_slots(g, chain, rk.scope_for(g, nid))
+                by_slot, _ = rk.eval_packs(rk.resolve_packs(g, chain), self.CTX, None, slots)
+            except Exception:
+                continue
+            for key in delivered:
+                sid, dim = key.split("/")
+                if any(r.get("dimension") == dim for r in (by_slot.get(sid) or [])):
+                    delivered[key] += 1
+        for key, n in delivered.items():
+            assert n > 0, f"{key} is now delivered to NO node -- the scope has become a deletion"

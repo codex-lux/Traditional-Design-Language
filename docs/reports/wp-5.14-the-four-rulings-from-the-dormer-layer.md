@@ -260,7 +260,7 @@ Every item below passed 1,018 tests.
 
 **A false conviction on Second Empire.** A fault's tests live in **three** places, not two:
 `test`, `secondary_tests`, and `exceptions[].bounds_test`, which `check_measurements` substitutes
-for the *primary* on a matching style. OQ 84 and 79 guarded the first two. Second Empire's
+for the *primary* on a matching style. OQ 84 and OQ 79 guarded the first two. Second Empire's
 bounds_test is `dormer_count / bay_count == 1.0`, so a house stating **no dormers** evaluated 0.0
 and was convicted of *Dormers Off the Rhythm* — the exact OQ 52 failure this package exists to
 prevent, in the one location neither ruling touched. Found by sweeping all 164 styles with one

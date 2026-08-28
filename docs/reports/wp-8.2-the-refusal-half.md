@@ -112,7 +112,7 @@ present. Declining `chambers-ionic` outright would remove the only thing that co
 that porch — scoping stopping a wrong donor without supplying a right one, which is OQ 58's
 stated limit. Left for a ruling, as `english-baroque` was by the first pass.
 
-## Raised: OQ 99, and it is larger than the backlog it was found beside
+## Raised: `oq/forbidden-stops-the-pack-cascade`, and it is larger than the backlog it was found beside
 
 **787 (node, slot) pairs where the resolved kit binds a slot `forbidden` and a proportion pack
 dimensions it anyway**, across **118 of 132** buildable nodes — and **787 of 787 resolve by
@@ -145,7 +145,7 @@ gate that moves fails a test instead of leaving the table quietly false.
 - **The `inherits_packs` opt-in flip**, which the ruling puts last and which needs
   `mcp_server/core.py`'s private cascade walk to move with it — that walk does not splice
   families the way `build/build.py` does and already diverges.
-- **Fixing the 787.** Raised as OQ 99, ratcheted, not touched.
+- **Fixing the 787.** Raised as `oq/forbidden-stops-the-pack-cascade`, ratcheted, not touched.
 - **The other 239 unendorsed gaps.** `--ancestors` and `--full` make them workable; this package
   built the mechanism and proved it on the ten the records decide outright.
 

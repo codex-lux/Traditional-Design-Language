@@ -1,6 +1,14 @@
-# OQ 99 — 787 pack rules dimension a slot the resolved kit forbids, and nobody chose one of them
+# oq/forbidden-stops-the-pack-cascade — 787 pack rules dimension a slot the resolved kit forbids, and nobody chose one of them
 
 *Status: CLOSED 28 Aug 2026 · Raised in: From the inheritance backlog (WP-8.2, 28 Aug 2026)*
+
+> **RENUMBERED AT THE FIFTH COLLISION, 28 Aug 2026.** This was raised as **OQ 99** on branch
+> `claude/planning-items-e6c13s` and cited as OQ 99 in WP-8.2's and WP-8.3's commit messages,
+> which cannot be rewritten. `main` merged first with a DIFFERENT OQ 99 -- the id scheme that
+> froze the numbers at 99 and made every later question a slug -- so this one takes a slug
+> under that very ruling. A bare "OQ 99" in this branch's history before 28 Aug means the
+> forbidden slot; on main it means the id scheme. That ambiguity is the whole argument the
+> ruling makes, arriving one collision after it was written down.
 
 **RULED AND BUILT 28 Aug 2026 (WP-8.3) — absolute, with a human override.** A pack rule may not
 write to a slot the resolved kit binds `forbidden`, *unless* that slot's own `packs` block names

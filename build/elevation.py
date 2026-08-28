@@ -289,7 +289,7 @@ def stack_axes_for_face(face, chimneys, fp):
 
 # ---------------------------------------------------------------- entrance composition
 def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_in, forbids=()):
-    """OQ 99 (WP-8.3) reaches this file too, and it had to be brought here separately.
+    """`oq/forbidden-stops-the-pack-cascade` (WP-8.3) reaches this file too, and it had to be brought here separately.
 
     `elevation.py` never calls `resolve_packs` or `eval_packs` -- it calls `PE.resolve(<pack>)`
     and picks slot dimensions straight out of the pack file. So it is blind to bindings, to
@@ -958,7 +958,53 @@ NOT_MODELLED = {
     "shutter_stile_width_in": "no pack states a shutter's stile width",
     "shutter_lock_rail_height_in": "no pack states a shutter's rail widths",
     "overflow_scuppers": "no gutter is modelled anywhere in the corpus",
+    # OQ 89. `window_head_radius_in` IS supplied now, computed from the head the record states.
+    # Its partner is not, and the asymmetry is the finding: nothing in this corpus says whether a
+    # shutter leaf follows a curved head or is left square against it. That is precisely the
+    # question `shutter-on-an-unshutterable-opening` asks, so deriving the answer from the window
+    # would hand the fault its own conclusion and guarantee a pass.
+    "shutter_head_radius_in": "no pack, kit or element file states whether a shutter leaf follows "
+                              "a curved head or stands square against it -- which is the very "
+                              "thing the fault reading this measurement is asking",
 }
+
+def _head_radius_in(w):
+    """The radius of curvature of a window head, or 0 for a straight one, or None (OQ 89).
+
+    Withheld by a comment until now, on the argument that the fault reading it "is only meant to
+    run where the head is curved". The guard for that was built in WP-5.10 and has been sitting
+    over a measurement nobody supplied ever since, so the fault ran on 1 of 2 tests. The record
+    can answer it: `_head_treatment()` states the head's kind and its rise, and a circular
+    segment's radius follows from rise and span exactly -- R = r/2 + s**2 / (8r) -- so this is
+    geometry off stated figures, not a new number.
+
+    THREE STATES, and the middle one is a reading of the corpus rather than a convenience:
+
+      curved   -- a segmental arch with a definite rise. The real radius.
+      straight -- 0. A square wood head has no curvature, and NEITHER, for this purpose, does a
+                  gauged flat arch: brick-course's own rule says the camber is there "so that
+                  when the wall settles it reads level" and is "invisible on paper and
+                  unmistakable on the building". A jack arch is drawn straight and shuttered
+                  square. Reporting its 463 in camber radius as a curved head would convict
+                  houses of a crescent nobody can see. 0 is also the convention the fault's own
+                  `applies_when` already assumes, at a threshold of 0.1 in.
+      unknown  -- None. The kit permits more than one masonry head and the plan states no date,
+                  or the rise is a BAND. A band does not become a figure by being halved.
+    """
+    ht = w.get("head_treatment")
+    if ht is None:
+        return 0.0                      # frame wall, square wood head, one head datum
+    kind = ht.get("kind")
+    if kind is None:
+        return None                     # the record says it could not judge which head this is
+    if "segmental" not in kind:
+        return 0.0                      # flat/jack arch and anything else straight-soffited
+    rise = ht.get("rise_in")
+    span = w.get("opening_width_in")
+    if not isinstance(rise, (int, float)) or not rise or not span:
+        return None                     # a band, or no rise: unjudged rather than midpointed
+    return round(rise / 2.0 + (span * span) / (8.0 * rise), 3)
+
 
 def _derive_measurements(elev):
     m = {}
@@ -1004,15 +1050,8 @@ def _derive_measurements(elev):
         "sash_opening_height_in": ground_w["opening_height_in"],
         "shutter_leaf_width_in": ground_w["shutter_leaf_width_in"], "shutter_leaf_height_in": ground_w["shutter_leaf_height_in"],
         "shutter_panel_count_per_leaf": ground_w.get("shutter_panel_count"),
-        # shutter-on-an-unshutterable-opening.json: a standard pair (2 leaves) per opening, both
-        # genuinely clearing on the hinge side -- pier_width_in (real, computed above) is
-        # comfortably wider than shutter_leaf_width_in on this bay spacing, so both leaves really
-        # do have a full leaf-width of uninterrupted wall to swing onto, not an assumed pass.
-        # window_head_radius_in/shutter_head_radius_in are deliberately NOT supplied: the
-        # secondary curved-head test divides by them and is only meant to run "where the head is
-        # curved" (our heads are all square, per window_head_wood's own one-head-datum rule) --
-        # the same conditional-secondary-test gap already disclosed for the solar-array test above.
-        "total_shutter_leaves": 2.0, "shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall": 2.0,
+        # The two shutter LEAF COUNTS are supplied below, conditioned on whether this style
+        # carries shutters at all. They were unconditional constants of 2.0 until OQ 89.
         "window_sash_light_count_across": ground_w["lights_across"],
         "egress_window_opening_width_in": upper_w["opening_width_in"], "egress_window_opening_height_in": upper_w["opening_height_in"],
         "net_clear_opening_height_in": upper_w["opening_height_in"] * 0.5,
@@ -1027,6 +1066,46 @@ def _derive_measurements(elev):
         "pier_width_in": round(bays["actual_bay_width_in"] - ground_w["opening_width_in"], 2),
         "total_opening_width_in": round(ent["door_leaf_width_in"] + 4 * ground_w["opening_width_in"], 2),
     })
+
+    # THE WINDOW HEAD'S RADIUS (OQ 89). Absent means the record could not judge the head, which
+    # is not the same as a straight one; see _head_radius_in.
+    _hr = _head_radius_in(ground_w)
+    if _hr is not None:
+        m["window_head_radius_in"] = _hr
+
+    # THE SHUTTER LEAF COUNTS, AND WHY THEY ARE NOT A CONSTANT (OQ 89).
+    #
+    # These two were `2.0` and `2.0` unconditionally, so `shutter-on-an-unshutterable-opening`
+    # read 2/2 = 1.0 and came back CLEAR -- passes: true -- on `tidewater-georgian`, a house
+    # whose kit makes `none` CANONICAL and whose every window record here already carries
+    # `shutters_carried: False` with its leaf dimensions dropped for exactly that reason. A
+    # fault cleared on two invented shutters: OQ 52's class, inside `_derive_measurements`,
+    # where `NOT_MODELLED` could not reach it because nothing was being withheld -- something
+    # was being INVENTED. The fact was already computed 500 lines away and never consulted.
+    #
+    # Three states, and the middle one is the point:
+    #   carried      -> the real pair. A standard pair (2 leaves) per opening, both genuinely
+    #                   clearing on the hinge side: `pier_width_in` (computed, not assumed) is
+    #                   comfortably wider than `shutter_leaf_width_in` at this bay spacing, so
+    #                   both leaves really do have a full leaf-width of uninterrupted wall to
+    #                   swing onto.
+    #   not carried  -> a MEASURED ZERO. The house has no shutter leaves and that is a fact
+    #                   about it, not a gap in what we modelled. Withholding it would be the
+    #                   opposite error -- refusing to state a quantity the record knows.
+    #   unstated     -> ABSENT. If a record reaches here without the flag we cannot tell, and
+    #                   could-not-evaluate is not zero and is not two.
+    #
+    # The zero is what makes the fault's primary test divide by zero, which is why that test
+    # gains an `applies_when` in the same commit. That is the WP-5.9 lesson repeating exactly:
+    # the moment a record can finally STATE a zero, every rule that presupposed the thing runs
+    # on it.
+    _carried = ground_w.get("shutters_carried")
+    if _carried is True:
+        m.update({"total_shutter_leaves": 2.0,
+                  "shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall": 2.0})
+    elif _carried is False:
+        m.update({"total_shutter_leaves": 0.0,
+                  "shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall": 0.0})
 
     m.update({
         "door_leaf_width_in": ent["door_leaf_width_in"], "door_leaf_height_in": ent["door_leaf_height_in"],
@@ -1176,15 +1255,22 @@ def _derive_measurements(elev):
     # structure.py's own solved section, not guessed) on all four faces of the single volume
     # geometry.py solves -- there is no second volume and no material change to misreport, so
     # "all four faces, one material, one body colour" is a real fact about what was built, not an
-    # assumed pass. plan_offset_at_material_change_in and ridge_height_difference_between_
-    # volumes_in are deliberately withheld: both are "at least" secondary tests meant to gate a
-    # LEGITIMATE material change at a real second volume, and since there is no second volume,
-    # supplying 0 for either would fail them for the honest reason that no change exists at all --
-    # the same conditional-secondary-test trap already disclosed above for the solar-array and
-    # shutter-head-radius tests.
+    # assumed pass.
+    #
+    # `plan_offset_at_material_change_in` and `ridge_height_difference_between_volumes_in` were
+    # WITHHELD BY THIS COMMENT (OQ 89), on the sound argument that both are `at-least` secondaries
+    # gating a LEGITIMATE material change at a real second volume, so supplying 0 for either would
+    # fail them for the honest reason that no change exists at all. The argument was right and the
+    # mechanism was wrong: a comment is not a guard, `NOT_MODELLED` could not carry these because
+    # nothing is unmodelled here, and a reader of the measurements could not tell a deliberate
+    # silence from an oversight. What the record actually knows is a COUNT, and it is zero.
+    # Stating it and preconditioning the two tests on it turns "withheld, see comment" into
+    # "not applicable, and here is the measurement that says so".
     m.update({
         "faces_of_volume": 4, "faces_of_volume_clad_in_primary_material": 4,
         "faces_of_volume_in_one_body_colour": 4,
+        "count_of_volumes_on_the_elevation": 1,
+        "count_of_material_changes_on_the_elevation": 0,
     })
 
     m.update({
@@ -1455,7 +1541,20 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         dormer_slot = _slots.get("dormer") or {}
         porch_slot = _slots.get("porch_type") or {}
         pilaster_slot = _slots.get("pilaster") or {}
-        # OQ 99 (WP-8.3): every slot this node's RESOLVED kit forbids. The generator reads slot
+        # THE SAME CASCADE FOR THE SHUTTER AND THE HEAD (WP-8.4). The comment above named
+        # `shutter` as binding empty "exactly as" `dormer` does, and then read it off the RAW
+        # kit two lines below -- a fix that names the thing it does not reach, which is
+        # WP-6.4's disease in the commit that cured it next door. Measured over 164 styles:
+        # `jeffersonian-classicism`'s raw kit says shutters are carried and its CASCADE says
+        # `none` is canonical, so OQ 89's conditional pair supplied a real 2.0/2.0 there and
+        # `shutter-on-an-unshutterable-opening` came back CLEAR on two shutters the style
+        # declines -- the exact defect OQ 89 closed, surviving on one node because of which
+        # record was read. `window_head_masonry` is worse: it is EMPTY in the raw kit and
+        # populated by the cascade on 66 of 164 styles, so `_head_radius_in` was reading no
+        # head specification at all on two thirds of the corpus.
+        shutter_slot = _slots.get("shutter") or {}
+        head_slot = _slots.get("window_head_masonry") or {}
+        # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): every slot this node's RESOLVED kit forbids. The generator reads slot
         # dimensions straight out of pack files and has never consulted the kit's strongest word.
         forbids = {sid for sid, rec in _slots.items() if rec.get("binding") == "forbidden"}
     except Exception:
@@ -1463,16 +1562,31 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         dormer_slot = _ks.get("dormer") or {}
         porch_slot = _ks.get("porch_type") or {}
         pilaster_slot = _ks.get("pilaster") or {}
+        shutter_slot = _ks.get("shutter") or {}
+        head_slot = _ks.get("window_head_masonry") or {}
         forbids = set()   # no cascade: cannot judge, so refuse nothing and say so below
 
-    shutter_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("shutter") or {}
     _sv = {v["id"]: v.get("status") for v in shutter_slot.get("variants", [])}
     shutters_carried = bool(_sv) and _sv.get("none") != "canonical"
     if not _sv:
         shutters_carried = True          # nothing stated: the older half of the corpus draws them
 
-    head_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("window_head_masonry") or {}
     head_variants = {v["id"]: v.get("status") for v in head_slot.get("variants", [])}
+    # THE NODE'S OWN WORD BREAKS A TIE BETWEEN TWO INHERITED CANONICALS (WP-8.4). Reading the
+    # CASCADED head record is right -- it is empty in the raw kit on 66 of 164 styles -- but a
+    # resolved record is a MERGE, and `mid-atlantic-georgian` comes back with three canonical
+    # heads where its own file names one. The date rule below then chose the first flat arch in
+    # list order, which is the ancestor's `gauged-flat-arch`, not the `keystoned-flat-arch` the
+    # style is distinguished by. Same principle as the construction vocabulary's: what a node
+    # says ITSELF outranks what it merely inherits.
+    _own_head = {v["id"] for v in
+                 ((((C["kits"].get(style) or {}).get("slots", {}) or {})
+                   .get("window_head_masonry") or {}).get("variants") or [])}
+
+    def _prefer_own(cands):
+        """The node's own canonical first, then list order. Never empty if `cands` is not."""
+        mine = [k for k in cands if k in _own_head]
+        return (mine + [k for k in cands if k not in _own_head])
     head_params = head_slot.get("parameters") or {}
     CHANGE_BAND = (1720, 1750)      # brick-course's own words, as the band it states
 
@@ -1480,7 +1594,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         if not is_masonry:
             return None
         canonical = [k for k, v in head_variants.items() if v == "canonical"]
-        arch_kinds = [k for k in canonical if "arch" in k]
+        arch_kinds = _prefer_own([k for k in canonical if "arch" in k])
         kind, why = None, None
         if len(arch_kinds) == 1:
             kind, why = arch_kinds[0], "the style's kit makes it the only canonical masonry head"
@@ -1569,7 +1683,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                                forbids=forbids) if gibbs_applies else \
           entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0,
                                forbids=forbids)
-    # OQ 99'S DISCLOSURE. Two of these are refused above; the rest are READ ANYWAY and this is
+    # `oq/forbidden-stops-the-pack-cascade`'S DISCLOSURE. Two of these are refused above; the rest are READ ANYWAY and this is
     # where a reader finds out. Naming them beats a silent figure: `unjudged is not passed`
     # applies to a drawing exactly as it applies to a measurement, and until WP-8.3 nothing
     # anywhere recorded that this generator had overruled a kit's strongest word.
@@ -1714,13 +1828,13 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "chimney_stack_plan_judgment": chimney_plan_judgment,
         "grade_to_true_eave_in": grade_to_true_eave_in, "eave_reconciliation_note": eave_reconciliation_note,
         "roof": roof_meas, "roof_record": roof,
-        # OQ 99 (WP-8.3). Every slot this generator reads out of a pack file that THIS node's
+        # `oq/forbidden-stops-the-pack-cascade` (WP-8.3). Every slot this generator reads out of a pack file that THIS node's
         # resolved kit binds `forbidden`, and what was done about each. Two are refused outright
         # (the sidelights and the doorcase pilaster, both of which the composition already had a
         # branch for); the rest are READ ANYWAY and are named here rather than left silent.
         # Fixing those needs a semantic answer per slot -- a forbidden `frieze` on a style whose
         # kit still passes this generator's classical scope gate is a contradiction between two
-        # records, not a number to zero -- and that is OQ 99's remaining half, stated rather
+        # records, not a number to zero -- and that is `oq/forbidden-stops-the-pack-cascade`'s remaining half, stated rather
         # than quietly carried.
         "forbidden_slots_read_from_packs": {
             "refused": [x for x in forbidden_read if x in _REFUSED_HERE],
