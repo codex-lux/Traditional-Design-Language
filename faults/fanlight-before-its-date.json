@@ -60,7 +60,7 @@
         "measurable_from": "photograph",
         "note": "Set within the wall plane rather than in a projecting frontispiece; elliptical rather than semicircular in the mature phase; real tracery radiating from a centre."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1785,
           1830
@@ -79,7 +79,7 @@
         "measurable_from": "photograph",
         "note": "The British source from the 1760s. The earlier date does not transfer to American Georgian fabric, which is the bound that matters."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "british-isles"
         ],
@@ -94,7 +94,7 @@
       "style": "regency",
       "why": "Fanlights and margin-lit doorcases continue through the Regency with very thin bars.",
       "bounds": "Thin glazing bars, doorcase distinct from house to house; the fanlight sits under a flat or shallow head, not a pediment.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "british-isles"
         ],
@@ -124,7 +124,7 @@
         "measurable_from": "photograph",
         "note": "The Act of 1709 requires frames set back not less than 100 mm from the external wall face, with sash boxes concealed in the reveal. The fanlight sits in that reveal, under a flat or shallow head and not a pediment."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "british-isles"
         ],
@@ -150,7 +150,7 @@
         "measurable_from": "photograph",
         "note": "Legitimate on a house honestly presented as Colonial Revival, which means it carries the revival's larger and more elaborate entry assembly. It is not a licence on a house claiming an eighteenth-century date, and it remains forbidden on Greek Revival."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1880,
           1955

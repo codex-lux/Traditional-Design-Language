@@ -65,7 +65,7 @@
       "style": "mid-century-traditional",
       "why": "The flush slab door is the genuine article for the period — a flat leaf in a good hardwood veneer with a slim edge band, hung on a minimal casing, is what these houses actually had and what they were designed around.",
       "bounds": "Flush AND honest: a real veneer with a visible grain, a solid-core leaf of 1 3/8 in or more, and no pressed pattern anywhere. A hollow-core flush door with a printed grain is the fault in this style as much as in any other; the licence is for the flatness, not for the hollowness.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1975

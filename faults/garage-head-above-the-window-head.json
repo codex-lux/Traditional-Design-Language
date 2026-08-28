@@ -73,7 +73,7 @@
         "measurable_from": "plan",
         "note": "Applies to a DETACHED carriage house read as an outbuilding with its own datum, because a carriage is taller than a person. It does not extend to an attached garage sharing a wall with habitable rooms."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "detached-outbuilding"
         ],

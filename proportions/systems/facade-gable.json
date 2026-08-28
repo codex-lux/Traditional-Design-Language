@@ -102,6 +102,19 @@
       "target_slot": "gable_treatment",
       "dimension": "parapet_height",
       "expression": "part * 1.5",
+      "applies_when": {
+        "slot_variant": {
+          "gable_treatment": [
+            "parapeted",
+            "parapeted-brick-end",
+            "free-standing-screen-gable",
+            "shaped-scrolled-dutch-gable",
+            "shaped-scrolled-dutch-gable-with-small-pediment",
+            "straight-sided-finialled-gable"
+          ]
+        },
+        "note": "OQ 88, scoped 28 Aug 2026 (WP-8.4). This is the one of OQ 88's three rules whose scope is NOT a construction, and reading it as one would have been the wrong fix: the rule's own note says it 'applies only where the gable is a parapet or a screen, not where it is a roof end', which is a variant of the very slot it writes to. The corpus already records the distinction -- these six variants against `flush`, `bargeboard`, `jerkinhead`, `pedimented` and `structural-gable-as-roof-end` -- and nothing was reading it."
+      },
       "units": "in",
       "range": [
         12.0,

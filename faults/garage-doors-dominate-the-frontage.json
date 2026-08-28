@@ -58,7 +58,7 @@
         "measurable_from": "photograph",
         "note": "This records the type rather than prescribing it, and the style's own constraint still requires a 4 ft setback or a turned door. A three-car Ranch is a late variant and is not covered."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1975
@@ -77,7 +77,7 @@
         "measurable_from": "photograph",
         "note": "A carport is OPEN and reads as structure rather than as surface. A solid door wall does not get the same licence."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1975

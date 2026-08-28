@@ -98,7 +98,7 @@
       "style": "ranch-style",
       "why": "The post-war ranch deliberately made the car the primary arrival and the rear terrace the primary outdoor room. The front is a facade seen at 25 mph, and a front walk to a street that has no pedestrians is a gesture.",
       "bounds": "The rejection must be coherent: an attached carport or garage as a designed part of the composition, a real rear terrace, and a front that does not claim an axial classical entrance. The moment a pedimented door surround appears on the front, the axis is claimed and the walk is owed.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1975
@@ -109,7 +109,7 @@
       "style": "french-eclectic",
       "why": "The motor court is a genuine and old tradition: the drive sweeps to a defined forecourt at the entrance, the arrival is by carriage or car, and the forecourt itself is the first threshold. This is how a great many French and Anglo-French country houses are correctly approached.",
       "bounds": "The forecourt must be a real composed space — defined by wings, walls, planting or bollards, with a change of paving and a turning circle — and the arrival must still be FRONTAL, terminating on the entrance axis. A driveway that runs past the door to a garage is not a motor court.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "street_relationship",
           "setback_rule"
@@ -126,7 +126,7 @@
       "style": "charleston-single-house",
       "why": "The Charleston house is entered through a door in the garden wall on the flank, so there is no walk on the front axis and none should be. The route from the street is short, direct and through a gate.",
       "bounds": "There must be a street gate and a walled garden. The sequence is not shortened, it is rotated.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "charleston",
           "lowcountry"

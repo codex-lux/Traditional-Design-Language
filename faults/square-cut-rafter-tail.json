@@ -85,7 +85,7 @@
         "upper": 12,
         "note": "Round and irregular. A sawn rectangular 2x projecting from a stucco wall is neither a viga nor a rafter tail."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "stucco-over-frame"

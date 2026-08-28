@@ -101,7 +101,7 @@
       "style": "french-eclectic",
       "why": "The French tradition uses the bec-de-cane lever, which is genuinely period on the Continent from the eighteenth century onward — this is a regional rather than a chronological exception and it is the reason the blanket claim about levers must be stated as Anglo-American.",
       "bounds": "The lever must be of the French form — a slim curved or spade-shaped bec-de-cane on a small backplate or rose — and the doors should be of French pattern. It does not license a modern lever in a British or American colonial interior.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "France",
           "Continental Europe"

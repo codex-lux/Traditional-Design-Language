@@ -65,7 +65,7 @@
       "style": "tidewater-georgian",
       "why": "The dependency is the correct answer and is better than a plant room: wholly detached, in the building the style already uses for the noisy and the dangerous, with the distribution running underground to the main block.",
       "bounds": "Only where a genuine dependency exists at 25-80 ft and the composition is five-part. The buried distribution must be insulated and drained, or the losses are worse than an attic.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "Chesapeake",
           "South Carolina and Georgia low country"
@@ -86,7 +86,7 @@
       "style": "italianate-townhouse",
       "why": "The English basement is the plant room and always was.",
       "bounds": "Requires the basement to be full height and reachable from the areaway, so equipment can be removed without going through the parlour floor.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ]

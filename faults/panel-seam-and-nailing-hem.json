@@ -67,7 +67,7 @@
         "threshold": 0.75,
         "note": "The sticks must be real members standing 3/4-1 1/2 in proud, framing complete panels — the same test half-timbering has to pass."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "secondary_cladding"
         ],

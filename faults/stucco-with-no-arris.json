@@ -56,7 +56,7 @@
         "upper": 3.0,
         "note": "A 3/8 in machine bullnose fails at the bottom of this range and is the specific failure mode worth naming: it is neither answer."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "rammed-earth"
@@ -78,7 +78,7 @@
         "threshold": 0.5,
         "note": "Softness must extend to the whole surface — a slightly undulating wall plane, not a flat wall with rounded edges. A dead-flat EIFS wall with rounded corners is a different building."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "solid-masonry-two-wythe"
@@ -100,7 +100,7 @@
         "threshold": 1.5,
         "note": "The softening is cumulative and reachable-height biased. A ratio near 1.0 means the radius was formed by a bead rather than accumulated by a brush."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "adobe",

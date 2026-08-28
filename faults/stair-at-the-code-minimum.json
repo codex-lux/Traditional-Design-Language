@@ -66,7 +66,7 @@
       "style": "cape-cod-colonial",
       "why": "The winding boxed stair beside the chimney is genuinely steep — often 8 1/2 in of riser on a 8 in tread with winders — because it is a ladder to a half storey rather than a principal stair, and the plan has no room for anything else.",
       "bounds": "Only in the genuine one-and-a-half storey type where the stair serves a chamber under the roof, and only where it is enclosed and secondary in character. It is also not buildable new under the IRC, so this exception describes surviving fabric rather than licensing a design.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1650,
           1850
@@ -83,7 +83,7 @@
       "style": "charleston-single-house",
       "why": "The reverse exception, and the one worth knowing: with principal ceilings of 12 to 14 ft the total rise per storey is 13 to 15 ft, so a code-minimum stair would be enormous and the type instead uses two or three short flights with generous landings.",
       "bounds": "The pitch is still shallow — the exception is about the ARRANGEMENT rather than the riser-tread pair, and the treads in these houses are generous. It licenses multiple flights and landings, not steepness.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "South Carolina and Georgia low country"
         ]

@@ -508,6 +508,35 @@ class TestAFixedKeyListDoesNotDropWhatItDoesNotName:
             "value/in_range/error are set by proportion_engine.evaluate(), not by the pack — "
             "dropping `error` is how a refusal became a measurement")
 
+    def test_the_engines_own_row_publishes_every_key_the_pack_schema_defines(self):
+        """The rebuild ONE LAYER IN, which the guard above never reached (WP-8.4).
+
+        `proportion_engine.evaluate()` builds its own row key-by-key, and its comment has
+        claimed since WP-5.11 that "tests/test_wp46_packs.py compares this dict against the
+        schema so it cannot recur". No such test existed: the one that exists is the method
+        above, and it reads `mcp_server/core.py`'s RULE_KEYS -- a different rebuild, further
+        out. So the function whose own comment tells the story was the one nothing checked,
+        and OQ 88's `applies_when` was dropped there exactly as described, leaving a scope
+        that refused 0 of 293 deliveries while every check stayed green."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "pe", os.path.join(ROOT, "build", "proportion_engine.py"))
+        pe = importlib.util.module_from_spec(spec); spec.loader.exec_module(pe)
+        with open(os.path.join(ROOT, "schema", "proportion-pack.schema.json")) as f:
+            declared = set(json.load(f)["properties"]["derived_rules"]["items"]["properties"])
+        # Read a real row rather than the source: this asserts what the engine ACTUALLY
+        # emits, so a key listed in a dict literal but overwritten later still fails.
+        pack = pe.resolve("sash-light")
+        rows = pe.evaluate(pack, None, {"ceiling_height": 108.0})["rules"]
+        assert rows, "sash-light produced no rules"
+        emitted = set(rows[0])
+        missing = declared - emitted
+        assert not missing, (
+            f"proportion_engine.evaluate() drops {sorted(missing)}, which "
+            f"schema/proportion-pack.schema.json defines on a rule. Every consumer reads "
+            f"these rows -- resolve_kit.eval_packs among them -- so a key this rebuild does "
+            f"not carry is deleted before anything can act on it.")
+
 
 class TestAFatalDisqualifies:
     """The first build WITHHELD the score on a fatal, and measuring it killed the idea:

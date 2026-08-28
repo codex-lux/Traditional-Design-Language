@@ -45,6 +45,7 @@ import json, os, sys, argparse, collections, copy
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 import proportion_engine as pe
+import modcache
 
 STOP = ("specified", "forbidden")
 AUTHORING_CEILING = 108.0        # the context the kits' in_calibration flags were set at
@@ -312,6 +313,12 @@ def pack_env(pk, ctx, module_override=None):
     return env, mod
 
 
+def _construction_vocabulary():
+    """build/construction_vocabulary.py, through modcache (CLAUDE.md, OQ 28)."""
+    return modcache.load("construction_vocabulary",
+                         os.path.join(ROOT, "build", "construction_vocabulary.py"))
+
+
 def eval_packs(packs, ctx, module_override, kit):
     """Every rule the bound packs contribute, keyed by target slot.
 
@@ -386,6 +393,53 @@ def eval_packs(packs, ctx, module_override, kit):
                 return False, None
             return True, (rec.get("note") or "the resolved kit binds this slot `forbidden`")
 
+        def _wrong_construction(r):
+            """(refused, why) for a rule scoped to a construction this wall is not (OQ 88).
+
+            Three pack rules state a construction scope in their own prose and carried no
+            data that enforced it -- `sash-light`'s sill projection is the flagship, whose
+            note says plainly that in a masonry wall the sill "belongs to the brick-course
+            pack, not this one" while the cascade delivered it to 86 nodes. This is that
+            note made executable, per rule rather than per binding: `slots_except` scopes a
+            binding for ONE node, where these notes describe a property of the rule that is
+            true of every node it reaches.
+
+            UNDECIDABLE IS NOT REFUSED, and that asymmetry is deliberate. A slot left with
+            no rule at all is worse than a rule a reader can see is scoped: the kit refusal
+            of WP-8.3 could withhold safely because the kit had already said the slot is
+            forbidden, and here nothing has said anything. So a rule is refused only where
+            the vocabulary can say the wall is NOT what the rule needs.
+            """
+            aw = r.get("applies_when") or {}
+            # `slot_variant` first: it is the sharper test, because it reads a variant the
+            # kit has actually chosen rather than inferring a wall from a cladding.
+            for sid, wanted in (aw.get("slot_variant") or {}).items():
+                rec2 = (kit or {}).get(sid) or {}
+                variants = [v for v in (rec2.get("variants") or []) if v.get("id")]
+                if not variants:
+                    continue                       # unbound: undecidable, so the rule stands
+                live = [v["id"] for v in variants
+                        if v.get("status") in ("canonical", "permitted", "atypical")]
+                if live and not (set(live) & set(wanted)):
+                    return True, ("this rule applies only where %s is one of %s, and this "
+                                  "style's is %s: %s" % (sid, ", ".join(wanted),
+                                                         ", ".join(live), aw.get("note") or ""))
+            want, deny = aw.get("construction"), aw.get("construction_except")
+            if not want and not deny:
+                return False, None
+            cv = _construction_vocabulary()
+            for token in (deny or []):
+                verdict, why = cv.resolve(token, kit or {})
+                if verdict == "holds":
+                    return True, ("this rule does not apply to %s construction: %s"
+                                  % (token, aw.get("note") or why))
+            if want:
+                verdicts = [cv.resolve(t, kit or {}) for t in want]
+                if all(v == "fails" for v, _ in verdicts):
+                    return True, ("this rule applies only to %s construction, and the style is "
+                                  "built in none of them" % ", ".join(want))
+            return False, None
+
         for r in ev["rules"]:
             if "error" in r:
                 continue
@@ -394,8 +448,10 @@ def eval_packs(packs, ctx, module_override, kit):
             if deny is not None and _named(r, deny):
                 continue
             refused, why = _refused(r["target_slot"])
+            wrong_wall, wall_why = _wrong_construction(r)
             by_slot[r["target_slot"]].append({
                 "refused_by_kit": refused, "refused_because": why,
+                "refused_by_construction": wrong_wall, "construction_because": wall_why,
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],
                 "style_precedence": binding.get("precedence"),
                 "dimension": r.get("dimension"), "quantity": r.get("quantity"),
@@ -429,6 +485,19 @@ def choose_pack(rec, rows, ctx):
                 "refused": list(rows),
                 "why": next((r.get("refused_because") for r in rows if r.get("refused_because")),
                             "the resolved kit binds this slot `forbidden`")}
+    rows = live_rows
+    # OQ 88 (WP-8.4): the same discipline for a rule scoped to a construction this wall is
+    # not. Marked in eval_packs where the kit is in hand, refused here. Kept separate from
+    # `kit.forbidden` in the reported `how` because they are different refusals: one is the
+    # style saying the slot may not exist, the other is the rule saying it is not about this
+    # wall -- and a reader who cannot tell them apart will go looking in the wrong file.
+    live_rows = [r for r in rows if not r.get("refused_by_construction")]
+    if rows and not live_rows:
+        return {"how": "rule.wrong_construction", "chosen": None, "ranked": [],
+                "refused": list(rows),
+                "why": next((r.get("construction_because") for r in rows
+                             if r.get("construction_because")),
+                            "every rule at this address is scoped to another construction")}
     rows = live_rows
 
     declared = rec.get("packs") or []

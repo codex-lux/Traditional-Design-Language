@@ -65,7 +65,7 @@
       "style": "shotgun-house",
       "why": "On a 25 to 30 ft lot with a house 3 to 6 ft from its neighbour, there is genuinely no flank to put a unit on and no rear access; a unit beside the front porch pier is what the type's density produces.",
       "bounds": "It must still sit behind the porch line and below the porch deck level or behind lattice skirting, so it is out of the approach even where it is on the front of the lot.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "narrow-lot-detached"
         ],
@@ -76,7 +76,7 @@
       "style": "italianate-townhouse",
       "why": "A party-wall row has no flank at all, and the historic answer - the areaway - is the correct modern one: equipment in the areaway below sidewalk level, behind the iron fence.",
       "bounds": "Below the parlour-floor level and behind the areaway railing. Equipment on the stoop or bracketed to the front facade is the fault in its worst form.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ]

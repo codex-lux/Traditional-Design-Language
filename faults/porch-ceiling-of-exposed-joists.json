@@ -87,7 +87,7 @@
       "style": "craftsman",
       "why": "A genuinely exposed structural ceiling is correct where the structure is worth exposing: real beams and rafters of full dimension, planed, with the boarding above them visible as a finished surface and no hangers, hurricane ties or sheathing edges showing.",
       "bounds": "Every member must be a finished member — planed, chamfered or stopped, with visible joinery — and the deck above must be finished boarding, not plywood. Exposed 2x framing with joist hangers and OSB is not this exception under any circumstances.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "porch_ceiling"
         ],
@@ -106,7 +106,7 @@
       "style": "pueblo-revival",
       "why": "Same viga-and-latilla tradition.",
       "bounds": "As above.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "new-mexico",
           "southwest"
@@ -117,7 +117,7 @@
       "style": "creole-cottage-vernacular",
       "why": "The Creole gallery ceiling is frequently the exposed underside of the roof boarding, planed and beaded on its lower edge, with exposed rafters — an honest and documented treatment in a climate where the gallery is an open-air room.",
       "bounds": "The roof boarding must be real boards, beaded or at least planed, and the rafters must be finished. Plywood sheathing seen from below is not this.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi"

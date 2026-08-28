@@ -59,7 +59,7 @@
         "measurable_from": "plan",
         "note": "THE BOUND THAT MATTERS. The frieze window cannot serve as the escape opening — under a third of the frieze depth, it can reach neither 5.7 sq ft nor a 44 in sill — so the room needs a compliant opening elsewhere, in the gable end or a rear dormer. The exception licenses the frieze window's SHAPE, never the room's compliance."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "special_window",
           "frieze"
@@ -79,7 +79,7 @@
         "measurable_from": "plan",
         "note": "Casements under a continuous head with a continuous sill, and at least ONE leaf in each sleeping room must reach 5.7 sq ft clear on its own. A band of four narrow leaves that individually fail is not this exception."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "casement"
         ],
@@ -98,7 +98,7 @@
         "measurable_from": "plan",
         "note": "One leaf in each sleeping room must meet the clear-opening minima on its own."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "casement"
         ]

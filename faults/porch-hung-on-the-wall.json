@@ -89,7 +89,7 @@
       "style": "queen-anne-american",
       "why": "The Victorian veranda is deliberately a separate light structure with its own shallow roof, its own turned or chamfered supports and its own ornamental frieze, wrapping the house independently of the main roof. Its separateness is legible and intended.",
       "bounds": "The separateness must be DESIGNED: the veranda roof has its own eave and fascia, its own brackets, and meets the wall at a member — a frieze board, a moulded band — rather than at a strip of flashing. A ledgered shed with vinyl J-channel above it is not a veranda.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1875,
           1910
@@ -105,7 +105,7 @@
       "style": "charleston-single-house",
       "why": "The piazza is a separate structure on the flank with its own roof, added or rebuilt independently of the house across its life.",
       "bounds": "Flank only, full depth of the house, with its own columns at both storeys and its own entablature.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "charleston",
           "lowcountry"

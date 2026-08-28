@@ -64,7 +64,7 @@
         "threshold": 3,
         "note": "Genuinely narrow AND the shingles run tight to it. A 3 1/2 in flat casing with a J-channel round it fails both halves and is not this exception."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "primary_cladding"
         ],
@@ -83,7 +83,7 @@
         "threshold": 6,
         "note": "Wide means 6-10 in and flat means unmoulded, not thin. The Greek Revival casing is the broadest of the three families in the trim pack and still stands 1 in proud with a crisp square arris."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "window_surround_wood",
           "trim_family"
@@ -103,7 +103,7 @@
         "threshold": 1.5,
         "note": "Craftsman moves the depth from the jamb to the head. The head cap must project 1 1/2-2 1/2 in with a wash and a drip; a flat head casing flush with the jambs is the fault."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "window_head_wood",
           "trim_family"
@@ -122,7 +122,7 @@
         "threshold": 8,
         "note": "Two inches of stucco over frame with a flush window is the revival failing at its own test."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "rammed-earth"

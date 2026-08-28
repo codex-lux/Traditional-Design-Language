@@ -75,7 +75,7 @@
       "style": "italianate-townhouse",
       "why": "On a 16-25 ft lot the stair rises against the party wall immediately inside the vestibule, because there is no plan depth to spend on a setback. The compensations are real: an inner vestibule door, a 10-12 ft ceiling, and an arched screen between hall and stair.",
       "bounds": "Requires a genuine vestibule with two doors and the stair against the party wall running front to back, not across the hall. Without the vestibule the fault is present in a row house too.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ],

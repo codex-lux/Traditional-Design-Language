@@ -119,7 +119,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1785,
           1830
@@ -130,7 +130,7 @@
       "style": "creole-cottage-vernacular",
       "why": "The Creole gallery has no entablature at all — a plain plate or a boxed beam sits on the colonnettes and the roof runs over it. This is not a reduced entablature but the absence of the classical apparatus, which is correct.",
       "bounds": "There must be no classical capital on the colonnette. Once a moulded capital appears, the order has been claimed.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi",

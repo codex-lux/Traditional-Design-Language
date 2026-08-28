@@ -1197,7 +1197,17 @@ def check(plan, C=None, strict=False):
     # limit lifted from the API default of 40: faults_present was never truncated, and the
     # could_not_judge list (surfaced as fault_unjudged below) has to be the whole list or
     # "unjudged is not passed" degrades into "the first forty unjudged are not passed".
-    fr = core.check_measurements(meas, style=style, limit=10**6) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
+    # WP-8.4: hand the fault corpus what this HOUSE is, not only what its style permits.
+    # An exception's `granted_when` asks about the wall, the roof and the date, and a style
+    # id can rarely answer -- most styles permit several constructions. A plan record
+    # already declares the ones it chose (`declared.construction_type`,
+    # `declared.primary_cladding`) and dates itself (`context.date_of_representation`), so
+    # a licence that is merely undecidable against a style becomes a real yes or no here.
+    _ctx = {"declared": plan.get("declared") or {}}
+    _date = (plan.get("context") or {}).get("date_of_representation")
+    if isinstance(_date, (int, float)):
+        _ctx["date"] = int(_date)
+    fr = core.check_measurements(meas, style=style, limit=10**6, context=_ctx) if meas else {"faults_present": [], "summary": {"present": 0, "clear": 0, "unjudged": 0}}
     for x in fr.get("faults_present", []):
         # Quote the test that FAILED, not the first one that ran. A fault carrying secondary
         # tests can have its primary pass and a secondary fail; reading results[0] then printed

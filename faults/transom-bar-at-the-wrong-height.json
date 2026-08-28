@@ -60,7 +60,7 @@
         "measurable_from": "section",
         "note": "Minimum 11 ft, 12 to 13 typical, with window heads within 18 in of the ceiling and sash operable top and bottom. Ceilings under 10 ft break the stack ventilation and void the exception; the datum rule still holds within the elevation, only its height changes."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "south-carolina-lowcountry"
         ]
@@ -78,7 +78,7 @@
         "measurable_from": "section",
         "note": "10 ft minimum, 11 to 12 typical, and the transoms must be OPERABLE. A fixed decorative transom in an 8 ft room is not this exception."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi",

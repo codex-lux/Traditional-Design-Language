@@ -124,7 +124,7 @@
         "upper": 13,
         "note": "The ground storey must read as a base and the storey ABOVE the principal floor must diminish again to 10-11 ft. The inversion is between the first two floors only."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "south-carolina-lowcountry"
         ],
@@ -143,7 +143,7 @@
         "measurable_from": "photograph",
         "note": "The raised base must be expressed as a base: piers, an arcade, or a low service storey with smaller openings."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "lower-mississippi",
           "gulf-coast"
@@ -167,7 +167,7 @@
         "upper": 20,
         "note": "The storey below must still be full height, and the band must be a frieze with horizontal windows in it, not a knee wall of siding."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "frieze",
           "special_window"

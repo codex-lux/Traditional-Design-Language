@@ -88,7 +88,7 @@
         "measurable_from": "photograph",
         "note": "True lead came in a leaded panel set into a casement. Outside 1/4 to 3/8 in it is not came, and a came-pattern grille between panes is a different fault entirely."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "leaded-casement"
         ],
@@ -108,7 +108,7 @@
         "measurable_from": "photograph",
         "note": "The revival's own band runs 7/8 in and up with 6/6, 8/8 or 6/1 sash. The licence is void on a house claiming an eighteenth-century date, which is the bound that matters."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1880,
           1955

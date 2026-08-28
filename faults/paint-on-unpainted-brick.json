@@ -59,7 +59,7 @@
         "threshold": 1.0,
         "note": "The tradition licenses the appearance, not the modern coating. Limewash or lime stucco, both vapour-open."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"
@@ -81,7 +81,7 @@
         "threshold": 1.0,
         "note": "Limewash only. Period practice usually washed rear and service elevations rather than the front, because the entrance elevation's Flemish bond with glazed headers is precisely what a wash costs you."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"
@@ -103,7 +103,7 @@
         "threshold": 1.0,
         "note": "Lime stucco with a mineral or limewash finish. A cement render is the same failure at greater expense."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"
@@ -122,7 +122,7 @@
         "threshold": 5,
         "note": "Limewash, renewed. The renewal is part of the material, and a limewashed wall left for twenty years is not a maintenance-free finish, it is an unmaintained one."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "adobe",
@@ -142,7 +142,7 @@
         "threshold": 1.0,
         "note": "Authentic as Colonial Revival, and it should then be a lime or mineral paint on a solid wall. The style licence does not extend to an elastomeric."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1920,
           1960

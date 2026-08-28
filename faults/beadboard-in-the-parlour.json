@@ -74,7 +74,7 @@
       "style": "folk-victorian",
       "why": "Beaded boarding IS the wainscot of the type — the mass-produced beaded ceiling and wainscot board was one of the products the railway and the millwork catalogue made cheap, and it is what these houses actually have in every room including the parlour.",
       "bounds": "Genuine tongue-and-groove boards with a real bead, 2 1/2 to 3 1/2 in exposed, running to a plain flat cap, and consistent with an interior that is thin everywhere. The type's honesty is the licence; a Folk Victorian parlour with a five-member cornice and beadboard has taken half of each argument.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1910

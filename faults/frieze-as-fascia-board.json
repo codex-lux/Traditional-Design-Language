@@ -64,7 +64,7 @@
         "upper": 30,
         "note": "Deeper, not shallower, and plain. The frieze-band windows sit wholly within the band and are wider than tall. The exception runs in the opposite direction from the fault."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "frieze",
           "special_window",
@@ -84,7 +84,7 @@
         "threshold": 12,
         "note": "The brackets must be real and deep, and the field between them must be treated — panelled, or at least given a bed mould. Nothing between the brackets and no bed mould is still the fault."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "modillion_dentil",
           "eave_condition"
@@ -104,7 +104,7 @@
         "upper": 12,
         "note": "Requires the tight-cut eave. A frieze omitted under a full boxed cornice is not this."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "eave_condition",
           "cornice"
@@ -124,7 +124,7 @@
         "upper": 12,
         "note": "Depth without moulding is the licence; the board must still be a real member with a shadow at each edge, running behind the rafter tails."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "frieze",
           "eave_condition"

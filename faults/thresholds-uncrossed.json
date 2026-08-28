@@ -100,7 +100,7 @@
       "style": "ranch-style",
       "why": "The ranch deliberately reversed the house: the public face went to the rear garden and the patio, the front became a facade seen from a car, and the arrival sequence moved to the carport and the family entrance. Judging a ranch by the frontal threshold count applies a discipline the type explicitly rejected.",
       "bounds": "The rejection must be complete and coherent: a real rear terrace, a real family entrance with its own sequence, and a front that does not pretend otherwise. A ranch with a Colonial door surround and a portico has claimed the front sequence and owes it.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1975
@@ -111,7 +111,7 @@
       "style": "shotgun-house",
       "why": "The shotgun's threshold sequence is short by design — sidewalk, stoop, door — because the type belongs to a dense street where the sidewalk is itself a social space and the stoop projects into it. Two strong thresholds do the work of three.",
       "bounds": "The stoop must be genuinely occupied — broad enough to sit on, 4 ft or more wide — and the house must be close to the street, within about 10 ft. A suburban shotgun set back 40 ft on a lawn has lost the street that made two thresholds sufficient.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi"
@@ -125,7 +125,7 @@
       "style": "creole-cottage-vernacular",
       "why": "The Creole cottage sits at or near the banquette with its gallery as the single mediating space between street and room; the gallery is deep and public and does the work of two thresholds by itself.",
       "bounds": "The gallery must be 7 ft or deeper and must run the full front. A shallow gallery reduces the sequence to one.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi"

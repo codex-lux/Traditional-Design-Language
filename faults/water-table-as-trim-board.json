@@ -57,7 +57,7 @@
         "threshold": 2,
         "note": "A measurable widening of 2-6 in over the lowest 24-36 in. A vertical stucco wall with no water table and no batter has simply omitted the base."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "rammed-earth"
@@ -80,7 +80,7 @@
         "threshold": 1.0,
         "note": "Doubled or tripled butts standing 1-2 in proud over 2-3 courses. Nothing at all is not the exception."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "primary_cladding"
         ],
@@ -99,7 +99,7 @@
         "threshold": 2.0,
         "note": "Flat profile, full projection. Greek Revival simplifies the section and does not delete the depth; the numeric test is entirely unchanged, only the moulding vocabulary drops out."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "water_table"
         ],
@@ -118,7 +118,7 @@
         "threshold": 19.7,
         "note": "500 mm. A painted skirting band of 800-1000 mm is a colour base on a genuinely massive lime-rendered wall whose mass is already evident at every reveal. It is not a licence to paint a stripe on a stud wall."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe",

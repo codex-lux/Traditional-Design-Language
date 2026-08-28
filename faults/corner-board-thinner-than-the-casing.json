@@ -62,7 +62,7 @@
         "threshold": 1.0,
         "note": "No corner board at all is correct, and the licence requires a woven corner. See j-channel-corner for the full bounds."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "primary_cladding"
         ]
@@ -81,7 +81,7 @@
         "upper": 16,
         "note": "Wider is right here, but it must then carry the full apparatus: a base that lands on the water table and a capital or plain necking that meets the frieze. A wide plain board with nothing at either end is a wide plain board."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "pilaster",
           "corner_board"
@@ -100,7 +100,7 @@
         "threshold": 1.0,
         "note": "The rule is comparative, so this is not an exception to the rule at all — only to the absolute numbers. A 4-5 in corner over a 3-4 in casing passes."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "trim_family"
         ]
@@ -118,7 +118,7 @@
         "threshold": 0,
         "note": "Deliberate thinness across the whole trim family is authentic to the type. Thin corners with a heavy classical entry or a full cornice is the fault, not the type."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1955

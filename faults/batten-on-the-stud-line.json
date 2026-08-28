@@ -57,7 +57,7 @@
         "threshold": 1.0,
         "note": "Requires the rest of the type — 12:12 or steeper gables and a pierced bargeboard — and the unbroken run. Board-and-batten on a low-pitched roof is an orphan."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "roof_pitch",
           "primary_cladding"
@@ -106,7 +106,7 @@
         "threshold": 1.0,
         "note": "Authentic on outbuildings, barns, sheds and the service ends of farmhouses, where irregular board widths are genuine. Its appearance on the principal front of an otherwise Colonial Revival house is an anachronism, not a vernacular survival."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "wing_strategy",
           "outbuilding_types"
@@ -125,7 +125,7 @@
         "threshold": 0.75,
         "note": "Honest only where the rest of the building is equally frank, and the depth rule is not stylistic — it is about whether the wall casts shadows. The primary test is unchanged."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           2005,
           2030

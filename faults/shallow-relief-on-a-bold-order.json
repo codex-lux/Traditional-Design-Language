@@ -106,7 +106,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1785,
           1830
@@ -122,7 +122,7 @@
       "style": "greek-revival-american",
       "why": "Greek Revival flattens deliberately: the anthemion, the honeysuckle and the Greek fret are drawn with broad flat planes and sharp arrises, and their power is in outline and edge rather than in modelling. Benjamin's plates show them incised or in low flat relief.",
       "bounds": "The outline must be BOLD and the arris HARD. Greek Revival buys back in scale and in edge definition what it gives up in depth: the motifs are larger, simpler and more sharply cut than Georgian ones.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1820,
           1870
@@ -133,7 +133,7 @@
       "style": "spanish-colonial-revival",
       "why": "Plastered ornament is intrinsically soft-edged and shallow — a cast or hand-modelled plaster cartouche has rounded arrises because plaster over lath cannot hold a sharp edge, and the softness is the material speaking.",
       "bounds": "The ornament must be genuinely plaster, applied wet, with the softness distributed over the whole elevation. A polyurethane cartouche on a stucco wall has the softness without the material and is the fault.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "stucco",
           "plaster"

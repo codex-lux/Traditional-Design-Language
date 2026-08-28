@@ -60,7 +60,7 @@
         "measurable_from": "photograph",
         "note": "The style's own constraint: the wall must be, or must fully express, cut stone, with a minimum 12 in reveal, jambs returned in the same material as the face, true voussoirs and a rusticated base of not less than one storey. The exaggeration is licensed only where the construction is real."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "cut-stone",
           "load-bearing-masonry"
@@ -80,7 +80,7 @@
         "measurable_from": "photograph",
         "note": "The hood must be a HOOD — a projecting three-dimensional member with a soffit, returns and a drip, carried on brackets or corbels. A flat applique keystone with no hood scores under 3 in and is not this exception."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "cast-iron",
           "terracotta",

@@ -54,7 +54,7 @@
         "measurable_from": "photograph",
         "note": "The licence holds only where nothing else on the elevation claims pre-1900 joinery. One putty-glazed sash, one moulded cornice or one classical door surround anywhere on the front and the count goes above zero and the exception lapses."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "aluminium-sash",
           "steel-sash"

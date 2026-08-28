@@ -248,6 +248,22 @@
       "target_slot": "window_surround_wood",
       "dimension": "exterior_head_assembly_height",
       "expression": "opening_width / 5.5 * 2.6",
+      "applies_when": {
+        "construction_except": [
+          "mass-wall",
+          "load-bearing-masonry",
+          "masonry",
+          "mass-masonry",
+          "solid-masonry",
+          "brick",
+          "cut-stone",
+          "stone-rubble",
+          "adobe",
+          "rammed-earth",
+          "load-bearing-stone"
+        ],
+        "note": "OQ 88, scoped 28 Aug 2026 (WP-8.4) from this rule's own words: 'On a masonry front this assembly is a flat arch, a jack arch or a stone lintel instead, and the brick-course pack owns its coursing.' The slot was already split by trade at ontology 0.3.0 and the rule still reached masonry nodes, because a slot named `_wood` does not stop a cascade from delivering to it -- splitting the slot and scoping the rule are two different fixes and this rule needed both."
+      },
       "units": "in",
       "range": [
         8.0,

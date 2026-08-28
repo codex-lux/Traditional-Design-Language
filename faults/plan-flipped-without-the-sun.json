@@ -66,7 +66,7 @@
       "style": "georgian-colonial-american",
       "why": "The style's own orientation rule is explicitly indifferent to the sun: the house faces its approach and everything follows. A correctly built Georgian house facing north is not a fault by the style's rules, which is exactly the liability the kit records.",
       "bounds": "Inherited but deprecated. The licence covers the ENTRANCE facing the approach; it does not cover putting a modern wall of glazing on the west or a great room on the north face. Where a modern plan adds environmental devices the style did not have, those devices are bound by the sun even though the entrance is not.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "street_relationship"
         ],
@@ -77,7 +77,7 @@
       "style": "italianate-townhouse",
       "why": "A row house on a fixed street grid has no orientation freedom at all; the front faces where the street faces and both long walls are party walls.",
       "bounds": "The freedom that remains is in the rear extension and the room allocation, and those should still follow the sun.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ]

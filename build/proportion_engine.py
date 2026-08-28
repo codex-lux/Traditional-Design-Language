@@ -435,8 +435,20 @@ def evaluate(pack, module_in=None, bindings=None):
                # reaches the measured 30-32 in band at 142.5 in, and the resolver printed 22.75 in
                # with no warning. Same bug as `quantity` (fixed 25 Aug), found in the same audit:
                # a row rebuilt key-by-key from a richer source drops whatever nobody re-listed.
-               # tests/test_wp46_packs.py compares this dict against the schema so it cannot recur.
-               "calibrated_for": r.get("calibrated_for"), "diagnostic": r.get("diagnostic")}
+               # THE GUARD WRITTEN FOR THAT BUG DOES NOT REACH THIS DICT (found WP-8.4, the
+               # third instance of it). The comment here has said since WP-5.11 that
+               # "tests/test_wp46_packs.py compares this dict against the schema so it cannot
+               # recur"; the test that exists is test_score.py's
+               # test_rule_keys_publishes_every_key_the_pack_schema_defines, and it reads
+               # `mcp_server/core.py`'s RULE_KEYS -- a DIFFERENT key-by-key rebuild, one layer
+               # further out. So the function whose own comment tells this story was the one
+               # function nothing checked, and `applies_when` (OQ 88) was dropped here in
+               # exactly the way described, silently, with the scope refusing nothing on all
+               # 293 deliveries. Both rebuilds are pinned now.
+               "calibrated_for": r.get("calibrated_for"), "diagnostic": r.get("diagnostic"),
+               # OQ 88 (WP-8.4): a rule may be scoped to a construction or to a variant of the
+               # slot it writes to. resolve_kit.eval_packs reads it off this row.
+               "applies_when": r.get("applies_when")}
         try:
             v = evaluate_expr(r["expression"], env)
             row["value"] = round(v, 4) if isinstance(v, (int, float)) and not isinstance(v, bool) else v

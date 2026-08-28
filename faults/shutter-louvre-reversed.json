@@ -48,7 +48,7 @@
         "measurable_from": "photograph",
         "note": "The bound stated numerically: a blind lying against wall cladding is not closed and cannot claim this exception. Every leaf claiming it must cover glass with no wall behind it."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "deep-south",
           "gulf-coast"
@@ -68,7 +68,7 @@
         "measurable_from": "photograph",
         "note": "Same bound."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "lower-mississippi",
           "gulf-coast"

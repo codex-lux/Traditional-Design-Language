@@ -55,7 +55,7 @@
         "measurable_from": "photograph",
         "note": "Historic glass distorts IRREGULARLY and per-pane; tempered roller wave is regular and periodic at 4 to 12 in, which is why it reads as manufacture. Restoration glass reproduces the irregular kind deliberately and scores outside the roller-wave band."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "crown-glass",
           "cylinder-glass",
@@ -80,7 +80,7 @@
         "measurable_from": "photograph",
         "note": "Only where the glass is genuinely crown, cylinder or drawn restoration glass in SMALL lights. In a large modern pane the irregularity has nowhere to hide and reads as a fault."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "crown-glass",
           "cylinder-glass",

@@ -119,7 +119,7 @@
         "measurable_from": "photograph",
         "note": "They must run in courses parallel to the eave, in one material, at a regular spacing - a composed element. Scattered pad-style guards are not this."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "New England",
           "Upper Midwest",

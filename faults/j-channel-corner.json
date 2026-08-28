@@ -59,7 +59,7 @@
         "threshold": 1.0,
         "note": "The licence covers OMISSION, not substitution. Every course must lap past its neighbour with the exposed corner shingle back-bevelled, so the corner alternates left-face and right-face up its whole height. A metal or vinyl corner cap, a mitre with a caulk joint, or a shingle panel product's factory corner all score zero on this and none of them is the exception."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "primary_cladding"
         ],
@@ -84,7 +84,7 @@
         "upper": 3.0,
         "note": "Requires the rounded render arris and the wall batter. Absence of trim on a crisp stud-framed corner is not the exception."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "rammed-earth"
@@ -103,7 +103,7 @@
         "threshold": 4,
         "note": "Real projecting notched log ends. Applied 'log ends' on a frame corner are a different fault entirely."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "log"
         ]
@@ -121,7 +121,7 @@
         "threshold": 4,
         "note": "Half-dovetail or V-notch corners are the expression, and in the flush-notched types the corner shows the joinery rather than a projection — in that case the test is the visible notch, not the overhang."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "log"
         ]

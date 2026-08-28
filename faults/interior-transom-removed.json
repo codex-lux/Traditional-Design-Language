@@ -79,7 +79,7 @@
       "style": "new-england-colonial",
       "why": "First Period interiors have no interior transoms; the rooms are small, the ceilings are 6 ft 8 in to 7 ft 6 in, and there is no head height for one. Adding transoms to a First Period house is the opposite anachronism.",
       "bounds": "Only where the ceiling is genuinely under about 8 ft. A Georgianised First Period house with 8 ft 6 in ceilings and a passage may well have had them.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1620,
           1720

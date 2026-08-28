@@ -101,7 +101,7 @@
       "style": "raised-creole-plantation",
       "why": "The Creole double-pitch roof breaks to a flatter gallery slope on both floors, and the break is the type's defining profile.",
       "bounds": "Continuous in the roof plane, both elevations, and the gallery slope carried on colonnettes rather than on a wall.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "lower-mississippi",
           "gulf-coast"

@@ -109,7 +109,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "porch_type",
           "porch_depth"
@@ -121,7 +121,7 @@
       "style": "federal-style",
       "why": "The Federal entrance is a frontispiece — often a semicircular or elliptical portico of 5 to 7 ft — and its shallowness is part of its delicacy.",
       "bounds": "One bay, centred, carrying an order. A curved Federal portico may be as little as 4 ft at its shallowest point at the sides because the depth is measured on the axis.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1785,
           1830
@@ -139,7 +139,7 @@
         "units": "ft",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "charleston",
           "lowcountry"
@@ -150,7 +150,7 @@
       "style": "italianate-townhouse",
       "why": "The urban Italianate entrance is a stoop with a bracketed hood of 3 to 4 ft projection, which is a doorhead rather than a porch and is correct at that depth. The threshold ritual happens on the steps, not under cover.",
       "bounds": "There must be no columns standing on the stoop and no rail returning along its face; a hood is carried on consoles from the wall.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "porch_type"
         ],

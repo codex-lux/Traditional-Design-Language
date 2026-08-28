@@ -65,7 +65,7 @@
       "style": "mid-century-traditional",
       "why": "The recessed downlight is period-correct here and the flush ceiling plane with concealed sources is part of the idiom, along with the cove, the luminous panel and the surface-mounted disc.",
       "bounds": "The ceiling has no cornice to damage, and the fittings should be arranged as a composition rather than as a grid — often a line, a cluster over a specific object, or a perimeter wash. Even here a uniform grid is a builder's default rather than a designer's.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1980

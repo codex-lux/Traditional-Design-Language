@@ -105,7 +105,7 @@
         "units": "in",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1825,
           1865
@@ -116,7 +116,7 @@
       "style": "greek-revival-upland-vernacular",
       "why": "Upland vernacular Greek Revival makes its corner pilasters out of two boards nailed to form an L, with a plain cap board, and the whole thing is 3/4 in thick. This is period, pervasive and correct in its own terms.",
       "bounds": "It must be WIDE — not less than 10 in on the face — and must have a cap board projecting past it. A 5 1/2 in board with no cap is a corner board and is a different, ordinary thing.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "wood-frame"
         ],

@@ -73,7 +73,7 @@
         "units": "in",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1860,
           1901

@@ -44,7 +44,7 @@
       "style": "minimal-traditional",
       "why": "The type used emblematic shutters from new; its own constraint asks for jamb hinging but the historical fabric is frequently face-nailed.",
       "bounds": "Restoration of an original may keep the original attachment. New work in the idiom should hinge.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1950

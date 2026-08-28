@@ -93,7 +93,7 @@
       "style": "shingle-style",
       "why": "The Shingle Style suppresses trim deliberately and runs the shingle field continuously past porch beams and column lines. A pilaster would be exactly the sort of applied classical member the style set out to eliminate.",
       "bounds": "Only where the cladding is genuinely shingle and genuinely continuous, with no corner boards and no other applied trim on the elevation. A house with corner boards, window casings and a returned cornice does not get this licence.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "wood-shingle-clad"
         ],
@@ -111,7 +111,7 @@
       "style": "creole-cottage-vernacular",
       "why": "The Creole gallery runs in front of the wall as an independent light structure, its plate carried on colonnettes at both ends and sometimes free of the wall entirely — the gallery is a separate roof, not an entablature bearing on the house.",
       "bounds": "The gallery structure must be visibly independent: its own posts at both ends, its own plate, and a roof that is separate from or continuous over the main roof. A gallery whose beam bears on the house wall owes a member at that bearing.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi",

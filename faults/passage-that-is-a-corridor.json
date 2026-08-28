@@ -98,7 +98,7 @@
       "style": "italianate-townhouse",
       "why": "A row-house side hall on a 16-25 ft lot cannot be a room; 4 to 5 ft is the historic dimension and the compensation is height, a 10-12 ft ceiling and an arched screen into the stair.",
       "bounds": "Requires the narrow lot, the raised parlour floor and the compensating ceiling height. A 4 ft hall under an 8 ft ceiling on a 60 ft wide suburban lot has the constraint without the reason.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ],

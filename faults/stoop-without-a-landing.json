@@ -105,7 +105,7 @@
       "style": "charleston-single-house",
       "why": "The street door of a Charleston single house opens onto the piazza, not into the house, so the platform outside it is a small landing and the real threshold is the piazza beyond.",
       "bounds": "There must be a real piazza behind the door, 8 ft or more deep. A small landing with no piazza behind it is the fault.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "charleston",
           "lowcountry"
@@ -116,7 +116,7 @@
       "style": "italianate-townhouse",
       "why": "Where the lot is very narrow the stoop's platform may be as little as 36 in deep and is compensated by generous width and by the flight itself being a place.",
       "bounds": "36 in is the floor and the flight must be at least 4 ft wide with treads of 11 in or more, so the steps do the platform's work.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "urban-rowhouse"
         ]

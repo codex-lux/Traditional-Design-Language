@@ -61,7 +61,7 @@
       "style": "georgian-colonial-american",
       "why": "The formal front room entered by invitation and not otherwise used is the historical arrangement, not a modern failure - a room's rank was expressed by restricting access to it, and the best parlour of an eighteenth-century house was genuinely occupied a few times a year.",
       "bounds": "The licence is historical rather than functional, and it holds only where the whole gradient is present: a service zone with its own circulation, a family room at the rear, and a household that actually receives formally. Inheriting the closed parlour without the rest of the social machine reproduces the cost and none of the meaning.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1700,
           1830

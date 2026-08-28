@@ -54,7 +54,7 @@
         "measurable_from": "elevation",
         "note": "The style's own cap on south and west unless shaded by an arcade or a 4 ft overhang. A low transmittance is licensed; the consistency rule is not relaxed at all, and a mismatched pane is as bad here as anywhere."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "mass-wall",
           "adobe",
@@ -78,7 +78,7 @@
         "measurable_from": "photograph",
         "note": "Where the reveal is absent the glass colour returns as a problem, because the pane is being read in direct light in the wall plane."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "mass-wall",
           "thick-stucco"

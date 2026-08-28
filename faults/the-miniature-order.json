@@ -76,7 +76,7 @@
       "style": "minimal-traditional",
       "why": "The type is defined by trim reduced to almost nothing in an 8 ft room, and a 3 in base with a 2 1/4 in casing is what it actually built. Giving it a correctly derived 7 1/2 in base misrepresents it.",
       "bounds": "The thinness must be systematic and must include the exterior — shallow eaves, no cornice return, minimal casing outside as well as in. A house with a full classical entry and a minimal-traditional interior is not this exception, it is this fault.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1955
@@ -87,7 +87,7 @@
       "style": "shotgun-house",
       "why": "Tall ceilings of 11 to 13 ft with genuinely modest trim is documented practice in the type, because the height is for stack ventilation rather than for rank and the budget never followed it up.",
       "bounds": "The base still rises with the ceiling — surviving examples run 8 to 12 in — but the cornice is absent and the casing stays flat and plain. The exception licenses the missing entablature in a tall room, not a small base.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "Gulf South",
           "Lower Mississippi Valley"

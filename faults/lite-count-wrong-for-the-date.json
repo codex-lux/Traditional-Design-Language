@@ -57,7 +57,7 @@
         "measurable_from": "photograph",
         "note": "The counts must be consistent BY PHASE: the 1845 block keeps 6/6 and the 1878 wing has 2/2, and the phases must be legible in the massing. Two counts inside one unbroken wall plane is not a record of additions, it is a purchasing accident."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1840,
           1910

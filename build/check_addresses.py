@@ -70,7 +70,17 @@ def load():
 # `tidewater-georgian` authored its brick sill's projection at 0-1 in as MEASURED while
 # `sash-light` delivered 2.25 in "sloped about 1 in 6 with a drip" to the same address, in a node
 # whose kit FORBIDS the sloped sill and says why.
-RATCHET = {"own": 0, "cascade": 9, "kit_vs_pack": 62}
+RATCHET = {"own": 0, "cascade": 9,
+           # 62 -> 1231 at WP-8.4, and the jump is the fix rather than a regression: this
+           # figure was measured against `load_kit(nid)` -- the node's OWN file -- while the
+           # rules it compared came from the whole cascade, so the one case it could never
+           # see was a node inheriting its parameter from one ancestor and its pack from
+           # another, which is most of the corpus. OQ 86 closed.
+           "kit_vs_pack": 1231,
+           # OQ 101: a pack value BAKED into a kit file at an address where the live rule is
+           # refused. Nothing refuses a snapshot, so a scope on the rule is defeated wherever
+           # a kit carries a copy. Reported, not fixed -- see baked_vs_refused().
+           "baked_vs_refused": 8}
 
 
 def cobinding(nodes, scope):
@@ -171,25 +181,34 @@ def kit_vs_pack(nodes):
            "opening_width": 36.0, "span": 16.0}
     g = _rk.load_graph()
     for nid in sorted(n["id"] for n in nodes):
-        kit = _rk.load_kit(nid)
-        if not kit:
-            continue
         try:
             chain = _rk.chain_for(g, nid)
             packs = _rk.resolve_packs(g, chain)
-            # The RESOLVED kit, for OQ 99's forbidden-slot gate only. `kit` above is
-            # `load_kit(nid)` -- the node's OWN file -- which is OQ 86's known defect and is
-            # WP-8.4's to fix; the two are deliberately not conflated here.
-            resolved, _sv = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
-            pack_slots, _ = _rk.eval_packs(packs, CTX, None, resolved)
+            # THE RESOLVED KIT, NOT `load_kit(nid)` (OQ 86 closed, WP-8.4). This function read
+            # the node's OWN file while `eval_packs` walked the whole cascade, so it was a
+            # per-file check wearing a per-node name: a node inheriting its parameter from an
+            # ancestor and its pack rule from another was the one case it could never see, and
+            # that is most of the corpus. The published 62 was a floor, not a measurement.
+            kit, _sv = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
+            pack_slots, _ = _rk.eval_packs(packs, CTX, None, kit)
         except Exception:
+            continue
+        if not kit:
             continue
         for sid, rec in kit.items():
             for pname, pval in (rec.get("parameters") or {}).items():
                 if not isinstance(pval, dict) or pval.get("kind") != "measured":
                     continue
                 dim = pname[:-3] if pname.endswith("_in") else pname
-                rows = [r for r in (pack_slots.get(sid) or []) if r.get("dimension") == dim]
+                # A REFUSED RULE WRITES NOTHING, SO IT CANNOT CONTRADICT ANYTHING. WP-8.3's
+                # `refused_by_kit` and WP-8.4's `refused_by_construction` both MARK rather than
+                # delete, precisely so a reader of these rows can count them; the count belongs
+                # in the refusal meters, and a refusal reported here as a corruption would be
+                # the corpus convicting itself of a rule it already declined to apply.
+                rows = [r for r in (pack_slots.get(sid) or [])
+                        if r.get("dimension") == dim
+                        and not r.get("refused_by_kit")
+                        and not r.get("refused_by_construction")]
                 if not rows:
                     continue
                 lo, hi = None, None
@@ -217,6 +236,52 @@ def kit_vs_pack(nodes):
                     if v < lo - tol or v > hi + tol:
                         hits.append((nid, sid, dim, pname, (lo, hi), r["pack"], v))
     return hits, unjudged
+
+
+def baked_vs_refused(nodes):
+    """A pack's value BAKED INTO A KIT FILE at an address where the live rule is refused.
+
+    The second delivery path, and the one no scope reaches (WP-8.4). A kit parameter marked
+    `kind: derived` with `source: <pack>` is a snapshot of a pack rule copied into the kit --
+    3,176 of them resolve across this corpus. `eval_packs` can refuse the live rule; nothing
+    refuses the snapshot, so a scope written on the rule is defeated at every node whose kit
+    carries a copy. Measured 28 Aug 2026: 8 pairs, 3 of `sash-light`'s sill projection
+    (`mid-atlantic-georgian`, `queen-anne-patterned-masonry`, `renaissance-revival-american`,
+    all resolving `georgian-colonial-american`'s baked `projection_in`) and 5 of
+    `opening-proportion`'s head assembly.
+
+    REPORTED, NOT FIXED. Deleting a baked parameter on an ancestor removes it from every
+    descendant, and the 33 nodes resolving this one include 30 the rule is right for. What is
+    wanted is a scope on the PARAMETER, read at resolve time, which is a kit-schema change and
+    a new reader inside `resolve_slots`. Counted here so it cannot grow in silence; raised as
+    an open question rather than patched.
+    """
+    import resolve_kit as _rk  # noqa: E402
+    CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_height": 80.0,
+           "opening_width": 36.0, "span": 16.0}
+    g = _rk.load_graph()
+    out = []
+    for nid in sorted(n["id"] for n in nodes):
+        try:
+            chain = _rk.chain_for(g, nid)
+            kit, _sv = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
+            pack_slots, _ = _rk.eval_packs(_rk.resolve_packs(g, chain), CTX, None, kit)
+        except Exception:
+            continue
+        for sid, rec in (kit or {}).items():
+            for pname, pval in (rec.get("parameters") or {}).items():
+                if not isinstance(pval, dict) or pval.get("kind") != "derived":
+                    continue
+                src = pval.get("source")
+                if not src:
+                    continue
+                rows = [r for r in (pack_slots.get(sid) or []) if r["pack"] == src]
+                if rows and all(r.get("refused_by_kit") or r.get("refused_by_construction")
+                                for r in rows):
+                    why = next((r.get("construction_because") or r.get("refused_because")
+                                for r in rows), "")
+                    out.append((nid, sid, pname, src, why))
+    return out
 
 
 def main():
@@ -283,8 +348,25 @@ def main():
               f"and '{pack}' delivers {v} to the same address")
     print(f"{len(kp_hits)} node parameter(s) contradicted by a pack rule; {len(kp_unjudged)} "
           f"could not be judged (ratchet {RATCHET['kit_vs_pack']}).")
+    # The work list, not the instance count. One ancestor's parameter meeting one pack is
+    # re-counted at every descendant, exactly as OQ 51's 3,356 inherited packs are; the number
+    # that can be worked is the distinct address.
+    kp_addr = sorted({(sid, dim, pack) for _n, sid, dim, _p, _b, pack, _v in kp_hits})
+    print(f"{len(kp_hits)} node parameter(s) contradicted by a pack rule at "
+          f"{len(kp_addr)} distinct (slot, dimension, pack) addresses.")
     if len(kp_hits) > RATCHET["kit_vs_pack"]:
         failed.append(f"kit_vs_pack: {RATCHET['kit_vs_pack']} -> {len(kp_hits)}")
+
+    bvr = baked_vs_refused(nodes)
+    print(f"\n--- scope: baked-vs-refused " + "-" * 28)
+    for nid, sid, pname, src, why in bvr:
+        print(f"b {nid} {sid}/{pname}: baked from '{src}', whose live rule is refused here "
+              f"-- {(why or '')[:90]}")
+    print(f"{len(bvr)} baked parameter(s) delivering a value the live rule refuses "
+          f"(ratchet {RATCHET['baked_vs_refused']}). A `kind: derived` snapshot is a second "
+          f"delivery path and no scope reaches it; see OQ 101.")
+    if len(bvr) > RATCHET["baked_vs_refused"]:
+        failed.append(f"baked_vs_refused: {RATCHET['baked_vs_refused']} -> {len(bvr)}")
 
     if failed:
         print("\nRATCHET BROKEN — address collisions grew: " + "; ".join(failed))

@@ -84,7 +84,7 @@
       "style": "craftsman",
       "why": "The tapered Craftsman post sits on a masonry or stucco pier that runs to the ground, and the post's foot is 24 to 36 in above the deck. There is no plinth because the pier IS the plinth, and it is a far better answer.",
       "bounds": "The pier must be real masonry or a masonry-faced structure continuous to a footing, not a hollow box on the deck. A stucco-clad plywood box standing on decking is this fault with a costume on.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "porch_support"
         ],
@@ -98,7 +98,7 @@
       "style": "creole-cottage-vernacular",
       "why": "Gallery colonnettes commonly stand directly on a brick or wood gallery floor with no plinth, and the tradition accepts it because the gallery is raised, ventilated below, and the climate dries fast between rains.",
       "bounds": "Only where the gallery floor is genuinely raised and open underneath so the assembly dries from both sides, and only where the colonnette is a replaceable member the tradition expects to replace.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi"

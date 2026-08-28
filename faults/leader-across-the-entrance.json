@@ -58,7 +58,7 @@
         "threshold": 1.0,
         "note": "Necessity plus design. The hopper head is the element that converts the necessity into an ornament; a plain aluminium pipe in the same position does not qualify."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "street_relationship",
           "rainwater"
@@ -78,7 +78,7 @@
         "threshold": 1.0,
         "note": "The lead rainwater head with a date and initials cast into it is a celebrated feature of the type, and it is what earns the leader its place on the front."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "street_relationship",
           "rainwater"
@@ -97,7 +97,7 @@
         "threshold": 0,
         "note": "The test is unchanged; only the approach moves. The entrance on a single house is on the piazza, not the street, so the approach cone follows the actual entrance."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "entry_sequence",
           "street_relationship"
@@ -116,7 +116,7 @@
         "threshold": 12,
         "note": "Canales are intentionally expressive and frequently on the principal elevation, but they must project 12-24 in and discharge clear of the wall — a canale that dribbles down the wall stains it permanently, which is exactly why the projection is specified."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "parapet",
           "rainwater"

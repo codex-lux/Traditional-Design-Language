@@ -93,7 +93,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1910
@@ -107,7 +107,7 @@
       "style": "queen-anne-spindled",
       "why": "Same: the spindled idiom is built out of the thinnest members the lathe could produce, and that thinness is what distinguishes it from the Free Classic subtype.",
       "bounds": "As above. The whole assembly must be light and turned: thin posts, thin balusters, spindle frieze.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1875,
           1905
@@ -118,7 +118,7 @@
       "style": "creole-cottage-vernacular",
       "why": "Gallery balusters of 1 1/2 to 2 in match the slender colonnettes above them, and the gallery is meant to read as a light screen.",
       "bounds": "The colonnettes must themselves be slender. A thin baluster under a stout column is the fault.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi",

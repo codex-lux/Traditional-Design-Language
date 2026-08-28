@@ -80,7 +80,7 @@
       "style": "charleston-single-house",
       "why": "The flank opposite the piazza sits at or within 3 ft of the property line and carries no more than token openings - it is a fire wall, a response to the Charleston fires of 1740 and 1778, and modern separation-distance rules reach the same answer.",
       "bounds": "Blind flank only, on the north or east side, at or near the lot line. The STREET gable is not blind - it carries the false door and its two or three bays - and the piazza flank is fully open.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "street_relationship"
         ],

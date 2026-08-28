@@ -101,7 +101,7 @@
       "style": "folk-victorian",
       "why": "The catalogue turned post is 4 to 5 in at its barrel and is meant to be thin: the Folk Victorian porch is a light lattice of thin members, and the spindle frieze and paired brackets above carry the visual load that a heavier post would otherwise carry.",
       "bounds": "The post must be genuinely TURNED — beads, coves, a barrel, square blocks top and bottom — and must be accompanied by a sawn spindle frieze and brackets not less than 18 in on the leg. A plain square 4x4 with no ornament is not this exception; it is the fault with the ornament deleted.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1910
@@ -115,7 +115,7 @@
       "style": "creole-cottage-vernacular",
       "why": "Gallery colonnettes of 4 to 6 in carrying a light single-storey gallery roof are correct, documented and structurally honest in dense cypress and southern pine.",
       "bounds": "Single-storey gallery, light low-pitch roof, no room above, and the colonnette turned or chamfered rather than left as sawn dimensional lumber.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi",

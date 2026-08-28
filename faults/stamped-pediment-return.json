@@ -121,7 +121,7 @@
         "measurable_from": "photograph",
         "note": "The ornament must be cut THROUGH so light passes it. A sawn bracket or a pierced scroll is one thing; a moulded plastic dentil band on a solid panel is another."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "sawn-wood-ornament"
         ],

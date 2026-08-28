@@ -81,7 +81,7 @@
       "style": "mid-century-traditional",
       "why": "The wall-hung or free-standing metal fireplace with a flue rising as a visible pipe is honest about having no masonry at all, and the absence of a breast is the point.",
       "bounds": "The appliance must be visibly an appliance — metal, exposed flue, no applied mantel, no simulated masonry. The exception disappears the moment a period surround is applied, at which point it becomes a different fault.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1975

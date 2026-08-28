@@ -82,7 +82,7 @@
       "style": "creole-cottage-vernacular",
       "why": "There is no passage to block. The four-room square plan is deliberately hall-less and takes its ventilation from paired full-height French casement doors on the front and the recessed rear loggia, which is a better ventilation device than a passage because it works room by room rather than along one line.",
       "bounds": "Requires the type's own machinery: an exterior door to each front room, openings on two walls of every room, and the loggia recessed between cabinets. A hall-less plan without those is not an exception, it is a plan with no ventilation strategy at all.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "Lower Mississippi Valley",
           "Gulf Coast"
@@ -111,7 +111,7 @@
       "style": "italianate-townhouse",
       "why": "A party-wall row house's side hall ends at the stair and the rear parlour; the through view is carried by the parlour enfilade instead, and the rear wall is glazed almost fully because it is the only rear light the plan has.",
       "bounds": "The enfilade doors between front and rear parlour must align, and the rear parlour must carry a full-height window or a pair of them on the same axis. A row house with a blocked hall and a blank rear wall is the fault in its worst form, because the plan has no other source of light.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ]

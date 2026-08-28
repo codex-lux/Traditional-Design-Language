@@ -89,7 +89,7 @@
         "measurable_from": "photograph",
         "note": "The style earns the ganging by giving up the trim: casing 3 in maximum, no corner boards, shingles run over corners, no projecting heads."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "shingle-cladding"
         ],
@@ -109,7 +109,7 @@
         "measurable_from": "photograph",
         "note": "Requires load-bearing masonry of not less than 16 in nominal and reveals of 12 to 24 in, with the group under a genuine arch or lintel. Thin stone veneer over frame voids it entirely."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "load-bearing-masonry"
         ],

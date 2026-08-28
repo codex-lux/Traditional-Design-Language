@@ -66,7 +66,7 @@
       "style": "italianate-townhouse",
       "why": "A row house's party wall and rear extension carry the stacks vertically as a matter of course, and the plan is narrow enough that every fixture is near one.",
       "bounds": "The stack must be in the party wall or in a dedicated furred chase against it, never in the 4 in partition between the hall and the parlour.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ]
@@ -76,7 +76,7 @@
       "style": "andalusian-courtyard-vernacular",
       "why": "A 500-700 mm mass wall will take a chase cut into its thickness without any of this arithmetic applying, which is one of the quiet advantages of building in mass.",
       "bounds": "Only in genuine mass construction. A stud wall stuccoed to look thick has the appearance and not the thickness.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry",
           "adobe",

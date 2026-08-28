@@ -85,7 +85,7 @@
       "style": "andalusian-courtyard-vernacular",
       "why": "The street door opens off the pavement with no rise at all; the threshold is made by the zaguan, which is a room-length transition rather than a vertical one.",
       "bounds": "Requires the zaguan with a heavy street door and a cancela at the court end. A flush door with nothing behind it is not a substitute.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "zero-lot-line",
           "street-wall"

@@ -335,7 +335,7 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
         # keeps the list from drifting again -- the drift, not any one key, is the bug.
         RULE_KEYS = ("target_slot", "dimension", "quantity", "expression", "value", "units",
                      "judgment", "range", "in_range", "note", "calibrated_for",
-                     "authority_note", "diagnostic", "error")
+                     "authority_note", "diagnostic", "error", "applies_when")
         out["derived_rules"] = [{k: r.get(k) for k in RULE_KEYS} for r in ev["rules"]]
         out["judgment_rules"] = [r["target_slot"] for r in ev["rules"] if r.get("judgment")]
     out["conflicts"] = pk.get("conflicts", [])
@@ -408,6 +408,186 @@ def _test_applies(t, style_id, D):
     return bool(_style_chain(style_id, D) & set(want))
 
 
+# ---------------------------------------------------------------------------
+# AN EXCEPTION IS A LICENCE, AND UNTIL WP-8.4 NOBODY READ ITS PRECONDITION.
+#
+# `exceptions[].granted_when` (schema/fault.schema.json; called `applies_when`
+# until 28 Aug 2026, which is why nothing here read it -- the schema carried two
+# fields of that name meaning different things) says what has to be true of the
+# WALL, the ROOF or the SITE before the licence is earned. 331 of the corpus's
+# 846 exceptions carry one and all three selection sites below matched on
+# `e["style"] == style` and nothing else, so `architrave-that-is-not-there`'s
+# Pueblo Revival licence -- written for `construction: [adobe, rammed-earth]` --
+# was excusing a house whose style resolves canonically to stucco-over-wood-frame.
+#
+# THREE VERDICTS, AND THE THIRD IS THE POINT. `granted` applies the licence,
+# `refused` withholds it and lets the general rule stand, and `unjudged` says the
+# question cannot be decided from a style id. Unjudged is NOT a quiet grant and
+# NOT a quiet refusal: where the exception carries a `bounds_test` -- which
+# REPLACES the fault's primary test -- an unjudged precondition means nobody can
+# say which of two tests governs the house, so the fault is reported
+# could-not-evaluate rather than being judged by whichever branch we happened to
+# take. That is the same rule `openings.py` follows when it marks an opening
+# `unplaced` instead of inventing a position.
+#
+# WHAT IS EVALUATED, AND WHAT IS COUNTED INSTEAD OF EVALUATED.
+#   * `construction` -- evaluated, always, against the style's RESOLVED kit
+#     through build/construction_vocabulary.py's closed table.
+#   * `date_range`   -- evaluated only where the caller supplies a date in
+#     `context`. Measured over the corpus: of 102 date preconditions, 23 contain
+#     their style's whole floruit and 79 overlap it, and NOT ONE is disjoint from
+#     it -- so a date test against a style's floruit can never refuse a licence
+#     and would convert 79 decidable questions into unjudged ones on the strength
+#     of our own missing input rather than anything about the house.
+#   * `regions`      -- not evaluated, and the reason is measured rather than
+#     assumed: 78 of the 79 region preconditions name a region that CONTAINS the
+#     style's own regions or its hearth ("New England" over a style whose regions
+#     are Massachusetts, Connecticut, Rhode Island; "british-isles" over England,
+#     Scotland, Ireland), so the key restates the style match at a coarser grain.
+#     The one that does not is `lever-on-a-period-door` on `french-eclectic`,
+#     whose regions are France and Continental Europe against a style whose own
+#     region is the United States, and it is named here rather than left to be
+#     found again. Closing this properly needs a gazetteer with containment, not
+#     a mapping table; the 45 tokens in use are free text under two spelling
+#     conventions and the style corpus's 219 region names are free text too.
+#   * `slots`        -- a scope on WHICH slot the licence covers, not a condition
+#     on the house. check_faults.py validates it; it is not a precondition.
+# The unevaluated keys are DISCLOSED on every verdict and counted by
+# `exception_precondition_census()`, never folded into a pass.
+#
+# AN UNEVALUATED KEY DOES NOT BLOCK A GRANT, and that is a deliberate choice
+# stated rather than slipped in. Before this package every one of these
+# preconditions was ignored; reading the ones we can read and refusing where they
+# refuse is a strict improvement, where treating the ones we cannot read as
+# blockers would turn a licence into an unjudged fault on the strength of a
+# missing evaluator rather than a fact about the building.
+_EXC_EVALUATED_KEYS = ("construction",)
+_EXC_COUNTED_KEYS = ("regions", "date_range")
+
+
+@functools.lru_cache(maxsize=1)
+def _kit_graph():
+    rk = _mod("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+    return rk, rk.load_graph()
+
+
+@functools.lru_cache(maxsize=256)
+def _resolved_kit(style_id):
+    """The style's kit AFTER the lineage cascade, or None if it is not a node.
+
+    The cascade, never `load_kit`. Reading a node's own file instead of what it
+    resolves to has already cost this corpus two published wrong numbers
+    (build/check_inheritance.py's own comment), and here it would be worse than
+    wrong: most styles do not bind `construction_type` at all and inherit it."""
+    rk, g = _kit_graph()
+    if style_id not in g["nodes"]:
+        return None
+    return rk.resolve_slots(g, rk.chain_for(g, style_id), rk.scope_for(g, style_id))[0]
+
+
+def grant_exception(exc, style, context=None):
+    """Decide whether an exception's licence is earned. -> dict, never a bool.
+
+    `context` is what the caller knows about THIS house rather than about its
+    style -- `{"declared": {slot: variant_id}, "date": 1820}`. A plan record's
+    own `declared` block is exactly the right thing to pass, and it turns most
+    `unjudged` verdicts into real answers.
+    """
+    out = {"verdict": "granted", "why": "no precondition", "unevaluated": [], "detail": []}
+    if not exc:
+        return out
+    gw = exc.get("granted_when") or {}
+    if not gw:
+        return out
+    context = context or {}
+    declared = context.get("declared") or {}
+    out["unevaluated"] = [k for k in _EXC_COUNTED_KEYS if gw.get(k)]
+
+    tokens = gw.get("construction") or []
+    if tokens:
+        cv = _mod("construction_vocabulary",
+                  os.path.join(ROOT, "build", "construction_vocabulary.py"))
+        kit = _resolved_kit(style)
+        if kit is None:
+            # `style` here is one of the eight `construction:`/`region:` pseudo-ids
+            # check_faults.py permits in exceptions[].style. No caller passes one as
+            # a style, so the exception is unreachable and its precondition cannot be
+            # resolved against anything. Say so rather than granting it.
+            out.update(verdict="unjudged",
+                       why="%r is not a style node, so there is no kit to read" % style)
+            return out
+        verdicts = [(t,) + cv.resolve(t, kit, declared) for t in tokens]
+        out["detail"] = ["%s: %s (%s)" % (t, v, w) for t, v, w in verdicts]
+        kinds = {v for _, v, _ in verdicts}
+        # A construction list is a disjunction: the licence is written for a house
+        # built in ANY of the ways named.
+        if "holds" in kinds:
+            out["why"] = "construction " + "; ".join(
+                "%s %s" % (t, v) for t, v, _ in verdicts if v == "holds")
+        elif kinds <= {"fails"}:
+            out.update(verdict="refused",
+                       why="the style is built in none of %s" % ", ".join(tokens))
+            return out
+        elif kinds <= {"fails", "unmappable"}:
+            out.update(verdict="unjudged",
+                       why="every construction this licence names is either refused by the "
+                           "style or absent from the vocabulary")
+            return out
+        else:
+            out.update(verdict="unjudged",
+                       why="the style permits %s and other constructions too, and nothing "
+                           "in front of us says which one this house is"
+                           % ", ".join(t for t, v, _ in verdicts if v == "undecidable"))
+            return out
+
+    dr = gw.get("date_range")
+    if dr and context.get("date") is not None:
+        out["unevaluated"] = [k for k in out["unevaluated"] if k != "date_range"]
+        lo, hi = dr[0], dr[1]
+        if not (lo <= context["date"] <= hi):
+            out.update(verdict="refused",
+                       why="the house is dated %s, outside this licence's %s-%s"
+                           % (context["date"], lo, hi))
+            return out
+        out["why"] = (out["why"] + "; " if out["why"] != "no precondition" else "") + \
+                     "the house is dated %s, within %s-%s" % (context["date"], lo, hi)
+    return out
+
+
+def exception_precondition_census():
+    """How many exception preconditions this corpus can and cannot resolve.
+
+    Ratcheted by tests/test_exception_preconditions.py. The unevaluable figures
+    are the ones that matter: they are the honest size of what `granted_when`
+    still promises and nothing reads."""
+    D = _data()
+    out = Counter = {"exceptions": 0, "with_granted_when": 0, "construction": 0,
+                     "granted": 0, "refused": 0, "unjudged": 0,
+                     "unevaluated_regions": 0, "unevaluated_date_range": 0,
+                     "substituting_bounds_test": 0, "bounds_test_unjudged": 0}
+    for f in D["faults"].values():
+        for exc in (f.get("exceptions") or []):
+            out["exceptions"] += 1
+            gw = exc.get("granted_when") or {}
+            if not gw:
+                continue
+            out["with_granted_when"] += 1
+            if gw.get("regions"):
+                out["unevaluated_regions"] += 1
+            if gw.get("date_range"):
+                out["unevaluated_date_range"] += 1
+            if not gw.get("construction"):
+                continue
+            out["construction"] += 1
+            g = grant_exception(exc, exc.get("style"))
+            out[g["verdict"]] += 1
+            if exc.get("bounds_test"):
+                out["substituting_bounds_test"] += 1
+                if g["verdict"] == "unjudged":
+                    out["bounds_test_unjudged"] += 1
+    return out
+
+
 def _applies(f, style_id, D):
     if "universal" in f["applies_to"]: return True
     if style_id in f["applies_to"]: return True
@@ -429,8 +609,20 @@ def find_faults(style=None, slot=None, group=None, severity=None, frequency=None
             for e in f.get("exceptions", []):
                 if e["style"] == style: excepted = e; break
         card = _fault_card(f, style)
-        if excepted: card["EXCEPTION_FOR_THIS_STYLE"] = {"why": excepted["why"], "bounds": excepted.get("bounds"),
-                                                        "bounds_test": excepted.get("bounds_test")}
+        if excepted:
+            # WP-8.4: the licence's own precondition is read before it is published.
+            # A card that prints EXCEPTION_FOR_THIS_STYLE is telling an agent it may
+            # stop applying the general rule, so a licence whose condition is refused
+            # or cannot be decided must not be presented as one that holds.
+            g = grant_exception(excepted, style)
+            key = {"granted": "EXCEPTION_FOR_THIS_STYLE",
+                   "refused": "EXCEPTION_NOT_EARNED_BY_THIS_STYLE",
+                   "unjudged": "EXCEPTION_WHOSE_CONDITION_COULD_NOT_BE_JUDGED"}[g["verdict"]]
+            card[key] = {"why": excepted["why"], "bounds": excepted.get("bounds"),
+                         "bounds_test": excepted.get("bounds_test"),
+                         "condition": excepted.get("granted_when"),
+                         "verdict": g["verdict"], "because": g["why"],
+                         "not_evaluated": g["unevaluated"]}
         for inv in f.get("inverted_by", []):
             if style and inv["style"] == style: card["INVERTED_FOR_THIS_STYLE"] = inv["statement"]
         out.append(card)
@@ -442,6 +634,20 @@ def find_faults(style=None, slot=None, group=None, severity=None, frequency=None
                      "a client — a five-foot Georgian portico is a fault by Craftsman standards and correct by its own."),
             "next": "tdl_get_fault for the full record with fixes, or tdl_check_measurements if you have numbers"}
 
+def _exception_card(f, style):
+    """The exception for this style WITH its precondition read (WP-8.4).
+
+    Returned as a copy carrying `granted`, so a caller cannot read the record's
+    `why` and act on a licence the house has not earned. Before this the raw
+    record was returned and every reader took it as unconditional."""
+    exc = next((e for e in f.get("exceptions", []) if e["style"] == style), None)
+    if not exc:
+        return None
+    g = grant_exception(exc, style)
+    return {**exc, "granted": g["verdict"], "granted_because": g["why"],
+            "precondition_not_evaluated": g["unevaluated"]}
+
+
 def get_fault(fault_id, style=None):
     D = _data(); f = D["faults"].get(fault_id)
     if not f:
@@ -451,7 +657,7 @@ def get_fault(fault_id, style=None):
         out["for_this_style"] = {
             "applies": _applies(f, style, D),
             "severity": next((s["severity"] for s in f.get("severity_by_style", []) if s["style"] == style), f["severity"]),
-            "exception": next((e for e in f.get("exceptions", []) if e["style"] == style), None),
+            "exception": _exception_card(f, style),
             "inverted": next((i for i in f.get("inverted_by", []) if i["style"] == style), None)}
     return out
 
@@ -573,7 +779,8 @@ def check_style_constraints(style, measurements):
                      "could_not_judge is unknown, not passed. judgment_only lists hard constraints "
                      "with no test at all -- scope: judgment, or simply not yet migrated.")}
 
-def check_measurements(measurements, style=None, slot=None, include_needed=True, limit=40):
+def check_measurements(measurements, style=None, slot=None, include_needed=True, limit=40,
+                       context=None):
     """Evaluate every applicable fault test against a dict of measurements.
 
     This is the corpus made executable: give it what you can measure from a photograph or a
@@ -583,12 +790,13 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
     three for a day after the fourth shipped."""
     D = _data()
     present, clear, needed, not_applicable = [], [], [], []
-    for f in D["faults"].values():
-        if slot and slot not in f["slots"]: continue
-        if style and not _applies(f, style, D): continue
-        tests = [f.get("test")] + list(f.get("secondary_tests") or [])
-        exc = next((e for e in f.get("exceptions", []) if style and e["style"] == style), None)
-        if exc and exc.get("bounds_test"): tests = [exc["bounds_test"]] + tests[1:]
+
+    def _judge(f, tests):
+        """Evaluate one test list and say which of the four states it lands in.
+
+        Factored out of the loop by WP-8.4 so a fault whose exception precondition
+        cannot be resolved can be judged BOTH WAYS and the two answers compared.
+        Returns (state, row)."""
         # OQ 63: a test scoped to another style is not run at all. Not run is not the same as
         # passed -- a test that is not for this house says nothing about this house, and the
         # fault's judgement rests on the tests that ARE for it.
@@ -596,7 +804,8 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         results = [r for r in (_eval_test(t, measurements) for t in tests) if r]
         ev = [r for r in results if r["status"] == "evaluated"]
         if not ev:
-            miss = sorted({m for r in results if r["status"] == "need_measurements" for m in r["missing"]})
+            miss = sorted({m for r in results if r["status"] == "need_measurements"
+                           for m in r["missing"]})
             errs = sorted({r["detail"] for r in results if r["status"] == "error"})
             # THE FOURTH STATE, and it exists for the same reason as the `errs` branch below it.
             # A test may now decline on a MEASUREMENT (`applies_when`), not only on a style: zero
@@ -607,44 +816,117 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
             # its own list; it is not a pass, and it is not an unjudged either.
             declined = [r for r in results if r["status"] == "not_applicable"]
             if declined and not miss and not errs:
-                not_applicable.append({"fault": f["id"], "name": f["name"],
-                                       "because": sorted({r["because"] for r in declined}),
-                                       "required": sorted({r["required"] for r in declined}),
-                                       "note": "Every test of this fault is preconditioned on a "
-                                               "measurement this house does not meet, so none was "
-                                               "run. Not a pass -- the question does not arise."})
-                continue
+                return "not_applicable", {
+                    "fault": f["id"], "name": f["name"],
+                    "because": sorted({r["because"] for r in declined}),
+                    "required": sorted({r["required"] for r in declined}),
+                    "note": "Every test of this fault is preconditioned on a measurement this "
+                            "house does not meet, so none was run. Not a pass -- the question "
+                            "does not arise."}
             # `errs` is why this branch exists in this shape. A fault whose every test
             # ERRORED produced no `ev` and no `miss`, so it was appended to nothing: not
-            # present, not clear, not unjudged, and absent from the summary counts — a
+            # present, not clear, not unjudged, and absent from the summary counts -- a
             # fault that silently vanished, which reads to a caller exactly like clear.
             # That is the one collapse this corpus forbids above all others.
-            if include_needed and (miss or errs):
+            if miss or errs:
                 row = {"fault": f["id"], "name": f["name"], "needs": miss,
                        "measurable_from": f.get("test", {}).get("measurable_from")}
                 if errs:
                     row["errors"] = errs
-                needed.append(row)
-            continue
+                return "needed", row
+            return "silent", None
         failing = [r for r in ev if r["passes"] is False]
-        row = {"fault": f["id"], "name": f["name"], "severity": next(
-                 (s["severity"] for s in f.get("severity_by_style", []) if s["style"] == style), f["severity"]),
-               "slots": f["slots"], "results": ev}
-        if failing:
-            # The tests that actually failed, kept apart from the ones that merely ran. A fault
-            # with secondary tests can have its PRIMARY pass and a secondary fail -- which is
-            # the fault being present -- and a caller reporting results[0] then quotes the
-            # passing number as the evidence. build/plan_check.py did exactly that: a Cape with
-            # two chimneys was reported as "The House With No Fire: 2 against at-least 1", a
-            # sentence in which every number is right and the claim is nonsense.
-            row["failing"] = failing
-            row["symptom"] = f["symptom"]
-            row["fix_cheap"] = (f.get("fixes") or {}).get("cheap")
-            row["fix_right"] = (f.get("fixes") or {}).get("right")
-            if exc: row["exception_applied"] = exc["why"]
+        if not failing:
+            return "clear", {"fault": f["id"], "name": f["name"], "results": ev}
+        # The tests that actually failed, kept apart from the ones that merely ran. A fault
+        # with secondary tests can have its PRIMARY pass and a secondary fail -- which is
+        # the fault being present -- and a caller reporting results[0] then quotes the
+        # passing number as the evidence. build/plan_check.py did exactly that: a Cape with
+        # two chimneys was reported as "The House With No Fire: 2 against at-least 1", a
+        # sentence in which every number is right and the claim is nonsense.
+        return "present", {
+            "fault": f["id"], "name": f["name"],
+            "severity": next((s["severity"] for s in f.get("severity_by_style", [])
+                              if s["style"] == style), f["severity"]),
+            "slots": f["slots"], "results": ev, "failing": failing,
+            "symptom": f["symptom"],
+            "fix_cheap": (f.get("fixes") or {}).get("cheap"),
+            "fix_right": (f.get("fixes") or {}).get("right")}
+
+    for f in D["faults"].values():
+        if slot and slot not in f["slots"]: continue
+        if style and not _applies(f, style, D): continue
+        tests = [f.get("test")] + list(f.get("secondary_tests") or [])
+        exc = next((e for e in f.get("exceptions", []) if style and e["style"] == style), None)
+        # WP-8.4. A `bounds_test` REPLACES the fault's primary test, so the licence's
+        # own precondition decides which of two rules judges this house. Three
+        # outcomes:
+        #   granted  -> substitute, as before.
+        #   refused  -> the general rule stands. This is where a licence stops
+        #               excusing a house that never earned it.
+        #   unjudged -> nobody can say which of the two rules governs. JUDGE BOTH
+        #               WAYS AND COMPARE. Where the two agree the unresolved
+        #               precondition changes nothing and the fault is answered --
+        #               reporting could-not-evaluate there would be a fake unjudged,
+        #               which is as dishonest in its own direction as a fake pass.
+        #               Where they disagree the answer really does turn on the
+        #               question we cannot resolve, and THAT is could-not-evaluate.
+        grant = grant_exception(exc, style, context) if exc else None
+        immaterial = None
+        if exc and exc.get("bounds_test") and grant["verdict"] != "refused":
+            under_exc = [exc["bounds_test"]] + tests[1:]
+            if grant["verdict"] == "granted":
+                tests = under_exc
+            else:
+                sa, ra = _judge(f, under_exc)
+                sb, rb = _judge(f, tests)
+                if sa != sb:
+                    if include_needed:
+                        needed.append({
+                            "fault": f["id"], "name": f["name"], "needs": [],
+                            "measurable_from": f.get("test", {}).get("measurable_from"),
+                            "exception_unjudged": {
+                                "style": exc["style"], "because": grant["why"],
+                                "condition": exc.get("granted_when"),
+                                "not_evaluated": grant["unevaluated"],
+                                "under_the_exception": sa, "under_the_general_rule": sb,
+                                "note": "This style carries an exception whose own bounds_test "
+                                        "REPLACES the fault's primary test, and whose "
+                                        "precondition could not be resolved from the style "
+                                        "alone. The two rules disagree about this house, so "
+                                        "which one governs decides the verdict and nobody can "
+                                        "say which one governs. Supply the house's own "
+                                        "construction to settle it."}})
+                    continue
+                immaterial = {"style": exc["style"], "verdict": grant["verdict"],
+                              "because": grant["why"],
+                              "note": "The exception's precondition could not be resolved, but "
+                                      "its bounds_test and the general rule reach the same "
+                                      "verdict on this house, so it does not matter which "
+                                      "governs."}
+
+        state, row = _judge(f, tests)
+        if state == "present":
+            # Only a licence actually EARNED is reported as applied. Until WP-8.4 this
+            # printed the exception's `why` beside every failing finding on the style,
+            # telling a reader the fault was excused when nothing had checked whether
+            # its condition held.
+            if exc and grant["verdict"] == "granted":
+                row["exception_applied"] = exc["why"]
+            elif exc:
+                row["exception_not_applied"] = {"why": exc["why"], "verdict": grant["verdict"],
+                                                "because": grant["why"]}
+            if immaterial:
+                row["exception_unjudged_but_immaterial"] = immaterial
             present.append(row)
-        else:
-            clear.append({"fault": f["id"], "name": f["name"], "results": ev})
+        elif state == "clear":
+            if immaterial:
+                row["exception_unjudged_but_immaterial"] = immaterial
+            clear.append(row)
+        elif state == "not_applicable":
+            not_applicable.append(row)
+        elif state == "needed" and include_needed:
+            needed.append(row)
     present.sort(key=lambda r: SEV.index(r["severity"]) if r["severity"] in SEV else 3)
     return {"style": style, "measurements_given": sorted(measurements),
             "faults_present": present, "faults_clear": clear[:limit],

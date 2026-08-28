@@ -80,7 +80,7 @@
         "measurable_from": "photograph",
         "note": "The false street door must be present and must be a real door in a real surround, opening onto the piazza with the true entrance at least one bay back. Deleting it and entering from the sidewalk destroys the type."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "south-carolina-lowcountry"
         ]
@@ -98,7 +98,7 @@
         "measurable_from": "photograph",
         "note": "Ornament is concentrated at a SINGLE door, gate or window grille. There must be exactly one; it may be the courtyard gate rather than the house door, but it may not be two."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "mass-wall",
           "adobe",
@@ -118,7 +118,7 @@
         "measurable_from": "photograph",
         "note": "Both doors identical, both full-height casements, no interior corridor. Two different doors, one grander, is not this exception."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi"

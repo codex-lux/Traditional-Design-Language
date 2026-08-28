@@ -72,7 +72,7 @@
       "style": "creole-cottage-vernacular",
       "why": "The openings on the front of a Creole cottage are full-height French casement doors, and louvred blinds hung on doors rather than on windows is the type's own diagnostic.",
       "bounds": "The blinds are on doors, are full height, and cover the whole leaf; this licenses blinds on door openings, not on ganged windows.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "secondary_door",
           "entry_door"
@@ -104,7 +104,7 @@
         "measurable_from": "photograph",
         "note": "The licence is about height, not about ganging or curvature: full-height blinds on single rectangular openings."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "south-carolina-lowcountry"
         ],

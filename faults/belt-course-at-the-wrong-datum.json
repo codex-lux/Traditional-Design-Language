@@ -57,7 +57,7 @@
         "threshold": 2.0,
         "note": "Multiple bands are licence. Each must still be continuous round the volume and subordinate to the cornice, which in Italianate is 18-36 in of bracketed eave and therefore easily clears the factor of two."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "belt_course",
           "cornice"
@@ -90,7 +90,7 @@
         "threshold": 0,
         "note": "Omission is correct, because a frame wall has no thickness change to weather. A belt that exists must still be at the right line, so this bound is about presence and not about placement."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "braced-timber-frame",
           "balloon-frame",

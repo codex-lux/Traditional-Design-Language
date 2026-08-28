@@ -63,7 +63,7 @@
         "threshold": 20,
         "note": "The entablature is one quarter to one fifth of column height, so the assembly gets DEEPER, not shallower. Flattening is of the profile only."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "entablature",
           "frieze",
@@ -84,7 +84,7 @@
         "upper": 36,
         "note": "Requires the brackets, which are the structural argument for the depth, and the low suppressed roof that goes with it. An Italianate cornice on a Federal house is as wrong as a Federal one on an Italianate."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "modillion_dentil",
           "eave_condition",
@@ -105,7 +105,7 @@
         "upper": 12,
         "note": "Cut tight with no fascia expression at all. This is a licence to have no cornice, not to have a small one."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "eave_condition",
           "primary_cladding"
@@ -124,7 +124,7 @@
         "threshold": 0,
         "note": "Requires the parapet and the canales. Absence with a pitched roof behind it is parapet-as-stage-flat."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "parapet",
           "roof_form"
@@ -143,7 +143,7 @@
         "threshold": 24,
         "note": "The depth is in the overhang and the structural members, and the rafter tails must be real, continuous with the rafters and shaped. A 12 in overhang with applied false tails is the fault wearing Craftsman clothes."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "eave_condition",
           "rake_condition"

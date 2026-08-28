@@ -95,7 +95,7 @@
       "style": "queen-anne-american",
       "why": "Queen Anne is a knowing eclecticism: half-timbering, patterned shingles, classical columns, terracotta panels and turned spindlework on one house, held together by a single picturesque compositional logic, a consistent scale of member, and a consistent relief depth. The variety is orchestrated rather than accumulated.",
       "bounds": "The combination must be held by something: a consistent relief depth, a consistent member scale, and a compositional hierarchy in which each vocabulary belongs to a distinct mass or surface. Three vocabularies on one flat plane with no hierarchy is the fault in this style too, and the discriminator is whether the massing is genuinely broken.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1875,
           1905
@@ -106,7 +106,7 @@
       "style": "queen-anne-free-classic",
       "why": "The Free Classic subtype is defined by using classical fragments within a picturesque composition, which is two vocabularies by definition.",
       "bounds": "Two, not three, and the classical fragments must all come from ONE order.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1885,
           1910
@@ -117,7 +117,7 @@
       "style": "charleston-single-house",
       "why": "Superimposed piazza orders put two complete orders on one elevation and this is correct, documented and characteristic.",
       "bounds": "Storey-separated, heavier below, each complete with its own entablature. This is superimposition, not mixture.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "charleston",
           "lowcountry"
@@ -128,7 +128,7 @@
       "style": "american-farmhouse-vernacular",
       "why": "A vernacular farmhouse that has grown over a hundred and fifty years genuinely carries a Greek Revival cornice, an 1890 porch and a 1930 kitchen wing, and the accumulation is the building's history and its charm.",
       "bounds": "Each layer must occupy a whole mass or a whole element with a legible junction and its own materials and datum. Real layering has seams; fabricated layering distributes the vocabularies evenly and has none. The test is whether the junctions are visible.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "wing_strategy",
           "composition_parti"
@@ -140,7 +140,7 @@
       "style": "storybook-style",
       "why": "The idiom's method is a deliberate collage of cottage motifs pushed to caricature, and internal consistency of period is not one of its rules.",
       "bounds": "The collage must be cottage vocabulary throughout — no classical orders, no Craftsman structure — and must be executed with the style's characteristic exaggeration rather than as a set of catalogue options.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1920,
           1940

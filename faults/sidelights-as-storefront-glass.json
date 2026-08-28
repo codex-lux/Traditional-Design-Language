@@ -77,7 +77,7 @@
         "measurable_from": "photograph",
         "note": "Delicately divided, often with leaded tracery matching the fanlight, set flush in the wall rather than in a projecting frontispiece."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1785,
           1830

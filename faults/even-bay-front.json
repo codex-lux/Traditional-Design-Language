@@ -211,7 +211,7 @@
         "measurable_from": "photograph",
         "note": "The growth grammar must be visible and complete - door offset, chimney offset differently, openings in the quarter-half-three-quarter sequence. A full five-bay Cape with an off-centre door is still the fault."
       },
-      "applies_when": {
+      "granted_when": {
         "note": "Applies only to the incomplete Cape - quarter, half and three-quarter. The full Cape is centred and is governed by the rule."
       }
     }

@@ -55,7 +55,7 @@
         "threshold": 0.083,
         "note": "One twelfth to one eighth of span, as a single member with visible bearing at each end. A soldier course of brick is not a lintel and fails this on unit count before it fails on depth."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "window_head_masonry",
           "window_head_wood"

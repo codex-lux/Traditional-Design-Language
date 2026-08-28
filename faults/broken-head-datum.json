@@ -81,7 +81,7 @@
         "measurable_from": "photograph",
         "note": "Each gable or wall plane is its own composition and holds its own datum internally. The picturesque licence operates BETWEEN planes, never within one."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "gable_treatment",
           "composition_parti"
@@ -101,7 +101,7 @@
         "measurable_from": "photograph",
         "note": "This is the exception most often claimed and least often earned. It requires the mass wall and the deep reveal that make the placement read as thickness rather than as carelessness."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "mass-wall",
           "adobe",

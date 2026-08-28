@@ -67,7 +67,7 @@
         "threshold": 1.5,
         "note": "Jetty, drip course or oversail. Below 1.5 in the change is flush and the Tudor licence has become the flush-change fault; a genuine jetty runs 4-16 in."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "material_change_rule",
           "secondary_cladding"
@@ -87,7 +87,7 @@
         "threshold": 1.0,
         "note": "Each band must be complete on every elevation of the volume. Stone on the front porch base with the return in siding fails this at 0.5."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "porch_type",
           "roof_form"

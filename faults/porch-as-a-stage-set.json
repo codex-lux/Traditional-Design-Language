@@ -88,7 +88,7 @@
       "style": "italianate-townhouse",
       "why": "The stoop is the outdoor social space and is 4 to 6 ft deep at the top landing, raised 4 to 7 ft above the sidewalk. Its privacy comes entirely from height.",
       "bounds": "Requires the 6 to 10 riser stoop; a stoop at grade has neither the height nor the depth.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ]

@@ -62,7 +62,7 @@
         "threshold": 1.0,
         "note": "Terminates at a real line — porch deck, porch-roof line or first-floor plate — and runs round the whole volume it belongs to. A pier base may be taller than a wall base; neither may stop in mid-wall."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "porch_type",
           "foundation_expression"
@@ -82,7 +82,7 @@
         "threshold": 0.5,
         "note": "Following the site means the BOTTOM of the stone varies with grade. The top does not: it rises to a storey line, level, and wraps the whole ground storey."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "primary_cladding"
         ],

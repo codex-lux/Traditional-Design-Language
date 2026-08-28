@@ -54,7 +54,7 @@
         "measurable_from": "photograph",
         "note": "Both identical, both full-height, no interior corridor, and the type must have the four-room square plan that produces them."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi"
@@ -73,7 +73,7 @@
         "measurable_from": "section",
         "note": "Ceilings 12 to 14 ft, every principal room opening onto the gallery through full-height French casement doors, no interior corridor."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "lower-mississippi",
           "gulf-coast"
@@ -92,7 +92,7 @@
         "measurable_from": "plan",
         "note": "Two pens with an open passage between them. Where the passage has been enclosed the type has changed and the door gradient returns."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "upland-south",
           "appalachia"
@@ -112,7 +112,7 @@
         "measurable_from": "photograph",
         "note": "The street door opens onto the piazza, not into the house, and the true entrance is at least one bay back."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "south-carolina-lowcountry"
         ]

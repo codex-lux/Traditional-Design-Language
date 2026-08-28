@@ -60,7 +60,7 @@
         "threshold": 0.5,
         "note": "The horizontals stay level; it is the AMOUNT of stone visible that varies. The test is entirely unchanged — a bank house with a raked water table is the fault in a hillside costume."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "grade_relationship",
           "foundation_expression"
@@ -79,7 +79,7 @@
         "threshold": 1.0,
         "note": "This reads as licence only where the wall itself is rubble and irregular in every dimension — an accumulated historical condition, not a design method. Building a new wandering base course on a plumb, straight wall is reproducing damage."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"

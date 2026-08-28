@@ -93,7 +93,7 @@
       "style": "minimal-traditional",
       "why": "The 1935-1950 minimal traditional entry genuinely is a small hood on brackets with slender square or wrought-iron posts, and the reduction is the style's whole economic argument. It never claimed a portico.",
       "bounds": "The posts must be frankly non-classical — square, wrought iron, or a plain turned rod — and there must be no capital, no base and no entablature. The moment a round shaft with a moulded capital appears, the order has been claimed and must be honoured.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1955
@@ -104,7 +104,7 @@
       "style": "charleston-single-house",
       "why": "The Charleston street door is a false door into the piazza, and the piazza columns beyond it stand on the piazza's own line rather than answering anything on the street front. The apparent disconnection is the plan working correctly.",
       "bounds": "Applies only where the piazza is real, runs the depth of the house on the flank, and the street door genuinely opens onto it. It is not a licence for a decorative column pair on a front elevation.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "charleston",
           "lowcountry"

@@ -86,10 +86,29 @@
     },
     "roof_material": {
       "group": "massing-and-roof",
-      "binding": "open",
-      "variants": [],
-      "parameters": {},
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Red clay barrel or mission tile, at 3:12 to 5:12, with minimal or no eave overhang.",
+      "variants": [
+        {
+          "id": "clay-tile-barrel",
+          "status": "canonical",
+          "note": "The node's own defining_characteristics: 'Low-pitched roof, 3:12 to 5:12, in red clay barrel or mission tile, with minimal or no eave overhang', and its own hard constraint repeats the material."
+        },
+        {
+          "id": "slate",
+          "status": "forbidden",
+          "note": "Nothing in this tradition is roofed in slate, and the fault corpus turns on the material: `pitch-below-material-shed-limit` licences 3:12 in barrel tile BECAUSE each pan tile is a trough, and refuses it for a lapped plate."
+        }
+      ],
+      "note": "BOUND 28 AUG 2026 (WP-8.4), on the node's own evidence. It was `open` with an empty variant list, and OQ 87's mechanism resolved it from `french-baroque` -- nine steps along a 59-node chain -- delivering `slate` CANONICAL with a note quoting Vaux-le-Vicomte. The corpus was stating that a Spanish Colonial Revival house is roofed in French Baroque slate. Found by WP-8.4's exception gate: the barrel-tile pitch licence was refused for the one style it was written for, and the general shed-limit rule then acquitted the house, so the corruption showed up as an ACQUITTAL rather than a conviction. A refusal that makes a fault go away is as much a finding as one that makes a fault appear.",
+      "sources": [
+        "spanish-colonial-revival.json defining_characteristics",
+        "spanish-colonial-revival.json description.long",
+        "spanish-colonial-revival.json constraints (roof pitch and material)"
+      ],
+      "status": "drafted"
     },
     "eave_condition": {
       "group": "massing-and-roof",

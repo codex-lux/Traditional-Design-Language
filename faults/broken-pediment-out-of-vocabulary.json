@@ -115,7 +115,7 @@
       "style": "dutch-colonial-american",
       "why": "The Dutch and Anglo-Dutch tradition puts scrolled and moulded forms on gable ends as parapets, and the Hudson Valley and New Jersey work has documented curvilinear gable treatments.",
       "bounds": "These are gable PARAPETS in masonry, not pediments: they have no horizontal cornice across the base, no entablature and no tympanum. Where a horizontal cornice appears, a pediment has been claimed and the rule returns.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "hudson-valley",
           "new-jersey"

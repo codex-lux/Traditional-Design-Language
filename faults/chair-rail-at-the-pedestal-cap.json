@@ -92,7 +92,7 @@
         "measurable_from": "section",
         "note": "The ceiling at which ceiling x 4/19 reaches 28 in. Full agreement with the measured band's centre at 142.5 in."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "South Carolina and Georgia low country",
           "Chesapeake"
@@ -109,7 +109,7 @@
       "style": "italianate-townhouse",
       "why": "Parlour-floor ceilings of 11 to 13 ft in the urban row house bring the derivation back into range, and a dado cap at 28 to 30 in in such a room is both derived and correct.",
       "bounds": "Parlour floor only. The same house's upper floors run 9 to 10 ft and the rule fails there, which is why a townhouse should be drawn floor by floor and not once.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "ceiling_height_rule"
         ],

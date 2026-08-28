@@ -202,10 +202,10 @@
       "$ref": "#/properties/test",
       "description": "The numeric form of `bounds`, so an exception can be checked rather than merely read. Without it an exception becomes a loophole."
      },
-     "applies_when": {
+     "granted_when": {
       "type": "object",
       "additionalProperties": false,
-      "description": "An exception often depends on construction or region, not only on style: the Shingle Style corner licence holds only where the cladding is actually shingle, and only where the corner is woven.",
+      "description": "A precondition on the CONTEXT -- the wall, the roof, the site -- as `applies_to_styles` is a precondition on the style and `test.applies_when` is a precondition on the measurements. An exception often depends on construction or region, not only on style: the Shingle Style corner licence holds only where the cladding is actually shingle, and only where the corner is woven. RENAMED FROM `applies_when` ON 28 AUG 2026 (WP-8.4). This schema carried two fields of that name meaning different things -- one a precondition on measurements, evaluated since WP-5.13; this one a precondition on context, populated on 331 exceptions and evaluated by nothing at all for as long as it had existed. Two mechanisms under one name is the condition under which `the guard exists` and `the guard runs` become indistinguishable to a reader, and this pair spent a year in exactly that state. An exception is a LICENCE, so a precondition nobody reads is not a harmless omission: `architrave-that-is-not-there` was excusing a stucco-over-wood-frame Pueblo Revival house under a licence written for an adobe wall. `construction` is evaluated against the style's RESOLVED kit through build/construction_vocabulary.py, which is a closed table; `date_range` against the style's own period. Where the answer cannot be decided from a style alone the exception is NOT GRANTED and NOT REFUSED -- it is unjudged, and a bounds_test that cannot be resolved makes the whole fault could-not-evaluate rather than silently taking one branch. `regions` is NOT evaluated and is counted: the 45 tokens in use are free text under two spelling conventions and the style corpus's own 219 region names are free text too, so closing it needs a gazetteer ruling and not a mapping.",
       "properties": {
        "construction": {
         "type": "array",

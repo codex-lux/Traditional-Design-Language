@@ -65,7 +65,7 @@
         "measurable_from": "photograph",
         "note": "3 in on a 36 in opening is 0.083. The refusal must be systematic: no corner boards, no projecting heads, no moulded sills, shingles over corners."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "shingle-cladding"
         ]
@@ -125,7 +125,7 @@
         "measurable_from": "photograph",
         "note": "THE LINE, STATED. The licence is on profile, not on width. 5 to 7 in flat boards in a strict second value against the wall; below 5 in neither shadow nor contrast is working."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           2010,
           2030

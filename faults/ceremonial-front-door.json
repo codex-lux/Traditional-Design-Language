@@ -60,7 +60,7 @@
       "style": "charleston-single-house",
       "why": "The street door is a FALSE door in a screen wall and is meant to be opened by visitors onto the piazza; the true entrance is one bay back along the piazza. Two doors of different kinds, both designed, both used, and the ceremonial one is deliberately not the door to the house.",
       "bounds": "The false door must open onto a real piazza of 8 ft minimum on the south or west flank, and the true door must be at least one bay back along it. Deleting the false door and entering from the sidewalk destroys the type's threshold sequence.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "entry_sequence",
           "street_relationship"
@@ -76,7 +76,7 @@
       "style": "american-farmhouse-vernacular",
       "why": "The farmhouse's real entrance has always been the porch in the reentrant corner of the L facing the farm drive, with the formal front door facing the public road and used rarely. This is a documented two-door arrangement, and the working door is the designed one.",
       "bounds": "The working entrance must be the sheltered one - a porch at least 6 ft deep in the inside corner - and the formal door must face a genuine public road. A garage slab door standing in for the porch is not this.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "porch_type"
         ],

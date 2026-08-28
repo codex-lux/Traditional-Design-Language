@@ -152,7 +152,7 @@
         "upper": 12,
         "note": "And the suppression must be total: no corner board, water table, belt course or frieze anywhere on the building."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "wood-shingle-cladding"
         ],

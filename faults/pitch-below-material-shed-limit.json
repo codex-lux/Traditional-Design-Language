@@ -87,7 +87,7 @@
         "upper": 22.6,
         "note": "2.5:12 to 5:12, and only with a pan-and-cover or S-profile tile."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "clay-tile-barrel",
           "clay-tile-mission"
@@ -122,7 +122,7 @@
         "upper": 26.6,
         "note": "4:12 to 6:12 in seamed - not lapped - metal. A metal shingle or a lapped nonsoldered panel still needs 3:12."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "standing-seam-metal",
           "soldered-flat-seam-metal"

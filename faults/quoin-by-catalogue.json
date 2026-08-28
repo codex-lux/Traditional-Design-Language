@@ -58,7 +58,7 @@
         "threshold": 2,
         "note": "Baroque enlarges the unit — 24-36 in long faces — and it does not free the unit from the wall. The exaggeration must be of a real stone quoin with 2-4 in of rustication and must still course."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"
@@ -77,7 +77,7 @@
         "threshold": 0.6,
         "note": "Rubble walling has no consistent course to align to, so strict alternation is not expected and the alignment test is relaxed rather than dropped. The dressings must still be real dressed stone with visible bed and joint lines in a rubble field."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-three-wythe"
         ],
@@ -99,7 +99,7 @@
         "upper": 1.25,
         "note": "Wood or stucco quoins as flat panels of consistent projection on a rendered or boarded wall, alternating consistently. They may not appear on a brick veneer, where they claim to be masonry."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "braced-timber-frame",
           "balloon-frame",

@@ -89,7 +89,7 @@
       "style": "rural-gothic-villa",
       "why": "Downing's picturesque villa is deliberately set in an informally planted, unenclosed ground, with the lawn sweeping to the house and the boundary dissolved - it is the tradition that produced the American lawn, and within it the absence of a forecourt is the programme.",
       "bounds": "The ground must actually be picturesque: irregular planting masses, a curved approach drive, specimen trees, a lawn with modelled ground rather than a flat mown rectangle. A flat turf panel between a kerb and a house is not a picturesque landscape, it is the residue of one.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1840,
           1890

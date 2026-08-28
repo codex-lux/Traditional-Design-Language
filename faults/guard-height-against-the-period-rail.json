@@ -117,7 +117,7 @@
       "style": "charleston-single-house",
       "why": "The upper piazza guard on a two-storey piazza is genuinely a fall hazard at 10 ft and period Charleston examples run taller than 33 in.",
       "bounds": "Only on the UPPER tier. The ground-floor piazza rail takes the period height, and the two tiers may legitimately differ.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "charleston",
           "lowcountry"

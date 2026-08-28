@@ -62,7 +62,7 @@
         "threshold": 1.0,
         "note": "Regional bracing patterns — Mann, wilder Mann, Andreaskreuz — elaborate WITHIN a panel and still resolve. The test is unchanged; only the expected pattern complexity rises."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "Germany",
           "Alsace",

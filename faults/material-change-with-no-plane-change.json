@@ -58,7 +58,7 @@
         "threshold": 12,
         "note": "The porch roof must actually be there. A 'porch line' band on a wall with no porch under it fails at zero and is the fault."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "porch_type",
           "roof_form"
@@ -78,7 +78,7 @@
         "threshold": 1.0,
         "note": "The flare — doubled or tripled butts over 2-3 courses — is doing the plane change quietly. A dead-flush shingle-to-stone joint gives zero and is still a fault; the style suppresses articulation, it does not suppress depth."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "primary_cladding",
           "secondary_cladding"
@@ -111,7 +111,7 @@
         "threshold": 1.5,
         "note": "Jetty, drip course or oversail. A flush stucco-over-brick joint on a Tudor Revival wall is the fault in a costume."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "material_change_rule"
         ],

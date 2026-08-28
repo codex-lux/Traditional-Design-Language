@@ -58,7 +58,7 @@
         "measurable_from": "photograph",
         "note": "The style's own floor. Below 0.45 the licence lapses and the fault returns at full severity."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1950

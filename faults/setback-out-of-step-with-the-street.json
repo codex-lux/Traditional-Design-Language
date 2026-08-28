@@ -61,7 +61,7 @@
       "style": "charleston-single-house",
       "why": "The type turns its narrow end to the street and its long flank runs back into the lot, so what holds the street is the garden wall and the gate rather than the house front. A street of single houses has a strong street edge and almost no consistent house setback at all.",
       "bounds": "The garden wall or fence must be on the street line and continuous, with the gate on it. Delete the wall and the street has nothing.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "fence_wall",
           "street_relationship"
@@ -77,7 +77,7 @@
       "style": "andalusian-courtyard-vernacular",
       "why": "Built to the street line with no setback at all; the rule is inverted and any setback breaks the street wall.",
       "bounds": "Zero setback held continuously along the frontage.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "zero-lot-line",
           "street-wall"

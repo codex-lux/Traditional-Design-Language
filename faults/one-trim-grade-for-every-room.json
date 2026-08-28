@@ -68,7 +68,7 @@
       "style": "craftsman",
       "why": "The Craftsman family grades far less, and deliberately. The head casing assembly and the picture rail run at the same height and section through the public rooms as an unbroken datum, and the argument of the interior is continuity rather than rank — the bungalow's whole social claim is that it has no state rooms.",
       "bounds": "The grading that survives is by MATERIAL and by ROOM TYPE, not by member: stain-grade fir or oak in the living, dining and hall, paint-grade pine in the bedrooms and service rooms, and the plate rail only in the dining room. The picture rail may be omitted in bedrooms. What is not graded is the casing section, and reducing it below 3 1/2 in anywhere destroys the head overhang.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "casing",
           "trim_family"

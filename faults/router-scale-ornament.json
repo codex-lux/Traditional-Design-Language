@@ -98,7 +98,7 @@
       "style": "greek-revival-american",
       "why": "Greek Revival ornament is deliberately geometric, flat and repeated: the fret, the anthemion, the guilloche and flat fluting are drawn with compass and straightedge, are meant to be regular, and were themselves executed with mechanical aids from the 1830s onward. Uniformity is the manner rather than a betrayal of it.",
       "bounds": "The motif must be one of the geometric Grecian ones and the ARRIS must be sharp — a Greek fret with rounded corners is still the fault, because the fret's whole content is its right angles. Regularity is licensed; a constant radius at a corner that should be square is not.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1820,
           1870
@@ -109,7 +109,7 @@
       "style": "folk-victorian",
       "why": "Sawn ornament — brackets, spindle friezes, gable trusses — is machine work by definition and was cut on a scroll saw or a band saw from a template, identically, hundreds of times. The machine origin is the style's history.",
       "bounds": "It must be SAWN work, which is flat cut-out ornament in a board, not modelled relief. Sawn ornament has no internal corners to round and no undercut to miss; the machine argument does not extend to a routered acanthus.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1910

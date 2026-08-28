@@ -54,7 +54,7 @@
         "threshold": 1.0,
         "note": "Authenticity of the type does not relax the liner or the overflow. If anything it raises the stakes, because the entablature is the most expensive fabric on the building. The test is entirely unchanged."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "entablature",
           "cornice",
@@ -87,7 +87,7 @@
         "threshold": 1.0,
         "note": "Internal drainage in an urban party-wall building must have an overflow to the street face by code as well as by sense; the residential version usually has neither."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "parapet",
           "rainwater"

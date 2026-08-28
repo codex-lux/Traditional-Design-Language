@@ -113,7 +113,7 @@
         "measurable_from": "photograph",
         "note": "Capped in the field's own shingle, not in a contrasting accessory colour, and running the full ridge rather than stopping short."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "composition-shingle",
           "asphalt-laminate"

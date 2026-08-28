@@ -109,7 +109,7 @@
       "style": "creole-cottage-vernacular",
       "why": "Creole and Caribbean gallery rails use slender turned or sawn balusters at wider spacing, matching the lightness of the colonnettes; density would make the gallery read heavier than its supports.",
       "bounds": "The whole gallery must be light — slender colonnettes, thin rail, no entablature — and the balusters must be turned or shaped rather than plain stock.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi",

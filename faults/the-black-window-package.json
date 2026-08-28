@@ -53,7 +53,7 @@
         "threshold": 1.5,
         "note": "A genuine steel casement's frame is 1 to 1 1/2 in wide against a clad wood unit's 3-4 in. A fat black frame in a Tudor opening reads as the modern product it is, and the slenderness is the whole reason the dark colour works."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "window_type",
           "glazing_assembly"
@@ -72,7 +72,7 @@
         "threshold": 6,
         "note": "The wall must have the reveal. Black sash flush in a thin stucco wall is a graphic effect, not a void."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "solid-masonry-two-wythe",
@@ -118,7 +118,7 @@
         "threshold": 0,
         "note": "A black modern window with no divided lights is a defensible choice; a black modern window with a snap-in colonial grille is two claims that contradict each other. The bound is zero grille bars, not a depth."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "window_lite_pattern",
           "glazing_assembly"
@@ -137,7 +137,7 @@
         "threshold": 2.0,
         "note": "The effect is the CONTRAST, not the black: dark sash reads as a void punched in a marble mass only against white or very light trim. Black sash in black trim on a white body is a different and later idea."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "color_strategy",
           "window_surround_wood"

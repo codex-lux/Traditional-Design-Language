@@ -58,7 +58,7 @@
         "upper": 0.65,
         "note": "Period polychrome runs to olives, umbers, ochres and Indian reds — a mid-tone body, never white. Trim is usually a different HUE at a similar value, with the darkest colour reserved for sash and small members. A white body with black trim is not this scheme."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1850,
           1890
@@ -81,7 +81,7 @@
         "upper": 0.65,
         "note": "Value hierarchy runs body, then trim, then sash, each darker than the last, and the body is never white."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1875,
           1905
@@ -103,7 +103,7 @@
         "threshold": 0.75,
         "note": "The sticks must be real projecting members. Darkening a flat pattern is the half-timbering fault in paint."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "secondary_cladding"
         ]
@@ -121,7 +121,7 @@
         "threshold": 0.75,
         "note": "Dark timbering against light render is definitional, and the timbering must be a real projecting member. Blackening flat boards is the same failure by another route."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "secondary_cladding",
           "material_change_rule"
@@ -140,7 +140,7 @@
         "threshold": 1.0,
         "note": "Joinery means doors, shutters and sash. A Cape Dutch house with dark cornice or gable mouldings is wrong, because those are wall."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "color_strategy"
         ],

@@ -70,7 +70,7 @@
         "measurable_from": "photograph",
         "note": "The revival's entrance is deliberately larger and more elaborate than any colonial precedent, and that surround is what the exception is buying. A six-panel slab in a bare opening is not Colonial Revival, it is the absence of a style."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1880,
           1955

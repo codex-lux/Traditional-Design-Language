@@ -65,7 +65,7 @@
       "style": "italianate-townhouse",
       "why": "On a 16-25 ft lot the only place for a ground-floor WC is beside the stair off the hall, and the hall is in view of the rear parlour when the pocket doors are open. The type's compensation is that the pocket doors close.",
       "bounds": "Requires the closable doors between hall and parlour, or between the two parlours. The WC door must still be in the hall and not in the parlour itself.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ]
