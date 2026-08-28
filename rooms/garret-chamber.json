@@ -43,7 +43,8 @@
         81
       ],
       "clearance_in": 24,
-      "note": "A bed is 24 to 30 in high, so it is the ONE piece of furniture that works in the low zone - a full bed pushed under a slope needs only 42 in of head at the far side and 60 at the near, which is exactly what a 3 ft knee wall on an 8:12 gives you 2 to 3 ft in. Putting the bed in the low zone is not a compromise, it is the correct use of the volume, and it is what every surviving garret chamber does."
+      "note": "A bed is 24 to 30 in high, so it is the ONE piece of furniture that works in the low zone - a full bed pushed under a slope needs only 42 in of head at the far side and 60 at the near, which is exactly what a 3 ft knee wall on an 8:12 gives you 2 to 3 ft in. Putting the bed in the low zone is not a compromise, it is the correct use of the volume, and it is what every surviving garret chamber does.",
+      "placement": "against-wall"
     },
     {
       "item": "chest of drawers",
@@ -52,7 +53,8 @@
         20
       ],
       "clearance_in": 40,
-      "note": "Needs 54 in of head at its face to open the top drawer without stooping, so it goes on a gable end wall or in the full-height zone. Chests under a slope are the commonest furnishing error in a converted attic."
+      "note": "Needs 54 in of head at its face to open the top drawer without stooping, so it goes on a gable end wall or in the full-height zone. Chests under a slope are the commonest furnishing error in a converted attic.",
+      "placement": "against-wall"
     },
     {
       "item": "hanging storage under the slope",
@@ -61,7 +63,8 @@
         24
       ],
       "clearance_in": 0,
-      "note": "A rod at 66 in needs 72 in of head over the rod position, which arrives about 4 ft 6 in inboard of a 3 ft knee wall on an 8:12. Between the knee wall and that line is a band 4 ft 6 in wide with 3 to 6 ft of head, and it is perfect for drawers, shoes and low presses and useless for anything else. Use it or lose it: the knee-wall band is 15 to 20 per cent of the floor plate."
+      "note": "A rod at 66 in needs 72 in of head over the rod position, which arrives about 4 ft 6 in inboard of a 3 ft knee wall on an 8:12. Between the knee wall and that line is a band 4 ft 6 in wide with 3 to 6 ft of head, and it is perfect for drawers, shoes and low presses and useless for anything else. Use it or lose it: the knee-wall band is 15 to 20 per cent of the floor plate.",
+      "placement": "against-wall"
     },
     {
       "item": "a standing person",
@@ -70,7 +73,8 @@
         18
       ],
       "clearance_in": 0,
-      "note": "Head strike is the real design constraint and it is not in the code. The 5 ft line is where the code stops counting; the 6 ft 4 in line is where an adult stops ducking. Draw both on the section."
+      "note": "Head strike is the real design constraint and it is not in the code. The 5 ft line is where the code stops counting; the 6 ft 4 in line is where an adult stops ducking. Draw both on the section.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

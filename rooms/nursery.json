@@ -43,7 +43,8 @@
         54
       ],
       "clearance_in": 30,
-      "note": "Interior 28 by 52 by US standard; exterior about 30 by 54. Clear access on one long side and one end for lifting a child out with both arms; 30 in, because you lift with your back straight."
+      "note": "Interior 28 by 52 by US standard; exterior about 30 by 54. Clear access on one long side and one end for lifting a child out with both arms; 30 in, because you lift with your back straight.",
+      "placement": "against-wall"
     },
     {
       "item": "changing table or dresser with a changing top",
@@ -52,7 +53,8 @@
         20
       ],
       "clearance_in": 36,
-      "note": "Top at 36-38 in. A dresser with a changing pad is the right answer because it survives the nursery phase."
+      "note": "Top at 36-38 in. A dresser with a changing pad is the right answer because it survives the nursery phase.",
+      "placement": "against-wall"
     },
     {
       "item": "glider or nursing chair",
@@ -61,7 +63,8 @@
         34
       ],
       "clearance_in": 16,
-      "note": "A glider or rocker travels 10-16 in front to back and cannot be put against a wall behind a door swing. This is the piece of furniture nurseries are most often too small for and it is the piece that gets used at 3 am."
+      "note": "A glider or rocker travels 10-16 in front to back and cannot be put against a wall behind a door swing. This is the piece of furniture nurseries are most often too small for and it is the piece that gets used at 3 am.",
+      "placement": "freestanding"
     },
     {
       "item": "bookcase / low storage",
@@ -70,7 +73,8 @@
         12
       ],
       "clearance_in": 30,
-      "note": "Must be anchored to the wall. Furniture tip-over is a real and regulated hazard (US STURDY Act 2022 and CPSC 16 CFR 1261), and a blocking strap fitted at framing costs nothing."
+      "note": "Must be anchored to the wall. Furniture tip-over is a real and regulated hazard (US STURDY Act 2022 and CPSC 16 CFR 1261), and a blocking strap fitted at framing costs nothing.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

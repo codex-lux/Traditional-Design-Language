@@ -45,7 +45,8 @@
    ],
    "clearance_in": 42,
    "essential": false,
-   "note": "26 + 42 = 68 in of the width gone before the route starts, which is why a furnished gallery needs 12 ft"
+   "note": "26 + 42 = 68 in of the width gone before the route starts, which is why a furnished gallery needs 12 ft",
+   "placement": "against-wall"
   },
   {
    "item": "console or side table between windows",
@@ -53,7 +54,8 @@
     42,
     16
    ],
-   "clearance_in": 36
+   "clearance_in": 36,
+   "placement": "against-wall"
   },
   {
    "item": "pictures on the inner wall",
@@ -62,7 +64,8 @@
     4
    ],
    "clearance_in": 96,
-   "note": "a viewer stands back 1.5 times the picture's height; a 4 ft canvas wants 6 ft of standing room, which the route can supply only if the route is on the window side"
+   "note": "a viewer stands back 1.5 times the picture's height; a 4 ft canvas wants 6 ft of standing room, which the route can supply only if the route is on the window side",
+   "placement": "against-wall"
   },
   {
    "item": "clear walking route",
@@ -71,7 +74,8 @@
     240
    ],
    "clearance_in": 0,
-   "note": "the gallery's own use - walking - needs the route unobstructed for its whole length, so the furniture goes to one side and stays there. Footprint given per 20 ft of run."
+   "note": "the gallery's own use - walking - needs the route unobstructed for its whole length, so the furniture goes to one side and stays there. Footprint given per 20 ft of run.",
+   "placement": "freestanding"
   }
  ],
  "daylight": {

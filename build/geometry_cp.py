@@ -64,11 +64,38 @@ GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
 C = GEO.C
 
 U = 1                     # 1-ft integer grid (coarse on purpose: domains half the size)
-MIN_DOOR_OVERLAP = 4      # 4 ft shared edge, above render_plan's 3.2 ft door test
-                          # (the programme-scaled branch can floor at 2 ft for a
-                          # closet pair — those doors hold as facts but fall
-                          # under the draw test; exporters state them, stated
-                          # in the WP-2.3 report)
+MIN_DOOR_OVERLAP = 4      # the fallback for a door that declares no width of its own
+
+
+def _door_overlap(d, v1, v2):
+    """How much wall two rooms must share to hold THIS door (WP-6.3, closing OQ 41/63).
+
+    The rule was `min(4, max(2, floor(0.9 * min(maxside))))`, and its comment said it
+    "scales to the smaller room: a linen press's whole side may be 2 ft — its door is
+    narrower than a parlor's, and demanding 4 ft would refuse real closets". **That branch
+    has never once fired.** `maxside` is `max(width_ft, length_ft)` — the LONGER side — so
+    dropping below 4 needs a room whose long side is under 3.34 ft, and there are **0 such
+    rooms in all 16 plan records** (238 rooms measured). Every interior pair in the corpus
+    got a flat 4 ft: the 3 x 5 linen press the comment names got a parlour's requirement,
+    and so did `bed2cl`, which is literally 2 x 6. OQ 41's own text quotes the same dead
+    expression as though it described behaviour.
+
+    So the floor is now the door's own leaf and its jambs, which is what a door occupies and
+    what both renderers and both exporters have measured against since WP-6.1 — one number,
+    `openings.required_wall_ft`, in one place. 469 of the corpus's 471 doors declare a width
+    (the two that do not are exterior and never reach here), so this is the record speaking
+    rather than a constant. Ceiled to the model's integer grid.
+
+    Measured per pair across the corpus: 102 tighter, 3 looser, 128 unchanged."""
+    w = d.get("width_ft")
+    if not w:
+        return MIN_DOOR_OVERLAP
+    OP = _mod("openings", f"{ROOT}/build/openings.py")
+    need = OP.required_wall_ft(float(w))
+    # never demand more shared wall than the smaller room can physically offer, or a wide
+    # opening between two small rooms becomes an infeasibility rather than a finding
+    room_cap = min(v1["maxside"], v2["maxside"])
+    return max(2, min(int(math.ceil(need * U)), int(math.floor(room_cap * U))))
 SCALE = 10                # objective weights are WP-2.2's, x10 into integers
 COVERAGE = 0.97           # hard floor; the absorb pass grows rooms into the rest
 
@@ -129,6 +156,33 @@ class _Reqs:
         b = self.model.NewBoolVar(f"req{len(self.lits)}")
         self.lits.append((b, text, kind, key))
         return b
+
+
+def _w(weight):
+    """A heuristic weight as an integer CP penalty, on this model's x10 SCALE.
+
+    WP-7.4 wrote this as `int(w) * SCALE`, which truncates: a weight of 0.5 became 0 and the
+    term silently vanished, and a weight of 40.9 became 40. Rounding the SCALED value keeps
+    fractional weights meaningful, and a non-zero weight can never round away to nothing --
+    a term that disappears because someone tuned it below 1.0 is the kind of silence this
+    corpus exists to prevent."""
+    v = int(round(float(weight) * SCALE))
+    return v if v or not weight else (1 if weight > 0 else -1)
+
+
+def _span_capacity(plan):
+    """The clear span this plan's framing tradition can make, from the corpus rather than a
+    constant: timber-bay.json's 20 ft bay module for the styles that list it, else the deepest
+    member in construction/floor-structure.json's light_frame_joist_spans. Mirrors
+    structure.span_check's own decision so the two engines charge the same fact."""
+    try:
+        ST = _mod("structure", f"{ROOT}/build/structure.py")
+        if (plan.get("style") or "") in ST._timber_bay_applies_to():
+            return 20.0
+        tbl = ST.load_construction()["floor"]["light_frame_joist_spans"]
+        return max(mm["max_clear_span_ft"] for mm in tbl)
+    except Exception:
+        return None       # catalogue unreadable: unjudged, so nothing is charged
 
 
 def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
@@ -293,11 +347,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                     continue
                 seen.add(key)
                 v2 = rooms[(lvl, to)]
-                # the shared-wall requirement scales to the smaller room: a
-                # linen press's whole side may be 2 ft — its door is narrower
-                # than a parlor's, and demanding 4 ft would refuse real closets
-                ovr = min(MIN_DOOR_OVERLAP,
-                          max(2, int(math.floor(0.9 * min(v1["maxside"], v2["maxside"]) * U))))
+                ovr = _door_overlap(d, v1, v2)
                 lit = reqs.lit(f"{r.get('name') or r['id']} and {idx[to].get('name') or to} "
                                f"share a door — they must share enough wall for one",
                                kind="door")
@@ -548,6 +598,102 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             m.AddBoolOr(over + [none])
             penalties.append((none, 8 * SCALE))
 
+        # WP-7.4 (OQ 95): declared `stacks_over`, charged. SOFT, and that is the whole design.
+        #
+        # OQ 95 recorded that a stacking constraint here "outranks every authored exterior wall
+        # in the corpus", because the downgrade loop below reads
+        # `[key for _t, k, key in core if k == "wall" and key]` and a non-wall pin can never
+        # enter it -- measured, a hard version downgraded an authored kitchen wall to satisfy an
+        # inferred stack, which is the OQ 52 family (an authored fact losing silently to a
+        # derived one). That is true OF A HARD PIN. A penalty is not a pin: it creates no
+        # assumption literal, never enters a conflict core, and cannot displace anything. The
+        # blocker is sidestepped rather than solved, and the downgrade loop is untouched.
+        #
+        # Shaped exactly like the wet-stack term above so the two read as one mechanism, and
+        # weighted from the same sweep that set geometry.STACK_W (measured on the heuristic:
+        # broken claims across all 14 declaring partis).
+        for r in upper:
+            so = r.get("stacks_over")
+            if not so or (1, r["id"]) not in rooms or (0, so) not in rooms:
+                continue     # target not on the level below: unjudged, and unjudged is not charged
+            v, vg = rooms[(1, r["id"])], rooms[(0, so)]
+            b = m.NewBoolVar("")
+            m.Add(v["x"] < vg["x"] + vg["w"]).OnlyEnforceIf(b)
+            m.Add(vg["x"] < v["x"] + v["w"]).OnlyEnforceIf(b)
+            m.Add(v["y"] < vg["y"] + vg["h"]).OnlyEnforceIf(b)
+            m.Add(vg["y"] < v["y"] + v["h"]).OnlyEnforceIf(b)
+            none = m.NewBoolVar("")
+            m.AddBoolOr([b, none])
+            penalties.append((none, _w(GEO.STACK_W)))
+
+        # WP-7.4 (OQ 97): over-capacity clear spans, charged, on the same structural fact the
+        # heuristic charges and plan_check reports.
+        #
+        # THE BEARING SET IS FINITE AND SMALL HERE, which is what makes this affordable. This
+        # model is on a 1-ft integer grid (U = 1), and structure.bearing_lines calls an interior
+        # wall bearing when it sits within 0.75 ft of a bay multiple -- so on whole feet the
+        # only qualifying positions ARE the multiples. The candidate bearing lines are therefore
+        # {0, bay, 2*bay, ... , extent}: seven of them on a 60 ft frontage at a 10 ft bay, not a
+        # continuum, and the span rule becomes a handful of clauses over one bool per line.
+        #
+        # HALF-REIFIED ON PURPOSE. `f -> (face == L)` and nothing in the other direction: a line
+        # may only be claimed bearing if a room face is really on it, while leaving it unclaimed
+        # is free. False is the penalised direction, so the solver can never buy a bearing line
+        # it has not placed a wall on, and the expensive `!=` half of a full reification is
+        # never built. Measured: the model keeps its proof of tidewater-georgian-careful.
+        cap_ft = _span_capacity(plan)
+        if cap_ft:
+            for lvl in (0, 1):
+                rs = prep.get(lvl) or []
+                if not rs:
+                    continue
+                for axis, extent in (("x", Wi), ("y", Hi)):
+                    lines = list(range(0, extent + 1, bayU))
+                    if lines[-1] != extent:
+                        lines.append(extent)
+                    act = {}
+                    for L in lines[1:-1]:
+                        faces = []
+                        for r in rs:
+                            if (lvl, r["id"]) not in rooms:
+                                continue
+                            v = rooms[(lvl, r["id"])]
+                            lo = v["x"] if axis == "x" else v["y"]
+                            sz = v["w"] if axis == "x" else v["h"]
+                            f1 = m.NewBoolVar(""); m.Add(lo == L).OnlyEnforceIf(f1)
+                            f2 = m.NewBoolVar(""); m.Add(lo + sz == L).OnlyEnforceIf(f2)
+                            faces += [f1, f2]
+                        a_ = m.NewBoolVar("")
+                        m.AddBoolOr(faces + [a_.Not()])   # a_ -> some face really sits on L
+                        act[L] = a_
+                    # Every run of consecutive grid lines longer than the capacity must
+                    # contain a bearing line, or it pays.
+                    #
+                    # THIS IS NOT THE HEURISTIC'S QUANTITY AND THE COMMENT USED TO IMPLY IT WAS.
+                    # `geometry._span_charge` charges ONCE PER over-capacity span, in proportion
+                    # to how far over it is. This anchors one clause at EVERY grid line, so a
+                    # single long clear span is charged once per anchor that cannot reach a
+                    # bearing line: with lines every 10 ft, a 20 ft capacity and bearing only at
+                    # 0 and 60, the heuristic charges 3x the weight and this charges 4x. Both
+                    # grow with the span and neither mis-ranks two placements that differ only
+                    # in span, but they are different numbers and calling them mirrors was
+                    # loose. Making them identical needs reified consecutive-line logic, which
+                    # is the expensive formulation this one exists to avoid.
+                    #
+                    # The `break` is sound: for a given `lo_L` the SHORTEST over-capacity window
+                    # has the fewest inner lines, so its clause is the strictest, and every
+                    # longer window's clause is implied by it.
+                    capU = int(cap_ft * U)
+                    for i, lo_L in enumerate(lines):
+                        for hi_L in lines[i + 1:]:
+                            if hi_L - lo_L <= capU:
+                                continue
+                            inner = [act[L] for L in lines[i + 1:] if L < hi_L and L in act]
+                            viol = m.NewBoolVar("")
+                            m.AddBoolOr(inner + [viol])
+                            penalties.append((viol, _w(GEO.SPAN_W)))
+                            break        # the shortest over-capacity window implies the rest
+
     if objective and penalties:
         m.Minimize(sum(p * wgt for p, wgt in penalties))
     m.AddAssumptions([lit for lit, _t, _k, _key in reqs.lits])
@@ -560,7 +706,12 @@ def _hint_heuristic(model, rooms, plan, parti, seed, candidates=40):
     full search's placement, which already optimized the SOFT terms and only
     needs its hard violations repaired — a far better basin than phase A's."""
     try:
-        h = GEO.solve_heuristic(copy.deepcopy(plan), parti, candidates=candidates, seed=seed)
+        # level_aware=False deliberately (WP-7.1): a hint's only job is to be REPAIRABLE.
+        # Hinting with the level-aware run took `tidewater-georgian-careful` from OPTIMAL to
+        # UNKNOWN at budget -- a hint better by the heuristic's own score, in a basin the
+        # proof could not close. See solve_heuristic's docstring.
+        h = GEO.solve_heuristic(copy.deepcopy(plan), parti, candidates=candidates, seed=seed,
+                                level_aware=False)
     except Exception:
         return
     if "error" in h:
@@ -656,20 +807,33 @@ def _absorb(rects, W, H, caps=None, keepout=()):
     return {k: v for k, v in rects.items() if not k.startswith("\0keepout")}
 
 
+def _merge_runs(spans, gap=0.05):
+    """Merge a list of (lo, hi) into disjoint runs, closing hairline gaps."""
+    out = []
+    for lo, hi in sorted(spans):
+        if out and lo <= out[-1][1] + gap:
+            out[-1][1] = max(out[-1][1], hi)
+        else:
+            out.append([lo, hi])
+    return [[round(lo, 2), round(hi, 2)] for lo, hi in out]
+
+
 def _count_relaxations(rects_by_level, W, H, bay, tol):
     """Interior wall lines off the bay grid — the heuristic's own definition of
     a compromise — counted from the solved placement (per unique line, per axis)."""
     relax = []
     for lvl, rects in rects_by_level.items():
         for axis in ("x", "y"):
-            edges = set()
+            edges = {}
             for (x, y, w, h) in rects.values():
                 if axis == "x":
-                    edges.add(round(x, 1)); edges.add(round(x + w, 1))
+                    edges.setdefault(round(x, 1), []).append((y, y + h))
+                    edges.setdefault(round(x + w, 1), []).append((y, y + h))
                 else:
-                    edges.add(round(y, 1)); edges.add(round(y + h, 1))
+                    edges.setdefault(round(y, 1), []).append((x, x + w))
+                    edges.setdefault(round(y + h, 1), []).append((x, x + w))
             span = W if axis == "x" else H
-            for e in edges:
+            for e, spans in edges.items():
                 if e <= 0.05 or e >= span - 0.05:
                     continue
                 d = abs(e - round(e / bay) * bay)
@@ -678,11 +842,23 @@ def _count_relaxations(rects_by_level, W, H, bay, tol):
                 if d > tol:
                     # Positioned, like the heuristic's (OQ 33). This counter already knew where
                     # the line was -- `e` is the edge coordinate and the level is the loop key --
-                    # and threw it away to append a bare float. from/to are omitted: an edge here
-                    # is a wall line shared by however many rooms abut it, and inventing an
-                    # extent for it would be a drawn claim nobody measured.
+                    # and threw it away to append a bare float.
+                    #
+                    # It also knew, and threw away, WHERE ALONG THAT LINE THERE IS A WALL. The
+                    # earlier note here refused an extent because "an edge is a wall line shared
+                    # by however many rooms abut it, and inventing an extent for it would be a
+                    # drawn claim nobody measured" -- correct about the invention, wrong that
+                    # there was nothing to measure. `runs` is the union of the room faces that
+                    # actually sit on this line: measured, not invented, and possibly several
+                    # disjoint pieces, which is why it is a list and not a from/to pair. The
+                    # sheet had been drawing an extentless mark at the MIDDLE OF THE PLAN, which
+                    # on the Tidewater placement put a dashed tick and a triangle inside the
+                    # drawing room with no wall under either -- the "arrows that seem to point to
+                    # anything and everything" of Lucas's review, and a mark the room's own click
+                    # could not be made through.
                     relax.append({"off_ft": round(d, 2), "axis": axis,
-                                  "at_ft": round(e, 2), "level": lvl})
+                                  "at_ft": round(e, 2), "level": lvl,
+                                  "runs": _merge_runs(spans)})
     return relax
 
 
@@ -705,9 +881,20 @@ def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax):
     else:
         su = 0.0
     sv, vnotes = GEO.vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
-    tot = sg + su + sv + 1.5 * len(relax)
+    # WP-7.4: the span charge belongs HERE too, and leaving it out would quietly falsify this
+    # function's own first sentence. `_finish_feasible` chooses among hard-valid placements by
+    # this score, so a term the heuristic's candidate loop charges and this one does not is a
+    # term the CP path cannot act on however well the CP model is steered by it.
+    try:
+        _floor = _mod("structure", f"{ROOT}/build/structure.py").load_construction()["floor"]
+    except Exception:
+        _floor = None
+    spc, over = GEO._span_charge(rects_by_level, prep, W, H, fpd["bay"],
+                                 plan.get("style"), _floor)
+    tot = sg + su + sv + spc + 1.5 * len(relax)
     return {"score": round(tot, 1), "sg": round(sg, 1), "su": round(su, 1),
-            "sv": round(sv, 1), "vnotes": vnotes}
+            "sv": round(sv, 1), "span_charge": round(spc, 1),
+            "spans_over_capacity": over, "vnotes": vnotes}
 
 
 def _values(solver, rooms):
@@ -955,9 +1142,20 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
                            "objective": objective,
                            "wall_time_s": round(time.monotonic() - started, 2),
                            "attempts": attempts,
+                           # WP-6.3 corrected two words of this claim. It said "rooms at
+                           # program size", and the SOLVE does prove that — but `_absorb`
+                           # runs after it and grows rooms to `max(1.20, fill*1.22)` times
+                           # their programme area, measured at 1.22x on both ground levels
+                           # and 2.27x on one upper. The record shipped a proof of programme
+                           # size on a drawing that no longer held it. The cap is not the
+                           # defect (honest empty floor beats an inflated room, and the cap
+                           # is what stops a 2.8 sf linen press reaching 8); the CLAIM was.
                            "hard": "no-overlap; containment; coverage; declared doors "
-                                   "touch; the entry on its front; rooms at program "
-                                   "size; declared exterior walls (until a set is "
+                                   "share wall enough for their own leaf and jambs; the "
+                                   "entry on its front; rooms at or above program size "
+                                   "(the post-solve absorb pass grows them into leftover "
+                                   "floor, capped, so the drawn size is a floor and not an "
+                                   "equality); declared exterior walls (until a set is "
                                    "proven unable to co-hold — then downgraded, stated)",
                            "note": "the compositional terms are constraints and "
                                    "weighted objectives here, not search preferences",
@@ -1101,12 +1299,13 @@ def hard_fact_violations(plan, out, extra_downgraded=None):
                     continue
                 seen.add(key)
                 ox, oy, ow, oh = rects[to]
-                # the model's own programme-scaled requirement — a closet's whole
-                # side may be 2 ft; judging it by a parlor's 3.2 ft door would
-                # call a legal placement a violation
-                ovr = min(MIN_DOOR_OVERLAP,
-                          max(2, int(math.floor(0.9 * min(maxside[r["id"]],
-                                                          maxside[to]) * U)))) - 0.05
+                # THE SAME RULE THE MODEL STATED, from the same function. This was a second
+                # copy of the old expression, and a second copy of a rule is how an arbiter
+                # comes to contradict the solver it arbitrates: change one and this one
+                # convicts placements the model proved legal. The 0.05 slack is kept —
+                # it is a float-comparison tolerance against integers the model rounded.
+                ovr = _door_overlap(d, {"maxside": maxside[r["id"]]},
+                                    {"maxside": maxside[to]}) - 0.05
                 shared_v = (abs(x + w - ox) <= 0.4 or abs(ox + ow - x) <= 0.4) and                     min(y + h, oy + oh) - max(y, oy) >= ovr
                 shared_h = (abs(y + h - oy) <= 0.4 or abs(oy + oh - y) <= 0.4) and                     min(x + w, ox + ow) - max(x, ox) >= ovr
                 if not (shared_v or shared_h):

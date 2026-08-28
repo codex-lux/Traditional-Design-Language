@@ -7,7 +7,8 @@
    flipped inside <Model>. Ported from the mockup Sheet; generalised from its one
    hardcoded 64×44 plan to any footprint. */
 import React from 'react';
-import { WALL_T, PART_T, levelRooms, partitions, windows, doors, bayLines, litWalls, ft } from './derive.js';
+import { WALL_T, PART_T, levelRooms, partitions, windows, doors, bayLines, litWalls,
+         divergence, interpunctTitle, relaxationMarks, ft } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
@@ -36,29 +37,107 @@ function DimRun({ from, to, at, vertical, stops }) {
   );
 }
 
-/* A door opening: vellum break in the wall, leaf at medium, swing at hairline. */
-function DoorMark({ d }) {
+/* The opening resolved into a wall-local frame: the two jambs A and B, the direction the
+   leaf swings, and the arc's sweep flag. Both wall orientations reduce to this, so a door
+   TYPE is drawn once rather than twice — which is why every type below is a few lines. */
+function doorFrame(d) {
   const w = d.w;
-  if (d.horiz === false || d.wall === 'W' || d.wall === 'E') {
-    const y0 = -d.y - w / 2, x = d.x;
-    const leafDir = d.swingRight === false ? -w : w;
+  const vert = d.horiz === false || d.wall === 'W' || d.wall === 'E';
+  if (vert) {
+    const x = d.x, y0 = -d.y - w / 2;
+    const s = d.swingRight === false ? -1 : 1;
+    return { w, vert, A: [x, y0], B: [x, y0 + w], nrm: [s, 0], sweep: s > 0 ? 1 : 0,
+             rect: { x: x - 0.35, y: y0, width: 0.7, height: w } };
+  }
+  const x0 = d.x - w / 2, y = -d.y;
+  const t = d.swingUp !== false ? -1 : 1;
+  return { w, vert, A: [x0, y], B: [x0 + w, y], nrm: [0, t], sweep: t < 0 ? 1 : 0,
+           rect: { x: x0, y: y - 0.35, width: w, height: 0.7 } };
+}
+
+const add = (p, v, k) => [p[0] + v[0] * k, p[1] + v[1] * k];
+const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+
+function Leaf({ hinge, nrm, len, to, sweep }) {
+  const open = add(hinge, nrm, len);
+  return (
+    <g>
+      <line x1={hinge[0]} y1={hinge[1]} x2={open[0]} y2={open[1]}
+        stroke="var(--ink)" strokeWidth="1.4" vectorEffect="non-scaling-stroke" />
+      <path d={`M ${open[0]} ${open[1]} A ${len} ${len} 0 0 ${sweep} ${to[0]} ${to[1]}`}
+        fill="none" stroke="var(--hair)" strokeWidth=".8" vectorEffect="non-scaling-stroke" />
+    </g>
+  );
+}
+
+/* Jamb ticks: the reveal drawn across the wall, which is how a cased opening — an
+   opening with a lining and NO leaf — is distinguished from a doorway on a plan. */
+function Jambs({ A, B, vert }) {
+  const t = 0.55;
+  const tick = (p, i) => vert
+    ? <line key={i} x1={p[0] - t} y1={p[1]} x2={p[0] + t} y2={p[1]}
+        stroke="var(--ink)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+    : <line key={i} x1={p[0]} y1={p[1] - t} x2={p[0]} y2={p[1] + t}
+        stroke="var(--ink)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />;
+  return <g>{[A, B].map(tick)}</g>;
+}
+
+/* A door opening: vellum break in the wall, then whatever the record's `type` says it is.
+   WP-6.1 — until now `type` was read by NOTHING in any renderer, so the Tidewater plan's
+   5 ft pair of doors between drawing room and dining room and the 6 ft cased opening into
+   the stair hall were both drawn as one enormous hinged leaf with an arc to match. Those
+   two marks are what a reader called "a massive door" and "no rhyme or reason". */
+function DoorMark({ d }) {
+  const f = doorFrame(d);
+  const type = d.type || 'swing';
+  const M = mid(f.A, f.B);
+  const common = { 'data-door-type': type, 'data-door-w': d.w };
+  const brk = <rect {...f.rect} fill="var(--paper-lit)" />;
+
+  if (type === 'double') {
     return (
-      <g>
-        <rect x={x - 0.35} y={y0} width={0.7} height={w} fill="var(--paper-lit)" />
-        <line x1={x} y1={y0} x2={x + leafDir} y2={y0} stroke="var(--ink)" strokeWidth="1.4" vectorEffect="non-scaling-stroke" />
-        <path d={`M ${x + leafDir} ${y0} A ${w} ${w} 0 0 ${leafDir > 0 ? 1 : 0} ${x} ${y0 + w}`}
-          fill="none" stroke="var(--hair)" strokeWidth=".8" vectorEffect="non-scaling-stroke" />
+      <g {...common}>
+        {brk}
+        <Leaf hinge={f.A} nrm={f.nrm} len={f.w / 2} to={M} sweep={f.sweep} />
+        <Leaf hinge={f.B} nrm={f.nrm} len={f.w / 2} to={M} sweep={1 - f.sweep} />
       </g>
     );
   }
-  const x0 = d.x - w / 2, y = -d.y;
-  const up = d.swingUp !== false;
+  if (type === 'cased-opening' || type === 'open') {
+    return <g {...common}>{brk}<Jambs A={f.A} B={f.B} vert={f.vert} /></g>;
+  }
+  if (type === 'pocket') {
+    // the leaf slides into the wall: shown as the slot it runs in, not as a swing
+    const slot = f.vert
+      ? { x: f.rect.x, y: f.A[1] - f.w, width: 0.7, height: f.w }
+      : { x: f.A[0] - f.w, y: f.rect.y, width: f.w, height: 0.7 };
+    return (
+      <g {...common}>
+        {brk}
+        <rect {...slot} fill="none" stroke="var(--ink-2)" strokeWidth=".7"
+          strokeDasharray="1.4 1" vectorEffect="non-scaling-stroke" />
+        <Jambs A={f.A} B={f.B} vert={f.vert} />
+      </g>
+    );
+  }
+  if (type === 'garage' || type === 'bulkhead') {
+    // an overhead or a cellar door: no plan swing to draw, so the leaf is shown in its
+    // closed position on the wall line and the opening is left otherwise clear
+    return (
+      <g {...common}>
+        {brk}
+        <line x1={f.A[0]} y1={f.A[1]} x2={f.B[0]} y2={f.B[1]}
+          stroke="var(--ink)" strokeWidth="1.4"
+          strokeDasharray={type === 'bulkhead' ? '1.6 1.1' : undefined}
+          vectorEffect="non-scaling-stroke" />
+        <Jambs A={f.A} B={f.B} vert={f.vert} />
+      </g>
+    );
+  }
   return (
-    <g>
-      <rect x={x0} y={y - 0.35} width={w} height={0.7} fill="var(--paper-lit)" />
-      <line x1={x0} y1={y} x2={x0} y2={y + (up ? -w : w)} stroke="var(--ink)" strokeWidth="1.4" vectorEffect="non-scaling-stroke" />
-      <path d={`M ${x0} ${y + (up ? -w : w)} A ${w} ${w} 0 0 ${up ? 1 : 0} ${x0 + w} ${y}`}
-        fill="none" stroke="var(--hair)" strokeWidth=".8" vectorEffect="non-scaling-stroke" />
+    <g {...common}>
+      {brk}
+      <Leaf hinge={f.A} nrm={f.nrm} len={f.w} to={f.B} sweep={f.sweep} />
     </g>
   );
 }
@@ -217,9 +296,16 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   const W = fp.width_ft || 40, H = fp.depth_ft || 30;
   const rooms = levelRooms(plan, placement, levelIndex);
   const parts = partitions(rooms, W, H);
-  const wins = windows(rooms, W, H);
+  // doors first, then windows into what the doors have left: an opening may not be drawn
+  // over another opening, and on this sheet the door is the one that keeps its place
   const drs = doors(rooms, W, H);
+  const wins = windows(rooms, W, H, 0.6, drs.exterior);
+  const diverged = divergence(rooms);
+  const divergedIds = new Set(diverged.map((d) => d.id));
   const bays = bayLines(fp);
+  // plan schema 0.3.0 (WP-6.2): the stair is an object on the record, or it is absent —
+  // never an empty room presented as a finished one
+  const stair = placement?.stair || plan?.stair;
   const ghostRooms = ghost != null ? levelRooms(plan, placement, ghost) : [];
   const roomsMeta = ov.meta || {};
 
@@ -235,8 +321,21 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // a zero-width space after each interpunct: the title may fold at a word boundary,
   // and never inside a word — without it 'TIDEWATER·GEORGIAN,·FIVE·BAYS,·CAREFULLY·
   // PLANNED' is one unbreakable word and the plate clips whatever does not fit
-  const interpunct = (title || '').trim().split(/\s+/).join('·\u200B');
+  const interpunct = interpunctTitle(title);
   const relax = placement?.geometry_report?.relaxations;
+  const rxMarks = relaxationMarks(relax?.marks, levelIndex, W, H);
+  /* WHICH ENGINE PLACED THIS, on the PLATE (WP-6.4). WP-6.3 put the disclosure in the page
+     prose beside the drawing, which is the one place it cannot travel: a plate that is
+     printed, screenshotted or exported leaves the prose behind, and a reader then cannot
+     tell a proof from a search. The caption is the plate's own voice, so it says it here.
+     `reason` is present when `auto` FELL BACK, and that is the case worth naming. */
+  const solver = placement?.geometry_report?.solver;
+  const engineLine = !solver ? ''
+    : solver.engine === 'cp-sat'
+      ? "Placement proved (CP-SAT) against the record's own declared facts. "
+      : 'Placement searched, not proved — hill-climb'
+        + (solver.reason && solver.reason !== 'requested' ? `, because ${solver.reason}` : '')
+        + '. ';
 
   return (
     <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
@@ -334,11 +433,20 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         {/* rooms — clickable, because every mark reaches its record (P6) */}
         {rooms.map((r) => {
           const sel = selectedRoom === r.id;
+          // ∗ — this room is DRAWN at a size its own record does not declare. The sheet
+          // has always printed the placed rectangle (it must; it is what was drawn) and
+          // never said what it departed from, so a kitchen declared 16 × 20 and placed at
+          // 63% of that area read as a measurement of the declared room.
+          const off = divergedIds.has(r.id);
           const lab = roomLabel(r);
+          const decl = off && r.declared_width_ft && r.declared_length_ft
+            ? ` — the record declares ${ft(r.declared_width_ft)} × ${ft(r.declared_length_ft)}`
+            : '';
           return (
-            <g key={r.id} onClick={onPickRoom ? () => onPickRoom(r) : undefined}
+            <g key={r.id} data-room={r.id} data-diverged={off ? '' : undefined}
+              onClick={onPickRoom ? () => onPickRoom(r) : undefined}
               style={{ cursor: onPickRoom ? 'pointer' : 'default' }}>
-              <title>{`${r.name} — ${ft(r.w)} × ${ft(r.h)}`}</title>
+              <title>{`${r.name} — ${ft(r.w)} × ${ft(r.h)}${decl}`}</title>
               <rect x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
                 fill={sel ? 'var(--wash-salmon-1)' : 'transparent'}
                 stroke={sel ? 'var(--salmon-deep)' : 'transparent'} strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
@@ -357,7 +465,30 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
                       fontSize={lab.dim.size} fontFamily="var(--serif)" letterSpacing={lab.dim.track}
                       fill="var(--ink-2)" textAnchor="middle" dominantBaseline="middle">{lab.dim.text}</text>
                   )}
+                  {/* the ∗ sits BESIDE the fitted dimension, never inside it — a mark
+                      added to the string shrinks the fit until the dimension drops out
+                      of every narrow room, which is what happened to the void
+                      disclosure and what the Python renderer's line is frozen against */}
+                  {off && lab.dim && (
+                    <text x={lab.cx + lab.dim.width / 2 + lab.dim.size * 0.45}
+                      y={lab.cy - lab.block / 2 + lab.name.height + DIM_GAP + lab.dim.size * 0.6}
+                      fontSize={lab.dim.size} fontFamily="var(--serif)"
+                      fill="var(--gilt-deep)" dominantBaseline="middle">∗</text>
+                  )}
                 </g>
+              )}
+              {/* the divergence mark for a room too small to carry its dimension string.
+                  OUTSIDE the label group on purpose: that group may be rotated -90 for a
+                  slot room, and a mark placed in the room's corner inside it is rotated
+                  about the label's centre and lands outside the room. e2e/walk.mjs caught
+                  it twice — first under the name on a 9 x 5 cellar stair, then in the
+                  corner of a 4 x 25 butler's pantry — because it measures where the glyph
+                  actually is rather than where it was meant to be. */}
+              {off && !(lab && lab.dim) && (
+                <text x={r.x + r.w - LABEL_PAD} y={-r.y - r.h + LABEL_PAD}
+                  fontSize={Math.min(0.75, r.w * 0.3, r.h * 0.3)}
+                  fontFamily="var(--serif)" fill="var(--gilt-deep)"
+                  textAnchor="end" dominantBaseline="hanging">∗</text>
               )}
             </g>
           );
@@ -375,14 +506,75 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           fillRule="evenodd" fill="var(--poche-masonry)" stroke="var(--draw-cut)"
           strokeWidth="2.6" vectorEffect="non-scaling-stroke" />
 
-        {/* openings */}
+        {/* openings. Windows are laid into the run the doors left, so a door is never
+            painted over by a window again — but the doors are still drawn AFTER, because
+            a break in the poché belongs on top of the wall it breaks. */}
         {wins.map((w, i) => <WindowMark key={'w' + i} w={w} />)}
         {drs.exterior.map((d, i) => (
-          <DoorMark key={'ed' + i} d={{ x: d.wall === 'W' || d.wall === 'E' ? d.x : d.x,
-            y: d.y, w: d.w, horiz: !(d.wall === 'W' || d.wall === 'E'),
+          <DoorMark key={'ed' + i} d={{ x: d.x, y: d.y, w: d.w, type: d.type,
+            horiz: !(d.wall === 'W' || d.wall === 'E'),
             wall: d.wall, swingUp: d.wall === 'S', swingRight: d.wall === 'W' }} />
         ))}
         {drs.interior.map((d, i) => <DoorMark key={'d' + i} d={d} />)}
+
+        {/* WP-6.2 — the stair, drawn from plan.stair and from nothing else. There has never
+            been a line of stair-drawing code in this system: a stair hall was an empty
+            rectangle with lettering in it, while rooms/stair-hall.json carried the flight
+            itself as furniture ([120, 78] in, "dog-leg with half landing") and
+            build/structure.py computed its risers into a section no plan ever saw. */}
+        {stair && (stair.level ?? 0) === levelIndex && (stair.flights || []).length > 0 && (
+          <g data-stair="">
+            {stair.flights.map((f, i) => {
+              const across = f.direction === 'E' || f.direction === 'W';
+              const n = Math.max(1, f.treads || 1);
+              const ticks = [];
+              for (let t = 1; t < n; t++) {
+                if (across) {
+                  const tx = f.x_ft + f.width_ft * (t / n);
+                  ticks.push(<line key={t} x1={tx} y1={-f.y_ft} x2={tx} y2={-f.y_ft - f.depth_ft}
+                    stroke="var(--ink-2)" strokeWidth=".6" vectorEffect="non-scaling-stroke" />);
+                } else {
+                  const ty = f.y_ft + f.depth_ft * (t / n);
+                  ticks.push(<line key={t} x1={f.x_ft} y1={-ty} x2={f.x_ft + f.width_ft} y2={-ty}
+                    stroke="var(--ink-2)" strokeWidth=".6" vectorEffect="non-scaling-stroke" />);
+                }
+              }
+              return (
+                <g key={'fl' + i}>
+                  <rect x={f.x_ft} y={-f.y_ft - f.depth_ft} width={f.width_ft} height={f.depth_ft}
+                    fill="none" stroke="var(--ink-2)" strokeWidth=".9" vectorEffect="non-scaling-stroke" />
+                  {ticks}
+                </g>
+              );
+            })}
+            <text x={stair.flights[0].x_ft + stair.flights[0].width_ft / 2}
+              y={-stair.flights[0].y_ft - stair.flights[0].depth_ft / 2}
+              fontSize="1" fontFamily="var(--serif)" letterSpacing=".18"
+              fill="var(--gilt-deep)" textAnchor="middle" dominantBaseline="middle">
+              UP {stair.risers}R
+            </text>
+          </g>
+        )}
+        {stair && (stair.level ?? 0) === levelIndex && stair.unplaced && stair.well && (
+          <text data-stair="refused" x={stair.well.x_ft + stair.well.width_ft / 2}
+            y={-stair.well.y_ft - stair.well.depth_ft / 2 + 1.6}
+            fontSize=".85" fontFamily="var(--serif)" fill="var(--gilt-deep)"
+            textAnchor="middle" dominantBaseline="middle">
+            <title>{stair.unplaced.reason}</title>
+            stair not drawn — see record
+          </text>
+        )}
+
+        {/* fixtures, from room.fixture_layout and from nothing else */}
+        {rooms.map((r) => (r.fixture_layout || [])
+          .filter((f) => !f.unplaced && f.x_ft != null)
+          .map((f, i) => (
+            <rect key={r.id + 'fx' + i} x={f.x_ft} y={-f.y_ft - f.depth_ft}
+              width={f.width_ft} height={f.depth_ft} fill="none" stroke="var(--ink-2)"
+              strokeWidth=".6" strokeDasharray="1.4 1" vectorEffect="non-scaling-stroke">
+              <title>{f.item}</title>
+            </rect>
+          )))}
 
         {/* dimensions — ticks, primes, never decimal feet */}
         <DimRun from={0} to={W} at={2.6} stops={[0, ...bays, W]} />
@@ -404,26 +596,30 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             and the drawing was silent about where the truth applied. Each mark is a cut that
             missed the structural bay — a joist run that does not land on a bearing wall — drawn
             as a hollow triangle on the line itself, in ink and not in colour, because colour in
-            this system names a material and never flags a condition. A mark from the CP engine
-            carries no extent (an edge there is a wall line shared by however many rooms abut it,
-            and inventing a span would be a drawn claim nobody measured), so it gets a short tick
-            centred on the line rather than a full run. */}
-        {(relax?.marks || []).filter((m) => (m.level ?? 0) === levelIndex).map((m, i) => {
-          const full = m.from_ft != null && m.to_ft != null;
-          const a = full ? m.from_ft : (m.axis === 'x' ? 0 : 0);
-          const b = full ? m.to_ft : (m.axis === 'x' ? H : W);
-          const lo = full ? a : (a + b) / 2 - 2.5;
-          const hi = full ? b : (a + b) / 2 + 2.5;
-          const mid = (lo + hi) / 2;
+            this system names a material and never flags a condition. Where the mark goes is
+            `relaxationMarks` in derive.js — and an unlocatable one is named in the caption
+            rather than drawn somewhere plausible.
+
+            The dashed run is `pointerEvents: none`. It is an annotation, not a control: a
+            hairline drawn across a room was swallowing the click that selects the room under
+            it, and an affordance defeated by a tick over it is an affordance that does not
+            exist. The triangle keeps its pointer events, because it is a visible glyph with a
+            tooltip of its own and clicking a mark is a thing a reader means to do. */}
+        {rxMarks.drawn.map(({ mark: m, runs, at }, i) => {
           const isV = m.axis === 'x';
-          const [x1, y1, x2, y2] = isV
-            ? [m.at_ft, -lo, m.at_ft, -hi]
-            : [lo, -m.at_ft, hi, -m.at_ft];
-          const [gx, gy] = isV ? [m.at_ft, -mid] : [mid, -m.at_ft];
+          const [gx, gy] = isV ? [m.at_ft, -at] : [at, -m.at_ft];
           return (
             <g key={'rx' + i}>
-              <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink-2)" strokeWidth=".55"
-                strokeDasharray="1.2 1.2" vectorEffect="non-scaling-stroke" />
+              {runs.map(([lo, hi], j) => {
+                const [x1, y1, x2, y2] = isV
+                  ? [m.at_ft, -lo, m.at_ft, -hi]
+                  : [lo, -m.at_ft, hi, -m.at_ft];
+                return (
+                  <line key={j} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink-2)"
+                    strokeWidth=".55" strokeDasharray="1.2 1.2" pointerEvents="none"
+                    vectorEffect="non-scaling-stroke" />
+                );
+              })}
               <path d={`M ${gx} ${gy - 1.15} L ${gx + 1.0} ${gy + 0.75} L ${gx - 1.0} ${gy + 0.75} Z`}
                 fill="var(--paper)" stroke="var(--ink)" strokeWidth=".45"
                 vectorEffect="non-scaling-stroke" />
@@ -446,6 +642,19 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           <text x="32" y="3" fontSize=".9" fontFamily="var(--serif)" letterSpacing=".18" fill="var(--ink-2)" textAnchor="middle">32 FT</text>
         </g>
 
+        {/* Legend for the △. The mark has been drawn since WP-5.2 and named only in the
+            caption's running prose, where a reader meeting it on the drawing had nothing
+            to read it BY — reported as arrows that "seem to point to anything and
+            everything". A symbol a drawing uses is a symbol the drawing has to define. */}
+        {relax?.count ? (
+          <g data-legend="relaxation" transform={`translate(${W - 16},${mB - 2.2})`}>
+            <path d="M 0 -1.15 L 1.0 0.75 L -1.0 0.75 Z" fill="var(--paper)"
+              stroke="var(--ink)" strokeWidth=".45" vectorEffect="non-scaling-stroke" />
+            <text x="2.1" y="0.7" fontSize=".95" fontFamily="var(--serif)" letterSpacing=".1"
+              fill="var(--ink-2)">a cut off the bay line — no bearing wall under it</text>
+          </g>
+        ) : null}
+
         {/* Drag a wall on the bay grid: handles on the selected room's east and north
             edges; release writes back to the record and the validator re-scores.
             LAST in the sheet, and that is the fix rather than the habit — a handle
@@ -463,21 +672,51 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         ))}
       </svg>
 
-      {/* plate caption */}
+      {/* plate caption. The title takes the space it needs and the note yields: with the
+          title on `flex: 0 1 auto` beside a `1 1 34ch` note, a narrow plate folded
+          'TIDEWATER·GEORGIAN,·FIVE·BAYS,·CAREFULLY·PLANNED' at its interpuncts and a
+          reader saw 'WATER GEORGIAN, FIVE CAREFULLY PLANNED' — a different house, with
+          nothing on the sheet to say the name had been cut. */}
       <div style={{ borderTop: '1px solid var(--rule)', margin: '4px 2px 0', padding: '8px 0 4px',
-        display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 24 }}>
-        <div style={{ font: 'var(--fw-med) 10.5px/1.4 var(--serif)', letterSpacing: '.3em',
-          textTransform: 'uppercase', color: 'var(--ink)', flex: '0 1 auto',
-          minWidth: 0 }}>{interpunct}</div>
-        <div style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)', color: 'var(--ink-2)',
-          textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
+        display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 24,
+        flexWrap: 'wrap' }}>
+        <div data-plate-title="" style={{ font: 'var(--fw-med) 10.5px/1.4 var(--serif)',
+          letterSpacing: '.3em', textTransform: 'uppercase', color: 'var(--ink)',
+          flex: '1 0 auto' }}>{interpunct}</div>
+        <div data-plate-note="" style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)',
+          color: 'var(--ink-2)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
+          {engineLine}
+          {/* "each marked \u25B3 where it falls" was a claim about every mark, and a mark the
+              solver located nowhere is now not drawn at all rather than dropped at the
+              middle of the plan. So the sentence counts what it actually marked. */}
           {relax
-            ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft, each marked \u25B3 where it falls` : ''}. `
+            ? `${relax.count} cut(s) off the bay line${relax.count ? `, worst ${relax.max_off_grid_ft} ft, ${rxMarks.drawn.length} marked \u25B3 on this level where it falls` : ''}. `
             : ''}
-          {wins.dropped
-            ? `${wins.dropped} declared window(s) not situated on this footprint — declared, not drawn. `
+          {rxMarks.unlocated.length
+            ? `${rxMarks.unlocated.length} cut(s) the solver located on no wall of this level \u2014 counted, not drawn. `
             : ''}
-          Exterior door openings are drawn at conventional mid-wall position.
+          {drs.undrawable.length
+            ? `${drs.undrawable.length} declared door(s) without a drawable opening — in the record, not the linework: `
+              + drs.undrawable.map((u) => `${u.from}–${u.to}`).join(', ') + '. '
+            : ''}
+          {wins.offFootprint
+            ? `${wins.offFootprint} declared window(s) not situated on this footprint — declared, not drawn. `
+            : ''}
+          {wins.crowded
+            ? `${wins.crowded} declared window(s) had no clear run left on their wall beside its doors — declared, not drawn. `
+            : ''}
+          {diverged.length
+            ? `${diverged.length} room(s) are drawn at a size the record does not declare — worst `
+              + `${diverged[0].name} ${diverged[0].pct > 0 ? '+' : ''}${diverged[0].pct.toFixed(0)}% by area, marked \u2217. `
+            : ''}
+          {drs.inferredWidths
+            ? `${drs.inferredWidths} door(s) declare no width; drawn at the conventional leaf. `
+            : ''}
+          {drs.inferredPositions
+            ? `${drs.inferredPositions} exterior door(s) carry no placement in the record and are `
+              + 'drawn at conventional mid-wall position, on a wall inferred from the room\u2019s '
+              + 'declared exterior walls. '
+            : ''}
           The grid remains — evidence the plan was composed, not arranged.
         </div>
       </div>

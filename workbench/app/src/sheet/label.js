@@ -126,7 +126,11 @@ export function fitLine(text, maxW, opt) {
   const { preferred = 0.9, min = 0.5, track = 0.12 } = opt || {};
   const unit = advance(text) + track * text.length;
   const size = Math.max(min, Math.min(preferred, maxW / unit));
-  return { text, size, track: track * size };
+  // `width` so a caller can put a mark BESIDE the fitted line instead of inside it.
+  // Anything added to the string shrinks the fit until the line drops out of narrow
+  // rooms, which is what happened to OQ 55's void disclosure and what
+  // tests/test_drawn_labels.py has frozen the Python renderer's version of this against.
+  return { text, size, track: track * size, width: unit * size };
 }
 
 /* The webfont arrives after the first paint; a measurement taken before it lands is

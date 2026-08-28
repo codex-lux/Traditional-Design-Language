@@ -2,16 +2,70 @@
    x east, y north, origin at the building's SW corner, units FEET. Every function here
    is a port of build/render_plan.py logic (the _shared edge test, the window spacing,
    the swing direction) so the two renders of the same record cannot quietly disagree.
-   Nothing is derived that is not in the record. */
+   Nothing is derived that is not in the record.
+
+   WP-6.1. Three rules changed here, and all three were the sheet telling a lie:
+
+   (i) A door used to need 3.2 ft of shared wall to be DRAWN while the solver would prove
+   one on 2 ft, so a closet door held as a fact and appeared in no drawing (OQ 41/63).
+   The test is now the leaf plus its own jambs, which is what a door actually occupies —
+   a closet door IS narrower than a parlour's.
+
+   (ii) A door that could not be drawn was `continue`d over in silence. Every one of them
+   now leaves by `undrawable`, with the reason, and the sheet prints it. The DXF exporter
+   has stated this since WP-5.1 and the SVG sheet did not, which is how a kitchen with
+   five declared interior doors could be drawn with none of them.
+
+   (iii) Windows were spaced without looking at the doors, so an exterior door and a
+   single window both landed on the wall midpoint and the window — a filled rect — was
+   painted over the door. On the shipped Tidewater sheet that happened twice, at the
+   front door of the centre passage and the kitchen's back door. Openings now share a
+   wall by rule: doors take their position first, windows are distributed into what is
+   left, and a window with nowhere to go is reported rather than drawn on top. */
 
 export const WALL_T = 0.75;      // exterior wall thickness drawn (poché band)
 export const PART_T = 0.42;      // partition thickness drawn
 
+/* The reveal either side of a leaf. A door is not its leaf: it is the leaf, the jambs it
+   hangs in and the lining round them, and a wall run that cannot hold all three cannot
+   hold the door. Kept in step with build/render_plan.py and (WP-6.3) with the solver's
+   own floor, so the drawing and the proof can never again disagree about what fits. */
+export const JAMB_FT = 0.35;
+/* Masonry between two openings on one wall. A geometric floor only — the corpus states
+   this properly (sash-light's `minimum_solid_between_openings` is opening_width * 1.4)
+   and reading it is WP-6.2's job, not this pass's. */
+export const MIN_SOLID_FT = 1.0;
+/* Used when a door carries no width. Composed plans carry none at all today
+   (build/compose.py writes {"to": id} and nothing else), so this is most doors on a
+   generated sheet; it is flagged so the caption can say how many. */
+export const DEFAULT_DOOR_FT = 3.0;
+export const DEFAULT_EXT_DOOR_FT = 3.5;
+
+export function requiredWallFt(widthFt) { return widthFt + 2 * JAMB_FT; }
+
 /* Rooms of one level as rects in model feet. */
 export function levelRooms(plan, placement, levelIndex) {
+  // The PLACED room record, where there is one. This is the distinction the sheet was
+  // missing: `plan` is the record the client holds and has never been placed, while the
+  // placement carries the same rooms with build/openings.py's walls, positions and fixture
+  // layouts written onto them. Reading openings off `plan` meant the workbench went on
+  // inventing every position from an unplaced record while the placement sat beside it
+  // holding the answer.
   const byId = new Map();
+  const placedRec = new Map();
   for (const r of placement?.rooms || []) {
-    if (r.level === levelIndex && r.geometry) byId.set(r.id, r.geometry);
+    if (r.level === levelIndex && r.geometry) {
+      byId.set(r.id, r.geometry);
+      placedRec.set(r.id, r);
+    }
+  }
+  // the placement may also arrive as the plan itself, with geometry written onto the
+  // rooms in place (build/geometry.py::write_record does exactly that)
+  for (const lv of placement?.levels || []) {
+    if ((lv.index ?? 0) !== levelIndex) continue;
+    for (const r of lv.rooms || []) {
+      if (r.geometry) { byId.set(r.id, r.geometry); placedRec.set(r.id, r); }
+    }
   }
   const lv = (plan.levels || []).find((l) => (l.index ?? 0) === levelIndex);
   if (!lv) return [];
@@ -19,28 +73,34 @@ export function levelRooms(plan, placement, levelIndex) {
     .filter((r) => byId.has(r.id))
     .map((r) => {
       const g = byId.get(r.id);
+      const p = placedRec.get(r.id) || {};
       return {
         id: r.id, type: r.type, name: r.name || r.id,
         x: g.x_ft, y: g.y_ft, w: g.width_ft, h: g.depth_ft,
-        windows: r.windows || [], doors: r.doors || [],
+        windows: p.windows || r.windows || [],
+        doors: p.doors || r.doors || [],
+        fixture_layout: p.fixture_layout || r.fixture_layout || [],
         exterior_walls: r.exterior_walls || [],
         window_head_ft: r.window_head_ft,
+        declared_width_ft: r.width_ft, declared_length_ft: r.length_ft,
         record: r,
       };
     });
 }
 
-/* build/render_plan.py::_shared — where two rooms touch enough for a door. */
+/* build/render_plan.py::_shared — where two rooms touch, and over how much run.
+   Returns the whole shared extent; whether it is ENOUGH is the caller's question now,
+   because the answer depends on the door's own width. */
 export function sharedEdge(a, b, tol = 0.4) {
   if (Math.abs(a.x + a.w - b.x) <= tol || Math.abs(b.x + b.w - a.x) <= tol) {
     const x = Math.abs(a.x + a.w - b.x) <= tol ? b.x : a.x;
     const lo = Math.max(a.y, b.y), hi = Math.min(a.y + a.h, b.y + b.h);
-    if (hi - lo > 3.2) return { p: [x, (lo + hi) / 2], horiz: false };
+    if (hi > lo) return { horiz: false, at: x, lo, hi, run: hi - lo };
   }
   if (Math.abs(a.y + a.h - b.y) <= tol || Math.abs(b.y + b.h - a.y) <= tol) {
     const y = Math.abs(a.y + a.h - b.y) <= tol ? b.y : a.y;
     const lo = Math.max(a.x, b.x), hi = Math.min(a.x + a.w, b.x + b.w);
-    if (hi - lo > 3.2) return { p: [(lo + hi) / 2, y], horiz: true };
+    if (hi > lo) return { horiz: true, at: y, lo, hi, run: hi - lo };
   }
   return null;
 }
@@ -72,26 +132,242 @@ export function partitions(rooms, W, H, tol = 0.6) {
   return segs;
 }
 
-/* Windows from the record, spaced along the room's exterior edge exactly as
-   build/render_plan.py spaces them: k+1 of n+1 along the wall. */
-export function windows(rooms, W, H, tol = 0.6) {
+/* Which boundary wall of the footprint a room's edge lies on, for the walls it declares. */
+function boundaryWall(r, wall, W, H, tol) {
+  if (wall === 'S' && r.y <= tol) return { wall: 'S', lo: r.x, hi: r.x + r.w, at: 0 };
+  if (wall === 'N' && r.y + r.h >= H - tol) return { wall: 'N', lo: r.x, hi: r.x + r.w, at: H };
+  if (wall === 'W' && r.x <= tol) return { wall: 'W', lo: r.y, hi: r.y + r.h, at: 0 };
+  if (wall === 'E' && r.x + r.w >= W - tol) return { wall: 'E', lo: r.y, hi: r.y + r.h, at: W };
+  return null;
+}
+
+/* Subtract the blocked spans from [lo, hi]. */
+function freeIntervals(lo, hi, blocked) {
+  let free = [[lo, hi]];
+  for (const [a, b] of blocked) {
+    const next = [];
+    for (const [s, e] of free) {
+      if (b <= s || a >= e) { next.push([s, e]); continue; }
+      if (a > s) next.push([s, Math.min(a, e)]);
+      if (b < e) next.push([Math.max(b, s), e]);
+    }
+    free = next;
+  }
+  return free.filter(([s, e]) => e - s > 1e-6);
+}
+
+/* Distribute n openings of width `unitW` into the free run, evenly over the space that
+   can actually hold them — the k+1 of n+1 spacing render_plan.py has always used, but
+   measured against what is LEFT after the doors rather than against the whole wall.
+   Returns the positions it could place; the caller reports the shortfall. */
+function distribute(free, n, unitW) {
+  const centres = free
+    .map(([s, e]) => [s + unitW / 2, e - unitW / 2])
+    .filter(([s, e]) => e - s >= -1e-9);
+  if (!centres.length) return [];
+  const total = centres.reduce((t, [s, e]) => t + Math.max(0, e - s), 0);
   const out = [];
-  let dropped = 0;   // declared windows whose room the solver did not place on that wall
+  for (let k = 0; k < n; k++) {
+    const t = total * ((k + 1) / (n + 1));
+    let acc = 0, pos = centres[0][0];
+    for (const [s, e] of centres) {
+      const len = Math.max(0, e - s);
+      if (t <= acc + len + 1e-9) { pos = s + (t - acc); break; }
+      acc += len;
+    }
+    out.push(pos);
+  }
+  // two openings may not occupy the same masonry: keep those that clear the last kept one
+  const kept = [];
+  for (const p of out) {
+    if (!kept.length || p - kept[kept.length - 1] >= unitW + MIN_SOLID_FT - 1e-9) kept.push(p);
+  }
+  return kept;
+}
+
+/* Interior doors on shared edges, with the swing into the `to` room (render_plan's
+   convention), plus exterior doors as openings on the footprint edge.
+
+   Returns `undrawable` beside them: every declared door this placement gives no way to
+   draw, with the reason, so the sheet can say so. It is never empty quietly. */
+/* Where the RECORD says an opening is. Since plan schema 0.3.0 (WP-6.2) build/openings.py
+   writes a wall and a centreline onto every opening it can place, and a renderer that reads
+   them draws the plan rather than guessing a plan of its own. Null means the record is
+   silent — a hand-authored 0.2.0 record — and the caller invents as it always did. */
+const WALLS = new Set(['N', 'E', 'S', 'W']);
+function placedAt(d) {
+  if (!WALLS.has(d.wall) || d.position_ft == null) return null;
+  return { wall: d.wall, pos: Number(d.position_ft) };
+}
+
+export function doors(rooms, W, H, tol = 0.6) {
+  const idx = new Map(rooms.map((r) => [r.id, r]));
+  const handled = new Set();
+  const interior = [];
+  const exterior = [];
+  const undrawable = [];
+  let inferredWidths = 0;
+  let inferredPositions = 0;
+  for (const r of rooms) {
+    const usedWalls = new Set();
+    for (const d of r.doors) {
+      const isExt = d.to === 'exterior';
+      const declaredW = d.width_ft;
+      const width = declaredW || (isExt ? DEFAULT_EXT_DOOR_FT : DEFAULT_DOOR_FT);
+      if (declaredW == null) inferredWidths += 1;
+      const type = d.type || 'swing';
+      // an opening the placement pass could not seat says so in the record, and the
+      // drawing repeats it rather than quietly leaving a wall blank
+      if (d.unplaced) {
+        const k = [r.id, d.to].sort().join('|');
+        if (!isExt) {
+          if (handled.has(k)) continue;
+          handled.add(k);
+        }
+        undrawable.push({ from: r.id, to: d.to, width_ft: width, type,
+          reason: d.unplaced.reason });
+        continue;
+      }
+      const seat = placedAt(d);
+      if (isExt && seat) {
+        usedWalls.add(seat.wall);
+        exterior.push({
+          wall: seat.wall, w: width, type, room: r.id, inferredWall: false,
+          inferredWidth: declaredW == null,
+          span: [seat.pos - width / 2, seat.pos + width / 2],
+          x: seat.wall === 'W' ? 0 : seat.wall === 'E' ? W : seat.pos,
+          y: seat.wall === 'S' ? 0 : seat.wall === 'N' ? H : seat.pos,
+        });
+        continue;
+      }
+      if (!isExt && seat) {
+        const k = [r.id, d.to].sort().join('|');
+        if (handled.has(k)) continue;
+        handled.add(k);
+        const to = idx.get(d.to);
+        if (!to) {
+          undrawable.push({ from: r.id, to: d.to, width_ft: width, type,
+            reason: 'the other room is not placed on this level' });
+          continue;
+        }
+        const horiz = seat.wall === 'N' || seat.wall === 'S';
+        const at = seat.wall === 'N' ? r.y + r.h
+          : seat.wall === 'S' ? r.y
+            : seat.wall === 'E' ? r.x + r.w : r.x;
+        if (horiz) {
+          interior.push({ x: seat.pos, y: at, w: width, type, horiz: true,
+            swingUp: (to.y + to.h / 2) > (r.y + r.h / 2), pair: [r.id, d.to] });
+        } else {
+          interior.push({ x: at, y: seat.pos, w: width, type, horiz: false,
+            swingRight: (to.x + to.w / 2) > (r.x + r.w / 2), pair: [r.id, d.to] });
+        }
+        continue;
+      }
+      inferredPositions += 1;
+      if (isExt) {
+        // the record does not say WHICH wall an exterior door is on (there is no field
+        // for it until WP-6.2), so the wall is inferred: the first declared exterior
+        // wall this placement actually put on the boundary. `usedWalls` stops a second
+        // exterior door landing on top of the first, which the old loop did.
+        const walls = r.exterior_walls.length ? r.exterior_walls : ['S', 'N', 'W', 'E'];
+        let seat = null;
+        for (const wl of walls) {
+          if (usedWalls.has(wl)) continue;
+          const b = boundaryWall(r, wl, W, H, tol);
+          if (b) { seat = b; break; }
+        }
+        if (!seat) {
+          undrawable.push({ from: r.id, to: 'exterior', width_ft: width, type,
+            reason: 'no declared exterior wall of this room is on the footprint boundary here' });
+          continue;
+        }
+        usedWalls.add(seat.wall);
+        const mid = (seat.lo + seat.hi) / 2;
+        exterior.push({
+          wall: seat.wall, w: width, type, room: r.id, inferredWall: true,
+          inferredWidth: declaredW == null,
+          span: [mid - width / 2, mid + width / 2],
+          x: seat.wall === 'W' ? 0 : seat.wall === 'E' ? W : mid,
+          y: seat.wall === 'S' ? 0 : seat.wall === 'N' ? H : mid,
+        });
+        continue;
+      }
+      const to = idx.get(d.to);
+      const k = [r.id, d.to].sort().join('|');
+      if (handled.has(k)) continue;
+      handled.add(k);
+      if (!to) {
+        undrawable.push({ from: r.id, to: d.to, width_ft: width, type,
+          reason: 'the other room is not placed on this level' });
+        continue;
+      }
+      const seg = sharedEdge(r, to);
+      if (!seg) {
+        undrawable.push({ from: r.id, to: d.to, width_ft: width, type,
+          reason: 'the placement leaves these two rooms no shared wall' });
+        continue;
+      }
+      const need = requiredWallFt(width);
+      if (seg.run < need) {
+        undrawable.push({ from: r.id, to: d.to, width_ft: width, type,
+          reason: `they share ${seg.run.toFixed(1)} ft; this leaf and its jambs need ${need.toFixed(1)} ft` });
+        continue;
+      }
+      const mid = (seg.lo + seg.hi) / 2;
+      if (seg.horiz) {
+        interior.push({ x: mid, y: seg.at, w: width, type, horiz: true,
+          swingUp: (to.y + to.h / 2) > (r.y + r.h / 2), pair: [r.id, d.to] });
+      } else {
+        interior.push({ x: seg.at, y: mid, w: width, type, horiz: false,
+          swingRight: (to.x + to.w / 2) > (r.x + r.w / 2), pair: [r.id, d.to] });
+      }
+    }
+  }
+  return { interior, exterior, undrawable, inferredWidths, inferredPositions };
+}
+
+/* Windows from the record, distributed along the room's exterior wall into the run the
+   doors have left. `extDoors` is doors().exterior — pass it, or the two passes will put
+   an opening in the same masonry twice (which is exactly what used to happen). */
+export function windows(rooms, W, H, tol = 0.6, extDoors = []) {
+  const out = [];
+  let offFootprint = 0;      // the solver put this room on no such boundary wall
+  let crowded = 0;           // the wall has no clear run left beside its doors
+  const blockedBy = new Map();
+  for (const d of extDoors) {
+    const key = `${d.room}|${d.wall}`;
+    const arr = blockedBy.get(key) || [];
+    arr.push([d.span[0] - MIN_SOLID_FT, d.span[1] + MIN_SOLID_FT]);
+    blockedBy.set(key, arr);
+  }
   for (const r of rooms) {
     for (const win of r.windows) {
       const n = win.count || 1;
       const wallW = win.width_ft || 3;
-      for (let k = 0; k < n; k++) {
-        const t = (k + 1) / (n + 1);
-        if (win.wall === 'S' && r.y <= tol) out.push({ wall: 'S', x: r.x + r.w * t, y: 0, w: wallW, room: r.id });
-        else if (win.wall === 'N' && r.y + r.h >= H - tol) out.push({ wall: 'N', x: r.x + r.w * t, y: H, w: wallW, room: r.id });
-        else if (win.wall === 'W' && r.x <= tol) out.push({ wall: 'W', x: 0, y: r.y + r.h * t, w: wallW, room: r.id });
-        else if (win.wall === 'E' && r.x + r.w >= W - tol) out.push({ wall: 'E', x: W, y: r.y + r.h * t, w: wallW, room: r.id });
-        else dropped += 1;
+      const seat = boundaryWall(r, win.wall, W, H, tol);
+      if (!seat) { offFootprint += n; continue; }
+      let pos;
+      if (win.positions_ft && win.positions_ft.length) {
+        // the record carries one centreline per unit; read them, do not re-space them
+        pos = win.positions_ft.map(Number);
+        crowded += Math.max(0, n - pos.length);
+      } else {
+        const free = freeIntervals(seat.lo, seat.hi, blockedBy.get(`${r.id}|${win.wall}`) || []);
+        pos = distribute(free, n, wallW);
+        crowded += n - pos.length;
+      }
+      for (const p of pos) {
+        out.push({
+          wall: seat.wall, w: wallW, room: r.id,
+          x: seat.wall === 'W' ? 0 : seat.wall === 'E' ? W : p,
+          y: seat.wall === 'S' ? 0 : seat.wall === 'N' ? H : p,
+        });
       }
     }
   }
-  out.dropped = dropped;
+  out.dropped = offFootprint;      // kept: the caption has said this since WP-5.2
+  out.offFootprint = offFootprint;
+  out.crowded = crowded;
   return out;
 }
 
@@ -101,49 +377,65 @@ export function windows(rooms, W, H, tol = 0.6) {
 export function litWalls(r, W, H, tol = 0.6) {
   const walls = new Set((r.windows || []).map((w) => w.wall));
   const out = [];
-  if (walls.has('S') && r.y <= tol) out.push('S');
-  if (walls.has('N') && r.y + r.h >= H - tol) out.push('N');
-  if (walls.has('W') && r.x <= tol) out.push('W');
-  if (walls.has('E') && r.x + r.w >= W - tol) out.push('E');
+  for (const wl of ['S', 'N', 'W', 'E']) {
+    if (walls.has(wl) && boundaryWall(r, wl, W, H, tol)) out.push(wl);
+  }
   return out;
 }
 
-/* Interior doors on shared edges, with the swing into the `to` room (render_plan's
-   convention), plus exterior doors as openings on the footprint edge. */
-export function doors(rooms, W, H, tol = 0.6) {
-  const idx = new Map(rooms.map((r) => [r.id, r]));
-  const drawn = new Set();
-  const interior = [];
-  const exterior = [];
+/* Rooms drawn at a materially different size from the one the record declares.
+   The sheet prints the PLACED rectangle — it must, it is what was drawn — and until
+   now said nothing about the declaration it departs from, so a kitchen declared
+   16 × 20 and drawn at 63% of that area read as a measured fact. */
+export function divergence(rooms, tolFt = 0.5) {
+  const out = [];
   for (const r of rooms) {
-    for (const d of r.doors) {
-      if (d.to === 'exterior') {
-        // opening on whichever of the room's edges lies on the footprint boundary,
-        // preferring the declared exterior walls in order
-        const walls = r.exterior_walls.length ? r.exterior_walls : ['S', 'N', 'W', 'E'];
-        for (const wl of walls) {
-          if (wl === 'S' && r.y <= tol) { exterior.push({ wall: 'S', x: r.x + r.w / 2, y: 0, w: d.width_ft || 3.5 }); break; }
-          if (wl === 'N' && r.y + r.h >= H - tol) { exterior.push({ wall: 'N', x: r.x + r.w / 2, y: H, w: d.width_ft || 3.5 }); break; }
-          if (wl === 'W' && r.x <= tol) { exterior.push({ wall: 'W', x: 0, y: r.y + r.h / 2, w: d.width_ft || 3.5 }); break; }
-          if (wl === 'E' && r.x + r.w >= W - tol) { exterior.push({ wall: 'E', x: W, y: r.y + r.h / 2, w: d.width_ft || 3.5 }); break; }
-        }
-        continue;
-      }
-      const to = idx.get(d.to);
-      const k = [r.id, d.to].sort().join('|');
-      if (!to || drawn.has(k)) continue;
-      drawn.add(k);
-      const seg = sharedEdge(r, to);
-      if (!seg) continue;
-      const [px, py] = seg.p;
-      if (seg.horiz) {
-        interior.push({ x: px, y: py, w: d.width_ft || 3, horiz: true, swingUp: (to.y + to.h / 2) > (r.y + r.h / 2) });
-      } else {
-        interior.push({ x: px, y: py, w: d.width_ft || 3, horiz: false, swingRight: (to.x + to.w / 2) > (r.x + r.w / 2) });
-      }
-    }
+    const dw = r.declared_width_ft, dl = r.declared_length_ft;
+    if (!dw || !dl) continue;
+    const short = Math.min(r.w, r.h), long = Math.max(r.w, r.h);
+    const dShort = Math.min(dw, dl), dLong = Math.max(dw, dl);
+    if (Math.abs(short - dShort) <= tolFt && Math.abs(long - dLong) <= tolFt) continue;
+    const da = dw * dl, pa = r.w * r.h;
+    out.push({ id: r.id, name: r.name, declared_sf: da, placed_sf: pa,
+               pct: da ? ((pa - da) / da) * 100 : 0 });
   }
-  return { interior, exterior };
+  out.sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct));
+  return out;
+}
+
+/* Where a relaxation mark may be drawn — and, just as important, where it may not.
+
+   A relaxation is one wall line that missed the structural bay. The heuristic records the
+   cut it made, so the mark has a `from_ft`/`to_ft` extent and is drawn along it. The CP
+   engine records only the line, and the sheet used to draw such a mark as a 5 ft tick
+   CENTRED ON THE PLAN — which is how, on the Tidewater placement, a dashed tick and a
+   triangle came to sit in the middle of the drawing room with no wall under either. That
+   is the "arrows over walls between spaces … they seem to point to anything and
+   everything" of Lucas's review: the mark was not over a wall at all.
+
+   `runs` (geometry_cp.py) is the measured answer — the room faces that actually lie on
+   that line, as disjoint intervals. A mark with runs is drawn along them. A mark with
+   neither extent nor runs is NOT drawn: it is returned in `unlocated` for the caption to
+   name. Guessing a position for it would be the same error in a smaller place. */
+export function relaxationMarks(marks, levelIndex, W, H) {
+  const drawn = [], unlocated = [];
+  for (const m of (marks || [])) {
+    if ((m.level ?? 0) !== levelIndex) continue;
+    let runs = null;
+    if (m.from_ft != null && m.to_ft != null) runs = [[m.from_ft, m.to_ft]];
+    else if (Array.isArray(m.runs) && m.runs.length) runs = m.runs;
+    if (!runs) { unlocated.push(m); continue; }
+    // clip to the sheet, drop anything with no length left, and hang the △ on the
+    // longest surviving piece — one line, one mark, on the widest wall it is true of
+    const span = m.axis === 'x' ? H : W;
+    const clipped = runs
+      .map(([lo, hi]) => [Math.max(0, Math.min(lo, hi)), Math.min(span, Math.max(lo, hi))])
+      .filter(([lo, hi]) => hi - lo > 0.05);
+    if (!clipped.length) { unlocated.push(m); continue; }
+    const best = clipped.reduce((a, b) => (b[1] - b[0] > a[1] - a[0] ? b : a));
+    drawn.push({ mark: m, runs: clipped, at: (best[0] + best[1]) / 2 });
+  }
+  return { drawn, unlocated };
 }
 
 /* Vertical bay lines from the footprint's own module. */
@@ -153,6 +445,14 @@ export function bayLines(footprint) {
   const xs = [];
   for (let b = bm; b < W - 0.01; b += bm) xs.push(Math.round(b * 100) / 100);
   return xs;
+}
+
+/* A title that may fold at a word boundary and never inside a word. Extracted so the
+   sheet's header and its plate caption cannot disagree about it — they did, and the
+   caption folded 'TIDEWATER·GEORGIAN,·FIVE·BAYS,·CAREFULLY·PLANNED' into something that
+   read as a different house. */
+export function interpunctTitle(title) {
+  return (title || '').trim().split(/\s+/).join('·\u200B');
 }
 
 /* Feet-and-inches with primes — never decimal feet in a drawing context. */

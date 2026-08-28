@@ -128,10 +128,15 @@ def _solved_copy(plan, parti=None, candidates=250):
     if has_geometry:
         return plan, plan
     GEO = _mod("geometry", f"{ROOT}/build/geometry.py")
-    # the sheet is a DERIVATION of the record, drawn the same way the workbench
-    # draws it — the heuristic. Proving a placement is an explicit act
-    # (geometry.solve engine="cp"); an export must match the drawing it ships.
-    solved = GEO.solve(copy.deepcopy(plan), parti, candidates, engine="heuristic")
+    # The sheet is a DERIVATION of the record, drawn the same way the workbench draws it.
+    # That premise is the whole rule and it did not change; what changed is what the
+    # workbench draws with. This said "the heuristic" until WP-6.4, and by then the bench
+    # had been on `auto` since WP-6.3 -- so an export shipped a placement the reader had
+    # never seen. `_placed` in workbench/server/corpus.py hands this function an already
+    # placed record for every user-facing export, and `has_geometry` above returns it
+    # untouched; this branch is the CLI and library path, and it takes the same engine the
+    # bench does.
+    solved = GEO.solve(copy.deepcopy(plan), parti, candidates, engine="auto")
     if "error" in solved:
         return plan, solved
     return plan, solved
@@ -139,12 +144,30 @@ def _solved_copy(plan, parti=None, candidates=250):
 
 # room-record keys that are solver output, never authored — stripped from what
 # the XDATA carries so the round-trip returns the authored record
-_SOLVED_ROOM_KEYS = ("geometry",)
-_SOLVED_PLAN_KEYS = ("footprint", "geometry_report")
+_SOLVED_ROOM_KEYS = ("geometry", "fixture_layout")
+_SOLVED_PLAN_KEYS = ("footprint", "geometry_report", "stair", "opening_report")
+# WP-6.2 put solver output INSIDE the openings for the first time. Until then everything the
+# placement wrote lived in keys of its own — `geometry` on a room, `footprint` on the plan —
+# and stripping the top level was enough. A door now carries the wall and the position the
+# placement gave it, or the reason it could not be placed, and those are as much solver
+# output as a rectangle is: leaving them in the XDATA made the round-trip return a record
+# the author never wrote. Caught by tests/test_export.py, which asserts the rebuilt record
+# deep-equals the authored one.
+# and the two are NOT the same list. A window has always declared its own `wall` — that is
+# an authored fact and stripping it lost it — while a door had no wall at all until 0.3.0,
+# so on a door `wall` is placement output. The distinction cost one round-trip failure to
+# find and is worth the two constants.
+_SOLVED_DOOR_KEYS = ("wall", "position_ft", "positions_ft", "hinge", "swing_into", "unplaced")
+_SOLVED_WINDOW_KEYS = ("position_ft", "positions_ft", "unplaced")
 
 
 def _room_record(room):
-    return {k: v for k, v in room.items() if k not in _SOLVED_ROOM_KEYS and not k.startswith("_")}
+    out = {k: v for k, v in room.items()
+           if k not in _SOLVED_ROOM_KEYS and not k.startswith("_")}
+    for key, drop in (("doors", _SOLVED_DOOR_KEYS), ("windows", _SOLVED_WINDOW_KEYS)):
+        if key in out:
+            out[key] = [{k: v for k, v in o.items() if k not in drop} for o in out[key]]
+    return out
 
 
 def _plan_meta(plan):
@@ -298,11 +321,14 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
                 if to == "exterior" or to not in idx or key in drawn:
                     continue
                 drawn.add(key)
-                seg = RP._shared(a, idx[to])
+                # WP-6.1: measured against THIS door's leaf and its jambs, not the flat
+                # 3.2 ft the draw test used to apply to every door alike. A closet door
+                # narrower than 3.2 ft is now exported rather than listed as undrawable,
+                # which is the export half of OQ 41/63.
+                seg = RP._shared(a, idx[to], width_ft=(d.get("width_ft") or RP.DEFAULT_DOOR_FT))
                 if not seg:
-                    # a declared door with no drawable shared wall (the solver's
-                    # programme-scaled floor can accept a run narrower than the
-                    # 3.2 ft draw test) — stated, never silently omitted
+                    # a declared door the placement gives no wall wide enough to hold —
+                    # stated, never silently omitted
                     doors_not_drawn.append(f"L{n} {r['id']}-{to}")
                     continue
                 (px, py), horiz = seg

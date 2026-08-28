@@ -43,7 +43,8 @@
         34
       ],
       "clearance_in": 48,
-      "note": "Door swings 24-26 in. Add 1 in behind for the standpipe and hoses - a machine drawn tight to the wall is 2 in proud of where it is drawn."
+      "note": "Door swings 24-26 in. Add 1 in behind for the standpipe and hoses - a machine drawn tight to the wall is 2 in proud of where it is drawn.",
+      "placement": "against-wall"
     },
     {
       "item": "dryer",
@@ -52,7 +53,8 @@
         32
       ],
       "clearance_in": 48,
-      "note": "Add 4 to 6 in behind for the vent elbow unless a recessed periscope box is used, which is worth specifying - it recovers 4 in of room depth and is a $60 item."
+      "note": "Add 4 to 6 in behind for the vent elbow unless a recessed periscope box is used, which is worth specifying - it recovers 4 in of room depth and is a $60 item.",
+      "placement": "against-wall"
     },
     {
       "item": "stacked pair",
@@ -62,7 +64,8 @@
       ],
       "clearance_in": 42,
       "essential": false,
-      "note": "27 wide by 78 tall. Saves 27 in of width and costs the top-loading convenience; the upper door is at 50 in, which is fine for an adult and impossible for a child."
+      "note": "27 wide by 78 tall. Saves 27 in of width and costs the top-loading convenience; the upper door is at 50 in, which is fine for an adult and impossible for a child.",
+      "placement": "against-wall"
     },
     {
       "item": "folding counter",
@@ -71,7 +74,8 @@
         24
       ],
       "clearance_in": 36,
-      "note": "At 36 in. This is the surface the room is judged by and the one most often omitted; without it the folding happens on a bed, which is the observable symptom."
+      "note": "At 36 in. This is the surface the room is judged by and the one most often omitted; without it the folding happens on a bed, which is the observable symptom.",
+      "placement": "built-in"
     },
     {
       "item": "utility sink",
@@ -80,7 +84,8 @@
         22
       ],
       "clearance_in": 30,
-      "note": "Deep bowl for soaking and for the mop bucket. A laundry without a sink sends both to the kitchen."
+      "note": "Deep bowl for soaking and for the mop bucket. A laundry without a sink sends both to the kitchen.",
+      "placement": "against-wall"
     },
     {
       "item": "hanging rod for drip-dry",
@@ -89,7 +94,8 @@
         20
       ],
       "clearance_in": 30,
-      "note": "48 in of rod at 66 in, over the sink or over a floor drain. The single most useful fitting in the room and it costs eleven dollars."
+      "note": "48 in of rod at 66 in, over the sink or over a floor drain. The single most useful fitting in the room and it costs eleven dollars.",
+      "placement": "built-in"
     },
     {
       "item": "drying rack or airing space",
@@ -99,7 +105,8 @@
       ],
       "clearance_in": 24,
       "essential": false,
-      "note": "The drying yard's descendant. A pulley airer over a heat source is the traditional and the best version."
+      "note": "The drying yard's descendant. A pulley airer over a heat source is the traditional and the best version.",
+      "placement": "against-wall"
     },
     {
       "item": "baskets, sorted",
@@ -108,7 +115,8 @@
         18
       ],
       "clearance_in": 30,
-      "note": "Three baskets at 14 by 18 each. They exist whether or not they are drawn, and if there is nowhere for them they live in the corridor."
+      "note": "Three baskets at 14 by 18 each. They exist whether or not they are drawn, and if there is nowhere for them they live in the corridor.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

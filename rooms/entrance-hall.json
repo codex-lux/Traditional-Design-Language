@@ -44,7 +44,8 @@
     18
    ],
    "clearance_in": 30,
-   "note": "the single most useful object in the house and the one most often omitted: a surface at 30 in to set down what you are carrying while you deal with the coat"
+   "note": "the single most useful object in the house and the one most often omitted: a surface at 30 in to set down what you are carrying while you deal with the coat",
+   "placement": "against-wall"
   },
   {
    "item": "mirror over the table",
@@ -53,7 +54,8 @@
     3
    ],
    "clearance_in": 0,
-   "note": "centre at 60 to 64 in above the floor; it is a face mirror on the way out, not a room mirror"
+   "note": "centre at 60 to 64 in above the floor; it is a face mirror on the way out, not a room mirror",
+   "placement": "against-wall"
   },
   {
    "item": "two hall chairs",
@@ -63,7 +65,8 @@
    ],
    "clearance_in": 18,
    "essential": false,
-   "note": "the period hall chair is hard, shallow and uncomfortable on purpose - it is for a caller who is waiting, not for a guest who has been received, and the discomfort is the message"
+   "note": "the period hall chair is hard, shallow and uncomfortable on purpose - it is for a caller who is waiting, not for a guest who has been received, and the discomfort is the message",
+   "placement": "freestanding"
   },
   {
    "item": "coat closet",
@@ -72,7 +75,8 @@
     26
    ],
    "clearance_in": 36,
-   "note": "26 in clear depth minimum: a hanger is 17 in wide plus a coat's bulk. 24 in is the absolute and it rubs. Allow 2 in of rod per coat, so 30 in of rod is fifteen coats and enough for a party."
+   "note": "26 in clear depth minimum: a hanger is 17 in wide plus a coat's bulk. 24 in is the absolute and it rubs. Allow 2 in of rod per coat, so 30 in of rod is fifteen coats and enough for a party.",
+   "placement": "against-wall"
   },
   {
    "item": "umbrella stand",
@@ -81,7 +85,8 @@
     14
    ],
    "clearance_in": 0,
-   "essential": false
+   "essential": false,
+   "placement": "against-wall"
   },
   {
    "item": "clear arrival floor",
@@ -90,7 +95,8 @@
     60
    ],
    "clearance_in": 0,
-   "note": "a 5 ft square of nothing inside the door where two or three people can stand while greeting. This is what is missing from every hall that 'feels tight' at its stated area."
+   "note": "a 5 ft square of nothing inside the door where two or three people can stand while greeting. This is what is missing from every hall that 'feels tight' at its stated area.",
+   "placement": "freestanding"
   }
  ],
  "daylight": {

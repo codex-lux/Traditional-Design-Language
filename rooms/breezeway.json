@@ -45,7 +45,8 @@
         20
       ],
       "clearance_in": 36,
-      "note": "the dogtrot was sat in, worked in and slept in during summer; furnishing it is not a modern conceit"
+      "note": "the dogtrot was sat in, worked in and slept in during summer; furnishing it is not a modern conceit",
+      "placement": "against-wall"
     },
     {
       "item": "work table",
@@ -55,7 +56,8 @@
       ],
       "clearance_in": 30,
       "essential": false,
-      "note": "shelling, churning, sewing - the passage was the shaded workroom"
+      "note": "shelling, churning, sewing - the passage was the shaded workroom",
+      "placement": "freestanding"
     },
     {
       "item": "two chairs",
@@ -63,7 +65,8 @@
         22,
         24
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "freestanding"
     },
     {
       "item": "clear route end to end",
@@ -72,7 +75,8 @@
         144
       ],
       "clearance_in": 0,
-      "note": "and it must stay clear, because the route is also the airflow"
+      "note": "and it must stay clear, because the route is also the airflow",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

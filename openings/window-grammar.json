@@ -1,0 +1,274 @@
+{
+ "id": "window-grammar",
+ "version": "0.1.0",
+ "name": "The window grammar",
+ "description": "What KIND of window belongs at an opening, and how many units make it. A sibling of openings/grammar.json and deliberately not part of it: the door grammar's domain is the 1,890 unordered ROOM PAIRS, this one's is the room against the wall it is lit from, and schema/opening-grammar.schema.json locks `opening.type` to the door enum. Plan schema 0.3.0 gave every window unit a `unit_type` field and nothing filled it, because no layer had been given authority to decide (OQ 91).",
+ "kind": "editorial",
+ "judgment": true,
+ "authority": {
+  "ruling": "TWO LAYERS DECIDE TWO DIFFERENT THINGS AND NEITHER CAN ANSWER FOR THE OTHER. This file decides the window's ROLE — whether the opening is an ordinary lit window, a high transom band, a borrowed light off another room, a fixed or obscured light in a wet enclosure, or the one deep bay a library takes. That is a PLAN question: it follows from what the room is for, which wall it is on and which storey it sits in, and it is the same in a Georgian house and a Tudor one. The STYLE decides the SASH KIND — double-hung, casement, leaded casement, sash-with-transom — and that is what the kit's `window_type` slot has always held. A room may not state a sash kind and a kit may not state a role.",
+  "refusal": "A kit REFUSES rather than chooses: `window_type` and `special_window` carry variant-level `forbidden` bindings (17 kits forbid a window_type variant by name, 5 forbid special_window outright), and build/resolve_kit.py already resolves them through the lineage. Where this file's role implies a kind the kit forbids, the refusal is stated in the decision log and the unit keeps its role without a kind.",
+  "three_state": "`window_type` is drafted on 39 of 159 kits and `special_window` on 24. Where the kit cannot answer, the unit gets its ROLE and NO `unit_type`, and the sheet says how many such units it drew. Unjudged is not passed: an opening whose sash kind nobody has authored must not be drawn as a double-hung because that is the commonest."
+ },
+ "note": "EDITORIAL THROUGHOUT, AND NO SOURCE IS RECORDED (the OQ 18 form). Every rule is a reading of what this corpus's own room records already say in prose, quoted verbatim in each `basis`. Nothing was taken from a secondary work and nothing was measured. 22 of 60 rooms say anything at all about a window kind, so the rules below are the readable ones and the class defaults carry the rest — build/check_windows.py publishes how many openings resolve to a class default or to og-window-default, exactly as the door grammar publishes its fall-through. None of these may be promoted to `measured` from a secondary source.",
+ "resolution": {
+  "order": [
+   "exact room type",
+   "room against function class",
+   "class",
+   "default"
+  ],
+  "keys": "room type, the wall's exposure (exterior | interior), and the storey index",
+  "note": "First match wins. The default is itself a named rule so that no window is ever derived from nothing — a unit resolving there still has a rule id to cite."
+ },
+ "room_rules": [
+  {
+   "id": "wg-bath-wet-wall",
+   "when": {
+    "room": {
+     "type": [
+      "bathroom",
+      "primary-bathroom",
+      "water-closet",
+      "powder-room"
+     ]
+    },
+    "wall": "exterior"
+   },
+   "unit": {
+    "role": "obscured",
+    "count_pattern": "single",
+    "sill": "high"
+   },
+   "basis": "rooms/bathroom.json daylight.note: \"Where a window has to be near water, use a fixed glass-block or an obscured casement in a fully waterproofed reveal, or borrow light with a transom over the door, which is the period answer and is the reason so many old bathrooms have one.\"",
+   "note": "The room record gives the reason as well as the device: \"A wood sash in a wet enclosure fails in five to eight years, and a tub-surround window is the commonest source of concealed rot in a 1920s house.\" The ROLE is obscured-and-fixed; whether the operable version is a casement is the kit's call."
+  },
+  {
+   "id": "wg-bath-transom-band",
+   "when": {
+    "room": {
+     "type": [
+      "primary-bathroom"
+     ]
+    },
+    "wall": "exterior"
+   },
+   "unit": {
+    "role": "transom-band",
+    "count_pattern": "band",
+    "sill": "high"
+   },
+   "basis": "rooms/primary-bathroom.json daylight.note: \"A high transom band at 6 ft 6 in gives full daylight, complete privacy and needs no covering at all, and it is the most under-used device in this room.\"",
+   "note": "Ordered before wg-bath-wet-wall for this one room type, because the record names the band as the room's best answer rather than a fallback. The 6 ft 6 in is the record's own figure and is a sill height, not a width."
+  },
+  {
+   "id": "wg-library-bay",
+   "when": {
+    "room": {
+     "type": [
+      "library"
+     ]
+    },
+    "wall": "exterior"
+   },
+   "unit": {
+    "role": "bay",
+    "count_pattern": "single"
+   },
+   "basis": "rooms/library.json daylight.note: \"The elegant historic answer is the BAY OR ORIEL: one deep window in a projection lights the room and takes almost no wall from the shelving.\"",
+   "note": "RECORDED AND NOT DIMENSIONED. Nothing in this corpus can draw a projection: schema/plan.schema.json's room geometry is four numbers and every consumer — the slicer, the CP model, both renderers, both exporters — is rectangle-only. The role is written so the decision is in the record; build/check_windows.py counts how many bays are recorded and undrawable, and the sheet says so. Inventing a projection depth here would be the laundering this corpus forbids."
+  },
+  {
+   "id": "wg-hall-dais-window",
+   "when": {
+    "room": {
+     "type": [
+      "hall"
+     ]
+    },
+    "wall": "exterior"
+   },
+   "unit": {
+    "role": "bay",
+    "count_pattern": "single"
+   },
+   "basis": "rooms/hall.json daylight.orientation: \"The high end takes the best light - the oriel or bay window at the dais end is the room's one good window and it exists to light the lord, which is a lighting decision made for social reasons and is worth recognising as such.\"",
+   "note": "Same recorded-not-dimensioned treatment as the library. The record is explicit that this is ONE window and which end it belongs at, which is a plan fact this file can carry and the elevation cannot."
+  },
+  {
+   "id": "wg-early-vernacular-small-lights",
+   "when": {
+    "room": {
+     "type": [
+      "keeping-room"
+     ]
+    },
+    "wall": "exterior"
+   },
+   "unit": {
+    "role": "lit",
+    "count_pattern": "single-or-paired"
+   },
+   "basis": "rooms/keeping-room.json daylight.note: \"Under-glazed by modern standards - one or two small casements or a single sash on a 14 ft wall - and deliberately so, because glass was the coldest surface in the building and the room's whole purpose was warmth.\"",
+   "note": "The record gives the COUNT (one or two on a 14 ft wall) and offers both a casement and a sash, which is exactly the split this file leaves to the kit. Role only."
+  },
+  {
+   "id": "wg-borrowed-light-service",
+   "when": {
+    "room": {
+     "type": [
+      "back-hall",
+      "butlers-pantry",
+      "scullery",
+      "walk-in-closet",
+      "water-closet",
+      "powder-room",
+      "vestibule"
+     ]
+    },
+    "wall": "interior"
+   },
+   "unit": {
+    "role": "borrowed-light",
+    "count_pattern": "single",
+    "sill": "high"
+   },
+   "basis": "rooms/butlers-pantry.json daylight.note: \"A borrowed light or a glazed transom over one of the doors is enough and is the period device.\"",
+   "note": "An INTERIOR opening and not a window in an exterior wall, which is why the `wall` key exists at all. rooms/scullery.json says the same for its own room (\"A high window or a borrowed light over the door is enough\"), and rooms/walk-in-closet.json states the constraint that makes it necessary: \"In a symmetrical style, a walk-in gets its daylight from a borrowed light or a transom over its door, never from the front elevation.\""
+  },
+  {
+   "id": "wg-entrance-fanlight",
+   "when": {
+    "room": {
+     "type": [
+      "entrance-hall",
+      "vestibule"
+     ]
+    },
+    "wall": "exterior"
+   },
+   "unit": {
+    "role": "door-light",
+    "count_pattern": "single"
+   },
+   "basis": "rooms/entrance-hall.json daylight.note: \"The three historical fixes are all still the right ones: a transom and sidelights at the door (which is what fanlights are FOR - they are not ornament, they are the hall's only reliable daylight)\"",
+   "note": "A door-light is glazing that belongs to the DOOR, not a window in the wall beside it, and the record is emphatic that it is structural to the room's daylight rather than decorative. It is recorded on the opening so nothing draws it as an independent window."
+  }
+ ],
+ "class_defaults": [
+  {
+   "id": "wg-class-sleeping",
+   "when": {
+    "room": {
+     "function_class": [
+      "sleeping"
+     ]
+    },
+    "wall": "exterior"
+   },
+   "unit": {
+    "role": "lit",
+    "count_pattern": "single-or-paired",
+    "egress": true
+   },
+   "basis": "rooms/bedroom.json daylight.note",
+   "note": "CLASS DEFAULT, and weaker evidence than a room rule by construction: it reads a function class rather than a sentence about this room. A sleeping room's window also has to be an egress opening, which the plan record already carries per-window."
+  },
+  {
+   "id": "wg-class-service",
+   "when": {
+    "room": {
+     "function_class": [
+      "service",
+      "storage",
+      "work"
+     ]
+    },
+    "wall": "exterior"
+   },
+   "unit": {
+    "role": "lit",
+    "count_pattern": "single",
+    "sill": "high"
+   },
+   "basis": "rooms/scullery.json daylight.note: \"A high window or a borrowed light over the door is enough and is far better than nothing\"",
+   "note": "CLASS DEFAULT. The high sill is the service room's own device — it buys wall for casework, which is why the scullery and the pantry both state it."
+  },
+  {
+   "id": "wg-class-public",
+   "when": {
+    "room": {
+     "function_class": [
+      "public",
+      "living",
+      "dining",
+      "circulation"
+     ]
+    },
+    "wall": "exterior"
+   },
+   "unit": {
+    "role": "lit",
+    "count_pattern": "single-or-paired"
+   },
+   "basis": "rooms/drawing-room.json daylight.note",
+   "note": "CLASS DEFAULT. The principal rooms take an ordinary lit window and the style decides everything else about it; this file deliberately says no more than that."
+  },
+  {
+   "id": "wg-class-interior-none",
+   "when": {
+    "room": {
+     "function_class": [
+      "public",
+      "living",
+      "dining",
+      "circulation",
+      "sleeping",
+      "service",
+      "storage",
+      "work",
+      "sanitary",
+      "threshold",
+      "outdoor"
+     ]
+    },
+    "wall": "interior"
+   },
+   "unit": {
+    "role": "none",
+    "count_pattern": "single"
+   },
+   "basis": "rooms/walk-in-closet.json daylight.note: \"In a symmetrical style, a walk-in gets its daylight from a borrowed light or a transom over its door, never from the front elevation.\"",
+   "note": "CLASS DEFAULT, and it exists so that 'no window here' is a stated answer rather than a fall-through. An interior wall takes glazing only where a room's own record asks for it — wg-borrowed-light-service names the seven rooms that do. Without this rule every interior wall in the corpus resolved to the file's last-resort default and would have read as an ordinary lit window, which is how a grammar comes to invent 61 openings nobody asked for."
+  }
+ ],
+ "default": {
+  "id": "wg-window-default",
+  "unit": {
+   "role": "lit",
+   "count_pattern": "single"
+  },
+  "basis": "proportions/systems/opening-proportion.json",
+  "note": "The rule of last resort, and a named one on purpose: a unit derived from no rule could not be cited. build/check_windows.py reports how many units resolve here so the gaps in this file stay counted rather than disappearing into a default."
+ },
+ "roles": {
+  "lit": "an ordinary window in an exterior wall, sized by opening-proportion's window_width_from_room",
+  "obscured": "fixed or obscured glazing in a wet enclosure; privacy is the point, not the view",
+  "transom-band": "a continuous band of glazing above head height, for daylight without a covering",
+  "borrowed-light": "an INTERIOR opening taking light from another room; never in an exterior wall",
+  "door-light": "glazing belonging to a door — a fanlight, a transom, sidelights",
+  "bay": "a window in a projection beyond the wall plane. RECORDED, NEVER DIMENSIONED — this corpus models no volume outside the block",
+  "none": "no opening at all. An interior wall takes a window only where a room's own record asks for a borrowed light; the rest get nothing, and saying so is not the same as having no rule"
+ },
+ "unit_types": {
+  "note": "THERE IS NO CLOSED ENUM, and pretending otherwise would be the third spelling of a fact. `unit_type` carries whatever the style's kit resolves for its `window_type` slot, verbatim. Measured across all 159 kits through build/resolve_kit.py's lineage: 119 styles resolve a value and 40 have none. WP-7.4 merged the three exact duplicate spellings this file reported — `double-hung-sash` into `double-hung` (which is the spelling elements/slots.json already gives as an example), `round-arched` into `round-arch`, `round-headed-window` into `round-headed` — so the same 119 styles now resolve 21 distinct picks rather than 22, and `double-hung` carries the 54 that were split 32/22. Nothing else moved: the consumed pick and the resolved variants list were snapshotted for all 164 styles before and after, and 0 differed beyond the rename, which matters because build/compose.py takes the FIRST non-forbidden variant, so list order is the semantics. WHAT IS STILL WRONG IS NOT SPELLING BUT AXIS: 20 of the surviving 41 ids describe an opening's head SHAPE or its SURROUND rather than its sash — `clean-rectangle-flat-architrave` (8), `horseshoe-arch` (7), `round-arched-paired` (5) — and the corpus already has the slots that own them (`arch`, added at ontology 0.7.0, plus window_head_* and window_surround_*). Moving them changes what 24 of 119 styles resolve as their window type and is its own ruling, so they are declared and counted in elements/slots.json rather than migrated here.",
+  "observed": {
+   "styles_resolving": 119,
+   "styles_with_no_answer": 40,
+   "distinct_values_resolved": 41,
+   "distinct_values_consumed": 21,
+   "consumed_top": {"double-hung": 54, "casement-leaded": 12, "clean-rectangle-flat-architrave": 8, "horseshoe-arch": 7, "paired-casement": 6, "round-arched-paired": 5},
+   "on_the_wrong_axis": 20
+  }
+ }
+}

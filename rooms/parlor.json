@@ -44,7 +44,8 @@
         72,
         30
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "against-wall"
     },
     {
       "item": "six to eight side chairs, set against the walls",
@@ -53,7 +54,8 @@
         20
       ],
       "clearance_in": 0,
-      "note": "THE PERIPHERAL ARRANGEMENT is the thing modern furniture planning gets wrong about this room. Before about 1840 parlor furniture stood against the wall and was drawn into the centre only when used; the room's default state was an empty floor. That is why parlors look bigger in period images than their dimensions suggest, and why filling one with a fixed centre-facing seating group is an anachronism as well as a mistake."
+      "note": "THE PERIPHERAL ARRANGEMENT is the thing modern furniture planning gets wrong about this room. Before about 1840 parlor furniture stood against the wall and was drawn into the centre only when used; the room's default state was an empty floor. That is why parlors look bigger in period images than their dimensions suggest, and why filling one with a fixed centre-facing seating group is an anachronism as well as a mistake.",
+      "placement": "against-wall"
     },
     {
       "item": "centre table with a lamp",
@@ -62,7 +64,8 @@
         42
       ],
       "clearance_in": 36,
-      "note": "arrives with the argand and then the kerosene lamp after about 1830, and it is what pulls the furniture off the walls into a circle - the centre table is the single object that changed the shape of nineteenth-century domestic life"
+      "note": "arrives with the argand and then the kerosene lamp after about 1830, and it is what pulls the furniture off the walls into a circle - the centre table is the single object that changed the shape of nineteenth-century domestic life",
+      "placement": "freestanding"
     },
     {
       "item": "pier glass or overmantel mirror",
@@ -70,7 +73,8 @@
         36,
         6
       ],
-      "clearance_in": 0
+      "clearance_in": 0,
+      "placement": "against-wall"
     },
     {
       "item": "piano or parlor organ",
@@ -80,7 +84,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "the reed organ is a parlor object of 1850-1910 and needs a wall clear of the fire and the window"
+      "note": "the reed organ is a parlor object of 1850-1910 and needs a wall clear of the fire and the window",
+      "placement": "against-wall"
     },
     {
       "item": "whatnot / etagere in the corner",
@@ -89,7 +94,8 @@
         16
       ],
       "clearance_in": 0,
-      "essential": false
+      "essential": false,
+      "placement": "corner"
     },
     {
       "item": "coffin on trestles, in the middle of the floor",
@@ -99,7 +105,8 @@
       ],
       "clearance_in": 30,
       "essential": false,
-      "note": "not essential after about 1920 and the governing case before it. See critical_dimension."
+      "note": "not essential after about 1920 and the governing case before it. See critical_dimension.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

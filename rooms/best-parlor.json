@@ -44,7 +44,8 @@
         30
       ],
       "clearance_in": 30,
-      "note": "bought as a set and kept as a set; the set-ness is the display"
+      "note": "bought as a set and kept as a set; the set-ness is the display",
+      "placement": "against-wall"
     },
     {
       "item": "carpet, wall to wall or nearly",
@@ -53,7 +54,8 @@
         168
       ],
       "clearance_in": 0,
-      "note": "the single most expensive object in most nineteenth-century farmhouses and the reason the blinds stayed down - sunlight faded it"
+      "note": "the single most expensive object in most nineteenth-century farmhouses and the reason the blinds stayed down - sunlight faded it",
+      "placement": "freestanding"
     },
     {
       "item": "parlor organ or upright piano",
@@ -63,7 +65,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "the reed organ is the definitive best-parlor object of 1860-1910: sold door to door on instalments, used a few times a year, and displayed constantly"
+      "note": "the reed organ is the definitive best-parlor object of 1860-1910: sold door to door on instalments, used a few times a year, and displayed constantly",
+      "placement": "against-wall"
     },
     {
       "item": "centre table with the family Bible and the album",
@@ -71,7 +74,8 @@
         42,
         30
       ],
-      "clearance_in": 36
+      "clearance_in": 36,
+      "placement": "freestanding"
     },
     {
       "item": "photographs and mourning pieces on the walls",
@@ -79,7 +83,8 @@
         20,
         3
       ],
-      "clearance_in": 0
+      "clearance_in": 0,
+      "placement": "against-wall"
     },
     {
       "item": "coffin on trestles",
@@ -89,7 +94,8 @@
       ],
       "clearance_in": 30,
       "essential": false,
-      "note": "the room's design case; see critical_dimension"
+      "note": "the room's design case; see critical_dimension",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

@@ -38,7 +38,8 @@
         192
       ],
       "clearance_in": 30,
-      "note": "A full-size pickup is 82 x 250 and is what the client actually owns."
+      "note": "A full-size pickup is 82 x 250 and is what the client actually owns.",
+      "placement": "freestanding"
     },
     {
       "item": "refuse bins",
@@ -48,7 +49,8 @@
       ],
       "clearance_in": 12,
       "essential": true,
-      "note": "Never drawn, always present, and the reason the third bay gets used for storage."
+      "note": "Never drawn, always present, and the reason the third bay gets used for storage.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

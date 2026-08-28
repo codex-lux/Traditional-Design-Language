@@ -43,7 +43,8 @@
         6
       ],
       "clearance_in": 36,
-      "note": "a partition 6 to 8 ft high with two or three door openings, not reaching the roof. The gallery over it in a grand house is a musicians' gallery and it exists because the screen was already there."
+      "note": "a partition 6 to 8 ft high with two or three door openings, not reaching the roof. The gallery over it in a grand house is a musicians' gallery and it exists because the screen was already there.",
+      "placement": "against-wall"
     },
     {
       "item": "loaded servant, both hands",
@@ -52,7 +53,8 @@
         24
       ],
       "clearance_in": 30,
-      "note": "the unit that sizes the room"
+      "note": "the unit that sizes the room",
+      "placement": "freestanding"
     },
     {
       "item": "bench against the screen",
@@ -62,7 +64,8 @@
       ],
       "clearance_in": 30,
       "essential": false,
-      "note": "where the household waited"
+      "note": "where the household waited",
+      "placement": "against-wall"
     },
     {
       "item": "clear route, front door to rear door",
@@ -70,7 +73,8 @@
         42,
         200
       ],
-      "clearance_in": 0
+      "clearance_in": 0,
+      "placement": "freestanding"
     }
   ],
   "daylight": {

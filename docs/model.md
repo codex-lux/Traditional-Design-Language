@@ -82,3 +82,32 @@ where ornament goes has not voted. The claim is conditional and should be stated
 should become a fault — `evenly-distributed-ornament`, with `italian-renaissance` exempted — is
 open; the fault layer would first need a way to see ornament *zones*, which `elevation.py` does not
 model.
+
+## A room is not sized by its furniture (OQ 92, ruled 27 August 2026)
+
+The room catalogue carries 278 furniture items with real footprints and clearances, and 60
+`critical_dimension` notes — 22 of them stating an arithmetic that derives a minimum from the
+furniture, such as the dining room's *"A table for eight is 40 in wide; a chair pushed back
+needs 36 in; passing behind it needs another 18 in. That is 40 + 2(36) + 2(18) = 148 in, so
+12 ft 4 in is the absolute floor."* It is tempting to make that arithmetic the room's size.
+
+**It is refused.** Lucas's ruling, in his words: *"room sizing should not be furniture driven —
+that's the tail wagging the dog — however furniture arrangements that suit the program / room
+name and room size should be placed accordingly."*
+
+So the direction of authority is fixed and runs one way:
+
+- **A room's size comes from its programme and its catalogue band**, and from the author's
+  declaration in the plan record. `plan_check`'s furniture layer keeps checking that the
+  furniture *fits* the room; it never sizes the room to the furniture.
+- **The furniture is arranged into the room as given** — against the walls the room's own
+  words name, around the doors and windows the placement put there.
+
+The `critical_dimension` prose stays prose. It is a designer's argument for why a band's floor
+is where it is, addressed to a person, and turning it into a constraint would let a derived
+number overrule an authored one — the same error class the corpus names in OQ 52.
+
+The one arrangement rule this admits is stated by the corpus rather than inferred:
+`needs_uninterrupted_wall_ft` on a furniture item, authored only where the item's own `note`
+states the run in words, with the number beside the sentence so the two cannot drift. One item
+carries it today.

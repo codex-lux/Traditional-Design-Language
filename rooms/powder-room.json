@@ -43,7 +43,8 @@
         28
       ],
       "clearance_in": 24,
-      "note": "A round-front bowl is 27-28 in deep against an elongated 30-31, and in a powder room the 3 in is worth having. 30 in clear width is not negotiable."
+      "note": "A round-front bowl is 27-28 in deep against an elongated 30-31, and in a powder room the 3 in is worth having. 30 in clear width is not negotiable.",
+      "placement": "against-wall"
     },
     {
       "item": "small basin, wall-hung or console",
@@ -52,7 +53,8 @@
         18
       ],
       "clearance_in": 24,
-      "note": "A wall-hung basin or a console gives the room its floor back and makes a 3 ft 6 in room feel possible; a 30 in vanity in a powder room is 6 in of storage and 6 in of lost floor."
+      "note": "A wall-hung basin or a console gives the room its floor back and makes a 3 ft 6 in room feel possible; a 30 in vanity in a powder room is 6 in of storage and 6 in of lost floor.",
+      "placement": "against-wall"
     },
     {
       "item": "door swing",
@@ -61,7 +63,8 @@
         30
       ],
       "clearance_in": 0,
-      "note": "See critical_dimension. This is the object that decides the room."
+      "note": "See critical_dimension. This is the object that decides the room.",
+      "placement": "freestanding"
     },
     {
       "item": "a mirror, a light and a towel",
@@ -70,7 +73,8 @@
         4
       ],
       "clearance_in": 0,
-      "note": "The three things a guest actually uses, and the reason this is the one room in the house where the fittings are worth spending on: it is the only room a visitor is alone in."
+      "note": "The three things a guest actually uses, and the reason this is the one room in the house where the fittings are worth spending on: it is the only room a visitor is alone in.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

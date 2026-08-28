@@ -45,7 +45,8 @@
         48,
         18
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "against-wall"
     },
     {
       "item": "shower, open or enclosed",
@@ -54,7 +55,8 @@
         42
       ],
       "clearance_in": 24,
-      "note": "An outdoor shower needs a drain, a frost-proof valve, and a screen 6 ft high; it is the single most-used fitting in any pool house and the one most often left out."
+      "note": "An outdoor shower needs a drain, a frost-proof valve, and a screen 6 ft high; it is the single most-used fitting in any pool house and the one most often left out.",
+      "placement": "against-wall"
     },
     {
       "item": "water closet",
@@ -62,7 +64,8 @@
         20,
         28
       ],
-      "clearance_in": 24
+      "clearance_in": 24,
+      "placement": "against-wall"
     },
     {
       "item": "sauna benches, two levels",
@@ -72,7 +75,8 @@
       ],
       "clearance_in": 24,
       "essential": false,
-      "note": "Lower bench 18 in, upper 40-44 in, 24 in deep to sit and 30 to lie. Ceiling not over 84 in. A 6 by 8 sauna seats four."
+      "note": "Lower bench 18 in, upper 40-44 in, 24 in deep to sit and 30 to lie. Ceiling not over 84 in. A 6 by 8 sauna seats four.",
+      "placement": "built-in"
     },
     {
       "item": "sauna stove and rock chamber",
@@ -82,7 +86,8 @@
       ],
       "clearance_in": 24,
       "essential": false,
-      "note": "Guarded, with the manufacturer's clearance to combustibles, and a non-combustible floor beneath. A wood-fired stove needs a proper flue, not a vent."
+      "note": "Guarded, with the manufacturer's clearance to combustibles, and a non-combustible floor beneath. A wood-fired stove needs a proper flue, not a vent.",
+      "placement": "built-in"
     },
     {
       "item": "towel and clothes hooks",
@@ -90,7 +95,8 @@
         36,
         4
       ],
-      "clearance_in": 0
+      "clearance_in": 0,
+      "placement": "against-wall"
     }
   ],
   "daylight": {

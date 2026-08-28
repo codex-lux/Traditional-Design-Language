@@ -90,7 +90,19 @@ class TestTheWeightsAreDeliberate:
               "adjacency": "connections", "circulation": "connections",
               "privacy": "connections", "completeness": "connections",
               "style": "canon", "grouping": "canon",
-              "code": None}
+              "code": None,
+              # WP-6.2 added the `drawn` layer and mapped it to connections. Re-pinned only
+              # after measuring what this pin exists to protect: the RETURNED SETS on both
+              # shipped briefs are unchanged, in membership and in order, and so is every
+              # score — family-georgian still returns centre-passage-double-pile 70.60,
+              # five-part-palladian 61.10, side-hall-town-house 56.30,
+              # living-hall-picturesque 55.80. It has to be a no-op today, because the drawn
+              # layer judges a PLACEMENT and the composer does not place its candidates, so
+              # the only finding it can emit here is the `info` that says it could not
+              # evaluate — and an info is pulled out of every axis's fraction already. The
+              # mapping is for the day a placed plan is scored, when a room nothing reaches
+              # must cost a candidate something.
+              "drawn": "connections"}
 
     def test_every_layer_is_mapped_to_the_axis_it_is_mapped_to(self, compose_module):
         """SCORE_LAYERS is as load-bearing as the weights and was not pinned at all. An

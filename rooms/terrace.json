@@ -42,7 +42,8 @@
     40,
     72
    ],
-   "clearance_in": 36
+   "clearance_in": 36,
+   "placement": "freestanding"
   },
   {
    "item": "lounge seating group",
@@ -51,7 +52,8 @@
     108
    ],
    "clearance_in": 30,
-   "essential": false
+   "essential": false,
+   "placement": "freestanding"
   }
  ],
  "daylight": {

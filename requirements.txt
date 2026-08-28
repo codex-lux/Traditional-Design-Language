@@ -9,9 +9,18 @@
 
 # WP-2.3's constraint solver (build/geometry_cp.py). Optional at runtime: it is imported
 # inside solve() rather than at module load, and when it is absent the solver falls
-# back to build/geometry.py's heuristic and SAYS SO in geometry_report.solver
-# (engine: "heuristic-fallback", with a reason). A silent fallback would be a
-# lie about how the plan was placed.
+# back to build/geometry.py's heuristic and SAYS SO in geometry_report.solver --
+# `{"engine": "heuristic", "reason": "ortools is not installed ..."}`. (This comment said
+# the engine string was "heuristic-fallback" until WP-6.4; the code has always written
+# "heuristic" plus a reason. The substance was honoured and the token was wrong, which is
+# how a reader comes to test for a string that never appears.) A silent fallback would be
+# a lie about how the plan was placed. Since WP-6.3 CP-SAT is the DEFAULT rather than an
+# explicit act, so an install without it takes the labelled fallback on every drawing.
+#
+# The floor is >=9.15 here and >=9.8 in workbench/requirements.txt, deliberately: the
+# Docker image installs only the workbench file, and the workbench has run on 9.8 in
+# production. Raise the workbench floor before relying on anything newer than 9.8 in
+# build/geometry_cp.py.
 ortools>=9.15
 
 # build/compose.py validates briefs against schema/brief.schema.json on the CLI path.

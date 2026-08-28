@@ -6,6 +6,10 @@ The critic, built before the composer — because a composer needs a fitness fun
 
 `schema/plan.schema.json`: a topology plus approximate dimensions. Rooms with a type, a width and length, a window head, doors, fixtures. Doors imply adjacency in both directions and the validator derives the graph from them. Deliberately hand-authorable — you should be able to type a sketch into it in five minutes and find out whether the rules are right. Since 0.2.0 (WP-5.5) a record may also carry `provenance` — where it came from, how it was transcribed, how much to trust it, and why its style was called what it was; see `docs/ingestion.md`.
 
+**Since 0.3.0 (WP-6.2) it can also hold the PLACED plan.** Until then `additionalProperties: false` at the root forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled beside the record rather than in it — which is why nothing checked it. An opening now has a `wall`, a `position_ft` (or `positions_ft`, one per unit of a window group), a `hinge`, a `swing_into`, a leaf `height_ft` and a `rank`; a room has a `fixture_layout`; the plan has a `stair`. Everything added is optional, so a hand-authored 0.2.0 record validates unchanged and simply reports COULD NOT EVALUATE on the checks that need a placement.
+
+The one rule that governs all of it: **an opening the placement could not realise is marked `unplaced` with a reason, never deleted.** `build/openings.py` writes these, called once from `geometry.solve()` so both engines produce the same kind of record. Note that a window's `unplaced` sits beside its DECLARED `count`, which the placement never overwrites: the shortfall is `count` minus the length of `positions_ft`, and losing an author's declared count to a placement outcome would be the same silent overwrite this layer exists to remove.
+
 ```
 python3 build/plan_check.py plans/spec-builder-colonial.json --min-severity serious
 python3 build/plan_check.py plans/tidewater-georgian-careful.json --layer daylight
@@ -22,7 +26,7 @@ Two example plans ship with it. One is a deliberately ordinary production Coloni
 
 The three fatals on the first are the powder-room door off the dining room, the primary bedroom over the garage, and a half-width shutter at 0.33 where the corpus wants 0.48.
 
-## Five layers
+## Seven layers, and one of them reads the drawing
 
 **Room** — dimension bands, ceiling minimums, **furniture fit with real clearances**, daylight depth against window head. The furniture check is the one most plans have never had run on them: a dining table for eight plus chair pull plus passage needs 12 ft 4 in across, so an 11 ft 6 in dining room fails before anything is drawn.
 
@@ -35,6 +39,17 @@ The three fatals on the first are the powder-room door off the dining room, the 
 **Code** — IRC model text, **advisory and jurisdictional**, never a permit review. Labelled as such in every run.
 
 **Style** — declared choices checked against the resolved kit's forbidden variants. A constraint that has been migrated to `schema/constraint.schema.json`'s `test` object (WP-1.1/WP-1.2, 140 of ~660 as of 23 Aug 2026 — see `docs/constraints.md`) is actually evaluated: `plan.measurements`, plus a small set of values `plan_check.derive_constraint_vars` reads directly off unambiguous plan structure (storey count, ground-floor room count and ceiling height, a `centre-passage` room's width), feed `core._eval_test`. A passing constraint is silent; a failing one is a finding at a severity `CONSTRAINT_SEV` maps from the constraint's own hard/soft/advisory (hard → serious, soft → minor, advisory → advisory — a wrong roof pitch is not grounds to fail the whole plan the way a duplicate room id is); a constraint whose variables aren't available is an `info` finding naming what's missing, never silently passed. `result["constraint_summary"]` gives the present/clear/unjudged counts. The remaining ~520 unmigrated constraints, and any `scope: judgment` constraint, keep the pre-WP-1.2 behaviour: a hard one is listed for hand review, nothing else is asserted about it.
+
+**Drawn** (WP-6.2) — the house that was PLACED, rather than the one the record declares. This is the only layer permitted to read `geometry`, and every other layer stays geometry-blind, which is the point: a record nobody has placed is judged on what it declares and this layer reports COULD NOT EVALUATE, never a pass.
+
+It exists because the split it crosses was hiding real defects. OQ 54 ruled in August that `plan_check` must not read `room.geometry`, and `workbench/server/evaluate.py` called the separation "a settled fact, not an oversight". While it held, the critic scored the declared house and the sheet drew the solved one, and nothing compared them — so a landing drawn clear of its own stair, a kitchen drawn at 63% of its declared area, and a bathroom whose only declared door the placement could not realise each produced no finding at all. Lucas reopened the ruling for this package. What it checks:
+
+- **Reachability**, over the openings that were actually placed. Nothing in this system had ever checked that you can walk from the front door to every room; a room with no doors produced no finding, and neither did a room whose declared doors had nowhere to go. A stranded habitable room is `fatal`.
+- **A room joined to nothing inside the house** — it passes reachability if it has its own exterior door, and it is still wrong. This is the reported symptom in its exact form: *"the door to the kitchen is only from the outside, and the kitchen is connected to no other rooms."*
+- **Drawn against declared**, both directions, `minor` past 10% and `serious` past 25%.
+- **Every `stacks_over` claim, against the room it names.** The field is in the schema and 14 of the 21 partis declare it (50 claims). **Both engines have charged it since WP-7.4** — a soft term in `geometry.vertical_score` and a penalty in `geometry_cp.py`, never a hard pin — and this layer still checks it, because a charge is a preference the search trades off and this is the arbiter. The test is the same one in all three places, deliberately. A room drawn clear of the room it says it stacks over is a `serious` finding, and one whose named room this placement did not place reports COULD NOT EVALUATE. (WP-6.3 refused the charge as inert and WP-7.1 confirmed the level-aware generator did not fix stacking; both measurements stand, and neither was the reason it looked inert — read `vertical_score`'s own comment before quoting either.)
+- **Passage clear width** against `rooms/centre-passage.json`'s own two right answers and the dead zone between them.
+- **Wet-room fixtures** that will not fit together on real walls, from `room.fixture_layout`.
 
 ## Absence is not failure
 

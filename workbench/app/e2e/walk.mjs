@@ -86,6 +86,43 @@ const body = await page.locator('main').innerText();
 check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
 check('hill-climb honesty line present', /hill-climb/i.test(body));
 check('the proof is offered, not just the search', /prove placement/i.test(body));
+// …and the caption names the engine that ACTUALLY DREW THIS SHEET. Until WP-6.3 flipped
+// the default it said flatly that every edit re-scores on the hill-climb and that nothing
+// drawn asserts feasibility was proved — true then, false the moment `auto` became the
+// default, and false in the direction that matters: a reader could not tell a proof from a
+// search. Checked against the API's own report rather than against a phrase.
+{
+  const solved = await fetch(BASE + '/api/plans/examples/tidewater-georgian-careful')
+    .then((r) => r.json())
+    .then((p) => fetch(BASE + '/api/plan/evaluate', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ plan: p.plan || p, place: true }),
+    }))
+    .then((r) => r.json())
+    .catch(() => null);
+  const eng = solved?.placement?.geometry_report?.solver?.engine;
+  if (!eng) {
+    check('the caption names the engine that drew the sheet — COULD NOT EVALUATE '
+      + '(the API did not report one)', false);
+  } else {
+    const saysProved = /was\s+proved,\s+not\s+searched/i.test(body);
+    const saysSearched = /came from the\s+fast search/i.test(body);
+    check(`the caption names the engine that drew the sheet (${eng})`,
+      eng === 'cp-sat' ? (saysProved && !saysSearched) : (saysSearched && !saysProved));
+    // …and the PLATE says it too, not only the page prose beside it. WP-6.3 put the
+    // disclosure one level out, which is the one place it cannot travel: a printed or
+    // exported plate leaves the prose behind and a reader cannot tell a proof from a
+    // search. Measured on the plate's own caption element.
+    const plate = await page.evaluate(() => {
+      const n = document.querySelector('[data-plate-note]');
+      return n ? n.textContent.replace(/\s+/g, ' ').trim() : '';
+    });
+    check(`the plate's own caption names the engine (${eng})`,
+      eng === 'cp-sat'
+        ? /placement proved \(cp-sat\)/i.test(plate)
+        : /placement searched, not proved/i.test(plate));
+  }
+}
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
 // WP-5.7: every surface's index panel pulls, not just the shell's rails. The findings
 // column was 430px written into the JSX and chosen against one window.
@@ -193,6 +230,104 @@ check(`upper level: no room label leaves its room (${upper.rooms} rooms)`
   + (upper.over.length ? ' — ' + upper.over.join('; ') : ''), upper.over.length === 0);
 await page.getByRole('button', { name: /^level 0$/ }).click().catch(() => {});
 await page.waitForTimeout(2000);
+
+// WP-6.1 — the sheet's openings say what they are, and the sheet owns up to what it
+// could not draw. Every assertion here is against something the page computed from the
+// record, never against a number written down twice.
+const openings = await page.evaluate(() => {
+  const marks = [...document.querySelectorAll('[data-door-type]')];
+  const note = document.querySelector('[data-plate-note]');
+  const title = document.querySelector('[data-plate-title]');
+  return {
+    total: marks.length,
+    types: [...new Set(marks.map((m) => m.getAttribute('data-door-type')))].sort(),
+    rooms: [...document.querySelectorAll('[data-room]')].map((g) => g.getAttribute('data-room')),
+    note: note ? note.textContent.replace(/\s+/g, ' ').trim() : '',
+    legend: !!document.querySelector('[data-legend="relaxation"]'),
+    titleText: title ? title.textContent : '',
+    diverged: document.querySelectorAll('[data-diverged]').length,
+  };
+});
+// vacuity first, as everywhere else in this walk: a selector that matches nothing must
+// not be able to pass the assertions that follow
+check(`the sheet draws door marks (${openings.total})`, openings.total >= 10);
+// the 5 ft pair between drawing room and dining room, and the 6 ft cased opening into the
+// stair hall, were BOTH drawn as one giant hinged leaf until this package, because no
+// renderer read `type` at all
+check(`door marks carry their type (${openings.types.join(', ')})`,
+  openings.types.includes('double') && (openings.types.includes('open')
+    || openings.types.includes('cased-opening')));
+// the undrawable disclosure: it must name pairs, and every room it names must be a room
+// this sheet actually drew — a caption naming phantoms would be a new kind of lie
+const undrawn = openings.note.match(/(\d+) declared door\(s\) without a drawable opening[^:]*:([^.]*)\./i);
+check('the sheet states the doors it could not draw', !!undrawn);
+if (undrawn) {
+  const named = undrawn[2].split(',').map((s) => s.trim()).filter(Boolean);
+  const ids = new Set([...openings.rooms, 'exterior']);
+  // ONE end must be a room this sheet drew, not both: "the other room is not placed on
+  // this level" is itself one of the reasons a door cannot be drawn, and the Tidewater
+  // record's breakfast-room door to the terrace is exactly that case. Requiring both ends
+  // would make the sheet unable to name the very doors it most needs to name.
+  const phantom = named.filter((p) => !p.split('–').some((r) => ids.has(r.trim())));
+  check(`the undrawable list names ${undrawn[1]} door(s), each touching a room on this sheet`
+    + (phantom.length ? ' — phantom: ' + phantom.join('; ') : ''),
+    Number(undrawn[1]) === named.length && phantom.length === 0);
+}
+// the △ is defined on the sheet that uses it, not only in the running prose of a caption
+check('the relaxation mark carries a legend', openings.legend || !/cut\(s\) off the bay line/i.test(openings.note));
+// …and it sits on a wall. A CP mark carries no from/to extent, and the sheet used to drop
+// it at the MIDDLE OF THE PLAN: on this very placement that put a tick and a triangle
+// inside the drawing room, on a line with no wall near it, which is what was reported as
+// arrows that "seem to point to anything and everything". Measured, not asserted from the
+// record: each △'s own drawn centre against each drawn room rectangle.
+const rx = await page.evaluate(() => {
+  const tris = [...document.querySelectorAll('svg path')].filter((p) => {
+    const t = p.parentElement && p.parentElement.querySelector('title');
+    return t && /off the bay line/.test(t.textContent);
+  });
+  const rooms = [...document.querySelectorAll('[data-room]')]
+    .map((g) => ({ id: g.getAttribute('data-room'), b: g.querySelector('rect').getBoundingClientRect() }));
+  const adrift = [];
+  for (const p of tris) {
+    const b = p.getBoundingClientRect();
+    const cx = b.x + b.width / 2, cy = b.y + b.height / 2;
+    for (const r of rooms) {
+      if (cx <= r.b.left || cx >= r.b.right || cy <= r.b.top || cy >= r.b.bottom) continue;
+      // inside this room: how far from the nearest wall of it, in screen px
+      const d = Math.min(cx - r.b.left, r.b.right - cx, cy - r.b.top, r.b.bottom - cy);
+      if (d > 12) adrift.push(`${r.id} (${Math.round(d)}px in)`);
+    }
+  }
+  return { tris: tris.length, adrift };
+});
+check(`every △ is drawn on a wall, none adrift in a room (${rx.tris} mark(s))`
+  + (rx.adrift.length ? ' — ' + rx.adrift.join(', ') : ''),
+  rx.tris > 0 && rx.adrift.length === 0);
+// a room drawn at a size its record does not declare says so, in the caption and on itself
+const divergedClaim = openings.note.match(/(\d+) room\(s\) are drawn at a size the record does not declare/i);
+check('rooms drawn off their declaration are marked and counted',
+  !divergedClaim || Number(divergedClaim[1]) === openings.diverged);
+// and the plate title survives its own line-wrapping: stripped of the interpuncts and the
+// zero-width spaces that let it fold, it must still be the whole name. Folded badly, this
+// title read 'WATER GEORGIAN, FIVE CAREFULLY PLANNED' — a different house.
+const flat = openings.titleText.replace(/[·​]/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+check(`the plate title is whole ("${flat.slice(0, 48)}")`,
+  flat.includes('tidewater') && flat.includes('georgian'));
+
+// WP-6.2 — the stair and the fixtures, both drawn ONLY from the record. There has never
+// been a line of stair-drawing code in this system, and a stair hall was an empty rectangle
+// with lettering in it. Either the flights are on the sheet, or the sheet says why not:
+// what must never happen is an empty stair hall presented as a finished drawing.
+const built = await page.evaluate(() => ({
+  stair: document.querySelectorAll('[data-stair]').length,
+  refused: !!document.querySelector('[data-stair="refused"]'),
+  fixtures: [...document.querySelectorAll('svg rect')]
+    .filter((r) => (r.getAttribute('stroke-dasharray') || '').startsWith('1.4')).length,
+}));
+check(`the stair is drawn or its absence is stated (${built.stair} mark(s), refused=${built.refused})`,
+  built.stair > 0);
+check(`wet-room fixtures are drawn from the record (${built.fixtures})`, built.fixtures > 0);
+
 // the loupe's scroller, and one room's drawn dimensions, read the same way twice
 const scrollPos = () => page.evaluate(() => {
   const d = [...document.querySelectorAll('div')]

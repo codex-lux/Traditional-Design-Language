@@ -33,7 +33,8 @@
         30,
         96
       ],
-      "clearance_in": 36
+      "clearance_in": 36,
+      "placement": "against-wall"
     },
     {
       "item": "table saw with outfeed",
@@ -43,7 +44,8 @@
       ],
       "clearance_in": 96,
       "essential": false,
-      "note": "Needs 8 ft in front and behind, which is what actually sizes the room."
+      "note": "Needs 8 ft in front and behind, which is what actually sizes the room.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

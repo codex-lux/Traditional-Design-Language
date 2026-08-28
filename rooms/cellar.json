@@ -31,7 +31,8 @@
       ],
       "clearance_in": 30,
       "essential": true,
-      "note": "Furnace or air handler, water heater, panel. Code clearances are real and routinely designed out."
+      "note": "Furnace or air handler, water heater, panel. Code clearances are real and routinely designed out.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

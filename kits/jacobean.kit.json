@@ -359,7 +359,7 @@
           "status": "canonical"
         },
         {
-          "id": "double-hung-sash",
+          "id": "double-hung",
           "status": "forbidden",
           "note": "jacobean.c04: sash windows on a genuine Jacobean house are always a later alteration."
         }

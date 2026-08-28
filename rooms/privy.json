@@ -46,7 +46,8 @@
         30
       ],
       "clearance_in": 30,
-      "note": "Seat 16-18 in high, riser boarded, hinged or lift-out lid. Two or three holes side by side is normal, not a curiosity."
+      "note": "Seat 16-18 in high, riser boarded, hinged or lift-out lid. Two or three holes side by side is normal, not a curiosity.",
+      "placement": "against-wall"
     },
     {
       "item": "vault or pit",
@@ -55,7 +56,8 @@
         48
       ],
       "clearance_in": 0,
-      "note": "3 to 6 ft deep, brick-lined in town where it was emptied by a nightman, unlined in the country where the building was moved when it filled. The moveable privy is the reason so many farmyards have a suspiciously fertile patch."
+      "note": "3 to 6 ft deep, brick-lined in town where it was emptied by a nightman, unlined in the country where the building was moved when it filled. The moveable privy is the reason so many farmyards have a suspiciously fertile patch.",
+      "placement": "built-in"
     },
     {
       "item": "ash or earth box",
@@ -65,7 +67,8 @@
       ],
       "clearance_in": 18,
       "essential": false,
-      "note": "Henry Moule's earth closet, patented 1860, dropped sifted dry earth after each use and genuinely worked - it composted rather than stank, and it was a serious rival to the water closet for twenty years. It lost because it required someone to empty it, and the WC required only a sewer."
+      "note": "Henry Moule's earth closet, patented 1860, dropped sifted dry earth after each use and genuinely worked - it composted rather than stank, and it was a serious rival to the water closet for twenty years. It lost because it required someone to empty it, and the WC required only a sewer.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

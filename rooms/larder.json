@@ -44,7 +44,8 @@
         18
       ],
       "clearance_in": 0,
-      "note": "1 1/2 to 2 in slate, marble or honed limestone on brick or timber bearers, on the coldest wall, at 32 to 36 in. The thermal mass IS the appliance."
+      "note": "1 1/2 to 2 in slate, marble or honed limestone on brick or timber bearers, on the coldest wall, at 32 to 36 in. The thermal mass IS the appliance.",
+      "placement": "against-wall"
     },
     {
       "item": "upper shelving, timber",
@@ -53,7 +54,8 @@
         12
       ],
       "clearance_in": 0,
-      "note": "Lighter goods above; the cold sits low, so the coldest shelf is the bottom one and the arrangement should follow."
+      "note": "Lighter goods above; the cold sits low, so the coldest shelf is the bottom one and the arrangement should follow.",
+      "placement": "against-wall"
     },
     {
       "item": "hook rail for hanging",
@@ -62,7 +64,8 @@
         6
       ],
       "clearance_in": 60,
-      "note": "5 ft of clear drop. Game, bacon, herbs."
+      "note": "5 ft of clear drop. Game, bacon, herbs.",
+      "placement": "against-wall"
     },
     {
       "item": "meat safe or fly-screened cupboard",
@@ -72,7 +75,8 @@
       ],
       "clearance_in": 30,
       "essential": false,
-      "note": "Perforated zinc or fine mesh panels. Where the room is not fully screened, the safe is."
+      "note": "Perforated zinc or fine mesh panels. Where the room is not fully screened, the safe is.",
+      "placement": "against-wall"
     },
     {
       "item": "low and high air vents",
@@ -81,7 +85,8 @@
         9
       ],
       "clearance_in": 0,
-      "note": "Two 9 by 9 in air bricks or grilles on the same external wall, one at 12 in above the floor and one just under the ceiling, mesh-screened at 1/16 in against insects and vermin. This is the machinery."
+      "note": "Two 9 by 9 in air bricks or grilles on the same external wall, one at 12 in above the floor and one just under the ceiling, mesh-screened at 1/16 in against insects and vermin. This is the machinery.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

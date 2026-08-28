@@ -305,7 +305,7 @@
       "confidence": "medium",
       "judgment": true,
       "rule_append": "No more than two distinct window shapes on one principal elevation; three or more -- rectangular, arched, half-round, octagonal, on a single wall -- is this style's own named diagnostic overreach, not a canonical target (diagnostic_tells item 4).",
-      "note": "Adds a clause the inherited double-hung-sash binding (british-picturesque, via the family splice) does not carry. Marked judgment: the node's own text names the three-or-more-shapes condition as a failure to diagnose, not as an explicit numeric ceiling, so the two-shape cap is an inference from that diagnostic rather than a directly stated rule."
+      "note": "Adds a clause the inherited double-hung binding (british-picturesque, via the family splice) does not carry. Marked judgment: the node's own text names the three-or-more-shapes condition as a failure to diagnose, not as an explicit numeric ceiling, so the two-shape cap is an inference from that diagnostic rather than a directly stated rule."
     },
     "window_proportion": {
       "group": "openings",

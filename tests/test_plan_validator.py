@@ -42,7 +42,24 @@ class TestShippedPlans:
         # finding manufactured by a table this file already carries and already trusts.
         # Found by an adversarial audit of the candidate-score work. Fatal is unmoved, which
         # is what says this removed noise rather than signal.
-        assert result["counts"]["serious"] == 65
+        # 65 -> 54 and 58 -> 62 on 27 Aug 2026, two packages moving them together and in
+        # opposite directions, so they are stated apart:
+        #   WP-7.1 made the upper level slice against the ground layout, which changes
+        #     which candidate wins and therefore where every room lands.
+        #   WP-7.2 authored `placement` on all 278 furniture items and deleted the regex
+        #     that had guessed it from the item's NAME. The regex called 84 items
+        #     against-wall where the data calls 159, so a sideboard, a nightstand and a
+        #     console table were each being asked for clearance on BOTH sides. Furniture
+        #     findings across the two shipped plans: 44 -> 34, all of them removed
+        #     accusations rather than removed checks.
+        # 54 -> 53 on 27 Aug 2026 (WP-7.4). The two score terms pulled a cut onto the bay line
+        # and THE PORCH CAME OUT 6.00 FT INSTEAD OF 5.71, which clears `porch-nobody-can-sit-on`
+        # outright (it wants at least 6.0) and leaves `four-foot-porch` failing from 6.00 rather
+        # than 5.71 against its 7.0. One fault removed because the house got better, not because
+        # a check stopped looking: the finding that remains still fires, with a better number.
+        # That a span-capacity charge produces a sittable porch is a coincidence of this plan's
+        # geometry and not a claim about the term.
+        assert result["counts"]["serious"] == 53
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -54,11 +71,15 @@ class TestShippedPlans:
         # instead of one minor "treats as equivalent" note. Fatal is unmoved at 4.
         # 59 -> 58 (OQ 52): 'The Chimney With No Hat' was decided from an invented count of the
         # shadow lines in the top 18 in of a stack this corpus does not model.
-        # 58 -> 56 on 27 Aug 2026 (WP-5.9): `shutter-panel-scale` stops firing on both storeys,
-        # because the two panel-field figures it read were leaf-width ratios with no author and
-        # are refused now. `muntin-wider-than-its-date` also stops firing here -- see the
-        # Tidewater note below for why it was firing at all.
-        assert result["counts"]["minor"] == 56
+        # BOTH SIDES OF THE 28 AUG MERGE MOVED THIS NUMBER IN OPPOSITE DIRECTIONS, so it is
+        # re-measured here rather than reconciled on paper. WP-7.1/7.2 pushed it UP (58 -> 62):
+        # the drawn layer sees a different placement, and a stated wall run is now measured
+        # against the placed openings. WP-5.9 pushed it DOWN (58 -> 56): `shutter-panel-scale`
+        # stops firing on both storeys, because the two panel-field figures it read were
+        # leaf-width ratios with no author and are refused now, and
+        # `muntin-wider-than-its-date` stops firing too -- see the Tidewater note below.
+        # The combined figure is 60 -- neither 62 nor 56, and not predictable from either.
+        assert result["counts"]["minor"] == 60
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -94,20 +115,22 @@ class TestShippedPlans:
         # findings manufactured by a table this file already carries and already trusts.
         # Found by an adversarial audit of the candidate-score work. Fatal is unmoved, which
         # is what says this removed noise rather than signal.
-        # 34 -> 33 and minor 61 -> 60 on 27 Aug 2026 (WP-5.9), and this is the useful one:
-        # BOTH REFERENCE HOUSES WERE BEING CONVICTED OF A SERIOUS FAULT ON A FABRICATED NUMBER.
-        # `muntin-wider-than-its-date` reads sash_stile_width_in in its secondary test, and
-        # elevation.py was supplying `muntin_width_in * 4` = 3.5 in -- against the 2 in the
-        # corpus's own sash-light.json states in as many words ("2 in top rail, 3 in bottom rail
-        # and 1 1/4 in meeting rail ... near-constant from 1700 to 1900"). The ratio existed in no
-        # pack, kit or element file. Read from the corpus instead of invented, the fault stops
-        # firing, on this plan and on the spec Colonial.
-        # `shutter-panel-scale` (minor) likewise: it was judging panel proportion on
-        # shutter_panel_field_height_in / _width_in, both of them leaf-width ratios (0.4, 0.8)
-        # with no author. Those are refused now, so the fault is could-not-judge rather than
-        # answered from fiction. This is the OQ 52 class, in the half NOT_MODELLED never covered:
-        # a test that guards a refusal filter cannot see a supplied number that was never refused.
-        assert result["counts"]["serious"] == 33
+        # AGAIN BOTH SIDES MOVED IT, and this is the one worth reading. WP-7.1/7.2 took it
+        # 34 -> 31 (placement moved; three furniture false accusations removed). WP-5.9 took it
+        # 34 -> 33, and its reason is the sharper one: BOTH REFERENCE HOUSES WERE BEING CONVICTED
+        # OF A SERIOUS FAULT ON A FABRICATED NUMBER. `muntin-wider-than-its-date` reads
+        # sash_stile_width_in in its secondary test, and elevation.py was supplying
+        # `muntin_width_in * 4` = 3.5 in -- against the 2 in the corpus's own sash-light.json
+        # states in as many words ("2 in top rail, 3 in bottom rail and 1 1/4 in meeting rail
+        # ... near-constant from 1700 to 1900"). The ratio existed in no pack, kit or element
+        # file. Read from the corpus instead of invented, the fault stops firing, on this plan
+        # and on the spec Colonial. `shutter-panel-scale` (minor) likewise: it was judging panel
+        # proportion on shutter_panel_field_height_in / _width_in, both leaf-width ratios (0.4,
+        # 0.8) with no author. Those are refused now, so the fault is could-not-judge rather
+        # than answered from fiction. This is the OQ 52 class, in the half NOT_MODELLED never
+        # covered: a test that guards a refusal filter cannot see a supplied number that was
+        # never refused. Measured on the merged tree, not carried from either side.
+        assert result["counts"]["serious"] == 30
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the

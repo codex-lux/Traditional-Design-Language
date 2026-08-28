@@ -16,7 +16,8 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **3 — The elevation** | WP-3.1, 3.2, 3.3 | **Complete** — WP-3.2 evaluates 83 of a named 100 faults, disclosed |
 | **4 — Breadth** | WP-4.1, 4.2, 4.3, 4.5, 4.6 complete · **4.4 environment-blocked, 4.7 not started** | **In progress** |
 | **5 — Platform** | WP-5.1, 5.2, 5.5, 5.6, 5.7 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
-
+| **7 — The three open questions, then their remaining halves** | WP-7.1, 7.2, 7.3, **7.4**, **7.5** | **Complete (27 Aug 2026)** — OQ 95, 79 and 78 (issued as 76, 73 and 72; see the register's 27 August conversion table), each ruled by Lucas and each half-closed with the half that could not be done named; **WP-7.4 then took the halves that were left**. The generator is level-aware and fixed BEARING not stacking (transfer beams 166 → 109), and WP-7.4 charged the stacking directly in both engines; furniture sizing is REFUSED and arrangement goes as far as the rooms' own words, which turned out to be five wall runs rather than the one the register published; a window's ROLE is the plan's to decide and its SASH KIND the style's, with 119 of 159 styles answering through the lineage and the kit vocabulary now merged and ratcheted. **WP-7.4 also found that `span_check` had never read the bearing flag it was handed** — every partition counted as a support, so the corpus under-reported its own structural defects by half. **WP-7.5 is the adversarial audit of WP-7.4** and found two blocking defects it had introduced, one of them a false claim in its own commit message ("the three tests replacing it" — three were added and the nondeterministic one was never removed), plus the same span bug a second time in `render_section.py`; six tests that passed with the fix reverted were made to bite, and OQ 98 was raised for what the audit deliberately did not fix |
+| **6 — Plan semantics** | WP-6.1, 6.2, 6.3, **6.4 (the audit)** | **Complete (27 Aug 2026)** — raised by Lucas, not by the plan: the rendered sheets were "colorless green ideas sleeping furiously", every part well-formed and the whole meaningless. A door had no wall, no position and no rank; the renderers invented what the record could not say and dropped what it could; nothing checked that you could walk from the front door to a room |
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
@@ -675,6 +676,122 @@ question: OQ 72.
 
 **Depends on:** WP-5.2, WP-5.6. **Size:** medium.
 A structured transcription form (HTML) that produces a plan record from a drawing by tracing, and a DXF importer that reads a drafter's plan into a record. This is what lets HABS drawings, the reference corpus, and a builder's back catalogue flow into the critic.
+
+---
+
+---
+
+## Phase 6 — Plan semantics
+
+*Goal: a plan that MEANS something. Raised by Lucas on 26 August 2026 against two rendered
+Tidewater sheets, in the project's own founding terms: "the Chomsky error of colorless green
+ideas sleeping furiously is still very much in play." A kitchen whose only door was to the
+outside; a stair hall with no stair; a rear door drawn as a window; door sizes with no rhyme
+or reason; triangular arrows pointing at everything; a chamber bath with no access; a passage
+grossly oversized; no furniture anywhere. Every part individually well-formed, the whole
+meaningless — which is the exact failure this corpus exists to catch in other people's work.*
+
+### WP-6.1 Drawing honesty
+
+**Status: COMPLETE (26 Aug 2026).** The sheet stops lying about the record it renders. Doors
+are drawn as the KIND of opening the record says they are (`type` was read by nothing, so a
+pair of leaves and a cased opening both drew as one giant hinged leaf); a door is measured
+against its own leaf and jambs rather than a flat 3.2 ft, so a closet door draws (the renderer
+half of OQ 41/63); `render_plan.py` draws exterior doors, which it never had; windows are laid
+into the run the doors leave, ending the collisions that drew the front and back doors as
+windows; every opening that cannot be drawn is NAMED with its reason on the sheet, in the DXF
+exporter's own words; the △ relaxation mark has a legend; a room drawn off its declaration is
+marked and counted; and the plate title stops folding into a different house's name. The
+durable half is `tests/fixtures/sheet_symbols/`, a frozen contract both renderers are held to
+by two suites at once. Three false claims in the tree were corrected in place — the stair term
+`geometry.py` and `docs/geometry.md` both advertised does not exist, and `check_partis.py`
+claimed a reachability check the validator did not have.
+Report: `docs/reports/wp-6.1-sheet-honesty.md`.
+
+### WP-6.2 Opening semantics
+
+**Status: COMPLETE (26 Aug 2026).** A door becomes a thing with a place. **Plan schema 0.3.0**
+admits the placed plan as a record — until then `additionalProperties: false` forbade
+`geometry` at the root, so a placed plan could not validate against its own schema and the
+placement travelled out-of-band, which is why nothing checked it. Openings gain a wall, a
+position, a hand, a leaf height and a rank; rooms gain a fixture layout; the plan gains a
+stair. **`openings/grammar.json`** (editorial by ruling, 30 rules, every one quoting the corpus
+prose it reads and every quote verified by `build/check_openings.py`) says which kind of
+opening belongs between which two rooms. **`build/openings.py`** places them, called once from
+`geometry.solve()` so both engines agree, and marks what it cannot place rather than deleting
+it. **`compose.py`** derives door widths, types, ranks and heights and window widths and counts
+from packs and kits that have always held them and were never read. **`plan_check` gains a
+`drawn` layer** — the only layer that reads placement, three-state throughout — which reopens
+OQ 54 on Lucas's ruling and turns every one of the reported symptoms into a finding.
+Report: `docs/reports/wp-6.2-opening-semantics.md` · new open questions: OQ 91–81 (issued as 72–75).
+
+### WP-6.3 Geometry truth
+
+**Status: COMPLETE (27 Aug 2026) — one of the four planned changes was built and three were
+REFUSED on measured evidence, one of them because the defect it proposed to fix does not
+exist.** The package text below is left as written; what follows is what happened to it.
+
+**Built: the per-pair door floor**, closing OQ 41/63 from the solver side. The old rule
+demanded a flat 4 ft of shared wall for every interior door — its "programme-scaled" branch,
+which the comment and OQ 41 itself both describe as protecting closets, **has never once
+fired** (`maxside` is the LONGER side; 0 of 238 rooms in the corpus qualify). The floor is
+now `openings.required_wall_ft` read from the record, in the model and in
+`hard_fact_violations`, which had carried a second copy of the dead expression. **It fixed
+the reported problem outright**: `tidewater-georgian-careful` had never been solved by
+CP-SAT and now solves OPTIMAL, openings placed 20 → 30, doors with nowhere to go 11 → 1,
+unreachable rooms 3 → 0, fatal findings 3 → 0. A stricter rule for most pairs made the model
+easier, because the flat 4 ft had been asking a parlour's shared wall of every closet. Cost,
+stated: 17 declared wall pins downgraded with refinements, relaxations 11 → 13. The
+workbench and the Drawing Set stopped defaulting to the weaker engine — **the sheet that
+started this whole program came from the fallback, and every access defect in it was an
+artefact of that.**
+
+**Refused: the stair-stacking charge** (inert at every weight — the generator is blind to
+the other level, so the score can only re-rank blind candidates; 100x and 10,000x produce
+byte-identical output. A hard CP constraint is worse: only wall pins are downgradable, so it
+would outrank every authored exterior wall, and measured, it did). **The over-size penalty**
+(an identity: because the slicer tiles exactly, an over-band charge IS an under-band charge
+plus a constant — three formulations, not one room changed size; and over-size is already
+billed symmetrically by `level_score`). **The `_absorb` keep-out for doors and stacks** (the
+defect does not exist: `_absorb` only grows, so it cannot violate a lower bound; fuzzed over
+4,000 layouts, worst shrink 0.014 ft against a 0.4 ft tolerance).
+
+**Reported instead of charged**, which is where those refusals landed: `over_band` beside
+`under_band`, carrying `declared_over_ceiling` so a room the BRIEF made oversized is not
+blamed on the placement; and the drawn layer now checks every `stacks_over` claim rather
+than only the stair. Two false claims corrected: `geometry_report.solver.hard` said "rooms
+at program size" while `_absorb` licenses up to 2.27x, and the divergence threshold said
+"more than a tenth" while testing `>=` (the kitchen and library land at exactly -10.00%).
+
+**Found while verifying, and it is one of Lucas's own reported defects: the △ relaxation
+marks were not over walls.** The CP counter emitted a line with no extent, refusing to
+invent one — correct about the invention, wrong that there was nothing to measure, since it
+was looping over the very rectangles whose faces lie on that line. Both renderers therefore
+fell back to a tick at **the middle of the plan**, which on this placement put a mark inside
+the drawing room six feet clear of any wall, over that room's own name. That is *"the arrows
+over walls between spaces … they seem to point to anything and everything"*; WP-6.1 read it
+as a missing legend and gave it one, which was owed and was the smaller half. The counter now
+carries `runs` — the measured room faces on the line — and a mark it can locate on no wall of
+its own level is named in the caption and not drawn. The dashed run was also swallowing the
+click that selects the room under it, which had been misread as CP latency until it was
+measured.
+
+Report: `docs/reports/wp-6.3-geometry-truth.md` · closes OQ 41 · new open questions: OQ 95 (issued as 76)
+(the generator is blind to the other level — the real home of the stacking fix) and OQ 96 (issued as 77)
+(`_shared`'s first-match ordering can report a corner kiss as a shared edge).
+
+**Depends on:** WP-6.2. **Size:** medium.
+
+Make the placement honour what the record now says. The stair-stacking term that
+`vertical_score` never had, as a real charge in the heuristic and a hard constraint in the CP
+engine, reading the `stacks_over` neither engine has ever read. An over-size penalty and an
+`over_band` report to match `under_band`, because the slicer tiles exactly and has no
+over-size charge at all — the Tidewater upper passage is placed 63% over its declaration and
+the linen press 303% over, in silence. `under_band` compared against the DECLARATION as well
+as the catalogue floor, so a kitchen placed at 63% of its declared area is visible. The CP
+door floor made the per-pair figure from the record's real widths, closing OQ 41/63 from the
+solver side. And `_absorb` made unable to undo the guarantees the solve proved, per OQ 55's
+precedent that a guarantee which does not survive the post-pass is not a guarantee.
 
 ---
 

@@ -2,9 +2,21 @@
 
 The client owns the plan record and sends the whole document per edit gesture.
 The validator reads the record's *declared* fields, so a wall drag must already
-have been written back to width_ft/length_ft before this is called; placement
-is solved separately and returned beside the findings, never fed into them
-(plan_check does not read geometry output — a settled fact, not an oversight).
+have been written back to width_ft/length_ft before this is called.
+
+WP-6.2 CHANGED THE SECOND HALF OF THIS PARAGRAPH, and the old text is kept here
+because it was a stated position rather than an accident. It read: "placement is
+solved separately and returned beside the findings, never fed into them
+(plan_check does not read geometry output — a settled fact, not an oversight)."
+That was OQ 54's ruling, and Lucas reopened it: while it held, the critic scored
+the house the record DECLARED and the sheet drew the house the solver PLACED, so
+a landing that misses its own stair, a kitchen drawn at 63% of its declared area,
+and a bathroom no door reaches each produced no finding at all.
+
+`plan_check` now carries a `drawn` layer — and ONLY that layer — which reads
+placement. Every other layer stays geometry-blind, so a record nobody has placed
+is still judged on what it declares and the drawn layer reports COULD NOT
+EVALUATE rather than passing. That distinction is the whole of the change.
 """
 import time
 
@@ -14,11 +26,28 @@ core = corpus.core
 
 
 def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
-             engine="heuristic"):
-    # engine defaults to the HEURISTIC here, deliberately: this endpoint runs
-    # on a 400 ms debounce behind every wall drag, and a CP-SAT proof takes
-    # seconds. Proving is an explicit act on the bench (engine="cp"), which
-    # returns WP-2.3's conflict set / stated refinements in the placement.
+             engine="auto"):
+    # WP-6.3 flipped this from "heuristic" to "auto" (CP-SAT where it can answer, the
+    # hill-climb where it cannot, with the reason named in geometry_report.solver either
+    # way). The old default was chosen for latency — this endpoint runs on a 400 ms
+    # debounce behind every wall drag and a proof takes seconds — and the cost of it was
+    # not visible until the openings became placeable and countable.
+    #
+    # MEASURED on plans/tidewater-georgian-careful.json, three runs each, deterministic:
+    #   heuristic  20 openings placed, 11 unplaced, 3 rooms stranded (fatal), kitchen
+    #              reachable only from outdoors
+    #   auto/CP    30 openings placed,  1 unplaced (a door to a room the record puts on
+    #              no level), 0 stranded, 0 fatal
+    # The sheet a reader was looking at came from the weaker engine, and every access
+    # defect they reported was an artefact of that. Latency is the right thing to spend
+    # here and the wrong thing to spend it on was correctness.
+    #
+    # A caller that wants the fast path still asks for it BY NAME: the bench passes
+    # engine="heuristic" on the drag path only, and every other way the record can change
+    # takes this default. There is deliberately no settle-timer re-proof behind the drag —
+    # it was tried and was worse, because a second render landing mid-gesture replaces the
+    # handle element under the pointer and the drag dies. The next change to the record
+    # gets the proof.
     t0 = time.perf_counter()
     check = core.check_plan(plan, strict=strict)
     t1 = time.perf_counter()
@@ -39,6 +68,16 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
                     "privacy_rank": room.get("privacy_rank"),
                     "plumbing": (room.get("servicing") or {}).get("plumbing"),
                     "daylight_multiplier": (room.get("daylight") or {}).get("depth_multiplier"),
+                    # WP-6.2: the catalogue's own furniture, with the footprints and
+                    # clearances it has always carried. The client could not draw a stair,
+                    # a tub or a range because this dict did not ship them — 60 of 60 room
+                    # records hold them and nothing downstream had ever seen one.
+                    "furniture": [
+                        {"item": f.get("item"), "footprint_in": f.get("footprint_in"),
+                         "clearance_in": f.get("clearance_in"), "essential": f.get("essential")}
+                        for f in (room.get("furniture") or [])
+                        if f.get("footprint_in")
+                    ],
                 }
     out["rooms_meta"] = meta
     # check() (build/plan_check.py) now returns fault_unjudged beside fault_summary —

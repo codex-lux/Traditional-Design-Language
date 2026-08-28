@@ -44,7 +44,8 @@
         20,
         28
       ],
-      "clearance_in": 24
+      "clearance_in": 24,
+      "placement": "against-wall"
     },
     {
       "item": "corner or projection basin",
@@ -54,7 +55,8 @@
       ],
       "clearance_in": 21,
       "essential": false,
-      "note": "A 14 in projection basin is a real fixture, not a toy, and it is what makes a 3 by 5 room work. A 21 in vanity in a WC is a fixture that has eaten the room."
+      "note": "A 14 in projection basin is a real fixture, not a toy, and it is what makes a 3 by 5 room work. A 21 in vanity in a WC is a fixture that has eaten the room.",
+      "placement": "corner"
     },
     {
       "item": "door",
@@ -63,7 +65,8 @@
         26
       ],
       "clearance_in": 0,
-      "note": "Out-swinging into a lobby, or sliding. This is the whole design of the room."
+      "note": "Out-swinging into a lobby, or sliding. This is the whole design of the room.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

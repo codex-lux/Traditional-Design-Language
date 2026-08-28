@@ -55,12 +55,26 @@ Three real bugs, each caught only by actually running `build/structure.py` for t
 Run against `plans/tidewater-georgian-careful.json`, PLAN-OF-ACTION.md's own named acceptance example:
 
 - **Outside-to-outside footprint**: 62.58 × 42.66 ft, grown from the clear 60.0 × 40.08 ft footprint by the plan's declared `solid-masonry-two-wythe` construction's 15.5 in exterior wall (midpoint of the catalog's 13–18 in range).
-- **Wall lines**: 29 lines on the ground floor (9 bearing), 22 on the upper (12 bearing) — four exterior plus every interior segment two placed rooms actually share.
+- **Wall lines**: 29 lines on the ground floor (20 bearing), 22 on the upper (8 bearing) — four exterior plus every interior segment two placed rooms actually share. *(The bearing counts read 9 and 12 until WP-7.4: `span_check` was not reading the `bearing` flag `bearing_lines` computes, and these figures were transcribed from a run of the broken check.)*
 - **Bearing-line diagram**: `dist/`-rendered via `render_bearing_diagram()`, heavy lines for bearing walls, dashed for partitions, verified visually via a cairosvg PNG render during this package's own development.
 - **Section with eave/ridge heights consistent with the style's pitch constraint**: grade-to-eave 25.44 ft, grade-to-ridge 39.66 ft, at the midpoint (8.0:12) of `tidewater-georgian.c02`'s own migrated 7:12–9:12 constraint — `TestBuildSectionEndToEnd::test_tidewater_plan_section_eave_and_ridge_consistent_with_style_pitch` pins the pitch-consistency directly, not just that a number exists.
-- **"No 2×10 spanning 18 ft passes silently"**: exercised both on the literal case (`test_no_2x10_spanning_18ft_passes_silently` — an 18 ft span is never reported as covered by a 2×10, which caps at 16 ft) and empirically on `spec-builder-colonial.json`'s own 23.39 ft ground-floor bay, which `span_check()` correctly flags as exceeding the (style-selected) 20 ft hand-timber capacity rather than passing it silently.
+- **"No 2×10 spanning 18 ft passes silently"**: exercised both on the literal case (`test_no_2x10_spanning_18ft_passes_silently` — an 18 ft span is never reported as covered by a 2×10, which caps at 16 ft) and empirically on `spec-builder-colonial.json`'s own **30.0 ft** ground-floor bay (23.39 ft before WP-7.4, when partitions were still being counted as supports), which `span_check()` correctly flags as exceeding the (style-selected) 20 ft hand-timber capacity rather than passing it silently.
 
-The Tidewater plan's own bays all come in under both the light-frame table and the timber-bay module cap, so **zero** spans are flagged on that specific plan — a genuine, checked pass (spans were actually computed and evaluated, `TestBuildSectionEndToEnd::test_no_span_over_capacity_passes_silently_on_the_careful_plan` confirms spans exist before asserting none failed), not an absence of checking.
+**CORRECTED BY WP-7.4 — THIS PARAGRAPH SAID THE PLAN PASSED AND IT DOES NOT.** It read: *"The
+Tidewater plan's own bays all come in under both the light-frame table and the timber-bay module
+cap, so zero spans are flagged on that specific plan — a genuine, checked pass … not an absence
+of checking."* Every clause of that is now false. `span_check` was never reading the `bearing`
+flag `bearing_lines` computes, so every partition counted as a support; with partitions removed,
+the plan carries **two over-capacity spans on its upper level** — 40.0 ft on x between 20 and 60,
+and 30.0 ft on y between 0 and 30, both against a 20 ft hand-framed capacity. The ground floor is
+clear. The test the paragraph cited no longer exists: WP-7.1 renamed it to
+`test_span_capacity_is_checked_on_the_careful_plan_and_is_not_guaranteed` precisely because it
+had been green and wrong.
+
+The reference plan failing its own structural capacity is the check working, not a regression:
+its interior walls mostly do not land on the bay grid, and a partition carries no floor. What
+this paragraph should have said all along is that spans are computed and evaluated — which was
+true — and not that they passed.
 
 A real, unresolved finding surfaced on this same plan while verifying the stair: the stair-hall's solved geometry (10.0 × 10.62 ft) cannot fit a single straight flight covering the ground storey's full 12.28 ft rise (21 risers, 200 in of run) without a landing longer than the room itself — `stair_geometry()` correctly reports this as a landing-rule violation rather than passing it silently. This is very plausibly a genuine defect worth a second look at this reference plan's own stair-hall sizing (see "What was deliberately not done" below on why this module cannot suggest a switchback in its place), not a bug in the check.
 

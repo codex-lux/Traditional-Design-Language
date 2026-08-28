@@ -162,7 +162,11 @@ def test_refusal_without_ezdxf(monkeypatch, tmp_path):
 def test_provenance_validates_and_gates_method():
     jsonschema = pytest.importorskip("jsonschema")
     schema = json.load(open(os.path.join(ROOT, "schema", "plan.schema.json")))
-    assert schema["version"] == "0.2.0"
+    # 0.2.0 (WP-5.5) added `provenance`; 0.3.0 (WP-6.2) admits the PLACED plan — geometry,
+    # positioned openings, the stair — as record data. Moved with the bump rather than
+    # loosened: this pin exists so a schema change cannot pass unnoticed, and pinning the
+    # CURRENT version is what makes the next one show up here too.
+    assert schema["version"] == "0.3.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

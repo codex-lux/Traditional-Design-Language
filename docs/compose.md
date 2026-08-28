@@ -14,6 +14,10 @@ A parti specifies **topology and roles only** — which rooms, which walls are o
 
 **Size, repair, reclaim.** Rooms are scaled from the catalogue midpoint toward the target, then clamped to each room's own band, then optional rooms are dropped if it is still too big. The plan then goes through the validator and the composer applies the move each finding implies — widen a room that cannot take its furniture, raise a window head that cannot reach the back of the room, shorten a room deeper than its light. Repair spends area, so a reclaim pass gives it back from rooms that are not complaining, shortening length rather than width because width is what the checks care about.
 
+**Dimension the openings** (WP-6.2). Every door gets a width, a type, a rank and a leaf height; every window a width and a count. Until this, `instantiate` emitted `{"to": id}` for every door — no width, no type, ever — and `{"width_ft": 3.2, "count": 2}` for every window on every lit wall of every room in every style, and both renderers then invented whatever the record failed to say.
+
+None of it is new knowledge. `openings/grammar.json` says which KIND of opening belongs between which two rooms (editorial, and every rule quotes the corpus prose it reads); the kits have always graded the leaves `principal 84 in, secondary 80 in, service 78 in`; `proportions/systems/opening-proportion.json` derives the entry leaf from the storey height and the window from the room it lights — `room_width / 4.5`, under a note calling it *"THE RULE MODERN PRACTICE HAS ENTIRELY LOST"* — and 53 of 60 room records carry a `glazing_fraction` band that gives the count. **A pack's expression is read and evaluated, never restated here**, so the pack stays the one place that fact lives. Where nothing in the corpus states a width, the grammar's band midpoint is taken and the decision log says so by name.
+
 **Rank fatal-free first, then by score.** The two keys are separate on purpose, and the first is the one that is never traded away: a plan carrying a fatal never displaces a clean one from the returned set, however native its diagram.
 
 ## The score

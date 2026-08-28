@@ -48,7 +48,8 @@
     72
    ],
    "clearance_in": 36,
-   "note": "36 + 36 + 36 = 108 in = 9 ft across the short way; this is the number that decides whether the loggia is a room or a walkway"
+   "note": "36 + 36 + 36 = 108 in = 9 ft across the short way; this is the number that decides whether the loggia is a room or a walkway",
+   "placement": "freestanding"
   },
   {
    "item": "two lounge chairs and a low table",
@@ -57,7 +58,8 @@
     40
    ],
    "clearance_in": 30,
-   "essential": false
+   "essential": false,
+   "placement": "freestanding"
   },
   {
    "item": "long table or bench against the house wall",
@@ -66,7 +68,8 @@
     20
    ],
    "clearance_in": 30,
-   "essential": false
+   "essential": false,
+   "placement": "against-wall"
   },
   {
    "item": "clear route along the loggia",
@@ -75,7 +78,8 @@
     240
    ],
    "clearance_in": 0,
-   "note": "in a courtyard house the loggia IS the corridor, so the route must survive the furniture"
+   "note": "in a courtyard house the loggia IS the corridor, so the route must survive the furniture",
+   "placement": "freestanding"
   }
  ],
  "daylight": {

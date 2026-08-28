@@ -44,7 +44,8 @@
         34
       ],
       "clearance_in": 30,
-      "note": "and they face each other across no more than 10 ft, because beyond that people stop talking across and start talking around - the conversation limit sets the group, and the group sets the room"
+      "note": "and they face each other across no more than 10 ft, because beyond that people stop talking across and start talking around - the conversation limit sets the group, and the group sets the room",
+      "placement": "against-wall"
     },
     {
       "item": "eight to twelve chairs, movable",
@@ -53,7 +54,8 @@
         26
       ],
       "clearance_in": 24,
-      "note": "the drawing room's chairs are light and are MOVED, which is a real requirement: heavy fixed seating cannot absorb a party of variable size"
+      "note": "the drawing room's chairs are light and are MOVED, which is a real requirement: heavy fixed seating cannot absorb a party of variable size",
+      "placement": "freestanding"
     },
     {
       "item": "grand piano",
@@ -63,7 +65,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "the drawing room is the music room in any house that does not have a separate one; a 6 ft grand plus bench and player is 58 x 120 in of floor"
+      "note": "the drawing room is the music room in any house that does not have a separate one; a 6 ft grand plus bench and player is 58 x 120 in of floor",
+      "placement": "against-wall"
     },
     {
       "item": "card tables, pair",
@@ -72,7 +75,8 @@
         36
       ],
       "clearance_in": 30,
-      "essential": false
+      "essential": false,
+      "placement": "freestanding"
     },
     {
       "item": "tea table",
@@ -81,7 +85,8 @@
         42
       ],
       "clearance_in": 30,
-      "note": "coffee and tea arrive from the butler's pantry and land here; the route from the door to this table must not cross the seating"
+      "note": "coffee and tea arrive from the butler's pantry and land here; the route from the door to this table must not cross the seating",
+      "placement": "freestanding"
     },
     {
       "item": "pier tables and glasses between the windows",
@@ -91,7 +96,8 @@
       ],
       "clearance_in": 24,
       "essential": false,
-      "note": "the pier - the wall between two windows - is a piece of the room's architecture that exists to be furnished, and a modern window arrangement with no piers leaves the room's long wall unusable"
+      "note": "the pier - the wall between two windows - is a piece of the room's architecture that exists to be furnished, and a modern window arrangement with no piers leaves the room's long wall unusable",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

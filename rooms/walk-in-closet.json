@@ -42,7 +42,8 @@
         24
       ],
       "clearance_in": 36,
-      "note": "24 in deep, rod at 12 in off the wall."
+      "note": "24 in deep, rod at 12 in off the wall.",
+      "placement": "against-wall"
     },
     {
       "item": "hanging, double-loaded pair of walls",
@@ -51,7 +52,8 @@
         84
       ],
       "clearance_in": 36,
-      "note": "The 84 in is 24 + 36 + 24. Anything narrower and the two facing doors of a drawer bank collide."
+      "note": "The 84 in is 24 + 36 + 24. Anything narrower and the two facing doors of a drawer bank collide.",
+      "placement": "against-wall"
     },
     {
       "item": "island or bench",
@@ -61,7 +63,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "Wants 36 in on all four sides, so an island needs a room 8 ft wide minimum with hanging on one side only, or 10 ft with hanging both sides. The island in a 7 ft closet is the commonest fault in this room and it makes both aisles unusable."
+      "note": "Wants 36 in on all four sides, so an island needs a room 8 ft wide minimum with hanging on one side only, or 10 ft with hanging both sides. The island in a 7 ft closet is the commonest fault in this room and it makes both aisles unusable.",
+      "placement": "against-wall"
     },
     {
       "item": "drawer bank / built-in chest",
@@ -70,7 +73,8 @@
         22
       ],
       "clearance_in": 40,
-      "note": "A drawer extends 20-22 in and a person stands 18 in behind it, so a drawer bank needs 40 in clear in front and cannot face another drawer bank across a 36 in aisle."
+      "note": "A drawer extends 20-22 in and a person stands 18 in behind it, so a drawer bank needs 40 in clear in front and cannot face another drawer bank across a 36 in aisle.",
+      "placement": "built-in"
     },
     {
       "item": "full-length mirror",
@@ -79,7 +83,8 @@
         3
       ],
       "clearance_in": 60,
-      "note": "You need to stand 5 ft back from a mirror to see yourself below the knee, which no 36 in aisle provides. Put the mirror on the END wall looking down the length of the room, or on the back of the door - and if it is on the door, the door swings out."
+      "note": "You need to stand 5 ft back from a mirror to see yourself below the knee, which no 36 in aisle provides. Put the mirror on the END wall looking down the length of the room, or on the back of the door - and if it is on the door, the door swings out.",
+      "placement": "against-wall"
     },
     {
       "item": "shoes",
@@ -88,7 +93,8 @@
         12
       ],
       "clearance_in": 0,
-      "note": "12 in deep shelving at 7 in spacing; a pair per foot of shelf. Shoes stored at 24 in depth waste half the shelf and are the reason walk-ins run out of room while looking half empty."
+      "note": "12 in deep shelving at 7 in spacing; a pair per foot of shelf. Shoes stored at 24 in depth waste half the shelf and are the reason walk-ins run out of room while looking half empty.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

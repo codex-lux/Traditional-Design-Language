@@ -7,9 +7,19 @@ the facade composes from it. Where a room cannot be made to fit on the grid the 
 off it, and every such relaxation is recorded as a compromise rather than hidden.
 
 Levels are solved jointly, not sequentially: candidate layouts are generated for each level and
-scored in pairs on vertical alignment — bearing lines that continue, wet rooms that stack, a
-stair that lands where it left. That is a harder problem than constraining the upper floor to
-the lower, and it finds arrangements the sequential method cannot.
+scored in pairs on vertical alignment — bearing lines that continue, and wet rooms that stack.
+That is a harder problem than constraining the upper floor to the lower, and it finds
+arrangements the sequential method cannot.
+
+This docstring claimed a third term — "a stair that lands where it left" — from the day it was
+written until WP-6.1, and `vertical_score` had none for another three packages. WP-6.3 built a
+charge and refused it as inert (byte-identical output at 100x and 10,000x); WP-7.1 made the
+generator level-aware and moved bearing without moving stacking; WP-7.4 charges declared
+`stacks_over` in both engines and works — the refused charge keyed on landing-over-stair, a
+pair neither shipped plan declares, and was measured against a 250-candidate pool too thin to
+contain the alternative. Read `vertical_score`'s own comment before quoting any of that: two
+published refusals are superseded there, with the measurement that superseded them. This file
+says what it does, not what it was meant to.
 
 When the rooms will not fit: grow the footprint first, then shrink rooms toward their bands,
 then drop optional rooms. A room below its furniture minimum is a defect that survives the
@@ -66,28 +76,77 @@ def band(rtype):
     d = C["rooms"].get(rtype, {}).get("dimensions", {})
     return (d.get("area_sf") or [40, 900])
 
-def snap(v, module, tol):
-    """Nearest bay line, unless that would move the cut more than tol."""
+def wall_lines(rects, r=1):
+    """The x and y lines a set of placed rectangles puts walls on.
+
+    One spelling, used by `vertical_score`'s bearing term and by the level-aware generator
+    that feeds it (WP-7.1). A second copy of this is how a scorer and the generator it scores
+    come to disagree about where the walls are."""
+    xs = {round(v[0], r) for v in rects.values()} | {round(v[0] + v[2], r) for v in rects.values()}
+    ys = {round(v[1], r) for v in rects.values()} | {round(v[1] + v[3], r) for v in rects.values()}
+    return sorted(xs), sorted(ys)
+
+
+def snap(v, module, tol, prefer=()):
+    """Where a cut lands: a wall line below if there is one, else the nearest bay line.
+
+    `prefer` is the level below's wall lines on this axis, and it is the whole of WP-7.1
+    (OQ 95). Until it existed, `slice_rect` was called for the upper level with NO reference
+    to the ground placement -- so `vertical_score` scored candidates produced blind, and 26 of
+    49 `stacks_over` claims across the corpus were drawn broken because the search could not
+    aim, only re-rank. The ground layout is fully populated at the moment the upper level is
+    generated; it was simply never passed.
+
+    THE RETURNED `off` IS THE DEFINITION CORRECTION, and it must be read carefully. A
+    relaxation is defined in this file's own prose as "a joist run that does not land on a
+    bearing wall"; the code has always approximated that as "misses the bay module". Those are
+    not the same thing -- 18 of 30 ground wall lines on the shipped plans are themselves off
+    the bay grid, so a cut landing squarely on a wall below would have been counted a
+    compromise while a cut on a bare bay line with nothing under it was counted sound. A cut
+    that lands on a wall below returns off=0.0 because it DOES land on bearing. That is the
+    prose finally executed, not a loosening of it."""
+    for L in prefer:
+        if abs(L - v) <= tol:
+            return (L, 0.0)
     s = round(v / module) * module
     return (s, 0.0) if abs(s - v) <= tol else (v, abs(s - v))
 
 # ---------------------------------------------------------------- slicing
-def bias(room, axis):
+def bias(room, axis, below=None):
     """Directional pull from the room's declared exterior walls: +1 north/east, -1 south/west."""
     b = 0.0
     for w in (room.get("exterior_walls") or []):
         dx, dy = DIRS.get(w, (0, 0))
         b += (dy if axis == "y" else dx)
+    # WP-7.1 (OQ 95), and this is the half that aims a ROOM rather than a wall line. Snapping
+    # the upper cuts to the walls below makes upper walls continue -- measured, transfer beams
+    # 21 -> 9 on the Tidewater plan -- and does nothing whatever for `stacks_over`, because
+    # moving a line does not move a room. Measured across all 14 partis that declare the
+    # field, cut-line snapping ALONE took broken claims from 26/49 to 30/49: worse, not
+    # better. A room that says it stacks over another has to be PULLED toward it while the
+    # rooms are being divided, which is here.
+    #
+    # Weighted at 2.0 against an exterior wall's 1.0: a waste stack with nothing under it is
+    # a defect that survives the building, and a room's declared exposure is a preference the
+    # search is meant to trade off. Scaled by how far off centre the target actually sits, so
+    # a target in the middle of the block exerts no false pull.
+    if below:
+        t = (below.get("rects") or {}).get(room.get("stacks_over") or "")
+        if t:
+            span = (below.get("H") or 0) if axis == "y" else (below.get("W") or 0)
+            if span:
+                c = (t[1] + t[3] / 2.0) if axis == "y" else (t[0] + t[2] / 2.0)
+                b += 2.0 * max(-1.0, min(1.0, (c - span / 2.0) / (span / 2.0)))
     return b
 
-def partition(rooms, axis, rng):
+def partition(rooms, axis, rng, below=None):
     """Split into two groups: the LOW group goes south or west, so it must be seeded with the
     rooms pulled that way. Grow each group through the door graph, so a cut severs as few
     connections as possible — a plan whose adjacencies survive the slicing is the whole point."""
     ids = {r["id"] for r in rooms}
     doors = {r["id"]: {d["to"] for d in (r.get("doors") or []) if d["to"] in ids} for r in rooms}
     # bias ASCENDING: most negative (south/west) first, because lo is placed low
-    ranked = sorted(rooms, key=lambda r: (bias(r, axis), -r["_area"], r["id"]))
+    ranked = sorted(rooms, key=lambda r: (bias(r, axis, below), -r["_area"], r["id"]))
     total = sum(r["_area"] for r in ranked)
     target = total * rng.uniform(0.44, 0.56)
     lo, taken, acc = [], set(), 0.0
@@ -99,7 +158,7 @@ def partition(rooms, axis, rng):
         for r in ranked:
             if r["id"] in taken: continue
             conn = len(doors[r["id"]] & taken)
-            sc = (-conn, bias(r, axis), -r["_area"])
+            sc = (-conn, bias(r, axis, below), -r["_area"])
             if bs is None or sc < bs: best, bs = r, sc
         if best is None: break
         lo.append(best); taken.add(best["id"]); acc += best["_area"]
@@ -274,7 +333,7 @@ def _relax(relax, off, axis, at, span_lo, span_hi):
                   "from_ft": round(span_lo, 2), "to_ft": round(span_hi, 2)})
 
 
-def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0):
+def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0, below=None):
     if not rooms: return
     if len(rooms) == 1:
         r = rooms[0]; out[r["id"]] = (round(x, 2), round(y, 2), round(w, 2), round(h, 2)); return
@@ -291,66 +350,77 @@ def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0):
                                   # exactly the kind of number that must not move by accident.
             sw = max(module * 0.6, min(w * 0.45, sws)) * rng.uniform(0.94, 1.10)
             rest = [r for r in rooms if r["id"] is not sp["id"] and r["id"] != sp["id"]]
-            west = [r for r in rest if bias(r, "x") < 0]
+            west = [r for r in rest if bias(r, "x", below) < 0]
             east = [r for r in rest if r not in west]
             # let a borderline room cross the cut sometimes, or the search has nothing to explore
             for r in list(rest):
-                if abs(bias(r, "x")) < 0.5 and rng.random() < 0.35:
+                if abs(bias(r, "x", below)) < 0.5 and rng.random() < 0.35:
                     (east if r in west else west).append(r)
                     (west if r in west else east).remove(r)
             if not west or not east:
-                west, east = partition(rest, "x", rng)
+                west, east = partition(rest, "x", rng, below)
             aw = sum(r["_area"] for r in west); ae = sum(r["_area"] for r in east)
             wfrac = aw / (aw + ae) if (aw + ae) else 0.5
             if "centre" in (sp["type"] or "") or "center" in (sp["type"] or ""):
                 wfrac = (wfrac + 0.5) / 2.0      # a centre passage is named for where it goes
             wfrac = min(0.78, max(0.22, wfrac + rng.uniform(-0.07, 0.07)))
             rem = w - sw
-            wwid, dd = snap(rem * wfrac, module, tol)
+            # The line this decides sits at x + wwid, so a wall line below -- which is stated
+            # in MODEL coordinates, not in this rectangle's -- can only be preferred by
+            # snapping the absolute position. The blind path keeps the original WIDTH snap
+            # byte for byte: the two are not equivalent once x is off the module, and
+            # changing it silently moved the ground placement, cost CP-SAT its proof of
+            # `tidewater-georgian-careful`, and took a whole afternoon to find.
+            _px = (below or {}).get("x", ())
+            if _px:
+                _abs, dd = snap(x + rem * wfrac, module, tol, _px)
+                wwid = _abs - x
+            else:
+                wwid, dd = snap(rem * wfrac, module, tol)
             wwid = max(module * 0.6, min(rem - module * 0.6, wwid))
             out[sp["id"]] = (round(x + wwid, 2), round(y, 2), round(sw, 2), round(h, 2))
             # Both edges of the spanning slab, now that its position is known. The width snap
             # (slab_off) misses the grid at the slab's FAR edge; the wwid snap at its near one.
             if dd: _relax(relax, dd, "x", x + wwid, y, y + h)
             if slab_off: _relax(relax, slab_off, "x", x + wwid + sw, y, y + h)
-            slice_rect(west, x, y, wwid, h, module, tol, rng, out, relax, depth + 1)
-            slice_rect(east, x + wwid + sw, y, rem - wwid, h, module, tol, rng, out, relax, depth + 1)
+            slice_rect(west, x, y, wwid, h, module, tol, rng, out, relax, depth + 1, below)
+            slice_rect(east, x + wwid + sw, y, rem - wwid, h, module, tol, rng, out, relax, depth + 1, below)
             return
         sp = spanning(rooms, "x")
         if sp and w > h * 0.55:
             sh = max(module * 0.5, min(h * 0.4, sp["_area"] / w))
             rest = [r for r in rooms if r["id"] != sp["id"]]
-            south = [r for r in rest if bias(r, "y") < 0]
+            south = [r for r in rest if bias(r, "y", below) < 0]
             north = [r for r in rest if r not in south]
-            if not south or not north: south, north = partition(rest, "y", rng)
+            if not south or not north: south, north = partition(rest, "y", rng, below)
             a_s = sum(r["_area"] for r in south); a_n = sum(r["_area"] for r in north)
             sfrac = a_s / (a_s + a_n) if (a_s + a_n) else 0.5
             rem = h - sh
             shgt = max(module * 0.5, min(rem - module * 0.5, rem * sfrac))
             out[sp["id"]] = (round(x, 2), round(y + shgt, 2), round(w, 2), round(sh, 2))
-            slice_rect(south, x, y, w, shgt, module, tol, rng, out, relax, depth + 1)
-            slice_rect(north, x, y + shgt + sh, w, rem - shgt, module, tol, rng, out, relax, depth + 1)
+            slice_rect(south, x, y, w, shgt, module, tol, rng, out, relax, depth + 1, below)
+            slice_rect(north, x, y + shgt + sh, w, rem - shgt, module, tol, rng, out, relax, depth + 1, below)
             return
 
     axis = "x" if w >= h else "y"
     if abs(w - h) < module * 0.9 and rng.random() < 0.45: axis = "y" if axis == "x" else "x"
-    lo, hi = partition(rooms, axis, rng)
+    lo, hi = partition(rooms, axis, rng, below)
     a_lo = sum(r["_area"] for r in lo); a_tot = a_lo + sum(r["_area"] for r in hi)
     frac = a_lo / a_tot if a_tot else 0.5
     if axis == "x":
         cut = w * frac
-        s, d = snap(x + cut, module, tol)
+        s, d = snap(x + cut, module, tol, (below or {}).get('x', ()))
         cut = max(module * 0.6, min(w - module * 0.6, s - x))
         if d: _relax(relax, d, "x", x + cut, y, y + h)
-        slice_rect(lo, x, y, cut, h, module, tol, rng, out, relax, depth + 1)      # lo goes west
-        slice_rect(hi, x + cut, y, w - cut, h, module, tol, rng, out, relax, depth + 1)
+        slice_rect(lo, x, y, cut, h, module, tol, rng, out, relax, depth + 1, below)      # lo goes west
+        slice_rect(hi, x + cut, y, w - cut, h, module, tol, rng, out, relax, depth + 1, below)
     else:
         cut = h * frac
-        s, d = snap(y + cut, module, tol)
+        s, d = snap(y + cut, module, tol, (below or {}).get('y', ()))
         cut = max(module * 0.6, min(h - module * 0.6, s - y))
         if d: _relax(relax, d, "y", y + cut, x, x + w)
-        slice_rect(lo, x, y, w, cut, module, tol, rng, out, relax, depth + 1)      # lo goes south
-        slice_rect(hi, x, y + cut, w, h - cut, module, tol, rng, out, relax, depth + 1)
+        slice_rect(lo, x, y, w, cut, module, tol, rng, out, relax, depth + 1, below)      # lo goes south
+        slice_rect(hi, x, y + cut, w, h - cut, module, tol, rng, out, relax, depth + 1, below)
 
 # ---------------------------------------------------------------- scoring one level
 def level_score(rects, rooms):
@@ -573,12 +643,79 @@ def centre_hall_symmetry_score(rects, rooms, W, H, tol_frac=0.18):
     return s
 
 # ---------------------------------------------------------------- joint scoring
+# WP-7.4 (OQ 95). The one NAMED weight in this file, and it is named because it was chosen by
+# sweep rather than by analogy -- see the measurement in vertical_score below. Its neighbours
+# (the wet-stack 8, the transfer-beam 2.0) are inline literals like every other weight here;
+# this one carries a name so the sweep that set it can be re-run against it.
+STACK_W = 40.0
+
+# WP-7.4 (OQ 97). The span charge, and both halves of its form were chosen by sweep.
+#
+# OQ 97 asked whether span capacity should be a search term "and at what force", and answered
+# its own cost question wrongly: it said putting the check in a 250-candidate loop is the
+# "25 s x N cost that build_section's own docstring exists to avoid". That 25 s is the SOLVE
+# inside build_section, which the candidate loop already has. The check itself --
+# structure.wall_lines -> bearing_lines -> span_check over rects that already exist -- measures
+# 0.026 s for 250 iterations, against the 250-candidate search's own 0.21 s. So the corpus's
+# REAL structural check is affordable here and the "cheap proxy" OQ 97 speculated about is not
+# needed. A proxy would also have been wrong: geometry.wall_lines collects every room edge and
+# cannot tell bearing from partition, so its widest gap is an under-estimate of the clear span
+# -- which is exactly the error WP-7.4 had just removed from span_check itself.
+#
+# PROPORTIONAL TO HOW FAR OVER CAPACITY THE SPAN IS -- `SPAN_W * span/capacity` -- and the
+# ratio rather than the absolute overage, so a hand-framed 20 ft bay and a light-frame joist
+# table compare on the same scale. Because ONLY over-capacity spans are charged, that ratio is
+# greater than 1 by construction: a marginal violation already costs about SPAN_W and a 60 ft
+# run over a 20 ft capacity costs three times it. (This was first written as
+# `SPAN_W * (1 + (span/cap - 1))` under a comment arguing for "flat plus graded, because
+# neither alone is right". The two are the same expression. The comment described a
+# distinction the code did not make, which is the WP-6.4 failure mode in code an hour old --
+# the algebra is stated here so the next person does not re-derive the argument.)
+SPAN_W = 20.0
+
+
+def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog):
+    """Over-capacity clear spans, charged, using structure.py's own check rather than a
+    restatement of it.
+
+    Deliberately NOT re-spelled here. There are already two `wall_lines` in this tree
+    (this file's, over raw rects, and structure's, over placed room records) and the
+    REF_RE/CITE_RE/parseCite drift is what a third spelling of one rule costs. `structure`
+    imports this module, so it is loaded lazily on first use rather than at import."""
+    if floor_catalog is None:
+        # the catalogue could not be read: the span cannot be evaluated, so it is not scored
+        # and not reported as clear either. A zero here would read as "no span exceeds
+        # capacity", which is the OQ 52 lie in the cheapest possible place.
+        return 0.0, None
+    ST = _mod("structure", f"{ROOT}/build/structure.py")
+    charge, over = 0.0, 0
+    for idx, rects in rects_by_level.items():
+        if not rects: continue
+        rs = []
+        for r in prep.get(idx, []):
+            v = rects.get(r["id"])
+            if not v: continue
+            g = {"x_ft": v[0], "y_ft": v[1], "width_ft": v[2], "depth_ft": v[3]}
+            # a wall facing an unroofed void is weather-facing and bearing (OQ 55), and
+            # structure.wall_lines reads that off the geometry block, not the catalogue
+            vd = r.get("_void")
+            if isinstance(vd, dict):
+                g["void"] = {"heated": False, "roofed": bool(vd.get("roofed"))}
+            rs.append({"id": r["id"], "geometry": g})
+        if not rs: continue
+        bearing = ST.bearing_lines(ST.wall_lines(rs, W, H), bay)
+        for sp in ST.span_check(bearing, W, H, style, floor_catalog):
+            if sp["ok"] or not sp.get("max_span_ft"): continue
+            over += 1
+            charge += SPAN_W * (sp["span_ft"] / sp["max_span_ft"])
+    return charge, over
+
+
 def vertical_score(g, u, groundrooms, upperrooms, plan):
     """The reason both levels are solved together: bearing lines, stacks, and the stair."""
     if not u: return 0.0, []
     s, notes = 0.0, []
-    gx = sorted({round(v[0], 1) for v in g.values()} | {round(v[0] + v[2], 1) for v in g.values()})
-    gy = sorted({round(v[1], 1) for v in g.values()} | {round(v[1] + v[3], 1) for v in g.values()})
+    gx, gy = wall_lines(g)      # the same spelling the generator slices against (WP-7.1)
     off = 0
     for rid, (x, y, w, h) in u.items():
         for val, lines in ((x, gx), (x + w, gx), (y, gy), (y + h, gy)):
@@ -593,9 +730,54 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
         cx, cy = x + w / 2, y + h / 2
         over = any(vx <= cx <= vx + vw and vy <= cy <= vy + vh for (vx, vy, vw, vh) in wet_g.values())
         if not over: s += 8; notes.append(f"{ut[rid].get('name') or rid} sits over no wet room; its stack has nowhere to land.")
-    for rid in u:
-        if C["rooms"].get(ut.get(rid, {}).get("type"), {}).get("function_class") != "circulation": continue
-        st = next((k for k in g if C["rooms"].get(gt.get(k, {}).get("type"), {}).get("id") == "stair-hall"), None)
+    # DECLARED STACKING, CHARGED (WP-7.4, OQ 95). A room whose record says it sits over
+    # another room and does not is a waste stack with nothing under it -- a defect that
+    # survives the life of the building. Until this package it was REPORTED by
+    # plan_check.drawn_layer and prevented by neither engine.
+    #
+    # THIS SUPERSEDES TWO PUBLISHED REFUSALS, AND BOTH ARE WORTH KNOWING BEFORE TOUCHING IT.
+    #
+    # (1) WP-6.3 built a stacking charge, swept it at 100x and 10,000x, got BYTE-IDENTICAL
+    # output, and concluded "the search can only re-rank blind candidates and can never
+    # produce a stacking one". The measurement was sound and the conclusion drawn from it was
+    # not. That charge keyed on landing-over-stair, a pair NEITHER shipped plan declares, so it
+    # was inert for a reason that had nothing to do with the search's reach. WP-7.1 falsified
+    # the stated reason directly: over 24 seeds the winning candidate satisfies 1 to 3 of
+    # tidewater's 3 cross-level claims. The search reaches stacking placements.
+    #
+    # (2) WP-7.1 then made the generator level-aware and moved broken claims 26/47 -> 27/47:
+    # flat. That is also true, and it is not evidence against a term. Moving a cut line moves a
+    # wall; it does not move a room over another room. Bearing continuity and declared stacking
+    # are two problems and OQ 95 conflated them.
+    #
+    # WHAT MADE THE TERM LOOK INERT WAS THE SIZE OF THE POOL IT WAS RE-RANKING. Measured over
+    # 2,000 candidates (5 seeds x 400) rather than the shipped 250 at one seed: on
+    # tidewater-georgian-careful, 12 candidates beat the winner's 3 broken claims WHILE KEEPING
+    # THE PORCH ON THE ENTRANCE FRONT, at a cost of +41.3 points; on spec-builder-colonial, 6
+    # candidates at +2.1. In the thin pool the only better-stacking candidates are ones that
+    # move the porch off the front -- entrance_score 0 -> 100, WP-2.2's founding bug -- which is
+    # why the break-even read 378 and 52 there. A sampling artefact, not a property of the
+    # charge.
+    #
+    # THE TEST IS plan_check's, DELIBERATELY. Strict positive rectangle intersection, the same
+    # rule as plan_check.py's drawn layer, so the search and the critic cannot convict and
+    # acquit the same house. Do not "improve" it to a centroid or an overlap fraction here
+    # without changing it there in the same commit -- that is the openings.required_wall_ft
+    # error (an arbiter carrying its own transcription of a rule) in a new place.
+    #
+    # A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS UNJUDGED AND IS NOT CHARGED. The
+    # generator cannot answer it and a zero would read as a pass (the OQ 52 rule).
+    for rid, (x, y, w, h) in u.items():
+        so = (ut.get(rid, {}) or {}).get("stacks_over")
+        if not so: continue
+        t = g.get(so)
+        if not t: continue
+        if (min(x + w, t[0] + t[2]) - max(x, t[0]) <= 0
+                or min(y + h, t[1] + t[3]) - max(y, t[1]) <= 0):
+            s += STACK_W
+            notes.append(f"{ut[rid].get('name') or rid} declares it stacks over "
+                         f"{gt.get(so, {}).get('name') or so} and is drawn clear of it.")
+
     # OQ 55: nothing may sit over an UNROOFED reserved void. A courtyard is open to the sky --
     # a room placed above it has no floor and no bearing, and the roof plane it would need is
     # the hole. A ROOFED void is the opposite case and is deliberately not charged: the whole
@@ -805,6 +987,81 @@ DEMERIT_NOTE = ("The score is a DEMERIT TOTAL: lower is better, no ceiling, and 
                 "placement is the smallest number. It is not the candidate score compose.py "
                 "publishes, which is out of 100 and runs the other way. ")
 
+def _over_band_block(ob):
+    """The report block, written once because both engines must say the same thing."""
+    by_record = [r for r in ob if r["declared_over_ceiling"]]
+    return {
+        "count": len(ob), "rooms": ob,
+        "declared_over_ceiling": len(by_record),
+        "note": ("Rooms placed above the ceiling of their own catalogue band. This is "
+                 "REPORTED and deliberately not charged: the slicer tiles the footprint "
+                 "exactly, so an over-band charge is an under-band charge plus a constant "
+                 "(measured: three formulations, not one room changed size), and "
+                 "`level_score` already bills area error symmetrically. Where "
+                 "`declared_over_ceiling` is true the room was over its ceiling AS "
+                 "DECLARED and the placement is not the author of it. See over_band()'s "
+                 "own docstring for the identity and the measurements."
+                 if ob else "Every room was placed at or below the ceiling of its own band.")}
+
+
+def over_band(rects_by_level, prep):
+    """Rooms this layout placed ABOVE the ceiling of their own catalogue band.
+
+    WP-6.3, and the shape of it is a finding. The obvious move was to mirror `under_band`
+    with a matching CHARGE in `level_score`, so that a passage placed 63% over its
+    declaration would cost a candidate something. That was measured and refused, because
+    the slicer tiles the footprint EXACTLY: with `Sum(got)` fixed at the block area T,
+
+        Sum max(0, got - hi)  ==  (T - Sum hi)  +  Sum max(0, hi - got)
+
+    is an identity, not an approximation — verified to under 0.5 sf on both levels of the
+    shipped plan. So "penalise a room over its ceiling" IS "penalise a room under its
+    ceiling", plus a constant. It pushes every room UP; it does not oppose `under_band`,
+    it amplifies it. On the Tidewater upper level the term is 96.3% constant (an
+    irreducible floor of 671 sf against 697 placed) and its coefficient of variation
+    across all 250 candidates is 4.67%. Three formulations — flat 12 a room, proportional,
+    per-square-foot — were run through the whole search: **not one room changed size**, and
+    the score moved by exactly the predicted constant.
+
+    Over-size is also already charged. `level_score` bills `abs(got - want)/want * 10`,
+    which is symmetric, and the upper passage already pays 6.3 of it. What produces the
+    +63% is that `1/want` weighting routing unavoidable slack to the LARGEST room, which is
+    a deliberate allocation; an over-band charge normalised by `hi` has the same gradient
+    and would reinforce it.
+
+    And the slack is the RECORD's, not the placement's: the Tidewater upper storey is
+    programmed at 1,621 sf inside a block sized by the 2,405 sf ground floor. No placement
+    can absorb 784 sf. Charging for it would convict the solver of the brief's arithmetic —
+    the OQ 52 family of error. SIX rooms on that plan are over their band ceiling AS
+    DECLARED, before any placement runs (`landing` 108 against 60, `hallbath` 88 against 70,
+    `linen` 15 against 6, and `passage`, `powder`, `chamber2`), which is the same point
+    again. Note that this is not the same set as `declared_over_ceiling` below, which counts
+    only rooms the placement ALSO put over the ceiling: five, because `passage` is declared
+    at 408 against a 400 ceiling and is then placed under it. The two numbers answer
+    different questions and a reader meeting them together should be told which.
+
+    So this REPORTS and does not charge, and it says which of the two cases each room is:
+    over its ceiling because it was declared that way, or because the placement put it
+    there. The drawn layer in build/plan_check.py is where a reader is told about it."""
+    out = []
+    for idx, rects in rects_by_level.items():
+        for r in prep.get(idx, []):
+            rect = rects.get(r["id"])
+            if not rect:
+                continue
+            got = rect[2] * rect[3]
+            _lo, hi = band(r["type"])
+            if hi and got > hi + 0.5:
+                declared = (r.get("width_ft") or 0) * (r.get("length_ft") or 0)
+                out.append({"room": r["id"], "name": r.get("name") or r["id"],
+                            "type": r["type"], "placed_sf": round(got),
+                            "band_ceiling_sf": round(hi),
+                            "over_by_pct": round(100 * (got - hi) / hi),
+                            # the distinction that stops this reading as an accusation
+                            "declared_over_ceiling": bool(declared and declared > hi + 0.5)})
+    return sorted(out, key=lambda d: -d["over_by_pct"])
+
+
 def under_band(rects_by_level, prep):
     """Rooms this layout placed below the floor of their own catalogue band.
 
@@ -817,7 +1074,16 @@ def under_band(rects_by_level, prep):
     The ruling was to report it here rather than to make the search refuse (which could leave a
     brief with no candidate and no explanation) or to teach the critic to read geometry (a much
     larger change every plan layer would feel). The search keeps its freedom to trade a room's
-    size against everything else, which is what a heuristic is for. It stops doing it silently."""
+    size against everything else, which is what a heuristic is for. It stops doing it silently.
+
+    WP-6.4 closed an asymmetry with `over_band`, which has read the DECLARATION since it was
+    written and carries `declared_over_ceiling` so a room the brief made oversized is not
+    blamed on the placement. This read only the catalogue band, so a kitchen declared 16 x 20
+    and placed at 63% of that was invisible here unless it ALSO crossed the catalogue floor --
+    and the catalogue floor is the looser of the two tests for a generously declared room. It
+    now carries the declared figure alongside the band one. The two are different questions
+    and the entry says which is which: `short_by_pct` is against the type's catalogue floor,
+    `declared_short_by_pct` is against what this plan actually asked for."""
     out = []
     for idx, rects in rects_by_level.items():
         for r in prep.get(idx, []):
@@ -827,9 +1093,17 @@ def under_band(rects_by_level, prep):
             lo, _hi = band(r["type"])
             floor = lo * 0.85
             if got < floor - 0.5:
-                out.append({"room": r["id"], "name": r.get("name") or r["id"], "type": r["type"],
-                            "placed_sf": round(got), "band_floor_sf": round(floor),
-                            "short_by_pct": round(100 * (floor - got) / floor)})
+                e = {"room": r["id"], "name": r.get("name") or r["id"], "type": r["type"],
+                     "placed_sf": round(got), "band_floor_sf": round(floor),
+                     "short_by_pct": round(100 * (floor - got) / floor)}
+                declared = (r.get("width_ft") or 0) * (r.get("length_ft") or 0)
+                if declared:
+                    e["declared_sf"] = round(declared)
+                    # signed: a room can sit under its catalogue floor and still be at or over
+                    # what the brief asked for, and calling that a shortfall would be the OQ 52
+                    # error -- convicting the placement of the record's own arithmetic
+                    e["declared_short_by_pct"] = round(100 * (declared - got) / declared)
+                out.append(e)
     return sorted(out, key=lambda d: -d["short_by_pct"])
 
 
@@ -909,9 +1183,19 @@ def write_record(plan, levels, ground, upper, fp, report):
     return plan
 
 
-def solve_heuristic(plan, parti=None, candidates=250, seed=7):
+def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     """The hill-climbing search. Named `solve_heuristic` since the 25 Aug merge: `solve()`
-    below is now a dispatcher that prefers the CP-SAT engine and falls back to this one."""
+    below is now a dispatcher that prefers the CP-SAT engine and falls back to this one.
+
+    `level_aware` (WP-7.1, OQ 95) slices the upper level against the ground layout instead of
+    blind. It is TRUE for a placement and FALSE for a CP warm-start, and that split is a
+    measured necessity rather than a preference. A hint's only job is to be REPAIRABLE; a
+    placement's job is to be right, and they are not the same job. Measured on
+    `plans/tidewater-georgian-careful.json`, the plan WP-6.3 fought to make solvable at all:
+    hinting CP-SAT with the level-aware run took it from OPTIMAL to UNKNOWN at its 25 s
+    budget, so the whole sheet fell back to the hill-climb. A better hint by this file's own
+    score was a worse basin for the proof. `geometry_cp.py::_hint_heuristic` therefore asks
+    for the blind run, and CP's own placement is unchanged byte for byte."""
     rng = random.Random(seed)
     levels, prep = prep_rooms(plan)
     if prep is None or 0 not in prep: return {"error": "no ground level"}
@@ -937,6 +1221,13 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
     ring_sides = {"courtyard": 4, "u": 3}.get(void_shape.strip().lower())
     ring_used = ring_failed = 0
 
+    # loaded once per solve rather than once per candidate: it is a file read, and the span
+    # charge below is only affordable because nothing in it touches the disk
+    try:
+        _floor = _mod("structure", f"{ROOT}/build/structure.py").load_construction()["floor"]
+    except Exception:
+        _floor = None
+
     best = None
     for _ in range(candidates):
         gr, grelax = {}, []
@@ -953,12 +1244,45 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
               + void_enclosure_score(gr, prep[0], W, H, void_shape))
         ur, urelax = {}, []
         if prep.get(1):
-            slice_rect(copy.deepcopy(prep[1]), 0, 0, W, H, bay, tol, rng, ur, urelax)
+            # WP-7.1 (OQ 95): the upper level is sliced AGAINST THE GROUND LAYOUT, not blind.
+            # `gr` is fully populated four lines above and was simply never passed, so
+            # `vertical_score` below has always been scoring candidates produced with no
+            # knowledge of what they must sit on. Nothing else changes: the rng stream is
+            # untouched (no new draws), so the slicing TREE is identical candidate for
+            # candidate and only the cut POSITIONS move -- onto the walls below where one is
+            # within tolerance, and onto the bay line exactly as before where none is.
+            below = None
+            if level_aware:
+                gx, gy = wall_lines(gr)
+                below = {"x": gx, "y": gy, "rects": gr, "W": W, "H": H}
+            slice_rect(copy.deepcopy(prep[1]), 0, 0, W, H, bay, tol, rng, ur, urelax,
+                       below=below)
             su = (level_score(ur, prep[1]) + exterior_score(ur, prep[1], W, H) + adjacency_score(ur, prep[1], levels[1]["rooms"])
                   + centre_hall_symmetry_score(ur, prep[1], W, H))
         else: su = 0.0
         vs, vnotes = vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
-        tot = sg + su + vs + 1.5 * len(grelax + urelax)
+        # WP-7.4 (OQ 97): the structural check the corpus already runs, run here too. See
+        # _span_charge -- this is structure.span_check itself and not a proxy.
+        #
+        # THE EARLY-OUT IS EXACT, NOT AN APPROXIMATION, and it is here because the check is
+        # the most expensive thing in this loop: it rebuilds each level's room records and
+        # runs structure.wall_lines' O(n^2) shared-segment scan, which took a 250-candidate
+        # solve from 0.21 s to 0.57 s -- and `solve_heuristic` is what the workbench's wall
+        # drag calls by name. `_span_charge` can only ever ADD, so a candidate already at or
+        # above the incumbent cannot win however few spans it has, and skipping it changes no
+        # outcome. Most candidates lose, so most never pay for the check.
+        part = sg + su + vs + 1.5 * len(grelax + urelax)
+        if best is not None and part >= best["_raw"]:
+            continue
+        try:
+            spc, sp_over = _span_charge({0: gr, 1: ur}, prep, W, H, bay, plan.get("style"), _floor)
+        except Exception:
+            # The catalogue LOAD is guarded above; the CALL was not, so a floor-structure.json
+            # missing `light_frame_joist_spans` (KeyError) or holding an empty list (ValueError
+            # out of max()) took down the whole placement, while an unreadable file degraded to
+            # a stated COULD NOT EVALUATE. Same failure, two behaviours. Now one: unjudged.
+            spc, sp_over = 0.0, None
+        tot = part + spc
         # Compare raw against raw. "score" is stored rounded to 1dp, so comparing an
         # unrounded challenger against it let a strictly WORSE candidate win whenever
         # rounding nudged the incumbent up: 40.06 stores as 40.1, and a 40.08 challenger
@@ -971,7 +1295,8 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
                     # storey it is slicing, and a mark has to know which plan it belongs on (OQ 33).
                     "relaxations": ([dict(r, level=0) for r in grelax]
                                     + [dict(r, level=1) for r in urelax]),
-                    "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1)}
+                    "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1),
+                    "span_charge": round(spc, 1), "spans_over_capacity": sp_over}
 
     # --- write coordinates back into the plan (write_record does it, below)
     rel = best["relaxations"]
@@ -993,7 +1318,28 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7):
                     "Ground and upper were solved together and scored as a pair, so an upper "
                     "layout that would score LOWER alone is rejected when it leaves walls "
                     "unsupported.")}
+    # WP-7.4 (OQ 97). Reported for exactly the reason `under_band` below is: the search now
+    # TRADES against this, and a trade the record does not carry is a trade nobody can see. An
+    # over-capacity span is a defect that survives the building, so the count is stated whether
+    # it is zero or not -- and `None` is the third state, meaning the construction catalogue
+    # could not be read and the span was never evaluated. A zero there would read as "nothing
+    # exceeds capacity", which is the OQ 52 lie in the cheapest possible place.
+    _spo = best.get("spans_over_capacity")
+    report["span_capacity"] = {
+        "over_capacity": _spo,
+        "charge": best.get("span_charge"),
+        "weight": SPAN_W,
+        "note": ("COULD NOT EVALUATE -- construction/floor-structure.json was unreadable, so no "
+                 "span was checked and none is claimed clear." if _spo is None else
+                 "Every clear span between bearing lines is within its framing capacity."
+                 if not _spo else
+                 f"{_spo} clear span(s) exceed the capacity their framing tradition states. The "
+                 f"search charges each in proportion to how far over it is and trades that "
+                 f"against everything else it scores; build/structure.py's section report names "
+                 f"them individually.")}
     ub = under_band({0: best["ground"], 1: best["upper"]}, prep)
+    report["over_band"] = _over_band_block(
+        over_band({0: best["ground"], 1: best["upper"]}, prep))
     report["under_band"] = {
         "count": len(ub), "rooms": ub,
         "note": ("Rooms placed below the floor of their own catalogue band. The search is allowed to "
@@ -1059,6 +1405,22 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
     plan["geometry_report"] = {
         "score": best.get("score"), "ground_score": best.get("sg"),
         "upper_score": best.get("su"), "vertical_score": best.get("sv"),
+        # WP-7.4: the CP path builds its report from named keys, so a term added to `_score`
+        # reaches the record only if it is named here too. It was not, and the span charge the
+        # CP acceptance comparison now uses was computed and dropped -- the same shape as the
+        # bug this package opened with.
+        "span_capacity": {
+            "over_capacity": best.get("spans_over_capacity"),
+            "charge": best.get("span_charge"),
+            "weight": SPAN_W,
+            "note": ("COULD NOT EVALUATE -- construction/floor-structure.json was unreadable, "
+                     "so no span was checked and none is claimed clear."
+                     if best.get("spans_over_capacity") is None else
+                     "Every clear span between bearing lines is within its framing capacity."
+                     if not best.get("spans_over_capacity") else
+                     f"{best.get('spans_over_capacity')} clear span(s) exceed the capacity their "
+                     f"framing tradition states; build/structure.py's section report names "
+                     f"them individually.")},
         "bays_grown": fpd.get("grown"),
         "lot_capped": (fpd.get("lot_maxbay") is not None
                        and fpd["lot_maxbay"] < fpd.get("catalog_maxbay", 10 ** 9)),
@@ -1086,6 +1448,7 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
                     for r in lv["rooms"] if r.get("geometry")}
               for idx, lv in (_levels or {}).items()}
     ub = under_band(_rects, _prep)
+    plan["geometry_report"]["over_band"] = _over_band_block(over_band(_rects, _prep))
     plan["geometry_report"]["under_band"] = {
         "count": len(ub), "rooms": ub,
         "note": ("Rooms placed below the floor of their own catalogue band (OQ 54)." if ub
@@ -1148,6 +1511,18 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=
     if hit is not None:
         return copy.deepcopy(hit)
     out = _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s)
+    # WP-6.2 — openings are placed HERE, in the one dispatcher both engines come through,
+    # so a CP placement and a heuristic placement carry the same kind of record and every
+    # consumer (the renderers, the exporters, the drawn-house layer of plan_check) reads
+    # positions rather than inventing them. Before this, a door had no wall and each
+    # consumer guessed its own.
+    if "error" not in out and not out.get("unsolved"):
+        try:
+            OP = _mod("openings", f"{ROOT}/build/openings.py")
+            OP.place(out, C)
+        except Exception as exc:                       # never lose a good placement to it
+            out.setdefault("geometry_report", {})["openings_error"] = (
+                f"could not place openings: {exc.__class__.__name__}: {exc}")
     # And a large INPUT is not remembered at all. Stated precisely because the first version of
     # this comment said "the VALUE is bounded too" and the guard below reads len(plan_s) — the
     # input, not the cached result. The result is a solved plan, strictly larger than the record
@@ -1155,6 +1530,11 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=
     # something over 100 MB. That is far better than the unbounded original and it is not the
     # bound the old sentence claimed. Every plan in plans/ is under 30 KB, so no real record is
     # affected either way.
+    #
+    # THE OPENINGS PASS RUNS BEFORE THE GUARD, NOT INSIDE IT (merge of main, 27 Aug 2026). The
+    # two changes are orthogonal and both are wanted: openings must be placed on every result
+    # this dispatcher returns, cached or not, or an over-large plan would come back with doors
+    # that have no wall. Only the CACHE WRITE is size-guarded.
     if len(plan_s) <= MAX_CACHEABLE_BYTES:
         if len(_SOLVE_CACHE) > 64:
             _SOLVE_CACHE.clear()
@@ -1259,8 +1639,15 @@ def main():
     fp, gr = out["footprint"], out["geometry_report"]
     print(f"\n  {plan['name']}")
     print(f"  footprint {fp['width_ft']} x {fp['depth_ft']} ft, {fp['bays']} bays of {fp['bay_module_ft']} ft, {fp['area_sf']} sf gross")
+    # WP-7.4 audit: the decomposition has to ADD UP. It listed ground, upper and vertical while
+    # `score` also carried the span charge and the relaxation tax, so the Tidewater plan printed
+    # 714.6 against parts summing to 644.7 -- 69.9 unexplained, which is the 70.0 span charge.
+    # A breakdown a reader cannot reconcile with its own total is worse than no breakdown.
+    _sc = (gr.get("span_capacity") or {}).get("charge") or 0.0
+    _rx = 1.5 * (gr.get("relaxations") or {}).get("count", 0)
     print(f"  score {gr['score']} — LOWER IS BETTER, it counts what the placement costs "
-          f"(ground {gr['ground_score']}, upper {gr['upper_score']}, vertical {gr['vertical_score']})")
+          f"(ground {gr['ground_score']}, upper {gr['upper_score']}, "
+          f"vertical {gr['vertical_score']}, spans {_sc}, relaxations {_rx:g})")
     print(f"  relaxations {gr['relaxations']['count']}, worst {gr['relaxations']['max_off_grid_ft']} ft off the bay line")
     for n in gr["vertical"][:6]: print(f"    · {n}")
     if a.out: json.dump(out, open(a.out, "w"), indent=1, ensure_ascii=False); print(f"  wrote {a.out}")

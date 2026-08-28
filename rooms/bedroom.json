@@ -43,7 +43,8 @@
         86
       ],
       "clearance_in": 24,
-      "note": "Mattress 60 by 80; frame and headboard add 4 and 6. 24 in clear on three sides is the making-the-bed minimum, 30 is comfortable, 36 on the side you get out of."
+      "note": "Mattress 60 by 80; frame and headboard add 4 and 6. 24 in clear on three sides is the making-the-bed minimum, 30 is comfortable, 36 on the side you get out of.",
+      "placement": "against-wall"
     },
     {
       "item": "full bed (a secondary or child's room)",
@@ -52,7 +53,8 @@
         81
       ],
       "clearance_in": 24,
-      "note": "Mattress 54 by 75. A full bed brings the absolute minimum width to 54 + 48 = 102 in, 8 ft 6 in, and the practical minimum to 10 ft 0 in - which is why a 10 ft bedroom that fails for a queen succeeds for a full, and why it should be drawn and labelled as a full-bed room rather than sold as a queen one."
+      "note": "Mattress 54 by 75. A full bed brings the absolute minimum width to 54 + 48 = 102 in, 8 ft 6 in, and the practical minimum to 10 ft 0 in - which is why a 10 ft bedroom that fails for a queen succeeds for a full, and why it should be drawn and labelled as a full-bed room rather than sold as a queen one.",
+      "placement": "against-wall"
     },
     {
       "item": "twin beds, pair",
@@ -61,7 +63,8 @@
         80
       ],
       "clearance_in": 24,
-      "note": "Two 38 by 75 mattresses with 24 in between them: 38 + 24 + 38 = 100 in across, plus 24 at each outer side = 148 in, 12 ft 4 in. A shared children's room is WIDER than a queen room, not narrower, and this is the most commonly missed dimension in a family house."
+      "note": "Two 38 by 75 mattresses with 24 in between them: 38 + 24 + 38 = 100 in across, plus 24 at each outer side = 148 in, 12 ft 4 in. A shared children's room is WIDER than a queen room, not narrower, and this is the most commonly missed dimension in a family house.",
+      "placement": "freestanding"
     },
     {
       "item": "nightstand",
@@ -70,7 +73,8 @@
         18
       ],
       "clearance_in": 0,
-      "note": "Sits within the 24 in bedside aisle, so it costs no extra width - but only if the aisle is 24 and not 20."
+      "note": "Sits within the 24 in bedside aisle, so it costs no extra width - but only if the aisle is 24 and not 20.",
+      "placement": "against-wall"
     },
     {
       "item": "chest of drawers",
@@ -79,17 +83,20 @@
         20
       ],
       "clearance_in": 40,
-      "note": "A drawer extends 18-20 in and a person stands 18 in behind it. 40 in of clear floor in front, not 36."
+      "note": "A drawer extends 18-20 in and a person stands 18 in behind it. 40 in of clear floor in front, not 36.",
+      "placement": "against-wall"
     },
     {
       "item": "desk (any bedroom occupied by anyone under twenty-five)",
+      "needs_uninterrupted_wall_ft": 6.0,
       "footprint_in": [
         48,
         24
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "Now effectively essential and almost never drawn. It needs 6 ft of wall, and the only walls a bedroom has spare are the ones the closet and the door are not on."
+      "note": "Now effectively essential and almost never drawn. It needs 6 ft of wall, and the only walls a bedroom has spare are the ones the closet and the door are not on.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

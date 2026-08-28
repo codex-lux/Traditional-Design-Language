@@ -42,7 +42,8 @@
         36,
         48
       ],
-      "clearance_in": 36
+      "clearance_in": 36,
+      "placement": "freestanding"
     },
     {
       "item": "banquette",
@@ -52,7 +53,8 @@
       ],
       "clearance_in": 18,
       "essential": false,
-      "note": "Buys 18 in of room depth in exchange for people climbing over each other."
+      "note": "Buys 18 in of room depth in exchange for people climbing over each other.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

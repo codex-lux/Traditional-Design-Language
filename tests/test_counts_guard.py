@@ -77,3 +77,57 @@ def test_the_pack_count_is_computed_from_the_files_and_not_from_a_constant():
     body = src[src.index("def computed("):src.index("# (file, key, regex)")]
     assert "glob.glob" in body
     assert not re.search(r'v\["packs"\]\s*=\s*\d+', body)
+
+
+# --------------------------------------------------------------- the check total (WP-7.5)
+# `check_counts.py` polices counts DERIVED FROM THE CORPUS, and a check total is not one of
+# them -- CLAUDE.md says so itself, and that exemption is why this particular number has now
+# been wrong three times. WP-5.7 found it published as 32 against a suite of 33. The 27 Aug
+# merge resolved a conflict in that paragraph and wrote 32 AGAIN, in the same sentence that
+# describes the bug, because `len(check_all.CHECKS)` is the loop and not the run; check_all.py
+# printed "1 of 35 checks failed" against it an hour later. These two tests move it from
+# remembered to enforced.
+
+def _check_all():
+    spec = importlib.util.spec_from_file_location(
+        "check_all_mod", os.path.join(ROOT, "build", "check_all.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+def test_claude_md_publishes_the_runners_check_total_not_the_loops():
+    """The number in CLAUDE.md must be `len(results)` -- what the runner prints as
+    "All N checks passed" -- and not `len(CHECKS)`, which excludes the three suites appended
+    after the loop. Those are 32 and 35 respectively, which is exactly the size of the error
+    that has been published twice."""
+    m = _check_all()
+    assert m.TOTAL_CHECKS == len(m.CHECKS) + len(m.EXTRA_SUITES)
+    assert m.TOTAL_CHECKS > len(m.CHECKS), (
+        "EXTRA_SUITES is empty, so this guard has become a tautology -- the whole failure it "
+        "exists to catch is someone measuring the loop instead of the run")
+    text = open(os.path.join(ROOT, "CLAUDE.md"), encoding="utf-8").read()
+    hits = re.findall(r"\*\*(\d+) checks, [\d,]+ tests\*\*", text)
+    assert len(hits) == 1, (
+        f"expected exactly one published check total in CLAUDE.md, found {hits} -- if the "
+        f"phrasing moved, this guard has rotted and is no longer reading anything")
+    assert int(hits[0]) == m.TOTAL_CHECKS, (
+        f"CLAUDE.md publishes {hits[0]} checks; check_all.py runs {m.TOTAL_CHECKS} "
+        f"({len(m.CHECKS)} in the CHECKS loop plus {len(m.EXTRA_SUITES)} appended after it). "
+        f"Read the runner's own total, never len(CHECKS).")
+
+
+def test_the_runner_refuses_to_disagree_with_its_own_total():
+    """EXTRA_SUITES is a second statement of what main() assembles, and a second statement
+    drifts -- this codebase's most-repeated defect, called out in CLAUDE.md three times over.
+    main() therefore checks `len(results)` against TOTAL_CHECKS and exits nonzero if they
+    disagree, so adding a suite without updating EXTRA_SUITES breaks the build rather than
+    silently falsifying a published number. This asserts that guard is actually in the source
+    and reachable -- deleting it must fail a test, not merely remove a check."""
+    src = open(os.path.join(ROOT, "build", "check_all.py"), encoding="utf-8").read()
+    body = src[src.index("def main("):]
+    assert "len(results) != TOTAL_CHECKS" in body, (
+        "check_all.main() no longer holds itself to TOTAL_CHECKS; the constant can now drift "
+        "from what the runner actually assembles")
+    assert re.search(r"len\(results\) != TOTAL_CHECKS:\s*\n(?:.*\n)*?\s*sys\.exit\(1\)", body), (
+        "the TOTAL_CHECKS mismatch is detected but does not fail the run")

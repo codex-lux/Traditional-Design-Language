@@ -40,12 +40,14 @@
   "furniture": [
     {
       "item": "sofa",
+      "needs_uninterrupted_wall_ft": 11.0,
       "footprint_in": [
         84,
         36
       ],
       "clearance_in": 30,
-      "note": "needs 132 in of wall with the end tables; this is the dimension that decides where the doors can go"
+      "note": "needs 132 in of wall with the end tables; this is the dimension that decides where the doors can go",
+      "placement": "against-wall"
     },
     {
       "item": "two armchairs",
@@ -53,7 +55,8 @@
         34,
         34
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "freestanding"
     },
     {
       "item": "coffee table",
@@ -62,7 +65,8 @@
         28
       ],
       "clearance_in": 16,
-      "note": "16 to 18 in from the sofa: closer and legs will not fit, further and it is out of reach"
+      "note": "16 to 18 in from the sofa: closer and legs will not fit, further and it is out of reach",
+      "placement": "freestanding"
     },
     {
       "item": "end tables, pair",
@@ -70,7 +74,8 @@
         24,
         24
       ],
-      "clearance_in": 0
+      "clearance_in": 0,
+      "placement": "freestanding"
     },
     {
       "item": "television",
@@ -79,7 +84,8 @@
         4
       ],
       "clearance_in": 102,
-      "note": "a 65 in set is 57 in wide and wants to be viewed from 1.5 to 2 times its width - 7 to 9 ft 6 in - which means 102 in of clear floor between screen and seated eye. THE CONFLICT: the set and the fireplace both want the focal wall and both want the seats aimed at them, and stacking the set over the mantel puts its centre at 60 to 66 in against a seated eye height of 42 in, a 15 to 22 degree upward viewing angle where the comfortable limit is about 15 degrees. That is why a television over a fireplace is uncomfortable, and the discomfort is measurable rather than aesthetic."
+      "note": "a 65 in set is 57 in wide and wants to be viewed from 1.5 to 2 times its width - 7 to 9 ft 6 in - which means 102 in of clear floor between screen and seated eye. THE CONFLICT: the set and the fireplace both want the focal wall and both want the seats aimed at them, and stacking the set over the mantel puts its centre at 60 to 66 in against a seated eye height of 42 in, a 15 to 22 degree upward viewing angle where the comfortable limit is about 15 degrees. That is why a television over a fireplace is uncomfortable, and the discomfort is measurable rather than aesthetic.",
+      "placement": "against-wall"
     },
     {
       "item": "bookcases or built-ins flanking the chimney breast",
@@ -89,7 +95,8 @@
       ],
       "clearance_in": 30,
       "essential": false,
-      "note": "the residual space beside a chimney breast is the one place in the room where built-ins cost no floor at all"
+      "note": "the residual space beside a chimney breast is the one place in the room where built-ins cost no floor at all",
+      "placement": "built-in"
     },
     {
       "item": "piano, upright",
@@ -98,7 +105,8 @@
         25
       ],
       "clearance_in": 36,
-      "essential": false
+      "essential": false,
+      "placement": "against-wall"
     }
   ],
   "daylight": {

@@ -88,6 +88,10 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
     setOpenId(selection?.finding || null);
   }, [selection?.room, selection?.finding]);
 
+  // set by a wall drag, read once by the debounce below: it decides which engine the
+  // next evaluate asks for, because a gesture cannot wait for a proof
+  const draggingRef = React.useRef(false);
+
   const runEvaluate = React.useCallback((p, opts = {}) => {
     if (!p) return;
     const seq = ++evalRef.current;
@@ -114,10 +118,28 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
       .finally(() => { if (seq === evalRef.current) setBusy(false); });
   }, [strict, seeds, setLastEval]);
 
-  // debounced re-evaluate on any plan-record change
+  /* Debounced re-evaluate on any plan-record change, on the engine that suits WHAT
+     CHANGED THE RECORD.
+
+     WP-6.3 flipped the server's default from the hill-climb to `auto`, because the sheet a
+     reader judges a house by was coming from the weaker engine — on the shipped Tidewater
+     plan the hill-climb draws a kitchen with none of its five interior doors and strands
+     three rooms, and CP-SAT draws all of them and strands none. But a CP proof takes
+     SECONDS and this fires 400 ms behind every wall drag, so left alone the flip made the
+     handle unusable: e2e/walk.mjs failed four interaction checks at once.
+
+     A settle TIMER was tried first and was worse — a second render landing mid-gesture
+     replaces the handle element under the pointer and the drag dies. So the choice is made
+     by provenance instead: a wall drag asks for the fast engine BY NAME, and every other
+     way the record can change (a style switch, a load, an undo) takes the good one. The
+     drag is the only interaction with a hand on it, and it is the only one that cannot
+     afford the wait. */
   React.useEffect(() => {
     if (!plan) return;
-    const t = setTimeout(() => runEvaluate(plan), 400);
+    const dragged = draggingRef.current;
+    draggingRef.current = false;
+    const t = setTimeout(
+      () => runEvaluate(plan, dragged ? { engine: 'heuristic' } : {}), 400);
     return () => clearTimeout(t);
   }, [plan, strict, runEvaluate]);
 
@@ -178,6 +200,18 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const faultNotApplicable = lastEval?.fault_not_applicable || [];
   const cs = check?.constraint_summary;
   const relax = placement?.geometry_report?.relaxations;
+  /* WHICH ENGINE ACTUALLY DREW THIS, read from the record rather than asserted. Until
+     WP-6.3 the paragraph under the sheet said flatly that "each edit re-scores on the fast
+     search, which is a hill-climb and not an optimiser" and that "nothing it draws asserts
+     that feasibility was proved" — true when the default was the hill-climb, and false the
+     moment the default became `auto`. A caption that names the wrong engine is worse than
+     one that names none: a reader cannot tell a proof from a search, which is the one
+     distinction this surface exists to keep. `reason` is present when `auto` FELL BACK, and
+     that is the case worth saying out loud. */
+  const solver = placement?.geometry_report?.solver;
+  const proved = solver?.engine === 'cp-sat';
+  const fellBack = solver?.engine === 'heuristic' && solver?.reason
+    && solver.reason !== 'requested';
   // OQ 54. The search may place a room below the floor of its own catalogue band, charging
   // itself 12 points and winning anyway — and the plan RECORD still declares the full size, so
   // the trade is invisible to every layer of the critic downstream. geometry.py reports it; this
@@ -220,7 +254,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
               wrong is not a setting. */}
           <ActionChip onClick={() => planDoc.undo()} affix="↩" title="undo the last record edit">undo</ActionChip>
           <ActionChip onClick={() => runEvaluate(plan)} affix="↻" disabled={busy}
-            title="the solver is a hill-climb; results differ across runs">
+            title={proved
+              ? 'CP-SAT proved this placement; re-solving takes seconds and should return the same one'
+              : 'this placement came from the hill-climb; results differ across runs'}>
             {busy ? 're-solving…' : 're-solve'}
           </ActionChip>
         </span>
@@ -480,6 +516,8 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                     ? (xIsWidth ? 'width_ft' : 'length_ft')
                     : (xIsWidth ? 'length_ft' : 'width_ft');
                   const lvIdx = plan.levels.findIndex((l) => (l.index ?? 0) === level);
+                  // the next evaluate is behind a hand, so it takes the fast engine
+                  draggingRef.current = true;
                   planDoc.update(mutations.resizeRoom(lvIdx, r.id, { [field]: size }));
                 }}
                 title={plan.name || plan.id}
@@ -494,13 +532,22 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
 
           <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
             margin: '16px 0 0', maxWidth: '76ch' }}>
-            Each edit re-scores on the fast search, which is a hill-climb and not an optimiser: it is
-            seconds-cheap and not deterministic across runs, so nothing it draws asserts that feasibility
-            was proved. <em>Prove placement (CP-SAT)</em> above is the act that proves it — hard
-            constraints on the record's own declared facts, and a named conflict set above when they
-            cannot all hold. The search also trades a room's size away when it must, and says so under
-            the drawing rather than silently (OQ 54). A plan with no fatal findings is still not
-            therefore good.
+            {proved
+              ? <>This placement was <strong>proved</strong>, not searched: CP-SAT held the record's
+                own declared facts as hard constraints and returned {solver.status
+                  ? solver.status.split('—')[0].trim().toLowerCase() : 'a solution'}. Where a set of
+                them could not all hold, the ones it had to give up are named above rather than
+                dropped. <em>Prove placement (CP-SAT)</em> above runs the same act on demand. </>
+              : <>This placement came from the <strong>fast search</strong>, which is a hill-climb and
+                not an optimiser: seconds-cheap, not deterministic across runs, and nothing it draws
+                asserts that feasibility was proved.{fellBack
+                  ? <> The proof was attempted and did not answer — <em>{solver.reason}</em>. </>
+                  : ' '}<em>Prove placement (CP-SAT)</em> above is the act that proves it. </>}
+            A wall drag deliberately re-scores on the fast search — a hill-climb, not an optimiser —
+            because a gesture cannot wait for a proof; every other edit takes the proof where it can
+            be had. Either engine trades a room's
+            size away when it must, and says so under the drawing rather than silently (OQ 54). A plan
+            with no fatal findings is still not therefore good.
           </p>
         </div>
       </div>

@@ -148,14 +148,29 @@ def render_bearing_diagram(section, path, scale=7.0):
                 y1 = y2 = Yc(w["position_ft"]); x1, x2 = X(w["lo_ft"]), X(w["hi_ft"])
             s.append(f'<line class="{cls}" x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}"/>')
 
+        # WP-7.4 audit: THE MARKER IS DRAWN OVER THE BAY THAT FAILS, ON THE AXIS THE SPAN RUNS
+        # ALONG. It used to feed an x-axis span's midpoint -- an X coordinate -- into `Yc`, the
+        # y mapping, and then draw the line across the WHOLE plate rather than between the two
+        # walls the span sits between. On the Tidewater plan that put the 20->60 ft x-axis
+        # finding at Yc(40.0), which is 0.6 px inside a 40.08 ft deep panel: a horizontal bar
+        # lying on the north exterior wall, with its label above the panel top colliding with
+        # the level caption. The wall loop above already draws an axis-"x" wall as a VERTICAL
+        # line at X(position); a span BETWEEN two such walls therefore runs along x and its
+        # marker is horizontal, from X(from) to X(to).
+        #
+        # This is a pre-existing error (WP-3.1) that no reference plan ever reached, because
+        # both of them reported zero over-capacity spans until WP-7.4a made span_check read the
+        # bearing flag. The first thing that fix did was make a wrong drawing visible.
         for sp in lv.get("spans_exceeding_capacity", []):
+            a, b = sp["from_ft"], sp["to_ft"]
             if sp["axis"] == "x":
-                x1 = X(0); x2 = X(W); y = Yc((sp["from_ft"] + sp["to_ft"]) / 2)
+                x1, x2 = X(a), X(b); y = Yc(H / 2.0)
                 s.append(f'<line class="bad" x1="{x1:.1f}" y1="{y:.1f}" x2="{x2:.1f}" y2="{y:.1f}" stroke-dasharray="6 3"/>')
+                lx, ly = (x1 + x2) / 2.0, y - 4
             else:
-                y1 = Yc(0); y2 = Yc(H); x = X((sp["from_ft"] + sp["to_ft"]) / 2)
+                y1, y2 = Yc(a), Yc(b); x = X(W / 2.0)
                 s.append(f'<line class="bad" x1="{x:.1f}" y1="{y1:.1f}" x2="{x:.1f}" y2="{y2:.1f}" stroke-dasharray="6 3"/>')
-            lx, ly = (X(0) + 4, Yc((sp["from_ft"] + sp["to_ft"]) / 2) - 4) if sp["axis"] == "x" else (X((sp["from_ft"] + sp["to_ft"]) / 2) + 4, Yc(H) - 4)
+                lx, ly = x + 4, (y1 + y2) / 2.0
             # style=, not fill=: `.dm` sets a fill and a class rule beats a presentation
             # attribute, so this sheet's own legend promised RED = SPAN EXCEEDS CAPACITY
             # and then drew the failing figure in the same grey as the wall tally

@@ -44,7 +44,8 @@
         30
       ],
       "clearance_in": 30,
-      "note": "the 30 in clearance is the rocker's own travel, not circulation - it is why a rocker needs more depth than an armchair of the same size"
+      "note": "the 30 in clearance is the rocker's own travel, not circulation - it is why a rocker needs more depth than an armchair of the same size",
+      "placement": "freestanding"
     },
     {
       "item": "porch swing, hung",
@@ -54,7 +55,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "swings forward and back through about 30 in; hang it parallel to the wall, never across the route to the door"
+      "note": "swings forward and back through about 30 in; hang it parallel to the wall, never across the route to the door",
+      "placement": "freestanding"
     },
     {
       "item": "two chairs and a small table",
@@ -62,7 +64,8 @@
         72,
         30
       ],
-      "clearance_in": 36
+      "clearance_in": 36,
+      "placement": "freestanding"
     },
     {
       "item": "clear route from step to door",
@@ -71,7 +74,8 @@
         96
       ],
       "clearance_in": 0,
-      "note": "must not pass through the seating group; a porch whose only route crosses in front of the occupied chairs is a corridor with furniture in it"
+      "note": "must not pass through the seating group; a porch whose only route crosses in front of the occupied chairs is a corridor with furniture in it",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

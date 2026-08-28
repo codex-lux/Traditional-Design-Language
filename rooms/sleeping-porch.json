@@ -44,7 +44,8 @@
         80
       ],
       "clearance_in": 24,
-      "note": "Two 38 by 75 beds with 24 in between. Iron was preferred because it did not hold damp and could be washed - a sanatorium habit that came into the house with the room."
+      "note": "Two 38 by 75 beds with 24 in between. Iron was preferred because it did not hold damp and could be washed - a sanatorium habit that came into the house with the room.",
+      "placement": "against-wall"
     },
     {
       "item": "single bed or day bed",
@@ -52,7 +53,8 @@
         38,
         78
       ],
-      "clearance_in": 30
+      "clearance_in": 30,
+      "placement": "against-wall"
     },
     {
       "item": "blanket chest or built-in locker",
@@ -61,7 +63,8 @@
         20
       ],
       "clearance_in": 30,
-      "note": "Bedding had to be brought in or shut away, which is why so many sleeping porches have a built-in locker or a bench with a lid under the sill."
+      "note": "Bedding had to be brought in or shut away, which is why so many sleeping porches have a built-in locker or a bench with a lid under the sill.",
+      "placement": "built-in"
     },
     {
       "item": "roll-down canvas or wood-slat blinds",
@@ -70,7 +73,8 @@
         4
       ],
       "clearance_in": 0,
-      "note": "Not curtains - exterior roll blinds on the outside of the screen, to keep driven rain and snow off the beds. They are the single most consistently missing element in modern reconstructions and without them the room is unusable in weather."
+      "note": "Not curtains - exterior roll blinds on the outside of the screen, to keep driven rain and snow off the beds. They are the single most consistently missing element in modern reconstructions and without them the room is unusable in weather.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {

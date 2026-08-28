@@ -130,6 +130,18 @@ SCORE_LAYERS = {
     "completeness": "connections",
     "style": "canon", "grouping": "canon",
     "code": None,
+    # WP-6.2. The drawn layer judges the PLACED house, and this composer does not place its
+    # candidates — so on everything it scores today the layer can say only "could not
+    # evaluate", which is an `info` and is pulled out of every axis's fraction already.
+    # Mapping it changes no number now and is the right answer the moment a placed plan is
+    # scored: the layer exists because the declared door graph and the drawn one disagree,
+    # and `connections` is the axis about whether the house hangs together. The compromise,
+    # stated rather than hidden: the layer's drawn-against-declared SIZE findings ride on
+    # `connections` too, and they are not connection facts. Splitting one layer across two
+    # axes is the alternative, and it would mean re-weighting a composite whose weights are
+    # already flagged as editorial and whose returned set has changed once as a side effect
+    # (OQ 66, OQ 67). Not worth doing silently in a package about something else.
+    "drawn": "connections",
 }
 
 # What a room is still worth once something has been found against it. A serious finding
@@ -660,6 +672,9 @@ def instantiate(parti_id, brief):
             "note": f"Composed from the {p['name']} parti. {p['trades_away']}"}
     attach_garage(plan, brief, log)
     symmetrise_doors(plan)
+    # WP-6.2 — after symmetrise, so a door is dimensioned ONCE and both of its records
+    # agree. Before this, every composed door was `{"to": id}` and the renderers guessed.
+    derive_openings(plan, brief["style"], log)
     plan["declared"] = canonical_choices(brief["style"])
     return plan, log, p
 
@@ -820,6 +835,326 @@ def attach_garage(plan, brief, log):
                "Daylight depth is a habitability rule and the garage is not habitable. Recorded as "
                "OQ 31 rather than suppressed.")
 
+# --------------------------------------------------------------- the opening grammar
+# WP-6.2. Until this package every door a composed plan carried was `{"to": id}` -- no
+# width, no type, no rank -- and every window was a hardcoded 3.2 ft unit, twice, on every
+# lit wall of every room in every style. Both renderers then invented what the record did
+# not hold. None of what follows is NEW knowledge: opening-proportion derives an entry leaf
+# from the storey height and says in its own note why a wide one becomes a pair, sash-light
+# derives the lights, the kits grade the doors `principal 84 in, secondary 80 in, service
+# 78 in`, and 53 of 60 room records carry a glazing_fraction band. The corpus knew all of
+# it and the composer read none of it.
+
+_GRAMMAR = None
+
+def grammar():
+    global _GRAMMAR
+    if _GRAMMAR is None:
+        with open(f"{ROOT}/openings/grammar.json", "r", encoding="utf-8") as fh:
+            _GRAMMAR = json.load(fh)
+    return _GRAMMAR
+
+_WGRAMMAR = None
+
+def window_grammar():
+    global _WGRAMMAR
+    if _WGRAMMAR is None:
+        with open(f"{ROOT}/openings/window-grammar.json", "r", encoding="utf-8") as fh:
+            _WGRAMMAR = json.load(fh)
+    return _WGRAMMAR
+
+
+def window_rule(room_type, wall_exposure="exterior"):
+    """The window grammar's rule for a room against a wall. First match, stated order."""
+    g = window_grammar()
+    rt = C["rooms"].get(room_type) or {}
+    for r in (g.get("room_rules") or []):
+        w = r.get("when") or {}
+        if room_type in ((w.get("room") or {}).get("type") or []) \
+           and w.get("wall", wall_exposure) == wall_exposure:
+            return r
+    for r in (g.get("class_defaults") or []):
+        w = r.get("when") or {}
+        if rt.get("function_class") in ((w.get("room") or {}).get("function_class") or []) \
+           and w.get("wall", wall_exposure) == wall_exposure:
+            return r
+    return g["default"]
+
+
+_WT_CACHE = {}
+
+def kit_window_type(style):
+    """The SASH KIND the style says, or None if nobody has authored one — never a guess.
+
+    WP-7.3 (OQ 91). The grammar decides a window's ROLE and the kit decides its KIND, and
+    neither may answer for the other.
+
+    RESOLVED THROUGH THE LINEAGE, not read off the flat kit file, and the difference is the
+    whole answer. `kits/*.json` carries `window_type` as `status: empty` on 120 of 159 —
+    `tidewater-georgian`, the corpus's own worked example, among them. `resolve_kit` walks
+    the cascade and finds it: `double-hung`, specified by `georgian-colonial-american`, with
+    six variants forbidden. A first version of this function read the flat file and would
+    have reported COULD NOT EVALUATE for a style the corpus can answer for perfectly well —
+    the "unjudged is not passed" rule run backwards, which is its own kind of lie.
+
+    The provenance travels with the answer because the cascade delivers things nobody bound
+    (OQ 51): a reader has to be able to see that Tidewater's sash kind is its Georgian
+    ancestor's and not its own."""
+    if style in _WT_CACHE:
+        return _WT_CACHE[style]
+    RK = _mod("resolve_kit", f"{ROOT}/build/resolve_kit.py")
+    try:
+        graph = RK.load_graph()
+        slots, _sav = RK.resolve_slots(graph, RK.chain_for(graph, style),
+                                       RK.scope_for(graph, style))
+    except Exception:
+        slots = {}
+    slot = (slots or {}).get("window_type") or {}
+    if slot.get("binding") == "forbidden":
+        out = (None, None, "the kit forbids a window_type outright")
+    else:
+        allowed = [v for v in (slot.get("variants") or [])
+                   if (v.get("status") or "") != "forbidden"]
+        if allowed:
+            out = (allowed[0].get("id"), slot.get("from") or slot.get("source"), None)
+        elif slot.get("variants"):
+            out = (None, None, "every window_type variant this kit names is forbidden")
+        else:
+            out = (None, None, None)
+    _WT_CACHE[style] = out
+    return out
+
+
+def _side_matches(side, room_id, room):
+    if side.get("any"): return True
+    if "type" in side: return side["type"] == room_id
+    fc = side.get("function_class")
+    if fc is None: return False
+    return (room or {}).get("function_class") in ([fc] if isinstance(fc, str) else fc)
+
+def opening_rule(a_type, b_type):
+    """The grammar rule governing an opening between two room types. Unordered."""
+    g = grammar()
+    a_room = C["rooms"].get(a_type)
+    b_room = C["rooms"].get(b_type)
+    for rule in (g.get("pair_rules") or []) + (g.get("class_defaults") or []) + [g["default"]]:
+        w = rule.get("when")
+        if w is None: return rule
+        if (_side_matches(w["a"], a_type, a_room) and _side_matches(w["b"], b_type, b_room)) or \
+           (_side_matches(w["a"], b_type, b_room) and _side_matches(w["b"], a_type, a_room)):
+            return rule
+    return g["default"]
+
+# the kits state the graduation; this is where it finally reaches a record
+_RANK_HEIGHT_IN = {"principal": 84.0, "secondary": 80.0, "service": 78.0,
+                   "chamber": 80.0, "closet": 78.0}
+
+def _pack_rule(pack_id, quantity):
+    """The named rule out of a proportion pack, read from the pack itself."""
+    for sub in ("systems", "modules", "orders", "overlays"):
+        p = f"{ROOT}/proportions/{sub}/{pack_id}.json"
+        if not os.path.exists(p): continue
+        d = json.load(open(p))
+        for r in (d.get("derived_rules") or []):
+            if r.get("quantity") == quantity:
+                return d, r
+    return None, None
+
+def _pack_width_ft(rule, storey_ft):
+    """Where a proportion pack states this opening's width, the pack wins and the grammar's
+    band only clamps it. The corpus deriving its own dimension always beats a band fitted
+    by hand -- that is the whole argument of the proportion layer.
+
+    The pack's EXPRESSION is read and evaluated, never restated here. opening-proportion
+    gives `storey_height / 3.5` for the entry leaf, with Palladio ch. XXV quoted beside it;
+    copying that constant into this file would be the same fact in two places, which is the
+    duplication the proportion layer exists to remove."""
+    spec = rule.get("derive_width_from")
+    if not spec or not storey_ft: return None
+    pack, r = _pack_rule(spec.get("pack"), spec.get("quantity"))
+    if not r: return None
+    try:
+        PE = _mod("proportion_engine", f"{ROOT}/build/proportion_engine.py")
+        val_in = PE.evaluate_expr(r["expression"], {"storey_height": storey_ft * 12.0})
+    except Exception:
+        return None
+    band = r.get("range")
+    if isinstance(band, list) and len(band) == 2:
+        val_in = min(band[1], max(band[0], val_in))
+    return round(val_in / 12.0, 2)
+
+def derive_openings(plan, style, log):
+    """Give every declared door a width, a type and a rank, and every window a real count
+    and width. Runs after symmetrise_doors so both directions of one door agree."""
+    g = grammar()
+    idx = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
+    lvl_of = {r["id"]: lv for lv in plan["levels"] for r in lv["rooms"]}
+    editorial = {}
+
+    # doors, resolved once per PAIR and written to both records: a door disagreeing with
+    # itself across its two rooms is a corruption `plan_check`'s DECLARED layer reports
+    # (WP-6.4). This comment named the drawn layer for a package and a half and the drawn
+    # layer never checked it -- nothing in the repo compared a door's two records until the
+    # check was actually written. Deciding once per pair here is what keeps a COMPOSED plan
+    # clean; the check is what catches a hand-authored or hand-edited one.
+    decided = {}
+    for r in list(idx.values()):
+        for d in (r.get("doors") or []):
+            to = d["to"]
+            key = tuple(sorted((r["id"], to)))
+            if key in decided: continue
+            a_t = r["type"]
+            b_t = "exterior" if to == "exterior" else (idx.get(to, {}).get("type"))
+            if b_t is None: continue
+            rule = opening_rule(a_t, b_t)
+            lo, hi = rule["opening"]["width_band_ft"]
+            # storey height is floor to floor: the ceiling plus its assembly, which is
+            # the datum Palladio's rule is stated against (see the pack's own note)
+            storey = (lvl_of[r["id"]].get("floor_to_ceiling_ft") or 9.0) + 1.0
+            w = _pack_width_ft(rule, storey)
+            if w is None:
+                w = round((lo + hi) / 2.0, 2)
+                editorial[rule["id"]] = editorial.get(rule["id"], 0) + 1
+            w = round(min(hi, max(lo, w)), 2)
+            rank = rule["opening"]["rank"]
+            decided[key] = {"width_ft": w, "type": rule["opening"]["type"], "rank": rank,
+                            "height_ft": round(_RANK_HEIGHT_IN[rank] / 12.0, 2),
+                            "rule": rule["id"]}
+    for r in idx.values():
+        for d in (r.get("doors") or []):
+            spec = decided.get(tuple(sorted((r["id"], d["to"]))))
+            if not spec: continue
+            # a door the parti or attach_garage already dimensioned keeps its own numbers:
+            # an authored figure outranks a derived one, always
+            d.setdefault("width_ft", spec["width_ft"])
+            d.setdefault("type", spec["type"])
+            d.setdefault("rank", spec["rank"])
+            d.setdefault("height_ft", spec["height_ft"])
+
+    if editorial:
+        top = sorted(editorial.items(), key=lambda kv: -kv[1])[:4]
+        log.append("JUDGMENT: " + str(sum(editorial.values())) + " door(s) took the midpoint of "
+                   "an EDITORIAL band from openings/grammar.json because no proportion pack "
+                   "states that opening's width — " +
+                   ", ".join(f"{n}x {rid}" for rid, n in top) +
+                   ". Each band is a reading of this corpus's own room prose, quoted in the "
+                   "rule's `basis`, and none of it is sourced (OQ 18's form).")
+
+    # windows. The count is the room's own glazing_fraction against the wall it is on --
+    # a derivation the corpus has carried on 53 of 60 records and never once run.
+    derived = capped = sized = 0
+    _, wrule = _pack_rule("opening-proportion", "window_width_from_room")
+    _, prule = _pack_rule("opening-proportion", "opening_height_over_width")
+    PE = _mod("proportion_engine", f"{ROOT}/build/proportion_engine.py")
+    for lv in plan["levels"]:
+        ch = lv.get("floor_to_ceiling_ft") or 9.0
+        for r in lv["rooms"]:
+            wins = r.get("windows") or []
+            if not wins: continue
+            rt = C["rooms"].get(r["type"], {})
+            gf = (rt.get("daylight") or {}).get("glazing_fraction")
+            head = r.get("window_head_ft") or (ch - 1.2)
+            # THE WINDOW FROM THE ROOM IT LIGHTS. opening-proportion's own note calls this
+            # "THE RULE MODERN PRACTICE HAS ENTIRELY LOST", derives 42 2/3 in for a 16 ft
+            # room, and has never once been run: every window this composer emitted was
+            # 3.2 ft wide whatever room it lit.
+            room_w_in = (r.get("width_ft") or 12) * 12.0
+            unit_w_pack = unit_h_pack = None
+            if wrule:
+                try:
+                    v = PE.evaluate_expr(wrule["expression"], {"room_width": room_w_in})
+                    lo_w, hi_w = wrule.get("range") or [20.0, 72.0]
+                    unit_w_pack = round(min(hi_w, max(lo_w, v)) / 12.0, 2)
+                except Exception:
+                    unit_w_pack = None
+            if unit_w_pack and prule:
+                try:
+                    ratio = PE.evaluate_expr(prule["expression"], {})
+                    unit_h_pack = round(unit_w_pack * float(ratio), 2)
+                except Exception:
+                    unit_h_pack = None
+            for win in wins:
+                if unit_w_pack and win.get("width_ft") in (None, 3.2):
+                    win["width_ft"] = unit_w_pack
+                    # the head is where the corpus puts it; the sill follows from the
+                    # canonical proportion rather than from a habit
+                    if unit_h_pack:
+                        win["height_ft"] = min(unit_h_pack, round(head - 1.5, 1))
+                    sized += 1
+                unit_w = win.get("width_ft") or 3.2
+                unit_h = win.get("height_ft") or max(3.0, round(head - 2.5, 1))
+                wall = win.get("wall")
+                run = (r.get("width_ft") or 12) if wall in ("N", "S") else (r.get("length_ft") or 14)
+                if isinstance(gf, list) and len(gf) == 2 and unit_w and unit_h:
+                    target = ((gf[0] + gf[1]) / 2.0) * run * ch
+                    n = int(round(target / (unit_w * unit_h)))
+                    n = max(1, n)
+                    derived += 1
+                else:
+                    n = win.get("count") or 1
+                # minimum_solid_between_openings (sash-light: opening_width * 1.4) bounds
+                # how many units a wall can actually carry, whatever the daylight asks for
+                cap_n = max(1, int((run + unit_w * 1.4) // (unit_w * 2.4)))
+                if n > cap_n:
+                    n = cap_n
+                    capped += 1
+                win["count"] = n
+    if sized:
+        log.append(f"{sized} window unit(s) sized from the room they light, by "
+                   f"opening-proportion's `window_width_from_room` (room_width / 4.5) and its "
+                   f"canonical height-over-width of 13/6 — the rule that pack's own note calls "
+                   f"'THE RULE MODERN PRACTICE HAS ENTIRELY LOST'. Nothing in this system had "
+                   f"ever run it: every composed window was 3.2 ft wide in every room.")
+    # --- WP-7.3 (OQ 91): every window unit gets a ROLE from the grammar and a KIND from the
+    # kit, and where the kit has not been authored it gets no kind at all.
+    roled = kinded = kindless = 0
+    kinds = {}
+    for r in idx.values():
+        rt = C["rooms"].get(r["type"]) or {}
+        for win in (r.get("windows") or []):
+            rule = window_rule(r["type"], "exterior")
+            role = (rule.get("unit") or {}).get("role")
+            if role in (None, "none"):
+                continue
+            win["role"] = role
+            win["role_rule"] = rule["id"]
+            roled += 1
+            kind, whence, refusal = kit_window_type(plan.get("style"))
+            if kind:
+                win["unit_type"] = kind
+                if whence and whence != plan.get("style"):
+                    win["unit_type_from"] = whence
+                kinds[kind] = kinds.get(kind, 0) + 1
+                kinded += 1
+            else:
+                # THREE-STATE, and this is the load-bearing half of the ruling
+                win["unit_type_unresolved"] = {
+                    "reason": refusal or (f"kits/{plan.get('style')}.kit.json states no "
+                                          f"window_type, so this corpus does not know what "
+                                          f"kind of sash this style uses")}
+                kindless += 1
+    if roled:
+        log.append(f"{roled} window unit(s) given a ROLE by openings/window-grammar.json — "
+                   f"which opening is an ordinary lit window, a high transom band, a borrowed "
+                   f"light or a bay. The grammar decides the role and the kit decides the sash "
+                   f"kind; neither may state the other's (OQ 91).")
+    if kinded:
+        log.append(f"{kinded} unit(s) given a sash kind by the style's own kit: "
+                   + ", ".join(f"{k} x{v}" for k, v in sorted(kinds.items())) + ".")
+    if kindless:
+        log.append(f"JUDGMENT WITHHELD: {kindless} window unit(s) carry a role and NO "
+                   f"`unit_type`, because this style's kit states no window_type. "
+                   f"`window_type` is drafted on 39 of 159 kits. Drawing them as double-hung "
+                   f"because that is the commonest would be a guess wearing a fact.")
+    if derived:
+        log.append(f"Window counts on {derived} wall(s) derived from each room's own "
+                   f"daylight.glazing_fraction band against that wall's area, and bounded by "
+                   f"sash-light's minimum_solid_between_openings"
+                   + (f" ({capped} wall(s) bounded by the solid rather than by daylight)" if capped else "")
+                   + ". Before WP-6.2 every window in every composed plan was 3.2 ft wide, "
+                     "two to a wall, in every room and every style.")
+    return plan
+
 def symmetrise_doors(plan):
     """A parti declares each door once; a plan needs it on both rooms."""
     idx = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
@@ -937,6 +1272,14 @@ _DECISION_PATTERNS = (
     (r"^Widened (?P<a>\d+) rooms to take their furniture", "room_widths", r"\g<a> rooms"),
     (r"^Widened (?P<a>.+?) from (?P<b>[\d.]+) to (?P<c>[\d.]+) ft", "room_width_ft", r"\g<a>: \g<b> to \g<c> ft"),
     (r"^Widened (?P<a>.+?) to the (?P<b>[\d.]+) ft floor", "room_width_ft", r"\g<a> to the \g<b> ft floor"),
+    # WP-6.2. Three lines the composer did not use to emit at all, because it took none of
+    # these decisions: every door was `{"to": id}` and every window 3.2 ft wide, twice.
+    (r"^(?P<a>\d+) door\(s\) took the midpoint of an EDITORIAL band", "door_widths",
+     r"\g<a> from an editorial band"),
+    (r"^(?P<a>\d+) window unit\(s\) sized from the room they light", "window_widths",
+     r"\g<a> sized from their rooms"),
+    (r"^Window counts on (?P<a>\d+) wall\(s\) derived from each room's own", "window_counts",
+     r"\g<a> walls from glazing fraction"),
 )
 
 def structure_decisions(lines):

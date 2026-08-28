@@ -58,11 +58,15 @@ answer; the authoritative re-solved geometry is what gets drawn.
 footprint, partitions from deduped shared room edges, windows spaced along exterior
 walls and interior doors with swing arcs exactly as `build/render_plan.py` computes
 them (`derive.js` is a line-for-line port of `_shared` and the window spacing).
-Two deliberate departures, both stated on the plate itself: exterior door openings
-are drawn at conventional mid-wall position (`render_plan.py` omits them entirely),
-and a declared window whose room the solver did not place on that wall is dropped
-with a caption tally — declared, not drawn — and the daylight overlay is gated on
-the same test, so overlay and drawing cannot contradict each other. Every room is
+Since WP-6.2 both read the PLACEMENT: a door carries a `wall` and a `position_ft`
+and the renderers draw it there, so the mid-wall guess survives only for a legacy
+0.2.0 record and the plate says how many it made. (This paragraph claimed until
+WP-6.4 that `render_plan.py` "omits them entirely" — it has drawn every exterior
+door since WP-6.1, and saying otherwise was the exact class of stale claim that
+package existed to remove.) A declared window whose room the solver did not place on
+that wall is disclosed, never dropped silently — declared, not drawn — and the
+daylight overlay is gated on the same test, so overlay and drawing cannot contradict
+each other. The plate also names which engine placed it, proved or searched. Every room is
 clickable to its record; the selected room grows drag handles; and relaxations are
 both tallied (`count`, `max_off_grid_ft`) and DRAWN where they fall — a hollow triangle
 on the cut line, in ink and never in colour, one per counted relaxation. That is P7,

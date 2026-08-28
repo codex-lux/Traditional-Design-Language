@@ -42,7 +42,8 @@
         96
       ],
       "clearance_in": 44,
-      "note": "15 in of knee depth per stool, 24 in of width per stool."
+      "note": "15 in of knee depth per stool, 24 in of width per stool.",
+      "placement": "freestanding"
     },
     {
       "item": "table, seats 4",
@@ -51,7 +52,8 @@
         48
       ],
       "clearance_in": 36,
-      "essential": false
+      "essential": false,
+      "placement": "freestanding"
     }
   ],
   "daylight": {

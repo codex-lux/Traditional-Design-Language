@@ -43,7 +43,8 @@
         14
       ],
       "clearance_in": 0,
-      "note": "Spacing graduated: 18 in at the bottom for sacks and appliances, 14 in for boxes, 10 to 12 in for tins and jars, and a deeper 20 in shelf at the very top for things used twice a year. Adjustable, on a cleat or a standard - fixed shelving in a pantry is wrong within a year."
+      "note": "Spacing graduated: 18 in at the bottom for sacks and appliances, 14 in for boxes, 10 to 12 in for tins and jars, and a deeper 20 in shelf at the very top for things used twice a year. Adjustable, on a cleat or a standard - fixed shelving in a pantry is wrong within a year.",
+      "placement": "against-wall"
     },
     {
       "item": "bottom shelf or floor zone for sacks and cases",
@@ -52,7 +53,8 @@
         20
       ],
       "clearance_in": 0,
-      "note": "A case of water is 16 by 10 by 8 and weighs 25 lb; a 25 lb sack of flour is 18 by 12. This zone is why the bottom shelf is 12 to 18 in off the floor and 20 in deep."
+      "note": "A case of water is 16 by 10 by 8 and weighs 25 lb; a 25 lb sack of flour is 18 by 12. This zone is why the bottom shelf is 12 to 18 in off the floor and 20 in deep.",
+      "placement": "against-wall"
     },
     {
       "item": "counter, in a large pantry",
@@ -62,7 +64,8 @@
       ],
       "clearance_in": 36,
       "essential": false,
-      "note": "Turns the pantry into a small scullery and is the right move where there is no scullery: the small appliances live plugged in on it and never come out into the kitchen."
+      "note": "Turns the pantry into a small scullery and is the right move where there is no scullery: the small appliances live plugged in on it and never come out into the kitchen.",
+      "placement": "built-in"
     },
     {
       "item": "door",
@@ -71,7 +74,8 @@
         30
       ],
       "clearance_in": 0,
-      "note": "A 30 in door swinging in eats the aisle of a 4 ft 2 in single-sided pantry entirely. Swing it OUT, or make it a sliding or a pocket door, or lose the shelf behind it. This is the same problem as the powder room and it has the same answer."
+      "note": "A 30 in door swinging in eats the aisle of a 4 ft 2 in single-sided pantry entirely. Swing it OUT, or make it a sliding or a pocket door, or lose the shelf behind it. This is the same problem as the powder room and it has the same answer.",
+      "placement": "freestanding"
     }
   ],
   "daylight": {

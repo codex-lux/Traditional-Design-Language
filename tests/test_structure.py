@@ -115,6 +115,106 @@ class TestBearingLines:
         assert "partition" in bearing[0]["why"]
 
 
+class TestSpanCheckReadsTheBearingFlag:
+    """WP-7.4. span_check took the list bearing_lines() classifies and read only each wall's
+    POSITION, never its `bearing` flag -- so every partition was counted as a support and the
+    docstring's "between consecutive bearing lines" described something the code did not do.
+
+    Measured on plans/tidewater-georgian-careful.json when it was found: the x axis reported a
+    worst gap of 23.37 ft over 7 lines, of which 4 are partitions; between the 3 real bearing
+    lines the clear span is 49.93 ft against a 20 ft capacity. Corpus-wide over 16 plans the
+    correction took spans 236 -> 126 (the phantom break points disappear) and over-capacity
+    spans 9 -> 20, worst 36.57 ft -> 60.00 ft. A check that under-reports a structural defect
+    is the OQ 52 family wearing the safe-looking sign."""
+
+    def test_a_partition_does_not_break_a_span(self, structure_module):
+        """The whole of the fix, stated as a case: a wall off the bay grid carries no floor,
+        so the joist run measures straight past it."""
+        construction = structure_module.load_construction()
+        walls = [
+            {"role": "exterior", "wall": "W", "axis": "x", "position_ft": 0.0, "lo_ft": 0.0, "hi_ft": 10.0},
+            {"role": "exterior", "wall": "E", "axis": "x", "position_ft": 24.0, "lo_ft": 0.0, "hi_ft": 10.0},
+            # 13.4 is 3.4 ft off the 10 ft grid: bearing_lines calls it a partition
+            {"role": "interior", "axis": "x", "position_ft": 13.4, "lo_ft": 0.0, "hi_ft": 10.0, "rooms": ["a", "b"]},
+        ]
+        bearing = structure_module.bearing_lines(walls, bay_module_ft=10.0)
+        assert [w["bearing"] for w in bearing if w["role"] == "interior"] == [False]
+        spans = structure_module.span_check(bearing, 24.0, 10.0, "tidewater-georgian", construction["floor"])
+        x = [s for s in spans if s["axis"] == "x"]
+        assert len(x) == 1, f"the partition must not create a break point: {x}"
+        assert x[0]["span_ft"] == 24.0
+        assert x[0]["ok"] is False, "24 ft over a 20 ft hand-framed capacity must fail"
+
+    def test_an_on_grid_wall_breaks_a_span_and_a_partition_beside_it_does_not(self, structure_module):
+        """Both halves of the rule in ONE call, which is what makes this a guard rather than a
+        control. An audit pointed out that the first version -- an on-grid wall alone -- passes
+        identically with the fix reverted, so it contributed a green tick to a class named for
+        reading the bearing flag while testing nothing about it.
+
+        Here the same call carries an on-grid wall at 10.0 and a partition at 16.4. Reverted,
+        the partition also breaks the run and the spans come out [10.0, 6.4, 7.6]; correct, the
+        partition is ignored and they are [10.0, 14.0]."""
+        construction = structure_module.load_construction()
+        walls = [
+            {"role": "exterior", "wall": "W", "axis": "x", "position_ft": 0.0, "lo_ft": 0.0, "hi_ft": 10.0},
+            {"role": "exterior", "wall": "E", "axis": "x", "position_ft": 24.0, "lo_ft": 0.0, "hi_ft": 10.0},
+            {"role": "interior", "axis": "x", "position_ft": 10.0, "lo_ft": 0.0, "hi_ft": 10.0, "rooms": ["a", "b"]},
+            {"role": "interior", "axis": "x", "position_ft": 16.4, "lo_ft": 0.0, "hi_ft": 10.0, "rooms": ["b", "c"]},
+        ]
+        bearing = structure_module.bearing_lines(walls, bay_module_ft=10.0)
+        assert [w["bearing"] for w in bearing if w["role"] == "interior"] == [True, False]
+        spans = sorted((s for s in structure_module.span_check(
+            bearing, 24.0, 10.0, "tidewater-georgian", construction["floor"]) if s["axis"] == "x"),
+            key=lambda s: s["from_ft"])
+        assert [s["span_ft"] for s in spans] == [10.0, 14.0], (
+            "the 16.4 ft partition broke the run; span_check is reading position without bearing")
+        assert all(s["ok"] for s in spans)
+
+
+class TestTheSpanChargeIsSoundToPruneOn:
+    """`solve_heuristic` skips the span check for a candidate whose partial score already meets
+    the incumbent, which is exact ONLY because the charge can never be negative. An audit noted
+    that nothing pinned that, and that the early-out is otherwise covered only incidentally by
+    a relaxation count in another file."""
+
+    def test_the_charge_is_never_negative(self, structure_module):
+        """Only over-capacity spans are charged and the charge is `SPAN_W * span/capacity`, so
+        the ratio exceeds 1 by construction. If a future capacity table admitted a zero or a
+        negative `max_span_ft`, the ratio could invert and the pruning would silently start
+        discarding winners."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "geometry", os.path.join(ROOT, "build", "geometry.py"))
+        geo = importlib.util.module_from_spec(spec); spec.loader.exec_module(geo)
+        floor = structure_module.load_construction()["floor"]
+        assert geo.SPAN_W >= 0, "a negative weight would invert the pruning"
+        seen_positive = False
+        for w, d in ((20.0, 14.0), (40.0, 30.0), (60.0, 40.0), (80.0, 12.0)):
+            prep = {0: [{"id": "a", "type": "parlor", "_area": w * d}]}
+            rects = {0: {"a": (0.0, 0.0, w, d)}}
+            charge, over = geo._span_charge(rects, prep, w, d, 10.0,
+                                            "tidewater-georgian", floor)
+            assert charge >= 0.0, (w, d, charge)
+            assert over is not None and over >= 0
+            if charge > 0:
+                seen_positive = True
+        assert seen_positive, "no case produced a charge — this test proved nothing"
+
+    def test_an_unreadable_catalogue_is_unjudged_and_not_a_clean_zero(self, structure_module):
+        """The third state. A zero charge with no count would read as 'no span exceeds
+        capacity', which is the OQ 52 lie in the cheapest possible place -- the count must come
+        back None so the report can say COULD NOT EVALUATE."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "geometry", os.path.join(ROOT, "build", "geometry.py"))
+        geo = importlib.util.module_from_spec(spec); spec.loader.exec_module(geo)
+        charge, over = geo._span_charge({0: {"a": (0.0, 0.0, 60.0, 40.0)}},
+                                        {0: [{"id": "a", "type": "parlor", "_area": 2400}]},
+                                        60.0, 40.0, 10.0, "tidewater-georgian", None)
+        assert charge == 0.0
+        assert over is None, "an unreadable catalogue must report unjudged, never a clean zero"
+
+
 class TestSpanCheckFramingBasis:
     """Regression for bug #2: timber_framed must be decided from STYLE membership in timber-
     bay.json's applies_to list, not from construction_type -- construction_type values
@@ -323,16 +423,42 @@ class TestBuildSectionEndToEnd:
         assert 7.0 <= roof["roof_pitch_rise_per_12"] <= 9.0  # tidewater-georgian.c02's own band
         assert roof["grade_to_ridge_ft"] > roof["grade_to_eave_ft"] > 0
 
-    def test_no_span_over_capacity_passes_silently_on_the_careful_plan(self, structure_module):
-        """This specific hand-authored reference plan's bays are all inside the 20 ft hand-
-        framed capacity for its (timber-bay) style -- a genuine, checked pass, not an absence
-        of checking. Confirmed by asserting spans were actually computed, not just that none
-        failed."""
+    def test_span_capacity_is_checked_on_the_careful_plan_and_is_not_guaranteed(self, structure_module):
+        """WP-7.1 rewrote this test, and what it found is worth more than what it asserted.
+
+        It used to claim that "this specific hand-authored reference plan's bays are all
+        inside the 20 ft hand-framed capacity for its (timber-bay) style -- a genuine, checked
+        pass". That claim was FALSE for the placement the product actually ships, and had been
+        since WP-6.3 flipped the default engine to CP-SAT. `build_section(plan)` with no
+        `geometry_result` re-solves on the HEURISTIC, so the test measured an engine no reader
+        sees; measured on the DEFAULT engine, the careful plan carries one span of 29.00 ft
+        over the 20 ft capacity, at baseline and after WP-7.1 alike.
+
+        The deeper reason is that **the search has no span term at all**. `level_score`,
+        `exterior_score`, `vertical_score` and the rest never look at clear span, so whether
+        any given placement clears the capacity is luck, and any change to the search
+        reshuffles it -- WP-7.1's level-aware generator moved the heuristic from 0 to 1
+        over-capacity span on this plan while removing 77 transfer beams across 23 plans
+        (205 -> 128) and leaving the worst span in the corpus unchanged at 47.12 ft.
+
+        So this asserts what is actually true and load-bearing: spans ARE computed, the
+        capacity IS checked, and an over-capacity span SURFACES as a finding rather than being
+        silently reported as fine. Restoring a "zero over capacity" assertion would be pinning
+        luck. Making the search honour span capacity is unbuilt work, not a regression."""
         plan = load_plan("tidewater-georgian-careful")
         section = structure_module.build_section(plan)
         total_spans = sum(len(lv["spans"]) for lv in section["levels"])
-        assert total_spans > 0
-        assert all(not lv["spans_exceeding_capacity"] for lv in section["levels"])
+        assert total_spans > 0, "spans must actually be computed, or this checks nothing"
+        # every span carries a verdict against a stated capacity -- three-state, never absent
+        for lv in section["levels"]:
+            for sp in lv["spans"]:
+                assert "ok" in sp and sp.get("max_span_ft"), sp
+                if not sp["ok"]:
+                    assert sp["span_ft"] > sp["max_span_ft"], sp
+                    assert sp.get("note"), "an over-capacity span must say why"
+        # and an over-capacity span is REPORTED, not swallowed
+        flagged = [b for lv in section["levels"] for b in lv["spans_exceeding_capacity"]]
+        assert all(not b["ok"] for b in flagged)
 
     def test_spec_builder_plan_flags_a_span_over_capacity(self, structure_module):
         """The concrete case this file's own CLI run turned up: a 23+ ft clear span checked

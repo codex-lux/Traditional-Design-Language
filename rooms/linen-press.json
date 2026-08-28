@@ -43,7 +43,8 @@
         14
       ],
       "clearance_in": 0,
-      "note": "Slatted or ventilated in a damp climate; solid, painted, with a nosed front edge in period work. A 36 in shelf in 3/4 in solid stock will deflect visibly under linen and wants a cleat at the back and at both ends, which is how they were always done."
+      "note": "Slatted or ventilated in a damp climate; solid, painted, with a nosed front edge in period work. A 36 in shelf in 3/4 in solid stock will deflect visibly under linen and wants a cleat at the back and at both ends, which is how they were always done.",
+      "placement": "against-wall"
     },
     {
       "item": "the linen a four-bedroom household actually holds",
@@ -52,7 +53,8 @@
         14
       ],
       "clearance_in": 0,
-      "note": "Twelve linear feet of 14 in shelf - which is a 30 in wide closet with five shelves. Three sheet sets per bed, four towels per person, table linen, two spare blankets, a spare pillow. Households that own more than this own it because the closet was big, not because they needed it."
+      "note": "Twelve linear feet of 14 in shelf - which is a 30 in wide closet with five shelves. Three sheet sets per bed, four towels per person, table linen, two spare blankets, a spare pillow. Households that own more than this own it because the closet was big, not because they needed it.",
+      "placement": "freestanding"
     },
     {
       "item": "hot water cylinder, where the room is an airing cupboard",
@@ -62,7 +64,8 @@
       ],
       "clearance_in": 24,
       "essential": false,
-      "note": "A 210 litre unvented cylinder is 580 mm (23 in) diameter and 1,700 mm (67 in) tall, with a discharge pipe to a tundish and a safe termination, and it needs 24 in of service access to its immersion and its expansion vessel. It cannot share the volume with linen unless the linen is on the OTHER side of a partition, because a heat-pump cylinder needs airflow across its coil."
+      "note": "A 210 litre unvented cylinder is 580 mm (23 in) diameter and 1,700 mm (67 in) tall, with a discharge pipe to a tundish and a safe termination, and it needs 24 in of service access to its immersion and its expansion vessel. It cannot share the volume with linen unless the linen is on the OTHER side of a partition, because a heat-pump cylinder needs airflow across its coil.",
+      "placement": "against-wall"
     }
   ],
   "daylight": {
