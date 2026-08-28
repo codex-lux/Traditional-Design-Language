@@ -1,4 +1,4 @@
-# WP-8.6 — the adversarial audit of WP-8.1 through WP-8.5
+# WP-8.6 — the adversarial audit of WP-8.1 through WP-8.4
 
 *28 August 2026. Twelve read-only auditors over the session's whole diff, a verify pass on
 every finding, and a completeness critic. **44 findings acted on** — 8 blocking, 16 worth
@@ -228,7 +228,23 @@ saying 67/60, and the assertion saying 68/61, which is what the checker prints.
   named finding in the WP-8.4 report, and closing it means authoring nine records, not fixing a
   reader.
 
-## VI — What this says about the discipline
+## VI — A correction to this report's own title
+
+**It said "WP-8.1 through WP-8.5" and there is no WP-8.5.** The plan named one — OQ 89's
+withheld measurements and the `total_shutter_leaves` constant — and that work shipped as
+`6f9e7c7`, under its OQ id, before the WP-8 numbering existed on this branch. It has a commit
+and a closed question and never had a number, so the series is 8.1, 8.2, 8.3, 8.4, 8.6.
+
+It is worth recording where it is rather than quietly deleting a digit, for two reasons. The
+commit message of `2601c0e` carries the wrong range and is pushed, so it cannot be corrected —
+the same constraint OQ 90 records for `f768c02` and `426ed35`. And the defect is this report's
+own subject arriving in this report's own title: **a range stated in prose, that nothing checks,
+naming a package that does not exist.** `check_ids.py` holds a report's filename to its id and
+`test_open_question_ids.py` holds every cited report PATH to a file that resolves; neither can
+see a package named only in a sentence. Found when a pull request's generated summary listed
+"WP-8.5: (implied in the series)" and the series was checked.
+
+## VII — What this says about the discipline
 
 Every one of the eight blockers was a case of **something claiming to have been checked**. Two
 were guards that could not fire; two were readers pointed at the wrong record; two were verdicts

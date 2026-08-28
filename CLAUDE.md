@@ -108,12 +108,30 @@ if you are about to trust a number this phase published: it found two blocking d
 had introduced, one of them a false claim in WP-7.4's own commit message, the same span bug a
 second time in `render_section.py`, and six tests that passed with the fix reverted.
 
-**Phase 8 is COMPLETE** (WP-8.1 through 8.6, 28 Aug) — the register as a directory and the
-frozen id (8.1), OQ 51's refusal half (8.2), the forbidden slot (8.3), the construction scope and
-the 331 unevaluated exception preconditions (8.4), OQ 89's withheld measurements (8.5), and
-**WP-8.6, the adversarial audit of the other five** —
+**Phase 8 is COMPLETE** (WP-8.1 through 8.4 and 8.6, 28 Aug) — the register as a directory and
+the frozen id (8.1), OQ 51's refusal half (8.2), the forbidden slot (8.3), the construction scope
+and the 331 unevaluated exception preconditions (8.4), and
+**WP-8.6, the adversarial audit of the other four** —
 `docs/reports/wp-8.6-the-guards-that-could-not-fire.md`, and the one to read first if you are
-about to trust anything this phase built. **It found eight blocking defects, and every one was
+about to trust anything this phase built.
+
+**THERE IS NO WP-8.5, AND THE GAP IS DELIBERATE RATHER THAN A MISSING REPORT.** The plan named
+one — OQ 89's withheld measurements and the `total_shutter_leaves` constant — and that work
+SHIPPED, as `6f9e7c7`, under its OQ ids and before the WP-8 numbering existed on this branch.
+Its subject is `OQ 88 and 89: a fault cleared on shutters that were not there`.
+(Quoted as a CODE SPAN, and on ONE LINE, for a reason worth knowing: the subject carries a bare
+continuation number, which `check_citations.py` refuses in prose and exempts in a quotation --
+but that checker reads line by line, so a code span straddling a newline has no closing backtick
+on either line and is not a code span to it. A pushed commit subject cannot be rewritten to suit
+a checker written after it, so the quotation has to be shaped to the reader.) So the package has a commit and
+a closed question and never had a number. The series is 8.1, 8.2, 8.3, 8.4, 8.6. Renumbering 8.6
+down is not available: `2601c0e`'s subject names it, and a pushed commit subject cannot be
+rewritten — the same constraint OQ 90 records for `f768c02` and `426ed35`.
+**This entry exists because the audit's own report claimed to cover "WP-8.1 through WP-8.5" and
+CLAUDE.md listed a package with no commit, no report and no plan section.** Nothing checks a
+range stated in prose, which is the finding WP-8.6 is about, appearing in WP-8.6's own title.
+`2601c0e`'s message carries the wrong range and cannot be corrected; it is recorded here
+instead. **It found eight blocking defects, and every one was
 something CLAIMING to have been checked**: three shipped guards that could not fire (the CI
 id-collision gate walked the ids the branch ADDED and then required them to be IN the base
 branch — complements, so the loop body was unreachable), two readers pointed at the node's own
