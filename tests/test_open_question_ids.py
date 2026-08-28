@@ -190,3 +190,76 @@ def test_section_one_names_open_questions_and_work_packages_as_ids():
     rule = poa[poa.index("**Ids are stable and never reused.**"):][:400]
     assert "open-question" in rule and "work-package" in rule, rule
     assert "never by reading the working tree" in poa
+
+
+# ---------------------------------------------------------------- the CI gate
+#
+# THE CROSS-BRANCH GATE IS SHELL IN A YAML FILE AND NOTHING RAN IT. Its first version
+# walked the ids this branch ADDED and then asked for the BASE branch's file for that
+# id -- which is non-empty only when the id is already in base, i.e. never for a member
+# of `added`. The condition was unsatisfiable on every iteration, so the step printed
+# "No open-question id on this branch collides" for the one case it exists to catch, and
+# `grep -rn ci.yml tests/` returned nothing. A guard nobody runs is a comment.
+#
+# These two tests extract the step's own shell out of `.github/workflows/ci.yml` and run
+# it against stub registers, stubbing ONLY the two git reads. The pair is the point: one
+# proves it fires on a collision, the other that it stays quiet without one, and neither
+# passes alone -- `exit 1` unconditionally satisfies the first, `exit 0` the second.
+
+def _gate_script():
+    """The gate step's shell, with `files()` restubbed to read two fixture files."""
+    ci_yml = os.path.join(ROOT, ".github", "workflows", "ci.yml")
+    with open(ci_yml, encoding="utf-8") as fh:
+        text = fh.read()
+    start = text.index("      - name: open-question ids do not collide with the base branch")
+    body = text[start:text.index("      - name: ", start + 10)]
+    run = body[body.index("run: |") + len("run: |"):]
+    lines = [ln[10:] if ln.startswith(" " * 10) else ln for ln in run.splitlines()]
+    out = []
+    for ln in lines:
+        if ln.strip().startswith("git fetch"):
+            continue                                   # no network in a test
+        if ln.strip().startswith("files ()"):          # the one stubbed read
+            out.append('files () { if [ "$1" = "$BASE" ]; then cat "$FIX/base.txt"; '
+                       'else cat "$FIX/head.txt"; fi | sort; }')
+            continue
+        out.append(ln)
+    script = "\n".join(out).replace("${{ github.base_ref }}", "main")
+    assert "comm -12" in script, "the gate must walk the INTERSECTION, not the difference"
+    return script
+
+
+def _run_gate(tmp_path, base, head):
+    import subprocess
+    (tmp_path / "base.txt").write_text("\n".join(base) + "\n", encoding="utf-8")
+    (tmp_path / "head.txt").write_text("\n".join(head) + "\n", encoding="utf-8")
+    env = dict(os.environ, FIX=str(tmp_path))
+    return subprocess.run(["bash", "-c", _gate_script()], capture_output=True,
+                          text=True, env=env, cwd=str(tmp_path))
+
+
+CLEAN = ["docs/open-questions/001-a.md", "docs/open-questions/099-atlas.md"]
+
+
+@pytest.mark.parametrize("head,label", [
+    (["docs/open-questions/001-a.md", "docs/open-questions/099-mine.md"], "head-only checkout"),
+    (["docs/open-questions/001-a.md", "docs/open-questions/099-atlas.md",
+      "docs/open-questions/099-mine.md"], "merge-commit checkout"),
+])
+def test_the_ci_gate_fires_when_both_branches_carry_one_id_under_different_names(
+        tmp_path, head, label):
+    # Both shapes matter: `actions/checkout` gives a PR the MERGE commit, so HEAD carries
+    # both files and the id is in neither branch's difference. The first version of the
+    # gate passed both of these.
+    r = _run_gate(tmp_path, CLEAN, head)
+    assert r.returncode == 1, f"the gate did not fire on a real collision ({label}): {r.stdout}"
+    assert "099" in r.stdout
+
+
+def test_the_ci_gate_is_quiet_when_nothing_collides(tmp_path):
+    # A NAMED id added by this branch is not a collision: the filename IS the id, so two
+    # sessions deriving the same slug have raised the same question, and git refuses the
+    # add/add rather than merging it by juxtaposition.
+    r = _run_gate(tmp_path, CLEAN, CLEAN + ["docs/open-questions/oq-new-thing.md"])
+    assert r.returncode == 0, f"the gate fired with nothing to find: {r.stdout}{r.stderr}"
+    assert "collide" not in r.stdout.lower() or "No open-question id" in r.stdout

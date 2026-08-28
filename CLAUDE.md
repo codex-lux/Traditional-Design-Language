@@ -108,6 +108,26 @@ if you are about to trust a number this phase published: it found two blocking d
 had introduced, one of them a false claim in WP-7.4's own commit message, the same span bug a
 second time in `render_section.py`, and six tests that passed with the fix reverted.
 
+**Phase 8 is COMPLETE** (WP-8.1 through 8.6, 28 Aug) — the register as a directory and the
+frozen id (8.1), OQ 51's refusal half (8.2), the forbidden slot (8.3), the construction scope and
+the 331 unevaluated exception preconditions (8.4), OQ 89's withheld measurements (8.5), and
+**WP-8.6, the adversarial audit of the other five** —
+`docs/reports/wp-8.6-the-guards-that-could-not-fire.md`, and the one to read first if you are
+about to trust anything this phase built. **It found eight blocking defects, and every one was
+something CLAIMING to have been checked**: three shipped guards that could not fire (the CI
+id-collision gate walked the ids the branch ADDED and then required them to be IN the base
+branch — complements, so the loop body was unreachable), two readers pointed at the node's own
+kit file where the corpus's answer lives in the cascade (`plan_check`'s style layer was blind to
+879 forbidden bindings and 3,661 forbidden variants, on all 132 nodes; `mcp_server/core.py`
+carried a second truncated cascade dropping 1,308 ancestors and contradicting 206 forbidden
+records, served to users through `tdl_resolve_kit`), and a verdict that said "no precondition"
+about 104 records that carry one. **Nine tests could not fail**, each proved by an auditor
+mutating the code and watching the suite stay green.
+
+**Three of the four worst findings were invisible to both shipped reference plans** — byte-
+identical output before and after. That is not a caution any more; it is the highest-yield
+technique in this repository, and it found all three in seconds.
+
 **WP-5.6 changed how the workbench is addressed, and it is worth knowing before touching it.**
 A place is now a URL, and that URL is the citation grammar written down — `#/kit/craftsman/cornice`,
 `#/faults?sev=serious`, `#/cite/fault:porch-too-shallow-to-inhabit`. `app/src/router.js` and
@@ -128,7 +148,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **41 checks, 1,154 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **41 checks, 1,195 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -313,7 +333,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,366 instances. Read it before trusting "132 of 132 bound".
+  is **OQ 51** and is the one with 3,356 instances. Read it before trusting "132 of 132 bound".
   OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is 249 unjudged gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
@@ -568,7 +588,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   the two never meet under one name. `tidewater-georgian` authored its brick sill at **0–1 in
   measured** while `sash-light` delivered **2.25 in "sloped about 1 in 6"** to the same slot — in a
   node whose kit FORBIDS the sloped sill and says why. `check_addresses.py` gained `kit_vs_pack()`
-  and the first measurement is **62, ratcheted** (OQ 86); four nodes carry 47 of them. **And the
+  and the first measurement was **62** (OQ 86) -- **and that figure described a per-FILE check wearing a per-node name**. `kit_vs_pack` read `load_kit(nid)`, the node's own file, while the rule that contradicts the parameter arrives through the cascade; reading the resolved kit takes it to **1,231, ratcheted, with 1,562 unjudged**. The jump is the instrument, not a regression. **And the
   rule reaches a node TWICE** — live through `eval_packs`, and baked into an ancestor's kit file as
   an authored parameter carrying `source: <pack>`. Scoping the binding (`slots_except`, new) closes
   one path only; the other is closed at the child.
@@ -846,8 +866,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **103 entries, of which 33 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/applies-when-means-two-things, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **107 entries, of which 37 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
@@ -995,9 +1015,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     unjudged ancestor. `unendorsed` is a work list, not a score. The split matters — a gap whose
     pack `applies_to` already names the node is the cascade delivering what an author INTENDED, and
     counting those 71 as faults would make the work list wrong. `--unendorsed` prints the list by
-    pack, because adjudicating one pack settles every node under it: `storey-graduation` 38,
-    `opening-proportion` 23, `trim-classical` 16, `chambers-ionic` 15 (on `carpenter-gothic` and
-    both Gothic Revivals), `facade-gable` 14, `sash-light` 12, `brick-course` 11.
+    pack, because adjudicating one pack settles every node under it: `opening-proportion` 24,
+    `storey-graduation` 23, `facade-gable` 16, `trim-classical` 14, `timber-bay` 12,
+    `sash-light` 11. (Re-measured 28 Aug 2026; the earlier list was the pre-WP-8.2 meter's.)
     **The accepted risk, stated because it is real:** wrong dimensions keep arriving while the
     backlog is worked. `--slots ranch-style` shows 69 of 78 dimensioned slots governed by packs it
     never bound. That is tolerable only because it is counted.

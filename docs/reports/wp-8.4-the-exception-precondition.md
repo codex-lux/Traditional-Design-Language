@@ -163,6 +163,35 @@ Both are bound now on their own nodes' evidence. The Spanish one surfaced as an 
 rather than a conviction, which is worth remembering the next time a refusal makes a number
 improve.
 
+**Corrected by this package's own adversarial audit: the Cotswold licence was still refused
+after that binding, and this paragraph said it was settled.** Binding `construction_type` made
+`rubble` canonical, and the licence's `granted_when.construction` named
+`solid-masonry-two-wythe` and `-three-wythe` — two exact wythe-count variants standing in for
+"a solid masonry wall", written before there was a vocabulary to say it in. So the verdict was
+byte-identical before and after the kit edit: **refused, on the one style the licence names, and
+refused on the very wall its own `bounds` describes** — *"The one place this reads as licence
+rather than error is where the wall itself is RUBBLE and irregular in every dimension."* A
+licence refused for being exactly the thing it describes.
+
+Correcting it needed no new claim: `stone-rubble` is already in the vocabulary and the token
+names what the prose named. The verdict is `granted` now. **And it was not one instance.**
+Sweeping every construction precondition against the style in its own `style` key gives **19
+refused there of 123**. Seventeen are substantive and correct — `pueblo-revival` is canonically
+`stucco-over-wood-frame`, its own diagnostic tell reading *"the revival often achieves the look
+in 2 in. of stucco over frame"*, so an adobe licence genuinely does not hold on it, and that is
+the package working. Two named an exact variant as a stand-in for a class and were corrected on
+their own prose: this one and `quoin-by-catalogue`'s Scottish Baronial licence, whose `why` reads
+*"RUBBLE WALLING with dressed ashlar corner dressings"* and whose condition required
+`solid-masonry-three-wythe` on a node canonically two-wythe. The nineteenth is
+`porch-ceiling-of-exposed-joists` on `craftsman`, whose condition is on the WRONG AXIS
+altogether — it asks about the wall to say something about the porch members — and is named,
+not patched: `oq/a-licence-conditioned-on-the-wrong-axis`.
+
+`tests/test_construction_scope.py::TestALicenceIsNotRefusedOnTheStyleItWasWrittenFor` is the
+standing guard, with the discriminator stated mechanically: a refusal is suspect when some
+BROADER vocabulary token — one whose variant list contains the named token's — holds on the same
+style; it is substantive when none does.
+
 ---
 
 ## V — The guard that did not reach its own function

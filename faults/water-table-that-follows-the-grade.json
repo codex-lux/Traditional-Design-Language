@@ -81,12 +81,14 @@
       },
       "granted_when": {
         "construction": [
+          "stone-rubble",
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"
         ],
         "regions": [
           "Cotswolds"
-        ]
+        ],
+        "note": "`stone-rubble` added 28 Aug 2026 by WP-8.4's own adversarial audit. The condition was written before there was a vocabulary to write it in, and named two exact wythe variants as a stand-in for solid masonry. Once the condition was actually evaluated, this licence was REFUSED on the one style it is written for -- and refused on the very wall its own `bounds` names: 'The one place this reads as licence rather than error is where the wall itself is RUBBLE and irregular in every dimension', repeated verbatim in `bounds_test.note`. `kits/cotswold-vernacular.kit.json` makes `rubble` the canonical `construction_type` on this node's own evidence, so the two wythe tokens both answer `fails` and the verdict was a hard refusal rather than an unjudged. The token names what the prose already named; nothing new is claimed. The wythe tokens are kept because the `why` -- centuries of building by eye and settlement since -- is true of a solid masonry wall that is not rubble."
       }
     },
     {

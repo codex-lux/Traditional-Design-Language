@@ -204,15 +204,38 @@ def get_style(style_id, sections=None):
     return out
 
 def _cascade(i, seen=None):
-    D = _data(); seen = seen or set(); out = []
-    n = D["styles"].get(i)
-    if not n: return out
-    for e in sorted(n.get("lineage", []), key=lambda e: -e.get("weight", 1)):
-        if not e.get("inherits_kit"): continue
-        t = e["target"]
-        if t in seen or t not in D["styles"]: continue
-        seen.add(t); out.append(t); out.extend(_cascade(t, seen))
-    return out
+    """The kit cascade, DELEGATED to `build/resolve_kit.chain_for` rather than re-walked.
+
+    THIS WAS A SECOND AND TRUNCATED IMPLEMENTATION, and it had been one since 23 Aug. It
+    walked `lineage` edges carrying `inherits_kit` and nothing else, so it never spliced in a
+    style's FAMILY-rank ancestors -- which `build/build.py::family_of` has done for every
+    style since WP-4.2, one day later. Measured 28 Aug 2026: all 132 buildable styles got a
+    shorter chain here than in `resolve_kit.chain_for`, **1,308 ancestors dropped and 0
+    added**, and the two disagreed about whether a slot is forbidden on **206 (style, slot)
+    records**.
+
+    It was served to users twice -- `tdl_resolve_kit`, which `tdl_overview` advertises as
+    "what the style actually specifies, slot by slot", and `GET /api/kit/{style_id}`, the
+    workbench Kit surface. Concretely: `resolve_kit('appalachian-log-house', slot='order')`
+    answered `specified`, source `english-palladian`, canonical `ionic`, quoting Palladio's
+    *I Quattro Libri* -- on an Appalachian log house -- because `nordic-alpine-vernacular`,
+    which binds `order` FORBIDDEN, is a family node and was absent from this chain.
+
+    And this file had become self-contradictory: WP-8.4 added `_resolved_kit()` below, which
+    uses `rk.resolve_slots` and is right, so core.py carried two cascades and one of them was
+    wrong. Two spellings of one rule is what this codebase has paid for four times.
+
+    `_style_chain` (fault applicability) already walked `member_of` separately, so correcting
+    this widens it too: measured at 7 additional fault applications corpus-wide, each one a
+    fault written for a family reaching a member of it. Found by the WP-8.4 adversarial audit.
+
+    Returns the ancestors, nearest first, WITHOUT the node itself -- the contract its three
+    callers were written against (`[style_id] + _cascade(style_id)`).
+    """
+    rk, g = _kit_graph()
+    if i not in (g.get("nodes") or {}):
+        return []
+    return [x for x in rk.chain_for(g, i) if x != i]
 
 def compare_styles(a, b):
     D = _data()
@@ -337,8 +360,16 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
         # consumer that reads a value must be able to see that the value is not about its
         # building -- publishing the figure and withholding "this rule is stated for a frame
         # wall" would be the same silent delivery this field was added to end.
+        # `out_of_calibration` ADDED 28 AUG 2026 BY THE AUDIT. It is the engine's stated
+        # reason for leaving a rule with a band unjudged, and dropping it delivered
+        # `in_range: null` beside a stated range with nothing saying why -- the band cell for
+        # an unjudged rule byte-identical to the band cell for a passing one, on every
+        # `tdl_get_proportions` caller and on the Proportions plate. Same shape as the
+        # `error` key beside it, whose omission `Proportions.jsx` records as "a refusal
+        # rendered as a measurement".
         RULE_KEYS = ("target_slot", "dimension", "quantity", "expression", "value", "units",
                      "judgment", "range", "in_range", "note", "calibrated_for",
+                     "out_of_calibration",
                      "authority_note", "diagnostic", "error",
                      "scope", "out_of_scope", "scope_unjudged")
         out["derived_rules"] = [{k: r.get(k) for k in RULE_KEYS} for r in ev["rules"]]
@@ -467,7 +498,19 @@ def _test_applies(t, style_id, D):
 # blockers would turn a licence into an unjudged fault on the strength of a
 # missing evaluator rather than a fact about the building.
 _EXC_EVALUATED_KEYS = ("construction",)
-_EXC_COUNTED_KEYS = ("regions", "date_range")
+# `slots` IS COUNTED, NOT IGNORED, AND THE DIFFERENCE IS 68 RECORDS. It is a scope on WHICH
+# slot the licence covers rather than a condition on the house, so it must not gate the grant
+# -- but leaving it out of both lists made `grant_exception` return
+# `{"verdict": "granted", "why": "no precondition", "unevaluated": []}` for an exception that
+# plainly carries one, which is a false statement about the record. 104 exceptions carry
+# `slots`; on 67 it is the SOLE precondition, and 54 of those carry a `bounds_test` that
+# REPLACES the fault's primary test on a grant -- so a fault was being judged by the
+# exception's looser rule on the strength of a precondition nobody read, which is the exact
+# defect this package was built to remove, one key over. The census lost them too: they
+# counted in `with_granted_when` and in no verdict bucket. Found by the WP-8.4 adversarial
+# audit. Disclosed and counted here; whether a slot scope should ever gate a grant is a
+# question for whoever rules on `check_faults.py`'s validation of it.
+_EXC_COUNTED_KEYS = ("regions", "date_range", "slots")
 
 
 @functools.lru_cache(maxsize=1)
@@ -507,6 +550,11 @@ def grant_exception(exc, style, context=None):
     context = context or {}
     declared = context.get("declared") or {}
     out["unevaluated"] = [k for k in _EXC_COUNTED_KEYS if gw.get(k)]
+    if out["unevaluated"] and not gw.get("construction"):
+        # NOT "no precondition". The record carries one and nothing reads it; saying so is the
+        # whole of the four-state discipline applied to this field.
+        out["why"] = ("granted with %s unevaluated -- this licence states a precondition "
+                      "nothing here reads" % ", ".join(out["unevaluated"]))
 
     tokens = gw.get("construction") or []
     if tokens:
@@ -539,6 +587,16 @@ def grant_exception(exc, style, context=None):
                            "style or absent from the vocabulary")
             return out
         else:
+            # A LIST IS A DISJUNCTION AND MUST BE RESOLVED AS ONE. Reducing each token to a
+            # verdict and then combining is right at the ends and wrong in the middle: a
+            # licence naming `[solid-masonry-two-wythe, adobe, rammed-earth]` on a style that
+            # is canonically cob AND clay-lump has each token saying "both ways, cannot
+            # decide" while the wall is CERTAINLY one of the three. Consulted only here, so it
+            # can turn an unjudged into a grant and can never change a grant or a refusal.
+            union = cv.resolve_any(tokens, kit, declared)
+            if union:
+                out["why"] = union[1]
+                return out
             out.update(verdict="unjudged",
                        why="the style permits %s and other constructions too, and nothing "
                            "in front of us says which one this house is"
@@ -562,13 +620,20 @@ def grant_exception(exc, style, context=None):
 def exception_precondition_census():
     """How many exception preconditions this corpus can and cannot resolve.
 
-    Ratcheted by tests/test_exception_preconditions.py. The unevaluable figures
+    Ratcheted by tests/test_construction_scope.py::TestTheExceptionPreconditionIsRead. The unevaluable figures
     are the ones that matter: they are the honest size of what `granted_when`
     still promises and nothing reads."""
     D = _data()
     out = Counter = {"exceptions": 0, "with_granted_when": 0, "construction": 0,
                      "granted": 0, "refused": 0, "unjudged": 0,
                      "unevaluated_regions": 0, "unevaluated_date_range": 0,
+                     # `slots` WAS IN NO BUCKET AT ALL. It counted in `with_granted_when` and
+                     # nowhere else, so 68 of the 331 vanished from a census whose own
+                     # docstring calls its unevaluable figures the honest size of what this
+                     # field promises. `slots_only` is the sharp half: those licences carry a
+                     # precondition and NOTHING about them is read, and 54 of them substitute
+                     # a `bounds_test` for the fault's primary test on the strength of it.
+                     "unevaluated_slots": 0, "slots_only": 0,
                      "substituting_bounds_test": 0, "bounds_test_unjudged": 0}
     for f in D["faults"].values():
         for exc in (f.get("exceptions") or []):
@@ -581,7 +646,11 @@ def exception_precondition_census():
                 out["unevaluated_regions"] += 1
             if gw.get("date_range"):
                 out["unevaluated_date_range"] += 1
+            if gw.get("slots"):
+                out["unevaluated_slots"] += 1
             if not gw.get("construction"):
+                if set(gw) <= {"slots", "note"} and gw.get("slots"):
+                    out["slots_only"] += 1
                 continue
             out["construction"] += 1
             g = grant_exception(exc, exc.get("style"))
@@ -635,16 +704,26 @@ def find_faults(style=None, slot=None, group=None, severity=None, frequency=None
                             ["endemic","common","occasional","rare"].index(c["frequency"]) if c.get("frequency") else 4))
     return {"matches": len(out), "returned": min(limit, len(out)), "faults": out[:limit],
             "note": ("Faults are element-first: most are universal, and style is a facet. Check "
-                     "EXCEPTION_FOR_THIS_STYLE and INVERTED_FOR_THIS_STYLE before repeating a rule at "
+                     "EXCEPTION_FOR_THIS_STYLE (the licence is EARNED), "
+                     "EXCEPTION_NOT_EARNED_BY_THIS_STYLE (its condition is refused -- the "
+                     "general rule stands) or EXCEPTION_WHOSE_CONDITION_COULD_NOT_BE_JUDGED "
+                     "(say so rather than choosing), and INVERTED_FOR_THIS_STYLE, before repeating a rule at "
                      "a client — a five-foot Georgian portico is a fault by Craftsman standards and correct by its own."),
             "next": "tdl_get_fault for the full record with fixes, or tdl_check_measurements if you have numbers"}
 
 def _exception_card(f, style):
     """The exception for this style WITH its precondition read (WP-8.4).
 
-    Returned as a copy carrying `granted`, so a caller cannot read the record's
-    `why` and act on a licence the house has not earned. Before this the raw
-    record was returned and every reader took it as unconditional."""
+    Returned as a copy carrying `granted`, so a caller reading THIS field cannot take
+    the record's `why` for a licence the house has earned.
+
+    IT DOES NOT SANITISE `out["exceptions"]`. `get_fault` returns the whole fault record,
+    raw exceptions array included, and a client that reads `f["exceptions"]` directly --
+    the workbench Fault Corpus does -- still sees every licence unconditionally. That is
+    deliberate: the array is the CORPUS, and a tool that silently hid records would be
+    lying about what the corpus contains. What a per-style reader wants is this field, and
+    `for_this_style.granted` is where the verdict lives. Found by the WP-8.4 adversarial
+    audit, which correctly flagged the earlier wording as claiming more than it did."""
     exc = next((e for e in f.get("exceptions", []) if e["style"] == style), None)
     if not exc:
         return None

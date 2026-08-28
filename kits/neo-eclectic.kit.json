@@ -406,10 +406,38 @@
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "elliptical-fanlight",
+          "status": "canonical",
+          "note": "The record puts the entry assembly at the centre of the style and oversizes it: 'An entry element inflated in height and width relative to the wall that carries it, frequently rising through two storeys.' What it is inflating is named in the same file, against its parent: 'Neo-eclectic quotes the same motifs without the system.' The fanlight is the motif being quoted, and the style's characteristic error is its SCALE, not its presence."
+        },
+        {
+          "id": "sidelights",
+          "status": "canonical",
+          "note": "Half of the same quoted assembly, and the half the two-storey entry stretches. The record's own contrast with the ranch is 'the ranch is single-storey, horizontal, and unornamented; neo-eclectic is two-storey, vertical in its entry, and heavily ornamented.'"
+        },
+        {
+          "id": "semicircular-fanlight",
+          "status": "permitted",
+          "note": "The record's tells name a 'half-round or Palladian window filling a gable, unrelated in width to anything below it' -- the same geometry, applied with the same indifference to what carries it, so it appears over the door too."
+        },
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "permitted",
+          "note": " The plainest of the menu items. Editorial."
+        },
+        {
+          "id": "none",
+          "status": "atypical",
+          "note": "Possible on the plainest builder elevations, and against the style's defining move: the entry is the element the menu is chosen for."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "note": "BOUND 28 Aug 2026 by WP-8.4's own adversarial audit, as the SECOND hop of the same propagation. The audit found `colonial-revival`'s new binding carrying `elliptical-fanlight` canonical to three descendants that contradict it; binding those three on their own records then carried `none` canonical HERE, through `ranch-style`, which styles/neo-eclectic.json itself calls 'its structural parent' -- and a style whose defining characteristic is a two-storey entry element is the last node in the corpus that should inherit 'no entry light' from a single-storey one. A fix that removes a shield has to look at what the shield was covering; this is that look, one hop further down. OQ 87's mechanism throughout: `resolve_slots` stops its walk only on `specified` or `forbidden`, so every node left `open` along this chain took whichever ancestor was bound last."
     },
     "secondary_door": {
       "group": "openings",

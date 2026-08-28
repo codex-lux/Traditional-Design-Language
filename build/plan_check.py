@@ -169,6 +169,48 @@ def load_corpus():
         for s in g["slots"]: C["slots"][s["id"]] = s
     return C
 
+_RESOLVED_SLOTS = {}
+
+
+def _resolved_slots(style):
+    """The CASCADE-RESOLVED slot record, not the node's own kit file.
+
+    THE STYLE LAYER WAS BLIND TO 879 FORBIDDEN BINDINGS AND 3,661 FORBIDDEN VARIANTS. It read
+    `C["kits"][style]["slots"]` -- the node's OWN file -- while every forbidden call the
+    lineage delivers lives in the resolved record, and `resolve_slots` stops its walk only on
+    `specified` or `forbidden`, so a slot the node leaves `open` takes its ancestor's
+    prohibition in full. Measured across all 132 buildable nodes: every one of them had at
+    least one prohibition the critic could not see. `cape-cod-colonial` forbids the whole
+    classical-apparatus group at the family and a plan declaring a pilaster on it went
+    unremarked here while `build/elevation.py` refused to draw one -- two layers disagreeing
+    about the same record, which is the shape WP-6.2 was written to end.
+
+    Measured before changing it, per the WP-8.4 ruling that a new conviction is a suspect
+    until read: sweeping the Tidewater reference plan's declared block over all 132 nodes
+    gives 110 styles unchanged, 19 gaining one finding and 3 gaining two, and every one of
+    those is a true call -- a Tidewater Georgian's side-gable roof and brick cladding really
+    are forbidden on a Craftsman Bungalow. BOTH SHIPPED PLANS GAIN NOTHING, which is exactly
+    why this was not found by running them: verifying a corpus-wide change on the plans that
+    happen to ship is verifying it on 2 of 164 styles.
+
+    NOT WRAPPED IN `except Exception`, and the first version of this function was. A bare
+    catch here degraded silently to the raw kit -- which is the very behaviour being fixed --
+    and it swallowed a NameError in this function's own first line (`_mod` for `_load`) so
+    that the fix appeared to work and changed nothing. A cascade this corpus cannot resolve
+    is a defect, and it is loud. The caller reaches this only inside `if st:`, so the style
+    is known to exist.
+
+    Cached per style because `plan_check` runs inside the composer's scoring loop.
+    """
+    if style in _RESOLVED_SLOTS:
+        return _RESOLVED_SLOTS[style]
+    rk = _load("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+    g = rk.load_graph()
+    slots, _ = rk.resolve_slots(g, rk.chain_for(g, style), rk.scope_for(g, style))
+    _RESOLVED_SLOTS[style] = slots
+    return slots
+
+
 # ---------------------------------------------------------------- helpers
 def style_chain(style_id, C):
     """Every id that 'this style' legitimately answers to: itself, its containers, its kit ancestors."""
@@ -1101,7 +1143,7 @@ def check(plan, C=None, strict=False):
     st = C["styles"].get(style)
     constraint_summary = {"present": 0, "clear": 0, "unjudged": 0}
     if st:
-        kit = C["kits"].get(style, {}).get("slots", {})
+        kit = _resolved_slots(style)
         for slot_id, choice in (plan.get("declared") or {}).items():
             if slot_id not in C["slots"]:
                 F.add("minor", "style", f"Declared slot '{slot_id}' is not in the ontology.", rule=slot_id); continue

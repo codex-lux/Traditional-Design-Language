@@ -124,12 +124,15 @@ pack was right. The meter counts the disagreement, not the verdict, and each one
 
 `--slots carpenter-gothic` reported **"75 slot(s) dimensioned"**. Eleven of those slots had every
 pack rule refused, so they carry no figure at all; the honest report is **64 dimensioned plus 11
-named as refused**, which is what it prints now. `ranch-style` moved 78/69 → 67/60 for the same
-reason. Both test pins were re-pinned with the reason, not the number, in the comment.
+named as refused**, which is what it prints now. `ranch-style` moved 78/69 → **68/61** for the same
+reason — this report said 67/60, its test's comment said 67/60 and its test's assertion said
+68/61; the WP-8.4 adversarial audit found the three disagreeing and all now say what the checker
+prints. Both test pins were re-pinned with the reason, not the number, in the comment.
 
 The `--forbidden` meter now counts the gate's **own marks** rather than re-deriving the same
 judgment a second way — two copies of one rule is how the citation grammar came to be spelled
-three times — and the two agree at 787.
+three times — and the two agree. **They agreed at 787 before the binding below it and at 776
+after; this sentence said 787 after the change that moved it, and the correction is the audit's.**
 
 ## What was deliberately not done
 
@@ -143,9 +146,9 @@ three times — and the two agree at 787.
 ## Verifying
 
 ```
-python3 build/check_inheritance.py --forbidden --strict     # 787, ratcheted apart from OQ 51
+python3 build/check_inheritance.py --forbidden --strict     # 776, ratcheted apart from OQ 51
 python3 build/check_inheritance.py --slots carpenter-gothic # 64 dimensioned + 11 refused, named
-python3 -m pytest tests/test_forbidden_slots.py             # 7 tests, mutation-checked
+python3 -m pytest tests/test_forbidden_slots.py             # 14 tests, mutation-checked
 python3 build/check_all.py
 ```
 

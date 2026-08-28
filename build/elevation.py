@@ -295,8 +295,9 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
     and picks slot dimensions straight out of the pack file. So it is blind to bindings, to
     `slots`/`slots_except`, to `declined_packs`, and to the kit's `forbidden`, and the gate
     WP-8.3 put in the resolver does not reach a single figure drawn here. Measured: 41 styles
-    pass this generator's own scope gate, and 46 (style, slot) pairs are one of them reading a
-    slot its resolved kit FORBIDS -- `transom_sidelight` 14, `frieze` 9, `pilaster` 8,
+    pass this generator's own scope gate, and 40 (style, slot) pairs over 15 styles are one of
+    them reading a slot its resolved kit FORBIDS -- `frieze` 9, `pilaster` 8,
+    `transom_sidelight` 8,
     `belt_course` 6, `water_table` 6, and one each of `door_surround`, `cornice`,
     `window_head_wood`. `cape-cod-colonial`'s own pilaster note reads "The whole
     classical-apparatus group is forbidden at the family" and this function read a pilaster
@@ -310,7 +311,10 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
     # A FORBIDDEN SIDELIGHT HAS NO WIDTH. The composition already carried the branch -- it chose
     # between with and without on a width cap -- so the kit's refusal simply decides it instead,
     # and the figures are ABSENT rather than zero, exactly as a shutter that is not there has no
-    # leaf (WP-5.13). 14 of the 46 pairs are this one slot.
+    # leaf (WP-5.13). 8 of the 40 pairs are this one slot -- it was 14 of 46 until
+    # `colonial-revival` was bound (WP-8.3 found it inheriting a Gothic prohibition on
+    # its own front door) and the numbers here went stale in the same commit that moved
+    # them. Re-derived 28 Aug 2026 by the WP-8.4 adversarial audit.
     sidelights_forbidden = "transom_sidelight" in forbids
     if sidelights_forbidden:
         sidelight_w = transom_h = None
@@ -388,7 +392,17 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
         # atypical-portico note above), but the doorcase's reduced order still fixes this the
         # same way: pilaster width = 2x the reduced module (the column diameter this doorcase's
         # order implies), not a separately guessed board width.
-        "pilaster_width_in": round(gibbs_module_in * 2, 3),
+        # HALF A PILASTER WAS BEING REFUSED. `pilaster_projection_in` was gated on the kit
+        # and this one was not, so a style whose resolved kit binds `pilaster` FORBIDDEN --
+        # `cape-cod-colonial`, whose own note reads "The whole classical-apparatus group is
+        # forbidden at the family" -- published a pilaster WIDTH of 7.655 in to the fault
+        # corpus while publishing no projection. That is the `total_shutter_leaves` shape
+        # exactly: a measurement of a thing the record says is not there, and worse for
+        # being beside a correctly withheld sibling, which reads as deliberate. Found by
+        # the WP-8.4 adversarial audit, by running the generator against one of the nine
+        # gate styles that forbid the slot rather than against the two plans that ship.
+        "pilaster_width_in": (None if "pilaster" in forbids
+                              else round(gibbs_module_in * 2, 3)),
         "pilaster_projection_in": None if pilaster_proj is None else round(pilaster_proj, 3),
         # This generator draws a flat doorcase pilaster shaft (no entasis rule exists anywhere in
         # this pack, or in this codebase) -- upper and lower diameter are genuinely identical, a
@@ -1523,12 +1537,6 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     # THE REVEAL, read from whichever of the two slots this construction uses. A band, not a
     # figure -- 4 to 8 in on the masonry kit -- so it travels as a band and the drawing uses its
     # PRESENCE (which edges fall into shadow) rather than claiming a depth the corpus withholds.
-    _rv = ((C["kits"].get(style) or {}).get("slots", {}) or {})
-    _rvs = (_rv.get("reveal_masonry") if is_masonry else _rv.get("reveal_frame")) or {}
-    _rvp = (_rvs.get("parameters") or {}).get("reveal") or {}
-    reveal_band_in = list(_rvp["range"]) if _rvp.get("range") else (
-        [_rvp["value"], _rvp["value"]] if isinstance(_rvp.get("value"), (int, float)) else None)
-
     # THE CASCADED dormer slot, not the raw one. `tidewater-georgian` binds this slot EMPTY --
     # exactly as it binds `shutter` -- so `C["kits"]` carries no variants, no cheek band and no
     # parity rule for it, and a check against the raw kit would let a `shed-dormer` through on a
@@ -1557,6 +1565,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): every slot this node's RESOLVED kit forbids. The generator reads slot
         # dimensions straight out of pack files and has never consulted the kit's strongest word.
         forbids = {sid for sid, rec in _slots.items() if rec.get("binding") == "forbidden"}
+        _reveal_source = _slots
     except Exception:
         _ks = ((C["kits"].get(style) or {}).get("slots", {}) or {})
         dormer_slot = _ks.get("dormer") or {}
@@ -1565,6 +1574,22 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         shutter_slot = _ks.get("shutter") or {}
         head_slot = _ks.get("window_head_masonry") or {}
         forbids = set()   # no cascade: cannot judge, so refuse nothing and say so below
+        _reveal_source = _ks
+
+    # THE REVEAL, read from whichever of the two slots this construction uses, and READ FROM
+    # THE CASCADE. It sat six lines above the block that resolves the cascade, still reading
+    # `C["kits"]`, while that block's own comment explained why the raw kit is the wrong
+    # record -- written for `shutter` and `window_head_masonry` in this same function. Six
+    # styles state a reveal band only through their lineage (`pueblo-revival` at 12-24 in
+    # among them) and were drawn with no reveal at all. It is a band, not a figure -- 4 to 8
+    # in on the masonry kit -- so it travels as a band and the drawing uses its PRESENCE
+    # (which edges fall into shadow) rather than claiming a depth the corpus withholds.
+    # Found by the WP-8.4 adversarial audit; the general form is `oq/the-raw-kit-read`.
+    _rv = _reveal_source
+    _rvs = (_rv.get("reveal_masonry") if is_masonry else _rv.get("reveal_frame")) or {}
+    _rvp = (_rvs.get("parameters") or {}).get("reveal") or {}
+    reveal_band_in = list(_rvp["range"]) if _rvp.get("range") else (
+        [_rvp["value"], _rvp["value"]] if isinstance(_rvp.get("value"), (int, float)) else None)
 
     _sv = {v["id"]: v.get("status") for v in shutter_slot.get("variants", [])}
     shutters_carried = bool(_sv) and _sv.get("none") != "canonical"

@@ -196,7 +196,7 @@ def test_ancestors_reports_direct_edges_because_that_is_what_refused_the_edge_me
 
 
 def test_the_forbidden_slot_meter_is_ratcheted_separately_from_the_backlog():
-    """787 (node, slot) pairs where the resolved kit binds a slot `forbidden` and a pack
+    """776 (node, slot) pairs where the resolved kit binds a slot `forbidden` and a pack
     dimensions it anyway. NOT the OQ 51 backlog: it counts a kit binding overruled by a pack,
     not a role nobody bound, and declining packs will not close it — the slot is handed to the
     next pack, which the kit forbids just as much."""
@@ -234,3 +234,85 @@ def test_a_decline_beats_an_inherited_slot_level_packs_ruling_and_says_so():
     named = [sid for sid, rec in kit.items()
              if any(x.get("pack") == "storey-graduation" for x in (rec.get("packs") or []))]
     assert named, "no slot-level ruling names storey-graduation — this test is now vacuous"
+
+
+# --------------------------------------------- the decline's SECOND delivery path
+#
+# A decline removes a pack from `resolve_packs`. It does not remove the value that pack
+# already wrote into an ancestor's kit file as `kind: derived, source: <pack>`, and the
+# meter built for exactly that escape -- `check_addresses.baked_vs_refused` -- could not
+# see a decline at all. It recognised two refusal shapes: a row MARKED `refused_by_kit`,
+# and a rule DROPPED by scope with its drop recorded. A declined pack leaves neither: it
+# is simply not in `packs`, so there is no row to mark and no drop to record, and the
+# pair vanished. `check_pack_bindings.check_declines` passed too, because it asks only
+# whether the pack REACHES the node, which it does -- through the kit, not the cascade.
+#
+# So `check_inheritance.py --impact ranch-style storey-graduation` printed "It currently
+# GOVERNS 1 slot(s): chair_rail" for a pack that node had already declined. That is the
+# failure `check_declines`' own docstring exists to prevent, one layer down.
+
+def _baked(nid_filter=None):
+    ca = _mod("ca_bvr", "build/check_addresses.py")
+    nodes = ca.style_nodes() if hasattr(ca, "style_nodes") else None
+    if nodes is None:                       # go through main()'s own node source
+        import json as _j
+        g = _j.load(open(os.path.join(ROOT, "dist", "taxonomy.json"), encoding="utf-8"))
+        nodes = [{"id": k} for k, v in g["nodes"].items()
+                 if v.get("rank") in ("style", "variant")]
+    hits, unjudged = ca.baked_vs_refused(nodes)
+    if nid_filter:
+        hits = [h for h in hits if h[0] == nid_filter]
+    return hits, unjudged
+
+
+def test_a_baked_value_from_a_declined_pack_is_counted_as_refused():
+    hits, _ = _baked("ranch-style")
+    from_declined = [h for h in hits if h[3] == "storey-graduation"]
+    assert from_declined, (
+        "ranch-style declines storey-graduation and still resolves baked parameters from "
+        "it; baked_vs_refused counted none of them, so the decline is invisible to the one "
+        "meter written for this escape")
+    assert any("DECLINED" in (h[4] or "") for h in from_declined), (
+        "the reason must name the decline -- a pair counted under the wrong refusal shape "
+        "is a pair nobody can act on")
+    slots = {h[1] for h in from_declined}
+    assert "chair_rail" in slots, (
+        "chair_rail/from_storey is the instance `--impact` reports as governed by the "
+        "declined pack; if it is gone, re-pin this test on whatever replaced it")
+
+
+def test_a_node_that_will_not_resolve_is_reported_and_never_lowers_the_ceiling():
+    """`except Exception: continue`, silently, under a may-only-fall ratchet.
+
+    A change that broke resolution on the nodes carrying the baked `projection_in` would
+    have taken this count DOWN and satisfied the ratchet -- because the corpus was not
+    measured, not because the collisions were fixed. The count and the reason are the
+    same integer; only the state differs.
+    """
+    ca = _mod("ca_unj", "build/check_addresses.py")
+    import json as _j
+    g = _j.load(open(os.path.join(ROOT, "dist", "taxonomy.json"), encoding="utf-8"))
+    nodes = [{"id": k} for k, v in g["nodes"].items()
+             if v.get("rank") in ("style", "variant")]
+    clean, clean_unjudged = ca.baked_vs_refused(nodes)
+    assert clean_unjudged == [], f"the live corpus has unresolvable nodes: {clean_unjudged}"
+
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import resolve_kit as _rk
+    orig = _rk.chain_for
+    victim = "ranch-style"
+
+    def boom(graph, nid, *a, **k):
+        if nid == victim:
+            raise RuntimeError("simulated resolution failure")
+        return orig(graph, nid, *a, **k)
+
+    _rk.chain_for = boom
+    try:
+        hits, unjudged = ca.baked_vs_refused(nodes)
+    finally:
+        _rk.chain_for = orig
+    assert [n for n, _ in unjudged] == [victim], (
+        f"a node that raised was not reported as unjudged: {unjudged}")
+    assert len(hits) < len(clean), "the sanity of this test depends on the victim having hits"

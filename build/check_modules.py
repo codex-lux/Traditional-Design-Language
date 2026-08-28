@@ -43,6 +43,12 @@ except ImportError:
     _sys.exit(3)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# The construction vocabulary, through modcache -- never a local by-path loader
+# (CLAUDE.md, OQ 28). One closed table for every reader of a construction token.
+sys.path.insert(0, os.path.join(ROOT, "build"))
+import modcache                                                        # noqa: E402
+CV = modcache.load("construction_vocabulary",
+                   os.path.join(ROOT, "build", "construction_vocabulary.py"))
 
 RULE_BAND = (10, 18)
 CONFLICT_BAND = (3, 6)
@@ -220,6 +226,25 @@ def main():
             rng = r.get("range")
             if rng is not None and rng[0] > rng[1]:
                 E(f"derived_rules[{i}]: range {rng} is inverted")
+            # OQ 88's SCOPE, VALIDATED. `scope.construction` lost its two-value enum when
+            # WP-8.4 widened it to build/construction_vocabulary.py's closed table, and for a
+            # few hours NOTHING checked the tokens -- while the schema's own description said
+            # they were "validated by check_pack_bindings", which reads NODE bindings and never
+            # opens a pack file. An unknown token resolves `unmappable` for every style in the
+            # corpus, so the rule is put out of scope nowhere and delivered everywhere, or the
+            # reverse, in silence. Third instance in this session's own diff of a guard claimed
+            # in prose and never written; found by the WP-8.4 adversarial audit.
+            sc = r.get("scope") or {}
+            for token in (sc.get("construction") or []):
+                if token not in CV.VOCABULARY and token not in CV.UNMAPPABLE:
+                    E(f"derived_rules[{i}]: scope.construction '{token}' is in neither "
+                      f"VOCABULARY nor UNMAPPABLE in build/construction_vocabulary.py")
+            svv = sc.get("slot_variant") or {}
+            if svv and svv.get("slot") and svv["slot"] not in slots:
+                E(f"derived_rules[{i}]: scope.slot_variant.slot '{svv['slot']}' is not a slot")
+            if svv and not (svv.get("any_of") or svv.get("none_of")):
+                E(f"derived_rules[{i}]: scope.slot_variant names a slot and classifies no "
+                  f"variant either way, so it can only ever return unknown")
             if not r.get("expression", "").strip():
                 E(f"derived_rules[{i}]: empty expression")
                 continue

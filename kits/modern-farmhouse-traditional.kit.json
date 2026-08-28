@@ -483,10 +483,33 @@
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "The record answers this slot directly, if not by name: 'Ornament essentially absent: no shutters, no keystones, no applied classical elements, no material changes at an outside corner.' An Adamesque elliptical fanlight is an applied classical element."
+        },
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "permitted",
+          "note": "The unornamented reading, consistent with the style's own glazing habit and with a 'covered entry or partial porch under a shed or extended gable roof'. Editorial: the record does not name it."
+        },
+        {
+          "id": "elliptical-fanlight",
+          "status": "forbidden",
+          "note": "'No applied classical elements' is the record's own words, and this is the applied classical element the parent style is known for."
+        },
+        {
+          "id": "sidelights",
+          "status": "atypical",
+          "note": "Not named either way. Plain glazed sidelights are not a classical element in themselves, so the prohibition above does not reach them; nothing in the record asks for them."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "note": "BOUND 28 Aug 2026 by WP-8.4's own adversarial audit, which measured what the `colonial-revival` binding earlier in this session PROPAGATED. That binding is right for its own node and reaches ten descendants by descent, carrying `elliptical-fanlight` and `sidelights` CANONICAL to three whose own records contradict it -- and it is not inert: `elevation.py:318` reads `sidelights_forbidden` off exactly this resolved binding, so the generator began DRAWING an Adamesque fanlight-and-sidelight entry on these houses. The prior state was not right either: the slot was `open`, so it resolved through `colonial-revival` to GOTHIC-REVIVAL-BRITISH's blanket prohibition. Two wrong answers, and this is the node's own. OQ 87's mechanism -- `resolve_slots` stops its walk only on `specified` or `forbidden`, so a slot bound `open` inherits its nearest ancestor's record in full. The node's own defining characteristic forbids applied classical elements, which is what an elliptical fanlight is."
     },
     "secondary_door": {
       "group": "openings",

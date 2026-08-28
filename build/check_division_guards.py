@@ -31,9 +31,10 @@ THE TWO NUMBERS, AND THE SECOND IS THE ONE THAT MATTERS.
              an unguarded test starts dividing by one that already exists.
 
 The sweep is over ALL 164 STYLES, never the two shipping plans. Three separate defects in
-WP-5.13/5.17 were invisible to both reference plans and fell out of a style sweep in seconds.
+WP-5.13/5.14 were invisible to both reference plans and fell out of a style sweep in seconds.
 """
 import collections
+import functools
 import importlib.util
 import json
 import os
@@ -44,11 +45,92 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FAULTS = os.path.join(ROOT, "faults")
 PLAN = os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")
 
-UNGUARDED_RATCHET = 306      # may only fall
+# 306 -> 307 on 28 Aug 2026, and the direction is the reader improving rather than the corpus
+# worsening: widening `denominators()` to see a PARENTHESISED denominator surfaced
+# `door-too-wide-for-its-surround`'s `door_leaf_width_in / (storey_height_in / 3.5)`, which
+# divides by a name the old regex could not see at all. A ratchet raised because the instrument
+# got sharper must say so, or the next reader reads it as a regression that was waved through.
+UNGUARDED_RATCHET = 307      # may only fall
 LIVE_RATCHET = 0             # may never rise
-COULD_NOT_EVALUATE = 2
+COULD_NOT_EVALUATE = 3      # check_all.py's protocol -- 2 read as FAIL, which is a lie
+                            # about WHICH state the checker was in. A sweep that could not
+                            # run is not a sweep that found something, and the runner has
+                            # one code for each; this file declared its own and got the
+                            # wrong one. Every other checker in build/ uses 3.
 
-DENOMINATOR = re.compile(r"/\s*([A-Za-z_][A-Za-z0-9_]*)")
+# EVERY NAME IN A DENOMINATOR, not just an identifier sitting immediately after the slash.
+# The first version was `/\s*([A-Za-z_][A-Za-z0-9_]*)` and could not see a PARENTHESISED
+# denominator: `door_leaf_width_in / (storey_height_in / 3.5)` divides by an expression whose
+# only name is `storey_height_in`, and the checker read no denominator at all -- an unguarded
+# division invisible to the thing built to find unguarded divisions. Six other expressions in
+# the corpus divide by a bare literal (`/ 2`, `/ 10`), which is genuinely safe and correctly
+# yields no name. Found by the WP-8.4 adversarial audit.
+_IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+
+
+def denominators(expr):
+    """Every NAME that appears in a denominator position, parentheses included.
+
+    Walks the expression once: at each `/`, take the following operand -- a parenthesised
+    group balanced by depth, or the run up to the next operator -- and return the identifiers
+    inside it.
+
+    TWO FORMS IT CANNOT ATTRIBUTE, and `unattributable_denominators()` beside it is what
+    names them -- this docstring used to promise that `main()` reported them and `main()`
+    had no such branch, which is this project's own named disease inside the file that
+    measures another instance of it. A function call takes the callee and loses the argument
+    (`a / max(b, 1)` -> `{'max'}`); a unary minus yields nothing at all (`a / -b` -> set()).
+    Neither form occurs in the corpus today -- 0 of the 326 dividing expressions -- so this
+    is a false promise made true rather than a live miss found."""
+    out, i, n = set(), 0, len(expr or "")
+    while i < n:
+        if expr[i] != "/":
+            i += 1
+            continue
+        j = i + 1
+        while j < n and expr[j] == " ":
+            j += 1
+        if j < n and expr[j] == "(":
+            depth, k = 0, j
+            while k < n:
+                if expr[k] == "(":
+                    depth += 1
+                elif expr[k] == ")":
+                    depth -= 1
+                    if depth == 0:
+                        k += 1
+                        break
+                k += 1
+            operand, i = expr[j:k], k
+        else:
+            k = j
+            while k < n and (expr[k].isalnum() or expr[k] in "_."):
+                k += 1
+            operand, i = expr[j:k], max(k, j + 1)
+        out.update(_IDENT.findall(operand))
+    return out
+
+
+def unattributable_denominators():
+    """Dividing tests whose denominator this walker cannot read, named rather than dropped.
+
+    A denominator it cannot attribute is a test the LIVE meter cannot see, so silently
+    dropping it makes an unguarded division invisible forever -- unjudged collapsed into a
+    pass, in the checker written to stop exactly that. Two forms: a call, where `_IDENT`
+    returns the callee and not the argument; and a unary minus, where the operand run stops
+    immediately and returns nothing.
+    """
+    out = []
+    for fid, where, expr, names in dividing_tests():
+        for m in re.finditer(r"/\s*(.+?)(?=$|[+\-*/<>=,)])", expr or ""):
+            operand = m.group(1).strip()
+            if re.match(r"^[A-Za-z_][A-Za-z0-9_.]*\s*\(", operand):
+                out.append((fid, where, expr, "a call: `%s`" % operand))
+            elif operand.startswith("-"):
+                out.append((fid, where, expr, "a unary minus: `%s`" % operand))
+        if "/" in (expr or "") and not names:
+            out.append((fid, where, expr, "no name attributed to any denominator"))
+    return out
 
 
 def _mod(name, rel):
@@ -74,7 +156,7 @@ def dividing_tests():
             # loudly (WP-5.14), so presence is enough here.
             if (t.get("applies_when") or {}).get("expression"):
                 return
-            names = sorted(set(DENOMINATOR.findall(t["expression"])))
+            names = sorted(denominators(t["expression"]))
             if names:
                 out.append((rec["id"], where, t["expression"], names))
 
@@ -90,6 +172,7 @@ def dividing_tests():
     return out
 
 
+@functools.lru_cache(maxsize=1)
 def measured_zeros():
     """measurement name -> how many styles a generator supplies it as 0 on."""
     el = _mod("elevation", "build/elevation.py")
@@ -111,10 +194,30 @@ def measured_zeros():
     return zeros, composed
 
 
-def main():
+def live_hazards():
+    """The measurement, in ONE place, so a test can take it rather than read the pin.
+
+    `tests/test_construction_scope.py` asserted `LIVE_RATCHET == 0` -- the module's own
+    literal -- and called itself "the figure that matters". Adding an unguarded
+    `x / dormer_count` secondary to a fault broke this checker's ratchet and left that test
+    green, because a constant is not a measurement. Extracted rather than duplicated: two
+    copies of this computation is how the citation grammar came to be spelled three ways.
+
+    Returns (live, unguarded, composed, zeros). Raises whatever the sweep raises -- the
+    CALLER decides whether that is COULD NOT EVALUATE, because only the caller knows
+    whether it can report the state distinctly.
+    """
     unguarded = dividing_tests()
-    try:
-        zeros, composed = measured_zeros()
+    zeros, composed = measured_zeros()
+    live = [(fid, where, d, zeros[d]) for fid, where, _e, names in unguarded
+            for d in names if d in zeros]
+    return live, unguarded, composed, zeros
+
+
+def main():
+    unguarded = dividing_tests()          # for the COULD-NOT-EVALUATE message only; the
+    try:                                  # judged run takes its copy from live_hazards()
+        live, unguarded, composed, zeros = live_hazards()
     except Exception as e:                                   # pragma: no cover
         print("COULD NOT EVALUATE — the elevation generator did not run: %s" % e)
         print("The unguarded population is %d; the LIVE hazard was not measured, "
@@ -124,12 +227,15 @@ def main():
         print("COULD NOT EVALUATE — no style composed an elevation, so no zero was observed")
         return COULD_NOT_EVALUATE
 
-    live = [(fid, where, d, zeros[d]) for fid, where, _e, names in unguarded
-            for d in names if d in zeros]
-
+    unattributable = unattributable_denominators()
     by_where = collections.Counter(w.split("[")[0] for _f, w, _e, _n in unguarded)
     print("%d style(s) composed an elevation; %d measurement name(s) come back ZERO on at "
           "least one" % (composed, len(zeros)))
+    if unattributable:
+        print("%d dividing test(s) whose denominator this walker CANNOT ATTRIBUTE — they are "
+              "invisible to the live meter below, which is not a pass:" % len(unattributable))
+        for fid, where, expr, why in unattributable[:10]:
+            print("  ? %s %s: %s (%s)" % (fid, where, expr, why))
     print("%d unguarded dividing test(s) — %s (ratchet %d)"
           % (len(unguarded), ", ".join("%s %d" % (k, v) for k, v in sorted(by_where.items())),
              UNGUARDED_RATCHET))

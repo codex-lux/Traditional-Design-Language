@@ -94,13 +94,21 @@ def load(name: str, path: str):
     Thread-safe: concurrent cold loads serialize; the same thread may re-enter
     (a load cycle) and receives the partially-initialised module, as before.
     """
+    # THE KEY AND THE LOADED FILE MUST BE THE SAME PATH. This keyed on the realpath and
+    # loaded from the argument, so a module reached through a SYMLINK was cached under its
+    # canonical key while its own `__file__` -- and therefore the `ROOT` almost every module
+    # in `build/` derives from it -- pointed at the link. One test fixture symlinked `build/`
+    # into a pytest tmpdir; two test files later `check_constraints` was still the tmp-rooted
+    # copy and raised `FileNotFoundError: .../pytest-68/.../schema/constraint.schema.json` on
+    # a directory that no longer existed. It passed alone and failed in the suite. Loading
+    # from the realpath makes the class impossible rather than forbidden.
     key = os.path.realpath(path)
     with _LOCK:
         hit = _CACHE.get(key)
         if hit is not None:
             return hit
 
-        spec = importlib.util.spec_from_file_location(name, path)
+        spec = importlib.util.spec_from_file_location(name, key)
         if spec is None or spec.loader is None:
             raise ImportError(f"cannot load {name} from {path}")
         module = importlib.util.module_from_spec(spec)

@@ -54,28 +54,36 @@ jobs:
         run: |
           set -o pipefail
           git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
-          ids () { git ls-tree -r --name-only "$1" -- docs/open-questions/ 2>/dev/null \
-                     | sed -n 's#.*/\([0-9][0-9][0-9]\)-.*\.md#\1#p' | sort -u; }
-          base=$(ids "origin/${{ github.base_ref }}")
-          head=$(ids HEAD)
-          # An id this branch ADDED that the base branch already uses under a different name.
-          added=$(comm -13 <(echo "$base") <(echo "$head"))
-          reused=$(comm -12 <(echo "$base") <(echo "$added") || true)
+          BASE="origin/${{ github.base_ref }}"
+          files () { git ls-tree -r --name-only "$1" -- docs/open-questions/ 2>/dev/null | sort; }
+          ids () { files "$1" | sed -n 's#.*/\([0-9][0-9][0-9]\)-.*\.md#\1#p' | sort -u; }
+          # THE SET TO WALK IS THE INTERSECTION, NOT THE DIFFERENCE. The first version of this
+          # step walked ids this branch ADDED (base \ head reversed) and then asked for the
+          # BASE's file for that id -- non-empty only when the id is already in base, which is
+          # exactly what `added` excludes. Unsatisfiable on every iteration; the gate could not
+          # fire, and said "no collision" for the one case it exists to catch. A collision is
+          # an id BOTH sides carry under DIFFERENT filenames, so the population is `comm -12`.
+          # This also holds on a `pull_request` checkout, which is the MERGE commit: HEAD then
+          # carries both files, the id is in both sets, and the filename lists differ.
+          both=$(comm -12 <(ids "$BASE") <(ids HEAD))
           collide=""
-          for id in $added; do
-            b=$(git ls-tree -r --name-only "origin/${{ github.base_ref }}" -- docs/open-questions/ \
-                  | grep -E "/${id}-" || true)
-            h=$(git ls-tree -r --name-only HEAD -- docs/open-questions/ | grep -E "/${id}-" || true)
-            if [ -n "$b" ] && [ "$b" != "$h" ]; then collide="$collide $id"; fi
+          for id in $both; do
+            b=$(files "$BASE" | grep -E "/${id}-" || true)
+            h=$(files HEAD   | grep -E "/${id}-" || true)
+            if [ "$b" != "$h" ]; then collide="$collide $id"; fi
           done
           if [ -n "$collide" ]; then
             echo "::error::open-question id(s)$collide exist on ${{ github.base_ref }} under a"
             echo "different filename. Another session issued them first. Reissue this branch's"
-            echo "at the next free id and add a row to docs/open-questions/README.md's"
-            echo "conversion table. PLAN-OF-ACTION.md §1: ids are never reused, and the side"
-            echo "that merged first keeps its numbers."
+            echo "under a NAMED id (docs/open-questions/oq-<slug>.md) and add a row to"
+            echo "docs/open-questions/README.md's conversion table. PLAN-OF-ACTION.md §1: ids"
+            echo "are never reused, and the side that merged first keeps its numbers."
             exit 1
           fi
+          # The named namespace needs no comparison of its own: filename IS the id, so two
+          # sessions raising `oq-<slug>.md` have derived the same slug from the same subject
+          # and the conflict git refuses to auto-merge is the one you want. That is the whole
+          # point of freezing the numbers -- see docs/open-questions/oq-two-id-namespaces.md.
           echo "No open-question id on this branch collides with ${{ github.base_ref }}."
 
       - name: check_all.py

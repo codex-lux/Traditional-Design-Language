@@ -73,6 +73,7 @@ RATCHET_FLOOR = {"judged": 48}
 # while its own defining_characteristics name 'fanlight and/or sidelights' -- OQ 87's mechanism,
 # found because WP-8.3 made the refusal bite and the generator stopped drawing them.
 FORBIDDEN_RATCHET = 776
+COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_guard.py
 
 # THE FIRST FOUR DECLINES ARE THE ARGUMENT FOR THIS FLOOR, and the measurement is worth keeping.
 # `ranch-style`, `craftsman-bungalow`, `california-bungalow` and `minimal-traditional` all
@@ -376,6 +377,21 @@ def main():
               f"independently of it:\nit counts a kit binding overruled by a pack, not a role "
               f"nobody bound. Declining packs will\nNOT close it — the slot is handed to the "
               f"next pack, which forbids it just as much.")
+        # A RATCHET THAT MAY ONLY FALL IS SATISFIED BY A CORPUS THAT WAS NOT MEASURED, and
+        # 0 is the most satisfying number it can read. This run printed 776 over 118 nodes,
+        # then 0 over 0 nodes twice in succession, then 776 again for the next twenty runs;
+        # the cause was never reproduced. What is NOT in doubt is that the two zero runs
+        # exited 0 and would have satisfied a ceiling of 776, because "fewer overrides" and
+        # "no corpus" are the same number. They are not the same state, so they may not share
+        # an exit code. A truncated kit file already raises here rather than zeroing -- tested
+        # -- so this covers the case that is left: the sweep completes and finds nothing at all.
+        if not by_node and buildable:
+            print(f"\nCOULD NOT EVALUATE — the sweep ran over {len(buildable)} buildable "
+                  f"node(s) and found a `forbidden` binding on none of them. That is not a "
+                  f"corpus this ratchet has ever described (it stood at {FORBIDDEN_RATCHET} "
+                  f"over 118 nodes), so it is being read as an unmeasured corpus and not as "
+                  f"an empty one. Re-run; if it persists, the kits are not being read.")
+            sys.exit(COULD_NOT_EVALUATE)
         if len(pairs) > FORBIDDEN_RATCHET:
             print(f"\nRATCHET BROKEN — forbidden-slot overrides grew: "
                   f"{FORBIDDEN_RATCHET} -> {len(pairs)}")

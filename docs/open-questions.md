@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**103 questions, of which 33 are open.** A question is OPEN while
+**107 questions, of which 37 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 33
+## Open — 37
 
 Awaiting a ruling. This is the list to read first.
 
@@ -63,7 +63,11 @@ Awaiting a ruling. This is the list to read first.
 | **96** | OPEN | [`_shared`'s first-match-wins ordering can report a corner kiss as a shared edge](open-questions/096-shared-s-first-match-wins-ordering-report-corner-kiss-sha.md) |
 | **98** | OPEN | [`span_check` credits a bearing wall across the whole floor plate however short it is, and the validator never mentions span capacity at all](open-questions/098-span-check-credits-bearing-wall-across-whole-floor-plate.md) |
 | **oq/a-baked-pack-value-is-a-second-delivery-path** | OPEN | [a scope on a rule cannot reach the copy of it in a kit](open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md) |
+| **oq/a-kit-binding-propagates-to-descendants-nobody-read** | OPEN | [binding a slot on one node states it for every node under it, and nothing compares the result against those nodes' own records](open-questions/oq-a-kit-binding-propagates-to-descendants-nobody-read.md) |
+| **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
+| **oq/a-material-neutral-assembly-decides-a-material-question** | OPEN | [the authority walk lets a slot that says nothing about a material refuse a question about it](open-questions/oq-a-material-neutral-assembly-decides-a-material-question.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
+| **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 
 ## Settled — 70

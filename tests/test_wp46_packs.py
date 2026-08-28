@@ -3547,12 +3547,18 @@ def test_the_diagnostic_names_the_ancestor_because_that_is_the_actionable_part()
 
 
 def test_a_ranch_is_dimensioned_by_a_gothic_arch_pack_and_the_slot_report_says_so():
-    """The finding at its sharpest. 69 of `ranch-style`'s 78 dimensioned slots are governed by
+    """The finding at its sharpest. 61 of `ranch-style`'s 68 dimensioned slots are governed by
     packs it never bound, and the report names the pack AND the ancestor it was bound on."""
-    # 78/69 -> 67/60 on 28 Aug 2026 (WP-8.3, `oq/forbidden-stops-the-pack-cascade`). Not work and not a regression: a slot whose
-    # every pack rule is REFUSED because the node's resolved kit binds it `forbidden` carries no
-    # figure, and counting it as "dimensioned" was the meter overstating itself. Eleven of
-    # ranch-style's slots are in that state and the report now names them on their own line.
+    # THREE FIGURES IN THIS TEST AND NO TWO OF THEM AGREED. The docstring said 69 of 78, this
+    # comment said 78/69 -> 67/60, and the assertion below said 68/61 -- which is what the
+    # checker actually prints. Re-measured live on 28 Aug 2026 by the WP-8.4 adversarial audit
+    # and all three now say 68/61. The pre-WP-8.3 pair was 78/69.
+    #
+    # `oq/forbidden-stops-the-pack-cascade` is why it moved, and it is not work and not a
+    # regression: a slot whose every pack rule is REFUSED because the node's resolved kit binds
+    # it `forbidden` carries no figure, and counting it as "dimensioned" was the meter
+    # overstating itself. TEN of ranch-style's slots are in that state -- the checker names them
+    # on their own line -- and this comment said eleven.
 
     import subprocess
     out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_inheritance.py"),

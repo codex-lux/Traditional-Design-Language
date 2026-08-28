@@ -6,9 +6,9 @@
 rule reaches any of them.**
 
 A kit parameter marked `kind: derived` with `source: <pack>` is a pack rule's value copied into
-a kit file. `build/check_addresses.py::baked_vs_refused` measures the collision: **18 pairs today** deliver a figure the live rule refuses, across fourteen nodes and two
+a kit file. `build/check_addresses.py::baked_vs_refused` measures the collision: **20 pairs today** deliver a figure the live rule refuses, across fourteen nodes and two
 rules — `opening-proportion`'s `exterior_head_assembly_in` on twelve and `sash-light`'s
-`projection_in` on seven (`chateauesque`, `cotswold-cottage-revival`, `egyptian-revival`,
+`projection_in` on eight (`chateauesque`, `cotswold-cottage-revival`, `egyptian-revival`,
 `french-eclectic`, `french-normandy-revival`, `italian-renaissance-revival`,
 `italianate-townhouse`, `jacobethan-revival`, `mid-atlantic-georgian`,
 `queen-anne-patterned-masonry`, `renaissance-revival-american`, `tudor-revival` among them).
@@ -27,10 +27,10 @@ delivered.**
 **Why it is not patched.** Deleting the baked parameter on the ancestor removes it from every
 descendant, and 30 of the 33 nodes that resolve it are frame nodes the rule is right for. What
 is wanted is a scope on the PARAMETER, read where `resolve_slots` assembles it — a kit-schema
-change and a new reader inside the hottest function in `build/`. The 8 is ratcheted so it
+change and a new reader inside the hottest function in `build/`. The 20 is ratcheted so it
 cannot grow in silence while that is decided.
 
-**The general shape is worth stating separately from the 8.** A derived snapshot is a cached
+**The general shape is worth stating separately from the 20.** A derived snapshot is a cached
 computation with no cache invalidation: it was true of the pack on the day it was written and
 nothing re-derives it. `check_addresses` can now see the case where the rule is refused; it
 cannot see the case where the rule's VALUE has changed and the snapshot has not.

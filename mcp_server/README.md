@@ -130,7 +130,7 @@ Grouped by the layer of the stack each one reads from — see `docs/model.md` fo
 
 **Progressive disclosure is deliberate.** `tdl_overview` is small on purpose and `tdl_get_style` defaults to four sections out of nine. Ask for more when you need it.
 
-**Call `tdl_find_faults` before recommending a detail, not after.** And read `EXCEPTION_FOR_THIS_STYLE` before repeating a rule at a client — several styles legitimately do what is a fault everywhere else.
+**Call `tdl_find_faults` before recommending a detail, not after.** And read the exception key before repeating a rule at a client — several styles legitimately do what is a fault everywhere else. There are **three** keys since WP-8.4, because an exception is a licence and its own condition is now read: `EXCEPTION_FOR_THIS_STYLE` (condition met — the licence holds), `EXCEPTION_NOT_EARNED_BY_THIS_STYLE` (condition refused — repeat the general rule), `EXCEPTION_WHOSE_CONDITION_COULD_NOT_BE_JUDGED` (undecidable from the style alone — say so rather than choosing). Reading only the first silently loses the third, which is the state most often wanted at a client.
 
 **Unjudged is not passed.** `tdl_check_measurements` and `tdl_check_style_constraints` both separate a failed test from one they could not evaluate. Tell the human which is which.
 

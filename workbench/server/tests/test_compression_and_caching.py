@@ -211,6 +211,44 @@ def test_invalidate_clears_every_cache_it_claims_to():
         "invalidate() left constraint ids cached"
 
 
+def test_invalidate_clears_every_cache_that_exists_and_not_only_the_named_ones():
+    """THE ENUMERATION IS THE BUG. The test above names each cache, so it can only catch a
+    cache someone remembered to add to it — and three of core.py's five have now been missed
+    on their way into `invalidate()`. WP-8.4 added `_kit_graph` and `_resolved_kit` and did
+    not add them there, so after a reload every fault-exception precondition was still
+    resolved against the PRE-EDIT kit graph for the life of the process: the bench showed an
+    author's kit change everywhere except in whether a licence was granted on it.
+
+    This walks the module instead of naming anything, so the fourth cannot be missed.
+    """
+    from workbench.server import citations
+    modules = {"core": core, "citations": citations}
+    caches = [(mod_name + "." + name, obj)
+              for mod_name, mod in modules.items()
+              for name, obj in vars(mod).items()
+              if callable(obj) and hasattr(obj, "cache_clear") and hasattr(obj, "cache_info")]
+    assert len(caches) >= 5, f"found only {[n for n, _ in caches]} -- the walk is broken"
+
+    # Prime every one that takes no required argument; the rest are primed by the corpus
+    # reads below, which is why this does not simply skip them.
+    core._data()
+    core.schema("plan")
+    core._all_partis()
+    citations._parti_ids()
+    citations._constraint_ids()
+    core._kit_graph()
+    core._resolved_kit("tidewater-georgian")
+    primed = [n for n, c in caches if c.cache_info().currsize > 0]
+    assert len(primed) == len(caches), (
+        f"could not prime {sorted(set(n for n, _ in caches) - set(primed))}; an unprimed "
+        f"cache reads as cleared and the assertion below would pass vacuously")
+
+    corpus.invalidate()
+
+    left = [n for n, c in caches if c.cache_info().currsize > 0]
+    assert left == [], f"invalidate() left these caches populated: {left}"
+
+
 # ------------------------------------------------------------------ the rail's client
 
 def test_the_anthropic_client_is_pooled(monkeypatch):

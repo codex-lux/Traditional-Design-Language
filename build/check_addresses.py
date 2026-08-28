@@ -80,7 +80,13 @@ RATCHET = {"own": 0, "cascade": 9,
            # oq/a-baked-pack-value-is-a-second-delivery-path: a pack value BAKED into a kit file at an address where the live rule is
            # refused. Nothing refuses a snapshot, so a scope on the rule is defeated wherever
            # a kit carries a copy. Reported, not fixed -- see baked_vs_refused().
-           "baked_vs_refused": 20}
+           # 20 -> 32 on 28 Aug 2026 BECAUSE THE INSTRUMENT GOT SHARPER, not because the
+           # corpus got worse: the function read two of the three refusal shapes and could
+           # not see a DECLINE at all, which is the one a human wrote. `ranch-style` and
+           # `minimal-traditional` decline `storey-graduation` and still resolve four and two
+           # baked parameters from it. A ratchet raised by a better meter has to say so, or
+           # the next reader takes it for a regression that was waved through.
+           "baked_vs_refused": 32}
 
 
 def cobinding(nodes, scope):
@@ -203,15 +209,19 @@ def kit_vs_pack(nodes):
                 if not isinstance(pval, dict) or pval.get("kind") != "measured":
                     continue
                 dim = pname[:-3] if pname.endswith("_in") else pname
-                # A REFUSED RULE WRITES NOTHING, SO IT CANNOT CONTRADICT ANYTHING. WP-8.3's
-                # `refused_by_kit` and WP-8.4's `refused_by_construction` both MARK rather than
-                # delete, precisely so a reader of these rows can count them; the count belongs
-                # in the refusal meters, and a refusal reported here as a corruption would be
-                # the corpus convicting itself of a rule it already declined to apply.
+                # A REFUSED RULE WRITES NOTHING, SO IT CANNOT CONTRADICT ANYTHING -- but the
+                # two refusals arrive here by DIFFERENT MEANS and only one of them is a row.
+                # WP-8.3's kit refusal MARKS the row (`refused_by_kit`) and it must be filtered
+                # out here. OQ 88's construction scope DROPS the rule inside `eval_packs`, so it
+                # never reaches `pack_slots` at all and there is nothing to filter. An earlier
+                # version of this line also tested `refused_by_construction`, a key this branch's
+                # first draft wrote and the reconciliation with main removed -- a constant-True
+                # predicate under a comment telling the next reader that construction refusals
+                # arrive marked. Found by the WP-8.4 adversarial audit. `baked_vs_refused` below
+                # reads `scope_dropped` for exactly this reason and says so.
                 rows = [r for r in (pack_slots.get(sid) or [])
                         if r.get("dimension") == dim
-                        and not r.get("refused_by_kit")
-                        and not r.get("refused_by_construction")]
+                        and not r.get("refused_by_kit")]
                 if not rows:
                     continue
                 lo, hi = None, None
@@ -248,7 +258,7 @@ def baked_vs_refused(nodes):
     `kind: derived` with `source: <pack>` is a snapshot of a pack rule copied into the kit --
     3,176 of them resolve across this corpus. `eval_packs` can refuse the live rule; nothing
     refuses the snapshot, so a scope written on the rule is defeated at every node whose kit
-    carries a copy. Measured 28 Aug 2026: 20 pairs, 8 of `sash-light`'s sill projection
+    carries a copy. Measured 28 Aug 2026: 32 pairs, 8 of `sash-light`'s sill projection
     (`mid-atlantic-georgian`, `queen-anne-patterned-masonry`, `renaissance-revival-american`,
     all resolving `georgian-colonial-american`'s baked `projection_in`) and 5 of
     `opening-proportion`'s head assembly.
@@ -263,21 +273,35 @@ def baked_vs_refused(nodes):
     CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_height": 80.0,
            "opening_width": 36.0, "span": 16.0}
     g = _rk.load_graph()
-    out = []
+    out, unjudged = [], []
     for nid in sorted(n["id"] for n in nodes):
         try:
             chain = _rk.chain_for(g, nid)
             kit, _sv = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
             dropped = []
             pack_slots, _ = _rk.eval_packs(_rk.resolve_packs(g, chain), CTX, None, kit, dropped)
-        except Exception:
+        except Exception as exc:
+            # A NODE THAT WILL NOT RESOLVE IS UNJUDGED AND MUST NOT LOWER A CEILING. This
+            # was `except Exception: continue`, silent: a change that broke resolution on
+            # the 33 nodes carrying the baked `projection_in` would have taken the count
+            # from 32 to something smaller and SATISFIED a may-only-fall ratchet, because
+            # the corpus was not measured rather than because the collisions were fixed.
+            # `kit_vs_pack` above already returns and prints an `unjudged` list; this is the
+            # same state and gets the same treatment.
+            unjudged.append((nid, f"{type(exc).__name__}: {exc}"))
             continue
-        # TWO REFUSALS, REPORTED TWO WAYS, AND THIS HAS TO READ BOTH. WP-8.3's kit refusal
-        # MARKS the row (`refused_by_kit`); OQ 88's scope DROPS it and records the drop in
-        # `scope_dropped`. Reading only the marked rows made this measurement report 0 the
-        # moment the scope started biting -- the count went to zero because the evidence was
-        # removed, not because the collision was.
+        # THREE REFUSALS, REPORTED THREE WAYS, AND THIS HAS TO READ ALL OF THEM. WP-8.3's
+        # kit refusal MARKS the row (`refused_by_kit`); OQ 88's scope DROPS it and records
+        # the drop in `scope_dropped`; WP-8.2's DECLINE removes the pack from `resolve_packs`
+        # entirely, so it leaves no row AND no drop record -- the pair simply is not there to
+        # be counted. Reading only the marked rows made this measurement report 0 the moment
+        # the scope started biting; reading only those two made it miss every decline, which
+        # is the sharpest of the three, because a decline is the one refusal a HUMAN wrote.
+        # Measured: `ranch-style` and `minimal-traditional` each decline `storey-graduation`
+        # and each still resolve a `chair_rail.from_storey` baked from it, so
+        # `check_inheritance --impact` names the declined pack as the slot's governor.
         gone = {(d["pack"], d["slot"]) for d in dropped}
+        declined = {d["pack"] for d in (g["nodes"][nid].get("declined_packs") or [])}
         for sid, rec in (kit or {}).items():
             for pname, pval in (rec.get("parameters") or {}).items():
                 if not isinstance(pval, dict) or pval.get("kind") != "derived":
@@ -293,7 +317,13 @@ def baked_vs_refused(nodes):
                 elif rows and all(r.get("refused_by_kit") for r in rows):
                     why = next((r.get("refused_because") for r in rows), "")
                     out.append((nid, sid, pname, src, why))
-    return out
+                elif src in declined and not rows:
+                    why = next((d.get("reason") for d in
+                                (g["nodes"][nid].get("declined_packs") or [])
+                                if d["pack"] == src), "")
+                    out.append((nid, sid, pname, src,
+                                "the node DECLINED this pack: " + (why or "no reason given")))
+    return out, unjudged
 
 
 def main():
@@ -369,7 +399,7 @@ def main():
     if len(kp_hits) > RATCHET["kit_vs_pack"]:
         failed.append(f"kit_vs_pack: {RATCHET['kit_vs_pack']} -> {len(kp_hits)}")
 
-    bvr = baked_vs_refused(nodes)
+    bvr, bvr_unjudged = baked_vs_refused(nodes)
     print(f"\n--- scope: baked-vs-refused " + "-" * 28)
     for nid, sid, pname, src, why in bvr:
         print(f"b {nid} {sid}/{pname}: baked from '{src}', whose live rule is refused here "
@@ -377,6 +407,14 @@ def main():
     print(f"{len(bvr)} baked parameter(s) delivering a value the live rule refuses "
           f"(ratchet {RATCHET['baked_vs_refused']}). A `kind: derived` snapshot is a second "
           f"delivery path and no scope reaches it; see `oq/a-baked-pack-value-is-a-second-delivery-path`.")
+    if bvr_unjudged:
+        # NAMED, because a node that would not resolve is a node this ceiling did not cover,
+        # and a smaller number obtained by measuring less is the one way a may-only-fall
+        # ratchet lies.
+        print(f"{len(bvr_unjudged)} node(s) COULD NOT BE JUDGED and are not in that count:")
+        for nid, exc in bvr_unjudged[:10]:
+            print(f"  ? {nid}: {exc[:100]}")
+        failed.append(f"baked_vs_refused: {len(bvr_unjudged)} node(s) did not resolve")
     if len(bvr) > RATCHET["baked_vs_refused"]:
         failed.append(f"baked_vs_refused: {RATCHET['baked_vs_refused']} -> {len(bvr)}")
 

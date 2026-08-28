@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""The controlled vocabulary for `exceptions[].applies_when.construction`
+"""The controlled vocabulary for `exceptions[].granted_when.construction`
 (schema/fault.schema.json), and the resolver that decides whether a token
 holds for a style.
 
 WHY THIS EXISTS. 331 of the fault corpus's 846 exceptions carry an
-`applies_when` block, 123 of them naming a construction, and until WP-8.4 not
+`granted_when` block, 123 of them naming a construction, and until WP-8.4 not
 one line of code read any of it. `mcp_server/core.py` selects an exception
 with `e["style"] == style` and nothing else, at all three of its selection
 sites — so `architrave-that-is-not-there`'s Pueblo Revival licence, written
@@ -185,14 +185,25 @@ VOCABULARY = {
         "slots": {"construction_type": list(_MASONRY_STONE)},
         "strength": "exact", "note": "Load-bearing masonry, stone only."},
     "brick": {
-        "slots": {"construction_type": ["solid-brick-masonry", "brick-bearing-masonry",
-                                        "brick-party-wall-masonry", "solid-masonry-two-wythe",
-                                        "solid-masonry-three-wythe"],
-                  "primary_cladding": list(_CLAD_BRICK)},
+        # CLADDING FIRST, and for this token only: the corpus records brick-versus-stone in the
+        # FACE, not in the assembly -- a brick Georgian and a granite baronial house are both
+        # `solid-masonry-two-wythe`. Slot order is authority order, so for a MATERIAL question
+        # the material-bearing slot has to lead. (The material-neutral tokens -- `mass-wall`,
+        # `load-bearing-masonry` -- keep construction_type first, because for them the assembly
+        # IS the answer.)
+        "slots": {"primary_cladding": list(_CLAD_BRICK),
+                  "construction_type": ["solid-brick-masonry", "brick-bearing-masonry",
+                                        "brick-party-wall-masonry"]},
         "strength": "exact",
-        "note": "Brick as the wall or as the face. Reads the cladding slot as well because a "
-                "style's construction_type is often inherited and generic where its cladding "
-                "is specific."},
+        "note": "Brick as the face or as the wall. DELIBERATELY EXCLUDES "
+                "`solid-masonry-two-wythe` and `-three-wythe`, which say how many wythes and "
+                "nothing about the material: with them in the list this token returned `holds` "
+                "on `scottish-baronial`, whose construction is two-wythe solid masonry and "
+                "whose cladding is `squared-rubble-granite-ashlar-harled-rubble` -- a granite "
+                "building answering yes to `brick`. The wythe count is a `mass-wall` fact and "
+                "belongs to the material-neutral tokens; brick versus stone is recorded in the "
+                "CLADDING, which this token reads and which decides it. Found by the WP-8.4 "
+                "adversarial audit."},
     "roman-brick": {
         "slots": {"primary_cladding": ["roman-brick"]},
         "strength": "exact", "note": "The long thin brick of the Prairie School."},
@@ -208,11 +219,26 @@ VOCABULARY = {
         "note": "Dressed and squared stone, as against rubble. `rock-faced-ashlar` counts: the "
                 "face is left rough but the bed and the joint are cut."},
     "stone-rubble": {
-        "slots": {"construction_type": ["rubble", "limestone-or-roussard-rubble-dressed-openings",
-                                        "flint-or-chalk"],
-                  "primary_cladding": ["stone-rubble", "coursed-rubble-field-ashlar-dressings",
+        # CLADDING FIRST, for the same reason as `brick` and found on the SAME NODE. Rubble
+        # versus ashlar is a MATERIAL-AND-COURSING question and the corpus records it in the
+        # face; `solid-masonry-two-wythe` says how many wythes and nothing about the stone.
+        # With construction_type leading, `scottish-baronial` -- canonically
+        # `squared-rubble-granite-ashlar-harled-rubble` on the face, and named in the `brick`
+        # note above as the node that proves this rule -- answered a hard `fails` to
+        # `stone-rubble`, and the detail line printed the canonical rubble cladding while
+        # refusing. `quoin-by-catalogue`'s Baronial licence, whose own `why` reads "Rubble
+        # walling with dressed ashlar corner dressings", was refused on a rubble-walled house.
+        # The material-neutral tokens (`mass-wall`, `load-bearing-masonry`) keep
+        # construction_type first, because for them the assembly IS the answer; `adobe`, `log`
+        # and `wood-frame` keep it too, because they ask what the wall is MADE OF as an
+        # assembly and a render can hide any of them. Second instance of one bug; the general
+        # form -- a material question decided by a material-NEUTRAL assembly variant -- is
+        # raised as `oq/a-material-neutral-assembly-decides-a-material-question`.
+        "slots": {"primary_cladding": ["stone-rubble", "coursed-rubble-field-ashlar-dressings",
                                        "squared-rubble-granite-ashlar-harled-rubble",
-                                       "rubble-limestone-lime-render"]},
+                                       "rubble-limestone-lime-render"],
+                  "construction_type": ["rubble", "limestone-or-roussard-rubble-dressed-openings",
+                                        "flint-or-chalk"]},
         "strength": "exact", "note": "Undressed or roughly squared stone."},
     "wood-frame": {
         "slots": {"construction_type": list(_TIMBER_FRAME) + list(_LIGHT_FRAME) +
@@ -510,28 +536,49 @@ def resolve(token, resolved_slots, declared=None):
 
     Returns (verdict, why). `declared` is an optional {slot: variant_id} the
     caller knows about the actual house -- a plan record's `declared` block --
-    and it decides the question outright, because the house is the thing the
-    exception is about.
-    """
-    if token in UNMAPPABLE:
-        return "unmappable", UNMAPPABLE[token]
-    spec = VOCABULARY.get(token)
-    if spec is None:
-        return "unmappable", ("%r is in neither VOCABULARY nor UNMAPPABLE; "
-                              "report the gap rather than adding a token" % token)
+    and it decides the question FOR ITS OWN SLOT, because the house is the thing
+    the exception is about.
 
-    # 1. The house's own word, where there is one.
+    IT DOES NOT SHORT-CIRCUIT THE AUTHORITY ORDER, and the first version did.
+    A declared value used to return immediately from whichever of the token's
+    slots the caller happened to name, so a plan declaring only
+    `primary_cladding: smooth-stucco` on a style whose `construction_type` is
+    canonically `braced-timber-frame` got a hard `fails` for `wood-frame` --
+    telling the resolver MORE about the house made it answer WRONG, which is the
+    worst possible shape for an optional input. A declared value is now folded in
+    as that slot's verdict and the same most-decisive-first walk runs over the
+    result. Found by the WP-8.4 adversarial audit; the same audit found the
+    `partial` rule was skipped on this path too, so `thick-stucco` could return
+    `holds` -- the one thing this module says it must never do.
+    """
+    # A SPEC MAY BE PASSED DIRECTLY, so `resolve_any` need not write its union into the
+    # module-level table and pop it again -- that raced on the request path. A dict here is
+    # a caller-owned spec and never a lookup; a string is a token as it always was.
+    if isinstance(token, dict):
+        spec, token = token, token.get("note") or "the union"
+    else:
+        if token in UNMAPPABLE:
+            return "unmappable", UNMAPPABLE[token]
+        spec = VOCABULARY.get(token)
+        if spec is None:
+            return "unmappable", ("%r is in neither VOCABULARY nor UNMAPPABLE; "
+                                  "report the gap rather than adding a token" % token)
+
+    # ONE WALK, MOST-DECISIVE SLOT FIRST. A slot the caller has DECLARED is decided by the
+    # declaration (the house outranks the tradition for its own slot); every other slot is
+    # decided by the resolved kit. Both feed the same authority-ordered walk below.
+    per_slot, detail = [], []
     for sid, wanted in spec["slots"].items():
         got = (declared or {}).get(sid)
         got = got.get("variant") if isinstance(got, dict) else got
-        if got:
+        if isinstance(got, str) and got:
             if got in wanted:
-                return "holds", "the record declares %s = %s" % (sid, got)
-            return "fails", "the record declares %s = %s, which is not %s" % (sid, got, token)
-
-    # 2. Otherwise read the tradition, one slot at a time.
-    per_slot, detail = [], []
-    for sid, wanted in spec["slots"].items():
+                per_slot.append("holds")
+                detail.append("the record declares %s = %s" % (sid, got))
+            else:
+                per_slot.append("fails")
+                detail.append("the record declares %s = %s, which is not %s" % (sid, got, token))
+            continue
         rec, variants = _slot_record(resolved_slots, sid)
         if not variants:
             continue
@@ -554,12 +601,30 @@ def resolve(token, resolved_slots, declared=None):
             per_slot.append("fails")
             detail.append("%s is canonically %s, none of which is %s"
                           % (sid, ", ".join(v["id"] for v in canon_out[:3]), token))
+        elif canon_in and canon_out:
+            # BOTH WAYS, AND THE SLOT MEANS IT. Canonical evidence on each side is a firm
+            # answer -- `charleston-georgian` really was built in brick and in clapboard -- so
+            # it STOPS the walk. A lower-authority slot must not overturn it: `prairie-school`
+            # is canonically `roman-brick` AND `stucco-with-wood-banding`, and letting its
+            # `platform-frame` construction_type have the last word returned `fails` for
+            # `brick` on a Roman-brick house.
+            per_slot.append("undecidable-firm")
+            detail.append("%s is canonically both %s and %s"
+                          % (sid, ", ".join(v["id"] for v in canon_in[:2]),
+                             ", ".join(v["id"] for v in canon_out[:2])))
         else:
-            per_slot.append("undecidable")
-            detail.append("%s permits %s and %d other%s" % (
-                sid, ", ".join(v["id"] for v in live[:3]), len(canon_out),
-                "" if len(canon_out) == 1 else "s"))
-    why = "; ".join(detail) or "no slot this token reads is bound on this style"
+            # NO CANONICAL EITHER WAY -- the slot has only permitted or atypical variants, so
+            # it has no firm opinion and the walk moves on. `jeffersonian-classicism` inherits
+            # a construction_type in which every variant is merely permitted; its own cladding
+            # is canonically Flemish-bond brick with clapboard forbidden, and that is the
+            # answer.
+            per_slot.append("undecidable-soft")
+            detail.append("%s permits %s and states no canonical either way"
+                          % (sid, ", ".join(v["id"] for v in live[:3])))
+    why = "; ".join(detail) or (
+        "no slot this token reads carries a variant on this style -- nine nodes state their "
+        "construction in a prose `rule` with an empty variant list, and this is what that "
+        "looks like from here")
     if not per_slot:
         return "undecidable", why
     # SLOT ORDER IS AUTHORITY ORDER, and the first slot that can answer decides. `slots` is
@@ -571,8 +636,10 @@ def resolve(token, resolved_slots, declared=None):
     # "the record points both ways" made a decided question undecidable on 15 nodes. A render
     # is not a wall.
     for verdict in per_slot:
-        if verdict == "undecidable":
-            continue
+        if verdict == "undecidable-soft":
+            continue                       # no firm opinion here; ask the next slot
+        if verdict == "undecidable-firm":
+            return "undecidable", why
         if verdict == "holds" and spec["strength"] == "partial":
             return "undecidable", ("%s carries a qualifier the corpus does not record, so this "
                                    "is the most that can be said: %s" % (token, why))
@@ -581,6 +648,55 @@ def resolve(token, resolved_slots, declared=None):
 
 
 # ---------------------------------------------------------------------------
+def resolve_any(tokens, resolved_slots, declared=None):
+    """A LIST OF TOKENS IS A DISJUNCTION, and it has to be resolved as one.
+
+    `grant_exception` reduces each token to a verdict and then combines, which is right for
+    `holds` (any token holding grants the licence) and for `fails` (all failing refuses it),
+    and WRONG in the middle: `paint-on-unpainted-brick`'s `english-cottage-vernacular` licence
+    names `[solid-masonry-two-wythe, adobe, rammed-earth]` and that style is canonically `cob`
+    AND `clay-lump` -- `adobe` covers the clay lump, `rammed-earth` covers the cob, each token
+    alone says "canonically both, cannot decide", and the wall is CERTAINLY one of the three
+    the licence names. Ten exceptions land in that gap; this resolves the union.
+
+    PARTIAL TOKENS ARE EXCLUDED FROM THE UNION. Nine of the ten reach coverage only through
+    `thick-stucco`, whose whole point is that the corpus records the render and not its depth,
+    so confirming through it would launder the qualifier the token exists to preserve. The
+    union is taken over EXACT tokens only, and a licence that needs a partial token to cover
+    its slot stays unjudged -- which is the honest answer.
+
+    Additive by construction: it is consulted only where the per-token pass reached no verdict,
+    so it can turn an `undecidable` into a `holds` and can never change a `holds` or a `fails`.
+    """
+    exact = [t for t in tokens if t in VOCABULARY and VOCABULARY[t]["strength"] == "exact"]
+    if len(exact) < 2:
+        return None
+    merged = {}
+    for t in exact:
+        for sid, wanted in VOCABULARY[t]["slots"].items():
+            merged.setdefault(sid, [])
+            merged[sid].extend(w for w in wanted if w not in merged[sid])
+    union = {"slots": merged, "strength": "exact",
+             "note": "the union of %s" % ", ".join(exact)}
+    # RESOLVED DIRECTLY, NOT BY WRITING INTO THE MODULE-LEVEL TABLE. The first version put
+    # the union under a sentinel key in `VOCABULARY`, resolved that key, and popped it in a
+    # `finally`. This runs on `/api/plan/evaluate`, which FastAPI serves from a threadpool,
+    # concurrently with the compose worker's own `plan_check` -- so two requests inside this
+    # function at once resolved each other's union, or popped it out from under each other.
+    # Both outcomes are silent: a licence GRANTED on another request's tokens, which is an
+    # exception excusing a fault the corpus refuses, or the sentinel key leaking into the
+    # user-visible `why` ("primary_cladding names none of __union__ ..."). Nothing raises.
+    # `resolve()` takes a spec now, so there is no shared mutable state to race on.
+    # Found by the WP-8.4 adversarial audit.
+    verdict, why = resolve(union, resolved_slots, declared)
+    if verdict != "holds":
+        return None
+    return "holds", ("the wall is one of %s, all of which this licence names: %s"
+                     % (" or ".join(exact), why))
+
+
+
+
 def _kit_variant_index():
     """slot id -> set of every variant id authored for it anywhere in kits/."""
     out = collections.defaultdict(set)
@@ -606,6 +722,9 @@ def check_table():
     if overlap:
         errors.append("token(s) in both VOCABULARY and UNMAPPABLE: %s" % sorted(overlap))
     for token, spec in sorted(VOCABULARY.items()):
+        # No sentinel skip any more: `resolve_any` passes its union to `resolve()` as a
+        # spec instead of installing it here, so nothing transient can be in this table --
+        # which also means this loop can no longer be raced into skipping a real entry.
         if spec.get("strength") not in ("exact", "partial"):
             errors.append("%s: strength must be 'exact' or 'partial'" % token)
         if not (spec.get("note") or "").strip():
@@ -634,8 +753,22 @@ def corpus_tokens():
         with open(os.path.join(FAULTS, name), encoding="utf-8") as fh:
             rec = json.load(fh)
         for exc in (rec.get("exceptions") or []):
-            for t in ((exc.get("applies_when") or {}).get("construction") or []):
+            # THE FIELD IS `granted_when`. WP-8.4 renamed it from `applies_when` on all 331
+            # records and this reader was left on the old name, so it returned an EMPTY
+            # Counter -- `--coverage` reported nothing and
+            # tests/test_construction_scope.py::test_every_token_the_corpus_uses_is_in_the_table
+            # computed `used - VOCABULARY - UNMAPPABLE` over an empty set and passed
+            # vacuously, which is the guard-that-cannot-fail this corpus polices hardest,
+            # inside the suite written to guard the table. Found by the WP-8.4 adversarial
+            # audit. The assertion below makes the reader itself refuse to be silent.
+            for t in ((exc.get("granted_when") or {}).get("construction") or []):
                 out[t] += 1
+    if not out:
+        raise SystemExit(
+            "construction_vocabulary.corpus_tokens() found NO tokens in faults/. Either the "
+            "corpus stopped using `granted_when.construction` or this reader is on the wrong "
+            "field name again -- it was, once. An empty result here makes every caller pass "
+            "vacuously, so it is refused rather than returned.")
     return out
 
 

@@ -115,6 +115,18 @@ def slug_ids(_text=None):
     return {k for k in qs if not isinstance(k, int)}
 
 
+def entry_id_errors():
+    """What the register's own reader REFUSED, which the two readers above discard.
+
+    Discarding it is right for them -- they answer "which ids exist" and a refused file
+    defines none -- but it hid the fact that this checker's own ceiling branch could never
+    fire, because the id it looked for had already been removed by the reader that refused
+    it. Surfaced here so the refusal is DELEGATED rather than re-derived. See the D block in
+    main()."""
+    _qs, errors = _check_ids().read_questions()
+    return errors
+
+
 def tracked_files():
     # --untracked, because a NEW file is exactly where a fresh citation lives. Without it the
     # checker read only committed files: this package's own report quoted the bug form and was
@@ -165,7 +177,7 @@ def main():
 
     reg = open(os.path.join(ROOT, REGISTER), encoding="utf-8").read()
     history = open(os.path.join(ROOT, REGISTER_HISTORY), encoding="utf-8").read()
-    ids = entry_ids(reg)
+    ids, id_errors = entry_ids(reg), entry_id_errors()
     if not ids:
         print("FAIL  the register defines no entries -- this checker just stopped "
               "checking anything. Its `N. **STATUS` shape has changed.", file=sys.stderr)
@@ -174,14 +186,21 @@ def main():
     slugs = slug_ids(reg)
     dangling, bare, n_cites = [], [], 0
 
-    # D -- THE ENFORCEMENT. A numbered entry above the ceiling means somebody issued a
-    # sequential id from their working tree again, which is the mechanism that collided four
-    # times in four days. Refusing it here is what makes the scheme a rule rather than a note
-    # in a file nobody re-reads.
-    over = sorted(n for n in ids if n > FROZEN_CEILING)
-    ceiling = [f"{REGISTER}: entry {n} is above the frozen ceiling of {FROZEN_CEILING} -- "
-               f"the numeric block is closed. Raise it as `### oq/<slug>` instead; see "
-               f"'How an id is issued' at the head of that file." for n in over]
+    # D -- THE ENFORCEMENT, AND IT LIVES IN `check_ids.py`, NOT HERE. This branch used to
+    # re-derive it, and the WP-8.4 adversarial audit proved it could never fire: `entry_ids()`
+    # delegates to `check_ids.read_questions()`, which REFUSES a numbered file above the
+    # ceiling and drops it from what it returns -- so by the time the ids reach this line, an
+    # over-ceiling id has already been removed by the checker that owns the rule. Planting
+    # `docs/open-questions/100-<slug>.md` produced check_ids' own error and an EMPTY `over`
+    # here. A dead second copy of a rule is worse than no copy: it reads as a belt-and-braces
+    # and is neither, and this corpus has paid four times for one rule spelled twice.
+    #
+    # What is kept is the READING of the refusal, delegated rather than re-derived: an id
+    # error from check_ids fails this checker too, so a run of `check_citations.py` alone
+    # still cannot pass over a working-tree-issued id. `tests/test_citations.py` presents an
+    # actual 100 to both and asserts each refuses it.
+    ceiling = [f"docs/open-questions/: {e}" for e in id_errors
+               if "frozen at" in e or "above the" in e]
 
     for rel in sorted(tracked_files()):
         full = os.path.join(ROOT, rel)

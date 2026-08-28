@@ -122,9 +122,13 @@ def tdl_find_faults(style: str = "", slot: str = "", group: str = "", severity: 
     """Search 209 named errors. Faults are ELEMENT-FIRST: most are universal and style is a facet.
     Filter by slot, group, severity (fatal|serious|minor), frequency (endemic|common|occasional),
     or measurable_from (photograph|elevation|plan|section|site-visit). Passing style also surfaces
-    EXCEPTION_FOR_THIS_STYLE and INVERTED_FOR_THIS_STYLE — check those before repeating a rule at a
-    client, because several styles legitimately do what is a fault everywhere else. Call this
-    BEFORE recommending a detail, not after."""
+    INVERTED_FOR_THIS_STYLE and ONE of three exception keys — check those before repeating a rule
+    at a client, because several styles legitimately do what is a fault everywhere else.
+    EXCEPTION_FOR_THIS_STYLE means the licence's own condition is met. Since WP-8.4 a licence
+    whose condition FAILS comes back as EXCEPTION_NOT_EARNED_BY_THIS_STYLE (the general rule
+    stands — repeat it) and one whose condition cannot be decided from the style alone as
+    EXCEPTION_WHOSE_CONDITION_COULD_NOT_BE_JUDGED (say so; do not pick a side). Each carries
+    `condition`, `verdict` and `because`. Call this BEFORE recommending a detail, not after."""
     return J(core.find_faults(style or None, slot or None, group or None, severity or None,
                               frequency or None, measurable_from or None, query or None, limit))
 

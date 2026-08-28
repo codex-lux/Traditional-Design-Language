@@ -156,3 +156,37 @@ def test_the_ci_line_quoted_in_claude_md_matches_the_live_total():
     assert max(quoted) == m.TOTAL_CHECKS, (
         f"the current CI-line illustration says 'of {max(quoted)} checks' while check_all runs "
         f"{m.TOTAL_CHECKS}. Update the quoted line; older dated instances may stay as record.")
+
+
+def test_every_checker_spells_could_not_evaluate_the_way_the_runner_reads_it():
+    """A checker with its own exit-code protocol reports UNJUDGED as FAILED.
+
+    `check_division_guards.py` shipped with `COULD_NOT_EVALUATE = 2`. The runner's
+    protocol is 3: `state = "OK" if rc == 0 else ("N/EV" if rc == COULD_NOT_EVALUATE
+    else "FAIL")`. So the one checker whose sweep can genuinely fail to run -- it
+    drives the elevation generator over 164 styles -- would have reported "the live
+    hazard was never measured" and been printed as a FAILING check, under a label
+    saying it ran. The safer direction of CLAUDE.md's rule, and still wrong: a state
+    reported as the wrong state is not a state that was reported.
+
+    This asserts the general form rather than that one file, because the next checker
+    added is where this comes back.
+    """
+    import glob
+    spec = importlib.util.spec_from_file_location(
+        "_check_all_proto", os.path.join(ROOT, "build", "check_all.py"))
+    runner = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(runner)
+    offenders = []
+    for path in sorted(glob.glob(os.path.join(ROOT, "build", "check_*.py"))):
+        with open(path, encoding="utf-8") as fh:
+            for line in fh:
+                m = re.match(r"COULD_NOT_EVALUATE\s*=\s*(\d+)", line)
+                if m:
+                    if int(m.group(1)) != runner.COULD_NOT_EVALUATE:
+                        offenders.append((os.path.basename(path), int(m.group(1))))
+                    break
+    assert offenders == [], (
+        "these checkers declare an exit code the runner does not read as COULD NOT "
+        "EVALUATE (%d), so their unjudged state is printed as FAIL: %s"
+        % (runner.COULD_NOT_EVALUATE, offenders))
