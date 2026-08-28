@@ -249,6 +249,12 @@
       "dimension": "exterior_head_assembly_height",
       "expression": "opening_width / 5.5 * 2.6",
       "units": "in",
+      "scope": {
+        "construction": [
+          "frame"
+        ],
+        "note": "From the rule's own note: \"On a masonry front this assembly is a flat arch, a jack arch or a stone lintel instead, and the brick-course pack owns its coursing.\" The slot is window_surround_WOOD; the scope was always stated and never carried (OQ 88)."
+      },
       "range": [
         8.0,
         32.0

@@ -268,9 +268,35 @@ def pack_env(pk, ctx, module_override=None):
     return env, mod
 
 
-def eval_packs(packs, ctx, module_override=None):
+def scope_facts(slots):
+    """The two facts `proportion_engine.rule_scope()` needs, off a node's RESOLVED slots (OQ 88).
+
+    One place, so a second reading of "is this a brick house" cannot drift from the first. It
+    reports what the kit says and nothing more: a style that makes both a masonry and a frame
+    cladding canonical comes back `mixed`, which `rule_scope` treats as UNJUDGED rather than
+    picking one. Thirteen of the styles the sill rule reaches are exactly that, and they are not
+    a defect in the data -- charleston-georgian really was built in brick and in clapboard.
+
+    `elevation.py` answers the same question better at PLAN scope, from structure.py's solved
+    `section["wall"]["bearing"]`, because by then there is an actual house. This is what can be
+    said when all there is, is a style.
+    """
+    canonical = {}
+    for sid, rec in (slots or {}).items():
+        ids = [v["id"] for v in (rec.get("variants") or []) if v.get("status") == "canonical"]
+        if ids:
+            canonical[sid] = ids
+    return {"construction": pe.construction_of(canonical.get("primary_cladding")),
+            "resolved_variants": canonical}
+
+
+def eval_packs(packs, ctx, module_override=None, scope_dropped=None):
     by_slot = collections.defaultdict(list)
     errors = []
+    # OQ 88. Callers that want to report what scope removed pass a list in; the default keeps
+    # the two-value return every existing caller already unpacks.
+    if scope_dropped is None:
+        scope_dropped = []
     for pid, binding in packs.items():
         try:
             pk = pe.resolve(pid)
@@ -310,6 +336,17 @@ def eval_packs(packs, ctx, module_override=None):
                 continue
             if deny is not None and _named(r, deny):
                 continue
+            # OQ 88: a rule whose own note says it is not about this construction is NOT
+            # delivered. `proportion_engine.rule_scope()` decided this and wrote the reason;
+            # dropping it here is the same enforcement point the two binding scopes use, for
+            # the same reason -- everything downstream reads `by_slot` and cannot tell where a
+            # rule came from. The drop is recorded, not silent: a rule that vanishes with no
+            # trace is the failure this corpus polices, so `scope_dropped` carries every one.
+            if r.get("out_of_scope"):
+                scope_dropped.append({"pack": pid, "slot": r["target_slot"],
+                                      "dimension": r.get("dimension"),
+                                      "why": r["out_of_scope"]})
+                continue
             by_slot[r["target_slot"]].append({
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],
                 "style_precedence": binding.get("precedence"),
@@ -318,6 +355,9 @@ def eval_packs(packs, ctx, module_override=None):
                 "value": r.get("value"), "units": r.get("units"),
                 "judgment": r.get("judgment"),
                 "calibrated_for": r.get("calibrated_for"),
+                # Present ONLY when the scope could not be decided (a both-ways style). Absent
+                # means the rule is in scope, never that nobody looked.
+                "scope_unjudged": r.get("scope_unjudged"),
             })
     return by_slot, errors
 
@@ -568,7 +608,9 @@ def main():
     ctx = {"ceiling_height": a.ceiling,
            "storey_height": a.storey if a.storey else a.ceiling + 12.0,
            "opening_height": 80.0, "opening_width": a.opening, "span": a.span}
-    pack_slots, pack_errors = eval_packs(packs, ctx, a.module)
+    ctx.update(scope_facts(slots))          # OQ 88
+    scope_dropped = []
+    pack_slots, pack_errors = eval_packs(packs, ctx, a.module, scope_dropped)
 
     if a.json:
         payload = {"style": a.style, "chain": chain, "context": ctx, "date": a.date,

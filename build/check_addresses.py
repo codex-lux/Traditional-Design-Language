@@ -177,7 +177,12 @@ def kit_vs_pack(nodes):
         try:
             chain = _rk.chain_for(g, nid)
             packs = _rk.resolve_packs(g, chain)
-            pack_slots, _ = _rk.eval_packs(packs, CTX, None)
+            # OQ 88: pass the node's own scope facts, or every scoped rule reads as UNJUDGED
+            # here and this reporter goes on counting contradictions from rules that are not
+            # about this construction at all -- which is the same "measuring a corpus nobody
+            # resolves" error the cascade scope was added to fix.
+            _slots, _ = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
+            pack_slots, _ = _rk.eval_packs(packs, {**CTX, **_rk.scope_facts(_slots)}, None)
         except Exception:
             continue
         for sid, rec in kit.items():

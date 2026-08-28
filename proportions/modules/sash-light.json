@@ -237,6 +237,12 @@
       "dimension": "projection",
       "expression": "module * 0.25",
       "units": "in",
+      "scope": {
+        "construction": [
+          "frame"
+        ],
+        "note": "The rule's own note has said this since it was written: \"In a frame wall this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one.\" Carried in DATA since OQ 88, because in prose it reached 86 nodes and 47 of them make a masonry cladding canonical -- english-georgian resolved this 2.25 in sloped timber sill on a brick wall."
+      },
       "range": [
         1.5,
         3.0

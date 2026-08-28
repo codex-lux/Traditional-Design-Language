@@ -64,6 +64,13 @@
         "direction": "at-least",
         "upper": 1.05,
         "units": "ratio",
+        "applies_when": {
+          "expression": "window_head_radius_in",
+          "direction": "at-least",
+          "threshold": 0.1,
+          "units": "in",
+          "note": "The SAME precondition its twin in `secondary_tests` has carried since WP-5.10, and the reason OQ 89 could not simply supply the measurement: this bounds_test is the identical expression one field over, and `exceptions[].bounds_test` is SUBSTITUTED for the primary on a matching style. Guarding the secondary and not this was the Second Empire omission the WP-5.10 audit found, repeated. With `window_head_radius_in` now supplied as a measured 0 on a straight head, unguarded this returns `error: float division by zero` -- proved before it was guarded."
+        },
         "measurable_from": "photograph",
         "note": "The blind head must follow the actual arch of its own window, not a catalogue radius."
       }
@@ -101,6 +108,13 @@
         "threshold": 0.95,
         "direction": "at-least",
         "units": "ratio",
+        "applies_when": {
+          "expression": "total_shutter_leaves",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "Same precondition as the primary (OQ 89): this bounds_test measures a shutter LEAF against the sash it covers, and a style carrying no shutters has no leaf to measure -- `shutter_leaf_height_in` is None there by the elevation record's own account. Not applicable rather than could-not-evaluate: the measurement is not missing, the thing is."
+        },
         "measurable_from": "photograph",
         "note": "The licence is about height, not about ganging or curvature: full-height blinds on single rectangular openings."
       },
@@ -134,6 +148,13 @@
     "threshold": 1.0,
     "direction": "equals",
     "units": "ratio",
+    "applies_when": {
+      "expression": "total_shutter_leaves",
+      "direction": "at-least",
+      "threshold": 1,
+      "units": "count",
+      "note": "Only evaluated on a house that CARRIES shutters. The ratio divides by the leaf count, and a style whose kit makes `none` canonical now states a measured zero for it (OQ 89) rather than the invented 2.0 that made this test read 2/2 = 1.0 and return CLEAR on a shutterless house. Zero leaves is not a pass and is not a failure: a house with no shutters cannot hang one where it will not swing, and the question does not arise."
+    },
     "measurable_from": "photograph",
     "note": "Every leaf must have somewhere to swing. Count leaves; count how many have a full leaf-width of uninterrupted wall on the hinge side and a rectangular flat-headed opening to cover. A leaf sitting between two units of glass, on a bay facet narrower than two leaf widths, or square against a curved head, fails."
   },
