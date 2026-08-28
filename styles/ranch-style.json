@@ -254,5 +254,16 @@
       "note": "The node's craftsman lineage (weight 0.25 -- 'the single-storey habit, the low horizontal spread, the indoor-outdoor terrace relationship, and the informality of the plan are bungalow inheritances carried through Californian practice without interruption') is real but modest, and the node's own text never specifies interior trim dimensions. Bound optional and low as the directionally correct family -- flat stock, no order-derived logic, survives a low plate -- rather than as a documented feature of this node; many built ranches in fact ran no applied interior trim at all, which no pack in this library represents since even this one's floor assumes some casing.",
       "precedence": 2
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "storey-graduation",
+      "reason": "A rule for graduating a stack of storeys has no stack to graduate. This node's own record makes a single storey (or one and a half) definitional, so `height_proportion` arriving as a second-to-first-storey ratio dimensions a floor the house does not have.",
+      "basis": "node-record",
+      "quote": "Everything about it is horizontal: a single storey",
+      "quoted_from": "description.long",
+      "decided": "2026-08-28",
+      "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+    }
   ]
 }

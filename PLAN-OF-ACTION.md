@@ -18,7 +18,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **5 — Platform** | WP-5.1, 5.2, 5.5, 5.6, 5.7 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
 | **7 — The three open questions, then their remaining halves** | WP-7.1, 7.2, 7.3, **7.4**, **7.5** | **Complete (27 Aug 2026)** — OQ 95, 79 and 78 (issued as 76, 73 and 72; see the register's 27 August conversion table), each ruled by Lucas and each half-closed with the half that could not be done named; **WP-7.4 then took the halves that were left**. The generator is level-aware and fixed BEARING not stacking (transfer beams 166 → 109), and WP-7.4 charged the stacking directly in both engines; furniture sizing is REFUSED and arrangement goes as far as the rooms' own words, which turned out to be five wall runs rather than the one the register published; a window's ROLE is the plan's to decide and its SASH KIND the style's, with 119 of 159 styles answering through the lineage and the kit vocabulary now merged and ratcheted. **WP-7.4 also found that `span_check` had never read the bearing flag it was handed** — every partition counted as a support, so the corpus under-reported its own structural defects by half. **WP-7.5 is the adversarial audit of WP-7.4** and found two blocking defects it had introduced, one of them a false claim in its own commit message ("the three tests replacing it" — three were added and the nondeterministic one was never removed), plus the same span bug a second time in `render_section.py`; six tests that passed with the fix reverted were made to bite, and OQ 98 was raised for what the audit deliberately did not fix |
 | **6 — Plan semantics** | WP-6.1, 6.2, 6.3, **6.4 (the audit)** | **Complete (27 Aug 2026)** — raised by Lucas, not by the plan: the rendered sheets were "colorless green ideas sleeping furiously", every part well-formed and the whole meaningless. A door had no wall, no position and no rank; the renderers invented what the record could not say and dropped what it could; nothing checked that you could walk from the front door to a room |
-| **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, 8.2, 8.3, 8.4 | **In progress (28 Aug 2026)** — **WP-8.1 is COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. The remaining three packages are OQ 51's backlog (8.2), the construction scope from the fault corpus to the pack rules (8.3), and OQ 89's withheld measurements (8.4) |
+| **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, 8.3, 8.4 | **In progress (28 Aug 2026)** — **WP-8.1 and WP-8.2 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **OQ 99**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. The remaining two packages are the construction scope from the fault corpus to the pack rules (8.3), and OQ 89's withheld measurements (8.4) |
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
@@ -860,6 +860,53 @@ Report: `docs/reports/wp-8.1-the-register-and-the-id.md` · closes **OQ 90**.
 
 **Depends on:** nothing. **Size:** small — and it ships FIRST, because every package after it
 ends by appending an open question.
+
+---
+
+### WP-8.2 OQ 51's refusal half, and the meter that flattered
+
+**Status: COMPLETE (28 Aug 2026) — the mechanism and the first pass; the backlog itself is
+ongoing authoring.** A node may now DECLINE a proportion pack that reaches it by descent
+(`declined_packs`, per node), with a reason and a verbatim quote from its own record, enforced in
+`resolve_kit.resolve_packs` and validated in `check_pack_bindings.py` — including the lie-check
+that a decline naming a pack which does not actually reach the node refuses nothing while reading
+as an adjudicated refusal.
+
+**THE METER WAS WRONG BY 27 IN THE FLATTERING DIRECTION AND WAS FIXED FIRST.**
+`check_inheritance.measure()`'s ROLE loop lacked the `pack not in own_ids` guard its PACK loop
+had, so 39 role gaps were attributed to a delivery `resolve_packs` can never make — the node
+binds that pack itself at `chain[0]`, so the ancestor's copy is overridden and dead — and the
+endorsement test then consulted the wrong pack's `applies_to`, which usually named the node
+precisely because the node binds it. **role_gaps 293 → 287, unendorsed 222 → 249, endorsed
+71 → 38.** Its RATCHET was also stale-high at 294/3367 against a live 293/3366, and its own
+comment claimed the test imported it while the test restated a literal.
+
+**THE PER-EDGE DENY WAS DESIGNED AND REFUSED**, on the measurement that was supposed to justify
+it: `english-georgian`'s fifty gaps are **five direct** and forty-five transitive, so there is no
+edge to write the refusal on; a subtree deny there would touch 26 receivers to fix 18 with seven
+of eight collateral already endorsed, five by the pass that raised the proposal; and
+`_cascade_scope` is node-local anyway.
+
+**TEN DECLINES, AND `unendorsed` DID NOT MOVE ONCE** — 249 before and after. Four single-storey
+types refuse `storey-graduation`; six Gothic, Tudor and Arts-and-Crafts nodes refuse
+`chambers-ionic` on their own words (*"Classical apparatus … is forbidden throughout"*, *"No
+classical module"*, *"everything projects less than about two inches"*). `inherited_packs`
+3,366 → 3,356, `judged` 38 → 48. Each role re-attributed to the next unjudged ancestor. So the
+meter gained a FLOOR — `judged` may only rise — and `unendorsed` is a work list, not a score.
+`jacobethan-revival` was deliberately left: *"no classical order except at the entrance porch"*.
+
+**RAISED: OQ 99**, and it is larger than the backlog beside it. **787 (node, slot) pairs where the
+resolved kit binds a slot `forbidden` and a pack dimensions it anyway**, over 118 of 132 nodes,
+**787 of 787 by precedence and not one chosen by a human**. Declining does not close it. Ratcheted
+apart; fixing it changes dimensions on 118 nodes and is its own package.
+
+Tooling: `--ancestors` (with the DIRECT column that refused the edge mechanism), `--full`,
+`--gates` (endorsing is a code change with no diff — the 26 Aug pass armed `graduation_check` on
+eleven styles and said so nowhere), `--impact`, `--forbidden`.
+
+Report: `docs/reports/wp-8.2-the-refusal-half.md` · new open question: **OQ 99**.
+
+**Depends on:** WP-8.1. **Size:** medium.
 
 ---
 

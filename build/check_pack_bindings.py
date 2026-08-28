@@ -34,6 +34,7 @@ Checks:
 import argparse
 import glob
 import json
+import re
 import os
 import sys
 
@@ -116,6 +117,72 @@ def _load_nodes():
         d = json.load(open(f))
         nodes[d["id"]] = d
     return nodes
+
+
+
+def _graph():
+    """dist/taxonomy.json, for `_cascade`. `_load_nodes()` reads styles/*.json directly and has
+    no cascade at all, which is exactly why the decline checks live here and not in validate.py:
+    the one thing a decline must be held to is that the pack REALLY REACHES the node by descent,
+    and only the built graph knows that. build.py runs first in check_all.py for this reason."""
+    return json.load(open(os.path.join(ROOT, "dist", "taxonomy.json")))
+
+
+def check_declines(node, packs, graph, errors):
+    """`declined_packs`, OQ 51's refusal half (WP-8.2).
+
+    The failure this guards is specific and it is the reason the field is checked at all: a
+    decline that refuses nothing reads EXACTLY like an adjudicated refusal. It appears in the
+    record, it counts as judged in the meter, and it does nothing -- which is worse than never
+    having been written, because the gap now looks settled. Same shape, and deliberately the
+    same words, as the `slots_except`-that-refuses-nothing check above it.
+    """
+    nid = node["id"]
+    declines = node.get("declined_packs") or []
+    if not declines:
+        return
+    own = {e["pack"] for e in (node.get("proportion_packs") or [])}
+    gnode = (graph.get("nodes") or {}).get(nid) or {}
+    chain = list(gnode.get("_cascade") or [])
+    reachable = {e["pack"]
+                 for a in chain
+                 for e in ((graph["nodes"].get(a) or {}).get("proportion_packs") or [])}
+    seen = set()
+    raw = None
+    for i, d in enumerate(declines):
+        pid = d.get("pack")
+        if pid not in packs:
+            errors.append(f"{nid}: declined_packs[{i}] names '{pid}', which is not a pack id")
+            continue
+        if pid in seen:
+            errors.append(f"{nid}: declines '{pid}' twice -- one judgment per (node, pack)")
+        seen.add(pid)
+        if pid in own:
+            errors.append(
+                f"{nid}: declines '{pid}' and BINDS it as well. That is a binding to delete, not "
+                f"a decline to write -- resolve_packs takes the node's own binding at chain[0] "
+                f"and the decline would refuse nothing.")
+        elif pid not in reachable:
+            errors.append(
+                f"{nid}: declines '{pid}', which does not reach it by descent. The decline "
+                f"refuses nothing while reading as an adjudicated refusal, and the meter counts "
+                f"it as judged.")
+        if d.get("basis") == "node-record":
+            q = (d.get("quote") or "").strip()
+            if not q or not d.get("quoted_from"):
+                errors.append(
+                    f"{nid}: declines '{pid}' on basis `node-record` with no quote or no "
+                    f"`quoted_from`. An unquoted node-record basis is an editorial call wearing "
+                    f"a citation; say `editorial` and mean it.")
+            else:
+                if raw is None:
+                    raw = open(os.path.join(ROOT, "styles", f"{nid}.json"), encoding="utf-8").read()
+                    raw = re.sub(r"\s+", " ", raw)
+                if re.sub(r"\s+", " ", q) not in raw:
+                    errors.append(
+                        f"{nid}: declines '{pid}' quoting {q[:60]!r}, which does not appear in "
+                        f"this node's own record. A citation that cannot be checked is a guess "
+                        f"wearing a citation (check_openings.py's discipline).")
 
 
 def check_node(node, packs, errors, warnings, strict):
@@ -274,6 +341,7 @@ def main():
 
     packs = _all_pack_ids()
     nodes = _load_nodes()
+    graph = _graph()
     buildable = [n for n in nodes.values() if n.get("rank") in ("style", "variant")]
 
     if args.node:
@@ -294,6 +362,7 @@ def main():
                 pack_use_counts[e.get("pack")] = pack_use_counts.get(e.get("pack"), 0) + 1
         check_node(node, packs, errors, warnings, args.strict)
 
+        check_declines(node, packs, graph, errors)
     print(f"{bound} of {len(buildable)} buildable (style/variant) node(s) bound"
           + (f" (checking only '{args.node}')" if args.node else ""))
     if not args.node:

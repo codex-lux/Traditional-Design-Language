@@ -57,6 +57,13 @@ CHECKS = [
     # check_inheritance guards OQ 51's three numbers, which the ruling says must only go down.
     ("check_addresses.py", ["--strict"]),
     ("check_inheritance.py", ["--strict"]),
+    # OQ 51's neighbour, ratcheted separately and deliberately not folded into the line above:
+    # 787 (node, slot) pairs where the resolved kit binds a slot `forbidden` and a pack
+    # dimensions it anyway, over 118 of 132 nodes, and NOT ONE of them was chosen by a human --
+    # every one resolves by precedence. It counts a kit binding overruled by a pack, not a role
+    # nobody bound, so it moves independently of the backlog. 4 s. Reports; fixing it changes
+    # dimensions on most of the corpus and is its own package.
+    ("check_inheritance.py", ["--forbidden", "--strict"]),
     # check_gazetteer guards OQ 65: every style must be placeable on the Phylogeny's map
     # from its own regions and hearth. The map already reports a style it cannot place —
     # but as a line in a panel, which is where a new style goes quietly missing.

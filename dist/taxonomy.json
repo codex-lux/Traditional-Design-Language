@@ -4514,6 +4514,17 @@
           "precedence": 2
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "chambers-ionic",
+          "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have.",
+          "basis": "node-record",
+          "quote": "Absence of applied classical orders and of machine-sawn Victorian ornament",
+          "quoted_from": "defining_characteristics[5]",
+          "decided": "2026-08-28",
+          "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+        }
+      ],
       "_cascade": [
         "american-arts-and-crafts",
         "arts-and-crafts-british",
@@ -4858,6 +4869,17 @@
           "role": "opening",
           "note": "THE NODE `opening-craftsman` REFUSED AND NAMED. That pack's notes say its head-datum rule is denied outright by this record's own governing logic -- 'no applied system... there is no repeating bay and no vertical alignment requirement' -- and say what this node wants instead: 'a leaded-casement-and-mullion system of its own'. This is that pack, and the fit is close: 'casement windows with leaded lights, grouped into horizontal bands under continuous stone or oak mullions and a shared lintel', with lights of 350-450 mm by 700-1100 and quarries at 100-150 mm 'rectangular rather than diamond in the stricter work'. This record also names the contrast the pack's overall-proportion rule is about, and names it better than the pack could: 'the exact inverse of the Georgian vertical punched opening, and instantly readable at distance'.",
           "precedence": 4
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "chambers-ionic",
+          "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have.",
+          "basis": "node-record",
+          "quote": "No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell",
+          "quoted_from": "diagnostic_tells[4]",
+          "decided": "2026-08-28",
+          "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
         }
       ],
       "_cascade": [
@@ -6045,6 +6067,17 @@
           "role": "optional",
           "note": "Bound narrowly for one mechanism: this pack's daylight-strategy conflict entry states plainly that 'an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth' and that the historic answer was to raise the storey to buy the loss back -- which is exactly this variant's own defining move (ceilings 8 ft 6 in to 9 ft 6 in, 'taller than the eastern type, for stack ventilation,' per its own typical_ratios) and exactly why its sleeping porches and courts are genuinely unheated rooms rather than mere ornament. Not bound for room proportion generally: this is an architect- and pattern-book-derived type, not a span/hearth-constrained folk one, and its rooms are sized by the plan-book programme, which the node's own text describes directly.",
           "precedence": 3
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "storey-graduation",
+          "reason": "A rule for graduating a stack of storeys has no stack to graduate. This node's own record makes a single storey (or one and a half) definitional, so `height_proportion` arriving as a second-to-first-storey ratio dimensions a floor the house does not have.",
+          "basis": "node-record",
+          "quote": "Single storey or single storey with one raised sleeping room; no full second floor",
+          "quoted_from": "defining_characteristics[6]",
+          "decided": "2026-08-28",
+          "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
         }
       ],
       "_cascade": [
@@ -7615,6 +7648,17 @@
           "role": "interior",
           "note": "The node that gives the pack its bargeboard dimensions and its module: depth 10-18 in, cut from 1-1.5 in stock, pattern repeat 12-24 in, with sawn brackets 12-20 in on the diagonal and 'turned or chamfered porch posts with sawn brackets and a pierced valance'. This record also states the member the type cannot do without -- 'pierced and cusped bargeboard applied to the rake, the single indispensable element' -- which is the member_count rule seen from one style's side. `opening-pointed` also writes the bargeboard's depth on this node and means the same quantity; precedence resolves it, and both packs' notes say so.",
           "precedence": 4
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "chambers-ionic",
+          "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. It cannot be executed here: this is a plank-built style whose own first tell caps every projection at about two inches, and an Ionic order is a column, a capital and an entablature in depth. Its inherited kit also binds `pilaster` FORBIDDEN, from gothic-revival-american, with the note 'No pilaster order.' -- and chambers-ionic dimensions that slot anyway, which is the forbidden-slot class `--forbidden` now counts.",
+          "basis": "node-record",
+          "quote": "Ornament is flat. Sight along the wall: everything projects less than about two inches, because everything came off a plank",
+          "quoted_from": "diagnostic_tells[0]",
+          "decided": "2026-08-28",
+          "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
         }
       ],
       "_cascade": [
@@ -10410,6 +10454,17 @@
           "role": "room",
           "note": "Bound for the plan's own tight small-house arithmetic: this node's diagnostic tell that the front door opens directly into the living room with no vestibule is exactly the additive, furniture-and-circulation-first room logic room-vernacular reconstructs, and its ceiling-height rule (post-1900 bungalow band, 8 ft 6 in to 9 ft) matches this node's own 8 ft 6 in figure precisely. Not given the top role: the plan is a catalog product bounded by the lot and the precut package before it is bounded by any physical room constraint, which this node's own proportional_system says outright.",
           "precedence": 3
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "storey-graduation",
+          "reason": "A rule for graduating a stack of storeys has no stack to graduate. This node's own record makes a single storey (or one and a half) definitional, so `height_proportion` arriving as a second-to-first-storey ratio dimensions a floor the house does not have.",
+          "basis": "node-record",
+          "quote": "One to one and a half storeys, 800 to 1,400 sq ft, on a lot of 40 to 50 ft frontage",
+          "quoted_from": "defining_characteristics[0]",
+          "decided": "2026-08-28",
+          "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
         }
       ],
       "_cascade": [
@@ -21895,6 +21950,17 @@
           "precedence": 3
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "chambers-ionic",
+          "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have. This node states the refusal as a HARD CONSTRAINT, which is as explicit as this corpus gets.",
+          "basis": "node-record",
+          "quote": "Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is forbidden throughout.",
+          "quoted_from": "constraints[4].statement",
+          "decided": "2026-08-28",
+          "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+        }
+      ],
       "_cascade": [
         "british-picturesque",
         "english-georgian",
@@ -29508,6 +29574,17 @@
           "authority": "trim-craftsman",
           "note": "Bound as the closest available system, not a close fit. The node's own casing -- 2 1/4 in wide, under 3/4 in projection -- is thinner than even this pack's stated economy floor ('below 3 1/2 in the family stops working, because the head casing has nowhere to overhang to'), so what Minimal Traditional actually built is a further reduction beyond what any pack in this library describes as the cheapest classical-adjacent system. Bound optional and low: the flat-stock, order-indifferent logic is directionally correct, but no pack currently states a system thin enough to describe a 2 1/4 in clamshell casing without extrapolating past its own documented range. Worth flagging for WP-4.6.",
           "precedence": 4
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "storey-graduation",
+          "reason": "A rule for graduating a stack of storeys has no stack to graduate. This node's own record makes a single storey (or one and a half) definitional, so `height_proportion` arriving as a second-to-first-storey ratio dimensions a floor the house does not have.",
+          "basis": "node-record",
+          "quote": "one storey or one and a half",
+          "quoted_from": "defining_characteristics[0]",
+          "decided": "2026-08-28",
+          "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
         }
       ],
       "_cascade": [
@@ -39233,6 +39310,17 @@
           "precedence": 2
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "storey-graduation",
+          "reason": "A rule for graduating a stack of storeys has no stack to graduate. This node's own record makes a single storey (or one and a half) definitional, so `height_proportion` arriving as a second-to-first-storey ratio dimensions a floor the house does not have.",
+          "basis": "node-record",
+          "quote": "Everything about it is horizontal: a single storey",
+          "quoted_from": "description.long",
+          "decided": "2026-08-28",
+          "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+        }
+      ],
       "_cascade": [
         "mid-century-traditional",
         "minimal-traditional",
@@ -41888,6 +41976,17 @@
           "role": "secondary",
           "note": "The largest corbel in the corpus, and the figures `stone-course` deliberately kept for a pack that did not exist -- its notes record that it declined the crow-step and the bartizan as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers so they would not be lost. This is where they were going. Bartizan diameter 1.2-2.0 m corbelled 450-750 mm from the wall face on a conical roof of 55-65 degrees, and the hard rule that matters more than any of them: the corbelling must be VISIBLE, because a turret 'sitting on a bracket, a cantilevered slab, or nothing at all is the commonest and most immediately visible failure of the style.' It also supplies the wall-head rationing rule. `facade-gable` keeps the crow-step, which is a different device.",
           "precedence": 4
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "chambers-ionic",
+          "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have.",
+          "basis": "node-record",
+          "quote": "None classical. Composition is picturesque",
+          "quoted_from": "proportional_system.governing_logic",
+          "decided": "2026-08-28",
+          "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
         }
       ],
       "_cascade": [
@@ -45906,6 +46005,17 @@
           "role": "facade",
           "note": "Gives the pack its apex ratio and, better, the perceptual statement behind it: 'gable width to eave-to-ridge height approximately 1:0.7 - the triangle reads taller than half its base'. That is the difference between a gable that reads as a roof and one that reads as a gable, and a 6:12 cross-gable on a house of this type is the commonest single failure of it. Note this node is the pack's ROOF-END case, explicitly: `styles/jacobethan-revival.json` names it as the contrast, gables ending 'at the rake with a barge or a bargeboard', so the parapet and coping rules do not apply here at all.",
           "precedence": 7
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "chambers-ionic",
+          "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have.",
+          "basis": "node-record",
+          "quote": "No classical module. Proportion is governed by the notional structural bay of the timber frame being imitated",
+          "quoted_from": "proportional_system.governing_logic",
+          "decided": "2026-08-28",
+          "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
         }
       ],
       "_cascade": [

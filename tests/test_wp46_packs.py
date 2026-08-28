@@ -66,6 +66,17 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 
+
+def _check_inheritance_module():
+    """build/check_inheritance.py, imported so its RATCHET is read rather than restated."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "check_inheritance_for_test", os.path.join(ROOT, "build", "check_inheritance.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
 def _register_text():
     """The whole open-question register as one string, for the tests that assert a sentence
     is somewhere in it.
@@ -3450,7 +3461,24 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     # ENDORSED one -- see the test below. Binding a slot natively is strictly better than an
     # endorsement even so: an endorsement records that somebody read the cascade and agreed with
     # it, and a binding means the node says it in its own voice.
-    assert (gaps, packs, unendorsed) == (293, 3366, 222)
+    # IMPORTED, not restated. `check_inheritance.py`'s own comment claimed this test imported
+    # RATCHET "because a threshold duplicated in two files drifts apart" -- and no import
+    # existed, and the two drifted: the dict said 294/3367 against a live 293/3366, so --strict
+    # could not have caught either growing by one. Fixed 28 Aug 2026 (WP-8.2). Equality, not
+    # <=, deliberately: working the backlog LOWERS these and equality forces whoever lowers one
+    # to go and say so.
+    ci = _check_inheritance_module()
+    assert (gaps, packs, unendorsed) == (ci.RATCHET["role_gaps"],
+                                         ci.RATCHET["inherited_packs"],
+                                         ci.RATCHET["unendorsed"]), (
+        f"the checker reports {(gaps, packs, unendorsed)} against its own RATCHET "
+        f"{ci.RATCHET} -- re-pin the dict in check_inheritance.py, not a literal here")
+    # 28 Aug 2026 (WP-8.2): 293/3366/222 -> 287/3366/249. Not work -- a CORRECTION.
+    # measure()'s role loop lacked the `pack not in own_ids` guard its pack loop had, so 39 role
+    # gaps were attributed to a delivery resolve_packs can never make (the node binds that pack
+    # itself at chain[0], so the ancestor's copy is overridden and dead), and 33 of those were
+    # counted ENDORSED because the endorsement test consulted the wrong pack's applies_to.
+    assert ci.RATCHET == {"role_gaps": 287, "inherited_packs": 3356, "unendorsed": 249}
 
 
 def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault():
@@ -3466,7 +3494,18 @@ def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault()
     assert endorsed_printed == gaps - unendorsed, "the checker's own two numbers disagree"
     # 72 -> 71 on 27 Aug 2026 (WP-5.14): `colonial-revival`'s dormer gap was endorsed, and the
     # style binds the slot itself now, so it is not a gap at all any more.
-    assert endorsed_printed == 71, "71 of the 293 gaps are endorsed by the pack's own applies_to"
+    # 71 -> 38 on 28 Aug 2026 (WP-8.2), and this one is a CORRECTION rather than a loss: 33 of
+    # the 71 were endorsed by the wrong pack's `applies_to`. measure()'s role loop attributed a
+    # gap to an ancestor's binding of a pack the NODE ALSO BINDS -- a delivery resolve_packs can
+    # never make, since the node wins at chain[0] -- and the endorsement test then asked that
+    # pack whether it named the node, which it did, because the node binds it. Read from the
+    # FLOOR rather than a literal, because `judged` is the number that may only go up.
+    ci = _check_inheritance_module()
+    assert endorsed_printed == 38, "38 of the 287 gaps are endorsed by the pack's own applies_to"
+    # `judged` is endorsed + declined and is the floor, because a decline can RE-ATTRIBUTE a role
+    # to the next ancestor rather than closing the gap: the first four declines moved `unendorsed`
+    # by zero and `judged` by four.
+    assert ci.RATCHET_FLOOR == {"judged": 48}
 
     # And the predicate means what it says: a named gap whose pack `applies_to` lists the node is
     # endorsed, and one whose pack does not is not. `assert unendorsed < gaps` was vacuous --
@@ -3476,7 +3515,7 @@ def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault()
     spec = _il.spec_from_file_location("ci", os.path.join(ROOT, "build", "check_inheritance.py"))
     ci = _il.module_from_spec(spec); spec.loader.exec_module(ci)
     applies = ci.applies_to_index()
-    _, all_gaps, _ = ci.measure(ci.load())
+    _, all_gaps, _, _ = ci.measure(ci.load())
     end = [t for t in all_gaps if t[0] in applies.get(t[3], ())]
     une = [t for t in all_gaps if t[0] not in applies.get(t[3], ())]
     assert len(end) == endorsed_printed and len(une) == unendorsed

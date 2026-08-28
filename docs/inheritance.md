@@ -152,6 +152,82 @@ eight-hipped roof the type actually has. That belongs in `kits/octagon-house.kit
 node's own binding. A scoped edge tells the cascade what NOT to take; what a style genuinely is
 still has to be authored.
 
+## Declining a pack the cascade delivers (OQ 51, WP-8.2)
+
+A style node may carry `declined_packs`: proportion packs that reach it **by descent** and do not
+belong on it, each with a reason and — where the node's own record decides it — a verbatim quote
+from that record.
+
+It is the exact mirror of adding a node to a pack's `applies_to`. One records that somebody read
+the cascade and agreed; the other records that somebody read it and did not. Both are
+adjudications; only one existed until now, and that asymmetry was the finding of OQ 51's first
+pass: *a node the pack fits could be settled in a line, and a node it does not fit could not be
+settled at all.*
+
+```jsonc
+"declined_packs": [
+  { "pack": "storey-graduation",
+    "reason": "A rule for graduating a stack of storeys has no stack to graduate.",
+    "basis": "node-record",
+    "quote": "Everything about it is horizontal: a single storey",
+    "quoted_from": "description.long",
+    "decided": "2026-08-28" }
+]
+```
+
+**Enforced in one place**, `resolve_kit.resolve_packs`, which is the function that decides pack
+MEMBERSHIP. `eval_packs` decides which RULES a member contributes — that is what `slots` and
+`slots_except` are for, and those live on the ANCESTOR's binding, so they change behaviour for
+every descendant and for the ancestor itself. They structurally cannot express a per-descendant
+refusal, and a child re-binding the pack unscoped shadows them entirely.
+
+**Validated by `check_pack_bindings.py`**, and the check that matters is the lie-check: a decline
+naming a pack that does not actually reach the node **refuses nothing while reading as an
+adjudicated refusal**, and the meter would count it as judged. Same shape and deliberately the
+same words as the `slots_except`-that-refuses-nothing check beside it. A `node-record` basis with
+no quote, or a quote that is not in the node's own file, is an error — `check_openings.py`'s
+discipline, that a citation which cannot be checked is a guess wearing a citation.
+
+### A per-edge deny was designed and refused, on measurement
+
+The obvious alternative was to mirror OQ 58's `slots` allowlist with a pack denylist on a lineage
+edge, and the argument for it was leverage: `english-georgian` delivers fifty of the unendorsed
+gaps. **Measured, that argument is wrong**, and the numbers are worth keeping because they will
+be proposed again:
+
+- **Most gaps have no edge to write the refusal on.** Only about half reach their delivering
+  ancestor through a direct lineage edge at all. `english-georgian`'s fifty are **five direct**;
+  the rest arrive transitively, down each node's own path, at cascade depths of two to twelve.
+  There is no "the `english-georgian` edge" — there are thirty-one nodes each reaching it their
+  own way. `check_inheritance.py --ancestors` prints the DIRECT column for exactly this reason.
+- **The blast radius is wrong.** A subtree deny of `english-georgian`/`storey-graduation` would
+  touch twenty-six receivers to fix eighteen, and seven of the eight collateral were already
+  endorsed — five of them by the 26 August pass that raised the proposal. The mechanism would
+  have undone the pass that motivated it.
+- **It would not give subtree semantics anyway.** `build/build.py`'s `_cascade_scope` only picks
+  up edges whose SOURCE is the node itself, so a descendant reaching a scoped donor through
+  another node gets the whole thing regardless.
+- **And the wrongness is usually the node's, not the route's.** `ranch-style` receives
+  `storey-graduation` because it descends from `english-georgian` *and* because it is a
+  single-storey house. Only the second is a reason; the first is a route.
+
+The ancestor grouping is still where the reading happens — one classical-order question answered
+once, thirty-one verdicts written from it. It is a reading order, not an authoring axis.
+
+### What a decline does NOT do
+
+**It stops a wrong pack; it does not supply a right one** — OQ 58's stated limit, one layer down.
+`check_inheritance.py --impact <node> <pack>` prints what takes over. On `carpenter-gothic`,
+declining `chambers-ionic` hands three slots to `palladio-ionic` and one to `benjamin-ionic`, and
+that last one is `pilaster`, which the node's own resolved kit binds **forbidden**. Nothing is
+left undimensioned and nothing is fixed either.
+
+**And it does not move the headline number.** Ten declines authored in WP-8.2 took
+`inherited_packs` from 3,366 to 3,356 and `judged` from 38 to 48, and left `unendorsed` at
+**249 throughout** — each node's role simply re-attributed to the next ancestor, which nobody has
+judged either. That is why the meter carries a FLOOR (`judged`, which may only rise) as well as
+ceilings, and why `unendorsed` is a work list rather than a score.
+
 ## `determined_by` means three things (OQ 19, 24 Aug 2026)
 
 The field named the slots that decide a slot and nothing resolved it, because the schema never

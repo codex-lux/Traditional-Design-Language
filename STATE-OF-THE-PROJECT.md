@@ -25,7 +25,7 @@ reading disposes; verify a sample before accepting any number in this document. 
 **"132 of 132 bound" counts a node's OWN bindings and has never measured what a node RECEIVES.**
 The lineage cascade hands every node its ancestors' packs, and `ranch-style` has 69 of its 78
 dimensioned slots governed by packs it never bound. That is OQ 51. It was **ruled on 25 August —
-adjudicate the 233 unjudged gaps first, flip pack inheritance to opt-in once they approach zero** —
+adjudicate the 249 unjudged gaps first (233 was a mis-measurement; see WP-8.2), flip pack inheritance to opt-in once they approach zero** —
 and it is measured and ratcheted rather than fixed. The ruling makes it the next package, not a
 question. Every open question that remains is blocked on the network, not on a judgment.*
 
@@ -136,10 +136,10 @@ unscoped, carrying an entasis rule the node's own c04 forbids. **The deliberate 
 cosmetic.** `proportion_packs` being empty on a node means the node's own array is empty;
 `resolve_packs` walks the whole cascade.
 
-Measured, not estimated. **294** (node, role) pairs where an ancestor fills a role the node never
+Measured, not estimated, and RE-measured 28 Aug 2026. **287** (node, role) pairs where an ancestor fills a role the node never
 bound — 58 secondary, 51 massing, 49 primary, 43 facade, 42 opening, 26 interior, 25 room. Of
-those, **233** involve a pack whose own `applies_to` does not name the node, which is the real
-backlog; the other 61 were at least judged by somebody. **3,367** pack-arrivals purely by descent.
+those, **249** involve a pack whose own `applies_to` does not name the node, which is the real
+backlog; the other 38 were at least judged by somebody, and 10 more have now been DECLINED. **3,356** pack-arrivals purely by descent. (The 294/233/61 first published, and the 293/222/71 after it, were both wrong in the flattering direction -- see WP-8.2.)
 And on every node sampled, **every slot resolved by precedence alone with not one carrying a
 human's slot-level ruling** — those precedence numbers were authored on ancestors, for the
 ancestors' buildings, with no view of the descendant.
@@ -147,20 +147,20 @@ ancestors' buildings, with no view of the descendant.
 It is the third place inheritance has been found transmitting more than anyone bound.
 `hybridizes_with` transmitted a donor's whole kit (OQ 58 scoped it); a BINDING transmitted a pack's
 whole rule set (OQ 49 scoped it); `descends_from` still transmits an ancestor's whole set of packs,
-and it is the one with 3,367 instances. `build/check_inheritance.py --roles` and `--slots <node>`
+and it is the one with 3,356 instances. `build/check_inheritance.py --roles` and `--slots <node>`
 report it and name the ancestor that decided each case; all three numbers are pinned so the backlog
 cannot grow silently.
 
 **RULED 25 August: adjudicate first, flip second.** Of the four costed options, opt-in inheritance
 (`inherits_packs`, mirroring what `inherits_kit` already does for the kit cascade) is the
-destination, and going there first was refused: the mechanism is a morning and the fallout is 294
-role gaps stranded in a single commit. So the sequence is the other way round. Work the **233**
+destination, and going there first was refused: the mechanism is a morning and the fallout is 287
+role gaps stranded in a single commit. So the sequence is the other way round. Work the **249**
 unendorsed gaps in leverage order; where the inherited pack is right for the node, add the node to
 that pack's `applies_to` — that is the adjudication, and it moves the gap from unendorsed to
 endorsed; where it is wrong, bind the right pack on the node or scope the edge. When `unendorsed`
 approaches zero, flip to opt-in, by which point it is a safety net rather than a cliff.
 `check_inheritance.py --unendorsed` prints the work list grouped by pack, because adjudicating one
-pack settles every node under it: `storey-graduation` **38**, `opening-proportion` **23**,
+pack settles every node under it: `storey-graduation` **23**, `opening-proportion` **24**,
 `trim-classical` **16**, `chambers-ionic` **15** (on `carpenter-gothic` and both Gothic Revivals),
 `facade-gable` **14**, `sash-light` **12**, `brick-course` **11**. The accepted cost is that wrong
 dimensions keep arriving while the list is worked — tolerable only because they are counted.
@@ -231,7 +231,7 @@ So the sequence: ~~fix **OQ 28**~~ (done); ~~close **WP-4.3**~~ (done); ~~build 
 
 **What a new session should pick up, in order.**
 
-1. **Work OQ 51's backlog — it is ruled, so this is authoring rather than deliberation.** The ruling of 25 August is *adjudicate first, flip second*: work the **233** role gaps whose pack's own `applies_to` does not name the node; where the inherited pack is right for that node, add the node to the pack's `applies_to`, which is the adjudication and moves the gap from unendorsed to endorsed; where it is wrong, bind the right pack on the node or scope the edge. When `unendorsed` approaches zero, add `inherits_packs` and make pack inheritance opt-in — at which point it is a safety net rather than a cliff that strands 294 gaps at once. `python3 build/check_inheritance.py --unendorsed` prints the work list grouped by pack, because adjudicating one pack settles every node under it: `storey-graduation` **38**, `opening-proportion` **23**, `trim-classical` **16**, `chambers-ionic` **15** (on `carpenter-gothic` and both Gothic Revivals), `facade-gable` **14**, `sash-light` **12**, `brick-course` **11**. The accepted risk, stated rather than buried: wrong dimensions keep arriving while the backlog is worked, and that is tolerable only because all three numbers are pinned and cannot grow silently.
+1. **Work OQ 51's backlog — it is ruled, so this is authoring rather than deliberation.** The ruling of 25 August is *adjudicate first, flip second*: work the **233** role gaps whose pack's own `applies_to` does not name the node; where the inherited pack is right for that node, add the node to the pack's `applies_to`, which is the adjudication and moves the gap from unendorsed to endorsed; where it is wrong, bind the right pack on the node or scope the edge. When `unendorsed` approaches zero, add `inherits_packs` and make pack inheritance opt-in — at which point it is a safety net rather than a cliff that strands 294 gaps at once. `python3 build/check_inheritance.py --unendorsed` prints the work list grouped by pack, because adjudicating one pack settles every node under it: `storey-graduation` **23**, `opening-proportion` **24**, `trim-classical` **16**, `chambers-ionic` **15** (on `carpenter-gothic` and both Gothic Revivals), `facade-gable` **14**, `sash-light` **12**, `brick-course` **11**. The accepted risk, stated rather than buried: wrong dimensions keep arriving while the backlog is worked, and that is tolerable only because all three numbers are pinned and cannot grow silently.
 2. **WP-4.4's offline half.** Giving the 322 asset records their `provenance.building` names needs no network and is the step the package itself names as next; without it every harvest query degrades to a style-name search and one photograph ends up cited by many records.
 3. **Phase 5, the last mile.** ~~Export (DXF/IFC), the plan workbench, generated guidelines and details, drawing ingestion. This is what a builder or a plan-development lead would actually judge the system by, and none of it exists.~~ *(25 Aug: WP-5.1, 5.2 and 5.5 shipped. What remains of the last mile is WP-5.3 — generated guidelines, the details library, modelling conventions — and the deliberately partner-gated cost layer, WP-5.4.)*
 
@@ -255,7 +255,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Vocabulary | `styles/` | 164 nodes, 660 constraints | Complete; constraints executable |
 | Vocabulary | constraints | 660 migrated, 61.5% of hard ones tested | Clears the ≥60% bar |
 | Bindings | `kits/` | 159 files, 159 populated, **1,556 parameters** | Complete; **0 editorial parameters are silent** (OQ 18 note half) |
-| Bindings | inheritance | **294 role gaps (61 endorsed, 233 not), 3,367 packs by descent** | **OQ 51 — RULED 25 Aug; measured and ratcheted, NOT fixed** |
+| Bindings | inheritance | **287 role gaps (38 endorsed, 10 declined, 249 not), 3,356 packs by descent** | **OQ 51 — RULED 25 Aug; measured and ratcheted, NOT fixed** |
 | Solecisms | `faults/` | 209, all tested | Complete |
 | Phrases | `groupings/`, `partis/` | 17 / 21 (129 of 132 native, 0 uncovered) | Complete — WP-4.5 |
 | Critic | `plan_check.py` | 7 layers incl. constraints + elevation | Functional; code advisory only |

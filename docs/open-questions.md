@@ -8,14 +8,14 @@ conversion tables, is in [`docs/open-questions/README.md`](open-questions/README
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**98 questions, of which 32 are open.** A question is OPEN while
+**99 questions, of which 33 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 32
+## Open — 33
 
 Awaiting a ruling. This is the list to read first.
 
@@ -53,6 +53,7 @@ Awaiting a ruling. This is the list to read first.
 | **94** | OPEN | [the reference plan cannot satisfy its own style's hard constraint, and only a person can say who fixes it](open-questions/094-reference-plan-cannot-satisfy-own-style-s-hard.md) |
 | **96** | OPEN | [`_shared`'s first-match-wins ordering can report a corner kiss as a shared edge](open-questions/096-shared-s-first-match-wins-ordering-report-corner-kiss-sha.md) |
 | **98** | OPEN | [`span_check` credits a bearing wall across the whole floor plate however short it is, and the validator never mentions span capacity at all](open-questions/098-span-check-credits-bearing-wall-across-whole-floor-plate.md) |
+| **99** | OPEN | [787 pack rules dimension a slot the resolved kit binds `forbidden`, and nobody chose one of them](open-questions/099-pack-rules-writing-to-slots-the-kit-forbids.md) |
 
 ## Settled — 66
 
@@ -99,7 +100,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **48** | CLOSED 25 AUG 2026 | [a `(slot, dimension)` address can hold several rules, and nothing distinguishes a deliberate menu from a silent corruption](open-questions/048-slot-dimension-address-hold-several-rules-nothing-distingu.md) |
 | **49** | CLOSED 25 AUG 2026 | [a node can need one rule of a pack without being an instance of the pack's type, and the binding model cannot say so](open-questions/049-node-need-rule-pack-without-being-instance-pack.md) |
 | **50** | RULED 25 AUG 2026 | [ornament works by being bounded, and it looks like a property of this corpus rather than a regional habit. Should it be a fault?](open-questions/050-ornament-works-being-bounded-looks-like-property-corpus.md) |
-| **51** | RULED 25 AUG 2026 | [the lineage cascade delivers proportion packs nobody bound, and "131 of 132 bound" never measured whether a node RECEIVES rules](open-questions/051-lineage-cascade-delivers-proportion-packs-nobody-bound-bou.md) |
+| **51** | RULED 28 Aug 2026 | [the lineage cascade delivers proportion packs nobody bound](open-questions/051-lineage-cascade-delivers-proportion-packs-nobody-bound-bou.md) |
 | **52** | CLOSED 26 AUG 2026 | [the elevation generator invents measurements it never took, and the fault corpus convicts houses on them. Raised 25 Aug 2026 by an adversarial audit of WP-4.6](open-questions/052-elevation-generator-invents-measurements-never-took-fault.md) |
 | **53** | CLOSED 26 AUG 2026 | [`check_addresses.py` compares `quantity` but not `units`, and two rules can agree on what they measure while differing 36-fold in what they say. Raised 25 Aug 2026 by the same audit](open-questions/053-check-addresses-py-compares-quantity-units-two-rules-agree.md) |
 | **54** | RULED AGAIN 26 AUG 2026 | [the heuristic places rooms below their band and nothing says so](open-questions/054-heuristic-places-rooms-below-their-band-nothing-says.md) |

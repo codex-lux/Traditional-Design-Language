@@ -1,8 +1,70 @@
-# OQ 51 — the lineage cascade delivers proportion packs nobody bound, and "131 of 132 bound" never measured whether a node RECEIVES rules
+# OQ 51 — the lineage cascade delivers proportion packs nobody bound
 
-*Status: RULED 25 AUG 2026 · Raised in: From the real solver (WP-2.3, 25 Aug 2026)*
+*Status: RULED 28 Aug 2026 · Raised in: From the real solver (WP-2.3, 25 Aug 2026)*
 
-**RULED 25 Aug 2026 — adjudicate first, flip to opt-in second. FIRST PASS RUN 26 Aug 2026, AND IT FOUND THE RULING CAN ONLY DO HALF ITS JOB — a decision is wanted on that.** Eleven `storey-graduation` gaps were adjudicated against each node's own record and endorsed: **unendorsed 233 → 222, endorsed 61 → 72**, all three numbers re-pinned. The evidence for each, and the one node deliberately left unendorsed because its own record points both ways (`english-baroque`, whose `distinguished_from` uses graduated storey heights as the tell that separates GEORGIAN from it, while its own ratios graduate a basement against the principal storey), are in `docs/reports/oq-51-first-adjudication-pass.md`.
+**RULED AND HALF-BUILT 28 Aug 2026 (WP-8.2) — the refusal half exists now. `declined_packs`, per
+node.** The 26 August pass found the ruling's three moves were really one: endorsing is a line in
+`applies_to`, binding a different pack does not displace the wrong one, and scoping the edge was
+not implementable. A node may now DECLINE a pack that reaches it by descent, with a reason and a
+verbatim quote from its own record, enforced in `resolve_kit.resolve_packs` and validated in
+`check_pack_bindings.py` — including the lie-check that a decline naming a pack which does not
+actually reach the node refuses nothing while reading as an adjudicated refusal. See
+`docs/inheritance.md`.
+
+**THE PER-EDGE DENY WAS DESIGNED AND REFUSED, and the argument for it was mine and was wrong.**
+It was proposed on leverage — `english-georgian` delivers fifty gaps. Measured: only about half
+of all gaps reach their delivering ancestor through a direct lineage edge at all, and
+`english-georgian`'s fifty are **five direct**, the rest transitive at cascade depths two to
+twelve. There is no "the english-georgian edge"; there are thirty-one nodes each reaching it
+their own way. A subtree deny there would have touched twenty-six receivers to fix eighteen,
+**seven of the eight collateral already endorsed and five of those by the 26 August pass that
+raised the proposal** — the mechanism would have undone the pass that motivated it. And
+`build/build.py`'s `_cascade_scope` is node-local, so mirroring OQ 58 would not have given
+subtree semantics anyway. `--ancestors` prints the DIRECT column so the next reader does not
+re-propose it.
+
+**THE METER WAS WRONG, IN THE FLATTERING DIRECTION, AND IS FIXED FIRST.** `measure()`'s ROLE loop
+lacked the `pack not in own_ids` guard its PACK loop had, and `resolve_packs` keys on pack id with
+the node at `chain[0]` — so an ancestor's binding of a pack the node ALREADY BINDS never reaches
+the resolver, and thirty-nine role gaps were attributed to that dead delivery. The endorsement
+test then asked the wrong pack's `applies_to` whether it named the node, and it usually did,
+because the node binds that pack. Corrected: **role_gaps 293 → 287, unendorsed 222 → 249,
+endorsed 71 → 38.** The backlog is 27 larger than was published and nearly half the endorsed
+figure was an artefact. Its RATCHET was also stale-high at 294/3367 against a live 293/3366, and
+its own comment claimed the test imported it while the test restated a literal — the exact drift
+the comment says cannot happen. The import is real now.
+
+**TEN DECLINES AUTHORED, AND THE HEADLINE NUMBER DID NOT MOVE ONCE.** `ranch-style`,
+`craftsman-bungalow`, `california-bungalow` and `minimal-traditional` decline `storey-graduation`
+(all four say in their own records that they have one storey, or one and a half);
+`arts-and-crafts-american`, `arts-and-crafts-british`, `gothic-revival-british`,
+`scottish-baronial`, `tudor-revival` and `carpenter-gothic` decline `chambers-ionic`
+(*"Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is
+forbidden throughout"*; *"No classical module"*; *"Ornament is flat… everything projects less
+than about two inches"*). `inherited_packs` 3,366 → 3,356, `judged` 38 → 48, **`unendorsed` 249
+throughout** — each role re-attributed to the next ancestor, which nobody has judged either. So
+the meter gained a FLOOR: `judged` is endorsed plus declined and may only rise, and `unendorsed`
+is a work list rather than a score. This is the first pass's own objection, confirmed by
+measurement rather than argued.
+
+**`jacobethan-revival` was deliberately NOT declined**, and it is the instructive one, as
+`english-baroque` was for the first pass. Its `proportional_system` says *"There is no classical
+order except at the entrance porch, where one is deliberately introduced as a quotation."* A
+classical order IS present. Declining the pack outright would remove the only thing that could
+dimension that porch, which is scoping stopping a wrong donor without supplying a right one. Left
+for a ruling on whether a quotation at one location deserves a pack at `primary` role.
+
+**RAISED BY THE SAME PASS: 787 (node, slot) pairs where the resolved kit binds a slot
+`forbidden` and a proportion pack dimensions it anyway**, across 118 of 132 buildable nodes,
+5,155 (node, slot, pack) triples — **and not one of the 787 was chosen by a human**; every one
+resolves by `style.proportion_packs` precedence, and no slot carries a `packs` ruling.
+`check_inheritance.py --forbidden` counts it and it is ratcheted separately, because it measures
+a KIT binding overruled by a PACK rather than a role nobody bound. **Declining will not close
+it**: `--impact carpenter-gothic chambers-ionic` hands `pilaster` straight to `benjamin-ionic` on
+a slot the kit forbids just as much. Fixing it means `eval_packs` refusing to write to a
+forbidden slot, which changes dimensions on 118 nodes and is its own package.
+
+*Original entry follows.*<br><br>**RULED 25 Aug 2026 — adjudicate first, flip to opt-in second. FIRST PASS RUN 26 Aug 2026, AND IT FOUND THE RULING CAN ONLY DO HALF ITS JOB — a decision is wanted on that.** Eleven `storey-graduation` gaps were adjudicated against each node's own record and endorsed: **unendorsed 233 → 222, endorsed 61 → 72**, all three numbers re-pinned. The evidence for each, and the one node deliberately left unendorsed because its own record points both ways (`english-baroque`, whose `distinguished_from` uses graduated storey heights as the tell that separates GEORGIAN from it, while its own ratios graduate a basement against the principal storey), are in `docs/reports/oq-51-first-adjudication-pass.md`.
 **The finding, and it is worth more than the eleven. The ruling gives three moves for a gap — endorse it, bind the right pack instead, or scope the edge — and only the first exists.** Endorsing is one line in `applies_to`. Binding a different pack does NOT remove the wrong one; the cascade still delivers it and the new binding merely competes on precedence. And scoping the edge is not implementable: a lineage edge carries `inherits_kit`, which governs the KIT cascade, and nothing that governs the PACK cascade — `inherits_packs` exists in this register's text and nowhere in the schema or the code, verified by grep. **So a node the pack fits can be settled in a line, and a node it does not fit cannot be settled at all.** The clearest cases are not marginal: `ranch-style` ("everything about it is horizontal: a single storey"), `craftsman-bungalow` ("one to one and a half storeys"), `california-bungalow` and `minimal-traditional` all receive a rule for graduating a stack they do not have, and `ranch-style` is this entry's own worst-case node.
 **Why that matters to the ruling rather than only to the work.** Working the backlog in leverage order will settle the endorsable half and leave the refusable half untouched — and it will fall FASTEST on the nodes where the cascade was already right, because those are the ones easiest to evidence. The corruption the meter exists to measure is concentrated in exactly the cases the meter cannot be moved on, so a falling `unendorsed` does not mean a corpus getting more correct at the same rate, and the number does not say so.
 **The proposal, for a ruling rather than built unilaterally.** The refusal half needs no flip: an additive per-node **declined-packs** list — a node naming a pack that reaches it by descent and does not belong, with a stated reason — would let the wrong half be adjudicated now, strand nothing, and let `check_inheritance` count a declined gap as judged. It mirrors the endorsement exactly and would make "adjudicate first" finishable. The full opt-in flip stays where the ruling put it, at the end.

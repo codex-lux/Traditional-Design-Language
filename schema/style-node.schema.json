@@ -527,6 +527,45 @@
           ]
         }
       }
+    },
+    "declined_packs": {
+      "type": "array",
+      "description": "Packs that reach this node BY DESCENT and do not belong on it. The refusal half of OQ 51's adjudication, and the exact mirror of adding a node to a pack's `applies_to`: one records that somebody read the cascade and agreed, this records that somebody read it and did not. Additive -- it strands nothing, because it removes only what an author names, and it is not the opt-in flip, which stays where the ruling put it. A decline is per (node, pack) and NOT per (node, pack, role): a node reaching one pack in two roles is ONE judgment, the same distinction `check_inheritance.py --unendorsed` already prints as NODES versus GAPS. `slots`/`slots_except` cannot do this job -- they live on the ANCESTOR's binding, so they change behaviour for every descendant and for the ancestor itself, and a child re-binding the pack unscoped shadows them entirely. A PER-EDGE deny was designed and refused (WP-8.2): only 111 of 222 gaps have a direct lineage edge to their delivering ancestor at all, and a subtree deny on `english-georgian`/`storey-graduation` would have touched 26 receivers to fix 18, undoing five of the eleven endorsements the 26 Aug pass had just made.",
+      "items": {
+        "type": "object",
+        "required": ["pack", "reason", "basis"],
+        "additionalProperties": false,
+        "properties": {
+          "pack": {
+            "type": "string",
+            "description": "The proportion pack id being declined. It must actually reach this node by descent, and `check_pack_bindings.py` errors if it does not -- a decline that refuses nothing reads exactly like an adjudicated refusal and is worse than no decline at all."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why this pack does not belong on this node, in a sentence. Not 'wrong style' -- what about the building refuses it. `ranch-style` refuses `storey-graduation` because it has one storey and a rule for graduating a stack has no stack to graduate."
+          },
+          "basis": {
+            "enum": ["node-record", "editorial"],
+            "description": "`node-record` means this node's own record decides it, and `quote` proves it. `editorial` is the honest alternative and never the default: a decline with no quote is a judgment, and this corpus's rule is that a judgment says so."
+          },
+          "quote": {
+            "type": "string",
+            "description": "A verbatim sentence from THIS node's own record. Required when `basis` is `node-record`, and checked against the file the way check_openings.py checks grammar.json's citations -- a citation that cannot be checked is a guess wearing a citation."
+          },
+          "quoted_from": {
+            "type": "string",
+            "description": "Where in this node's own JSON the quote came from, e.g. `distinguished_from[2].statement`. For a reader, not for a parser."
+          },
+          "decided": {
+            "type": "string",
+            "description": "ISO date the judgment was made."
+          },
+          "note": {
+            "type": "string",
+            "description": "Where the decline is known to leave the slot with a worse governor or none at all, say so here. `check_inheritance.py --impact` computes it; this records that the author looked. Scoping stops a wrong pack and does not supply a right one -- OQ 58's stated limit, one layer down."
+          }
+        }
+      }
     }
   }
 }

@@ -239,5 +239,16 @@
       "note": "Bound narrowly for one mechanism: this pack's daylight-strategy conflict entry states plainly that 'an eight-foot porch across a south front costs the rooms behind it about four feet of usable depth' and that the historic answer was to raise the storey to buy the loss back -- which is exactly this variant's own defining move (ceilings 8 ft 6 in to 9 ft 6 in, 'taller than the eastern type, for stack ventilation,' per its own typical_ratios) and exactly why its sleeping porches and courts are genuinely unheated rooms rather than mere ornament. Not bound for room proportion generally: this is an architect- and pattern-book-derived type, not a span/hearth-constrained folk one, and its rooms are sized by the plan-book programme, which the node's own text describes directly.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "storey-graduation",
+      "reason": "A rule for graduating a stack of storeys has no stack to graduate. This node's own record makes a single storey (or one and a half) definitional, so `height_proportion` arriving as a second-to-first-storey ratio dimensions a floor the house does not have.",
+      "basis": "node-record",
+      "quote": "Single storey or single storey with one raised sleeping room; no full second floor",
+      "quoted_from": "defining_characteristics[6]",
+      "decided": "2026-08-28",
+      "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+    }
   ]
 }

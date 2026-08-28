@@ -128,7 +128,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **38 checks, 1,081 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **39 checks, 1,092 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -146,8 +146,9 @@ coincidentally equals `len(CHECKS)`. Read the second number. `check_all.TOTAL_CH
 then earned itself at the very next merge**: PR #14 brought a 33rd check and 162 more tests, so
 35/909 became 36/1,071 on 28 Aug — caught by `TOTAL_CHECKS` at the merge, which is the exact
 point this number has gone wrong every single time. **It earned itself again the same day**:
-WP-8.1 added `check_ids.py` and `gen_open_questions.py --check`, taking 36/1,071 to **38/1,081**,
-and the guard failed on the first run rather than the next reader noticing. The rest of the
+WP-8.1 added `check_ids.py` and `gen_open_questions.py --check`, taking 36/1,071 to 38/1,081,
+and WP-8.2's forbidden-slot meter took it to **39/1,092** — the guard failed on the first run
+both times, rather than the next reader noticing. The rest of the
 numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
 total), taken because main and this branch had
 drifted to 33/1,009 and 35/1,006 respectively and NEITHER was right. `check_counts.py` polices
@@ -281,7 +282,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
   is **OQ 51** and is the one with 3,366 instances. Read it before trusting "132 of 132 bound".
-  OQ 51 is now RULED -- adjudicate the 233 unjudged gaps first, flip inheritance to opt-in after --
+  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is 249 unjudged gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn
@@ -746,8 +747,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   trusting any list of them. **THE REGISTER IS A DIRECTORY** — `docs/open-questions/<nnn>-<slug>.md`,
   one file per question, filename == id, exactly as `faults/` and `rooms/` have always worked.
   `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and run
-  `build/gen_open_questions.py`. It holds **98 entries, of which 32 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 91, 92, 93, 94, 96, 98).
+  `build/gen_open_questions.py`. It holds **99 entries, of which 33 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 91, 92, 93, 94, 96, 98, 99).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
   is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
@@ -857,13 +858,20 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     the node to that pack's `applies_to` — that IS the adjudication, and it moves the gap from
     unendorsed to endorsed; where it is wrong, bind the right pack or scope the edge. When
     `unendorsed` approaches zero, add `inherits_packs` and make inheritance opt-in, at which point
-    it is a safety net rather than a cliff that strands 294 gaps in one commit. Doing it the other
+    it is a safety net rather than a cliff that strands 287 gaps in one commit. Doing it the other
     way round was costed and refused: opt-in now is a morning of mechanism and a corpus-wide
     stranding.
-    **The meter.** `build/check_inheritance.py` pins three numbers that may only go down: **293
-    role_gaps**, **3,366 inherited_packs**, **222 unendorsed** (294 / 3,367 / 233 when first
-    measured; the first two moved on 27 Aug when `colonial-revival` bound its own dormer slot,
-    which is the meter moving the right way). The split matters — a gap whose
+    **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
+    `build/check_inheritance.py` pins three ceilings that may only go down -- **287 role_gaps**,
+    **3,356 inherited_packs**, **249 unendorsed** -- and one FLOOR that may only go up,
+    **judged 48** (endorsed + declined). The published 294/3,367/233 and 293/3,366/222 were both
+    wrong in the flattering direction: `measure()`'s ROLE loop lacked the `pack not in own_ids`
+    guard its PACK loop had, so 39 role gaps were attributed to a delivery `resolve_packs` can
+    never make -- the node binds that pack itself at chain[0] -- and the endorsement test then
+    asked the wrong pack's `applies_to`, which named the node precisely because the node binds
+    it. **222 unendorsed was really 249; 71 endorsed was really 38.** The floor exists because
+    ten correct declines moved `unendorsed` by ZERO: each role re-attributed to the next
+    unjudged ancestor. `unendorsed` is a work list, not a score. The split matters — a gap whose
     pack `applies_to` already names the node is the cascade delivering what an author INTENDED, and
     counting those 71 as faults would make the work list wrong. `--unendorsed` prints the list by
     pack, because adjudicating one pack settles every node under it: `storey-graduation` 38,

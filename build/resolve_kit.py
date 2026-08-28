@@ -239,10 +239,32 @@ def resolve_slots(graph, chain, scope=None):
 
 
 def resolve_packs(graph, chain):
+    """Every pack that governs this node, nearest binder wins per pack id.
+
+    OQ 51's REFUSAL HALF LIVES HERE (WP-8.2, 28 Aug 2026). A node may DECLINE a pack that
+    reaches it only by descent, and this is the right function for it because a decline is per
+    (node, pack) and this is the one function that decides pack MEMBERSHIP. `eval_packs` decides
+    which RULES a member contributes -- that is what `slots`/`slots_except` are for, and those
+    are per BINDING, travelling with the ancestor's record, so they change behaviour for every
+    descendant and for the ancestor itself and structurally cannot express a per-descendant
+    refusal. Different question, different function.
+
+    `chain[0]` is always the node: all eight callers pass `chain_for(g, nid)`, so the fix reaches
+    `--slots`, check_addresses' cascade scope, resolve_kit's own main, elevation, compose and
+    three test modules with no per-caller change.
+    """
+    node = graph["nodes"].get(chain[0]) if chain else None
+    declined = {d["pack"] for d in ((node or {}).get("declined_packs") or [])}
     out = collections.OrderedDict()
     for nid in chain:
         for pb in graph["nodes"][nid].get("proportion_packs", []) or []:
             pid = pb["pack"]
+            # A node may not decline a pack it BINDS ITSELF -- that is a binding to delete, not a
+            # decline to write, and check_pack_bindings errors on it. The `nid != chain[0]` guard
+            # is belt and braces so a corpus that slipped past the checker still resolves
+            # coherently rather than silently dropping the node's own authored binding.
+            if pid in declined and nid != chain[0]:
+                continue
             if pid in out:
                 out[pid]["_overridden_by_ancestor"].append(nid)
                 continue
@@ -250,6 +272,28 @@ def resolve_packs(graph, chain):
             rec["_source"] = nid
             rec["_overridden_by_ancestor"] = []
             out[pid] = rec
+    return out
+
+
+def refusals_for(graph, style_id):
+    """What this node declined, and which ancestor would otherwise have delivered it.
+
+    A separate function rather than an extra key in `resolve_packs`' mapping, deliberately:
+    `check_addresses.cobinding` does `sorted(resolve_packs(...).keys())` and `eval_packs`
+    iterates `packs.items()`, so a `_declined` key in that dict would become a pack id in two
+    checkers.
+    """
+    n = graph["nodes"].get(style_id) or {}
+    chain = chain_for(graph, style_id)
+    out = []
+    for d in (n.get("declined_packs") or []):
+        deliverer = next((a for a in chain[1:]
+                          if any(e["pack"] == d["pack"]
+                                 for e in (graph["nodes"][a].get("proportion_packs") or []))),
+                         None)
+        rec = dict(d)
+        rec["_would_have_come_from"] = deliverer
+        out.append(rec)
     return out
 
 

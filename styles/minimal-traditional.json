@@ -267,5 +267,16 @@
       "note": "Bound as the closest available system, not a close fit. The node's own casing -- 2 1/4 in wide, under 3/4 in projection -- is thinner than even this pack's stated economy floor ('below 3 1/2 in the family stops working, because the head casing has nowhere to overhang to'), so what Minimal Traditional actually built is a further reduction beyond what any pack in this library describes as the cheapest classical-adjacent system. Bound optional and low: the flat-stock, order-indifferent logic is directionally correct, but no pack currently states a system thin enough to describe a 2 1/4 in clamshell casing without extrapolating past its own documented range. Worth flagging for WP-4.6.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "storey-graduation",
+      "reason": "A rule for graduating a stack of storeys has no stack to graduate. This node's own record makes a single storey (or one and a half) definitional, so `height_proportion` arriving as a second-to-first-storey ratio dimensions a floor the house does not have.",
+      "basis": "node-record",
+      "quote": "one storey or one and a half",
+      "quoted_from": "defining_characteristics[0]",
+      "decided": "2026-08-28",
+      "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+    }
   ]
 }
