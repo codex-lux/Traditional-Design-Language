@@ -505,7 +505,7 @@ class TestABareRatioIsNeverDeliveredAsADimension:
         g = rk.load_graph()
         chain = rk.chain_for(g, style)
         slots, _ = rk.resolve_slots(g, chain)
-        pack_slots, _ = rk.eval_packs(rk.resolve_packs(g, chain), self.CTX, None)
+        pack_slots, _ = rk.eval_packs(rk.resolve_packs(g, chain), self.CTX, None, {})
         return rk.choose_pack(slots["casing"], pack_slots.get("casing", []), self.CTX)
 
     @pytest.mark.parametrize("style", ("craftsman", "craftsman-bungalow"))
@@ -536,7 +536,7 @@ class TestABareRatioIsNeverDeliveredAsADimension:
         chain = resolve_kit_module.chain_for(g, "craftsman")
         slots, _ = resolve_kit_module.resolve_slots(g, chain)
         packs = resolve_kit_module.resolve_packs(g, chain)
-        pack_slots, _ = resolve_kit_module.eval_packs(packs, self.CTX, None)
+        pack_slots, _ = resolve_kit_module.eval_packs(packs, self.CTX, None, {})
         pc = resolve_kit_module.choose_pack(
             slots["roof_pitch"], pack_slots.get("roof_pitch", []), self.CTX)
         chosen = (pc or {}).get("chosen")

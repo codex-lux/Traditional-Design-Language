@@ -201,7 +201,7 @@ def test_the_forbidden_slot_meter_is_ratcheted_separately_from_the_backlog():
     not a role nobody bound, and declining packs will not close it — the slot is handed to the
     next pack, which the kit forbids just as much."""
     ci = _mod("ci_f", "build/check_inheritance.py")
-    assert ci.FORBIDDEN_RATCHET == 787
+    assert ci.FORBIDDEN_RATCHET == 776
     assert ci.FORBIDDEN_RATCHET not in (ci.RATCHET["role_gaps"], ci.RATCHET["unendorsed"],
                                         ci.RATCHET["inherited_packs"]), (
         "the forbidden-slot figure has collided with a backlog figure; they measure different "
@@ -222,7 +222,7 @@ def test_a_decline_beats_an_inherited_slot_level_packs_ruling_and_says_so():
     out = subprocess.run([sys.executable, "build/check_inheritance.py", "--slots", "ranch-style"],
                          cwd=ROOT, capture_output=True, text=True)
     assert out.returncode == 0, out.stderr
-    assert "78 slot(s) dimensioned, 69 by a pack it never bound" in out.stdout
+    assert "68 slot(s) dimensioned, 61 by a pack it never bound" in out.stdout
     assert "DECLINED by this node" in out.stdout, (
         "the contradiction between a decline and an inherited slot-level ruling is no longer "
         "surfaced — it used to be a KeyError, and silence would be worse")

@@ -128,7 +128,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **39 checks, 1,092 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **39 checks, 1,100 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -147,8 +147,8 @@ then earned itself at the very next merge**: PR #14 brought a 33rd check and 162
 35/909 became 36/1,071 on 28 Aug — caught by `TOTAL_CHECKS` at the merge, which is the exact
 point this number has gone wrong every single time. **It earned itself again the same day**:
 WP-8.1 added `check_ids.py` and `gen_open_questions.py --check`, taking 36/1,071 to 38/1,081,
-and WP-8.2's forbidden-slot meter took it to **39/1,092** — the guard failed on the first run
-both times, rather than the next reader noticing. The rest of the
+WP-8.2's forbidden-slot meter took it to 39/1,092, and WP-8.3's OQ 99 tests to **39/1,100** —
+the guard failed on the first run each time, rather than the next reader noticing. The rest of the
 numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
 total), taken because main and this branch had
 drifted to 33/1,009 and 35/1,006 respectively and NEITHER was right. `check_counts.py` polices
@@ -747,8 +747,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   trusting any list of them. **THE REGISTER IS A DIRECTORY** — `docs/open-questions/<nnn>-<slug>.md`,
   one file per question, filename == id, exactly as `faults/` and `rooms/` have always worked.
   `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and run
-  `build/gen_open_questions.py`. It holds **99 entries, of which 33 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 91, 92, 93, 94, 96, 98, 99).
+  `build/gen_open_questions.py`. It holds **99 entries, of which 32 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 91, 92, 93, 94, 96, 98).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
   is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

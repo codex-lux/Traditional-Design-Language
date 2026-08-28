@@ -48,11 +48,49 @@ To resolve slot *S* for node *N*: take *N*'s own binding if `binding` is `specif
 | `specified` | This node fixes the slot. Stops the cascade. |
 | `inherited` | Explicitly deferred to the cascade. Documentation, not behaviour. |
 | `open` | Unspecified. The default. Cascades; if nothing upstream specifies it, the slot is a free choice. |
-| `forbidden` | This node prohibits the slot. Stops the cascade. Prairie forbids most classical apparatus; a Creole cottage forbids a centred entry door. |
+| `forbidden` | This node prohibits the slot. Stops **both** cascades — the kit's and, since WP-8.3, the proportion packs' (OQ 99). Prairie forbids most classical apparatus; a Creole cottage forbids a centred entry door. |
 
 `status` tracks editorial progress independently: `empty` → `stub` → `drafted` → `reviewed`.
 
 A fifth binding, `extends` (kit schema 0.2.0), stops the cascade like `specified` but merges rather than replaces: parameters merge by key (a child key replaces the inherited one outright), variants apply add/remove/replace ops matched on id, and most other fields replace-if-present-else-inherit. `rule` was the one exception — a single string, so a child adding a clause had to restate the whole sentence or leave the resolved rule silent about its own change — until `rule_append` (0.2.1) gave it a real merge operator (docs/open-questions.md #16, wired into `build/resolve_kit.py` in WP-1.3): a child's `rule_append` value joins onto the resolved rule as an additional sentence, and `resolve_kit.py --slot <id> --verbose` shows which ancestor's delta contributed which clause. See the merge-semantics docstring at the top of `build/resolve_kit.py` for the complete rule, including the ordering of `extends` deltas (farthest ancestor first, so the nearest wins) and how a dangling `extends` with no base to merge into is handled.
+
+## `forbidden` stops the pack cascade too (OQ 99, WP-8.3)
+
+This table said `forbidden` "stops the cascade" from the beginning. It stopped the **kit**
+cascade and never the **pack** cascade, and the gap was 776 (node, slot) pairs across 118 of 132
+buildable nodes — a proportion pack supplying a dimension for a slot the resolved kit prohibits.
+**Not one of the 776 was chosen by a human**: every one resolved by an ancestor's precedence
+number, and no slot carried a `packs` ruling for any of them. `carpenter-gothic`'s resolved
+`pilaster` record reads *"No pilaster order."* and it published a pilaster width.
+
+**Ruled: absolute, with a human override.** A pack rule may not write to a slot the resolved kit
+binds `forbidden`, *unless* that slot's own `packs` block names that pack — which
+`choose_pack`'s own docstring already calls *"the only place a human has said which pack wins"*.
+Zero of the 776 qualify, so the override strands nothing today; it exists so a node that
+genuinely wants one dimension from an otherwise-refused member has a way to say so, rather than
+leaving the refusal behind a decision nobody can revisit.
+
+**The refused rule is MARKED, not deleted.** `eval_packs` flags it `refused_by_kit` with the
+binding's own note and `choose_pack` will not choose a flagged row, returning
+`how: "kit.forbidden"` so a reader sees an explicit refusal rather than an absence
+indistinguishable from "no pack writes here". Deleting would have destroyed the measurement
+itself, and `check_addresses` reads these rows without ever calling `choose_pack`. Same
+discipline as `openings.py` marking an unrealisable opening `unplaced` and never removing it.
+`eval_packs`' `kit` argument is **required and has no default** — a `kit=None` default would let
+every call site keep the old behaviour by saying nothing.
+
+**The drawn half needed its own fix, and half of it is still open.** `build/elevation.py` never
+calls `resolve_packs` or `eval_packs`; it reaches packs by `PE.resolve` and reads sixteen slots
+straight out of pack files, so the resolver-side gate does not reach a single figure it draws.
+Swept over every style: 40 pass that generator's own scope gate, 15 of them forbid at least one
+slot it reads, and the exposure is **40 (style, slot) pairs**. **22 are refused** —
+`transom_sidelight` 8 and `pilaster` 8, both of which the entrance composition already carried
+a branch for, and both now absent rather than zero. **24 are read anyway and disclosed** in the
+elevation record's `forbidden_slots_read_from_packs` — `frieze` 9, `belt_course` 6,
+`water_table` 6, and one each of `door_surround`, `cornice`, `window_head_wood`. Those need a
+semantic answer per slot: a style whose kit forbids `frieze` while still passing a *classical*
+scope gate is two records contradicting each other, not a number to zero. Named rather than
+silently carried.
 
 ## Slot groups
 

@@ -8,14 +8,14 @@ conversion tables, is in [`docs/open-questions/README.md`](open-questions/README
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**99 questions, of which 33 are open.** A question is OPEN while
+**99 questions, of which 32 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 33
+## Open — 32
 
 Awaiting a ruling. This is the list to read first.
 
@@ -53,9 +53,8 @@ Awaiting a ruling. This is the list to read first.
 | **94** | OPEN | [the reference plan cannot satisfy its own style's hard constraint, and only a person can say who fixes it](open-questions/094-reference-plan-cannot-satisfy-own-style-s-hard.md) |
 | **96** | OPEN | [`_shared`'s first-match-wins ordering can report a corner kiss as a shared edge](open-questions/096-shared-s-first-match-wins-ordering-report-corner-kiss-sha.md) |
 | **98** | OPEN | [`span_check` credits a bearing wall across the whole floor plate however short it is, and the validator never mentions span capacity at all](open-questions/098-span-check-credits-bearing-wall-across-whole-floor-plate.md) |
-| **99** | OPEN | [787 pack rules dimension a slot the resolved kit binds `forbidden`, and nobody chose one of them](open-questions/099-pack-rules-writing-to-slots-the-kit-forbids.md) |
 
-## Settled — 66
+## Settled — 67
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -127,3 +126,4 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **90** | CLOSED 28 Aug 2026 | [two different work packages were both called WP-5.7](open-questions/090-two-different-work-packages-called-wp-5-reports-only.md) |
 | **95** | CLOSED 27 AUG 2026 | [the placement generator is blind to the other level, and no score term can see past that](open-questions/095-placement-generator-blind-other-level-score-term-see.md) |
 | **97** | CLOSED 27 AUG 2026 | [the search has no span term, so whether a placement clears its own structural capacity is luck](open-questions/097-search-span-term-whether-placement-clears-own-structural.md) |
+| **99** | CLOSED 28 Aug 2026 | [787 pack rules dimension a slot the resolved kit forbids, and nobody chose one of them](open-questions/099-pack-rules-writing-to-slots-the-kit-forbids.md) |

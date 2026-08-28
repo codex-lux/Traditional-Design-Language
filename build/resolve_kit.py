@@ -312,7 +312,29 @@ def pack_env(pk, ctx, module_override=None):
     return env, mod
 
 
-def eval_packs(packs, ctx, module_override=None):
+def eval_packs(packs, ctx, module_override, kit):
+    """Every rule the bound packs contribute, keyed by target slot.
+
+    OQ 99 (WP-8.3): A PACK RULE MAY NOT WRITE TO A SLOT THE RESOLVED KIT BINDS `forbidden`.
+    `docs/inheritance.md`'s binding table has always said `forbidden` means "This node prohibits
+    the slot. Stops the cascade." It stopped the KIT cascade and never the PACK cascade, and 787
+    (node, slot) pairs across 118 of 132 nodes carried a pack-supplied dimension for a slot the
+    kit forbids -- every one of them decided by an ancestor's precedence number, and not one
+    chosen by a human.
+
+    THE REFUSED RULE IS MARKED, NOT DELETED. Dropping it would destroy the fact that a pack
+    wanted to write there and was refused, which is the whole measurement; and `check_addresses`
+    reads these rows without ever calling `choose_pack`, so a refusal placed only in the chooser
+    would not reach it. Same discipline as `openings.py` marking an opening it cannot realise
+    `unplaced` with a reason and never deleting it, and as `calibrated_for` publishing
+    `out_of_calibration` rather than withholding in silence.
+
+    `kit` IS REQUIRED AND HAS NO DEFAULT, deliberately. A `kit=None` default would let every one
+    of the eight call sites keep the old behaviour by saying nothing -- which is the exact failure
+    the fault schema's own note describes for a mistyped guard: "omit `expression` and the
+    precondition is ignored entirely, the test runs unguarded and convicts". A caller with no kit
+    passes `{}` and means it.
+    """
     by_slot = collections.defaultdict(list)
     errors = []
     for pid, binding in packs.items():
@@ -347,6 +369,23 @@ def eval_packs(packs, ctx, module_override=None):
             return (r["target_slot"] in names
                     or "%s/%s" % (r["target_slot"], r.get("dimension")) in names)
 
+        def _refused(sid):
+            """(refused, why) for a slot the resolved kit forbids.
+
+            THE HUMAN OVERRIDE, per OQ 99's ruling: a slot whose own `packs` block names this
+            pack is a person's explicit ruling and wins. `choose_pack`'s own docstring calls that
+            block "the only place a human has said which pack wins", and it is consulted there
+            first for the same reason. Zero of the 787 qualify today, so the override strands
+            nothing and cannot be claimed as coverage -- it exists so a node that genuinely wants
+            one dimension from an otherwise-refused member has a way to say so.
+            """
+            rec = (kit or {}).get(sid) or {}
+            if rec.get("binding") != "forbidden":
+                return False, None
+            if any(x.get("pack") == pid for x in (rec.get("packs") or [])):
+                return False, None
+            return True, (rec.get("note") or "the resolved kit binds this slot `forbidden`")
+
         for r in ev["rules"]:
             if "error" in r:
                 continue
@@ -354,7 +393,9 @@ def eval_packs(packs, ctx, module_override=None):
                 continue
             if deny is not None and _named(r, deny):
                 continue
+            refused, why = _refused(r["target_slot"])
             by_slot[r["target_slot"]].append({
+                "refused_by_kit": refused, "refused_because": why,
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],
                 "style_precedence": binding.get("precedence"),
                 "dimension": r.get("dimension"), "quantity": r.get("quantity"),
@@ -376,6 +417,20 @@ def choose_pack(rec, rows, ctx):
       2. the style node's `proportion_packs.precedence`
       3. no ruling: report the disagreement, which is what 0.1.0 could only ever do
     """
+    # OQ 99 (WP-8.3): a rule `eval_packs` marked `refused_by_kit` may not be chosen. The mark is
+    # made there, where the kit is in hand and the row is built; the choice is refused here. One
+    # judgment, two places that must agree, and they agree because only one of them decides.
+    # Reported, never silently dropped: a slot whose every candidate was refused returns
+    # `how: "kit.forbidden"` with the binding's own note, so a reader sees an explicit refusal
+    # rather than an absence indistinguishable from "no pack writes here".
+    live_rows = [r for r in (rows or []) if not r.get("refused_by_kit")]
+    if rows and not live_rows:
+        return {"how": "kit.forbidden", "chosen": None, "ranked": [],
+                "refused": list(rows),
+                "why": next((r.get("refused_because") for r in rows if r.get("refused_because")),
+                            "the resolved kit binds this slot `forbidden`")}
+    rows = live_rows
+
     declared = rec.get("packs") or []
     if declared:
         ranked = sorted(declared, key=lambda p: (p.get("precedence") if p.get("precedence") is not None else 99))
@@ -612,7 +667,7 @@ def main():
     ctx = {"ceiling_height": a.ceiling,
            "storey_height": a.storey if a.storey else a.ceiling + 12.0,
            "opening_height": 80.0, "opening_width": a.opening, "span": a.span}
-    pack_slots, pack_errors = eval_packs(packs, ctx, a.module)
+    pack_slots, pack_errors = eval_packs(packs, ctx, a.module, slots)
 
     if a.json:
         payload = {"style": a.style, "chain": chain, "context": ctx, "date": a.date,

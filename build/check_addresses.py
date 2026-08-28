@@ -177,7 +177,11 @@ def kit_vs_pack(nodes):
         try:
             chain = _rk.chain_for(g, nid)
             packs = _rk.resolve_packs(g, chain)
-            pack_slots, _ = _rk.eval_packs(packs, CTX, None)
+            # The RESOLVED kit, for OQ 99's forbidden-slot gate only. `kit` above is
+            # `load_kit(nid)` -- the node's OWN file -- which is OQ 86's known defect and is
+            # WP-8.4's to fix; the two are deliberately not conflated here.
+            resolved, _sv = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
+            pack_slots, _ = _rk.eval_packs(packs, CTX, None, resolved)
         except Exception:
             continue
         for sid, rec in kit.items():

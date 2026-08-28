@@ -415,7 +415,7 @@ class TestTheSillNoLongerForbidsWhatItSpecifies:
         assert packs["sash-light"]["slots_except"] == ["window_sill/projection"]
         ctx = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_height": 80.0,
                "opening_width": 36.0, "span": 16.0}
-        pack_slots, _ = rk.eval_packs(packs, ctx, None)
+        pack_slots, _ = rk.eval_packs(packs, ctx, None, {})
         sill = [r for r in (pack_slots.get("window_sill") or []) if r["pack"] == "sash-light"]
         assert not sill, "the refused rule is back"
         elsewhere = [sid for sid, rows in pack_slots.items()

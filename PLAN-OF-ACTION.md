@@ -18,7 +18,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **5 — Platform** | WP-5.1, 5.2, 5.5, 5.6, 5.7 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
 | **7 — The three open questions, then their remaining halves** | WP-7.1, 7.2, 7.3, **7.4**, **7.5** | **Complete (27 Aug 2026)** — OQ 95, 79 and 78 (issued as 76, 73 and 72; see the register's 27 August conversion table), each ruled by Lucas and each half-closed with the half that could not be done named; **WP-7.4 then took the halves that were left**. The generator is level-aware and fixed BEARING not stacking (transfer beams 166 → 109), and WP-7.4 charged the stacking directly in both engines; furniture sizing is REFUSED and arrangement goes as far as the rooms' own words, which turned out to be five wall runs rather than the one the register published; a window's ROLE is the plan's to decide and its SASH KIND the style's, with 119 of 159 styles answering through the lineage and the kit vocabulary now merged and ratcheted. **WP-7.4 also found that `span_check` had never read the bearing flag it was handed** — every partition counted as a support, so the corpus under-reported its own structural defects by half. **WP-7.5 is the adversarial audit of WP-7.4** and found two blocking defects it had introduced, one of them a false claim in its own commit message ("the three tests replacing it" — three were added and the nondeterministic one was never removed), plus the same span bug a second time in `render_section.py`; six tests that passed with the fix reverted were made to bite, and OQ 98 was raised for what the audit deliberately did not fix |
 | **6 — Plan semantics** | WP-6.1, 6.2, 6.3, **6.4 (the audit)** | **Complete (27 Aug 2026)** — raised by Lucas, not by the plan: the rendered sheets were "colorless green ideas sleeping furiously", every part well-formed and the whole meaningless. A door had no wall, no position and no rank; the renderers invented what the record could not say and dropped what it could; nothing checked that you could walk from the front door to a room |
-| **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, 8.3, 8.4 | **In progress (28 Aug 2026)** — **WP-8.1 and WP-8.2 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **OQ 99**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. The remaining two packages are the construction scope from the fault corpus to the pack rules (8.3), and OQ 89's withheld measurements (8.4) |
+| **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, **8.3**, 8.4, 8.5 | **In progress (28 Aug 2026)** — **WP-8.1, WP-8.2 and WP-8.3 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **OQ 99**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. **WP-8.3** made `forbidden` stop the pack cascade too (OQ 99) and found that `elevation.py` reaches packs by `PE.resolve` and never through the resolver — a second path nothing had named, 46 pairs, 16 refused and 24 disclosed. The remaining two packages are the construction scope from the fault corpus to the pack rules (8.3), and OQ 89's withheld measurements (8.4) |
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
@@ -895,9 +895,9 @@ classical module"*, *"everything projects less than about two inches"*). `inheri
 meter gained a FLOOR — `judged` may only rise — and `unendorsed` is a work list, not a score.
 `jacobethan-revival` was deliberately left: *"no classical order except at the entrance porch"*.
 
-**RAISED: OQ 99**, and it is larger than the backlog beside it. **787 (node, slot) pairs where the
+**RAISED: OQ 99**, and it is larger than the backlog beside it. **776 (node, slot) pairs where the
 resolved kit binds a slot `forbidden` and a pack dimensions it anyway**, over 118 of 132 nodes,
-**787 of 787 by precedence and not one chosen by a human**. Declining does not close it. Ratcheted
+**776 of 776 by precedence and not one chosen by a human**. Declining does not close it. Ratcheted
 apart; fixing it changes dimensions on 118 nodes and is its own package.
 
 Tooling: `--ancestors` (with the DIRECT column that refused the edge mechanism), `--full`,
@@ -907,6 +907,43 @@ eleven styles and said so nowhere), `--impact`, `--forbidden`.
 Report: `docs/reports/wp-8.2-the-refusal-half.md` · new open question: **OQ 99**.
 
 **Depends on:** WP-8.1. **Size:** medium.
+
+---
+
+### WP-8.3 The forbidden slot (OQ 99)
+
+**Status: COMPLETE (28 Aug 2026), with one half deliberately open and named.** `docs/inheritance.md`'s
+binding table has said `forbidden` "stops the cascade" from the beginning. It stopped the KIT
+cascade and never the PACK cascade: **776 (node, slot) pairs over 118 of 132 nodes** carried a
+pack-supplied dimension for a slot the resolved kit prohibits, **and not one of the 776 was
+chosen by a human** — every one by an ancestor's precedence number, no slot carrying a `packs`
+ruling. `carpenter-gothic`'s record says *"No pilaster order."* and it published a pilaster width.
+
+**Ruled absolute, with a human override** (the slot's own `packs` block, which `choose_pack`
+already calls "the only place a human has said which pack wins"). Zero of the 776 qualify, so the
+override strands nothing — stated, and held to the data by a test. **The refused rule is MARKED,
+not deleted**: deleting would destroy the measurement itself, and `check_addresses` reads these
+rows without ever calling `choose_pack`. `eval_packs`' `kit` argument is **required with no
+default**, because a default would let every call site skip the gate by saying nothing.
+
+**THE FINDING: a second path from packs to output that no plan had named.** `build/elevation.py`
+never calls `resolve_packs` or `eval_packs` — it reaches packs by `PE.resolve` and reads sixteen
+slots straight out of the files, so it is blind to bindings, scopes, declines and `forbidden`,
+and the resolver gate reaches **no figure it draws**. Swept over every style: 40 pass its own
+scope gate, 15 forbid a slot it reads, **40 (style, slot) pairs**. **16 refused**
+(`transom_sidelight` 8, `pilaster` 8 — absent now, not zero). **24 read anyway and DISCLOSED**
+in `forbidden_slots_read_from_packs` (`frieze` 9, `belt_course` 6, `water_table` 6, three
+singletons): a style whose kit forbids `frieze` while passing a CLASSICAL scope gate is two
+records contradicting each other, and zeroing it would pick a winner nobody has chosen. Visible
+on a shipped plan at once — `spec-builder-colonial` forbids `transom_sidelight`.
+
+**Found on the way:** the meter counted slots carrying no figure as dimensioned.
+`--slots carpenter-gothic` said 75 and now says 64 plus 11 named as refused; `ranch-style` 78/69
+became 67/60.
+
+Report: `docs/reports/wp-8.3-the-forbidden-slot.md` · closes **OQ 99** (drawn half named).
+
+**Depends on:** WP-8.2. **Size:** medium.
 
 ---
 

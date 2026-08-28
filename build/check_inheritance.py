@@ -68,7 +68,11 @@ RATCHET_FLOOR = {"judged": 48}
 
 # A FOURTH, SEPARATE MEASUREMENT: pack rules landing on a slot the resolved kit binds
 # `forbidden`. Not the OQ 51 backlog and deliberately not mixed into it. See --forbidden.
-FORBIDDEN_RATCHET = 787
+# 787 -> 776 on 28 Aug 2026 (WP-8.3): binding ONE slot on ONE node removed eleven pairs.
+# `colonial-revival` was inheriting `transom_sidelight: forbidden` from GOTHIC-REVIVAL-BRITISH
+# while its own defining_characteristics name 'fanlight and/or sidelights' -- OQ 87's mechanism,
+# found because WP-8.3 made the refusal bite and the generator stopped drawing them.
+FORBIDDEN_RATCHET = 776
 
 # THE FIRST FOUR DECLINES ARE THE ARGUMENT FOR THIS FLOOR, and the measurement is worth keeping.
 # `ranch-style`, `craftsman-bungalow`, `california-bungalow` and `minimal-traditional` all
@@ -217,7 +221,6 @@ def main():
         chain = rk.chain_for(g, a.slots)
         packs = rk.resolve_packs(g, chain)
         own = {e["pack"] for e in (g["nodes"][a.slots].get("proportion_packs") or [])}
-        by_slot, _ = rk.eval_packs(packs, CTX, None)
         # The CASCADE-RESOLVED slot record, not `load_kit(node)`. `choose_pack` consults the
         # record's own `packs` block -- a person's explicit ruling -- before precedence, and that
         # block is frequently inherited rather than restated on the node. Reading the node's own
@@ -227,6 +230,7 @@ def main():
         # 52 where they give 53. Both wrong numbers had been published. `resolve_kit.main` uses
         # `resolve_slots`, so this must too or the diagnostic measures a corpus nobody resolves.
         kit, _savings = rk.resolve_slots(g, chain, rk.scope_for(g, a.slots))
+        by_slot, _ = rk.eval_packs(packs, CTX, None, kit)
         foreign = []
         for sid, rows in sorted(by_slot.items()):
             ch = rk.choose_pack(kit.get(sid) or {}, rows, CTX)
@@ -245,7 +249,15 @@ def main():
                 src = packs.get(pid, {}).get("_source")
                 foreign.append((sid, pid, src or "DECLINED by this node — an inherited "
                                                 "slot-level `packs` ruling still names it"))
-        print(f"{a.slots}: {len(by_slot)} slot(s) dimensioned, {len(foreign)} by a pack it never bound")
+        refused = sorted(sid for sid, rows in by_slot.items()
+                         if rows and all(r.get("refused_by_kit") for r in rows))
+        print(f"{a.slots}: {len(by_slot) - len(refused)} slot(s) dimensioned, "
+              f"{len(foreign)} by a pack it never bound")
+        if refused:
+            # OQ 99. Counting these as "dimensioned" would be the same overstatement the meter
+            # itself made: a slot every pack was refused on carries no figure.
+            print(f"   ({len(refused)} further slot(s) had every pack rule REFUSED because this "
+                  f"node's resolved kit binds them `forbidden`: {', '.join(refused)})")
         for sid, pid, src in foreign:
             print(f"   {sid:28s} <- {pid:22s} bound on {src}")
         return
@@ -265,8 +277,8 @@ def main():
             if drop:
                 packs = collections.OrderedDict(
                     (k, v) for k, v in packs.items() if k != drop)
-            by_slot, _ = rk.eval_packs(packs, CTX, None)
             kit, _sv = rk.resolve_slots(g, chain, rk.scope_for(g, nid))
+            by_slot, _ = rk.eval_packs(packs, CTX, None, kit)
             out = {}
             for sid, rows in by_slot.items():
                 ch = rk.choose_pack(kit.get(sid) or {}, rows, CTX)
@@ -325,14 +337,17 @@ def main():
             chain = rk.chain_for(g, nid)
             packs = rk.resolve_packs(g, chain)
             own = {e["pack"] for e in (g["nodes"][nid].get("proportion_packs") or [])}
-            bs, _ = rk.eval_packs(packs, CTX, None)
             kit, _sv = rk.resolve_slots(g, chain, rk.scope_for(g, nid))
+            # The kit is passed so the gate can MARK; the meter then counts the marks rather
+            # than re-deriving the same judgment a second way.
+            bs, _ = rk.eval_packs(packs, CTX, None, kit)
             for sid, rows in bs.items():
-                if (kit.get(sid) or {}).get("binding") != "forbidden":
+                # Count the MARKS the gate made, not the same judgment re-derived here. Two
+                # copies of one rule is how the citation grammar came to be spelled three ways.
+                marked = [r for r in rows if r.get("refused_by_kit")]
+                if not marked:
                     continue
-                ch = rk.choose_pack(kit.get(sid) or {}, rows, CTX)
-                if not (ch and ch.get("chosen")):
-                    continue
+                rows = marked
                 pairs.append((nid, sid))
                 by_slot[sid] += 1
                 by_node[nid] += 1
@@ -340,7 +355,8 @@ def main():
                 rules += len(rows)
                 for r in rows:
                     pack_for_slot[sid][r["pack"]] += 1
-                if ch.get("how") == "style.proportion_packs":
+                ch = rk.choose_pack(kit.get(sid) or {}, rows, CTX)
+                if (ch or {}).get("how") in ("kit.forbidden", "style.proportion_packs"):
                     by_precedence += 1
         print(f"{len(pairs)} (node, slot) pair(s) where the RESOLVED kit binds the slot "
               f"`forbidden`\nand a proportion pack dimensions it anyway, over "
