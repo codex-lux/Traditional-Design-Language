@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Moulding geometry: the constructions, stated once.
 
-WP-5.7. Every drawn moulding in this corpus used to be one of two things: a square step, or a
+WP-5.11. Every drawn moulding in this corpus used to be one of two things: a square step, or a
 Bezier whose control points were hand-tuned fractions (0.58, 0.42, 0.62) chosen because they
 looked about right in `build/orders_template.html::segTo`. Seventy per cent of the 502 order-pack
 members fell through that function's default branch and were drawn as rectangles -- every fillet,

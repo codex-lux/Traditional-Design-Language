@@ -27,6 +27,15 @@ CHECKS = [
     # is proved not to have, and the artefact committed to git is the one the run just verified.
     ("build.py", []),
     ("validate.py", []),
+    # The register's ids and the report filenames. Cheap (no corpus load) and it guards the
+    # one id family that has ever collided -- four times in four days, because open questions
+    # lived in a single shared file where two branches' answers to "what is the next number"
+    # both survived a merge. See build/check_ids.py.
+    ("check_ids.py", []),
+    # The index is generated from docs/open-questions/; --check fails if the committed copy
+    # has drifted, which is the same guarantee dist/taxonomy.json needed and did not have.
+    ("gen_open_questions.py", ["--check"]),
+
     ("check_orders.py", []),
     ("check_modules.py", ["--eval"]),
     ("check_systems.py", []),
@@ -56,7 +65,7 @@ CHECKS = [
     # shipped with WP-5.6 wired into nothing and were cited as verification anyway.
     ("check_frontend.py", []),
     ("proportion_engine.py", ["selftest"]),
-    # WP-5.7: the moulding constructions prove themselves -- convexity, tangency at a cyma's
+    # WP-5.11: the moulding constructions prove themselves -- convexity, tangency at a cyma's
     # join, a half round returning to its springing, scale invariance, and the OQ 65 datum rule.
     ("profiles.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
@@ -89,7 +98,7 @@ COULD_NOT_EVALUATE = 3
 # The three suites the runner appends AFTER the CHECKS loop. They are named here rather than
 # only appearing as `results.append(...)` calls inside main() because CLAUDE.md publishes a
 # check TOTAL, and that number has now been wrong three times for exactly one reason: whoever
-# updated it measured `len(CHECKS)`, which is the loop and not the run. WP-5.7 found it saying
+# updated it measured `len(CHECKS)`, which is the loop and not the run. WP-5.11 found it saying
 # 32 against a suite of 33; the 27 Aug merge resolved a conflict here and wrote 32 again, in
 # the very sentence that describes the bug, and check_all.py printed "1 of 35" against it an
 # hour later. TOTAL_CHECKS is what the runner actually reports, and

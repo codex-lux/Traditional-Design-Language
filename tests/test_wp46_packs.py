@@ -65,6 +65,34 @@ import pytest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+
+def _register_text():
+    """The whole open-question register as one string, for the tests that assert a sentence
+    is somewhere in it.
+
+    The register became a DIRECTORY on 28 Aug 2026 (WP-8.1) -- one file per question, because a
+    single shared file is where two parallel sessions' answers to "what is the next id" both
+    survive a merge, which happened four times in four days. `docs/open-questions.md` is a
+    generated INDEX now and does not carry entry text, so a test reading it would assert against
+    an empty haystack and pass vacuously -- the exact shape of the negative-assertion trap
+    CLAUDE.md records ("a NEGATIVE assertion whose selector breaks inverts into a tautology").
+
+    Each entry is rebuilt with its `<id>. ` prefix, which the files drop because the id is their
+    filename. That keeps every existing assertion in this file meaningful and unchanged.
+    """
+    qdir = os.path.join(ROOT, "docs", "open-questions")
+    parts = []
+    for name in sorted(os.listdir(qdir)):
+        if name == "README.md" or not name.endswith(".md"):
+            continue
+        text = open(os.path.join(qdir, name), encoding="utf-8").read()
+        body = text.split("\n", 3)[3] if text.count("\n") >= 3 else text
+        parts.append(f"{int(name[:3])}. " + body.lstrip("\n"))
+    assert parts, "the register is empty -- this helper is reading the wrong place"
+    return "\n\n".join(parts) + "\n\n" + open(
+        os.path.join(qdir, "README.md"), encoding="utf-8").read()
+
+
 def _rk():
     """resolve_kit, through modcache -- never a local by-path loader (CLAUDE.md's standing trap).
     Behavioural tests need the real module: asserting on its SOURCE protects the comment, not the
@@ -1499,7 +1527,7 @@ def test_the_missing_slot_was_raised_as_an_open_question_and_is_now_closed():
     routed = [r for r in p["derived_rules"] if r["target_slot"] == "expressed_frame"]
     assert len(routed) == 4
     assert not any(r["target_slot"] == "corner_board" for r in p["derived_rules"])
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    oq = _register_text()
     assert "47. **CLOSED 25 Aug 2026 — `expressed_frame` added at ontology 0.7.0" in oq
     assert "**OPEN — the ontology has no slot for an exposed structural member" in oq  # kept, superseded
 
@@ -1705,7 +1733,7 @@ def test_the_intra_pack_duplicate_addresses_are_menus_and_must_not_be_fixed():
     # working: the MENU is intact and now sits at an address nothing else writes to.
     heights = [r for r in rh if r["target_slot"] == "ceiling_height_rule"]
     assert any("METHOD 1 OF 3" in r["note"] for r in heights)
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    oq = _register_text()
     # RE-PINNED: OQ 48 is now partly closed -- the menu reading is what kept a naive uniqueness
     # check from being shipped, and it is still the reason `check_addresses.py` compares MEANINGS.
     # RE-PINNED: OQ 48 is now fully closed. The menu reading is still what kept a naive uniqueness
@@ -1825,7 +1853,7 @@ def test_the_two_role_lists_agree_and_nothing_uses_a_role_the_schema_forbids():
 def test_the_collision_rate_is_recorded_honestly_in_oq_48():
     """144 WP-4.6 pairs adjudicated, eight were real -- about five per cent. The first measurement's
     1,922 was mostly menus, and saying so is what stops the next person 'fixing' 1,710 correct rules."""
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    oq = _register_text()
     assert "about **five per cent**" in oq
     assert "deliberately not built; an authoring aid was" in oq
 
@@ -2234,7 +2262,7 @@ def test_three_nodes_are_refused_and_each_refusal_has_a_stated_reason():
                if e["pack"] == "jetty-overhang")
     assert fnr["slots"] == ["material_change_rule"]
     assert "no jetty, no display" in json.dumps(node("english-cottage-vernacular"))
-    assert "49." in open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    assert "49." in _register_text()
 
 
 # --- facade-portada: the panel as module, and a rationing rule stated as a count ---------------
@@ -2880,7 +2908,7 @@ def test_the_oq47_evidence_was_inflated_and_the_corrected_set_is_seven_rules_in_
 def test_the_correction_is_recorded_where_the_wrong_number_was_stated():
     """Prose stays beside the test, and a superseded claim is corrected in place rather than
     deleted, so what was believed stays legible beside what is true."""
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    oq = _register_text()
     assert "CORRECTED 25 Aug 2026, and the correction is the point" in oq
     assert "7 rules in 3 packs" in oq
     assert "An earlier draft of this note said FIVE PACKS and was wrong" in \
@@ -2890,7 +2918,7 @@ def test_the_correction_is_recorded_where_the_wrong_number_was_stated():
 def test_oq_7_through_11_are_environment_blocked_with_the_probe_recorded():
     """All five need a legible facsimile, not code. Recording the probe stops them reading as
     unstarted work, and the warning against closing them from a secondary source is the point."""
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    oq = _register_text()
     assert "7 through 11 are ENVIRONMENT-BLOCKED, not unstarted" in oq
     assert "babel.hathitrust.org" in oq
     assert "Do not close any of them from a\nsecondary source or a modern redrawing" in oq
@@ -3116,7 +3144,7 @@ def test_the_cascade_delivers_packs_nobody_bound_and_it_is_raised_not_papered_ov
     assert len(binders) == 5, binders
     assert all((next(pb for pb in g["nodes"][a]["proportion_packs"]
                      if pb["pack"] == "facade-peristyle").get("slots") is None) for a in binders)
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    oq = _register_text()
     # Re-pinned 25 Aug 2026: OQ 51 was ruled that day, so "still OPEN" is no longer the right guard.
     # What must not regress is that the entry is still there and still says the MECHANISM is
     # unchanged -- a ruling is not a fix, and the cascade delivers exactly what it delivered before.
@@ -3331,7 +3359,7 @@ def test_the_pattern_has_exactly_one_control_case_and_it_is_named_by_its_opposit
 def test_oq_50_states_what_it_does_not_claim():
     """26 of 132 is not most of the corpus, and the other 106 are silent rather than disagreeing.
     A conditional claim stated as a universal one is how a finding becomes folklore."""
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    oq = _register_text()
     # RE-PINNED: OQ 50 was ruled on 25 Aug to stop at the principle. It stays open on one point
     # only -- if the elevation layer ever models ornament zones, the fault should be written.
     assert "50. **RULED 25 Aug 2026" in oq
@@ -3346,43 +3374,30 @@ def test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_agai
     ruled or closed on 24 Aug and the summary went on listing three of them as needing a ruling.
     `check_counts.py` polices NUMBERS in prose and has no view on claims about rulings, so this is
     the guard for that class -- both the list and the count in front of it."""
-    import re
+    import re, importlib.util
     md = open(os.path.join(ROOT, "CLAUDE.md")).read()
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+
     # DERIVED, not hardcoded. The first version of this test computed the true set from the file
     # and then asserted against a literal list anyway, so it went red on the next ruling rather
-    # than on the next piece of drift -- which is the opposite of what it is for. An entry counts
-    # as open unless its status word says somebody settled it.
-    # An entry is OPEN only if its status word says so. Everything else in the vocabulary --
-    # CLOSED, RESOLVED, RULED, FIXED, CONFIRMED, ANSWERED, LEFT AS A STANDING DISCLOSURE -- is
-    # somebody having decided. HALF CLOSED and IN PROGRESS count as open because half of one is
-    # still waiting on a person. Deriving it this way is what caught OQ 16: it had said IN
-    # PROGRESS for two days after the code it was waiting for shipped.
+    # than on the next piece of drift -- which is the opposite of what it is for.
     #
-    # THE STATUS WORD IS PARSED PERMISSIVELY AND THEN MATCHED STRICTLY, and an unrecognised one is
-    # a FAILURE rather than a default. The first version captured `[A-Z ]+`, which stops at the
-    # first lowercase or hyphen, and then treated anything unmatched as settled -- so `**Open —`,
-    # `**HALF-CLOSED` and `**Still open` all entered the corpus as closed questions and this test
-    # stayed green. A guard whose unknown case is "assume fine" is not a guard; defaulting the
-    # other way would be a nuisance, so neither: an unknown word stops the build and gets classed.
-    SETTLED_WORDS = ("CLOSED", "RESOLVED", "RULED", "FIXED", "CONFIRMED", "ANSWERED",
-                     "LEFT AS A STANDING DISCLOSURE", "SUPERSEDED", "WITHDRAWN")
-    OPEN_WORDS = ("OPEN", "STILL OPEN", "HALF CLOSED", "PARTLY", "IN PROGRESS")
+    # THE REGISTER IS A DIRECTORY SINCE 28 Aug 2026 (WP-8.1), one file per question, because a
+    # single shared file is where two parallel sessions' answers to "what is the next id" both
+    # survive a merge -- four times in four days. So this reads `build/check_ids.py`'s own reader
+    # rather than re-parsing anything, and it does NOT restate the status vocabulary. It used to:
+    # SETTLED_WORDS and OPEN_WORDS were spelled here AND in the register, which is the same
+    # duplication that let check_inheritance.py's RATCHET drift stale-high while its own comment
+    # claimed the test imported it. One list, one place, and an unrecognised word is a FAILURE in
+    # check_ids.py rather than a default -- a guard whose unknown case is "assume fine" is not a
+    # guard.
+    spec = importlib.util.spec_from_file_location(
+        "check_ids_for_test", os.path.join(ROOT, "build", "check_ids.py"))
+    ci = importlib.util.module_from_spec(spec); spec.loader.exec_module(ci)
+    qs, errors = ci.read_questions()
+    assert not errors, f"the register does not check out, so this list cannot be trusted: {errors}"
+    assert qs, "read_questions() found nothing -- the register moved and this guard is reading air"
+    live = {str(k) for k, v in qs.items() if v["state"] == "open"}
 
-    def _norm(raw):
-        head = re.split(r"[—.:*(]", raw, 1)[0]
-        return re.sub(r"[\s\-]+", " ", head).strip().upper()
-
-    live, unknown = set(), []
-    for n, raw in re.findall(r"^(\d+)\. \*\*([^\n]{0,80})", oq, re.M):
-        st = _norm(raw)
-        if st.startswith(OPEN_WORDS):
-            live.add(n)
-        elif not st.startswith(SETTLED_WORDS):
-            unknown.append((n, st))
-    assert not unknown, (
-        f"unrecognised open-question status word(s): {unknown}. Add the word to SETTLED_WORDS or "
-        f"OPEN_WORDS -- an unclassified entry must never silently count as settled.")
     claimed = set(re.findall(r"of which \d+ are open\*\*\s*\n?\s*\(([\d, ]+)\)", md))
     assert claimed, md[md.index("Open questions are live"):][:300]
     listed = {x.strip() for x in list(claimed)[0].split(",") if x.strip()}
@@ -3428,7 +3443,7 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     # storey-graduation gaps were judged against each node's own record and endorsed; the pack's
     # applies_to now names them. gaps and packs do not move on an endorsement -- the cascade
     # delivers what it always delivered, and what changed is that somebody read it.
-    # 294 -> 293 gaps and 3367 -> 3366 packs on 27 Aug 2026 (WP-5.10), and this is the meter
+    # 294 -> 293 gaps and 3367 -> 3366 packs on 27 Aug 2026 (WP-5.14), and this is the meter
     # moving the RIGHT way for once. `colonial-revival` bound its own `dormer` slot, so the role
     # it had been letting `english-cottage-vernacular` fill by descent is one it now fills itself:
     # one gap fewer, one inherited pack fewer. `unendorsed` does not move, because that gap was an
@@ -3449,7 +3464,7 @@ def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault()
     # here reproduces the checker's own arithmetic, so the printed line was never read and could
     # not be contradicted -- break the endorsement predicate's reporting and this could not notice.
     assert endorsed_printed == gaps - unendorsed, "the checker's own two numbers disagree"
-    # 72 -> 71 on 27 Aug 2026 (WP-5.10): `colonial-revival`'s dormer gap was endorsed, and the
+    # 72 -> 71 on 27 Aug 2026 (WP-5.14): `colonial-revival`'s dormer gap was endorsed, and the
     # style binds the slot itself now, so it is not a gap at all any more.
     assert endorsed_printed == 71, "71 of the 293 gaps are endorsed by the pack's own applies_to"
 
@@ -3519,7 +3534,7 @@ def test_no_editorial_parameter_is_silent_any_more():
     assert silent == 0
     # and the note must not have quietly become a source: the source half is still blocked
     assert sourced == 0
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    oq = _register_text()
     assert "The source half is ENVIRONMENT-BLOCKED" in oq
     assert "may be given a source from a secondary work" in oq
 
@@ -3558,7 +3573,7 @@ def test_the_57_that_looked_like_placeholders_were_correct_records():
                 if p.get("value") is None and (p.get("range") or p.get("set")):
                     banded += 1
     assert banded == 57
-    oq = open(os.path.join(ROOT, "docs", "open-questions.md")).read()
+    oq = _register_text()
     assert "ninth" in oq and "would have DAMAGED correct records" in oq
 
 

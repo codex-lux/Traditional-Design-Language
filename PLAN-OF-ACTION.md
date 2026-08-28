@@ -18,6 +18,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **5 — Platform** | WP-5.1, 5.2, 5.5, 5.6, 5.7 complete · **5.3, 5.4 not started** | **In progress** — the workbench is live in `workbench/`, DXF/IFC export ships with a proven round-trip, and drawings ingest through the Transcription surface; guidelines (5.3, waiting on Phase 4 breadth by choice) and the deferred cost layer remain |
 | **7 — The three open questions, then their remaining halves** | WP-7.1, 7.2, 7.3, **7.4**, **7.5** | **Complete (27 Aug 2026)** — OQ 95, 79 and 78 (issued as 76, 73 and 72; see the register's 27 August conversion table), each ruled by Lucas and each half-closed with the half that could not be done named; **WP-7.4 then took the halves that were left**. The generator is level-aware and fixed BEARING not stacking (transfer beams 166 → 109), and WP-7.4 charged the stacking directly in both engines; furniture sizing is REFUSED and arrangement goes as far as the rooms' own words, which turned out to be five wall runs rather than the one the register published; a window's ROLE is the plan's to decide and its SASH KIND the style's, with 119 of 159 styles answering through the lineage and the kit vocabulary now merged and ratcheted. **WP-7.4 also found that `span_check` had never read the bearing flag it was handed** — every partition counted as a support, so the corpus under-reported its own structural defects by half. **WP-7.5 is the adversarial audit of WP-7.4** and found two blocking defects it had introduced, one of them a false claim in its own commit message ("the three tests replacing it" — three were added and the nondeterministic one was never removed), plus the same span bug a second time in `render_section.py`; six tests that passed with the fix reverted were made to bite, and OQ 98 was raised for what the audit deliberately did not fix |
 | **6 — Plan semantics** | WP-6.1, 6.2, 6.3, **6.4 (the audit)** | **Complete (27 Aug 2026)** — raised by Lucas, not by the plan: the rendered sheets were "colorless green ideas sleeping furiously", every part well-formed and the whole meaningless. A door had no wall, no position and no rank; the renderers invented what the record could not say and dropped what it could; nothing checked that you could walk from the front door to a room |
+| **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, 8.2, 8.3, 8.4 | **In progress (28 Aug 2026)** — **WP-8.1 is COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. The remaining three packages are OQ 51's backlog (8.2), the construction scope from the fault corpus to the pack rules (8.3), and OQ 89's withheld measurements (8.4) |
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
@@ -92,7 +93,13 @@ These are not suggestions. An agent that violates one of these has produced work
 10. The composer returns N contrasting candidates, never one, and never calls a plan "good".
 11. Geometry is bay-grid with *counted* relaxations; both levels are solved together; the footprint grows before a room is compromised; the drawing is a render of the data and nothing is drawn that is not in the record.
 
-**Ids are stable and never reused.** Never rename a style, slot, room, grouping, parti, fault or pack id. If an id is wrong, add the right one and mark the old one `deprecated_in_favour_of`.
+**Ids are stable and never reused.** Never rename a style, slot, room, grouping, parti, fault, pack, **open-question or work-package** id. If an id is wrong, add the right one and mark the old one `deprecated_in_favour_of`.
+
+*The last two were missing from that list until 28 Aug 2026, and their absence is why four open-question blocks were renumbered in four days while nobody thought a rule was being broken. They are ids. They are cited from source, from tests, from commit messages that cannot be edited, and — for OQ 18 — from 197 places inside a single kit file. **No open-question id or work-package number may be renumbered again**, whatever a merge makes convenient. The four conversion tables in `docs/open-questions/README.md` are the record of what it cost.*
+
+**Issuing an id: never by reading the working tree.** Every collision so far came from one habit — find the highest number, add one — which two parallel sessions perform identically and merge without conflict. **Open questions are a directory now**, `docs/open-questions/<nnn>-<slug>.md`, one file per question, exactly as `faults/`, `rooms/`, `partis/`, `proportions/` and `styles/` have always been: two sessions issuing id 99 create the same PATH, and git refuses to auto-resolve an add/add conflict instead of silently juxtaposing two entries under one number. `build/gen_open_questions.py` regenerates the `docs/open-questions.md` index; **edit the question's own file, never the index.** `build/check_ids.py` holds filename, heading and status to each other, and CI compares the branch's id set against its base before a pull request can merge.
+
+**Where two branches did collide, the side that merged first keeps its numbers.** Applied four times before it was ever written down; written down now so it is a rule rather than a precedent. It is never the side still on a branch.
 
 **Unjudged is not passed.** Any checker or validator you write must distinguish "evaluated and failed", "evaluated and passed", and "could not evaluate", and must never collapse the third into the second.
 
@@ -102,7 +109,7 @@ These are not suggestions. An agent that violates one of these has produced work
 
 **Check suite green, then tests, then docs.** A package is not done until: the check suite is green; the behaviour tests (Phase 0) pass and new behaviour has a test; the relevant `docs/*.md` is updated; and the README counts are right. Doc drift was one of the findings of the review — do not add to it.
 
-**Report format.** Finish every package with a short written report in `docs/reports/<wp-id>-<slug>.md` containing: what was built; what was found (the project's tradition is that the findings matter as much as the code — record them); what was deliberately not done; and any open question that needs Lucas's ruling, appended to `docs/open-questions.md` with the next number.
+**Report format.** Finish every package with a short written report in `docs/reports/<wp-id>-<slug>.md` containing: what was built; what was found (the project's tradition is that the findings matter as much as the code — record them); what was deliberately not done; and any open question that needs Lucas's ruling, added as a NEW FILE in `docs/open-questions/<nnn>-<slug>.md`. **Do not edit `docs/open-questions.md`** — it is generated by `build/gen_open_questions.py`. **Do not take the next number by reading the working tree**: that habit collided four times in four days. Check the base branch (`git ls-tree origin/main -- docs/open-questions/`), take the next free id there, and let `build/check_ids.py` and the CI base-vs-head gate catch you if another session got there first.
 
 ### 1.3 The check suite
 
@@ -558,11 +565,11 @@ Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workben
 
 **Depends on:** WP-5.2. **Size:** large.
 
-### WP-5.8 The four rulings, and a correction that did not land
+### WP-5.12 The four rulings, and a correction that did not land
 
-**Status: COMPLETE (27 Aug 2026).** Executes Lucas's rulings on the three open questions WP-5.7's adversarial audit raised and the one it widened — and opens by fixing an error in the commit that raised them.
+**Status: COMPLETE (27 Aug 2026).** Executes Lucas's rulings on the three open questions WP-5.11's adversarial audit raised and the one it widened — and opens by fixing an error in the commit that raised them.
 
-**The correction that did not land.** `529310c` states in its message, in the WP-5.7 report addendum and in the summary given to Lucas that two `width_parts` were corrected to their sources. They were not: the rewrite loop assigned the new value on reaching `spacing_parts`, then kept iterating and copied the file's original value back over it, while the NOTES were rewritten regardless — so two members carried a provenance sentence saying they had been corrected beside values that had not been. Fixed, verified by reading back from disk. **The guard added alongside could not have caught it, and that is the more useful finding:** the ratio invariant relates width to pitch, so halving BOTH preserves it (6.5/17.5 and 13/35 both read 37%). A transcription has to be pinned against its quoted source, not its neighbour — `TestTheTranscribedWidthsAreTheAuthoritiesOwnFigures` now pins all fifteen against the words each was read from, mutation-tested.
+**The correction that did not land.** `529310c` states in its message, in the WP-5.11 report addendum and in the summary given to Lucas that two `width_parts` were corrected to their sources. They were not: the rewrite loop assigned the new value on reaching `spacing_parts`, then kept iterating and copied the file's original value back over it, while the NOTES were rewritten regardless — so two members carried a provenance sentence saying they had been corrected beside values that had not been. Fixed, verified by reading back from disk. **The guard added alongside could not have caught it, and that is the more useful finding:** the ratio invariant relates width to pitch, so halving BOTH preserves it (6.5/17.5 and 13/35 both read 37%). A transcription has to be pinned against its quoted source, not its neighbour — `TestTheTranscribedWidthsAreTheAuthoritiesOwnFigures` now pins all fifteen against the words each was read from, mutation-tested.
 
 **OQ 78 — detect the datum per assembly-GROUP, once.** Two signals, either settling it: a recorded 0 (impossible under the radius reading — what an entablature gives) or nothing in the group reaching its own naked (every member inside the shaft — what a capital gives). Only ever downgrades `axis` to `naked`. Grouping cost a first attempt: judged per assembly, `gibbs-ionic`'s cornice still read `axis` while its frieze read `naked` — an entablature in two coordinate systems, a subtler wrong answer than the one it replaced. `eave_cornice` delegates now, closing the 2.37× divergence between the inset and the plates. **Faces flush with their own naked 192 → 81; 60 assemblies across the 14 axis packs now read naked-relative.** `check_orders.py` gained `note()`, a third reporter beside `err` and `warn`, and prints which assemblies contradict each declaration — the silence was the whole cost of the question.
 
@@ -572,9 +579,9 @@ Report: `docs/reports/wp-5.6-navigation-overhaul.md` · layer doc: `docs/workben
 
 **OQ 83 — the paths are serialised in Python and both JS copies are gone.** `pack_geometry` emits `path` per pack and per face in MODEL inches; the two surfaces apply an SVG `<g transform="… scale(k,-k)">`. **A model-space path has no handedness for a consumer to get wrong** — SVG mirrors the arcs itself. Better than testing two copies against each other, because it removes the thing being tested. Guarded by a source-reading test (comments stripped, so the history stays in prose) plus one asserting Python actually serves paths with arcs in them; both mutation-tested.
 
-Report: `docs/reports/wp-5.8-the-four-rulings.md`. **No new open questions.**
+Report: `docs/reports/wp-5.12-the-four-rulings-from-the-geometry-layer.md`. **No new open questions.**
 
-### WP-5.7 The geometry layer: moulding constructions, coursing, and repetition
+### WP-5.11 The geometry layer: moulding constructions, coursing, and repetition
 
 **Status: COMPLETE (26 Aug 2026).** Raised by Lucas against three drawn surfaces — the Drawing Set's front elevation ("bears not even a passing resemblance to a true Georgian tidewater precedent"), the eave cornice inset ("a most abstracted step knob, painfully primitive relative to the actual sophistication of the profiles"), and the order Proportions plate — with the question attached: is SVG capable of this at all, or does the project need a CAD/BIM layer underneath?
 
@@ -586,25 +593,49 @@ Built: **`build/profiles.py`**, which constructs each moulding from the member's
 
 **The durable lesson:** OQ 52 swept twelve invented constants out of the measurements and is guarded by a test that reads the measurements dict — which cannot see SVG. The 36 in chimney and the fake pixel projections lived on the other side of that line. **The honesty discipline has to reach the renderers, not just the records.**
 
-Report: `docs/reports/wp-5.7-real-2d-geometry.md` · layer docs: `docs/proportion.md`, `docs/elevation.md`, `docs/export.md` · new open questions: OQ 78, 73, 74.
+Report: `docs/reports/wp-5.11-real-2d-geometry.md` · layer docs: `docs/proportion.md`, `docs/elevation.md`, `docs/export.md` · new open questions: OQ 78, 73, 74.
 
 **Depends on:** WP-3.2, WP-5.1, WP-5.2. **Size:** large.
-### A NOTE ON THE TWO WP-5.7s, AND WHY NEITHER WAS RENUMBERED HERE
+### A NOTE ON THE TWO WP-5.7s, AND HOW IT WAS SETTLED
 
-**Two work packages carry the number 5.7 and they are different packages.** Main's is the atlas
-and the shell's proportions; this branch's is the geometry layer. The same two sessions that
-collided over open-question ids 72-83 collided over the work-package number in the same three
-days, by the same mechanism — reading the working tree and adding one — and the OQ block was
-renumbered at the merge (main keeps 72-77, this branch's twelve became 78-89) while these were
-not. **That asymmetry is deliberate and it is a deferral, not a decision.** An open question is
-cited by number and nothing else; a work package is cited by its REPORT, and the two reports have
-always had distinct filenames — `docs/reports/wp-5.7-the-atlas-and-the-shell.md` and
-`docs/reports/wp-5.7-real-2d-geometry.md` — so no citation in this corpus is currently ambiguous.
-Renumbering either one would rename report files, break the `wp-<id>-<slug>.md` convention's
-match with the section it reports on, and cascade into CLAUDE.md, the progress board and five
-commit messages that cannot be changed. Renumbering this branch's would also break the chain
-that follows it: WP-5.8 exists to execute WP-5.7's rulings, and 5.9 and 5.10 continue from there.
-**Raised as OQ 90.** Until it is ruled, cite the report and not the number.
+**There were two work packages numbered 5.7 and they were different packages.** Main's is the
+atlas and the shell's proportions; this branch's was the geometry layer. The same two sessions
+that collided over open-question ids 72-83 collided over the work-package number in the same
+three days, by the same mechanism — reading the working tree and adding one — and the OQ block
+was renumbered at every merge while the work packages never were.
+
+**RULED and executed 28 Aug 2026 (OQ 90): this branch's chain moved.** WP-5.7 → **5.11**,
+5.8 → **5.12**, 5.9 → **5.13**, 5.10 → **5.14**, by the rule this register has now applied to
+ids four times — whoever merged first keeps the numbers, and it is never the side still on a
+branch. Main's atlas keeps 5.7.
+
+**What it cost, and how the ambiguous half was done.** 5.8, 5.9 and 5.10 name one package each
+and converted mechanically: 9, 63 and 45 references. **WP-5.7's 87 did not.** Each was
+attributed by `git blame` to the commit that wrote it — `7beb40a`/`529310c` and the chain after
+them are the geometry package, `958276b`/`2c77499` the atlas — and the sixteen written by later
+commits were read one at a time. The only genuinely unclear one was the check-count claim (*"the
+CHECK figure said 32 against a suite of 33 until WP-5.7 read the total"*, in CLAUDE.md,
+`build/check_all.py` and `tests/test_counts_guard.py`): `7beb40a` is the only WP-5.7 commit that
+touches `check_all.py`, so it is the geometry package's and it moved. Final split: **53 moved,
+21 stayed with the atlas.**
+
+**The deferral's own reasoning turned out to be false, which is why it was not deferred again.**
+The note this replaces argued that nothing was ambiguous because *"a work package is cited by its
+REPORT, never by its number alone."* It was already untrue: `wp-5.8-the-four-rulings.md` and
+`wp-5.10-the-four-rulings.md` were **different packages with identical slugs**, told apart only
+by the number the argument said not to rely on. Both were renamed to say which four rulings they
+carry, and `build/check_ids.py` now fails the build on two reports sharing a slug — and on a
+`docs/reports/...md` path cited anywhere in the tree that does not resolve, which found
+`wp-2.3-real-solver.md`, cited in two files and never existing.
+
+**Five commit subjects cannot be changed** and still read `WP-5.7:`, `WP-5.8:`, `WP-5.9:` and
+`WP-5.10:` — `7beb40a`, `529310c`, `fa4bf90`, `40fc540`, `92fd7f9`, `bfbc7c1`, `f768c02`,
+`426ed35`. Read them against the conversion table in `docs/open-questions/README.md`.
+
+**And the cause is fixed rather than recorded this time.** WP numbers and open-question ids are
+both on §1's never-reuse list now, and the register is a directory — one file per question, so
+two sessions issuing id 99 collide on a PATH that git refuses to auto-merge rather than in a
+file it silently juxtaposes.
 
 ### WP-5.7 The atlas, and the shell's proportions
 
@@ -792,6 +823,43 @@ as the catalogue floor, so a kitchen placed at 63% of its declared area is visib
 door floor made the per-pair figure from the record's real widths, closing OQ 41/63 from the
 solver side. And `_absorb` made unable to undo the guarantees the solve proved, per OQ 55's
 precedent that a guarantee which does not survive the post-pass is not a guarantee.
+
+---
+
+## Phase 8 — The register, the backlog, and the scopes nothing reads
+
+### WP-8.1 The register, the id, and OQ 90
+
+**Status: COMPLETE (28 Aug 2026).** The open-question register is a directory —
+`docs/open-questions/<nnn>-<slug>.md`, 98 files, filename == id — because that is the only shape
+in which two parallel sessions cannot both issue id 99 and have git merge them without a word.
+Four collisions in four days came from one habit (read the working tree, add one) and survived
+because the register was ONE FILE: a text conflict, which git resolves by juxtaposition. Every
+other id family here has been one record per file since the beginning, enforced by seven
+checkers. **Open questions were the only ids kept in a shared file and the only ids that ever
+collided.** The migration proved itself before writing anything — it reassembles the original
+from the split pieces and round-tripped 291,341 characters identical.
+
+**And nothing had ever checked for a duplicate id.** The derivation test parsed the register with
+`re.findall` into a **set**, so two entries numbered 78 collapsed to one member and it stayed
+green — the guard against the exact failure suffered four times could not see it.
+`build/check_ids.py` now fails on a duplicate id, on a status word outside a named vocabulary,
+on two reports sharing a slug, and on a `docs/reports/…md` path cited anywhere that does not
+resolve (which found `wp-2.3-real-solver.md`, cited twice and never existing).
+`build/gen_open_questions.py` generates the index; a CI step compares the branch's ids against
+its base and fails the SECOND pull request to issue one, which is the only place the collision
+was ever detectable before it cost a renumber.
+
+**OQ 90 closed:** this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14; main's
+atlas keeps 5.7. Its own preferred option — "cite the report, never the number" — was refused
+because it was already false: two reports were both `…-the-four-rulings.md`. **§1 amended**: open
+questions and work packages are on the never-reuse list, the merged-first rule is written down,
+and so is the habit that caused all four.
+
+Report: `docs/reports/wp-8.1-the-register-and-the-id.md` · closes **OQ 90**.
+
+**Depends on:** nothing. **Size:** small — and it ships FIRST, because every package after it
+ends by appending an open question.
 
 ---
 

@@ -170,7 +170,7 @@ def check_node(node, packs, errors, warnings, strict):
             _w = {r["target_slot"] for r in _rr} | {f"{r['target_slot']}/{r.get('dimension')}" for r in _rr}
             # A DENYLIST THAT REFUSES EVERYTHING is a binding that delivers nothing while still
             # reading as an `opening`-role pack on the node. The comment below claims an allowlist
-            # admitting nothing "is noticed"; nothing noticed either form until the WP-5.10 audit
+            # admitting nothing "is noticed"; nothing noticed either form until the WP-5.14 audit
             # tried it. A scope must leave at least one rule, or it is a removal wearing a scope's
             # clothes and the binding should simply be deleted.
             _left = [r for r in _rr

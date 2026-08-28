@@ -292,7 +292,7 @@ def eval_packs(packs, ctx, module_override=None):
         # but `facade-portada` writes ornament_vocabulary four times and only one of them applies
         # to the node being scoped.
         scope = binding.get("slots")
-        # `slots_except` is the same field turned round (WP-5.10). An allowlist cannot express
+        # `slots_except` is the same field turned round (WP-5.14). An allowlist cannot express
         # "everything but this one" without listing the rest by hand, and a hand-maintained
         # allowlist silently stops delivering any rule the pack gains later -- which for
         # `sash-light`'s fourteen addresses would have meant listing thirteen to refuse one.

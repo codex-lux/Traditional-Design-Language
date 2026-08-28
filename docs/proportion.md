@@ -66,7 +66,7 @@ Every pack records where it collides with building today, with a severity and a 
 
 This is the most commercially defensible material in the project. It is the expertise that currently lives only in senior architects' heads.
 
-## Moulding geometry (WP-5.7)
+## Moulding geometry (WP-5.11)
 
 A `profile` on a member is not decoration in the record — it is the instruction for drawing that
 member, and `build/profiles.py` executes it. Every classical moulding here is a **construction**

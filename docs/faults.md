@@ -40,7 +40,7 @@ Anything the corpus could not judge is returned as **unjudged, never as passed**
 
 ### Four states, and the fourth was added because a fault could vanish
 
-A test may be scoped to the styles it was written for (`applies_to_styles`, OQ 63) and, since WP-5.9, preconditioned on a **measurement** (`applies_when`). A test that declines is **not run** — not passed, not failed, absent from the fault's judgement, exactly as a test written for another style is. So a fault comes back in one of four states:
+A test may be scoped to the styles it was written for (`applies_to_styles`, OQ 63) and, since WP-5.13, preconditioned on a **measurement** (`applies_when`). A test that declines is **not run** — not passed, not failed, absent from the fault's judgement, exactly as a test written for another style is. So a fault comes back in one of four states:
 
 | state | meaning |
 |---|---|

@@ -7,7 +7,7 @@ cross-section detail inset that draws the eave cornice's ACTUAL moulded profile.
 
 That inset is the reason this file exists rather than just drawing flat bands everywhere.
 
-WP-5.7 replaced this file's own seg_to()/profile_silhouette_path() -- the line-for-line port of
+WP-5.11 replaced this file's own seg_to()/profile_silhouette_path() -- the line-for-line port of
 orders_template.html's segTo(), whose curves were Beziers with hand-tuned control fractions --
 with build/profiles.py, which CONSTRUCTS each moulding: a quarter of an ellipse for an ovolo, two
 tangent arcs through the chord's midpoint for a cyma, a half round for a torus. Two things were
@@ -62,7 +62,7 @@ def _wrap(text, cols):
 def _esc(t): return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 def _style_block():
-    # THE WEIGHT LADDER (WP-5.7). Five rungs, and the rung carries the meaning a drawing conveys
+    # THE WEIGHT LADDER (WP-5.11). Five rungs, and the rung carries the meaning a drawing conveys
     # before anyone reads a dimension: what is cut, what stands proud, what is behind. It matters
     # more here than on a plan because at this scale most of a facade's relief is smaller than a
     # pixel -- the water table projects 2 in, which is one pixel at 1/16 scale -- so a projecting
@@ -83,7 +83,7 @@ def _style_block():
             #   0.6 mm  the GROUND LINE in elevation, the heaviest line on the sheet
             # What carries over is the RATIO -- 6:1 end to end, with adjacent rungs about root 2
             # apart so a reader tells them apart at a glance (ISO 128's own series). The five
-            # names below predate WP-5.9 and are kept; `w-ground` is the sixth rung, which this
+            # names below predate WP-5.13 and are kept; `w-ground` is the sixth rung, which this
             # sheet did not have and which HABS makes the heaviest thing on it.
             f'.w-hair{{stroke-width:0.4}}.w-fine{{stroke-width:0.8}}.w-med{{stroke-width:1.2}}'
             f'.w-prof{{stroke-width:1.6}}.w-cut{{stroke-width:2.0}}.w-ground{{stroke-width:2.4}}'
@@ -311,7 +311,7 @@ def _dormers(elev, roof, profile_ft, X, Ypx, scale, face):
     WHAT WAS ADDED 27 Aug 2026, and why it matters more than it sounds. The first version drew a
     rectangle, a triangle and a six-light grid: the gable sprang straight off the head casing with
     NO CORNICE, the sash carried half its glazing bars, and the roof had none of the shingle
-    courses the main roof beside it had. That is the same abstraction WP-5.7 was written to
+    courses the main roof beside it had. That is the same abstraction WP-5.11 was written to
     remove, reappearing one storey up. The kit's own rule for this slot -- dormers "carry the same
     order as the house at reduced scale" -- says a dormer has the house's cornice on it, and
     build/elevation.py::dormers() now derives that cornice's height and projection from the ratio
@@ -647,7 +647,7 @@ def render_elevation(elev, path, face=None, scale=24.0):
     s.append(f'<line class="gl w-ground" x1="{X(0)-scale*1.5:.1f}" y1="{Ypx(0):.1f}" '
              f'x2="{X(span_ft)+scale*1.5:.1f}" y2="{Ypx(0):.1f}"/>')
 
-    # PROJECTIONS ARE DRAWN AT THE SIZE THE RECORD STATES. Until WP-5.7 the water table overhung
+    # PROJECTIONS ARE DRAWN AT THE SIZE THE RECORD STATES. Until WP-5.11 the water table overhung
     # by a hardcoded 4 px, the belt by 2 and the cornice by 6, while `water_table_projection_in`
     # (2.06 in), `belt_course_projection_in` and `cornice_projection_in` (10.5 in) sat unread in
     # the record. At 1/16 the water table's real overhang is one pixel and the cornice's is five;

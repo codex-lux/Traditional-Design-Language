@@ -477,7 +477,7 @@ def gambrel_break_check(main):
 def dormer_rhythm_check(plan, section, main):
     """Whether this house's dormers can sit on its bays -- in the three states the record has.
 
-    WIRED TO THE REAL FIELD, 27 Aug 2026 (WP-5.9). This function used to read `declared_dormers`,
+    WIRED TO THE REAL FIELD, 27 Aug 2026 (WP-5.13). This function used to read `declared_dormers`,
     a key it invented for itself because no schema field authored a dormer, and which therefore
     no record ever carried: it returned not-applicable on every plan in the corpus and its unit
     tests reached it by writing the placeholder in by hand. `declared.dormer` exists now (the
@@ -584,8 +584,8 @@ def elevation_profile(section, main, wall):
     ends to meet the ridge height across the ridge's own shorter span).
 
     THIS DOCSTRING SAID "a flat eave line for a simple gable" until 28 Aug 2026, nineteen lines
-    above the code that stopped doing that in WP-5.9 and explains at length why -- the flat line
-    was a PERSPECTIVE argument inside an orthographic renderer. WP-5.10 found and fixed exactly
+    above the code that stopped doing that in WP-5.13 and explains at length why -- the flat line
+    was a PERSPECTIVE argument inside an orthographic renderer. WP-5.14 found and fixed exactly
     this class in `render_elevation.py`'s chimney block and left it standing in the function whose
     behaviour had actually changed. Prose asserting what the code no longer does is the failure
     this corpus polices hardest, and it survived the package that named it twice."""

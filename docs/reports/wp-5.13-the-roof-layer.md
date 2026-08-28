@@ -1,4 +1,4 @@
-# WP-5.9 — The roof layer, and the facade drawn rather than indicated
+# WP-5.13 — The roof layer, and the facade drawn rather than indicated
 
 *27 August 2026. Raised by Lucas: "do the roof layer next — ALL these items are exceptionally
 important to me in getting this measured drawing to look remotely right. I don't want a schematic
@@ -264,7 +264,7 @@ The record was right before the drawing was. Three things were wrong on the shee
 test of the model:
 
 - **The gable sprang straight off the head casing, with no cornice at all** — the abstraction the
-  whole of WP-5.7 to 5.9 exists to remove, reappearing one storey up.
+  whole of WP-5.11 to 5.9 exists to remove, reappearing one storey up.
 - **The sash carried half its glazing bars.** `"6/6"` is six lights in *each* sash; the renderer
   read the first number as the whole opening and drew a 2×3 grid where a double-hung 6/6 has 2
   across and 3 high twice, with the meeting rail between. The dormer is now drawn by the same

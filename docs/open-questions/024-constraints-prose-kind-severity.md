@@ -1,0 +1,5 @@
+# OQ 24 — Constraints are prose with a kind and a severity
+
+*Status: RESOLVED · Raised in: Structural, unresolved*
+
+**RESOLVED — Constraints are prose with a kind and a severity.** They are written to be enforceable, with numbers, but they were not yet a rule language. **Ruling: reuse the fault corpus's `test` object pattern** (`expression` / `threshold` / `direction`), extended with a `one-of` direction, a `scope` field (`plan` / `elevation` / `site` / `section` / `judgment`), and a named variable vocabulary — rather than invent a separate rule language for constraints. A constraint the sources do not determine numerically gets `scope: judgment` and no test, the same honesty as judgment slots. Executed in WP-1.1: `constraint.schema.json`, `build/constraint_vocabulary.py`, `build/check_constraints.py`, and the migration of a 140-constraint worked example (the `english-classical` and `american-colonial` families, 28 nodes). The remaining ~520 constraints across the other ~25 families are not yet migrated — see `docs/constraints.md` and new open question 27.

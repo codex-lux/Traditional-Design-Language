@@ -33,7 +33,9 @@ someone fluent. The aim is a compiler — brief in, buildable and coherent house
   replace the human-readable `statement`.
 - **Findings matter as much as code.** Finish a work package with a report in
   `docs/reports/<wp-id>-<slug>.md`: what was built, what was found, what was deliberately
-  not done, and any new open question appended to `docs/open-questions.md`.
+  not done, and any new open question as a NEW FILE in `docs/open-questions/<nnn>-<slug>.md`
+  (`docs/open-questions.md` is GENERATED — run `build/gen_open_questions.py`; and take the
+  next id from the BASE BRANCH, never from the working tree, which collided four times).
 
 ## Verifying
 
@@ -74,7 +76,7 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6; WP-4.4 is
 environment-blocked. **Phase 5 is part-built** — WP-5.1 (DXF/IFC export), WP-5.2 (the workbench
 in `workbench/`), WP-5.5 (drawing-to-record ingestion), **WP-5.6 (the navigation overhaul)** and
-**WP-5.7 (the geometry layer)** have shipped; WP-5.3 and WP-5.4 remain. **Phase 6 — plan semantics — is COMPLETE** (WP-6.1,
+**WP-5.11 (the geometry layer)** have shipped; WP-5.3 and WP-5.4 remain. **Phase 6 — plan semantics — is COMPLETE** (WP-6.1,
 6.2, 6.3 and **WP-6.4, the audit of the other three**, 26–27 Aug).
 
 **Phase 6 exists because Lucas read two rendered sheets and found them meaningless** — the
@@ -126,23 +128,26 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **36 checks, 1,071 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **38 checks, 1,081 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
-suite of 33 until WP-5.7 read the total. **It said 32 again for an hour on 27 Aug, in this
+suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
 `len(check_all.CHECKS)`, which is the 32 checks the LOOP runs and excludes the three the runner
 appends after it (`pytest tests/`, `pytest workbench/server/tests`, `node --test
 workbench/app`). The number to read is the runner's own `len(results)`, printed as "All N checks
 passed"; the app-suite figure is the `# tests` line from `node --test`. **And there is a trap in
 the line CI actually prints**: with the CAD libraries and fastapi absent, the corpus job reads
-"32 of 35 checks passed; 3 COULD NOT EVALUATE", where that leading 32 is the PASS count and
+"34 of 38 checks passed; 3 COULD NOT EVALUATE" (the shape, not the exact figures — read them
+off the run), where that leading number is the PASS count and
 coincidentally equals `len(CHECKS)`. Read the second number. `check_all.TOTAL_CHECKS` and
 `tests/test_counts_guard.py` now enforce this so the coincidence cannot cost anything again. Both were re-measured
 27 Aug after `check_all.py` itself printed "1 of 35" against this file's 32. **And the guard
 then earned itself at the very next merge**: PR #14 brought a 33rd check and 162 more tests, so
 35/909 became 36/1,071 on 28 Aug — caught by `TOTAL_CHECKS` at the merge, which is the exact
-point this number has gone wrong every single time. The rest of the
+point this number has gone wrong every single time. **It earned itself again the same day**:
+WP-8.1 added `check_ids.py` and `gen_open_questions.py --check`, taking 36/1,071 to **38/1,081**,
+and the guard failed on the first run rather than the next reader noticing. The rest of the
 numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
 total), taken because main and this branch had
 drifted to 33/1,009 and 35/1,006 respectively and NEITHER was right. `check_counts.py` polices
@@ -488,13 +493,13 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `secondary_tests`, and **`exceptions[].bounds_test`**, which `core.check_measurements`
   SUBSTITUTES for the primary on a matching style. OQ 84 and 79 guarded the first two; Second
   Empire's bounds_test `dormer_count / bay_count == 1.0` then convicted a house stating NO dormers
-  the moment WP-5.9 began supplying that zero, and `craftsman`'s `dormer_count at-most 1` acquitted
+  the moment WP-5.13 began supplying that zero, and `craftsman`'s `dormer_count at-most 1` acquitted
   one. Neither reference plan is Second Empire or Craftsman, so 1,018 green tests saw nothing —
   it took sweeping all 164 styles with one plan's measurements. **Guarding a fault means all three
   locations**, and `tests/test_measurement_honesty.py` now enumerates them so a future pass has
   something to check against.
 - **Verifying a corpus-wide change on the plans that happen to ship is verifying it on 2 of 164
-  styles.** Three separate defects in WP-5.9/5.10 were invisible to both reference plans and fell
+  styles.** Three separate defects in WP-5.13/5.10 were invisible to both reference plans and fell
   out of a style sweep in seconds. If a change touches the fault corpus or the measurement set,
   sweep the styles.
 - **A NEGATIVE assertion whose selector breaks inverts into a tautology.** `assert 'class="ch"' not
@@ -541,7 +546,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   style could not declare the only dormer it is built with. That instance is bound now; the
   mechanism is OQ 87 and reaches all 97 slots.
 - **The moment a record can finally STATE a zero, every rule that presupposed the thing runs on it.**
-  WP-5.9 gave the plan schema `declared.dormer` with three states — key absent (could not evaluate),
+  WP-5.13 gave the plan schema `declared.dormer` with three states — key absent (could not evaluate),
   `"none"` (a measured zero), an object (a house with dormers) — and both reference houses stated
   none. `dormer-off-the-bay`'s parity secondary is `dormer_count % 2 == 1`, which had never run
   because no generator supplied the number; on the first run after they could, both were convicted
@@ -577,7 +582,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
 - **A test of the MODEL is not a test of the DRAWING, and this corpus has now been caught by that
-  twice in two days.** WP-5.7 deleted `TestSegTo` for pinning the control points of curves that
+  twice in two days.** WP-5.11 deleted `TestSegTo` for pinning the control points of curves that
   had silently degenerated to straight lines — then shipped `svg_path()` with an **inverted SVG
   sweep flag**, so every one of the 245 arcs in the corpus was drawn as its own mirror about its
   chord: an ovolo as a cavetto, a torus as a hollow, on all three surfaces at once. It passed 34
@@ -738,11 +743,16 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `limits.py`. `load.py` carries a fresh plan id per request; raise `HEAVY_CALLS_PER_HOUR`
   for the run.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **98 entries, of which 33 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 98).
+  trusting any list of them. **THE REGISTER IS A DIRECTORY** — `docs/open-questions/<nnn>-<slug>.md`,
+  one file per question, filename == id, exactly as `faults/` and `rooms/` have always worked.
+  `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and run
+  `build/gen_open_questions.py`. It holds **98 entries, of which 32 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 91, 92, 93, 94, 96, 98).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
-  is an open one. That list is DERIVED from the file by
+  is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
+  which reads `build/check_ids.py`'s own reader rather than re-parsing anything — the status
+  vocabulary is spelled in ONE place now, because it used to be spelled in two,
   which also requires the ids to be a bare comma-separated list on ONE line — putting prose
   inside the parentheses makes its regex match nothing and the assertion fires on an empty set,
   which is how this line was broken and caught while writing it.
@@ -757,21 +767,21 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   renumbered: there are two different WP-5.7s** (main's atlas, this branch's geometry layer), kept
   apart only by their report filenames. That is **OQ 90**, and until it is ruled, cite the report
   and never the number.
-  **88 and 89 came from WP-5.10's own adversarial audit: the sill scope it fixed on one node
+  **88 and 89 came from WP-5.14's own adversarial audit: the sill scope it fixed on one node
   reaches 27 masonry nodes and two more pack rules have the same shape (88), and three
   measurements are still withheld to work around gaps `applies_when` now covers while
   `total_shutter_leaves` is supplied as an unconditional constant of 2.0 whether or not the style
-  carries shutters (89).** **84 and 85 closed 27 Aug (WP-5.10) and raised 86 and 87 between them:
+  carries shutters (89).** **84 and 85 closed 27 Aug (WP-5.14) and raised 86 and 87 between them:
   86 is 62 addresses where a node's own MEASURED parameter contradicts a pack rule, which OQ 48's
   pack-versus-pack measurement could not see because the two are written under different names;
   87 is that a slot bound `open` — the style declining to constrain it — inherits its ancestor's
   constraints in full, because `resolve_slots` stops its walk only on `specified` or `forbidden`.**
-  **78, 79 and 80 were WP-5.7's, about the geometry layer: the entablature's datum, two sourced
+  **78, 79 and 80 were WP-5.11's, about the geometry layer: the entablature's datum, two sourced
   rules disagreeing about the cornice's projection, and the front elevation that could not draw
-  its own chimneys. 78 and 80 are closed — 80 by WP-5.9, which found the renderer still asserting
+  its own chimneys. 78 and 80 are closed — 80 by WP-5.13, which found the renderer still asserting
   in a twelve-line comment the flat-eave-line behaviour the roof layer had stopped having earlier
   in the same package, and two invented constants underneath it putting a brick bar in the sky.**
-  **84 and 85 are WP-5.9's, from the dormer layer: `cornice-that-is-a-fascia`'s two rival
+  **84 and 85 are WP-5.13's, from the dormer layer: `cornice-that-is-a-fascia`'s two rival
   secondaries, where whichever is right the other convicts the house — inert today only because
   it tests on a measurement name nothing supplies — and a gable-end-exterior stack standing on
   the centre line of a gable end whose elevation puts a window there, with no layer asking

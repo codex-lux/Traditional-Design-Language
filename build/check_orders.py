@@ -269,7 +269,7 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
         if dupes:
             err(pid, f"assembly '{name}' has duplicate member ids: {sorted(dupes)}")
 
-        # WP-5.7: a repeating member's own width against its own pitch. A tooth as wide as its
+        # WP-5.11: a repeating member's own width against its own pitch. A tooth as wide as its
         # pitch leaves no gap between teeth, which is a solid band with extra steps; a tooth
         # WIDER than its pitch is teeth overlapping each other, which cannot be built. Neither is
         # caught by the schema, because both are perfectly good numbers on their own.

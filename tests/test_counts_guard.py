@@ -82,7 +82,7 @@ def test_the_pack_count_is_computed_from_the_files_and_not_from_a_constant():
 # --------------------------------------------------------------- the check total (WP-7.5)
 # `check_counts.py` polices counts DERIVED FROM THE CORPUS, and a check total is not one of
 # them -- CLAUDE.md says so itself, and that exemption is why this particular number has now
-# been wrong three times. WP-5.7 found it published as 32 against a suite of 33. The 27 Aug
+# been wrong three times. WP-5.11 found it published as 32 against a suite of 33. The 27 Aug
 # merge resolved a conflict in that paragraph and wrote 32 AGAIN, in the same sentence that
 # describes the bug, because `len(check_all.CHECKS)` is the loop and not the run; check_all.py
 # printed "1 of 35 checks failed" against it an hour later. These two tests move it from

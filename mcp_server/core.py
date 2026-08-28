@@ -473,7 +473,7 @@ def _eval_test(t, measurements):
         # A MALFORMED GUARD IS AN ERROR, NOT A SILENT ANYTHING. `schema/fault.schema.json` now
         # requires expression/direction/threshold, but the schema is only checked when jsonschema
         # is installed and `_eval_test` is the shared evaluator every surface calls -- so the two
-        # failure modes the WP-5.10 audit found are refused here too. Omitting `expression` made
+        # failure modes the WP-5.14 audit found are refused here too. Omitting `expression` made
         # the precondition vanish and the test run unguarded; omitting `direction` made `passes`
         # None, which read as "declined" and switched the test off permanently. Both were
         # schema-valid, both were silent, and the second is indistinguishable from a design

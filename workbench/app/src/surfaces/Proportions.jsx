@@ -36,7 +36,7 @@ function inches(v) {
    its own naked plus its projection, which is what an authority means by a projection.
    A band per member, the deepest boundaries carrying dimension ticks.
 
-   RULING OVERTURNED 26 Aug 2026 (WP-5.7). This comment used to end "Not the moulding profiles
+   RULING OVERTURNED 26 Aug 2026 (WP-5.11). This comment used to end "Not the moulding profiles
    of dist/orders.html — those stay in the order tool; this is the engine's stack, stated
    plainly." That was a defensible line while the only moulding geometry in the corpus was a
    set of hand-tuned Beziers that belonged to one page. It is not defensible now: the profiles
@@ -140,7 +140,7 @@ function OrderPlate({ data }) {
     return Math.max(proj, nk);
   };
 
-  /* WP-5.7: the member's own moulded edge, constructed by build/profiles.py and served with the
+  /* WP-5.11: the member's own moulded edge, constructed by build/profiles.py and served with the
      pack. This plate does not know what a cyma is and must not learn: every copy of that
      knowledge this corpus has kept in two languages has eventually disagreed with itself. All
      that happens here is scale, flip, and emit. `f` is the ratio of the module the plate is

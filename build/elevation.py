@@ -480,7 +480,7 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
         belt_proj, _ = _val(facade_pack, "belt_course", {"part": facade_part_in}, dimension="projection")
     belt_datum_ft = upper["grade_to_floor_ft"] if upper else None
 
-    # WP-5.7. Two things the pack has always stated and nothing has ever drawn.
+    # WP-5.11. Two things the pack has always stated and nothing has ever drawn.
     #
     # THE COURSE. brick-course.json's own invariant fixes one course at module/parts, and its
     # notes say what that is for: "in a brick building there are no free horizontal dimensions
@@ -804,7 +804,7 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
     # order as the house at reduced scale" -- and `overscaled-dormer` says it from the other
     # side ("Dormers carry the same order as the house at reduced scale; at full scale they
     # compete with it"). Until 27 Aug 2026 the drawing had the gable springing straight off the
-    # head casing with no cornice at all, which is the abstraction the whole of WP-5.7 to 5.9
+    # head casing with no cornice at all, which is the abstraction the whole of WP-5.11 to 5.9
     # exists to remove, at dormer scale.
     #
     # HOW BIG. `cornice-that-is-a-fascia`'s third secondary states the rule the HOUSE's cornice
@@ -889,7 +889,7 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
 
 
 NOT_MODELLED = {
-    # `dormer_count` and `sum_of_dormer_face_widths_in` LEFT this list on 27 Aug 2026 (WP-5.9),
+    # `dormer_count` and `sum_of_dormer_face_widths_in` LEFT this list on 27 Aug 2026 (WP-5.13),
     # under its own rule: to take a name off you must model the thing in the same commit. They are
     # modelled now -- schema/plan.schema.json gained `declared.dormer` and build/elevation.py
     # gained dormers(). What made them refusable was never the geometry; it was that an absent
@@ -897,7 +897,7 @@ NOT_MODELLED = {
     # new field separates them: "none" is a measured zero the fault corpus may judge, an absent
     # key is could-not-evaluate, and these measurements are supplied ONLY in the first case.
     # roof.py's chimney record carries a position and two heights. There is no plan size in it.
-    # WP-5.7 corrected these four reasons. brick-course DOES carry `chimney/width` (part * 8,
+    # WP-5.11 corrected these four reasons. brick-course DOES carry `chimney/width` (part * 8,
     # 22 in here) -- so the old reason, that nobody had wired it, was wrong. The real reason is
     # stronger: that rule is flagged `judgment: true` and its own note says a mason will build 18
     # or 27 and "someone should decide which rather than discovering it on site". A judgment slot
@@ -915,7 +915,7 @@ NOT_MODELLED = {
     "raking_cornice_member_count": "eave_cornice() dimensions the horizontal entablature only",
     # Nothing in this corpus models a gutter: no slot, no kit parameter, no line in a renderer.
     "gutter_outlets": "no gutter is modelled anywhere in the corpus",
-    # WP-5.9. These four were SUPPLIED, from ratios of the leaf width and the muntin that exist
+    # WP-5.13. These four were SUPPLIED, from ratios of the leaf width and the muntin that exist
     # in no pack, kit or element file: 0.8, 0.4, 0.18 and x3. `shutter-panel-scale` was reading
     # two of them and judging houses on the result. A shutter's framing IS knowable -- period work
     # graduates stile, top rail, lock rail and bottom rail -- but no figure for a Chesapeake
@@ -1192,7 +1192,7 @@ def _derive_measurements(elev):
         # entrance-slope-penetration's array secondary is "the conditional test for arrays" and
         # core.check_measurements "has no way to gate a secondary test on another value", so a
         # truthful 0 sqft read as 0/plane = 0.0 and convicted the house of a patchy array it does
-        # not have. It has a way now -- `applies_when` (WP-5.9) -- and that secondary is
+        # not have. It has a way now -- `applies_when` (WP-5.13) -- and that secondary is
         # preconditioned on the array's own area, so a house with no array declines the test
         # rather than failing it. Two workarounds retired by one field.
         "solar_array_area_sqft": 0.0,
@@ -1331,7 +1331,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     entrance_face = (plan.get("context") or {}).get("entrance_faces") or "S"
     is_masonry = section["wall"].get("bearing") == "load-bearing-masonry"
 
-    # WP-5.7: THE STACK'S PLAN SIZE, AND WHY IT STAYS OUT OF THE MEASUREMENTS.
+    # WP-5.11: THE STACK'S PLAN SIZE, AND WHY IT STAYS OUT OF THE MEASUREMENTS.
     #
     # Four names sit in NOT_MODELLED saying "the roof record carries no chimney plan dimension",
     # and this looked at first like a wiring job: brick-course DOES carry `chimney/width` as
@@ -1363,7 +1363,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         except Exception:
             chimney_plan_in = None
 
-    # WP-5.7: HOW THE HEAD OF AN OPENING IS CARRIED, which on a brick house is the most
+    # WP-5.11: HOW THE HEAD OF AN OPENING IS CARRIED, which on a brick house is the most
     # diagnostic thing on the wall after the bay rhythm.
     #
     # CORRECTED 27 Aug 2026, and the first version was the invented-source failure this corpus
@@ -1387,7 +1387,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     # was drawn with shutters -- on a solid-brick Chesapeake house, where Colonial Williamsburg's
     # own report on the Ludwell-Paradise House says "None. (Being a brick building in colonial
     # times shutters appeared only in interiors.)" The gap was adjudicated in the kit on
-    # 27 Aug 2026 (WP-5.9, and the OQ 51 idiom); this reads the answer.
+    # 27 Aug 2026 (WP-5.13, and the OQ 51 idiom); this reads the answer.
     # THE REVEAL, read from whichever of the two slots this construction uses. A band, not a
     # figure -- 4 to 8 in on the masonry kit -- so it travels as a band and the drawing uses its
     # PRESENCE (which edges fall into shadow) rather than claiming a depth the corpus withholds.

@@ -302,7 +302,7 @@ class TestScopedLineageEdges:
         assert len(still) >= 10, "the dress itself must still come through the edge"
 
 class TestASlotAStyleDeclinedToConstrainIsNotConstrainedForIt:
-    """OQ 85's sibling, closed 27 Aug 2026 (WP-5.10), and found by drawing rather than by testing.
+    """OQ 85's sibling, closed 27 Aug 2026 (WP-5.14), and found by drawing rather than by testing.
 
     `colonial-revival` bound `dormer` as `binding: "open"`, `status: "empty"` — the style
     explicitly declining to constrain the slot. `resolve_slots` only stops its walk on `specified`
@@ -345,7 +345,7 @@ class TestASlotAStyleDeclinedToConstrainIsNotConstrainedForIt:
         assert d["variant"] == "boxed-dormer"
 
     def test_the_sash_pattern_no_longer_has_to_be_drawn_as_bare_glass(self, resolve_kit_module):
-        """The slot states one now. WP-5.9 had to draw this style's dormer sash with no glazing
+        """The slot states one now. WP-5.13 had to draw this style's dormer sash with no glazing
         bars at all, and say so on the sheet, because nothing in the cascade stated a pattern."""
         import copy
         import json as _j

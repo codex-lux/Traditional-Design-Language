@@ -40,6 +40,44 @@ jobs:
         # workbench job below does install ortools, but runs only the server suite.
         # Costs an install and about two minutes of solver tests. Ruled worth it.
         run: pip install jsonschema pytest ortools
+      # THE ONLY PLACE A CROSS-BRANCH ID COLLISION IS DETECTABLE BEFORE IT COSTS A RENUMBER.
+      # Four collisions in four days, every one found at the merge and paid for afterwards with
+      # a sweep of ~1,500 references. `pull_request` gives us both refs, so the SECOND pull
+      # request to issue an id can be failed before it lands rather than renumbered after.
+      #
+      # The register being a directory is most of the fix, but not all of it: two sessions
+      # issuing id 99 with DIFFERENT slugs create two different PATHS, so git merges both
+      # without a conflict and the register carries two entries numbered 99. check_ids.py
+      # catches that within one tree; this catches it across two.
+      - name: open-question ids do not collide with the base branch
+        if: github.event_name == 'pull_request'
+        run: |
+          set -o pipefail
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+          ids () { git ls-tree -r --name-only "$1" -- docs/open-questions/ 2>/dev/null \
+                     | sed -n 's#.*/\([0-9][0-9][0-9]\)-.*\.md#\1#p' | sort -u; }
+          base=$(ids "origin/${{ github.base_ref }}")
+          head=$(ids HEAD)
+          # An id this branch ADDED that the base branch already uses under a different name.
+          added=$(comm -13 <(echo "$base") <(echo "$head"))
+          reused=$(comm -12 <(echo "$base") <(echo "$added") || true)
+          collide=""
+          for id in $added; do
+            b=$(git ls-tree -r --name-only "origin/${{ github.base_ref }}" -- docs/open-questions/ \
+                  | grep -E "/${id}-" || true)
+            h=$(git ls-tree -r --name-only HEAD -- docs/open-questions/ | grep -E "/${id}-" || true)
+            if [ -n "$b" ] && [ "$b" != "$h" ]; then collide="$collide $id"; fi
+          done
+          if [ -n "$collide" ]; then
+            echo "::error::open-question id(s)$collide exist on ${{ github.base_ref }} under a"
+            echo "different filename. Another session issued them first. Reissue this branch's"
+            echo "at the next free id and add a row to docs/open-questions/README.md's"
+            echo "conversion table. PLAN-OF-ACTION.md §1: ids are never reused, and the side"
+            echo "that merged first keeps its numbers."
+            exit 1
+          fi
+          echo "No open-question id on this branch collides with ${{ github.base_ref }}."
+
       - name: check_all.py
         # Reports the workbench server suite as N/EV here — fastapi is deliberately not
         # installed in this job, and the workbench job below runs it properly.

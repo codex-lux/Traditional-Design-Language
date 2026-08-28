@@ -340,7 +340,7 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     # OQ 65, ruled: which datum this pack's projections are measured from is STATED, not
     # derived by whoever draws them. Inherited through the overlay chain by resolve().
     out["projection_datum"] = pk.get("projection_datum")
-    # WP-5.7: the constructed moulding geometry, so the browser draws what the engine built
+    # WP-5.11: the constructed moulding geometry, so the browser draws what the engine built
     # rather than re-deriving a curve or a datum for itself. Segments are in inches at the
     # module above; a client wanting another size scales them, because pack geometry is linear
     # in the module (proved in tests/test_profiles.py). See build/profiles.py for why this is

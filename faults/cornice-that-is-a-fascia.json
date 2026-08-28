@@ -195,7 +195,7 @@
         "direction": "at-most",
         "threshold": 0,
         "units": "count",
-        "note": "THE DOMESTIC CASE RUNS ONLY ON A DOMESTIC EAVE. This test and the one below it measure the SAME expression against incompatible bands, so whichever is right the other convicts the house -- and this fault's own note has always said how to choose ('Choose the test by whether an order is present, not by preference'), in prose no evaluator could read. Made executable 27 Aug 2026 (OQ 84, WP-5.10). The measurement is 1 only where an order engages the WALL over its full height so the eave IS the entablature; a one-bay portico has its own entablature below the eave and does not make this the entablature case."
+        "note": "THE DOMESTIC CASE RUNS ONLY ON A DOMESTIC EAVE. This test and the one below it measure the SAME expression against incompatible bands, so whichever is right the other convicts the house -- and this fault's own note has always said how to choose ('Choose the test by whether an order is present, not by preference'), in prose no evaluator could read. Made executable 27 Aug 2026 (OQ 84, WP-5.14). The measurement is 1 only where an order engages the WALL over its full height so the eave IS the entablature; a one-bay portico has its own entablature below the eave and does not make this the entablature case."
       },
       "note": "THE DOMESTIC BOXED CASE. 18 in high and 7 3/4 in out gives 0.43. This is the distinction most people get wrong, and getting it wrong in either direction is a separate disaster."
     },

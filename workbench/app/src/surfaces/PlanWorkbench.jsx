@@ -193,7 +193,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const unjudgedConstraints = findings.filter((f) =>
     f.layer === 'style' && /cannot evaluate|check by hand/i.test(f.statement));
   const faultUnjudged = lastEval?.fault_unjudged || [];
-  // THE FOURTH STATE (WP-5.9), which reached this surface only after the WP-5.10 audit went
+  // THE FOURTH STATE (WP-5.13), which reached this surface only after the WP-5.14 audit went
   // looking. A fault whose every test declined its `applies_when` precondition appears in no
   // other list, so leaving it out of the bench reproduced here the exact collapse the state was
   // invented to prevent: absent from every list reads as clear.

@@ -1,0 +1,5 @@
+# OQ 1 — Should the 1877 sketching-tour styles cascade?
+
+*Status: RESOLVED · Raised in: From the taxonomy*
+
+**RESOLVED — Should the 1877 sketching-tour styles cascade?** Colonial Revival is typed `references` toward Georgian because its transmission is photography and measured drawings. Shingle Style and Queen Anne Free Classic reach early New England building by exactly the same mechanism — the McKim, Mead, White and Bigelow tour of Marblehead, Salem, Newburyport and Portsmouth — and are typed `descends_from`, so they inherit seventeenth-century assembly. Those offices also employed carpenters who still knew the work, which is the counter-argument. **Ruling: apply the `references` reading to all three** — transmission by photography and measured drawing, however skilled the office, is not the same mechanism as a trade lineage, and the model should not blur that distinction for three styles just because the drawings were good. Reflected in `styles/colonial-revival.json`, `styles/shingle-style.json`, `styles/queen-anne-free-classic.json`.

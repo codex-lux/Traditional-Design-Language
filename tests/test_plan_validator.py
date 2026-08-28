@@ -74,7 +74,7 @@ class TestShippedPlans:
         # BOTH SIDES OF THE 28 AUG MERGE MOVED THIS NUMBER IN OPPOSITE DIRECTIONS, so it is
         # re-measured here rather than reconciled on paper. WP-7.1/7.2 pushed it UP (58 -> 62):
         # the drawn layer sees a different placement, and a stated wall run is now measured
-        # against the placed openings. WP-5.9 pushed it DOWN (58 -> 56): `shutter-panel-scale`
+        # against the placed openings. WP-5.13 pushed it DOWN (58 -> 56): `shutter-panel-scale`
         # stops firing on both storeys, because the two panel-field figures it read were
         # leaf-width ratios with no author and are refused now, and
         # `muntin-wider-than-its-date` stops firing too -- see the Tidewater note below.
@@ -116,7 +116,7 @@ class TestShippedPlans:
         # Found by an adversarial audit of the candidate-score work. Fatal is unmoved, which
         # is what says this removed noise rather than signal.
         # AGAIN BOTH SIDES MOVED IT, and this is the one worth reading. WP-7.1/7.2 took it
-        # 34 -> 31 (placement moved; three furniture false accusations removed). WP-5.9 took it
+        # 34 -> 31 (placement moved; three furniture false accusations removed). WP-5.13 took it
         # 34 -> 33, and its reason is the sharper one: BOTH REFERENCE HOUSES WERE BEING CONVICTED
         # OF A SERIOUS FAULT ON A FABRICATED NUMBER. `muntin-wider-than-its-date` reads
         # sash_stile_width_in in its secondary test, and elevation.py was supplying
@@ -136,7 +136,7 @@ class TestShippedPlans:
         # general room offered where a specific one was asked for -- and are now reported as the
         # absence they are, or promoted to the severity their rule carries. Fatal stays 0.
         # 62 -> 61 (OQ 52): the same invented stack-shadow-line count as the spec Colonial.
-        # 61 -> 60 on 27 Aug 2026 (WP-5.9): `shutter-panel-scale`, which was reading two
+        # 61 -> 60 on 27 Aug 2026 (WP-5.13): `shutter-panel-scale`, which was reading two
         # fabricated leaf-width ratios -- see the serious-count note above.
         assert result["counts"]["minor"] == 60
 

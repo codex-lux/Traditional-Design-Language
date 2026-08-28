@@ -1,0 +1,5 @@
+# OQ 38 — `resolve_kit.choose_pack` reports an unranked tie as the author's ruling
+
+*Status: OPEN · Raised in: From the deployment audit (25 Aug 2026)*
+
+**OPEN — `resolve_kit.choose_pack` reports an unranked tie as the author's ruling.** `sorted(declared, key=precedence or 99)` then `live[0]`: when two packs share a precedence, position in the JSON array decides which governs, and the result is labelled `how: "slot.packs"` — "the author's explicit ruling" — when no ruling was made. The style-level branch already returns `how: "unresolved"` for the analogous disagreement; the slot branch has no such guard. Four real occurrences today, all in `kits/georgian-colonial-american.kit.json` (`window_head_masonry`, `window_head_wood`, `window_surround_masonry`, `window_surround_wood` — brick-course against opening-proportion and sash-light, all at precedence 1). This decides actual dimensions in a resolved kit, so it is not cosmetic; but the fix is either an authoring pass to break the four ties deliberately, or a schema-level statement that equal precedence means unresolved — Lucas's call, not a patch.
