@@ -926,7 +926,53 @@ NOT_MODELLED = {
     "shutter_stile_width_in": "no pack states a shutter's stile width",
     "shutter_lock_rail_height_in": "no pack states a shutter's rail widths",
     "overflow_scuppers": "no gutter is modelled anywhere in the corpus",
+    # OQ 89. `window_head_radius_in` IS supplied now, computed from the head the record states.
+    # Its partner is not, and the asymmetry is the finding: nothing in this corpus says whether a
+    # shutter leaf follows a curved head or is left square against it. That is precisely the
+    # question `shutter-on-an-unshutterable-opening` asks, so deriving the answer from the window
+    # would hand the fault its own conclusion and guarantee a pass.
+    "shutter_head_radius_in": "no pack, kit or element file states whether a shutter leaf follows "
+                              "a curved head or stands square against it -- which is the very "
+                              "thing the fault reading this measurement is asking",
 }
+
+def _head_radius_in(w):
+    """The radius of curvature of a window head, or 0 for a straight one, or None (OQ 89).
+
+    Withheld by a comment until now, on the argument that the fault reading it "is only meant to
+    run where the head is curved". The guard for that was built in WP-5.10 and has been sitting
+    over a measurement nobody supplied ever since, so the fault ran on 1 of 2 tests. The record
+    can answer it: `_head_treatment()` states the head's kind and its rise, and a circular
+    segment's radius follows from rise and span exactly -- R = r/2 + s**2 / (8r) -- so this is
+    geometry off stated figures, not a new number.
+
+    THREE STATES, and the middle one is a reading of the corpus rather than a convenience:
+
+      curved   -- a segmental arch with a definite rise. The real radius.
+      straight -- 0. A square wood head has no curvature, and NEITHER, for this purpose, does a
+                  gauged flat arch: brick-course's own rule says the camber is there "so that
+                  when the wall settles it reads level" and is "invisible on paper and
+                  unmistakable on the building". A jack arch is drawn straight and shuttered
+                  square. Reporting its 463 in camber radius as a curved head would convict
+                  houses of a crescent nobody can see. 0 is also the convention the fault's own
+                  `applies_when` already assumes, at a threshold of 0.1 in.
+      unknown  -- None. The kit permits more than one masonry head and the plan states no date,
+                  or the rise is a BAND. A band does not become a figure by being halved.
+    """
+    ht = w.get("head_treatment")
+    if ht is None:
+        return 0.0                      # frame wall, square wood head, one head datum
+    kind = ht.get("kind")
+    if kind is None:
+        return None                     # the record says it could not judge which head this is
+    if "segmental" not in kind:
+        return 0.0                      # flat/jack arch and anything else straight-soffited
+    rise = ht.get("rise_in")
+    span = w.get("opening_width_in")
+    if not isinstance(rise, (int, float)) or not rise or not span:
+        return None                     # a band, or no rise: unjudged rather than midpointed
+    return round(rise / 2.0 + (span * span) / (8.0 * rise), 3)
+
 
 def _derive_measurements(elev):
     m = {}
@@ -972,15 +1018,8 @@ def _derive_measurements(elev):
         "sash_opening_height_in": ground_w["opening_height_in"],
         "shutter_leaf_width_in": ground_w["shutter_leaf_width_in"], "shutter_leaf_height_in": ground_w["shutter_leaf_height_in"],
         "shutter_panel_count_per_leaf": ground_w.get("shutter_panel_count"),
-        # shutter-on-an-unshutterable-opening.json: a standard pair (2 leaves) per opening, both
-        # genuinely clearing on the hinge side -- pier_width_in (real, computed above) is
-        # comfortably wider than shutter_leaf_width_in on this bay spacing, so both leaves really
-        # do have a full leaf-width of uninterrupted wall to swing onto, not an assumed pass.
-        # window_head_radius_in/shutter_head_radius_in are deliberately NOT supplied: the
-        # secondary curved-head test divides by them and is only meant to run "where the head is
-        # curved" (our heads are all square, per window_head_wood's own one-head-datum rule) --
-        # the same conditional-secondary-test gap already disclosed for the solar-array test above.
-        "total_shutter_leaves": 2.0, "shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall": 2.0,
+        # The two shutter LEAF COUNTS are supplied below, conditioned on whether this style
+        # carries shutters at all. They were unconditional constants of 2.0 until OQ 89.
         "window_sash_light_count_across": ground_w["lights_across"],
         "egress_window_opening_width_in": upper_w["opening_width_in"], "egress_window_opening_height_in": upper_w["opening_height_in"],
         "net_clear_opening_height_in": upper_w["opening_height_in"] * 0.5,
@@ -995,6 +1034,46 @@ def _derive_measurements(elev):
         "pier_width_in": round(bays["actual_bay_width_in"] - ground_w["opening_width_in"], 2),
         "total_opening_width_in": round(ent["door_leaf_width_in"] + 4 * ground_w["opening_width_in"], 2),
     })
+
+    # THE WINDOW HEAD'S RADIUS (OQ 89). Absent means the record could not judge the head, which
+    # is not the same as a straight one; see _head_radius_in.
+    _hr = _head_radius_in(ground_w)
+    if _hr is not None:
+        m["window_head_radius_in"] = _hr
+
+    # THE SHUTTER LEAF COUNTS, AND WHY THEY ARE NOT A CONSTANT (OQ 89).
+    #
+    # These two were `2.0` and `2.0` unconditionally, so `shutter-on-an-unshutterable-opening`
+    # read 2/2 = 1.0 and came back CLEAR -- passes: true -- on `tidewater-georgian`, a house
+    # whose kit makes `none` CANONICAL and whose every window record here already carries
+    # `shutters_carried: False` with its leaf dimensions dropped for exactly that reason. A
+    # fault cleared on two invented shutters: OQ 52's class, inside `_derive_measurements`,
+    # where `NOT_MODELLED` could not reach it because nothing was being withheld -- something
+    # was being INVENTED. The fact was already computed 500 lines away and never consulted.
+    #
+    # Three states, and the middle one is the point:
+    #   carried      -> the real pair. A standard pair (2 leaves) per opening, both genuinely
+    #                   clearing on the hinge side: `pier_width_in` (computed, not assumed) is
+    #                   comfortably wider than `shutter_leaf_width_in` at this bay spacing, so
+    #                   both leaves really do have a full leaf-width of uninterrupted wall to
+    #                   swing onto.
+    #   not carried  -> a MEASURED ZERO. The house has no shutter leaves and that is a fact
+    #                   about it, not a gap in what we modelled. Withholding it would be the
+    #                   opposite error -- refusing to state a quantity the record knows.
+    #   unstated     -> ABSENT. If a record reaches here without the flag we cannot tell, and
+    #                   could-not-evaluate is not zero and is not two.
+    #
+    # The zero is what makes the fault's primary test divide by zero, which is why that test
+    # gains an `applies_when` in the same commit. That is the WP-5.9 lesson repeating exactly:
+    # the moment a record can finally STATE a zero, every rule that presupposed the thing runs
+    # on it.
+    _carried = ground_w.get("shutters_carried")
+    if _carried is True:
+        m.update({"total_shutter_leaves": 2.0,
+                  "shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall": 2.0})
+    elif _carried is False:
+        m.update({"total_shutter_leaves": 0.0,
+                  "shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall": 0.0})
 
     m.update({
         "door_leaf_width_in": ent["door_leaf_width_in"], "door_leaf_height_in": ent["door_leaf_height_in"],
@@ -1130,15 +1209,22 @@ def _derive_measurements(elev):
     # structure.py's own solved section, not guessed) on all four faces of the single volume
     # geometry.py solves -- there is no second volume and no material change to misreport, so
     # "all four faces, one material, one body colour" is a real fact about what was built, not an
-    # assumed pass. plan_offset_at_material_change_in and ridge_height_difference_between_
-    # volumes_in are deliberately withheld: both are "at least" secondary tests meant to gate a
-    # LEGITIMATE material change at a real second volume, and since there is no second volume,
-    # supplying 0 for either would fail them for the honest reason that no change exists at all --
-    # the same conditional-secondary-test trap already disclosed above for the solar-array and
-    # shutter-head-radius tests.
+    # assumed pass.
+    #
+    # `plan_offset_at_material_change_in` and `ridge_height_difference_between_volumes_in` were
+    # WITHHELD BY THIS COMMENT (OQ 89), on the sound argument that both are `at-least` secondaries
+    # gating a LEGITIMATE material change at a real second volume, so supplying 0 for either would
+    # fail them for the honest reason that no change exists at all. The argument was right and the
+    # mechanism was wrong: a comment is not a guard, `NOT_MODELLED` could not carry these because
+    # nothing is unmodelled here, and a reader of the measurements could not tell a deliberate
+    # silence from an oversight. What the record actually knows is a COUNT, and it is zero.
+    # Stating it and preconditioning the two tests on it turns "withheld, see comment" into
+    # "not applicable, and here is the measurement that says so".
     m.update({
         "faces_of_volume": 4, "faces_of_volume_clad_in_primary_material": 4,
         "faces_of_volume_in_one_body_colour": 4,
+        "count_of_volumes_on_the_elevation": 1,
+        "count_of_material_changes_on_the_elevation": 0,
     })
 
     m.update({

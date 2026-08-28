@@ -703,3 +703,115 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         rp.render(out, path)
         svg = open(path).read()
         assert svg.count("ft off the bay line") == out["geometry_report"]["relaxations"]["count"]
+
+
+class TestAFaultIsNotClearedOnShuttersThatAreNotThere:
+    """OQ 89. `elevation.py` published `total_shutter_leaves: 2.0` and
+    `shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall: 2.0` as UNCONDITIONAL constants,
+    so `shutter-on-an-unshutterable-opening` read 2/2 = 1.0 and came back CLEAR -- `passes: true`
+    -- on `tidewater-georgian`, whose kit makes `none` canonical and whose every window record
+    already carried `shutters_carried: False` with its leaf dimensions dropped for exactly that
+    reason. A fault cleared on two invented shutters.
+
+    This is OQ 52's class one layer in from where OQ 52's guard can see: nothing was being
+    WITHHELD, so `NOT_MODELLED` had no purchase on it -- something was being INVENTED, in
+    `_derive_measurements`, beside measurements that are real.
+
+    The three assertions are the three states, and the third is the one that makes the fix a fix
+    rather than a suppression: a house that carries shutters must still be judged.
+    """
+
+    def test_a_style_whose_kit_forbids_shutters_states_a_measured_zero(self, elevation_mod):
+        elev = elevation_mod.build_elevation(_plan("tidewater-georgian-careful"))
+        assert elev["storey_windows"][0]["shutters_carried"] is False, (
+            "fixture drift: this test needs a style that declines shutters")
+        m = elev["measurements"]
+        assert m["total_shutter_leaves"] == 0, (
+            "a house with no shutters has no shutter leaves, and 2.0 is where OQ 89 came from")
+        assert m["shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall"] == 0
+
+    def test_the_fault_does_not_come_back_clear_on_a_shutterless_house(self, core_module,
+                                                                        elevation_mod):
+        """The conviction that matters. Before the fix this returned `faults_clear` carrying
+        `{"value": 1.0, "passes": true}` -- the strongest possible statement that a house is fine,
+        made entirely out of numbers nobody measured."""
+        elev = elevation_mod.build_elevation(_plan("tidewater-georgian-careful"))
+        r = core_module.check_measurements(elev["measurements"], style="tidewater-georgian", limit=400)
+        clear = {row["fault"] for row in (r.get("faults_clear") or []) if isinstance(row, dict)}
+        assert "shutter-on-an-unshutterable-opening" not in clear, (
+            "the fault is CLEAR again on a house whose kit forbids shutters (OQ 89)")
+        na = {row["fault"] for row in (r.get("not_applicable") or []) if isinstance(row, dict)}
+        assert "shutter-on-an-unshutterable-opening" in na, (
+            "not-applicable is the right answer here and could-not-evaluate is not: the "
+            "measurements are present and say zero, so the question does not arise")
+
+    def test_a_style_that_does_carry_shutters_is_still_judged(self, core_module, elevation_mod):
+        """A guard that silences the fault everywhere would pass the two assertions above."""
+        elev = elevation_mod.build_elevation(_plan("spec-builder-colonial"))
+        assert elev["storey_windows"][0]["shutters_carried"] is True
+        assert elev["measurements"]["total_shutter_leaves"] == 2.0
+        r = core_module.check_measurements(elev["measurements"], style=elev["style"], limit=400)
+        rows = [row for row in (r.get("faults_clear") or [])
+                if isinstance(row, dict) and row["fault"] == "shutter-on-an-unshutterable-opening"]
+        assert rows, "a shuttered house must still be judged, not quietly excused"
+        assert any(x.get("status") == "evaluated" for x in rows[0]["results"]), (
+            "clear must mean a test RAN and passed, not that every test declined")
+
+
+class TestSupplyingAMeasurementDoesNotArmAnUnguardedDivision:
+    """OQ 89, and the reason its first bullet could not simply be done. `window_head_radius_in` is
+    supplied now, computed from the head the record already states. Its guarded twin in
+    `secondary_tests` has carried an `applies_when` since WP-5.10 -- but the IDENTICAL expression
+    sits in `exceptions[0].bounds_test`, which `check_measurements` SUBSTITUTES for the primary on
+    a matching style, and that one carried no guard.
+
+    So supplying the measurement made a latent bug live: on a straight-headed house the radius is
+    a measured 0 and the bounds_test divides by it. Proved before it was guarded -- the unguarded
+    call returned `{'status': 'error', 'detail': 'float division by zero'}`.
+
+    This is the WP-5.9 lesson and the WP-5.10 audit's Second Empire finding in one place: the
+    moment a record can state a zero every rule that presupposed the thing runs on it, and a
+    fault's tests live in THREE locations of which `exceptions[].bounds_test` is the one that
+    gets missed.
+    """
+
+    def test_both_copies_of_the_head_radius_test_are_guarded(self):
+        fault = json.load(open(os.path.join(ROOT, "faults",
+                                           "shutter-on-an-unshutterable-opening.json")))
+        copies = [t for t in fault.get("secondary_tests", [])
+                  if t["expression"].startswith("shutter_head_radius_in")]
+        copies += [e["bounds_test"] for e in fault.get("exceptions", [])
+                   if e.get("bounds_test", {}).get("expression", "").startswith("shutter_head_radius_in")]
+        assert len(copies) == 2, "fixture drift: expected the expression in two places"
+        for t in copies:
+            assert t.get("applies_when"), (
+                "one copy of the head-radius test is unguarded. Guarding `secondary_tests` and "
+                "not `exceptions[].bounds_test` is exactly the omission the WP-5.10 audit found.")
+
+    def test_the_bounds_test_does_not_error_on_a_straight_headed_house(self, core_module,
+                                                                        elevation_mod):
+        m = dict(elevation_mod.build_elevation(
+            _plan("tidewater-georgian-careful"))["measurements"])
+        assert m["window_head_radius_in"] == 0, (
+            "fixture drift: this test needs a straight-headed house, which is what a gauged flat "
+            "arch is -- brick-course's own rule says its camber is there so the head 'reads "
+            "level' and is 'invisible on paper'")
+        m["shutter_head_radius_in"] = 12.0          # the partner the corpus does not state
+        fault = json.load(open(os.path.join(ROOT, "faults",
+                                           "shutter-on-an-unshutterable-opening.json")))
+        bt = next(e["bounds_test"] for e in fault["exceptions"]
+                  if e.get("bounds_test", {}).get("expression", "").startswith("shutter_head_radius_in"))
+        got = core_module._eval_test(bt, m)
+        assert got["status"] != "error", f"divides by zero again: {got}"
+        assert got["status"] == "not_applicable"
+
+    def test_the_partner_measurement_is_withheld_by_the_mechanism_not_a_comment(self,
+                                                                                elevation_mod):
+        """`shutter_head_radius_in` is genuinely unknowable here -- nothing in this corpus says
+        whether a shutter follows a curved head, which is the very question the fault asks. It
+        must be withheld through NOT_MODELLED, where the honesty guard can see it, rather than by
+        a source comment that no test reads."""
+        assert "shutter_head_radius_in" in elevation_mod.NOT_MODELLED
+        m = elevation_mod.build_elevation(
+            _plan("tidewater-georgian-careful"))["measurements"]
+        assert "shutter_head_radius_in" not in m

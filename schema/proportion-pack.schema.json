@@ -449,6 +449,55 @@
             "type": "string",
             "pattern": "^[a-z][a-z0-9_]*$",
             "description": "What this rule MEASURES, in a short canonical name, so that `(target_slot, dimension, quantity)` is the real address of a rule rather than `(target_slot, dimension)`. Added by OQ 48. A `(slot, dimension)` address can legitimately hold several rules -- a menu within one pack, or two packs offering alternative accounts of the SAME quantity, which is what precedence is for -- but it can also hold two packs measuring DIFFERENT quantities, and that is a silent corruption: whichever resolves last wins, nothing reports it, and precedence cannot help because precedence decides which of two accounts of one quantity to believe. Naming the quantity makes the three cases distinguishable by a checker instead of by a person. Optional, because the corpus predates it: a rule with no `quantity` is UNJUDGED and `build/check_addresses.py` reports it as could-not-evaluate rather than as agreement."
+          },
+          "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "WHEN THIS RULE IS ABOUT THE BUILDING AT ALL (OQ 88). The categorical sibling of `calibrated_for`, and honoured the same way and for the same reason: three rules in this corpus state their scope in their own `note` and carried none in data, so `sash-light`'s frame-wall window sill was delivered to 47 nodes that make a masonry cladding canonical and `english-georgian` resolved a sloped timber sill on a brick wall. Decided in ONE place, `proportion_engine.rule_scope()`. Three outcomes, and the third is the point: a rule out of scope is dropped by `eval_packs` with its reason, and a rule whose scope CANNOT BE DECIDED -- a style that makes both a masonry and a frame cladding canonical, where construction is a fact about the house and not the style -- is still delivered but flagged `scope_unjudged`, because withholding it would strand every frame house of a both-ways style.",
+            "properties": {
+              "construction": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "masonry",
+                    "frame"
+                  ]
+                },
+                "minItems": 1,
+                "description": "The wall constructions this rule is stated for."
+              },
+              "slot_variant": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "slot"
+                ],
+                "properties": {
+                  "slot": {
+                    "type": "string"
+                  },
+                  "any_of": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  },
+                  "none_of": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "description": "The rule applies only where the named slot resolves to one of `any_of`, and explicitly does not where it resolves to one of `none_of`. A variant in NEITHER list is UNJUDGED, never out: reading 'not in my list' as out of scope silently drops the rule everywhere the moment the list is wrong, which is what happened on the first draft of facade-gable's parapet scope."
+              },
+              "note": {
+                "type": "string"
+              }
+            }
           }
         }
       }

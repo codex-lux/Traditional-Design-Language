@@ -540,6 +540,33 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `english-cottage-vernacular` with a thatch dormer canonical and **`boxed-dormer` forbidden**: the
   style could not declare the only dormer it is built with. That instance is bound now; the
   mechanism is OQ 87 and reaches all 97 slots.
+- **A pack rule may now be OUT OF SCOPE for a building, and the reading lives in ONE place.**
+  `derived_rules` carries a `scope` (OQ 88, closed) and `proportion_engine.rule_scope()` decides it,
+  beside the numeric `calibrated_for`/`out_of_calibration()` it is modelled on — a reader looking
+  for "when does a rule not apply" should find both together, and **nothing may re-derive "is this
+  a brick house" anywhere else**; `resolve_kit.scope_facts()` is the one reader of the kit.
+  `eval_packs` drops an out-of-scope rule and RECORDS why. **Three answers, not two, and the third
+  is the point**: 13 styles the sill rule reaches make BOTH a masonry and a frame cladding
+  canonical, so their construction is a fact about the HOUSE — those are delivered with
+  `scope_unjudged` attached rather than resolved or dropped. Measured: 102 deliveries dropped, 120
+  flagged. **A scope may only rule on variants somebody has classified**: the first draft read
+  "not in my list" as OUT and its `any_of` ids were invented from the rule's prose, matching
+  nothing the corpus uses — it would have deleted `facade-gable`'s parapet rule on all twelve of
+  its own nodes, silently.
+- **A fault can be CLEARED by an invented constant, and `NOT_MODELLED` cannot see it.** OQ 52's
+  guard polices measurements that are WITHHELD. `shutter-on-an-unshutterable-opening` returned
+  clear at `passes: true` on a house whose kit forbids shutters because `total_shutter_leaves` was
+  a hardcoded `2.0` — nothing withheld, something INVENTED, in `_derive_measurements`, beside real
+  figures (OQ 89, closed). The fact (`shutters_carried`) had been computed 500 lines away since
+  WP-5.9 and was never read. **When adding a measurement, ask what the record already knows before
+  writing a literal.**
+- **Supplying a withheld measurement arms every rule that presupposed it — including the ones a
+  register lists as "not live today".** OQ 89 counted unguarded `bounds_test` divisions and said
+  none was reachable; supplying `window_head_radius_in` made one reachable in the same change,
+  returning `error: float division by zero`. It was the IDENTICAL expression to a secondary guarded
+  in WP-5.10, one field over. **Withholding by a source COMMENT is not withholding**: use
+  `NOT_MODELLED` (visible to the honesty test) or state the measurement and precondition the tests
+  with `applies_when`.
 - **The moment a record can finally STATE a zero, every rule that presupposed the thing runs on it.**
   WP-5.9 gave the plan schema `declared.dormer` with three states — key absent (could not evaluate),
   `"none"` (a measured zero), an object (a house with dormers) — and both reference houses stated
@@ -738,8 +765,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `limits.py`. `load.py` carries a fresh plan id per request; raise `HEAVY_CALLS_PER_HOUR`
   for the run.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **98 entries, of which 33 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 98).
+  trusting any list of them. `docs/open-questions.md` holds **98 entries, of which 31 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 90, 91, 92, 93, 94, 96, 98).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
   is an open one. That list is DERIVED from the file by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

@@ -412,6 +412,99 @@ def out_of_calibration(rule, env, module_in):
     return reasons
 
 
+MASONRY_WORDS = ("brick", "stone", "ashlar", "rubble", "masonry", "adobe", "brownstone",
+                 "terra-cotta", "stucco", "tile", "cast-stone")
+
+
+def construction_of(variant_ids):
+    """masonry / frame / mixed / None, from a node's CANONICAL cladding variant ids (OQ 88).
+
+    Kept here, beside the rule that consumes it, because this corpus has been bitten three times
+    by one idea spelled in two files. `elevation.py` decides the same question at PLAN scope from
+    `section["wall"]["bearing"]`, which is a better answer when it exists; this is the answer
+    available when all you have is the style.
+
+    `mixed` is not a failure of the classifier and must not be collapsed. Thirteen styles the
+    sill rule reaches make BOTH a masonry and a frame cladding canonical -- charleston-georgian,
+    georgian-colonial-american, greek-revival-american, federal-style among them -- because they
+    were genuinely built both ways. For those the construction is a fact about the HOUSE, and no
+    amount of reading the style will settle it.
+    """
+    ids = [v for v in (variant_ids or []) if isinstance(v, str)]
+    if not ids:
+        return None
+    masonry = any(any(w in v for w in MASONRY_WORDS) for v in ids)
+    frame = any(not any(w in v for w in MASONRY_WORDS) for v in ids)
+    if masonry and frame:
+        return "mixed"
+    return "masonry" if masonry else "frame"
+
+
+def rule_scope(rule, env):
+    """Is this rule about this building at all? ("in" | "out" | "unknown", reason) -- OQ 88.
+
+    THE PROBLEM THIS EXISTS FOR. Three rules in this corpus state their own scope in a `note`
+    and carry none in data. `sash-light`'s window sill says, in as many words, "In a frame wall
+    this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the
+    brick-course pack, NOT THIS ONE" -- and the cascade delivers it to 86 nodes, 47 of which make
+    a masonry cladding canonical. `english-georgian`, brick-only, resolved a 2.25 in sloped
+    timber sill "sloped about 1 in 6 with a drip" until this function existed. WP-5.10 fixed that
+    for exactly one node by scoping its binding; scoping 47 bindings by hand is the answer this
+    is built to avoid, and it could not express the mixed case anyway.
+
+    THE SHAPE IS BORROWED, DELIBERATELY. `calibrated_for` and `out_of_calibration()` above are
+    the same idea for NUMERIC bands, ruled at OQ 68 with the argument that decides this one too:
+    judging a rule against a binding its own note tells you not to use is unjudged reported as
+    failed. That function cannot serve here -- it compares two-element numeric ranges -- so this
+    is its categorical sibling, in the same file, so that a reader looking for "when does a rule
+    not apply" finds both together.
+
+    THREE STATES, and the third is the whole reason this is not a filter:
+
+      in      -- the rule governs. Nothing changes.
+      out     -- the building contradicts the rule's stated scope. The value must not be
+                 delivered as a governing figure; `eval_packs` drops it and says why.
+      unknown -- the fact needed to decide is not available, or is genuinely both. UNJUDGED: the
+                 value is still delivered, because withholding it would strand every frame house
+                 of a both-ways style, but it carries the reason so nothing downstream can mistake
+                 a coin-toss for a ruling.
+    """
+    sc = rule.get("scope") or {}
+    if not sc:
+        return "in", None
+
+    want = sc.get("construction")
+    if want:
+        have = env.get("construction")
+        if have is None:
+            return "unknown", "the building's construction is not stated"
+        if have == "mixed":
+            return "unknown", ("this style makes both a masonry and a frame cladding canonical, "
+                               "so its construction is a fact about the house and not the style")
+        if have not in want:
+            return "out", "%s wall; this rule is stated for %s" % (have, " or ".join(want))
+
+    sv = sc.get("slot_variant")
+    if sv:
+        got = (env.get("resolved_variants") or {}).get(sv["slot"])
+        if got is None:
+            return "unknown", "no resolved variant is known for slot '%s'" % sv["slot"]
+        # BOTH LISTS, AND ANYTHING ELSE IS UNJUDGED. The first version of this had `any_of`
+        # only and read "not in my list" as OUT -- which is a silent corpus-wide drop the
+        # moment the list is wrong, and it WAS wrong: every id in it was invented from the
+        # rule's prose and not one matched the vocabulary the corpus actually uses, so the
+        # parapet rule would have been dropped on all twelve of its own nodes with nothing
+        # said. A scope may only rule on variants somebody has classified.
+        if any(v in (sv.get("any_of") or []) for v in got):
+            return "in", None
+        if any(v in (sv.get("none_of") or []) for v in got):
+            return "out", "slot '%s' resolves to %s, which this rule states it does not cover" % (
+                sv["slot"], ", ".join(v for v in got if v in (sv.get("none_of") or [])))
+        return "unknown", ("slot '%s' resolves to %s, which this rule's scope does not classify "
+                           "either way" % (sv["slot"], ", ".join(got) or "nothing"))
+    return "in", None
+
+
 def evaluate(pack, module_in=None, bindings=None):
     mod = module_in if module_in is not None else (pack["module"].get("default_size_in") or 6.0)
     parts = pack["module"]["parts"]
@@ -437,6 +530,15 @@ def evaluate(pack, module_in=None, bindings=None):
                # a row rebuilt key-by-key from a richer source drops whatever nobody re-listed.
                # tests/test_wp46_packs.py compares this dict against the schema so it cannot recur.
                "calibrated_for": r.get("calibrated_for"), "diagnostic": r.get("diagnostic")}
+        # SCOPE BEFORE VALUE (OQ 88). Checked for EVERY rule, not only for one carrying a
+        # `range` -- `out_of_calibration` below is consulted inside the range branch because it
+        # only qualifies `in_range`, but a rule that is not about this building at all must be
+        # marked whether or not it has a band to be judged against.
+        _scope, _why = rule_scope(r, env)
+        if _scope == "out":
+            row["out_of_scope"] = _why
+        elif _scope == "unknown" and (r.get("scope") or {}):
+            row["scope_unjudged"] = _why
         try:
             v = evaluate_expr(r["expression"], env)
             row["value"] = round(v, 4) if isinstance(v, (int, float)) and not isinstance(v, bool) else v

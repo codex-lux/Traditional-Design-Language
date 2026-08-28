@@ -117,7 +117,8 @@ def main():
         chain = rk.chain_for(g, a.slots)
         packs = rk.resolve_packs(g, chain)
         own = {e["pack"] for e in (g["nodes"][a.slots].get("proportion_packs") or [])}
-        by_slot, _ = rk.eval_packs(packs, CTX, None)
+        _slots, _ = rk.resolve_slots(g, chain, rk.scope_for(g, a.slots))   # OQ 88 scope facts
+        by_slot, _ = rk.eval_packs(packs, {**CTX, **rk.scope_facts(_slots)}, None)
         # The CASCADE-RESOLVED slot record, not `load_kit(node)`. `choose_pack` consults the
         # record's own `packs` block -- a person's explicit ruling -- before precedence, and that
         # block is frequently inherited rather than restated on the node. Reading the node's own

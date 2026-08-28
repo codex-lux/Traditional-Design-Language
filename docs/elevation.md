@@ -157,6 +157,17 @@ meant to apply only when an array exists at all; and
 `window_head_radius_in`, meant to run "only where the head is curved." Both keys are documented as
 withheld, with the reasoning, in `build/elevation.py`'s own comments at the point each is omitted.
 
+**SUPERSEDED 28 Aug 2026 (OQ 89): a comment is not a mechanism, and both of those cases are now
+handled in data.** `window_head_radius_in` is SUPPLIED, computed from the head the record already
+states (`R = r/2 + s²/(8r)` for a segmental arch; **0** for a straight one — a square wood head and
+also a gauged flat arch, whose camber brick-course's own rule says is there so the head "reads
+level" and is "invisible on paper"; absent where the kit gives only a band). Its partner
+`shutter_head_radius_in` stays absent but moved into `NOT_MODELLED`, where the honesty test can see
+it, because nothing states whether a shutter follows a curved head — the very question the fault
+asks. Supplying the first **armed** the identical expression sitting unguarded in
+`exceptions[0].bounds_test`, which returned `float division by zero` until it was guarded: a
+fault's tests live in three places and that is the one that gets missed.
+
 **A scope bug: this file was applying a Palladian proportion system to styles it was never sourced
 for, and it changed which house `build/compose.py` recommends.** Before the scope gate above
 existed, `build/plan_check.py`'s new ELEVATION LAYER ran `build_elevation()` unconditionally for
