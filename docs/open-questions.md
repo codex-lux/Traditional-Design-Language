@@ -4,6 +4,39 @@ Decisions deferred rather than made quietly. Two of these came from authoring th
 
 Status legend: **OPEN** — awaiting a ruling. **RESOLVED** — ruled, with the ruling recorded inline and a pointer to where it took effect.
 
+---
+
+## How an id is issued (ruled 28 August 2026, closing OQ 99)
+
+**Entries 1–99 keep their numbers forever. Every new question is named, not numbered.**
+
+    ### oq/<slug>
+
+    **OPEN — the headline.** the body.
+
+A sequential id has to be issued from somewhere, and the only shared state two parallel
+sessions have is the repository they both branched from — so both read the highest number in
+*their* working copy, both issue from it, and whoever merges second renumbers. That happened
+**four times in four days** (32–41, 64–65, 72–79, and 78–85 a second time), and the cost was
+never the renumbering, which is mechanical. The cost is that **a bare `OQ 78` in this
+repository's history is ambiguous by date** — it means one thing before the third collision and
+another after — and no reader can resolve it without knowing which commit they are standing on.
+
+**A slug cannot collide, because it is not issued — it is derived from the subject.** Two
+sessions that pick the same slug have raised the same question, and the merge conflict that
+produces is one you want to see rather than one you want to avoid.
+
+**Why the old numbers are not migrated.** Nothing in the codebase parses an OQ id: all 1,640
+citations are human references in prose and comments, and only two things read this file
+structurally (`build/check_citations.py` and the derivation test in `tests/test_wp46_packs.py`).
+So renumbering is *possible* and still pointless — commit messages carry the old numbers and
+cannot be rewritten, so the history stays numeric whatever this file does. A uniform scheme was
+never available. Two namespaces is the honest cost of that, and it is smaller than 1,640
+rewritten citations plus a history that still disagrees with them.
+
+**This is enforced, not remembered.** `build/check_citations.py` refuses a numbered entry above
+99, so the mechanism that caused four collisions is unavailable rather than discouraged.
+
 ## From the taxonomy
 
 1. **RESOLVED — Should the 1877 sketching-tour styles cascade?** Colonial Revival is typed `references` toward Georgian because its transmission is photography and measured drawings. Shingle Style and Queen Anne Free Classic reach early New England building by exactly the same mechanism — the McKim, Mead, White and Bigelow tour of Marblehead, Salem, Newburyport and Portsmouth — and are typed `descends_from`, so they inherit seventeenth-century assembly. Those offices also employed carpenters who still knew the work, which is the counter-argument. **Ruling: apply the `references` reading to all three** — transmission by photography and measured drawing, however skilled the office, is not the same mechanism as a trade lineage, and the model should not blur that distinction for three styles just because the drawings were good. Reflected in `styles/colonial-revival.json`, `styles/shingle-style.json`, `styles/queen-anne-free-classic.json`.
@@ -735,6 +768,37 @@ these numbers, renumber here and add a third row to the conversion table.*
     **This is the same class as the bug WP-7.4a fixed, one field away, and in the same direction** — a defect reported smaller than it is. It was NOT fixed with it, deliberately: the honest model is a span per RUN rather than per axis line (joists bearing on a 4 ft wall are supported; the joists beside it are not), which is a different computation rather than a filter, it changes the structural verdict on both reference plans again, and it would re-open the weight sweep that set `geometry.SPAN_W`. It wants a ruling on what a partial bearing wall supports before it wants code.
     **THE REPORTING HALF.** `build/plan_check.py` has **no span or structural-capacity finding of any kind**, so the validator verdict the workbench shows and the fidelity score the composer ranks on contain nothing about span capacity: a plan with a 60 ft unsupported run gets a clean verdict. `build/structure.py` also contains no `sys.exit`, so `check_all.py`'s two `structure.py` invocations print and return 0 whatever they find. (The no-exit convention is shared with `plan_check.py`, `roof.py` and `elevation.py`, so this is a convention question rather than a bug in one file.) WP-7.4 built OQ 84's SEARCH half and its `geometry_report.span_capacity` block; the CRITIC half is unbuilt, and OQ 84 was closed without saying so.
 
+
+## From the citation guard (WP-8.1, 28 August 2026)
+
+99. **CLOSED 28 Aug 2026 — ruled: freeze the numbers at 99 and name every new question.** The scheme is at the head of this file and `build/check_citations.py` enforces it by refusing a numbered entry above 99, so the mechanism that collided four times is now unavailable rather than discouraged. The three candidates in the original entry were costed before choosing: an out-of-tree registry has no shared state to live in but the repository itself, so its claim step collides the same way; reserved blocks need the same coordination or produce sparse meaningless numbers; slugs cannot collide because they are derived from the subject rather than issued. Full migration was refused and the reason is worth keeping: nothing parses an OQ id -- all 1,640 citations are prose, so renumbering is possible -- but commit messages carry the old numbers and cannot be rewritten, so **a uniform scheme was never on the table** and the choice was only ever which inconsistency to keep. Two namespaces is cheaper than 1,640 rewritten citations plus a history that still disagrees with them. *Original entry follows.*<br><br>**OPEN — an open-question id is issued from the working tree, and this register has now predicted its own collision three times and been right three times.** Four collisions in four days: 32-41, 64-65, 72-79, and 78-85 a second time. Each is the same mechanism — two sessions branch from the same main, both read the highest id in *their* working copy, both issue from it, and whoever merges second renumbers. The cost is not the renumbering itself, which is mechanical; it is that **a bare `OQ 78` in this branch's history is now ambiguous BY DATE**, meaning one thing before the third collision and another after, and no reader can resolve it without knowing which commit they are standing on.
+    **WP-8.1 deliberately fixed only the aftermath.** `build/check_citations.py` makes every citation findable so the renumbering that follows a collision is mechanically complete, and `check_all` fails when a reissue row lands nowhere. None of that prevents a collision, and the checker's own header says so rather than implying the problem is solved.
+    **The candidate mechanisms, none costed:** issue ids from a file that is not in the working tree (a registry the branch reads but does not write); reserve a block per session up front; or drop sequential ids for slugs (`oq/span-partial-bearing-wall`), which ends collisions permanently at the price of every existing citation in the tree and in the commit history. The third is the only one that makes the ambiguity impossible rather than unlikely, and it is also the only one that invalidates 1,570 existing citations, so it wants a ruling and not an afternoon.
+    **Raising this entry is itself an instance of the problem.** Its id was taken by reading the highest number in this working copy. If another session is open right now, this is number 99 there too, and the fifth collision is already written. That is not a joke at the register's expense — it is the argument, in the smallest possible form.
+
+
+## Named questions (28 August 2026 onward)
+
+*Everything below is under the scheme at the head of this file. No numbers are issued here.*
+
+### oq/two-id-namespaces
+
+**OPEN — a slug can restate a numbered question's subject, and nothing can tell.** Freezing the
+numbers at 99 ends id collisions, and buys a different exposure in their place: the register now
+has two namespaces, and a session that does not read all 99 legacy entries can raise
+`oq/span-partial-bearing-wall` when OQ 98 already says exactly that. The failure is quieter than
+a collision — two live entries on one subject, drifting apart as each is updated, with no
+duplicate id to make it visible.
+    **It cannot be closed by a checker, and that is the finding rather than an excuse.** WP-8.1
+established that no machine can verify a citation's SUBJECT matches the entry it names; the same
+argument applies here, one level up. A checker can compare slugs to slugs and numbers to numbers.
+It cannot tell that `oq/span-partial-bearing-wall` and OQ 98 are the same question, because that
+is a judgment about meaning, and a check that pretended otherwise would be "unjudged reported as
+passed" in a new place.
+    **What would actually help, unbuilt:** a subject index over the 99 legacy entries that a
+person consults before naming a new one — cheap, and it makes the duplicate visible at the moment
+of authoring rather than at the merge. Whether that is worth building depends on how often a new
+question is raised, which is currently about one a day and will not stay there.
 
 ## Reissued 28 August 2026 — a FOURTH collision, and this block has now moved twice
 

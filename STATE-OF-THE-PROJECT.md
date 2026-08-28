@@ -235,7 +235,7 @@ So the sequence: ~~fix **OQ 28**~~ (done); ~~close **WP-4.3**~~ (done); ~~build 
 2. **WP-4.4's offline half.** Giving the 322 asset records their `provenance.building` names needs no network and is the step the package itself names as next; without it every harvest query degrades to a style-name search and one photograph ends up cited by many records.
 3. **Phase 5, the last mile.** ~~Export (DXF/IFC), the plan workbench, generated guidelines and details, drawing ingestion. This is what a builder or a plan-development lead would actually judge the system by, and none of it exists.~~ *(25 Aug: WP-5.1, 5.2 and 5.5 shipped. What remains of the last mile is WP-5.3 — generated guidelines, the details library, modelling conventions — and the deliberately partner-gated cost layer, WP-5.4.)*
 
-**Blocked on the environment, not on judgment:** OQ 7, 8, 9, 10 and 11 (order figures needing legible facsimiles), OQ 18's source half (162 editorial parameters — the note half is done and none is silent any more), and WP-4.4's harvest. `loc.gov`, `archive.org` and `hathitrust` all fail to connect from this container. **None of them may be closed from a secondary source or a modern redrawing**, which is how a guess gets laundered as `measured`.
+**Blocked on the environment, not on judgment:** OQ 7, OQ 8, OQ 9, OQ 10 and OQ 11 (order figures needing legible facsimiles), OQ 18's source half (162 editorial parameters — the note half is done and none is silent any more), and WP-4.4's harvest. `loc.gov`, `archive.org` and `hathitrust` all fail to connect from this container. **None of them may be closed from a secondary source or a modern redrawing**, which is how a guess gets laundered as `measured`.
 
 That order keeps faith with the project's own founding discipline — validator before composer, spine before breadth, the drawing as a render of the data — and it means that at each step the system produces something more *like a house* rather than merely more data about houses. The aim was never a taxonomy. It was a language fluent enough that a production builder could speak it, and a house built in it would feel, to the people who live there, like it belongs. The grammar for that is written, and now it is bound to its vocabulary. The work now is breadth: the compiler proves what it composes, and the next thing it needs is more sentences it knows how to say.
 
@@ -268,7 +268,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Interface | `mcp_server/` | 24 tools | Functional |
 | Evidence | `assets/manifest.json` | **322 wanted, 0 sourced** | Records only — WP-4.4, environment-blocked |
 | Back-end | `construction/` | 2 catalogs | Complete — WP-3.1's data side |
-| Governance | `docs/open-questions.md` | **65 entries, 13 open** | ids 32–41 were reissued as 54–63 at the 25 Aug merge (both branches issued that block); **OQ 52 and 53 need a ruling** |
+| Governance | `docs/open-questions.md` | **65 entries, 13 open** | ids 32–41 were reissued as 54–63 at the 25 Aug merge (both branches issued that block); **OQ 52 and OQ 53 need a ruling** |
 | Provenance | `rule_append` | honoured, with the contributing ancestor recorded | **OQ 16 closed 25 Aug** — the code had shipped; only the label was open |
 | Governance | `docs/reports/` | **22 package reports** | One per completed WP |
 | Checks | `build/*.py` | **30 checkers** | All pass; incl. `check_counts`, `check_addresses`, `check_inheritance` |

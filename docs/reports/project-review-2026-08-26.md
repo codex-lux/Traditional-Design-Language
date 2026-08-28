@@ -350,7 +350,7 @@ measured.
 - **It adjudicated nothing.** Not one of OQ 51's 233 unendorsed gaps was worked; that is
   the next package, ruled, and it deserves sessions that read packs rather than a review
   that skims them.
-- **It fixed no live defect.** OQ 52, 53, 54, 55 are described, not patched — each moves
+- **It fixed no live defect.** OQ 52, OQ 53, OQ 54, OQ 55 are described, not patched — each moves
   pinned expectations or needs a formulation decision, and a review that quietly moved
   reference-corpus counts would be the exact failure mode OQ 52 documents.
 - **It verified nothing that needs the network.** The environment still refuses

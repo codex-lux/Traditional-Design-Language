@@ -126,7 +126,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **36 checks, 1,071 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **37 checks, 1,090 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.7 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -135,26 +135,37 @@ sentence, for the same reason** — the 27 Aug merge resolved the conflict here 
 appends after it (`pytest tests/`, `pytest workbench/server/tests`, `node --test
 workbench/app`). The number to read is the runner's own `len(results)`, printed as "All N checks
 passed"; the app-suite figure is the `# tests` line from `node --test`. **And there is a trap in
-the line CI actually prints**: with the CAD libraries and fastapi absent, the corpus job reads
-"32 of 35 checks passed; 3 COULD NOT EVALUATE", where that leading 32 is the PASS count and
-coincidentally equals `len(CHECKS)`. Read the second number. `check_all.TOTAL_CHECKS` and
-`tests/test_counts_guard.py` now enforce this so the coincidence cannot cost anything again. Both were re-measured
+the line CI actually prints, and it is an IDENTITY rather than a coincidence**: with the CAD
+libraries and fastapi absent, exactly three checks are unjudged there (`export_dxf` and
+`export_ifc` selftests, `pytest workbench/server/tests`), and `TOTAL_CHECKS` is `len(CHECKS)`
+plus the three appended suites -- so the PASS count the corpus job prints is
+`TOTAL - 3 = len(CHECKS)`, ARITHMETICALLY, every time. It read "32 of 35 checks passed" on
+27 Aug against a `len(CHECKS)` of 32, and reads "34 of 37 checks passed" on 28 Aug against a
+`len(CHECKS)` of 34.
+An earlier version of this sentence called that a coincidence, which told the next reader it
+probably would not happen to them; it happens at every check ever added. **Read the SECOND
+number.** `check_all.TOTAL_CHECKS` and
+`tests/test_counts_guard.py` now enforce this -- the latter pins both the published total AND
+the largest `N of M checks passed` quoted in this file, so neither the figure nor its
+illustration can rot again. Both were re-measured
 27 Aug after `check_all.py` itself printed "1 of 35" against this file's 32. **And the guard
 then earned itself at the very next merge**: PR #14 brought a 33rd check and 162 more tests, so
 35/909 became 36/1,071 on 28 Aug — caught by `TOTAL_CHECKS` at the merge, which is the exact
-point this number has gone wrong every single time. The rest of the
+point this number has gone wrong every single time. **And again at the very next commit**: WP-8.1
+added `check_citations.py` and nineteen tests, so 36/1,071 became 37/1,090 — the guard failed
+the build before the number could go stale, which is the whole of what it is for. The rest of the
 numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
 total), taken because main and this branch had
 drifted to 33/1,009 and 35/1,006 respectively and NEITHER was right. `check_counts.py` polices
 counts DERIVED FROM THE CORPUS, and neither a test count nor a check count is one of them, so
 **every number in this paragraph goes stale silently** -- nor are numbers written into JSX, which
 is how the Kit's header claimed 95 slots against an ontology holding 97.
-**Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, 13, 14, 15,
-19, 26, 27, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
+**Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, OQ 13, OQ 14, OQ 15,
+OQ 19, OQ 26, OQ 27, OQ 29, OQ 31, OQ 32, OQ 33, OQ 34, OQ 35, OQ 36, OQ 37, OQ 38, OQ 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
 parameters now say they are editorial and quote the basis their slot states, so the count of
 unexplained numbers is 0; the SOURCE half is environment-blocked and none of the 162 may be given
 a source from a secondary work.
-WP-4.6 raised **OQ 47, 48 and 49**. **OQ 47 and 49 are CLOSED** — `expressed_frame` at ontology
+WP-4.6 raised **OQ 47, OQ 48 and OQ 49**. **OQ 47 and OQ 49 are CLOSED** — `expressed_frame` at ontology
 0.7.0 with a `member_status` field (structural / structural-and-expressed / applied / none), bound
 on 14 kits of which five FORBID the member; and a `slots` scope on bindings, which took the corpus
 to 132 of 132 by binding `egyptian-revival` to the two `facade-peristyle` rules that fit and
@@ -283,7 +294,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
-- **BOTH ENGINES CHARGE DECLARED STACKING AND OVER-CAPACITY SPANS NOW (WP-7.4, OQ 95 and 84
+- **BOTH ENGINES CHARGE DECLARED STACKING AND OVER-CAPACITY SPANS NOW (WP-7.4, OQ 95 and OQ 97
   CLOSED), AND THE WEIGHTS ARE BALANCED AGAINST EACH OTHER RATHER THAN SET SEPARATELY.**
   `geometry.STACK_W = 40.0` and `SPAN_W = 20.0`; `geometry_cp.py` carries soft mirrors of both
   in its objective block, never pins. Measured over the 14 partis that declare `stacks_over`:
@@ -486,7 +497,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   them would make the check a generator of false accusations.
 - **A fault's tests live in THREE places and the third is the one that bites.** `test`,
   `secondary_tests`, and **`exceptions[].bounds_test`**, which `core.check_measurements`
-  SUBSTITUTES for the primary on a matching style. OQ 84 and 79 guarded the first two; Second
+  SUBSTITUTES for the primary on a matching style. OQ 84 and OQ 79 guarded the first two; Second
   Empire's bounds_test `dormer_count / bay_count == 1.0` then convicted a house stating NO dormers
   the moment WP-5.9 began supplying that zero, and `craftsman`'s `dormer_count at-most 1` acquitted
   one. Neither reference plan is Second Empire or Craftsman, so 1,018 green tests saw nothing —
@@ -765,8 +776,18 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `limits.py`. `load.py` carries a fresh plan id per request; raise `HEAVY_CALLS_PER_HOUR`
   for the run.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **98 entries, of which 31 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 90, 91, 92, 93, 94, 96, 98).
+  trusting any list of them. `docs/open-questions.md` holds **100 entries, of which 32 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 90, 91, 92, 93, 94, 96, 98, oq/two-id-namespaces).
+  **THE NUMBERS ARE FROZEN AT 99 AND EVERY NEW QUESTION IS NAMED** — `### oq/<slug>`, ruled
+  28 Aug 2026, closing OQ 99. A sequential id has to be issued from somewhere, and the only
+  shared state two parallel sessions have is the repo they both branched from, so both read the
+  highest number in THEIR copy and whoever merges second renumbers: four times in four days.
+  A slug is derived from the subject rather than issued, so two sessions picking one have raised
+  the same question and the conflict is the one you want. `check_citations.py` refuses a numbered
+  entry above 99, so the old mechanism is unavailable rather than discouraged. The legacy numbers
+  are NOT migrated and the reason is worth carrying: nothing parses an OQ id -- all 1,640
+  citations are prose -- but commit messages carry the old numbers and cannot be rewritten, so a
+  uniform scheme was never available and the only choice was which inconsistency to keep.
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
   is an open one. That list is DERIVED from the file by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
@@ -816,7 +837,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   only 39 answer in the flat kit file; the vocabulary half is merged and ratcheted and the AXIS
   half remains. OQ 92 (raised 73): furniture sizing REFUSED ("the tail wagging the dog"),
   arrangement to the rooms' own words — five wall runs, not the one the register claimed.
-  **OQ 95 and 97 are CLOSED by WP-7.4**: both engines charge declared stacking and over-capacity
+  **OQ 95 and OQ 97 are CLOSED by WP-7.4**: both engines charge declared stacking and over-capacity
   spans, 27/49 broken stacks -> 15/49. **OQ 98 is new from the WP-7.5 audit** — `span_check`
   still credits a bearing wall across the whole plate however short it is, and `plan_check` has
   no span finding at all.
@@ -837,7 +858,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   different since the 25 Aug merge** — two sessions ran in parallel and both issued that block, so
   main's ten (deployment, the workbench, the export layer) keep those numbers and this branch's ten
   were reissued as **54-63**, with a conversion table at the foot of the register. A commit message
-  or report written before the merge still carries the old number. OQ 48, 50, 51 and 16 closed on
+  or report written before the merge still carries the old number. OQ 48, OQ 50, OQ 51 and OQ 16 closed on
   25 Aug; **52 and 53 were raised the same day by an adversarial audit of this session's own work
   and need a ruling** -- 52 is the elevation generator inventing measurements the fault corpus then
   convicts houses on, 53 is `check_addresses.py` comparing `quantity` without `units`, which has two
@@ -850,7 +871,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   heuristic's 1 ft charge threshold let a room sit 1 ft into the court), and **`_absorb` runs
   after the solve with no cross-level view**, so it grew that room straight through the hole —
   a guarantee proven and then undone by a post-pass. It takes a `keepout` now.
-  - **Environment-blocked, not unstarted: OQ 7, 8, 9, 10, 11**, and the source half of **OQ 18**.
+  - **Environment-blocked, not unstarted: OQ 7, OQ 8, OQ 9, OQ 10, OQ 11**, and the source half of **OQ 18**.
     Every one needs a legible facsimile. `loc.gov`, `archive.org` and `hathitrust` all fail to
     connect from here. **None may be closed from a secondary source or a modern redrawing** —
     that is how a guess gets laundered as `measured`.

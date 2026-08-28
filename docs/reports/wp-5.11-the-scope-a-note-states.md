@@ -213,3 +213,33 @@ changed. Nothing was lost permanently because the work was reconstructible from 
 the lesson is cheap to state and was not free to learn: **mutation-test against a file copy, never
 against version control**, when the working tree holds uncommitted work. The remaining mutations in
 §6 were run against backups.
+
+---
+
+## 8. The merge with main, and a ruling that landed underneath this package
+
+`origin/main` moved twice while this PR was open. The second time brought **WP-8.1 and the ruling
+on OQ 99: the numeric open-question ids are FROZEN AT 99, and every question raised from now on is
+named — `### oq/<slug>`**, with `build/check_citations.py` refusing a numbered entry above the
+ceiling so the old mechanism is unavailable rather than merely discouraged.
+
+That is the answer to the problem this session raised twice and could not fix from inside it. The
+register's own note had predicted each next collision and been right four times in four days; the
+diagnosis it kept restating — *an id issued by reading the working tree collides whenever two
+sessions run at once* — is exactly what the ruling acts on. A slug is **derived from its subject
+rather than issued**, so two sessions that pick the same one have raised the same question and the
+conflict is the one you want.
+
+**One conflict, in `CLAUDE.md`, and it was the tally line.** Main's count said 100 entries and 34
+open, listing 88 and 89 among them; this branch closes both. Resolved by taking main's paragraph
+wholesale — the freeze ruling is new content and must not be dropped by a branch that merely
+disagrees about two numbers — and recomputing the tally **from the merged register** rather than by
+arithmetic: 99 numbered entries plus one named, 31 numbered open plus the named one, so **100
+entries, 32 open**. The derivation test PR #15 extended to read named entries confirms it.
+
+`check_citations.py` was run against this package's own work: **1,634 citations across 249 files,
+0 dangling, 0 bare, 0 over the ceiling.** Nothing here issues a new numbered id — closing OQ 88 and
+OQ 89 edits entries that already existed, which the freeze permits.
+
+**OQ 90 is unaffected and still open.** It is about the two WP-5.7s, and the freeze does not
+renumber work packages. Cite this report by filename.
