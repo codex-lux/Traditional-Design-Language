@@ -56,6 +56,9 @@ CHECKS = [
     # shipped with WP-5.6 wired into nothing and were cited as verification anyway.
     ("check_frontend.py", []),
     ("proportion_engine.py", ["selftest"]),
+    # WP-5.7: the moulding constructions prove themselves -- convexity, tangency at a cyma's
+    # join, a half round returning to its springing, scale invariance, and the OQ 65 datum rule.
+    ("profiles.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
     ("plan_check.py", ["plans/tidewater-georgian-careful.json"]),
     ("structure.py", ["plans/spec-builder-colonial.json"]),

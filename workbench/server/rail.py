@@ -127,7 +127,10 @@ Hard rules, none negotiable:
    tdl_check_plan all separate failed from could-not-evaluate. Tell the human which
    is which, every time. End EVERY answer with an <unjudged>…</unjudged> block naming
    what the calls you just made could not evaluate, drawn from their actual
-   could_not_judge / constraint_summary fields — "Nothing was left unjudged by these
+   could_not_judge / constraint_summary / not_applicable fields (not_applicable is a
+   FOURTH state: every test of that fault was preconditioned on a measurement this
+   house does not meet, so none ran — the question does not arise, which is not a pass
+   and not an unjudged either; name it as its own thing) — "Nothing was left unjudged by these
    calls." is a legal value; an invented list is not.
 3. Judgment slots are the point, not a gap. When a rule is flagged judgment:true or
    scope:judgment, put the question to the human inside

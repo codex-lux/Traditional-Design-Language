@@ -357,7 +357,8 @@
           "profile": "triglyph",
           "count": 3,
           "spacing_parts": 30,
-          "note": "SUMS_CHECK IS FALSE FOR THIS ASSEMBLY, and honestly so: the Doric frieze is not a vertical stack. Triglyph and metope are the FULL height of the frieze and stand side by side, so their heights cannot sum to it. Triglyph 3/4 D high (18 parts) by 1/2 D wide (12 parts); three shanks each 1/6 D (4 parts) wide, bevelled on the edge, giving two full channels and two half channels; the plain face of a shank is 1/12 D, exactly the width of a channel. Spacing 1 1/4 D = 30 parts on centres, which equals triglyph plus metope. A triglyph is centred on every column axis. Count 3 is per ditriglyph bay (7 1/2 modules on centres = three triglyph pitches).",
+          "width_parts": 12.0,
+          "note": "SUMS_CHECK IS FALSE FOR THIS ASSEMBLY, and honestly so: the Doric frieze is not a vertical stack. Triglyph and metope are the FULL height of the frieze and stand side by side, so their heights cannot sum to it. Triglyph 3/4 D high (18 parts) by 1/2 D wide (12 parts); three shanks each 1/6 D (4 parts) wide, bevelled on the edge, giving two full channels and two half channels; the plain face of a shank is 1/12 D, exactly the width of a channel. Spacing 1 1/4 D = 30 parts on centres, which equals triglyph plus metope. A triglyph is centred on every column axis. Count 3 is per ditriglyph bay (7 1/2 modules on centres = three triglyph pitches). WIDTH OF ONE UNIT: This member's own note: 'Triglyph 3/4 D high (18 parts) by 1/2 D wide (12 parts)'.",
           "confidence": "high"
         },
         {
@@ -368,8 +369,9 @@
           "profile": "metope",
           "count": 3,
           "spacing_parts": 30,
+          "width_parts": 18.0,
           "enrichment": "Vignola fills the metopes with ox skulls (teschi di bue), paterae, shields and military trophies; plain metopes are equally canonical and are what American practice almost always builds",
-          "note": "Exactly square, 3/4 D on a side (18 x 18 parts). The fragment of metope between the last triglyph and the corner of the frieze is 1/6 D (4 parts) wide - the single hardest thing to get right in Doric, and the tell that a Doric frieze has been drawn rather than copied.",
+          "note": "Exactly square, 3/4 D on a side (18 x 18 parts). The fragment of metope between the last triglyph and the corner of the frieze is 1/6 D (4 parts) wide - the single hardest thing to get right in Doric, and the tell that a Doric frieze has been drawn rather than copied. WIDTH OF ONE UNIT: This member's own note: 'Exactly square, 3/4 D on a side (18 x 18 parts)'. Triglyph 12 + metope 18 = the stated 30-part pitch.",
           "confidence": "high"
         }
       ]
@@ -413,8 +415,9 @@
           "profile": "mutule",
           "count": 3,
           "spacing_parts": 30,
+          "width_parts": 12.0,
           "enrichment": "thirty-six guttae in six rows of six on each mutule soffit, with a drip moulding",
-          "note": "THE DISTINGUISHING MEMBER OF THIS ORDER. A broad fascia carrying one mutule over each triglyph, 1/2 D (12 parts) wide, the same width as the triglyph below. Ware's table gives the mutule projection as 3/4 D = 18 parts. Ware: the second quarter of the cornice is occupied by the mutule band. Height apportioned within that 4 1/2-part quarter, the remainder going to the cyma reversa above.",
+          "note": "THE DISTINGUISHING MEMBER OF THIS ORDER. A broad fascia carrying one mutule over each triglyph, 1/2 D (12 parts) wide, the same width as the triglyph below. Ware's table gives the mutule projection as 3/4 D = 18 parts. Ware: the second quarter of the cornice is occupied by the mutule band. Height apportioned within that 4 1/2-part quarter, the remainder going to the cyma reversa above. WIDTH OF ONE UNIT: This member's own note: one mutule over each triglyph, '1/2 D (12 parts) wide, the same width as the triglyph below'.",
           "confidence": "high"
         },
         {

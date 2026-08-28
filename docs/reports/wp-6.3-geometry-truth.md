@@ -285,13 +285,13 @@ experiment is in the tree is not a measurement of anything.
 
 - **No stair-stacking charge and no hard stair constraint**, for the measured reasons above.
   The real fix is a generator that can see the other level while it slices, which is its own
-  package (**OQ 82**).
+  package (**OQ 95**).
 - **No over-size penalty.** The identity above says it cannot work; the existing symmetric
   area term already bills it.
 - **No `_absorb` keep-out for doors or stacks.** The defect does not exist.
 - **`MIN_DOOR_OVERLAP` is kept**, as the fallback for a door that declares no width — two in
   the whole corpus, both exterior.
-- **The `_shared` first-match-wins wart is recorded, not fixed** (**OQ 83**): under its own
+- **The `_shared` first-match-wins wart is recorded, not fixed** (**OQ 96**): under its own
   0.4 ft tolerance a degenerate corner contact can be reported on one wall before another,
   and a 3-inch corner kiss can read as a shared edge. It is 21× short of the narrowest door
   in the corpus, so nothing draws on it today.

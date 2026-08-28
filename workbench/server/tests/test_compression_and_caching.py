@@ -10,14 +10,13 @@ import importlib.util
 import json
 import os
 
-# WP-7.5 (audit): this module calls `pytest.skip` at four places and never imported pytest, so
-# every one of its COULD-NOT-EVALUATE branches raised NameError instead of reporting. CI never
-# reached them -- the workflow builds the frontend and runs precompress.py before this suite, so
-# all four guards are false there -- and the file has therefore been green since it was written
-# while being unable to say "I could not judge this". That is the corpus's own cardinal rule
-# broken in the tooling that enforces it. Pre-existing on main and not this branch's doing;
-# fixed here because a one-line import is the whole of it and the suite is unrunnable locally
-# without it.
+# This module calls `pytest.skip` at four places and for a while imported nothing to call it
+# with, so every COULD-NOT-EVALUATE branch raised NameError instead of reporting. CI never
+# reached them: the workflow builds the frontend and runs precompress.py before this suite, so
+# all four guards are false there, and the file stayed green while unable to say "I could not
+# judge this". TWO SESSIONS FOUND IT WITHIN AN HOUR OF EACH OTHER on 27 Aug and wrote the same
+# one-line fix, which is worth recording -- it only shows when the suite is run locally without
+# a built frontend, so the thing that hid it from CI is the thing that made it easy to hit.
 import pytest
 
 from workbench.server import corpus

@@ -91,7 +91,7 @@ def snap(v, module, tol, prefer=()):
     """Where a cut lands: a wall line below if there is one, else the nearest bay line.
 
     `prefer` is the level below's wall lines on this axis, and it is the whole of WP-7.1
-    (OQ 82). Until it existed, `slice_rect` was called for the upper level with NO reference
+    (OQ 95). Until it existed, `slice_rect` was called for the upper level with NO reference
     to the ground placement -- so `vertical_score` scored candidates produced blind, and 26 of
     49 `stacks_over` claims across the corpus were drawn broken because the search could not
     aim, only re-rank. The ground layout is fully populated at the moment the upper level is
@@ -118,7 +118,7 @@ def bias(room, axis, below=None):
     for w in (room.get("exterior_walls") or []):
         dx, dy = DIRS.get(w, (0, 0))
         b += (dy if axis == "y" else dx)
-    # WP-7.1 (OQ 82), and this is the half that aims a ROOM rather than a wall line. Snapping
+    # WP-7.1 (OQ 95), and this is the half that aims a ROOM rather than a wall line. Snapping
     # the upper cuts to the walls below makes upper walls continue -- measured, transfer beams
     # 21 -> 9 on the Tidewater plan -- and does nothing whatever for `stacks_over`, because
     # moving a line does not move a room. Measured across all 14 partis that declare the
@@ -643,21 +643,21 @@ def centre_hall_symmetry_score(rects, rooms, W, H, tol_frac=0.18):
     return s
 
 # ---------------------------------------------------------------- joint scoring
-# WP-7.4 (OQ 82). The one NAMED weight in this file, and it is named because it was chosen by
+# WP-7.4 (OQ 95). The one NAMED weight in this file, and it is named because it was chosen by
 # sweep rather than by analogy -- see the measurement in vertical_score below. Its neighbours
 # (the wet-stack 8, the transfer-beam 2.0) are inline literals like every other weight here;
 # this one carries a name so the sweep that set it can be re-run against it.
 STACK_W = 40.0
 
-# WP-7.4 (OQ 84). The span charge, and both halves of its form were chosen by sweep.
+# WP-7.4 (OQ 97). The span charge, and both halves of its form were chosen by sweep.
 #
-# OQ 84 asked whether span capacity should be a search term "and at what force", and answered
+# OQ 97 asked whether span capacity should be a search term "and at what force", and answered
 # its own cost question wrongly: it said putting the check in a 250-candidate loop is the
 # "25 s x N cost that build_section's own docstring exists to avoid". That 25 s is the SOLVE
 # inside build_section, which the candidate loop already has. The check itself --
 # structure.wall_lines -> bearing_lines -> span_check over rects that already exist -- measures
 # 0.026 s for 250 iterations, against the 250-candidate search's own 0.21 s. So the corpus's
-# REAL structural check is affordable here and the "cheap proxy" OQ 84 speculated about is not
+# REAL structural check is affordable here and the "cheap proxy" OQ 97 speculated about is not
 # needed. A proxy would also have been wrong: geometry.wall_lines collects every room edge and
 # cannot tell bearing from partition, so its widest gap is an under-estimate of the clear span
 # -- which is exactly the error WP-7.4 had just removed from span_check itself.
@@ -730,7 +730,7 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
         cx, cy = x + w / 2, y + h / 2
         over = any(vx <= cx <= vx + vw and vy <= cy <= vy + vh for (vx, vy, vw, vh) in wet_g.values())
         if not over: s += 8; notes.append(f"{ut[rid].get('name') or rid} sits over no wet room; its stack has nowhere to land.")
-    # DECLARED STACKING, CHARGED (WP-7.4, OQ 82). A room whose record says it sits over
+    # DECLARED STACKING, CHARGED (WP-7.4, OQ 95). A room whose record says it sits over
     # another room and does not is a waste stack with nothing under it -- a defect that
     # survives the life of the building. Until this package it was REPORTED by
     # plan_check.drawn_layer and prevented by neither engine.
@@ -748,7 +748,7 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     # (2) WP-7.1 then made the generator level-aware and moved broken claims 26/47 -> 27/47:
     # flat. That is also true, and it is not evidence against a term. Moving a cut line moves a
     # wall; it does not move a room over another room. Bearing continuity and declared stacking
-    # are two problems and OQ 82 conflated them.
+    # are two problems and OQ 95 conflated them.
     #
     # WHAT MADE THE TERM LOOK INERT WAS THE SIZE OF THE POOL IT WAS RE-RANKING. Measured over
     # 2,000 candidates (5 seeds x 400) rather than the shipped 250 at one seed: on
@@ -1187,7 +1187,7 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     """The hill-climbing search. Named `solve_heuristic` since the 25 Aug merge: `solve()`
     below is now a dispatcher that prefers the CP-SAT engine and falls back to this one.
 
-    `level_aware` (WP-7.1, OQ 82) slices the upper level against the ground layout instead of
+    `level_aware` (WP-7.1, OQ 95) slices the upper level against the ground layout instead of
     blind. It is TRUE for a placement and FALSE for a CP warm-start, and that split is a
     measured necessity rather than a preference. A hint's only job is to be REPAIRABLE; a
     placement's job is to be right, and they are not the same job. Measured on
@@ -1244,7 +1244,7 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
               + void_enclosure_score(gr, prep[0], W, H, void_shape))
         ur, urelax = {}, []
         if prep.get(1):
-            # WP-7.1 (OQ 82): the upper level is sliced AGAINST THE GROUND LAYOUT, not blind.
+            # WP-7.1 (OQ 95): the upper level is sliced AGAINST THE GROUND LAYOUT, not blind.
             # `gr` is fully populated four lines above and was simply never passed, so
             # `vertical_score` below has always been scoring candidates produced with no
             # knowledge of what they must sit on. Nothing else changes: the rng stream is
@@ -1261,7 +1261,7 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                   + centre_hall_symmetry_score(ur, prep[1], W, H))
         else: su = 0.0
         vs, vnotes = vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
-        # WP-7.4 (OQ 84): the structural check the corpus already runs, run here too. See
+        # WP-7.4 (OQ 97): the structural check the corpus already runs, run here too. See
         # _span_charge -- this is structure.span_check itself and not a proxy.
         #
         # THE EARLY-OUT IS EXACT, NOT AN APPROXIMATION, and it is here because the check is
@@ -1318,7 +1318,7 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                     "Ground and upper were solved together and scored as a pair, so an upper "
                     "layout that would score LOWER alone is rejected when it leaves walls "
                     "unsupported.")}
-    # WP-7.4 (OQ 84). Reported for exactly the reason `under_band` below is: the search now
+    # WP-7.4 (OQ 97). Reported for exactly the reason `under_band` below is: the search now
     # TRADES against this, and a trade the record does not carry is a trade nobody can see. An
     # over-capacity span is a defect that survives the building, so the count is stated whether
     # it is zero or not -- and `None` is the third state, meaning the construction catalogue

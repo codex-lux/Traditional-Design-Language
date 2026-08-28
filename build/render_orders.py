@@ -4,6 +4,25 @@ import json, os, sys, importlib.util
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); os.chdir(ROOT)
 spec = importlib.util.spec_from_file_location("pe", "build/proportion_engine.py")
 pe = importlib.util.module_from_spec(spec); spec.loader.exec_module(pe)
+_ps = importlib.util.spec_from_file_location("profiles", "build/profiles.py")
+prof = importlib.util.module_from_spec(_ps); _ps.loader.exec_module(prof)
+
+GEOM_MODULE_IN = 36.0        # the reference size; every consumer scales from it
+
+def geometry_variants(r):
+    """The pack's profile geometry, constructed ONCE here so the browser never constructs a
+    moulding for itself (see build/profiles.py::pack_geometry for why that matters). Two
+    variants because dropping the pedestal moves every y above it -- a stack without its
+    pedestal is a different stack, not a crop. Everything is linear in the module, so the page
+    scales these rather than rebuilding them."""
+    full = pe.stack_for(r)
+    out = {}
+    for key, asms in (("with_pedestal", full),
+                      ("no_pedestal", [a for a in full if a not in ("pedestal", "subplinth")])):
+        d = pe.dimension(r, GEOM_MODULE_IN, include=asms)
+        out[key] = prof.pack_geometry(d, r.get("column"), r.get("projection_datum"))
+        out[key]["stack_height_in"] = d["totals"]["stack_height_in"]
+    return out
 
 ORDERS = ["tuscan", "doric", "ionic", "corinthian", "composite"]
 AUTHORITIES = [
@@ -38,6 +57,8 @@ for auth, _, _, _ in AUTHORITIES:
                 "applies_to": r.get("applies_to", []),
                 "confidence": r.get("confidence", "medium"),
                 "diameters": pe.diameters_per_module(r),
+                "geometry": geometry_variants(r),
+                "geometry_module_in": GEOM_MODULE_IN,
             }
 
 systems = {}

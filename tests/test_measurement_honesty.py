@@ -14,6 +14,24 @@ This is the project's own first discipline running backwards — unjudged report
 CLAUDE.md names it as the one collapse the corpus least survives. So these tests pin it from
 three directions: the generator's own declared limits, the seven faults that were being decided
 on fabricated evidence, and the evaluator's reading of a null.
+
+UPDATED 27 Aug 2026 (WP-5.9). The dormer half of that finding is now MODELLED rather than
+refused: `declared.dormer` gives a plan record three states — absent (could not evaluate), the
+string "none" (a measured zero), and an object (a house with dormers) — and both reference plans
+state none, with their evidence in their own `note`. Three of the seven therefore leave the
+unjudged list legitimately, which is the opposite of the failure this file was written for and
+has to be told apart from it. The way it is told apart: delete the declaration and all three must
+return to unjudged. That round trip is asserted, and it is the only assertion that can prove the
+three states are three.
+
+The same commit found the failure trying to come back in through the new field. `dormer_count: 0`
+is a legitimate measurement, and `dormer-off-the-bay`'s parity secondary is `dormer_count % 2 ==
+1`, so the first run after both houses could say "none" convicted both of "Dormers Off the
+Rhythm: 0 against equals 1". Zero dormers is not an even number of dormers. Fault tests may now
+carry an `applies_when` precondition on a MEASUREMENT (schema/fault.schema.json), a test that
+declines is not run rather than passed, and a fault whose every test declines comes back under a
+fourth state, `not_applicable` — which exists because such a fault previously appeared in no list
+at all, and a fault absent from every list reads exactly like a clear one.
 """
 import json
 import os
@@ -34,6 +52,33 @@ FABRICATED_SEVEN = (
     "raking-cornice-that-does-not-match",
     "vestigial-chimney-chase",
 )
+
+# THREE OF THE SEVEN MOVED ON 27 AUG 2026 (WP-5.9), and the reason is the opposite of the one
+# that put them here. They were unjudged because no plan record could state a dormer at all, so
+# `dormer_count: 0` was a fabricated constant standing over a refusal. `declared.dormer` exists
+# now, both reference houses STATE they carry none, and a stated zero is a measurement -- so the
+# critic may use it. What it may NOT do is convict on it, and the difference is exactly what the
+# tests below hold:
+#
+#   dormer-off-the-bay   NOT APPLICABLE. Every one of its three tests is now preconditioned on
+#                        `dormer_count >= 1`. A house with no dormers has no rhythm to be off, and
+#                        before the guard its parity secondary (`dormer_count % 2 == 1`) reported
+#                        "Dormers Off the Rhythm: 0 against equals 1" on both houses the moment
+#                        they could say none -- OQ 52's flagship failure returning through the
+#                        very field built to prevent it.
+#   dormer-wall          CLEAR, on a real measurement: 0 in of dormer face over the building
+#                        width is 0, which is at most 0.4. A roof with no dormers has not become
+#                        a storey, and the evidence for saying so is a number this corpus took.
+#   overscaled-dormer    CLEAR, on the same measurement (its first secondary is dormer-wall's
+#                        primary, verbatim -- a duplication that predates this package).
+#
+# Delete the declaration and all three go straight back to unjudged. That round trip is asserted
+# below, because it is the only thing that proves the three states are three and not two.
+STILL_UNJUDGED = ("capless-stack", "cornice-gutter-without-a-liner",
+                  "raking-cornice-that-does-not-match", "vestigial-chimney-chase")
+JUDGED_ON_A_STATED_ZERO = {"dormer-off-the-bay": "not_applicable",
+                           "dormer-wall": "clear",
+                           "overscaled-dormer": "clear"}
 
 REFERENCE_PLANS = ("tidewater-georgian-careful", "spec-builder-colonial")
 
@@ -87,17 +132,68 @@ class TestTheGeneratorDeclaresItsLimits:
 
 
 class TestTheSevenFaultsAreNoLongerDecidedOnFabricatedEvidence:
+    def test_the_split_still_covers_all_seven(self):
+        """The seven are the historical list and it does not shrink. Splitting it into the four
+        still unmeasurable and the three now judged on a stated zero is the kind of edit that
+        loses one silently — this is what notices."""
+        assert set(STILL_UNJUDGED) | set(JUDGED_ON_A_STATED_ZERO) == set(FABRICATED_SEVEN)
+        assert not set(STILL_UNJUDGED) & set(JUDGED_ON_A_STATED_ZERO)
+
     @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
     def test_they_come_back_could_not_judge(self, plan_name, plan_check_module):
         """Not present, not clear — unjudged. This is the whole point: the corpus does not know
-        whether these houses have dormers, gutters, a raking cornice or a stack of a given plan
-        size, and it must now say so instead of deciding."""
+        whether these houses have gutters, a raking cornice or a stack of a given plan size, and
+        it must now say so instead of deciding. The three dormer faults left this list when the
+        record gained a way to state a dormer; see JUDGED_ON_A_STATED_ZERO above and the two
+        tests below it."""
         result = plan_check_module.check(_plan(plan_name))
         unjudged = {r.get("fault") for r in (result.get("fault_unjudged") or [])}
-        for fault_id in FABRICATED_SEVEN:
+        for fault_id in STILL_UNJUDGED:
             assert fault_id in unjudged, (
                 f"{plan_name}: '{fault_id}' is being adjudicated again. It can only be judged "
                 "from a measurement no generator in this corpus takes (OQ 52).")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_a_stated_none_is_used_but_never_convicts(self, plan_name, plan_check_module,
+                                                      core_module, elevation_mod):
+        """The three that moved, each pinned to the state it moved to and to the reason.
+
+        REWRITTEN 28 Aug 2026. The first version read `where.get(fault_id, "clear")` off
+        `plan_check.check()`, which returns NO clear list — so "clear" meant "appeared in none of
+        the three lists I looked at", which is precisely the collapse this file's own docstring
+        says `not_applicable` was invented to prevent. A fault dropped from evaluation entirely
+        by a renamed id or an `_applies` change would have passed it silently. Membership is now
+        asserted POSITIVELY against `core.check_measurements`, which does return a clear list."""
+        rec = elevation_mod.build_elevation(_plan(plan_name))
+        r = core_module.check_measurements(rec["measurements"], style=rec["style"], limit=10**6)
+        where = {}
+        for row in r["faults_present"]: where[row["fault"]] = "present"
+        for row in r["faults_clear"]: where[row["fault"]] = "clear"
+        for row in r["could_not_judge"]: where[row["fault"]] = "unjudged"
+        for row in r.get("not_applicable", []): where[row["fault"]] = "not_applicable"
+        for fault_id, expected in JUDGED_ON_A_STATED_ZERO.items():
+            assert fault_id in where, (
+                f"{plan_name}: '{fault_id}' is in NO list at all — present, clear, unjudged and "
+                "not-applicable between them must account for every fault the style reaches, and "
+                "a fault in none of them reads exactly like a clear one.")
+            assert where[fault_id] == expected, (
+                f"{plan_name}: '{fault_id}' came back {where[fault_id]}, expected {expected}.")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_deleting_the_declaration_puts_all_three_back_to_unjudged(self, plan_name,
+                                                                      plan_check_module):
+        """The round trip, which is the only thing that proves the three states are three. Absent
+        is could-not-evaluate; "none" is a measured zero; an object is a house with dormers. If
+        removing the declaration left these faults judged, the generator would be supplying the
+        zero on its own — which is precisely the twelve-constant class OQ 52 closed."""
+        plan = _plan(plan_name)
+        assert plan["declared"].pop("dormer", None) == "none", "both reference plans ship a stated none"
+        result = plan_check_module.check(plan)
+        unjudged = {r.get("fault") for r in (result.get("fault_unjudged") or [])}
+        for fault_id in JUDGED_ON_A_STATED_ZERO:
+            assert fault_id in unjudged, (
+                f"{plan_name}: with no declaration at all, '{fault_id}' still came back judged. "
+                "A record that says nothing about dormers must yield no dormer measurements.")
 
     @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
     def test_no_finding_quotes_the_fabricated_numbers(self, plan_name, plan_check_module):
@@ -112,6 +208,247 @@ class TestTheSevenFaultsAreNoLongerDecidedOnFabricatedEvidence:
             assert gone not in statements, (
                 f"{plan_name}: '{gone}' is being reported again, and the only evidence for it "
                 "would be a measurement nobody took.")
+
+
+class TestTheTwoRivalCorniceRulesNoLongerBothRun:
+    """OQ 84, closed 27 Aug 2026 (WP-5.10).
+
+    `cornice-that-is-a-fascia` carries two secondaries on ONE expression — the domestic boxed eave
+    at 0.35–0.55 of its own height, and the full entablature-derived case at 0.85–1.2 — so
+    whichever is right, the other convicts the house. The fault's own note has always said how to
+    choose ("Choose the test by whether an order is present, not by preference"), in prose no
+    evaluator could read.
+
+    WP-3.2 worked around it by WITHHOLDING `cornice_projection_in` from the measurements, which
+    silenced the fault on a name mismatch: `elevation.py` published
+    `cornice_projection_past_wall_face_in` instead, and three of the fault's five tests — the
+    primary among them — were skipped for want of a name rather than for want of a number. The
+    fault came back "clear" on its wall-height ratio alone, which reads exactly like a fault that
+    was actually checked.
+    """
+
+    def _tests(self, core_module):
+        f = json.load(open(os.path.join(ROOT, "faults", "cornice-that-is-a-fascia.json")))
+        return f, [f["test"]] + f["secondary_tests"]
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_exactly_one_of_the_two_rivals_runs(self, plan_name, core_module, elevation_mod):
+        rec = elevation_mod.build_elevation(_plan(plan_name))
+        m = rec["measurements"]
+        f, tests = self._tests(core_module)
+        rivals = [t for t in f["secondary_tests"]
+                  if t["expression"] == "cornice_projection_in / cornice_height_in"]
+        assert len(rivals) == 2, "the rival pair is what this test is about"
+        states = [core_module._eval_test(t, m)["status"] for t in rivals]
+        assert sorted(states) == ["evaluated", "not_applicable"], (
+            f"{plan_name}: rival cornice tests came back {states}. Exactly one must run — both "
+            "running means one of them convicts the house whatever it measures.")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_the_name_is_supplied_and_the_primary_actually_runs(self, plan_name, core_module,
+                                                                elevation_mod):
+        """The half of the fix that is easy to forget. Guarding the rivals while still withholding
+        `cornice_projection_in` would leave the fault just as inert and look just as green."""
+        m = elevation_mod.build_elevation(_plan(plan_name))["measurements"]
+        assert "cornice_projection_in" in m
+        f, _ = self._tests(core_module)
+        r = core_module._eval_test(f["test"], m)
+        assert r["status"] == "evaluated" and r["passes"] is True, (
+            f"{plan_name}: the fault's PRIMARY test is still not running — it was skipped for "
+            "want of a name, not a number, from WP-3.2 until OQ 84 closed.")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_without_the_guard_both_houses_would_be_convicted(self, plan_name, core_module,
+                                                              elevation_mod):
+        """The trap, pinned so nobody removes the guard believing it decorative. Both reference
+        houses measure 0.4286 — inside the domestic band, far outside the entablature one."""
+        import copy
+        m = elevation_mod.build_elevation(_plan(plan_name))["measurements"]
+        f, _ = self._tests(core_module)
+        entab = next(copy.deepcopy(t) for t in f["secondary_tests"]
+                     if t.get("applies_when", {}).get("direction") == "at-least")
+        entab.pop("applies_when")
+        r = core_module._eval_test(entab, m)
+        assert r["status"] == "evaluated" and r["passes"] is False, (
+            "the entablature rule no longer fails these houses, so this test is not pinning the "
+            "trap it was written for — check whether the bands or the measurement moved.")
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_the_discriminator_is_not_the_order_pack_flag(self, plan_name, elevation_mod):
+        """`gibbs_order_applies_to_style` is True on tidewater-georgian and means only that Gibbs
+        Ionic is the order this style's cornice is GENERATED from. Reading it as "an order is
+        applied to this facade" selects the entablature test and convicts the house. Checked
+        before the derivation was written, and pinned here because it is the plausible wrong
+        answer that a later reader would reach for first."""
+        rec = elevation_mod.build_elevation(_plan(plan_name))
+        assert rec["order_at_the_eave"] == 0
+        assert rec["order_at_the_eave_note"]
+        if rec.get("gibbs_order_applies_to_style"):
+            assert rec["order_at_the_eave"] == 0, (
+                "the order pack applies to this style AND no order reaches its eave — which is "
+                "exactly the pair of facts that makes the pack flag the wrong discriminator")
+
+    def test_an_engaged_order_selects_the_other_rule(self, core_module, elevation_mod):
+        """Flip the record and the other test runs. Without this the pair could be guarded in a
+        way that permanently silences one of them, which would pass every assertion above."""
+        import copy
+        plan = copy.deepcopy(_plan("tidewater-georgian-careful"))
+        plan["declared"]["porch_type"] = "two-tier-engaged-portico"
+        rec = elevation_mod.build_elevation(plan)
+        assert rec["order_at_the_eave"] == 1
+        assert "Drayton Hall" in rec["order_at_the_eave_note"]
+        m = rec["measurements"]
+        f = json.load(open(os.path.join(ROOT, "faults", "cornice-that-is-a-fascia.json")))
+        rivals = [t for t in f["secondary_tests"]
+                  if t["expression"] == "cornice_projection_in / cornice_height_in"]
+        states = {t["applies_when"]["direction"]: core_module._eval_test(t, m)["status"]
+                  for t in rivals}
+        assert states == {"at-most": "not_applicable", "at-least": "evaluated"}
+
+
+class TestTheSolarWorkaroundIsRetired:
+    """The same authoring gap, found in the same WP-3.2 pass and worked around the same way:
+    `solar_array_area_sqft` was withheld even though its zero was honest, because the array
+    secondary would read 0/plane = 0.0 and convict a house of a patchy array it does not have.
+    `applies_when` (WP-5.9) gates it now, so the honest zero can be told."""
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_the_honest_zero_is_supplied_and_declines_its_test(self, plan_name, core_module,
+                                                               elevation_mod):
+        m = elevation_mod.build_elevation(_plan(plan_name))["measurements"]
+        assert m.get("solar_array_area_sqft") == 0.0
+        f = json.load(open(os.path.join(ROOT, "faults", "entrance-slope-penetration.json")))
+        t = next(t for t in f["secondary_tests"] if "solar_array_area_sqft" in t["expression"])
+        assert core_module._eval_test(t, m)["status"] == "not_applicable"
+
+
+class TestAStatedZeroConvictsNobodyInAnyStyle:
+    """The guard the WP-5.9/5.10 work needed and did not have, added 28 Aug 2026 by its own
+    adversarial audit — which found two live false convictions it would have caught.
+
+    Every dormer test in this corpus was guarded by reading `test` and `secondary_tests`. There is
+    a THIRD test location: `exceptions[].bounds_test`, which `core.check_measurements` substitutes
+    for the fault's PRIMARY test on a matching style. `dormer-off-the-bay` and `dormer-wall` both
+    carry a Second Empire exception whose bounds_test is `dormer_count / bay_count == 1.0`, and
+    once WP-5.9 began supplying `dormer_count` as a stated zero that evaluated to 0.0 and reported
+    both faults PRESENT — a Second Empire house convicted of Dormers Off the Rhythm for having no
+    dormers. The two reference plans are not Second Empire, so nothing saw it.
+
+    The lesson is the shape of the check, not the two records: verifying a corpus-wide change on
+    the two plans that happen to ship is verifying it on 2 of 164 styles. This sweeps them all."""
+
+    @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
+    def test_no_style_convicts_on_a_dormer_measurement_that_is_zero(self, plan_name, core_module,
+                                                                    elevation_mod):
+        """Scoped to the EXPRESSION, not to a list of fault ids, and the first draft of this test
+        got that wrong: listing `even-bay-front` as a dormer fault made it fail on
+        `english-georgian-townhouse` for a 5-bay house against a 3-bay townhouse rule — a correct
+        conviction on BAY count, from feeding one plan's measurements to another style's rules.
+        The invariant is not "no dormer fault fires"; it is that nothing is convicted BY a dormer
+        measurement whose value is a stated zero."""
+        import re
+        m = elevation_mod.build_elevation(_plan(plan_name))["measurements"]
+        assert m["dormer_count"] == 0, "the premise: these plans STATE they carry no dormers"
+        zero_dormer_names = {k for k, v in m.items() if v == 0 and "dormer" in k}
+        assert "dormer_count" in zero_dormer_names, zero_dormer_names
+        bad = []
+        for style in sorted(core_module._data()["styles"]):
+            r = core_module.check_measurements(m, style=style, limit=10**6)
+            for row in r["faults_present"]:
+                for ev in (row.get("failing") or row["results"]):
+                    # the evaluator does not hand back the expression, so re-find the test that
+                    # produced this result by its own `required` string
+                    d = json.load(open(os.path.join(ROOT, "faults", row["fault"] + ".json")))
+                    tests = [d.get("test")] + list(d.get("secondary_tests") or [])
+                    tests += [e.get("bounds_test") for e in (d.get("exceptions") or [])]
+                    for t in tests:
+                        if not t or not t.get("expression"):
+                            continue
+                        names = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", t["expression"]))
+                        if names & zero_dormer_names and core_module._eval_test(t, m) == ev:
+                            bad.append(f"{style}/{row['fault']}: {t['expression']} = "
+                                       f"{ev.get('value')} against {ev.get('required')}")
+        assert not bad, (
+            "a house that STATES it carries no dormers was convicted BY that zero:\n  "
+            + "\n  ".join(sorted(set(bad))[:10]))
+
+    def test_every_test_location_is_swept_not_just_two(self, core_module):
+        """The structural half. A fault's tests live in three places and the audit found the third
+        only by accident; this asserts the corpus knows about all three, so that a future guard
+        pass has something to enumerate against."""
+        import glob
+        locations = set()
+        for f in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
+            d = json.load(open(f))
+            if d.get("test"):
+                locations.add("test")
+            if d.get("secondary_tests"):
+                locations.add("secondary_tests")
+            if any(e.get("bounds_test") for e in (d.get("exceptions") or [])):
+                locations.add("exceptions[].bounds_test")
+        assert locations == {"test", "secondary_tests", "exceptions[].bounds_test"}, locations
+
+    def test_no_live_test_anywhere_divides_by_a_supplied_zero(self, core_module, elevation_mod):
+        """DIVISION BY ZERO ONLY, over all three test locations — and the narrow scope is stated
+        because the first draft of this docstring called itself "the general form of the bug" and
+        was not. A zero DENOMINATOR raises and becomes `status: error`; that is what this catches.
+        A zero NUMERATOR is the case that actually convicted Second Empire, and it is a different
+        shape — often perfectly legitimate (`sum_of_dormer_face_widths_in / building_width_in` is
+        rightly 0 on a house with no dormers) — so it cannot be caught by a rule about zeros and
+        is caught by the sweep above instead. Verified: with the Second Empire guards removed this
+        test still PASSES and the sweep fails, which is why both exist."""
+        import glob
+        import re
+        m = elevation_mod.build_elevation(_plan("tidewater-georgian-careful"))["measurements"]
+        zeros = {k for k, v in m.items() if v == 0}
+        assert zeros, "no zero measurements at all — this test would be vacuous"
+        offenders = []
+        for f in sorted(glob.glob(os.path.join(ROOT, "faults", "*.json"))):
+            d = json.load(open(f))
+            tests = [d.get("test")] + list(d.get("secondary_tests") or [])
+            tests += [e.get("bounds_test") for e in (d.get("exceptions") or [])]
+            for t in tests:
+                if not t or not t.get("expression") or "/" not in t["expression"]:
+                    continue
+                denom = t["expression"].rsplit("/", 1)[-1].strip()
+                if denom in zeros and not t.get("applies_when"):
+                    offenders.append(f"{d['id']}: {t['expression']} (denominator is 0 here)")
+        assert not offenders, (
+            "a test divides by a measurement this corpus supplies as zero, with no precondition:\n  "
+            + "\n  ".join(offenders))
+
+
+class TestTheFourthStateCannotLeakIntoTheConstraintLayer:
+    """`_eval_test` is SHARED between the fault corpus and the style-constraint layer, and WP-5.9
+    gave it a fourth return status. The constraint callers were not updated, because they cannot
+    receive it: `schema/constraint.schema.json` sets `additionalProperties: false` on its test
+    object and does not list `applies_when`, so no constraint can carry a precondition.
+
+    That is a shield, and this corpus's own rule is that a fix relying on a shield has to look at
+    what the shield covers. Both constraint call sites do `if r["status"] != "evaluated": ->
+    unjudged`, which would silently file a not-applicable constraint as could-not-judge — a wrong
+    answer, though a quiet one. Rather than add a fourth bucket to a path nothing can reach, this
+    pins the shield: add `applies_when` to the constraint schema and this test fails, which is the
+    moment to decide what those two call sites should do."""
+
+    def test_the_constraint_schema_still_forbids_a_precondition(self):
+        s = json.load(open(os.path.join(ROOT, "schema", "constraint.schema.json")))
+        t = s["properties"]["test"]
+        assert t.get("additionalProperties") is False
+        assert "applies_when" not in t.get("properties", {}), (
+            "a constraint test may now carry `applies_when`, so core._eval_test can return "
+            "not_applicable to check_style_constraints and build/plan_check.py:776 — both of "
+            "which currently file it as UNJUDGED. Decide what they should do before shipping it.")
+
+    def test_no_constraint_in_the_corpus_carries_one(self):
+        import glob
+        offenders = []
+        for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
+            d = json.load(open(f))
+            for c in d.get("constraints") or []:
+                if (c.get("test") or {}).get("applies_when"):
+                    offenders.append(f"{d['id']}/{c.get('id')}")
+        assert not offenders, offenders
 
 
 class TestTheEvaluatorReadsANullAsMissing:
@@ -348,7 +685,7 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         from WP-2.3 until WP-7.1, and a first attempt at positions moved it by testing
         `if round(d, 2)` where the original tested `if d`, swallowing a sub-half-inch miss.
 
-        7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 82). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109."""
+        7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 95). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109."""
         out = geometry_module.solve(_plan("tidewater-georgian-careful"),
                                     engine="heuristic", candidates=250)
         assert out["geometry_report"]["relaxations"]["count"] == 7

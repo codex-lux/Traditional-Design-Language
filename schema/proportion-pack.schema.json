@@ -256,6 +256,13 @@
                     "null"
                   ]
                 },
+                "width_parts": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "description": "The face width of ONE repeating unit — a single dentil, modillion, mutule, triglyph or metope — in parts. `spacing_parts` gives the pitch; this gives how much of that pitch is solid, and without it a band of dentils can only be drawn as a solid band. Null where the authority states no width: the band is then drawn solid AND SAYS SO, which is the honest output. Never inferred from the pitch."
+                },
                 "note": {
                   "type": "string"
                 },

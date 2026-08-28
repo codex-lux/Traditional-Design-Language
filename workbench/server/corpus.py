@@ -340,6 +340,19 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     # OQ 65, ruled: which datum this pack's projections are measured from is STATED, not
     # derived by whoever draws them. Inherited through the overlay chain by resolve().
     out["projection_datum"] = pk.get("projection_datum")
+    # WP-5.7: the constructed moulding geometry, so the browser draws what the engine built
+    # rather than re-deriving a curve or a datum for itself. Segments are in inches at the
+    # module above; a client wanting another size scales them, because pack geometry is linear
+    # in the module (proved in tests/test_profiles.py). See build/profiles.py for why this is
+    # served rather than ported: every copy of this arithmetic that has ever existed in this
+    # corpus has eventually disagreed with the others.
+    prof = core._mod("profiles", os.path.join(ROOT, "build", "profiles.py")) \
+        if hasattr(core, "_mod") else None
+    if prof is None:
+        import importlib.util as _il
+        _s = _il.spec_from_file_location("profiles", os.path.join(ROOT, "build", "profiles.py"))
+        prof = _il.module_from_spec(_s); _s.loader.exec_module(prof)
+    out["geometry"] = prof.pack_geometry(d, pk.get("column"), pk.get("projection_datum"))
     return out
 
 

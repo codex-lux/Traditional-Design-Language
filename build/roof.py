@@ -475,20 +475,70 @@ def gambrel_break_check(main):
             "break_fraction": g["break_fraction"], "break_band": list(break_band), "break_ok": break_ok}
 
 def dormer_rhythm_check(plan, section, main):
-    """elements/slots.json's own `dormer` slot is cardinality 'many' (an assembly list), but no
-    plan record in this corpus -- and no plan schema field -- currently authors WHERE a dormer
-    sits, so this is implemented and unit-tested as a pure function of two position lists
-    (dormer centres, window-bay centres) rather than wired to a real plan field that does not
-    exist yet. Neither shipped reference plan has an attic storey a dormer would light, so this
-    reports not-applicable on both -- an honest absence, not a bug."""
-    dormers = (plan.get("declared_dormers") or [])   # not a real schema field yet -- see docstring
-    if not dormers:
-        return {"applicable": False, "note": "No dormers declared on this plan (no schema field authors dormer position yet)."}
-    bay_ft = section["footprint"].get("bay_module_ft") or 10.0
-    bay_centres = [bay_ft * (i + 0.5) for i in range(int(section["footprint"]["width_ft"] // bay_ft))]
-    on_bay = sum(1 for d in dormers if any(abs(d - b) <= 1.0 for b in bay_centres))
-    ratio = on_bay / len(dormers)
-    return {"applicable": True, "dormer_count": len(dormers), "on_bay_count": on_bay, "ratio": ratio, "ok": ratio >= 1.0}
+    """Whether this house's dormers can sit on its bays -- in the three states the record has.
+
+    WIRED TO THE REAL FIELD, 27 Aug 2026 (WP-5.9). This function used to read `declared_dormers`,
+    a key it invented for itself because no schema field authored a dormer, and which therefore
+    no record ever carried: it returned not-applicable on every plan in the corpus and its unit
+    tests reached it by writing the placeholder in by hand. `declared.dormer` exists now (the
+    ontology's own slot id, cardinality many) and carries the distinction that matters -- a house
+    STATING it has none is not the same as a house whose dormers nobody could state.
+
+    WHAT IS ACTUALLY JUDGED HERE, and what is not. Positions are NOT authored: the kit's own
+    alignment_rule is "each dormer centred on a window of the storey below", so build/elevation.py
+    ::dormers() derives the centres from the bays and a record cannot state a rhythm contradicting
+    its own style. Measuring those derived centres against the bays they were derived from would
+    be a check of arithmetic dressed as a check of design -- vacuously 1.0, every time. The
+    question a record CAN get wrong is the count: a front with four bays cannot carry five dormers
+    on bays, and no derivation can fix that. That is what is measured, and the note says so rather
+    than letting a caller read 1.0 as a verdict on placement.
+    """
+    decl = (plan.get("declared") or {}).get("dormer")
+    if decl is None:
+        return {"applicable": False, "stated": False,
+                "note": "This plan does not state whether it carries dormers. Not an absence of "
+                        "dormers -- an absence of a statement."}
+    if decl == "none":
+        return {"applicable": True, "stated": True, "dormer_count": 0, "bay_count": None,
+                "on_bay_count": 0, "ratio": None, "ok": None,
+                "note": "The plan states this house carries no dormers. There is no rhythm to be "
+                        "off, which is not the same as a rhythm that was measured and passed."}
+    n = int(decl.get("count") or 0)
+    fp = section["footprint"]
+    # THE ROOF DOES NOT OWN THE BAY RHYTHM AND MUST NOT INVENT ONE. This read
+    # `fp.get("bay_module_ft") or 10.0` and divided the width by it, which on a footprint that
+    # states no module (both reference plans) is a 10 ft constant of exactly the class this
+    # package spent two commits removing. It gave 6 bays on a front the facade pack lays out as
+    # FIVE, so at `{"count": 6}` the roof reported `ratio 1.0, ok True` while the fault corpus
+    # convicted the same record on 5 of 6 centred -- two records built from different rules that
+    # nothing compared, which is OQ 85's own thesis, shipped inside the package that closed it.
+    # Found 28 Aug 2026 by this package's adversarial audit.
+    #
+    # The bay count belongs to the facade layer (`elevation.py::_face_bays`, from
+    # facade-classical's own odd-count formula). Where the footprint states a module the roof can
+    # read it; where it does not, this is UNJUDGED and says so rather than answering from a
+    # constant.
+    bay_ft = fp.get("bay_module_ft")
+    if not bay_ft:
+        return {"applicable": True, "stated": True, "dormer_count": n, "bay_count": None,
+                "on_bay_count": None, "ratio": None, "ok": None,
+                "note": "This footprint states no bay module, and the bay rhythm is the facade "
+                        "layer's (build/elevation.py::_face_bays, from facade-classical's own "
+                        "odd-count formula) rather than the roof's. Whether there are bays enough "
+                        "to carry the declared dormers is therefore unjudged HERE; the elevation "
+                        "layer judges it, and `dormer-off-the-bay` reports it."}
+    bay_count = int(fp["width_ft"] // bay_ft)
+    on_bay = min(n, bay_count)
+    ratio = (on_bay / n) if n else None
+    return {"applicable": True, "stated": True, "dormer_count": n, "bay_count": bay_count,
+            "on_bay_count": on_bay, "ratio": ratio,
+            "ok": (None if not n else ratio >= 1.0),
+            "note": ("Centres are derived from the bays below, so placement is right by "
+                     "construction; what is measured is whether there are bays enough to carry "
+                     f"the declared count -- {n} dormer(s) over {bay_count} bay(s)."
+                     if n else
+                     "The record declares a dormer object with a count of zero, which states "
+                     "none in a longer way; nothing to judge.")}
 
 # ---------------------------------------------------------------- plan-view outline + elevation profiles
 def roof_outline(section, main):
@@ -529,9 +579,16 @@ def elevation_profile(section, main, wall):
     outline for the elevation generator', per the hand-off brief -- as an ordered list of
     (horizontal_ft, height_ft) points along that wall, height measured above grade. A gable end
     (perpendicular to the ridge) is a triangle peaking at the ridge height; a long face (parallel
-    to the ridge) is a flat eave line for a simple gable, or a trapezoid for a hip (the
-    characteristic hip silhouette: eave flat, then the hip planes rise in at both ends to meet
-    the ridge height across the ridge's own shorter span)."""
+    to the ridge) is the RECTANGLE from eave to ridge, because parallel projection of one sloping
+    plane fills that band; a hip is a trapezoid (eave flat, then the hip planes rise in at both
+    ends to meet the ridge height across the ridge's own shorter span).
+
+    THIS DOCSTRING SAID "a flat eave line for a simple gable" until 28 Aug 2026, nineteen lines
+    above the code that stopped doing that in WP-5.9 and explains at length why -- the flat line
+    was a PERSPECTIVE argument inside an orthographic renderer. WP-5.10 found and fixed exactly
+    this class in `render_elevation.py`'s chimney block and left it standing in the function whose
+    behaviour had actually changed. Prose asserting what the code no longer does is the failure
+    this corpus polices hardest, and it survived the package that named it twice."""
     fp = section["footprint"]
     W, D = fp["width_ft"], fp["depth_ft"]
     eave = main["grade_to_eave_ft"]
@@ -551,7 +608,18 @@ def elevation_profile(section, main, wall):
         g = main["gambrel"]
         off = g["break_offset_ft"]
         return [(0.0, eave), (off, g["break_grade_to_ft"]), (wall_len - off, g["break_grade_to_ft"]), (wall_len, eave)]
-    return [(0.0, eave), (wall_len, eave)]   # simple gable, long face: ridge is behind the near roof plane, not visible
+    # SIMPLE GABLE, LONG FACE. This returned a flat eave line until 27 Aug 2026, on the reasoning
+    # that "the ridge is behind the near roof plane, not visible". That is a PERSPECTIVE argument
+    # and this is an ORTHOGRAPHIC projection. The near plane slopes away from the viewer, and
+    # parallel projection maps it to a full-width band from the eave up to the ridge -- the ridge
+    # is the top edge of the drawing, at its true height. The front elevation of the Tidewater
+    # reference plan was short by 14.22 ft: the whole roof was missing from the sheet everyone
+    # looks at, which is what made a five-bay Georgian read as a box.
+    #
+    # A side-gable front is therefore a plain rectangle, eave line to ridge line, and its
+    # BLANKNESS is correct -- there is nothing in it but the covering. That is the opposite of the
+    # gable end (a triangle) and of the hip (a trapezoid), and all three now come from here.
+    return [(0.0, eave), (0.0, ridge_ft), (wall_len, ridge_ft), (wall_len, eave)]
 
 # ---------------------------------------------------------------- orchestration
 def build_roof(plan, parti=None, section=None):

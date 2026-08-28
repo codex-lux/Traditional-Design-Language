@@ -598,9 +598,9 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             m.AddBoolOr(over + [none])
             penalties.append((none, 8 * SCALE))
 
-        # WP-7.4 (OQ 82): declared `stacks_over`, charged. SOFT, and that is the whole design.
+        # WP-7.4 (OQ 95): declared `stacks_over`, charged. SOFT, and that is the whole design.
         #
-        # OQ 82 recorded that a stacking constraint here "outranks every authored exterior wall
+        # OQ 95 recorded that a stacking constraint here "outranks every authored exterior wall
         # in the corpus", because the downgrade loop below reads
         # `[key for _t, k, key in core if k == "wall" and key]` and a non-wall pin can never
         # enter it -- measured, a hard version downgraded an authored kitchen wall to satisfy an
@@ -626,7 +626,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             m.AddBoolOr([b, none])
             penalties.append((none, _w(GEO.STACK_W)))
 
-        # WP-7.4 (OQ 84): over-capacity clear spans, charged, on the same structural fact the
+        # WP-7.4 (OQ 97): over-capacity clear spans, charged, on the same structural fact the
         # heuristic charges and plan_check reports.
         #
         # THE BEARING SET IS FINITE AND SMALL HERE, which is what makes this affordable. This

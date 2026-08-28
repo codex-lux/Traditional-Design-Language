@@ -86,14 +86,25 @@ entrance composition, water table and belt bands, and the roofline reused from `
 profile (bed mould, modillion band, corona, cymatium) from `proportion_engine.dimension()`'s own
 member data, not traced.
 
-That inset exists because the hand-off brief calls for porting `orders_template.html`'s `segTo()`
-— the JS function that turns one member (a height, a projection, a profile name) into an SVG path
-fragment for that moulding's own cross-section shape — into Python: `seg_to()` is that port, case
-for case against the JS original, and `profile_silhouette_path()` is the same stepped-member walk
-`orders_template.html`'s own `silhouettePath()`/`buildGeometry()` do for a column shaft, simplified
-for a flat entablature run (no entasis, no diminution — neither exists anywhere in this codebase
-for an eave cornice or a door entablature). `tests/test_elevation.py`'s `TestSegTo` class pins each
-profile case directly against the JS original's own control-point arithmetic.
+That inset used to be drawn by `seg_to()`, a case-for-case Python port of
+`orders_template.html`'s `segTo()`, pinned against the JS original by `TestSegTo`. **WP-5.7
+replaced both with `build/profiles.py`, which CONSTRUCTS each moulding** — a quarter of an ellipse
+for an ovolo, two tangent arcs through the chord's midpoint for a cyma, a half round for a torus —
+rather than approximating it with hand-tuned Bézier control fractions. Two things were wrong with
+the port, and the second is why the drawing looked as it did:
+
+* `profile_silhouette_path()` called `seg_to()` with `xa == xb` on **every** member, so every
+  curve degenerated to the vertical face it was drawn between. The profile names in the data were
+  right and the cornice drew as a flight of steps regardless. `TestSegTo` pinned the control-point
+  arithmetic exactly and could not see this, because it asserted the string and never the shape.
+* It drew from a naked of 0 while `gibbs-ionic`'s projections are radii from the column axis.
+
+The datum is now read from the pack's own evidence rather than its declaration — see **OQ 78**,
+because a pack's declared datum is true of its column and not of its entablature — and the inset
+is a full detail plate: every member named at its own height, the relief and the total dimensioned,
+and the projection disagreement of **OQ 79** printed rather than silently resolved. The successor
+guards are `tests/test_profiles.py` and `TestCorniceProfileGeometry`, which assert geometry
+(tangency, convexity, scale invariance, the datum) instead of path strings.
 
 ## What was found
 
@@ -244,18 +255,58 @@ name.
   does not check whether the massing this plan actually uses (a genuine double-pile plan) has that
   constraint at all. Adding this key would have produced a false fatal on a legitimately double-pile
   design; flagged here as a fault-corpus scoping gap rather than worked around.
-- **No dormers, secondary doors, or garage doors are drawn or measured** — none of the shipped
-  reference plans declares one, consistent with `roof.py`'s own WP-3.3 disclosure for dormer
-  rhythm.
+- **Secondary doors and garage doors are not drawn or measured** — neither shipped reference plan
+  declares one.
+- **Dormers ARE drawn and measured, as of WP-5.9 (27 Aug 2026)**, and the entry that used to sit
+  here said they were not, "consistent with `roof.py`'s own WP-3.3 disclosure for dormer rhythm".
+  Both files were refusing for the same reason and neither had said it out loud: no plan schema
+  field authored a dormer, so a house with none and a house whose dormers the record could not
+  state were the same house. `declared.dormer` separates them into three states — absent (could
+  not evaluate), `"none"` (a measured zero), an object (a house with dormers) — and every dormer
+  figure is derived from the fault corpus, which turns out to specify a dormer completely:
+
+  | figure | from |
+  |---|---|
+  | window width | `overscaled-dormer`, 0.75–1.0 of the sash below; taken at 0.85 |
+  | window height | the kit's own `dormer_window_height_in` expression where it has one |
+  | cheek | the kit's 4–8 in band, `fat-cheek-dormer`'s ≤ 0.25 of the sash, AND that fault's prose rule that the cheek may not exceed the window casing — the third bound binds here |
+  | face width | window plus two cheeks |
+  | centres | the bays below (the kit's own `alignment_rule`), never authored |
+  | roof run in front | `sunken-dormer`'s preferred 18–36 in band, **editorial**, named as a choice |
+  | cornice | the ratio the HOUSE's own cornice obeys (`cornice-that-is-a-fascia`, 1/14–1/12 of the wall it crowns), applied to the dormer's own face — the kit's rule that a dormer "carries the same order as the house at reduced scale", with a number in it |
+
+  Not derivable and therefore not stated: the sill's height above the garret floor, and the face
+  width as a measured figure rather than as window plus casings.
 
 ## New open questions
 
-1. Should `faults/cornice-that-is-a-fascia.json`, `entrance-slope-penetration.json`, and
+1. ~~Should `faults/cornice-that-is-a-fascia.json`, `entrance-slope-penetration.json`, and
    `shutter-on-an-unshutterable-opening.json` gain an explicit conditional guard (a `depends_on` or
    similar field) on their own conditional secondary tests, so a generator does not have to
    discover "this key can only be safely supplied when a companion condition holds" by tripping a
    false fatal first? Three independent instances of the same pattern were found in this package
-   alone. Not decided here — flagged for whoever owns the fault-corpus schema next.
+   alone.~~ **ANSWERED 27 Aug 2026 (WP-5.9): yes, and the field is `applies_when`** — a
+   precondition on the MEASUREMENTS, in the same shape as a test, alongside `applies_to_styles`'s
+   precondition on the style. A test whose precondition fails is NOT RUN; a fault whose every test
+   declines comes back under a fourth state, `not_applicable`, because such a fault previously
+   appeared in no list at all and that reads to a caller exactly like clear. See `docs/faults.md`.
+
+   It was built for a fourth instance this package found the hard way, which is worth stating
+   because it is the same pattern arriving from the opposite direction. `dormer-off-the-bay`'s
+   parity secondary is `dormer_count % 2 == 1`. As long as no record could state a dormer, no
+   generator supplied `dormer_count` and the rule never ran. The day both reference houses could
+   state that they carry **none**, that zero was a real measurement, the rule ran on it, and both
+   were convicted of *"Dormers Off the Rhythm: 0 against equals 1"* — OQ 52's flagship failure
+   returning through the very field built to prevent it. Zero dormers is not an even number of
+   dormers.
+
+   Two of the three named above are guarded (`entrance-slope-penetration`'s solar-array secondary
+   on `solar_array_area_sqft >= 0.1`, `shutter-on-an-unshutterable-opening`'s arch-head secondary
+   on `window_head_radius_in >= 0.1`). The third is **not**, and it is not the same problem:
+   `cornice-that-is-a-fascia` carries two RIVAL secondaries — the domestic boxed eave at 0.35 and
+   the full entablature-derived case at 0.85 — so whichever is right, the other fails. Guarding
+   them needs a measurement stating whether an order is applied to this facade, and no generator
+   in this corpus takes one. Left open and named rather than guarded with a figure nobody has.
 2. Should `faults/single-pile-type-built-double-pile.json` gain a `massing`-scoped exception (or a
    companion variable naming the plan's own actual pile depth) so it stops being fatal on a
    legitimately double-pile design that merely shares a style with single-pile-constrained ones?

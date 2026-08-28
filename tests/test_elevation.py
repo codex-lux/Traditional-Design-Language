@@ -9,6 +9,8 @@ for bugs actually found and fixed during this WP (each one names the bug it pins
 test_roof.py's TestWingStepDown/TestCapeEaveCheck do for WP-3.3's own fixes).
 """
 import json
+import os
+import pytest
 import math
 
 from conftest import ROOT, load_plan
@@ -256,46 +258,169 @@ class TestFaultCorpusIntegration:
         assert "shutter-half-width-leaf" in ids
 
 
-class TestSegTo:
-    """Direct port check against build/orders_template.html's segTo() -- same case list, same
-    control-point arithmetic, called with the same six arguments in the same order."""
+class TestCorniceProfileGeometry:
+    """Successor to TestSegTo, which pinned build/render_elevation.py's line-for-line port of
+    orders_template.html's segTo() -- control point for control point, Bezier fraction for Bezier
+    fraction. WP-5.7 deleted the thing it pinned: those curves were hand-tuned approximations, and
+    worse, profile_silhouette_path() always called seg_to() with xa == xb, so every one of them
+    degenerated to a vertical line and the cornice drew as a flight of steps whatever the profile
+    names said. Pinning the arithmetic of a curve nobody could see is not a guard.
 
-    def _sx(self, x): return x
-    def _sy(self, y): return y
+    What replaces it: build/profiles.py CONSTRUCTS each moulding and proves the construction
+    (tangency, convexity, scale invariance) in its own selftest and tests/test_profiles.py. What
+    is pinned HERE is the part that belongs to the elevation -- that the real cornice record
+    produces a real closed profile, at the right relief, off the right plane."""
 
-    def test_ovolo_uses_a_single_quadratic_with_control_at_xb_ya(self, render_elevation_module):
-        d = render_elevation_module.seg_to("ovolo", 0, 0, 5, 10, self._sx, self._sy)
-        assert d.strip().startswith("Q 5.00,0.00")
-        assert d.strip().endswith("5.00,10.00")
-
-    def test_cavetto_uses_control_at_xa_yb(self, render_elevation_module):
-        d = render_elevation_module.seg_to("cavetto", 0, 0, 5, 10, self._sx, self._sy)
-        assert "Q 0.00,10.00" in d
-
-    def test_cyma_reversa_and_ogee_are_the_same_curve(self, render_elevation_module):
-        a = render_elevation_module.seg_to("cyma-reversa", 0, 0, 5, 10, self._sx, self._sy)
-        b = render_elevation_module.seg_to("ogee", 0, 0, 5, 10, self._sx, self._sy)
-        assert a == b
-
-    def test_bevel_is_a_plain_line(self, render_elevation_module):
-        d = render_elevation_module.seg_to("bevel", 0, 0, 5, 10, self._sx, self._sy)
-        assert d.strip() == "L 5.00,10.00"
-
-    def test_default_case_is_a_square_step(self, render_elevation_module):
-        for profile in ("fillet", "listel", "fascia", "plinth", "corona", "modillion", "dentil"):
-            d = render_elevation_module.seg_to(profile, 0, 0, 5, 10, self._sx, self._sy)
-            assert d.strip() == "L 5.00,0.00 L 5.00,10.00"
-
-
-class TestProfileSilhouettePath:
-    def test_empty_members_gives_an_empty_path(self, render_elevation_module):
-        assert render_elevation_module.profile_silhouette_path([], lambda x: x, lambda y: y) == ""
-
-    def test_real_cornice_members_produce_a_closed_path(self, elevation_module, render_elevation_module):
+    def test_the_cornice_draws_as_a_closed_profile_spanning_every_member(self, elevation_module,
+                                                                         render_elevation_module):
         plan, elev = _tidewater_elevation(elevation_module)
-        d = render_elevation_module.profile_silhouette_path(elev["eave_cornice"]["members"], lambda x: x, lambda y: y)
-        assert d.startswith("M ")
-        assert d.rstrip().endswith("Z")
+        cor = elev["eave_cornice"]
+        PROF = render_elevation_module.PROF
+        sil = PROF.silhouette(cor["members"], naked_at=cor["frieze_naked_in"],
+                              from_axis=cor["entablature_projection_datum"] == "axis")
+        assert sil["segments"], "the cornice produced no geometry at all"
+        assert sil["segments"][-1]["kind"] == "close"
+        ys = []
+        for sg in sil["segments"]:
+            if sg["kind"] == "line":
+                ys.append(sg["to"][1])
+            elif sg["kind"] == "arc":
+                ys += [PROF.arc_point(sg, t / 8)[1] for t in range(9)]
+        # Every member must appear: a profile that starts above the bed mould has dropped one.
+        assert min(ys) == pytest.approx(cor["members"][0]["y_bottom_in"], abs=0.01)
+        assert max(ys) == pytest.approx(cor["members"][-1]["y_top_in"], abs=0.01)
+
+    def test_curves_are_actually_drawn_rather_than_degenerating_to_steps(self, elevation_module,
+                                                                        render_elevation_module):
+        """The failure the old port hid: this cornice carries three cymas, and if the geometry
+        comes back as nothing but straight lines they have collapsed into their own faces again."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        cor = elev["eave_cornice"]
+        PROF = render_elevation_module.PROF
+        sil = PROF.silhouette(cor["members"], naked_at=cor["frieze_naked_in"],
+                              from_axis=cor["entablature_projection_datum"] == "axis")
+        arcs = [sg for sg in sil["segments"] if sg["kind"] == "arc"]
+        curved = [m for m in cor["members"]
+                  if (m.get("profile") or "") in ("cyma-recta", "cyma-reversa", "ogee", "ovolo",
+                                                  "cavetto", "scotia", "torus", "astragal", "bead")]
+        assert len(arcs) >= len(curved), (
+            f"{len(curved)} curved members produced only {len(arcs)} arcs")
+
+    def test_the_entablature_datum_is_read_from_the_pack_not_assumed(self, elevation_module):
+        """OQ 65 ruled the projection datum onto the PACK, and check_orders.py verifies that
+        declaration against the shaft, base and capital. The entablature in the same pack does not
+        follow it: gibbs-ionic declares `axis`, yet its frieze face and its architrave's lowest
+        fascia both record a projection of 0, and a frieze cannot stand on the column's centre
+        line. Reading the pack-level declaration literally over the cornice clamps every member
+        whose figure is under the column radius flush with the frieze -- which deletes this
+        cornice's bed mould and its fillet from the drawing. The record must carry the
+        entablature's OWN datum."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        cor = elev["eave_cornice"]
+        assert cor["projection_datum"] == "axis", "the pack still declares axis for its column"
+        assert cor["entablature_projection_datum"] == "naked"
+        assert cor["frieze_naked_in"] == 0.0
+        # and the relief is then the order's own full projection, not a clamped remainder
+        assert cor["order_relief_beyond_frieze_in"] == pytest.approx(
+            max(m["projection_in"] for m in cor["members"]), abs=0.01)
+
+    def test_two_sourced_rules_disagree_and_the_record_says_so(self, elevation_module):
+        """Gibbs's own rule makes the cornice project as far as it stands tall; facade-classical's
+        domestic envelope rule gives module/14. Both are sourced, they are not the same number,
+        and the record is required to name the disagreement rather than quietly pick a winner."""
+        plan, elev = _tidewater_elevation(elevation_module)
+        cor = elev["eave_cornice"]
+        assert cor["envelope_projection_in"] > 0
+        assert abs(cor["order_relief_beyond_frieze_in"] - cor["envelope_projection_in"]) > 0.5
+        note = cor["projection_disagreement_note"].lower()
+        assert "disagree" in note and "neither is chosen" in note
+
+    def test_the_drawn_sheet_discloses_the_datum_and_the_disagreement(self, elevation_module,
+                                                                     render_elevation_module, tmp_path):
+        plan, elev = _tidewater_elevation(elevation_module)
+        out = render_elevation_module.render_elevation(elev, str(tmp_path / "e.svg"))
+        svg = open(out).read()
+        assert "EAVE CORNICE PROFILE" in svg
+        assert "RELIEF FROM THE FRIEZE NAKED" in svg
+        assert "BOTH SOURCED" in svg
+
+
+class TestTheHeadOfAnOpeningIsReadNotAsserted:
+    """WP-5.7 shipped a style fact hardcoded and attributed to a pack that does not contain it,
+    which is the invented-source failure CLAUDE.md calls the worst thing that can be done to this
+    corpus. It wrote `"keystone": False` with a comment claiming "the kit states keystone: none
+    for this tradition" and a `source` string citing `brick-course.json window_head_masonry` --
+    in which the word "keystone" does not occur. The claim was true of exactly one style.
+
+    It also hardened brick-course's own note -- "the change is roughly 1720-1750 IN THE
+    CHESAPEAKE" -- into a global `< 1750` point test, so an absent date produced a definite
+    gauged flat arch and a source sentence reading "the None date puts it after the change":
+    could-not-evaluate published as evidence, reachable by anyone who can POST a plan."""
+
+    def _with(self, elevation_module, style=None, date="keep"):
+        plan = load_plan("tidewater-georgian-careful")
+        if style:
+            plan["style"] = style
+        if date == "keep":
+            pass
+        elif date is None:
+            plan["context"].pop("date_of_representation", None)
+        else:
+            plan["context"]["date_of_representation"] = date
+        return elevation_module.build_elevation(plan)
+
+    def test_a_keystone_comes_from_the_style_kit_and_not_from_a_constant(self, elevation_module):
+        """tidewater-georgian FORBIDS the keystoned flat arch and states keystone: none.
+        mid-atlantic-georgian makes it CANONICAL with a measured 6-9 in keystone and a measured
+        4-6 in rise. One hardcoded False cannot be right for both."""
+        tw = self._with(elevation_module)["storey_windows"][0]["head_treatment"]
+        assert tw["keystone"] is False
+
+        ma = self._with(elevation_module, style="mid-atlantic-georgian")["storey_windows"][0]["head_treatment"]
+        assert ma["kind"] == "keystoned-flat-arch"
+        assert ma["keystone"] is True
+        assert ma["keystone_width_in"] == [6, 9]
+        # and its own measured rise band beats a rule derived for another tradition
+        assert ma["rise_band_in"] == [4, 6]
+        assert "kit" in (ma["rise_source"] or "")
+
+    def test_no_source_string_claims_a_pack_that_does_not_say_it(self, elevation_module):
+        head = self._with(elevation_module)["storey_windows"][0]["head_treatment"]
+        brick = open(os.path.join(ROOT, "proportions", "modules", "brick-course.json")).read()
+        assert "keystone" not in brick.lower(), "brick-course now mentions keystones; revisit this"
+        assert "keystone" not in (head.get("source") or "").lower(), (
+            "the head's source cites a pack for a fact that pack does not carry")
+
+    def test_a_date_inside_the_change_band_is_unjudged_rather_than_rounded(self, elevation_module):
+        """brick-course states a BAND -- 1720 to 1750 -- and a band is not a threshold."""
+        head = self._with(elevation_module, date=1735)["storey_windows"][0]["head_treatment"]
+        assert head["kind"] is None
+        assert "band" in head["kind_note"].lower()
+
+    def test_an_absent_date_says_so_instead_of_reporting_one(self, elevation_module):
+        head = self._with(elevation_module, date=None)["storey_windows"][0]["head_treatment"]
+        assert head["kind"] is None
+        blob = json.dumps(head).lower()
+        assert "none date" not in blob, "an absent date is being narrated as an evaluated one"
+        assert "no date" in head["kind_note"].lower()
+
+    def test_an_unjudged_head_is_not_drawn_and_the_sheet_says_why(self, elevation_module,
+                                                                  render_elevation_module, tmp_path):
+        elev = self._with(elevation_module, date=None)
+        svg = open(render_elevation_module.render_elevation(elev, str(tmp_path / "u.svg"))).read()
+        assert 'class="arch' not in svg, "an unjudged head was drawn as a definite one"
+        assert "WINDOW HEAD UNJUDGED" in svg
+
+    def test_the_chimney_judgment_reaches_the_sheet(self, elevation_module,
+                                                   render_elevation_module, tmp_path):
+        """brick-course flags the stack width `judgment: true` -- "a mason will build 18 or 27
+        and someone should decide". WP-5.7's comment, report and commit message all said the
+        figure reaches the drawing labelled as a judgment. It reached no sheet at all."""
+        elev = self._with(elevation_module)
+        assert elev["chimney_stack_plan_judgment"], "the record dropped the judgment note"
+        svg = open(render_elevation_module.render_elevation(elev, str(tmp_path / "c.svg"))).read()
+        assert "JUDGMENT" in svg.upper()
+        assert "18" in svg and "27" in svg
 
 
 class TestRenderElevation:
@@ -315,17 +440,67 @@ class TestRenderElevation:
         out = tmp_path / "tidewater-E.svg"
         render_elevation_module.render_elevation(elev, str(out), face="E")
         text = out.read_text()
-        assert 'class="rf"' in text
-        assert 'class="ch"' in text   # tidewater-georgian-careful's own gable-end chimneys (WP-3.3)
+        # The roof carries a line-weight class alongside its own now (WP-5.9), so match the TOKEN
+        # rather than the whole attribute -- a pin on `class="rf"` exactly would fail every time
+        # the roof moved a rung on the ladder without the roof having changed at all.
+        assert 'class="rf' in text
+        # THE SAME PIN, ONE LINE APART. The comment directly above says a pin on `class="rf"`
+        # exactly would fail every time the roof moved a rung on the weight ladder without the
+        # roof changing -- and then the next line pinned `class="ch"` exactly, which is what broke
+        # when WP-5.9 gave the stack its own rung. Match the token.
+        assert 'class="ch' in text   # tidewater-georgian-careful's own gable-end chimneys (WP-3.3)
+        # And WHERE, because "a stack is on the sheet" was true of the version that drew it as a
+        # bar floating in the sky at the top-left corner, 3 ft from the gable's front corner and
+        # touching no roof (see WP-5.9's report, and OQ 80).
+        import re as _re
+        rects = _re.findall(r'<rect class="ch[^"]*" x="([-\d.]+)"[^>]*width="([-\d.]+)"', text)
+        assert len(rects) == 1, "one stack per gable end"
+        centre_ft = (float(rects[0][0]) + float(rects[0][1]) / 2.0 - 46.0) / 24.0
+        y_ft = elev["roof_record"]["chimneys"]["positions"][0]["y_ft"]
+        assert abs(centre_ft - y_ft) < 0.2, (
+            f"stack drawn at {centre_ft:.2f} ft along the gable end; the record says {y_ft}")
+        # WP-5.9: and the roof is a closed plane now, not a line along its bottom edge.
+        assert "<polygon" in text, "the roof is drawn as a polyline again"
 
-    def test_long_face_of_a_side_gable_shows_no_chimney(self, elevation_module, render_elevation_module, tmp_path):
-        """WP-3.3's own finding: both of this plan's chimneys sit on the gable-end (E/W) walls --
-        the S/N long faces should not draw a chimney that is not actually in that wall's plane."""
+    def test_long_face_of_a_side_gable_DOES_show_its_stacks(self, elevation_module, render_elevation_module, tmp_path):
+        """REVERSED AND REWRITTEN 28 Aug 2026, and the reversal is a ruling rather than a slip.
+
+        This test asserted `'class="ch"' not in text` — "the long faces should not draw a chimney
+        that is not actually in that wall's plane", which was WP-3.3's finding and was right while
+        `roof.py`'s long-face silhouette stopped at the eave: with no roof surface modelled there
+        was nothing to say which part of a 47 ft stack clears the roof, so drawing any of it would
+        have been inventing. OQ 80 closed that (WP-5.9): `elevation_profile` carries the near roof
+        PLANE on a long face, because parallel projection fills the band from eave to ridge, and
+        the front elevation draws both end stacks — which the kit calls "visible from a mile away
+        and conclusive against New England".
+
+        It was left green by an unrelated accident: the stack gained a weight rung, so the emitted
+        class became `class="ch w-prof"` and the exact-string pin stopped matching anything. A
+        NEGATIVE assertion whose selector breaks inverts into a tautology, and this one then sat
+        in the same suite as `test_the_front_elevation_shows_both_end_stacks`, which asserts the
+        opposite. Only the broken selector kept them from colliding. The audit that found it also
+        found the identical stale pin fixed one test earlier in the same diff and not here."""
+        import re
         plan, elev = _tidewater_elevation(elevation_module)
         out = tmp_path / "tidewater-S.svg"
         render_elevation_module.render_elevation(elev, str(out), face="S")
         text = out.read_text()
-        assert 'class="ch"' not in text
+        rects = re.findall(r'<rect class="ch[^"]*"[^>]*x="([-\d.]+)"[^>]*width="([-\d.]+)"[^>]*height="([-\d.]+)"', text)
+        assert len(rects) == 2, f"two gable-end stacks on the front, got {len(rects)}"
+        xs = sorted(float(r[0]) for r in rects)
+        assert xs[1] - xs[0] > 1000, "they are at opposite ends of the front, not stacked together"
+        # ONLY THE PART ABOVE THE ROOF, and at the width the record states -- neither was asserted
+        # anywhere until this audit, and CLAUDE.md names a hardcoded 36 in stack width as a bug of
+        # exactly this class in exactly this file.
+        roof = elev["roof_record"]
+        c = roof["chimneys"]["positions"][0]
+        above_ft = c["total_height_grade_ft"] - c["grade_to_ridge_ft"]
+        for x, w, h in rects:
+            assert abs(float(h) / 24.0 - above_ft) < 0.05, (
+                f"{float(h)/24:.2f} ft of stack drawn; {above_ft} ft clears the ridge")
+            assert abs(float(w) / 24.0 * 12.0 - elev["chimney_stack_plan_in"]) < 0.1, (
+                f"stack drawn {float(w)/24*12:.2f} in wide; the record says "
+                f"{elev['chimney_stack_plan_in']} in")
 
     def test_unjudged_ridge_renders_a_flat_roofline_not_an_invented_pitch(self, elevation_module, render_elevation_module, tmp_path):
         plan = load_plan("spec-builder-colonial")

@@ -339,7 +339,7 @@ def test_drawn_and_declared_sizes_are_reconciled_or_reported():
 
 
 class TestFurnitureIsArrangedAgainstThePlacedOpenings:
-    """WP-7.2 (OQ 79). Two defects and one rule, all of them about the same thing: the
+    """WP-7.2 (OQ 92). Two defects and one rule, all of them about the same thing: the
     fixtures and the openings were placed as if the other did not exist."""
 
     def test_no_door_is_drawn_through_a_fixture(self):
@@ -480,7 +480,7 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
         a measurement. This is `check_openings.check_basis`' discipline applied to the furniture
         layer -- an editorial call whose citation cannot be checked is a guess with a citation.
 
-        WP-7.2 authored one such figure and OQ 79 published that "exactly one" item states a run
+        WP-7.2 authored one such figure and OQ 92 published that "exactly one" item states a run
         in words. FIVE do, and this test is how that number was settled: a sixth was authored
         from `keeping-room`'s *"its chimney breast is 9 to 10 ft; on a 14 ft wall that leaves
         almost nothing either side"* -- which is a band explaining why first-period halls are
@@ -674,7 +674,7 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
 
 
 class TestTheWindowGrammar:
-    """WP-7.3 (OQ 78). The register's question was never what the window types are — the
+    """WP-7.3 (OQ 91). The register's question was never what the window types are — the
     corpus knows them — but WHICH LAYER decides. The answer this package gives: the grammar
     decides the ROLE and the kit decides the KIND, and neither may state the other's."""
 

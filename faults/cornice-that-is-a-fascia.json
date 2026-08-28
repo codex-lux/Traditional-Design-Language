@@ -190,6 +190,13 @@
       "measurable_from": "photograph",
       "threshold": 0.35,
       "upper": 0.55,
+      "applies_when": {
+        "expression": "an_order_is_applied_to_the_wall_carrying_the_eave_cornice",
+        "direction": "at-most",
+        "threshold": 0,
+        "units": "count",
+        "note": "THE DOMESTIC CASE RUNS ONLY ON A DOMESTIC EAVE. This test and the one below it measure the SAME expression against incompatible bands, so whichever is right the other convicts the house -- and this fault's own note has always said how to choose ('Choose the test by whether an order is present, not by preference'), in prose no evaluator could read. Made executable 27 Aug 2026 (OQ 84, WP-5.10). The measurement is 1 only where an order engages the WALL over its full height so the eave IS the entablature; a one-bay portico has its own entablature below the eave and does not make this the entablature case."
+      },
       "note": "THE DOMESTIC BOXED CASE. 18 in high and 7 3/4 in out gives 0.43. This is the distinction most people get wrong, and getting it wrong in either direction is a separate disaster."
     },
     {
@@ -199,6 +206,13 @@
       "measurable_from": "photograph",
       "threshold": 0.85,
       "upper": 1.2,
+      "applies_when": {
+        "expression": "an_order_is_applied_to_the_wall_carrying_the_eave_cornice",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "THE ENTABLATURE CASE RUNS ONLY WHERE AN ORDER REACHES THE EAVE. The rival of the test above; see its note. Where the record has not said and the style makes such an order canonical, the measurement is ABSENT and BOTH tests decline -- nobody has decided which cornice this is, and a guess here picks which rule judges the house."
+      },
       "note": "THE FULL ENTABLATURE-DERIVED CASE — where an order is actually applied, on a portico or a pilastered front. A full cornice projects about its own height. Applying this rule to a domestic boxed eave gives a grotesquely heavy overhang; applying the domestic rule to a portico gives a flat-topped order. Choose the test by whether an order is present, not by preference."
     },
     {

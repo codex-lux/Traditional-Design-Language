@@ -457,6 +457,37 @@ def get_fault(fault_id, style=None):
 
 def _eval_test(t, measurements):
     if not t or not t.get("expression"): return None
+    # A TEST MAY BE PRECONDITIONED ON A MEASUREMENT, not only on a style (`applies_to_styles`,
+    # OQ 63). Some rules presuppose the thing they measure exists: `dormer-off-the-bay`'s parity
+    # secondary is `dormer_count % 2 == 1`, which fires on a house STATED to carry no dormers and
+    # reports "Dormers Off the Rhythm: 0 against equals 1" -- the OQ 52 flagship failure walking
+    # back in through the front door the moment a record could finally say "none". Zero dormers is
+    # not an even number of dormers; it is no dormers, and the parity rule has nothing to say.
+    #
+    # A precondition that FAILS means the test is NOT RUN -- the same shape `_test_applies` uses,
+    # and for the same reason: a rule that is not about this house says nothing about this house.
+    # A precondition whose OWN measurements are missing means we cannot tell whether it applies,
+    # which is could-not-evaluate and is reported as such rather than quietly skipped.
+    when = t.get("applies_when")
+    if when:
+        # A MALFORMED GUARD IS AN ERROR, NOT A SILENT ANYTHING. `schema/fault.schema.json` now
+        # requires expression/direction/threshold, but the schema is only checked when jsonschema
+        # is installed and `_eval_test` is the shared evaluator every surface calls -- so the two
+        # failure modes the WP-5.10 audit found are refused here too. Omitting `expression` made
+        # the precondition vanish and the test run unguarded; omitting `direction` made `passes`
+        # None, which read as "declined" and switched the test off permanently. Both were
+        # schema-valid, both were silent, and the second is indistinguishable from a design
+        # decision now that not-applicable is a normal state.
+        if not when.get("expression") or not when.get("direction"):
+            return {"status": "error",
+                    "detail": "applies_when needs both an expression and a direction; "
+                              f"got {sorted(when)}"}
+        w = _eval_test({k: v for k, v in when.items() if k != "applies_when"}, measurements)
+        if w and w["status"] != "evaluated": return w
+        if w and w["passes"] is not True:
+            return {"status": "not_applicable", "because": when.get("expression"),
+                    "required": f"{when.get('direction')} {when.get('threshold')}",
+                    "value": w["value"]}
     expr = t["expression"]
     names = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", expr))
     # A key present with a null value is MISSING, not supplied (OQ 52). `null` is the natural
@@ -546,10 +577,12 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
     """Evaluate every applicable fault test against a dict of measurements.
 
     This is the corpus made executable: give it what you can measure from a photograph or a
-    drawing and it tells you which faults are present, which are clear, and which it could
-    not judge because a number is missing."""
+    drawing and it tells you which faults are present, which are clear, which it could not judge
+    because a number is missing, and which are NOT APPLICABLE -- every test preconditioned on a
+    measurement this house does not meet, so none ran. Four states, not three; the docstring said
+    three for a day after the fourth shipped."""
     D = _data()
-    present, clear, needed = [], [], []
+    present, clear, needed, not_applicable = [], [], [], []
     for f in D["faults"].values():
         if slot and slot not in f["slots"]: continue
         if style and not _applies(f, style, D): continue
@@ -565,6 +598,22 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
         if not ev:
             miss = sorted({m for r in results if r["status"] == "need_measurements" for m in r["missing"]})
             errs = sorted({r["detail"] for r in results if r["status"] == "error"})
+            # THE FOURTH STATE, and it exists for the same reason as the `errs` branch below it.
+            # A test may now decline on a MEASUREMENT (`applies_when`), not only on a style: zero
+            # dormers means the whole of `dormer-off-the-bay` has nothing to say. With every test
+            # declined there is no `ev`, no `miss` and no `errs`, so the fault was appended to
+            # nothing -- not present, not clear, not unjudged, absent from the counts, and
+            # indistinguishable to a caller from clear. Not applicable is a real answer and gets
+            # its own list; it is not a pass, and it is not an unjudged either.
+            declined = [r for r in results if r["status"] == "not_applicable"]
+            if declined and not miss and not errs:
+                not_applicable.append({"fault": f["id"], "name": f["name"],
+                                       "because": sorted({r["because"] for r in declined}),
+                                       "required": sorted({r["required"] for r in declined}),
+                                       "note": "Every test of this fault is preconditioned on a "
+                                               "measurement this house does not meet, so none was "
+                                               "run. Not a pass -- the question does not arise."})
+                continue
             # `errs` is why this branch exists in this shape. A fault whose every test
             # ERRORED produced no `ev` and no `miss`, so it was appended to nothing: not
             # present, not clear, not unjudged, and absent from the summary counts — a
@@ -605,8 +654,13 @@ def check_measurements(measurements, style=None, slot=None, include_needed=True,
             # already worked around it by passing limit=10**6; the tool should not need
             # the workaround.
             "could_not_judge": needed,
-            "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed)},
-            "note": "A fault only counts as present when a test actually failed. Anything under could_not_judge is unknown, not passed."}
+            "not_applicable": not_applicable,
+            "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed),
+                        "not_applicable": len(not_applicable)},
+            "note": "A fault only counts as present when a test actually failed. Anything under "
+                    "could_not_judge is unknown, not passed. Anything under not_applicable had "
+                    "every one of its tests declined by an `applies_when` precondition, so none "
+                    "ran: the question does not arise, which is neither a pass nor an unjudged."}
 
 def measurement_vocabulary(slot=None, style=None, include_constraints=True):
     """Every variable name the corpus tests on, so a caller knows what to measure.
@@ -626,12 +680,25 @@ def measurement_vocabulary(slot=None, style=None, include_constraints=True):
         if style and not _applies(f, style, D): continue
         for t in [f.get("test")] + list(f.get("secondary_tests") or []):
             if not t or not t.get("expression"): continue
-            for nm in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", t["expression"]):
-                if nm in ("min","max","abs","round"): continue
-                v = vocab.setdefault(nm, {"used_by": 0, "units": t.get("units"),
-                                           "measurable_from": t.get("measurable_from"), "source": []})
-                v["used_by"] += 1
-                if "fault" not in v["source"]: v["source"].append("fault")
+            # A precondition's own variables are variables a caller must measure -- without
+            # dormer_count the parity test is could-not-evaluate, so a vocabulary that omitted it
+            # would tell a caller to photograph everything except the number that decides whether
+            # the question is asked at all.
+            # A PRECONDITION'S VARIABLES CARRY THE PRECONDITION'S OWN UNITS, not the test's. The
+            # first version tagged them with `t["units"]`, so
+            # `an_order_is_applied_to_the_wall_carrying_the_eave_cornice` -- a 0/1 flag declared
+            # `units: count` in its own applies_when -- was published to
+            # tdl_measurement_vocabulary and GET /api/vocabulary as a `ratio`, because the test it
+            # guards measures one. A caller told to measure a ratio will not supply a flag.
+            when = t.get("applies_when") or {}
+            sources = [(t["expression"], t)] + ([(when["expression"], when)] if when.get("expression") else [])
+            for expr, owner in sources:
+                for nm in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", expr):
+                    if nm in ("min","max","abs","round"): continue
+                    v = vocab.setdefault(nm, {"used_by": 0, "units": owner.get("units"),
+                                               "measurable_from": t.get("measurable_from"), "source": []})
+                    v["used_by"] += 1
+                    if "fault" not in v["source"]: v["source"].append("fault")
     if include_constraints and not slot:
         cv = _load_constraint_vocab().VOCABULARY
         styles = [D["styles"][style]] if style and style in D["styles"] else D["styles"].values()

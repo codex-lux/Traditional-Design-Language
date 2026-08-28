@@ -1,0 +1,65 @@
+{
+  "id": "window-on-the-chimney-axis",
+  "name": "The Window in the Chimney",
+  "aka": [
+    "the stack through the sash",
+    "the impossible end wall"
+  ],
+  "slots": [
+    "chimney",
+    "window_grouping_rule",
+    "gable_treatment"
+  ],
+  "severity": "serious",
+  "frequency": "occasional",
+  "category": "alignment",
+  "symptom": "An opening drawn on the same vertical axis as a chimney stack. On an exterior end stack the brick stands in front of the window; on an interior one the flue occupies the wall the window would need. Either way one of the two is not buildable, and on a drawing the two are usually produced by different rules that never met -- a chimney placed from the plan and a bay rhythm spaced evenly across the elevation.",
+  "cause": {
+    "driver": "drafting-convention",
+    "explanation": "The stack's position comes from the plan -- the hearth, the flue, the party structure -- and the bay rhythm comes from the elevation, where an odd count spaced evenly across the face is the default and the correct one. Both rules are right on their own, and neither is a function of the other, so on a face whose bay count puts a centre on the stack's own axis the two agree to disagree and nothing notices. It is the same failure as a dormer off the bay, one layer down: two layers of one drawing composed against different datums.",
+    "cost_saved": "Nothing. Coordinating them costs one dimension carried from the plan to the elevation."
+  },
+  "rule_violated": [
+    {
+      "kind": "first-principle",
+      "ref": "two things cannot occupy one place",
+      "statement": "A stack and an opening on one axis is not a proportion error; it is a collision."
+    },
+    {
+      "kind": "kit-variant",
+      "ref": "tidewater-georgian / chimney / gable-end-exterior",
+      "statement": "The stack stands against the gable wall, in front of whatever the elevation puts there."
+    }
+  ],
+  "correct_practice": "Blind the bay the stack stands on. A Chesapeake end wall commonly reads as a blind centre with the flanking bays glazed, and the rhythm survives because a blind bay still holds its place. Where the type wants that centre lit -- paired stacks joined above the roof by an arched curtain leave the space between them free -- move the stacks apart rather than the window, because the window's axis is set by the bay rhythm and the stack's is not.",
+  "fixes": {
+    "right": "Carry the stack's plan dimension onto the elevation before the bay rhythm is set, and blind the bay it lands on.",
+    "cheap": "Blind the bay. It costs nothing and it is what the surviving work does.",
+    "dishonest": "Draw the window anyway and let the builder discover it. This is the commonest outcome, because the collision lives between two drawings and is invisible on either one alone."
+  },
+  "test": {
+    "expression": "count_of_openings_on_the_axis_of_a_chimney_stack",
+    "threshold": 0,
+    "direction": "at-most",
+    "units": "count",
+    "measurable_from": "elevation",
+    "applies_when": {
+      "expression": "visible_chimney_count",
+      "direction": "at-least",
+      "threshold": 1,
+      "units": "count",
+      "note": "A house with no chimney has no stack axis for an opening to sit on. Without this the test would judge every chimneyless elevation against a rule that cannot apply to it, and it divides no counts only by luck."
+    },
+    "note": "Drop a vertical from the centre of each stack and see what it lands on. Any opening on that line is the fault. Measured from an elevation rather than a photograph because an oblique view foreshortens the end wall and hides exactly this."
+  },
+  "detection": "On a drawing: compare the chimney's plan position against the bay centres of the face it stands in, which are different records and are rarely compared. On a building: stand square to the gable end -- an exterior stack in front of a window is unmistakable and an interior one shows as a blind bay that the drawing said was glazed.",
+  "applies_to": [
+    "universal"
+  ],
+  "confidence": "high",
+  "tags": [
+    "elevation",
+    "coordination",
+    "chimney"
+  ]
+}

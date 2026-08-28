@@ -1,16 +1,16 @@
 # WP-7.4 — charging what the corpus already measures
 
-*27 August 2026. OQ 82's stacking half, OQ 84, and the vocabulary half of OQ 78 and the
-arrangement half of OQ 79. Five commits.*
+*27 August 2026. OQ 95's stacking half, OQ 97, and the vocabulary half of OQ 91 and the
+arrangement half of OQ 92. Five commits.*
 
 ---
 
 ## What this package is
 
 Phase 7 half-closed three questions and opened a fourth. The generator became level-aware and
-fixed **bearing** rather than **stacking** (OQ 82); arrangement was built to one authored wall
-run (OQ 79); the window's authority was split two ways and the kit vocabulary left unruled
-(OQ 78); and the search was found to have no span term at all (OQ 84).
+fixed **bearing** rather than **stacking** (OQ 95); arrangement was built to one authored wall
+run (OQ 92); the window's authority was split two ways and the kit vocabulary left unruled
+(OQ 91); and the search was found to have no span term at all (OQ 97).
 
 Lucas ruled four things: a **soft** stacking term in **both** engines; charge the **real** span
 check and mirror it in CP; raise the candidate depth by measurement; merge the duplicate window
@@ -89,7 +89,7 @@ tests replacing it assert on the deterministic engine, or assert behaviour.
 
 ## 3. Three spellings of one window, and a vocabulary that is a ratchet now (commit `7497734`)
 
-OQ 78's open half, ruled: merge the exact duplicates and turn the existing checker on.
+OQ 91's open half, ruled: merge the exact duplicates and turn the existing checker on.
 
 `double-hung-sash` → `double-hung` (the spelling `elements/slots.json` already gave as an
 example), `round-arched` → `round-arch`, `round-headed-window` → `round-headed`. The flat
@@ -114,13 +114,13 @@ head shape or its surround — `clean-rectangle-flat-architrave` (8 styles), `ho
 0.7.0 for exactly this, plus `window_head_*` and `window_surround_*`. Two more name a glazing
 treatment or a relative date. All 22 are listed one by one under the slot's `off_axis` key with
 the slot each belongs to, because **24 of the 119 resolving styles are handed one as their window
-type** and migrating them changes what those styles resolve as. That is OQ 78's remaining half.
+type** and migrating them changes what those styles resolve as. That is OQ 91's remaining half.
 
 ---
 
 ## 4. "Exactly one" was five, and the sixth was mine (commit `c720102`)
 
-OQ 79 published that `needs_uninterrupted_wall_ft` was authored *"where a furniture item's own
+OQ 92 published that `needs_uninterrupted_wall_ft` was authored *"where a furniture item's own
 note states a run in words — **exactly one does**"*. Four more state one outright, with a figure:
 
 | room | item | ft | the sentence |
@@ -131,7 +131,7 @@ note states a run in words — **exactly one does**"*. Four more state one outri
 | study | the camera wall | 5.0 | *"5 ft of wall BEHIND the sitter that is not a window and is fit to be seen"* |
 
 These are **readings**. The number is in the sentence; nothing is decided here that the corpus
-had not already written down, which is the line OQ 79's ruling drew.
+had not already written down, which is the line OQ 92's ruling drew.
 
 **A sixth was a judgment and the new basis test caught it.** `keeping-room`'s hearth was authored
 at 9.0 ft from *"its chimney breast is 9 to 10 ft; on a 14 ft wall that leaves almost nothing
@@ -147,18 +147,18 @@ fires on nothing passes vacuously. Nothing in the repo had referenced the field 
 
 ## 5. The two score terms
 
-### What OQ 82 and OQ 84 each got wrong about their own subject
+### What OQ 95 and OQ 97 each got wrong about their own subject
 
-**OQ 84's cost premise was false.** It said putting the span check in a 250-candidate loop is
+**OQ 97's cost premise was false.** It said putting the span check in a 250-candidate loop is
 *"the 25 s × N cost that `build_section`'s own docstring exists to avoid"*. That 25 s is the
 **solve** inside `build_section`, which the candidate loop already has. The check itself —
 `wall_lines → bearing_lines → span_check` over rects that already exist — measures **0.026 s for
 250 iterations**. So the corpus's real structural check is affordable as a search term and the
-"cheap proxy" OQ 84 speculated about is not needed. It would also have been wrong:
+"cheap proxy" OQ 97 speculated about is not needed. It would also have been wrong:
 `geometry.wall_lines` collects every room edge and cannot tell bearing from partition, so its
 widest gap **under**-estimates the clear span — the exact error §1 removed.
 
-**OQ 82's blocker applied to a mechanism nobody had to use.** It recorded that a CP stacking
+**OQ 95's blocker applied to a mechanism nobody had to use.** It recorded that a CP stacking
 constraint *"outranks every authored exterior wall in the corpus"*, because the downgrade loop
 takes `[key for _t, k, key in core if k == "wall" and key]`. True **of a hard pin**. A penalty
 creates no assumption literal, never enters a conflict core, and cannot displace anything —
@@ -366,15 +366,15 @@ entirely the porch coming out 6.00 ft instead of 5.71 and clearing
 ## What this package did not do
 
 - **No hard CP stacking pin.** Soft only; the `wall_keys` downgrade loop is untouched, so an
-  inferred stack can never displace an authored exterior wall. OQ 82's stated blocker is true of
+  inferred stack can never displace an authored exterior wall. OQ 95's stated blocker is true of
   a pin and never applied to a penalty.
 - **No span proxy.** The real check costs 0.1 ms per candidate against the loop's own 0.85 ms, so
-  OQ 84's stated cost premise — *"the 25 s × N cost that `build_section`'s own docstring exists to
+  OQ 97's stated cost premise — *"the 25 s × N cost that `build_section`'s own docstring exists to
   avoid"* — was false: that 25 s is the **solve** inside `build_section`, which the candidate loop
   already has. A proxy would also have been wrong, since `geometry.wall_lines` cannot tell bearing
   from partition and its widest gap under-estimates the clear span — the exact error §1 removed.
 - **No re-axis of the 20 shape/surround `window_type` ids.** Recorded, counted, ratcheted, and
   left for its own ruling.
-- **No furniture-driven room sizing** (OQ 79, refused) and no bay/bow/oriel geometry (OQ 78).
-- OQ 80 (the door's hand), OQ 81 (the passage that cannot satisfy its own hard rule) and OQ 83
+- **No furniture-driven room sizing** (OQ 92, refused) and no bay/bow/oriel geometry (OQ 91).
+- OQ 93 (the door's hand), OQ 94 (the passage that cannot satisfy its own hard rule) and OQ 96
   (`_shared`'s corner-kiss ordering) are untouched and open.

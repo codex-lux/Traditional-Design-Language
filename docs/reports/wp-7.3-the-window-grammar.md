@@ -4,7 +4,7 @@
 
 ## The question, and why the entry already contained its answer
 
-OQ 78 said a window has a `unit_type` field and nothing fills it, *"because nobody has ruled
+OQ 91 said a window has a `unit_type` field and nothing fills it, *"because nobody has ruled
 where the authority lives"* — and then named the shape of the ruling: *"The question is not
 what the types are — the corpus knows them — but which layer decides."*
 
@@ -76,7 +76,7 @@ thing spelled twice. An enum here would have been a second spelling of the kits'
 drifting the moment either side changed — the failure behind `REF_RE`/`CITE_RE`/`parseCite`.
 `unit_type` carries the kit's resolved string verbatim, and `check_windows.py` **fails the
 build if this file ever publishes a closed enum again.** Normalising the kit vocabulary is a
-change to the kit corpus with its own ruling, and it is the open half of OQ 78 now.
+change to the kit corpus with its own ruling, and it is the open half of OQ 91 now.
 
 **No bay geometry.** `wg-library-bay` and `wg-hall-dais-window` write the role because the
 rooms state it outright — *"The elegant historic answer is the BAY OR ORIEL: one deep window in

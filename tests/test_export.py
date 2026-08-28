@@ -212,3 +212,38 @@ def test_ifc_refusal_without_ifcopenshell(monkeypatch):
     assert res.get("unexported") is True
     assert "could not export" in res["error"]
     assert EI.selftest() == 3
+
+def test_a_blind_bay_exports_no_opening_to_cad(tmp_path):
+    """OQ 85 reached the CAD file, and only because this audit went looking.
+
+    A bay a chimney stack stands on is `blind` and carries no opening at either storey. The SVG
+    renderer was taught that; `export_dxf.py`'s bay loop read `if kind == "door" ... else: window`,
+    so `blind` fell into the else and the DXF drew the very collision the sheet had stopped
+    drawing — the drawing and the CAD file disagreeing about one record.
+
+    The export selftest could not see it: it round-trips FINDINGS, not geometry. Nothing in this
+    suite looked at where the ink went in a DXF either, which is the same gap WP-5.7's audit found
+    in the SVG layer one file over."""
+    ezdxf = pytest.importorskip("ezdxf")
+    el = mc.load("elevation", os.path.join(BUILD, "elevation.py"))
+    dx = mc.load("export_dxf", os.path.join(BUILD, "export_dxf.py"))
+    rec = el.build_elevation(json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json"))))
+
+    kinds = rec["faces"]["E"]["kinds"]
+    centres = rec["faces"]["E"]["centres_ft"]
+    assert "blind" in kinds, "no blind bay on this face — the test would pass vacuously"
+    blind_ft = [c for c, k in zip(centres, kinds) if k == "blind"]
+
+    path = str(tmp_path / "gable.dxf")
+    dx.export_elevation_dxf(rec, path, face="E")
+    msp = ezdxf.readfile(path).modelspace()
+    opens = [e for e in msp if e.dxftype() == "LWPOLYLINE" and "opening" in e.dxf.layer.lower()]
+    # two glazed bays x two storeys, and NOT the three bays x two the loop used to emit
+    assert len(opens) == 2 * (len(kinds) - len(blind_ft)), (
+        f"{len(opens)} opening polylines for {len(kinds)} bays of which {len(blind_ft)} are blind")
+    for e in opens:
+        left = min(pt[0] for pt in e.get_points("xy")) / 12.0
+        for b in blind_ft:
+            assert abs(left - b) > 2.0, (
+                f"an opening is exported at {left:.2f} ft, on the blind bay's axis ({b} ft)")
+

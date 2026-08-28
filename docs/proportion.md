@@ -65,3 +65,94 @@ A rule can also be marked `diagnostic`, meaning it is designed to fail informati
 Every pack records where it collides with building today, with a severity and a resolution: an 8-foot ceiling against a Corinthian entablature; carved acanthus against any real budget, with four ranked substitutions and a statement of which ones are dishonest; modillion spacing against code-minimum glazing; insulated glazing units that cannot take true divided lites. And a tolerance floor — at a 6-inch module one part is a third of an inch and several fillets are a tenth, so these orders do not work below roughly a 9-inch module in painted wood.
 
 This is the most commercially defensible material in the project. It is the expertise that currently lives only in senior architects' heads.
+
+## Moulding geometry (WP-5.7)
+
+A `profile` on a member is not decoration in the record — it is the instruction for drawing that
+member, and `build/profiles.py` executes it. Every classical moulding here is a **construction**
+from the member's own height and projection, never a curve fitted to look right:
+
+- **ovolo / quarter-round / echinus** — a convex quarter, elliptical where height and projection
+  differ, which is the ordinary case.
+- **cavetto / apophyge / congé** — the concave quarter.
+- **cyma recta** — the crowning cymatium: **convex below, concave above** (Britannica and Oxford
+  both put its concave part uppermost, and it is the shape of every crown moulding). Two equal
+  tangent arcs meeting at the chord's midpoint; the radius falls out of the geometry rather than
+  being chosen. **Which of the two constructions in that family delivers this shape depends on the
+  sign of dx**, because each one flips its convexity when the member draws back instead of forward
+  — so the caller states the shape and `_two_arc_s` picks the construction. Held the other way up
+  until 27 Aug 2026, which drew all 53 authored cyma members upside down in their curves while the
+  docstring, the selftest, two tests and this paragraph all agreed with each other.
+- **cyma reversa / ogee** — the bed mould, the Lesbian cymatium: **concave below, convex above**,
+  which is what "reversed" means.
+- **torus / astragal / bead** — a half round standing **proud**. Its height is its diameter and its
+  recorded projection is the crown of the roll, so it springs from half its height inboard of that
+  crown and returns there. Bulging by `dx` instead turns a torus whose face sits inboard of the
+  member below it into a groove bitten out of that member.
+- **scotia** — a hollow half the member's own height deep, in two arcs whose centres sit **level
+  with the throat**, so the curve stands vertical as it turns through its deepest point. Centres
+  level with the ends instead give opposing horizontal tangents there, which is a cusp — a beak
+  sticking into the hollow.
+  This one carries a stated convention: no pack gives a scotia's depth, and half its height is what
+  a half-round hollow means. It is a drawing construction, said so in the module docstring rather
+  than buried in a constant.
+- **fillet, listel, fascia, plinth, corona, abacus** — a square step. A corona whose own note asks
+  for a drip (Gibbs: *"divide the projecting part in two for the Drip"*) is **still drawn square**:
+  the authority locates the drip and publishes no depth, and a groove needs one. The soffit is
+  split at Gibbs's half-division, which puts an arris exactly where the drip runs, and the segment
+  carries `drip_at` so a caller can annotate it. Drawing the notch instead required inventing a
+  second fraction, which is how `0.62` — one of the hand-tuned numbers this module replaced — got
+  back in.
+- **volute, acanthus** — **not constructed.** A volute's spiral construction is on a plate this
+  corpus cannot reach (the OQ 7-11 class); these draw as a swelling and report themselves
+  unconstructed so a caller can say so on the sheet.
+
+**`width_parts`** gives the face width of one repeating unit — a dentil, modillion, mutule,
+triglyph or metope. `spacing_parts` is the pitch; this is how much of that pitch is solid, and
+without it a band of dentils can only be drawn as a solid band. It is null where the authority
+publishes no width, and the band is then drawn solid **and says so**. Fourteen members carry one,
+every figure transcribed from the member's own note with the quotation recorded beside it —
+Vignola's *"1/9 D wide (4 parts)"*, Gibbs's *"two of those parts will be the Dentel"*. None was
+authored editorially. `check_orders.py` refuses a tooth as wide as its own pitch.
+
+**Entasis is not constructed.** `column_radius_at()` is a smoothstep, the same shape
+`orders_template.html` has always drawn, and its docstring says so. Vignola describes striking the
+swell from a divided semicircle and Chambers gives another construction; no pack in this corpus
+records either, and the facsimiles that would settle it are network-blocked.
+
+**The datum is detected per assembly-group, not taken from the pack's declaration** (OQ 78, ruled
+27 Aug 2026). A pack declares `projection_datum` once and it is not uniform inside one: `gibbs-ionic`
+declares `axis` — true of its shaft, whose body records exactly the semidiameter — while its frieze
+records 0, and a frieze cannot stand on the column's centre line. `pack_geometry::axis_holds_for()`
+decides it on two signals, either of which settles it: **a recorded 0** (impossible under the radius
+reading — what an entablature gives) or **nothing in the group reaching its own naked** (every member
+would sit inside the shaft — what a capital gives). It only ever downgrades `axis` to `naked`. The
+entablature is one group because architrave, frieze and cornice share a naked; the pedestal likewise;
+the column's three assemblies each have their own and are judged separately. `check_orders.py` prints
+a NOTE for every axis pack naming which of its assemblies contradict the declaration — 14 packs do.
+
+**The paths are serialised in Python, in model space, and no consumer re-derives a curve** (OQ 83).
+`pack_geometry` emits `path` per pack and per face in MODEL inches (x out from the axis, y up); the
+order tool and the workbench plate apply an SVG `<g transform="… scale(k,-k)">`. A model-space path
+has no handedness to get wrong — SVG mirrors the arcs itself. The two JavaScript copies of the sweep
+rule that this replaced were **both** wrong, and one of them differently wrong from the other.
+
+**A repeating band is drawn tooth by tooth, or solid and said so.** `repeat_positions()` lays dentils,
+modillions, mutules and triglyphs out along a run from `width_in` and `spacing_in`, anchored where
+the caller knows the column axes (Gibbs: *"always the centre of a Modillion exactly over the centre of
+each column"*), filling both ways from every anchor. Where the authority published no width the band
+draws solid and the sheet prints the reason — a promise these documents made for a day before any
+surface kept it.
+
+**What is drawn is guarded separately from what is modelled.** `tests/test_profiles.py` asserts the
+constructions; `tests/test_drawn_geometry.py` reads the emitted SVG back through the W3C
+endpoint-to-centre rule and asserts the drawn arc is the modelled one, and that on the sheet an
+ovolo bulges and a cavetto hollows. Both are needed: an inverted sweep flag drew every arc in the
+corpus as its own mirror for a day, through 34 checks, 970 tests, a selftest that proved the
+constructions and a browser walk, because every one of them interrogated the model and none asked
+where the ink went.
+
+**Geometry is linear in the module**, proved in `tests/test_profiles.py` rather than assumed. That
+is what lets it be computed once in Python and merely scaled by everything that draws it — the
+order tool, the workbench plate, the elevation sheet and the DXF exporter all read the same
+segments, and JavaScript holds no profile knowledge at all. Do not add a second implementation.

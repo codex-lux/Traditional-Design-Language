@@ -772,16 +772,18 @@
         }
       ],
       "parameters": {
-        "projection": {
+        "projection_in": {
           "range": [
             0,
             1
           ],
           "unit": "in",
-          "kind": "measured"
+          "kind": "measured",
+          "note": "RENAMED FROM `projection` AND RESTATED HERE, 27 Aug 2026 (WP-5.10). This node authored the figure as `projection` while the parent carried the pack's contradicting one as `projection_in` -- 2.25 in 'past the cladding, sloped about 1 in 6 with a drip' -- so the resolved slot held two names for one quantity, differing by more than twice, with nothing comparing them. That is OQ 48's class between a kit parameter and a pack rule, and check_addresses.py compares pack against pack, so it could not see it. Under the parameter name the parent and every pack actually use, this override lands: a brick sill is one course laid in the plane of the wall and projects barely or not at all, which is the whole reason this binding forbids `wood-sill-sloped`."
         }
       },
-      "note": "The diagnostic storey-agreement expression, the 30 in sill datum and the three-pack precedence all inherit.",
+      "rule": "The sill sits at a constant 30 in above the finished floor on the principal storey and does not move between rooms; it is one course of brick, rubbed or rowlock, laid in the plane of the wall and projecting barely or not at all.",
+      "note": "The diagnostic storey-agreement expression, the 30 in sill datum and the three-pack precedence all inherit. THE RULE IS RESTATED HERE, and the restatement is the point (WP-5.10). The parent's sentence ends '...it projects past the wall face with a drip and is sloped 1 in 6', which is a WOOD sill -- the very variant this binding forbids, and forbids with a reason: 'the parent's 2 1/4 in projecting sloped sill throws a shadow under every window and the brick sill does not, so the elevation is flatter.' The node's own binding was therefore forbidding what its own resolved rule went on to specify, and anyone reading the slot found the sloped sill described in prose beside the note refusing it. `rule` is in MERGE_REPLACE, so stating it here replaces the sentence rather than appending to it.",
       "status": "drafted"
     },
     "window_grouping_rule": {
@@ -791,8 +793,37 @@
     },
     "shutter": {
       "group": "openings",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "status": "drafted",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "op": "add",
+          "note": "NO EXTERIOR SHUTTERS on the solid-masonry Tidewater house. This slot was `empty` and the cascade delivered the parent's raised-panel-pair, so every drawn elevation of this style carried shutters the evidence does not support -- an OQ 51 gap adjudicated here rather than inherited. Colonial Williamsburg's architectural report on the Ludwell-Paradise House answers the shutter question for a brick house of exactly this class: \"None. (Being a brick building in colonial times shutters appeared only in interiors.)\" The Public Records Office's exterior shutters were examined and discarded as not original, and neither the 1970 National Register nomination for Pembroke Manor nor its 2024-25 additional documentation describes any. The photograph of Pembroke shows none. EDITORIAL, judgment: read as search-index excerpts of Colonial Williamsburg and NPS documents that are unreachable from this session (the same proxy block that holds OQ 7-11 open); not verified at source."
+        },
+        {
+          "id": "raised-panel-pair",
+          "status": "atypical",
+          "op": "add",
+          "note": "Demoted from the parent's canonical, not forbidden: panelled exterior shutters are correct on FRAME houses of this tradition and on later work, and the geometry stays available to any node that binds it. What the evidence rules out is this style's brick front."
+        }
+      ],
+      "parameters": {
+        "panel_count_per_leaf_ground": {
+          "value": 3,
+          "unit": "count",
+          "kind": "editorial",
+          "note": "Where a shutter of this tradition IS panelled: three panels on the ground-floor leaf and two above. Colonial Williamsburg's reports on the Prentis House shutters (copied from an old house in Surry County) and on the John Blair House both give three. It agrees with sash-light.json's own rule, which says a 12/12 window takes a two- or three-panel leaf and a 6/6 takes two. EDITORIAL, unverified at source."
+        },
+        "panel_count_per_leaf_upper": {
+          "value": 2,
+          "unit": "count",
+          "kind": "editorial",
+          "note": "As panel_count_per_leaf_ground; the shorter upper sash takes the lower of the pack's two. EDITORIAL, unverified at source."
+        }
+      },
+      "note": "Adjudicated 27 Aug 2026 (WP-5.9). The style bound this slot `empty` and inherited shutters it should not have. Four independent records say a colonial Tidewater brick house carried interior shutters and no exterior ones."
     },
     "special_window": {
       "group": "openings",

@@ -1,6 +1,7 @@
 # Traditional Design Language — working notes for Claude Code
 
 A system that encodes traditional architecture as a language: elements are the alphabet,
+
 proportioning systems are the grammar, a style is a set of bindings and constraints on a
 universal slot set, and a named-error corpus catches the things that read as wrong to
 someone fluent. The aim is a compiler — brief in, buildable and coherent house out.
@@ -72,8 +73,8 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6; WP-4.4 is
 environment-blocked. **Phase 5 is part-built** — WP-5.1 (DXF/IFC export), WP-5.2 (the workbench
-in `workbench/`), WP-5.5 (drawing-to-record ingestion) and **WP-5.6 (the navigation overhaul)**
-have shipped; WP-5.3 and WP-5.4 remain. **Phase 6 — plan semantics — is COMPLETE** (WP-6.1,
+in `workbench/`), WP-5.5 (drawing-to-record ingestion), **WP-5.6 (the navigation overhaul)** and
+**WP-5.7 (the geometry layer)** have shipped; WP-5.3 and WP-5.4 remain. **Phase 6 — plan semantics — is COMPLETE** (WP-6.1,
 6.2, 6.3 and **WP-6.4, the audit of the other three**, 26–27 Aug).
 
 **Phase 6 exists because Lucas read two rendered sheets and found them meaningless** — the
@@ -121,11 +122,11 @@ in the query string via `filters/useFilters.js` — do not reintroduce per-surfa
 164 nodes · 97 slots (ontology 0.7.0) · 40 massings · 60 rooms · 17 groupings ·
 **30 opening-grammar rules covering all 1,890 room pairs** (WP-6.2, editorial; every rule quotes the corpus prose it reads and `build/check_openings.py` verifies the quote against the record it names) ·
 **21 partis naming 129 of 132 styles, 0 uncovered, and 21 of 21 composable for their own
-style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before trusting that number -- it counts a node's OWN bindings and the lineage cascade delivers packs nobody bound) — but 50 nodes still have no opening-role pack
+style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before trusting that number -- it counts a node's OWN bindings and the lineage cascade delivers packs nobody bound) — but 49 nodes still have no opening-role pack
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
-migrated, 61.5% of hard ones tested · 209 faults · **159 of 159 kits populated** · 1,556 kit
+migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **35 checks, 909 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **36 checks, 1,071 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.7 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -138,7 +139,10 @@ the line CI actually prints**: with the CAD libraries and fastapi absent, the co
 "32 of 35 checks passed; 3 COULD NOT EVALUATE", where that leading 32 is the PASS count and
 coincidentally equals `len(CHECKS)`. Read the second number. `check_all.TOTAL_CHECKS` and
 `tests/test_counts_guard.py` now enforce this so the coincidence cannot cost anything again. Both were re-measured
-27 Aug after `check_all.py` itself printed "1 of 35" against this file's 32. The rest of the
+27 Aug after `check_all.py` itself printed "1 of 35" against this file's 32. **And the guard
+then earned itself at the very next merge**: PR #14 brought a 33rd check and 162 more tests, so
+35/909 became 36/1,071 on 28 Aug — caught by `TOTAL_CHECKS` at the merge, which is the exact
+point this number has gone wrong every single time. The rest of the
 numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
 total), taken because main and this branch had
 drifted to 33/1,009 and 35/1,006 respectively and NEITHER was right. `check_counts.py` polices
@@ -271,7 +275,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,367 instances. Read it before trusting "132 of 132 bound".
+  is **OQ 51** and is the one with 3,366 instances. Read it before trusting "132 of 132 bound".
   OQ 51 is now RULED -- adjudicate the 233 unjudged gaps first, flip inheritance to opt-in after --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
@@ -279,7 +283,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for. ~26 real merge problems surfaced this way in WP-4.2, patched node by node. A
   slot-scope allowlist would fix the class — needs a ruling before anyone spends a schema
   change on it.
-- **BOTH ENGINES CHARGE DECLARED STACKING AND OVER-CAPACITY SPANS NOW (WP-7.4, OQ 82 and 84
+- **BOTH ENGINES CHARGE DECLARED STACKING AND OVER-CAPACITY SPANS NOW (WP-7.4, OQ 95 and 84
   CLOSED), AND THE WEIGHTS ARE BALANCED AGAINST EACH OTHER RATHER THAN SET SEPARATELY.**
   `geometry.STACK_W = 40.0` and `SPAN_W = 20.0`; `geometry_cp.py` carries soft mirrors of both
   in its objective block, never pins. Measured over the 14 partis that declare `stacks_over`:
@@ -291,7 +295,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   level-aware generator really did leave stacking flat (26/47 -> 27/47) — moving a cut line
   moves a wall, not a room. What made a term look inert was the POOL: over 2,000 candidates
   instead of the shipped 250 at one seed, 12 tidewater candidates beat the winner's 3 broken
-  claims while keeping the porch on the entrance front, at +41.3 points. **OQ 82's CP blocker
+  claims while keeping the porch on the entrance front, at +41.3 points. **OQ 95's CP blocker
   was true of a PIN and never of a PENALTY** — a penalty creates no assumption literal and
   never enters a conflict core, so the `kind == "wall"` downgrade loop is untouched and an
   inferred stack still cannot displace an authored wall.
@@ -430,7 +434,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   reserve is crude and conservative on purpose: a newly opened wall starts past the deepest
   fixture placed anywhere in the room, which OVER-reserves, and the failure that prevents is a
   drawn collision while the failure it causes is a NAMED refusal.
-- **`needs_uninterrupted_wall_ft` is a READING and the test enforces that (WP-7.4).** OQ 79
+- **`needs_uninterrupted_wall_ft` is a READING and the test enforces that (WP-7.4).** OQ 92
   published that exactly one furniture item states a wall run in words; five do, and the figure
   must appear in the item's own note in feet or inches or the basis test rejects it. It rejected
   a sixth of mine — `keeping-room`'s hearth at 9.0 ft from *"its chimney breast is 9 to 10 ft"*,
@@ -480,6 +484,85 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **differential** against a control diagram: three of the Cape parti's four original fatals
   belonged to `cape-cod-colonial`'s kit and fired for every diagram, and blaming the parti for
   them would make the check a generator of false accusations.
+- **A fault's tests live in THREE places and the third is the one that bites.** `test`,
+  `secondary_tests`, and **`exceptions[].bounds_test`**, which `core.check_measurements`
+  SUBSTITUTES for the primary on a matching style. OQ 84 and 79 guarded the first two; Second
+  Empire's bounds_test `dormer_count / bay_count == 1.0` then convicted a house stating NO dormers
+  the moment WP-5.9 began supplying that zero, and `craftsman`'s `dormer_count at-most 1` acquitted
+  one. Neither reference plan is Second Empire or Craftsman, so 1,018 green tests saw nothing —
+  it took sweeping all 164 styles with one plan's measurements. **Guarding a fault means all three
+  locations**, and `tests/test_measurement_honesty.py` now enumerates them so a future pass has
+  something to check against.
+- **Verifying a corpus-wide change on the plans that happen to ship is verifying it on 2 of 164
+  styles.** Three separate defects in WP-5.9/5.10 were invisible to both reference plans and fell
+  out of a style sweep in seconds. If a change touches the fault corpus or the measurement set,
+  sweep the styles.
+- **A NEGATIVE assertion whose selector breaks inverts into a tautology.** `assert 'class="ch"' not
+  in text` stopped matching when the stack gained a weight rung, and the suite then held both "no
+  chimney on the front" and "two stacks on the front" — green, because only the broken selector
+  kept them apart. The same stale pin had been fixed one test earlier in the same diff. Match the
+  TOKEN (`class="ch`), and prefer a positive assertion with a count.
+- **A fault silenced by a NAME MISMATCH reads exactly like a fault that was checked.**
+  `cornice-that-is-a-fascia` carries two RIVAL secondaries on one expression — the domestic boxed
+  eave at 0.35–0.55 of its own height and the full entablature case at 0.85–1.2 — so whichever is
+  right the other convicts the house. WP-3.2 worked around it by withholding
+  `cornice_projection_in` and publishing `cornice_projection_past_wall_face_in` instead: the same
+  quantity under a different name. The fault then came back **clear** on one surviving secondary
+  while its primary and two others were skipped for want of a NAME rather than a number — 1 of 5
+  tests evaluating. Closed at OQ 84 by taking the measurement the fault's own note always asked
+  for (*"Choose the test by whether an order is present"*) and guarding both rivals with
+  `applies_when`. **The obvious discriminator is a trap and is pinned as a test**:
+  `gibbs_order_applies_to_style` is True on `tidewater-georgian` and means only that Gibbs Ionic is
+  the order its cornice is GENERATED from — reading it as "an order is applied here" selects the
+  entablature test on a house measuring 0.4286 and convicts it. A one-bay portico is not enough
+  either; only an order engaging the whole wall makes the eave an entablature.
+- **Two records built from different rules, and nothing compared them.** `roof.py` puts the stacks
+  at `y_ft` 21.33 on a 42.66 ft gable end — its centre line — and `_face_bays()` independently
+  spaces an odd bay count evenly, putting a window centre at 21.33. The elevation drew a window
+  where a chimney stands, on every gable elevation this corpus has ever produced, and it was found
+  by DRAWING the stack from grade for one revision. Each record is right on its own. OQ 85 closed
+  it: the bay a stack stands on is `blind`, no opening at either storey, and
+  `window-on-the-chimney-axis` catches the collision where a record states both. The generator
+  publishes `count_of_openings_on_the_axis_of_a_chimney_stack` as a MEASURED zero — it resolved a
+  collision, it did not fail to have one.
+- **A node's own MEASURED parameter can contradict a pack rule at the same address, and OQ 48's
+  checker could not see it.** The kit writes `projection_in`; a pack writes dimension `projection`;
+  the two never meet under one name. `tidewater-georgian` authored its brick sill at **0–1 in
+  measured** while `sash-light` delivered **2.25 in "sloped about 1 in 6"** to the same slot — in a
+  node whose kit FORBIDS the sloped sill and says why. `check_addresses.py` gained `kit_vs_pack()`
+  and the first measurement is **62, ratcheted** (OQ 86); four nodes carry 47 of them. **And the
+  rule reaches a node TWICE** — live through `eval_packs`, and baked into an ancestor's kit file as
+  an authored parameter carrying `source: <pack>`. Scoping the binding (`slots_except`, new) closes
+  one path only; the other is closed at the child.
+- **`open` does not mean open.** `resolve_slots` stops its walk only on `specified` or `forbidden`,
+  so a slot bound `open` — the style declining to constrain it — inherits its nearest ancestor's
+  record in full. `colonial-revival`'s `dormer` was `open`, and resolved from
+  `english-cottage-vernacular` with a thatch dormer canonical and **`boxed-dormer` forbidden**: the
+  style could not declare the only dormer it is built with. That instance is bound now; the
+  mechanism is OQ 87 and reaches all 97 slots.
+- **The moment a record can finally STATE a zero, every rule that presupposed the thing runs on it.**
+  WP-5.9 gave the plan schema `declared.dormer` with three states — key absent (could not evaluate),
+  `"none"` (a measured zero), an object (a house with dormers) — and both reference houses stated
+  none. `dormer-off-the-bay`'s parity secondary is `dormer_count % 2 == 1`, which had never run
+  because no generator supplied the number; on the first run after they could, both were convicted
+  of **"Dormers Off the Rhythm: 0 against equals 1"**. Zero dormers is not an even number of
+  dormers. Fault tests now carry **`applies_when`**, a precondition on the MEASUREMENTS in the same
+  shape as a test (`schema/fault.schema.json`), beside `applies_to_styles`'s precondition on the
+  style; a test whose precondition fails is **not run**, not passed. **Any test whose expression
+  divides by a count needs one**, or it errors on the house that has none. This closed
+  `docs/elevation.md`'s own open question 1, which had asked for exactly this field after WP-3.2
+  found three instances — two of those three are guarded now, and the third is OQ 84.
+- **A fault could vanish from every list, and a fault in no list reads exactly like a clear one.**
+  `check_measurements` sorted into present / clear / could-not-judge; a fault whose every test
+  declines produces no evaluation, no missing measurement and no error, so it was appended to
+  nothing and dropped out of the summary counts too. **`not_applicable` is a fourth returned
+  state** (surfaced by `plan_check` as `fault_not_applicable`), carrying which precondition
+  declined and what it required. Not a pass: the question does not arise.
+- **The slot id is singular because the ontology's is.** `declared.dormer`, not `dormers` —
+  `plan_check` reads every key of `declared` as an ontology slot, and a plural one earned both
+  reference plans a `minor` finding saying it was not in the ontology. A `declared` value may now
+  be an OBJECT for a slot of cardinality `many`, and it states its variant under `variant` so the
+  forbidden-variant check still reaches it.
 - **Unjudged reported as failed is the dangerous direction.** Twice found in one package.
   `elevation.py` reported an unmodelled chimney as `visible_chimney_count: 0`, so the fault
   corpus failed a parti named `cape-central-chimney` for having no chimney; and a fault finding
@@ -493,6 +576,59 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   returned**, so this class cannot come back by an `m.update()`. To add a measurement to that
   file, model the thing first; to remove a name from the list, model it and delete the entry in
   the same commit. `tests/test_measurement_honesty.py` is the guard.
+- **A test of the MODEL is not a test of the DRAWING, and this corpus has now been caught by that
+  twice in two days.** WP-5.7 deleted `TestSegTo` for pinning the control points of curves that
+  had silently degenerated to straight lines — then shipped `svg_path()` with an **inverted SVG
+  sweep flag**, so every one of the 245 arcs in the corpus was drawn as its own mirror about its
+  chord: an ovolo as a cavetto, a torus as a hollow, on all three surfaces at once. It passed 34
+  checks, 970 tests, a selftest that proved the constructions, and the browser walk, because every
+  one of them interrogated the model and none asked where the ink went. Worse, four constructions
+  were ALSO wrong in model space, and the two families of bug **cancelled** on about half the
+  corpus — so fixing only the sweep flag would have made the drawings worse, which is
+  "a fix that removes a shield is a fix that has to look at what the shield was covering" at
+  corpus scale. `tests/test_drawn_geometry.py` is the guard: it reads the emitted path back
+  through the W3C endpoint-to-centre rule and asserts the drawn arc is the modelled one. **Both JS copies of the sweep rule are now gone (OQ 83): `build/profiles.py` serves
+  finished paths in MODEL space and the two surfaces apply an SVG transform, so a mirror is a
+  negative number in a matrix rather than a flag to derive. A source-reading test fails if arc
+  arithmetic reappears in either file.**
+- **The sweep flag follows the NET handedness of the transform, not the y-flip.** SVG's flag is 1
+  when the ellipse's parameter increases in SCREEN space (y down); these angles increase in MODEL
+  space (y up). A y-flip reverses it and so does an x-mirror, and two flips cancel. The order tool
+  draws its section half with x one way and its mirrored elevation half with x the other, through
+  the same y-flip: reading only y gave both halves the same flag and the plate contradicted itself
+  down its own centre line.
+- **A moulding is CONSTRUCTED, in one place, and JavaScript does not know what a cyma is.**
+  `build/profiles.py` turns a member's height and projection into real geometry — a quarter of an
+  ellipse for an ovolo, two tangent arcs through the chord's midpoint for a cyma, a half round for
+  a torus — and every surface consumes it: `dist/orders.html`, the workbench Proportions plate,
+  `render_elevation.py`'s cornice inset and `export_dxf.py` (as bulges, so an arc reaches CAD
+  exactly). Pack geometry is **linear in the module**, proved in `tests/test_profiles.py`, which is
+  what lets it be computed once and merely scaled. **Do not port these constructions into JS.**
+  The file this replaced, `orders_template.html::segTo`, was hand-tuned Beziers — and worse,
+  `profile_silhouette_path()` called its Python port with `xa == xb` on EVERY member, so every
+  curve degenerated to a vertical face and the cornice drew as steps whatever the data said.
+  `TestSegTo` pinned that function's control points exactly and could not see it: **pinning the
+  arithmetic of a curve nobody can see is not a guard.** Tests assert geometry — convexity,
+  tangency at a cyma's join, scale invariance — never path strings.
+- **A pack's `projection_datum` is true of its COLUMN and not of its ENTABLATURE.** OQ 65 declared
+  it per pack and `check_orders.py` verifies it against the shaft. But `gibbs-ionic` declares
+  `axis` while its frieze face records a projection of **0**, and a frieze cannot stand on the
+  column's centre line — so entablature figures there are relief from the naked. Read the
+  declaration literally over a cornice and every member narrower than the column radius clamps
+  flush, **deleting the bed mould**. That is **OQ 78, closed 27 Aug**: the datum is detected per
+  ASSEMBLY-GROUP from the pack's own evidence, in `profiles.py::axis_holds_for` and nowhere else —
+  `eave_cornice()` had carried a private copy and now delegates, and `dist/orders.html` stopped
+  clamping when it stopped computing geometry at all (OQ 83). Beware also
+  a coincidence: the wrong reading put the cornice's relief within 1.7% of `facade-classical`'s
+  independent figure, and taking that as corroboration would have shipped the bug.
+- **The honesty discipline has to reach the RENDERERS, not just the records.** OQ 52 swept twelve
+  invented constants out of `elevation.py`'s measurements and is guarded by a test that reads the
+  measurements dict — which cannot see SVG. A hardcoded 36 in chimney width and ±4/±2/±6 px fake
+  projections lived happily on the other side of that line for as long as the file existed, drawn
+  over the top of real figures sitting unread in the record. Both are fixed; the class is not.
+  And a figure the corpus flags **`judgment: true`** may be DRAWN but never published as a
+  measurement: the chimney's 22 in is a decision the mason still owes ("18 or 27"), so its
+  `NOT_MODELLED` entries stay and the sheet labels the figure.
 - **A drawing the reader cannot magnify is a drawing whose dimensions do not exist**, and
   three of the workbench's plate surfaces were fixed at whatever width their column of the
   layout happened to be. `components/PlateViewer.jsx` is the loupe — mounted on the
@@ -602,31 +738,63 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `limits.py`. `load.py` carries a fresh plan id per request; raise `HEAVY_CALLS_PER_HOUR`
   for the run.
 - **Open questions are live**, and this line was stale for a day, which is worth knowing before
-  trusting any list of them. `docs/open-questions.md` holds **85 entries, of which 27 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 83, 85).
-  **IDS 72-79 COLLIDED FOR THE THIRD TIME AT THE 27 AUG MERGE.** Main issued 72-77 (the atlas
-  tier, WP-5.7, and the infrastructure audit) and this branch issued 72-79 (plan semantics and
-  Phase 7) within a day. Main keeps its numbers by the same rule as the two earlier collisions;
-  **this branch's block was reissued as 78-85**, with a third conversion table at the foot of the
-  register. A commit message or report written on that branch before the merge still carries the
-  old number.
-  **72-77 are main's**: the coastline tier's un-cullable rings, the container's open default, a
-  25-second `engine: "cp"` from a request body, the image size, the limiter, and reproducible
-  builds. **78-85 are this branch's.** OQ 78 (was 72): two layers decide — the window grammar
-  says a window's ROLE, the kit its SASH KIND, 119 of 159 styles answering *through the lineage*
-  where only 39 answer in the flat kit file; the vocabulary half is merged and ratcheted and the
-  AXIS half is what remains. OQ 79 (was 73): sizing REFUSED ("the tail wagging the dog"),
-  arrangement to the rooms' own words — five wall runs, not the one the register claimed.
-  **OQ 82 (was 76) and OQ 84 (was 78) are CLOSED by WP-7.4**: both engines charge declared
-  stacking and over-capacity spans, 27/49 broken stacks → 15/49. **OQ 85 (was 79) is new from the
-  WP-7.5 audit** — `span_check` still credits a bearing wall across the whole plate however short
-  it is, and `plan_check` has no span finding at all.
-  The tally counts HALF CLOSED entries as open, because a half-closed question is an open one.
-  That list is DERIVED from the file by
+  trusting any list of them. `docs/open-questions.md` holds **98 entries, of which 33 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 88, 89, 90, 91, 92, 93, 94, 96, 98).
+  The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
+  is an open one. That list is DERIVED from the file by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
-  which also requires the ids to be a bare comma-separated list — putting prose inside the
-  parentheses makes its regex match nothing and the assertion fires on an empty set, which is
-  how this line was broken and caught while writing it. **69, 70 and 71 were raised AND  ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
+  which also requires the ids to be a bare comma-separated list on ONE line — putting prose
+  inside the parentheses makes its regex match nothing and the assertion fires on an empty set,
+  which is how this line was broken and caught while writing it.
+  **A THIRD PARALLEL-SESSION COLLISION LANDED 28 AUG, and it renumbered twelve.** Two sessions
+  again issued from 72. **Main's 72-77 keep their numbers** — the atlas's fine coastline tier and
+  the five from the infrastructure audit — because main merged first and its own reports cite
+  them. **The dormer and geometry block moved by six: 72-83 are now 78-89**, and the conversion
+  table is in the register. `f768c02` and `426ed35` are the two commit messages that carry the
+  old numbers and cannot be changed; every reference inside the tree has been converted. Three
+  collisions in three days is the procedure, not bad luck — the next session that reads the file
+  and adds one will collide a fourth time. **The work-package numbers collided too and were NOT
+  renumbered: there are two different WP-5.7s** (main's atlas, this branch's geometry layer), kept
+  apart only by their report filenames. That is **OQ 90**, and until it is ruled, cite the report
+  and never the number.
+  **88 and 89 came from WP-5.10's own adversarial audit: the sill scope it fixed on one node
+  reaches 27 masonry nodes and two more pack rules have the same shape (88), and three
+  measurements are still withheld to work around gaps `applies_when` now covers while
+  `total_shutter_leaves` is supplied as an unconditional constant of 2.0 whether or not the style
+  carries shutters (89).** **84 and 85 closed 27 Aug (WP-5.10) and raised 86 and 87 between them:
+  86 is 62 addresses where a node's own MEASURED parameter contradicts a pack rule, which OQ 48's
+  pack-versus-pack measurement could not see because the two are written under different names;
+  87 is that a slot bound `open` — the style declining to constrain it — inherits its ancestor's
+  constraints in full, because `resolve_slots` stops its walk only on `specified` or `forbidden`.**
+  **78, 79 and 80 were WP-5.7's, about the geometry layer: the entablature's datum, two sourced
+  rules disagreeing about the cornice's projection, and the front elevation that could not draw
+  its own chimneys. 78 and 80 are closed — 80 by WP-5.9, which found the renderer still asserting
+  in a twelve-line comment the flat-eave-line behaviour the roof layer had stopped having earlier
+  in the same package, and two invented constants underneath it putting a brick bar in the sky.**
+  **84 and 85 are WP-5.9's, from the dormer layer: `cornice-that-is-a-fascia`'s two rival
+  secondaries, where whichever is right the other convicts the house — inert today only because
+  it tests on a measurement name nothing supplies — and a gable-end-exterior stack standing on
+  the centre line of a gable end whose elevation puts a window there, with no layer asking
+  **A FOURTH COLLISION LANDED AT THIS MERGE, AND IT HIT THE SAME BLOCK TWICE.** The third one
+  (above) moved the plan-semantics and Phase 7 questions from 72-79 to **78-85**. While that was
+  being written, the dormer/geometry session was independently moving ITS twelve into **78-89**
+  for the same reason, and merged first as PR #14. So 78-85 collided a second time, in the same
+  file, over the same rule, four days running. **Main keeps 78-90; this branch's eight moved
+  again, to 91-98**, and the register carries a fourth conversion table showing both hops.
+  **A bare "OQ 78" in this branch's history is now ambiguous BY DATE** — it means one thing before
+  the third collision and another after it — which is the sharpest argument yet that an id must
+  not be issued from the working tree.
+  **91-98 are this branch's.** OQ 91 (raised 72): two layers decide — the window grammar says a
+  window's ROLE, the kit its SASH KIND, 119 of 159 styles answering *through the lineage* where
+  only 39 answer in the flat kit file; the vocabulary half is merged and ratcheted and the AXIS
+  half remains. OQ 92 (raised 73): furniture sizing REFUSED ("the tail wagging the dog"),
+  arrangement to the rooms' own words — five wall runs, not the one the register claimed.
+  **OQ 95 and 97 are CLOSED by WP-7.4**: both engines charge declared stacking and over-capacity
+  spans, 27/49 broken stacks -> 15/49. **OQ 98 is new from the WP-7.5 audit** — `span_check`
+  still credits a bearing wall across the whole plate however short it is, and `plan_check` has
+  no span finding at all.
+  whether they collide.** **69, 70 and 71 were raised AND
+  ruled on 26 Aug**, all three from WP-5.6 — and all three were raised on that branch as 64, 65
   and 66, colliding with main's block for the second parallel-session collision in two days;
   main keeps its numbers and these were reissued, with the conversion table at the foot of the
   register. 69 is a session-scoped test fixture that gated every test file sorting after it
@@ -682,10 +850,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     it is a safety net rather than a cliff that strands 294 gaps in one commit. Doing it the other
     way round was costed and refused: opt-in now is a morning of mechanism and a corpus-wide
     stranding.
-    **The meter.** `build/check_inheritance.py` pins three numbers that may only go down: **294
-    role_gaps**, **3,367 inherited_packs**, **233 unendorsed**. The split matters — a gap whose
+    **The meter.** `build/check_inheritance.py` pins three numbers that may only go down: **293
+    role_gaps**, **3,366 inherited_packs**, **222 unendorsed** (294 / 3,367 / 233 when first
+    measured; the first two moved on 27 Aug when `colonial-revival` bound its own dormer slot,
+    which is the meter moving the right way). The split matters — a gap whose
     pack `applies_to` already names the node is the cascade delivering what an author INTENDED, and
-    counting those 61 as faults would make the work list wrong. `--unendorsed` prints the list by
+    counting those 71 as faults would make the work list wrong. `--unendorsed` prints the list by
     pack, because adjudicating one pack settles every node under it: `storey-graduation` 38,
     `opening-proportion` 23, `trim-classical` 16, `chambers-ionic` 15 (on `carpenter-gothic` and
     both Gothic Revivals), `facade-gable` 14, `sash-light` 12, `brick-course` 11.

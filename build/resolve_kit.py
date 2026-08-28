@@ -292,13 +292,23 @@ def eval_packs(packs, ctx, module_override=None):
         # but `facade-portada` writes ornament_vocabulary four times and only one of them applies
         # to the node being scoped.
         scope = binding.get("slots")
+        # `slots_except` is the same field turned round (WP-5.10). An allowlist cannot express
+        # "everything but this one" without listing the rest by hand, and a hand-maintained
+        # allowlist silently stops delivering any rule the pack gains later -- which for
+        # `sash-light`'s fourteen addresses would have meant listing thirteen to refuse one.
+        # Mutually exclusive with `slots`; the schema says so and check_pack_bindings enforces it.
+        deny = binding.get("slots_except")
+
+        def _named(r, names):
+            return (r["target_slot"] in names
+                    or "%s/%s" % (r["target_slot"], r.get("dimension")) in names)
+
         for r in ev["rules"]:
             if "error" in r:
                 continue
-            if scope is not None and not (
-                r["target_slot"] in scope
-                or "%s/%s" % (r["target_slot"], r.get("dimension")) in scope
-            ):
+            if scope is not None and not _named(r, scope):
+                continue
+            if deny is not None and _named(r, deny):
                 continue
             by_slot[r["target_slot"]].append({
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],

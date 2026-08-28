@@ -48,6 +48,13 @@
     "direction": "at-least",
     "units": "ratio",
     "measurable_from": "photograph",
+    "applies_when": {
+      "expression": "dormer_count",
+      "direction": "at-least",
+      "threshold": 1,
+      "units": "count",
+      "note": "The expression divides by dormer_count. On a house that STATES no dormers that is 0/0, and on any house without them the question is not asked: there is no rhythm to be off. Added 27 Aug 2026 (WP-5.9), when a plan record could first say none."
+    },
     "note": "Drop a vertical from each dormer centre and see where it lands. Every dormer must land on a window centre; any line landing on siding is the fault."
   },
   "secondary_tests": [
@@ -57,6 +64,13 @@
       "direction": "equals",
       "units": "count",
       "measurable_from": "photograph",
+      "applies_when": {
+        "expression": "dormer_count",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "Odd COUNTS ARE ODD, and zero is not an even number of dormers -- it is no dormers. Without this guard the rule fired on both reference houses the day they were able to state they carry none: 'Dormers Off the Rhythm: 0 against equals 1', which is OQ 52's flagship failure returning through the very field built to prevent it."
+      },
       "note": "Odd on a symmetrical front - three dormers over a five-bay house. The exception is Second Empire, where dormer count equals bay count and may therefore be even."
     },
     {
@@ -65,6 +79,13 @@
       "direction": "at-most",
       "units": "ratio",
       "measurable_from": "photograph",
+      "applies_when": {
+        "expression": "dormer_count",
+        "direction": "at-least",
+        "threshold": 1,
+        "units": "count",
+        "note": "A house with no dormers has no dormer offset to measure. Guarded with the other two tests of this fault on 27 Aug 2026 (WP-5.9) so that all three refuse together: a record stating none then makes this fault NOT APPLICABLE, which core.check_measurements now reports as its own state rather than letting the fault vanish from every list."
+      },
       "note": "The near-miss threshold, which is the one that matters in picturesque styles too: an offset under half a window width reads as an error in every tradition. Either land on the window or clear it by a full bay."
     }
   ],
@@ -83,6 +104,13 @@
         "direction": "equals",
         "units": "ratio",
         "measurable_from": "photograph",
+        "applies_when": {
+          "expression": "dormer_count",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "A house that states it carries NO dormers has no dormer rhythm to be off, and this expression divides by a count. Added 28 Aug 2026 by the WP-5.10 adversarial audit, which found this convicting on a STATED ZERO -- the exact failure OQ 52 closed and OQ 84/79 guarded for, surviving in the one test location neither of them touched. `check_measurements` substitutes an exception's `bounds_test` for the fault's PRIMARY test on a matching style, so a bounds_test is a test like any other and needs the same precondition; guarding `test` and `secondary_tests` and stopping there left this path live. Found by sweeping all 164 styles with one plan's measurements, not by the two reference plans, which are not Second Empire."
+        },
         "note": "One per bay, and every dormer still on a bay. The licence is about count, not about position."
       }
     },
@@ -135,6 +163,13 @@
         "direction": "at-most",
         "units": "count",
         "measurable_from": "photograph",
+        "applies_when": {
+          "expression": "dormer_count",
+          "direction": "at-least",
+          "threshold": 1,
+          "units": "count",
+          "note": "The last of this fault's four test locations to be guarded, found 28 Aug 2026 by the WP-5.10 audit. `dormer_count at-most 1` reads a stated zero as 0 <= 1 and reports the fault CLEAR -- so on craftsman alone, of 164 styles, a house that carries no dormers was acquitted rather than found not-applicable. Not a false conviction and so easy to miss, but the same collapse: a fault about a thing the house does not have must not return a verdict on it either way."
+        },
         "note": "A single broad dormer centred on the mass, rather than a row of dormers off the rhythm."
       }
     }

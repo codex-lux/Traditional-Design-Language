@@ -467,7 +467,7 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # a score term. WP-7.4 found the actual cause: the charge was being measured against a
     # 250-candidate pool too thin to contain the alternative, and over 2,000 candidates the
     # better-stacking placements are there and keep the porch on the entrance front. The CP
-    # side needed no hard pin at all, so OQ 82's "a stacking constraint outranks every
+    # side needed no hard pin at all, so OQ 95's "a stacking constraint outranks every
     # authored exterior wall" -- true of a pin, which creates an assumption literal and
     # enters conflict cores -- never applied to the penalty that was actually built.
     #
@@ -572,7 +572,7 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # states none, which is where Lucas drew the line between the corpus and the architect.
     #
     # This is an ARRANGEMENT rule and never a sizing one. Room size comes from the program and
-    # the catalogue band, never from the furniture — ruled 27 Aug 2026, OQ 79. A room that
+    # the catalogue band, never from the furniture — ruled 27 Aug 2026, OQ 92. A room that
     # fails this has a window in the wrong place, not a size problem.
     for rid, r in rooms.items():
         g = placed.get(rid)
@@ -1108,9 +1108,16 @@ def check(plan, C=None, strict=False):
             rec = kit.get(slot_id) or {}
             if rec.get("binding") == "forbidden":
                 F.add("serious", "style", f"{style} forbids the slot '{slot_id}' outright, and the plan declares '{choice}'.", rule=slot_id)
+            # A slot of cardinality `many` (elements/slots.json) may declare an OBJECT rather than
+            # a bare variant id -- `declared.dormer` is the first, stating a count and a face as
+            # well as a variant. Comparing the whole object against a variant id can never match,
+            # so a record declaring a forbidden `shed-dormer` sailed past this check while
+            # build/elevation.py refused it: two layers disagreeing about the same record. Read
+            # the variant out of the object where there is one.
+            chosen = choice.get("variant") if isinstance(choice, dict) else choice
             for v in rec.get("variants", []):
-                if v.get("id") == choice and v.get("status") == "forbidden":
-                    F.add("serious", "style", f"'{choice}' is a forbidden variant of {C['slots'][slot_id]['name'].lower()} in {style}.",
+                if v.get("id") == chosen and v.get("status") == "forbidden":
+                    F.add("serious", "style", f"'{chosen}' is a forbidden variant of {C['slots'][slot_id]['name'].lower()} in {style}.",
                           rule=slot_id, fix=v.get("note"))
         cvars = derive_constraint_vars(plan)
         # plan.measurements takes precedence over a derived value, mirroring the fault layer's
@@ -1224,6 +1231,12 @@ def check(plan, C=None, strict=False):
             # unjudged; without the list itself a caller cannot say WHICH faults were
             # beyond evaluation, and unjudged-is-not-passed needs the which. Additive.
             "fault_unjudged": fr.get("could_not_judge", []),
+            # NOT APPLICABLE is a fourth state and not a fifth kind of pass. Every test of the
+            # fault is preconditioned on a measurement this house does not meet -- a house that
+            # states it carries no dormers has no dormer rhythm to be off -- so no test ran.
+            # Before core.check_measurements grew this list such a fault appeared in none of the
+            # others, which reads to a caller exactly like clear.
+            "fault_not_applicable": fr.get("not_applicable", []),
             "findings": F.sorted(),
             "note": ("Style exceptions are honoured throughout — a rule a style legitimately breaks is not reported. "
                      "Code findings are advisory. Anything the fault corpus could not judge is unknown, not passed.")}

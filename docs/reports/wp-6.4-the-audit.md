@@ -54,7 +54,7 @@ for.*
 
 | Where | It said | It is |
 |---|---|---|
-| `build/geometry.py` docstring | "It is scored for real in WP-6.3; until that lands…" | WP-6.3 measured the charge and **refused** it. Now says so, and points at OQ 82. |
+| `build/geometry.py` docstring | "It is scored for real in WP-6.3; until that lands…" | WP-6.3 measured the charge and **refused** it. Now says so, and points at OQ 95. |
 | `build/geometry.py` `vertical_score` | a dead loop assigning `st` and discarding it | **Removed.** Dead code under a comment is an invitation to the next person to finish it, and finishing it does not work. |
 | `build/compose.py` | "a corruption **the drawn layer now reports**" | The drawn layer reported nothing of the kind. The check is now built — in the *declared* layer, where it belongs. |
 | `Sheet.jsx` plate caption | "exterior door openings are drawn at conventional mid-wall position … **the record does not state which**" | Since 0.3.0 it does. The sentence is now conditional and counts the legacy cases. |
@@ -120,17 +120,17 @@ Nine fixed, two open with numbers on them:
 | Passage way oversized | **fixed by the engine flip** — the upper passage is now 325 sf against 360 declared (−10%); it was +63% on the hill-climb |
 | No access to the chamber bath | **fixed** — a 2.6 ft door to the upper passage |
 | Bathroom unpopulated | **fixed** — WC, lavatory and tub placed; five rooms carry a `fixture_layout` |
-| Landing does not stack over the stair | **open, reported, OQ 82** — the generator is blind to the other level and no score term can see past that |
-| Furniture layouts not considered | **half** — wet rooms and the kitchen have fixtures; **furniture-driven room *sizing* is not built**, OQ 79 |
+| Landing does not stack over the stair | **open, reported, OQ 95** — the generator is blind to the other level and no score term can see past that |
+| Furniture layouts not considered | **half** — wet rooms and the kitchen have fixtures; **furniture-driven room *sizing* is not built**, OQ 92 |
 
 Also asked for and not built: the per-opening window **type** — single, double, triple, bay,
-double-hung, casement. Windows get a width and a count, never a type. **OQ 78.**
+double-hung, casement. Windows get a width and a count, never a type. **OQ 91.**
 
 ## What was deliberately not done
 
-OQ 78 (window type and bay windows), OQ 79 (furniture-driven sizing), OQ 80 (the door's
-hand), OQ 81 (the reference plan that cannot satisfy its own hard passage rule), OQ 82 (the
-level-aware generator), OQ 83 (`_shared`'s corner-kiss ordering). All six are numbered and
+OQ 91 (window type and bay windows), OQ 92 (furniture-driven sizing), OQ 93 (the door's
+hand), OQ 94 (the reference plan that cannot satisfy its own hard passage rule), OQ 95 (the
+level-aware generator), OQ 96 (`_shared`'s corner-kiss ordering). All six are numbered and
 argued in the register; none is a silent gap. No new engine work, no score terms, no schema
 version bump — 0.3.0 stands.
 

@@ -163,7 +163,7 @@ review did.
 
 ## Deferred, with reasons
 
-**OQ 85, both halves.** `span_check` still credits a bearing wall **across the whole floor
+**OQ 98, both halves.** `span_check` still credits a bearing wall **across the whole floor
 plate however short it is**: a 1.5 ft closet stub on the bay line turns a 40 ft failure into
 two clean passes. Correcting it takes the two shipped plans from 4 over-capacity spans to 8.
 
@@ -175,8 +175,8 @@ the sweep that set `SPAN_W`. **It wants a ruling before it wants code.**
 
 The second half is that **`plan_check` has no span finding of any kind**, so the validator
 verdict the workbench shows and the fidelity score the composer ranks on still say nothing
-about capacity: a plan with a 60 ft unsupported run gets a clean verdict. That is OQ 84's
-**critic** half, and OQ 84 was closed without saying so. `build/structure.py` also contains no
+about capacity: a plan with a 60 ft unsupported run gets a clean verdict. That is OQ 97's
+**critic** half, and OQ 97 was closed without saying so. `build/structure.py` also contains no
 `sys.exit`, so `check_all.py`'s two invocations of it print and return 0 whatever they find —
 though the no-exit convention is shared with `plan_check.py`, `roof.py` and `elevation.py`, so
 that part is a convention question rather than a bug in one file.
@@ -206,5 +206,5 @@ is therefore checked after every change that touches either engine.
 It did not re-audit WP-6.1 through 6.4; WP-6.4 was that audit and its findings stand. It did
 not act on three auditor reports that could not be reproduced — an auditor's finding is a
 hypothesis, and the corpus's rule about unsupported calls applies to them as much as to a
-measurement. And it did not fix OQ 85, for the reason stated above: the correct model there
+measurement. And it did not fix OQ 98, for the reason stated above: the correct model there
 changes a published verdict, and changing a verdict is Lucas's call rather than an audit's.

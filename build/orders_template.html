@@ -248,109 +248,72 @@ function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>
 </script>
 <script>
 /* ---------- moulding profile geometry ----------
-   Each member runs from the previous member's outer point to its own. The PROFILE
-   decides the shape of that run. Datums differ by assembly and are resolved below —
-   getting them wrong is the difference between a cornice and a staircase. */
-function segTo(p, xa, ya, xb, yb, sx, sy){
-  const h = yb-ya, dx = xb-xa;
-  const A=(x,y)=>`${sx(x).toFixed(2)},${sy(y).toFixed(2)}`;
-  switch(p){
-    case "ovolo": case "quarter-round": case "echinus":
-      return ` Q ${A(xb,ya)} ${A(xb,yb)}`;
-    case "cavetto":
-      return ` Q ${A(xa,yb)} ${A(xb,yb)}`;
-    case "apophyge": case "congé": case "conge":
-      return ` Q ${A(xa,yb)} ${A(xb,yb)}`;
-    case "scotia":
-      return ` C ${A(xa-Math.max(Math.abs(dx),h)*0.55, ya+h*0.25)} ${A(xa-Math.max(Math.abs(dx),h)*0.35, yb-h*0.15)} ${A(xb,yb)}`;
-    case "cyma-recta":
-      return ` C ${A(xa, ya+h*0.58)} ${A(xb, yb-h*0.58)} ${A(xb,yb)}`;
-    case "cyma-reversa": case "ogee":
-      return ` C ${A(xb, ya+h*0.42)} ${A(xa, yb-h*0.42)} ${A(xb,yb)}`;
-    case "astragal": case "bead": case "torus": {
-      const b = Math.max(h*0.62, Math.abs(dx));
-      return ` C ${A(xa+b, ya)} ${A(xa+b, yb)} ${A(xb,yb)}`;
-    }
-    case "bevel":
-      return ` L ${A(xb,yb)}`;
-    case "volute": case "acanthus":
-      return ` C ${A(xa+h*0.35, ya+h*0.2)} ${A(xb-h*0.2, yb-h*0.25)} ${A(xb,yb)}`;
-    default: // fillet, listel, fascia, plinth, corona, abacus, metope, dentil, modillion, mutule, triglyph, flat
-      return ` L ${A(xb,ya)} L ${A(xb,yb)}`;
-  }
+   THERE IS NO PROFILE GEOMETRY IN THIS FILE ANY MORE, AND THAT IS THE POINT.
+
+   Until WP-5.7 this page carried its own segTo() — a switch over the profile names emitting
+   Beziers with hand-tuned control fractions — and its own buildGeometry(), with its own copy of
+   the projection-datum rule. build/render_elevation.py carried a line-for-line Python port of
+   the first, pinned against it by a test, and workbench Proportions.jsx carried a third copy of
+   the second. That is the shape of every expensive bug this corpus has had: OQ 65 was two
+   implementations disagreeing about a datum and drawing Vignola's Ionic 2.25x too wide, and the
+   navigation grammar was three copies disagreeing about a dot.
+
+   So the mouldings are now CONSTRUCTED once, in build/profiles.py, and arrive in the data as
+   segments in inches at a reference module. Pack geometry is linear in the module — proved in
+   tests/test_profiles.py, not assumed — so all that is left to do here is scale and stack. A
+   line is a line and an arc is an arc; this file no longer knows what a cyma is. */
+
+function geomFor(pk, withPedestal){
+  const g = pk.geometry && pk.geometry[withPedestal ? "with_pedestal" : "no_pedestal"];
+  return g || null;
 }
 
-const COLUMN_ASM = new Set(["pedestal","base","shaft","capital"]);
+/* Segments -> SVG path commands, at whatever module the caller is drawing. `f` is the ratio of
+   the drawn module to the module the geometry was constructed at. The sweep flag is recomputed
+   for the screen because sy() flips y, and a flip reverses the way an arc turns. Emits NO
+   leading M: the caller owns where the pen starts, because the whole stack is one outline. */
+/* THE PATHS COME FROM PYTHON NOW, in MODEL inches (x out from the axis, y up), and this page
+   applies an SVG transform instead of walking the segments (OQ 83, ruled 27 Aug 2026).
 
-function buildGeometry(pk, dim){
-  const D = dim.totals.diameterIn, R = D/2;
-  /* OQ 65, ruled 26 Aug 2026. `projection_parts` is measured one of two ways in this
-     corpus and the pack now says which: 'naked' means an offset from the member's own
-     datum, 'axis' means an absolute radius from the column's axis. This tool added the
-     naked to BOTH for four years, so every Ionic, Corinthian and Composite it drew put
-     the shaft's own apophyge, astragal and fillet a full semidiameter clear of the shaft
-     they sit on — a column narrower than its own mouldings. Under the axis reading a
-     recorded 0 is not "at the axis"; it is a projection nobody wrote down, and the member
-     takes its naked rather than collapsing to the centreline. */
-  const fromAxis = pk.projection_datum === "axis";
-  const outerAt = (nakedX, projIn) => {
-    if(!fromAxis) return nakedX + projIn;
-    if(!(projIn > 0)) return nakedX;              // absent figure, not a flush face
-    return Math.max(projIn, nakedX);
-  };
-  const dimin = (pk.column && pk.column.diminution) || 1;
-  const Rtop = R*dimin;
-  const baseAsm = dim.assemblies.find(a=>a.id==="base");
-  const plinthProj = baseAsm ? Math.max(0,...baseAsm.members.map(m=>m.projIn)) : R*0.2;
-  const dieNaked = plinthProj ? Math.max(R, fromAxis ? plinthProj : R + plinthProj) : R*1.2;
-  const entStart = (pk.column && pk.column.entasis_begins_at) || 1/3;
+   What used to be here was `segCmds`, which re-derived the SVG sweep flag for every arc — and got
+   it wrong twice over. It emitted the inverse of the correct flag, so every arc drew as its own
+   mirror; and it read only the y-flip, on a page that draws its section half with x running one
+   way and its mirrored elevation half with x running the other, so the two halves of the same
+   plate contradicted each other. Both bugs are invisible in the path string and invisible to any
+   test that asks the model where a curve is.
 
-  const shaftAsm = dim.assemblies.find(a=>a.id==="shaft");
-  const sy0 = shaftAsm? shaftAsm.y0 : 0, sy1 = shaftAsm? shaftAsm.y1 : 1;
-  function colRadiusAt(y){
-    if(!shaftAsm || y<=sy0) return R;
-    if(y>=sy1) return Rtop;
-    const t = (y-sy0)/(sy1-sy0);
-    if(t<=entStart) return R;
-    const u = (t-entStart)/(1-entStart);
-    return R - (R-Rtop)*(u*u*(3-2*u));  // smooth diminution, cylindrical below the third
-  }
-  function datum(asmId, y){
-    if(asmId==="pedestal") return dieNaked;
-    if(asmId==="base" || asmId==="shaft" || asmId==="capital") return colRadiusAt(y);
-    return Rtop;                                    // entablature: naked of the frieze
-  }
-  const pts = [];
-  for(const a of dim.assemblies){
-    const seen = new Set();
-    for(const m of a.members){
-      if(m.sideBySide){ if(seen.has("x")) continue; seen.add("x"); }
-      const isShaftBody = a.id==="shaft" && m.heightIn > (sy1-sy0)*0.6;
-      const x0 = isShaftBody ? datum(a.id, m.y0) : outerAt(datum(a.id, m.y0), m.projIn);
-      const x1 = isShaftBody ? datum(a.id, m.y1) : outerAt(datum(a.id, m.y1), m.projIn);
-      pts.push({ asm:a.id, m, x0, x1, taper:isShaftBody });
-    }
-  }
-  return { pts, R, Rtop, dieNaked, colRadiusAt, entStart, sy0, sy1 };
+   A model-space path has no handedness for this page to get wrong. `<g transform="translate(...)
+   scale(k,-k)">` mirrors the arcs correctly because that is SVG's own job, and the flip that used
+   to need detecting is now just a negative number in a matrix. `vector-effect="non-scaling-stroke"`
+   keeps the pen off the scale. */
+function placed(pathD, tx, ty, sx, sy, cls, extra){
+  if(!pathD) return "";
+  return `<g transform="translate(${tx.toFixed(2)},${ty.toFixed(2)}) scale(${sx},${sy})">`
+       + `<path class="${cls}" d="${pathD}" vector-effect="non-scaling-stroke"${extra||""}/></g>`;
 }
 
-function silhouettePath(geo, dim, sx, sy){
-  if(!geo.pts.length) return "";
-  let d = `M ${sx(0).toFixed(2)},${sy(0).toFixed(2)}`;
-  let cx = 0, cy = 0;
-  for(const p of geo.pts){
-    if(cx !== p.x0){ d += ` L ${sx(p.x0).toFixed(2)},${sy(cy).toFixed(2)}`; cx = p.x0; }
-    if(p.taper){
-      const t0 = geo.sy0 + (geo.sy1-geo.sy0)*geo.entStart;
-      d += ` L ${sx(geo.R).toFixed(2)},${sy(Math.min(t0,p.m.y1)).toFixed(2)}`;
-      d += ` Q ${sx(geo.R).toFixed(2)},${sy(p.m.y1-(p.m.y1-t0)*0.45).toFixed(2)} ${sx(p.x1).toFixed(2)},${sy(p.m.y1).toFixed(2)}`;
-    } else {
-      d += segTo(p.m.profile, p.x0, p.m.y0, p.x1, p.m.y1, sx, sy);
-    }
-    cx = p.x1; cy = p.m.y1;
+function geomMaxX(geo, f){
+  let mx = 0;
+  for(const a of geo.assemblies){
+    mx = Math.max(mx, a.start[0]*f);
+    for(const s of a.segments){ if(s.to) mx = Math.max(mx, s.to[0]*f); }
   }
-  d += ` L ${sx(0).toFixed(2)},${sy(cy).toFixed(2)} Z`;
-  return d;
+  return mx;
+}
+
+function colRadiusFromGeometry(geo, f, y){
+  /* The shaft's radius at a height, read off the geometry's own stated shaft rather than
+     recomputed. Used only for the fluting hint. */
+  const sh = geo.shaft;
+  if(!sh) return geo.lower_radius_in*f;
+  const y0 = sh.y0*f, y1 = sh.y1*f;
+  const R = geo.lower_radius_in*f, Rt = geo.upper_radius_in*f;
+  if(y <= y0) return R;
+  if(y >= y1) return Rt;
+  const t = (y-y0)/(y1-y0), e = sh.entasis_begins_at || 0;
+  if(t <= e) return R;
+  const u = (t-e)/(1-e);
+  return R - (R-Rt)*(u*u*(3-2*u));
 }
 
 /* ---------- draw ---------- */
@@ -366,15 +329,29 @@ function draw(){
   const avail = Math.max(420, stage.clientHeight - 26);
   const H = Math.round(avail * S.zoom);
   const k = (H-84)/total;
-  const geo0 = buildGeometry(pk, dim);
-  const maxX = Math.max(...geo0.pts.map(p=>Math.max(p.x0,p.x1)), dim.totals.diameterIn);
+  const geo0 = geomFor(pk, S.ped);
+  const f = geo0 ? (dim.moduleIn / geo0.module_in) : 1;   // geometry is linear in the module
+  /* Member faces, read off the constructed geometry rather than re-derived here. This is the
+     whole of what this file knows about where a moulding reaches. */
+  const faceOf = {};
+  if(geo0) for(const a of geo0.assemblies) for(const fc of a.faces) faceOf[a.id+"/"+fc.id] = fc.x*f;
+  const pts = [];
+  for(const a of dim.assemblies){
+    const seen = new Set();
+    for(const m of a.members){
+      if(m.sideBySide){ if(seen.has("x")) continue; seen.add("x"); }
+      const x = faceOf[a.id+"/"+m.id];
+      pts.push({ asm:a.id, m, x0: x===undefined? 0 : x, x1: x===undefined? 0 : x });
+    }
+  }
+  const maxX = Math.max(geo0 ? geomMaxX(geo0, f) : 0, dim.totals.diameterIn);
   const CAP = 132;                                   // left gutter for assembly captions
   const leftW = S.elev ? maxX*k : 0;
   const OX = CAP + leftW + 26, OY = H-40;
   const W = Math.max(stage.clientWidth-4, OX + maxX*k + (S.labels? 268 : 80));
   const sx = x => OX + x*k, sy = y => OY - y*k;
 
-  const geo = geo0;
+  const geo = { pts };
   let g = "";
 
   // vertical axis
@@ -393,7 +370,7 @@ function draw(){
   // elevation half (mirrored, quiet)
   if(S.elev){
     const dsx = x => OX - x*k;
-    g += `<path class="elev" d="${silhouettePath(geo, dim, dsx, sy)}"/>`;
+    g += placed(geo0 && geo0.path, OX, sy(0), -k*f, -k*f, "elev");
     // flutes hint on the shaft
     const sh = dim.assemblies.find(a=>a.id==="shaft");
     const fl = pk.column && pk.column.fluting && pk.column.fluting.count;
@@ -404,7 +381,7 @@ function draw(){
         let dd = "";
         for(let t=0;t<=10;t++){
           const yy = sh.y0 + (sh.y1-sh.y0)*(t/10);
-          const r = geo.colRadiusAt(yy)*frac;
+          const r = colRadiusFromGeometry(geo0, f, yy)*frac;
           dd += (t?" L ":"M ") + dsx(r).toFixed(1) + "," + sy(yy).toFixed(1);
         }
         g += `<path d="${dd}" fill="none" stroke="rgba(216,178,106,.16)" stroke-width=".7"/>`;
@@ -413,17 +390,18 @@ function draw(){
   }
 
   // the section itself
-  g += `<path class="silh" d="${silhouettePath(geo, dim, sx, sy)}"/>`;
+  g += placed(geo0 && geo0.path, OX, sy(0), k*f, -k*f, "silh");
 
   // ghost comparison
   if(S.ghost && P[packId(S.ghost,S.order)]){
     const gp = P[packId(S.ghost,S.order)];
     const gd = dimension(gp, S.diameter, inc(gp));
-    const gg = buildGeometry(gp, gd);
+    const gg = geomFor(gp, S.ped);
+    const gf = gg ? (gd.moduleIn / gg.module_in) : 1;
     const foot = d2 => { const a = d2.assemblies.find(x=>x.id==="base") || d2.assemblies.find(x=>x.id==="shaft"); return a? a.y0 : 0; };
     const dy = foot(dim) - foot(gd);                 // align at the foot of the column
     const gsy = y => sy(y + dy);
-    g += `<path class="silh ghost" d="${silhouettePath(gg, gd, sx, gsy)}"/>`;
+    g += placed(gg && gg.path, OX, gsy(0), k*gf, -k*gf, "silh ghost");
     g += `<line class="dimline" style="stroke:var(--verdigris)" x1="${sx(0)}" y1="${gsy(gd.totals.stackIn)}" x2="${W-46}" y2="${gsy(gd.totals.stackIn)}" stroke-dasharray="4 3"/>`;
     g += `<text class="lbl" style="fill:var(--verdigris)" x="${W-50}" y="${gsy(gd.totals.stackIn)-5}" text-anchor="end">${esc(gp.name)} — ${inches(gd.totals.stackIn)} overall${gd.totals.columnD?` · ${gd.totals.columnD} D column`:""}</text>`;
   }
