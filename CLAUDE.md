@@ -126,7 +126,7 @@ style** · **57 packs, 132 of 132 nodes bound** (OQ 49; but read OQ 51 before tr
 and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 660 constraints
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
-322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **37 checks, 1,089 tests**
+322 image records, 0 sourced · 14 reference plans · 24 MCP tools · **37 checks, 1,090 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.7 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -135,15 +135,24 @@ sentence, for the same reason** — the 27 Aug merge resolved the conflict here 
 appends after it (`pytest tests/`, `pytest workbench/server/tests`, `node --test
 workbench/app`). The number to read is the runner's own `len(results)`, printed as "All N checks
 passed"; the app-suite figure is the `# tests` line from `node --test`. **And there is a trap in
-the line CI actually prints**: with the CAD libraries and fastapi absent, the corpus job reads
-"32 of 35 checks passed; 3 COULD NOT EVALUATE", where that leading 32 is the PASS count and
-coincidentally equals `len(CHECKS)`. Read the second number. `check_all.TOTAL_CHECKS` and
-`tests/test_counts_guard.py` now enforce this so the coincidence cannot cost anything again. Both were re-measured
+the line CI actually prints, and it is an IDENTITY rather than a coincidence**: with the CAD
+libraries and fastapi absent, exactly three checks are unjudged there (`export_dxf` and
+`export_ifc` selftests, `pytest workbench/server/tests`), and `TOTAL_CHECKS` is `len(CHECKS)`
+plus the three appended suites -- so the PASS count the corpus job prints is
+`TOTAL - 3 = len(CHECKS)`, ARITHMETICALLY, every time. It read "32 of 35 checks passed" on
+27 Aug against a `len(CHECKS)` of 32, and reads "34 of 37 checks passed" on 28 Aug against a
+`len(CHECKS)` of 34.
+An earlier version of this sentence called that a coincidence, which told the next reader it
+probably would not happen to them; it happens at every check ever added. **Read the SECOND
+number.** `check_all.TOTAL_CHECKS` and
+`tests/test_counts_guard.py` now enforce this -- the latter pins both the published total AND
+the largest `N of M checks passed` quoted in this file, so neither the figure nor its
+illustration can rot again. Both were re-measured
 27 Aug after `check_all.py` itself printed "1 of 35" against this file's 32. **And the guard
 then earned itself at the very next merge**: PR #14 brought a 33rd check and 162 more tests, so
 35/909 became 36/1,071 on 28 Aug — caught by `TOTAL_CHECKS` at the merge, which is the exact
 point this number has gone wrong every single time. **And again at the very next commit**: WP-8.1
-added `check_citations.py` and eighteen tests, so 36/1,071 became 37/1,089 — the guard failed
+added `check_citations.py` and nineteen tests, so 36/1,071 became 37/1,090 — the guard failed
 the build before the number could go stale, which is the whole of what it is for. The rest of the
 numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for the test
 total), taken because main and this branch had
