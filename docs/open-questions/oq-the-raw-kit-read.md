@@ -60,8 +60,17 @@ rather than an audit fix; the fourth because reading the cascade there is active
 |---|---|---|
 | `build/compose.py::ceiling_heights` | `ceiling_height_rule` parameters | **85 styles** state a figure only through the cascade and compose at the 9.0 ft default |
 | `build/compose.py::canonical_choices` | every slot, to build `plan["declared"]` | ~30 fewer declared slots per style, so every downstream layer judges a thinner record |
-| `workbench/server/corpus.py::slot_detail` | stops the walk at the first kit binding the slot | an `extends` binder shows only that node's variants, and the docstring promises "the FULL variant ladder" |
+| `workbench/server/corpus.py::slot_detail` | stops the walk at the FIRST kit binding the slot, though its docstring promises "the FULL variant ladder" | **410 forbidden rungs are not shown, across 175 (node, slot) pairs on 76 of 132 nodes** — measured by replicating the function's own walk, not by approximating it (see the note below) |
 | `build/roof.py::chimney_positions` | the chimney's canonical variant | 64 styles state one only through the lineage — **and reading it is WRONG here**, per the distinction above; reverted, with the reason pinned as a test |
+
+**A note on that 410, because getting it wrong twice is the point.** An auditor reported 757 and
+a first probe of mine reported 3,661; both were measuring something adjacent rather than the
+function. `slot_detail` does not compare the raw kit to the cascade — it walks
+`[style] + core._cascade(style)` and stops at the first kit whose record for that slot has a
+binding of `specified`/`extends`/`forbidden` AND a non-empty `variants` list. Only replicating
+that exact walk gives 410. A number for a defect in a specific function has to come from that
+function's own control flow; anything else is a different measurement wearing its name, which is
+this register's most repeated mistake.
 
 A ceiling height is the elevation's governing datum; moving it on 85 styles moves every drawn
 sheet and every score those styles produce. That is worth doing and it is worth doing with a

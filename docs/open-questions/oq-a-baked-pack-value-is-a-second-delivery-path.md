@@ -6,12 +6,28 @@
 rule reaches any of them.**
 
 A kit parameter marked `kind: derived` with `source: <pack>` is a pack rule's value copied into
-a kit file. `build/check_addresses.py::baked_vs_refused` measures the collision: **20 pairs today** deliver a figure the live rule refuses, across fourteen nodes and two
-rules — `opening-proportion`'s `exterior_head_assembly_in` on twelve and `sash-light`'s
-`projection_in` on eight (`chateauesque`, `cotswold-cottage-revival`, `egyptian-revival`,
-`french-eclectic`, `french-normandy-revival`, `italian-renaissance-revival`,
-`italianate-townhouse`, `jacobethan-revival`, `mid-atlantic-georgian`,
-`queen-anne-patterned-masonry`, `renaissance-revival-american`, `tudor-revival` among them).
+a kit file. `build/check_addresses.py::baked_vs_refused` measures the collision: **32 pairs today**, over
+**18 nodes** and **three packs** — `opening-proportion`'s `exterior_head_assembly_in` on 13,
+`storey-graduation` on 12 across four parameters, and `sash-light`'s `projection_in` on 7
+(`chateauesque`, `cotswold-cottage-revival`, `egyptian-revival`, `french-eclectic`,
+`french-normandy-revival`, `italian-renaissance-revival`, `italianate-townhouse`,
+`jacobethan-revival`, `mid-atlantic-georgian`, `queen-anne-patterned-masonry`,
+`renaissance-revival-american`, `ranch-style`, `tudor-revival` among them).
+
+**Split by WHICH refusal the baked value escapes, because that is what makes it three problems
+and not one:** 18 escape a kit that binds the slot `forbidden`, 2 escape OQ 88's construction
+scope, and **12 escape a DECLINE — a refusal a person wrote by hand.** The last group is the
+sharpest and was invisible until 28 Aug 2026: `ranch-style` and `minimal-traditional` each
+declare `declined_packs: [storey-graduation]`, and each still resolves baked parameters sourced
+from it, so `check_inheritance.py --impact ranch-style storey-graduation` names the declined
+pack as the governing pack of a slot.
+
+**This paragraph has now been wrong three times, in the same direction each time, and the reason
+is worth more than the number.** It published 18, then 20, then stayed at 20 while the meter
+moved to 32 — every correction lagged an improvement to the INSTRUMENT rather than a change in
+the corpus. `check_counts.py` polices figures derived from the corpus and a ratchet is not one,
+so nothing here goes stale loudly. Quote `check_addresses.py --strict` rather than this
+sentence if the two ever disagree.
 
 **The measurement itself had to be fixed to see them, and that is worth recording.** The two
 refusals are reported two different ways: WP-8.3's kit refusal MARKS the row
@@ -27,10 +43,10 @@ delivered.**
 **Why it is not patched.** Deleting the baked parameter on the ancestor removes it from every
 descendant, and 30 of the 33 nodes that resolve it are frame nodes the rule is right for. What
 is wanted is a scope on the PARAMETER, read where `resolve_slots` assembles it — a kit-schema
-change and a new reader inside the hottest function in `build/`. The 20 is ratcheted so it
+change and a new reader inside the hottest function in `build/`. The 32 is ratcheted so it
 cannot grow in silence while that is decided.
 
-**The general shape is worth stating separately from the 20.** A derived snapshot is a cached
+**The general shape is worth stating separately from the 32.** A derived snapshot is a cached
 computation with no cache invalidation: it was true of the pack on the day it was written and
 nothing re-derives it. `check_addresses` can now see the case where the rule is refused; it
 cannot see the case where the rule's VALUE has changed and the snapshot has not.
