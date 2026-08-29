@@ -114,7 +114,7 @@ def _convert_assembly(a, ratio, part_ratio):
         # EVERY field measured in parts converts, and the list is the whole of the contract:
         # a field added to the schema and to dimension() but not to this tuple inherits in the
         # BASE pack's unit while its neighbours convert, which is worse than not inheriting at
-        # all because the two then disagree silently. `width_parts` was added in WP-5.7 and
+        # all because the two then disagree silently. `width_parts` was added in WP-5.11 and
         # missed here, so chambers-doric's triglyph carried Vignola's 12-part width against its
         # own converted 75-part pitch -- a 60% hole in a Doric frieze, in a pack whose inherited
         # note says triglyph and metope fill that pitch exactly.
@@ -282,7 +282,7 @@ def dimension(pack, module_in=None, include=None):
                 "projection_in": round(m.get("projection_parts", 0) * part_in, 4),
                 "y_bottom_in": round(my0, 4), "y_top_in": round(my0 + h, 4), "side_by_side": side,
                 "count": m.get("count"), "spacing_in": (m["spacing_parts"] * part_in) if m.get("spacing_parts") else None,
-                # WP-5.7: the pitch says where the teeth fall, the width says how much of that
+                # WP-5.11: the pitch says where the teeth fall, the width says how much of that
                 # pitch is solid. Null stays null all the way to the renderer, which then draws
                 # the band solid and says the width was never published.
                 "width_in": (m["width_parts"] * part_in) if m.get("width_parts") else None,
@@ -412,32 +412,38 @@ def out_of_calibration(rule, env, module_in):
     return reasons
 
 
-MASONRY_WORDS = ("brick", "stone", "ashlar", "rubble", "masonry", "adobe", "brownstone",
-                 "terra-cotta", "stucco", "tile", "cast-stone")
+# `MASONRY_WORDS` and `construction_of()` STOOD HERE and were removed on 28 Aug 2026 (WP-8.4).
+# They classified a node masonry / frame / mixed by SUBSTRING MATCH over its canonical
+# `primary_cladding` ids -- "brick", "stone", "stucco", "tile" and eight more. A substring test
+# over a SURFACE cannot answer a question about an ASSEMBLY, and measured against each node's own
+# `construction_type` it disagreed on 13 of 164 styles, in both directions:
+#
+#   cape-dutch        sun-dried-brick-or-rubble-masonry, braced timber frame FORBIDDEN, clad
+#                     `lime-plaster-limewash-white` -- no masonry word, so it read FRAME and the
+#                     frame-wall sill rule was delivered to a mass masonry wall. OQ 88's own bug,
+#                     surviving inside OQ 88's fix.
+#   prairie-school    platform-frame canonical, solid masonry FORBIDDEN, clad `roman-brick` --
+#                     read MASONRY, and the frame rule was dropped from a framed house.
+#   storybook-style   wood-frame-wire-lath-portland-cement-stucco, clad
+#                     `troweled-modelled-plastic-stucco` -- read MASONRY, same drop.
+#   beaux-arts-*      masonry-veneer-over-frame canonical, clad `stone-ashlar` -- read MASONRY,
+#                     which is right for the sill and right by accident.
+#
+# `rule_scope` now resolves each token in `scope.construction` against the node's RESOLVED SLOTS
+# through build/construction_vocabulary.py, which reads `construction_type` first, maps to
+# variant ids that exist, and answers holds / fails / undecidable per token. `mixed` has not been
+# lost: it is what `undecidable` means, and it is still delivered flagged rather than dropped.
 
 
-def construction_of(variant_ids):
-    """masonry / frame / mixed / None, from a node's CANONICAL cladding variant ids (OQ 88).
-
-    Kept here, beside the rule that consumes it, because this corpus has been bitten three times
-    by one idea spelled in two files. `elevation.py` decides the same question at PLAN scope from
-    `section["wall"]["bearing"]`, which is a better answer when it exists; this is the answer
-    available when all you have is the style.
-
-    `mixed` is not a failure of the classifier and must not be collapsed. Thirteen styles the
-    sill rule reaches make BOTH a masonry and a frame cladding canonical -- charleston-georgian,
-    georgian-colonial-american, greek-revival-american, federal-style among them -- because they
-    were genuinely built both ways. For those the construction is a fact about the HOUSE, and no
-    amount of reading the style will settle it.
-    """
-    ids = [v for v in (variant_ids or []) if isinstance(v, str)]
-    if not ids:
-        return None
-    masonry = any(any(w in v for w in MASONRY_WORDS) for v in ids)
-    frame = any(not any(w in v for w in MASONRY_WORDS) for v in ids)
-    if masonry and frame:
-        return "mixed"
-    return "masonry" if masonry else "frame"
+def _construction_vocabulary():
+    """The closed token table, through modcache (CLAUDE.md, OQ 28)."""
+    import sys as _sys
+    _b = os.path.dirname(os.path.abspath(__file__))
+    if _b not in _sys.path:
+        _sys.path.insert(0, _b)
+    import modcache
+    return modcache.load("construction_vocabulary",
+                         os.path.join(_b, "construction_vocabulary.py"))
 
 
 def rule_scope(rule, env):
@@ -475,14 +481,25 @@ def rule_scope(rule, env):
 
     want = sc.get("construction")
     if want:
-        have = env.get("construction")
-        if have is None:
-            return "unknown", "the building's construction is not stated"
-        if have == "mixed":
-            return "unknown", ("this style makes both a masonry and a frame cladding canonical, "
-                               "so its construction is a fact about the house and not the style")
-        if have not in want:
-            return "out", "%s wall; this rule is stated for %s" % (have, " or ".join(want))
+        slots = env.get("resolved_slots")
+        if slots is None:
+            return "unknown", ("no resolved kit reached this evaluation, so nothing here can say "
+                               "what the wall is made of")
+        cv = _construction_vocabulary()
+        # A LIST IS A DISJUNCTION: the rule is stated for a wall built in ANY of these ways.
+        verdicts = [(t,) + cv.resolve(t, slots) for t in want]
+        kinds = {v for _t, v, _w in verdicts}
+        if "holds" not in kinds:
+            if kinds <= {"fails"}:
+                return "out", ("this rule is stated for %s and the style is built in none of "
+                               "them: %s" % (" or ".join(want),
+                                             "; ".join(w for _t, _v, w in verdicts)))
+            if kinds <= {"fails", "unmappable"}:
+                return "unknown", ("every construction this rule names is either refused by the "
+                                   "style or absent from the vocabulary")
+            return "unknown", ("this style permits %s and other constructions too, so its "
+                               "construction is a fact about the house and not about the style"
+                               % ", ".join(t for t, v, _w in verdicts if v == "undecidable"))
 
     sv = sc.get("slot_variant")
     if sv:
@@ -528,8 +545,23 @@ def evaluate(pack, module_in=None, bindings=None):
                # reaches the measured 30-32 in band at 142.5 in, and the resolver printed 22.75 in
                # with no warning. Same bug as `quantity` (fixed 25 Aug), found in the same audit:
                # a row rebuilt key-by-key from a richer source drops whatever nobody re-listed.
-               # tests/test_wp46_packs.py compares this dict against the schema so it cannot recur.
-               "calibrated_for": r.get("calibrated_for"), "diagnostic": r.get("diagnostic")}
+               # THE GUARD WRITTEN FOR THAT BUG DID NOT REACH THIS DICT (found WP-8.4, the
+               # third instance of it). The comment here said from WP-5.11 until 28 Aug 2026
+               # that "tests/test_wp46_packs.py compares this dict against the schema so it
+               # cannot recur"; the test that existed was test_score.py's
+               # test_rule_keys_publishes_every_key_the_pack_schema_defines, and it reads
+               # `mcp_server/core.py`'s RULE_KEYS -- a DIFFERENT key-by-key rebuild, one layer
+               # further out. So the function whose own comment tells this story was the one
+               # function nothing checked, and a new rule field was dropped here in exactly
+               # the way described, silently, leaving its scope refusing 0 of 293 deliveries
+               # with every check green. Both rebuilds are pinned now, this one by
+               # test_the_engines_own_row_publishes_every_key_the_pack_schema_defines, which
+               # reads a REAL EMITTED ROW rather than the source: a key present in this
+               # literal and overwritten below would still pass a source-reading test.
+               "calibrated_for": r.get("calibrated_for"), "diagnostic": r.get("diagnostic"),
+               # The rule's own scope travels with the row, so a consumer can see WHY a
+               # figure is or is not governing rather than inferring it.
+               "scope": r.get("scope")}
         # SCOPE BEFORE VALUE (OQ 88). Checked for EVERY rule, not only for one carrying a
         # `range` -- `out_of_calibration` below is consulted inside the range branch because it
         # only qualifies `in_range`, but a rule that is not about this building at all must be

@@ -147,7 +147,7 @@
         "measurable_from": "photograph",
         "note": "The verge must be bedded - tile or slate over a tilting fillet, pointed in mortar - or carry a shaped bargeboard hung clear of the wall."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "clay-tile-roof",
           "slate-roof",

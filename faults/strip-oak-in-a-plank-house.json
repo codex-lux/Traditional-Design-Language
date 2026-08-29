@@ -101,7 +101,7 @@
         "units": "in",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1895,
           1935
@@ -112,7 +112,7 @@
       "style": "colonial-revival",
       "why": "The Revival itself laid strip oak in most of its houses, so a 1925 Colonial Revival house with a 2 1/4 in oak floor has the floor it was built with, and replacing it with wide plank falsifies the building.",
       "bounds": "This is a preservation argument about existing fabric, not a design licence for a new house claiming an eighteenth-century date. A new build presenting as a colonial takes the plank rule.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1890,
           1950
@@ -128,7 +128,7 @@
       "style": "second-empire",
       "why": "Narrow strip and parquet borders arrive during the style's currency and are correct in the later examples.",
       "bounds": "After about 1870, and usually with a parquet or a banded border in a contrasting species in the principal rooms.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1865,
           1900
@@ -139,7 +139,7 @@
       "style": "shotgun-house",
       "why": "Narrow-strip and 3 to 4 in tongue-and-groove pine floors are what these houses have, because the type is largely post-1870 and post-machinery.",
       "bounds": "Pine rather than oak in most of the surviving stock, and the type's date range is the licence.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1860,
           1930

@@ -64,7 +64,7 @@
         "threshold": 1,
         "note": "The building must then also be low, horizontal and unstacked. A two-storey house at a ranch's foundation height is not an exception, it is the fault."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1975
@@ -83,7 +83,7 @@
         "threshold": 0,
         "note": "Adding a portico, quoins or a full cornice to a minimal-traditional foundation height reintroduces the series the base is missing from."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1955
@@ -102,7 +102,7 @@
         "threshold": 2,
         "note": "Requires the batter and a genuinely thick wall reading. A thin stuccoed frame box sitting on the ground is not this."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "rammed-earth"

@@ -81,7 +81,7 @@
       "style": "italianate-townhouse",
       "why": "The English basement under a high stoop is the type: a full exposed storey, rusticated or in a heavier stone, with an areaway and its own service entrance.",
       "bounds": "Requires the stoop of 6-10 risers, the parlour floor 4-7 ft above the sidewalk, and the basement storey treated as a base in material and in opening rank.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ]

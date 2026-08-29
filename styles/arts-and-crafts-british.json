@@ -262,5 +262,16 @@
       "note": "THE NODE `opening-craftsman` REFUSED AND NAMED. That pack's notes say its head-datum rule is denied outright by this record's own governing logic -- 'no applied system... there is no repeating bay and no vertical alignment requirement' -- and say what this node wants instead: 'a leaded-casement-and-mullion system of its own'. This is that pack, and the fit is close: 'casement windows with leaded lights, grouped into horizontal bands under continuous stone or oak mullions and a shared lintel', with lights of 350-450 mm by 700-1100 and quarries at 100-150 mm 'rectangular rather than diamond in the stricter work'. This record also names the contrast the pack's overall-proportion rule is about, and names it better than the pack could: 'the exact inverse of the Georgian vertical punched opening, and instantly readable at distance'.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have.",
+      "basis": "node-record",
+      "quote": "No classical order, no pointed arch, no shaped gable, no period quotation of any kind: the absence of quotation is itself the tell",
+      "quoted_from": "diagnostic_tells[4]",
+      "decided": "2026-08-28",
+      "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    }
   ]
 }

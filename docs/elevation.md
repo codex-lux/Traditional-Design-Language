@@ -87,7 +87,7 @@ profile (bed mould, modillion band, corona, cymatium) from `proportion_engine.di
 member data, not traced.
 
 That inset used to be drawn by `seg_to()`, a case-for-case Python port of
-`orders_template.html`'s `segTo()`, pinned against the JS original by `TestSegTo`. **WP-5.7
+`orders_template.html`'s `segTo()`, pinned against the JS original by `TestSegTo`. **WP-5.11
 replaced both with `build/profiles.py`, which CONSTRUCTS each moulding** — a quarter of an ellipse
 for an ovolo, two tangent arcs through the chord's midpoint for a cyma, a half round for a torus —
 rather than approximating it with hand-tuned Bézier control fractions. Two things were wrong with
@@ -268,7 +268,7 @@ name.
   design; flagged here as a fault-corpus scoping gap rather than worked around.
 - **Secondary doors and garage doors are not drawn or measured** — neither shipped reference plan
   declares one.
-- **Dormers ARE drawn and measured, as of WP-5.9 (27 Aug 2026)**, and the entry that used to sit
+- **Dormers ARE drawn and measured, as of WP-5.13 (27 Aug 2026)**, and the entry that used to sit
   here said they were not, "consistent with `roof.py`'s own WP-3.3 disclosure for dormer rhythm".
   Both files were refusing for the same reason and neither had said it out loud: no plan schema
   field authored a dormer, so a house with none and a house whose dormers the record could not
@@ -296,7 +296,7 @@ name.
    similar field) on their own conditional secondary tests, so a generator does not have to
    discover "this key can only be safely supplied when a companion condition holds" by tripping a
    false fatal first? Three independent instances of the same pattern were found in this package
-   alone.~~ **ANSWERED 27 Aug 2026 (WP-5.9): yes, and the field is `applies_when`** — a
+   alone.~~ **ANSWERED 27 Aug 2026 (WP-5.13): yes, and the field is `applies_when`** — a
    precondition on the MEASUREMENTS, in the same shape as a test, alongside `applies_to_styles`'s
    precondition on the style. A test whose precondition fails is NOT RUN; a fault whose every test
    declines comes back under a fourth state, `not_applicable`, because such a fault previously

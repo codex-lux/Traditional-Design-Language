@@ -288,23 +288,48 @@ def stack_axes_for_face(face, chimneys, fp):
 
 
 # ---------------------------------------------------------------- entrance composition
-def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_in):
+def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_in, forbids=()):
+    """`oq/forbidden-stops-the-pack-cascade` (WP-8.3) reaches this file too, and it had to be brought here separately.
+
+    `elevation.py` never calls `resolve_packs` or `eval_packs` -- it calls `PE.resolve(<pack>)`
+    and picks slot dimensions straight out of the pack file. So it is blind to bindings, to
+    `slots`/`slots_except`, to `declined_packs`, and to the kit's `forbidden`, and the gate
+    WP-8.3 put in the resolver does not reach a single figure drawn here. Measured: 41 styles
+    pass this generator's own scope gate, and 40 (style, slot) pairs over 15 styles are one of
+    them reading a slot its resolved kit FORBIDS -- `frieze` 9, `pilaster` 8,
+    `transom_sidelight` 8,
+    `belt_course` 6, `water_table` 6, and one each of `door_surround`, `cornice`,
+    `window_head_wood`. `cape-cod-colonial`'s own pilaster note reads "The whole
+    classical-apparatus group is forbidden at the family" and this function read a pilaster
+    projection for it.
+    """
     door_w, door_w_r = _val(op_pack, "entry_door", {"storey_height": ground_storey_height_in}, note_substr="door from the storey", dimension="width")
     door_h, door_h_r = _val(op_pack, "entry_door", {"storey_height": ground_storey_height_in}, note_substr="door height from the storey", dimension="height")
     canonical_h = door_w * 2.0   # opening-proportion's OWN canonical 2:1 check, module=door leaf -- a second, independently-sourced figure to compare against
     casing_w, _ = _val(op_pack, "door_surround", {"module": door_w}, dimension="width")
     gibbs_casing_w, _ = _val(gibbs_pack, "casing", {"opening_width": door_w}, dimension="width")
-    sidelight_w, _ = _val(op_pack, "transom_sidelight", {"module": door_w}, dimension="width")
-    transom_h, _ = _val(op_pack, "transom_sidelight", {"module": door_w}, dimension="height")
+    # A FORBIDDEN SIDELIGHT HAS NO WIDTH. The composition already carried the branch -- it chose
+    # between with and without on a width cap -- so the kit's refusal simply decides it instead,
+    # and the figures are ABSENT rather than zero, exactly as a shutter that is not there has no
+    # leaf (WP-5.13). 8 of the 40 pairs are this one slot -- it was 14 of 46 until
+    # `colonial-revival` was bound (WP-8.3 found it inheriting a Gothic prohibition on
+    # its own front door) and the numbers here went stale in the same commit that moved
+    # them. Re-derived 28 Aug 2026 by the WP-8.4 adversarial audit.
+    sidelights_forbidden = "transom_sidelight" in forbids
+    if sidelights_forbidden:
+        sidelight_w = transom_h = None
+    else:
+        sidelight_w, _ = _val(op_pack, "transom_sidelight", {"module": door_w}, dimension="width")
+        transom_h, _ = _val(op_pack, "transom_sidelight", {"module": door_w}, dimension="height")
 
-    with_sidelights_in = door_w + 2 * sidelight_w + 2 * casing_w
+    with_sidelights_in = None if sidelights_forbidden else door_w + 2 * sidelight_w + 2 * casing_w
     without_sidelights_in = door_w + 2 * casing_w
     # OQ 48: `door_surround`/`width` held two quantities -- an architrave's own face width and the
     # MAXIMUM WIDTH OF THE WHOLE ENTRANCE COMPOSITION, which is what this cap has always meant.
     comp_cap_in, _ = _val(facade_pack, "door_surround",
                           {"module": facade_pack["module"]["default_size_in"]},
                           dimension="entrance_composition_total_width")
-    use_sidelights = with_sidelights_in <= comp_cap_in
+    use_sidelights = (not sidelights_forbidden) and with_sidelights_in <= comp_cap_in
     composition_w = with_sidelights_in if use_sidelights else without_sidelights_in
 
     # Gibbs Ionic entablature, dimensioned at whatever module makes an 18-module column equal the
@@ -320,7 +345,9 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
     op_surround_h, _ = _val(op_pack, "door_surround", {"module": door_w}, dimension="height")
     # gibbs-ionic.json's own pilaster projection rule (column_height/18) -- the same expression
     # faults/pilaster-that-is-a-flat-board.json's own note works through as its worked example.
-    pilaster_proj, _ = _val(gibbs_pack, "pilaster", {"column_height": door_h}, dimension="projection")
+    # As the sidelights: a slot the kit forbids yields no figure, not a zero.
+    pilaster_proj = None if "pilaster" in forbids else \
+        _val(gibbs_pack, "pilaster", {"column_height": door_h}, dimension="projection")[0]
 
     return {
         "door_leaf_width_in": round(door_w, 3), "door_leaf_height_in": round(door_h, 3),
@@ -333,13 +360,22 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
                                  f"own entry_door notes say this divergence is expected and the storey-derived figure is the one to build."),
         "casing_width_in": round(casing_w, 3), "gibbs_casing_width_in": round(gibbs_casing_w, 3),
         "casing_agreement_note": "opening-proportion's door_surround (module/6) and gibbs-ionic's own casing rule (opening_width/6) are the same expression at the same module -- they agree exactly, as they should.",
-        "sidelight_width_in": round(sidelight_w, 3), "transom_height_in": round(transom_h, 3),
+        # ABSENT, not zero, where the kit forbids the slot -- the `v is not None` filter at the
+        # end of _derive_measurements then drops them, which is how WP-5.13 handled a shutter
+        # that is not there. A zero here would be a measured claim that the sidelight is
+        # nothing wide, which is a different statement from "this style does not have one".
+        "sidelight_width_in": None if sidelight_w is None else round(sidelight_w, 3),
+        "transom_height_in": None if transom_h is None else round(transom_h, 3),
+        "sidelights_forbidden_by_kit": sidelights_forbidden,
         "sidelights_present": use_sidelights,
         "entrance_composition_width_in": round(composition_w, 3),
         "entrance_composition_cap_in": round(comp_cap_in, 3),
-        "entrance_composition_note": (f"{'Sidelights fit' if use_sidelights else 'Sidelights would exceed'} facade-classical's own "
-                                       f"80%-of-bay composition cap ({round(comp_cap_in,1)} in) -- "
-                                       f"{'included' if use_sidelights else 'omitted, door and casing only'}."),
+        "entrance_composition_note": (
+            ("This style's resolved kit binds `transom_sidelight` FORBIDDEN, so the composition "
+             "is the door and its casing and no width cap was consulted.") if sidelights_forbidden
+            else (f"{'Sidelights fit' if use_sidelights else 'Sidelights would exceed'} facade-classical's own "
+                  f"80%-of-bay composition cap ({round(comp_cap_in,1)} in) -- "
+                  f"{'included' if use_sidelights else 'omitted, door and casing only'}.")),
         "gibbs_module_in": round(gibbs_module_in, 3),
         "entablature_height_in": round(entablature_h_in, 3) if entablature_h_in else None,
         "entablature_members": ent_asm["members"] if ent_asm else [],
@@ -356,8 +392,18 @@ def entrance_composition(op_pack, facade_pack, gibbs_pack, ground_storey_height_
         # atypical-portico note above), but the doorcase's reduced order still fixes this the
         # same way: pilaster width = 2x the reduced module (the column diameter this doorcase's
         # order implies), not a separately guessed board width.
-        "pilaster_width_in": round(gibbs_module_in * 2, 3),
-        "pilaster_projection_in": round(pilaster_proj, 3),
+        # HALF A PILASTER WAS BEING REFUSED. `pilaster_projection_in` was gated on the kit
+        # and this one was not, so a style whose resolved kit binds `pilaster` FORBIDDEN --
+        # `cape-cod-colonial`, whose own note reads "The whole classical-apparatus group is
+        # forbidden at the family" -- published a pilaster WIDTH of 7.655 in to the fault
+        # corpus while publishing no projection. That is the `total_shutter_leaves` shape
+        # exactly: a measurement of a thing the record says is not there, and worse for
+        # being beside a correctly withheld sibling, which reads as deliberate. Found by
+        # the WP-8.4 adversarial audit, by running the generator against one of the nine
+        # gate styles that forbid the slot rather than against the two plans that ship.
+        "pilaster_width_in": (None if "pilaster" in forbids
+                              else round(gibbs_module_in * 2, 3)),
+        "pilaster_projection_in": None if pilaster_proj is None else round(pilaster_proj, 3),
         # This generator draws a flat doorcase pilaster shaft (no entasis rule exists anywhere in
         # this pack, or in this codebase) -- upper and lower diameter are genuinely identical, a
         # real "parallel shaft" fact, not a fabricated one. Disclosed in the WP-3.2 report as a
@@ -480,7 +526,7 @@ def water_table_and_belt(section, brick_pack, facade_pack, is_masonry):
         belt_proj, _ = _val(facade_pack, "belt_course", {"part": facade_part_in}, dimension="projection")
     belt_datum_ft = upper["grade_to_floor_ft"] if upper else None
 
-    # WP-5.7. Two things the pack has always stated and nothing has ever drawn.
+    # WP-5.11. Two things the pack has always stated and nothing has ever drawn.
     #
     # THE COURSE. brick-course.json's own invariant fixes one course at module/parts, and its
     # notes say what that is for: "in a brick building there are no free horizontal dimensions
@@ -804,7 +850,7 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
     # order as the house at reduced scale" -- and `overscaled-dormer` says it from the other
     # side ("Dormers carry the same order as the house at reduced scale; at full scale they
     # compete with it"). Until 27 Aug 2026 the drawing had the gable springing straight off the
-    # head casing with no cornice at all, which is the abstraction the whole of WP-5.7 to 5.9
+    # head casing with no cornice at all, which is the abstraction the whole of WP-5.11 to 5.9
     # exists to remove, at dormer scale.
     #
     # HOW BIG. `cornice-that-is-a-fascia`'s third secondary states the rule the HOUSE's cornice
@@ -889,7 +935,7 @@ def dormers(plan, kit_slot, faces, upper_w, roof, entrance_face, module_in,
 
 
 NOT_MODELLED = {
-    # `dormer_count` and `sum_of_dormer_face_widths_in` LEFT this list on 27 Aug 2026 (WP-5.9),
+    # `dormer_count` and `sum_of_dormer_face_widths_in` LEFT this list on 27 Aug 2026 (WP-5.13),
     # under its own rule: to take a name off you must model the thing in the same commit. They are
     # modelled now -- schema/plan.schema.json gained `declared.dormer` and build/elevation.py
     # gained dormers(). What made them refusable was never the geometry; it was that an absent
@@ -897,7 +943,7 @@ NOT_MODELLED = {
     # new field separates them: "none" is a measured zero the fault corpus may judge, an absent
     # key is could-not-evaluate, and these measurements are supplied ONLY in the first case.
     # roof.py's chimney record carries a position and two heights. There is no plan size in it.
-    # WP-5.7 corrected these four reasons. brick-course DOES carry `chimney/width` (part * 8,
+    # WP-5.11 corrected these four reasons. brick-course DOES carry `chimney/width` (part * 8,
     # 22 in here) -- so the old reason, that nobody had wired it, was wrong. The real reason is
     # stronger: that rule is flagged `judgment: true` and its own note says a mason will build 18
     # or 27 and "someone should decide which rather than discovering it on site". A judgment slot
@@ -915,7 +961,7 @@ NOT_MODELLED = {
     "raking_cornice_member_count": "eave_cornice() dimensions the horizontal entablature only",
     # Nothing in this corpus models a gutter: no slot, no kit parameter, no line in a renderer.
     "gutter_outlets": "no gutter is modelled anywhere in the corpus",
-    # WP-5.9. These four were SUPPLIED, from ratios of the leaf width and the muntin that exist
+    # WP-5.13. These four were SUPPLIED, from ratios of the leaf width and the muntin that exist
     # in no pack, kit or element file: 0.8, 0.4, 0.18 and x3. `shutter-panel-scale` was reading
     # two of them and judging houses on the result. A shutter's framing IS knowable -- period work
     # graduates stile, top rail, lock rail and bottom rail -- but no figure for a Chesapeake
@@ -1084,9 +1130,23 @@ def _derive_measurements(elev):
         "entrance_composition_width_in": ent["entrance_composition_width_in"],
         "largest_other_opening_width_in": ground_w["opening_width_in"],
         "entrance_opening_head_height_in": ent["door_leaf_height_in"], "doorhead_top_in": ent["door_leaf_height_in"],
-        "sidelight_width_in": ent["sidelight_width_in"] if ent["sidelights_present"] else 0.0,
-        "transom_height_in": ent["transom_height_in"], "transom_width_in": ent["door_leaf_width_in"],
-        "transom_head_rise_in": 0.0,   # a rectangular transom, not an elliptical fanlight -- see entrance_composition()'s own note
+        # A zero here means "the cap excluded them"; ABSENT means "this style's kit forbids the
+        # slot and no figure exists". Collapsing the second into the first is OQ 52's class.
+        "sidelight_width_in": (None if ent.get("sidelights_forbidden_by_kit")
+                               else (ent["sidelight_width_in"] if ent["sidelights_present"] else 0.0)),
+        # THE WHOLE TRANSOM FAMILY GOES ABSENT TOGETHER, or none of it does. Nulling
+        # `transom_height_in` alone left `transom_width_in` and `transom_head_rise_in` supplied,
+        # and `fanlight-before-its-date` and `transom-bar-at-the-wrong-height` immediately
+        # convicted `spec-builder-colonial` on the half that remained -- two faults that
+        # PRESUPPOSE a transom, firing on a house whose kit forbids the slot. That is OQ 52's
+        # rule stated the other way round: when the generator does not model a thing, every
+        # measurement of that thing must be absent, and a partially-supplied set is worse than
+        # either a complete one or none at all, because it reads as evidence.
+        "transom_height_in": ent["transom_height_in"],
+        "transom_width_in": (None if ent.get("sidelights_forbidden_by_kit")
+                             else ent["door_leaf_width_in"]),
+        # a rectangular transom, not an elliptical fanlight -- see entrance_composition()'s note
+        "transom_head_rise_in": None if ent.get("sidelights_forbidden_by_kit") else 0.0,
         "distinct_mouldings_within_4ft_of_the_entrance": ent["entablature_members"] and len(ent["entablature_members"]) or 3,
         "max_distinct_mouldings_elsewhere_on_the_elevation": max(1, (ent["entablature_members"] and len(ent["entablature_members"]) or 3) - 1),
         "largest_opening_on_the_street_elevation_is_the_entrance": ent["door_leaf_width_in"] >= ground_w["opening_width_in"],
@@ -1278,7 +1338,7 @@ def _derive_measurements(elev):
         # entrance-slope-penetration's array secondary is "the conditional test for arrays" and
         # core.check_measurements "has no way to gate a secondary test on another value", so a
         # truthful 0 sqft read as 0/plane = 0.0 and convicted the house of a patchy array it does
-        # not have. It has a way now -- `applies_when` (WP-5.9) -- and that secondary is
+        # not have. It has a way now -- `applies_when` (WP-5.13) -- and that secondary is
         # preconditioned on the array's own area, so a house with no array declines the test
         # rather than failing it. Two workarounds retired by one field.
         "solar_array_area_sqft": 0.0,
@@ -1417,7 +1477,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     entrance_face = (plan.get("context") or {}).get("entrance_faces") or "S"
     is_masonry = section["wall"].get("bearing") == "load-bearing-masonry"
 
-    # WP-5.7: THE STACK'S PLAN SIZE, AND WHY IT STAYS OUT OF THE MEASUREMENTS.
+    # WP-5.11: THE STACK'S PLAN SIZE, AND WHY IT STAYS OUT OF THE MEASUREMENTS.
     #
     # Four names sit in NOT_MODELLED saying "the roof record carries no chimney plan dimension",
     # and this looked at first like a wiring job: brick-course DOES carry `chimney/width` as
@@ -1449,7 +1509,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         except Exception:
             chimney_plan_in = None
 
-    # WP-5.7: HOW THE HEAD OF AN OPENING IS CARRIED, which on a brick house is the most
+    # WP-5.11: HOW THE HEAD OF AN OPENING IS CARRIED, which on a brick house is the most
     # diagnostic thing on the wall after the bay rhythm.
     #
     # CORRECTED 27 Aug 2026, and the first version was the invented-source failure this corpus
@@ -1473,16 +1533,10 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     # was drawn with shutters -- on a solid-brick Chesapeake house, where Colonial Williamsburg's
     # own report on the Ludwell-Paradise House says "None. (Being a brick building in colonial
     # times shutters appeared only in interiors.)" The gap was adjudicated in the kit on
-    # 27 Aug 2026 (WP-5.9, and the OQ 51 idiom); this reads the answer.
+    # 27 Aug 2026 (WP-5.13, and the OQ 51 idiom); this reads the answer.
     # THE REVEAL, read from whichever of the two slots this construction uses. A band, not a
     # figure -- 4 to 8 in on the masonry kit -- so it travels as a band and the drawing uses its
     # PRESENCE (which edges fall into shadow) rather than claiming a depth the corpus withholds.
-    _rv = ((C["kits"].get(style) or {}).get("slots", {}) or {})
-    _rvs = (_rv.get("reveal_masonry") if is_masonry else _rv.get("reveal_frame")) or {}
-    _rvp = (_rvs.get("parameters") or {}).get("reveal") or {}
-    reveal_band_in = list(_rvp["range"]) if _rvp.get("range") else (
-        [_rvp["value"], _rvp["value"]] if isinstance(_rvp.get("value"), (int, float)) else None)
-
     # THE CASCADED dormer slot, not the raw one. `tidewater-georgian` binds this slot EMPTY --
     # exactly as it binds `shutter` -- so `C["kits"]` carries no variants, no cheek band and no
     # parity rule for it, and a check against the raw kit would let a `shed-dormer` through on a
@@ -1495,20 +1549,69 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         dormer_slot = _slots.get("dormer") or {}
         porch_slot = _slots.get("porch_type") or {}
         pilaster_slot = _slots.get("pilaster") or {}
+        # THE SAME CASCADE FOR THE SHUTTER AND THE HEAD (WP-8.4). The comment above named
+        # `shutter` as binding empty "exactly as" `dormer` does, and then read it off the RAW
+        # kit two lines below -- a fix that names the thing it does not reach, which is
+        # WP-6.4's disease in the commit that cured it next door. Measured over 164 styles:
+        # `jeffersonian-classicism`'s raw kit says shutters are carried and its CASCADE says
+        # `none` is canonical, so OQ 89's conditional pair supplied a real 2.0/2.0 there and
+        # `shutter-on-an-unshutterable-opening` came back CLEAR on two shutters the style
+        # declines -- the exact defect OQ 89 closed, surviving on one node because of which
+        # record was read. `window_head_masonry` is worse: it is EMPTY in the raw kit and
+        # populated by the cascade on 66 of 164 styles, so `_head_radius_in` was reading no
+        # head specification at all on two thirds of the corpus.
+        shutter_slot = _slots.get("shutter") or {}
+        head_slot = _slots.get("window_head_masonry") or {}
+        # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): every slot this node's RESOLVED kit forbids. The generator reads slot
+        # dimensions straight out of pack files and has never consulted the kit's strongest word.
+        forbids = {sid for sid, rec in _slots.items() if rec.get("binding") == "forbidden"}
+        _reveal_source = _slots
     except Exception:
         _ks = ((C["kits"].get(style) or {}).get("slots", {}) or {})
         dormer_slot = _ks.get("dormer") or {}
         porch_slot = _ks.get("porch_type") or {}
         pilaster_slot = _ks.get("pilaster") or {}
+        shutter_slot = _ks.get("shutter") or {}
+        head_slot = _ks.get("window_head_masonry") or {}
+        forbids = set()   # no cascade: cannot judge, so refuse nothing and say so below
+        _reveal_source = _ks
 
-    shutter_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("shutter") or {}
+    # THE REVEAL, read from whichever of the two slots this construction uses, and READ FROM
+    # THE CASCADE. It sat six lines above the block that resolves the cascade, still reading
+    # `C["kits"]`, while that block's own comment explained why the raw kit is the wrong
+    # record -- written for `shutter` and `window_head_masonry` in this same function. Six
+    # styles state a reveal band only through their lineage (`pueblo-revival` at 12-24 in
+    # among them) and were drawn with no reveal at all. It is a band, not a figure -- 4 to 8
+    # in on the masonry kit -- so it travels as a band and the drawing uses its PRESENCE
+    # (which edges fall into shadow) rather than claiming a depth the corpus withholds.
+    # Found by the WP-8.4 adversarial audit; the general form is `oq/the-raw-kit-read`.
+    _rv = _reveal_source
+    _rvs = (_rv.get("reveal_masonry") if is_masonry else _rv.get("reveal_frame")) or {}
+    _rvp = (_rvs.get("parameters") or {}).get("reveal") or {}
+    reveal_band_in = list(_rvp["range"]) if _rvp.get("range") else (
+        [_rvp["value"], _rvp["value"]] if isinstance(_rvp.get("value"), (int, float)) else None)
+
     _sv = {v["id"]: v.get("status") for v in shutter_slot.get("variants", [])}
     shutters_carried = bool(_sv) and _sv.get("none") != "canonical"
     if not _sv:
         shutters_carried = True          # nothing stated: the older half of the corpus draws them
 
-    head_slot = ((C["kits"].get(style) or {}).get("slots", {}) or {}).get("window_head_masonry") or {}
     head_variants = {v["id"]: v.get("status") for v in head_slot.get("variants", [])}
+    # THE NODE'S OWN WORD BREAKS A TIE BETWEEN TWO INHERITED CANONICALS (WP-8.4). Reading the
+    # CASCADED head record is right -- it is empty in the raw kit on 66 of 164 styles -- but a
+    # resolved record is a MERGE, and `mid-atlantic-georgian` comes back with three canonical
+    # heads where its own file names one. The date rule below then chose the first flat arch in
+    # list order, which is the ancestor's `gauged-flat-arch`, not the `keystoned-flat-arch` the
+    # style is distinguished by. Same principle as the construction vocabulary's: what a node
+    # says ITSELF outranks what it merely inherits.
+    _own_head = {v["id"] for v in
+                 ((((C["kits"].get(style) or {}).get("slots", {}) or {})
+                   .get("window_head_masonry") or {}).get("variants") or [])}
+
+    def _prefer_own(cands):
+        """The node's own canonical first, then list order. Never empty if `cands` is not."""
+        mine = [k for k in cands if k in _own_head]
+        return (mine + [k for k in cands if k not in _own_head])
     head_params = head_slot.get("parameters") or {}
     CHANGE_BAND = (1720, 1750)      # brick-course's own words, as the band it states
 
@@ -1516,7 +1619,7 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         if not is_masonry:
             return None
         canonical = [k for k, v in head_variants.items() if v == "canonical"]
-        arch_kinds = [k for k in canonical if "arch" in k]
+        arch_kinds = _prefer_own([k for k in canonical if "arch" in k])
         kind, why = None, None
         if len(arch_kinds) == 1:
             kind, why = arch_kinds[0], "the style's kit makes it the only canonical masonry head"
@@ -1601,8 +1704,21 @@ def build_elevation(plan, parti=None, section=None, roof=None):
                 f"{', '.join(str(h) for h in hit)} ft along the face, from the roof record's own "
                 f"plan position. An opening there is not drawn.")
 
-    ent = entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0) if gibbs_applies else \
-          entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0)
+    ent = entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0,
+                               forbids=forbids) if gibbs_applies else \
+          entrance_composition(op_pack, facade_pack, gibbs_pack, ground["storey_height_ft"] * 12.0,
+                               forbids=forbids)
+    # `oq/forbidden-stops-the-pack-cascade`'S DISCLOSURE. Two of these are refused above; the rest are READ ANYWAY and this is
+    # where a reader finds out. Naming them beats a silent figure: `unjudged is not passed`
+    # applies to a drawing exactly as it applies to a measurement, and until WP-8.3 nothing
+    # anywhere recorded that this generator had overruled a kit's strongest word.
+    _READ_FROM_PACKS = ("belt_course", "casing", "chimney", "cornice", "door_surround",
+                        "entry_door", "frieze", "pilaster", "shutter", "transom_sidelight",
+                        "water_table", "window_grouping_rule", "window_head_masonry",
+                        "window_head_wood", "window_lite_pattern", "window_proportion")
+    _REFUSED_HERE = ("transom_sidelight", "pilaster")
+    forbidden_read = sorted(forbids & set(_READ_FROM_PACKS))
+
     if not gibbs_applies:
         ent["note_order_not_named_for_style"] = (f"gibbs-ionic.json's own applies_to list does not include '{style}' -- used anyway as the "
                                                    f"family's documented pattern-book default (see module docstring); a style outside the "
@@ -1737,6 +1853,21 @@ def build_elevation(plan, parti=None, section=None, roof=None):
         "chimney_stack_plan_judgment": chimney_plan_judgment,
         "grade_to_true_eave_in": grade_to_true_eave_in, "eave_reconciliation_note": eave_reconciliation_note,
         "roof": roof_meas, "roof_record": roof,
+        # `oq/forbidden-stops-the-pack-cascade` (WP-8.3). Every slot this generator reads out of a pack file that THIS node's
+        # resolved kit binds `forbidden`, and what was done about each. Two are refused outright
+        # (the sidelights and the doorcase pilaster, both of which the composition already had a
+        # branch for); the rest are READ ANYWAY and are named here rather than left silent.
+        # Fixing those needs a semantic answer per slot -- a forbidden `frieze` on a style whose
+        # kit still passes this generator's classical scope gate is a contradiction between two
+        # records, not a number to zero -- and that is `oq/forbidden-stops-the-pack-cascade`'s remaining half, stated rather
+        # than quietly carried.
+        "forbidden_slots_read_from_packs": {
+            "refused": [x for x in forbidden_read if x in _REFUSED_HERE],
+            "read_anyway": [x for x in forbidden_read if x not in _REFUSED_HERE],
+            "note": ("This generator reaches packs by PE.resolve and never through resolve_packs, "
+                     "so WP-8.3's resolver-side gate does not reach a single figure drawn here. "
+                     "`read_anyway` is a measured disclosure, not a pass."),
+        },
         "footprint": fp, "section": section,
     }
     elev["measurements"] = _derive_measurements(elev)

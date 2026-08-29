@@ -82,7 +82,7 @@
         "measurable_from": "photograph",
         "note": "The style's own floor, and the licence runs the other way: not less than 1 1/8 in, vertical bars, upper sash only."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "window_lite_pattern"
         ],

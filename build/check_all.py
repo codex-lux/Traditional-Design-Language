@@ -27,6 +27,15 @@ CHECKS = [
     # is proved not to have, and the artefact committed to git is the one the run just verified.
     ("build.py", []),
     ("validate.py", []),
+    # The register's ids and the report filenames. Cheap (no corpus load) and it guards the
+    # one id family that has ever collided -- four times in four days, because open questions
+    # lived in a single shared file where two branches' answers to "what is the next number"
+    # both survived a merge. See build/check_ids.py.
+    ("check_ids.py", []),
+    # The index is generated from docs/open-questions/; --check fails if the committed copy
+    # has drifted, which is the same guarantee dist/taxonomy.json needed and did not have.
+    ("gen_open_questions.py", ["--check"]),
+
     ("check_orders.py", []),
     ("check_modules.py", ["--eval"]),
     ("check_systems.py", []),
@@ -34,6 +43,13 @@ CHECKS = [
     ("check_constraints.py", []),
     ("check_pack_bindings.py", ["--strict"]),
     ("check_faults.py", []),
+    # Every dividing test against every measurement a generator supplies as ZERO. The corpus's
+    # flagship failure is a rule that presupposes the thing it measures -- `dormer_count % 2`
+    # on a house stating no dormers -- and the standing rule that any dividing test needs an
+    # `applies_when` has been enforced by memory since WP-5.13. This is the meter. Its LIVE
+    # figure is pinned at zero and goes non-zero the moment a generator starts supplying a new
+    # zero, which is exactly what WP-5.13 did.
+    ("check_division_guards.py", []),
     ("check_rooms.py", []),
     # WP-6.2. Not folded into check_rooms.py: that checker globs rooms/*.json against the
     # room schema, and the opening grammar is a different document in a different directory
@@ -54,6 +70,13 @@ CHECKS = [
     # check_inheritance guards OQ 51's three numbers, which the ruling says must only go down.
     ("check_addresses.py", ["--strict"]),
     ("check_inheritance.py", ["--strict"]),
+    # OQ 51's neighbour, ratcheted separately and deliberately not folded into the line above:
+    # 776 (node, slot) pairs where the resolved kit binds a slot `forbidden` and a pack
+    # dimensions it anyway, over 118 of 132 nodes, and NOT ONE of them was chosen by a human --
+    # every one resolves by precedence. It counts a kit binding overruled by a pack, not a role
+    # nobody bound, so it moves independently of the backlog. 4 s. Reports; fixing it changes
+    # dimensions on most of the corpus and is its own package.
+    ("check_inheritance.py", ["--forbidden", "--strict"]),
     # check_gazetteer guards OQ 65: every style must be placeable on the Phylogeny's map
     # from its own regions and hearth. The map already reports a style it cannot place —
     # but as a line in a panel, which is where a new style goes quietly missing.
@@ -62,7 +85,7 @@ CHECKS = [
     # shipped with WP-5.6 wired into nothing and were cited as verification anyway.
     ("check_frontend.py", []),
     ("proportion_engine.py", ["selftest"]),
-    # WP-5.7: the moulding constructions prove themselves -- convexity, tangency at a cyma's
+    # WP-5.11: the moulding constructions prove themselves -- convexity, tangency at a cyma's
     # join, a half round returning to its springing, scale invariance, and the OQ 65 datum rule.
     ("profiles.py", ["selftest"]),
     ("plan_check.py", ["plans/spec-builder-colonial.json"]),
@@ -95,7 +118,7 @@ COULD_NOT_EVALUATE = 3
 # The three suites the runner appends AFTER the CHECKS loop. They are named here rather than
 # only appearing as `results.append(...)` calls inside main() because CLAUDE.md publishes a
 # check TOTAL, and that number has now been wrong three times for exactly one reason: whoever
-# updated it measured `len(CHECKS)`, which is the loop and not the run. WP-5.7 found it saying
+# updated it measured `len(CHECKS)`, which is the loop and not the run. WP-5.11 found it saying
 # 32 against a suite of 33; the 27 Aug merge resolved a conflict here and wrote 32 again, in
 # the very sentence that describes the bug, and check_all.py printed "1 of 35" against it an
 # hour later. TOTAL_CHECKS is what the runner actually reports, and

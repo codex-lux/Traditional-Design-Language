@@ -239,9 +239,9 @@
       "units": "in",
       "scope": {
         "construction": [
-          "frame"
+          "wood-frame"
         ],
-        "note": "The rule's own note has said this since it was written: \"In a frame wall this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one.\" Carried in DATA since OQ 88, because in prose it reached 86 nodes and 47 of them make a masonry cladding canonical -- english-georgian resolved this 2.25 in sloped timber sill on a brick wall."
+        "note": "The rule's own note has said this since it was written: \"In a frame wall this is a real sill member; in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one.\" Carried in DATA since OQ 88, because in prose it reached 86 nodes and 47 of them make a masonry cladding canonical -- english-georgian resolved this 2.25 in sloped timber sill on a brick wall. RETOKENISED 28 AUG 2026 (WP-8.4): `frame` was one of two values decided by a substring test over the cladding; `wood-frame` is a token in build/construction_vocabulary.py that resolves against the node's own `construction_type` first. cape-dutch stops receiving this rule and prairie-school and storybook-style start receiving it again."
       },
       "range": [
         1.5,

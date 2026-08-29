@@ -194,7 +194,7 @@
           "direction": "at-least",
           "threshold": 1,
           "units": "count",
-          "note": "Divides by dormer_count. Guarded 28 Aug 2026 by the WP-5.10 audit as LATENT rather than live: the numerator (`count_of_dormer_windows_aligned_with_openings_below`) is supplied by nothing today, but WP-5.9 began supplying the DENOMINATOR as a stated zero, so the first producer to supply the numerator gets 0/0 and a `status: error` instead of a judgement."
+          "note": "Divides by dormer_count. Guarded 28 Aug 2026 by the WP-5.14 audit as LATENT rather than live: the numerator (`count_of_dormer_windows_aligned_with_openings_below`) is supplied by nothing today, but WP-5.13 began supplying the DENOMINATOR as a stated zero, so the first producer to supply the numerator gets 0/0 and a `status: error` instead of a judgement."
         },
         "note": "The dormers must still align with the openings below, and the gambrel must be doing the compositional work."
       }
@@ -211,7 +211,7 @@
         "measurable_from": "photograph",
         "note": "The growth grammar must be visible and complete - door offset, chimney offset differently, openings in the quarter-half-three-quarter sequence. A full five-bay Cape with an off-centre door is still the fault."
       },
-      "applies_when": {
+      "granted_when": {
         "note": "Applies only to the incomplete Cape - quarter, half and three-quarter. The full Cape is centred and is governed by the rule."
       }
     }

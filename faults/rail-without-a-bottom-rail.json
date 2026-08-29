@@ -119,7 +119,7 @@
       "style": "greek-revival-american",
       "why": "Greek Revival flattens: a broad plain cap with a square arris over square balusters is correct, and the profile is deliberately reduced.",
       "bounds": "Flatness is licensed, absence is not. The cap must still project past the balusters and there must still be a shoe rail below and an anta or pedestal at each end.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1825,
           1865

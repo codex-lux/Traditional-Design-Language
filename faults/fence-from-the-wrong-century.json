@@ -66,7 +66,7 @@
       "style": "andalusian-courtyard-vernacular",
       "why": "There is no fence at all; the boundary is the building, and the only opening in it is the zaguan door. A garden fence in front of a courtyard house is the anachronism.",
       "bounds": "Requires the building on the street line with a controlled entry. Where a garden wall does occur it is a full masonry wall, 2 to 3 m and blind, not a fence.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "zero-lot-line",
           "street-wall"
@@ -92,7 +92,7 @@
       "style": "italianate-townhouse",
       "why": "The boundary is a cast-iron areaway railing on a low stone kerb wall, 30-42 in, which is a nineteenth-century industrial product and correct to the date.",
       "bounds": "Cast or wrought iron only, on a masonry kerb, and only from about 1840 onward. This is exactly the item that is an anachronism on a colonial house.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1840,
           1900
@@ -106,7 +106,7 @@
       "style": "gothic-revival-american",
       "why": "Sawn and pierced picket profiles - gothic points, trefoils, scrolled tops - are correct here and are part of the same jigsaw vocabulary as the bargeboard.",
       "bounds": "From about 1840, and the profile must belong to the same family as the house's own sawn ornament.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1840,
           1890

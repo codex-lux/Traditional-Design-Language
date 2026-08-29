@@ -222,7 +222,7 @@ def test_a_blind_bay_exports_no_opening_to_cad(tmp_path):
     drawing — the drawing and the CAD file disagreeing about one record.
 
     The export selftest could not see it: it round-trips FINDINGS, not geometry. Nothing in this
-    suite looked at where the ink went in a DXF either, which is the same gap WP-5.7's audit found
+    suite looked at where the ink went in a DXF either, which is the same gap WP-5.11's audit found
     in the SVG layer one file over."""
     ezdxf = pytest.importorskip("ezdxf")
     el = mc.load("elevation", os.path.join(BUILD, "elevation.py"))

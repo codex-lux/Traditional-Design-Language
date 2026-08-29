@@ -86,7 +86,7 @@
         "units": "ft",
         "measurable_from": "plan"
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "porch_type",
           "built_ins"

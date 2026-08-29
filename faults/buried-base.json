@@ -65,7 +65,7 @@
       "style": "pennsylvania-bank-house",
       "why": "Earth banked against the uphill wall to within 12 in of the principal floor level is the type - the berm is structural and functional, and the wall is built to carry it.",
       "bounds": "Requires 22 in or more of load-bearing stone designed for earth pressure, a real cross-slope of 1:8 or steeper, and no openings in the bermed wall below the principal floor. A frame wall with earth against it is not this; it is rot.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "load-bearing-stone",
           "mass-masonry"
@@ -86,7 +86,7 @@
       "style": "rural-gothic-villa",
       "why": "Downing and the picturesque villa tradition deliberately embed the house in planting, with vines, creepers and shrubbery brought up to the wall as an aesthetic programme - this is the one Anglo-American tradition that argues FOR the practice.",
       "bounds": "It is an argument about the picturesque, not about drainage: the historic examples still stand on a plinth and still have a base, and the planting is climbing and open rather than a solid bank against the wall.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1840,
           1880

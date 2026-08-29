@@ -100,7 +100,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "lowcountry",
           "charleston"
@@ -126,7 +126,7 @@
       "style": "queen-anne-free-classic",
       "why": "The Free Classic subtype uses classical members as an ornamental vocabulary rather than as a system, and mixing is part of the manner. A Tuscan column under a dentil cornice under a spindled gable is a documented and correct Free Classic elevation.",
       "bounds": "Applies to dentils, plain modillions and simple mouldings only. Triglyphs and guttae carry the Doric spacing rule with them and are the one member that cannot be borrowed, because their spacing determines the column spacing.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1880,
           1905

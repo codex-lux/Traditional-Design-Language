@@ -238,5 +238,16 @@
       "note": "Bound for the plan's own tight small-house arithmetic: this node's diagnostic tell that the front door opens directly into the living room with no vestibule is exactly the additive, furniture-and-circulation-first room logic room-vernacular reconstructs, and its ceiling-height rule (post-1900 bungalow band, 8 ft 6 in to 9 ft) matches this node's own 8 ft 6 in figure precisely. Not given the top role: the plan is a catalog product bounded by the lot and the precut package before it is bounded by any physical room constraint, which this node's own proportional_system says outright.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "storey-graduation",
+      "reason": "A rule for graduating a stack of storeys has no stack to graduate. This node's own record makes a single storey (or one and a half) definitional, so `height_proportion` arriving as a second-to-first-storey ratio dimensions a floor the house does not have.",
+      "basis": "node-record",
+      "quote": "One to one and a half storeys, 800 to 1,400 sq ft, on a lot of 40 to 50 ft frontage",
+      "quoted_from": "defining_characteristics[0]",
+      "decided": "2026-08-28",
+      "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+    }
   ]
 }

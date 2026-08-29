@@ -260,5 +260,16 @@
       "note": "Secondary behind `facade-picturesque` and `opening-pointed`, and bound for one figure it states independently -- 'gable width to apex height roughly 1:0.7 to 1:1' -- which agrees with Tudor Revival and Jacobean to within a tenth from a completely different tradition. Three unrelated records landing that close on a proportion nobody wrote down is the strongest evidence the pack has for it. The roof pitch is deliberately NOT taken from this pack: `opening-pointed` already writes `roof_pitch`/`ratio` on this node, and its claim there -- that the gable and the window head are the same equilateral figure -- is a larger statement than anything this pack would add.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have. This node states the refusal as a HARD CONSTRAINT, which is as explicit as this corpus gets.",
+      "basis": "node-record",
+      "quote": "Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is forbidden throughout.",
+      "quoted_from": "constraints[4].statement",
+      "decided": "2026-08-28",
+      "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    }
   ]
 }

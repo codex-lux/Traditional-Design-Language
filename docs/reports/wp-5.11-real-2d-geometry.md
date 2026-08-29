@@ -1,4 +1,4 @@
-# WP-5.7 — The geometry layer: moulding constructions, coursing, and repetition
+# WP-5.11 — The geometry layer: moulding constructions, coursing, and repetition
 
 *26 August 2026. Raised by Lucas against three drawn surfaces: the Drawing Set's front elevation
 ("bears not even a passing resemblance to a true Georgian tidewater precedent"), its eave cornice

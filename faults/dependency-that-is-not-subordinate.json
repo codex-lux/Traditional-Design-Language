@@ -66,7 +66,7 @@
       "style": "american-farmhouse-vernacular",
       "why": "A farmstead genuinely contains buildings that outrank the house in size - a barn is bigger than a farmhouse and always was, and the composition is honest about it because the barn is a different KIND of building with different materials, a different opening vocabulary and no domestic trim at all.",
       "bounds": "The large outbuilding must be agricultural in type and detail: unpainted or single-coloured, large unglazed openings, no domestic sash, no cornice. A 'barn-style' garage with six-over-six windows, shutters and a cupola is not a barn; it is a second house with a hay door.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "outbuilding_types"
         ],
@@ -90,7 +90,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "Chesapeake"
         ]

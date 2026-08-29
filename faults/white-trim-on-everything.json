@@ -58,7 +58,7 @@
         "threshold": 0.05,
         "note": "White on white: body AND trim white, imitating marble, so the mass reads by shadow rather than by colour. White trim on a COLOURED body is a different scheme and not this exception. The sheen must still be low, and the scheme depends on the deep entablature and broad flat members doing the work colour is not."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "color_strategy",
           "entablature"
@@ -81,7 +81,7 @@
         "threshold": 1.15,
         "note": "Limewash, not paint: matte, slightly chalky, and varying with the substrate. A uniform acrylic white on a Cape Dutch wall loses the whole effect."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "Western Cape"
         ],
@@ -102,7 +102,7 @@
         "threshold": 1.5,
         "note": "Correct as Colonial Revival, which is a style with its own dates and its own habits; the hue licence is real and the sheen licence is not. It is not a claim about 18th-century practice and it does not travel to Craftsman, Tudor or Italianate houses."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1890,
           1960

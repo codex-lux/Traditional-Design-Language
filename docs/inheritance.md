@@ -48,11 +48,49 @@ To resolve slot *S* for node *N*: take *N*'s own binding if `binding` is `specif
 | `specified` | This node fixes the slot. Stops the cascade. |
 | `inherited` | Explicitly deferred to the cascade. Documentation, not behaviour. |
 | `open` | Unspecified. The default. Cascades; if nothing upstream specifies it, the slot is a free choice. |
-| `forbidden` | This node prohibits the slot. Stops the cascade. Prairie forbids most classical apparatus; a Creole cottage forbids a centred entry door. |
+| `forbidden` | This node prohibits the slot. Stops **both** cascades — the kit's and, since WP-8.3, the proportion packs' (`oq/forbidden-stops-the-pack-cascade`). Prairie forbids most classical apparatus; a Creole cottage forbids a centred entry door. |
 
 `status` tracks editorial progress independently: `empty` → `stub` → `drafted` → `reviewed`.
 
 A fifth binding, `extends` (kit schema 0.2.0), stops the cascade like `specified` but merges rather than replaces: parameters merge by key (a child key replaces the inherited one outright), variants apply add/remove/replace ops matched on id, and most other fields replace-if-present-else-inherit. `rule` was the one exception — a single string, so a child adding a clause had to restate the whole sentence or leave the resolved rule silent about its own change — until `rule_append` (0.2.1) gave it a real merge operator (docs/open-questions.md #16, wired into `build/resolve_kit.py` in WP-1.3): a child's `rule_append` value joins onto the resolved rule as an additional sentence, and `resolve_kit.py --slot <id> --verbose` shows which ancestor's delta contributed which clause. See the merge-semantics docstring at the top of `build/resolve_kit.py` for the complete rule, including the ordering of `extends` deltas (farthest ancestor first, so the nearest wins) and how a dangling `extends` with no base to merge into is handled.
+
+## `forbidden` stops the pack cascade too (`oq/forbidden-stops-the-pack-cascade`, WP-8.3)
+
+This table said `forbidden` "stops the cascade" from the beginning. It stopped the **kit**
+cascade and never the **pack** cascade, and the gap was 776 (node, slot) pairs across 118 of 132
+buildable nodes — a proportion pack supplying a dimension for a slot the resolved kit prohibits.
+**Not one of the 776 was chosen by a human**: every one resolved by an ancestor's precedence
+number, and no slot carried a `packs` ruling for any of them. `carpenter-gothic`'s resolved
+`pilaster` record reads *"No pilaster order."* and it published a pilaster width.
+
+**Ruled: absolute, with a human override.** A pack rule may not write to a slot the resolved kit
+binds `forbidden`, *unless* that slot's own `packs` block names that pack — which
+`choose_pack`'s own docstring already calls *"the only place a human has said which pack wins"*.
+Zero of the 776 qualify, so the override strands nothing today; it exists so a node that
+genuinely wants one dimension from an otherwise-refused member has a way to say so, rather than
+leaving the refusal behind a decision nobody can revisit.
+
+**The refused rule is MARKED, not deleted.** `eval_packs` flags it `refused_by_kit` with the
+binding's own note and `choose_pack` will not choose a flagged row, returning
+`how: "kit.forbidden"` so a reader sees an explicit refusal rather than an absence
+indistinguishable from "no pack writes here". Deleting would have destroyed the measurement
+itself, and `check_addresses` reads these rows without ever calling `choose_pack`. Same
+discipline as `openings.py` marking an unrealisable opening `unplaced` and never removing it.
+`eval_packs`' `kit` argument is **required and has no default** — a `kit=None` default would let
+every call site keep the old behaviour by saying nothing.
+
+**The drawn half needed its own fix, and half of it is still open.** `build/elevation.py` never
+calls `resolve_packs` or `eval_packs`; it reaches packs by `PE.resolve` and reads sixteen slots
+straight out of pack files, so the resolver-side gate does not reach a single figure it draws.
+Swept over every style: 40 pass that generator's own scope gate, 15 of them forbid at least one
+slot it reads, and the exposure is **40 (style, slot) pairs**. **22 are refused** —
+`transom_sidelight` 8 and `pilaster` 8, both of which the entrance composition already carried
+a branch for, and both now absent rather than zero. **24 are read anyway and disclosed** in the
+elevation record's `forbidden_slots_read_from_packs` — `frieze` 9, `belt_course` 6,
+`water_table` 6, and one each of `door_surround`, `cornice`, `window_head_wood`. Those need a
+semantic answer per slot: a style whose kit forbids `frieze` while still passing a *classical*
+scope gate is two records contradicting each other, not a number to zero. Named rather than
+silently carried.
 
 ## Slot groups
 
@@ -151,6 +189,82 @@ the next ancestor in the chain, which is `gothic-revival-american` — better, a
 eight-hipped roof the type actually has. That belongs in `kits/octagon-house.kit.json` as the
 node's own binding. A scoped edge tells the cascade what NOT to take; what a style genuinely is
 still has to be authored.
+
+## Declining a pack the cascade delivers (OQ 51, WP-8.2)
+
+A style node may carry `declined_packs`: proportion packs that reach it **by descent** and do not
+belong on it, each with a reason and — where the node's own record decides it — a verbatim quote
+from that record.
+
+It is the exact mirror of adding a node to a pack's `applies_to`. One records that somebody read
+the cascade and agreed; the other records that somebody read it and did not. Both are
+adjudications; only one existed until now, and that asymmetry was the finding of OQ 51's first
+pass: *a node the pack fits could be settled in a line, and a node it does not fit could not be
+settled at all.*
+
+```jsonc
+"declined_packs": [
+  { "pack": "storey-graduation",
+    "reason": "A rule for graduating a stack of storeys has no stack to graduate.",
+    "basis": "node-record",
+    "quote": "Everything about it is horizontal: a single storey",
+    "quoted_from": "description.long",
+    "decided": "2026-08-28" }
+]
+```
+
+**Enforced in one place**, `resolve_kit.resolve_packs`, which is the function that decides pack
+MEMBERSHIP. `eval_packs` decides which RULES a member contributes — that is what `slots` and
+`slots_except` are for, and those live on the ANCESTOR's binding, so they change behaviour for
+every descendant and for the ancestor itself. They structurally cannot express a per-descendant
+refusal, and a child re-binding the pack unscoped shadows them entirely.
+
+**Validated by `check_pack_bindings.py`**, and the check that matters is the lie-check: a decline
+naming a pack that does not actually reach the node **refuses nothing while reading as an
+adjudicated refusal**, and the meter would count it as judged. Same shape and deliberately the
+same words as the `slots_except`-that-refuses-nothing check beside it. A `node-record` basis with
+no quote, or a quote that is not in the node's own file, is an error — `check_openings.py`'s
+discipline, that a citation which cannot be checked is a guess wearing a citation.
+
+### A per-edge deny was designed and refused, on measurement
+
+The obvious alternative was to mirror OQ 58's `slots` allowlist with a pack denylist on a lineage
+edge, and the argument for it was leverage: `english-georgian` delivers fifty of the unendorsed
+gaps. **Measured, that argument is wrong**, and the numbers are worth keeping because they will
+be proposed again:
+
+- **Most gaps have no edge to write the refusal on.** Only about half reach their delivering
+  ancestor through a direct lineage edge at all. `english-georgian`'s fifty are **five direct**;
+  the rest arrive transitively, down each node's own path, at cascade depths of two to twelve.
+  There is no "the `english-georgian` edge" — there are thirty-one nodes each reaching it their
+  own way. `check_inheritance.py --ancestors` prints the DIRECT column for exactly this reason.
+- **The blast radius is wrong.** A subtree deny of `english-georgian`/`storey-graduation` would
+  touch twenty-six receivers to fix eighteen, and seven of the eight collateral were already
+  endorsed — five of them by the 26 August pass that raised the proposal. The mechanism would
+  have undone the pass that motivated it.
+- **It would not give subtree semantics anyway.** `build/build.py`'s `_cascade_scope` only picks
+  up edges whose SOURCE is the node itself, so a descendant reaching a scoped donor through
+  another node gets the whole thing regardless.
+- **And the wrongness is usually the node's, not the route's.** `ranch-style` receives
+  `storey-graduation` because it descends from `english-georgian` *and* because it is a
+  single-storey house. Only the second is a reason; the first is a route.
+
+The ancestor grouping is still where the reading happens — one classical-order question answered
+once, thirty-one verdicts written from it. It is a reading order, not an authoring axis.
+
+### What a decline does NOT do
+
+**It stops a wrong pack; it does not supply a right one** — OQ 58's stated limit, one layer down.
+`check_inheritance.py --impact <node> <pack>` prints what takes over. On `carpenter-gothic`,
+declining `chambers-ionic` hands three slots to `palladio-ionic` and one to `benjamin-ionic`, and
+that last one is `pilaster`, which the node's own resolved kit binds **forbidden**. Nothing is
+left undimensioned and nothing is fixed either.
+
+**And it does not move the headline number.** Ten declines authored in WP-8.2 took
+`inherited_packs` from 3,366 to 3,356 and `judged` from 38 to 48, and left `unendorsed` at
+**249 throughout** — each node's role simply re-attributed to the next ancestor, which nobody has
+judged either. That is why the meter carries a FLOOR (`judged`, which may only rise) as well as
+ceilings, and why `unendorsed` is a work list rather than a score.
 
 ## `determined_by` means three things (OQ 19, 24 Aug 2026)
 

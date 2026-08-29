@@ -361,14 +361,39 @@ def wing_step_down(plan, section, main):
 
 # ---------------------------------------------------------------- chimneys
 def chimney_positions(plan, style, section, main):
-    """Placement source, in order: the resolved kit's own canonical `chimney` slot variant
+    """Placement source, in order: THE NODE'S OWN kit `chimney` slot canonical variant
     (tidewater-georgian's is fully specified -- gable-end-exterior, paired-and-joined-by-arched-
-    curtain); falling back to the massing's own `hearth` field (four-over-four's is
+    curtain) -- NOT the cascade, and the block below says why that is deliberate rather than an
+    oversight; falling back to the massing's own `hearth` field (four-over-four's is
     'gable-end-paired', which every style using that massing inherits structurally whether or
     not its own kit has gotten around to a chimney slot -- colonial-revival's kit chimney slot is
     still `status: empty`, exactly the 'unjudged' case this fallback exists for)."""
-    kit = C["kits"].get(style, {})
-    canonical = [v["id"] for v in (kit.get("slots", {}).get("chimney", {}) or {}).get("variants", []) if v.get("status") == "canonical"]
+    # THE NODE'S OWN KIT, DELIBERATELY, AND THE DOCSTRING ABOVE NOW SAYS SO. The WP-8.4
+    # adversarial audit changed this to read the CASCADE -- the docstring had claimed the
+    # resolved kit since it was written, and 64 of 164 styles state a canonical chimney only
+    # through their lineage -- and then measured what that draws. It is worse, and the reason
+    # is the distinction this file should be read for:
+    #
+    #   An inherited `forbidden` is a prohibition an ancestor made and the descendant never
+    #   overturned. An inherited CANONICAL VARIANT is a positive claim the descendant never
+    #   made. The first is safe to read from the cascade. The second is not, until somebody
+    #   has adjudicated the slot on that node.
+    #
+    # `colonial-revival` states nothing about chimneys, so the cascade hands it
+    # `tall-multiple-vertical-accent` from `british-picturesque` -- a Gothic Revival clustered
+    # stack, "thin and numerous and well out of proportion" -- seven steps up. Reading it put
+    # a Gothic stack on `spec-builder-colonial`, one of the two shipped plans, and took its
+    # placed positions from 1 to 0. Its own record says nothing that would let it be bound
+    # honestly, so there is no fix at the node either. The massing's `hearth`
+    # (`gable-end-paired`) is the better answer and is what the fallback already produced.
+    #
+    # OQ 87's mechanism throughout, and the reason `oq/the-raw-kit-read` is not a
+    # change-six-call-sites job: flipping a reader before the slot is adjudicated moves a
+    # wrong answer INTO the drawing. `build/plan_check.py` reads the cascade and keeps it,
+    # because it reads only `forbidden`.
+    slots = (C["kits"].get(style, {}).get("slots") or {})
+    canonical = [v["id"] for v in ((slots.get("chimney") or {}).get("variants") or [])
+                 if v.get("status") == "canonical"]
     massing = _massing(plan.get("massing"))
     hearth = massing.get("hearth")
     source = f"kit chimney slot: {', '.join(canonical)}" if canonical else (f"massing '{massing.get('id')}' hearth: {hearth}" if hearth else None)
@@ -394,7 +419,7 @@ def chimney_positions(plan, style, section, main):
                          f"would need an interior or off-ridge chimney solution this file does not model. "
                          f"Flagged rather than silently placed at a wall that is not actually a gable end.")}
 
-    params = (kit.get("slots", {}).get("chimney", {}) or {}).get("parameters", {})
+    params = ((slots.get("chimney") or {}).get("parameters") or {})
     band = params.get("height_above_ridge_band", {}).get("range")
     height_above_ridge_in = sum(band) / 2.0 if band else (params.get("height_above_ridge_min", {}).get("value") or DEFAULT_CHIMNEY_HEIGHT_ABOVE_RIDGE_IN)
 
@@ -477,7 +502,7 @@ def gambrel_break_check(main):
 def dormer_rhythm_check(plan, section, main):
     """Whether this house's dormers can sit on its bays -- in the three states the record has.
 
-    WIRED TO THE REAL FIELD, 27 Aug 2026 (WP-5.9). This function used to read `declared_dormers`,
+    WIRED TO THE REAL FIELD, 27 Aug 2026 (WP-5.13). This function used to read `declared_dormers`,
     a key it invented for itself because no schema field authored a dormer, and which therefore
     no record ever carried: it returned not-applicable on every plan in the corpus and its unit
     tests reached it by writing the placeholder in by hand. `declared.dormer` exists now (the
@@ -584,8 +609,8 @@ def elevation_profile(section, main, wall):
     ends to meet the ridge height across the ridge's own shorter span).
 
     THIS DOCSTRING SAID "a flat eave line for a simple gable" until 28 Aug 2026, nineteen lines
-    above the code that stopped doing that in WP-5.9 and explains at length why -- the flat line
-    was a PERSPECTIVE argument inside an orthographic renderer. WP-5.10 found and fixed exactly
+    above the code that stopped doing that in WP-5.13 and explains at length why -- the flat line
+    was a PERSPECTIVE argument inside an orthographic renderer. WP-5.14 found and fixed exactly
     this class in `render_elevation.py`'s chimney block and left it standing in the function whose
     behaviour had actually changed. Prose asserting what the code no longer does is the failure
     this corpus polices hardest, and it survived the package that named it twice."""

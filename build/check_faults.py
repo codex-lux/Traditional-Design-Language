@@ -28,6 +28,13 @@ SCHEMA = os.path.join(ROOT, "schema", "fault.schema.json")
 SLOTS = os.path.join(ROOT, "elements", "slots.json")
 STYLES = os.path.join(ROOT, "styles")
 
+# The construction vocabulary, through modcache -- never a local by-path loader
+# (CLAUDE.md, OQ 28). It is the single closed table for `granted_when.construction`.
+sys.path.insert(0, os.path.join(ROOT, "build"))
+import modcache                                                        # noqa: E402
+CV = modcache.load("construction_vocabulary",
+                   os.path.join(ROOT, "build", "construction_vocabulary.py"))
+
 # Tokens permitted in applies_to / exceptions[].style that are not style ids.
 # The schema calls these "a construction or region token".
 UNIVERSAL = "universal"
@@ -162,13 +169,32 @@ def main(argv):
                 errors.append("%s: inverted_by[].style %r does not resolve"
                               % (fid, entry.get("style")))
 
-        # applies_when.slots inside an exception must name real slots.
+        # granted_when inside an exception: slots must be real slots, and every
+        # construction token must be in the closed table. Until WP-8.4 this block
+        # checked `slots` and stopped there, which is how 78 uncontrolled tokens --
+        # five spellings of "load-bearing masonry", four of "barrel tile", three of
+        # "wood shingle" -- accumulated in a field nothing read. An unknown token is
+        # an ERROR: it resolves `unmappable` for every style in the corpus, so it
+        # revokes a licence silently, and the corpus's own rule is that an agent
+        # needing a name that is missing reports the gap rather than adding one.
         for exc in rec.get("exceptions", []):
-            aw = exc.get("applies_when") or {}
-            for sid in aw.get("slots", []):
+            gw = exc.get("granted_when") or {}
+            if exc.get("applies_when"):
+                errors.append("%s: exceptions[].applies_when was renamed `granted_when` "
+                              "(WP-8.4); the surviving `applies_when` is the test-level "
+                              "precondition on MEASUREMENTS and means something else"
+                              % fid)
+            for sid in gw.get("slots", []):
                 if sid not in slots:
-                    errors.append("%s: exceptions[].applies_when.slots %r not in "
+                    errors.append("%s: exceptions[].granted_when.slots %r not in "
                                   "elements/slots.json" % (fid, sid))
+            for token in gw.get("construction", []):
+                if token not in CV.VOCABULARY and token not in CV.UNMAPPABLE:
+                    errors.append("%s: exceptions[%s].granted_when.construction %r is in "
+                                  "neither VOCABULARY nor UNMAPPABLE in "
+                                  "build/construction_vocabulary.py -- report the gap "
+                                  "rather than adding a token"
+                                  % (fid, exc.get("style"), token))
 
         # A test is only useful if it is complete enough to evaluate.
         def check_test(t, where):

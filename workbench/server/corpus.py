@@ -340,7 +340,7 @@ def proportions_with_members(pack_id, column_diameter=None, module=None,
     # OQ 65, ruled: which datum this pack's projections are measured from is STATED, not
     # derived by whoever draws them. Inherited through the overlay chain by resolve().
     out["projection_datum"] = pk.get("projection_datum")
-    # WP-5.7: the constructed moulding geometry, so the browser draws what the engine built
+    # WP-5.11: the constructed moulding geometry, so the browser draws what the engine built
     # rather than re-deriving a curve or a datum for itself. Segments are in inches at the
     # module above; a client wanting another size scales them, because pack geometry is linear
     # in the module (proved in tests/test_profiles.py). See build/profiles.py for why this is
@@ -568,5 +568,18 @@ def invalidate():
     from . import citations
     citations._parti_ids.cache_clear()
     citations._constraint_ids.cache_clear()
+    # AND THE THIRD MISS OF THE SAME KIND, found by the WP-8.4 adversarial audit. That
+    # package added `_kit_graph` and `_resolved_kit` to core.py and did not add them here, so
+    # after a reload every fault-exception precondition was still resolved against the
+    # PRE-EDIT kit graph for the life of the process: the bench showed an author's change to
+    # `styles/pueblo-revival.json` everywhere except in whether a licence was granted on it,
+    # and nothing said the verdict was stale. `_kit_graph` additionally pinned the
+    # pre-invalidate `resolve_kit` module object, so two of them were live at once.
+    #
+    # THE PATTERN IS THE FINDING: every lru_cache added to core.py has to be added here, and
+    # three of the five have been missed on their way in. `test_reload_clears_every_cache`
+    # walks core's own module dict instead of naming them, so a fourth cannot be missed.
+    core._kit_graph.cache_clear()
+    core._resolved_kit.cache_clear()
     reset_search_index()
     return {"reloaded": True}

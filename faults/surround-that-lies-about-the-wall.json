@@ -70,7 +70,7 @@
         "measurable_from": "photograph",
         "note": "Casing 3 in maximum, projection 1 in maximum."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "shingle-cladding"
         ]
@@ -88,7 +88,7 @@
         "measurable_from": "photograph",
         "note": "Broad and flat. The moment a Greek Revival surround acquires a keystone or a moulded architrave it has left the style; the flatness is the licence and the depth is not."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "timber-frame",
           "board-cladding"
@@ -108,7 +108,7 @@
         "measurable_from": "photograph",
         "note": "The style's own minimum. Flush-set windows in a thin veneer wall break the style by its own constraint, so the exception is self-limiting."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "masonry",
           "thick-stucco",
@@ -129,7 +129,7 @@
         "measurable_from": "photograph",
         "note": "Minimum 12 in reveal, jambs returned in the face material, true voussoirs, rusticated base of not less than one storey."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "cut-stone",
           "load-bearing-masonry"

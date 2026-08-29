@@ -59,7 +59,7 @@
         "threshold": 13.5,
         "note": "False Flemish is a reduction in the frequency of true through-headers WITHIN a solid wall. The wall-thickness floor is unchanged; that is the whole content of the bound."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"
@@ -71,7 +71,7 @@
       "style": "charleston-georgian",
       "why": "Stuccoed and limewashed brickwork was common, and where the finish coat conceals the bond entirely the bond pattern is not a claim being made.",
       "bounds": "Applies only where the render is real lime stucco carried over the whole elevation. Scoring a stucco to imitate Flemish bond re-commits the fault in a second material.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"
@@ -102,7 +102,7 @@
         "threshold": 0,
         "note": "Quoins, jack arches, keystones and water tables each count as one. The skin's licence to be a skin evaporates at the first claim about mass."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "masonry-veneer-over-frame"
         ],

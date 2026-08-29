@@ -53,7 +53,7 @@
         "upper": 6,
         "note": "Wide lapped boards run to 6 in, not 8. Flush boarding is a separate all-or-nothing choice for the whole volume and demands the wide flat corner pilasters and deep entablature that go with it."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1825,
           1865
@@ -88,7 +88,7 @@
         "threshold": 1.5,
         "note": "Wide boards require the corresponding construction: visible corner joinery, thick boards, and a deeply projecting eave. Wide boards with a thin butt and a mitred corner are not this."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "log",
           "braced-timber-frame"

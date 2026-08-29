@@ -60,7 +60,7 @@
       "style": "mid-century-traditional",
       "why": "Cooler light of 3000 to 3500 K, and the fluorescent luminous ceiling in particular, are genuinely of the period, and the interiors — with their cooler palettes, pale woods and larger areas of glass — were designed under it.",
       "bounds": "Up to about 3500 K, and only where the palette is of the period. The colour rendering argument does not relax: a 3500 K source at CRI 70 was bad light in 1958 and is bad light now.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1980

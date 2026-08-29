@@ -54,7 +54,7 @@
         "measurable_from": "photograph",
         "note": "It must be a stone or timber lintel and must look like one: a single member, full width, with visible bearing at each end and no false joints. A brick soldier course pretending to be a lintel scores above 1 and is not this."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "stone-lintel",
           "timber-lintel"
@@ -87,7 +87,7 @@
         "measurable_from": "photograph",
         "note": "Timber lintel expressed or concealed in stucco with a minimum 10 in reveal, and no arched or keystoned head anywhere on the building."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "mass-wall"

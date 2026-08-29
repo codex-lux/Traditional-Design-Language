@@ -302,5 +302,16 @@
       "note": "Gives the pack its apex ratio and, better, the perceptual statement behind it: 'gable width to eave-to-ridge height approximately 1:0.7 - the triangle reads taller than half its base'. That is the difference between a gable that reads as a roof and one that reads as a gable, and a 6:12 cross-gable on a house of this type is the commonest single failure of it. Note this node is the pack's ROOF-END case, explicitly: `styles/jacobethan-revival.json` names it as the contrast, gables ending 'at the rake with a barge or a bargeboard', so the parapet and coping rules do not apply here at all.",
       "precedence": 7
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have.",
+      "basis": "node-record",
+      "quote": "No classical module. Proportion is governed by the notional structural bay of the timber frame being imitated",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-08-28",
+      "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    }
   ]
 }

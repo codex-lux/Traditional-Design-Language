@@ -173,8 +173,34 @@
     },
     "construction_type": {
       "group": "envelope",
-      "binding": "open",
-      "status": "empty"
+      "binding": "specified",
+      "confidence": "high",
+      "judgment": false,
+      "rule": "Coursed or random oolitic limestone rubble, 500-700 mm thick, in lime mortar, with dressed ashlar reserved for mullions, jambs, lintels, quoins, kneelers and copings.",
+      "variants": [
+        {
+          "id": "rubble",
+          "status": "canonical",
+          "note": "The node's own defining_characteristics: 'Walls of coursed or random oolitic limestone rubble, 500-700 mm thick, in lime mortar, with dressed ashlar reserved for mullions, jambs, lintels, quoins, kneelers and copings.'"
+        },
+        {
+          "id": "trabeated-dressed-ashlar-no-mortar",
+          "status": "forbidden",
+          "note": "Ashlar is a DRESSING here and never the wall, and the wall is laid in lime mortar. This variant was arriving as a forbidden from the classical family and is kept forbidden for the node's own reason rather than an inherited one."
+        },
+        {
+          "id": "light-timber-frame",
+          "status": "forbidden",
+          "note": "'The revival takes the picture and drops the geology: cement render or thin stone veneer over frame ... wall thicknesses of 150 mm where the original has 600.' That is the thing this node is distinguished FROM."
+        }
+      ],
+      "note": "BOUND 28 AUG 2026 (WP-8.4), on the node's own evidence. It was `open`, and OQ 87's mechanism then resolved it from `roman-classical` nine steps up the chain, delivering a rule about Greek and Roman antiquity -- 'Both antique source styles build in real load-bearing masonry ... Greek in dressed, unmortared ashlar; Roman in brick-faced concrete' -- with `arcuated-concrete-or-brick` CANONICAL on a Cotswold limestone house. Found by WP-8.4's exception gate, which refused a `water-table-that-follows-the-grade` licence written for solid masonry because the style's resolved construction was Roman concrete. A slot bound `open` is a style declining to constrain, and `resolve_slots` walks past it: the decline is read as silence and filled from the nearest ancestor that speaks.",
+      "sources": [
+        "cotswold-vernacular.json defining_characteristics",
+        "cotswold-vernacular.json governing_logic",
+        "cotswold-vernacular.json distinguished_from (the revival)"
+      ],
+      "status": "drafted"
     },
     "wall_thickness_masonry": {
       "group": "envelope",

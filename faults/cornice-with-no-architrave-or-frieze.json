@@ -112,7 +112,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1830,
           1865

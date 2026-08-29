@@ -64,7 +64,7 @@
         "threshold": 0,
         "note": "The low band is authentic to the type; leaving it raw is not. The band must still be parged or painted as a deliberate colour — the height relaxes, the finish does not."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1955
@@ -83,7 +83,7 @@
         "threshold": 0,
         "note": "Ground-hugging is a massing decision; raw concrete is an unfinished surface. Same relaxation and same non-relaxation as above."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1975
@@ -103,7 +103,7 @@
         "upper": 30,
         "note": "River boulder, arroyo stone or clinker brick, tall enough to read and running into the porch piers. A concrete band with a stone pattern stamped into it is a different fault."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "foundation_expression",
           "porch_support"
@@ -136,7 +136,7 @@
         "upper": 30,
         "note": "Scoring must be set out at a stone module — beds 8-12 in, faces 16-30 in, stretcher bond — and must return round the whole volume. A wall of squares 8 high by 16 long is the concrete-block module wearing a stone costume."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"

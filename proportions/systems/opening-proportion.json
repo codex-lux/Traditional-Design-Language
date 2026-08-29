@@ -251,9 +251,9 @@
       "units": "in",
       "scope": {
         "construction": [
-          "frame"
+          "wood-frame"
         ],
-        "note": "From the rule's own note: \"On a masonry front this assembly is a flat arch, a jack arch or a stone lintel instead, and the brick-course pack owns its coursing.\" The slot is window_surround_WOOD; the scope was always stated and never carried (OQ 88)."
+        "note": "From the rule's own note: \"On a masonry front this assembly is a flat arch, a jack arch or a stone lintel instead, and the brick-course pack owns its coursing.\" The slot is window_surround_WOOD; the scope was always stated and never carried (OQ 88). RETOKENISED 28 AUG 2026 (WP-8.4): `frame` was one of two values decided by a substring test over the cladding; `wood-frame` is a token in build/construction_vocabulary.py that resolves against the node's own `construction_type` first. cape-dutch stops receiving this rule and prairie-school and storybook-style start receiving it again."
       },
       "range": [
         8.0,

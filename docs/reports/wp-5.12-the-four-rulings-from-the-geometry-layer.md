@@ -1,6 +1,6 @@
-# WP-5.8 — The four rulings, and a correction that did not land
+# WP-5.12 — The four rulings, and a correction that did not land
 
-*27 August 2026. Lucas ruled on the three open questions WP-5.7's audit raised and on the one it
+*27 August 2026. Lucas ruled on the three open questions WP-5.11's audit raised and on the one it
 widened. This package executes those rulings — and opens by fixing an error in the commit that
 raised them.*
 
@@ -8,7 +8,7 @@ raised them.*
 
 ## 0. The correction that did not land
 
-Commit `529310c` states, in its message, in the WP-5.7 report addendum and in the summary given to
+Commit `529310c` states, in its message, in the WP-5.11 report addendum and in the summary given to
 Lucas, that two `width_parts` figures were corrected to their sources. **They were not.** The values
 in the corpus never changed.
 

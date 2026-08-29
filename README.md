@@ -155,7 +155,7 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
 
 - **The images.** All 322 asset records are still `wanted` and none is sourced (WP-4.4) — `build/harvest_habs.py` is written and dry-run exercised, but `www.loc.gov` refuses CONNECT from this environment. The network-free half is giving those records their `provenance.building` names.
 - **Generated guidelines and details, and costs** (WP-5.3, WP-5.4) — the workbench, the DXF/IFC export and drawing-to-record ingestion shipped; these two are what remain of the platform phase.
-- **What the lineage cascade delivers that nobody bound** (OQ 51, ruled 25 Aug): 294 role gaps, 233 of them never judged. Ruled adjudicate-first, and the backlog is the next package.
+- **What the lineage cascade delivers that nobody bound** (OQ 51, ruled 25 Aug, refusal half built 28 Aug): 287 role gaps, 249 of them never judged, 48 judged. Ruled adjudicate-first, and the backlog is the next package.
 - **Non-Western traditions.** Five traditions are modelled, deep on the North American lineage and its European roots. Japanese, Islamic, South Asian, and African traditions would each be a peer trunk, and the schema extends to them without modification. Cape Dutch already carries an acknowledged gap: its Cape and Indonesian strand has no node to point at.
 
 ---

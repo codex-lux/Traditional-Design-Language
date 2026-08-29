@@ -100,7 +100,7 @@ exit 3, which `check_all.py` reports as `N/EV — COULD NOT EVALUATE`, listed by
 name and never counted as a pass. Unjudged is not passed, applied to the check
 suite itself.
 
-## The cornice profile (WP-5.7)
+## The cornice profile (WP-5.11)
 
 The elevation DXF used to carry the entire eave cornice as **one closed rectangle** on
 `TDL-ELEV-CORNICE`, plus a text note saying how many members it had. That was never a limitation

@@ -48,7 +48,16 @@ for i, n in nodes.items():
             kit["slots"][s["id"]] = prev
         else:
             kit["slots"][s["id"]] = {"group": s["group"], "binding": "open", "status": "empty"}
-    json.dump(kit, open(path, "w"), indent=2, ensure_ascii=False); made += 1
+    # ATOMIC. This rewrites all 159 kit files on every `check_all` run, and an in-place
+    # `open(path, "w")` truncates before it writes: a reader running concurrently sees half a
+    # file (two transient JSONDecodeErrors were traced to exactly this during the WP-8.4 audit)
+    # and a process killed mid-write leaves a kit TRUNCATED ON DISK -- corpus data loss from a
+    # command whose job is to regenerate, not to destroy. Write beside it and rename; os.replace
+    # is atomic within a filesystem. Pre-existing, fixed 28 Aug 2026.
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(kit, fh, indent=2, ensure_ascii=False)
+    os.replace(tmp, path); made += 1
 
 # ---------- 2. cascade ----------
 # OQ 58: ancestor -> the slots that ancestor is allowed to contribute, where an edge said so.
@@ -137,7 +146,11 @@ bundle = {
   },
   "slots": SLOTS, "massings": list(massings.values()), "nodes": nodes
 }
-json.dump(bundle, open("dist/taxonomy.json","w"), indent=2, ensure_ascii=False)
+# Atomic, as above: dist/taxonomy.json is 2.96 MB and is read by the workbench server and by
+# `check_frontend`; a truncated one is a hard failure in both.
+with open("dist/taxonomy.json.tmp", "w", encoding="utf-8") as _fh:
+    json.dump(bundle, _fh, indent=2, ensure_ascii=False)
+os.replace("dist/taxonomy.json.tmp", "dist/taxonomy.json")
 
 # ---------- 4. agent digest ----------
 def yr(v):

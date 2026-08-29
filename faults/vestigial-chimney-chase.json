@@ -158,7 +158,7 @@
         "measurable_from": "photograph",
         "note": "Then build it to masonry dimensions and let it carry the house's mechanical vents, so that it is at least a real duct doing real work."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "framed-chase",
           "brick-veneer-chase"

@@ -70,7 +70,7 @@
       "style": "italianate-townhouse",
       "why": "The ground between the front wall and the sidewalk is an areaway and is entirely paved, because there is no front yard at all.",
       "bounds": "Requires the front wall on or near the street line and the areaway railing. The paving is 4 to 8 ft deep, not 40.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "party-wall-row"
         ]
@@ -80,7 +80,7 @@
       "style": "andalusian-courtyard-vernacular",
       "why": "The building stands on the street line and there is no front ground to pave or plant.",
       "bounds": "Zero setback held along the frontage.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "zero-lot-line",
           "street-wall"

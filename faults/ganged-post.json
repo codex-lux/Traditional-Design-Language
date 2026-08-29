@@ -104,7 +104,7 @@
       "style": "greek-revival-upland-vernacular",
       "why": "The vernacular boxed pier is built up from boards over a light core and this is documented period practice throughout the upland South and the Northeast.",
       "bounds": "It must be BOXED — a four-sided casing with returns and a cap — so the finished member reads as one broad flat pier. Bare ganged framing is not the vernacular tradition, it is the absence of the trim scope.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1830,
           1880

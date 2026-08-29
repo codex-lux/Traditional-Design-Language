@@ -94,7 +94,7 @@
       "style": "queen-anne-american",
       "why": "The Queen Anne elevation is deliberately asymmetrical and its brackets follow the incidents of the massing — a bay window, a gable, a tower — rather than a single rhythm across a flat front. There is no axis to count from.",
       "bounds": "The corner rule survives asymmetry: whole members at every external corner, and a consistent pitch within each continuous run. Different runs on different masses may differ; a single run may not drift.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "composition_parti"
         ],
@@ -110,7 +110,7 @@
       "style": "folk-victorian",
       "why": "Sawn brackets on a Folk Victorian eave are applied at the corners and at intervals chosen by the carpenter from a catalogue, and their charm depends on being frankly applied ornament rather than a petrified structural rhythm.",
       "bounds": "The brackets must be sawn flat ornament rather than modillions — no scroll in section, no panelled soffit between — and must be at the corners at minimum. A modillion cornice does not get this licence.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1910

@@ -99,7 +99,7 @@
       "style": "american-farmhouse-vernacular",
       "why": "The vernacular porch is framed, not composed: square or chamfered posts at the spacing the available timber and the bay of the house give, commonly 8 to 10 ft. There is no order and therefore no intercolumniation.",
       "bounds": "Square, chamfered or plain-turned posts only, with no capital beyond a simple block, no base beyond a plinth block, and a plain plate rather than an entablature. A round moulded column at 10 ft centres is not vernacular, it is this fault.",
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "wood-frame"
         ],
@@ -112,7 +112,7 @@
       "style": "folk-victorian",
       "why": "The catalogue porch works at wide spacing on purpose: a sawn spindle frieze and paired brackets fill the top of each bay, so the bay is closed visually by ornament rather than by proximity of supports. Wide bays are what make the spindlework legible.",
       "bounds": "The spindle frieze and brackets must actually be present and must span the full width of each bay. An empty 10 ft bay between two turned posts is this fault; a 10 ft bay with a full spindle frieze and 24 in brackets at each end is the style.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1910
@@ -123,7 +123,7 @@
       "style": "creole-cottage-vernacular",
       "why": "Gallery colonnettes stand at the rhythm of the openings behind them — commonly 8 to 12 ft — because the gallery answers the plan rather than an order, and the colonnettes are slender enough that wide spacing looks light rather than strained.",
       "bounds": "Colonnette spacing must correspond to the openings behind it, one bay per opening. A gallery whose posts bear no relation to the doors and windows behind is not this exception.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi",

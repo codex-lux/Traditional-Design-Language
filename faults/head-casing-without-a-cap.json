@@ -59,7 +59,7 @@
         "measurable_from": "photograph",
         "note": "Casing not exceeding 3 in wide and not projecting more than 1 in from the shingle plane; projecting hoods, crowns, pedimented heads and moulded sills prohibited. The refusal must be total: a house that takes this licence at the windows and applies a classical entry has not understood it."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "shingle-cladding"
         ],
@@ -92,7 +92,7 @@
         "measurable_from": "photograph",
         "note": "THE LINE, STATED. The idiom's licence is on profile, not on width. Below 5 in the trim is neither wide enough to carry contrast nor deep enough to carry shadow, and neither mechanism is doing the work. 5 to 7 in with a strict second value against the wall."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           2010,
           2030
@@ -112,7 +112,7 @@
         "measurable_from": "photograph",
         "note": "This exception licenses NO trim, never thin trim."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "mass-wall",
           "adobe",

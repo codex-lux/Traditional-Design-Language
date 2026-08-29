@@ -59,7 +59,7 @@
         "measurable_from": "photograph",
         "note": "The upper storey must be doing something structural-looking — jettying, a gable, a change of material — that explains the offset. Where the upper wall is flush with the lower and in the same material, the openings still stack."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "jettied-upper-storey",
           "half-timbered"
@@ -92,7 +92,7 @@
         "measurable_from": "photograph",
         "note": "The wall must be thick enough that each opening reads as a separate excavation. This is the exception most often claimed and least often earned."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "mass-wall",
           "adobe",
@@ -125,7 +125,7 @@
         "measurable_from": "plan",
         "note": "The type's own cap. The licence attaches to the narrow street END of a single-pile plan; the piazza elevation is regular and gets no licence at all."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "south-carolina-lowcountry"
         ],

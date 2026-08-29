@@ -390,10 +390,33 @@
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "The record closes the question by counting: 'Ornament reduced to three items at most: a chimney, a pair of decorative shutters, and a simple door surround.' A fanlight is a fourth item. Its diagnostic tell says the same from the other side: 'The front door lies in the plane of the wall with a reveal of an inch or less and no projecting surround.'"
+        },
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "atypical",
+          "note": "A door in the plane of the wall with no projecting surround has nowhere to put a transom bar. Possible on a deeper-walled example and not what the style is."
+        },
+        {
+          "id": "elliptical-fanlight",
+          "status": "forbidden",
+          "note": "The style's ornament budget is three items and they are named. An elliptical fanlight is the Colonial Revival's most expensive single gesture, and this style is defined against exactly that expense -- it is the Depression-era reduction OF the revival."
+        },
+        {
+          "id": "sidelights",
+          "status": "forbidden",
+          "note": "Same count, same reason. Sidelights widen the entry assembly beyond 'a simple door surround', which the record fixes as the whole of the entry's ornament."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "note": "BOUND 28 Aug 2026 by WP-8.4's own adversarial audit, which measured what the `colonial-revival` binding earlier in this session PROPAGATED. That binding is right for its own node and reaches ten descendants by descent, carrying `elliptical-fanlight` and `sidelights` CANONICAL to three whose own records contradict it -- and it is not inert: `elevation.py:318` reads `sidelights_forbidden` off exactly this resolved binding, so the generator began DRAWING an Adamesque fanlight-and-sidelight entry on these houses. The prior state was not right either: the slot was `open`, so it resolved through `colonial-revival` to GOTHIC-REVIVAL-BRITISH's blanket prohibition. Two wrong answers, and this is the node's own. OQ 87's mechanism -- `resolve_slots` stops its walk only on `specified` or `forbidden`, so a slot bound `open` inherits its nearest ancestor's record in full. The node's own defining characteristic budgets ornament at three named items and a fanlight is not one of them."
     },
     "secondary_door": {
       "group": "openings",

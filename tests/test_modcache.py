@@ -109,3 +109,32 @@ def test_check_is_fast_enough_that_the_suite_fits_one_run():
         plan_check.check(plan, corpus)
     each = (time.time() - start) / 3
     assert each < 3.0, f"warm check() took {each:.2f}s each; OQ 28 has regressed"
+
+
+def test_a_module_reached_through_a_symlink_is_rooted_at_the_real_file(tmp_path):
+    """The cache keyed on the realpath and LOADED from the argument.
+
+    So a module reached through a symlink was cached under its canonical key with its own
+    `__file__` -- and the `ROOT` nearly every module in `build/` derives from it -- pointing
+    at the link. A test fixture that symlinked `build/` into a pytest tmpdir poisoned the
+    cache for the whole session: two files later `check_constraints` was still the tmp-rooted
+    copy and raised `FileNotFoundError` on a directory pytest had deleted. It passed alone
+    and failed in the suite, which is the worst shape a defect of this kind takes.
+    """
+    import importlib.util
+    import os
+    spec = importlib.util.spec_from_file_location(
+        "modcache_symlink", os.path.join(ROOT, "build", "modcache.py"))
+    mc = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mc)
+
+    link = tmp_path / "build"
+    link.symlink_to(os.path.join(ROOT, "build"))
+    real = os.path.join(ROOT, "build", "check_ids.py")
+    through_link = mc.load("check_ids_via_link", str(link / "check_ids.py"))
+
+    assert os.path.realpath(through_link.__file__) == os.path.realpath(real)
+    assert str(tmp_path) not in through_link.__file__, (
+        "the module was loaded from the symlink, so its ROOT is a temp directory that will "
+        "be deleted -- and the cache now serves it to everything else in the process")
+    assert str(tmp_path) not in through_link.ROOT

@@ -91,7 +91,7 @@
     "measurable_from": "photograph",
     "note": "It must be built of the wall's material and carried by the wall, with a proper cornice break - not a frame dormer that happens to be flush."
    },
-   "applies_when": {
+   "granted_when": {
     "construction": [
      "solid-masonry-two-wythe",
      "stone-rubble",

@@ -99,7 +99,7 @@
       "style": "colonial-revival",
       "why": "Colonial Revival practice from 1880 onward deliberately mixed Georgian and Federal motifs, and did so knowingly — the style is a synthesis of the colonial past as understood at the time, not a reconstruction of any one decade. A Colonial Revival house with a Georgian cornice and a Federal fanlight is being itself.",
       "bounds": "The mixing must stay inside the colonial and early republican range, roughly 1700-1830. Reaching outside it — Victorian brackets, Craftsman rafter tails, Greek anthemia — is a different fault and a real one. And the RELIEF must be consistent: a house cannot have deep-cut Georgian ornament in one place and pressed Adamesque in another and read as one building.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1880,
           1955
@@ -123,7 +123,7 @@
         "units": "count",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1785,
           1810
@@ -134,7 +134,7 @@
       "style": "southern-federal",
       "why": "Southern Federal work retains Georgian boldness longer than New England does, and deep relief with Federal motifs is a documented regional trait rather than an error.",
       "bounds": "Applies to relief depth only, not to the motif's date. A swag before 1785 remains an anachronism in any region.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "chesapeake",
           "upland-south",

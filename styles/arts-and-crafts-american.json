@@ -262,5 +262,16 @@
       "note": "Governs the 'balanced-asymmetrical' composition the node's own proportional_system describes only qualitatively (two datums and a structural rhythm, 'dimensional rather than ratio-based'): this pack's window_grouping_rule (openings gathered in groups of two to four between structural posts, adjacent groups differing in count) is precisely the node's own diagnostic that windows 'group into ribbons... the group, not the sash, is the compositional unit,' and its continuous-datum rule (water table and head line unbroken through every mass) is what makes the node's stacked base-shingle-stucco material hierarchy -- a defining characteristic -- read as one wall rather than three. Not given the top role: the movement genuinely has no module of its own at this level of generality, which the node's own proportional_system says outright, so no pack here stands in as an order-equivalent 'primary.'",
       "precedence": 2
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have.",
+      "basis": "node-record",
+      "quote": "Absence of applied classical orders and of machine-sawn Victorian ornament",
+      "quoted_from": "defining_characteristics[5]",
+      "decided": "2026-08-28",
+      "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    }
   ]
 }

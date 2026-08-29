@@ -63,7 +63,7 @@
         "measurable_from": "photograph",
         "note": "Composed as part of the house means sharing the roof plane, the eave line and the cladding, and the style's own constraint still requires 4 ft of setback or a side-loaded door. Projecting forward is not licensed even here."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1975
@@ -83,7 +83,7 @@
         "measurable_from": "photograph",
         "note": "Requires the continuous low roof and the deep eave. An isolated projecting gable-fronted garage is not this exception."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1975

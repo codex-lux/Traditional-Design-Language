@@ -58,7 +58,7 @@
         "threshold": 5,
         "note": "Flatness is a positive gesture with a member doing it. The reveal may reduce to 2-3 in only where a flat architrave of 5-8 in face with a 3/4-1 in step replaces it; absence of a member is not flatness."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "window_surround_masonry",
           "window_surround_wood"
@@ -78,7 +78,7 @@
         "threshold": 0,
         "note": "A Shingle Style house with a rock-faced stone ground storey must give that storey its full 4-8 in masonry reveal; the licence covers only the shingled skin."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "primary_cladding"
         ],
@@ -102,7 +102,7 @@
         "threshold": 0.75,
         "note": "The gap must be a designed void reading as a dark line. Under 3/4 in it is a caulk joint, and no quoins, arches or water tables may appear on the same wall."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "masonry-veneer-over-frame",
           "platform-frame"

@@ -102,7 +102,7 @@
       "style": "victorian",
       "why": "Later nineteenth-century rooms frequently run a picture rail near the ceiling — 4 to 12 in below it — with a papered frieze zone above, so the room's cornice line and the doorhead line are deliberately far apart and there is a large designed band between them.",
       "bounds": "The band must be large: 12 in or more, treated differently from the wall below, and consistent round the room. The near-ceiling picture rail and the entablature-bed picture rail are two incompatible traditions that cannot be mixed — choose by date, entablature bed before about 1840 and near-ceiling after about 1870.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1910

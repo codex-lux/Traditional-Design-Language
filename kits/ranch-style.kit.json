@@ -420,10 +420,33 @@
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "none",
+          "status": "canonical",
+          "note": "The record's entry is 'a recessed or hooded stoop' with 'no habitable front porch' and 'one or two steps at the entry rather than a raised stoop'. Nothing in it gives the door a light of any kind; the plain ranch entry is the base case."
+        },
+        {
+          "id": "sidelights",
+          "status": "permitted",
+          "note": "The one thing the record does name, and it names it as APPLIED: 'Decorative shutters, scalloped bargeboard, diamond-pane entry sidelights, or a cupola applied to an otherwise unornamented long low box -- the 1955-1970 traditionalizing overlay.' An overlay listed beside a cupola is permitted on the style, not canonical to it."
+        },
+        {
+          "id": "elliptical-fanlight",
+          "status": "atypical",
+          "note": "Not in the record at any point. An Adamesque elliptical fanlight on a single-storey ranch is the borrowed-diagram error the composer's NATIVITY_W exists to charge."
+        },
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "permitted",
+          "note": "The plain reading of a lit ranch entry, and the one the 1955-1970 overlay would reach for before it reached for a fanlight. Editorial: the record does not name it."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "confidence": "medium",
+      "note": "BOUND 28 Aug 2026 by WP-8.4's own adversarial audit, which measured what the `colonial-revival` binding earlier in this session PROPAGATED. That binding is right for its own node and reaches ten descendants by descent, carrying `elliptical-fanlight` and `sidelights` CANONICAL to three whose own records contradict it -- and it is not inert: `elevation.py:318` reads `sidelights_forbidden` off exactly this resolved binding, so the generator began DRAWING an Adamesque fanlight-and-sidelight entry on these houses. The prior state was not right either: the slot was `open`, so it resolved through `colonial-revival` to GOTHIC-REVIVAL-BRITISH's blanket prohibition. Two wrong answers, and this is the node's own. OQ 87's mechanism -- `resolve_slots` stops its walk only on `specified` or `forbidden`, so a slot bound `open` inherits its nearest ancestor's record in full. The node's own diagnostic tell is the evidence, and it makes the sidelight an applied 1955-1970 overlay rather than the style's entry."
     },
     "secondary_door": {
       "group": "openings",

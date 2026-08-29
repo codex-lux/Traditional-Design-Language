@@ -54,7 +54,7 @@
         "measurable_from": "photograph",
         "note": "Rectilinear geometry, no curves, is the style's own bound and the thing that separates its art glass from every neighbouring idiom's. Any curve in the pattern voids the exception, and the exception never extends to snap-in grilles in double-hung sash."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "window_type"
         ],

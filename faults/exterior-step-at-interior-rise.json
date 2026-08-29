@@ -99,7 +99,7 @@
         "units": "in",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "urban-rowhouse"
         ],
@@ -113,7 +113,7 @@
       "style": "charleston-single-house",
       "why": "The Charleston piazza steps rise steeply from the street to a raised first floor within a very narrow side yard, and the constraint is real.",
       "bounds": "As above: 11 in treads minimum and a proper landing at the piazza door.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "charleston",
           "lowcountry"
@@ -124,7 +124,7 @@
       "style": "raised-creole-plantation",
       "why": "The raised plantation house climbs 8 to 12 risers to the gallery and the flight is often steep and always narrow, because the raised floor is a flood response rather than a compositional choice.",
       "bounds": "Treads of 11 in or more, and a landing where the flight exceeds ten risers.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "lower-mississippi",
           "gulf-coast"

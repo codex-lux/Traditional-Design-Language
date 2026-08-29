@@ -64,7 +64,7 @@
         "threshold": 0,
         "note": "Cornice, quoins, pedimented entry, portico each count as one. A low base is the type's economy only where nothing on the building is the top of a series whose bottom term is missing."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1955
@@ -84,7 +84,7 @@
         "threshold": 2,
         "note": "A measurable widening of 2-6 in over the lowest 24-36 in. A vertical stucco wall meeting the earth in a straight line is not this exception, it is the fault."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "foundation_expression"
         ],

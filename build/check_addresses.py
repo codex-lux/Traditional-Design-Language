@@ -58,7 +58,7 @@ def load():
 # Pinned. own-scope collisions must stay 0 (OQ 48's closure). cascade-scope is a measured backlog
 # under OQ 51 and may only go DOWN -- it falls as the cascade is adjudicated.
 #
-# kit_vs_pack is a THIRD measured backlog, first counted 27 Aug 2026 (WP-5.10, OQ 86) and
+# kit_vs_pack is a THIRD measured backlog, first counted 27 Aug 2026 (WP-5.14, OQ 86) and
 # CORRECTED 28 Aug by that package's own adversarial audit. The first count was 133 and was
 # units-blind: 71 of its pairs compared a figure in inches against a pack rule stating a ratio,
 # and one compared 60-72 DEGREES against 1.7321 -- tan 60, the same slope, reported as a
@@ -70,7 +70,23 @@ def load():
 # `tidewater-georgian` authored its brick sill's projection at 0-1 in as MEASURED while
 # `sash-light` delivered 2.25 in "sloped about 1 in 6 with a drip" to the same address, in a node
 # whose kit FORBIDS the sloped sill and says why.
-RATCHET = {"own": 0, "cascade": 9, "kit_vs_pack": 62}
+RATCHET = {"own": 0, "cascade": 9,
+           # 62 -> 1231 at WP-8.4, and the jump is the fix rather than a regression: this
+           # figure was measured against `load_kit(nid)` -- the node's OWN file -- while the
+           # rules it compared came from the whole cascade, so the one case it could never
+           # see was a node inheriting its parameter from one ancestor and its pack from
+           # another, which is most of the corpus. OQ 86 closed.
+           "kit_vs_pack": 1231,
+           # oq/a-baked-pack-value-is-a-second-delivery-path: a pack value BAKED into a kit file at an address where the live rule is
+           # refused. Nothing refuses a snapshot, so a scope on the rule is defeated wherever
+           # a kit carries a copy. Reported, not fixed -- see baked_vs_refused().
+           # 20 -> 32 on 28 Aug 2026 BECAUSE THE INSTRUMENT GOT SHARPER, not because the
+           # corpus got worse: the function read two of the three refusal shapes and could
+           # not see a DECLINE at all, which is the one a human wrote. `ranch-style` and
+           # `minimal-traditional` decline `storey-graduation` and still resolve four and two
+           # baked parameters from it. A ratchet raised by a better meter has to say so, or
+           # the next reader takes it for a regression that was waved through.
+           "baked_vs_refused": 32}
 
 
 def cobinding(nodes, scope):
@@ -171,26 +187,41 @@ def kit_vs_pack(nodes):
            "opening_width": 36.0, "span": 16.0}
     g = _rk.load_graph()
     for nid in sorted(n["id"] for n in nodes):
-        kit = _rk.load_kit(nid)
-        if not kit:
-            continue
         try:
             chain = _rk.chain_for(g, nid)
             packs = _rk.resolve_packs(g, chain)
-            # OQ 88: pass the node's own scope facts, or every scoped rule reads as UNJUDGED
-            # here and this reporter goes on counting contradictions from rules that are not
-            # about this construction at all -- which is the same "measuring a corpus nobody
-            # resolves" error the cascade scope was added to fix.
-            _slots, _ = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
-            pack_slots, _ = _rk.eval_packs(packs, {**CTX, **_rk.scope_facts(_slots)}, None)
+            # THE RESOLVED KIT, NOT `load_kit(nid)` (OQ 86 closed, WP-8.4). This function read
+            # the node's OWN file while `eval_packs` walked the whole cascade, so it was a
+            # per-file check wearing a per-node name: a node inheriting its parameter from an
+            # ancestor and its pack rule from another was the one case it could never see, and
+            # that is most of the corpus. The published 62 was a floor, not a measurement.
+            # It is also what OQ 88's scope reads -- `eval_packs` derives the scope facts from
+            # this same kit, so a caller can no longer forget them and quietly count
+            # contradictions from rules that are not about this construction at all.
+            kit, _sv = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
+            pack_slots, _ = _rk.eval_packs(packs, CTX, None, kit)
         except Exception:
+            continue
+        if not kit:
             continue
         for sid, rec in kit.items():
             for pname, pval in (rec.get("parameters") or {}).items():
                 if not isinstance(pval, dict) or pval.get("kind") != "measured":
                     continue
                 dim = pname[:-3] if pname.endswith("_in") else pname
-                rows = [r for r in (pack_slots.get(sid) or []) if r.get("dimension") == dim]
+                # A REFUSED RULE WRITES NOTHING, SO IT CANNOT CONTRADICT ANYTHING -- but the
+                # two refusals arrive here by DIFFERENT MEANS and only one of them is a row.
+                # WP-8.3's kit refusal MARKS the row (`refused_by_kit`) and it must be filtered
+                # out here. OQ 88's construction scope DROPS the rule inside `eval_packs`, so it
+                # never reaches `pack_slots` at all and there is nothing to filter. An earlier
+                # version of this line also tested `refused_by_construction`, a key this branch's
+                # first draft wrote and the reconciliation with main removed -- a constant-True
+                # predicate under a comment telling the next reader that construction refusals
+                # arrive marked. Found by the WP-8.4 adversarial audit. `baked_vs_refused` below
+                # reads `scope_dropped` for exactly this reason and says so.
+                rows = [r for r in (pack_slots.get(sid) or [])
+                        if r.get("dimension") == dim
+                        and not r.get("refused_by_kit")]
                 if not rows:
                     continue
                 lo, hi = None, None
@@ -218,6 +249,81 @@ def kit_vs_pack(nodes):
                     if v < lo - tol or v > hi + tol:
                         hits.append((nid, sid, dim, pname, (lo, hi), r["pack"], v))
     return hits, unjudged
+
+
+def baked_vs_refused(nodes):
+    """A pack's value BAKED INTO A KIT FILE at an address where the live rule is refused.
+
+    The second delivery path, and the one no scope reaches (WP-8.4). A kit parameter marked
+    `kind: derived` with `source: <pack>` is a snapshot of a pack rule copied into the kit --
+    3,176 of them resolve across this corpus. `eval_packs` can refuse the live rule; nothing
+    refuses the snapshot, so a scope written on the rule is defeated at every node whose kit
+    carries a copy. Measured 28 Aug 2026: 32 pairs, 8 of `sash-light`'s sill projection
+    (`mid-atlantic-georgian`, `queen-anne-patterned-masonry`, `renaissance-revival-american`,
+    all resolving `georgian-colonial-american`'s baked `projection_in`) and 5 of
+    `opening-proportion`'s head assembly.
+
+    REPORTED, NOT FIXED. Deleting a baked parameter on an ancestor removes it from every
+    descendant, and the 33 nodes resolving this one include 30 the rule is right for. What is
+    wanted is a scope on the PARAMETER, read at resolve time, which is a kit-schema change and
+    a new reader inside `resolve_slots`. Counted here so it cannot grow in silence; raised as
+    an open question rather than patched.
+    """
+    import resolve_kit as _rk  # noqa: E402
+    CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_height": 80.0,
+           "opening_width": 36.0, "span": 16.0}
+    g = _rk.load_graph()
+    out, unjudged = [], []
+    for nid in sorted(n["id"] for n in nodes):
+        try:
+            chain = _rk.chain_for(g, nid)
+            kit, _sv = _rk.resolve_slots(g, chain, _rk.scope_for(g, nid))
+            dropped = []
+            pack_slots, _ = _rk.eval_packs(_rk.resolve_packs(g, chain), CTX, None, kit, dropped)
+        except Exception as exc:
+            # A NODE THAT WILL NOT RESOLVE IS UNJUDGED AND MUST NOT LOWER A CEILING. This
+            # was `except Exception: continue`, silent: a change that broke resolution on
+            # the 33 nodes carrying the baked `projection_in` would have taken the count
+            # from 32 to something smaller and SATISFIED a may-only-fall ratchet, because
+            # the corpus was not measured rather than because the collisions were fixed.
+            # `kit_vs_pack` above already returns and prints an `unjudged` list; this is the
+            # same state and gets the same treatment.
+            unjudged.append((nid, f"{type(exc).__name__}: {exc}"))
+            continue
+        # THREE REFUSALS, REPORTED THREE WAYS, AND THIS HAS TO READ ALL OF THEM. WP-8.3's
+        # kit refusal MARKS the row (`refused_by_kit`); OQ 88's scope DROPS it and records
+        # the drop in `scope_dropped`; WP-8.2's DECLINE removes the pack from `resolve_packs`
+        # entirely, so it leaves no row AND no drop record -- the pair simply is not there to
+        # be counted. Reading only the marked rows made this measurement report 0 the moment
+        # the scope started biting; reading only those two made it miss every decline, which
+        # is the sharpest of the three, because a decline is the one refusal a HUMAN wrote.
+        # Measured: `ranch-style` and `minimal-traditional` each decline `storey-graduation`
+        # and each still resolve a `chair_rail.from_storey` baked from it, so
+        # `check_inheritance --impact` names the declined pack as the slot's governor.
+        gone = {(d["pack"], d["slot"]) for d in dropped}
+        declined = {d["pack"] for d in (g["nodes"][nid].get("declined_packs") or [])}
+        for sid, rec in (kit or {}).items():
+            for pname, pval in (rec.get("parameters") or {}).items():
+                if not isinstance(pval, dict) or pval.get("kind") != "derived":
+                    continue
+                src = pval.get("source")
+                if not src:
+                    continue
+                rows = [r for r in (pack_slots.get(sid) or []) if r["pack"] == src]
+                if (src, sid) in gone and not rows:
+                    why = next((d["why"] for d in dropped
+                                if d["pack"] == src and d["slot"] == sid), "")
+                    out.append((nid, sid, pname, src, why))
+                elif rows and all(r.get("refused_by_kit") for r in rows):
+                    why = next((r.get("refused_because") for r in rows), "")
+                    out.append((nid, sid, pname, src, why))
+                elif src in declined and not rows:
+                    why = next((d.get("reason") for d in
+                                (g["nodes"][nid].get("declined_packs") or [])
+                                if d["pack"] == src), "")
+                    out.append((nid, sid, pname, src,
+                                "the node DECLINED this pack: " + (why or "no reason given")))
+    return out, unjudged
 
 
 def main():
@@ -284,8 +390,33 @@ def main():
               f"and '{pack}' delivers {v} to the same address")
     print(f"{len(kp_hits)} node parameter(s) contradicted by a pack rule; {len(kp_unjudged)} "
           f"could not be judged (ratchet {RATCHET['kit_vs_pack']}).")
+    # The work list, not the instance count. One ancestor's parameter meeting one pack is
+    # re-counted at every descendant, exactly as OQ 51's 3,356 inherited packs are; the number
+    # that can be worked is the distinct address.
+    kp_addr = sorted({(sid, dim, pack) for _n, sid, dim, _p, _b, pack, _v in kp_hits})
+    print(f"{len(kp_hits)} node parameter(s) contradicted by a pack rule at "
+          f"{len(kp_addr)} distinct (slot, dimension, pack) addresses.")
     if len(kp_hits) > RATCHET["kit_vs_pack"]:
         failed.append(f"kit_vs_pack: {RATCHET['kit_vs_pack']} -> {len(kp_hits)}")
+
+    bvr, bvr_unjudged = baked_vs_refused(nodes)
+    print(f"\n--- scope: baked-vs-refused " + "-" * 28)
+    for nid, sid, pname, src, why in bvr:
+        print(f"b {nid} {sid}/{pname}: baked from '{src}', whose live rule is refused here "
+              f"-- {(why or '')[:90]}")
+    print(f"{len(bvr)} baked parameter(s) delivering a value the live rule refuses "
+          f"(ratchet {RATCHET['baked_vs_refused']}). A `kind: derived` snapshot is a second "
+          f"delivery path and no scope reaches it; see `oq/a-baked-pack-value-is-a-second-delivery-path`.")
+    if bvr_unjudged:
+        # NAMED, because a node that would not resolve is a node this ceiling did not cover,
+        # and a smaller number obtained by measuring less is the one way a may-only-fall
+        # ratchet lies.
+        print(f"{len(bvr_unjudged)} node(s) COULD NOT BE JUDGED and are not in that count:")
+        for nid, exc in bvr_unjudged[:10]:
+            print(f"  ? {nid}: {exc[:100]}")
+        failed.append(f"baked_vs_refused: {len(bvr_unjudged)} node(s) did not resolve")
+    if len(bvr) > RATCHET["baked_vs_refused"]:
+        failed.append(f"baked_vs_refused: {RATCHET['baked_vs_refused']} -> {len(bvr)}")
 
     if failed:
         print("\nRATCHET BROKEN — address collisions grew: " + "; ".join(failed))

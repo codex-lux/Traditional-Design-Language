@@ -271,14 +271,14 @@ class TestCapeEaveCheck:
 
 
 class TestDormerRhythm:
-    """REWRITTEN 27 Aug 2026 (WP-5.9), and the rewrite is the finding.
+    """REWRITTEN 27 Aug 2026 (WP-5.13), and the rewrite is the finding.
 
     These three tests reached dormer_rhythm_check by writing `plan["declared_dormers"] = [...]`
     -- a key no schema ever defined, that no record in the corpus carried, and that the function
     had invented for itself because no field authored a dormer. So the tests passed against a
     code path nothing could reach, and the check returned not-applicable on every real plan. A
     guard that constructs its own input out of thin air proves the arithmetic and nothing about
-    the corpus; this is the same shape as WP-5.7's TestSegTo, which pinned the control points of
+    the corpus; this is the same shape as WP-5.11's TestSegTo, which pinned the control points of
     curves that had degenerated to straight lines.
 
     `declared.dormer` exists now, so they are written against it -- including the state the old
@@ -397,7 +397,7 @@ class TestRoofOutlineAndElevationProfiles:
         assert heights[0] == heights[2] == main["grade_to_eave_ft"]
 
     def test_long_face_of_a_simple_gable_reaches_the_ridge(self, roof_module):
-        """REWRITTEN 27 Aug 2026 (WP-5.9). This test asserted the opposite -- that the long face is
+        """REWRITTEN 27 Aug 2026 (WP-5.13). This test asserted the opposite -- that the long face is
         a flat eave line of two points -- and it was pinning a bug.
 
         The code it guarded carried the comment "ridge is behind the near roof plane, not

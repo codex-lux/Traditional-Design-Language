@@ -15,7 +15,7 @@ CLAUDE.md names it as the one collapse the corpus least survives. So these tests
 three directions: the generator's own declared limits, the seven faults that were being decided
 on fabricated evidence, and the evaluator's reading of a null.
 
-UPDATED 27 Aug 2026 (WP-5.9). The dormer half of that finding is now MODELLED rather than
+UPDATED 27 Aug 2026 (WP-5.13). The dormer half of that finding is now MODELLED rather than
 refused: `declared.dormer` gives a plan record three states — absent (could not evaluate), the
 string "none" (a measured zero), and an object (a house with dormers) — and both reference plans
 state none, with their evidence in their own `note`. Three of the seven therefore leave the
@@ -53,7 +53,7 @@ FABRICATED_SEVEN = (
     "vestigial-chimney-chase",
 )
 
-# THREE OF THE SEVEN MOVED ON 27 AUG 2026 (WP-5.9), and the reason is the opposite of the one
+# THREE OF THE SEVEN MOVED ON 27 AUG 2026 (WP-5.13), and the reason is the opposite of the one
 # that put them here. They were unjudged because no plan record could state a dormer at all, so
 # `dormer_count: 0` was a fabricated constant standing over a refusal. `declared.dormer` exists
 # now, both reference houses STATE they carry none, and a stated zero is a measurement -- so the
@@ -211,7 +211,7 @@ class TestTheSevenFaultsAreNoLongerDecidedOnFabricatedEvidence:
 
 
 class TestTheTwoRivalCorniceRulesNoLongerBothRun:
-    """OQ 84, closed 27 Aug 2026 (WP-5.10).
+    """OQ 84, closed 27 Aug 2026 (WP-5.14).
 
     `cornice-that-is-a-fascia` carries two secondaries on ONE expression — the domestic boxed eave
     at 0.35–0.55 of its own height, and the full entablature-derived case at 0.85–1.2 — so
@@ -310,7 +310,7 @@ class TestTheSolarWorkaroundIsRetired:
     """The same authoring gap, found in the same WP-3.2 pass and worked around the same way:
     `solar_array_area_sqft` was withheld even though its zero was honest, because the array
     secondary would read 0/plane = 0.0 and convict a house of a patchy array it does not have.
-    `applies_when` (WP-5.9) gates it now, so the honest zero can be told."""
+    `applies_when` (WP-5.13) gates it now, so the honest zero can be told."""
 
     @pytest.mark.parametrize("plan_name", REFERENCE_PLANS)
     def test_the_honest_zero_is_supplied_and_declines_its_test(self, plan_name, core_module,
@@ -323,14 +323,14 @@ class TestTheSolarWorkaroundIsRetired:
 
 
 class TestAStatedZeroConvictsNobodyInAnyStyle:
-    """The guard the WP-5.9/5.10 work needed and did not have, added 28 Aug 2026 by its own
+    """The guard the WP-5.13/5.10 work needed and did not have, added 28 Aug 2026 by its own
     adversarial audit — which found two live false convictions it would have caught.
 
     Every dormer test in this corpus was guarded by reading `test` and `secondary_tests`. There is
     a THIRD test location: `exceptions[].bounds_test`, which `core.check_measurements` substitutes
     for the fault's PRIMARY test on a matching style. `dormer-off-the-bay` and `dormer-wall` both
     carry a Second Empire exception whose bounds_test is `dormer_count / bay_count == 1.0`, and
-    once WP-5.9 began supplying `dormer_count` as a stated zero that evaluated to 0.0 and reported
+    once WP-5.13 began supplying `dormer_count` as a stated zero that evaluated to 0.0 and reported
     both faults PRESENT — a Second Empire house convicted of Dormers Off the Rhythm for having no
     dormers. The two reference plans are not Second Empire, so nothing saw it.
 
@@ -419,7 +419,7 @@ class TestAStatedZeroConvictsNobodyInAnyStyle:
 
 
 class TestTheFourthStateCannotLeakIntoTheConstraintLayer:
-    """`_eval_test` is SHARED between the fault corpus and the style-constraint layer, and WP-5.9
+    """`_eval_test` is SHARED between the fault corpus and the style-constraint layer, and WP-5.13
     gave it a fourth return status. The constraint callers were not updated, because they cannot
     receive it: `schema/constraint.schema.json` sets `additionalProperties: false` on its test
     object and does not list `applies_when`, so no constraint can carry a precondition.
@@ -505,7 +505,7 @@ class TestABareRatioIsNeverDeliveredAsADimension:
         g = rk.load_graph()
         chain = rk.chain_for(g, style)
         slots, _ = rk.resolve_slots(g, chain)
-        pack_slots, _ = rk.eval_packs(rk.resolve_packs(g, chain), self.CTX, None)
+        pack_slots, _ = rk.eval_packs(rk.resolve_packs(g, chain), self.CTX, None, {})
         return rk.choose_pack(slots["casing"], pack_slots.get("casing", []), self.CTX)
 
     @pytest.mark.parametrize("style", ("craftsman", "craftsman-bungalow"))
@@ -536,7 +536,7 @@ class TestABareRatioIsNeverDeliveredAsADimension:
         chain = resolve_kit_module.chain_for(g, "craftsman")
         slots, _ = resolve_kit_module.resolve_slots(g, chain)
         packs = resolve_kit_module.resolve_packs(g, chain)
-        pack_slots, _ = resolve_kit_module.eval_packs(packs, self.CTX, None)
+        pack_slots, _ = resolve_kit_module.eval_packs(packs, self.CTX, None, {})
         pc = resolve_kit_module.choose_pack(
             slots["roof_pitch"], pack_slots.get("roof_pitch", []), self.CTX)
         chosen = (pc or {}).get("chosen")

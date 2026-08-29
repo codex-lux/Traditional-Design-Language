@@ -187,7 +187,7 @@
     "measurable_from": "photograph",
     "note": "Minimal overhang with a plastered or tile edge is what licenses the low pitch."
    },
-   "applies_when": {
+   "granted_when": {
     "construction": [
      "barrel-tile-roof",
      "mission-tile-roof"

@@ -517,7 +517,7 @@
               "pattern": "^[a-z_]+(/[a-z_]+)?$"
             },
             "minItems": 1,
-            "description": "Target slot ids this binding may NOT contribute, when it carries the pack's whole rule set except a few. Same grammar as `slots` -- a bare slot id or `slot/dimension` -- and the two are mutually exclusive: `slots` is an allowlist, this is a denylist, and a binding states at most one of them. Added 27 Aug 2026 (WP-5.10) because the allowlist alone cannot express the case it was needed for without becoming a liability. `sash-light` writes fourteen addresses to a Georgian node and exactly one of them is wrong on a masonry wall: its `window_sill/projection` rule gives 2.25 in 'sloped about 1 in 6 with a drip', and its own note says why that is a frame figure -- 'in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one.' Excluding one address with `slots` would mean listing the other thirteen by hand, and a hand-maintained allowlist silently stops delivering any rule the pack gains later. The denylist says what is being refused and nothing else, which is also what the note says."
+            "description": "Target slot ids this binding may NOT contribute, when it carries the pack's whole rule set except a few. Same grammar as `slots` -- a bare slot id or `slot/dimension` -- and the two are mutually exclusive: `slots` is an allowlist, this is a denylist, and a binding states at most one of them. Added 27 Aug 2026 (WP-5.14) because the allowlist alone cannot express the case it was needed for without becoming a liability. `sash-light` writes fourteen addresses to a Georgian node and exactly one of them is wrong on a masonry wall: its `window_sill/projection` rule gives 2.25 in 'sloped about 1 in 6 with a drip', and its own note says why that is a frame figure -- 'in a masonry wall it is a rowlock or a stone and belongs to the brick-course pack, not this one.' Excluding one address with `slots` would mean listing the other thirteen by hand, and a hand-maintained allowlist silently stops delivering any rule the pack gains later. The denylist says what is being refused and nothing else, which is also what the note says."
           }
         },
         "not": {
@@ -525,6 +525,45 @@
             "slots",
             "slots_except"
           ]
+        }
+      }
+    },
+    "declined_packs": {
+      "type": "array",
+      "description": "Packs that reach this node BY DESCENT and do not belong on it. The refusal half of OQ 51's adjudication, and the exact mirror of adding a node to a pack's `applies_to`: one records that somebody read the cascade and agreed, this records that somebody read it and did not. Additive -- it strands nothing, because it removes only what an author names, and it is not the opt-in flip, which stays where the ruling put it. A decline is per (node, pack) and NOT per (node, pack, role): a node reaching one pack in two roles is ONE judgment, the same distinction `check_inheritance.py --unendorsed` already prints as NODES versus GAPS. `slots`/`slots_except` cannot do this job -- they live on the ANCESTOR's binding, so they change behaviour for every descendant and for the ancestor itself, and a child re-binding the pack unscoped shadows them entirely. A PER-EDGE deny was designed and refused (WP-8.2): only 111 of 222 gaps have a direct lineage edge to their delivering ancestor at all, and a subtree deny on `english-georgian`/`storey-graduation` would have touched 26 receivers to fix 18, undoing five of the eleven endorsements the 26 Aug pass had just made.",
+      "items": {
+        "type": "object",
+        "required": ["pack", "reason", "basis"],
+        "additionalProperties": false,
+        "properties": {
+          "pack": {
+            "type": "string",
+            "description": "The proportion pack id being declined. It must actually reach this node by descent, and `check_pack_bindings.py` errors if it does not -- a decline that refuses nothing reads exactly like an adjudicated refusal and is worse than no decline at all."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why this pack does not belong on this node, in a sentence. Not 'wrong style' -- what about the building refuses it. `ranch-style` refuses `storey-graduation` because it has one storey and a rule for graduating a stack has no stack to graduate."
+          },
+          "basis": {
+            "enum": ["node-record", "editorial"],
+            "description": "`node-record` means this node's own record decides it, and `quote` proves it. `editorial` is the honest alternative and never the default: a decline with no quote is a judgment, and this corpus's rule is that a judgment says so."
+          },
+          "quote": {
+            "type": "string",
+            "description": "A verbatim sentence from THIS node's own record. Required when `basis` is `node-record`, and checked against the file the way check_openings.py checks grammar.json's citations -- a citation that cannot be checked is a guess wearing a citation."
+          },
+          "quoted_from": {
+            "type": "string",
+            "description": "Where in this node's own JSON the quote came from, e.g. `distinguished_from[2].statement`. For a reader, not for a parser."
+          },
+          "decided": {
+            "type": "string",
+            "description": "ISO date the judgment was made."
+          },
+          "note": {
+            "type": "string",
+            "description": "Where the decline is known to leave the slot with a worse governor or none at all, say so here. `check_inheritance.py --impact` computes it; this records that the author looked. Scoping stops a wrong pack and does not supply a right one -- OQ 58's stated limit, one layer down."
+          }
         }
       }
     }

@@ -302,7 +302,7 @@ class TestScopedLineageEdges:
         assert len(still) >= 10, "the dress itself must still come through the edge"
 
 class TestASlotAStyleDeclinedToConstrainIsNotConstrainedForIt:
-    """OQ 85's sibling, closed 27 Aug 2026 (WP-5.10), and found by drawing rather than by testing.
+    """OQ 85's sibling, closed 27 Aug 2026 (WP-5.14), and found by drawing rather than by testing.
 
     `colonial-revival` bound `dormer` as `binding: "open"`, `status: "empty"` — the style
     explicitly declining to constrain the slot. `resolve_slots` only stops its walk on `specified`
@@ -345,7 +345,7 @@ class TestASlotAStyleDeclinedToConstrainIsNotConstrainedForIt:
         assert d["variant"] == "boxed-dormer"
 
     def test_the_sash_pattern_no_longer_has_to_be_drawn_as_bare_glass(self, resolve_kit_module):
-        """The slot states one now. WP-5.9 had to draw this style's dormer sash with no glazing
+        """The slot states one now. WP-5.13 had to draw this style's dormer sash with no glazing
         bars at all, and say so on the sheet, because nothing in the cascade stated a pattern."""
         import copy
         import json as _j
@@ -415,7 +415,7 @@ class TestTheSillNoLongerForbidsWhatItSpecifies:
         assert packs["sash-light"]["slots_except"] == ["window_sill/projection"]
         ctx = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_height": 80.0,
                "opening_width": 36.0, "span": 16.0}
-        pack_slots, _ = rk.eval_packs(packs, ctx, None)
+        pack_slots, _ = rk.eval_packs(packs, ctx, None, {})
         sill = [r for r in (pack_slots.get("window_sill") or []) if r["pack"] == "sash-light"]
         assert not sill, "the refused rule is back"
         elsewhere = [sid for sid, rows in pack_slots.items()
@@ -447,31 +447,41 @@ class TestARuleStatesItsScopeInDataAndNotOnlyInProse:
            "opening_width": 36.0, "span": 16.0}
 
     def _sill(self, rk, style):
+        """-> (verdict, rows, dropped) where verdict is the SCOPE OUTCOME.
+
+        This used to return `scope_facts(slots)["construction"]`, a masonry/frame/mixed
+        LABEL. WP-8.4 removed the label with the substring classifier that produced it, and
+        asserting on it would have been asserting on an implementation detail anyway: what
+        matters is whether the rule governs, not what intermediate word was computed on the
+        way. `eval_packs` derives the scope facts from the kit itself now, so a caller
+        cannot forget them and quietly leave every scope unjudged."""
         g = rk.load_graph()
         chain = rk.chain_for(g, style)
         slots, _ = rk.resolve_slots(g, chain, rk.scope_for(g, style))
-        facts = rk.scope_facts(slots)
         dropped = []
-        by_slot, _ = rk.eval_packs(rk.resolve_packs(g, chain), {**self.CTX, **facts},
-                                   None, dropped)
+        by_slot, _ = rk.eval_packs(rk.resolve_packs(g, chain), self.CTX, None, slots, dropped)
         rows = [r for r in (by_slot.get("window_sill") or [])
                 if r["pack"] == "sash-light" and r.get("dimension") == "projection"]
-        return facts["construction"], rows, [d for d in dropped if d["slot"] == "window_sill"]
+        here = [d for d in dropped if d["slot"] == "window_sill"]
+        verdict = ("out" if here else
+                   "unknown" if (rows and rows[0].get("scope_unjudged")) else
+                   "in" if rows else "not delivered")
+        return verdict, rows, here
 
     def test_a_brick_only_style_no_longer_resolves_a_sloped_timber_sill(self, resolve_kit_module):
         """The live instance the register names, and the whole point of the field."""
-        construction, rows, dropped = self._sill(resolve_kit_module, "english-georgian")
-        assert construction == "masonry"
+        verdict, rows, dropped = self._sill(resolve_kit_module, "english-georgian")
+        assert verdict == "out"
         assert not rows, "english-georgian resolves sash-light's frame-wall sill again (OQ 88)"
-        assert dropped and "masonry" in dropped[0]["why"], (
+        assert dropped and "wood-frame" in dropped[0]["why"], (
             "the rule must be dropped WITH ITS REASON -- a rule that vanishes silently is the "
             "failure this corpus polices hardest")
 
     def test_a_frame_style_still_gets_the_rule(self, resolve_kit_module):
         """A scope that drops the rule everywhere would pass the test above. The sill is a real
         member on a frame wall and this pack is entitled to state it."""
-        construction, rows, _ = self._sill(resolve_kit_module, "cape-cod-colonial")
-        assert construction == "frame"
+        verdict, rows, _ = self._sill(resolve_kit_module, "cape-cod-colonial")
+        assert verdict == "in"
         assert rows, "the frame-wall sill rule has stopped reaching frame walls"
         assert rows[0].get("scope_unjudged") is None, "in scope must not be flagged unjudged"
 
@@ -480,8 +490,8 @@ class TestARuleStatesItsScopeInDataAndNotOnlyInProse:
         so the style cannot say which wall this house has. Dropping the rule would strand every
         frame house of the style; delivering it silently is the bug. It is delivered WITH the
         reason attached, which is the third state and the only honest answer."""
-        construction, rows, dropped = self._sill(resolve_kit_module, "charleston-georgian")
-        assert construction == "mixed"
+        verdict, rows, dropped = self._sill(resolve_kit_module, "charleston-georgian")
+        assert verdict == "unknown"
         assert not dropped, "a style that may be either must not be ruled out of scope"
         assert rows, "and must not be silently withheld either"
         assert rows[0].get("scope_unjudged"), (
@@ -517,8 +527,7 @@ class TestARuleStatesItsScopeInDataAndNotOnlyInProse:
             try:
                 chain = rk.chain_for(g, nid)
                 slots, _ = rk.resolve_slots(g, chain, rk.scope_for(g, nid))
-                by_slot, _ = rk.eval_packs(rk.resolve_packs(g, chain),
-                                           {**self.CTX, **rk.scope_facts(slots)}, None)
+                by_slot, _ = rk.eval_packs(rk.resolve_packs(g, chain), self.CTX, None, slots)
             except Exception:
                 continue
             for key in delivered:

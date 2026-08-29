@@ -99,7 +99,7 @@
         "measurable_from": "photograph",
         "note": "It must be the visually heaviest element in the composition, and the plan must actually turn around it."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "roman-brick"

@@ -247,5 +247,16 @@
       "note": "The largest corbel in the corpus, and the figures `stone-course` deliberately kept for a pack that did not exist -- its notes record that it declined the crow-step and the bartizan as belonging to 'a gable and turret geometry that WP-4.1 lists as entirely missing', and quoted the numbers so they would not be lost. This is where they were going. Bartizan diameter 1.2-2.0 m corbelled 450-750 mm from the wall face on a conical roof of 55-65 degrees, and the hard rule that matters more than any of them: the corbelling must be VISIBLE, because a turret 'sitting on a bracket, a cantilevered slab, or nothing at all is the commonest and most immediately visible failure of the style.' It also supplies the wall-head rationing rule. `facade-gable` keeps the crow-step, which is a different device.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. The node's own record refuses the classical order outright, so the pack arrives to dimension a column, entablature and pilaster the style does not have.",
+      "basis": "node-record",
+      "quote": "None classical. Composition is picturesque",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-08-28",
+      "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    }
   ]
 }

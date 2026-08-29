@@ -93,7 +93,7 @@
       "style": "folk-victorian",
       "why": "The Folk Victorian porch IS a catalogue assembly and its history is the history of the Sears and Roebuck millwork page. Turned posts, sawn brackets and spindle friezes were bought as separate line items and combined by the local carpenter, and the combination is the style.",
       "bounds": "Applies only to the turned-post and sawn-ornament vocabulary. The moment a moulded classical capital appears — Ionic volutes, acanthus, a Roman Doric abacus — the order has been invoked and the order's discipline applies.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1910

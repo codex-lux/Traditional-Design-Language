@@ -1,6 +1,6 @@
-# WP-5.10 — the four rulings from the dormer layer
+# WP-5.14 — the four rulings from the dormer layer
 
-Four questions came out of WP-5.9 and Lucas ruled on all four. Three were corpus-truth fixes; one
+Four questions came out of WP-5.13 and Lucas ruled on all four. Three were corpus-truth fixes; one
 added a measurement so a fault that had been inert for two packages could be judged on evidence.
 
 **A theme runs through all four, and it is worth stating once because it decided how each was
@@ -68,7 +68,7 @@ so that is a test of its own.
 
 And the same field retired a second WP-3.2 workaround in the same commit: `solar_array_area_sqft`
 is supplied at its honest zero, and `entrance-slope-penetration`'s array secondary — preconditioned
-on the array's own area since WP-5.9 — declines instead of convicting a house of a patchy array it
+on the array's own area since WP-5.13 — declines instead of convicting a house of a patchy array it
 does not have. **Two workarounds retired by one field.**
 
 ## OQ 85 — the centre bay is blind
@@ -173,7 +173,7 @@ dormer such a house is ever built with — **forbidden**, on a `c01, hard.`
 
 A production Colonial Revival could not declare its own dormer, and the elevation generator drew a
 thatched cottage's on it with full confidence. The style now binds the slot `specified` with
-`boxed-dormer` canonical and a sash pattern, so WP-5.9's two disclosures — *"VARIANT INHERITED FROM
+`boxed-dormer` canonical and a sash pattern, so WP-5.13's two disclosures — *"VARIANT INHERITED FROM
 ENGLISH COTTAGE VERNACULAR"* and *"SASH PATTERN UNDECLARED"* — are both gone from that sheet.
 
 The mechanism is untouched and reaches all 97 slots. It is OQ 51's question in the kit layer, and
@@ -200,7 +200,7 @@ PITCH AND A RIDGE HEIGHT FOR THIS HOUSE…"*. The measurements are unchanged: th
 dormers and it should keep saying so. What was missing was the sheet admitting it could not draw
 them.
 
-WP-5.9's own report had flagged this as *"a silent skip [that] should probably become a stated
+WP-5.13's own report had flagged this as *"a silent skip [that] should probably become a stated
 refusal"* and left it. It took three minutes to fix and it was found by looking, not by testing —
 which is now the fourth time in two packages.
 
@@ -271,7 +271,7 @@ acquittal rather than a conviction, on 1 style of 164.
 **The DXF drew the collision the SVG had just stopped drawing.** `export_dxf.py`'s bay loop reads
 `if kind == "door" … else: window`, so OQ 85's new `"blind"` fell into the `else` and the CAD file
 put an opening where the chimney stands. Two surfaces disagreeing about one record. The export
-selftest could not see it — it round-trips *findings*, not geometry, which is WP-5.7's lesson
+selftest could not see it — it round-trips *findings*, not geometry, which is WP-5.11's lesson
 recurring in the CAD path.
 
 **Dormers were placed on the wrong face.** `dormers()` was handed `faces[entrance_face]`
@@ -335,7 +335,7 @@ sentence the state was invented to prevent, relocated one boundary out.
 Each was verified by reverting the fix and confirming the rewritten test fails.
 
 **And one test was asserting the opposite of another.** `test_long_face_of_a_side_gable_shows_no_
-chimney` pinned `'class="ch"' not in text`. WP-5.9 gave the stack a weight rung, the class became
+chimney` pinned `'class="ch"' not in text`. WP-5.13 gave the stack a weight rung, the class became
 `ch w-prof`, and a *negative* assertion whose selector breaks inverts into a tautology — leaving
 the suite simultaneously asserting "no chimney on the front" and "two stacks on the front". Only
 the broken selector kept them apart. Its intent was reversed by OQ 80 on purpose; it is rewritten
@@ -402,12 +402,18 @@ citations from both sides.
 ### The work-package numbers collided too, and were NOT renumbered
 
 **There are two different WP-5.7s** — main's atlas and this branch's geometry layer — and unlike
-the open questions they were left alone. That asymmetry is deliberate and is recorded as **OQ 90**
-rather than decided in a merge commit: an open question is cited by number and nothing else, but a
-work package is cited by its REPORT, and the two reports have always had distinct filenames, so no
-citation in this corpus is ambiguous today. Renumbering either would rename report files, break the
-`wp-<id>-<slug>.md` convention, and — for this branch's — break the chain where WP-5.8 exists to
-execute WP-5.7's rulings. **Until it is ruled, cite the report and never the number.**
+the open questions they were left alone. That asymmetry was recorded as **OQ 90** rather than
+decided in a merge commit.
+
+**RULED AND EXECUTED 28 Aug 2026, and this paragraph's argument was refused.** It said no citation
+was ambiguous because "a work package is cited by its REPORT, and the two reports have always had
+distinct filenames". That was already false when it was written: this report was
+`wp-5.10-the-four-rulings.md` and WP-5.8's was `wp-5.8-the-four-rulings.md` — **different packages
+with identical slugs**, told apart only by the number the argument said not to rely on. This
+branch's chain moved (5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→**5.14**, which is this report), main's
+atlas kept 5.7, both reports were given slugs that say which four rulings they carry, and
+`build/check_ids.py` now fails the build on two reports sharing one. See OQ 90 and the conversion
+table in `docs/open-questions/README.md`.
 
 ### Two stale claims in CLAUDE.md that the merge surfaced
 

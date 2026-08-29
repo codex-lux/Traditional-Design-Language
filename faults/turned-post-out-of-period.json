@@ -102,7 +102,7 @@
       "style": "folk-victorian",
       "why": "The turned post is the defining member of the style and its thinness is the point. Folk Victorian is precisely the application of mass-produced millwork ornament to otherwise plain vernacular houses, and the catalogue origin is not a defect but the historical fact of the style.",
       "bounds": "4 to 5 in barrel, square blocks top and bottom, accompanied by a spindle frieze or sawn brackets, on a house of 1870-1910 or on an older vernacular house receiving a porch in that window.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1865,
           1915
@@ -116,7 +116,7 @@
       "style": "queen-anne-spindled",
       "why": "The spindled subtype is named for exactly this vocabulary.",
       "bounds": "The full assembly must be present — turned posts, spindle frieze, turned balusters, sawn brackets — because the style is the assembly rather than any one member.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1875,
           1905
@@ -127,7 +127,7 @@
       "style": "american-farmhouse-vernacular",
       "why": "A plain vernacular farmhouse of 1840 that received a turned-post porch in 1890 is a correct and extremely common historical layering, and stripping the porch to restore a hypothetical original would destroy fifty years of the building's actual life.",
       "bounds": "The porch must read as a later addition and be treated as one: its own roof, its own materials, no attempt to blend it into the original trim. What is wrong is a NEW turned-post porch on a restored 1840 house, which is a fabricated layer rather than a real one.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1865,
           1915

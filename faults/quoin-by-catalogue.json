@@ -58,7 +58,7 @@
         "threshold": 2,
         "note": "Baroque enlarges the unit — 24-36 in long faces — and it does not free the unit from the wall. The exaggeration must be of a real stone quoin with 2-4 in of rustication and must still course."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"
@@ -77,13 +77,15 @@
         "threshold": 0.6,
         "note": "Rubble walling has no consistent course to align to, so strict alternation is not expected and the alignment test is relaxed rather than dropped. The dressings must still be real dressed stone with visible bed and joint lines in a rubble field."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
+          "stone-rubble",
           "solid-masonry-three-wythe"
         ],
         "regions": [
           "Scotland"
-        ]
+        ],
+        "note": "`stone-rubble` added 28 Aug 2026 by WP-8.4's own adversarial audit, on the licence's own words. Its `why` reads 'RUBBLE WALLING with dressed ashlar corner dressings of irregular size is the tradition', and its `bounds` repeats it -- 'the dressings must be real dressed stone with visible bed and joint lines IN A RUBBLE FIELD'. The condition named `solid-masonry-three-wythe`, an exact wythe-count variant standing in for 'a real masonry wall', written before there was a vocabulary to say it in. `scottish-baronial` is canonically `solid-masonry-two-wythe` with `squared-rubble-granite-ashlar-harled-rubble` on the face, so the wythe token answered `fails` and the licence was refused on the one style it names. Same shape as `water-table-that-follows-the-grade`'s Cotswold licence, found in the same sweep: 19 of 331 preconditions are refused on the style they were written for, and these two are the only two where a BROADER token containing the named one holds. The other 17 refusals are substantive -- a stucco-over-frame Pueblo Revival really is not adobe -- and are left standing."
       }
     },
     {
@@ -99,7 +101,7 @@
         "upper": 1.25,
         "note": "Wood or stucco quoins as flat panels of consistent projection on a rendered or boarded wall, alternating consistently. They may not appear on a brick veneer, where they claim to be masonry."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "braced-timber-frame",
           "balloon-frame",

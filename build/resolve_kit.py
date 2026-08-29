@@ -45,6 +45,7 @@ import json, os, sys, argparse, collections, copy
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 import proportion_engine as pe
+import modcache
 
 STOP = ("specified", "forbidden")
 AUTHORING_CEILING = 108.0        # the context the kits' in_calibration flags were set at
@@ -239,10 +240,32 @@ def resolve_slots(graph, chain, scope=None):
 
 
 def resolve_packs(graph, chain):
+    """Every pack that governs this node, nearest binder wins per pack id.
+
+    OQ 51's REFUSAL HALF LIVES HERE (WP-8.2, 28 Aug 2026). A node may DECLINE a pack that
+    reaches it only by descent, and this is the right function for it because a decline is per
+    (node, pack) and this is the one function that decides pack MEMBERSHIP. `eval_packs` decides
+    which RULES a member contributes -- that is what `slots`/`slots_except` are for, and those
+    are per BINDING, travelling with the ancestor's record, so they change behaviour for every
+    descendant and for the ancestor itself and structurally cannot express a per-descendant
+    refusal. Different question, different function.
+
+    `chain[0]` is always the node: all eight callers pass `chain_for(g, nid)`, so the fix reaches
+    `--slots`, check_addresses' cascade scope, resolve_kit's own main, elevation, compose and
+    three test modules with no per-caller change.
+    """
+    node = graph["nodes"].get(chain[0]) if chain else None
+    declined = {d["pack"] for d in ((node or {}).get("declined_packs") or [])}
     out = collections.OrderedDict()
     for nid in chain:
         for pb in graph["nodes"][nid].get("proportion_packs", []) or []:
             pid = pb["pack"]
+            # A node may not decline a pack it BINDS ITSELF -- that is a binding to delete, not a
+            # decline to write, and check_pack_bindings errors on it. The `nid != chain[0]` guard
+            # is belt and braces so a corpus that slipped past the checker still resolves
+            # coherently rather than silently dropping the node's own authored binding.
+            if pid in declined and nid != chain[0]:
+                continue
             if pid in out:
                 out[pid]["_overridden_by_ancestor"].append(nid)
                 continue
@@ -250,6 +273,28 @@ def resolve_packs(graph, chain):
             rec["_source"] = nid
             rec["_overridden_by_ancestor"] = []
             out[pid] = rec
+    return out
+
+
+def refusals_for(graph, style_id):
+    """What this node declined, and which ancestor would otherwise have delivered it.
+
+    A separate function rather than an extra key in `resolve_packs`' mapping, deliberately:
+    `check_addresses.cobinding` does `sorted(resolve_packs(...).keys())` and `eval_packs`
+    iterates `packs.items()`, so a `_declined` key in that dict would become a pack id in two
+    checkers.
+    """
+    n = graph["nodes"].get(style_id) or {}
+    chain = chain_for(graph, style_id)
+    out = []
+    for d in (n.get("declined_packs") or []):
+        deliverer = next((a for a in chain[1:]
+                          if any(e["pack"] == d["pack"]
+                                 for e in (graph["nodes"][a].get("proportion_packs") or []))),
+                         None)
+        rec = dict(d)
+        rec["_would_have_come_from"] = deliverer
+        out.append(rec)
     return out
 
 
@@ -268,14 +313,29 @@ def pack_env(pk, ctx, module_override=None):
     return env, mod
 
 
-def scope_facts(slots):
-    """The two facts `proportion_engine.rule_scope()` needs, off a node's RESOLVED slots (OQ 88).
+def _construction_vocabulary():
+    """build/construction_vocabulary.py, through modcache (CLAUDE.md, OQ 28)."""
+    return modcache.load("construction_vocabulary",
+                         os.path.join(ROOT, "build", "construction_vocabulary.py"))
 
-    One place, so a second reading of "is this a brick house" cannot drift from the first. It
-    reports what the kit says and nothing more: a style that makes both a masonry and a frame
-    cladding canonical comes back `mixed`, which `rule_scope` treats as UNJUDGED rather than
-    picking one. Thirteen of the styles the sill rule reaches are exactly that, and they are not
-    a defect in the data -- charleston-georgian really was built in brick and in clapboard.
+
+def scope_facts(slots):
+    """What `proportion_engine.rule_scope()` needs, off a node's RESOLVED slots (OQ 88).
+
+    One place, so a second reading of "is this a brick house" cannot drift from the first.
+
+    IT NO LONGER CLASSIFIES (WP-8.4). Until 28 Aug this returned a single label --
+    masonry / frame / mixed -- from `pe.construction_of()`, a SUBSTRING TEST over canonical
+    `primary_cladding` ids. A substring test over a SURFACE cannot answer a question about an
+    ASSEMBLY, and it disagreed with the node's own `construction_type` on 13 of 164 styles in
+    both directions: `cape-dutch` is `sun-dried-brick-or-rubble-masonry` with braced timber
+    frame FORBIDDEN, and its `lime-plaster-limewash-white` cladding carries no masonry word, so
+    the frame-wall sill rule was delivered to a mass masonry wall -- OQ 88's own bug surviving
+    inside OQ 88's fix. `prairie-school` and `storybook-style` are framed houses whose stucco
+    and Roman brick surfaces read as masonry, and the frame rule was dropped from them.
+    The resolved slots now travel whole and `rule_scope` resolves each token against them
+    through `build/construction_vocabulary.py`, which reads `construction_type` first and maps
+    to variant ids that exist.
 
     `elevation.py` answers the same question better at PLAN scope, from structure.py's solved
     `section["wall"]["bearing"]`, because by then there is an actual house. This is what can be
@@ -286,11 +346,40 @@ def scope_facts(slots):
         ids = [v["id"] for v in (rec.get("variants") or []) if v.get("status") == "canonical"]
         if ids:
             canonical[sid] = ids
-    return {"construction": pe.construction_of(canonical.get("primary_cladding")),
-            "resolved_variants": canonical}
+    return {"resolved_slots": slots or {}, "resolved_variants": canonical}
 
 
-def eval_packs(packs, ctx, module_override=None, scope_dropped=None):
+def eval_packs(packs, ctx, module_override, kit, scope_dropped=None):
+    """Every rule the bound packs contribute, keyed by target slot.
+
+    `oq/forbidden-stops-the-pack-cascade` (WP-8.3): A PACK RULE MAY NOT WRITE TO A SLOT THE RESOLVED KIT BINDS `forbidden`.
+    `docs/inheritance.md`'s binding table has always said `forbidden` means "This node prohibits
+    the slot. Stops the cascade." It stopped the KIT cascade and never the PACK cascade, and 787
+    (node, slot) pairs across 118 of 132 nodes carried a pack-supplied dimension for a slot the
+    kit forbids -- every one of them decided by an ancestor's precedence number, and not one
+    chosen by a human.
+
+    THE REFUSED RULE IS MARKED, NOT DELETED. Dropping it would destroy the fact that a pack
+    wanted to write there and was refused, which is the whole measurement; and `check_addresses`
+    reads these rows without ever calling `choose_pack`, so a refusal placed only in the chooser
+    would not reach it. Same discipline as `openings.py` marking an opening it cannot realise
+    `unplaced` with a reason and never deleting it, and as `calibrated_for` publishing
+    `out_of_calibration` rather than withholding in silence. OQ 88's own scope drop (below)
+    predates that rule and is kept as a DROP because `scope_dropped` records every one -- the
+    two refusals are reported by different means and neither is silent.
+
+    `kit` IS REQUIRED AND HAS NO DEFAULT, deliberately. A `kit=None` default would let every one
+    of the eight call sites keep the old behaviour by saying nothing -- which is the exact failure
+    the fault schema's own note describes for a mistyped guard: "omit `expression` and the
+    precondition is ignored entirely, the test runs unguarded and convicts". A caller with no kit
+    passes `{}` and means it. It is also what OQ 88's scope reads: `scope_facts` is applied HERE
+    rather than by every caller, because a caller who forgot it got `resolved_slots: None`, every
+    scope `unknown`, and a mechanism silently inert with nothing said.
+    """
+    if scope_dropped is None:
+        scope_dropped = []
+    if kit:
+        ctx = {**ctx, **scope_facts(kit)}
     by_slot = collections.defaultdict(list)
     errors = []
     # OQ 88. Callers that want to report what scope removed pass a list in; the default keeps
@@ -318,7 +407,7 @@ def eval_packs(packs, ctx, module_override=None, scope_dropped=None):
         # but `facade-portada` writes ornament_vocabulary four times and only one of them applies
         # to the node being scoped.
         scope = binding.get("slots")
-        # `slots_except` is the same field turned round (WP-5.10). An allowlist cannot express
+        # `slots_except` is the same field turned round (WP-5.14). An allowlist cannot express
         # "everything but this one" without listing the rest by hand, and a hand-maintained
         # allowlist silently stops delivering any rule the pack gains later -- which for
         # `sash-light`'s fourteen addresses would have meant listing thirteen to refuse one.
@@ -328,6 +417,23 @@ def eval_packs(packs, ctx, module_override=None, scope_dropped=None):
         def _named(r, names):
             return (r["target_slot"] in names
                     or "%s/%s" % (r["target_slot"], r.get("dimension")) in names)
+
+        def _refused(sid):
+            """(refused, why) for a slot the resolved kit forbids.
+
+            THE HUMAN OVERRIDE, per `oq/forbidden-stops-the-pack-cascade`'s ruling: a slot whose own `packs` block names this
+            pack is a person's explicit ruling and wins. `choose_pack`'s own docstring calls that
+            block "the only place a human has said which pack wins", and it is consulted there
+            first for the same reason. Zero of the 787 qualify today, so the override strands
+            nothing and cannot be claimed as coverage -- it exists so a node that genuinely wants
+            one dimension from an otherwise-refused member has a way to say so.
+            """
+            rec = (kit or {}).get(sid) or {}
+            if rec.get("binding") != "forbidden":
+                return False, None
+            if any(x.get("pack") == pid for x in (rec.get("packs") or [])):
+                return False, None
+            return True, (rec.get("note") or "the resolved kit binds this slot `forbidden`")
 
         for r in ev["rules"]:
             if "error" in r:
@@ -347,7 +453,9 @@ def eval_packs(packs, ctx, module_override=None, scope_dropped=None):
                                       "dimension": r.get("dimension"),
                                       "why": r["out_of_scope"]})
                 continue
+            refused, why = _refused(r["target_slot"])
             by_slot[r["target_slot"]].append({
+                "refused_by_kit": refused, "refused_because": why,
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],
                 "style_precedence": binding.get("precedence"),
                 "dimension": r.get("dimension"), "quantity": r.get("quantity"),
@@ -355,6 +463,19 @@ def eval_packs(packs, ctx, module_override=None, scope_dropped=None):
                 "value": r.get("value"), "units": r.get("units"),
                 "judgment": r.get("judgment"),
                 "calibrated_for": r.get("calibrated_for"),
+                # THE ENGINE'S REFUSAL, WHICH THIS REBUILD USED TO DROP. `evaluate()` sets
+                # `out_of_calibration` when the environment is outside the band the rule was
+                # calibrated in -- it is the engine declining to stand behind the number --
+                # and a key-by-key rebuild that does not name it delivers the number with the
+                # refusal stripped off. `resolve_kit.py --slot chair_rail` on `adam-style`
+                # printed 1'-10 3/4" with no warning while the engine row carried
+                # "ceiling_height is 108, calibrated for 142.5-168": the exact symptom this
+                # file and `proportion_engine.py` both record as already fixed. 391 such rows
+                # reach here across 164 nodes. `range`/`in_range` come with it, because a
+                # band with no membership is what makes an unjudged rule look like a passing
+                # one. Found by the WP-8.4 adversarial audit.
+                "out_of_calibration": r.get("out_of_calibration"),
+                "range": r.get("range"), "in_range": r.get("in_range"),
                 # Present ONLY when the scope could not be decided (a both-ways style). Absent
                 # means the rule is in scope, never that nobody looked.
                 "scope_unjudged": r.get("scope_unjudged"),
@@ -372,6 +493,27 @@ def choose_pack(rec, rows, ctx):
       2. the style node's `proportion_packs.precedence`
       3. no ruling: report the disagreement, which is what 0.1.0 could only ever do
     """
+    # `oq/forbidden-stops-the-pack-cascade` (WP-8.3): a rule `eval_packs` marked `refused_by_kit` may not be chosen. The mark is
+    # made there, where the kit is in hand and the row is built; the choice is refused here. One
+    # judgment, two places that must agree, and they agree because only one of them decides.
+    # Reported, never silently dropped: a slot whose every candidate was refused returns
+    # `how: "kit.forbidden"` with the binding's own note, so a reader sees an explicit refusal
+    # rather than an absence indistinguishable from "no pack writes here".
+    live_rows = [r for r in (rows or []) if not r.get("refused_by_kit")]
+    if rows and not live_rows:
+        # EVERY BRANCH OF THIS FUNCTION RETURNS THE SAME KEYS. `rejected` and
+        # `stale_calibration` are indexed unconditionally by `main()`'s --slot view and by its
+        # PACK RESOLUTION summary, so a branch that omits them is a KeyError on every node the
+        # branch fires for -- which for this one is 776 (node, slot) pairs across 118 of 132
+        # buildable nodes, i.e. exactly the population WP-8.3 was built to name. Found by the
+        # WP-8.4 adversarial audit; the branch shipped in WP-8.3 without a caller ever running.
+        # `refused` and `why` are the two this branch ADDS; they are additive and safe.
+        return {"how": "kit.forbidden", "chosen": None, "ranked": [],
+                "rejected": [], "stale_calibration": False,
+                "refused": list(rows),
+                "why": next((r.get("refused_because") for r in rows if r.get("refused_because")),
+                            "the resolved kit binds this slot `forbidden`")}
+    rows = live_rows
     declared = rec.get("packs") or []
     if declared:
         ranked = sorted(declared, key=lambda p: (p.get("precedence") if p.get("precedence") is not None else 99))
@@ -608,9 +750,8 @@ def main():
     ctx = {"ceiling_height": a.ceiling,
            "storey_height": a.storey if a.storey else a.ceiling + 12.0,
            "opening_height": 80.0, "opening_width": a.opening, "span": a.span}
-    ctx.update(scope_facts(slots))          # OQ 88
     scope_dropped = []
-    pack_slots, pack_errors = eval_packs(packs, ctx, a.module, scope_dropped)
+    pack_slots, pack_errors = eval_packs(packs, ctx, a.module, slots, scope_dropped)
 
     if a.json:
         payload = {"style": a.style, "chain": chain, "context": ctx, "date": a.date,
@@ -710,9 +851,16 @@ def main():
             print("  PACK RESOLUTION  (%s)" % ch["how"])
             if ch["chosen"]:
                 print("    governs   %-18s %s" % (ch["chosen"]["pack"], ch["chosen"].get("expression", "")))
-            for r in ch["rejected"]:
+            if ch.get("why"):
+                # A refusal is a RESULT, not an absence. Printing the reason here is the whole
+                # point of marking rather than deleting the row.
+                print("    refused   %s" % short(ch["why"], 100))
+                for r in ch.get("refused") or []:
+                    print("      would have said  %-18s %-12s %s"
+                          % (r["pack"], r.get("dimension") or "-", r.get("expression", "")))
+            for r in ch.get("rejected") or []:
                 print("    rejected  %-18s %s  — out of calibration" % (r["pack"], r.get("expression", "")))
-            if ch["stale_calibration"]:
+            if ch.get("stale_calibration"):
                 print("    ! the in_calibration flags were set at a 9 ft ceiling and are static; "
                       "re-check them at this context")
         rows = pack_slots.get(a.slot, [])
@@ -722,6 +870,13 @@ def main():
                 j = "  [judgment]" if r["judgment"] else ""
                 print("    %-18s %-12s %-14s %s%s" % (r["pack"], r["dimension"] or "-",
                       fmt_val(r["value"], r["units"]), r["expression"][:42], j))
+                # THE ENGINE'S REFUSAL, PRINTED WHERE THE NUMBER IS. This row used to show
+                # `adam-style`'s chair rail as 1'-10 3/4" with nothing beside it while the
+                # engine row said "ceiling_height is 108, calibrated for 142.5-168" -- the
+                # very symptom this file's own docstring records as fixed. A number a reader
+                # can copy, from a rule the engine declined to stand behind.
+                if r.get("out_of_calibration"):
+                    print("      ! OUT OF CALIBRATION — %s" % r["out_of_calibration"])
         if rec.get("note"):
             print("  note      %s" % rec["note"])
         for n in rec.get("_inherited_notes") or []:
@@ -805,7 +960,7 @@ def main():
 
     covered = sorted(set(pack_slots) & set(slots))
     ruled = unruled = 0
-    unruled_slots = []
+    unruled_slots, refused_slots = [], []
     for s in covered:
         ch = choose_pack(slots[s], pack_slots[s], ctx)
         if ch and ch["how"] in ("slot.packs", "style.proportion_packs", "single"):
@@ -813,8 +968,20 @@ def main():
         elif ch and ch["how"] == "unresolved":
             unruled += 1
             unruled_slots.append(s)
+        elif ch and ch["how"] == "kit.forbidden":
+            # THE FOURTH STATE, AND IT HAS TO BE IN THE TOTALS. WP-8.3 added it and this loop
+            # counted it as neither ruled nor unresolved, so `american-farmhouse-vernacular`
+            # printed "77 of 97 slots ... 59 resolved, 0 still unresolved" and left 18 slots
+            # named nowhere -- a state in no bucket, which is the one collapse this corpus
+            # forbids above all others. Found by the WP-8.4 adversarial audit.
+            refused_slots.append(s)
     print("\nPACK RESOLUTION  (%d of %d slots have a bound pack speaking to them)" % (len(covered), len(slots)))
-    print("  %d resolved by an explicit ruling, %d still unresolved" % (ruled, unruled))
+    print("  %d resolved by an explicit ruling, %d still unresolved, %d REFUSED because the "
+          "resolved kit forbids the slot" % (ruled, unruled, len(refused_slots)))
+    if len(covered) != ruled + unruled + len(refused_slots):
+        print("  ! %d slot(s) in NO bucket -- choose_pack returned a `how` this summary does "
+              "not name, and a state in no bucket reads as absent"
+              % (len(covered) - ruled - unruled - len(refused_slots)))
     # OQ 48: where two packs at one address MEASURE DIFFERENT THINGS, precedence picks a winner and
     # the other quantity is set aside. It used to be discarded with nothing said; now it is named,
     # because a rule that was silently dropped is unjudged and unjudged must not read as absent.
@@ -837,6 +1004,8 @@ def main():
         print("      (`check_addresses.py --scope cascade --report` measures this corpus-wide)")
     if unruled_slots:
         print("  unresolved: " + ", ".join(unruled_slots))
+    if refused_slots:
+        print("  refused (kit binds the slot `forbidden`): " + ", ".join(refused_slots))
     stale = [s for s in covered if (choose_pack(slots[s], pack_slots[s], ctx) or {}).get("stale_calibration")]
     if stale:
         print("  ! in_calibration is static and was set at a 9 ft ceiling; re-check at this context: %s"

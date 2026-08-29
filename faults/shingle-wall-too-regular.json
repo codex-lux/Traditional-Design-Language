@@ -54,7 +54,7 @@
         "threshold": 0.2,
         "note": "The licence is on EXPOSURE uniformity, not on width uniformity — and the two are opposite. Continuity depends on the vertical joints being unreadable, which random width provides and uniform width destroys, so the primary test is unchanged and it is the exposure test that relaxes."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "primary_cladding"
         ],
@@ -73,7 +73,7 @@
         "threshold": 1.0,
         "note": "A pattern belongs to a bounded field — a whole gable, a whole storey band between two moulded belts, a whole tower face. A floating three-course stripe scores zero."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "secondary_cladding",
           "gable_treatment"
@@ -106,7 +106,7 @@
         "upper": 6,
         "note": "Tight coursing is authentic; the widths still vary, and the corners are woven or stopped by a narrow corner board."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "New England"
         ]

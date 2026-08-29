@@ -1,4 +1,4 @@
-"""Pins build/profiles.py — the moulding constructions, WP-5.7.
+"""Pins build/profiles.py — the moulding constructions, WP-5.11.
 
 These tests assert GEOMETRY, not the strings it serialises to. That is the whole difference
 between this file and the TestSegTo block it replaces in tests/test_elevation.py: that one pinned
@@ -304,7 +304,7 @@ class TestAgainstTheRealCorpus:
     def test_a_width_survives_inheritance_in_the_same_unit_as_its_own_pitch(self):
         """A repeating member's width and its pitch are both measured in parts, so an overlay
         that redefines the part must convert BOTH. `width_parts` was added to the schema and to
-        dimension() in WP-5.7 and missed in `_convert_assembly`'s conversion tuple, so fourteen
+        dimension() in WP-5.11 and missed in `_convert_assembly`'s conversion tuple, so fourteen
         inherited members carried the base pack's width against their own converted pitch:
         chambers-doric's triglyph filled 12 of a 75-part pitch instead of 30, a 60% hole in a
         Doric frieze, against its own inherited note saying triglyph and metope fill it exactly.

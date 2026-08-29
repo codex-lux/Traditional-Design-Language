@@ -84,7 +84,7 @@
       "style": "victorian",
       "why": "In rooms with a high dado — 36 to 42 in, which is genuine later nineteenth-century practice, particularly in halls and dining rooms with embossed dado papers — the cap deliberately runs above the sill and the window is detailed to sit within the upper field.",
       "bounds": "The dado must be genuinely high and clearly above the sill by 6 in or more, and the window apron must be resolved into the dado rather than crossing it. A cap at 34 in against a 31 in sill is the fault, not the high-dado tradition.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1860,
           1901
@@ -95,7 +95,7 @@
       "style": "shotgun-house",
       "why": "Tall rooms with sills sometimes set high for privacy against a close-set street, and a rail at the conventional 30 to 32 in that ignores them.",
       "bounds": "Only where the sills are genuinely high — 36 in or more — so the two members are far apart and read as separate. The type more often has no rail at all.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "Gulf South"
         ]

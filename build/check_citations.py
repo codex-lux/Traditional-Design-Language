@@ -50,6 +50,11 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REGISTER = os.path.join("docs", "open-questions.md")
+# The conversion tables moved with the register (WP-8.1, this branch): the index is generated
+# and carries only the entry list, so the five collisions' mappings -- the only thing that
+# makes a pre-merge commit message readable -- live in the directory's own README. Check C
+# reads them from there.
+REGISTER_HISTORY = os.path.join("docs", "open-questions", "README.md")
 # The two files that contain the malformed shape on purpose (see tracked_files).
 SPECIMEN = {"build/check_citations.py", "tests/test_citations.py"}
 # Entries 1-99 are the legacy numeric block and are frozen. Every question raised after
@@ -79,14 +84,47 @@ SLUG_CITE = re.compile(r"\boq/[a-z0-9][a-z0-9-]*")
 CONT = re.compile(rf"(\s*(?:,|and|or|&)\s*)(\d+)(?!\s+{MONTH})(?!\d)")
 
 
-def entry_ids(text):
-    """The ids the register actually defines, as `N. **STATUS ...` list items."""
-    return {int(n) for n in re.findall(r"^(\d+)\. ", text, re.M)}
+def _check_ids():
+    """check_ids, through modcache -- never a local by-path loader (see CLAUDE.md)."""
+    import sys as _sys
+    _b = os.path.join(ROOT, "build")
+    if _b not in _sys.path:
+        _sys.path.insert(0, _b)
+    import modcache
+    return modcache.load("check_ids", os.path.join(_b, "check_ids.py"))
 
 
-def slug_ids(text):
+def entry_ids(_text=None):
+    """The numbered ids the register defines.
+
+    READ FROM THE DIRECTORY, not from the generated index (WP-8.4). `docs/open-questions.md`
+    is generated from `docs/open-questions/` -- one file per question, filename == id -- so
+    parsing the index would be parsing a derived artefact for facts the source holds, and
+    this checker's own `N. **STATUS` shape stopped existing the moment the register became a
+    directory. It failed loudly rather than passing on an empty set, which is the correct
+    behaviour and is why the reconciliation was a five-line change instead of a silent
+    outage. One reader for the register, in `build/check_ids.py`, as `gen_open_questions.py`
+    already uses."""
+    qs, _errors = _check_ids().read_questions()
+    return {k for k in qs if isinstance(k, int)}
+
+
+def slug_ids(_text=None):
     """The NAMED entries -- everything raised after the numbers were frozen."""
-    return set(SLUG_ENTRY.findall(text))
+    qs, _errors = _check_ids().read_questions()
+    return {k for k in qs if not isinstance(k, int)}
+
+
+def entry_id_errors():
+    """What the register's own reader REFUSED, which the two readers above discard.
+
+    Discarding it is right for them -- they answer "which ids exist" and a refused file
+    defines none -- but it hid the fact that this checker's own ceiling branch could never
+    fire, because the id it looked for had already been removed by the reader that refused
+    it. Surfaced here so the refusal is DELEGATED rather than re-derived. See the D block in
+    main()."""
+    _qs, errors = _check_ids().read_questions()
+    return errors
 
 
 def tracked_files():
@@ -138,7 +176,8 @@ def main():
     args = ap.parse_args()
 
     reg = open(os.path.join(ROOT, REGISTER), encoding="utf-8").read()
-    ids = entry_ids(reg)
+    history = open(os.path.join(ROOT, REGISTER_HISTORY), encoding="utf-8").read()
+    ids, id_errors = entry_ids(reg), entry_id_errors()
     if not ids:
         print("FAIL  the register defines no entries -- this checker just stopped "
               "checking anything. Its `N. **STATUS` shape has changed.", file=sys.stderr)
@@ -147,14 +186,21 @@ def main():
     slugs = slug_ids(reg)
     dangling, bare, n_cites = [], [], 0
 
-    # D -- THE ENFORCEMENT. A numbered entry above the ceiling means somebody issued a
-    # sequential id from their working tree again, which is the mechanism that collided four
-    # times in four days. Refusing it here is what makes the scheme a rule rather than a note
-    # in a file nobody re-reads.
-    over = sorted(n for n in ids if n > FROZEN_CEILING)
-    ceiling = [f"{REGISTER}: entry {n} is above the frozen ceiling of {FROZEN_CEILING} -- "
-               f"the numeric block is closed. Raise it as `### oq/<slug>` instead; see "
-               f"'How an id is issued' at the head of that file." for n in over]
+    # D -- THE ENFORCEMENT, AND IT LIVES IN `check_ids.py`, NOT HERE. This branch used to
+    # re-derive it, and the WP-8.4 adversarial audit proved it could never fire: `entry_ids()`
+    # delegates to `check_ids.read_questions()`, which REFUSES a numbered file above the
+    # ceiling and drops it from what it returns -- so by the time the ids reach this line, an
+    # over-ceiling id has already been removed by the checker that owns the rule. Planting
+    # `docs/open-questions/100-<slug>.md` produced check_ids' own error and an EMPTY `over`
+    # here. A dead second copy of a rule is worse than no copy: it reads as a belt-and-braces
+    # and is neither, and this corpus has paid four times for one rule spelled twice.
+    #
+    # What is kept is the READING of the refusal, delegated rather than re-derived: an id
+    # error from check_ids fails this checker too, so a run of `check_citations.py` alone
+    # still cannot pass over a working-tree-issued id. `tests/test_citations.py` presents an
+    # actual 100 to both and asserts each refuses it.
+    ceiling = [f"docs/open-questions/: {e}" for e in id_errors
+               if "frozen at" in e or "above the" in e]
 
     for rel in sorted(tracked_files()):
         full = os.path.join(ROOT, rel)
@@ -196,13 +242,13 @@ def main():
     # message readable, so a row that lands nowhere is a broken audit trail.
     table_bad, n_rows = [], 0
     seen = {}
-    for ln, froms, to, subject in conversion_rows(reg):
+    for ln, froms, to, subject in conversion_rows(history):
         n_rows += 1
         if to not in ids:
-            table_bad.append(f"{REGISTER}:{ln}: reissue row lands on {to}, which no entry defines")
+            table_bad.append(f"{REGISTER_HISTORY}:{ln}: reissue row lands on {to}, which no entry defines")
         if to in seen:
             table_bad.append(
-                f"{REGISTER}:{ln}: two rows both land on {to} "
+                f"{REGISTER_HISTORY}:{ln}: two rows both land on {to} "
                 f"(also line {seen[to]}) -- one of the two renumberings is lost")
         seen[to] = ln
 

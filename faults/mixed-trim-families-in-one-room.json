@@ -81,7 +81,7 @@
       "style": "victorian",
       "why": "Later nineteenth-century millwork catalogues sold members individually and Victorian builders bought them that way, so a genuine 1885 house often has a bullseye-block casing, a plain base and a stock crown that share no derivation. This is documented practice, not modern carelessness.",
       "bounds": "It holds only for the machine-catalogue period after about 1870, only where the members are genuinely period profiles, and only where they share a SCALE — the Victorian catalogue mixes ornament freely and keeps the members large. A 2 1/4 in casing under a 9 in base is not this exception.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1901

@@ -75,7 +75,7 @@
       "style": "mid-century-traditional",
       "why": "The modular storage wall with a recessed base and a floating case is period-correct and the toe recess is a deliberate device to make the mass appear to hover.",
       "bounds": "The recess must be consistent and evident — 3 to 4 in and continuous across the whole run — and the case should have no applied crown and no filler strips, being made to the room's dimension. The floating base is licensed; the arbitrary top and the fillers are not.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1980

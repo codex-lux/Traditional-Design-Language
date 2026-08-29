@@ -74,7 +74,7 @@
       "style": "shotgun-house",
       "why": "Ceilings of 11 to 13 ft with ordinary doors is documented practice; the height is climatic and the joinery never followed it.",
       "bounds": "The type compensates with transoms, which are near-universal above interior doors in the surviving stock and are the reason the arrangement works. A shotgun with 12 ft ceilings, 80 in doors and NO transoms has lost the thing that made it legible.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "Gulf South",
           "Lower Mississippi Valley"

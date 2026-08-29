@@ -86,7 +86,7 @@
       "style": "tudor-revival",
       "why": "Picturesque asymmetry means the elevation has no bay rhythm to blind; a blank stretch of wall between grouped casements is normal and a closet can stand behind it.",
       "bounds": "The blank stretch must be part of a composed asymmetry - a chimney breast, a stair wall, a gable cheek - and not a hole in an otherwise regular run of openings.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "composition_parti"
         ],
@@ -102,7 +102,7 @@
       "style": "andalusian-courtyard-vernacular",
       "why": "The street elevation is deliberately near-blind, so a closet against it costs nothing; the rooms are lit from the court and the small high street window is a ventilation slot, not a light source.",
       "bounds": "Only against the STREET wall, and the room must keep its full opening to the court. A closet against a court-facing wall is the fault in its severest form, because the court wall is the only light the room has.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "street_relationship"
         ]

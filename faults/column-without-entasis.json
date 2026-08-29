@@ -101,7 +101,7 @@
         "units": "in",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "wood-frame"
         ],
@@ -118,7 +118,7 @@
       "style": "creole-cottage-vernacular",
       "why": "Gallery colonnettes in Creole and Caribbean work are slender turned or square wooden posts, often genuinely parallel, carrying a light gallery roof. They are a joiner's product, not an order, and the tradition is continuous and documented.",
       "bounds": "Colonnette diameter 5 to 7 in at a gallery height of 8 to 10 ft, carrying nothing but a light plate and a low-pitch gallery roof. The licence does not extend to a two-storey gallery or to anything carrying a pediment.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi",

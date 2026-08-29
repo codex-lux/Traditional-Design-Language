@@ -57,7 +57,7 @@
         "measurable_from": "photograph",
         "note": "The roof must be genuinely long and low with a deep eave and the door head well below it. A wide door in a two-storey gable end is not this exception."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1975
@@ -76,7 +76,7 @@
         "measurable_from": "photograph",
         "note": "Requires the low continuous roof and the era-appropriate flush or panelled door face, not a carriage-house pastiche."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1975

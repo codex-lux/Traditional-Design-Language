@@ -63,7 +63,7 @@
         "measurable_from": "photograph",
         "note": "The style handles the water with the shingle lap and generous overhangs. This licence is not available to a house with 8 in eaves, which is the condition under which the trimless envelope becomes a leak."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "shingle-cladding"
         ],
@@ -82,7 +82,7 @@
         "measurable_from": "site-visit",
         "note": "The wash is not optional; only the projecting member is. Reveal not less than 10 in."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "adobe",
           "mass-wall"
@@ -105,7 +105,7 @@
         "measurable_from": "site-visit",
         "note": "A tiled sill must slope and must have a bullnose or overhanging edge at its outer face. Reveal not less than 8 in."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "mass-wall",
           "adobe",

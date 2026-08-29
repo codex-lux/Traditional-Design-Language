@@ -261,7 +261,7 @@ class TestFaultCorpusIntegration:
 class TestCorniceProfileGeometry:
     """Successor to TestSegTo, which pinned build/render_elevation.py's line-for-line port of
     orders_template.html's segTo() -- control point for control point, Bezier fraction for Bezier
-    fraction. WP-5.7 deleted the thing it pinned: those curves were hand-tuned approximations, and
+    fraction. WP-5.11 deleted the thing it pinned: those curves were hand-tuned approximations, and
     worse, profile_silhouette_path() always called seg_to() with xa == xb, so every one of them
     degenerated to a vertical line and the cornice drew as a flight of steps whatever the profile
     names said. Pinning the arithmetic of a curve nobody could see is not a guard.
@@ -346,7 +346,7 @@ class TestCorniceProfileGeometry:
 
 
 class TestTheHeadOfAnOpeningIsReadNotAsserted:
-    """WP-5.7 shipped a style fact hardcoded and attributed to a pack that does not contain it,
+    """WP-5.11 shipped a style fact hardcoded and attributed to a pack that does not contain it,
     which is the invented-source failure CLAUDE.md calls the worst thing that can be done to this
     corpus. It wrote `"keystone": False` with a comment claiming "the kit states keystone: none
     for this tradition" and a `source` string citing `brick-course.json window_head_masonry` --
@@ -414,7 +414,7 @@ class TestTheHeadOfAnOpeningIsReadNotAsserted:
     def test_the_chimney_judgment_reaches_the_sheet(self, elevation_module,
                                                    render_elevation_module, tmp_path):
         """brick-course flags the stack width `judgment: true` -- "a mason will build 18 or 27
-        and someone should decide". WP-5.7's comment, report and commit message all said the
+        and someone should decide". WP-5.11's comment, report and commit message all said the
         figure reaches the drawing labelled as a judgment. It reached no sheet at all."""
         elev = self._with(elevation_module)
         assert elev["chimney_stack_plan_judgment"], "the record dropped the judgment note"
@@ -440,18 +440,18 @@ class TestRenderElevation:
         out = tmp_path / "tidewater-E.svg"
         render_elevation_module.render_elevation(elev, str(out), face="E")
         text = out.read_text()
-        # The roof carries a line-weight class alongside its own now (WP-5.9), so match the TOKEN
+        # The roof carries a line-weight class alongside its own now (WP-5.13), so match the TOKEN
         # rather than the whole attribute -- a pin on `class="rf"` exactly would fail every time
         # the roof moved a rung on the ladder without the roof having changed at all.
         assert 'class="rf' in text
         # THE SAME PIN, ONE LINE APART. The comment directly above says a pin on `class="rf"`
         # exactly would fail every time the roof moved a rung on the weight ladder without the
         # roof changing -- and then the next line pinned `class="ch"` exactly, which is what broke
-        # when WP-5.9 gave the stack its own rung. Match the token.
+        # when WP-5.13 gave the stack its own rung. Match the token.
         assert 'class="ch' in text   # tidewater-georgian-careful's own gable-end chimneys (WP-3.3)
         # And WHERE, because "a stack is on the sheet" was true of the version that drew it as a
         # bar floating in the sky at the top-left corner, 3 ft from the gable's front corner and
-        # touching no roof (see WP-5.9's report, and OQ 80).
+        # touching no roof (see WP-5.13's report, and OQ 80).
         import re as _re
         rects = _re.findall(r'<rect class="ch[^"]*" x="([-\d.]+)"[^>]*width="([-\d.]+)"', text)
         assert len(rects) == 1, "one stack per gable end"
@@ -459,7 +459,7 @@ class TestRenderElevation:
         y_ft = elev["roof_record"]["chimneys"]["positions"][0]["y_ft"]
         assert abs(centre_ft - y_ft) < 0.2, (
             f"stack drawn at {centre_ft:.2f} ft along the gable end; the record says {y_ft}")
-        # WP-5.9: and the roof is a closed plane now, not a line along its bottom edge.
+        # WP-5.13: and the roof is a closed plane now, not a line along its bottom edge.
         assert "<polygon" in text, "the roof is drawn as a polyline again"
 
     def test_long_face_of_a_side_gable_DOES_show_its_stacks(self, elevation_module, render_elevation_module, tmp_path):
@@ -469,7 +469,7 @@ class TestRenderElevation:
         that is not actually in that wall's plane", which was WP-3.3's finding and was right while
         `roof.py`'s long-face silhouette stopped at the eave: with no roof surface modelled there
         was nothing to say which part of a 47 ft stack clears the roof, so drawing any of it would
-        have been inventing. OQ 80 closed that (WP-5.9): `elevation_profile` carries the near roof
+        have been inventing. OQ 80 closed that (WP-5.13): `elevation_profile` carries the near roof
         PLANE on a long face, because parallel projection fills the band from eave to ridge, and
         the front elevation draws both end stacks — which the kit calls "visible from a mile away
         and conclusive against New England".

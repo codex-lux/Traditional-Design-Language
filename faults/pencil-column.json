@@ -95,7 +95,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi",
@@ -110,7 +110,7 @@
       "style": "raised-creole-plantation",
       "why": "The upper gallery of a raised Creole plantation house carries slender wooden colonnettes above heavier masonry piers below — the classic Louisiana two-tier arrangement — and the upper colonnettes are correctly thin because the masonry below is doing the work.",
       "bounds": "Only the UPPER tier. The lower tier must be masonry piers or a stout order; a raised Creole house on thin colonnettes at both levels is this fault twice.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "lower-mississippi",
           "gulf-coast"
@@ -121,7 +121,7 @@
       "style": "folk-victorian",
       "why": "Catalogue turned posts are 4 to 5 in at the barrel and 8 to 9 ft tall — 20 diameters or more if measured as columns — and their thinness is exactly the point. The Folk Victorian porch is deliberately a light lattice of thin members, and thickening the posts destroys it.",
       "bounds": "Only where the whole assembly is thin and of a piece: turned posts of 4-5 in with a sawn spindle frieze and sawn brackets, carrying a light shed or hip porch roof. A turned post carrying a gable or a second storey is not this.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1870,
           1910

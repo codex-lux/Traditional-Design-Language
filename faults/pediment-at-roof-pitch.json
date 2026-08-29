@@ -112,7 +112,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1820,
           1870
@@ -131,7 +131,7 @@
         "units": "ratio",
         "measurable_from": "photograph"
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "door_surround",
           "window_surround_wood"

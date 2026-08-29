@@ -90,7 +90,7 @@
         "units": "count",
         "measurable_from": "plan"
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "hearth_position",
           "built_ins"

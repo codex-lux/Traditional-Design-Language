@@ -79,7 +79,7 @@
       "style": "creole-cottage-vernacular",
       "why": "The openings on the front of a Creole cottage are full-height French casement doors, and louvred blinds hung on doors rather than on windows is the type's own diagnostic.",
       "bounds": "The blinds are on doors, are full height, and cover the whole leaf; this licenses blinds on door openings, not on ganged windows.",
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "secondary_door",
           "entry_door"
@@ -118,7 +118,7 @@
         "measurable_from": "photograph",
         "note": "The licence is about height, not about ganging or curvature: full-height blinds on single rectangular openings."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "south-carolina-lowcountry"
         ],
@@ -171,7 +171,7 @@
         "direction": "at-least",
         "threshold": 0.1,
         "units": "in",
-        "note": "Only evaluated where the head is CURVED, which the test's own note already said in prose where no evaluator could read it. A square-headed window has no head radius: supply 0 for both and the expression is 0/0, supply 0 for one and it convicts. docs/elevation.md's open question 1, answered 27 Aug 2026 (WP-5.9)."
+        "note": "Only evaluated where the head is CURVED, which the test's own note already said in prose where no evaluator could read it. A square-headed window has no head radius: supply 0 for both and the expression is 0/0, supply 0 for one and it convicts. docs/elevation.md's open question 1, answered 27 Aug 2026 (WP-5.13)."
       },
       "note": "Only evaluated where the head is curved. A stock arch-top leaf is moulded to one generic radius and produces two mismatched curves side by side, which is worse than the square leaf it replaced."
     }

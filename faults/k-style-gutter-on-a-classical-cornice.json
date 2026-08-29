@@ -59,7 +59,7 @@
         "threshold": 0,
         "note": "The point is that Craftsman has no cymatium, not that it tolerates a fake one. A plain-faced square or half-round gutter integrated into the fascia is fine; a K-style ogee still adds a moulding to a wall that has none."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "eave_condition",
           "cornice"
@@ -91,7 +91,7 @@
         "threshold": 0,
         "note": "A licence about period accuracy, not about profile quality. It evaporates the moment the house grows a classical cornice."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1935,
           1975
@@ -110,7 +110,7 @@
         "threshold": 0,
         "note": "As above."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1940,
           1975

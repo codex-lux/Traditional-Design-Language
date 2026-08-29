@@ -52,7 +52,7 @@
         "measurable_from": "plan",
         "note": "The doors must ACTUALLY swing or fold. Straps on a sectional door are the fault in any style, including this one."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "side-hinged-door",
           "bi-fold-door"
@@ -72,7 +72,7 @@
         "measurable_from": "plan",
         "note": "Real swing, real iron, and a segmental or round head built as an arch rather than moulded into a door face."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "side-hinged-door",
           "bi-fold-door"
@@ -91,7 +91,7 @@
         "measurable_from": "photograph",
         "note": "Ironwork must be wrought and must correspond to the door's motion, and the opening must carry the style's 6 in minimum reveal."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "side-hinged-door",
           "mass-wall",

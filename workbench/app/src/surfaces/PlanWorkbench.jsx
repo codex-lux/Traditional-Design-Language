@@ -26,6 +26,30 @@ import { PullPane } from '../components/PullPane.jsx';
    STATEMENT, so improving the wording of a finding silently broke every open row, every citation
    and every diff: the UI reported one finding cleared and another opened when nothing had changed
    but an adjective. Prefer f.id; never reintroduce the hash as the primary. */
+// WHY A COULD-NOT-EVALUATE FAULT COULD NOT BE EVALUATED. Three shapes reach this list and
+// only one of them is "a number is missing":
+//   needs[]              -- the historical case: name the measurements.
+//   errors[]             -- a test raised; say so, never render it as a missing number.
+//   exception_unjudged   -- WP-8.4: this style carries an exception whose own bounds_test would
+//                           REPLACE the fault's primary test, and whose condition could not be
+//                           resolved, so the two rules disagree about this house and nobody can
+//                           say which governs. `needs` is EMPTY by construction here, and the
+//                           bench used to render the bare word "needs" for it -- an unjudged
+//                           whose reason is on the record and not on the screen, which reads to
+//                           the user exactly like a bug in the bench.
+function unjudgedReason(u) {
+  const x = u.exception_unjudged
+  if (x) {
+    return 'the ' + (x.style || 'style') + ' exception could not be judged (' +
+      (x.because || 'no reason given') + '), and its own test says ' +
+      (x.under_the_exception || '?') + ' where the general rule says ' +
+      (x.under_the_general_rule || '?')
+  }
+  if (u.errors && u.errors.length) return 'a test errored: ' + u.errors.join('; ')
+  const n = u.needs || []
+  return n.length ? 'needs ' + n.join(', ') : 'no test of this fault could be evaluated'
+}
+
 function findingKey(f) {
   if (f.id) return f.id;
   const s = `${f.layer}|${f.statement}|${f.room || ''}`;
@@ -193,7 +217,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const unjudgedConstraints = findings.filter((f) =>
     f.layer === 'style' && /cannot evaluate|check by hand/i.test(f.statement));
   const faultUnjudged = lastEval?.fault_unjudged || [];
-  // THE FOURTH STATE (WP-5.9), which reached this surface only after the WP-5.10 audit went
+  // THE FOURTH STATE (WP-5.13), which reached this surface only after the WP-5.14 audit went
   // looking. A fault whose every test declined its `applies_when` precondition appears in no
   // other list, so leaving it out of the bench reproduced here the exact collapse the state was
   // invented to prevent: absent from every list reads as clear.
@@ -369,8 +393,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
               ))}
               {faultUnjudged.slice(0, 8).map((u) => (
                 <div key={u.fault} style={{ marginBottom: 10 }}>
-                  <JudgmentMark state="unjudged" label={u.name}
-                    reason={'needs ' + (u.needs || []).join(', ')} />
+                  <JudgmentMark state="unjudged" label={u.name} reason={unjudgedReason(u)} />
                 </div>
               ))}
               {faultNotApplicable.slice(0, 4).map((u) => (

@@ -77,7 +77,7 @@
       "style": "mid-century-traditional",
       "why": "The wide low fire opening, sometimes a raised horizontal slot in a masonry wall with no surround at all, is the period's own form, and a linear proportion is correct.",
       "bounds": "No applied period surround. The opening is a cut in a wall of one material, usually with a raised hearth and no shelf, and the honesty is the point.",
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           1945,
           1975

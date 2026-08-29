@@ -58,7 +58,7 @@
         "measurable_from": "photograph",
         "note": "The style's own bound. Frieze band only, aligned with the bays below, never on the principal storey."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "special_window",
           "frieze"
@@ -130,7 +130,7 @@
         "measurable_from": "elevation",
         "note": "The style's own cap on south and west elevations unless shaded by an arcade or a 4 ft overhang. Paired with a reveal of not less than 8 in — a squat window in a flat 2 in stucco skin is two faults at once, not an exception."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "mass-wall",
           "adobe",

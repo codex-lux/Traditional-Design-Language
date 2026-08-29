@@ -89,7 +89,7 @@
         "measurable_from": "section",
         "note": "Full-height paired casements reaching within 12 to 18 in of an 11 ft or taller ceiling. An 8 ft ceiling defeats the stack ventilation the whole type depends on and voids the exception."
       },
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "gulf-coast",
           "lower-mississippi"

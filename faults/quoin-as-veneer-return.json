@@ -59,7 +59,7 @@
         "threshold": 0.5,
         "note": "Drawn masonry on real masonry. The quoin must be formed in the render with a genuine 1/2-3/4 in projection or scored recess, and no other element on the wall may claim to be cut stone."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "solid-masonry-three-wythe"
@@ -82,7 +82,7 @@
         "threshold": 0.5,
         "note": "A crisp cast quoin fails here for a second reason — see stucco-with-no-arris. The modelled quoin must carry the soft arris of the wall it belongs to."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "solid-masonry-two-wythe",
           "adobe",

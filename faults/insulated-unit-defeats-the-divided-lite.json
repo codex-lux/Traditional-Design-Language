@@ -91,7 +91,7 @@
         "measurable_from": "photograph",
         "note": "Where the idiom uses grids they should be FEW and WIDE rather than many and thin. The head-datum and proportion rules still apply in full."
       },
-      "applies_when": {
+      "granted_when": {
         "date_range": [
           2010,
           2030
@@ -111,7 +111,7 @@
         "measurable_from": "photograph",
         "note": "Real came in a real leaded panel, captured in or behind an insulated unit. A came-pattern grille between panes is the between-glass grille fault, not this exception."
       },
-      "applies_when": {
+      "granted_when": {
         "construction": [
           "leaded-casement"
         ]

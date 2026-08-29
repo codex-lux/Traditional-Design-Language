@@ -53,7 +53,7 @@
     "threshold": 30,
     "note": "A fire wall carried above the roof by the height fire separation requires, in masonry, always with a real coping. It is a code element rather than a style element, and it appears at the gable ends rather than across the front."
    },
-   "applies_when": {
+   "granted_when": {
     "construction": [
      "solid-masonry-two-wythe",
      "solid-masonry-three-wythe"
@@ -81,7 +81,7 @@
     "threshold": 8,
     "note": "A real thick wall with both faces finished and a tile or plaster coping, over a genuine low-slope or tiled roof. A shaped board screen on a truss roof is the fault."
    },
-   "applies_when": {
+   "granted_when": {
     "slots": [
      "parapet",
      "roof_form",
@@ -101,7 +101,7 @@
     "threshold": 12,
     "note": "Canales must actually discharge and must project 12-24 in, or they stain the wall permanently. A level parapet with no canales is Territorial or commercial, not Pueblo."
    },
-   "applies_when": {
+   "granted_when": {
     "slots": [
      "parapet",
      "roof_form",

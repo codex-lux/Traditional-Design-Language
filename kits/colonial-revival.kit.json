@@ -150,7 +150,7 @@
       "rule": "Dormers are boxed and gabled, aligned on the bays below, odd in number, and never break the eave line.",
       "status": "drafted",
       "confidence": "low",
-      "note": "BOUND 27 Aug 2026 (WP-5.10, OQ 85's sibling finding). This slot was `binding: open`, `status: empty` -- the style declining to constrain it -- and `resolve_slots` only stops its walk on `specified` or `forbidden`, so `open` was skipped entirely and the whole slot resolved from `english-cottage-vernacular`: `eyebrow-swept-dormer-within-thatch` canonical, `catslide-over-rear-outshot` permitted, and `boxed-dormer` FORBIDDEN. A production Colonial Revival could not declare the only dormer it is ever built with, and the elevation generator drew a thatched cottage's dormer on it with full confidence. Found by running the dormer generator on the second reference plan rather than by any test. This is OQ 51's class arriving in the kit layer; that a style saying `open` inherits a constraint it explicitly declined to make is a question about the semantics of `open` across all 97 slots, raised separately."
+      "note": "BOUND 27 Aug 2026 (WP-5.14, OQ 85's sibling finding). This slot was `binding: open`, `status: empty` -- the style declining to constrain it -- and `resolve_slots` only stops its walk on `specified` or `forbidden`, so `open` was skipped entirely and the whole slot resolved from `english-cottage-vernacular`: `eyebrow-swept-dormer-within-thatch` canonical, `catslide-over-rear-outshot` permitted, and `boxed-dormer` FORBIDDEN. A production Colonial Revival could not declare the only dormer it is ever built with, and the elevation generator drew a thatched cottage's dormer on it with full confidence. Found by running the dormer generator on the second reference plan rather than by any test. This is OQ 51's class arriving in the kit layer; that a style saying `open` inherits a constraint it explicitly declined to make is a question about the semantics of `open` across all 97 slots, raised separately."
     },
     "chimney": {
       "group": "massing-and-roof",
@@ -511,10 +511,36 @@
     },
     "transom_sidelight": {
       "group": "openings",
-      "binding": "open",
-      "variants": [],
+      "binding": "specified",
+      "variants": [
+        {
+          "id": "elliptical-fanlight",
+          "status": "canonical",
+          "note": "The style's own lineage note names the source directly: 'Source of the fanlight, the elliptical entry, and the attenuated Adamesque colonnette that the revival uses far more freely than the Federal period did.'"
+        },
+        {
+          "id": "sidelights",
+          "status": "canonical",
+          "note": "Constrained by this node's own c01, which dimensions them: 'sidelights not wider than 12 in. each.' A style does not set a width limit on a thing it forbids."
+        },
+        {
+          "id": "semicircular-fanlight",
+          "status": "permitted"
+        },
+        {
+          "id": "rectangular-multi-light-transom",
+          "status": "permitted",
+          "note": "The plainer reading, and the one faults/fanlight-before-its-date recommends as the fix for a date-wrong fanlight."
+        },
+        {
+          "id": "none",
+          "status": "atypical",
+          "note": "A Colonial Revival entrance without either is possible and is not what the style is built for."
+        }
+      ],
       "parameters": {},
-      "status": "empty"
+      "status": "drafted",
+      "note": "BOUND 28 Aug 2026 (WP-8.3), and it was FORBIDDEN here until then -- inherited, on an editorial note reading 'not directly documented either way; forbidden on the strength of c05's general prohibition', from GOTHIC-REVIVAL-BRITISH, whose c05 forbids classical apparatus throughout. Colonial Revival was inheriting a Gothic prohibition on the one feature it is most known for. Exactly the shape of this node's own `dormer` slot, bound on 27 Aug 2026 for the identical reason, and OQ 87's mechanism: the slot was `open`, and `resolve_slots` stops its walk only on `specified` or `forbidden`, so an unstated slot inherits the nearest ancestor's record in full. Found by WP-8.3, which made `forbidden` stop the pack cascade too and thereby made this visible: the generator refused to draw sidelights on a house whose own defining_characteristics[1] reads 'An entry assembly of pilasters or engaged columns with an entablature, pediment, or portico, plus fanlight and/or sidelights -- larger and more elaborate than any colonial precedent.'"
     },
     "secondary_door": {
       "group": "openings",

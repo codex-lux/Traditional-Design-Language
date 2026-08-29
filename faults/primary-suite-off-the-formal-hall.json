@@ -59,7 +59,7 @@
       "style": "creole-cottage-vernacular",
       "why": "The four-room square plan has no corridor and no gradient of the Anglo kind at all - every room is entered from outside or from its neighbour, and a chamber can front the street with its own French door. Privacy is made by the shutters and the galerie, not by the plan.",
       "bounds": "Requires the type's whole apparatus: paired equal front openings, exterior louvred blinds on every opening, and the rear loggia between cabinets. A hall-less plan without them has no privacy device at all.",
-      "applies_when": {
+      "granted_when": {
         "regions": [
           "Lower Mississippi Valley",
           "Gulf Coast"

@@ -1,6 +1,6 @@
-"""What is DRAWN, not what was modelled — the layer WP-5.7 left unguarded.
+"""What is DRAWN, not what was modelled — the layer WP-5.11 left unguarded.
 
-WP-5.7 replaced a set of hand-tuned Beziers with real constructions and asserted them thoroughly:
+WP-5.11 replaced a set of hand-tuned Beziers with real constructions and asserted them thoroughly:
 convexity, tangency at a cyma's join, scale invariance, the datum rule. Every one of those tests
 passes on the model. None of them looks at the path the renderer actually emits, and an
 adversarial audit of that package found six construction and serialiser bugs that ship green
@@ -8,7 +8,7 @@ through all 34 checks, 970 tests, the selftest AND the browser walk — the head
 `svg_path()` emitted an inverted sweep flag, so every arc in the corpus was drawn as its own
 mirror image about its chord.
 
-That is the same disease as the `TestSegTo` block WP-5.7 deleted, one layer out. TestSegTo pinned
+That is the same disease as the `TestSegTo` block WP-5.11 deleted, one layer out. TestSegTo pinned
 the control-point arithmetic of a curve that had silently degenerated to a straight line; these
 tests pin the constructions of a curve that was silently being drawn backwards. In both cases the
 model was interrogated and the drawing was not.
@@ -319,7 +319,7 @@ class TestTheCadFileAndTheSheetAgreeOnTheCurve:
 
 
 class TestTheRoofIsOnTheSheet:
-    """WP-5.9. The front elevation of a side-gable house had no roof on it at all.
+    """WP-5.13. The front elevation of a side-gable house had no roof on it at all.
 
     `roof.py::elevation_profile` returned two points, both at the eave, for a long face, on the
     reasoning that "the ridge is behind the near roof plane, not visible". That is a PERSPECTIVE
@@ -422,7 +422,7 @@ class TestTheGaugedArchIsDrawnAsBrickwork:
 
 
 class TestRelieflsDrawnInLineNotInTone:
-    """WP-5.9. A projection drawn at its true width against a flat wall is still a flat wall on
+    """WP-5.13. A projection drawn at its true width against a flat wall is still a flat wall on
     the sheet — which is most of why this elevation read as a diagram rather than a building.
 
     The convention is not decorative and it is not free-hand: the light comes over the viewer's
@@ -473,7 +473,7 @@ class TestRelieflsDrawnInLineNotInTone:
 
 
 class TestNoOpeningIsDrawnWhereAStackStands:
-    """OQ 85, closed 27 Aug 2026 (WP-5.10).
+    """OQ 85, closed 27 Aug 2026 (WP-5.14).
 
     `roof.py` puts this house's stacks at `y_ft` 21.33 on a gable end 42.66 ft deep — its exact
     centre line — and `_face_bays()` independently spaces an odd bay count evenly, which puts a
@@ -583,7 +583,7 @@ class TestNoOpeningIsDrawnWhereAStackStands:
 
 
 class TestTheStacksAreDrawnWhereTheRecordPutsThem:
-    """WP-5.9, second half. The chimney block carried a twelve-line comment saying the front
+    """WP-5.13, second half. The chimney block carried a twelve-line comment saying the front
     elevation COULD NOT show the stacks, because `roof.py`'s long-face silhouette was flat at the
     eave and modelled no roof mass above the cornice. That was true when it was written and
     stopped being true earlier in the same package — `elevation_profile` returns the near roof
@@ -655,7 +655,7 @@ class TestTheStacksAreDrawnWhereTheRecordPutsThem:
 
 
 class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
-    """WP-5.9. Dormers were the last thing in this corpus that could not be stated at all.
+    """WP-5.13. Dormers were the last thing in this corpus that could not be stated at all.
 
     `build/roof.py::dormer_rhythm_check` read a field it had invented for itself
     (`declared_dormers`) because the plan schema had none, and `build/elevation.py` refused
@@ -907,7 +907,7 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
         """OQ 51 in the KIT layer. A style that binds a slot nothing gets its nearest ancestor's
         record in full, and the drawing must say so rather than asserting the result.
 
-        REWRITTEN 27 Aug 2026 (WP-5.10). This test used to pin `spec-builder-colonial`, whose
+        REWRITTEN 27 Aug 2026 (WP-5.14). This test used to pin `spec-builder-colonial`, whose
         `colonial-revival` bound `dormer` as `open` and therefore resolved a thatched cottage's
         dormer from `english-cottage-vernacular` — with `boxed-dormer`, the only dormer such a
         house is built with, FORBIDDEN. That instance was fixed (OQ 87), so pinning it would now
@@ -965,7 +965,7 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
         assert e._dormer_lights(["12/12"]) == (3, 4)
 
     def test_the_undeclared_sash_is_drawn_as_glass_and_the_sheet_says_so(self, tmp_path):
-        """The END-TO-END half, restored 28 Aug 2026. The WP-5.10 rewrite moved this test off
+        """The END-TO-END half, restored 28 Aug 2026. The WP-5.14 rewrite moved this test off
         `colonial-revival` (correctly — that style states a pattern now) and in doing so retreated
         to a unit test of `_dormer_lights`, dropping the drawing assertion its own docstring
         promised. Neither the bare-glass sash nor the `DORMER SASH PATTERN UNDECLARED` legend was

@@ -58,7 +58,7 @@
         "threshold": 0.6,
         "note": "The upper crowning cornice terminates only the mansard and is legitimately lighter — about half the main one. The MAIN cornice at the mansard base still takes the full principal-storey dimension and is still the heaviest horizontal."
       },
-      "applies_when": {
+      "granted_when": {
         "slots": [
           "roof_form",
           "cornice"

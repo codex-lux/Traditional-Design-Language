@@ -247,5 +247,16 @@
       "note": "The node that gives the pack its bargeboard dimensions and its module: depth 10-18 in, cut from 1-1.5 in stock, pattern repeat 12-24 in, with sawn brackets 12-20 in on the diagonal and 'turned or chamfered porch posts with sawn brackets and a pierced valance'. This record also states the member the type cannot do without -- 'pierced and cusped bargeboard applied to the rake, the single indispensable element' -- which is the member_count rule seen from one style's side. `opening-pointed` also writes the bargeboard's depth on this node and means the same quantity; precedence resolves it, and both packs' notes say so.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "A Chambers Ionic order as this node's PRIMARY proportioning system. It cannot be executed here: this is a plank-built style whose own first tell caps every projection at about two inches, and an Ionic order is a column, a capital and an entablature in depth. Its inherited kit also binds `pilaster` FORBIDDEN, from gothic-revival-american, with the note 'No pilaster order.' -- and chambers-ionic dimensions that slot anyway, which is the forbidden-slot class `--forbidden` now counts.",
+      "basis": "node-record",
+      "quote": "Ornament is flat. Sight along the wall: everything projects less than about two inches, because everything came off a plank",
+      "quoted_from": "diagnostic_tells[0]",
+      "decided": "2026-08-28",
+      "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    }
   ]
 }

@@ -481,7 +481,7 @@ def export_elevation_dxf(elev, path, face=None):
                         (span + band_proj, true_eave), (-band_proj, true_eave)],
                        close=True, dxfattribs={"layer": cor})
 
-    # WP-5.7: THE CORNICE PROFILE ITSELF, AND THE ANSWER TO "DO WE NEED CAD FOR THIS".
+    # WP-5.11: THE CORNICE PROFILE ITSELF, AND THE ANSWER TO "DO WE NEED CAD FOR THIS".
     #
     # This file used to export the entire cornice as one closed rectangle plus a text note
     # saying how many members it had. That was not a limitation of DXF. It was that no layer of
