@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 711" width="738" height="711">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="711" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Ionic Order (Gibbs) - overlay on Vignola — capital</text>
+<rect class="pf" x="36" y="38" width="666" height="550"/>
+<line x1="70.0" y1="597.6" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,597.632 A 261.816 261.816 0 0 0 331.816,335.816 A 29.088 130.908 0 0 0 360.904,204.908 L 280.910,204.908 A 21.818 21.818 0 0 0 302.728,183.090 A 21.818 21.818 0 0 0 280.910,161.272 L 390.000,161.272 L 390.000,95.818 L 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="332.8" y1="466.7" x2="404.0" y2="466.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="469.3">Volute with its channel — volute, 3.00″</text>
+<line x1="361.9" y1="270.4" x2="404.0" y2="270.4" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="273.0">Echinus (ovolo) — echinus, 1.50″</text>
+<line x1="303.7" y1="183.1" x2="404.0" y2="183.1" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="185.7">Bead answering to the eye of the volute — astragal, 0.50″</text>
+<line x1="391.0" y1="128.5" x2="404.0" y2="128.5" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="131.1">Abacus, ovolo — abacus, 0.75″</text>
+<line x1="391.0" y1="84.9" x2="404.0" y2="84.9" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="87.5">Abacus, list — fillet, 0.25″</text>
+<text class="dm" x="44" y="618.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="629.0">Ionic Order (Gibbs) - overlay on Vignola, assembly capital, at a 12″ column. 5 member(s), 6.00″ high, 3.67″ of relief from the</text>
+<text class="dm" x="44" y="640.0">naked.</text>
+<text class="dm" x="44" y="651.0">AFTER: James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 3, X, XI, XII, XIII, XIV, XV,</text>
+<text class="dm" x="44" y="662.0">XXIV, XXV, XXVI, XXXII, XXXVII no. 3, XLVIII</text>
+<text class="dm" x="44" y="673.0">NOT CONSTRUCTED, AND NOT DRAWN AS SOMETHING PLAUSIBLE: cap volute (volute)</text>
+</svg>

@@ -189,8 +189,16 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
                       subject: a.caption || a.subject,
                       shot_spec: typeof a.shot_spec === 'string' ? a.shot_spec : JSON.stringify(a.shot_spec),
                       alt: a.alt_text || a.alt,
+                      // file, rights and generated_from were dropped here, so an image could
+                      // not have been shown even once one existed. `provenance_required` used
+                      // to fall back to the literal 'photographer credit + permission' -- a
+                      // licensing claim that came from nowhere in the data.
+                      file: a.file,
+                      status: a.status,
+                      rights: a.rights,
+                      generated_from: a.generated_from,
                       provenance_required: typeof a.provenance === 'string' ? a.provenance
-                        : a.provenance_required || 'photographer credit + permission',
+                        : a.provenance_required || undefined,
                     }} />
                 ))}
               </div>

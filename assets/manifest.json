@@ -11,7 +11,8 @@
       "low": 0
     },
     "by_status": {
-      "wanted": 322
+      "wanted": 311,
+      "sourced": 11
     }
   },
   "note": "Every record here is WANTED — specified, with a shot spec and alt text, and no file yet. That is the design: the gap is visible, the shot list exists, and an agent can already reason from the record. Set status to sourced when a file lands and approved when a human has checked it.",
@@ -683,6 +684,10 @@
         ],
         "slots": [
           "trim_family"
+        ],
+        "faults": [
+          "beadboard-in-the-parlour",
+          "doorhead-that-collides-with-the-cornice"
         ]
       },
       "caption": "English Georgian, trim profile family: adamesque-attenuated — wrong, and why.",
@@ -726,6 +731,10 @@
         ],
         "slots": [
           "trim_family"
+        ],
+        "faults": [
+          "beadboard-in-the-parlour",
+          "doorhead-that-collides-with-the-cornice"
         ]
       },
       "caption": "English Georgian, trim profile family: the same element done correctly.",
@@ -769,6 +778,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: even-bay-front — wrong, and why.",
@@ -812,6 +827,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: the same element done correctly.",
@@ -855,6 +876,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: picturesque-asymmetrical — wrong, and why.",
@@ -898,6 +925,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: the same element done correctly.",
@@ -941,6 +974,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: balanced-asymmetrical — wrong, and why.",
@@ -984,6 +1023,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: the same element done correctly.",
@@ -1027,6 +1072,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: additive-vernacular — wrong, and why.",
@@ -1070,6 +1121,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: the same element done correctly.",
@@ -1113,6 +1170,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: off-centre-entrance — wrong, and why.",
@@ -1156,6 +1219,12 @@
         ],
         "slots": [
           "composition_parti"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "even-bay-front",
+          "one-bay-symmetry-break",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, composition parti: the same element done correctly.",
@@ -1199,6 +1268,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: cross-gable — wrong, and why.",
@@ -1242,6 +1315,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: the same element done correctly.",
@@ -1285,6 +1362,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: front-gable — wrong, and why.",
@@ -1328,6 +1409,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: the same element done correctly.",
@@ -1371,6 +1456,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: catslide-saltbox — wrong, and why.",
@@ -1414,6 +1503,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: the same element done correctly.",
@@ -1457,6 +1550,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: mansard — wrong, and why.",
@@ -1500,6 +1597,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: the same element done correctly.",
@@ -1543,6 +1644,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: shed — wrong, and why.",
@@ -1586,6 +1691,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: the same element done correctly.",
@@ -1629,6 +1738,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: picturesque-roof-intersection — wrong, and why.",
@@ -1672,6 +1785,10 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "gambrel-slopes-converging",
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Georgian Colonial American, roof form: the same element done correctly.",
@@ -3177,6 +3294,10 @@
         ],
         "slots": [
           "chimney"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "direct-vent-box-in-a-period-surround"
         ]
       },
       "caption": "Georgian Colonial American, chimney: single-central-stack — wrong, and why.",
@@ -3220,6 +3341,10 @@
         ],
         "slots": [
           "chimney"
+        ],
+        "faults": [
+          "chimney-omitted",
+          "direct-vent-box-in-a-period-surround"
         ]
       },
       "caption": "Georgian Colonial American, chimney: the same element done correctly.",
@@ -5542,6 +5667,9 @@
         ],
         "slots": [
           "window_grouping_rule"
+        ],
+        "faults": [
+          "even-bay-front"
         ]
       },
       "caption": "Georgian Colonial American, grouping & rhythm rule: paired-windows — wrong, and why.",
@@ -5585,6 +5713,9 @@
         ],
         "slots": [
           "window_grouping_rule"
+        ],
+        "faults": [
+          "even-bay-front"
         ]
       },
       "caption": "Georgian Colonial American, grouping & rhythm rule: the same element done correctly.",
@@ -5628,6 +5759,9 @@
         ],
         "slots": [
           "window_grouping_rule"
+        ],
+        "faults": [
+          "even-bay-front"
         ]
       },
       "caption": "Georgian Colonial American, grouping & rhythm rule: ribbon-windows — wrong, and why.",
@@ -5671,6 +5805,9 @@
         ],
         "slots": [
           "window_grouping_rule"
+        ],
+        "faults": [
+          "even-bay-front"
         ]
       },
       "caption": "Georgian Colonial American, grouping & rhythm rule: the same element done correctly.",
@@ -5714,6 +5851,9 @@
         ],
         "slots": [
           "window_grouping_rule"
+        ],
+        "faults": [
+          "even-bay-front"
         ]
       },
       "caption": "Georgian Colonial American, grouping & rhythm rule: even-bay-front — wrong, and why.",
@@ -5757,6 +5897,9 @@
         ],
         "slots": [
           "window_grouping_rule"
+        ],
+        "faults": [
+          "even-bay-front"
         ]
       },
       "caption": "Georgian Colonial American, grouping & rhythm rule: the same element done correctly.",
@@ -9106,6 +9249,10 @@
         ],
         "slots": [
           "trim_family"
+        ],
+        "faults": [
+          "beadboard-in-the-parlour",
+          "doorhead-that-collides-with-the-cornice"
         ]
       },
       "caption": "Georgian Colonial American, trim profile family: trim-classical:wall_section_federal — wrong, and why.",
@@ -9149,6 +9296,10 @@
         ],
         "slots": [
           "trim_family"
+        ],
+        "faults": [
+          "beadboard-in-the-parlour",
+          "doorhead-that-collides-with-the-cornice"
         ]
       },
       "caption": "Georgian Colonial American, trim profile family: the same element done correctly.",
@@ -9192,6 +9343,10 @@
         ],
         "slots": [
           "trim_family"
+        ],
+        "faults": [
+          "beadboard-in-the-parlour",
+          "doorhead-that-collides-with-the-cornice"
         ]
       },
       "caption": "Georgian Colonial American, trim profile family: trim-classical:wall_section_greek — wrong, and why.",
@@ -9235,6 +9390,10 @@
         ],
         "slots": [
           "trim_family"
+        ],
+        "faults": [
+          "beadboard-in-the-parlour",
+          "doorhead-that-collides-with-the-cornice"
         ]
       },
       "caption": "Georgian Colonial American, trim profile family: the same element done correctly.",
@@ -9278,6 +9437,10 @@
         ],
         "slots": [
           "trim_family"
+        ],
+        "faults": [
+          "beadboard-in-the-parlour",
+          "doorhead-that-collides-with-the-cornice"
         ]
       },
       "caption": "Georgian Colonial American, trim profile family: trim-craftsman — wrong, and why.",
@@ -9321,6 +9484,10 @@
         ],
         "slots": [
           "trim_family"
+        ],
+        "faults": [
+          "beadboard-in-the-parlour",
+          "doorhead-that-collides-with-the-cornice"
         ]
       },
       "caption": "Georgian Colonial American, trim profile family: the same element done correctly.",
@@ -9418,6 +9585,9 @@
         ],
         "slots": [
           "fireplace_surround"
+        ],
+        "faults": [
+          "direct-vent-box-in-a-period-surround"
         ]
       },
       "caption": "Georgian Colonial American, fireplace surround: federal-composition-ornament-mantel — wrong, and why.",
@@ -9461,6 +9631,9 @@
         ],
         "slots": [
           "fireplace_surround"
+        ],
+        "faults": [
+          "direct-vent-box-in-a-period-surround"
         ]
       },
       "caption": "Georgian Colonial American, fireplace surround: the same element done correctly.",
@@ -9504,6 +9677,9 @@
         ],
         "slots": [
           "floor_material"
+        ],
+        "faults": [
+          "strip-oak-in-a-plank-house"
         ]
       },
       "caption": "Georgian Colonial American, floor material: strip-oak-2-1-4 — wrong, and why.",
@@ -9547,6 +9723,9 @@
         ],
         "slots": [
           "floor_material"
+        ],
+        "faults": [
+          "strip-oak-in-a-plank-house"
         ]
       },
       "caption": "Georgian Colonial American, floor material: the same element done correctly.",
@@ -9590,6 +9769,9 @@
         ],
         "slots": [
           "floor_material"
+        ],
+        "faults": [
+          "strip-oak-in-a-plank-house"
         ]
       },
       "caption": "Georgian Colonial American, floor material: uniform-width-plank — wrong, and why.",
@@ -9633,6 +9815,9 @@
         ],
         "slots": [
           "floor_material"
+        ],
+        "faults": [
+          "strip-oak-in-a-plank-house"
         ]
       },
       "caption": "Georgian Colonial American, floor material: the same element done correctly.",
@@ -9676,6 +9861,9 @@
         ],
         "slots": [
           "floor_material"
+        ],
+        "faults": [
+          "strip-oak-in-a-plank-house"
         ]
       },
       "caption": "Georgian Colonial American, floor material: engineered-plank-with-microbevel — wrong, and why.",
@@ -9719,6 +9907,9 @@
         ],
         "slots": [
           "floor_material"
+        ],
+        "faults": [
+          "strip-oak-in-a-plank-house"
         ]
       },
       "caption": "Georgian Colonial American, floor material: the same element done correctly.",
@@ -9762,6 +9953,10 @@
         ],
         "slots": [
           "hardware"
+        ],
+        "faults": [
+          "butt-hinge-before-its-date",
+          "lever-on-a-period-door"
         ]
       },
       "caption": "Georgian Colonial American, hardware: mortise-lockset-with-modern-lever — wrong, and why.",
@@ -9805,6 +10000,10 @@
         ],
         "slots": [
           "hardware"
+        ],
+        "faults": [
+          "butt-hinge-before-its-date",
+          "lever-on-a-period-door"
         ]
       },
       "caption": "Georgian Colonial American, hardware: the same element done correctly.",
@@ -9848,6 +10047,10 @@
         ],
         "slots": [
           "hardware"
+        ],
+        "faults": [
+          "butt-hinge-before-its-date",
+          "lever-on-a-period-door"
         ]
       },
       "caption": "Georgian Colonial American, hardware: concealed-euro-hinge — wrong, and why.",
@@ -9891,6 +10094,10 @@
         ],
         "slots": [
           "hardware"
+        ],
+        "faults": [
+          "butt-hinge-before-its-date",
+          "lever-on-a-period-door"
         ]
       },
       "caption": "Georgian Colonial American, hardware: the same element done correctly.",
@@ -9934,6 +10141,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, circulation parti: central-chimney-lobby — wrong, and why.",
@@ -9977,6 +10192,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, circulation parti: the same element done correctly.",
@@ -10020,6 +10243,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, circulation parti: open-plan — wrong, and why.",
@@ -10063,6 +10294,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, circulation parti: the same element done correctly.",
@@ -10106,6 +10345,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, circulation parti: hall-and-parlor — wrong, and why.",
@@ -10149,6 +10396,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, circulation parti: the same element done correctly.",
@@ -10192,6 +10447,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, circulation parti: cross-passage — wrong, and why.",
@@ -10235,6 +10498,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, circulation parti: the same element done correctly.",
@@ -10278,6 +10549,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, hearth position: central-stack — wrong, and why.",
@@ -10321,6 +10595,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, hearth position: the same element done correctly.",
@@ -10364,6 +10641,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, hearth position: corner — wrong, and why.",
@@ -10407,6 +10687,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, hearth position: the same element done correctly.",
@@ -10450,6 +10733,9 @@
         ],
         "slots": [
           "storage_strategy"
+        ],
+        "faults": [
+          "closet-on-the-exterior-wall"
         ]
       },
       "caption": "Georgian Colonial American, storage strategy: closet-on-an-exterior-wall — wrong, and why.",
@@ -10493,6 +10779,9 @@
         ],
         "slots": [
           "storage_strategy"
+        ],
+        "faults": [
+          "closet-on-the-exterior-wall"
         ]
       },
       "caption": "Georgian Colonial American, storage strategy: the same element done correctly.",
@@ -10536,6 +10825,9 @@
         ],
         "slots": [
           "storage_strategy"
+        ],
+        "faults": [
+          "closet-on-the-exterior-wall"
         ]
       },
       "caption": "Georgian Colonial American, storage strategy: closet-breaking-the-passage-axis — wrong, and why.",
@@ -10579,6 +10871,9 @@
         ],
         "slots": [
           "storage_strategy"
+        ],
+        "faults": [
+          "closet-on-the-exterior-wall"
         ]
       },
       "caption": "Georgian Colonial American, storage strategy: the same element done correctly.",
@@ -10621,6 +10916,9 @@
         ],
         "slots": [
           "storage_strategy"
+        ],
+        "faults": [
+          "closet-on-the-exterior-wall"
         ]
       },
       "caption": "Georgian Colonial American, storage strategy: an authored position, not a retrieved one.",
@@ -10665,6 +10963,10 @@
         ],
         "slots": [
           "services_strategy"
+        ],
+        "faults": [
+          "duct-soffit-through-the-formal-room",
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, mechanical & services strategy: dropped-soffit-in-the-passage — wrong, and why.",
@@ -10708,6 +11010,10 @@
         ],
         "slots": [
           "services_strategy"
+        ],
+        "faults": [
+          "duct-soffit-through-the-formal-room",
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, mechanical & services strategy: the same element done correctly.",
@@ -10751,6 +11057,10 @@
         ],
         "slots": [
           "services_strategy"
+        ],
+        "faults": [
+          "duct-soffit-through-the-formal-room",
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, mechanical & services strategy: exterior-condenser-on-the-entrance-elevation — wrong, and why.",
@@ -10794,6 +11104,10 @@
         ],
         "slots": [
           "services_strategy"
+        ],
+        "faults": [
+          "duct-soffit-through-the-formal-room",
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, mechanical & services strategy: the same element done correctly.",
@@ -10837,6 +11151,10 @@
         ],
         "slots": [
           "services_strategy"
+        ],
+        "faults": [
+          "duct-soffit-through-the-formal-room",
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, mechanical & services strategy: vents-and-flues-on-the-entrance-roof-slope — wrong, and why.",
@@ -10880,6 +11198,10 @@
         ],
         "slots": [
           "services_strategy"
+        ],
+        "faults": [
+          "duct-soffit-through-the-formal-room",
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, mechanical & services strategy: the same element done correctly.",
@@ -10923,6 +11245,10 @@
         ],
         "slots": [
           "services_strategy"
+        ],
+        "faults": [
+          "duct-soffit-through-the-formal-room",
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, mechanical & services strategy: ductwork-crossing-the-passage — wrong, and why.",
@@ -10966,6 +11292,10 @@
         ],
         "slots": [
           "services_strategy"
+        ],
+        "faults": [
+          "duct-soffit-through-the-formal-room",
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, mechanical & services strategy: the same element done correctly.",
@@ -11008,6 +11338,10 @@
         ],
         "slots": [
           "services_strategy"
+        ],
+        "faults": [
+          "duct-soffit-through-the-formal-room",
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Georgian Colonial American, mechanical & services strategy: an authored position, not a retrieved one.",
@@ -11052,6 +11386,9 @@
         ],
         "slots": [
           "landscape_idiom"
+        ],
+        "faults": [
+          "lawn-to-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, landscape idiom: picturesque-serpentine — wrong, and why.",
@@ -11095,6 +11432,9 @@
         ],
         "slots": [
           "landscape_idiom"
+        ],
+        "faults": [
+          "lawn-to-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, landscape idiom: the same element done correctly.",
@@ -11138,6 +11478,9 @@
         ],
         "slots": [
           "landscape_idiom"
+        ],
+        "faults": [
+          "lawn-to-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, landscape idiom: foundation-planting — wrong, and why.",
@@ -11181,6 +11524,9 @@
         ],
         "slots": [
           "landscape_idiom"
+        ],
+        "faults": [
+          "lawn-to-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, landscape idiom: the same element done correctly.",
@@ -11224,6 +11570,9 @@
         ],
         "slots": [
           "landscape_idiom"
+        ],
+        "faults": [
+          "lawn-to-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, landscape idiom: lawn-to-the-front-door — wrong, and why.",
@@ -11267,6 +11616,9 @@
         ],
         "slots": [
           "landscape_idiom"
+        ],
+        "faults": [
+          "lawn-to-the-front-door"
         ]
       },
       "caption": "Georgian Colonial American, landscape idiom: the same element done correctly.",
@@ -11310,6 +11662,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Tidewater Georgian, roof form: gambrel — wrong, and why.",
@@ -11353,6 +11708,9 @@
         ],
         "slots": [
           "roof_form"
+        ],
+        "faults": [
+          "picturesque-parti-on-a-formal-style"
         ]
       },
       "caption": "Tidewater Georgian, roof form: the same element done correctly.",
@@ -11396,6 +11754,9 @@
         ],
         "slots": [
           "chimney"
+        ],
+        "faults": [
+          "direct-vent-box-in-a-period-surround"
         ]
       },
       "caption": "Tidewater Georgian, chimney: interior-paired-flanking-ridge — wrong, and why.",
@@ -11439,6 +11800,9 @@
         ],
         "slots": [
           "chimney"
+        ],
+        "faults": [
+          "direct-vent-box-in-a-period-surround"
         ]
       },
       "caption": "Tidewater Georgian, chimney: the same element done correctly.",
@@ -12772,6 +13136,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Tidewater Georgian, circulation parti: side-hall — wrong, and why.",
@@ -12815,6 +13187,14 @@
         ],
         "slots": [
           "circulation_parti"
+        ],
+        "faults": [
+          "centre-passage-blocked-at-one-end",
+          "duct-soffit-through-the-formal-room",
+          "front-door-into-the-living-room",
+          "open-plan-in-a-room-based-style",
+          "passage-that-is-a-corridor",
+          "stair-at-the-front-door"
         ]
       },
       "caption": "Tidewater Georgian, circulation parti: the same element done correctly.",
@@ -12858,6 +13238,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Tidewater Georgian, hearth position: interior-paired-flanking-ridge — wrong, and why.",
@@ -12901,6 +13284,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Tidewater Georgian, hearth position: the same element done correctly.",
@@ -12944,6 +13330,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Tidewater Georgian, hearth position: central-stack — wrong, and why.",
@@ -12987,6 +13376,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Tidewater Georgian, hearth position: the same element done correctly.",
@@ -13030,6 +13422,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Tidewater Georgian, hearth position: corner — wrong, and why.",
@@ -13073,6 +13468,9 @@
         ],
         "slots": [
           "hearth_position"
+        ],
+        "faults": [
+          "hearth-on-an-interior-wall"
         ]
       },
       "caption": "Tidewater Georgian, hearth position: the same element done correctly.",
@@ -13303,14 +13701,22 @@
         "source": "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 3, X, XI, XII, XIII, XIV, XV, XXIV, XXV, XXVI, XXXII, XXXVII no. 3, XLVIII",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/gibbs-ionic-base-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 786,
+        "bytes": 2703,
+        "sha256": "feee889b1648b2c290393c126dae4d7d95c3d79deeae1a8ee4b7392f6812d4d3"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "gibbs-ionic"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from gibbs-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "gibbs-ionic-capital-profile",
@@ -13338,14 +13744,22 @@
         "source": "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 3, X, XI, XII, XIII, XIV, XV, XXIV, XXV, XXVI, XXXII, XXXVII no. 3, XLVIII",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/gibbs-ionic-capital-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 711,
+        "bytes": 2611,
+        "sha256": "cb93c194b583e1e8bcccd4e4da35fb1cd05d94598008d80f46d993728f30b884"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "gibbs-ionic"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from gibbs-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: cap volute (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "gibbs-ionic-cornice-profile",
@@ -13373,14 +13787,22 @@
         "source": "James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 3, X, XI, XII, XIII, XIV, XV, XXIV, XXV, XXVI, XXXII, XXXVII no. 3, XLVIII",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/gibbs-ionic-cornice-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 496,
+        "bytes": 3231,
+        "sha256": "0253d0b95a6f0baced80ddd7d1880c37d7706322163c2bf956a75a98d2dcb70b"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "gibbs-ionic"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from gibbs-ionic at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "vignola-doric-base-profile",
@@ -13408,14 +13830,22 @@
         "source": "Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature)",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/vignola-doric-base-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 775,
+        "bytes": 2216,
+        "sha256": "b626a1c032641b2ae37167e3424d75a724e6611b30f8ad364c31b09be888648a"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "vignola-doric"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from vignola-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "vignola-doric-capital-profile",
@@ -13443,14 +13873,22 @@
         "source": "Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature)",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/vignola-doric-capital-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 775,
+        "bytes": 2774,
+        "sha256": "81849444acf684b74e10f9bab587d1d70c0a1a82fb6e43bed00daccf07897d27"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "vignola-doric"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from vignola-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "vignola-doric-cornice-profile",
@@ -13478,14 +13916,22 @@
         "source": "Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole X-XV (Tavola XII, the mutulary/modillion entablature)",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/vignola-doric-cornice-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 395,
+        "bytes": 3600,
+        "sha256": "a03d3d463193fa9cba7ca3477046ceb64c70370771aec50aaa0c2d9f649d00e3"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "vignola-doric"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from vignola-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "vignola-corinthian-base-profile",
@@ -13513,14 +13959,22 @@
         "source": "Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/vignola-corinthian-base-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 775,
+        "bytes": 2542,
+        "sha256": "c75d3891b80beadd3f1f0819fbf23d96352e4aab6a1ff46612ec30131c37339f"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "vignola-corinthian"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from vignola-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "vignola-corinthian-capital-profile",
@@ -13548,14 +14002,22 @@
         "source": "Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/vignola-corinthian-capital-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 786,
+        "bytes": 2719,
+        "sha256": "f54573112bbac53780c18e0849b896a2442bb254e3eec41d1b42ce2db6559944"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "vignola-corinthian"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from vignola-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows. PARTIAL: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute) are named on the plate and not drawn, because this corpus records no construction for them."
     },
     {
       "id": "vignola-corinthian-cornice-profile",
@@ -13583,14 +14045,22 @@
         "source": "Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/vignola-corinthian-cornice-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 458,
+        "bytes": 4004,
+        "sha256": "e5719bbbce9e7e2f1ec19eecd2bac44867d4c6080e93b87801a6a81005d151ba"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "vignola-corinthian"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from vignola-corinthian at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "benjamin-doric-capital-profile",
@@ -13618,14 +14088,22 @@
         "source": "Asher Benjamin, The Practical House Carpenter (Boston, 1830), 'Doric Order, Example No. 3', Plate VI, with Plates IV (Grecian Doric from the Temple of Theseus, after Stuart and Revett), VII, VIII, XIV, XXIII, XXIV, XXXIV-XXXVII, XXXIX-XLVIII. Text collated from the 1843 printing issued as The Architect, or Practical House Carpenter",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/benjamin-doric-capital-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 808,
+        "bytes": 2436,
+        "sha256": "fddd22edf7047ab57e4208bbb2be279d722983fb7598db549dd870d1219c8bae"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "benjamin-doric"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from benjamin-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     },
     {
       "id": "benjamin-doric-entablature-profile",
@@ -13653,14 +14131,22 @@
         "source": "Asher Benjamin, The Practical House Carpenter (Boston, 1830), 'Doric Order, Example No. 3', Plate VI, with Plates IV (Grecian Doric from the Temple of Theseus, after Stuart and Revett), VII, VIII, XIV, XXIII, XXIV, XXXIV-XXXVII, XXXIX-XLVIII. Text collated from the 1843 printing issued as The Architect, or Practical House Carpenter",
         "license": "owned"
       },
-      "file": null,
-      "status": "wanted",
+      "file": {
+        "path": "assets/generated/benjamin-doric-entablature-profile.svg",
+        "format": "svg",
+        "width": 738,
+        "height": 808,
+        "bytes": 2291,
+        "sha256": "6f80b5b0d6a9341bb8bd85e9aaae7519427b136c7865453cffb0dc91a6c01e67"
+      },
+      "status": "sourced",
       "priority": "high",
       "tags": [
         "profile",
         "generated",
         "benjamin-doric"
-      ]
+      ],
+      "review_note": "Drawn by build/render_profile.py from benjamin-doric at a 12 in column. Every dimension comes from proportion_engine.dimension() and every curve from profiles.py, so the drawing and the data cannot silently disagree. NOT reviewed: nobody has looked at this plate and confirmed it shows what the record says it shows."
     }
   ]
 }

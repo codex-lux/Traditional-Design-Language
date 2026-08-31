@@ -90,6 +90,9 @@ def compute_counts():
     manifest = load("assets/manifest.json")
     c["image_records"] = manifest["counts"]["total"]
     c["image_pairs"] = manifest["counts"].get("pairs", "?")
+    # `total` alone said 322 while every one of them was a gap, and went on saying 322 the day
+    # eleven stopped being gaps. The figure a reader wants is how many are actually THERE.
+    c["image_sourced"] = manifest["counts"].get("by_status", {}).get("sourced", 0)
 
     server_src = (ROOT / "mcp_server/server.py").read_text()
     c["mcp_tools"] = len(re.findall(r"@mcp\.tool\(\)", server_src))
@@ -112,7 +115,8 @@ def render_block(c):
         f"**{c['styles_total']} taxa · {c['lineage_edges']} lineage edges · "
         f"{c['slots']} element slots · {c['massings']} massings · {c['rooms']} rooms · "
         f"{c['groupings']} groupings · {c['proportion_packs']} executable proportion packs · "
-        f"{c['faults']} named faults · {c['image_records']} specified images · "
+        f"{c['faults']} named faults · {c['image_records']} specified images, "
+        f"{c['image_sourced']} drawn · "
         f"{c['partis']} partis native to {c['parti_native_styles']} of "
         f"{c['buildable_nodes']} buildable styles · {c['mcp_tools']} MCP tools**\n\n"
         f"**700 BC – AD 2026**"

@@ -1098,11 +1098,44 @@ def find_assets(slot=None, style=None, fault=None, role=None, status=None, limit
         out.append({"id": a["id"], "kind": a["kind"], "role": a["role"], "status": a["status"],
                     "priority": a.get("priority"), "caption": a["caption"],
                     "alt_text": a["alt_text"], "pair_with": a.get("pair_with"),
-                    "file": (a.get("file") or {}).get("path")})
+                    "file": (a.get("file") or {}).get("path"),
+                    "rights": asset_rights(a),
+                    "generated_from": a.get("generated_from")})
     return {"matches": len(out), "returned": min(limit, len(out)), "assets": out[:limit],
             "note": ("Records with status 'wanted' have no file yet. The alt_text is the machine-readable "
                      "form of the picture and is written to be reasoned from, so use it even when the "
-                     "image is missing — and tell the human the image is still outstanding.")}
+                     "image is missing — and tell the human the image is still outstanding. "
+                     "A record carrying `generated_from` is a DRAWING generated from the corpus's own "
+                     "rules, not a photograph of a building; say so if you show it. Every record "
+                     "carries `rights`, and `rights.publishable` is false until a person has set a "
+                     "licence — a file is not clear to redistribute merely because it exists.")}
+
+
+def asset_rights(a):
+    """What a consumer needs in order to use an image lawfully, served WITH the file path.
+
+    This existed nowhere. `find_assets` returned a `file` path and no licence, no attribution and
+    no author, and it is the only programmatic route by which an asset reaches anyone -- the MCP
+    tool, the workbench API and the app all read it. So the moment a licensed image entered the
+    manifest the corpus would have handed every consumer a file with no way to attribute it, and
+    made non-compliance structural rather than merely likely.
+
+    `publishable` is deliberately conservative and deliberately not a licence check: it says a
+    PERSON has recorded a conclusion, not that a machine agreed with one. `unknown` is the
+    default on 300 of 322 records and it blocks; `rights_evidence` without a `license` is
+    evidence a harvester collected and nobody has ruled on, which is also not a clearance."""
+    p = a.get("provenance") or {}
+    lic = p.get("license")
+    return {"license": lic or "unknown",
+            "publishable": lic in ("public-domain", "cc0", "owned", "licensed"),
+            "attribution_required": bool(p.get("attribution_required")
+                                         or (lic or "").startswith("cc-by")),
+            "attribution_text": p.get("attribution_text"),
+            "author": p.get("author"),
+            "source": p.get("source"),
+            "url": p.get("url"),
+            "rights_evidence": p.get("rights_evidence"),
+            "rights_evidence_url": p.get("rights_evidence_url")}
 
 def get_massing(massing_id=None, style=None, limit=25):
     D = _data()

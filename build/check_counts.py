@@ -64,6 +64,24 @@ def computed():
         v["opening_rules"] = (len(g.get("pair_rules") or [])
                               + len(g.get("class_defaults") or []) + 1)
         v["opening_placement_rules"] = len(g.get("placement_rules") or [])
+
+    # WP-4.4. The asset layer's own numbers were policed by NOTHING -- "322 image records, 0
+    # sourced" was hand-typed in CLAUDE.md, README.md and STATE-OF-THE-PROJECT.md, and
+    # docs/assets.md still said 292 records and 136 pairs against a file holding 322 and 150.
+    # Four places, three different wrong answers, and no check could see any of them, which is
+    # exactly the class check_counts.py exists for.
+    apath = os.path.join(ROOT, "assets", "manifest.json")
+    if os.path.exists(apath):
+        a = json.load(open(apath))
+        assets = a.get("assets") or []
+        v["image_records"] = len(assets)
+        by_status = {}
+        for x in assets:
+            by_status[x.get("status")] = by_status.get(x.get("status"), 0) + 1
+        v["image_sourced"] = by_status.get("sourced", 0)
+        v["image_wanted"] = by_status.get("wanted", 0)
+        v["image_pairs"] = sum(1 for x in assets if x.get("role") == "correct")
+        v["image_critical"] = sum(1 for x in assets if x.get("priority") == "critical")
     return v
 
 
@@ -99,6 +117,23 @@ CLAIMS = [
     ("README.md",              "packs",         r"the syntax\. (\d+) packs, and they are"),
     ("README.md",              "no_opening_role", r"(\d+) nodes still have no opening-role pack"),
     ("README.md",              "no_facade_role",  r"no opening-role pack and (\d+) no facade-role pack"),
+    # WP-4.4's asset counts, in the four places that carried them by hand.
+    ("CLAUDE.md",              "image_records",  r"(\d+) image records, \*\*\d+ sourced\*\*"),
+    ("CLAUDE.md",              "image_sourced",  r"\d+ image records, \*\*(\d+) sourced\*\*"),
+    ("CLAUDE.md",              "image_wanted",   r"proportion packs; (\d+) still wanted"),
+    ("README.md",              "image_records",  r"(\d+) specified images, \d+ drawn"),
+    ("README.md",              "image_sourced",  r"\d+ specified images, (\d+) drawn"),
+    ("README.md",              "image_wanted",   r"\*\*(\d+) wanted and \d+ sourced\*\*"),
+    ("README.md",              "image_sourced",  r"\*\*\d+ wanted and (\d+) sourced\*\*"),
+    ("README.md",              "image_wanted",   r"^- \*\*The images\.\*\* (\d+) of \d+ asset records"),
+    ("README.md",              "image_records",  r"^- \*\*The images\.\*\* \d+ of (\d+) asset records"),
+    ("STATE-OF-THE-PROJECT.md", "image_wanted",  r"\*\*(\d+) wanted, \d+ sourced\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "image_sourced", r"\*\*\d+ wanted, (\d+) sourced\*\*"),
+    ("docs/assets.md",         "image_records",  r"holds \*\*(\d+) records"),
+    ("docs/assets.md",         "image_wanted",   r"records — (\d+) wanted and \d+ sourced"),
+    ("docs/assets.md",         "image_sourced",  r"records — \d+ wanted and (\d+) sourced"),
+    ("docs/assets.md",         "image_pairs",    r"sourced, (\d+) good/bad pairs"),
+    ("docs/assets.md",         "image_critical", r"good/bad pairs, (\d+) critical"),
 ]
 
 

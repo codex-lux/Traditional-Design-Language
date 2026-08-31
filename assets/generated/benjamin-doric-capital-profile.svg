@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 808" width="738" height="808">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="808" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Grecian Doric Order (Asher Benjamin) - NOT an overlay — capital</text>
+<rect class="pf" x="36" y="38" width="666" height="646"/>
+<line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,694.000 L 70.000,425.333 L 111.333,425.333 L 111.333,373.667 A 206.667 175.667 0 0 0 318.000,198.000 L 380.000,198.000 L 380.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="71.0" y1="559.7" x2="404.0" y2="559.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="562.3">Necking (hypotrachelion) — flat, 2.60″</text>
+<line x1="112.3" y1="399.5" x2="404.0" y2="399.5" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="402.1">Annulets under the echinus — fillet, 0.50″</text>
+<line x1="319.0" y1="285.8" x2="404.0" y2="285.8" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="288.4">Echinus — echinus, 1.70″</text>
+<line x1="381.0" y1="136.0" x2="404.0" y2="136.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="138.6">Abacus — abacus, 1.20″</text>
+<text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="726.0">Grecian Doric Order (Asher Benjamin) - NOT an overlay, assembly capital, at a 12″ column. 4 member(s), 6.00″ high, 3.00″ of relief</text>
+<text class="dm" x="44" y="737.0">from the naked.</text>
+<text class="dm" x="44" y="748.0">AFTER: Asher Benjamin, The Practical House Carpenter (Boston, 1830), 'Doric Order, Example No. 3', Plate VI, with Plates IV</text>
+<text class="dm" x="44" y="759.0">(Grecian Doric from the Temple of Theseus, after Stuart and Revett), VII, VIII, XIV, XXIII, XXIV, XXXIV-XXXVII, XXXIX-XLVIII. Text</text>
+<text class="dm" x="44" y="770.0">collated from the 1843 printing issued as The Architect, or Practical House Carpenter</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 496" width="738" height="496">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="496" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Ionic Order (Gibbs) - overlay on Vignola — cornice</text>
+<rect class="pf" x="36" y="38" width="666" height="346"/>
+<line x1="70.0" y1="394.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,394.000 A 34.774 34.774 0 0 1 88.519,363.259 A 34.774 34.774 0 0 0 107.037,332.519 L 119.381,332.519 L 119.381,314.000 L 218.148,314.000 L 218.148,246.344 A 6.172 6.172 0 0 1 224.320,240.172 A 6.172 6.172 0 0 0 230.493,234.000 L 273.704,234.000 L 316.915,234.000 L 316.915,166.344 L 329.259,166.344 L 329.259,154.000 A 25.286 25.286 0 0 0 353.950,123.259 A 25.286 25.286 0 0 1 378.641,92.519 L 390.000,92.519 L 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="108.0" y1="363.3" x2="404.0" y2="363.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="365.9">Bed mould, reversed cima — cyma reversa, 1.66″</text>
+<line x1="120.4" y1="323.3" x2="404.0" y2="323.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="325.9">Fillet over the bed mould — fillet, 0.50″</text>
+<line x1="219.1" y1="280.2" x2="404.0" y2="280.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="282.8">Modillion band — modillion, 1.83″</text>
+<line x1="231.5" y1="240.2" x2="404.0" y2="240.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="242.8">Ogee and fillet capping the modillion — cyma reversa, 0.33″</text>
+<line x1="317.9" y1="200.2" x2="404.0" y2="200.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="202.8">Corona — corona, 1.83″</text>
+<line x1="330.3" y1="160.2" x2="404.0" y2="160.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="162.8">List over the corona — listel, 0.33″</text>
+<line x1="379.6" y1="123.3" x2="404.0" y2="123.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="125.9">Cymatium, cyma recta — cyma recta, 1.66″</text>
+<line x1="391.0" y1="83.3" x2="404.0" y2="83.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="85.9">Fillet over the cymatium — fillet, 0.50″</text>
+<text class="dm" x="44" y="414.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="425.0">Ionic Order (Gibbs) - overlay on Vignola, assembly cornice, at a 12″ column. 8 member(s), 8.64″ high, 8.64″ of relief from the</text>
+<text class="dm" x="44" y="436.0">naked.</text>
+<text class="dm" x="44" y="447.0">AFTER: James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 3, X, XI, XII, XIII, XIV, XV,</text>
+<text class="dm" x="44" y="458.0">XXIV, XXV, XXVI, XXXII, XXXVII no. 3, XLVIII</text>
+</svg>
