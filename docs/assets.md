@@ -21,14 +21,68 @@ A `wanted` asset has no file. It has a caption, a `shot_spec`, and `alt_text` wr
 
 The Georgian kit alone produced 117 forbidden variants. That is where most of the pairs come from, and it is why the fault layer and the image layer are the same piece of work approached from two directions.
 
-## Provenance is mandatory
+## Provenance is mandatory, and a licence is a conclusion
 
-`license` may never ship as `unknown`. The best free source for correct examples is HABS/HAER — Historic American Buildings Survey material is public domain, professionally measured, and already tied to specific buildings and survey numbers, so `provenance.habs_number` is a first-class field.
+`license` may never ship as `unknown`, and **no machine may write it.** It is a conclusion a
+person draws from evidence, and the evidence is a separate field: `rights_evidence` carries what
+the source actually said, verbatim, with `rights_evidence_url` saying where it was read.
 
-For incorrect examples the supply problem is inverted: they are in every subdivision, and the constraint is permission rather than availability.
+The distinction is not pedantry. The Library of Congress puts one sentence on every HABS item
+alike — *"No known restrictions on images made by the U.S. Government; images copied from other
+sources may be restricted"* — and it is byte-identical on a government photograph and on Mount
+Pleasant `pa0824` index 10, which is a HABS photograph **of a third party's 1897 drawing** held by
+the Free Library of Philadelphia. `build/harvest_habs.py` used to stamp `public-domain` on every
+record it touched, before reading a single field of the response. It records the sentence now and
+concludes nothing. "No known restrictions" is a statement about the Library's knowledge, not a
+grant.
+
+`mcp_server/core.py::find_assets` serves a `rights` object with every record, because it is the
+only route by which an asset reaches the MCP tool, the workbench API and the app — and it used to
+return a file path with no licence, no attribution and no author, which would have made
+non-compliance structural the moment a licensed image arrived. `rights.publishable` is false until
+a person has recorded a licence.
+
+**Share-alike is refused for now** (`oq/a-share-alike-photograph-has-no-home-in-the-asset-schema`).
+This corpus derives from its images by design — it traces, measures and redraws them — so accepting
+BY-SA commits the derivatives, and the schema carries no licence version and nothing that passes
+the obligation forward. That leaves the ten English and Irish records with no source: HABS is a
+United States survey **by charter**, which `harvest_habs.py` now says in the refusal itself rather
+than reporting "no result holds a photograph", which is true and names the wrong cause.
+
+For incorrect examples the supply problem is inverted: they are in every subdivision, and the
+constraint is permission rather than availability. **No archive indexes wrongness**, so the
+150 `role: incorrect` records cannot be harvested from any archive at any point — they are drawn,
+or they are photographed to order.
 
 ## Generated diagrams
 
-Where an image is a render of a rule rather than a picture of a building, `generated_from` records the pack, the module, and the engine version. The drawing can be regenerated exactly, and the drawing and the data cannot silently disagree.
+Where an image is a render of a rule rather than a picture of a building, `generated_from` records
+the pack, the module, and the engine version. The drawing can be regenerated exactly, and the
+drawing and the data cannot silently disagree.
 
 That is why the engine was built before the image layer, and not the other way round.
+
+**Eleven of these are drawn** (31 Aug 2026) — the first sourced records in the manifest, and none
+of them needed the network that WP-4.4's harvest is blocked on. `build/render_profile.py` takes a
+record's `generated_from`, dimensions the pack with `proportion_engine.dimension()`, constructs the
+mouldings with `profiles.pack_geometry()`, and adds a frame, a scale and the member names. It
+constructs nothing of its own — a second implementation of a cyma would be the trap `profiles.py`
+exists to prevent, one layer out.
+
+Three rules the plates follow:
+
+- **The pack is RESOLVED, never read raw.** `gibbs-ionic` is an overlay on Vignola and states no
+  `base` assembly of its own; reading its own file finds no base and the plate does not exist. The
+  answer lives in the inheritance.
+- **An unconstructed member is named and never invented.** `vignola-corinthian`'s capital draws as
+  the plain bell it is, with its two acanthus rows and its caulicoli disclosed under it. A drawing
+  that substitutes a plausible swelling for a construction the corpus does not have is the
+  laundering this project forbids, in ink instead of in JSON.
+- **Every plate says what it is, on the plate.** `GENERATED FROM THE RECORD — NOT A DRAWING OF A
+  REAL BUILDING`, because a printed or exported plate leaves the prose beside it behind, and a
+  drawing filed where the record asked for a photograph is a false claim if the viewer cannot tell.
+
+`build/check_assets.py` holds all of that: it validates every record against the schema (which
+nothing did — `gen_assets.py` validates at generation time only, and three tools write this file),
+requires a `sourced` record to have the file it claims at the digest it claims, refuses
+`generated_from` on a record kinded `photograph`, and refuses a licence asserted without evidence.

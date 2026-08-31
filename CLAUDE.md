@@ -167,7 +167,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 322 image records, **11 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 311 still wanted, and 150 of those can never be harvested) · 14 reference plans · 24 MCP tools · **41 checks, 1,195 tests**
+proportion packs; 311 still wanted, and 150 of those can never be harvested) · 14 reference plans · 24 MCP tools · **42 checks, 1,215 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -182,8 +182,8 @@ libraries and fastapi absent, exactly three checks are unjudged there (`export_d
 plus the three appended suites -- so the PASS count the corpus job prints is
 `TOTAL - 3 = len(CHECKS)`, ARITHMETICALLY, every time. It read "32 of 35 checks passed" on
 27 Aug against a `len(CHECKS)` of 32, read "34 of 37 checks passed" earlier on 28 Aug against a
-`len(CHECKS)` of 34, and reads "38 of 41 checks passed" after WP-8.4 against a `len(CHECKS)`
-of 38.
+`len(CHECKS)` of 34, and reads "39 of 42 checks passed" after WP-4.4's asset checker against a
+`len(CHECKS)` of 39.
 An earlier version of this sentence called that a coincidence, which told the next reader it
 probably would not happen to them; it happens at every check ever added. **Read the SECOND
 number.** `check_all.TOTAL_CHECKS` and

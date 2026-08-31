@@ -35,7 +35,10 @@ function UnsourcedImageRecord({
       borderBottom: '1px solid var(--rule)'
     }
   }, record.file ? /*#__PURE__*/React.createElement("img", {
-    src: '/' + String(record.file).replace(/^\//, ''),
+    // `/corpus/` and not `/assets/`: the latter is mounted on Vite's content-hashed bundle
+    // output, which shares the corpus directory's name and nothing else. A record's file.path is
+    // relative to the repository root and already begins "assets/".
+    src: '/corpus/' + String(record.file).replace(/^\//, ''),
     alt: record.alt || record.subject || record.id,
     style: { display: 'block', maxWidth: '100%', height: 'auto' }
   }) : /*#__PURE__*/React.createElement("span", {

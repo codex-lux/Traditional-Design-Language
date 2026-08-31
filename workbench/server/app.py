@@ -650,6 +650,18 @@ def _accepts_gzip(scope):
     return False
 
 
+# THE CORPUS'S OWN ASSET FILES, AND THEY MAY NOT LIVE UNDER `/assets`. That path is mounted on
+# Vite's content-hashed bundle output at workbench/app/dist/assets -- an unrelated namespace that
+# happens to share the corpus directory's name. A record whose `file.path` is
+# "assets/generated/x.svg" served from "/assets/generated/x.svg" would land in the bundle mount
+# and 404, with immutable cache headers on the miss. `/corpus/` is a separate route on the
+# repository's own assets/ directory, and the record's path is relative to the repo root, so the
+# leading "assets/" is stripped rather than doubled.
+CORPUS_ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__)))), "assets")
+if os.path.isdir(CORPUS_ASSETS):
+    app.mount("/corpus/assets", StaticFiles(directory=CORPUS_ASSETS), name="corpus-assets")
+
 if os.path.isdir(APP_DIST):
     app.mount("/assets", ImmutableStatic(directory=os.path.join(APP_DIST, "assets")),
               name="assets")
