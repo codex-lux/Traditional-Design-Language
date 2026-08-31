@@ -218,3 +218,67 @@ def test_the_evidence_rail_returns_something():
     from mcp_server import core
     reached = sum(1 for f in FAULTS if core.find_assets(fault=f["id"], limit=1)["matches"])
     assert reached == 20, reached
+
+
+# ------------------------------------- the generator must not destroy what it does not own
+
+def test_gen_assets_carries_forward_the_fields_it_does_not_own():
+    """`build/gen_assets.py` rebuilds the manifest from scratch. It used to hardcode
+    `license: unknown`, `file: None` and `status: wanted` on every record, so a run silently
+    discarded WP-4.4's 161 building names, the eleven files, the statuses and the 209 fault
+    links -- in a 601 KB diff that reads as a reformat, from a script in neither check_all.py
+    nor the Makefile.
+
+    This runs the real generator against a copy of the real manifest and asserts the carried
+    fields survive. It restores the file whatever happens: a test that leaves the corpus
+    regenerated would do the very damage it is written to prevent.
+    """
+    import shutil
+    import subprocess
+
+    manifest_path = os.path.join(ROOT, "assets", "manifest.json")
+    backup = manifest_path + ".carrytest.bak"
+    shutil.copy(manifest_path, backup)
+    try:
+        before = {a["id"]: a for a in json.load(open(manifest_path))["assets"]}
+        r = subprocess.run([sys.executable, "build/gen_assets.py"], cwd=ROOT,
+                           capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr[-800:]
+        after = {a["id"]: a for a in json.load(open(manifest_path))["assets"]}
+
+        sourced = [i for i, a in before.items() if a.get("status") == "sourced"]
+        assert len(sourced) == 11, len(sourced)
+        for i in sourced:
+            assert i in after, "%s vanished from the regenerated manifest" % i
+            assert after[i].get("status") == "sourced", "%s lost its status" % i
+            assert after[i].get("file"), "%s lost its file" % i
+            assert after[i]["file"]["sha256"] == before[i]["file"]["sha256"], i
+
+        named = [i for i, a in before.items() if (a.get("provenance") or {}).get("building")]
+        assert len(named) == 161, len(named)
+        for i in named:
+            assert (after[i].get("provenance") or {}).get("building"), \
+                "%s lost the building name WP-4.4 gave it" % i
+
+        linked = [i for i, a in before.items() if (a.get("depicts") or {}).get("faults")]
+        assert len(linked) == 94, len(linked)
+        for i in linked:
+            assert (after[i].get("depicts") or {}).get("faults"), "%s lost its fault links" % i
+    finally:
+        shutil.move(backup, manifest_path)
+
+
+def test_the_generator_and_the_committed_manifest_have_diverged():
+    """The committed file is a strict SUBSET of what the generator now emits: 322 records over
+    three style nodes against 1,788 over 142. Nothing said so, and every count that quotes
+    "322 image records" reads corpus-wide while describing three nodes.
+
+    Pinned as a MEASUREMENT rather than a target -- if somebody rules that the manifest should
+    become the whole corpus's shot list, this test is where that decision becomes visible.
+    See oq/regenerating-the-asset-manifest-discards-what-was-added-to-it.
+    """
+    nodes = set()
+    for a in MANIFEST["assets"]:
+        nodes.update((a.get("depicts") or {}).get("nodes") or [])
+    assert len(MANIFEST["assets"]) == 322, len(MANIFEST["assets"])
+    assert len(nodes) == 3, sorted(nodes)

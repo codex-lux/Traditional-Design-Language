@@ -147,15 +147,65 @@ for pid in ["gibbs-ionic", "vignola-doric", "vignola-corinthian", "benjamin-dori
         })
 
 os.makedirs("assets", exist_ok=True)
+
+# THIS IS A GENERATOR OVER A FILE THREE OTHER TOOLS WRITE, AND IT USED TO OVERWRITE THEM ALL.
+#
+# Rebuilding from scratch silently discarded: WP-4.4's 161 hand-added `provenance.building` names
+# (commit 347d0ab), the eleven `file` blocks and `sourced` statuses build/render_profile.py
+# writes, the asset-to-fault links build/link_asset_faults.py derives, and anything
+# build/harvest_habs.py --write ever recorded. Every one would have reset to `wanted` with no
+# warning, in a 601 KB diff that reads as a reformat. Nothing caught it: this script is in
+# neither build/check_all.py nor the Makefile, so the loss would have happened on somebody's
+# laptop and arrived as a commit.
+#
+# The division is the whole of the fix. This generator OWNS what it can derive from the corpus --
+# the record's identity, what it depicts, and the words describing the picture that should exist.
+# It does NOT own what somebody or something else went and found out. Those are carried forward
+# by id.
+GENERATED_FIELDS = ("id", "kind", "role", "pair_with", "caption", "alt_text", "shot_spec",
+                    "priority", "tags", "generated_from")
+CARRIED_FIELDS = ("provenance", "file", "status", "review_note")
+
+prior = {}
+if os.path.exists("assets/manifest.json"):
+    try:
+        prior = {a["id"]: a for a in json.load(open("assets/manifest.json")).get("assets", [])}
+    except Exception as e:                      # a corrupt file must not silently become an empty one
+        raise SystemExit("assets/manifest.json exists but could not be read (%s). Refusing to "
+                         "regenerate over it: that would discard whatever it holds." % e)
+
+carried = 0
+for a in assets:
+    old_rec = prior.get(a["id"])
+    if not old_rec:
+        continue
+    for k in CARRIED_FIELDS:
+        if k in old_rec and old_rec[k] not in (None, {}, ""):
+            a[k] = old_rec[k]
+            carried += 1
+    # `depicts` is generated, but its `faults` array is derived by link_asset_faults.py and is
+    # not this script's to know.
+    prior_faults = (old_rec.get("depicts") or {}).get("faults")
+    if prior_faults:
+        a.setdefault("depicts", {})["faults"] = prior_faults
+        carried += 1
+
+by_status = {}
+for a in assets:
+    by_status[a["status"]] = by_status.get(a["status"], 0) + 1
+
 manifest = {"schema": "schema/asset.schema.json", "version": "0.1.0",
             "counts": {"total": len(assets), "pairs": pairs,
                        "by_priority": {p: sum(1 for a in assets if a["priority"] == p) for p in ("critical","high","normal","low")},
-                       "by_status": {"wanted": sum(1 for a in assets if a["status"] == "wanted")}},
-            "note": "Every record here is WANTED — specified, with a shot spec and alt text, and no file yet. "
-                    "That is the design: the gap is visible, the shot list exists, and an agent can already reason "
-                    "from the record. Set status to sourced when a file lands and approved when a human has checked it.",
+                       "by_status": by_status},
+            "note": "A record is WANTED until a file lands: specified, with a shot spec and alt text. "
+                    "That is the design — the gap is visible, the shot list exists, and an agent can already reason "
+                    "from the record. `sourced` means a file is present and unreviewed; `approved` means a human has "
+                    "checked it. build/gen_assets.py regenerates the specification and CARRIES FORWARD provenance, "
+                    "file, status, review_note and depicts.faults, which it does not own.",
             "assets": assets}
 json.dump(manifest, open("assets/manifest.json", "w"), indent=2, ensure_ascii=False)
+print(f"carried forward {carried} field(s) this generator does not own")
 
 import jsonschema
 sch = json.load(open("schema/asset.schema.json"))

@@ -67,7 +67,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
 | **oq/a-material-neutral-assembly-decides-a-material-question** | OPEN | [the authority walk lets a slot that says nothing about a material refuse a question about it](open-questions/oq-a-material-neutral-assembly-decides-a-material-question.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
-| **oq/regenerating-the-asset-manifest-discards-what-was-added-to-it** | OPEN | [gen_assets.py is a generator over a file three other tools now write](open-questions/oq-regenerating-the-asset-manifest-discards-what-was-added-to-it.md) |
+| **oq/regenerating-the-asset-manifest-discards-what-was-added-to-it** | HALF CLOSED 31 Aug 2026 | [and it would also quintuple it](open-questions/oq-regenerating-the-asset-manifest-discards-what-was-added-to-it.md) |
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 
