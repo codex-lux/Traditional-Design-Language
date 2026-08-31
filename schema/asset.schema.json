@@ -60,9 +60,17 @@
         "location": { "type": "string" },
         "habs_number": { "type": "string", "description": "Historic American Buildings Survey reference, where applicable. HABS material is public domain and professionally measured." },
         "url": { "type": "string" },
+        "rights_evidence": {
+          "type": "string",
+          "description": "The rights statement AS THE SOURCE WORDS IT, verbatim. Not a conclusion. The Library of Congress says 'No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted' on every HABS item alike -- byte-identical on a government photograph and on a HABS photograph OF somebody else's copyrighted drawing. A machine may record this sentence; it may not read a licence out of it."
+        },
+        "rights_evidence_url": {
+          "type": "string",
+          "description": "Where `rights_evidence` was read from, so the next reader can check it rather than trust it."
+        },
         "license": {
           "enum": ["public-domain", "cc0", "cc-by", "cc-by-sa", "owned", "licensed", "unknown"],
-          "description": "Never ship an asset at 'unknown'. The validator warns."
+          "description": "A CONCLUSION, drawn by a person from `rights_evidence`, never written by a harvester. Never ship an asset at 'unknown'. The validator warns."
         },
         "attribution_required": { "type": "boolean", "default": false },
         "attribution_text": { "type": "string" }
