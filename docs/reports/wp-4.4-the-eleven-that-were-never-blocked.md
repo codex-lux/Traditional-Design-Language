@@ -214,3 +214,36 @@ had not been regenerated since it covered three nodes. But 1,466 of them are gap
 today, and 858 of those can never be closed from any archive at all.
 
 `oq/regenerating-the-asset-manifest-discards-what-was-added-to-it` is CLOSED, both halves.
+
+## And the plates were laundering, on OQ 7's own subject
+
+Found by looking at a drawing, after everything above was committed.
+
+`palladio-tuscan` records a base, a shaft, a capital and a pedestal, and **deliberately no
+entablature**: Palladio does not dimension his Tuscan entablature in the text and the plate
+numerals are illegible in every reachable scan. That is the whole of OQ 7, stated in the pack's
+own notes — *"WHAT IT DOES NOT ASSERT. Palladio's Tuscan entablature."*
+
+`proportion_engine.resolve()` then supplies a cornice from `vignola-tuscan`. Correctly — that is
+what an overlay is for, and using `resolve()` rather than the raw pack is what let `gibbs-ionic`
+find a base at all. But the plate came out titled **"Palladio's Tuscan Order — cornice"**, drawing
+**Vignola's** members, footed **"AFTER: Palladio, I Quattro Libri dell'Architettura, Venice 1570"**.
+
+One authority's figures under another's citation, on the exact assembly the corpus keeps an open
+question about *because that authority does not give it.* **34 of the 73 plates were doing it** —
+across Palladio, Gibbs, Chambers and Benjamin, which is to say across the four works OQ 7 through
+OQ 11 are about.
+
+The plate names the pack that actually states the members now and cites THAT authority:
+
+> INHERITED: palladio-tuscan STATES NO CORNICE OF ITS OWN. These members are vignola-tuscan's,
+> delivered by the overlay, and the citation below is THEIRS.
+> AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII
+
+Two things worth carrying. **The resolved read is right and is not sufficient**: `resolve()` was
+the fix for reading a pack's own file, and it introduced this in the same motion, because
+inheritance supplies what a pack declines as readily as what it merely omits — and the corpus has
+no way to tell those apart today. **And a record-level check could not have caught it**: the
+manifest, the packs and the engine were all correct. The false claim existed only in ink, which is
+this repository's own repeated lesson — 245 arcs drawn as their own mirror through 34 checks and
+970 tests, because every one of them interrogated the model and none asked where the ink went.

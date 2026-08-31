@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 519" width="738" height="519">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 508" width="738" height="508">
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
-<rect width="738" height="519" fill="#faf8f3"/>
+<rect width="738" height="508" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Tuscan Order (Asher Benjamin) - overlay on Vignola — cornice</text>
 <rect class="pf" x="36" y="38" width="666" height="346"/>
 <line x1="70.0" y1="394.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
@@ -20,8 +20,7 @@
 <text class="dm" x="44" y="415.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
 <text class="dm" x="44" y="426.0">Tuscan Order (Asher Benjamin) - overlay on Vignola, assembly cornice, at a 12″ column. 6 member(s), 8.00″ high, 8.00″ of relief</text>
 <text class="dm" x="44" y="437.0">from the naked.</text>
-<text class="dm" x="44" y="448.0">AFTER: Asher Benjamin, The American Builder's Companion; or, A System of Architecture, particularly adapted to the present style</text>
-<text class="dm" x="44" y="459.0">of building, THIRD EDITION, corrected and enlarged (Boston: R. P. &amp; C. Williams, April 1816), Plates 12, 24, 26-28, 35 - with the</text>
-<text class="dm" x="44" y="470.0">Tuscan of The Practical House Carpenter (Boston, 1830; text collated from the 1843 printing issued as The Architect, or Practical</text>
-<text class="dm" x="44" y="481.0">House Carpenter), Plate III, recorded as a second stratum in the notes and conflicts</text>
+<text class="dm" x="44" y="448.0">INHERITED: benjamin-tuscan STATES NO CORNICE OF ITS OWN. These members are vignola-tuscan's, delivered by the overlay, and the</text>
+<text class="dm" x="44" y="459.0">citation below is THEIRS.</text>
+<text class="dm" x="44" y="470.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII</text>
 </svg>

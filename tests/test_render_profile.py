@@ -314,3 +314,54 @@ def test_the_manifest_covers_the_corpus_and_not_a_corner_of_it():
         nodes.update((a.get("depicts") or {}).get("nodes") or [])
     assert len(nodes) == 142, len(nodes)
     assert len(MANIFEST["assets"]) == 1850, len(MANIFEST["assets"])
+
+
+# ------------------------------- an inherited assembly may not wear the overlay's citation
+
+def test_an_inherited_assembly_cites_the_pack_that_actually_states_it():
+    """The sharpest defect this renderer had, and it landed on OQ 7's own subject.
+
+    `palladio-tuscan` records a base, a shaft, a capital and a pedestal, and deliberately no
+    entablature: Palladio does not dimension his Tuscan entablature in the text and the plate
+    numerals are illegible in every reachable scan. That is the whole of OQ 7. `resolve()` then
+    supplies a cornice from `vignola-tuscan` -- correctly, because that is what an overlay is
+    for. But the plate was titled "Palladio's Tuscan Order — cornice", drew Vignola's members,
+    and footed them "AFTER: Palladio, I Quattro Libri, Venice 1570".
+
+    One authority's figures under another's citation, on the exact assembly the corpus has an
+    open question about BECAUSE that authority does not give it. Laundering produced by a
+    drawing rather than by a record, and 34 of the 73 plates were doing it.
+    """
+    svg, _ = RP.render("palladio-tuscan", "cornice", module_in=12.0)
+    assert "INHERITED: palladio-tuscan STATES NO CORNICE" in svg, svg[-700:]
+    assert "Vignola" in svg, "the citation is not the pack that states these members"
+    assert "I Quattro Libri" not in svg, \
+        "Palladio is still cited for members palladio-tuscan does not state"
+
+
+def test_a_pack_that_states_its_own_assembly_makes_no_inheritance_claim():
+    """The disclosure has to be earned or it stops meaning anything."""
+    svg, _ = RP.render("vignola-tuscan", "cornice", module_in=12.0)
+    assert "INHERITED:" not in svg
+    assert "Vignola" in svg
+
+
+def test_states_assembly_walks_the_overlay_chain():
+    assert RP.states_assembly("palladio-tuscan", "cornice") == "vignola-tuscan"
+    assert RP.states_assembly("palladio-tuscan", "base") == "palladio-tuscan"
+    assert RP.states_assembly("vignola-tuscan", "cornice") == "vignola-tuscan"
+
+
+def test_every_plate_that_draws_inherited_members_says_so():
+    """Measured across all 73: 34 draw an assembly their own pack does not state. Pinned as a
+    count so a future overlay cannot quietly join them undisclosed."""
+    inherited = 0
+    for a, svg, _ in _plates():
+        g = a["generated_from"]
+        owner = RP.states_assembly(g["pack"], (g.get("parameters") or {}).get("assembly"))
+        if owner and owner != g["pack"]:
+            inherited += 1
+            assert "INHERITED:" in svg, "%s draws %s's members undisclosed" % (a["id"], owner)
+        else:
+            assert "INHERITED:" not in svg, "%s claims inheritance it does not have" % a["id"]
+    assert inherited == 34, inherited

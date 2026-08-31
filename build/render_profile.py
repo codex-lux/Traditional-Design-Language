@@ -84,6 +84,31 @@ def _named(unconstructed):
     return sorted(out)
 
 
+def states_assembly(pack_id, assembly_id):
+    """The pack in the overlay chain that actually states this assembly, or None.
+
+    AN OVERLAY INHERITS WHAT IT DOES NOT STATE, AND SOMETIMES IT DOES NOT STATE IT ON PURPOSE.
+    `palladio-tuscan` records a base, a shaft, a capital and a pedestal, and deliberately no
+    entablature: Palladio does not dimension his Tuscan entablature in the text and the plate
+    numerals are illegible in every reachable scan, which is the whole of OQ 7. `resolve()` then
+    supplies a cornice from `vignola-tuscan`, correctly -- that is what an overlay is for.
+
+    But a plate titled "Palladio's Tuscan Order — cornice" drawing Vignola's members under
+    "AFTER: Palladio, I Quattro Libri, Venice 1570" attributes one authority's figures to
+    another's citation, on the exact assembly the corpus has an open question about because
+    that authority does not give it. That is the laundering this corpus forbids, produced by a
+    drawing rather than by a record. So the plate says whose members these are."""
+    seen = set()
+    pid = pack_id
+    while pid and pid not in seen:
+        seen.add(pid)
+        raw = PE.PACKS.get(pid) or {}
+        if assembly_id in (raw.get("assemblies") or {}):
+            return pid
+        pid = raw.get("overlay_of")
+    return None
+
+
 def _footer_lines(pack, pack_id, assembly_id, module_in, members, height, relief, unconstructed):
     """What the plate says about itself. One function, because the height calculation and the
     drawing both read it and a second copy would let them disagree about how tall it is."""
@@ -92,6 +117,17 @@ def _footer_lines(pack, pack_id, assembly_id, module_in, members, height, relief
              "%s, assembly %s, at a %.0f\u2033 column. %d member(s), %.2f\u2033 high, %.2f\u2033 "
              "of relief from the naked." % (pack.get("name") or pack_id, assembly_id,
                                             module_in * 2, len(members), height, relief)]
+    owner = states_assembly(pack_id, assembly_id)
+    if owner and owner != pack_id:
+        src = PE.PACKS.get(owner) or {}
+        lines.append("INHERITED: %s STATES NO %s OF ITS OWN. These members are %s's, delivered "
+                     "by the overlay, and the citation below is THEIRS." % (
+                         pack_id, assembly_id.upper(), owner))
+        auth = (src.get("authority") or {}).get("source")
+        if auth:
+            lines.append("AFTER: " + auth)
+        return lines + ([] if not unconstructed else [
+            "NOT CONSTRUCTED, AND NOT DRAWN AS SOMETHING PLAUSIBLE: " + ", ".join(_named(unconstructed))])
     auth = (pack.get("authority") or {}).get("source")
     if auth:
         lines.append("AFTER: " + auth)

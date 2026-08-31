@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 797" width="738" height="797">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 808" width="738" height="808">
 <style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
-<rect width="738" height="797" fill="#faf8f3"/>
+<rect width="738" height="808" fill="#faf8f3"/>
 <text class="ti" x="44" y="30">Composite Order (Gibbs) - overlay on Vignola — base</text>
 <rect class="pf" x="36" y="38" width="666" height="646"/>
 <line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
@@ -20,6 +20,7 @@
 <text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
 <text class="dm" x="44" y="726.0">Composite Order (Gibbs) - overlay on Vignola, assembly base, at a 12″ column. 6 member(s), 6.00″ high, 2.33″ of relief from the</text>
 <text class="dm" x="44" y="737.0">naked.</text>
-<text class="dm" x="44" y="748.0">AFTER: James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 5, XX, XXI, XXII, XXIII,</text>
-<text class="dm" x="44" y="759.0">XXIV, XXV, XXVI, XXXIV, XXXVIII no. 3, XL</text>
+<text class="dm" x="44" y="748.0">INHERITED: gibbs-composite STATES NO BASE OF ITS OWN. These members are vignola-composite's, delivered by the overlay, and the</text>
+<text class="dm" x="44" y="759.0">citation below is THEIRS.</text>
+<text class="dm" x="44" y="770.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XXVI-XXVIII</text>
 </svg>
