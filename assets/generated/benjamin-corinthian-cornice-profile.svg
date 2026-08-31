@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 491" width="738" height="491">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="491" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Corinthian Order (Asher Benjamin) - overlay on Vignola — cornice</text>
+<rect class="pf" x="36" y="38" width="666" height="329"/>
+<line x1="70.0" y1="377.2" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,377.157 A 13.684 13.684 0 0 1 78.421,364.526 A 13.684 13.684 0 0 0 86.843,351.894 L 91.052,351.894 L 91.052,347.683 L 120.526,347.683 L 120.526,297.156 L 128.946,297.156 L 128.946,288.736 A 25.263 28.631 0 0 0 154.209,260.106 L 158.421,260.106 L 158.421,255.894 L 280.525,255.894 L 280.525,207.894 A 5.137 5.137 0 0 1 284.736,202.842 A 5.137 5.137 0 0 0 288.948,197.789 L 293.156,197.789 L 293.156,195.263 L 322.631,195.263 L 322.631,141.369 L 331.051,141.369 L 331.051,136.316 A 23.216 23.216 0 0 0 354.210,111.474 A 23.216 23.216 0 0 1 377.368,86.632 L 390.000,86.632 L 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="87.8" y1="364.5" x2="404.0" y2="351.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="353.8">Cyma reversa of the bed mould — cyma reversa, 1.00″</text>
+<line x1="92.1" y1="349.8" x2="404.0" y2="336.5" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="339.1">Fillet — fillet, 0.17″</text>
+<line x1="121.5" y1="322.4" x2="404.0" y2="309.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="311.8">Dentil band — dentil, 2.00″</text>
+<line x1="129.9" y1="292.9" x2="404.0" y2="279.8" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="282.4">Fillet over the dentils — fillet, 0.33″</text>
+<line x1="155.2" y1="274.4" x2="404.0" y2="261.4" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="264.0">Ovolo of the bed mould — ovolo, 1.13″</text>
+<line x1="159.4" y1="258.0" x2="404.0" y2="245.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="247.6">Fillet — fillet, 0.17″</text>
+<line x1="281.5" y1="231.9" x2="404.0" y2="219.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="221.6">Modillion band — modillion, 1.90″</text>
+<line x1="289.9" y1="202.8" x2="404.0" y2="190.1" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="192.7">Cyma reversa crowning the modillion band — cyma reversa, 0.40″</text>
+<line x1="294.2" y1="196.5" x2="404.0" y2="179.1" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="181.7">Fillet — fillet, 0.10″</text>
+<line x1="323.6" y1="168.3" x2="404.0" y2="155.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="158.3">Corona — corona, 2.13″</text>
+<line x1="332.1" y1="138.8" x2="404.0" y2="126.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="128.9">Listel over the corona — listel, 0.20″</text>
+<line x1="378.4" y1="111.5" x2="404.0" y2="99.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="101.6">Cymatium: cyma recta — cyma recta, 1.97″</text>
+<line x1="391.0" y1="80.3" x2="404.0" y2="68.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="70.6">Crowning fillet — fillet, 0.50″</text>
+<text class="dm" x="44" y="398.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="409.0">Corinthian Order (Asher Benjamin) - overlay on Vignola, assembly cornice, at a 12″ column. 13 member(s), 12.00″ high, 12.67″ of</text>
+<text class="dm" x="44" y="420.0">relief from the naked.</text>
+<text class="dm" x="44" y="431.0">AFTER: Asher Benjamin, The American Builder's Companion; or, A System of Architecture, particularly adapted to the present style</text>
+<text class="dm" x="44" y="442.0">of building, THIRD EDITION, corrected and enlarged (Boston: R. P. &amp; C. Williams, April 1816), Plate 15, with Plates 21, 23, 24,</text>
+<text class="dm" x="44" y="453.0">26-28, 35</text>
+</svg>

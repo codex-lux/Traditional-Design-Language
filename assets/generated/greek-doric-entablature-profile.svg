@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 797" width="738" height="797">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="797" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Greek Doric Order (Stuart and Revett) — entablature</text>
+<rect class="pf" x="36" y="38" width="666" height="646"/>
+<line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,694.000 L 70.000,516.857 L 72.952,516.857 L 72.952,339.714 L 247.143,339.714 L 247.143,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="71.0" y1="605.4" x2="404.0" y2="605.4" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="608.0">Architrave   one unmoulded face — fascia, 6.00″</text>
+<line x1="74.0" y1="428.3" x2="404.0" y2="428.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="430.9">Frieze   triglyphs and metopes — triglyph, 6.00″</text>
+<line x1="248.1" y1="206.9" x2="404.0" y2="206.9" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="209.5">Cornice, with mutules over both triglyph and met… — corona, 9.00″</text>
+<text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="726.0">Greek Doric Order (Stuart and Revett), assembly entablature, at a 12″ column. 3 member(s), 21.00″ high, 6.00″ of relief from the</text>
+<text class="dm" x="44" y="737.0">naked.</text>
+<text class="dm" x="44" y="748.0">AFTER: James Stuart and Nicholas Revett, The Antiquities of Athens, London 1762-1816, on the Parthenon and the Hephaisteion;</text>
+<text class="dm" x="44" y="759.0">Minard Lafever, The Beauties of Modern Architecture, New York 1835, for the American transmission</text>
+</svg>

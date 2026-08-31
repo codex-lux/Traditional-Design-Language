@@ -3,7 +3,7 @@
 An evolutionary taxonomy of traditional architecture, built as a machine-readable graph rather than a document — and designed so that selecting a style resolves to a kit of parts.
 
 <!-- COUNTS:START -->
-**164 taxa · 476 lineage edges · 97 element slots · 40 massings · 60 rooms · 17 groupings · 57 executable proportion packs · 210 named faults · 322 specified images, 11 drawn · 21 partis native to 129 of 132 buildable styles · 24 MCP tools**
+**164 taxa · 476 lineage edges · 97 element slots · 40 massings · 60 rooms · 17 groupings · 57 executable proportion packs · 210 named faults · 1850 specified images, 73 drawn · 21 partis native to 129 of 132 buildable styles · 24 MCP tools**
 
 **700 BC – AD 2026**
 <!-- COUNTS:END -->
@@ -63,7 +63,7 @@ python3 build/geometry.py plans/tidewater-georgian-careful.json --engine cp --ti
 ```
 
 **10. The image layer** (`assets/manifest.json`) — see `docs/assets.md`
-Format-agnostic records authored **before** the images exist. 322 records — **311 wanted and 11 sourced** — 150 of them good/bad pairs, each generated from a `forbidden` variant, an `invented` slot, a code conflict, or a proportion-pack assembly. Every record carries a shot spec and alt text written to be reasoned from, so the gap is visible, the shot list exists, and an agent can use the record while the file is still missing.
+Format-agnostic records authored **before** the images exist. 1850 records over 142 style nodes — **1777 wanted and 73 sourced** — 858 of them good/bad pairs, each generated from a `forbidden` variant, an `invented` slot, a code conflict, or a proportion-pack assembly. Every record carries a shot spec and alt text written to be reasoned from, so the gap is visible, the shot list exists, and an agent can use the record while the file is still missing.
 
 Built outputs live in `dist/`:
 
@@ -153,11 +153,13 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
 
 *(Revised 25 Aug 2026, after the two branches merged — the previous version of this list predated WP-1.3, WP-2.2, WP-4.2, WP-4.5 and WP-4.6, all of which closed items it still named.)*
 
-- **The images.** 311 of 322 asset records are still `wanted` (WP-4.4) — `www.loc.gov` refuses CONNECT
-  from this environment. **Eleven are sourced**, and none of them needed the network: they carry a
-  `generated_from` block naming a proportion pack, and `build/render_profile.py` draws them from the
-  corpus's own geometry. Of the 311 remaining, **150 can never be harvested from any archive** — they
-  are `role: incorrect`, and no archive indexes wrongness.
+- **The images.** 1777 of 1850 asset records are still `wanted` (WP-4.4) — `www.loc.gov` refuses CONNECT
+  from this environment. **73 are sourced**, and none of them needed the network: they carry a
+  `generated_from` block naming a proportion pack and an assembly, and `build/render_profile.py`
+  draws them from the corpus's own geometry. Of the rest, **858 can never be harvested from any
+  archive** — they are `role: incorrect`, and no archive indexes wrongness. 845 name a real
+  building to look for, across 330 distinct queries; 188 of those are in the United States and so
+  within HABS's charter.
 - **Generated guidelines and details, and costs** (WP-5.3, WP-5.4) — the workbench, the DXF/IFC export and drawing-to-record ingestion shipped; these two are what remain of the platform phase.
 - **What the lineage cascade delivers that nobody bound** (OQ 51, ruled 25 Aug, refusal half built 28 Aug): 287 role gaps, 249 of them never judged, 48 judged. Ruled adjudicate-first, and the backlog is the next package.
 - **Non-Western traditions.** Five traditions are modelled, deep on the North American lineage and its European roots. Japanese, Islamic, South Asian, and African traditions would each be a peer trunk, and the schema extends to them without modification. Cape Dutch already carries an acknowledged gap: its Cape and Indonesian strand has no node to point at.

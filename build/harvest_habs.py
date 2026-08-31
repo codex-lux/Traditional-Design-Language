@@ -141,24 +141,47 @@ def query_for(asset):
     return " ".join(bits)
 
 
-# HABS is a UNITED STATES survey, by charter. Four of the eleven buildings the manifest names
-# are English or Irish -- Queen Square Bath, Bedford Square Bloomsbury, Fairfax House York,
-# Merrion Square Dublin -- and no query will ever find them here. Searching anyway would spend
-# four requests to report "no result holds a photograph", which is true and says the wrong
-# thing: the reason is jurisdiction, not holdings. Named so the refusal carries its own cause.
-NOT_US = ("england", "scotland", "wales", "ireland", "london", "dublin", "united kingdom")
+# HABS IS A UNITED STATES SURVEY, BY CHARTER, and the manifest is not a United States shot list.
+# Searching a foreign building anyway spends a request to report "no result holds a photograph",
+# which is true and says the wrong thing: the reason is jurisdiction, not holdings.
+#
+# THIS IS AN ALLOWLIST OF US STATES, NOT A DENYLIST OF COUNTRIES, and that direction is the whole
+# of it. The first version listed england/scotland/wales/ireland, which was right for the three
+# style nodes the manifest covered then. At 142 nodes the locations run to Belgium, France,
+# Germany, Greece, Italy, Mexico, the Netherlands, Norway, Ontario, South Africa, Spain, Sweden,
+# Switzerland and Vatican City -- and a denylist is wrong by DEFAULT on the next country nobody
+# thought of, in the direction that wastes the request and misreports the cause. An allowlist is
+# wrong in the direction that spends a request on a building HABS might actually hold, which is
+# merely a wasted request and a truthful "no result".
+US_STATES = frozenset("""
+alabama alaska arizona arkansas california colorado connecticut delaware florida georgia hawaii
+idaho illinois indiana iowa kansas kentucky louisiana maine maryland massachusetts michigan
+minnesota mississippi missouri montana nebraska nevada ohio oklahoma oregon pennsylvania
+tennessee texas utah vermont virginia washington wisconsin wyoming
+""".split()) | frozenset([
+    "new hampshire", "new jersey", "new mexico", "new york", "north carolina", "north dakota",
+    "rhode island", "south carolina", "south dakota", "west virginia",
+    "district of columbia", "d.c.", "dc", "puerto rico", "guam", "virgin islands",
+])
 
 
 def outside_the_survey(location):
-    """Why HABS cannot hold this building, or None if it might."""
-    loc = (location or "").lower()
-    for word in NOT_US:
-        if word in loc:
-            return ("HABS is a United States survey by charter and this building is in %s; "
-                    "no query will find it. The English and Irish records need a different "
-                    "source, and every English photograph checked so far is share-alike, "
-                    "which is a ruling rather than a fetch." % word.title())
-    return None
+    """Why HABS cannot hold this building, or None if it might.
+
+    Reads the LAST comma-separated part of the location, which is where the corpus's exemplar
+    records put the state or the country."""
+    if not location:
+        return None                      # nothing to judge on; let the query run and report
+    tail = location.split(",")[-1].strip().lower()
+    if not tail or tail in US_STATES:
+        return None
+    if any(tail.endswith(" " + s) or tail == s for s in US_STATES):
+        return None
+    return ("HABS is a United States survey by charter and this building's location ends in %r, "
+            "which is not a US state; no query here will find it. Those records need a different "
+            "source, and every English photograph checked so far is share-alike, which is a "
+            "ruling rather than a fetch (oq/a-share-alike-photograph-has-no-home-in-the-asset-"
+            "schema)." % location.split(",")[-1].strip())
 
 
 _COUNT_RE = re.compile(r"(photo|measured drawing|drawing)\(s\)\s*:\s*(\d+)", re.I)
@@ -301,10 +324,11 @@ def main():
     print("%d wanted record(s) of %d in the file, naming %d distinct building(s)"
           % (len(wanted), len(doc["assets"]), len(groups)))
     if generic:
-        print("%d name no building at all. 150 of those are `role: incorrect`, and the corpus "
+        n_wrong = sum(1 for x in generic if x.get("role") == "incorrect")
+        print("%d name no building at all. %d of those are `role: incorrect`, and the corpus "
               "names buildings that exemplify a style and never ones that exemplify a fault, so "
               "they are not an omission and no archive will ever hold them. They are skipped, "
-              "not searched." % len(generic))
+              "not searched." % (len(generic), n_wrong))
     for q in sorted(outside):
         print("  OUTSIDE %s — %s" % (q, outside[q]))
     if a.dry_run:

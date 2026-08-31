@@ -49,7 +49,7 @@ def test_every_sourced_records_file_actually_resolves():
         r = client.get("/corpus/" + f["path"])
         assert r.status_code == 200, "%s: /corpus/%s -> %s" % (a["id"], f["path"], r.status_code)
         assert int(r.headers.get("content-length") or len(r.content)) == f["bytes"], a["id"]
-    assert checked == 11, checked
+    assert checked == 73, checked
 
 
 def test_the_bundle_namespace_is_not_the_corpus_namespace():

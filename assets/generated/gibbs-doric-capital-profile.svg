@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 797" width="738" height="797">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="797" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Doric Order (Gibbs) - overlay on Vignola — capital</text>
+<rect class="pf" x="36" y="38" width="666" height="646"/>
+<line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,694.000 L 70.000,487.333 L 173.333,487.333 L 173.333,461.500 A 38.750 38.750 0 0 0 212.083,422.750 A 38.750 38.750 0 0 0 173.333,384.000 A 129.167 103.333 0 0 0 302.500,280.667 L 354.167,280.667 L 354.167,177.333 L 354.167,99.833 L 354.167,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="71.0" y1="590.7" x2="404.0" y2="590.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="593.3">Necking / frieze of the capital (fregio) — flat, 2.00″</text>
+<line x1="174.3" y1="474.4" x2="404.0" y2="474.4" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="477.0">Fillet (listello) — fillet, 0.25″</text>
+<line x1="213.1" y1="422.8" x2="404.0" y2="422.8" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="425.4">Bead under the echinus (tondino) — astragal, 0.75″</text>
+<line x1="303.5" y1="332.3" x2="404.0" y2="332.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="334.9">Echinus (ovolo) — ovolo, 1.00″</text>
+<line x1="355.2" y1="229.0" x2="404.0" y2="229.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="231.6">Abacus (gocciolatoio) — abacus, 1.00″</text>
+<line x1="355.2" y1="138.6" x2="404.0" y2="138.6" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="141.2">Abacus cymatium, cyma reversa (gola rovesc… — cyma reversa, 0.75″</text>
+<line x1="355.2" y1="86.9" x2="404.0" y2="86.9" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="89.5">Fillet over the cymatium (pianetto) — fillet, 0.25″</text>
+<text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="726.0">Doric Order (Gibbs) - overlay on Vignola, assembly capital, at a 12″ column. 7 member(s), 6.00″ high, 2.75″ of relief from the</text>
+<text class="dm" x="44" y="737.0">naked.</text>
+<text class="dm" x="44" y="748.0">AFTER: James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 2, VI, VII, VIII, IX, XXIV,</text>
+<text class="dm" x="44" y="759.0">XXV, XXVI, XXXI, XXXVII no. 2, XLIV</text>
+</svg>

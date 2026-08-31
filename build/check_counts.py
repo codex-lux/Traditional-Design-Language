@@ -163,15 +163,22 @@ def main():
                 missing.append(f"{path}: no match for {key} -- pattern '{pattern}' has rotted")
                 continue
             want = str(v[key])
-            for m in hits:
+            # REVERSE, and this is a fix rather than a style. `hits` is materialised once, so
+            # every span in it indexes the text as it was BEFORE any rewrite. Rewriting forwards
+            # shifts every later span by len(want) - len(got), and the next write lands off by
+            # that much: `**311 wanted, 11 sourced**` became `*17771 wanted, 11 sourced**` in
+            # STATE-OF-THE-PROJECT.md, where one pattern matched two lines. The old code carried
+            # the comment `# offsets moved` and then recompiled the regex, which does nothing --
+            # the list was already built. A guard that names the problem and does not address it.
+            # Writing highest-offset-first leaves every remaining span valid.
+            for m in reversed(hits):
                 checked += 1
                 got = m.group(1)
                 if got != want:
                     stale.append(f"{path}: {key} says {got}, data says {want}")
                     if args.fix:
-                        s, e = m.span(1)
-                        text = text[:s] + want + text[e:]
-                        rx = re.compile(pattern, re.M)   # offsets moved
+                        a_, b_ = m.span(1)
+                        text = text[:a_] + want + text[b_:]
         if args.fix:
             open(full, "w").write(text)
 

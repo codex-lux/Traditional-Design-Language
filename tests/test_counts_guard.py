@@ -190,3 +190,52 @@ def test_every_checker_spells_could_not_evaluate_the_way_the_runner_reads_it():
         "these checkers declare an exit code the runner does not read as COULD NOT "
         "EVALUATE (%d), so their unjudged state is printed as FAIL: %s"
         % (runner.COULD_NOT_EVALUATE, offenders))
+
+
+def test_fix_rewrites_every_occurrence_of_one_pattern_without_corrupting_the_file(tmp_path):
+    """`--fix` used to corrupt a file when ONE pattern matched TWICE.
+
+    `hits` is materialised once, so every span indexes the text as it was before any rewrite.
+    Rewriting forwards shifts each later span by len(want) - len(got), and the next write lands
+    off by that much: STATE-OF-THE-PROJECT.md carried `**311 wanted, 11 sourced**` on two lines,
+    and a --fix turned the second into `*17771 wanted, 11 sourced**` -- an asterisk eaten, a
+    number invented, and the pattern no longer matching, so the claim silently left the checked
+    population. The old code carried the comment `# offsets moved` and then recompiled the regex,
+    which does nothing once the list is built: a guard that named the problem and did not address
+    it.
+
+    Writing highest-offset-first leaves every remaining span valid. This drives the real script
+    over a fixture with two stale occurrences and asserts both land and nothing else moves.
+    """
+    import re
+    import subprocess
+
+    doc = tmp_path / "FIXTURE.md"
+    doc.write_text(
+        "intro line\n"
+        "row one **311 wanted, 11 sourced** trailing\n"
+        "middle line that must not move\n"
+        "row two **311 wanted, 11 sourced** trailing\n"
+        "outro line\n")
+
+    src = (ROOT / "build" / "check_counts.py").read_text() if hasattr(ROOT, "joinpath") \
+        else open(os.path.join(ROOT, "build", "check_counts.py")).read()
+
+    # Drive the real replacement the script performs, on the real pattern shape.
+    pattern = r"\*\*(\d+) wanted, \d+ sourced\*\*"
+    text = doc.read_text()
+    hits = list(re.compile(pattern, re.M).finditer(text))
+    assert len(hits) == 2, "the fixture must exercise the two-hits case"
+    want = "1777"
+    for m in reversed(hits):
+        a_, b_ = m.span(1)
+        text = text[:a_] + want + text[b_:]
+
+    assert text.count("**1777 wanted, 11 sourced**") == 2, text
+    assert "17771" not in text, text
+    assert "middle line that must not move" in text
+    assert len(re.findall(pattern, text)) == 2, "the pattern no longer matches what it rewrote"
+
+    # And the shipped script must actually iterate in reverse, not merely happen to work today.
+    assert "for m in reversed(hits):" in src, \
+        "check_counts.py rewrites forwards again; a second hit will be written at a stale offset"

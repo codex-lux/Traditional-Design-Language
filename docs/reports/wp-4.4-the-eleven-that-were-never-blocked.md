@@ -149,3 +149,68 @@ environment cannot read.
   the three: `gen_assets.py` rebuilds the manifest from scratch and would silently discard the 161
   building names, the eleven files, and the 209 fault links. It is in neither `check_all.py` nor
   the Makefile, so the loss would happen on somebody's laptop and arrive as a commit.
+
+---
+
+# Addendum, same day: Lucas ruled regenerate, and eleven became seventy-three
+
+*The report above was written before the ruling. Its title is left as it was — the eleven were the
+finding — and this records what the ruling changed.*
+
+## The manifest covers the corpus now
+
+`322 wanted / 0 sourced` over three style nodes is **`1,777 wanted / 73 sourced` over 142**.
+
+The regeneration itself was uneventful, which was the point of fixing `gen_assets.py` first:
+**zero records lost**, and all 11 sourced records, all 161 building names and all 94 fault links
+carried through. A regeneration now carries 3,787 fields the generator does not own.
+
+## Four things the new scale broke, none of them the regeneration
+
+**The profile block named five packs, and the corpus holds twenty-five it can draw.** The five
+were a sample from when the layer was authored and nothing said so. Walking all of them takes the
+drawn plates from 11 to **73**, with 0 failures. **The authored assembly filter was left alone**:
+widening it from `(cornice, capital, base, entablature)` to include architrave and pedestal would
+add 46 more and carry this package past WP-4.4's "at least 100 sourced" acceptance line. Hitting an
+acceptance number by widening somebody else's filter is not meeting it, so the figure is reported at
+73 and the line is not met.
+
+**The building names.** 161 records named **eleven** buildings, so a perfect harvest would have
+returned eleven photographs for 161 records. `build/name_asset_buildings.py` deals each node's
+records round its own exemplars — deterministic, sorted by id — and takes it to **845 records
+naming 327 buildings over 330 distinct queries**. It never touches `role: incorrect`: the corpus
+names buildings that exemplify a style and never ones that exemplify a fault, so those 858 keep no
+building and the harvester goes on skipping them. Its own first report was wrong in a way worth
+recording — it counted the remainder BEFORE the assignment it describes, so a dry run filed the 684
+records it was about to name under "its style records no exemplars."
+
+**The jurisdiction test was a denylist and had to become an allowlist.** It named
+england/scotland/wales/ireland, which was right for three style nodes. At 142 the locations run to
+Belgium, France, Germany, Greece, Italy, Mexico, the Netherlands, Norway, **Ontario**, South
+Africa, Spain, Sweden, Switzerland and Vatican City. A denylist is wrong by default on the next
+country nobody thought of, and wrong in the expensive direction — it spends a rate-limited request
+and then misreports the cause. An allowlist of US states is wrong only by letting a request
+through. Ontario is the case that makes it concrete: not a country name, so no plausible denylist
+of countries would have caught it. 188 of the 330 queries are within HABS's charter; the other 142
+are named and skipped.
+
+**`check_counts.py --fix` corrupted a file, and the comment above the bug named it.** One pattern
+matching twice: `hits` is materialised once, so every span indexes the text as it was before any
+rewrite, and writing forwards shifts each later span. `**311 wanted, 11 sourced**` became
+`*17771 wanted, 11 sourced**` — an asterisk eaten, a number invented, and the pattern no longer
+matching, so **the claim silently left the checked population**. The old code carried the comment
+`# offsets moved` and then recompiled the regex, which does nothing once the list is built: a
+guard that named the problem and did not address it, which is WP-8.6's category exactly. Writing
+highest-offset-first fixes it, and the guard drives the real two-hit case.
+
+That the asset counts were caught at all is the checker added earlier the same day: **sixteen stale
+claims across four files**, in a layer whose numbers had been policed by nothing.
+
+## What the ruling cost, stated plainly
+
+The visible gap is five and a half times larger: 1,777 wanted against 311. That is the honest state
+rather than a regression — the records were always implied by the corpus and the manifest simply
+had not been regenerated since it covered three nodes. But 1,466 of them are gaps nobody can act on
+today, and 858 of those can never be closed from any archive at all.
+
+`oq/regenerating-the-asset-manifest-discards-what-was-added-to-it` is CLOSED, both halves.

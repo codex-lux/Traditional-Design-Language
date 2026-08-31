@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 733" width="738" height="733">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="733" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Palladio's Ionic Order (overlay on Vignola) — capital</text>
+<rect class="pf" x="36" y="38" width="666" height="593"/>
+<line x1="70.0" y1="641.3" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,641.280 A 320.000 236.372 0 0 0 390.000,404.909 A 307.267 141.820 0 0 1 82.733,263.089 L 177.270,263.089 L 177.270,215.820 A 100.448 100.448 0 0 1 189.091,168.544 A 100.448 100.448 0 0 0 200.911,121.269 L 295.463,121.269 L 295.463,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="391.0" y1="523.1" x2="404.0" y2="523.1" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="525.7">Echinus (quarter round) — echinus, 1.67″</text>
+<line x1="83.7" y1="334.0" x2="404.0" y2="334.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="336.6">Gorge of the volute (cavetto) — cavetto, 1.00″</text>
+<line x1="178.3" y1="239.5" x2="404.0" y2="239.5" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="242.1">Fillet of the volute — fillet, 0.33″</text>
+<line x1="201.9" y1="168.5" x2="404.0" y2="168.5" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="171.1">Ogee of the abacus (cyma reversa) — cyma reversa, 0.67″</text>
+<line x1="296.5" y1="97.6" x2="404.0" y2="97.6" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="100.2">Fillet of the abacus — abacus, 0.33″</text>
+<text class="dm" x="44" y="662.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="673.0">Palladio's Ionic Order (overlay on Vignola), assembly capital, at a 24″ column. 5 member(s), 4.00″ high, 2.26″ of relief from the</text>
+<text class="dm" x="44" y="684.0">naked.</text>
+<text class="dm" x="44" y="695.0">AFTER: Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVI and XIX</text>
+</svg>

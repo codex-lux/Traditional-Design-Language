@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 519" width="738" height="519">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="519" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Tuscan Order (Asher Benjamin) - overlay on Vignola — cornice</text>
+<rect class="pf" x="36" y="38" width="666" height="346"/>
+<line x1="70.0" y1="394.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,394.000 A 41.667 41.667 0 0 1 100.000,354.000 A 41.667 41.667 0 0 0 130.000,314.000 L 150.000,314.000 L 150.000,294.000 L 310.000,294.000 L 310.000,194.000 L 330.000,194.000 L 330.000,174.000 L 340.000,174.000 A 10.000 10.000 0 0 0 350.000,164.000 A 10.000 10.000 0 0 0 340.000,154.000 A 50.000 80.000 0 0 0 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="131.0" y1="354.0" x2="404.0" y2="354.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="356.6">Bed mould, cyma reversa (gola rovescia) — cyma reversa, 2.00″</text>
+<line x1="151.0" y1="304.0" x2="404.0" y2="304.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="306.6">Fillet over the bed mould (listello) — fillet, 0.50″</text>
+<line x1="311.0" y1="244.0" x2="404.0" y2="244.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="246.6">Corona (gocciolatoio) — corona, 2.50″</text>
+<line x1="331.0" y1="184.0" x2="404.0" y2="184.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="186.6">Fillet over the corona (listello) — fillet, 0.50″</text>
+<line x1="351.0" y1="164.0" x2="404.0" y2="164.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="166.6">Torus under the cymatium (toro) — torus, 0.50″</text>
+<line x1="391.0" y1="114.0" x2="404.0" y2="114.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="116.6">Cymatium, ovolo (ovolo) — ovolo, 2.00″</text>
+<text class="dm" x="44" y="415.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="426.0">Tuscan Order (Asher Benjamin) - overlay on Vignola, assembly cornice, at a 12″ column. 6 member(s), 8.00″ high, 8.00″ of relief</text>
+<text class="dm" x="44" y="437.0">from the naked.</text>
+<text class="dm" x="44" y="448.0">AFTER: Asher Benjamin, The American Builder's Companion; or, A System of Architecture, particularly adapted to the present style</text>
+<text class="dm" x="44" y="459.0">of building, THIRD EDITION, corrected and enlarged (Boston: R. P. &amp; C. Williams, April 1816), Plates 12, 24, 26-28, 35 - with the</text>
+<text class="dm" x="44" y="470.0">Tuscan of The Practical House Carpenter (Boston, 1830; text collated from the 1843 printing issued as The Architect, or Practical</text>
+<text class="dm" x="44" y="481.0">House Carpenter), Plate III, recorded as a second stratum in the notes and conflicts</text>
+</svg>

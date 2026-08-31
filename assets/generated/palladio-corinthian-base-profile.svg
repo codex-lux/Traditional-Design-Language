@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 786" width="738" height="786">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="786" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Palladio's Corinthian Order (overlay on Vignola) — base</text>
+<rect class="pf" x="36" y="38" width="666" height="646"/>
+<line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,694.000 L 318.000,694.000 L 318.000,487.333 L -7.500,487.333 A 77.500 77.500 0 0 0 70.000,409.833 A 77.500 77.500 0 0 0 -7.500,332.333 L 70.000,332.333 L 70.000,306.500 A 51.667 51.667 0 0 1 18.333,254.833 A 51.667 51.667 0 0 1 70.000,203.167 L 70.000,177.333 L 18.333,177.333 A 51.667 51.667 0 0 0 70.000,125.667 A 51.667 51.667 0 0 0 18.333,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="319.0" y1="590.7" x2="404.0" y2="590.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="593.3">Plinth or zocco — plinth, 2.00″</text>
+<line x1="71.0" y1="409.8" x2="404.0" y2="409.8" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="412.4">Lower torus — torus, 1.50″</text>
+<line x1="71.0" y1="319.4" x2="404.0" y2="319.4" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="322.0">Lower listel — fillet, 0.25″</text>
+<line x1="71.0" y1="254.8" x2="404.0" y2="254.8" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="257.4">Scotia (cavetto) — scotia, 1.00″</text>
+<line x1="71.0" y1="190.2" x2="404.0" y2="190.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="192.8">Upper listel — fillet, 0.25″</text>
+<line x1="71.0" y1="125.7" x2="404.0" y2="125.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="128.3">Upper torus — torus, 1.00″</text>
+<text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="726.0">Palladio's Corinthian Order (overlay on Vignola), assembly base, at a 24″ column. 6 member(s), 6.00″ high, 2.40″ of relief from</text>
+<text class="dm" x="44" y="737.0">the naked.</text>
+<text class="dm" x="44" y="748.0">AFTER: Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVII and XIX</text>
+</svg>

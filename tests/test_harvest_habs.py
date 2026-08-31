@@ -124,8 +124,12 @@ def test_records_are_grouped_by_building_so_one_building_is_one_request():
     all 32 Hammond-Harwood records as though each had its own photograph."""
     queries = [H.query_for(x) for x in _wanted()]
     named = [q for q in queries if q]
-    assert len(named) == 161, len(named)
-    assert len(set(named)) == 11, sorted(set(named))
+    assert len(named) == 845, len(named)
+    # 330 distinct queries over 327 distinct building names -- three names sit at two locations.
+    # Before build/name_asset_buildings.py dealt each node's records round its own exemplars,
+    # 161 records named ELEVEN buildings, and a perfect harvest would have returned eleven
+    # photographs for 161 records. That is what the grouping and this number are both about.
+    assert len(set(named)) == 330, len(set(named))
 
 
 def test_the_guard_tests_the_right_condition():
@@ -137,12 +141,48 @@ def test_the_guard_tests_the_right_condition():
 
 
 def test_buildings_outside_the_united_states_are_named_not_searched():
-    """HABS is a US survey by charter. Four of the eleven buildings are English or Irish, and
-    searching them returns 'no result holds a photograph' -- true, and the wrong reason."""
+    """HABS is a US survey by charter. Searching a foreign building returns 'no result holds a
+    photograph' -- true, and the wrong reason."""
     assert H.outside_the_survey("Bath, England")
     assert H.outside_the_survey("Dublin, Ireland")
     assert "charter" in H.outside_the_survey("Bath, England")
     assert H.outside_the_survey("Charles City County, Virginia") is None
+    assert H.outside_the_survey("Washington, District of Columbia") is None
+
+
+def test_the_jurisdiction_test_is_an_allowlist_and_fails_in_the_cheap_direction():
+    """The first version listed england/scotland/wales/ireland, which was right for the three
+    style nodes the manifest covered then. At 142 nodes the locations run to Belgium, France,
+    Germany, Greece, Italy, Mexico, the Netherlands, Norway, Ontario, South Africa, Spain,
+    Sweden, Switzerland and Vatican City. A DENYLIST is wrong by default on the next country
+    nobody thought of, and wrong in the expensive direction: it spends a rate-limited request
+    and then misreports the cause. An allowlist is wrong only by letting a request through.
+
+    Ontario is the case that makes it concrete -- it is not a country name, so no plausible
+    denylist of countries would have caught it."""
+    for foreign in ("Antwerp, Belgium", "Paris, France", "Munich, Germany", "Athens, Greece",
+                    "Rome, Italy", "Mexico City, Mexico", "Amsterdam, Netherlands",
+                    "Oslo, Norway", "Toronto, Ontario", "Cape Town, South Africa",
+                    "Seville, Spain", "Stockholm, Sweden", "Bern, Switzerland",
+                    "Vatican City"):
+        assert H.outside_the_survey(foreign), "%s was treated as searchable" % foreign
+    for home in ("Annapolis, Maryland", "Charleston, South Carolina", "Eldon, Iowa",
+                 "Schenectady County, New York", "Malibu, California"):
+        assert H.outside_the_survey(home) is None, "%s was refused" % home
+
+
+def test_the_manifest_is_mostly_not_searchable_here_and_says_so():
+    """188 of the 330 distinct queries are US buildings. The other 142 are named and skipped
+    with jurisdiction as the cause rather than searched and reported as empty."""
+    a = [x for x in MANIFEST["assets"] if x.get("status") == "wanted"]
+    q = {}
+    for x in a:
+        s_ = H.query_for(x)
+        if s_:
+            q.setdefault(s_, (x.get("provenance") or {}).get("location"))
+    outside = [k for k, loc in q.items() if H.outside_the_survey(loc)]
+    assert len(q) == 330, len(q)
+    assert len(outside) == 142, len(outside)
 
 
 # ------------------------------------------------------------ CAPTCHA served behind a 200

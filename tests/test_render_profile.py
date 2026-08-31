@@ -41,9 +41,9 @@ def _plates():
 
 def test_every_generated_record_draws():
     """Three of the eleven failed on the first run and two were the same bug."""
-    assert len(GENERATED) == 11, len(GENERATED)
+    assert len(GENERATED) == 73, len(GENERATED)
     drawn = [a["id"] for a, _, _ in _plates()]
-    assert len(drawn) == 11
+    assert len(drawn) == 73
 
 
 def test_an_overlay_pack_is_resolved_not_read_raw():
@@ -141,7 +141,7 @@ def test_the_member_count_agrees_with_the_records_own_caption():
         checked += 1
         assert rep["members"] == int(m.group(1)), \
             "%s: caption says %s members, the plate draws %d" % (a["id"], m.group(1), rep["members"])
-    assert checked == 11, checked
+    assert checked == 73, checked
 
 
 # ------------------------------------------------------------------ what the records now say
@@ -192,7 +192,7 @@ def test_the_asset_fault_join_needs_both_halves():
         slot_only += sum(1 for f in FAULTS if slots & set(f.get("slots") or []))
     both = sum(len(LAF.links_for(a, FAULTS)) for a in MANIFEST["assets"])
     assert both < slot_only / 5, (both, slot_only)
-    assert both == 209, both
+    assert both == 322, both
 
 
 def test_the_join_is_recorded_and_idempotent():
@@ -217,7 +217,7 @@ def test_the_evidence_rail_returns_something():
     sys.path.insert(0, ROOT)
     from mcp_server import core
     reached = sum(1 for f in FAULTS if core.find_assets(fault=f["id"], limit=1)["matches"])
-    assert reached == 20, reached
+    assert reached == 25, reached
 
 
 # ------------------------------------- the generator must not destroy what it does not own
@@ -247,7 +247,7 @@ def test_gen_assets_carries_forward_the_fields_it_does_not_own():
         after = {a["id"]: a for a in json.load(open(manifest_path))["assets"]}
 
         sourced = [i for i, a in before.items() if a.get("status") == "sourced"]
-        assert len(sourced) == 11, len(sourced)
+        assert len(sourced) == 73, len(sourced)
         for i in sourced:
             assert i in after, "%s vanished from the regenerated manifest" % i
             assert after[i].get("status") == "sourced", "%s lost its status" % i
@@ -255,30 +255,62 @@ def test_gen_assets_carries_forward_the_fields_it_does_not_own():
             assert after[i]["file"]["sha256"] == before[i]["file"]["sha256"], i
 
         named = [i for i, a in before.items() if (a.get("provenance") or {}).get("building")]
-        assert len(named) == 161, len(named)
+        assert len(named) == 845, len(named)
         for i in named:
             assert (after[i].get("provenance") or {}).get("building"), \
                 "%s lost the building name WP-4.4 gave it" % i
 
         linked = [i for i, a in before.items() if (a.get("depicts") or {}).get("faults")]
-        assert len(linked) == 94, len(linked)
+        assert len(linked) == 189, len(linked)
         for i in linked:
             assert (after[i].get("depicts") or {}).get("faults"), "%s lost its fault links" % i
     finally:
         shutil.move(backup, manifest_path)
 
 
-def test_the_generator_and_the_committed_manifest_have_diverged():
-    """The committed file is a strict SUBSET of what the generator now emits: 322 records over
-    three style nodes against 1,788 over 142. Nothing said so, and every count that quotes
-    "322 image records" reads corpus-wide while describing three nodes.
+def test_the_committed_manifest_is_what_the_generator_emits():
+    """This used to assert the OPPOSITE, and the inversion is the point.
 
-    Pinned as a MEASUREMENT rather than a target -- if somebody rules that the manifest should
-    become the whole corpus's shot list, this test is where that decision becomes visible.
-    See oq/regenerating-the-asset-manifest-discards-what-was-added-to-it.
+    The committed file was a frozen snapshot from when the layer was authored -- 322 records over
+    three style nodes -- while the generator, tracking the corpus, emitted 1,788 over 142. Nothing
+    compared them, so "322 image records" read corpus-wide in four documents while describing
+    `georgian-colonial-american`, `tidewater-georgian` and `english-georgian`. Lucas ruled on
+    31 Aug to regenerate.
+
+    The guard that matters now is that they cannot silently drift apart again. This runs the real
+    generator against a copy of the real manifest and asserts the ID SET is identical -- not the
+    whole file, because provenance, files, statuses and fault links are carried forward and are
+    not the generator's to produce.
     """
+    import shutil
+    import subprocess
+
+    manifest_path = os.path.join(ROOT, "assets", "manifest.json")
+    backup = manifest_path + ".divergetest.bak"
+    shutil.copy(manifest_path, backup)
+    try:
+        committed = {a["id"] for a in json.load(open(manifest_path))["assets"]}
+        r = subprocess.run([sys.executable, "build/gen_assets.py"], cwd=ROOT,
+                           capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr[-800:]
+        emitted = {a["id"] for a in json.load(open(manifest_path))["assets"]}
+    finally:
+        shutil.move(backup, manifest_path)
+
+    missing = emitted - committed
+    extra = committed - emitted
+    assert not missing, "%d record(s) the generator emits are not committed: %s" % (
+        len(missing), sorted(missing)[:5])
+    assert not extra, "%d committed record(s) the generator no longer emits: %s" % (
+        len(extra), sorted(extra)[:5])
+    assert len(committed) == 1850, len(committed)
+
+
+def test_the_manifest_covers_the_corpus_and_not_a_corner_of_it():
+    """142 style nodes, not three. Pinned because the three-node fact was true for months and
+    "no count anywhere said" it -- WP-4.4's own report."""
     nodes = set()
     for a in MANIFEST["assets"]:
         nodes.update((a.get("depicts") or {}).get("nodes") or [])
-    assert len(MANIFEST["assets"]) == 322, len(MANIFEST["assets"])
-    assert len(nodes) == 3, sorted(nodes)
+    assert len(nodes) == 142, len(nodes)
+    assert len(MANIFEST["assets"]) == 1850, len(MANIFEST["assets"])
