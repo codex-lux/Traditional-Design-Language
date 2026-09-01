@@ -177,6 +177,53 @@ ceiling of 1.8. Area was never the constraint that was binding, which is why WP-
 changes moved nothing: they re-ranked candidates drawn from a pool that had already accepted the
 wrong number of rooms.
 
+### The obvious objection, and the mechanism that answers it
+
+*Why not simply build a bigger house?* An audit of this report put that question to it, and the
+answer is in `derive_footprint` and is sharper than anything else here.
+
+The footprint's area is a pure function of the program's own declared area:
+
+```
+need  = max(ground program area, upper program area)   # 2,405 sf and 1,621 sf here
+bays  = round((need / target_depth) / bay)
+while True:
+    W = bays * bay
+    H = need / W                                        # <-- H is DERIVED from need
+    if H <= depth_for(W) * 1.18 or bays >= growth_ceiling: break
+    bays += 1
+```
+
+**`H = need / W`, so adding a bay is area-neutral by construction.** Measured across the whole
+range the loop can reach:
+
+```
+ 4 bays ->  40.0 x 60.12 = 2405.0 sf        8 bays ->  80.0 x 30.06 = 2405.0 sf
+ 5 bays ->  50.0 x 48.10 = 2405.0 sf        9 bays ->  90.0 x 26.72 = 2405.0 sf
+ 6 bays ->  60.0 x 40.08 = 2405.0 sf       10 bays -> 100.0 x 24.05 = 2405.0 sf
+ 7 bays ->  70.0 x 34.36 = 2405.0 sf
+```
+
+Identical to the tenth of a square foot at every bay count. **The loop trades depth for width. It
+cannot make the house bigger, and nothing else in the pipeline can either.** On this plan it did
+not run at all — `grown: []`, `slack: -0.2 sf` — because the derived depth already sat inside the
+massing's target, so 2,405 sf of declared program was housed in a 2,405 sf footprint with nothing
+left over.
+
+**That is the mechanical root of every sliver above**, and it is a more precise statement than
+"twelve rooms into six rooms' worth of compartments". There is no mechanism anywhere by which a
+house gets bigger *because its rooms would otherwise be unbuildable shapes*. Shape has no vote in
+the sizing; only area and the massing's pile depth do. It is the study's thesis — a band carries no
+direction of causation — visible in eight lines of arithmetic.
+
+**One thing to flag rather than call a defect.** The loop's own comment reads *"grow the footprint
+before compromising a room — the stated infeasibility ordering"*, citing decision #11. The loop
+grows the *width* at constant area; it never grows the footprint's area. Whether that honours
+decision #11 depends on what "grow the footprint" was meant to mean, and the decision is settled
+and not to be reopened — so this is recorded as a question about the comment, not a claim against
+the code. It matters because a reader who takes the comment at face value will believe the
+generator has a lever it does not have.
+
 ## 4. Where the twelve rooms come from, and where the tradition puts them
 
 `partis/centre-passage-double-pile.json` names, on level 0: `porch, passage, stair, drawing,

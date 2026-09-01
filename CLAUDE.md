@@ -646,6 +646,20 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   green**: three of the five have a source on one side only and it is not consistently the same
   side, and at least one is a conditional floor with no axis to be conditional on, which is
   `oq/register-is-not-style`'s first customer.
+- **THE FOOTPRINT'S AREA IS A PURE FUNCTION OF THE PROGRAM'S AREA, AND ADDING A BAY IS
+  AREA-NEUTRAL (WP-9.2 audit).** `derive_footprint` sets `need = max(ground area, upper area)` from
+  the rooms' own declared `_area`, then loops `W = bays * bay; H = need / W`. **Because H is DERIVED
+  from need, every bay count gives the same area** -- measured 2,405.0 sf at 4, 5, 6, 7, 8, 9 and
+  10 bays on the Tidewater plan, identical to a tenth of a square foot. The loop trades DEPTH for
+  WIDTH and cannot make a house bigger; its exit condition is a DEPTH test
+  (`H <= depth_for(W) * 1.18`), so shape has no vote in the sizing at all. On that plan it did not
+  run (`grown: []`, `slack: -0.2 sf`): 2,405 sf of declared program in a 2,405 sf footprint, with
+  no allowance for walls -- the placed rectangles tile 97.6% of it. **This is the mechanical root
+  of the slivers and the answer to "why not just build a bigger house": nothing in the pipeline can
+  make one.** Flagged rather than called a defect: the loop's own comment says *"grow the footprint
+  before compromising a room -- the stated infeasibility ordering"* (decision #11, settled and not
+  to be reopened), and the loop grows the WIDTH at constant area and never the area. A reader who
+  takes that comment at face value will believe the generator has a lever it does not have.
 - **THE PARTI IS NOT THE TYPE, AND NO SCORE TERM CAN FIX THAT (WP-9.2).**
   `centre-passage-double-pile` names eleven enclosed ground rooms and a porch; **its own three
   named exemplars have six enclosed spaces apiece** — Drayton Hall 70'-5" x 52'-2" (HABS SC-377),
