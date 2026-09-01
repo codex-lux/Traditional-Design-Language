@@ -1157,7 +1157,27 @@ partis are untouched.
 **Depends on:** WP-9.1, WP-9.3; calibrated by WP-9.2. **Size:** large.
 
 ### WP-9.5 The adversarial audit
-**Status: NOT STARTED.** The phase tradition (6.4, 7.5, 8.6). Read
+**Status: RUN 1 Sep 2026 against WP-9.1 and WP-9.2; four of seven auditors still reporting.**
+`docs/reports/wp-9.5-the-adversarial-audit.md`. **23 findings survived verification, 7 blocking,
+every blocking one in this session's own work and four of them in corrections it had ALREADY
+made** — a first fix that was itself wrong, or right in one file and left wrong in another.
+Highest-yield technique, stated for the next audit: **re-derive the number, do not re-read the
+sentence.** Every blocking finding came from running something.
+Chief among them: Hammond-Harwood's bay figure was low twice and correcting it moved a conclusion
+(the parti's 9 ft is BELOW all three exemplars, not at the low end of their range); Morris turns
+out to be Palladio at one remove, so two sources were being counted where there is one; the
+headline furniture figure was `engine="auto"` and not reproducible (±3 between runs), and the
+deterministic engine gives 86/25 — **and CP-SAT, the engine that proves, draws about 131
+unfurnishable items where the search draws 86**; and "nothing else in the pipeline can make the
+house bigger" was false, because `compose.repair()` widens a declared width on a furniture finding
+— from the DECLARED record, so it never sees the room drawn as a sliver.
+Two pre-existing gaps exposed and raised rather than patched:
+`oq/a-grouping-rule-and-a-room-record-can-disagree` (five instances, one on the grouping 14 partis
+carry) and `oq/a-slug-in-a-code-span-is-not-checked` (65% of the live namespace unguarded, and the
+blind spot is load-bearing). Guards mutation-tested and ALIVE are listed too, because "the tests
+pass" is not evidence.
+
+The phase tradition (6.4, 7.5, 8.6). Read
 `docs/reports/wp-8.6-the-guards-that-could-not-fire.md` first: hunt guards that cannot fire,
 readers pointed at the wrong record, and verdicts claiming "no precondition" about records that
 carry one. Mutate every new test, re-derive every published number on the current tree, sweep
