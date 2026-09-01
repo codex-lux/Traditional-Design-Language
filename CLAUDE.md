@@ -543,6 +543,31 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   a 16 x 20 kitchen drawn 10 x 30 at the same area is a finding rather than a silence. What
   remains true, and is the reason this entry exists: the SEARCH still charges a flat 12 and
   still wins while paying it. The critic can now name what the search will still do.
+- **THE CORPUS FORBIDS THE SQUARE AND THE TRADITION PREFERS IT (WP-9.2).** 35 of 60 room records
+  carry a `proportion` LOWER bound above 1.0 and 29 of those are habitable: `drawing-room`
+  [1.25, 2.0], `hall` [1.3, 2.2], `parlor` [1.1, 1.45], `dining-room` [1.15, 1.8]. Mount Vernon's
+  **Front Parlor is 16'9" x 16'6" = 1.015** -- the room Washington called "the best place in my
+  House", and whose own FAQ says he "described the room as being 18 feet square" -- and its Dining
+  Room is 15 x 17 = 1.133. Both fall BELOW their band. No period source found states a minimum room
+  ratio; Palladio's seven shapes begin with the round and the square, Morris 1734 says "the nearer
+  a Room ... is to a Square, the more uniform and commodious", and Kerr's own recommended bedrooms
+  are 16 square, 16x20, 20 square, 18x24. **The floors are INERT today and that is the only reason
+  nothing is broken**: `plo` is unpacked at `plan_check.py` 706 and 1237 and used for nothing but
+  the message, both checks charge `ar > phi` alone, `geometry.shape_band()` returns the ceiling
+  only, `WIDTH_W` ships at 0.0. **WP-9.4 nearly built the charge**, saw it convict both good
+  reference plans and deleted it as unsupported -- the truer reason is that it is BACKWARDS, and 29
+  records still tell the next package to build it again. The ceiling is the well-sourced half and
+  it has no floor: Morris's "the Length of no Room exceed a Double Cube" and Scamozzi 1615's same
+  2:1 with its reason -- beyond two squares one gets "halls, galleries or passageways rather than
+  rooms to live in" -- which makes a room over 2:1 out of CATEGORY rather than out of band, and
+  makes the passage exempt BY DEFINITION rather than by a wider band.
+  `oq/the-proportion-band-forbids-the-square`. **Provenance, because it decides what may be
+  built:** the corpus counts and the Mount Vernon dimensions were verified here directly; the
+  Morris/Scamozzi/Palladio/Kerr quotations come through ONE adversarial sourcing pass that checked
+  them against reproductions and no facsimile was read -- strong enough to stop a rule being built,
+  not strong enough to build one. And Wells 1998's caution travels with them: "Mount Airy is the
+  only surviving colonial Virginia house to manifest a clear compositional debt to an English
+  pattern book", so the Palladian shape rules are NOT rules of the American tradition.
 - **THE FURNITURE CHECK READS THE DECLARED RECORD AND NEVER THE DRAWING, AND ONE PLACED ROOM IN
   FIVE CANNOT BE FURNISHED (WP-9.2).** `plan_check.py:1250-1288` is a good check pointed at the
   wrong record: `w, l = r.get("width_ft"), r.get("length_ft")`. Swept over all 16 plans, not the 2
@@ -946,8 +971,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **114 entries, of which 41 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-parti-dissolved-its-own-dependencies, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **115 entries, of which 42 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-parti-dissolved-its-own-dependencies, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

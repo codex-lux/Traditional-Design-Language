@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**114 questions, of which 41 are open.** A question is OPEN while
+**115 questions, of which 42 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 41
+## Open — 42
 
 Awaiting a ruling. This is the list to read first.
 
@@ -71,6 +71,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/the-parti-dissolved-its-own-dependencies** | OPEN | [a Georgian main block asked to hold a service program the type put in outbuildings](open-questions/oq-the-parti-dissolved-its-own-dependencies.md) |
 | **oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it** | OPEN | [the tradition cuts a long passage across its length, and the only move we have is to widen it](open-questions/oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md) |
+| **oq/the-proportion-band-forbids-the-square** | OPEN | [29 habitable room types may not be square, and the square is what the tradition was aiming at](open-questions/oq-the-proportion-band-forbids-the-square.md) |
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 

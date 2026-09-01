@@ -390,7 +390,86 @@ nothing is built on it.** It matters only as a caution: do not take the furnitur
 about a Georgian room as evidence the room is right, and do not run the argument backwards to
 justify a band. The bands come from the room catalogue and the precedents. Furniture falsifies.
 
-## 9. What this says about WP-9.3 and WP-9.4
+## 9. The corpus forbids the square, and the tradition prefers it
+
+*This section comes from the parallel study of the compositional literature, whose adversarial
+sourcing pass rated the whole study "partly-sourced" and named this its clearest actionable
+result. I have re-verified the two halves that carry it — the corpus counts, by reading the files,
+and the Mount Vernon dimensions, on the owning institution's own page. The period quotations below
+were checked verbatim by that pass against reproductions; **I have not read Morris or Scamozzi in a
+facsimile**, and they are cited at that strength.*
+
+**Thirty-five of sixty room records carry a `proportion` lower bound above 1.0, and twenty-nine of
+those are habitable rooms.** Among them:
+
+```
+drawing-room     [1.25, 2.0]        hall             [1.3,  2.2]
+parlor           [1.1,  1.45]       best-parlor      [1.1,  1.4]
+dining-room      [1.15, 1.8]        library          [1.1,  1.6]
+primary-bedroom  [1.05, 1.4]        kitchen          [1.05, 1.8]
+```
+
+A drawing room may not be squarer than 1.25. A hall may not be squarer than 1.3.
+
+**Mount Vernon, from the Mount Vernon Ladies' Association's own room-by-room page:**
+
+| room | dimensions | ratio | corpus band for its type |
+|---|---|---|---|
+| **Front Parlor** | 16' 9" × 16' 6" × 10' 10⅜" | **1.015** | `parlor` [1.1, 1.45] — **below** |
+| **Dining Room** | 15' × 17' × 10' 9½" | **1.133** | `dining-room` [1.15, 1.8] — **below** |
+| New Room | 22' 9" × 30' 6" × 16' 6" | 1.341 | `drawing-room` [1.25, 2.0] — inside |
+
+The Front Parlor is the room Washington called *"the best place in my House."* Mount Vernon's own
+FAQ for it: *"The current dimensions of the room are approximately 17 feet square … Historically,
+George Washington described the room as being 18 feet square."* **The corpus's band forbids the
+shape of the best room in the best-documented Georgian house in America, and its owner described
+that shape as a square on purpose.**
+
+The period sources run the same way. Palladio's seven room shapes begin with the round and the
+square. Morris, *Lectures on Architecture* (1734), Lecture VII: *"the nearer a Room (in particular
+a Hall) is to a Square, the more uniform and commodious they will be."* Kerr's own recommended
+bedroom sizes, from the 1865 text: *"a square of 16 feet makes a good ordinary room, or 16 feet by
+20; 20 feet square is a very commodious size; 18 by 24 feet makes a room of the first class"* —
+ratios 1.0, 1.25, 1.0, 1.333. **No source found in the study states a minimum room ratio at all.**
+The prestige direction runs toward the square, not away from it.
+
+**The floors are inert today, and that is the only reason this has done no damage yet.** `plo` is
+unpacked in exactly two places in `plan_check.py` (706 and 1237) and used for nothing but the
+message text; both checks charge `ar > phi` alone. `geometry.shape_band()` returns the ceiling and
+never the floor, and `WIDTH_W` ships at 0.0. So nothing in this corpus presently convicts a square
+room — while twenty-nine records declare that it should.
+
+**WP-9.4 nearly built the charge.** It added a squarer-than-the-band direction to `level_score`,
+watched it convict both good reference plans, and deleted it, recording that it had invented a
+direction with no corpus prose behind it. That was the right call for a shallower reason than the
+real one: **the direction is not merely unsupported, it is backwards.** The next package to read
+those thirty-five bands as a rule will build it again, and this is the note that should stop it.
+
+### The 2:1 ceiling, and why the passage is exempt by definition rather than by a wider band
+
+The other half is the best-sourced rule the study found, and it is a ceiling with no floor.
+Morris (1734) again: *"the Length of no Room exceed a Double Cube, or what he there terms two
+Squares."* And Scamozzi (1615), independently, 119 years earlier and in another country, gives the
+same ceiling **and its reason**: beyond two squares one gets *"halls, galleries or passageways
+rather than rooms to live in."*
+
+That is a definition, not a band. **A room over 2:1 has stopped being a room.** It makes the
+generated kitchen at 3.0 and the breakfast room at 3.86 not merely out of band but out of
+category — and it says exactly why the passage at 3.70 is exempt: the exemption is the rule's own
+reason. If this is ever encoded, the exemption belongs to the room as a declared property, not to
+a widened band; widening the band to swallow the passage would lose the reason and license every
+sliver in §3.
+
+### The caution that comes with it
+
+Wells (1998), quoted verbatim by the sourcing pass: *"Mount Airy is the only surviving colonial
+Virginia house to manifest a clear compositional debt to an English pattern book."* So the
+Palladian shape rules must not be coded as rules **of the American tradition** — which bears
+directly on §2, where Mount Airy's five-part plan is quoted. Mount Airy corroborates the
+service-in-dependencies finding because five houses do; it is not evidence that Virginia builders
+worked from Palladio's seven shapes, and this report does not claim they did.
+
+## 10. What this says about WP-9.3 and WP-9.4
 
 WP-9.4's negative result stands and is now explained. It refused a stated macro-tree on the ground
 that the quadrant structure was already effectively determined, and it found that no scoring change
@@ -403,7 +482,7 @@ the engine takes fatals 123 → 36 and unreachable rooms 121 → 34, and 121 of 
 are *"cannot be reached from outside the house."* A house whose rooms cannot be reached is a house
 with no spine and no hierarchy of circulation — the same absence as §5.
 
-## 10. The seven complaints, against the critic as it stands today
+## 11. The seven complaints, against the critic as it stands today
 
 `plan_check` on the placed record now produces 45 drawn findings for this plan. Mapped to Lucas's
 original list — and the two it cannot name are exactly the two questions §11 raises, which is the
@@ -426,7 +505,7 @@ hall has a structural position to hold. Complaint 7 is
 is undivided, and there is no vocabulary for that. Neither is a missing check; both are missing
 words.
 
-## 11. What was deliberately not done
+## 12. What was deliberately not done
 
 - **No band was changed and no threshold authored.** Five measured buildings are not a
   calibration set either, and one of the three (Hammond-Harwood) is a five-part scheme whose main-block
@@ -443,7 +522,7 @@ words.
 - **The image half of WP-9.2 is untouched.** No sheet has been transcribed; `plans/precedents/`
   does not exist yet.
 
-## 12. New open questions
+## 13. New open questions
 
 - `oq/the-parti-dissolved-its-own-dependencies` — `centre-passage-double-pile` names eleven
   enclosed ground-floor rooms where its three named exemplars have six, because the service program the
@@ -458,8 +537,12 @@ words.
   Hall) and the hall/stair-hall division (Drayton Hall) are how the type keeps a full-depth
   passage from reading as a corridor. There is no vocabulary for a room divided across its length
   by anything but a wall.
+- `oq/the-proportion-band-forbids-the-square` — 29 habitable room types carry a `proportion` floor
+  above 1.0, no period source states a minimum ratio, and Mount Vernon's Front Parlor (1.015, "the
+  best place in my House") falls below its band. The floors are inert today; the question is
+  whether to delete them, re-read them as typicals, or scope them by establishment.
 
-## 13. For Lucas
+## 14. For Lucas
 
 Four questions, and only the first is urgent. **The furniture defects in §8 are not among them:
 both are plain bugs with a clear fix, they are recorded as WP-9.3 work rather than as questions,
@@ -507,6 +590,14 @@ and nothing about them needs a ruling.**
 - HABS, **Mount Airy**, HABS VA-72, `…/va/va0800/va0892/data/va0892data.pdf`.
 - HABS, **Westover**, HABS VA-402, `…/va/va0300/va0315/data/va0315data.pdf`. Its 1939 entry cites
   Waterman and Barrows, *Domestic and Colonial Architecture of Tidewater Virginia*, p. 71.
+- **Mount Vernon Ladies' Association**, "The Mansion Room by Room" and the Front Parlor
+  restoration FAQ, mountvernon.org — read directly for the room dimensions in §9.
+- Robert Morris, *Lectures on Architecture* (1734), Lecture VII; Vincenzo Scamozzi (1615) in
+  Barbieri's EAHN translation; Palladio via Ware (1738); Robert Kerr, *The Gentleman's House*
+  (1865). **All four reach this report through one adversarial sourcing pass that checked them
+  verbatim against reproductions; no facsimile was read here**, and §9 says so where it uses them.
+- Camille Wells, 1998, for the caution that Mount Airy is the only surviving colonial Virginia
+  house with a clear compositional debt to an English pattern book. Same provenance caveat.
 - James Deetz, *In Small Things Forgotten*, pp. 108–109, reading Henry Glassie, *Folk Housing in
   Middle Virginia* (Knoxville: University of Tennessee Press, 1975). Reproduced at
   `histarch.illinois.edu/plymouth/house.html`.
