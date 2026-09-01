@@ -2,9 +2,16 @@
 
 *Status: the text-first half of WP-9.2 is done and this is its report. The image half — the
 transcription of measured sheets into `plans/precedents/` — still waits on the batch Lucas
-downloads. A second, parallel study of the compositional literature is running as this is
-written; its synthesis will be appended rather than replacing anything here, and where the two
-disagree the disagreement gets stated.*
+downloads; `Plan Examples/HABS/WANTED.md` is the list.*
+
+*This report had a sentence here saying a parallel study of the compositional literature was
+"running as this is written" and that its synthesis "will be appended". **It landed, and it was
+not appended.** It has its own report, `docs/reports/wp-9.2-what-the-tradition-actually-does.md`,
+because it is long and it is differently sourced — this one works from HABS written data and the
+code, that one from the treatises and the state-register files. **They were produced by different
+routes and they agree everywhere they touch**, which is the useful fact about having two. The
+sentence is replaced rather than deleted because "X will be appended when it lands" is exactly the
+promise WP-6.4 found eleven of, unkept, across source, schema and docs.*
 
 Lucas read a `tidewater-georgian-careful` sheet on 1 Sep 2026 and listed seven incoherences,
 then said what he thought was wrong with the process: *"it's still being procedurally generated
@@ -445,7 +452,9 @@ were checked verbatim by that pass against reproductions; **I have not read Morr
 facsimile**, and they are cited at that strength.*
 
 **Thirty-five of sixty room records carry a `proportion` lower bound above 1.0, and twenty-nine of
-those are habitable rooms.** Among them:
+those are not circulation rooms** — that is my own count, by `function_class`, and it is stated
+that way because the parallel study counts the same defect as "13 of 23 habitable" against a
+narrower denominator. The 35 is the same number in both. Among them:
 
 ```
 drawing-room     [1.25, 2.0]        hall             [1.3,  2.2]

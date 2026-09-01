@@ -1,9 +1,10 @@
-# oq/the-proportion-band-forbids-the-square — 29 habitable room types may not be square, and the square is what the tradition was aiming at
+# oq/the-proportion-band-forbids-the-square — 29 room types may not be square, and the square is what the tradition was aiming at
 
 *Status: OPEN · Raised in: WP-9.2, the precedents measured (1 Sep 2026)*
 
 **Thirty-five of sixty room records carry a `proportion` lower bound above 1.0. Twenty-nine of
-those are habitable rooms.** A drawing room may not be squarer than 1.25; a hall may not be
+those are not circulation rooms** (counted by `function_class`; the parallel study counts the same
+defect as "13 of 23 habitable" against a narrower denominator — the 35 is common to both). A drawing room may not be squarer than 1.25; a hall may not be
 squarer than 1.3.
 
 ```
