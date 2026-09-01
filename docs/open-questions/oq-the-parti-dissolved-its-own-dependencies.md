@@ -2,20 +2,30 @@
 
 *Status: OPEN · Raised in: WP-9.2, the precedents measured (1 Sep 2026)*
 
-**`partis/centre-passage-double-pile.json` names eleven enclosed ground-floor rooms and a porch.
-Its three named exemplars have six enclosed spaces apiece, in the same footprint or a larger
+**`partis/centre-passage-double-pile.json` names eleven enclosed ground-floor rooms and a porch,
+and the plan built from it places twelve enclosed spaces. Gunston Hall — the one exemplar whose
+first-floor spaces its survey enumerates — has six, in a footprint within a foot of the generated
 one.** That is the whole of the Chomsky complaint, measured.
 
-| | source | main block | bays | enclosed ground spaces |
-|---|---|---|---|---|
-| Drayton Hall, 1738–42 | HABS SC-377 | 70'-5" × 52'-2" | 7 | ~6 |
-| Gunston Hall, 1755–59 | HABS VA-141 | 60'-10" × 40'-11½" | 5 | **6** |
-| Hammond-Harwood, 1774–77 | HABS MD-251 | approx. 44' × 42' | 5 | — (five-part) |
-| `tidewater-georgian-careful` as placed | this corpus | 60.0 × 40.0 | 6 | **12** |
+| | source | main block | bays | ft/bay | enclosed ground spaces |
+|---|---|---|---|---|---|
+| Drayton Hall, 1738–42 | HABS SC-377 | 70'-5" × 52'-2" | 7 | 10.06 | 6 (named in the survey) |
+| Gunston Hall, 1755–59 | HABS VA-141 | 60'-10" × 40'-11½" | 5 | 12.17 | **6** |
+| Hammond-Harwood, 1774–77 | HABS MD-251; width from the house's own institution | **49 ft wide** (HABS's 1940 "approximately 44x42'" is low) | 5 | 9.80 | — (five-part; not established) |
+| `tidewater-georgian-careful` as placed | this corpus | 60.0 × 40.0 | 6 | 10.0 | **12** |
 
 Gunston Hall's first floor, from the survey: a central passage, a narrow side passage, and four
-rooms — the Palladian Room, the Chinese Room, the Chamber, the Little Parlour. The generated plan
-puts twelve enclosed spaces in the same 2,400 sf. Mean space 415 sf against 200 sf.
+rooms — the Palladian Room, the Chinese Room, the Chamber, the Little Parlour.
+
+**Compare clear area to clear area, which an audit forced.** Gunston Hall's 2,492 sf is an
+*exterior foundation* measurement and its walls are "about two feet thick", so its clear area is
+2,100–2,195 sf and its mean space **350–366 sf**. The corpus's placement carries no wall thickness
+at all — its rectangles sum to 2,341 sf of a 2,400 sf footprint — so its twelve spaces average
+**~195 sf**. The ratio is about **1.8**, not the 2.08 an earlier version of this entry printed by
+dividing an exterior-foundation figure by six.
+
+**And the parti's declared `bay_module_ft: 9` is below all three exemplars** (9.80, 10.06, 12.17),
+which is the direction that produces slivers.
 
 **Six of the parti's eleven rooms are service** — butler's pantry, back hall, powder room,
 kitchen, pantry, breakfast room — and **all three exemplars house their service somewhere else.**
@@ -37,16 +47,21 @@ around a Servant's Hall with an 8'-0" fireplace. Hammond-Harwood puts its servic
   beyond them, and the groupings `dependency-and-hyphen` and `garage-and-hyphen`.
 
 So the corpus holds a faithful diagram of the type with its service in dependencies, and a second
-diagram calling itself the same type with the dependencies dissolved into the main block. The
-generator's only growth mode is widening: `derive_footprint` adds bays until the rooms fit or the
-lot stops it. **It cannot build a dependency**, and no room type for one exists outside
-`five-part-palladian`'s two hyphens.
+diagram calling itself the same type with the dependencies dissolved into the main block. **And the placer cannot grow the house at all**: `derive_footprint`
+sets `H = need / W`, so adding a bay trades depth for width **at constant area** — measured 2,405.0
+sf at every bay count from 4 to 10 on this plan. Its exit test is a DEPTH test; shape has no vote.
+The one thing that can make a room bigger is `compose.repair()`, which widens a declared `width_ft`
+on a furniture or width-floor finding — **in the composer, and from the DECLARED record, so it
+never sees the room that was drawn as a sliver.** Neither can build a dependency, and no room type
+for one exists outside `five-part-palladian`'s two hyphens.
 
 **Why this matters more than any scoring change.** WP-9.4 swept the search terms and moved
 nothing, and this is why. Area was never the binding constraint — the ground program's own bands
-sum to 1,376–4,402 sf against a 2,400 sf floor, so it fits. Every sliver Lucas named is a room
-INSIDE its area band and OUTSIDE its width or proportion band. The kitchen at 10 × 30 = 300 sf
-sits inside its 120–340 sf band while standing 67% over its proportion ceiling of 1.8. You cannot
+sum to 1,376–4,402 sf against a 2,400 sf floor, so it fits. **Nine of the eleven slivers Lucas named are rooms INSIDE their area band and
+OUTSIDE their width or proportion band** — the kitchen at 10 × 30 = 300 sf sits inside its
+120–340 sf band while standing 67% over its proportion ceiling of 1.8. (Two are outside their area
+band as well: `breakfast` at 189 sf against [80, 180] and `cl3` at 38 against [6, 24]. An earlier
+version of this paragraph said "every one".) You cannot
 score your way out of a program that does not fit the type; a stated macro-tree would arrange the
 wrong twelve rooms more tidily.
 
