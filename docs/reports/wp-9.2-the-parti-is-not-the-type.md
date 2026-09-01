@@ -25,11 +25,13 @@ that — it did code archaeology and got a negative result. This does it.
 eleven enclosed ground-floor rooms and a porch, and the plan built from it places twelve enclosed
 spaces. **Gunston Hall — the one exemplar whose first-floor spaces the survey enumerates — has six,
 in a footprint within a foot of the generated one.** Drayton Hall reads as six in a larger
-footprint; Hammond-Harwood's main block is SMALLER (44 × 42) and its space count is not established
-here, so "six apiece for all three" is more than the evidence carries and an earlier version of this
-sentence said it. Every
-sliver on Lucas's sheet is what happens when you cut six rooms' worth of compartments into twelve. The tradition's answer to the same pressure is written in the corpus
-already, in the massing record's own `expansion_logic` field, and nothing reads it.
+footprint; Hammond-Harwood's main block is SMALLER (49 ft wide on its own institution's figure —
+see §2) and its space count is not established here, so "six apiece for all three" is more than the
+evidence carries, and an earlier version of this sentence said it anyway.
+
+Every sliver on Lucas's sheet is what happens when you cut six rooms' worth of compartments into
+twelve. The tradition's answer to the same pressure is written in the corpus already, in the
+massing record's own `expansion_logic` field, and nothing reads it.
 
 **The second finding is a measurement of the consequence.** Lucas asked, mid-study, that furniture
 be studied too — *"I don't think furniture layout should govern room sizes, but some room sizes
