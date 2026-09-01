@@ -8,7 +8,7 @@ Run:  python3 mcp_server/server.py            (stdio)
 Register with Claude Code:
       claude mcp add tdl -- python3 /abs/path/to/mcp_server/server.py
 
-The same 24 tools are also served over HTTP when the workbench mounts this module at
+The same 26 tools are also served over HTTP when the workbench mounts this module at
 /mcp — see docs/deployment.md. Nothing here knows which transport it is answering on.
 """
 import json, os, sys
@@ -20,7 +20,7 @@ mcp = MCPServer("traditional-design-language")
 J = lambda o: json.dumps(o, ensure_ascii=False, indent=1)
 
 # ---------------------------------------------------------------- metering hook
-# Three of the 24 tools reach heavy core functions; the rest are corpus lookups. Served
+# Five of the 26 tools reach heavy core functions; the rest are corpus lookups. Served
 # over HTTP those three want a cap, and over stdio they do not — one local agent driving
 # the CLI is not a shared resource. So the limiter is INJECTED rather than imported:
 # mcp_server must not depend on anything in workbench/, and the default of None keeps
@@ -268,7 +268,8 @@ def tdl_list_partis(style: str = "", massing: str = "") -> str:
     return J(core.list_partis(style or None, massing or None))
 
 @mcp.tool()
-def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False) -> str:
+def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False,
+                revise: bool = True, revise_rounds: int = 4, revise_engine: str = "auto") -> str:
     """Compose several contrasting plans from a brief, scored by the validator.
 
     Seeds from the canonical partis native to the style, sizes every room from the room catalogue,
@@ -293,9 +294,18 @@ def tdl_compose(brief: dict, candidates: int = 4, include_plans: bool = False) -
 
     A plan with no fatal findings is not therefore good. The corpus can say what is wrong; it cannot
     say what is alive, and that judgement belongs to the human. Pass include_plans to get the full
-    records for tdl_check_plan."""
+    records for tdl_check_plan.
+
+    WP-9.2: the RETURNED candidates are then placed and REVISED by default -- the critic reads the
+    drawn house, the analyst says what each finding means, and the registered moves fix what the
+    corpus's own rules can fix, round after round (build/revise.py). Each candidate carries
+    `score_before`, `rank_before`, `drawn_key_before` / `drawn_key_after` and a `revision` report:
+    every move with the finding it answered and the sentence it executed, what remains by class,
+    what was handed to the architect, what was refused. `revise=false` returns the set as composed;
+    `revise_engine` is auto (the proof where OR-Tools can give one), cp, or heuristic."""
     refused = _metered("tdl_compose")
-    return refused or J(core.compose(brief, candidates, include_plans))
+    return refused or J(core.compose(brief, candidates, include_plans, revise=revise,
+                                     revise_rounds=revise_rounds, revise_engine=revise_engine))
 
 @mcp.tool()
 def tdl_place_plan(plan: dict, parti: str = "", candidates: int = 250, svg_path: str = "",
@@ -319,6 +329,55 @@ def tdl_place_plan(plan: dict, parti: str = "", candidates: int = 250, svg_path:
     "cp" (prove or refuse — a ~25s solve), or "heuristic" (the fast hill-climb)."""
     refused = _metered("tdl_place_plan")
     return refused or J(core.place_plan(plan, parti or None, candidates, svg_path or None, engine=engine))
+
+@mcp.tool()
+def tdl_critique_plan(plan: dict, engine: str = "auto", candidates: int = 250, place: bool = True) -> str:
+    """The analyst (WP-9.1). Place the plan once -- or reuse the placement it carries -- judge the
+    PLACED house with every layer of the validator (the elevation derived from that placement, one
+    building), and sort every finding into exactly one of five classes:
+
+      actionable      a registered move answers it; the move and its corpus basis are named
+      placement       the declared record would have satisfied the need and the engine did not;
+                      the lever is named -- the proof, a wider search, or the CP conflict set
+      critic_suspect  the fault's failing test reads a figure the elevation GENERATOR states as its
+                      own constant (build/critic_suspects.py); evidence attached; never acted on
+      architect       a judgment -- topology, adjacency, a judgment slot, a fault whose fix the
+                      corpus states in words a generator cannot execute -- with the fault's own
+                      `right` fix or the rule's own `why` quoted
+      advisory        the code layer, advisory and jurisdictional by ruling
+
+    `info` findings are listed under could_not_evaluate, never as a class. `key` is [fatal, serious,
+    minor, faults present], the whole of what tdl_revise_plan accepts or rolls back a round on.
+    place=false critiques the declared record and reports the drawn layer as not evaluated."""
+    refused = _metered("tdl_critique_plan")
+    return refused or J(core.critique_plan(plan, engine=engine, candidates=candidates, place=place))
+
+
+@mcp.tool()
+def tdl_revise_plan(plan: dict, rounds: int = 6, engine: str = "auto", candidates: int = 250,
+                    place: bool = True, include_plan: bool = True) -> str:
+    """The corrective revisions (WP-9.2). Critique the placed house, apply the registered moves
+    the analyst names -- each a corpus rule made executable against the RECORD (a room's own
+    band, a fault's own right or cheap fix, the opening grammar's own door), never a placement key
+    -- strip the placement, re-place, re-critique, and ACCEPT the round only if [fatal, serious,
+    minor, faults present] strictly improves with no new fatal; otherwise roll it back
+    byte-identically, mark the pair tabu and continue. Where the proof is to be had it is asked
+    for before any declared move. Stops on: no applicable move, the round cap, the budget, an
+    oscillation, or nothing left but what belongs to the engine, the critic's own defects, or the
+    architect -- and says which.
+
+    Under the ruling of 1 Sep 2026 a move may resize a room within its band, change a declared
+    slot or a declared measurement to the corpus's fix, add or move a window, add the door the
+    grammar prescribes to reach a stranded room, drop a room the parti marks optional, or split a
+    room where its grouping's record says to. It may not add a room the parti has no place for,
+    fill a judgment slot, edit geometry, act on a critic-suspect, or write a measurement the record
+    did not declare -- moves/registry.json states each refusal.
+
+    Read `handed_to_architect` and `suspects` before `rounds`. A lower key is not a good plan."""
+    refused = _metered("tdl_revise_plan")
+    return refused or J(core.revise_plan(plan, rounds=rounds, engine=engine, candidates=candidates,
+                                         place=place, include_plan=include_plan))
+
 
 if __name__ == "__main__":
     mcp.run()

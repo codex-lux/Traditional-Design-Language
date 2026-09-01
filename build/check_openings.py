@@ -100,7 +100,10 @@ def resolve(g, a_id, a_room, b_id, b_room):
 
 
 # --------------------------------------------------------------------- the basis check
-_REC_RE = re.compile(r"((?:rooms|kits|styles|faults|groupings|proportions)/[A-Za-z0-9_.\-/]+\.json)")
+# `build/<file>.py` is admitted since WP-9.1: critique/suspects.json's bases quote the elevation
+# GENERATOR saying what it does not model, and that sentence lives in its source, not in a record.
+_REC_RE = re.compile(r"((?:rooms|kits|styles|faults|groupings|proportions)/[A-Za-z0-9_.\-/]+\.json"
+                     r"|build/[A-Za-z0-9_]+\.py)")
 _QUOTE_RE = re.compile(r"\"([^\"]{25,})\"")
 
 

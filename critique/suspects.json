@@ -1,0 +1,16 @@
+{
+  "id": "critic-suspects",
+  "version": "0.1.0",
+  "kind": "editorial",
+  "judgment": true,
+  "note": "The (fault, expression) pairs the instruments in build/critic_suspects.py cannot see: a test that fires because of what the elevation GENERATOR does not model, stated in the generator's own source, rather than because of what the house is. Being here does not make the fault wrong; it forbids build/revise.py from sending a generator to fix it, and obliges the report to argue the case. Every entry quotes where the generator says so of itself, and build/check_critic_suspects.py verifies the quote against the file it names.",
+  "suspects": [
+    {
+      "id": "cs-parallel-shaft",
+      "fault": "column-without-entasis",
+      "expression": "upper_shaft_diameter / lower_shaft_diameter",
+      "why": "The doorcase shaft is drawn with upper and lower diameter equal because nothing in the codebase diminishes a shaft; the fault then reads 1.0 against 0.75-0.87 on every classical plan. That is a scope limit of the generator, disclosed in WP-3.2, not a column somebody built parallel.",
+      "basis": "build/elevation.py: \"upper and lower diameter are genuinely identical\" -- the comment beside `upper_shaft_diameter_in`, which also says no entasis rule exists anywhere in this pack or in this codebase."
+    }
+  ]
+}

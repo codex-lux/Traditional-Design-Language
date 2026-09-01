@@ -61,7 +61,7 @@ def test_the_spa_catch_all_still_serves_a_real_asset():
 
 def test_the_cloudflare_header_is_not_believed_by_default(monkeypatch):
     """`curl -H 'Cf-Access-Authenticated-User-Email: anyone'` returned the whole corpus and
-    all 24 tools. The header means something only when Access is in front, because Access
+    all 26 tools. The header means something only when Access is in front, because Access
     overwrites whatever the caller sent."""
     monkeypatch.delenv("WORKBENCH_TRUST_PROXY_AUTH", raising=False)
     assert auth.trust_proxy_auth() is False

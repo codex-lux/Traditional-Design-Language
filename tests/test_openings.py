@@ -749,3 +749,107 @@ class TestTheWindowGrammar:
         assert resolved == 119, resolved
         # and the withheld state is real, not theoretical
         assert 159 - resolved == 40
+
+
+# ------------------------------------------------------ the figures beside the prose (WP-9.1)
+class TestAnUnplacedRecordCarriesItsFiguresAsFields:
+    """A refusal used to be prose only — "they share 2.1 ft; this leaf and its jambs need
+    3.7 ft" — and the one consumer that acted on a refusal, compose.repair, re-extracted the
+    number by string-slicing. Phase 9's revision loop reads `needs` and `have` instead. The
+    discipline: prose first, figure beside it, never instead of it, and the two must agree.
+    """
+    _NUMERIC = ("shared_wall_ft", "long_ft", "short_ft", "width_ft", "depth_ft")
+
+    def _unplaced(self, pid):
+        plan = GEO.solve(_plan(pid), engine="heuristic")
+        out = []
+        for lv in plan["levels"]:
+            for r in lv["rooms"]:
+                for o in list(r.get("doors") or []) + list(r.get("windows") or []):
+                    if o.get("unplaced"):
+                        out.append(("opening", r["id"], o["unplaced"]))
+                for f in (r.get("fixture_layout") or []):
+                    if f.get("unplaced"):
+                        out.append(("fixture", r["id"], f["unplaced"]))
+        st = plan.get("stair") or {}
+        if st.get("unplaced"):
+            out.append(("stair", st.get("room"), st["unplaced"]))
+        return plan, out
+
+    @pytest.mark.parametrize("pid", ["tidewater-georgian-careful", "spec-builder-colonial"])
+    def test_every_figure_in_needs_is_the_figure_the_sentence_states(self, pid):
+        import re
+        plan, marks = self._unplaced(pid)
+        assert marks, f"{pid}: the heuristic placement refused nothing, so this test saw nothing"
+        checked = 0
+        for kind, rid, u in marks:
+            needs = u.get("needs") or {}
+            if not re.search(r"\d", u["reason"]):
+                continue          # "no shared wall" states no figure; nothing to hold it to
+            for k in self._NUMERIC:
+                v = needs.get(k)
+                if isinstance(v, (int, float)):
+                    assert f"{v:.1f}" in u["reason"], (kind, rid, k, v, u["reason"])
+                    checked += 1
+        assert checked > 0, f"{pid}: no numeric need was found to hold against its sentence"
+
+    def test_the_stair_refusal_states_what_it_needed_and_whether_the_record_would_have_held_it(self):
+        plan, marks = self._unplaced("tidewater-georgian-careful")
+        stair = [u for kind, _rid, u in marks if kind == "stair"]
+        if not stair:
+            pytest.skip("COULD NOT EVALUATE — the heuristic placed this plan's stair on this run")
+        u = stair[0]
+        assert set(u["needs"]) >= {"long_ft", "short_ft", "form", "risers", "declared_fits"}
+        assert set(u["have"]) >= {"long_ft", "short_ft", "declared"}
+        assert u["needs"]["form"] == "dog-leg"
+
+    def test_a_placed_record_still_validates_against_its_own_schema(self):
+        import jsonschema
+        plan, _ = self._unplaced("tidewater-georgian-careful")
+        jsonschema.validate(plan, json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))))
+
+
+class TestStripPlacementIsTheOneSpelling:
+    """build/openings.py owns the list of what a placement writes; the exporter and the
+    revision loop both take it from there. A second spelling anywhere in build/ is the
+    citation grammar's three copies again."""
+
+    def test_strip_removes_every_solver_key_and_keeps_an_authored_window_wall(self):
+        plan = GEO.solve(_plan("tidewater-georgian-careful"), engine="heuristic")
+        assert plan.get("footprint") and plan.get("stair") is not None
+        OP.strip_placement(plan)
+        for k in OP.PLACEMENT_PLAN_KEYS:
+            assert k not in plan, k
+        for lv in plan["levels"]:
+            for r in lv["rooms"]:
+                for k in OP.PLACEMENT_ROOM_KEYS:
+                    assert k not in r, (r["id"], k)
+                for d in (r.get("doors") or []):
+                    for k in OP.PLACEMENT_DOOR_KEYS:
+                        assert k not in d, (r["id"], k)
+                for w in (r.get("windows") or []):
+                    for k in OP.PLACEMENT_WINDOW_KEYS:
+                        assert k not in w, (r["id"], k)
+                    assert "wall" in w, (r["id"], "a window's wall is AUTHORED and must survive")
+        # and what is left is the authored record: it validates, and re-solving it works
+        import jsonschema
+        jsonschema.validate(plan, json.load(open(os.path.join(ROOT, "schema", "plan.schema.json"))))
+        again = GEO.solve(plan, engine="heuristic")
+        assert again.get("footprint")
+
+    def test_no_file_in_build_carries_a_private_copy_of_the_placement_key_tuples(self):
+        import re
+        offenders = []
+        for path in sorted(glob.glob(os.path.join(BUILD, "*.py"))):
+            if os.path.basename(path) == "openings.py":
+                continue
+            src = open(path, encoding="utf-8").read()
+            for name in ("PLACEMENT_PLAN_KEYS", "PLACEMENT_ROOM_KEYS",
+                         "PLACEMENT_DOOR_KEYS", "PLACEMENT_WINDOW_KEYS",
+                         "_SOLVED_PLAN_KEYS", "_SOLVED_ROOM_KEYS",
+                         "_SOLVED_DOOR_KEYS", "_SOLVED_WINDOW_KEYS"):
+                # a literal tuple assigned under one of these names is a second spelling;
+                # an assignment FROM openings' constant is the sanctioned import
+                if re.search(rf"^{name}\s*=\s*\(", src, re.M):
+                    offenders.append((os.path.basename(path), name))
+        assert offenders == [], offenders

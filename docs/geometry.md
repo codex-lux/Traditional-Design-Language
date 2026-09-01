@@ -47,6 +47,14 @@ Footprint depth comes from the **massing's own pile** — single-pile 22 ft, dou
 
 `build/render_plan.py` emits SVG from the coordinates: rooms, walls, bay lines, windows on exterior walls, door marks where two rooms share an edge, dimensions, a scale bar. Nothing is drawn that is not in the plan record, so the drawing and the data cannot disagree — the same discipline as the order tool.
 
+Since WP-9.1 the placed record is a record: plan schema 0.4.0 carries `geometry`, `footprint`,
+`geometry_report`, the stair and per-opening positions on the plan itself, and the ONE list of
+what is placement output and what is authored lives in `build/openings.py` —
+`PLACEMENT_PLAN_KEYS`, `PLACEMENT_ROOM_KEYS`, `PLACEMENT_DOOR_KEYS`, `PLACEMENT_WINDOW_KEYS`
+and `strip_placement()`. The DXF exporter and the revision loop both import it; a window's
+`wall` is authored and stays, a door's is solver output and goes. A second spelling of that
+list is refused by a source-reading test.
+
 ## The real solver (WP-2.3)
 
 `geometry.solve()` now dispatches to **CP-SAT** (`build/geometry_cp.py`, OR-Tools) by default, with the randomised slicing kept as the fallback and cross-check the package text asked for. The division of labour, per the 25 Aug rulings:

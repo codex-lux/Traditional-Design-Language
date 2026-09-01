@@ -1,6 +1,6 @@
 # Traditional Design Language — MCP server
 
-24 tools that let an AI consult the corpus while advising a human on a real house.
+26 tools that let an AI consult the corpus while advising a human on a real house.
 
 ## Install
 
@@ -11,7 +11,7 @@ claude mcp add tdl -- python3 /absolute/path/to/mcp_server/server.py
 
 **Pin the version.** SDK v2.0.0 renamed `FastMCP` to `MCPServer` and removed
 `mcp.server.fastmcp` outright, so an unpinned `pip install "mcp[cli]"` gets a release this
-server cannot import. The decorator API is unchanged — all 24 tools are exactly as they
+server cannot import. The decorator API is unchanged — all 26 tools are exactly as they
 were — but the import is not.
 
 Or add to any MCP client's config:
@@ -25,7 +25,7 @@ No auth, no network. It reads the repository beside it.
 
 ## Over HTTP, against a deployment
 
-The same 24 tools are served at `/mcp` by the workbench, from the same process and the
+The same 26 tools are served at `/mcp` by the workbench, from the same process and the
 same `core.py` — see `docs/deployment.md`. Nothing in this module knows which transport it
 is answering on.
 

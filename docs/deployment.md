@@ -17,7 +17,7 @@ changed, what turned up while changing it, and what was deliberately left alone.
 The architecture was already right. `workbench/server/corpus.py` opens by naming the
 property the whole server leans on — *"core.py is pure functions with no protocol
 dependency"* — and that is exactly what lets one corpus serve two protocols. `server.py`
-in `mcp_server/` is 24 tools that each return `J(core.something(...))`; `app.py` is ~30
+in `mcp_server/` is 26 tools that each return `J(core.something(...))`; `app.py` is ~30
 HTTP routes that each return `core.something(...)`. Neither holds corpus logic. Deploying
 therefore meant adding a container and a gate, not restructuring anything.
 
@@ -107,7 +107,7 @@ below — this is the one change in the package that its tests do not cover.
 
 **The MCP server, over HTTP, at `/mcp`** (`workbench/server/mcp_mount.py`). §IX's other
 audience now has an address. `mcp_server/server.py` is unchanged in what it does — the same
-24 tools over the same `core.py` — and does not know which transport it is answering on;
+26 tools over the same `core.py` — and does not know which transport it is answering on;
 stdio works exactly as before. Mounting rather than running a second service gives one
 process, one origin, one auth boundary, and one copy of the corpus in memory.
 
@@ -207,7 +207,7 @@ the SPA catch-all and answered `405 allow=GET`. The gate middleware normalises t
 before routing.
 
 **The rail's tool loader was stubbing out the `mcp` package.** `workbench/server/tools.py`
-faked `mcp.server.fastmcp` in `sys.modules` so it could read the 24 tool functions without
+faked `mcp.server.fastmcp` in `sys.modules` so it could read the 26 tool functions without
 the SDK installed. With the SDK now a real dependency that stub was both unnecessary and
 harmful — a fake `mcp` left in `sys.modules` poisons the genuine package for everything
 importing it later in the same process. It now imports normally and keeps the stub only as
@@ -240,7 +240,7 @@ code you did not touch.* Now resolved against `realpath` and confined.
 `Cf-Access-Authenticated-User-Email` unconditionally. That header means something only
 when Cloudflare Access is in front, because Access overwrites whatever the caller sent;
 with nothing in front it is a string the caller chose. `curl -H 'Cf-Access-…: anyone'`
-returned the whole corpus and all 24 tools. Now behind `WORKBENCH_TRUST_PROXY_AUTH`,
+returned the whole corpus and all 26 tools. Now behind `WORKBENCH_TRUST_PROXY_AUTH`,
 default off.
 
 *Database credentials, served to the internet.* The environment scan added for hostname

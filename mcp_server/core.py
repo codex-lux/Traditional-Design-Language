@@ -842,8 +842,13 @@ def _eval_test(t, measurements):
         return {"status": "error", "detail": f"{val!r} does not compare: {e}"}
     required = f"one-of {t.get('set')}" if d == "one-of" else (
         f"{d} {th}" + (f" and {up}" if d == "between" and up is not None else ""))
+    # `expression` rides on the row (WP-9.1): a consumer reading a failing row could see the
+    # value and the requirement and not WHICH quantity had failed, so build/plan_check.py's
+    # fault finding could not say what to move, and build/critique.py could not tell a
+    # measurement the house declared from one the elevation generator derived.
     return {"status": "evaluated", "value": round(val, 4) if isinstance(val, float) else val,
-            "required": required, "passes": ok, "units": t.get("units")}
+            "required": required, "passes": ok, "units": t.get("units"),
+            "expression": t.get("expression")}
 
 def _load_constraint_vocab():
     return _mod("constraint_vocabulary", os.path.join(ROOT, "build", "constraint_vocabulary.py"))
@@ -1326,14 +1331,16 @@ def plan_schema():
 def _composer():
     return _mod("compose", os.path.join(ROOT, "build", "compose.py"))
 
-def compose(brief, candidates=4, include_plans=False):
+def compose(brief, candidates=4, include_plans=False, revise=True, revise_rounds=4,
+            revise_engine="auto", revise_budget_s=120.0):
     try:
         import jsonschema
         jsonschema.validate(brief, schema("brief"))
     except Exception as e:
         return {"error": "brief does not match the brief schema", "detail": str(e)[:400],
                 "hint": "the minimum is style and target_area_sf; see tdl_brief_schema"}
-    res = _composer().compose(brief, candidates)
+    res = _composer().compose(brief, candidates, revise=revise, revise_rounds=revise_rounds,
+                              revise_engine=revise_engine, revise_budget_s=revise_budget_s)
     if not include_plans:
         for c in res["candidates"]:
             c["plan_rooms"] = sum(len(l["rooms"]) for l in c["plan"]["levels"])
@@ -1422,6 +1429,14 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     if svg_path:
         rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
         rp.render(out, svg_path); out["svg"] = svg_path
+    return placement_summary(out)
+
+
+def placement_summary(out):
+    """The placement payload, projected off a SOLVED record (WP-9.1 split this out of
+    place_plan so workbench/server/evaluate.py can solve the full record ONCE, judge THAT
+    record with plan_check's drawn layer, and still return the payload the sheet draws --
+    one building, judged and drawn from the same placement)."""
     # WP-6.2: the PLACED openings ride with the placement, additively. A door only became a
     # thing with a wall and a position in plan schema 0.3.0, and build/openings.py writes
     # them onto the solved record — which this payload then dropped, so every consumer
@@ -1445,3 +1460,51 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
                      "centre. geometry_report.solver names which engine placed this and why.")}
 
 def copy_json(o): return json.loads(json.dumps(o))
+
+
+# ----------------------------------------------------------------- the critique and the loop (WP-9)
+def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
+    """The analyst: place the record once (or reuse the placement it carries), judge the
+    placed house, and sort every finding into what it means to a generator. See
+    build/critique.py. The full findings ride inside each issue; the check's own summary
+    counts are returned beside them and the check itself is omitted to spare the caller's
+    context -- tdl_check_plan returns it."""
+    try:
+        import jsonschema
+        jsonschema.validate(plan, schema("plan"))
+    except ImportError:
+        return {"error": "could not validate: the jsonschema package is not installed", "unvalidated": True}
+    except Exception as e:
+        return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
+    CR = _mod("critique", os.path.join(ROOT, "build", "critique.py"))
+    res = CR.critique(plan, engine=engine, candidates=candidates, parti=parti, place=place)
+    out = {k: v for k, v in res.items() if k not in ("plan", "check")}
+    out["check_summary"] = {k: res["check"].get(k) for k in
+                            ("counts", "fault_summary", "constraint_summary", "drawn_summary", "elevation_summary")}
+    return out
+
+
+def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, include_plan=True,
+                budget_s=None, parti=None):
+    """The corrective revisions: critique, move, re-place, re-critique, accept or roll back,
+    round after round. See build/revise.py. Returns the report (every round, every move with
+    its finding and its basis, what remains by class, what was handed to the architect, what
+    was refused and why) and, with include_plan, the revised record carrying the same report
+    as `revision_report`."""
+    try:
+        import jsonschema
+        jsonschema.validate(plan, schema("plan"))
+    except ImportError:
+        return {"error": "could not validate: the jsonschema package is not installed", "unvalidated": True}
+    except Exception as e:
+        return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
+    RV = _mod("revise", os.path.join(ROOT, "build", "revise.py"))
+    r = RV.revise(plan, rounds=rounds, engine=engine, candidates=candidates, budget_s=budget_s,
+                  place=place, parti=parti)
+    out = {"report": r["report"], "key_before": r["key_before"], "key_after": r["key_after"],
+           "stop_reason": r["stop_reason"],
+           "note": ("A lower key is not a good plan. Read handed_to_architect and suspects before "
+                    "rounds: what the loop could not do is as much the result as what it did.")}
+    if include_plan:
+        out["plan"] = r["plan"]
+    return out

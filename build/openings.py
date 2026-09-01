@@ -46,6 +46,42 @@ def required_wall_ft(width_ft):
     return width_ft + 2 * JAMB_FT
 
 
+# THE ONE LIST OF WHAT THIS PASS AND THE SOLVER WRITE ONTO A RECORD (WP-9.1). Two callers
+# need to take a placement OFF a record and return it to the authored state: the DXF
+# exporter, so the XDATA round-trip returns what the author wrote, and build/revise.py, so a
+# revised declared record is re-placed from scratch rather than under a stale geometry.
+# These four tuples lived in build/export_dxf.py alone until Phase 9; a second copy in the
+# loop would have been the citation grammar's three spellings again. A window has always
+# declared its own `wall` — that is an authored fact and is NOT here — while a door had no
+# wall at all until 0.3.0, so on a door `wall` is placement output. That distinction cost
+# one round-trip failure to find (WP-6.2) and is worth the two constants.
+PLACEMENT_PLAN_KEYS = ("footprint", "geometry_report", "stair", "opening_report")
+PLACEMENT_ROOM_KEYS = ("geometry", "fixture_layout")
+PLACEMENT_DOOR_KEYS = ("wall", "position_ft", "positions_ft", "hinge", "swing_into", "unplaced")
+PLACEMENT_WINDOW_KEYS = ("position_ft", "positions_ft", "unplaced")
+
+
+def strip_placement(plan):
+    """Remove every key a placement wrote, IN PLACE, and return the plan. The declared
+    record that remains is what the author (or the composer, or the revision loop) stated;
+    everything a solver or this pass derived from it is gone, `unplaced` marks included,
+    because a mark that a PREVIOUS placement could not seat a door says nothing about the
+    next one."""
+    for k in PLACEMENT_PLAN_KEYS:
+        plan.pop(k, None)
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            for k in PLACEMENT_ROOM_KEYS:
+                r.pop(k, None)
+            for d in (r.get("doors") or []):
+                for k in PLACEMENT_DOOR_KEYS:
+                    d.pop(k, None)
+            for w in (r.get("windows") or []):
+                for k in PLACEMENT_WINDOW_KEYS:
+                    w.pop(k, None)
+    return plan
+
+
 _GRAMMAR = None
 
 
@@ -188,7 +224,9 @@ def _place_interior(level_rooms, occupied, report):
             continue
         seg = _shared(ra, rb)
         if not seg:
-            note = {"reason": "the placement leaves these two rooms no shared wall"}
+            note = {"reason": "the placement leaves these two rooms no shared wall",
+                    "needs": {"shared_wall_ft": round(required_wall_ft(width), 2)},
+                    "have": {"shared_wall_ft": 0.0}}
             da["unplaced"] = note
             if db:
                 db["unplaced"] = note
@@ -197,7 +235,9 @@ def _place_interior(level_rooms, occupied, report):
         wall_a, at, lo, hi = seg
         need = required_wall_ft(width)
         if hi - lo < need:
-            note = {"reason": f"they share {hi - lo:.1f} ft; this leaf and its jambs need {need:.1f} ft"}
+            note = {"reason": f"they share {hi - lo:.1f} ft; this leaf and its jambs need {need:.1f} ft",
+                    "needs": {"shared_wall_ft": round(need, 2)},
+                    "have": {"shared_wall_ft": round(hi - lo, 2)}}
             da["unplaced"] = note
             if db:
                 db["unplaced"] = note
@@ -210,7 +250,10 @@ def _place_interior(level_rooms, occupied, report):
         free = _free(lo, hi, blocked)
         pos = _seat(free, width, (lo + hi) / 2)
         if pos is None:
-            note = {"reason": "the shared wall is taken by other openings"}
+            note = {"reason": "the shared wall is taken by other openings",
+                    "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2)},
+                    "have": {"free_run_ft": round(max([b - a for a, b in free] or [0.0]), 2),
+                             "shared_wall_ft": round(hi - lo, 2)}}
             da["unplaced"] = note
             if db:
                 db["unplaced"] = note
@@ -321,7 +364,9 @@ def _place_exterior(level_rooms, occupied, W, H, C, report):
             if seat is None:
                 d["unplaced"] = {"reason": "no declared exterior wall of this room has a "
                                            "free run on the footprint boundary",
-                                 **({"declared_wall": declared[0]} if declared else {})}
+                                 **({"declared_wall": declared[0]} if declared else {}),
+                                 "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2)},
+                                 "have": {"walls_tried": list(order)}}
                 report["unplaced"].append({"pair": [r["id"], "exterior"], **d["unplaced"]})
                 continue
             wall, pos = seat
@@ -373,7 +418,10 @@ def _place_windows(level_rooms, occupied, W, H, report):
                 occupied.setdefault((r["id"], wall), []).append(
                     (pos - width / 2 - MIN_SOLID_FT, pos + width / 2 + MIN_SOLID_FT))
             if not placed:
-                win["unplaced"] = {"reason": "the wall has no clear run left beside its doors"}
+                win["unplaced"] = {"reason": "the wall has no clear run left beside its doors",
+                                   "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),
+                                             "units": n},
+                                   "have": {"units_placed": 0}}
                 report["windows_unplaced"] += n
                 continue
             if len(placed) < n:
@@ -383,7 +431,10 @@ def _place_windows(level_rooms, occupied, W, H, report):
                 # shortfall is already legible as count - len(positions_ft). Caught by the
                 # DXF round trip, which asserts the rebuilt record equals the authored one.
                 win["unplaced"] = {"reason": f"{n - len(placed)} of {n} unit(s) had no clear "
-                                             f"run left on this wall"}
+                                             f"run left on this wall",
+                                   "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),
+                                             "units": n},
+                                   "have": {"units_placed": len(placed)}}
                 report["windows_unplaced"] += n - len(placed)
             else:
                 win.pop("unplaced", None)
@@ -478,7 +529,14 @@ def stair_pass(plan, C, report):
                     "riser_in": riser_in, "treads": treads, "tread_in": tread_in,
                     "width_ft": round(width_ft, 3), "run_ft": round(straight_run, 3),
                     "landing_depth_ft": round(landing, 3), "well": well,
-                    "unplaced": {"reason": report["stair_note"]},
+                    "unplaced": {"reason": report["stair_note"],
+                                 # the same figures the sentence carries, as fields, for a
+                                 # move to read (WP-9.1); the prose stays the record
+                                 "needs": {"long_ft": round(need, 2), "short_ft": round(pair_w, 2),
+                                           "form": "dog-leg", "risers": risers,
+                                           "declared_fits": declared_fits},
+                                 "have": {"long_ft": round(long_ft, 2), "short_ft": round(short_ft, 2),
+                                          "declared": [dw, dl]}},
                     "note": "rooms/stair-hall.json's own critical_dimension is the source of "
                             "this arithmetic."}
         form = "dog-leg"
@@ -669,7 +727,9 @@ def fixture_pass(level_rooms, C, report, occupied=None):
                     "reason": (f"no wall of this room has a clear run left for a {fw:.1f} x "
                                f"{fd:.1f} ft item that does not overlap what is already placed. "
                                f"All four were tried ({tried}); fixtures already placed take "
-                               f"{walls[wall]['cursor']:.1f} ft of the {wall} wall")}})
+                               f"{walls[wall]['cursor']:.1f} ft of the {wall} wall"),
+                    "needs": {"width_ft": round(fw, 2), "depth_ft": round(fd, 2)},
+                    "have": {o: round(walls[o]["clear"], 2) for o in order}}})
                 continue
             layout.append({
                 "item": spec["item"],
