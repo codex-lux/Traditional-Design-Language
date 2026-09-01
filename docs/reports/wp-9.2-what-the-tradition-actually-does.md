@@ -81,15 +81,22 @@ Four findings, in the order of how much they should change what gets built next.
 
 **One. The tradition does not compose with proportion bands, and the end of the band this corpus gets wrong is the LOWER one.** No period source in this study states a minimum room ratio. Every rule is either a named shape (Palladio's seven, Morris's seven, Scamozzi's five) or a maximum (two squares), and the prestige direction runs *toward the square*. This corpus forbids **35 of 60** room types from being square, and **13 of 23** habitable ones — including every room in the `public` class, plus the dining room and the library. It convicts Mount Vernon's Front Parlor (1.015), the room Washington called "the best place in my House."
 
-**Two. The facade is a result, not an input, and one hard test in this corpus runs the causation backwards.** `groupings/centre-passage-core.json` carries `passage_width_ft / facade_width_ft between 0.18 and 0.27` at severity `hard`. The band is defensible descriptively — five of my six measured cases land inside it — but as a rule it makes the passage a function of the facade, where in every account of setting-out I found, the passage and the rooms are decided first and the facade is what results. Glassie's grammar is explicit: the door goes in the passage component, one or two windows go in each room component, and *therefore* the front is three bays or five. Nothing else.
+**Two. The facade is a result, not an input, and one hard test in this corpus runs the causation backwards.** `groupings/centre-passage-core.json` carries `passage_width_ft / facade_width_ft between 0.18 and 0.27` at severity `hard`. The band is defensible descriptively — **four** of my six measured cases land inside it (the audit corrected "five": 0.165 is below the band and 0.300 above it) — but as a rule it makes the passage a function of the facade, where in every account of setting-out I found, the passage and the rooms are decided first and the facade is what results. Glassie's grammar is explicit: the door goes in the passage component, one or two windows go in each room component, and *therefore* the front is three bays or five. Nothing else.
 
 **Three. The largest missing thing is not a rule but an object: the circulation system.** Kerr opens his section on thoroughfares with "These the skeleton of plan," and designs the route system first, hanging rooms off it. This corpus has rooms with door lists and lets circulation emerge — which is precisely what WP-9.2 measured when **121 of 123 heuristic fatals** read *cannot be reached from outside the house*. That is not a solver defect. It is a missing object in the model.
 
-**Four. The corpus already contains its own generative model, written in English, in one sentence, and nothing derives from it.** From `proportions/systems/room-vernacular.json`: *"The treatise room is proportioned — its length is chosen for its ratio to its breadth. The vernacular room is constrained — its breadth is set by span, hearth and daylight, and its length is set by what has to go in it."* Every room in the corpus carries the length arithmetic in `dimensions.critical_dimension`. Nothing parses it. Its only readers warn that it is absent (`build/check_rooms.py:288`), quote it as evidence text in a finding (`build/plan_check.py`, seven sites), or echo it over the API (`mcp_server/core.py:1219`).
+**Four. The corpus already contains its own generative model, written in English, in one sentence, and nothing derives from it.** *(Read with the preface's correction 1: `critical_dimension` is parsed by nothing, but `openings.py::stair_pass` HAND-PORTS the stair hall's arithmetic into Python, so "its only readers" below is not a complete enumeration.)* From `proportions/systems/room-vernacular.json`: *"The treatise room is proportioned — its length is chosen for its ratio to its breadth. The vernacular room is constrained — its breadth is set by span, hearth and daylight, and its length is set by what has to go in it."* Every room in the corpus carries the length arithmetic in `dimensions.critical_dimension`. Nothing parses it. Its only readers warn that it is absent (`build/check_rooms.py:288`), quote it as evidence text in a finding (`build/plan_check.py`, seven sites), or echo it over the API (`mcp_server/core.py:1219`).
 
 ---
 
 ## 1. WHAT THE TRADITION ACTUALLY DOES
+
+> **Every period quotation in this section and the next reaches this repository AT ONE REMOVE.**
+> The preface says so once and an audit found the body says it nowhere — the quotations appear
+> with ordinary bibliographic citations, several with page numbers, which is the form a reader
+> treats as first-hand. They were checked verbatim against reproductions by an adversarial pass;
+> **no facsimile has been read here.** Read every "—Palladio", "—Morris", "—Kerr", "—Glassie" and
+> "—Ware" below as "as transcribed and checked at one remove". §6 lists what that forbids.
 
 The ordering below is itself a finding. Five sources independently describe a *sequence of commitments*, each of which removes freedom from the next, and none of them describes a simultaneous satisfaction of bands. Where the sequence is my reading rather than a source's, I say so.
 
@@ -119,7 +126,7 @@ Scamozzi states the constraint outright: rooms must be *"the same height within 
 
 **A per-room height formula is a misreading of the source.** The three means exist to make heights *equal*, not to make them individual.
 
-The measured evidence agrees flatly. Mount Vernon's ground floor runs 10 ft 7½ in to 10 ft 10⅜ in and its chamber floor 7 ft 9 in to 8 ft 2 in, so height/breadth varies from **0.48 to 0.84 across one floor** (Mount Vernon Ladies' Association, "The Mansion Room by Room"). At Brandon — the one Virginia house built from a Morris plate — every principal room is a flat 13 ft, about three feet short of even the flat-ceiling rule *height = breadth* (*Palladiana*, Center for Palladian Studies in America, Spring 2007). And the 1699 Virginia act for building Williamsburg mandates a **"ten foot pitch"** — a legally required *storey* height, in a statute (Hening, *Statutes at Large*, vol. III).
+The measured evidence agrees flatly. Mount Vernon's ground floor runs 10 ft 7½ in to 10 ft 10⅜ in **for every room except the New Room, which is 16 ft 6 in and two storeys high — the audit flagged that this range silently dropped it, and a two-storey volume is a declared exception to a per-storey rule rather than a refutation of it** — and its chamber floor 7 ft 9 in to 8 ft 2 in, so height/breadth varies from **0.48 to 0.84 across one floor** (Mount Vernon Ladies' Association, "The Mansion Room by Room"). At Brandon — the one Virginia house built from a Morris plate — every principal room is a flat 13 ft, about three feet short of even the flat-ceiling rule *height = breadth* (*Palladiana*, Center for Palladian Studies in America, Spring 2007). And the 1699 Virginia act for building Williamsburg mandates a **"ten foot pitch"** — a legally required *storey* height, in a statute (Hening, *Statutes at Large*, vol. III).
 
 The consequence for a compiler is bigger than a fault about ceilings. Storey height sets the window head, the head sets the daylight depth, and the daylight depth caps the pile. `proportions/systems/room-vernacular.json` writes the arithmetic — `storey_height * 0.78 * 2.25` — and nothing in `massings/` reads it. **Storey height is upstream of plan depth and the corpus has no chain that says so.**
 
@@ -154,6 +161,14 @@ Glassie's finding here is the sharpest single thing in the study and it inverts 
 
 > "the hallway, like the old Y1 and Y2 volumes, was the result of subtracting units from the square. Its Y3 dimensions left it narrower than the hallway of the Georgian type as offered in the builder's manuals of the day or as materialized on the grand plantations farther east."
 > — Glassie 1975, p. 89
+
+> **The Glassie page numbers need a caveat the audit demanded, because the other WP-9.2 report
+> flatly says the rule text could not be established.** Both are right and they read as a
+> contradiction. This section's page-numbered Glassie quotations reach the study through Google
+> Books snippets and a PhD paraphrase (Rutherford), **not through a continuous reading** — and the
+> paraphrase and the study even disagree on how many rule sets there are, eight against nine. A
+> page number is the strongest possible signal of first-hand access and none was had. §6 item 4
+> states the consequence: **read Glassie before building on Glassie.**
 
 Read that second sentence carefully. **Glassie is naming two populations in one clause**, and the split is *social register*, not furnishability and not latitude. The folk passage is what is left over; the polite passage is deliberately widened until it is a room. That is a decision an architect makes at this point in the sequence, and it changes the whole plan's width.
 
@@ -262,7 +277,9 @@ Two feet per external wall including finish, holding for brick and for stone. Co
 
 ### 2d. Room shapes
 
-Of **27 single rooms across 11 buildings** with both dimensions stated: minimum 1.015, median 1.154, maximum 1.464, mean 1.185. Ten of 27 are within 10% of square. **Not one reaches 3:2.** The only room in the set above 1.5 is High Banks's "living room," explicitly a double-size room the depth of the house (13 ft 7 in × 24 ft 6 in) — two rooms thrown into one.
+Of **27 single rooms across 11 buildings** with both dimensions stated: minimum 1.015, median 1.154, maximum 1.464, mean 1.185. Ten of 27 are within 10% of square. **Not one reaches 3:2.**
+
+> **CORRECTION (WP-9.2 audit, 1 Sep 2026).** Those three statements cannot all hold together with the paragraph's own enumerated members. The eleven Mount Vernon rooms listed below include the **Central Passage at 2.314**, and the next sentence names High Banks's double room at **1.80**. So "maximum 1.464" and "not one reaches 3:2" are true only of the SINGLE, NON-CIRCULATION rooms — which is what "27 single rooms" was reaching for and did not say. Read the summary as: *of the single habitable rooms, none reaches 3:2 and the maximum is 1.464; the passage and the double room are outside that population by definition and are listed separately below.* The corrected reading strengthens the section's point rather than weakening it, because a passage at 2.314 is exactly Scamozzi's "beyond two squares … passageways rather than rooms to live in". The only room in the set above 1.5 is High Banks's "living room," explicitly a double-size room the depth of the house (13 ft 7 in × 24 ft 6 in) — two rooms thrown into one.
 
 **A caution the adversarial pass caught and I am repeating because it matters: eleven of those 27 rooms are Mount Vernon, from one MVLA page, and two of the five studies counted them independently.** Two reports agreeing to 0.01 reads as replication and is one source counted twice. The genuinely independent American evidence is roughly sixteen rooms across ten buildings, several from sale advertisements rather than survey.
 
@@ -311,6 +328,8 @@ Verified by script against the working tree: **35 of 60** room records carry a p
 
 No period source in this study states a minimum. Morris: *"the nearer a Room (in particular a Hall) is to a Square, the more uniform and commodious they will be"* (*Lectures on Architecture*, 1734, Lecture VII). Palladio's list begins at the circle and the square. Scamozzi assigns the square to drawing rooms and the 2:1 to antechambers. Kerr's own recommended bedroom sizes include 16 × 16 and 20 × 20.
 
+**Attribution corrected by the audit: in Morris's Lecture VII the grammatical subject of that sentence is PALLADIO** — Morris is reporting *"Palladio has observ'd, that there are seven beautiful Proportions"* and the preference for the square sits inside that report. So Morris is not an INDEPENDENT English witness to the rule; he is Palladio at one remove, and the two must not be counted as two sources. The argument that **no source found states a MINIMUM** is unaffected — nothing here states one — but the corroboration is thinner than an earlier version of this text implied.
+
 The bands convict: Mount Vernon's Front Parlor 1.015 against `best-parlor` [1.1, 1.4]; its Dining Room 1.133 against [1.15, 1.8]; Graeme Park's 23 × 22 principal parlour 1.045 against `parlor` [1.1, 1.45]; a 19-ft-square Williamsburg front room against the same; an 18-ft-square Maryland hall against `hall` [1.3, 2.2]. **Nothing measured fell above a band.** The upper ends are never reached by the evidence and the lower ends convict real rooms.
 
 **W2. Four statements of the passage width, four different floors.**
@@ -321,7 +340,7 @@ The bands convict: Mount Vernon's Front Parlor 1.015 against `best-parlor` [1.1,
 
 Any check enforcing 8 ft convicts the northern passage the room record calls correct, and convicts High Banks at 6 ft 8 in. The corpus is currently wrong in *both* directions at once.
 
-**W3. "Roughly one third of a five-bay front."** `faults/passage-that-is-a-corridor.json`, `rule_violated[3]`, and repeated in `correct_practice`: *"12 to 14 ft on a 42 to 48 ft front."* Measured share is 0.165–0.300, median 0.222. A third of a 42–48 ft front is 14–16 ft — wider than any passage in the sample, including the one a state historian called exceptional. Delete the figure. `centre-passage-core`'s 0.18–0.27 is the defensible number and it sits one file away.
+**W3. "Roughly one third of a five-bay front."** `faults/passage-that-is-a-corridor.json`, `rule_violated[3]`, and repeated in `correct_practice`: *"12 to 14 ft on a 42 to 48 ft front."* Measured share is 0.165–0.300, median 0.222. A third of a 42–48 ft front is 14–16 ft — wider than every passage in the sample **except Sabine Hall's "nearly 18 ft"**, which the audit noted this sentence had overlooked; the clause about the state historian's exceptional case (Wyoming, 13 ft) stands. Delete the figure. `centre-passage-core`'s 0.18–0.27 is the defensible number and it sits one file away.
 
 **W4. `passage_width_ft / facade_width_ft` as a hard *generative* test.** Right band, inverted causation. See §0 and §5.
 
@@ -344,7 +363,7 @@ Any check enforcing 8 ft convicts the northern passage the room record calls cor
 
 **A2. The storey → head → depth → pile chain.** The arithmetic is authored in `room-vernacular.json` and no massing reads it.
 
-**A3. The roof as a depth cap.** I grepped `massings/`, `rooms/`, `groupings/`, `partis/` and `docs/`: **no M-roof, no double roof, no valley gutter, no relation between plan depth and ridge height anywhere.** A 40 ft deep block under one gable at 9:12 carries its ridge 15 ft above the eave. The period answers are the hip, the gambrel, the mansard and the M-roof. The corpus knows half of it and files it as a fact about the roof: `gambrel-block`'s `structural_logic` is *"The break in slope allows a shorter rafter run and a usable upper floor without a full second-storey wall"* — which is the roof answering a depth problem.
+**A3. The roof as a depth cap.** I grepped `massings/`, `rooms/`, `groupings/`, `partis/` and `docs/`: **no M-roof, no double roof, no valley gutter, no relation between plan depth and ridge height anywhere.** A 40 ft deep block under one gable at 9:12 carries its ridge 15 ft above the eave. The period answers are the hip, the gambrel, the mansard and the M-roof. The corpus knows half of it and files it as a fact about the roof: `gambrel-block`'s `structural_logic` is *"The break in slope allows a shorter rafter run and a usable upper floor without a full second-storey wall …"* — which is the roof answering a depth problem. **The ellipsis matters and the audit added it**: the record continues *"a tax and material advantage as much as a spatial one"*, which is the record's own statement that the driver is not primarily spatial. Quoting only the first half made the record agree with this section more than it does.
 
 **A4. Privacy as a route-crossing count over two populations.** Modelled as a per-room integer (`privacy_rank`, `privacy_span`). Kerr's test is symmetrical and it is a count: *"let the family have free passage-way without encountering the servants unexpectedly; and let the servants have access to all their duties without coming unexpectedly upon the family or visitors. On both sides this privacy is highly valued."* Note also that Kerr uses one word for two quantities — for the family it is seclusion, for the servants it is *"freedom from interruption"* — and they are not interchangeable.
 

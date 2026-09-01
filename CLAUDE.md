@@ -581,15 +581,22 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   spellings of one rule, unheld); and `room-harmonic.json`'s suite rule is not unreadable, it is
   permanently UNJUDGED by `check_addresses.py` for want of a `quantity`.
 - **THE CORPUS FORBIDS THE SQUARE AND THE TRADITION PREFERS IT (WP-9.2).** 35 of 60 room records
-  carry a `proportion` LOWER bound above 1.0 and 29 of those are habitable: `drawing-room`
+  carry a `proportion` LOWER bound above 1.0 and **29 of those are NON-CIRCULATION** (35 minus the
+  6 circulation rooms; the parallel study's "13 of 23 habitable" is a narrower denominator and both
+  are right -- an earlier version of this line said "habitable" for the 29, which is wrong): `drawing-room`
   [1.25, 2.0], `hall` [1.3, 2.2], `parlor` [1.1, 1.45], `dining-room` [1.15, 1.8]. Mount Vernon's
   **Front Parlor is 16'9" x 16'6" = 1.015** -- the room Washington called "the best place in my
   House", and whose own FAQ says he "described the room as being 18 feet square" -- and its Dining
   Room is 15 x 17 = 1.133. Both fall BELOW their band. No period source found states a minimum room
-  ratio; Palladio's seven shapes begin with the round and the square, Morris 1734 says "the nearer
-  a Room ... is to a Square, the more uniform and commodious", and Kerr's own recommended bedrooms
-  are 16 square, 16x20, 20 square, 18x24. **The floors are INERT today and that is the only reason
-  nothing is broken**: `plo` is unpacked at `plan_check.py` 706 and 1237 and used for nothing but
+  ratio; Palladio's seven shapes begin with the round and the square, Morris 1734 reports "the nearer
+  a Room ... is to a Square, the more uniform and commodious" -- **and the audit found the
+  grammatical subject of that sentence is PALLADIO, so Morris is Palladio at one remove and NOT an
+  independent English witness** -- and Kerr's own recommended bedrooms are 16 square, 16x20, 20
+  square, 18x24. **The floors CONVICT nothing today, but they are NOT inert -- an audit
+  corrected this**: `compose.room_default_dims()` sizes every instantiated room from
+  `ratio = (pr[0] + pr[1]) / 2`, so the FLOOR shapes the declared width and length of every room
+  the composer makes -- it does not fail a house, it silently aims every room away from square.
+  What convicts nothing is the reading side: `plo` is unpacked at `plan_check.py` 706 and 1237 and used for nothing but
   the message, both checks charge `ar > phi` alone, `geometry.shape_band()` returns the ceiling
   only, `WIDTH_W` ships at 0.0. **WP-9.4 nearly built the charge**, saw it convict both good
   reference plans and deleted it as unsupported -- the truer reason is that it is BACKWARDS, and 29
@@ -676,9 +683,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   WIDTH and cannot make a house bigger; its exit condition is a DEPTH test
   (`H <= depth_for(W) * 1.18`), so shape has no vote in the sizing at all. On that plan it did not
   run (`grown: []`, `slack: -0.2 sf`): 2,405 sf of declared program in a 2,405 sf footprint, with
-  no allowance for walls -- the placed rectangles tile 97.6% of it. **This is the mechanical root
-  of the slivers and the answer to "why not just build a bigger house": nothing in the pipeline can
-  make one.** Flagged rather than called a defect: the loop's own comment says *"grow the footprint
+  no allowance for walls -- the placed rectangles tile 97.6% of it. **This is the mechanical root of the slivers in the PLACER.** An audit corrected the
+  sweeping version of this claim: `compose.repair()` DOES widen a room's declared `width_ft` on a
+  furniture finding (`need + 0.2`) and on a width-floor finding, and since `need` is the sum of the
+  rooms' `_area`, that grows the footprint on the next pass. The lever exists in the COMPOSER, not
+  the placer -- **and it reads furniture findings computed from the DECLARED record, so it widens
+  rooms that were already adequate and never sees the one drawn as a sliver.** Flagged rather than called a defect: the loop's own comment says *"grow the footprint
   before compromising a room -- the stated infeasibility ordering"* (decision #11, settled and not
   to be reopened), and the loop grows the WIDTH at constant area and never the area. A reader who
   takes that comment at face value will believe the generator has a lever it does not have.

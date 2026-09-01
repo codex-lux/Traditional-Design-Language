@@ -23,7 +23,11 @@ that — it did code archaeology and got a negative result. This does it.
 
 **The finding is that the diagram is wrong, not the search.** `centre-passage-double-pile` names
 eleven enclosed ground-floor rooms and a porch, and the plan built from it places twelve enclosed
-spaces. Its own three named exemplars have six apiece, in the same or a larger footprint. Every
+spaces. **Gunston Hall — the one exemplar whose first-floor spaces the survey enumerates — has six,
+in a footprint within a foot of the generated one.** Drayton Hall reads as six in a larger
+footprint; Hammond-Harwood's main block is SMALLER (44 × 42) and its space count is not established
+here, so "six apiece for all three" is more than the evidence carries and an earlier version of this
+sentence said it. Every
 sliver on Lucas's sheet is what happens when you cut six rooms' worth of compartments into twelve. The tradition's answer to the same pressure is written in the corpus
 already, in the massing record's own `expansion_logic` field, and nothing reads it.
 
@@ -173,9 +177,12 @@ backhall      5.00 x 27.00   ar 5.40
 upper: primarybath 29 x 6 (ar 4.83) · cl3 2.00 x 18.97 (ar 9.48) · dressing 18 x 6 (ar 3.00)
 ```
 
-Every one of those rooms is **inside its area band and outside its width or proportion band**. The
-kitchen at 10 × 30 = 300 sf sits inside its 120–340 sf band while standing 67% over its proportion
-ceiling of 1.8. Area was never the constraint that was binding, which is why WP-9.4's scoring
+**Nine of those eleven are inside their area band and outside their width or proportion band** —
+the kitchen at 10 × 30 = 300 sf sits inside its 120–340 sf band while standing 67% over its
+proportion ceiling of 1.8. **Two are outside their area band as well, and an earlier version of
+this sentence said "every one", which an audit falsified**: `breakfast` at 27 × 7 = 189 sf against
+`breakfast-room`'s [80, 180], and `cl3` at 2.00 × 18.97 = 38 sf against `closet`'s [6, 24].
+`plan_check` prints both today. Area was never the constraint that was binding, which is why WP-9.4's scoring
 changes moved nothing: they re-ranked candidates drawn from a pool that had already accepted the
 wrong number of rooms.
 
@@ -206,17 +213,37 @@ range the loop can reach:
  7 bays ->  70.0 x 34.36 = 2405.0 sf
 ```
 
-Identical to the tenth of a square foot at every bay count. **The loop trades depth for width. It
-cannot make the house bigger, and nothing else in the pipeline can either.** On this plan it did
-not run at all — `grown: []`, `slack: -0.2 sf` — because the derived depth already sat inside the
-massing's target, so 2,405 sf of declared program was housed in a 2,405 sf footprint with nothing
-left over.
+Identical to the tenth of a square foot at every bay count. **The loop trades depth for width and
+cannot make the house bigger.** On this plan it did not run at all — `grown: []`, `slack: -0.2 sf`
+— because the derived depth already sat inside the massing's target, so 2,405 sf of declared
+program was housed in a 2,405 sf footprint with nothing left over.
 
-**That is the mechanical root of every sliver above**, and it is a more precise statement than
-"twelve rooms into six rooms' worth of compartments". There is no mechanism anywhere by which a
-house gets bigger *because its rooms would otherwise be unbuildable shapes*. Shape has no vote in
-the sizing; only area and the massing's pile depth do. It is the study's thesis — a band carries no
-direction of causation — visible in eight lines of arithmetic.
+**An earlier version of this section went on to say "and nothing else in the pipeline can either".
+That is false, and an audit caught it.** `compose.repair()` is exactly that mechanism:
+
+```python
+if f["layer"] == "furniture" and "needs" in f["statement"]:
+    need = float(f["statement"].split("needs ")[1].split(" ft")[0])
+    if need > r.get("width_ft", 0) and need < r.get("width_ft", 0) * 1.8:
+        r["width_ft"] = round(need + 0.2, 1)          # <-- the room gets bigger
+elif f["layer"] == "room" and "short dimension" in f["statement"]:
+    ...  r["width_ft"] = lo                            # <-- widened to the type's floor
+```
+
+It widens a room's **declared** `width_ft` on a furniture finding and on a width-floor finding, and
+because `need` is the sum of the rooms' own `_area`, a wider room raises `need` and therefore the
+footprint on the next pass. So the lever exists — **in the composer, not in the placer.**
+
+**Two things follow, and the second is sharper than the claim it replaces.** The placement layer
+genuinely cannot grow a house: `derive_footprint` is area-neutral and shape has no vote in it. And
+`repair()`, the one thing that can, **reads furniture findings computed from the DECLARED record**
+(§8) — so it widens rooms that were already adequate as declared and never sees the one that was
+*drawn* as a sliver. The feedback loop is closed on the declared dimensions and the drawing is
+outside it. That is the study's thesis — a band carries no direction of causation — with the one
+apparent counter-example turning out to run on the wrong input.
+
+These reference plans are authored records rather than composer output, so `repair()` never ran on
+the placement measured above; the arithmetic there stands.
 
 **One thing to flag rather than call a defect.** The loop's own comment reads *"grow the footprint
 before compromising a room — the stated infeasibility ordering"*, citing decision #11. The loop
@@ -370,8 +397,11 @@ these are two hard rules about one volume under two names.
 **The conflict is latent rather than live, and the reason is worth stating precisely.**
 `roof.py:348` selects the rule whose test `startswith("dependency_ridge_ft")` — so it reads the
 0.6–0.8 band, builds the wing to it, and names its own local variable `wing_ridge_ft`.
-`georgian-service-core`'s rule is evaluated by nothing; it is satisfied by accident, because
-0.6–0.8 is a subset of ≤0.85. Loosen the dependency band, or ever evaluate the service-core rule
+`georgian-service-core`'s rule is **not evaluated by nothing** — an audit corrected this.
+`plan_check`'s grouping layer parses it, finds the plan supplies no `wing_ridge_ft`, and reports
+*"could not evaluate … Not a pass — the rule is unjudged."* That is unjudged-is-not-passed working.
+What is missing is a SUPPLIER for the variable, so the rule is permanently unjudged rather than
+wrong — and while it is unjudged it cannot contradict the 0.6–0.8 band it overlaps. Loosen the dependency band, or ever evaluate the service-core rule
 against a wing built at 0.85, and the two disagree.
 
 This is OQ 48's shape one layer out: *two records meaning the same quantity under different names
@@ -468,7 +498,10 @@ to effectively furnish."*
 **That is already the corpus's position and it is already built.** OQ 92 ruled furniture-driven
 sizing out — *"the tail wagging the dog"* — and arrangement in. `plan_check.py:1250-1288` reads
 each room type's `furniture` array (278 items across the catalogue, each carrying `footprint_in`,
-`clearance_in`, `placement` and `essential`) and asks whether the room can take each essential
+`clearance_in` and `placement`; **`essential` is explicit on only 78 of the 278**, the other 200
+inheriting the schema's `"default": true` which `plan_check` honours via
+`it.get("essential", True)` — four-fifths of the catalogue is essential by omission rather than by
+an author's decision) and asks whether the room can take each essential
 piece with its stated clearance. It fires **13 findings on `tidewater-georgian-careful`** and
 quotes the room's own `critical_dimension` prose as the rule for each. So the relation is right:
 **furniture sets floors, never sizes.** A floor is exactly a falsifier.
@@ -536,9 +569,12 @@ engine change took fatals 123 → 36) and the two together say what the study sa
 good checker and a bad generator, and an engine can only optimise the terms it is given.
 
 **Between one placed room in nine and one in five cannot hold furniture its own record says it
-can, depending on which engine drew it, and nothing reports either.** The pattern is not random. **Eight of the thirteen dining rooms in the corpus fail their own
-dining table** — the table needs (40 + 2 × 54) / 12 = 12.33 ft across and the slicer draws them
-10, 11, 6 ft wide while their records declare 14 to 18. Thirteen of nineteen bedrooms fail their
+can, depending on which engine drew it, and nothing reports either.** The pattern is not random. **Eight of the thirteen dining rooms fail their own dining table when drawn on
+`engine="heuristic"`** — the table needs (40 + 2 × 54) / 12 = 12.33 ft across and the slicer draws
+them 10, 11, 6 ft wide while their records declare 14 to 18. Four of the thirteen already fail it
+as declared, so five are newly and silently broken by the placement. (An auditor made it eleven of
+thirteen; they measured on `auto`, which is the non-determinism above. Every figure in this section
+names its engine for that reason.) Thirteen of nineteen bedrooms fail their
 beds. `spec-builder-colonial` draws `bed3` at **6.0 × 38.0 ft** and two closets at **1.0 ft wide**.
 These are not near-misses; they are rooms nobody could build.
 
@@ -631,7 +667,13 @@ bedroom sizes, from the 1865 text: *"a square of 16 feet makes a good ordinary r
 ratios 1.0, 1.25, 1.0, 1.333. **No source found in the study states a minimum room ratio at all.**
 The prestige direction runs toward the square, not away from it.
 
-**The floors are inert today, and that is the only reason this has done no damage yet.** `plo` is
+**Attribution corrected by the audit: in Morris's Lecture VII the grammatical subject of that sentence is PALLADIO** — Morris is reporting *"Palladio has observ'd, that there are seven beautiful Proportions"* and the preference for the square sits inside that report. So Morris is not an INDEPENDENT English witness to the rule; he is Palladio at one remove, and the two must not be counted as two sources. The argument that **no source found states a MINIMUM** is unaffected — nothing here states one — but the corroboration is thinner than an earlier version of this text implied.
+
+**The floors convict nothing today, but they are NOT inert — an audit corrected this.**
+`compose.room_default_dims()` sizes every instantiated room from
+`ratio = (pr[0] + pr[1]) / 2.0`, so the FLOOR shapes the declared width and length of every room
+the composer makes. It does not fail a house; it silently aims every room away from the square.
+What convicts nothing is the reading side: `plo` is
 unpacked in exactly two places in `plan_check.py` (706 and 1237) and used for nothing but the
 message text; both checks charge `ar > phi` alone. `geometry.shape_band()` returns the ceiling and
 never the floor, and `WIDTH_W` ships at 0.0. So nothing in this corpus presently convicts a square

@@ -81,8 +81,9 @@ would settle it. It has not been changed on the strength of one extracted span.
    precedent — with `provenance.method: "multimodal-reading"`, `field_confidence` per field, and
    the sheet cited by number. **Printed dimension strings are read as printed.** A figure scaled
    off the drawing by eye says so, at lower confidence, and never becomes `measured`.
-2. `build/measure_precedents.py` runs the `build/arrangement.py` derivations over them and emits
-   a generated table: passage-to-facade ratio, room proportions by type, flanking symmetry, stair
+2. **`build/measure_precedents.py` does not exist yet — it is to be written.** When it does, it
+   runs the `build/arrangement.py` derivations (that one is real) over them and emits a generated
+   table: passage-to-facade ratio, room proportions by type, flanking symmetry, stair
    position, portico alignment, service placement — per building, per sheet.
 3. **The calibration run is the point.** The WP-9.1 critic goes over every precedent, and any
    conviction of a period building is either a band corrected here, citing the sheet, or a

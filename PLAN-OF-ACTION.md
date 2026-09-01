@@ -1083,10 +1083,13 @@ asks a Georgian main block to hold twice the rooms any of its exemplars holds**,
 its eleven enclosed ground rooms are service and all three exemplars put their service in a
 basement, an outbuilding or a wing. That reframes WP-9.3 and WP-9.4: the envelope the generator
 produces is within a foot of Gunston Hall on both dimensions, so nothing is wrong with the
-footprint or the area, and no score term can undo a program that does not fit the type. Three
-open questions raised: `oq/the-parti-dissolved-its-own-dependencies`,
+footprint or the area, and no score term can undo a program that does not fit the type. **Six** open questions raised (an earlier version of this block named three): `oq/the-parti-dissolved-its-own-dependencies`,
 `oq/a-massing-states-its-structure-and-nothing-reads-it`,
-`oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it`. **Still not done:** no sheet
+`oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it`,
+`oq/the-proportion-band-forbids-the-square`, and from the adversarial audit
+`oq/a-grouping-rule-and-a-room-record-can-disagree` and
+`oq/a-slug-in-a-code-span-is-not-checked`. Lucas ruled a seventh on 1 Sep,
+`oq/register-is-not-style` — register is a first-class axis, not style. **Still not done:** no sheet
 transcribed, `plans/precedents/` does not exist, no band changed, no parti edited — the first
 of those three questions is Lucas's to rule before any of it.
 

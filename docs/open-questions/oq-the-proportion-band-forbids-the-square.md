@@ -36,9 +36,15 @@ ordinary room, or 16 feet by 20; 20 feet square is a very commodious size; 18 by
 room of the first class"* — 1.0, 1.25, 1.0, 1.333. The prestige direction runs **toward** the
 square.
 
+**Attribution corrected by the audit: in Morris's Lecture VII the grammatical subject of that sentence is PALLADIO** — Morris is reporting *"Palladio has observ'd, that there are seven beautiful Proportions"* and the preference for the square sits inside that report. So Morris is not an INDEPENDENT English witness to the rule; he is Palladio at one remove, and the two must not be counted as two sources. The argument that **no source found states a MINIMUM** is unaffected — nothing here states one — but the corroboration is thinner than an earlier version of this text implied.
+
 ## Why this is a question and not simply a fix
 
-**The floors are inert, and that is the only reason nothing has been damaged yet.** `plo` is
+**The floors convict nothing today, but they are NOT inert — an audit corrected this.**
+`compose.room_default_dims()` sizes every instantiated room from
+`ratio = (pr[0] + pr[1]) / 2.0`, so the FLOOR shapes the declared width and length of every room
+the composer makes. It does not fail a house; it silently aims every room away from the square.
+What convicts nothing is the reading side: `plo` is
 unpacked in exactly two places in `plan_check.py` — lines 706 and 1237 — and used for nothing but
 the message text; both checks charge `ar > phi` alone. `geometry.shape_band()` returns the ceiling
 and never the floor. `WIDTH_W` ships at 0.0. So today the lower bounds are declarations that no
@@ -48,9 +54,15 @@ That makes three genuinely different answers available, and picking one is an au
 about what the band MEANS:
 
 1. **Delete the lower bound on habitable rooms.** A floor of 1.0 (or none) says what every source
-   says. Cheapest, and it makes the record honest about what it can support. But `check_rooms.py`
-   check 10 tests the proportion band for consistency against `width_ft × length_ft`, so the width
-   and length bands would have to move with it or the consistency warning fires on 29 records.
+   says. Cheapest, and it makes the record honest about what it can support. **An earlier version
+   of this entry attached a cost to it that an audit showed is zero**: it claimed
+   `check_rooms.py`'s dimension-consistency check would then fire on 29 records. It would fire on
+   none — the only clause that reads the floor is `prop[0] > hi_p * 1.25`, and LOWERING `prop[0]`
+   makes that strictly less likely to fire. **The real cost is on the generative side, not the
+   checking side**: `compose.room_default_dims()` averages the band to size every room it makes, so
+   lowering the floors moves the default shape of every composed room toward the square. That is
+   the intended direction — but it is a change to every plan the composer produces, not a
+   documentation edit, and it should be measured before it is made.
 2. **Keep the bound and re-read it as a TYPICAL rather than a LIMIT.** Many of these numbers are
    defensible as descriptions of what the type usually is — a drawing room usually is longer than
    it is wide. Then the band needs a vocabulary distinction the schema does not have (`typical`
