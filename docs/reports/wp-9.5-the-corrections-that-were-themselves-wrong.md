@@ -1,4 +1,4 @@
-# WP-9.5 — The adversarial audit of WP-9.1 and WP-9.2
+# WP-9.5 — The corrections that were themselves wrong: the adversarial audit of WP-9.1 and WP-9.2
 
 *Status: the audit ran on 1 Sep 2026 against `e1f34fb..HEAD`. Seven independent read-only auditors
 were dispatched; three had returned when this was written and four were still running — what they
@@ -9,6 +9,14 @@ Lucas asked for "a genuine adversarial audit of everything changed — not a re-
 own work, but an attempt to find what's wrong with it." This is that, and it follows the phase
 tradition: `wp-6.4-the-audit.md`, `wp-7.5-the-adversarial-audit.md`,
 `wp-8.6-the-guards-that-could-not-fire.md`.
+
+**This file was first named `wp-9.5-the-adversarial-audit.md` and
+`tests/test_open_question_ids.py::test_no_two_work_package_reports_share_a_slug` failed the build
+for it**, because WP-7.5's report already holds that slug and OQ 90's fallback is *"cite the
+report, never the number"* — two reports with one slug distinguish nothing. The guard was written
+after `wp-5.8-the-four-rulings.md` and `wp-5.10-the-four-rulings.md` collided the same way. **It
+caught this because the FULL suite was run; a subset had passed twenty minutes earlier**, which is
+finding B8 below and the reason this report's own verdict was retracted once.
 
 ## What was audited, and why a documentation change is not a soft target
 
@@ -24,7 +32,7 @@ exactly that class, because the next agent reads these files as fact.
 
 ## The headline
 
-**Twenty-three findings survived verification. Seven were blocking. Every one of the blocking
+**Twenty-four findings survived verification. Eight were blocking. Every one of the blocking
 findings was in work this session had produced, and four of them were in corrections this session
 had *already made* — a first fix that was itself wrong, or right in one file and left wrong in
 another.**
@@ -84,6 +92,23 @@ single rooms" was reaching for and did not say.
 circulation, so 29 is *non-circulation*; the habitable figure is 13 of 23, and 16 of the 29 are not
 habitable in any sense (bath-house, closet, laundry, scullery…). Corrected in the report and the
 open question first, and left wrong in `CLAUDE.md` — the worst of the three places to leave it.
+
+**B8. The audit's own verdict was given on a SUBSET of the test suite, and the full suite then
+failed.** After fixing B1–B7 I ran `tests/test_wp46_packs.py`, `tests/test_counts_guard.py` and
+`tests/test_citations.py` — the three I judged relevant to a documentation change — got 314 passed,
+and declared the work deployment-ready on the strength of that plus an earlier full run. The
+confirming full run came back **`FAIL pytest tests/` — 1 of 43 checks failed**, on
+`test_no_two_work_package_reports_share_a_slug`: this very report had been filed as
+`wp-9.5-the-adversarial-audit.md`, colliding with WP-7.5's slug, and OQ 90's fallback is *"cite the
+report, never the number"*, so two reports under one slug distinguish nothing.
+
+Three things worth keeping from it. **The guard was right and I had never run it** — it lives in
+`tests/test_open_question_ids.py`, which my subset did not include, and it exists because
+`wp-5.8-the-four-rulings.md` and `wp-5.10-the-four-rulings.md` had already collided that way.
+**The defect was in the audit's own deliverable**, not in what it audited. And **"the tests I
+judged relevant pass" is exactly the reasoning this audit was commissioned to distrust**, committed
+in the last five minutes of it, by the person writing this sentence. The verdict was retracted and
+re-issued after the full suite.
 
 ---
 

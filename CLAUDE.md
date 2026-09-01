@@ -717,9 +717,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `gallery-corridor` hyphens and the whole service program beyond them.
   `oq/the-parti-dissolved-its-own-dependencies`, and read
   `docs/reports/wp-9.2-the-parti-is-not-the-type.md` before proposing a placement change here.
-- **WP-9.5 AUDITED WP-9.1 AND WP-9.2 AND FOUND 7 BLOCKING DEFECTS, ALL IN THIS SESSION'S OWN WORK
+- **WP-9.5 AUDITED WP-9.1 AND WP-9.2 AND FOUND 8 BLOCKING DEFECTS, ALL IN THIS SESSION'S OWN WORK
   AND FOUR OF THEM IN CORRECTIONS IT HAD ALREADY MADE.**
-  `docs/reports/wp-9.5-the-adversarial-audit.md`, and the one to read first before trusting a
+  `docs/reports/wp-9.5-the-corrections-that-were-themselves-wrong.md`, and the one to read first before trusting a
   number WP-9.1 or WP-9.2 published. **The technique that found every one of them: RE-DERIVE THE
   NUMBER, DO NOT RE-READ THE SENTENCE.** Not one blocking finding came from reading. A first fix
   that is itself wrong, and a fix applied in one file and not its neighbour, were the two commonest

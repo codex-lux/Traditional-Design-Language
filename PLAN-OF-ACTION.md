@@ -1158,7 +1158,7 @@ partis are untouched.
 
 ### WP-9.5 The adversarial audit
 **Status: RUN 1 Sep 2026 against WP-9.1 and WP-9.2; four of seven auditors still reporting.**
-`docs/reports/wp-9.5-the-adversarial-audit.md`. **23 findings survived verification, 7 blocking,
+`docs/reports/wp-9.5-the-corrections-that-were-themselves-wrong.md`. **24 findings survived verification, 8 blocking,
 every blocking one in this session's own work and four of them in corrections it had ALREADY
 made** — a first fix that was itself wrong, or right in one file and left wrong in another.
 Highest-yield technique, stated for the next audit: **re-derive the number, do not re-read the
