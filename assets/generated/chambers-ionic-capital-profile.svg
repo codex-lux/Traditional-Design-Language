@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 736" width="738" height="736">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="736" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Chambers's Ionic Order (overlay on Vignola) — capital</text>
+<rect class="pf" x="36" y="38" width="666" height="575"/>
+<line x1="70.0" y1="622.6" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,622.579 A 320.000 228.579 0 0 0 390.000,394.000 A 297.138 137.145 0 0 1 92.862,256.855 L 184.283,256.855 L 184.283,211.145 A 97.136 97.136 0 0 1 195.714,165.428 A 97.136 97.136 0 0 0 207.145,119.710 L 298.579,119.710 L 298.579,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="391.0" y1="508.3" x2="404.0" y2="508.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="510.9">Echinus (quarter round) — echinus, 1.67″</text>
+<line x1="93.9" y1="325.4" x2="404.0" y2="325.4" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="328.0">Gorge of the volute (cavetto) — cavetto, 1.00″</text>
+<line x1="185.3" y1="234.0" x2="404.0" y2="234.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="236.6">Fillet of the volute — fillet, 0.33″</text>
+<line x1="208.1" y1="165.4" x2="404.0" y2="165.4" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="168.0">Ogee of the abacus (cyma reversa) — cyma reversa, 0.67″</text>
+<line x1="299.6" y1="96.9" x2="404.0" y2="96.9" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="99.5">Fillet of the abacus — abacus, 0.33″</text>
+<text class="dm" x="44" y="643.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="654.0">Chambers's Ionic Order (overlay on Vignola), assembly capital, at a 12″ column. 5 member(s), 4.00″ high, 2.33″ of relief from the</text>
+<text class="dm" x="44" y="665.0">naked.</text>
+<text class="dm" x="44" y="676.0">INHERITED: chambers-ionic STATES NO CAPITAL OF ITS OWN. These members are vignola-ionic's, delivered by the overlay, and the</text>
+<text class="dm" x="44" y="687.0">citation below is THEIRS.</text>
+<text class="dm" x="44" y="698.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII</text>
+</svg>

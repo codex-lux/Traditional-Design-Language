@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 786" width="738" height="786">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="786" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Palladio's Ionic Order (overlay on Vignola) — cornice</text>
+<rect class="pf" x="36" y="38" width="666" height="646"/>
+<line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,694.000 L 70.000,533.999 L 70.000,373.997 L 70.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="71.0" y1="614.0" x2="404.0" y2="614.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="616.6">Cavetto and ovolo of the bed mould — ovolo, 2.32″</text>
+<line x1="71.0" y1="454.0" x2="404.0" y2="454.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="456.6">Modillion band — modillion, 2.32″</text>
+<line x1="71.0" y1="224.0" x2="404.0" y2="224.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="226.6">Corona with the gola or cima above — corona, 4.35″</text>
+<text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="726.0">Palladio's Ionic Order (overlay on Vignola), assembly cornice, at a 24″ column. 3 member(s), 9.00″ high, 1.00″ of relief from the</text>
+<text class="dm" x="44" y="737.0">naked.</text>
+<text class="dm" x="44" y="748.0">AFTER: Palladio, I Quattro Libri dell'Architettura, Venice 1570, Book I chapters XII, XIII, XVI and XIX</text>
+</svg>

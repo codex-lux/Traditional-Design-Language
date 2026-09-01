@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 508" width="738" height="508">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="508" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Tuscan Order (Gibbs) - overlay on Vignola — cornice</text>
+<rect class="pf" x="36" y="38" width="666" height="346"/>
+<line x1="70.0" y1="394.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,394.000 A 53.333 42.667 0 0 1 123.333,351.333 L 132.222,351.333 L 132.222,340.667 A 26.667 42.667 0 0 0 158.889,298.000 L 167.778,298.000 L 167.778,287.333 L 318.889,287.333 L 318.889,198.444 L 336.667,198.444 L 336.667,180.667 A 22.222 22.222 0 0 0 354.444,145.111 A 22.222 22.222 0 0 1 372.222,109.556 L 390.000,109.556 L 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="124.3" y1="372.7" x2="404.0" y2="368.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="370.6">Cavetto (bed mould) — cavetto, 1.20″</text>
+<line x1="133.2" y1="346.0" x2="404.0" y2="341.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="343.9">Fillet over the cavetto — fillet, 0.30″</text>
+<line x1="159.9" y1="319.3" x2="404.0" y2="314.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="317.3">Ovolo — ovolo, 1.20″</text>
+<line x1="168.8" y1="292.7" x2="404.0" y2="288.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="290.6">Fillet over the ovolo, forming the drip under th… — fillet, 0.30″</text>
+<line x1="319.9" y1="242.9" x2="404.0" y2="238.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="240.8">Corona — corona, 2.50″</text>
+<line x1="337.7" y1="189.6" x2="404.0" y2="184.9" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="187.5">List over the corona — listel, 0.50″</text>
+<line x1="373.2" y1="145.1" x2="404.0" y2="140.4" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="143.0">Cymatium, cyma recta — cyma recta, 2.00″</text>
+<line x1="391.0" y1="91.8" x2="404.0" y2="87.1" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="89.7">Fillet over the cymatium — fillet, 1.00″</text>
+<text class="dm" x="44" y="415.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="426.0">Tuscan Order (Gibbs) - overlay on Vignola, assembly cornice, at a 12″ column. 8 member(s), 9.00″ high, 9.00″ of relief from the</text>
+<text class="dm" x="44" y="437.0">naked.</text>
+<text class="dm" x="44" y="448.0">AFTER: James Gibbs, Rules for Drawing the Several Parts of Architecture, in a more exact and easy manner than has been heretofore</text>
+<text class="dm" x="44" y="459.0">practised, by which all fractions, in dividing the principal members and their parts, are avoided (London, 1732), Plates I, III,</text>
+<text class="dm" x="44" y="470.0">IV, V, VI, XXIV, XXV, XXVI, XXX</text>
+</svg>

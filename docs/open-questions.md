@@ -19,7 +19,7 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**107 questions, of which 37 are open.** A question is OPEN while
+**110 questions, of which 37 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
@@ -70,7 +70,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 
-## Settled — 70
+## Settled — 73
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -145,4 +145,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **95** | CLOSED 27 AUG 2026 | [the placement generator is blind to the other level, and no score term can see past that](open-questions/095-placement-generator-blind-other-level-score-term-see.md) |
 | **97** | CLOSED 27 AUG 2026 | [the search has no span term, so whether a placement clears its own structural capacity is luck](open-questions/097-search-span-term-whether-placement-clears-own-structural.md) |
 | **99** | CLOSED | [an open-question id is issued from the working tree, and this register predicted its own collision](open-questions/099-how-an-open-question-id-is-issued.md) |
+| **oq/a-share-alike-photograph-has-no-home-in-the-asset-schema** | RULED 31 Aug 2026, and the ruling is a refusal | [the English records can have a licence or an image, not both](open-questions/oq-a-share-alike-photograph-has-no-home-in-the-asset-schema.md) |
+| **oq/fetching-through-a-tier-the-proxy-denies** | RULED 31 Aug 2026 | [the egress denial is a policy, and two other tiers reach past it](open-questions/oq-fetching-through-a-tier-the-proxy-denies.md) |
 | **oq/forbidden-stops-the-pack-cascade** | CLOSED 28 Aug 2026 | [787 pack rules dimension a slot the resolved kit forbids, and nobody chose one of them](open-questions/oq-forbidden-stops-the-pack-cascade.md) |
+| **oq/regenerating-the-asset-manifest-discards-what-was-added-to-it** | CLOSED 31 Aug 2026 | [and it would also quintuple it](open-questions/oq-regenerating-the-asset-manifest-discards-what-was-added-to-it.md) |

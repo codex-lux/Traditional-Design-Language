@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 513" width="738" height="513">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="513" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Ionic Order (Asher Benjamin) - overlay on Vignola — cornice</text>
+<rect class="pf" x="36" y="38" width="666" height="351"/>
+<line x1="70.0" y1="399.2" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,399.162 A 24.948 24.948 0 0 1 77.742,381.097 A 24.948 24.948 0 0 0 85.484,363.032 L 90.646,363.032 L 90.646,357.873 L 126.773,357.873 L 126.773,295.937 L 137.098,295.937 L 137.098,280.453 A 25.806 38.710 0 0 0 162.904,241.744 L 168.066,241.744 L 168.066,236.581 L 204.194,236.581 L 240.323,236.581 L 240.323,161.741 L 250.645,161.741 L 250.645,156.582 A 73.945 73.945 0 0 0 312.580,123.033 A 73.945 73.945 0 0 1 374.516,89.484 L 390.000,89.484 L 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="86.5" y1="381.1" x2="404.0" y2="373.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="375.8">Cyma reversa of the bed mould — cyma reversa, 1.17″</text>
+<line x1="91.6" y1="360.5" x2="404.0" y2="352.5" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="355.1">Fillet — fillet, 0.17″</text>
+<line x1="127.8" y1="326.9" x2="404.0" y2="319.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="321.6">Dentil band — dentil, 2.00″</text>
+<line x1="138.1" y1="288.2" x2="404.0" y2="280.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="282.9">Fillet over the dentils — fillet, 0.50″</text>
+<line x1="163.9" y1="261.1" x2="404.0" y2="253.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="255.8">Ovolo of the bed mould — ovolo, 1.25″</text>
+<line x1="169.1" y1="239.2" x2="404.0" y2="231.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="233.8">Fillet — fillet, 0.17″</text>
+<line x1="241.3" y1="199.2" x2="404.0" y2="191.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="193.8">Corona — corona, 2.42″</text>
+<line x1="251.6" y1="159.2" x2="404.0" y2="151.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="153.8">Listel over the corona — listel, 0.17″</text>
+<line x1="375.5" y1="123.0" x2="404.0" y2="115.1" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="117.7">Cymatium: cyma recta — cyma recta, 2.17″</text>
+<line x1="391.0" y1="81.7" x2="404.0" y2="73.8" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="76.4">Crowning fillet — fillet, 0.50″</text>
+<text class="dm" x="44" y="420.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="431.0">Ionic Order (Asher Benjamin) - overlay on Vignola, assembly cornice, at a 12″ column. 10 member(s), 10.50″ high, 10.33″ of relief</text>
+<text class="dm" x="44" y="442.0">from the naked.</text>
+<text class="dm" x="44" y="453.0">INHERITED: benjamin-ionic STATES NO CORNICE OF ITS OWN. These members are vignola-ionic's, delivered by the overlay, and the</text>
+<text class="dm" x="44" y="464.0">citation below is THEIRS.</text>
+<text class="dm" x="44" y="475.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XIII-XVII</text>
+</svg>

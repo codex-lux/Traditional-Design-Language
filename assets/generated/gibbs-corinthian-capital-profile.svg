@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 819" width="738" height="819">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="819" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Corinthian Order (Gibbs) - overlay on Vignola — capital</text>
+<rect class="pf" x="36" y="38" width="666" height="646"/>
+<line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,694.000 A 118.097 177.143 0 0 0 188.097,516.857 A 29.521 177.143 0 0 0 217.618,339.714 A 29.525 177.143 0 0 0 247.143,162.571 A 88.571 51.668 0 0 1 335.714,110.903 L 365.240,110.903 L 365.240,103.525 L 380.000,103.525 L 380.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="189.1" y1="605.4" x2="404.0" y2="605.4" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="608.0">First (lower) row of eight acanthus leaves — acanthus, 4.00″</text>
+<line x1="218.6" y1="428.3" x2="404.0" y2="428.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="430.9">Second (upper) row of eight acanthus leaves, s… — acanthus, 4.00″</text>
+<line x1="248.1" y1="251.1" x2="404.0" y2="251.1" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="253.7">Eight caulicoli with helices and angle volutes — volute, 4.00″</text>
+<line x1="336.7" y1="136.7" x2="404.0" y2="136.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="139.3">Hollow face of the abacus — cavetto, 1.17″</text>
+<line x1="366.2" y1="107.2" x2="404.0" y2="107.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="109.8">Fillet of the abacus — fillet, 0.17″</text>
+<line x1="381.0" y1="88.8" x2="404.0" y2="88.8" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="91.4">Ovolo of the abacus — abacus, 0.67″</text>
+<text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="726.0">Corinthian Order (Gibbs) - overlay on Vignola, assembly capital, at a 12″ column. 6 member(s), 14.00″ high, 7.00″ of relief from</text>
+<text class="dm" x="44" y="737.0">the naked.</text>
+<text class="dm" x="44" y="748.0">INHERITED: gibbs-corinthian STATES NO CAPITAL OF ITS OWN. These members are vignola-corinthian's, delivered by the overlay, and</text>
+<text class="dm" x="44" y="759.0">the citation below is THEIRS.</text>
+<text class="dm" x="44" y="770.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, plates XX-XXV</text>
+<text class="dm" x="44" y="781.0">NOT CONSTRUCTED, AND NOT DRAWN AS SOMETHING PLAUSIBLE: acanthus row 1 (acanthus), acanthus row 2 (acanthus), caulicoli (volute)</text>
+</svg>

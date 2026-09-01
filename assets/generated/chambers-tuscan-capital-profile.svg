@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 808" width="738" height="808">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="808" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Chambers's Tuscan Order (overlay on Vignola) — capital</text>
+<rect class="pf" x="36" y="38" width="666" height="646"/>
+<line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,694.000 L 70.000,487.333 L 173.333,487.333 L 173.333,435.667 A 103.333 155.000 0 0 0 276.667,280.667 L 328.333,280.667 L 328.333,125.667 L 328.333,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="71.0" y1="590.7" x2="404.0" y2="590.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="593.3">Necking / frieze of the capital (fregio) — flat, 2.00″</text>
+<line x1="174.3" y1="461.5" x2="404.0" y2="461.5" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="464.1">Fillet under the echinus (listello) — fillet, 0.50″</text>
+<line x1="277.7" y1="358.2" x2="404.0" y2="358.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="360.8">Echinus (ovolo) — ovolo, 1.50″</text>
+<line x1="329.3" y1="203.2" x2="404.0" y2="203.2" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="205.8">Abacus (gocciolatoio del capitello) — abacus, 1.50″</text>
+<line x1="329.3" y1="99.8" x2="404.0" y2="99.8" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="102.4">Fillet over the abacus (pianetto) — fillet, 0.50″</text>
+<text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="726.0">Chambers's Tuscan Order (overlay on Vignola), assembly capital, at a 12″ column. 5 member(s), 6.00″ high, 2.50″ of relief from the</text>
+<text class="dm" x="44" y="737.0">naked.</text>
+<text class="dm" x="44" y="748.0">INHERITED: chambers-tuscan STATES NO CAPITAL OF ITS OWN. These members are vignola-tuscan's, delivered by the overlay, and the</text>
+<text class="dm" x="44" y="759.0">citation below is THEIRS.</text>
+<text class="dm" x="44" y="770.0">AFTER: Vignola, Regola delli cinque ordini d'architettura, Rome 1562, Tavole IV-VIII</text>
+</svg>

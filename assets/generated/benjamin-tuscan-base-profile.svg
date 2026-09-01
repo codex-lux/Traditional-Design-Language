@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 819" width="738" height="819">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="819" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Tuscan Order (Asher Benjamin) - overlay on Vignola — base</text>
+<rect class="pf" x="36" y="38" width="666" height="646"/>
+<line x1="70.0" y1="694.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,694.000 L 276.667,694.000 L 276.667,384.000 L 152.667,384.000 A 124.000 124.000 0 0 0 276.667,260.000 A 124.000 124.000 0 0 0 152.667,136.000 L 152.667,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="277.7" y1="539.0" x2="404.0" y2="539.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="541.6">Plinth — plinth, 3.00″</text>
+<line x1="277.7" y1="260.0" x2="404.0" y2="260.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="262.6">Torus — torus, 2.40″</text>
+<line x1="153.7" y1="105.0" x2="404.0" y2="105.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="107.6">Fillet, with a quarter circle congé joining it t… — fillet, 0.60″</text>
+<text class="dm" x="44" y="715.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="726.0">Tuscan Order (Asher Benjamin) - overlay on Vignola, assembly base, at a 12″ column. 3 member(s), 6.00″ high, 2.00″ of relief from</text>
+<text class="dm" x="44" y="737.0">the naked.</text>
+<text class="dm" x="44" y="748.0">AFTER: Asher Benjamin, The American Builder's Companion; or, A System of Architecture, particularly adapted to the present style</text>
+<text class="dm" x="44" y="759.0">of building, THIRD EDITION, corrected and enlarged (Boston: R. P. &amp; C. Williams, April 1816), Plates 12, 24, 26-28, 35 - with the</text>
+<text class="dm" x="44" y="770.0">Tuscan of The Practical House Carpenter (Boston, 1830; text collated from the 1843 printing issued as The Architect, or Practical</text>
+<text class="dm" x="44" y="781.0">House Carpenter), Plate III, recorded as a second stratum in the notes and conflicts</text>
+</svg>

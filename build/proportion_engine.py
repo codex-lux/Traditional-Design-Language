@@ -212,6 +212,45 @@ def resolve(pack_id, _seen=None):
 # ---------------------------------------------------------------- dimensioning
 STACK_ORDER = ["pedestal", "base", "shaft", "capital", "architrave", "frieze", "cornice"]
 
+def assembly_owner(pack_id, assembly_id):
+    """The pack in the overlay chain that actually STATES this assembly, or None.
+
+    AN OVERLAY INHERITS WHAT IT DOES NOT STATE, AND SOMETIMES IT DOES NOT STATE IT ON PURPOSE.
+    `palladio-tuscan` records a base, a shaft, a capital and a pedestal and deliberately no
+    entablature: Palladio does not dimension his Tuscan entablature in the text and the plate
+    numerals are illegible in every reachable scan, which is the whole of OQ 7. `resolve()` then
+    supplies a cornice from `vignola-tuscan` -- correctly, because that is what an overlay is
+    for.
+
+    But any surface that prints a pack's `authority.source` beside members it did not state is
+    attributing one authority's figures to another's citation, and doing it on the assemblies
+    the corpus keeps open questions about BECAUSE that authority does not give them. This lives
+    HERE, in the engine, and not in the five places that need it: two hand-rolled copies existed
+    for about an hour, and `resolve()`'s own `_resolved_from` is a pack-id CHAIN which cannot
+    answer a per-assembly question. Three spellings of the citation grammar, two of the SVG
+    sweep flag and two of the door's required wall are what this rule is made of."""
+    seen = set()
+    pid = pack_id
+    while pid and pid not in seen:
+        seen.add(pid)
+        raw = PACKS.get(pid) or {}
+        if assembly_id in (raw.get("assemblies") or {}):
+            return pid
+        pid = raw.get("overlay_of")
+    return None
+
+
+def assembly_authority(pack_id, assembly_id):
+    """(source, owner) for the members actually dimensioned at this assembly.
+
+    `owner` is None when the pack states the assembly itself, which is the caller's signal that
+    no disclosure is needed."""
+    owner = assembly_owner(pack_id, assembly_id)
+    if not owner or owner == pack_id:
+        return ((PACKS.get(pack_id) or {}).get("authority") or {}).get("source"), None
+    return ((PACKS.get(owner) or {}).get("authority") or {}).get("source"), owner
+
+
 def stack_for(pack):
     """Which assemblies actually make the vertical stack for this pack.
 

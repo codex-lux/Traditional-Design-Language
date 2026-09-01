@@ -438,7 +438,14 @@ def eave_cornice(facade_pack, gibbs_pack, module_in=None):
     cornice_h_stated = 2.0 * part_in   # facade-classical's own elevation.cornice member: height_parts 2.0
     cornice_proj, _ = _val(facade_pack, "cornice", {"module": module_in}, dimension="projection")
 
-    gibbs_cornice = PE.PACKS[gibbs_pack["id"]]["assemblies"]["cornice"]
+    # THE RESOLVED PACK, NOT THE RAW ONE. `gibbs_pack` is already `PE.resolve(...)` and the
+    # three lines around this all use it; only this one re-entered `PE.PACKS`. It is the
+    # identical construction to the bug that stopped `render_profile.py` drawing a base for
+    # `gibbs-ionic`, and it survives here only because GIBBS_ORDER_PACK_ID is a module constant
+    # that happens to state its own cornice. 14 of the 26 order packs do not -- point this at
+    # `palladio-tuscan`, any `chambers-*`, any `benjamin-*`, `greek-doric` or `moorish-arch` and
+    # it is a KeyError, not a wrong number.
+    gibbs_cornice = gibbs_pack["assemblies"]["cornice"]
     gibbs_cornice_modules = gibbs_cornice["height_modules"]
     reduced_module_in = cornice_h_stated / gibbs_cornice_modules
     dim = PE.dimension(gibbs_pack, reduced_module_in, include=["cornice"])

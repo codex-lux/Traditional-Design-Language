@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 738 496" width="738" height="496">
+<style>.lb{font:600 9px/1 ui-sans-serif,system-ui,sans-serif;fill:#1b1a17;letter-spacing:.08em}.dm{font:8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;fill:#6f6a60}.ti{font:600 13px/1 ui-serif,Georgia,serif;fill:#1b1a17}.pf{fill:none;stroke:#c9c2b4;stroke-width:.6}</style>
+<rect width="738" height="496" fill="#faf8f3"/>
+<text class="ti" x="44" y="30">Corinthian Order (Gibbs) - overlay on Vignola — cornice</text>
+<rect class="pf" x="36" y="38" width="666" height="346"/>
+<line x1="70.0" y1="394.0" x2="70.0" y2="74.0" stroke="#6f6a60" stroke-width=".5" stroke-dasharray="2 2"/>
+<path d="M 70.000,394.000 A 21.987 21.987 0 0 1 86.667,372.667 A 21.987 21.987 0 0 0 103.333,351.333 L 136.667,351.333 L 136.667,308.667 A 22.223 42.667 0 0 0 158.890,266.000 L 203.333,266.000 L 203.333,202.000 L 314.443,202.000 L 314.443,138.000 A 38.300 38.300 0 0 0 352.222,106.000 A 38.300 38.300 0 0 1 390.000,74.000 L 70.000,74.000 Z" fill="#b08d57" fill-opacity=".5" stroke="#1b1a17" stroke-width=".9"/>
+<line x1="104.3" y1="372.7" x2="404.0" y2="368.0" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="370.6">Reversed cima at the bottom of the cornice — cyma reversa, 1.28″</text>
+<line x1="137.7" y1="330.0" x2="404.0" y2="325.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="327.9">Dentil band — dentil, 1.28″</text>
+<line x1="159.9" y1="287.3" x2="404.0" y2="282.7" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="285.3">Ovolo — ovolo, 1.28″</text>
+<line x1="204.3" y1="234.0" x2="404.0" y2="229.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="231.9">Modillion band — modillion, 1.92″</text>
+<line x1="315.4" y1="170.0" x2="404.0" y2="165.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="167.9">Corona — corona, 1.92″</text>
+<line x1="391.0" y1="106.0" x2="404.0" y2="101.3" stroke="#6f6a60" stroke-width=".35"/>
+<text class="dm" x="408.0" y="103.9">Cymatium, cyma recta — cyma recta, 1.92″</text>
+<text class="dm" x="44" y="414.0">GENERATED FROM THE RECORD BY build/render_profile.py — NOT A DRAWING OF A REAL BUILDING.</text>
+<text class="dm" x="44" y="425.0">Corinthian Order (Gibbs) - overlay on Vignola, assembly cornice, at a 12″ column. 6 member(s), 9.60″ high, 9.60″ of relief from</text>
+<text class="dm" x="44" y="436.0">the naked.</text>
+<text class="dm" x="44" y="447.0">AFTER: James Gibbs, Rules for Drawing the Several Parts of Architecture (London, 1732), Plates I no. 4, XVI, XVII, XVIII, XIX,</text>
+<text class="dm" x="44" y="458.0">XXIV, XXV, XXVI, XXXIII, XXXVIII, XLI, XLII, LXIV</text>
+</svg>

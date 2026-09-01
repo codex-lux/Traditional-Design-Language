@@ -64,6 +64,39 @@ def computed():
         v["opening_rules"] = (len(g.get("pair_rules") or [])
                               + len(g.get("class_defaults") or []) + 1)
         v["opening_placement_rules"] = len(g.get("placement_rules") or [])
+
+    # WP-4.4. The asset layer's own numbers were policed by NOTHING -- "322 image records, 0
+    # sourced" was hand-typed in CLAUDE.md, README.md and STATE-OF-THE-PROJECT.md, and
+    # docs/assets.md still said 292 records and 136 pairs against a file holding 322 and 150.
+    # Four places, three different wrong answers, and no check could see any of them, which is
+    # exactly the class check_counts.py exists for.
+    # The ⌘K index, hand-typed in CLAUDE.md and policed by nothing.
+    try:
+        import importlib.util as _il
+        _sp = _il.spec_from_file_location(
+            "_corpus_for_counts", os.path.join(ROOT, "workbench", "server", "corpus.py"))
+        _c = _il.module_from_spec(_sp); _sp.loader.exec_module(_c)
+        _idx = _c.search_index()
+        v["search_index"] = len(_idx if isinstance(_idx, list)
+                                else (_idx.get("items") or _idx.get("entries") or _idx))
+    except Exception:
+        pass                      # optional: the workbench's deps are not the corpus's
+
+    if "partis" in v:
+        v["parti_count"] = v["partis"]
+
+    apath = os.path.join(ROOT, "assets", "manifest.json")
+    if os.path.exists(apath):
+        a = json.load(open(apath))
+        assets = a.get("assets") or []
+        v["image_records"] = len(assets)
+        by_status = {}
+        for x in assets:
+            by_status[x.get("status")] = by_status.get(x.get("status"), 0) + 1
+        v["image_sourced"] = by_status.get("sourced", 0)
+        v["image_wanted"] = by_status.get("wanted", 0)
+        v["image_pairs"] = sum(1 for x in assets if x.get("role") == "correct")
+        v["image_critical"] = sum(1 for x in assets if x.get("priority") == "critical")
     return v
 
 
@@ -99,6 +132,35 @@ CLAIMS = [
     ("README.md",              "packs",         r"the syntax\. (\d+) packs, and they are"),
     ("README.md",              "no_opening_role", r"(\d+) nodes still have no opening-role pack"),
     ("README.md",              "no_facade_role",  r"no opening-role pack and (\d+) no facade-role pack"),
+    # Computed and never claimed until now: the checker was producing these and no row consumed
+    # them, so a number in prose could disagree with a value the checker already had in hand.
+    # Plus the search index size, which was hand-typed at 665 against a real 666.
+    # `opening_placement_rules` and `no_interior_role` are computed and still unclaimed --
+    # deliberately: no document states either, and writing a sentence into the prose so that a
+    # checker has something to check would be the wrong way round.
+    ("CLAUDE.md",              "search_index",   r"/api/search/index` \((\d+) named things"),
+    # Keyed `parti_count`, NOT `partis`: `test_parti_confinement.py` scans build/ for any line
+    # matching `"partis", <identifier>`, which is what a path join looks like, and a CLAIMS tuple
+    # whose key is the directory name followed by a raw-string prefix is indistinguishable from
+    # one. The guard is right; the key is what moves.
+    ("CLAUDE.md",              "parti_count",    r"\*\*(\d+) partis naming \d+ of \d+ styles"),
+    # WP-4.4's asset counts, in the four places that carried them by hand.
+    ("CLAUDE.md",              "image_records",  r"(\d+) image records, \*\*\d+ sourced\*\*"),
+    ("CLAUDE.md",              "image_sourced",  r"\d+ image records, \*\*(\d+) sourced\*\*"),
+    ("CLAUDE.md",              "image_wanted",   r"proportion packs; (\d+) still wanted"),
+    ("README.md",              "image_records",  r"(\d+) specified images, \d+ drawn"),
+    ("README.md",              "image_sourced",  r"\d+ specified images, (\d+) drawn"),
+    ("README.md",              "image_wanted",   r"\*\*(\d+) wanted and \d+ sourced\*\*"),
+    ("README.md",              "image_sourced",  r"\*\*\d+ wanted and (\d+) sourced\*\*"),
+    ("README.md",              "image_wanted",   r"^- \*\*The images\.\*\* (\d+) of \d+ asset records"),
+    ("README.md",              "image_records",  r"^- \*\*The images\.\*\* \d+ of (\d+) asset records"),
+    ("STATE-OF-THE-PROJECT.md", "image_wanted",  r"\*\*(\d+) wanted, \d+ sourced\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "image_sourced", r"\*\*\d+ wanted, (\d+) sourced\*\*"),
+    ("docs/assets.md",         "image_records",  r"holds \*\*(\d+) records"),
+    ("docs/assets.md",         "image_wanted",   r"records — (\d+) wanted and \d+ sourced"),
+    ("docs/assets.md",         "image_sourced",  r"records — \d+ wanted and (\d+) sourced"),
+    ("docs/assets.md",         "image_pairs",    r"sourced, (\d+) good/bad pairs"),
+    ("docs/assets.md",         "image_critical", r"good/bad pairs, (\d+) critical"),
 ]
 
 
@@ -128,15 +190,22 @@ def main():
                 missing.append(f"{path}: no match for {key} -- pattern '{pattern}' has rotted")
                 continue
             want = str(v[key])
-            for m in hits:
+            # REVERSE, and this is a fix rather than a style. `hits` is materialised once, so
+            # every span in it indexes the text as it was BEFORE any rewrite. Rewriting forwards
+            # shifts every later span by len(want) - len(got), and the next write lands off by
+            # that much: `**311 wanted, 11 sourced**` became `*17771 wanted, 11 sourced**` in
+            # STATE-OF-THE-PROJECT.md, where one pattern matched two lines. The old code carried
+            # the comment `# offsets moved` and then recompiled the regex, which does nothing --
+            # the list was already built. A guard that names the problem and does not address it.
+            # Writing highest-offset-first leaves every remaining span valid.
+            for m in reversed(hits):
                 checked += 1
                 got = m.group(1)
                 if got != want:
                     stale.append(f"{path}: {key} says {got}, data says {want}")
                     if args.fix:
-                        s, e = m.span(1)
-                        text = text[:s] + want + text[e:]
-                        rx = re.compile(pattern, re.M)   # offsets moved
+                        a_, b_ = m.span(1)
+                        text = text[:a_] + want + text[b_:]
         if args.fix:
             open(full, "w").write(text)
 
