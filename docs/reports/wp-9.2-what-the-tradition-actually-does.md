@@ -39,7 +39,16 @@ carry a `proportion` floor above 1.0; `structural_logic` has zero readers in `bu
 `rooms/`, `groupings/`, `partis/` or `docs/`; the passage width is stated with four different
 floors across four files and `faults/passage-that-is-a-corridor.json` contradicts itself inside one
 record; `georgian-service-core` and `dependency-and-hyphen` carry two hard ridge rules for one
-volume under two names, and two partis carry both groupings. **Mount Vernon's room dimensions I
+volume under two names, and two partis carry both groupings; and **§4b A2 holds** — the
+`storey_height * 0.78 * 2.25` chain is authored in `proportions/systems/room-vernacular.json` and
+no massing reads it. Its one reader, `check_rooms.py:251`, uses the head factor to check a room's
+own daylight depth, never to cap the pile.
+
+**A trap found while checking A2, and it is this repository's favourite shape.** Grepping `0.78`
+to find that chain also hits `build/geometry.py:495`, where `0.78` is the upper clamp on a
+slicing fraction — an unrelated quantity that happens to share the literal. One number, two
+meanings, two files apart, in a codebase whose most-repeated wound is one rule spelled twice.
+Anyone building the storey→head→depth chain should not assume that hit is part of it. **Mount Vernon's room dimensions I
 read on the Mount Vernon Ladies' Association's own page** — Front Parlor 16'9" × 16'6" = 1.015,
 Dining Room 15' × 17' = 1.133 — because they are the measurement the largest finding rests on.
 
