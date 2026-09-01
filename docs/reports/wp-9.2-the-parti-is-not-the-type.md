@@ -70,22 +70,33 @@ All three are in HABS. All three are quoted here verbatim from the written data.
 |---|---|---|---|---|---|---|
 | Drayton Hall, 1738–42 | SC-377 | `sc0132` | 70'-5" × 52'-2" excl. portico | 7 | 10.06 | 3,674 sf |
 | Gunston Hall, 1755–59 | VA-141 | `va0433` | 60'-10" × 40'-11½" | 5 | 12.17 | 2,492 sf |
-| Hammond-Harwood, 1774–77 | MD-251 | `md0035` | approx. 44' × 42' | 5 | 8.80 | 1,848 sf |
+| Hammond-Harwood, 1774–77 | MD-251 | `md0035` | approx. 44' × 42' | 5 | 8.4–8.8 | ~1,848 sf |
 
 > Drayton Hall: "Rectangular, with projecting portico on the southwest (land) facade; 70'-5" x
 > 52'-2", excluding portico; 7-bay front; 2 stories plus raised basement."
 
 > Gunston Hall: "The mansion is a rectangle of [4]0 feet 11-1/2 inches by 60 feet 10 inches,
-> exterior foundation measurements." (The OCR renders the leading 4 as `h`.) Its front is five
-> bays: "There are four large windows on each of the north and south facades, with a pair of
-> smaller windows flanking the main doors" — two large each side of a tripartite centre — and
-> "The north and south facades have five dormer windows each."
+> exterior foundation measurements." (The OCR renders the leading 4 as `h`.) On the fenestration:
+> "There are four large windows on each of the north and south facades, with a pair of smaller
+> windows flanking the main doors", and "The north and south facades have five dormer windows
+> each."
+
+**The five-bay count is MY inference and the survey does not state it.** Two large windows each
+side of a centre carrying the door and its flanking pair reads as five bays, and the five dormers
+on each of the same two facades corroborate it. That is a reading of the fenestration, not a
+quotation, and it is marked here because a bay count is what the ft/bay column divides by.
 
 > Hammond-Harwood: "The two-story main block is approximately 44x42', the end wings are about
 > 34' x l8, and the connecting links are 18 long." / "Central portion five bays wide."
 
-Observed bay module: **8.8, 10.06, 12.17 ft.** The parti declares `bay_module_ft: 9` — inside the
-observed range, at its low end. That is defensible and is not the problem.
+Observed bay module: **~8.4–8.8, 10.06, 12.17 ft.** The parti declares `bay_module_ft: 9` —
+inside the observed range, at its low end. That is defensible and is not the problem.
+
+**Hammond-Harwood's figure is the soft one and is given as a range on purpose.** Its source says
+"approximately 44x42'" and does not say which dimension is the front, so 44/5 = 8.8 and 42/5 = 8.4
+are both available. An earlier version of this table printed **8.80** — two decimals derived from
+an approximation and an unstated assumption. The conclusion about the parti's 9 ft holds either
+way, which is the only reason the row is still here.
 
 **Two more of the exemplars WP-9.2 was told to gather, and both say the same thing as the first
 three.**
@@ -100,10 +111,11 @@ three.**
 > rooms toward east; smaller rooms toward west** … **The house has balancing wings**." Its kitchen
 > is a separate HABS record, VA-402-A, "Westover, Kitchen Building".
 
-Five houses, and **all five put their service outside the main block** — a detached kitchen
-(Gunston Hall, Westover), a raised basement (Drayton Hall), or flanking dependencies on hyphens
-(Hammond-Harwood, Mount Airy). Not one of them holds a kitchen, a pantry and a breakfast room in
-the same rectangle as the drawing room.
+Five houses, and **not one of them holds a kitchen, a pantry and a breakfast room in the same
+rectangle as the drawing room** — a detached kitchen (Gunston Hall, Westover), a raised basement
+(Drayton Hall), or flanking dependencies on hyphens (Hammond-Harwood, Mount Airy). An earlier
+version of this sentence said all five put their service "outside the main block", which its own
+next clause contradicts: a raised basement is under the main block, not outside it.
 
 **And Westover states a compositional rule the corpus does not have: a symmetrical facade over a
 deliberately asymmetrical plan.** Seven regular bays, a centred front door with a stone pedimented
@@ -126,9 +138,17 @@ What is wrong is how many pieces it is cut into.
 
 | | Gunston Hall | the generated plan |
 |---|---|---|
-| Gross ground floor | 2,492 sf | 2,400 sf |
+| Footprint | 60'-10" × 40'-11½" = 2,492 sf *(exterior foundation)* | 60.0 × 40.0 = 2,400 sf *(clear)* |
+| Clear area inside the walls | **2,100–2,195 sf** (walls "about two feet thick") | **2,341 sf** (the placed rectangles sum to 97.6% of the footprint) |
 | Enclosed ground spaces | **6** | **12** |
-| Mean space | 415 sf | 200 sf |
+| Mean clear space | **350–366 sf** | **~195 sf** |
+
+**The two bases are not the same and the table now says which is which.** Gunston Hall's 2,492 sf
+is an *exterior foundation* measurement — the survey says so, and says the walls are about two feet
+thick — while the corpus's placement carries no wall thickness at all: its thirteen ground
+rectangles sum to 2,341 sf of a 2,400 sf footprint. An earlier version of this table divided 2,492
+by 6 and printed a mean of 415 sf against the generated 200, a ratio of 2.08. **Compared clear to
+clear the ratio is about 1.8**, which is the honest figure and still the finding.
 
 Gunston Hall's first floor, from the survey: a central passage, a narrow side passage, and four
 rooms — the Palladian Room, the Chinese Room (northwest Chamber), the Chamber and the Little
@@ -308,15 +328,70 @@ against a wing built at 0.85, and the two disagree.
 This is OQ 48's shape one layer out: *two records meaning the same quantity under different names
 is a silent corruption, and the fix is a named dimension.* But `check_addresses.py` polices
 pack-versus-pack and kit-versus-pack, and **it does not see groupings at all** — there is no
-equivalent check for the grouping layer, and this is the first instance found in it.
+equivalent check for the grouping layer.
+
+### An earlier version of this section called that "the first instance found in it". It is not.
+
+That sentence was written after finding one instance and not looking for a second, which is the
+exact failure WP-8.6 is about. Extending the method — every grouping's `internal_rules` test
+against the room record that states the same quantity — found **three more inside twenty minutes**.
+All three are PRE-EXISTING corpus defects that this method merely exposes; none was introduced
+here. This is now `oq/a-grouping-rule-and-a-room-record-can-disagree`.
+
+**Piazza — a hard grouping rule contradicts the room record AND the evidence that record cites.**
+`groupings/piazza-and-single-house-core.json` carries `piazza_depth_ft at-least 10`, **hard**.
+`rooms/piazza.json` bands `width_ft [8, 14]` and its `critical_dimension` opens *"DEPTH, AND 8 FT
+IS THE FLOOR BECAUSE THE PIAZZA IS A DINING ROOM"*, citing *"the measured Charleston piazzas run 8
+to 12 ft for exactly this reason"*. **A 9 ft piazza sits inside the room's band and inside the
+measured range the record cites, and fails a hard grouping rule.** Sharper than the passage case,
+because here the room record is the one citing measurement.
+
+**Bedroom — three numbers, on the corpus's widest-reaching grouping.**
+`groupings/secondary-bedroom-cluster.json` carries `bedroom_short_dimension_ft at-least 10`,
+**hard**, and is carried by **14 partis, more than any other grouping**. `rooms/bedroom.json`
+bands `width_ft [11, 14]`. The same record's prose gives a third: *"60 + 24 + 24 = 108 in, a 9 ft
+0 in clear width, and that is the ABSOLUTE floor"*. **Nine, ten and eleven.** A bedroom drawn at
+10.5 ft passes the hard rule and fails its own band.
+
+**Sleeping porch — an unconditional rule against a conditional record.**
+`groupings/sleeping-porch-cluster.json` carries `porch_depth_ft at-least 8`, **hard**;
+`rooms/sleeping-porch.json` says *"NINE FEET OF DEPTH IF THE BED RUNS ACROSS, seven if it runs
+along"*. The record's floor is conditional on something the grouping's unconditional test cannot
+express — the same shape as `passage-that-is-a-corridor`'s own note contradicting its own test,
+and **the first concrete customer for the register ruling** (`oq/register-is-not-style`): a
+conditional floor needs an axis to be conditional on.
+
+Two more were looked at and are NOT claimed as instances, because the quantities may genuinely
+differ: `contemporary-service-core`'s `mudroom_clear_width_ft at-least 5` against
+`rooms/mudroom.json`'s `width_ft [6, 10]` (clear versus nominal width), and `primary-suite`'s
+`bed_wall_clear_ft at-least 12` against `primary-bedroom`'s "THIRTEEN FEET SIX" (a wall run is not
+a room width). And one duplication with no disagreement *yet*: `dependency-and-hyphen` and
+`garage-and-hyphen` carry both the ridge rule and `hyphen_length_ft between 12 and 20`
+identically, and `five-part-palladian` carries both groupings — one rule spelled twice, agreeing
+today, with nothing holding the spellings together.
 
 ## 7. The module is a nudge, not a generator
 
 `geometry.snap(v, module, tol)` returns the raw `v` unless the nearest bay line falls within `tol`,
-and `tol = bay * 0.28` (`geometry.py:1113`) — 2.8 ft on a 10 ft module. The function's own
-docstring already records the consequence, measured: *"18 of 30 ground wall lines on the shipped
-plans are themselves off the bay grid."* Sixty per cent of the wall lines miss the module the
-diagram declares.
+and `tol = bay * 0.28` (`geometry.py:1113`) — 2.8 ft on a 10 ft module.
+
+The function's own docstring states the consequence: *"18 of 30 ground wall lines on the shipped
+plans are themselves off the bay grid."* **That figure does not reproduce on the current tree, and
+this report originally quoted it as a measurement and derived "sixty per cent" from it without
+re-deriving either.** Re-run with the functions that actually compute it —
+`structure.wall_lines()` then `structure.bearing_lines()`, ground level, both shipped plans:
+
+| reading | off the grid | of |
+|---|---|---|
+| interior wall segments | 35 | 45 |
+| **distinct interior wall lines** | **19** | **23** |
+| the docstring | 18 | 30 |
+
+The numerator is close under the distinct-lines reading; **no reading tried here produces a
+denominator of 30.** So the docstring's figure is stale — a pre-existing defect, and one nothing
+was going to catch, because `check_counts.py` polices numbers in documentation and not in source
+comments. The share of interior wall lines that miss the module is about **83%**, not 60%: the
+claim was understated, which is the direction that flatters the placement.
 
 This is the difference between the corpus's process and the tradition's, stated at the smallest
 scale. Set against Glassie's account of Middle Virginia folk building, where the builder starts

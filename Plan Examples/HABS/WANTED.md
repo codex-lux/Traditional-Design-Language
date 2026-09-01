@@ -24,6 +24,15 @@ this project and the reason is in that script's docstring. When you are on the i
 "Rights Advisory" line as it stands and drop it in with the images; I could not read it from here,
 because `loc.gov/pictures` refuses extraction while `tile.loc.gov` allows it.
 
+**And know what that line is worth before you rely on it.** It is collection-level boilerplate —
+*"No known restrictions on images made by the U.S. Government; images copied from other sources
+may be restricted"* — and `harvest_habs.py`'s docstring records that it is **byte-identical on a
+government photograph and on a HABS photograph OF a third party's 1897 drawing held by the Free
+Library of Philadelphia**. So copying it is necessary and settles nothing: it is evidence to
+record, not clearance to publish. A measured drawing delineated for HABS by a named architect is
+the ordinary case and is generally fine; a sheet the survey photographed from someone else's
+drawing is not, and the rights line will read the same on both.
+
 ---
 
 ## The six buildings
@@ -35,7 +44,7 @@ because `loc.gov/pictures` refuses extraction while `tile.loc.gov` allows it.
 | **Hammond-Harwood House**, 1774–77 | MD-251 | `md0035` | `loc.gov/pictures/item/md0035` | — |
 | **Mount Airy**, c. 1758 | VA-72 | `va0892` | `loc.gov/pictures/item/va0892` | — |
 | **Westover**, c. 1726 | VA-402 | `va0315` | `loc.gov/pictures/item/va0315` | — |
-| **Shirley** | — | `va0313` | `loc.gov/pictures/item/va0313` | — |
+| **Shirley** | VA-388 | `va0313` | `loc.gov/pictures/item/va0313` | — |
 
 The gallery of sheets for any of them is
 `https://www.loc.gov/resource/hhh.<item>.sheet?st=gallery` — that page shows every sheet as a

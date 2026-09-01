@@ -543,6 +543,21 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   a 16 x 20 kitchen drawn 10 x 30 at the same area is a finding rather than a silence. What
   remains true, and is the reason this entry exists: the SEARCH still charges a flat 12 and
   still wins while paying it. The critic can now name what the search will still do.
+- **REGISTER IS A FIRST-CLASS AXIS, NOT STYLE — RULED BY LUCAS 1 SEP 2026, NOTHING BUILT.**
+  `oq/register-is-not-style`. His words: *"register is a first-class axis, not style."* Everything
+  after this sentence is CONSEQUENCE drawn from that ruling, not more of it. Folk and polite are
+  ONE type at two registers, not two styles, so
+  register may NOT be encoded by adding style nodes: `styles/` says what a building is made of and
+  looks like, register says how far up the social scale this instance sits. What follows -- the
+  passage's four contradictory floors, `dining-room`'s 12 ft against the Kerr it cites, the trim
+  grade and the service arrangement -- are CONSEQUENCES, not further rulings. **What is NOT ruled
+  and must be before anything is built**: where register lives (plan record, brief, or a
+  precondition vocabulary on the bands), how many values it takes and whether they are ordered,
+  whether it conditions a band or selects between bands, and what a record says when its register
+  is unknown (*unjudged is not passed* -- never quietly pick the permissive end). **The predictable
+  trap, stated in the entry**: a licence to condition a band is a licence to invent, because
+  "16 ft if polite, 12 ft if folk" makes two numbers where one was authored and only one has a
+  source.
 - **THE MODEL IS A GOOD CHECKER AND A BAD GENERATOR, AND THE STUDY SAYS WHY (WP-9.2, second
   report).** `docs/reports/wp-9.2-what-the-tradition-actually-does.md` is the study Lucas asked
   for before any more generator code -- five research passes over the treatises and the measured
@@ -552,7 +567,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   band carries no direction of causation."** Four bands over two free variables is
   under-determined and a thousand rectangles satisfy it -- **area was satisfiable at any shape, so
   area is what the generator satisfied.** The tradition never had that freedom because it never
-  chose two numbers at once: five independent sources describe a SEQUENCE OF COMMITMENTS
+  chose two numbers at once: four period sources (Glassie, Ware, Palladio-and-Scamozzi, Kerr) and
+  the corpus's own four-caps reasoning -- which is NOT independent of the corpus -- describe a
+  SEQUENCE OF COMMITMENTS
   (establishment -> storey height -> breadth from span/hearth/daylight -> pile -> hall and stair
   -> length from each room's own arithmetic -> doors -> **facade as a RESULT** -> bands as the
   TEST, never the input). **Read §6 "what must not be coded yet" before building anything from
@@ -610,6 +627,25 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   number — against-wall runs summed against the room perimeter flag nothing (the kitchen's five
   appliances are 12.75 ft against an 80 ft perimeter) because perimeter is not available wall; a
   real one needs the placed openings. `docs/reports/wp-9.2-the-parti-is-not-the-type.md` §8.
+- **A GROUPING RULE AND A ROOM RECORD CAN DISAGREE AND NOTHING CHECKS THE CLASS (WP-9.2 audit).**
+  `check_addresses.py` polices pack-vs-pack and kit-vs-pack at one address and **does not see
+  groupings at all**. FIVE instances, all pre-existing, found by hand:
+  the passage (four floors across four files, and `passage-that-is-a-corridor`'s own note
+  contradicting its own unconditional test); **the piazza**, where `piazza-and-single-house-core`
+  demands `piazza_depth_ft at-least 10` HARD while `rooms/piazza.json` bands [8,14] and cites
+  *"the measured Charleston piazzas run 8 to 12 ft"* -- so a 9 ft piazza is inside the band, inside
+  the cited measurement, and fails a hard rule; **the bedroom**, where the grouping says at-least
+  10, the band floor is 11 and the record's own prose says the ABSOLUTE floor is 9 -- on
+  `secondary-bedroom-cluster`, which **14 partis carry, more than any other**; the sleeping porch,
+  where an unconditional at-least 8 meets a record whose floor is conditional ("NINE FEET IF THE
+  BED RUNS ACROSS, seven if it runs along"); and the ridge pair under two names.
+  `oq/a-grouping-rule-and-a-room-record-can-disagree`. **The WP-9.2 report originally called the
+  ridge pair "the first instance found in it" -- extending the method found three more in twenty
+  minutes**, which is WP-8.6's lesson applied to that report's own author.
+  **Do not reconcile any of them by picking the stricter or the looser number to make a checker
+  green**: three of the five have a source on one side only and it is not consistently the same
+  side, and at least one is a conditional floor with no axis to be conditional on, which is
+  `oq/register-is-not-style`'s first customer.
 - **THE PARTI IS NOT THE TYPE, AND NO SCORE TERM CAN FIX THAT (WP-9.2).**
   `centre-passage-double-pile` names eleven enclosed ground rooms and a porch; **its own three
   named exemplars have six enclosed spaces apiece** — Drayton Hall 70'-5" x 52'-2" (HABS SC-377),
@@ -991,8 +1027,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **115 entries, of which 42 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-parti-dissolved-its-own-dependencies, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **117 entries, of which 43 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-grouping-rule-and-a-room-record-can-disagree, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-parti-dissolved-its-own-dependencies, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
