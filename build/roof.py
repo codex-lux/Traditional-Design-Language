@@ -22,7 +22,7 @@ in as if it had always been the number.
       [--out plans/<id>.roof.json] [--svg dist/<id>-roof.svg]
 """
 from __future__ import annotations
-import json, os, math, re, argparse, importlib.util
+import json, os, math, re, sys, argparse, importlib.util
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def _mod(n, p):
@@ -87,8 +87,28 @@ def _parse_prose_between(statement, var_hint=None):
     {expression, direction, threshold, upper} object faults and style constraints use -- there
     is no schema for grouping-level tests in this corpus. Rather than hand-transcribe the two
     numbers a second time (structure.py's graduation_check() bug #3 was exactly that mistake),
-    pull them out of the sentence itself with a small, honest regex, so a future edit to the
-    grouping file's own wording is what this reads, not a copy of it made once and then stale."""
+    pull them out of the sentence itself, so a future edit to the grouping file's own wording is
+    what this reads, not a copy of it made once and then stale.
+
+    THE PARSER ITSELF MOVED TO build/arrangement.py (WP-9.1), which had to read all four forms
+    these rules use -- `between`, `at-least`, `at-most`, `equals` -- to evaluate the nineteen
+    hard grouping rules nothing had ever run. This one handled `between` alone. Two parsers for
+    one sentence form is the defect this codebase has been bitten by three times, so this
+    delegates and keeps its own (lo, hi) return shape for its callers. The local regex remains
+    only as the fallback for a tree where arrangement.py cannot be loaded."""
+    try:
+        b = os.path.join(ROOT, "build")
+        if b not in sys.path:
+            sys.path.insert(0, b)
+        import modcache as _mc
+        _arr = _mc.load("arrangement", os.path.join(ROOT, "build", "arrangement.py"))
+        p = _arr.parse_rule_test(statement)
+        if p and p.get("direction") == "between":
+            return float(p["threshold"]), float(p["upper"])
+        if p:
+            return None
+    except Exception:
+        pass
     m = re.search(r"between\s+([\d.]+)\s+and\s+([\d.]+)", statement or "")
     if not m: return None
     return float(m.group(1)), float(m.group(2))

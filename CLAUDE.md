@@ -167,7 +167,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **42 checks, 1,251 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,286 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -182,8 +182,8 @@ libraries and fastapi absent, exactly three checks are unjudged there (`export_d
 plus the three appended suites -- so the PASS count the corpus job prints is
 `TOTAL - 3 = len(CHECKS)`, ARITHMETICALLY, every time. It read "32 of 35 checks passed" on
 27 Aug against a `len(CHECKS)` of 32, read "34 of 37 checks passed" earlier on 28 Aug against a
-`len(CHECKS)` of 34, and reads "39 of 42 checks passed" after WP-4.4's asset checker against a
-`len(CHECKS)` of 39.
+`len(CHECKS)` of 34, and reads "40 of 43 checks passed" after WP-9.1's arrangement selftest against a
+`len(CHECKS)` of 40.
 An earlier version of this sentence called that a coincidence, which told the next reader it
 probably would not happen to them; it happens at every check ever added. **Read the SECOND
 number.** `check_all.TOTAL_CHECKS` and
@@ -533,8 +533,16 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   and `build/geometry_cp.py` proves; every caller defaults to the search. The search will place a
   room below the floor of its own band and say nothing — the spec Colonial's dining room comes
   out 26% short on every seed — because `level_score` charges a flat 12 points and a candidate
-  can win while paying it. The plan record still reads 12 x 12 and `plan_check.py` never reads
-  `room.geometry`, so no layer of the critic sees it. That is OQ 54, unruled.
+  can win while paying it. **The last two sentences of this entry used to read "the plan record
+  still reads 12 x 12 and `plan_check.py` never reads `room.geometry`, so no layer of the critic
+  sees it. That is OQ 54, unruled." Every clause of that was false**: OQ 54 was ruled twice, the
+  second time on 26 Aug when Lucas reversed the first, and the `drawn` layer described eight
+  lines above this one has read `room.geometry` since WP-6.2. The entry contradicted its own
+  neighbour for three phases. **The critic now sees the SHAPE too (WP-9.1)** — the drawn layer
+  holds each placed rectangle against its room's own `width_ft` floor and `proportion` band, so
+  a 16 x 20 kitchen drawn 10 x 30 at the same area is a finding rather than a silence. What
+  remains true, and is the reason this entry exists: the SEARCH still charges a flat 12 and
+  still wins while paying it. The critic can now name what the search will still do.
 - **A plan's `exterior_walls` are aspirations, not rectangle edges.** Three Tidewater ground
   rooms each declare *opposite* walls, so each would have to span the full depth of the house.
   They are weights, at the 14 points `exterior_score` charges. Do not promote them to
@@ -885,8 +893,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **110 entries, of which 37 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **111 entries, of which 38 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

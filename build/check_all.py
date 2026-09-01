@@ -61,6 +61,12 @@ CHECKS = [
     # room schema, and the opening grammar is a different document in a different directory
     # for exactly that reason.
     ("check_openings.py", []),
+    # WP-9.1. The arrangement layer's own selftest: that every derivation still moves when
+    # the house it measures changes (a check that cannot fail is worse than none), that no
+    # name in NOT_DERIVABLE reaches the returned measurements, and that every route in the
+    # editorial route model still quotes a record that exists -- verified by calling
+    # check_openings.check_basis rather than a copy of it.
+    ("arrangement.py", ["selftest"]),
     ("check_windows.py", []),
     ("check_partis.py", []),
     ("check_counts.py", []),

@@ -1376,6 +1376,30 @@ def repair(plan, rounds=6):
                 if r.get("width_ft", 0) < lo:
                     r["width_ft"] = lo
                     log.append(f"Widened {r.get('name') or rid} to the {lo} ft floor for its room type."); moved = True
+            elif f["layer"] == "style" and f.get("rule") == "circulation_parti" and "ft wide" in f["statement"]:
+                # THE PASSAGE FLOOR THE STYLE STATES, WHICH THE CATALOGUE'S DOES NOT COVER
+                # (WP-9.1). The branch above widens a room to `rooms/<type>.json`'s own
+                # `width_ft` floor, and for a centre passage that floor is 6 ft -- correct for
+                # the northern vernacular passage the record describes, and 4 ft short of what
+                # tidewater-georgian's own kit asks for. This brief was composing a 7.9 ft
+                # passage and being convicted of `passage-that-is-a-corridor` (fatal for a
+                # formal centre-passage style), which disqualified all three NATIVE partis and
+                # handed a Tidewater Georgian brief to a side-hall townhouse -- WP-4.5's
+                # deleted sentence walking back in. Nothing had ever supplied
+                # `passage_clear_width_ft`, so the fault could not fire and the defect was
+                # three phases old.
+                #
+                # The figure is parsed from the finding rather than re-derived here, the same
+                # way the furniture branch above reads its own: the style layer resolved the
+                # cascade and this must not resolve it a second time and disagree.
+                try:
+                    need = float(f["statement"].split(" own kit states a passage of ")[1].split("-")[0])
+                except Exception:
+                    continue
+                if 0 < r.get("width_ft", 0) < need:
+                    log.append(f"Widened {r.get('name') or rid} from {r['width_ft']} to {need:g} ft — "
+                               f"the floor this style's own kit states, not the catalogue's vernacular one.")
+                    r["width_ft"] = need; moved = True
         if not moved: break
         cand = PC.check(plan, C)
         if score(cand) < score(best): best = cand
