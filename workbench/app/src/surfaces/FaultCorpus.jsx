@@ -174,12 +174,20 @@ export function FaultCorpus({ onCite, selection, setSelection }) {
                   onSlot={(s) => onCite && onCite('slot:' + s)} />
               </div>
               <div style={{ flex: '0 1 268px', minWidth: 240 }}>
-                <Eyebrow style={{ marginBottom: 9 }}>evidence · specified, not yet sourced</Eyebrow>
+                {/* The eyebrow and the empty-state used to be written as facts about the whole
+                    corpus, hardcoded: "specified, not yet sourced" and "the corpus holds 322
+                    specified records and none has a photograph". Both were shown to the reader
+                    and both went stale the day anything was sourced -- 1,850 records and 73
+                    files later they were still saying it. Neither states a corpus-wide number
+                    now; the eyebrow describes THESE records and the empty state describes this
+                    fault. */}
+                <Eyebrow style={{ marginBottom: 9 }}>
+                  {assets.some((a) => a.file) ? 'evidence' : 'evidence · specified, not yet sourced'}
+                </Eyebrow>
                 {assets.length === 0 && (
                   <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-4)', margin: 0 }}>
-                    No image records are filed against this fault yet. The corpus holds 322
-                    specified records and none has a photograph — the record is the object
-                    until one does.
+                    No image records are filed against this fault yet — the record is the
+                    object until one is.
                   </p>
                 )}
                 {assets.map((a, i) => (

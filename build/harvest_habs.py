@@ -75,17 +75,26 @@ import random
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, "assets", "manifest.json")
 
+sys.path.insert(0, os.path.join(ROOT, "build"))
+import manifest_io  # noqa: E402  -- the one atomic writer for this file
+
 # The loc.gov JSON API. `fo=json` is the documented way to ask any collection page for JSON;
 # `c` is the page size. HABS/HAER/HALS live in the `hh` collection under /pictures/.
 BASE = "https://www.loc.gov/pictures/collection/hh/"
-USER_AGENT = ("Traditional-Design-Language/0.6 (corpus research; contact via the repository) "
-              "python-urllib")
+# The Library blocks by User-Agent, and "contact via the repository" is not a contact when the
+# repository is private. HARVEST_CONTACT must be set to a reachable address before a live run;
+# main() refuses --live without it rather than presenting an unreachable string to an operator
+# who may need to reach us.
+CONTACT = os.environ.get("HARVEST_CONTACT", "")
+USER_AGENT = ("Traditional-Design-Language/0.6 (corpus research; %s) python-urllib"
+              % (CONTACT or "NO CONTACT SET"))
 
 # 20 requests per minute is the Library's documented ceiling for the JSON API, and it blocks for
 # an hour above it. 3.5s is 17/min, with jitter so a retry storm cannot phase-lock onto it.
@@ -104,6 +113,34 @@ def pause():
     time.sleep(PAUSE_S + random.uniform(0, JITTER_S))
 
 
+# The largest legitimate response here is a 25-item search page; 8 MB is four orders of
+# magnitude of headroom and still bounded. `r.read()` with no argument is not: `timeout` bounds
+# per-socket inactivity, not total transfer, so a slow-drip or hostile body streams until the
+# process dies. This runs on a one-core container with no swap, and `json.loads` would then
+# double whatever was read.
+MAX_BODY = 8 * 1024 * 1024
+
+
+class _ConfinedRedirects(urllib.request.HTTPRedirectHandler):
+    """Follow a redirect only while it stays on the host we asked for.
+
+    urllib follows up to ten hops to any host by default. The base URL is a constant here, so
+    this needs loc.gov or an intervening proxy to redirect — but the script runs with the
+    operator's network position, and "the destination is whatever the remote says" is a
+    server-side request forgery primitive whichever way it is reached."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if urllib.parse.urlsplit(newurl).hostname != urllib.parse.urlsplit(req.full_url).hostname:
+            raise urllib.error.HTTPError(
+                req.full_url, code,
+                "refusing a redirect off %s to %s" % (
+                    urllib.parse.urlsplit(req.full_url).hostname, newurl), headers, fp)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_OPENER = urllib.request.build_opener(_ConfinedRedirects)
+
+
 def fetch(url, timeout=30):
     """Fetch and parse, refusing anything that is not actually JSON.
 
@@ -112,9 +149,11 @@ def fetch(url, timeout=30):
     is trusted."""
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT,
                                                "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
+    with _OPENER.open(req, timeout=timeout) as r:
         ctype = (r.headers.get("Content-Type") or "").lower()
-        body = r.read()
+        body = r.read(MAX_BODY + 1)
+        if len(body) > MAX_BODY:
+            raise ValueError("response exceeds %d bytes; refusing to buffer it" % MAX_BODY)
     head = body[:512].lstrip().lower()
     if head.startswith(b"<!doctype html") or head.startswith(b"<html"):
         raise ValueError("served HTML, not JSON — a CAPTCHA or throttle page behind a 200")
@@ -256,7 +295,15 @@ def provenance_from(item):
 
     No `license`. That is a conclusion and this is a machine; see the module docstring."""
     out = {"source": "Historic American Buildings Survey, Library of Congress"}
-    for key, field in (("building", "title"), ("date", "date"), ("author", "creator")):
+    # `building` IS NOT WRITTEN. It used to map from the response's `title`, and `--write` merges
+    # this over the record -- so the first live run would have replaced all 786 curated names
+    # ("Westover") with LoC titles ("Westover, State Route 5, Charles City, Charles City County,
+    # VA"), while `location` stayed as it was. `query_for` concatenates both, so the NEXT run's
+    # query would have been worse than the first, and `gen_assets` carries provenance forward, so
+    # it would have been permanent. The curated name is what this script searches ON; overwriting
+    # it with what it found is the class 32b7c9e exists to stop, one file over. The response's
+    # title goes to `found_title` instead, where a reviewer can compare the two.
+    for key, field in (("found_title", "title"), ("date", "date"), ("author", "creator")):
         v = item.get(field)
         if isinstance(v, list):
             v = v[0] if v else None
@@ -295,6 +342,11 @@ def main():
     ap.add_argument("--kind", default=None,
                     help="only records of this kind, e.g. measured-drawing")
     a = ap.parse_args()
+    if not a.dry_run and not CONTACT:
+        print("Refusing --live with no HARVEST_CONTACT set. The Library rate-limits and blocks "
+              "by User-Agent, and this one would name a private repository as its contact. "
+              "Set HARVEST_CONTACT to an address somebody actually reads.")
+        return 5
     if a.write and a.dry_run:
         print("--write requires --live: refusing to write provenance nothing fetched.")
         return 2
@@ -335,6 +387,7 @@ def main():
         print("\nDRY RUN — no network, no writes. One request per building:\n")
 
     found = skipped = failed = enriched = 0
+    consecutive_failures = 0
     for q in order:
         members = groups[q]
         url = search_url(q)
@@ -347,9 +400,19 @@ def main():
             payload = fetch(url)
         except Exception as e:                       # network, HTTP, JSON, CAPTCHA — all one here
             failed += 1
+            consecutive_failures += 1
             print("  FAIL  %s — %s" % (q, e))
+            # Fix 1 of this file is about not earning an hour-long block. Once blocked, the old
+            # loop spent the remaining twelve minutes proving it, one 3.5 s pause at a time, and
+            # then exited 0 with a tally. Three in a row is a wall, not a coincidence.
+            if consecutive_failures >= 3:
+                print("\n  STOP  three consecutive failures. This is a wall (a block, a CAPTCHA "
+                      "or an outage), not a run with some bad records in it. %d building(s) were "
+                      "not attempted. Nothing was written." % (len(order) - order.index(q) - 1))
+                return 4
             pause()
             continue
+        consecutive_failures = 0
         item, why = best_result(payload)
         if item is None:
             skipped += 1
@@ -377,16 +440,20 @@ def main():
 
     print("\nbuildings: found %d, refused %d, failed %d — records enriched %d"
           % (found, skipped, failed, enriched))
+    # AND THE EXIT CODE SAYS SO. This file's own docstring names "counted every subsequent record
+    # as a FAIL, and then RETURNED 0" as a defect it fixed, and only the rate limit had actually
+    # changed: a run where every request failed still exited 0, which is the harvester reporting
+    # success while fetching nothing. Any failure is a non-zero exit now; the three-in-a-row
+    # circuit breaker above is the separate case of stopping early.
     if a.write and enriched:
         doc["counts"]["by_status"] = {}
         for x in doc["assets"]:
             doc["counts"]["by_status"][x["status"]] = doc["counts"]["by_status"].get(x["status"], 0) + 1
         # indent=2 matches gen_assets.py. Writing indent=1 here reformatted all 601 KB on every
         # run, so the real change drowned in a whole-file diff.
-        json.dump(doc, open(ASSETS, "w"), indent=2, ensure_ascii=False)
-        open(ASSETS, "a").write("\n")
+        manifest_io.write_manifest(doc, ASSETS)
         print("wrote %s" % os.path.relpath(ASSETS, ROOT))
-    return 0
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

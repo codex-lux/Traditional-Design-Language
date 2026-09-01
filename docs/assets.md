@@ -56,13 +56,13 @@ a person has recorded a licence.
 **Share-alike is refused for now** (`oq/a-share-alike-photograph-has-no-home-in-the-asset-schema`).
 This corpus derives from its images by design — it traces, measures and redraws them — so accepting
 BY-SA commits the derivatives, and the schema carries no licence version and nothing that passes
-the obligation forward. That leaves the ten English and Irish records with no source: HABS is a
+the obligation forward. That leaves 125 of the 305 distinct queries -- English, Irish, Scottish and continental -- with no source: HABS is a
 United States survey **by charter**, which `harvest_habs.py` now says in the refusal itself rather
 than reporting "no result holds a photograph", which is true and names the wrong cause.
 
 For incorrect examples the supply problem is inverted: they are in every subdivision, and the
 constraint is permission rather than availability. **No archive indexes wrongness**, so the
-150 `role: incorrect` records cannot be harvested from any archive at any point — they are drawn,
+858 `role: incorrect` records cannot be harvested from any archive at any point — they are drawn,
 or they are photographed to order.
 
 ## Generated diagrams

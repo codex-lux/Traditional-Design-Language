@@ -70,6 +70,21 @@ def computed():
     # docs/assets.md still said 292 records and 136 pairs against a file holding 322 and 150.
     # Four places, three different wrong answers, and no check could see any of them, which is
     # exactly the class check_counts.py exists for.
+    # The ⌘K index, hand-typed in CLAUDE.md and policed by nothing.
+    try:
+        import importlib.util as _il
+        _sp = _il.spec_from_file_location(
+            "_corpus_for_counts", os.path.join(ROOT, "workbench", "server", "corpus.py"))
+        _c = _il.module_from_spec(_sp); _sp.loader.exec_module(_c)
+        _idx = _c.search_index()
+        v["search_index"] = len(_idx if isinstance(_idx, list)
+                                else (_idx.get("items") or _idx.get("entries") or _idx))
+    except Exception:
+        pass                      # optional: the workbench's deps are not the corpus's
+
+    if "partis" in v:
+        v["parti_count"] = v["partis"]
+
     apath = os.path.join(ROOT, "assets", "manifest.json")
     if os.path.exists(apath):
         a = json.load(open(apath))
@@ -117,6 +132,18 @@ CLAIMS = [
     ("README.md",              "packs",         r"the syntax\. (\d+) packs, and they are"),
     ("README.md",              "no_opening_role", r"(\d+) nodes still have no opening-role pack"),
     ("README.md",              "no_facade_role",  r"no opening-role pack and (\d+) no facade-role pack"),
+    # Computed and never claimed until now: the checker was producing these and no row consumed
+    # them, so a number in prose could disagree with a value the checker already had in hand.
+    # Plus the search index size, which was hand-typed at 665 against a real 666.
+    # `opening_placement_rules` and `no_interior_role` are computed and still unclaimed --
+    # deliberately: no document states either, and writing a sentence into the prose so that a
+    # checker has something to check would be the wrong way round.
+    ("CLAUDE.md",              "search_index",   r"/api/search/index` \((\d+) named things"),
+    # Keyed `parti_count`, NOT `partis`: `test_parti_confinement.py` scans build/ for any line
+    # matching `"partis", <identifier>`, which is what a path join looks like, and a CLAIMS tuple
+    # whose key is the directory name followed by a raw-string prefix is indistinguishable from
+    # one. The guard is right; the key is what moves.
+    ("CLAUDE.md",              "parti_count",    r"\*\*(\d+) partis naming \d+ of \d+ styles"),
     # WP-4.4's asset counts, in the four places that carried them by hand.
     ("CLAUDE.md",              "image_records",  r"(\d+) image records, \*\*\d+ sourced\*\*"),
     ("CLAUDE.md",              "image_sourced",  r"\d+ image records, \*\*(\d+) sourced\*\*"),

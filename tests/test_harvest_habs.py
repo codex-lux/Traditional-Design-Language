@@ -124,12 +124,14 @@ def test_records_are_grouped_by_building_so_one_building_is_one_request():
     all 32 Hammond-Harwood records as though each had its own photograph."""
     queries = [H.query_for(x) for x in _wanted()]
     named = [q for q in queries if q]
-    assert len(named) == 845, len(named)
-    # 330 distinct queries over 327 distinct building names -- three names sit at two locations.
+    assert len(named) == 786, len(named)
+    # 305 distinct queries. Every one is a PHOTOGRAPH record: build/name_asset_buildings.py used
+    # to key on `role`, which gave a real building to 52 line-diagrams whose own alt_text says
+    # "there is nothing to photograph", and to 7 code-conflict drawings. It keys on `kind` now.
     # Before build/name_asset_buildings.py dealt each node's records round its own exemplars,
     # 161 records named ELEVEN buildings, and a perfect harvest would have returned eleven
     # photographs for 161 records. That is what the grouping and this number are both about.
-    assert len(set(named)) == 330, len(set(named))
+    assert len(set(named)) == 305, len(set(named))
 
 
 def test_the_guard_tests_the_right_condition():
@@ -172,7 +174,7 @@ def test_the_jurisdiction_test_is_an_allowlist_and_fails_in_the_cheap_direction(
 
 
 def test_the_manifest_is_mostly_not_searchable_here_and_says_so():
-    """188 of the 330 distinct queries are US buildings. The other 142 are named and skipped
+    """180 of the 305 distinct queries are US buildings. The other 125 are named and skipped
     with jurisdiction as the cause rather than searched and reported as empty."""
     a = [x for x in MANIFEST["assets"] if x.get("status") == "wanted"]
     q = {}
@@ -181,8 +183,8 @@ def test_the_manifest_is_mostly_not_searchable_here_and_says_so():
         if s_:
             q.setdefault(s_, (x.get("provenance") or {}).get("location"))
     outside = [k for k, loc in q.items() if H.outside_the_survey(loc)]
-    assert len(q) == 330, len(q)
-    assert len(outside) == 142, len(outside)
+    assert len(q) == 305, len(q)
+    assert len(outside) == 125, len(outside)
 
 
 # ------------------------------------------------------------ CAPTCHA served behind a 200
@@ -206,9 +208,30 @@ def test_nothing_is_marked_sourced_without_a_file():
     assert '"sourced"' not in code, "harvest_habs.py assigns status 'sourced' with no file"
 
 
-def test_the_manifest_is_written_at_the_indent_gen_assets_uses():
-    """indent=1 against gen_assets.py's indent=2 reformatted all 601 KB on every run."""
-    src = open(os.path.join(ROOT, "build", "harvest_habs.py")).read()
-    code = "\n".join(l for l in src.splitlines() if not l.strip().startswith("#"))
-    assert "indent=2" in code, "the manifest is not written at gen_assets.py's indent"
-    assert "indent=1" not in code
+def test_the_manifest_is_written_at_the_indent_the_committed_file_uses():
+    """`harvest_habs.py` wrote indent=1 against gen_assets.py's indent=2, so a --write
+    reformatted all 3.5 MB and the real change drowned in a whole-file diff.
+
+    ASSERTED ON THE BYTES, NOT ON THE SOURCE. The first version of this grepped the script for
+    the string "indent=2", which stopped meaning anything the moment the literal moved into
+    build/manifest_io.py -- the behaviour was unchanged and the test failed, which is the
+    give-away that it was pinning a spelling rather than a property. It now writes the real
+    manifest through the real writer into a tmpdir and compares the shape of the output against
+    the committed file."""
+    import shutil
+    import sys as _sys
+    _sys.path.insert(0, os.path.join(ROOT, "build"))
+    import manifest_io
+
+    committed = open(os.path.join(ROOT, "assets", "manifest.json")).read()
+    tmp = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets",
+                       "manifest.indenttest.json")
+    tmp = os.path.abspath(tmp)
+    try:
+        manifest_io.write_manifest(json.loads(committed), tmp)
+        written = open(tmp).read()
+    finally:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+    assert written == committed, \
+        "a rewrite through the shared writer would reformat the committed manifest"

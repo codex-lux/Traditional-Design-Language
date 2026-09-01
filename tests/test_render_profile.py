@@ -131,8 +131,17 @@ def test_the_plate_takes_the_drawings_shape():
 
 
 def test_the_member_count_agrees_with_the_records_own_caption():
-    """The captions were authored from the same packs, independently of this renderer. All
-    eleven agree, which is a cross-check nothing else in the corpus performs."""
+    """NOT AN INDEPENDENT CROSS-CHECK, and this docstring used to claim it was.
+
+    The caption is written by `gen_assets.py` from `pe.dimension(pe.resolve(pid))`, and `rep`
+    comes from the same call. An auditor made `dimension()` silently drop the top member of
+    every assembly -- a corpus-wide geometry regression -- and this went red; then re-ran
+    `gen_assets.py`, as anyone would before committing, and it went green with the regression
+    still there.
+
+    What it does catch is the caption and the plate drifting APART: a renderer that stops
+    reading the same assembly, or a manifest edited by hand. That is worth having and it is
+    all it is."""
     checked = 0
     for a, _, rep in _plates():
         m = re.search(r"(\d+) members", a.get("caption") or "")
@@ -154,26 +163,37 @@ def test_a_generated_record_is_never_kinded_photograph():
 
 def test_sourced_means_a_file_is_actually_present():
     """The schema defines `sourced` as 'file present, unreviewed'. The harvester used to set it
-    on records whose `file` stayed null."""
+    on records whose `file` stayed null.
+
+    COUNTED, because the loop body is skipped entirely when nothing is sourced -- and "nothing is
+    sourced" is exactly the state a gen_assets carry-forward regression produces. An auditor
+    nulled every `file` and reset every `status`, i.e. simulated the data loss this package
+    exists to prevent, and this test passed."""
+    checked = 0
     for a in MANIFEST["assets"]:
         if a.get("status") == "sourced":
+            checked += 1
             f = a.get("file")
             assert f and f.get("path"), "%s is `sourced` with no file" % a["id"]
             assert os.path.exists(os.path.join(ROOT, f["path"])), \
                 "%s names %s, which does not exist" % (a["id"], f["path"])
             assert f.get("sha256")
+    assert checked == 73, "expected 73 sourced records, found %d" % checked
 
 
 def test_the_generated_files_match_their_recorded_digest():
     """A record whose sha256 has drifted from its file is a record describing something else."""
     import hashlib
+    checked = 0
     for a in MANIFEST["assets"]:
         f = a.get("file")
         if not f or not f.get("sha256"):
             continue
+        checked += 1
         data = open(os.path.join(ROOT, f["path"]), "rb").read()
         assert hashlib.sha256(data).hexdigest() == f["sha256"], a["id"]
         assert len(data) == f["bytes"], a["id"]
+    assert checked == 73, "no file blocks to check; a carry-forward regression passes this"
 
 
 # ------------------------------------------------- the join that made the evidence rail work
@@ -205,9 +225,12 @@ def test_the_join_is_recorded_and_idempotent():
 
 def test_every_linked_fault_exists():
     ids = {f["id"] for f in FAULTS}
+    checked = 0
     for a in MANIFEST["assets"]:
         for fid in (a.get("depicts") or {}).get("faults") or []:
+            checked += 1
             assert fid in ids, "%s names fault %r, which does not exist" % (a["id"], fid)
+    assert checked == 322, "no links to check; dropping every link passes this"
 
 
 def test_the_evidence_rail_returns_something():
@@ -222,22 +245,33 @@ def test_the_evidence_rail_returns_something():
 
 # ------------------------------------- the generator must not destroy what it does not own
 
-def test_gen_assets_carries_forward_the_fields_it_does_not_own():
+def test_gen_assets_carries_forward_the_fields_it_does_not_own(tmp_path):
     """`build/gen_assets.py` rebuilds the manifest from scratch. It used to hardcode
     `license: unknown`, `file: None` and `status: wanted` on every record, so a run silently
     discarded WP-4.4's 161 building names, the eleven files, the statuses and the 209 fault
     links -- in a 601 KB diff that reads as a reformat, from a script in neither check_all.py
     nor the Makefile.
 
-    This runs the real generator against a copy of the real manifest and asserts the carried
-    fields survive. It restores the file whatever happens: a test that leaves the corpus
-    regenerated would do the very damage it is written to prevent.
+    This runs the real generator against the real manifest and asserts the carried fields
+    survive, restoring from a backup OUTSIDE the repository in a `finally`.
+
+    THE RESTORE IS NOT UNCONDITIONAL AND THIS DOCSTRING USED TO SAY IT WAS. `finally` runs for
+    exceptions and for KeyboardInterrupt; it does not run for SIGKILL, SIGTERM, or a
+    pytest-timeout thread kill. In those cases the tree keeps whatever the generator emitted --
+    normally byte-identical, since the generator carries everything forward, but not if the
+    generator itself had regressed. Two mitigations, both real: the manifest is written
+    atomically (build/manifest_io.py), so it can never be left a truncated prefix; and the
+    backup is outside the repo, so a killed run leaves nothing that `git add -A` would commit.
+    Running two of these concurrently is not safe, and nothing does.
     """
     import shutil
     import subprocess
 
+    # The backup lives OUTSIDE the repository. A sibling `.bak` survives a killed run and
+    # `git add -A` would commit it -- one was found untracked in the working tree during the
+    # audit of this very package.
     manifest_path = os.path.join(ROOT, "assets", "manifest.json")
-    backup = manifest_path + ".carrytest.bak"
+    backup = str(tmp_path / "manifest.carrytest.bak")
     shutil.copy(manifest_path, backup)
     try:
         before = {a["id"]: a for a in json.load(open(manifest_path))["assets"]}
@@ -255,7 +289,10 @@ def test_gen_assets_carries_forward_the_fields_it_does_not_own():
             assert after[i]["file"]["sha256"] == before[i]["file"]["sha256"], i
 
         named = [i for i, a in before.items() if (a.get("provenance") or {}).get("building")]
-        assert len(named) == 845, len(named)
+        # 786, not 845: build/name_asset_buildings.py keyed on `role`, which gave a real
+        # building to 52 line-diagrams whose own alt_text says there is nothing to photograph,
+        # and to 7 code-conflict drawings. It keys on `kind` now.
+        assert len(named) == 786, len(named)
         for i in named:
             assert (after[i].get("provenance") or {}).get("building"), \
                 "%s lost the building name WP-4.4 gave it" % i
@@ -265,10 +302,10 @@ def test_gen_assets_carries_forward_the_fields_it_does_not_own():
         for i in linked:
             assert (after[i].get("depicts") or {}).get("faults"), "%s lost its fault links" % i
     finally:
-        shutil.move(backup, manifest_path)
+        shutil.copy(backup, manifest_path)
 
 
-def test_the_committed_manifest_is_what_the_generator_emits():
+def test_the_committed_manifest_is_what_the_generator_emits(tmp_path):
     """This used to assert the OPPOSITE, and the inversion is the point.
 
     The committed file was a frozen snapshot from when the layer was authored -- 322 records over
@@ -286,17 +323,18 @@ def test_the_committed_manifest_is_what_the_generator_emits():
     import subprocess
 
     manifest_path = os.path.join(ROOT, "assets", "manifest.json")
-    backup = manifest_path + ".divergetest.bak"
+    backup = str(tmp_path / "manifest.divergetest.bak")
     shutil.copy(manifest_path, backup)
     try:
-        committed = {a["id"] for a in json.load(open(manifest_path))["assets"]}
+        committed_recs = {a["id"]: a for a in json.load(open(manifest_path))["assets"]}
         r = subprocess.run([sys.executable, "build/gen_assets.py"], cwd=ROOT,
                            capture_output=True, text=True)
         assert r.returncode == 0, r.stderr[-800:]
-        emitted = {a["id"] for a in json.load(open(manifest_path))["assets"]}
+        emitted_recs = {a["id"]: a for a in json.load(open(manifest_path))["assets"]}
     finally:
-        shutil.move(backup, manifest_path)
+        shutil.copy(backup, manifest_path)
 
+    committed, emitted = set(committed_recs), set(emitted_recs)
     missing = emitted - committed
     extra = committed - emitted
     assert not missing, "%d record(s) the generator emits are not committed: %s" % (
@@ -304,6 +342,21 @@ def test_the_committed_manifest_is_what_the_generator_emits():
     assert not extra, "%d committed record(s) the generator no longer emits: %s" % (
         len(extra), sorted(extra)[:5])
     assert len(committed) == 1850, len(committed)
+
+    # NOT JUST THE IDS. Comparing id sets alone let the generator mangle every caption, every
+    # alt_text and every shot_spec with the test green -- the same shape as the divergence this
+    # was written to prevent, one field over. The GENERATED fields are compared too; the carried
+    # ones (provenance, file, status, review_note, depicts.faults) are not, because they are not
+    # the generator's to produce.
+    gen_fields = ("kind", "role", "pair_with", "caption", "alt_text", "shot_spec", "priority",
+                  "tags", "generated_from")
+    drifted = []
+    for aid in sorted(committed & emitted):
+        for f in gen_fields:
+            if committed_recs[aid].get(f) != emitted_recs[aid].get(f):
+                drifted.append("%s.%s" % (aid, f))
+    assert not drifted, "%d generated field(s) differ from what the generator emits: %s" % (
+        len(drifted), drifted[:6])
 
 
 def test_the_manifest_covers_the_corpus_and_not_a_corner_of_it():
@@ -365,3 +418,71 @@ def test_every_plate_that_draws_inherited_members_says_so():
         else:
             assert "INHERITED:" not in svg, "%s claims inheritance it does not have" % a["id"]
     assert inherited == 34, inherited
+
+
+# ---------------------- the RECORD and the PLATE must not contradict each other
+
+def test_the_record_cites_the_same_authority_as_the_plate_it_points_at():
+    """THE INK WAS FIXED AND THE CATALOGUE WAS NOT, and that is the whole of this test.
+
+    When `states_assembly` was added, the SVG began disclosing that `palladio-tuscan`'s cornice
+    members are Vignola's. `assets/manifest.json` went on filing that same record under
+    `provenance.source: "Palladio, I Quattro Libri dell'Architettura, Venice 1570"` -- 34 of the
+    73 generated records, across the four works OQ 7 through OQ 11 are about, served through
+    `find_assets` to the MCP tool, the workbench API and the app.
+
+    Nothing compared them. `check_assets.py` read the plate; this test reads both. The record's
+    own alt_text closes "the drawing and the data cannot silently disagree", which is the claim
+    being enforced here rather than asserted."""
+    mismatches = []
+    for a in GENERATED:
+        g = a["generated_from"]
+        owner = RP.states_assembly(g["pack"], (g.get("parameters") or {}).get("assembly"))
+        src = (a.get("provenance") or {}).get("source") or ""
+        inherited = bool(owner and owner != g["pack"])
+        if inherited and "INHERITED" not in src:
+            mismatches.append("%s: plate says the members are %s's, record cites %r"
+                              % (a["id"], owner, src[:60]))
+        if not inherited and "INHERITED" in src:
+            mismatches.append("%s: record claims inheritance the plate does not" % a["id"])
+    assert not mismatches, "\n".join(mismatches)
+
+
+def test_the_two_overlay_walks_agree():
+    """`gen_assets.py::_states_assembly` and `render_profile.py::states_assembly` are the same
+    walk in two files, on purpose -- neither script may import the other, because they run at
+    different times and one must not need the other present. Two copies of one rule is this
+    repository's most-repeated defect (three spellings of the citation grammar, two of the sweep
+    flag, two of the door's required wall), so the pair is held against each other here."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "gen_assets_probe", os.path.join(ROOT, "build", "gen_assets.py"))
+    # gen_assets.py is a script with side effects; read its function out rather than exec it.
+    src = open(os.path.join(ROOT, "build", "gen_assets.py")).read()
+    assert "def _states_assembly(" in src, "gen_assets.py lost its overlay walk"
+
+    ns = {"pe": RP.PE}
+    start = src.index("def _states_assembly(")
+    end = src.index("def _assembly_source(")
+    exec(compile(src[start:end], "gen_assets_probe", "exec"), ns)
+    theirs = ns["_states_assembly"]
+
+    checked = 0
+    for a in GENERATED:
+        g = a["generated_from"]
+        asm = (g.get("parameters") or {}).get("assembly")
+        assert theirs(g["pack"], asm) == RP.states_assembly(g["pack"], asm), \
+            "the two overlay walks disagree on %s/%s" % (g["pack"], asm)
+        checked += 1
+    assert checked == 73, checked
+
+
+def test_the_carry_forward_is_an_allowlist():
+    """Written as a four-name list of fields to KEEP, which denies by default: the next
+    top-level field any tool adds would be destroyed on regeneration while the run printed
+    "carried forward N field(s)". Same shape as the country denylist fixed in harvest_habs.py
+    in the same commit."""
+    src = open(os.path.join(ROOT, "build", "gen_assets.py")).read()
+    code = "\n".join(l for l in src.splitlines() if not l.strip().startswith("#"))
+    assert "CARRIED_FIELDS" not in code, "the carry-forward is a denylist again"
+    assert "if k in GENERATED_FIELDS" in code, "the allowlist is not the thing being applied"

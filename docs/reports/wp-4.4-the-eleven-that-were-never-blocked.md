@@ -247,3 +247,125 @@ no way to tell those apart today. **And a record-level check could not have caug
 manifest, the packs and the engine were all correct. The false claim existed only in ink, which is
 this repository's own repeated lesson — 245 arcs drawn as their own mirror through 34 checks and
 970 tests, because every one of them interrogated the model and none asked where the ink went.
+
+---
+
+# The adversarial audit, 1 Sep 2026
+
+Four independent read-only auditors over the six commits: consumers and call chains, whether the
+new tests can fail, second-order risk, and second occurrences of each fixed pattern. They found
+things the work itself did not, and three of them blocked deployment.
+
+## Blocking
+
+**`/corpus/assets` served the whole corpus directory, unauthenticated.** The auth gate matches
+only `/api/` and `/mcp`, so `/api/assets` answered 401 while `/corpus/assets/manifest.json`
+answered 200 with **3.4 MB** — all 1,850 records with every provenance block, review note and
+hand-assigned building name, unprojected and unlimited. This module's own docstring said the
+ungated surface "carries no corpus data"; that sentence had become false in the same commit.
+
+It was also **33.5 ms of server CPU per request**, because 3.4 MB compresses inline on the event
+loop — `FileResponse` streams 64 KiB chunks and `GZipMiddleware` only offloads above 128 KiB,
+which is exactly what the `/assets` exemption exists for. **31.5 requests a second from one
+anonymous caller saturated the deployment's single core**, each shipping 286 KB.
+
+One fix closes all of it: mount `assets/generated`, which is the only directory the app ever asks
+for, so the URLs are unchanged. `/corpus/` joins the gzip exemption; the plates carry `nosniff`,
+a CSP sandbox and `no-cache, must-revalidate`. That last matters because the paths are stable
+across regenerations, so heuristic freshness would have kept a corrected moulding from a
+returning viewer. And it closes a door before it opened: `harvest_habs.py` exists to put
+downloaded archive material under `assets/`, and the wide mount would have made a remote file
+same-origin active content on this origin the day it landed.
+
+**The traversal test was green exactly when it was meaningless.** It asserted a status code for
+`/corpus/assets/../../CLAUDE.md`. httpx normalises dot-segments client-side, so the request never
+reached the mount — it passed where `workbench/app/dist` is absent (404 from nothing) and
+**failed where CI builds the app** (200 from the SPA). An auditor replaced the mount with a
+hand-rolled handler having no containment check at all — an unauthenticated arbitrary file read —
+and all four tests stayed green. It asserts on the bytes now, against the real mount prefix, and
+declares which regime it is running in.
+
+**Five scripts wrote a 3.5 MB manifest by truncating it first.** Measured: an encoder error
+mid-write left 1.7 MB of unparseable JSON. `gen_assets.py` makes it sharp — it READS that file to
+carry forward 786 building names, 73 file blocks and 322 fault links, so a truncated write
+destroys the only input the next run needs in order not to destroy anything. `build/manifest_io.py`
+is the one atomic writer: temp sibling, fsync, `os.replace`, directory fsync, `except BaseException`
+so a Ctrl-C is caught.
+
+## What the tests could not catch
+
+The header of `tests/test_harvest_habs.py` claimed every test in it was mutation-checked. Eleven
+of fifteen were. **The four defects the harvester's own docstring says are "ALL FIXED HERE" live
+in `main()`, and `main()` had no test**: an auditor reverted each one inside it and the file
+stayed green — one request per record, no jurisdiction skip, `status: sourced` on write, a licence
+conclusion written by machine. `tests/test_harvest_habs_main.py` drives the real `main()` over a
+fake transport now, and killed all five reverts. **It found a live `NameError` on the `--write`
+path immediately** — `manifest_io` was used and never imported, so the only code that writes the
+manifest was broken and only source-greps existed to notice.
+
+`test_counts_guard`'s new test was worse: its docstring said it drove the real script and it never
+called it, reimplementing the algorithm inline and asserting on its own output. `--fix` never
+writing the file at all left it green. It drives the real `main()` now with ROOT and CLAIMS
+patched.
+
+Three tests passed vacuously under exactly the data loss this package exists to prevent — null
+every `file`, reset every `status`, drop every link, and `test_sourced_means_a_file_is_actually_present`
+passes because its loop body never runs. All three carry a `checked == N` guard now.
+`test_the_committed_manifest_is_what_the_generator_emits` compared id sets only, so mangling every
+caption passed; it compares the generated fields too.
+
+Two docstrings claimed more than they did and now say what they are: the member-count cross-check
+is **not** independent (caption and plate come from the same `dimension()` call — an auditor
+regressed the engine, re-ran the generator, and it went green), and the generator tests' restore
+is **not** unconditional (a `finally` does not run for SIGKILL).
+
+## Second occurrences of the patterns this session fixed
+
+**The raw-record read had one**, latent: `build/elevation.py:441` re-entered `PE.PACKS[...]` on an
+object already resolved, correct for `gibbs-ionic` and a `KeyError` for 14 of the 26 order packs.
+
+**The inherited-authority defect had four more**, and fixing the ink had left the catalogue: 34
+asset RECORDS still carried `provenance.source` naming a pack that does not state the assembly,
+served through `find_assets` to every consumer, while the plate they point at said otherwise — and
+the record's own alt_text closes "the drawing and the data cannot silently disagree".
+`tdl_get_proportions` and `tdl_compare_authorities` did the same; the comparison table published
+Vignola's Tuscan entablature as Palladio's while its own note said Palladio makes it a fifth. The
+walk now lives in `proportion_engine.assembly_owner`, one place with five readers, rather than the
+two hand-rolled copies that had appeared within an hour of each other.
+
+**The denylist had one, inside this session's own fix.** In the same commit that turned the
+harvester's country denylist into a US-state allowlist, the manifest carry-forward was written the
+other way round — four fields to KEEP, denying everything else, with the allowlist sitting unused
+above it. The next field any tool added would have been destroyed while the run printed "carried
+forward N field(s)".
+
+**The hardcoded sample had one**: `render_orders.py` walked an authority × order grid, so
+`greek-doric` and `moorish-arch` — bound to 5 and 8 styles — fell through both loops and
+`dist/orders.html` served 55 of 57 packs silently.
+
+**A guard naming a problem it does not address had none** beyond the one already fixed. That is a
+real negative result.
+
+## Also fixed
+
+52 line-diagrams whose own alt_text says "there is nothing to photograph" had been given a real
+building, because the assigner keyed on `role` when the question is `kind`; the harvester would
+have spent rate-limited requests on them and stamped a HABS survey number onto a drawing of an
+invented rule. The harvester would also have **overwritten all 786 curated building names** with
+LoC titles — the field it searches ON — making the next run's query worse than the first; the
+archive's title goes to `found_title` beside it now. It returned 0 after failing every request,
+which is the defect its own docstring claims to have fixed. `link_asset_faults` could not clear a
+stale link. `check_assets` crashed instead of reporting on a missing file, and never checked that
+every file on disk is claimed by a record — so deleting the manifest orphaned all 73 SVGs while it
+printed "every sourced record has the file it claims". `find_assets` had no `pack` filter, so not
+one of the 73 records that actually have a file was reachable by any query. `rights.publishable`
+was a bool that could not tell "nobody has looked" from "ruled share-alike", and called 61
+file-less records publishable. Vite's dev server did not proxy `/corpus`. And `FaultCorpus.jsx`
+told the user, in the shipped app, that "the corpus holds 322 specified records and none has a
+photograph".
+
+## Verdict
+
+`check_all.py`: **40 of 42 passed, 0 failed**; the two unjudged are `export_ifc` and `geometry_cp`,
+which need optional libraries CI installs and which report COULD NOT EVALUATE rather than passing.
+1,251 tests, 62 app tests, 151 workbench server tests.

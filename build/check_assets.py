@@ -5,7 +5,7 @@ NOTHING VALIDATED THIS FILE. `schema/asset.schema.json` has existed since the la
 and the only code that reads it is `build/gen_assets.py`, which validates at GENERATION time --
 so every edit made after generation, by hand or by `harvest_habs.py --write` or by
 `link_asset_faults.py`, went in unchecked. `build/check_all.py` had no asset check at all. This is
-the file three tools now write to and no tool read.
+the file five tools now write to and no tool read.
 
 The four things it asserts, and why each one is here rather than assumed:
 
@@ -77,8 +77,13 @@ def main():
                 errs.append("%s: status `sourced` with no file. The schema defines sourced as "
                             "'file present, unreviewed'." % aid)
             else:
-                path = os.path.join(ROOT, f["path"])
-                if not os.path.exists(path):
+                # `file.path` has no pattern in the schema, and os.path.join DISCARDS ROOT
+                # entirely if it is absolute. Build-time, repo-controlled data -- but this is
+                # the traversal-primitive shape and it costs two lines to not have it.
+                path = os.path.normpath(os.path.join(ROOT, f["path"]))
+                if os.path.isabs(f["path"]) or not path.startswith(ROOT + os.sep):
+                    errs.append("%s: file.path %r escapes the repository" % (aid, f["path"]))
+                elif not os.path.exists(path):
                     errs.append("%s: names %s, which does not exist" % (aid, f["path"]))
                 else:
                     data = open(path, "rb").read()
@@ -96,8 +101,15 @@ def main():
             elif a.get("kind") not in DRAWING_KINDS:
                 errs.append("%s: carries `generated_from` and an unexpected kind %r"
                             % (aid, a.get("kind")))
-            if f and f.get("path", "").endswith(".svg"):
-                svg = open(os.path.join(ROOT, f["path"])).read()
+            svg_path = os.path.normpath(os.path.join(ROOT, (f or {}).get("path") or ""))
+            if f and f.get("path", "").endswith(".svg") and not os.path.exists(svg_path):
+                # Reported, not raised. This used to open the file unconditionally, so a
+                # `generated_from` record carrying a `file` at any status other than `sourced`
+                # with the file missing produced a FileNotFoundError traceback instead of a
+                # named failure -- a checker that crashes reports nothing at all.
+                errs.append("%s: names %s, which does not exist" % (aid, f["path"]))
+            elif f and f.get("path", "").endswith(".svg"):
+                svg = open(svg_path).read()
                 if "NOT A DRAWING OF A REAL BUILDING" not in svg:
                     errs.append("%s: the plate does not say it is generated. Prose beside an "
                                 "image does not travel with it." % aid)
@@ -108,6 +120,18 @@ def main():
                 errs.append("%s: asserts license %r with no `rights_evidence`. A licence is a "
                             "conclusion; the evidence it was read from has to be on the record."
                             % (aid, lic))
+
+    # EVERY GENERATED FILE MUST BE CLAIMED BY A RECORD. check_assets tested sourced -> file and
+    # never file -> record, so `rm assets/manifest.json && python3 build/gen_assets.py` produced
+    # 1,850 wanted records, orphaned all 73 SVGs on disk, and this checker exited 0 saying "every
+    # sourced record has the file it claims" -- vacuously true, because there were none.
+    import glob
+    claimed = {a["file"]["path"] for a in assets if (a.get("file") or {}).get("path")}
+    for p_ in sorted(glob.glob(os.path.join(ROOT, "assets", "generated", "*.svg"))):
+        rel = os.path.relpath(p_, ROOT)
+        if rel not in claimed:
+            errs.append("%s is on disk and no record claims it. A file nothing points at is "
+                        "either a deleted record or a regeneration that lost one." % rel)
 
     # The header's own tally, which three writers recompute and could disagree about.
     by_status = {}

@@ -9,8 +9,17 @@ only network call it makes is to the Anthropic API, for the rail.
 
 Auth is a shared password (`auth.py`) and is *optional* — unset WORKBENCH_PASSWORD and
 the server is open, exactly as it was before it could be deployed, with /api/health
-saying so. Only /api/* is gated: the static shell has to load in order to draw the
-password screen, and it carries no corpus data.
+saying so. Only /api/* and /mcp are gated: the static shell has to load in order to draw
+the password screen.
+
+WHAT THE UNGATED SURFACE CARRIES, stated exactly, because this sentence used to read "and
+it carries no corpus data" and briefly stopped being true. Besides the shell it serves
+`/corpus/assets/generated/*.svg` — the 73 moulding-profile plates the engine draws from the
+proportion packs. They are derived corpus content and they are ungated on purpose: they are
+drawings of figures published in treatises between 1562 and 1830, they are what the app puts
+on the page, and none of them carries provenance, review notes or building names. The record
+data behind them is behind /api/. When the first of anything else lands under assets/, this
+paragraph is the thing to re-read before widening the mount.
 """
 import os
 from contextlib import asynccontextmanager
@@ -131,7 +140,7 @@ class GZipExceptSSE:
     # Starlette only offloads a chunk of 128 KiB or more, so every chunk compressed inline.
     # These files are content-hashed and immutable, so they are compressed ONCE at build time
     # instead — see ImmutableStatic and workbench/scripts/precompress.py.
-    EXEMPT_PREFIXES = ("/assets/",)
+    EXEMPT_PREFIXES = ("/assets/", "/corpus/")
 
     # LEVEL 4, NOT Starlette's default of 9. For /api/search/index, 214,229 bytes raw: level 9
     # costs 9.01 ms and emits 52,293 bytes; level 4 costs 2.58 ms and emits 54,937. That is
@@ -654,13 +663,55 @@ def _accepts_gzip(scope):
 # Vite's content-hashed bundle output at workbench/app/dist/assets -- an unrelated namespace that
 # happens to share the corpus directory's name. A record whose `file.path` is
 # "assets/generated/x.svg" served from "/assets/generated/x.svg" would land in the bundle mount
-# and 404, with immutable cache headers on the miss. `/corpus/` is a separate route on the
-# repository's own assets/ directory, and the record's path is relative to the repo root, so the
-# leading "assets/" is stripped rather than doubled.
+# and 404, with immutable cache headers on the miss. `/corpus/` is a separate route.
+#
+# MOUNTED ON assets/generated AND NOT ON assets/, and the difference is three defects wide. The
+# first version mounted the whole corpus directory, which put `assets/manifest.json` -- 3.4 MB,
+# all 1,850 records with every provenance block, review note and hand-assigned building name --
+# on an UNAUTHENTICATED route. The gate at the top of this file matches only `/api/` and `/mcp`,
+# so `/api/assets` answered 401 while `/corpus/assets/manifest.json` answered 200 with the same
+# data unbounded and unprojected. This module's own docstring says the static shell "carries no
+# corpus data"; that sentence had quietly become false.
+#
+# It was also 33.5 ms of server CPU per request, because 3.4 MB compresses INLINE on the event
+# loop: FileResponse streams 64 KiB chunks and GZipMiddleware only offloads above 128 KiB, which
+# is the exact mechanism `/assets` is exempted from at EXEMPT_PREFIXES above. 31.5 requests a
+# second from one anonymous caller saturated the deployment's single core, and each one shipped
+# 286 KB -- a ~35,000x amplification against the request.
+#
+# And it exposed by DEFAULT: `harvest_habs.py` exists to put downloaded archive material into
+# this corpus, and the day it runs, a remote file under assets/ would have become same-origin
+# active content on this origin. Serving only the directory the app actually asks for -- the app
+# requests `/corpus/assets/generated/*.svg` and nothing else -- keeps the URLs identical and
+# closes all three.
 CORPUS_ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(
-    os.path.abspath(__file__)))), "assets")
+    os.path.abspath(__file__)))), "assets", "generated")
+
+
+class CorpusStatic(StaticFiles):
+    """Generated plates, served as inert files.
+
+    `nosniff` because these are SVG on the workbench's own origin, and a browser navigated
+    directly at one executes any script inside it in this origin. Nothing under assets/generated
+    is anything but engine output today; the header is here so that stays true of whatever is
+    added next. `sandbox` is the same argument in CSP form."""
+
+    def file_response(self, *a, **kw):
+        r = super().file_response(*a, **kw)
+        r.headers["X-Content-Type-Options"] = "nosniff"
+        r.headers["Content-Security-Policy"] = "sandbox; default-src 'none'"
+        # NOT `immutable`, and not left to heuristic freshness either. These paths are STABLE
+        # across regenerations -- `<pack>-<assembly>-profile.svg` -- so a corrected moulding
+        # would never reach a returning viewer under the heuristic caching RFC 9111 allows when
+        # only ETag and Last-Modified are present. `must-revalidate` with a zero lifetime means
+        # the ETag is still used and the bytes are still not re-sent, but a changed plate is.
+        r.headers["Cache-Control"] = "no-cache, must-revalidate"
+        return r
+
+
 if os.path.isdir(CORPUS_ASSETS):
-    app.mount("/corpus/assets", StaticFiles(directory=CORPUS_ASSETS), name="corpus-assets")
+    app.mount("/corpus/assets/generated", CorpusStatic(directory=CORPUS_ASSETS),
+              name="corpus-assets")
 
 if os.path.isdir(APP_DIST):
     app.mount("/assets", ImmutableStatic(directory=os.path.join(APP_DIST, "assets")),

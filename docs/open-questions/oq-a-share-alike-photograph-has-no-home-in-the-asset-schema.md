@@ -2,7 +2,8 @@
 
 *Status: RULED 31 Aug 2026, and the ruling is a refusal · Raised in: From the network-egress work (WP-4.4)*
 
-**RULED — public domain and CC0 only, for now.** Ten of the 322 asset records name English and
+**RULED — public domain and CC0 only, for now.** 125 of the 305 distinct harvest queries name buildings outside the United States -- English,
+Irish, Scottish and continental European. The original ten were English and
 Irish buildings: Bedford Square 3, Queen Square 2, Merrion Square 2, Fairfax House 1, and two
 more. HABS cannot hold any of them — it is a United States survey by charter, which
 `build/harvest_habs.py` now says in the refusal itself rather than reporting "no result holds a

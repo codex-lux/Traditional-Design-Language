@@ -3,8 +3,8 @@
 
 WP-4.4's own status block names this as the step that needs no network: without it every harvest
 query degrades to a search on the style's NAME, so every record about a style asks for the same
-thing and takes the same answer. `build/harvest_habs.py` refuses to run in that state, and its
-refusal is why this exists.
+thing and takes the same answer. `build/harvest_habs.py` skips such records rather than searching on a style name, and that
+skip is why this exists.
 
 It was done by hand for 161 records in commit `347d0ab`, when the manifest covered three style
 nodes. The manifest now covers 142, so it is a script.
@@ -39,9 +39,20 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, "assets", "manifest.json")
 
-# A record that depicts a style may name one of its exemplars. A record that depicts a FAULT may
-# not, and `incorrect` is the whole of that category.
-NAMEABLE_ROLES = ("correct", "comparison", "diagram")
+sys.path.insert(0, os.path.join(ROOT, "build"))
+import manifest_io  # noqa: E402  -- the one atomic writer for this file
+
+# THE QUESTION IS PHOTOGRAPH-OR-DRAWING, AND `role` DOES NOT ANSWER IT. `role` says
+# correct/incorrect; `kind` says what sort of picture the record wants. Keying on role gave a
+# real building to 52 line-diagrams whose own alt_text reads "No historical precedent exists for
+# this slot, so there is nothing to photograph and the drawing has to carry the argument", and to
+# 7 code-conflict comparison drawings. `harvest_habs.py` then keys on `provenance.building`, so
+# --live would have spent rate-limited requests on them and stamped a real HABS survey's number,
+# author and rights statement onto a drawing of an invented rule.
+#
+# A record gets a building when it wants a PHOTOGRAPH of one and is not depicting a fault.
+NAMEABLE_KINDS = ("photograph",)
+UNNAMEABLE_ROLES = ("incorrect",)
 
 
 def exemplars_by_node():
@@ -70,7 +81,7 @@ def main():
     # deterministic across runs and machines.
     todo = collections.defaultdict(list)
     for rec in doc["assets"]:
-        if rec.get("role") not in NAMEABLE_ROLES:
+        if rec.get("kind") not in NAMEABLE_KINDS or rec.get("role") in UNNAMEABLE_ROLES:
             continue
         if (rec.get("provenance") or {}).get("building"):
             continue
@@ -105,6 +116,8 @@ def main():
             continue
         if rec.get("role") == "incorrect":
             unnamed["role: incorrect — the corpus names no building for a fault"] += 1
+        elif rec.get("kind") != "photograph":
+            unnamed["not a photograph — a drawing of a rule needs no building"] += 1
         elif not ((rec.get("depicts") or {}).get("nodes") or []):
             unnamed["depicts no style node"] += 1
         else:
@@ -124,8 +137,7 @@ def main():
     if not a.write:
         print("\nreport only — pass --write to apply")
         return 0
-    json.dump(doc, open(ASSETS, "w"), indent=2, ensure_ascii=False)
-    open(ASSETS, "a").write("\n")
+    manifest_io.write_manifest(doc, ASSETS)
     print("wrote %s" % os.path.relpath(ASSETS, ROOT))
     return 0
 

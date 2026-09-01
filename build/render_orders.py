@@ -33,11 +33,22 @@ AUTHORITIES = [
     ("benjamin", "Benjamin", 1806, "The American Builder's Companion"),
 ]
 
+# EVERY ORDER PACK, not the authority x order cross-product. That grid takes 24 of the 26 and
+# says nothing about the other two: `greek-doric` (bound to greek-revival-american, regency and
+# three more) and `moorish-arch` (bound to eight nodes) belong to no <authority>-<order> pair,
+# and the `systems` loop below filters on kinds that exclude `order-system`, so both fell
+# through BOTH loops. dist/orders.html served 55 of 57 packs and nothing said so. The grid is
+# still used for the authority table's ORDERING; membership is now the corpus's own.
+_grid = [f"{auth}-{o}" for auth, _, _, _ in AUTHORITIES for o in ORDERS]
+ORDER_PACK_IDS = [pid for pid in _grid if pid in pe.PACKS] + \
+    sorted(pid for pid, p in pe.PACKS.items()
+           if p.get("kind") == "order-system" and pid not in _grid)
+
 packs = {}
-for auth, _, _, _ in AUTHORITIES:
-    for o in ORDERS:
-        pid = f"{auth}-{o}"
-        if pid in pe.PACKS:
+for pid in ORDER_PACK_IDS:
+        if True:
+            o = next((x for x in ORDERS if pid.endswith("-" + x)), pe.PACKS[pid].get("order") or "other")
+            auth = pid.rsplit("-", 1)[0] if any(pid.endswith("-" + x) for x in ORDERS) else pid
             r = pe.resolve(pid)
             packs[pid] = {
                 "id": r["id"], "name": r["name"], "order": o, "authority": auth,

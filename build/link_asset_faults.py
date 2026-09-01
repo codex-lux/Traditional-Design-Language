@@ -40,6 +40,9 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, "assets", "manifest.json")
 
+sys.path.insert(0, os.path.join(ROOT, "build"))
+import manifest_io  # noqa: E402  -- the one atomic writer for this file
+
 
 def load_faults():
     out = []
@@ -79,14 +82,22 @@ def main():
     reached = set()
     for asset in doc["assets"]:
         ids = links_for(asset, faults)
-        if not ids:
-            continue
+        had = (asset.get("depicts") or {}).get("faults")
         total += len(ids)
         reached.update(ids)
-        if (asset.get("depicts") or {}).get("faults") != ids:
-            changed += 1
-            if a.write:
-                asset.setdefault("depicts", {})["faults"] = ids
+        # `if not ids: continue` meant a record whose links all disappeared -- a fault's `slots`
+        # or `applies_to` edited -- kept its stale array forever, was never counted as changed,
+        # and so the report said "0 record(s) would change" against a file that was wrong.
+        # gen_assets then carried the stale array forward, so nothing could ever clear it.
+        if had == (ids or None) or (not ids and not had):
+            continue
+        changed += 1
+        if a.write:
+            dep = asset.setdefault("depicts", {})
+            if ids:
+                dep["faults"] = ids
+            else:
+                dep.pop("faults", None)
 
     linked = sum(1 for x in doc["assets"] if links_for(x, faults))
     print("%d of %d asset(s) are evidence about at least one fault" % (linked, len(doc["assets"])))
@@ -96,8 +107,7 @@ def main():
         print("\nreport only — pass --write to apply")
         return 0
     if changed:
-        json.dump(doc, open(ASSETS, "w"), indent=2, ensure_ascii=False)
-        open(ASSETS, "a").write("\n")
+        manifest_io.write_manifest(doc, ASSETS)
         print("wrote %s" % os.path.relpath(ASSETS, ROOT))
     return 0
 

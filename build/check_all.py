@@ -36,8 +36,8 @@ CHECKS = [
     # has drifted, which is the same guarantee dist/taxonomy.json needed and did not have.
     ("gen_open_questions.py", ["--check"]),
 
-    # The asset manifest, which THREE tools write and none read. gen_assets.py validates it at
-    # generation time only, so every edit after that -- the 161 building names, the eleven files,
+    # The asset manifest, which FIVE tools write and none read. gen_assets.py validates it at
+    # generation time only, so every edit after that -- the 786 building names, the 73 files,
     # the 209 fault links -- went in unchecked. Reports COULD NOT EVALUATE without jsonschema,
     # which CI installs, so it is judged there.
     ("check_assets.py", []),

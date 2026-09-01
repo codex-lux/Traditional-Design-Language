@@ -337,8 +337,20 @@ def get_proportions(pack_id, column_diameter=None, module=None, ceiling_height=1
            "resolved_from": pk.get("_resolved_from", [pk["id"]]),
            "module_in": d["module_in"], "parts": d["parts"], "part_in": round(d["part_in"], 4),
            "diameters_per_module": dpm, "totals": d["totals"],
-           "assemblies": [{"id": a["id"], "height_modules": a["height_modules"], "height_in": a["height_in_stated"],
-                           "members": a["members"] if assembly else len(a["members"])} for a in d["assemblies"]],
+           # PER-ASSEMBLY ATTRIBUTION, because `authority` above is the PACK's and an overlay
+           # inherits what it does not state. `palladio-tuscan` states no entablature on purpose
+           # -- that is OQ 7 -- so this tool served Vignola's cornice members under Palladio's
+           # citation, on the assembly the open question exists for. `states_no_own` names the
+           # pack that actually gives the figures, and is absent where the pack gives them
+           # itself.
+           "assemblies": [dict({"id": a["id"], "height_modules": a["height_modules"],
+                                "height_in": a["height_in_stated"],
+                                "members": a["members"] if assembly else len(a["members"])},
+                               **({} if not pe.assembly_owner(pk["id"], a["id"])
+                                     or pe.assembly_owner(pk["id"], a["id"]) == pk["id"]
+                                  else {"inherited_from": pe.assembly_owner(pk["id"], a["id"]),
+                                        "authority": pe.assembly_authority(pk["id"], a["id"])[0]}))
+                          for a in d["assemblies"]],
            "invariants": pe.check_invariants(pk)}
     if include_rules:
         ev = pe.evaluate(pk, mod, {"ceiling_height": ceiling_height, "opening_width": opening_width})
@@ -385,15 +397,31 @@ def compare_authorities(order, column_diameter=12.0):
         pid = f"{auth}-{order}"
         if pid not in pe.PACKS: continue
         pk = pe.resolve(pid); d = pe.dimension(pk, column_diameter * pe.diameters_per_module(pk))
+        # THE ENTABLATURE COLUMN OF THIS TABLE WAS NOT ALWAYS THIS AUTHORITY'S. `palladio-tuscan`
+        # and `chambers-tuscan` state no entablature of their own, so both rows reported
+        # VIGNOLA's 21.0 in and 0.25 ratio as theirs -- while the note below the table said
+        # Palladio makes it a fifth. The table contradicted its own note, and the contradiction
+        # was the tool inventing an attribution. An inherited figure is reported with the pack
+        # it came from and is NOT presented as the authority's own.
+        ent_owner = pe.assembly_owner(pid, "entablature") or pe.assembly_owner(pid, "cornice")
+        inherited = bool(ent_owner and ent_owner != pid)
         rows.append({"authority": auth, "pack": pid, "year": pk.get("authority", {}).get("year"),
                      "column_diameters": d["totals"].get("column_height_diameters"),
                      "column_in": d["totals"].get("column_height_in"),
                      "entablature_in": d["totals"].get("entablature_height_in"),
                      "entablature_over_column": round(d["totals"]["entablature_height_in"] / d["totals"]["column_height_in"], 4)
                         if d["totals"].get("entablature_height_in") and d["totals"].get("column_height_in") else None,
+                     "entablature_is_this_authoritys": not inherited,
+                     "entablature_inherited_from": ent_owner if inherited else None,
                      "confidence": pk.get("confidence")})
     if not rows: return {"error": f"no packs for order '{order}'", "orders": ["tuscan","doric","ionic","corinthian","composite"]}
+    borrowed = [r["authority"] for r in rows if not r["entablature_is_this_authoritys"]]
     return {"order": order, "at_common_column_diameter_in": column_diameter, "authorities": rows,
+            "entablature_caveat": (
+                None if not borrowed else
+                "%s state no entablature of their own for this order; the figure shown is "
+                "inherited through the overlay and is NOT that authority's. Read "
+                "`entablature_inherited_from` before comparing." % ", ".join(borrowed)),
             "note": ("Compared at a common column DIAMETER, never a common module — Vignola and Chambers "
                      "measure in the semidiameter and Palladio in the whole diameter. Vignola and Chambers "
                      "make the entablature a quarter of the column; Gibbs and Palladio a fifth; Benjamin "
@@ -1086,13 +1114,19 @@ def measurement_vocabulary(slot=None, style=None, include_constraints=True):
                      "ones are reported, never assumed.")}
 
 # ----------------------------------------------------------------- assets
-def find_assets(slot=None, style=None, fault=None, role=None, status=None, limit=20):
+def find_assets(slot=None, style=None, fault=None, role=None, status=None, pack=None, limit=20):
+    # `pack` because the 73 records that actually HAVE a file depict a proportion pack and an
+    # assembly -- never a node or a slot -- and there was no filter that could reach them. Every
+    # sourced record in the corpus was unqueryable by every caller: the MCP tool, /api/assets and
+    # the app alike. A record nothing can ask for is not sourced in any sense a reader cares
+    # about.
     D = _data(); out = []
     for a in D["assets"]:
         dp = a.get("depicts", {})
         if slot and slot not in (dp.get("slots") or []): continue
         if style and style not in (dp.get("nodes") or []): continue
         if fault and fault not in (dp.get("faults") or []): continue
+        if pack and pack not in (dp.get("packs") or []): continue
         if role and a["role"] != role: continue
         if status and a["status"] != status: continue
         out.append({"id": a["id"], "kind": a["kind"], "role": a["role"], "status": a["status"],
@@ -1121,13 +1155,24 @@ def asset_rights(a):
     made non-compliance structural rather than merely likely.
 
     `publishable` is deliberately conservative and deliberately not a licence check: it says a
-    PERSON has recorded a conclusion, not that a machine agreed with one. `unknown` is the
-    default on 300 of 322 records and it blocks; `rights_evidence` without a `license` is
+    PERSON has recorded a conclusion, not that a machine agreed with one. `unknown` is the default on most
+    records and it blocks; `rights_evidence` without a `license` is
     evidence a harvester collected and nobody has ruled on, which is also not a clearance."""
     p = a.get("provenance") or {}
     lic = p.get("license")
+    # THREE STATES, NOT A BOOL. `False` could not distinguish "nobody has looked" (`unknown`,
+    # on 1,716 records) from "a person ruled this share-alike and it may not be redistributed",
+    # and this corpus's own rule is that unjudged is never collapsed into judged. And a licence
+    # is not a clearance for a file that does not exist: `owned` with `file: null` came back
+    # publishable on 61 records.
+    if not lic or lic == "unknown":
+        publishable = "unjudged"
+    elif lic in ("public-domain", "cc0", "owned", "licensed"):
+        publishable = "yes" if (a.get("file") or {}).get("path") else "no-file"
+    else:
+        publishable = "no"          # cc-by / cc-by-sa: obligations this corpus has not accepted
     return {"license": lic or "unknown",
-            "publishable": lic in ("public-domain", "cc0", "owned", "licensed"),
+            "publishable": publishable,
             "attribution_required": bool(p.get("attribution_required")
                                          or (lic or "").startswith("cc-by")),
             "attribution_text": p.get("attribution_text"),

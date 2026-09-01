@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """render_profile.py — the asset records the corpus can draw for itself.
 
-WHY THIS EXISTS. `assets/manifest.json` holds 322 records and zero files. WP-4.4's harvest is
+WHY THIS EXISTS. `assets/manifest.json` holds 1,850 records over 142 style nodes. WP-4.4's harvest is
 blocked on a network this container does not have, and 150 of the records could never be
-harvested anyway: they are `role: incorrect`, and no archive indexes wrongness. But eleven
+harvested anyway: they are `role: incorrect`, and no archive indexes wrongness. But 73
 records already carry a `generated_from` block naming a proportion pack and an assembly --
 these are measured detail drawings of a moulding profile, and the corpus has held everything
 needed to draw them since WP-5.11. They were waiting on a driver, not on a photograph.
@@ -18,28 +18,32 @@ size, and a second implementation would be a second thing to keep in step.
 
 WHAT IT REFUSES. A member `profiles.py` reports as `unconstructed` -- a volute's spiral, an
 acanthus row -- is NAMED ON THE PLATE and not drawn as something plausible. `gibbs-ionic`'s
-capital and `vignola-corinthian`'s capital both carry such members, so two of the eleven plates
+capital and `vignola-corinthian`'s capital both carry such members, so some plates
 are partial and say so on their face. A drawing that quietly substitutes a swelling for a
 construction it does not have is the laundering this corpus forbids, in ink instead of in JSON.
 
-    python3 build/render_profile.py                  # draw all eleven, report, write nothing
+    python3 build/render_profile.py                  # draw them all, report, write nothing
     python3 build/render_profile.py --write          # and file them against their records
     python3 build/render_profile.py --id <asset-id>  # just one
 """
 import argparse
 import hashlib
 import json
+import re
 import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 import modcache  # noqa: E402
+manifest_io = modcache.load(
+    "manifest_io", os.path.join(ROOT, "build", "manifest_io.py"))
 
 PE = modcache.load("proportion_engine", os.path.join(ROOT, "build", "proportion_engine.py"))
 PROF = modcache.load("profiles", os.path.join(ROOT, "build", "profiles.py"))
 
 ASSETS = os.path.join(ROOT, "assets", "manifest.json")
+_ID_RE = re.compile(r"[a-z0-9]+(-[a-z0-9]+)*")   # schema/asset.schema.json's own pattern
 OUTDIR = os.path.join(ROOT, "assets", "generated")
 
 # The elevation sheet's palette, so a detail plate and the sheet it details look like one set.
@@ -85,28 +89,10 @@ def _named(unconstructed):
 
 
 def states_assembly(pack_id, assembly_id):
-    """The pack in the overlay chain that actually states this assembly, or None.
-
-    AN OVERLAY INHERITS WHAT IT DOES NOT STATE, AND SOMETIMES IT DOES NOT STATE IT ON PURPOSE.
-    `palladio-tuscan` records a base, a shaft, a capital and a pedestal, and deliberately no
-    entablature: Palladio does not dimension his Tuscan entablature in the text and the plate
-    numerals are illegible in every reachable scan, which is the whole of OQ 7. `resolve()` then
-    supplies a cornice from `vignola-tuscan`, correctly -- that is what an overlay is for.
-
-    But a plate titled "Palladio's Tuscan Order — cornice" drawing Vignola's members under
-    "AFTER: Palladio, I Quattro Libri, Venice 1570" attributes one authority's figures to
-    another's citation, on the exact assembly the corpus has an open question about because
-    that authority does not give it. That is the laundering this corpus forbids, produced by a
-    drawing rather than by a record. So the plate says whose members these are."""
-    seen = set()
-    pid = pack_id
-    while pid and pid not in seen:
-        seen.add(pid)
-        raw = PE.PACKS.get(pid) or {}
-        if assembly_id in (raw.get("assemblies") or {}):
-            return pid
-        pid = raw.get("overlay_of")
-    return None
+    """Delegates to `proportion_engine.assembly_owner`. Kept as a name because this module's
+    tests and its footer both read it; the WALK lives in the engine, in one place, because five
+    surfaces need it and two hand-rolled copies had already appeared."""
+    return PE.assembly_owner(pack_id, assembly_id)
 
 
 def _footer_lines(pack, pack_id, assembly_id, module_in, members, height, relief, unconstructed):
@@ -253,7 +239,13 @@ def render(pack_id, assembly_id, module_in=6.0):
         if len(nm) > room:
             nm = nm[:max(room - 1, 3)].rstrip() + "\u2026"
         label = nm + tail
-        if len(label) > budget:                  # a tail alone can outrun the column
+        if len(label) > budget:
+            # A LAST RESORT THAT FIRES NOWHERE TODAY, and it is kept rather than removed for a
+            # reason worth stating: it exists for a tail so long that eliding the whole name
+            # still overruns -- a member whose profile word and height alone exceed the column.
+            # Measured across all 467 members of all 73 plates it fires 0 times, so it is NOT
+            # under test and must not be mistaken for one. It is a floor, not a guard, and if
+            # it ever fires the DIMENSION is what it cuts, which is why clamp 1 above exists.
             label = label[:max(budget - 1, 4)].rstrip() + "\u2026"
         s.append(f'<text class="dm" x="{lx:.1f}" y="{my+2.6:.1f}">{_esc(label)}</text>')
 
@@ -311,6 +303,17 @@ def main():
             note += "; UNCONSTRUCTED: " + ", ".join(rep["unconstructed"])
         print("  DRAW  %-42s %s" % (asset["id"], note))
         if a.write:
+            # THE ID BECOMES A PATH, SO IT IS CHECKED BEFORE THE JOIN AND NOT AFTER.
+            # `schema/asset.schema.json` constrains it to ^[a-z0-9]+(-[a-z0-9]+)*$ and
+            # `check_assets.py` enforces that -- afterwards. This script reads a manifest and
+            # trusts what it finds, so a hand-edited id would be written wherever it said and
+            # the checker would complain about the result. Same rule as `core.load_parti`,
+            # which `test_parti_confinement.py` scans the tree to keep singular.
+            if not _ID_RE.fullmatch(asset["id"]):
+                failed += 1
+                print("  FAIL  %r is not a well-formed asset id; refusing to make it a path"
+                      % asset["id"])
+                continue
             rel = os.path.join("assets", "generated", asset["id"] + ".svg")
             path = os.path.join(ROOT, rel)
             open(path, "w").write(svg + "\n")
@@ -337,8 +340,7 @@ def main():
         doc["counts"]["by_status"] = {}
         for x in doc["assets"]:
             doc["counts"]["by_status"][x["status"]] = doc["counts"]["by_status"].get(x["status"], 0) + 1
-        json.dump(doc, open(ASSETS, "w"), indent=2, ensure_ascii=False)
-        open(ASSETS, "a").write("\n")
+        manifest_io.write_manifest(doc, ASSETS)
         print("wrote %s and %d file(s) under assets/generated/"
               % (os.path.relpath(ASSETS, ROOT), drawn))
     return 0 if not failed else 1
