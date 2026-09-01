@@ -31,9 +31,11 @@ already, in the massing record's own `expansion_logic` field, and nothing reads 
 be studied too — *"I don't think furniture layout should govern room sizes, but some room sizes
 are awkward or entirely impossible to effectively furnish."* The corpus already takes that exact
 position and already implements it, well. But the furniture check reads the **declared** record and
-never the drawing, so: over all sixteen plans, **50 of 231 placed rooms — one in five — cannot hold
-an essential piece of furniture that their own declared record can, and not one of those is
-reported.** Eight of the thirteen dining rooms in the corpus fail their own dining table. §8.
+never the drawing, so: over all sixteen plans, **25 of 231 placed rooms on the deterministic engine
+— and about 49 on the default one — cannot hold an essential piece of furniture that their own
+declared record can, and not one of those is reported.** Eight of the thirteen dining rooms in the
+corpus fail their own dining table. §8, which also records that the engine has to be named because
+the default one's figure is not reproducible.
 
 ---
 
@@ -503,21 +505,38 @@ convicts it and never runs it against the thing that was drawn.** Where the chec
 quotes the declared shortfall, so every one of them is understated — the OQ 52 family again, a
 defect reported smaller than it is.
 
-**Swept over all sixteen plans rather than the two that ship, because two plans is not a corpus:**
+**Swept over all sixteen plans rather than the two that ship, because two plans is not a corpus.
+And the sweep has to name its engine, because an audit of this report found that the first version
+of this table did not — and the number moves.**
 
 ```
-placed rooms carrying a catalogue type                                231
-across-fails on the DECLARED record  (what the critic reports today)   73
-across-fails on the DRAWN rectangle  (what is actually drawn)         133
-rooms failing an item their own declared record passes                 50   = 22% of placed rooms
+placed rooms carrying a catalogue type                                231   deterministic
+across-fails on the DECLARED record  (what the critic reports today)   73   deterministic
 
-by type, failing / placed:   bedroom 13/19 · dining-room 8/13 · kitchen 6/16
-                             entry-porch 4/16 · breakfast-room 3/5 · laundry 3/6
-                             entrance-hall 2/10 · study 2/8 · closet 2/11
+across-fails on the DRAWN rectangle
+    engine="heuristic"   deterministic, three cold runs identical      86
+    engine="auto"        NOT reproducible: 130, 132, 133 on one tree  ~131
+
+rooms failing an item their own declared record passes
+    engine="heuristic"                                                 25   = 11% of placed rooms
+    engine="auto"        NOT reproducible: 48, 49, 50                 ~49   = 21%
 ```
 
-**One placed room in five cannot hold furniture its own record says it can, and nothing reports
-it.** The pattern is not random. **Eight of the thirteen dining rooms in the corpus fail their own
+**Why `auto` drifts, and why it matters.** On this corpus `auto` solves 15 of the 16 plans with
+CP-SAT and one with the hill-climb, and CP-SAT under a time budget is not deterministic when the
+machine is under different load. **An earlier version of this section published 133 and 50 — `auto`
+figures — as measurements, with no engine named.** They were not wrong so much as not
+reproducible, which for a published number is the same failure this report criticises elsewhere.
+
+**The engine comparison is itself the finding, and it was not visible before.** The heuristic draws
+86 unfurnishable items; CP-SAT draws about 131. **CP-SAT, the engine that proves, produces markedly
+MORE unbuildable room shapes than the engine that searches** — because it proves what it is told,
+and nothing tells it about shape. That sits beside WP-9.4's opposite result on reachability (the
+engine change took fatals 123 → 36) and the two together say what the study says: the model is a
+good checker and a bad generator, and an engine can only optimise the terms it is given.
+
+**Between one placed room in nine and one in five cannot hold furniture its own record says it
+can, depending on which engine drew it, and nothing reports either.** The pattern is not random. **Eight of the thirteen dining rooms in the corpus fail their own
 dining table** — the table needs (40 + 2 × 54) / 12 = 12.33 ft across and the slicer draws them
 10, 11, 6 ft wide while their records declare 14 to 18. Thirteen of nineteen bedrooms fail their
 beds. `spec-builder-colonial` draws `bed3` at **6.0 × 38.0 ft** and two closets at **1.0 ft wide**.
@@ -526,9 +545,12 @@ These are not near-misses; they are rooms nobody could build.
 The fix is bounded by the OQ 54 ruling: the `drawn` layer is the only layer permitted to read
 placement, so this is a drawn-layer re-run of the same arithmetic, one function with two callers,
 on the `openings.required_wall_ft` precedent. It must not become a second transcription of the
-rule. **And it should be ratcheted, not just fixed** — 50 and 133 are ceilings that may only come
-down, and they are the honest measure of whether anything WP-9.3 or WP-9.4 does to the placement
-actually helps.
+rule. **And it should be ratcheted, not just fixed — but NOT on the numbers this report first
+published.** 133 and 50 are `auto` figures that drift ±3 between runs on an unchanged tree, and a
+ratchet on a drifting number is a build that fails for no reason. Ratchet the deterministic
+figures — **86 and 25 on `engine="heuristic"`** — or pin CP-SAT's budget and seed first and
+establish that the result is stable before trusting it. They are still the honest measure of
+whether anything WP-9.3 or WP-9.4 does to the placement actually helps.
 
 **(2) Every item is assumed to rotate, and that is why the kitchen passes.**
 `fw, fl = sorted(it["footprint_in"])` takes the SHORT dimension as the across-the-room

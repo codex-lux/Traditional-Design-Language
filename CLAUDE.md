@@ -608,9 +608,18 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **THE FURNITURE CHECK READS THE DECLARED RECORD AND NEVER THE DRAWING, AND ONE PLACED ROOM IN
   FIVE CANNOT BE FURNISHED (WP-9.2).** `plan_check.py:1250-1288` is a good check pointed at the
   wrong record: `w, l = r.get("width_ft"), r.get("length_ft")`. Swept over all 16 plans, not the 2
-  that ship: **231 placed rooms, 73 across-fails on the DECLARED record, 133 on the DRAWN
-  rectangle, and 50 rooms (22%) fail an item their own record passes** — `bedroom` 13/19,
-  `dining-room` **8/13**, `kitchen` 6/16, `breakfast-room` 3/5. A dining table needs
+  that ship: **231 placed rooms and 73 across-fails on the DECLARED record, both deterministic.**
+  The DRAWN figure **depends on the engine and the default one is not reproducible**:
+  `engine="heuristic"` gives **86 drawn fails and 25 rooms (11%)** failing an item their own record
+  passes, identical on three cold runs; `engine="auto"` gives **130, 132, 133** on one unchanged
+  tree, because it solves 15 of 16 plans with CP-SAT and CP-SAT under a time budget is not
+  deterministic under load. **An earlier version of this entry published 133 and 50 with no engine
+  named.** `bedroom` 13/19, `dining-room` **8/13**, `kitchen` 6/16, `breakfast-room` 3/5.
+  **And the engine comparison is a finding in itself: CP-SAT, the engine that PROVES, draws about
+  131 unfurnishable items where the hill-climb draws 86** -- it proves what it is told and nothing
+  tells it about shape, which sits exactly opposite WP-9.4's result that the same engine change
+  takes fatals 123 -> 36. **RATCHET THE DETERMINISTIC FIGURES (86 and 25), never the `auto` ones**:
+  a ratchet on a number that drifts +/-3 is a build that fails for no reason. A dining table needs
   (40 + 2 x 54)/12 = 12.33 ft across; the slicer draws dining rooms 10, 11, 6 ft wide against
   records declaring 14-18. `spec-builder-colonial` draws a bedroom **6.0 x 38.0 ft** and two
   closets **1.0 ft wide**. Where the check DOES fire it quotes the declared figure, so every

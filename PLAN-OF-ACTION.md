@@ -1114,6 +1114,11 @@ fire it quotes the declared figure, so `cl3` reads "has 3 ft" against a rectangl
 wide and every shortfall in the set is understated — the OQ 52 family. Re-run the SAME arithmetic
 in the `drawn` layer (the only layer permitted to read placement, OQ 54): one function, two
 callers, on the `openings.required_wall_ft` precedent, never a second transcription.
+**Ratchet the DETERMINISTIC figures and name the engine.** The WP-9.2 audit found that the
+originally published 133/50 are `engine="auto"` numbers that drift (130, 132, 133 on an unchanged
+tree) because `auto` solves 15 of 16 plans with CP-SAT under a time budget. `engine="heuristic"`
+gives **86 drawn fails and 25 silent rooms**, identical on three cold runs. Ratchet those, or pin
+CP's budget and seed and prove stability first.
 (b) **Every furniture item is assumed to rotate.** `fw, fl = sorted(it["footprint_in"])` takes the
 short dimension as the across-the-room requirement, so the kitchen island `[84, 27]` is turned
 sideways and a 10 ft kitchen passes at 9.25 ft where an island laid along its counter run needs
