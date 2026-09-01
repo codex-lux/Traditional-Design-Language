@@ -76,7 +76,7 @@ All three are in HABS. All three are quoted here verbatim from the written data.
 |---|---|---|---|---|---|---|
 | Drayton Hall, 1738–42 | SC-377 | `sc0132` | 70'-5" × 52'-2" excl. portico | 7 | 10.06 | 3,674 sf |
 | Gunston Hall, 1755–59 | VA-141 | `va0433` | 60'-10" × 40'-11½" | 5 | 12.17 | 2,492 sf |
-| Hammond-Harwood, 1774–77 | MD-251 | `md0035` | approx. 44' × 42' | 5 | 8.4–8.8 | ~1,848 sf |
+| Hammond-Harwood, 1774–77 | MD-251 | `md0035` | **49 ft wide** (the house's own institution) — HABS 1940 says "approximately 44x42'" | 5 | **9.80** | — |
 
 > Drayton Hall: "Rectangular, with projecting portico on the southwest (land) facade; 70'-5" x
 > 52'-2", excluding portico; 7-bay front; 2 stories plus raised basement."
@@ -95,14 +95,21 @@ quotation, and it is marked here because a bay count is what the ft/bay column d
 > Hammond-Harwood: "The two-story main block is approximately 44x42', the end wings are about
 > 34' x l8, and the connecting links are 18 long." / "Central portion five bays wide."
 
-Observed bay module: **~8.4–8.8, 10.06, 12.17 ft.** The parti declares `bay_module_ft: 9` —
-inside the observed range, at its low end. That is defensible and is not the problem.
+Observed bay module: **9.80, 10.06, 12.17 ft.** The parti declares `bay_module_ft: 9` — **below
+all three**, not "at the low end of the range" as two earlier versions of this sentence said.
 
-**Hammond-Harwood's figure is the soft one and is given as a range on purpose.** Its source says
-"approximately 44x42'" and does not say which dimension is the front, so 44/5 = 8.8 and 42/5 = 8.4
-are both available. An earlier version of this table printed **8.80** — two decimals derived from
-an approximation and an unstated assumption. The conclusion about the parti's 9 ft holds either
-way, which is the only reason the row is still here.
+**Hammond-Harwood's row was wrong twice and an audit fixed it the second time.** The first version
+printed **8.80**, divided from HABS's *"approximately 44x42'"* by a source that does not say which
+dimension is the front. The second gave 8.4–8.8 to name that ambiguity. **Both were low**: the
+Hammond-Harwood House's own institution states plainly that *"the actual house measures 49 feet"*
+(hammondharwoodhouse.org, comparing Jefferson's 1783–84 measured elevation to the building), and
+49/5 = 9.80. The HABS figure is Delos Smith's 1940 approximation and the owning institution's is a
+measurement.
+
+**That change moves the conclusion rather than the row.** A declared 9 ft is not inside the
+observed range at its low end; it is under the smallest of the three. The corpus's centre-passage
+bay is narrower than every exemplar it names — which is the direction that produces the slivers,
+and one more reason a precise-looking figure taken from an approximation is worth nothing.
 
 **Two more of the exemplars WP-9.2 was told to gather, and both say the same thing as the first
 three.**
@@ -158,8 +165,10 @@ clear the ratio is about 1.8**, which is the honest figure and still the finding
 
 Gunston Hall's first floor, from the survey: a central passage, a narrow side passage, and four
 rooms — the Palladian Room, the Chinese Room (northwest Chamber), the Chamber and the Little
-Parlour. Six spaces. Drayton Hall names a Great Hall, a Stair Hall, a Library, an Ionic Room and a
-Dining Room, with a further room completing the symmetry: six or seven spaces in 3,674 sf.
+Parlour. Six spaces. Drayton Hall's survey names a Great Hall, a Stair Hall, a Library, an Ionic Room, a Dining Room
+and a room completing the symmetry — **six**, in 3,674 sf; it also names two small connecting
+passages, which would make eight. An earlier version said "six or seven", and the survey supports
+neither seven nor the hedge.
 
 The generated plan puts twelve enclosed spaces in Gunston Hall's footprint. Halve every
 compartment in a house whose depth is fixed at 40 ft and the compartments become slivers. That is
@@ -846,6 +855,9 @@ and nothing about them needs a ruling.**
   Waterman and Barrows, *Domestic and Colonial Architecture of Tidewater Virginia*, p. 71.
 - **Mount Vernon Ladies' Association**, "The Mansion Room by Room" and the Front Parlor
   restoration FAQ, mountvernon.org — read directly for the room dimensions in §9.
+- **Hammond-Harwood House** (hammondharwoodhouse.org), "Why Did Thomas Jefferson Draw the
+  Hammond-Harwood House?", for the main block's width: *"The actual house measures 49 feet."*
+  Read directly; it supersedes HABS MD-251's 1940 "approximately 44x42'" for the bay figure in §2.
 - Robert Morris, *Lectures on Architecture* (1734), Lecture VII; Vincenzo Scamozzi (1615) in
   Barbieri's EAHN translation; Palladio via Ware (1738); Robert Kerr, *The Gentleman's House*
   (1865). **All four reach this report through one adversarial sourcing pass that checked them

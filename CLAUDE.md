@@ -698,7 +698,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **THE PARTI IS NOT THE TYPE, AND NO SCORE TERM CAN FIX THAT (WP-9.2).**
   `centre-passage-double-pile` names eleven enclosed ground rooms and a porch; **its own three
   named exemplars have six enclosed spaces apiece** — Drayton Hall 70'-5" x 52'-2" (HABS SC-377),
-  Gunston Hall 60'-10" x 40'-11½" (VA-141), Hammond-Harwood approx. 44 x 42 (MD-251). The placed
+  Gunston Hall 60'-10" x 40'-11½" (VA-141), Hammond-Harwood **49 ft wide on the house's own institution's
+  figure** (MD-251's 1940 "approximately 44x42'" is an approximation and is low). The placed
   Tidewater plan is 60.0 x 40.0 ft — **within a foot of Gunston Hall on both dimensions** — and
   puts TWELVE enclosed spaces in it. The envelope is right and the subdivision is not. Six of the
   parti's eleven rooms are service, and all three exemplars house their service in a basement, an
