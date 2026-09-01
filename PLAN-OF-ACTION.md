@@ -1069,7 +1069,24 @@ rule, un-exempted and with no second door authored. That wants a ruling.
 **Depends on:** nothing. **Size:** medium.
 
 ### WP-9.2 The precedents
-**Status: NOT STARTED.** Real period plans, measured, under the partis' own exemplar names
+**Status: TEXT HALF DONE, IMAGE HALF STILL WAITING ON LUCAS'S DOWNLOAD.**
+`docs/reports/wp-9.2-the-parti-is-not-the-type.md`. The package text below is left as written.
+What changed: **loc.gov is reachable through the Tavily MCP tier**, so the HABS *written
+historical and descriptive data* — overall dimensions, room-by-room plan descriptions,
+structural systems, fenestration counts — could be read now rather than after a download, for
+the three exemplars `centre-passage-double-pile` itself names. The finding is that **the parti
+asks a Georgian main block to hold twice the rooms any of its exemplars holds**, because six of
+its eleven enclosed ground rooms are service and all three exemplars put their service in a
+basement, an outbuilding or a wing. That reframes WP-9.3 and WP-9.4: the envelope the generator
+produces is within a foot of Gunston Hall on both dimensions, so nothing is wrong with the
+footprint or the area, and no score term can undo a program that does not fit the type. Three
+open questions raised: `oq/the-parti-dissolved-its-own-dependencies`,
+`oq/a-massing-states-its-structure-and-nothing-reads-it`,
+`oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it`. **Still not done:** no sheet
+transcribed, `plans/precedents/` does not exist, no band changed, no parti edited — the first
+of those three questions is Lucas's to rule before any of it.
+
+Real period plans, measured, under the partis' own exemplar names
 (Drayton Hall, Gunston Hall, Hammond-Harwood, Mount Airy, Shirley, Westover). The 14 "reference
 plans" are transcriptions of MODERN plan-book screenshots and there is no period building
 anywhere in `plans/`; the asset manifest holds 1,850 records and **zero of kind `plan` or
@@ -1083,7 +1100,28 @@ period building is either a band corrected here or a conviction defended by name
 **Depends on:** WP-9.1 for the derivations; Lucas for the sheet images. **Size:** large.
 
 ### WP-9.3 The record heard
-**Status: NOT STARTED.** Deterministic first, no weights: the passage's width clamped to its own
+**Status: NOT STARTED. Two furniture defects were found by WP-9.2 and belong here, ahead of any
+score term, because both are deterministic and both make the critic honest rather than changing
+what it wants.** (a) **The furniture layer never sees the drawing.** `plan_check.py:1250-1288`
+reads `r["width_ft"]`/`r["length_ft"]` — the DECLARED record — so `breakfast`, declared 12 x 14
+and drawn 7.0 x 27.0, passes a check whose own arithmetic says it cannot hold its essential table
+(needs 9.0 ft across, has 7.0). That is Lucas's second complaint, unreported. Where the check does
+fire it quotes the declared figure, so `cl3` reads "has 3 ft" against a rectangle drawn 2.0 ft
+wide and every shortfall in the set is understated — the OQ 52 family. Re-run the SAME arithmetic
+in the `drawn` layer (the only layer permitted to read placement, OQ 54): one function, two
+callers, on the `openings.required_wall_ft` precedent, never a second transcription.
+(b) **Every furniture item is assumed to rotate.** `fw, fl = sorted(it["footprint_in"])` takes the
+short dimension as the across-the-room requirement, so the kitchen island `[84, 27]` is turned
+sideways and a 10 ft kitchen passes at 9.25 ft where an island laid along its counter run needs
+14.0 ft. That is why the 10 x 30 kitchen Lucas called far too narrow survives its own furniture
+check. Needs a typed field on the item (rotatable / fixed-to-wall / fixed-to-run), AUTHORED — WP-7.2
+already paid for inferring `placement` from a name regex. A whole-room furnishability test was
+tried and REFUSED with its measurement: against-wall runs summed against the room perimeter flag
+nothing (the kitchen's five appliances are 12.75 ft against an 80 ft perimeter), because perimeter
+is not available wall; a real one needs the placed openings and belongs in the drawn layer.
+`docs/reports/wp-9.2-the-parti-is-not-the-type.md` §8.
+
+Deterministic first, no weights: the passage's width clamped to its own
 `width_ft` band intersected with the CASCADED kit's `min_passage_width` (never the raw kit —
 `oq/the-raw-kit-read`), and an arrival-aware stair, since `openings.stair_pass` anchors every
 flight at the room rectangle's origin corner by construction and every stair in the corpus is

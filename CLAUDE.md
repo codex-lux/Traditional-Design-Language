@@ -543,6 +543,59 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   a 16 x 20 kitchen drawn 10 x 30 at the same area is a finding rather than a silence. What
   remains true, and is the reason this entry exists: the SEARCH still charges a flat 12 and
   still wins while paying it. The critic can now name what the search will still do.
+- **THE FURNITURE CHECK READS THE DECLARED RECORD AND NEVER THE DRAWING, AND ONE PLACED ROOM IN
+  FIVE CANNOT BE FURNISHED (WP-9.2).** `plan_check.py:1250-1288` is a good check pointed at the
+  wrong record: `w, l = r.get("width_ft"), r.get("length_ft")`. Swept over all 16 plans, not the 2
+  that ship: **231 placed rooms, 73 across-fails on the DECLARED record, 133 on the DRAWN
+  rectangle, and 50 rooms (22%) fail an item their own record passes** — `bedroom` 13/19,
+  `dining-room` **8/13**, `kitchen` 6/16, `breakfast-room` 3/5. A dining table needs
+  (40 + 2 x 54)/12 = 12.33 ft across; the slicer draws dining rooms 10, 11, 6 ft wide against
+  records declaring 14-18. `spec-builder-colonial` draws a bedroom **6.0 x 38.0 ft** and two
+  closets **1.0 ft wide**. Where the check DOES fire it quotes the declared figure, so every
+  shortfall in the set is understated (the OQ 52 family). Fix in the `drawn` layer — the only layer
+  that may read placement (OQ 54) — as ONE function with two callers, never a second
+  transcription; and ratchet 50/133 rather than merely fixing, because they are the honest measure
+  of whether a placement change helps. **Second defect: `fw, fl = sorted(it["footprint_in"])`
+  assumes every item rotates**, so the kitchen island `[84, 27]` is turned sideways and a 10 ft
+  kitchen passes at 9.25 ft where an island along its counter run needs 14.0 — which is why the
+  10 x 30 kitchen Lucas called far too narrow survives its own furniture check. Needs a typed
+  orientation field, AUTHORED (WP-7.2 already paid for guessing `placement` from a name regex).
+  **The relation itself is right and is not the bug: furniture sets FLOORS, never sizes** (OQ 92,
+  "the tail wagging the dog"). A whole-room furnishability test was tried and REFUSED with its
+  number — against-wall runs summed against the room perimeter flag nothing (the kitchen's five
+  appliances are 12.75 ft against an 80 ft perimeter) because perimeter is not available wall; a
+  real one needs the placed openings. `docs/reports/wp-9.2-the-parti-is-not-the-type.md` §8.
+- **THE PARTI IS NOT THE TYPE, AND NO SCORE TERM CAN FIX THAT (WP-9.2).**
+  `centre-passage-double-pile` names eleven enclosed ground rooms and a porch; **its own three
+  named exemplars have six enclosed spaces apiece** — Drayton Hall 70'-5" x 52'-2" (HABS SC-377),
+  Gunston Hall 60'-10" x 40'-11½" (VA-141), Hammond-Harwood approx. 44 x 42 (MD-251). The placed
+  Tidewater plan is 60.0 x 40.0 ft — **within a foot of Gunston Hall on both dimensions** — and
+  puts TWELVE enclosed spaces in it. The envelope is right and the subdivision is not. Six of the
+  parti's eleven rooms are service, and all three exemplars house their service in a basement, an
+  outbuilding or a wing. **Area was never the binding constraint** (the ground program's own bands
+  sum to 1,376-4,402 sf against a 2,400 sf floor); every sliver Lucas named is a room INSIDE its
+  area band and OUTSIDE its width or proportion band — the kitchen at 10 x 30 = 300 sf sits inside
+  its 120-340 band while standing 67% over its proportion ceiling of 1.8. That is why WP-9.4's
+  sweeps moved nothing: **you cannot score your way out of a program that does not fit the type,
+  and a stated macro-tree would arrange the wrong twelve rooms more tidily.** The corpus states the
+  answer three times and can act on none of them — `four-over-four`'s `expansion_logic`
+  ("flanking dependencies connected by hyphens ... growth must respect the axis or the whole logic
+  fails") has a counter, an HTML dump and an API echo for readers; `grows_by` has ONE reader,
+  `core.py:1364`, echoing it; `structural_logic` has **zero**. The generator's only growth mode is
+  widening. `partis/five-part-palladian.json` already does it correctly, with two
+  `gallery-corridor` hyphens and the whole service program beyond them.
+  `oq/the-parti-dissolved-its-own-dependencies`, and read
+  `docs/reports/wp-9.2-the-parti-is-not-the-type.md` before proposing a placement change here.
+- **loc.gov IS reachable through the Tavily MCP tier, and the HABS written data is TEXT (WP-9.2).**
+  The plain proxy still answers 403 to CONNECT for www.loc.gov (that is WP-4.4's block and it
+  stands), but `mcp__Tavily__tavily_extract` reaches
+  `https://tile.loc.gov/storage-services/master/pnp/habshaer/<st>/<st>NN00/<item>/data/<item>data.pdf`
+  and those PDFs carry overall dimensions, room-by-room plan descriptions, structural systems and
+  fenestration counts as extractable prose. `va0433` Gunston Hall, `sc0132` Drayton Hall,
+  `md0035` Hammond-Harwood, `va0313` Shirley. **One extract does not return the whole document** --
+  re-query the same URL with a different `query` and a different span comes back, so an agent that
+  queries once and reports "the survey does not say" is wrong. This does NOT close OQ 7-11 or
+  OQ 18's source half: those need legible FACSIMILES and this is prose about the plates.
 - **A plan's `exterior_walls` are aspirations, not rectangle edges.** Three Tidewater ground
   rooms each declare *opposite* walls, so each would have to span the full depth of the house.
   They are weights, at the 14 points `exterior_score` charges. Do not promote them to
@@ -893,8 +946,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **111 entries, of which 38 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **114 entries, of which 41 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-parti-dissolved-its-own-dependencies, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

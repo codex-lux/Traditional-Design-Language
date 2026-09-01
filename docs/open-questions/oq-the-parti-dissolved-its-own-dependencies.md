@@ -1,0 +1,74 @@
+# oq/the-parti-dissolved-its-own-dependencies — a Georgian main block asked to hold a service program the type put in outbuildings
+
+*Status: OPEN · Raised in: WP-9.2, the precedents measured (1 Sep 2026)*
+
+**`partis/centre-passage-double-pile.json` names eleven enclosed ground-floor rooms and a porch.
+Its three named exemplars have six enclosed spaces apiece, in the same footprint or a larger
+one.** That is the whole of the Chomsky complaint, measured.
+
+| | source | main block | bays | enclosed ground spaces |
+|---|---|---|---|---|
+| Drayton Hall, 1738–42 | HABS SC-377 | 70'-5" × 52'-2" | 7 | ~6 |
+| Gunston Hall, 1755–59 | HABS VA-141 | 60'-10" × 40'-11½" | 5 | **6** |
+| Hammond-Harwood, 1774–77 | HABS MD-251 | approx. 44' × 42' | 5 | — (five-part) |
+| `tidewater-georgian-careful` as placed | this corpus | 60.0 × 40.0 | 6 | **12** |
+
+Gunston Hall's first floor, from the survey: a central passage, a narrow side passage, and four
+rooms — the Palladian Room, the Chinese Room, the Chamber, the Little Parlour. The generated plan
+puts twelve enclosed spaces in the same 2,400 sf. Mean space 415 sf against 200 sf.
+
+**Six of the parti's eleven rooms are service** — butler's pantry, back hall, powder room,
+kitchen, pantry, breakfast room — and **all three exemplars house their service somewhere else.**
+Gunston Hall's kitchen was a separate building. Drayton Hall's service is in the raised basement
+around a Servant's Hall with an 8'-0" fireplace. Hammond-Harwood puts its service in wings:
+*"the end wings are about 34' x 18, and the connecting links are 18 long."*
+
+**The corpus already says so, three times, and nothing can act on any of it.**
+
+- `massings/catalog.json`, `four-over-four` — the massing this plan declares — `expansion_logic`:
+  *"Flanking dependencies connected by hyphens (the five-part scheme), or a rear service ell.
+  Growth must respect the axis or the whole logic fails."* Read by a counter, an HTML dump and an
+  API echo; nothing acts on it.
+- The parti's own `scaling.note`: *"Grows to seven bays and then wants dependencies rather than
+  more width."* `grows_by` has exactly one reader, `mcp_server/core.py:1364`, echoing it into a
+  response.
+- `partis/five-part-palladian.json` does it correctly — `westhyphen` and `easthyphen`, both typed
+  `gallery-corridor`, with kitchen, pantry, breakfast, butler's, powder, mud, laundry and garage
+  beyond them, and the groupings `dependency-and-hyphen` and `garage-and-hyphen`.
+
+So the corpus holds a faithful diagram of the type with its service in dependencies, and a second
+diagram calling itself the same type with the dependencies dissolved into the main block. The
+generator's only growth mode is widening: `derive_footprint` adds bays until the rooms fit or the
+lot stops it. **It cannot build a dependency**, and no room type for one exists outside
+`five-part-palladian`'s two hyphens.
+
+**Why this matters more than any scoring change.** WP-9.4 swept the search terms and moved
+nothing, and this is why. Area was never the binding constraint — the ground program's own bands
+sum to 1,376–4,402 sf against a 2,400 sf floor, so it fits. Every sliver Lucas named is a room
+INSIDE its area band and OUTSIDE its width or proportion band. The kitchen at 10 × 30 = 300 sf
+sits inside its 120–340 sf band while standing 67% over its proportion ceiling of 1.8. You cannot
+score your way out of a program that does not fit the type; a stated macro-tree would arrange the
+wrong twelve rooms more tidily.
+
+**Three answers, and they cost very different amounts.**
+
+1. **Strip the service out of the diagram and teach the generator to build a dependency.** The
+   honest one and by far the most work: it needs a hyphen and a wing in the placement, which
+   nothing today can produce, and it turns `derive_footprint`'s single growth mode into a choice.
+   It would also give `expansion_logic` and `grows_by` their first real readers.
+2. **Keep the diagram and say what it is.** `centre-passage-double-pile` becomes an explicitly
+   modern house in a Georgian envelope — legitimate, widely built, and it would need the parti's
+   own prose to say so rather than naming three eighteenth-century exemplars it cannot produce.
+3. **Make the composer prefer `five-part-palladian` when the brief's service program will not
+   fit.** Cheapest, and it uses a diagram that already exists and is already correct. It needs a
+   measure of "will not fit" — a room count or a service-area fraction against the massing's own
+   `bays` — which is a threshold this corpus would have to author.
+
+**The exemplars are not evidence for (2).** A parti that names Drayton Hall, Gunston Hall and
+Hammond-Harwood is claiming to be the diagram those buildings are instances of. If the answer is
+(2), the exemplar list is the thing that has to change.
+
+**Related, and deliberately not folded in.** `oq/a-massing-states-its-structure-and-nothing-reads-it`
+is the other half of the same reading — the stair hall's structural job — and
+`oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it` is a third. They are separable: this
+one is about how many rooms, those are about where the walls go.

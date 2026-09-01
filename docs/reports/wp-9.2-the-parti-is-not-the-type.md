@@ -1,0 +1,469 @@
+# WP-9.2 — The precedents, measured: the parti is not the type
+
+*Status: the text-first half of WP-9.2 is done and this is its report. The image half — the
+transcription of measured sheets into `plans/precedents/` — still waits on the batch Lucas
+downloads. A second, parallel study of the compositional literature is running as this is
+written; its synthesis will be appended rather than replacing anything here, and where the two
+disagree the disagreement gets stated.*
+
+Lucas read a `tidewater-georgian-careful` sheet on 1 Sep 2026 and listed seven incoherences,
+then said what he thought was wrong with the process: *"it's still being procedurally generated
+at a lower level than the idiom, which, when put together, doesn't actually make sense at a
+higher literary level … the unit of room organization is already established, and you're playing
+with units at a higher level of sense-making."* He asked for the program to be measured against
+real, fully laid-out plans of the period before any more code was written. WP-9.4 did not do
+that — it did code archaeology and got a negative result. This does it.
+
+**The finding is that the diagram is wrong, not the search.** `centre-passage-double-pile` names
+eleven enclosed ground-floor rooms and a porch, and the plan built from it places twelve enclosed
+spaces. Its own three named exemplars have six apiece, in the same or a larger footprint. Every
+sliver on Lucas's sheet is what happens when you cut six rooms' worth of compartments into twelve. The tradition's answer to the same pressure is written in the corpus
+already, in the massing record's own `expansion_logic` field, and nothing reads it.
+
+**The second finding is a measurement of the consequence.** Lucas asked, mid-study, that furniture
+be studied too — *"I don't think furniture layout should govern room sizes, but some room sizes
+are awkward or entirely impossible to effectively furnish."* The corpus already takes that exact
+position and already implements it, well. But the furniture check reads the **declared** record and
+never the drawing, so: over all sixteen plans, **50 of 231 placed rooms — one in five — cannot hold
+an essential piece of furniture that their own declared record can, and not one of those is
+reported.** Eight of the thirteen dining rooms in the corpus fail their own dining table. §8.
+
+---
+
+## 1. The route: loc.gov is reachable after all
+
+`build/harvest_habs.py` has been queued since WP-4.4 against a proxy that answers 403 to CONNECT
+for www.loc.gov. That is still true of the plain proxy. **It is not true of the Tavily MCP tier**,
+which reaches loc.gov and — more usefully — `tile.loc.gov`, where the HABS *written historical and
+descriptive data* PDFs live. Those are text, not images: they carry overall dimensions, floor-plan
+descriptions room by room, structural systems and fenestration counts, and they extract cleanly.
+
+The URL is derivable from the item id:
+
+```
+https://tile.loc.gov/storage-services/master/pnp/habshaer/<st>/<st>NN00/<item>/data/<item>data.pdf
+```
+
+`va0433` is Gunston Hall, `sc0132` Drayton Hall, `md0035` Hammond-Harwood, `va0313` Shirley. One
+extract does not return the whole document — re-query the same URL with a different `query` string
+and a different span comes back. That is a property of the extractor, not of the file, and an
+agent that queries once and concludes "the report does not say" is wrong.
+
+**This does not close OQ 7–11 or OQ 18's source half.** Those need legible *facsimiles* — the
+plates themselves — and this is prose about the plates. It does mean the arrangement half of the
+precedent work can proceed now, without waiting on a download.
+
+## 2. What the three exemplars actually measure
+
+`partis/centre-passage-double-pile.json` names Drayton Hall, Hammond-Harwood and Gunston Hall.
+All three are in HABS. All three are quoted here verbatim from the written data.
+
+| Building | HABS | item | Main block | Bays | ft/bay | Gross/floor |
+|---|---|---|---|---|---|---|
+| Drayton Hall, 1738–42 | SC-377 | `sc0132` | 70'-5" × 52'-2" excl. portico | 7 | 10.06 | 3,674 sf |
+| Gunston Hall, 1755–59 | VA-141 | `va0433` | 60'-10" × 40'-11½" | 5 | 12.17 | 2,492 sf |
+| Hammond-Harwood, 1774–77 | MD-251 | `md0035` | approx. 44' × 42' | 5 | 8.80 | 1,848 sf |
+
+> Drayton Hall: "Rectangular, with projecting portico on the southwest (land) facade; 70'-5" x
+> 52'-2", excluding portico; 7-bay front; 2 stories plus raised basement."
+
+> Gunston Hall: "The mansion is a rectangle of [4]0 feet 11-1/2 inches by 60 feet 10 inches,
+> exterior foundation measurements." (The OCR renders the leading 4 as `h`.) Its front is five
+> bays: "There are four large windows on each of the north and south facades, with a pair of
+> smaller windows flanking the main doors" — two large each side of a tripartite centre — and
+> "The north and south facades have five dormer windows each."
+
+> Hammond-Harwood: "The two-story main block is approximately 44x42', the end wings are about
+> 34' x l8, and the connecting links are 18 long." / "Central portion five bays wide."
+
+Observed bay module: **8.8, 10.06, 12.17 ft.** The parti declares `bay_module_ft: 9` — inside the
+observed range, at its low end. That is defensible and is not the problem.
+
+## 3. The envelope is right. The subdivision is not.
+
+`plans/tidewater-georgian-careful.json` placed on `auto` comes out at **60.0 × 40.0 ft, 6 bays of
+10.0 ft, 2,400 sf gross per floor**. That is within one foot of Gunston Hall on both dimensions.
+The program's own declared area bands sum to 1,376–4,402 sf on the ground floor, so 2,400 sf sits
+comfortably inside them. **Nothing is wrong with the envelope and nothing is wrong with the area.**
+
+What is wrong is how many pieces it is cut into.
+
+| | Gunston Hall | the generated plan |
+|---|---|---|
+| Gross ground floor | 2,492 sf | 2,400 sf |
+| Enclosed ground spaces | **6** | **12** |
+| Mean space | 415 sf | 200 sf |
+
+Gunston Hall's first floor, from the survey: a central passage, a narrow side passage, and four
+rooms — the Palladian Room, the Chinese Room (northwest Chamber), the Chamber and the Little
+Parlour. Six spaces. Drayton Hall names a Great Hall, a Stair Hall, a Library, an Ionic Room and a
+Dining Room, with a further room completing the symmetry: six or seven spaces in 3,674 sf.
+
+The generated plan puts twelve enclosed spaces in Gunston Hall's footprint. Halve every
+compartment in a house whose depth is fixed at 40 ft and the compartments become slivers. That is
+the whole of Lucas's list:
+
+```
+kitchen      10.00 x 30.00   ar 3.00   length 30 against its own [12,22] ceiling
+breakfast    27.00 x  7.00   ar 3.86   width 7 against its own [8,13] floor
+library      10.00 x 24.00   ar 2.40   width 10 against its own [13,22] floor
+passage      10.00 x 37.00   ar 3.70   legal on every band it declares
+porch        23.00 x  3.00   ar 7.67   width 3 against its own [5,10] floor
+dining       17.00 x 17.00   ar 1.00   at (23,7): interior, no exterior wall
+stair        10.00 x 13.00   ar 1.30   at (50,27): the far corner
+backhall      5.00 x 27.00   ar 5.40
+upper: primarybath 29 x 6 (ar 4.83) · cl3 2.00 x 18.97 (ar 9.48) · dressing 18 x 6 (ar 3.00)
+```
+
+Every one of those rooms is **inside its area band and outside its width or proportion band**. The
+kitchen at 10 × 30 = 300 sf sits inside its 120–340 sf band while standing 67% over its proportion
+ceiling of 1.8. Area was never the constraint that was binding, which is why WP-9.4's scoring
+changes moved nothing: they re-ranked candidates drawn from a pool that had already accepted the
+wrong number of rooms.
+
+## 4. Where the twelve rooms come from, and where the tradition puts them
+
+`partis/centre-passage-double-pile.json` names, on level 0: `porch, passage, stair, drawing,
+dining, library, butlers, backhall, powder, kitchen, pantry, breakfast` — eleven enclosed rooms
+and a porch. **Six of the eleven are service**: butler's pantry, back hall, powder room, kitchen,
+pantry and breakfast room. The plan adds a second back hall (`cellarstair`) and a terrace, which
+is how twelve enclosed spaces get placed.
+
+**Gunston Hall's kitchen was a separate building.** So was Drayton Hall's; its service is in the
+raised basement, around a Servant's Hall with an 8'-0" fireplace. Hammond-Harwood puts its service
+in wings: "the end wings are about 34' x 18, and the connecting links are 18 long." All three
+exemplars solve the service program by *not putting it in the main block*.
+
+The corpus knows this. Three separate records say so:
+
+- `massings/catalog.json`, `four-over-four` — the massing this very plan declares —
+  `expansion_logic`: **"Flanking dependencies connected by hyphens (the five-part scheme), or a
+  rear service ell. Growth must respect the axis or the whole logic fails."**
+- The parti's own `scaling.note`: **"Grows to seven bays and then wants dependencies rather than
+  more width. Beyond about 5,000 sf the passage becomes a corridor and the diagram stops
+  working."**
+- `partis/five-part-palladian.json` does it correctly: it carries `westhyphen` and `easthyphen`
+  (both typed `gallery-corridor`) and puts kitchen, pantry, breakfast, butler's, powder, mud,
+  laundry and garage beyond them, with the groupings `dependency-and-hyphen` and
+  `garage-and-hyphen`.
+
+So the corpus contains a faithful diagram of the type with its service in dependencies, and a
+second diagram calling itself the same type with the dependencies dissolved into the main block.
+The plan Lucas read was composed on the second.
+
+**Nothing can act on any of it.** `grows_by` is read in exactly one place —
+`mcp_server/core.py:1364`, echoing it into an API response. `expansion_logic` has three readers:
+a counter in `gen_readme_counts.py`, an HTML dump in `render_html.py`, and another API echo.
+`structural_logic` has **zero**. The generator's only growth mode is widening: `derive_footprint`
+adds bays until the rooms fit or the lot stops it. It cannot add a dependency, and no room type
+for one exists outside `five-part-palladian`'s two hyphens.
+
+## 5. The structure is the plan, and the corpus says so in a field nobody reads
+
+> Gunston Hall: "Gunston Hall has solid brick walls including **all but one interior bearing
+> wall**, which is a stud framed wall."
+
+> Drayton Hall: "In addition to the exterior bearing walls there are **two interior brick bearing
+> walls** parallel to the northwest and southeast walls." And, of the service stair, it "occupies
+> the space between the chimney and **the brick bearing wall between this room and the Great
+> Hall**."
+
+In both exemplars the principal interior partitions *are* the structure: masonry, continuous, and
+few. A room is a compartment between two bearing lines. You cannot make a 10 × 30 sliver in such a
+house, because the lines that could bound it do not exist.
+
+`massings/catalog.json` states this exactly, for this massing:
+
+> `structural_logic`: **"Two rooms deep requires an interior bearing wall, which the stair hall
+> supplies. Paired end chimneys serve four fireplaces per floor."**
+
+Zero readers. And the placement contradicts it directly: the stair is a 10 × 13 room at (50, 27),
+in the corner, supplying no wall to anything. That is Lucas's complaint 6 — *"the stairs are shoved
+off into the corner"* — and it is not a matter of taste. The stair hall is supposed to be the
+spine wall of a double-pile house, and the search does not know it has a structural job.
+
+This is also the unexamined half of OQ 98 and of WP-7.4's 49.93 ft clear span. Real double-pile
+houses do not span 50 ft because they have a masonry spine. The corpus's plans have no spine
+because the slicer has no reason to make one.
+
+## 6. The passage: legal, and still wrong
+
+`passage 10.00 x 37.00` is within every band `rooms/centre-passage.json` declares — width 10 in
+[6,14], length 37 in [20,40], proportion 3.70 in [2.0,5.0], area 370 in [130,400]. The fault
+`passage-that-is-a-corridor` tests `passage_clear_width_ft at-least 8.0` **and nothing else**, so a
+10 ft passage passes it at any length whatever. The corpus cannot presently say that a 37 ft
+undivided passage is wrong.
+
+Two things are missing, and the second is the interesting one.
+
+**(a) The record already contains the arithmetic that condemns it.** The `centre-passage` daylight
+note reads: *"Light from a fanlight and sidelights at the front reaches about 16 ft; the same at
+the rear reaches back the other 16; the two overlap in the middle and the passage is lit end to
+end."* 16 + 16 = 32, and the passage is 37 ft. By the corpus's own sentence this passage has a
+five-foot dark band in its middle. Nothing computes it; the 16 ft reach is prose, and
+`depth_multiplier` — the field that *is* read — is a different quantity.
+
+**(b) The tradition divides the passage, and the corpus has no word for it.** In a double-pile
+house the centre passage is not one long slot. It is divided at the pile line into an entrance
+hall in the front pile and a stair hall in the rear:
+
+> Gunston Hall: "The central passage shows French roccoco detail with the carved C-scrolls in the
+> spandrels of **the double elliptical arch that spans the center of the space**."
+
+> Drayton Hall: "Entering the Great Hall from the raised open terrace and recessed portico on the
+> southwest (land side) … **Immediately behind the Great Hall is the two-story stair Hall** with
+> double doors leading to the exterior porch on the northeast."
+
+A transverse arch at Gunston Hall; a wall and double doors at Drayton. Searching `rooms/`,
+`groupings/`, `partis/` and `faults/` for a transverse arch, a divided passage, or a passage
+subdivided at the pile line returns nothing. The corpus's answer to a passage that has become a
+corridor is to widen it; the eighteenth century's answer was to cut it in half across its length.
+Those are different moves and only one of them was available to the search.
+
+Also worth recording, from Gunston Hall: "The center passage has two small windows flanking the
+doors at each end of the house." The passage is lit by a door *plus a pair of windows* at each end
+— the corpus's "glazed at both ends" note, executed, and a stronger requirement than a fanlight.
+
+One measured passage width, from physical evidence rather than a drawing: Mount Pleasant's
+passage "measured 10'-11 1/2" brick to brick", read from the racking left by its dismantled masonry
+partitions. That is a secondary source reporting primary evidence and is cited as such — it is not
+enough on its own to move a band.
+
+## 7. The module is a nudge, not a generator
+
+`geometry.snap(v, module, tol)` returns the raw `v` unless the nearest bay line falls within `tol`,
+and `tol = bay * 0.28` (`geometry.py:1113`) — 2.8 ft on a 10 ft module. The function's own
+docstring already records the consequence, measured: *"18 of 30 ground wall lines on the shipped
+plans are themselves off the bay grid."* Sixty per cent of the wall lines miss the module the
+diagram declares.
+
+This is the difference between the corpus's process and the tradition's, stated at the smallest
+scale. Set against Glassie's account of Middle Virginia folk building, where the builder starts
+from a module and the room *is* the module, the corpus starts from an area fraction and then
+nudges the cut toward the module if it happens to land nearby.
+
+**What is actually established about Glassie's rule set, and what is not.** Established, from
+Deetz's *In Small Things Forgotten* (pp. 108–109), reading Glassie 1975: *"a relatively small set
+of rules, nine sub-divided sets, accounts for the complete generation of the folk house of middle
+Virginia"*; *"The unit in question is a square, ideally sixteen feet on a side … It is the same as
+the rod … Glassie sees it as a multiple of the cubit (18 inches), and his measurements of many
+houses support this proposition"*; *"Rooms tend to be sixteen feet square, chimney sections of
+houses eight feet (half the unit) wide."* The notation `XY3X` for a Georgian I house is confirmed
+by the book's index and by Vlach's 1978 review. **The rule text itself is NOT established** —
+*Folk Housing in Middle Virginia* is under lending restriction at archive.org and Google Books
+offers no preview of Chapter IV, "The Architectural Competence". Nobody should write Glassie's
+rules into this corpus from memory; that is precisely the laundering the first rule forbids.
+
+## 8. Furniture: it does not size a room, it falsifies one — and it is aimed at the wrong record
+
+Lucas, mid-study: *"be sure to study how furniture layout informs room size/shape. I don't think
+furniture layout should govern room sizes, but some room sizes are awkward or entirely impossible
+to effectively furnish."*
+
+**That is already the corpus's position and it is already built.** OQ 92 ruled furniture-driven
+sizing out — *"the tail wagging the dog"* — and arrangement in. `plan_check.py:1250-1288` reads
+each room type's `furniture` array (278 items across the catalogue, each carrying `footprint_in`,
+`clearance_in`, `placement` and `essential`) and asks whether the room can take each essential
+piece with its stated clearance. It fires **13 findings on `tidewater-georgian-careful`** and
+quotes the room's own `critical_dimension` prose as the rule for each. So the relation is right:
+**furniture sets floors, never sizes.** A floor is exactly a falsifier.
+
+And the corpus is very good on where those floors come from. Read across the catalogue, the rooms
+where furniture genuinely decides a dimension all decide it the same way — as a clear aisle,
+stated as arithmetic:
+
+- kitchen: *"a galley is 24 + 42 + 24 = 90 in, 7 ft 6 in clear, and a two-cook galley is 8 ft 0 in"*
+- butler's pantry: *"Double-sided is 24 + 42 + 24 = 90 in, 7 ft 6 in, and the 42 in is not
+  negotiable because two people pass in here carrying plates"*
+- walk-in closet: *"Double-loaded, 24 + 36 + 24 = 84 in … There is no useful walk-in between 5 ft
+  and 7 ft wide"*
+- entry porch: *"DEPTH, and the number is 8 ft, not 6. A rocking chair is 30 in deep and rocks
+  through another 24 to 30 in; a person passing behind it needs 36 in"*
+- stair hall: *"THE ARITHMETIC OF THE RUN, WHICH SIZES THE ROOM AND IS ALMOST NEVER DONE FIRST …
+  The choice between a straight flight and a dog-leg is therefore a decision about the plan's
+  proportion and not about the stair, and it must be made before the walls are drawn."*
+
+**Three defects, and the first is the one that matters.**
+
+**(1) It never sees the drawing.** `w, l = r.get("width_ft"), r.get("length_ft")` — the DECLARED
+record. So a room declared adequate and drawn as a sliver passes its own furniture check:
+
+| room | declared | drawn | verdict |
+|---|---|---|---|
+| `breakfast` | 12 × 14 | **7.0 × 27.0** | declared passes; drawn cannot take its essential table (needs 9.0 ft across, has 7.0) — **silent** |
+| `cl3` | 3 × 7 | 2.0 × 19.0 | fires, but the statement says "has 3 ft" |
+| `dressing` | 8 × 12 | 6.0 × 18.0 | fires, but says "has 8 ft" |
+| `porch` | 6 × 12 | 3.0 × 23.0 | fires, but says "has 6 ft" |
+
+The breakfast room is Lucas's second complaint exactly, and **the corpus holds the rule that
+convicts it and never runs it against the thing that was drawn.** Where the check does fire, it
+quotes the declared shortfall, so every one of them is understated — the OQ 52 family again, a
+defect reported smaller than it is.
+
+**Swept over all sixteen plans rather than the two that ship, because two plans is not a corpus:**
+
+```
+placed rooms carrying a catalogue type                                231
+across-fails on the DECLARED record  (what the critic reports today)   73
+across-fails on the DRAWN rectangle  (what is actually drawn)         133
+rooms failing an item their own declared record passes                 50   = 22% of placed rooms
+
+by type, failing / placed:   bedroom 13/19 · dining-room 8/13 · kitchen 6/16
+                             entry-porch 4/16 · breakfast-room 3/5 · laundry 3/6
+                             entrance-hall 2/10 · study 2/8 · closet 2/11
+```
+
+**One placed room in five cannot hold furniture its own record says it can, and nothing reports
+it.** The pattern is not random. **Eight of the thirteen dining rooms in the corpus fail their own
+dining table** — the table needs (40 + 2 × 54) / 12 = 12.33 ft across and the slicer draws them
+10, 11, 6 ft wide while their records declare 14 to 18. Thirteen of nineteen bedrooms fail their
+beds. `spec-builder-colonial` draws `bed3` at **6.0 × 38.0 ft** and two closets at **1.0 ft wide**.
+These are not near-misses; they are rooms nobody could build.
+
+The fix is bounded by the OQ 54 ruling: the `drawn` layer is the only layer permitted to read
+placement, so this is a drawn-layer re-run of the same arithmetic, one function with two callers,
+on the `openings.required_wall_ft` precedent. It must not become a second transcription of the
+rule. **And it should be ratcheted, not just fixed** — 50 and 133 are ceilings that may only come
+down, and they are the honest measure of whether anything WP-9.3 or WP-9.4 does to the placement
+actually helps.
+
+**(2) Every item is assumed to rotate, and that is why the kitchen passes.**
+`fw, fl = sorted(it["footprint_in"])` takes the SHORT dimension as the across-the-room
+requirement — right for a chair, wrong for anything whose orientation is fixed by what it serves.
+The kitchen island is `[84, 27]`; sorted gives 27, so a 10 ft kitchen needs
+(27 + 2 × 42) / 12 = 9.25 ft and passes. Laid the way an island is actually built — parallel to
+its counter run — it needs (84 + 2 × 42) / 12 = **14.0 ft**, and the 10 × 30 kitchen Lucas called
+far too narrow fails by four feet. **The kitchen survives its own furniture check because the
+check turns the island sideways.** The same is true of a counter run, a bed, a sofa against a
+wall, and the stair itself. The fix is a typed field on the item — rotatable, fixed to a wall,
+fixed to a run — authored, never guessed from the item's name: WP-7.2 already paid for inferring
+`placement` from a regex and getting 84 items where the authored data says 159.
+
+**(3) Items are checked one at a time and nothing sums them — but the obvious whole-room test
+does not bite, and here is the measurement rather than a silence.** Summing every essential
+against-wall item's run against the room's own perimeter flags **nothing** on either shipped plan.
+The kitchen's five against-wall appliances total 12.75 ft against an 80 ft perimeter — 16%. The
+test is too lenient because perimeter is not available wall: doors, windows, the chimney breast
+and the room's own openings take most of it, and `needs_uninterrupted_wall_ft` (five items,
+WP-7.4) is the only place in the corpus that states a run requirement at all. A whole-room
+furnishability test needs the placed openings, which means it belongs in the drawn layer beside
+them and not in the room layer where the per-item check lives. Recorded as refused-for-now with
+its number, not as an idea.
+
+**A caution about the model itself, marked editorial.** The furniture catalogue describes a
+modern household — an island, a dishwasher, a pair of sofas facing each other. Eighteenth-century
+rooms were furnished round the walls, with chairs and tables brought out to the centre when wanted
+and pushed back after, which would make a Georgian room's size a function of available wall run
+plus what the centre must clear when a table is brought out. That is the standard account in the
+furniture-history literature and it is repeated in period-interior writing, but **nothing reachable
+from here states it with the authority a corpus rule needs, so it is recorded as a reading and
+nothing is built on it.** It matters only as a caution: do not take the furniture model's silence
+about a Georgian room as evidence the room is right, and do not run the argument backwards to
+justify a band. The bands come from the room catalogue and the precedents. Furniture falsifies.
+
+## 9. What this says about WP-9.3 and WP-9.4
+
+WP-9.4's negative result stands and is now explained. It refused a stated macro-tree on the ground
+that the quadrant structure was already effectively determined, and it found that no scoring change
+moved the ledger. Both are true, and neither reaches this: **you cannot score your way out of a
+program that does not fit the type.** A stated tree that arranges twelve rooms in a Georgian main
+block arranges the wrong twelve rooms more tidily.
+
+The one number from WP-9.4 that survives intact and now has an architectural reading: changing only
+the engine takes fatals 123 → 36 and unreachable rooms 121 → 34, and 121 of 123 heuristic fatals
+are *"cannot be reached from outside the house."* A house whose rooms cannot be reached is a house
+with no spine and no hierarchy of circulation — the same absence as §5.
+
+## 10. What was deliberately not done
+
+- **No band was changed and no threshold authored.** Three measured buildings are not a
+  calibration set, and one of the three (Hammond-Harwood) is a five-part scheme whose main-block
+  figure is not comparable to a bare double pile without care.
+- **No parti was edited.** Whether `centre-passage-double-pile` should lose its service rooms, or
+  gain hyphens, or be split into two diagrams, is Lucas's decision and §11 puts it to him.
+- **No transverse-arch record was authored.** It would be a new vocabulary item in the room or
+  grouping schema and it needs a ruling first; it is raised as an open question, not invented.
+- **The Shirley attribution was not corrected.** `centre-passage-single-pile` names Shirley
+  Plantation, and `va0313`'s written data says of it: *"There is no hallway in the usual sense of
+  the word, the stairhall being the architectural feature of the house."* That reads like a
+  misattribution, but a single extracted span of one HABS report is not enough to overturn an
+  exemplar, and Shirley's Great House is not a simple case. Flagged, not changed.
+- **The image half of WP-9.2 is untouched.** No sheet has been transcribed; `plans/precedents/`
+  does not exist yet.
+
+## 11. New open questions
+
+- `oq/the-parti-dissolved-its-own-dependencies` — `centre-passage-double-pile` names eleven
+  enclosed ground-floor rooms where its three named exemplars have six, because the service program the
+  type housed in dependencies has been folded into the main block. Is the fix to move the service
+  out (and give the generator a way to build a dependency), to split the diagram in two, or to let
+  the composer choose `five-part-palladian` when the brief's service program will not fit?
+- `oq/a-massing-states-its-structure-and-nothing-reads-it` — `structural_logic` has zero readers
+  across the tree, and the one it states for `four-over-four` ("the stair hall supplies the
+  interior bearing wall") is contradicted by every placement the search produces. Should the
+  massing's structural statement bind the placement, and if so as a constraint or a charge?
+- `oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it` — the transverse arch (Gunston
+  Hall) and the hall/stair-hall division (Drayton Hall) are how the type keeps a full-depth
+  passage from reading as a corridor. There is no vocabulary for a room divided across its length
+  by anything but a wall.
+
+## 12. For Lucas
+
+Four questions, and only the first is urgent. **The furniture defects in §8 are not among them:
+both are plain bugs with a clear fix, they are recorded as WP-9.3 work rather than as questions,
+and nothing about them needs a ruling.**
+
+1. **The parti.** `centre-passage-double-pile` asks a Georgian main block to hold a kitchen, a
+   breakfast room, a pantry, a butler's pantry, a powder room and a back hall — and the shipped
+   plan carries a second back hall on top of that. Drayton Hall,
+   Gunston Hall and Hammond-Harwood — the parti's own exemplars — put all of that in a basement,
+   an outbuilding or a wing. Do we (a) strip the service rooms out of the diagram and teach the
+   generator to build a dependency, (b) keep the diagram and accept that it is a modern house
+   wearing a Georgian envelope, or (c) make the composer prefer `five-part-palladian` whenever the
+   brief carries a service program this size? (a) is the honest one and it is also the most work:
+   it needs a hyphen and a dependency in the placement, which nothing today can produce.
+
+2. **The stair as structure.** The massing record says the stair hall supplies the interior bearing
+   wall of a double-pile house. Should that be enforced — the stair hall placed as a full-depth
+   spine rather than as a room the slicer drops wherever it fits?
+
+3. **The divided passage.** Do you want a transverse division at the pile line as a piece of
+   vocabulary — a passage that is two rooms with an arch between them — or is that detail rather
+   than plan, and better left to the elevation and section?
+
+4. **Whose furniture?** The catalogue's 278 items describe a modern household — an island, a
+   dishwasher, sofas facing each other. Eighteenth-century rooms were furnished round the walls
+   with the centre kept clear and chairs brought out when wanted, which would make a Georgian
+   room's size a function of wall run plus what the centre must clear. If that is right, the
+   furniture check is asking a modern question of a Georgian room and its silences mean less than
+   they look like they mean. **Is it worth a period furnishing mode at all, or is one modern
+   floor-set per room the right simplification for a program people will actually live in?** I
+   could not source the convention to the standard this corpus needs, so this is a question about
+   what to build rather than a finding — and nothing has been built on it.
+
+---
+
+## Sources
+
+- Historic American Buildings Survey, **Drayton Hall**, HABS SC-377, written historical and
+  descriptive data, `tile.loc.gov/…/sc/sc0100/sc0132/data/sc0132data.pdf`. Prepared by Woodrow W.
+  Wilkins, revised and edited by Druscilla J. Null, July 1984.
+- HABS, **Gunston Hall**, HABS VA-141, `…/va/va0400/va0433/data/va0433data.pdf`.
+- HABS, **Hammond-Harwood House**, HABS MD-251, `…/md/md0000/md0035/data/md0035data.pdf`.
+  Original data prepared by Delos E. Smith, 1940.
+- HABS, **Shirley**, `…/va/va0300/va0313/data/va0313data.pdf`.
+- James Deetz, *In Small Things Forgotten*, pp. 108–109, reading Henry Glassie, *Folk Housing in
+  Middle Virginia* (Knoxville: University of Tennessee Press, 1975). Reproduced at
+  `histarch.illinois.edu/plymouth/house.html`.
+- John Michael Vlach, review of Glassie, *Folk Housing in Middle Virginia*, 1978 (JSTOR 1499320),
+  for the `XY3X` notation.
+- Mount Pleasant Plantation, architectural history, Period 1, for the 10'-11½" brick-to-brick
+  passage measurement read from partition racking. Secondary, reporting primary evidence.
+- Dell Upton, "Vernacular Domestic Architecture in Eighteenth-Century Virginia", *Winterthur
+  Portfolio* 17:2–3 (1982), 95–119 — cited by `rooms/centre-passage.json`'s own history note;
+  **the article itself was not read here** and nothing in this report rests on it.
+
+*Corpus files read: `partis/centre-passage-{double,single}-pile.json`,
+`partis/five-part-palladian.json`, `partis/hall-and-parlor.json`, `massings/catalog.json`,
+`rooms/centre-passage.json`, `faults/passage-that-is-a-corridor.json`,
+`plans/tidewater-georgian-careful.json`, `build/geometry.py`, `build/structure.py`.*
