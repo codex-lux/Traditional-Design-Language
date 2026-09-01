@@ -374,7 +374,30 @@ the engine takes fatals 123 → 36 and unreachable rooms 121 → 34, and 121 of 
 are *"cannot be reached from outside the house."* A house whose rooms cannot be reached is a house
 with no spine and no hierarchy of circulation — the same absence as §5.
 
-## 10. What was deliberately not done
+## 10. The seven complaints, against the critic as it stands today
+
+`plan_check` on the placed record now produces 45 drawn findings for this plan. Mapped to Lucas's
+original list — and the two it cannot name are exactly the two questions §11 raises, which is the
+reason to trust the mapping rather than treat it as a coincidence:
+
+| # | complaint | named? | what the critic says |
+|---|---|---|---|
+| 1 | kitchen far too narrow | **yes** | "DRAWN 10.0 × 30.0 ft — 3.0 to 1, against the 1.05–1.8 band a kitchen is drawn to. The record declares 16 × 20; the placement kept the area and lost the room." |
+| 2 | breakfast room too narrow | **yes** | "DRAWN 7.0 ft in its short dimension, below the 8 ft floor for a breakfast room" |
+| 3 | portico narrow, off the passage axis | **yes, both halves** | "DRAWN 3.0 ft … below the 5 ft floor" and "The front door is 3.5 ft off the axis of Centre Passage — the two openings do not overlap at all (3.2 ft would just touch)" |
+| 4 | dining room landlocked, no light | **yes** | "drawn in the middle of the house: it reaches no exterior wall on any side, so none of the 3 windows the record declares could be placed" |
+| 5 | library narrow | **yes** | "DRAWN 10.0 ft in its short dimension, below the 13 ft floor for a library" |
+| 6 | stair hall misshapen, **stair shoved into a corner** | **half** | the hall's own furniture check fires ("the stair itself … needs 9.5 ft across, has 9"); **the stair being in a corner is not named by anything** |
+| 7 | centre passage huge | **no** | its findings are "no window" and two adjacency notes; 10 × 37 is legal on every band it declares |
+
+**Six of seven, and the two failures are the two open questions.** Complaint 6's unnamed half is
+`oq/a-massing-states-its-structure-and-nothing-reads-it` — nothing in the corpus can say the stair
+hall has a structural position to hold. Complaint 7 is
+`oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it` — the passage is not out of band, it
+is undivided, and there is no vocabulary for that. Neither is a missing check; both are missing
+words.
+
+## 11. What was deliberately not done
 
 - **No band was changed and no threshold authored.** Three measured buildings are not a
   calibration set, and one of the three (Hammond-Harwood) is a five-part scheme whose main-block
@@ -391,7 +414,7 @@ with no spine and no hierarchy of circulation — the same absence as §5.
 - **The image half of WP-9.2 is untouched.** No sheet has been transcribed; `plans/precedents/`
   does not exist yet.
 
-## 11. New open questions
+## 12. New open questions
 
 - `oq/the-parti-dissolved-its-own-dependencies` — `centre-passage-double-pile` names eleven
   enclosed ground-floor rooms where its three named exemplars have six, because the service program the
@@ -407,7 +430,7 @@ with no spine and no hierarchy of circulation — the same absence as §5.
   passage from reading as a corridor. There is no vocabulary for a room divided across its length
   by anything but a wall.
 
-## 12. For Lucas
+## 13. For Lucas
 
 Four questions, and only the first is urgent. **The furniture defects in §8 are not among them:
 both are plain bugs with a clear fix, they are recorded as WP-9.3 work rather than as questions,
