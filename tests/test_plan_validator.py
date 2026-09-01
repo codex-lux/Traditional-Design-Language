@@ -59,7 +59,18 @@ class TestShippedPlans:
         # a check stopped looking: the finding that remains still fires, with a better number.
         # That a span-capacity charge produces a sittable porch is a coincidence of this plan's
         # geometry and not a claim about the term.
-        assert result["counts"]["serious"] == 53
+        # 53 -> 57 on 1 Sep 2026 (WP-9.1), and every one of the four is a fault that could not
+        # be judged before because nothing supplied its measurement. THREE come from the fault
+        # layer, newly fed by build/arrangement.py: `closet-depth-taken-from-the-room` (The
+        # Depth Tax, 9.5 ft against an 11 ft floor), `front-door-into-the-living-room` (The Door
+        # With No Room Behind It, a 24 sf entry against 30), and `ceremonial-front-door` (The
+        # Front Door Nobody Uses, no daily route through the formal entry). The FOURTH is a
+        # grouping rule that carried a machine test and was never run: contemporary-service-
+        # core's mudroom clear width, 4 ft against its own 5 ft floor. This is the deliberately
+        # ordinary production plan written to see what the validator catches, and it is now
+        # caught on four more counts it always deserved -- against ONE new minor on the careful
+        # Tidewater below, which is the differential that says these are calibrated.
+        assert result["counts"]["serious"] == 57
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -79,7 +90,11 @@ class TestShippedPlans:
         # leaf-width ratios with no author and are refused now, and
         # `muntin-wider-than-its-date` stops firing too -- see the Tidewater note below.
         # The combined figure is 60 -- neither 62 nor 56, and not predictable from either.
-        assert result["counts"]["minor"] == 60
+        # 60 -> 62 on 1 Sep 2026 (WP-9.1): primary-suite's own share-of-the-sleeping-floor rule,
+        # which carried a test nothing evaluated, and the mud room at 4 x 9 ft -- 2.25 to 1
+        # against the 1.0-2.2 band its record states. 54 of the 60 room records declare a
+        # `proportion` band and no line of code had ever read one.
+        assert result["counts"]["minor"] == 62
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -138,7 +153,12 @@ class TestShippedPlans:
         # 62 -> 61 (OQ 52): the same invented stack-shadow-line count as the spec Colonial.
         # 61 -> 60 on 27 Aug 2026 (WP-5.13): `shutter-panel-scale`, which was reading two
         # fabricated leaf-width ratios -- see the serious-count note above.
-        assert result["counts"]["minor"] == 60
+        # 60 -> 61 on 1 Sep 2026 (WP-9.1): the linen press runs 5 ft against the 2.5-4 ft band
+        # its own record states. ONE new minor and NO new serious, on the plan written to see
+        # whether the validator stays quiet on a house that respects the corpus -- against four
+        # new serious on the spec Colonial. A check that convicts the careful plan and the
+        # ordinary one alike is measuring something other than quality, and this one does not.
+        assert result["counts"]["minor"] == 61
 
 
 class TestAdjacencyMechanics:

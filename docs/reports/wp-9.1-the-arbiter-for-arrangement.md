@@ -243,6 +243,18 @@ grouping's ratio rule is now evaluated in the grouping layer where the rest of i
 judged, and what stays in the drawn layer is the pair of checks that quote
 `rooms/centre-passage.json` directly.
 
+**6a. The two shipped plans move apart, which is the differential stated in one line.** The
+annotated count pins in `tests/test_plan_validator.py` had to move, and the shape of the move is
+the calibration evidence:
+
+| plan | serious | minor | what moved |
+|---|---|---|---|
+| `spec-builder-colonial` (deliberately ordinary) | **53 → 57** | 60 → 62 | three faults the arrangement layer newly feeds — a 9.5 ft secondary bedroom against an 11 ft floor, a 24 sf entry against 30, a formal entry on no daily route — plus contemporary-service-core's mudroom width, a grouping rule that carried a test nothing ran |
+| `tidewater-georgian-careful` (written to be quiet) | **30 → 30** | 60 → 61 | the linen press, 5 ft against its own 2.5-4 ft band |
+
+**Four new serious on the ordinary plan and none on the careful one.** A check that convicts
+both alike is measuring something other than quality.
+
 **7. The 164-style sweep is clean, and the differential is the result worth keeping.** Supplying
 withheld measurements arms every rule that presupposed them (OQ 89), so the sweep ran before
 anything else landed. **No evaluator errors surfaced** — no newly-reachable division by zero.

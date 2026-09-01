@@ -246,7 +246,8 @@ def test_the_corpus_has_no_room_type_that_could_state_a_plant_room(arr):
     catalogue gains the type. If this test starts failing, somebody added it, and the
     refusal should be revisited in the same commit."""
     import glob
-    ids = {json.load(open(f))["id"] for f in glob.glob(os.path.join(ROOT, "rooms", "*.json"))}
+    ids = {json.load(open(f))["id"]
+           for f in sorted(glob.glob(os.path.join(ROOT, "rooms", "*.json")))}
     assert not ids & {"mechanical-room", "plant-room", "utility-room"}
     assert "dedicated_plant_room_area_sqft" in arr.NOT_DERIVABLE
 
