@@ -543,6 +543,26 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   a 16 x 20 kitchen drawn 10 x 30 at the same area is a finding rather than a silence. What
   remains true, and is the reason this entry exists: the SEARCH still charges a flat 12 and
   still wins while paying it. The critic can now name what the search will still do.
+- **THE MODEL IS A GOOD CHECKER AND A BAD GENERATOR, AND THE STUDY SAYS WHY (WP-9.2, second
+  report).** `docs/reports/wp-9.2-what-the-tradition-actually-does.md` is the study Lucas asked
+  for before any more generator code -- five research passes over the treatises and the measured
+  record, an adversarial sourcing pass that rated the whole "partly-sourced", and a synthesis. Its
+  diagnosis, and it is Lucas's own complaint stated precisely: **"an area band plus a width band
+  plus a proportion band plus adjacency edges is a good CHECKER and a bad GENERATOR, because a
+  band carries no direction of causation."** Four bands over two free variables is
+  under-determined and a thousand rectangles satisfy it -- **area was satisfiable at any shape, so
+  area is what the generator satisfied.** The tradition never had that freedom because it never
+  chose two numbers at once: five independent sources describe a SEQUENCE OF COMMITMENTS
+  (establishment -> storey height -> breadth from span/hearth/daylight -> pile -> hall and stair
+  -> length from each room's own arithmetic -> doors -> **facade as a RESULT** -> bands as the
+  TEST, never the input). **Read §6 "what must not be coded yet" before building anything from
+  it**, and read the preface: the period quotations reach the tree at one remove and NO FACSIMILE
+  HAS BEEN READ HERE -- strong enough to stop a rule being built, not to build one. Two of the
+  study's own claims were corrected on verification and the corrections are in the preface:
+  `critical_dimension` is parsed by nothing but `openings.py::stair_pass` HAND-PORTS the
+  stair-hall's arithmetic while its own docstring says it has "been read by nothing" (two
+  spellings of one rule, unheld); and `room-harmonic.json`'s suite rule is not unreadable, it is
+  permanently UNJUDGED by `check_addresses.py` for want of a `quantity`.
 - **THE CORPUS FORBIDS THE SQUARE AND THE TRADITION PREFERS IT (WP-9.2).** 35 of 60 room records
   carry a `proportion` LOWER bound above 1.0 and 29 of those are habitable: `drawing-room`
   [1.25, 2.0], `hall` [1.3, 2.2], `parlor` [1.1, 1.45], `dining-room` [1.15, 1.8]. Mount Vernon's

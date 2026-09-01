@@ -258,6 +258,51 @@ passage "measured 10'-11 1/2" brick to brick", read from the racking left by its
 partitions. That is a secondary source reporting primary evidence and is cited as such — it is not
 enough on its own to move a band.
 
+### And the passage's width is stated four times, with four different floors
+
+Verified by reading the files. This is the repo's most-repeated wound — one rule spelled more than
+once — in a place nothing checks:
+
+| where | what it says | floor |
+|---|---|---|
+| `rooms/centre-passage.json` `width_ft` | the band | **6** |
+| the same file's `critical_dimension` | *"5 ft 6 in is the floor. Below that two people cannot pass while a door is open"* | **5.5** |
+| `groupings/centre-passage-core.json`, severity **hard** | *"Passage width 8 to 14 ft … Below 8 ft the stair cannot turn and the passage stops being a room."* | **8** |
+| `faults/passage-that-is-a-corridor.json` `test` | `passage_clear_width_ft at-least 8.0` | **8** |
+
+**And the fault contradicts itself inside one record**: its test hard-fails below 8.0 while its own
+note reads *"8 ft for a formal centre-passage plan and 6 ft for a northern vernacular one."* The
+room record's `critical_dimension` describes six-to-seven feet as one of two valid populations —
+*"SIX TO SEVEN FEET is a passage that circulates"* — which the grouping's hard rule and the fault's
+test both reject. Any check that enforces 8 ft convicts a passage the corpus elsewhere calls
+correct.
+
+Nothing here is invented: all four are in the tree today, and the disagreement is only invisible
+because `passage_clear_width_ft` had no supplier until WP-9.1 built one. **Do not reconcile these
+by picking a number.** No source in reach states a passage minimum, and the honest fix is to say
+which establishment each floor is conditioned on — the same shape as `applies_when` on the fault
+side.
+
+### A second instance one layer out: two hard rules on one volume under two names
+
+`groupings/georgian-service-core.json` carries `wing_ridge_ft / main_ridge_ft at-most 0.85`.
+`groupings/dependency-and-hyphen.json` carries `dependency_ridge_ft / main_ridge_ft between 0.6
+and 0.8`. Both are **hard**, and **two partis carry both groupings** — `five-part-palladian` and
+`connected-farmstead`. On a five-part plan the flanking dependencies *are* the service wings, so
+these are two hard rules about one volume under two names.
+
+**The conflict is latent rather than live, and the reason is worth stating precisely.**
+`roof.py:348` selects the rule whose test `startswith("dependency_ridge_ft")` — so it reads the
+0.6–0.8 band, builds the wing to it, and names its own local variable `wing_ridge_ft`.
+`georgian-service-core`'s rule is evaluated by nothing; it is satisfied by accident, because
+0.6–0.8 is a subset of ≤0.85. Loosen the dependency band, or ever evaluate the service-core rule
+against a wing built at 0.85, and the two disagree.
+
+This is OQ 48's shape one layer out: *two records meaning the same quantity under different names
+is a silent corruption, and the fix is a named dimension.* But `check_addresses.py` polices
+pack-versus-pack and kit-versus-pack, and **it does not see groupings at all** — there is no
+equivalent check for the grouping layer, and this is the first instance found in it.
+
 ## 7. The module is a nudge, not a generator
 
 `geometry.snap(v, module, tol)` returns the raw `v` unless the nearest bay line falls within `tol`,

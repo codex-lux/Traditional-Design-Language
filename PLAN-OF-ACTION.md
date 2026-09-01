@@ -1070,7 +1070,11 @@ rule, un-exempted and with no second door authored. That wants a ruling.
 
 ### WP-9.2 The precedents
 **Status: TEXT HALF DONE, IMAGE HALF STILL WAITING ON LUCAS'S DOWNLOAD.**
-`docs/reports/wp-9.2-the-parti-is-not-the-type.md`. The package text below is left as written.
+TWO reports: `docs/reports/wp-9.2-the-parti-is-not-the-type.md` (the measured half -- HABS written
+data, the code, the furniture sweep) and `docs/reports/wp-9.2-what-the-tradition-actually-does.md`
+(the study of the compositional literature, with an adversarial sourcing pass and ten questions
+for Lucas at §7, none of them answered). The two were produced by different routes and agree where
+they touch. `Plan Examples/HABS/WANTED.md` is the download list. The package text below is left as written.
 What changed: **loc.gov is reachable through the Tavily MCP tier**, so the HABS *written
 historical and descriptive data* — overall dimensions, room-by-room plan descriptions,
 structural systems, fenestration counts — could be read now rather than after a download, for
