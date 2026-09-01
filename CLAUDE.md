@@ -627,6 +627,19 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   number — against-wall runs summed against the room perimeter flag nothing (the kitchen's five
   appliances are 12.75 ft against an 80 ft perimeter) because perimeter is not available wall; a
   real one needs the placed openings. `docs/reports/wp-9.2-the-parti-is-not-the-type.md` §8.
+- **A SLUG IN A CODE SPAN IS NOT CHECKED, AND THAT IS 65% OF THE LIVE NAMESPACE (WP-9.2 audit).**
+  `check_citations.py` blanks inline code spans before scanning -- deliberately, so a document can
+  write `OQ 82 and 84` to illustrate a bug. **That exemption was written for the NUMBERED namespace
+  where prose is the citation form; for slugs the convention is inverted** and
+  `` `oq/the-raw-kit-read` `` in backticks IS how this corpus cites a named question. Measured:
+  **100 slug mentions inside code spans (unchecked), 53 in plain prose (checked)**. Mutation-tested
+  -- a fake slug in prose is caught, the same fake slug in backticks passes silently. **Do not just
+  delete the exemption**: of the 100 unchecked, 95 resolve and the 5 that do not are all deliberate
+  -- `oq/no-such-question` is this checker's own test fixture and `oq/span-partial-bearing-wall` is
+  the illustrative slug `oq-two-id-namespaces` uses to explain the scheme. The blind spot is
+  load-bearing, which is why this is a question and not a patch.
+  `oq/a-slug-in-a-code-span-is-not-checked`. Nothing is dangling today; the guard would not notice
+  if it were.
 - **A GROUPING RULE AND A ROOM RECORD CAN DISAGREE AND NOTHING CHECKS THE CLASS (WP-9.2 audit).**
   `check_addresses.py` polices pack-vs-pack and kit-vs-pack at one address and **does not see
   groupings at all**. FIVE instances, all pre-existing, found by hand:
@@ -1041,8 +1054,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **117 entries, of which 43 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-grouping-rule-and-a-room-record-can-disagree, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-parti-dissolved-its-own-dependencies, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **118 entries, of which 44 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-grouping-rule-and-a-room-record-can-disagree, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-parti-dissolved-its-own-dependencies, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
