@@ -51,7 +51,13 @@ def _house(**over):
                        {"to": "passage", "width_ft": 3.5, "wall": "N", "position_ft": 30.0}]},
             {"id": "passage", "type": "centre-passage", "width_ft": 10, "length_ft": 30,
              "geometry": {"x_ft": 25.0, "y_ft": 8.0, "width_ft": 10.0, "depth_ft": 30.0, "area_sf": 300},
+             # A REAL centre passage reaches the boundary at BOTH ends -- styles/
+             # tidewater-georgian.json c03 (hard) and groupings/centre-passage-core.json both
+             # demand it, and openings/grammar.json[op-passage-axis] binds only where it holds.
+             # Without the rear door this fixture has no through-axis and the axis rule
+             # correctly declines to judge it.
              "doors": [{"to": "porch", "width_ft": 3.5, "wall": "S", "position_ft": 30.0},
+                       {"to": "exterior", "width_ft": 3.5, "wall": "N", "position_ft": 30.0},
                        {"to": "dining", "width_ft": 3.0, "wall": "W", "position_ft": 20.0}]},
             {"id": "dining", "type": "dining-room", "width_ft": 16, "length_ft": 18,
              "geometry": {"x_ft": 0.0, "y_ft": 10.0, "width_ft": 16.0, "depth_ft": 18.0, "area_sf": 288},
@@ -444,3 +450,77 @@ def test_the_composer_widens_the_passage_to_the_floor_its_style_states(pc):
     # and the phrase must actually yield the number repair() needs
     got = float(emitted[0].split(" own kit states a passage of ")[1].split("-")[0])
     assert got >= 8.0, f"the parsed floor is {got}, which would not clear the fault"
+
+
+def test_a_front_door_in_the_flank_of_a_through_passage_is_named(pc):
+    """THE CASE THE OLD GUARD THREW AWAY (WP-9.4). The first version compared the threshold
+    room's own two doors and gave up when they sat on perpendicular walls -- true, that a
+    position on an N/S wall runs in x and one on an E/W wall runs in y, and false that
+    nothing could therefore be said. Measured over the 21 partis the check fired ZERO times
+    and SEVEN of those were this skip. A check that cannot fire reads as a check that passed.
+
+    The corpus makes the widened rule narrow: a change of direction IS a legitimate threshold
+    device (groupings/entry-sequence.json) and a side passage is a real exception
+    (rooms/centre-passage.json on the Charleston single house), so the rule binds only where
+    openings/grammar.json[op-passage-axis] says -- a passage that reaches the boundary at
+    BOTH ends."""
+    plan = _house()
+    porch = _rooms(plan)["porch"]
+    # enter from the EAST flank while the passage runs N-S
+    porch["doors"][0] = {"to": "exterior", "width_ft": 3.5, "wall": "E", "position_ft": 4.0}
+    hits = _drawn(pc, plan, "you arrive")
+    assert hits, "a front door square to the passage's own through-axis produced no finding"
+    assert "flank" in hits[0]["statement"]
+
+
+def test_a_passage_with_no_through_axis_is_not_judged_and_says_so(pc):
+    """The Charleston exception, and the honest half of the widening. A passage that does not
+    reach the boundary at both ends has no axis to arrive on, so the rule does not bind --
+    and the census must SAY it declined rather than report a silent zero."""
+    plan = _house()
+    p = _rooms(plan)["passage"]
+    p["doors"] = [d for d in p["doors"] if d.get("to") != "exterior"]   # close the rear end
+    porch = _rooms(plan)["porch"]
+    porch["doors"][0] = {"to": "exterior", "width_ft": 3.5, "wall": "E", "position_ft": 4.0}
+    res = pc.check(plan)
+    assert not [f for f in res["findings"] if f["layer"] == "drawn" and "you arrive" in f["statement"]]
+    census = res["drawn_summary"]["entrance_axis"]
+    assert census["passage_has_no_through_axis"] >= 1, census
+    assert census["found"] == 0
+
+
+def test_the_entrance_axis_census_is_published_so_a_zero_is_never_a_pass(pc):
+    """WP-8.6's finding in this package's own badge: the instrument reported 0 across 21
+    partis and the 0 was a skip. `fault_not_applicable` exists for exactly this reason -- the
+    question did not arise is a fourth state, not a pass -- and the drawn layer now carries
+    the same disclosure for its own hardest check."""
+    census = pc.check(_house())["drawn_summary"]["entrance_axis"]
+    for k in ("no_threshold_room", "no_exterior_door", "passage_has_no_through_axis",
+              "compared", "found"):
+        assert k in census, f"the census lost {k}"
+    assert census["compared"] >= 1, "the conformer house was not even compared"
+
+
+def test_a_severed_entrance_sequence_is_named_not_skipped(pc):
+    """THE ZERO WAS HIDING THIS, AND IT IS WORSE THAN A MISALIGNED AXIS (WP-9.4).
+
+    Measured while widening the axis check: on `centre-passage-double-pile` composed against
+    its own native style and placed, the porch's door INTO THE PASSAGE comes back unplaced --
+    "the placement leaves these two rooms no shared wall". You enter the portico and there is
+    no way into the passage at all. Both rooms stay reachable (the passage has its own rear
+    door), so the drawn layer's reachability walk says nothing, and the axis census counted it
+    as "nothing to compare" and reported a clean zero."""
+    plan = _house()
+    porch = _rooms(plan)["porch"]
+    porch["doors"][1] = {"to": "passage", "width_ft": 3.5,
+                         "unplaced": {"reason": "the placement leaves these two rooms no shared wall"}}
+    res = pc.check(plan)
+    hits = [f for f in res["findings"] if f["layer"] == "drawn" and "severed" in f["statement"]]
+    assert hits, "a front door with no realised opening into the passage produced no finding"
+    assert res["drawn_summary"]["entrance_axis"]["entry_door_unplaced"] >= 1
+
+
+def test_a_placed_entry_door_is_not_called_severed(pc):
+    res = pc.check(_house())
+    assert not [f for f in res["findings"] if f["layer"] == "drawn" and "severed" in f["statement"]]
+    assert res["drawn_summary"]["entrance_axis"]["entry_door_unplaced"] == 0

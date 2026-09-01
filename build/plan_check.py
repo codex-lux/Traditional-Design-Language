@@ -802,6 +802,45 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # overlap at all read as one axis, and two that stand clear of each other are a jog you
     # walk. Every figure comes from the record, so there is no new threshold here to be
     # wrong about -- which is the condition WP-9.1 works under.
+    # WIDENED IN WP-9.4, BECAUSE ITS ZERO WAS A SKIP AND NOT A PASS.
+    #
+    # The first version compared the threshold room's OWN two doors and gave up whenever they
+    # sat on perpendicular walls, on the true observation that a position on an N or S wall
+    # runs in x and one on an E or W wall runs in y. Measured over the 21 partis it fired
+    # ZERO times: no_threshold 3, no_exterior_door 10, PERPENDICULAR-SKIPPED 7, compared 1,
+    # fired 0. The seven it discarded are the case where you come in one way and leave the
+    # porch another -- a worse jog than any offset the check could measure, and plausibly the
+    # one on the sheet that raised Phase 9. A check that cannot fire reads as a check that
+    # passed, which is the WP-8.6 finding wearing this package's own badge.
+    #
+    # The corpus decides the shape of the widened rule, and it is narrower than "a turn is
+    # wrong". groupings/entry-sequence.json says a change of DIRECTION is a legitimate
+    # threshold device in its own right ("Each step changes at least one condition: level,
+    # enclosure, light, or direction"), and rooms/centre-passage.json records the Charleston
+    # single house as a real exception -- a SIDE passage entered from the piazza, where
+    # arriving on the flank is correct. So the rule binds exactly where
+    # openings/grammar.json[op-passage-axis] says it binds: "Where a circulation room reaches
+    # the boundary at BOTH ENDS, its two exterior doors sit on one axis, one at each end."
+    # A passage with a through-axis must be entered ON that axis; a passage without one is
+    # NOT JUDGED, and the census below says how many those were.
+    def _reaches_outside(room, wall):
+        """An opening on `wall` that gets you out of the house -- directly, or through a
+        threshold room (a porch) that has its own placed exterior door."""
+        for d in (room.get("doors") or []):
+            if d.get("unplaced") or d.get("wall") != wall:
+                continue
+            if d.get("to") == "exterior":
+                return d
+            nb = rooms.get(d.get("to"))
+            if nb and (C["rooms"].get(nb["type"]) or {}).get("function_class") == "threshold":
+                if any(x.get("to") == "exterior" and not x.get("unplaced")
+                       for x in (nb.get("doors") or [])):
+                    return d
+        return None
+
+    axis_census = {"no_threshold_room": 0, "no_exterior_door": 0,
+                   "entry_door_unplaced": 0,
+                   "passage_has_no_through_axis": 0, "compared": 0, "found": 0}
     for rid, r in rooms.items():
         if (C["rooms"].get(r["type"]) or {}).get("function_class") != "threshold":
             continue
@@ -811,18 +850,61 @@ def drawn_layer(plan, rooms, level_of, C, F):
                     if d.get("to") == "exterior" and not d.get("unplaced")
                     and d.get("position_ft") is not None), None)
         if not ext:
+            axis_census["no_exterior_door"] += 1
             continue
+        # A SEVERED ENTRY IS NOT A SKIP EITHER, AND IT IS THE WORST OF THE THREE.
+        # Measured while widening this check: on `centre-passage-double-pile` composed against
+        # its own native style, the porch's door INTO THE PASSAGE comes back
+        # `unplaced: the placement leaves these two rooms no shared wall`. You enter the
+        # portico and there is no door from it into the passage at all -- to reach the passage
+        # you walk back out and round to the rear door. The first census called that
+        # "nothing to compare" and reported a zero, which is the same lie one layer down.
         for d in (r.get("doors") or []):
             t = d.get("to")
-            if t == "exterior" or d.get("unplaced") or d.get("position_ft") is None:
+            if t == "exterior":
                 continue
             nxt = rooms.get(t)
             if not nxt or (C["rooms"].get(nxt["type"]) or {}).get("function_class") != "circulation":
                 continue
-            # only compare doors measured along the same axis: a position on an N or S wall
-            # runs in x, one on an E or W wall runs in y, and comparing the two is comparing
-            # a northing with an easting.
-            if (ext.get("wall") in ("N", "S")) != (d.get("wall") in ("N", "S")):
+            if d.get("unplaced") or d.get("position_ft") is None:
+                axis_census["entry_door_unplaced"] += 1
+                F.add("serious", "drawn",
+                      f"The entrance sequence is severed: {r.get('name') or rid} has the front "
+                      f"door but its opening into {nxt.get('name') or t} is not drawn — "
+                      f"{(d.get('unplaced') or {}).get('reason', 'no position')}. You arrive "
+                      f"and cannot get in the way the diagram says you do.",
+                      room=rid,
+                      fix="Place the threshold room against the circulation room it serves.")
+                continue
+            # Does the circulation room have a through-axis at all? Only then does the rule
+            # bind, and only then can "on the axis" mean anything.
+            through = None
+            for a, b in (("N", "S"), ("E", "W")):
+                if _reaches_outside(nxt, a) and _reaches_outside(nxt, b):
+                    through = (a, b)
+                    break
+            if not through:
+                axis_census["passage_has_no_through_axis"] += 1
+                continue
+            axis_census["compared"] += 1
+            # The axis runs along x when the passage goes through N to S.
+            axis_runs_x = through[0] in ("N", "S")
+            if (ext.get("wall") in ("N", "S")) != axis_runs_x:
+                # THE CASE THE OLD GUARD THREW AWAY. The front door is in a wall square to the
+                # passage's own through-axis, so no offset exists to measure: you do not enter
+                # the passage at its end, you enter its flank and turn.
+                axis_census["found"] += 1
+                F.add("serious", "drawn",
+                      f"The front door is in the {ext.get('wall')} wall while "
+                      f"{nxt.get('name') or t} runs {through[0]} to {through[1]} — you arrive "
+                      f"on its flank and turn, rather than at the end of its axis. "
+                      f"rooms/entrance-hall.json: \"the hall is its front end, and the axis "
+                      f"must continue to a rear opening\"; "
+                      f"openings/grammar.json[op-passage-axis] binds because this passage "
+                      f"does reach the boundary at both ends.",
+                      room=rid,
+                      fix="Bring the entrance onto the end of the passage, or accept a side "
+                          "passage and say so in the record as the Charleston single house does.")
                 continue
             off = abs(float(ext["position_ft"]) - float(d["position_ft"]))
             # Two openings overlap iff their centres are closer than the SUM OF THEIR
@@ -835,6 +917,7 @@ def drawn_layer(plan, rooms, level_of, C, F):
             # number here; the unit is the doors' own leaves.
             clear = (float(ext.get("width_ft") or 3.0) + float(d.get("width_ft") or 3.0)) / 2.0
             if off >= clear:
+                axis_census["found"] += 1
                 F.add("serious", "drawn",
                       f"The front door is {off:.1f} ft off the axis of "
                       f"{nxt.get('name') or t} — the two openings do not overlap at all "
@@ -903,6 +986,14 @@ def drawn_layer(plan, rooms, level_of, C, F):
                       room=st.get("room"),
                       fix="Move the stair back down its hall, or turn the bottom flight.")
 
+    if not any((C["rooms"].get(r["type"]) or {}).get("function_class") == "threshold"
+               for r in rooms.values()):
+        axis_census["no_threshold_room"] = 1
+    # PUBLISH THE CENSUS. The instrument reported 0 across 21 partis and the 0 was a skip;
+    # a reader cannot tell a check that passed from one that never ran unless the checker
+    # says which. This is the same discipline as `fault_not_applicable` -- the question did
+    # not arise is a fourth state, not a pass.
+    out["entrance_axis"] = axis_census
     out["unreachable_count"] = len(out["unreachable"])
     out["diverged_count"] = len(out["diverged"])
     return out
