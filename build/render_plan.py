@@ -364,11 +364,21 @@ def render(plan, path, scale=7.0):
             gx = f'<g transform="rotate(-90 {cx:.1f} {cy:.1f})">' if use is turned else '<g>'
             s.append(gx)
             top = cy - block/2
-            for i, ln in enumerate(lines):
+            # `li`, NOT `i`: the plate loop at the top of this function is
+            # `for i, lv in enumerate(levels)`, and this inner loop REBOUND IT. By the time
+            # the relaxation marks are drawn below, `i` was a stale label-LINE index rather
+            # than the plate index, so `level_marks[i]` read the wrong level's marks --
+            # silently, and only visibly when the two numbers stopped coinciding. Measured
+            # on plans/tidewater-georgian-careful.json: the upper plate drew the GROUND
+            # level's six marks a second time and neither of its own two, so the sheet
+            # carried twelve triangles for eight recorded relaxations. A drawing lying about
+            # the record is the whole subject of Phase 6, and this one had been doing it
+            # wherever a room's label happened not to wrap to the plate's own index.
+            for li, ln in enumerate(lines):
                 # style=, not font-size=: a presentation attribute loses to the .nm and
                 # .dm rules in the sheet's own <style>, so a fitted size written as an
                 # attribute is computed, ignored, and the label overflows anyway
-                s.append(f'<text class="nm" x="{cx:.1f}" y="{top + (i + 0.72) * size * 1.2:.1f}" '
+                s.append(f'<text class="nm" x="{cx:.1f}" y="{top + (li + 0.72) * size * 1.2:.1f}" '
                          f'style="font-size:{size:.2f}px" text-anchor="middle">{_esc(ln)}</text>')
             below = top + len(lines) * size * 1.2
             if dsize:

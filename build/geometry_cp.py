@@ -241,8 +241,27 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 m.AddMaxEquality(mx, [w, h])
                 m.AddMinEquality(mn, [w, h])
                 ov10 = m.NewIntVar(0, 10 * max(Wi, Hi), "")
-                m.Add(ov10 >= 10 * mx - 26 * mn)
+                # THE `26` HERE WAS 2.6 x 10 -- THE SAME UNIVERSAL CONSTANT `level_score`
+                # CARRIED, SPELLED A SECOND TIME (WP-9.4). Correcting the heuristic alone
+                # would have fixed one of the two: `auto` sends 16 of 21 partis through this
+                # engine, and the sheet that raised Phase 9 was CP-drawn -- its caption reads
+                # "proven ... no placement exists". So the ceiling is read from the room's own
+                # `dimensions.proportion` in BOTH engines, from geometry.shape_band(), which
+                # is the one spelling. The corpus has been bitten by a rule written twice at
+                # least four times; this is not a fifth.
+                _ceil, _src = GEO.shape_band(r.get("type"))
+                m.Add(ov10 >= 10 * mx - int(round(_ceil * 10)) * mn)
                 penalties.append((ov10, 6))
+                # The width floor the room's own record states, mirrored from level_score's
+                # `(floor - short) * WIDTH_W`. A soft penalty and never a bound: a hard floor
+                # here would manufacture the infeasibility `lo_side` above was written to
+                # avoid, and WP-6.3 refused hard pins for inferred structure on the stronger
+                # ground that only `kind == "wall"` literals are downgradable.
+                _floor = GEO.width_floor(r.get("type"))
+                if _floor and GEO.WIDTH_W:
+                    underw = m.NewIntVar(0, max(Wi, Hi), "")
+                    m.Add(underw >= int(round(_floor * U)) - mn)
+                    penalties.append((underw, max(1, int(round(GEO.WIDTH_W)))))
             xiv.append(m.NewIntervalVar(x, w, m.NewIntVar(0, Wi, ""), f"xi{lvl}_{r['id']}"))
             yiv.append(m.NewIntervalVar(y, h, m.NewIntVar(0, Hi, ""), f"yi{lvl}_{r['id']}"))
             rooms[(lvl, r["id"])] = {"x": x, "y": y, "w": w, "h": h, "a": a, "r": r,

@@ -688,6 +688,11 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 95). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109."""
         out = geometry_module.solve(_plan("tidewater-georgian-careful"),
                                     engine="heuristic", candidates=250)
+        # STAYS 7. WP-9.4 measured a corrected clamp (geometry._clamp_cut) that would move it
+        # to 8, and REFUSED it: the same change takes the entry porch's clear depth 6.0 -> 5.0
+        # and re-fires `porch-nobody-can-sit-on`, which WP-7.4 had cleared. Read _clamp_cut's
+        # docstring before trying it again -- the arithmetic there is right and the shipped
+        # expression is wrong, and shipping the fix alone still makes the corpus worse.
         assert out["geometry_report"]["relaxations"]["count"] == 7
 
     def test_the_renderer_draws_one_mark_per_relaxation(self, geometry_module):
