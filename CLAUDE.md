@@ -632,7 +632,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   closets **1.0 ft wide**. Where the check DOES fire it quotes the declared figure, so every
   shortfall in the set is understated (the OQ 52 family). Fix in the `drawn` layer — the only layer
   that may read placement (OQ 54) — as ONE function with two callers, never a second
-  transcription; and ratchet 50/133 rather than merely fixing, because they are the honest measure
+  transcription; and ratchet -- see the corrected figures above, NOT 50/133 -- because they are the honest measure
   of whether a placement change helps. **Second defect: `fw, fl = sorted(it["footprint_in"])`
   assumes every item rotates**, so the kitchen island `[84, 27]` is turned sideways and a 10 ft
   kitchen passes at 9.25 ft where an island along its counter run needs 14.0 — which is why the
@@ -647,8 +647,11 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `check_citations.py` blanks inline code spans before scanning -- deliberately, so a document can
   write `OQ 82 and 84` to illustrate a bug. **That exemption was written for the NUMBERED namespace
   where prose is the citation form; for slugs the convention is inverted** and
-  `` `oq/the-raw-kit-read` `` in backticks IS how this corpus cites a named question. Measured:
-  **100 slug mentions inside code spans (unchecked), 53 in plain prose (checked)**. Mutation-tested
+  `` `oq/the-raw-kit-read` `` in backticks IS how this corpus cites a named question. Measured **at `84314fa`: 113 inside code spans (unchecked), 56 in plain prose (checked), 169
+  total, and 10 of the unchecked name no entry.** The figure MOVES as documents discuss it -- it
+  was 100/53/153 with 5 unresolved two commits earlier, and the entry raising the question added
+  five more illustrative slugs of its own, which is the finding demonstrating itself. Quote it with
+  a commit or not at all. Mutation-tested
   -- a fake slug in prose is caught, the same fake slug in backticks passes silently. **Do not just
   delete the exemption**: of the 100 unchecked, 95 resolve and the 5 that do not are all deliberate
   -- `oq/no-such-question` is this checker's own test fixture and `oq/span-partial-bearing-wall` is

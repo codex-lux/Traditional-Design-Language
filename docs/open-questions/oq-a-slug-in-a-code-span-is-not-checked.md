@@ -2,8 +2,10 @@
 
 *Status: OPEN · Raised in: the WP-9.2 adversarial audit (1 Sep 2026)*
 
-**`check_citations.py` validates named open-question citations, and 100 of the 153 in this tree
-are invisible to it.** Mutation-tested both ways:
+**`check_citations.py` validates named open-question citations, and 113 of the 169 in this tree
+are invisible to it** — measured at `84314fa`, and **the number moves as documents discuss the
+problem**: it was 100 of 153 two commits earlier, and this entry added five more illustrative
+slugs of its own. Any figure here is quoted with the commit it was taken at or not at all. Mutation-tested both ways:
 
 ```
 fake slug in plain prose          ->  DANGLING  ...:127: OQ-SLUG-THAT-NAMES-NO-ENTRY names no entry
@@ -28,15 +30,17 @@ backticks *is* how this corpus cites a named question — CLAUDE.md does it, eve
 and this file does it in the sentence you are reading. So for slugs, citation and illustration are
 typographically identical and the checker cannot tell them apart.
 
-Measured across the tree: **100 slug mentions inside code spans (unchecked), 53 in plain prose
-(checked).** The corpus froze its numbers at 99 and made slugs the primary mechanism
+Measured across the tree at `84314fa`: **113 slug mentions inside code spans (unchecked), 56 in
+plain prose (checked)**; at `025329c`, two commits earlier, it was 100 and 53. The corpus froze its numbers at 99 and made slugs the primary mechanism
 (`099-how-an-open-question-id-is-issued.md`), so the guard covers the legacy namespace and misses
 most of the live one.
 
 ## Nothing is currently wrong, and that is the whole difficulty
 
-Of the 100 unchecked mentions, **95 resolve to a real entry and 5 do not — and all 5 are
-deliberate**:
+Of the 113 unchecked mentions at `84314fa`, **103 resolve and 10 do not — and every one of the 10
+is deliberate.** Five were there before this audit; **the other five were added by this entry and
+by CLAUDE.md quoting it**, which is the clearest possible statement of the problem: a document
+cannot describe the ambiguity without producing more of it.
 
 | mention | where | what it is |
 |---|---|---|
