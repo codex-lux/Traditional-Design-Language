@@ -45,12 +45,23 @@ the default one's figure is not reproducible.
 
 ---
 
-## 1. The route: loc.gov is reachable after all
+## 1. The route: not a discovery, a ruling this report should have read first
+
+**An audit of this report caught it presenting a known ruling as a finding.**
+`oq/fetching-through-a-tier-the-proxy-denies` was **RULED on 31 Aug 2026 — the day before this
+work** — and says exactly this: the 403 is an egress policy, not a fault; the Tavily MCP connector
+fetches on Tavily's own servers and reaches loc.gov and archive.org, *verified*; Lucas ruled to
+build on it. That entry closes with its own purpose: *"This entry exists so the next session finds
+a ruling instead of re-deriving the bypass."* This session re-derived the bypass. The register was
+right and unread.
+
+What is genuinely new here is narrower and worth keeping: **`tile.loc.gov` serves the HABS *written
+historical and descriptive data* as extractable text**, which is a different thing from reaching
+loc.gov at all, and it is what made the arrangement work possible without waiting on a download.
 
 `build/harvest_habs.py` has been queued since WP-4.4 against a proxy that answers 403 to CONNECT
-for www.loc.gov. That is still true of the plain proxy. **It is not true of the Tavily MCP tier**,
-which reaches loc.gov and — more usefully — `tile.loc.gov`, where the HABS *written historical and
-descriptive data* PDFs live. Those are text, not images: they carry overall dimensions, floor-plan
+for www.loc.gov. That is still true of the plain proxy, and still true of `loc.gov/pictures`, which
+refuses extraction even through the connector. `tile.loc.gov` allows it. Those are text, not images: they carry overall dimensions, floor-plan
 descriptions room by room, structural systems and fenestration counts, and they extract cleanly.
 
 The URL is derivable from the item id:

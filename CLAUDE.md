@@ -717,7 +717,10 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `gallery-corridor` hyphens and the whole service program beyond them.
   `oq/the-parti-dissolved-its-own-dependencies`, and read
   `docs/reports/wp-9.2-the-parti-is-not-the-type.md` before proposing a placement change here.
-- **loc.gov IS reachable through the Tavily MCP tier, and the HABS written data is TEXT (WP-9.2).**
+- **THE HABS WRITTEN DATA IS TEXT AT `tile.loc.gov` (WP-9.2) -- and that loc.gov is reachable at
+  all was ALREADY RULED, `oq/fetching-through-a-tier-the-proxy-denies`, 31 Aug 2026, the day
+  before. WP-9.2 re-derived it, which is precisely what that entry says it exists to prevent.
+  Read the register before announcing a route.**
   The plain proxy still answers 403 to CONNECT for www.loc.gov (that is WP-4.4's block and it
   stands), but `mcp__Tavily__tavily_extract` reaches
   `https://tile.loc.gov/storage-services/master/pnp/habshaer/<st>/<st>NN00/<item>/data/<item>data.pdf`
