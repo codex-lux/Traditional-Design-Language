@@ -545,7 +545,21 @@ reason to trust the mapping rather than treat it as a coincidence:
 
 **Six of seven, and the two failures are the two open questions.** Complaint 6's unnamed half is
 `oq/a-massing-states-its-structure-and-nothing-reads-it` — nothing in the corpus can say the stair
-hall has a structural position to hold. Complaint 7 is
+hall has a structural position to hold.
+
+**And WP-9.1's stair-setback check makes the point sharper than the table does.** It is not a
+guard that cannot fire — checked both ways: on this plan it evaluates and publishes
+`first_riser_setback_ft: 27.04` on `drawn_summary`, and on `spec-builder-colonial` it names the
+refusal (*"The stair is not drawn: The stair hall is placed at 8.0 x 9.0 ft and a dog-leg with
+this storey's 17 risers needs 10.2 x 7.5 ft"*). But **27.04 ft is a pass**, and it is a pass
+*because* the stair has been banished to the corner at (50, 27), twenty-seven feet from the front
+door. The corpus has `faults/stair-at-the-front-door.json` for a stair too close and **nothing at
+all for a stair too far**, so the one measurement that touches complaint 6 rewards the very thing
+Lucas objected to. That asymmetry is not an oversight in the check — the rule it implements
+(`openings/grammar.json[op-stair-setback]`, 6.0 ft, sourced in three records) is a minimum by
+design. What is missing is the other end, and the other end is not a distance: in this type the
+stair belongs *in the passage*, which is `oq/a-massing-states-its-structure-and-nothing-reads-it`
+again. Complaint 7 is
 `oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it` — the passage is not out of band, it
 is undivided, and there is no vocabulary for that. Neither is a missing check; both are missing
 words.
