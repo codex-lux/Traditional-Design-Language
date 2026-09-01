@@ -44,7 +44,8 @@ The URL is derivable from the item id:
 https://tile.loc.gov/storage-services/master/pnp/habshaer/<st>/<st>NN00/<item>/data/<item>data.pdf
 ```
 
-`va0433` is Gunston Hall, `sc0132` Drayton Hall, `md0035` Hammond-Harwood, `va0313` Shirley. One
+`va0433` is Gunston Hall, `sc0132` Drayton Hall, `md0035` Hammond-Harwood, `va0313` Shirley,
+`va0892` Mount Airy, `va0315` Westover. One
 extract does not return the whole document — re-query the same URL with a different `query` string
 and a different span comes back. That is a property of the extractor, not of the file, and an
 agent that queries once and concludes "the report does not say" is wrong.
@@ -53,7 +54,7 @@ agent that queries once and concludes "the report does not say" is wrong.
 plates themselves — and this is prose about the plates. It does mean the arrangement half of the
 precedent work can proceed now, without waiting on a download.
 
-## 2. What the three exemplars actually measure
+## 2. What the exemplars actually measure
 
 `partis/centre-passage-double-pile.json` names Drayton Hall, Hammond-Harwood and Gunston Hall.
 All three are in HABS. All three are quoted here verbatim from the written data.
@@ -78,6 +79,34 @@ All three are in HABS. All three are quoted here verbatim from the written data.
 
 Observed bay module: **8.8, 10.06, 12.17 ft.** The parti declares `bay_module_ft: 9` — inside the
 observed range, at its low end. That is defensible and is not the problem.
+
+**Two more of the exemplars WP-9.2 was told to gather, and both say the same thing as the first
+three.**
+
+> **Mount Airy**, HABS VA-72 (`va0892`), c. 1758: "**5-part plan, with main house, covered
+> passageways and flanking dependencies**; main house is 2-story, 7-bay front; passageways are
+> 1-story; dependencies are 2-story, 3-bay fronts." The survey calls it "the earliest known full
+> Palladian villa constructed in the American colonies."
+
+> **Westover**, HABS VA-402 (`va0315`), c. 1726: "Brick, Flemish bond; two stories; hipped roof;
+> two chimneys each end; **front seven bays** … **Plan — off center through hall; pair of large
+> rooms toward east; smaller rooms toward west** … **The house has balancing wings**." Its kitchen
+> is a separate HABS record, VA-402-A, "Westover, Kitchen Building".
+
+Five houses, and **all five put their service outside the main block** — a detached kitchen
+(Gunston Hall, Westover), a raised basement (Drayton Hall), or flanking dependencies on hyphens
+(Hammond-Harwood, Mount Airy). Not one of them holds a kitchen, a pantry and a breakfast room in
+the same rectangle as the drawing room.
+
+**And Westover states a compositional rule the corpus does not have: a symmetrical facade over a
+deliberately asymmetrical plan.** Seven regular bays, a centred front door with a stone pedimented
+doorway — and behind it an *off-centre* through hall with a pair of large rooms one side and a
+pair of smaller rooms the other. The hierarchy is in the room sizes and the passage moves to let
+them differ. The corpus's centre-passage partis assume the plan is as symmetrical as the
+elevation; one of the canonical Tidewater houses says otherwise, and says it in 1726. That is not
+a defect to fix here — it is a fact the diagram layer does not model, and it bears directly on
+`oq/the-parti-dissolved-its-own-dependencies`, because unequal room pairs are one of the ways a
+main block absorbs an unequal program honestly.
 
 ## 3. The envelope is right. The subdivision is not.
 
@@ -399,8 +428,8 @@ words.
 
 ## 11. What was deliberately not done
 
-- **No band was changed and no threshold authored.** Three measured buildings are not a
-  calibration set, and one of the three (Hammond-Harwood) is a five-part scheme whose main-block
+- **No band was changed and no threshold authored.** Five measured buildings are not a
+  calibration set either, and one of the three (Hammond-Harwood) is a five-part scheme whose main-block
   figure is not comparable to a bare double pile without care.
 - **No parti was edited.** Whether `centre-passage-double-pile` should lose its service rooms, or
   gain hyphens, or be split into two diagrams, is Lucas's decision and §11 puts it to him.
@@ -475,6 +504,9 @@ and nothing about them needs a ruling.**
 - HABS, **Hammond-Harwood House**, HABS MD-251, `…/md/md0000/md0035/data/md0035data.pdf`.
   Original data prepared by Delos E. Smith, 1940.
 - HABS, **Shirley**, `…/va/va0300/va0313/data/va0313data.pdf`.
+- HABS, **Mount Airy**, HABS VA-72, `…/va/va0800/va0892/data/va0892data.pdf`.
+- HABS, **Westover**, HABS VA-402, `…/va/va0300/va0315/data/va0315data.pdf`. Its 1939 entry cites
+  Waterman and Barrows, *Domestic and Colonial Architecture of Tidewater Virginia*, p. 71.
 - James Deetz, *In Small Things Forgotten*, pp. 108–109, reading Henry Glassie, *Folk Housing in
   Middle Virginia* (Knoxville: University of Tennessee Press, 1975). Reproduced at
   `histarch.illinois.edu/plymouth/house.html`.
