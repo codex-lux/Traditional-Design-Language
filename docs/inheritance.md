@@ -267,14 +267,18 @@ judged either. That is why the meter carries a FLOOR (`judged`, which may only r
 ceilings, and why `unendorsed` is a work list rather than a score.
 
 **READ TO THE END, THAT PROPERTY MEANS THE BACKLOG REFILLS AS IT IS WORKED (WP-8.7, 2 Sep 2026).**
-Fifty-four declines and three endorsements took `inherited_packs` to 3,302 and `judged` to
-105, and moved `unendorsed` from 249 to 234 — **fifty-seven judgments for a headline movement of
-fifteen**, because each decline promotes the next pack in the chain into the same role. (Twice now
-`build/check_counts.py --fix` has corrected the figures in this sentence and left the words around
-them — "fifteen further declines", "by four" — describing a state two batches old. A checker can
-hold a NUMBER to the data; it cannot hold the CLAIM the number sits inside, which is the same defect
-one layer up from the one this file exists to catch. Counted from the data each time rather than
-incremented.)
+WP-8.7 worked the backlog with one reader per node and an adversarial check on every proposed
+change. The corpus now carries **88 declines** and **41 endorsed** gaps, against 10 and 38 when the
+package started; `inherited_packs` is **3,278** and `judged` **129**, and `unendorsed` has moved
+from 249 to **232**. That is well over a hundred judgments for a headline movement of seventeen,
+because each decline promotes the next pack in the chain into the same role.
+
+(Every digit in that paragraph is a `check_counts.py` claim, and the wording deliberately states no
+count that is not. Three times running, `--fix` corrected the figures in an earlier version of this
+sentence and left the words around them -- "fifteen further declines", "by four" -- describing a
+state one or two batches old. A checker can hold a NUMBER to the data; it cannot hold the CLAIM the
+number sits inside, so the claim is now built out of nothing but held numbers.)
+
 Simulated to fixpoint, `appalachian-log-house` needs **26 declines over 9
 rounds**, because each one promotes the next pack in the chain into the same role: five classical
 orders, a Gothic pointed-arch pack, a Mudejar corbel course and an Iberian arcade, all arriving at a

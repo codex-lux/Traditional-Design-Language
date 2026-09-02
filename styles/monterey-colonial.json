@@ -288,5 +288,16 @@
       "note": "Explicitly listed in this pack's own applies_to. Governs the Anglo-planned rooms behind the balcony -- 'an interior stair, an interior corridor, and rooms that are entered rather than passed through,' in this node's own words, which is exactly the framed-room logic room-vernacular reconstructs, as against the beam-strung Hispanic room logic still governing wherever an older Californio wing survives within the same building.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-portada",
+      "reason": "The pack's own notes say it dimensions a bounded ornamental panel against a plain wall whose rhythm exists ONLY inside the frame -- its bay_count note, the rule that reaches composition_parti here, says in as many words that 'the wall on either side has no rhythm at all', and its portada_independence note names the alternative and rejects it: either the panel is a bounded field with its own rhythm 'or it has become the centrepiece of a composed elevation, which is a different tradition.' The node's own bay_rhythm states that different tradition outright -- five to seven regularly spaced openings across the whole balcony elevation, a Georgian rhythm with the door centred, on a front whose defining device is a continuous cantilevered balcony running its length and whose only ornamental clause is a refusal (plain square balusters, 'without turning or classical profile'). This is not the record being silent about ornament and it is not a headline figure coinciding; the pack states that the elevation outside the panel is unrhythmic and unaxial, and the node states that its elevation is rhythmic and axial about a centred door. The Hispanic half of this hybrid is the adobe wall below, which `adobe-module` is bound to dimension; the composed front above it is the Anglo half the node's own record hands to facade-classical.",
+      "basis": "node-record",
+      "quote": "essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot; declining passes composition_parti to facade-medieval-english (delivered by english-medieval-timber-frame, itself an unendorsed cascade delivery); 0 slots lose all dimensioning. --pair reports no live gate either way."
+    }
   ]
 }

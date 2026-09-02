@@ -287,5 +287,34 @@
         "ornament_vocabulary/event_count"
       ]
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-picturesque",
+      "reason": "The pack's own notes state its subject plainly: an elevation with no axis, held together by a dominant mass and by continuous horizontal datums -- 'In a classical front the axis does the ordering... In a picturesque front there is no axis.' This node's tell says the opposite in one clause and its symmetry field reads near-symmetrical, with massing described as simple, blocky and largely rectilinear. The five rules that actually reach it are the off-axis entrance distance, the dominant-roof fraction, the balancing porch width, and two rules for a second cladding material -- against a record whose wall is one uninterrupted stucco plane and whose c04 forbids any horizontal articulation of it at all. The node's own shingle-style lineage note names what it took from the picturesque -- 'a continuous unbroken skin over a simplified mass' -- which is the half this pack does not dimension.",
+      "basis": "node-record",
+      "quote": "Composition is symmetrical or simply rectilinear",
+      "quoted_from": "diagnostic_tells[3]",
+      "decided": "2026-09-02",
+      "note": "governs 5 slots; declining loses entry_sequence entirely (no other pack dimensions it) and passes material_change_rule to log-module (swiss-chalet), porch_type to facade-peristyle (roman-classical), roof_form to facade-pavilion (beaux-arts-french), secondary_cladding to corbel-course (tuscan-vernacular). 1 slot loses all dimensioning."
+    },
+    {
+      "pack": "vignola-corinthian",
+      "reason": "The pack is Vignola's Corinthian stated in modules -- column 20, entablature 5, pedestal 7 -- and it dimensions the classical trim family: baseboard, casing, chair rail, cornice, entablature, frieze, modillion, pilaster, wainscot. The node's governing_logic refuses exactly that instrument in its own words. This is not the blanket-sentence trap: the sentence bites because the pack's subject IS an order and a module, and the node has already made the argument for itself once -- its trim-craftsman binding note cites 'no order and no module' as what 'rules out any trim family derived from a classical entablature'.",
+      "basis": "node-record",
+      "quote": "There is no order and no module",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; declining changes no dimension on this node. The trim slots are already held by trim-craftsman, bound by the node at precedence 1."
+    },
+    {
+      "pack": "brick-course",
+      "reason": "The pack's stated subject is that in a brick building there are no free horizontal dimensions above the water table -- storey, sill, head, belt course and plate all whole numbers of courses off one datum, read off the mason's rod. This node's record says its wall is not that assembly, and its c04 forbids the two members the pack proportions from and through: 'no belt course, quoin, water table, or cornice'. The coursing datum this pack works off does not exist in this style's wall, and the record says so in its own words rather than by inference from a cladding id.",
+      "basis": "node-record",
+      "quote": "The revival is stucco over wood frame with normal fenestration",
+      "quoted_from": "distinguished_from[1].difference",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; declining changes no dimension on this node. No slot loses dimensioning."
+    }
   ]
 }

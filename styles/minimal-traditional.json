@@ -277,6 +277,33 @@
       "quoted_from": "defining_characteristics[0]",
       "decided": "2026-08-28",
       "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+    },
+    {
+      "pack": "gibbs-ionic",
+      "reason": "gibbs-ionic's own notes call it a delta on Vignola whose every figure is stated in parts of \"the semidiameter of the column at its base\" - the module of the order is the pack's whole subject, not an incidental of it. The node's governing_logic denies that module by name and puts the FHA room minimum, the 16-inch stud bay and the 8-foot precut stud in its place, and the three slots the pack governs here are order members: it delivers a six-inch Georgian Ionic architrave to a house whose own typical_ratios state a 2 1/4 in casing, and a pilaster projection to a front whose tells say the door \"lies in the plane of the wall ... with no projecting surround\". The lineage entry to colonial-revival says the same thing from the other side - silhouette, sash, shutter and entry survive, \"the applied orders do not\". This is not the blanket-sentence trap: the node's sentence names the pack's own stated mechanism, term for term.",
+      "basis": "node-record",
+      "quote": "Nothing is derived from a module of order",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots: casing, cornice, pilaster. 0 slots lose all dimensioning. But the decline is nearly inert numerically and that is worth recording: casing passes to palladio-tuscan and cornice to chambers-ionic at BYTE-IDENTICAL expressions (`opening_width / 6` and `storey_height / 4 * (7 / 18)`), because the sixth-of-the-opening architrave rule is common to the treatises. Only pilaster's figure actually moves, `column_height / 18` -> `5 / 6` (chambers-ionic). A decline stops this pack; it does not stop the order. It also keeps `gibbs_order_applies_to_style` false on this node, which given OQ 84's discriminator trap is the honest state."
+    },
+    {
+      "pack": "trim-classical",
+      "reason": "trim-classical's derivation paragraph is its subject in one line - \"A room is an order at reduced scale\" - with base, dado, chair rail, wall and cornice read as plinth, die, pedestal cap, column and entablature, dividing 4 : 12 : 3 in nineteenths off Vignola. The node's own record refuses both halves of that: it says in its lineage entry that the trim profiles and the proportional system do not come down from colonial-revival while the silhouette and sash do, and its governing_logic says nothing is derived from a module of order. The pack's own honest qualification points the same way and independently - it marks the eight-foot ceiling a BLOCKING conflict (\"at eight feet it puts it at 20 in, which is nonsense\"), and eight feet is precisely the plate this node states.",
+      "basis": "node-record",
+      "quote": "the proportional system, the trim profiles, and the applied orders do not",
+      "quoted_from": "lineage[0].note (descends_from colonial-revival)",
+      "decided": "2026-09-02",
+      "note": "Governs 4 slots: baseboard, crown, interior_door, wainscot. 0 slots lose all dimensioning - and, measured, the decline changes NO figure at all. All four slots carry an inherited slot-level `packs` ruling naming trim-classical at precedence 1 with its own expression, so `choose_pack` takes the `slot.packs` branch and returns the identical number with the pack undelivered (`ceiling_height * 1.5 / 19`, `* 1.2 / 19`, `* 0.7`, `* 1.92 / 19`). The --impact line \"-> trim-classical (None)\" is that stale ruling surfacing, not a fallback pack - the same class already visible on ranch-style / storey-graduation, and OQ 87's shape. The decline is correct on the record but does not bite until those four inherited slot rulings are worked."
+    },
+    {
+      "pack": "timber-bay",
+      "reason": "timber-bay's module is one structural bay of a box frame - centre of one bent to the centre of the next, bounded below by the smallest habitable room and above by the span a hewn 4 x 8 joist will make, so 16 to 20 feet - and its own test is \"can you draw the frame?\", with the partitions and window jambs falling near the posts. The node names its governing modules outright and every one of them is light-frame: a 16-INCH stud bay, an 8-foot precut stud, a 4-by-8 sheet; bay_rhythm adds that openings occur \"in ones and twos with no governing interval\". The number 16 appears in both records and means inches in one and feet in the other - the second trap exactly, and here there is not even a coincidence of magnitude, only of digits. There is no bent to space.",
+      "basis": "node-record",
+      "quote": "the 16-inch stud bay, the 8-foot precut stud and the 8-foot ceiling that follows from it, the 4-by-8 sheet",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots - declining changes no dimension on this node. The decline's whole value is the gate it keeps shut: endorsing would switch `span_check`'s capacity in build/structure.py from the light-frame joist table to the bay module's own, and build/geometry_cp.py reads the same list, on a house whose own record is framed in 16-inch stud bays. Given WP-7.4 left both reference plans failing their span capacity loudly, arming that swap here on an unjudged inheritance would be the wrong direction."
     }
   ]
 }

@@ -260,5 +260,25 @@
       "note": "The pack's own applies_to list names monterey-colonial directly -- the actual 1830s original this style revives (lineage edge type 'revives', weight 1). Bound for the gallery-house logic: the full-width balcony is 'a gallery raised to the second storey and reduced to one face' (this style's own massing_affinities note), and the upstairs rooms it shades are governed by the same daylight-depth mechanics as any single-loaded gallery room, at the pack's lower 1.8x multiplier because the balcony's own roof lowers the effective head the way a porch does elsewhere in the pack.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-picturesque",
+      "reason": "The pack's own module note states its subject without hedging: \"The module is the dominant mass and not the bay, because a picturesque elevation has no bay - that is the whole point of it\", and its closing note adds \"In a picturesque front there is no axis\". This node's record states bays, states them evenly spaced, and puts the entry on or beside the centre, and its symmetry field reads near-symmetrical -- so the unit every rule in this pack scales from does not exist here. The contradiction is already producing a wrong dimension rather than a merely doubtful one: the governed entry_sequence rule is \"DISTANCE OF THE ENTRANCE FROM THE VISUAL CENTRE\", defaulting to eighteen feet off it, on a house whose record centres the entry. The node's distinguished_from entry for spanish-colonial-revival -- the very ancestor delivering this pack -- separates the two on exactly this axis, calling the parent asymmetrical and this style \"a frontal, near-symmetrical two-storey block\".",
+      "basis": "node-record",
+      "quote": "Three to five bays, evenly spaced, with the entry centred or set one bay off centre.",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "Governs 5 slots. entry_sequence loses all dimensioning (acceptable: the node's own bay_rhythm states the entry position in prose). material_change_rule passes to log-module (swiss-chalet); porch_type to facade-peristyle (roman-classical); roof_form to facade-pavilion (beaux-arts-french); secondary_cladding to corbel-course (tuscan-vernacular). One cost worth flagging for whoever reviews this: the picturesque material_change_rule was the one rule of the five the node affirmed -- its note demands the change land on a real datum and continue around the corner, which is almost word for word this node's hard constraint c03 -- and the decline hands that slot to a Swiss log module. That is a slot that may want a binding after the decline."
+    },
+    {
+      "pack": "brick-course",
+      "reason": "The pack's notes state its subject as the mason's coursing rod: \"in a brick building there are no free horizontal dimensions above the water table. Storey height, sill height, head height, belt course and plate are all whole numbers of courses off a single datum.\" This node's record says in its own words that the building is frame with stucco cladding, and its second storey is clapboard, board-and-batten or shingle -- there is no brick wall anywhere in the record for a gauge rod to be read off. The node's own storey heights are given as free figures in feet (9'-10' and 8'-9') rather than as course counts, which is precisely the condition the pack says cannot obtain in a brick building. The pack arrives from richardsonian-romanesque at cascade depth 4 with no lineage edge between them.",
+      "basis": "node-record",
+      "quote": "The revival is frame construction with stucco cladding",
+      "quoted_from": "distinguished_from[0].difference",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node. Declining changes no dimension; it moves the gap from unendorsed to judged and stops a brick coursing module from reaching a stucco-on-frame house if the cascade shifts later."
+    }
   ]
 }

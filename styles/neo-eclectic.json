@@ -283,5 +283,16 @@
       "note": "JUDGMENT BINDING: not in this pack's own applies_to list. Bound because constraint c02 -- decorative shutters not less than 45 percent of sash width, hinged at the jamb, forbidden on ganged/arched/bay/non-rectangular windows -- quotes this pack's own shutter rule (leaf width = half the opening, less meeting clearance) as a prohibition against the exact failure the long description names: 'shutters half the width of the sash they nominally cover... applied to ganged, arched, or bay windows they could never have closed over.' As with trim-classical above, bound at low precedence as the named source of the violated rule rather than as a governing system for this node's own built fabric.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "gibbs-ionic",
+      "reason": "gibbs-ionic's own notes describe a modular classical order — entablature one fifth of the column, subdivision 3:3:4, modillions at three quarters of a diameter, pedestal a quarter of column-plus-entablature — every member figured as a fraction of a module. The node's governing_logic names exactly that mechanism and denies it: classical proportion here is quotation sized for the street, not derived from a module. This is not the blanket-refusal trap; the sentence is specific to classical proportion and to module-derivation, which is precisely and only what an order overlay is (it would not touch sash-light, whose subject is glass supply). The distinguished_from entry against colonial-revival sharpens it on the very members this pack governs — Colonial Revival has 'correct entablature and door surround profiles with real projection', and 'Neo-eclectic quotes the same motifs without the system.' The node's own bindings also make the distinction the cascade is overriding: it carries trim-classical deliberately at low precedence as the named source of comparison rather than as a governing system, while this pack arrives governing.",
+      "basis": "node-record",
+      "quote": "Where classical proportion appears it appears as quotation at the wrong scale, because the element was sized to be seen from the street rather than derived from a module.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots; 0 lose all dimensioning. casing -> palladio-tuscan (italian-renaissance); cornice -> chambers-ionic (english-georgian); pilaster -> chambers-ionic (english-georgian). Worth stating plainly: the decline removes THIS authority and not the class — all three successors are classical order packs — so it stops a governing Gibbs Ionic without supplying the wrong-scale quotation the node actually describes."
+    }
   ]
 }

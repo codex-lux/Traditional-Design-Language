@@ -272,5 +272,16 @@
       "authority": "moorish-arch",
       "note": "Optional, same reasoning as mission-revival: available where the building reaches for the Moorish arch and silent where it does not."
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "vignola-corinthian",
+      "reason": "The pack's own notes say what it is centrally about: \"THE MODILLION AND THE DENTIL BELOW IT. This is the relation the order is really about\", and its `cornice` rule states an \"Envelope cornice at building scale ... carried on modillions 8 in wide at 16 in on centres\", adding that where it cannot be afforded \"the honest move is to change order, not to shrink the cornice.\" This node's own tell refuses exactly that member by name, and its `distinguished_from` entry against the very ancestor delivering the pack says Mediterranean Revival \"lowers the cornice to nothing, thickens the wall\". The pack currently governs `cornice` and `frieze` here -- the two members the record declines -- so this is a contradiction of the pack's stated subject on the slots it actually governs, not a blanket refusal. The record's counterweight, that \"a nominal classical order appears only at the entrance surround\", affirms an order at the entrance but is a positive refusal of an order as an envelope authority, which is what a primary-role order pack is.",
+      "basis": "node-record",
+      "quote": "where present they are a simple moulded band, never the modillioned overhang of Italian Renaissance Revival",
+      "quoted_from": "diagnostic_tells[3]",
+      "decided": "2026-09-02",
+      "note": "Governs 4 slots: cornice, door_surround, frieze, pilaster. On decline cornice, door_surround and frieze pass to vignola-composite (from beaux-arts-american) and pilaster to chambers-ionic (from english-georgian); 0 slots lose all dimensioning. Stated honestly: this decline does NOT resolve the modillioned-envelope-cornice objection, because vignola-composite is an order of the same family and will deliver a cornice of the same kind -- the next adjudication for this node's primary role will face the identical sentence. It also removes the one delivery the record partially affirms (a nominal order at the entrance surround, i.e. door_surround), which vignola-composite then supplies instead. If a human would rather scope than decline, the OQ 49 `slots` mechanism would keep this pack for door_surround alone."
+    }
   ]
 }

@@ -251,5 +251,16 @@
       "note": "Unlike its Hudson Valley sibling, this variant's own proportional_system already classifies its symmetry as 'near-symmetrical' rather than 'additive-vernacular,' and states plainly that the door centres 'once symmetry arrives' after c. 1760 on a five-bay front — which covers most of the variant's later floruit (1730-1820). Bound at facade role rather than merely optional for that reason, while still noting the pack's odd-bay/single-entrance model describes only the post-1760 Anglicized form; earlier Bergen sandstone houses (e.g. the Steuben House's 1752 core) are three-bay and not yet composed to this discipline. brick-course was considered and rejected: the style's own diagnostic tells state the stone is 'laid in courses of unequal height,' which contradicts the pack's core premise of a fixed mason's-gauge-rod coursing, unlike the tighter-coursed Hudson Valley sibling.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "brick-course",
+      "reason": "The pack's own notes say it dimensions a wall where \"Storey height, sill height, head height, belt course and plate are all whole numbers of courses off a single datum\", read off the mason's gauge rod at a fixed four-courses-to-eleven-inches measure. This node's own diagnostic tell states the opposite of the premise that mechanism needs: the Bergen sandstone is laid in courses of unequal height, so there is no single course unit for any horizontal to be a whole number of. That is a contradiction of the pack's stated subject, not merely the observation that this is a stone house rather than a brick one. The node's own record has already made this call in prose and never recorded it as a decline: the facade-classical binding note says brick-course \"was considered and rejected\" on exactly this tell.",
+      "basis": "node-record",
+      "quote": "Red-brown stone with wide white lime joints, laid in courses of unequal height",
+      "quoted_from": "diagnostic_tells[3]",
+      "decided": "2026-09-02",
+      "note": "governs 8 slots; 7 fall through to a pack the node itself binds or already inherits -- belt_course, cornice, steps_and_stoop, water_table and window_proportion to facade-classical (bound on this node), window_head_masonry and window_surround_wood to sash-light (dutch-colonial-american). window_sill loses all dimensioning: 1 slot with no successor. No live gate; the decline changes dimensions, endorsement would have changed only the meter."
+    }
   ]
 }

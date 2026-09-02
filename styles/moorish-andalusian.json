@@ -242,5 +242,25 @@
       "note": "One of the two thinnest-bound nodes in the corpus, carrying only `moorish-arch` until now. This record says the arcade is the point rather than the arch: the horseshoe and later cusped arches spring 'on slender columns and carried in ARCADES rather than as isolated openings' -- so a pack that gives the arch and not the rhythm was describing half of it. The column slenderness here, 8-12 diameters, is the top of this pack's band and `moorish-arch` explains why in its own notes: the shafts are spolia of whatever length came to hand and the impost block takes up the difference.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes state its subject as the screen and the wall -- how many columns there are, where they stand, what they stand on, and what the wall behind them is doing -- settled four ways from the Greek peristyle through the Roman arch order to the colossal revival portico. This node states that the object does not exist here: its street wall is high, near-blind and undesigned, and its entrance is a single door often set off-axis behind a bent passage, so there is no front for a portico to take half to three fifths of, no podium to stand on, and no approach front to walk up. The one place columns do stand in a row is inward on the court, and the node's own tell says those columns carry 'brick or plaster arches, not stone entablatures' -- which removes the Doric frieze the corner-contraction rule needs and the entablature the podium ratio is measured against. This is a contradiction of what the pack is for, not merely a style that happens to lack an order.",
+      "basis": "node-record",
+      "quote": "There is no facade in the ordinary sense",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 5 slots -- composition_parti, foundation_expression, porch_type, steps_and_stoop, window_grouping_rule -- and ALL FIVE lose all dimensioning; the node's own facade-arcade binding reaches none of them. Accepted: a blind tapia street wall dimensioned by nothing is honest, and a Roman podium with stylobate curvature under it is not."
+    },
+    {
+      "pack": "opening-proportion",
+      "reason": "The pack's notes say plainly what it owns: the RECTANGLE -- the ratio of an opening, where its head sits, how it diminishes by storey, its surround, sidelights and transom. This node's defining characteristic says its openings are not that: horseshoe, cusped and muqarnas arches carried in arcades rather than as isolated openings, and its own typical_ratios dimension them by the curve continued 0.25-0.33 of the radius below the springing, which is a circle past its springing and not a height-to-width ratio. Its heads are brick or plaster arches framed by an alfiz, so window_head_wood arrives to proportion a wooden head this tradition does not build. I am declining rather than endorsing partly because --pair reports that an endorsement ARMS the build_elevation scope gate: turning a classical elevation generator on for a style whose record says the exterior wall is blind would measure a facade this tradition does not have.",
+      "basis": "node-record",
+      "quote": "The horseshoe and later the cusped and muqarnas arch, springing on slender columns and carried in arcades rather than as isolated openings",
+      "quoted_from": "defining_characteristics[6]",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 6 slots -- entry_door, secondary_door, special_window, transom_sidelight, window_head_wood, window_sill -- and ALL SIX lose all dimensioning; moorish-arch reaches none of them, so the opening role is left dimensioned only for the arch itself. Stated honestly for whoever reviews this: the contradiction is at the level of what an opening IS here, and on entry_door leaf width, secondary-door graduation and sill height the node is silent rather than contradicting. The pack also licenses ONE head-datum break on the axis for a Venetian window, so the node's 'centre emphasised by a taller arch' is a weaker second ground than it first looks and is not the ground relied on."
+    }
   ]
 }

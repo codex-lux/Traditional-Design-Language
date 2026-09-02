@@ -249,5 +249,25 @@
       "note": "Bound optional and low, with a real caveat the node itself supports: this node's own diagnostic tells state that Prairie suppresses structural evidence Craftsman displays, and its distinguished_from entry against craftsman is explicit that Prairie's soffit is clean where Craftsman's shows rafter tails and knee braces -- so this pack's exterior vocabulary (rafter tails, knee braces, exposed structure) does not belong here at all. What plausibly does is the interior catalog-millwork descendant: the 'Prairie box' foursquare that carried the style to most of the country by plan-book (a common massing affinity here) was very often built and trimmed by the same regional lumberyards that supplied Craftsman bungalows next door. It does NOT describe Wright's own architect-designed interiors, whose bespoke geometric oak trim and art-glass-derived ornament are a real gap in this pack set: no pack here owns a first-principles, non-catalog Prairie interior system, and none should be invented for one. SUPERSEDED IN PART, 25 Aug 2026: `trim-prairie` now owns it, reconstructed from measured fabric rather than invented, and takes the interior role on this node. THIS BINDING STAYS AND IS NOT DEMOTED FURTHER, because the sentence above it is still true and is the reason: the plan-book 'Prairie box' really was trimmed out of the same regional catalogue sections as the bungalow next door, and this pack is what describes that house. The node now carries both, in the same shape as `greek-doric` beside `benjamin-doric` -- one pack for what the architects drew, one for what the trade built.",
       "precedence": 2
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-gable",
+      "reason": "The pack's own module note says the question prior to every dimension in it is which of three objects is being drawn — the end of a roof, a parapet carried past the roof plane, or a screen standing free of it — and every rule under it (crow-step tread and rise, coping thickness, parapet height, apex over base, gables per front, the flush-faced gabled dormer, curves per side in a shaped gable) applies to at least one of those three. This node has none of them: its hard constraint c01 disqualifies a gabled principal roof outright, its separation from craftsman is that Prairie 'roofs in hips over casement bands', its eave soffit is stated as a continuous closed plane, and even the plan-book foursquare affinity specifies a hipped dormer. This is not a blanket refusal of proportional systems standing in for a reading of the pack — the node names the pack's own object and forbids it. The figures the pack carries are Flemish, Scottish, Jacobean and Cape Dutch, and there is nothing here for them to measure.",
+      "basis": "node-record",
+      "quote": "A gabled principal roof or an overhang under 24 in disqualifies the node.",
+      "quoted_from": "constraints[0].statement",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning."
+    },
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's notes name the bay count as the one decision in it that is 'nearly binary' — odd bays compose about a centre, even bays do not — and this node's bay_rhythm answers that it is not bayed at all, the compositional unit being the band with solid wall between bands rather than between windows. The pack's own negative case then states the discriminator explicitly: a composed classical front asserts one public face, one axis and one entrance, and where that is false the honest move is the picturesque system rather than the composition anyway. This node's c04 forbids the entry from being centred on the principal street elevation, its symmetry is balanced-asymmetrical, its tells say the front door cannot be found from the sidewalk, and it already binds facade-picturesque in the primary role — the node has taken the pack's own advice in advance. Its eighth defining characteristic also refuses the orders the pack's opening and horizontal rankings are drawn from.",
+      "basis": "node-record",
+      "quote": "Continuous rather than bayed. The compositional unit is the band, subdivided by mullions at a regular casement module",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning. --pair reports that ENDORSING would arm a live check (build/elevation.py, the build_elevation scope gate, 'the other half of that AND'); this verdict is a decline, so that gate is not armed by it — arms_gate below is the factual echo of the --pair line, not a claim that this verdict turns the check on."
+    }
   ]
 }

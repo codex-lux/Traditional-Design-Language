@@ -255,5 +255,16 @@
       "note": "Explicitly listed in this pack's own applies_to, and the fit is close: viga span limits room clear width to 12-16 ft here, against the pack's reconstructed 14-18 ft band, and the resulting long, narrow, strung-rather-than-stacked room is exactly what the pack's span/hearth/daylight logic predicts for a beam-limited vernacular tradition, even though the beam is a peeled ponderosa viga rather than a sawn joist and the wall behind it is adobe rather than frame. As on the parent spanish-colonial-american node, nothing else in this corpus governs: the wall itself (24-36 in thick, height not more than 10x thickness), the corner fogon, the portal on posts with carved zapatas, and the canale-drained parapet are all real, numbered constraints in this node's own record with no proportion pack behind any of them. SUPERSEDED 25 Aug 2026: the mass-wall/adobe module this sentence asked for is `adobe-module`, bound primary on this node, and every one of the numbered constraints listed above now has a pack behind it.",
       "precedence": 1
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-arcade",
+      "reason": "The pack's own notes say it dimensions the arcade — bay, pier, springing height and rhythm — and deliberately leaves the arch's shape to another pack, so what it asserts of a node is that the node has an arcade at all. This node's record refuses that category by name in the course of separating itself from the one adobe tradition that does have it: California roofs in tile and uses semicircular arcades on square piers, and New Mexico does not. Its own defining characteristics put a portal on peeled posts with carved zapatas carrying a beam — trabeated, not arcuated — and the same clause denies the arch the pack's impost would spring from. This is the `chambers-ionic` shape of decline: the record forbids the category, not merely the figures.",
+      "basis": "node-record",
+      "quote": "New Mexico has no tile, no arcade, no arch and no pitched roof: it has vigas, canales, parapets and posts",
+      "quoted_from": "distinguished_from[1].difference",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 2 slots. `arch` passes to `moorish-arch` (from spanish-plateresque) and `porch_ceiling` loses all dimensioning. Both consequences stated rather than hidden: the node's portal ceiling is the underside of vigas and latillas and no pack in this library dimensions it, which is honest, and the `arch` fallback is a second arcuated pack the same sentence excludes — a separate gap that a decline stops a wrong pack from papering over rather than one it creates."
+    }
   ]
 }

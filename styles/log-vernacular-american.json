@@ -321,6 +321,24 @@
       "quoted_from": "description.long",
       "decided": "2026-09-02",
       "note": "--impact: `primary_cladding` and `wall_thickness_frame` lose all dimensioning; `expressed_frame` passes to `facade-medieval-english`. The losses are correct -- there is no cladding layer to dimension -- and the node's own typical_ratios carry the wall thickness a reader needs."
+    },
+    {
+      "pack": "chambers-doric",
+      "reason": "The pack's own notes describe four deltas from Vignola -- an attic base, a single-fascia architrave, a pedestal at three tenths divided 2:6:1, and a diminution by Blondel's conchoid -- over a module that is the semidiameter divided into thirty minutes. That is not a category the node merely differs from; it is the archetypal system of proportion, and the node's governing_logic refuses the category by name. This is the discrimination the sash-light trap asks for: sash-light is glass-trade arithmetic and survives the blanket sentence, whereas an order IS a proportional system and does not. The node's own declined_packs already refuse `trim-classical` from the same ancestor on this same sentence, and Chambers's Doric is that case at its source rather than in its trim.",
+      "basis": "node-record",
+      "quote": "Dimensioned by material handling, not by any system of proportion.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 slots on this node; declining changes no dimension. No slot loses dimensioning. --pair reports no live gate."
+    },
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's module is one bay -- the centre-to-centre spacing of the vertical rank of openings -- and the first of the three things its notes say it is for is the bay count, odd against even. The node's bay_rhythm field opens by denying that a bay rhythm exists here at all and puts openings where they are needed subject to a notched corner not being weakened, which is the pack's governing quantity contradicted at its own module. The pack's stated negative case reinforces it from the other side: a composed classical front asserts one public face, one axis and one entrance, and this node's canonical double-pen massing is two equal pens with two front doors. This is not the blanket refusal of proportion doing the work -- it is the one field in the record that speaks to the exact quantity this pack dimensions.",
+      "basis": "node-record",
+      "quote": "There is no bay rhythm.",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 slots on this node; declining changes no dimension and no slot loses dimensioning. --pair reports that ENDORSING would arm build_elevation's scope gate (the other half of that AND); a decline arms nothing."
     }
   ]
 }
