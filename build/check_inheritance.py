@@ -226,7 +226,10 @@ def governed(g, nid, drop=None):
 
 def pack_file(pid):
     """The pack's own record, or None."""
-    for p in glob.glob(os.path.join(ROOT, "proportions", "*", "*.json")):
+    # sorted(): `tests/test_determinism.py::test_corpus_globs_are_sorted` refuses an unsorted
+    # directory read anywhere in build/, because the order is machine-specific and this one
+    # decides which file wins if two ever declared the same pack id.
+    for p in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
         try:
             d = json.load(open(p))
         except Exception:

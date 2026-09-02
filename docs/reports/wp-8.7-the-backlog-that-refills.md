@@ -99,6 +99,14 @@ the shape this repository keeps finding: a diagnostic that works until it does n
 watching. `tests/test_declined_packs.py` now runs all seven flags as subprocesses and requires each
 to exit 0 and print something, mutation-proved by reintroducing the local rebind.
 
+**AND THE NEW `pack_file()` READ A DIRECTORY UNSORTED.** `glob.glob` returns filesystem order,
+which differs between machines, and this glob decides which file wins if two ever declared the same
+pack id. `tests/test_determinism.py::test_corpus_globs_are_sorted` greps `build/`, `mcp_server/`,
+`workbench/` and `tests/` for every spelling of a directory read and refuses an unguarded one; it
+caught this on the full run after the targeted suites were green. Sorted. **Both defects in this
+package were in the new tooling rather than in the judgments** — worth saying, because the
+adjudication is the part that looks risky and the plumbing is the part that broke.
+
 ## What was deliberately not done
 
 **The other 245.** This pass read two nodes to near-fixpoint rather than skimming twenty, because
