@@ -90,6 +90,11 @@ export const api = {
   examplePlan: (name) => getJSON(`/api/plans/examples/${seg(name)}`, { fresh: true }),
 
   evaluate: (plan, opts = {}) => postJSON('/api/plan/evaluate', { plan, ...opts }),
+  // WP-9.3: the analyst (synchronous) and the loop (a job; rounds arrive through jobEvents,
+  // the revised record through jobPlan -- stripped of its placement, the bench re-solves)
+  critique: (plan, opts = {}) => postJSON('/api/plan/critique', { plan, ...opts }),
+  revise: (plan, opts = {}) => postJSON('/api/plan/revise', { plan, ...opts }),
+  jobPlan: (jobId) => getJSON(`/api/jobs/${seg(jobId)}/plan`, { fresh: true }),
   ingestDxf: (dxf, units) => postJSON('/api/ingest/dxf', { dxf, units }),
   compose: (brief, candidates = 4) => postJSON('/api/compose', { brief, candidates }),
   job: (id) => getJSON(`/api/jobs/${seg(id)}`, { fresh: true }),

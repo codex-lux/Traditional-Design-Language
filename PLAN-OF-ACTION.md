@@ -166,6 +166,10 @@ Several packages are blocked on decisions that are design judgments rather than 
 - **OQ 29 — the three unbound nodes.** Confirmed; OQ 30's pack retires two of them.
 - **OQ 3, OQ 4, OQ 5, OQ 6** — left as standing disclosures. They are recorded uncertainties about history, not defects in the model.
 
+**Ruled 1 Sep 2026 (Phase 9):**
+
+- **The revision loop's authority** (`oq/the-revision-loops-authority-over-topology`). Ruled: the reflection is a DETERMINISTIC loop — a move registry executing corpus rules, `plan_check` re-judging every round, no language model editing the record; it may change dimensions, declared choices, openings and optional rooms — add the door the grammar prescribes to reach a stranded room, drop a room the parti marks optional, split where a grouping says to — and never a room the parti has no place for, a judgment slot, geometry, a critic-suspect, or a measurement the record did not declare; and it runs BY DEFAULT on the returned candidates everywhere a product is made, with `--no-revise` to opt out.
+
 ---
 
 ## Phase 0 — Consolidation
@@ -1020,6 +1024,36 @@ Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions:
 
 ---
 
+# PHASE 9 RAN TWICE, IN PARALLEL, AND BOTH LINES ARE REAL
+
+**Two sessions each opened a Phase 9 on 1 September 2026 and each numbered from 9.1. Neither is
+a draft of the other and neither is renumbered.** One is ARRANGEMENT — the arbiter, the
+precedents, the unit of composition — raised by Lucas against a rendered sheet. The other is THE
+CRITIQUE AND THE CORRECTIVE REVISIONS — the analyst, the move registry, the revision loop —
+asked for by Lucas the same day. They met at the merge of PR #19 and PR #20.
+
+**So there are two WP-9.1s, two WP-9.2s, two WP-9.3s and two WP-9.4s.** That is `OQ 90` at four
+times the scale it was recorded at, and its ruling stands and is the only thing that makes this
+navigable: **cite the report by FILENAME and never the bare number.** All eleven Phase 9 reports
+carry distinct slugs and coexist in `docs/reports/`, which is why nothing had to be renamed:
+
+| number | arrangement line | critique line |
+|---|---|---|
+| 9.1 | `wp-9.1-the-arbiter-for-arrangement.md` | `wp-9.1-the-critique.md` |
+| 9.2 | `wp-9.2-the-parti-is-not-the-type.md`, `wp-9.2-what-the-tradition-actually-does.md` | `wp-9.2-the-corrective-revisions.md` |
+| 9.3 | (no report — part built) | `wp-9.3-the-revision-surfaces.md` |
+| 9.4 | `wp-9.4-the-unit-was-not-the-problem.md` | `wp-9.4-the-things-the-reports-said-were-checked.md` |
+| 9.5-9.7 | `wp-9.5-…`, `wp-9.6-…`, `wp-9.7-…` | — |
+
+**Renumbering was not available and the reason is the one OQ 90 records**: pushed commit
+subjects on both branches name these numbers and cannot be rewritten. A bare "WP-9.2" in this
+repository's history is ambiguous BY BRANCH, exactly as a bare "OQ 78" became ambiguous by date.
+**The two lines also met in the code**, and that merge is recorded where it happened rather than
+here: `plan_check`'s findings carry the critique line's structured evidence AND the arrangement
+line's shape and furniture checks; `compose.repair` is the critique line's revision loop, and
+the arrangement line's style-layer passage-floor branch was PORTED into the move registry as
+`passage-to-the-styles-own-floor` rather than dropped with the function that held it.
+
 ## Phase 9 — Arrangement
 
 *Raised by Lucas on 1 September 2026 against a rendered sheet of `tidewater-georgian-careful`:
@@ -1205,6 +1239,63 @@ carry one. Mutate every new test, re-derive every published number on the curren
 the styles, and correct every comment the four packages made false in the same commit as the
 finding.
 **Depends on:** WP-9.1 through 9.4. **Size:** medium.
+
+## Phase 9 — The critique and the corrective revisions
+
+*Asked for by Lucas on 1 Sep 2026: "a critic or an analyst that, once the plan has been drawn,
+assesses that layout, points out all of the issues and problems, and then the generator goes on
+to fix those, both in plan and elevation … a great deal of corrective revisions and refinements
+before the final product is arrived at." Rulings the same day: deterministic; dimensions,
+declared choices, openings and rooms; on by default. Layer doc: `docs/revise.md`.*
+
+### WP-9.1 The critique
+
+**Status: COMPLETE (1 Sep 2026).** Report: `docs/reports/wp-9.1-the-critique.md`.
+
+One building inside the critic (`plan_check.check` derives the elevation from the placement the
+record carries, and says so; an elevation that cannot be derived is a named `info`, never
+silence); the bench's evaluate judges the SOLVED record (the drawn layer had never run on a bench
+evaluate); every finding carries the structured evidence a move needs beside its prose, never in
+its id; `build/openings.py`'s refusals carry their figures as `needs`/`have`; plan schema 0.4.0;
+`build/critique.py`, the analyst, with five classes; `build/critic_suspects.py` and
+`check_critic_suspects.py`, the meter for the 35 literals and 4 ratios the elevation generator
+states as its own measurements; `wing-pitch-drift`'s near-miss secondary guarded on the slope
+count (−1 serious on each shipped plan, re-pinned). Two questions raised.
+
+### WP-9.2 The moves and the loop
+
+**Status: COMPLETE (1 Sep 2026).** Report: `docs/reports/wp-9.2-the-corrective-revisions.md`.
+
+`moves/registry.json` (21 moves, 9 stated refusals, the ruled authority) and `build/moves.py`;
+`build/check_moves.py`; `build/revise.py` — accept on strict improvement of `[fatal, serious,
+minor, faults present]` with no new fatal, else roll back byte-identically, tabu, continue; the
+proof first where it is to be had; `revision_report` on the record; the composer's `repair` is the
+declared loop in its old position and the placed loop runs on the returned candidates by
+default; `tdl_critique_plan` and `tdl_revise_plan` (24 → 26 tools); the corpus sweep.
+
+### WP-9.3 The surfaces
+
+**Status: COMPLETE (2 Sep 2026).** Report: `docs/reports/wp-9.3-the-revision-surfaces.md`.
+`POST /api/plan/critique`, `POST /api/plan/revise` (a job on the compose pool, one `round`
+event per round) and `GET /api/jobs/{id}/plan`; the Plan Workbench's critique and two revise
+chips, the Revision panel, the engine and class tags on finding rows; the Candidate Set's
+`revised` band and event; the e2e walk. Found on the way: the loop reported only two of its
+four round-logging paths, the metered-tool pin was red wherever the MCP SDK exists, and the
+`revised` event had been dropped on the floor since WP-9.2.
+
+### WP-9.4 The adversarial audit
+
+**Status: COMPLETE (2 Sep 2026).** Report: `docs/reports/wp-9.4-the-things-the-reports-said-were-checked.md`.
+Three read-only explorers built the claim-to-guard matrix; three auditors in isolated
+worktrees reverted each fix and watched the suites; every finding was reproduced before it was
+fixed. Blocking: a parti RECORD reaching geometry unchecked on both new routes; a revise job
+with no budget; the lever's verdict on the round rather than the move; `touches` a declaration
+nothing enforced, with three moves writing outside it and one rewriting nine authored window
+counts; the literal detector blind to five shapes (35 -> 44, 4 -> 7, re-baselined in public).
+**Then a second pass over the audit itself** (2 Sep 2026, report §VIII): three more auditors
+over the whole session's diff found the WP-9.4 guard blind four ways, a revised plan that
+could not be read back from its own DXF, the MCP tools unbounded, and a compose submission
+that could hold the one-worker pool for four hours. Fixed, each with the test that bites.
 
 ---
 

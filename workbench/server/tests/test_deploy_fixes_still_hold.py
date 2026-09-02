@@ -61,7 +61,7 @@ def test_the_spa_catch_all_still_serves_a_real_asset():
 
 def test_the_cloudflare_header_is_not_believed_by_default(monkeypatch):
     """`curl -H 'Cf-Access-Authenticated-User-Email: anyone'` returned the whole corpus and
-    all 24 tools. The header means something only when Access is in front, because Access
+    all 26 tools. The header means something only when Access is in front, because Access
     overwrites whatever the caller sent."""
     monkeypatch.delenv("WORKBENCH_TRUST_PROXY_AUTH", raising=False)
     assert auth.trust_proxy_auth() is False
@@ -104,3 +104,38 @@ def test_userinfo_is_stripped_even_from_a_legitimate_host():
     """The second line of that defence, independent of the key allowlist."""
     assert mcp_mount._hostname("https://user:secret@tdl.up.railway.app/x") \
         == "tdl.up.railway.app"
+
+
+def test_the_metered_tool_set_is_pinned_even_where_the_mcp_sdk_is_absent():
+    """WP-9.4. test_mcp_http.py pins mcp_mount.METERED against an independent literal -- and
+    skips whole at import without the SDK, so for a package it held three tools against a
+    set of five and was green everywhere the SDK was missing. The literal lives in
+    metered_args.py now and this test needs no SDK."""
+    from workbench.server import mcp_mount
+    from .metered_args import METERED_MIN_ARGS
+    assert set(METERED_MIN_ARGS) == mcp_mount.METERED
+
+
+def test_an_unmetered_tool_never_reaches_a_heavy_core_function():
+    """mcp_mount.METERED says which five tools reach the heavy core functions and that the
+    other 21 are lookups -- a declaration about what the code DOES, held only against a
+    list (the session's audit). Read the tool bodies through the AST: every `tdl_*` not in
+    METERED must call none of the heavy functions, directly or by attribute."""
+    import ast
+    from workbench.server import mcp_mount
+    ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    HEAVY = {"compose", "place_plan", "critique_plan", "revise_plan", "check_plan"}
+    tree = ast.parse(open(os.path.join(ROOT, "mcp_server", "server.py"), encoding="utf-8").read())
+    tools = {n.name: n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name.startswith("tdl_")}
+    assert len(tools) == 26
+    for name, fn in tools.items():
+        called = set()
+        for node in ast.walk(fn):
+            if isinstance(node, ast.Call):
+                f = node.func
+                called.add(f.attr if isinstance(f, ast.Attribute) else getattr(f, "id", None))
+        heavy = called & HEAVY
+        if name in mcp_mount.METERED:
+            assert heavy, f"{name} is metered and calls no heavy function"
+        else:
+            assert not heavy, f"{name} is not metered and calls {heavy}"

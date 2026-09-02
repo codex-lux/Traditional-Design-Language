@@ -1,9 +1,16 @@
-"""Compose jobs. compose() takes seconds, so it runs on a single worker thread and
-reports through an event queue the SSE endpoint drains. Results (with full plans)
-are held in memory for 30 minutes; the server holds no other state.
+"""Compose and revise jobs. compose() takes seconds and revise() minutes on the proving
+engine, so both run on a single worker thread and report through an event queue the SSE
+endpoint drains. Results (with full plans) are held in memory for 30 minutes; the server
+holds no other state.
+
+WP-9.3: a job has a `kind` -- "compose" (a brief in, candidates out) or "revise" (a plan in,
+the loop's report and the revised record out, one `round` event per round). One pool, one
+queue shape, one event stream: a revise submitted behind a running compose waits its turn
+and says so through the poll's `status`.
 """
 import asyncio
 import json
+import os
 import queue
 import threading
 import time
@@ -17,13 +24,39 @@ core = corpus.core
 _JOBS = {}
 _POOL = ThreadPoolExecutor(max_workers=1)
 TTL_S = 30 * 60
+# The pool is one worker and its queue was unbounded: thirty 8 MB plans submitted behind one
+# long job were held in memory before any ran, and a job reaped from _JOBS after the TTL still
+# ran when its turn came, for nobody (the session's audit). A submit that finds this many jobs
+# still waiting is refused with the count, and a reaped job is skipped at the head of the pool.
+MAX_QUEUED = 8
+
+# EVERY event name a job can put, by kind, declared once. The app's sse_handlers spec reads
+# these tuples and holds every jobEvents() call site to them; a put through `_put` with a name
+# outside its kind's tuple raises here, at the source, rather than being dropped on the floor
+# by a subscriber that never heard of it (the session's audit: a regex over string literals
+# could not see an event named through a variable).
+COMPOSE_EVENTS = ("stage", "candidate", "revised", "done", "error")
+REVISE_EVENTS = ("stage", "round", "done", "error")
+
+
+def _put(job, event, data):
+    allowed = REVISE_EVENTS if job.kind == "revise" else COMPOSE_EVENTS
+    if event not in allowed:
+        raise ValueError(f"{job.kind} job cannot put event {event!r}; declare it in jobs.py first")
+    job.events.put({"event": event, "data": data})
 
 
 class Job:
-    def __init__(self, brief, candidates):
+    def __init__(self, brief, candidates, options=None, kind="compose", plan=None):
         self.id = uuid.uuid4().hex[:12]
         self.brief = brief
         self.candidates = candidates
+        # WP-9.2: the revision loop's knobs, passed through to compose() as keyword arguments
+        # (revise, revise_rounds, revise_engine, revise_budget_s); None means compose's defaults.
+        # For a revise job: rounds, engine, candidates, budget_s, parti.
+        self.options = options or {}
+        self.kind = kind
+        self.plan = plan
         self.events = queue.Queue()
         self.status = "queued"
         self.result = None
@@ -31,24 +64,60 @@ class Job:
         self.created = time.time()
 
 
+def _rooms(plan):
+    return sum(len(l["rooms"]) for l in plan["levels"]) if plan else None
+
+
 def _strip_plans(result):
-    """The summary the Candidate Set shows; full plans stay server-side per job."""
+    """The summary a surface shows; full plans stay server-side per job.
+
+    One rule for both job kinds: any top-level `plan` and any candidate's `plan` is popped
+    and replaced by `plan_rooms`. The record travels once, through its own route
+    (`/candidates/{n}/plan` for a compose job, `/plan` for a revise job) -- never in the
+    poll, the `done` event or the late-attach synthesis, which all pass through here."""
     out = core.copy_json(result)
+    if "plan" in out:
+        out["plan_rooms"] = _rooms(out.pop("plan"))
     for c in out.get("candidates", []):
         plan = c.pop("plan", None)
-        c["plan_rooms"] = (sum(len(l["rooms"]) for l in plan["levels"]) if plan else None)
+        c["plan_rooms"] = _rooms(plan)
     return out
 
 
 def _run(job):
+    if job.id not in _JOBS:
+        # reaped while it waited its turn: nobody can read the result, so nothing is computed
+        job.status = "error"
+        job.error = "the job expired in the queue before it ran"
+        return
+    if job.kind == "revise":
+        return _run_revise(job)
     job.status = "running"
-    job.events.put({"event": "stage", "data": {"stage": "seeding",
-                    "note": "reading the brief, resolving partis native to the style"}})
+    _put(job, "stage", {"stage": "seeding",
+                        "note": "reading the brief, resolving partis native to the style"})
     try:
         composer = core._composer()
         done = []
 
         def on_candidate(summary):
+            # WP-9.2: compose() fires this a SECOND time per returned candidate once the placed
+            # revision loop has run on it. That is a `revised` event, not a new candidate --
+            # the score before and after ride together, with the drawn keys, so a reader can
+            # see what the loop bought and what it did not.
+            if summary.get("revised"):
+                _put(job, "revised", {
+                    "parti": summary.get("parti"), "parti_name": summary.get("parti_name"),
+                    "score_before": summary.get("score_before"), "score": summary.get("score"),
+                    "rank_before": summary.get("rank_before"),
+                    "drawn_key_before": summary.get("drawn_key_before"),
+                    "drawn_key_after": summary.get("drawn_key_after"),
+                    "rounds": (summary.get("revision") or {}).get("summary", {}).get("rounds"),
+                    "moves_applied": (summary.get("revision") or {}).get("summary", {}).get("moves_applied"),
+                    "stop_reason": (summary.get("revision") or {}).get("stop_reason"),
+                    "disqualified": bool(summary.get("disqualified")),
+                    "fatal": (summary.get("counts") or {}).get("fatal", 0),
+                    "revision_skipped": summary.get("revision_skipped")})
+                return
             done.append(summary)
             # `disqualified` and the fatal count ride WITH the score, never behind it. The
             # score is now a composite out of 100 that a disqualified candidate can top, and
@@ -56,11 +125,11 @@ def _run(job):
             # number cannot stand on its own — a progress line publishing it alone would put
             # the highest-looking figure on the screen next to a plan carrying two fatals.
             # `n` is ARRIVAL order, not rank: compose() has not sorted anything yet here.
-            job.events.put({"event": "candidate", "data": {
+            _put(job, "candidate", {
                 "n": len(done), "parti": summary.get("parti"),
                 "parti_name": summary.get("parti_name"), "score": summary.get("score"),
                 "disqualified": bool(summary.get("disqualified")),
-                "fatal": (summary.get("counts") or {}).get("fatal", 0)}})
+                "fatal": (summary.get("counts") or {}).get("fatal", 0)})
 
         # Detect the callback parameter by signature rather than catching
         # TypeError around the call — a genuine TypeError inside a working
@@ -68,46 +137,151 @@ def _run(job):
         import inspect
         takes_callback = "on_candidate" in inspect.signature(composer.compose).parameters
         if takes_callback:
-            result = composer.compose(job.brief, job.candidates, on_candidate=on_candidate)
+            _put(job, "stage", {"stage": "composing",
+                                "note": "seeding, repairing and scoring every native diagram; then the "
+                                        "returned candidates are placed and revised, round by round"})
+            result = composer.compose(job.brief, job.candidates, on_candidate=on_candidate,
+                                      **(job.options or {}))
         else:
-            job.events.put({"event": "stage", "data": {"stage": "composing",
-                            "note": "repairing candidates against the validator (~8 s)"}})
+            _put(job, "stage", {"stage": "composing",
+                                "note": "repairing candidates against the validator (~8 s)"})
             result = composer.compose(job.brief, job.candidates)
         job.result = result
         job.status = "done"
-        job.events.put({"event": "done", "data": _strip_plans(result)})
+        _put(job, "done", _strip_plans(result))
     except Exception as e:  # a failed compose is reported, never swallowed
         job.status = "error"
         job.error = str(e)[:500]
-        job.events.put({"event": "error", "data": {"error": job.error}})
+        _put(job, "error", {"error": job.error})
 
 
-def submit(brief, candidates=4):
-    # validate the brief immediately so a malformed one fails fast, not mid-job
-    err = _validate_brief(brief)
+def _run_revise(job):
+    """WP-9.3. The loop on one plan, reported round by round.
+
+    The `round` event is a NEW dict built from the round record, never the record itself:
+    revise() appends the record to the report it later returns before firing on_round, and
+    each move entry carries its full log and lever -- popping keys here would edit the
+    report. `opened` exists only on an accepted round and `engine_after` only on the lever
+    path, so both are derived rather than read."""
+    job.status = "running"
+    o = job.options or {}
+    _put(job, "stage", {"stage": "critiquing",
+                        "note": "placing the record once and sorting every finding into what it "
+                                "means to a generator; then a move per round, accepted only on a "
+                                "strict improvement"})
+
+    def on_round(rnd):
+        _put(job, "round", {
+            "n": rnd.get("n"),
+            "engine": rnd.get("engine_after") or rnd.get("engine"),
+            "accepted": bool(rnd.get("accepted")),
+            "key_before": rnd.get("key_before"), "key_after": rnd.get("key_after"),
+            "moves": [{"move": m.get("move"), "finding": m.get("finding"),
+                       "cleared": m.get("cleared"),
+                       # the entry's own verdict, all three states -- the bench derived
+                       # "applied" from the ABSENCE of a refusal until the session's audit
+                       **({"accepted": True} if m.get("accepted") else {}),
+                       **({"refused": m["refused"]} if m.get("refused") else {}),
+                       **({"refused_by_measurement": True} if m.get("refused_by_measurement") else {}),
+                       **({"key_after": m["key_after"]} if m.get("key_after") else {})}
+                      for m in rnd.get("moves", [])],
+            "opened_n": len(rnd.get("opened") or []),
+            "cleared_n": len(rnd.get("cleared") or []),
+            **({"on_round_error": rnd["on_round_error"]} if rnd.get("on_round_error") else {}),
+        })
+
+    try:
+        plan, job.plan = job.plan, None      # the submitted record is released to the loop; the
+        result = core.revise_plan(plan, rounds=o.get("rounds", 6), engine=o.get("engine", "auto"),
+                                  candidates=o.get("candidates", 250), budget_s=o.get("budget_s"),
+                                  parti=o.get("parti"), place=True, include_plan=True,
+                                  on_round=on_round)   # revised one lives in job.result
+        if "error" in result:
+            raise RuntimeError(result["error"])
+        # the report rode twice -- as result.report and inside plan.revision_report, 87 KB each
+        # on a real job (the session's audit); the poll and the done event read `report`, the
+        # /plan route reads the record, so one object serves both
+        if isinstance(result.get("plan"), dict) and "revision_report" in result["plan"]:
+            result["plan"]["revision_report"] = result["report"]
+        job.result = result
+        job.status = "done"
+        _put(job, "done", _strip_plans(result))
+    except Exception as e:  # a failed revise is reported, never swallowed
+        job.status = "error"
+        job.error = str(e)[:500]
+        _put(job, "error", {"error": job.error})
+
+
+def submit_revise(plan, options=None):
+    """A revise job. The plan is validated against its schema before the job exists, as a
+    brief is; the record itself is what the loop reads, so it is not copied here."""
+    err = _validate("plan", plan, "plan does not match the plan schema",
+                    "the record the Plan Workbench holds validates; a hand-written one may not")
     if err:
         return {"error": err["error"], "detail": err.get("detail"), "hint": err.get("hint")}
     _reap()
-    job = Job(brief, candidates)
+    busy = _queue_full()
+    if busy:
+        return busy
+    job = Job(None, None, options, kind="revise", plan=plan)
     _JOBS[job.id] = job
     _POOL.submit(_run, job)
     return {"job_id": job.id}
 
 
-def _validate_brief(brief):
-    import os
+def _queue_full():
+    waiting = sum(1 for j in _JOBS.values() if j.status == "queued")
+    if waiting >= MAX_QUEUED:
+        return {"error": f"the pool has {waiting} job(s) waiting already; try again when one finishes",
+                "queued": waiting, "busy": True}
+    return None
+
+
+def revised_plan(job_id):
+    """The revised record of a DONE revise job, with its placement stripped and its
+    revision_report kept. Stripped because the bench re-solves every record it loads
+    (`evaluate.py` never reuses a carried placement, and a carried one would lie the moment a
+    wall was dragged); the report says what engine the loop's own key was measured on. None
+    for an unknown job, a compose job, or one not yet done."""
+    job = _JOBS.get(job_id)
+    if not job or job.kind != "revise" or not job.result or "plan" not in job.result:
+        return None
+    OP = core._mod("openings", os.path.join(core.ROOT, "build", "openings.py"))
+    return OP.strip_placement(core.copy_json(job.result["plan"]))
+
+
+def submit(brief, candidates=4, options=None):
+    # validate the brief immediately so a malformed one fails fast, not mid-job
+    err = _validate_brief(brief)
+    if err:
+        return {"error": err["error"], "detail": err.get("detail"), "hint": err.get("hint")}
+    _reap()
+    busy = _queue_full()
+    if busy:
+        return busy
+    job = Job(brief, candidates, options)
+    _JOBS[job.id] = job
+    _POOL.submit(_run, job)
+    return {"job_id": job.id}
+
+
+def _validate(kind, obj, error, hint):
     try:
         import jsonschema
     except ImportError:
-        # an absent validator is an environment fact, never a verdict on the brief
+        # an absent validator is an environment fact, never a verdict on the record
         return {"error": "could not validate: the jsonschema package is not installed",
                 "detail": "pip install -r workbench/requirements.txt"}
     try:
-        jsonschema.validate(brief, core.schema("brief"))  # one shared parse, not one per submit
+        jsonschema.validate(obj, core.schema(kind))  # one shared parse, not one per submit
     except jsonschema.ValidationError as e:
-        return {"error": "brief does not match the brief schema", "detail": str(e)[:400],
-                "hint": "the minimum is style and target_area_sf"}
+        return {"error": error, "detail": str(e)[:400], "hint": hint}
     return None
+
+
+def _validate_brief(brief):
+    return _validate("brief", brief, "brief does not match the brief schema",
+                     "the minimum is style and target_area_sf")
 
 
 def get(job_id):

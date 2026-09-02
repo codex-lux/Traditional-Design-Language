@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.",
   "type": "object",
   "required": ["id", "name", "style", "levels"],
@@ -19,6 +19,7 @@
       "properties": {
         "climate_zone": { "type": "string" },
         "lot_width_ft": { "type": "number" }, "lot_depth_ft": { "type": "number" },
+        "garage_bays": { "type": "integer", "minimum": 0, "description": "Carried from the brief's context by build/compose.py::instantiate, which copies the brief's context whole, and read by the garage dependency logic. Pre-existing and found by the session's audit: a composed plan for a brief naming garage bays failed this schema, so tdl_check_plan and the bench's revise route refused every such candidate." },
         "entrance_faces": { "enum": ["N","NE","E","SE","S","SW","W","NW"] },
         "jurisdiction": { "type": "string", "description": "Code checks are advisory and jurisdictional; naming this makes the caveat explicit." },
         "date_of_representation": { "type": "integer", "description": "Which year within the style's span the design represents. Sash pattern, hardware and fanlights are all date-conditional." },
@@ -173,6 +174,22 @@
         "unplaced": { "$ref": "#/$defs/unplaced" },
         "note": { "type": "string" } } },
     "note": { "type": "string" },
+    "revision_summary": { "type": "object",
+      "description": "0.4.0 (WP-9.4). What a DXF round trip carries of a revision_report: its `summary` block, `stop_reason` and `mode`, plus a note saying the full report is NOT in the drawing. Written by build/export_dxf.py into the plan-meta XDATA (capped near 16 KB per entity, which a six-round report exceeds) and handed back by build/import_dxf.py; never authored. The session's audit found the round-tripped record failing this schema on exactly this key, so a revised plan could be exported and not read back.",
+      "properties": {
+        "rounds": { "type": "integer", "minimum": 0 },
+        "moves_applied": { "type": "integer", "minimum": 0 },
+        "moves_refused": { "type": "integer", "minimum": 0 },
+        "key_before": { "type": "array", "items": { "type": "number" } },
+        "key_after": { "type": "array", "items": { "type": "number" } },
+        "stop_reason": { "type": ["string", "null"] },
+        "seconds": { "type": "number" },
+        "mode": { "type": ["string", "null"], "enum": ["placed", "declared", null] },
+        "note": { "type": "string" }
+      }
+    },
+    "revision_report": { "type": "object",
+      "description": "0.4.0 (WP-9.2). What build/revise.py did to this record and why: every round with the moves it applied, the finding each move answered, the corpus sentence it executed, the finding ids it cleared and opened, the key before and after; what remains, split by class (placement, critic-suspect, architect, advisory); what was handed to the architect with the fault's own right fix quoted; what was refused and why; why the loop stopped. A report rather than a contract, so its shape is open. It is authored history and rides in the record, not placement output — and it is NOT carried whole into a DXF (XDATA is capped near 16 KB per entity); export_dxf.py carries `summary` only and says so." },
     "provenance": { "type": "object",
       "description": "Where this record came from and how much to trust it — the structured provenance WP-2.1 asked for after carrying source_image, confidence and the style reasoning as prose in `note`. Optional: an authored record needs none; an ingested one (traced from a drawing, imported from a drafter's DXF) should say so. Added in 0.2.0 (WP-5.5).",
       "additionalProperties": false,
@@ -211,7 +228,13 @@
       "description": "0.3.0. This opening, fixture or stair is DECLARED and could not be placed, and here is why. The whole point is that it is not deleted: 'unjudged is not passed' applies to geometry as much as to a checker, and the failure this field exists to prevent is the one that shipped — an opening the placement could not realise was dropped in silence by both renderers, so a kitchen with five declared doors was drawn with none and read as a finished room.",
       "properties": {
         "reason": { "type": "string", "minLength": 1 },
-        "declared_wall": { "enum": ["N","E","S","W"] }
+        "declared_wall": { "enum": ["N","E","S","W"] },
+        "needs": { "type": "object",
+          "description": "0.4.0 (WP-9.1). The numbers the prose in `reason` already carries, as fields: what this opening, fixture or stair NEEDED and could not get — a shared-wall run in feet, a free run, the stair's long and short dimension. Prose first and the figure beside it, never instead of it: a revision move reads these, and tests/test_critique.py holds each figure to the sentence it rides with so the two cannot drift.",
+          "additionalProperties": { "type": ["number", "string", "boolean"] } },
+        "have": { "type": "object",
+          "description": "0.4.0 (WP-9.1). What the placement actually offered against `needs`, in the same units and names.",
+          "additionalProperties": { "type": ["number", "string", "boolean", "array"] } }
       }
     }
   }

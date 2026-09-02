@@ -54,7 +54,7 @@ at the repo root and the only things a container must set are `WORKBENCH_HOST=0.
 `ANTHROPIC_API_KEY` for the rail. `PORT` is read in preference to `WORKBENCH_PORT`, so a
 platform that injects it needs no configuration.
 
-The same process also serves the MCP server's 24 tools at `/mcp`, gated by the same bearer
+The same process also serves the MCP server's 26 tools at `/mcp`, gated by the same bearer
 token — `mcp_server/README.md` has the client command. Its transport has to recognise its
 own hostname, which is discovered from the platform's own environment variables; set
 `WORKBENCH_ALLOWED_HOSTS` only for a custom domain, or if `/api/health` shows the host

@@ -59,18 +59,29 @@ class TestShippedPlans:
         # a check stopped looking: the finding that remains still fires, with a better number.
         # That a span-capacity charge produces a sittable porch is a coincidence of this plan's
         # geometry and not a claim about the term.
-        # 53 -> 57 on 1 Sep 2026 (WP-9.1), and every one of the four is a fault that could not
-        # be judged before because nothing supplied its measurement. THREE come from the fault
-        # layer, newly fed by build/arrangement.py: `closet-depth-taken-from-the-room` (The
-        # Depth Tax, 9.5 ft against an 11 ft floor), `front-door-into-the-living-room` (The Door
-        # With No Room Behind It, a 24 sf entry against 30), and `ceremonial-front-door` (The
-        # Front Door Nobody Uses, no daily route through the formal entry). The FOURTH is a
-        # grouping rule that carried a machine test and was never run: contemporary-service-
-        # core's mudroom clear width, 4 ft against its own 5 ft floor. This is the deliberately
-        # ordinary production plan written to see what the validator catches, and it is now
-        # caught on four more counts it always deserved -- against ONE new minor on the careful
-        # Tidewater below, which is the differential that says these are calibrated.
-        assert result["counts"]["serious"] == 57
+        # 53 -> 57 on 1 Sep 2026 (WP-9.1, the arrangement line), and every one of the four is
+        # a fault that could not be judged before because nothing supplied its measurement.
+        # THREE come from the fault layer, newly fed by build/arrangement.py:
+        # `closet-depth-taken-from-the-room` (The Depth Tax, 9.5 ft against an 11 ft floor),
+        # `front-door-into-the-living-room` (The Door With No Room Behind It, a 24 sf entry
+        # against 30), and `ceremonial-front-door` (The Front Door Nobody Uses, no daily route
+        # through the formal entry). The FOURTH is a grouping rule that carried a machine test
+        # and was never run: contemporary-service-core's mudroom clear width, 4 ft against its
+        # own 5 ft floor.
+        #
+        # 53 -> 52 on 1 Sep 2026 (WP-9.1, the CRITIQUE line, in parallel -- two Phase 9s, see
+        # PLAN-OF-ACTION.md's header). `wing-pitch-drift`'s near-miss secondary -- "the
+        # difference between distinct slope angles is at least 8 degrees" -- was running on a
+        # house with ONE roof slope, where build/elevation.py states that difference as 0.0,
+        # and convicting it of "Every Wing Its Own Pitch" on a roof with no wing. The secondary
+        # now carries an `applies_when` on the slope COUNT (the dormer-off-the-bay pattern:
+        # zero dormers is not an even number of dormers).
+        #
+        # THE MERGED FIGURE IS MEASURED, NOT ADDED UP. The two branches pinned 57 and 52 from a
+        # shared baseline of 53, and 53 + 4 - 1 is an arithmetic prediction rather than a
+        # reading of the tree -- which is the habit this repository has been caught by more
+        # than once. Re-derived on the merged tree:
+        assert result["counts"]["serious"] == 56
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -152,7 +163,9 @@ class TestShippedPlans:
         # than answered from fiction. This is the OQ 52 class, in the half NOT_MODELLED never
         # covered: a test that guards a refusal filter cannot see a supplied number that was
         # never refused. Measured on the merged tree, not carried from either side.
-        assert result["counts"]["serious"] == 30
+        # 30 -> 29 on 1 Sep 2026 (WP-9.1): the same `wing-pitch-drift` near-miss secondary,
+        # declining on this one-slope roof instead of convicting it. See the spec plan's pin.
+        assert result["counts"]["serious"] == 29
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the

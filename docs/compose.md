@@ -12,7 +12,9 @@ python3 build/compose.py briefs/family-georgian.json
 
 A parti specifies **topology and roles only** — which rooms, which walls are outside, what connects to what. Dimensions come from the room catalogue, so the library never duplicates room data and can never drift from it.
 
-**Size, repair, reclaim.** Rooms are scaled from the catalogue midpoint toward the target, then clamped to each room's own band, then optional rooms are dropped if it is still too big. The plan then goes through the validator and the composer applies the move each finding implies — widen a room that cannot take its furniture, raise a window head that cannot reach the back of the room, shorten a room deeper than its light. Repair spends area, so a reclaim pass gives it back from rooms that are not complaining, shortening length rather than width because width is what the checks care about.
+**Size, revise, reclaim.** Rooms are scaled from the catalogue midpoint toward the target, then clamped to each room's own band, then optional rooms are dropped if it is still too big. The plan then goes through the validator and **the declared revision loop** (`build/revise.py` with `place=False`, in the position `repair()` has always held) applies the registered move each finding's structured evidence names — widen a room that cannot take its furniture, raise a window head that cannot reach the back of the room, grow a room to its band's floor — and rolls a round back byte-identically when the verdict does not strictly improve. Until WP-9.2 this was a forty-line hill-climb that read the findings' prose (`float(statement.split("needs ")[1]...)`), silently skipped any room needing more than 1.8x its width, read a rounded figure back so a 12.3 ft dining room needing 12.333 never moved, and **accepted the worse result on a non-improving round** — there was no rollback. It also shortened a room's length for a daylight finding, a size move for an arrangement finding, which OQ 92 ruled against; that move is retired and the registry says so. Revision spends area, so a reclaim pass gives it back from rooms that are not complaining, shortening length rather than width because width is what the checks care about.
+
+**Then, on the RETURNED candidates, the placed revision loop (WP-9.2, on by default — ruled 1 Sep 2026).** Each candidate is placed (the proof where OR-Tools can give one), the critic judges the drawn house with its elevation derived from that placement, the analyst (`build/critique.py`) says what each finding means, and the registry's moves fix what the corpus's own rules can fix — in plan and in elevation — round after round until nothing the loop may do improves the verdict. The candidate is then **re-scored on its declared record**, so `score` and `score_before` are one instrument, and it re-ranks; `rank_before`, `drawn_key_before` / `drawn_key_after` and a `revision` report (every move with the finding it answered and the sentence it executed; what remains by class; what was handed to the architect with the fault's own `right` fix; what was refused and why) ride on the candidate. `--no-revise` returns the set as composed. See `docs/revise.md`.
 
 **Dimension the openings** (WP-6.2). Every door gets a width, a type, a rank and a leaf height; every window a width and a count. Until this, `instantiate` emitted `{"to": id}` for every door — no width, no type, ever — and `{"width_ft": 3.2, "count": 2}` for every window on every lit wall of every room in every style, and both renderers then invented whatever the record failed to say.
 
@@ -30,18 +32,20 @@ Each axis is now a **share of its own denominator** — what came back clean out
 
 | axis | weight | denominator |
 |---|---|---|
-| solecisms | 22 | the faults the corpus could judge on this plan |
-| rooms | 20 | every room, against its catalogue band, furniture, daylight and servicing |
-| connections | 17 | every room, against the adjacency, circulation, privacy and completeness rules |
-| fidelity | 18 | `pick_partis` fit, out of a possible 7.0 |
-| area | 8 | how far off target against the brief's own tolerance |
+| solecisms | 20 | the faults the corpus could judge on this plan |
+| rooms | 18 | every room, against its catalogue band, furniture, daylight and servicing |
+| connections | 16 | every room, against the adjacency, circulation, privacy and completeness rules |
+| fidelity | 25 | `pick_partis` fit, out of a possible 7.0 |
+| area | 7 | how far off target against the brief's own tolerance |
 | bedrooms | 4 | the bedrooms the brief asked for |
-| canon | 6 | declared slots, groupings, evaluated constraints, massing affinity |
+| canon | 5 | declared slots, groupings, evaluated constraints, massing affinity |
 | buildability | 5 | the two footprint tests |
+
+*(This table read 22 / 20 / 17 / 18 / 8 / 4 / 6 / 5 until 1 Sep 2026 against a `SCORE_AXES` of 20 / 18 / 16 / 25 / 7 / 4 / 5 / 5 — fidelity was moved from 18 to 25 on a measurement recorded in `compose.py`'s own comment, and this doc was not. Found by the Phase 9 exploration; corrected here. `check_counts.py` does not police these numbers.)*
 
 A room is spent by a serious finding, halved by a minor, and left whole by an advisory or an info — the corpus calls those advisory and unjudged respectively, and neither is a failure. **The code layer is deliberately unscored**: it is advisory and jurisdictional and `plan_check.py` says so in its own note, so scoring a house on it would be scoring it against a jurisdiction nobody named.
 
-**The weights are editorial.** They are one judgement about what matters in a house, stated once in `compose.py`'s `SCORE_AXES` rather than buried in a sum. The fault corpus and the two room-level axes are more than half the score because they are what a fluent reader notices walking through. Fidelity is 18 because being the right diagram for the style is the composer's whole argument for preferring one parti to another, and 18 is deliberately not enough to carry a plan that fails everything else.
+**The weights are editorial.** They are one judgement about what matters in a house, stated once in `compose.py`'s `SCORE_AXES` rather than buried in a sum. The fault corpus and the two room-level axes are more than half the score because they are what a fluent reader notices walking through. Fidelity is 25 because being the right diagram for the style is the composer's whole argument for preferring one parti to another — at 18 it could not span the spread of the other seven axes on the two shipped briefs (18.0 and 22.0 points), and 25 is deliberately not enough to carry a plan that fails everything else.
 
 **Unjudged is not passed.** An axis with no evidence neither scores zero nor scores full marks: its weight is dropped and the total renormalised over the weight that could be evaluated. `score_weight_unevaluated` reports how much of the hundred that was, so a score taken over 94 points of evidence cannot be read as one taken over 100.
 

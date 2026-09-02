@@ -599,7 +599,7 @@ class TestTheDecisionLogCarriesItsStructureWithoutLosingItsProse:
         import glob
         briefs = sorted(glob.glob(os.path.join(ROOT, "briefs", "*.json")))
         assert briefs, "no briefs to compose"
-        result = compose_module.compose(json.load(open(briefs[0])), candidates=2)
+        result = compose_module.compose(json.load(open(briefs[0])), candidates=2, revise=True, revise_engine="heuristic", revise_rounds=1)
         rows = [e for c in result["candidates"] for e in c["decisions_structured"]]
         assert rows, "the composer emitted no structured decisions"
         assert all(r["kind"] for r in rows)

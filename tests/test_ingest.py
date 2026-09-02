@@ -166,7 +166,9 @@ def test_provenance_validates_and_gates_method():
     # positioned openings, the stair — as record data. Moved with the bump rather than
     # loosened: this pin exists so a schema change cannot pass unnoticed, and pinning the
     # CURRENT version is what makes the next one show up here too.
-    assert schema["version"] == "0.3.0"
+    # 0.4.0 (WP-9.1/9.2): `unplaced` carries its figures as `needs`/`have` beside the prose, and
+    # the record carries the loop's own `revision_report`.
+    assert schema["version"] == "0.4.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

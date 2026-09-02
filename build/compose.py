@@ -13,7 +13,7 @@ nothing can still be dead, and the human is the one who can tell.
   python3 build/compose.py briefs/<id>.json [--json] [--candidates 4]
 """
 from __future__ import annotations
-import json, os, glob, copy, math, argparse, importlib.util, sys
+import json, os, glob, copy, math, argparse, importlib.util, sys, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -983,13 +983,22 @@ def _pack_width_ft(rule, storey_ft):
         val_in = min(band[1], max(band[0], val_in))
     return round(val_in / 12.0, 2)
 
-def derive_openings(plan, style, log):
+def derive_openings(plan, style, log, rooms=None, doors=True, windows=True, pairs=None):
     """Give every declared door a width, a type and a rank, and every window a real count
-    and width. Runs after symmetrise_doors so both directions of one door agree."""
+    and width. Runs after symmetrise_doors so both directions of one door agree.
+
+    `rooms`, `doors`, `windows` SCOPE it (WP-9.4). The composer runs it whole over a plan it
+    instantiated itself, where every window is its own. The revision loop runs it over an
+    AUTHORED record, and unscoped it rewrote nine authored window counts on the Tidewater
+    plan while adding one door -- the silent overwrite WP-6.2 removed, back through a move.
+    A move derives the openings it added and nothing else -- `pairs` (a set of frozenset
+    room-id pairs) narrows the door derivation to the doors it added, so an authored door
+    beside them in the same room is not filled in either."""
     g = grammar()
     idx = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
     lvl_of = {r["id"]: lv for lv in plan["levels"] for r in lv["rooms"]}
     editorial = {}
+    in_scope = (lambda rid: True) if rooms is None else (lambda rid: rid in rooms)
 
     # doors, resolved once per PAIR and written to both records: a door disagreeing with
     # itself across its two rooms is a corruption `plan_check`'s DECLARED layer reports
@@ -999,10 +1008,13 @@ def derive_openings(plan, style, log):
     # clean; the check is what catches a hand-authored or hand-edited one.
     decided = {}
     for r in list(idx.values()):
+        if not doors or not in_scope(r["id"]):
+            continue
         for d in (r.get("doors") or []):
             to = d["to"]
             key = tuple(sorted((r["id"], to)))
             if key in decided: continue
+            if pairs is not None and frozenset((r["id"], to)) not in pairs: continue
             a_t = r["type"]
             b_t = "exterior" if to == "exterior" else (idx.get(to, {}).get("type"))
             if b_t is None: continue
@@ -1050,7 +1062,7 @@ def derive_openings(plan, style, log):
         ch = lv.get("floor_to_ceiling_ft") or 9.0
         for r in lv["rooms"]:
             wins = r.get("windows") or []
-            if not wins: continue
+            if not wins or not windows or not in_scope(r["id"]): continue
             rt = C["rooms"].get(r["type"], {})
             gf = (rt.get("daylight") or {}).get("glazing_fraction")
             head = r.get("window_head_ft") or (ch - 1.2)
@@ -1110,6 +1122,8 @@ def derive_openings(plan, style, log):
     roled = kinded = kindless = 0
     kinds = {}
     for r in idx.values():
+        if not windows or not in_scope(r["id"]):
+            continue
         rt = C["rooms"].get(r["type"]) or {}
         for win in (r.get("windows") or []):
             rule = window_rule(r["type"], "exterior")
@@ -1244,6 +1258,13 @@ _DECISION_KINDS = (
     ("AUTHORED:", "authored"),
     ("NOT SOLVED:", "unsolved"),
     ("KNOWN FINDING, not a defect:", "disclosure"),
+    # WP-9.2: a move the revision loop applied to the PLACED candidate, after ranking. These
+    # are authored by the loop and quote the corpus sentence they executed; the prose is the
+    # move's own log line.
+    ("REVISED:", "revision"),
+    # WP-9.4: the set's revise budget was spent before this candidate; it is returned as
+    # composed and says so. A disclosure that settles no brief field -- `field: null` is right.
+    ("REVISION SKIPPED:", "disclosure"),
 )
 
 # The log's own vocabulary, read off it rather than imagined. Across every brief in `briefs/`
@@ -1280,6 +1301,23 @@ _DECISION_PATTERNS = (
      r"\g<a> sized from their rooms"),
     (r"^Window counts on (?P<a>\d+) wall\(s\) derived from each room's own", "window_counts",
      r"\g<a> walls from glazing fraction"),
+    # WP-9.2. The revision loop's own sentences (build/moves.py), one per move.
+    (r"^Grew (?P<a>.+?) from (?P<b>\d+) to (?P<c>\d+) sf", "room_area_sf", r"\g<a>: \g<b> to \g<c> sf"),
+    (r"^Grew (?P<a>.+?) to (?P<b>[\d.]+) x (?P<c>[\d.]+) ft", "room_dims_ft", r"\g<a>: \g<b> x \g<c> ft"),
+    (r"^Lit (?P<a>.+?) from its (?P<b>[NESW]) wall as well", "window_walls", r"\g<a>: + \g<b> wall"),
+    (r"^Gave (?P<a>.+?) a window on its (?P<b>[NESW]) wall", "window_walls", r"\g<a>: \g<b> wall"),
+    (r"^Moved (?P<a>.+?)'s window from its (?P<b>[NESW]) wall to its (?P<c>[NESW]) wall", "window_walls",
+     r"\g<a>: \g<b> to \g<c>"),
+    (r"^Deepened (?P<a>.+?) from (?P<b>[\d.]+) to (?P<c>[\d.]+) ft", "room_depth_ft", r"\g<a>: \g<b> to \g<c> ft"),
+    (r"^Set declared (?P<a>[a-z_]+) to (?P<b>[a-z0-9-]+)", "declared_slot", r"\g<a> = \g<b>"),
+    (r"^Set the declared shutter leaf to (?P<a>[\d.]+) in", "shutter_leaf_width_in", r"\g<a> in"),
+    (r"^Narrowed the declared window to (?P<a>[\d.]+) in", "window_opening_width_in", r"\g<a> in"),
+    (r"^Reduced the declared dormer count from (?P<a>\d+) to (?P<b>\d+)", "declared_dormer_count", r"\g<a> to \g<b>"),
+    (r"^Added the door the grammar prescribes between (?P<a>.+?) and (?P<b>.+?) \(", "doors", r"\g<a> - \g<b>"),
+    (r"^Dropped (?P<a>.+?): the diagram marks it droppable", "optional_rooms", r"dropped \g<a>"),
+    (r"^Split (?P<a>.+?) into two", "rooms", r"\g<a> split"),
+    (r"^Searched harder: (?P<a>\d+) -> (?P<b>\d+) candidates", "candidates", r"\g<a> to \g<b>"),
+    (r"^Asked for the proof", "engine", "cp-sat"),
 )
 
 def structure_decisions(lines):
@@ -1344,67 +1382,33 @@ def score(res):
     s = sum(SEV_W.get(f["severity"], 0) for f in res["findings"])
     return s
 
-def repair(plan, rounds=6):
-    """Hill-climb: read the findings and apply the move each one implies."""
-    log, best = [], PC.check(plan, C)
-    for _ in range(rounds):
-        idx = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
-        moved = False
-        for f in best["findings"]:
-            rid = f.get("room")
-            if rid not in idx: continue
-            r = idx[rid]
-            if f["layer"] == "furniture" and "needs" in f["statement"]:
-                try: need = float(f["statement"].split("needs ")[1].split(" ft")[0])
-                except Exception: continue
-                if need > r.get("width_ft", 0) and need < r.get("width_ft", 0) * 1.8:
-                    log.append(f"Widened {r.get('name') or rid} from {r['width_ft']} to {need:.1f} ft so it takes its furniture.")
-                    r["width_ft"] = round(need + 0.2, 1); moved = True
-            elif f["layer"] == "daylight" and "window head" in f["statement"]:
-                ch = r.get("ceiling_ft") or 9
-                if r.get("window_head_ft", 0) < ch - 0.7:
-                    r["window_head_ft"] = round(ch - 0.6, 1)
-                    log.append(f"Raised the window head in {r.get('name') or rid} to {r['window_head_ft']} ft to reach the back of the room.")
-                    moved = True
-                elif r.get("length_ft", 0) > r.get("width_ft", 0) * 1.15:
-                    r["length_ft"] = round(r["length_ft"] * 0.92, 1)
-                    log.append(f"Shortened {r.get('name') or rid} to {r['length_ft']} ft; the room was deeper than its light could reach.")
-                    moved = True
-            elif f["layer"] == "room" and "short dimension" in f["statement"]:
-                rt = C["rooms"].get(r["type"], {})
-                lo = (rt.get("dimensions", {}).get("width_ft") or [r.get("width_ft", 10)])[0]
-                if r.get("width_ft", 0) < lo:
-                    r["width_ft"] = lo
-                    log.append(f"Widened {r.get('name') or rid} to the {lo} ft floor for its room type."); moved = True
-            elif f["layer"] == "style" and f.get("rule") == "circulation_parti" and "ft wide" in f["statement"]:
-                # THE PASSAGE FLOOR THE STYLE STATES, WHICH THE CATALOGUE'S DOES NOT COVER
-                # (WP-9.1). The branch above widens a room to `rooms/<type>.json`'s own
-                # `width_ft` floor, and for a centre passage that floor is 6 ft -- correct for
-                # the northern vernacular passage the record describes, and 4 ft short of what
-                # tidewater-georgian's own kit asks for. This brief was composing a 7.9 ft
-                # passage and being convicted of `passage-that-is-a-corridor` (fatal for a
-                # formal centre-passage style), which disqualified all three NATIVE partis and
-                # handed a Tidewater Georgian brief to a side-hall townhouse -- WP-4.5's
-                # deleted sentence walking back in. Nothing had ever supplied
-                # `passage_clear_width_ft`, so the fault could not fire and the defect was
-                # three phases old.
-                #
-                # The figure is parsed from the finding rather than re-derived here, the same
-                # way the furniture branch above reads its own: the style layer resolved the
-                # cascade and this must not resolve it a second time and disagree.
-                try:
-                    need = float(f["statement"].split(" own kit states a passage of ")[1].split("-")[0])
-                except Exception:
-                    continue
-                if 0 < r.get("width_ft", 0) < need:
-                    log.append(f"Widened {r.get('name') or rid} from {r['width_ft']} to {need:g} ft — "
-                               f"the floor this style's own kit states, not the catalogue's vernacular one.")
-                    r["width_ft"] = need; moved = True
-        if not moved: break
-        cand = PC.check(plan, C)
-        if score(cand) < score(best): best = cand
-        else: best = cand; break
-    return best, log
+def repair(plan, rounds=6, budget_s=6.0):
+    """The DECLARED revision loop, in the place the old hill-climb stood (WP-9.2).
+
+    Until Phase 9 this was forty lines that read the findings' PROSE -- `"needs" in
+    f["statement"]`, `float(statement.split("needs ")[1].split(" ft")[0])` -- and applied three
+    moves. Read closely (docs/reports/wp-9.1-the-critique.md, section III) it had five defects:
+    a silent `need < width * 1.8` gate, a rounded figure read back so a 12.3 ft dining room
+    needing 12.333 never moved, a minor branch whose "needs about" made float() raise and
+    `continue` swallow it, a stale findings list applying every move to one room in a round,
+    and -- the one that matters -- no rollback: on a non-improving round the record was already
+    mutated in place and the WORSE result was accepted as `best`.
+
+    build/revise.py replaces it: the same position in the pipeline (before scoring, on the
+    declared record, every pick), the same tuple returned, and the same vocabulary in the log
+    so `_summarise` and `_DECISION_PATTERNS` keep reading it -- but the moves come from the
+    registry (build/moves.py), read the findings' structured evidence, roll a worse round back
+    byte-identically, and state every refusal. The caller's plan object is updated IN PLACE,
+    because compose() relies on that (it goes on to footprint() and reclaim() the same object).
+    The loop's own report rides on the plan as `revision_report`; the placed loop that runs on
+    the returned candidates nests it as `declared_pass`."""
+    RV = _mod("revise", f"{ROOT}/build/revise.py")
+    rv = RV.revise(plan, rounds=rounds, place=False, budget_s=budget_s, C=C)
+    new = rv["plan"]
+    plan.clear()
+    plan.update(new)
+    log = [m["log"] for rd in rv["rounds"] for m in rd["moves"] if m.get("accepted") and m.get("log")]
+    return rv["critique_after"]["check"], log
 
 def reclaim(plan, target, tol, res):
     """Repair widens rooms to clear findings and overshoots the area. Give the area back from
@@ -1502,7 +1506,8 @@ def footprint(plan, parti):
             "lot_note": lot_note, "tests_run": FOOTPRINT_TESTS, "tests_failed": failed}
 
 # ---------------------------------------------------------------- compose
-def compose(brief, candidates=4, on_candidate=None):
+def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4,
+            revise_engine="auto", revise_budget_s=120.0):
     # on_candidate: optional callable invoked once per completed (kept) candidate with its
     # summary dict, plan excluded. Added for the workbench's compose progress stream;
     # None leaves behaviour identical and the CLI never passes it.
@@ -1585,9 +1590,94 @@ def compose(brief, candidates=4, on_candidate=None):
     # diagrams from the same fit tie group, which share a fidelity axis. A stable sort would
     # then fall back to insertion order, and the slice below would be deciding again.
     # Determinism here must not be borrowed from the previous stage.
-    out.sort(key=lambda c: (c["counts"].get("fatal", 0),
-                            -(c["score"] if c["score"] is not None else -1e9),
-                            c["demerits"], c.get("parti") or ""))
+    _sort_key = lambda c: (c["counts"].get("fatal", 0),
+                           -(c["score"] if c["score"] is not None else -1e9),
+                           c["demerits"], c.get("parti") or "")
+    out.sort(key=_sort_key)
+    # THE PLACED REVISION LOOP (WP-9.2), on the RETURNED candidates only, after ranking. Ruled
+    # on by default (1 Sep 2026): the product is the revised set. Each returned candidate is
+    # placed, critiqued on the drawn house -- the elevation derived from that placement -- and
+    # revised by the registry's moves until nothing it can do improves the verdict; then it is
+    # RE-SCORED ON ITS DECLARED RECORD, so `score` and `score_before` are one instrument (the
+    # drawn findings would otherwise enter the `connections` axis for the revised candidate
+    # and not for its earlier self). The drawn keys before and after are published beside the
+    # score. A candidate revised into the lead re-ranks; `rank_before` says where it stood.
+    # `revise_budget_s` is the budget for the RETURNED SET: each candidate's loop gets an EQUAL
+    # SHARE of what is left (unspent share rolls forward to the next), and a candidate the
+    # budget does not reach is returned UNREVISED and says so. The first version gave every
+    # candidate the whole figure -- 21 candidates on the proving engine at 600 s each was four
+    # hours of one worker for one submission (the session's audit); the second spent the set's
+    # figure in rank order, and measured on a CP-capable box the leader took all 120 s and the
+    # other three came back as composed -- one of four revised was the default product. What
+    # the budget does not bound, stated: each candidate's FIRST placement (up to a 25 s proof
+    # on `auto`), one in-flight critique past its share, and the reclaim's re-critique; the
+    # worst case is candidates x ~35 s + the budget.
+    if revise and out:
+        RV = _mod("revise", f"{ROOT}/build/revise.py")
+        OP = _mod("openings", f"{ROOT}/build/openings.py")
+        deadline = None if revise_budget_s is None else time.perf_counter() + float(revise_budget_s)
+        n_out = len(out[:candidates])
+        for rank, c in enumerate(out[:candidates], 1):
+            parti_rec = PARTIS[c["parti"]]
+            remaining = None if deadline is None else deadline - time.perf_counter()
+            share = None if remaining is None else max(remaining / (n_out - rank + 1), min(remaining, 1.0))
+            if remaining is not None and remaining < 1.0:
+                c.update({"score_before": c["score"], "rank_before": rank,
+                          "revision": None,
+                          "revision_skipped": (f"the set's revise budget ({revise_budget_s:g} s) was spent on "
+                                               f"the {rank - 1} candidate(s) ranked above; this one is as composed"),
+                          "decisions": c["decisions"] + [f"REVISION SKIPPED: the set's revise budget of "
+                                                         f"{revise_budget_s:g} s was spent before this candidate; "
+                                                         f"it is returned as composed."]})
+                c["decisions_structured"] = structure_decisions(c["decisions"])
+                if on_candidate:
+                    on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
+                continue
+            declared_pass = c["plan"].pop("revision_report", None)
+            rv = RV.revise(c["plan"], rounds=revise_rounds, engine=revise_engine,
+                           budget_s=share, brief=brief, parti=parti_rec, place=True, C=C)
+            plan2 = rv["plan"]
+            if declared_pass:
+                plan2["revision_report"]["declared_pass"] = declared_pass.get("summary")
+            declared = OP.strip_placement(copy.deepcopy(plan2))
+            declared.pop("revision_report", None)
+            res2 = PC.check(declared, C)
+            area2 = sum(r.get("width_ft", 0) * r.get("length_ft", 0)
+                        for lv in plan2["levels"] for r in lv["rooms"]
+                        if C["rooms"].get(r["type"], {}).get("function_class") != "outdoor")
+            miss2 = abs(area2 - brief["target_area_sf"]) / brief["target_area_sf"]
+            fp2 = footprint(plan2, parti_rec)
+            card2 = score_candidate(res2, plan2, brief, c["style_fit"], fp2, miss2, tol)
+            rep = rv["report"]
+            lines = ["REVISED: " + m["log"] for rd in rv["rounds"] for m in rd["moves"]
+                     if m.get("accepted") and m.get("log")]
+            c.update({
+                "score_before": c["score"], "counts_before": c["counts"], "rank_before": rank,
+                **card2, "counts": res2["counts"], "area_sf": round(area2),
+                "area_miss_pct": round(miss2 * 100, 1), "footprint": fp2,
+                "demerits": round(score(res2) + (60 if miss2 > tol else 0) - c["style_fit"] * NATIVITY_W, 1),
+                "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
+                          for f in res2["findings"] if f["severity"] in ("fatal", "serious")][:8],
+                "decisions": c["decisions"] + lines,
+                "decisions_structured": structure_decisions(c["decisions"] + lines),
+                "drawn_key_before": rv["key_before"], "drawn_key_after": rv["key_after"],
+                "revision": {"summary": rep["summary"], "stop_reason": rep["stop_reason"],
+                             "engine": rep["engine"],
+                             "rounds": [{"n": rd["n"], "accepted": rd["accepted"], "engine": rd.get("engine"),
+                                         "key_before": rd["key_before"], "key_after": rd.get("key_after"),
+                                         "moves": [{k: m.get(k) for k in ("move", "finding", "log", "basis",
+                                                                           "tier", "accepted", "cleared",
+                                                                           "refused", "refused_by_measurement")}
+                                                   for m in rd["moves"]]}
+                                        for rd in rep["rounds"]],
+                             "remaining": {k: len(v) for k, v in rep["remaining"].items()},
+                             "handed_to_architect": rep["handed_to_architect"],
+                             "suspects": [{"id": s["id"], "statement": s["statement"]} for s in rep["suspects"]],
+                             "refused": len(rep["refused"]), "declared_pass": rep.get("declared_pass")},
+                "plan": plan2})
+            if on_candidate:
+                on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
+        out[:candidates] = sorted(out[:candidates], key=_sort_key)
     # `score` is None only in the unreachable no-evidence case above; the sentinel keeps such
     # a candidate last within its fatal group rather than sorting None against a float.
     # The axis definitions ride on the RESULT, not on every candidate. They are constant
@@ -1621,16 +1711,26 @@ def compose(brief, candidates=4, on_candidate=None):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("brief"); ap.add_argument("--json", action="store_true"); ap.add_argument("--candidates", type=int)
+    ap.add_argument("--no-revise", action="store_true", help="return the candidates as composed, without the placed revision loop")
+    ap.add_argument("--revise-rounds", type=int, default=4)
+    ap.add_argument("--revise-engine", default="auto", choices=["auto", "cp", "heuristic"])
+    ap.add_argument("--revise-budget-s", type=float, default=120.0)
     a = ap.parse_args()
     brief = json.load(open(a.brief))
     import jsonschema
     jsonschema.validate(brief, json.load(open(f"{ROOT}/schema/brief.schema.json")))
-    res = compose(brief, a.candidates or brief.get("candidates", 4))
+    res = compose(brief, a.candidates or brief.get("candidates", 4), revise=not a.no_revise,
+                  revise_rounds=a.revise_rounds, revise_engine=a.revise_engine,
+                  revise_budget_s=a.revise_budget_s)
     if a.json: print(json.dumps(res, indent=1, ensure_ascii=False)); return
     print(f"\n  {brief.get('name') or brief['id']}   {brief['style']}   {brief['target_area_sf']:.0f} sf   {brief.get('bedrooms',3)} bed")
     for i, c in enumerate(res["candidates"], 1):
         cc = c["counts"]
         head = f"score {c['score']} of 100" if c["score"] is not None else "NOT SCORED"
+        if c.get("score_before") is not None and c.get("revision"):
+            rs = c["revision"]["summary"]
+            head += (f" (was {c['score_before']}; revised in {rs['rounds']} round(s), {rs['moves_applied']} move(s), "
+                     f"drawn key {c['drawn_key_before']} -> {c['drawn_key_after']})")
         dq = "   DISQUALIFIED" if c.get("disqualified") else ""
         print(f"\n  {i}. {c['parti_name']}   {head}{dq}   "
               f"fatal {cc.get('fatal',0)}  serious {cc.get('serious',0)}  minor {cc.get('minor',0)}")
