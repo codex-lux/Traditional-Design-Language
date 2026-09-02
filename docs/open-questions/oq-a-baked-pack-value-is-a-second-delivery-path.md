@@ -2,6 +2,16 @@
 
 *Status: OPEN · Raised in: From WP-8.4, the construction scope (28 Aug 2026)*
 
+> **MEASURED AGAINST HUMAN JUDGMENTS, 2 Sep 2026 (WP-8.7).** This entry was raised from scope
+> refusals. Adjudicating OQ 51's backlog put 88 declines into the corpus — refusals a person wrote,
+> each quoting the node's own record — and **18 of them have a baked survivor**, which took
+> `baked_vs_refused` from 32 to 64 (44 of the 64 across 15 nodes: `storey-graduation` 12,
+> `facade-classical` 11, `trim-classical` 10, `gibbs-ionic` 8, `brick-course` 3). So the second
+> delivery path is not only a scope problem: **roughly one decline in five is half-defeated by it**,
+> the live rule refused and an ancestor's authored snapshot still standing. That is the number this
+> question was missing, and it is now taken on the records somebody actually ruled on.
+
+
 **OPEN — 3,176 kit parameters are snapshots of pack rules, and no scope, refusal or precedence
 rule reaches any of them.**
 

@@ -114,9 +114,25 @@ live through `eval_packs`, and BAKED into an ancestor's kit file as an authored 
 established that these fifteen were well-formed — schema, verbatim quote, `check_declines`' own
 lie-check — and not one of them asked whether the pack actually stops arriving. Measured directly:
 on both nodes, **0 of the declined packs survive in `resolve_packs`, and 0 baked parameters
-anywhere in either resolved kit carry a declined pack as their source.** The declines are clean.
-That is a measurement rather than an assumption now, which is the only reason it appears here: an
-adversarial audit pointed out that the package had never established it.
+anywhere in either resolved kit carry a declined pack as their source.** That is a measurement
+rather than an assumption, which is why it appears here: an adversarial audit pointed out that the
+package had never established it.
+
+**AND IT WAS TRUE OF THOSE TWO NODES AND NOT OF THE CORPUS.** Swept over all 88 declines after the
+later batches, `check_addresses.py::baked_vs_refused` went **32 to 64**: **18 of the 88 declines
+have a baked survivor**, contributing 44 of those 64 across 15 nodes — `storey-graduation` 12,
+`facade-classical` 11, `trim-classical` 10, `gibbs-ionic` 8, `brick-course` 3. Each of those
+eighteen is a decline doing exactly half its job: `resolve_packs` stops delivering the pack and an
+ancestor's kit file still carries a snapshot of one of its values as an authored parameter, which
+nothing refuses.
+
+Two things follow, and the first is about method. **Measuring two nodes and writing "the declines
+are clean" was the WP-4.4 error in a new place** — a figure that was true where it was taken and
+published as though it described the whole. The sweep is corpus-wide now and the ratchet carries
+the number. Second, the declines are NOT withdrawn: the live path really does close, the baked path
+was already there and already counted, and what the declines did was make it visible on nodes
+nobody had judged. `oq/a-baked-pack-value-is-a-second-delivery-path` now has a measured size on the
+records a human has actually ruled on, which is the largest thing this backlog has surfaced.
 
 ## What was deliberately not done
 

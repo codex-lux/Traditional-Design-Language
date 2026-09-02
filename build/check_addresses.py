@@ -86,7 +86,22 @@ RATCHET = {"own": 0, "cascade": 9,
            # `minimal-traditional` decline `storey-graduation` and still resolve four and two
            # baked parameters from it. A ratchet raised by a better meter has to say so, or
            # the next reader takes it for a regression that was waved through.
-           "baked_vs_refused": 32}
+           #
+           # 32 -> 64 on 2 Sep 2026 (WP-8.7), AND THIS ONE IS THE COST OF THE WORK RATHER THAN A
+           # SHARPER INSTRUMENT. The package authored 78 further declines; **18 of the corpus's
+           # 88 declines turn out to have a baked survivor**, contributing 44 of these 64. Each
+           # is a decline doing exactly half its job: `resolve_packs` stops delivering the pack,
+           # and an ancestor's kit file still carries a snapshot of one of its values as an
+           # authored parameter, which nothing refuses. The remaining 20 are the older scope and
+           # construction refusals.
+           #
+           # It is stated rather than avoided, and it is NOT a reason to withdraw the declines:
+           # the live path closing is real, and the baked path was already there and already
+           # counted -- the declines made it visible on nodes where nobody had looked. This is
+           # the largest thing OQ 51's backlog has surfaced, and it belongs to
+           # `oq/a-baked-pack-value-is-a-second-delivery-path`, which now has a measured size on
+           # the nodes a human has actually judged rather than an argument.
+           "baked_vs_refused": 64}
 
 
 def cobinding(nodes, scope):

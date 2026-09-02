@@ -3565,7 +3565,14 @@ def test_a_ranch_is_dimensioned_by_a_gothic_arch_pack_and_the_slot_report_says_s
                           "--slots", "ranch-style"], capture_output=True, text=True, cwd=ROOT).stdout
     assert "68 slot(s) dimensioned, 61 by a pack it never bound" in out
     assert "opening-pointed" in out and "gothic-revival-british" in out
-    assert "gibbs-ionic" in out
+    # `gibbs-ionic` was the third name here until 2 Sep 2026, when WP-8.7 adjudicated it and
+    # `ranch-style` DECLINED it -- a Gibbs Ionic order on a ranch house, refused on the node's own
+    # words. So the illustration is one name shorter because the corpus is one judgment better,
+    # and the assertion is inverted rather than deleted: the pack must NOT be back.
+    assert "gibbs-ionic" not in out, (
+        "ranch-style declines gibbs-ionic; if it is dimensioning a slot again the decline broke")
+    assert "gibbs-ionic" in {d["pack"] for d in json.load(
+        open(os.path.join(ROOT, "styles", "ranch-style.json")))["declined_packs"]}
 
 
 def test_the_checker_says_what_the_binding_count_never_measured():
