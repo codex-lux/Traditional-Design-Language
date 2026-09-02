@@ -169,11 +169,33 @@ class TestTheRevisedSetKeepsTheComposersInvariants:
     def test_the_revise_budget_is_the_sets_and_a_candidate_it_does_not_reach_says_so(self, compose_module):
         """Per candidate, 21 candidates on the proving engine at 600 s each was four hours of
         the one-worker pool for one metered submission (the session's audit). The budget is
-        spent in rank order and a candidate the budget does not reach is returned as
-        composed, with the reason on the record."""
+        the set's, shared equally across the candidates left, and a candidate the budget does
+        not reach is returned as composed, with the reason on the record."""
+
+    def test_the_sets_budget_is_shared_and_not_taken_whole_by_the_leader(self, compose_module, monkeypatch):
+        """Measured on a CP-capable box with the set's 120 s spent in rank order: the leader's
+        loop took all of it and three of four candidates came back as composed. Each
+        candidate's loop is handed an equal share of what is left."""
+        RV = mc.load("revise", os.path.join(BUILD, "revise.py"))
+        seen = []
+        orig = RV.revise
+
+        def spy(plan, **kw):
+            if kw.get("place"):              # the PLACED loop; repair's declared loop calls this too
+                seen.append(kw.get("budget_s"))
+            return orig(plan, **kw)
+        monkeypatch.setattr(RV, "revise", spy)
+        compose_module.compose(_brief("family-georgian"), candidates=3, revise=True,
+                               revise_rounds=1, revise_engine="heuristic", revise_budget_s=90)
+        assert len(seen) == 3
+        assert seen[0] <= 90 / 3 + 0.01, f"the leader was handed {seen[0]:.1f} s of a 90 s set budget"
+        assert all(s >= 1.0 for s in seen)
+        # 1.2 s for two: the first gets its share (floored at 1 s), its first critique and one
+        # round overrun it, and less than a second is left for the second -- which says so
         res = compose_module.compose(_brief("family-georgian"), candidates=2, revise=True,
-                                     revise_rounds=1, revise_engine="heuristic", revise_budget_s=0.5)
+                                     revise_rounds=1, revise_engine="heuristic", revise_budget_s=1.2)
         first, second = res["candidates"][0], res["candidates"][1]
+        assert first["revision"] is not None, "the first candidate got no share of the set's budget"
         assert second["revision"] is None and "budget" in second["revision_skipped"]
         assert "score_before" in second and second["score_before"] == second["score"]
         assert any(l.startswith("REVISION SKIPPED:") for l in second["decisions"])

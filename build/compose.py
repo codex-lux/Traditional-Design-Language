@@ -1602,20 +1602,25 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # drawn findings would otherwise enter the `connections` axis for the revised candidate
     # and not for its earlier self). The drawn keys before and after are published beside the
     # score. A candidate revised into the lead re-ranks; `rank_before` says where it stood.
-    # `revise_budget_s` is the budget for the RETURNED SET, spent in rank order: each candidate's
-    # loop gets what is left, and a candidate the budget does not reach is returned UNREVISED
-    # and says so. The first version gave every candidate the whole figure -- 21 candidates on
-    # the proving engine at 600 s each was four hours of one worker for one submission (the
-    # session's audit). What the budget does not bound, stated: each candidate's FIRST
-    # placement (up to a 25 s proof on `auto`), one in-flight critique past the deadline, and
-    # the reclaim's re-critique; the worst case is candidates x ~35 s + the budget.
+    # `revise_budget_s` is the budget for the RETURNED SET: each candidate's loop gets an EQUAL
+    # SHARE of what is left (unspent share rolls forward to the next), and a candidate the
+    # budget does not reach is returned UNREVISED and says so. The first version gave every
+    # candidate the whole figure -- 21 candidates on the proving engine at 600 s each was four
+    # hours of one worker for one submission (the session's audit); the second spent the set's
+    # figure in rank order, and measured on a CP-capable box the leader took all 120 s and the
+    # other three came back as composed -- one of four revised was the default product. What
+    # the budget does not bound, stated: each candidate's FIRST placement (up to a 25 s proof
+    # on `auto`), one in-flight critique past its share, and the reclaim's re-critique; the
+    # worst case is candidates x ~35 s + the budget.
     if revise and out:
         RV = _mod("revise", f"{ROOT}/build/revise.py")
         OP = _mod("openings", f"{ROOT}/build/openings.py")
         deadline = None if revise_budget_s is None else time.perf_counter() + float(revise_budget_s)
+        n_out = len(out[:candidates])
         for rank, c in enumerate(out[:candidates], 1):
             parti_rec = PARTIS[c["parti"]]
             remaining = None if deadline is None else deadline - time.perf_counter()
+            share = None if remaining is None else max(remaining / (n_out - rank + 1), min(remaining, 1.0))
             if remaining is not None and remaining < 1.0:
                 c.update({"score_before": c["score"], "rank_before": rank,
                           "revision": None,
@@ -1630,7 +1635,7 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                 continue
             declared_pass = c["plan"].pop("revision_report", None)
             rv = RV.revise(c["plan"], rounds=revise_rounds, engine=revise_engine,
-                           budget_s=remaining, brief=brief, parti=parti_rec, place=True, C=C)
+                           budget_s=share, brief=brief, parti=parti_rec, place=True, C=C)
             plan2 = rv["plan"]
             if declared_pass:
                 plan2["revision_report"]["declared_pass"] = declared_pass.get("summary")

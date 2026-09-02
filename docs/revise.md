@@ -83,10 +83,11 @@ only (XDATA is capped near 16 KB).
   after ranking, by default; each is re-scored on its declared record so `score` and
   `score_before` are one instrument, and re-ranked. `--no-revise`, `--revise-rounds`,
   `--revise-engine`, `--revise-budget-s`; `check_all` runs the composer on the fast engine.
-  **`revise_budget_s` is the budget for the returned SET**, spent in rank order: each
-  candidate's loop gets what is left, and a candidate the budget does not reach is returned
-  as composed with `revision: null`, `revision_skipped` saying why, and a `REVISION SKIPPED:`
-  decision line. It was per candidate until the session's audit measured 21 candidates on the
+  **`revise_budget_s` is the budget for the returned SET**, shared equally across the
+  candidates left (an unspent share rolls forward), and a candidate the budget does not reach
+  is returned as composed with `revision: null`, `revision_skipped` saying why, and a
+  `REVISION SKIPPED:` decision line. Spent in rank order instead, the leader took all 120 s
+  on a CP-capable box and three of four came back as composed. It was per candidate until the session's audit measured 21 candidates on the
   proving engine at 600 s each — four hours of the one-worker pool for one metered submission.
   What the budget does not bound is stated in `compose.py`: each candidate's first placement
   (up to a 25 s proof on `auto`), one in-flight critique, and the reclaim's re-critique.
