@@ -266,5 +266,16 @@
       "note": "Optional. This record's 'oriel or bay windows on the principal rooms, with label mouldings and tracery heads' takes the pack's projection rule, and `opening-mullioned` and `opening-pointed` between them hold what the bay's windows are. The octagonal chimney shafts this node also has are NOT this pack: an octagonal flue is a section rather than a plan geometry, and it was one of the keyword matches that made this item look larger than it is.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "The pack's own notes say what it is: Vignola's Ionic in Chambers's forms -- eighteen modules of column, four and a half of entablature, the Attic base, the angular capital, the flat frieze -- and they name its own downstream reach as late Georgian and Adam-period British practice and, through the pattern books, American Federal work. This node names a different source tradition for its forms, and names it as the very thing that separates it from Baronial. Its stated wall vocabulary is tracery, label mouldings and hood moulds worked in the material at 2 in relief; there is no column, order, entablature or pilaster anywhere in the record, and the one occurrence of the word 'order' is 'an order of magnitude' about cost. An Ionic entablature cannot dimension the eave of a house whose pitches run 12:12 to 18:12 and whose verge is bargeboarded.",
+      "basis": "node-record",
+      "quote": "the Rural Gothic villa derives from English ecclesiastical and Tudor domestic sources filtered through Loudon and Downing",
+      "quoted_from": "distinguished_from[2].difference",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots: cornice, door_surround, frieze. 0 slots lose all dimensioning -- all three pass to palladio-ionic, delivered from english-palladian. So the measured consequence is that this villa's cornice, door surround and frieze are dimensioned by Palladio's Ionic instead of Chambers's. The decline is true of this pack and stops this authority; it does not stop a classical order reaching a Gothic villa, which arrives one layer further up and belongs to whichever pass judges palladio-ionic."
+    }
   ]
 }

@@ -252,5 +252,16 @@
       "note": "JUDGMENT BINDING. Not in this pack's applies_to, but this is the one Queen Anne variant where it is defensible over room-vernacular: the node's own text states the interior 'usually follows' the classical porch — 'the living hall becomes more formal, the openings get classical casings, and the plan starts to close back up into named rooms' — and colonial-revival, this node's explicit co-parent and successor, IS in room-harmonic's applies_to. The formalizing pressure the node describes is exactly the pressure that produces treatise-proportioned rooms rather than span-constrained ones.",
       "precedence": 6
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's own notes say it is for three things -- the bay count composing about a centre, the ranking of the horizontals, and the five-bay double square -- and its stated negative case is explicit: a composed classical front asserts one public face and one axis, is false where the plan is genuinely irregular, and where it is false the pack itself redirects to facade-picturesque. This node's record contradicts that subject in its own sentences rather than by category: symmetry is 'balanced-asymmetrical', bay_rhythm is 'Irregular in the wall, regular in the porch.', and the governing_logic quoted above assigns the GLOBAL composition to the picturesque system while keeping classical proportion local to the trim -- which is the pack's own negative case restated from the node's side. The node already binds facade-picturesque at precedence 1. This is not a blanket refusal of classical proportion: the node's classical trim is real and stays dimensioned.",
+      "basis": "node-record",
+      "quote": "Good examples let the classical rules govern locally and the picturesque rules govern globally.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 of the 16 slots it dimensions; declining changes no dimension on this node and 0 slots lose all dimensioning. Every address it would reach is already held at higher precedence -- cornice, frieze, door_surround and pilaster by chambers-ionic, pediment by gibbs-doric, belt_course by stone-course, water_table by brick-course, window_proportion by opening-pointed, special_window by balcony-gallery, height_proportion and window_sill by storey-graduation. So the node's classical trim is untouched by the decline; only the composed-front claim goes. Endorsing instead would arm build_elevation's scope gate for a style whose whole diagnosis is that its front is not composed."
+    }
   ]
 }

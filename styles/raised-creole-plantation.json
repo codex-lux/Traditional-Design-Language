@@ -266,5 +266,16 @@
       "note": "'Upper walls of colombage with bousillage or briquette-entre-poteaux infill' over a masonry ground storey -- which is the storey-count rule in a colonial rather than a revival setting, and is worth noticing: this node arrives at masonry-below-and-frame-above for the flood and the damp, and Tudor Revival arrives at the same elevation four thousand miles and three centuries away for the wear and the look. Same rule, unrelated reasons.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes state its subject as the colonnade against the wall — a peripteral temple, a Roman arch order or a colossal revival portico — and the three composition rules it delivers here are a portico taking half to three fifths of the front, a Doric corner contraction, and a centre bay opened a third wider. The node's bay_rhythm refuses all three in one sentence: five to nine EQUAL bays, evenly spaced, no centre emphasis, no pediment. Its distinguished_from entry against greek-revival-southern-plantation is written about exactly the building this pack dimensions, a giant order of full-height columns of a single material carrying an entablature and often a pediment, and description.long calls that house a temple and this one a shed with an enormous porch. The gallery is one rank of colonnettes running the whole front, which in the pack's own vocabulary is a colonnade and explicitly not a portico.",
+      "basis": "node-record",
+      "quote": "columns evenly spaced at 8–11 ft on centre, with no centre bay emphasis and no pediment",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 2 slots; both lose all dimensioning — composition_parti and porch_type. That is honest here: the node's own bound balcony-gallery already dimensions porch_depth, porch_support and porch_ceiling, so what porch_type loses is the Roman two-or-three-rank temple porch (rank_depth 2), not the gallery itself; and composition_parti loses a portico share, a triglyph corner contraction and a 1.33 centre-bay widening that the record denies outright."
+    }
   ]
 }

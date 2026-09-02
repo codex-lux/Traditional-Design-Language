@@ -255,5 +255,16 @@
       "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound over room-vernacular because the node explicitly credits 'Beaux-Arts parti discipline' organizing the plan beneath the Romanesque forms, and Richardson is documented as the second American to study at the Ecole des Beaux-Arts — a formally trained, hierarchically composed plan is closer to this pack's rank-and-suite logic (adjacent rooms differing by one term of the series, breadth held constant across a suite) than to room-vernacular's structurally-constrained folk room. No specific source ties Richardson's own room dimensions to Palladio's ratios, and this binding should be read as 'the closest available system for a formally planned room,' not as a documented fact about Richardson's practice.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-pavilion",
+      "reason": "The pack's own notes make its subject a composition in vertical strips, and its composition_parti rule states the travee is \"16 ft on centre and UNIFORM ALONG A RANGE\" -- \"a French range does not graduate its bays or widen a centre one, it repeats a strip\" -- while its dormer rules put exactly one lucarne per travee at 0.6 to 0.9 of the bay's width. The node's bay_rhythm refuses that repetition in the same terms the pack asserts it, and its tell places windows \"grouped in bands of three or five under a single relieving arch or lintel, rather than distributed one per bay\", so there is no one-opening-per-bay axis for a strip to stand on or a lucarne to cap. The massing record adds that mansard-block is forbidden because \"A mansard converts mass into crown and destroys the continuity the style depends on\", which is the pack's third item. This is a contradiction of the pack's stated mechanism, not merely of its figures.",
+      "basis": "node-record",
+      "quote": "The rhythm is A - BBB - A, not A-A-A-A.",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 2 slots; declining loses no dimensioning at all -- composition_parti passes to facade-peristyle (roman-classical) and dormer to storey-graduation (beaux-arts-french); 0 slots lose all dimensioning."
+    }
   ]
 }

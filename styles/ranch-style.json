@@ -264,6 +264,24 @@
       "quoted_from": "description.long",
       "decided": "2026-08-28",
       "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+    },
+    {
+      "pack": "gibbs-ionic",
+      "reason": "gibbs-ionic's own notes make it a complete Ionic order figured as a delta on Vignola: entablature one fifth of the column, entablature subdivided 3:3:4, modillions at three quarters of a diameter on centres, a pedestal one quarter of column-plus-entablature. Every one of those figures descends from a column module through a stacked pedestal-column-entablature hierarchy. The node's governing_logic refuses that hierarchy in terms, and separately names the operative modules of the style -- the 4-by-8 sheet, the 24-inch truss spacing, the 8-foot precut stud, the garage door -- none of which is a column. Endorsing would also publish gibbs_order_applies_to_style on this node, which CLAUDE.md's OQ 84 note records as being read downstream as 'an order is applied here' and used to select the entablature cornice test; that is the opposite of what this record says.",
+      "basis": "node-record",
+      "quote": "no vertical hierarchy survives at all — there is no base, no piano nobile, no attic, and frequently no cornice",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots. Declining sends casing -> palladio-tuscan (italian-renaissance), cornice -> chambers-ionic (english-georgian), pilaster -> chambers-ionic (english-georgian); 0 slots lose all dimensioning. The replacements are themselves unadjudicated order packs, so this role re-attributes to the next unjudged ancestor rather than closing -- the behaviour CLAUDE.md already records for a correct decline."
+    },
+    {
+      "pack": "timber-bay",
+      "reason": "timber-bay's own note states its test plainly -- can you draw the frame, and if the plan does not resolve into bays of 16 to 20 feet with partitions and window jambs falling near the posts, the building is wearing a costume. The node's description.long says the frame is an engineered light wood truss at twenty-four inches on centre spanning the full width of the house with interior bearing walls eliminated, so there are no posts for a partition to fall near and no bay to draw; its bay_rhythm reads 'None governing.' This is the second trap inverted rather than sprung: the truss spacing the node does name is a stick-framing module, not a bay. Endorsing would arm span_check's switch from the light-frame joist table to the bay module's own capacity, which for a trussed ranch would report a larger safe span than the structure has -- unjudged reported as passed, in the dangerous direction.",
+      "basis": "node-record",
+      "quote": "The engineered light wood truss, commercialized in the late 1940s, spanned the full width of the house at twenty-four inches on centre, eliminated interior bearing walls",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning. The whole value is closing an unjudged delivery and keeping the span-capacity gate (build/structure.py span_check via _timber_bay_applies_to, and the CP model reading the same list) off this node."
     }
   ]
 }

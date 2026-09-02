@@ -254,5 +254,16 @@
       "note": "Optional, and the binding needs its caveat stated first: THIS IS NOT INFILL. Stick Style applies flat boards to the surface of a clapboarded or shingled balloon-framed wall, and the boards express a frame that is not there -- which is the type's own argument rather than a deception, since what they express is the balloon frame behind them, a real structure with no exterior expression of its own. The pack is bound because one figure travels exactly: this record's 'panel field 3 to 6 ft square between stick bands' is the square-panel proportion, and its 'diagonal braces at 45 degrees, brace length 0.3 to 0.5 of post height' is the only brace figure anywhere in the corpus and is what the pack's brace rule quotes.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's own notes state its negative case in its own words: a composed classical front asserts that the building has one public face, one axis and one entrance, that assertion is false of a building whose plan is genuinely irregular, and where it is false the honest move is to go to the picturesque system rather than apply the composition anyway. This node's record says the plan is irregular in the very sentence that describes its rhythm, records its symmetry as picturesque-asymmetrical, and calls its plan a conventional picturesque one with a hall, parlours and a stair. It already binds facade-picturesque as its primary facade pack -- the exact pack facade-classical's own note sends this case to -- so the node's record does not merely fail to affirm the composed front, it names the alternative the pack itself prescribes. A decline arms nothing; only an endorsement would have.",
+      "basis": "node-record",
+      "quote": "The stick grid supplies a regular rhythm across an irregular plan",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on this node (facade-picturesque and the node's own bindings already win every slot it would reach); declining changes no dimension and 0 slots lose all dimensioning. Recorded because --pair reports that ENDORSING would arm a live check -- the build_elevation scope gate in build/elevation.py, the other half of that AND -- so the endorsement direction is the costly one here and is the one being refused."
+    }
   ]
 }

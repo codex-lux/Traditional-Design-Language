@@ -270,5 +270,16 @@
       "note": "Optional, and the pack should be read here as the thing being caricatured. This record's lights are 6 to 10 in wide in openings under 3 ft -- a third of the pack's module and well below anything the tradition built -- and they are 'placed by internal need and never aligned to a facade datum'. Both are deliberate distortions of rules this pack states, and what the pack can usefully offer is the undistorted version, so that a designer working this idiom is exaggerating knowingly.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "stone-course",
+      "reason": "The pack's own notes say its module is not a course of the wall but a course of the DRESSING -- quoin, jamb, lintel, mullion, kneeler, coping -- because 'rubble cannot make a corner, an edge or an opening', and its stated binding criterion is whether the stone wall GOVERNS or merely occurs. Storybook's record answers that against it in the one place it is comparing itself to a node that IS in this pack's applies_to: the Cotswold type is real or convincing stone with genuine masonry coursing, and Storybook simulates the same effects in plaster. The description.long gives the wall system outright as 'wood frame with wire lath and portland cement stucco' that 'could be shaped into any profile a modeller could sketch', with the enchantment 'entirely a surface half an inch thick'. There is no rubble field and no stone carrying a dimension before it is laid, so the physical constraint the whole module is derived from does not exist here -- this is the absence of the mechanism, not a coincidence of figures.",
+      "basis": "node-record",
+      "quote": "Storybook simulates the same effects in plaster and pushes them past plausibility.",
+      "quoted_from": "distinguished_from[1].difference",
+      "decided": "2026-09-02",
+      "note": "governs 10 slots; roof_material loses all dimensioning. The other nine pass on: corner_quoin, depth_and_pile and reveal_masonry to timber-bay (jacobean); wall_thickness_masonry to facade-medieval-english (jacobean); window_head_masonry and window_proportion to opening-pointed (gothic-revival-british, itself tabled below); daylight_strategy to opening-craftsman (arts-and-crafts-american); foundation_expression to log-module (swiss-chalet); wing_strategy to the node's own facade-picturesque. No live gate, so endorsing would have moved only the meter."
+    }
   ]
 }

@@ -284,5 +284,25 @@
       "note": "Bound for the daylight-depth rule, on the same reasoning as andalusian-spanish-revival: the courtyard-organized plan, with its single-pile ranges opening onto a patio, is exactly the condition the pack's daylight physics describes, and that physics is period-agnostic by the pack's own account. Do not carry over the hearth-reach, joist-span or frontage-driven room-count rules -- none of the three physical constraints those rules recover from Anglo-American vernacular fabric (span, hearth, and the folk-house catalogue built from tiling a frontage with rooms) describes a stucco courtyard house organized around a patio rather than a passage.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "vignola-composite",
+      "reason": "The pack is an order-system and its own notes are wholly about what Vignola's Composite inherits from the Corinthian and the Ionic — a 20-module column under a 5-module entablature, dentils, volutes, an architrave of fascias. This node's governing logic states that no order governs it, and that proportion is instead controlled by wall thickness at reveals, by the height differences between adjoining roof planes, and by the size of the single ornamented entrance against the blank wall; its own description walks a wall that offers \"no base, no cornice, no rhythm\", which is what the pack is here dimensioning. The record also puts its ornamental cues in the Spanish Baroque and reserves Renaissance ornament to Mediterranean Revival. This is the pack's own category refused by name, not a blanket line read onto it.",
+      "basis": "node-record",
+      "quote": "No module and no order",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 2 slots (cornice, frieze); both pass to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. The decline stops this order and does not by itself remove an order from the node — the fallback is another order pack arriving the same way, and that is a separate unjudged gap."
+    },
+    {
+      "pack": "brick-course",
+      "reason": "The pack's subject is the mason's rod: in a brick building there are no free horizontal dimensions above the water table, because storey, sill, head, belt and plate are all whole numbers of courses off one datum. This node has no brick wall to course — its own record distinguishes it from the colonial original by saying the revival is stucco over wood frame, and its description gives stucco walls whose only expressed mass is at the reveals. The mudejar edge in its lineage takes brick and tile as an ornamental register at weight 0.5, not as the wall's dimensioning system.",
+      "basis": "node-record",
+      "quote": "The revival is stucco over wood frame",
+      "quoted_from": "distinguished_from[2].difference (spanish-colonial-american)",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots; declining changes no dimension on this node. It is a meter move only, and costs nothing."
+    }
   ]
 }

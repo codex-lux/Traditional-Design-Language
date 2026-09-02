@@ -260,5 +260,16 @@
       "note": "Judgment binding (queen-anne-british is not in brick-course's applies_to, whose native target is Georgian-era coursing). Bound low and optional because 'red brick, finely jointed, with rubbed and cut brick ornament' is a defining characteristic and c01 makes the red-and-white pairing a hard constraint, and Victorian imperial brick is close enough in dimension to Georgian brick that the coursing module transfers reasonably — but this is the pack's first documented use outside its native period and the fit should be treated as approximate rather than sourced.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "chambers-ionic is an order-system and nothing else: its own notes say the departures from Vignola are 'about WHICH FORM, not about how big', and its invariants are bare proportional statements — eighteen modules of column, four and a half of entablature — delivered here to cornice, crown, door_surround, frieze and pilaster. This node's governing_logic does not merely say 'no applied system'; it names a CLOSED list of three things that are proportioned by precedent — the sash, the gable and the chimney — and says the elevation is assembled from them by eye. An applied classical order is not among the three and is the paradigm case of what that sentence refuses; unlike sash-light, whose subject is a fact about the glass trade and survives the same sentence, there is no non-proportional core here to survive it. The description corroborates from the other side, placing what the architects were after in 'the century between the Restoration and the Georgian codification' — the codification being exactly the practice the pack's own note claims as its downstream authority.",
+      "basis": "node-record",
+      "quote": "the sash, the gable and the chimney are each proportioned by precedent, and the elevation is assembled from them by eye",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 5 slots (cornice, crown, door_surround, frieze, pilaster); 0 slots lose all dimensioning. cornice, crown, door_surround and frieze pass to palladio-ionic (english-palladian); pilaster passes to chambers-doric (english-georgian). Stated plainly because it bears on the ruling: the decline swaps one late-Georgian order for another rather than removing classical order governance from the node. It stops this pack, not the class — whether ANY codified order should govern a picturesque Shaw elevation is a larger question this verdict does not settle."
+    }
   ]
 }

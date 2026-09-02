@@ -312,6 +312,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-08-28",
       "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "The pack's own notes state its subject plainly: a quoted classical skeleton -- column of 9 modules, entablature a fifth of the column divided 4:3:5, architrave, cornice divided into seven and three quarters, an Attic base at half a diameter. That is a classical order used as a proportioning system, and the node's governing_logic refuses exactly that in its first three words, naming what governs instead -- the notional 8 to 12 ft timber bay and the gable triangle. This is not the blanket-sentence trap: the pack IS a classical module, so the sentence contradicts its actual subject rather than merely sitting near it. The node has already recorded the identical judgment against chambers-ionic in its own declined_packs, on this same quote and the same basis, and palladio-ionic arrives the same way -- cascade depth 8 from english-palladian with no direct lineage edge.",
+      "basis": "node-record",
+      "quote": "No classical module. Proportion is governed by the notional structural bay of the timber frame being imitated",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots on this node: cornice, door_surround, frieze. Declining hands all three to palladio-tuscan (from italian-renaissance); 0 slots lose all dimensioning. Worth flagging one layer down, and outside this ruling's scope: the fallback is itself a classical order pack, so the decline stops this wrong pack without supplying a right one -- the same classical-module refusal applies to palladio-tuscan, which is not on this node's pending list and was not judged here."
     }
   ]
 }

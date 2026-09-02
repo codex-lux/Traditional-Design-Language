@@ -282,5 +282,25 @@
       "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound because the node's own text states there is no module governing the design and the interior priority is spatial flow through the living hall rather than fixed ratios, which rules out room-harmonic's treatise proportions as firmly as the exterior rules out a bay system. The fit is approximate — architect-designed Newport houses were not vernacular cottages — but the physical constraints (joist span, daylight depth) still bound wood-frame construction regardless of who designed it, and no better system exists in this library for a non-treatise-proportioned room.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's own notes name three subjects — the bay count ('odd bays compose about a centre'), the ranking of water table, belt and cornice, and the five-by-two-and-a-half double square — and its module is the bay itself, 'the centre-to-centre spacing of the vertical rank of openings on the principal elevation'. The node answers each of those specifically rather than blanketly: its governing_logic states there is no module and no bay system, its bay_rhythm says the rhythm belongs to the openings and not to a structural bay, and hard constraint c01 forbids the water table, belt course and frieze board by name and 'admits no exceptions'. The pack also states its own negative case and this node is it — a genuinely irregular plan, where the pack's own instruction is to go to the picturesque system instead — and the node already binds facade-picturesque as its primary facade pack. Endorsing would arm the build_elevation scope gate for every plan of a style whose symmetry field reads picturesque-asymmetrical.",
+      "basis": "node-record",
+      "quote": "There is no module and no bay system",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 0 of the 16 slots it addresses; declining changes no dimension on this node. cornice, door_surround and pilaster stay with chambers-ionic; height_proportion with storey-graduation; window_proportion, window_grouping_rule and entry_door with opening-pointed; corner_quoin, daylight_strategy and foundation_expression with stone-course; pediment with gibbs-doric; special_window with balcony-gallery; steps_and_stoop with palladio-tuscan. belt_course, water_table and frieze are already bound `forbidden` in the node's resolved kit, so the pack's rules there are refused before precedence is reached. No slot loses all dimensioning."
+    },
+    {
+      "pack": "facade-gable",
+      "reason": "The pack says of itself that a gable is one of three objects — the end of a roof, a parapet carried past it, or a screen standing free of it — that deciding which is 'prior to any dimension in this pack', and that 'every one of these gables is cut stone or moulded plaster'; its single assembly is a kneeler, a raking coping and an apex stone. The node's c05 permits exactly one material change on the elevation, a rock-faced base terminating at or below the first-floor window sill line, and c01 runs the shingle field unbroken across every storey line, corner and change of plane on all elevations, admitting no exceptions, with the skin frequently carried over the roof as one material. A stone coping with kneelers and a finial at the rake is a second material at the top of the wall, and the parapet and screen cases are a wall standing above a roof the shingles are meant to cover. The pack's four material-neutral rules (apex ratio, gable count, width hierarchy) go with the decline, which is accepted honestly: the node states its own rake and eave figures — rake overhang 4 to 10 in, closed tight to the wall plane — and nothing is left undimensioned.",
+      "basis": "node-record",
+      "quote": "shall be the only material change permitted on the elevation",
+      "quoted_from": "constraints[4].statement (shingle-style.c05)",
+      "decided": "2026-09-02",
+      "note": "Governs 0 of the 6 slots it addresses; declining changes no dimension on this node. gable_treatment, rake_condition, dormer and ornament_vocabulary stay with opening-pointed and wing_strategy with stone-course (both themselves unadjudicated cascade deliveries, not settled by this ruling). cornice_return — the slot the pack files its own kneeler rule under — is already bound `forbidden` in the node's resolved kit, as is parapet, so those rules were refused before precedence was reached. No slot loses all dimensioning."
+    }
   ]
 }

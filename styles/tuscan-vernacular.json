@@ -255,5 +255,16 @@
       "note": "Secondary, behind `stone-course`. The loggia figure this record carries -- 'two to four arches with pier width 0.4-0.6 of the clear opening' -- was quoted in `stone-course`'s notes precisely so it would not be lost when that pack declined to carry it, and this is the pack it was being kept for. Note the pier ratio here is the widest in the corpus and the record says why by implication: this is rubble and mixed stone-and-brick rather than dressed masonry, and a rubble pier has to be fatter to do the same work.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes say it exists to answer what no order pack answers -- 'how many columns there are, where they stand, what they stand on, or what the wall behind them is doing' -- and the three rules it actually delivers here are a portico taking half to three fifths of the front, a porch two or three column ranks deep, and how many sides a podium stair may be climbed from. The node's lineage note refuses that subject outright: the order system is not inherited at all and there is no column in this tradition except in the loggia. That single exception names an ARCADE -- the record's own 'Loggia, where present, of two to four arches with pier width 0.4-0.6 of the clear opening', on rubble piers -- and the node already binds facade-arcade for it, so no colonnade, portico or temple front is left for this pack to dimension. The record also describes the block as having 'no composed facade at all', which is the sentence the node's own binding note reasons from when it concludes that no facade or order pack is bound.",
+      "basis": "node-record",
+      "quote": "The order system is not inherited at all - there is no column in this tradition except in the loggia",
+      "quoted_from": "lineage[0].note",
+      "decided": "2026-09-02",
+      "note": "governs 3 slots; all three lose all dimensioning -- composition_parti (portico share, corner contraction, centre-bay widening), porch_type (column rank depth) and steps_and_stoop (approach fronts). No live gate is attached, so nothing is switched off; three slots simply go undimensioned rather than being given portico arithmetic on a farmhouse whose kit already forbids cornice, entablature, frieze and pilaster."
+    }
   ]
 }

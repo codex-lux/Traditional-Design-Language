@@ -359,8 +359,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,325 instances. Read it before trusting "132 of 132 bound".
-  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **239 unjudged** gaps, not the 233 published --
+  is **OQ 51** and is the one with 3,302 instances. Read it before trusting "132 of 132 bound".
+  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **234 unjudged** gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn
@@ -1029,9 +1029,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     way round was costed and refused: opt-in now is a morning of mechanism and a corpus-wide
     stranding.
     **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
-    `build/check_inheritance.py` pins three ceilings that may only go down -- **279 role_gaps**,
-    **3,325 inherited_packs**, **239 unendorsed** -- and one FLOOR that may only go up,
-    **judged 81** (endorsed + declined). **THE BACKLOG REFILLS AS IT IS WORKED AND 245 IS WHAT IS
+    `build/check_inheritance.py` pins three ceilings that may only go down -- **275 role_gaps**,
+    **3,302 inherited_packs**, **234 unendorsed** -- and one FLOOR that may only go up,
+    **judged 105** (endorsed + declined). **THE BACKLOG REFILLS AS IT IS WORKED AND 245 IS WHAT IS
     VISIBLE RATHER THAN WHAT IS REQUIRED (WP-8.7, 2 Sep 2026)**: declining a pack re-attributes
     the role to the next ancestor, so fifteen declines moved the headline by four, and
     `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint -- five classical
