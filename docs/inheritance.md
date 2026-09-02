@@ -268,9 +268,9 @@ ceilings, and why `unendorsed` is a work list rather than a score.
 
 **READ TO THE END, THAT PROPERTY MEANS THE BACKLOG REFILLS AS IT IS WORKED (WP-8.7, 2 Sep 2026).**
 WP-8.7 worked the backlog with one reader per node and an adversarial check on every proposed
-change. The corpus now carries **88 declines** and **41 endorsed** gaps, against 10 and 38 when the
-package started; `inherited_packs` is **3,278** and `judged` **129**, and `unendorsed` has moved
-from 249 to **232**. That is well over a hundred judgments for a headline movement of seventeen,
+change. The corpus now carries **114 declines** and **41 endorsed** gaps, against 10 and 38 when the
+package started; `inherited_packs` is **3,252** and `judged` **155**, and `unendorsed` has moved
+from 249 to **227**. That is well over a hundred judgments for a headline movement of seventeen,
 because each decline promotes the next pack in the chain into the same role.
 
 (Every digit in that paragraph is a `check_counts.py` claim, and the wording deliberately states no

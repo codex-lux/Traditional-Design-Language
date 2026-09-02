@@ -269,5 +269,16 @@
       "note": "'Carved or moulded ornament permitted only at the church portada and the campanario. Distributing ornament across the ranges converts the complex into Spanish Colonial Revival.' The same ration as `spanish-colonial-american`, stated for a complex rather than a building, and with the same consequence named. Bound behind `adobe-module`, which owns the walls, and `facade-arcade`, which owns the corredor: this pack owns only the two places where the whitewash stops. Worth reading the pack's cost conflict against this node in particular, since the missions were built by an unskilled coerced labour force under friars who were not architects, and concentrating the entire ornament budget at one panel is what made any ornament possible at all.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "moorish-arch",
+      "reason": "The pack's own notes say what it is: the horseshoe arch, the impost block, the alfiz and the geometric setting-out — \"kind is `order-system` because this IS the system of support and springing\" — and its module block names the impost assembly as \"the diagnostic member of the whole system\", whose loss \"turns the arcade into a classical one wearing a horseshoe\". This node's arcade is the negative of that record on both counts at once: square masonry piers, semicircular arches, no capitals, often no imposts. The one rule reaching the node is the alfiz at `window_surround_masonry`, an ornamental frame around an opening, in a type whose ranges are \"entirely plain: whitewashed lime plaster over adobe, undulating, with no mouldings\" and whose one decorated surface is the church door — and that surface is already dimensioned here by `facade-portada` and `vignola-ionic`, a neoclassical temple front, not a Hispano-Islamic one. It arrives from `spanish-plateresque` at cascade depth 5 with no direct lineage edge.",
+      "basis": "node-record",
+      "quote": "Square piers, not columns, under semicircular arches, with no capitals and often no imposts",
+      "quoted_from": "diagnostic_tells[0]",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot; window_surround_masonry loses all dimensioning. No live gate — declining changes dimensions only, and the node's own text says there is nothing carved on that surround to dimension."
+    }
   ]
 }

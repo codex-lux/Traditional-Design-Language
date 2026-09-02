@@ -218,5 +218,25 @@
         "column/intercolumniation_roman"
       ]
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "benjamin-doric",
+      "reason": "The pack's own notes make its subject a complete Grecian Doric order and list the five things it does that no Roman order does: no base, seven diameters, an entablature of two, a continuous entasis with no cylindrical lower portion at all, and flutes segmental in wood. The node's c04 forbids the last two outright, and its typical_ratios put the shaft at 4 to 5.5 diameters, the squattest proportion in any Western revival -- the order's own governing figures contradicted, not merely varied. Its distinguished_from entry says the same thing from the other side about the slot the pack actually governs here: Greek Revival 'terminates in a horizontal entablature and a pediment; Egyptian Revival ... terminates in a cavetto with no pediment ever'. This is the pack's stated subject being refused by the node's own record, not an inference from the pack's name or from the ancestor it arrived on.",
+      "basis": "node-record",
+      "quote": "Shafts shall be reed-bundle or palm form and shall never carry classical fluting or entasis",
+      "quoted_from": "constraints[3].statement (egyptian-revival.c04)",
+      "decided": "2026-09-02",
+      "note": "Governs 2 slots (cornice, pilaster); declining hands both to benjamin-ionic delivered from federal-style, and 0 slots lose all dimensioning. Honest consequence: the decline stops the Grecian Doric authority but its successor is another classical order, because no Egyptian pack exists to take a cavetto cornice -- the slot stays wrongly dimensioned by a different hand."
+    },
+    {
+      "pack": "vignola-ionic",
+      "reason": "The pack's notes make its subject Vignola's Ionic in full -- the 18-part module, the fluted shaft of 18 modules, the frontal volute capital drawn from twelve centres, and an entablature it subdivides down to individual mouldings -- and one of the twelve slots it dimensions is literally modillion_dentil. The node's c02 forbids dentils, modillions and egg-and-dart anywhere on the building and requires every terminating horizontal edge to be torus roll below cavetto without intervening classical mouldings; its defining characteristics give columns of bundled-reed or papyrus form with lotus or palm capitals, never fluted. Each of the pack's stated subjects -- the capital, the shaft, the entablature's mouldings -- is named and refused by a sentence of the node's own record.",
+      "basis": "node-record",
+      "quote": "Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.",
+      "quoted_from": "constraints[1].statement (egyptian-revival.c02)",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node, so declining changes no dimension: the --impact report says so in as many words. The meter moves and nothing else does."
+    }
   ]
 }

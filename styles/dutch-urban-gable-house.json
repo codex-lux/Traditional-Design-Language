@@ -241,5 +241,16 @@
       "note": "One of the thinnest-bound nodes in the corpus, and the one that most needed a facade pack: 'the gable end turned to the street or canal; the short elevation is the ONLY DESIGNED FACE'. Its facade at 3:1 to 4:1 height to width is the pack's most extreme proportion and is what a canal house is -- a gable with a building behind it. Two things this record adds that the pack carries into its structural conflict: the composition 'resolving on a single vertical axis at the apex', which is what the finial is for, and the vlucht, a facade built deliberately leaning forward so hoisted goods clear the wall, which is a permanent eccentric load on an already slender wall.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "timber-bay",
+      "reason": "timber-bay's own module note defines its unit as bent-centre to bent-centre in an English box frame, and its closing test is whether the plan resolves into bays with the partitions and window jambs falling near the posts. This node states a different bearing system outright: brick party walls carry the building and timber appears only as floor beams laid across the narrow dimension, with a front wall the record calls impossible if it were bearing because the windows take 50-65 percent of it. There are no bents to count and no post line for a jamb to land on, so the beam span coincides with the pack's 16-20 ft band the way a hewn log does while the mechanism behind it is masonry. The three rules that actually reach here are all consequences of that absent frame -- a first-period New England flush eave where this node carries its party walls above the roof plane as a fire wall, a 45-degree common-rafter pitch over a single bay, and a storey diminution set by what one tree gave a post.",
+      "basis": "node-record",
+      "quote": "Load-bearing brick party walls carried above the roof as fire walls, with timber floor beams spanning the narrow dimension",
+      "quoted_from": "defining_characteristics[1]",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots -- eave_condition, height_proportion, roof_pitch. All three lose all dimensioning: --impact reports NOTHING for each, and none of the node's own bound packs (brick-course, room-vernacular, facade-gable) reaches them. Accepted as honest: no eave projection beats a New England rafter-foot figure on a house whose street front is a masonry gable screen and whose flanks are fire walls carried past the roof. Declining also leaves span_check on the light-frame joist table rather than switching it to the bay module's 16-20 ft capacity, which the node's own c01 caps at 24.6 ft of party-wall span -- a separate question, and not one this pack answers correctly either."
+    }
   ]
 }

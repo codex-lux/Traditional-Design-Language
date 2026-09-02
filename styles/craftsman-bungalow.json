@@ -248,6 +248,24 @@
       "quoted_from": "defining_characteristics[0]",
       "decided": "2026-08-28",
       "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+    },
+    {
+      "pack": "timber-bay",
+      "reason": "The pack's own notes make its subject the structural framing bay -- bent to bent, 16 to 20 ft, plan types recovered as bay counts -- and state its own test: can you draw the frame, with the partitions and window jambs falling near the posts. This node's proportional_system answers that in the negative and names what replaces it: the lot caps the body at 24 to 28 ft and the precut package standardizes every member length, so the house is proportioned by catalog page rather than by a module the frame imposes. This is not the blanket refusal the first trap warns about, because the node is not refusing modules in general: it binds opening-craftsman at precedence 0, whose module IS a framing bay, but a stud-and-rafter one off the cut list rather than a hewn bent bounded by what one tree could give. A 16 ft box-frame bay is a mechanism this house does not have.",
+      "basis": "node-record",
+      "quote": "The plan-book house is proportioned by catalog page, not by module",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 4 slots -- circulation_parti, hearth_position, room_adjacency_overrides, stair_position -- and all four pass to log-module (swiss-chalet); 0 slots lose all dimensioning. What stops arriving is Anglo plan arithmetic: a 10 ft centre-passage width, a central stack at 0.55 of a bay, and a two-bay hall-and-parlor count, delivered to a node whose own tell is that the front door opens straight into the living room with no vestibule. A decline does not touch the pack's applies_to, which is what build/structure.py::_timber_bay_applies_to reads, so span_check's 20 ft hand-framed bay capacity stays off for this style -- endorsing would have switched a light-framed catalogue house onto it."
+    },
+    {
+      "pack": "facade-gable",
+      "reason": "The pack's own module note makes gable GEOMETRY its subject -- apex height over the base width, with the roof-end, parapet and screen cases distinguished before any dimension is taken -- and its rules are crow-step tread and rise, coping thickness, parapet height and shaped-gable curves. Its central ratio insists the triangle read taller than half its base, is stated as not optional, and names a 6:12 gable as the commonest single failure of the type. This node's own defining characteristic states a low-pitched gable at 4:12 to 6:12 -- an apex about a quarter of the base -- finished with a 24 to 36 in overhanging rake and exposed rafter tails, which is a deep wood verge rather than a coped, stepped or parapeted masonry one. The pack excludes this node's dormer by its own words as well: a dormer set back onto the roof slope is a box with a roof on it and takes none of the pack, against a tell reading Shed dormer set well back from the eave line.",
+      "basis": "node-record",
+      "quote": "Low-pitched gable roof with 24 to 36 in overhangs on eave and rake, exposed rafter tails and knee braces",
+      "quoted_from": "defining_characteristics[1]",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. The pack arrives from gothic-revival-british at cascade depth 6 with no direct lineage edge."
     }
   ]
 }

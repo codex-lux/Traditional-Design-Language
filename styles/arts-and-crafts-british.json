@@ -272,6 +272,15 @@
       "quoted_from": "diagnostic_tells[4]",
       "decided": "2026-08-28",
       "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "The pack's own notes describe a quoted Palladian Ionic skeleton -- column at nine modules, entablature a fifth of the column, an Attic base by Palladio's express preference, a modillion in place of the dentil -- and it arrives here as this node's PRIMARY proportioning system, governing cornice, crown, door_surround and frieze. The node's record refuses the classical order by name and makes the refusal its own diagnostic tell. An entablature quoted out of Ware's leaves 58-59 is precisely the period quotation the record says is absent, and this is the same reading the node already made in writing when it declined chambers-ionic, with the same sentence and the same basis.",
+      "basis": "node-record",
+      "quote": "No classical order, no pointed arch, no shaped gable, no period quotation of any kind",
+      "quoted_from": "diagnostic_tells[4]",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 4 slots; cornice, crown, door_surround and frieze all pass to palladio-tuscan (italian-renaissance) and 0 slots lose all dimensioning. Stated plainly because it matters: this decline stops the Ionic overlay and not the classical order behind it -- palladio-tuscan is the next unjudged delivery at the same four addresses, arriving from a node with no direct lineage edge either. Delivered by english-palladian at cascade depth 6, no direct lineage edge, which is why the decline belongs on the node rather than on an edge."
     }
   ]
 }

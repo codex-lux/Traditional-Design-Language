@@ -242,5 +242,16 @@
       "note": "The transitional node, and the one that runs BACKWARDS: 'storey heights increasing upward at Hardwick (roughly 1 : 1.1 : 1.3) to mark the ascent to the state rooms -- the exact inverse of the Georgian rule'. Nothing else in this library does that. It also supplies the top of the glazing history (45-60 per cent, higher at Hardwick) against `jacobean`'s retreat to 30-45, and the frontispiece rule -- the orders confined to a quarter or a third of ONE PART of the elevation and absent everywhere else, which is the rationing pattern `facade-portada` and `corbel-course` found in four other traditions arriving in a fifth.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "stone-course",
+      "reason": "stone-course proportions a rubble field wall whose dressed edges are the only stone with a dimension before it is laid, and its central plan consequence is stated in its own notes: the lintel caps the opening, so openings are \"FEW and SMALL, they are isolated events with wide piers between them\", and its daylight_strategy rule bands glazing at 5-16 percent with a ceiling it explicitly calls not a judgment -- past about 16 per cent \"the design has stopped being a stone one whatever it is clad in\". Elizabethan's hard constraint c01 floors that same quantity at 40 percent and its typical_ratios state 45-60 percent and higher at Hardwick, so the node's floor is two and a half times the pack's ceiling. This is not one rule out of band: the node gives \"More window than wall on a principal elevation\" as the single quickest identification of the style, and describes a wall that \"reads as a grid of mullions and transoms with stone piers between -- structurally a masonry building, visually something much closer to a frame\". Both records state their mechanism and the mechanisms are opposite -- the pack proportions a wall that stands between its openings, the node describes one being dissolved by them -- so this is a contradiction of the pack's subject rather than a coincidence of figures.",
+      "basis": "node-record",
+      "quote": "A solid-walled elevation with punched openings is not Elizabethan whatever its ornament",
+      "quoted_from": "constraints[0].statement",
+      "decided": "2026-09-02",
+      "note": "Governs 10 slots; declining changes dimensions on all of them. Six fall to the node's OWN timber-bay binding (corner_quoin, daylight_strategy, depth_and_pile, height_proportion, reveal_masonry, wing_strategy) and wall_thickness_masonry to its own facade-medieval-english; belt_course passes to jetty-overhang (english-medieval-timber-frame) and foundation_expression to facade-classical (italian-renaissance). roof_material loses all dimensioning -- accepted and honest: the rule there is the Cotswold graded stone-slate diminishing course, and this node's constraint c04 puts the roof \"low or concealed behind a balustraded or strapwork parapet\" with a leaded roof walk on top, so a diminishing-course figure here would be a wrong dimension rather than a missing one."
+    }
   ]
 }

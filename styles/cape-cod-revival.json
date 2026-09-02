@@ -281,5 +281,16 @@
       "note": "Judgment binding: cape-cod-revival is not in this pack's own applies_to list, but the node's lineage names cape-cod-colonial -- which IS in that list -- as the ancestor whose dimensions 'the revival genuinely tried to reproduce rather than inflate,' and the whole point of the style, per its own description, is discipline rather than costume. The pack's daylight-limited, span-and-hearth-constrained 'ordinary room' logic fits a Cape's low storey (11-13 ft to the eave) far better than room-harmonic's Palladian saloons, which this variant's own text never invokes.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "gibbs-doric",
+      "reason": "The pack's own notes present the Gibbs Doric as a full order whose four real divergences from Vignola are the Attic base, modillions replacing mutules, the cornice restated in five equal blocks, and twenty-four flutes -- three of the four being facts about a modillioned cornice on a fluted column. The node's diagnostic tell states that a modillioned cornice means the house has left this variant, which is a definitional refusal of the pack's own headline feature rather than a general disclaimer about proportional systems. The pack dimensions cornice, pediment, modillion_dentil and crown, and the node's c05 forbids modillions, friezes and pediments while the resolved kit binds frieze and cornice_return forbidden.",
+      "basis": "node-record",
+      "quote": "No cornice, no returns, no frieze board. The presence of a modillioned cornice means the house has left this variant.",
+      "quoted_from": "diagnostic_tells[3]",
+      "decided": "2026-09-02",
+      "note": "Measured --impact: governs 0 slots; declining changes no dimension on this node and no slot loses all dimensioning. Of the 7 slots the pack dimensions, ceiling_height_rule is currently governed by log-module (via swiss-chalet), chair_rail by storey-graduation (via colonial-revival), modillion_dentil by greek-doric (via greek-classical), window_head_masonry by opening-pointed (via gothic-revival-british); cornice, crown and pediment are governed by no pack on this node either way. --pair reports no live gate: endorsing would change no behaviour, only the meter."
+    }
   ]
 }

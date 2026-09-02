@@ -359,8 +359,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,278 instances. Read it before trusting "132 of 132 bound".
-  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **232 unjudged** gaps, not the 233 published --
+  is **OQ 51** and is the one with 3,252 instances. Read it before trusting "132 of 132 bound".
+  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **227 unjudged** gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn
@@ -892,8 +892,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **112 entries, of which 39 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-room-count-cap-on-the-heavy-routes, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **113 entries, of which 40 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-room-count-cap-on-the-heavy-routes, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
@@ -1029,9 +1029,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     way round was costed and refused: opt-in now is a morning of mechanism and a corpus-wide
     stranding.
     **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
-    `build/check_inheritance.py` pins three ceilings that may only go down -- **273 role_gaps**,
-    **3,278 inherited_packs**, **232 unendorsed** -- and one FLOOR that may only go up,
-    **judged 129** (endorsed + declined). **THE BACKLOG REFILLS AS IT IS WORKED AND 245 IS WHAT IS
+    `build/check_inheritance.py` pins three ceilings that may only go down -- **268 role_gaps**,
+    **3,252 inherited_packs**, **227 unendorsed** -- and one FLOOR that may only go up,
+    **judged 155** (endorsed + declined). **THE BACKLOG REFILLS AS IT IS WORKED AND 245 IS WHAT IS
     VISIBLE RATHER THAN WHAT IS REQUIRED (WP-8.7, 2 Sep 2026)**: declining a pack re-attributes
     the role to the next ancestor, so fifteen declines moved the headline by four, and
     `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint -- five classical

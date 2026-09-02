@@ -308,6 +308,24 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "--impact: governs 0 slots. Surfaced only after five earlier declines on this node re-attributed the `secondary` role down the chain to `english-georgian`."
+    },
+    {
+      "pack": "palladio-corinthian",
+      "reason": "The pack states a classical order AS a proportional system and nothing else: a column of nine and a half diameters, a module that is the whole diameter divided into sixty minutes, and an intercolumniation its own notes say is the reason for the column height -- 'the order and the bay are one decision'. That is precisely the applied system this node's governing_logic says falsifies the type; the node's proportions come from log length, log diameter, shingle performance and the notch. This is the same reading already recorded on this node for `chambers-doric`, and it is a contradiction of the pack's stated subject rather than of its name: an order pack has no reading under which it is not an applied proportional system.",
+      "basis": "node-record",
+      "quote": "There is no applied proportional system and adding one falsifies the type.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 slots, so this changes no dimension and moves only the meter. It arrives from `english-palladian` at cascade depth 14 with NO direct lineage edge, and like `chambers-doric` it surfaced only because earlier declines re-attributed the `secondary` role down the chain -- so expect this decline to surface the next order pack on that role rather than close it."
+    },
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's module is the bay -- the centre-to-centre spacing of the vertical rank of openings on the principal elevation -- and its own notes make bay count the first and 'only decision here that is nearly binary': odd bays compose about a centre. This node's bay_rhythm is the word None, and it goes on to say that the apparent front symmetry of a double pen is an artefact of two identical pens and not a compositional decision, which negates the pack's headline claim directly rather than by category. The pack's own NEGATIVE CASE asks for a building with one public face, one axis and one entrance, and names the picturesque system as the honest alternative where that is false; this node's canonical double-pen massing has two front doors and two end chimneys.",
+      "basis": "node-record",
+      "quote": "None. Openings are placed by use and by the corner-clearance rule",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 slots, so no dimension changes; the decline moves the meter and re-attributes the `facade` role to the next unjudged ancestor. Arrives from `english-georgian` at cascade depth 12 with no direct lineage edge. Stated because it cuts the other way: ENDORSING would have armed `build/elevation.py`'s build_elevation scope gate -- the other half of that AND -- turning a composed-classical elevation check on for every plan of a style whose record says its bay rhythm is None."
     }
   ]
 }

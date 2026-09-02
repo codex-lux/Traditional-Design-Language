@@ -3174,6 +3174,26 @@
           "precedence": 6
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "vignola-ionic",
+          "reason": "The pack's own notes state its subject as an order and nothing else: a module of 18 parts, column 18 modules, entablature 4 1/2, pedestal 6, with the volute struck from twelve centres and twenty-four flutes round the shaft. The node's record says flatly that this type has none of that, ending its trim characteristic with 'no continuous entablature, no pilasters, no columns'. Its one diagnostic tell for separating itself from its own parent is that a Greek Revival house of the same massing carries '10-12 inch pilasters and a 14-inch frieze' where this one carries corner boards and a plain fascia -- and greek-revival-american is exactly the ancestor delivering this pack. The record draws the line against the order at precisely the edge the cascade crosses.",
+          "basis": "node-record",
+          "quote": "no continuous entablature, no pilasters, no columns",
+          "quoted_from": "defining_characteristics[2]",
+          "decided": "2026-09-02",
+          "note": "governs 0 slots; declining changes no dimension on this node and arms no gate either way"
+        },
+        {
+          "pack": "trim-classical",
+          "reason": "The pack's whole argument, stated in its own module note as 'the number is the whole argument of this pack', is that a room is an order at reduced scale -- base as plinth, dado as pedestal die, wall as column, cornice as entablature -- dividing the finished ceiling height 4 : 12 : 3 in nineteenths, so that every interior dimension is computable from one figure. The node's governing_logic names the only two places classical proportion survives here, bay spacing and opening alignment, and the interior finish is not one of them. The record's own account of that finish is 'the woodwork a plain four-inch casing with a bevel' -- one bevelled board against the pack's three families of four to seven members, none of which is a bevelled flat. An inherited habit in the elevation is not a computable interior system.",
+          "basis": "node-record",
+          "quote": "Classical proportion survives only as inherited habit in bay spacing and opening alignment.",
+          "quoted_from": "proportional_system.governing_logic",
+          "decided": "2026-09-02",
+          "note": "governs 1 slot, trim_family; declining passes it to trim-craftsman, which this node binds itself at precedence 5, so 0 slots lose all dimensioning"
+        }
+      ],
       "_cascade": [
         "american-folk-vernacular",
         "greek-revival-american",
@@ -3539,6 +3559,17 @@
           "note": "The vernacular the Alhambra's domestic work is the grand end of: the same arcade around the same court, in plaster rather than in stone. Primary because the arcade IS this type's structure and its composition at once."
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "opening-proportion",
+          "reason": "The pack's own notes say what it is: it \"owns the RECTANGLE: the ratio of an opening, where its head sits, how it diminishes by storey, how wide its surround is and what the sidelights and transom do\", on Palladio Bk I chs. XXV-XXVI, and it names as its three most useful rules the single head datum shared by every opening on a storey, the window width taken as a quarter to a fifth of the room's breadth, and the architrave at a sixth to a fifth of the void. That is an applied compositional system for openings, not a trade fact like sash-light's pane size, so the node's governing_logic refuses it head-on rather than blanket: this house's whole proportional system is named exhaustively as a shading calculation and a joist span, and the record then contradicts the pack rule by rule -- \"The street elevation has no rhythm worth the name and is not meant to\" against the head datum and the equality-within-a-storey rule; \"Blind or near-blind street elevation with small, high, iron-grilled (reja) openings\" and \"Street openings under 8 percent of street wall area\" against the window-width-from-the-room rule; and \"there is no entablature and no classical order to invoke\" against window_head_wood, whose authority note derives the head from trim-classical's entablature bed at sixteen nineteenths of the ceiling. The rules actually landing here are a Venetian window at four side-light widths, Georgian-Federal sidelights and transom, and a wood surround, delivered to a lime-rendered mass wall whose only trim is a wrought reja that bows out of the face. This is not a coincident number being over-read -- the figures do not coincide, they run opposite -- and the delivery arrives four steps down the cascade from roman-classical with the node absent from all 52 entries of applies_to.",
+          "basis": "node-record",
+          "quote": "Nothing here is compositional — the whole proportional system is a shading calculation and a joist span.",
+          "quoted_from": "proportional_system.governing_logic",
+          "decided": "2026-09-02",
+          "note": "Governs 6 slots; all 6 lose all dimensioning -- entry_door, secondary_door, special_window, transom_sidelight, window_head_wood, window_sill. Nothing else in the cascade reaches any of them, and that is accepted: a Palladian 2:1 entrance with sidelights and a transom is a worse answer for a zaguan than no answer. The three court-and-arcade packs the node binds itself (moorish-arch primary, adobe-module, facade-arcade) are untouched. --pair reports that ENDORSING would arm build_elevation's scope gate (half of an AND with facade-classical); a decline leaves that gate shut, so the arming is moot here."
+        }
+      ],
       "_cascade": [
         "iberian-vernacular",
         "moorish-andalusian",
@@ -3842,6 +3873,17 @@
           "precedence": 4,
           "authority": "moorish-arch",
           "note": "Secondary, not primary: the revival composes picturesquely (facade-picturesque is already bound as its facade pack) and reaches for the Moorish arch as vocabulary rather than as the system the whole building is generated from. Binding it primary would claim a geometric discipline the revival does not actually keep."
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "vignola-composite",
+          "reason": "The pack's own notes present it as a classical order-system and nothing else -- a column of twenty modules carrying an entablature of a quarter its height divided 3:3:4 -- and the two slots it actually governs on this node are derived straight off that module: an envelope cornice of storey_height/4 * (4/10) carrying a dentil course, and an envelope frieze the pack says Vignola 'expected to be richly carved'. The node's governing_logic opens by refusing exactly that authority, and its defining characteristics put a 'Low-pitched clay barrel-tile roof, 3:12 to 5:12, with minimal or no eave overhang and no gutter expressed' precisely where the dentil cornice would have to run, with 'Ornament almost wholly absent from the wall' where the carved frieze would sit. This is not the blanket sentence applied blindly to any pack: the pack's own stated subject IS a classical module, so the node's sentence meets it head-on rather than glancing off it. The Beaux-Arts lineage edge does not rescue it -- that note says the architects 'composed in a Beaux-Arts manner and dressed the result in whitewashed lime', locating the classicism in the plan and the lime on the elevation.",
+          "basis": "node-record",
+          "quote": "No classical module. Governed by wall mass, opening-to-wall ratio, and the proportion of the courtyard to the height of the ranges enclosing it.",
+          "quoted_from": "proportional_system.governing_logic",
+          "decided": "2026-09-02",
+          "note": "Governs 2 slots (cornice, frieze). Declining hands both to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. Worth stating plainly: the node still ends up dimensioned by a classical order, so this decline does not make the style non-classical -- it stops the most ornate of the five orders from setting the eave of the style's plainest branch, and leaves the plainest order in its place."
         }
       ],
       "_cascade": [
@@ -4278,6 +4320,24 @@
           "quoted_from": "proportional_system.governing_logic",
           "decided": "2026-09-02",
           "note": "--impact: governs 0 slots. Surfaced only after five earlier declines on this node re-attributed the `secondary` role down the chain to `english-georgian`."
+        },
+        {
+          "pack": "palladio-corinthian",
+          "reason": "The pack states a classical order AS a proportional system and nothing else: a column of nine and a half diameters, a module that is the whole diameter divided into sixty minutes, and an intercolumniation its own notes say is the reason for the column height -- 'the order and the bay are one decision'. That is precisely the applied system this node's governing_logic says falsifies the type; the node's proportions come from log length, log diameter, shingle performance and the notch. This is the same reading already recorded on this node for `chambers-doric`, and it is a contradiction of the pack's stated subject rather than of its name: an order pack has no reading under which it is not an applied proportional system.",
+          "basis": "node-record",
+          "quote": "There is no applied proportional system and adding one falsifies the type.",
+          "quoted_from": "proportional_system.governing_logic",
+          "decided": "2026-09-02",
+          "note": "--impact: governs 0 slots, so this changes no dimension and moves only the meter. It arrives from `english-palladian` at cascade depth 14 with NO direct lineage edge, and like `chambers-doric` it surfaced only because earlier declines re-attributed the `secondary` role down the chain -- so expect this decline to surface the next order pack on that role rather than close it."
+        },
+        {
+          "pack": "facade-classical",
+          "reason": "The pack's module is the bay -- the centre-to-centre spacing of the vertical rank of openings on the principal elevation -- and its own notes make bay count the first and 'only decision here that is nearly binary': odd bays compose about a centre. This node's bay_rhythm is the word None, and it goes on to say that the apparent front symmetry of a double pen is an artefact of two identical pens and not a compositional decision, which negates the pack's headline claim directly rather than by category. The pack's own NEGATIVE CASE asks for a building with one public face, one axis and one entrance, and names the picturesque system as the honest alternative where that is false; this node's canonical double-pen massing has two front doors and two end chimneys.",
+          "basis": "node-record",
+          "quote": "None. Openings are placed by use and by the corner-clearance rule",
+          "quoted_from": "proportional_system.bay_rhythm",
+          "decided": "2026-09-02",
+          "note": "--impact: governs 0 slots, so no dimension changes; the decline moves the meter and re-attributes the `facade` role to the next unjudged ancestor. Arrives from `english-georgian` at cascade depth 12 with no direct lineage edge. Stated because it cuts the other way: ENDORSING would have armed `build/elevation.py`'s build_elevation scope gate -- the other half of that AND -- turning a composed-classical elevation check on for every plan of a style whose record says its bay rhythm is None."
         }
       ],
       "_cascade": [
@@ -4597,6 +4657,23 @@
           "quoted_from": "defining_characteristics[5]",
           "decided": "2026-08-28",
           "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+        },
+        {
+          "pack": "palladio-ionic",
+          "reason": "The pack's own notes describe an order skeleton quoted from Ware — column at 9 modules, entablature a fifth of it divided 4 : 3 : 5, a modillion cornice, an Attic base — and it dimensions column, entablature, cornice, crown and porch_support here. The node carries a HARD constraint forbidding applied classical orders by name, and the same constraint then states what a porch support must be instead: square posts or battered piers on masonry bases not less than 24 in wide. That is the pack's subject contradicted at its own address, not a blanket refusal: the node is not silent about orders, it enumerates the members and prohibits them. The node has already written this exact refusal against chambers-ionic; palladio-ionic is the same object arriving from english-palladian at depth 8 instead.",
+          "basis": "node-record",
+          "quote": "Applied classical orders — fluted or turned columns, pedimented door surrounds, dentil courses — are forbidden",
+          "quoted_from": "constraints[2].statement",
+          "decided": "2026-09-02",
+          "note": "Governs 1 slot: frieze. Declining passes frieze to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. Worth stating plainly: the decline stops THIS order and does not stop the classical order as such — the fallback is another classical pack, which is OQ 58's stated limit one layer down."
+        },
+        {
+          "pack": "facade-gable",
+          "reason": "The pack's module note says that deciding whether a gable is the end of a roof, a parapet carried up past the roof plane, or a screen standing clear of it \"is prior to any dimension in this pack\", and every rule under it is a masonry gable treatment: apex at 0.72 of the base, coping stones, crow-step tread and rise, kneelers, screen-gable facade ratios. The node's hard c02 caps the principal pitch at 4:12 to 6:12, which puts the apex of a roof-end gable at 0.17 to 0.25 of its width against the pack's 0.72, and the quoted sentence names the families the taller triangle belongs to and says why this style cannot have it. The node's own \"Eave and rake overhang 24 to 36 inches\" settles the other two cases: a roof oversailing its gable wall by two to three feet is not a wall carried past the roof plane and capped, and a crow-step IS the verge treatment, which is why the pack's Scottish source records \"no barge board\". This is a mechanical contradiction in the node's own figures, not the blanket \"no proportional system\" sentence being stretched.",
+          "basis": "node-record",
+          "quote": "Pitches above 8:12 belong to the Tudor and Storybook families and break the horizontal reading",
+          "quoted_from": "constraints[1].statement",
+          "decided": "2026-09-02"
         }
       ],
       "_cascade": [
@@ -4954,6 +5031,15 @@
           "quoted_from": "diagnostic_tells[4]",
           "decided": "2026-08-28",
           "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+        },
+        {
+          "pack": "palladio-ionic",
+          "reason": "The pack's own notes describe a quoted Palladian Ionic skeleton -- column at nine modules, entablature a fifth of the column, an Attic base by Palladio's express preference, a modillion in place of the dentil -- and it arrives here as this node's PRIMARY proportioning system, governing cornice, crown, door_surround and frieze. The node's record refuses the classical order by name and makes the refusal its own diagnostic tell. An entablature quoted out of Ware's leaves 58-59 is precisely the period quotation the record says is absent, and this is the same reading the node already made in writing when it declined chambers-ionic, with the same sentence and the same basis.",
+          "basis": "node-record",
+          "quote": "No classical order, no pointed arch, no shaped gable, no period quotation of any kind",
+          "quoted_from": "diagnostic_tells[4]",
+          "decided": "2026-09-02",
+          "note": "--impact: governs 4 slots; cornice, crown, door_surround and frieze all pass to palladio-tuscan (italian-renaissance) and 0 slots lose all dimensioning. Stated plainly because it matters: this decline stops the Ionic overlay and not the classical order behind it -- palladio-tuscan is the next unjudged delivery at the same four addresses, arriving from a node with no direct lineage edge either. Delivered by english-palladian at cascade depth 6, no direct lineage edge, which is why the decline belongs on the node rather than on an edge."
         }
       ],
       "_cascade": [
@@ -6152,6 +6238,15 @@
           "quoted_from": "defining_characteristics[6]",
           "decided": "2026-08-28",
           "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+        },
+        {
+          "pack": "room-harmonic",
+          "reason": "The pack's notes state exactly what it emits: given a room, three ceiling heights by the harmonic, geometric and arithmetic means of its plan dimensions, 19 ft 2 in to 20 ft 0 in for a 16 x 24 room. The node states its own ceiling as a fixed 8 ft 6 in to 9 ft 6 in band and names a non-proportional cause for it -- stack ventilation, and being taller than the eastern type -- and a fixed band cannot be a mean of the room's plan dimensions, because a mean scales with the room and this does not. The node's own proportion_packs note says the same thing one layer out, that its rooms are sized by the plan-book programme and that it is not bound for room proportion generally. The derivation the pack offers for ceiling_height_rule is one this record has already answered differently, in its own words.",
+          "basis": "node-record",
+          "quote": "Ceiling 8 ft 6 in to 9 ft 6 in — taller than the eastern type, for stack ventilation",
+          "quoted_from": "proportional_system.typical_ratios[3]",
+          "decided": "2026-09-02",
+          "note": "Governs 0 slots on this node: declining changes no dimension and nothing loses all dimensioning. No live gate -- endorsing or declining changes only the meter and the judged count."
         }
       ],
       "_cascade": [
@@ -6496,6 +6591,17 @@
           "precedence": 4
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "moorish-arch",
+          "reason": "The pack's own notes say what it is: the horseshoe arch, the impost block, the alfiz and the geometric setting-out — \"kind is `order-system` because this IS the system of support and springing\" — and its module block names the impost assembly as \"the diagnostic member of the whole system\", whose loss \"turns the arcade into a classical one wearing a horseshoe\". This node's arcade is the negative of that record on both counts at once: square masonry piers, semicircular arches, no capitals, often no imposts. The one rule reaching the node is the alfiz at `window_surround_masonry`, an ornamental frame around an opening, in a type whose ranges are \"entirely plain: whitewashed lime plaster over adobe, undulating, with no mouldings\" and whose one decorated surface is the church door — and that surface is already dimensioned here by `facade-portada` and `vignola-ionic`, a neoclassical temple front, not a Hispano-Islamic one. It arrives from `spanish-plateresque` at cascade depth 5 with no direct lineage edge.",
+          "basis": "node-record",
+          "quote": "Square piers, not columns, under semicircular arches, with no capitals and often no imposts",
+          "quoted_from": "diagnostic_tells[0]",
+          "decided": "2026-09-02",
+          "note": "governs 1 slot; window_surround_masonry loses all dimensioning. No live gate — declining changes dimensions only, and the node's own text says there is nothing carved on that surround to dimension."
+        }
+      ],
       "_cascade": [
         "spanish-colonial-american",
         "american-colonial",
@@ -6799,6 +6905,17 @@
           "precedence": 5
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "jetty-overhang",
+          "reason": "The pack's own notes say what it dimensions: 'the 8-20 in cantilever of the second-floor girt past the wall below', and that 'THE MODULE IS THE JOIST, NOT THE BAY' because a jetty is a cantilever dimensioned by the member cantilevering. The Cape's record deletes that member by name -- no second storey, so no second plate and no second floor frame -- and there is no girt to cantilever and no post to cut a drop from. Both of the pack's two devices sit at a second-floor level this house does not have: the framed jetty with its bressumer and drops, and the hewn overhang chamfered out of a continuous post. This is the mechanism being absent rather than merely unused, which is the narrow case a decline is for.",
+          "basis": "node-record",
+          "quote": "There is no second storey, so there is no second plate, no second floor frame",
+          "quoted_from": "description.long",
+          "decided": "2026-09-02",
+          "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning."
+        }
+      ],
       "_cascade": [
         "new-england-colonial",
         "american-colonial",
@@ -7097,6 +7214,17 @@
           "role": "room",
           "note": "Judgment binding: cape-cod-revival is not in this pack's own applies_to list, but the node's lineage names cape-cod-colonial -- which IS in that list -- as the ancestor whose dimensions 'the revival genuinely tried to reproduce rather than inflate,' and the whole point of the style, per its own description, is discipline rather than costume. The pack's daylight-limited, span-and-hearth-constrained 'ordinary room' logic fits a Cape's low storey (11-13 ft to the eave) far better than room-harmonic's Palladian saloons, which this variant's own text never invokes.",
           "precedence": 5
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "gibbs-doric",
+          "reason": "The pack's own notes present the Gibbs Doric as a full order whose four real divergences from Vignola are the Attic base, modillions replacing mutules, the cornice restated in five equal blocks, and twenty-four flutes -- three of the four being facts about a modillioned cornice on a fluted column. The node's diagnostic tell states that a modillioned cornice means the house has left this variant, which is a definitional refusal of the pack's own headline feature rather than a general disclaimer about proportional systems. The pack dimensions cornice, pediment, modillion_dentil and crown, and the node's c05 forbids modillions, friezes and pediments while the resolved kit binds frieze and cornice_return forbidden.",
+          "basis": "node-record",
+          "quote": "No cornice, no returns, no frieze board. The presence of a modillioned cornice means the house has left this variant.",
+          "quoted_from": "diagnostic_tells[3]",
+          "decided": "2026-09-02",
+          "note": "Measured --impact: governs 0 slots; declining changes no dimension on this node and no slot loses all dimensioning. Of the 7 slots the pack dimensions, ceiling_height_rule is currently governed by log-module (via swiss-chalet), chair_rail by storey-graduation (via colonial-revival), modillion_dentil by greek-doric (via greek-classical), window_head_masonry by opening-pointed (via gothic-revival-british); cornice, crown and pediment are governed by no pack on this node either way. --pair reports no live gate: endorsing would change no behaviour, only the meter."
         }
       ],
       "_cascade": [
@@ -7455,6 +7583,17 @@
           "precedence": 3
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "brick-course",
+          "reason": "The pack's own notes make visible, measurable coursing the whole of its subject -- \"put a tape on any brick wall and you have read the mason's rod\" -- and every rule it actually delivers to this node is a fired-brick detail: a moulded or gauged water-table course, a rowlock sill, a surround \"measured in bricks, not inches\", a stack whose plan dimension is a whole number of bricks. The node's record answers that claim directly and in the same terms: its walls are sun-dried brick or rubble, lime-plastered and limewashed, and the record states in its own words that brick-course was checked and rejected because the coursing it models is invisible under a plastered finish. The tell \"Whitewash over a wall whose corners are visibly rounded and soft -- plastered earth brick, not stone\" says the same thing from outside the building. The pack arrives from dutch-urban-gable-house, whose brick genuinely is exposed and gauged; the descent is real and the pack's subject does not survive it.",
+          "basis": "node-record",
+          "quote": "brick-course was checked and rejected: Cape Dutch walls are lime-plastered and limewashed sun-dried brick or rubble, and the coursing brick-course models (exposed bond, moulded water-table courses, gauged arches) is invisible under a plastered finish and does not apply.",
+          "quoted_from": "proportion_packs[2].note",
+          "decided": "2026-09-02",
+          "note": "governs 5 slots; 0 lose all dimensioning. chimney -> timber-bay (cape-dutch's own binding); water_table -> timber-panel (flemish-vernacular); window_sill -> opening-proportion (roman-classical); steps_and_stoop -> facade-peristyle (roman-classical); window_surround_wood -> vignola-ionic (roman-classical). Three of the five fall through to Roman-classical packs on a node whose record says \"there is no order and no pilaster rhythm\", which is worth a separate look -- the decline stops a wrong pack, it does not supply a right one."
+        }
+      ],
       "_cascade": [
         "low-countries-vernacular",
         "dutch-urban-gable-house",
@@ -7733,6 +7872,15 @@
           "quoted_from": "diagnostic_tells[0]",
           "decided": "2026-08-28",
           "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+        },
+        {
+          "pack": "palladio-ionic",
+          "reason": "The pack's own notes say it is a quoted Palladian Ionic skeleton in depth: a column of 9 modules, an entablature a fifth of it, an architrave in five with a cimacio, and a cornice divided into seven and three quarters as cavetto and ovolo : modillion : corona and gola, with the modillion replacing the dentil in a change the pack says explicitly 'changes the eave'. That is a stack of modelled mouldings standing off the wall, and the node's record refuses it physically rather than stylistically: every ornamental element is sawn from nominal 1 in board stock, and constraint c01 puts a 3 in ceiling on the projection of any ornament. The pack is reaching this node through english-palladian at cascade depth 7 with no direct lineage edge, and it is governing precisely the members it cannot execute here -- the cornice and the frieze of a boxed plank eave. This node has already declined chambers-ionic on the same quote and the same reasoning, recorded in declined_packs with basis node-record.",
+          "basis": "node-record",
+          "quote": "Ornament is flat. Sight along the wall: everything projects less than about two inches, because everything came off a plank",
+          "quoted_from": "diagnostic_tells[0]",
+          "decided": "2026-09-02",
+          "note": "governs 3 slots -- cornice, door_surround, frieze. Declining passes all three to palladio-tuscan (italian-renaissance). 0 slots lose all dimensioning. The fallback is another classical order and is not thereby right: a decline stops a wrong pack and does not supply a right one, which is OQ 58's stated limit one layer down."
         }
       ],
       "_cascade": [
@@ -10539,6 +10687,24 @@
           "quoted_from": "defining_characteristics[0]",
           "decided": "2026-08-28",
           "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+        },
+        {
+          "pack": "timber-bay",
+          "reason": "The pack's own notes make its subject the structural framing bay -- bent to bent, 16 to 20 ft, plan types recovered as bay counts -- and state its own test: can you draw the frame, with the partitions and window jambs falling near the posts. This node's proportional_system answers that in the negative and names what replaces it: the lot caps the body at 24 to 28 ft and the precut package standardizes every member length, so the house is proportioned by catalog page rather than by a module the frame imposes. This is not the blanket refusal the first trap warns about, because the node is not refusing modules in general: it binds opening-craftsman at precedence 0, whose module IS a framing bay, but a stud-and-rafter one off the cut list rather than a hewn bent bounded by what one tree could give. A 16 ft box-frame bay is a mechanism this house does not have.",
+          "basis": "node-record",
+          "quote": "The plan-book house is proportioned by catalog page, not by module",
+          "quoted_from": "proportional_system.governing_logic",
+          "decided": "2026-09-02",
+          "note": "Governs 4 slots -- circulation_parti, hearth_position, room_adjacency_overrides, stair_position -- and all four pass to log-module (swiss-chalet); 0 slots lose all dimensioning. What stops arriving is Anglo plan arithmetic: a 10 ft centre-passage width, a central stack at 0.55 of a bay, and a two-bay hall-and-parlor count, delivered to a node whose own tell is that the front door opens straight into the living room with no vestibule. A decline does not touch the pack's applies_to, which is what build/structure.py::_timber_bay_applies_to reads, so span_check's 20 ft hand-framed bay capacity stays off for this style -- endorsing would have switched a light-framed catalogue house onto it."
+        },
+        {
+          "pack": "facade-gable",
+          "reason": "The pack's own module note makes gable GEOMETRY its subject -- apex height over the base width, with the roof-end, parapet and screen cases distinguished before any dimension is taken -- and its rules are crow-step tread and rise, coping thickness, parapet height and shaped-gable curves. Its central ratio insists the triangle read taller than half its base, is stated as not optional, and names a 6:12 gable as the commonest single failure of the type. This node's own defining characteristic states a low-pitched gable at 4:12 to 6:12 -- an apex about a quarter of the base -- finished with a 24 to 36 in overhanging rake and exposed rafter tails, which is a deep wood verge rather than a coped, stepped or parapeted masonry one. The pack excludes this node's dormer by its own words as well: a dormer set back onto the roof slope is a box with a roof on it and takes none of the pack, against a tell reading Shed dormer set well back from the eave line.",
+          "basis": "node-record",
+          "quote": "Low-pitched gable roof with 24 to 36 in overhangs on eave and rake, exposed rafter tails and knee braces",
+          "quoted_from": "defining_characteristics[1]",
+          "decided": "2026-09-02",
+          "note": "Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. The pack arrives from gothic-revival-british at cascade depth 6 with no direct lineage edge."
         }
       ],
       "_cascade": [
@@ -10894,6 +11060,26 @@
           "precedence": 2
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "facade-gable",
+          "reason": "facade-gable's headline rule is apex height over gable width at 0.72 in a band of 0.55 to 1.05, and the rule's own note insists that steepness 'is not optional' -- a gable at 0.5 'reads as a roof' rather than as a gable the composition is about. Craftsman's hard constraint c03 caps the principal pitch at 6:12, which is an apex over width of 0.25, and its first defining characteristic states the low pitch in the same breath as a mandatory 24 to 36 in overhang on eave AND rake, all four sides. There is no overlap anywhere with the pack's band. The rake overhang independently forecloses the pack's parapet, coping and crow-step rules, every one of which needs the wall carried up past the roof plane with no verge at all; and the pack's own module note says deciding which of roof end, parapet or screen is being drawn is prior to any dimension in it.",
+          "basis": "node-record",
+          "quote": "Low-pitched gabled roof, front- or side-facing, with eave and rake overhangs of 24 to 36 inches on all sides",
+          "quoted_from": "defining_characteristics[0]",
+          "decided": "2026-09-02",
+          "note": "governs 0 slots on craftsman; --impact reports 'It currently GOVERNS 0 slot(s)' and 'Declining it changes no dimension on this node.' No slot loses dimensioning. Arrives from gothic-revival-british at cascade depth 5 with no direct lineage edge."
+        },
+        {
+          "pack": "facade-classical",
+          "reason": "The pack's module is defined as the facade bay -- 'the centre-to-centre spacing of the vertical rank of openings on the principal elevation' -- and its notes name the bay count as the first decision and 'the only decision here that is nearly binary', odd bays composing about a centre. Craftsman's bay_rhythm names that module and refuses it in the same clause, spacing its window groups off the framing bay instead. The pack's own NEGATIVE CASE says that where a plan is genuinely irregular the honest move is to go to facade-picturesque, which is the pack craftsman already binds as primary at precedence 1; and the node's colonial-revival contrast states it 'has no orders at all', against the pack's pilaster, pediment, door_surround and special_window rules.",
+          "basis": "node-record",
+          "quote": "the group spacing follows the framing bay, not a facade module",
+          "quoted_from": "proportional_system.bay_rhythm",
+          "decided": "2026-09-02",
+          "note": "governs 0 slots on craftsman; --impact reports 'It currently GOVERNS 0 slot(s)' and 'Declining it changes no dimension on this node.' No slot loses dimensioning. Arrives from english-georgian at cascade depth 7 with no direct lineage edge. Note that this is the pack whose ENDORSEMENT would have armed build/elevation.py's build_elevation scope gate -- declining leaves that gate unarmed, which is the safe direction here."
+        }
+      ],
       "_cascade": [
         "american-arts-and-crafts",
         "arts-and-crafts-american",
@@ -11232,6 +11418,17 @@
           "precedence": 4
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "facade-peristyle",
+          "reason": "The pack's own notes place it on the peripteral temple, the Roman arch order and the colossal portico -- how many columns there are, where they stand and what they stand on -- and the three rules it actually delivers to this node are a portico taking half to three fifths of the front, a centre bay opening a third wider 'to frame the entrance', and a stair up one face of a podium. The node's front is four bays, even-numbered, with no privileged bay, and its own tell says there is 'no way to tell which is the entrance': there is no centre for the centre-bay rule to widen and no plain wall each side for a portico to be an event against. Its front shelter is stated as an exclusive either/or -- a posted galerie not less than 6 ft deep, or an abat-vent projecting 30-48 in on brackets or rods with no posts to grade -- and neither is the two- or three-rank column porch the pack's porch_type delivers, while its floor sits 12-36 in above grade on brick piers rather than on a crepidoma or a podium. The pack names the difference from the other side itself, calling the Southern plantation's wrapped colonnade 'a Creole gallery with a Greek order on it'.",
+          "basis": "node-record",
+          "quote": "Even-numbered and centreless by design; there is no privileged bay",
+          "quoted_from": "proportional_system.bay_rhythm",
+          "decided": "2026-09-02",
+          "note": "Governs 3 slots and declining strands all three: composition_parti, porch_type and steps_and_stoop each lose all dimensioning, with no pack behind them. Accepted as honest -- the node states its own galerie depth (6-10 ft), abat-vent projection (30-48 in) and floor height above grade (12-36 in), and no dimension beats a podium-and-portico dimension on a house that admits neither."
+        }
+      ],
       "_cascade": [
         "french-colonial-american",
         "american-colonial",
@@ -11480,6 +11677,26 @@
           "authority": "log-module",
           "note": "The type IS a derived_rule of this pack, almost too neatly to need restating: log-module's circulation_parti rule computes a ten-foot passage bounded above by the plate log -- 'a passage wider than the module cannot be roofed continuously without a splice, so it does not happen' -- which is exactly this node's own hard constraint (c02, passage never as wide as the pen it separates) and its own governing_logic ('the passage is dimensioned by airflow and by the width a single roof structure can span between two pens'). Pen dimension, per-pen gable-end chimney, notch geometry and roof pitch all inherit unchanged from the single-pen tradition per the node's own lineage note, so no second pack is needed for them. Bound alone for the same reason as appalachian-log-house: the type has no applied proportional system. Its later frame-built examples -- the node notes dogtrots 'were built in frame well into the twentieth century' -- still carry log-module's dimensions, because, per the pack's own closing note, 'the module survives even where the log does not': the plan outlived the material by two or three generations, so log-module remains the right pack to bind even on a frame dogtrot.",
           "precedence": 1
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "brick-course",
+          "reason": "The pack's whole claim is that in a brick building no vertical dimension above the water table is free: storey, sill, head, belt and plate are all whole numbers of COURSES off the mason's rod. This node states the same quantity with a different course -- the course is a log, and its own typical_ratios count 8-10 of them to the plate. Its exemplars do carry brick chimneys, but a brick stack standing in a log wall is a material, not a coursing module, and two coursing systems cannot dimension one wall. The record names which one this is.",
+          "basis": "node-record",
+          "quote": "Wall height 8-10 log courses",
+          "quoted_from": "proportional_system.typical_ratios",
+          "decided": "2026-09-02",
+          "note": "--impact: governs 1 slot, steps_and_stoop, and it does NOT lose dimensioning -- it passes to palladio-tuscan (italian-renaissance), which is itself an unendorsed cascade delivery. Worth stating plainly: declining a wrong pack can hand the slot to a pack that is wronger, and OQ 58's limit (a decline stops a pack, it does not supply one) is doing real work here. 0 slots lose all dimensioning."
+        },
+        {
+          "pack": "trim-classical",
+          "reason": "The pack derives an interior from an order at reduced scale -- base as plinth, dado as die, chair rail as pedestal cap, cornice as entablature, the wall dividing 4:12:3 in nineteenths off the finished ceiling height. That is an applied proportional system by the pack's own account of itself, and it is the category this node's record refuses in as many words; the proportional_system block corroborates, calling the pen-void-pen rhythm \"the only compositional rule the type has\". The refusal is of the CATEGORY rather than of a set of figures, which is exactly the distinction that leaves sash-light on this same node at TABLE.",
+          "basis": "node-record",
+          "quote": "the type has no applied proportional system",
+          "quoted_from": "proportion_packs[0].note (the log-module binding note)",
+          "decided": "2026-09-02",
+          "note": "--impact: governs 0 slots, so the decline changes no dimension. Arrives from english-georgian at cascade depth 12 with no direct lineage edge between them -- WP-8.2's measurement of why a per-edge deny was refused: there is no edge to write this on."
         }
       ],
       "_cascade": [
@@ -12436,6 +12653,17 @@
           "precedence": 3
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "timber-bay",
+          "reason": "timber-bay's own module note defines its unit as bent-centre to bent-centre in an English box frame, and its closing test is whether the plan resolves into bays with the partitions and window jambs falling near the posts. This node states a different bearing system outright: brick party walls carry the building and timber appears only as floor beams laid across the narrow dimension, with a front wall the record calls impossible if it were bearing because the windows take 50-65 percent of it. There are no bents to count and no post line for a jamb to land on, so the beam span coincides with the pack's 16-20 ft band the way a hewn log does while the mechanism behind it is masonry. The three rules that actually reach here are all consequences of that absent frame -- a first-period New England flush eave where this node carries its party walls above the roof plane as a fire wall, a 45-degree common-rafter pitch over a single bay, and a storey diminution set by what one tree gave a post.",
+          "basis": "node-record",
+          "quote": "Load-bearing brick party walls carried above the roof as fire walls, with timber floor beams spanning the narrow dimension",
+          "quoted_from": "defining_characteristics[1]",
+          "decided": "2026-09-02",
+          "note": "Governs 3 slots -- eave_condition, height_proportion, roof_pitch. All three lose all dimensioning: --impact reports NOTHING for each, and none of the node's own bound packs (brick-course, room-vernacular, facade-gable) reaches them. Accepted as honest: no eave projection beats a New England rafter-foot figure on a house whose street front is a masonry gable screen and whose flanks are fire walls carried past the roof. Declining also leaves span_check on the light-frame joist table rather than switching it to the bay module's 16-20 ft capacity, which the node's own c01 caps at 24.6 ft of party-wall span -- a separate question, and not one this pack answers correctly either."
+        }
+      ],
       "_cascade": [
         "low-countries-vernacular",
         "flemish-vernacular",
@@ -12782,6 +13010,26 @@
           ]
         }
       ],
+      "declined_packs": [
+        {
+          "pack": "benjamin-doric",
+          "reason": "The pack's own notes make its subject a complete Grecian Doric order and list the five things it does that no Roman order does: no base, seven diameters, an entablature of two, a continuous entasis with no cylindrical lower portion at all, and flutes segmental in wood. The node's c04 forbids the last two outright, and its typical_ratios put the shaft at 4 to 5.5 diameters, the squattest proportion in any Western revival -- the order's own governing figures contradicted, not merely varied. Its distinguished_from entry says the same thing from the other side about the slot the pack actually governs here: Greek Revival 'terminates in a horizontal entablature and a pediment; Egyptian Revival ... terminates in a cavetto with no pediment ever'. This is the pack's stated subject being refused by the node's own record, not an inference from the pack's name or from the ancestor it arrived on.",
+          "basis": "node-record",
+          "quote": "Shafts shall be reed-bundle or palm form and shall never carry classical fluting or entasis",
+          "quoted_from": "constraints[3].statement (egyptian-revival.c04)",
+          "decided": "2026-09-02",
+          "note": "Governs 2 slots (cornice, pilaster); declining hands both to benjamin-ionic delivered from federal-style, and 0 slots lose all dimensioning. Honest consequence: the decline stops the Grecian Doric authority but its successor is another classical order, because no Egyptian pack exists to take a cavetto cornice -- the slot stays wrongly dimensioned by a different hand."
+        },
+        {
+          "pack": "vignola-ionic",
+          "reason": "The pack's notes make its subject Vignola's Ionic in full -- the 18-part module, the fluted shaft of 18 modules, the frontal volute capital drawn from twelve centres, and an entablature it subdivides down to individual mouldings -- and one of the twelve slots it dimensions is literally modillion_dentil. The node's c02 forbids dentils, modillions and egg-and-dart anywhere on the building and requires every terminating horizontal edge to be torus roll below cavetto without intervening classical mouldings; its defining characteristics give columns of bundled-reed or papyrus form with lotus or palm capitals, never fluted. Each of the pack's stated subjects -- the capital, the shaft, the entablature's mouldings -- is named and refused by a sentence of the node's own record.",
+          "basis": "node-record",
+          "quote": "Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.",
+          "quoted_from": "constraints[1].statement (egyptian-revival.c02)",
+          "decided": "2026-09-02",
+          "note": "Governs 0 slots on this node, so declining changes no dimension: the --impact report says so in as many words. The meter moves and nothing else does."
+        }
+      ],
       "_cascade": [
         "romantic-revivals",
         "greek-revival-american",
@@ -13064,6 +13312,17 @@
           "role": "facade",
           "note": "The transitional node, and the one that runs BACKWARDS: 'storey heights increasing upward at Hardwick (roughly 1 : 1.1 : 1.3) to mark the ascent to the state rooms -- the exact inverse of the Georgian rule'. Nothing else in this library does that. It also supplies the top of the glazing history (45-60 per cent, higher at Hardwick) against `jacobean`'s retreat to 30-45, and the frontispiece rule -- the orders confined to a quarter or a third of ONE PART of the elevation and absent everywhere else, which is the rationing pattern `facade-portada` and `corbel-course` found in four other traditions arriving in a fifth.",
           "precedence": 5
+        }
+      ],
+      "declined_packs": [
+        {
+          "pack": "stone-course",
+          "reason": "stone-course proportions a rubble field wall whose dressed edges are the only stone with a dimension before it is laid, and its central plan consequence is stated in its own notes: the lintel caps the opening, so openings are \"FEW and SMALL, they are isolated events with wide piers between them\", and its daylight_strategy rule bands glazing at 5-16 percent with a ceiling it explicitly calls not a judgment -- past about 16 per cent \"the design has stopped being a stone one whatever it is clad in\". Elizabethan's hard constraint c01 floors that same quantity at 40 percent and its typical_ratios state 45-60 percent and higher at Hardwick, so the node's floor is two and a half times the pack's ceiling. This is not one rule out of band: the node gives \"More window than wall on a principal elevation\" as the single quickest identification of the style, and describes a wall that \"reads as a grid of mullions and transoms with stone piers between -- structurally a masonry building, visually something much closer to a frame\". Both records state their mechanism and the mechanisms are opposite -- the pack proportions a wall that stands between its openings, the node describes one being dissolved by them -- so this is a contradiction of the pack's subject rather than a coincidence of figures.",
+          "basis": "node-record",
+          "quote": "A solid-walled elevation with punched openings is not Elizabethan whatever its ornament",
+          "quoted_from": "constraints[0].statement",
+          "decided": "2026-09-02",
+          "note": "Governs 10 slots; declining changes dimensions on all of them. Six fall to the node's OWN timber-bay binding (corner_quoin, daylight_strategy, depth_and_pile, height_proportion, reveal_masonry, wing_strategy) and wall_thickness_masonry to its own facade-medieval-english; belt_course passes to jetty-overhang (english-medieval-timber-frame) and foundation_expression to facade-classical (italian-renaissance). roof_material loses all dimensioning -- accepted and honest: the rule there is the Cotswold graded stone-slate diminishing course, and this node's constraint c04 puts the roof \"low or concealed behind a balustraded or strapwork parapet\" with a leaded roof walk on top, so a diminishing-course figure here would be a wrong dimension rather than a missing one."
         }
       ],
       "_cascade": [

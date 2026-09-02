@@ -249,6 +249,15 @@
       "quoted_from": "defining_characteristics[6]",
       "decided": "2026-08-28",
       "note": "Declined, not merely unendorsed: the pack reached this node through the cascade and nobody had ever judged it. `--impact` first — on ranch-style the pack governs one interior slot and nothing is left undimensioned; on craftsman-bungalow it governs none."
+    },
+    {
+      "pack": "room-harmonic",
+      "reason": "The pack's notes state exactly what it emits: given a room, three ceiling heights by the harmonic, geometric and arithmetic means of its plan dimensions, 19 ft 2 in to 20 ft 0 in for a 16 x 24 room. The node states its own ceiling as a fixed 8 ft 6 in to 9 ft 6 in band and names a non-proportional cause for it -- stack ventilation, and being taller than the eastern type -- and a fixed band cannot be a mean of the room's plan dimensions, because a mean scales with the room and this does not. The node's own proportion_packs note says the same thing one layer out, that its rooms are sized by the plan-book programme and that it is not bound for room proportion generally. The derivation the pack offers for ceiling_height_rule is one this record has already answered differently, in its own words.",
+      "basis": "node-record",
+      "quote": "Ceiling 8 ft 6 in to 9 ft 6 in — taller than the eastern type, for stack ventilation",
+      "quoted_from": "proportional_system.typical_ratios[3]",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node: declining changes no dimension and nothing loses all dimensioning. No live gate -- endorsing or declining changes only the meter and the judged count."
     }
   ]
 }

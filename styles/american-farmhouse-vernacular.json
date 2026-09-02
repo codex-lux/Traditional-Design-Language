@@ -313,5 +313,25 @@
       "note": "Optional, and bound for one sentence that is worth the binding on its own: 'exactly one piece of ornament on an otherwise plain building: a jigsawn gable bracket, a pointed window, a run of turned posts'. That is the pack's member_count rule at its floor and its cost conflict's whole argument -- one member well done is both period-correct and affordable, and this record shows it was the commonest real practice rather than a compromise.",
       "precedence": 6
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "vignola-ionic",
+      "reason": "The pack's own notes state its subject as an order and nothing else: a module of 18 parts, column 18 modules, entablature 4 1/2, pedestal 6, with the volute struck from twelve centres and twenty-four flutes round the shaft. The node's record says flatly that this type has none of that, ending its trim characteristic with 'no continuous entablature, no pilasters, no columns'. Its one diagnostic tell for separating itself from its own parent is that a Greek Revival house of the same massing carries '10-12 inch pilasters and a 14-inch frieze' where this one carries corner boards and a plain fascia -- and greek-revival-american is exactly the ancestor delivering this pack. The record draws the line against the order at precisely the edge the cascade crosses.",
+      "basis": "node-record",
+      "quote": "no continuous entablature, no pilasters, no columns",
+      "quoted_from": "defining_characteristics[2]",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; declining changes no dimension on this node and arms no gate either way"
+    },
+    {
+      "pack": "trim-classical",
+      "reason": "The pack's whole argument, stated in its own module note as 'the number is the whole argument of this pack', is that a room is an order at reduced scale -- base as plinth, dado as pedestal die, wall as column, cornice as entablature -- dividing the finished ceiling height 4 : 12 : 3 in nineteenths, so that every interior dimension is computable from one figure. The node's governing_logic names the only two places classical proportion survives here, bay spacing and opening alignment, and the interior finish is not one of them. The record's own account of that finish is 'the woodwork a plain four-inch casing with a bevel' -- one bevelled board against the pack's three families of four to seven members, none of which is a bevelled flat. An inherited habit in the elevation is not a computable interior system.",
+      "basis": "node-record",
+      "quote": "Classical proportion survives only as inherited habit in bay spacing and opening alignment.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot, trim_family; declining passes it to trim-craftsman, which this node binds itself at precedence 5, so 0 slots lose all dimensioning"
+    }
   ]
 }

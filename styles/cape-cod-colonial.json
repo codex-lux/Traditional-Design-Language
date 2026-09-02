@@ -264,5 +264,16 @@
       "note": "The hall-single-cell (half Cape) and hall-and-parlor (full Cape) room logic is identical to new-england-colonial's, and the pack's own room_adjacency_overrides note -- 'the whole Anglo-American folk-house catalogue is this arithmetic' -- is a direct statement of the growth grammar this node is organized around.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "jetty-overhang",
+      "reason": "The pack's own notes say what it dimensions: 'the 8-20 in cantilever of the second-floor girt past the wall below', and that 'THE MODULE IS THE JOIST, NOT THE BAY' because a jetty is a cantilever dimensioned by the member cantilevering. The Cape's record deletes that member by name -- no second storey, so no second plate and no second floor frame -- and there is no girt to cantilever and no post to cut a drop from. Both of the pack's two devices sit at a second-floor level this house does not have: the framed jetty with its bressumer and drops, and the hewn overhang chamfered out of a continuous post. This is the mechanism being absent rather than merely unused, which is the narrow case a decline is for.",
+      "basis": "node-record",
+      "quote": "There is no second storey, so there is no second plate, no second floor frame",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning."
+    }
   ]
 }

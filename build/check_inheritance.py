@@ -63,13 +63,13 @@ ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "ro
 # finding read to its end: declining a pack promotes the next one into the same role. Read
 # `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` before treating this
 # number as a measure of how much work is left -- it is what is VISIBLE, not what is required.
-RATCHET = {"role_gaps": 273, "inherited_packs": 3278, "unendorsed": 232}
+RATCHET = {"role_gaps": 268, "inherited_packs": 3252, "unendorsed": 227}
 
 # A FLOOR, and it is what keeps the ceilings honest once a node can DECLINE a pack. `unendorsed`
 # stopped being monotone the moment declining re-attributes a role to the next ancestor, which
 # may itself be unjudged: a pass that judges ten and re-opens three is progress, and a ceiling
 # alone cannot see that. `judged` is endorsed + declined and only ever goes UP.
-RATCHET_FLOOR = {"judged": 129}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
+RATCHET_FLOOR = {"judged": 155}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 
 # A FOURTH, SEPARATE MEASUREMENT: pack rules landing on a slot the resolved kit binds
 # `forbidden`. Not the OQ 51 backlog and deliberately not mixed into it. See --forbidden.

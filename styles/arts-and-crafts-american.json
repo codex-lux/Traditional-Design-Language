@@ -272,6 +272,23 @@
       "quoted_from": "defining_characteristics[5]",
       "decided": "2026-08-28",
       "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "The pack's own notes describe an order skeleton quoted from Ware — column at 9 modules, entablature a fifth of it divided 4 : 3 : 5, a modillion cornice, an Attic base — and it dimensions column, entablature, cornice, crown and porch_support here. The node carries a HARD constraint forbidding applied classical orders by name, and the same constraint then states what a porch support must be instead: square posts or battered piers on masonry bases not less than 24 in wide. That is the pack's subject contradicted at its own address, not a blanket refusal: the node is not silent about orders, it enumerates the members and prohibits them. The node has already written this exact refusal against chambers-ionic; palladio-ionic is the same object arriving from english-palladian at depth 8 instead.",
+      "basis": "node-record",
+      "quote": "Applied classical orders — fluted or turned columns, pedimented door surrounds, dentil courses — are forbidden",
+      "quoted_from": "constraints[2].statement",
+      "decided": "2026-09-02",
+      "note": "Governs 1 slot: frieze. Declining passes frieze to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. Worth stating plainly: the decline stops THIS order and does not stop the classical order as such — the fallback is another classical pack, which is OQ 58's stated limit one layer down."
+    },
+    {
+      "pack": "facade-gable",
+      "reason": "The pack's module note says that deciding whether a gable is the end of a roof, a parapet carried up past the roof plane, or a screen standing clear of it \"is prior to any dimension in this pack\", and every rule under it is a masonry gable treatment: apex at 0.72 of the base, coping stones, crow-step tread and rise, kneelers, screen-gable facade ratios. The node's hard c02 caps the principal pitch at 4:12 to 6:12, which puts the apex of a roof-end gable at 0.17 to 0.25 of its width against the pack's 0.72, and the quoted sentence names the families the taller triangle belongs to and says why this style cannot have it. The node's own \"Eave and rake overhang 24 to 36 inches\" settles the other two cases: a roof oversailing its gable wall by two to three feet is not a wall carried past the roof plane and capped, and a crow-step IS the verge treatment, which is why the pack's Scottish source records \"no barge board\". This is a mechanical contradiction in the node's own figures, not the blanket \"no proportional system\" sentence being stretched.",
+      "basis": "node-record",
+      "quote": "Pitches above 8:12 belong to the Tudor and Storybook families and break the horizontal reading",
+      "quoted_from": "constraints[1].statement",
+      "decided": "2026-09-02"
     }
   ]
 }

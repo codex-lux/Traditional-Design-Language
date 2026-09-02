@@ -257,6 +257,15 @@
       "quoted_from": "diagnostic_tells[0]",
       "decided": "2026-08-28",
       "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "The pack's own notes say it is a quoted Palladian Ionic skeleton in depth: a column of 9 modules, an entablature a fifth of it, an architrave in five with a cimacio, and a cornice divided into seven and three quarters as cavetto and ovolo : modillion : corona and gola, with the modillion replacing the dentil in a change the pack says explicitly 'changes the eave'. That is a stack of modelled mouldings standing off the wall, and the node's record refuses it physically rather than stylistically: every ornamental element is sawn from nominal 1 in board stock, and constraint c01 puts a 3 in ceiling on the projection of any ornament. The pack is reaching this node through english-palladian at cascade depth 7 with no direct lineage edge, and it is governing precisely the members it cannot execute here -- the cornice and the frieze of a boxed plank eave. This node has already declined chambers-ionic on the same quote and the same reasoning, recorded in declined_packs with basis node-record.",
+      "basis": "node-record",
+      "quote": "Ornament is flat. Sight along the wall: everything projects less than about two inches, because everything came off a plank",
+      "quoted_from": "diagnostic_tells[0]",
+      "decided": "2026-09-02",
+      "note": "governs 3 slots -- cornice, door_surround, frieze. Declining passes all three to palladio-tuscan (italian-renaissance). 0 slots lose all dimensioning. The fallback is another classical order and is not thereby right: a decline stops a wrong pack and does not supply a right one, which is OQ 58's stated limit one layer down."
     }
   ]
 }

@@ -265,5 +265,16 @@
       "authority": "moorish-arch",
       "note": "Secondary, not primary: the revival composes picturesquely (facade-picturesque is already bound as its facade pack) and reaches for the Moorish arch as vocabulary rather than as the system the whole building is generated from. Binding it primary would claim a geometric discipline the revival does not actually keep."
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "vignola-composite",
+      "reason": "The pack's own notes present it as a classical order-system and nothing else -- a column of twenty modules carrying an entablature of a quarter its height divided 3:3:4 -- and the two slots it actually governs on this node are derived straight off that module: an envelope cornice of storey_height/4 * (4/10) carrying a dentil course, and an envelope frieze the pack says Vignola 'expected to be richly carved'. The node's governing_logic opens by refusing exactly that authority, and its defining characteristics put a 'Low-pitched clay barrel-tile roof, 3:12 to 5:12, with minimal or no eave overhang and no gutter expressed' precisely where the dentil cornice would have to run, with 'Ornament almost wholly absent from the wall' where the carved frieze would sit. This is not the blanket sentence applied blindly to any pack: the pack's own stated subject IS a classical module, so the node's sentence meets it head-on rather than glancing off it. The Beaux-Arts lineage edge does not rescue it -- that note says the architects 'composed in a Beaux-Arts manner and dressed the result in whitewashed lime', locating the classicism in the plan and the lime on the elevation.",
+      "basis": "node-record",
+      "quote": "No classical module. Governed by wall mass, opening-to-wall ratio, and the proportion of the courtyard to the height of the ranges enclosing it.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 2 slots (cornice, frieze). Declining hands both to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. Worth stating plainly: the node still ends up dimensioned by a classical order, so this decline does not make the style non-classical -- it stops the most ornate of the five orders from setting the eave of the style's plainest branch, and leaves the plainest order in its place."
+    }
   ]
 }

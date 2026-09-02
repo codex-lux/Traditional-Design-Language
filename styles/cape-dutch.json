@@ -274,5 +274,16 @@
       "note": "The screen gable in its purest form, and the case that forced the pack's three-way distinction. This gable is not the end of a roof at all: it stands 'clear of a thatched roof' on the LONG elevation, centred on the front door, moulded in plaster and dated in relief -- a piece of architecture applied to a farmhouse, which is why it is the only modelled thing on an otherwise plain building. Its own figures are the pack's screen rules: gable width to front elevation length roughly 1:3, gable height above eave 2.5-4 m. It also states the hierarchy the pack generalises, in one clause: 'a second, plainer gable over the rear or wing door, always subordinate to the front one'. The holbol curve itself the pack does not carry -- see its notes.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "brick-course",
+      "reason": "The pack's own notes make visible, measurable coursing the whole of its subject -- \"put a tape on any brick wall and you have read the mason's rod\" -- and every rule it actually delivers to this node is a fired-brick detail: a moulded or gauged water-table course, a rowlock sill, a surround \"measured in bricks, not inches\", a stack whose plan dimension is a whole number of bricks. The node's record answers that claim directly and in the same terms: its walls are sun-dried brick or rubble, lime-plastered and limewashed, and the record states in its own words that brick-course was checked and rejected because the coursing it models is invisible under a plastered finish. The tell \"Whitewash over a wall whose corners are visibly rounded and soft -- plastered earth brick, not stone\" says the same thing from outside the building. The pack arrives from dutch-urban-gable-house, whose brick genuinely is exposed and gauged; the descent is real and the pack's subject does not survive it.",
+      "basis": "node-record",
+      "quote": "brick-course was checked and rejected: Cape Dutch walls are lime-plastered and limewashed sun-dried brick or rubble, and the coursing brick-course models (exposed bond, moulded water-table courses, gauged arches) is invisible under a plastered finish and does not apply.",
+      "quoted_from": "proportion_packs[2].note",
+      "decided": "2026-09-02",
+      "note": "governs 5 slots; 0 lose all dimensioning. chimney -> timber-bay (cape-dutch's own binding); water_table -> timber-panel (flemish-vernacular); window_sill -> opening-proportion (roman-classical); steps_and_stoop -> facade-peristyle (roman-classical); window_surround_wood -> vignola-ionic (roman-classical). Three of the five fall through to Roman-classical packs on a node whose record says \"there is no order and no pilaster rhythm\", which is worth a separate look -- the decline stops a wrong pack, it does not supply a right one."
+    }
   ]
 }
