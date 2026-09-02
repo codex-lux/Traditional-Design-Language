@@ -28,8 +28,13 @@ room is a compartment between two bearing lines. **You cannot make a 10 × 30 sl
 house, because the lines that would bound it do not exist.** The corpus's guillotine slicer can
 cut anywhere at any depth of recursion, and the bay module only nudges: `geometry.snap` returns
 the raw value unless the nearest bay line is within `tol = bay * 0.28` (`geometry.py:1113`), and
-the file's own docstring already records the measured consequence — *"18 of 30 ground wall lines
-on the shipped plans are themselves off the bay grid."*
+the file's own docstring claims a measured consequence — *"18 of 30 ground wall lines on the
+shipped plans are themselves off the bay grid."* **DO NOT QUOTE THAT FIGURE: it is stale and does
+not reproduce under any reading.** Re-derived from `bearing_lines()` on the shipped plans, the
+current figures are 35 of 45 interior segments, or 19 of 23 distinct interior lines. It is a
+source-comment number, and `check_counts.py` polices documentation rather than source comments, so
+nothing was going to catch it. The point the docstring is making survives — most wall lines are
+off the grid — and the number attached to it does not.
 
 **This is also the unread half of the span problem.** WP-7.4 found a 49.93 ft clear span between
 the three real bearing lines of the Tidewater plan against a 20 ft capacity, and OQ 98 records

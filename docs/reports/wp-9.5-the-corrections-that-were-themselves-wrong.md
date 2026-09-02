@@ -20,7 +20,10 @@ finding B8 below and the reason this report's own verdict was retracted once.
 
 ## What was audited, and why a documentation change is not a soft target
 
-The change is ten files and about 1,730 added lines, **all documentation** — two reports, six
+The change is **all documentation** — verified by diff, no `.py`, `.js` or corpus `.json` in the
+range — and an earlier version of this sentence gave "ten files and about 1,730 added lines",
+splicing two counts taken at different moments. Take the file list as the claim and `git diff
+--stat` as the count. It is two reports, six
 open-question files, the generated index, `CLAUDE.md`, `PLAN-OF-ACTION.md` and a download list. No
 `.py`, `.js` or corpus `.json` was touched; that was verified by diff rather than asserted.
 
@@ -32,7 +35,7 @@ exactly that class, because the next agent reads these files as fact.
 
 ## The headline
 
-**Thirty-five findings survived verification across two passes. Eight were blocking. Every one of
+**Forty-two findings survived verification across THREE passes. Ten were blocking. Every one of
 the blocking findings was in work this session had produced, and four of them were in corrections
 this session had *already made* — a first fix that was itself wrong, or right in one file and left
 wrong in another.**
@@ -330,19 +333,119 @@ audits against.
 - **The unquantified-rule class (S5) was measured and not closed.** 268 of 761 derived rules
   without a `quantity` is an authoring backlog with a ruling in front of it, not a patch.
 
+## Third pass — 75 auditors, and the verdict had to be retracted a second time
+
+A workflow of **75 independent read-only auditors** returned after the second pass had been
+committed and the work declared deployment-ready. **Two blocking findings survived verification,
+both against claims this session published, and one of them was the correction the second pass had
+just made.** The verdict was retracted and re-issued. Everything below is verified by me, not
+taken on an auditor's word, and fixed.
+
+**T1 (BLOCKS). The citation guard has a SECOND blind spot, it is bigger than the one the question
+is named for, and two audit passes missed it.** `check_citations.py` does not scan the tree; it
+scans `tracked_files()`, which is `git grep --untracked -lE "OQ [0-9]+"`. **A file carrying no
+NUMBERED citation is never opened, so nothing in it is checked in any context — plain prose
+included.** Mutation-tested: the identical dangling slug in plain prose is caught in
+`wp-9.2-the-parti-is-not-the-type.md` and passes silently in
+`oq-the-proportion-band-forbids-the-square.md`, `oq-the-parti-dissolved-its-own-dependencies.md`
+and `oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md` — three question files this
+session authored. Measured with the checker's own regexes: **164 mentions = 26 VALIDATED (15.9%),
+120 hidden by the code-span exemption, 15 in never-opened files (9 of them plain prose), 3 in
+`SPECIMEN`.** So the published "two thirds" was really **82.3%**, and "56 in plain prose (checked)"
+was false — 26 are. **Eleven files are never opened and eight are entries in the register itself.**
+
+Two things make this worse than a wrong number. **The entry's own table said "plain prose — yes"**,
+which is the sentence a future agent acts on. And **the mechanism GROWS**: ids froze at 99, so a
+question raised today has no reason to carry an `OQ <n>` at all, and every new named entry is born
+outside the guard. The remedy the entry proposed — check code spans — would have left 9 prose
+citations unread and the count climbing, and an agent implementing it and declaring the guard whole
+would have reproduced WP-8.6's pattern exactly. A shape (0) is added: widen `tracked_files()` to
+select on the slug pattern, one regex, and the cheaper half.
+
+**T2 (BLOCKS). "Within one foot of Gunston Hall on both dimensions" compared an exterior
+foundation to a wall-less model, and a conclusion rested on it.** Gunston's 60'-10" × 40'-11½" is
+an EXTERIOR FOUNDATION figure over walls "about two feet thick" — a clear extent of about
+**56.8 × 37.0 ft**; the corpus's rectangles tile **60.0 × 40.0** with no wall thickness at all.
+Like for like the generated house is **about 3 ft larger on each dimension** and its clear area is
+**2,400 sf against 2,100–2,195 — 9 to 14% more**. **This is the same two-bases error the first
+pass had already corrected in the table FOUR LINES BELOW the sentence** — right in one place,
+left wrong in its neighbour, which is this audit's commonest shape appearing at the shortest
+possible distance. It reached five files including a live work instruction in `PLAN-OF-ACTION.md`.
+The conclusion survives and reads better: twelve spaces cut out of a clear area a tenth larger
+than the one Gunston Hall cuts six out of.
+
+**T3. There are THREE spellings of the stair rule and they give THREE answers on a shipped plan.**
+The second pass upgraded "they might drift" to "they have drifted" and still said two. The third is
+`build/structure.py::stair_geometry`, named in the very docstring `openings.py` quotes. On
+`tidewater-georgian-careful`: the prose says 16 risers at 7.5 in / 12 ft 6 in; `openings.py` gives
+17 at 7.059 in / 13.33 ft; `structure.py` gives **21 at 7.014 in / 16.67 ft**. And the divergence
+is not only the 7.25-against-7.5 constant — the plan states no `floor_to_ceiling_ft`, so
+`openings.py` falls back to a hardcoded 9.0 while `structure.py` reads the derived
+`storey_height_ft` of 12.279, 3.3 ft apart on one house. `structure.py` draws the section.
+
+**T4. "Nothing at all for a stair too far" is false, and the truth is worse.**
+`kits/georgian-colonial-american.kit.json` authors `start_setback_from_front_door_ft` as
+**[6, 12] ft**, it cascades onto `tidewater-georgian`, and both `op-stair-setback`'s basis and
+`stair-at-the-front-door`'s `rule_violated` quote the band in full. Only the floor was implemented.
+The ceiling is authored, cited twice as authority, and enforced nowhere — and the stair at
+27.04 ft is more than twice it.
+
+**T5. "Not one of those is reported" reads as a silence that does not exist.** Of the 20 rooms
+whose drawn rectangle cannot take an essential item their declared record can, **none is invisible
+to the critic**: all 20 draw other findings (adjacency, completeness, daylight, code) and 7 draw a
+furniture finding about a different item. What is missing is the specific fact. Corrected in the
+report and in `PLAN-OF-ACTION.md`, where it was a work instruction.
+
+**T6. The sequence-of-commitments conclusion counted the artefact as one of its own witnesses.**
+"Five sources independently describe a sequence" included this corpus's `room-vernacular.json`
+four-caps reasoning — in a report whose subject is that the artefact is under-determined, and whose
+own text records that the pack has no source to quote. Four period sources, not five.
+
+**T7. Smaller, each fixed in place.** The massing question quoted `geometry.py`'s stale
+"18 of 30 wall lines" as measured, with no caveat, while two sibling documents shipped in the same
+change record that it does not reproduce. The bay-module clause "which is the direction that
+produces the slivers" is false twice: no plan record CAN declare a parti
+(`additionalProperties: false`), so the sheet used the 10.0 ft default, and the module is
+area-neutral regardless. Mount Vernon's h/b "0.48 to 0.84 across one floor" is the union of two
+floors' extremes. `georgian-service-core`'s rule is not "evaluated by nothing" — `plan_check`
+reports it unjudged — corrected in the report by the second pass and left wrong in the question
+file. CLAUDE.md's furniture correction stopped mid-bullet, leaving the per-type block and the
+`spec-builder-colonial` illustration as unlabelled `auto` readings. CLAUDE.md kept "six enclosed
+spaces apiece" for three exemplars where the count is established for two. And this report's own
+"ten files and about 1,730 added lines" spliced two counts taken at different moments.
+
+**What the third pass says about the second.** The second pass claimed its findings were smaller
+than the first's and that no conclusion moved. **That was true of the second pass's own findings
+and false as a prediction**: T1 and T2 both moved published conclusions, and T1 was a correction
+the second pass had itself just written. Three passes, and each one found the previous pass's
+corrections wrong. The honest reading is not that the fourth pass would find nothing — it is that
+**this document's error rate is a property of writing prose about measurements, and the only
+defence that has worked is re-deriving the number.** Every one of T1–T7 came from running
+something.
+
+---
+
 ## Verdict
 
-**Yes — deployment-ready, on a full run.** `python3 build/check_all.py` green: 40 of 43 checks
+**Yes — deployment-ready, on a full run, and this verdict has been retracted and re-issued
+twice.** The first retraction was a subset-verdict (B8); the second was the 75-auditor pass
+returning two blocking findings after the work had been declared done (T1, T2). `python3 build/check_all.py` green: 40 of 43 checks
 passed, three COULD NOT EVALUATE and named as such (`export_dxf` and `export_ifc` selftests without
 `ezdxf`/`ifcopenshell`, `pytest workbench/server/tests` without `fastapi`/`httpx`) — a named
 unjudged state, never a pass. The change remains documentation-only: no `.py`, `.js` or corpus
 `.json` was touched, verified by diff.
 
-**The verdict is qualified in one direction and it is worth stating plainly.** This audit ran two
-passes and the second found eleven more, four of them inside the first pass's own corrections. A
-third pass would probably find some. What makes this stopping point defensible rather than
-arbitrary is that **the second pass's findings are smaller than the first's** — no conclusion moved,
-where the first pass moved three — and that every figure now in these documents has been re-derived
-by running something rather than by re-reading the sentence around it. The remaining risk is
-concentrated in the numbers nobody has re-derived a second time, and those are named: S3's seven
-passage statements, S5's 268, S6's three formulations.
+**The verdict is qualified, and the second pass's version of this paragraph was wrong.** It said
+the second pass's findings were smaller and that no conclusion moved, and offered that as the
+reason to stop. The third pass then moved two conclusions (T1, T2), one of them inside a correction
+the second pass had just written. **So the honest statement is not that a fourth pass would find
+nothing.** It is this: each pass has found fewer conclusion-movers than the last (three, zero, two
+— and T2 was a first-pass error the second pass failed to propagate, not a new one), every figure
+now standing has been re-derived by running something, and the two mechanisms that produced most of
+these findings are now named in `CLAUDE.md` as traps rather than left as habits — **correct a
+figure and sweep every file for the retired one**, and **re-derive, do not re-read**.
+
+The remaining risk is concentrated in numbers nobody has re-derived twice, and those are named:
+S3's seven passage statements, S5's 268 unquantified rules, S6's three island formulations, and
+T1's buckets — which the entry itself now tells the reader to re-measure rather than quote, with
+the recipe, because every figure in it has moved in every pass that touched it.

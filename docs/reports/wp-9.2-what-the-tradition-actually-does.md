@@ -18,15 +18,25 @@ survive are corrected here rather than silently in the text:
    nothing holds them together**, which is this repository's most-repeated wound. A10's proposal is
    right; it should be built as one reader, not a second transcription per room.
 
-   **And the audit of this report then measured the drift rather than warning about it: the two
-   spellings ALREADY DISAGREE.** Fed the prose's own input — a 9 ft ceiling, so
-   `storey_in = (9.0 + 1.0) × 12 = 120` — `stair_pass` returns **17 risers at 7.059 in, 16 treads,
-   a 13.33 ft straight run**. `rooms/stair-hall.json`'s `critical_dimension` says **16 risers at
-   7.5 in, 15 treads, 12 ft 6 in**. The Python follows `proportions/systems/storey-graduation.json`
-   (`ceil(storey / 7.25)`); the prose works at 7.5 in. Neither is wrong on its own terms and
-   nothing in the tree compares them, so the room record states a run 10 in shorter than the one
-   the generator draws — under a comment that cites the record as its source. This is the finding
-   as a measurement, not as a risk.
+   **And two further audit passes made this much worse: there are THREE spellings, not two, and
+   they give THREE DIFFERENT ANSWERS on a shipped reference plan.** The third is
+   `build/structure.py::stair_geometry` (line 397), which carries the identical
+   `ceil(total_rise_in / 7.25)` and is named in the very docstring `openings.py` quotes. On
+   `plans/tidewater-georgian-careful.json`:
+
+   | spelling | input | result |
+   |---|---|---|
+   | `rooms/stair-hall.json` `critical_dimension` | stated | **16 risers at 7.5 in, 15 treads, 12 ft 6 in** |
+   | `openings.py::stair_pass` | `ch = floor_to_ceiling_ft or 9.0` → 120 in | **17 risers at 7.059 in, 13.33 ft run** |
+   | `structure.py::stair_geometry` | `storey_height_ft` 12.279 → 147.3 in | **21 risers at 7.014 in, 16.67 ft run** |
+
+   **The divergence is not only the 7.25-against-7.5 constant.** The plan states no
+   `floor_to_ceiling_ft`, so `openings.py` falls back to a hardcoded 9.0 while `structure.py` reads
+   the storey height the section derived — 3.3 ft apart on the same house, which is where 17
+   against 21 comes from. `structure.py` is the one that draws the section. So a reader of this
+   corpus's own reference plan can be told the stair has 16, 17 or 21 risers depending on which
+   record they read, and nothing compares them. A warning about drift has become a measurement of
+   it, twice over.
 2. **"nothing that dimensions a room can ever read" the suite rule (§4b A11) is overstated.** The
    fact is verified — `proportions/systems/room-harmonic.json`'s rule at index 17,
    `target_slot: public_private_gradient`, is the only one of its eighteen `derived_rules` without
@@ -133,7 +143,9 @@ Four findings, in the order of how much they should change what gets built next.
 > `measured` value in this corpus on the strength of appearing here. §6 lists eleven specific
 > things that must not be coded yet; **that list is the sharpest cases, not the boundary.**
 
-The ordering below is itself a finding. Five sources independently describe a *sequence of commitments*, each of which removes freedom from the next, and none of them describes a simultaneous satisfaction of bands. Where the sequence is my reading rather than a source's, I say so.
+The ordering below is itself a finding. **FOUR period sources** independently describe a *sequence of commitments*, each of which removes freedom from the next, and none of them describes a simultaneous satisfaction of bands. Where the sequence is my reading rather than a source's, I say so.
+
+**An earlier version of this sentence said FIVE, and the fifth was this corpus's own `room-vernacular.json` four-caps reasoning** — the artefact corroborating itself, in a document whose whole subject is that the artefact is under-determined. That pack has no source to quote and this report says so elsewhere in its own text. It is worth reading beside the four; it is not a witness alongside them.
 
 ### First: the establishment, not the house
 
@@ -161,7 +173,9 @@ Scamozzi states the constraint outright: rooms must be *"the same height within 
 
 **A per-room height formula is a misreading of the source.** The three means exist to make heights *equal*, not to make them individual.
 
-The measured evidence agrees flatly. Mount Vernon's ground floor runs 10 ft 7½ in to 10 ft 10⅜ in **for every room except the New Room, which is 16 ft 6 in and two storeys high — the audit flagged that this range silently dropped it, and a two-storey volume is a declared exception to a per-storey rule rather than a refutation of it** — and its chamber floor 7 ft 9 in to 8 ft 2 in, so height/breadth varies from **0.48 to 0.84 across one floor** (Mount Vernon Ladies' Association, "The Mansion Room by Room"). At Brandon — the one Virginia house built from a Morris plate — every principal room is a flat 13 ft, about three feet short of even the flat-ceiling rule *height = breadth* (*Palladiana*, Center for Palladian Studies in America, Spring 2007). And the 1699 Virginia act for building Williamsburg mandates a **"ten foot pitch"** — a legally required *storey* height, in a statute (Hening, *Statutes at Large*, vol. III).
+The measured evidence agrees flatly. Mount Vernon's ground floor runs 10 ft 7½ in to 10 ft 10⅜ in **for every room except the New Room, which is 16 ft 6 in and two storeys high — the audit flagged that this range silently dropped it, and a two-storey volume is a declared exception to a per-storey rule rather than a refutation of it** — and its chamber floor 7 ft 9 in to 8 ft 2 in, so height/breadth varies from **0.48 to 0.84 across the two floors — 0.64 to 0.84 on the first
+and 0.48 to 0.63 on the chamber floor, and an earlier version of this sentence presented the union
+of two floors' extremes as one floor's spread** (Mount Vernon Ladies' Association, "The Mansion Room by Room"). At Brandon — the one Virginia house built from a Morris plate — every principal room is a flat 13 ft, about three feet short of even the flat-ceiling rule *height = breadth* (*Palladiana*, Center for Palladian Studies in America, Spring 2007). And the 1699 Virginia act for building Williamsburg mandates a **"ten foot pitch"** — a legally required *storey* height, in a statute (Hening, *Statutes at Large*, vol. III).
 
 The consequence for a compiler is bigger than a fault about ceilings. Storey height sets the window head, the head sets the daylight depth, and the daylight depth caps the pile. `proportions/systems/room-vernacular.json` writes the arithmetic — `storey_height * 0.78 * 2.25` — and nothing in `massings/` reads it. **Storey height is upstream of plan depth and the corpus has no chain that says so.**
 

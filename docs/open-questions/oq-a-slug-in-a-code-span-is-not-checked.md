@@ -1,13 +1,17 @@
-# oq/a-slug-in-a-code-span-is-not-checked — the citation guard cannot see two thirds of the namespace it guards, and removing the exemption would convict fourteen honest illustrations
+# oq/a-slug-in-a-code-span-is-not-checked — the citation guard validates 16% of the namespace it guards, by TWO mechanisms, and the second one is bigger than the one this entry is named for
 
 *Status: OPEN · Raised in: the WP-9.2 adversarial audit (1 Sep 2026)*
 
-**`check_citations.py` validates named open-question citations, and 122 of the 178 in this tree
-were invisible to it at `5572866`** — and **the number moves as documents discuss the problem**:
-100 of 153 at `025329c`, 113 of 169 at `84314fa`, 122 of 178 at `5572866`. **Correcting this entry
-took it to 126 of 182**, because the corrections below name the illustrative slugs one more time
-each. Every figure here is quoted with the commit it was taken at, or as a stated delta from one.
-Mutation-tested both ways:
+**`check_citations.py` validates named open-question citations, and it validates 26 of the 164 in
+this tree — 15.9%.** The count moves as documents discuss the problem (the code-span bucket was
+100 at `025329c` and 113 at `84314fa`), which is the finding demonstrating itself.
+
+**Quote ONE denominator.** Earlier versions of this entry published a tree-wide walk (126 of 182)
+beside the checker's own (121 of 165); the difference is almost entirely `docs/open-questions.md`,
+the GENERATED index, which carries 19 mentions and which `tracked_files()` excludes by name. **The
+checker's denominator is the one that answers the question**, because the question is about the
+checker. Every figure below is measured with the checker's own `tracked_files()`, `CODE` and
+`SLUG_CITE`. Mutation-tested both ways:
 
 ```
 fake slug in plain prose          ->  DANGLING  ...:127: OQ-SLUG-THAT-NAMES-NO-ENTRY names no entry
@@ -32,22 +36,84 @@ backticks *is* how this corpus cites a named question — CLAUDE.md does it, eve
 and this file does it in the sentence you are reading. So for slugs, citation and illustration are
 typographically identical and the checker cannot tell them apart.
 
-Measured across the tree at `5572866`: **122 slug mentions inside code spans (unchecked), 56 in
-plain prose (checked)** — 68.5%, and 126/56 (69.2%) after this correction; at `84314fa` it was 113
-and 56, at `025329c` 100 and 53. **The checked count has not moved in three commits while the
-unchecked count has risen by 26**, which is the trend the question is about. The corpus froze its numbers at 99 and made slugs the primary mechanism
+**120 of the 164 are hidden by this exemption**, and the count has risen with every document that
+discusses it. The corpus froze its numbers at 99 and made slugs the primary mechanism
 (`099-how-an-open-question-id-is-issued.md`), so the guard covers the legacy namespace and misses
 most of the live one.
 
+## There is a SECOND blind spot, it is larger, and two audit passes of this entry missed it
+
+**An adversarial pass found this entry measuring the wrong thing, and the correction more than
+doubles the hole.** `check_citations.py` does not scan the tree. It scans
+`tracked_files()`, which is:
+
+```python
+subprocess.run(["git", "grep", "--untracked", "-lE", r"OQ [0-9]+", "--", "."], ...)
+```
+
+**A file that carries no NUMBERED citation is never opened at all**, so nothing in it is checked in
+any context — plain prose included. Mutation-tested, appending the identical line
+`See oq/totally-invented-slug for more.` in PLAIN PROSE to four files:
+
+```
+docs/reports/wp-9.2-the-parti-is-not-the-type.md               -> DANGLING (caught)
+docs/open-questions/oq-the-proportion-band-forbids-the-square.md -> 0 dangling, silent
+docs/open-questions/oq-the-parti-dissolved-its-own-dependencies.md -> 0 dangling, silent
+docs/open-questions/oq-the-passage-is-divided-...md            -> 0 dangling, silent
+```
+
+The three silent ones carry no `OQ <n>` and so are never opened. **All three are question files
+this very session authored.**
+
+Measured with the checker's own `tracked_files()`, `CODE` and `SLUG_CITE`, over the tree excluding
+the generated index:
+
+| bucket | mentions |
+|---|---|
+| **VALIDATED** (plain prose, in a file the checker opens) | **26 — 15.9%** |
+| hidden by the inline-code-span exemption | 120 |
+| in a file the checker NEVER OPENS (no `OQ <n>` anywhere in it) | 15, of which **9 are plain prose** |
+| in `SPECIMEN`, exempt by name and on purpose | 3 |
+| | **164** |
+
+**So the unguarded share is 82.3%, not the two thirds this entry's own title claimed**, and
+"56 in plain prose (checked)" was false: 26 of those are checked and 30 are not.
+
+**DO NOT TRUST THIS TABLE — RE-MEASURE IT.** Every figure here has moved in every pass that
+touched this file, including the pass that wrote this sentence (121 hidden became 120 between two
+edits of the paragraph above). The buckets are reproducible in about fifteen lines: import
+`build/check_citations.py`, take its `tracked_files()`, `CODE` and `SLUG_CITE`, walk the tree
+skipping `docs/open-questions.md`, and for each mention decide *file not in `tracked_files()`* →
+never opened, else *inside a `CODE` span* → hidden, else validated. **The shape is the finding and
+the numbers are its weather.**
+
+**Eleven files are never opened and eight of them are entries in this register**:
+`oq-a-licence-conditioned-on-the-wrong-axis`, `oq-a-material-neutral-assembly-decides-a-material-question`,
+`oq-a-share-alike-photograph-has-no-home-in-the-asset-schema`, `oq-applies-when-means-two-things`,
+`oq-regenerating-the-asset-manifest-discards-what-was-added-to-it`,
+`oq-the-parti-dissolved-its-own-dependencies`,
+`oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it`,
+`oq-the-proportion-band-forbids-the-square`, plus `build/harvest_habs.py`, `docs/assets.md` and
+`tests/test_forbidden_slots.py`.
+
+**And this mechanism GROWS while the other one is static.** The numbers froze at 99
+(`099-how-an-open-question-id-is-issued.md`), so a question raised today has no reason to contain
+an `OQ <n>` at all — which means **every new named entry is born outside the guard**, and the
+share the checker validates falls with each one. That is the opposite of what a guard should do
+as its namespace grows.
+
+**This changes the answer, not just the number.** Shape (1) below said checking code spans "closes
+the gap completely". It does not: 9 plain-prose citations in files the checker never opens stay
+unread, and the count rises with every question raised. Any fix must change the FILE SELECTION as
+well as the span rule — and the file selection is the cheaper half, since `tracked_files()` could
+select on the slug pattern as well as `OQ <n>` in one line, with no ambiguity to resolve.
+
 ## Nothing is currently wrong, and that is the whole difficulty
 
-Of the 122 unchecked mentions at `5572866`, **112 resolved and 10 did not — and every one of the
-10 was deliberate.** Five were there before this audit; **the other five were added by this entry
-and by CLAUDE.md quoting it**, which is the clearest possible statement of the problem: a document
-cannot describe the ambiguity without producing more of it. **Correcting this entry made it 14**,
-for the same reason and in the paragraph reporting it. Three distinct slugs across those 14:
-`oq/span-partial-bearing-wall` 7, `oq/no-such-question` 4, and the placeholder discussed under (1)
-3.
+Of the 120 hidden mentions, **108 resolve and 12 do not — and every one of the 12 is
+deliberate.** Five were there before this audit; the rest were added by this entry and by CLAUDE.md
+quoting it, which is the clearest possible statement of the problem: **a document cannot describe
+the ambiguity without producing more of it**, and each correction pass has done so again.
 
 | mention | where | what it is |
 |---|---|---|
@@ -55,17 +121,21 @@ for the same reason and in the paragraph reporting it. Three distinct slugs acro
 | `oq/span-partial-bearing-wall` ×7 | `099-…`, `oq-two-id-namespaces` ×2, `wp-8.1-the-citation-guard.md`, `CLAUDE.md`, this file ×2 | a hypothetical slug used to explain the naming scheme — `oq-two-id-namespaces` uses it precisely as its example of a slug that would duplicate OQ 98 |
 | `oq/example-only` ×3 | this file only | proposed below as a safe illustration form — **and it is not one**; see the correction under (1). Line numbers are omitted from this table on purpose: they moved three times while it was being written |
 
-So **the exemption is doing its job for three distinct illustrative slugs across fourteen mentions,
-and simply deleting it would produce fourteen false accusations including one against the checker's
-own test.** This is not a dead guard to be switched on; it is a guard whose blind spot is
-load-bearing.
+So **the exemption is doing its job for three distinct illustrative slugs, and simply deleting it
+would produce twelve false accusations.** This is not a dead guard to be switched on; it is a
+guard whose blind spot is load-bearing.
 
 ## The question
 
 **How does a document cite a named question distinguishably from illustrating one?** Four shapes:
 
+0. **Widen `tracked_files()` to select on the slug pattern too, not only `OQ <n>`.** This is not
+   in the original list because the audit that found the second mechanism came later; it is the
+   cheapest item here and the only one that closes the growing half. One regex, no ambiguity, and
+   it is a prerequisite for (1) rather than an alternative to it — (1) without it still leaves 9
+   prose citations unread and the number climbing.
 1. **Check slugs inside code spans, and give illustrations a form that is not a slug.** Rewrite the
-   fourteen as something the id pattern cannot match. **The first draft of this entry proposed
+   twelve as something the id pattern cannot match. **The first draft of this entry proposed
    `oq/<slug>` or `oq/example-only` and one of the two is wrong**: `SLUG_CITE` is
    `\boq/[a-z0-9][a-z0-9-]*`, so `oq/example-only` matches it exactly and adopting it would create
    the eleventh dangling citation this shape is meant to prevent — the entry proposing the fix
@@ -83,8 +153,9 @@ load-bearing.
    already carries `oq/two-id-namespaces` about the cost of the split.
 
 **(1) looks right and is not obviously right**, because "never write an example that looks like a
-slug" is a rule nobody will remember — which is how the fourteen got written in the first place,
-and how this entry's own proposed replacement broke it in the sentence proposing it.
+slug" is a rule nobody will remember — which is how they got written in the first place,
+and how this entry's own proposed replacement broke it in the sentence proposing it. **And (1)
+alone is not sufficient at all**, per (0) above.
 
 ## The entry convicted itself, which is the finding in one line
 
@@ -98,12 +169,15 @@ That is worth keeping rather than quietly fixing, because it sharpens the questi
 
 | context | scanned? |
 |---|---|
-| plain prose | yes — and this is the numbered namespace's citation form |
+| plain prose, **in a file carrying an `OQ <n>`** | yes — and this is the numbered namespace's citation form |
+| plain prose, in a file carrying none | **no** — the file is never opened; see the second blind spot above |
 | ``inline `code span` `` | **no** — and this is the slug namespace's citation form |
-| fenced ``` block ``` | yes |
+| fenced ``` block ``` | yes, **in an opened file** |
 
-So an author illustrating a slug has exactly one place to do it safely (an inline span) and that
-is the same place a citation lives. Any fix in shape (1) above must say what an illustration looks
+**An earlier version of this table said "plain prose — yes" without qualification, and it was
+false for three of this session's own question files.** The row is split now because the file
+selection decides before the span rule ever runs. So an author illustrating a slug has at most one
+place to do it safely (an inline span), and that is the same place a citation lives. Any fix in shape (1) above must say what an illustration looks
 like, or the next person writing about this problem will trip the same wire.
 
 ## Provenance

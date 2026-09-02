@@ -24,7 +24,7 @@ that — it did code archaeology and got a negative result. This does it.
 **The finding is that the diagram is wrong, not the search.** `centre-passage-double-pile` names
 eleven enclosed ground-floor rooms and a porch, and the plan built from it places twelve enclosed
 spaces. **Gunston Hall — the one exemplar whose first-floor spaces the survey enumerates — has six,
-in a footprint within a foot of the generated one.** Drayton Hall reads as six in a larger
+in a clear extent about 3 ft SMALLER on each dimension than the generated one.** Drayton Hall reads as six in a larger
 footprint; Hammond-Harwood's main block is SMALLER (49 ft wide on its own institution's figure —
 see §2) and its space count is not established here, so "six apiece for all three" is more than the
 evidence carries, and an earlier version of this sentence said it anyway.
@@ -39,7 +39,12 @@ are awkward or entirely impossible to effectively furnish."* The corpus already 
 position and already implements it, well. But the furniture check reads the **declared** record and
 never the drawing, so: over all sixteen plans, **25 of 231 placed rooms on the deterministic engine
 — and about 49 on the default one — cannot hold an essential piece of furniture that their own
-declared record can, and not one of those is reported.** Eight of the thirteen dining rooms in the
+declared record can, and the critic reports THAT FACT for none of them.** (Not one of the 20 is
+invisible, and an earlier version of this sentence said "not one of those is reported", which reads
+as though the sheet says nothing about the room: all 20 draw other findings — adjacency,
+completeness, daylight, code — and 7 draw a furniture finding about a different item. What is
+missing is the specific fact that the room as DRAWN cannot hold its own essential furniture.)
+Eight of the thirteen dining rooms in the
 corpus fail their own dining table. §8, which also records that the engine has to be named because
 the default one's figure is not reproducible.
 
@@ -121,8 +126,18 @@ measurement.
 
 **That change moves the conclusion rather than the row.** A declared 9 ft is not inside the
 observed range at its low end; it is under the smallest of the three. The corpus's centre-passage
-bay is narrower than every exemplar it names — which is the direction that produces the slivers,
-and one more reason a precise-looking figure taken from an approximation is worth nothing.
+bay is narrower than every exemplar it names, and one more reason a precise-looking figure taken
+from an approximation is worth nothing.
+
+**But an audit struck the clause that followed — "which is the direction that produces the
+slivers" — and it was wrong twice over.** First, **the 9 never reached the sheet Lucas read**:
+`derive_footprint` takes the module from `parti.scaling.bay_module_ft`, no plan record declares a
+parti, and `plan.schema.json` sets `additionalProperties: false` with no `parti` property, so a
+plan CANNOT declare one. The placed plan came out at 6 bays of **10.0 ft** — the function's own
+default — and the parti's 9 applies only on the compose path. Second, even where it does apply,
+**the module is area-neutral**: `H = need / W` (§3), so a narrower bay trades depth for width and
+changes no room's area. The narrow module is a real observation about the DIAGRAM and it is not
+the mechanism of the slivers; the mechanism is the room count.
 
 **Two more of the exemplars WP-9.2 was told to gather, and both say the same thing as the first
 three.**
@@ -156,9 +171,18 @@ main block absorbs an unequal program honestly.
 ## 3. The envelope is right. The subdivision is not.
 
 `plans/tidewater-georgian-careful.json` placed on `auto` comes out at **60.0 × 40.0 ft, 6 bays of
-10.0 ft, 2,400 sf gross per floor**. That is within one foot of Gunston Hall on both dimensions.
-The program's own declared area bands sum to 1,376–4,402 sf on the ground floor, so 2,400 sf sits
-comfortably inside them. **Nothing is wrong with the envelope and nothing is wrong with the area.**
+10.0 ft, 2,400 sf gross per floor**, and the honest comparison to Gunston Hall is a clear extent
+against a clear extent. **An earlier version of this paragraph said "within one foot of Gunston
+Hall on both dimensions", which compared the survey's EXTERIOR FOUNDATION figure to a wall-less
+model — the same two-bases error the table four lines below already corrects for area, left
+standing in the prose above it.** Gunston's 60'-10" × 40'-11½" over walls "about two feet thick"
+is a clear extent of about **56.8 × 37.0 ft**; the corpus's rectangles tile **60.0 × 40.0** with no
+wall thickness at all. Like for like the generated house is **about 3 ft larger on each dimension**
+and its clear area is **2,400 sf against 2,100–2,195 — 9 to 14% more**. The program's own declared
+area bands sum to 1,376–4,402 sf on the ground floor, so 2,400 sf sits comfortably inside them.
+**The envelope is close to right and the area is ample — which is the point, because the house
+still comes apart.** The generated plan cuts TWELVE spaces out of a clear area roughly a tenth
+larger than the one Gunston Hall cuts SIX out of.
 
 What is wrong is how many pieces it is cut into.
 
@@ -571,7 +595,7 @@ record. So a room declared adequate and drawn as a sliver passes its own furnitu
 
 | room | declared | drawn | verdict |
 |---|---|---|---|
-| `breakfast` | 12 × 14 | **7.0 × 27.0** | declared passes; drawn cannot take its essential table (needs 9.0 ft across, has 7.0) — **silent** |
+| `breakfast` | 12 × 14 | **7.0 × 27.0** | declared passes; drawn cannot take its essential table (needs 9.0 ft across, has 7.0) — **the shortfall is never stated** (the room draws other findings; none of them is this one) |
 | `cl3` | 3 × 7 | 2.0 × 19.0 | fires, but the statement says "has 3 ft" |
 | `dressing` | 8 × 12 | 6.0 × 18.0 | fires, but says "has 8 ft" |
 | `porch` | 6 × 12 | 3.0 × 23.0 | fires, but says "has 6 ft" |
@@ -612,7 +636,10 @@ engine change took fatals 123 → 36) and the two together say what the study sa
 good checker and a bad generator, and an engine can only optimise the terms it is given.
 
 **Between one placed room in nine and one in five cannot hold furniture its own record says it
-can, depending on which engine drew it, and nothing reports either.** The pattern is not random. **Eight of the thirteen dining rooms fail their own dining table when drawn on
+can, depending on which engine drew it, and the critic states that shortfall in neither case.**
+The rooms are not silent — they draw adjacency, completeness and daylight findings, and 7 of the 20
+draw a furniture finding about some other item — but the drawn shortfall itself is never named. The
+pattern is not random. **Eight of the thirteen dining rooms fail their own dining table when drawn on
 `engine="heuristic"`** — the table needs (40 + 2 × 54) / 12 = 12.33 ft across and the slicer draws
 them 10, 11, 6 ft wide while their records declare 14 to 18. Four of the thirteen already fail it
 as declared, so five are newly and silently broken by the placement. (An auditor made it eleven of
@@ -827,9 +854,15 @@ guard that cannot fire — checked both ways: on this plan it evaluates and publ
 refusal (*"The stair is not drawn: The stair hall is placed at 8.0 x 9.0 ft and a dog-leg with
 this storey's 17 risers needs 10.2 x 7.5 ft"*). But **27.04 ft is a pass**, and it is a pass
 *because* the stair has been banished to the corner at (50, 27), twenty-seven feet from the front
-door. The corpus has `faults/stair-at-the-front-door.json` for a stair too close and **nothing at
-all for a stair too far**, so the one measurement that touches complaint 6 rewards the very thing
-Lucas objected to. That asymmetry is not an oversight in the check — the rule it implements
+door. **The corpus DOES carry the other end and nothing reads it** — an earlier version of this
+paragraph said "nothing at all for a stair too far", which is false and understates the finding.
+`kits/georgian-colonial-american.kit.json` authors
+`stair_position.start_setback_from_front_door_ft` as **[6, 12] ft**, it resolves onto
+`tidewater-georgian` through the cascade, and BOTH `openings/grammar.json[op-stair-setback]`'s own
+basis string and `faults/stair-at-the-front-door.json`'s `rule_violated` quote the band in full.
+Only the floor of 6 was ever implemented. So the ceiling of 12 is authored, cited twice, and
+enforced nowhere — and the stair at 27.04 ft is more than twice it. That is worse than a missing
+rule: it is a number the corpus states, quotes as its authority, and does not check. That asymmetry is not an oversight in the check — the rule it implements
 (`openings/grammar.json[op-stair-setback]`, 6.0 ft, sourced in three records) is a minimum by
 design. What is missing is the other end, and the other end is not a distance: in this type the
 stair belongs *in the passage*, which is `oq/a-massing-states-its-structure-and-nothing-reads-it`

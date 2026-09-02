@@ -1082,7 +1082,9 @@ the three exemplars `centre-passage-double-pile` itself names. The finding is th
 asks a Georgian main block to hold twice the rooms any of its exemplars holds**, because six of
 its eleven enclosed ground rooms are service and all three exemplars put their service in a
 basement, an outbuilding or a wing. That reframes WP-9.3 and WP-9.4: the envelope the generator
-produces is within a foot of Gunston Hall on both dimensions, so nothing is wrong with the
+produces has a CLEAR extent about 3 ft larger on each dimension than Gunston Hall's (60.0 x 40.0
+of wall-less room rectangles against a 56.8 x 37.0 clear extent inside a 60'-10" x 40'-11½"
+exterior foundation), and 9 to 14% more clear area, so nothing is wrong with the
 footprint or the area, and no score term can undo a program that does not fit the type. **Six** open questions raised (an earlier version of this block named three): `oq/the-parti-dissolved-its-own-dependencies`,
 `oq/a-massing-states-its-structure-and-nothing-reads-it`,
 `oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it`,
@@ -1112,7 +1114,9 @@ score term, because both are deterministic and both make the critic honest rathe
 what it wants.** (a) **The furniture layer never sees the drawing.** `plan_check.py:1250-1288`
 reads `r["width_ft"]`/`r["length_ft"]` — the DECLARED record — so `breakfast`, declared 12 x 14
 and drawn 7.0 x 27.0, passes a check whose own arithmetic says it cannot hold its essential table
-(needs 9.0 ft across, has 7.0). That is Lucas's second complaint, unreported. Where the check does
+(needs 9.0 ft across, has 7.0). That is Lucas's second complaint, and the shortfall itself is never
+stated -- the room draws other findings (all 20 such rooms do, and 7 draw a furniture finding about
+a different item), so this is a missing FACT rather than an invisible room. Where the check does
 fire it quotes the declared figure, so `cl3` reads "has 3 ft" against a rectangle drawn 2.0 ft
 wide and every shortfall in the set is understated — the OQ 52 family. Re-run the SAME arithmetic
 in the `drawn` layer (the only layer permitted to read placement, OQ 54): one function, two
@@ -1125,7 +1129,8 @@ Python in `build/`, so a shared function is available and is the right form.
 **Ratchet the DETERMINISTIC figures and name the engine.** The WP-9.2 audit found that the
 originally published 133/50 are `engine="auto"` numbers that drift (130, 132, 133 on an unchanged
 tree) because `auto` solves 15 of 16 plans with CP-SAT under a time budget. `engine="heuristic"`
-gives **86 drawn fails and 25 silent rooms**, identical on three cold runs. Ratchet those, or pin
+gives **86 drawn fails and 25 rooms whose drawn shortfall is never stated**, identical on three
+cold runs. Ratchet those, or pin
 CP's budget and seed and prove stability first.
 (b) **Every furniture item is assumed to rotate.** `fw, fl = sorted(it["footprint_in"])` takes the
 short dimension as the across-the-room requirement, so the kitchen island `[84, 27]` is turned

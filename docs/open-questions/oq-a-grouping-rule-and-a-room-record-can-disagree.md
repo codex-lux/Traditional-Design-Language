@@ -97,8 +97,12 @@ main_ridge_ft between 0.6 and 0.8`, **hard**. `five-part-palladian` and `connect
 both groupings, and on a five-part plan the flanking dependencies **are** the service wings.
 The conflict is latent rather than live: `roof.py:348` selects the rule whose test
 `startswith("dependency_ridge_ft")`, builds the wing to 0.6–0.8, and names its own local variable
-`wing_ridge_ft`. `georgian-service-core`'s rule is evaluated by nothing and is satisfied by
-accident, because 0.6–0.8 is a subset of ≤0.85. Loosen the dependency band and they disagree.
+`wing_ridge_ft`. **`georgian-service-core`'s rule is not "evaluated by nothing" — an audit
+corrected that** (the sibling report carries the correction and this file did not): `plan_check`
+parses it and reports it **UNJUDGED** for want of a supplier, which is the corpus's own discipline
+working rather than a silence. What is true is that no supplier exists, so the rule never resolves,
+and it is satisfied in practice only because 0.6–0.8 is a subset of ≤0.85. Loosen the dependency
+band and they disagree, with nothing to notice.
 
 ## The question
 

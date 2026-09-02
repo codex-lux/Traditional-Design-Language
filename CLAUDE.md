@@ -621,18 +621,26 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   passes, identical on three cold runs; `engine="auto"` gives **130, 132, 133** on one unchanged
   tree, because it solves 15 of 16 plans with CP-SAT and CP-SAT under a time budget is not
   deterministic under load. **An earlier version of this entry published 133 and 50 with no engine
-  named.** `bedroom` 13/19, `dining-room` **8/13**, `kitchen` 6/16, `breakfast-room` 3/5.
+  named, and the correction then STOPPED MID-BULLET and left the per-type block and the
+  `spec-builder-colonial` illustration below as unlabelled `auto` readings -- a third pass caught
+  it.** Per type, on `engine="heuristic"` (deterministic): `entry-porch` 8/16, `bedroom` **8/19**,
+  `dining-room` **8/13**, `stair-hall` 7/13, `kitchen` 2/16. On `auto`, one run: `bedroom` 12/19,
+  `dining-room` 11/13, `kitchen` 5/16, `closet` 8/11.
   **And the engine comparison is a finding in itself: CP-SAT, the engine that PROVES, draws about
   131 unfurnishable items where the hill-climb draws 86** -- it proves what it is told and nothing
   tells it about shape, which sits exactly opposite WP-9.4's result that the same engine change
   takes fatals 123 -> 36. **RATCHET THE DETERMINISTIC FIGURES (86 and 25), never the `auto` ones**:
   a ratchet on a number that drifts +/-3 is a build that fails for no reason. A dining table needs
   (40 + 2 x 54)/12 = 12.33 ft across; the slicer draws dining rooms 10, 11, 6 ft wide against
-  records declaring 14-18. `spec-builder-colonial` draws a bedroom **6.0 x 38.0 ft** and two
-  closets **1.0 ft wide**. Where the check DOES fire it quotes the declared figure, so every
+  records declaring 14-18. **`spec-builder-colonial`'s `bed3` is engine-dependent and the extreme
+  figure is `auto`'s**: `auto` draws it **6.0 x 38.0 ft** with two closets **1.0 ft wide**;
+  `heuristic` draws it 8.4 x 22.8 with closets of 6.0 and 4.0 ft. The 1 ft closet is real and it is
+  drawn by the engine that PROVES. Where the check DOES fire it quotes the declared figure, so every
   shortfall in the set is understated (the OQ 52 family). Fix in the `drawn` layer — the only layer
   that may read placement (OQ 54) — as ONE function with two callers, never a second
-  transcription; and ratchet -- see the corrected figures above, NOT 50/133 -- because they are the honest measure
+  transcription (**and do NOT cite `openings.required_wall_ft` as the precedent for that: it is
+  deliberately spelled three times, one of them JavaScript, held together by
+  `tests/fixtures/sheet_symbols/`; the discipline transfers, the mechanism does not**); and ratchet -- see the corrected figures above, NOT 50/133 -- because they are the honest measure
   of whether a placement change helps. **Second defect: `fw, fl = sorted(it["footprint_in"])`
   assumes every item rotates**, so the kitchen island `[84, 27]` is turned sideways and a 10 ft
   kitchen passes at 9.25 ft where an island along its counter run needs 14.0 — which is why the
@@ -643,25 +651,46 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   number — against-wall runs summed against the room perimeter flag nothing (the kitchen's five
   appliances are 12.75 ft against an 80 ft perimeter) because perimeter is not available wall; a
   real one needs the placed openings. `docs/reports/wp-9.2-the-parti-is-not-the-type.md` §8.
-- **A SLUG IN A CODE SPAN IS NOT CHECKED, AND THAT IS TWO THIRDS OF THE LIVE NAMESPACE
-  (WP-9.2 audit).**
+- **THE CITATION GUARD VALIDATES 16% OF THE NAMED NAMESPACE, BY TWO MECHANISMS, AND THE SECOND
+  IS BIGGER THAN THE FIRST (WP-9.2 audit, corrected by a later pass).** **The second one first,
+  because two audit passes missed it and it GROWS.** `check_citations.py` does not scan the tree:
+  `tracked_files()` is `git grep --untracked -lE "OQ [0-9]+"`, so **a file carrying no NUMBERED
+  citation is never opened and nothing in it is checked in any context, plain prose included**.
+  Mutation-tested: the identical dangling slug in PLAIN PROSE is caught in
+  `wp-9.2-the-parti-is-not-the-type.md` and passes SILENTLY in
+  `oq-the-proportion-band-forbids-the-square.md`, `oq-the-parti-dissolved-its-own-dependencies.md`
+  and `oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md` -- three question files this
+  session authored. Eleven files are never opened; **eight are entries in the register itself**.
+  **And the numbers froze at 99, so a question raised today has no reason to carry an `OQ <n>` at
+  all: every new named entry is born outside the guard and the validated share falls with each
+  one.** Measured with the checker's own `tracked_files`/`CODE`/`SLUG_CITE`, excluding the
+  generated index: **164 mentions = 26 VALIDATED (15.9%), 120 hidden by the code-span exemption,
+  15 in never-opened files (9 of them plain prose), 3 in `SPECIMEN`. Unguarded 82.3%.**
+  **RE-MEASURE rather than quote these**: every one has moved in every pass that touched the entry,
+  and the entry carries the fifteen-line recipe. An earlier
+  version of this entry said "two thirds" and "56 in plain prose (checked)"; 26 of those 56 are
+  checked. **The fix is not the one the question first proposed**: checking code spans leaves the
+  9 prose citations unread and the count climbing, so `tracked_files()` must select on the slug
+  pattern too -- one regex, and the cheaper half.
+- **AND THE FIRST MECHANISM, WHICH IS STILL REAL: A SLUG IN A CODE SPAN IS NOT CHECKED.**
   `check_citations.py` blanks inline code spans before scanning -- deliberately, so a document can
   write `OQ 82 and 84` to illustrate a bug. **That exemption was written for the NUMBERED namespace
   where prose is the citation form; for slugs the convention is inverted** and
-  `` `oq/the-raw-kit-read` `` in backticks IS how this corpus cites a named question. Measured **at
-  `5572866`: 122 inside code spans (unchecked), 56 in plain prose (checked), 178 total -- 68.5% --
-  and 10 of the unchecked name no entry. This tree: 126/56/182, 69.2%, 14 unresolving.** The figure
-  MOVES as documents discuss it: 100/53/153 at `025329c`, 113/56/169 at `84314fa`, 122/56/178 at
-  `5572866`, 126/56/182 here. **The CHECKED count has not moved in four measurements while the
-  unchecked count has risen by 26**, because every document describing the problem writes more
-  slugs in backticks -- the finding demonstrating itself, most recently in the correction that
-  produced this sentence. Quote it with a commit or not at all. Mutation-tested -- a fake slug in
-  prose is caught, the same fake slug in backticks passes silently. **Do not just delete the
-  exemption**: of the 126 unchecked, 112 resolve and the 14 that do not are all deliberate --
-  `oq/no-such-question` is this checker's own test fixture (4 mentions),
-  `oq/span-partial-bearing-wall` is the illustrative slug `oq-two-id-namespaces` uses to explain
-  the scheme (7), and the placeholder below accounts for 3. The blind spot is load-bearing, which is
-  why this is a question and not a patch. **And the entry's own proposed fix contained the bug**:
+  `` `oq/the-raw-kit-read` `` in backticks IS how this corpus cites a named question. **120 of the
+  164 mentions this tree, on the buckets above.** The count MOVES as documents discuss it -- it was
+  100 at `025329c` and 113 at `84314fa` -- because every document describing the problem writes
+  more slugs in backticks, the finding demonstrating itself, most recently in the correction that
+  produced this sentence. **QUOTE ONE DENOMINATOR.** Earlier versions of this bullet published a
+  TREE-WIDE walk (126/56/182) beside the checker's own (121/26/165); the difference is almost
+  entirely `docs/open-questions.md`, the GENERATED index, which carries 19 mentions and which
+  `tracked_files()` excludes by name. The checker's denominator is the one that answers the
+  question, because the question is about the checker. Mutation-tested -- a fake slug in prose is
+  caught in an opened file, the same fake slug in backticks passes silently. **Do not just delete
+  the exemption**: of the 120, 12 name no entry and all are deliberate --
+  `oq/no-such-question` is this checker's own test fixture, `oq/span-partial-bearing-wall` is the
+  illustrative slug `oq-two-id-namespaces` uses to explain the scheme, and the placeholder below
+  accounts for the rest. The blind spot is load-bearing, which is why this is a question and not a
+  patch. **And the entry's own proposed fix contained the bug**:
   it offered a slug-shaped placeholder as a safe illustration form, and `SLUG_CITE`
   (`\boq/[a-z0-9][a-z0-9-]*`) matches any such thing exactly. Only a form the character class
   cannot match is safe -- `oq/<slug>` is, because `<` is outside it. **This entry deliberately does
@@ -714,10 +743,18 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   takes that comment at face value will believe the generator has a lever it does not have.
 - **THE PARTI IS NOT THE TYPE, AND NO SCORE TERM CAN FIX THAT (WP-9.2).**
   `centre-passage-double-pile` names eleven enclosed ground rooms and a porch; **its own three
-  named exemplars have six enclosed spaces apiece** — Drayton Hall 70'-5" x 52'-2" (HABS SC-377),
+  named exemplars have six enclosed spaces EACH WHERE THE COUNT IS ESTABLISHED, which is two of
+  the three** — Gunston Hall's six are enumerated by HABS VA-141 and Drayton Hall's six are named
+  in SC-377; **Hammond-Harwood's is NOT established here** and is a five-part scheme whose main
+  block is not comparable to a bare double pile without care. An earlier version of this line said
+  "apiece" of all three. Drayton Hall 70'-5" x 52'-2" (HABS SC-377),
   Gunston Hall 60'-10" x 40'-11½" (VA-141), Hammond-Harwood **49 ft wide on the house's own institution's
   figure** (MD-251's 1940 "approximately 44x42'" is an approximation and is low). The placed
-  Tidewater plan is 60.0 x 40.0 ft — **within a foot of Gunston Hall on both dimensions** — and
+  Tidewater plan is 60.0 x 40.0 ft of ROOM EXTENT with no wall thickness, against Gunston Hall's
+  60'-10" x 40'-11½" EXTERIOR FOUNDATION over two-foot walls — **a clear extent about 3 ft larger
+  on each dimension, and 2,400 sf of clear area against 2,100-2,195, 9 to 14% more** (an earlier
+  version of this line said "within a foot on both dimensions", comparing an exterior figure to a
+  wall-less model) — and
   puts TWELVE enclosed spaces in it. The envelope is right and the subdivision is not. Six of the
   parti's eleven rooms are service, and all three exemplars house their service in a basement, an
   outbuilding or a wing. **Area was never the binding constraint** (the ground program's own bands

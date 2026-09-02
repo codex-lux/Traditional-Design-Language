@@ -4,8 +4,8 @@
 
 **`partis/centre-passage-double-pile.json` names eleven enclosed ground-floor rooms and a porch,
 and the plan built from it places twelve enclosed spaces. Gunston Hall — the one exemplar whose
-first-floor spaces its survey enumerates — has six, in a footprint within a foot of the generated
-one.** That is the whole of the Chomsky complaint, measured.
+first-floor spaces its survey enumerates — has six, in a clear extent about 3 ft smaller on each
+dimension than the generated one.** That is the whole of the Chomsky complaint, measured.
 
 | | source | main block | bays | ft/bay | enclosed ground spaces |
 |---|---|---|---|---|---|
@@ -34,7 +34,11 @@ at all — its rectangles sum to 2,341 sf of a 2,400 sf footprint — so its twe
 dividing an exterior-foundation figure by six.
 
 **And the parti's declared `bay_module_ft: 9` is below all three exemplars** (9.80, 10.06, 12.17),
-which is the direction that produces slivers.
+which is the wrong direction for the type. **It is not, however, the mechanism of the slivers, and
+an audit struck that claim**: no plan record declares a parti (`plan.schema.json` sets
+`additionalProperties: false` and has no such property), so the placed sheet used
+`derive_footprint`'s own 10.0 ft default; and the module is area-neutral anyway, since `H = need /
+W`. The mechanism is the room count.
 
 **Six of the parti's eleven rooms are service** — butler's pantry, back hall, powder room,
 kitchen, pantry, breakfast room — and **all three exemplars house their service somewhere else.**
