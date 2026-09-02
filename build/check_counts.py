@@ -250,9 +250,9 @@ CLAIMS = [
     ("README.md",              "role_gaps",       r"first adjudication pass 2 Sep\): (\d+) role gaps"),
     ("README.md",              "unendorsed",      r"role gaps, (\d+) of them never judged"),
     ("README.md",              "judged",          r"of them never judged, (\d+) judged"),
-    ("docs/inheritance.md",    "inherited_packs", r"declines took `inherited_packs` to ([\d,]+) and `judged`"),
-    ("docs/inheritance.md",    "judged",          r"and `judged` to (\d+), and moved `unendorsed`"),
-    ("docs/inheritance.md",    "unendorsed",      r"moved `unendorsed`\nby four — 249 to (\d+)"),
+    ("docs/inheritance.md",    "inherited_packs", r"endorsements took `inherited_packs` to ([\d,]+) and `judged` to"),
+    ("docs/inheritance.md",    "judged",          r"and `judged` to\n(\d+), and moved `unendorsed`"),
+    ("docs/inheritance.md",    "unendorsed",      r"moved `unendorsed` from 249 to (\d+) —"),
     # THE TRAPS LIST, AND IT IS THE REASON THIS BLOCK EXISTS AT ALL. The claim above matches the
     # meter paragraph 700 lines lower; CLAUDE.md's traps list carried its OWN copy of
     # `unendorsed` and went stale at 249 while this checker printed "0 stale" over it -- which is

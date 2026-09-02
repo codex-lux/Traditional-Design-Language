@@ -161,7 +161,7 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
   building to look for, across 305 distinct queries; 180 of those are in the United States and so
   within HABS's charter.
 - **Generated guidelines and details, and costs** (WP-5.3, WP-5.4) — the workbench, the DXF/IFC export and drawing-to-record ingestion shipped; these two are what remain of the platform phase.
-- **What the lineage cascade delivers that nobody bound** (OQ 51, ruled 25 Aug, refusal half built 28 Aug, first adjudication pass 2 Sep): 283 role gaps, 245 of them never judged, 63 judged. Ruled adjudicate-first — but the backlog **refills as it is worked**, because declining a pack re-attributes the role to the next ancestor: one log node needs 26 declines over 9 rounds to reach fixpoint, so 245 is what is visible rather than what is required.
+- **What the lineage cascade delivers that nobody bound** (OQ 51, ruled 25 Aug, refusal half built 28 Aug, first adjudication pass 2 Sep): 279 role gaps, 239 of them never judged, 81 judged. Ruled adjudicate-first — but the backlog **refills as it is worked**, because declining a pack re-attributes the role to the next ancestor: one log node needs 26 declines over 9 rounds to reach fixpoint, so 245 is what is visible rather than what is required.
 - **Non-Western traditions.** Five traditions are modelled, deep on the North American lineage and its European roots. Japanese, Islamic, South Asian, and African traditions would each be a peer trunk, and the schema extends to them without modification. Cape Dutch already carries an acknowledged gap: its Cape and Indonesian strand has no node to point at.
 
 ---
