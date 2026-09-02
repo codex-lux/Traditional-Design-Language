@@ -58,6 +58,13 @@
       "direction": "at-least",
       "units": "deg",
       "measurable_from": "photograph",
+      "applies_when": {
+        "expression": "count_of_distinct_roof_slope_angles_on_the_building",
+        "direction": "at-least",
+        "threshold": 2,
+        "units": "count",
+        "note": "The difference between distinct slopes presupposes two of them. A house with ONE roof slope has no near-miss to measure, and build/elevation.py states that difference as 0.0 for a single-slope roof -- so both shipped reference plans were convicted of 'Every Wing Its Own Pitch' at 0.0 against at-least 8.0 on roofs with no wing at all. Zero dormers is not an even number of dormers (WP-5.13, dormer-off-the-bay), and one slope is not two slopes eight degrees apart. Added WP-9.1."
+      },
       "note": "The near-miss test, and the more diagnostic of the two. Two pitches 8 degrees apart (about 2:12) read as a decision; two pitches 3 degrees apart read as a failed attempt at the same pitch."
     },
     {

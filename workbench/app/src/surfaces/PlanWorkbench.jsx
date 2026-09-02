@@ -5,7 +5,7 @@
    derived keys. Unjudged is not passed: the could-not-evaluate panel draws from three
    kept-distinct sources and is styled as neither verdict. */
 import React from 'react';
-import { api } from '../api/client.js';
+import { api, jobEvents } from '../api/client.js';
 import { useStyles } from '../api/useStyles.js';
 import { planDoc, mutations } from '../state/planDoc.js';
 import { FindingRow } from '../components/FindingRow.jsx';
@@ -19,6 +19,8 @@ import { FilterStrip, Chip, ChipGroup, ActionChip, FilterGroup } from '../Chrome
 import { StylePicker } from '../components/StylePicker.jsx';
 import { PlateViewer } from '../components/PlateViewer.jsx';
 import { PullPane } from '../components/PullPane.jsx';
+import { RevisionPanel } from '../components/RevisionPanel.jsx';
+import { classesById, engineLabel, classTag, CLASSES } from '../revision.js';
 
 /* Findings carry a server-minted id now (OQ 32) — built from the layer, the room and the rule
    or fault id, which are what a finding is ABOUT. The hash below is the old client-side key and
@@ -50,6 +52,10 @@ function unjudgedReason(u) {
   return n.length ? 'needs ' + n.join(', ') : 'no test of this fault could be evaluated'
 }
 
+// the analyst's five classes, as the strip names them (the row's tag is the long form)
+const CLASS_SHORT = { actionable: 'a move answers', placement: "the engine's",
+  critic_suspect: "the critic's own", architect: "the architect's", advisory: 'advisory' };
+
 function findingKey(f) {
   if (f.id) return f.id;
   const s = `${f.layer}|${f.statement}|${f.room || ''}`;
@@ -70,6 +76,8 @@ function adaptFinding(f) {
     severity: f.severity, layer: f.layer, statement: f.statement,
     at: f.room, why: isFault ? undefined : f.rule, fix: f.fix,
     rule_ref: isFault && f.rule ? 'fault:' + f.rule : undefined,
+    // WP-9.1: every drawn finding carries the engine that placed the house it was read from
+    engine: f.engine,
     assertable, raw: f,
   };
 }
@@ -98,6 +106,20 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const [evalError, setEvalError] = React.useState(null);
   const evalRef = React.useRef(0);
   const lastFindingsRef = React.useRef(null);   // keys of the last APPLIED evaluation
+  /* WP-9.3: the analyst and the loop. `assessment` is the last critique, keyed by finding
+     id AND by the evaluation it was taken against (appliedSeq): the debounce re-evaluates
+     on every record change, and a class that labelled a finding of an EARLIER evaluation
+     would be a verdict about a house that is no longer on the sheet. `live` is the
+     in-flight revise job's rounds; it is cleared on done, on error, and whenever the plan
+     changes underneath it, so the panel is the record's own `revision_report` and undo
+     takes it away. */
+  const appliedSeqRef = React.useRef(0);
+  const [assessment, setAssessment] = React.useState(null);
+  const [critiquing, setCritiquing] = React.useState(false);
+  const [live, setLive] = React.useState([]);
+  const [revising, setRevising] = React.useState(null);      // null | 'submitting' | 'submitted' | 'running'
+  const [reviseError, setReviseError] = React.useState(null);
+  const reviseUnsub = React.useRef(null);
 
   React.useEffect(() => {
     api.planSchema().then((r) => setExamples((r.examples || []).map((e) => e.replace(/\.json$/, ''))));
@@ -131,6 +153,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
           ? new Set(res.check.findings.map((f) => findingKey(f)))
           : null;
         setEvalError(res?.check?.error || null);
+        appliedSeqRef.current = seq;
         setLastEval(res);
       })
       .catch((e) => {
@@ -141,6 +164,85 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
       })
       .finally(() => { if (seq === evalRef.current) setBusy(false); });
   }, [strict, seeds, setLastEval]);
+
+  /* WP-9.3: the analyst, on demand. Not per edit: evaluate is this server's bound (the
+     infrastructure audit), and a classification is asked for the way a proof is. `auto`
+     rather than the last evaluation's engine: the route accepts heuristic|cp|auto and the
+     placement reports cp-sat, and the solve cache makes the critique's placement the
+     sheet's when both asked for auto at the same candidate count. */
+  const runCritique = React.useCallback(() => {
+    const forSeq = appliedSeqRef.current;
+    setCritiquing(true);
+    setReviseError(null);
+    api.critique(plan, { engine: 'auto', candidates: seeds })
+      .then((res) => setAssessment({
+        forSeq, byId: classesById(res.assessment), counts: res.counts_by_class || {},
+        engine: res.engine?.ran, key: res.key,
+        couldNot: res.could_not_evaluate?.findings?.length || 0,
+      }))
+      .catch((e) => setReviseError('critique: ' + (e.body?.detail?.error || e.message || 'failed')))
+      .finally(() => setCritiquing(false));
+  }, [plan, seeds]);
+
+  /* The loop, as a job. Two chips, honest about cost: the search (rounds 6, 60 s) and the
+     proof-backed loop (rounds 4, 120 s). The revised record comes back STRIPPED of its
+     placement and is loaded through planDoc.load -- one undo step -- so the debounce
+     re-solves it as it does every load, and the panel says so. If the record changed
+     underneath the job, the revision is NOT applied: loading it would overwrite an edit
+     the reader made while waiting. */
+  const runRevise = React.useCallback((opts) => {
+    const submitted = plan;
+    setReviseError(null);
+    setLive([]);
+    setRevising('submitting');
+    let polling = null;
+    const finish = (job_id) => {
+      api.jobPlan(job_id)
+        .then((revised) => {
+          if (planDoc.get() !== submitted) {
+            setReviseError('the record changed while the loop ran — the revision was not applied');
+          } else {
+            planDoc.load(revised);
+          }
+        })
+        .catch((e) => setReviseError('revise: ' + (e.body?.detail?.error || e.message || 'could not fetch the revised record')))
+        .finally(() => { setLive([]); setRevising(null); });
+    };
+    /* A dropped stream is not a failed job. jobEvents suppresses EventSource's own reconnect
+       and reports 'stream closed'; the loop keeps running and its result is held server-side
+       for 30 minutes, so the bench POLLS the job until it ends rather than discarding minutes
+       of the one worker's time (the session's audit). A page refresh still abandons the job:
+       the record-changed check above is object identity and cannot survive one. */
+    const pollUntilDone = (job_id) => {
+      setRevising('running');
+      const tick = () => api.job(job_id).then((j) => {
+        if (j.status === 'done') finish(job_id);
+        else if (j.status === 'error') { setReviseError('revise: ' + (j.error || 'failed')); setLive([]); setRevising(null); }
+        else polling = setTimeout(tick, 3000);
+      }).catch((e) => { setReviseError('revise: ' + (e.message || 'lost the job')); setLive([]); setRevising(null); });
+      polling = setTimeout(tick, 3000);
+    };
+    api.revise(plan, { candidates: seeds, ...opts })
+      .then(({ job_id }) => {
+        setRevising('submitted');
+        if (reviseUnsub.current) reviseUnsub.current();
+        const unsub = jobEvents(job_id, {
+          stage: () => setRevising('running'),
+          round: (d) => { setRevising('running'); setLive((l) => [...l, d]); },
+          done: () => finish(job_id),
+          error: (d) => {
+            if (d && d.error === 'stream closed') { pollUntilDone(job_id); return; }
+            setReviseError('revise: ' + (d.error || 'failed')); setLive([]); setRevising(null);
+          },
+        });
+        reviseUnsub.current = () => { unsub(); if (polling) clearTimeout(polling); };
+      })
+      .catch((e) => { setReviseError('revise: ' + (e.body?.detail?.error || e.message || 'failed')); setRevising(null); });
+  }, [plan, seeds]);
+  React.useEffect(() => () => { if (reviseUnsub.current) reviseUnsub.current(); }, []);
+  // the plan changed underneath the panel (an edit, an undo, a load): the live rounds are
+  // no longer about this record
+  React.useEffect(() => { setLive([]); }, [plan]);
 
   /* Debounced re-evaluate on any plan-record change, on the engine that suits WHAT
      CHANGED THE RECORD.
@@ -213,6 +315,11 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const byLayer = layers.map((l) => ({ layer: l, rows: shown.filter((f) => f.layer === l) }))
     .filter((g) => g.rows.length);
   const newKeys = prevKeys ? findings.filter((f) => !prevKeys.has(f.id)).length : 0;
+  const assessmentStale = !!assessment && assessment.forSeq !== appliedSeqRef.current;
+  const classOf = (id) => (assessment && !assessmentStale ? assessment.byId.get(id) : null);
+  const statements = Object.fromEntries(findings.map((f) => [f.id, f.statement]));
+  const nonInfo = findings.filter((f) => f.severity !== 'info').length;
+  const classified = assessment ? CLASSES.reduce((n, c) => n + (assessment.counts[c] || 0), 0) : 0;
 
   const unjudgedConstraints = findings.filter((f) =>
     f.layer === 'style' && /cannot evaluate|check by hand/i.test(f.statement));
@@ -269,6 +376,17 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
               <ActionChip onClick={() => runEvaluate(plan, { engine: 'cp' })} affix="⊢"
                 title="WP-2.3: prove the placement with CP-SAT — hard constraints on the record's declared facts, a named conflict set if they cannot all hold. Takes seconds; per-drag re-scores stay on the fast search.">
                 prove placement (CP-SAT)</ActionChip>
+              <ActionChip onClick={runCritique} affix="?" disabled={critiquing || !!revising}
+                title="WP-9.1: the analyst — place once, check, and sort every finding into what it means to a generator: a move answers it, the engine's, the critic's own invention, or the architect's. One heavy call; not run per edit.">
+                {critiquing ? 'critiquing…' : 'critique'}</ActionChip>
+              <ActionChip onClick={() => runRevise({ engine: 'heuristic', rounds: 6, budget_s: 60 })}
+                affix="≫" disabled={!!revising}
+                title="WP-9.2: the corrective revisions on the fast search — up to 6 rounds, 60 s. Accepts a round only on a strict improvement, rolls back otherwise, and loads the result as one undo step. Refusals on the search are usually the engine's noise; read the panel's engine line.">
+                {revising && live.length === 0 && revising !== 'running' ? 'revise (search)…' : 'revise (search)'}</ActionChip>
+              <ActionChip onClick={() => runRevise({ engine: 'auto', rounds: 4, budget_s: 120 })}
+                affix="≫" disabled={!!revising}
+                title="WP-9.2: the corrective revisions proof-backed — CP-SAT is asked for before any declared move; up to 4 rounds, 120 s. Minutes, not seconds; the panel shows each round as it lands.">
+                revise (proof)</ActionChip>
             </span>
           </FilterGroup>
           {/* Undo stays OUT of the disclosure. The density pass tidied it in beside the
@@ -358,6 +476,8 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                 </div>
                 {g.rows.map((f) => (
                   <FindingRow key={f.id} finding={f} dense expanded={openId === f.id}
+                    engineTag={f.layer === 'drawn' ? engineLabel(f.engine) : null}
+                    classTag={(() => { const c = classOf(f.id); return c ? classTag(c.cls, c.item) : null; })()}
                     onToggle={() => setOpenId(openId === f.id ? null : f.id)}
                     onLocate={f.at ? () => setRoom(f.at) : undefined}
                     onCite={f.rule_ref ? () => onCite && onCite(f.rule_ref) : undefined}
@@ -447,6 +567,15 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                 color: evalError ? 'var(--sev-serious)' : 'var(--ink-2)', marginTop: 6 }}>
                 {evalError
                   ? `not evaluated: ${evalError} — what is shown below is the LAST successful evaluation`
+                  : reviseError
+                    ? `${reviseError} — the sheet below is the record as it stands`
+                  : revising
+                    ? (revising === 'submitting' ? 'revising: submitting…'
+                      // 'submitted', not 'queued': the client cannot see the pool, only that the
+                      // job exists and has not yet said `stage` -- which is what waiting behind
+                      // another job looks like from here, and also what the first 50 ms look like
+                      : revising === 'submitted' ? 'revising: submitted, waiting for the worker'
+                        : `revising… round ${live.length ? live[live.length - 1].n : '—'}`)
                   : relax
                     ? `${relax.count} cut(s) off the bay line` +
                       (relax.count ? ` · worst ${relax.max_off_grid_ft} ft — each is a joist run that does not land on a bearing wall` : '')
@@ -507,6 +636,36 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
               </p>
             </div>
           )}
+          {/* WP-9.3: the analyst's summary. DISPLAY ONLY -- a clickable class filter would be
+              per-surface filter state, which lives in the URL or not at all. data-classified
+              and data-findings are two routes' counts of one placement, for the walk. */}
+          {assessment && (
+            <div data-panel="critique" data-classified={classified} data-findings={nonInfo}
+              style={{ maxWidth: 1000, border: '1px solid var(--rule)',
+                borderLeft: `3px solid ${assessmentStale ? 'var(--ink-4)' : 'var(--gilt-deep)'}`,
+                padding: '10px 14px', margin: '0 0 14px', opacity: assessmentStale ? 0.7 : 1 }}>
+              <Eyebrow tone="secondary">
+                critique · by class{assessment.engine ? ` · ${engineLabel(assessment.engine)}` : ''}
+                {assessment.key ? ` · key [${assessment.key.join(', ')}]` : ''}
+              </Eyebrow>
+              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 6,
+                font: 'var(--type-data-s)', color: 'var(--ink-2)' }}>
+                {CLASSES.map((c) => (
+                  <span key={c} style={{ color: assessment.counts[c] ? 'var(--ink-2)' : 'var(--ink-4)' }}>
+                    {CLASS_SHORT[c]} {assessment.counts[c] || 0}
+                  </span>
+                ))}
+                <span style={{ color: 'var(--ink-4)' }}>could not evaluate {assessment.couldNot}</span>
+              </div>
+              <p style={{ font: 'var(--type-data-s)', color: assessmentStale ? 'var(--sev-serious)' : 'var(--ink-3)', margin: '8px 0 0' }}>
+                {assessmentStale
+                  ? 'this critique is of an earlier evaluation — the record has changed; run it again'
+                  : 'each finding row carries its class; a move answers it, or it is the engine\'s, the critic\'s own, or the architect\'s. Nothing here calls the plan good.'}
+              </p>
+            </div>
+          )}
+          <RevisionPanel report={plan.revision_report} live={live} statements={statements}
+            onCiteFinding={(id) => { setOpenId(id); const f = findings.find((x) => x.id === id); if (f?.at) setRoom(f.at); }} />
           {placement?.geometry_report?.solver?.refinements?.length > 0 && (
             <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', margin: '0 0 10px' }}>
               solver refinements ({placement.geometry_report.solver.refinements.length}):{' '}

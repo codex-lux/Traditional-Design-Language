@@ -63,7 +63,7 @@ class TestFamilyGeorgianBrief:
         The failure this file was originally written to catch is unchanged and still guarded:
         a scoring regression that drops the right Georgian diagram down the list still fails
         here. It is now pinned to a better right answer."""
-        result = compose_module.compose(_brief("family-georgian"))
+        result = compose_module.compose(_brief("family-georgian"), revise=False)
         assert result["candidates"][0]["parti_name"] == "Centre Passage, Double Pile"
 
     def test_the_winning_diagram_is_native_to_the_brief_s_style(self, compose_module):
@@ -75,7 +75,7 @@ class TestFamilyGeorgianBrief:
         move was legitimate."""
         import json as _json, os as _os
         brief = _brief("family-georgian")
-        result = compose_module.compose(brief)
+        result = compose_module.compose(brief, revise=False)
         winner = result["candidates"][0]
         parti = compose_module.PARTIS[winner["parti"]]
         chain = compose_module.PC.style_chain(brief["style"], compose_module.C)
@@ -83,14 +83,14 @@ class TestFamilyGeorgianBrief:
             f'{winner["parti_name"]} is native to no style in {brief["style"]}\'s lineage')
 
     def test_top_candidate_has_zero_fatal(self, compose_module):
-        result = compose_module.compose(_brief("family-georgian"))
+        result = compose_module.compose(_brief("family-georgian"), revise=False)
         top = result["candidates"][0]
         assert top["counts"].get("fatal", 0) == 0
 
     def test_returns_four_contrasting_candidates_never_one(self, compose_module):
         """Decision not to undo #10: the composer returns N contrasting
         candidates and never calls a plan 'good.'"""
-        result = compose_module.compose(_brief("family-georgian"))
+        result = compose_module.compose(_brief("family-georgian"), revise=False)
         assert len(result["candidates"]) == 4
         partis = {c["parti_name"] for c in result["candidates"]}
         assert len(partis) == 4, "candidates must be genuinely different partis, not near-duplicates"
@@ -98,14 +98,14 @@ class TestFamilyGeorgianBrief:
     def test_every_candidate_states_what_it_trades_away(self, compose_module):
         """The honest part, per docs/compose.md: 'every diagram gives something
         up.'"""
-        result = compose_module.compose(_brief("family-georgian"))
+        result = compose_module.compose(_brief("family-georgian"), revise=False)
         for c in result["candidates"]:
             assert c.get("trades_away"), f"{c['parti_name']} has no trades_away statement"
 
 
 class TestBungalowBrief:
     def test_open_linear_bungalow_ranks_first_with_zero_fatal(self, compose_module):
-        result = compose_module.compose(_brief("bungalow-small"))
+        result = compose_module.compose(_brief("bungalow-small"), revise=False)
         top = result["candidates"][0]
         assert top["parti_name"] == "Bungalow, Open and Linear"
         assert top["counts"].get("fatal", 0) == 0

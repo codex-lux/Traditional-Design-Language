@@ -142,23 +142,17 @@ def _solved_copy(plan, parti=None, candidates=250):
     return plan, solved
 
 
-# room-record keys that are solver output, never authored — stripped from what
-# the XDATA carries so the round-trip returns the authored record
-_SOLVED_ROOM_KEYS = ("geometry", "fixture_layout")
-_SOLVED_PLAN_KEYS = ("footprint", "geometry_report", "stair", "opening_report")
-# WP-6.2 put solver output INSIDE the openings for the first time. Until then everything the
-# placement wrote lived in keys of its own — `geometry` on a room, `footprint` on the plan —
-# and stripping the top level was enough. A door now carries the wall and the position the
-# placement gave it, or the reason it could not be placed, and those are as much solver
-# output as a rectangle is: leaving them in the XDATA made the round-trip return a record
-# the author never wrote. Caught by tests/test_export.py, which asserts the rebuilt record
-# deep-equals the authored one.
-# and the two are NOT the same list. A window has always declared its own `wall` — that is
-# an authored fact and stripping it lost it — while a door had no wall at all until 0.3.0,
-# so on a door `wall` is placement output. The distinction cost one round-trip failure to
-# find and is worth the two constants.
-_SOLVED_DOOR_KEYS = ("wall", "position_ft", "positions_ft", "hinge", "swing_into", "unplaced")
-_SOLVED_WINDOW_KEYS = ("position_ft", "positions_ft", "unplaced")
+# The keys a placement writes, and that the XDATA must NOT carry so the round-trip returns
+# the authored record, are spelled ONCE, in build/openings.py (WP-9.1) — the pass that
+# writes them owns the list, and build/revise.py strips a record with the same function
+# before re-placing it. They lived here alone until Phase 9. The window/door asymmetry is
+# real and is explained beside the constants: a window's `wall` is authored, a door's is
+# placement output. tests/test_export.py refuses a second spelling of any of the four.
+_OP = _mod("openings", f"{ROOT}/build/openings.py")
+_SOLVED_ROOM_KEYS = _OP.PLACEMENT_ROOM_KEYS
+_SOLVED_PLAN_KEYS = _OP.PLACEMENT_PLAN_KEYS
+_SOLVED_DOOR_KEYS = _OP.PLACEMENT_DOOR_KEYS
+_SOLVED_WINDOW_KEYS = _OP.PLACEMENT_WINDOW_KEYS
 
 
 def _room_record(room):
@@ -174,6 +168,17 @@ def _plan_meta(plan):
     meta = {k: v for k, v in plan.items() if k != "levels" and k not in _SOLVED_PLAN_KEYS}
     meta["levels_meta"] = [{k: v for k, v in lv.items() if k != "rooms"}
                            for lv in plan.get("levels", [])]
+    # WP-9.2: a `revision_report` is authored history and rides in the record, but a six-round
+    # report with attribution runs past the ~16 KB AutoCAD caps XDATA at per entity, and a
+    # marker that silently truncated it would be a record that lied. The SUMMARY travels,
+    # under its own name, and the note states what did not.
+    rep = meta.pop("revision_report", None)
+    if rep:
+        meta["revision_summary"] = {**(rep.get("summary") or {}),
+                                    "stop_reason": rep.get("stop_reason"), "mode": rep.get("mode"),
+                                    "note": ("the full revision_report -- every round, move, basis and "
+                                             "attribution -- is on the plan record and is NOT carried in "
+                                             "this DXF; XDATA is capped near 16 KB per entity")}
     return meta
 
 

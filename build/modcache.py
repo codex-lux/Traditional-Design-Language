@@ -73,6 +73,7 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import sys
 import threading
 
 _CACHE: dict[str, object] = {}
@@ -108,6 +109,17 @@ def load(name: str, path: str):
         if hit is not None:
             return hit
 
+        # ONE MODULE OBJECT PER FILE, WHATEVER IMPORTED IT (WP-9.4). The workbench server
+        # imports `core` through sys.path and the analyst (build/critique.py, revise.py)
+        # loads the same file here under the name `tdlcore`: two module objects, two
+        # `_data()` corpora in memory, and `/api/dev/reload` invalidating one of them. A
+        # module already in sys.modules whose file is this realpath IS the module; hand it
+        # back and remember it, so the first name a path is loaded under wins either way.
+        already = _already_imported(key, name)
+        if already is not None:
+            _CACHE[key] = already
+            return already
+
         spec = importlib.util.spec_from_file_location(name, key)
         if spec is None or spec.loader is None:
             raise ImportError(f"cannot load {name} from {path}")
@@ -127,8 +139,57 @@ def load(name: str, path: str):
         return module
 
 
+def _already_imported(realpath, name=None):
+    """The sys.modules entry whose __file__ is `realpath`, if one has finished executing.
+
+    One file can sit in sys.modules under TWO names -- `core` from a sys.path import and
+    `mcp_server.core` from a package import -- and the full test suite has both. Prefer the
+    entry named as asked, then the file's own basename (the name the server imports it by),
+    then whichever comes first; a caller that gets the package-imported copy where the
+    server holds the bare one would have the two-object problem back under a new name."""
+    stem = os.path.splitext(os.path.basename(realpath))[0]
+    found = {}
+    for modname, mod in list(sys.modules.items()):
+        f = getattr(mod, "__file__", None)
+        spec = getattr(mod, "__spec__", None)
+        if not f or spec is None:
+            continue
+        # `__spec__` is set BEFORE the body runs; the flag that means "finished executing"
+        # is the import system's own `_initializing` (the session's audit: a sys.path import
+        # sleeping mid-body in one thread was handed to a by-path load in another, and the
+        # docstring's "finished executing" was not what the code tested)
+        if getattr(spec, "_initializing", False):
+            continue
+        try:
+            if _realpath_of(f) == realpath:
+                found[modname] = mod
+        except (OSError, ValueError):
+            continue
+    if not found:
+        return None
+    for want in (name, stem):
+        if want in found:
+            return found[want]
+    return next(iter(found.values()))
+
+
+_REALPATHS: dict = {}
+
+
+def _realpath_of(f: str) -> str:
+    """realpath, memoised per `__file__` string: the sys.modules walk on a cold miss called
+    it once per entry (~1,000 in a pytest process, ~20 ms), and a `/api/dev/reload`
+    followed by sixty cold loads paid it sixty times over."""
+    hit = _REALPATHS.get(f)
+    if hit is None:
+        hit = _REALPATHS[f] = os.path.realpath(f)
+    return hit
+
+
 def invalidate(path: str | None = None) -> None:
-    """Drop one path (or the whole cache) so the next load() re-executes it.
+    """Drop one path (or the whole cache) so the next load() re-reads it -- from sys.modules
+    where a sys.path import holds the same file (then it is that import's object, not a
+    re-execution), else by executing the file again.
 
     Only needed by a process that mutates corpus files and then re-reads them
     in-process. Nothing does that today; the mutation tests use subprocesses.

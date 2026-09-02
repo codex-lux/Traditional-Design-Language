@@ -361,10 +361,9 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
 # ---------------------------------------------------------------- overlays
 
 def _profiles():
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("prof", os.path.join(ROOT, "build", "profiles.py"))
-    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
-    return m
+    # through the shared cache, like the engine at the top of this file: a second by-path
+    # load here was a second module object of profiles.py per run (the session's audit)
+    return modcache.load("profiles", os.path.join(ROOT, "build", "profiles.py"))
 
 
 def check_projection_datum(by_id):
@@ -374,9 +373,7 @@ def check_projection_datum(by_id):
     and the semidiameter under the axis reading, and a capital's widest member cannot sit
     inside the shaft. A pack that declares one thing and draws another is worse than a
     pack that declares nothing, because the next consumer will believe it."""
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("pe", os.path.join(ROOT, "build", "proportion_engine.py"))
-    pe = importlib.util.module_from_spec(spec); spec.loader.exec_module(pe)
+    pe = ENGINE
     for pid, pack in sorted(by_id.items()):
         if pack.get("kind") != "order-system":
             continue

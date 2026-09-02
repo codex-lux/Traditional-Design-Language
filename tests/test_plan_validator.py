@@ -59,7 +59,14 @@ class TestShippedPlans:
         # a check stopped looking: the finding that remains still fires, with a better number.
         # That a span-capacity charge produces a sittable porch is a coincidence of this plan's
         # geometry and not a claim about the term.
-        assert result["counts"]["serious"] == 53
+        # 53 -> 52 on 1 Sep 2026 (WP-9.1). `wing-pitch-drift`'s near-miss secondary --
+        # "the difference between distinct slope angles is at least 8 degrees" -- was running
+        # on a house with ONE roof slope, where build/elevation.py states that difference as
+        # 0.0, and convicting it of "Every Wing Its Own Pitch" on a roof with no wing. The
+        # secondary now carries an `applies_when` on the slope COUNT (the dormer-off-the-bay
+        # pattern: zero dormers is not an even number of dormers). One conviction on a
+        # quantity that did not exist, removed; the primary test still runs and clears.
+        assert result["counts"]["serious"] == 52
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -130,7 +137,9 @@ class TestShippedPlans:
         # than answered from fiction. This is the OQ 52 class, in the half NOT_MODELLED never
         # covered: a test that guards a refusal filter cannot see a supplied number that was
         # never refused. Measured on the merged tree, not carried from either side.
-        assert result["counts"]["serious"] == 30
+        # 30 -> 29 on 1 Sep 2026 (WP-9.1): the same `wing-pitch-drift` near-miss secondary,
+        # declining on this one-slope roof instead of convicting it. See the spec plan's pin.
+        assert result["counts"]["serious"] == 29
         # 67 -> 64 on 24 Aug 2026, same cause as the spec Colonial above (OQ 59).
         # 64 -> 62 (OQ 43): two of the minors were the substitution running backwards -- a
         # general room offered where a specific one was asked for -- and are now reported as the

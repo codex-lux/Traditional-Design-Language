@@ -90,6 +90,15 @@ grain. Both counts are ratcheted rather than assumed harmless.
 "date": 1765})` turns most `unjudged` verdicts into real answers, and a plan record already
 declares its `construction_type` and its date.
 
+**And a licence matches the style id EXACTLY, never its descendants (WP-9.1).** All three
+selection sites in `core.py` test `e["style"] == style`, so an exception written on
+`georgian-colonial-american` is never consulted for `tidewater-georgian` — while
+`applies_to_styles` walks the inheritance chain. `porch-too-shallow-to-inhabit` on the shipped
+Tidewater plan is not the Georgian licence failing; it is the licence never being read. That is
+`oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants`, unruled: whether an
+exception should follow the chain as `applies_to_styles` does, and whether a child may then
+decline it. Do not close it by copying exceptions down the tree.
+
 `applies_when` was added for a specific failure. `dormer-off-the-bay` carries the secondary `dormer_count % 2 == 1` — dormers are odd on a symmetrical front. The day a plan record could first state that a house carries **no** dormers, that stated zero was a real measurement, the parity test ran on it, and both reference houses were convicted of *"Dormers Off the Rhythm: 0 against equals 1."* Zero dormers is not an even number of dormers; it is no dormers. Any test whose expression divides by a count should carry a precondition, or it will error on the house that has none.
 
 ## Two axes of severity

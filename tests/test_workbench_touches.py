@@ -33,7 +33,7 @@ def test_compose_on_candidate_callback():
     comp = _load("compose")
     brief = json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
     seen = []
-    res = comp.compose(brief, 2, on_candidate=lambda c: seen.append(c))
+    res = comp.compose(brief, 2, on_candidate=lambda c: seen.append(c), revise=False)
     assert len(seen) >= len(res["candidates"])  # dropped-for-lot may reduce the kept set
     assert all("plan" not in c for c in seen)   # summaries only, never the whole plan
     assert all("score" in c and "parti" in c for c in seen)
@@ -52,7 +52,7 @@ def test_compose_on_candidate_callback():
 def test_compose_without_callback_unchanged():
     comp = _load("compose")
     brief = json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
-    res = comp.compose(brief, 2)
+    res = comp.compose(brief, 2, revise=False)
     assert res["candidates"]
 
 

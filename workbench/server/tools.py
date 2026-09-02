@@ -1,4 +1,4 @@
-"""The 24 rail tools — mcp_server/server.py's own wrappers, loaded without the mcp
+"""The 26 rail tools — mcp_server/server.py's own wrappers, loaded without the mcp
 package. A stub FastMCP collects the decorated functions, so the names, docstrings
 (the product's actual tool prose, encoding the operating rules) and argument
 signatures cannot drift from the MCP server: they ARE the MCP server's.

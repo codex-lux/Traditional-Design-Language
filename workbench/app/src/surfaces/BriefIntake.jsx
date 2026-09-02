@@ -113,6 +113,7 @@ export function BriefIntake({ go }) {
       unsubRef.current = jobEvents(job_id, {
         stage: (d) => session.pushProgress(d),
         candidate: (d) => session.pushProgress(d),
+        revised: (d) => session.pushProgress({ ...d, revised: true }),   // WP-9.3
         // no navigation here: yanking the user to the Candidate Set minutes later,
         // from wherever they are, is worse than letting the rail chip or the nav
         // take them — the immediate go() below already lands them there once

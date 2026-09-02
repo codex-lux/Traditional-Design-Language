@@ -18,6 +18,7 @@ placement. Every other layer stays geometry-blind, so a record nobody has placed
 is still judged on what it declares and the drawn layer reports COULD NOT
 EVALUATE rather than passing. That distinction is the whole of the change.
 """
+import os
 import time
 
 from . import corpus
@@ -48,10 +49,30 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
     # it was tried and was worse, because a second render landing mid-gesture replaces the
     # handle element under the pointer and the drag dies. The next change to the record
     # gets the proof.
+    # ONE BUILDING, JUDGED AND DRAWN (WP-9.1). Until Phase 9 this checked the DECLARED record
+    # and then placed it separately, returning the placement beside findings that had never
+    # seen it -- so the drawn layer (WP-6.2's whole point) reported "could not evaluate" on
+    # every bench evaluate, and the word "drawn" appeared nowhere in the app. The record is
+    # solved first now, the solved record is what plan_check judges (its drawn layer runs,
+    # and its elevation is derived from THIS placement rather than a fresh heuristic one), and
+    # `placement` is projected off the same object the sheet then draws. On a solver error the
+    # declared record is judged as before and `placement_error` says why.
     t0 = time.perf_counter()
-    check = core.check_plan(plan, strict=strict)
+    solved = None
+    if place:
+        geo = core._mod("geometry", os.path.join(core.ROOT, "build", "geometry.py"))
+        pt = core.load_parti(parti)
+        cand = geo.solve(core.copy_json(plan), pt, candidates, engine=engine)
+        if "error" in cand:
+            placement_error = cand["error"]
+        else:
+            solved, placement_error = cand, None
+    t_place = time.perf_counter()
+    check = core.check_plan(solved if solved is not None else plan, strict=strict)
     t1 = time.perf_counter()
-    out = {"check": check, "timing_ms": {"check": round((t1 - t0) * 1000)}}
+    out = {"check": check, "timing_ms": {"check": round((t1 - t_place) * 1000)}}
+    if place:
+        out["timing_ms"]["place"] = round((t_place - t0) * 1000)
     if "error" in check:
         return out
     # Per-room-type catalogue facts the overlays draw from (privacy rank, wet walls,
@@ -89,14 +110,8 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
     # clear one"), relocated one API boundary out. Found 28 Aug 2026 by the WP-5.14 audit.
     out["fault_not_applicable"] = check.get("fault_not_applicable", [])
     if place:
-        t2 = time.perf_counter()
-        # place_plan deep-copies its input itself (geo.solve(copy_json(plan), …));
-        # copying here too would serialize the record twice for nothing.
-        placement = core.place_plan(plan, parti=parti, candidates=candidates,
-                                    engine=engine)
-        out["timing_ms"]["place"] = round((time.perf_counter() - t2) * 1000)
-        if "error" in placement:
-            out["placement_error"] = placement["error"]
+        if solved is None:
+            out["placement_error"] = placement_error
         else:
-            out["placement"] = placement
+            out["placement"] = core.placement_summary(solved)
     return out

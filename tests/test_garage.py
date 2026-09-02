@@ -73,7 +73,7 @@ def test_composer_never_puts_a_garage_next_to_a_bedroom(brief_id):
     import compose
 
     brief = json.load(open(os.path.join(ROOT, "briefs", f"{brief_id}.json")))
-    for cand in compose.compose(brief, candidates=4)["candidates"]:
+    for cand in compose.compose(brief, candidates=4, revise=False)["candidates"]:
         plan = cand.get("plan") or cand
         if "levels" not in plan:
             continue
@@ -91,7 +91,7 @@ def test_composed_garage_has_exactly_one_interior_neighbour():
 
     brief = json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
     seen = 0
-    for cand in compose.compose(brief, candidates=4)["candidates"]:
+    for cand in compose.compose(brief, candidates=4, revise=False)["candidates"]:
         plan = cand.get("plan") or cand
         if "levels" not in plan:
             continue
@@ -116,7 +116,7 @@ def test_garage_is_placed_by_attachment_not_by_adjacency():
     assert forbidden, "the grouping should record at least one massing it refuses"
 
     brief = json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
-    for cand in compose.compose(brief, candidates=4)["candidates"]:
+    for cand in compose.compose(brief, candidates=4, revise=False)["candidates"]:
         plan = cand.get("plan") or cand
         if "levels" not in plan:
             continue

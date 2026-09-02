@@ -328,7 +328,7 @@ def test_cp_beats_or_out_honests_best_of_800_on_the_briefs(brief_rel):
     violations. Under 60 s per candidate, per the acceptance."""
     CO = mc.load("compose", os.path.join(BUILD, "compose.py"))
     brief = _load(brief_rel)
-    res = CO.compose(copy.deepcopy(brief), candidates=4)
+    res = CO.compose(copy.deepcopy(brief), candidates=4, revise=False)
     assert len(res["candidates"]) == 4, brief_rel
     placed = unsolved = 0
     for i, cand in enumerate(res["candidates"]):
