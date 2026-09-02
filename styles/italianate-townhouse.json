@@ -280,5 +280,16 @@
       "note": "Bound for the bracketed cornice, which on a townhouse is the whole of the family that survives: no porch, no valance, and the brackets carrying a heavy eave over a flat front. A useful check on the pack's member_count rule at its floor, since this is a building with exactly one of the three members and it is unambiguously Italianate for that reason.",
       "precedence": 8
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "balcony-gallery",
+      "reason": "The pack's own notes state its subject and its central claim plainly: not a material but \"a horizontal deck applied to a wall, carried in one of three ways, with a rail\", where \"DEPTH FOLLOWS CARRYING STRATEGY\" -- 30-48 in hung on rods or brackets, 5-8 ft cantilevered on the floor joists, 6-14 ft posted to grade. The node's own constraint c05 caps facade projection beyond the building line at 24 in and confines it to a single bay window or oriel, and the node calls itself \"flat-fronted\" against the villa; the shallowest of the pack's three regimes already exceeds that ceiling and none of the three is a bay window or oriel. I checked the coincidence before declining and refused to read it as agreement: the pack's special_window rule is a 7 ft floor-length window and says it \"is what the balcony is for\", and this node does have parlour windows with the \"sill within 12 in of the floor\" -- the figure agrees and the deck it exists to serve is forbidden by the node's own record.",
+      "basis": "node-record",
+      "quote": "Facade projection beyond the building line shall not exceed 24 in and shall be limited to a single bay window or oriel",
+      "quoted_from": "constraints[4].statement",
+      "decided": "2026-09-02",
+      "note": "Governs 7 slots. On a decline: eave_condition and porch_depth pass to facade-picturesque (italianate-american), porch_ceiling to facade-arcade (italian-renaissance), porch_rail to trim-sawn and special_window to facade-classical (both packs the node binds itself), and porch_support and roof_pitch to opening-pointed (gothic-revival-american) -- a Gothic arch pack left setting a brownstone's roof pitch, which is OQ 51's existing surface rather than anything this decline creates. 0 slots lose all dimensioning."
+    }
   ]
 }

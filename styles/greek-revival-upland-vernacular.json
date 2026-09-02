@@ -264,5 +264,25 @@
       "note": "The frame (non-log) construction mode -- the weatherboarded I-house or double-pen built new in frame rather than encasing an existing log pen. Bound optional and below log-module because the style's own long description treats the log-to-frame sequence as the more distinctive and more often overlooked case.",
       "precedence": 6
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "vignola-ionic",
+      "reason": "The pack's own notes state its subject as Vignola's Ionic order in full -- module of 18 parts, column 18 modules, pedestal 6, base, shaft, capital, volute and fluting -- every one of those figures measured off the semidiameter of a column at the base of the shaft. The node's governing_logic states in words that its classical reading is carried by board width and eave depth with no orders present, and its own tell records 'no columns anywhere on the building', so the datum this pack measures from does not exist on this building. This is not the blanket-refusal trap: the node HAS a proportional system and states it precisely, in trim widths and eave depths, and what it refuses is specifically an order. Its distinguished_from entry for the plantation variant turns on 'the presence or absence of an actual order' and puts this stratum on the absent side.",
+      "basis": "node-record",
+      "quote": "Classical proportion carried entirely by board width and eave depth, with no orders present.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; 0 lose all dimensioning; declining changes no dimension on this node -- trim-classical, bound directly at precedence 1, already wins every trim slot (baseboard, casing, chair_rail, wainscot, door_surround, window_surround_wood) this order pack could otherwise have reached. No node descends from greek-revival-upland-vernacular, so the decline does not propagate."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's notes are explicit that it is about the colonnade and not the order -- 'how many columns there are, where they stand, what they stand on, or what the wall behind them is doing' -- and the one slot it governs here, composition_parti, it dimensions with portico_share, corner_contraction and centre_bay_widening, all three of which presuppose a portico of columns on the front. The node's description refuses the portico by name and gives the reason, and continues that the support is 'a shed or hip porch on square or chamfered posts'; constraint c04 adds that free-standing classical columns are out of character. The pack's portico_share rule asks what fraction of the front the portico takes on an elevation that has no portico, and its corner_contraction rule asks about a Doric frieze over column axes on a building whose frieze is a board. The record contradicts the pack's stated subject rather than merely being silent about it.",
+      "basis": "node-record",
+      "quote": "There is no portico on the ordinary example, because a portico costs columns",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot, composition_parti; 0 slots lose all dimensioning; on decline composition_parti passes to facade-medieval-english (jacobean). Recorded honestly: that fallback is not obviously right for an upland I-house either -- a decline stops a wrong pack and does not supply a right one, and the node's own trim-classical binding note already names the missing exterior frieze-board and corner-pilaster pack as 'a genuine, acknowledged gap'. No node descends from greek-revival-upland-vernacular, so the decline does not propagate."
+    }
   ]
 }

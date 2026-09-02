@@ -273,5 +273,16 @@
         "material_change_rule"
       ]
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "vignola-composite",
+      "reason": "The pack's own notes are wholly about a full classical order — a column of 20 modules, an entablature of 5 divided 3:3:4, a denticular cornice, acanthus rows and diagonal volutes — and it reaches this node from beaux-arts-american at cascade depth 3 with no lineage edge between them, to dimension door_surround and frieze. The node's own record has already adjudicated this exact question one layer down: it binds trim-craftsman over trim-classical on the stated ground that nothing in its characteristics, tells or constraints calls for a classical order or an entablature-derived interior, and its facade binding note says flatly that there is 'No classical order anywhere in the defining characteristics or constraints'. The register the node states for itself is rustic timber and stone, and its only cornice is an eave line dormers break, not an order's. Same shape as tudor-revival's chambers-ionic decline: a classical order arriving by descent to dimension members the style does not have.",
+      "basis": "node-record",
+      "quote": "nothing in this variant's defining characteristics, diagnostic tells or constraints calls for a classical order or an entablature-derived interior",
+      "quoted_from": "proportion_packs[3].note",
+      "decided": "2026-09-02",
+      "note": "Governs 2 slots: door_surround and frieze. Declining passes both to palladio-tuscan (from italian-renaissance); 0 slots lose all dimensioning. Worth saying plainly: the decline stops THIS order and does not stop orders — the fallback is another classical pack, which is OQ 58's stated limit one layer down."
+    }
   ]
 }

@@ -270,6 +270,24 @@
       "quoted_from": "constraints[4].statement",
       "decided": "2026-08-28",
       "note": "Delivered by english-georgian at cascade depth 5-6 with no direct lineage edge between the two -- which is why this is written on the node and not on an edge."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "palladio-ionic's own notes state its subject without ambiguity: Palladio's Ionic order — a nine-module column, an entablature at a fifth of it divided 4 : 3 : 5, an Attic base at half a diameter, a modillion in place of the dentil. The node carries a HARD constraint naming orders and entablatures as forbidden throughout, and two of the four slots the pack governs here, frieze and cornice, are entablature members by name. This is the mechanism and not a coincidence of figures: the pack dimensions the very apparatus the node refuses, and the node's opening-pointed note independently says its openings take the moulded stone jamb rather than an applied architrave. The node has already declined chambers-ionic on this same sentence, an Ionic order arriving from the same Georgian cascade; leaving palladio-ionic would have the style refuse one Ionic order and accept another.",
+      "basis": "node-record",
+      "quote": "Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is forbidden throughout.",
+      "quoted_from": "constraints[4].statement",
+      "decided": "2026-09-02",
+      "note": "Governs 4 slots — cornice, crown, door_surround, frieze. All four fall through to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. The decline therefore stops THIS order and does not de-classicise the node — palladio-tuscan is the next candidate at all four addresses and needs its own judgment, which this pass does not make."
+    },
+    {
+      "pack": "trim-classical",
+      "reason": "trim-classical's own notes make its subject a derivation rather than a set of figures: \"A room is an order at reduced scale... the wall is the column, and the cornice is the entablature\", Vignola's pedestal at one third and entablature at one quarter, the wall divided 4 : 12 : 3 in nineteenths, its authority Vignola and Palladio Book I ch. XXVI. The three rules it delivers into trim_family on this node are the FULL ENTABLATURE height (ceiling * 3/19), a picture rail set at the bed of that entablature, and the member count of a Georgian cornice. The node's own record has already reasoned this exact question — the quoted sentence is the node's authored justification for binding room-vernacular over room-harmonic, and it refuses a treatise proportioned from the orders for this style's rooms in terms; c05 then forbids orders and entablatures \"throughout\", which reaches the interior. The one countervailing sentence, that Gothick was \"thin decoration to Georgian rooms\", describes a phase the same paragraph calls fancy dress and the node's floruit (1836-1885) sits after; it is a historical description, not a normative statement, and the hard constraint is.",
+      "basis": "node-record",
+      "quote": "c05 forbids classical apparatus throughout, so applying a treatise proportioned from the orders would contradict the style's own founding argument against classicism",
+      "quoted_from": "proportion_packs[2].note",
+      "decided": "2026-09-02",
+      "note": "Governs 1 slot, trim_family, and it LOSES ALL DIMENSIONING on a decline — nothing else in the cascade reaches it. Accepted deliberately: the corpus holds no Gothic interior-trim pack, and an entablature the style forbids is worse than a named gap. The gap is the honest state of the library, and it is the thing to fix next at this address."
     }
   ]
 }

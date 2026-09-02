@@ -270,5 +270,16 @@
       "note": "The type the pack's economics are about. Posts 4x4 to 6x6 turned with a swell of 5-7 in, spindle frieze 8-16 in with spindles 1.25-2 in at 3-5 in on centre -- consistently a quarter to two inches lighter than the Queen Anne figures at both ends, which is exactly what a cheaper house buys from the same catalogue. This node is the reason the pack exists in the form it does: Folk Victorian is not a style with an ornament vocabulary, it is a plain vernacular house with catalogue millwork applied, and the member_count rule is what describes it.",
       "precedence": 7
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes say it exists to state \"how many columns there are, where they stand, what they stand on, or what the wall behind them is doing\" for a peristyle, a Roman arch order or a colossal portico, and the rule it actually delivers to composition_parti fixes the portico at 0.55 within a range of 0.5 to 0.6 of the front, its note saying in terms that this \"is the rule that distinguishes a PORTICO from a COLONNADE and the two are different buildings\" because \"a portico is an event on an elevation and needs plain wall each side to be an event.\" Folk Victorian's typical_ratios put the porch across the full width of the principal elevation, and its hard constraint c03 adds that a partial or entrance-only porch does not satisfy the type: the node states 1.0 where the pack's band stops at 0.6, and by the pack's own taxonomy that makes this the colonnade case and not the portico the rule dimensions. The pack's other two composition_parti dimensions fare no better against a record whose bay_rhythm is \"Regular and simple, inherited from the folk type\" and whose symmetry is additive-vernacular -- there is no Doric frieze to force a corner contraction and no widened centre bay in a regular vernacular front. This is not the pack merely looking foreign to the node; it is the node's own stated figure lying outside the pack's own stated range on the single slot the pack governs here.",
+      "basis": "node-record",
+      "quote": "Porch depth 6 to 8 ft, running the full width of the principal elevation or the full length of the L",
+      "quoted_from": "proportional_system.typical_ratios",
+      "decided": "2026-09-02",
+      "note": "Governs 1 slot; declining moves composition_parti to facade-medieval-english, delivered from jacobean. 0 slots lose all dimensioning. --pair reports no live gate, so the change is to the dimension only, not to any check."
+    }
   ]
 }

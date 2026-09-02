@@ -89,11 +89,22 @@ def test_the_elevation_gate_is_an_AND_and_this_is_why_it_matters():
     un = [t for t in gaps if t[0] not in applies.get(t[3], ())]
     op_pending = {t[0] for t in un if t[3] == "opening-proportion"}
     fc_pending = {t[0] for t in un if t[3] == "facade-classical"}
-    assert not (op_pending & fc), (
-        "a node pending on opening-proportion is already in facade-classical: endorsing it now "
-        "DOES arm the elevation generator. Sweep it and re-pin.", sorted(op_pending & fc))
-    assert not (fc_pending & op), (
-        "mirror case: endorsing facade-classical here would arm the generator", sorted(fc_pending & op))
+    # THE SET IS PINNED, NOT ASSERTED EMPTY, AND IT STOPPED BEING EMPTY ON 2 Sep 2026.
+    # When this was written no pending node sat in the other pack's list, so endorsing either
+    # alone armed nothing. Sixteen declines later the facade role on two nodes had re-attributed
+    # to `facade-classical`, and both are already inside `opening-proportion` -- so for THOSE two,
+    # an endorsement would switch the whole elevation generator on. That is the backlog refilling
+    # changing what an endorsement MEANS, not just where it lands, and the guard caught it on the
+    # first run after the batch. Anything joining this set has to be swept
+    # (`build/sweep_gates.py opening-proportion --json`, diffed) before it is endorsed.
+    ARMS_IF_ENDORSED = {"facade-classical": {"folk-victorian", "greek-revival-upland-vernacular"},
+                        "opening-proportion": set()}
+    assert (op_pending & fc) == ARMS_IF_ENDORSED["opening-proportion"], (
+        "the set of opening-proportion gaps that would arm the generator changed -- sweep and "
+        "re-pin", sorted(op_pending & fc))
+    assert (fc_pending & op) == ARMS_IF_ENDORSED["facade-classical"], (
+        "the set of facade-classical gaps that would arm the generator changed -- sweep and "
+        "re-pin", sorted(fc_pending & op))
 
 
 def test_the_sweeper_can_tell_an_armed_gate_from_an_unarmed_one():

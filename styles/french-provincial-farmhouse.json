@@ -259,5 +259,25 @@
       "note": "The genoise, and the twin of the Tuscan gronda -- neither record mentions the other and both describe two to four courses of round tile corbelled out under the eave. This node supplies the clause that governs the construction: 'with no fascia, gutter or soffit board.' The corbel IS the eave detail, so a modern gutter bolted under it catches nothing, destroys the profile and leaves the wall a wet strip it did not have. And it supplies the only rule in this library stated as a declaration of wealth rather than as a consequence of structure or optics: 'the number of courses was, quite literally, a statement of the owner's standing.'",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes say its subject is the colonnade — how many columns there are, where they stand, what they stand on and how the columnar screen is reconciled with the wall behind it — and the three rules it actually delivers here dimension a portico taking half to three fifths of the front, a Doric corner contraction, and a podium approached by a stair at one end. The node's governing_logic states the opposite mechanism outright: the elevation follows from the beam span, the rubble wall and the orientation, and its composition is never a starting point. Its bay_rhythm is 'Irregular and functional' and its symmetry 'additive-vernacular', so there is no centre for a widened centre bay and no regular bayed front for a corner to contract. The one columned element this record names is the Bressan farm's external first-floor gallery, a posted timber gallery and not a peristyle in the pack's sense — that is a coincidence of having posts, not agreement about a screen.",
+      "basis": "node-record",
+      "quote": "The composition of the elevation is a consequence of these and of the orientation, never a starting point.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots; declining takes composition_parti, porch_type and steps_and_stoop each to NOTHING — all three lose all dimensioning, and the node carries no facade-role pack of its own to replace them. What it stops being handed is a Roman temple front on a Provencal farmhouse: a portico at 0.55 of the block width, a porch two column ranks deep, and a single-front podium approach."
+    },
+    {
+      "pack": "opening-proportion",
+      "reason": "The pack's notes say it owns the RECTANGLE — an opening's ratio, where its head sits and how it diminishes by storey — and name as its 'hardest rule ... and the least negotiable' that every window and door on a storey shares ONE head height on every elevation without exception, with the entry door sized as storey_height / 3.5. This node's record states the contrary as a diagnostic tell of the type: openings of visibly different sizes and heights on one elevation, the fenestration following the room. It also supplies the rival mechanism rather than merely denying this one — 'opening width is limited by the timber lintel or the stone relieving arch available' — so the rectangle here is set by what the mason could span over a rubble wall, not by a Palladian fraction of the storey. Unlike sash-light, whose arithmetic is a fact about the glass trade and survives a record with no proportional system, nothing in this pack stands outside the compositional head datum it is built on.",
+      "basis": "node-record",
+      "quote": "Window and door openings of visibly different sizes and heights on one elevation",
+      "quoted_from": "diagnostic_tells",
+      "decided": "2026-09-02",
+      "note": "Governs 6 slots; declining takes entry_door, secondary_door, special_window, transom_sidelight, window_head_wood and window_sill each to NOTHING — all six lose all dimensioning. That is the honest state for four of them: window_head_wood and window_sill go dark on a style whose openings are deep masonry reveals under a timber lintel or a stone relieving arch, and transom_sidelight and special_window were dimensioning a Georgian fanlight and a Venetian window on a mas. entry_door and secondary_door lose their only figures and nothing replaces them."
+    }
   ]
 }

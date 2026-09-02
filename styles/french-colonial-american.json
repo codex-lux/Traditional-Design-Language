@@ -272,5 +272,16 @@
       "note": "Bound for the same colombage, and this record supplies the pack's plinth rule with its own vocabulary attached: poteaux-EN-TERRE giving way to poteaux-SUR-SOL, posts set in the earth giving way to posts on a sill on a plinth. That is the same lesson learned in Louisiana that had been learned in England four centuries earlier, and it is the single most consequential detail in timber framing -- a sill in contact with the ground rots, and a frame with a rotten sill has lost its foundation.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes say its subject is the colonnade rather than the column -- how many columns there are, where they stand, what they stand on and what the wall behind them is doing -- and it names the Southern plantation colossal colonnade as one of its four settlements of that screen-and-wall problem. This node's record answers the same question and answers it the other way: a four- or six-bay front of identical French doors with no privileged centre denies the framed centre bay that two of the three composition_parti rules exist to widen (`centre_bay_widening`: 'no OTHER bay may open'), and denies the plain flanking wall that `portico_share` needs to make a portico 'an event on an elevation'. The distinguished_from entry for greek-revival-southern-plantation puts the giant order, the pediment and the central hall on the Anglo building that REPLACES this one, and gives this style's own supports as two-tier slender colonnettes that change material at the gallery floor. That is not the classical screen-and-wall problem stated differently; it is a different composition, and the pack has no dimension for it.",
+      "basis": "node-record",
+      "quote": "A four- or six-bay front of identical French doors, with no privileged centre, is normal",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 3 slots and all 3 lose ALL dimensioning: composition_parti -> NOTHING, porch_type -> NOTHING, steps_and_stoop -> NOTHING. No other pack in the cascade reaches them. Accepted: no dimension beats a Doric corner contraction, a half-front portico and a single approach stair delivered to a galerie house."
+    }
   ]
 }

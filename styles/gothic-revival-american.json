@@ -279,5 +279,16 @@
       "note": "The node that supplies the pack's organising rule as a decision procedure: 'bargeboard on the rake with no bracket under the eave: Gothic Revival. Brackets under a wide eave with no bargeboard: Italianate.' That single sentence is why this pack's central rule is a COUNT of members rather than a dimension of any one of them. It also gives the verge overhang at 12-24 in with the reason attached -- 'deep enough to shadow the bargeboard' -- which is what turns a pierced board into tracery.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "The pack's own notes state its subject as a modular classical order and nothing else: 'PROPORTIONALLY THIS IS VIGNOLA'S IONIC. Eighteen modules of column, four and a half of entablature, one of base', with three departures about which form rather than how big. It reaches this node at cornice, door_surround and frieze -- the entablature and its trim -- and the node's own record contradicts exactly that: it separates itself from Greek Revival by which line governs, giving the entablature to the style it reacts against and the roof to itself, while its governing_logic opens 'Not proportional'. This is not the blanket-refusal trap: unlike sash-light, whose subject is a fact about the glass trade, this pack's stated subject IS an applied modular proportional system, so the node's sentence bites on the pack's actual claim. The node's own door head is a label or drip moulding over the opening, not a Chambers architrave.",
+      "basis": "node-record",
+      "quote": "Greek Revival is symmetrical, horizontal, white, and low-pitched, with the entablature as the governing line; Gothic Revival is asymmetrical, vertical, coloured in earth tones on Downing's explicit instruction, and governed by the roof.",
+      "quoted_from": "distinguished_from[greek-revival-american].difference",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots -- cornice, door_surround, frieze. All three pass to palladio-ionic, delivered from english-palladian; 0 slots lose all dimensioning. So the decline stops this overlay but not the class: a classical Ionic still reaches this cottage's cornice through palladio-ionic, which carries the same contradiction and needs its own adjudication."
+    }
   ]
 }

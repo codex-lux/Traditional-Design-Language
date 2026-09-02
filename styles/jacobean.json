@@ -258,5 +258,16 @@
       "note": "The end of the tradition, and the node whose own record supplies the pack's second `window_grouping_rule` entry: 'the shaped gables establish a second, slower rhythm above the eaves line which may or may not align with the window bays -- where it does not, the mismatch is characteristic rather than a fault.' `styles/neoclassical-revival.json` uses almost the same words two centuries later and in another country. It also gives the porch column at 6-8 diameters -- not any order, because the orders here are 'used approximately and by rule of thumb from Serlio and de Vries plates', so a correctly proportioned order on a Jacobean porch is an anachronism. Behind `facade-gable`, which owns the shaped gable itself.",
       "precedence": 6
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "stone-course",
+      "reason": "The pack's own notes state its subject as a wall where the stone GOVERNS rather than merely occurs, with the module taken from the dressed stone bed and the rubble field treated as what is left over. Jacobean's record names red brick as the great-house wall and names coursed stone explicitly as the default this style moved away from, and its governing_logic puts the module in the window grid and the metre in the gable rhythm rather than in a mason's course. The reservation of stone for dressings is shared, but the field the pack proportions is not this style's field -- the pack's own wall_thickness note sets its 550 mm rubble against 'a brick wall doing the same job'. Chastleton is Cotswold limestone rather than brick, so stone does occur here; by the pack's own stated criterion it does not govern.",
+      "basis": "node-record",
+      "quote": "Red brick with stone dressings as the default great-house material in the lowlands, where the Elizabethan default was ashlar or coursed stone",
+      "quoted_from": "diagnostic_tells[2]",
+      "decided": "2026-09-02",
+      "note": "governs 10 slots; 8 fall back to packs jacobean itself binds -- corner_quoin, daylight_strategy, depth_and_pile, height_proportion, reveal_masonry and wing_strategy to timber-bay, wall_thickness_masonry to facade-medieval-english -- plus foundation_expression to facade-classical (italian-renaissance) and belt_course to jetty-overhang (english-medieval-timber-frame). roof_material loses all dimensioning: the pack was supplying the diminishing course of a stone slate roof, which this record nowhere claims."
+    }
   ]
 }
