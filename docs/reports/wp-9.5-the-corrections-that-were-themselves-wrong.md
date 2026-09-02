@@ -164,13 +164,18 @@ corpus: **268 of 761 derived rules (35.2%) carry no `quantity`, across 46 of the
 packs have none at all.** OQ 48's published collision ratios are measurements over the 64.8% that
 can be compared — honestly unjudged, and worth stating beside the ratio.
 
-**S6. The island fix would have convicted four of the corpus's own `good` reference plans.** The
-finding proposed not rotating the island; measured, that fails **11 of 16 declared kitchens (10
-newly)**, four of them `good-*`. The cause is applying a two-sided clearance to the item's long
-side — 84 + 2 × 42 = 14.0 ft across a room. Pairing each axis with its own clearance (9.25 ft
-across the short axis, 14.0 along the long) fails **4 of 16, every one a `bad` plan**. The corpus's
-own good/bad split is the nearest thing to a calibration this check has, and the naive fix fails
-it. This is the session's second instance of a proposed check convicting the reference plans.
+**S6. WAS ITSELF WRONG, AND WP-9.6 WITHDREW IT.** This finding said the island fix would convict
+four `good` reference plans, and recommended "pairing each axis with its own clearance" as the
+right formulation. **Both halves miss, because the pairing already exists**: `sorted()` assigns the
+item's short side to the room's width and its long side to the room's length, so the island's long
+axis is checked at 13.0 ft and fires on `bad-03` and `bad-04` today. The three-formulation table
+(1 of 16 / 11 of 16 / 4 of 16) measured formulations neither the code nor any fix uses, and the
+recommendation was a proposal to build something that existed. **The real defect was the `elif`** —
+the long axis tested only where the short axis had passed, dropping 41 declared and 15 drawn
+shortfalls already computed. **This is the fourth pass finding the third pass's correction wrong,
+and it is the cleanest example in this file of the rule the file is about**: S6 was produced by
+re-reading a sentence, and it died the first time anyone executed the function that sentence
+described.
 
 **S7. The `openings.required_wall_ft` precedent was cited for the opposite of what it is.** Three
 documents cited it as "one function, two callers, never a second transcription". It is
@@ -327,9 +332,8 @@ audits against.
   `rooms/stair-hall.json` means choosing between 7.25 in (the pack, which the Python follows) and
   7.5 in (the prose), which changes drawn stairs on every plan. That is a generator change and a
   ruling, not an audit correction.
-- **The island rule (S6) was measured and not built.** The correctly-paired formulation is stated
-  and its effect on all 16 declared kitchens is published; building it is a drawn-layer change and
-  belongs with the drawn-record fix the report already recommends.
+- **The island rule (S6) was WITHDRAWN, not deferred** — see the correction above. The pairing it
+  recommended already existed; the real defect was the `elif`, and WP-9.6 split it.
 - **The unquantified-rule class (S5) was measured and not closed.** 268 of 761 derived rules
   without a `quantity` is an authoring backlog with a ruling in front of it, not a patch.
 
@@ -449,3 +453,20 @@ The remaining risk is concentrated in numbers nobody has re-derived twice, and t
 S3's seven passage statements, S5's 268 unquantified rules, S6's three island formulations, and
 T1's buckets — which the entry itself now tells the reader to re-measure rather than quote, with
 the recipe, because every figure in it has moved in every pass that touched it.
+
+---
+
+## Postscript: a fourth pass, and S6 was wrong
+
+WP-9.6 built the two unblocked items this audit deferred and, in reading the code to do it,
+**withdrew S6 entirely**. The check already paired the axes; the finding had been produced by
+re-reading a sentence rather than by executing the function it described, three passes running.
+The real defect was the `elif` beside it, dropping 41 declared and 15 drawn shortfalls.
+
+That makes four passes and four corrections-of-corrections, and it sharpens this file's own
+closing claim rather than undoing it. **Every finding that survived came from running something.
+Every finding that had to be withdrawn came from reading.** S6 is the cleanest instance in the
+file, because it is the one where the sentence was plausible, internally consistent, supported by
+a table of real measurements, and about code that did not work that way.
+
+`docs/reports/wp-9.6-the-check-that-could-not-see-the-drawing.md`.

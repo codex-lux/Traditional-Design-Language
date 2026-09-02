@@ -94,7 +94,14 @@ class TestShippedPlans:
         # which carried a test nothing evaluated, and the mud room at 4 x 9 ft -- 2.25 to 1
         # against the 1.0-2.2 band its record states. 54 of the 60 room records declare a
         # `proportion` band and no line of code had ever read one.
-        assert result["counts"]["minor"] == 62
+        # 62 -> 74 on 2 Sep 2026 (WP-9.6): the furniture check's `elif` became two independent
+        # checks. The long axis was tested only where the short axis had PASSED, so a room
+        # failing both was told about one of them -- 41 shortfalls across the sixteen plans that
+        # the check had already computed and discarded, twelve of them here. **Serious 57 and
+        # fatal 4 are UNMOVED**, which is the evidence that this surfaced dropped facts rather
+        # than changing any judgement: every long-axis finding is minor, and nothing was
+        # re-graded.
+        assert result["counts"]["minor"] == 74
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -158,7 +165,12 @@ class TestShippedPlans:
         # whether the validator stays quiet on a house that respects the corpus -- against four
         # new serious on the spec Colonial. A check that convicts the careful plan and the
         # ordinary one alike is measuring something other than quality, and this one does not.
-        assert result["counts"]["minor"] == 61
+        # 61 -> 65 on 2 Sep 2026 (WP-9.6), the same `elif` split as the spec Colonial above and
+        # for the same reason -- four long-axis shortfalls this house was already failing and was
+        # never told about. **Serious 30 and fatal 0 are UNMOVED.** The careful plan takes four
+        # new minors where the ordinary one takes twelve, which is the ratio this pair of tests
+        # exists to watch.
+        assert result["counts"]["minor"] == 65
 
 
 class TestAdjacencyMechanics:

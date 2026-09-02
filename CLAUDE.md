@@ -167,7 +167,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,295 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,302 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -612,9 +612,25 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   not strong enough to build one. And Wells 1998's caution travels with them: "Mount Airy is the
   only surviving colonial Virginia house to manifest a clear compositional debt to an English
   pattern book", so the Palladian shape rules are NOT rules of the American tradition.
-- **THE FURNITURE CHECK READS THE DECLARED RECORD AND NEVER THE DRAWING, AND ONE PLACED ROOM IN
-  FIVE CANNOT BE FURNISHED (WP-9.2).** `plan_check.py:1250-1288` is a good check pointed at the
-  wrong record: `w, l = r.get("width_ft"), r.get("length_ft")`. Swept over all 16 plans, not the 2
+- **THE FURNITURE CHECK NOW READS THE DRAWING, AND IT IS ONE FUNCTION WITH TWO CALLERS
+  (WP-9.6 built this; WP-9.2 found it).** `plan_check.furniture_shortfalls(rt, w, l)` is the ONE
+  spelling of the fit arithmetic; the room layer hands it the DECLARED width and length and the
+  drawn layer hands it the PLACED rectangle. **Do not transcribe those expressions anywhere else,
+  and do NOT cite `openings.required_wall_ft` as the precedent for a shared rule** -- that one is
+  deliberately spelled three times, one of them JavaScript, held to one contract by
+  `tests/fixtures/sheet_symbols/`; the discipline transfers, the mechanism does not.
+  **The measurement that proved the blindness, and it is the cleanest in the phase: the furniture
+  layer emitted exactly 137 findings over the sixteen plans WHETHER OR NOT the plan carried
+  geometry.** Deterministic, `engine="heuristic"`. After WP-9.6: the drawn layer carries **86
+  across-shortfalls and 69 along-shortfalls** (drawn findings 419 -> 574), and the declared
+  furniture layer went 137 -> 178 from the `elif` split alone. On `auto` -- the engine that drew
+  the sheet Lucas read -- the Tidewater `breakfast` room is drawn 7.0 x 27.0 and the critic now
+  says *"cannot take its table, seats 4: needs 9.0 ft"*, which is his second complaint, computed
+  since WP-6.2 and stated for the first time. `tests/test_furniture_drawn.py` ratchets 86/69 and
+  is mutation-checked four ways. **RATCHET THE DETERMINISTIC FIGURES ONLY**: the same sweep on
+  `auto` returned 130, 132 and 133 on one unchanged tree.
+  The history below is kept because the defect is instructive: `plan_check.py` read
+  `w, l = r.get("width_ft"), r.get("length_ft")` and nothing else. Swept over all 16 plans, not the 2
   that ship: **231 placed rooms and 73 across-fails on the DECLARED record, both deterministic.**
   The DRAWN figure **depends on the engine and the default one is not reproducible**:
   `engine="heuristic"` gives **86 drawn fails and 25 rooms (11%)** failing an item their own record
@@ -641,11 +657,20 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   transcription (**and do NOT cite `openings.required_wall_ft` as the precedent for that: it is
   deliberately spelled three times, one of them JavaScript, held together by
   `tests/fixtures/sheet_symbols/`; the discipline transfers, the mechanism does not**); and ratchet -- see the corrected figures above, NOT 50/133 -- because they are the honest measure
-  of whether a placement change helps. **Second defect: `fw, fl = sorted(it["footprint_in"])`
-  assumes every item rotates**, so the kitchen island `[84, 27]` is turned sideways and a 10 ft
-  kitchen passes at 9.25 ft where an island along its counter run needs 14.0 — which is why the
-  10 x 30 kitchen Lucas called far too narrow survives its own furniture check. Needs a typed
-  orientation field, AUTHORED (WP-7.2 already paid for guessing `placement` from a name regex).
+  of whether a placement change helps. **THE "SECOND DEFECT" THIS BULLET USED TO NAME WAS NOT ONE, AND IT
+  SURVIVED THREE AUDIT PASSES (corrected WP-9.6).** It said `sorted(it["footprint_in"])` "assumes
+  every item rotates", turning the kitchen island `[84, 27]` sideways so a 10 ft kitchen passes at
+  9.25 ft where 14.0 is needed. **False.** `sorted()` pairs the item's SHORT side with the room's
+  WIDTH and its LONG side with the room's LENGTH -- that IS the paired-axis rule, already there:
+  `need_short = (fw + sides*cl)/12` against `w`, `need_long = (fl + 2*min(cl,36))/12` against `l`.
+  The island's long axis is checked at 13.0 ft and FIRES on `bad-03` (10x11) and `bad-04` (10x12);
+  a 12x16 kitchen holds it and should. The 10 x 30 sliver is caught by the drawn PROPORTION band
+  (3.0 against a 1.8 ceiling), not by furniture. **No typed orientation field is wanted** -- the
+  correction removes the reason for it, and authoring one would have been the expensive half of
+  the mistake. **The real defect was the `elif`**: the long axis was tested only where the short
+  axis had PASSED, dropping **41 declared and 15 drawn** shortfalls the check had already
+  computed. Both are independent checks now. **The sentence was re-read three times and survived;
+  it died the first time anyone executed the function it described.**
   **The relation itself is right and is not the bug: furniture sets FLOORS, never sizes** (OQ 92,
   "the tail wagging the dog"). A whole-room furnishability test was tried and REFUSED with its
   number — against-wall runs summed against the room perimeter flag nothing (the kitchen's five

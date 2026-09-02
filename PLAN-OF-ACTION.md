@@ -1132,12 +1132,14 @@ tree) because `auto` solves 15 of 16 plans with CP-SAT under a time budget. `eng
 gives **86 drawn fails and 25 rooms whose drawn shortfall is never stated**, identical on three
 cold runs. Ratchet those, or pin
 CP's budget and seed and prove stability first.
-(b) **Every furniture item is assumed to rotate.** `fw, fl = sorted(it["footprint_in"])` takes the
-short dimension as the across-the-room requirement, so the kitchen island `[84, 27]` is turned
-sideways and a 10 ft kitchen passes at 9.25 ft where an island laid along its counter run needs
-14.0 ft. That is why the 10 x 30 kitchen Lucas called far too narrow survives its own furniture
-check. Needs a typed field on the item (rotatable / fixed-to-wall / fixed-to-run), AUTHORED — WP-7.2
-already paid for inferring `placement` from a name regex. A whole-room furnishability test was
+(b) **WITHDRAWN, AND THE WITHDRAWAL IS THE POINT (WP-9.6).** This item read "every furniture item
+is assumed to rotate ... the kitchen island is turned sideways ... needs a typed field on the item,
+AUTHORED". It was wrong: `sorted()` pairs the item's short side with the room's WIDTH and its long
+side with the room's LENGTH, which is the paired-axis rule already present, and the island's long
+axis fires at 13.0 ft on `bad-03` and `bad-04`. No typed field is wanted. **What was really wrong
+was the `elif`** -- the long axis was tested only where the short axis had passed, dropping 41
+declared and 15 drawn shortfalls; they are two independent checks now. The item survived three
+audit passes because each one re-read the sentence; it died when someone ran the function. A whole-room furnishability test was
 tried and REFUSED with its measurement: against-wall runs summed against the room perimeter flag
 nothing (the kitchen's five appliances are 12.75 ft against an 80 ft perimeter), because perimeter
 is not available wall; a real one needs the placed openings and belongs in the drawn layer.

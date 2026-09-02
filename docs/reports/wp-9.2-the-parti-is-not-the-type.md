@@ -674,37 +674,51 @@ figures — **86 and 25 on `engine="heuristic"`** — or pin CP-SAT's budget and
 establish that the result is stable before trusting it. They are still the honest measure of
 whether anything WP-9.3 or WP-9.4 does to the placement actually helps.
 
-**(2) Every item is assumed to rotate, and that is why the kitchen passes.**
-`fw, fl = sorted(it["footprint_in"])` takes the SHORT dimension as the across-the-room
-requirement — right for a chair, wrong for anything whose orientation is fixed by what it serves.
-The kitchen island is `[84, 27]`; sorted gives 27, so a 10 ft kitchen needs
-(27 + 2 × 42) / 12 = 9.25 ft and passes. Laid the way an island is actually built — parallel to
-its counter run — it needs (84 + 2 × 42) / 12 = **14.0 ft**, and the 10 × 30 kitchen Lucas called
-far too narrow fails by four feet. **The kitchen survives its own furniture check because the
-check turns the island sideways.** The same is true of a counter run, a bed, a sofa against a
-wall, and the stair itself. The fix is a typed field on the item — rotatable, fixed to a wall,
-fixed to a run — authored, never guessed from the item's name: WP-7.2 already paid for inferring
-`placement` from a regex and getting 84 items where the authored data says 159.
+**(2) THIS SUBSECTION WAS WRONG, AND IT SURVIVED THREE AUDIT PASSES BEFORE ANYONE READ THE CODE
+IT DESCRIBED.** It said that `fw, fl = sorted(it["footprint_in"])` "assumes every item rotates",
+that the kitchen island `[84, 27]` is therefore "turned sideways", and that a 10 ft kitchen passes
+at 9.25 ft where an island along its counter run needs 14.0. **None of that is true.** Read
+against `plan_check.py`, `sorted()` assigns the item's SHORT side to the room's WIDTH and its LONG
+side to the room's LENGTH — which *is* the paired-axis rule, already present and already correct:
 
-**And an audit of this finding measured what the obvious fix would do, which is the step this
-report demands of everyone else.** Three formulations over the 16 declared kitchens:
+```python
+need_short = (fw + sides * cl) / 12.0          # short side vs room WIDTH
+need_long  = (fl + 2 * min(cl, 36)) / 12.0     # long side  vs room LENGTH
+```
 
-| rule | kitchens failing the island | which |
+The island's long axis is checked, at 13.0 ft, and it **fires** — on `bad-03` (10 × 11) and
+`bad-04` (10 × 12). The 12 × 16 spec-builder kitchen passes both and should: 84 in of island plus
+two 36 in aisles is 13.0 ft in a 16 ft room. And the 10 × 30 sliver Lucas named is caught by the
+drawn **proportion** band (3.0 against a 1.8 ceiling), not by furniture at all. So the "three
+formulations" table an audit added under this heading — 1 of 16 / 11 of 16 / 4 of 16 — measured
+formulations that neither the code nor any proposed fix uses, and the audit's recommendation was
+a proposal to build something that already existed.
+
+**What is actually wrong with the block, measured.** The defect is the `elif`, not the pairing:
+the long axis was tested only where the short axis had PASSED, so a room failing both was told
+about one of them.
+
+| | declared record | drawn (heuristic) |
 |---|---|---|
-| today — always take the short side | **1 of 16** | one `bad` plan |
-| "never rotate the island" — always the long side | **11 of 16** (10 of them newly) | including `good-01`, `good-02`, `good-04`, `good-06` |
-| both axes, each paired with its own clearance | **4 of 16** | `bad-01`, `bad-03`, `bad-04`, `bad-06` — every one a `bad` plan, no `good` plan touched |
+| short-axis failures reported | 75 | 86 |
+| long-axis failures | 104 | 69 |
+| **long-axis failures dropped by the `elif`** | **41** | **15** |
 
-**So the naive fix is wrong in the way this session has already been caught once**: it convicts
-four of the reference plans the corpus holds up as correct, which is the signature of a check
-measuring the wrong thing rather than of six good plans being wrong. The reason is that "never
-rotate" applies the item's *two-sided* clearance to its *long* side — 84 + 2 × 42 = 14.0 ft across
-a room, which is wider than most real kitchens with islands. The island's clearance belongs on the
-axis it is crossed on: **9.25 ft across the island's short axis and 14.0 ft along its long one**,
-and a room satisfies it when its short dimension takes the first and its long dimension the
-second. That formulation separates the corpus's own `good` and `bad` sets exactly, which is the
-nearest thing to a calibration this check has. It is stated here as the finding; it is not built,
-because building it is a drawn-layer change and belongs with the drawn-record fix above.
+Both are two independent checks now (WP-9.6), which is +41 findings on the declared record and
++15 on the drawn one — facts the check computed and discarded. They are not silences: the room
+still took its short-axis finding. The second fact was simply never stated, and a room too narrow
+for a bed is very often also too short for it.
+
+**Two things are worth carrying out of this.** A typed orientation field on furniture items is
+**not** wanted — the correction removes the reason for it, and authoring a field to fix a
+non-defect would have been the more expensive half of the mistake. And the method that caught it
+is the one this report preaches at everyone else: the sentence was re-read three times and
+survived; it died the first time anyone executed the function it described.
+
+**One thing is refused rather than fixed.** `min(cl, 36)` caps the long axis's clearance — its
+comment reads "ends take chair pull, not full passage", which is right for a table and arguable
+for an island. Four drawn items fail the long axis at full clearance and pass at the cap. Changing
+it is authoring a threshold, which WP-9.6 does not do; the number is recorded here instead.
 
 **(3) Items are checked one at a time and nothing sums them — but the obvious whole-room test
 does not bite, and here is the measurement rather than a silence.** Summing every essential

@@ -131,7 +131,16 @@ def tracked_files():
     # --untracked, because a NEW file is exactly where a fresh citation lives. Without it the
     # checker read only committed files: this package's own report quoted the bug form and was
     # invisible until `git add`, which is the worst possible moment to start checking.
-    out = subprocess.run(["git", "grep", "--untracked", "-lE", r"OQ [0-9]+", "--", "."],
+    # WP-9.6: the pattern selects on BOTH id forms. Until then it was `OQ [0-9]+` alone, so a
+    # file carrying no NUMBERED citation was never opened and nothing in it was checked in any
+    # context -- plain prose included. Mutation-tested at the time: an invented slug in PLAIN
+    # PROSE was caught in docs/reports/wp-9.2-the-parti-is-not-the-type.md and passed SILENTLY in
+    # three question files that happened to carry no `OQ <n>`. Eleven files were unreachable and
+    # eight of them were entries in the register itself -- and because the numbers froze at 99,
+    # every NEW named question is born without an `OQ <n>` and so was born outside the guard. The
+    # hole grew with the namespace, which is the opposite of what a guard should do.
+    out = subprocess.run(["git", "grep", "--untracked", "-lE",
+                          r"OQ [0-9]+|oq/[a-z0-9][a-z0-9-]*", "--", "."],
                          cwd=ROOT, capture_output=True, text=True).stdout.split()
     # The register defines the ids; it does not cite them, and its conversion
     # tables carry bare historical numbers ON PURPOSE (see check C).

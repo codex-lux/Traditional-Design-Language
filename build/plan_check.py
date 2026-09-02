@@ -340,6 +340,77 @@ HABITABLE = {"public", "living", "dining", "sleeping", "work", "circulation",
              "threshold", "sanitary", "service"}
 
 
+def furniture_shortfalls(rt, w, l):
+    """Which essential items of `rt` will not fit a `w` x `l` ft rectangle, and by how much.
+
+    ONE spelling of the fit arithmetic with TWO callers -- the room layer, which hands it the
+    DECLARED width and length, and the drawn layer, which hands it the PLACED rectangle. Until
+    WP-9.6 only the first existed, so a room declared adequate and drawn as a sliver passed its
+    own furniture check: over the sixteen plans the furniture layer emitted 137 findings whether
+    or not the plan carried geometry, which is the measurement of a check that cannot see the
+    drawing. Callers differ in WORDING and LAYER and never in arithmetic; do not transcribe these
+    expressions anywhere else. (`openings.required_wall_ft` is NOT the precedent for this -- that
+    rule is deliberately spelled three times, one of them JavaScript, and held together by
+    tests/fixtures/sheet_symbols/. The discipline transfers; the mechanism does not.)
+
+    `w` is the SHORT dimension and `l` the LONG one, and the item is paired the same way: its
+    short side is charged against the room's width and its long side against the room's length.
+    WP-9.2 s8 published that `sorted()` here "assumes every item rotates" and so turned the
+    kitchen island sideways; that was wrong, and reading this function rather than that sentence
+    is what found it. The pairing is the rule, not a defect -- an 84 x 27 in island in a 12 x 16
+    ft kitchen needs 9.25 ft across and 13.0 ft along, and gets both.
+    """
+    out = []
+    for it in rt.get("furniture", []):
+        if not it.get("essential", True) or not (w and l):
+            continue
+        fw, fl = sorted(it["footprint_in"])
+        # Some catalogue entries use clearance_in for a VIEWING or standing distance rather
+        # than a physical gap - a television and a hung picture are both about four inches
+        # deep. Nothing four inches deep constrains the width of a room, so anything without
+        # real bulk is not a fit constraint.
+        if fw < 8:
+            continue
+        # Read, never coerced. `or 0` here turned an unstated clearance into a measured zero
+        # (OQ 52's smaller member): the catalogue's twenty nulls all meant zero, but so would
+        # an item whose clearance an author forgot, and nothing told them apart. clearance_in
+        # is now a required number in schema/room.schema.json, so a missing one fails
+        # check_rooms rather than passing this check silently.
+        cl = it["clearance_in"]
+        # A table needs clearance on both sides; a counter, bench, sideboard or run of
+        # casework is against a wall and needs it on one. Treating them alike fails every
+        # galley kitchen and butler's pantry against its own rule.
+        # WP-7.2: READ, never inferred. `placement` is declared in
+        # schema/room.schema.json and was authored on all 278 furniture items; until then
+        # it was on 0 of them and this line guessed from the item's NAME with a regex --
+        # a guess in code where the schema has a field, which is the pattern this project
+        # keeps paying for. The regex called 84 items against-wall; the authored data
+        # calls 159, so it had been demanding two-sided clearance for a sideboard, a
+        # nightstand and a console table alike. `check_rooms.py` now requires the field,
+        # so it cannot silently go missing again.
+        place = it.get("placement") or "freestanding"
+        sides = 1 if place in ("against-wall", "corner", "built-in") else 2
+        need_short = (fw + sides * cl) / 12.0
+        need_long = (fl + 2 * min(cl, 36)) / 12.0     # ends take chair pull, not full passage
+        # TWO INDEPENDENT CHECKS, NOT AN `elif`. Until WP-9.6 the long axis was tested only
+        # when the short axis had PASSED, so a room failing both was told about one of them:
+        # 41 long-axis shortfalls on the declared record and 15 on the drawn one were computed
+        # here and dropped. They are not silences -- the room still took its short-axis finding
+        # -- but the second fact was never stated, and a room too narrow for a bed is very often
+        # also too short for it.
+        short = w + 1e-6 < need_short
+        long_ = l + 1e-6 < need_long
+        if short:
+            out.append({"axis": "short", "item": it["item"], "need_ft": need_short,
+                        "have_ft": w, "sides": sides, "clearance_in": cl,
+                        "placement": place, "item_in": fw})
+        if long_:
+            out.append({"axis": "long", "item": it["item"], "need_ft": need_long,
+                        "have_ft": l, "sides": sides, "clearance_in": cl,
+                        "placement": place, "item_in": fl})
+    return out
+
+
 def drawn_layer(plan, rooms, level_of, C, F):
     """Judge the house that was PLACED, not the one that was declared.
 
@@ -712,6 +783,30 @@ def drawn_layer(plan, rooms, level_of, C, F):
                       f"{plo}-{phi} band a {rt['name'].lower()} is drawn to. The record "
                       f"declares {r.get('width_ft')} x {r.get('length_ft')} ft; the "
                       f"placement kept the area and lost the room.",
+                      room=rid, rule=dims.get("critical_dimension"),
+                      fix="The placement, not the record, is what has to change here.")
+
+        # WP-9.6: the same catalogue arithmetic the room layer runs, against the rectangle that
+        # was DRAWN. `furniture_shortfalls` is the one spelling of it; this caller differs from
+        # the room layer's in wording and layer and in nothing else. Until this block the
+        # furniture layer emitted 137 findings across the sixteen plans whether or not the plan
+        # carried geometry -- so `breakfast`, declared 12 x 14 and drawn 7.0 x 27.0, passed a
+        # check whose own arithmetic says it cannot take its essential table. That is Lucas's
+        # second complaint, computed and never stated.
+        for s_ in furniture_shortfalls(rt, gw, gl):
+            if s_["axis"] == "short":
+                F.add("serious", "drawn",
+                      f"{name} is DRAWN {s_['have_ft']:.1f} ft across and cannot take its "
+                      f"{s_['item']}: needs {s_['need_ft']:.1f} ft ({s_['item_in']} in item + "
+                      f"{s_['sides']} x {s_['clearance_in']} in clearance, {s_['placement']}). "
+                      f"The record declares {r.get('width_ft')} x {r.get('length_ft')} ft, which "
+                      f"holds it.",
+                      room=rid, rule=dims.get("critical_dimension"),
+                      fix="The placement, not the record, is what has to change here.")
+            else:
+                F.add("minor", "drawn",
+                      f"{name} is DRAWN {s_['have_ft']:.1f} ft along its length and is tight for "
+                      f"its {s_['item']}: needs about {s_['need_ft']:.1f} ft.",
                       room=rid, rule=dims.get("critical_dimension"),
                       fix="The placement, not the record, is what has to change here.")
 
@@ -1248,44 +1343,15 @@ def check(plan, C=None, strict=False):
             F.add("serious", "room", f"{label} ceiling {ch} ft is under the {cmin} ft the room type wants.", room=rid)
 
         # ---- furniture fit: the check most plans have never had run on them
-        for it in rt.get("furniture", []):
-            if not it.get("essential", True) or not (w and l): continue
-            fw, fl = sorted(it["footprint_in"])
-            # Some catalogue entries use clearance_in for a VIEWING or standing distance rather
-            # than a physical gap — a television and a hung picture are both about four inches
-            # deep. Nothing four inches deep constrains the width of a room, so anything without
-            # real bulk is not a fit constraint.
-            if fw < 8:
-                continue
-            # Read, never coerced. `or 0` here turned an unstated clearance into a measured zero
-            # (OQ 52's smaller member): the catalogue's twenty nulls all meant zero, but so would
-            # an item whose clearance an author forgot, and nothing told them apart. clearance_in
-            # is now a required number in schema/room.schema.json, so a missing one fails
-            # check_rooms rather than passing this check silently.
-            cl = it["clearance_in"]
-            # A table needs clearance on both sides; a counter, bench, sideboard or run of
-            # casework is against a wall and needs it on one. Treating them alike fails every
-            # galley kitchen and butler's pantry against its own rule.
-            # WP-7.2: READ, never inferred. `placement` is declared in
-            # schema/room.schema.json and was authored on all 278 furniture items; until then
-            # it was on 0 of them and this line guessed from the item's NAME with a regex --
-            # a guess in code where the schema has a field, which is the pattern this project
-            # keeps paying for. The regex called 84 items against-wall; the authored data
-            # calls 159, so it had been demanding two-sided clearance for a sideboard, a
-            # nightstand and a console table alike. `check_rooms.py` now requires the field,
-            # so it cannot silently go missing again.
-            place = it.get("placement") or "freestanding"
-            sides = 1 if place in ("against-wall", "corner", "built-in") else 2
-            need_short = (fw + sides * cl) / 12.0
-            need_long = (fl + 2 * min(cl, 36)) / 12.0     # ends take chair pull, not full passage
-            if w + 1e-6 < need_short:
+        for s_ in furniture_shortfalls(rt, w, l):
+            if s_["axis"] == "short":
                 F.add("serious", "furniture",
-                      f"{label} cannot take its {it['item']}: needs {need_short:.1f} ft across ({fw} in item + {sides} x {cl} in clearance, {place}), has {w} ft.",
+                      f"{label} cannot take its {s_['item']}: needs {s_['need_ft']:.1f} ft across ({s_['item_in']} in item + {s_['sides']} x {s_['clearance_in']} in clearance, {s_['placement']}), has {s_['have_ft']} ft.",
                       room=rid, rule=rt["dimensions"].get("critical_dimension"),
-                      fix=f"Widen to {need_short:.1f} ft, or accept that the room will not hold a {it['item']}.")
-            elif l + 1e-6 < need_long:
+                      fix=f"Widen to {s_['need_ft']:.1f} ft, or accept that the room will not hold a {s_['item']}.")
+            else:
                 F.add("minor", "furniture",
-                      f"{label} is tight along its length for its {it['item']}: needs about {need_long:.1f} ft, has {l} ft.", room=rid)
+                      f"{label} is tight along its length for its {s_['item']}: needs about {s_['need_ft']:.1f} ft, has {s_['have_ft']} ft.", room=rid)
 
         # ---- daylight
         # Depth is measured FROM the lit wall, so the rule has to account for how the room is lit:

@@ -1,0 +1,182 @@
+# WP-9.6 — The check that could not see the drawing, and a finding that could not see the code
+
+*Status: complete, 2 Sep 2026. Built the two items the WP-9.5 audit deferred that needed no
+ruling, and withdrew a third that turned out not to be a defect at all. Cite reports by filename,
+never the bare WP number (OQ 90).*
+
+## The measurement that says it best
+
+Over the sixteen plans, the furniture layer emitted **exactly 137 findings whether or not the plan
+carried geometry.** Solve the plan, hand the solved record to `plan_check`, and the number does not
+move. That is a check reading the declared record and nothing else, stated as a number rather than
+as an accusation.
+
+It is now 178 on the declared record and the drawn layer carries **86 across-shortfalls and 69
+along-shortfalls** beside it.
+
+## What Lucas gets out of it
+
+His second complaint was a breakfast room "far too narrow". On `auto` — the engine that drew the
+sheet he read — the Tidewater breakfast room is declared 12 × 14 and **drawn 7.0 × 27.0**, and the
+critic now says:
+
+> Breakfast Room is DRAWN 7.0 ft across and cannot take its table, seats 4: needs 9.0 ft
+> (36 in item + 2 × 36 in clearance, freestanding). The record declares 12 × 14 ft, which holds it.
+
+The arithmetic that convicts it has been in the corpus since WP-6.2. It was pointed at the wrong
+rectangle. Complaints 3 and 6 gained drawn furniture findings in the same change — the Entrance
+Portico at 6.0 ft cannot take a rocking chair, and the Stair Hall at 6.0 ft cannot take its own
+stair.
+
+**On `engine="heuristic"` that same breakfast room is drawn 12.6 × 15.4 and is fine.** The sliver
+is an `auto` outcome on this plan. Every figure in this report names its engine for that reason,
+and the ratchet pins the heuristic ones only.
+
+## 1. One function, two callers
+
+`plan_check.furniture_shortfalls(rt, w, l)` is the one spelling of the fit arithmetic. The room
+layer hands it the declared width and length; the drawn layer hands it the placed rectangle,
+immediately after the width-floor and proportion checks that already have it. The callers differ in
+**wording and layer and in nothing else**.
+
+**`openings.required_wall_ft` is NOT the precedent for this and three documents said it was.** That
+rule is deliberately spelled three times — `openings.py`, `render_plan.py`, `derive.js` — because
+one of them is JavaScript and the app suite may import nothing, and `tests/fixtures/sheet_symbols/`
+holds all three to one contract. The discipline transfers; the mechanism does not. Here both
+callers are Python in one file, so a shared function is available and duplication would be a
+choice rather than a constraint.
+
+The extraction was verified **byte-identical** before anything else changed: all sixteen plans,
+1,479 findings, identical file. Only then did behaviour move.
+
+## 2. The `elif` — 41 facts computed and discarded
+
+The long axis was tested only where the short axis had **passed**:
+
+```python
+if   w + 1e-6 < need_short: ... serious
+elif l + 1e-6 < need_long:  ... minor
+```
+
+So a room failing both was told about one of them. Split into two independent checks:
+
+| | declared record | drawn (heuristic) |
+|---|---|---|
+| short-axis failures | 75 | 86 |
+| long-axis failures | 104 | 69 |
+| **dropped by the `elif`** | **41** | **15** |
+
+These were never silences — the room still took its short-axis finding — but the second fact was
+computed and thrown away, and a room too narrow for a bed is very often also too short for it.
+
+Totals: declared furniture 137 → 178 (+41). Drawn layer 419 → 574 (+155 = 140 from the new call
+site, 15 from the split). Every figure deterministic on `engine="heuristic"`, identical on cold
+runs.
+
+**And the strongest evidence in the package is what did NOT move.** `tests/test_plan_validator.py`
+pins the finding counts on both shipped reference plans, and it caught this change — correctly:
+
+| | fatal | serious | minor |
+|---|---|---|---|
+| `tidewater-georgian-careful` | 0 → **0** | 30 → **30** | 61 → **65** |
+| `spec-builder-colonial` | 4 → **4** | 57 → **57** | 62 → **74** |
+
+**Every point of movement is in `minor` and nothing was re-graded.** Long-axis shortfalls are
+minor by the rule that was already there, so a change that surfaced dropped facts should move that
+column and only that column — and it did, on both houses, without touching a single fatal or
+serious. Had the split changed a judgement rather than revealed one, `serious` would have moved.
+The careful plan takes four where the ordinary one takes twelve, which is the ratio that pair of
+tests exists to watch.
+
+## 3. The finding that was wrong, and how it survived three audits
+
+WP-9.2 §8 published a "second defect": that `fw, fl = sorted(it["footprint_in"])` "assumes every
+item rotates", turning the kitchen island `[84, 27]` sideways so a 10 ft kitchen passes at 9.25 ft
+where an island along its counter run needs 14.0. WP-9.5's second pass measured three formulations
+of a fix and recommended "pairing each axis with its own clearance". CLAUDE.md and
+`PLAN-OF-ACTION.md` both carried it, the latter as a live work instruction.
+
+**All of it was wrong, and the pairing it recommended already existed.** `sorted()` assigns the
+item's short side to the room's **width** and its long side to the room's **length**:
+
+```python
+need_short = (fw + sides * cl) / 12.0          # short side vs room WIDTH
+need_long  = (fl + 2 * min(cl, 36)) / 12.0     # long side  vs room LENGTH
+```
+
+The island's long axis is checked at 13.0 ft and it **fires** — on `bad-03` (10 × 11) and `bad-04`
+(10 × 12). A 12 × 16 kitchen holds an 84 in island with two 36 in aisles and passes, correctly. And
+the 10 × 30 sliver Lucas named is caught by the drawn **proportion** band (3.0 against a 1.8
+ceiling), not by furniture at all. The three-formulation table measured formulations neither the
+code nor any fix uses.
+
+**How it survived.** Three passes re-read the sentence; each found it coherent, and it was — it
+named a real function, a real field, a real item with real dimensions, and drew a plausible
+conclusion. It died the first time anyone executed the function it described, which took about
+four minutes. That is WP-9.5's own closing rule earned once more, and this is the cleanest instance
+of it in the phase: **every finding that survived came from running something; every finding that
+had to be withdrawn came from reading.**
+
+**A typed orientation field on furniture items is therefore NOT wanted.** Authoring a schema field
+to fix a non-defect would have been the more expensive half of the mistake.
+
+## 4. The citation guard opens 11 more files
+
+`check_citations.tracked_files()` is a `git grep`, and it selected on `OQ [0-9]+` alone — so a file
+carrying no **numbered** citation was never opened and nothing in it was checked in any context,
+plain prose included. Because the numbers froze at 99, every new named question is born without an
+`OQ <n>`, so the hole grew with the namespace.
+
+The pattern is `OQ [0-9]+|oq/[a-z0-9][a-z0-9-]*` now: **392 → 403 files**, eight of the eleven being
+entries in the register itself. Pinned as a PROPERTY over the real tree — every file containing a
+slug citation must be opened — so the test cannot go stale as files are added.
+
+**It cost exactly one repair, and that repair is a third instance of a gotcha this corpus keeps
+paying for.** `build/harvest_habs.py` wrapped a real slug across a Python string-literal line
+break; the checker reads line by line and saw a truncated id. The string was rewrapped so the slug
+sits on one line. **The checker was not taught to rejoin hyphen-ended lines** — that would make a
+second rule out of a formatting accident, and CLAUDE.md already records the same line-by-line
+behaviour twice (the WP-8.5 commit subject, and a code span straddling a newline).
+
+## 5. Guards, and that they can fail
+
+Four mutations, each reverting one fix, each producing a red suite; control green.
+
+| mutation | result |
+|---|---|
+| revert the `git grep` pattern | `test_citations.py` — 1 failed |
+| (and an existing guard caught ME) | `test_determinism.py::test_corpus_globs_are_sorted` — three unsorted directory reads in the new tests, one of them a `sorted(` that opened on the line above, which that guard also reads line by line |
+| revert the `elif` split | `test_furniture_drawn.py` — 2 failed |
+| revert the drawn call site | `test_furniture_drawn.py` — 1 failed |
+| add a second transcription of the fit arithmetic to `geometry.py` | `test_furniture_drawn.py` — 1 failed |
+
+The source-reading test asserts a **count and a location** (`len(hits) == 1`, and it is in
+`plan_check.py`) rather than comparing against a list that would be empty if the selector broke —
+this repository has shipped that exact inversion before, in `assert 'class="ch"' not in text`.
+
+The corpus ratchet runs `furniture_shortfalls` against placed rectangles directly rather than
+through `plan_check`, which keeps the whole file at ~5 s; the wiring is proved separately on one
+plan end to end. Both are needed: the ratchet cannot see the call site being deleted, and the
+wiring test cannot see the arithmetic drifting.
+
+## What was deliberately not done
+
+- **No new numeric threshold.** Severities are unchanged (short axis `serious`, long axis `minor`).
+- **`min(cl, 36)` is refused rather than fixed, with its number.** It caps the long axis's
+  clearance; its comment reads *"ends take chair pull, not full passage"*, which is right for a
+  table and arguable for an island. **Four drawn items** fail the long axis at full clearance and
+  pass at the cap. Changing it is authoring a threshold.
+- **No generator change.** Neither engine was touched. The drawn check reports what the search
+  draws; it does not change what it draws. Both reference plans place identically.
+- **The three items that need a ruling stay deferred**, unchanged: the stair's 7.25-against-7.5
+  constant (three spellings, three answers on one shipped plan — 16, 17 and 21 risers), the
+  authored-and-unenforced 12 ft `start_setback_from_front_door_ft` ceiling, and the 268 of 761
+  derived rules carrying no `quantity`.
+- **The code-span half of the citation question stays open.** 120 of 164 mentions still sit in
+  backticks and are exempt; the twelve that resolve to nothing are all deliberate illustrations.
+  Only the file-selection half is closed.
+
+## New open questions
+
+None. WP-9.6 closed half of `oq/a-slug-in-a-code-span-is-not-checked` and withdrew a finding;
+it raised nothing that needs a ruling.

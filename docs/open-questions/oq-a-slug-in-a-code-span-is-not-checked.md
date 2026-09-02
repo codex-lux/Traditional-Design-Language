@@ -127,13 +127,23 @@ guard whose blind spot is load-bearing.
 
 ## The question
 
-**How does a document cite a named question distinguishably from illustrating one?** Four shapes:
+**How does a document cite a named question distinguishably from illustrating one?** Four shapes —
+**shape (0) is now built and the remaining question is narrower for it.** What is left is only the
+code-span half: 120 of the 164 mentions still sit in backticks and are exempt, and the twelve that
+resolve to nothing are all deliberate illustrations. The file-selection half is closed.
 
-0. **Widen `tracked_files()` to select on the slug pattern too, not only `OQ <n>`.** This is not
-   in the original list because the audit that found the second mechanism came later; it is the
-   cheapest item here and the only one that closes the growing half. One regex, no ambiguity, and
-   it is a prerequisite for (1) rather than an alternative to it — (1) without it still leaves 9
-   prose citations unread and the number climbing.
+0. **~~Widen `tracked_files()` to select on the slug pattern too, not only `OQ <n>`.~~ BUILT,
+   WP-9.6.** The `git grep` now selects on `OQ [0-9]+|oq/[a-z0-9][a-z0-9-]*`. It opens **11 more
+   files** — eight of them entries in this register — taking the checker from 392 files to 403,
+   and it closed the growing half: a new named question is no longer born outside the guard.
+   `tests/test_citations.py::test_every_file_carrying_a_slug_citation_is_actually_OPENED_by_the_checker`
+   pins it as a PROPERTY over the real tree rather than as a count, so it cannot go stale, and it
+   was mutation-checked (revert the pattern → red). **It cost exactly one repair, and that repair
+   is a third instance of a gotcha this corpus keeps paying for**: `build/harvest_habs.py` wrapped
+   a real slug across a Python string-literal line break, and since the checker reads line by
+   line it saw a truncated id. The string was rewrapped so the slug sits on one line — the
+   checker was NOT taught to rejoin hyphen-ended lines, which would have made a second rule out
+   of a formatting accident.
 1. **Check slugs inside code spans, and give illustrations a form that is not a slug.** Rewrite the
    twelve as something the id pattern cannot match. **The first draft of this entry proposed
    `oq/<slug>` or `oq/example-only` and one of the two is wrong**: `SLUG_CITE` is
