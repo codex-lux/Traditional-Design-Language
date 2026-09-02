@@ -117,7 +117,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   const [assessment, setAssessment] = React.useState(null);
   const [critiquing, setCritiquing] = React.useState(false);
   const [live, setLive] = React.useState([]);
-  const [revising, setRevising] = React.useState(null);      // null | 'submitting' | 'queued' | 'running'
+  const [revising, setRevising] = React.useState(null);      // null | 'submitting' | 'submitted' | 'running'
   const [reviseError, setReviseError] = React.useState(null);
   const reviseUnsub = React.useRef(null);
 
@@ -197,7 +197,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
     setRevising('submitting');
     api.revise(plan, { candidates: seeds, ...opts })
       .then(({ job_id }) => {
-        setRevising('queued');
+        setRevising('submitted');
         if (reviseUnsub.current) reviseUnsub.current();
         reviseUnsub.current = jobEvents(job_id, {
           stage: () => setRevising('running'),
@@ -551,7 +551,10 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
                     ? `${reviseError} — the sheet below is the record as it stands`
                   : revising
                     ? (revising === 'submitting' ? 'revising: submitting…'
-                      : revising === 'queued' ? 'revising: queued behind another job on the one-worker pool'
+                      // 'submitted', not 'queued': the client cannot see the pool, only that the
+                      // job exists and has not yet said `stage` -- which is what waiting behind
+                      // another job looks like from here, and also what the first 50 ms look like
+                      : revising === 'submitted' ? 'revising: submitted, waiting for the worker'
                         : `revising… round ${live.length ? live[live.length - 1].n : '—'}`)
                   : relax
                     ? `${relax.count} cut(s) off the bay line` +

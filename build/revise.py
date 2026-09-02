@@ -81,7 +81,13 @@ def _ids(crit, severity=None):
 
 
 def _improves(new, old):
-    """Strictly better key, and no fatal that was not there before."""
+    """Strictly better key, and no fatal that was not there before -- and JUDGED. A critique
+    whose placement could not be evaluated reports the DECLARED key, which carries no drawn
+    finding and is lower for that reason alone; the audit's own CP-SAT measurement accepted
+    the Tidewater plan at [0, 22, 58, 19] with no placement at all after a proof timed out.
+    Unjudged is not passed, and in this loop it is not better either (WP-9.4)."""
+    if (new.get("placement") or {}).get("could_not_evaluate"):
+        return False
     if not (new["key"] < old["key"]):
         return False
     return not (_ids(new, "fatal") - _ids(old, "fatal"))
@@ -126,10 +132,15 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
         # EVERY logged round is reported, the refused-lever and nothing-applied rounds
         # included: WP-9.3's revise job emitted no `round` event on a plan whose only round
         # was a refused proof, because two of the four paths that log a round skipped the
-        # callback. One reporter, so a fifth path cannot skip it either.
+        # callback. One reporter, so a fifth path cannot skip it either. And the reader's
+        # seam may not discard the loop's work: a callback that raises is recorded on the
+        # round and the loop continues (WP-9.4 -- an exception in on_round killed the job).
         log.append(rnd)
         if on_round:
-            on_round(rnd)
+            try:
+                on_round(rnd)
+            except Exception as exc:
+                rnd["on_round_error"] = f"{type(exc).__name__}: {exc}"[:200]
 
     def _crit(p):
         return CR.critique(p, engine=ctx["engine"], candidates=ctx["candidates"], parti=parti_rec,
@@ -137,11 +148,20 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
 
     crit = _crit(plan)
     plan = crit["plan"]                      # carries the placement from here on
-    before = crit
+    # the placed loop needs a placed house to hold its rounds against; a first placement that
+    # could not be evaluated is stated and the loop does not run on a declared key wearing a
+    # placed mode's name (WP-9.4)
+    placement_unjudged = place and (crit.get("placement") or {}).get("could_not_evaluate")
+    # a COPY: `crit` is rebound only on an accepted round, so on a run that accepts nothing
+    # `before` and `after` were one dict under two names, and the bench reads both (WP-9.4)
+    before = copy.deepcopy(crit)
     log, tabu, levers_tried = [], set(), set()
     seen = {_hash(plan)}
     stop = None
     n = 0
+    if placement_unjudged:
+        stop = "placement-could-not-be-evaluated"
+        rounds = 0
     while n < rounds:
         if budget_s is not None and time.perf_counter() - t0 > budget_s:
             stop = "budget"
@@ -175,7 +195,8 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             levers_tried.add(lever)
             res = MV.apply(lever, plan, crit["assessment"]["placement"][0]["finding"], C, ctx)
             if "refused" in res:
-                rnd["moves"].append({"move": lever, "refused": res["refused"]})
+                rnd["moves"].append({"move": lever, "refused": res["refused"],
+                                     "finding": crit["assessment"]["placement"][0]["id"]})
                 _report(rnd)
                 continue
             saved = dict(ctx)
@@ -186,15 +207,22 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                      "basis": res["basis"], "lever": res["lever"], "log": res["log"]}
             if _improves(new, crit):
                 rnd.update(accepted=True, key_after=list(new["key"]), **_attrib(crit, new))
-                entry["cleared"] = True
+                # the verdict rides on the MOVE ENTRY as well as on the round: the summary,
+                # the sweep, the CLI and the bench's round event all read the entry, and until
+                # WP-9.4 an accepted proof counted as 0 moves applied and a proof rolled back
+                # by measurement read as "applied; its finding persisted"
+                entry.update(accepted=True, cleared=True)
+                engine_changed = new["engine"]["ran"] != crit["engine"]["ran"]
                 plan, crit = new["plan"], new
-                # a refusal measured under the old engine says nothing about the new one
-                if tabu:
+                # a refusal measured under the old engine says nothing about the new one --
+                # and ONLY then: `search-harder` changes the candidate count, not the engine,
+                # and a refusal under 250 candidates says the same thing under 1,000
+                if tabu and engine_changed:
                     rnd["tabu_forgotten"] = len(tabu)
                     tabu.clear()
             else:
                 rnd.update(key_after=list(new["key"]), refused_by_measurement=True)
-                entry["cleared"] = False
+                entry.update(cleared=False, refused_by_measurement=True, key_after=list(new["key"]))
                 ctx.clear(); ctx.update(saved)
             rnd["moves"].append(entry)
             rnd["engine_after"] = new["engine"]["ran"]
@@ -277,9 +305,9 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             break
         seen.add(h)
     else:
-        stop = "round-cap"
-    if stop is None:
-        stop = "round-cap"
+        # the while/else: the loop ran out of rounds without a break. With rounds=0 it never
+        # started, and "round-cap" would be a lie about a cap that was never reached.
+        stop = stop or ("round-cap" if rounds > 0 else "no-rounds")
 
     # the brief's own area discipline, once, after the loop -- reclaim's, not re-implemented
     # -- and under the loop's own rule. The sweep's first run handed back tower-villa at
@@ -324,6 +352,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
               "key_before": list(before["key"]), "key_after": list(after["key"]),
               "remaining": remaining, "handed_to_architect": handed, "refused": refused,
               "suspects": suspects, "reclaimed": reclaimed,
+              "placement_unjudged": placement_unjudged or None,
               "summary": {"rounds": len(log), "moves_applied": applied_n, "moves_refused": len(refused),
                           "key_before": list(before["key"]), "key_after": list(after["key"]),
                           "stop_reason": stop, "seconds": round(time.perf_counter() - t0, 1)},

@@ -71,8 +71,11 @@ test('nothing the app suite imports reaches node_modules', () => {
     offenders.push(...r.offenders);
     reached += r.seen.size;
   }
-  // The walk has to actually reach something, or it forbids nothing.
-  assert.ok(reached > suites.length * 2,
+  // The walk has to actually reach something, or it forbids nothing. More files than
+  // suites: a suite may read its subject with node:fs and import nothing relative
+  // (sse_handlers.test.mjs reads .jsx the corpus job cannot build), so the floor is the
+  // suites plus the modules the OTHERS reach, not two per suite.
+  assert.ok(reached > suites.length,
     `the import walk reached only ${reached} files from ${suites.length} suites`);
   assert.deepEqual(offenders, [],
     'build/check_all.py runs this suite with no npm install, so a package import here is a '

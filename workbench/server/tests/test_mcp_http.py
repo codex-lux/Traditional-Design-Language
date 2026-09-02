@@ -176,15 +176,7 @@ def test_heavy_tools_are_capped_and_refuse_honestly(live, monkeypatch):
 # The minimum each metered tool needs to get PAST argument validation. The SDK validates
 # required arguments before the tool body runs, so an empty {} never reaches the limiter —
 # correct behaviour, and the reason these are not simply {}.
-# WP-9.3: the two Phase 9 tools were added to METERED in WP-9.2 and NOT here, and the pin
-# below was red in every environment that has the SDK -- green here only because the file
-# skips at import without it. A pin that skips where the thing it pins is absent is a pin
-# that fires only for someone else.
-_METERED_MIN_ARGS = {"tdl_check_plan": {"plan": {}},
-                     "tdl_compose": {"brief": {}},
-                     "tdl_place_plan": {"plan": {}},
-                     "tdl_critique_plan": {"plan": {}},
-                     "tdl_revise_plan": {"plan": {}}}
+from .metered_args import METERED_MIN_ARGS as _METERED_MIN_ARGS   # pinned without the SDK in test_deploy_fixes_still_hold.py
 
 
 def test_the_metered_set_is_exactly_what_this_file_checks():

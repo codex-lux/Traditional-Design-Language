@@ -23,7 +23,7 @@ band on every candidate, and the walk that clicks through all of it.
   purpose — evaluate is this server's bound (the infrastructure audit measured one editor
   at 85% of capacity) — so a classification is asked for, like a proof.
 - **`POST /api/plan/revise`**: a job on the existing one-worker pool. `Job` gained a `kind`
-  (`compose` | `revise`) and a `plan`; the first two constructor arguments stay positional
+  (`compose` | `revise`) and a `plan`; the first two constructor arguments keep their order *(corrected by WP-9.4: the SSE test this cited builds a `Job` with keyword arguments, so nothing enforces the order)*
   for the SSE test that builds one by hand. `_run` dispatches; `_run_revise` calls
   `core.revise_plan(..., on_round=cb)` — the seam that did not exist: `revise()` accepted
   `on_round` and `core.revise_plan` did not forward it. Each `round` event is a NEW dict
@@ -65,7 +65,7 @@ band on every candidate, and the walk that clicks through all of it.
 - **`PlanWorkbench.jsx`**: three chips in the solver fold beside *prove placement* —
   **critique** (`auto`, the sheet's own candidate count), **revise (search)** (rounds 6,
   60 s) and **revise (proof)** (rounds 4, 120 s), so the chip's promise and the walk's poll
-  are the same number. A stored critique is keyed to the evaluation it was taken against:
+  are the same number *(corrected by WP-9.4: nothing ties them; the walk polls 90 s against a 60 s chip)*. A stored critique is keyed to the evaluation it was taken against:
   when a later evaluation lands the tags are dropped and the strip says *run it again*,
   because a class that labelled a finding of an earlier house is a verdict about a house no
   longer on the sheet. The class counts are display only — a clickable class filter would be
@@ -100,7 +100,7 @@ Three things the first two packages shipped, each visible only from this side.
 3. **A pin that was red wherever the thing it pinned exists.** `test_mcp_http.py` holds
    `mcp_mount.METERED` against a literal of three tools; WP-9.2 took the set to five and did
    not touch the literal. Green here only because the file skips at import without the MCP
-   SDK, which was not installed — installed now, and the file's 33 tests run and pass. A pin
+   SDK, which was not installed — installed now, and the file's 33 tests run and pass *(WP-9.4: CI installs the SDK, so the pin would have been red there — but CI runs on pushes to `main` only and never ran on this branch; the literal lives in `metered_args.py` now and is pinned without the SDK)*. A pin
    that skips where its subject is absent fires only for someone else.
 
 4. **Two `core` objects in one server.** `workbench/server/corpus.py` imports `core` from

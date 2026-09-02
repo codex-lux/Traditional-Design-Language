@@ -1476,6 +1476,11 @@ def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
         return {"error": "could not validate: the jsonschema package is not installed", "unvalidated": True}
     except Exception as e:
         return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
+    if parti is not None and not isinstance(parti, str):
+        # an ID, resolved through load_parti -- the one confined path from a caller's string
+        # to a file. A caller-supplied parti RECORD would become the template geometry reads
+        # (bay module, bay count) with no check at all (WP-9.4).
+        return {"error": "parti must be a parti id, not a record", "detail": type(parti).__name__}
     CR = _mod("critique", os.path.join(ROOT, "build", "critique.py"))
     res = CR.critique(plan, engine=engine, candidates=candidates, parti=parti, place=place)
     out = {k: v for k, v in res.items() if k not in ("plan", "check")}
@@ -1498,6 +1503,8 @@ def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, inclu
         return {"error": "could not validate: the jsonschema package is not installed", "unvalidated": True}
     except Exception as e:
         return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
+    if parti is not None and not isinstance(parti, str):
+        return {"error": "parti must be a parti id, not a record", "detail": type(parti).__name__}
     RV = _mod("revise", os.path.join(ROOT, "build", "revise.py"))
     # on_round is the bench's seam (WP-9.3): the revise job puts a `round` event per round so
     # a reader watches the loop run rather than a spinner. The MCP tool does not pass it.

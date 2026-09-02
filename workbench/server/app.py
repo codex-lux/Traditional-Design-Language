@@ -556,6 +556,20 @@ def _engine(body, key="engine"):
     return engine
 
 
+def _parti_id(body):
+    """A parti is an ID here, never a record. `critique()` and `revise()` accept a record
+    for library callers (the sweep hands them the templates it read itself); over the wire a
+    record would become the template geometry reads -- bay module, bay count -- unchecked,
+    where the evaluate route has always resolved a string through the confined loader."""
+    parti = body.get("parti")
+    if parti is None or parti == "":
+        return None
+    if not isinstance(parti, str):
+        raise HTTPException(status_code=422, detail={
+            "error": "parti must be a parti id (a string), not a record"})
+    return parti
+
+
 @app.post("/api/plan/critique")
 def plan_critique(request: Request, body: dict = Body(...)):
     """The analyst, synchronously: one placement, one check, every finding sorted into what
@@ -568,7 +582,7 @@ def plan_critique(request: Request, body: dict = Body(...)):
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
     res = core.critique_plan(plan, engine=_engine(body), candidates=_candidates(body),
-                             place=body.get("place", True), parti=body.get("parti"))
+                             place=bool(body.get("place", True)), parti=_parti_id(body))
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
     return res
@@ -586,16 +600,20 @@ def plan_revise(request: Request, body: dict = Body(...)):
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
     opts = {"engine": _engine(body), "candidates": _candidates(body)}
     try:
-        opts["rounds"] = max(0, min(8, int(body.get("rounds", 6))))
+        # floor 1: a revise of zero rounds is a critique, and the critique route exists
+        opts["rounds"] = max(1, min(8, int(body.get("rounds", 6))))
     except (TypeError, ValueError):
         opts["rounds"] = 6
-    if body.get("budget_s") is not None:
-        try:
-            opts["budget_s"] = max(0.0, min(600.0, float(body.get("budget_s"))))
-        except (TypeError, ValueError):
-            pass
-    if body.get("parti"):
-        opts["parti"] = body.get("parti")
+    # a budget ALWAYS: the first version left it optional, and an absent budget is no budget
+    # -- 8 rounds x 6 retries x a 25 s proof on the one-worker pool, against this docstring's
+    # own promise (WP-9.4). 120 s is the composer's per-candidate default.
+    try:
+        opts["budget_s"] = max(1.0, min(600.0, float(body.get("budget_s", 120.0))))
+    except (TypeError, ValueError):
+        opts["budget_s"] = 120.0
+    parti = _parti_id(body)
+    if parti:
+        opts["parti"] = parti
     res = jobs.submit_revise(plan, options=opts)
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)

@@ -65,6 +65,8 @@ const STOP = {
   'round-cap': 'stopped: round cap',
   budget: 'stopped: budget',
   oscillation: 'stopped: oscillation — the declared record repeated',
+  'no-rounds': 'no rounds were asked for',
+  'placement-could-not-be-evaluated': 'stopped before the first round: the placement could not be evaluated, so no round could be judged',
 };
 export function stopLabel(reason) {
   return STOP[reason] || (reason ? `stopped: ${reason}` : 'stopped: reason not stated');

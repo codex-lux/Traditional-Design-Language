@@ -379,3 +379,37 @@ def _derive_measurements(elev):
         bad = {"id": "cs-x", "basis": "build/elevation.py: \"upper and lower diameter are genuinely different\""}
         CO.check_basis(rep2, bad, source="critique/suspects.json")
         assert rep2.errors, "a quote that is not in the file passed the basis check"
+
+
+CS = mc.load("critic_suspects", os.path.join(BUILD, "critic_suspects.py"))
+CK = mc.load("check_critic_suspects", os.path.join(BUILD, "check_critic_suspects.py"))
+
+
+class TestTheInstrumentOnTheRealFile:
+    """WP-9.4. `test_the_instrument_reads_the_shapes_it_claims_to` feeds a toy string; the
+    only real-file guard was the count equality, which a same-commit ceiling change satisfies.
+    These read build/elevation.py itself and name the shapes the first instrument was blind
+    to -- each one a literal measurement that had been below the 35."""
+
+    def test_a_constant_dict_read_by_subscript_is_a_literal(self):
+        lits = CS.source_literals()
+        assert lits["sash_stile_width_in"]["value"] == 2.0 and lits["sash_stile_width_in"]["shape"] == "Subscript"
+        assert lits["sash_meeting_rail_height_in"]["value"] == 1.25
+
+    def test_a_ternary_a_fallback_and_a_floor_are_literals(self):
+        lits = CS.source_literals()
+        assert lits["transom_head_rise_in"]["value"] == 0.0 and lits["transom_head_rise_in"]["shape"] == "IfExp"
+        assert lits["distinct_mouldings_within_4ft_of_the_entrance"]["value"] == 3
+        assert lits["belt_course_projection_in"]["value"] == 1.0
+        assert lits["max_distinct_mouldings_elsewhere_on_the_elevation"]["value"] == 1
+
+    def test_a_literal_one_level_down_a_binop_and_a_half_are_ratios(self):
+        ratios = CS.literal_ratios()
+        assert ratios["total_opening_width_in"]["factor"] == 4, "4 * a window width is a bay count the generator invented"
+        assert ratios["net_clear_opening_height_in"]["factor"] == 0.5, "half a sash is an egress rule, not a unit conversion"
+        assert 12 not in {r["factor"] for r in ratios.values()} and 144 not in {r["factor"] for r in ratios.values()}
+
+    def test_the_ceilings_were_re_baselined_upward_once_and_say_so(self):
+        src = open(os.path.join(ROOT, "build", "check_critic_suspects.py"), encoding="utf-8").read()
+        assert "35 -> 44" in src and "4 -> 7" in src
+        assert CK.LITERALS_CEILING == 44 and CK.RATIOS_CEILING == 7

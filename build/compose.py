@@ -983,13 +983,22 @@ def _pack_width_ft(rule, storey_ft):
         val_in = min(band[1], max(band[0], val_in))
     return round(val_in / 12.0, 2)
 
-def derive_openings(plan, style, log):
+def derive_openings(plan, style, log, rooms=None, doors=True, windows=True, pairs=None):
     """Give every declared door a width, a type and a rank, and every window a real count
-    and width. Runs after symmetrise_doors so both directions of one door agree."""
+    and width. Runs after symmetrise_doors so both directions of one door agree.
+
+    `rooms`, `doors`, `windows` SCOPE it (WP-9.4). The composer runs it whole over a plan it
+    instantiated itself, where every window is its own. The revision loop runs it over an
+    AUTHORED record, and unscoped it rewrote nine authored window counts on the Tidewater
+    plan while adding one door -- the silent overwrite WP-6.2 removed, back through a move.
+    A move derives the openings it added and nothing else -- `pairs` (a set of frozenset
+    room-id pairs) narrows the door derivation to the doors it added, so an authored door
+    beside them in the same room is not filled in either."""
     g = grammar()
     idx = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
     lvl_of = {r["id"]: lv for lv in plan["levels"] for r in lv["rooms"]}
     editorial = {}
+    in_scope = (lambda rid: True) if rooms is None else (lambda rid: rid in rooms)
 
     # doors, resolved once per PAIR and written to both records: a door disagreeing with
     # itself across its two rooms is a corruption `plan_check`'s DECLARED layer reports
@@ -999,10 +1008,13 @@ def derive_openings(plan, style, log):
     # clean; the check is what catches a hand-authored or hand-edited one.
     decided = {}
     for r in list(idx.values()):
+        if not doors or not in_scope(r["id"]):
+            continue
         for d in (r.get("doors") or []):
             to = d["to"]
             key = tuple(sorted((r["id"], to)))
             if key in decided: continue
+            if pairs is not None and frozenset((r["id"], to)) not in pairs: continue
             a_t = r["type"]
             b_t = "exterior" if to == "exterior" else (idx.get(to, {}).get("type"))
             if b_t is None: continue
@@ -1050,7 +1062,7 @@ def derive_openings(plan, style, log):
         ch = lv.get("floor_to_ceiling_ft") or 9.0
         for r in lv["rooms"]:
             wins = r.get("windows") or []
-            if not wins: continue
+            if not wins or not windows or not in_scope(r["id"]): continue
             rt = C["rooms"].get(r["type"], {})
             gf = (rt.get("daylight") or {}).get("glazing_fraction")
             head = r.get("window_head_ft") or (ch - 1.2)
@@ -1110,6 +1122,8 @@ def derive_openings(plan, style, log):
     roled = kinded = kindless = 0
     kinds = {}
     for r in idx.values():
+        if not windows or not in_scope(r["id"]):
+            continue
         rt = C["rooms"].get(r["type"]) or {}
         for win in (r.get("windows") or []):
             rule = window_rule(r["type"], "exterior")

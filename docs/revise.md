@@ -100,6 +100,17 @@ only (XDATA is capped near 16 KB).
   differ. The panel is the record's own `revision_report`: undo takes it away. A suspect in
   the panel is styled as neither verdict.
 
+## The declaration is enforced (WP-9.4)
+
+A move's `touches` is held against what its apply function WROTE: `moves.apply()` diffs the
+record before and after, normalises every written path to the registry's spelling
+(`levels[].rooms[].windows[].wall`), and refuses — restoring the record — on a write outside
+`touches` or one `changed` does not report. Before that the declaration was documentation
+checked against an allow-list, and one move re-derived openings plan-wide for a single door,
+rewriting nine authored window counts. The composer's `derive_openings` takes `rooms=`,
+`doors=`, `windows=` and `pairs=` so a move derives the openings it added and nothing else.
+A parti is an ID over the wire; only the library functions accept a record.
+
 ## What it will not do, stated
 
 It will not call a plan good — a lower key is a plan with fewer things the corpus can name

@@ -1067,8 +1067,13 @@ four round-logging paths, the metered-tool pin was red wherever the MCP SDK exis
 
 ### WP-9.4 The adversarial audit
 
-**Status: NOT STARTED.** In the tradition of WP-6.4, 7.5 and 8.6: revert each fix and watch which
-test goes red; check every claim in the three reports against the code.
+**Status: COMPLETE (2 Sep 2026).** Report: `docs/reports/wp-9.4-the-things-the-reports-said-were-checked.md`.
+Three read-only explorers built the claim-to-guard matrix; three auditors in isolated
+worktrees reverted each fix and watched the suites; every finding was reproduced before it was
+fixed. Blocking: a parti RECORD reaching geometry unchecked on both new routes; a revise job
+with no budget; the lever's verdict on the round rather than the move; `touches` a declaration
+nothing enforced, with three moves writing outside it and one rewriting nine authored window
+counts; the literal detector blind to five shapes (35 -> 44, 4 -> 7, re-baselined in public).
 
 ---
 

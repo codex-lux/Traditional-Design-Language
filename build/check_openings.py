@@ -50,9 +50,13 @@ class Report:
         self.errors = []
         self.warnings = []
         self.notes = []
+        self.unjudged_items = []     # could not evaluate: never a pass, never an error
 
     def err(self, where, msg):
         self.errors.append(f"{where}: {msg}")
+
+    def unjudged(self, where, msg):
+        self.unjudged_items.append(f"{where}: {msg}")
 
     def warn(self, where, msg):
         self.warnings.append(f"{where}: {msg}")
@@ -105,6 +109,45 @@ def resolve(g, a_id, a_room, b_id, b_room):
 _REC_RE = re.compile(r"((?:rooms|kits|styles|faults|groupings|proportions)/[A-Za-z0-9_.\-/]+\.json"
                      r"|build/[A-Za-z0-9_]+\.py)")
 _QUOTE_RE = re.compile(r"\"([^\"]{25,})\"")
+# `rooms/x.json adjacency.must_adjoin[dining-room].why: "..."` -- the record, then the KEY
+# PATH the quote is said to live under. WP-9.4 found the path was never read: a real
+# sentence cited under the wrong key passed, so a basis could name `critical_dimension`
+# and quote the `note`. Read now, where the file is JSON and the path can be walked.
+_KEYPATH_RE = re.compile(r"((?:rooms|kits|styles|faults|groupings|proportions)/[A-Za-z0-9_.\-/]+\.json)"
+                         r"\s+([A-Za-z_][A-Za-z0-9_.\[\]\-]*)\s*:\s*\"")
+
+
+def _walk_keypath(obj, path):
+    """`adjacency.must_adjoin[dining-room].why` over a JSON record; a bracketed key on a
+    list matches the element whose `room`/`id`/`item`/`name` is that key. None where the
+    path cannot be walked, which the caller reports as UNJUDGED, never as a pass."""
+    cur = obj
+    toks = re.findall(r"[A-Za-z0-9_\-]+|\[[^\]]+\]", path)
+    # a kit cites its slots without spelling `slots.`: `secondary_door.graduation_rule`
+    if toks and isinstance(obj, dict) and toks[0] not in obj and isinstance(obj.get("slots"), dict) \
+            and toks[0] in obj["slots"]:
+        cur = obj["slots"]
+    for tok in toks:
+        if tok.startswith("["):
+            key = tok[1:-1]
+            if isinstance(cur, list):
+                nxt = next((e for e in cur if isinstance(e, dict) and key in
+                            (e.get("room"), e.get("id"), e.get("item"), e.get("name"), e.get("type"))), None)
+                if nxt is None and key.isdigit() and int(key) < len(cur):
+                    nxt = cur[int(key)]
+            elif isinstance(cur, dict):
+                nxt = cur.get(key)
+            else:
+                nxt = None
+        else:
+            nxt = cur.get(tok) if isinstance(cur, dict) else None
+            # a kit slot cites a parameter without spelling `parameters.`
+            if nxt is None and isinstance(cur, dict) and isinstance(cur.get("parameters"), dict):
+                nxt = cur["parameters"].get(tok)
+        if nxt is None:
+            return None
+        cur = nxt
+    return cur
 
 
 def check_basis(rep, rule, source="openings/grammar.json"):
@@ -139,6 +182,30 @@ def check_basis(rep, rule, source="openings/grammar.json"):
         for part in (parts or [needle]):
             if part not in hay_n:
                 rep.err(where, f"basis quotes {part[:70]!r}, which is not in {', '.join(paths)}")
+    # and UNDER THE KEY the basis names, where it names one and the record can be walked
+    for rel, keypath, q in [(m.group(1), m.group(2), None) for m in _KEYPATH_RE.finditer(basis)]:
+        full = os.path.join(ROOT, rel)
+        if not os.path.exists(full):
+            continue
+        # the quote that follows this citation is the first long quote after it
+        after = basis[basis.find(keypath, basis.find(rel)):]
+        qm = _QUOTE_RE.search(after)
+        if not qm:
+            continue
+        needle = re.sub(r"\s+", " ", qm.group(1)).strip()
+        parts = [p.strip() for p in needle.split("...") if len(p.strip()) >= 20] or [needle]
+        try:
+            rec = json.load(open(full, encoding="utf-8"))
+        except Exception:
+            continue
+        node = _walk_keypath(rec, keypath)
+        if node is None:
+            rep.unjudged(where, f"basis cites {rel} {keypath}, a key path this checker cannot walk")
+            continue
+        under = re.sub(r"\s+", " ", json.dumps(node, ensure_ascii=False).replace('\\"', '"'))
+        for part in parts:
+            if part not in under:
+                rep.err(where, f"basis quotes {part[:60]!r} under {rel} {keypath}, and that key does not say it")
 
 
 def main():
@@ -263,12 +330,15 @@ def main():
         print(f"  note: {n}")
     for w in rep.warnings:
         print(f"  WARN {w}")
+    for u in rep.unjudged_items:
+        print(f"  N/EV {u}")
     for e in rep.errors:
         print(f"  ERROR {e}")
 
     bad = len(rep.errors) + (len(rep.warnings) if args.strict else 0)
     if bad:
-        print(f"\ncheck_openings: {len(rep.errors)} error(s), {len(rep.warnings)} warning(s)")
+        print(f"\ncheck_openings: {len(rep.errors)} error(s), {len(rep.warnings)} warning(s), "
+              f"{len(rep.unjudged_items)} citation(s) whose key path could not be walked (unjudged, not passed)")
         return 1
     print(f"OK — opening grammar: {len(rules)} rules, "
           f"{covered}/{total} pairs named, {len(rep.warnings)} warning(s)")

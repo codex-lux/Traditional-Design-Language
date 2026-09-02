@@ -35,8 +35,13 @@ COULD_NOT_EVALUATE = 3      # check_all.py's protocol -- 2 read as FAIL, which i
 
 # The ceilings. Measured 1 Sep 2026 on build/elevation.py as WP-9.1 found it; each may only
 # go down, and the way down is to MODEL the thing, never to rename it.
-LITERALS_CEILING = 35
-RATIOS_CEILING = 4
+# WP-9.4 RE-BASELINED THESE UPWARD, ONCE, IN PUBLIC: 35 -> 44 and 4 -> 7. The instrument
+# was blind to five shapes already in elevation.py -- a constant dict read by subscript
+# (SASH_FRAME, four measurements), a ternary with a literal branch, an `or 3` fallback, a
+# literal inside max(), a literal one level down a BinOp -- and exempted 0.5 and 2.0 as
+# "unit conversions". The jump is the instrument seeing, not the generator inventing.
+LITERALS_CEILING = 44
+RATIOS_CEILING = 7
 MIN_SWEEP_PLANS = 8
 
 

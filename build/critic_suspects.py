@@ -48,6 +48,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ELEVATION = os.path.join(ROOT, "build", "elevation.py")
 SUSPECTS = os.path.join(ROOT, "critique", "suspects.json")
 FUNC = "_derive_measurements"
+# WP-9.4: measurements folded in AFTER _derive_measurements returns are the generator's just
+# the same; the first instrument read one function and a literal moved past its end left
+# the count with no error. Every function that writes into the measurement dict is read.
+FUNCS = ("_derive_measurements", "build_elevation")
 
 
 def _mod(name, path):
@@ -58,12 +62,43 @@ def _mod(name, path):
     return _mc.load(name, path)
 
 
+def _tree(src=None):
+    return ast.parse(src if src is not None else open(ELEVATION, encoding="utf-8").read())
+
+
 def _func_node(src=None):
-    tree = ast.parse(src if src is not None else open(ELEVATION, encoding="utf-8").read())
+    tree = _tree(src)
     for node in ast.walk(tree):
         if isinstance(node, ast.FunctionDef) and node.name == FUNC:
             return node
     raise LookupError(f"{FUNC} not found in {ELEVATION}")
+
+
+def _func_nodes(src=None):
+    """Every function the instrument reads -- FUNC, then the others of FUNCS present."""
+    tree = _tree(src)
+    found = {node.name: node for node in ast.walk(tree)
+             if isinstance(node, ast.FunctionDef) and node.name in FUNCS}
+    if FUNC not in found:
+        raise LookupError(f"{FUNC} not found in {ELEVATION}")
+    return [found[n] for n in FUNCS if n in found]
+
+
+def _module_constants(src=None):
+    """Module-level names bound to a numeric literal or to a dict literal of numeric
+    literals (`SASH_FRAME = {"stile_in": 2.0, ...}`): a literal hidden behind a name the
+    first instrument could not see. Four measurements read SASH_FRAME by subscript."""
+    consts = {}
+    for node in _tree(src).body:
+        if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+            name, v = node.targets[0].id, node.value
+            if _is_num(v):
+                consts[name] = v.value
+            elif isinstance(v, ast.Dict) and v.keys and all(
+                    isinstance(k, ast.Constant) and isinstance(k.value, str) and _is_num(val)
+                    for k, val in zip(v.keys, v.values)):
+                consts[name] = {k.value: val.value for k, val in zip(v.keys, v.values)}
+    return consts
 
 
 def _assignments(fn):
@@ -87,6 +122,42 @@ def _assignments(fn):
 def _is_num(node):
     return isinstance(node, ast.Constant) and isinstance(node.value, (int, float)) \
         and not isinstance(node.value, bool)
+
+
+def _literal_value(node, consts):
+    """The numeric literal a value node states, through the shapes WP-9.4 found the first
+    instrument blind to: a negated literal, a module constant by name, a constant dict by
+    subscript (`SASH_FRAME["stile_in"]`), a ternary whose EVERY branch is a literal, a
+    boolean fallback whose LAST operand is a literal (`x or 3`), and a bare literal inside
+    `max`/`min`/`int`/`float`/`round`. Returns None where the value is a real figure of the
+    house -- a computed expression -- or a mix the reader has to judge."""
+    if _is_num(node):
+        return node.value
+    if isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub) and _is_num(node.operand):
+        return -node.operand.value
+    if isinstance(node, ast.Name) and isinstance(consts.get(node.id), (int, float)):
+        return consts[node.id]
+    if isinstance(node, ast.Subscript) and isinstance(node.value, ast.Name) \
+            and isinstance(consts.get(node.value.id), dict) \
+            and isinstance(node.slice, ast.Constant) and node.slice.value in consts[node.value.id]:
+        return consts[node.value.id][node.slice.value]
+    if isinstance(node, ast.IfExp):
+        a, b = _literal_value(node.body, consts), _literal_value(node.orelse, consts)
+        if a is not None and b is not None:
+            return a if a == b else (a, b)
+        # one branch a literal: the measurement is a constant on that branch -- suspect
+        return a if a is not None else b
+    if isinstance(node, ast.BoolOp) and isinstance(node.op, ast.Or) and node.values:
+        return _literal_value(node.values[-1], consts)
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
+            and node.func.id in ("max", "min", "round", "int", "float") and node.args:
+        lits = [_literal_value(a, consts) for a in node.args]
+        lits = [v for v in lits if v is not None]
+        if node.func.id in ("max", "min"):
+            # max(1, x): the floor is a literal the generator invented; report it
+            return lits[0] if lits else None
+        return lits[0] if len(lits) == len(node.args) else None
+    return None
 
 
 def _unwrap_round(node):
@@ -126,9 +197,12 @@ def source_literals(src=None):
 
 def _source_literals(src=None):
     out = {}
-    for name, v, line in _assignments(_func_node(src)):
-        if _is_num(v):
-            out[name] = {"value": v.value, "line": line}
+    consts = _module_constants(src)
+    for fn in _func_nodes(src):
+        for name, v, line in _assignments(fn):
+            val = _literal_value(v, consts)
+            if val is not None and name not in out:
+                out[name] = {"value": val, "line": line, "shape": type(v).__name__}
     return out
 
 
@@ -140,16 +214,35 @@ def literal_ratios(src=None):
     return _cached("ratios", src, lambda: _literal_ratios(src))
 
 
+# `x * 12.0` and `x / 12.0` are unit conversions, not proportions: feet to inches is not a
+# number the generator invented. 0.5 and 2.0 WERE on this list and are not conversions of
+# anything -- `upper_h * 0.5` is an egress rule the generator made up (WP-9.4).
+UNIT_CONVERSIONS = (12, 12.0, 144, 144.0, 1, 1.0)
+
+
+def _ratio_literal(v):
+    """The numeric literal that scales or offsets a real figure anywhere in a BinOp tree --
+    `x * 0.6`, `round(a + 4 * b, 2)`: the first instrument looked only at the top-level
+    operator's two sides and missed a literal one level down."""
+    v = _unwrap_round(v)
+    if isinstance(v, ast.BinOp) and isinstance(v.op, (ast.Mult, ast.Div, ast.Add, ast.Sub)):
+        for side in (v.right, v.left):
+            if _is_num(side) and side.value not in UNIT_CONVERSIONS:
+                return side.value, type(v.op).__name__
+        for side in (v.left, v.right):
+            found = _ratio_literal(side)
+            if found:
+                return found
+    return None
+
+
 def _literal_ratios(src=None):
     out = {}
-    for name, v, line in _assignments(_func_node(src)):
-        v = _unwrap_round(v)
-        if isinstance(v, ast.BinOp) and isinstance(v.op, (ast.Mult, ast.Div, ast.Add, ast.Sub)):
-            lit = v.right if _is_num(v.right) else (v.left if _is_num(v.left) else None)
-            # `x * 12.0` and `x / 12.0` are unit conversions, not proportions: feet to inches
-            # is not a number the generator invented
-            if lit is not None and lit.value not in (12, 12.0, 144, 144.0, 1, 1.0, 2, 2.0, 0.5):
-                out[name] = {"factor": lit.value, "op": type(v.op).__name__, "line": line}
+    for fn in _func_nodes(src):
+        for name, v, line in _assignments(fn):
+            found = _ratio_literal(v)
+            if found and name not in out:
+                out[name] = {"factor": found[0], "op": found[1], "line": line}
     return out
 
 

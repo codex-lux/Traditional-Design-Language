@@ -104,3 +104,13 @@ def test_userinfo_is_stripped_even_from_a_legitimate_host():
     """The second line of that defence, independent of the key allowlist."""
     assert mcp_mount._hostname("https://user:secret@tdl.up.railway.app/x") \
         == "tdl.up.railway.app"
+
+
+def test_the_metered_tool_set_is_pinned_even_where_the_mcp_sdk_is_absent():
+    """WP-9.4. test_mcp_http.py pins mcp_mount.METERED against an independent literal -- and
+    skips whole at import without the SDK, so for a package it held three tools against a
+    set of five and was green everywhere the SDK was missing. The literal lives in
+    metered_args.py now and this test needs no SDK."""
+    from workbench.server import mcp_mount
+    from .metered_args import METERED_MIN_ARGS
+    assert set(METERED_MIN_ARGS) == mcp_mount.METERED

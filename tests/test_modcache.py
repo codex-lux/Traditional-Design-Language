@@ -138,3 +138,28 @@ def test_a_module_reached_through_a_symlink_is_rooted_at_the_real_file(tmp_path)
         "the module was loaded from the symlink, so its ROOT is a temp directory that will "
         "be deleted -- and the cache now serves it to everything else in the process")
     assert str(tmp_path) not in through_link.ROOT
+
+
+def test_a_file_already_imported_through_sys_path_is_the_same_object_here():
+    """WP-9.4. workbench/server/corpus.py does `import core` (sys.path) and build/critique.py
+    loads mcp_server/core.py by path under the name `tdlcore`: two module objects for one
+    file, two corpora in memory, and the server's reload invalidating one. modcache hands
+    back the sys.modules module when its __file__ is the realpath asked for."""
+    import importlib
+    import sys
+    import types
+    import modcache as mc
+    path = os.path.join(ROOT, "mcp_server", "core.py")
+    # arrange: the file imported the way the server imports it
+    sys.path.insert(0, os.path.join(ROOT, "mcp_server"))
+    try:
+        via_sys = importlib.import_module("core")
+    finally:
+        sys.path.pop(0)
+    mc.invalidate(path)
+    via_cache = mc.load("tdlcore", path)
+    assert via_cache is via_sys
+    assert mc.load("core", path) is via_sys
+    # and a module that never went through sys.path still loads and caches as before
+    mod = mc.load("check_ids", os.path.join(ROOT, "build", "check_ids.py"))
+    assert isinstance(mod, types.ModuleType)

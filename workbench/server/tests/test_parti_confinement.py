@@ -91,6 +91,9 @@ ENDPOINTS = [
     pytest.param("/api/plan/evaluate", {"place": True, "candidates": 1}, id="evaluate"),
     # WP-9.3: the analyst places once through critique.py, which loads the parti by id
     pytest.param("/api/plan/critique", {"place": True, "candidates": 1, "engine": "heuristic"}, id="critique"),
+    # WP-9.4: the revise route was missing from this list; a job is submitted, and the parti
+    # reaches load_parti inside the worker's first critique
+    pytest.param("/api/plan/revise", {"candidates": 1, "engine": "heuristic", "rounds": 1, "budget_s": 5}, id="revise"),
 ]
 
 
@@ -118,8 +121,16 @@ def test_endpoint_routes_its_parti_through_the_confined_loader(client, monkeypat
     if tdlcore is not core:
         monkeypatch.setattr(tdlcore, "load_parti", spy)
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
-    client.post(path, json={"plan": plan, "parti": "../schema/plan.schema", **extra})
-    assert seen == ["../schema/plan.schema"], (
+    r = client.post(path, json={"plan": plan, "parti": "../schema/plan.schema", **extra})
+    if path == "/api/plan/revise":
+        # a job: the loader is reached on the worker thread, so wait for the job to end
+        import time
+        for _ in range(120):
+            j = client.get(f"/api/jobs/{r.json()['job_id']}").json()
+            if j["status"] in ("done", "error"):
+                break
+            time.sleep(0.5)
+    assert seen and seen[0] == "../schema/plan.schema", (
         f"{path} did not reach core.load_parti — it is loading the parti some other way, "
         "which is how /api/drawings and /api/export stayed vulnerable after the first fix")
 
@@ -216,3 +227,26 @@ def test_the_schema_loader_confines_its_name_too():
     import pytest as _pytest
     with _pytest.raises(FileNotFoundError):
         core.schema("../plans/tidewater-georgian-careful")
+
+
+@pytest.mark.parametrize("path,extra", [
+    pytest.param("/api/plan/critique", {"engine": "heuristic", "candidates": 1}, id="critique"),
+    pytest.param("/api/plan/revise", {"engine": "heuristic", "candidates": 1, "rounds": 1}, id="revise"),
+])
+def test_a_parti_record_is_refused_not_used_as_the_template(client, path, extra):
+    """WP-9.4. `critique()` and `revise()` accept a parti RECORD for library callers (the sweep
+    hands them the templates it read itself), and the first version of both routes passed
+    `body["parti"]` through raw: a dict skipped `load_parti` entirely and became the template
+    geometry reads -- `scaling.bay_module_ft`, `scaling.max_bay_count` -- so a caller could
+    drive the bay count into the thousands or raise a ZeroDivisionError into a 500. Every
+    escape in ESCAPES is a string, so the confinement tests above could not see it."""
+    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    r = client.post(path, json={"plan": plan, "parti": {"scaling": {"bay_module_ft": 0.5, "max_bay_count": 200}}, **extra})
+    assert r.status_code == 422, r.text[:200]
+    assert "parti" in json.dumps(r.json()["detail"])
+    r = client.post(path, json={"plan": plan, "parti": {"scaling": {"bay_module_ft": 0}}, **extra})
+    assert r.status_code == 422
+    # and the library refuses the same thing at the core, for the MCP tools
+    from workbench.server import corpus
+    assert "error" in corpus.core.critique_plan(plan, engine="heuristic", candidates=1, parti={"scaling": {}})
+    assert "error" in corpus.core.revise_plan(plan, rounds=1, engine="heuristic", candidates=1, parti={"scaling": {}})

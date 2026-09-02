@@ -147,6 +147,11 @@ check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
     // cross-check, and zero findings would pass nothing
     check(`the class counts sum to the findings the sheet shows (${sums?.classified} of ${sums?.findings})`,
       !!sums && sums.findings > 0 && sums.classified === sums.findings);
+    // ... and the rows CARRY their class, not only the strip its counts (WP-9.4: nothing
+    // asserted the tags, so dropping them from the row left every check green)
+    const tagged = await page.locator('[data-class-tag]').count();
+    check(`every classified finding row carries its class tag (${tagged} of ${sums?.classified})`,
+      !!sums && tagged === sums.classified);
     const drawn = await page.locator('[data-layer="drawn"]').count();
     if (!drawn) {
       check('every drawn finding carries the engine that placed it — COULD NOT EVALUATE '
@@ -172,6 +177,13 @@ check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
     const still = await page.locator('[data-panel="revision"]').count();
     check('undo takes the revision away — the loop loaded one undo step', still === 0);
     await page.waitForTimeout(2500);   // the debounce re-evaluates the restored record
+    // the critique was of the evaluation BEFORE the revise; two evaluations have landed
+    // since, so the panel must say so and its tags must be gone -- the one moment the
+    // staleness path fires, and the walk used to step over it (WP-9.4)
+    const stale = await page.locator('[data-panel="critique"]').innerText().catch(() => '');
+    check('a critique of an earlier evaluation says so after the record changed', /earlier evaluation/i.test(stale));
+    const tagsAfter = await page.locator('[data-class-tag]').count();
+    check('and no finding row still wears a class from the earlier evaluation', tagsAfter === 0);
   }
 }
 // WP-5.7: every surface's index panel pulls, not just the shell's rails. The findings

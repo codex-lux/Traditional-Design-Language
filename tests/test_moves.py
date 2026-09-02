@@ -103,9 +103,12 @@ class TestTheDimensionMoves:
         f = {"id": "furniture:cl", "layer": "furniture", "kind": "furniture-fit", "room": "cl",
              "need_ft": 5.2, "have_ft": 2.1, "axis": "width", "item": "coat closet at the entry"}
         res = MV.apply("widen-for-furniture", plan, f)
-        assert ("changed" in res) or ("refused" in res and res["refused"])
-        if "changed" in res:
-            assert _room(plan, "cl")["width_ft"] >= 5.2
+        # WP-9.4: the first assertion here was `"changed" in res or "refused" in res`, which
+        # every apply satisfies. The closet's band ceiling (rooms/closet.json) admits 5.2 x 6
+        # = 31 sf, so the move must APPLY, to the unrounded need, and say so
+        assert "changed" in res, res
+        assert _room(plan, "cl")["width_ft"] >= 5.2
+        assert any(c["path"].endswith("width_ft") and c["to"] >= 5.2 for c in res["changed"])
 
     def test_a_widening_past_the_band_ceiling_is_refused_with_the_reason(self):
         plan = minimal_plan([{"id": "cl", "type": "closet", "name": "Closet", "width_ft": 3, "length_ft": 30,
@@ -305,3 +308,165 @@ class TestAnswering:
         ans = MV.answering(f, plan)
         assert [m["id"] for m in ans] == ["shutter-leaf-at-half-the-opening"]
         assert json.dumps(plan, sort_keys=True) == before
+
+
+
+# ------------------------------------------------------------------ WP-9.4: what the audit found
+class TestTheDeclarationIsEnforced:
+    """`touches` was documentation checked against an allow-list; nothing compared it to what
+    an apply function WROTE, and the WP-9.2 report said a test did. Three of twenty-one wrote
+    outside their declaration -- one of them nine authored window counts on the Tidewater plan
+    through a plan-wide re-derivation. `apply()` diffs the record now and refuses, restoring
+    it, on a write outside `touches` or a write `changed` does not report."""
+
+    def test_the_registry_counts_are_pinned(self):
+        """Delete a move and its apply entry together and every other test stayed green."""
+        reg = MV.registry()
+        assert len(reg["moves"]) == 21, [m["id"] for m in reg["moves"]]
+        assert len(reg["refusals"]) == 9
+        assert {r["id"] if isinstance(r, dict) else r for r in reg["refusals"]} >= {"shorten-for-daylight"} or True
+        names = " ".join(json.dumps(r) for r in reg["refusals"])
+        for wanted in ("shorten-for-daylight", "align-upper-walls-to-the-room-below", "move-door-to-a-shared-wall"):
+            assert wanted in names, wanted
+
+    def test_a_move_that_writes_outside_its_touches_is_refused_and_the_record_restored(self, monkeypatch):
+        plan = minimal_plan([{"id": "cl", "type": "closet", "name": "Closet", "width_ft": 2.1, "length_ft": 6,
+                              "doors": [{"to": "exterior"}]}])
+        before = json.dumps(plan, sort_keys=True)
+
+        def rogue(p, f, C, ctx):
+            r = _room(p, "cl")
+            r["width_ft"] = 5.2
+            r["ceiling_ft"] = 12.0          # not in widen-for-furniture's touches
+            return {"changed": [{"path": "levels[].rooms[cl].width_ft", "from": 2.1, "to": 5.2}], "log": "x"}
+        monkeypatch.setitem(MV.APPLY, "widen-for-furniture", rogue)
+        f = {"id": "furniture:cl", "layer": "furniture", "kind": "furniture-fit", "room": "cl",
+             "need_ft": 5.2, "have_ft": 2.1, "axis": "width", "item": "coat closet at the entry"}
+        res = MV.apply("widen-for-furniture", plan, f)
+        assert "refused" in res and "ceiling_ft" in res["refused"] and "outside its touches" in res["refused"]
+        assert json.dumps(plan, sort_keys=True) == before, "the record is restored byte-identically"
+
+    def test_a_write_the_move_does_not_report_is_refused(self, monkeypatch):
+        plan = minimal_plan([{"id": "cl", "type": "closet", "name": "Closet", "width_ft": 2.1, "length_ft": 6,
+                              "doors": [{"to": "exterior"}]}])
+
+        def quiet(p, f, C, ctx):
+            _room(p, "cl")["width_ft"] = 5.2
+            return {"changed": [], "log": "x"}
+        monkeypatch.setitem(MV.APPLY, "widen-for-furniture", quiet)
+        f = {"id": "furniture:cl", "layer": "furniture", "kind": "furniture-fit", "room": "cl",
+             "need_ft": 5.2, "have_ft": 2.1, "axis": "width", "item": "coat closet at the entry"}
+        res = MV.apply("widen-for-furniture", plan, f)
+        assert "refused" in res and "without reporting" in res["refused"]
+        assert _room(plan, "cl")["width_ft"] == 2.1
+
+    def test_paths_written_spells_rooms_by_id_and_lists_by_addition(self):
+        a = minimal_plan([{"id": "x", "type": "closet", "name": "X", "width_ft": 2, "length_ft": 6, "doors": [], "windows": [{"wall": "S", "count": 1}]}])
+        b = copy.deepcopy(a)
+        _room(b, "x")["width_ft"] = 3
+        _room(b, "x")["windows"][0]["wall"] = "N"
+        _room(b, "x")["doors"].append({"to": "exterior"})
+        got = MV._paths_written(a, b)
+        assert set(map(MV._norm_path, got)) == {"levels[].rooms[].width_ft", "levels[].rooms[].windows[].wall", "levels[].rooms[].doors[]"}
+
+    def test_passage_to_its_band_on_a_passage_shorter_than_six_feet_long(self):
+        """4.5 x 5: the first version wrote 5 x 6 (the sort made 6.0 the LENGTH), left the
+        short side under its own band, and logged "widened to 6.0"."""
+        plan = minimal_plan([{"id": "p", "type": "centre-passage", "name": "Passage", "width_ft": 4.5, "length_ft": 5.0,
+                              "doors": [{"to": "exterior"}]}])
+        f = {"id": "drawn:p", "layer": "drawn", "kind": "passage-narrow", "room": "p", "have_ft": 4.5,
+             "band": [6.0, 7.0], "declared_ft": 4.5}
+        res = MV.apply("passage-to-its-band", plan, f)
+        assert "changed" in res, res
+        r = _room(plan, "p")
+        assert min(r["width_ft"], r["length_ft"]) >= 6.0
+        assert {c["path"].split(".")[-1] for c in res["changed"]} == {"width_ft", "length_ft"}
+
+    def test_add_the_grammar_door_leaves_every_other_room_and_every_authored_window_count_alone(self, corpus):
+        """On the placed Tidewater plan the first version wrote 253 paths in 25 rooms for one
+        door, nine authored window counts among them (dining 2 -> 1, drawing 2 -> 3)."""
+        plan = load_plan("tidewater-georgian-careful")
+        counts_before = {(r["id"], i): w.get("count") for lv in plan["levels"] for r in lv["rooms"]
+                         for i, w in enumerate(r.get("windows") or [])}
+        porch = next(r for lv in plan["levels"] for r in lv["rooms"] if r["id"] == "porch")
+        stair = next(r for lv in plan["levels"] for r in lv["rooms"] if r["id"] == "stair")
+        porch["doors"] = [d for d in porch.get("doors", []) if d["to"] != "stair"]
+        stair["doors"] = [d for d in stair.get("doors", []) if d["to"] != "porch"]
+        snapshot = copy.deepcopy(plan)
+        f = {"id": "drawn:porch", "layer": "drawn", "kind": "unreachable", "room": "porch", "adjacent_placed": ["stair"]}
+        res = MV.apply("add-the-grammar-door", plan, f, corpus)
+        assert "changed" in res, res
+        counts_after = {(r["id"], i): w.get("count") for lv in plan["levels"] for r in lv["rooms"]
+                        for i, w in enumerate(r.get("windows") or [])}
+        assert counts_after == counts_before, "an authored window count is never overwritten by a door"
+        written = {MV._norm_path(p) for p in MV._paths_written(snapshot, plan)}
+        assert written == {"levels[].rooms[].doors[]"}, written
+        touched_rooms = {p.split("rooms[")[1].split("]")[0] for p in MV._paths_written(snapshot, plan)}
+        assert touched_rooms == {"porch", "stair"}
+
+    def test_move_window_off_the_needed_wall_never_reaches_into_placement_keys(self):
+        plan = minimal_plan([{"id": "din", "type": "dining-room", "name": "Dining", "width_ft": 14, "length_ft": 18,
+                              "exterior_walls": ["S", "E"], "doors": [{"to": "exterior"}],
+                              "windows": [{"wall": "S", "count": 2, "width_ft": 3.0, "position_ft": 4.0, "positions_ft": [4.0, 9.0]}]}])
+        f = {"id": "drawn:din", "layer": "drawn", "kind": "wall-run", "room": "din", "item": "sideboard",
+             "walls_with_windows": ["S"], "need_ft": 8.0, "have_ft": 3.0}
+        res = MV.apply("move-window-off-the-needed-wall", plan, f)
+        assert "changed" in res, res
+        w = _room(plan, "din")["windows"][0]
+        assert w["wall"] == "E"
+        # the stale placement stays on the record for the strip before re-placement to remove;
+        # the move itself writes only what it declares
+        assert w.get("position_ft") == 4.0 and w.get("positions_ft") == [4.0, 9.0]
+        assert MV.move("move-window-off-the-needed-wall")["requires"] == "re-place"
+
+    def test_the_four_moves_the_sweep_never_reached_apply_on_a_fixture_that_triggers_them(self, corpus):
+        # widen-wet-room-for-fixture
+        plan = minimal_plan([{"id": "b", "type": "bathroom", "name": "Bath", "width_ft": 4, "length_ft": 4.5, "doors": [{"to": "exterior"}]}])
+        f = {"id": "drawn:b", "layer": "drawn", "kind": "fixture-unplaced", "room": "b", "item": "tub", "need_ft": [5.0, 2.5]}
+        res = MV.apply("widen-wet-room-for-fixture", plan, f, corpus)
+        assert "changed" in res and max(_room(plan, "b")["width_ft"], _room(plan, "b")["length_ft"]) >= 5.0, res
+        assert "refused" in MV.apply("widen-wet-room-for-fixture", minimal_plan([{"id": "b", "type": "bathroom", "name": "Bath", "width_ft": 4, "length_ft": 6, "doors": [{"to": "exterior"}]}]),
+                                     dict(f, need_ft=[5.0, 2.5]), corpus), "the declared room would hold it: the engine's"
+        # grow-to-band-floor
+        plan = minimal_plan([{"id": "bed", "type": "bedroom", "name": "Bed", "width_ft": 8, "length_ft": 10, "doors": [{"to": "exterior"}]}])
+        f = {"id": "room:bed", "layer": "room", "kind": "area-below-band", "room": "bed", "have_sf": 80, "need_sf": 130, "band": [130, 220]}
+        res = MV.apply("grow-to-band-floor", plan, f, corpus)
+        assert "changed" in res, res
+        r = _room(plan, "bed")
+        assert r["width_ft"] * r["length_ft"] >= 130 - 1
+        # give-the-room-a-window (scoped to its own room; a neighbour's windows untouched)
+        plan = minimal_plan([{"id": "lib", "type": "library", "name": "Library", "width_ft": 14, "length_ft": 18,
+                              "exterior_walls": ["S"], "doors": [{"to": "pass"}]},
+                             {"id": "pass", "type": "centre-passage", "name": "Passage", "width_ft": 7, "length_ft": 30,
+                              "doors": [{"to": "exterior"}, {"to": "lib"}], "windows": [{"wall": "N", "count": 2, "width_ft": 3.0}]}])
+        f = {"id": "daylight:lib", "layer": "daylight", "kind": "no-window", "room": "lib"}
+        snapshot = copy.deepcopy(plan)
+        res = MV.apply("give-the-room-a-window", plan, f, corpus)
+        assert "changed" in res, res
+        assert _room(plan, "lib")["windows"] and _room(plan, "lib")["windows"][0]["wall"] == "S"
+        assert _room(plan, "pass") == _room(snapshot, "pass"), "the neighbour is not re-derived"
+        assert any(c["path"].endswith("window_head_ft") for c in res["changed"])
+        # ... and on a style that is not a node it REFUSES rather than exits the interpreter
+        plan = minimal_plan([{"id": "lib", "type": "library", "name": "Library", "width_ft": 14, "length_ft": 18,
+                              "exterior_walls": ["S"], "doors": [{"to": "exterior"}]}], style="no-such-style")
+        res = MV.apply("give-the-room-a-window", plan, f, corpus)
+        assert "refused" in res and "no-such-style" in res["refused"]
+        assert not _room(plan, "lib").get("windows") and "window_head_ft" not in _room(plan, "lib")
+        # move-window-off-the-needed-wall: the test above
+
+
+class TestNoMoveReadsProse:
+    def test_no_apply_function_reads_a_findings_statement(self):
+        """The analogous guard covered only compose.repair. Read the CODE through the AST, not
+        the file's text: a docstring that names the word is not a read of it."""
+        import ast
+        src = open(os.path.join(BUILD, "moves.py"), encoding="utf-8").read()
+        tree = ast.parse(src)
+        hits = []
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Constant) and node.slice.value == "statement":
+                hits.append(node.lineno)
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "get" \
+                    and node.args and isinstance(node.args[0], ast.Constant) and node.args[0].value == "statement":
+                hits.append(node.lineno)
+        assert not hits, f"build/moves.py reads a finding's prose at lines {hits}"

@@ -20,6 +20,7 @@ import copy
 import json
 import math
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -88,7 +89,10 @@ def _corpus(C):
 
 
 def _set_dims(r, w, l):
-    """Width is the SHORT dimension by schema; keep it so."""
+    """Width is the SHORT dimension by schema; keep it so. A caller that means "the short
+    side must be at least X" passes X for BOTH when the long side is under X -- the sort
+    here otherwise makes X the LENGTH and leaves the short side where it was (WP-9.4:
+    `passage-to-its-band` on a 4.5 x 5 passage wrote 5 x 6 and logged 6.0)."""
     w, l = round(min(w, l), 1), round(max(w, l), 1)
     ch = []
     if r.get("width_ft") != w:
@@ -216,14 +220,29 @@ def _give_the_room_a_window(plan, f, C, ctx):
     lv = _level_of(plan, r["id"])
     ch = lv.get("floor_to_ceiling_ft") or r.get("ceiling_ft") or 9.0
     head = r.get("window_head_ft") or round(ch - 1.2, 1)
+    had_head = r.get("window_head_ft")
     r["window_head_ft"] = head
     # 3.2 ft is the composer's own placeholder, which derive_openings replaces with the pack's
-    # figure for the room it lights; the count follows the room's own glazing fraction
+    # figure for the room it lights; the count follows the room's own glazing fraction.
+    # Scoped to THIS room's windows: unscoped, it re-derived every window count on the plan
+    # (WP-9.4). And a kit that cannot be resolved raises out of resolve_kit as SystemExit,
+    # which a move turns into a refusal rather than a dead worker thread.
     r["windows"] = [{"wall": ext[0], "width_ft": 3.2, "height_ft": round(head - 2.4, 1), "count": 1,
                      "operable": True}]
-    _rederive_openings(plan, ctx)
-    return {"changed": [{"path": f"levels[].rooms[{r['id']}].windows[]", "from": None,
-                         "to": {"wall": ext[0], "count": r["windows"][0].get("count")}}],
+    try:
+        _rederive_openings(plan, ctx, rooms={r["id"]}, doors=False)
+    except (SystemExit, Exception) as exc:
+        r.pop("windows", None)
+        if had_head is None:
+            r.pop("window_head_ft", None)
+        else:
+            r["window_head_ft"] = had_head
+        return {"refused": f"the window could not be derived for style {plan.get('style')!r}: {exc}"[:200]}
+    changed = [{"path": f"levels[].rooms[{r['id']}].windows[]", "from": None,
+                "to": {"wall": ext[0], "count": r["windows"][0].get("count"), "width_ft": r["windows"][0].get("width_ft")}}]
+    if had_head != head:
+        changed.append({"path": f"levels[].rooms[{r['id']}].window_head_ft", "from": had_head, "to": head})
+    return {"changed": changed,
             "log": f"Gave {_name(r)} a window on its {ext[0]} wall; it declared an exterior wall and no glass."}
 
 
@@ -268,7 +287,9 @@ def _passage_to_its_band(plan, f, C, ctx):
     d = min(r.get("width_ft") or 0, r.get("length_ft") or 0)
     if d >= 6.0:
         return {"refused": "the passage is declared at its band; the engine drew it narrower"}
-    ch = _set_dims(r, 6.0, max(r.get("length_ft") or 0, r.get("width_ft") or 0))
+    # the SHORT side to 6.0; a passage shorter than 6 ft long becomes 6 x 6 rather than 5 x 6
+    long_side = max(r.get("length_ft") or 0, r.get("width_ft") or 0)
+    ch = _set_dims(r, 6.0, max(6.0, long_side))
     return {"changed": ch, "log": f"Widened {_name(r)} from {d} to 6.0 ft, the passage that circulates."}
 
 
@@ -284,8 +305,9 @@ def _move_window_off_wall(plan, f, C, ctx):
         return {"refused": f"{_name(r)} has no other declared exterior wall to move a window to"}
     src, dst = with_win[0], free[0]
     win = next(x for x in r["windows"] if x.get("wall") == src)
-    for k in ("position_ft", "positions_ft", "unplaced"):
-        win.pop(k, None)
+    # the window's old placement (position_ft, unplaced) is solver output; the move requires
+    # re-placement and the strip before it removes them -- a move never reaches into
+    # placement keys itself (WP-9.4: this one popped them off the live record)
     win["wall"] = dst
     return {"changed": [{"path": f"levels[].rooms[{r['id']}].windows[].wall", "from": src, "to": dst}],
             "log": f"Moved {_name(r)}'s window from its {src} wall to its {dst} wall, to leave the run its {f.get('item')} needs."}
@@ -389,10 +411,14 @@ def _reduce_dormer_count(plan, f, C, ctx):
             "log": f"Reduced the declared dormer count from {old} to {old - 1}, to the rhythm of the bays."}
 
 
-def _rederive_openings(plan, ctx):
+def _rederive_openings(plan, ctx, rooms=None, doors=True, windows=True, pairs=None):
+    """The composer's derivation, SCOPED to the rooms a move touched. The first version ran
+    symmetrise_doors and derive_openings over the whole plan: 253 paths written in 25 rooms
+    for one added door on the Tidewater plan, nine authored window counts among them
+    (WP-9.4). symmetrise_doors is not called at all -- a move writes both sides of the door
+    it adds, and symmetrise also PRUNES every door to a room it cannot find."""
     CO = _mod("compose", os.path.join(ROOT, "build", "compose.py"))
-    CO.symmetrise_doors(plan)
-    CO.derive_openings(plan, plan.get("style"), [])
+    CO.derive_openings(plan, plan.get("style"), [], rooms=rooms, doors=doors, windows=windows, pairs=pairs)
 
 
 def _must_not_adjoin(C, a_type, b_type):
@@ -423,10 +449,13 @@ def _add_the_grammar_door(plan, f, C, ctx):
             continue
         CO = _mod("compose", os.path.join(ROOT, "build", "compose.py"))
         rule = CO.opening_rule(r["type"], o["type"])
+        # both sides of the one door, then its width, type, rank and height derived for
+        # THIS pair only -- the grammar rule for the pair, through the composer's own code
         r.setdefault("doors", []).append({"to": oid})
-        _rederive_openings(plan, ctx)
-        return {"changed": [{"path": f"levels[].rooms[{r['id']}].doors[]", "from": None, "to": {"to": oid}},
-                            {"path": f"levels[].rooms[{oid}].doors[]", "from": None, "to": {"to": r['id']}}],
+        o.setdefault("doors", []).append({"to": r["id"]})
+        _rederive_openings(plan, ctx, rooms={r["id"], oid}, windows=False, pairs={frozenset((r["id"], oid))})
+        return {"changed": [{"path": f"levels[].rooms[{r['id']}].doors[]", "from": None, "to": dict(r["doors"][-1])},
+                            {"path": f"levels[].rooms[{oid}].doors[]", "from": None, "to": dict(o["doors"][-1])}],
                 "log": f"Added the door the grammar prescribes between {_name(r)} and {_name(o)} ({rule['id']}), "
                        f"so {_name(r)} can be reached.",
                 "basis": rule.get("basis")}
@@ -595,15 +624,93 @@ def answering(finding, plan, C=None, ctx=None, check=True):
     return out
 
 
+def _norm_path(path):
+    """A written path in the registry's spelling: every bracketed key -- a level id, a room
+    id, a list index -- becomes `[]`, so `levels[ground].rooms[dining].windows[0].wall` and
+    the registry's `levels[].rooms[].windows[].wall` are one string."""
+    return re.sub(r"\[[^\]]*\]", "[]", path)
+
+
+def _touch_matches(path, touches):
+    p = _norm_path(path)
+    if p in touches:
+        return True
+    if p.startswith("declared.") and "declared.<slot>" in touches:
+        return True
+    # a new element of a list the move may add to: its sub-fields are part of the addition
+    for t in touches:
+        if t.endswith("[]") and p.startswith(t + "."):
+            return True
+    return False
+
+
+def _paths_written(before, after, prefix=""):
+    """Every leaf path that differs between two records, in the registry's spelling. A list
+    whose length changed is reported once as `<path>[]` (an element added or removed); an
+    element that changed in place is reported by its field."""
+    out = []
+    if isinstance(before, dict) and isinstance(after, dict):
+        for k in sorted(set(before) | set(after)):
+            sub = f"{prefix}.{k}" if prefix else k
+            if k not in before or k not in after:
+                # a list that appears or vanishes whole is an addition to that list
+                present = after.get(k) if k in after else before.get(k)
+                out.append(sub + "[]" if isinstance(present, list) else sub)
+            else:
+                out.extend(_paths_written(before[k], after[k], sub))
+    elif isinstance(before, list) and isinstance(after, list):
+        if len(before) != len(after):
+            out.append(prefix + "[]")
+            return out
+        # rooms are matched by id so an id-keyed path can be spelled; other lists by index
+        if before and all(isinstance(x, dict) and "id" in x for x in before + after):
+            b = {x["id"]: x for x in before}; a = {x["id"]: x for x in after}
+            for rid in sorted(set(b) | set(a)):
+                if rid not in b or rid not in a:
+                    out.append(prefix + "[]")
+                else:
+                    out.extend(_paths_written(b[rid], a[rid], f"{prefix}[{rid}]"))
+        else:
+            for i, (x, y) in enumerate(zip(before, after)):
+                out.extend(_paths_written(x, y, f"{prefix}[{i}]"))
+    elif before != after:
+        out.append(prefix)
+    return out
+
+
 def apply(move_id, plan, finding, C=None, ctx=None):
-    """Apply one move to the plan IN PLACE. Returns the change record or a refusal."""
+    """Apply one move to the plan IN PLACE. Returns the change record or a refusal.
+
+    THE DECLARATION IS ENFORCED HERE (WP-9.4). `touches` was documentation checked against an
+    allow-list; nothing compared it to what an apply function WROTE, and three of twenty-one
+    wrote outside it -- one of them nine authored window counts. Now the record is diffed
+    before and after, every written path is held against the move's `touches` (in the
+    registry's spelling), and a write outside them RESTORES the record and refuses, naming
+    the path. `changed` must also cover every written path, so the loop's account is
+    complete."""
     m = move(move_id)
     if not m:
         return {"refused": f"no move '{move_id}' is registered"}
     fn = APPLY.get(move_id)
     if fn is None:
         return {"refused": f"'{move_id}' is registered and has no apply function"}
+    snapshot = copy.deepcopy(plan)
     res = fn(plan, finding, C, ctx)
+    if "refused" not in res:
+        written = _paths_written(snapshot, plan)
+        outside = [w for w in written if not _touch_matches(w, m["touches"])]
+        unreported = [w for w in written
+                      if not any(_norm_path(c["path"]) == _norm_path(w) or _norm_path(w).startswith(_norm_path(c["path"]) + ".")
+                                 or _norm_path(c["path"]).startswith(_norm_path(w))
+                                 for c in res.get("changed", []))]
+        if outside or unreported:
+            plan.clear(); plan.update(snapshot)
+            why = []
+            if outside:
+                why.append(f"wrote {', '.join(sorted(set(_norm_path(w) for w in outside)))}, outside its touches {m['touches']}")
+            if unreported:
+                why.append(f"wrote {', '.join(sorted(set(_norm_path(w) for w in unreported)))} without reporting it in `changed`")
+            return {"refused": f"{move_id} " + "; ".join(why) + " -- the record was restored", "move": move_id}
     res.setdefault("move", move_id)
     res.setdefault("basis", m["basis"])
     res["requires"] = m["requires"]

@@ -59,7 +59,7 @@ round-trip sees them on both sides.
 separately and returned the placement beside findings that had never seen it. WP-6.2's drawn
 layer — reachability, stranded rooms, the stair, the fixtures, the whole reason OQ 54 was
 reopened — reported "could not evaluate" on every bench evaluate since it shipped, and the
-word "drawn" appears nowhere in `workbench/app/src`. The parity test that pins bench = CLI
+word "drawn" appears nowhere in `workbench/app/src` *(true when written; WP-9.3 put it there)*. The parity test that pins bench = CLI
 compared the declared record against itself and could not see it.
 
 `evaluate()` solves first now, judges the SOLVED record, and projects `placement` off the
@@ -151,7 +151,7 @@ being wrong, and each is a separate decision.
 placement the record carries, the rule `corpus._placed` keeps), runs the critic on the
 placed record, and sorts every non-info finding into exactly one class, first match wins:
 `advisory` (the code layer), `placement` (the DECLARED record would have satisfied the need
-and the engine did not — decided against the declared record BEFORE anything else, with the
+and the engine did not — decided BEFORE anything else *(corrected by WP-9.4: against the declared record's own FIELDS for four drawn kinds, and for five by what the record declares that the search engine did not realise — `oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds`)*, with the
 lever named: the proof, a wider search, or the CP conflict set), `critic-suspect` (§IV),
 `actionable` (a registered move answers it — the registry is WP-9.2's, so nothing is
 actionable yet and the analyst says which move WOULD answer it), and `architect` (everything
@@ -211,7 +211,7 @@ here because WP-9.2's loop will otherwise treat a 6 ft portico as a porch to dee
   with the trace and corrected in `docs/plans.md` (whose table had drifted to 3 / 49 / 51 and
   0 / 18 / 60 against pins of 4 / 53 and 0 / 30 — the drift its own parenthesis warns of).
 - `python3 build/check_critic_suspects.py`: 35 literals, 4 ratios, 61 never-varying over 11
-  plans, one editorial suspect verified; registered in `check_all.CHECKS`, TOTAL_CHECKS 43.
+  plans, one editorial suspect verified; registered in `check_all.CHECKS`, TOTAL_CHECKS 43 *(corrected by WP-9.4: 44 — WP-9.2's `check_moves.py` landed the same day and this sentence was not re-measured)*.
 - `tests/test_critique.py` (30 tests): the elevation is of the carried placement (spied on
   `build_section`'s argument; reverting §I makes it None); an undrivable elevation is a named
   info; a style outside scope is stated; every figure a move would read appears in its

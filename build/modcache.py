@@ -73,6 +73,7 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import sys
 import threading
 
 _CACHE: dict[str, object] = {}
@@ -108,6 +109,17 @@ def load(name: str, path: str):
         if hit is not None:
             return hit
 
+        # ONE MODULE OBJECT PER FILE, WHATEVER IMPORTED IT (WP-9.4). The workbench server
+        # imports `core` through sys.path and the analyst (build/critique.py, revise.py)
+        # loads the same file here under the name `tdlcore`: two module objects, two
+        # `_data()` corpora in memory, and `/api/dev/reload` invalidating one of them. A
+        # module already in sys.modules whose file is this realpath IS the module; hand it
+        # back and remember it, so the first name a path is loaded under wins either way.
+        already = _already_imported(key)
+        if already is not None:
+            _CACHE[key] = already
+            return already
+
         spec = importlib.util.spec_from_file_location(name, key)
         if spec is None or spec.loader is None:
             raise ImportError(f"cannot load {name} from {path}")
@@ -125,6 +137,20 @@ def load(name: str, path: str):
             _CACHE.pop(key, None)
             raise
         return module
+
+
+def _already_imported(realpath):
+    """The sys.modules entry whose __file__ is `realpath`, if one has finished executing."""
+    for mod in list(sys.modules.values()):
+        f = getattr(mod, "__file__", None)
+        if not f:
+            continue
+        try:
+            if os.path.realpath(f) == realpath and getattr(mod, "__spec__", None) is not None:
+                return mod
+        except (OSError, ValueError):
+            continue
+    return None
 
 
 def invalidate(path: str | None = None) -> None:

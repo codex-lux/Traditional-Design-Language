@@ -214,8 +214,23 @@ def _intended_move(plan, f):
 
 
 def _is_placement(plan, f):
-    """The declared record would have satisfied the need; the engine did not. Decided against
-    the DECLARED record, and decided BEFORE `actionable`."""
+    """The engine's finding, not the record's -- decided BEFORE `actionable`, so a move is
+    never asked to fix what a proof would.
+
+    HOW it is decided differs by kind, and the WP-9.1 report said "decided against the
+    DECLARED record" of all of them (WP-9.4). Four kinds read the record's own fields:
+    `stair-not-drawn` (`declared_fits`), `fixture-unplaced` (the declared walls against the
+    fixture's footprint), `wall-run` (the declared free walls against the run), and the two
+    passage kinds (`declared_ft` in its band). Five are decided by WHAT THE RECORD DECLARES
+    AND THE ENGINE DID NOT REALISE, which is a fact of the finding rather than a measurement:
+    an `unreachable` or `cut-off` room DECLARES the door the search did not seat (the
+    finding's own `declared` count), a `stack-broken` room declares the stack, and
+    `drawn-vs-declared`, `landing-off-well` and `stack-unplaced` are by definition the
+    placement disagreeing with the declaration. For those five the search engine's finding
+    is the engine's and the proving engine's is the record's, because a proof that could not
+    seat a declared door has shown the declaration cannot be built as written -- and then
+    the door move or the conflict set is the answer. Whether that reading is right for every
+    kind is `oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds`."""
     if f["layer"] != "drawn":
         return False
     k = f.get("kind")

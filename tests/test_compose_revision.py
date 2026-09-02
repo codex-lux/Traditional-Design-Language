@@ -6,8 +6,14 @@ the declared record so `score` and `score_before` are one instrument.
 """
 import json
 import os
+import sys
 
 import pytest
+
+BUILD = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'build')
+if BUILD not in sys.path:
+    sys.path.insert(0, BUILD)
+import modcache as mc  # noqa: E402
 
 
 def _brief(name):
@@ -72,13 +78,28 @@ class TestThePlacedLoopOnTheReturnedCandidates:
             assert c["plan"].get("revision_report", {}).get("mode") == "placed"
             assert c["plan"]["revision_report"].get("declared_pass") is not None
 
-    def test_score_and_score_before_are_one_instrument(self, composed):
+    def test_score_and_score_before_are_one_instrument(self, composed, compose_module):
         """Both are score_candidate on the DECLARED record; a drawn finding never enters
-        the composite for the revised candidate and not for its earlier self."""
+        the composite for the revised candidate and not for its earlier self. The first
+        version of this test asserted only that an axis existed and the score was in range,
+        which `PC.check(placed)` also satisfies (WP-9.4). Now: re-score the returned plan
+        STRIPPED of its placement with the composer's own instrument and match `score`."""
+        import copy
+        OP = mc.load("openings", os.path.join(BUILD, "openings.py"))
+        PC = mc.load("plan_check", os.path.join(BUILD, "plan_check.py"))
+        C = PC.load_corpus()
         for c in composed["candidates"]:
             axes = {a["axis"] for a in c["score_axes"]}
             assert "connections" in axes
-            assert c["score"] is None or 0 <= c["score"] <= 100
+            declared = OP.strip_placement(copy.deepcopy(c["plan"]))
+            declared.pop("revision_report", None)
+            res = PC.check(declared, C)
+            assert res["counts"].get("fatal", 0) == c["counts"].get("fatal", 0)
+            assert res["counts"].get("serious", 0) == c["counts"].get("serious", 0)
+            # the drawn layer reports could-not-evaluate (info) on an unplaced record; no
+            # drawn VERDICT enters the declared instrument
+            assert not [f for f in res["findings"] if f["layer"] == "drawn" and f["severity"] != "info"], \
+                "the declared instrument sees no drawn finding"
 
     def test_the_revision_lines_are_decisions_of_kind_revision(self, composed):
         for c in composed["candidates"]:

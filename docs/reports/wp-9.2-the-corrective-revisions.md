@@ -41,8 +41,11 @@ Twenty-one moves and nine stated refusals. A move is data and code held together
   elevation at 0.4 s.
 
 `APPLY[id](plan, finding, C, ctx)` returns `{changed: [{path, from, to}], log}` or
-`{refused: reason}`; the `changed` paths are checked against `touches` at apply time by
-`tests/test_moves.py`, so a move cannot declare one path and write another.
+`{refused: reason}`. *(Corrected by WP-9.4: the sentence that stood here said the `changed`
+paths were checked against `touches` at apply time by `tests/test_moves.py`. No such test
+existed, and three of the twenty-one moves wrote outside their declaration — one of them
+nine authored window counts on the Tidewater plan. `apply()` diffs the record now and
+refuses, restoring it, on any write outside `touches` or unreported in `changed`.)*
 
 The **`authority`** block records the ruling verbatim, and the nine **`refusals`** name what
 the loop will not do and why: `shorten-for-daylight` (OQ 92 — a size move for an
@@ -144,9 +147,9 @@ and `--sweep`.
 | tidewater-georgian-careful | [3, 44, 70, 19] | [3, 43, 70, 19] | 5 | 1 | 12 | no-applicable-move |
 | spec-builder-colonial | [10, 70, 63, 21] | [6, 68, 64, 20] | 6 | 3 | 17 | round-cap |
 
-Totals over the 23: fatal **135 -> 91**, serious **961 -> 749**, minor **1,157 -> 1,213**;
+Totals over the 23 *(re-measured by WP-9.4 after the lever bookkeeping and the scoped door move; the table above is the re-measurement)*: fatal **135 -> 93**, serious **961 -> 750**, minor **1,157 -> 1,212**;
 20 plans improved, 3 unchanged, **0 worse** (the acceptance rule's own guarantee, and the
-sweep's reason for existing); 142 moves applied, 135 refused; 54 s in all. **Minor findings
+sweep's reason for existing); 142 moves applied, 131 refused; 68 s in all. **Minor findings
 RISE while fatal and serious fall**, and that is the lexicographic key working as designed — a
 widened room clears a serious furniture finding and drifts the drawn area outside its declared
 band by 12%, which is a minor. Fifteen of 23 stop on the round cap, which says the cap is
@@ -179,10 +182,10 @@ seen from the loop's side.
 
 ### The refused-round rate, per engine
 
-On the search engine, over the sweep: **135 of 277 applications refused, 48.7%**, nearly all
+On the search engine, over the sweep: **131 of 273 applications refused, 48.0%** *(WP-9.4's re-measurement; the 135 of 277 first published was counted through a lever entry that carried no flag)*, nearly all
 of them `refused_by_measurement` — the round's key did not strictly improve because the
 re-placement moved something else. Under CP-SAT on the Tidewater plan (`--engine cp --rounds
-5`): `[0, 40, 65, 20] -> [0, 29, 69, 18]`, 4 rounds, **11 applied, 1 refused**, 160 s. The
+5`): `[0, 40, 65, 20] -> [0, 29, 69, 18]`, 4 rounds, **11 applied, 1 refused**, 160 s *(measured before WP-9.4 found that a round whose proof timed out could be accepted on the declared key; WP-9.4's bounded CP table is the figure to read)*. The
 refusal rate is the engine's, not the loop's; a caller reading a high refusal count should
 read `revision_report.rounds[].engine` before reading anything into the moves.
 
@@ -196,7 +199,7 @@ Three reasons, stated so the next reader does not take "never fired" for "does n
 
 1. **The precondition did not arise on these 23 plans.** No shipped or instantiated plan
    declares a forbidden variant, an off-rhythm dormer count, a passage under its band or a
-   window on the sideboard wall. The moves have unit tests on fixtures that do.
+   window on the sideboard wall. The moves have unit tests on fixtures that do *(corrected by WP-9.4: four of them had none — `widen-wet-room-for-fixture`, `move-window-off-the-needed-wall`, `grow-to-band-floor`, `give-the-room-a-window` — and have now)*.
 2. **The finding is classified `placement` first, and the sweep is on the search engine.**
    An unreachable room, an unplaced fixture, a stair not drawn: WP-9.1 decides these against
    the DECLARED record before anything is called actionable, and on the search engine the
@@ -255,13 +258,13 @@ replaces. Measured on the family-georgian double-pile candidate before it was re
 - **One round applied every finding's move from a stale list**: a pantry widened twice, +72%.
 
 None of these was visible from the composer's score, which is taken on the declared record
-after `reclaim`. All four are pinned in `tests/test_moves.py` and `tests/test_revise.py`.
+after `reclaim`. All four are pinned in `tests/test_moves.py` and `tests/test_revise.py` *(corrected by WP-9.4: the stale-list defect was not, and the closet test's primary assertion could not fail; both are pinned now)*.
 
 ## VI — Deliberately not done
 
 - **A CP-SAT sweep.** 23 plans x 6 rounds x ~25 s a proof is the better part of an hour and
   the figures would be this container's; the CP numbers published here are the two shipped
-  plans'. WP-9.4 may run it.
+  plans'. WP-9.4 ran a bounded one: five plans, four rounds, published in its report.
 - **`move-door-to-a-shared-wall`** — refused in the registry: re-pointing an author's door at
   a different room is a change of intent, and adding the grammar's door beside it is not.
   Left open in `oq/the-revision-loops-authority-over-topology`.
@@ -283,9 +286,14 @@ after `reclaim`. All four are pinned in `tests/test_moves.py` and `tests/test_re
 Things this report asserts that an auditor should try to break: that a refused round is
 restored byte-identically (drop the deepcopy); that a move cannot write outside its
 `touches` (declare one path, write another); that `search-harder` is never accepted on a key
-that improved only in `minor` — it cannot be, the key is lexicographic, but check the
-comparison is over the whole tuple; that `score_before` is taken BEFORE the placed loop and
-not after `repair`; that the sweep's before and after are different objects; that the tabu
-set is really cleared on an engine change and not merely reported cleared; that the reclaim
+that improved only in `minor` *(corrected by WP-9.4: lexicographic order PERMITS a
+minor-only improvement and §IV shows it accepted; what the audit checked is that the
+comparison reads the whole tuple, which it does and which no test had pinned)*; that
+`score_before` is taken BEFORE the placed loop *(it is necessarily AFTER `repair`, which is
+the composer's declared loop — the "not after repair" half of this sentence was wrong)*;
+that the sweep's before and after are different objects *(they were one object whenever no
+round was accepted; a copy now)*; that the tabu set is really cleared on an engine change
+and not merely reported cleared *(it was cleared on ANY accepted lever, `search-harder`
+included; on an engine change only now)*; that the reclaim
 guard fires on a rise in `fatal` and not on the whole key (a reclaim that trades a serious
 for two minors is kept, on purpose).
