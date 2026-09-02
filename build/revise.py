@@ -122,6 +122,15 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
            "candidates": candidates, "engine": engine}
     t0 = time.perf_counter()
 
+    def _report(rnd):
+        # EVERY logged round is reported, the refused-lever and nothing-applied rounds
+        # included: WP-9.3's revise job emitted no `round` event on a plan whose only round
+        # was a refused proof, because two of the four paths that log a round skipped the
+        # callback. One reporter, so a fifth path cannot skip it either.
+        log.append(rnd)
+        if on_round:
+            on_round(rnd)
+
     def _crit(p):
         return CR.critique(p, engine=ctx["engine"], candidates=ctx["candidates"], parti=parti_rec,
                            place=place, seed=seed, time_limit_s=time_limit_s, C=C, ctx=ctx)
@@ -167,7 +176,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             res = MV.apply(lever, plan, crit["assessment"]["placement"][0]["finding"], C, ctx)
             if "refused" in res:
                 rnd["moves"].append({"move": lever, "refused": res["refused"]})
-                log.append(rnd)
+                _report(rnd)
                 continue
             saved = dict(ctx)
             ctx.update(res["lever"])
@@ -189,9 +198,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                 ctx.clear(); ctx.update(saved)
             rnd["moves"].append(entry)
             rnd["engine_after"] = new["engine"]["ran"]
-            log.append(rnd)
-            if on_round:
-                on_round(rnd)
+            _report(rnd)
             continue
 
         over_budget = lambda: budget_s is not None and time.perf_counter() - t0 > budget_s
@@ -205,7 +212,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                 continue
             applied.append((mid, issue, res))
         if not applied:
-            log.append(rnd)
+            _report(rnd)
             continue
         replace = any(r["requires"] == "re-place" for _m, _i, r in applied)
         if replace:
@@ -263,9 +270,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                     tabu.add((mid, issue["id"]))
                 rnd["key_after"] = list(crit["key"])
         rnd.setdefault("key_after", list(crit["key"]))
-        log.append(rnd)
-        if on_round:
-            on_round(rnd)
+        _report(rnd)
         h = _hash(plan)
         if rnd["accepted"] and h in seen:
             stop = "oscillation"

@@ -124,6 +124,56 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
   }
 }
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));
+// WP-9.3: the analyst and the loop reach the bench. The solver fold renders its children
+// only when open (FilterGroup, defaultOpen false) — the /prove placement/ check above passes
+// on the page PROSE — so open it and count the chips as the denominator before clicking.
+{
+  await page.getByRole('button', { name: /^solver/ }).click();
+  const chips = page.locator('button', { hasText: /^(critique|revise \(search\)|revise \(proof\))/ });
+  const nChips = await chips.count();
+  check('the analyst and both revise acts are offered once the solver fold is open (3 chips)', nChips === 3);
+  if (nChips === 3) {
+    await page.getByRole('button', { name: /^critique/ }).click();
+    await page.waitForSelector('[data-panel="critique"]', { timeout: 90000 }).catch(() => {});
+    const sums = await page.evaluate(() => {
+      const p = document.querySelector('[data-panel="critique"]');
+      if (!p) return null;
+      return { text: p.textContent, classified: +p.getAttribute('data-classified'),
+        findings: +p.getAttribute('data-findings') };
+    });
+    check('the critique names every class', !!sums && /by class/i.test(sums.text));
+    // classified (from /api/plan/critique) against the non-info findings shown (from
+    // /api/plan/evaluate): two routes, one placement through the solve cache — a real
+    // cross-check, and zero findings would pass nothing
+    check(`the class counts sum to the findings the sheet shows (${sums?.classified} of ${sums?.findings})`,
+      !!sums && sums.findings > 0 && sums.classified === sums.findings);
+    const drawn = await page.locator('[data-layer="drawn"]').count();
+    if (!drawn) {
+      check('every drawn finding carries the engine that placed it — COULD NOT EVALUATE '
+        + '(no drawn finding on this sheet)', false);
+    } else {
+      const tagged = await page.locator('[data-layer="drawn"] [data-engine-tag]').count();
+      check(`every drawn finding carries the engine that placed it (${tagged} of ${drawn})`, tagged === drawn);
+    }
+    // the fast loop: rounds 6, budget 60 s on the chip, so the poll and the promise agree
+    await page.getByRole('button', { name: /^revise \(search\)/ }).click();
+    let panel = '';
+    for (let i = 0; i < 90; i++) {
+      await page.waitForTimeout(1000);
+      panel = await page.locator('[data-panel="revision"]').innerText().catch(() => '');
+      if (/stopped:|converged/i.test(panel)) break;
+    }
+    check('the revision panel names why the loop stopped', /stopped:|converged/i.test(panel));
+    check('the revision panel names its round count', /\d+ rounds?\b/i.test(panel));
+    check('the panel says the sheet is a fresh solve of the revised record', /fresh solve/i.test(panel));
+    // one undo step: the loop loaded the revised record through planDoc.load
+    await page.getByRole('button', { name: 'undo' }).click();
+    await page.waitForTimeout(400);
+    const still = await page.locator('[data-panel="revision"]').count();
+    check('undo takes the revision away — the loop loaded one undo step', still === 0);
+    await page.waitForTimeout(2500);   // the debounce re-evaluates the restored record
+  }
+}
 // WP-5.7: every surface's index panel pulls, not just the shell's rails. The findings
 // column was 430px written into the JSX and chosen against one window.
 {

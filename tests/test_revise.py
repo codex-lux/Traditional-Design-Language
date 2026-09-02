@@ -210,3 +210,20 @@ class TestTheReclaimAfterTheLoop:
         assert any(d.get("to") != "outside"
                    for lv in r["plan"]["levels"] for rm in lv["rooms"] for d in rm.get("doors", []))
         assert r["key_after"] == rec["key_before"]
+
+
+class TestTheRoundCallback:
+    def test_on_round_fires_once_for_every_logged_round_including_a_refused_lever(self):
+        """WP-9.3's revise job emitted no `round` event on a plan whose only round was a
+        refused proof: two of the four paths that log a round skipped the callback. The
+        bench watches the loop through this callback, so a round it does not hear about is
+        a round that did not happen to the reader. Mutation: make any path append to the
+        log without reporting and the counts differ."""
+        seen = []
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=2, place=True,
+                      on_round=lambda rnd: seen.append(rnd["n"]), **FAST)
+        assert len(seen) == len(r["rounds"]) == r["report"]["summary"]["rounds"]
+        assert seen == [rd["n"] for rd in r["rounds"]]
+        # the explicit search refuses the proof, and THAT round is reported too
+        assert any(m.get("move") == "prove-it" and m.get("refused")
+                   for rd in r["rounds"] for m in rd["moves"])

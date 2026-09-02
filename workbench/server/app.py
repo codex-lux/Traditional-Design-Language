@@ -547,6 +547,69 @@ def job_candidate_plan(job_id: str, n: int):
     return plan
 
 
+# ----------------------------------------------------------------- the critique and the loop (WP-9.3)
+def _engine(body, key="engine"):
+    engine = body.get(key, "auto")
+    if engine not in ("heuristic", "cp", "auto"):
+        raise HTTPException(status_code=422, detail={
+            "error": f"unknown {key} {engine!r} — one of heuristic, cp, auto"})
+    return engine
+
+
+@app.post("/api/plan/critique")
+def plan_critique(request: Request, body: dict = Body(...)):
+    """The analyst, synchronously: one placement, one check, every finding sorted into what
+    it means to a generator (a move answers it / the engine's / the critic's own / the
+    architect's / advisory). The bench badges its finding rows from `assessment` by id.
+    Not run per edit on purpose -- evaluate is this server's bound (the infrastructure
+    audit) and a classification is asked for, like a proof."""
+    _heavy(request)
+    plan = body.get("plan")
+    if not plan:
+        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    res = core.critique_plan(plan, engine=_engine(body), candidates=_candidates(body),
+                             place=body.get("place", True), parti=body.get("parti"))
+    if "error" in res:
+        raise HTTPException(status_code=422, detail=res)
+    return res
+
+
+@app.post("/api/plan/revise")
+def plan_revise(request: Request, body: dict = Body(...)):
+    """The corrective revisions as a job on the compose pool: one `round` event per round
+    through /api/jobs/{id}/events, `done` carrying the report, the revised record through
+    /api/jobs/{id}/plan. The knobs are bounded here the way the compose route bounds its
+    revise_* options, so a body cannot ask for an unbounded job."""
+    _heavy(request)
+    plan = body.get("plan")
+    if not plan:
+        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    opts = {"engine": _engine(body), "candidates": _candidates(body)}
+    try:
+        opts["rounds"] = max(0, min(8, int(body.get("rounds", 6))))
+    except (TypeError, ValueError):
+        opts["rounds"] = 6
+    if body.get("budget_s") is not None:
+        try:
+            opts["budget_s"] = max(0.0, min(600.0, float(body.get("budget_s"))))
+        except (TypeError, ValueError):
+            pass
+    if body.get("parti"):
+        opts["parti"] = body.get("parti")
+    res = jobs.submit_revise(plan, options=opts)
+    if "error" in res:
+        raise HTTPException(status_code=422, detail=res)
+    return res
+
+
+@app.get("/api/jobs/{job_id}/plan")
+def job_revised_plan(job_id: str):
+    plan = jobs.revised_plan(job_id)
+    if plan is None:
+        raise HTTPException(status_code=404, detail={"error": "unknown job, not a revise job, or not done"})
+    return plan
+
+
 # ----------------------------------------------------------------- drawings
 @app.post("/api/drawings/{kind}")
 def drawings(kind: str, request: Request, body: dict = Body(...)):

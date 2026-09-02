@@ -10,8 +10,9 @@ Four things here are regressions waiting to happen, and each cost real debugging
     These tests use `with TestClient(app)` precisely so the lifespan runs.
   * **DNS-rebinding protection.** Armed at localhost by default, so a real deployment
     hostname answers 421 to everything until allowlisted.
-  * **metering scope.** Only the three heavy tools are capped; capping the 21 lookups
-    would throttle exactly the progressive disclosure `tdl_overview` tells agents to do.
+  * **metering scope.** Only the five heavy tools are capped (check, compose, place, and
+    WP-9's critique and revise); capping the 21 lookups would throttle exactly the
+    progressive disclosure `tdl_overview` tells agents to do.
 """
 import json
 
@@ -138,7 +139,9 @@ def test_bare_mcp_path_works(live):
     assert _body(r)["result"]["serverInfo"]["name"] == "traditional-design-language"
 
 
-def test_all_24_tools_are_served(live):
+def test_every_tool_is_served(live):
+    """Named for a count once, and the count went stale in the name while the assertion
+    moved on: 24 became 26 (WP-9) and the function still said 24."""
     h = _session(live)
     r = live.post("/mcp", json={"jsonrpc": "2.0", "id": 2, "method": "tools/list"},
                   headers=h)
@@ -173,9 +176,15 @@ def test_heavy_tools_are_capped_and_refuse_honestly(live, monkeypatch):
 # The minimum each metered tool needs to get PAST argument validation. The SDK validates
 # required arguments before the tool body runs, so an empty {} never reaches the limiter —
 # correct behaviour, and the reason these are not simply {}.
+# WP-9.3: the two Phase 9 tools were added to METERED in WP-9.2 and NOT here, and the pin
+# below was red in every environment that has the SDK -- green here only because the file
+# skips at import without it. A pin that skips where the thing it pins is absent is a pin
+# that fires only for someone else.
 _METERED_MIN_ARGS = {"tdl_check_plan": {"plan": {}},
                      "tdl_compose": {"brief": {}},
-                     "tdl_place_plan": {"plan": {}}}
+                     "tdl_place_plan": {"plan": {}},
+                     "tdl_critique_plan": {"plan": {}},
+                     "tdl_revise_plan": {"plan": {}}}
 
 
 def test_the_metered_set_is_exactly_what_this_file_checks():
@@ -191,9 +200,9 @@ def test_the_metered_set_is_exactly_what_this_file_checks():
 
 @pytest.mark.parametrize("tool", sorted(_METERED_MIN_ARGS))
 def test_every_metered_tool_actually_refuses(live, monkeypatch, tool):
-    """Only tdl_check_plan was ever exercised, so dropping either of the other two from
-    METERED left the suite green. The bucket is spent first, so none of the three does any
-    real work here — reaching the refusal is the whole point."""
+    """Only tdl_check_plan was ever exercised, so dropping any of the others from METERED
+    left the suite green. The bucket is spent first, so none of the five does any real work
+    here — reaching the refusal is the whole point."""
     monkeypatch.setenv("MCP_HEAVY_CALLS_PER_HOUR", "1")
     limits.reset()
     limits.take("mcp:heavy", limit=1, window_s=3600)      # spend it

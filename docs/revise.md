@@ -84,9 +84,21 @@ only (XDATA is capped near 16 KB).
   `score_before` are one instrument, and re-ranked. `--no-revise`, `--revise-rounds`,
   `--revise-engine`, `--revise-budget-s`; `check_all` runs the composer on the fast engine.
 - **MCP**: `tdl_critique_plan`, `tdl_revise_plan`; `tdl_compose(revise=...)`.
-- **The bench**: the compose job streams a `revised` event per candidate; the Plan Workbench's
-  evaluate judges the solved record (the drawn layer runs on every evaluate now, and its
-  findings carry the engine that placed them).
+- **The bench** (WP-9.3): the compose job streams a `revised` event per candidate and the
+  Candidate Set shows it — the score before beside the score after, the drawn keys, and the
+  server's rank before revision said in words. The Plan Workbench's evaluate judges the solved
+  record (the drawn layer runs on every evaluate, and each drawn finding row carries the
+  engine that placed it). Three acts in the solver fold: **critique** asks the analyst once
+  (`POST /api/plan/critique`) and tags every finding row with its class — a move answers
+  it, the engine's, the critic's own, the architect's — and drops the tags the moment a later
+  evaluation lands, because a class that labelled a finding of an earlier house is a verdict
+  about a house no longer on the sheet; **revise (search)** and **revise (proof)** submit the
+  loop as a job (`POST /api/plan/revise`), show each round as it lands, and on `done` load
+  the revised record as ONE undo step. The record comes back with its placement stripped and
+  the bench re-solves it as it does every load; the Revision panel says that the sheet is a
+  fresh solve and names the engine the loop's own key was measured on, because the two can
+  differ. The panel is the record's own `revision_report`: undo takes it away. A suspect in
+  the panel is styled as neither verdict.
 
 ## What it will not do, stated
 

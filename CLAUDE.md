@@ -167,8 +167,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **44 checks, 1,349 tests**
-(plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **44 checks, 1,350 tests**
+(plus the workbench app suite, **73** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
@@ -330,8 +330,8 @@ FORBIDDEN and a lime-plaster face carrying no masonry word, so the frame-wall si
 a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Report:
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
-**Phase 9 — the critique and the corrective revisions — is PART-BUILT (1 Sep 2026): WP-9.1
-and WP-9.2 have shipped, WP-9.3 (the surfaces) and WP-9.4 (the adversarial audit) remain.**
+**Phase 9 — the critique and the corrective revisions — is PART-BUILT (2 Sep 2026): WP-9.1,
+WP-9.2 and WP-9.3 (the surfaces) have shipped; WP-9.4 (the adversarial audit) remains.**
 Lucas asked for recursive self-improvement — a critic that reads the drawn house, and a
 generator that fixes what it finds, in plan and elevation, through many corrective revisions
 rather than one procedural pass — and ruled it the same day: a DETERMINISTIC loop (a named move
@@ -368,6 +368,16 @@ worst-key movement of the order of `[14, 101, 70, 20] -> [13, 78, 81, 20]`, and
 refused-round rate is the search engine's, not the loop's; under CP-SAT on Tidewater it is 1
 in 12. Reports: `docs/reports/wp-9.1-the-critique.md` and
 `docs/reports/wp-9.2-the-corrective-revisions.md`; `docs/revise.md` is the layer doc.
+**WP-9.3 put both on the bench** — `POST /api/plan/critique`, `POST /api/plan/revise` as a job
+with a `round` event per round, the Plan Workbench's critique and two revise chips (the search
+and the proof, honest about cost), a Revision panel that says the sheet is a FRESH solve of the
+revised record and names the engine the loop's key was measured on, and class and engine tags on
+every finding row — **and found three things the first two packages had shipped**: the loop
+reported only two of its four round-logging paths (a plan whose only round was a refused proof
+emitted no round at all), the `revised` compose event had been dropped on the floor by the app
+since the day it was added, and `test_mcp_http.py`'s metered-tool pin was red wherever the MCP
+SDK exists and green here only because the file skips without it. Report:
+`docs/reports/wp-9.3-the-revision-surfaces.md`.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for

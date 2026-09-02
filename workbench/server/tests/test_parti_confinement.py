@@ -89,6 +89,8 @@ ENDPOINTS = [
     # never loads a parti at all, and this test passed vacuously against an endpoint it
     # was not exercising.
     pytest.param("/api/plan/evaluate", {"place": True, "candidates": 1}, id="evaluate"),
+    # WP-9.3: the analyst places once through critique.py, which loads the parti by id
+    pytest.param("/api/plan/critique", {"place": True, "candidates": 1, "engine": "heuristic"}, id="critique"),
 ]
 
 
@@ -102,6 +104,19 @@ def test_endpoint_routes_its_parti_through_the_confined_loader(client, monkeypat
         return real(parti)
 
     monkeypatch.setattr(core, "load_parti", spy)
+    # WP-9.3: build/critique.py reaches core through modcache BY PATH, which is a second
+    # module object from the server's `import core` (same file, two instances -- named in
+    # the WP-9.3 report and left for the audit). The confined loader is the one it calls;
+    # the spy has to be installed on that instance too or this case fails for a reason that
+    # is not a traversal.
+    import sys
+    build = os.path.join(ROOT, "build")
+    if build not in sys.path:
+        sys.path.insert(0, build)
+    import modcache
+    tdlcore = modcache.load("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
+    if tdlcore is not core:
+        monkeypatch.setattr(tdlcore, "load_parti", spy)
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     client.post(path, json={"plan": plan, "parti": "../schema/plan.schema", **extra})
     assert seen == ["../schema/plan.schema"], (

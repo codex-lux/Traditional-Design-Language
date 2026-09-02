@@ -1485,7 +1485,7 @@ def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
 
 
 def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, include_plan=True,
-                budget_s=None, parti=None):
+                budget_s=None, parti=None, on_round=None):
     """The corrective revisions: critique, move, re-place, re-critique, accept or roll back,
     round after round. See build/revise.py. Returns the report (every round, every move with
     its finding and its basis, what remains by class, what was handed to the architect, what
@@ -1499,8 +1499,10 @@ def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, inclu
     except Exception as e:
         return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
     RV = _mod("revise", os.path.join(ROOT, "build", "revise.py"))
+    # on_round is the bench's seam (WP-9.3): the revise job puts a `round` event per round so
+    # a reader watches the loop run rather than a spinner. The MCP tool does not pass it.
     r = RV.revise(plan, rounds=rounds, engine=engine, candidates=candidates, budget_s=budget_s,
-                  place=place, parti=parti)
+                  place=place, parti=parti, on_round=on_round)
     out = {"report": r["report"], "key_before": r["key_before"], "key_after": r["key_after"],
            "stop_reason": r["stop_reason"],
            "note": ("A lower key is not a good plan. Read handed_to_architect and suspects before "

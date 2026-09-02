@@ -22,6 +22,7 @@ import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { ORDERS, order, isNative } from '../candidateOrder.js';
+import { revisedLine, revisedEventLine } from '../revision.js';
 
 /* `what` — the sentence saying what an axis measures — rides on the RESULT once rather than
    on eight rows per candidate, because it is constant across a run and the MCP tool bills a
@@ -54,6 +55,19 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
     warnings: (c.footprint?.notes || []),
     worst: c.worst || [],
     plan_rooms: c.plan_rooms,
+    // WP-9.2/9.3: what the placed revision loop bought on this candidate. `score_before` is
+    // the same instrument as `score` (both on the stripped declared record); `rank_before`
+    // is the SERVER's order before revision and is labelled as such, because `rank` on
+    // this surface is a position in the current order and a bare number would be read as
+    // one. null everywhere when the compose ran --no-revise.
+    score_before: typeof c.score_before === 'number' ? c.score_before : null,
+    counts_before: c.counts_before || null,
+    rank_before: c.rank_before ?? null,
+    drawn_key_before: c.drawn_key_before || null,
+    drawn_key_after: c.drawn_key_after || null,
+    revision: c.revision || null,
+    revised: !!c.revision,
+    revisedLine: revisedLine(c),
     raw: c,
   };
 }
@@ -82,6 +96,9 @@ export function CandidateSet({ onCite, go, selection }) {
           jobEvents(s.jobId, {
             stage: (d) => session.pushProgress(d),
             candidate: (d) => session.pushProgress(d),
+            // WP-9.3: the loop's second word on a candidate. Dropped on the floor since
+            // WP-9.2 -- jobEvents subscribes only to the names it is handed.
+            revised: (d) => session.pushProgress({ ...d, revised: true }),
             done: (d) => session.set({ result: d }),
             error: () => {},
           });
@@ -118,6 +135,7 @@ export function CandidateSet({ onCite, go, selection }) {
             {s.progress.map((p, i) => (
               <div key={i} style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', padding: '1px 0' }}>
                 {p.stage ? `${p.stage} — ${p.note || ''}`
+                  : p.revised ? revisedEventLine(p)
                   /* "tried", not "candidate N": this is the order compose() reached the
                      diagrams in, and nothing is ranked until every one is in. */
                   : `tried ${p.n}: ${p.parti_name} · score `
@@ -255,7 +273,9 @@ export function CandidateSet({ onCite, go, selection }) {
               const rows = c.decisions_structured
                 || (c.decisions || []).map((d) => ({ statement: d, kind: 'assumption' }));
               const TONE = { judgment: 'var(--gilt-deep)', refusal: 'var(--brick)',
-                unsolved: 'var(--ink-3)', disclosure: 'var(--sepia)', authored: 'var(--ink-2)' };
+                unsolved: 'var(--ink-3)', disclosure: 'var(--sepia)', authored: 'var(--ink-2)',
+                // WP-9.2's sixth kind: a move the loop applied, with its basis as `because`
+                revision: 'var(--gilt)' };
               return rows.map((d, i) => (
                 <div key={i} style={{ margin: '0 0 9px', paddingLeft: 12,
                   borderLeft: `2px solid ${TONE[d.kind] || 'var(--rule-soft)'}` }}>

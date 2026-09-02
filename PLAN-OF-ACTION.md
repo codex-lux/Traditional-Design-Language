@@ -1057,8 +1057,13 @@ default; `tdl_critique_plan` and `tdl_revise_plan` (24 → 26 tools); the corpus
 
 ### WP-9.3 The surfaces
 
-**Status: IN PROGRESS.** The bench's revise action and Revision panel, the compose job's
-`revised` event on the Candidate Set, the engine badge on drawn findings; the docs.
+**Status: COMPLETE (2 Sep 2026).** Report: `docs/reports/wp-9.3-the-revision-surfaces.md`.
+`POST /api/plan/critique`, `POST /api/plan/revise` (a job on the compose pool, one `round`
+event per round) and `GET /api/jobs/{id}/plan`; the Plan Workbench's critique and two revise
+chips, the Revision panel, the engine and class tags on finding rows; the Candidate Set's
+`revised` band and event; the e2e walk. Found on the way: the loop reported only two of its
+four round-logging paths, the metered-tool pin was red wherever the MCP SDK exists, and the
+`revised` event had been dropped on the floor since WP-9.2.
 
 ### WP-9.4 The adversarial audit
 
