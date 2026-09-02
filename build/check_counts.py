@@ -85,6 +85,30 @@ def computed():
     if "partis" in v:
         v["parti_count"] = v["partis"]
 
+    # OQ 51's four numbers. They live in prose in CLAUDE.md, STATE-OF-THE-PROJECT.md, README.md
+    # and docs/inheritance.md, and until now NOTHING derived them: `check_inheritance.py --strict`
+    # pins them against its own RATCHET, which stops the corpus getting worse but says nothing
+    # about whether the DOCUMENTS still describe it. WP-8.7 moved all four and had to find the
+    # six prose sites by grep. Guarded from here.
+    #
+    # Read through modcache from the checker that owns them, never re-derived: `measure()` is 200
+    # lines of cascade walking and a second copy would drift, which is the failure this whole file
+    # exists to catch one layer up.
+    tpath = os.path.join(ROOT, "dist", "taxonomy.json")
+    if os.path.exists(tpath):
+        sys.path.insert(0, os.path.join(ROOT, "build"))
+        import modcache
+        ci = modcache.load("check_inheritance", os.path.join(ROOT, "build", "check_inheritance.py"))
+        _b, _gaps, _packs, _dec = ci.measure(ci.load())
+        _applies = ci.applies_to_index()
+        _un = [t for t in _gaps if t[0] not in _applies.get(t[3], ())]
+        v["role_gaps"] = len(_gaps)
+        v["inherited_packs"] = len(_packs)
+        v["unendorsed"] = len(_un)
+        v["endorsed"] = len(_gaps) - len(_un)
+        v["declined"] = len(_dec)
+        v["judged"] = v["endorsed"] + v["declined"]
+
     apath = os.path.join(ROOT, "assets", "manifest.json")
     if os.path.exists(apath):
         a = json.load(open(apath))
@@ -212,6 +236,23 @@ CLAIMS = [
     ("STATE-OF-THE-PROJECT.md", "image_queries_us",     r"distinct queries of which (\d+) are inside HABS"),
     ("STATE-OF-THE-PROJECT.md", "image_never_harvestable", r"name none, (\d+) are `role: incorrect`"),
     ("STATE-OF-THE-PROJECT.md", "image_records",       r"`assets/manifest\.json`, (\d+) records over \d+ style nodes"),
+    # OQ 51's four, in the six places the prose states them (WP-8.7, 2 Sep 2026).
+    ("CLAUDE.md",              "role_gaps",       r"pins three ceilings that may only go down -- \*\*(\d+) role_gaps\*\*"),
+    ("CLAUDE.md",              "inherited_packs", r"\*\*([\d,]+) inherited_packs\*\*"),
+    ("CLAUDE.md",              "unendorsed",      r"\*\*(\d+) unendorsed\*\* -- and one FLOOR"),
+    ("CLAUDE.md",              "judged",          r"\*\*judged (\d+)\*\* \(endorsed \+ declined\)"),
+    ("CLAUDE.md",              "inherited_packs", r"is the one with ([\d,]+) instances"),
+    ("STATE-OF-THE-PROJECT.md", "role_gaps",      r"Measured: \*\*(\d+) \(node, role\) pairs\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "unendorsed",     r"of which \*\*(\d+) involve a pack whose own"),
+    ("STATE-OF-THE-PROJECT.md", "inherited_packs", r"and \*\*([\d,]+)\*\* pack-arrivals purely by descent"),
+    ("STATE-OF-THE-PROJECT.md", "declined",       r"judged by somebody, and (\d+) have now been DECLINED"),
+    ("STATE-OF-THE-PROJECT.md", "inherited_packs", r"is the one with ([\d,]+) instances"),
+    ("README.md",              "role_gaps",       r"first adjudication pass 2 Sep\): (\d+) role gaps"),
+    ("README.md",              "unendorsed",      r"role gaps, (\d+) of them never judged"),
+    ("README.md",              "judged",          r"of them never judged, (\d+) judged"),
+    ("docs/inheritance.md",    "inherited_packs", r"declines took `inherited_packs` to ([\d,]+) and `judged`"),
+    ("docs/inheritance.md",    "judged",          r"and `judged` to (\d+), and moved `unendorsed`"),
+    ("docs/inheritance.md",    "unendorsed",      r"moved `unendorsed`\nby four — 249 to (\d+)"),
 ]
 
 
@@ -252,11 +293,22 @@ def main():
             for m in reversed(hits):
                 checked += 1
                 got = m.group(1)
-                if got != want:
-                    stale.append(f"{path}: {key} says {got}, data says {want}")
+                # A THOUSANDS SEPARATOR IS FORMATTING, NOT A DIFFERENT NUMBER. `3,341` in prose
+                # against a computed 3341 is not staleness, and treating it as such would either
+                # fail the build forever or force the prose to write 3341 to suit a checker.
+                # Compared without separators; rewritten under --fix in the form the sentence
+                # already uses, so `--fix` never reformats a number it was only asked to correct.
+                if got.replace(",", "") == want.replace(",", ""):
+                    continue
+                if "," in got and want.isdigit():
+                    want_here = f"{int(want):,}"
+                else:
+                    want_here = want
+                if got != want_here:
+                    stale.append(f"{path}: {key} says {got}, data says {want_here}")
                     if args.fix:
                         a_, b_ = m.span(1)
-                        text = text[:a_] + want + text[b_:]
+                        text = text[:a_] + want_here + text[b_:]
         if args.fix:
             open(full, "w").write(text)
 
