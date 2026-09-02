@@ -320,9 +320,17 @@ class TestTheDeclarationIsEnforced:
     it, on a write outside `touches` or a write `changed` does not report."""
 
     def test_the_registry_counts_are_pinned(self):
-        """Delete a move and its apply entry together and every other test stayed green."""
+        """Delete a move and its apply entry together and every other test stayed green.
+
+        21 -> 22 at the PR #19 / PR #20 merge, and the guard earned itself there: the
+        arrangement branch's style-layer passage-floor repair lived inside the forty-line
+        `compose.repair` this registry replaced, so taking either side of that conflict whole
+        would have dropped it. It is ported as `passage-to-the-styles-own-floor` -- the
+        sibling `passage-to-its-band` widens to the room catalogue's 6 ft, a Georgian kit's
+        own cascade asks for 10, and `passage-that-is-a-corridor` between them is FATAL.
+        """
         reg = MV.registry()
-        assert len(reg["moves"]) == 21, [m["id"] for m in reg["moves"]]
+        assert len(reg["moves"]) == 22, [m["id"] for m in reg["moves"]]
         assert len(reg["refusals"]) == 9
         names = " ".join(json.dumps(r) for r in reg["refusals"])
         for wanted in ("shorten-for-daylight", "align-upper-walls-to-the-room-below", "move-door-to-a-shared-wall"):

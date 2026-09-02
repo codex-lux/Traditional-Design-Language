@@ -424,32 +424,53 @@ def test_the_passage_floor_is_read_from_the_cascade_not_the_raw_kit(pc):
         "the passage floor is no longer read off the resolved kit")
 
 
-def test_the_composer_widens_the_passage_to_the_floor_its_style_states(pc):
-    """The repair branch that clears it. Without this the finding is true, fatal, and
-    unactionable -- and a true fatal nobody can clear is how a native diagram loses to a
-    borrowed one."""
-    src = open(os.path.join(ROOT, "build/compose.py")).read()
-    assert 'f.get("rule") == "circulation_parti"' in src, (
-        "compose.repair() no longer responds to the style's passage floor")
-    assert "own kit states a passage of" in src, (
-        "the repair branch parses a phrase the style layer no longer emits")
-    # ASSERT THE EMITTED STATEMENT, NOT THE SOURCE. The phrase is built from two f-string
-    # fragments and is contiguous only at runtime, so a source-reading test fails on code
-    # that works -- and would equally PASS on code that emitted the phrase from a branch
-    # nothing reaches. This corpus has the rule already: read a real emitted row rather than
-    # its source (proportion_engine's RULE_KEYS guard, WP-8.6).
+def test_the_passage_floor_the_style_states_has_a_move_that_clears_it(pc):
+    """The fix that clears the finding. Without it the fatal is true, unactionable, and how a
+    native diagram loses to a borrowed one.
+
+    THIS TEST USED TO READ `build/compose.py` FOR A SOURCE STRING, AND THE MERGE WITH PR #19
+    PROVED THAT WRONG TWICE OVER. That PR replaced `compose.repair`'s forty-line prose-parsing
+    hill-climb with the move registry, so the branch this asserted no longer exists in that
+    file -- the test went red on a fix that had been PORTED, not lost, which is the good half.
+    The bad half is that a source-reading assertion would equally have PASSED on a branch
+    nothing reaches. So this now tests the mechanism where it lives and, at the end, what it
+    actually does to a plan.
+    """
+    import importlib.util as _il
+    spec = _il.spec_from_file_location("moves_t", os.path.join(ROOT, "build/moves.py"))
+    MV = _il.module_from_spec(spec); spec.loader.exec_module(MV)
+
+    mid = "passage-to-the-styles-own-floor"
+    entry = MV.move(mid)
+    assert entry, f"{mid} is not in moves/registry.json; the style's passage floor has no answer"
+    assert mid in MV.APPLY, f"{mid} is declared in the registry and has no apply function"
+    assert entry["answers"]["kind"] == "passage-below-style-floor"
+
+    # THE EMITTED ROW, NOT THE SOURCE (the proportion_engine RULE_KEYS lesson, WP-8.6).
     plan = _house()
     r = _rooms(plan)["passage"]
     r["width_ft"], r["length_ft"] = 7.9, 30
-    emitted = [f["statement"] for f in pc.check(plan)["findings"]
+    emitted = [f for f in pc.check(plan)["findings"]
                if f["layer"] == "style" and f.get("rule") == "circulation_parti"]
     assert emitted, "the style layer emitted no passage-floor finding to repair against"
-    assert any("own kit states a passage of" in s for s in emitted), (
-        "the style layer no longer emits the phrase compose.repair() parses -- the two "
-        f"halves of this fix have drifted, which makes the repair silently inert: {emitted}")
-    # and the phrase must actually yield the number repair() needs
-    got = float(emitted[0].split(" own kit states a passage of ")[1].split("-")[0])
-    assert got >= 8.0, f"the parsed floor is {got}, which would not clear the fault"
+    f = emitted[0]
+    assert f.get("kind") == entry["answers"]["kind"], (
+        f"the finding's kind is {f.get('kind')!r} and the move answers "
+        f"{entry['answers']['kind']!r} -- the two halves have drifted and the move is inert")
+    # The figure the move consumes is STRUCTURED now, not parsed out of the sentence: PR #19's
+    # evidence contract exists because reading `12.3` back out of prose for a room needing
+    # 12.333 made a move silently never fire.
+    assert f.get("need_ft") and f["need_ft"] >= 8.0, (
+        f"the finding carries need_ft={f.get('need_ft')!r}, which would not clear the fault")
+
+    # AND IT ACTUALLY WIDENS THE ROOM. A registry entry and a matching kind still prove nothing
+    # about what happens to the record.
+    before = min(r["width_ft"], r["length_ft"])
+    res = MV.APPLY[mid](plan, f, None, {})
+    assert res.get("changed"), f"the move refused: {res.get('refused')}"
+    after = min(_rooms(plan)["passage"]["width_ft"], _rooms(plan)["passage"]["length_ft"])
+    assert after >= f["need_ft"] > before, (
+        f"the passage went {before} -> {after} against a floor of {f['need_ft']}")
 
 
 def test_a_front_door_in_the_flank_of_a_through_passage_is_named(pc):

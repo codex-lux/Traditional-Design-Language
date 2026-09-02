@@ -827,24 +827,28 @@ def drawn_layer(plan, rooms, level_of, C, F):
         if dims.get("width_ft") and gw + 1e-6 < dims["width_ft"][0]:
             lo = dims["width_ft"][0]
             short = (lo - gw) / lo
-            F.add("serious" if short > 0.1 else "minor", "drawn",
+            _add("serious" if short > 0.1 else "minor", "drawn",
                   f"{name} is DRAWN {gw:.1f} ft in its short dimension, below the {lo} ft "
                   f"floor for a {rt['name'].lower()} — the record declares "
                   f"{r.get('width_ft')} x {r.get('length_ft')} ft and the placement did not "
                   f"keep it.",
                   room=rid, rule=dims.get("critical_dimension"),
+                  kind="drawn-width-below-floor", need_ft=lo, have_ft=round(gw, 2),
+                  band=list(dims["width_ft"]), axis="width",
                   fix="The placement, not the record, is what has to change here.")
         if dims.get("proportion") and gw > 0:
             plo, phi = dims["proportion"]
             ar = round(gl / gw, 2)
             if ar > phi:
                 over = (ar - phi) / phi
-                F.add("serious" if over > 0.25 else "minor", "drawn",
+                _add("serious" if over > 0.25 else "minor", "drawn",
                       f"{name} is DRAWN {gw:.1f} x {gl:.1f} ft — {ar} to 1, against the "
                       f"{plo}-{phi} band a {rt['name'].lower()} is drawn to. The record "
                       f"declares {r.get('width_ft')} x {r.get('length_ft')} ft; the "
                       f"placement kept the area and lost the room.",
                       room=rid, rule=dims.get("critical_dimension"),
+                      kind="drawn-proportion-above-band", have=ar, band=[plo, phi],
+                      axis="proportion",
                       fix="The placement, not the record, is what has to change here.")
 
         # WP-9.6: the same catalogue arithmetic the room layer runs, against the rectangle that
@@ -856,19 +860,25 @@ def drawn_layer(plan, rooms, level_of, C, F):
         # second complaint, computed and never stated.
         for s_ in furniture_shortfalls(rt, gw, gl):
             if s_["axis"] == "short":
-                F.add("serious", "drawn",
+                _add("serious", "drawn",
                       f"{name} is DRAWN {s_['have_ft']:.1f} ft across and cannot take its "
                       f"{s_['item']}: needs {s_['need_ft']:.1f} ft ({s_['item_in']} in item + "
                       f"{s_['sides']} x {s_['clearance_in']} in clearance, {s_['placement']}). "
                       f"The record declares {r.get('width_ft')} x {r.get('length_ft')} ft, which "
                       f"holds it.",
                       room=rid, rule=dims.get("critical_dimension"),
+                      kind="drawn-furniture-fit", need_ft=round(s_["need_ft"], 3),
+                      have_ft=s_["have_ft"], axis="width", item=s_["item"],
+                      sides=s_["sides"], clearance_in=s_["clearance_in"],
+                      footprint_in=s_["footprint_in"],
                       fix="The placement, not the record, is what has to change here.")
             else:
-                F.add("minor", "drawn",
+                _add("minor", "drawn",
                       f"{name} is DRAWN {s_['have_ft']:.1f} ft along its length and is tight for "
                       f"its {s_['item']}: needs about {s_['need_ft']:.1f} ft.",
                       room=rid, rule=dims.get("critical_dimension"),
+                      kind="drawn-furniture-fit", need_ft=round(s_["need_ft"], 3),
+                      have_ft=s_["have_ft"], axis="length", item=s_["item"],
                       fix="The placement, not the record, is what has to change here.")
 
     # --- THE ROOM THE PLACEMENT LEFT IN THE DARK (WP-9.1)
@@ -920,22 +930,23 @@ def drawn_layer(plan, rooms, level_of, C, F):
         if abs(g["x_ft"] + g["width_ft"] - fp_w) < 0.6: touches.append("E")
         units = sum(int(w.get("count") or 1) for w in wins)
         if not touches:
-            F.add("serious", "drawn",
+            _add("serious", "drawn",
                   f"{name} is drawn in the middle of the house: it reaches no exterior wall "
                   f"on any side, so none of the {units} window(s) the record declares "
                   f"could be placed. rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.",
-                  room=rid,
+                  room=rid, kind="drawn-landlocked", have=0, need=dl["sides_lit"],
                   fix="Place the room on the perimeter, or accept it as an interior room and "
                       "take the windows out of the record.")
         else:
             why = next((w["unplaced"].get("reason") for w in wins if w.get("unplaced")), "unplaced")
-            F.add("serious", "drawn",
+            _add("serious", "drawn",
                   f"{name} is drawn with no window: it stands on the "
                   f"{'/'.join(touches)} wall(s) and the record declares its {units} "
                   f"unit(s) of glass on "
                   f"{'/'.join(sorted({w.get('wall') or '?' for w in wins}))} — {why}. "
                   f"rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.",
-                  room=rid,
+                  room=rid, kind="drawn-window-off-the-placed-wall",
+                  lit_walls=sorted(touches), need=dl["sides_lit"],
                   fix="Move the windows to the wall the placement actually gave the room.")
 
     # --- THE DOOR YOU COME IN BY, AND THE AXIS IT IS SUPPOSED TO BE ON (WP-9.1)
@@ -1024,12 +1035,12 @@ def drawn_layer(plan, rooms, level_of, C, F):
                 continue
             if d.get("unplaced") or d.get("position_ft") is None:
                 axis_census["entry_door_unplaced"] += 1
-                F.add("serious", "drawn",
+                _add("serious", "drawn",
                       f"The entrance sequence is severed: {r.get('name') or rid} has the front "
                       f"door but its opening into {nxt.get('name') or t} is not drawn — "
                       f"{(d.get('unplaced') or {}).get('reason', 'no position')}. You arrive "
                       f"and cannot get in the way the diagram says you do.",
-                      room=rid,
+                      room=rid, kind="drawn-entrance-severed",
                       fix="Place the threshold room against the circulation room it serves.")
                 continue
             # Does the circulation room have a through-axis at all? Only then does the rule
@@ -1050,7 +1061,7 @@ def drawn_layer(plan, rooms, level_of, C, F):
                 # passage's own through-axis, so no offset exists to measure: you do not enter
                 # the passage at its end, you enter its flank and turn.
                 axis_census["found"] += 1
-                F.add("serious", "drawn",
+                _add("serious", "drawn",
                       f"The front door is in the {ext.get('wall')} wall while "
                       f"{nxt.get('name') or t} runs {through[0]} to {through[1]} — you arrive "
                       f"on its flank and turn, rather than at the end of its axis. "
@@ -1058,7 +1069,7 @@ def drawn_layer(plan, rooms, level_of, C, F):
                       f"must continue to a rear opening\"; "
                       f"openings/grammar.json[op-passage-axis] binds because this passage "
                       f"does reach the boundary at both ends.",
-                      room=rid,
+                      room=rid, kind="drawn-entrance-off-axis",
                       fix="Bring the entrance onto the end of the passage, or accept a side "
                           "passage and say so in the record as the Charleston single house does.")
                 continue
@@ -1074,13 +1085,14 @@ def drawn_layer(plan, rooms, level_of, C, F):
             clear = (float(ext.get("width_ft") or 3.0) + float(d.get("width_ft") or 3.0)) / 2.0
             if off >= clear:
                 axis_census["found"] += 1
-                F.add("serious", "drawn",
+                _add("serious", "drawn",
                       f"The front door is {off:.1f} ft off the axis of "
                       f"{nxt.get('name') or t} — the two openings do not overlap at all "
                       f"({clear:.1f} ft would just touch), so you enter the house and step "
                       f"sideways to reach the passage. rooms/entrance-hall.json: \"the hall "
                       f"is its front end, and the axis must continue to a rear opening\".",
-                      room=rid,
+                      room=rid, kind="drawn-entrance-off-axis", off_ft=round(off, 2),
+                      clear_ft=round(clear, 2),
                       fix="Centre the entrance opening on the circulation room it serves.")
 
     # --- THE BOTTOM RISER AND THE FRONT DOOR (WP-9.1, op-stair-setback implemented at last)
@@ -1134,12 +1146,13 @@ def drawn_layer(plan, rooms, level_of, C, F):
             got = (dx * dx + dy * dy) ** 0.5
             out["first_riser_setback_ft"] = round(got, 2)
             if got + 1e-6 < need:
-                F.add("serious", "drawn",
+                _add("serious", "drawn",
                       f"The bottom riser stands {got:.1f} ft from the front door face; "
                       f"openings/grammar.json[op-stair-setback] asks for {need:g} ft. "
                       f"rooms/stair-hall.json: \"set back from the front door so the front "
                       f"door's swing and the bottom riser do not fight\".",
-                      room=st.get("room"),
+                      room=st.get("room"), kind="drawn-stair-setback",
+                      need_ft=need, have_ft=round(got, 2),
                       fix="Move the stair back down its hall, or turn the bottom flight.")
 
     if not any((C["rooms"].get(r["type"]) or {}).get("function_class") == "threshold"

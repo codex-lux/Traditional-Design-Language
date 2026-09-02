@@ -319,9 +319,13 @@ def _passage_to_the_styles_own_floor(plan, f, C, ctx):
     r = _room(plan, f.get("room"))
     if not r:
         return {"refused": "no such room"}
-    need = _required_number(f.get("need_ft"))
-    if not need:
+    # `need_ft` is already a NUMBER on this finding. `_required_number` parses the STRING form
+    # (`"at-least 7.0"`) that a fault's `required` carries, and handing it a float returns None
+    # silently -- the move then refused every time, which is what a move that reads the wrong
+    # field looks like from outside: a stated refusal that is never wrong and never fires.
+    if f.get("need_ft") is None:
         return {"refused": "the finding states no floor for this style"}
+    need = float(f["need_ft"])
     d = min(r.get("width_ft") or 0, r.get("length_ft") or 0)
     if d >= need - 1e-6:
         return {"refused": "the passage is declared at this style's own floor; the engine drew "
