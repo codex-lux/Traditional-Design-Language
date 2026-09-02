@@ -1,8 +1,14 @@
 """The ruling table is the package's product, and a list nobody checks goes stale like any other.
 
-WP-8.7 read all 244 (node, pack) pairs in OQ 51's backlog. 89 declines and 3 endorsements were
-written into the corpus; the 152 the records could not settle are in
-`docs/open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md` for a human.
+WP-8.7 read the backlog TWICE, because it refills. 244 pairs in the first pass, then the 73 those
+declines surfaced: 317 adjudications, 168 declines and 3 endorsements written into the corpus, and
+the 171 the records could not settle in
+`docs/open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md` for a human. The
+second pass surfaced 50 more, which that file carries under its own heading as NOT YET READ.
+
+These figures were 244/89/152 when this file was written and were left standing through the second
+pass -- the exact thing this test exists to prevent, one layer up, in the prose of the guard rather
+than in the list it guards.
 
 Two ways that file can lie, and both are held here. A row that has since been CLOSED -- adjudicated,
 or re-attributed away by a neighbouring decline -- would put a settled question in front of the
@@ -70,9 +76,9 @@ def test_every_live_gap_is_either_tabled_or_named_as_unread(live):
     """THE DEFINITION OF DONE, AND IT HAS TWO HALVES BECAUSE THE BACKLOG REFILLS.
 
     Every gap the corpus cannot settle must be in the list that claims to be the remainder. But
-    adjudicating 244 pairs and declining 114 of them PROMOTED new packs into the roles those
+    adjudicating 317 pairs and declining 168 of them PROMOTED new packs into the roles those
     declines vacated -- gaps that are live and that nobody has read, because they did not exist
-    when the reading started. Tabling those as "cases the records do not decide" would be a lie:
+    when the reading started. 244 read produced 73; those 73 produced 50. Tabling those as "cases the records do not decide" would be a lie:
     they are cases nobody has looked at. So the file carries a second, separately headed section
     for them, and this test requires every live gap to be in one section or the other.
 
