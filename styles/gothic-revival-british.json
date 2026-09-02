@@ -288,6 +288,15 @@
       "quoted_from": "proportion_packs[2].note",
       "decided": "2026-09-02",
       "note": "Governs 1 slot, trim_family, and it LOSES ALL DIMENSIONING on a decline — nothing else in the cascade reaches it. Accepted deliberately: the corpus holds no Gothic interior-trim pack, and an entablature the style forbids is worse than a named gap. The gap is the honest state of the library, and it is the thing to fix next at this address."
+    },
+    {
+      "pack": "palladio-tuscan",
+      "reason": "The pack's own notes state its subject as Palladio's Tuscan ORDER — the module in 60 minutes, the column at 7 modules, the quarter diminution, the half-diameter base and capital, the plain 1-module pedestal, and a judgment-slot entablature — and every derived rule is worked from that order, including the chair rail and baseboard, which the pack itself derives as the pedestal cap brought to room scale. The node carries a HARD constraint naming orders and entablatures as forbidden throughout, and two of the six slots the pack governs here, frieze and cornice, are entablature members by name. This is the mechanism and not a coincidence of figures: the pack dimensions the very apparatus the node refuses, and the node has already declined chambers-ionic and palladio-ionic on this same sentence, both arriving from the same classical cascade. The node's own palladio-ionic note names palladio-tuscan as the next candidate at four of these addresses and says in terms that it needs its own judgment; this is that judgment, and it goes the same way for the same reason.",
+      "basis": "node-record",
+      "quote": "Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is forbidden throughout.",
+      "quoted_from": "constraints[4].statement",
+      "decided": "2026-09-02",
+      "note": "Governs 6 slots — casing, cornice, crown, door_surround, frieze, steps_and_stoop. Five fall through to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian); 0 slots lose all dimensioning. --pair reports no live gate, so the decline changes dimensions and arms nothing. It stops THIS order and does not de-classicise the node: vignola-tuscan is another Tuscan order pack and is the next candidate at five of the six addresses, needing its own judgment, which this pass does not make."
     }
   ]
 }

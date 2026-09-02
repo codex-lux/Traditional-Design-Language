@@ -272,6 +272,15 @@
       "quoted_from": "defining_characteristics",
       "decided": "2026-09-02",
       "note": "Governs 1 slot: pediment. Declining reassigns it to facade-classical (colonial-revival); 0 slots lose all dimensioning. As with gibbs-ionic the successor is itself a classical system, so the decline stops this authority without settling the slot -- facade-classical's reach over this node is a separate question."
+    },
+    {
+      "pack": "chambers-ionic",
+      "reason": "The pack's own notes say what it is without ambiguity: Chambers's Ionic as an overlay on Vignola -- eighteen modules of column, four and a half of entablature, an Attic base, Scamozzi's angular capital, a flat frieze, a pedestal at three tenths, and eustyle intercolumniation revised to 2 1/3 diameters. That is a classical order, and on this node it is governing `pilaster` and `door_surround`, which are applied classical elements in the literal sense. The node's defining_characteristics state that applied classical elements are absent, and the same sentence is already the recorded basis on which this node's author declined `gibbs-ionic` and `gibbs-doric` -- that decline's own note names chambers-ionic as the successor and flags it as a separate gap for separate adjudication. This is that gap, and the record answers it the same way. This is not the blanket-refusal trap: the record does not merely say there is no proportional system, it names the exact class of thing this pack supplies and says the style does not carry it.",
+      "basis": "node-record",
+      "quote": "Ornament essentially absent: no shutters, no keystones, no applied classical elements",
+      "quoted_from": "defining_characteristics",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots: cornice, door_surround, pilaster. Declining reassigns all three and strands none -- cornice and door_surround fall to palladio-ionic (english-palladian), pilaster to benjamin-ionic (federal-style). 0 slots lose all dimensioning. As with gibbs-ionic and gibbs-doric the successors are themselves classical orders, so this decline stops a wrong authority without supplying a right one (OQ 58's stated limit); palladio-ionic and benjamin-ionic over this node are separate gaps for separate adjudication. This is the third decline of a classical order on this node and the successor chain is not exhausted -- oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times. --pair reports no live gate: endorsing would have changed no behaviour, and the decline arms nothing."
     }
   ]
 }

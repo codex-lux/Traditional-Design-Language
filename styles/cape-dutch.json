@@ -284,6 +284,15 @@
       "quoted_from": "proportion_packs[2].note",
       "decided": "2026-09-02",
       "note": "governs 5 slots; 0 lose all dimensioning. chimney -> timber-bay (cape-dutch's own binding); water_table -> timber-panel (flemish-vernacular); window_sill -> opening-proportion (roman-classical); steps_and_stoop -> facade-peristyle (roman-classical); window_surround_wood -> vignola-ionic (roman-classical). Three of the five fall through to Roman-classical packs on a node whose record says \"there is no order and no pilaster rhythm\", which is worth a separate look -- the decline stops a wrong pack, it does not supply a right one."
+    },
+    {
+      "pack": "timber-panel",
+      "reason": "The pack's module is \"One wall panel: the clear opening between studs, from rail to rail\", and every rule it delivers here is a fact about a half-timbered wall -- stud centres, the panel's height over its width, the timber standing proud of its infill, the sill-beam plinth, how many storeys the frame shows on. The node's record states the opposite condition as the generative fact of the whole style: there is no building timber at the Cape, structural timber was imported at ruinous cost, and \"Every consequence follows from that scarcity\" -- walls are thick sun-dried brick or rubble, lime-plastered and limewashed, with the corners visibly rounded and soft. There are no studs to leave a panel between. The contradiction is also numeric: the pack's own wall-thickness rule is six inches, \"a QUARTER the thickness\" of a mass wall, against this node's stated 450-600 mm and its hard constraint of 450 mm minimum. The pack arrives from flemish-vernacular at cascade depth 3 with no lineage edge to this node at all.",
+      "basis": "node-record",
+      "quote": "There is no useful building timber in the Western Cape: what forest existed was small, and structural timber was imported at ruinous cost from Batavia and later from Europe.",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "governs 5 slots; 2 lose all dimensioning. expressed_frame -> jetty-overhang (german-fachwerk); material_change_rule -> jetty-overhang (german-fachwerk); wall_thickness_frame -> jetty-overhang (german-fachwerk); primary_cladding -> NOTHING, loses all dimensioning; water_table -> NOTHING, loses all dimensioning. Losing primary_cladding is honest here -- the node's cladding is lime plaster and limewash over earth brick and this pack would have dimensioned it as frame infill. Worth a separate look, and not this pair's to settle: the three slots that survive fall through to jetty-overhang, which is another half-timber pack, so declining this one stops a wrong pack without supplying a right one (OQ 58's stated limit)."
     }
   ]
 }

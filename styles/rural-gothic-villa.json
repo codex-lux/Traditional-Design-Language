@@ -276,6 +276,15 @@
       "quoted_from": "distinguished_from[2].difference",
       "decided": "2026-09-02",
       "note": "Governs 3 slots: cornice, door_surround, frieze. 0 slots lose all dimensioning -- all three pass to palladio-ionic, delivered from english-palladian. So the measured consequence is that this villa's cornice, door surround and frieze are dimensioned by Palladio's Ionic instead of Chambers's. The decline is true of this pack and stops this authority; it does not stop a classical order reaching a Gothic villa, which arrives one layer further up and belongs to whichever pass judges palladio-ionic."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "The pack's own notes say it is Palladio's Ionic order quoted from Ware -- a nine-module column, an entablature a fifth of the column divided 4:3:5, an architrave in five with a cimacio, a cornice in seven and three quarters, an Attic base -- that is, a classical order used as the dimensioning authority for the wall and its crowning members. This node's record names its own source tradition and names it as something else entirely: English ecclesiastical and Tudor domestic Gothic filtered through Loudon and Downing, with a verge that is bargeboarded rather than corniced ('the Gothic villa is steep, bargeboarded, and towered with an octagonal or buttressed turret') and a stated wall vocabulary of tracery, label mouldings and hood moulds worked in the material at 2 in relief. There is no column, order, entablature or pilaster anywhere in the record, and its governing_logic resolves elevations after the silhouette and permits them to disagree with one another, which is the opposite of an order governing an eave. This is the same contradiction on which chambers-ionic was declined; that decline's own note recorded that the classical order still reached this villa one layer further up and left palladio-ionic to this pass.",
+      "basis": "node-record",
+      "quote": "the Rural Gothic villa derives from English ecclesiastical and Tudor domestic sources filtered through Loudon and Downing",
+      "quoted_from": "distinguished_from[2].difference",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots on this node: cornice, door_surround, frieze. 0 slots lose all dimensioning -- all three fall through to palladio-tuscan, delivered from italian-renaissance at a further cascade depth. So the measured consequence is that a Gothic villa's cornice, door surround and frieze are dimensioned by Palladio's Tuscan instead of his Ionic; the decline stops this authority and does not, by itself, stop a classical order reaching the node. There is no direct lineage edge between rural-gothic-villa and english-palladian; the delivery is cascade depth 7. No live gate is armed either way."
     }
   ]
 }

@@ -265,6 +265,15 @@
       "quoted_from": "proportional_system.bay_rhythm",
       "decided": "2026-09-02",
       "note": "governs 2 slots; declining loses no dimensioning at all -- composition_parti passes to facade-peristyle (roman-classical) and dormer to storey-graduation (beaux-arts-french); 0 slots lose all dimensioning."
+    },
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's own notes name the bay count first and call it \"the only decision here that is nearly binary: odd bays compose about a centre\", and its module is defined as \"the centre-to-centre spacing of the vertical rank of openings on the principal elevation, which is also the width of wall each opening is entitled to\" -- one opening per bay, equal within a storey on Palladio's authority. The node's bay_rhythm refuses that mechanism in the pack's own terms, and its tell says window openings are \"grouped in bands of three or five under a single relieving arch or lintel, rather than distributed one per bay\", so there is no rank of one-per-bay openings for the module to measure. The pack's stated NEGATIVE CASE directs exactly this building elsewhere -- a composed front asserts one public face and one axis, and \"Where it is false, the honest move is not to apply the composition anyway but to go to the picturesque system\" -- and the node is symmetry balanced-asymmetrical with facade-picturesque already bound as its primary. The node's Beaux-Arts credit does not rescue the pack: it is stated of the PLAN (\"Beaux-Arts parti discipline organises the plan beneath it\") while the node's own elevation logic is \"Governed by mass and by the arch.\"",
+      "basis": "node-record",
+      "quote": "The rhythm is A - BBB - A, not A-A-A-A.",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot; pediment loses all dimensioning (nothing else in the cascade reaches it). Accepted as honest: the node's record states no pediment anywhere and a classical pediment is not part of the style's vocabulary, so no dimension is better than a composed-classical one. No other slot moves."
     }
   ]
 }

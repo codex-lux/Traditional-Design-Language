@@ -332,6 +332,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "governs 1 slot, trim_family; declining passes it to trim-craftsman, which this node binds itself at precedence 5, so 0 slots lose all dimensioning"
+    },
+    {
+      "pack": "greek-doric",
+      "reason": "The pack's own note states its subject as an order and nothing but an order: Stuart and Revett's Greek Doric, corrected against Benjamin on column height in diameters, the start of the entasis, the annulets and the mutules per triglyph, and it dimensions column, entablature, modillion_dentil and ornament_vocabulary. The node's record refuses all four members by name, ending its trim characteristic 'no continuous entablature, no pilasters, no columns'. Its single stated test against its own parent is the same line drawn at the same place -- 'Corner boards 4-6 inches and a plain fascia where a Greek Revival house of the same massing has 10-12 inch pilasters and a 14-inch frieze - this is the single test that separates the two' -- and greek-revival-american is precisely the ancestor delivering this pack, so the cascade crosses the exact edge the record exists to draw. The lineage note's 'Grecian proportions with the money taken out' is not an affirmation of the order: the money taken out IS the order, which is what the tell measures.",
+      "basis": "node-record",
+      "quote": "no continuous entablature, no pilasters, no columns",
+      "quoted_from": "defining_characteristics[2]",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; declining changes no dimension on this node, no slot loses any dimensioning, and no live check is armed either way"
     }
   ]
 }

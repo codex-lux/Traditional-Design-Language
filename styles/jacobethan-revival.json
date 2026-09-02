@@ -292,6 +292,15 @@
       "quoted_from": "description.long",
       "decided": "2026-09-02",
       "note": "governs 4 slots; built_ins and newel_balustrade lose all dimensioning; stair_type passes to storey-graduation (english-georgian) and trim_family to trim-classical (english-georgian)"
+    },
+    {
+      "pack": "jetty-overhang",
+      "reason": "The pack's own notes state its subject as a framed timber overhang: 'THE MODULE IS THE JOIST, NOT THE BAY... a jetty is not a division of a bay -- it is a cantilever, and a cantilever is dimensioned by the member cantilevering', and its module is 'the depth of the second-floor joist whose cantilever is the jetty'. This node's first defining characteristic answers the construction question in the opposite terms, and its third diagnostic tell makes the absence definitional rather than incidental: half-timbering anywhere returns the building to the parent style. The one slot the pack governs here, wall_thickness_frame, is being given a 7-18 in timber joist depth for a wall the record calls ashlar, or brick with stone dressings.",
+      "basis": "node-record",
+      "quote": "Masonry construction - ashlar, or brick with stone dressings - with no half-timbering",
+      "quoted_from": "defining_characteristics[0]",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot; wall_thickness_frame loses all dimensioning"
     }
   ]
 }

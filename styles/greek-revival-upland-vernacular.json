@@ -283,6 +283,15 @@
       "quoted_from": "description.long",
       "decided": "2026-09-02",
       "note": "governs 1 slot, composition_parti; 0 slots lose all dimensioning; on decline composition_parti passes to facade-medieval-english (jacobean). Recorded honestly: that fallback is not obviously right for an upland I-house either -- a decline stops a wrong pack and does not supply a right one, and the node's own trim-classical binding note already names the missing exterior frieze-board and corner-pilaster pack as 'a genuine, acknowledged gap'. No node descends from greek-revival-upland-vernacular, so the decline does not propagate."
+    },
+    {
+      "pack": "greek-doric",
+      "reason": "The pack's own notes state its subject as the Greek Doric ORDER measured against Stuart and Revett -- column height in diameters, entasis beginning in the lower third, annulets, mutules per triglyph -- and say explicitly that it 'dimensions the order, not the temple front's bay rhythm'. Every one of those figures is taken off a column, and the node's governing_logic states in words that its classical reading is carried by board width and eave depth with no orders present, while its own tell records 'no columns anywhere on the building'. The datum this pack measures from does not exist on this building. This is not the blanket-refusal trap: the node HAS a stated proportional system, in frieze depths and trim widths, and what it refuses is specifically an order -- its distinguished_from entry for the plantation variant turns on 'the presence or absence of an actual order' and puts this stratum on the absent side, which is also why the node already declines vignola-ionic on this same sentence.",
+      "basis": "node-record",
+      "quote": "Classical proportion carried entirely by board width and eave depth, with no orders present.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; 0 lose all dimensioning; declining changes no dimension on this node -- trim-classical, bound directly at precedence 1, already wins the trim slots this order pack could otherwise have reached, and the node binds no order pack at all. No node descends from greek-revival-upland-vernacular, so the decline does not propagate."
     }
   ]
 }

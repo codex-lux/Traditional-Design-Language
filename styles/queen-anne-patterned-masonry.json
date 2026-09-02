@@ -253,6 +253,15 @@
       "quoted_from": "constraints[1].statement",
       "decided": "2026-09-02",
       "note": "--impact: the pack currently governs 0 slots on this node and declining it changes no dimension. None of its eight dimensioned slots (cornice, eave_condition, frieze, modillion_dentil, ornament_vocabulary, porch_rail, porch_support, rake_condition) loses dimensioning, because the pack governs none of them here. --pair reports no live gate, so endorsing would have changed only the meter."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes state its subject is the colonnade rather than the column -- \"how many columns there are, where they stand, what they stand on, and what the wall behind them is doing\" -- and the composition_parti rules it delivers here dimension a portico occupying half to three-fifths of the front, a Doric corner contraction, and a centre bay opened a third wider than its neighbours. This node's own tell says the porch, if any, is small and masonry-piered: there is no columned screen standing in front of the wall for those rules to proportion, and a masonry pier is not an intercolumniation. Its symmetry field reads picturesque-asymmetrical and its bay rhythm is set by the rooms, so a centre-bay-widening rule has no composed centre to widen. That is a contradiction of the pack's headline subject, not a node merely silent about classical authority.",
+      "basis": "node-record",
+      "quote": "the porch, if any, is small and masonry-piered",
+      "quoted_from": "diagnostic_tells[4]",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 1 slot on this node, composition_parti. Declining passes composition_parti to facade-medieval-english (from jacobean). 0 slots lose all dimensioning."
     }
   ]
 }

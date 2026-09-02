@@ -266,6 +266,24 @@
       "quoted_from": "defining_characteristics[1]",
       "decided": "2026-09-02",
       "note": "Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. The pack arrives from gothic-revival-british at cascade depth 6 with no direct lineage edge."
+    },
+    {
+      "pack": "chambers-doric",
+      "reason": "The pack's own notes make its subject Chambers's Doric order, and the fourth of its four stated deltas is the diminution: one sixth, taken from the foot of the shaft by Blondel's conchoid, over an Attic base, with the bay fixed at the ditriglyph interval because 'the triglyph, not the eye, governs the Doric bay'. It targets this node's column and porch_support slots. This node dimensions that same support itself and does so incompatibly: a battered pier of 24 to 30 in narrowing to 10 to 14 in is a taper of roughly a half, not a column's one sixth, and the node's own tell says the pier is 'of clinker brick or fieldstone carrying tapered wood posts' rather than a shaft on a moulded base. The node's bay_rhythm compounds it -- the porch 'occupies the whole of the front and is itself the principal bay', where the pack's bay is set out from the triglyph and admits one interval. This is not the blanket refusal the first trap warns about: the objection is to the order's own mechanism at the slot the pack aims at, not to modules in general.",
+      "basis": "node-record",
+      "quote": "Porch pier base 24 to 30 in wide, tapering to 10 to 14 in at the beam",
+      "quoted_from": "proportional_system.typical_ratios[5]",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. The pack arrives from english-georgian at cascade depth 8 with no direct lineage edge."
+    },
+    {
+      "pack": "brick-course",
+      "reason": "The pack's own notes state its subject as the mason's gauge rod in a brick wall: 'in a brick building there are no free horizontal dimensions above the water table. Storey height, sill height, head height, belt course and plate are all whole numbers of courses off a single datum', and its resolution is that historic builders fixed the coursing first and let the joinery follow, the pack naming 'a stock window, a drawing' as the thing that breaks it. This node's proportional_system states the opposite mechanism for the same three quantities: the precut package standardizes every member length, and typical_ratios then fixes 'Ceiling 8 ft 6 in; window and door heads at 6 ft 8 in on a single datum' -- a stock joinery datum in feet and inches, not a course count, with description.long adding that the type worked 'because the rules were absolute lengths rather than derived ratios'. The joinery is fixed first here and the wall follows it, which is precisely the case the pack's own note says its rod does not govern.",
+      "basis": "node-record",
+      "quote": "the precut package, which standardizes every member length",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. The pack arrives from english-georgian at cascade depth 8 with no direct lineage edge (the gap file attributes it to richardsonian-romanesque; --pair reports the delivering ancestor as english-georgian)."
     }
   ]
 }

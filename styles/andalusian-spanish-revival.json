@@ -275,6 +275,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "Governs 2 slots (cornice, frieze). Declining hands both to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. Worth stating plainly: the node still ends up dimensioned by a classical order, so this decline does not make the style non-classical -- it stops the most ornate of the five orders from setting the eave of the style's plainest branch, and leaves the plainest order in its place."
+    },
+    {
+      "pack": "vignola-corinthian",
+      "reason": "The pack's own skeleton note states its subject plainly as a classical order-system and nothing else -- a column of twenty modules carrying a five-module entablature divided 3:3:4, Vignola's own figures from the Regola -- so every dimension it offers is a multiple of a classical module. The node's governing_logic opens by refusing exactly that authority and names what governs instead: wall mass, opening-to-wall ratio, and the court-to-range proportion. This is not the blanket sentence glancing off an unrelated pack; the pack IS a module system, so the node's sentence meets it head-on, in the same way the node's own already-recorded decline of vignola-composite does. The Corinthian case is if anything sharper: the node's defining characteristics put 'Ornament almost wholly absent from the wall' and a barrel-tile roof with 'minimal or no eave overhang and no gutter expressed' precisely where a Corinthian entablature and its carved frieze would have to run, and the Beaux-Arts lineage edge locates that training in the plan while the elevation is whitewashed lime.",
+      "basis": "node-record",
+      "quote": "No classical module. Governed by wall mass, opening-to-wall ratio, and the proportion of the courtyard to the height of the ranges enclosing it.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Measured --impact: the pack reaches this node from beaux-arts-french at cascade depth 6 with no direct lineage edge, and it currently governs 0 slots (it is outranked at every address it could reach). Declining it changes no dimension on this node and no slot loses any dimensioning; the effect is on the meter and on the record of what this style refuses. --pair reports no live gate."
     }
   ]
 }

@@ -123,7 +123,7 @@ def test_a_decline_counts_as_judged_and_not_as_unendorsed():
     _, gaps, inherited, declines = ci.measure(ci.load())
     # 10 -> 25 on 2 Sep 2026 (WP-8.7): fifteen more, on two log nodes whose records refuse an
     # applied proportional system outright. Every one carries a verbatim quote from its own node.
-    assert len(declines) == 114, declines
+    assert len(declines) == 168, declines
     applies = ci.applies_to_index()
     unendorsed = [t for t in gaps if t[0] not in applies.get(t[3], ())]
     judged = (len(gaps) - len(unendorsed)) + len(declines)
@@ -144,10 +144,10 @@ def test_unendorsed_did_not_move_and_that_is_the_point():
     # (249 -> 245), because each one promotes the next pack in the chain into the same role.
     # `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint, which is
     # `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times`.
-    assert ci.RATCHET["unendorsed"] == 227
-    assert ci.RATCHET_FLOOR["judged"] == 155
-    assert ci.RATCHET["inherited_packs"] == 3252, (
-        "114 declines removed 114 real deliveries; 3366 was the figure before any")
+    assert ci.RATCHET["unendorsed"] == 225
+    assert ci.RATCHET_FLOOR["judged"] == 209
+    assert ci.RATCHET["inherited_packs"] == 3198, (
+        "168 declines removed 168 real deliveries; 3366 was the figure before any")
 
 
 def test_the_schema_requires_a_reason_and_a_basis():

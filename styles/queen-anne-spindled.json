@@ -236,6 +236,15 @@
       "quoted_from": "defining_characteristics[6]",
       "decided": "2026-09-02",
       "note": "Governs 0 of its 16 slots on this node; facade-picturesque already wins every address the two share, so 0 slots lose all dimensioning and no drawn number changes. The decline removes a wrong pack from the cascade rather than a wrong figure from a sheet. Arrives from english-georgian at cascade depth 6 with no direct lineage edge."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes state its subject plainly: it is the COLONNADE rather than the order -- how many columns there are, where they stand, what they stand on and what the wall behind them is doing, across the peripteral temple, the Roman arch order and the colossal revival portico. This node's record answers that with an absence and does so four times: its first defining characteristic puts turned lathe posts in place of classical columns, its seventh names the absence of classical detail outright, its own diagnostic tell says a classical column on an otherwise Queen Anne house puts the building in the free classic subtype instead, and its distinguished_from entry for queen-anne-free-classic makes columns the very thing the two subtypes swap. There is no column screen here to array, and the node's symmetry is picturesque-asymmetrical against a pack that composes an axial front. This is the same contradiction, and the same basis, as the facade-classical decline already recorded on this node.",
+      "basis": "node-record",
+      "quote": "Turned porch posts with a pronounced swell, in place of classical columns or square piers",
+      "quoted_from": "defining_characteristics[0]",
+      "decided": "2026-09-02",
+      "note": "Governs 1 of its 7 slots on this node: composition_parti, which passes to facade-medieval-english (jacobean) on the decline. 0 slots lose all dimensioning. Arrives from english-palladian at cascade depth 8 with no direct lineage edge. No live gate, so no check is armed or disarmed either way."
     }
   ]
 }

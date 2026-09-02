@@ -262,6 +262,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "--impact: governs 0 of the 16 slots it dimensions; declining changes no dimension on this node and 0 slots lose all dimensioning. Every address it would reach is already held at higher precedence -- cornice, frieze, door_surround and pilaster by chambers-ionic, pediment by gibbs-doric, belt_course by stone-course, water_table by brick-course, window_proportion by opening-pointed, special_window by balcony-gallery, height_proportion and window_sill by storey-graduation. So the node's classical trim is untouched by the decline; only the composed-front claim goes. Endorsing instead would arm build_elevation's scope gate for a style whose whole diagnosis is that its front is not composed."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes say its subject is the colonnade against the wall — how many columns there are, where they stand, what they stand on and what the wall behind them is doing — and the one dimension it delivers to this node, composition_parti, is a composed and centred front: a portico taking half to three fifths of the block because it 'needs plain wall each side to be an event', a centre bay opening a third wider under the discipline that 'no OTHER bay may open', and a Doric corner contraction. This node's record contradicts that subject in its own sentences rather than by category: symmetry is 'balanced-asymmetrical', c02 makes the asymmetry a hard constraint, the porch 'wraps a corner' rather than standing as an event on one front, and its columns are 'grouped, two or three on a single pedestal', which is more than one opened bay by construction. This is not a refusal of the node's classical colonnade, which is real and stays dimensioned by the vignola-tuscan and vignola-ionic packs the node binds itself; what goes is the claim that the front is composed about that colonnade. The pack concedes the same point from its own side in the corner-contraction note, where an American revival portico 'almost never contracts the corner bay'.",
+      "basis": "node-record",
+      "quote": "Classical columns on an asymmetrical house is the whole diagnosis; if the facade were symmetrical it would be Colonial Revival",
+      "quoted_from": "diagnostic_tells",
+      "decided": "2026-09-02",
+      "note": "--impact: arrives from english-palladian at cascade depth 8 with no direct lineage edge; governs 1 of the 7 slots it dimensions, composition_parti. Declining passes composition_parti to facade-medieval-english (jacobean) and 0 slots lose all dimensioning. Stated honestly: the fallback is not a rival composed-front rule but a different set of dimensions — structural_bay, bay_count, pier_ratio_gothic, pier_ratio_norman — so what the decline actually removes from this node is the portico_share, centre_bay_widening and corner_contraction claims, and nothing replaces them. No live gate, so the decline is a dimension change only and arms nothing."
     }
   ]
 }

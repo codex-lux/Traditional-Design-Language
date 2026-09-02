@@ -326,6 +326,15 @@
       "quoted_from": "proportional_system.bay_rhythm",
       "decided": "2026-09-02",
       "note": "--impact: governs 0 slots, so no dimension changes; the decline moves the meter and re-attributes the `facade` role to the next unjudged ancestor. Arrives from `english-georgian` at cascade depth 12 with no direct lineage edge. Stated because it cuts the other way: ENDORSING would have armed `build/elevation.py`'s build_elevation scope gate -- the other half of that AND -- turning a composed-classical elevation check on for every plan of a style whose record says its bay rhythm is None."
+    },
+    {
+      "pack": "palladio-doric",
+      "reason": "The pack's own notes state its subject as a classical order and nothing else: a module that is the semidiameter divided into thirty minutes, an Attic base that is on the drawing 'if a building is Palladian', and a diminution tabulated by column height in Book I ch. XIII. That is an applied proportional system in the literal sense the node's governing_logic refuses -- this node's proportions come from log length, log diameter, riven-shingle performance and the notch, and the sentence quoted says adding an applied system falsifies the type. This is the same reading already recorded on this node for `chambers-doric` and `palladio-corinthian`, and it is a contradiction of the pack's stated subject rather than of its name: there is no reading of an order pack under which it is not an applied proportional system.",
+      "basis": "node-record",
+      "quote": "There is no applied proportional system and adding one falsifies the type.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 slots, so this changes no dimension and moves only the meter. It arrives from `palladian` at cascade depth 15 with NO direct lineage edge, and like the two order packs already declined here it surfaced only because earlier declines re-attributed the `secondary` role down the chain -- so expect this decline to surface the next order pack on that role rather than close it. --pair reports no live gate, so endorsing would have changed no behaviour either."
     }
   ]
 }

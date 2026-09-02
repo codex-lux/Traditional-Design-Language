@@ -1,38 +1,69 @@
-# oq/the-adjudication-cases-the-records-do-not-decide — 152 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once
+# oq/the-adjudication-cases-the-records-do-not-decide — 171 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once
 
 *Status: OPEN · Raised in: WP-8.7, the adjudication of OQ 51's backlog (2 Sep 2026)*
 
-**OPEN — every gap in the OQ 51 backlog has now been read, and these are the ones a record cannot
-close.** 244 (node, pack) pairs were adjudicated one node at a time against the pack's own stated
+**OPEN — the OQ 51 backlog has been read end to end, twice, and these are the ones a record cannot
+close.** 317 (node, pack) adjudications were made one node at a time against the pack's own stated
 subject, under a rule the repo owner set: endorse or decline ONLY where a sentence in the node's own
-record affirms or contradicts what the pack says it is for; everything else comes here. 89 declines
-and 3 endorsements were written. **These 152 are what is left, and they need a person.**
+record affirms or contradicts what the pack says it is for; everything else comes here. **168
+declines and 3 endorsements** are now in the corpus, taking `judged` from 48 to **209**.
 
-Twenty-one of them arrived here by being REFUSED rather than by being undecided: an adjudicator
-proposed a decline, an independent adversarial check refused it, and the disagreement is itself the
-evidence that the record does not settle the case. Those rows are marked ↺.
+Every proposed data change was put to an independent adversarial check before it was written, and
+**23 were overturned** — about one in six of everything that would have touched data. Rows marked ↺
+arrived here that way: an adjudicator proposed a decline, the check refused it, and the
+disagreement is itself the evidence that the record does not settle the case.
 
 ## How to use this
 
-**Rule by PACK, not by row.** The rows are grouped by the pack that delivers them because one
-judgment about a pack settles every node under it — that is the whole leverage in this backlog.
-`opening-proportion` and `storey-graduation` are 42 of the 152 between them.
+**Rule by PACK, not by row.** One judgment about a pack settles every node under it — that is the
+whole leverage in this backlog.
 
 **Five packs are LIVE GATES** (marked ⚡): endorsing a node into `storey-graduation`, `timber-bay`,
 `opening-proportion`, `facade-classical` or `gibbs-ionic` switches on real generated behaviour —
 `graduation_check`, `span_check`'s capacity basis, the elevation generator. Run
-`python3 build/sweep_gates.py <pack> --json` before and after and diff it. Baselines for all five
+`python3 build/sweep_gates.py <pack> --json` before and after and diff it; baselines for all five
 were taken before this package's first change.
 
 **The elevation gate is an AND**, and it no longer arms nothing: `folk-victorian` and
-`greek-revival-upland-vernacular` are inside `opening-proportion` already, so endorsing them into
+`greek-revival-upland-vernacular` sit inside `opening-proportion` already, so endorsing them into
 `facade-classical` would start the generator composing a classical front for them.
+`tests/test_gate_packs.py` pins that set.
 
-**A decline is not free either.** Roughly one decline in five is half-defeated by a baked ancestor
-parameter (`oq/a-baked-pack-value-is-a-second-delivery-path`), and a decline can hand a slot to a
-pack that suits the node worse — `appalachian-log-house` declining `brick-course` passes
-`steps_and_stoop` to a Renaissance order.
+**A decline is not free either.** Roughly one decline in eight is half-defeated by a baked ancestor
+parameter (`oq/a-baked-pack-value-is-a-second-delivery-path`, measured at 20 of 168), and a decline
+can hand a slot to a pack that suits the node worse — `appalachian-log-house` declining
+`brick-course` passes `steps_and_stoop` to a Renaissance order. Several rows below say so in their
+own words.
 
+
+## `storey-graduation` ⚡ — 24 node(s)
+
+| node | role | arrives from | what a ruling has to decide |
+|---|---|---|---|
+| `arts-and-crafts-american` | massing | `english-georgian` | Does "the system is dimensional rather than ratio-based" refuse the storey diminution itself, or only the twelfth-part module that derives it — given that "at the principal floor" concedes the principal storey is distinguished, and that endorsing arms a storey-to-storey ratio check every plan of thi |
+| `arts-and-crafts-british` | massing | `english-georgian` | Does an Arts and Crafts house, whose upper storey is compressed by an eave brought below first-floor head height rather than by any rank between floors, take a storey-graduation ratio -- and can this pack be declined at all while an ancestor's kit binding still names it on height_proportion? |
+| `cotswold-cottage-revival` | massing | `english-georgian` | Does a one-and-a-half-storey picturesque cottage whose record says nothing about storey-to-storey ratio owe the Georgian graduation rule, and should graduation_check be armed against its plans? |
+| `craftsman` | massing | `english-georgian` | Does a style of one or one and a half storeys, dimensioned in absolute lengths off a single wall plate, fall under a graduated-stack pack, given that endorsing arms build/structure.py's graduation_check -- called from build_section, so every Craftsman plan gains the finding and can now fail it? |
+| ↺ `dogtrot-vernacular` | massing | `english-georgian` | Quote is VERBATIM (checker prints VERBATIM; it is proportional_system.typical_ratios[3]), but the judgment is wrong and the quote does not bear on the pack's mechanism. The pack's own notes say its subject is the RELATION between storeys in a stack -- sills constant, heads following the storey, uppe |
+| `egyptian-revival` | massing | `greek-revival-american` | Does a style whose own record says it is almost never a house take a rule the pack itself calls a house rule, when endorsing arms graduation_check on every plan of the style and declining leaves stair_type with no dimensioning at all? |
+| ↺ `english-baroque` | massing | `palladian` | Quote is VERBATIM (checker prints VERBATIM) and the field path is right: distinguished_from[1].node == "english-georgian". The reason's supporting argument also checks out — c03 pins glazing bars "not thinner than 25 mm", the keyed segmental head is a diagnostic tell, and the giant order is defining |
+| `french-eclectic` | massing | `beaux-arts-american` | Does a roof-dominant style whose record never mentions storey height take the graduated stack as its section rule -- knowing that endorsing arms graduation_check for every French Eclectic plan? |
+| `french-normandy-revival` | massing | `beaux-arts-american` | Does a picturesque roof-dominant Norman revival, whose record states no storey-to-storey ratio at all, want graduated storey heights checked on every plan — or is the equal-stack negative case simply not a claim this style makes? |
+| `german-pennsylvania-colonial` | massing | `english-georgian` | Should a house that composes its elevation from its rooms be held to a Georgian storey-over-storey height diminution at all -- and is this record's silence on storey heights enough to arm graduation_check on every plan of the style? |
+| `gothic-revival-american` | massing | `english-georgian` | Does American Gothic Revival take the Anglo-American storey-diminution rule -- as its parent gothic-revival-british and its child carpenter-gothic already are endorsed to -- when its own record fixes no floor-to-floor heights and its elevation is generated by rooms rather than by a storey line, and  |
+| `jacobethan-revival` | massing | `english-georgian` | Does a style whose vertical regulator is stated to be the gable parapet profile, and whose principal windows are continuous mullioned and transomed walls of glass rather than punched openings, make a storey-diminution claim firm enough to arm graduation_check on every plan of the style? |
+| `mediterranean-revival` | massing | `italian-renaissance-revival` | Is "upper-storey openings are fewer and smaller than lower" an affirmation of storey-height graduation, sufficient to arm `graduation_check` (build/structure.py, via build_section) on every Mediterranean Revival plan, when the node attributes the smaller upper openings to wall mass rather than to a  |
+| `mission-revival` | massing | `beaux-arts-french` | Does a style whose record states no storey heights at all — one continuous wall plane, openings 'placed by convenience', no belt course or cornice — take the classical storey-graduation section rule, given that the pack's own negative case names the depot, hotel and school building types this style  |
+| `modern-farmhouse-traditional` | massing | `colonial-revival` | Is a stated 9-to-10-foot ground plate with no upper-storey figure anywhere in the record enough to affirm a graduated section for this style, given that endorsing arms build/structure.py::graduation_check and every Modern Farmhouse plan thereafter gains a storey-ratio finding it can fail? |
+| `monterey-revival` | massing | `beaux-arts-french` | Does a node whose stated storey bands overlap -- 9'-10' over 8'-9', so an equal 9/9 stack is inside its own record -- affirm storey-graduation strongly enough to arm graduation_check's 0.78-0.92 band against every plan of the style, or must the node's own range be tightened first? |
+| `neo-eclectic` | massing | `colonial-revival` | Does 'the 8- or 9-foot plate' as a named module amount to the node declaring an ungraduated stack — which would be a contradiction of this pack — or is the node simply silent on storey-to-storey ratio, and should graduation_check be armed for a style whose own record disclaims an operative proportio |
+| `queen-anne-american` | massing | `english-georgian` | Does this node's lightening-upward reading of the wall, which the record makes about texture and ornament only, extend to the floor-to-floor diminution storey-graduation writes into chair_rail, height_proportion and window_sill -- enough to arm graduation_check for every Queen Anne plan? |
+| `queen-anne-free-classic` | massing | `english-georgian` | Does a free classic Queen Anne of 1890-1918 -- a picturesque body that bought classical trim from a millwork catalogue -- graduate its storeys the way its Georgian ancestor does, when the node's own record is silent on storey heights and the pack currently governs its chair_rail, height_proportion a |
+| `queen-anne-spindled` | massing | `english-georgian` | Two things need ruling together: whether the American Queen Anne's graduated storeys should be affirmed for this node when its own record is silent on storey heights and endorsing arms a check that can fail every plan of the style; and whether a decline would even take effect here, since --impact re |
+| `rural-gothic-villa` | massing | `english-georgian` | Does a style that explicitly permits window heads and sills to differ on one elevation still take storey-graduation for its SECTION -- the diminishing storey its own record neither states nor denies -- or does losing the pack's stated visible mechanism refuse the pack entire? |
+| `spanish-colonial-revival` | massing | `beaux-arts-french` | Should a picturesque, asymmetrical, courtyard-organised stucco style whose record is silent on storey heights be held to a graduated-stack ratio -- and if it is declined instead, is that decline even effective, given that the pack currently governs only chair_rail here and --impact shows chair_rail  |
+| `stick-style` | massing | `english-georgian` | Does a Stick Style stack graduate -- is the second storey shorter than the first, with the stick band at each floor line following it -- or does the stick grid leave storey heights to the plan, and if this pack is declined must the baked storey-graduation entries in the inherited chair_rail, height_ |
+| `storybook-style` | massing | `english-georgian` | Does the record's refusal of a facade datum refuse a pack whose subject is the storey-height ratio and whose delivery here is chair_rail and height_proportion, given that a decline is measured to change no dimension at all? |
 
 ## `opening-proportion` ⚡ — 21 node(s)
 
@@ -60,31 +91,23 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 | `spanish-plateresque` | opening | `italian-renaissance` | Does 'the plain wall around it has no proportional system at all' refuse a Palladian head datum and sill for this style's windows, or only refuse regulating where those windows are placed — and if it refuses, what dimensions the four slots instead? |
 | `tuscan-vernacular` | opening | `roman-classical` | Does a mezzadria farmhouse whose openings are cut by internal need through a half-metre rubble wall take its head datum, sill heights, secondary-door graduation and sidelight/Venetian-window dimensions from Palladio's opening system, or should those six slots be left with no dimensioning at all? |
 
-## `storey-graduation` ⚡ — 21 node(s)
+## `facade-gable` — 13 node(s)
 
 | node | role | arrives from | what a ruling has to decide |
 |---|---|---|---|
-| `arts-and-crafts-american` | massing | `english-georgian` | Does "the system is dimensional rather than ratio-based" refuse the storey diminution itself, or only the twelfth-part module that derives it — given that "at the principal floor" concedes the principal storey is distinguished, and that endorsing arms a storey-to-storey ratio check every plan of thi |
-| `arts-and-crafts-british` | massing | `english-georgian` | Does an Arts and Crafts house, whose upper storey is compressed by an eave brought below first-floor head height rather than by any rank between floors, take a storey-graduation ratio -- and can this pack be declined at all while an ancestor's kit binding still names it on height_proportion? |
-| `cotswold-cottage-revival` | massing | `english-georgian` | Does a one-and-a-half-storey picturesque cottage whose record says nothing about storey-to-storey ratio owe the Georgian graduation rule, and should graduation_check be armed against its plans? |
-| `craftsman` | massing | `english-georgian` | Does a style of one or one and a half storeys, dimensioned in absolute lengths off a single wall plate, fall under a graduated-stack pack, given that endorsing arms build/structure.py's graduation_check -- called from build_section, so every Craftsman plan gains the finding and can now fail it? |
-| ↺ `dogtrot-vernacular` | massing | `english-georgian` | Quote is VERBATIM (checker prints VERBATIM; it is proportional_system.typical_ratios[3]), but the judgment is wrong and the quote does not bear on the pack's mechanism. The pack's own notes say its subject is the RELATION between storeys in a stack -- sills constant, heads following the storey, uppe |
-| `egyptian-revival` | massing | `greek-revival-american` | Does a style whose own record says it is almost never a house take a rule the pack itself calls a house rule, when endorsing arms graduation_check on every plan of the style and declining leaves stair_type with no dimensioning at all? |
-| ↺ `english-baroque` | massing | `palladian` | Quote is VERBATIM (checker prints VERBATIM) and the field path is right: distinguished_from[1].node == "english-georgian". The reason's supporting argument also checks out — c03 pins glazing bars "not thinner than 25 mm", the keyed segmental head is a diagnostic tell, and the giant order is defining |
-| `french-eclectic` | massing | `beaux-arts-american` | Does a roof-dominant style whose record never mentions storey height take the graduated stack as its section rule -- knowing that endorsing arms graduation_check for every French Eclectic plan? |
-| `french-normandy-revival` | massing | `beaux-arts-american` | Does a picturesque roof-dominant Norman revival, whose record states no storey-to-storey ratio at all, want graduated storey heights checked on every plan — or is the equal-stack negative case simply not a claim this style makes? |
-| `german-pennsylvania-colonial` | massing | `english-georgian` | Should a house that composes its elevation from its rooms be held to a Georgian storey-over-storey height diminution at all -- and is this record's silence on storey heights enough to arm graduation_check on every plan of the style? |
-| `gothic-revival-american` | massing | `english-georgian` | Does American Gothic Revival take the Anglo-American storey-diminution rule -- as its parent gothic-revival-british and its child carpenter-gothic already are endorsed to -- when its own record fixes no floor-to-floor heights and its elevation is generated by rooms rather than by a storey line, and  |
-| `jacobethan-revival` | massing | `english-georgian` | Does a style whose vertical regulator is stated to be the gable parapet profile, and whose principal windows are continuous mullioned and transomed walls of glass rather than punched openings, make a storey-diminution claim firm enough to arm graduation_check on every plan of the style? |
-| `mediterranean-revival` | massing | `italian-renaissance-revival` | Is "upper-storey openings are fewer and smaller than lower" an affirmation of storey-height graduation, sufficient to arm `graduation_check` (build/structure.py, via build_section) on every Mediterranean Revival plan, when the node attributes the smaller upper openings to wall mass rather than to a  |
-| `modern-farmhouse-traditional` | massing | `colonial-revival` | Is a stated 9-to-10-foot ground plate with no upper-storey figure anywhere in the record enough to affirm a graduated section for this style, given that endorsing arms build/structure.py::graduation_check and every Modern Farmhouse plan thereafter gains a storey-ratio finding it can fail? |
-| `neo-eclectic` | massing | `colonial-revival` | Does 'the 8- or 9-foot plate' as a named module amount to the node declaring an ungraduated stack — which would be a contradiction of this pack — or is the node simply silent on storey-to-storey ratio, and should graduation_check be armed for a style whose own record disclaims an operative proportio |
-| `queen-anne-american` | massing | `english-georgian` | Does this node's lightening-upward reading of the wall, which the record makes about texture and ornament only, extend to the floor-to-floor diminution storey-graduation writes into chair_rail, height_proportion and window_sill -- enough to arm graduation_check for every Queen Anne plan? |
-| `queen-anne-free-classic` | massing | `english-georgian` | Does a free classic Queen Anne of 1890-1918 -- a picturesque body that bought classical trim from a millwork catalogue -- graduate its storeys the way its Georgian ancestor does, when the node's own record is silent on storey heights and the pack currently governs its chair_rail, height_proportion a |
-| `queen-anne-spindled` | massing | `english-georgian` | Two things need ruling together: whether the American Queen Anne's graduated storeys should be affirmed for this node when its own record is silent on storey heights and endorsing arms a check that can fail every plan of the style; and whether a decline would even take effect here, since --impact re |
-| `rural-gothic-villa` | massing | `english-georgian` | Does a style that explicitly permits window heads and sills to differ on one elevation still take storey-graduation for its SECTION -- the diminishing storey its own record neither states nor denies -- or does losing the pack's stated visible mechanism refuse the pack entire? |
-| `stick-style` | massing | `english-georgian` | Does a Stick Style stack graduate -- is the second storey shorter than the first, with the stick band at each floor line following it -- or does the stick grid leave storey heights to the plan, and if this pack is declined must the baked storey-graduation entries in the inherited chair_rail, height_ |
-| `storybook-style` | massing | `english-georgian` | Does the record's refusal of a facade datum refuse a pack whose subject is the storey-height ratio and whose delivery here is chair_rail and height_proportion, given that a decline is measured to change no dimension at all? |
+| `arts-and-crafts-british` | secondary | `gothic-revival-british` | Does 'no shaped gable' refuse the whole of facade-gable on this node, when the only rule reaching it is the Cotswold kneeler for a roof-end gable -- a detail this node's own Cotswold descent supports -- and a decline leaves cornice_return with no dimensioning at all? |
+| `california-bungalow` | secondary | `gothic-revival-british` | Should a node whose gable is stated as the end of a roof with an exposed truss take a gable-geometry pack whose dimensioned cases are largely parapet and screen gables, when the node's own Mission hybrid note admits a shaped parapet on the common Los Angeles product? |
+| `carpenter-gothic` | secondary | `gothic-revival-british` | Does a bargeboarded softwood rake take facade-gable's geometry half -- apex ratio, gable count, hierarchy, dormer-as-gable -- while its stone kneeler, coping and apex assembly is refused, or is the whole pack a masonry pack that should not reach a plank-built cottage at all? |
+| `dogtrot-vernacular` | facade | `flemish-vernacular` | Does a log or frame dogtrot's cornice_return take facade-gable's masonry kneeler figure (part * 1.2, 8-24 in) by default, or should the slot lose all dimensioning until a pack that describes a timber gable rake is bound? |
+| `german-pennsylvania-colonial` | facade | `flemish-vernacular` | Should a plain Pennsylvania German masonry gable -- a roof end with no parapet or coping anywhere in its record -- take facade-gable's kneeler as its cornice_return, or should that slot stand undimensioned until a pack for the plain masonry verge exists? |
+| `hudson-valley-dutch` | facade | `dutch-urban-gable-house` | Does the Hudson Valley stone gable's rake take facade-gable's stone kneeler-and-coping, or does the mouse-tooth vlechtingen tumbling the node names for its Kingston and Albany town houses replace it — and if the pack is right only for the urban brick front, should it be endorsed for the townhouse-ro |
+| ↺ `italianate-townhouse` | secondary | `gothic-revival-british` | The quote IS verbatim (exact substring of constraints[0].statement, correctly cut before the period), but it does not bear on the pack's subject and the contradiction is inferred rather than stated. The pack's own notes and module note say its subject is deciding whether a gable is a roof end, a par |
+| `modern-farmhouse-traditional` | secondary | `gothic-revival-british` | Should a pack whose dimensioned rules are the shaped, stepped, parapeted and screen gables of Scotland and the Low Countries reach a node whose gable is a plain fibre-cement roof end -- given that the one rule the node's own c02 wants (the kneeler at `cornice_return`) arrives embedded in a cut-stone |
+| `north-german-hall-house` | facade | `flemish-vernacular` | Does a thatch-verged timber gable take facade-gable, whose roof-end members are all cut stone, when the node states no coping, kneeler or crow-step either way -- and is leaving gable_treatment, rake_condition, cornice_return and dormer with no dimensioning at all acceptable on the one elevation this |
+| `pennsylvania-bank-house` | facade | `flemish-vernacular` | Does a Pennsylvania bank house's gable end carry a coped, kneelered verge that cornice_return can be dimensioned from, or does the roof oversail a plain stone gable -- and if the latter, what dimensions cornice_return instead? |
+| `queen-anne-american` | secondary | `gothic-revival-british` | Should a masonry parapet and crow-step gable pack reach a balloon-framed American Queen Anne whose only stated gable treatment is a shingle-filled roof end, given that the node's stated 9:12-14:12 pitch puts its apex ratio below the pack's own 0.55-1.05 band? |
+| `queen-anne-spindled` | secondary | `gothic-revival-british` | Does a wooden cross-gable filled with cut shingles count as a roof end for facade-gable's purposes, making its height-to-width and gable-count rules applicable while its masonry members stay simply inert -- or is a masonry-derived gable pack the wrong authority for a shingled timber gable regardless |
+| `stick-style` | secondary | `gothic-revival-british` | Does facade-gable's material-neutral half -- the apex-height-over-width ratio, the gables-per-front count and the hierarchy rule that calls equal gable widths a builder's composition -- govern a Stick Style front whose own c05 requires gables of comparable weight, or does this pack reach the node on |
 
 ## `sash-light` — 11 node(s)
 
@@ -102,19 +125,34 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 | `ranch-style` | opening | `minimal-traditional` | Does the node's own statement that large float glass gave it the picture window place the ranch inside sash-light's authority or name the technology that ended it -- and if the latter, what dimensions `shutter` and `window_type`, both of which lose all dimensioning on a decline? |
 | `spanish-colonial-revival` | opening | `richardsonian-romanesque` | Does a twentieth-century revival that specifies multi-light double-hung sash take its light count from the pack's glass-supply arithmetic, or is multi-light here an archaism chosen for style, which the pack expressly says light count never is? |
 
-## `facade-gable` — 9 node(s)
+## `trim-classical` — 10 node(s)
 
 | node | role | arrives from | what a ruling has to decide |
 |---|---|---|---|
-| `arts-and-crafts-british` | secondary | `gothic-revival-british` | Does 'no shaped gable' refuse the whole of facade-gable on this node, when the only rule reaching it is the Cotswold kneeler for a roof-end gable -- a detail this node's own Cotswold descent supports -- and a decline leaves cornice_return with no dimensioning at all? |
-| `california-bungalow` | secondary | `gothic-revival-british` | Should a node whose gable is stated as the end of a roof with an exposed truss take a gable-geometry pack whose dimensioned cases are largely parapet and screen gables, when the node's own Mission hybrid note admits a shaped parapet on the common Los Angeles product? |
-| `carpenter-gothic` | secondary | `gothic-revival-british` | Does a bargeboarded softwood rake take facade-gable's geometry half -- apex ratio, gable count, hierarchy, dormer-as-gable -- while its stone kneeler, coping and apex assembly is refused, or is the whole pack a masonry pack that should not reach a plank-built cottage at all? |
-| `german-pennsylvania-colonial` | facade | `flemish-vernacular` | Should a plain Pennsylvania German masonry gable -- a roof end with no parapet or coping anywhere in its record -- take facade-gable's kneeler as its cornice_return, or should that slot stand undimensioned until a pack for the plain masonry verge exists? |
-| `hudson-valley-dutch` | facade | `dutch-urban-gable-house` | Does the Hudson Valley stone gable's rake take facade-gable's stone kneeler-and-coping, or does the mouse-tooth vlechtingen tumbling the node names for its Kingston and Albany town houses replace it — and if the pack is right only for the urban brick front, should it be endorsed for the townhouse-ro |
-| `pennsylvania-bank-house` | facade | `flemish-vernacular` | Does a Pennsylvania bank house's gable end carry a coped, kneelered verge that cornice_return can be dimensioned from, or does the roof oversail a plain stone gable -- and if the latter, what dimensions cornice_return instead? |
-| `queen-anne-american` | secondary | `gothic-revival-british` | Should a masonry parapet and crow-step gable pack reach a balloon-framed American Queen Anne whose only stated gable treatment is a shingle-filled roof end, given that the node's stated 9:12-14:12 pitch puts its apex ratio below the pack's own 0.55-1.05 band? |
-| `queen-anne-spindled` | secondary | `gothic-revival-british` | Does a wooden cross-gable filled with cut shingles count as a roof end for facade-gable's purposes, making its height-to-width and gable-count rules applicable while its masonry members stay simply inert -- or is a masonry-derived gable pack the wrong authority for a shingled timber gable regardless |
-| `stick-style` | secondary | `gothic-revival-british` | Does facade-gable's material-neutral half -- the apex-height-over-width ratio, the gables-per-front count and the hierarchy rule that calls equal gable widths a builder's composition -- govern a Stick Style front whose own c05 requires gables of comparable weight, or does this pack reach the node on |
+| `egyptian-revival` | interior | `greek-revival-american` | Does c02's ban on dentils 'anywhere on the building' reach the interior trim, and if it does, is the pack's dentil-free Greek Revival family enough to satisfy it or must the whole pack go? |
+| `german-pennsylvania-colonial` | interior | `english-georgian` | Does the post-1770 Anglicization -- 'the same house, wearing a different face' -- reach the interior trim family, in rooms whose 7 ft 0 in to 8 ft 6 in ceilings sit at or below trim-classical's own stated calibration floor? |
+| `jacobethan-revival` | interior | `english-georgian` | Does 'There is no classical order except at the entrance porch' refuse a Vignola-derived interior trim family in a house whose own ornament the record calls Renaissance, or does it scope only the exterior order? |
+| `mediterranean-revival` | interior | `italian-renaissance-revival` | Does "window jamb splayed or returned in stucco with no applied casing" describe only the exterior reveal, or does a genuinely thick plastered wall carry the no-casing rule inside as well -- and if so, does that refuse this pack's `casing` and `window_surround_wood` rules while leaving its baseboard |
+| `pennsylvania-bank-house` | interior | `english-georgian` | Does the Stube level of a Pennsylvania bank house take a classical interior trim family at all, and if it does, does the pack's own eight-foot resolution apply to a house whose storey heights are set by the cross-slope rather than by a stud length? |
+| `queen-anne-british` | interior | `english-georgian` | Does a Queen Anne (British) interior take the Georgian 4:12:3 pedestal-column-entablature trim derivation as an acknowledged approximation, or should trim_family go undimensioned until an Aesthetic-movement dado-fill-frieze trim pack exists — given that declining strands trim_family with nothing whi |
+| `queen-anne-patterned-masonry` | interior | `english-georgian` | Does a picturesque urban masonry Queen Anne take the Georgian ceiling-height trim arithmetic for its interiors, or an Aesthetic-movement trim family the corpus has no pack for -- and if the latter, what dimensions baseboard, casing, crown, interior_door and wainscot in the meantime? |
+| ↺ `ranch-style` | interior | `colonial-revival` | Quote is VERBATIM (styles/ranch-style.json, proportional_system.typical_ratios[3]) — that leg passes. The judgment does not. The reason's central claim, "the node states the exact ceiling the pack disowns," misreads the pack: trim-classical's eight-foot conflict is with COST, and its resolution is i |
+| `richardsonian-romanesque` | interior | `beaux-arts-french` | Should a Richardsonian interior take its trim family from beaux-arts-french's inherited Vignola pedestal-column-entablature arithmetic, or should trim_family stand undimensioned until a heavy-oak-and-inglenook trim system exists to supply it? |
+| `scottish-baronial` | interior | `regency` | Does 'None classical' reach the INTERIOR of a house whose own record calls it a Regency house in costume with rooms that are large, square, plastered and comfortable, or is the classical trim family the right dimensioning for a Burn-and-Bryce interior even where the elevation refuses the order? |
+
+## `room-harmonic` — 9 node(s)
+
+| node | role | arrives from | what a ruling has to decide |
+|---|---|---|---|
+| ↺ `charleston-single-house` | room | `georgian-colonial-american` | Quote is VERBATIM (exact substring of the raw file and of proportional_system.governing_logic, no normalisation needed), and it does bear on the pack's subject -- room-harmonic really does derive room length from breadth and ceiling height from the plan dimensions, so this is not the sash-light cate |
+| `creole-cottage-vernacular` | room | `roman-classical` | Does a node stating a climatic and structural generator for its room size and ceiling height thereby refuse a proportional pack that generates those same two quantities, when the shape it lands on is in that pack's own list of seven and its ceiling band mostly sits inside the domestic tolerance the  |
+| `egyptian-revival` | room | `greek-revival-american` | Should a style the record says never developed a domestic vocabulary inherit Palladian room proportion by default, or be left with none? |
+| `french-colonial-american` | room | `roman-classical` | Does 'the room as an independent, cross-ventilated cell', with a ceiling band stated flat and climatically rather than derived from the plan, refuse the Palladian mean-derived section and the ranked enfilade -- or is the record simply silent on proportion it never used? |
+| `french-eclectic` | room | `beaux-arts-american` | Does an interwar American revival with a corridor plan inherit the Beaux-Arts harmonic room, or is its interior proportion an unstated matter the corpus should leave to the architect? |
+| `french-normandy-revival` | room | `beaux-arts-american` | Is a Palladian harmonic ceiling-height rule an acceptable default for an informally planned picturesque revival, or should such nodes carry no room-system pack at all? |
+| `jacobethan-revival` | room | `english-georgian` | Does an English prodigy-house revival, whose sources predate Palladian influence in England, take its room shapes and public-private gradient from the harmonic system, or does the corpus owe it a room pack of its own? |
+| `moorish-andalusian` | room | `roman-classical` | Does a tradition that sets its plan out by rotating a square -- irrational ratios, compass and straightedge, no absolute module -- nonetheless take Palladio's seven shapes and his three-mean ceiling heights, given that its own stated court band of 1:1.5 to 1:2 falls inside the pack's ratios and its  |
+| ↺ `mudejar` | room | `roman-classical` | Quote is verbatim (checker returns VERBATIM; it is the second sentence of mudejar.c02's statement) and it does bear on the pack's object — the ceiling — so the failure is in the judgment, not the citation mechanics. But the quoted sentence forbids a SUSPENDED CEILING BELOW A SEPARATE ROOF, which is  |
 
 ## `room-vernacular` — 9 node(s)
 
@@ -143,32 +181,6 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 | `jacobethan-revival` | primary | `english-georgian` | May an order overlay reaching this node only through english-georgian at cascade depth 7 govern its building-wide cornice, frieze and pilaster when the style's own governing_logic admits a classical order solely as a quotation at the entrance porch — and if an order pack must govern them, is Chamber |
 | `storybook-style` | primary | `english-georgian` | Should a style whose governing logic is stated as pictorial rather than conventional decline the inherited classical order chain as a whole -- chambers-ionic and the palladio-ionic that takes door_surround and frieze the moment it does -- or is an inherited order harmless on a node that draws no col |
 
-## `room-harmonic` — 8 node(s)
-
-| node | role | arrives from | what a ruling has to decide |
-|---|---|---|---|
-| ↺ `charleston-single-house` | room | `georgian-colonial-american` | Quote is VERBATIM (exact substring of the raw file and of proportional_system.governing_logic, no normalisation needed), and it does bear on the pack's subject -- room-harmonic really does derive room length from breadth and ceiling height from the plan dimensions, so this is not the sash-light cate |
-| `creole-cottage-vernacular` | room | `roman-classical` | Does a node stating a climatic and structural generator for its room size and ceiling height thereby refuse a proportional pack that generates those same two quantities, when the shape it lands on is in that pack's own list of seven and its ceiling band mostly sits inside the domestic tolerance the  |
-| `egyptian-revival` | room | `greek-revival-american` | Should a style the record says never developed a domestic vocabulary inherit Palladian room proportion by default, or be left with none? |
-| `french-colonial-american` | room | `roman-classical` | Does 'the room as an independent, cross-ventilated cell', with a ceiling band stated flat and climatically rather than derived from the plan, refuse the Palladian mean-derived section and the ranked enfilade -- or is the record simply silent on proportion it never used? |
-| `french-eclectic` | room | `beaux-arts-american` | Does an interwar American revival with a corridor plan inherit the Beaux-Arts harmonic room, or is its interior proportion an unstated matter the corpus should leave to the architect? |
-| `french-normandy-revival` | room | `beaux-arts-american` | Is a Palladian harmonic ceiling-height rule an acceptable default for an informally planned picturesque revival, or should such nodes carry no room-system pack at all? |
-| `moorish-andalusian` | room | `roman-classical` | Does a tradition that sets its plan out by rotating a square -- irrational ratios, compass and straightedge, no absolute module -- nonetheless take Palladio's seven shapes and his three-mean ceiling heights, given that its own stated court band of 1:1.5 to 1:2 falls inside the pack's ratios and its  |
-| ↺ `mudejar` | room | `roman-classical` | Quote is verbatim (checker returns VERBATIM; it is the second sentence of mudejar.c02's statement) and it does bear on the pack's object — the ceiling — so the failure is in the judgment, not the citation mechanics. But the quoted sentence forbids a SUSPENDED CEILING BELOW A SEPARATE ROOF, which is  |
-
-## `trim-classical` — 8 node(s)
-
-| node | role | arrives from | what a ruling has to decide |
-|---|---|---|---|
-| `egyptian-revival` | interior | `greek-revival-american` | Does c02's ban on dentils 'anywhere on the building' reach the interior trim, and if it does, is the pack's dentil-free Greek Revival family enough to satisfy it or must the whole pack go? |
-| `german-pennsylvania-colonial` | interior | `english-georgian` | Does the post-1770 Anglicization -- 'the same house, wearing a different face' -- reach the interior trim family, in rooms whose 7 ft 0 in to 8 ft 6 in ceilings sit at or below trim-classical's own stated calibration floor? |
-| `mediterranean-revival` | interior | `italian-renaissance-revival` | Does "window jamb splayed or returned in stucco with no applied casing" describe only the exterior reveal, or does a genuinely thick plastered wall carry the no-casing rule inside as well -- and if so, does that refuse this pack's `casing` and `window_surround_wood` rules while leaving its baseboard |
-| `pennsylvania-bank-house` | interior | `english-georgian` | Does the Stube level of a Pennsylvania bank house take a classical interior trim family at all, and if it does, does the pack's own eight-foot resolution apply to a house whose storey heights are set by the cross-slope rather than by a stud length? |
-| `queen-anne-british` | interior | `english-georgian` | Does a Queen Anne (British) interior take the Georgian 4:12:3 pedestal-column-entablature trim derivation as an acknowledged approximation, or should trim_family go undimensioned until an Aesthetic-movement dado-fill-frieze trim pack exists — given that declining strands trim_family with nothing whi |
-| ↺ `ranch-style` | interior | `colonial-revival` | Quote is VERBATIM (styles/ranch-style.json, proportional_system.typical_ratios[3]) — that leg passes. The judgment does not. The reason's central claim, "the node states the exact ceiling the pack disowns," misreads the pack: trim-classical's eight-foot conflict is with COST, and its resolution is i |
-| `richardsonian-romanesque` | interior | `beaux-arts-french` | Should a Richardsonian interior take its trim family from beaux-arts-french's inherited Vignola pedestal-column-entablature arithmetic, or should trim_family stand undimensioned until a heavy-oak-and-inglenook trim system exists to supply it? |
-| `scottish-baronial` | interior | `regency` | Does 'None classical' reach the INTERIOR of a house whose own record calls it a Regency house in costume with rooms that are large, square, plastered and comfortable, or is the classical trim family the right dimensioning for a Burn-and-Bryce interior even where the elevation refuses the order? |
-
 ## `timber-bay` ⚡ — 7 node(s)
 
 | node | role | arrives from | what a ruling has to decide |
@@ -192,6 +204,16 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 | `new-england-colonial` | facade | `english-medieval-timber-frame` | Does this node's deliberate 'no facade-system pack' exclusion -- written against facade-classical's composed elevation -- also exclude facade-medieval-english, whose whole claim is that the elevation is generated from the frame behind, which is the very thing this node's bay_rhythm asserts? |
 | `saltbox-colonial` | facade | `english-medieval-timber-frame` | Does a First Period New England front whose bays are set by post positions endorse this pack's authority, or only the general proposition that the facade is a result -- given that the node's own binding note offers that same proposition as its reason for binding no facade-system pack at all? |
 
+## `jetty-overhang` — 5 node(s)
+
+| node | role | arrives from | what a ruling has to decide |
+|---|---|---|---|
+| ↺ `dogtrot-vernacular` | secondary | `german-fachwerk` | Quote is verbatim (confirmed by the checker and by dumping constraints[3]; dogtrot-vernacular.c04 contains "Each pen is limited to 16-20 feet between notched corners" as an exact substring, no trailing period). The judgment is probably right as architecture, but it is not established by the sentence |
+| `german-pennsylvania-colonial` | secondary | `german-fachwerk` | Does this style's documented but short-lived half-timbered phase inherit german-fachwerk's jetty dimensions, or is the pent eave the Pennsylvania answer at the second-floor line and the jetty a thing the tradition left in the Rhineland? |
+| `new-england-colonial` | secondary | `english-medieval-timber-frame` | The pack's notes state its subject and exclude this node in the same breath: a jetty is a cantilever dimensioned by the joist that makes it, with drops that are the cut-off ends of the posts above, and `new-england-colonial` 'carries a jetty only in one example record, a two-phase Ipswich house whos |
+| `saltbox-colonial` | secondary | `english-medieval-timber-frame` | Does a type that names a jettied hybrid among its exemplars and calls that hybrid common take the jetty pack's authority for the whole style, or is it the same one-example case for which the pack already excluded new-england-colonial -- and if the answer is 'only in the hybrid', is that not the bind |
+| `storybook-style` | secondary | `tudor-revival` | Does storybook-style take jetty-overhang as the undistorted baseline it caricatures -- the treatment its own record already gives `timber-panel` and `opening-mullioned` at role `optional` -- or refuse it, given that the record's only jetty sentence claims jetties deeper than a joist could carry, whi |
+
 ## `trim-craftsman` — 5 node(s)
 
 | node | role | arrives from | what a ruling has to decide |
@@ -202,13 +224,22 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 | `new-urbanist-traditional` | interior | `folk-victorian` | Should a code-governed New Urbanist house take its built-in and baluster dimensions from the Craftsman board module arriving through folk-victorian, or from the trim of the regional vernacular its own code names — given that the node's record says nothing whatever about interiors? |
 | `spanish-colonial-revival` | interior | `mission-revival` | Does the Craftsman board-trim family carry across the mission-revival edge into Spanish Colonial Revival interiors, or must it be scoped off door_surround, newel_balustrade and stair_type, where the node states a carved or cast entrance surround with columns, wrought-iron stair rails and tiled stair |
 
+## `brick-course` — 4 node(s)
+
+| node | role | arrives from | what a ruling has to decide |
+|---|---|---|---|
+| `andalusian-spanish-revival` | massing | `richardsonian-romanesque` | Is this style's lime-plastered wall coursed brick underneath -- so the brick rod is its real vertical module even where no brick is visible -- or rubble and adobe masonry with no course to count? |
+| `minimal-traditional` | massing | `richardsonian-romanesque` | Does a node whose stated governing modules are all light-frame -- the 16-inch stud bay, the 8-foot precut stud, the 4-by-8 sheet -- but whose record never states its cladding, decline a masonry coursing pack that itself covers brick veneer over wood frame, or does it keep it for the brick-veneered h |
+| ↺ `pueblo-revival` | massing | `richardsonian-romanesque` | Quote is VERBATIM (confirmed against styles/pueblo-revival.json, diagnostic_tells[3]) and the DECLINE verdict is right, but the cited sentence does not bear on this pack's subject, so the binding must not ship with it. brick-course's own module.name defines the unit as "four brick courses, each cour |
+| `ranch-style` | massing | `richardsonian-romanesque` | Is a mid-century ranch with a brick veneer face a 'brick building' for the purposes of a coursing rule, when the node's own record names the 8-foot precut stud rather than the mason's rod as the operative vertical module? |
+
 ## `facade-arcade` — 4 node(s)
 
 | node | role | arrives from | what a ruling has to decide |
 |---|---|---|---|
 | `churrigueresque` | secondary | `spanish-plateresque` | Does bay_rhythm's "outside it there is none" describe only the entrance facade outside the portada frame, or the whole building — and if the whole building, how does that stand beside the same record making enclosed arcaded courts the canonical massing? |
 | `italian-baroque` | facade | `italian-renaissance` | Does the Roman palazzo cortile persisting under a Baroque face -- 'the Baroque changes its face and its stair, not its skeleton' -- make facade-arcade's pier-and-span authority the right one for this style, given the record names only trabeated colonnades and the pack's own span band stops at 12 ft  |
-| `monterey-revival` | secondary | `richardsonian-romanesque` | Does a Monterey Revival house have a ground-floor arcade at all, and if it does not, what should govern its arch and circulation_parti -- given that declining facade-arcade hands arch to opening-pointed, a Gothic arch pack from gothic-revival-british, and circulation_parti to timber-bay, while the n |
+| `monterey-revival` | facade | `mission-revival` | Does a Monterey Revival house have a ground-floor arcade at all, and if it does not, what should govern its arch and circulation_parti -- given that declining facade-arcade hands arch to opening-pointed, a Gothic arch pack from gothic-revival-british, and circulation_parti to timber-bay, while the n |
 | `spanish-colonial-revival` | secondary | `richardsonian-romanesque` | Is the arcade an organising system for this style — the corredor as the plan's whole circulation, which is what the pack claims — or only a local element (portal, patio walk) the style may carry on its garden side while its street elevation stays blank and irregular? |
 
 ## `gibbs-doric` — 4 node(s)
@@ -220,15 +251,6 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 | ↺ `neo-eclectic` | secondary | `colonial-revival` | Quote is VERBATIM (checker confirms it in proportional_system.governing_logic), but the judgment does not hold and the reason's central factual claim about the pack is false. gibbs-doric governs exactly ONE slot on neo-eclectic, pediment, and that rule is `opening_width * 0.1340` — not "a size rule  |
 | ↺ `ranch-style` | secondary | `colonial-revival` | Quote is VERBATIM (checker passes), but it does not bear on the pack's subject at this address, and the contradiction is not real. On ranch-style gibbs-doric governs exactly one slot, pediment, via `pediment_rise = opening_width * 0.1340` — and both the rule's authority_note and its own note say the |
 
-## `jetty-overhang` — 4 node(s)
-
-| node | role | arrives from | what a ruling has to decide |
-|---|---|---|---|
-| ↺ `dogtrot-vernacular` | secondary | `german-fachwerk` | Quote is verbatim (confirmed by the checker and by dumping constraints[3]; dogtrot-vernacular.c04 contains "Each pen is limited to 16-20 feet between notched corners" as an exact substring, no trailing period). The judgment is probably right as architecture, but it is not established by the sentence |
-| `german-pennsylvania-colonial` | secondary | `german-fachwerk` | Does this style's documented but short-lived half-timbered phase inherit german-fachwerk's jetty dimensions, or is the pent eave the Pennsylvania answer at the second-floor line and the jetty a thing the tradition left in the Rhineland? |
-| `new-england-colonial` | secondary | `english-medieval-timber-frame` | The pack's notes state its subject and exclude this node in the same breath: a jetty is a cantilever dimensioned by the joist that makes it, with drops that are the cut-off ends of the posts above, and `new-england-colonial` 'carries a jetty only in one example record, a two-phase Ipswich house whos |
-| `saltbox-colonial` | secondary | `english-medieval-timber-frame` | Does a type that names a jettied hybrid among its exemplars and calls that hybrid common take the jetty pack's authority for the whole style, or is it the same one-example case for which the pack already excluded new-england-colonial -- and if the answer is 'only in the hybrid', is that not the bind |
-
 ## `balcony-gallery` — 3 node(s)
 
 | node | role | arrives from | what a ruling has to decide |
@@ -237,19 +259,28 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 | `second-empire` | secondary | `italianate-american` | Does the Italianate body that Second Empire takes wholesale below the curb cornice bring balcony-gallery's applied-deck system with it -- the pack italianate-american itself binds -- or do the pack's four coastal traditions make it the wrong authority for the depth, rail and floor-length windows of  |
 | `shotgun-house` | secondary | `creole-cottage-vernacular` | Is the shotgun's full-width front porch -- 5-8 ft deep, on piers, roofed under or attached to the front gable -- a balcony-gallery deck in the posted-to-grade regime, or a roofed porch this pack was never built to dimension? |
 
-## `brick-course` — 2 node(s)
+## `facade-classical` ⚡ — 3 node(s)
 
 | node | role | arrives from | what a ruling has to decide |
 |---|---|---|---|
-| `andalusian-spanish-revival` | massing | `richardsonian-romanesque` | Is this style's lime-plastered wall coursed brick underneath -- so the brick rod is its real vertical module even where no brick is visible -- or rubble and adobe masonry with no course to count? |
-| ↺ `pueblo-revival` | massing | `richardsonian-romanesque` | Quote is VERBATIM (confirmed against styles/pueblo-revival.json, diagnostic_tells[3]) and the DECLINE verdict is right, but the cited sentence does not bear on this pack's subject, so the binding must not ship with it. brick-course's own module.name defines the unit as "four brick courses, each cour |
+| `egyptian-revival` | facade | `greek-revival-american` | Does a frontal, strictly bilateral A-B-A pylon front count as a composed classical elevation for facade-classical's purposes, when the pack's headline arithmetic is the five-bay march this node explicitly refuses? |
+| `folk-victorian` | facade | `greek-revival-american` | Does a Folk Victorian body -- a folk massing with a plain single-material wall and its whole architecture in a bought porch -- take the composed classical elevation as the authority for its base term, given that endorsing completes the `build_elevation` AND (opening-proportion already lists folk-vic |
+| `greek-revival-upland-vernacular` | facade | `greek-revival-american` | Does an odd-bay centred rhythm the node explicitly attributes to its PLAN rather than to its style count as affirming facade-classical's composition authority, given that endorsing arms the build_elevation scope gate for every plan of this style? |
 
-## `facade-peristyle` — 2 node(s)
+## `facade-peristyle` — 3 node(s)
 
 | node | role | arrives from | what a ruling has to decide |
 |---|---|---|---|
+| ↺ `appalachian-log-house` | facade | `english-palladian` | Quote IS verbatim (checker prints VERBATIM; it is proportional_system.bay_rhythm, line 101) — but it does not bear on THIS pack's subject. facade-peristyle's own notes say it exists because the order packs do not state "how many columns there are, where they stand, what they stand on, or what the wa |
 | `mudejar` | facade | `roman-classical` | Does a Mudejar patio or cloister arcade of brick piers under horseshoe arches take its bay from the classical intercolumniation module, and if not, what should dimension composition_parti, porch_type, steps_and_stoop, foundation_expression and window_grouping_rule -- all five of which this pack curr |
 | `shotgun-house` | facade | `roman-classical` | May a node's stated governing logic -- that the street gable is proportioned by the porch -- refuse a facade pack whose module is the axial intercolumniation, when declining leaves composition_parti, porch_type and steps_and_stoop with no dimensioning at all? |
+
+## `chambers-doric` — 2 node(s)
+
+| node | role | arrives from | what a ruling has to decide |
+|---|---|---|---|
+| `charleston-georgian` | secondary | `english-georgian` | Which authority dimensions Charleston's superimposed piazza orders — the Gibbs pair the node binds and whose books its own record names as arriving through the port, or the Chambers pair english-georgian binds — given that the node requires both tiers to come from one authority and both complete pai |
+| `shingle-style` | secondary | `english-georgian` | Should a Shingle Style porch column, which the node bands at 5:1 to 8:1 "where classical" without naming a treatise, take an eighteenth-century English treatise order inherited from english-georgian -- and if not, does the same answer apply to the sibling chambers-ionic that already governs cornice, |
 
 ## `facade-picturesque` — 2 node(s)
 
@@ -286,17 +317,12 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 | `chateauesque` | primary | `french-neoclassical` | Does the node's explicit choice of vignola-composite as its order authority exclude the inherited Corinthian outright, or should Corinthian stand behind it for the order slots Composite does not carry -- `pilaster`, currently taken by an inherited chambers-ionic? |
 | ↺ `french-eclectic` | secondary | `beaux-arts-american` | Quote is VERBATIM (checker script prints VERBATIM; it sits in proportion_packs[2].note, so check_pack_bindings' raw-file grep would pass). It also plainly BEARS on the pack's subject: `--pair` confirms vignola-corinthian is the order-system pack whose own notes say "THE MODILLION AND THE DENTIL BELO |
 
-## `chambers-doric` — 1 node(s)
+## `vignola-tuscan` — 2 node(s)
 
 | node | role | arrives from | what a ruling has to decide |
 |---|---|---|---|
-| `charleston-georgian` | secondary | `english-georgian` | Which authority dimensions Charleston's superimposed piazza orders — the Gibbs pair the node binds and whose books its own record names as arriving through the port, or the Chambers pair english-georgian binds — given that the node requires both tiers to come from one authority and both complete pai |
-
-## `facade-classical` ⚡ — 1 node(s)
-
-| node | role | arrives from | what a ruling has to decide |
-|---|---|---|---|
-| `egyptian-revival` | facade | `greek-revival-american` | Does a frontal, strictly bilateral A-B-A pylon front count as a composed classical elevation for facade-classical's purposes, when the pack's headline arithmetic is the five-bay march this node explicitly refuses? |
+| `italian-villa-vernacular` | primary | `roman-classical` | Does a type that names Tuscan as its own loggia column while refusing the module and the entablature take Vignola's Tuscan for its trim, balustrade and support slots, or should the binding be scoped to the loggia arcade alone? |
+| `shotgun-house` | primary | `roman-classical` | Does a Roman order canon reach a folk Afro-Caribbean type whose only classical presence is catalogue porch millwork — and if not, should the refusal be entered against vignola-tuscan alone, when the cascade simply hands the same nine slots to vignola-doric from the same nine-deep roman-classical anc |
 
 ## `facade-portada` — 1 node(s)
 
@@ -309,6 +335,12 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 | node | role | arrives from | what a ruling has to decide |
 |---|---|---|---|
 | ↺ `cape-cod-revival` | primary | `colonial-revival` | Quote is VERBATIM (confirmed exact substring; constraints[4].id really is cape-cod-revival.c05), and it genuinely bears on part of the pack's subject: gibbs-ionic's own cornice note says "GIBBS GIVES TWO IONIC CORNICES AND THIS PACK ENCODES THE FIRST... Gibbs's principal Ionic cornice has modillions |
+
+## `greek-doric` — 1 node(s)
+
+| node | role | arrives from | what a ruling has to decide |
+|---|---|---|---|
+| `new-urbanist-traditional` | secondary | `greek-revival-american` | The pack's own notes state its subject as the archaeological Greek order out of Stuart and Revett, authored to correct four of Benjamin's wood-shop departures, and they say plainly that `benjamin-doric` remains the right pack for American Greek Revival work built from Benjamin's plates, 'which is mo |
 
 ## `opening-mullioned` — 1 node(s)
 
@@ -340,106 +372,65 @@ pack that suits the node worse — `appalachian-log-house` declining `brick-cour
 |---|---|---|---|
 | `folk-victorian` | secondary | `greek-revival-american` | Has a Renaissance treatise Ionic order any standing on a node that has already elected Benjamin's 1816 Companion as its only order authority and refused a room-as-an-order interior derivation -- given that the pack governs 0 slots here, so endorsing and declining are equally free of consequence? |
 
-## `vignola-tuscan` — 1 node(s)
-
-| node | role | arrives from | what a ruling has to decide |
-|---|---|---|---|
-| `italian-villa-vernacular` | primary | `roman-classical` | Does a type that names Tuscan as its own loggia column while refusing the module and the entablature take Vignola's Tuscan for its trim, balustrade and support slots, or should the binding be scoped to the loggia arcade alone? |
-
-## What this does not ask
-
-It does not ask whether pack inheritance should become opt-in. That is OQ 51's second half and its
-own package; this list is what the first half produced. It does not ask about the packs a node
-already binds itself, nor about gaps whose pack `applies_to` already names the node — those are
-endorsed and were never in the backlog.
-
-## The one that should be ruled first
-
-`storey-graduation` and `opening-proportion`, because they are the largest and because both are
-gates: every row under them is a behavioural change waiting on a judgment, not bookkeeping. The
-sweeper and its baselines exist so that whichever way they are ruled, the effect can be shown rather
-than argued.
-
-
 ## Surfaced by this package's own declines, and NOT YET READ
 
-**73 pairs.** These did not exist when the adjudication started. Declining a pack promotes the
-next one in the chain into the role it vacated, so working the backlog creates backlog: 244 pairs
-read and 114 declined produced these. They are listed separately because calling them "cases the
-records do not decide" would be false — nobody has looked at them yet. A second round is the
-obvious next step and will itself refill; `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times`
-asks whether that loop is the right shape at all.
+**50 pairs.** These did not exist when the reading started. Declining a pack promotes the next one
+in the chain into the role it vacated, so working the backlog creates backlog. Two full passes have
+now been made — 244 gaps read, then the 73 those declines surfaced — and the second pass produced
+these 50. They are listed separately because calling them "cases the records do not decide" would
+be false: nobody has looked at them yet.
 
-- `american-farmhouse-vernacular` / `greek-doric` — secondary role, from `greek-revival-american`
-- `andalusian-spanish-revival` / `vignola-corinthian` — primary role, from `french-neoclassical`
-- `appalachian-log-house` / `facade-peristyle` — facade role, from `english-palladian`
-- `appalachian-log-house` / `palladio-doric` — secondary role, from `italian-renaissance`
-- `arts-and-crafts-american` / `chambers-doric` — secondary role, from `english-georgian`
-- `arts-and-crafts-american` / `palladio-tuscan` — primary role, from `italian-renaissance`
-- `arts-and-crafts-british` / `palladio-tuscan` — primary role, from `italian-renaissance`
-- `california-mission-colonial` / `palladio-doric` — secondary role, from `italian-renaissance`
-- `cape-cod-colonial` / `stone-course` — secondary role, from `english-cottage-vernacular`
-- `cape-cod-revival` / `facade-gable` — secondary role, from `gothic-revival-british`
-- `cape-dutch` / `timber-panel` — primary role, from `german-fachwerk`
-- `carpenter-gothic` / `palladio-tuscan` — primary role, from `italian-renaissance`
-- `craftsman` / `chambers-doric` — secondary role, from `english-georgian`
-- `craftsman` / `facade-peristyle` — facade role, from `english-palladian`
-- `craftsman-bungalow` / `brick-course` — massing role, from `richardsonian-romanesque`
-- `craftsman-bungalow` / `chambers-doric` — secondary role, from `english-georgian`
-- `dogtrot-vernacular` / `facade-gable` — facade role, from `flemish-vernacular`
-- `dutch-urban-gable-house` / `timber-panel` — secondary role, from `flemish-vernacular`
-- `egyptian-revival` / `benjamin-ionic` — primary role, from `federal-style`
-- `egyptian-revival` / `greek-doric` — secondary role, from `greek-revival-american`
-- `elizabethan` / `vignola-tuscan` — primary role, from `roman-classical`
-- `folk-victorian` / `facade-classical` — facade role, from `greek-revival-american`
-- `french-normandy-revival` / `vignola-corinthian` — primary role, from `french-neoclassical`
-- `gothic-revival-american` / `palladio-ionic` — primary role, from `english-palladian`
-- `gothic-revival-british` / `palladio-tuscan` — primary role, from `italian-renaissance`
-- `greek-revival-upland-vernacular` / `facade-classical` — facade role, from `greek-revival-american`
-- `greek-revival-upland-vernacular` / `greek-doric` — secondary role, from `greek-revival-american`
-- `italianate-townhouse` / `facade-gable` — secondary role, from `gothic-revival-british`
-- `jacobean` / `greek-doric` — primary role, from `greek-classical`
-- `jacobethan-revival` / `jetty-overhang` — secondary role, from `tudor-revival`
-- `jacobethan-revival` / `room-harmonic` — room role, from `english-georgian`
-- `jacobethan-revival` / `trim-classical` — interior role, from `english-georgian`
-- `log-vernacular-american` / `facade-peristyle` — facade role, from `english-palladian`
-- `log-vernacular-american` / `palladio-corinthian` — secondary role, from `english-palladian`
-- `mediterranean-revival` / `vignola-composite` — primary role, from `beaux-arts-american`
-- `minimal-traditional` / `brick-course` — massing role, from `richardsonian-romanesque`
-- `minimal-traditional` / `facade-picturesque` — primary role, from `shingle-style`
-- `minimal-traditional` / `trim-sawn` — interior role, from `queen-anne-american`
-- `mission-revival` / `storey-graduation` — massing role, from `beaux-arts-french`
-- `mission-revival` / `vignola-composite` — primary role, from `beaux-arts-french`
-- `mission-revival` / `vignola-ionic` — secondary role, from `french-neoclassical`
-- `modern-farmhouse-traditional` / `chambers-ionic` — primary role, from `english-georgian`
-- `modern-farmhouse-traditional` / `facade-gable` — secondary role, from `gothic-revival-british`
-- `monterey-colonial` / `facade-arcade` — facade role, from `mexican-colonial`
-- `monterey-revival` / `facade-portada` — facade role, from `spanish-colonial-revival`
-- `monterey-revival` / `storey-graduation` — massing role, from `beaux-arts-french`
-- `neo-eclectic` / `chambers-ionic` — primary role, from `english-georgian`
-- `new-jersey-dutch-gambrel` / `timber-panel` — secondary role, from `flemish-vernacular`
-- `new-mexico-adobe` / `moorish-arch` — secondary role, from `spanish-plateresque`
-- `new-urbanist-traditional` / `greek-doric` — secondary role, from `greek-revival-american`
-- `north-german-hall-house` / `facade-gable` — facade role, from `flemish-vernacular`
-- `prairie-school` / `chambers-doric` — secondary role, from `english-georgian`
-- `prairie-school` / `facade-peristyle` — facade role, from `english-palladian`
-- `queen-anne-american` / `facade-peristyle` — facade role, from `english-palladian`
-- `queen-anne-british` / `palladio-ionic` — primary role, from `english-palladian`
-- `queen-anne-free-classic` / `facade-peristyle` — facade role, from `english-palladian`
-- `queen-anne-patterned-masonry` / `facade-peristyle` — facade role, from `english-palladian`
-- `queen-anne-patterned-masonry` / `trim-classical` — interior role, from `english-georgian`
-- `queen-anne-spindled` / `facade-peristyle` — facade role, from `english-palladian`
-- `ranch-style` / `brick-course` — massing role, from `richardsonian-romanesque`
-- `ranch-style` / `chambers-ionic` — primary role, from `english-georgian`
-- `richardsonian-romanesque` / `facade-classical` — facade role, from `beaux-arts-french`
-- `rural-gothic-villa` / `palladio-ionic` — primary role, from `english-palladian`
-- `scottish-baronial` / `palladio-tuscan` — primary role, from `italian-renaissance`
-- `shingle-style` / `chambers-doric` — secondary role, from `english-georgian`
-- `shingle-style` / `facade-peristyle` — facade role, from `english-palladian`
-- `shotgun-house` / `vignola-tuscan` — primary role, from `roman-classical`
-- `spanish-colonial-revival` / `storey-graduation` — massing role, from `beaux-arts-french`
-- `spanish-colonial-revival` / `vignola-corinthian` — primary role, from `french-neoclassical`
-- `stick-style` / `facade-peristyle` — facade role, from `english-palladian`
-- `storybook-style` / `jetty-overhang` — secondary role, from `tudor-revival`
-- `tudor` / `vignola-tuscan` — primary role, from `roman-classical`
-- `tudor-revival` / `palladio-tuscan` — primary role, from `italian-renaissance`
+**The rate is the finding.** 244 read produced 73; 73 read produced 50. It is converging, but
+slowly, and `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` asks whether this
+loop is the right shape at all rather than whether it should be run again.
+
+- `american-farmhouse-vernacular` / `benjamin-corinthian` — secondary role, from `federal-style`
+- `andalusian-spanish-revival` / `timber-bay` — primary role, from `norman-vernacular`
+- `appalachian-log-house` / `vignola-doric` — secondary role, from `roman-classical`
+- `arts-and-crafts-american` / `palladio-corinthian` — secondary role, from `english-palladian`
+- `arts-and-crafts-american` / `vignola-tuscan` — primary role, from `roman-classical`
+- `arts-and-crafts-british` / `vignola-tuscan` — primary role, from `roman-classical`
+- `california-mission-colonial` / `palladio-corinthian` — secondary role, from `italian-renaissance`
+- `cape-cod-colonial` / `timber-panel` — secondary role, from `english-cottage-vernacular`
+- `cape-cod-revival` / `chambers-doric` — secondary role, from `english-georgian`
+- `cape-dutch` / `vignola-tuscan` — primary role, from `roman-classical`
+- `carpenter-gothic` / `vignola-tuscan` — primary role, from `roman-classical`
+- `craftsman` / `facade-arcade` — facade role, from `italian-renaissance`
+- `craftsman` / `palladio-corinthian` — secondary role, from `english-palladian`
+- `craftsman-bungalow` / `palladio-corinthian` — secondary role, from `english-palladian`
+- `dutch-urban-gable-house` / `jetty-overhang` — secondary role, from `german-fachwerk`
+- `egyptian-revival` / `benjamin-corinthian` — secondary role, from `federal-style`
+- `egyptian-revival` / `gibbs-ionic` — primary role, from `georgian-colonial-american`
+- `elizabethan` / `greek-doric` — primary role, from `greek-classical`
+- `french-normandy-revival` / `palladio-tuscan` — primary role, from `italian-renaissance`
+- `gothic-revival-american` / `palladio-tuscan` — primary role, from `italian-renaissance`
+- `gothic-revival-british` / `vignola-tuscan` — primary role, from `roman-classical`
+- `greek-revival-upland-vernacular` / `benjamin-corinthian` — secondary role, from `federal-style`
+- `jacobethan-revival` / `chambers-doric` — secondary role, from `english-georgian`
+- `log-vernacular-american` / `facade-arcade` — facade role, from `italian-renaissance`
+- `log-vernacular-american` / `palladio-doric` — secondary role, from `italian-renaissance`
+- `mediterranean-revival` / `timber-bay` — primary role, from `norman-vernacular`
+- `minimal-traditional` / `chambers-ionic` — primary role, from `english-georgian`
+- `mission-revival` / `stone-course` — secondary role, from `french-manoir`
+- `mission-revival` / `timber-bay` — primary role, from `norman-vernacular`
+- `modern-farmhouse-traditional` / `palladio-ionic` — primary role, from `english-palladian`
+- `monterey-colonial` / `facade-peristyle` — facade role, from `roman-classical`
+- `neo-eclectic` / `palladio-ionic` — primary role, from `english-palladian`
+- `new-jersey-dutch-gambrel` / `jetty-overhang` — secondary role, from `german-fachwerk`
+- `new-mexico-adobe` / `palladio-doric` — secondary role, from `italian-renaissance`
+- `prairie-school` / `facade-arcade` — facade role, from `italian-renaissance`
+- `prairie-school` / `palladio-corinthian` — secondary role, from `english-palladian`
+- `queen-anne-american` / `facade-arcade` — facade role, from `italian-renaissance`
+- `queen-anne-british` / `palladio-tuscan` — primary role, from `italian-renaissance`
+- `queen-anne-free-classic` / `facade-arcade` — facade role, from `italian-renaissance`
+- `queen-anne-patterned-masonry` / `facade-arcade` — facade role, from `italian-renaissance`
+- `queen-anne-spindled` / `facade-arcade` — facade role, from `italian-renaissance`
+- `ranch-style` / `palladio-ionic` — primary role, from `english-palladian`
+- `richardsonian-romanesque` / `facade-peristyle` — facade role, from `roman-classical`
+- `rural-gothic-villa` / `palladio-tuscan` — primary role, from `italian-renaissance`
+- `scottish-baronial` / `vignola-tuscan` — primary role, from `roman-classical`
+- `shingle-style` / `facade-arcade` — facade role, from `italian-renaissance`
+- `spanish-colonial-revival` / `timber-bay` — primary role, from `norman-vernacular`
+- `stick-style` / `facade-arcade` — facade role, from `italian-renaissance`
+- `tudor` / `greek-doric` — primary role, from `greek-classical`
+- `tudor-revival` / `vignola-tuscan` — primary role, from `roman-classical`

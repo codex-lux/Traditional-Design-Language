@@ -3488,7 +3488,7 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     # gaps were attributed to a delivery resolve_packs can never make (the node binds that pack
     # itself at chain[0], so the ancestor's copy is overridden and dead), and 33 of those were
     # counted ENDORSED because the endorsement test consulted the wrong pack's applies_to.
-    assert ci.RATCHET == {"role_gaps": 268, "inherited_packs": 3252, "unendorsed": 227}
+    assert ci.RATCHET == {"role_gaps": 266, "inherited_packs": 3198, "unendorsed": 225}
 
 
 def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault():
@@ -3511,11 +3511,11 @@ def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault()
     # pack whether it named the node, which it did, because the node binds it. Read from the
     # FLOOR rather than a literal, because `judged` is the number that may only go up.
     ci = _check_inheritance_module()
-    assert endorsed_printed == 41, "41 of the 268 gaps are endorsed by the pack's own applies_to"
+    assert endorsed_printed == 41, "41 of the 266 gaps are endorsed by the pack's own applies_to"
     # `judged` is endorsed + declined and is the floor, because a decline can RE-ATTRIBUTE a role
     # to the next ancestor rather than closing the gap: the first four declines moved `unendorsed`
     # by zero and `judged` by four.
-    assert ci.RATCHET_FLOOR == {"judged": 155}
+    assert ci.RATCHET_FLOOR == {"judged": 209}
 
     # And the predicate means what it says: a named gap whose pack `applies_to` lists the node is
     # endorsed, and one whose pack does not is not. `assert unendorsed < gaps` was vacuous --

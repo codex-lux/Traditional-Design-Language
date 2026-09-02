@@ -301,6 +301,15 @@
       "quoted_from": "constraints[4].statement (shingle-style.c05)",
       "decided": "2026-09-02",
       "note": "Governs 0 of the 6 slots it addresses; declining changes no dimension on this node. gable_treatment, rake_condition, dormer and ornament_vocabulary stay with opening-pointed and wing_strategy with stone-course (both themselves unadjudicated cascade deliveries, not settled by this ruling). cornice_return — the slot the pack files its own kneeler rule under — is already bound `forbidden` in the node's resolved kit, as is parapet, so those rules were refused before precedence was reached. No slot loses all dimensioning."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes state its subject is not column proportion but the colonnade as a distinct system: \"how many columns there are, where they stand, what they stand on, or what the wall behind them is doing\", and it names its own central question as \"THE SCREEN AND THE WALL\" -- a portico or peristyle standing in front of, or wrapped around, a wall, dimensioned off an axial intercolumniation bay. Its three composition_parti rules are portico_share (a portico occupying half to three fifths of the front, needing \"plain wall each side to be an event\"), corner_contraction and centre_bay_widening (the centre pair opening to frame an entrance on the centre line). The node answers that object directly rather than blanketly: its defining characteristics say the porch is not an added screen at all but a void carved out of the volume, its description.long repeats that \"the porch is a void scooped out of the volume rather than a structure added to it\", its governing_logic states there is no module and no bay system for a screen to be reconciled against, and its symmetry field reads picturesque-asymmetrical, which no centre-framed portico share can compose. A colonnade the node says is not a structure added to the wall cannot be dimensioned by a pack whose whole subject is the relation between that structure and the wall behind it.",
+      "basis": "node-record",
+      "quote": "Porches and loggias read as voids carved out of the volume, not as attached structures",
+      "quoted_from": "defining_characteristics[4]",
+      "decided": "2026-09-02",
+      "note": "Governs 1 of the 7 slots it addresses. Declining passes composition_parti to facade-pavilion (beaux-arts-french) -- itself an unadjudicated cascade delivery, not settled by this ruling. 0 slots lose all dimensioning. The node's own porch figures (\"Porch column height to diameter 5:1 to 8:1 where classical, or shingled piers 16 to 24 in square\") are stated in its own typical_ratios and are unaffected."
     }
   ]
 }

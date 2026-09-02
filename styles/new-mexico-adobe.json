@@ -265,6 +265,15 @@
       "quoted_from": "distinguished_from[1].difference",
       "decided": "2026-09-02",
       "note": "--impact: governs 2 slots. `arch` passes to `moorish-arch` (from spanish-plateresque) and `porch_ceiling` loses all dimensioning. Both consequences stated rather than hidden: the node's portal ceiling is the underside of vigas and latillas and no pack in this library dimensions it, which is honest, and the `arch` fallback is a second arcuated pack the same sentence excludes — a separate gap that a decline stops a wrong pack from papering over rather than one it creates."
+    },
+    {
+      "pack": "moorish-arch",
+      "reason": "The pack's own notes state its subject as the horseshoe arch, the impost block, the alfiz and the geometric setting-out -- \"this IS the system of support and springing\", the Cordoban arcade -- and its two live rules here dimension the arch's rise and return and the alfiz frame around an opening. The node's record refuses that category by name, in the sentence that separates it from the one adobe tradition that does arcuate: New Mexico has no arcade and no arch, and what carries its portal is a peeled post with a carved zapata under a beam, which is trabeated and has no springing line for an impost block to raise. This is the same clause on which this node already declined `facade-arcade`, whose own impact note named `moorish-arch` as the second arcuated pack the sentence excludes. The record does carry one arch -- the fogon's \"small arched opening\" diagonally across a room corner -- and that is not rescue: it is an interior fireplace mouth in mud plaster, not an arcade of horseshoes with alternating voussoirs inside a stated rectangle, and the pack's own invariant says an arch springing without the impost block \"is not this system, whatever the arch shape\".",
+      "basis": "node-record",
+      "quote": "New Mexico has no tile, no arcade, no arch and no pitched roof: it has vigas, canales, parapets and posts",
+      "quoted_from": "distinguished_from[1].difference",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 2 slots; BOTH lose all dimensioning. `arch` -> NOTHING and `window_surround_masonry` -> NOTHING. Stated rather than hidden, and honest in both cases: the node's only arch is the fogon mouth, which no pack in this library dimensions and which the record describes as plastered with \"rounded arrises, undulating planes and no true corner\"; and its window surround is a deep inward splay in mud plaster, which is the opposite of the alfiz's shallow rectangular masonry frame. No dimension beats a horseshoe return and an alfiz projection delivered to a splayed adobe reveal. Delivered at cascade depth 5 from spanish-plateresque with no direct lineage edge."
     }
   ]
 }

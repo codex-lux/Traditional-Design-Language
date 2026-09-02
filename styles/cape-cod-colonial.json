@@ -274,6 +274,15 @@
       "quoted_from": "description.long",
       "decided": "2026-09-02",
       "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning."
+    },
+    {
+      "pack": "stone-course",
+      "reason": "The pack says in its own module note what it is about, and it is not a category the Cape belongs to: 'the module cannot be a course of the wall. It is a course of the DRESSING -- the quoin, the jamb, the lintel, the mullion, the kneeler, the coping', on a rubble field wall that 'CANNOT MAKE A CORNER' and must therefore be quoined in dressed stone. This node states its wall in one clause and it is timber-framed and wood-clad -- clapboard, or white-cedar shingle at 5-6 in exposure -- so there is no rubble field to course, no dressed jamb to rebate a reveal into, and no quoin run to alternate. The contradiction is not the blanket kind the trap warns about: it is the node naming the wall material that the pack's entire module is derived from. Two of the delivered rules are visibly wrong on this house rather than merely inapplicable -- the graded stone-slate diminishing course reaching roof_material against a record that says the roof is of wood shingle, and 13 1/2 in of exposed stone plinth reaching foundation_expression against a record that says 'no raised basement, no water table of consequence'.",
+      "basis": "node-record",
+      "quote": "Wall of clapboard or, on the outer Cape, unpainted white-cedar shingle",
+      "quoted_from": "defining_characteristics",
+      "decided": "2026-09-02",
+      "note": "governs 10 slots; 2 lose all dimensioning -- foundation_expression and roof_material go to NOTHING. The other eight re-attribute: daylight_strategy, depth_and_pile, height_proportion, reveal_masonry and wing_strategy pass to timber-bay (bound by this node itself); window_head_masonry and window_proportion to sash-light (bound by this node itself); wall_thickness_masonry to facade-medieval-english from english-medieval-timber-frame. Losing the roof and foundation figures is the honest outcome here: what they carry today is a stone slate roof and a stone plinth on a wood-shingled house that declares neither."
     }
   ]
 }

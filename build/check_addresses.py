@@ -88,8 +88,8 @@ RATCHET = {"own": 0, "cascade": 9,
            # the next reader takes it for a regression that was waved through.
            #
            # 32 -> 64 on 2 Sep 2026 (WP-8.7), AND THIS ONE IS THE COST OF THE WORK RATHER THAN A
-           # SHARPER INSTRUMENT. The package authored 104 further declines; **19 of the corpus's
-           # 114 declines turn out to have a baked survivor**, contributing 45 of these 65. Each
+           # SHARPER INSTRUMENT. The package authored 158 further declines; **20 of the corpus's
+           # 168 declines turn out to have a baked survivor**, contributing 46 of these 66. Each
            # is a decline doing exactly half its job: `resolve_packs` stops delivering the pack,
            # and an ancestor's kit file still carries a snapshot of one of its values as an
            # authored parameter, which nothing refuses. The remaining 20 are the older scope and
@@ -101,7 +101,7 @@ RATCHET = {"own": 0, "cascade": 9,
            # the largest thing OQ 51's backlog has surfaced, and it belongs to
            # `oq/a-baked-pack-value-is-a-second-delivery-path`, which now has a measured size on
            # the nodes a human has actually judged rather than an argument.
-           "baked_vs_refused": 65}
+           "baked_vs_refused": 66}
 
 
 def cobinding(nodes, scope):

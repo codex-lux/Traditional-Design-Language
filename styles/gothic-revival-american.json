@@ -289,6 +289,15 @@
       "quoted_from": "distinguished_from[greek-revival-american].difference",
       "decided": "2026-09-02",
       "note": "Governs 3 slots -- cornice, door_surround, frieze. All three pass to palladio-ionic, delivered from english-palladian; 0 slots lose all dimensioning. So the decline stops this overlay but not the class: a classical Ionic still reaches this cottage's cornice through palladio-ionic, which carries the same contradiction and needs its own adjudication."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "The pack's own notes state its subject as a quoted modular classical order and nothing else -- 'Column 9 modules; entablature a fifth of the column divided into twelve as 4 : 3 : 5', an Attic base of half a diameter, a cornice divided into seven and three quarters. That is an applied proportional system for a column and its entablature, so this is not the blanket-refusal trap that spared sash-light: the node's sentences bite on the pack's actual claim rather than on its name. The pack reaches this node at cornice, door_surround and frieze -- the entablature and the trim under it -- and the node's own record hands the entablature-as-governing-line to the very style it reacts against, keeping the roof for itself, while its governing_logic opens 'Not proportional.' The node's own door head is a label or drip moulding stopping in square returns, not a Palladian architrave, and its ornament is sawn pine bargeboard rather than a modillion cornice.",
+      "basis": "node-record",
+      "quote": "Greek Revival is symmetrical, horizontal, white, and low-pitched, with the entablature as the governing line; Gothic Revival is asymmetrical, vertical, coloured in earth tones on Downing's explicit instruction, and governed by the roof.",
+      "quoted_from": "distinguished_from[greek-revival-american].difference",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots -- cornice, door_surround, frieze. All three pass to palladio-tuscan, delivered from italian-renaissance; 0 slots lose all dimensioning. The decline therefore stops this overlay but not the class: a classical order still reaches this wooden cottage's cornice through palladio-tuscan, which carries the same contradiction and needs its own adjudication. This is the second half of the pair the node's chambers-ionic decline named -- that entry's own note predicted this case."
     }
   ]
 }

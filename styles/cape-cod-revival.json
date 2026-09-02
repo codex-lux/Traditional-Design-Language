@@ -291,6 +291,15 @@
       "quoted_from": "diagnostic_tells[3]",
       "decided": "2026-09-02",
       "note": "Measured --impact: governs 0 slots; declining changes no dimension on this node and no slot loses all dimensioning. Of the 7 slots the pack dimensions, ceiling_height_rule is currently governed by log-module (via swiss-chalet), chair_rail by storey-graduation (via colonial-revival), modillion_dentil by greek-doric (via greek-classical), window_head_masonry by opening-pointed (via gothic-revival-british); cornice, crown and pediment are governed by no pack on this node either way. --pair reports no live gate: endorsing would change no behaviour, only the meter."
+    },
+    {
+      "pack": "facade-gable",
+      "reason": "The pack's own notes say it dimensions the gable as a designed edge or freestanding wall -- a kneeler at the foot, a raking coping thick enough to oversail both wall faces, an apex stone 'with ball, ogee, obelisk or carved finial', crow-step tread and rise, and parapet or screen heights -- and its own invariant is that 'a gable whose foot is emphatic and whose apex simply runs out reads as unfinished'. The node's hard constraint c05 closes its exterior ornament to an exhaustive list of three items, none of them a gable treatment, and its description.long states the envelope is 'one taut skin' where 'there is no shadow line to speak of, no cornice, no projection' -- which excludes every member this pack dimensions rather than merely declining a proportional system. The pack also states its own exclusion test for the one slot that could have reached a Cape: a dormer flush with the wall 'takes everything in this pack' while 'a dormer set back onto the roof slope is a box with a roof on it and takes none of it', and c04 requires the node's dormer faces 'set back not less than 12 in. from the wall plane'. It arrives from gothic-revival-british at cascade depth 8 with no lineage edge between them, and the node's tell 'No cornice, no returns, no frieze board.' meets the pack's kneeler rule, which the pack itself writes into the cornice_return slot.",
+      "basis": "node-record",
+      "quote": "Ornament is limited to the door surround, a simple 4-6 in. eave moulding, and 4-6 in. corner boards.",
+      "quoted_from": "constraints[4].statement",
+      "decided": "2026-09-02",
+      "note": "Measured --impact: governs 0 slots; declining changes no dimension on this node and no slot loses all dimensioning. Of the 6 slots the pack dimensions (cornice_return, dormer, gable_treatment, ornament_vocabulary, rake_condition, wing_strategy) none is currently governed by facade-gable here. --pair reports no live gate, so endorsing would have armed nothing either."
     }
   ]
 }

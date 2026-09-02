@@ -281,6 +281,15 @@
       "quoted_from": "diagnostic_tells[4]",
       "decided": "2026-09-02",
       "note": "--impact: governs 4 slots; cornice, crown, door_surround and frieze all pass to palladio-tuscan (italian-renaissance) and 0 slots lose all dimensioning. Stated plainly because it matters: this decline stops the Ionic overlay and not the classical order behind it -- palladio-tuscan is the next unjudged delivery at the same four addresses, arriving from a node with no direct lineage edge either. Delivered by english-palladian at cascade depth 6, no direct lineage edge, which is why the decline belongs on the node rather than on an edge."
+    },
+    {
+      "pack": "palladio-tuscan",
+      "reason": "The pack's own notes state its subject plainly as a quoted classical order: the module as the whole diameter in 60 minutes, the column at 7 modules, the quarter diminution, the half-diameter base and capital with their internal divisions, and the plain 1-module pedestal, all taken from Ware's text of Palladio. It arrives here as this node's PRIMARY proportioning system. The node's record refuses the classical order by name and makes the refusal its own diagnostic tell, and a Tuscan order laid out from Ware is exactly the period quotation the record says is absent. This is the same reading the node has already written twice, against chambers-ionic and palladio-ionic, on the same sentence and the same basis.",
+      "basis": "node-record",
+      "quote": "No classical order, no pointed arch, no shaped gable, no period quotation of any kind",
+      "quoted_from": "diagnostic_tells[4]",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 6 slots -- casing, cornice, crown, door_surround, frieze and steps_and_stoop. On a decline the first five pass to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian); 0 slots lose all dimensioning. Stated plainly because it matters and repeats the palladio-ionic case: this decline stops the Palladian Tuscan overlay and NOT the classical order behind it -- vignola-tuscan is the next delivery at five of the six addresses, from a node with no direct lineage edge either. Delivered by italian-renaissance at cascade depth 9 with no direct lineage edge, which is why the decline belongs on the node rather than on an edge. --pair reports no live gate on this pack."
     }
   ]
 }

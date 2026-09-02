@@ -268,6 +268,15 @@
       "quoted_from": "diagnostic_tells[2]",
       "decided": "2026-09-02",
       "note": "governs 10 slots; 8 fall back to packs jacobean itself binds -- corner_quoin, daylight_strategy, depth_and_pile, height_proportion, reveal_masonry and wing_strategy to timber-bay, wall_thickness_masonry to facade-medieval-english -- plus foundation_expression to facade-classical (italian-renaissance) and belt_course to jetty-overhang (english-medieval-timber-frame). roof_material loses all dimensioning: the pack was supplying the diminishing course of a stone slate roof, which this record nowhere claims."
+    },
+    {
+      "pack": "greek-doric",
+      "reason": "The pack's own notes state its subject as the canonical Greek Doric as measured by Stuart and Revett, authored specifically to correct Benjamin's departures back to the archaeological Greek — an order dimensioned from a named, correct authority. Jacobean's governing_logic names a different and incompatible authority for the same quantity: its orders come by rule of thumb from Serlio and de Vries plates, and its distinguished_from english-baroque adds that 'Jacobean orders are approximated from engravings, stacked, and applied to a porch' rather than proportioned to a module as a correct order is. The node's own facade-medieval-english binding note draws the same conclusion in its own words — that a correctly proportioned order on a Jacobean porch is an anachronism. This is not silence about the category but a stated rival authority for the very slots the pack governs. Note that the node's 'stubbier than any canonical order' clause is NOT the ground here: at 6-8 diameters it is taller than Greek Doric's 4-6.5, so that sentence would have been quoted the wrong way round.",
+      "basis": "node-record",
+      "quote": "the orders used approximately and by rule of thumb from Serlio and de Vries plates",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "governs 3 of its 4 slots on this node (column, entablature, modillion_dentil; ornament_vocabulary is already governed elsewhere). On a decline: column and entablature fall to palladio-tuscan (italian-renaissance) and modillion_dentil to vignola-doric (roman-classical). 0 slots lose all dimensioning. The Italian Renaissance fallback is nearer the Serlio authority the record names, but a decline only stops a wrong pack and does not assert the fallback is right."
     }
   ]
 }

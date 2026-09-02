@@ -289,6 +289,24 @@
       "quote": "Pitches above 8:12 belong to the Tudor and Storybook families and break the horizontal reading",
       "quoted_from": "constraints[1].statement",
       "decided": "2026-09-02"
+    },
+    {
+      "pack": "palladio-tuscan",
+      "reason": "The pack's own overlay note says what it is about: a module of sixty minutes, a column at 7 modules with a quarter diminution, a half-diameter base and capital with their internal divisions, and a plain 1-module pedestal — \"enough to lay out the column and the pedestal completely.\" It dimensions column, entablature and porch_support here. The node carries a HARD constraint that forbids applied classical orders by enumerating their members, and then states positively what a porch support must be instead: a square post or a battered pier on a masonry base of at least 24 in. That is the pack's subject contradicted at its own address by figures the node states about itself, not the blanket \"no canonical module\" sentence being stretched — and the node has already written this same refusal twice, against chambers-ionic and palladio-ionic, which are the same object arriving down other branches.",
+      "basis": "node-record",
+      "quote": "Applied classical orders — fluted or turned columns, pedimented door surrounds, dentil courses — are forbidden. Porch supports must be square posts or battered piers on masonry bases not less than 24 in wide.",
+      "quoted_from": "constraints[2].statement",
+      "decided": "2026-09-02",
+      "note": "Governs 2 slots: frieze, steps_and_stoop. Declining passes frieze to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian); 0 slots lose all dimensioning. As with palladio-ionic, the decline stops THIS order and not the classical order as such — both fallbacks are themselves classical packs, OQ 58's stated limit one layer down."
+    },
+    {
+      "pack": "chambers-doric",
+      "reason": "The pack's own notes describe four deltas to a Doric ORDER — an Attic base after Palladio, a single-fascia architrave with conical drops after the Theatre of Marcellus, a pedestal at three tenths divided 2 : 6 : 1, and a diminution by Blondel's conchoid — plus the module's thirtieths and a column-height band. Its declared slots are column, pilaster, crown, frieze, modillion_dentil and porch_support. The node's hard c03 forbids applied classical orders and names two of those members outright (turned columns, dentil courses), and its defining_characteristics repeat the refusal as \"Absence of applied classical orders and of machine-sawn Victorian ornament.\" The contradiction is between the pack's stated subject and the node's own enumerated prohibition, not a category-versus-authority quibble: the node is not silent about orders, it lists the parts and bans them.",
+      "basis": "node-record",
+      "quote": "Applied classical orders — fluted or turned columns, pedimented door surrounds, dentil courses — are forbidden",
+      "quoted_from": "constraints[2].statement",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node today, so declining changes no dimension and nothing loses dimensioning; it removes a live delivery path that would supply a Doric column, pilaster, crown, frieze, modillion_dentil or porch_support the moment any of those slots resolved to it."
     }
   ]
 }

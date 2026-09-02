@@ -283,6 +283,15 @@
       "quoted_from": "proportion_packs[3].note",
       "decided": "2026-09-02",
       "note": "Governs 2 slots: door_surround and frieze. Declining passes both to palladio-tuscan (from italian-renaissance); 0 slots lose all dimensioning. Worth saying plainly: the decline stops THIS order and does not stop orders — the fallback is another classical pack, which is OQ 58's stated limit one layer down."
+    },
+    {
+      "pack": "vignola-corinthian",
+      "reason": "The pack's own notes describe a full classical order and nothing else — a column of 20 modules, an entablature of 5 divided 3:3:4, Vignola's Regola figures confirmed against Ware in diameters — dimensioning entablature, frieze, cornice, pilaster, door_surround and the interior trim run. The node's own facade binding note states flatly that there is no classical order anywhere in its defining characteristics or constraints, and its interior binding note gives the same ground for choosing trim-craftsman over trim-classical; the register it states for itself is rustic timber and stone, its only cornice an eave line that dormers break. This is the identical case the node has already decided against vignola-composite, arriving from the same beaux-arts-american at cascade depth 3 with no lineage edge between them. The contradiction is between the pack's stated subject and the node's own sentence, not between their names.",
+      "basis": "node-record",
+      "quote": "No classical order anywhere in the defining characteristics or constraints",
+      "quoted_from": "proportion_packs[1].note",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots today; declining changes no dimension on this node and 0 slots lose all dimensioning. The other order packs already lost every address here to facade-picturesque, trim-craftsman, stone-course and timber-panel, so the decline records the judgment rather than moving a figure — and, as with the vignola-composite decline, it stops THIS order and does not stop orders."
     }
   ]
 }

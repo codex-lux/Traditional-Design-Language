@@ -252,6 +252,15 @@
       "quoted_from": "constraints[0].statement",
       "decided": "2026-09-02",
       "note": "Governs 10 slots; declining changes dimensions on all of them. Six fall to the node's OWN timber-bay binding (corner_quoin, daylight_strategy, depth_and_pile, height_proportion, reveal_masonry, wing_strategy) and wall_thickness_masonry to its own facade-medieval-english; belt_course passes to jetty-overhang (english-medieval-timber-frame) and foundation_expression to facade-classical (italian-renaissance). roof_material loses all dimensioning -- accepted and honest: the rule there is the Cotswold graded stone-slate diminishing course, and this node's constraint c04 puts the roof \"low or concealed behind a balustraded or strapwork parapet\" with a leaded roof walk on top, so a diminishing-course figure here would be a wrong dimension rather than a missing one."
+    },
+    {
+      "pack": "vignola-tuscan",
+      "reason": "The pack's own notes state its subject as Vignola's Tuscan encoded from his plates in modules and parts -- module the semidiameter of 12 parts, column 14 modules, entablature exactly a quarter of the column, entasis beginning at a third of the shaft -- a ruled theory of proportion from which every trim slot it governs is then derived. The node's proportional_system states the opposite mechanism about the same thing: its orders are a rough, self-taught use on the frontispiece only, 'Devised by mason-architects such as Robert Smythson working from plans and from engraved plates, not from any theory of proportion', and its diagnostic tells have the entablatures 'stopping abruptly at the edges of the frontispiece' on a facade otherwise entirely unclassical. That is a contradiction of the pack's subject rather than of its authorship: the node says the modular rule the pack supplies did not govern here. The node's own proportion_packs note says the same in so many words -- 'a Vignola-derived pack would attribute a precision (a real module, real entasis, a sourced entablature ratio) that the style's own masons did not have and did not intend' -- and records the exclusion as deliberate.",
+      "basis": "node-record",
+      "quote": "a rough, self-taught use of the orders on the frontispiece only",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 9 slots; declining changes dimensions on all 9 and 0 lose all dimensioning. baseboard and chair_rail pass to vignola-doric (roman-classical); balustrade, casing, cornice, crown, door_surround, frieze and porch_depth pass to palladio-tuscan (italian-renaissance). Both successors are order packs of the same kind, so this decline stops one wrong pack and does not remove ruled classical-order dimensioning from the node -- the same reasoning would reach palladio-tuscan and vignola-doric, which are not in this node's pending list and are not judged here."
     }
   ]
 }

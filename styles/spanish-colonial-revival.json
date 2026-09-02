@@ -303,6 +303,15 @@
       "quoted_from": "distinguished_from[2].difference (spanish-colonial-american)",
       "decided": "2026-09-02",
       "note": "Governs 0 slots; declining changes no dimension on this node. It is a meter move only, and costs nothing."
+    },
+    {
+      "pack": "vignola-corinthian",
+      "reason": "The pack's own notes state its subject plainly: a skeleton in modules -- column 20 modules, entablature 5, pedestal 7, base 1, shaft 16 modules 12 parts -- Vignola's Corinthian as a governing order, and it dimensions the classical trim family (baseboard, casing, chair rail, cornice, crown, entablature, frieze, modillion/dentil, pilaster, wainscot, both surrounds). This node's governing_logic refuses precisely that instrument in its own words and then states what does control proportion instead: wall thickness at reveals, the height differences between adjoining roof planes, and the size of the single ornamented entrance against the blank wall. Its description walks a wall that offers \"no base, no cornice, no rhythm\", which is the very envelope the pack is dimensioning, and its distinguished_from entry reserves Renaissance ornament to Mediterranean Revival while putting this style's cues in the Spanish Baroque. This is the pack's own category refused by name, not a blanket line read onto it -- the same reading the node has already made for itself against vignola-composite, and the same one mission-revival made against this pack.",
+      "basis": "node-record",
+      "quote": "No module and no order",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 slots on this node; declining changes no dimension and nothing loses dimensioning. It arrives from beaux-arts-french at cascade depth 5 with no direct lineage edge. No live gate: the decline is a meter move that stops a wrong authority arriving, and it does not by itself remove an order from the node -- another order pack reaching the same way is a separate unjudged gap."
     }
   ]
 }

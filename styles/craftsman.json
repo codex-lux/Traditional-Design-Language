@@ -290,6 +290,24 @@
       "quoted_from": "proportional_system.bay_rhythm",
       "decided": "2026-09-02",
       "note": "governs 0 slots on craftsman; --impact reports 'It currently GOVERNS 0 slot(s)' and 'Declining it changes no dimension on this node.' No slot loses dimensioning. Arrives from english-georgian at cascade depth 7 with no direct lineage edge. Note that this is the pack whose ENDORSEMENT would have armed build/elevation.py's build_elevation scope gate -- declining leaves that gate unarmed, which is the safe direction here."
+    },
+    {
+      "pack": "chambers-doric",
+      "reason": "chambers-doric is an order-system overlay whose own stated subject is the four deltas of Chambers's Doric — the attic base, the single-fascia architrave after the Theatre of Marcellus, the pedestal at three tenths, the diminution by Blondel's conchoid — and it dimensions column, pilaster, frieze, crown, modillion_dentil and porch_support. Craftsman's own hard constraint c04 names the porch support and forbids exactly the members this pack proportions, and its colonial-revival contrast states the style 'has no orders at all'. This is not the blanket 'no applied proportional system' refusal: the pack's subject is a classical column and its entablature, and the node's record refuses that member by name at the very slot the pack governs.",
+      "basis": "node-record",
+      "quote": "Turned columns, fluted columns, and classical capitals are forbidden",
+      "quoted_from": "constraints[3].statement",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on craftsman; --pair --impact reports 'It currently GOVERNS 0 slot(s)' and 'Declining it changes no dimension on this node.' No slot loses dimensioning. Arrives from english-georgian at cascade depth 7 with no direct lineage edge."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own module note states its subject: it does not proportion a column, it says 'how many columns there are, where they stand, what they stand on, or what the wall behind them is doing' for a peripteral temple, a Roman arch order or a colossal portico. On craftsman it governs composition_parti through portico_share (the portico takes half to three fifths of the front), corner_contraction (half a triglyph of a Doric frieze) and centre_bay_widening (the centre pair opens a third to frame the entrance). The node's record refuses the premise of all three: it has no orders at all, its porch is carried on battered piers under the main roof, and its symmetry is balanced-asymmetrical with the group spacing following the framing bay rather than a facade module — so there is no centre bay to widen and no colonnade to share the front with.",
+      "basis": "node-record",
+      "quote": "Craftsman is asymmetrical, stained, and has no orders at all",
+      "quoted_from": "distinguished_from[2].difference",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot: composition_parti. --impact: declining passes composition_parti to facade-pavilion (beaux-arts-french); 0 slots would lose all dimensioning. Worth stating plainly that the successor is another classical facade pack and is not obviously right either — a decline stops a wrong pack and does not supply a right one, and craftsman's own bound primary, facade-picturesque, does not currently reach this slot. Arrives from english-palladian at cascade depth 9 with no direct lineage edge."
     }
   ]
 }

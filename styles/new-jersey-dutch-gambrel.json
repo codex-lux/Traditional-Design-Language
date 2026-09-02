@@ -261,6 +261,15 @@
       "quoted_from": "diagnostic_tells[3]",
       "decided": "2026-09-02",
       "note": "governs 8 slots; 7 fall through to a pack the node itself binds or already inherits -- belt_course, cornice, steps_and_stoop, water_table and window_proportion to facade-classical (bound on this node), window_head_masonry and window_surround_wood to sash-light (dutch-colonial-american). window_sill loses all dimensioning: 1 slot with no successor. No live gate; the decline changes dimensions, endorsement would have changed only the meter."
+    },
+    {
+      "pack": "timber-panel",
+      "reason": "The pack's own module note says its subject is the panel that FILLS a frame -- \"a screen in a structural frame\" carrying no load, behind studs at 44 in centres, over a framed wall its own rule sizes at six inches and calls \"a QUARTER the thickness\" of a rubble wall, with infill of daub, brick nogging or lime render. This node's defining characteristics state the opposite wall: load-bearing Newark Basin sandstone, and typical_ratios gives it as 20-28 in thick. A wall that carries its own load in coursed stone is not a frame with non-structural infill, so the pack's stated premise is contradicted rather than merely absent. I weighed the Dyckman Farmhouse note (\"fieldstone below, frame above\") and did not let it decide: a clapboarded or shingled frame storey is not the exposed-frame-and-panel wall this pack dimensions, and the record itself assigns framing \"in wood with a veneer or shingle skin\" to dutch-colonial-revival as one of the things the revival discarded.",
+      "basis": "node-record",
+      "quote": "Load-bearing red-brown Newark Basin sandstone, dressed and coursed on the entrance elevation only, rubble elsewhere",
+      "quoted_from": "defining_characteristics[2]",
+      "decided": "2026-09-02",
+      "note": "governs 5 slots; expressed_frame, material_change_rule and wall_thickness_frame fall through to jetty-overhang (from german-fachwerk) -- itself a half-timber pack, so on those three the decline changes which pack governs rather than removing the class, which is OQ 58's stated limit one layer down. primary_cladding and secondary_cladding lose all dimensioning: 2 slots with no successor. No live gate -- the decline changes dimensions, endorsement would have changed only the meter."
     }
   ]
 }

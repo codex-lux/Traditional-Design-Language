@@ -264,6 +264,15 @@
       "quoted_from": "proportional_system.bay_rhythm",
       "decided": "2026-09-02",
       "note": "governs 0 slots on this node (facade-picturesque and the node's own bindings already win every slot it would reach); declining changes no dimension and 0 slots lose all dimensioning. Recorded because --pair reports that ENDORSING would arm a live check -- the build_elevation scope gate in build/elevation.py, the other half of that AND -- so the endorsement direction is the costly one here and is the one being refused."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes say it exists to dimension the columnar screen that the order packs never described -- how many columns there are, where they stand, what they stand on, and what the wall behind them is doing -- across the peristyle, the Roman arch order and the colossal portico. On this node it governs composition_parti, which is where that pack states portico_share (a portico taking half to three fifths of the front), rank_depth and approach_fronts. The node's own defining characteristics say its porches and verandas are frames of posts, diagonal braces and open rails and explicitly NOT trabeated classical structures, which refuses the very assembly the pack proportions; its symmetry is recorded as picturesque-asymmetrical, and its bay_rhythm calls the plan irregular, so there is no single composed columnar front for the pack's share and rank rules to sit on. This is the same reasoning the node already recorded when it declined facade-classical, and it binds facade-picturesque as its primary facade pack.",
+      "basis": "node-record",
+      "quote": "Porches and verandas built as visible frames of posts, diagonal braces, and open rails rather than as trabeated classical structures",
+      "quoted_from": "defining_characteristics",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot: composition_parti; declining passes it to facade-medieval-english (jacobean), delivered from the same cascade. 0 slots lose all dimensioning. --pair reports no live gate, so endorsing would have changed no behaviour and the decline is the only direction that moves a dimension here. The pack reaches this node from english-palladian at cascade depth 8 with no direct lineage edge between them."
     }
   ]
 }

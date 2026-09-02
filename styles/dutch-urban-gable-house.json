@@ -251,6 +251,14 @@
       "quoted_from": "defining_characteristics[1]",
       "decided": "2026-09-02",
       "note": "Governs 3 slots -- eave_condition, height_proportion, roof_pitch. All three lose all dimensioning: --impact reports NOTHING for each, and none of the node's own bound packs (brick-course, room-vernacular, facade-gable) reaches them. Accepted as honest: no eave projection beats a New England rafter-foot figure on a house whose street front is a masonry gable screen and whose flanks are fire walls carried past the roof. Declining also leaves span_check on the light-frame joist table rather than switching it to the bay module's 16-20 ft capacity, which the node's own c01 caps at 24.6 ft of party-wall span -- a separate question, and not one this pack answers correctly either."
+    },
+    {
+      "pack": "timber-panel",
+      "reason": "timber-panel's own module note says the module is the non-load-bearing infill panel between studs of an expressed timber frame -- 'The panel is a screen in a structural frame' -- and its rules dimension a panel 18-52 in wide at 1:1 to 1:4, a stud face standing 1 1/5 in proud of that panel, a jetty, and a 6 in framed wall a quarter the thickness of masonry. The node's record contradicts the pack's subject in the sentence that exists precisely to separate it from Fachwerk: the canal house hides its timber entirely inside brick and expresses the masonry gable and the anchor plates instead, its walls being load-bearing brick party walls with timber only as floor beams laid across the narrow dimension. There is no expressed frame to stand proud, no panel to infill and no framed wall to be thin. This is the same mechanism the node already used to decline timber-bay, one layer in: the timber is present and it is not the wall.",
+      "basis": "node-record",
+      "quote": "The canal house hides its timber entirely inside brick and expresses instead the masonry gable and the anchor plates",
+      "quoted_from": "distinguished_from[2].difference",
+      "decided": "2026-09-02"
     }
   ]
 }

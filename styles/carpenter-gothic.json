@@ -266,6 +266,15 @@
       "quoted_from": "diagnostic_tells[0]",
       "decided": "2026-09-02",
       "note": "governs 3 slots -- cornice, door_surround, frieze. Declining passes all three to palladio-tuscan (italian-renaissance). 0 slots lose all dimensioning. The fallback is another classical order and is not thereby right: a decline stops a wrong pack and does not supply a right one, which is OQ 58's stated limit one layer down."
+    },
+    {
+      "pack": "palladio-tuscan",
+      "reason": "The pack's own notes say what it is: a module of a whole diameter in 60 minutes, a column of 7 modules with a quarter diminution, a half-diameter base and capital with their internal divisions, and a plain 1-module pedestal -- a modelled order standing off the wall, and on this node it is dimensioning the cornice, the frieze and the door surround. The node's record refuses that physically, in the same words it has already used to decline chambers-ionic and palladio-ionic: every ornamental element is sawn from nominal 1 in board stock, the first diagnostic tell caps every projection at about two inches, and constraint c01 puts a hard 3 in ceiling on the relief of any ornament. Its governing_logic states the rival rule outright -- 'Board widths, plank thickness, and pattern-template repeat set every ornamental dimension' -- so a column module is not merely absent here, it is displaced by a stated alternative. The one member of the pack's target set the node does dimension it contradicts as well: the porch post is 'Porch post 4x4 to 6x6 chamfered', a square stick with no diminution, no base and no capital.",
+      "basis": "node-record",
+      "quote": "Ornament is flat. Sight along the wall: everything projects less than about two inches, because everything came off a plank",
+      "quoted_from": "diagnostic_tells[0]",
+      "decided": "2026-09-02",
+      "note": "governs 4 slots -- cornice, door_surround, frieze, steps_and_stoop. Declining passes cornice, door_surround and frieze to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian). 0 slots lose all dimensioning. The fallback is again a classical order and is not thereby right -- this is the second hop of the regress palladio-ionic's own decline note predicted, and stopping a wrong pack does not supply a right one (OQ 58's stated limit). Delivered from italian-renaissance at cascade depth 10 with no direct lineage edge."
     }
   ]
 }

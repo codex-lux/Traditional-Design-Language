@@ -279,6 +279,15 @@
       "quoted_from": "diagnostic_tells[0]",
       "decided": "2026-09-02",
       "note": "governs 1 slot; window_surround_masonry loses all dimensioning. No live gate — declining changes dimensions only, and the node's own text says there is nothing carved on that surround to dimension."
+    },
+    {
+      "pack": "palladio-doric",
+      "reason": "The pack's own notes say it is Palladio's Doric as an OVERLAY ON VIGNOLA, and that its three load-bearing claims are the 30-minute module, the Attic base ('if a building is Palladian this base is on the drawing') and the diminution tabulated by column height — an authority claim about which pattern book dimensions a column. This node's record answers that authority question explicitly and in the opposite direction: its one classical facade, Santa Barbara's church front, is bound to the BASE order precisely because no named overlay can be evidenced, and Palladio is named in the list refused. Behind that single exception the type has no column at all — description.long says of the arcade 'There is no order, no base, no capital, and often no impost moulding', and the first diagnostic tell repeats it. So the node contradicts the pack twice over: no order in the ranges, and at the one place an order exists, a refusal of this overlay by name.",
+      "basis": "node-record",
+      "quote": "Vignola rather than a named overlay (Gibbs, Palladio, Chambers, Benjamin) because there is no documentary evidence connecting a specific pattern book to Ramirez's work, so the base order is the honest choice rather than inventing a source",
+      "quoted_from": "proportion_packs[2].note (the vignola-ionic binding note)",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; --impact reports 'Declining it changes no dimension on this node.' The pack arrives from italian-renaissance at cascade depth 7 with no direct lineage edge; its six target slots (chair_rail, column, crown, height_proportion, modillion_dentil, porch_support) are already held here by vignola-ionic and the node's own bindings, so nothing loses dimensioning. No live gate."
     }
   ]
 }

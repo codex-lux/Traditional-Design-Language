@@ -298,6 +298,15 @@
       "quoted_from": "proportional_system.bay_rhythm",
       "decided": "2026-09-02",
       "note": "governs 1 slot; declining passes composition_parti to facade-medieval-english (delivered by english-medieval-timber-frame, itself an unendorsed cascade delivery); 0 slots lose all dimensioning. --pair reports no live gate either way."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "The pack's own notes say it is about a rhythm of arched bays carried on piers or columns -- 'an arcade is a rhythm of openings interrupted by supports, not a wall with holes in it' -- and that where the arcade is the shaded exterior circulation it is the building's corridor, with every room opening onto it and no interior corridor. This node's shaded exterior circulation is the opposite structure by hard constraint: the balcony cantilevers from the second-floor joists and posts or columns reaching grade are categorically forbidden, with a posted upper gallery declared to be either Hispanic-tradition or revival and 'in either case is not this type'. The record also assigns arcading to a different node it distinguishes itself from -- 'Mission work is single-storey, institutional, arcaded on square piers... Monterey is domestic, two-storey, balconied' -- and gives the Anglo half an interior stair and an interior corridor, which is the plan consequence the pack says an arcaded range does not have. That is the node contradicting the pack's stated subject, not silence about arches and not a headline figure coinciding.",
+      "basis": "node-record",
+      "quote": "The balcony must cantilever from the second-floor framing with no posts or columns reaching grade",
+      "quoted_from": "constraints[0].statement",
+      "decided": "2026-09-02",
+      "note": "governs 2 slots (arch, porch_ceiling); declining passes arch to facade-medieval-english (delivered by english-medieval-timber-frame, itself an unendorsed cascade delivery -- a worse neighbour, but outside this judgment) and porch_ceiling to balcony-gallery, which this node binds itself and whose own note claims exactly that thing pinned to the front of both storeys; 0 slots lose all dimensioning. --pair reports no live gate either way."
     }
   ]
 }

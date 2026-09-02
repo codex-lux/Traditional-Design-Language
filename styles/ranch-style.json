@@ -282,6 +282,15 @@
       "quoted_from": "description.long",
       "decided": "2026-09-02",
       "note": "Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning. The whole value is closing an unjudged delivery and keeping the span-capacity gate (build/structure.py span_check via _timber_bay_applies_to, and the CP model reading the same list) off this node."
+    },
+    {
+      "pack": "chambers-ionic",
+      "reason": "chambers-ionic's own notes state that it is proportionally Vignola's Ionic — eighteen modules of column, four and a half of entablature, one of base — with Chambers's departures being about WHICH FORM rather than about size. Every one of those figures is measured off a column module through a stacked base-column-entablature hierarchy. The node's governing_logic refuses that hierarchy in terms, naming the absence of a base and of a cornice, and separately names the style's actual operative modules — the 4-by-8 sheet, the 24-inch truss spacing, the 8-foot precut stud, the garage door — none of which is a column. This is the same contradiction on which gibbs-ionic was already declined for this node on 2 Sep 2026, and it is the pack's own stated subject that the record refuses, not merely its name.",
+      "basis": "node-record",
+      "quote": "no vertical hierarchy survives at all — there is no base, no piano nobile, no attic, and frequently no cornice",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 2 slots: cornice and pilaster. Declining sends cornice -> palladio-ionic (english-palladian) and pilaster -> benjamin-ionic (federal-style); 0 slots lose all dimensioning. Both replacements are themselves unadjudicated order packs, so the role re-attributes to the next unjudged ancestor rather than closing — the behaviour CLAUDE.md already records for a correct decline, and the same outcome the gibbs-ionic decline produced one step earlier in this chain. --pair reports no live gate, so the decline changes dimensions and arms nothing."
     }
   ]
 }

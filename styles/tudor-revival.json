@@ -321,6 +321,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "Governs 3 slots on this node: cornice, door_surround, frieze. Declining hands all three to palladio-tuscan (from italian-renaissance); 0 slots lose all dimensioning. Worth flagging one layer down, and outside this ruling's scope: the fallback is itself a classical order pack, so the decline stops this wrong pack without supplying a right one -- the same classical-module refusal applies to palladio-tuscan, which is not on this node's pending list and was not judged here."
+    },
+    {
+      "pack": "palladio-tuscan",
+      "reason": "The pack's own notes state its subject as a classical order used as a proportioning system: the module as a whole diameter of 60 minutes, the column at 7 modules, the quarter diminution, the half-diameter base and capital with their internal divisions, and a plain 1-module pedestal — enough, it says, to lay out the column and pedestal completely. The node's governing_logic refuses precisely that in its first three words and names what governs instead: the notional 8 to 12 ft timber bay and the gable triangle. This is not the blanket-sentence trap — the pack IS a classical module, so the sentence contradicts the pack's actual subject rather than merely sitting near it. The node has already recorded the identical judgment on this same quote and basis against chambers-ionic and palladio-ionic in its own declined_packs, and palladio-tuscan arrives the same way, at cascade depth 11 from italian-renaissance with no direct lineage edge.",
+      "basis": "node-record",
+      "quote": "No classical module. Proportion is governed by the notional structural bay of the timber frame being imitated",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 4 slots on this node: cornice, door_surround, frieze, steps_and_stoop. Declining hands cornice, door_surround and frieze to vignola-tuscan (from roman-classical) and steps_and_stoop to facade-peristyle (from english-palladian); 0 slots lose all dimensioning. Flagged one layer down and outside this ruling's scope, exactly as the palladio-ionic decline flagged it: the fallback for three of the four slots is itself a classical order pack, so this decline stops a wrong pack without supplying a right one — the same classical-module refusal would apply to vignola-tuscan, which is not on this node's pending list and was not judged here."
     }
   ]
 }

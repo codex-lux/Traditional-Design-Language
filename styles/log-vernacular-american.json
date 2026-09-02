@@ -339,6 +339,24 @@
       "quoted_from": "proportional_system.bay_rhythm",
       "decided": "2026-09-02",
       "note": "--impact: governs 0 slots on this node; declining changes no dimension and no slot loses dimensioning. --pair reports that ENDORSING would arm build_elevation's scope gate (the other half of that AND); a decline arms nothing."
+    },
+    {
+      "pack": "palladio-corinthian",
+      "reason": "The pack's own notes say what it is about: the point where Palladio and Vignola part on column height in diameters, and the reason for it -- Book I ch. XIII binding a nine-and-a-half-diameter column to a two-diameter intercolumniation. That is an order: the archetypal system of proportion, dimensioned off the lower diameter, not a fact about a trade or a material the way sash-light's light count is. The node's governing_logic refuses that category by name and then says what replaces it -- log length, log diameter and the number of courses a crew will lift. This node's own declined_packs already refuse trim-classical and chambers-doric on this same sentence for exactly this reading, and Palladio's Corinthian is that case at its source.",
+      "basis": "node-record",
+      "quote": "Dimensioned by material handling, not by any system of proportion.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 slots on this node; declining changes no dimension and no slot loses dimensioning. Arrives from english-palladian at cascade depth 13 with no direct lineage edge. --pair reports no live gate either way."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes and module state its subject as the colonnade rather than the column: how many columns there are, where they stand, what they stand on and what the wall behind them is doing, worked in axial intercolumniations of twelve parts so one pack can hold a peripteral temple, a Roman arch order and a colossal portico. That is a proportional system for a classical front, in the same category as the order packs this node already refuses, and not a material or trade arithmetic that survives the sentence the way sash-light does. The node's governing_logic refuses the category outright and names the material-handling mechanism that stands in its place. I deliberately did NOT rest this on the node's \"There is no bay rhythm\", although the pack's module is a bay: the pack's own central thesis is that the screen and the wall are two systems that need not agree, so a statement about the wall's openings does not reach the colonnade's spacing, and using it would be the coincidence-of-quantity error.",
+      "basis": "node-record",
+      "quote": "Dimensioned by material handling, not by any system of proportion.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 1 slot, composition_parti; on a decline it passes to facade-medieval-english (jacobean). 0 slots lose all dimensioning. This decline DOES change a dimension. Arrives from english-palladian at cascade depth 13 with no direct lineage edge; --pair reports no live gate."
     }
   ]
 }

@@ -270,6 +270,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "Governs 5 slots (cornice, crown, door_surround, frieze, pilaster); 0 slots lose all dimensioning. cornice, crown, door_surround and frieze pass to palladio-ionic (english-palladian); pilaster passes to chambers-doric (english-georgian). Stated plainly because it bears on the ruling: the decline swaps one late-Georgian order for another rather than removing classical order governance from the node. It stops this pack, not the class — whether ANY codified order should govern a picturesque Shaw elevation is a larger question this verdict does not settle."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "palladio-ionic's own notes describe nothing but an applied classical order quoted from Ware: column nine modules, entablature a fifth of the column divided 4:3:5, architrave divided into five, cornice into seven and three quarters, an Attic base of half a diameter. It is a codified proportional skeleton and it arrives here to dimension cornice, crown, door_surround and frieze. This node's governing_logic does not merely say 'no applied system' in the abstract -- it names a CLOSED list of the three things this style proportions by precedent (the sash, the gable and the chimney) and states that the elevation is assembled from those by eye. A codified order is not one of the three, and an order-system is the paradigm case of the applied system that sentence refuses; unlike sash-light, whose subject is a fact about the glass trade and survives the same sentence, palladio-ionic has no non-proportional core left once its order arithmetic is set aside. The description corroborates from the other side, placing what the architects were after in the century between the Restoration and 'the Georgian codification' -- and codification is exactly what a Ware-transmitted Palladian order is. The node has already declined chambers-ionic on this same sentence and for this same reason; this is the same class of pack reaching the same four slots.",
+      "basis": "node-record",
+      "quote": "the sash, the gable and the chimney are each proportioned by precedent, and the elevation is assembled from them by eye",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 4 slots (cornice, crown, door_surround, frieze); 0 slots lose all dimensioning. All four pass to palladio-tuscan (italian-renaissance). Stated plainly because it bears on the ruling and repeats the chambers-ionic decline's own caveat: the decline swaps one codified classical order for another rather than removing order governance from the node, so cornice, crown, door_surround and frieze remain dimensioned -- by Tuscan rather than Ionic. It stops this pack, not the class. Whether ANY codified order should govern a picturesque Shaw elevation is the larger question neither this verdict nor the chambers-ionic one settles, and it is now two declines deep down a chain that keeps handing the same four slots to the next order pack in the cascade."
     }
   ]
 }

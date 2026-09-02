@@ -268,6 +268,24 @@
       "quoted_from": "proportional_system.bay_rhythm",
       "decided": "2026-09-02",
       "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning. --pair reports that ENDORSING would arm a live check (build/elevation.py, the build_elevation scope gate, 'the other half of that AND'); this verdict is a decline, so that gate is not armed by it — arms_gate below is the factual echo of the --pair line, not a claim that this verdict turns the check on."
+    },
+    {
+      "pack": "chambers-doric",
+      "reason": "The pack's own notes say what it is about in its first line: it is Chambers's Doric ORDER as an overlay on Vignola — the attic base, the single-fascia architrave after the Theatre of Marcellus, the pedestal at three tenths, the diminution by Blondel's conchoid, the column-height band, and an entablature divided two-three-three. Its whole content is the proportioning of a classical order, and it dimensions column, crown, frieze, modillion_dentil, pilaster and porch_support from a semidiameter divided into thirty minutes. This node's eighth defining characteristic names that object and forbids it outright, and its hard constraint c02 forbids any classical or revival ornament besides; there is no order on a Prairie house for these minutes to divide. This is not a blanket refusal of proportional systems standing in for a reading of the pack — the node's own record names orders in the same word the pack is written in.",
+      "basis": "node-record",
+      "quote": "No historical reference of any kind — no orders, no revival motifs, no applied period detail",
+      "quoted_from": "defining_characteristics[7]",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning. It arrives from english-georgian at cascade depth 7 with no direct lineage edge."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's notes state its subject as the thing the order packs do not answer — how many columns there are, where they stand, what they stand on, and what the wall behind them is doing — across a peripteral temple, a Roman arch order and a colossal revival portico; and its module note says in terms that THE MODULE IS THE BAY, the axial intercolumniation from column centre to column centre along the front. This node's bay_rhythm answers that its front is not bayed at all: the compositional unit is the horizontal band, subdivided by mullions at a casement module, with solid wall occurring between bands rather than between windows. Its eighth defining characteristic also refuses the orders the pack is arranging, so there is neither a colonnade to count nor an intercolumniation to set. The pack's four settlements of screen-versus-wall all presuppose a columned screen this node does not have.",
+      "basis": "node-record",
+      "quote": "Continuous rather than bayed. The compositional unit is the band, subdivided by mullions at a regular casement module",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot: composition_parti; declining passes it to facade-pavilion (beaux-arts-french). 0 slots lose all dimensioning. The decline stops this pack and does not supply a right one — facade-pavilion is itself a classical successor, which is OQ 58's stated limit one layer down and not settled by this verdict. It arrives from english-palladian at cascade depth 9 with no direct lineage edge."
     }
   ]
 }

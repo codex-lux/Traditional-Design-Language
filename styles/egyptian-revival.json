@@ -237,6 +237,24 @@
       "quoted_from": "constraints[1].statement (egyptian-revival.c02)",
       "decided": "2026-09-02",
       "note": "Governs 0 slots on this node, so declining changes no dimension: the --impact report says so in as many words. The meter moves and nothing else does."
+    },
+    {
+      "pack": "benjamin-ionic",
+      "reason": "The pack's own notes state its subject as Benjamin's Federal Roman Ionic taken as a delta on Vignola -- 'everything not stated here is Vignola's' -- and the third of the five divergences it names is 'THE CORNICE CARRIES MODILLIONS', at 31 minutes on centres, each centred on a column, with a dentilled cornice offered as the alternative. Both of the pack's own offered cornices are named and forbidden by this node's c02, which also requires every terminating horizontal edge to be torus roll below cavetto 'without intervening classical mouldings'. That is the pack's stated subject refused by a sentence of the node's own record, not an inference from the pack's name; it is also the same ground on which this node already declined `vignola-ionic`, the pack this one overlays. The cornice slot the pack governs here is precisely the edge the node's own tell says 'curves outward in a concave sweep rather than stepping out in mouldings'.",
+      "basis": "node-record",
+      "quote": "Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.",
+      "quoted_from": "constraints[1].statement (egyptian-revival.c02)",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots (cornice, door_surround, pilaster); declining hands all three to gibbs-ionic delivered from georgian-colonial-american, and 0 slots lose all dimensioning. Honest consequence, and it is the same one recorded for benjamin-doric: the decline stops the Federal Ionic authority but its successor is another classical order, because no Egyptian pack exists to take a cavetto cornice -- the slot stays wrongly dimensioned by a different hand."
+    },
+    {
+      "pack": "greek-doric",
+      "reason": "The pack's own notes state its subject as the archaeological Greek Doric order measured by Stuart and Revett -- the column in diameters, the Doric entablature and its mutules per triglyph interval, and an ornament vocabulary stated at zero -- and say explicitly that it dimensions the order rather than a temple front. The node's own diagnostic tell names Greek Doric directly and states that its columns differ from it in both diameter and height, and its c04 forbids the fluting and entasis that the pack's notes discuss as the order's own corrected properties. The headline figure is the trap here and is not the reason: the pack's 5.5 diameters coincides with the top of this node's 4-to-5.5 band, and the node's record says in as many words that its columns are shorter than a Greek Doric's. Coincidence of a number, contradiction of the mechanism.",
+      "basis": "node-record",
+      "quote": "Columns are wider at the base than a Greek Doric and shorter, typically four to five diameters",
+      "quoted_from": "diagnostic_tells[2]",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node, so declining changes no dimension -- the --impact report says 'Declining it changes no dimension on this node.' and 0 slots lose all dimensioning. The meter moves and nothing else does."
     }
   ]
 }
