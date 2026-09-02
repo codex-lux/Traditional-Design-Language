@@ -239,13 +239,13 @@
     {
       "target_slot": "stair_type",
       "dimension": "count",
-      "expression": "ceil(module / 7.25)",
+      "expression": "ceil(module / 7.5)",
       "units": "count",
       "range": [
         13.0,
         22.0
       ],
-      "note": "Risers per flight, which is simply the storey height divided by an acceptable riser. Seventeen on the default ten-foot storey, against the thirteen or fourteen that a modern 8 ft 1 in storey gives. Those extra three or four risers are 30-40 in of additional run, and the plan has to hold them. This is the real, unglamorous cost of storey graduation and it is the reason production housing abandoned it."
+      "note": "Risers per flight, which is simply the storey height divided by an acceptable riser. SIXTEEN on the default ten-foot storey, against the thirteen or fourteen that a modern 8 ft 1 in storey gives. The divisor was 7.25 until 2 Sep 2026 and gave seventeen; Lucas ruled 7.5, which is the figure rooms/stair-hall.json's own critical_dimension works its example at -- a 10 ft 0 in storey at 7.5 in is 16 risers exactly, and the prose says so. NOTE THE DISAGREEMENT THIS LEAVES: that same room record's `conflict` note calls the historic comfortable band 7 to 7.25 in, so the default stair now sits just outside a band the corpus states elsewhere. Legal everywhere (IRC advisory maximum 7.75; the worst shipped plan is 7.367) and recorded rather than reconciled -- see oq/the-stair-run-is-spelled-three-times. Those extra three or four risers are 30-40 in of additional run, and the plan has to hold them. This is the real, unglamorous cost of storey graduation and it is the reason production housing abandoned it."
     },
     {
       "target_slot": "dormer",

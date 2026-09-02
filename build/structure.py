@@ -41,7 +41,13 @@ GEOM = _mod("geometry", f"{ROOT}/build/geometry.py")
 C = PC.load_corpus()
 
 DEFAULT_CONSTRUCTION_TYPE = "platform-frame"
-STOREY_CEILING_FRACTION = 1.0 - 1.25 / 12.0   # storey-graduation.json: ceiling = module - part*1.25, part = module/12
+# WP-9.6: the storey derivation moved to build/storeys.py so `openings.py` can share it
+# without closing an import cycle (this file loads geometry.py, which calls
+# openings.stair_pass). Re-exported under the old names so every existing caller and
+# tests/test_structure.py keep working, and so there is exactly ONE implementation.
+STOREYS = _mod("storeys", f"{ROOT}/build/storeys.py")
+STOREY_CEILING_FRACTION = STOREYS.STOREY_CEILING_FRACTION
+storey_heights = STOREYS.storey_heights
 DEFAULT_GRADE_TO_FIRST_FLOOR_FT = 2.0          # storey-graduation.json's foundation_expression default (part*2.4 on a 10 ft storey)
 IRC_MAX_RISER_IN = 7.75
 IRC_MIN_TREAD_IN = 10.0
@@ -284,29 +290,6 @@ def _timber_bay_applies_to():
     return _TIMBER_BAY
 
 # ---------------------------------------------------------------- storeys and roof
-def storey_heights(plan):
-    """Inverts proportions/modules/storey-graduation.json's own ceiling_height_rule
-    (ceiling = module - part*1.25, part = module/12) to recover storey (floor-to-floor) height
-    from the ceiling height every plan record already states, per that pack's own instruction:
-    'Dimension the STOREY, not the ceiling.'"""
-    out = []
-    for lv in plan.get("levels", []):
-        ceiling_ft = lv.get("floor_to_ceiling_ft")
-        if ceiling_ft is None:
-            rooms_ceilings = [r.get("ceiling_ft") for r in lv.get("rooms", []) if r.get("ceiling_ft")]
-            ceiling_ft = max(rooms_ceilings) if rooms_ceilings else None
-        if ceiling_ft is None:
-            out.append({"id": lv.get("id"), "index": lv.get("index"), "ceiling_ft": None, "storey_height_ft": None,
-                        "floor_structure_depth_in": None, "note": "No ceiling height stated on this level -- unjudged."})
-            continue
-        storey_ft = ceiling_ft / STOREY_CEILING_FRACTION
-        out.append({
-            "id": lv.get("id"), "index": lv.get("index"), "ceiling_ft": ceiling_ft,
-            "storey_height_ft": round(storey_ft, 3),
-            "floor_structure_depth_in": round((storey_ft - ceiling_ft) * 12, 2),
-        })
-    return out
-
 def graduation_check(storeys, style):
     """Checks each consecutive pair of storeys against storey-graduation.json's own
     height_proportion derived rules, only when the style is in that pack's applies_to list --
@@ -380,7 +363,9 @@ def roof_heights(plan, storeys, footprint_outside):
 # ---------------------------------------------------------------- stairs
 def stair_geometry(plan, geometry_result, storeys):
     """Rise/run from proportions/modules/storey-graduation.json's own stair_type rule
-    (risers = ceil(storey_height_in / 7.25)) and a conventional rise+2*run comfort formula for
+    (risers = ceil(storey_height_in / D), D read from that rule -- 7.5 since Lucas ruled on
+    2 Sep 2026, and NOT quoted here as a number, because a docstring stating the figure is how
+    the last one went stale) and a conventional rise+2*run comfort formula for
     tread, checked against groupings/stair-and-landing-core.json's own hard rules (landing
     depth at least stair width; riser/tread constant through the flight -- this solver only
     ever produces one riser dimension per flight, so that second rule is true by construction)
@@ -394,7 +379,9 @@ def stair_geometry(plan, geometry_result, storeys):
     if not stair_room or not ground or not ground.get("storey_height_ft"):
         return {"applicable": False, "note": "No placed stair-hall, or no ground-storey height, to check."}
     total_rise_in = ground["storey_height_ft"] * 12
-    risers = max(2, math.ceil(total_rise_in / 7.25))          # storey-graduation.json: stair_type
+    # READ, never transcribed -- see build/storeys.py::riser_divisor_in. The literal that
+    # stood here had a twin in openings.py and moving the pack would have moved neither.
+    risers = max(2, math.ceil(total_rise_in / STOREYS.riser_divisor_in()))
     riser_in = round(total_rise_in / risers, 3)
     tread_in = round(max(IRC_MIN_TREAD_IN, 24.0 - 2 * riser_in), 2)
     run_in = round((risers - 1) * tread_in, 2)

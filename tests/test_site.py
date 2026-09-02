@@ -167,7 +167,7 @@ class TestComposerHonoursLotWidth:
         brief = _brief("family-georgian")
         brief["site"] = {"lot_width_ft": 40, "setback_side_ft": 5}
         usable = 30
-        result = compose_module.compose(brief)
+        result = compose_module.compose(brief, revise=False)
         assert result["candidates"], "expected at least one candidate to still fit a 30 ft usable lot"
         for c in result["candidates"]:
             assert c["footprint"]["footprint_ft"][0] <= usable + 1e-6, \
@@ -176,7 +176,7 @@ class TestComposerHonoursLotWidth:
     def test_five_part_palladian_never_reaches_its_usual_seven_bays_on_this_lot(self, compose_module):
         brief = _brief("family-georgian")
         brief["site"] = {"lot_width_ft": 40, "setback_side_ft": 5}
-        result = compose_module.compose(brief)
+        result = compose_module.compose(brief, revise=False)
         five_part = [c for c in result["candidates"] if c["parti"] == "five-part-palladian"]
         # The presence guard its two neighbours already have. Without it this test goes
         # silently green the moment the ranking stops returning this parti — and the scoring
@@ -194,7 +194,7 @@ class TestComposerHonoursLotWidth:
         in dropped_lot_infeasible so the drop is not silent."""
         brief = _brief("family-georgian")
         brief["site"] = {"lot_width_ft": 40, "setback_side_ft": 5}
-        result = compose_module.compose(brief, candidates=8)
+        result = compose_module.compose(brief, candidates=8, revise=False)
         assert all(c["parti"] != "foursquare-quadrant" for c in result["candidates"])
         dropped_ids = [d["parti"] for d in result.get("dropped_lot_infeasible", [])]
         assert "foursquare-quadrant" in dropped_ids
@@ -204,7 +204,7 @@ class TestComposerHonoursLotWidth:
         inside a 30 ft usable lot with no capping needed at all."""
         brief = _brief("family-georgian")
         brief["site"] = {"lot_width_ft": 40, "setback_side_ft": 5}
-        result = compose_module.compose(brief, candidates=8)
+        result = compose_module.compose(brief, candidates=8, revise=False)
         townhouse = [c for c in result["candidates"] if c["parti"] == "side-hall-townhouse"]
         assert townhouse, "expected the side-hall townhouse to survive a 30 ft usable lot"
         assert townhouse[0]["footprint"]["footprint_ft"][0] == 24
@@ -217,7 +217,7 @@ class TestComposerHonoursLotWidth:
         have nothing to do with lot width (see tests/test_composer.py's own module docstring for
         the trace); re-pinning it here would duplicate that test and tie an unrelated finding to
         the wrong package."""
-        result = compose_module.compose(_brief("family-georgian"))
+        result = compose_module.compose(_brief("family-georgian"), revise=False)
         assert not result.get("dropped_lot_infeasible")
 
 
@@ -230,7 +230,7 @@ class TestGeometrySolverHonoursLotWidth:
     def test_solved_footprint_never_exceeds_lot_usable_width(self, geometry_module, compose_module):
         brief = _brief("family-georgian")
         brief["site"] = {"lot_width_ft": 40, "setback_side_ft": 5}
-        result = compose_module.compose(brief, candidates=8)
+        result = compose_module.compose(brief, candidates=8, revise=False)
         townhouse = next(c for c in result["candidates"] if c["parti"] == "side-hall-townhouse")
         parti = compose_module.PARTIS["side-hall-townhouse"]
         out = geometry_module.solve(townhouse["plan"], parti, candidates=40, engine="heuristic")
@@ -272,7 +272,7 @@ class TestRenderShowsTheLot:
         brief = _brief("family-georgian")
         brief["site"] = {"lot_width_ft": 40, "lot_depth_ft": 140, "setback_side_ft": 5,
                           "setback_front_ft": 25, "setback_rear_ft": 15, "street_bearing_deg": 158}
-        result = compose_module.compose(brief, candidates=8)
+        result = compose_module.compose(brief, candidates=8, revise=False)
         townhouse = next(c for c in result["candidates"] if c["parti"] == "side-hall-townhouse")
         parti = compose_module.PARTIS["side-hall-townhouse"]
         out = geometry_module.solve(townhouse["plan"], parti, candidates=40, engine="heuristic")

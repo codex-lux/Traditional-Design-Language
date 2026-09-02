@@ -88,6 +88,7 @@ def test_the_sse_paths_bypass_the_compressor_entirely():
         # compressed
         ("/api/search/index", False, "ordinary JSON"),
         ("/api/jobs/abc123", False, "ordinary JSON — a job POLL is not its event stream"),
+        ("/api/jobs/abc123/plan", False, "ordinary JSON — a revise job's record (WP-9.3), not its stream"),
         ("/", False, "the shell"),
     ]
     for path, exempt, why in cases:

@@ -340,6 +340,77 @@ HABITABLE = {"public", "living", "dining", "sleeping", "work", "circulation",
              "threshold", "sanitary", "service"}
 
 
+def furniture_shortfalls(rt, w, l):
+    """Which essential items of `rt` will not fit a `w` x `l` ft rectangle, and by how much.
+
+    ONE spelling of the fit arithmetic with TWO callers -- the room layer, which hands it the
+    DECLARED width and length, and the drawn layer, which hands it the PLACED rectangle. Until
+    WP-9.6 only the first existed, so a room declared adequate and drawn as a sliver passed its
+    own furniture check: over the sixteen plans the furniture layer emitted 137 findings whether
+    or not the plan carried geometry, which is the measurement of a check that cannot see the
+    drawing. Callers differ in WORDING and LAYER and never in arithmetic; do not transcribe these
+    expressions anywhere else. (`openings.required_wall_ft` is NOT the precedent for this -- that
+    rule is deliberately spelled three times, one of them JavaScript, and held together by
+    tests/fixtures/sheet_symbols/. The discipline transfers; the mechanism does not.)
+
+    `w` is the SHORT dimension and `l` the LONG one, and the item is paired the same way: its
+    short side is charged against the room's width and its long side against the room's length.
+    WP-9.2 s8 published that `sorted()` here "assumes every item rotates" and so turned the
+    kitchen island sideways; that was wrong, and reading this function rather than that sentence
+    is what found it. The pairing is the rule, not a defect -- an 84 x 27 in island in a 12 x 16
+    ft kitchen needs 9.25 ft across and 13.0 ft along, and gets both.
+    """
+    out = []
+    for it in rt.get("furniture", []):
+        if not it.get("essential", True) or not (w and l):
+            continue
+        fw, fl = sorted(it["footprint_in"])
+        # Some catalogue entries use clearance_in for a VIEWING or standing distance rather
+        # than a physical gap - a television and a hung picture are both about four inches
+        # deep. Nothing four inches deep constrains the width of a room, so anything without
+        # real bulk is not a fit constraint.
+        if fw < 8:
+            continue
+        # Read, never coerced. `or 0` here turned an unstated clearance into a measured zero
+        # (OQ 52's smaller member): the catalogue's twenty nulls all meant zero, but so would
+        # an item whose clearance an author forgot, and nothing told them apart. clearance_in
+        # is now a required number in schema/room.schema.json, so a missing one fails
+        # check_rooms rather than passing this check silently.
+        cl = it["clearance_in"]
+        # A table needs clearance on both sides; a counter, bench, sideboard or run of
+        # casework is against a wall and needs it on one. Treating them alike fails every
+        # galley kitchen and butler's pantry against its own rule.
+        # WP-7.2: READ, never inferred. `placement` is declared in
+        # schema/room.schema.json and was authored on all 278 furniture items; until then
+        # it was on 0 of them and this line guessed from the item's NAME with a regex --
+        # a guess in code where the schema has a field, which is the pattern this project
+        # keeps paying for. The regex called 84 items against-wall; the authored data
+        # calls 159, so it had been demanding two-sided clearance for a sideboard, a
+        # nightstand and a console table alike. `check_rooms.py` now requires the field,
+        # so it cannot silently go missing again.
+        place = it.get("placement") or "freestanding"
+        sides = 1 if place in ("against-wall", "corner", "built-in") else 2
+        need_short = (fw + sides * cl) / 12.0
+        need_long = (fl + 2 * min(cl, 36)) / 12.0     # ends take chair pull, not full passage
+        # TWO INDEPENDENT CHECKS, NOT AN `elif`. Until WP-9.6 the long axis was tested only
+        # when the short axis had PASSED, so a room failing both was told about one of them:
+        # 41 long-axis shortfalls on the declared record and 15 on the drawn one were computed
+        # here and dropped. They are not silences -- the room still took its short-axis finding
+        # -- but the second fact was never stated, and a room too narrow for a bed is very often
+        # also too short for it.
+        short = w + 1e-6 < need_short
+        long_ = l + 1e-6 < need_long
+        if short:
+            out.append({"axis": "short", "item": it["item"], "need_ft": need_short,
+                        "have_ft": w, "sides": sides, "clearance_in": cl,
+                        "placement": place, "item_in": fw, "footprint_in": [fw, fl]})
+        if long_:
+            out.append({"axis": "long", "item": it["item"], "need_ft": need_long,
+                        "have_ft": l, "sides": sides, "clearance_in": cl,
+                        "placement": place, "item_in": fl, "footprint_in": [fw, fl]})
+    return out
+
+
 def drawn_layer(plan, rooms, level_of, C, F):
     """Judge the house that was PLACED, not the one that was declared.
 
@@ -356,17 +427,57 @@ def drawn_layer(plan, rooms, level_of, C, F):
       · Passage clear width against groupings/centre-passage-core.json's own band.
       · Wet-room fixtures that will not fit together on real walls.
     """
+    # WHICH ENGINE PLACED THIS (WP-9.1). Every finding of this layer is a finding about a
+    # placement, and on the workbench the drag path places with the search by name while
+    # everything else takes the proof -- a fatal that appears mid-drag and clears on the
+    # proof must not read as the house changing. Set once, passed through one wrapper, so
+    # no call site can omit it.
+    engine = ((plan.get("geometry_report") or {}).get("solver") or {}).get("engine")
+
+    def _add(severity, layer, statement, **kw):
+        F.add(severity, layer, statement, engine=engine, **kw)
+
     placed = {rid: r["geometry"] for rid, r in rooms.items() if r.get("geometry")}
+
+    def _adjacent_placed(rid, tol=0.4):
+        """Rooms on the same level whose placed rectangle shares a run of wall with this
+        one at least as long as a door and its jambs -- what `add-the-grammar-door` may join
+        a stranded room to. Read off the placement, which is this layer's licence."""
+        g = placed.get(rid)
+        if not g:
+            return []
+        OP = _load("openings", f"{ROOT}/build/openings.py")
+        need = OP.required_wall_ft(3.0)
+        out = []
+        for oid, h in placed.items():
+            if oid == rid or level_of.get(oid) != level_of.get(rid):
+                continue
+            ox = min(g["x_ft"] + g["width_ft"], h["x_ft"] + h["width_ft"]) - max(g["x_ft"], h["x_ft"])
+            oy = min(g["y_ft"] + g["depth_ft"], h["y_ft"] + h["depth_ft"]) - max(g["y_ft"], h["y_ft"])
+            touch_x = abs(g["x_ft"] + g["width_ft"] - h["x_ft"]) <= tol or abs(h["x_ft"] + h["width_ft"] - g["x_ft"]) <= tol
+            touch_y = abs(g["y_ft"] + g["depth_ft"] - h["y_ft"]) <= tol or abs(h["y_ft"] + h["depth_ft"] - g["y_ft"]) <= tol
+            if (touch_x and oy >= need) or (touch_y and ox >= need):
+                out.append(oid)
+        return sorted(out)
+
     if not placed:
-        F.add("info", "drawn",
-              "The drawn layer could not evaluate: this record carries no placement. "
-              "Run build/geometry.py to place it, then re-check.",
-              fix="python3 build/geometry.py <plan>")
+        _add("info", "drawn",
+             "The drawn layer could not evaluate: this record carries no placement. "
+             "Run build/geometry.py to place it, then re-check.",
+             fix="python3 build/geometry.py <plan>", kind="no-placement")
         return {"evaluated": False, "reason": "no placement on this record",
                 "rooms_placed": 0}
 
     out = {"evaluated": True, "rooms_placed": len(placed), "unreachable": [],
            "diverged": [], "unplaced_openings": 0}
+
+    # The envelope the rooms were placed in. Taken from the plan's own footprint where it
+    # states one, and otherwise from the union of the placed rectangles — which IS the
+    # envelope, because the slicer tiles the block exactly. Used only to say which boundary
+    # a room reaches; nothing here promotes it to a constraint.
+    _fp = plan.get("footprint") or {}
+    fp_w = _fp.get("width_ft") or max((g["x_ft"] + g["width_ft"] for g in placed.values()), default=0.0)
+    fp_h = _fp.get("depth_ft") or max((g["y_ft"] + g["depth_ft"] for g in placed.values()), default=0.0)
 
     # --- reachability over the openings that were actually PLACED
     ok_edges = {rid: set() for rid in rooms}
@@ -419,7 +530,7 @@ def drawn_layer(plan, rooms, level_of, C, F):
             name = r.get("name") or rid
             declared = len([d for d in (r.get("doors") or [])])
             out["unreachable"].append(rid)
-            F.add("fatal", "drawn",
+            _add("fatal", "drawn",
                   f"{name} cannot be reached from outside the house on the drawing. "
                   + (f"The record declares {declared} door(s) to it and the placement "
                      f"realised none of them."
@@ -427,11 +538,14 @@ def drawn_layer(plan, rooms, level_of, C, F):
                   room=rid,
                   fix=("Place the plan again, or move the rooms so the declared doors have "
                        "a wall to sit in — build/openings.py names each one it could not "
-                       "place and why."))
+                       "place and why."),
+                  kind="unreachable", declared_doors=declared,
+                  unplaced_pairs=sorted(p for p in unplaced_pairs if rid in p),
+                  adjacent_placed=_adjacent_placed(rid))
     else:
-        F.add("info", "drawn",
-              "Reachability could not be evaluated: no exterior door on this plan is placed, "
-              "so there is no outside to walk in from.")
+        _add("info", "drawn",
+             "Reachability could not be evaluated: no exterior door on this plan is placed, "
+             "so there is no outside to walk in from.", kind="no-outside")
 
     # A room the drawing joins to NOTHING INSIDE the house. It passes reachability whenever
     # it has an exterior door of its own, and it is still wrong: this is the reported
@@ -455,14 +569,17 @@ def drawn_layer(plan, rooms, level_of, C, F):
             continue
         name = r.get("name") or rid
         out["cut_off"].append(rid)
-        F.add("serious", "drawn",
+        _add("serious", "drawn",
               f"{name} joins no other room on the drawing — the only way in is from outside. "
               f"The record declares {len(interior_declared)} interior door(s) and the "
               f"placement realised none of them.",
               room=rid,
               fix=("Place the plan again, or move these rooms so their declared doors have a "
                    "wall to sit in — build/openings.py names each door it could not place "
-                   "and why."))
+                   "and why."),
+              kind="cut-off", declared_doors=len(interior_declared),
+              unplaced_pairs=sorted(p for p in unplaced_pairs if rid in p),
+              adjacent_placed=_adjacent_placed(rid))
 
     # --- drawn against declared
     for rid, r in rooms.items():
@@ -481,13 +598,15 @@ def drawn_layer(plan, rooms, level_of, C, F):
         name = r.get("name") or rid
         out["diverged"].append({"room": rid, "pct": round(pct, 1)})
         sev = "serious" if abs(pct) >= 25 else "minor"
-        F.add(sev, "drawn",
+        _add(sev, "drawn",
               f"{name} is drawn at {round(pa)} sf against the {round(da)} sf the record "
               f"declares ({pct:+.0f}%).",
               room=rid,
               fix=("Accept the drawn size into the record, or constrain the placement — "
                    "the sheet prints the drawn figure, so the record and the drawing "
-                   "disagree until one of them moves."))
+                   "disagree until one of them moves."),
+              kind="drawn-vs-declared", declared_sf=round(da, 1), drawn_sf=round(pa, 1),
+              pct=round(pct, 1))
 
     # --- EVERY stacks_over claim, against the room it names. `stacks_over` is in the
     # schema, the partis declare it (14 of the 21, 50 claims, so every plan composed from
@@ -526,9 +645,10 @@ def drawn_layer(plan, rooms, level_of, C, F):
         if not g:
             continue
         if not below:
-            F.add("info", "drawn",
+            _add("info", "drawn",
                   f"{name} declares it stacks over '{so}', which this placement does not "
-                  f"place — the claim could not be evaluated.", room=rid)
+                  f"place — the claim could not be evaluated.", room=rid,
+                  kind="stack-unplaced", over=so)
             continue
         if level_of.get(rid) == level_of.get(so):
             continue                      # a same-level claim is not a stack
@@ -538,11 +658,12 @@ def drawn_layer(plan, rooms, level_of, C, F):
             - max(g["y_ft"], below["y_ft"])
         if ox <= 0 or oy <= 0:
             out["stacks_broken"].append(rid)
-            F.add("serious", "drawn",
+            _add("serious", "drawn",
                   f"{name} declares it stacks over '{so}' and is drawn clear of it "
                   f"entirely — a stack with nothing under it.",
                   room=rid,
-                  fix="Place the two together, or drop the stacks_over claim.")
+                  fix="Place the two together, or drop the stacks_over claim.",
+                  kind="stack-broken", over=so)
         elif st and so == st.get("room") and st.get("well"):
             # the landing's own rule is about the WELL, not the room that holds it: a
             # landing may sit squarely inside the stair hall and still miss the opening the
@@ -555,25 +676,38 @@ def drawn_layer(plan, rooms, level_of, C, F):
                 - max(g["y_ft"], w["y_ft"])
             got = max(0.0, wx) * max(0.0, wy)
             if got < (st.get("width_ft") or 3.0) ** 2:
-                F.add("minor", "drawn",
+                _add("minor", "drawn",
                       f"{name} overlaps the stair well by only {got:.0f} sf; a landing not "
                       f"less than the stair's own width is "
                       f"groupings/stair-and-landing-core.json's hard rule.",
-                      room=rid)
+                      room=rid, kind="landing-off-well", over=so,
+                      overlap_sf=round(got, 1), need_sf=round((st.get("width_ft") or 3.0) ** 2, 1))
     if st and st.get("unplaced"):
-        F.add("serious", "drawn",
+        _add("serious", "drawn",
               f"The stair is not drawn: {st['unplaced']['reason']}",
               room=st.get("room"),
-              fix="Give the stair hall the run its own storey height needs.")
+              fix="Give the stair hall the run its own storey height needs.",
+              kind="stair-not-drawn",
+              need_ft=[(st["unplaced"].get("needs") or {}).get("long_ft"),
+                       (st["unplaced"].get("needs") or {}).get("short_ft")],
+              have_ft=[(st["unplaced"].get("have") or {}).get("long_ft"),
+                       (st["unplaced"].get("have") or {}).get("short_ft")],
+              declared_fits=(st["unplaced"].get("needs") or {}).get("declared_fits"),
+              form=(st["unplaced"].get("needs") or {}).get("form"),
+              risers=(st["unplaced"].get("needs") or {}).get("risers"))
 
-    # --- the passage, against its own grouping's band
-    band = None
-    cp = (C["groupings"].get("centre-passage-core") or {})
-    for rule in (cp.get("rules") or []):
-        t = rule.get("test") or ""
-        if "passage_width_ft" in t and "between" in t:
-            band = rule
-            break
+    # --- the passage, against its own record's words
+    #
+    # THE BAND LOOKUP HERE WAS DEAD CODE FROM THE DAY IT WAS WRITTEN, and it is worth
+    # keeping the shape of the mistake in view. It read `cp.get("rules")`; the key in
+    # groupings/centre-passage-core.json is `internal_rules`, so `band` was None on every
+    # plan this checker has ever run. It was then never read: the two thresholds below are
+    # hardcoded, and they came out of the ROOM record's prose rather than the grouping's
+    # test, so the dead lookup changed no verdict and nothing noticed for three phases.
+    # A lookup whose result is never used cannot fail loudly; it just quietly stops being
+    # a lookup. The grouping's own ratio rule IS evaluated now -- in the grouping layer,
+    # where the rest of its rules are judged, against `arrangement.grouping_vars` -- and
+    # what stays here is the pair of checks that quote rooms/centre-passage.json directly.
     for rid, r in rooms.items():
         if r["type"] not in ("centre-passage", "cross-passage"):
             continue
@@ -583,14 +717,17 @@ def drawn_layer(plan, rooms, level_of, C, F):
         wft = min(g["width_ft"], g["depth_ft"])
         name = r.get("name") or rid
         if wft < 6.0:
-            F.add("serious", "drawn",
+            _add("serious", "drawn",
                   f"{name} is drawn {wft:.1f} ft wide. rooms/centre-passage.json: "
                   f"\"SIX TO SEVEN FEET is a passage that circulates\" — below that it does "
-                  f"not.", room=rid)
+                  f"not.", room=rid, kind="passage-narrow", have_ft=round(wft, 1), band=[6.0, 7.0],
+                  declared_ft=min(r.get("width_ft") or 0, r.get("length_ft") or 0) or None)
         elif 8.0 <= wft <= 9.0:
-            F.add("minor", "drawn",
+            _add("minor", "drawn",
                   f"{name} is drawn {wft:.1f} ft wide, in the dead zone its own record names: "
-                  f"\"too wide to be economical and too narrow to furnish\".", room=rid)
+                  f"\"too wide to be economical and too narrow to furnish\".", room=rid,
+                  kind="passage-dead-zone", have_ft=round(wft, 1), band=[6.0, 7.0],
+                  declared_ft=min(r.get("width_ft") or 0, r.get("length_ft") or 0) or None)
 
     # --- fixtures that will not fit together
     for rid, r in rooms.items():
@@ -598,10 +735,14 @@ def drawn_layer(plan, rooms, level_of, C, F):
             if not f.get("unplaced"):
                 continue
             name = r.get("name") or rid
-            F.add("serious", "drawn",
+            _add("serious", "drawn",
                   f"{name}: {f['item']} is not placed — {f['unplaced']['reason']}",
                   room=rid,
-                  fix="Widen the room, or drop the fixture from the record.")
+                  fix="Widen the room, or drop the fixture from the record.",
+                  kind="fixture-unplaced", item=f["item"],
+                  need_ft=[(f["unplaced"].get("needs") or {}).get("width_ft"),
+                           (f["unplaced"].get("needs") or {}).get("depth_ft")],
+                  have=f["unplaced"].get("have"))
 
     # --- a run of wall the room's own words demand, unbroken by the openings just placed
     #
@@ -651,14 +792,377 @@ def drawn_layer(plan, rooms, level_of, C, F):
         for it in wants:
             need = float(it["needs_uninterrupted_wall_ft"])
             if best + 1e-6 < need:
-                F.add("minor", "drawn",
+                _add("minor", "drawn",
                       f"{name} has no unbroken run of wall for its {it['item']}: the longest "
                       f"its walls have left once the doors and windows are placed is "
                       f"{best:.1f} ft, and rooms/{r['type']}.json asks for {need:g} ft — "
                       f"\"{(it.get('note') or '').split('.')[0]}.\"",
                       room=rid,
-                      fix="Move a window off that wall, or accept the piece elsewhere.")
+                      fix="Move a window off that wall, or accept the piece elsewhere.",
+                      kind="wall-run", item=it["item"], need_ft=need, have_ft=round(best, 2),
+                      walls_with_windows=sorted({o["wall"] for o in (r.get("windows") or [])
+                                                 if o.get("wall") and not o.get("unplaced")}))
 
+    # --- THE SHAPE THE PLACEMENT GAVE THE ROOM (WP-9.1)
+    #
+    # This is the check that names the sheet Lucas read. The room layer above reads the same
+    # bands, but it reads them off the DECLARED record -- and the declaration was fine. The
+    # Tidewater brief declares a 16 x 20 kitchen; the placement drew it 10 x 30, kept the
+    # area within 6% so the drawn-divergence check below stayed quiet, and shipped a sliver.
+    # The declared house and the drawn house are two different houses, and until this block
+    # only one of them was ever measured against the catalogue.
+    #
+    # That is OQ 54's own sentence -- "the critic scored the declared house while the sheet
+    # drew the solved one" -- surviving in the one place the drawn layer had not reached.
+    # Same bands, same two-tier severity, no new number: what changes is which rectangle is
+    # held against them.
+    for rid, r in rooms.items():
+        g = placed.get(rid)
+        rt = C["rooms"].get(r.get("type"))
+        if not g or not rt:
+            continue
+        dims = rt.get("dimensions") or {}
+        gw, gl = min(g["width_ft"], g["depth_ft"]), max(g["width_ft"], g["depth_ft"])
+        name = r.get("name") or rid
+        if dims.get("width_ft") and gw + 1e-6 < dims["width_ft"][0]:
+            lo = dims["width_ft"][0]
+            short = (lo - gw) / lo
+            _add("serious" if short > 0.1 else "minor", "drawn",
+                  f"{name} is DRAWN {gw:.1f} ft in its short dimension, below the {lo} ft "
+                  f"floor for a {rt['name'].lower()} — the record declares "
+                  f"{r.get('width_ft')} x {r.get('length_ft')} ft and the placement did not "
+                  f"keep it.",
+                  room=rid, rule=dims.get("critical_dimension"),
+                  kind="drawn-width-below-floor", need_ft=lo, have_ft=round(gw, 2),
+                  band=list(dims["width_ft"]), axis="width",
+                  fix="The placement, not the record, is what has to change here.")
+        if dims.get("proportion") and gw > 0:
+            plo, phi = dims["proportion"]
+            ar = round(gl / gw, 2)
+            if ar > phi:
+                over = (ar - phi) / phi
+                _add("serious" if over > 0.25 else "minor", "drawn",
+                      f"{name} is DRAWN {gw:.1f} x {gl:.1f} ft — {ar} to 1, against the "
+                      f"{plo}-{phi} band a {rt['name'].lower()} is drawn to. The record "
+                      f"declares {r.get('width_ft')} x {r.get('length_ft')} ft; the "
+                      f"placement kept the area and lost the room.",
+                      room=rid, rule=dims.get("critical_dimension"),
+                      kind="drawn-proportion-above-band", have=ar, band=[plo, phi],
+                      axis="proportion",
+                      fix="The placement, not the record, is what has to change here.")
+
+        # WP-9.6: the same catalogue arithmetic the room layer runs, against the rectangle that
+        # was DRAWN. `furniture_shortfalls` is the one spelling of it; this caller differs from
+        # the room layer's in wording and layer and in nothing else. Until this block the
+        # furniture layer emitted 137 findings across the sixteen plans whether or not the plan
+        # carried geometry -- so `breakfast`, declared 12 x 14 and drawn 7.0 x 27.0, passed a
+        # check whose own arithmetic says it cannot take its essential table. That is Lucas's
+        # second complaint, computed and never stated.
+        for s_ in furniture_shortfalls(rt, gw, gl):
+            if s_["axis"] == "short":
+                _add("serious", "drawn",
+                      f"{name} is DRAWN {s_['have_ft']:.1f} ft across and cannot take its "
+                      f"{s_['item']}: needs {s_['need_ft']:.1f} ft ({s_['item_in']} in item + "
+                      f"{s_['sides']} x {s_['clearance_in']} in clearance, {s_['placement']}). "
+                      f"The record declares {r.get('width_ft')} x {r.get('length_ft')} ft, which "
+                      f"holds it.",
+                      room=rid, rule=dims.get("critical_dimension"),
+                      kind="drawn-furniture-fit", need_ft=round(s_["need_ft"], 3),
+                      have_ft=s_["have_ft"], axis="width", item=s_["item"],
+                      sides=s_["sides"], clearance_in=s_["clearance_in"],
+                      footprint_in=s_["footprint_in"],
+                      fix="The placement, not the record, is what has to change here.")
+            else:
+                _add("minor", "drawn",
+                      f"{name} is DRAWN {s_['have_ft']:.1f} ft along its length and is tight for "
+                      f"its {s_['item']}: needs about {s_['need_ft']:.1f} ft.",
+                      room=rid, rule=dims.get("critical_dimension"),
+                      kind="drawn-furniture-fit", need_ft=round(s_["need_ft"], 3),
+                      have_ft=s_["have_ft"], axis="length", item=s_["item"],
+                      fix="The placement, not the record, is what has to change here.")
+
+    # --- THE ROOM THE PLACEMENT LEFT IN THE DARK (WP-9.1)
+    #
+    # Lucas's complaint, verbatim: "There's a dining room off of the center passage, but it
+    # doesn't get any light because it's directly in the middle of the house." Nothing in
+    # this system could see that. The daylight layer above reads the room's DECLARED window
+    # list, and build/compose.py writes a window for every wall the parti declares, so the
+    # record claims windows on a room the placement put on no boundary wall at all.
+    #
+    # The fact was already in the record and had no reader. build/openings.py has written
+    # `win["unplaced"] = {"reason": "the placement puts this room on no such boundary wall"}`
+    # since WP-6.2, and `report["windows_unplaced"]` beside it, and a grep for either found
+    # zero call sites in the whole tree. The drawn layer even SKIPS unplaced windows when it
+    # measures a wall run, so an unplaced window made the sideboard check easier to pass.
+    #
+    # NOT DERIVED FROM `exterior_walls`. A plan's exterior_walls are aspirations, not
+    # rectangle edges -- three Tidewater ground rooms each declare opposite walls, so each
+    # would have to span the full depth of the house -- and promoting them to a constraint
+    # here would convict houses of a wish. What this reads is what the placement DID: a
+    # window the placement could not seat on any boundary, on a room whose own catalogue
+    # record says it must be lit.
+    for rid, r in rooms.items():
+        g = placed.get(rid)
+        if not g:
+            continue
+        rt = C["rooms"].get(r["type"]) or {}
+        dl = rt.get("daylight") or {}
+        if dl.get("depth_governs") is False:          # OQ 31's vocabulary: judged, and it does not apply
+            continue
+        if not dl.get("sides_lit"):
+            continue
+        wins = list(r.get("windows") or [])
+        if not wins:
+            continue                                   # the declared daylight layer owns this one
+        seated = [w for w in wins if not w.get("unplaced")]
+        if seated:
+            continue
+        name = r.get("name") or rid
+        # TWO SITUATIONS WEAR ONE SYMPTOM, and they want different fixes. A room that touches
+        # no boundary at all cannot be lit where it stands -- that is Lucas's dining room,
+        # "directly in the middle of the house". A room that touches a boundary but not the
+        # one its record names could be lit tomorrow by moving the window. Both are serious;
+        # only the first is a plan that cannot work.
+        touches = []
+        if abs(g["y_ft"]) < 0.6: touches.append("S")
+        if abs(g["y_ft"] + g["depth_ft"] - fp_h) < 0.6: touches.append("N")
+        if abs(g["x_ft"]) < 0.6: touches.append("W")
+        if abs(g["x_ft"] + g["width_ft"] - fp_w) < 0.6: touches.append("E")
+        units = sum(int(w.get("count") or 1) for w in wins)
+        if not touches:
+            _add("serious", "drawn",
+                  f"{name} is drawn in the middle of the house: it reaches no exterior wall "
+                  f"on any side, so none of the {units} window(s) the record declares "
+                  f"could be placed. rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.",
+                  room=rid, kind="drawn-landlocked", have=0, need=dl["sides_lit"],
+                  fix="Place the room on the perimeter, or accept it as an interior room and "
+                      "take the windows out of the record.")
+        else:
+            why = next((w["unplaced"].get("reason") for w in wins if w.get("unplaced")), "unplaced")
+            _add("serious", "drawn",
+                  f"{name} is drawn with no window: it stands on the "
+                  f"{'/'.join(touches)} wall(s) and the record declares its {units} "
+                  f"unit(s) of glass on "
+                  f"{'/'.join(sorted({w.get('wall') or '?' for w in wins}))} — {why}. "
+                  f"rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.",
+                  room=rid, kind="drawn-window-off-the-placed-wall",
+                  lit_walls=sorted(touches), need=dl["sides_lit"],
+                  fix="Move the windows to the wall the placement actually gave the room.")
+
+    # --- THE DOOR YOU COME IN BY, AND THE AXIS IT IS SUPPOSED TO BE ON (WP-9.1)
+    #
+    # "The entrance portico is ridiculously narrow and not even aligned with the center
+    # passage." There is no axis vocabulary anywhere in this codebase: `entrance_score` in
+    # build/geometry.py is a pair of boolean touch tests -- is the threshold room on an
+    # entrance wall, is the circulation room behind it -- so a porch and a passage sitting
+    # side by side, both touching the front, satisfy it completely and the search pays
+    # nothing for the jog between them.
+    #
+    # The corpus states the rule twice and neither statement had a reader:
+    #   rooms/entrance-hall.json adjacency.should_adjoin[centre-passage].why -- "where the
+    #     plan has a passage the hall is its front end, and the axis must continue to a rear
+    #     opening"
+    #   openings/grammar.json placement_rules[op-passage-axis] -- "Where a circulation room
+    #     reaches the boundary at both ends, its two exterior doors sit on one axis"
+    #
+    # PARAMETER-FREE, deliberately. The tolerance is the door's OWN leaf: two openings that
+    # overlap at all read as one axis, and two that stand clear of each other are a jog you
+    # walk. Every figure comes from the record, so there is no new threshold here to be
+    # wrong about -- which is the condition WP-9.1 works under.
+    # WIDENED IN WP-9.4, BECAUSE ITS ZERO WAS A SKIP AND NOT A PASS.
+    #
+    # The first version compared the threshold room's OWN two doors and gave up whenever they
+    # sat on perpendicular walls, on the true observation that a position on an N or S wall
+    # runs in x and one on an E or W wall runs in y. Measured over the 21 partis it fired
+    # ZERO times: no_threshold 3, no_exterior_door 10, PERPENDICULAR-SKIPPED 7, compared 1,
+    # fired 0. The seven it discarded are the case where you come in one way and leave the
+    # porch another -- a worse jog than any offset the check could measure, and plausibly the
+    # one on the sheet that raised Phase 9. A check that cannot fire reads as a check that
+    # passed, which is the WP-8.6 finding wearing this package's own badge.
+    #
+    # The corpus decides the shape of the widened rule, and it is narrower than "a turn is
+    # wrong". groupings/entry-sequence.json says a change of DIRECTION is a legitimate
+    # threshold device in its own right ("Each step changes at least one condition: level,
+    # enclosure, light, or direction"), and rooms/centre-passage.json records the Charleston
+    # single house as a real exception -- a SIDE passage entered from the piazza, where
+    # arriving on the flank is correct. So the rule binds exactly where
+    # openings/grammar.json[op-passage-axis] says it binds: "Where a circulation room reaches
+    # the boundary at BOTH ENDS, its two exterior doors sit on one axis, one at each end."
+    # A passage with a through-axis must be entered ON that axis; a passage without one is
+    # NOT JUDGED, and the census below says how many those were.
+    def _reaches_outside(room, wall):
+        """An opening on `wall` that gets you out of the house -- directly, or through a
+        threshold room (a porch) that has its own placed exterior door."""
+        for d in (room.get("doors") or []):
+            if d.get("unplaced") or d.get("wall") != wall:
+                continue
+            if d.get("to") == "exterior":
+                return d
+            nb = rooms.get(d.get("to"))
+            if nb and (C["rooms"].get(nb["type"]) or {}).get("function_class") == "threshold":
+                if any(x.get("to") == "exterior" and not x.get("unplaced")
+                       for x in (nb.get("doors") or [])):
+                    return d
+        return None
+
+    axis_census = {"no_threshold_room": 0, "no_exterior_door": 0,
+                   "entry_door_unplaced": 0,
+                   "passage_has_no_through_axis": 0, "compared": 0, "found": 0}
+    for rid, r in rooms.items():
+        if (C["rooms"].get(r["type"]) or {}).get("function_class") != "threshold":
+            continue
+        if not placed.get(rid):
+            continue
+        ext = next((d for d in (r.get("doors") or [])
+                    if d.get("to") == "exterior" and not d.get("unplaced")
+                    and d.get("position_ft") is not None), None)
+        if not ext:
+            axis_census["no_exterior_door"] += 1
+            continue
+        # A SEVERED ENTRY IS NOT A SKIP EITHER, AND IT IS THE WORST OF THE THREE.
+        # Measured while widening this check: on `centre-passage-double-pile` composed against
+        # its own native style, the porch's door INTO THE PASSAGE comes back
+        # `unplaced: the placement leaves these two rooms no shared wall`. You enter the
+        # portico and there is no door from it into the passage at all -- to reach the passage
+        # you walk back out and round to the rear door. The first census called that
+        # "nothing to compare" and reported a zero, which is the same lie one layer down.
+        for d in (r.get("doors") or []):
+            t = d.get("to")
+            if t == "exterior":
+                continue
+            nxt = rooms.get(t)
+            if not nxt or (C["rooms"].get(nxt["type"]) or {}).get("function_class") != "circulation":
+                continue
+            if d.get("unplaced") or d.get("position_ft") is None:
+                axis_census["entry_door_unplaced"] += 1
+                _add("serious", "drawn",
+                      f"The entrance sequence is severed: {r.get('name') or rid} has the front "
+                      f"door but its opening into {nxt.get('name') or t} is not drawn — "
+                      f"{(d.get('unplaced') or {}).get('reason', 'no position')}. You arrive "
+                      f"and cannot get in the way the diagram says you do.",
+                      room=rid, kind="drawn-entrance-severed",
+                      fix="Place the threshold room against the circulation room it serves.")
+                continue
+            # Does the circulation room have a through-axis at all? Only then does the rule
+            # bind, and only then can "on the axis" mean anything.
+            through = None
+            for a, b in (("N", "S"), ("E", "W")):
+                if _reaches_outside(nxt, a) and _reaches_outside(nxt, b):
+                    through = (a, b)
+                    break
+            if not through:
+                axis_census["passage_has_no_through_axis"] += 1
+                continue
+            axis_census["compared"] += 1
+            # The axis runs along x when the passage goes through N to S.
+            axis_runs_x = through[0] in ("N", "S")
+            if (ext.get("wall") in ("N", "S")) != axis_runs_x:
+                # THE CASE THE OLD GUARD THREW AWAY. The front door is in a wall square to the
+                # passage's own through-axis, so no offset exists to measure: you do not enter
+                # the passage at its end, you enter its flank and turn.
+                axis_census["found"] += 1
+                _add("serious", "drawn",
+                      f"The front door is in the {ext.get('wall')} wall while "
+                      f"{nxt.get('name') or t} runs {through[0]} to {through[1]} — you arrive "
+                      f"on its flank and turn, rather than at the end of its axis. "
+                      f"rooms/entrance-hall.json: \"the hall is its front end, and the axis "
+                      f"must continue to a rear opening\"; "
+                      f"openings/grammar.json[op-passage-axis] binds because this passage "
+                      f"does reach the boundary at both ends.",
+                      room=rid, kind="drawn-entrance-off-axis",
+                      fix="Bring the entrance onto the end of the passage, or accept a side "
+                          "passage and say so in the record as the Charleston single house does.")
+                continue
+            off = abs(float(ext["position_ft"]) - float(d["position_ft"]))
+            # Two openings overlap iff their centres are closer than the SUM OF THEIR
+            # HALF-WIDTHS. The first draft compared against max(w1, w2), which is a
+            # different quantity and is wrong in the direction that matters: on the sheet
+            # that raised this package the front door sits 3.5 ft from the passage door and
+            # both leaves are 3.5 ft, so the two openings are exactly edge to edge --
+            # touching at a point, overlapping by nothing, no straight walk between them --
+            # and `off > max(w)` let it through by a hair. There is still no authored
+            # number here; the unit is the doors' own leaves.
+            clear = (float(ext.get("width_ft") or 3.0) + float(d.get("width_ft") or 3.0)) / 2.0
+            if off >= clear:
+                axis_census["found"] += 1
+                _add("serious", "drawn",
+                      f"The front door is {off:.1f} ft off the axis of "
+                      f"{nxt.get('name') or t} — the two openings do not overlap at all "
+                      f"({clear:.1f} ft would just touch), so you enter the house and step "
+                      f"sideways to reach the passage. rooms/entrance-hall.json: \"the hall "
+                      f"is its front end, and the axis must continue to a rear opening\".",
+                      room=rid, kind="drawn-entrance-off-axis", off_ft=round(off, 2),
+                      clear_ft=round(clear, 2),
+                      fix="Centre the entrance opening on the circulation room it serves.")
+
+    # --- THE BOTTOM RISER AND THE FRONT DOOR (WP-9.1, op-stair-setback implemented at last)
+    #
+    # openings/grammar.json has carried this rule since WP-6.2 with a number, a basis naming
+    # three records that agree, and a note explaining why nothing evaluated it: "Nothing
+    # could evaluate it, because no plan record held a stair." A plan record has held a
+    # stair since WP-6.2 -- the note went stale in the package that wrote it, and the rule
+    # stayed unimplemented for three phases. The other three placement_rules are in
+    # build/openings.py; this is the fourth.
+    #
+    # The 6.0 ft is the corpus's own, in three places: faults/stair-at-the-front-door.json's
+    # test, kits/georgian-colonial-american.kit.json's stair_position, and
+    # rooms/stair-hall.json's own prose. Read from the grammar so there is ONE spelling.
+    st = plan.get("stair")
+    if st and not st.get("unplaced") and st.get("flights"):
+        setback_rule = None
+        try:
+            _g = json.load(open(f"{ROOT}/openings/grammar.json"))
+            setback_rule = next((p for p in (_g.get("placement_rules") or [])
+                                 if p.get("id") == "op-stair-setback"), None)
+        except Exception:
+            setback_rule = None
+        front = None
+        for rid, r in rooms.items():
+            if not placed.get(rid):
+                continue
+            fc = (C["rooms"].get(r["type"]) or {}).get("function_class")
+            if fc not in ("threshold", "circulation"):
+                continue
+            for d in (r.get("doors") or []):
+                if d.get("to") == "exterior" and not d.get("unplaced") and d.get("wall"):
+                    g = placed[rid]
+                    # the face of the front door, as a point on the wall it sits in
+                    if d["wall"] in ("N", "S"):
+                        pt = (float(d.get("position_ft") or g["x_ft"]),
+                              g["y_ft"] + (g["depth_ft"] if d["wall"] == "N" else 0.0))
+                    else:
+                        pt = (g["x_ft"] + (g["width_ft"] if d["wall"] == "E" else 0.0),
+                              float(d.get("position_ft") or g["y_ft"]))
+                    if front is None:
+                        front = pt
+        if front and setback_rule and setback_rule.get("min_setback_ft"):
+            need = float(setback_rule["min_setback_ft"])
+            fl = st["flights"][0]
+            # the nearest point of the bottom flight to the front door
+            fx0, fy0 = fl["x_ft"], fl["y_ft"]
+            fx1, fy1 = fx0 + fl.get("width_ft", 3.0), fy0 + fl.get("depth_ft", 3.0)
+            dx = max(fx0 - front[0], 0.0, front[0] - fx1)
+            dy = max(fy0 - front[1], 0.0, front[1] - fy1)
+            got = (dx * dx + dy * dy) ** 0.5
+            out["first_riser_setback_ft"] = round(got, 2)
+            if got + 1e-6 < need:
+                _add("serious", "drawn",
+                      f"The bottom riser stands {got:.1f} ft from the front door face; "
+                      f"openings/grammar.json[op-stair-setback] asks for {need:g} ft. "
+                      f"rooms/stair-hall.json: \"set back from the front door so the front "
+                      f"door's swing and the bottom riser do not fight\".",
+                      room=st.get("room"), kind="drawn-stair-setback",
+                      need_ft=need, have_ft=round(got, 2),
+                      fix="Move the stair back down its hall, or turn the bottom flight.")
+
+    if not any((C["rooms"].get(r["type"]) or {}).get("function_class") == "threshold"
+               for r in rooms.values()):
+        axis_census["no_threshold_room"] = 1
+    # PUBLISH THE CENSUS. The instrument reported 0 across 21 partis and the 0 was a skip;
+    # a reader cannot tell a check that passed from one that never ran unless the checker
+    # says which. This is the same discipline as `fault_not_applicable` -- the question did
+    # not arise is a fourth state, not a pass.
+    out["entrance_axis"] = axis_census
     out["unreachable_count"] = len(out["unreachable"])
     out["diverged_count"] = len(out["diverged"])
     return out
@@ -667,6 +1171,14 @@ def drawn_layer(plan, rooms, level_of, C, F):
 def check(plan, C=None, strict=False):
     C = C or load_corpus()
     core = _load("tdlcore", f"{ROOT}/mcp_server/core.py")
+    # build/arrangement.py (WP-9.1) serves three layers below -- the grouping rules' own
+    # variables, the fault namespace, and nothing in the drawn layer, which reads placement
+    # directly. Loaded once here rather than per-layer: modcache returns the same module
+    # either way, but three separate try/excepts hid which layer had lost it.
+    try:
+        ARR = _load("arrangement", f"{ROOT}/build/arrangement.py")
+    except Exception:
+        ARR = None
     F = Findings()
     seen_pairs = set()
     style = plan.get("style")
@@ -848,60 +1360,88 @@ def check(plan, C=None, strict=False):
             lo, hi = rt["dimensions"]["area_sf"]
             if area < lo * 0.9:
                 F.add("serious", "room", f"{label} is {area:.0f} sf; the catalogue band for a {rt['name'].lower()} is {lo}-{hi} sf.",
-                      room=rid, rule=rt["dimensions"].get("critical_dimension"))
+                      room=rid, rule=rt["dimensions"].get("critical_dimension"),
+                      kind="area-below-band", need_sf=lo, have_sf=round(area, 1), band=[lo, hi], axis="area")
             elif area > hi * 1.25:
                 F.add("minor", "room", f"{label} is {area:.0f} sf, well above the {lo}-{hi} sf band. Confirm it is not a room that has stopped being a room.",
-                      room=rid)
+                      room=rid, kind="area-above-band", have_sf=round(area, 1), band=[lo, hi], axis="area")
         if w and rt["dimensions"].get("width_ft"):
             lo, hi = rt["dimensions"]["width_ft"]
             if w < lo:
                 F.add("serious", "room", f"{label} is {w} ft in its short dimension; below the {lo} ft floor for a {rt['name'].lower()}.",
-                      room=rid, rule=rt["dimensions"].get("critical_dimension"))
+                      room=rid, rule=rt["dimensions"].get("critical_dimension"),
+                      kind="width-below-floor", need_ft=lo, have_ft=w, band=[lo, hi], axis="width")
+        # ---- THE SHAPE OF THE ROOM, NOT ONLY ITS SIZE (WP-9.1).
+        # Until this package the room layer read `area_sf` and the FLOOR of `width_ft`, and
+        # nothing else. So a kitchen drawn 10 x 30 passed silently -- 300 sf sits inside the
+        # 120-340 band and 10 ft is exactly the width floor -- while the record it was
+        # measured against states `length_ft [12, 22]` and `proportion [1.05, 1.8]`, and a
+        # kitchen at 3.0 is nearly twice as long as its own catalogue permits. 54 of the 60
+        # room records declare a proportion band. Not one of them was read by anything.
+        #
+        # No new threshold is authored here: every figure quoted is the room record's own.
+        # ONE DIRECTION ONLY, AND THE FIRST DRAFT OF THIS BLOCK IS WHY. It also charged a
+        # room for being SQUARER than its band and WIDER than its band, and on the first
+        # corpus run it convicted the plans this project holds up as good: an 18 x 18 dining
+        # room, a living room 1.62 against a ceiling of 1.6, a 3 ft closet against a 2-2.33
+        # band. No record in this corpus says a room may not be square -- the prose runs the
+        # other way, and the complaint that raised this package was a room stretched into a
+        # band, never one that was too nearly square. A check that convicts the reference
+        # plans is miscalibrated, and the fix was to delete the direction the corpus does not
+        # state rather than to loosen the one it does.
+        #
+        # Severity is the file's OWN two-tier convention for a figure that has drifted from
+        # the one it should be (the drawn-divergence check below: 10% minor, 25% serious),
+        # not a new tolerance. A room 1% over its band is a decision to defend; one 67% over
+        # is the kitchen Lucas was sent.
+        def _over(got, ceiling):
+            return (got - ceiling) / ceiling if ceiling else 0.0
+
+        if w and l and rt["dimensions"].get("length_ft"):
+            llo, lhi = rt["dimensions"]["length_ft"]
+            if l > lhi:
+                F.add("serious" if _over(l, lhi) > 0.25 else "minor", "room",
+                      f"{label} runs {l} ft; the catalogue band for a {rt['name'].lower()} is "
+                      f"{llo}-{lhi} ft long. A room can hold its area and stop being the room.",
+                      room=rid, rule=rt["dimensions"].get("critical_dimension"),
+                      kind="length-above-band", have_ft=l, band=[llo, lhi], axis="length")
+        if w and l and rt["dimensions"].get("proportion"):
+            plo, phi = rt["dimensions"]["proportion"]
+            ar = round(l / w, 2)
+            if ar > phi:
+                F.add("serious" if _over(ar, phi) > 0.25 else "minor", "room",
+                      f"{label} is {w} x {l} ft — {ar} to 1, against the {plo}-{phi} band a "
+                      f"{rt['name'].lower()} is drawn to. It has the area and not the shape.",
+                      room=rid, rule=rt["dimensions"].get("critical_dimension"),
+                      kind="proportion-above-band", have=ar, band=[plo, phi], axis="proportion")
         cmin = rt["dimensions"].get("ceiling_min_ft")
         ch = r.get("ceiling_ft") or next((lv.get("floor_to_ceiling_ft") for lv in plan["levels"]
                                           if any(x["id"] == rid for x in lv.get("rooms", []))), None)
         if cmin and ch and ch < cmin:
-            F.add("serious", "room", f"{label} ceiling {ch} ft is under the {cmin} ft the room type wants.", room=rid)
+            F.add("serious", "room", f"{label} ceiling {ch} ft is under the {cmin} ft the room type wants.", room=rid,
+                  kind="ceiling-below-min", need_ft=cmin, have_ft=ch, axis="ceiling")
 
         # ---- furniture fit: the check most plans have never had run on them
-        for it in rt.get("furniture", []):
-            if not it.get("essential", True) or not (w and l): continue
-            fw, fl = sorted(it["footprint_in"])
-            # Some catalogue entries use clearance_in for a VIEWING or standing distance rather
-            # than a physical gap — a television and a hung picture are both about four inches
-            # deep. Nothing four inches deep constrains the width of a room, so anything without
-            # real bulk is not a fit constraint.
-            if fw < 8:
-                continue
-            # Read, never coerced. `or 0` here turned an unstated clearance into a measured zero
-            # (OQ 52's smaller member): the catalogue's twenty nulls all meant zero, but so would
-            # an item whose clearance an author forgot, and nothing told them apart. clearance_in
-            # is now a required number in schema/room.schema.json, so a missing one fails
-            # check_rooms rather than passing this check silently.
-            cl = it["clearance_in"]
-            # A table needs clearance on both sides; a counter, bench, sideboard or run of
-            # casework is against a wall and needs it on one. Treating them alike fails every
-            # galley kitchen and butler's pantry against its own rule.
-            # WP-7.2: READ, never inferred. `placement` is declared in
-            # schema/room.schema.json and was authored on all 278 furniture items; until then
-            # it was on 0 of them and this line guessed from the item's NAME with a regex --
-            # a guess in code where the schema has a field, which is the pattern this project
-            # keeps paying for. The regex called 84 items against-wall; the authored data
-            # calls 159, so it had been demanding two-sided clearance for a sideboard, a
-            # nightstand and a console table alike. `check_rooms.py` now requires the field,
-            # so it cannot silently go missing again.
-            place = it.get("placement") or "freestanding"
-            sides = 1 if place in ("against-wall", "corner", "built-in") else 2
-            need_short = (fw + sides * cl) / 12.0
-            need_long = (fl + 2 * min(cl, 36)) / 12.0     # ends take chair pull, not full passage
-            if w + 1e-6 < need_short:
+        for s_ in furniture_shortfalls(rt, w, l):
+            if s_["axis"] == "short":
                 F.add("serious", "furniture",
-                      f"{label} cannot take its {it['item']}: needs {need_short:.1f} ft across ({fw} in item + {sides} x {cl} in clearance, {place}), has {w} ft.",
+                      f"{label} cannot take its {s_['item']}: needs {s_['need_ft']:.1f} ft across ({s_['item_in']} in item + {s_['sides']} x {s_['clearance_in']} in clearance, {s_['placement']}), has {s_['have_ft']} ft.",
                       room=rid, rule=rt["dimensions"].get("critical_dimension"),
-                      fix=f"Widen to {need_short:.1f} ft, or accept that the room will not hold a {it['item']}.")
-            elif l + 1e-6 < need_long:
+                      fix=f"Widen to {s_['need_ft']:.1f} ft, or accept that the room will not hold a {s_['item']}.",
+                      # THE EVIDENCE CONTRACT (PR #19). The figure a move needs, UNROUNDED --
+                      # compose.repair read `12.3` back out of this sentence for a room needing
+                      # 12.333 and declared 12.3, and `12.3 > 12.3` was false, so the dining room
+                      # never moved and the finding could never clear. Supplied from
+                      # `furniture_shortfalls`, which is the ONE spelling of the arithmetic
+                      # (WP-9.6) -- the two packages meet here and neither is dropped.
+                      kind="furniture-fit", need_ft=round(s_["need_ft"], 3), have_ft=s_["have_ft"],
+                      axis="width", item=s_["item"], sides=s_["sides"],
+                      clearance_in=s_["clearance_in"], footprint_in=s_["footprint_in"])
+            else:
                 F.add("minor", "furniture",
-                      f"{label} is tight along its length for its {it['item']}: needs about {need_long:.1f} ft, has {l} ft.", room=rid)
+                      f"{label} is tight along its length for its {s_['item']}: needs about {s_['need_ft']:.1f} ft, has {s_['have_ft']} ft.", room=rid,
+                      kind="furniture-fit", need_ft=round(s_["need_ft"], 3),
+                      have_ft=s_["have_ft"], axis="length", item=s_["item"])
 
         # ---- daylight
         # Depth is measured FROM the lit wall, so the rule has to account for how the room is lit:
@@ -924,20 +1464,30 @@ def check(plan, C=None, strict=False):
             F.add("info", "daylight",
                   f"{label} is deeper than its daylight would reach, and the depth rule does not "
                   f"govern this room type — not evaluated rather than passed.",
-                  room=rid, rule="rooms/%s.json daylight.depth_governs is false" % r["type"])
+                  room=rid, rule="rooms/%s.json daylight.depth_governs is false" % r["type"],
+                  kind="depth-not-governed")
         if governs and wh and effective_depth and dm < 10 and reach and effective_depth > reach * 1.05:
             how = ("lit from both ends, so measured at half its length" if two_ended
                    else "cross-lit, so the reach is relaxed by half" if len(walls) >= 2
                    else "lit from one side")
             F.add("serious", "daylight",
                   f"{label} is {effective_depth:.0f} ft deep against a {wh} ft window head ({how}); useful daylight reaches about {reach:.1f} ft.",
-                  room=rid, fix="Raise the head, light the far end from another side, or accept the back of the room as a service zone.")
+                  room=rid, fix="Raise the head, light the far end from another side, or accept the back of the room as a service zone.",
+                  kind="daylight-depth", depth_ft=round(effective_depth, 2), reach_ft=round(reach, 2),
+                  # the head that WOULD reach the back of the room at this lighting -- what
+                  # `raise-window-head` sets, and what it refuses when it is above the ceiling
+                  need_head_ft=round(effective_depth / (dm * (1.5 if len(walls) >= 2 and not two_ended else 1.0)), 2),
+                  window_head_ft=wh, ceiling_ft=ch, lit_walls=sorted(walls), two_ended=two_ended,
+                  multiplier=dm, exterior_walls=list(r.get("exterior_walls") or []))
         want_sides = rt["daylight"].get("sides_lit") or 1
         lit_walls = {win.get("wall") for win in r.get("windows", []) if win.get("wall")}
         if r.get("windows") and len(lit_walls) < want_sides:
-            F.add("minor", "daylight", f"{label} is lit from {len(lit_walls)} side(s); the room type wants {want_sides}.", room=rid)
+            F.add("minor", "daylight", f"{label} is lit from {len(lit_walls)} side(s); the room type wants {want_sides}.", room=rid,
+                  kind="sides-lit", need=want_sides, have=len(lit_walls), lit_walls=sorted(lit_walls),
+                  exterior_walls=list(r.get("exterior_walls") or []))
         if not r.get("windows") and rt["function_class"] in ("public", "living", "dining", "sleeping", "work"):
-            F.add("serious", "daylight", f"{label} has no windows.", room=rid)
+            F.add("serious", "daylight", f"{label} has no windows.", room=rid,
+                  kind="no-window", exterior_walls=list(r.get("exterior_walls") or []))
 
         # ---- adjacency, honouring style exceptions
         for kind, key in (("must_adjoin", "must_adjoin"), ("should_adjoin", "should_adjoin")):
@@ -1072,6 +1622,22 @@ def check(plan, C=None, strict=False):
                   room=rid, fix="Stack or pair wet rooms. An isolated bath on the far side of a plan is the most expensive plumbing decision most clients make without knowing it.")
 
     # ============================================================ GROUPING LAYER
+    # The variables the groupings' own tests name. The placement is passed in where there is
+    # one, because a handful of these rules (the passage against its facade, above all) are
+    # only answerable once the house is drawn -- and this is a reading of the placement, not
+    # a judgment of it: the finding it feeds is the GROUPING's rule, quoted, and the drawn
+    # layer keeps its own separate job below.
+    gvars = {}
+    if ARR:
+        try:
+            _fp = plan.get("footprint") or {}
+            _placed = {rid: r["geometry"] for rid, r in rooms.items() if r.get("geometry")}
+            gvars = ARR.grouping_vars(
+                plan, C,
+                placed=_placed or None,
+                footprint=((_fp.get("width_ft"), _fp.get("depth_ft")) if _fp.get("width_ft") else None))
+        except Exception:
+            gvars = {}
     for gid in plan.get("groupings", []):
         g = C["groupings"].get(gid)
         if not g:
@@ -1107,9 +1673,49 @@ def check(plan, C=None, strict=False):
             if ranks and (min(ranks) < span[0] or max(ranks) > span[1]):
                 F.add("minor", "grouping",
                       f"{g['name']} spans privacy ranks {min(ranks)}-{max(ranks)}; the grouping is defined for {span[0]}-{span[1]}.", rule=gid)
+        # THE RULES THAT CARRY A TEST WERE THE ONES BEING SKIPPED (WP-9.1).
+        #
+        # This loop read `if severity == "hard" and not ir.get("test")` and emitted an info
+        # finding for each -- so a hard rule WITHOUT a machine test was handed to a human,
+        # and a hard rule WITH one was passed over in silence by every layer of this
+        # checker. Twenty-six of the eighty-four internal rules carry a test; nineteen of
+        # those are hard; exactly two were evaluated anywhere in the tree, both in
+        # build/roof.py for the ridge step-down. `centre-passage-core`'s own
+        # "passage_width_ft / facade_width_ft between 0.18 and 0.27" -- the rule that says
+        # a passage is a fifth to a quarter of the front -- had never been run on anything.
+        #
+        # Three states, like everything else here. A rule whose variables this house cannot
+        # supply is UNJUDGED and says which name was missing; it is not a pass.
         for ir in g["internal_rules"]:
-            if ir.get("severity") == "hard" and not ir.get("test"):
-                F.add("info", "grouping", f"[{g['name']}] check by hand: {ir['statement']}", rule=gid)
+            hard = ir.get("severity") == "hard"
+            test = ir.get("test")
+            if not test:
+                if hard:
+                    F.add("info", "grouping", f"[{g['name']}] check by hand: {ir['statement']}", rule=gid)
+                continue
+            parsed = ARR.parse_rule_test(test) if ARR else None
+            if not parsed:
+                F.add("info", "grouping",
+                      f"[{g['name']}] could not evaluate: this rule's test is not in a form "
+                      f"the reader knows — \"{test}\". Checked by hand or not at all.", rule=gid)
+                continue
+            row = core._eval_test(parsed, gvars)
+            if not row or row.get("status") == "need_measurements":
+                miss = ", ".join((row or {}).get("missing") or ["?"])
+                F.add("info", "grouping",
+                      f"[{g['name']}] could not evaluate \"{test}\": this plan supplies no "
+                      f"{miss}. Not a pass — the rule is unjudged.", rule=gid)
+                continue
+            if row.get("status") != "evaluated":
+                F.add("info", "grouping",
+                      f"[{g['name']}] could not evaluate \"{test}\": "
+                      f"{row.get('detail') or row.get('status')}.", rule=gid)
+                continue
+            if row.get("passes") is False:
+                sev = "serious" if hard else "minor"
+                F.add(sev, "grouping",
+                      f"[{g['name']}] {ir['statement']} — measured {row.get('value')} "
+                      f"against {row.get('required')}.", rule=gid)
 
     # ============================================================ CODE LAYER (advisory)
     juris = (plan.get("context") or {}).get("jurisdiction")
@@ -1144,12 +1750,66 @@ def check(plan, C=None, strict=False):
     constraint_summary = {"present": 0, "clear": 0, "unjudged": 0}
     if st:
         kit = _resolved_slots(style)
+
+        # --- THE PASSAGE FLOOR THIS STYLE STATES, WHICH IS NOT THE CATALOGUE'S (WP-9.1)
+        #
+        # `rooms/centre-passage.json` bands the width at [6, 14] and it is right to: six to
+        # seven feet is a northern vernacular passage that circulates, and the record says so
+        # in as many words. A FORMAL centre-passage plan is a different rule, and this corpus
+        # states it in three places nobody read together --
+        #   faults/passage-that-is-a-corridor.json's test: at-least 8.0, whose own note says
+        #     "8 ft for a formal centre-passage plan and 6 ft for a northern vernacular one";
+        #   groupings/centre-passage-core.json: "Passage width 8 to 14 ft";
+        #   and the style's OWN kit, which for tidewater-georgian resolves
+        #     circulation_parti.parameters.passage_width_ft to a range of [10, 14].
+        # The composer sized this brief's passage at 7.9 ft, under all three, and nothing said
+        # so: the room layer read the catalogue's 6 and passed it.
+        #
+        # Read from the RESOLVED kit, never `C["kits"][style]` -- `oq/the-raw-kit-read`, the
+        # trap WP-8.4 and WP-8.6 each found a live instance of. No new number is authored here;
+        # the floor is whatever this style's own cascade states, and a style that states none
+        # gets no finding.
+        _cp = (kit.get("circulation_parti") or {})
+        _band = ((_cp.get("parameters") or {}).get("passage_width_ft") or {}).get("range")
+        _floor = _band[0] if isinstance(_band, list) and _band else None
+        if _floor:
+            for _rid, _r in rooms.items():
+                if _r.get("type") not in ("centre-passage", "cross-passage"):
+                    continue
+                _w, _l = _r.get("width_ft"), _r.get("length_ft")
+                if not (_w and _l):
+                    continue
+                _got = min(_w, _l)
+                if _got + 1e-6 < _floor:
+                    F.add("serious", "style",
+                          f"{_r.get('name') or _rid} is {_got} ft wide; {style}'s own kit states "
+                          f"a passage of {_band[0]}-{_band[1]} ft. A formal centre-passage plan "
+                          f"is not bound by the catalogue's 6 ft vernacular floor — "
+                          f"faults/passage-that-is-a-corridor.json calls anything under 8 ft a "
+                          f"corridor, and this style asks for more.",
+                          room=_rid, rule="circulation_parti",
+                          fix=f"Widen the passage to {_floor} ft.",
+                          # The evidence contract PR #19 introduced. `need_ft` is the STYLE's
+                          # own floor read from the resolved cascade, not the catalogue's --
+                          # the whole point of the finding -- and the move that answers it
+                          # (`passage-to-the-styles-own-floor`) reads it from here rather than
+                          # re-resolving the kit and risking a second, different answer.
+                          kind="passage-below-style-floor", need_ft=_floor, have_ft=_got,
+                          band=list(_band), axis="width")
+
         for slot_id, choice in (plan.get("declared") or {}).items():
             if slot_id not in C["slots"]:
-                F.add("minor", "style", f"Declared slot '{slot_id}' is not in the ontology.", rule=slot_id); continue
+                F.add("minor", "style", f"Declared slot '{slot_id}' is not in the ontology.", rule=slot_id,
+                      kind="slot-not-in-ontology", slot=slot_id); continue
             rec = kit.get(slot_id) or {}
+            # the ONE canonical variant the cascade delivers, if there is exactly one: what a
+            # revision move may put in place of a forbidden declaration. Two canonicals, or
+            # none, is a judgment and the field is None (WP-9.1).
+            _canon = [v.get("id") for v in rec.get("variants", []) if v.get("status") == "canonical"]
+            canonical = _canon[0] if len(_canon) == 1 else None
             if rec.get("binding") == "forbidden":
-                F.add("serious", "style", f"{style} forbids the slot '{slot_id}' outright, and the plan declares '{choice}'.", rule=slot_id)
+                F.add("serious", "style", f"{style} forbids the slot '{slot_id}' outright, and the plan declares '{choice}'.", rule=slot_id,
+                      kind="slot-forbidden", slot=slot_id, variant=choice, canonical=None)
             # A slot of cardinality `many` (elements/slots.json) may declare an OBJECT rather than
             # a bare variant id -- `declared.dormer` is the first, stating a count and a face as
             # well as a variant. Comparing the whole object against a variant id can never match,
@@ -1160,7 +1820,8 @@ def check(plan, C=None, strict=False):
             for v in rec.get("variants", []):
                 if v.get("id") == chosen and v.get("status") == "forbidden":
                     F.add("serious", "style", f"'{chosen}' is a forbidden variant of {C['slots'][slot_id]['name'].lower()} in {style}.",
-                          rule=slot_id, fix=v.get("note"))
+                          rule=slot_id, fix=v.get("note"),
+                          kind="variant-forbidden", slot=slot_id, variant=chosen, canonical=canonical)
         cvars = derive_constraint_vars(plan)
         # plan.measurements takes precedence over a derived value, mirroring the fault layer's
         # own practice a few dozen lines below: a number the plan record actually states beats
@@ -1180,7 +1841,8 @@ def check(plan, C=None, strict=False):
                     # rule is the constraint's own id when it has one (every migrated constraint
                     # does); falls back to style.kind for the pre-migration shape some styles'
                     # constraints may still be in, where no stable per-constraint id exists yet.
-                    F.add("info", "style", f"Check by hand: {c['statement']}", rule=c.get("id") or f"{style}.{c['kind']}")
+                    F.add("info", "style", f"Check by hand: {c['statement']}", rule=c.get("id") or f"{style}.{c['kind']}",
+                          kind="constraint-unformalised", constraint=c.get("id"))
                 continue
             r = core._eval_test(test, c_namespace)
             if not r or r["status"] != "evaluated":
@@ -1189,7 +1851,7 @@ def check(plan, C=None, strict=False):
                 F.add("info", "style",
                       f"Cannot evaluate {c['id']} ({c['kind']}): {c['statement']}"
                       + (f" [needs {', '.join(missing)}]" if missing else ""),
-                      rule=c["id"])
+                      rule=c["id"], kind="constraint-unjudged", constraint=c["id"], needs=missing or [])
                 continue
             if r["passes"]:
                 constraint_summary["clear"] += 1
@@ -1199,7 +1861,10 @@ def check(plan, C=None, strict=False):
                 units = f" {r['units']}" if r.get("units") else ""
                 F.add(sev, "style",
                       f"{c['statement']} (measured {r['value']}{units}, required {r['required']}{units}).",
-                      rule=c["id"], fix=test.get("note"))
+                      rule=c["id"], fix=test.get("note"),
+                      kind="constraint-present", constraint=c["id"], expression=test.get("expression"),
+                      value=r["value"], required=r["required"], direction=test.get("direction"),
+                      threshold=test.get("threshold"), units=r.get("units"))
         if plan.get("massing"):
             aff = next((m for m in st.get("massing_affinities", []) if m["massing"] == plan["massing"]), None)
             if aff and aff["affinity"] == "forbidden":
@@ -1222,10 +1887,43 @@ def check(plan, C=None, strict=False):
     # or geometry.py cannot solve (an incomplete draft, say) should not take the whole validator
     # down with it; it just gets no elevation-derived measurements, same as "unjudged is not
     # passed" everywhere else in this corpus.
+    # ONE BUILDING (WP-9.1). Until Phase 9 this called `build_elevation(plan)` with no
+    # placement, so `structure.build_section` solved a FRESH heuristic placement of the
+    # declared record inside the critic while the drawn layer below read the placement the
+    # record carries -- two buildings in one verdict, the defect WP-6.4 fixed for the drawing
+    # set (`corpus._placed`) and not here. When the record carries a placement, the section,
+    # the roof and the elevation are derived from THAT placement: a solved record is a
+    # `geometry_result` (it carries `footprint` and every room's `geometry`). When it carries
+    # none, the fresh heuristic is what the elevation is derived from, and the record says so.
+    #
+    # And never silent. The old `except Exception: pass` turned an elevation that could not
+    # be derived into an absence indistinguishable from a style outside the generator's
+    # scope, or from a house with nothing to measure. Each is an `info` finding now -- could
+    # not evaluate, never a pass -- and `elevation_summary` says which.
+    placed_any = any(r.get("geometry") for r in rooms.values())
+    elevation_summary = {"evaluated": False, "basis": None, "engine": None, "reason": None}
     try:
         EL = _load("elevation", f"{ROOT}/build/elevation.py")
-        elev = EL.build_elevation(plan)
-        if "error" not in elev:
+        if placed_any:
+            ST = _load("structure", f"{ROOT}/build/structure.py")
+            section = ST.build_section(plan, geometry_result=plan)
+            elev = EL.build_elevation(plan, section=section)
+            engine = ((plan.get("geometry_report") or {}).get("solver") or {}).get("engine")
+            elevation_summary.update(basis="placement", engine=engine)
+        else:
+            elev = EL.build_elevation(plan)
+            elevation_summary.update(basis="declared", engine="heuristic")
+        if "error" in elev:
+            elevation_summary["reason"] = elev["error"]
+            F.add("info", "fault", f"The elevation could not be derived: {elev['error']}",
+                  rule="elevation-not-derived", kind="elevation-not-derived")
+        elif elev.get("applicable") is False:
+            elevation_summary["reason"] = "style outside the elevation generator's scope"
+            F.add("info", "fault", f"The elevation generator does not cover '{style}': "
+                  f"{(elev.get('note') or '')[:160]}",
+                  rule="elevation-not-applicable", kind="elevation-not-applicable")
+        else:
+            elevation_summary["evaluated"] = True
             for k, v in elev.get("measurements", {}).items():
                 # A None is the elevation layer saying it could not judge that quantity, and it
                 # must not enter the measurements dict at all: a key present with a None value
@@ -1234,6 +1932,37 @@ def check(plan, C=None, strict=False):
                 # Absent is what "unjudged" looks like here (OQ 59).
                 if v is None: continue
                 meas.setdefault(k, v)
+            F.add("info", "fault",
+                  "Elevation measurements were derived from "
+                  + ("the placement this record carries" + (f" ({elevation_summary['engine']})" if elevation_summary["engine"] else "")
+                     if placed_any else
+                     "a fresh heuristic placement of the declared record, which carries none")
+                  + ".",
+                  rule="elevation-basis", kind="elevation-basis",
+                  elevation_basis=elevation_summary["basis"], engine=elevation_summary["engine"])
+    except Exception as exc:
+        elevation_summary["reason"] = f"{type(exc).__name__}: {exc}"
+        F.add("info", "fault", f"The elevation could not be derived: {type(exc).__name__}: {exc}",
+              rule="elevation-not-derived", kind="elevation-not-derived")
+    # ARRANGEMENT LAYER (WP-9.1): build/arrangement.py::declared() folded in under the SAME
+    # setdefault precedence as everything above it. Twenty-eight faults carry a test whose
+    # `measurable_from` is `plan` -- the passage that is a corridor, the service route through
+    # the formal plan, the room nobody enters -- and twenty-seven of them came back UNJUDGED on
+    # this corpus's own most carefully authored plan, because nothing had ever supplied a single
+    # plan-arrangement variable. The named-error corpus had the vocabulary and no measurement
+    # layer underneath it.
+    #
+    # `declared()` is geometry-blind by construction and this layer must keep it that way: the
+    # drawn half of the same module is folded in inside drawn_layer(), where OQ 54's ruling
+    # permits reading a placement. A fault is evaluated in exactly ONE of the two.
+    #
+    # It sits AFTER the elevation block's own except handler rather than inside it, so that an
+    # elevation that could not be derived does not also silence the arrangement measurements --
+    # they share nothing but a measurements dict.
+    try:
+        for k, v in (ARR.declared(plan, C) if ARR else {}).items():
+            if v is None: continue
+            meas.setdefault(k, v)
     except Exception:
         pass
     # limit lifted from the API default of 40: faults_present was never truncated, and the
@@ -1258,9 +1987,23 @@ def check(plan, C=None, strict=False):
         # hands back `failing` beside `results`; the fallback keeps this working against an
         # older core.
         ev = (x.get("failing") or x["results"])[0]
+        # THE EVIDENCE CONTRACT (WP-9.1): which quantity failed, which names it reads, and
+        # whether those names came from the plan's OWN `measurements` (a figure the record
+        # states, and a revision move may move) or from the elevation generator (a figure
+        # the generator derived, which is not the record's to overwrite -- and which may be
+        # the generator's own constant, see build/critic_suspects.py).
+        _expr = ev.get("expression") or ""
+        _reads = sorted({n for n in re.findall(r"[A-Za-z_][A-Za-z0-9_]*", _expr)
+                         if n not in ("and", "or", "not", "min", "max", "abs", "round")})
+        _declared_meas = plan.get("measurements") or {}
         F.add(x["severity"] if x["severity"] in SEV_ORDER else "serious", "fault",
               f"{x['name']}: {ev.get('value')} against {ev.get('required')}.",
-              rule=x["fault"], fix=x.get("fix_cheap"))
+              rule=x["fault"], fix=x.get("fix_cheap"),
+              kind="fault-present", fault=x["fault"], expression=_expr, reads=_reads,
+              value=ev.get("value"), required=ev.get("required"),
+              fix_right=x.get("fix_right"), fix_cheap=x.get("fix_cheap"),
+              exception=x.get("exception_applied") or x.get("exception_not_applied"),
+              source=("declared" if _reads and all(n in _declared_meas for n in _reads) else "derived"))
 
     # ---- the DRAWN layer (WP-6.2). Everything above this line judges the plan the record
     # DECLARES. This layer judges the house that was actually placed, and it is the only
@@ -1278,6 +2021,7 @@ def check(plan, C=None, strict=False):
     counts = {}
     for f in F.items: counts[f["severity"]] = counts.get(f["severity"], 0) + 1
     return {"plan": plan["id"], "style": style, "rooms": len(rooms), "drawn_summary": drawn,
+            "elevation_summary": elevation_summary,
             "counts": counts, "fault_summary": fr.get("summary"), "constraint_summary": constraint_summary,
             # The could-not-judge detail, not just its count. fault_summary already counts
             # unjudged; without the list itself a caller cannot say WHICH faults were

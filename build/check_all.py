@@ -56,11 +56,31 @@ CHECKS = [
     # figure is pinned at zero and goes non-zero the moment a generator starts supplying a new
     # zero, which is exactly what WP-5.13 did.
     ("check_division_guards.py", []),
+    # WP-9.1: which measurements the elevation generator states as its own constants, and which
+    # faults read them -- the analyst's critic-suspect list, ratcheted so it can only shrink
+    ("check_critic_suspects.py", []),
+    # WP-9.2: the move registry against its own code -- every id has an apply and vice versa,
+    # every basis quote is really in the record it names, no move touches a placement key
+    ("check_moves.py", []),
     ("check_rooms.py", []),
+    # WP-9.7. Holds a grouping's `internal_rules` against the room record it constrains, and
+    # against a grouping some parti carries alongside it -- the axis `check_addresses.py`
+    # cannot see, because it reads packs and kits and not groupings, room bands or fault
+    # tests. `--strict` because every ratchet here was measured on the first run rather than
+    # inherited from a backlog: the three band disagreements are the register's own instances
+    # and are the DELIVERABLE, not a debt to pay down.
+    # `oq/a-grouping-rule-and-a-room-record-can-disagree`.
+    ("check_grouping_rules.py", ["--strict"]),
     # WP-6.2. Not folded into check_rooms.py: that checker globs rooms/*.json against the
     # room schema, and the opening grammar is a different document in a different directory
     # for exactly that reason.
     ("check_openings.py", []),
+    # WP-9.1. The arrangement layer's own selftest: that every derivation still moves when
+    # the house it measures changes (a check that cannot fail is worse than none), that no
+    # name in NOT_DERIVABLE reaches the returned measurements, and that every route in the
+    # editorial route model still quotes a record that exists -- verified by calling
+    # check_openings.check_basis rather than a copy of it.
+    ("arrangement.py", ["selftest"]),
     ("check_windows.py", []),
     ("check_partis.py", []),
     ("check_counts.py", []),
@@ -102,7 +122,10 @@ CHECKS = [
     ("roof.py", ["plans/tidewater-georgian-careful.json"]),
     ("elevation.py", ["plans/spec-builder-colonial.json"]),
     ("elevation.py", ["plans/tidewater-georgian-careful.json"]),
-    ("compose.py", ["briefs/family-georgian.json"]),
+    # WP-9.2: the composer revises its returned candidates by default; here on the search
+    # engine for two rounds, so the corpus job stays bounded (measured: 29 s against 12 s
+    # with --no-revise). The proof-backed loop is exercised by tests/test_revise.py.
+    ("compose.py", ["briefs/family-georgian.json", "--revise-engine", "heuristic", "--revise-rounds", "2"]),
     ("build.py", []),
     # WP-5.1: the exporters' selftests. ezdxf/ifcopenshell are OPTIONAL
     # dependencies — without them these exit 3, reported below as COULD NOT

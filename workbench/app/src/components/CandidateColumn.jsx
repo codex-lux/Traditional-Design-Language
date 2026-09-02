@@ -45,6 +45,13 @@ function ScoreBlock({ candidate: c }) {
       h("span", { style: { ...EYE } }, unscored ? "not scored" : "score")),
     !unscored && h("div", { style: { ...EYE, color: 'var(--ink-4)', marginTop: 3 } },
       "out of 100 · higher is better"),
+    /* WP-9.3: what the placed revision loop bought here, one line, from revision.js. Absent
+       where the compose ran --no-revise; "nothing moved" rather than "was X" against the
+       same X. `rank_before` is the server's order before revision, said in words. */
+    c.revisedLine && h("div", {
+      "data-revised": "",
+      style: { ...EYE, color: 'var(--ink-3)', marginTop: 4, textTransform: 'none', letterSpacing: 0 }
+    }, c.revisedLine + (typeof c.rank_before === 'number' ? ` · the server ranked it ${c.rank_before} before revision` : '')),
     /* A disqualified candidate is still scored and its number can be the highest on the
        screen — every ordering puts it last, and this band is why. It is a rule, not a
        ranking: no score is a case for building a plan with a fatal finding in it. */

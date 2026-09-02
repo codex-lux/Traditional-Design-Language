@@ -23,7 +23,11 @@
       "statement": "The two rooms are unequal by 15 to 35 percent in area, and the inequality is the point — equal rooms make a double pen, which is a different type with no hierarchy.",
       "kind": "hierarchy",
       "severity": "hard",
-      "test": "hall_area / parlor_area between 1.15 and 1.35"
+      "test": "hall_area / parlor_area between 1.15 and 1.35",
+      "measures": {
+        "quantity": "hall_to_parlor_area",
+        "units": "ratio"
+      }
     },
     {
       "statement": "The entrance door is placed by the size difference, not centred on the facade. Forcing a centred door destroys the type and produces a Georgian facade on a pre-Georgian plan.",

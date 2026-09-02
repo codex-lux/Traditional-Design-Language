@@ -349,7 +349,7 @@ class TestTheCeilingIsReal:
 
     def test_no_axis_can_leave_its_own_band_on_a_real_brief(self, compose_module):
         for name in ("family-georgian", "bungalow-small"):
-            for c in compose_module.compose(_brief(name))["candidates"]:
+            for c in compose_module.compose(_brief(name), revise=False)["candidates"]:
                 assert c["score"] is None or 0 <= c["score"] <= 100, c["parti_name"]
                 for a in c["score_axes"]:
                     if a["share"] is None:
@@ -422,7 +422,7 @@ class TestNoMalformedInputCanFailAWholeJob:
 
 class TestNothingIsDroppedSilently:
     def test_every_layer_the_validator_emitted_is_classified(self, compose_module):
-        result = compose_module.compose(_brief("family-georgian"))
+        result = compose_module.compose(_brief("family-georgian"), revise=False)
         for c in result["candidates"]:
             assert c["score_unclassified_layers"] == [], (
                 f'{c["parti_name"]} carries findings in {c["score_unclassified_layers"]}, '
@@ -438,7 +438,7 @@ class TestNothingIsDroppedSilently:
         """`what` and the out-of-100 datum were repeated in eight rows per candidate, which
         the MCP tool bills a model for. They live on the result now; the rows must not carry
         them back."""
-        result = compose_module.compose(_brief("family-georgian"))
+        result = compose_module.compose(_brief("family-georgian"), revise=False)
         model = result["score_model"]
         assert model["of"] == 100
         assert [a["axis"] for a in model["axes"]] == [n for n, _, _ in compose_module.SCORE_AXES]
@@ -459,7 +459,7 @@ class TestADroppedCandidateSaysWhyItWasDropped:
     def test_the_reason_is_the_lot_not_whichever_note_landed_last(self, compose_module):
         result = compose_module.compose(
             {"style": "tidewater-georgian", "target_area_sf": 3400, "bedrooms": 4,
-             "context": {"lot_width_ft": 30}}, 4)
+             "context": {"lot_width_ft": 30}}, 4, revise=False)
         dropped = result.get("dropped_lot_infeasible") or []
         assert dropped, "a 30 ft lot must drop candidates; if it no longer does, re-pick the lot"
         for d in dropped:
@@ -564,13 +564,13 @@ class TestAFatalDisqualifies:
         assert len(card["score_axes"]) == len(compose_module.SCORE_AXES)
 
     def test_a_clean_candidate_is_not_marked_disqualified(self, compose_module):
-        for c in compose_module.compose(_brief("family-georgian"))["candidates"]:
+        for c in compose_module.compose(_brief("family-georgian"), revise=False)["candidates"]:
             if c["counts"].get("fatal", 0) == 0:
                 assert c["disqualified"] is False, c["parti_name"]
 
     def test_a_style_that_cannot_clear_the_fault_corpus_still_returns_a_ranked_set(self, compose_module):
         result = compose_module.compose(
-            {"style": "cape-cod-colonial", "target_area_sf": 2400, "bedrooms": 4}, 4)
+            {"style": "cape-cod-colonial", "target_area_sf": 2400, "bedrooms": 4}, 4, revise=False)
         cands = result["candidates"]
         assert cands and all(c["counts"].get("fatal", 0) > 0 for c in cands), (
             "this test's premise is that every candidate here is disqualified; if that has "
@@ -595,7 +595,7 @@ class TestTheOrderIsWhatItSays:
             return card
 
         monkeypatch.setattr(compose_module, "score_candidate", inverted)
-        cands = compose_module.compose(_brief("family-georgian"), 13)["candidates"]
+        cands = compose_module.compose(_brief("family-georgian"), 13, revise=False)["candidates"]
         fatals = [c["counts"].get("fatal", 0) for c in cands]
         assert 0 in fatals and any(f > 0 for f in fatals), (
             "this test needs a MIXED set; widen the window or pick another brief")
@@ -607,7 +607,7 @@ class TestTheOrderIsWhatItSays:
         """Two independent properties rather than a re-derivation of the implementation's own
         key, which would confirm itself whatever that key said."""
         for name in ("family-georgian", "bungalow-small"):
-            cands = compose_module.compose(_brief(name), 13)["candidates"]
+            cands = compose_module.compose(_brief(name), 13, revise=False)["candidates"]
             fatals = [c["counts"].get("fatal", 0) for c in cands]
             assert fatals == sorted(fatals), f"{name}: a fatal-bearing plan came back above a cleaner one"
             for group in set(fatals):
@@ -630,7 +630,7 @@ class TestTheOrderIsWhatItSays:
         at fidelity 18 this brief returned tower-villa and octagon-radial, both fit 2.0 and
         both borrowed, over the native side-hall town house. An octagon for a Tidewater
         Georgian is the sentence WP-4.5 exists to delete."""
-        cands = compose_module.compose(_brief("family-georgian"))["candidates"]
+        cands = compose_module.compose(_brief("family-georgian"), revise=False)["candidates"]
         fits = [c["style_fit"] for c in cands]
         assert fits[0] == 7.0, "the winner must be the fully native, canonically massed diagram"
         assert sum(1 for f in fits if f >= 3.0) >= 3, (
@@ -665,7 +665,7 @@ class TestTheComposerIsDeterministic:
         def sig(name):
             b = _brief(name)
             return {c["parti"]: c["demerits"]
-                    for c in compose_module.compose(b, b.get("candidates", 4))["candidates"]}
+                    for c in compose_module.compose(b, b.get("candidates", 4), revise=False)["candidates"]}
         first = sig("bungalow-small")
         sig("family-georgian")
         assert sig("bungalow-small") == first, "composing one brief changed another's result"
@@ -673,7 +673,7 @@ class TestTheComposerIsDeterministic:
     def test_a_parti_record_is_not_mutated_by_composing(self, compose_module):
         import copy
         before = copy.deepcopy(compose_module.PARTIS)
-        compose_module.compose(_brief("family-georgian"))
+        compose_module.compose(_brief("family-georgian"), revise=False)
         changed = [pid for pid in before if before[pid] != compose_module.PARTIS[pid]]
         assert not changed, f"compose() mutated the shared parti records: {changed}"
 

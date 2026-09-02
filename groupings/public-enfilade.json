@@ -40,7 +40,11 @@
       "statement": "Doors align on one axis so the view runs through. A single offset door breaks the enfilade and it cannot be recovered with finishes.",
       "kind": "sequence",
       "severity": "hard",
-      "test": "door_centreline_offset_in at-most 3"
+      "test": "door_centreline_offset_in at-most 3",
+      "measures": {
+        "quantity": "door_centreline_offset",
+        "units": "in"
+      }
     },
     {
       "statement": "Rooms diminish or grow in one direction, never alternate. Hierarchy has to be legible as you move.",

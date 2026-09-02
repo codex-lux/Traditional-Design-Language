@@ -76,6 +76,40 @@ def band(rtype):
     d = C["rooms"].get(rtype, {}).get("dimensions", {})
     return (d.get("area_sf") or [40, 900])
 
+# WP-9.4. `band()` above has read ONE KEY of the three the same dict carries since the room
+# catalogue was written. `dimensions` states `area_sf`, `width_ft` AND `proportion`, and until
+# this package the placer read the first and scored shape off a universal constant instead:
+# `level_score`'s `if ar > 2.6`. Measured over the 60 room records --
+#
+#   54 declare `proportion`; 43 of those have a CEILING BELOW 2.6 (median 2.0), so the
+#   constant was LOOSER than the corpus on four rooms in five; and the 11 above it are exactly
+#   the rooms meant to be long -- gallery-corridor 12.0, centre-passage 5.0, entry-porch 5.0 --
+#   which the constant OVER-charged for being what they are. A passage paid 8.9 points for its
+#   own proportion while a kitchen drawn 10 x 30 paid 2.40 against 14 for one missing wall.
+#
+# Ruled by Lucas on 1 Sep 2026: the bands BIND AT THEIR STATED CEILING, per room type, exactly
+# as written. That is the corpus deciding rather than this file, and it authors no threshold --
+# the condition WP-9.1 worked under and this package keeps.
+#
+# A room type with no `proportion` keeps the old constant, and `shape_band` says which answer
+# it gave, because a default that cannot be distinguished from a reading is how a constant
+# survives a package that was supposed to remove it.
+ASPECT_FALLBACK = 2.6
+
+def shape_band(rtype):
+    """(ceiling, source) for a room type's aspect. `source` is 'corpus' or 'fallback'."""
+    d = C["rooms"].get(rtype, {}).get("dimensions", {})
+    pr = d.get("proportion")
+    if isinstance(pr, list) and len(pr) == 2 and pr[1]:
+        return float(pr[1]), "corpus"
+    return ASPECT_FALLBACK, "fallback"
+
+def width_floor(rtype):
+    """The short-dimension floor a room type states, or None. Read, never invented."""
+    d = C["rooms"].get(rtype, {}).get("dimensions", {})
+    w = d.get("width_ft")
+    return float(w[0]) if isinstance(w, list) and w else None
+
 def wall_lines(rects, r=1):
     """The x and y lines a set of placed rectangles puts walls on.
 
@@ -170,15 +204,54 @@ def partition(rooms, axis, rng, below=None):
 def spanning(rooms, axis):
     """A room with exterior walls on OPPOSITE sides has to run the full depth or width — which
     is exactly what a centre passage is, and why slicing it like any other room produces a
-    treemap instead of a plan."""
+    treemap instead of a plan.
+
+    REFUSES WHEN MORE THAN ONE ROOM QUALIFIES (WP-9.4). This returned the FIRST match in file
+    order, and on `five-part-palladian` three level-0 rooms satisfy its test identically:
+    `passage` (`["S","N"]`), `westhyphen` and `easthyphen` (both `["N","S"]`, both
+    `gallery-corridor`, both circulation). It returned `passage` because the parti happens to
+    list it first, and `easthyphen` after a shuffle -- verified. The spine of the house was
+    being decided by JSON key order.
+
+    A silent order-dependent answer is worse than no answer: the caller's slab branch is the
+    single largest move the slicer makes, and there was no way to tell a diagram with one
+    spine from a diagram with three. Refusing hands the rectangle to the ordinary partition,
+    which is the honest fallback, and the count is reported by the caller so the refusal is
+    visible rather than inferred from a plan that looks odd.
+    """
     pairs = (("S", "N") if axis == "y" else ("W", "E"))
+    hits = []
     for r in rooms:
         # Only CIRCULATION spans. A porch with three exterior walls wants the south edge,
         # not a slab through the middle of the house.
         if C["rooms"].get(r["type"], {}).get("function_class") != "circulation": continue
         w = set(r.get("exterior_walls") or [])
-        if pairs[0] in w and pairs[1] in w: return r
-    return None
+        if pairs[0] in w and pairs[1] in w: hits.append(r)
+    if len(hits) <= 1:
+        return hits[0] if hits else None
+    # MORE THAN ONE ROOM QUALIFIES, AND REFUSING THROWS AWAY A CORRECT ANSWER. The first
+    # draft of this returned None on a tie, which broke the shipped reference plan: on
+    # plans/tidewater-georgian-careful.json BOTH `passage` (S,N) and `backhall` (N,S) are
+    # circulation rooms declaring an opposite pair, so the slab never formed and the entry
+    # porch left the S entrance wall (tests/test_composition.py:173).
+    #
+    # So the tie is BROKEN rather than refused, and by the corpus rather than by file order:
+    # the spine is the larger circulation room. rooms/back-hall.json says why in its own
+    # words -- it is "the second circulation system", existing "so that one set of people can
+    # move through the house without meeting another set", and "designed to be invisible from
+    # the formal plan". A back hall is not the axis of the house and a hyphen is not either.
+    # Area is the corpus's own statement of that, already carried per room, and the id
+    # tie-break makes the answer independent of dict order.
+    hits.sort(key=lambda r: (-(r.get("_area") or 0.0), r["id"]))
+    SPANNING_AMBIGUOUS.append(tuple(sorted(r["id"] for r in hits)))
+    return hits[0]
+
+
+# Every refusal `spanning()` makes, so the caller can report it. A list rather than a counter
+# because WHICH rooms tied is the thing an author needs to fix, and `five-part-palladian`'s
+# tie (passage / easthyphen / westhyphen) is a data question -- two hyphens identical in every
+# typed field -- not a code one.
+SPANNING_AMBIGUOUS = []
 
 def ring_depth(W, H, court_area, sides=4):
     """Depth of the ranges around a court, solved from the court's own declared area.
@@ -315,6 +388,62 @@ def courtyard_slice(rooms, W, H, module, tol, rng, out, relax, sides=4):
     return True
 
 
+def _clamp_cut(v, extent, module):
+    """The corrected clamp, MEASURED AND NOT CALLED. Read this before calling it (WP-9.4).
+
+    IT IS NOT WIRED IN, and that is a refusal with numbers behind it rather than an oversight.
+    Building it, measuring it and leaving it uncalled is the honest record of what was found:
+    the defect below is real, the fix below is right, and shipping the fix on its own makes
+    the corpus worse in two ways that are both consequences of what the defect was silently
+    doing. Wiring it in is a package of its own, and it must replace the accidental filter
+    described below with a STATED one in the same change.
+
+      * Fatals over the 21-parti sweep go 114 -> 127 on the heuristic.
+      * THE ENTRY PORCH GOES SHALLOW. On plans/tidewater-georgian-careful.json it is drawn
+        10.0 x 6.0 ft with the shipped clamp and 5.0 x 8.3 ft with this one, so its clear
+        depth falls 6.0 -> 5.0 and `porch-nobody-can-sit-on` (at-least 6.0) fires again --
+        a fault WP-7.4 had cleared, and whose clearing that package recorded as a real gain.
+        Isolated by toggling this function alone against the door weights: the porch is
+        10.0 x 6.0 under BOTH door settings with the old clamp and 5.0 x something under
+        both with the new one.
+      * The relaxation count moves 7 -> 8, pinned verbatim in two files.
+
+    WHY A CORRECT FIX MAKES THINGS WORSE. No winning placement at HEAD contains a
+    negative-dimension room, on any of the 21 partis -- checked directly. The defect never
+    reached a sheet. What it did was ELIMINATE 22.3% of candidates before they could be
+    scored, and those candidates were the cramped ones. Repairing the geometry admits them to
+    the competition, where some of them win. The bug was an accidental filter, and this
+    codebase already has the rule for that case: a fix that removes a shield is a fix that has
+    to look at what the shield was covering.
+
+    Keep the fix here, unwired, so the next reader has the corrected arithmetic, the
+    measurements, and the reason -- rather than rediscovering the inversion and shipping it.
+
+    ---- the defect, and this function's arithmetic ----
+
+    The clamp this replaces was `max(module * 0.6, min(extent - module * 0.6, v))`, whose
+    intent is "leave at least 0.6 of a module on each side". That is impossible when
+    `extent < 1.2 * module`, and the expression does not fail there -- it INVERTS: the inner
+    `min` returns something below `module * 0.6`, the outer `max` then returns `module * 0.6`,
+    which is larger than the rectangle, and the second child is handed a NEGATIVE dimension.
+
+    Measured before the fix, over 3,000 candidates on plans/tidewater-georgian-careful.json:
+    670 layouts (22.3%) contained at least one negative-dimension room -- cellarstair 316,
+    powder 271, pantry 76, butlers 49, stair 33, porch 6, library 5 -- and 72 broke the
+    exact-tiling identity by more than 0.5 sf. That identity is what `over_band()`'s published
+    refusal rests on. None of them ever reached a sheet, because `level_score` makes a
+    negative-area room lose: THE POOL'S DIVERSITY WAS THE SHIELD, which is a reason to fix it
+    rather than to keep relying on it.
+
+    Byte-identical where the old expression was already correct. For `extent >= 1.2 * module`
+    both bounds collapse to the old ones exactly; below it they collapse toward the midpoint,
+    so the cut splits the rectangle evenly and both children stay positive.
+    """  # noqa: unused -- deliberately, see above
+    lo = min(module * 0.6, extent / 2.0)
+    hi = max(extent - module * 0.6, extent / 2.0)
+    return max(lo, min(hi, v))
+
+
 def _relax(relax, off, axis, at, span_lo, span_hi):
     """Record a cut that missed the bay line, WITH ITS POSITION (OQ 33).
 
@@ -377,7 +506,7 @@ def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0, below=N
                 wwid = _abs - x
             else:
                 wwid, dd = snap(rem * wfrac, module, tol)
-            wwid = max(module * 0.6, min(rem - module * 0.6, wwid))
+            wwid = max(module * 0.6, min(rem - module * 0.6, wwid))   # _clamp_cut: refused, see it
             out[sp["id"]] = (round(x + wwid, 2), round(y, 2), round(sw, 2), round(h, 2))
             # Both edges of the spanning slab, now that its position is known. The width snap
             # (slab_off) misses the grid at the slab's FAR edge; the wwid snap at its near one.
@@ -410,28 +539,71 @@ def slice_rect(rooms, x, y, w, h, module, tol, rng, out, relax, depth=0, below=N
     if axis == "x":
         cut = w * frac
         s, d = snap(x + cut, module, tol, (below or {}).get('x', ()))
-        cut = max(module * 0.6, min(w - module * 0.6, s - x))
+        cut = max(module * 0.6, min(w - module * 0.6, s - x))         # _clamp_cut: refused, see it
         if d: _relax(relax, d, "x", x + cut, y, y + h)
         slice_rect(lo, x, y, cut, h, module, tol, rng, out, relax, depth + 1, below)      # lo goes west
         slice_rect(hi, x + cut, y, w - cut, h, module, tol, rng, out, relax, depth + 1, below)
     else:
         cut = h * frac
         s, d = snap(y + cut, module, tol, (below or {}).get('y', ()))
-        cut = max(module * 0.6, min(h - module * 0.6, s - y))
+        cut = max(module * 0.6, min(h - module * 0.6, s - y))         # _clamp_cut: refused, see it
         if d: _relax(relax, d, "y", y + cut, x, x + w)
         slice_rect(lo, x, y, w, cut, module, tol, rng, out, relax, depth + 1, below)      # lo goes south
         slice_rect(hi, x, y + cut, w, h - cut, module, tol, rng, out, relax, depth + 1, below)
 
 # ---------------------------------------------------------------- scoring one level
+SHAPE_W = 6.0        # the charge per unit of aspect over a room's OWN ceiling (WP-9.4)
+
+# BUILT, SWEPT, AND SHIPPED AT ZERO (WP-9.4). The charge per foot below a room's own stated
+# short-dimension floor -- `dimensions.width_ft[0]`, declared by 58 of 60 room types, already
+# read by `compose.repair()` and by `plan_check`'s room layer, and invisible to the placer.
+#
+# It does what it was built to do, ON THE WEAKER ENGINE ONLY. Swept over the 21 partis:
+#
+#   weight        0     2     6    14    30
+#   below floor 100    98    90    84    69      <- monotone, and the point of the term
+#   over ratio  134   133   123   119   111      <- monotone
+#   fatal       119   118   124   126   135      <- worse in the middle than at the bottom
+#
+# That fatal column is WP-7.4's published hazard recurring: a term can be worse in the middle
+# of its range than at either end, so zero and both extremes were swept.
+#
+# AND ON `auto`, WHICH IS WHAT SHIPS, IT IS A BAD TRADE: fatal 39 -> 42 to move rooms below
+# their floor 113 -> 112. CP already holds each room inside 0.88-1.20 of its programme as a
+# HARD constraint, so the floor has little left to say there, and the three fatals are real.
+# The heuristic's own gain (106 -> 95) is not worth buying on the engine nobody draws with.
+#
+# Kept rather than deleted, at zero, so the next reader has the term, the sweep and the reason
+# instead of rebuilding it. Raise the weight only with a fresh sweep ON `auto`.
+WIDTH_W = 0.0
+
+
 def level_score(rects, rooms):
-    """Area error, aspect sanity, exterior-wall satisfaction."""
+    """Area error, aspect against the room's OWN band, width floor, exterior-wall satisfaction.
+
+    WP-9.4 replaced a universal `if ar > 2.6` with the ceiling each room type states. Read
+    `shape_band()`'s comment for the measurement; the short version is that the constant was
+    looser than the corpus on 43 of 54 room types and charged the other 11 for being long,
+    which is what a passage and a gallery are FOR. Weight is unchanged at 6.0 so the only
+    thing that moved is which number the 6.0 multiplies.
+
+    The width floor is new and is the same move: `dimensions.width_ft[0]` is stated by 58 of
+    60 room types, is what `compose.repair()` already widens a room to, and is what
+    `plan_check`'s room layer already convicts a record on. The placer was the one reader of
+    that dict that could not see it -- which is how a 16 x 20 kitchen was drawn 10 x 30 while
+    the record, the composer and the critic all agreed 10 ft was below its floor.
+    """
     s = 0.0
     for r in rooms:
         x, y, w, h = rects[r["id"]]
         got, want = w * h, r["_area"]
         s += abs(got - want) / max(want, 1) * 10
-        ar = max(w, h) / max(min(w, h), 0.1)
-        if ar > 2.6: s += (ar - 2.6) * 6
+        short, long_ = min(w, h), max(w, h)
+        ar = long_ / max(short, 0.1)
+        ceil, _src = shape_band(r["type"])
+        if ar > ceil: s += (ar - ceil) * SHAPE_W
+        floor = width_floor(r["type"])
+        if floor and short < floor: s += (floor - short) * WIDTH_W
         lo, hi = band(r["type"])
         if got < lo * 0.85: s += 12
     return s
@@ -478,16 +650,63 @@ def void_enclosure_score(rects, rooms, W, H, shape, tol=0.6):
         if touched > allowed: s += (touched - allowed) * 14
     return s
 
+# WP-9.4 (task B). A door pair's charge is scaled by what the CORPUS says the opening between
+# those two rooms IS, read from openings/grammar.json — the document that already types all
+# 1,890 room pairs — rather than by one flat number for every pair in the house.
+#
+# Ruled by Lucas on 1 Sep 2026: a door is a hard adjacency where the grammar dimensions it as a
+# real opening, and a connectivity wish otherwise. The grammar draws that line itself and needs
+# no help: `open` (5.0-6.5 and 6.0-10.0 ft), `double` (5.0-6.0) and `cased-opening` (4.0-6.0)
+# are openings two rooms can only have by being one architectural volume, while a `swing` at
+# 2.0-3.7 ft is the connectivity case. `openings.required_wall_ft` — this corpus's ONE spelling
+# of how much shared wall an opening needs — then supplies the scale, so the ratio between
+# pairs comes entirely from the corpus and the only authored number is the anchor below.
+#
+# ANCHORED ON THE GRAMMAR'S OWN DEFAULT so the change is a re-weighting and not a re-scaling:
+# `og-default` is a 2.6-3.0 ft swing, whose midpoint needs 3.5 ft of wall, and ADJ_ANCHOR is
+# set so that pair costs exactly the 14 it has always cost. Every other pair moves relative to
+# it, in the direction the corpus states.
+ADJ_ANCHOR = 14.0 / 3.5          # points per foot of the shared wall the corpus asks for
+_ADJ_CACHE = {}
+_HARD_OPENING = ("open", "double", "cased-opening")
+
+
+def door_weight(a_type, b_type):
+    """(points, hard) for a door between two room types, from the grammar. Cached: this is
+    called inside the 250-candidate loop and resolving walks the rule list."""
+    key = tuple(sorted((a_type or "", b_type or "")))
+    hit = _ADJ_CACHE.get(key)
+    if hit is not None:
+        return hit
+    try:
+        CO = _mod("check_openings", f"{ROOT}/build/check_openings.py")
+        OP = _mod("openings", f"{ROOT}/build/openings.py")
+        g = CO.load_grammar() if hasattr(CO, "load_grammar") else json.load(
+            open(os.path.join(ROOT, "openings", "grammar.json")))
+        rule = CO.resolve(g, a_type, C["rooms"].get(a_type) or {},
+                          b_type, C["rooms"].get(b_type) or {})
+        op = rule.get("opening") or {}
+        band = op.get("width_band_ft") or [2.8, 3.0]
+        need = OP.required_wall_ft(sum(band) / 2.0)
+        out = (ADJ_ANCHOR * need, op.get("type") in _HARD_OPENING)
+    except Exception:
+        out = (14.0, False)          # the flat charge this replaces, if the grammar cannot be read
+    _ADJ_CACHE[key] = out
+    return out
+
+
 def adjacency_score(rects, rooms, plan_rooms):
-    """Rooms with a door between them should actually touch."""
+    """Rooms with a door between them should actually touch, weighted by what the door IS."""
     s = 0.0
-    byid = {r["id"]: r for r in rooms}
+    byid = {r["id"]: r for r in plan_rooms}
     for r in plan_rooms:
         if r["id"] not in rects: continue
         for d in (r.get("doors") or []):
             t = d["to"]
             if t == "exterior" or t not in rects: continue
-            if not touching(rects[r["id"]], rects[t]): s += 14
+            if touching(rects[r["id"]], rects[t]): continue
+            pts, _hard = door_weight(r.get("type"), (byid.get(t) or {}).get("type"))
+            s += pts
     return s / 2.0
 
 def touching(a, b, tol=0.35):

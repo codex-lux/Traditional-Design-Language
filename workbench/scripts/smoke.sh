@@ -43,11 +43,19 @@ import json, os, time, urllib.request
 
 BASE = "http://127.0.0.1:" + os.environ.get("SMOKE_PORT", "8178")
 brief = json.load(open("briefs/family-georgian.json"))
+# The revision loop runs on every compose by ruling (WP-9.2), and the route's defaults --
+# `auto` engine, 4 rounds, a 120 s set budget -- place all four candidates on CP-SAT where
+# OR-Tools is installed, as it is in CI: ~25 s a proof before a single round. This smoke
+# proves the job round-trip, not the loop (the loop is measured in
+# docs/reports/wp-9.2-the-corrective-revisions.md), so it asks for the loop BOUNDED: the
+# search engine, one round, ten seconds for the set. The first run with the loop on by
+# default sat at `running` for the whole 60 s wait and failed the PR (2 Sep 2026).
 req = urllib.request.Request(BASE + "/api/compose",
-    data=json.dumps({"brief": brief, "candidates": 4}).encode(),
+    data=json.dumps({"brief": brief, "candidates": 4, "revise_engine": "heuristic",
+                     "revise_rounds": 1, "revise_budget_s": 10}).encode(),
     headers={"content-type": "application/json"})
 job = json.load(urllib.request.urlopen(req))["job_id"]
-for _ in range(120):
+for _ in range(240):
     j = json.load(urllib.request.urlopen(f"{BASE}/api/jobs/{job}"))
     if j["status"] in ("done", "error"):
         break
@@ -55,6 +63,9 @@ for _ in range(120):
 assert j["status"] == "done", j
 cands = j["result"]["candidates"]
 print(f"{len(cands)} candidates ·", " · ".join(f"{c['parti']} {c['score']}" for c in cands))
+# the loop ran (or was skipped by the set budget and said so) on every returned candidate
+for c in cands:
+    assert c.get("revision") is not None or c.get("revision_skipped"), c["parti"]
 plan = json.load(urllib.request.urlopen(f"{BASE}/api/jobs/{job}/candidates/0/plan"))
 assert plan["levels"], "candidate plan is fetchable"
 print("candidate 0 plan:", plan["id"])

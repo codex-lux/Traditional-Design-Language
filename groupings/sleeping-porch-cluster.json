@@ -31,7 +31,13 @@
       "statement": "Depth not less than 8 ft — a bed is 6 ft 3 in and needs a passage beside it.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "porch_depth_ft at-least 8"
+      "test": "porch_depth_ft at-least 8",
+      "measures": {
+        "quantity": "porch_depth",
+        "units": "ft",
+        "room": "sleeping-porch",
+        "band": "width_ft"
+      }
     },
     {
       "statement": "Oriented to the prevailing summer breeze and away from the afternoon sun; east and north-east are the useful aspects.",

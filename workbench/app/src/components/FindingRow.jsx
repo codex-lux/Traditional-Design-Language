@@ -31,7 +31,12 @@ function FindingRow({
   onCite,
   selected,
   dense,
-  style
+  style,
+  // WP-9.3: two tags the analyst adds beside the layer -- which engine placed the house a
+  // drawn finding was read from, and what the finding MEANS to a generator. Both are
+  // strings made by revision.js; this row only shows them.
+  engineTag,
+  classTag
 }) {
   const [hover, setHover] = React.useState(false);
   const [openInner, setOpenInner] = React.useState(false);
@@ -48,6 +53,7 @@ function FindingRow({
     onMouseLeave: function () {
       setHover(false);
     },
+    "data-layer": finding.layer,
     style: {
       borderBottom: '1px solid var(--rule-soft)',
       borderLeft: '2px solid ' + colour,
@@ -82,7 +88,23 @@ function FindingRow({
       width: 76,
       flex: 'none'
     }
-  }, finding.layer), /*#__PURE__*/React.createElement("span", {
+  }, finding.layer), engineTag && /*#__PURE__*/React.createElement("span", {
+    "data-engine-tag": "",
+    title: "which engine placed the house this finding was read from (WP-9.1: every drawn finding carries it)",
+    style: {
+      font: 'var(--type-data-s)',
+      color: 'var(--ink-4)',
+      flex: 'none'
+    }
+  }, engineTag), classTag && /*#__PURE__*/React.createElement("span", {
+    "data-class-tag": "",
+    title: "what this finding means to a generator, from the last critique",
+    style: {
+      font: 'var(--type-data-s)',
+      color: 'var(--gilt-deep)',
+      flex: 'none'
+    }
+  }, classTag), /*#__PURE__*/React.createElement("span", {
     style: {
       font: 'var(--fw-reg) 12.5px/1.45 var(--body)',
       color: 'var(--ink)',

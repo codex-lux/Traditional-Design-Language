@@ -14,3 +14,6 @@ dist/ifc/
 .env.*
 *.pem
 *.key
+
+# agent worktrees are never part of the tree
+.claude/worktrees/

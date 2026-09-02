@@ -40,7 +40,11 @@
       "statement": "At least two thresholds between the public way and any room with a door that closes. One is a motel.",
       "kind": "sequence",
       "severity": "strong",
-      "test": "threshold_count at-least 2"
+      "test": "threshold_count at-least 2",
+      "measures": {
+        "quantity": "entry_threshold_count",
+        "units": "count"
+      }
     },
     {
       "statement": "Each step changes at least one condition: level, enclosure, light, or direction. Three doors in a row on one axis at one level is one threshold repeated, not three thresholds.",
@@ -51,7 +55,11 @@
       "statement": "The sequence rises. Entering downward reads as a basement whatever the finishes; two to five risers from the walk to the porch floor is the traditional and correct amount.",
       "kind": "dimension",
       "severity": "strong",
-      "test": "entry_rise_in between 14 and 42"
+      "test": "entry_rise_in between 14 and 42",
+      "measures": {
+        "quantity": "entry_rise",
+        "units": "in"
+      }
     },
     {
       "statement": "A vestibule is a thermal airlock and needs two doors that are never open at once; a vestibule with a single door is a hallway with pretensions.",

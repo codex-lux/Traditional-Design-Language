@@ -41,7 +41,11 @@
       "statement": "Sum of the three legs between sink, cooking surface and refrigerator between 13 and 26 ft, with no single leg under 4 ft or over 9.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "triangle_perimeter_ft between 13 and 26"
+      "test": "triangle_perimeter_ft between 13 and 26",
+      "measures": {
+        "quantity": "work_triangle_perimeter",
+        "units": "ft"
+      }
     },
     {
       "statement": "No major traffic route crosses the triangle. An island opening on both ends with a door beyond it puts the household through the cook's workspace.",
@@ -57,7 +61,11 @@
       "statement": "Aisle 42 in for one cook, 48 in where two work or where the aisle is also a route.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "aisle_clear_in at-least 42"
+      "test": "aisle_clear_in at-least 42",
+      "measures": {
+        "quantity": "kitchen_aisle_clear",
+        "units": "in"
+      }
     },
     {
       "statement": "Cooking surface on an exterior wall or with a straight duct run to one. A downdraft or a recirculating hood on an island is a ventilation decision disguised as a layout one.",
