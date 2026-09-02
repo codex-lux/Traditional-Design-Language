@@ -76,11 +76,15 @@ which is why it is a ruling and not a patch.
    open, at the cost of a partial answer, and **unjudged is not passed**: it would have to report
    COULD NOT EVALUATE for the rooms it did not place, never a placement that silently omits them.
 
-**This question is scoped to what is on `main` today and depends on nothing that is not.** A
-revision loop being built on another branch adds a further pass over the same submitted body,
-which would multiply the cost measured here rather than change its shape; the table above was
-taken without it and the question stands on it alone. A reader who arrives after such a loop
-lands should re-measure rather than assume these numbers are still the worst case.
+**The revision loop has since landed on `main` (PR #19), and this paragraph used to say it was
+on another branch.** That is corrected here rather than left, because "until X lands" stops being
+true the moment X lands. The loop adds a further pass over the same submitted body — `critique()`
+is quadratic in plan size through `answering()`'s deep copy per matching move per finding, measured
+at 90 s on an 800-room record by that package's own audit — so it MULTIPLIES the cost tabled above
+rather than changing its shape, and it does so on the same unbounded body. **The table above was
+taken without it and is now a floor rather than the worst case.** Anyone ruling on this should
+re-measure with the loop in the path; the argument for a cap is strictly stronger than when it was
+written, and the site question is unchanged.
 
 ## The question for a ruling
 
