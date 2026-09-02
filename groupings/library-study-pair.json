@@ -26,7 +26,11 @@
       "statement": "Continuous shelf wall of at least 10 linear ft and preferably 16. A library with three windows and a door has no wall left and becomes a sitting room with a bookcase.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "continuous_shelf_wall_ft at-least 10"
+      "test": "continuous_shelf_wall_ft at-least 10",
+      "measures": {
+        "quantity": "continuous_shelf_wall",
+        "units": "ft"
+      }
     },
     {
       "statement": "North or east light on the working surface, and never a window directly facing a desk — the glare makes the best-placed desk unusable.",

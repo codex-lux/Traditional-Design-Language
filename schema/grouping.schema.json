@@ -116,6 +116,46 @@
               "type": "string"
             },
             "description": "Styles or massings where the rule does not hold. Same discipline as the fault corpus: a rule with no stated exceptions should be genuinely universal, and you should have checked."
+          },
+          "measures": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "quantity",
+              "units"
+            ],
+            "description": "What this rule MEASURES, so that it can be held against the room record it constrains and against the rules of a grouping some parti carries alongside it. Added by oq/a-grouping-rule-and-a-room-record-can-disagree. A rule's `test` names variables (`piazza_depth_ft`) and a room record keys its bands by a different name (`width_ft`); nothing could join the two, so a grouping rule and the record it constrains could state different numbers for one quantity and nothing noticed. `room` and `band` join this rule to a room's own band; `quantity` and `units` join it to another grouping's rule. A rule with no `measures` is UNJUDGED -- build/check_grouping_rules.py reports it as could-not-compare, never as agreement. Optional, because the corpus predates it.",
+            "properties": {
+              "quantity": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$",
+                "description": "A short canonical name for the measured quantity. Where a proportion pack already names the same measure, USE THE PACK'S SPELLING -- two layers meaning one thing under two names is OQ 48 one layer out."
+              },
+              "units": {
+                "enum": [
+                  "ft",
+                  "in",
+                  "sf",
+                  "ratio",
+                  "count"
+                ],
+                "description": "Deliberately NOT the proportion pack's units enum, which is closed at in/parts/modules/ratio/count and has no `ft`. Room bands are in feet and 761 pack rules depend on that enum, so the two vocabularies are kept apart rather than one being widened for the other. OQ 53: a quantity compared without its units has already produced two wrong dimensions in this corpus, so both are required together."
+              },
+              "room": {
+                "type": "string",
+                "description": "The room record whose band this rule constrains, where it constrains one. A building-level quantity (a ridge ratio, a facade fraction) states no room and is compared only against other grouping rules."
+              },
+              "band": {
+                "enum": [
+                  "width_ft",
+                  "length_ft",
+                  "area_sf",
+                  "proportion",
+                  "ceiling_min_ft"
+                ],
+                "description": "Which of that room's `dimensions` bands. Note `ceiling_min_ft` is a scalar floor rather than a two-element band, and the checker treats it accordingly."
+              }
+            }
           }
         }
       }

@@ -46,7 +46,11 @@
       "statement": "The keeping room is within about 12 ft of the fire, which is the radiant reach of an open hearth. Beyond that the room is not warm and the household will not use it.",
       "kind": "dimension",
       "severity": "strong",
-      "test": "hearth_to_far_wall_ft at-most 14"
+      "test": "hearth_to_far_wall_ft at-most 14",
+      "measures": {
+        "quantity": "hearth_radiant_reach",
+        "units": "ft"
+      }
     },
     {
       "statement": "Cold stores face north and take no direct sun. A south-facing larder is a warm cupboard.",

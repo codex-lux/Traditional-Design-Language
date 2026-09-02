@@ -1,6 +1,6 @@
 # oq/a-grouping-rule-and-a-room-record-can-disagree — six instances, one of them on fourteen partis, and nothing checks the class
 
-*Status: RULED 2 Sep 2026 · Raised in: the WP-9.2 adversarial audit (1 Sep 2026)*
+*Status: CLOSED 2 Sep 2026 · Raised in: the WP-9.2 adversarial audit (1 Sep 2026)*
 
 **`check_addresses.py` polices pack-versus-pack and kit-versus-pack at one address. It does not see
 groupings, room bands or fault tests at all.** So a grouping's `internal_rules` test and the room
@@ -103,6 +103,32 @@ parses it and reports it **UNJUDGED** for want of a supplier, which is the corpu
 working rather than a silence. What is true is that no supplier exists, so the rule never resolves,
 and it is satisfied in practice only because 0.6–0.8 is a subset of ≤0.85. Loosen the dependency
 band and they disagree, with nothing to notice.
+
+## BUILT 2 Sep 2026 — and the ruling's own scope claim did not survive measurement
+
+`build/check_grouping_rules.py`, in `check_all.py` with `--strict`; `TOTAL_CHECKS` 43 → 44.
+Report: `docs/reports/wp-9.7-the-checker-that-must-not-say-agrees.md`.
+
+**THE SCOPE CLAIM BELOW SAYS THIS CATCHES ALL SIX EXCEPT THE KEEPING ROOM. IT CATCHES THREE, AND
+ONE OF THE THREE IT MISSES IS REPORTED AS AGREEING.** Measured before the checker was written:
+
+| # | instance | what a band comparison does |
+|---|---|---|
+| 1 | passage | **missed as ruled** — its 8–14 ft is in the `statement` and its `test` measures a ratio of another quantity. WP-9.7 authored the figure into a test, per Lucas's second ruling of the day, and it then surfaces |
+| 2 | piazza | caught — floor 10 against a band floor of 8, rule-stricter |
+| 3 | bedroom | caught — floor 10 against a band floor of 11, rule-**looser**, the other direction |
+| 4 | sleeping porch | **reports AGREES.** The rule's 8 and the band's floor of 8 coincide exactly; the disagreement the entry records is with the record's PROSE |
+| 5 | keeping room | missed, as the ruling says — and it is **three** statements, not two: `rooms/keeping-room.json` says the radiant reach "IS 10 FT" beside the grouping's 12 and its test's 14 |
+| 6 | ridge pair | caught, and it is **two** co-carried pairs rather than one — `five-part-palladian` carries `georgian-service-core` alongside both hyphen groupings |
+
+Instance 4 is why the checker carries a **third meter**: 35 figures stated in prose that no test or
+band carries, reported unjudged with the sentence quoted, so that agreement on the two numbers a
+machine can see is never read as nothing-to-see. That meter's first version scanned digits only,
+returned 50 figures of which most were arithmetic steps, and **missed the sleeping porch's NINE
+FEET because it is spelled in words** — the one case it exists for.
+
+**Two of the six therefore remain open in a new entry**, because the remedy is not this checker's:
+`oq/a-room-records-prose-states-a-floor-its-own-band-does-not`.
 
 ## Lucas's ruling, 2 Sep 2026: (1) — a checker, on the `check_addresses.py` model
 

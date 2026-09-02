@@ -48,7 +48,13 @@
       "statement": "Piazza depth 10 to 14 ft, at least equal to the depth of an interior room. Below 10 ft it fails as a room and becomes a balcony.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "piazza_depth_ft at-least 10"
+      "test": "piazza_depth_ft at-least 10",
+      "measures": {
+        "quantity": "piazza_depth",
+        "units": "ft",
+        "room": "piazza",
+        "band": "width_ft"
+      }
     },
     {
       "statement": "The street door opens onto the piazza, not into the house. Removing this move destroys the type.",
@@ -64,7 +70,11 @@
       "statement": "Principal-floor ceiling not less than 11 ft 6 in. Below that the vertical sash proportion and the stack effect both fail.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "principal_ceiling_ft at-least 11.5"
+      "test": "principal_ceiling_ft at-least 11.5",
+      "measures": {
+        "quantity": "principal_storey_ceiling_height",
+        "units": "ft"
+      }
     },
     {
       "statement": "Superimposed orders on a two-storey piazza: heavier below, lighter above. Identical columns on both levels read as a modern deck.",

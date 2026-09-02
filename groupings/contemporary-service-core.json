@@ -51,7 +51,11 @@
       "statement": "Mudroom clear width not less than 5 ft where it is also a passage — 30 in of bench and hooks plus a 30 in walking lane. A 4 ft mudroom is a corridor with coats in it.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "mudroom_clear_width_ft at-least 5"
+      "test": "mudroom_clear_width_ft at-least 5",
+      "measures": {
+        "quantity": "mudroom_clear_width",
+        "units": "ft"
+      }
     },
     {
       "statement": "The powder room door is not visible from the kitchen or any eating area.",

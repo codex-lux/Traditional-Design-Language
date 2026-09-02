@@ -1109,9 +1109,14 @@ period building is either a band corrected here or a conviction defended by name
 **Depends on:** WP-9.1 for the derivations; Lucas for the sheet images. **Size:** large.
 
 ### WP-9.3 The record heard
-**Status: NOT STARTED. Two furniture defects were found by WP-9.2 and belong here, ahead of any
-score term, because both are deterministic and both make the critic honest rather than changing
-what it wants.** (a) **The furniture layer never sees the drawing.** `plan_check.py:1250-1288`
+**Status: PART BUILT. Item (a) SHIPPED in WP-9.6 and item (b) was WITHDRAWN there; what remains
+unbuilt is the passage-width clamp and the arrival-aware stair at the foot of this section, and
+`min_passage_width` still has zero readers in Python. This line read "NOT STARTED" until 2 Sep
+2026 while the body below it already recorded both the build and the withdrawal — a status line
+disagreeing with its own section, which is "until X lands is a lie the moment X lands" (WP-6.4)
+in the file that tracks the work. Two furniture defects were found by WP-9.2 and belong here,
+ahead of any score term, because both are deterministic and both make the critic honest rather
+than changing what it wants.** (a) **The furniture layer never sees the drawing.** `plan_check.py:1250-1288`
 reads `r["width_ft"]`/`r["length_ft"]` — the DECLARED record — so `breakfast`, declared 12 x 14
 and drawn 7.0 x 27.0, passes a check whose own arithmetic says it cannot hold its essential table
 (needs 9.0 ft across, has 7.0). That is Lucas's second complaint, and the shortfall itself is never
@@ -1169,10 +1174,14 @@ partis are untouched.
 **Depends on:** WP-9.1, WP-9.3; calibrated by WP-9.2. **Size:** large.
 
 ### WP-9.5 The adversarial audit
-**Status: RUN 1 Sep 2026 against WP-9.1 and WP-9.2; four of seven auditors still reporting.**
-`docs/reports/wp-9.5-the-corrections-that-were-themselves-wrong.md`. **24 findings survived verification, 8 blocking,
-every blocking one in this session's own work and four of them in corrections it had ALREADY
-made** — a first fix that was itself wrong, or right in one file and left wrong in another.
+**Status: COMPLETE, three passes, 1-2 Sep 2026 against WP-9.1 and WP-9.2.**
+`docs/reports/wp-9.5-the-corrections-that-were-themselves-wrong.md`. **42 findings survived
+verification, 10 blocking, every blocking one in this session's own work and four of them in
+corrections it had ALREADY made** — a first fix that was itself wrong, or right in one file and
+left wrong in another. (This line said "24 findings, 8 blocking, four of seven auditors still
+reporting" until 2 Sep 2026, against a finished run and its own report's 42 and 10: a status
+frozen at the moment it was written while the work went on underneath it. The 8 was WP-8.6's
+figure, one package over.)
 Highest-yield technique, stated for the next audit: **re-derive the number, do not re-read the
 sentence.** Every blocking finding came from running something.
 Chief among them: Hammond-Harwood's bay figure was low twice and correcting it moved a conclusion

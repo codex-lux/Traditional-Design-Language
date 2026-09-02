@@ -57,6 +57,14 @@ CHECKS = [
     # zero, which is exactly what WP-5.13 did.
     ("check_division_guards.py", []),
     ("check_rooms.py", []),
+    # WP-9.7. Holds a grouping's `internal_rules` against the room record it constrains, and
+    # against a grouping some parti carries alongside it -- the axis `check_addresses.py`
+    # cannot see, because it reads packs and kits and not groupings, room bands or fault
+    # tests. `--strict` because every ratchet here was measured on the first run rather than
+    # inherited from a backlog: the three band disagreements are the register's own instances
+    # and are the DELIVERABLE, not a debt to pay down.
+    # `oq/a-grouping-rule-and-a-room-record-can-disagree`.
+    ("check_grouping_rules.py", ["--strict"]),
     # WP-6.2. Not folded into check_rooms.py: that checker globs rooms/*.json against the
     # room schema, and the opening grammar is a different document in a different directory
     # for exactly that reason.

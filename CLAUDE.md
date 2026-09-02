@@ -167,7 +167,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,312 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **44 checks, 1,326 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -182,8 +182,8 @@ libraries and fastapi absent, exactly three checks are unjudged there (`export_d
 plus the three appended suites -- so the PASS count the corpus job prints is
 `TOTAL - 3 = len(CHECKS)`, ARITHMETICALLY, every time. It read "32 of 35 checks passed" on
 27 Aug against a `len(CHECKS)` of 32, read "34 of 37 checks passed" earlier on 28 Aug against a
-`len(CHECKS)` of 34, and reads "40 of 43 checks passed" after WP-9.1's arrangement selftest against a
-`len(CHECKS)` of 40.
+`len(CHECKS)` of 34, and reads "41 of 44 checks passed" after WP-9.7's grouping-rule checker against a
+`len(CHECKS)` of 41.
 An earlier version of this sentence called that a coincidence, which told the next reader it
 probably would not happen to them; it happens at every check ever added. **Read the SECOND
 number.** `check_all.TOTAL_CHECKS` and
@@ -806,9 +806,33 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   in the paragraph reporting the unchecked count.
   `oq/a-slug-in-a-code-span-is-not-checked`. Nothing is dangling today; the guard would not notice
   if it were.
-- **A GROUPING RULE AND A ROOM RECORD CAN DISAGREE AND NOTHING CHECKS THE CLASS (WP-9.2 audit).**
-  `check_addresses.py` polices pack-vs-pack and kit-vs-pack at one address and **does not see
-  groupings, room bands or fault tests at all**. SIX instances, all pre-existing, found by hand:
+- **A GROUPING RULE AND A ROOM RECORD CAN DISAGREE, AND `check_grouping_rules.py` COUNTS THE
+  CLASS NOW (WP-9.2 audit found it; WP-9.7 built the checker).** `check_addresses.py` polices
+  pack-vs-pack and kit-vs-pack at one address and **does not see groupings, room bands or fault
+  tests at all**, so `build/check_grouping_rules.py` holds a grouping's `internal_rules` against
+  the room record it constrains and against a grouping some parti carries alongside it. The join
+  is an authored `measures` object on all 26 tested rules of the 84 -- **no grouping test name
+  matches any room band key**, so `piazza_depth_ft` has to be TOLD it means that record's
+  `width_ft`. Live: **3 band disagreements, 2 co-carried, 22 rules and 35 prose figures COULD NOT
+  BE COMPARED**, all ratcheted, plus a `compared` FLOOR because deleting an annotation makes every
+  ceiling look better. Report:
+  `docs/reports/wp-9.7-the-checker-that-must-not-say-agrees.md`.
+  **THE RULING'S OWN SCOPE CLAIM WAS WRONG AND THE MEASUREMENT IS THE ENTRY'S MAIN LESSON**: the
+  register said the checker catches five of the six, and it catches THREE -- the passage's figure
+  was in prose (authored into a test by WP-9.7, and it then surfaces), the keeping room is
+  internal, and **the sleeping porch REPORTS AGREES**, because the rule's 8 and the band's floor
+  of 8 coincide exactly while the record's real floor is conditional prose. A green tick on a
+  recorded contradiction is worse than a miss, which is why the checker carries a prose meter at
+  all. Two more counts moved: the ridge pair is **two** co-carried pairs (`five-part-palladian`
+  carries `georgian-service-core` alongside both hyphen groupings) and the keeping room is
+  **three** statements, not two -- `rooms/keeping-room.json` says the radiant reach "IS 10 FT"
+  beside the grouping's 12 and its test's 14, found by a machine on the first run of a checker
+  after the entry had been audited twice.
+  **`quantity` is inside `measures` rather than beside it, deliberately**: the ridge pair measures
+  a building-level ratio with no room and no band, so a `{room, band}`-only field would have lost
+  it. And the pack `units` enum was NOT widened -- it is closed at in/parts/modules/ratio/count,
+  761 rules depend on it, and room bands are in feet, so the grouping layer got its own.
+  The six instances as first found, all pre-existing, all by hand:
   the passage (**seven statements across five files spanning 3.0 to 10 ft**, and
   `passage-that-is-a-corridor`'s own note contradicting its own unconditional test -- the sharpest
   being `room-vernacular.json`'s rule 8, which carries `quantity: passage_clear_width`, states
@@ -831,7 +855,18 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **Do not reconcile any of them by picking the stricter or the looser number to make a checker
   green**: three have a source on one side only and it is not consistently the same
   side, and at least one is a conditional floor with no axis to be conditional on, which is
-  `oq/register-is-not-style`'s first customer.
+  `oq/register-is-not-style`'s first customer. The three band disagreements are the DELIVERABLE
+  and their ratchet is not a debt to pay down; nor are the 22 uncomparable, which are mostly
+  correct and permanent -- a building-level quantity has no band to be held against, and binding
+  one to a band it does not mean would be the OQ 48 error in a new place.
+  **The prose meter is a crude regex that says so, and the way to lower it is to AUTHOR a figure
+  into a test, never to tighten the regex until the number looks better.** Its first version
+  scanned digits with any unit, returned 50 figures of which ~45 were inch-steps inside an
+  arithmetic derivation, and missed the sleeping porch's NINE FEET because it is spelled in
+  WORDS -- the single case it exists for. Four different jobs share one syntax in that prose (a
+  governing floor, a reasoned two-tier statement, an arithmetic step, a cited measurement of the
+  historical population), which is why the residue is a question rather than a patch:
+  `oq/a-room-records-prose-states-a-floor-its-own-band-does-not`.
 - **THE FOOTPRINT'S AREA IS A PURE FUNCTION OF THE PROGRAM'S AREA, AND ADDING A BAY IS
   AREA-NEUTRAL (WP-9.2 audit).** `derive_footprint` sets `need = max(ground area, upper area)` from
   the rooms' own declared `_area`, then loops `W = bays * bay; H = need / W`. **Because H is DERIVED
@@ -1249,8 +1284,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **119 entries, of which 42 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **120 entries, of which 43 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

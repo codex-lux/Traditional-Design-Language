@@ -52,7 +52,13 @@
       "statement": "Gallery depth not less than 8 ft, and the roof over it breaks pitch consistently all around where it breaks at all.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "gallery_depth_ft at-least 8"
+      "test": "gallery_depth_ft at-least 8",
+      "measures": {
+        "quantity": "gallery_depth",
+        "units": "ft",
+        "room": "loggia",
+        "band": "width_ft"
+      }
     },
     {
       "statement": "Openings align front to back so air crosses the full depth. A blocked enfilade of openings removes the reason the section is shaped this way.",

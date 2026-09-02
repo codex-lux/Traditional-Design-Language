@@ -45,7 +45,13 @@
       "statement": "Every bedroom takes a double bed, two tables and a chest with clearances: 10 ft in the short dimension is the floor, and 11 is workable. Below 10 ft the room takes a single bed and the client will not discover it until they move in.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "bedroom_short_dimension_ft at-least 10"
+      "test": "bedroom_short_dimension_ft at-least 10",
+      "measures": {
+        "quantity": "bedroom_width",
+        "units": "ft",
+        "room": "bedroom",
+        "band": "width_ft"
+      }
     },
     {
       "statement": "No bedroom is entered through another. This is the oldest rule in domestic planning and it is still broken in bonus rooms and third bedrooms.",
