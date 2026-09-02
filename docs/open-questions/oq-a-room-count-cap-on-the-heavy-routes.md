@@ -9,19 +9,28 @@ The largest plan this project has ever needed is **25 rooms**.
 
 ## Measured
 
-`build/geometry.py::solve_heuristic`, one level, 250 candidates, a fresh plan id per call so
-`_SOLVE_CACHE` is not what gets measured:
+`build/geometry.py::solve_heuristic`, 250 candidates, a fresh plan id per call so `_SOLVE_CACHE`
+is not what gets measured. Both distributions, because they differ and the difference decides
+what a cap should count:
 
-| rooms | solve (s) | render (s) | body |
-|---|---|---|---|
-| 21 | 0.37 | 0.00 | 6.5 KB |
-| 50 | 0.62 | 0.00 | — |
-| 100 | 1.52 | 0.01 | — |
-| 200 | 4.68 | 0.01 | — |
-| 400 | 15.46 | 0.02 | — |
-| 800 | 56.34 | 0.03 | 125.3 KB |
+| rooms | one level (s) | two levels (s) | render (s) | body |
+|---|---|---|---|---|
+| ~25 (largest real plan) | 0.37 | 0.34 | 0.00 | 6.5 KB |
+| 50 | 0.62 | 0.55 | 0.00 | — |
+| 100 | 1.52 | 1.27 | 0.01 | — |
+| 200 | 4.68 | 3.14 | 0.01 | — |
+| 400 | 15.46 | 9.51 | 0.02 | — |
+| 800 | 56.34 | 33.97 | 0.03 | 125.3 KB |
 
-Doubling the rooms roughly triples the cost. **800 rooms is 56 seconds of CPU on one request, from
+Doubling the rooms roughly triples the cost.
+
+**Splitting the same rooms over two levels is CHEAPER, and that is a fact about the cap rather
+than a curiosity.** The expensive term is an O(n^2) shared-segment scan run per level, so two
+levels of 400 cost about half of one level of 800. A cap counting a plan's TOTAL rooms therefore
+bounds the cheap case and the expensive case alike at one number, when the worst case is rooms
+concentrated on a single level. Whatever site a ruling picks, the figure it counts should be the
+LARGEST LEVEL's room count rather than the sum -- or the same cap admits twice the work depending
+on how the author happened to distribute it. **800 rooms is 56 seconds of CPU on one request, from
 a body at 1.5% of the cap** — and the heavy meter admits 60 such calls an hour per identity, which
 is 56 minutes of a single core per hour from one caller who is inside every limit the deployment
 has. The infrastructure audit measured that core as the whole of the deployment's evaluate capacity
@@ -66,6 +75,12 @@ which is why it is a ruling and not a patch.
    the budget allows and report the rest as unevaluated. It keeps the record valid and the route
    open, at the cost of a partial answer, and **unjudged is not passed**: it would have to report
    COULD NOT EVALUATE for the rooms it did not place, never a placement that silently omits them.
+
+**This question is scoped to what is on `main` today and depends on nothing that is not.** A
+revision loop being built on another branch adds a further pass over the same submitted body,
+which would multiply the cost measured here rather than change its shape; the table above was
+taken without it and the question stands on it alone. A reader who arrives after such a loop
+lands should re-measure rather than assume these numbers are still the worst case.
 
 ## The question for a ruling
 

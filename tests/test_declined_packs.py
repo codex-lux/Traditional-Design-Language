@@ -366,3 +366,56 @@ def test_pair_reads_the_pack_subject_and_the_nodes_own_words():
     assert "There is no applied proportional system" in flat, "the node's own sentence is missing"
     assert "ALREADY DECLINED" in out, "a pack already declined must say so, or a later pass re-reads it"
     assert "No live gate" in out or "ARMS" in out, "the gate line is what makes endorsing legible"
+
+
+def _every_declining_node(graph):
+    """(node, pack) for every decline in the corpus, read from the graph rather than listed.
+
+    `THE_FOUR` above is WP-8.2's original four and the tests using it never grew. WP-8.7 added
+    eleven more declines across two nodes and NOT ONE of those tests named them: the mechanism
+    was proved on the first four forever. A fixed list is a guard that stops guarding the moment
+    the data moves past it, which is this repository's most-repeated defect wearing a new hat."""
+    out = []
+    for nid, node in sorted(graph["nodes"].items()):
+        for d in (node.get("declined_packs") or []):
+            out.append((nid, d["pack"]))
+    return out
+
+
+def test_every_decline_in_the_corpus_actually_stops_its_pack(rk, graph):
+    """The mechanism, over the WHOLE corpus rather than the four it was born on."""
+    declines = _every_declining_node(graph)
+    assert len(declines) >= 25, ("declines went DOWN -- if that is intended, re-pin here", len(declines))
+    for nid, pid in declines:
+        packs = rk.resolve_packs(graph, rk.chain_for(graph, nid))
+        assert pid not in packs, f"{nid} still resolves {pid} despite declining it"
+
+
+def test_every_decline_is_proved_against_the_undeclared_corpus(rk, graph):
+    """MUTATION-CHECKED, corpus-wide: strip each node's declines and every pack must come back.
+    Without this, a decline naming a pack that never reached the node would read as a working
+    refusal -- `check_pack_bindings.check_declines` has its own lie-check for exactly that, and
+    this is the same property held from the resolver's side."""
+    import copy
+    for nid, pid in _every_declining_node(graph):
+        g = copy.deepcopy(graph)
+        g["nodes"][nid].pop("declined_packs", None)
+        packs = rk.resolve_packs(g, rk.chain_for(g, nid))
+        assert pid in packs, (
+            f"{nid} does not receive {pid} even undeclared -- that decline refuses nothing")
+
+
+def test_every_node_record_quote_is_verbatim(graph):
+    """`basis: node-record` means a sentence in the node's own file says so. The build checker
+    verifies this; holding it here too means a broken quote fails a fast test rather than only
+    the full suite, and names the node."""
+    import re as _re
+    for nid, node in sorted(graph["nodes"].items()):
+        for d in (node.get("declined_packs") or []):
+            if d.get("basis") != "node-record":
+                continue
+            assert d.get("quote") and d.get("quoted_from"), (nid, d["pack"])
+            raw = open(os.path.join(ROOT, "styles", f"{nid}.json"), encoding="utf-8").read()
+            pat = _re.escape(_re.sub(r"\s+", " ", d["quote"])).replace(r"\ ", r"\s+")
+            assert _re.search(pat, _re.sub(r"\s+", " ", raw)), (
+                f"{nid}/{d['pack']}: quote is not verbatim in the node's own file")

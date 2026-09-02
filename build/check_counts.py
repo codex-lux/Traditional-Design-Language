@@ -253,6 +253,15 @@ CLAIMS = [
     ("docs/inheritance.md",    "inherited_packs", r"declines took `inherited_packs` to ([\d,]+) and `judged`"),
     ("docs/inheritance.md",    "judged",          r"and `judged` to (\d+), and moved `unendorsed`"),
     ("docs/inheritance.md",    "unendorsed",      r"moved `unendorsed`\nby four — 249 to (\d+)"),
+    # THE TRAPS LIST, AND IT IS THE REASON THIS BLOCK EXISTS AT ALL. The claim above matches the
+    # meter paragraph 700 lines lower; CLAUDE.md's traps list carried its OWN copy of
+    # `unendorsed` and went stale at 249 while this checker printed "0 stale" over it -- which is
+    # verbatim the finding WP-4.4's half of this same branch published ("every stale figure sat
+    # in a field no claim covered"), reproduced in the same file by the commit that fixed it.
+    # A number stated twice needs claiming twice.
+    ("CLAUDE.md",              "unendorsed",      r"the live backlog is \*\*(\d+) unjudged\*\* gaps"),
+    # The sentence the plan named and the first pass pointed a claim at a DIFFERENT file instead.
+    ("CLAUDE.md",              "image_never_harvestable", r"still wanted, and (\d+) of those can never be harvested"),
 ]
 
 
@@ -276,6 +285,15 @@ def main():
             continue
         text = open(full).read()
         for key, pattern in claims:
+            if key not in v:
+                # COULD NOT EVALUATE, named. The OQ 51 values need `dist/taxonomy.json`, which
+                # `check_all` builds first and which is tracked -- but a bare run in a tree where
+                # it is absent used to raise KeyError out of `str(v[key])`, so a checker whose
+                # whole subject is honest reporting crashed instead of saying what it could not
+                # judge. Unjudged is not passed, and it is not a traceback either.
+                missing.append(f"{path}: {key} COULD NOT BE EVALUATED -- "
+                               f"run build/build.py first (dist/taxonomy.json is missing)")
+                continue
             rx = re.compile(pattern, re.M)
             hits = list(rx.finditer(text))
             if not hits:

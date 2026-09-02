@@ -48,8 +48,12 @@ Every stale figure sat in exactly the fields no claim covered. And `PLAN-OF-ACTI
 carried three of the four, **was not in the checker's file list at all**.
 
 Four values are computed now — `image_building_named`, `image_never_harvestable`, `image_queries`,
-`image_queries_us` — and nineteen claims guard them across five files, `PLAN-OF-ACTION.md` among
-them for the first time. The query and the charter test are **loaded from the harvester** rather
+`image_queries_us` — and twenty claims guard them across four files, `PLAN-OF-ACTION.md` among
+them for the first time. (An adversarial audit caught this sentence saying *five* files and
+*nineteen* claims against a real four and twenty: a package whose whole finding is that an
+unchecked figure goes stale published an unchecked figure about its own claims, off by one, in
+the report that says so. The twentieth is the CLAUDE.md sentence the plan named and the first
+pass pointed at a different file instead.) The query and the charter test are **loaded from the harvester** rather
 than restated: `query_for` decides whether a record can be searched at all and `outside_the_survey`
 is the US-state allowlist, and a second spelling of either is how the citation grammar came to
 disagree with itself in three places.

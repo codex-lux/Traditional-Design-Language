@@ -107,6 +107,17 @@ caught this on the full run after the targeted suites were green. Sorted. **Both
 package were in the new tooling rather than in the judgments** — worth saying, because the
 adjudication is the part that looks risky and the plumbing is the part that broke.
 
+**AND THE DECLINES WERE CHECKED FOR THE SECOND DELIVERY PATH, WHICH NOBODY HAD ASKED ABOUT.**
+`oq/a-baked-pack-value-is-a-second-delivery-path` records that a pack rule reaches a node twice:
+live through `eval_packs`, and BAKED into an ancestor's kit file as an authored parameter carrying
+`source: <pack>`. A `declined_packs` entry closes the live path only. Three separate checks
+established that these fifteen were well-formed — schema, verbatim quote, `check_declines`' own
+lie-check — and not one of them asked whether the pack actually stops arriving. Measured directly:
+on both nodes, **0 of the declined packs survive in `resolve_packs`, and 0 baked parameters
+anywhere in either resolved kit carry a declined pack as their source.** The declines are clean.
+That is a measurement rather than an assumption now, which is the only reason it appears here: an
+adversarial audit pointed out that the package had never established it.
+
 ## What was deliberately not done
 
 **The other 245.** This pass read two nodes to near-fixpoint rather than skimming twenty, because

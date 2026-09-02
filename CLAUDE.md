@@ -108,7 +108,7 @@ if you are about to trust a number this phase published: it found two blocking d
 had introduced, one of them a false claim in WP-7.4's own commit message, the same span bug a
 second time in `render_section.py`, and six tests that passed with the fix reverted.
 
-**Phase 8 is COMPLETE** (WP-8.1 through 8.4 and 8.6, 28 Aug) — the register as a directory and
+**Phase 8** (WP-8.1 through 8.4 and 8.6, 28 Aug; **WP-8.7 2 Sep**) — the register as a directory and
 the frozen id (8.1), OQ 51's refusal half (8.2), the forbidden slot (8.3), the construction scope
 and the 331 unevaluated exception preconditions (8.4), and
 **WP-8.6, the adversarial audit of the other four** —
@@ -167,7 +167,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **42 checks, 1,251 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **42 checks, 1,279 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -308,7 +308,8 @@ and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`
 their transitive `pandas`/`numpy`/`fontTools`.** Report:
 `docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
-**Phase 8 is COMPLETE (28 Aug 2026)** — the register, the refusal half of OQ 51, the forbidden
+**Phase 8: WP-8.1 THROUGH 8.4 AND 8.6 COMPLETE (28 Aug 2026); WP-8.7 IS THE BACKLOG ITSELF AND IS
+IN PROGRESS (2 Sep)** — the register, the refusal half of OQ 51, the forbidden
 slot, and **WP-8.4, which read the fault corpus's exception preconditions for the first time**.
 331 of 846 exceptions carry a condition on the wall, the roof or the date and all three of
 `core.py`'s selection sites matched on the style id alone, so `architrave-that-is-not-there`'s
@@ -359,7 +360,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
   is **OQ 51** and is the one with 3,341 instances. Read it before trusting "132 of 132 bound".
-  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is 249 unjudged gaps, not the 233 published --
+  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **245 unjudged** gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn

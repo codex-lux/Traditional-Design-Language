@@ -90,71 +90,96 @@ def test_only_a_photograph_of_a_real_house_carries_a_building(assets):
         assert a.get("role") != "incorrect", a["id"]
 
 
-@pytest.mark.parametrize("mutate,expect", [
-    (lambda r: r["provenance"].__setitem__("building", "Nowhere House"), "not an exemplar"),
-    (lambda r: r.__setitem__("kind", "line-diagram"), "nothing to go and look at"),
-    (lambda r: r.__setitem__("role", "incorrect"), "exemplify a fault"),
-    (lambda r: r["provenance"].__setitem__("location", "Atlantis"), "location is half the query"),
-])
-def test_the_check_refuses_each_way_a_name_can_be_wrong(CA, EX, assets, mutate, expect):
-    """Every branch entered, because a branch nothing reaches is not a guard. The record is
-    mutated in memory and the checker's own predicate run over it -- the 3.4 MB manifest is not
-    rewritten to prove a four-line rule."""
-    rec = json.loads(json.dumps(next(
-        a for a in _named(assets) if (a.get("provenance") or {}).get("location"))))
-    mutate(rec)
-    errs = _refuse(rec, EX)
-    assert any(expect in e for e in errs), (rec["id"], errs)
+def _run_checker_over(rec, tmp_path, label):
+    """Run the REAL `build/check_assets.py` over a one-record manifest holding `rec`.
 
+    THE POINT, AND IT IS WHY THIS REPLACED A LOCAL COPY OF THE RULE. The first version of this
+    file carried a `_refuse()` restatement and drove three of its four mutations through THAT,
+    not through the checker. Deleting the entire provenance block from `build/check_assets.py`
+    left nine of these ten tests green -- the exact "test that could not fail" WP-8.6 found nine
+    of, in a file whose own docstring cites WP-8.6 as its reason for existing. An adversarial
+    audit caught it. Every branch is driven through the shipped binary now.
 
-def _refuse(a, EX):
-    """The checker's building rule, applied to one record. Kept beside the tests that drive it and
-    deliberately NOT a second copy of the rule: it is compared against the real checker's verdict
-    on the same record by the test below, so the two cannot drift."""
-    errs = []
-    prov = a.get("provenance") or {}
-    building = prov.get("building")
-    if not building:
-        return errs
-    if a.get("kind") != "photograph":
-        errs.append("nothing to go and look at")
-    elif a.get("role") == "incorrect":
-        errs.append("exemplify a fault")
-    else:
-        nodes = (a.get("depicts") or {}).get("nodes") or []
-        pool = [e for n in nodes for e in EX.get(n, [])]
-        hit = [e for e in pool if e.get("name") == building]
-        if not pool:
-            errs.append("traces to nothing")
-        elif not hit:
-            errs.append("not an exemplar")
-        elif prov.get("location") and not any(
-                e.get("location") == prov["location"] for e in hit):
-            errs.append("location is half the query")
-    return errs
-
-
-def test_the_local_predicate_agrees_with_the_shipped_checker(tmp_path, EX, assets):
-    """`_refuse` above is a restatement, and a restatement drifts. This runs the REAL checker over
-    a one-record manifest carrying a planted defect and holds its verdict against the local one."""
-    rec = json.loads(json.dumps(next(
-        a for a in _named(assets) if (a.get("provenance") or {}).get("location"))))
-    rec["provenance"]["building"] = "Nowhere House"
+    The manifest is a one-record temp file and ROOT is pinned to the real repo, so the schema and
+    the corpus's exemplars are the real ones while the record under test is ours.
+    """
     doc = {"schema": "asset", "version": "0.1.0",
            "counts": {"total": 1, "by_status": {rec.get("status"): 1}}, "assets": [rec]}
-    path = tmp_path / "manifest.json"
+    path = tmp_path / ("manifest_%s.json" % label)
     path.write_text(json.dumps(doc))
     src = open(os.path.join(ROOT, "build", "check_assets.py")).read().replace(
         'ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))',
         'ROOT = %r' % ROOT).replace(
-        'ASSETS = os.path.join(ROOT, "assets", "manifest.json")',
-        'ASSETS = %r' % str(path))
-    shim = tmp_path / "check_assets_shim.py"
+        'ASSETS = os.path.join(ROOT, "assets", "manifest.json")', 'ASSETS = %r' % str(path))
+    shim = tmp_path / ("shim_%s.py" % label)
     shim.write_text(src)
+    return subprocess.run([sys.executable, str(shim)], capture_output=True, text=True, cwd=ROOT)
+
+
+@pytest.mark.parametrize("label,mutate,expect", [
+    ("untraceable", lambda r: r["provenance"].__setitem__("building", "Nowhere House"),
+     "not an exemplar of any node it depicts"),
+    ("wrongkind", lambda r: r.__setitem__("kind", "line-diagram"),
+     "nothing to go and look at"),
+    ("faultrole", lambda r: r.__setitem__("role", "incorrect"),
+     "exemplify a fault"),
+    ("badplace", lambda r: r["provenance"].__setitem__("location", "Atlantis"),
+     "location is half the query"),
+])
+def test_the_check_refuses_each_way_a_name_can_be_wrong(assets, tmp_path, label, mutate, expect):
+    """Every branch entered THROUGH THE SHIPPED CHECKER, because a branch only a test copy reaches
+    is not a guard on anything. Each mutation must make `check_assets.py` exit 1 and say why."""
+    rec = json.loads(json.dumps(next(
+        a for a in _named(assets) if (a.get("provenance") or {}).get("location"))))
+    mutate(rec)
+    proc = _run_checker_over(rec, tmp_path, label)
+    # ASSERT ON THE MESSAGE, NOT THE EXIT CODE. A one-record manifest also orphans the 73 SVGs
+    # on disk, so this harness exits 1 whatever the record says -- the control test below proves
+    # exactly that, and it is the reason the exit code is worthless as evidence here. The
+    # provenance rule's own sentence is the only thing that distinguishes the branches.
+    assert expect in proc.stdout, (label, proc.stdout, proc.stderr)
+
+
+def test_the_unmutated_record_passes_the_same_harness(assets, tmp_path):
+    """The control. Without it the four mutations above could all be passing because the harness
+    itself is broken -- a one-record manifest that fails for an unrelated reason would satisfy
+    every one of them. This is the arm of the experiment that proves the instrument works."""
+    rec = json.loads(json.dumps(next(
+        a for a in _named(assets) if (a.get("provenance") or {}).get("location"))))
+    proc = _run_checker_over(rec, tmp_path, "control")
+    # It exits 1 -- the one-record manifest orphans every generated SVG -- and that is precisely
+    # the point: the exit code carries no information here, so the four mutations above must be
+    # (and are) judged on the rule's own message. NONE of those messages may appear for a record
+    # that is correct.
+    for phrase in ("not an exemplar of any node it depicts", "nothing to go and look at",
+                   "exemplify a fault", "location is half the query"):
+        assert phrase not in proc.stdout, (phrase, proc.stdout)
+
+
+def test_deleting_the_provenance_block_is_caught(assets, tmp_path):
+    """THE MUTATION THE AUDIT USED, kept as a test. Strip the building rule out of the checker's
+    source and the untraceable record must stop being refused -- which proves these tests are
+    bound to that block and not to something else in the file."""
+    rec = json.loads(json.dumps(next(
+        a for a in _named(assets) if (a.get("provenance") or {}).get("location"))))
+    rec["provenance"]["building"] = "Nowhere House"
+    src = open(os.path.join(ROOT, "build", "check_assets.py")).read()
+    start = src.index('        building = prov.get("building")')
+    end = src.index('        lic = prov.get("license")')
+    neutered = (src[:start] + '        building = None' + chr(10) + src[end:]).replace(
+        'ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))', 'ROOT = %r' % ROOT)
+    doc = {"schema": "asset", "version": "0.1.0",
+           "counts": {"total": 1, "by_status": {rec.get("status"): 1}}, "assets": [rec]}
+    path = tmp_path / "m.json"
+    path.write_text(json.dumps(doc))
+    neutered = neutered.replace('ASSETS = os.path.join(ROOT, "assets", "manifest.json")',
+                                'ASSETS = %r' % str(path))
+    shim = tmp_path / "neutered.py"
+    shim.write_text(neutered)
     proc = subprocess.run([sys.executable, str(shim)], capture_output=True, text=True, cwd=ROOT)
-    assert proc.returncode == 1, proc.stdout
-    assert "not an exemplar of any node it depicts" in proc.stdout, proc.stdout
-    assert _refuse(rec, EX) == ["not an exemplar"]
+    assert "not an exemplar of any node it depicts" not in proc.stdout, (
+        "the provenance block was removed and the checker still refused the record -- these "
+        "tests are not bound to the block they claim to guard", proc.stdout)
 
 
 def test_the_residual_is_seventy_two_and_may_only_fall():
