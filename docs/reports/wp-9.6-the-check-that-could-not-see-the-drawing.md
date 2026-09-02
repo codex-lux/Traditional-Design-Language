@@ -207,6 +207,54 @@ and `geometry_cp.py` are all absent from the `6a01225..464afdc` diff. The sheets
 was the honest result. What it also meant is that nothing in this package was looking at the ink,
 and a plate had been landing off the canvas the whole time.
 
+## 7. The stair: the input first, then the reader — and the figures that sent me here were wrong
+
+Lucas ruled the pack authoritative (7.25 in) and asked for the ceiling fallback fixed first, then
+the shared reader. Doing the first made the second nearly free — but the numbers that framed the
+question did not survive being run.
+
+**What had been published, in a commit message, two reports, `CLAUDE.md` and a register entry:**
+three spellings giving 16 / 17 / 21 risers, "3.3 ft apart on one house", caused by `openings.py`
+falling back to a hardcoded 9.0 ft ceiling. **Measured:**
+
+| spelling | input | result |
+|---|---|---|
+| `rooms/stair-hall.json` `critical_dimension` | its own worked example, a 9 ft ceiling | 16 at 7.5 in — an example, not a claim about this plan |
+| `openings.py::stair_pass` | `(11 + 1.0) × 12` = 144.0 in | **20 at 7.2 in** |
+| `structure.py::stair_geometry` | `storey_height_ft` 12.279 × 12 = 147.3 in | **21 at 7.017 in** |
+
+The 17 came from feeding `stair_pass` a 9 ft ceiling **by hand**; the plan declares
+`floor_to_ceiling_ft: 11`, so the `or 9.0` fallback never fired on it. The gap is **3.3 inches of
+floor assembly**, not 3.3 ft of ceiling — out by a factor of twelve. `structure.py` derives the
+assembly by inverting `storey-graduation.json`'s own `ceiling_height_rule` (15.35 in at 11 ft,
+11.86 in at 8.5 ft); `openings.py` used a flat 12.00 in.
+
+**The audit that first produced the 17 was honest about it** — it wrote "fed the prose's own
+input". The next pass quoted the figure without that clause, and from there it travelled as a
+measurement. **A caveat that survives one paragraph and then drops is worse than no caveat**,
+because downstream the number looks measured. It was caught by executing the function.
+
+**Built.** `build/storeys.py` holds the one derivation and is a **leaf on purpose**:
+`structure.py` loads `geometry.py`, which calls `openings.stair_pass`, so openings importing
+structure would close a cycle. `structure.py` re-exports `storey_heights` and
+`STOREY_CEILING_FRACTION` under their old names, so its three existing test callers are untouched
+and there is exactly one implementation. `stair_pass` reads `storeys.ground_storey_in(plan)`;
+**both invented constants go in one move** and the two spellings agree by construction —
+`tidewater-georgian-careful` 21/21, `spec-builder-colonial` 17/17. Where no ceiling is stated
+anywhere on the ground level the pass **refuses the stair with a reason** rather than assuming
+9.0; **0 of 16 plans take that branch today**, recorded so the refusal is not read as dead code.
+
+`tests/test_storeys.py`, five guards, including one pinning the transcribed
+`STOREY_CEILING_FRACTION` against the pack's own expression — it is a transcription, not a read,
+and that is defensible only while something holds the two together. Mutation-checked: restoring
+`(ch + 1.0) * 12` with its `or 9.0` turns the agreement test red. The pinned reference-plan
+finding counts did not move (30/65 and 57/74/4).
+
+**Left open, and it is an authoring question rather than a code one.** `rooms/stair-hall.json`'s
+prose still works its example at 7.5 in with a 12 in assembly. The ruling settles which record
+GOVERNS, not which number is architecturally right — if 7.5 is what the period sources support,
+the pack is what should move, and nobody has read a source on it.
+
 ## What was deliberately not done
 
 - **No new numeric threshold.** Severities are unchanged (short axis `serious`, long axis `minor`).

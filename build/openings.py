@@ -41,6 +41,18 @@ def _mod(name, path):
 JAMB_FT = 0.35
 MIN_SOLID_FT = 1.0
 
+_STOREYS = None
+
+
+def _storeys():
+    """build/storeys.py, loaded lazily and cached. NOT `structure.py`, which is where this
+    derivation used to live: structure loads geometry, and geometry calls stair_pass, so
+    importing it from here would close a cycle. storeys.py is a leaf for that reason."""
+    global _STOREYS
+    if _STOREYS is None:
+        _STOREYS = _mod("storeys", os.path.join(ROOT, "build", "storeys.py"))
+    return _STOREYS
+
 
 def required_wall_ft(width_ft):
     return width_ft + 2 * JAMB_FT
@@ -422,8 +434,24 @@ def stair_pass(plan, C, report):
         # a plan with no placed stair hall gets NO stair object, and that is a stated
         # absence rather than a stair of zero flights
         return None
-    ch = ground.get("floor_to_ceiling_ft") or 9.0
-    storey_in = (ch + 1.0) * 12.0                      # plus the floor assembly
+    # WP-9.6: TWO INVENTED CONSTANTS REPLACED BY THE CORPUS'S OWN DERIVATION. This read
+    #     ch = ground.get("floor_to_ceiling_ft") or 9.0
+    #     storey_in = (ch + 1.0) * 12.0                # plus the floor assembly
+    # -- a flat twelve inches of floor assembly, and a 9.0 ft ceiling for the case where the
+    # record is silent. `build/storeys.py` inverts storey-graduation.json's own
+    # ceiling_height_rule instead, which is what `structure.py` has always done: the deduction
+    # is 15.35 in at an 11 ft ceiling and 11.86 in at 8.5 ft, and it is not a constant.
+    # Measured on plans/tidewater-georgian-careful.json: 144.0 in became 147.3, and this pass
+    # now agrees with the section that draws the same stair -- 21 risers, not 20 against 21.
+    storey_in = _storeys().ground_storey_in(plan)
+    if storey_in is None:
+        # The record states no ceiling anywhere on the ground level. The number that used to
+        # stand here was 9.0 ft, invented -- the OQ 52 class exactly. A stated absence, not a
+        # stair of assumed height.
+        report.setdefault("refusals", []).append(
+            "No stair: the ground level states no floor-to-ceiling height, on the level or on "
+            "any of its rooms, so the storey it rises through is unjudged.")
+        return None
     risers = max(2, math.ceil(storey_in / 7.25))       # storey-graduation.json's own rule
     riser_in = round(storey_in / risers, 3)
     tread_in = round(max(10.0, 24.0 - 2 * riser_in), 2)

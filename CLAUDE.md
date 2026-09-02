@@ -167,7 +167,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,304 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,309 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -676,6 +676,32 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   number — against-wall runs summed against the room perimeter flag nothing (the kitchen's five
   appliances are 12.75 ft against an 80 ft perimeter) because perimeter is not available wall; a
   real one needs the placed openings. `docs/reports/wp-9.2-the-parti-is-not-the-type.md` §8.
+- **ONE STOREY DERIVATION, AND `build/storeys.py` IS A LEAF ON PURPOSE (WP-9.6).**
+  `storey-graduation.json` says *"Dimension the STOREY, not the ceiling"*, and its
+  `ceiling_height_rule` (`module - part * 1.25`, `part = module/12`) inverts to give storey height
+  from the ceiling a plan states. `structure.py` had always done that. `openings.py::stair_pass`
+  instead wrote `storey_in = (ch + 1.0) * 12.0` beside `ch = ... or 9.0` -- **a flat twelve inches
+  of floor assembly and an invented ceiling, two constants where the corpus has a derivation.**
+  The deduction is NOT constant: 15.35 in at an 11 ft ceiling, 11.86 in at 8.5 ft. On
+  `tidewater-georgian-careful` that was 144.0 in against 147.3 -- **20 risers against 21, two
+  records of one stair in one house.** Both callers read `storeys.py` now and agree by
+  construction (21/21, 17/17). **It must stay a LEAF**: `structure.py` loads `geometry.py`, which
+  calls `openings.stair_pass`, so openings importing structure closes a cycle. `structure.py`
+  re-exports `storey_heights` and `STOREY_CEILING_FRACTION` under the old names.
+  **Where no ceiling is stated the stair is REFUSED with a reason, never assumed** -- 0 of 16
+  plans take that branch today, recorded so the refusal is not read as dead code.
+  `tests/test_storeys.py` pins the transcribed fraction against the pack's own expression.
+- **A FIGURE FROM A HYPOTHETICAL INPUT IS NOT A MEASUREMENT, AND THE CAVEAT FALLS OFF (WP-9.6).**
+  The finding above was first published as "16 / 17 / 21 risers, 3.3 ft apart, because openings
+  falls back to a hardcoded 9.0". **Every number in that was wrong.** The 17 came from feeding
+  `stair_pass` a 9 ft ceiling BY HAND -- the prose's own worked example -- on a plan that declares
+  11. The audit that produced it said "fed the prose's own input" and was honest; **the next pass
+  quoted the number without that clause**, and it then travelled into a commit message, this file
+  and a register entry as though measured. The gap is 3.3 INCHES of floor assembly, out by a
+  factor of twelve, and the `or 9.0` fallback fired on no shipped plan at all. **A caveat that
+  survives one paragraph and then drops is worse than none**, because downstream the figure looks
+  measured. It was caught by running the function, which is the only thing that has ever caught
+  one of these.
 - **A LOCAL NAMED `top` OVERWROTE THE SHEET'S TOP MARGIN, AND A THIRD OF THE UPPER FLOOR WAS
   NOT DRAWN (WP-9.6).** `render_plan.render()` computes `top` once, uses it for `total_h` AND for
   `oy = top + extra_top` inside the level loop -- and the room-label block then did

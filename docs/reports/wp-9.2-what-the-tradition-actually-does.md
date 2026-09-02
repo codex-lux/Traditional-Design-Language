@@ -18,25 +18,29 @@ survive are corrected here rather than silently in the text:
    nothing holds them together**, which is this repository's most-repeated wound. A10's proposal is
    right; it should be built as one reader, not a second transcription per room.
 
-   **And two further audit passes made this much worse: there are THREE spellings, not two, and
-   they give THREE DIFFERENT ANSWERS on a shipped reference plan.** The third is
-   `build/structure.py::stair_geometry` (line 397), which carries the identical
-   `ceil(total_rise_in / 7.25)` and is named in the very docstring `openings.py` quotes. On
-   `plans/tidewater-georgian-careful.json`:
+   **And two further audit passes made this worse, then a third found the figures they
+   published were wrong.** There are THREE spellings, not two: the third is
+   `build/structure.py::stair_geometry`, named in the very docstring `openings.py` quotes.
+   **But the numbers those passes gave were not measured.** They reported `openings.py` at 17
+   risers on `plans/tidewater-georgian-careful.json`; that came from feeding the function a 9 ft
+   ceiling by hand — the prose's own worked example — when the plan declares
+   `floor_to_ceiling_ft: 11`. Measured by execution:
 
    | spelling | input | result |
    |---|---|---|
-   | `rooms/stair-hall.json` `critical_dimension` | stated | **16 risers at 7.5 in, 15 treads, 12 ft 6 in** |
-   | `openings.py::stair_pass` | `ch = floor_to_ceiling_ft or 9.0` → 120 in | **17 risers at 7.059 in, 13.33 ft run** |
-   | `structure.py::stair_geometry` | `storey_height_ft` 12.279 → 147.3 in | **21 risers at 7.014 in, 16.67 ft run** |
+   | `rooms/stair-hall.json` `critical_dimension` | its own worked example, a 9 ft ceiling | 16 risers at 7.5 in — an example, not a claim about this plan |
+   | `openings.py::stair_pass` | `(11 + 1.0) × 12` = 144.0 in | **20 risers at 7.2 in** |
+   | `structure.py::stair_geometry` | `storey_height_ft` 12.279 × 12 = 147.3 in | **21 risers at 7.017 in** |
 
-   **The divergence is not only the 7.25-against-7.5 constant.** The plan states no
-   `floor_to_ceiling_ft`, so `openings.py` falls back to a hardcoded 9.0 while `structure.py` reads
-   the storey height the section derived — 3.3 ft apart on the same house, which is where 17
-   against 21 comes from. `structure.py` is the one that draws the section. So a reader of this
-   corpus's own reference plan can be told the stair has 16, 17 or 21 risers depending on which
-   record they read, and nothing compares them. A warning about drift has become a measurement of
-   it, twice over.
+   **The gap was 3.3 INCHES and not 3.3 ft**, and it was about the FLOOR ASSEMBLY: `structure.py`
+   inverts `storey-graduation.json`'s own `ceiling_height_rule` (15.35 in at an 11 ft ceiling,
+   11.86 in at 8.5 ft) where `openings.py` used a flat 12.00 in. The `or 9.0` ceiling fallback
+   was real but latent — all 16 shipped plans state a ground ceiling, so it fired on none.
+
+   **CLOSED 2 Sep 2026** by `build/storeys.py`, one derivation with both callers reading it;
+   the two spellings now agree by construction (21/21 and 17/17). See
+   `oq/the-stair-run-is-spelled-three-times`.
+
 2. **"nothing that dimensions a room can ever read" the suite rule (§4b A11) is overstated.** The
    fact is verified — `proportions/systems/room-harmonic.json`'s rule at index 17,
    `target_slot: public_private_gradient`, is the only one of its eighteen `derived_rules` without

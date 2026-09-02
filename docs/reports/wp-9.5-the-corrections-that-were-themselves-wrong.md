@@ -146,6 +146,16 @@ holds them together"*. Fed the prose's own input (9 ft ceiling → `storey_in = 
 says **16 risers at 7.5 in, 15 treads, 12 ft 6 in**. The Python follows `storey-graduation.json`'s
 `ceil(storey / 7.25)`; the prose works at 7.5 in. A warning has been replaced by a measurement.
 
+**S2 was honest and its conclusion was not, which is a failure mode worth naming (corrected
+2 Sep 2026).** The sentence above says plainly "fed the prose's own input" — a HYPOTHETICAL. The
+third pass (T3) and then a commit message, `CLAUDE.md` and a new register entry all repeated the
+17 **without that clause**, as what the plan produces. It does not: `tidewater-georgian-careful`
+declares `floor_to_ceiling_ft: 11`, so `stair_pass` returns **20** risers, `structure.py` returns
+21, and the gap is **3.3 inches of floor assembly** — not 3.3 ft, and not the ceiling. **A caveat
+that travels one paragraph and then falls off is worse than no caveat**, because the number
+arrives downstream looking measured. Closed 2 Sep by `build/storeys.py`;
+`oq/the-stair-run-is-spelled-three-times` carries the corrected table.
+
 **S3. The passage is stated seven times, not four.** Two more suppliers: the Georgian kit's
 `circulation_parti.passage_width_ft` at `[10, 14]`, and **`room-vernacular.json`'s rule 8, which
 carries `quantity: "passage_clear_width"` and a `range` floor of 36 in against its own
@@ -382,10 +392,13 @@ than the one Gunston Hall cuts six out of.
 The second pass upgraded "they might drift" to "they have drifted" and still said two. The third is
 `build/structure.py::stair_geometry`, named in the very docstring `openings.py` quotes. On
 `tidewater-georgian-careful`: the prose says 16 risers at 7.5 in / 12 ft 6 in; `openings.py` gives
-17 at 7.059 in / 13.33 ft; `structure.py` gives **21 at 7.014 in / 16.67 ft**. And the divergence
-is not only the 7.25-against-7.5 constant — the plan states no `floor_to_ceiling_ft`, so
-`openings.py` falls back to a hardcoded 9.0 while `structure.py` reads the derived
-`storey_height_ft` of 12.279, 3.3 ft apart on one house. `structure.py` draws the section.
+17 at 7.059 in / 13.33 ft; `structure.py` gives **21 at 7.014 in / 16.67 ft**. **CORRECTED
+2 Sep 2026 — the middle figure and the diagnosis were both wrong.** The 17 is what `stair_pass`
+returns when handed the PROSE's 9 ft ceiling, which S2 said and this paragraph dropped; the plan
+declares 11, so it returns **20**. And the plan does state a `floor_to_ceiling_ft`, so the `or 9.0`
+fallback never fired on it — the real gap is **3.3 INCHES of floor assembly**, `structure.py`
+inverting `storey-graduation.json`'s `ceiling_height_rule` where `openings.py` used a flat 12.00
+in. `structure.py` draws the section. Closed 2 Sep by `build/storeys.py`.
 
 **T4. "Nothing at all for a stair too far" is false, and the truth is worse.**
 `kits/georgian-colonial-american.kit.json` authors `start_setback_from_front_door_ft` as
