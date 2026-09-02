@@ -332,8 +332,14 @@ a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Repo
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
    www.loc.gov. `build/harvest_habs.py` is written, dry-run exercised and queued against the day
    the network opens; its own status block in `PLAN-OF-ACTION.md` carries the verbatim denial. The
-   network-free next step there is giving the 322 asset records their `provenance.building` names,
-   without which every harvest query degrades to a style-name search. Then Phase 5.
+   network-free next step it named — giving the asset records their `provenance.building` names,
+   without which every harvest query degrades to a style-name search — **is done**:
+   `build/name_asset_buildings.py` deals each node's records round its own `exemplars` and 786 of
+   1850 name a building, across 305 queries of which 180 are inside HABS's charter. A dry run now
+   assigns zero. What is left offline is **72 records on 18 exemplar-less higher-rank nodes**, and
+   that needs sources or a ruling rather than a pass. **The 322 in this sentence was stale for two
+   days** and so were 845, 330 and 188 in four other files; `check_counts.py` computes all four
+   now. Then Phase 5.
 
 WP-2.3 closed Phase 2 on 25 Aug 2026: `build/geometry_cp.py` states placement to CP-SAT, enforces
 room minimums instead of scoring them, and returns a named conflict set when a brief cannot be
@@ -352,7 +358,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,356 instances. Read it before trusting "132 of 132 bound".
+  is **OQ 51** and is the one with 3,341 instances. Read it before trusting "132 of 132 bound".
   OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is 249 unjudged gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
@@ -885,8 +891,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **110 entries, of which 37 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **112 entries, of which 39 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-room-count-cap-on-the-heavy-routes, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
@@ -1022,9 +1028,16 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     way round was costed and refused: opt-in now is a morning of mechanism and a corpus-wide
     stranding.
     **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
-    `build/check_inheritance.py` pins three ceilings that may only go down -- **287 role_gaps**,
-    **3,356 inherited_packs**, **249 unendorsed** -- and one FLOOR that may only go up,
-    **judged 48** (endorsed + declined). The published 294/3,367/233 and 293/3,366/222 were both
+    `build/check_inheritance.py` pins three ceilings that may only go down -- **283 role_gaps**,
+    **3,341 inherited_packs**, **245 unendorsed** -- and one FLOOR that may only go up,
+    **judged 63** (endorsed + declined). **THE BACKLOG REFILLS AS IT IS WORKED AND 245 IS WHAT IS
+    VISIBLE RATHER THAN WHAT IS REQUIRED (WP-8.7, 2 Sep 2026)**: declining a pack re-attributes
+    the role to the next ancestor, so fifteen declines moved the headline by four, and
+    `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint -- five classical
+    orders, a Gothic arch pack and a Mudejar corbel course among them, all reaching a log cabin.
+    Read `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` before costing this
+    work from the headline. **`--pair NODE PACK`** is the screen an adjudication needs: the pack's
+    own stated subject beside the node's own words, then `--impact`. The published 294/3,367/233 and 293/3,366/222 were both
     wrong in the flattering direction: `measure()`'s ROLE loop lacked the `pack not in own_ids`
     guard its PACK loop had, so 39 role gaps were attributed to a delivery `resolve_packs` can
     never make -- the node binds that pack itself at chain[0] -- and the endorsement test then

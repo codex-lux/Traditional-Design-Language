@@ -266,6 +266,15 @@ left undimensioned and nothing is fixed either.
 judged either. That is why the meter carries a FLOOR (`judged`, which may only rise) as well as
 ceilings, and why `unendorsed` is a work list rather than a score.
 
+**READ TO THE END, THAT PROPERTY MEANS THE BACKLOG REFILLS AS IT IS WORKED (WP-8.7, 2 Sep 2026).**
+Fifteen further declines took `inherited_packs` to 3,341 and `judged` to 63, and moved `unendorsed`
+by four — 249 to 245. Simulated to fixpoint, `appalachian-log-house` needs **26 declines over 9
+rounds**, because each one promotes the next pack in the chain into the same role: five classical
+orders, a Gothic pointed-arch pack, a Mudejar corbel course and an Iberian arcade, all arriving at a
+single-pen log cabin. So the published figure is what is VISIBLE at one instant and not what the
+work requires. `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` asks whether a
+node may refuse a category once instead.
+
 ## `determined_by` means three things (OQ 19, 24 Aug 2026)
 
 The field named the slots that decide a slot and nothing resolved it, because the schema never

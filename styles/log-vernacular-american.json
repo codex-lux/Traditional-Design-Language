@@ -257,5 +257,70 @@
       "note": "Bound secondary, at low precedence, for the wider massing range this parent style covers beyond the single- and double-pen combinatorics that log-module alone fully specifies: the hall-and-parlor affinity (common here) is a genuinely unequal two-room type whose social logic -- the parlor overtaking the hall in status through the eighteenth century, hence the off-centre door -- is room-vernacular's public_private_gradient rule and has no equivalent in log-module. Also carries the loft/chamber ceiling-height figure (7 ft 6 in) for the documented two-storey log I-houses. Not given a higher role: log-module's own interior-of-the-pen dimension is the more specific and better-attested number for this style's core single-pen and double-pen forms, and where the two packs disagree log-module should win.",
       "precedence": 2
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "brick-course",
+      "reason": "Same reading as the Appalachian variant: the pack dimensions off a brick module and this node dimensions off a log one, stated in its own record. Its parent tradition is the whole continental log corpus, and none of it is laid in courses of brick.",
+      "basis": "node-record",
+      "quote": "log diameter sets course height",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Reached through `flemish-vernacular`. Declining on the child does not touch the parent, which is the correct scope: the edge is not wrong, the delivery is."
+    },
+    {
+      "pack": "trim-classical",
+      "reason": "Vignola's pedestal and entablature applied to the interior wall is a system of proportion, and this node's record refuses the category outright rather than merely differing from it.",
+      "basis": "node-record",
+      "quote": "Dimensioned by material handling, not by any system of proportion.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Arrives from `english-georgian`, the ancestor that delivers more of this backlog than any other and the one WP-8.2 measured when it refused the per-edge deny: five of its fifty are direct and the rest transitive, so there is no edge to write this on."
+    },
+    {
+      "pack": "storey-graduation",
+      "reason": "A second-to-first-storey ratio needs a stack of storeys. This node's wall height is set once, by how many courses a crew will lift, and the type is a single pen with a loft.",
+      "basis": "node-record",
+      "quote": "the number of courses a crew will lift sets wall height",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Endorsing would have ARMED `structure.graduation_check` for every plan of this style -- a code change with no diff, which is why `--gates` exists. The alternative to a decline here was not neutrality."
+    },
+    {
+      "pack": "jetty-overhang",
+      "reason": "A framed overhang and its drops, on a building with no frame. The corner is a notch and the wall is the structure.",
+      "basis": "node-record",
+      "quote": "notched at the corners so the courses interlock without a single nail",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 slots on this node."
+    },
+    {
+      "pack": "facade-gable",
+      "reason": "Same reading as the Appalachian variant: a masonry-coped or shaped gable on a building roofed with riven shingles on light poles over a log wall.",
+      "basis": "node-record",
+      "quote": "roofed with riven shingles on light poles",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "--impact on this node: the gable slots it governs pass or lapse as on the variant."
+    },
+    {
+      "pack": "timber-bay",
+      "reason": "A structural bay measured off box frames, with partitions and jambs falling near posts. The pen's length is set by the log, not by a post spacing, and the node's own record says the type simply starts a second pen rather than spanning further.",
+      "basis": "node-record",
+      "quote": "Log length sets plan width",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "The 16-20 ft figure coincides with the pack's bay range and comes from a different mechanism entirely. A matching headline number is the easiest wrong endorsement available in this backlog."
+    },
+    {
+      "pack": "timber-panel",
+      "reason": "It dimensions a framed wall with panel infill -- `expressed_frame`, `wall_thickness_frame`, a cladding layer. A log wall is solid, is its own structure, and carries no cladding.",
+      "basis": "node-record",
+      "quote": "hewn flat on two faces with a broadaxe, notched at the corners",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "--impact: `primary_cladding` and `wall_thickness_frame` lose all dimensioning; `expressed_frame` passes to `facade-medieval-english`. The losses are correct -- there is no cladding layer to dimension -- and the node's own typical_ratios carry the wall thickness a reader needs."
+    }
   ]
 }

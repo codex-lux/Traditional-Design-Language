@@ -428,7 +428,9 @@ The Georgian binding in `styles/georgian-colonial-american.json` is the template
 
 ### WP-4.4 Images from HABS
 
-**Status: THE HARVEST IS STILL BLOCKED; 73 RECORDS WERE NEVER BLOCKED AND ARE NOW SOURCED, AND THE MANIFEST NOW COVERS THE CORPUS (31 Aug 2026).** `322 wanted / 0 sourced` over three style nodes is `1,777 / 73` over 142 — the manifest was a frozen snapshot and the generator had been tracking the corpus all along. **845 records now name a real building** across 330 distinct queries, where 161 named eleven; 188 of those queries are within HABS's US charter. The acceptance line — "at least 100 sourced or generated" — is NOT met by the 73 drawn plates, and widening the authored assembly filter to reach it was refused rather than done. The eleven carry a `generated_from` block naming a proportion pack, and `build/render_profile.py` draws them from the corpus's own geometry — no network, no rights clearance, and everything needed has been present since WP-5.11. The harvester's four defects were also fixed, none of them findable by running it: a rate limit three times loc.gov's ceiling that would have returned 0 after being blocked, an unconditional `license: public-domain` the source does not state, a selector that preferred a record holding no images, and 161 records collapsing onto eleven queries behind a guard testing the opposite condition. Report: `docs/reports/wp-4.4-the-eleven-that-were-never-blocked.md`. **The routes question is ruled** at `oq/fetching-through-a-tier-the-proxy-denies`, and CI — the only tier that can fetch bytes — has not run since 29 Aug.
+**Status: THE NAMING STEP IS DONE AND ITS OWN FIGURES WENT STALE IN EIGHT FILES (2 Sep 2026).** The step every list still named as WP-4.4's next — giving the asset records their `provenance.building` names — finished on 31 Aug, and a dry run now assigns **zero**: 786 of 1,850 records name a building across 305 queries, 180 of them inside HABS's charter. Twelve claims across eight files still said 322, 845, 330 and 188, two of them instructions to do work that was finished, while `check_counts.py` reported 0 stale in the same run — every stale figure sat in a field no claim covered, and **this file was not in the checker's list at all**. Four values are computed now and nineteen claims guard them. `check_assets.py` also gained the check it never had: a building name must be an exemplar of a node the record depicts, its location that exemplar's own, on a photograph that is not `role: incorrect` — **all 786 pass, including the 161 written by hand**. What is left offline is **72 records on 18 exemplar-less higher-rank nodes**, needing sources this container cannot reach or a ruling that a child's exemplar may stand for its parent; the acceptance line (≥100 sourced, zero `license: unknown`) stands at 73 and 1,716 and needs the network. Report: `docs/reports/wp-4.4-the-record-that-said-322.md`.
+
+**Status (31 Aug 2026): THE HARVEST IS STILL BLOCKED; 73 RECORDS WERE NEVER BLOCKED AND ARE NOW SOURCED, AND THE MANIFEST NOW COVERS THE CORPUS.** `322 wanted / 0 sourced` over three style nodes is `1,777 / 73` over 142 — the manifest was a frozen snapshot and the generator had been tracking the corpus all along. **786 records now name a real building** across 305 distinct queries, where 161 named eleven; 180 of those queries are within HABS's US charter. The acceptance line — "at least 100 sourced or generated" — is NOT met by the 73 drawn plates, and widening the authored assembly filter to reach it was refused rather than done. The eleven carry a `generated_from` block naming a proportion pack, and `build/render_profile.py` draws them from the corpus's own geometry — no network, no rights clearance, and everything needed has been present since WP-5.11. The harvester's four defects were also fixed, none of them findable by running it: a rate limit three times loc.gov's ceiling that would have returned 0 after being blocked, an unconditional `license: public-domain` the source does not state, a selector that preferred a record holding no images, and 161 records collapsing onto eleven queries behind a guard testing the opposite condition. Report: `docs/reports/wp-4.4-the-eleven-that-were-never-blocked.md`. **The routes question is ruled** at `oq/fetching-through-a-tier-the-proxy-denies`, and CI — the only tier that can fetch bytes — has not run since 29 Aug.
 
 **Status (superseded, 26 Aug 2026):** All 322 asset records are still `wanted` and none can be sourced from here: this container's network policy denies the Library of Congress at the proxy. What has changed is that the package's own named next step is complete — **161 records now carry a `provenance.building` and its location**, taken from the depicted node's own `exemplars`, so the day the network opens `--live --write` works on those instead of refusing on all 322. Two findings came with it, both in `docs/reports/wp-4.4-offline-half-building-names.md`: the image layer covers **three style nodes**, not the corpus (`georgian-colonial-american` 247, `tidewater-georgian` 46, `english-georgian` 18), which no count anywhere says; and **the other 161 cannot be given a building name at all** — 150 are `role: incorrect`, and the corpus names buildings that exemplify a style, never ones that exemplify a fault. That half cannot be harvested from any archive and needs a decision rather than a fetch.
 
@@ -910,6 +912,32 @@ eleven styles and said so nowhere), `--impact`, `--forbidden`.
 Report: `docs/reports/wp-8.2-the-refusal-half.md` · new open question: **`oq/forbidden-stops-the-pack-cascade`**.
 
 **Depends on:** WP-8.1. **Size:** medium.
+
+---
+
+### WP-8.7 The adjudication backlog, first pass (OQ 51)
+
+**Status: FIRST PASS COMPLETE (2 Sep 2026) — the tooling, fifteen declines, and the finding that
+changes how the rest should be planned.** OQ 51 is ruled *adjudicate first, flip second*, and
+WP-8.2 built the refusal mechanism. This package worked the backlog for the first time and found
+that **it refills as it is worked**: `resolve_packs` fills a role from the nearest ancestor that
+binds one, so declining that pack re-attributes the role to the next ancestor rather than closing
+it. Fifteen declines moved `unendorsed` 249 → 245 and `judged` 48 → 63. Simulated to fixpoint,
+`appalachian-log-house` needs **26 declines over 9 rounds** — five classical orders, a Gothic
+pointed-arch pack, a Mudejar corbel course and an Iberian arcade, all arriving at a single-pen log
+cabin whose record says an applied proportional system falsifies the type. **249 is what is
+visible, not what is required**; eighteen nodes carry a comparable blanket refusal covering 60 of
+it, which at that rate is ~470 declines to settle under a quarter of the backlog. Raised as
+`oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times`, because for a node that takes
+NONE of what the cascade sends, the adjudication and the opt-in flip reach the same end state.
+Built: **`--pair NODE PACK`**, which puts the pack's own stated subject beside the node's own words
+and ends in the `--impact` report, and `governed()` hoisted to module scope so it is read rather
+than restated. The bar held: **`sash-light` was NOT declined** on either log node, because its
+subject is glazing supply rather than a proportional system, and a decline there would have been an
+editorial call wearing a `node-record` basis. No endorsements — a property of the two nodes chosen,
+not a policy. Report: `docs/reports/wp-8.7-the-backlog-that-refills.md`.
+
+**Depends on:** WP-8.2. **Size:** the first pass is small; the backlog behind it is not.
 
 ---
 

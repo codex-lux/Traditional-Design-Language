@@ -29,6 +29,14 @@ Lucas ruled on 31 Aug to regenerate. The manifest now holds **1,850 records over
 — 1,788 from the pair/diagram/comparison generation plus 62 more when the profile block stopped
 naming five packs and started walking all of them.
 
+> **A correction to the two figures below, 2 Sep 2026.** They read **845** records naming a
+> building across **330** distinct queries. The audit in the same commit re-keyed
+> `name_asset_buildings.py` on `kind` rather than `role` — 52 line-diagrams and 7 comparison
+> drawings had been given a real building to go and look for — and the live figures are **786**
+> and **305**, with **180** inside HABS's charter rather than 188. The entry is left as written
+> because it records what the ruling bought when it was made; `build/check_counts.py` computes all
+> four now, and `PLAN-OF-ACTION.md` was not in its file list until this correction.
+
 **What the ruling cost and bought, measured.** 1,777 records are `wanted` against 311 before, so
 the visible gap is five and a half times larger and that is the honest state rather than a
 regression. Against it: **845 records now name a real building to look for** across **330 distinct

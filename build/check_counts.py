@@ -97,6 +97,34 @@ def computed():
         v["image_wanted"] = by_status.get("wanted", 0)
         v["image_pairs"] = sum(1 for x in assets if x.get("role") == "correct")
         v["image_critical"] = sum(1 for x in assets if x.get("priority") == "critical")
+
+        # WP-4.4's OTHER four numbers, and the reason they are here (2 Sep 2026): the naming
+        # step finished on 31 Aug and its own figures went stale in eight files within two
+        # days -- 322, 845, 330 and 188 against a live 786, 305 and 180 -- while this checker
+        # stood one field away computing `image_records` from the same file. Every one of them
+        # sat in exactly the fields no claim covered.
+        #
+        # The query and the charter test are the HARVESTER'S, loaded rather than restated:
+        # `query_for` is what decides whether a record can be searched at all, and
+        # `outside_the_survey` is the US-state allowlist. Re-deriving either here would be a
+        # second spelling of a rule that already has one, which is how the citation grammar
+        # came to disagree with itself in three places.
+        v["image_building_named"] = sum(
+            1 for x in assets if (x.get("provenance") or {}).get("building"))
+        v["image_never_harvestable"] = sum(1 for x in assets if x.get("role") == "incorrect")
+        sys.path.insert(0, os.path.join(ROOT, "build"))
+        import modcache
+        H = modcache.load("harvest_habs", os.path.join(ROOT, "build", "harvest_habs.py"))
+        queries = {}
+        for x in assets:
+            if x.get("status") != "wanted":
+                continue
+            q = H.query_for(x)
+            if q:
+                queries[q] = (x.get("provenance") or {}).get("location")
+        v["image_queries"] = len(queries)
+        v["image_queries_us"] = sum(
+            1 for q, loc in queries.items() if not H.outside_the_survey(loc))
     return v
 
 
@@ -161,6 +189,29 @@ CLAIMS = [
     ("docs/assets.md",         "image_sourced",  r"records — \d+ wanted and (\d+) sourced"),
     ("docs/assets.md",         "image_pairs",    r"sourced, (\d+) good/bad pairs"),
     ("docs/assets.md",         "image_critical", r"good/bad pairs, (\d+) critical"),
+    # The four WP-4.4 numbers that went stale in eight files inside two days (2 Sep 2026).
+    # PLAN-OF-ACTION.md joins the guarded set here: it carried three of the four and was not in
+    # this list at all, which is why its Status block could say 845/330/188 against a live
+    # 786/305/180 while `check_counts.py` reported 0 stale in the same run.
+    ("CLAUDE.md",              "image_building_named", r"round its own `exemplars` and (\d+) of$"),
+    ("CLAUDE.md",              "image_records",        r"^   (\d+) name a building, across \d+ queries"),
+    ("CLAUDE.md",              "image_queries",        r"^   \d+ name a building, across (\d+) queries of which"),
+    ("CLAUDE.md",              "image_queries_us",     r"across \d+ queries of which (\d+) are inside HABS"),
+    ("README.md",              "image_building_named", r"indexes wrongness\. (\d+) name a real$"),
+    ("README.md",              "image_queries",        r"^  building to look for, across (\d+) distinct queries;"),
+    ("README.md",              "image_never_harvestable", r"Of the rest, \*\*(\d+) can never be harvested"),
+    ("README.md",              "image_queries_us",     r"distinct queries; (\d+) of those are in the United States"),
+    ("PLAN-OF-ACTION.md",      "image_building_named", r"\*\*(\d+) records now name a real building\*\*"),
+    ("PLAN-OF-ACTION.md",      "image_queries",        r"name a real building\*\* across (\d+) distinct queries"),
+    ("PLAN-OF-ACTION.md",      "image_queries_us",     r"named eleven; (\d+) of those queries are within HABS"),
+    ("STATE-OF-THE-PROJECT.md", "image_records",       r"\*\*The image layer: (\d+) records,"),
+    ("STATE-OF-THE-PROJECT.md", "image_sourced",       r"\*\*The image layer: \d+ records, (\d+) files,"),
+    ("STATE-OF-THE-PROJECT.md", "image_building_named", r"\d+ records, \d+ files, (\d+) naming a building\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "image_building_named", r"\*\*(\d+) name a real building to go and look for\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "image_queries",        r"own `exemplars`, across (\d+) distinct queries"),
+    ("STATE-OF-THE-PROJECT.md", "image_queries_us",     r"distinct queries of which (\d+) are inside HABS"),
+    ("STATE-OF-THE-PROJECT.md", "image_never_harvestable", r"name none, (\d+) are `role: incorrect`"),
+    ("STATE-OF-THE-PROJECT.md", "image_records",       r"`assets/manifest\.json`, (\d+) records over \d+ style nodes"),
 ]
 
 

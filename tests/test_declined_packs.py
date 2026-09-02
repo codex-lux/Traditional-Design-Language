@@ -121,7 +121,9 @@ def test_a_decline_counts_as_judged_and_not_as_unendorsed():
     refused — and must never be counted as a gap nobody has looked at."""
     ci = _mod("ci_d", "build/check_inheritance.py")
     _, gaps, inherited, declines = ci.measure(ci.load())
-    assert len(declines) == 10, declines
+    # 10 -> 25 on 2 Sep 2026 (WP-8.7): fifteen more, on two log nodes whose records refuse an
+    # applied proportional system outright. Every one carries a verbatim quote from its own node.
+    assert len(declines) == 25, declines
     applies = ci.applies_to_index()
     unendorsed = [t for t in gaps if t[0] not in applies.get(t[3], ())]
     judged = (len(gaps) - len(unendorsed)) + len(declines)
@@ -138,10 +140,14 @@ def test_unendorsed_did_not_move_and_that_is_the_point():
     why a falling `unendorsed` does not mean a corpus getting more correct at the same rate,
     which is the objection OQ 51's own first pass raised against the ruling."""
     ci = _mod("ci_d2", "build/check_inheritance.py")
-    assert ci.RATCHET["unendorsed"] == 249
-    assert ci.RATCHET_FLOOR["judged"] == 48
-    assert ci.RATCHET["inherited_packs"] == 3356, (
-        "ten declines removed ten real deliveries; 3366 was the figure before them")
+    # WP-8.7 read this all the way down: FIFTEEN further declines moved `unendorsed` by FOUR
+    # (249 -> 245), because each one promotes the next pack in the chain into the same role.
+    # `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint, which is
+    # `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times`.
+    assert ci.RATCHET["unendorsed"] == 245
+    assert ci.RATCHET_FLOOR["judged"] == 63
+    assert ci.RATCHET["inherited_packs"] == 3341, (
+        "twenty-five declines removed twenty-five real deliveries; 3366 was the figure before any")
 
 
 def test_the_schema_requires_a_reason_and_a_basis():
@@ -316,3 +322,47 @@ def test_a_node_that_will_not_resolve_is_reported_and_never_lowers_the_ceiling()
     assert [n for n, _ in unjudged] == [victim], (
         f"a node that raised was not reported as unjudged: {unjudged}")
     assert len(hits) < len(clean), "the sanity of this test depends on the victim having hits"
+
+
+def test_every_diagnostic_flag_actually_runs():
+    """WP-8.7 HOISTED `governed()` AND `CTX` TO MODULE SCOPE AND BROKE `--forbidden` DOING IT.
+
+    Python makes a name local to a whole function if it is assigned ANYWHERE in it, so the
+    `--slots` branch's own `CTX = {...}` made the module-level CTX unreachable from every other
+    branch of `main()`. `--slots` worked (it assigns before it reads) and `--impact`/`--pair`
+    worked (they read CTX inside `governed`, a different scope), so three of the four flags were
+    green and the fourth raised `UnboundLocalError` -- caught by `check_all`, which runs it, and
+    by nothing else.
+
+    Each flag is invoked here as a subprocess and required to exit 0 and print something. A
+    diagnostic nobody runs in a test is a diagnostic that works until it does not."""
+    import subprocess
+    import sys as _sys
+    for args in (["--roles"], ["--gates"], ["--unendorsed"], ["--forbidden"],
+                 ["--slots", "ranch-style"], ["--impact", "ranch-style", "storey-graduation"],
+                 ["--pair", "ranch-style", "storey-graduation"]):
+        p = subprocess.run([_sys.executable, os.path.join(ROOT, "build", "check_inheritance.py")]
+                           + args, capture_output=True, text=True, cwd=ROOT)
+        assert p.returncode == 0, (args, p.stdout[-2000:], p.stderr[-2000:])
+        assert p.stdout.strip(), args
+
+
+def test_pair_reads_the_pack_subject_and_the_nodes_own_words():
+    """`--pair` exists so an adjudication is one screen instead of four files. It must show what
+    the PACK says it dimensions and what the NODE'S OWN record says, because the rule this
+    package works to is that only the second may refuse the first."""
+    import subprocess
+    import sys as _sys
+    p = subprocess.run([_sys.executable, os.path.join(ROOT, "build", "check_inheritance.py"),
+                        "--pair", "appalachian-log-house", "trim-classical"],
+                       capture_output=True, text=True, cwd=ROOT)
+    assert p.returncode == 0, p.stderr
+    # The report is `textwrap`ped, so a sentence spans lines: normalise before matching, or the
+    # assertion is testing the wrap width rather than the content.
+    out = p.stdout
+    flat = " ".join(out.split())
+    assert "trim-classical" in out and "dimensions" in out
+    assert "governing_logic:" in out
+    assert "There is no applied proportional system" in flat, "the node's own sentence is missing"
+    assert "ALREADY DECLINED" in out, "a pack already declined must say so, or a later pass re-reads it"
+    assert "No live gate" in out or "ARMS" in out, "the gate line is what makes endorsing legible"
