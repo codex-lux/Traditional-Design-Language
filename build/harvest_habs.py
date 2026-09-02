@@ -219,8 +219,14 @@ def outside_the_survey(location):
     return ("HABS is a United States survey by charter and this building's location ends in %r, "
             "which is not a US state; no query here will find it. Those records need a different "
             "source, and every English photograph checked so far is share-alike, which is a "
-            "ruling rather than a fetch (oq/a-share-alike-photograph-has-no-home-in-the-asset-"
-            "schema)." % location.split(",")[-1].strip())
+            # The slug is kept on ONE line deliberately: check_citations.py reads line by
+            # line, so a slug split across a string-literal break reads to it as a truncated
+            # id and is reported dangling. Third instance of that same line-by-line gotcha --
+            # see CLAUDE.md on the WP-8.5 commit subject and on a code span straddling a
+            # newline. Do not re-wrap this string.
+            "ruling rather than a fetch"
+            " (oq/a-share-alike-photograph-has-no-home-in-the-asset-schema)."
+            % location.split(",")[-1].strip())
 
 
 _COUNT_RE = re.compile(r"(photo|measured drawing|drawing)\(s\)\s*:\s*(\d+)", re.I)

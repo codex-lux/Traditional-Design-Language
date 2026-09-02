@@ -20,6 +20,8 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **8 — Keeping the record honest** | **WP-8.1** | **Complete (28 Aug 2026)** — the open-question register has collided across parallel sessions four times in four days, and every renumbering pass after one has used a regex that CANNOT SEE THE SECOND NUMBER IN A LIST: `OQ 82 and 84` renumbers the 82 and leaves the 84, and because the stale id still names a REAL entry nothing dangles and no existence check fires. Three live instances were on main and **one of them was written by a different session on a different branch**, which is what makes it a class. Fixed, the 22 bare-continuation lists normalised so every cited id carries its own prefix, and `build/check_citations.py` added to `check_all` (37 checks) to hold it there. It fixes the AFTERMATH of a collision and deliberately not the cause; the cause is **OQ 99**, which was raised by reading the highest id in this working copy and says so. **OQ 99 was then ruled and executed in the same package**: the numbers are FROZEN AT 99 and every new question is NAMED (`### oq/<slug>`), because a sequential id has to be issued from somewhere and the only shared state two parallel sessions have is the repo they both branched from. A slug is derived from the subject rather than issued, so two sessions picking one have raised the same question and the conflict is the one you want. Check D refuses a numbered entry above the ceiling, so the old mechanism is unavailable rather than discouraged. The legacy numbers are deliberately NOT migrated: nothing parses an OQ id, so a renumber was possible and pointless -- commit messages carry the old numbers and cannot be rewritten, so a uniform scheme was never available. Successor question, and the first under the new scheme: `oq/two-id-namespaces`. Report: `docs/reports/wp-8.1-the-citation-guard.md` |
 | **6 — Plan semantics** | WP-6.1, 6.2, 6.3, **6.4 (the audit)** | **Complete (27 Aug 2026)** — raised by Lucas, not by the plan: the rendered sheets were "colorless green ideas sleeping furiously", every part well-formed and the whole meaningless. A door had no wall, no position and no rank; the renderers invented what the record could not say and dropped what it could; nothing checked that you could walk from the front door to a room |
 | **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, **8.3**, **8.4** | **Complete (28 Aug 2026)** — **WP-8.1, WP-8.2 and WP-8.3 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **`oq/forbidden-stops-the-pack-cascade`**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. **WP-8.3** made `forbidden` stop the pack cascade too (`oq/forbidden-stops-the-pack-cascade`) and found that `elevation.py` reaches packs by `PE.resolve` and never through the resolver — a second path nothing had named, 46 pairs, 16 refused and 24 disclosed. **WP-8.4** read the exception preconditions -- 331 records, 123 naming a construction, and not one line of code had ever consulted any of them. `granted_when` (renamed from a second `applies_when` in the same schema), a closed 61-token construction vocabulary over variant ids that already exist, three verdicts with the unjudged case judged BOTH WAYS and reported unjudged only where the two rules disagree. It also collided head-on with main, which had shipped its own OQ 88 scope, its own OQ 99 and its own WP-8.1: **ruled -- main's `scope` field survives and this vocabulary is ported into it**, after measuring that main's substring classifier over the cladding disagreed with each node's own `construction_type` on 13 of 164 styles, `cape-dutch` among them, which is OQ 88's own bug surviving inside OQ 88's fix. OQ 86 closed (`kit_vs_pack` read the node's own file, 62 -> 1,231), OQ 90 closed at its third option (a WP number is a label; cite the report), and OQ 89's remainder swept up: `elevation.py` read `shutter` and `window_head_masonry` off the RAW kit under a comment naming `shutter` as needing the cascade. Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions: `oq/applies-when-means-two-things`, `oq/a-baked-pack-value-is-a-second-delivery-path` |
+| **9 — Arrangement** | **WP-9.1** complete · **9.2, 9.3, 9.4, 9.5 not started** | **In progress (1 Sep 2026)** — raised by Lucas against a rendered sheet, and the founding failure mode one level above Phase 6: a 10 x 30 ft kitchen, a portico off the axis of its passage, a dining room landlocked mid-house. The corpus already stated every band the sheet broke and **twenty-seven of the twenty-eight plan-measurable faults came back UNJUDGED** because nothing had ever supplied a plan-arrangement variable. **WP-9.1 is the arbiter and only the arbiter** — no solver, no renderer, both reference plans byte-identical — because seven of the solver's eight arrangement score terms had no critic counterpart at all, against `plan_check.py`'s own stated principle that the search charges preferences and the critic is the arbiter. Six of Lucas's seven complaints are named; the seventh (the passage) the corpus declines to call a fault, which is stated rather than invented around. A plant-room zero was built, convicted BOTH reference plans and was withdrawn; the first shape check convicted the GOOD plans and lost the direction the corpus does not state. Report: `docs/reports/wp-9.1-the-arbiter-for-arrangement.md` · new question: `oq/a-daily-route-is-an-editorial-model` |
+
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
 1. ~~**OQ 28**~~ — **done 24 Aug 2026**: `build/modcache.py`. `check()` 3.06 s → 0.31 s, `compose()` 30-40 s → 7-9 s, the suite back to one run at 2 min 24 s. See `docs/reports/oq-28-module-cache.md`.
@@ -1021,6 +1023,222 @@ Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions:
 **Depends on:** WP-8.3, and a merge of main. **Size:** large.
 
 ---
+
+# PHASE 9 RAN TWICE, IN PARALLEL, AND BOTH LINES ARE REAL
+
+**Two sessions each opened a Phase 9 on 1 September 2026 and each numbered from 9.1. Neither is
+a draft of the other and neither is renumbered.** One is ARRANGEMENT — the arbiter, the
+precedents, the unit of composition — raised by Lucas against a rendered sheet. The other is THE
+CRITIQUE AND THE CORRECTIVE REVISIONS — the analyst, the move registry, the revision loop —
+asked for by Lucas the same day. They met at the merge of PR #19 and PR #20.
+
+**So there are two WP-9.1s, two WP-9.2s, two WP-9.3s and two WP-9.4s.** That is `OQ 90` at four
+times the scale it was recorded at, and its ruling stands and is the only thing that makes this
+navigable: **cite the report by FILENAME and never the bare number.** All eleven Phase 9 reports
+carry distinct slugs and coexist in `docs/reports/`, which is why nothing had to be renamed:
+
+| number | arrangement line | critique line |
+|---|---|---|
+| 9.1 | `wp-9.1-the-arbiter-for-arrangement.md` | `wp-9.1-the-critique.md` |
+| 9.2 | `wp-9.2-the-parti-is-not-the-type.md`, `wp-9.2-what-the-tradition-actually-does.md` | `wp-9.2-the-corrective-revisions.md` |
+| 9.3 | (no report — part built) | `wp-9.3-the-revision-surfaces.md` |
+| 9.4 | `wp-9.4-the-unit-was-not-the-problem.md` | `wp-9.4-the-things-the-reports-said-were-checked.md` |
+| 9.5-9.7 | `wp-9.5-…`, `wp-9.6-…`, `wp-9.7-…` | — |
+
+**Renumbering was not available and the reason is the one OQ 90 records**: pushed commit
+subjects on both branches name these numbers and cannot be rewritten. A bare "WP-9.2" in this
+repository's history is ambiguous BY BRANCH, exactly as a bare "OQ 78" became ambiguous by date.
+**The two lines also met in the code**, and that merge is recorded where it happened rather than
+here: `plan_check`'s findings carry the critique line's structured evidence AND the arrangement
+line's shape and furniture checks; `compose.repair` is the critique line's revision loop, and
+the arrangement line's style-layer passage-floor branch was PORTED into the move registry as
+`passage-to-the-styles-own-floor` rather than dropped with the function that held it.
+
+## Phase 9 — Arrangement
+
+*Raised by Lucas on 1 September 2026 against a rendered sheet of `tidewater-georgian-careful`:
+a 10 x 30 ft kitchen, a 27 x 7 ft breakfast room, an entrance portico off the axis of the
+passage it serves, a dining room landlocked in the middle of the house, a stair in the corner
+of a misshapen hall. His diagnosis: "it's still being procedurally generated at a lower level
+than the idiom … the unit of room organization is already established, and you're playing with
+units at a higher level of sense-making." The founding failure mode, one level above Phase 6:
+that phase made the sheet honest about the placement and gave the record a vocabulary for an
+OPENING. Nobody ever gave the record, the critic or the solver one for ARRANGEMENT.*
+
+**Lucas's rulings at planning (1 Sep 2026):** the arbiter is built first and the precedents run
+beside it; HABS sheet images are curated here as a URL list and **downloaded by Lucas** into the
+repo (the proxy still answers 403 to CONNECT for `www.loc.gov`, re-verified 1 Sep; the Tavily
+tier reaches the survey records and the written-data PDFs but cannot deliver a sheet into this
+container); and **grouping-as-unit composition is BUILT this phase rather than deferred** —
+"the smaller fixes treat symptoms and this is the disease."
+
+### WP-9.1 The arbiter for arrangement
+**Status: COMPLETE (1 Sep 2026).** Report:
+`docs/reports/wp-9.1-the-arbiter-for-arrangement.md`.
+`build/arrangement.py`, new, in two halves because OQ 54's reversal has a boundary: `declared()`
+is geometry-blind and feeds the fault layer; the drawn checks and `grouping_vars()` read the
+placement, which only the `drawn` layer may do. A fault is evaluated in exactly one of them.
+**Twenty-seven of the twenty-eight plan-measurable faults were UNJUDGED** on this corpus's own
+most carefully authored plan, because nothing had ever supplied a plan-arrangement variable.
+**Six of Lucas's seven complaints are now named**; the passage's size is the seventh and the
+corpus declines to call it a fault, which is stated rather than papered over. **The arbiter
+found a real defect on its first run and the package had to fix the generator to ship**:
+supplying `passage_clear_width_ft` armed `passage-that-is-a-corridor` -- fatal for a formal
+centre-passage style -- on a composer that had been sizing this brief's passage at 7.9 ft for
+three phases, which disqualified all three NATIVE partis and returned a side-hall townhouse for
+a Tidewater Georgian brief. The formal floor is stated in the fault, the grouping and the
+style's own cascaded kit ([10, 14] ft); only the room catalogue's vernacular 6 ft had a reader. Four findings worth
+carrying: a plant-room zero was BUILT, convicted both reference plans, and was withdrawn (the
+catalogue has no room type for a plant room, so the fault is unjudgeable in both directions);
+the first shape check convicted the GOOD reference plans and had to lose the direction the
+corpus does not state; the entrance-axis check missed the very sheet that raised the package
+because it compared against `max(leaf)` instead of the sum of the half-widths; and
+`declared()` was reading `plan["footprint"]`, which the solver writes — a placement leak into
+the geometry-blind layer, caught by the test written to pin the boundary. **The drawn passage
+band lookup had been dead code since it was written** (`cp.get("rules")` against a record whose
+key is `internal_rules`) and was never read, so it changed no verdict and nothing noticed for
+three phases. New question: `oq/a-daily-route-is-an-editorial-model`. **It also executes OQ 94's
+third branch** — the reference plan is now convicted of its own style's hard two-door passage
+rule, un-exempted and with no second door authored. That wants a ruling.
+**Depends on:** nothing. **Size:** medium.
+
+### WP-9.2 The precedents
+**Status: TEXT HALF DONE, IMAGE HALF STILL WAITING ON LUCAS'S DOWNLOAD.**
+TWO reports: `docs/reports/wp-9.2-the-parti-is-not-the-type.md` (the measured half -- HABS written
+data, the code, the furniture sweep) and `docs/reports/wp-9.2-what-the-tradition-actually-does.md`
+(the study of the compositional literature, with an adversarial sourcing pass and ten questions
+for Lucas at §7, none of them answered). The two were produced by different routes and agree where
+they touch. `Plan Examples/HABS/WANTED.md` is the download list. The package text below is left as written.
+What changed: **loc.gov is reachable through the Tavily MCP tier**, so the HABS *written
+historical and descriptive data* — overall dimensions, room-by-room plan descriptions,
+structural systems, fenestration counts — could be read now rather than after a download, for
+the three exemplars `centre-passage-double-pile` itself names. The finding is that **the parti
+asks a Georgian main block to hold twice the rooms any of its exemplars holds**, because six of
+its eleven enclosed ground rooms are service and all three exemplars put their service in a
+basement, an outbuilding or a wing. That reframes WP-9.3 and WP-9.4: the envelope the generator
+produces has a CLEAR extent about 3 ft larger on each dimension than Gunston Hall's (60.0 x 40.0
+of wall-less room rectangles against a 56.8 x 37.0 clear extent inside a 60'-10" x 40'-11½"
+exterior foundation), and 9 to 14% more clear area, so nothing is wrong with the
+footprint or the area, and no score term can undo a program that does not fit the type. **Six** open questions raised (an earlier version of this block named three): `oq/the-parti-dissolved-its-own-dependencies`,
+`oq/a-massing-states-its-structure-and-nothing-reads-it`,
+`oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it`,
+`oq/the-proportion-band-forbids-the-square`, and from the adversarial audit
+`oq/a-grouping-rule-and-a-room-record-can-disagree` and
+`oq/a-slug-in-a-code-span-is-not-checked`. Lucas ruled a seventh on 1 Sep,
+`oq/register-is-not-style` — register is a first-class axis, not style. **Still not done:** no sheet
+transcribed, `plans/precedents/` does not exist, no band changed, no parti edited — the first
+of those three questions is Lucas's to rule before any of it.
+
+Real period plans, measured, under the partis' own exemplar names
+(Drayton Hall, Gunston Hall, Hammond-Harwood, Mount Airy, Shirley, Westover). The 14 "reference
+plans" are transcriptions of MODERN plan-book screenshots and there is no period building
+anywhere in `plans/`; the asset manifest holds 1,850 records and **zero of kind `plan` or
+`measured-drawing`** though the schema allows both. Curate the HABS survey and sheet URLs via
+Tavily under `build/harvest_habs.py`'s own selection policy, write the wanted-list for Lucas to
+download, transcribe 5-10 centre-passage/Georgian plans into `plans/precedents/` by multimodal
+reading with per-field confidence (the WP-2.1 precedent), and measure them with
+`build/measure_precedents.py` into the corpus's first SOURCED arrangement dataset. **The
+calibration run is the point**: the WP-9.1 critic over every precedent, and any conviction of a
+period building is either a band corrected here or a conviction defended by name.
+**Depends on:** WP-9.1 for the derivations; Lucas for the sheet images. **Size:** large.
+
+### WP-9.3 The record heard
+**Status: PART BUILT. Item (a) SHIPPED in WP-9.6 and item (b) was WITHDRAWN there; what remains
+unbuilt is the passage-width clamp and the arrival-aware stair at the foot of this section, and
+`min_passage_width` still has zero readers in Python. This line read "NOT STARTED" until 2 Sep
+2026 while the body below it already recorded both the build and the withdrawal — a status line
+disagreeing with its own section, which is "until X lands is a lie the moment X lands" (WP-6.4)
+in the file that tracks the work. Two furniture defects were found by WP-9.2 and belong here,
+ahead of any score term, because both are deterministic and both make the critic honest rather
+than changing what it wants.** (a) **The furniture layer never sees the drawing.** `plan_check.py:1250-1288`
+reads `r["width_ft"]`/`r["length_ft"]` — the DECLARED record — so `breakfast`, declared 12 x 14
+and drawn 7.0 x 27.0, passes a check whose own arithmetic says it cannot hold its essential table
+(needs 9.0 ft across, has 7.0). That is Lucas's second complaint, and the shortfall itself is never
+stated -- the room draws other findings (all 20 such rooms do, and 7 draw a furniture finding about
+a different item), so this is a missing FACT rather than an invisible room. Where the check does
+fire it quotes the declared figure, so `cl3` reads "has 3 ft" against a rectangle drawn 2.0 ft
+wide and every shortfall in the set is understated — the OQ 52 family. Re-run the SAME arithmetic
+in the `drawn` layer (the only layer permitted to read placement, OQ 54): one function, two
+callers, never a second transcription. **The `openings.required_wall_ft` precedent is about the
+DISCIPLINE and not about the mechanism** — that rule is deliberately spelled three times
+(`openings.py`, `render_plan.py`, `derive.js`), because one of them is JavaScript and the app
+suite may import nothing, and `tests/fixtures/sheet_symbols/` holds all three to one contract so
+that changing one fails two suites. Copy the discipline, not the copies: here both callers are
+Python in `build/`, so a shared function is available and is the right form.
+**Ratchet the DETERMINISTIC figures and name the engine.** The WP-9.2 audit found that the
+originally published 133/50 are `engine="auto"` numbers that drift (130, 132, 133 on an unchanged
+tree) because `auto` solves 15 of 16 plans with CP-SAT under a time budget. `engine="heuristic"`
+gives **86 drawn fails and 25 rooms whose drawn shortfall is never stated**, identical on three
+cold runs. Ratchet those, or pin
+CP's budget and seed and prove stability first.
+(b) **WITHDRAWN, AND THE WITHDRAWAL IS THE POINT (WP-9.6).** This item read "every furniture item
+is assumed to rotate ... the kitchen island is turned sideways ... needs a typed field on the item,
+AUTHORED". It was wrong: `sorted()` pairs the item's short side with the room's WIDTH and its long
+side with the room's LENGTH, which is the paired-axis rule already present, and the island's long
+axis fires at 13.0 ft on `bad-03` and `bad-04`. No typed field is wanted. **What was really wrong
+was the `elif`** -- the long axis was tested only where the short axis had passed, dropping 41
+declared and 15 drawn shortfalls; they are two independent checks now. The item survived three
+audit passes because each one re-read the sentence; it died when someone ran the function. A whole-room furnishability test was
+tried and REFUSED with its measurement: against-wall runs summed against the room perimeter flag
+nothing (the kitchen's five appliances are 12.75 ft against an 80 ft perimeter), because perimeter
+is not available wall; a real one needs the placed openings and belongs in the drawn layer.
+`docs/reports/wp-9.2-the-parti-is-not-the-type.md` §8.
+
+Deterministic first, no weights: the passage's width clamped to its own
+`width_ft` band intersected with the CASCADED kit's `min_passage_width` (never the raw kit —
+`oq/the-raw-kit-read`), and an arrival-aware stair, since `openings.stair_pass` anchors every
+flight at the room rectangle's origin corner by construction and every stair in the corpus is
+therefore in a corner. Then ONE score term, under the full WP-7.4 discipline: `level_score`'s
+type-blind `(ar-2.6)*6` replaced by a charge against the room's own `proportion` band — it
+currently fines the passage 8.9 points for being what it is and the 27 x 11 kitchen nothing.
+Clear `_SOLVE_CACHE` between settings; sweep the whole range including zero and the extremes.
+**Depends on:** WP-9.1. **Size:** medium.
+
+### WP-9.4 The unit of composition
+**Status: NOT STARTED — the centrepiece, per Lucas's ruling.** A `parti_slice()` beside
+`courtyard_slice()`, on that function's own precedent: the heuristic cannot find a ring, so the
+ring is STATED as a guillotine tree rather than searched for. The same move one level up — the
+grouping/parti structure states the macro-plan (passage slab, entry zone aligned by
+construction, flanking pairs, service in the rear third or ell) and the 250 candidates vary only
+within it. **Typed fields only**: parti `exterior_walls`/`function_class`/`level`, grouping
+membership, massing `circulation` and `depth_rooms`. `attaches_to[].position` strings stay
+unread — missing vocabulary is AUTHORED as a typed field with a basis, never parsed out of
+prose. Opt-in per circulation family, with `check_partis` check 10 as the guard that the other
+partis are untouched.
+**Depends on:** WP-9.1, WP-9.3; calibrated by WP-9.2. **Size:** large.
+
+### WP-9.5 The adversarial audit
+**Status: COMPLETE, three passes, 1-2 Sep 2026 against WP-9.1 and WP-9.2.**
+`docs/reports/wp-9.5-the-corrections-that-were-themselves-wrong.md`. **42 findings survived
+verification, 10 blocking, every blocking one in this session's own work and four of them in
+corrections it had ALREADY made** — a first fix that was itself wrong, or right in one file and
+left wrong in another. (This line said "24 findings, 8 blocking, four of seven auditors still
+reporting" until 2 Sep 2026, against a finished run and its own report's 42 and 10: a status
+frozen at the moment it was written while the work went on underneath it. The 8 was WP-8.6's
+figure, one package over.)
+Highest-yield technique, stated for the next audit: **re-derive the number, do not re-read the
+sentence.** Every blocking finding came from running something.
+Chief among them: Hammond-Harwood's bay figure was low twice and correcting it moved a conclusion
+(the parti's 9 ft is BELOW all three exemplars, not at the low end of their range); Morris turns
+out to be Palladio at one remove, so two sources were being counted where there is one; the
+headline furniture figure was `engine="auto"` and not reproducible (±3 between runs), and the
+deterministic engine gives 86/25 — **and CP-SAT, the engine that proves, draws about 131
+unfurnishable items where the search draws 86**; and "nothing else in the pipeline can make the
+house bigger" was false, because `compose.repair()` widens a declared width on a furniture finding
+— from the DECLARED record, so it never sees the room drawn as a sliver.
+Two pre-existing gaps exposed and raised rather than patched:
+`oq/a-grouping-rule-and-a-room-record-can-disagree` (five instances, one on the grouping 14 partis
+carry) and `oq/a-slug-in-a-code-span-is-not-checked` (65% of the live namespace unguarded, and the
+blind spot is load-bearing). Guards mutation-tested and ALIVE are listed too, because "the tests
+pass" is not evidence.
+
+The phase tradition (6.4, 7.5, 8.6). Read
+`docs/reports/wp-8.6-the-guards-that-could-not-fire.md` first: hunt guards that cannot fire,
+readers pointed at the wrong record, and verdicts claiming "no precondition" about records that
+carry one. Mutate every new test, re-derive every published number on the current tree, sweep
+the styles, and correct every comment the four packages made false in the same commit as the
+finding.
+**Depends on:** WP-9.1 through 9.4. **Size:** medium.
 
 ## Phase 9 — The critique and the corrective revisions
 

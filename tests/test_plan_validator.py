@@ -59,14 +59,29 @@ class TestShippedPlans:
         # a check stopped looking: the finding that remains still fires, with a better number.
         # That a span-capacity charge produces a sittable porch is a coincidence of this plan's
         # geometry and not a claim about the term.
-        # 53 -> 52 on 1 Sep 2026 (WP-9.1). `wing-pitch-drift`'s near-miss secondary --
-        # "the difference between distinct slope angles is at least 8 degrees" -- was running
-        # on a house with ONE roof slope, where build/elevation.py states that difference as
-        # 0.0, and convicting it of "Every Wing Its Own Pitch" on a roof with no wing. The
-        # secondary now carries an `applies_when` on the slope COUNT (the dormer-off-the-bay
-        # pattern: zero dormers is not an even number of dormers). One conviction on a
-        # quantity that did not exist, removed; the primary test still runs and clears.
-        assert result["counts"]["serious"] == 52
+        # 53 -> 57 on 1 Sep 2026 (WP-9.1, the arrangement line), and every one of the four is
+        # a fault that could not be judged before because nothing supplied its measurement.
+        # THREE come from the fault layer, newly fed by build/arrangement.py:
+        # `closet-depth-taken-from-the-room` (The Depth Tax, 9.5 ft against an 11 ft floor),
+        # `front-door-into-the-living-room` (The Door With No Room Behind It, a 24 sf entry
+        # against 30), and `ceremonial-front-door` (The Front Door Nobody Uses, no daily route
+        # through the formal entry). The FOURTH is a grouping rule that carried a machine test
+        # and was never run: contemporary-service-core's mudroom clear width, 4 ft against its
+        # own 5 ft floor.
+        #
+        # 53 -> 52 on 1 Sep 2026 (WP-9.1, the CRITIQUE line, in parallel -- two Phase 9s, see
+        # PLAN-OF-ACTION.md's header). `wing-pitch-drift`'s near-miss secondary -- "the
+        # difference between distinct slope angles is at least 8 degrees" -- was running on a
+        # house with ONE roof slope, where build/elevation.py states that difference as 0.0,
+        # and convicting it of "Every Wing Its Own Pitch" on a roof with no wing. The secondary
+        # now carries an `applies_when` on the slope COUNT (the dormer-off-the-bay pattern:
+        # zero dormers is not an even number of dormers).
+        #
+        # THE MERGED FIGURE IS MEASURED, NOT ADDED UP. The two branches pinned 57 and 52 from a
+        # shared baseline of 53, and 53 + 4 - 1 is an arithmetic prediction rather than a
+        # reading of the tree -- which is the habit this repository has been caught by more
+        # than once. Re-derived on the merged tree:
+        assert result["counts"]["serious"] == 56
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
@@ -86,7 +101,18 @@ class TestShippedPlans:
         # leaf-width ratios with no author and are refused now, and
         # `muntin-wider-than-its-date` stops firing too -- see the Tidewater note below.
         # The combined figure is 60 -- neither 62 nor 56, and not predictable from either.
-        assert result["counts"]["minor"] == 60
+        # 60 -> 62 on 1 Sep 2026 (WP-9.1): primary-suite's own share-of-the-sleeping-floor rule,
+        # which carried a test nothing evaluated, and the mud room at 4 x 9 ft -- 2.25 to 1
+        # against the 1.0-2.2 band its record states. 54 of the 60 room records declare a
+        # `proportion` band and no line of code had ever read one.
+        # 62 -> 74 on 2 Sep 2026 (WP-9.6): the furniture check's `elif` became two independent
+        # checks. The long axis was tested only where the short axis had PASSED, so a room
+        # failing both was told about one of them -- 41 shortfalls across the sixteen plans that
+        # the check had already computed and discarded, twelve of them here. **Serious 57 and
+        # fatal 4 are UNMOVED**, which is the evidence that this surfaced dropped facts rather
+        # than changing any judgement: every long-axis finding is minor, and nothing was
+        # re-graded.
+        assert result["counts"]["minor"] == 74
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -147,7 +173,17 @@ class TestShippedPlans:
         # 62 -> 61 (OQ 52): the same invented stack-shadow-line count as the spec Colonial.
         # 61 -> 60 on 27 Aug 2026 (WP-5.13): `shutter-panel-scale`, which was reading two
         # fabricated leaf-width ratios -- see the serious-count note above.
-        assert result["counts"]["minor"] == 60
+        # 60 -> 61 on 1 Sep 2026 (WP-9.1): the linen press runs 5 ft against the 2.5-4 ft band
+        # its own record states. ONE new minor and NO new serious, on the plan written to see
+        # whether the validator stays quiet on a house that respects the corpus -- against four
+        # new serious on the spec Colonial. A check that convicts the careful plan and the
+        # ordinary one alike is measuring something other than quality, and this one does not.
+        # 61 -> 65 on 2 Sep 2026 (WP-9.6), the same `elif` split as the spec Colonial above and
+        # for the same reason -- four long-axis shortfalls this house was already failing and was
+        # never told about. **Serious 30 and fatal 0 are UNMOVED.** The careful plan takes four
+        # new minors where the ordinary one takes twelve, which is the ratio this pair of tests
+        # exists to watch.
+        assert result["counts"]["minor"] == 65
 
 
 class TestAdjacencyMechanics:

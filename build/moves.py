@@ -300,6 +300,43 @@ def _passage_to_its_band(plan, f, C, ctx):
     return {"changed": ch, "log": f"Widened {_name(r)} from {d} to 6.0 ft, the passage that circulates."}
 
 
+def _passage_to_the_styles_own_floor(plan, f, C, ctx):
+    """The passage floor the STYLE states, which the catalogue's does not cover.
+
+    `passage-to-its-band` beside this one widens to 6.0 ft, which is
+    `rooms/centre-passage.json`'s own floor and is right for the northern vernacular passage
+    that record describes. It is four feet short of what `tidewater-georgian`'s kit asks for,
+    and the difference is not a tolerance: `faults/passage-that-is-a-corridor.json` is FATAL
+    for a formal centre-passage style, so a brief composing a 7.9 ft passage had all three of
+    its native partis disqualified and was handed a side-hall townhouse -- WP-4.5's deleted
+    sentence walking back in. Two floors, two populations, and the register calls that
+    `oq/register-is-not-style`'s first customer.
+
+    The figure is READ FROM THE FINDING and never re-derived here. The style layer already
+    resolved the cascade to produce it (`oq/the-raw-kit-read` is the trap on the other side of
+    that), and a second resolution here could disagree with the one the reader was shown.
+    """
+    r = _room(plan, f.get("room"))
+    if not r:
+        return {"refused": "no such room"}
+    # `need_ft` is already a NUMBER on this finding. `_required_number` parses the STRING form
+    # (`"at-least 7.0"`) that a fault's `required` carries, and handing it a float returns None
+    # silently -- the move then refused every time, which is what a move that reads the wrong
+    # field looks like from outside: a stated refusal that is never wrong and never fires.
+    if f.get("need_ft") is None:
+        return {"refused": "the finding states no floor for this style"}
+    need = float(f["need_ft"])
+    d = min(r.get("width_ft") or 0, r.get("length_ft") or 0)
+    if d >= need - 1e-6:
+        return {"refused": "the passage is declared at this style's own floor; the engine drew "
+                           "it narrower"}
+    long_side = max(r.get("length_ft") or 0, r.get("width_ft") or 0)
+    ch = _set_dims(r, need, max(need, long_side))
+    return {"changed": ch,
+            "log": f"Widened {_name(r)} from {d} to {need:g} ft — the floor this style's own kit "
+                   f"states, not the catalogue's vernacular one."}
+
+
 def _move_window_off_wall(plan, f, C, ctx):
     r = _room(plan, f.get("room"))
     if not r:
@@ -600,6 +637,7 @@ APPLY = {
     "grow-stair-hall-to-its-run": _grow_stair_hall,
     "widen-wet-room-for-fixture": _widen_wet_room,
     "passage-to-its-band": _passage_to_its_band,
+    "passage-to-the-styles-own-floor": _passage_to_the_styles_own_floor,
     "move-window-off-the-needed-wall": _move_window_off_wall,
     "trade-width-for-depth-at-constant-area": _trade_width_for_depth,
     "replace-forbidden-declared-variant": _replace_forbidden_variant,

@@ -41,7 +41,11 @@
       "statement": "Landing depth not less than the stair width. Below that it is a turn, not a landing.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "landing_depth_in at-least stair_width_in"
+      "test": "landing_depth_in at-least stair_width_in",
+      "measures": {
+        "quantity": "landing_depth",
+        "units": "in"
+      }
     },
     {
       "statement": "No bedroom door opens directly onto a landing visible from the hall below.",
@@ -52,7 +56,11 @@
       "statement": "Riser and tread constant through the whole flight, including at landings. A single odd riser is the most common cause of a domestic fall.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "riser_variation_in at-most 0.375"
+      "test": "riser_variation_in at-most 0.375",
+      "measures": {
+        "quantity": "riser_variation",
+        "units": "in"
+      }
     },
     {
       "statement": "Where a back stair exists it lands in the service zone, never on the formal landing.",

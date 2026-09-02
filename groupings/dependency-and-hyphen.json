@@ -47,7 +47,11 @@
       "statement": "The dependency ridge sits demonstrably below the main ridge — 60 to 80 percent. A token difference reads as a mistake rather than as hierarchy.",
       "kind": "hierarchy",
       "severity": "hard",
-      "test": "dependency_ridge_ft / main_ridge_ft between 0.6 and 0.8"
+      "test": "dependency_ridge_ft / main_ridge_ft between 0.6 and 0.8",
+      "measures": {
+        "quantity": "dependency_ridge_to_main_ridge",
+        "units": "ratio"
+      }
     },
     {
       "statement": "The hyphen is lower and shallower than both elements it joins. A hyphen at full depth is a corridor between two houses.",
@@ -58,7 +62,11 @@
       "statement": "Hyphen length 12 to 20 ft. Shorter and the two volumes collide; longer and the connection stops being used.",
       "kind": "dimension",
       "severity": "strong",
-      "test": "hyphen_length_ft between 12 and 20"
+      "test": "hyphen_length_ft between 12 and 20",
+      "measures": {
+        "quantity": "hyphen_length",
+        "units": "ft"
+      }
     },
     {
       "statement": "Where dependencies are paired they are symmetrical about the main block's axis; where there is one, it does not sit on the entrance elevation.",

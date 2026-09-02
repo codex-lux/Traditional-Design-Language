@@ -45,7 +45,11 @@
       "statement": "The suite does not exceed about 28 percent of the sleeping floor. Beyond that the secondary bedrooms fall below usable size and the house becomes lopsided.",
       "kind": "dimension",
       "severity": "strong",
-      "test": "suite_area_sf / sleeping_floor_area_sf at-most 0.28"
+      "test": "suite_area_sf / sleeping_floor_area_sf at-most 0.28",
+      "measures": {
+        "quantity": "suite_to_sleeping_floor_area",
+        "units": "ratio"
+      }
     },
     {
       "statement": "Closet and bathroom buffer the bedroom from the corridor, not the reverse. A bedroom that shares a wall with the landing is not private.",
@@ -56,7 +60,11 @@
       "statement": "Bed wall carries no door and no window; it is the one wall the room is organised around and it needs to be at least 12 ft for a king with tables.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "bed_wall_clear_ft at-least 12"
+      "test": "bed_wall_clear_ft at-least 12",
+      "measures": {
+        "quantity": "bed_wall_clear_run",
+        "units": "ft"
+      }
     },
     {
       "statement": "Not above the garage, and not sharing a wall with it.",

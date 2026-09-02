@@ -45,7 +45,11 @@
       "statement": "The garage never adjoins a bedroom — not beside it, not beneath it, not across a shared wall. This is the one rule in the grouping that is absolute: it is simultaneously an acoustic problem, a fume problem and a fire-separation problem that IRC R302.5.1 addresses by requiring rated separation and forbidding an opening into a sleeping room.",
       "kind": "adjacency",
       "severity": "hard",
-      "test": "garage_to_bedroom_adjacency equals 0"
+      "test": "garage_to_bedroom_adjacency equals 0",
+      "measures": {
+        "quantity": "garage_to_bedroom_adjacency",
+        "units": "count"
+      }
     },
     {
       "statement": "The garage is reached from the house only through the hyphen, and the hyphen is entered from the service side — a mudroom, back hall or rear passage. A door from the garage into a formal room, or directly into the kitchen, defeats the grouping.",
@@ -56,13 +60,21 @@
       "statement": "The garage ridge sits demonstrably below the main ridge — 60 to 80 percent. This is `dependency-and-hyphen`'s own hierarchy rule, unchanged, because the garage earns subordination the same way any dependency does. A token difference reads as a mistake rather than as hierarchy.",
       "kind": "hierarchy",
       "severity": "hard",
-      "test": "dependency_ridge_ft / main_ridge_ft between 0.6 and 0.8"
+      "test": "dependency_ridge_ft / main_ridge_ft between 0.6 and 0.8",
+      "measures": {
+        "quantity": "dependency_ridge_to_main_ridge",
+        "units": "ratio"
+      }
     },
     {
       "statement": "Hyphen length 12 to 20 ft. Shorter and the two volumes collide; longer and the connection stops being used. Inherited unchanged from `dependency-and-hyphen`.",
       "kind": "dimension",
       "severity": "strong",
-      "test": "hyphen_length_ft between 12 and 20"
+      "test": "hyphen_length_ft between 12 and 20",
+      "measures": {
+        "quantity": "hyphen_length",
+        "units": "ft"
+      }
     },
     {
       "statement": "The vehicle doors turn off the principal elevation wherever the lot allows — onto a flank, a rear lane, or a court. Where they must face the approach, they sit behind the plane of the principal facade, never forward of it.",
@@ -76,7 +88,11 @@
       "statement": "Two narrower doors with a pier between them compose better than one wide door of the same total width, and cost about the same. A 16 ft opening has no proportional relative anywhere in a traditional facade; a 9 ft opening is merely a wide door.",
       "kind": "dimension",
       "severity": "preferred",
-      "test": "garage_door_width_ft at-most 10"
+      "test": "garage_door_width_ft at-most 10",
+      "measures": {
+        "quantity": "garage_door_width",
+        "units": "ft"
+      }
     },
     {
       "statement": "No habitable room is placed above the garage. A bonus room over the bays is the commonest way the bedroom-over-garage failure re-enters a plan that avoided it on the ground floor.",

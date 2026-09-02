@@ -69,7 +69,11 @@
       "statement": "Ridge and eave of a service wing sit below the main block, and the drop is legible from the street. A service wing at full height is a second house.",
       "kind": "hierarchy",
       "severity": "hard",
-      "test": "wing_ridge_ft / main_ridge_ft at-most 0.85"
+      "test": "wing_ridge_ft / main_ridge_ft at-most 0.85",
+      "measures": {
+        "quantity": "dependency_ridge_to_main_ridge",
+        "units": "ratio"
+      }
     },
     {
       "statement": "Where the kitchen is detached, the covered way is roofed and not more than about 40 ft — beyond that the food arrives cold and the connection stops being used.",

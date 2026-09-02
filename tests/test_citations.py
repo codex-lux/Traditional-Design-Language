@@ -358,6 +358,47 @@ def _run_main(mod, tmp_path, files, extra_questions=(), argv=("check_citations.p
 A_REAL_NUMBERED_ID = 18          # HALF CLOSED in the live register, and cited all over the tree
 
 
+def test_every_file_carrying_a_slug_citation_is_actually_OPENED_by_the_checker():
+    """WP-9.6. The file SELECTION decides before any span rule runs, and it was the bigger hole.
+
+    `tracked_files()` is a `git grep` and it used to select on `OQ [0-9]+` alone, so a file
+    carrying no NUMBERED citation was never opened and nothing in it was checked in ANY context
+    -- plain prose included. Mutation-tested when this was found: an invented slug in PLAIN PROSE
+    was caught in `docs/reports/wp-9.2-the-parti-is-not-the-type.md` and passed SILENTLY in three
+    question files that happened to carry no `OQ <n>`. Eleven files were unreachable, eight of
+    them entries in the register itself.
+
+    It GREW, which is why it is pinned as a property rather than a count: the numbers froze at 99
+    (`099-how-an-open-question-id-is-issued.md`), so a question raised today has no reason to
+    carry an `OQ <n>` at all and every new named entry was born outside the guard.
+
+    Asserted over the real tree with the checker's own reader, and it names what it found -- a
+    test that merely re-ran the grep would pass on any pattern at all.
+    """
+    mod = _load("cc_selection", "build/check_citations.py")
+    opened = set(mod.tracked_files())
+    missed = []
+    for dirpath, dirnames, filenames in sorted(os.walk(ROOT)):
+        dirnames[:] = sorted(d for d in dirnames
+                             if d not in (".git", "node_modules", "__pycache__", "dist"))
+        for fn in sorted(filenames):
+            if not fn.endswith((".md", ".py", ".json", ".js", ".jsx", ".mjs")):
+                continue
+            full = os.path.join(dirpath, fn)
+            rel = os.path.relpath(full, ROOT)
+            if os.path.basename(rel) == "open-questions.md" or rel in mod.SPECIMEN:
+                continue          # excluded from the walk BY NAME and on purpose
+            try:
+                body = open(full, encoding="utf-8").read()
+            except (UnicodeDecodeError, OSError):
+                continue
+            if mod.SLUG_CITE.search(body) and rel not in opened:
+                missed.append(rel)
+    assert not missed, (
+        "%d file(s) carry a named open-question citation and the checker never opens them, so "
+        "nothing in them is checked in any context: %s" % (len(missed), sorted(missed)))
+
+
 def test_a_dangling_numbered_citation_makes_the_checker_fail(tmp_path):
     mod = _load("cc_dangling", "build/check_citations.py")
     rc, out, err = _run_main(

@@ -63,10 +63,24 @@ CHECKS = [
     # every basis quote is really in the record it names, no move touches a placement key
     ("check_moves.py", []),
     ("check_rooms.py", []),
+    # WP-9.7. Holds a grouping's `internal_rules` against the room record it constrains, and
+    # against a grouping some parti carries alongside it -- the axis `check_addresses.py`
+    # cannot see, because it reads packs and kits and not groupings, room bands or fault
+    # tests. `--strict` because every ratchet here was measured on the first run rather than
+    # inherited from a backlog: the three band disagreements are the register's own instances
+    # and are the DELIVERABLE, not a debt to pay down.
+    # `oq/a-grouping-rule-and-a-room-record-can-disagree`.
+    ("check_grouping_rules.py", ["--strict"]),
     # WP-6.2. Not folded into check_rooms.py: that checker globs rooms/*.json against the
     # room schema, and the opening grammar is a different document in a different directory
     # for exactly that reason.
     ("check_openings.py", []),
+    # WP-9.1. The arrangement layer's own selftest: that every derivation still moves when
+    # the house it measures changes (a check that cannot fail is worse than none), that no
+    # name in NOT_DERIVABLE reaches the returned measurements, and that every route in the
+    # editorial route model still quotes a record that exists -- verified by calling
+    # check_openings.check_basis rather than a copy of it.
+    ("arrangement.py", ["selftest"]),
     ("check_windows.py", []),
     ("check_partis.py", []),
     ("check_counts.py", []),

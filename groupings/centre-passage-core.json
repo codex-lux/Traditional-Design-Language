@@ -46,7 +46,23 @@
       "statement": "Passage width 8 to 14 ft, and roughly one fifth to one quarter of the facade. Below 8 ft the stair cannot turn and the passage stops being a room.",
       "kind": "dimension",
       "severity": "hard",
-      "test": "passage_width_ft / facade_width_ft between 0.18 and 0.27"
+      "test": "passage_width_ft / facade_width_ft between 0.18 and 0.27",
+      "measures": {
+        "quantity": "passage_width_to_facade_width",
+        "units": "ratio"
+      }
+    },
+    {
+      "statement": "Passage width 8 to 14 ft. Below 8 ft the stair cannot turn and the passage stops being a room. Stated as a rule of its own because the ratio rule above measures a different quantity -- the passage's share of the facade -- so this figure, which the same statement has always carried, was executable by nothing and could not be held against the room record it constrains.",
+      "kind": "dimension",
+      "severity": "hard",
+      "test": "passage_width_ft between 8 and 14",
+      "measures": {
+        "quantity": "passage_clear_width",
+        "units": "ft",
+        "room": "centre-passage",
+        "band": "width_ft"
+      }
     },
     {
       "statement": "Flanking rooms are equal or near-equal, and their windows align vertically with those above. The passage buys the symmetry and the symmetry has to be honoured.",

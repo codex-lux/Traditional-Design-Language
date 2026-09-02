@@ -6249,12 +6249,12 @@
       ],
       "parameters": {
         "risers_per_storey": {
-          "expr": "ceil(module / 7.25)",
+          "expr": "ceil(module / 7.5)",
           "computed_at": {
             "ceiling_height_in": 108.0,
             "storey_height_in": 120.0,
             "opening_width_in": 36.0,
-            "value": 17
+            "value": 16
           },
           "unit": "count",
           "kind": "derived",
