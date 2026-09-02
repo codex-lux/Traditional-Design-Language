@@ -340,6 +340,16 @@ This is also the unexamined half of OQ 98 and of WP-7.4's 49.93 ft clear span. R
 houses do not span 50 ft because they have a masonry spine. The corpus's plans have no spine
 because the slicer has no reason to make one.
 
+**And an audit of this section found a second field of the same kind, in every room record rather
+than one massing.** `servicing.stack_proximity_ft` is declared in **all 60** room records and its
+only other appearance anywhere in the tree is its own definition in `schema/room.schema.json`. No
+checker, no generator, no surface and no MCP tool reads it. It is the plumbing-and-flue counterpart
+of `structural_logic` — the corpus stating, room by room, how close a room needs to be to a stack —
+and it would be one of the inputs a service-cluster placement wants. Two zero-reader fields on one
+subject in one section is not a coincidence worth a separate finding; **the corpus knows more about
+where walls and stacks go than any code in it can ask.** Both are named here rather than wired,
+because wiring either is a generator change and this package is the measurement.
+
 ## 6. The passage: legal, and still wrong
 
 `passage 10.00 x 37.00` is within every band `rooms/centre-passage.json` declares — width 10 in
@@ -383,17 +393,28 @@ passage "measured 10'-11 1/2" brick to brick", read from the racking left by its
 partitions. That is a secondary source reporting primary evidence and is cited as such — it is not
 enough on its own to move a band.
 
-### And the passage's width is stated four times, with four different floors
+### And the passage's width is stated seven times, spanning 3.0 to 10 ft
 
 Verified by reading the files. This is the repo's most-repeated wound — one rule spelled more than
-once — in a place nothing checks:
+once — in a place nothing checks. **An audit of this section found three more statements than the
+four originally published**, which is why the heading now names a span rather than a count of
+floors:
 
 | where | what it says | floor |
 |---|---|---|
+| `proportions/systems/room-vernacular.json` rule 8, `quantity: passage_clear_width` | `range: [36.0, 120.0]` in | **3.0** |
+| the same rule's `authority_note` | *"Measured central passages run 6 to 12 ft"* | **6** |
 | `rooms/centre-passage.json` `width_ft` | the band | **6** |
 | the same file's `critical_dimension` | *"5 ft 6 in is the floor. Below that two people cannot pass while a door is open"* | **5.5** |
 | `groupings/centre-passage-core.json`, severity **hard** | *"Passage width 8 to 14 ft … Below 8 ft the stair cannot turn and the passage stops being a room."* | **8** |
 | `faults/passage-that-is-a-corridor.json` `test` | `passage_clear_width_ft at-least 8.0` | **8** |
+| `kits/georgian-colonial-american.kit.json` `circulation_parti.passage_width_ft` | `[10, 14]` ft | **10** |
+
+**The pack rule is the sharpest and it was the one missed**, because it is the only statement of
+the seven that `check_addresses.py` can see at all — it carries a `quantity`, so it is comparable
+against other packs and against nothing else. Its stated floor of 36 in disagrees with its own
+`authority_note` in the same object, and its ceiling of 10 ft is exactly the Georgian kit's floor:
+a passage satisfying the kit is out of the pack's range at every width but one.
 
 **And the fault contradicts itself inside one record**: its test hard-fails below 8.0 while its own
 note reads *"8 ft for a formal centre-passage plan and 6 ft for a northern vernacular one."* The
@@ -402,7 +423,7 @@ room record's `critical_dimension` describes six-to-seven feet as one of two val
 test both reject. Any check that enforces 8 ft convicts a passage the corpus elsewhere calls
 correct.
 
-Nothing here is invented: all four are in the tree today, and the disagreement is only invisible
+Nothing here is invented: all seven are in the tree today, and the disagreement is only invisible
 because `passage_clear_width_ft` had no supplier until WP-9.1 built one. **Do not reconcile these
 by picking a number.** No source in reach states a passage minimum, and the honest fix is to say
 which establishment each floor is conditioned on — the same shape as `applies_when` on the fault
@@ -595,15 +616,31 @@ can, depending on which engine drew it, and nothing reports either.** The patter
 `engine="heuristic"`** — the table needs (40 + 2 × 54) / 12 = 12.33 ft across and the slicer draws
 them 10, 11, 6 ft wide while their records declare 14 to 18. Four of the thirteen already fail it
 as declared, so five are newly and silently broken by the placement. (An auditor made it eleven of
-thirteen; they measured on `auto`, which is the non-determinism above. Every figure in this section
-names its engine for that reason.) Thirteen of nineteen bedrooms fail their
-beds. `spec-builder-colonial` draws `bed3` at **6.0 × 38.0 ft** and two closets at **1.0 ft wide**.
-These are not near-misses; they are rooms nobody could build.
+thirteen; they measured on `auto`, which is the non-determinism above.) **Two more sentences here
+were `auto` readings with no engine named — an audit of this audit caught them, in the paragraph
+that announces the rule.** They said "thirteen of nineteen bedrooms fail their beds" and that
+`spec-builder-colonial` draws `bed3` at 6.0 × 38.0 ft with two closets 1.0 ft wide. Both are `auto`
+readings. Held against both engines:
+
+| | `engine="heuristic"` (deterministic) | `engine="auto"` (drifts) |
+|---|---|---|
+| bedrooms failing their bed | **8 of 19** (2 fail as declared, so 6 silent) | 12 of 19 on one run, 13 on another |
+| `spec-builder-colonial` `bed3` | **8.4 × 22.8 ft** | 6.0 × 38.0 ft |
+| its two closets | 6.0 and 4.0 ft wide | 1.0 and 1.0 ft wide |
+
+So the illustration is true of the engine that ships as `auto` and false of the one that ships as
+the default hill-climb, and the 1 ft closet really is drawn — by the engine that proves. **The
+deterministic figure is the one to ratchet and the `auto` figure is the one to fix.** Every figure
+in this section names its engine, and this is the third time that rule had to be applied to the
+section that states it.
 
 The fix is bounded by the OQ 54 ruling: the `drawn` layer is the only layer permitted to read
-placement, so this is a drawn-layer re-run of the same arithmetic, one function with two callers,
-on the `openings.required_wall_ft` precedent. It must not become a second transcription of the
-rule. **And it should be ratcheted, not just fixed — but NOT on the numbers this report first
+placement, so this is a drawn-layer re-run of the same arithmetic, one function with two callers.
+It must not become a second transcription of the rule. (**The `openings.required_wall_ft`
+precedent, which an earlier draft cited here, is the discipline and not the mechanism**: that rule
+is deliberately spelled three times because one spelling is JavaScript, and a fixture contract
+holds them together. Both callers here are Python, so a shared function is available and there is
+no reason to duplicate.) **And it should be ratcheted, not just fixed — but NOT on the numbers this report first
 published.** 133 and 50 are `auto` figures that drift ±3 between runs on an unchanged tree, and a
 ratchet on a drifting number is a build that fails for no reason. Ratchet the deterministic
 figures — **86 and 25 on `engine="heuristic"`** — or pin CP-SAT's budget and seed first and
@@ -621,6 +658,26 @@ check turns the island sideways.** The same is true of a counter run, a bed, a s
 wall, and the stair itself. The fix is a typed field on the item — rotatable, fixed to a wall,
 fixed to a run — authored, never guessed from the item's name: WP-7.2 already paid for inferring
 `placement` from a regex and getting 84 items where the authored data says 159.
+
+**And an audit of this finding measured what the obvious fix would do, which is the step this
+report demands of everyone else.** Three formulations over the 16 declared kitchens:
+
+| rule | kitchens failing the island | which |
+|---|---|---|
+| today — always take the short side | **1 of 16** | one `bad` plan |
+| "never rotate the island" — always the long side | **11 of 16** (10 of them newly) | including `good-01`, `good-02`, `good-04`, `good-06` |
+| both axes, each paired with its own clearance | **4 of 16** | `bad-01`, `bad-03`, `bad-04`, `bad-06` — every one a `bad` plan, no `good` plan touched |
+
+**So the naive fix is wrong in the way this session has already been caught once**: it convicts
+four of the reference plans the corpus holds up as correct, which is the signature of a check
+measuring the wrong thing rather than of six good plans being wrong. The reason is that "never
+rotate" applies the item's *two-sided* clearance to its *long* side — 84 + 2 × 42 = 14.0 ft across
+a room, which is wider than most real kitchens with islands. The island's clearance belongs on the
+axis it is crossed on: **9.25 ft across the island's short axis and 14.0 ft along its long one**,
+and a room satisfies it when its short dimension takes the first and its long dimension the
+second. That formulation separates the corpus's own `good` and `bad` sets exactly, which is the
+nearest thing to a calibration this check has. It is stated here as the finding; it is not built,
+because building it is a drawn-layer change and belongs with the drawn-record fix above.
 
 **(3) Items are checked one at a time and nothing sums them — but the obvious whole-room test
 does not bite, and here is the measurement rather than a silence.** Summing every essential
@@ -747,8 +804,8 @@ with no spine and no hierarchy of circulation — the same absence as §5.
 ## 11. The seven complaints, against the critic as it stands today
 
 `plan_check` on the placed record now produces 45 drawn findings for this plan. Mapped to Lucas's
-original list — and the two it cannot name are exactly the two questions §11 raises, which is the
-reason to trust the mapping rather than treat it as a coincidence:
+original list — and the two it cannot name are exactly two of the questions §13 raises, which is
+the reason to trust the mapping rather than treat it as a coincidence:
 
 | # | complaint | named? | what the critic says |
 |---|---|---|---|
@@ -783,11 +840,12 @@ words.
 
 ## 12. What was deliberately not done
 
-- **No band was changed and no threshold authored.** Five measured buildings are not a
-  calibration set either, and one of the three (Hammond-Harwood) is a five-part scheme whose main-block
+- **No band was changed and no threshold authored.** Three measured buildings are not a
+  calibration set, and one of the three (Hammond-Harwood) is a five-part scheme whose main-block
   figure is not comparable to a bare double pile without care.
 - **No parti was edited.** Whether `centre-passage-double-pile` should lose its service rooms, or
-  gain hyphens, or be split into two diagrams, is Lucas's decision and §11 puts it to him.
+  gain hyphens, or be split into two diagrams, is Lucas's decision and §14, question 1, puts it to
+  him.
 - **No transverse-arch record was authored.** It would be a new vocabulary item in the room or
   grouping schema and it needs a ruling first; it is raised as an open question, not invented.
 - **The Shirley attribution was not corrected.** `centre-passage-single-pile` names Shirley
@@ -813,10 +871,16 @@ words.
   Hall) and the hall/stair-hall division (Drayton Hall) are how the type keeps a full-depth
   passage from reading as a corridor. There is no vocabulary for a room divided across its length
   by anything but a wall.
-- `oq/the-proportion-band-forbids-the-square` — 29 habitable room types carry a `proportion` floor
-  above 1.0, no period source states a minimum ratio, and Mount Vernon's Front Parlor (1.015, "the
-  best place in my House") falls below its band. The floors are inert today; the question is
-  whether to delete them, re-read them as typicals, or scope them by establishment.
+- `oq/the-proportion-band-forbids-the-square` — **35 of 60 room records** carry a `proportion` floor
+  above 1.0, 29 of them non-circulation and 13 of 23 habitable (an earlier version of this line said
+  "29 habitable", which is the non-circulation count wearing the habitable word). No period source
+  in reach states a minimum ratio, and Mount Vernon's Front Parlor (1.015, "the best place in my
+  House") falls below its band. **The floors convict nothing and aim everything**: `check_rooms`
+  never fires on them, but `compose.room_default_dims()` sizes every instantiated room from
+  `(pr[0] + pr[1]) / 2`, so deleting them changes what gets drawn rather than what gets reported —
+  an earlier version of this line called them "inert", which is false in the direction that
+  matters. The question is whether to delete them, re-read them as typicals, or scope them by
+  establishment.
 
 ## 14. For Lucas
 

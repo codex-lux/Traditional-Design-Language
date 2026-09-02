@@ -1,37 +1,55 @@
-# oq/a-grouping-rule-and-a-room-record-can-disagree — four instances, one of them on fourteen partis, and nothing checks the class
+# oq/a-grouping-rule-and-a-room-record-can-disagree — six instances, one of them on fourteen partis, and nothing checks the class
 
 *Status: OPEN · Raised in: the WP-9.2 adversarial audit (1 Sep 2026)*
 
 **`check_addresses.py` polices pack-versus-pack and kit-versus-pack at one address. It does not see
-groupings at all.** So a grouping's `internal_rules` test and the room record it constrains can
-state different numbers for the same quantity, and nothing in the corpus notices. Four instances,
-all found by hand, all pre-existing.
+groupings, room bands or fault tests at all.** So a grouping's `internal_rules` test and the room
+record it constrains can state different numbers for the same quantity, and nothing in the corpus
+notices. Six instances, all found by hand, all pre-existing.
 
 The corpus already has the vocabulary for this problem one layer down: OQ 48 established that *two
 records meaning the same quantity under different names is a silent corruption, and the fix is a
 named dimension*. Nobody has applied it to the grouping layer.
 
-## The four
+**The count moved from four to six while this entry was being audited**, which is itself the
+argument for a checker: two more turned up in twenty minutes of the same hand method, and the first
+instance grew from four statements to seven. Nobody knows the true number because nothing counts
+them.
 
-**1. The passage — four floors across four files, and a fault contradicting itself.**
+## The six
+
+**1. The passage — seven statements across five files spanning 3.0 to 10 ft, and a fault and a
+pack each contradicting themselves.**
 
 | where | what it says | floor |
 |---|---|---|
+| `proportions/systems/room-vernacular.json` rule 8, `quantity: passage_clear_width` | `range: [36.0, 120.0]` in | **3.0** |
+| the same rule's `authority_note` | *"Measured central passages run 6 to 12 ft"* | **6** |
 | `rooms/centre-passage.json` `width_ft` | the band | **6** |
 | the same file's `critical_dimension` | *"5 ft 6 in is the floor"* | **5.5** |
 | `groupings/centre-passage-core.json`, **hard** | *"Passage width 8 to 14 ft … Below 8 ft the stair cannot turn"* | **8** |
 | `faults/passage-that-is-a-corridor.json` `test` | `passage_clear_width_ft at-least 8.0` | **8** |
+| `kits/georgian-colonial-american.kit.json` `circulation_parti.passage_width_ft` | `[10, 14]` ft | **10** |
 
 The fault's own note reads *"8 ft for a formal centre-passage plan and 6 ft for a northern
 vernacular one"* — a conditional its unconditional test cannot express. Any check enforcing 8 ft
 convicts the passage the room record calls correct.
+
+**The pack rule is the sharpest of the seven statements and was missed on the first pass.** It
+carries `quantity: "passage_clear_width"` — the fault's expression under the same name minus its
+`_ft` suffix — so it is the ONE statement `check_addresses.py` can see, and it can only be compared
+against other packs. Its stated range floor is **3.0 ft** while its own `authority_note` in the same
+object says 6, and its ceiling of 10 ft is exactly the kit's floor: a Georgian passage satisfying
+the kit is out of the pack's range at every width but one. Nothing compares them, because one is a
+pack and one is a kit parameter under a different name — which is `oq/a-baked-pack-value-is-a-second-delivery-path`'s
+neighbourhood and OQ 86's exactly.
 
 **2. The piazza — a hard rule against a record that cites measurement.**
 `groupings/piazza-and-single-house-core.json`: `piazza_depth_ft at-least 10`, **hard**.
 `rooms/piazza.json`: `width_ft [8, 14]`, and *"DEPTH, AND 8 FT IS THE FLOOR BECAUSE THE PIAZZA IS
 A DINING ROOM"*, citing *"the measured Charleston piazzas run 8 to 12 ft for exactly this reason"*.
 **A 9 ft piazza is inside the band, inside the cited measured range, and fails a hard rule.** This
-is the sharpest of the four, because the record is the side with the evidence.
+is the sharpest of the six, because the record is the side with the evidence.
 
 **3. The bedroom — nine, ten and eleven, on the widest-reaching grouping in the corpus.**
 `groupings/secondary-bedroom-cluster.json`: `bedroom_short_dimension_ft at-least 10`, **hard**,
@@ -42,6 +60,19 @@ carried by **14 partis**. `rooms/bedroom.json`: band `width_ft [11, 14]`; and it
 **4. The sleeping porch — an unconditional rule against a conditional record.**
 `groupings/sleeping-porch-cluster.json`: `porch_depth_ft at-least 8`, **hard**.
 `rooms/sleeping-porch.json`: *"NINE FEET OF DEPTH IF THE BED RUNS ACROSS, seven if it runs along"*.
+
+**5. The keeping room — a rule's own prose against its own test, with no second record involved.**
+`groupings/keeping-room-hearth-cluster.json`: *"The keeping room is within about 12 ft of the fire,
+which is the radiant reach of an open hearth. Beyond that the room is not warm and the household
+will not use it"* — `test: hearth_to_far_wall_ft at-most 14`. The prose gives a reason for 12 and
+the test admits 14, so a room the record says will not be used passes the rule that says so. This
+is the sub-class instance 1's fault note belongs to as well: **the executable half and the
+human-readable half of one rule state different numbers**, which the corpus's own standing rule
+("prose stays beside the test; making a rule executable adds a `test`, it does not replace the
+`statement`") makes possible and nothing checks. It is listed here rather than split off because
+the remedy is the same — a `quantity` and a comparison — but a ruling could reasonably treat it
+separately, since no second record is involved and the fix is a one-file edit rather than a
+decision about which record wins.
 
 ## Deliberately not claimed as instances
 
@@ -55,9 +86,10 @@ carried by **14 partis**. `rooms/bedroom.json`: band `width_ft [11, 14]`; and it
 And one duplication that does not yet disagree: `dependency-and-hyphen` and `garage-and-hyphen`
 carry `dependency_ridge_ft / main_ridge_ft between 0.6 and 0.8` and `hyphen_length_ft between 12
 and 20` **identically**, and `five-part-palladian` carries both groupings. One rule spelled twice,
-agreeing today, with nothing holding the spellings together — which is how instance 5 will start.
+agreeing today, with nothing holding the spellings together — which is how the next instance will
+start.
 
-## The fifth, which is the same class under different names
+## The sixth, which is the same class under different names
 
 `groupings/georgian-service-core.json` carries `wing_ridge_ft / main_ridge_ft at-most 0.85`,
 **hard**; `dependency-and-hyphen` and `garage-and-hyphen` carry `dependency_ridge_ft /
@@ -75,8 +107,8 @@ Three shapes, and they are not equivalent:
 
 1. **A checker, on the `check_addresses.py` model.** Give grouping tests a `quantity` the way
    pack rules have one, then compare every grouping rule against every room band naming the same
-   quantity, and against every other grouping a parti co-carries. Catches all five above and
-   ratchets. Costs a schema field on 26 rules and a new check.
+   quantity, and against every other grouping a parti co-carries. Catches every instance above except the
+   keeping room's internal one, and ratchets. Costs a schema field on 26 rules and a new check.
 2. **Precedence, on the packs' model.** Declare which record wins when a grouping and a room
    record disagree. Cheaper, and wrong for at least the piazza, where the room record is the one
    citing measurement and the grouping is the one with no source.
@@ -84,14 +116,16 @@ Three shapes, and they are not equivalent:
    is OQ 48's own answer one layer out, and it is probably right for the mudroom and the bed wall.
    It does not help the piazza or the bedroom, where the quantity is plainly the same.
 
-**A ruling is needed before any of it**, because the instances split: some are naming gaps (fix by
-naming), some are real contradictions (fix by deciding a number), and at least one — the sleeping
-porch, and arguably the passage — is a **conditional floor with no axis to be conditional on**,
+**A ruling is needed before any of it**, because the instances split three ways: some are naming
+gaps (fix by naming), some are real contradictions (fix by deciding a number), one is a rule
+disagreeing with its own prose (fix in one file), and at least one — the sleeping porch, and
+arguably the passage — is a **conditional floor with no axis to be conditional on**,
 which is `oq/register-is-not-style`'s first concrete customer rather than a number to pick.
 
 ## What must not happen
 
 Do not reconcile any of these by picking the stricter number, or the looser one, to make a checker
-green. Three of the five have a source on one side only, and the sourced side is not consistently
-the same side. The corpus's first rule applies: a number authored to settle a disagreement, with
+green. Three have a source on one side only, and the sourced side is not consistently the same
+side — the piazza's evidence is on the room record, the passage's is split between a pack's
+`authority_note` and a fault's note, and they do not agree with each other. The corpus's first rule applies: a number authored to settle a disagreement, with
 no source, is `editorial` / `judgment: true` and says so in its own note.

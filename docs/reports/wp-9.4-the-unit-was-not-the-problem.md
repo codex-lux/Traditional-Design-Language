@@ -136,8 +136,9 @@ opening, and a connectivity wish otherwise — reading the grammar he had alread
 1,890 room pairs rather than inventing a rule. The grammar draws that line itself: `open`
 (5.0–6.5 and 6.0–10.0 ft), `double` (5.0–6.0) and `cased-opening` (4.0–6.0) are openings two rooms
 can only have by being one architectural volume, while a `swing` at 2.0–3.7 ft is the
-connectivity case. `openings.required_wall_ft` — this corpus's one spelling of how much shared
-wall an opening needs — supplies the scale.
+connectivity case. `openings.required_wall_ft` — how much shared wall
+an opening needs, spelled deliberately three times and held to one contract by
+`tests/fixtures/sheet_symbols/` — supplies the scale.
 
 It produces charges that differentiate exactly as the corpus states:
 

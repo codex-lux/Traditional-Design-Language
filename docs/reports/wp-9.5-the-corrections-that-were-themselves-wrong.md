@@ -1,9 +1,9 @@
 # WP-9.5 — The corrections that were themselves wrong: the adversarial audit of WP-9.1 and WP-9.2
 
 *Status: the audit ran on 1 Sep 2026 against `e1f34fb..HEAD`. Seven independent read-only auditors
-were dispatched; three had returned when this was written and four were still running — what they
-find will be treated the same way and appended. Everything below is **found, verified and fixed**,
-not reported and left.*
+were dispatched and six returned; their findings are below, and **the corrections they prompted
+were then re-audited**, which produced the second pass. Everything below is **found, verified and
+fixed**, not reported and left.*
 
 Lucas asked for "a genuine adversarial audit of everything changed — not a re-read confirming your
 own work, but an attempt to find what's wrong with it." This is that, and it follows the phase
@@ -32,14 +32,24 @@ exactly that class, because the next agent reads these files as fact.
 
 ## The headline
 
-**Twenty-four findings survived verification. Eight were blocking. Every one of the blocking
-findings was in work this session had produced, and four of them were in corrections this session
-had *already made* — a first fix that was itself wrong, or right in one file and left wrong in
-another.**
+**Thirty-five findings survived verification across two passes. Eight were blocking. Every one of
+the blocking findings was in work this session had produced, and four of them were in corrections
+this session had *already made* — a first fix that was itself wrong, or right in one file and left
+wrong in another.**
+
+**The second pass is the more instructive of the two.** Re-auditing the corrections found eleven
+more, and **four of those were in the corrections themselves**: the engine rule broken in the
+sentence announcing it (S1), a proposed island fix that convicts four of the corpus's own `good`
+reference plans (S6), a precedent cited for the opposite of what it is (S7), and a caveat written
+about quotations when numbers are what gets reused (S8). The first pass's ratio of
+corrections-that-were-wrong held at the second pass almost exactly, which says the rate is a
+property of the method rather than of a bad day.
 
 The single most useful result is not any individual finding. It is that **the highest-yield
 technique was to re-derive a number rather than re-read the sentence containing it.** Every
-blocking finding came from running something; none came from reading.
+blocking finding came from running something; none came from reading. Three of the second pass's
+findings (S3, S5, S6) were figures that had been *published* by the first pass and were wrong by
+factors of 1.75, 268 and 4.
 
 ---
 
@@ -112,6 +122,93 @@ re-issued after the full suite.
 
 ---
 
+## Second pass — what a re-audit of the corrections found
+
+The corrections above were themselves re-read by a further set of auditors. **Eleven more findings
+survived, and four of them are in the corrections rather than in the original work** — the same
+result as the first pass, one level in. Nothing here blocks; all eleven are fixed.
+
+**S1. Two `auto` figures survived in the paragraph that announces the engine rule.** B4 fixed the
+headline and added the sentence *"Every figure in this section names its engine for that reason"* —
+and the two sentences immediately after it were `auto` readings with no engine named ("thirteen of
+nineteen bedrooms", `bed3` at 6.0 × 38.0 with 1 ft closets). Measured on both: `engine="heuristic"`
+gives **8 of 19**, `bed3` at **8.4 × 22.8** and closets at 6.0 and 4.0 ft; `auto` reproduces the
+published illustration and drifts (12 of 19 on one run, 13 on another). Both engines are now
+tabled. The rule failed in the sentence stating it, which is the third time in this package.
+
+**S2. The stair transcription does not merely risk drifting — it has already drifted.** The study
+report's correction 1 said *"the prose and the Python are two spellings of one rule and nothing
+holds them together"*. Fed the prose's own input (9 ft ceiling → `storey_in = 120`),
+`openings.stair_pass` returns **17 risers at 7.059 in, 16 treads, 13.33 ft**; `rooms/stair-hall.json`
+says **16 risers at 7.5 in, 15 treads, 12 ft 6 in**. The Python follows `storey-graduation.json`'s
+`ceil(storey / 7.25)`; the prose works at 7.5 in. A warning has been replaced by a measurement.
+
+**S3. The passage is stated seven times, not four.** Two more suppliers: the Georgian kit's
+`circulation_parti.passage_width_ft` at `[10, 14]`, and **`room-vernacular.json`'s rule 8, which
+carries `quantity: "passage_clear_width"` and a `range` floor of 36 in against its own
+`authority_note` saying 6 to 12 ft in the same object.** That last is the sharpest of the seven
+because it is the ONE statement `check_addresses.py` can see, and its ceiling of 10 ft is exactly
+the kit's floor. Corrected in four files.
+
+**S4. The grouping-disagreement question said four instances and enumerated five, and there are
+six.** Its H1 feeds the generated index, so the count is load-bearing. The sixth is
+`keeping-room-hearth-cluster`, whose prose explains why 12 ft is the radiant reach of an open hearth
+and whose test admits 14 — a rule disagreeing with its own statement, no second record involved.
+
+**S5. The unquantified-rule finding was a hundredfold understatement.** The study's correction 2
+named one rule in `room-harmonic.json` as invisible to `check_addresses.py`. Measured across the
+corpus: **268 of 761 derived rules (35.2%) carry no `quantity`, across 46 of the 57 packs, and five
+packs have none at all.** OQ 48's published collision ratios are measurements over the 64.8% that
+can be compared — honestly unjudged, and worth stating beside the ratio.
+
+**S6. The island fix would have convicted four of the corpus's own `good` reference plans.** The
+finding proposed not rotating the island; measured, that fails **11 of 16 declared kitchens (10
+newly)**, four of them `good-*`. The cause is applying a two-sided clearance to the item's long
+side — 84 + 2 × 42 = 14.0 ft across a room. Pairing each axis with its own clearance (9.25 ft
+across the short axis, 14.0 along the long) fails **4 of 16, every one a `bad` plan**. The corpus's
+own good/bad split is the nearest thing to a calibration this check has, and the naive fix fails
+it. This is the session's second instance of a proposed check convicting the reference plans.
+
+**S7. The `openings.required_wall_ft` precedent was cited for the opposite of what it is.** Three
+documents cited it as "one function, two callers, never a second transcription". It is
+**deliberately spelled three times** (`openings.py`, `render_plan.py`, `derive.js`) because one is
+JavaScript and the app suite may import nothing, with `tests/fixtures/sheet_symbols/` holding all
+three to one contract. The discipline is right and the mechanism was taught backwards. Corrected in
+`PLAN-OF-ACTION.md` and both WP-9 reports.
+
+**S8. The one-remove caveat was written in terms of attribution markers, and numbers are what a
+future package will come for.** The body caveat listed "—Palladio", "—Morris", "—Kerr" and so on —
+the parts of a document a reader skims. It now states that every ratio, width, percentage and
+ft/bay carries the same standing as the sentence it came from, and that §6's eleven items are the
+sharpest cases rather than the boundary.
+
+**S9. A second zero-reader field, in all 60 room records.** `servicing.stack_proximity_ft` appears
+nowhere in the tree except its own schema definition — the plumbing-and-flue counterpart of
+`structural_logic`. Two on one subject in one section.
+
+**S10. `WANTED.md` said "everything below has been verified to exist" and the drawing counts were
+read for two of six.** The item ids are all verified (the written data was fetched by each). The
+counts were not, and four blank cells read as "none" rather than "not read". The Drayton row also
+gave "14–15 sheets · 14 + 19 data pages", which is 14 drawings and 19 data pages with the drawing
+count copied into the wrong column.
+
+**S11. Smaller, each fixed in place.** The register ruling had no back-fill question — the largest
+of its undecided items, since 112 records were authored before the axis existed and the honest
+default for all of them is *unknown*. Gunston Hall's bay count sat under a bare "HABS VA-141"
+attribution in an open-question table when it is a reading of the survey's fenestration prose, and
+it is the divisor of that row. A `§11` cross-reference pointed at its own section. "Five measured
+buildings" where three were measured. The study preface said none of its questions was answered
+after Lucas had ruled Q1.
+
+**And the slug-exemption entry demonstrated itself twice more.** Correcting it took the unchecked
+count from 122 to 126 and the deliberate non-resolving illustrations from 10 to 14, because naming
+them is writing them. Worse, **its own proposed fix contained the bug it proposes to fix**: it
+offered a slug-shaped placeholder as a safe illustration form, and `SLUG_CITE`
+(`\boq/[a-z0-9][a-z0-9-]*`) matches any such thing. Only `oq/<slug>` is safe. The CLAUDE.md entry
+recording this deliberately does not repeat the offending string.
+
+---
+
 ## Worth fixing — found and fixed
 
 - **"The floors are inert"** is wrong. `compose.room_default_dims()` sizes every instantiated room
@@ -151,15 +248,18 @@ re-issued after the full suite.
 
 **P1. A grouping rule and a room record can disagree, and nothing checks the class.**
 `check_addresses.py` polices pack-vs-pack and kit-vs-pack and **does not see groupings at all**.
-Five instances — the report had found one and called it "the first instance found in it", which
-extending the method falsified in twenty minutes. The sharpest is the **piazza**:
+Six instances — the report had found one and called it "the first instance found in it", which
+extending the method falsified in twenty minutes, and re-auditing THAT found two more (S3, S4). The
+sharpest is the **piazza**:
 `piazza-and-single-house-core` demands `piazza_depth_ft at-least 10`, **hard**, while
 `rooms/piazza.json` bands [8, 14] and cites *"the measured Charleston piazzas run 8 to 12 ft"* — so
 a 9 ft piazza is inside the band, inside the cited measurement, and fails a hard rule. The
 **bedroom** carries three numbers for one quantity (9 in the record's prose, 10 in the grouping, 11
 in the band) on the grouping **14 partis** carry. `oq/a-grouping-rule-and-a-room-record-can-disagree`.
 
-**P2. The citation guard cannot see 65% of the namespace it guards.** `check_citations.py` blanks
+**P2. The citation guard cannot see two thirds of the namespace it guards** — 122 of 178 at
+`5572866`, 126 of 182 after this audit's corrections, and the checked count has not moved in three
+commits while the unchecked one has risen by 26. `check_citations.py` blanks
 inline code spans before scanning — written for the numbered namespace, where prose is the citation
 form. **For slugs the convention is inverted**, and backticks are how this corpus cites a named
 question. Mutation-tested: a fake slug in prose is caught, the same fake slug in backticks passes.
@@ -199,10 +299,14 @@ draft of `oq/a-slug-in-a-code-span-is-not-checked` wrote its mutation output wit
 slug in a **fenced** block — and fenced blocks are scanned, only inline spans are exempt. Kept in
 the entry, because it shows the corpus has three contexts and only one is safe.
 
-**And that entry's own numbers went stale in the commit that published them.** It measured 100 of
-153; the commit adding it introduced 12 more mentions, five of them the illustrative slugs the
-entry needed in order to explain itself. Every figure there is now stamped with the commit it was
-taken at.
+**And that entry's own numbers went stale in the commit that published them, twice.** It measured
+100 of 153; the commit adding it introduced 12 more mentions, five of them the illustrative slugs
+the entry needed in order to explain itself. **Correcting it in the second audit pass did the same
+thing again** — 122/178 became 126/182 and the deliberate non-resolving illustrations went from 10
+to 14 — because the correction names each illustrative slug once more in order to count them.
+Every figure there is now stamped with the commit it was taken at, and the post-correction delta is
+stated as a delta rather than pinned to a hash that does not exist yet. **Its proposed fix also
+contained the bug**: the safe illustration form it offered matches `SLUG_CITE` exactly.
 
 **The audit's own instrument was wrong twice before it was right**, caught by inspecting rather
 than publishing: one script derived wall lines from shared rectangle faces instead of calling
@@ -214,7 +318,31 @@ audits against.
 
 - **No code was changed**, in the audit or in what it audited. Every finding above is either a
   documentation correction or an open question. P1 and P2 both need rulings before a checker moves.
-- **No number was reconciled by picking one.** Three of P1's five instances have a source on one
+- **No number was reconciled by picking one.** Three of P1's six instances have a source on one
   side only and it is not consistently the same side.
-- **Four of seven auditors had not returned** when this was written. Their findings get the same
-  treatment.
+- **The stair drift (S2) was measured and not fixed.** Reconciling `openings.stair_pass` with
+  `rooms/stair-hall.json` means choosing between 7.25 in (the pack, which the Python follows) and
+  7.5 in (the prose), which changes drawn stairs on every plan. That is a generator change and a
+  ruling, not an audit correction.
+- **The island rule (S6) was measured and not built.** The correctly-paired formulation is stated
+  and its effect on all 16 declared kitchens is published; building it is a drawn-layer change and
+  belongs with the drawn-record fix the report already recommends.
+- **The unquantified-rule class (S5) was measured and not closed.** 268 of 761 derived rules
+  without a `quantity` is an authoring backlog with a ruling in front of it, not a patch.
+
+## Verdict
+
+**Yes — deployment-ready, on a full run.** `python3 build/check_all.py` green: 40 of 43 checks
+passed, three COULD NOT EVALUATE and named as such (`export_dxf` and `export_ifc` selftests without
+`ezdxf`/`ifcopenshell`, `pytest workbench/server/tests` without `fastapi`/`httpx`) — a named
+unjudged state, never a pass. The change remains documentation-only: no `.py`, `.js` or corpus
+`.json` was touched, verified by diff.
+
+**The verdict is qualified in one direction and it is worth stating plainly.** This audit ran two
+passes and the second found eleven more, four of them inside the first pass's own corrections. A
+third pass would probably find some. What makes this stopping point defensible rather than
+arbitrary is that **the second pass's findings are smaller than the first's** — no conclusion moved,
+where the first pass moved three — and that every figure now in these documents has been re-derived
+by running something rather than by re-reading the sentence around it. The remaining risk is
+concentrated in the numbers nobody has re-derived a second time, and those are named: S3's seven
+passage statements, S5's 268, S6's three formulations.

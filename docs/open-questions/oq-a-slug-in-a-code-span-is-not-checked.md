@@ -1,11 +1,13 @@
-# oq/a-slug-in-a-code-span-is-not-checked — the citation guard cannot see 65% of the namespace it guards, and removing the exemption would convict five honest illustrations
+# oq/a-slug-in-a-code-span-is-not-checked — the citation guard cannot see two thirds of the namespace it guards, and removing the exemption would convict fourteen honest illustrations
 
 *Status: OPEN · Raised in: the WP-9.2 adversarial audit (1 Sep 2026)*
 
-**`check_citations.py` validates named open-question citations, and 113 of the 169 in this tree
-are invisible to it** — measured at `84314fa`, and **the number moves as documents discuss the
-problem**: it was 100 of 153 two commits earlier, and this entry added five more illustrative
-slugs of its own. Any figure here is quoted with the commit it was taken at or not at all. Mutation-tested both ways:
+**`check_citations.py` validates named open-question citations, and 122 of the 178 in this tree
+were invisible to it at `5572866`** — and **the number moves as documents discuss the problem**:
+100 of 153 at `025329c`, 113 of 169 at `84314fa`, 122 of 178 at `5572866`. **Correcting this entry
+took it to 126 of 182**, because the corrections below name the illustrative slugs one more time
+each. Every figure here is quoted with the commit it was taken at, or as a stated delta from one.
+Mutation-tested both ways:
 
 ```
 fake slug in plain prose          ->  DANGLING  ...:127: OQ-SLUG-THAT-NAMES-NO-ENTRY names no entry
@@ -30,35 +32,46 @@ backticks *is* how this corpus cites a named question — CLAUDE.md does it, eve
 and this file does it in the sentence you are reading. So for slugs, citation and illustration are
 typographically identical and the checker cannot tell them apart.
 
-Measured across the tree at `84314fa`: **113 slug mentions inside code spans (unchecked), 56 in
-plain prose (checked)**; at `025329c`, two commits earlier, it was 100 and 53. The corpus froze its numbers at 99 and made slugs the primary mechanism
+Measured across the tree at `5572866`: **122 slug mentions inside code spans (unchecked), 56 in
+plain prose (checked)** — 68.5%, and 126/56 (69.2%) after this correction; at `84314fa` it was 113
+and 56, at `025329c` 100 and 53. **The checked count has not moved in three commits while the
+unchecked count has risen by 26**, which is the trend the question is about. The corpus froze its numbers at 99 and made slugs the primary mechanism
 (`099-how-an-open-question-id-is-issued.md`), so the guard covers the legacy namespace and misses
 most of the live one.
 
 ## Nothing is currently wrong, and that is the whole difficulty
 
-Of the 113 unchecked mentions at `84314fa`, **103 resolve and 10 do not — and every one of the 10
-is deliberate.** Five were there before this audit; **the other five were added by this entry and
-by CLAUDE.md quoting it**, which is the clearest possible statement of the problem: a document
-cannot describe the ambiguity without producing more of it.
+Of the 122 unchecked mentions at `5572866`, **112 resolved and 10 did not — and every one of the
+10 was deliberate.** Five were there before this audit; **the other five were added by this entry
+and by CLAUDE.md quoting it**, which is the clearest possible statement of the problem: a document
+cannot describe the ambiguity without producing more of it. **Correcting this entry made it 14**,
+for the same reason and in the paragraph reporting it. Three distinct slugs across those 14:
+`oq/span-partial-bearing-wall` 7, `oq/no-such-question` 4, and the placeholder discussed under (1)
+3.
 
 | mention | where | what it is |
 |---|---|---|
-| `oq/no-such-question` | `tests/test_citations.py:276` | this checker's own test fixture |
-| `oq/span-partial-bearing-wall` ×4 | `099-…`:7, `oq-two-id-namespaces.md`:8 and :14, `wp-8.1-the-citation-guard.md`:142 | a hypothetical slug used to explain the naming scheme — `oq-two-id-namespaces` uses it precisely as its example of a slug that would duplicate OQ 98 |
+| `oq/no-such-question` ×4 | `tests/test_citations.py`, `CLAUDE.md`, this file ×2 | this checker's own test fixture, and the documents quoting it |
+| `oq/span-partial-bearing-wall` ×7 | `099-…`, `oq-two-id-namespaces` ×2, `wp-8.1-the-citation-guard.md`, `CLAUDE.md`, this file ×2 | a hypothetical slug used to explain the naming scheme — `oq-two-id-namespaces` uses it precisely as its example of a slug that would duplicate OQ 98 |
+| `oq/example-only` ×3 | this file only | proposed below as a safe illustration form — **and it is not one**; see the correction under (1). Line numbers are omitted from this table on purpose: they moved three times while it was being written |
 
-So **the exemption is doing its job for five real uses, and simply deleting it would produce five
-false accusations including one against the checker's own test.** This is not a dead guard to be
-switched on; it is a guard whose blind spot is load-bearing.
+So **the exemption is doing its job for three distinct illustrative slugs across fourteen mentions,
+and simply deleting it would produce fourteen false accusations including one against the checker's
+own test.** This is not a dead guard to be switched on; it is a guard whose blind spot is
+load-bearing.
 
 ## The question
 
 **How does a document cite a named question distinguishably from illustrating one?** Four shapes:
 
 1. **Check slugs inside code spans, and give illustrations a form that is not a slug.** Rewrite the
-   five as `oq/<slug>` or `oq/example-only`, neither of which matches the id pattern. Cheapest and
-   closes the gap completely; costs one edit to a test fixture and three documents, and commits the
-   corpus to never writing a plausible-looking example slug again.
+   fourteen as something the id pattern cannot match. **The first draft of this entry proposed
+   `oq/<slug>` or `oq/example-only` and one of the two is wrong**: `SLUG_CITE` is
+   `\boq/[a-z0-9][a-z0-9-]*`, so `oq/example-only` matches it exactly and adopting it would create
+   the eleventh dangling citation this shape is meant to prevent — the entry proposing the fix
+   demonstrating the bug for the second time. `oq/<slug>` is safe because `<` is outside the
+   character class. Cheapest and closes the gap completely; costs one edit to a test fixture and
+   four documents, and commits the corpus to never writing a plausible-looking example slug again.
 2. **Check slugs inside code spans, with a declared exemption marker** — a trailing comment or an
    `<!-- illustration -->` on the line. Honest and explicit; adds a second thing to remember.
 3. **Change the citation convention: cite slugs in plain prose, reserve backticks for
@@ -70,7 +83,8 @@ switched on; it is a guard whose blind spot is load-bearing.
    already carries `oq/two-id-namespaces` about the cost of the split.
 
 **(1) looks right and is not obviously right**, because "never write an example that looks like a
-slug" is a rule nobody will remember, which is how the five got written in the first place.
+slug" is a rule nobody will remember — which is how the fourteen got written in the first place,
+and how this entry's own proposed replacement broke it in the sentence proposing it.
 
 ## The entry convicted itself, which is the finding in one line
 

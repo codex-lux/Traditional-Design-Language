@@ -10,12 +10,21 @@ one.** That is the whole of the Chomsky complaint, measured.
 | | source | main block | bays | ft/bay | enclosed ground spaces |
 |---|---|---|---|---|---|
 | Drayton Hall, 1738–42 | HABS SC-377 | 70'-5" × 52'-2" | 7 | 10.06 | 6 (named in the survey) |
-| Gunston Hall, 1755–59 | HABS VA-141 | 60'-10" × 40'-11½" | 5 | 12.17 | **6** |
+| Gunston Hall, 1755–59 | HABS VA-141 | 60'-10" × 40'-11½" | 5 — **inferred**, see below | 12.17 | **6** |
 | Hammond-Harwood, 1774–77 | HABS MD-251; width from the house's own institution | **49 ft wide** (HABS's 1940 "approximately 44x42'" is low) | 5 | 9.80 | — (five-part; not established) |
 | `tidewater-georgian-careful` as placed | this corpus | 60.0 × 40.0 | 6 | 10.0 | **12** |
 
 Gunston Hall's first floor, from the survey: a central passage, a narrow side passage, and four
 rooms — the Palladian Room, the Chinese Room, the Chamber, the Little Parlour.
+
+**Gunston Hall's bay count is a reading of the survey's fenestration prose, not a quotation from
+it**, and the table's ft/bay column divides by it. HABS VA-141 says *"There are four large windows
+on each of the north and south facades, with a pair of smaller windows flanking the main doors"*
+and *"five dormer windows each"*; two large windows either side of a centre carrying the door reads
+as five bays and the dormer count corroborates it. Drayton Hall's 7 and Hammond-Harwood's 5 ARE
+quoted (*"7-bay front"*, *"Central portion five bays wide"*). The distinction is marked here
+because the whole point of the row is that the corpus's module is below all three, and one of the
+three divisors is mine.
 
 **Compare clear area to clear area, which an audit forced.** Gunston Hall's 2,492 sf is an
 *exterior foundation* measurement and its walls are "about two feet thick", so its clear area is

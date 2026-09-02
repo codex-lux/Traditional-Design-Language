@@ -14,9 +14,19 @@ survive are corrected here rather than silently in the text:
    `critical_dimension` — saying it "has been read by nothing" — and then **hand-ports its
    arithmetic into Python**, citing the prose as its source (`openings.py:400-405, 482, 515`). So
    for one room the generator already does what A10 asks for, by transcription. That is a better
-   finding than the one it replaces: **the prose and the Python are now two spellings of one rule
-   and nothing holds them together**, which is this repository's most-repeated wound. A10's
-   proposal is right; it should be built as one reader, not a second transcription per room.
+   finding than the one it replaces: **the prose and the Python are two spellings of one rule and
+   nothing holds them together**, which is this repository's most-repeated wound. A10's proposal is
+   right; it should be built as one reader, not a second transcription per room.
+
+   **And the audit of this report then measured the drift rather than warning about it: the two
+   spellings ALREADY DISAGREE.** Fed the prose's own input — a 9 ft ceiling, so
+   `storey_in = (9.0 + 1.0) × 12 = 120` — `stair_pass` returns **17 risers at 7.059 in, 16 treads,
+   a 13.33 ft straight run**. `rooms/stair-hall.json`'s `critical_dimension` says **16 risers at
+   7.5 in, 15 treads, 12 ft 6 in**. The Python follows `proportions/systems/storey-graduation.json`
+   (`ceil(storey / 7.25)`); the prose works at 7.5 in. Neither is wrong on its own terms and
+   nothing in the tree compares them, so the room record states a run 10 in shorter than the one
+   the generator draws — under a comment that cites the record as its source. This is the finding
+   as a measurement, not as a risk.
 2. **"nothing that dimensions a room can ever read" the suite rule (§4b A11) is overstated.** The
    fact is verified — `proportions/systems/room-harmonic.json`'s rule at index 17,
    `target_slot: public_private_gradient`, is the only one of its eighteen `derived_rules` without
@@ -25,6 +35,16 @@ survive are corrected here rather than silently in the text:
    its own header that *"a rule with no `quantity` cannot be compared, and the pair is reported"*
    unjudged — so the corpus's only compositional proportion rule is permanently invisible to the
    corpus's own collision guard.
+
+   **And the audit of this report then measured the class, which is much larger than the one rule:
+   268 of the corpus's 761 derived rules carry no `quantity` — 35.2% — across 46 of the 57 packs,
+   and five packs have none at all** (`corbel-course`, `jetty-overhang`, `facade-medieval-english`,
+   `facade-peristyle`, `facade-portada`). So OQ 48's published "own 442 pairs, 0 collisions, 14
+   unjudged; cascade 1,264 pairs, 9 collisions, 111 unjudged" is a measurement over the 64.8% of
+   rules that can be compared. That is not a defect in the meter — it names its unjudged count
+   honestly and that is what the unjudged count is for — but a third of the corpus being outside
+   the instrument is worth stating next to the ratio, and the one-rule version of this finding
+   understates it by two orders of magnitude.
 3. **The seven-complaint mapping, the exemplar measurements and the furniture sweep** are not from
    this study at all — they are in the first WP-9.2 report,
    `docs/reports/wp-9.2-the-parti-is-not-the-type.md`, and were measured independently. Where the
@@ -38,7 +58,10 @@ carry a `proportion` floor above 1.0; `structural_logic` has zero readers in `bu
 `drawing-room` both false; no M-roof, double roof or valley gutter appears anywhere in `massings/`,
 `rooms/`, `groupings/`, `partis/` or `docs/`; the passage width is stated with four different
 floors across four files and `faults/passage-that-is-a-corridor.json` contradicts itself inside one
-record; `georgian-service-core` and `dependency-and-hyphen` carry two hard ridge rules for one
+record — **and an audit of this report took that to seven statements across five files spanning 3.0
+to 10 ft**, the extra two being `proportions/systems/room-vernacular.json`'s rule 8, whose stated
+`range` floor of 36 in disagrees with its own `authority_note` in the same object, and the Georgian
+kit's `passage_width_ft` of [10, 14]; `georgian-service-core` and `dependency-and-hyphen` carry two hard ridge rules for one
 volume under two names, and two partis carry both groupings; and **§4b A2 holds** — the
 `storey_height * 0.78 * 2.25` chain is authored in `proportions/systems/room-vernacular.json` and
 no massing reads it. Its one reader, `check_rooms.py:251`, uses the head factor to check a room's
@@ -60,7 +83,10 @@ enough to stop a rule being built and not strong enough to build one, and §6 be
 what that means in practice. Nothing here may be written into a record as `measured` on this
 strength.
 
-**Status of the questions in §7: none of them is answered.** They are for Lucas. Three of the
+**Status of the questions in §7: Q1 is RULED and the rest are not.** Lucas ruled on 1 Sep 2026,
+after this report was written, that **register is a first-class axis, not style**
+(`oq/register-is-not-style`, which also records the four things still undecided and the back-fill
+problem the ruling creates). The other questions are still for him. Three of the
 findings have already been raised as open questions —
 `oq/the-proportion-band-forbids-the-square`, `oq/a-massing-states-its-structure-and-nothing-reads-it`,
 `oq/the-parti-dissolved-its-own-dependencies` — and the rest wait on his rulings, because several
@@ -96,7 +122,16 @@ Four findings, in the order of how much they should change what gets built next.
 > with ordinary bibliographic citations, several with page numbers, which is the form a reader
 > treats as first-hand. They were checked verbatim against reproductions by an adversarial pass;
 > **no facsimile has been read here.** Read every "—Palladio", "—Morris", "—Kerr", "—Glassie" and
-> "—Ware" below as "as transcribed and checked at one remove". §6 lists what that forbids.
+> "—Ware" below as "as transcribed and checked at one remove".
+>
+> **And the caveat attaches to every NUMBER in this document, not only to the sentences in
+> quotation marks** — a second audit pass found the block above written entirely in terms of
+> attribution markers, which are what a reader skims past, while the thing a future package will
+> come here for is a figure. A ratio, a width, a percentage or a ft/bay taken from any source named
+> below carries exactly the same standing as the sentence it came out of: **transcribed, checked
+> against a reproduction, and not read from a facsimile.** No figure in this document may become a
+> `measured` value in this corpus on the strength of appearing here. §6 lists eleven specific
+> things that must not be coded yet; **that list is the sharpest cases, not the boundary.**
 
 The ordering below is itself a finding. Five sources independently describe a *sequence of commitments*, each of which removes freedom from the next, and none of them describes a simultaneous satisfaction of bands. Where the sequence is my reading rather than a source's, I say so.
 
@@ -456,7 +491,10 @@ Real ones. Each is a ruling only an architect can make, and each blocks a specif
 
 **Q1. Is REGISTER a first-class axis, or is it style?**
 Glassie names two passage populations and the axis is folk versus polite — the builders' manuals against the field. This corpus has `style` and it has no register. The same house type at two registers wants different passage widths, different trim grades, different service arrangements and different dining-room floors. If register is an axis, a good deal follows (including the fix to the dining room and the fix to the passage). If it is not, say what carries it instead.
-*Proposed slug if this becomes a question: `oq/register-is-not-style`.*
+*Proposed slug if this becomes a question: `oq/register-is-not-style`.* **Ruled 1 Sep 2026,
+after this report was written: register IS a first-class axis, not style.** The entry carries the
+ruling, its four undecided consequences and the back-fill problem it creates for the 112 records
+authored before the axis existed.
 
 **Q2. Do you accept that the facade is a result?**
 If yes, `groupings/centre-passage-core.json`'s hard test inverts, `faults/passage-that-is-a-corridor.json`'s "size the passage from the facade" is wrong in its `correct_practice` as well as its number, and the bay rhythm becomes derived rather than declared. If no — if you hold that a Georgian designer really did set the front and divide it — then the study is wrong about the ordering and I want to know what you are reading that Glassie and Ware are not.

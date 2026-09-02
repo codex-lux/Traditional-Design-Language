@@ -36,8 +36,9 @@ axes, and the corpus now has to admit the second.
 
 ## What follows, per the study — each of these is a consequence, not a ruling of its own
 
-1. **The passage width.** Four floors are stated across four files and the fault contradicts
-   itself inside one record (`wp-9.2-the-parti-is-not-the-type.md` §6). The measured distribution
+1. **The passage width.** Seven statements across five files, spanning 3.0 to 10 ft, and the fault
+   contradicts itself inside one record — as does the pack rule
+   (`oq/a-grouping-rule-and-a-room-record-can-disagree`, instance 1). The measured distribution
    is continuous from 6'8" to about 18 ft with no gap. Register is the axis that makes the spread
    legible; without it, any single floor convicts one population to acquit the other.
 2. **The dining room's floor.** Kerr's *"A small Dining-room ought never to be less than 16 feet
@@ -63,6 +64,17 @@ axes, and the corpus now has to admit the second.
 - **What a record says when its register is unknown.** *Unjudged is not passed*: a band with a
   register precondition that cannot be resolved must report could-not-evaluate, never quietly pick
   the permissive end.
+- **What register the records that already exist are in — the back-fill, which this entry left out
+  and which is the largest of them.** The corpus holds 60 room records, 17 groupings, 21 partis
+  and 14 reference plans, every one authored before the axis existed. Adding register does not add
+  a column to a blank table; it asks a question of every band already written, and the honest
+  default for all of them is **unknown**, which by the rule above makes every conditioned band
+  unjudged on the day the field lands. So the ruling has a migration shape and no migration plan:
+  either the axis arrives with a back-fill (and every value in it is an editorial call, which is
+  the trap below at 112 records' scale), or it arrives and the corpus goes loudly unjudged until
+  the back-fill is worked, which is OQ 51's `unendorsed` work-list pattern and is the honest one.
+  **Choosing the second means the count has to be a ratcheted meter from the first commit**, not a
+  number in a report.
 
 ## The trap this ruling walks into, stated now because it is predictable
 

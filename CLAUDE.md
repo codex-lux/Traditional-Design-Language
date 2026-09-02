@@ -643,39 +643,56 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   number — against-wall runs summed against the room perimeter flag nothing (the kitchen's five
   appliances are 12.75 ft against an 80 ft perimeter) because perimeter is not available wall; a
   real one needs the placed openings. `docs/reports/wp-9.2-the-parti-is-not-the-type.md` §8.
-- **A SLUG IN A CODE SPAN IS NOT CHECKED, AND THAT IS 65% OF THE LIVE NAMESPACE (WP-9.2 audit).**
+- **A SLUG IN A CODE SPAN IS NOT CHECKED, AND THAT IS TWO THIRDS OF THE LIVE NAMESPACE
+  (WP-9.2 audit).**
   `check_citations.py` blanks inline code spans before scanning -- deliberately, so a document can
   write `OQ 82 and 84` to illustrate a bug. **That exemption was written for the NUMBERED namespace
   where prose is the citation form; for slugs the convention is inverted** and
-  `` `oq/the-raw-kit-read` `` in backticks IS how this corpus cites a named question. Measured **at `84314fa`: 113 inside code spans (unchecked), 56 in plain prose (checked), 169
-  total, and 10 of the unchecked name no entry.** The figure MOVES as documents discuss it -- it
-  was 100/53/153 with 5 unresolved two commits earlier, and the entry raising the question added
-  five more illustrative slugs of its own, which is the finding demonstrating itself. Quote it with
-  a commit or not at all. Mutation-tested
-  -- a fake slug in prose is caught, the same fake slug in backticks passes silently. **Do not just
-  delete the exemption**: of the 100 unchecked, 95 resolve and the 5 that do not are all deliberate
-  -- `oq/no-such-question` is this checker's own test fixture and `oq/span-partial-bearing-wall` is
-  the illustrative slug `oq-two-id-namespaces` uses to explain the scheme. The blind spot is
-  load-bearing, which is why this is a question and not a patch.
+  `` `oq/the-raw-kit-read` `` in backticks IS how this corpus cites a named question. Measured **at
+  `5572866`: 122 inside code spans (unchecked), 56 in plain prose (checked), 178 total -- 68.5% --
+  and 10 of the unchecked name no entry. This tree: 126/56/182, 69.2%, 14 unresolving.** The figure
+  MOVES as documents discuss it: 100/53/153 at `025329c`, 113/56/169 at `84314fa`, 122/56/178 at
+  `5572866`, 126/56/182 here. **The CHECKED count has not moved in four measurements while the
+  unchecked count has risen by 26**, because every document describing the problem writes more
+  slugs in backticks -- the finding demonstrating itself, most recently in the correction that
+  produced this sentence. Quote it with a commit or not at all. Mutation-tested -- a fake slug in
+  prose is caught, the same fake slug in backticks passes silently. **Do not just delete the
+  exemption**: of the 126 unchecked, 112 resolve and the 14 that do not are all deliberate --
+  `oq/no-such-question` is this checker's own test fixture (4 mentions),
+  `oq/span-partial-bearing-wall` is the illustrative slug `oq-two-id-namespaces` uses to explain
+  the scheme (7), and the placeholder below accounts for 3. The blind spot is load-bearing, which is
+  why this is a question and not a patch. **And the entry's own proposed fix contained the bug**:
+  it offered a slug-shaped placeholder as a safe illustration form, and `SLUG_CITE`
+  (`\boq/[a-z0-9][a-z0-9-]*`) matches any such thing exactly. Only a form the character class
+  cannot match is safe -- `oq/<slug>` is, because `<` is outside it. **This entry deliberately does
+  not repeat the offending string**, because writing it here would raise the unchecked count by one
+  in the paragraph reporting the unchecked count.
   `oq/a-slug-in-a-code-span-is-not-checked`. Nothing is dangling today; the guard would not notice
   if it were.
 - **A GROUPING RULE AND A ROOM RECORD CAN DISAGREE AND NOTHING CHECKS THE CLASS (WP-9.2 audit).**
   `check_addresses.py` polices pack-vs-pack and kit-vs-pack at one address and **does not see
-  groupings at all**. FIVE instances, all pre-existing, found by hand:
-  the passage (four floors across four files, and `passage-that-is-a-corridor`'s own note
-  contradicting its own unconditional test); **the piazza**, where `piazza-and-single-house-core`
+  groupings, room bands or fault tests at all**. SIX instances, all pre-existing, found by hand:
+  the passage (**seven statements across five files spanning 3.0 to 10 ft**, and
+  `passage-that-is-a-corridor`'s own note contradicting its own unconditional test -- the sharpest
+  being `room-vernacular.json`'s rule 8, which carries `quantity: passage_clear_width`, states
+  `range: [36.0, 120.0]` in, and has an `authority_note` in the same object saying 6 to 12 ft; its
+  ceiling of 10 ft is exactly the Georgian kit's floor); **the piazza**, where `piazza-and-single-house-core`
   demands `piazza_depth_ft at-least 10` HARD while `rooms/piazza.json` bands [8,14] and cites
   *"the measured Charleston piazzas run 8 to 12 ft"* -- so a 9 ft piazza is inside the band, inside
   the cited measurement, and fails a hard rule; **the bedroom**, where the grouping says at-least
   10, the band floor is 11 and the record's own prose says the ABSOLUTE floor is 9 -- on
   `secondary-bedroom-cluster`, which **14 partis carry, more than any other**; the sleeping porch,
   where an unconditional at-least 8 meets a record whose floor is conditional ("NINE FEET IF THE
-  BED RUNS ACROSS, seven if it runs along"); and the ridge pair under two names.
+  BED RUNS ACROSS, seven if it runs along"); **the keeping room, whose own prose and own test
+  disagree with no second record involved** (`keeping-room-hearth-cluster` explains why 12 ft is
+  the radiant reach of an open hearth and then tests `hearth_to_far_wall_ft at-most 14`); and the
+  ridge pair under two names.
   `oq/a-grouping-rule-and-a-room-record-can-disagree`. **The WP-9.2 report originally called the
   ridge pair "the first instance found in it" -- extending the method found three more in twenty
-  minutes**, which is WP-8.6's lesson applied to that report's own author.
+  minutes, and auditing THAT found two more**, which is WP-8.6's lesson applied twice to the same
+  report. Nobody knows the true count because nothing counts them.
   **Do not reconcile any of them by picking the stricter or the looser number to make a checker
-  green**: three of the five have a source on one side only and it is not consistently the same
+  green**: three have a source on one side only and it is not consistently the same
   side, and at least one is a conditional floor with no axis to be conditional on, which is
   `oq/register-is-not-style`'s first customer.
 - **THE FOOTPRINT'S AREA IS A PURE FUNCTION OF THE PROGRAM'S AREA, AND ADDING A BAY IS

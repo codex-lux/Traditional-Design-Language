@@ -1,11 +1,16 @@
 # HABS measured drawings wanted — the centre-passage / Georgian family
 
 **For Lucas.** WP-9.2's ruling was that the session curates the list and you download the batch in
-your browser. This is the list. Everything below has been verified to exist: the survey numbers,
-item ids and drawing counts were read from loc.gov, and the *written* data for each building has
-already been read and quoted in
-`docs/reports/wp-9.2-the-parti-is-not-the-type.md`. What is missing is the **sheets** — the
-measured drawings themselves — which are images and cannot be read from here.
+your browser. This is the list.
+
+**What is and is not verified, because an audit of this file found it claiming more than it did.**
+Every one of the six item ids is verified: the *written* data for each was fetched from
+`tile.loc.gov` by that id and is quoted in `docs/reports/wp-9.2-the-parti-is-not-the-type.md`, so
+the id resolves to the building named. **The drawing counts were read for two of the six**
+(Gunston Hall and Drayton Hall) and are blank for the other four — a blank cell in the table below
+means *not read*, not *none*. Survey numbers come from the same written data. Nothing here is a
+guess, and nothing here is a complete inventory. What is missing is the **sheets** — the measured
+drawings themselves — which are images and cannot be read from here.
 
 **Where to put them:** `Plan Examples/HABS/<habs-number>/`, e.g.
 `Plan Examples/HABS/VA-141/` for Gunston Hall. Keep the Library's own filename if you can; if you
@@ -40,11 +45,16 @@ drawing is not, and the rights line will read the same on both.
 | Building | HABS no. | item | landing page | sheets / data pages |
 |---|---|---|---|---|
 | **Gunston Hall**, 1755–59 | VA-141 | `va0433` | `loc.gov/pictures/item/va0433` | 30 drawings · 56 data pages |
-| **Drayton Hall**, 1738–42 | SC-377 | `sc0132` | `loc.gov/pictures/item/sc0132` | 14–15 sheets · 14 + 19 data pages |
-| **Hammond-Harwood House**, 1774–77 | MD-251 | `md0035` | `loc.gov/pictures/item/md0035` | — |
-| **Mount Airy**, c. 1758 | VA-72 | `va0892` | `loc.gov/pictures/item/va0892` | — |
-| **Westover**, c. 1726 | VA-402 | `va0315` | `loc.gov/pictures/item/va0315` | — |
-| **Shirley** | VA-388 | `va0313` | `loc.gov/pictures/item/va0313` | — |
+| **Drayton Hall**, 1738–42 | SC-377 | `sc0132` | `loc.gov/pictures/item/sc0132` | 14 drawings · 19 data pages |
+| **Hammond-Harwood House**, 1774–77 | MD-251 | `md0035` | `loc.gov/pictures/item/md0035` | *not read* |
+| **Mount Airy**, c. 1758 | VA-72 | `va0892` | `loc.gov/pictures/item/va0892` | *not read* |
+| **Westover**, c. 1726 | VA-402 | `va0315` | `loc.gov/pictures/item/va0315` | *not read* |
+| **Shirley** | VA-388 | `va0313` | `loc.gov/pictures/item/va0313` | *not read* |
+
+An earlier version of this table gave Drayton Hall as "14–15 sheets · 14 + 19 data pages", which
+was a misreading: the item holds **14 drawings and 19 data pages**, and the "14" appearing twice
+was the drawing count copied into the data-page column. The 15 comes from a third-party checklist
+quoted below, not from the Library.
 
 The gallery of sheets for any of them is
 `https://www.loc.gov/resource/hhh.<item>.sheet?st=gallery` — that page shows every sheet as a

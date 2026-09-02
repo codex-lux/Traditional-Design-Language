@@ -1116,7 +1116,12 @@ and drawn 7.0 x 27.0, passes a check whose own arithmetic says it cannot hold it
 fire it quotes the declared figure, so `cl3` reads "has 3 ft" against a rectangle drawn 2.0 ft
 wide and every shortfall in the set is understated — the OQ 52 family. Re-run the SAME arithmetic
 in the `drawn` layer (the only layer permitted to read placement, OQ 54): one function, two
-callers, on the `openings.required_wall_ft` precedent, never a second transcription.
+callers, never a second transcription. **The `openings.required_wall_ft` precedent is about the
+DISCIPLINE and not about the mechanism** — that rule is deliberately spelled three times
+(`openings.py`, `render_plan.py`, `derive.js`), because one of them is JavaScript and the app
+suite may import nothing, and `tests/fixtures/sheet_symbols/` holds all three to one contract so
+that changing one fails two suites. Copy the discipline, not the copies: here both callers are
+Python in `build/`, so a shared function is available and is the right form.
 **Ratchet the DETERMINISTIC figures and name the engine.** The WP-9.2 audit found that the
 originally published 133/50 are `engine="auto"` numbers that drift (130, 132, 133 on an unchanged
 tree) because `auto` solves 15 of 16 plans with CP-SAT under a time budget. `engine="heuristic"`
