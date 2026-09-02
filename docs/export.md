@@ -44,7 +44,14 @@ The judgment the whole package rests on, stated in `export_dxf.py`'s header:
   (style, massing, groupings, context, site, declared, measurements,
   adjacencies) ride on a `TDL-META` marker at the origin. Solver output
   (`geometry`, `footprint`, `geometry_report`) is never carried — the
-  round-trip returns the *authored* record.
+  round-trip returns the *authored* record. The strip list is
+  `openings.PLACEMENT_*_KEYS`, one spelling, imported here (WP-9.1). A plan
+  the revision loop has worked (WP-9.2) carries a `revision_report` that can
+  run to tens of kilobytes, and XDATA is capped near 16 KB per entity, so the
+  marker carries `revision_summary` — the report's `summary` block and its
+  stop reason — with a note saying the full report is NOT in the DXF. The
+  declared fields the loop moved round-trip as authored; the account of why
+  they moved does not.
 - **The linework validates the data.** Drawn window and door entities carry
   cross-reference headers, and the importer refuses when drawing and carried
   record disagree — a tampered window width is a refusal with the disagreement

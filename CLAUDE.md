@@ -167,7 +167,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **42 checks, 1,251 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **44 checks, 1,349 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -182,8 +182,10 @@ libraries and fastapi absent, exactly three checks are unjudged there (`export_d
 plus the three appended suites -- so the PASS count the corpus job prints is
 `TOTAL - 3 = len(CHECKS)`, ARITHMETICALLY, every time. It read "32 of 35 checks passed" on
 27 Aug against a `len(CHECKS)` of 32, read "34 of 37 checks passed" earlier on 28 Aug against a
-`len(CHECKS)` of 34, and reads "39 of 42 checks passed" after WP-4.4's asset checker against a
-`len(CHECKS)` of 39.
+`len(CHECKS)` of 34, read "39 of 42 checks passed" after WP-4.4's asset checker against a
+`len(CHECKS)` of 39, read "40 of 43 checks passed" after WP-9.1's critic-suspect meter against a
+`len(CHECKS)` of 40, and reads "41 of 44 checks passed" after WP-9.2's move-registry check against
+a `len(CHECKS)` of 41.
 An earlier version of this sentence called that a coincidence, which told the next reader it
 probably would not happen to them; it happens at every check ever added. **Read the SECOND
 number.** `check_all.TOTAL_CHECKS` and
@@ -328,6 +330,45 @@ FORBIDDEN and a lime-plaster face carrying no masonry word, so the frame-wall si
 a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Report:
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
+**Phase 9 — the critique and the corrective revisions — is PART-BUILT (1 Sep 2026): WP-9.1
+and WP-9.2 have shipped, WP-9.3 (the surfaces) and WP-9.4 (the adversarial audit) remain.**
+Lucas asked for recursive self-improvement — a critic that reads the drawn house, and a
+generator that fixes what it finds, in plan and elevation, through many corrective revisions
+rather than one procedural pass — and ruled it the same day: a DETERMINISTIC loop (a named move
+registry executing corpus rules, `plan_check` re-judging every round, no language model
+editing the record); authority over dimensions, declared choices, openings AND optional rooms,
+never a room the parti has no place for, a judgment slot, geometry, a critic-suspect, a
+`must_have`, or a measurement the plan did not declare; on by default everywhere a product is
+made, `--no-revise` to opt out. **WP-9.1 found the critic was judging two buildings at once**:
+`plan_check.check` derived the elevation from a FRESH heuristic placement while its drawn layer
+read the placement the record carried, under `except: pass`; on the shipped plans the two
+happened to agree on all 187 measurement names, and on the proving engine the Tidewater
+portico is placed 23 x 3 ft against a declared 6 x 12 and the porch faults now read 3.0 — the
+identity defect becoming a number. The bench's evaluate never ran the drawn layer at all. Every
+finding now carries structured evidence beside its prose (`kind`, `need_ft`, `have_ft`,
+`expression`, `canonical` from the cascade, `engine` on every drawn finding), and
+`build/critique.py` sorts each one into what it means to a generator — `actionable`
+(a registry move answers it), `placement` (the declared record would have satisfied the need
+and the engine did not; lever: prove-it, search-harder, the conflict set), `critic_suspect`
+(the failing test reads one of the **35 numeric literals** `elevation._derive_measurements`
+states as its own constants, or one of 4 literal ratios — `build/critic_suspects.py`,
+ratcheted by `check_critic_suspects.py`), `architect`, `advisory`. **WP-9.2 is the loop**:
+`moves/registry.json` (21 moves, 9 stated refusals, every `basis` a sentence really in the
+record it names, held to the code by `build/check_moves.py`) and `build/revise.py`, which
+accepts a round only on a strict lexicographic improvement of `[fatal, serious, minor,
+faults present]`, rolls a refused round back byte-identically, marks the pair tabu and
+CONTINUES, asks for the proof before any declared move where CP-SAT is importable, and writes
+`revision_report` (plan schema 0.4.0) naming every move, its basis and every refusal.
+`compose.repair` — which parsed prose, skipped any room needing more than 1.8x its width,
+double-moved a pantry from a stale list and **accepted the worse result on a non-improving
+round** — is a wrapper over the declared loop now; the placed loop runs on the returned
+candidates. Measured on the search engine over 21 partis and both shipped plans, 6 rounds:
+worst-key movement of the order of `[14, 101, 70, 20] -> [13, 78, 81, 20]`, and
+`widen-for-furniture` refused 84 of its 182 applications by re-placement noise — the
+refused-round rate is the search engine's, not the loop's; under CP-SAT on Tidewater it is 1
+in 12. Reports: `docs/reports/wp-9.1-the-critique.md` and
+`docs/reports/wp-9.2-the-corrective-revisions.md`; `docs/revise.md` is the layer doc.
+
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
    www.loc.gov. `build/harvest_habs.py` is written, dry-run exercised and queued against the day
@@ -343,6 +384,46 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 `build/geometry.py` remains the default engine everywhere.
 
 ## Traps worth knowing before you hit them
+
+- **THE COMPOSER'S OLD `repair` ACCEPTED THE WORSE RESULT ON A NON-IMPROVING ROUND, AND FOUR
+  MORE THINGS BESIDES (WP-9.2).** It parsed a ROUNDED figure out of a finding's prose (a 12.3
+  ft dining room needing 12.333 never moved); its `need < width * 1.8` gate silently skipped
+  any room needing more (three chamber closets at 2.1 ft needing 5.2); the minor branch's
+  "needs about" made `float()` raise and `continue`; one round applied every finding's move
+  from a stale list (a pantry widened twice, +72%); and there was no rollback at all. It is a
+  wrapper over `build/revise.py` now, which snapshots, applies, re-judges and restores
+  byte-identically. **Acceptance is a strict lexicographic improvement of `[fatal, serious,
+  minor, faults present]`; a tie is a refusal.** Do not loosen it to "not worse": the
+  search engine re-places the house on every declared move and a refused round on the
+  heuristic is usually the engine's noise, not the move's — `widen-for-furniture` was refused
+  84 of 182 times on the search and 1 in 12 under CP-SAT. Read `revision_report.rounds[].engine`
+  before blaming a move.
+- **THE RECLAIM AFTER THE LOOP CAN OPEN A FATAL THE LOOP REFUSED ALL DAY (WP-9.2).** The
+  sweep's first run handed back `tower-villa` at `[3, 36, 46, 0] -> [4, 23, 49, 0]`: six
+  rounds each refused a new fatal, then `compose.reclaim` — run once after the loop under the
+  brief's area tolerance — re-placed the house and opened one. A reclaim that raises the fatal
+  count is rolled back and stated (`revision_report.reclaimed.rolled_back`); the area
+  discipline does not outrank the rule the rounds were held to. Anything else that runs
+  AFTER the acceptance rule is outside it, and has to be held to it separately.
+- **A FAULT'S EXCEPTION MATCHES THE STYLE ID EXACTLY AND NEVER ITS DESCENDANTS.** All three
+  selection sites in `core.py` test `e["style"] == style`, so a licence on
+  `georgian-colonial-american` never reaches `tidewater-georgian` — `porch-too-shallow-to-inhabit`
+  on the Tidewater plan is not the Georgian licence failing, it is the licence never being
+  consulted. `applies_to_styles` walks the chain; `exceptions[].style` does not. That is
+  `oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants`, unruled; do not
+  "fix" it by copying exceptions down the tree.
+- **XDATA IS CAPPED NEAR 16 KB PER ENTITY, AND A `revision_report` CAN BE LARGER.** The DXF
+  marker carries `revision_summary` only and says the full report is not in the drawing; the
+  round trip returns the declared fields the loop moved, as authored, and not the account of
+  why. A plan the loop has worked does not round-trip whole through the DXF, on purpose, and
+  the plate says so.
+- **`critique(place=False)` IS A DIFFERENT CRITIC FROM `critique(place=True)`, AND THE
+  DECLARED ONE SEES NO DRAWN FINDING.** `compose.repair` is the declared loop (0.9 s a
+  critique); the placed loop on the returned candidates re-solves on every re-place move
+  (0.2 s on the search, ~25 s a proof). A `placement`-class finding is decided against the
+  DECLARED record before anything is called `actionable` — a stair the declared hall would
+  have held is the engine's, not the record's — and a proved placement with no lever left is
+  handed to the architect rather than counted as something a move could fix.
 
 - **Module loading.** Everything in `build/` and `mcp_server/` loads siblings *by file path*
   so each script also runs standalone. That returns a fresh module per call and the loads
@@ -885,8 +966,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **110 entries, of which 37 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **113 entries, of which 40 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-material-neutral-assembly-decides-a-material-question, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

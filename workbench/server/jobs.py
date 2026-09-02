@@ -20,10 +20,13 @@ TTL_S = 30 * 60
 
 
 class Job:
-    def __init__(self, brief, candidates):
+    def __init__(self, brief, candidates, options=None):
         self.id = uuid.uuid4().hex[:12]
         self.brief = brief
         self.candidates = candidates
+        # WP-9.2: the revision loop's knobs, passed through to compose() as keyword arguments
+        # (revise, revise_rounds, revise_engine, revise_budget_s); None means compose's defaults
+        self.options = options or {}
         self.events = queue.Queue()
         self.status = "queued"
         self.result = None
@@ -49,6 +52,23 @@ def _run(job):
         done = []
 
         def on_candidate(summary):
+            # WP-9.2: compose() fires this a SECOND time per returned candidate once the placed
+            # revision loop has run on it. That is a `revised` event, not a new candidate --
+            # the score before and after ride together, with the drawn keys, so a reader can
+            # see what the loop bought and what it did not.
+            if summary.get("revised"):
+                job.events.put({"event": "revised", "data": {
+                    "parti": summary.get("parti"), "parti_name": summary.get("parti_name"),
+                    "score_before": summary.get("score_before"), "score": summary.get("score"),
+                    "rank_before": summary.get("rank_before"),
+                    "drawn_key_before": summary.get("drawn_key_before"),
+                    "drawn_key_after": summary.get("drawn_key_after"),
+                    "rounds": (summary.get("revision") or {}).get("summary", {}).get("rounds"),
+                    "moves_applied": (summary.get("revision") or {}).get("summary", {}).get("moves_applied"),
+                    "stop_reason": (summary.get("revision") or {}).get("stop_reason"),
+                    "disqualified": bool(summary.get("disqualified")),
+                    "fatal": (summary.get("counts") or {}).get("fatal", 0)}})
+                return
             done.append(summary)
             # `disqualified` and the fatal count ride WITH the score, never behind it. The
             # score is now a composite out of 100 that a disqualified candidate can top, and
@@ -68,7 +88,11 @@ def _run(job):
         import inspect
         takes_callback = "on_candidate" in inspect.signature(composer.compose).parameters
         if takes_callback:
-            result = composer.compose(job.brief, job.candidates, on_candidate=on_candidate)
+            job.events.put({"event": "stage", "data": {"stage": "composing",
+                            "note": "seeding, repairing and scoring every native diagram; then the "
+                                    "returned candidates are placed and revised, round by round"}})
+            result = composer.compose(job.brief, job.candidates, on_candidate=on_candidate,
+                                      **(job.options or {}))
         else:
             job.events.put({"event": "stage", "data": {"stage": "composing",
                             "note": "repairing candidates against the validator (~8 s)"}})
@@ -82,13 +106,13 @@ def _run(job):
         job.events.put({"event": "error", "data": {"error": job.error}})
 
 
-def submit(brief, candidates=4):
+def submit(brief, candidates=4, options=None):
     # validate the brief immediately so a malformed one fails fast, not mid-job
     err = _validate_brief(brief)
     if err:
         return {"error": err["error"], "detail": err.get("detail"), "hint": err.get("hint")}
     _reap()
-    job = Job(brief, candidates)
+    job = Job(brief, candidates, options)
     _JOBS[job.id] = job
     _POOL.submit(_run, job)
     return {"job_id": job.id}

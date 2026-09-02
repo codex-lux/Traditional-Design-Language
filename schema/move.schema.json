@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/move.schema.json",
+  "title": "Move registry",
+  "version": "0.1.0",
+  "description": "What the revision loop (build/revise.py, WP-9.2) may do to a plan record, one entry per move. A move answers a class of finding, executes a corpus rule it QUOTES, touches a closed list of declared fields and never a placement key, and says whether the record has to be re-placed or only re-derived after it. The code is build/moves.py::APPLY; build/check_moves.py holds the two together and verifies every quotation against the record it names.",
+  "type": "object",
+  "required": ["id", "version", "kind", "judgment", "note", "authority", "moves", "refusals"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "const": "move-registry" },
+    "version": { "type": "string" },
+    "kind": { "const": "editorial" },
+    "judgment": { "const": true },
+    "note": { "type": "string", "minLength": 200 },
+    "authority": { "type": "object", "required": ["ruled", "by", "may", "may_not"], "additionalProperties": false,
+      "properties": {
+        "ruled": { "type": "string" }, "by": { "type": "string" },
+        "may": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "may_not": { "type": "array", "items": { "type": "string" }, "minItems": 1 } } },
+    "moves": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/move" } },
+    "refusals": { "type": "array", "items": { "type": "object", "required": ["id", "why"], "additionalProperties": false,
+      "properties": { "id": { "type": "string" }, "why": { "type": "string", "minLength": 20 },
+                      "superseded_by": { "type": "string" } } } }
+  },
+  "$defs": {
+    "move": {
+      "type": "object",
+      "required": ["id", "answers", "kind", "basis", "precondition", "touches", "requires", "authority"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]+$" },
+        "answers": { "type": "object", "additionalProperties": false,
+          "description": "A matcher over a finding's STRUCTURED fields only -- never its statement.",
+          "properties": {
+            "layer": { "type": "string" },
+            "kind": { "type": "string" },
+            "axis": { "type": "string" },
+            "fault": { "type": "string" },
+            "class": { "type": "string", "description": "for a lever: the critique class it answers (placement)" } } },
+        "kind": { "enum": ["measured", "editorial"] },
+        "judgment": { "const": true },
+        "tier": { "enum": ["right", "cheap"], "description": "when the move executes a fault's own fix, which tier" },
+        "basis": { "type": "string", "minLength": 30,
+          "description": "The corpus sentence this move executes, as `<record path> ...: \"<quote>\"`. Verified by check_moves.py." },
+        "precondition": { "type": "string", "minLength": 10 },
+        "touches": { "type": "array", "items": { "type": "string" },
+          "description": "The declared fields the move may write, as paths from the closed allow-list in build/check_moves.py. A placement key here fails the build." },
+        "requires": { "enum": ["re-place", "re-derive", "lever"] },
+        "authority": { "enum": ["dimensions", "declared", "openings", "rooms", "lever"] },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

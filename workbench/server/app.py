@@ -495,7 +495,29 @@ def compose(request: Request, body: dict = Body(...)):
     # value raw, so a non-numeric `candidates` raised ValueError into an unhandled 500. The
     # work is catalogue-bounded anyway (pick_partis cannot exceed the 21 partis), so the cap
     # is about consistency and the 500, not about a large attack surface.
-    res = jobs.submit(brief, candidates=_candidates(body, default=4, cap=24))
+    # WP-9.2: the placed revision loop runs on the returned candidates by default (ruled 1 Sep
+    # 2026); `revise: false` opts out, and the rounds, engine and per-candidate budget are
+    # bounded here the way `candidates` is, so a body cannot ask for an unbounded job.
+    opts = {}
+    if "revise" in body:
+        opts["revise"] = bool(body.get("revise"))
+    if "revise_rounds" in body:
+        try:
+            opts["revise_rounds"] = max(0, min(8, int(body.get("revise_rounds"))))
+        except (TypeError, ValueError):
+            pass
+    eng = body.get("revise_engine")
+    if eng is not None:
+        if eng not in ("heuristic", "cp", "auto"):
+            raise HTTPException(status_code=422, detail={
+                "error": f"unknown revise_engine {eng!r} — one of heuristic, cp, auto"})
+        opts["revise_engine"] = eng
+    if "revise_budget_s" in body:
+        try:
+            opts["revise_budget_s"] = max(0.0, min(600.0, float(body.get("revise_budget_s"))))
+        except (TypeError, ValueError):
+            pass
+    res = jobs.submit(brief, candidates=_candidates(body, default=4, cap=24), options=opts)
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
     return res

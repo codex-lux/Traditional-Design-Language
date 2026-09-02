@@ -85,7 +85,7 @@ def main():
     CO = _mod("check_openings", os.path.join(ROOT, "build", "check_openings.py"))
     rep = CO.Report()
     faults = {}
-    for f in os.listdir(os.path.join(ROOT, "faults")):
+    for f in sorted(os.listdir(os.path.join(ROOT, "faults"))):
         if f.endswith(".json"):
             d = json.load(open(os.path.join(ROOT, "faults", f), encoding="utf-8"))
             faults[d["id"]] = d

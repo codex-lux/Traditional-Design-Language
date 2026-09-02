@@ -34,7 +34,7 @@ def court_plan():
              "context": {"climate_zone": "3B", "lot_width_ft": 140, "entrance_faces": "S",
                          "jurisdiction": "IRC model text, advisory", "budget_tier": "custom"},
              "household": "Two adults, two children.", "candidates": 3}
-    out = compose.compose(brief) if hasattr(compose, "compose") else None
+    out = compose.compose(brief, revise=False) if hasattr(compose, "compose") else None
     assert out is not None, "compose.py no longer exposes compose(); update this fixture"
     cand = next(c for c in out["candidates"] if c["parti"] == "courtyard-and-portal")
     return cand["plan"]
