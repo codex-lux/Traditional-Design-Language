@@ -324,7 +324,6 @@ class TestTheDeclarationIsEnforced:
         reg = MV.registry()
         assert len(reg["moves"]) == 21, [m["id"] for m in reg["moves"]]
         assert len(reg["refusals"]) == 9
-        assert {r["id"] if isinstance(r, dict) else r for r in reg["refusals"]} >= {"shorten-for-daylight"} or True
         names = " ".join(json.dumps(r) for r in reg["refusals"])
         for wanted in ("shorten-for-daylight", "align-upper-walls-to-the-room-below", "move-door-to-a-shared-wall"):
             assert wanted in names, wanted
@@ -403,6 +402,17 @@ class TestTheDeclarationIsEnforced:
         assert written == {"levels[].rooms[].doors[]"}, written
         touched_rooms = {p.split("rooms[")[1].split("]")[0] for p in MV._paths_written(snapshot, plan)}
         assert touched_rooms == {"porch", "stair"}
+        # and the PRE-EXISTING doors of both rooms are byte-identical: the first version of
+        # this test bit by fixture luck -- the passage's authored doors happened to lack `type`,
+        # so a plan-wide re-derivation that rewrote them was visible only there (the session's
+        # audit). Only the appended door carries derived fields.
+        for rid in ("porch", "stair"):
+            before = next(r for lv in snapshot["levels"] for r in lv["rooms"] if r["id"] == rid).get("doors", [])
+            after = next(r for lv in plan["levels"] for r in lv["rooms"] if r["id"] == rid).get("doors", [])
+            assert after[:len(before)] == before, f"{rid}'s pre-existing doors were rewritten"
+            assert len(after) == len(before) + 1
+            assert after[-1]["to"] == ("stair" if rid == "porch" else "porch")
+            assert "width_ft" in after[-1] and "type" in after[-1], "the appended door is the derived one"
 
     def test_move_window_off_the_needed_wall_never_reaches_into_placement_keys(self):
         plan = minimal_plan([{"id": "din", "type": "dining-room", "name": "Dining", "width_ft": 14, "length_ft": 18,
@@ -470,3 +480,209 @@ class TestNoMoveReadsProse:
                     and node.args and isinstance(node.args[0], ast.Constant) and node.args[0].value == "statement":
                 hits.append(node.lineno)
         assert not hits, f"build/moves.py reads a finding's prose at lines {hits}"
+
+
+class TestTheDiffSeesPastAnAddedRoom:
+    """The session's own audit: `_paths_written` returned at any list-length change, so a move
+    that added a room hid every write to every OTHER room behind the one path
+    `levels[].rooms[]` -- and split-per-grouping, unscoped, rewrote the same nine authored
+    window counts the door move had, under the guard built to catch it."""
+
+    def test_paths_written_descends_into_the_rooms_both_sides_share_when_one_was_added(self):
+        a = minimal_plan([{"id": "x", "type": "closet", "name": "X", "width_ft": 2, "length_ft": 6, "doors": [],
+                           "windows": [{"wall": "S", "count": 2}]}])
+        b = copy.deepcopy(a)
+        b["levels"][0]["rooms"].append({"id": "y", "type": "closet", "name": "Y", "width_ft": 2, "length_ft": 6, "doors": []})
+        _room(b, "x")["windows"][0]["count"] = 9
+        got = {MV._norm_path(p) for p in MV._paths_written(a, b)}
+        assert got == {"levels[].rooms[]", "levels[].rooms[].windows[].count"}, got
+
+    def test_split_per_grouping_leaves_every_other_room_and_every_authored_window_count_alone(self, corpus):
+        plan = load_plan("tidewater-georgian-careful")
+        plan.setdefault("groupings", []).append("library-study-pair")
+        counts_before = {(r["id"], i): w.get("count") for lv in plan["levels"] for r in lv["rooms"]
+                         for i, w in enumerate(r.get("windows") or [])}
+        snapshot = copy.deepcopy(plan)
+        f = {"id": "room:library", "layer": "room", "kind": "area-above-band", "room": "library"}
+        res = MV.apply("split-per-grouping", plan, f, corpus)
+        assert "changed" in res, res
+        counts_after = {(r["id"], i): w.get("count") for lv in plan["levels"] for r in lv["rooms"]
+                        for i, w in enumerate(r.get("windows") or []) if r["id"] != "library-2"}
+        assert counts_after == counts_before
+        touched = {p.split("rooms[")[1].split("]")[0] for p in MV._paths_written(snapshot, plan) if "rooms[" in p}
+        assert touched - {""} <= {"library", "library-2"}, touched   # "" is the added room, spelled rooms[]
+        # both halves door to each other, and the door is dimensioned once for the pair
+        lib = _room(plan, "library"); lib2 = _room(plan, "library-2")
+        d = next(x for x in lib["doors"] if x["to"] == "library-2"); e = next(x for x in lib2["doors"] if x["to"] == "library")
+        assert d.get("width_ft") and d.get("width_ft") == e.get("width_ft")
+
+
+# ------------------------------------------------------------------ the session's audit of the guard
+class TestTheSessionAuditOfTheGuard:
+    """Three independent auditors read the WP-9.4 guard and found what it could not see: a
+    rewrite of an existing element in a list a move appended to, a write to the first of two
+    rooms sharing an id, a dict added whole reported as a bare key, an adjacency row a move
+    removed without declaring it; and beside the guard, two moves reading the LONG side as the
+    width, a narrowing move that widened, a door duplicated on an asymmetric record, a
+    SystemExit out of one of three re-deriving moves, and three successor moves unreachable
+    once their predecessor was tabu. Each test here went red on the tree the auditors read."""
+
+    def test_the_diff_sees_a_rewrite_inside_a_list_the_move_appended_to(self):
+        before = {"doors": [{"to": "a"}, {"to": "b"}]}
+        after = {"doors": [{"to": "a", "width_ft": 3.0}, {"to": "b"}, {"to": "c"}]}
+        written = MV._paths_written(before, after)
+        assert "doors[]" in written and "doors[0].width_ft" in written, written
+
+    def test_the_diff_sees_a_write_to_the_first_of_two_rooms_sharing_an_id(self):
+        before = {"rooms": [{"id": "foyer", "ceiling_ft": 9}, {"id": "foyer", "ceiling_ft": 9}]}
+        after = {"rooms": [{"id": "foyer", "ceiling_ft": 12}, {"id": "foyer", "ceiling_ft": 9}]}
+        written = MV._paths_written(before, after)
+        assert any(p.endswith("ceiling_ft") for p in written), written
+
+    def test_a_dict_added_whole_is_its_leaves_not_a_bare_key(self):
+        written = MV._paths_written({"measurements": {}}, {"measurements": {}, "declared": {"shutter": "none"}})
+        assert written == ["declared.shutter"], written
+        assert MV._paths_written({}, {"declared": {}}) == ["declared"], "an EMPTY dict added is still a write"
+
+    def test_delete_the_shutters_applies_on_a_record_with_no_declared_key(self):
+        plan = minimal_plan([{"id": "p", "type": "parlor", "name": "Parlour", "width_ft": 14, "length_ft": 16}])
+        plan.pop("declared")
+        plan["measurements"] = {"shutter_leaf_width_in": 12.0, "window_opening_width_in": 36.0}
+        f = {"id": "fault:shutter-half-width-leaf", "layer": "fault", "fault": "shutter-half-width-leaf",
+             "source": "declared", "required": "between 0.45 and 0.55", "value": 0.33}
+        res = MV.apply("delete-the-shutters", plan, f)
+        assert "changed" in res, res
+        assert plan["declared"]["shutter"] == "none"
+
+    def test_drop_optional_room_removes_the_adjacency_row_and_declares_it(self):
+        plan = minimal_plan([{"id": "hall", "type": "stair-hall", "name": "Hall", "width_ft": 8, "length_ft": 16,
+                              "doors": [{"to": "den"}]},
+                             {"id": "den", "type": "study", "name": "Den", "width_ft": 10, "length_ft": 12,
+                              "doors": [{"to": "hall"}]}])
+        plan["adjacencies"] = [{"a": "hall", "b": "den", "relation": "adjacent"}]
+        ctx = {"parti": {"rooms": [{"id": "hall"}, {"id": "den", "required": False}]}}
+        f = {"id": "drawn:den", "layer": "drawn", "kind": "unreachable", "room": "den"}
+        res = MV.apply("drop-optional-room", plan, f, None, ctx)
+        assert "changed" in res, res
+        assert plan["adjacencies"] == []
+        assert any(c["path"] == "adjacencies[]" for c in res["changed"])
+        assert not any(d["to"] == "den" for d in _room(plan, "hall")["doors"])
+
+    def test_drop_optional_room_without_an_adjacencies_key_invents_none(self):
+        plan = minimal_plan([{"id": "hall", "type": "stair-hall", "name": "Hall", "width_ft": 8, "length_ft": 16},
+                             {"id": "den", "type": "study", "name": "Den", "width_ft": 10, "length_ft": 12}])
+        plan.pop("adjacencies")
+        ctx = {"parti": {"rooms": [{"id": "hall"}, {"id": "den", "required": False}]}}
+        res = MV.apply("drop-optional-room", plan, {"id": "drawn:den", "layer": "drawn", "kind": "unreachable", "room": "den"}, None, ctx)
+        assert "changed" in res, res
+        assert "adjacencies" not in plan
+
+    def test_split_per_grouping_leaves_the_parlours_authored_window_counts_alone(self):
+        """The auditor's fixture: two rooms with authored counts 7 and 9, one split. The
+        first version re-derived every window on the plan and the guard saw one path."""
+        plan = minimal_plan([{"id": "library", "type": "library", "name": "Library", "width_ft": 14, "length_ft": 24,
+                              "exterior_walls": ["S"], "windows": [{"wall": "S", "count": 7, "width_ft": 3.0}],
+                              "doors": [{"to": "parlour", "type": "swing", "rank": "principal"}]},
+                             {"id": "parlour", "type": "parlor", "name": "Parlour", "width_ft": 14, "length_ft": 16,
+                              "exterior_walls": ["S"], "windows": [{"wall": "S", "count": 9, "width_ft": 3.0}],
+                              "doors": [{"to": "library", "type": "swing", "rank": "principal"}]}])
+        plan["groupings"] = ["library-study-pair"]
+        snapshot = copy.deepcopy(plan)
+        f = {"id": "room:library", "layer": "room", "kind": "area-above-band", "room": "library"}
+        res = MV.apply("split-per-grouping", plan, f)
+        assert "changed" in res, res
+        assert _room(plan, "parlour") == _room(snapshot, "parlour"), "the parlour was rewritten by the split"
+        assert _room(plan, "library")["windows"][0]["count"] == 7
+        lib_doors = _room(plan, "library")["doors"]
+        assert lib_doors[0] == snapshot["levels"][0]["rooms"][0]["doors"][0], "the library's authored door was rewritten"
+        assert _room(plan, "library-2") is not None
+
+    def test_the_widen_moves_read_the_short_side_as_plan_check_judges_it(self):
+        """A 16 x 9 dining room needing 12: `widen-to-room-floor` refused it as already at
+        its floor and `widen-for-furniture` logged 16 -> 12.4 while growing the SHORT side to
+        16 -- both read `width_ft` raw where plan_check swaps the two before judging."""
+        plan = minimal_plan([{"id": "din", "type": "dining-room", "name": "Dining", "width_ft": 16, "length_ft": 9}])
+        f = {"id": "room:din", "layer": "room", "kind": "width-below-floor", "room": "din", "need_ft": 12.0, "have_ft": 9.0}
+        res = MV.apply("widen-to-room-floor", copy.deepcopy(plan), f)
+        assert "changed" in res, res
+        f2 = {"id": "furniture:din", "layer": "furniture", "kind": "furniture-fit", "room": "din", "axis": "width",
+              "need_ft": 12.0, "have_ft": 9.0, "item": "table"}
+        p2 = copy.deepcopy(plan)
+        res2 = MV.apply("widen-for-furniture", p2, f2)
+        assert "changed" in res2, res2
+        r = _room(p2, "din")
+        assert min(r["width_ft"], r["length_ft"]) == 12.1 and max(r["width_ft"], r["length_ft"]) == 16
+        assert "from 9 to 12.1" in res2["log"], res2["log"]
+
+    def test_narrow_the_window_never_widens_a_window(self):
+        plan = minimal_plan([{"id": "bath", "type": "bathroom", "name": "Bath", "width_ft": 6, "length_ft": 9,
+                              "windows": [{"wall": "N", "count": 1, "width_ft": 2.0}]},
+                             {"id": "parlour", "type": "parlor", "name": "Parlour", "width_ft": 14, "length_ft": 16,
+                              "windows": [{"wall": "S", "count": 2, "width_ft": 3.5}]}])
+        plan["measurements"] = {"window_opening_width_in": 42.0, "window_opening_height_in": 60.0}
+        f = {"id": "fault:window-squarer-than-the-style-permits", "layer": "fault", "source": "declared",
+             "fault": "window-squarer-than-the-style-permits", "required": "at-least 1.8", "value": 1.43}
+        res = MV.apply("narrow-the-window-and-keep-the-height", plan, f)
+        assert "changed" in res, res
+        assert _room(plan, "bath")["windows"][0]["width_ft"] == 2.0, "a narrowing move widened the bath window"
+        assert _room(plan, "parlour")["windows"][0]["width_ft"] < 3.5
+        assert "1 already narrower" in res["log"], res["log"]
+
+    def test_add_the_grammar_door_on_an_asymmetric_record_adds_no_duplicate(self, corpus):
+        plan = minimal_plan([{"id": "hall", "type": "stair-hall", "name": "Hall", "width_ft": 8, "length_ft": 16,
+                              "doors": [{"to": "study"}]},
+                             {"id": "study", "type": "study", "name": "Study", "width_ft": 10, "length_ft": 12}])
+        f = {"id": "drawn:study", "layer": "drawn", "kind": "unreachable", "room": "study", "adjacent_placed": ["hall"]}
+        res = MV.apply("add-the-grammar-door", plan, f, corpus)
+        assert "changed" in res, res
+        assert [d["to"] for d in _room(plan, "hall")["doors"]] == ["study"], "the hall's door to the study was duplicated"
+        assert [d["to"] for d in _room(plan, "study")["doors"]] == ["hall"]
+
+    def test_a_move_that_raises_is_a_refusal_naming_the_exception_and_the_record_is_restored(self, monkeypatch):
+        """`resolve_kit` raises SystemExit on an unknown style, and the job worker catches
+        Exception: two of the three re-deriving moves let it out (the auditor measured
+        `SystemExit escaped apply(): no such node`). One guard, in apply, for every move."""
+        plan = minimal_plan([{"id": "p", "type": "parlor", "name": "Parlour", "width_ft": 14, "length_ft": 16}])
+        snapshot = copy.deepcopy(plan)
+
+        def boom(plan, f, C, ctx):
+            plan["levels"][0]["rooms"][0]["width_ft"] = 99
+            raise SystemExit("no such node: not-a-style")
+        monkeypatch.setitem(MV.APPLY, "widen-to-room-floor", boom)
+        res = MV.apply("widen-to-room-floor", plan, {"id": "x", "layer": "room", "room": "p", "need_ft": 15})
+        assert "refused" in res and "SystemExit" in res["refused"] and "no such node" in res["refused"], res
+        assert plan == snapshot
+
+    def test_a_successor_move_is_offered_once_its_predecessor_is_tabu_on_the_finding(self):
+        """`light-the-far-end` follows `raise-window-head`; once the head move was refused BY
+        MEASUREMENT and made tabu, the next round offered only the tabu move and `_choose`
+        skipped it -- the successor was unreachable (the auditor's finding)."""
+        plan = minimal_plan([{"id": "p", "type": "parlor", "name": "Parlour", "width_ft": 14, "length_ft": 30,
+                              "exterior_walls": ["S", "N"], "window_head_ft": 7.0,
+                              "windows": [{"wall": "S", "count": 2, "width_ft": 3.0}]}])
+        f = {"id": "daylight:p", "layer": "daylight", "kind": "daylight-depth", "room": "p",
+             "need_head_ft": 7.5, "ceiling_ft": 9.0, "need_ft": 15.0, "have_ft": 30.0}
+        plain = [m["id"] for m in MV.answering(f, plan, None, {})]
+        assert plain == ["raise-window-head"], plain
+        tabu = {("raise-window-head", "daylight:p")}
+        after = [m["id"] for m in MV.answering(f, plan, None, {"tabu": tabu})]
+        assert "light-the-far-end" in after and "raise-window-head" not in after, after
+
+    def test_a_basis_under_a_wrong_but_walkable_key_errors_and_an_unwalkable_key_is_unjudged(self):
+        """The WP-9.4 key-path check had no test of its own (the auditor skipped the block and
+        every basis test stayed green). A real sentence cited under the wrong key is an error;
+        a key the walker cannot follow is unjudged -- counted, never a pass."""
+        import re
+        rec = json.load(open(os.path.join(ROOT, "rooms", "centre-passage.json"), encoding="utf-8"))
+        sentence = re.split(r"(?<=[.!?])\s+", rec["description"])[0]
+        assert len(sentence) >= 20 and '"' not in sentence
+        rep = CO.Report()
+        CO.check_basis(rep, {"id": "m", "basis": f'rooms/centre-passage.json description: "{sentence}"'}, source="moves/registry.json")
+        assert not rep.errors and not rep.unjudged_items, (rep.errors, rep.unjudged_items)
+        rep2 = CO.Report()
+        CO.check_basis(rep2, {"id": "m", "basis": f'rooms/centre-passage.json dimensions: "{sentence}"'}, source="moves/registry.json")
+        assert rep2.errors and "does not say it" in rep2.errors[0], rep2.errors
+        rep3 = CO.Report()
+        CO.check_basis(rep3, {"id": "m", "basis": f'rooms/centre-passage.json no.such.key: "{sentence}"'}, source="moves/registry.json")
+        assert rep3.unjudged_items and not rep3.errors, (rep3.unjudged_items, rep3.errors)
+        assert CK.UNJUDGED_CEILING == 0, "the registry's unjudged citations are ratcheted at zero"

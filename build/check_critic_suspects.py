@@ -42,6 +42,7 @@ COULD_NOT_EVALUATE = 3      # check_all.py's protocol -- 2 read as FAIL, which i
 # "unit conversions". The jump is the instrument seeing, not the generator inventing.
 LITERALS_CEILING = 44
 RATIOS_CEILING = 7
+UNJUDGED_CEILING = 0     # basis citations whose key path the walker could not follow
 MIN_SWEEP_PLANS = 8
 
 
@@ -110,6 +111,15 @@ def main():
             errors.append(f"{where}: '{e['expression']}' is not one of {e['fault']}'s own tests")
         CO.check_basis(rep, e, source="critique/suspects.json")
     errors += rep.errors
+    # a basis citing a key path the walker cannot follow is unjudged for that citation, and
+    # this list is authored here: ratcheted at zero, never printed above a pass
+    for u in rep.unjudged_items:
+        print(f"N/EV  {u}")
+    if len(rep.unjudged_items) > UNJUDGED_CEILING:
+        errors.append(f"{len(rep.unjudged_items)} suspect citation(s) whose key path could not be walked, "
+                      f"against a ceiling of {UNJUDGED_CEILING}")
+    for u in rep.unjudged_items:
+        print(f"N/EV {u}")
 
     if not args.no_sweep:
         const, n = CS.sweep()

@@ -171,3 +171,54 @@ def test_a_file_already_imported_through_sys_path_is_the_same_object_here():
     # and a module that never went through sys.path still loads and caches as before
     mod = mc.load("check_ids", os.path.join(ROOT, "build", "check_ids.py"))
     assert isinstance(mod, types.ModuleType)
+
+
+def test_no_new_by_path_loader_outside_modcache():
+    """CLAUDE.md calls a local by-path loader the standing trap and nothing forbade a new one
+    (the session's audit). The sites that exist are listed with the reason each may stay;
+    a new `spec_from_file_location` in build/ or workbench/server/ fails here."""
+    import glob
+    import re
+    ALLOWED = {
+        "build/modcache.py",                 # the loader itself
+        "workbench/server/tools.py",         # loads mcp_server/server.py under an `mcp` stub; cannot go through the cache
+        "workbench/server/corpus.py",        # a dead fallback behind hasattr(core, "_mod"); left, named
+        "build/render_elevation.py",         # a local loader inside main(), CLI only; pre-existing
+        "build/check_counts.py", "build/check_division_guards.py", "build/render_orders.py", "build/gen_assets.py",
+        "build/check_orders.py",
+    }
+    hits = {}
+    for pattern in ("build/*.py", "workbench/server/*.py", "mcp_server/*.py"):
+        for f in sorted(glob.glob(os.path.join(ROOT, pattern))):
+            rel = os.path.relpath(f, ROOT)
+            src = open(f, encoding="utf-8").read()
+            n = len(re.findall(r"spec_from_file_location\(", src))
+            if n:
+                hits[rel] = n
+    new = {k: v for k, v in hits.items() if k not in ALLOWED}
+    assert not new, f"a by-path loader outside modcache: {new} -- route it through build/modcache.py"
+
+
+def test_a_module_still_executing_is_not_handed_back_as_already_imported(tmp_path):
+    """`__spec__` is set before a module's body runs; the flag that means finished is the
+    import system's `_initializing`. The first version tested the spec and handed a by-path
+    load in one thread a module another thread was still executing (the session's audit)."""
+    import importlib.util
+    import types
+    import modcache
+    src = tmp_path / "half_built.py"
+    src.write_text("LATE = 'set at the end of the body'\n")
+    spec = importlib.util.spec_from_file_location("half_built", str(src))
+    ghost = importlib.util.module_from_spec(spec)      # registered, body NOT run
+    ghost.__spec__._initializing = True
+    sys.modules["half_built"] = ghost
+    try:
+        assert modcache._already_imported(os.path.realpath(str(src)), "half_built") is None
+        got = modcache.load("half_built", str(src))
+        assert got is not ghost and got.LATE == "set at the end of the body"
+        ghost.__spec__._initializing = False
+        modcache.invalidate(str(src))
+        assert modcache._already_imported(os.path.realpath(str(src)), "half_built") is ghost
+    finally:
+        sys.modules.pop("half_built", None)
+        modcache.invalidate(str(src))

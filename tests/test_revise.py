@@ -226,7 +226,7 @@ class TestTheReclaimAfterTheLoop:
         monkeypatch.setattr(CO, "reclaim", wrecking_reclaim)
         r = RV.revise(plan, rounds=1, brief=brief, place=True, **FAST)
         rec = r["report"]["reclaimed"]
-        assert rec and rec["rolled_back"] is True and "opened a fatal" in rec["why"]
+        assert rec and rec["rolled_back"] is True and "raised fatal or serious" in rec["why"]
         assert rec["key_after"][0] > rec["key_before"][0]
         # the returned plan is the accepted state, doors and all, and the key is its key
         assert any(d.get("to") != "outside"
@@ -246,8 +246,19 @@ class TestTheRoundCallback:
                       on_round=lambda rnd: seen.append(rnd["n"]), **FAST)
         assert len(seen) == len(r["rounds"]) == r["report"]["summary"]["rounds"]
         assert seen == [rd["n"] for rd in r["rounds"]]
-        # the explicit search refuses the proof, and THAT round is reported too
-        assert any(m.get("move") == "prove-it" and m.get("refused")
+
+    def test_a_refused_lever_round_is_reported_too(self, monkeypatch):
+        """The refused-lever path is one of the four that log a round. It used to be reached
+        on every heuristic-by-name run (the proof refused in round 1); the analyst no longer
+        names the proof behind an explicit search, so the path is FORCED here: no declared
+        pick, and the search-harder lever refusing."""
+        seen = []
+        monkeypatch.setattr(RV, "_choose", lambda crit, tabu, limit=6: [])
+        monkeypatch.setitem(MV.APPLY, "search-harder", lambda plan, f, C, ctx: {"refused": "forced for the test"})
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=2, place=True,
+                      on_round=lambda rnd: seen.append(rnd["n"]), **FAST)
+        assert seen == [rd["n"] for rd in r["rounds"]] and seen, "the refused-lever round was not reported"
+        assert any(m.get("move") == "search-harder" and m.get("refused") == "forced for the test"
                    for rd in r["rounds"] for m in rd["moves"])
 
 
@@ -399,3 +410,145 @@ class TestUnjudgedIsNotBetter:
         r = RV.revise(plan, rounds=3, engine="cp", candidates=120, place=True)
         assert r["stop_reason"] == "placement-could-not-be-evaluated"
         assert r["rounds"] == [] and r["report"]["placement_unjudged"] == "UNKNOWN at budget"
+
+
+class TestTheReclaimIsHeldToTheLoopsRule:
+    """The session's own audit: the reclaim guard compared fatals alone and had no unjudged
+    guard, one screen below the line that fixed both for the rounds."""
+
+    @staticmethod
+    def _script(monkeypatch, keys, cnes):
+        calls = {"n": 0}
+
+        def fake(p, **kw):
+            i = min(calls["n"], len(keys) - 1); calls["n"] += 1
+            return {"plan": p, "key": list(keys[i]), "engine": {"requested": "cp", "ran": None if cnes[i] else "cp-sat", "reason": None},
+                    "check": {"findings": []}, "placement": {"reused": False, "could_not_evaluate": cnes[i]},
+                    "assessment": {"actionable": [], "placement": [], "critic_suspect": [], "architect": [], "advisory": []},
+                    "counts_by_class": {}, "could_not_evaluate": {"findings": []}}
+        monkeypatch.setattr(RV.CR, "critique", fake)
+        CO = mc.load("compose", os.path.join(BUILD, "compose.py"))
+        monkeypatch.setattr(CO, "reclaim", lambda p, t, tol, res: (res, ["RECLAIMED: scripted"]))
+
+    def test_a_reclaim_whose_re_placement_could_not_be_evaluated_is_rolled_back(self, monkeypatch):
+        self._script(monkeypatch, keys=[[1, 10, 10, 0], [0, 5, 5, 0]], cnes=[None, "UNKNOWN at budget"])
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=0, engine="cp", candidates=120, place=True,
+                      brief={"target_area_sf": 100})
+        rec = r["report"]["reclaimed"]
+        assert rec["rolled_back"] is True and "could not be evaluated" in rec["why"]
+        assert r["key_after"] == [1, 10, 10, 0]
+
+    def test_a_reclaim_that_raises_serious_is_rolled_back_and_one_that_costs_minors_is_kept(self, monkeypatch):
+        self._script(monkeypatch, keys=[[1, 10, 10, 0], [1, 30, 5, 0]], cnes=[None, None])
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=0, engine="cp", candidates=120, place=True,
+                      brief={"target_area_sf": 100})
+        assert r["report"]["reclaimed"]["rolled_back"] is True and r["key_after"] == [1, 10, 10, 0]
+        self._script(monkeypatch, keys=[[1, 10, 10, 0], [1, 10, 40, 0]], cnes=[None, None])
+        r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=0, engine="cp", candidates=120, place=True,
+                      brief={"target_area_sf": 100})
+        assert r["report"]["reclaimed"]["rolled_back"] is False and r["key_after"] == [1, 10, 40, 0]
+
+
+class TestTheSessionAuditOfTheLoop:
+    """Findings of the three auditors that read the WP-9.4 loop: the unjudged rule was proved
+    only against a scripted critic; the critique returned was not of the record returned after
+    a refused round; the search asked for by name spent its first round on a refused proof;
+    and the MCP tools passed every knob raw onto a synchronous threadpool token."""
+
+    def test_a_solver_error_through_the_real_critic_is_could_not_evaluate_and_stops_the_placed_loop(self, monkeypatch):
+        """Through the REAL modules: GEO.solve returning an error (a proof that timed out) sets
+        `placement.could_not_evaluate`, the engine that ran is None, and the placed loop stops
+        rather than judging a declared key under a placed mode's name."""
+        plan = load_plan("tidewater-georgian-careful")
+        monkeypatch.setattr(RV.CR.GEO, "solve", lambda *a, **k: {"error": "could not solve (UNKNOWN at budget)"})
+        crit = RV.CR.critique(plan, engine="cp", candidates=120, place=True)
+        assert crit["placement"]["could_not_evaluate"] == "could not solve (UNKNOWN at budget)"
+        assert crit["engine"]["ran"] is None and crit["placement"]["placed"] is False
+        assert not [f for f in crit["check"]["findings"] if f["layer"] == "drawn" and f["severity"] != "info"]
+        r = RV.revise(plan, rounds=3, engine="cp", candidates=120, place=True)
+        assert r["stop_reason"] == "placement-could-not-be-evaluated" and r["rounds"] == []
+        assert r["report"]["placement_unjudged"]
+        monkeypatch.setattr(RV.CR.GEO, "solve", lambda *a, **k: {"unsolved": True, "reason": "no candidate"})
+        crit2 = RV.CR.critique(plan, engine="cp", candidates=120, place=True)
+        assert crit2["placement"]["could_not_evaluate"] == "no candidate"
+
+    def test_the_critique_returned_is_of_the_record_returned_after_a_refused_round(self, monkeypatch):
+        """The batch wrote into the object the critique named and the rollback rebound the
+        loop's name only: `critique_after["plan"]` was a stripped, half-moved house."""
+        plan = load_plan("tidewater-georgian-careful")
+        monkeypatch.setattr(RV, "_improves", lambda new, old: False)
+        r = RV.revise(plan, rounds=1, place=True, **FAST)
+        assert r["rounds"] and not r["rounds"][0]["accepted"]
+        assert r["critique_after"]["plan"] is r["plan"]
+        assert _declared(r["critique_after"]["plan"]) == _declared(r["plan"])
+
+    def test_the_search_asked_for_by_name_never_spends_a_round_on_a_refused_proof(self):
+        """check_all's composer run is `--revise-engine heuristic --revise-rounds 2`, and every
+        candidate's round 1 was `prove-it` refused ("the search was asked for by name") --
+        `--revise-rounds 2` bought one round (the auditor's measurement)."""
+        plan = load_plan("tidewater-georgian-careful")
+        crit = RV.CR.critique(plan, engine="heuristic", candidates=120, place=True)
+        for i in crit["assessment"]["placement"]:
+            assert i["move"] == "search-harder", i["move"]
+        r = RV.revise(plan, rounds=1, place=True, **FAST)
+        assert r["rounds"], "no round was logged"
+        assert not any(m["move"] == "prove-it" for rd in r["rounds"] for m in rd["moves"])
+
+    def test_the_tabu_reaches_the_analyst_so_a_successor_move_can_be_offered(self):
+        plan = load_plan("tidewater-georgian-careful")
+        seen = {}
+        orig = RV.CR.critique
+
+        def spy(p, **kw):
+            seen["tabu"] = (kw.get("ctx") or {}).get("tabu")
+            return orig(p, **kw)
+        RV.CR.critique = spy
+        try:
+            RV.revise(plan, rounds=0, place=False)
+        finally:
+            RV.CR.critique = orig
+        assert isinstance(seen.get("tabu"), set)
+
+    def test_core_bounds_every_knob_the_mcp_tools_pass(self, monkeypatch):
+        """`tdl_revise_plan` over /mcp passed rounds, candidates and no budget raw; one call with
+        a thousand rounds on the proving engine held a threadpool token for hours inside the
+        60/hour meter. The bounds live in core, one spelling, and the routes read them."""
+        core = mc.load("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
+        plan = load_plan("tidewater-georgian-careful")
+        got = {}
+
+        def fake_revise(p, **kw):
+            got.update(kw)
+            return {"plan": p, "report": {"summary": {}}, "key_before": [0, 0, 0, 0], "key_after": [0, 0, 0, 0],
+                    "stop_reason": "no-rounds"}
+        monkeypatch.setattr(RV, "revise", fake_revise)
+        out = core.revise_plan(plan, rounds=1000, engine="cp", candidates=10 ** 6, budget_s=None)
+        assert got["rounds"] == core.REVISE_MAX_ROUNDS == 8
+        assert got["candidates"] == core.MAX_CANDIDATES == 2000
+        assert got["budget_s"] == core.REVISE_DEFAULT_BUDGET_S == 120.0
+        assert any("rounds" in b for b in out["bounded"]) and any("budget_s" in b for b in out["bounded"])
+        out = core.revise_plan(plan, rounds=2, budget_s=10 ** 9)
+        assert got["budget_s"] == core.REVISE_MAX_BUDGET_S == 600.0
+        assert "error" in core.revise_plan(plan, engine="fast")
+        crit_got = {}
+        monkeypatch.setattr(RV.CR, "critique", lambda p, **kw: crit_got.update(kw) or {"plan": p, "check": {}, "key": [0, 0, 0, 0]})
+        core.critique_plan(plan, candidates=10 ** 6)
+        assert crit_got["candidates"] == 2000
+        assert "error" in core.critique_plan(plan, engine="fast")
+        comp_got = {}
+
+        class FakeComposer:
+            def compose(self, brief, candidates, **kw):
+                comp_got.update(kw, candidates=candidates)
+                return {"candidates": []}
+        monkeypatch.setattr(core, "_composer", lambda: FakeComposer())
+        brief = json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
+        core.compose(brief, candidates=100, revise_rounds=100, revise_budget_s=10 ** 6)
+        assert comp_got["candidates"] == core.COMPOSE_MAX_CANDIDATES == 24
+        assert comp_got["revise_rounds"] == 8 and comp_got["revise_budget_s"] == 600.0
+        # and the routes spell no second set of bounds: they read these names
+        src = open(os.path.join(ROOT, "workbench", "server", "app.py"), encoding="utf-8").read()
+        for name in ("core.REVISE_MAX_ROUNDS", "core.REVISE_MAX_BUDGET_S", "core.REVISE_DEFAULT_BUDGET_S",
+                     "core.MAX_CANDIDATES", "core.COMPOSE_MAX_CANDIDATES"):
+            assert name in src, f"app.py does not read {name}"
+        assert "min(8," not in src and "600.0" not in src, "a second spelling of a bound in app.py"

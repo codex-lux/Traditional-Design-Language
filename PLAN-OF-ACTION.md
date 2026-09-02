@@ -1074,6 +1074,10 @@ fixed. Blocking: a parti RECORD reaching geometry unchecked on both new routes; 
 with no budget; the lever's verdict on the round rather than the move; `touches` a declaration
 nothing enforced, with three moves writing outside it and one rewriting nine authored window
 counts; the literal detector blind to five shapes (35 -> 44, 4 -> 7, re-baselined in public).
+**Then a second pass over the audit itself** (2 Sep 2026, report §VIII): three more auditors
+over the whole session's diff found the WP-9.4 guard blind four ways, a revised plan that
+could not be read back from its own DXF, the MCP tools unbounded, and a compose submission
+that could hold the one-worker pool for four hours. Fixed, each with the test that bites.
 
 ---
 

@@ -116,7 +116,9 @@ class TestTheEvidenceContract:
                     if not isinstance(x, (int, float)):
                         continue
                     forms = {f"{x:.1f}", f"{x:g}", f"{x:.0f}", str(x)}
-                    assert any(t in f["statement"] for t in forms), (f["id"], key, x, f["statement"])
+                    # as a whole figure: "12.3" inside "112.3" is not the sentence stating 12.3
+                    assert any(re.search(rf"(?<![\d.]){re.escape(t)}(?![\d])", f["statement"]) for t in forms), \
+                        (f["id"], key, x, f["statement"])
                     checked += 1
         assert checked > 5, f"{pid}: too few figures were held against their sentences ({checked})"
 
@@ -359,7 +361,9 @@ def _derive_measurements(elev):
         assert set(lits) == {"a", "e"}
         assert set(ratios) == {"b", "f"}, "a unit conversion (x 12) is not a proportion"
 
-    def test_the_checker_passes_today_and_refuses_a_ceiling_breach(self):
+    def test_the_checker_passes_today_and_refuses_a_ceiling_breach(self, monkeypatch, capsys):
+        """The first version's name promised a refusal and induced no breach (the session's
+        audit): the checker is run again here with one literal more than its ceiling."""
         import subprocess
         proc = subprocess.run([sys.executable, os.path.join(BUILD, "check_critic_suspects.py"), "--no-sweep"],
                               capture_output=True, text=True, cwd=ROOT)
@@ -368,6 +372,12 @@ def _derive_measurements(elev):
         CS = mc.load("critic_suspects", os.path.join(BUILD, "critic_suspects.py"))
         assert CK.LITERALS_CEILING == len(CS.source_literals()), \
             "the ceiling is not the measurement; lower it in the same commit that lowers the count"
+        real = CS.source_literals()
+        more = dict(real, **{"an_invented_measurement_in": {"value": 1.0, "line": 0, "shape": "Constant"}})
+        monkeypatch.setattr(CS, "source_literals", lambda *a, **k: more)
+        monkeypatch.setattr(sys, "argv", ["check_critic_suspects.py", "--no-sweep"])
+        assert CK.main() == 1, "one literal over the ceiling did not fail the checker"
+        assert "against a ceiling" in capsys.readouterr().out
 
     def test_an_editorial_suspect_with_a_misquoted_basis_is_refused(self):
         CO = mc.load("check_openings", os.path.join(BUILD, "check_openings.py"))
@@ -389,16 +399,77 @@ class TestTheInstrumentOnTheRealFile:
     """WP-9.4. `test_the_instrument_reads_the_shapes_it_claims_to` feeds a toy string; the
     only real-file guard was the count equality, which a same-commit ceiling change satisfies.
     These read build/elevation.py itself and name the shapes the first instrument was blind
-    to -- each one a literal measurement that had been below the 35."""
+    to -- each one a literal measurement that had been below the 35.
 
-    def test_a_constant_dict_read_by_subscript_is_a_literal(self):
-        lits = CS.source_literals()
-        assert lits["sash_stile_width_in"]["value"] == 2.0 and lits["sash_stile_width_in"]["shape"] == "Subscript"
-        assert lits["sash_meeting_rail_height_in"]["value"] == 1.25
+    Corrected by the session's audit: the first version pinned the AST shape a real-file
+    name is detected by and the ceiling at exactly 44, which forbade the ratchet's own
+    sanctioned direction -- modelling a literal away, or reading it from the record with the
+    literal as a fallback, failed the test. Each shape is pinned on a fixture string; the
+    real file is held to a FROZEN list its names may only leave, never join."""
 
-    def test_a_ternary_a_fallback_and_a_floor_are_literals(self):
+    # every name the instrument found on 2 Sep 2026, after the five shapes were added. A name
+    # may LEAVE this list (modelled, or moved to NOT_MODELLED); a name not on it is a new
+    # invented constant and fails below. The six the audit named are pinned by value too.
+    FROZEN = {
+        "belt_course_projection_in", "count_of_distinct_ridge_heights_on_the_main_block",
+        "count_of_distinct_roof_slope_angles_on_the_building", "count_of_interruptions_in_the_eave_line",
+        "count_of_material_changes_on_the_elevation",
+        "count_of_non_chimney_non_dormer_objects_on_the_entrance_roof_slope",
+        "count_of_openings_without_a_mirror_twin_about_the_facade_centreline",
+        "count_of_perforations_visible_in_the_cornice_soffit_frieze_or_fascia", "count_of_volumes_on_the_elevation",
+        "distinct_head_datums_per_storey_per_elevation", "distinct_head_datums_within_one_wall_plane_and_storey",
+        "distinct_light_proportions_across_the_elevation", "distinct_meeting_rail_heights_per_storey_per_elevation",
+        "distinct_mouldings_within_4ft_of_the_entrance", "distinct_sill_datums_per_storey_per_elevation",
+        "distinct_style_vocabularies_on_one_elevation", "distinct_window_shapes_on_the_street_elevation",
+        "equipment_units_visible_on_the_entrance_elevation", "escutcheon_width_in", "faces_of_volume",
+        "faces_of_volume_clad_in_primary_material", "faces_of_volume_in_one_body_colour",
+        "front_door_plane_setback_behind_garage_door_plane_ft", "jamb_reveal_depth_in",
+        "max_abs_offset_between_upper_and_lower_opening_centrelines_in",
+        "max_distinct_mouldings_elsewhere_on_the_elevation", "max_head_offset_from_datum_in",
+        "min_absolute_difference_between_distinct_slope_angles_deg", "orders_present_in_one_storey",
+        "reveal_depth_in", "sash_bottom_rail_height_in", "sash_meeting_rail_height_in", "sash_stile_width_in",
+        "sash_top_rail_height_in", "shutter_leaves_with_a_leaf_width_of_clear_hinge_side_wall",
+        "sidelight_width_in", "solar_array_area_sqft", "total_shutter_leaves", "transom_head_rise_in",
+        "vent_terminal_height_above_roof_surface_in", "visible_hardware_items_per_window",
+        "visible_surface_hinges_per_leaf", "width_of_the_largest_asymmetric_element_in", "window_reveal_depth_in",
+    }
+    AUDIT_NAMED = {"sash_stile_width_in", "sash_meeting_rail_height_in", "transom_head_rise_in",
+                   "distinct_mouldings_within_4ft_of_the_entrance", "belt_course_projection_in",
+                   "max_distinct_mouldings_elsewhere_on_the_elevation"}
+
+    def test_each_shape_is_detected_on_a_fixture_string(self):
+        src = '''
+K = {"a": 2.0, "b": 1.25}
+D = 7.5
+def _derive_measurements(elev):
+    m = {}
+    m["sub"] = K["a"]
+    m["name"] = D
+    m["tern"] = elev["x"] if elev.get("x") else 0.0
+    m["fallback"] = elev.get("y") or 3
+    m["floor"] = max(1, elev["z"])
+    m["nested"] = 4 * elev["w"] * elev["k"]
+    m["real"] = elev["q"]
+    return m
+'''
+        lits = CS.source_literals(src)
+        assert lits["sub"]["value"] == 2.0 and lits["sub"]["shape"] == "Subscript"
+        assert lits["name"]["value"] == 7.5 and lits["name"]["shape"] == "Name"
+        assert lits["tern"]["value"] == 0.0 and lits["tern"]["shape"] == "IfExp"
+        assert lits["fallback"]["value"] == 3 and lits["fallback"]["shape"] == "BoolOp"
+        assert lits["floor"]["value"] == 1 and lits["floor"]["shape"] == "Call"
+        assert "real" not in lits
+        assert CS.literal_ratios(src)["nested"]["factor"] == 4, "a literal one level down a BinOp"
+
+    def test_the_real_file_names_are_a_subset_of_the_frozen_list_and_the_audits_six_are_still_literals(self):
         lits = CS.source_literals()
-        assert lits["transom_head_rise_in"]["value"] == 0.0 and lits["transom_head_rise_in"]["shape"] == "IfExp"
+        assert len(self.FROZEN) == 44
+        new = set(lits) - self.FROZEN
+        assert not new, f"new invented constants in elevation.py: {sorted(new)}"
+        for name in self.AUDIT_NAMED:
+            assert name in lits, f"{name} is no longer detected -- if it was modelled, remove it here in the same commit"
+        assert lits["sash_stile_width_in"]["value"] == 2.0 and lits["sash_meeting_rail_height_in"]["value"] == 1.25
+        assert lits["transom_head_rise_in"]["value"] == 0.0
         assert lits["distinct_mouldings_within_4ft_of_the_entrance"]["value"] == 3
         assert lits["belt_course_projection_in"]["value"] == 1.0
         assert lits["max_distinct_mouldings_elsewhere_on_the_elevation"]["value"] == 1
@@ -409,7 +480,31 @@ class TestTheInstrumentOnTheRealFile:
         assert ratios["net_clear_opening_height_in"]["factor"] == 0.5, "half a sash is an egress rule, not a unit conversion"
         assert 12 not in {r["factor"] for r in ratios.values()} and 144 not in {r["factor"] for r in ratios.values()}
 
-    def test_the_ceilings_were_re_baselined_upward_once_and_say_so(self):
+    def test_the_ceilings_were_re_baselined_upward_once_and_may_only_fall_since(self):
         src = open(os.path.join(ROOT, "build", "check_critic_suspects.py"), encoding="utf-8").read()
         assert "35 -> 44" in src and "4 -> 7" in src
-        assert CK.LITERALS_CEILING == 44 and CK.RATIOS_CEILING == 7
+        assert CK.LITERALS_CEILING <= 44 and CK.RATIOS_CEILING <= 7, "a ceiling went UP after the one public re-baseline"
+
+
+class TestTheStairTheDeclaredHallCouldNotHold:
+    """`_is_placement` reads `declared_fits` for `stair-not-drawn`; on both shipped plans the
+    declared hall holds the stair, so the only branch a real critique exercised was
+    `placement`, and a mutation making every stair finding placement stayed green (the
+    session's audit). A synthetic check with `declared_fits: False` reaches the other branch."""
+
+    def test_a_stair_the_declared_hall_could_not_hold_is_the_records_and_the_hall_move_answers(self, corpus):
+        CR = mc.load("critique", os.path.join(BUILD, "critique.py"))
+        MV = mc.load("moves", os.path.join(BUILD, "moves.py"))
+        plan = _placed("tidewater-georgian-careful")
+        stair = next(r for lv in plan["levels"] for r in lv["rooms"] if r["type"] == "stair-hall")
+        f = {"id": "drawn:stair:stair-not-drawn", "layer": "drawn", "severity": "serious", "rule": "stair-not-drawn",
+             "kind": "stair-not-drawn", "room": stair["id"], "engine": "heuristic", "declared_fits": False,
+             "need_ft": [max(stair["width_ft"], stair["length_ft"]) + 4.0, min(stair["width_ft"], stair["length_ft"]) + 1.0],
+             "have_ft": [stair["length_ft"], stair["width_ft"]], "risers": 14, "form": "dog-leg",
+             "statement": "the stair could not be drawn in the hall"}
+        check = {"findings": [f], "counts": {"serious": 1}}
+        assessment, _cne = CR.classify(plan, check, MV, corpus, {"engine": "heuristic", "candidates": 120})
+        assert not assessment["placement"], "a stair the declared hall could not hold is not the engine's"
+        item = (assessment["actionable"] + assessment["architect"])[0]
+        assert (item.get("move") or item.get("intended_move")) == "grow-stair-hall-to-its-run"
+        assert item["class"] == "actionable", item.get("why")

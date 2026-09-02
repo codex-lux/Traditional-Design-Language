@@ -151,10 +151,17 @@ def _already_imported(realpath, name=None):
     found = {}
     for modname, mod in list(sys.modules.items()):
         f = getattr(mod, "__file__", None)
-        if not f or getattr(mod, "__spec__", None) is None:
+        spec = getattr(mod, "__spec__", None)
+        if not f or spec is None:
+            continue
+        # `__spec__` is set BEFORE the body runs; the flag that means "finished executing"
+        # is the import system's own `_initializing` (the session's audit: a sys.path import
+        # sleeping mid-body in one thread was handed to a by-path load in another, and the
+        # docstring's "finished executing" was not what the code tested)
+        if getattr(spec, "_initializing", False):
             continue
         try:
-            if os.path.realpath(f) == realpath:
+            if _realpath_of(f) == realpath:
                 found[modname] = mod
         except (OSError, ValueError):
             continue
@@ -166,8 +173,23 @@ def _already_imported(realpath, name=None):
     return next(iter(found.values()))
 
 
+_REALPATHS: dict = {}
+
+
+def _realpath_of(f: str) -> str:
+    """realpath, memoised per `__file__` string: the sys.modules walk on a cold miss called
+    it once per entry (~1,000 in a pytest process, ~20 ms), and a `/api/dev/reload`
+    followed by sixty cold loads paid it sixty times over."""
+    hit = _REALPATHS.get(f)
+    if hit is None:
+        hit = _REALPATHS[f] = os.path.realpath(f)
+    return hit
+
+
 def invalidate(path: str | None = None) -> None:
-    """Drop one path (or the whole cache) so the next load() re-executes it.
+    """Drop one path (or the whole cache) so the next load() re-reads it -- from sys.modules
+    where a sys.path import holds the same file (then it is that import's object, not a
+    re-execution), else by executing the file again.
 
     Only needed by a process that mutates corpus files and then re-reads them
     in-process. Nothing does that today; the mutation tests use subprocesses.

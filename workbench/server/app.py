@@ -449,7 +449,8 @@ def _clamp(value, default, cap, floor=1):
         return default
 
 
-def _candidates(body, default=250, cap=2000):
+def _candidates(body, default=250, cap=None):
+    cap = core.MAX_CANDIDATES if cap is None else cap
     """Clamp the search width: it multiplies a full placement loop, so an
     unbounded value is a self-inflicted denial of service on a local tool."""
     try:
@@ -503,7 +504,7 @@ def compose(request: Request, body: dict = Body(...)):
         opts["revise"] = bool(body.get("revise"))
     if "revise_rounds" in body:
         try:
-            opts["revise_rounds"] = max(0, min(8, int(body.get("revise_rounds"))))
+            opts["revise_rounds"] = max(0, min(core.REVISE_MAX_ROUNDS, int(body.get("revise_rounds"))))
         except (TypeError, ValueError):
             pass
     eng = body.get("revise_engine")
@@ -513,11 +514,19 @@ def compose(request: Request, body: dict = Body(...)):
                 "error": f"unknown revise_engine {eng!r} — one of heuristic, cp, auto"})
         opts["revise_engine"] = eng
     if "revise_budget_s" in body:
+        # the budget is for the returned SET, spread across its candidates in rank order
+        # (compose.py says how); the first version was per candidate, and 21 candidates on
+        # the proving engine at 600 s each was four hours of the one-worker pool for one
+        # submission the meter charged once (the session's audit)
         try:
-            opts["revise_budget_s"] = max(0.0, min(600.0, float(body.get("revise_budget_s"))))
+            opts["revise_budget_s"] = max(0.0, min(core.REVISE_MAX_BUDGET_S, float(body.get("revise_budget_s"))))
         except (TypeError, ValueError):
             pass
-    res = jobs.submit(brief, candidates=_candidates(body, default=4, cap=24), options=opts)
+    res = jobs.submit(brief, candidates=_candidates(body, default=4, cap=core.COMPOSE_MAX_CANDIDATES), options=opts)
+    if res.get("busy"):
+        # the one-worker pool's queue is bounded (jobs.MAX_QUEUED); a full one is the server's
+        # state, not the caller's request, so 503 with a retry hint rather than 422
+        raise HTTPException(status_code=503, detail=res, headers={"Retry-After": "30"})
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
     return res
@@ -601,20 +610,24 @@ def plan_revise(request: Request, body: dict = Body(...)):
     opts = {"engine": _engine(body), "candidates": _candidates(body)}
     try:
         # floor 1: a revise of zero rounds is a critique, and the critique route exists
-        opts["rounds"] = max(1, min(8, int(body.get("rounds", 6))))
+        opts["rounds"] = max(1, min(core.REVISE_MAX_ROUNDS, int(body.get("rounds", 6))))
     except (TypeError, ValueError):
         opts["rounds"] = 6
     # a budget ALWAYS: the first version left it optional, and an absent budget is no budget
     # -- 8 rounds x 6 retries x a 25 s proof on the one-worker pool, against this docstring's
-    # own promise (WP-9.4). 120 s is the composer's per-candidate default.
+    # own promise (WP-9.4). The bounds are core's (one spelling; the MCP tools read the same
+    # constants). The budget binds BETWEEN rounds and inside a retried batch; the first
+    # placement (up to a 25 s proof) and one in-flight critique run past it.
     try:
-        opts["budget_s"] = max(1.0, min(600.0, float(body.get("budget_s", 120.0))))
+        opts["budget_s"] = max(1.0, min(core.REVISE_MAX_BUDGET_S, float(body.get("budget_s", core.REVISE_DEFAULT_BUDGET_S))))
     except (TypeError, ValueError):
-        opts["budget_s"] = 120.0
+        opts["budget_s"] = core.REVISE_DEFAULT_BUDGET_S
     parti = _parti_id(body)
     if parti:
         opts["parti"] = parti
     res = jobs.submit_revise(plan, options=opts)
+    if res.get("busy"):
+        raise HTTPException(status_code=503, detail=res, headers={"Retry-After": "30"})
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
     return res

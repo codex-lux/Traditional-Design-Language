@@ -13,7 +13,7 @@ nothing can still be dead, and the human is the one who can tell.
   python3 build/compose.py briefs/<id>.json [--json] [--candidates 4]
 """
 from __future__ import annotations
-import json, os, glob, copy, math, argparse, importlib.util, sys
+import json, os, glob, copy, math, argparse, importlib.util, sys, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -1262,6 +1262,9 @@ _DECISION_KINDS = (
     # are authored by the loop and quote the corpus sentence they executed; the prose is the
     # move's own log line.
     ("REVISED:", "revision"),
+    # WP-9.4: the set's revise budget was spent before this candidate; it is returned as
+    # composed and says so. A disclosure that settles no brief field -- `field: null` is right.
+    ("REVISION SKIPPED:", "disclosure"),
 )
 
 # The log's own vocabulary, read off it rather than imagined. Across every brief in `briefs/`
@@ -1599,14 +1602,35 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
     # drawn findings would otherwise enter the `connections` axis for the revised candidate
     # and not for its earlier self). The drawn keys before and after are published beside the
     # score. A candidate revised into the lead re-ranks; `rank_before` says where it stood.
+    # `revise_budget_s` is the budget for the RETURNED SET, spent in rank order: each candidate's
+    # loop gets what is left, and a candidate the budget does not reach is returned UNREVISED
+    # and says so. The first version gave every candidate the whole figure -- 21 candidates on
+    # the proving engine at 600 s each was four hours of one worker for one submission (the
+    # session's audit). What the budget does not bound, stated: each candidate's FIRST
+    # placement (up to a 25 s proof on `auto`), one in-flight critique past the deadline, and
+    # the reclaim's re-critique; the worst case is candidates x ~35 s + the budget.
     if revise and out:
         RV = _mod("revise", f"{ROOT}/build/revise.py")
         OP = _mod("openings", f"{ROOT}/build/openings.py")
+        deadline = None if revise_budget_s is None else time.perf_counter() + float(revise_budget_s)
         for rank, c in enumerate(out[:candidates], 1):
             parti_rec = PARTIS[c["parti"]]
+            remaining = None if deadline is None else deadline - time.perf_counter()
+            if remaining is not None and remaining < 1.0:
+                c.update({"score_before": c["score"], "rank_before": rank,
+                          "revision": None,
+                          "revision_skipped": (f"the set's revise budget ({revise_budget_s:g} s) was spent on "
+                                               f"the {rank - 1} candidate(s) ranked above; this one is as composed"),
+                          "decisions": c["decisions"] + [f"REVISION SKIPPED: the set's revise budget of "
+                                                         f"{revise_budget_s:g} s was spent before this candidate; "
+                                                         f"it is returned as composed."]})
+                c["decisions_structured"] = structure_decisions(c["decisions"])
+                if on_candidate:
+                    on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
+                continue
             declared_pass = c["plan"].pop("revision_report", None)
             rv = RV.revise(c["plan"], rounds=revise_rounds, engine=revise_engine,
-                           budget_s=revise_budget_s, brief=brief, parti=parti_rec, place=True, C=C)
+                           budget_s=remaining, brief=brief, parti=parti_rec, place=True, C=C)
             plan2 = rv["plan"]
             if declared_pass:
                 plan2["revision_report"]["declared_pass"] = declared_pass.get("summary")

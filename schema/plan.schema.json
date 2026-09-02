@@ -19,6 +19,7 @@
       "properties": {
         "climate_zone": { "type": "string" },
         "lot_width_ft": { "type": "number" }, "lot_depth_ft": { "type": "number" },
+        "garage_bays": { "type": "integer", "minimum": 0, "description": "Carried from the brief's context by build/compose.py::instantiate, which copies the brief's context whole, and read by the garage dependency logic. Pre-existing and found by the session's audit: a composed plan for a brief naming garage bays failed this schema, so tdl_check_plan and the bench's revise route refused every such candidate." },
         "entrance_faces": { "enum": ["N","NE","E","SE","S","SW","W","NW"] },
         "jurisdiction": { "type": "string", "description": "Code checks are advisory and jurisdictional; naming this makes the caveat explicit." },
         "date_of_representation": { "type": "integer", "description": "Which year within the style's span the design represents. Sash pattern, hardware and fanlights are all date-conditional." },
@@ -173,6 +174,20 @@
         "unplaced": { "$ref": "#/$defs/unplaced" },
         "note": { "type": "string" } } },
     "note": { "type": "string" },
+    "revision_summary": { "type": "object",
+      "description": "0.4.0 (WP-9.4). What a DXF round trip carries of a revision_report: its `summary` block, `stop_reason` and `mode`, plus a note saying the full report is NOT in the drawing. Written by build/export_dxf.py into the plan-meta XDATA (capped near 16 KB per entity, which a six-round report exceeds) and handed back by build/import_dxf.py; never authored. The session's audit found the round-tripped record failing this schema on exactly this key, so a revised plan could be exported and not read back.",
+      "properties": {
+        "rounds": { "type": "integer", "minimum": 0 },
+        "moves_applied": { "type": "integer", "minimum": 0 },
+        "moves_refused": { "type": "integer", "minimum": 0 },
+        "key_before": { "type": "array", "items": { "type": "number" } },
+        "key_after": { "type": "array", "items": { "type": "number" } },
+        "stop_reason": { "type": ["string", "null"] },
+        "seconds": { "type": "number" },
+        "mode": { "type": ["string", "null"], "enum": ["placed", "declared", null] },
+        "note": { "type": "string" }
+      }
+    },
     "revision_report": { "type": "object",
       "description": "0.4.0 (WP-9.2). What build/revise.py did to this record and why: every round with the moves it applied, the finding each move answered, the corpus sentence it executed, the finding ids it cleared and opened, the key before and after; what remains, split by class (placement, critic-suspect, architect, advisory); what was handed to the architect with the fault's own right fix quoted; what was refused and why; why the loop stopped. A report rather than a contract, so its shape is open. It is authored history and rides in the record, not placement output — and it is NOT carried whole into a DXF (XDATA is capped near 16 KB per entity); export_dxf.py carries `summary` only and says so." },
     "provenance": { "type": "object",

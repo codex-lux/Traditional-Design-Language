@@ -7,6 +7,7 @@ record, placement stripped, report kept). Each test is named for the defect it f
 import inspect
 import json
 import os
+import time
 import re
 
 import pytest
@@ -198,3 +199,91 @@ def test_the_critique_route_coerces_place_as_the_evaluate_route_does(client, mon
     assert seen["place"] is True, "a string is truthy and the route says so with a bool, as evaluate does"
     client.post("/api/plan/critique", json={"plan": _plan(), "place": False})
     assert seen["place"] is False
+
+
+def test_both_new_routes_refuse_when_the_heavy_bucket_is_spent(client, monkeypatch):
+    """The metering guard was a source grep for `_heavy(request)` that a comment satisfies
+    (the session's audit). Spend the bucket and watch both routes answer 429."""
+    from workbench.server import limits
+    monkeypatch.setenv("HEAVY_CALLS_PER_HOUR", "1")
+    limits.reset()
+    r1 = client.post("/api/plan/critique", json={"plan": _plan(), "engine": "heuristic", "candidates": 10, "place": False})
+    assert r1.status_code == 200, r1.text[:200]
+    r2 = client.post("/api/plan/critique", json={"plan": _plan(), "engine": "heuristic", "candidates": 10, "place": False})
+    r3 = client.post("/api/plan/revise", json={"plan": _plan(), "engine": "heuristic", "rounds": 1})
+    assert r2.status_code == 429 and r3.status_code == 429, (r2.status_code, r3.status_code)
+    limits.reset()
+
+
+def test_the_round_event_carries_the_entrys_own_verdict(client):
+    """The bench derived "applied" from the ABSENCE of a refusal (the session's audit); the
+    event carries `accepted` now, and a refused entry carries its reason."""
+    from workbench.server import jobs
+    job = client.post("/api/plan/revise",
+                      json={"plan": _plan("spec-builder-colonial"), "engine": "heuristic",
+                            "rounds": 2, "candidates": 120, "budget_s": 60}).json()
+    j = _wait(client, job["job_id"])
+    assert j["status"] == "done", j
+    events = [e["data"] for e in list(jobs._JOBS[job["job_id"]].events.queue) if e["event"] == "round"]
+    entries = [m for ev in events for m in ev["moves"]]
+    assert entries
+    for m in entries:
+        assert (m.get("accepted") is True) or m.get("refused") or m.get("refused_by_measurement"), m
+
+
+# ------------------------------------------------------------------ the session's audit
+def test_the_critique_route_never_hands_core_a_parti_record(client, monkeypatch):
+    """The route's own refusal was unobservable: core.critique_plan refuses a record too, so
+    dropping the route's isinstance left the parti test green (the session's audit). A spy
+    on core asserts the route never called it with a dict at all."""
+    from workbench.server import corpus, app as appmod
+    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    calls = []
+    orig = corpus.core.critique_plan
+
+    def spy(plan, **kw):
+        calls.append(kw.get("parti"))
+        return orig(plan, **kw)
+    monkeypatch.setattr(corpus.core, "critique_plan", spy)
+    r = client.post("/api/plan/critique", json={"plan": plan, "engine": "heuristic", "candidates": 1,
+                                                "parti": {"scaling": {"bay_module_ft": 0}}})
+    assert r.status_code == 422 and "a string" in json.dumps(r.json()["detail"])
+    assert calls == [], "the route reached core with a parti record"
+
+
+def test_a_full_queue_is_refused_with_503_and_a_retry_hint(client, monkeypatch):
+    """The one-worker pool's queue was unbounded and every queued job held its submitted
+    record: thirty 8 MB plans behind one long job (the session's audit)."""
+    from workbench.server import jobs
+    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    fakes = [jobs.Job(None, None, {}, kind="revise", plan={}) for _ in range(jobs.MAX_QUEUED)]
+    for j in fakes:
+        jobs._JOBS[j.id] = j                 # status "queued", never submitted to the pool
+    try:
+        r = client.post("/api/plan/revise", json={"plan": plan, "engine": "heuristic", "candidates": 1, "rounds": 1})
+        assert r.status_code == 503, r.text[:200]
+        assert r.headers.get("retry-after") == "30" and r.json()["detail"]["queued"] == jobs.MAX_QUEUED
+        brief = json.load(open(os.path.join(ROOT, "briefs", "family-georgian.json")))
+        r2 = client.post("/api/compose", json={"brief": brief, "candidates": 1})
+        assert r2.status_code == 503
+    finally:
+        for j in fakes:
+            jobs._JOBS.pop(j.id, None)
+
+
+def test_a_reaped_job_does_not_run_and_a_done_revise_job_has_released_its_record(monkeypatch):
+    from workbench.server import jobs
+    job = jobs.Job(None, None, {}, kind="revise", plan={"levels": []})
+    jobs._run(job)                           # never in _JOBS: reaped before its turn
+    assert job.status == "error" and "expired" in job.error and job.result is None
+    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    res = jobs.submit_revise(plan, options={"engine": "heuristic", "candidates": 1, "rounds": 1, "budget_s": 5})
+    jid = res["job_id"]
+    for _ in range(600):
+        if jobs._JOBS[jid].status in ("done", "error"):
+            break
+        time.sleep(0.2)
+    j = jobs._JOBS[jid]
+    assert j.status == "done", j.error
+    assert j.plan is None, "the submitted record is held for the job's whole life"
+    assert j.result["plan"]["revision_report"] is j.result["report"], "the report is stored twice"

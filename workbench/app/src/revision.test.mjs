@@ -77,6 +77,11 @@ test('every class is present in remaining even when the report omits it', () => 
   assert.equal(adaptRevision(null), null);
 });
 
+test('a candidate the set budget did not reach says so, and is not mistaken for a --no-revise compose', () => {
+  assert.equal(revisedLine({ score: 71.1, score_before: 71.1, revision: null, revision_skipped: "the set's revise budget (120 s) was spent on the 3 candidate(s) ranked above; this one is as composed" }),
+    "not revised: the set's revise budget (120 s) was spent on the 3 candidate(s) ranked above; this one is as composed");
+});
+
 test('revisedLine is null where the compose ran --no-revise, and says nothing moved rather than "was X" against the same X', () => {
   assert.equal(revisedLine({ score: 71.1 }), null);
   assert.equal(revisedLine({ score: 71.1, score_before: 71.1,

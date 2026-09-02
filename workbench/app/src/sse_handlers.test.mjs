@@ -14,13 +14,15 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..', '..', '..');
 const read = (p) => readFileSync(join(root, p), 'utf8');
 
-// the names jobs.py can put, by job kind, read from the server's own source
+// the names jobs.py can put, by job kind, read from the server's own DECLARATION. The first
+// version regexed the string literals of each runner and could not see an event named through
+// a variable (the session's audit); jobs.py now declares COMPOSE_EVENTS / REVISE_EVENTS and
+// every put goes through `_put`, which refuses a name outside them -- so the tuple IS the set.
 function serverEvents(kind) {
   const src = read('workbench/server/jobs.py');
-  const fn = kind === 'revise' ? src.slice(src.indexOf('def _run_revise')) : src.slice(src.indexOf('def _run('), src.indexOf('def _run_revise'));
-  const names = new Set();
-  for (const m of fn.matchAll(/"event":\s*"([a-z]+)"/g)) names.add(m[1]);
-  return names;
+  const m = src.match(new RegExp(`${kind === 'revise' ? 'REVISE' : 'COMPOSE'}_EVENTS\\s*=\\s*\\(([^)]*)\\)`));
+  assert.ok(m, `jobs.py declares no ${kind} event tuple`);
+  return new Set([...m[1].matchAll(/"([a-z_]+)"/g)].map((x) => x[1]));
 }
 
 // every jobEvents(...) call and the handler keys inside its braces
@@ -42,6 +44,20 @@ function callSites(file) {
 test('the server puts the events this suite expects, so the check is not vacuous', () => {
   assert.deepEqual([...serverEvents('compose')].sort(), ['candidate', 'done', 'error', 'revised', 'stage']);
   assert.deepEqual([...serverEvents('revise')].sort(), ['done', 'error', 'round', 'stage']);
+});
+
+test('every put in jobs.py goes through _put with a literal name inside its tuple; no bare events.put', () => {
+  const src = read('workbench/server/jobs.py');
+  const bare = [...src.matchAll(/events\.put\(/g)].length;
+  assert.equal(bare, 1, `exactly one events.put -- inside _put -- expected, found ${bare}`);
+  const all = new Set([...serverEvents('compose'), ...serverEvents('revise')]);
+  const puts = [...src.matchAll(/(?<!def )_put\(job,\s*([^,]+),/g)].map((m) => m[1].trim());
+  assert.ok(puts.length >= 8, `too few _put calls found (${puts.length})`);
+  for (const p of puts) {
+    const lit = p.match(/^"([a-z_]+)"$/);
+    assert.ok(lit, `_put called with a non-literal event name: ${p}`);
+    assert.ok(all.has(lit[1]), `_put puts '${lit[1]}', which no tuple declares`);
+  }
 });
 
 test('every compose call site registers every compose event, revised included', () => {

@@ -11,6 +11,20 @@
       "expression": "upper_shaft_diameter / lower_shaft_diameter",
       "why": "The doorcase shaft is drawn with upper and lower diameter equal because nothing in the codebase diminishes a shaft; the fault then reads 1.0 against 0.75-0.87 on every classical plan. That is a scope limit of the generator, disclosed in WP-3.2, not a column somebody built parallel.",
       "basis": "build/elevation.py: \"upper and lower diameter are genuinely identical\" -- the comment beside `upper_shaft_diameter_in`, which also says no entasis rule exists anywhere in this pack or in this codebase."
+    },
+    {
+      "id": "cs-stair-at-the-band-edge",
+      "fault": "stair-at-the-code-minimum",
+      "expression": "2 * riser_height_in + tread_depth_in",
+      "why": "The stair the elevation publishes is computed in build/openings.py as tread = 24.0 - 2 * riser, so the fault's own measurand, 2r + t, sits at the band's lower edge BY CONSTRUCTION -- 24.0 at a 9.5 ft ceiling, 24.004 at 10 ft -- whatever the house. The generator invented the tread rule; the measurement varies with the ceiling, so the sweep cannot see it, and it lives in a file the literal instrument does not read (the session's audit).",
+      "basis": "build/openings.py: \"round(max(10.0, 24.0 - 2 * riser_in), 2)\" -- the tread rule beside the riser count, in the stair block."
+    },
+    {
+      "id": "cs-ceiling-of-the-first-room",
+      "fault": "six-eight-door-in-a-tall-room",
+      "expression": "door_leaf_height_in / ceiling_height_in",
+      "why": "plan_check folds `ceiling_height_in` for the whole fault corpus from whichever room comes FIRST in the record's dict order, not from the room the door is in nor the principal room. The ratio the fault reads is therefore a fact about record order as much as about the house (the session's audit).",
+      "basis": "build/plan_check.py: \"first = next(iter(rooms.values()))\" -- the line before `ceiling_height_in` is set from `first[\\\"ceiling_ft\\\"]`."
     }
   ]
 }

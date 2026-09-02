@@ -77,7 +77,9 @@ export function stopLabel(reason) {
 export function roundLine(ev) {
   if (!ev || typeof ev.n !== 'number') return 'round —';
   const moves = Array.isArray(ev.moves) ? ev.moves : [];
-  const applied = moves.filter((m) => !m.refused && !m.refused_by_measurement);
+  // the entry's own verdict where the server states it; the by-absence rule only for a
+  // report written before it did
+  const applied = moves.filter((m) => ('accepted' in m ? m.accepted : (!m.refused && !m.refused_by_measurement)));
   const verdict = ev.accepted ? 'accepted' : moves.length ? 'rolled back' : 'no move applied';
   const count = moves.length
     ? `${applied.length} move${applied.length === 1 ? '' : 's'}${moves.length - applied.length ? `, ${moves.length - applied.length} refused` : ''}`
@@ -99,6 +101,7 @@ export function adaptRevision(report) {
     delta: keyDelta(r.key_before, r.key_after),
     moves: (r.moves || []).map((m) => ({
       move: m.move, finding: m.finding, basis: m.basis || null, log: m.log || null,
+      accepted: !!m.accepted,
       cleared: !!m.cleared,
       refused: m.refused || null,
       refusedByMeasurement: !!m.refused_by_measurement,
@@ -117,7 +120,7 @@ export function adaptRevision(report) {
     delta: keyDelta(report.key_before, report.key_after),
     stop: stopLabel(report.stop_reason),
     roundsN: s.rounds ?? rounds.length,
-    applied: s.moves_applied ?? rounds.reduce((n, r) => n + (r.accepted ? r.moves.filter((m) => !m.refused).length : 0), 0),
+    applied: s.moves_applied ?? rounds.reduce((n, r) => n + r.moves.filter((m) => m.accepted).length, 0),
     refused: s.moves_refused ?? (report.refused || []).length,
     seconds: s.seconds,
     rounds,
@@ -141,6 +144,9 @@ export function adaptRevision(report) {
    the compose ran --no-revise (no `revision` on the candidate); when nothing moved, say so
    rather than "was X" against the same X. */
 export function revisedLine(c) {
+  // the set's revise budget was spent before this candidate: it is as composed and SAYS so,
+  // rather than reading as a compose that ran --no-revise (the session's audit)
+  if (c && !c.revision && c.revision_skipped) return `not revised: ${c.revision_skipped}`;
   if (!c || !c.revision) return null;
   const rv = c.revision;
   const s = rv.summary || rv;

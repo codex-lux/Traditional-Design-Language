@@ -21,6 +21,13 @@ def _brief(name):
     return json.load(open(os.path.join(ROOT, "briefs", f"{name}.json")))
 
 
+def _composer_order(c):
+    """compose()'s own sort rule, as its local `_sort_key` spells it: fatal-free first, then
+    score, then demerits, then the parti id."""
+    return (c["counts"].get("fatal", 0), -(c["score"] if c["score"] is not None else -1e9),
+            c["demerits"], c.get("parti") or "")
+
+
 @pytest.fixture(scope="module")
 def composed(compose_module):
     return compose_module.compose(_brief("family-georgian"), candidates=2, revise=True,
@@ -64,9 +71,13 @@ class TestRepairIsTheDeclaredLoopInItsOldPosition:
         assert len(fits1) < len(fits0), "the declared loop cleared no furniture finding"
         rep = plan["revision_report"]
         touched = {m["finding"] for rd in rep["rounds"] for m in rd["moves"] if m.get("finding")}
+        assert touched, "no move named a finding"
+        # every surviving furniture finding is ACCOUNTED FOR: tried in a round, or listed in
+        # `remaining` under a class. The first version let "the loop stopped" excuse any
+        # finding, and `round-cap` is the usual stop (the session's audit found it vacuous).
+        accounted = touched | {i["id"] for cls in rep["remaining"].values() for i in cls}
         for f in fits1:
-            # every surviving furniture finding was either tried and refused, or beyond the budget
-            assert f["id"] in touched or rep["stop_reason"] in ("budget", "round-cap"), f["id"]
+            assert f["id"] in accounted, f"{f['id']} survived and the report does not mention it"
 
 
 class TestThePlacedLoopOnTheReturnedCandidates:
@@ -113,8 +124,14 @@ class TestThePlacedLoopOnTheReturnedCandidates:
     def test_four_contrasting_candidates_are_still_returned_and_never_called_good(self, compose_module):
         res = compose_module.compose(_brief("family-georgian"), candidates=4, revise=True,
                                      revise_rounds=1, revise_engine="heuristic", revise_budget_s=30)
-        assert len(res["candidates"]) == 4
-        assert all("good" not in (c.get("revision") or {}).get("summary", {}) for c in res["candidates"])
+        cands = res["candidates"]
+        assert len(cands) == 4 and len({c["parti"] for c in cands}) == 4, "four DISTINCT diagrams"
+        # the order is the composer's rule, on the RE-SCORED set: fatal-free first, then score
+        keys = [_composer_order(c) for c in cands]
+        assert keys == sorted(keys), "the revised set is not in the composer's order"
+        for c in cands:
+            assert "score_before" in c and ("revision" in c)
+            assert "verdict" not in c and "good" not in c, "no candidate is called good"
         assert any("not therefore good" in line for line in res["how_to_read_this"])
 
     def test_revise_false_returns_the_set_as_composed(self, compose_module):
@@ -122,3 +139,44 @@ class TestThePlacedLoopOnTheReturnedCandidates:
         for c in res["candidates"]:
             assert "score_before" not in c and "revision" not in c
             assert not any(r.get("geometry") for lv in c["plan"]["levels"] for r in lv["rooms"])
+
+
+class TestTheRevisedSetKeepsTheComposersInvariants:
+    """Twenty-five composer tests run with `revise=False` and the shipped product is the
+    revised set (the session's audit): nothing held the loop's output to the composer's own
+    rules. These do, on the module fixture that runs with revise on."""
+
+    def test_every_revised_plan_validates_and_keeps_the_briefs_must_have_rooms(self, composed):
+        import jsonschema
+        ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        schema = json.load(open(os.path.join(ROOT, "schema", "plan.schema.json")))
+        brief = _brief("family-georgian")
+        for c in composed["candidates"]:
+            jsonschema.validate(c["plan"], schema)
+            types = {r["type"] for lv in c["plan"]["levels"] for r in lv["rooms"]}
+            for must in brief.get("must_have") or []:
+                assert must in types, f"the loop dropped a must_have room ({must}) from {c['parti']}"
+            assert all(r.get("width_ft", 0) > 0 and r.get("length_ft", 0) > 0 for lv in c["plan"]["levels"] for r in lv["rooms"])
+            ids = [r["id"] for lv in c["plan"]["levels"] for r in lv["rooms"]]
+            assert len(ids) == len(set(ids)), "a room id was duplicated by a move"
+
+    def test_the_revised_set_is_in_the_composers_order_and_rank_before_is_stated(self, composed, compose_module):
+        cands = composed["candidates"]
+        keys = [_composer_order(c) for c in cands]
+        assert keys == sorted(keys)
+        assert {c["rank_before"] for c in cands} == set(range(1, len(cands) + 1))
+
+    def test_the_revise_budget_is_the_sets_and_a_candidate_it_does_not_reach_says_so(self, compose_module):
+        """Per candidate, 21 candidates on the proving engine at 600 s each was four hours of
+        the one-worker pool for one metered submission (the session's audit). The budget is
+        spent in rank order and a candidate the budget does not reach is returned as
+        composed, with the reason on the record."""
+        res = compose_module.compose(_brief("family-georgian"), candidates=2, revise=True,
+                                     revise_rounds=1, revise_engine="heuristic", revise_budget_s=0.5)
+        first, second = res["candidates"][0], res["candidates"][1]
+        assert second["revision"] is None and "budget" in second["revision_skipped"]
+        assert "score_before" in second and second["score_before"] == second["score"]
+        assert any(l.startswith("REVISION SKIPPED:") for l in second["decisions"])
+        assert any(e["kind"] == "disclosure" for e in second["decisions_structured"] if e["statement"].startswith("REVISION SKIPPED"))
+        # the first candidate got what there was: a loop that stopped on the budget
+        assert first["revision"] is None or first["revision"]["stop_reason"] in ("budget", "no-rounds", "round-cap", "converged", "no-applicable-move")

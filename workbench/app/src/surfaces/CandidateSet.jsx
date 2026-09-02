@@ -66,6 +66,7 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
     drawn_key_before: c.drawn_key_before || null,
     drawn_key_after: c.drawn_key_after || null,
     revision: c.revision || null,
+    revision_skipped: c.revision_skipped || null,
     revised: !!c.revision,
     revisedLine: revisedLine(c),
     raw: c,

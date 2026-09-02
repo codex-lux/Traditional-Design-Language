@@ -95,12 +95,18 @@ def key_of(check):
 
 
 # ------------------------------------------------------------------ the levers
-def _lever(plan, finding):
-    """What would change a placement-class finding, named. Never a record edit."""
+def _lever(plan, finding, ctx=None):
+    """What would change a placement-class finding, named. Never a record edit.
+
+    The search asked for BY NAME (`engine="heuristic"`: the bench's drag path, check_all's
+    bounded composer run) is a request not to spend a proof, and the lever honours it here
+    rather than one step later: the first version named `prove-it`, the loop asked for it
+    first, `_prove_it` refused it, and every heuristic-by-name run spent its first round on
+    that refusal (the session's audit: `--revise-rounds 2` bought one round)."""
     engine = finding.get("engine") or ((plan.get("geometry_report") or {}).get("solver") or {}).get("engine")
     gr = plan.get("geometry_report") or {}
     if engine != "cp-sat":
-        if _cp_available():
+        if _cp_available() and (ctx or {}).get("engine") != "heuristic":
             return {"lever": "engine", "move": "prove-it", "engine": engine,
                     "why": "the search placed this; CP-SAT holds the record's declared doors and "
                            "sizes as hard facts (WP-6.3: Tidewater 3 stranded rooms -> 0)"}
@@ -286,7 +292,7 @@ def classify(plan, check, registry=None, C=None, ctx=None):
             assessment["advisory"].append(issue)
             continue
         if _is_placement(plan, f):
-            lever = _lever(plan, f)
+            lever = _lever(plan, f, ctx)
             if lever["lever"] is None:
                 # proved, and no conflict named: nothing an engine setting can change. That is
                 # not a placement question any more; it is the record's own consequence, and it

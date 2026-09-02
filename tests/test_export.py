@@ -271,3 +271,33 @@ def test_a_revised_plan_round_trips_its_summary_and_states_the_report_is_absent(
     assert meta["revision_summary"]["moves_applied"] == 3 and meta["revision_summary"]["mode"] == "placed"
     assert "NOT carried" in meta["revision_summary"]["note"]
     assert len(json.dumps(meta["revision_summary"])) < 2000
+
+
+def test_a_revised_plan_read_back_from_its_dxf_validates_against_the_plan_schema(tmp_path):
+    """The writer's output was tested and the round trip was not (the session's audit): the
+    record `read_plan_dxf` rebuilt carried `revision_summary`, which the plan schema did not
+    admit, so a revised plan could be exported and never read back through `check_plan`."""
+    import json
+    import os
+    import sys
+    pytest.importorskip("ezdxf")
+    jsonschema = pytest.importorskip("jsonschema")
+    ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache as mc
+    EX = mc.load("export_dxf", os.path.join(ROOT, "build", "export_dxf.py"))
+    IM = mc.load("import_dxf", os.path.join(ROOT, "build", "import_dxf.py"))
+    plan = json.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json")))
+    plan["revision_report"] = {"schema": "0.4.0", "mode": "placed", "stop_reason": "converged",
+                               "rounds": [{"n": 1, "moves": [{"move": "x"} for _ in range(400)]}],
+                               "summary": {"rounds": 1, "moves_applied": 3, "moves_refused": 1, "key_before": [0, 5, 5, 1],
+                                           "key_after": [0, 3, 5, 1], "stop_reason": "converged", "seconds": 4.2}}
+    out = EX.export_plan_dxf(plan, str(tmp_path / "revised.dxf"), candidates=20)
+    assert "error" not in out, out
+    back = IM.read_plan_dxf(str(tmp_path / "revised.dxf"))
+    assert "error" not in back, back
+    rec = back["plan"] if "plan" in back else back
+    assert rec["revision_summary"]["moves_applied"] == 3 and rec["revision_summary"]["mode"] == "placed"
+    assert "revision_report" not in rec
+    schema = json.load(open(os.path.join(ROOT, "schema", "plan.schema.json")))
+    jsonschema.validate(rec, schema)

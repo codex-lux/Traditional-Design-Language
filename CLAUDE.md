@@ -167,8 +167,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **44 checks, 1,371 tests**
-(plus the workbench app suite, **76** under `node --test`). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **44 checks, 1,403 tests**
+(plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
@@ -396,7 +396,7 @@ reported the DECLARED key — no drawn findings, so lower — and the loop accep
 placement at all; unjudged is not an improvement now, and a placed loop whose first placement
 cannot be judged stops before its first round and says so. Nine tests could not fail, each
 proved by mutation. The sweep re-measured: fatal
-135 -> 93, serious 961 -> 750, 131 of 273 refused (48.0%), still 0 worse.
+135 -> 93, serious 961 -> 750, 131 of 273 refused (48.0%), still 0 worse. **A second pass then audited the audit** (report §VIII): three auditors over the whole session's diff found WP-9.4's own diff guard blind four ways (a list whose length changed, a rewrite inside an appended list, two rooms sharing an id, a dict added whole), `split-per-grouping` still re-deriving plan-wide under it, a revised plan whose DXF round trip failed the plan schema, the MCP tools passing every knob raw onto a threadpool token, and one compose submission able to hold the one-worker pool for four hours. All fixed with tests that bite; the deferred items and the reasons are listed in §VIII.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
@@ -414,6 +414,22 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **THE DIFF GUARD WAS BLIND FOUR WAYS, AND THE MOVES BEHIND IT WERE WRONG IN FIVE MORE (the
+  session's audit of WP-9.4).** `_paths_written` stopped at a list whose length changed, so a
+  move that ADDED a room hid every other write behind `levels[].rooms[]` and
+  `split-per-grouping` re-derived openings plan-wide under the guard built to catch that; it
+  could not see a rewrite inside a list a move appended to, a write to the first of two rooms
+  sharing an id, or a dict added whole (`setdefault("declared", {})` refused two moves on every
+  record without the key). Beside it: two widen moves read the LONG side as the width where
+  `plan_check` swaps before judging; `narrow-the-window` widened a bath's 2 ft window to 2.73;
+  `add-the-grammar-door` duplicated a door on an asymmetric record; `resolve_kit`'s
+  `SystemExit` escaped two of the three re-deriving moves (one guard in `apply()` now); and the
+  three successor moves were unreachable once their predecessor was tabu. **The budget of a
+  compose is the SET's** (`revise_budget_s`, spent in rank order; a candidate it does not reach
+  says `revision_skipped`), the bounds on every loop knob are `core`'s constants and the MCP
+  tools read them, and a revised plan's `revision_summary` is admitted by the plan schema so
+  the DXF round trip reads back. `tests/test_moves.py::TestTheSessionAuditOfTheGuard` and
+  `tests/test_revise.py::TestTheSessionAuditOfTheLoop` are the guards.
 - **A MOVE'S `touches` IS ENFORCED AT APPLY TIME NOW, AND THE REPORT THAT SAID IT WAS TESTED WAS
   WRONG (WP-9.4).** `apply()` diffs the record before and after, holds every written path
   against the move's declaration in the registry's spelling (`levels[].rooms[].windows[].wall`),
@@ -1030,8 +1046,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **114 entries, of which 41 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **115 entries, of which 42 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/applies-when-means-two-things, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

@@ -122,7 +122,11 @@ def _widen_for_furniture(plan, f, C, ctx):
         return {"refused": "the room already has what the item needs"}
     lo_hi, _w, _l = _band(C, r["type"])
     target = round(need + 0.05, 1)
-    w, l = r.get("width_ft") or 0, r.get("length_ft") or 0
+    # the SHORT side is the width, whatever order the record wrote the two figures in:
+    # plan_check swaps them before judging (`if w > l`) and _set_dims sorts on write, but
+    # nothing sorted on READ, so a 16 x 9 dining room needing 12 was "widened" from 16 to
+    # 12.4 and its short side grew to 16 (the session's audit)
+    w, l = sorted((r.get("width_ft") or 0, r.get("length_ft") or 0))
     if f.get("axis") == "length":
         nw, nl = w, max(l, target)
     else:
@@ -146,7 +150,7 @@ def _widen_to_room_floor(plan, f, C, ctx):
     if not r or f.get("need_ft") is None:
         return {"refused": "the finding carries no floor"}
     lo = float(f["need_ft"])
-    w, l = r.get("width_ft") or 0, r.get("length_ft") or 0
+    w, l = sorted((r.get("width_ft") or 0, r.get("length_ft") or 0))   # the short side, as judged
     if w >= lo:
         return {"refused": "the room is already at its floor"}
     ch = _set_dims(r, lo, max(l, lo))
@@ -190,7 +194,10 @@ def _light_the_far_end(plan, f, C, ctx):
     if not r:
         return {"refused": "no such room"}
     need, ceil = f.get("need_head_ft"), f.get("ceiling_ft")
-    if need is not None and ceil and need <= ceil - 0.5:
+    # the head move answers first WHERE IT CAN -- and once it has been tried and rolled back
+    # (tabu on this finding), the far-end window is the move that answers
+    head_tabu = ("raise-window-head", f.get("id")) in ((ctx or {}).get("tabu") or ())
+    if need is not None and ceil and need <= ceil - 0.5 and not head_tabu:
         return {"refused": "the head can reach; raise-window-head answers this first"}
     ext = set(r.get("exterior_walls") or [])
     lit = {w.get("wall") for w in (r.get("windows") or []) if w.get("wall")}
@@ -393,12 +400,25 @@ def _narrow_the_window(plan, f, C, ctx):
         return {"refused": "the declared window is already narrow enough"}
     m["window_opening_width_in"] = new
     ch = [{"path": "measurements.window_opening_width_in", "from": old, "to": new}]
+    # a NARROWING move narrows: only a window wider than the new figure moves to it. The
+    # first version wrote the one figure onto every window, and on spec-builder-colonial
+    # took the bath's authored 2 ft window to 2.73 ft -- squarer, which is the fault this
+    # move answers (the session's audit). A window already narrower is left as authored.
+    moved, left = 0, 0
+    new_ft = round(new / 12.0, 2)
     for _lv, r in _rooms(plan):
         for win in (r.get("windows") or []):
-            if win.get("width_ft"):
-                ch.append({"path": f"levels[].rooms[{r['id']}].windows[].width_ft", "from": win["width_ft"], "to": round(new / 12.0, 2)})
-                win["width_ft"] = round(new / 12.0, 2)
-    return {"changed": ch, "log": f"Narrowed the declared window to {new} in, keeping its {h:g} in height."}
+            if not win.get("width_ft"):
+                continue
+            if win["width_ft"] > new_ft:
+                ch.append({"path": f"levels[].rooms[{r['id']}].windows[].width_ft", "from": win["width_ft"], "to": new_ft})
+                win["width_ft"] = new_ft
+                moved += 1
+            else:
+                left += 1
+    return {"changed": ch, "log": f"Narrowed the declared window to {new} in, keeping its {h:g} in height"
+                                  + (f"; {moved} window record(s) narrowed, {left} already narrower left as authored."
+                                     if (moved or left) else ".")}
 
 
 def _reduce_dormer_count(plan, f, C, ctx):
@@ -451,11 +471,18 @@ def _add_the_grammar_door(plan, f, C, ctx):
         rule = CO.opening_rule(r["type"], o["type"])
         # both sides of the one door, then its width, type, rank and height derived for
         # THIS pair only -- the grammar rule for the pair, through the composer's own code
+        # the neighbour may already declare its half of the door (an asymmetric record);
+        # a second identical door there is not a door the grammar prescribes (the session's audit)
         r.setdefault("doors", []).append({"to": oid})
-        o.setdefault("doors", []).append({"to": r["id"]})
+        changed = [{"path": f"levels[].rooms[{r['id']}].doors[]", "from": None, "to": {"to": oid}}]
+        if not any(d.get("to") == r["id"] for d in (o.get("doors") or [])):
+            o.setdefault("doors", []).append({"to": r["id"]})
+            changed.append({"path": f"levels[].rooms[{oid}].doors[]", "from": None, "to": {"to": r["id"]}})
         _rederive_openings(plan, ctx, rooms={r["id"], oid}, windows=False, pairs={frozenset((r["id"], oid))})
-        return {"changed": [{"path": f"levels[].rooms[{r['id']}].doors[]", "from": None, "to": dict(r["doors"][-1])},
-                            {"path": f"levels[].rooms[{oid}].doors[]", "from": None, "to": dict(o["doors"][-1])}],
+        changed[0]["to"] = dict(r["doors"][-1])
+        if len(changed) > 1:
+            changed[1]["to"] = dict(o["doors"][-1])
+        return {"changed": changed,
                 "log": f"Added the door the grammar prescribes between {_name(r)} and {_name(o)} ({rule['id']}), "
                        f"so {_name(r)} can be reached.",
                 "basis": rule.get("basis")}
@@ -485,11 +512,21 @@ def _drop_optional_room(plan, f, C, ctx):
         return {"refused": f"a hard adjacency rule needs a {r['type']}"}
     lv = _level_of(plan, r["id"])
     lv["rooms"] = [x for x in lv["rooms"] if x["id"] != r["id"]]
+    changed = [{"path": "levels[].rooms[]", "from": r["id"], "to": None}]
     for _l, x in _rooms(plan):
-        if x.get("doors"):
+        if x.get("doors") and any(d["to"] == r["id"] for d in x["doors"]):
             x["doors"] = [d for d in x["doors"] if d["to"] != r["id"]]
-    plan["adjacencies"] = [a for a in plan.get("adjacencies", []) if r["id"] not in (a.get("a"), a.get("b"))]
-    return {"changed": [{"path": "levels[].rooms[]", "from": r["id"], "to": None}],
+            changed.append({"path": f"levels[].rooms[{x['id']}].doors[]", "from": r["id"], "to": None})
+    # a brief's adjacency that names the dropped room goes with it -- WRITTEN only where the
+    # key exists and a row named the room, and reported, so the diff guard sees what it saw
+    # anyway (the session's audit: this move was refused on every plan with an adjacency
+    # naming the room, and invented an empty list on every plan without the key)
+    if "adjacencies" in plan:
+        kept = [a for a in plan["adjacencies"] if r["id"] not in (a.get("a"), a.get("b"))]
+        if len(kept) != len(plan["adjacencies"]):
+            plan["adjacencies"] = kept
+            changed.append({"path": "adjacencies[]", "from": r["id"], "to": None})
+    return {"changed": changed,
             "log": f"Dropped {_name(r)}: the diagram marks it droppable and the placement could not reach it."}
 
 
@@ -515,9 +552,16 @@ def _split_per_grouping(plan, f, C, ctx):
                                   for win in r["windows"][:1]]
             r["length_ft"] = half
             _level_of(plan, r["id"])["rooms"].append(new)
-            _rederive_openings(plan, ctx)
+            r.setdefault("doors", []).append({"to": new["id"]})
+            # the new room's windows and the ONE door between the halves; nothing else on the
+            # plan is re-derived (the session's audit found this call unscoped after the door
+            # move's had been scoped, rewriting the same nine authored window counts)
+            _rederive_openings(plan, ctx, rooms={new["id"]}, doors=False)
+            _rederive_openings(plan, ctx, rooms={r["id"], new["id"]}, windows=False,
+                               pairs={frozenset((r["id"], new["id"]))})
             return {"changed": [{"path": f"levels[].rooms[{r['id']}].length_ft", "from": l, "to": half},
-                                {"path": "levels[].rooms[]", "from": None, "to": new["id"]}],
+                                {"path": "levels[].rooms[]", "from": None, "to": new["id"]},
+                                {"path": f"levels[].rooms[{r['id']}].doors[]", "from": None, "to": {"to": new["id"]}}],
                     "log": f"Split {_name(r)} into two, as groupings/{gid}.json says to: two smaller rooms rather than one enlarged.",
                     "basis": f"groupings/{gid}.json expansion_logic: \"{logic[:120]}\""}
     return {"refused": "no grouping the plan names says to split this room type"}
@@ -602,9 +646,19 @@ def answering(finding, plan, C=None, ctx=None, check=True):
     entry carries `would`, the log line it would write. This is the single place that decides
     what answers what; build/critique.py asks it and never re-derives it."""
     out, refused = [], {}
+    # a predecessor refused BY MEASUREMENT on an earlier round is tabu for this finding, and
+    # its successor is then the move that answers (the session's audit: light-the-far-end,
+    # delete-the-shutters and drop-optional-room were unreachable once the move before
+    # them had been tried and rolled back, because only a same-call precondition refusal
+    # counted). The loop hands its tabu set through ctx; the analyst runs with none.
+    for mid, fid in (ctx or {}).get("tabu") or ():
+        if fid == finding.get("id"):
+            refused[mid] = "refused by measurement on an earlier round (tabu)"
     for m in registry()["moves"]:
         if not _matches(m["answers"], finding):
             continue
+        if m["id"] in refused:
+            continue                       # tabu on this finding: not offered again
         after = _AFTER.get(m["id"])
         if after and after not in refused:
             if not check:
@@ -653,24 +707,43 @@ def _paths_written(before, after, prefix=""):
         for k in sorted(set(before) | set(after)):
             sub = f"{prefix}.{k}" if prefix else k
             if k not in before or k not in after:
-                # a list that appears or vanishes whole is an addition to that list
                 present = after.get(k) if k in after else before.get(k)
-                out.append(sub + "[]" if isinstance(present, list) else sub)
+                if isinstance(present, list):
+                    # a list that appears or vanishes whole is an addition to that list
+                    out.append(sub + "[]")
+                elif isinstance(present, dict) and present:
+                    # a dict that appears whole is its LEAVES: `plan.setdefault("declared", {})`
+                    # followed by one slot write is a write of `declared.shutter`, not of a
+                    # bare `declared` no touches entry can name (the session's audit found
+                    # two moves refused on every record without the key)
+                    out.extend(_paths_written({} if k not in before else before[k],
+                                              {} if k not in after else after[k], sub))
+                else:
+                    out.append(sub)
             else:
                 out.extend(_paths_written(before[k], after[k], sub))
     elif isinstance(before, list) and isinstance(after, list):
-        if len(before) != len(after):
-            out.append(prefix + "[]")
-            return out
-        # rooms are matched by id so an id-keyed path can be spelled; other lists by index
-        if before and all(isinstance(x, dict) and "id" in x for x in before + after):
+        # An element added or removed is `<path>[]` -- and the diff DESCENDS into the elements
+        # both sides share, whatever the length did. The first version returned at a length
+        # change, so a move that added a room hid every write to every other room behind the
+        # one path `levels[].rooms[]`: split-per-grouping rewrote nine authored window counts
+        # under the guard built to catch exactly that (the session's own audit). Elements are
+        # matched by id where every element carries a UNIQUE one, else by index -- a record
+        # with two rooms of one id keeps the last under an id key, and a write to the first
+        # was invisible (the same audit).
+        both = before + after
+        keyed = (both and all(isinstance(x, dict) and "id" in x for x in both)
+                 and len({x["id"] for x in before}) == len(before)
+                 and len({x["id"] for x in after}) == len(after))
+        if keyed:
             b = {x["id"]: x for x in before}; a = {x["id"]: x for x in after}
-            for rid in sorted(set(b) | set(a)):
-                if rid not in b or rid not in a:
-                    out.append(prefix + "[]")
-                else:
-                    out.extend(_paths_written(b[rid], a[rid], f"{prefix}[{rid}]"))
+            if set(b) != set(a) or len(before) != len(after):
+                out.append(prefix + "[]")
+            for rid in sorted(set(b) & set(a)):
+                out.extend(_paths_written(b[rid], a[rid], f"{prefix}[{rid}]"))
         else:
+            if len(before) != len(after):
+                out.append(prefix + "[]")
             for i, (x, y) in enumerate(zip(before, after)):
                 out.extend(_paths_written(x, y, f"{prefix}[{i}]"))
     elif before != after:
@@ -695,7 +768,16 @@ def apply(move_id, plan, finding, C=None, ctx=None):
     if fn is None:
         return {"refused": f"'{move_id}' is registered and has no apply function"}
     snapshot = copy.deepcopy(plan)
-    res = fn(plan, finding, C, ctx)
+    try:
+        res = fn(plan, finding, C, ctx)
+    except (SystemExit, Exception) as exc:
+        # ONE guard for every move (the session's audit found it on one of the three moves
+        # that re-derive openings, and `resolve_kit` raises SystemExit on an unknown style,
+        # which `except Exception` in the job worker does not catch): the record is restored
+        # and the exception is a REFUSAL that names itself, never a dead worker thread.
+        plan.clear(); plan.update(snapshot)
+        return {"refused": f"{move_id} raised {type(exc).__name__}: {str(exc)[:160]} -- the record was restored",
+                "move": move_id}
     if "refused" not in res:
         written = _paths_written(snapshot, plan)
         outside = [w for w in written if not _touch_matches(w, m["touches"])]

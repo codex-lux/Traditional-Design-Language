@@ -24,6 +24,26 @@ core = corpus.core
 _JOBS = {}
 _POOL = ThreadPoolExecutor(max_workers=1)
 TTL_S = 30 * 60
+# The pool is one worker and its queue was unbounded: thirty 8 MB plans submitted behind one
+# long job were held in memory before any ran, and a job reaped from _JOBS after the TTL still
+# ran when its turn came, for nobody (the session's audit). A submit that finds this many jobs
+# still waiting is refused with the count, and a reaped job is skipped at the head of the pool.
+MAX_QUEUED = 8
+
+# EVERY event name a job can put, by kind, declared once. The app's sse_handlers spec reads
+# these tuples and holds every jobEvents() call site to them; a put through `_put` with a name
+# outside its kind's tuple raises here, at the source, rather than being dropped on the floor
+# by a subscriber that never heard of it (the session's audit: a regex over string literals
+# could not see an event named through a variable).
+COMPOSE_EVENTS = ("stage", "candidate", "revised", "done", "error")
+REVISE_EVENTS = ("stage", "round", "done", "error")
+
+
+def _put(job, event, data):
+    allowed = REVISE_EVENTS if job.kind == "revise" else COMPOSE_EVENTS
+    if event not in allowed:
+        raise ValueError(f"{job.kind} job cannot put event {event!r}; declare it in jobs.py first")
+    job.events.put({"event": event, "data": data})
 
 
 class Job:
@@ -65,11 +85,16 @@ def _strip_plans(result):
 
 
 def _run(job):
+    if job.id not in _JOBS:
+        # reaped while it waited its turn: nobody can read the result, so nothing is computed
+        job.status = "error"
+        job.error = "the job expired in the queue before it ran"
+        return
     if job.kind == "revise":
         return _run_revise(job)
     job.status = "running"
-    job.events.put({"event": "stage", "data": {"stage": "seeding",
-                    "note": "reading the brief, resolving partis native to the style"}})
+    _put(job, "stage", {"stage": "seeding",
+                        "note": "reading the brief, resolving partis native to the style"})
     try:
         composer = core._composer()
         done = []
@@ -80,7 +105,7 @@ def _run(job):
             # the score before and after ride together, with the drawn keys, so a reader can
             # see what the loop bought and what it did not.
             if summary.get("revised"):
-                job.events.put({"event": "revised", "data": {
+                _put(job, "revised", {
                     "parti": summary.get("parti"), "parti_name": summary.get("parti_name"),
                     "score_before": summary.get("score_before"), "score": summary.get("score"),
                     "rank_before": summary.get("rank_before"),
@@ -90,7 +115,8 @@ def _run(job):
                     "moves_applied": (summary.get("revision") or {}).get("summary", {}).get("moves_applied"),
                     "stop_reason": (summary.get("revision") or {}).get("stop_reason"),
                     "disqualified": bool(summary.get("disqualified")),
-                    "fatal": (summary.get("counts") or {}).get("fatal", 0)}})
+                    "fatal": (summary.get("counts") or {}).get("fatal", 0),
+                    "revision_skipped": summary.get("revision_skipped")})
                 return
             done.append(summary)
             # `disqualified` and the fatal count ride WITH the score, never behind it. The
@@ -99,11 +125,11 @@ def _run(job):
             # number cannot stand on its own — a progress line publishing it alone would put
             # the highest-looking figure on the screen next to a plan carrying two fatals.
             # `n` is ARRIVAL order, not rank: compose() has not sorted anything yet here.
-            job.events.put({"event": "candidate", "data": {
+            _put(job, "candidate", {
                 "n": len(done), "parti": summary.get("parti"),
                 "parti_name": summary.get("parti_name"), "score": summary.get("score"),
                 "disqualified": bool(summary.get("disqualified")),
-                "fatal": (summary.get("counts") or {}).get("fatal", 0)}})
+                "fatal": (summary.get("counts") or {}).get("fatal", 0)})
 
         # Detect the callback parameter by signature rather than catching
         # TypeError around the call — a genuine TypeError inside a working
@@ -111,22 +137,22 @@ def _run(job):
         import inspect
         takes_callback = "on_candidate" in inspect.signature(composer.compose).parameters
         if takes_callback:
-            job.events.put({"event": "stage", "data": {"stage": "composing",
-                            "note": "seeding, repairing and scoring every native diagram; then the "
-                                    "returned candidates are placed and revised, round by round"}})
+            _put(job, "stage", {"stage": "composing",
+                                "note": "seeding, repairing and scoring every native diagram; then the "
+                                        "returned candidates are placed and revised, round by round"})
             result = composer.compose(job.brief, job.candidates, on_candidate=on_candidate,
                                       **(job.options or {}))
         else:
-            job.events.put({"event": "stage", "data": {"stage": "composing",
-                            "note": "repairing candidates against the validator (~8 s)"}})
+            _put(job, "stage", {"stage": "composing",
+                                "note": "repairing candidates against the validator (~8 s)"})
             result = composer.compose(job.brief, job.candidates)
         job.result = result
         job.status = "done"
-        job.events.put({"event": "done", "data": _strip_plans(result)})
+        _put(job, "done", _strip_plans(result))
     except Exception as e:  # a failed compose is reported, never swallowed
         job.status = "error"
         job.error = str(e)[:500]
-        job.events.put({"event": "error", "data": {"error": job.error}})
+        _put(job, "error", {"error": job.error})
 
 
 def _run_revise(job):
@@ -139,40 +165,51 @@ def _run_revise(job):
     path, so both are derived rather than read."""
     job.status = "running"
     o = job.options or {}
-    job.events.put({"event": "stage", "data": {"stage": "critiquing",
-                    "note": "placing the record once and sorting every finding into what it "
-                            "means to a generator; then a move per round, accepted only on a "
-                            "strict improvement"}})
+    _put(job, "stage", {"stage": "critiquing",
+                        "note": "placing the record once and sorting every finding into what it "
+                                "means to a generator; then a move per round, accepted only on a "
+                                "strict improvement"})
 
     def on_round(rnd):
-        job.events.put({"event": "round", "data": {
+        _put(job, "round", {
             "n": rnd.get("n"),
             "engine": rnd.get("engine_after") or rnd.get("engine"),
             "accepted": bool(rnd.get("accepted")),
             "key_before": rnd.get("key_before"), "key_after": rnd.get("key_after"),
             "moves": [{"move": m.get("move"), "finding": m.get("finding"),
                        "cleared": m.get("cleared"),
+                       # the entry's own verdict, all three states -- the bench derived
+                       # "applied" from the ABSENCE of a refusal until the session's audit
+                       **({"accepted": True} if m.get("accepted") else {}),
                        **({"refused": m["refused"]} if m.get("refused") else {}),
-                       **({"refused_by_measurement": True} if m.get("refused_by_measurement") else {})}
+                       **({"refused_by_measurement": True} if m.get("refused_by_measurement") else {}),
+                       **({"key_after": m["key_after"]} if m.get("key_after") else {})}
                       for m in rnd.get("moves", [])],
             "opened_n": len(rnd.get("opened") or []),
             "cleared_n": len(rnd.get("cleared") or []),
-        }})
+            **({"on_round_error": rnd["on_round_error"]} if rnd.get("on_round_error") else {}),
+        })
 
     try:
-        result = core.revise_plan(job.plan, rounds=o.get("rounds", 6), engine=o.get("engine", "auto"),
+        plan, job.plan = job.plan, None      # the submitted record is released to the loop; the
+        result = core.revise_plan(plan, rounds=o.get("rounds", 6), engine=o.get("engine", "auto"),
                                   candidates=o.get("candidates", 250), budget_s=o.get("budget_s"),
                                   parti=o.get("parti"), place=True, include_plan=True,
-                                  on_round=on_round)
+                                  on_round=on_round)   # revised one lives in job.result
         if "error" in result:
             raise RuntimeError(result["error"])
+        # the report rode twice -- as result.report and inside plan.revision_report, 87 KB each
+        # on a real job (the session's audit); the poll and the done event read `report`, the
+        # /plan route reads the record, so one object serves both
+        if isinstance(result.get("plan"), dict) and "revision_report" in result["plan"]:
+            result["plan"]["revision_report"] = result["report"]
         job.result = result
         job.status = "done"
-        job.events.put({"event": "done", "data": _strip_plans(result)})
+        _put(job, "done", _strip_plans(result))
     except Exception as e:  # a failed revise is reported, never swallowed
         job.status = "error"
         job.error = str(e)[:500]
-        job.events.put({"event": "error", "data": {"error": job.error}})
+        _put(job, "error", {"error": job.error})
 
 
 def submit_revise(plan, options=None):
@@ -183,10 +220,21 @@ def submit_revise(plan, options=None):
     if err:
         return {"error": err["error"], "detail": err.get("detail"), "hint": err.get("hint")}
     _reap()
+    busy = _queue_full()
+    if busy:
+        return busy
     job = Job(None, None, options, kind="revise", plan=plan)
     _JOBS[job.id] = job
     _POOL.submit(_run, job)
     return {"job_id": job.id}
+
+
+def _queue_full():
+    waiting = sum(1 for j in _JOBS.values() if j.status == "queued")
+    if waiting >= MAX_QUEUED:
+        return {"error": f"the pool has {waiting} job(s) waiting already; try again when one finishes",
+                "queued": waiting, "busy": True}
+    return None
 
 
 def revised_plan(job_id):
@@ -208,6 +256,9 @@ def submit(brief, candidates=4, options=None):
     if err:
         return {"error": err["error"], "detail": err.get("detail"), "hint": err.get("hint")}
     _reap()
+    busy = _queue_full()
+    if busy:
+        return busy
     job = Job(brief, candidates, options)
     _JOBS[job.id] = job
     _POOL.submit(_run, job)

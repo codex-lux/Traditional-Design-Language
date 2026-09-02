@@ -1339,8 +1339,17 @@ def compose(brief, candidates=4, include_plans=False, revise=True, revise_rounds
     except Exception as e:
         return {"error": "brief does not match the brief schema", "detail": str(e)[:400],
                 "hint": "the minimum is style and target_area_sf; see tdl_brief_schema"}
-    res = _composer().compose(brief, candidates, revise=revise, revise_rounds=revise_rounds,
+    bounded = []
+    candidates = int(_bounded("candidates", candidates, 1, COMPOSE_MAX_CANDIDATES, 4, bounded))
+    revise_rounds = int(_bounded("revise_rounds", revise_rounds, 0, REVISE_MAX_ROUNDS, 4, bounded))
+    revise_budget_s = _bounded("revise_budget_s", revise_budget_s, 0.0, REVISE_MAX_BUDGET_S,
+                               REVISE_DEFAULT_BUDGET_S, bounded)
+    if revise_engine not in ("heuristic", "cp", "auto"):
+        return {"error": f"unknown revise_engine {revise_engine!r} -- one of heuristic, cp, auto"}
+    res = _composer().compose(brief, candidates, revise=bool(revise), revise_rounds=revise_rounds,
                               revise_engine=revise_engine, revise_budget_s=revise_budget_s)
+    if bounded:
+        res["bounded"] = bounded
     if not include_plans:
         for c in res["candidates"]:
             c["plan_rooms"] = sum(len(l["rooms"]) for l in c["plan"]["levels"])
@@ -1463,6 +1472,29 @@ def copy_json(o): return json.loads(json.dumps(o))
 
 
 # ----------------------------------------------------------------- the critique and the loop (WP-9)
+# THE BOUNDS ON THE LOOP'S KNOBS, spelled once. The HTTP routes clamped rounds, candidates and
+# the budget and the MCP tools -- `tdl_revise_plan`, `tdl_critique_plan`, `tdl_compose` --
+# passed them raw onto a synchronous threadpool token (the session's audit: one call with a
+# thousand rounds on the proving engine held a token for hours, inside the 60/hour meter).
+# The routes read these too, so a second spelling cannot drift from this one.
+MAX_CANDIDATES = 2000            # geometry.solve's pool; a full placement loop per candidate
+REVISE_MAX_ROUNDS = 8
+REVISE_DEFAULT_BUDGET_S = 120.0  # compose()'s own default, per returned SET (not per candidate)
+REVISE_MAX_BUDGET_S = 600.0
+COMPOSE_MAX_CANDIDATES = 24      # the parti catalogue holds 21
+
+
+def _bounded(name, value, lo, hi, default, bounded):
+    try:
+        v = float(value) if value is not None else float(default)
+    except (TypeError, ValueError):
+        v = float(default)
+    out = max(lo, min(hi, v))
+    if value is None or out != v:
+        bounded.append(f"{name}: {value!r} -> {out:g}")
+    return out
+
+
 def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
     """The analyst: place the record once (or reuse the placement it carries), judge the
     placed house, and sort every finding into what it means to a generator. See
@@ -1481,9 +1513,15 @@ def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
         # to a file. A caller-supplied parti RECORD would become the template geometry reads
         # (bay module, bay count) with no check at all (WP-9.4).
         return {"error": "parti must be a parti id, not a record", "detail": type(parti).__name__}
+    bounded = []
+    candidates = int(_bounded("candidates", candidates, 1, MAX_CANDIDATES, 250, bounded))
+    if engine not in ("heuristic", "cp", "auto"):
+        return {"error": f"unknown engine {engine!r} -- one of heuristic, cp, auto"}
     CR = _mod("critique", os.path.join(ROOT, "build", "critique.py"))
-    res = CR.critique(plan, engine=engine, candidates=candidates, parti=parti, place=place)
+    res = CR.critique(plan, engine=engine, candidates=candidates, parti=parti, place=bool(place))
     out = {k: v for k, v in res.items() if k not in ("plan", "check")}
+    if bounded:
+        out["bounded"] = bounded
     out["check_summary"] = {k: res["check"].get(k) for k in
                             ("counts", "fault_summary", "constraint_summary", "drawn_summary", "elevation_summary")}
     return out
@@ -1505,13 +1543,21 @@ def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, inclu
         return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
     if parti is not None and not isinstance(parti, str):
         return {"error": "parti must be a parti id, not a record", "detail": type(parti).__name__}
+    bounded = []
+    rounds = int(_bounded("rounds", rounds, 1, REVISE_MAX_ROUNDS, 6, bounded))
+    candidates = int(_bounded("candidates", candidates, 1, MAX_CANDIDATES, 250, bounded))
+    # a budget ALWAYS, and bounded: an absent one was no budget, and a job with none held the
+    # worker for as long as the rounds took (the session's audit)
+    budget_s = _bounded("budget_s", budget_s, 1.0, REVISE_MAX_BUDGET_S, REVISE_DEFAULT_BUDGET_S, bounded)
+    if engine not in ("heuristic", "cp", "auto"):
+        return {"error": f"unknown engine {engine!r} -- one of heuristic, cp, auto"}
     RV = _mod("revise", os.path.join(ROOT, "build", "revise.py"))
     # on_round is the bench's seam (WP-9.3): the revise job puts a `round` event per round so
     # a reader watches the loop run rather than a spinner. The MCP tool does not pass it.
     r = RV.revise(plan, rounds=rounds, engine=engine, candidates=candidates, budget_s=budget_s,
-                  place=place, parti=parti, on_round=on_round)
+                  place=bool(place), parti=parti, on_round=on_round)
     out = {"report": r["report"], "key_before": r["key_before"], "key_after": r["key_after"],
-           "stop_reason": r["stop_reason"],
+           "stop_reason": r["stop_reason"], **({"bounded": bounded} if bounded else {}),
            "note": ("A lower key is not a good plan. Read handed_to_architect and suspects before "
                     "rounds: what the loop could not do is as much the result as what it did.")}
     if include_plan:

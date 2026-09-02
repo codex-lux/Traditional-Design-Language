@@ -190,6 +190,8 @@ Each correction is marked *(corrected by WP-9.4: …)* beside the sentence in it
 
 The spec Colonial's row moved from `[6, 68, 64, 20]` to `[8, 69, 63, 19]` under the scoped
 door move and the passage fix — a different, honest path through the same rule; still 0 worse.
+(Re-measured a third time after §VIII's fixes: see the table there — the search asked for by
+name no longer spends round 1 on a refused proof, and the successor moves fire.)
 
 **Under CP-SAT, bounded** (four rounds, 200 s a plan, 25 s a proof; the two rows the first
 run accepted unplaced are re-measured under the fixed rule):
@@ -223,7 +225,8 @@ empty on every style (declared mode, by construction); `critic_suspect` non-empt
 - **`_is_placement`'s five engine-name kinds** are documented and raised as a question, not
   changed: what the loop may touch is a ruling.
 - **`check_basis` on a key path it cannot walk reports unjudged** rather than inventing a
-  walk; today that is zero citations.
+  walk; today that is zero citations (corrected by §VIII: the count is ratcheted at zero in
+  all three checkers now, and was printed above an OK line here).
 - **The stale-critique guard in the bench is walked, not unit-tested** — it lives in JSX,
   outside the `node --test` graph.
 - **The `_SOLVE_CACHE` 64-entry clear**: a 23-plan sweep crosses it, so "a rollback is a hit"
@@ -239,3 +242,142 @@ condition under which a test proves least. The audit's two instruments were the 
 WP-8.6's: revert the fix and watch the suite, and deep-diff the record around every move
 rather than reading what the move said it did. Both found things in seconds that three
 reports and 1,350 green tests had not.
+
+
+## VIII — The audit of the audit (2 Sep 2026)
+
+Before this session's work was called done, three more auditors read the WHOLE diff
+(`f434fe8..2d9a87f`) with the same two instruments — revert and watch, deep-diff the record —
+and a fourth re-ran the WP-9.4 verify pass. Everything below was reproduced before it was
+fixed; each fix landed with the test named beside it. Introduced by this session unless marked
+pre-existing.
+
+### Blocked deployment (fixed)
+
+| finding | auditor | fix | test that bites |
+|---|---|---|---|
+| `_paths_written` returned at a list whose length changed, so a move that ADDED a room hid every other write behind `levels[].rooms[]`; `split-per-grouping` was still re-deriving openings plan-wide under the guard built to catch exactly that (Library + Parlour with authored counts 7 and 9: the parlour's became 2 and 3) | A, D | the diff descends whatever the length did; the split move re-derives its two rooms and one pair | `test_split_per_grouping_leaves_the_parlours_authored_window_counts_alone` |
+| the diff could not see a rewrite of an existing element in a list a move appended to; the Tidewater door test bit by fixture luck (the passage's authored doors lacked `type`) | B | index-diff of the common prefix; pre-existing doors asserted byte-identical | `test_the_diff_sees_a_rewrite_inside_a_list_the_move_appended_to`, the door test's new assertions |
+| a revised plan could not be read back from its own DXF: `import_dxf` rebuilt the record with `revision_summary`, which the plan schema did not admit, so `check_plan` refused it | A | the schema admits `revision_summary`, never authored; a real round trip through ezdxf validates the record | `test_a_revised_plan_read_back_from_its_dxf_validates_against_the_plan_schema` |
+| `tdl_revise_plan`, `tdl_critique_plan` and `tdl_compose` over `/mcp` passed rounds, candidates and no budget raw onto a synchronous threadpool token — one call with a thousand rounds on the proving engine held it for hours, inside the 60/hour meter | A, C | the bounds live in `core` (`REVISE_MAX_ROUNDS`, `MAX_CANDIDATES`, the budget's default and cap, `COMPOSE_MAX_CANDIDATES`), one spelling the routes read too; a clamped call says `bounded` | `test_core_bounds_every_knob_the_mcp_tools_pass` (also refuses a second spelling in `app.py`) |
+| one `/api/compose` submission could hold the one-worker pool for ~4 hours: 21 candidates x (a 25 s proof + a 600 s loop + a 30 s reclaim), metered once | C | `revise_budget_s` is the SET's budget, spent in rank order; a candidate it does not reach is returned as composed with `revision_skipped` and a `REVISION SKIPPED:` decision line; the unbounded parts (first placement, one in-flight critique, the reclaim) are stated in the code | `test_the_revise_budget_is_the_sets_and_a_candidate_it_does_not_reach_says_so` |
+| the reclaim after the loop compared fatals alone with no unjudged guard | D | `key[:2]` and `could_not_evaluate`, rolled back and said | `TestTheReclaimIsHeldToTheLoopsRule` |
+| `critique()`'s own `could_not_evaluate` was proved only against a scripted critic | B | a test through the real modules with `GEO.solve` returning an error | `test_a_solver_error_through_the_real_critic_is_could_not_evaluate_and_stops_the_placed_loop` |
+| the key-path check had no test and its unjudged state was dropped by two checkers | A, B | `UNJUDGED_CEILING = 0` in all three checkers, printed in the OK line, an error above it | `test_a_basis_under_a_wrong_but_walkable_key_errors_and_an_unwalkable_key_is_unjudged` |
+
+### Worth fixing (fixed)
+
+- **Two widen moves read `width_ft` raw** where `plan_check` judges the short side: a 16 x 9
+  dining room needing 12 was refused as "already at its floor" by one and "widened from 16 to
+  12.4" by the other while its short side grew to 16 (A). Both read the short side now.
+- **`narrow-the-window` widened**: one figure onto every window, the bath's authored 2 ft to
+  2.73 — squarer, the fault it answers (C). Only a window wider than the figure moves.
+- **`drop-optional-room` was refused by the guard on every plan whose adjacencies named the
+  room, and invented an empty list on every plan without the key** (A). It declares
+  `adjacencies[]` and writes it only where a row named the room.
+- **`setdefault("declared", {})` reported a bare `declared`**, refusing `delete-the-shutters`
+  and `replace-forbidden-declared-variant` on any record without the key (A). An added dict
+  is its leaves.
+- **A record with two rooms of one id** made the id-keyed diff blind to the first (C). Ids
+  are used only where unique.
+- **`add-the-grammar-door` duplicated the door on an asymmetric record** (A). Both sides are
+  checked before either is written.
+- **`SystemExit` from `resolve_kit` escaped two of the three re-deriving moves** and the job
+  worker catches `Exception` (A). One guard in `apply()`: any exception is a refusal naming
+  itself, the record restored.
+- **The three `_AFTER` moves were unreachable once their predecessor was tabu** (A). The loop
+  hands its tabu set to `answering()` through `ctx`; a tabu move is not offered and its
+  successor is.
+- **Under `--revise-engine heuristic` — what `check_all` runs — every candidate's round 1 was
+  `prove-it` refused** (A). `_lever` names `search-harder` behind an explicit search.
+- **`critique_after["plan"]` was not the plan returned** after a refused final round or a
+  rolled-back reclaim (A). The critique is re-pointed at the restored record, and the return
+  asserts it.
+- **`modcache._already_imported` handed back a module another thread was still executing**
+  (A): `__spec__` is set before the body runs; `_initializing` is the flag. Realpaths are
+  memoised per `__file__`.
+- **`_run_revise` held the submitted record for the job's life and stored the report twice**;
+  the pool's queue was unbounded and a reaped job still ran (C). The record is released to
+  the loop, the report is one object, `MAX_QUEUED` bounds the queue (503 with `Retry-After`),
+  and a reaped job is skipped.
+- **A dropped SSE stream lost a minutes-long revise with no recovery** (C). The bench polls
+  the job until it ends; a page refresh still abandons it, and the code says why.
+- **The SSE-handler spec regexed string literals** and could not see an event named through a
+  variable (B). `jobs.py` declares `COMPOSE_EVENTS`/`REVISE_EVENTS`, every put goes through
+  `_put`, which refuses a name outside them, and the spec reads the tuples.
+- **The critique route's parti refusal was unobservable** because core refuses too (B). A spy
+  asserts core is never reached with a record.
+- **`declared_fits` was unread for `stair-not-drawn` and nothing noticed** (B). A synthetic
+  check reaches the branch.
+- **`TestTheInstrumentOnTheRealFile` forbade the ratchet's own direction** by pinning an AST
+  shape and `== 44` (B). Shapes are pinned on fixture strings; the real file is held to a
+  frozen list of 44 names it may leave and never join; the ceilings may only fall.
+- **Two vacuous assertions in `test_compose_revision.py` and a checker test that induced no
+  breach** (B). Tightened; the breach is induced.
+- **Twenty-five composer tests run with `revise=False` and nothing held the revised set** (B).
+  Three invariant tests on the revised set: every plan validates, keeps the brief's
+  `must_have` rooms and unique ids; the set is in the composer's order; `rank_before` is stated.
+- **Pre-existing, found on the way: a composed plan for a brief naming `garage_bays` failed
+  the plan schema** (`instantiate` copies the brief's context whole; the plan schema's
+  context did not admit the key), so `tdl_check_plan` and the bench's revise route refused
+  every such candidate. The schema admits it.
+- The dead `or True` assertion, the `"12.3" in "112.3"` substring, the round-callback test
+  that depended on the refused proof it no longer sees.
+
+### Deferred, with the reason
+
+- **Rounds are accepted on the key, not on the rule each move executed** (C): a leaf set to
+  half an opening that a later move narrows. Raised as
+  `oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed`; the acceptance
+  rule is a ruling.
+- **`critique()` is quadratic in plan size through `answering()`'s deep copy per matching
+  move per finding** — 90 s on an 800-room record (C). The route's body limit is 8 MB and
+  `/api/plan/evaluate` has the same exposure through `geometry.solve` on the same body, so
+  this is the pre-existing shape of every heavy route: the meter is the bound. Not changed;
+  a room-count cap on the routes is a rule nobody has ruled.
+- **The rate limiter's 60/hour x 20 identities/hour/address** (C) is the deployment's
+  standing ceiling (OQ 36 and OQ 73 through OQ 77), not this phase's.
+- **`RULE_KEYS` versus the runtime row, the grammar's `applies_to` integrity, the duplicated
+  2.67 default** (D, 6g/6h): outside the phase's own diff.
+- **Moves writing declared measurements** (D, 7b/7c): by ruling they execute the fault's own
+  fix on a measurement the plan declared.
+- **`setdefault` folds invisible to the instruments** (D, 7e/6c): what they fold is now
+  visible to the diff (an added dict is its leaves); the instruments themselves are unchanged.
+- **The `_DECISION_PATTERNS` door line splits a room name containing " and "**, the
+  `IfExp` branch that can return a tuple, and the route docstring's "always" (A, minor):
+  the docstring is corrected; the other two are latent on today's corpus and noted.
+- **The dropped-stream recovery is not walked**: simulating a closed EventSource in the e2e
+  walk needs a proxy the walk does not have. The code path is small and stated.
+
+**The sweep, re-run a third time after these fixes** (search engine, 21 partis + both shipped
+plans, 6 rounds, 250 candidates), against §V's re-measurement:
+
+| | §V (after WP-9.4) | after §VIII |
+|---|---|---|
+| fatal | 135 -> 93 | 135 -> 83 |
+| serious | 961 -> 750 | 961 -> 717 |
+| minor | 1,157 -> 1,212 | 1,157 -> 1,231 |
+| improved / same / worse | 20 / 3 / 0 | 20 / 3 / 0 |
+| applications refused | 131 of 273 (48.0%) | 140 of 302 (46.4%) |
+| `search-harder` | never fired | applied 3, cleared 3, refused 6 |
+| `light-the-far-end` | never fired | applied 2, cleared 2, refused 4 |
+| wall clock | 68 s | 88 s |
+
+Two moves that had never fired on the search now do, for the two reasons §VIII names: the
+analyst names `search-harder` behind an explicit search instead of a proof the lever would
+refuse, and a successor move is offered once its predecessor is tabu. `prove-it` is in
+`never_fired` by design on this engine. The spec Colonial's row is `[10, 70, 63, 21] -> [6,
+67, 64, 20]`; the minor axis keeps paying for the other two, as every sweep has shown.
+
+**Suites after the second pass:** root 1,403 collected (was 1,371); server 200 collected (was
+194); app 78 under `node --test` (was 76); the walk and `check_all` re-run on the fixed tree,
+the runner's own line read.
+
+### What the second pass says
+
+Every one of WP-9.4's blocking findings was something a report SAID was checked; three of
+this pass's were things WP-9.4 SAID it had guarded, in the guard it built. A diff that stops
+early is a guard that reports what it saw and not what happened, and the one test that seemed
+to prove it bit by an accident of the fixture. The instrument that found all three in seconds
+was the same again: a fixture built to disagree with the code's assumption, and the record
+diffed around the move rather than read from the move's own account.

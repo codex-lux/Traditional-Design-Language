@@ -45,6 +45,13 @@ def load(path):
         return json.load(fh)
 
 
+# A citation that names a key path the walker cannot follow is COULD NOT EVALUATE for that
+# citation. Measured 0 across the grammar (1 of 12 rules names a key path) and ratcheted, so
+# the state is a number that may only fall, never a line printed above an OK (the session's
+# audit found N/EV printed and the exit code 0).
+UNJUDGED_CEILING = 0
+
+
 class Report:
     def __init__(self):
         self.errors = []
@@ -340,7 +347,12 @@ def main():
         print(f"\ncheck_openings: {len(rep.errors)} error(s), {len(rep.warnings)} warning(s), "
               f"{len(rep.unjudged_items)} citation(s) whose key path could not be walked (unjudged, not passed)")
         return 1
-    print(f"OK — opening grammar: {len(rules)} rules, "
+    if len(rep.unjudged_items) > UNJUDGED_CEILING:
+        print(f"ERROR {len(rep.unjudged_items)} citation(s) whose key path could not be walked, against a "
+              f"ceiling of {UNJUDGED_CEILING} -- unjudged is not passed; cite a walkable key or the file alone")
+        return 1
+    print(f"OK — opening grammar: {len(rules)} rules, {len(rep.unjudged_items)} citation(s) unjudged "
+          f"(ceiling {UNJUDGED_CEILING}), "
           f"{covered}/{total} pairs named, {len(rep.warnings)} warning(s)")
     return 0
 

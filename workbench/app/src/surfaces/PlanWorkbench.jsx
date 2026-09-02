@@ -195,27 +195,47 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
     setReviseError(null);
     setLive([]);
     setRevising('submitting');
+    let polling = null;
+    const finish = (job_id) => {
+      api.jobPlan(job_id)
+        .then((revised) => {
+          if (planDoc.get() !== submitted) {
+            setReviseError('the record changed while the loop ran — the revision was not applied');
+          } else {
+            planDoc.load(revised);
+          }
+        })
+        .catch((e) => setReviseError('revise: ' + (e.body?.detail?.error || e.message || 'could not fetch the revised record')))
+        .finally(() => { setLive([]); setRevising(null); });
+    };
+    /* A dropped stream is not a failed job. jobEvents suppresses EventSource's own reconnect
+       and reports 'stream closed'; the loop keeps running and its result is held server-side
+       for 30 minutes, so the bench POLLS the job until it ends rather than discarding minutes
+       of the one worker's time (the session's audit). A page refresh still abandons the job:
+       the record-changed check above is object identity and cannot survive one. */
+    const pollUntilDone = (job_id) => {
+      setRevising('running');
+      const tick = () => api.job(job_id).then((j) => {
+        if (j.status === 'done') finish(job_id);
+        else if (j.status === 'error') { setReviseError('revise: ' + (j.error || 'failed')); setLive([]); setRevising(null); }
+        else polling = setTimeout(tick, 3000);
+      }).catch((e) => { setReviseError('revise: ' + (e.message || 'lost the job')); setLive([]); setRevising(null); });
+      polling = setTimeout(tick, 3000);
+    };
     api.revise(plan, { candidates: seeds, ...opts })
       .then(({ job_id }) => {
         setRevising('submitted');
         if (reviseUnsub.current) reviseUnsub.current();
-        reviseUnsub.current = jobEvents(job_id, {
+        const unsub = jobEvents(job_id, {
           stage: () => setRevising('running'),
           round: (d) => { setRevising('running'); setLive((l) => [...l, d]); },
-          done: () => {
-            api.jobPlan(job_id)
-              .then((revised) => {
-                if (planDoc.get() !== submitted) {
-                  setReviseError('the record changed while the loop ran — the revision was not applied');
-                } else {
-                  planDoc.load(revised);
-                }
-              })
-              .catch((e) => setReviseError('revise: ' + (e.body?.detail?.error || e.message || 'could not fetch the revised record')))
-              .finally(() => { setLive([]); setRevising(null); });
+          done: () => finish(job_id),
+          error: (d) => {
+            if (d && d.error === 'stream closed') { pollUntilDone(job_id); return; }
+            setReviseError('revise: ' + (d.error || 'failed')); setLive([]); setRevising(null);
           },
-          error: (d) => { setReviseError('revise: ' + (d.error || 'failed')); setLive([]); setRevising(null); },
         });
+        reviseUnsub.current = () => { unsub(); if (polling) clearTimeout(polling); };
       })
       .catch((e) => { setReviseError('revise: ' + (e.body?.detail?.error || e.message || 'failed')); setRevising(null); });
   }, [plan, seeds]);

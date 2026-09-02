@@ -36,7 +36,16 @@ ALLOWED_TOUCHES = {
     "levels[].floor_to_ceiling_ft",
     "declared.<slot>", "declared.shutter", "declared.dormer.count",
     "measurements.shutter_leaf_width_in", "measurements.window_opening_width_in",
+    # a brief's adjacency row naming a room the loop DROPS goes with the room -- within the
+    # ruled `rooms` authority, and the only write to `adjacencies` any move may make
+    "adjacencies[]",
 }
+
+# A citation whose key path the walker cannot follow is COULD NOT EVALUATE for that citation,
+# and this registry is authored here: every basis that names a key path names one the checker
+# can walk (13 of 21 do; measured 0 unjudged), so the count is RATCHETED at zero rather than
+# printed and passed (the session's audit: N/EV lines were printed above an OK line).
+UNJUDGED_CEILING = 0
 PLACEMENT_WORDS = ("geometry", "footprint", "geometry_report", "opening_report", "stair",
                    "fixture_layout", "position_ft", "positions_ft", "hinge", "swing_into", "unplaced",
                    "exterior_walls", "stacks_over")
@@ -112,12 +121,21 @@ def main():
 
     for w in rep.warnings:
         print(f"WARN  {w}")
+    for u in rep.unjudged_items:
+        # a citation whose key path could not be walked is COULD NOT EVALUATE, printed and
+        # counted, never folded into the pass (the session's audit: this channel was dropped)
+        print(f"N/EV  {u}")
     if rep.errors:
         print("\n".join(f"ERROR {e}" for e in rep.errors))
         print(f"\n{len(rep.errors)} error(s)")
         return 1
+    if len(rep.unjudged_items) > UNJUDGED_CEILING:
+        print(f"ERROR {len(rep.unjudged_items)} citation(s) whose key path could not be walked, against a "
+              f"ceiling of {UNJUDGED_CEILING}: cite a key path the checker can walk, or the file alone")
+        return 1
     print(f"OK -- {len(ids)} moves, each with an apply function and a basis the record really says; "
-          f"{len(reg['refusals'])} refusals stated.")
+          f"{len(reg['refusals'])} refusals stated; {len(rep.unjudged_items)} citation(s) unjudged "
+          f"(ceiling {UNJUDGED_CEILING}).")
     return 0
 
 

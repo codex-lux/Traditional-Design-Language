@@ -83,7 +83,18 @@ only (XDATA is capped near 16 KB).
   after ranking, by default; each is re-scored on its declared record so `score` and
   `score_before` are one instrument, and re-ranked. `--no-revise`, `--revise-rounds`,
   `--revise-engine`, `--revise-budget-s`; `check_all` runs the composer on the fast engine.
-- **MCP**: `tdl_critique_plan`, `tdl_revise_plan`; `tdl_compose(revise=...)`.
+  **`revise_budget_s` is the budget for the returned SET**, spent in rank order: each
+  candidate's loop gets what is left, and a candidate the budget does not reach is returned
+  as composed with `revision: null`, `revision_skipped` saying why, and a `REVISION SKIPPED:`
+  decision line. It was per candidate until the session's audit measured 21 candidates on the
+  proving engine at 600 s each — four hours of the one-worker pool for one metered submission.
+  What the budget does not bound is stated in `compose.py`: each candidate's first placement
+  (up to a 25 s proof on `auto`), one in-flight critique, and the reclaim's re-critique.
+- **MCP**: `tdl_critique_plan`, `tdl_revise_plan`; `tdl_compose(revise=...)`. **The bounds on
+  every knob live in `mcp_server/core.py`** (`REVISE_MAX_ROUNDS` 8, `MAX_CANDIDATES` 2000,
+  `REVISE_DEFAULT_BUDGET_S` 120, `REVISE_MAX_BUDGET_S` 600, `COMPOSE_MAX_CANDIDATES` 24), one
+  spelling the HTTP routes read too; a clamped call says so under `bounded`. The MCP tools
+  passed every knob raw onto a synchronous threadpool token until the session's audit.
 - **The bench** (WP-9.3): the compose job streams a `revised` event per candidate and the
   Candidate Set shows it — the score before beside the score after, the drawn keys, and the
   server's rank before revision said in words. The Plan Workbench's evaluate judges the solved
@@ -98,7 +109,12 @@ only (XDATA is capped near 16 KB).
   the bench re-solves it as it does every load; the Revision panel says that the sheet is a
   fresh solve and names the engine the loop's own key was measured on, because the two can
   differ. The panel is the record's own `revision_report`: undo takes it away. A suspect in
-  the panel is styled as neither verdict.
+  the panel is styled as neither verdict. **A dropped stream is not a failed job**: the bench
+  polls the job until it ends and then loads the record, because the loop keeps running and
+  the result is held for 30 minutes; a page refresh still abandons it, since the check that
+  the record did not change underneath the loop is object identity. The one-worker pool's
+  queue is bounded (`jobs.MAX_QUEUED`, 8); a submit against a full one is 503 with a retry
+  hint, and a job reaped from the table while it waited is not run.
 
 ## The declaration is enforced (WP-9.4)
 
@@ -111,10 +127,31 @@ rewriting nine authored window counts. The composer's `derive_openings` takes `r
 `doors=`, `windows=` and `pairs=` so a move derives the openings it added and nothing else.
 A parti is an ID over the wire; only the library functions accept a record.
 
+**The diff had four blind spots of its own, found by the session's audit of the audit, each
+now a test in `tests/test_moves.py`.** It stopped at a list whose length changed, so a move
+that ADDED a room hid every other write on the plan behind `levels[].rooms[]` — and
+`split-per-grouping` was still re-deriving openings plan-wide under it. It could not see a
+rewrite of an existing element in a list a move appended to; it keyed rooms by id and so
+could not see a write to the first of two rooms sharing one; and it reported a dict added
+whole as a bare key, so `plan.setdefault("declared", {})` refused two moves on every record
+without the key. It descends now whatever the length did, matches by id only where the ids
+are unique, reports an added dict by its leaves, and `drop-optional-room` declares the
+`adjacencies[]` row it removes. Beside the diff: `apply()` turns any exception a move
+raises — `resolve_kit`'s `SystemExit` on an unknown style included — into a refusal that
+names it, restoring the record; the two widen moves read the SHORT side as `plan_check`
+judges it (a 16 x 9 dining room was "widened" from 16); `narrow-the-window` narrows only
+windows wider than its figure (it took a bath's 2 ft window to 2.73); `add-the-grammar-door`
+checks both sides before writing either; and a successor move (`light-the-far-end`,
+`delete-the-shutters`, `drop-optional-room`) is offered once the move before it is tabu on
+the finding, which the loop hands to `answering()` through `ctx["tabu"]`. The search asked
+for by name is never asked to prove: `_lever` names `search-harder` under
+`engine="heuristic"`, so `check_all`'s two-round composer run no longer spends its first
+round on a refused proof.
+
 ## What it will not do, stated
 
 It will not call a plan good — a lower key is a plan with fewer things the corpus can name
-wrong. It will not act on a finding the critic invented: a fault reading one of the 35
+wrong. It will not act on a finding the critic invented: a fault reading one of the 44
 literals `build/elevation.py` states (`oq/thirty-five-measurements-the-elevation-states-as-literals`)
 is marked and left. It will not accept a drawn size into the declaration, add a room the parti
 has no place for, fill a judgment slot, or write a measurement the record did not declare. And

@@ -127,6 +127,11 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
     ctx = {"parti": parti_rec, "must_have": list((brief or {}).get("must_have") or []),
            "candidates": candidates, "engine": engine}
     t0 = time.perf_counter()
+    log, tabu, levers_tried = [], set(), set()
+    # the live tabu set rides in ctx so moves.answering can offer a successor move once the
+    # move before it has been refused by measurement (the session's audit: three `_AFTER`
+    # moves were unreachable after their predecessor was rolled back)
+    ctx["tabu"] = tabu
 
     def _report(rnd):
         # EVERY logged round is reported, the refused-lever and nothing-applied rounds
@@ -155,7 +160,6 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
     # a COPY: `crit` is rebound only on an accepted round, so on a run that accepts nothing
     # `before` and `after` were one dict under two names, and the bench reads both (WP-9.4)
     before = copy.deepcopy(crit)
-    log, tabu, levers_tried = [], set(), set()
     seen = {_hash(plan)}
     stop = None
     n = 0
@@ -266,19 +270,31 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             # roll the batch back, then try each move alone in severity order
             rnd["batch_refused_by_measurement"] = {"key_after": list(new["key"])}
             plan = copy.deepcopy(snapshot)
+            # the batch wrote into the object `crit["plan"]` names; after the rollback the
+            # critique has to point at the restored record, or `critique_after["plan"]` is
+            # a stripped, half-moved house that is not the plan returned (the session's audit)
+            crit["plan"] = plan
             accepted_one = None
+            tried = set()
             for mid, issue, _res in applied:
                 if over_budget():
                     # the budget binds INSIDE a round too: a batch of six retried one at a
-                    # time is six more solves, and compose runs this on every pick
+                    # time is six more solves, and compose runs this on every pick. Every
+                    # move the cut leaves untried is an ENTRY, so the count and the reader
+                    # see it (the session's audit: work rolled back and recorded nowhere)
                     for m2, i2, _r in applied:
                         tabu.add((m2, i2["id"]))
+                        if (m2, i2["id"]) not in tried:
+                            rnd["moves"].append({"move": m2, "finding": i2["id"],
+                                                 "refused": "the budget was spent before this move could be retried alone"})
                     rnd["budget_cut_retries"] = True
                     break
+                tried.add((mid, issue["id"]))
                 trial = copy.deepcopy(snapshot)
                 res = MV.apply(mid, trial, issue["finding"], C, ctx)
                 if "refused" in res:
                     tabu.add((mid, issue["id"]))
+                    rnd["moves"].append({"move": mid, "finding": issue["id"], "refused": res["refused"]})
                     continue
                 if res["requires"] == "re-place":
                     OP.strip_placement(trial)
@@ -326,14 +342,24 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
             plan = crit["plan"]
             reclaimed = {"log": clog, "key_before": list(kept_crit["key"]), "key_after": list(crit["key"]),
                          "rolled_back": False}
-            if crit["key"][0] > kept_crit["key"][0]:
+            unjudged = (crit.get("placement") or {}).get("could_not_evaluate")
+            # the same rule the rounds were held to, one screen below _improves: an unjudged
+            # re-placement is not lower, and a rise in fatal OR serious is a worse house; only
+            # the minor axis may pay for the brief's area (the session's audit found this
+            # branch comparing fatals alone with no unjudged guard)
+            worse = unjudged or crit["key"][:2] > kept_crit["key"][:2]
+            if worse:
                 reclaimed["rolled_back"] = True
-                reclaimed["why"] = (f"reclaim opened a fatal on this engine ({kept_crit['key']} -> "
-                                    f"{crit['key']}); the area discipline does not outrank the rule "
-                                    f"every round was held to, so the accepted state is kept")
+                reclaimed["why"] = ((f"the placement after reclaim could not be evaluated ({unjudged}); "
+                                     f"an unjudged key is not a lower one") if unjudged else
+                                    (f"reclaim raised fatal or serious on this engine ({kept_crit['key']} -> "
+                                     f"{crit['key']}); the area discipline does not outrank the rule "
+                                     f"every round was held to")) + ", so the accepted state is kept"
                 plan, crit = kept, kept_crit
+                crit["plan"] = plan          # reclaim wrote into the old object; see the rollback above
 
     after = crit
+    assert after["plan"] is plan, "the critique returned must be of the record returned"
     remaining = {c: [{"id": i["id"], "severity": i["severity"], "statement": i["statement"],
                       **({"lever": i.get("lever")} if c == "placement" else {}),
                       **({"move": i.get("move")} if c == "actionable" else {})}

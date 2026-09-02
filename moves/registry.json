@@ -1,411 +1,412 @@
 {
-  "id": "move-registry",
-  "version": "0.1.0",
-  "kind": "editorial",
-  "judgment": true,
-  "note": "The corrective revisions (WP-9.2). Each move is a corpus rule made executable against a plan RECORD -- a room's own dimension band, a fault's own right or cheap fix, the opening grammar's own pair rule -- and every entry quotes the sentence it executes, verified by build/check_moves.py the way build/check_openings.py verifies the grammar. A move edits DECLARED fields only; the placement is stripped and re-solved, so the drawing stays a render of the data (decision #11). Nothing here fills a judgment slot (#6), adds a room the parti has no place for (#3), or edits a measurement the record did not itself declare -- a figure the elevation generator derived is not the record's to overwrite, and a figure the generator states as its own constant (build/critic_suspects.py) is never acted on at all. Where the move is a reading rather than a rule it is marked editorial with judgment: true, and its basis says what was read.",
-  "authority": {
-    "ruled": "1 Sep 2026",
-    "by": "Lucas, via the Phase 9 planning session; recorded in PLAN-OF-ACTION.md section 2 and oq/the-revision-loops-authority-over-topology",
-    "may": [
-      "resize a room within its catalogue band",
-      "raise a window head, add or move a window on a declared exterior wall, change a declared window count",
-      "change a declared slot to the cascade's single canonical variant",
-      "change a measurement the plan itself declares to the fault's own fix",
-      "add the door the opening grammar prescribes between a stranded room and a placed neighbour",
-      "drop a room the parti marks optional that the placement cannot hold",
-      "split a room where its grouping's own record says to split rather than enlarge",
-      "ask the engine for a proof or a wider search"
-    ],
-    "may_not": [
-      "add a room the parti has no place for",
-      "fill a judgment slot",
-      "edit geometry, a placement key, exterior_walls or stacks_over",
-      "act on a critic-suspect",
-      "write a measurement the plan did not declare",
-      "drop a must_have room or one a hard adjacency rule needs",
-      "loosen a rule or a threshold",
-      "call a plan good"
-    ]
-  },
-  "moves": [
-    {
-      "id": "widen-for-furniture",
-      "answers": {
-        "layer": "furniture",
-        "kind": "furniture-fit"
-      },
-      "kind": "measured",
-      "basis": "rooms/dining-room.json dimensions.critical_dimension: \"A 12 ft dining room is a fault dressed as a room, and it is the commonest dimensional error in production housing.\" -- the archetype; the move executes each room's OWN furniture clearance as the finding states it, item by item.",
-      "precondition": "the finding carries need_ft and have_ft with need_ft > have_ft, and the widened room stays under 1.25 x its catalogue band ceiling",
-      "touches": [
-        "levels[].rooms[].width_ft",
-        "levels[].rooms[].length_ft"
-      ],
-      "requires": "re-place",
-      "authority": "dimensions",
-      "note": "Replaces compose.repair's prose parse. Reads the UNROUNDED need; no 1.8x gate -- a room needing more than 1.8x its width is refused with the reason, never skipped in silence."
-    },
-    {
-      "id": "widen-to-room-floor",
-      "answers": {
-        "layer": "room",
-        "kind": "width-below-floor"
-      },
-      "kind": "measured",
-      "basis": "rooms/bedroom.json dimensions.critical_dimension: \"ELEVEN BY TWELVE, and a 132 sq ft bedroom is not a large bedroom, it is the smallest one that works.\" -- the room type's own width floor, read from its dimensions.",
-      "precondition": "the finding carries need_ft (the floor) above have_ft",
-      "touches": [
-        "levels[].rooms[].width_ft",
-        "levels[].rooms[].length_ft"
-      ],
-      "requires": "re-place",
-      "authority": "dimensions"
-    },
-    {
-      "id": "grow-to-band-floor",
-      "answers": {
-        "layer": "room",
-        "kind": "area-below-band"
-      },
-      "kind": "measured",
-      "basis": "rooms/bedroom.json dimensions.critical_dimension: \"ELEVEN BY TWELVE, and a 132 sq ft bedroom is not a large bedroom, it is the smallest one that works.\" -- the room type's own area band, read from its dimensions.",
-      "precondition": "the finding carries need_sf (the band floor) above have_sf; both dimensions scale by the square root of the ratio so the room keeps its proportion",
-      "touches": [
-        "levels[].rooms[].width_ft",
-        "levels[].rooms[].length_ft"
-      ],
-      "requires": "re-place",
-      "authority": "dimensions"
-    },
-    {
-      "id": "raise-window-head",
-      "answers": {
-        "layer": "daylight",
-        "kind": "daylight-depth"
-      },
-      "kind": "measured",
-      "basis": "build/plan_check.py daylight fix: \"Raise the head, light the far end from another side, or accept the back of the room as a service zone.\" -- the first of the three, where the head that would reach the back of the room sits below the ceiling.",
-      "precondition": "need_head_ft is at most ceiling_ft - 0.5",
-      "touches": [
-        "levels[].rooms[].window_head_ft"
-      ],
-      "requires": "re-derive",
-      "authority": "dimensions"
-    },
-    {
-      "id": "light-the-far-end",
-      "answers": {
-        "layer": "daylight",
-        "kind": "daylight-depth"
-      },
-      "kind": "editorial",
-      "judgment": true,
-      "basis": "build/plan_check.py daylight fix: \"Raise the head, light the far end from another side, or accept the back of the room as a service zone.\" -- the second of the three, where the head cannot and the room declares the opposite exterior wall.",
-      "precondition": "the head cannot reach below the ceiling; the wall opposite a lit wall is a declared exterior wall carrying no window",
-      "touches": [
-        "levels[].rooms[].windows[]"
-      ],
-      "requires": "re-place",
-      "authority": "openings",
-      "note": "Editorial: which of the finding's three fixes to take is a reading. The new group copies the room's existing window unit, so no width is invented."
-    },
-    {
-      "id": "give-the-room-a-window",
-      "answers": {
-        "layer": "daylight",
-        "kind": "no-window"
-      },
-      "kind": "editorial",
-      "judgment": true,
-      "basis": "build/compose.py derive_openings: \"The count is the room's own glazing_fraction against the wall it is on\" -- the window is added on the declared exterior wall and sized by the composer's own pack rule, not by this move.",
-      "precondition": "the room declares at least one exterior wall and no windows",
-      "touches": [
-        "levels[].rooms[].windows[]",
-        "levels[].rooms[].window_head_ft"
-      ],
-      "requires": "re-place",
-      "authority": "openings"
-    },
-    {
-      "id": "grow-stair-hall-to-its-run",
-      "answers": {
-        "layer": "drawn",
-        "kind": "stair-not-drawn"
-      },
-      "kind": "measured",
-      "basis": "rooms/stair-hall.json dimensions.critical_dimension: \"THE ARITHMETIC OF THE RUN, WHICH SIZES THE ROOM AND IS ALMOST NEVER DONE FIRST.\" -- the run build/openings.py::stair_pass computed from the storey height and the riser rule, carried on the refusal as needs.",
-      "precondition": "the finding carries need_ft [long, short] and declared_fits is false -- a stair the declared hall would have held is the engine's, not the record's",
-      "touches": [
-        "levels[].rooms[].width_ft",
-        "levels[].rooms[].length_ft"
-      ],
-      "requires": "re-place",
-      "authority": "dimensions"
-    },
-    {
-      "id": "widen-wet-room-for-fixture",
-      "answers": {
-        "layer": "drawn",
-        "kind": "fixture-unplaced"
-      },
-      "kind": "measured",
-      "basis": "rooms/bathroom.json dimensions.critical_dimension: \"FIVE FEET, from the tub. A standard alcove bath is 60 in long, and it is 60 in long because the room is 5 ft wide\" -- the fixture's own footprint, read from the room record's furniture and carried on the refusal as needs.",
-      "precondition": "the finding carries need_ft [width, depth] the declared room cannot hold on any wall",
-      "touches": [
-        "levels[].rooms[].width_ft",
-        "levels[].rooms[].length_ft"
-      ],
-      "requires": "re-place",
-      "authority": "dimensions"
-    },
-    {
-      "id": "passage-to-its-band",
-      "answers": {
-        "layer": "drawn",
-        "kind": "passage-narrow"
-      },
-      "kind": "measured",
-      "basis": "rooms/centre-passage.json dimensions.critical_dimension: \"SIX TO SEVEN FEET is a passage that circulates: two people pass, a stair fits against one wall, doors swing.\"",
-      "precondition": "the passage's declared short dimension is below 6 ft",
-      "touches": [
-        "levels[].rooms[].width_ft",
-        "levels[].rooms[].length_ft"
-      ],
-      "requires": "re-place",
-      "authority": "dimensions",
-      "note": "Touches length_ft as well: a passage shorter than 6 ft LONG becomes 6 x 6, since width is the short side by schema (WP-9.4)."
-    },
-    {
-      "id": "move-window-off-the-needed-wall",
-      "answers": {
-        "layer": "drawn",
-        "kind": "wall-run"
-      },
-      "kind": "editorial",
-      "judgment": true,
-      "basis": "rooms/dining-room.json furniture[sideboard].note: \"Needs an uninterrupted wall of at least 6 ft. This is what the second window usually kills.\"",
-      "precondition": "the room declares a window on the wall the piece needs and another declared exterior wall carries none",
-      "touches": [
-        "levels[].rooms[].windows[].wall"
-      ],
-      "requires": "re-place",
-      "authority": "openings"
-    },
-    {
-      "id": "trade-width-for-depth-at-constant-area",
-      "answers": {
-        "layer": "fault",
-        "fault": "porch-too-shallow-to-inhabit"
-      },
-      "kind": "measured",
-      "tier": "cheap",
-      "basis": "faults/porch-too-shallow-to-inhabit.json fixes.cheap: \"Trade width for depth at constant area, which costs nothing.\"",
-      "precondition": "the plan has a threshold or outdoor room whose declared short side is below the required depth",
-      "touches": [
-        "levels[].rooms[].width_ft",
-        "levels[].rooms[].length_ft"
-      ],
-      "requires": "re-place",
-      "authority": "dimensions",
-      "note": "Read oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants before trusting this on a Georgian portico: the licence that would make the fault not-applicable never reaches a regional child."
-    },
-    {
-      "id": "replace-forbidden-declared-variant",
-      "answers": {
-        "layer": "style",
-        "kind": "variant-forbidden"
-      },
-      "kind": "measured",
-      "basis": "build/plan_check.py style layer: \"the ONE canonical variant the cascade delivers, if there is exactly one\" -- read through _resolved_slots, the cascade, never the raw kit file (oq/the-raw-kit-read).",
-      "precondition": "the finding carries a single canonical variant",
-      "touches": [
-        "declared.<slot>"
-      ],
-      "requires": "re-derive",
-      "authority": "declared"
-    },
-    {
-      "id": "shutter-leaf-at-half-the-opening",
-      "answers": {
-        "layer": "fault",
-        "fault": "shutter-half-width-leaf"
-      },
-      "kind": "measured",
-      "tier": "right",
-      "basis": "faults/shutter-half-width-leaf.json fixes.right: \"Custom leaves at half the opening width and the full sash height\"",
-      "precondition": "the plan itself declares shutter_leaf_width_in and window_opening_width_in",
-      "touches": [
-        "measurements.shutter_leaf_width_in"
-      ],
-      "requires": "re-derive",
-      "authority": "declared"
-    },
-    {
-      "id": "delete-the-shutters",
-      "answers": {
-        "layer": "fault",
-        "fault": "shutter-half-width-leaf"
-      },
-      "kind": "measured",
-      "tier": "cheap",
-      "basis": "faults/shutter-half-width-leaf.json fixes.cheap: \"Delete the shutters. On a facade where correct shutters cannot be afforded, no shutters is not a compromise but a legitimate historical condition\"",
-      "precondition": "the style's cascade does not forbid `none` for the shutter slot; taken only where the right fix was refused",
-      "touches": [
-        "declared.shutter",
-        "measurements.shutter_leaf_width_in"
-      ],
-      "requires": "re-derive",
-      "authority": "declared"
-    },
-    {
-      "id": "narrow-the-window-and-keep-the-height",
-      "answers": {
-        "layer": "fault",
-        "fault": "window-squarer-than-the-style-permits"
-      },
-      "kind": "measured",
-      "tier": "cheap",
-      "basis": "faults/window-squarer-than-the-style-permits.json fixes.cheap: \"Narrow the window and keep the height. Two 30 x 66 units in the room where one 60 x 54 was drawn cost about the same\"",
-      "precondition": "the plan itself declares window_opening_width_in; the height stays and the declared width comes down to the style's floor ratio, and every room's declared window unit follows so the record does not state one width twice",
-      "touches": [
-        "measurements.window_opening_width_in",
-        "levels[].rooms[].windows[].width_ft"
-      ],
-      "requires": "re-place",
-      "authority": "declared"
-    },
-    {
-      "id": "reduce-the-dormer-count-to-the-rhythm",
-      "answers": {
-        "layer": "fault",
-        "fault": "dormer-off-the-bay"
-      },
-      "kind": "measured",
-      "tier": "cheap",
-      "basis": "faults/dormer-off-the-bay.json fixes.cheap: \"Reduce the count rather than move the openings.\"",
-      "precondition": "the failing test is the parity secondary and declared.dormer states an even count above zero",
-      "touches": [
-        "declared.dormer.count"
-      ],
-      "requires": "re-derive",
-      "authority": "declared"
-    },
-    {
-      "id": "add-the-grammar-door",
-      "answers": {
-        "layer": "drawn",
-        "kind": "unreachable"
-      },
-      "kind": "editorial",
-      "judgment": true,
-      "basis": "build/plan_check.py drawn layer: \"Nothing in this system has ever checked that you can walk from the front door to every room.\" -- the door added is the one openings/grammar.json prescribes for the pair, dimensioned by compose.derive_openings, never invented here.",
-      "precondition": "the finding names a placed neighbour sharing a door's worth of wall whose room type is not must_not_adjoin either way; a circulation room is preferred",
-      "touches": [
-        "levels[].rooms[].doors[]"
-      ],
-      "requires": "re-place",
-      "authority": "openings",
-      "note": "Ruled 1 Sep 2026. The author's declared doors are left in place; one is added."
-    },
-    {
-      "id": "drop-optional-room",
-      "answers": {
-        "layer": "drawn",
-        "kind": "unreachable"
-      },
-      "kind": "measured",
-      "basis": "build/compose.py instantiate: \"The diagram marks these as droppable; if any matters, say so in the brief and it will be kept.\" -- the parti's own required: false, never this move's opinion.",
-      "precondition": "a parti is in hand and marks this room required: false; the room is not a must_have and no hard must_adjoin rule needs its type; add-the-grammar-door was refused first",
-      "touches": [
-        "levels[].rooms[]",
-        "levels[].rooms[].doors[]"
-      ],
-      "requires": "re-place",
-      "authority": "rooms",
-      "note": "Ruled 1 Sep 2026. Reverses the composer's standing refusal for this one case only."
-    },
-    {
-      "id": "split-per-grouping",
-      "answers": {
-        "layer": "room",
-        "kind": "area-above-band"
-      },
-      "kind": "editorial",
-      "judgment": true,
-      "basis": "groupings/library-study-pair.json expansion_logic: \"Split rather than enlarge: when a library has to serve as an office and a spare bedroom, the honest answer is two smaller rooms.\"",
-      "precondition": "the plan names a grouping whose expansion_logic begins 'Split rather than enlarge' and whose rooms include this room's type; the room is above its band",
-      "touches": [
-        "levels[].rooms[]",
-        "levels[].rooms[].doors[]",
-        "levels[].rooms[].length_ft"
-      ],
-      "requires": "re-place",
-      "authority": "rooms",
-      "note": "Ruled 1 Sep 2026. Only where a grouping's own record states the transformation; the scullery case (kitchen-work-core, 'Add a back kitchen or scullery rather than enlarging') adds a room and is not built -- see refusals."
-    },
-    {
-      "id": "search-harder",
-      "answers": {
-        "class": "placement"
-      },
-      "kind": "measured",
-      "basis": "build/geometry.py: \"WHAT MADE THE TERM LOOK INERT WAS THE SIZE OF THE POOL IT WAS RE-RANKING.\" -- WP-7.4, with its caveat: over 14 partis 250 -> 2,000 left broken stacks flat, cost fatal 90 -> 92 and 3.4x the clock. A per-finding lever through the acceptance rule, never a default.",
-      "precondition": "the placement is the search's and candidates are below 2,000",
-      "touches": [],
-      "requires": "lever",
-      "authority": "lever"
-    },
-    {
-      "id": "prove-it",
-      "answers": {
-        "class": "placement"
-      },
-      "kind": "measured",
-      "basis": "build/geometry.py: \"CP-SAT proved the declared facts cannot all hold; this drawing is the \" -- the engine that holds the record's doors and sizes as hard facts (WP-6.3: Tidewater's three stranded rooms -> 0).",
-      "precondition": "the placement is the search's and OR-Tools is importable",
-      "touches": [],
-      "requires": "lever",
-      "authority": "lever"
-    }
+ "id": "move-registry",
+ "version": "0.1.0",
+ "kind": "editorial",
+ "judgment": true,
+ "note": "The corrective revisions (WP-9.2). Each move is a corpus rule made executable against a plan RECORD -- a room's own dimension band, a fault's own right or cheap fix, the opening grammar's own pair rule -- and every entry quotes the sentence it executes, verified by build/check_moves.py the way build/check_openings.py verifies the grammar. A move edits DECLARED fields only; the placement is stripped and re-solved, so the drawing stays a render of the data (decision #11). Nothing here fills a judgment slot (#6), adds a room the parti has no place for (#3), or edits a measurement the record did not itself declare -- a figure the elevation generator derived is not the record's to overwrite, and a figure the generator states as its own constant (build/critic_suspects.py) is never acted on at all. Where the move is a reading rather than a rule it is marked editorial with judgment: true, and its basis says what was read.",
+ "authority": {
+  "ruled": "1 Sep 2026",
+  "by": "Lucas, via the Phase 9 planning session; recorded in PLAN-OF-ACTION.md section 2 and oq/the-revision-loops-authority-over-topology",
+  "may": [
+   "resize a room within its catalogue band",
+   "raise a window head, add or move a window on a declared exterior wall, change a declared window count",
+   "change a declared slot to the cascade's single canonical variant",
+   "change a measurement the plan itself declares to the fault's own fix",
+   "add the door the opening grammar prescribes between a stranded room and a placed neighbour",
+   "drop a room the parti marks optional that the placement cannot hold",
+   "split a room where its grouping's own record says to split rather than enlarge",
+   "ask the engine for a proof or a wider search"
   ],
-  "refusals": [
-    {
-      "id": "shorten-for-daylight",
-      "why": "compose.repair shortened a room's length when its window head could not reach the back of it -- a SIZE move for an ARRANGEMENT finding, which OQ 92 ruled against ('the tail wagging the dog'), and against the finding's own fix text. Retired, deliberately."
-    },
-    {
-      "id": "align-upper-walls-to-the-room-below",
-      "why": "No corpus record states that a room's declared exterior walls should match the room it stacks over. An editorial move with no quotable basis is a guess wearing a registry id."
-    },
-    {
-      "id": "accept-the-drawn-size",
-      "why": "A room drawn at a size the record does not declare is the engine's outcome; on the search it is noise and on the proof it is the record's consequence. Writing the drawn figure into the declaration would be the silent overwrite WP-6.2 removed."
-    },
-    {
-      "id": "move-door-to-a-shared-wall",
-      "why": "Would re-point an author's door at a different room. add-the-grammar-door leaves the author's door in place and adds one; the case where that is not enough is handed to the architect.",
-      "superseded_by": "add-the-grammar-door"
-    },
-    {
-      "id": "drop-window-the-wall-cannot-seat",
-      "why": "No finding names an unplaced window: the drawn layer reports consequences (a stranded room, a broken run), not marks. A move with no finding to answer never fires and would be a guard that could not fire (WP-8.6)."
-    },
-    {
-      "id": "add-a-scullery-per-grouping",
-      "why": "kitchen-work-core says 'Add a back kitchen or scullery rather than enlarging', which adds a ROOM the parti has no place for -- decision #3 and the composer's first refusal. The ruling admits a split where a grouping states it; a room the diagram did not draw is a different thing, and needs the parti to say where it lands."
-    },
-    {
-      "id": "any-move-on-a-critic-suspect",
-      "why": "A fault whose failing test reads the elevation generator's own constant is a finding about the generator (oq/thirty-five-measurements-the-elevation-states-as-literals); a loop that obeyed it would chase the generator."
-    },
-    {
-      "id": "any-derived-measurement",
-      "why": "A measurement the elevation generator supplied is not the record's to overwrite; writing one into plan.measurements would be laundering a derived figure as a declared one."
-    },
-    {
-      "id": "raise-the-ceiling",
-      "why": "A room type wanting a taller ceiling than the style's kit gives is the catalogue and the kit disagreeing -- a judgment, handed over."
-    }
+  "may_not": [
+   "add a room the parti has no place for",
+   "fill a judgment slot",
+   "edit geometry, a placement key, exterior_walls or stacks_over",
+   "act on a critic-suspect",
+   "write a measurement the plan did not declare",
+   "drop a must_have room or one a hard adjacency rule needs",
+   "loosen a rule or a threshold",
+   "call a plan good"
   ]
+ },
+ "moves": [
+  {
+   "id": "widen-for-furniture",
+   "answers": {
+    "layer": "furniture",
+    "kind": "furniture-fit"
+   },
+   "kind": "measured",
+   "basis": "rooms/dining-room.json dimensions.critical_dimension: \"A 12 ft dining room is a fault dressed as a room, and it is the commonest dimensional error in production housing.\" -- the archetype; the move executes each room's OWN furniture clearance as the finding states it, item by item.",
+   "precondition": "the finding carries need_ft and have_ft with need_ft > have_ft, and the widened room stays under 1.25 x its catalogue band ceiling",
+   "touches": [
+    "levels[].rooms[].width_ft",
+    "levels[].rooms[].length_ft"
+   ],
+   "requires": "re-place",
+   "authority": "dimensions",
+   "note": "Replaces compose.repair's prose parse. Reads the UNROUNDED need; no 1.8x gate -- a room needing more than 1.8x its width is refused with the reason, never skipped in silence."
+  },
+  {
+   "id": "widen-to-room-floor",
+   "answers": {
+    "layer": "room",
+    "kind": "width-below-floor"
+   },
+   "kind": "measured",
+   "basis": "rooms/bedroom.json dimensions.critical_dimension: \"ELEVEN BY TWELVE, and a 132 sq ft bedroom is not a large bedroom, it is the smallest one that works.\" -- the room type's own width floor, read from its dimensions.",
+   "precondition": "the finding carries need_ft (the floor) above have_ft",
+   "touches": [
+    "levels[].rooms[].width_ft",
+    "levels[].rooms[].length_ft"
+   ],
+   "requires": "re-place",
+   "authority": "dimensions"
+  },
+  {
+   "id": "grow-to-band-floor",
+   "answers": {
+    "layer": "room",
+    "kind": "area-below-band"
+   },
+   "kind": "measured",
+   "basis": "rooms/bedroom.json dimensions.critical_dimension: \"ELEVEN BY TWELVE, and a 132 sq ft bedroom is not a large bedroom, it is the smallest one that works.\" -- the room type's own area band, read from its dimensions.",
+   "precondition": "the finding carries need_sf (the band floor) above have_sf; both dimensions scale by the square root of the ratio so the room keeps its proportion",
+   "touches": [
+    "levels[].rooms[].width_ft",
+    "levels[].rooms[].length_ft"
+   ],
+   "requires": "re-place",
+   "authority": "dimensions"
+  },
+  {
+   "id": "raise-window-head",
+   "answers": {
+    "layer": "daylight",
+    "kind": "daylight-depth"
+   },
+   "kind": "measured",
+   "basis": "build/plan_check.py daylight fix: \"Raise the head, light the far end from another side, or accept the back of the room as a service zone.\" -- the first of the three, where the head that would reach the back of the room sits below the ceiling.",
+   "precondition": "need_head_ft is at most ceiling_ft - 0.5",
+   "touches": [
+    "levels[].rooms[].window_head_ft"
+   ],
+   "requires": "re-derive",
+   "authority": "dimensions"
+  },
+  {
+   "id": "light-the-far-end",
+   "answers": {
+    "layer": "daylight",
+    "kind": "daylight-depth"
+   },
+   "kind": "editorial",
+   "judgment": true,
+   "basis": "build/plan_check.py daylight fix: \"Raise the head, light the far end from another side, or accept the back of the room as a service zone.\" -- the second of the three, where the head cannot and the room declares the opposite exterior wall.",
+   "precondition": "the head cannot reach below the ceiling; the wall opposite a lit wall is a declared exterior wall carrying no window",
+   "touches": [
+    "levels[].rooms[].windows[]"
+   ],
+   "requires": "re-place",
+   "authority": "openings",
+   "note": "Editorial: which of the finding's three fixes to take is a reading. The new group copies the room's existing window unit, so no width is invented."
+  },
+  {
+   "id": "give-the-room-a-window",
+   "answers": {
+    "layer": "daylight",
+    "kind": "no-window"
+   },
+   "kind": "editorial",
+   "judgment": true,
+   "basis": "build/compose.py derive_openings: \"The count is the room's own glazing_fraction against the wall it is on\" -- the window is added on the declared exterior wall and sized by the composer's own pack rule, not by this move.",
+   "precondition": "the room declares at least one exterior wall and no windows",
+   "touches": [
+    "levels[].rooms[].windows[]",
+    "levels[].rooms[].window_head_ft"
+   ],
+   "requires": "re-place",
+   "authority": "openings"
+  },
+  {
+   "id": "grow-stair-hall-to-its-run",
+   "answers": {
+    "layer": "drawn",
+    "kind": "stair-not-drawn"
+   },
+   "kind": "measured",
+   "basis": "rooms/stair-hall.json dimensions.critical_dimension: \"THE ARITHMETIC OF THE RUN, WHICH SIZES THE ROOM AND IS ALMOST NEVER DONE FIRST.\" -- the run build/openings.py::stair_pass computed from the storey height and the riser rule, carried on the refusal as needs.",
+   "precondition": "the finding carries need_ft [long, short] and declared_fits is false -- a stair the declared hall would have held is the engine's, not the record's",
+   "touches": [
+    "levels[].rooms[].width_ft",
+    "levels[].rooms[].length_ft"
+   ],
+   "requires": "re-place",
+   "authority": "dimensions"
+  },
+  {
+   "id": "widen-wet-room-for-fixture",
+   "answers": {
+    "layer": "drawn",
+    "kind": "fixture-unplaced"
+   },
+   "kind": "measured",
+   "basis": "rooms/bathroom.json dimensions.critical_dimension: \"FIVE FEET, from the tub. A standard alcove bath is 60 in long, and it is 60 in long because the room is 5 ft wide\" -- the fixture's own footprint, read from the room record's furniture and carried on the refusal as needs.",
+   "precondition": "the finding carries need_ft [width, depth] the declared room cannot hold on any wall",
+   "touches": [
+    "levels[].rooms[].width_ft",
+    "levels[].rooms[].length_ft"
+   ],
+   "requires": "re-place",
+   "authority": "dimensions"
+  },
+  {
+   "id": "passage-to-its-band",
+   "answers": {
+    "layer": "drawn",
+    "kind": "passage-narrow"
+   },
+   "kind": "measured",
+   "basis": "rooms/centre-passage.json dimensions.critical_dimension: \"SIX TO SEVEN FEET is a passage that circulates: two people pass, a stair fits against one wall, doors swing.\"",
+   "precondition": "the passage's declared short dimension is below 6 ft",
+   "touches": [
+    "levels[].rooms[].width_ft",
+    "levels[].rooms[].length_ft"
+   ],
+   "requires": "re-place",
+   "authority": "dimensions",
+   "note": "Touches length_ft as well: a passage shorter than 6 ft LONG becomes 6 x 6, since width is the short side by schema (WP-9.4)."
+  },
+  {
+   "id": "move-window-off-the-needed-wall",
+   "answers": {
+    "layer": "drawn",
+    "kind": "wall-run"
+   },
+   "kind": "editorial",
+   "judgment": true,
+   "basis": "rooms/dining-room.json furniture[sideboard].note: \"Needs an uninterrupted wall of at least 6 ft. This is what the second window usually kills.\"",
+   "precondition": "the room declares a window on the wall the piece needs and another declared exterior wall carries none",
+   "touches": [
+    "levels[].rooms[].windows[].wall"
+   ],
+   "requires": "re-place",
+   "authority": "openings"
+  },
+  {
+   "id": "trade-width-for-depth-at-constant-area",
+   "answers": {
+    "layer": "fault",
+    "fault": "porch-too-shallow-to-inhabit"
+   },
+   "kind": "measured",
+   "tier": "cheap",
+   "basis": "faults/porch-too-shallow-to-inhabit.json fixes.cheap: \"Trade width for depth at constant area, which costs nothing.\"",
+   "precondition": "the plan has a threshold or outdoor room whose declared short side is below the required depth",
+   "touches": [
+    "levels[].rooms[].width_ft",
+    "levels[].rooms[].length_ft"
+   ],
+   "requires": "re-place",
+   "authority": "dimensions",
+   "note": "Read oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants before trusting this on a Georgian portico: the licence that would make the fault not-applicable never reaches a regional child."
+  },
+  {
+   "id": "replace-forbidden-declared-variant",
+   "answers": {
+    "layer": "style",
+    "kind": "variant-forbidden"
+   },
+   "kind": "measured",
+   "basis": "build/plan_check.py style layer: \"the ONE canonical variant the cascade delivers, if there is exactly one\" -- read through _resolved_slots, the cascade, never the raw kit file (oq/the-raw-kit-read).",
+   "precondition": "the finding carries a single canonical variant",
+   "touches": [
+    "declared.<slot>"
+   ],
+   "requires": "re-derive",
+   "authority": "declared"
+  },
+  {
+   "id": "shutter-leaf-at-half-the-opening",
+   "answers": {
+    "layer": "fault",
+    "fault": "shutter-half-width-leaf"
+   },
+   "kind": "measured",
+   "tier": "right",
+   "basis": "faults/shutter-half-width-leaf.json fixes.right: \"Custom leaves at half the opening width and the full sash height\"",
+   "precondition": "the plan itself declares shutter_leaf_width_in and window_opening_width_in",
+   "touches": [
+    "measurements.shutter_leaf_width_in"
+   ],
+   "requires": "re-derive",
+   "authority": "declared"
+  },
+  {
+   "id": "delete-the-shutters",
+   "answers": {
+    "layer": "fault",
+    "fault": "shutter-half-width-leaf"
+   },
+   "kind": "measured",
+   "tier": "cheap",
+   "basis": "faults/shutter-half-width-leaf.json fixes.cheap: \"Delete the shutters. On a facade where correct shutters cannot be afforded, no shutters is not a compromise but a legitimate historical condition\"",
+   "precondition": "the style's cascade does not forbid `none` for the shutter slot; taken only where the right fix was refused",
+   "touches": [
+    "declared.shutter",
+    "measurements.shutter_leaf_width_in"
+   ],
+   "requires": "re-derive",
+   "authority": "declared"
+  },
+  {
+   "id": "narrow-the-window-and-keep-the-height",
+   "answers": {
+    "layer": "fault",
+    "fault": "window-squarer-than-the-style-permits"
+   },
+   "kind": "measured",
+   "tier": "cheap",
+   "basis": "faults/window-squarer-than-the-style-permits.json fixes.cheap: \"Narrow the window and keep the height. Two 30 x 66 units in the room where one 60 x 54 was drawn cost about the same\"",
+   "precondition": "the plan itself declares window_opening_width_in; the height stays and the declared width comes down to the style's floor ratio, and every room's declared window unit follows so the record does not state one width twice",
+   "touches": [
+    "measurements.window_opening_width_in",
+    "levels[].rooms[].windows[].width_ft"
+   ],
+   "requires": "re-place",
+   "authority": "declared"
+  },
+  {
+   "id": "reduce-the-dormer-count-to-the-rhythm",
+   "answers": {
+    "layer": "fault",
+    "fault": "dormer-off-the-bay"
+   },
+   "kind": "measured",
+   "tier": "cheap",
+   "basis": "faults/dormer-off-the-bay.json fixes.cheap: \"Reduce the count rather than move the openings.\"",
+   "precondition": "the failing test is the parity secondary and declared.dormer states an even count above zero",
+   "touches": [
+    "declared.dormer.count"
+   ],
+   "requires": "re-derive",
+   "authority": "declared"
+  },
+  {
+   "id": "add-the-grammar-door",
+   "answers": {
+    "layer": "drawn",
+    "kind": "unreachable"
+   },
+   "kind": "editorial",
+   "judgment": true,
+   "basis": "build/plan_check.py drawn layer: \"Nothing in this system has ever checked that you can walk from the front door to every room.\" -- the door added is the one openings/grammar.json prescribes for the pair, dimensioned by compose.derive_openings, never invented here.",
+   "precondition": "the finding names a placed neighbour sharing a door's worth of wall whose room type is not must_not_adjoin either way; a circulation room is preferred",
+   "touches": [
+    "levels[].rooms[].doors[]"
+   ],
+   "requires": "re-place",
+   "authority": "openings",
+   "note": "Ruled 1 Sep 2026. The author's declared doors are left in place; one is added."
+  },
+  {
+   "id": "drop-optional-room",
+   "answers": {
+    "layer": "drawn",
+    "kind": "unreachable"
+   },
+   "kind": "measured",
+   "basis": "build/compose.py instantiate: \"The diagram marks these as droppable; if any matters, say so in the brief and it will be kept.\" -- the parti's own required: false, never this move's opinion.",
+   "precondition": "a parti is in hand and marks this room required: false; the room is not a must_have and no hard must_adjoin rule needs its type; add-the-grammar-door was refused first",
+   "touches": [
+    "levels[].rooms[]",
+    "levels[].rooms[].doors[]",
+    "adjacencies[]"
+   ],
+   "requires": "re-place",
+   "authority": "rooms",
+   "note": "Ruled 1 Sep 2026. Reverses the composer's standing refusal for this one case only."
+  },
+  {
+   "id": "split-per-grouping",
+   "answers": {
+    "layer": "room",
+    "kind": "area-above-band"
+   },
+   "kind": "editorial",
+   "judgment": true,
+   "basis": "groupings/library-study-pair.json expansion_logic: \"Split rather than enlarge: when a library has to serve as an office and a spare bedroom, the honest answer is two smaller rooms.\"",
+   "precondition": "the plan names a grouping whose expansion_logic begins 'Split rather than enlarge' and whose rooms include this room's type; the room is above its band",
+   "touches": [
+    "levels[].rooms[]",
+    "levels[].rooms[].doors[]",
+    "levels[].rooms[].length_ft"
+   ],
+   "requires": "re-place",
+   "authority": "rooms",
+   "note": "Ruled 1 Sep 2026. Only where a grouping's own record states the transformation; the scullery case (kitchen-work-core, 'Add a back kitchen or scullery rather than enlarging') adds a room and is not built -- see refusals."
+  },
+  {
+   "id": "search-harder",
+   "answers": {
+    "class": "placement"
+   },
+   "kind": "measured",
+   "basis": "build/geometry.py: \"WHAT MADE THE TERM LOOK INERT WAS THE SIZE OF THE POOL IT WAS RE-RANKING.\" -- WP-7.4, with its caveat: over 14 partis 250 -> 2,000 left broken stacks flat, cost fatal 90 -> 92 and 3.4x the clock. A per-finding lever through the acceptance rule, never a default.",
+   "precondition": "the placement is the search's and candidates are below 2,000",
+   "touches": [],
+   "requires": "lever",
+   "authority": "lever"
+  },
+  {
+   "id": "prove-it",
+   "answers": {
+    "class": "placement"
+   },
+   "kind": "measured",
+   "basis": "build/geometry.py: \"CP-SAT proved the declared facts cannot all hold; this drawing is the \" -- the engine that holds the record's doors and sizes as hard facts (WP-6.3: Tidewater's three stranded rooms -> 0).",
+   "precondition": "the placement is the search's and OR-Tools is importable",
+   "touches": [],
+   "requires": "lever",
+   "authority": "lever"
+  }
+ ],
+ "refusals": [
+  {
+   "id": "shorten-for-daylight",
+   "why": "compose.repair shortened a room's length when its window head could not reach the back of it -- a SIZE move for an ARRANGEMENT finding, which OQ 92 ruled against ('the tail wagging the dog'), and against the finding's own fix text. Retired, deliberately."
+  },
+  {
+   "id": "align-upper-walls-to-the-room-below",
+   "why": "No corpus record states that a room's declared exterior walls should match the room it stacks over. An editorial move with no quotable basis is a guess wearing a registry id."
+  },
+  {
+   "id": "accept-the-drawn-size",
+   "why": "A room drawn at a size the record does not declare is the engine's outcome; on the search it is noise and on the proof it is the record's consequence. Writing the drawn figure into the declaration would be the silent overwrite WP-6.2 removed."
+  },
+  {
+   "id": "move-door-to-a-shared-wall",
+   "why": "Would re-point an author's door at a different room. add-the-grammar-door leaves the author's door in place and adds one; the case where that is not enough is handed to the architect.",
+   "superseded_by": "add-the-grammar-door"
+  },
+  {
+   "id": "drop-window-the-wall-cannot-seat",
+   "why": "No finding names an unplaced window: the drawn layer reports consequences (a stranded room, a broken run), not marks. A move with no finding to answer never fires and would be a guard that could not fire (WP-8.6)."
+  },
+  {
+   "id": "add-a-scullery-per-grouping",
+   "why": "kitchen-work-core says 'Add a back kitchen or scullery rather than enlarging', which adds a ROOM the parti has no place for -- decision #3 and the composer's first refusal. The ruling admits a split where a grouping states it; a room the diagram did not draw is a different thing, and needs the parti to say where it lands."
+  },
+  {
+   "id": "any-move-on-a-critic-suspect",
+   "why": "A fault whose failing test reads the elevation generator's own constant is a finding about the generator (oq/thirty-five-measurements-the-elevation-states-as-literals); a loop that obeyed it would chase the generator."
+  },
+  {
+   "id": "any-derived-measurement",
+   "why": "A measurement the elevation generator supplied is not the record's to overwrite; writing one into plan.measurements would be laundering a derived figure as a declared one."
+  },
+  {
+   "id": "raise-the-ceiling",
+   "why": "A room type wanting a taller ceiling than the style's kit gives is the catalogue and the kit disagreeing -- a judgment, handed over."
+  }
+ ]
 }
